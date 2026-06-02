@@ -46,6 +46,7 @@
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
 * Implemented [#3639](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3639), macOS Themes
+* Resolved [#3640](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3640), Fixed retro themed buttons with icons
 * Implemented [#3610](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3610), Harden workflows: PR branch policy (warn-then-fail via `BRANCH_POLICY_ENFORCE`), automated `.github` sync from `master` (including `gold` and `prerelease`), weekly behind-master report workflow, [branch policy cheat sheet](https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/.github/BRANCH_POLICY.md)
 * Implemented [#3636](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3636), Improve 'Nightly' Release Workflow
 * Resolved [#3618](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3618), Canary LTS Release workflow fails
