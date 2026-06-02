@@ -230,8 +230,9 @@ public partial class StartScreen : KryptonForm
 
         button.CommandLinkTextValues.Heading = heading;
         button.CommandLinkTextValues.Description = description;
-        button.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
         button.AutoSize = false;
+        button.Dock = DockStyle.Fill;
+        button.MinimumSize = new Size(0, 60);
         button.Size = new Size(_panelWidth - 10, 60);
         button.Click += (_, _) => OnCommandLinkTestButtonClick(formType);
 
