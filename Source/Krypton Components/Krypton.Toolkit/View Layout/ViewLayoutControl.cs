@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -26,6 +26,17 @@ public class ViewLayoutControl : ViewLeaf
     public ViewLayoutControl(VisualControl rootControl,
         ViewBase viewChild)
         : this(new ViewControl(rootControl), rootControl, viewChild)
+    {
+    }
+
+    /// <summary>
+    /// Initialize a new instance of the ViewLayoutControl class.
+    /// </summary>
+    /// <param name="rootPopup">Top level visual popup.</param>
+    /// <param name="viewChild">View used to size and position the child control.</param>
+    public ViewLayoutControl(VisualPopup rootPopup,
+        ViewBase viewChild)
+        : this(new ViewControl(rootPopup), rootPopup, viewChild)
     {
     }
 
@@ -66,6 +77,45 @@ public class ViewLayoutControl : ViewLeaf
 
         // Add our new control to the provided parent collection
         CommonHelper.AddControlToParent(rootControl!, ChildControl);
+    }
+
+    /// <summary>
+    /// Initialize a new instance of the ViewLayoutControl class.
+    /// </summary>
+    /// <param name="viewControl">View control to use as child.</param>
+    /// <param name="rootPopup">Top level visual popup.</param>
+    /// <param name="viewChild">View used to size and position the child control.</param>
+    public ViewLayoutControl([DisallowNull] ViewControl viewControl,
+        [DisallowNull] VisualPopup rootPopup,
+        [DisallowNull] ViewBase viewChild)
+    {
+        Debug.Assert(viewControl != null);
+        Debug.Assert(rootPopup != null);
+        Debug.Assert(viewChild != null);
+
+        // Default values
+        LayoutOffset = Point.Empty;
+
+        // Remember the view
+        ChildView = viewChild;
+
+        // Ensure the child is hooked into the hierarchy of elements
+        ChildView!.Parent = this;
+
+        // Create the view control instance
+        ChildControl = viewControl;
+
+        // Back reference hookup
+        ChildControl!.ViewLayoutControl = this;
+
+        // Start off invisible until first laid out
+        ChildControl.Visible = false;
+
+        // Ensure that all view elements inside here use our control
+        OwningControl = ChildControl;
+
+        // Add our new control to the provided parent collection
+        CommonHelper.AddControlToParent(rootPopup!, ChildControl);
     }
 
     /// <summary>

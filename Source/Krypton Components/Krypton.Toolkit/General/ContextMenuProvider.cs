@@ -162,7 +162,7 @@ public class ContextMenuProvider : IContextMenuProvider
         ProviderPaletteMode = paletteMode;
         ProviderRedirector = redirector;
         ProviderNeedPaintDelegate = needPaintDelegate;
-        ProviderOverflowScrollUseArrows = KryptonLanguageManager.ContextMenuStrings.OverflowScrollUseArrows;
+        ProviderOverflowScrollUseArrows = KryptonManager.Strings.ContextMenuStrings.OverflowScrollUseArrows;
     }
     #endregion
 

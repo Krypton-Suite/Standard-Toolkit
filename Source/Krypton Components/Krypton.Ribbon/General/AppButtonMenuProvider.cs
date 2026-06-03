@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -270,7 +270,7 @@ public class AppButtonMenuProvider : IContextMenuProvider
 
     /// <inheritdoc />
     public bool ProviderOverflowScrollUseArrows =>
-        KryptonLanguageManager.ContextMenuStrings.OverflowScrollUseArrows;
+        KryptonManager.Strings.ContextMenuStrings.OverflowScrollUseArrows;
 
     #endregion
 }

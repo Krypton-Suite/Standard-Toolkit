@@ -125,6 +125,7 @@ internal class ViewLayoutContextMenuOverflowColumn : ViewLayoutStack
 
         var lineCount = scrollLines < 0 ? 1 : scrollLines;
         var scrollUp = delta > 0;
+        var topIndexBefore = _topIndex;
 
         for (var i = 0; i < lineCount; i++)
         {
@@ -148,7 +149,7 @@ internal class ViewLayoutContextMenuOverflowColumn : ViewLayoutStack
             }
         }
 
-        if (scrollUp || HasMoreBelow(null))
+        if (_topIndex != topIndexBefore)
         {
             Rebuild(null);
             return true;

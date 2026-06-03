@@ -1,8 +1,8 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2025. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2023 - 2026. All rights reserved. 
  *  
  */
 #endregion
@@ -45,6 +45,11 @@ public class KryptonGlobalToolkitStrings : GlobalId
     /// <value>The grid view style strings.</value>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public static DataGridViewStyleStrings DataGridViewStyles { get; } = new DataGridViewStyleStrings();
+
+    /// <summary>Gets the file system list view strings.</summary>
+    /// <value>The file system list view strings.</value>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public static KryptonFileSystemListViewStrings KryptonFileSystemListViewStrings { get; } = new KryptonFileSystemListViewStrings();
 
     /// <summary>Gets the style strings.</summary>
     /// <value>The style strings.</value>
@@ -163,6 +168,11 @@ public class KryptonGlobalToolkitStrings : GlobalId
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public static KryptonAboutBoxBasicApplicationInformationStrings KryptonAboutBoxBasicApplicationInformationStrings { get; } = new KryptonAboutBoxBasicApplicationInformationStrings();
 
+    /// <summary>Gets the bug reporting dialog strings.</summary>
+    /// <value>The bug reporting dialog strings.</value>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public static KryptonBugReportingDialogStrings KryptonBugReportingDialogStrings { get; } = new KryptonBugReportingDialogStrings();
+
     /// <summary>Gets the about box strings.</summary>
     /// <value>The about box strings.</value>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -178,6 +188,9 @@ public class KryptonGlobalToolkitStrings : GlobalId
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public static KryptonMiscellaneousThemeStrings KryptonMiscellaneousThemeStrings { get; } =
         new KryptonMiscellaneousThemeStrings();
+
+    public static KryptonPrintPreviewDialogStrings KryptonPrintPreviewDialogStrings { get; } =
+        new KryptonPrintPreviewDialogStrings();
 
     /// <summary>Gets the scroll bar strings.</summary>
     /// <value>The scroll bar strings.</value>
@@ -219,6 +232,11 @@ public class KryptonGlobalToolkitStrings : GlobalId
     /// <value>The win32 system menu strings.</value>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public static SystemMenuStrings Win32SystemMenuStrings { get; } = new SystemMenuStrings();
+
+    /// <summary>Gets the form title bar strings.</summary>
+    /// <value>The form title bar strings.</value>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public static FormTitleBarStrings FormTitleBarStrings { get; } = new FormTitleBarStrings();
 
     #endregion
 
@@ -334,6 +352,17 @@ public class KryptonGlobalToolkitStrings : GlobalId
     private bool ShouldSerializeGeneralStrings() => !GeneralToolkitStrings.IsDefault;
     private void ResetGeneralStrings() => GeneralToolkitStrings.Reset();
 
+    [Category(@"Visuals")]
+    [Description(@"Collection of file system list view strings.")]
+    [MergableProperty(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Localizable(true)]
+    public KryptonFileSystemListViewStrings FileSystemListViewStrings => KryptonFileSystemListViewStrings;
+
+    private bool ShouldSerializeFileSystemListViewStrings() => !KryptonFileSystemListViewStrings.IsDefault;
+
+    private void ResetFileSystemListViewStrings() => KryptonFileSystemListViewStrings.Reset();
+
     /// <summary>Gets the integrated toolbar button strings.</summary>
     /// <value>The integrated toolbar button strings.</value>
     [Category(@"Visuals")]
@@ -344,6 +373,19 @@ public class KryptonGlobalToolkitStrings : GlobalId
     public IntegratedToolBarStrings ToolBarStrings => IntegratedToolBarStrings;
     private bool ShouldSerializeToolBarStrings() => !IntegratedToolBarStrings.IsDefault;
     private void ResetToolBarStrings() => IntegratedToolBarStrings.Reset();
+
+    /// <summary>Gets the form title bar strings.</summary>
+    /// <value>The form title bar strings.</value>
+    [Category(@"Visuals")]
+    [Description(@"Collection of form title bar strings.")]
+    [MergableProperty(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Localizable(true)]
+    public FormTitleBarStrings TitleBarStrings => FormTitleBarStrings;
+
+    private bool ShouldSerializeTitleBarStrings() => !FormTitleBarStrings.IsDefault;
+
+    private void ResetTitleBarStrings() => FormTitleBarStrings.Reset();
 
     /// <summary>Gets the link behavior style strings.</summary>
     /// <value>The link behavior style strings.</value>
@@ -491,6 +533,20 @@ public class KryptonGlobalToolkitStrings : GlobalId
     private bool ShouldSerializeAboutBoxBasicStrings() => !KryptonAboutBoxBasicApplicationInformationStrings.IsDefault;
     private void ResetAboutBoxBasicStrings() => KryptonAboutBoxBasicApplicationInformationStrings.Reset();
 
+    /// <summary>Gets the krypton bug reporting dialog strings.</summary>
+    /// <value>The krypton bug reporting dialog strings.</value>
+    [Category(@"Visuals")]
+    [Description(@"Collection of bug reporting dialog strings.")]
+    [MergableProperty(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Localizable(true)]
+    public KryptonBugReportingDialogStrings BugReportingDialogStrings => KryptonBugReportingDialogStrings;
+
+    private bool ShouldSerializeBugReportingDialogStrings() => !KryptonBugReportingDialogStrings.IsDefault;
+
+    /// <summary>Resets the krypton bug reporting dialog strings.</summary>
+    private void ResetBugReportingDialogStrings() => KryptonBugReportingDialogStrings.Reset();
+
     /// <summary>Gets the krypton about box strings.</summary>
     /// <value>The krypton about box strings.</value>
     [Category(@"Visuals")]
@@ -512,6 +568,17 @@ public class KryptonGlobalToolkitStrings : GlobalId
     public KryptonExceptionDialogStrings ExceptionDialogStrings => KryptonExceptionDialogStrings;
     private bool ShouldSerializeExceptionDialogStrings() => !KryptonExceptionDialogStrings.IsDefault;
     private void ResetExceptionDialogStrings() => KryptonExceptionDialogStrings.Reset();
+
+    /// <summary>Gets the krypton print preview dialog strings.</summary>
+    /// <value>The krypton print preview dialog strings.</value>
+    [Category(@"Visuals")]
+    [Description(@"Collection of print preview dialog strings.")]
+    [MergableProperty(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Localizable(true)]
+    public KryptonPrintPreviewDialogStrings PrintPreviewDialogStrings => KryptonPrintPreviewDialogStrings;
+    private bool ShouldSerializePrintPreviewDialogStrings() => !KryptonPrintPreviewDialogStrings.IsDefault;
+    private void ResetMiscellaneousPrintPreviewDialogStrings() => KryptonPrintPreviewDialogStrings.Reset();
 
     /// <summary>Gets the krypton miscellaneous theme strings.</summary>
     /// <value>The krypton miscellaneous theme strings.</value>
@@ -706,11 +773,13 @@ public class KryptonGlobalToolkitStrings : GlobalId
     [EditorBrowsable(EditorBrowsableState.Never)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool IsDefault => !(ShouldSerializeAboutBoxBasicStrings() || ShouldSerializeAboutBoxStrings() ||
-                               ShouldSerializeExceptionDialogStrings() ||
+                               ShouldSerializeBugReportingDialogStrings() ||
+                               ShouldSerializeExceptionDialogStrings() || ShouldSerializePrintPreviewDialogStrings() ||
                                ShouldSerializeBackStyleStrings() || ShouldSerializeBorderStyleStrings() ||
                                ShouldSerializeButtonOrientationStrings() ||
                                ShouldSerializeButtonSpecStyleStrings() || ShouldSerializeButtonStyleStrings() ||
                                ShouldSerializeColorStrings() || ShouldSerializeCustomStrings() ||
+                               ShouldSerializeFileSystemListViewStrings() ||
                                ShouldSerializeGeneralRibbonStrings() || ShouldSerializeGeneralStrings() ||
                                ShouldSerializeGridStyleStrings() || ShouldSerializeGridViewStyleStrings() ||
                                ShouldSerializeHeaderGroupCollapsedTargetStrings() ||
@@ -727,14 +796,16 @@ public class KryptonGlobalToolkitStrings : GlobalId
                                ShouldSerializeToastNotificationIconStrings() ||
                                ShouldSerializeTabBorderStyleStrings() || ShouldSerializeTabStyleStrings() ||
                                ShouldSerializeToastNotificationStrings() || ShouldSerializeToolBarStrings() ||
-                               ShouldSerializeSplashScreenStringsStrings() || ShouldSerializeMiscellaneousStrings() || 
-                               ShouldSerializeMessageBoxStringsStrings() || ShouldSerializeSystemMenuStrings());
+                               ShouldSerializeSplashScreenStringsStrings() || ShouldSerializeMiscellaneousStrings() ||
+                               ShouldSerializeMessageBoxStringsStrings() || ShouldSerializeSystemMenuStrings() ||
+                               ShouldSerializeTitleBarStrings());
 
     /// <summary>Resets this instance.</summary>
     public void Reset()
     {
         ResetAboutBoxBasicStrings();
         ResetAboutBoxStrings();
+        ResetBugReportingDialogStrings();
         ResetExceptionDialogStrings();
         ResetBackStyleStrings();
         ResetBorderStyleStrings();
@@ -743,6 +814,8 @@ public class KryptonGlobalToolkitStrings : GlobalId
         ResetButtonStyleStrings();
         ResetColorStrings();
         ResetCustomStrings();
+        ResetFileSystemListViewStrings();
+        ResetMiscellaneousPrintPreviewDialogStrings();
         ResetGeneralRibbonStrings();
         ResetGeneralStrings();
         ResetGridStyleStrings();
@@ -773,6 +846,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
         ResetMessageBoxStrings();
         ResetSearchBoxStrings();
         ResetSystemMenuStrings();
+        ResetTitleBarStrings();
     }
 
     #endregion

@@ -865,6 +865,8 @@ public class ViewContextMenuManager : ViewManager
         {
             column.Scroll(scrollUp);
         }
+
+        RequestOverflowLayout();
     }
 
     private void EnsureOverflowTargetVisible()
@@ -899,6 +901,7 @@ public class ViewContextMenuManager : ViewManager
             }
 
             column.Scroll(false);
+            RequestOverflowLayout();
             TargetList refreshed = ConstructKeyboardTargets(Root);
             newTarget = FindDownTarget(refreshed, current.ClientRectangle);
             if (newTarget != null)
@@ -921,6 +924,7 @@ public class ViewContextMenuManager : ViewManager
             }
 
             column.Scroll(true);
+            RequestOverflowLayout();
             TargetList refreshed = ConstructKeyboardTargets(Root);
             newTarget = FindUpTarget(refreshed, current.ClientRectangle);
             if (newTarget != null)
@@ -931,6 +935,14 @@ public class ViewContextMenuManager : ViewManager
 
         newTarget = null;
         return false;
+    }
+
+    private void RequestOverflowLayout()
+    {
+        if (AlignControl is VisualPopup popup)
+        {
+            popup.PerformNeedPaint(true);
+        }
     }
 
     private void OnDelayTimerExpire(object? sender, EventArgs e)
