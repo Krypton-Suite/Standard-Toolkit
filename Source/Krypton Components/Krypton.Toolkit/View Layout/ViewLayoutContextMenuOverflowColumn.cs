@@ -184,19 +184,21 @@ internal class ViewLayoutContextMenuOverflowColumn : ViewLayoutStack
     /// </summary>
     /// <param name="view">View to bring into view.</param>
     /// <param name="context">Layout context for measurement.</param>
-    public void EnsureVisible(ViewBase view, ViewLayoutContext context)
+    /// <returns>True if the visible range changed.</returns>
+    public bool EnsureVisible(ViewBase view, ViewLayoutContext context)
     {
+        var topIndexBefore = _topIndex;
         var index = _allItems.IndexOf(view);
         if (index < 0)
         {
-            return;
+            return false;
         }
 
         if (index < _topIndex)
         {
             _topIndex = index;
             Rebuild(context);
-            return;
+            return _topIndex != topIndexBefore;
         }
 
         var lastVisible = GetLastVisibleIndex(context);
@@ -209,6 +211,52 @@ internal class ViewLayoutContextMenuOverflowColumn : ViewLayoutStack
 
             Rebuild(context);
         }
+
+        return _topIndex != topIndexBefore;
+    }
+
+    /// <summary>
+    /// Scrolls the column to show the first item.
+    /// </summary>
+    /// <param name="context">Optional layout context for measurement.</param>
+    /// <returns>True if the visible range changed.</returns>
+    public bool ScrollToStart(ViewLayoutContext? context)
+    {
+        if (_topIndex == 0)
+        {
+            return false;
+        }
+
+        _topIndex = 0;
+        Rebuild(context);
+        return true;
+    }
+
+    /// <summary>
+    /// Scrolls the column to show the last item.
+    /// </summary>
+    /// <param name="context">Optional layout context for measurement.</param>
+    /// <returns>True if the visible range changed.</returns>
+    public bool ScrollToEnd(ViewLayoutContext? context)
+    {
+        if (!IsOverflowActive(context))
+        {
+            return false;
+        }
+
+        var topIndexBefore = _topIndex;
+        while (HasMoreBelow(context))
+        {
+            _topIndex++;
+        }
+
+        if (_topIndex == topIndexBefore)
+        {
+            return false;
+        }
+
+        Rebuild(context);
+        return true;
     }
 
     /// <summary>

@@ -349,6 +349,11 @@ public class ViewContextMenuManager : ViewManager
     /// </summary>
     public void KeyHome()
     {
+        if (ScrollOverflowColumnsToStart())
+        {
+            PerformOverflowNeedPaint();
+        }
+
         TargetList targets = ConstructKeyboardTargets(Root);
 
         // Move to the first target found
@@ -363,6 +368,11 @@ public class ViewContextMenuManager : ViewManager
     /// </summary>
     public void KeyEnd()
     {
+        if (ScrollOverflowColumnsToEnd())
+        {
+            PerformOverflowNeedPaint();
+        }
+
         TargetList targets = ConstructKeyboardTargets(Root);
 
         // Move to the last target found
@@ -460,7 +470,8 @@ public class ViewContextMenuManager : ViewManager
         }
 
         // Did we find a target associated with the view element?
-        if (target != null)
+        // Overflow scroll rows are mouse-only; arrow keys scroll via TryOverflowScrollUp/Down.
+        if (target != null && target is not MenuScrollButtonController)
         {
             targets.Add(target);
         }
@@ -896,14 +907,42 @@ public class ViewContextMenuManager : ViewManager
             return;
         }
 
+        var scrolled = false;
         using var context = new ViewLayoutContext(this, AlignControl, AlignControl, popup.Renderer);
         foreach (ViewLayoutContextMenuOverflowColumn column in OverflowColumns)
         {
             if (column.ContainsTarget(_target))
             {
-                column.EnsureVisible(_target.GetActiveView(), context);
+                scrolled |= column.EnsureVisible(_target.GetActiveView(), context);
             }
         }
+
+        if (scrolled)
+        {
+            PerformOverflowNeedPaint();
+        }
+    }
+
+    private bool ScrollOverflowColumnsToStart()
+    {
+        var scrolled = false;
+        foreach (ViewLayoutContextMenuOverflowColumn column in OverflowColumns)
+        {
+            scrolled |= column.ScrollToStart(null);
+        }
+
+        return scrolled;
+    }
+
+    private bool ScrollOverflowColumnsToEnd()
+    {
+        var scrolled = false;
+        foreach (ViewLayoutContextMenuOverflowColumn column in OverflowColumns)
+        {
+            scrolled |= column.ScrollToEnd(null);
+        }
+
+        return scrolled;
     }
 
     private bool TryOverflowScrollDown(IContextMenuTarget current, TargetList targets, out IContextMenuTarget? newTarget)
