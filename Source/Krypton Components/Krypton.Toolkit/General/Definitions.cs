@@ -322,6 +322,11 @@ public interface IContextMenuProvider
     /// Gets a delegate used to indicate a repaint is required.
     /// </summary>
     NeedPaintHandler ProviderNeedPaintDelegate { get; }
+
+    /// <summary>
+    /// Gets a value indicating whether overflow scroll rows use arrow glyphs instead of text labels.
+    /// </summary>
+    bool ProviderOverflowScrollUseArrows { get; }
 }
 #endregion
 

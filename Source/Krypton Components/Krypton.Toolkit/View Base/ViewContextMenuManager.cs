@@ -27,6 +27,13 @@ public class ViewContextMenuManager : ViewManager
     private System.Windows.Forms.Timer? _itemDelayTimer;
     #endregion
 
+    #region OverflowColumns
+    /// <summary>
+    /// Gets or sets overflow columns used when the menu height is constrained.
+    /// </summary>
+    internal List<ViewLayoutContextMenuOverflowColumn> OverflowColumns { get; set; } = new List<ViewLayoutContextMenuOverflowColumn>();
+    #endregion
+
     #region Identity
     /// <summary>
     /// Initialize a new instance of the ViewContextMenuManager class.
@@ -108,6 +115,7 @@ public class ViewContextMenuManager : ViewManager
                 }
 
                 _target.ShowTarget();
+                EnsureOverflowTargetVisible(_target);
             }
         }
     }
@@ -198,8 +206,10 @@ public class ViewContextMenuManager : ViewManager
         // Find the next appropriate target
         IContextMenuTarget? newTarget = _target == null ? FindBottomLeftTarget(targets) : FindUpTarget(targets, _target);
 
-        // If we found a new target, then make it the current target
-        if ((newTarget != null) && (newTarget != _target))
+        if (newTarget == null && _target != null && TryOverflowScrollUp(_target, targets, out newTarget))
+        {
+        }
+        else if ((newTarget != null) && (newTarget != _target))
         {
             SetTarget(newTarget, false);
         }
@@ -215,8 +225,10 @@ public class ViewContextMenuManager : ViewManager
         // Find the next appropriate target
         IContextMenuTarget? newTarget = _target == null ? FindTopLeftTarget(targets) : FindDownTarget(targets, _target);
 
-        // If we found a new target, then make it the current target
-        if ((newTarget != null) && (newTarget != _target))
+        if (newTarget == null && _target != null && TryOverflowScrollDown(_target, targets, out newTarget))
+        {
+        }
+        else if ((newTarget != null) && (newTarget != _target))
         {
             SetTarget(newTarget, false);
         }
@@ -861,6 +873,108 @@ public class ViewContextMenuManager : ViewManager
                 }
             }
         }
+    }
+
+    private IRenderer? GetMenuRenderer() => Control is VisualPopup popup ? popup.Renderer : null;
+
+    private void EnsureOverflowTargetVisible(IContextMenuTarget target)
+    {
+        if (OverflowColumns.Count == 0)
+        {
+            return;
+        }
+
+        IRenderer? renderer = GetMenuRenderer();
+        if (renderer == null)
+        {
+            return;
+        }
+
+        ViewBase view = target.GetActiveView();
+        using var context = new ViewLayoutContext(this, Control, AlignControl, renderer);
+        foreach (ViewLayoutContextMenuOverflowColumn column in OverflowColumns)
+        {
+            if (column.ContainsView(view))
+            {
+                column.EnsureVisible(view, context);
+                Layout(renderer);
+                return;
+            }
+        }
+    }
+
+    private bool TryOverflowScrollUp(IContextMenuTarget current, TargetList targets, out IContextMenuTarget? newTarget)
+    {
+        newTarget = null;
+        foreach (ViewLayoutContextMenuOverflowColumn column in OverflowColumns)
+        {
+            if (!column.ContainsTarget(current))
+            {
+                continue;
+            }
+
+            if (column.HasMoreAbove)
+            {
+                column.Scroll(true);
+                IRenderer? renderer = GetMenuRenderer();
+                if (renderer != null)
+                {
+                    Layout(renderer);
+                }
+
+                EnsureOverflowTargetVisible(current);
+                newTarget = current;
+                return true;
+            }
+
+            foreach (IContextMenuTarget target in targets)
+            {
+                if (target.GetActiveView() is ViewDrawMenuScrollButton { ScrollUp: true })
+                {
+                    newTarget = target;
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private bool TryOverflowScrollDown(IContextMenuTarget current, TargetList targets, out IContextMenuTarget? newTarget)
+    {
+        newTarget = null;
+        foreach (ViewLayoutContextMenuOverflowColumn column in OverflowColumns)
+        {
+            if (!column.ContainsTarget(current))
+            {
+                continue;
+            }
+
+            if (column.HasMoreBelow(null))
+            {
+                column.Scroll(false);
+                IRenderer? renderer = GetMenuRenderer();
+                if (renderer != null)
+                {
+                    Layout(renderer);
+                }
+
+                EnsureOverflowTargetVisible(current);
+                newTarget = current;
+                return true;
+            }
+
+            foreach (IContextMenuTarget target in targets)
+            {
+                if (target.GetActiveView() is ViewDrawMenuScrollButton { ScrollUp: false })
+                {
+                    newTarget = target;
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     #endregion

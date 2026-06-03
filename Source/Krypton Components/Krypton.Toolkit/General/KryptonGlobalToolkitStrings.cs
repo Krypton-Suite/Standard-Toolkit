@@ -184,6 +184,11 @@ public class KryptonGlobalToolkitStrings : GlobalId
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public static KryptonScrollBarStrings KryptonScrollBarStrings { get; } = new KryptonScrollBarStrings();
 
+    /// <summary>Gets the context menu strings.</summary>
+    /// <value>The context menu strings.</value>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public static KryptonContextMenuStrings KryptonContextMenuStrings { get; } = new KryptonContextMenuStrings();
+
     /// <summary>Gets the toast notification strings.</summary>
     /// <value>The toast notification strings.</value>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -530,6 +535,17 @@ public class KryptonGlobalToolkitStrings : GlobalId
     private bool ShouldSerializeScrollBarStrings() => !KryptonScrollBarStrings.IsDefault;
     private void ResetScrollBarStrings() => KryptonScrollBarStrings.Reset();
 
+    /// <summary>Gets the context menu strings.</summary>
+    /// <value>The context menu strings.</value>
+    [Category(@"Visuals")]
+    [Description(@"Collection of context menu strings.")]
+    [MergableProperty(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Localizable(true)]
+    public KryptonContextMenuStrings ContextMenuStrings => KryptonContextMenuStrings;
+    private bool ShouldSerializeContextMenuStrings() => !KryptonContextMenuStrings.IsDefault;
+    private void ResetContextMenuStrings() => KryptonContextMenuStrings.Reset();
+
     /// <summary>Gets the data grid view strings.</summary>
     /// <value>The data grid view strings.</value>
     [Category(@"Visuals")]
@@ -706,7 +722,8 @@ public class KryptonGlobalToolkitStrings : GlobalId
                                ShouldSerializePaletteImageEffectStrings() ||
                                ShouldSerializePaletteImageStyleStrings() || ShouldSerializePaletteModeStrings() ||
                                ShouldSerializePaletteTextTrimStrings() || ShouldSerializePlacementModeStrings() ||
-                               ShouldSerializeScrollBarStrings() || ShouldSerializeSeparatorStyleStrings() ||
+                               ShouldSerializeScrollBarStrings() || ShouldSerializeContextMenuStrings() ||
+                               ShouldSerializeSeparatorStyleStrings() ||
                                ShouldSerializeToastNotificationIconStrings() ||
                                ShouldSerializeTabBorderStyleStrings() || ShouldSerializeTabStyleStrings() ||
                                ShouldSerializeToastNotificationStrings() || ShouldSerializeToolBarStrings() ||
@@ -744,6 +761,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
         ResetPaletteTextTrimStrings();
         ResetPlacementModeStrings();
         ResetScrollBarStrings();
+        ResetContextMenuStrings();
         ResetSeparatorStyleStrings();
         ResetTabBorderStyleStrings();
         ResetTabStyleStrings();
