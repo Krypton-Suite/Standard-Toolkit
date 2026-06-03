@@ -585,8 +585,8 @@ public class ViewContextMenuManager : ViewManager
             return newTarget;
         }
 
-        // If nothing found, then we must be at the bottom of the display
-        if (newTarget == null)
+        // If nothing found, wrap only when overflow scrolling is not in use
+        if (newTarget == null && OverflowColumns.Count == 0)
         {
             // Convert item rectangle to be above the client area
             Rectangle currentRect = current.ClientRectangle;
@@ -654,8 +654,8 @@ public class ViewContextMenuManager : ViewManager
             return newTarget;
         }
 
-        // If nothing found, then we must be at the top of the display
-        if (newTarget == null)
+        // If nothing found, wrap only when overflow scrolling is not in use
+        if (newTarget == null && OverflowColumns.Count == 0)
         {
             // Convert item rectangle to be below the client area
             Rectangle currentRect = current.ClientRectangle;
@@ -922,7 +922,7 @@ public class ViewContextMenuManager : ViewManager
 
             PerformOverflowNeedPaint();
             TargetList refreshed = ConstructKeyboardTargets(Root);
-            newTarget = FindDownTarget(refreshed, current.ClientRectangle);
+            newTarget = FindOverflowAdjacentTarget(column, refreshed, current, scrollDown: true);
             if (newTarget != null)
             {
                 return true;
@@ -949,7 +949,7 @@ public class ViewContextMenuManager : ViewManager
 
             PerformOverflowNeedPaint();
             TargetList refreshed = ConstructKeyboardTargets(Root);
-            newTarget = FindUpTarget(refreshed, current.ClientRectangle);
+            newTarget = FindOverflowAdjacentTarget(column, refreshed, current, scrollDown: false);
             if (newTarget != null)
             {
                 return true;
@@ -958,6 +958,40 @@ public class ViewContextMenuManager : ViewManager
 
         newTarget = null;
         return false;
+    }
+
+    private static IContextMenuTarget? FindOverflowAdjacentTarget(ViewLayoutContextMenuOverflowColumn column,
+        TargetList targets,
+        IContextMenuTarget current,
+        bool scrollDown)
+    {
+        var index = column.GetItemIndex(current.GetActiveView());
+        if (index < 0)
+        {
+            return null;
+        }
+
+        var adjacentIndex = scrollDown ? index + 1 : index - 1;
+        ViewBase? adjacentView = column.GetItemViewAt(adjacentIndex);
+        if (adjacentView == null)
+        {
+            return null;
+        }
+
+        return FindTargetForView(targets, adjacentView);
+    }
+
+    private static IContextMenuTarget? FindTargetForView(TargetList targets, ViewBase view)
+    {
+        foreach (IContextMenuTarget target in targets)
+        {
+            if (target.GetActiveView() == view)
+            {
+                return target;
+            }
+        }
+
+        return null;
     }
 
     private void OnDelayTimerExpire(object? sender, EventArgs e)
