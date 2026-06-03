@@ -181,7 +181,8 @@ internal class KryptonDataGridViewCellIndicatorImage : IDisposable
             return _image;
         }
 
-        (Color outline, Color fill) = DropDownArrowGlyphColors.Resolve(_dataGridView.GetResolvedPalette(), _paletteState);
+        PaletteBase palette = _dataGridView.GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
+        (Color outline, Color fill) = DropDownArrowGlyphColors.Resolve(palette, _paletteState);
 
         int maxSize = Math.Max(size, 1);
         float dpiY = 96f;
