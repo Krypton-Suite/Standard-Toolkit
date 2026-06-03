@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -39,6 +39,11 @@ internal class KryptonComboBoxAccessibleObject : Control.ControlAccessibleObject
     {
         get
         {
+            if (!string.IsNullOrEmpty(_owner.AccessibleName))
+            {
+                return _owner.AccessibleName;
+            }
+
             // Try to get name from internal ComboBox first
             var internalAccessible = _owner.ComboBox?.AccessibilityObject;
             if (internalAccessible?.Name != null)
@@ -58,6 +63,11 @@ internal class KryptonComboBoxAccessibleObject : Control.ControlAccessibleObject
     {
         get
         {
+            if (!string.IsNullOrEmpty(_owner.AccessibleDescription))
+            {
+                return _owner.AccessibleDescription;
+            }
+
             // Try to get description from internal ComboBox first
             var internalAccessible = _owner.ComboBox?.AccessibilityObject;
             if (internalAccessible?.Description != null)
@@ -77,6 +87,11 @@ internal class KryptonComboBoxAccessibleObject : Control.ControlAccessibleObject
     {
         get
         {
+            if (_owner.AccessibleRole != AccessibleRole.Default)
+            {
+                return _owner.AccessibleRole;
+            }
+
             // Delegate to internal ComboBox's role
             var internalAccessible = _owner.ComboBox?.AccessibilityObject;
             if (internalAccessible != null)
@@ -129,6 +144,24 @@ internal class KryptonComboBoxAccessibleObject : Control.ControlAccessibleObject
 
             // Fall back to control's text
             return _owner.Text;
+        }
+
+        set
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            int index = _owner.FindStringExact(value);
+            if (index >= 0)
+            {
+                _owner.SelectedIndex = index;
+            }
+            else if (_owner.DropDownStyle != ComboBoxStyle.DropDownList)
+            {
+                _owner.Text = value;
+            }
         }
     }
 

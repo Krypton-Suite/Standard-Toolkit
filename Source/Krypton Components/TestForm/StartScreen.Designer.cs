@@ -54,9 +54,9 @@ namespace TestForm
             this.rootLayout.SuspendLayout();
             this.leftLayout.SuspendLayout();
             this.SuspendLayout();
-            // 
+            //
             // kbtnExit
-            // 
+            //
             this.kbtnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.kbtnExit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kbtnExit.Location = new System.Drawing.Point(0, 679);
@@ -92,6 +92,9 @@ namespace TestForm
             // 
             // tbFilter
             // 
+            this.tbFilter.AccessibleDescription = "Filters the TestForm demo button list.";
+            this.tbFilter.AccessibleName = "Filter demos";
+            this.tbFilter.AccessibleRole = System.Windows.Forms.AccessibleRole.Text;
             this.tbFilter.ButtonSpecs.Add(this.btnClearFilter);
             this.tbFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbFilter.Location = new System.Drawing.Point(0, 0);
@@ -105,6 +108,8 @@ namespace TestForm
             // 
             // btnClearFilter
             // 
+            this.btnClearFilter.ToolTipBody = "Clears the demo filter text.";
+            this.btnClearFilter.ToolTipTitle = "Clear filter";
             this.btnClearFilter.Type = Krypton.Toolkit.PaletteButtonSpecStyle.Close;
             this.btnClearFilter.UniqueName = "149f662cfafb4c229f6a7c701553bf5d";
             // 
