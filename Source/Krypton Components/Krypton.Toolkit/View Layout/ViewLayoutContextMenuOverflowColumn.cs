@@ -202,15 +202,29 @@ internal class ViewLayoutContextMenuOverflowColumn : ViewLayoutStack
         var lastVisible = GetLastVisibleIndex(context);
         if (index > lastVisible)
         {
-            _topIndex = index;
-            while (_topIndex > 0 && GetLastVisibleIndex(context) < index)
+            while (GetLastVisibleIndex(context) < index && _topIndex < _allItems.Count - 1)
             {
-                _topIndex--;
+                _topIndex++;
             }
 
             Rebuild(context);
         }
     }
+
+    /// <summary>
+    /// Gets the index of the view in the full item list.
+    /// </summary>
+    /// <param name="view">View to find.</param>
+    /// <returns>Item index, or -1 if not found.</returns>
+    public int GetItemIndex(ViewBase view) => _allItems.IndexOf(view);
+
+    /// <summary>
+    /// Gets the view at the specified index in the full item list.
+    /// </summary>
+    /// <param name="index">Item index.</param>
+    /// <returns>View at the index, or null if out of range.</returns>
+    public ViewBase? GetItemViewAt(int index) =>
+        index >= 0 && index < _allItems.Count ? _allItems[index] : null;
 
     /// <summary>
     /// Determines if the view belongs to this column.

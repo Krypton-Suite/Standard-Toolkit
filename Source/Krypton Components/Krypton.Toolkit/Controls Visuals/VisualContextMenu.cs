@@ -388,6 +388,13 @@ public class VisualContextMenu : VisualPopup
         base.OnKeyDown(e);
     }
 
+    /// <inheritdoc />
+    protected internal override bool ProcessMouseWheelMessage(ref Message m)
+    {
+        var delta = (short)((m.WParam.ToInt64() >> 16) & 0xFFFF);
+        return ScrollMenuByWheel(delta);
+    }
+
     /// <summary>
     /// Raises the MouseWheel event.
     /// </summary>
