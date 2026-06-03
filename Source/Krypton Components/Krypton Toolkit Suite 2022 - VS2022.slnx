@@ -1,5 +1,6 @@
 <Solution>
   <Configurations>
+    <Platform Name="Any CPU" />
     <BuildType Name="Canary" />
     <BuildType Name="Debug" />
     <BuildType Name="Installer" />
@@ -10,9 +11,11 @@
   <Folder Name="/Solution Items/Build System/">
     <File Path="../.editorconfig" />
     <Project Path="../../Scripts/ModernBuild/ModernBuild.csproj">
-      <BuildType Solution="Canary|*" Project="Release" />
-      <BuildType Solution="Installer|*" Project="Debug" />
-      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="Canary|Any CPU" Project="Release" />
+      <BuildType Solution="Debug|Any CPU" Project="Debug" />
+      <BuildType Solution="Installer|Any CPU" Project="Debug" />
+      <BuildType Solution="Nightly|Any CPU" Project="Release" />
+      <BuildType Solution="Release|Any CPU" Project="Release" />
     </Project>
   </Folder>
   <Folder Name="/Solution Items/Build System/CMD Files/" />
@@ -90,21 +93,55 @@
     <File Path="../../LICENSE" />
   </Folder>
   <Folder Name="/Source/">
-    <Project Path="Krypton.Docking/Krypton.Docking 2022.csproj" />
-    <Project Path="Krypton.Navigator/Krypton.Navigator 2022.csproj" />
-    <Project Path="Krypton.Ribbon/Krypton.Ribbon 2022.csproj" />
-    <Project Path="Krypton.Toolkit/Krypton.Toolkit 2022.csproj" />
-    <Project Path="Krypton.Workspace/Krypton.Workspace 2022.csproj" />
+    <Project Path="Krypton.Docking/Krypton.Docking 2022.csproj">
+      <BuildType Solution="Canary|Any CPU" Project="Canary" />
+      <BuildType Solution="Debug|Any CPU" Project="Debug" />
+      <BuildType Solution="Installer|Any CPU" Project="Installer" />
+      <BuildType Solution="Nightly|Any CPU" Project="Nightly" />
+      <BuildType Solution="Release|Any CPU" Project="Release" />
+    </Project>
+    <Project Path="Krypton.Navigator/Krypton.Navigator 2022.csproj">
+      <BuildType Solution="Canary|Any CPU" Project="Canary" />
+      <BuildType Solution="Debug|Any CPU" Project="Debug" />
+      <BuildType Solution="Installer|Any CPU" Project="Installer" />
+      <BuildType Solution="Nightly|Any CPU" Project="Nightly" />
+      <BuildType Solution="Release|Any CPU" Project="Release" />
+    </Project>
+    <Project Path="Krypton.Ribbon/Krypton.Ribbon 2022.csproj">
+      <BuildType Solution="Canary|Any CPU" Project="Canary" />
+      <BuildType Solution="Debug|Any CPU" Project="Debug" />
+      <BuildType Solution="Installer|Any CPU" Project="Installer" />
+      <BuildType Solution="Nightly|Any CPU" Project="Nightly" />
+      <BuildType Solution="Release|Any CPU" Project="Release" />
+    </Project>
+    <Project Path="Krypton.Toolkit/Krypton.Toolkit 2022.csproj">
+      <BuildType Solution="Canary|Any CPU" Project="Canary" />
+      <BuildType Solution="Debug|Any CPU" Project="Debug" />
+      <BuildType Solution="Installer|Any CPU" Project="Installer" />
+      <BuildType Solution="Nightly|Any CPU" Project="Nightly" />
+      <BuildType Solution="Release|Any CPU" Project="Release" />
+    </Project>
+    <Project Path="Krypton.Workspace/Krypton.Workspace 2022.csproj">
+      <BuildType Solution="Canary|Any CPU" Project="Canary" />
+      <BuildType Solution="Debug|Any CPU" Project="Debug" />
+      <BuildType Solution="Installer|Any CPU" Project="Installer" />
+      <BuildType Solution="Nightly|Any CPU" Project="Nightly" />
+      <BuildType Solution="Release|Any CPU" Project="Release" />
+    </Project>
   </Folder>
   <Project Path="../TestHarnesses/ThemeSwapRepro/ThemeSwapRepro.csproj">
-    <BuildType Solution="Canary|*" Project="Release" />
-    <BuildType Solution="Installer|*" Project="Debug" />
-    <BuildType Solution="Nightly|*" Project="Release" />
+    <BuildType Solution="Canary|Any CPU" Project="Release" />
+    <BuildType Solution="Debug|Any CPU" Project="Debug" />
+    <BuildType Solution="Installer|Any CPU" Project="Debug" />
+    <BuildType Solution="Nightly|Any CPU" Project="Release" />
+    <BuildType Solution="Release|Any CPU" Project="Release" />
   </Project>
   <Project Path="TestForm/TestForm.csproj">
     <BuildDependency Project="Krypton.Navigator/Krypton.Navigator 2022.csproj" />
-    <BuildType Solution="Canary|*" Project="Debug" />
-    <BuildType Solution="Installer|*" Project="Debug" />
-    <BuildType Solution="Nightly|*" Project="Debug" />
+    <BuildType Solution="Canary|Any CPU" Project="Debug" />
+    <BuildType Solution="Debug|Any CPU" Project="Debug" />
+    <BuildType Solution="Installer|Any CPU" Project="Debug" />
+    <BuildType Solution="Nightly|Any CPU" Project="Debug" />
+    <BuildType Solution="Release|Any CPU" Project="Release" />
   </Project>
 </Solution>
