@@ -924,24 +924,17 @@ public class KryptonWebView2 : WebView2Base
 
     private void SetControlBackColor(Color color)
     {
-        var property = typeof(Control).GetProperty(nameof(BackColor), BindingFlags.Public | BindingFlags.Instance);
-        property?.SetValue(this, color);
+        base.BackColor = color;
     }
 
     private void SetControlForeColor(Color color)
     {
-        var property = typeof(Control).GetProperty(nameof(ForeColor), BindingFlags.Public | BindingFlags.Instance);
-        property?.SetValue(this, color);
+        base.ForeColor = color;
     }
 
     private void SetBaseDefaultBackgroundColor(Color color)
     {
-        var baseType = GetType().BaseType;
-        if (baseType != null)
-        {
-            var property = baseType.GetProperty("DefaultBackgroundColor", BindingFlags.Public | BindingFlags.Instance);
-            property?.SetValue(this, color);
-        }
+        base.DefaultBackgroundColor = color;
     }
 
     private async Task ApplyAppearanceAfterInitializationAsync(Task initializationTask)
