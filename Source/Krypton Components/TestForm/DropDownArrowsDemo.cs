@@ -101,6 +101,9 @@ public partial class DropDownArrowsDemo : KryptonForm
 
     private void RefreshArrowControls()
     {
+        kryptonThemeComboBox1.Refresh();
+        _cmbRenderMode?.Refresh();
+        _cmbGlyphStyle?.Refresh();
         cmbItems.Refresh();
         dtpValue.Refresh();
         numValue.Refresh();
