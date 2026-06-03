@@ -9,90 +9,177 @@
 
 namespace Krypton.Toolkit;
 
+/// <summary>
+/// Specifies the direction of a drop-down arrow glyph.
+/// </summary>
 internal enum DropDownArrowGlyphDirection
 {
+
+    /// <summary>
+    /// Indicates the arrow points down.
+    /// </summary>
     Down,
+    /// <summary>
+    /// Indicates the arrow points up.
+    /// </summary>
     Up,
+    /// <summary>
+    /// Indicates the arrow points left.
+    /// </summary>
     Left,
+    /// <summary>
+    /// Indicates the arrow points right.
+    /// </summary>
     Right
 }
 
+/// <summary>
+/// Specifies the layer of a drop-down arrow glyph.
+/// </summary>
+internal enum DropDownArrowGlyphLayer
+{
+    /// <summary>
+    /// Indicates the fill layer of the glyph.
+    /// </summary>
+    Fill,
+    /// <summary>
+    /// Indicates the outline layer of the glyph.
+    /// </summary>
+    Outline
+}
+
+/// <summary>
+/// Provides factory methods for creating drop-down arrow glyphs.
+/// </summary>
 internal static class DropDownArrowGlyphFactory
 {
+    /// <summary>
+    /// Specifies the font families to use for the glyphs.
+    /// </summary>
     private static readonly string[] SymbolFontFamilies = ["Segoe UI Symbol", "Segoe UI"];
 
-    internal static Image Create(int size, Color outline, Color fill, DropDownArrowGlyphDirection direction, DropDownArrowRenderMode renderMode)
-        => renderMode == DropDownArrowRenderMode.Unicode
-            ? CreateUnicode(size, outline, fill, direction)
-            : CreatePolygon(size, outline, fill, direction);
-
-    private static Image CreateUnicode(int size, Color outline, Color fill, DropDownArrowGlyphDirection direction)
+    /// <summary>
+    /// Creates a drop-down arrow glyph.
+    /// </summary>
+    /// <param name="size">The size of the glyph.</param>
+    /// <param name="outline">The outline color of the glyph.</param>
+    /// <param name="fill">The fill color of the glyph.</param>
+    /// <param name="direction">The direction of the glyph.</param>
+    /// <param name="renderMode">The render mode of the glyph.</param>
+    internal static Image Create(int size, Color outline, Color fill, DropDownArrowGlyphDirection direction, DropDownArrowRenderMode renderMode, DropDownArrowGlyphStyle style)
     {
+        if (!HasDistinctFill(outline, fill))
+        {
+            return CreateMonochrome(size, outline, direction, renderMode, DropDownArrowGlyphLayer.Fill);
+        }
+
+        DropDownArrowGlyphStyleLayout.GetLayerOffsets(style, size, out Point fillOffset, out Point outlineOffset);
+
         var bmp = new Bitmap(size, size, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
         using (var g = Graphics.FromImage(bmp))
         {
             g.Clear(Color.Transparent);
-            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
-            g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.None;
 
-            Point[] triangle = GetTrianglePoints(size, direction);
-            if (HasDistinctFill(outline, fill))
-            {
-                using (var fillBrush = new SolidBrush(fill))
-                {
-                    g.FillPolygon(fillBrush, triangle);
-                }
+            using Image fillGlyph = CreateMonochrome(size, fill, direction, renderMode, DropDownArrowGlyphLayer.Fill);
 
-                using (var outlinePen = new Pen(outline, 1f))
-                {
-                    g.DrawPolygon(outlinePen, triangle);
-                }
-            }
+            using Image outlineGlyph = CreateMonochrome(size, outline, direction, renderMode, DropDownArrowGlyphLayer.Outline);
 
-            g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
+            g.DrawImage(fillGlyph, fillOffset);
 
-            char glyph = GetUnicodeCharacter(direction, size);
-            using var format = new StringFormat(StringFormatFlags.NoWrap | StringFormatFlags.NoClip)
-            {
-                Alignment = StringAlignment.Center,
-                LineAlignment = StringAlignment.Center
-            };
+            g.DrawImage(outlineGlyph, outlineOffset);
 
-            using var font = CreateSymbolFont(g, size, glyph);
-            using var brush = new SolidBrush(outline);
-            g.DrawString(glyph.ToString(), font, brush, new RectangleF(0, 0, size, size), format);
         }
 
         return bmp;
     }
 
-    private static bool HasDistinctFill(Color outline, Color fill) =>
-        fill.A >= 16 && fill.ToArgb() != outline.ToArgb();
+    /// <summary>
+    /// Creates a monochrome drop-down arrow glyph.
+    /// </summary>
+    /// <param name="size">The size of the glyph.</param>
+    /// <param name="color">The color of the glyph.</param>
+    /// <param name="direction">The direction of the glyph.</param>
+    /// <param name="renderMode">The render mode of the glyph.</param>
+    /// <param name="layer">The layer of the glyph.</param>
+    internal static Image CreateMonochrome(int size, Color color, DropDownArrowGlyphDirection direction,  DropDownArrowRenderMode renderMode, DropDownArrowGlyphLayer layer)
+        => renderMode == DropDownArrowRenderMode.Unicode
+            ? CreateUnicodeMonochrome(size, color, direction)
+            : CreatePolygonMonochrome(size, color, direction, layer);
 
-    private static Image CreatePolygon(int size, Color outline, Color fill, DropDownArrowGlyphDirection direction)
+    /// <summary>
+    /// Creates a Unicode monochrome drop-down arrow glyph.
+    /// </summary>
+    /// <param name="size">The size of the glyph.</param>
+    /// <param name="color">The color of the glyph.</param>
+    /// <param name="direction">The direction of the glyph.</param>
+    private static Image CreateUnicodeMonochrome(int size, Color color, DropDownArrowGlyphDirection direction)
     {
         var bmp = new Bitmap(size, size, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
         using (var g = Graphics.FromImage(bmp))
         {
+
             g.Clear(Color.Transparent);
+
+            g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
+
+
+            char glyph = GetUnicodeCharacter(direction, size);
+
+            using var format = new StringFormat(StringFormatFlags.NoWrap | StringFormatFlags.NoClip)
+            {
+
+                Alignment = StringAlignment.Center,
+
+                LineAlignment = StringAlignment.Center
+            };
+
+            using var font = CreateSymbolFont(g, size, glyph);
+
+            using var brush = new SolidBrush(color);
+
+            g.DrawString(glyph.ToString(), font, brush, new RectangleF(0, 0, size, size), format);
+
+        }
+
+        return bmp;
+    }
+
+    private static Image CreatePolygonMonochrome(int size, Color color, DropDownArrowGlyphDirection direction,  DropDownArrowGlyphLayer layer)
+    {
+        var bmp = new Bitmap(size, size, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+        using (var g = Graphics.FromImage(bmp))
+        {
+
+            g.Clear(Color.Transparent);
+
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+
             g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.None;
 
             Point[] triangle = GetTrianglePoints(size, direction);
 
-            using (var brush = new SolidBrush(fill))
+            if (layer == DropDownArrowGlyphLayer.Fill)
             {
+                using var brush = new SolidBrush(color);
+
                 g.FillPolygon(brush, triangle);
             }
-
-            using (var pen = new Pen(outline, 1f))
+            else
             {
+                using var pen = new Pen(color, 1f);
+
                 g.DrawPolygon(pen, triangle);
             }
         }
 
         return bmp;
     }
+
+    internal static bool HasDistinctFill(Color outline, Color fill) =>
+        fill.A >= 16 && fill.ToArgb() != outline.ToArgb();
 
     private static char GetUnicodeCharacter(DropDownArrowGlyphDirection direction, int size)
     {
@@ -118,7 +205,9 @@ internal static class DropDownArrowGlyphFactory
                 try
                 {
                     using var probe = new Font(familyName, emSize, FontStyle.Regular, GraphicsUnit.Pixel);
+
                     SizeF measured = g.MeasureString(text, probe);
+
                     if (measured.Width <= boxSize && measured.Height <= boxSize)
                     {
                         return new Font(familyName, emSize, FontStyle.Regular, GraphicsUnit.Pixel);
@@ -126,6 +215,7 @@ internal static class DropDownArrowGlyphFactory
                 }
                 catch (ArgumentException)
                 {
+
                 }
             }
         }
@@ -135,9 +225,13 @@ internal static class DropDownArrowGlyphFactory
 
     private static Point[] GetTrianglePoints(int size, DropDownArrowGlyphDirection direction)
     {
+
         int pad = Math.Max(1, size / 4);
+
         int near = pad;
+
         int far = size - pad - 1;
+
         int mid = size / 2;
 
         return direction switch
@@ -145,25 +239,33 @@ internal static class DropDownArrowGlyphFactory
             DropDownArrowGlyphDirection.Up => new[]
             {
                 new Point(mid, near),
+
                 new Point(near, far),
+
                 new Point(far, far)
             },
             DropDownArrowGlyphDirection.Left => new[]
             {
                 new Point(near, mid),
+
                 new Point(far, near),
+
                 new Point(far, far)
             },
             DropDownArrowGlyphDirection.Right => new[]
             {
                 new Point(far, mid),
+
                 new Point(near, near),
+
                 new Point(near, far)
             },
             _ => new[]
             {
                 new Point(near, near),
+
                 new Point(far, near),
+
                 new Point(mid, far)
             }
         };
