@@ -230,6 +230,9 @@ public partial class StartScreen : KryptonForm
 
         button.CommandLinkTextValues.Heading = heading;
         button.CommandLinkTextValues.Description = description;
+        button.AccessibleName = heading;
+        button.AccessibleDescription = description;
+        button.AccessibleRole = AccessibleRole.PushButton;
         button.AutoSize = false;
         button.Dock = DockStyle.Fill;
         button.MinimumSize = new Size(0, 60);

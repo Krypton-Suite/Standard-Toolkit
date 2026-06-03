@@ -184,6 +184,11 @@ public class KryptonCheckButton : KryptonButton
 
     #region Protected Overrides
     /// <summary>
+    /// Creates the accessibility object for the control.
+    /// </summary>
+    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonCheckButtonAccessibleObject(this);
+
+    /// <summary>
     /// Raises the GotFocus event.
     /// </summary>
     /// <param name="e">An EventArgs that contains the event data.</param>

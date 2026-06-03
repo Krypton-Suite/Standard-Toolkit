@@ -473,6 +473,12 @@ public class KryptonRadioButton : VisualSimpleBase
 
     #region Protected
     /// <summary>
+    /// Creates a new accessibility object for this control.
+    /// </summary>
+    /// <returns>A new accessibility object for this control.</returns>
+    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonRadioButtonAccessibleObject(this);
+
+    /// <summary>
     /// Raises the DoubleClick event.
     /// </summary>
     /// <param name="e">An EventArgs containing the event data.</param>
@@ -581,6 +587,14 @@ public class KryptonRadioButton : VisualSimpleBase
 
         // No match found, let base class do standard processing
         return base.ProcessMnemonic(charCode);
+    }
+
+    internal void PerformAccessibilityClick()
+    {
+        if (CanSelect)
+        {
+            OnClick(EventArgs.Empty);
+        }
     }
 
     /// <summary>

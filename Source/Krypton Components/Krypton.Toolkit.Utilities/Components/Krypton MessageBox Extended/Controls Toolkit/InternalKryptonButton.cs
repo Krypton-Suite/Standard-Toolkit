@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV), Giduac, et al. 2026 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV), Giduac, tobitege, et al. 2026 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -583,6 +583,12 @@ internal class InternalKryptonButton : VisualSimpleBase, IButtonControl, IConten
     /// Gets the default Input Method Editor (IME) mode supported by this control.
     /// </summary>
     protected override ImeMode DefaultImeMode => ImeMode.Disable;
+
+    /// <summary>
+    /// Creates a new accessibility object for this control.
+    /// </summary>
+    /// <returns>A new accessibility object for this control.</returns>
+    protected override AccessibleObject CreateAccessibilityInstance() => new InternalKryptonButtonAccessibleObject(this);
 
     /// <summary>
     /// Raises the EnabledChanged event.

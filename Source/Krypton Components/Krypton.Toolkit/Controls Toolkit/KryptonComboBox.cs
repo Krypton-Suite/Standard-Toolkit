@@ -956,6 +956,7 @@ public class KryptonComboBox : VisualControlBase,
 
     private VisualPopupToolTip? _visualPopupToolTip;
     private readonly ButtonSpecManagerLayout? _buttonManager;
+    private ButtonSpecAccessibilityProxyManager? _buttonSpecAccessibilityProxyManager;
     private readonly ViewLayoutDocker _drawDockerInner;
     private readonly ViewDrawDocker _drawDockerOuter;
     private readonly ViewLayoutFill _layoutFill;
@@ -1317,6 +1318,7 @@ public class KryptonComboBox : VisualControlBase,
         ToolTipManager.ShowToolTip += OnShowToolTip;
         ToolTipManager.CancelToolTip += OnCancelToolTip;
         _buttonManager.ToolTipManager = ToolTipManager;
+        _buttonSpecAccessibilityProxyManager = new ButtonSpecAccessibilityProxyManager(this, ButtonSpecs, () => _buttonManager);
 
         // We need to create and cache a device context compatible with the display
         _screenDC = PI.CreateCompatibleDC(IntPtr.Zero);
@@ -1355,6 +1357,8 @@ public class KryptonComboBox : VisualControlBase,
 
             // Remember to pull down the manager instance
             _buttonManager?.Destruct();
+            _buttonSpecAccessibilityProxyManager?.Dispose();
+            _buttonSpecAccessibilityProxyManager = null;
         }
 
         base.Dispose(disposing);
@@ -2607,6 +2611,7 @@ public class KryptonComboBox : VisualControlBase,
 
         // Update state to reflect change in enabled state
         _buttonManager?.RefreshButtons();
+        _buttonSpecAccessibilityProxyManager?.Sync();
 
         // Change in enabled state requires a layout and repaint
         PerformNeedPaint(true);
@@ -2797,6 +2802,7 @@ public class KryptonComboBox : VisualControlBase,
                     // Toggling it corrects the chopped off text and shows the item in full
                     IntegralHeight = !IntegralHeight;
                     IntegralHeight = !IntegralHeight;
+                    _buttonSpecAccessibilityProxyManager?.Sync();
                 }
             }
             catch
@@ -2856,6 +2862,7 @@ public class KryptonComboBox : VisualControlBase,
         if (!e.NeedLayout)
         {
             _comboBox.Invalidate();
+            _buttonSpecAccessibilityProxyManager?.Sync();
         }
         else if (!DroppedDown)
         {
