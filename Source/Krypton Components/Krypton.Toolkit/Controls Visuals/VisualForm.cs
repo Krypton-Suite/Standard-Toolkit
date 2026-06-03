@@ -1961,7 +1961,11 @@ public abstract class VisualForm : Form,
         Renderer = _palette.GetRenderer();// PaletteImageScaler.ScalePalette(FactorDpiX, FactorDpiY, _palette);
 
 #if !NET462
-    private void OnDpiChanged(object? sender, DpiChangedEventArgs e) => UpdateDpiFactors();
+    private void OnDpiChanged(object? sender, DpiChangedEventArgs e)
+    {
+        UpdateDpiFactors();
+        PerformNeedPaint(true);
+    }
 #endif
 
     #region Jump List

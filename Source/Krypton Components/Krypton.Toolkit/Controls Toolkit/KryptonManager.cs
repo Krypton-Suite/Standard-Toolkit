@@ -29,6 +29,7 @@ public sealed class KryptonManager : Component
     private static bool _globalShowAdministratorSuffix = true;
     internal static bool _globalUseKryptonFileDialogs = true;
     private static bool _globalUseKryptonScrollbars = false;
+    private static DropDownArrowRenderMode _globalDropDownArrowRenderMode = DropDownArrowRenderMode.Unicode;
     private static bool _globalTouchscreenMode = false;
     private static float _globalTouchscreenScaleFactor = 1.25f;
     private static bool _globalTouchscreenFontScaling = true;
@@ -173,6 +174,13 @@ public sealed class KryptonManager : Component
     public static event EventHandler? GlobalUseThemeFormChromeBorderWidthChanged;
 
     /// <summary>
+    /// Occurs when the drop-down arrow render mode changes.
+    /// </summary>
+    [Category(@"Property Changed")]
+    [Description(@"Occurs when the value of the GlobalDropDownArrowRenderMode property is changed.")]
+    public static event EventHandler? GlobalDropDownArrowRenderModeChanged;
+
+    /// <summary>
     /// Occurs when the touchscreen support setting or scale factor changes.
     /// </summary>
     [Category(@"Property Changed")]
@@ -256,6 +264,7 @@ public sealed class KryptonManager : Component
                                ShouldSerializeToolkitStrings() ||
                                ShouldSerializeUseKryptonFileDialogs() ||
                                ShouldSerializeGlobalUseKryptonScrollbars() ||
+                               ShouldSerializeGlobalDropDownArrowRenderMode() ||
                                ShouldSerializeBaseFont() ||
                                ShouldSerializeGlobalPaletteMode() ||
                                ShouldSerializeTouchscreenSettings());
@@ -273,6 +282,7 @@ public sealed class KryptonManager : Component
         ResetToolkitStrings();
         ResetUseKryptonFileDialogs();
         ResetGlobalUseKryptonScrollbars();
+        ResetGlobalDropDownArrowRenderMode();
         ResetBaseFont();
         ResetGlobalPaletteMode();
         ResetTouchscreenSettings();
@@ -425,6 +435,20 @@ public sealed class KryptonManager : Component
     }
     private bool ShouldSerializeGlobalUseKryptonScrollbars() => GlobalUseKryptonScrollbars;
     private void ResetGlobalUseKryptonScrollbars() => GlobalUseKryptonScrollbars = false;
+
+    /// <summary>
+    /// Gets or sets how drop-down arrow glyphs are rendered across Krypton controls.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"How drop-down arrow glyphs are rendered: Unicode characters (default) or pixel-aligned polygons.")]
+    [DefaultValue(DropDownArrowRenderMode.Unicode)]
+    public DropDownArrowRenderMode GlobalDropDownArrowRenderMode
+    {
+        get => DropDownArrowRenderMode;
+        set => DropDownArrowRenderMode = value;
+    }
+    private bool ShouldSerializeGlobalDropDownArrowRenderMode() => GlobalDropDownArrowRenderMode != DropDownArrowRenderMode.Unicode;
+    private void ResetGlobalDropDownArrowRenderMode() => GlobalDropDownArrowRenderMode = DropDownArrowRenderMode.Unicode;
 
 
     /// <summary>
@@ -603,6 +627,27 @@ public sealed class KryptonManager : Component
             {
                 // Use new value
                 _globalUseKryptonScrollbars = value;
+            }
+        }
+    }
+    #endregion
+
+    #region Static DropDownArrowRenderMode
+    /// <summary>
+    /// Gets and sets how drop-down arrow glyphs are rendered across Krypton controls.
+    /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public static DropDownArrowRenderMode DropDownArrowRenderMode
+    {
+        get => _globalDropDownArrowRenderMode;
+
+        set
+        {
+            if (_globalDropDownArrowRenderMode != value)
+            {
+                _globalDropDownArrowRenderMode = value;
+                DropDownArrowGlyphCache.Clear();
+                OnGlobalDropDownArrowRenderModeChanged(EventArgs.Empty);
             }
         }
     }
@@ -1585,6 +1630,8 @@ public sealed class KryptonManager : Component
     }
 
     private static void OnGlobalUseThemeFormChromeBorderWidthChanged(EventArgs e) => GlobalUseThemeFormChromeBorderWidthChanged?.Invoke(null, e);
+
+    private static void OnGlobalDropDownArrowRenderModeChanged(EventArgs e) => GlobalDropDownArrowRenderModeChanged?.Invoke(null, e);
 
     private static void OnGlobalPaletteChanged(EventArgs e)
     {

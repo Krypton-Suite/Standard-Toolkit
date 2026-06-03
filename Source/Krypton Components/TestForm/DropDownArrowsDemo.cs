@@ -12,7 +12,7 @@ using Krypton.Toolkit;
 namespace TestForm;
 
 /// <summary>
-/// Comprehensive demonstration of drop-down arrows: smaller size and DPI awareness (Issue #2129).
+/// Comprehensive demonstration of drop-down arrows: smaller size, DPI awareness (Issue #2129), and crisp bitmap glyphs (Issue #3663).
 /// Shows KryptonButton, KryptonDropButton, KryptonComboBox, KryptonDateTimePicker, KryptonColorButton,
 /// and KryptonNumericUpDown with their drop-down arrows. Verifies arrows scale correctly at different DPI.
 /// </summary>
@@ -47,20 +47,23 @@ public partial class DropDownArrowsDemo : KryptonForm
         numValue.Maximum = 100;
     }
 
+    private void RefreshArrowControls()
+    {
+        cmbItems.Refresh();
+        dtpValue.Refresh();
+        numValue.Refresh();
+        btnDropDown.Refresh();
+        btnSplit.Refresh();
+        btnStandalone.Refresh();
+        kryptonColorButton1.Refresh();
+        UpdateDpiInfo();
+    }
+
     private void SetupEventHandlers()
     {
         kryptonThemeComboBox1.SelectedIndexChanged += (s, e) => UpdateDpiInfo();
-        btnRefresh.Click += (s, e) =>
-        {
-            cmbItems.Refresh();
-            dtpValue.Refresh();
-            numValue.Refresh();
-            btnDropDown.Refresh();
-            btnSplit.Refresh();
-            btnStandalone.Refresh();
-            kryptonColorButton1.Refresh();
-            UpdateDpiInfo();
-        };
+        KryptonManager.GlobalDropDownArrowRenderModeChanged += OnDropDownArrowRenderModeChanged;
+        btnRefresh.Click += (s, e) => RefreshArrowControls();
 
         kryptonColorButton1.SelectedColorChanged += KryptonColorButton1_SelectedColorChanged;
 
@@ -68,6 +71,8 @@ public partial class DropDownArrowsDemo : KryptonForm
         kryptonContextMenuItem2.Click += (s, e) => KryptonMessageBox.Show("Menu item 2 clicked", "Drop-Down Demo");
         kryptonContextMenuItem3.Click += (s, e) => KryptonMessageBox.Show("Menu item 3 clicked", "Drop-Down Demo");
     }
+
+    private void OnDropDownArrowRenderModeChanged(object? sender, EventArgs e) => RefreshArrowControls();
 
     private void KryptonColorButton1_SelectedColorChanged(object? sender, ColorEventArgs e)
     {
@@ -95,12 +100,12 @@ public partial class DropDownArrowsDemo : KryptonForm
             float dpiX = dpiFactorX * 96f;
             float dpiY = dpiFactorY * 96f;
             float scalePercent = dpiFactorY * 100f;
-            int arrowSize96 = 10;
+            int arrowSize96 = DropDownArrowGlyphDefaults.DefaultBaseSizeAt96Dpi;
             int arrowSizeScaled = (int)(arrowSize96 * dpiFactorY);
 
             lblDpiInfo.Values.Text =
                 $"DPI: {dpiX:F0}×{dpiY:F0} | Scale: {scalePercent:F0}% | " +
-                $"Drop-down arrow: {arrowSizeScaled}×{arrowSizeScaled}px (base {arrowSize96}px @ 96 DPI)";
+                $"Arrow: {arrowSizeScaled}px | Mode: {KryptonManager.DropDownArrowRenderMode}";
         }
         catch
         {
@@ -110,6 +115,7 @@ public partial class DropDownArrowsDemo : KryptonForm
 
     protected override void OnFormClosing(FormClosingEventArgs e)
     {
+        KryptonManager.GlobalDropDownArrowRenderModeChanged -= OnDropDownArrowRenderModeChanged;
         _dpiMonitorTimer?.Stop();
         _dpiMonitorTimer?.Dispose();
         base.OnFormClosing(e);
