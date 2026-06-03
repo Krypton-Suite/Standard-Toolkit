@@ -859,11 +859,28 @@ public class ViewContextMenuManager : ViewManager
     /// Scroll all overflow columns in the requested direction.
     /// </summary>
     /// <param name="scrollUp">True to scroll up; otherwise scroll down.</param>
-    public void ScrollOverflow(bool scrollUp)
+    /// <returns>True if any column scrolled.</returns>
+    public bool ScrollOverflow(bool scrollUp)
     {
+        var scrolled = false;
         foreach (ViewLayoutContextMenuOverflowColumn column in OverflowColumns)
         {
-            column.Scroll(scrollUp);
+            scrolled |= column.Scroll(scrollUp);
+        }
+
+        if (scrolled)
+        {
+            PerformOverflowNeedPaint();
+        }
+
+        return scrolled;
+    }
+
+    private void PerformOverflowNeedPaint()
+    {
+        if (AlignControl is VisualPopup popup)
+        {
+            popup.PerformNeedPaint(true);
         }
     }
 
@@ -898,7 +915,12 @@ public class ViewContextMenuManager : ViewManager
                 continue;
             }
 
-            column.Scroll(false);
+            if (!column.Scroll(false))
+            {
+                continue;
+            }
+
+            PerformOverflowNeedPaint();
             TargetList refreshed = ConstructKeyboardTargets(Root);
             newTarget = FindDownTarget(refreshed, current.ClientRectangle);
             if (newTarget != null)
@@ -920,7 +942,12 @@ public class ViewContextMenuManager : ViewManager
                 continue;
             }
 
-            column.Scroll(true);
+            if (!column.Scroll(true))
+            {
+                continue;
+            }
+
+            PerformOverflowNeedPaint();
             TargetList refreshed = ConstructKeyboardTargets(Root);
             newTarget = FindUpTarget(refreshed, current.ClientRectangle);
             if (newTarget != null)
