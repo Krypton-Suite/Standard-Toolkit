@@ -1295,6 +1295,37 @@ public enum PaletteMetricInt
 }
 #endregion
 
+#region Enum DropDownArrowRenderMode
+/// <summary>
+/// Specifies how drop-down arrow glyphs are rendered across Krypton controls.
+/// </summary>
+public enum DropDownArrowRenderMode
+{
+    /// <summary>
+    /// Unicode triangle characters (e.g. ▼) drawn with a symbol font.
+    /// </summary>
+    Unicode,
+
+    /// <summary>
+    /// Pixel-aligned polygon glyphs using palette outline and fill colours.
+    /// </summary>
+    Polygon
+}
+#endregion
+
+#region DropDownArrowGlyphDefaults
+/// <summary>
+/// Default drop-down arrow glyph metrics shared by built-in palettes and renderers.
+/// </summary>
+public static class DropDownArrowGlyphDefaults
+{
+    /// <summary>
+    /// Base drop-down arrow size in logical pixels at 96 DPI.
+    /// </summary>
+    public const int DefaultBaseSizeAt96Dpi = 14;
+}
+#endregion
+
 #region Enum PaletteMetricBool
 /// <summary>
 /// Specifies a bool type metric.
