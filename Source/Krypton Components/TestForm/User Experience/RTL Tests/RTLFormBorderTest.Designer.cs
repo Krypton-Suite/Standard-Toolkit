@@ -45,6 +45,9 @@
             // 
             // kchkbtnSwitchLayout
             // 
+            this.kchkbtnSwitchLayout.AccessibleDescription = "Toggles the form between right-to-left and left-to-right layout.";
+            this.kchkbtnSwitchLayout.AccessibleName = "Switch layout";
+            this.kchkbtnSwitchLayout.AccessibleRole = System.Windows.Forms.AccessibleRole.CheckButton;
             this.kchkbtnSwitchLayout.Location = new System.Drawing.Point(317, 150);
             this.kchkbtnSwitchLayout.Name = "kchkbtnSwitchLayout";
             this.kchkbtnSwitchLayout.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
