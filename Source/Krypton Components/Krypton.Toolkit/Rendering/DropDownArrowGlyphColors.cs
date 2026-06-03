@@ -31,16 +31,28 @@ internal static class DropDownArrowGlyphColors
     private static (Color Outline, Color Fill) FromPalette(PaletteBase palette, PaletteState state)
     {
 
-        Color outline = state == PaletteState.Disabled
-            ? palette.GetContentShortTextColor1(PaletteContentStyle.ButtonStandalone, PaletteState.Disabled)
-            : palette.GetSchemeColor(SchemeBaseColors.TextButtonNormal);
-
-        if (outline == Color.Empty || outline == GlobalStaticVariables.EMPTY_COLOR)
+        Color outline;
+        Color fill;
+        if (state == PaletteState.Disabled)
         {
-            outline = palette.GetContentShortTextColor1(PaletteContentStyle.ButtonStandalone, state);
+            outline = palette.GetSchemeColor(SchemeBaseColors.InputDropDownDisabled1);
+            fill = palette.GetSchemeColor(SchemeBaseColors.InputDropDownDisabled2);
+            if (outline == Color.Empty || outline == GlobalStaticVariables.EMPTY_COLOR)
+            {
+                outline = palette.GetContentShortTextColor1(PaletteContentStyle.ButtonStandalone, PaletteState.Disabled);
+            }
+        }
+        else
+        {
+            outline = palette.GetSchemeColor(SchemeBaseColors.TextButtonNormal);
+            fill = palette.GetSchemeColor(SchemeBaseColors.InputDropDownNormal2);
+            if (outline == Color.Empty || outline == GlobalStaticVariables.EMPTY_COLOR)
+            {
+                outline = palette.GetContentShortTextColor1(PaletteContentStyle.ButtonStandalone, state);
+            }
         }
 
-        return (outline, NormalizeFill(outline, Color.Empty));
+        return (outline, NormalizeFill(outline, fill));
     }
 
 

@@ -1313,6 +1313,29 @@ public enum DropDownArrowRenderMode
 }
 #endregion
 
+#region Enum DropDownArrowGlyphStyle
+/// <summary>
+/// Specifies how two-tone drop-down arrow glyphs are composited from outline and fill layers.
+/// </summary>
+public enum DropDownArrowGlyphStyle
+{
+    /// <summary>
+    /// Fill and outline glyphs are drawn at the same position (outline on top).
+    /// </summary>
+    Flat,
+
+    /// <summary>
+    /// Raised bevel: outline at the origin, fill offset down-right.
+    /// </summary>
+    Bevel,
+
+    /// <summary>
+    /// Inset/embossed: fill at the origin, outline offset down-right.
+    /// </summary>
+    Emboss
+}
+#endregion
+
 #region DropDownArrowGlyphDefaults
 /// <summary>
 /// Default drop-down arrow glyph metrics shared by built-in palettes and renderers.

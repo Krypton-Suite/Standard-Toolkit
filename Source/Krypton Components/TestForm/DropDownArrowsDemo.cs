@@ -19,6 +19,8 @@ namespace TestForm;
 public partial class DropDownArrowsDemo : KryptonForm
 {
     private Timer _dpiMonitorTimer;
+    private KryptonComboBox? _cmbRenderMode;
+    private KryptonComboBox? _cmbGlyphStyle;
 
     public DropDownArrowsDemo()
     {
@@ -36,6 +38,8 @@ public partial class DropDownArrowsDemo : KryptonForm
 
     private void SetupControls()
     {
+        SetupGlyphOptionCombos();
+
         cmbItems.Items.AddRange(new object[] { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" });
         cmbItems.SelectedIndex = 0;
 
@@ -45,6 +49,54 @@ public partial class DropDownArrowsDemo : KryptonForm
         numValue.Value = 42;
         numValue.Minimum = 0;
         numValue.Maximum = 100;
+    }
+
+    private void SetupGlyphOptionCombos()
+    {
+        var lblRenderMode = new KryptonLabel
+        {
+            Location = new Point(400, 58),
+            Size = new Size(42, 20),
+            Values = { Text = "Mode:" }
+        };
+
+        _cmbRenderMode = new KryptonComboBox
+        {
+            DropDownStyle = ComboBoxStyle.DropDownList,
+            Location = new Point(448, 56),
+            Size = new Size(100, 22)
+        };
+        foreach (DropDownArrowRenderMode mode in Enum.GetValues(typeof(DropDownArrowRenderMode)))
+        {
+            _cmbRenderMode.Items.Add(mode);
+        }
+
+        _cmbRenderMode.SelectedItem = KryptonManager.DropDownArrowRenderMode;
+
+        var lblGlyphStyle = new KryptonLabel
+        {
+            Location = new Point(558, 58),
+            Size = new Size(42, 20),
+            Values = { Text = "Style:" }
+        };
+
+        _cmbGlyphStyle = new KryptonComboBox
+        {
+            DropDownStyle = ComboBoxStyle.DropDownList,
+            Location = new Point(606, 56),
+            Size = new Size(90, 22)
+        };
+        foreach (DropDownArrowGlyphStyle style in Enum.GetValues(typeof(DropDownArrowGlyphStyle)))
+        {
+            _cmbGlyphStyle.Items.Add(style);
+        }
+
+        _cmbGlyphStyle.SelectedItem = KryptonManager.DropDownArrowGlyphStyle;
+
+        pnlHeader.Controls.Add(lblRenderMode);
+        pnlHeader.Controls.Add(_cmbRenderMode);
+        pnlHeader.Controls.Add(lblGlyphStyle);
+        pnlHeader.Controls.Add(_cmbGlyphStyle);
     }
 
     private void RefreshArrowControls()
@@ -62,8 +114,19 @@ public partial class DropDownArrowsDemo : KryptonForm
     private void SetupEventHandlers()
     {
         kryptonThemeComboBox1.SelectedIndexChanged += (s, e) => UpdateDpiInfo();
-        KryptonManager.GlobalDropDownArrowRenderModeChanged += OnDropDownArrowRenderModeChanged;
+        KryptonManager.GlobalDropDownArrowRenderModeChanged += OnDropDownArrowSettingsChanged;
+        KryptonManager.GlobalDropDownArrowGlyphStyleChanged += OnDropDownArrowSettingsChanged;
         btnRefresh.Click += (s, e) => RefreshArrowControls();
+
+        if (_cmbRenderMode is not null)
+        {
+            _cmbRenderMode.SelectedIndexChanged += OnRenderModeComboChanged;
+        }
+
+        if (_cmbGlyphStyle is not null)
+        {
+            _cmbGlyphStyle.SelectedIndexChanged += OnGlyphStyleComboChanged;
+        }
 
         kryptonColorButton1.SelectedColorChanged += KryptonColorButton1_SelectedColorChanged;
 
@@ -72,7 +135,23 @@ public partial class DropDownArrowsDemo : KryptonForm
         kryptonContextMenuItem3.Click += (s, e) => KryptonMessageBox.Show("Menu item 3 clicked", "Drop-Down Demo");
     }
 
-    private void OnDropDownArrowRenderModeChanged(object? sender, EventArgs e) => RefreshArrowControls();
+    private void OnDropDownArrowSettingsChanged(object? sender, EventArgs e) => RefreshArrowControls();
+
+    private void OnRenderModeComboChanged(object? sender, EventArgs e)
+    {
+        if (_cmbRenderMode?.SelectedItem is DropDownArrowRenderMode mode)
+        {
+            KryptonManager.DropDownArrowRenderMode = mode;
+        }
+    }
+
+    private void OnGlyphStyleComboChanged(object? sender, EventArgs e)
+    {
+        if (_cmbGlyphStyle?.SelectedItem is DropDownArrowGlyphStyle style)
+        {
+            KryptonManager.DropDownArrowGlyphStyle = style;
+        }
+    }
 
     private void KryptonColorButton1_SelectedColorChanged(object? sender, ColorEventArgs e)
     {
@@ -105,7 +184,7 @@ public partial class DropDownArrowsDemo : KryptonForm
 
             lblDpiInfo.Values.Text =
                 $"DPI: {dpiX:F0}×{dpiY:F0} | Scale: {scalePercent:F0}% | " +
-                $"Arrow: {arrowSizeScaled}px | Mode: {KryptonManager.DropDownArrowRenderMode}";
+                $"Arrow: {arrowSizeScaled}px | Mode: {KryptonManager.DropDownArrowRenderMode} | Style: {KryptonManager.DropDownArrowGlyphStyle}";
         }
         catch
         {
@@ -115,7 +194,8 @@ public partial class DropDownArrowsDemo : KryptonForm
 
     protected override void OnFormClosing(FormClosingEventArgs e)
     {
-        KryptonManager.GlobalDropDownArrowRenderModeChanged -= OnDropDownArrowRenderModeChanged;
+        KryptonManager.GlobalDropDownArrowRenderModeChanged -= OnDropDownArrowSettingsChanged;
+        KryptonManager.GlobalDropDownArrowGlyphStyleChanged -= OnDropDownArrowSettingsChanged;
         _dpiMonitorTimer?.Stop();
         _dpiMonitorTimer?.Dispose();
         base.OnFormClosing(e);
