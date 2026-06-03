@@ -637,6 +637,13 @@ public class VisualContextMenu : VisualPopup
         }
     }
 
+    /// <summary>
+    /// Scrolls overflow menu columns using the mouse wheel when the wheel is routed to this popup.
+    /// </summary>
+    /// <param name="delta">Mouse wheel delta.</param>
+    /// <returns>True if scrolling was applied.</returns>
+    internal bool ProcessWheelScroll(int delta) => ScrollMenuByWheel(delta);
+
     private bool ScrollMenuByWheel(int delta)
     {
         if (delta == 0 || _overflowColumns.Count == 0)

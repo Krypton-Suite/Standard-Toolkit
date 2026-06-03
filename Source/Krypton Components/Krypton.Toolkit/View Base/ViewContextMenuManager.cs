@@ -579,6 +579,15 @@ public class ViewContextMenuManager : ViewManager
         // Find the next item below the current one
         IContextMenuTarget? newTarget = FindDownTarget(targets, current.ClientRectangle);
 
+        // Prefer revealing the next logical item over focusing the scroll-down row
+        if (newTarget != null && IsMenuScrollButtonTarget(newTarget) && !IsMenuScrollButtonTarget(current))
+        {
+            if (TryOverflowScrollDown(current, targets, out IContextMenuTarget? scrolledTarget))
+            {
+                return scrolledTarget;
+            }
+        }
+
         // If nothing found, try scrolling an overflow column before wrapping
         if (newTarget == null && TryOverflowScrollDown(current, targets, out newTarget))
         {
@@ -586,7 +595,7 @@ public class ViewContextMenuManager : ViewManager
         }
 
         // If nothing found, then we must be at the bottom of the display
-        if (newTarget == null)
+        if (newTarget == null && !ShouldSuppressOverflowWrap(current, scrollDown: true))
         {
             // Convert item rectangle to be above the client area
             Rectangle currentRect = current.ClientRectangle;
@@ -648,6 +657,15 @@ public class ViewContextMenuManager : ViewManager
         // Find the next item above the current one
         IContextMenuTarget? newTarget = FindUpTarget(targets, current.ClientRectangle);
 
+        // Prefer revealing the previous logical item over focusing the scroll-up row
+        if (newTarget != null && IsMenuScrollButtonTarget(newTarget) && !IsMenuScrollButtonTarget(current))
+        {
+            if (TryOverflowScrollUp(current, targets, out IContextMenuTarget? scrolledTarget))
+            {
+                return scrolledTarget;
+            }
+        }
+
         // If nothing found, try scrolling an overflow column before wrapping
         if (newTarget == null && TryOverflowScrollUp(current, targets, out newTarget))
         {
@@ -655,7 +673,7 @@ public class ViewContextMenuManager : ViewManager
         }
 
         // If nothing found, then we must be at the top of the display
-        if (newTarget == null)
+        if (newTarget == null && !ShouldSuppressOverflowWrap(current, scrollDown: false))
         {
             // Convert item rectangle to be below the client area
             Rectangle currentRect = current.ClientRectangle;
@@ -859,14 +877,29 @@ public class ViewContextMenuManager : ViewManager
     /// Scroll all overflow columns in the requested direction.
     /// </summary>
     /// <param name="scrollUp">True to scroll up; otherwise scroll down.</param>
-    public void ScrollOverflow(bool scrollUp)
+    /// <returns>True if any column scrolled.</returns>
+    public bool ScrollOverflow(bool scrollUp)
     {
+        var scrolled = false;
         foreach (ViewLayoutContextMenuOverflowColumn column in OverflowColumns)
         {
-            column.Scroll(scrollUp);
+            scrolled |= column.Scroll(scrollUp);
         }
 
-        RequestOverflowLayout();
+        if (scrolled)
+        {
+            PerformOverflowNeedPaint();
+        }
+
+        return scrolled;
+    }
+
+    private void PerformOverflowNeedPaint()
+    {
+        if (AlignControl is VisualPopup popup)
+        {
+            popup.PerformNeedPaint(true);
+        }
     }
 
     private void EnsureOverflowTargetVisible()
@@ -900,10 +933,14 @@ public class ViewContextMenuManager : ViewManager
                 continue;
             }
 
-            column.Scroll(false);
-            RequestOverflowLayout();
+            if (!column.Scroll(false))
+            {
+                continue;
+            }
+
+            PerformOverflowNeedPaint();
             TargetList refreshed = ConstructKeyboardTargets(Root);
-            newTarget = FindDownTarget(refreshed, current.ClientRectangle);
+            newTarget = FindOverflowSiblingTarget(column, current, refreshed, 1);
             if (newTarget != null)
             {
                 return true;
@@ -923,10 +960,14 @@ public class ViewContextMenuManager : ViewManager
                 continue;
             }
 
-            column.Scroll(true);
-            RequestOverflowLayout();
+            if (!column.Scroll(true))
+            {
+                continue;
+            }
+
+            PerformOverflowNeedPaint();
             TargetList refreshed = ConstructKeyboardTargets(Root);
-            newTarget = FindUpTarget(refreshed, current.ClientRectangle);
+            newTarget = FindOverflowSiblingTarget(column, current, refreshed, -1);
             if (newTarget != null)
             {
                 return true;
@@ -937,12 +978,54 @@ public class ViewContextMenuManager : ViewManager
         return false;
     }
 
-    private void RequestOverflowLayout()
+    private static bool IsMenuScrollButtonTarget(IContextMenuTarget target) =>
+        target.GetActiveView() is ViewDrawMenuScrollButton;
+
+    private bool ShouldSuppressOverflowWrap(IContextMenuTarget current, bool scrollDown)
     {
-        if (AlignControl is VisualPopup popup)
+        foreach (ViewLayoutContextMenuOverflowColumn column in OverflowColumns)
         {
-            popup.PerformNeedPaint(true);
+            if (!column.ContainsTarget(current))
+            {
+                continue;
+            }
+
+            if (scrollDown ? column.HasMoreBelow(null) : column.HasMoreAbove)
+            {
+                return true;
+            }
         }
+
+        return false;
+    }
+
+    private static IContextMenuTarget? FindOverflowSiblingTarget(ViewLayoutContextMenuOverflowColumn column,
+        IContextMenuTarget current,
+        TargetList targets,
+        int offset)
+    {
+        var itemIndex = column.GetItemIndex(current.GetActiveView());
+        if (itemIndex < 0)
+        {
+            return null;
+        }
+
+        var siblingIndex = itemIndex + offset;
+        if (siblingIndex < 0 || siblingIndex >= column.ItemCount)
+        {
+            return null;
+        }
+
+        ViewBase siblingView = column.GetItemView(siblingIndex);
+        foreach (IContextMenuTarget target in targets)
+        {
+            if (target.GetActiveView() == siblingView)
+            {
+                return target;
+            }
+        }
+
+        return null;
     }
 
     private void OnDelayTimerExpire(object? sender, EventArgs e)

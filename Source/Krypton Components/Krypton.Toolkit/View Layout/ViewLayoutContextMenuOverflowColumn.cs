@@ -88,21 +88,29 @@ internal class ViewLayoutContextMenuOverflowColumn : ViewLayoutStack
     /// Scrolls the column up or down by one item.
     /// </summary>
     /// <param name="scrollUp">True to scroll up; otherwise scroll down.</param>
-    public void Scroll(bool scrollUp)
+    /// <returns>True if the visible range changed.</returns>
+    public bool Scroll(bool scrollUp)
     {
         if (scrollUp)
         {
-            if (_topIndex > 0)
+            if (_topIndex <= 0)
             {
-                _topIndex--;
-                Rebuild(null);
+                return false;
             }
-        }
-        else if (GetLastVisibleIndex(null) < _allItems.Count - 1)
-        {
-            _topIndex++;
+
+            _topIndex--;
             Rebuild(null);
+            return true;
         }
+
+        if (GetLastVisibleIndex(null) >= _allItems.Count - 1)
+        {
+            return false;
+        }
+
+        _topIndex++;
+        Rebuild(null);
+        return true;
     }
 
     /// <summary>
@@ -123,9 +131,9 @@ internal class ViewLayoutContextMenuOverflowColumn : ViewLayoutStack
             return false;
         }
 
+        var startTopIndex = _topIndex;
         var lineCount = scrollLines < 0 ? 1 : scrollLines;
         var scrollUp = delta > 0;
-        var topIndexBefore = _topIndex;
 
         for (var i = 0; i < lineCount; i++)
         {
@@ -149,7 +157,7 @@ internal class ViewLayoutContextMenuOverflowColumn : ViewLayoutStack
             }
         }
 
-        if (_topIndex != topIndexBefore)
+        if (_topIndex != startTopIndex)
         {
             Rebuild(null);
             return true;
@@ -221,6 +229,25 @@ internal class ViewLayoutContextMenuOverflowColumn : ViewLayoutStack
         ViewBase active = target.GetActiveView();
         return ContainsView(active);
     }
+
+    /// <summary>
+    /// Gets the logical item index for the provided view.
+    /// </summary>
+    /// <param name="view">View to locate.</param>
+    /// <returns>Item index, or -1 if not in this column.</returns>
+    public int GetItemIndex(ViewBase view) => _allItems.IndexOf(view);
+
+    /// <summary>
+    /// Gets the view for a logical item index.
+    /// </summary>
+    /// <param name="index">Item index.</param>
+    /// <returns>View at the index.</returns>
+    public ViewBase GetItemView(int index) => _allItems[index];
+
+    /// <summary>
+    /// Gets the number of items in this column.
+    /// </summary>
+    public int ItemCount => _allItems.Count;
     #endregion
 
     #region Layout

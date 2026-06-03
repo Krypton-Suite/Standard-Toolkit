@@ -452,6 +452,8 @@ namespace Krypton.Toolkit
                     case PI.WM_.NCRBUTTONDOWN:
                     case PI.WM_.NCMBUTTONDOWN:
                         return ProcessNonClientMouseDown(ref m);
+                    case PI.WM_.MOUSEWHEEL:
+                        return ProcessMouseWheel(ref m);
                 }
             }
 
@@ -460,6 +462,64 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
+        private bool ProcessMouseWheel(ref Message m)
+        {
+            if (CurrentPopup == null)
+            {
+                return false;
+            }
+
+            var screenPt = MouseWheelMessageToScreenPt(m);
+            var delta = (short)((ulong)m.WParam >> 16);
+
+            if (CurrentPopup.RectangleToScreen(CurrentPopup.ClientRectangle).Contains(screenPt) &&
+                CurrentPopup is VisualContextMenu contextMenu &&
+                contextMenu.ProcessWheelScroll(delta))
+            {
+                return true;
+            }
+
+            var popups = _stack.ToArray();
+            for (var i = popups.Length - 1; i >= 0; i--)
+            {
+                VisualPopup popup = popups[i];
+                if (popup.IsDisposed)
+                {
+                    continue;
+                }
+
+                if (!popup.RectangleToScreen(popup.ClientRectangle).Contains(screenPt))
+                {
+                    continue;
+                }
+
+                if (popup is VisualContextMenu stackedMenu && stackedMenu.ProcessWheelScroll(delta))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static Point MouseWheelMessageToScreenPt(Message m)
+        {
+            var x = PI.LOWORD((int)m.LParam);
+            var y = PI.HIWORD((int)m.LParam);
+
+            if (x >= 32767)
+            {
+                x -= 65536;
+            }
+
+            if (y >= 32767)
+            {
+                y -= 65536;
+            }
+
+            return new Point(x, y);
+        }
+
         private bool ProcessKeyboard(ref Message m)
         {
             // If focus is not inside the current popup...
