@@ -389,6 +389,28 @@ public class VisualContextMenu : VisualPopup
     }
 
     /// <summary>
+    /// Processes Windows messages.
+    /// </summary>
+    /// <param name="m">The Windows Message to process.</param>
+    protected override void WndProc(ref Message m)
+    {
+        if (m.Msg == PI.WM_.MOUSEWHEEL)
+        {
+            var screenPt = new Point(PI.LOWORD((int)m.LParam), PI.HIWORD((int)m.LParam));
+            if (ClientRectangle.Contains(PointToClient(screenPt)))
+            {
+                var delta = (short)PI.HIWORD((int)m.WParam);
+                if (ScrollMenuByWheel(delta))
+                {
+                    return;
+                }
+            }
+        }
+
+        base.WndProc(ref m);
+    }
+
+    /// <summary>
     /// Raises the MouseWheel event.
     /// </summary>
     /// <param name="e">A MouseEventArgs that contains the event data.</param>

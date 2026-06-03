@@ -444,6 +444,8 @@ public class VisualPopupManager : IMessageFilter
                 case PI.WM_.MOUSEMOVE:
                 case PI.WM_.NCMOUSEMOVE:
                     return ProcessMouseMove(ref m);
+                case PI.WM_.MOUSEWHEEL:
+                    return ProcessMouseWheel(ref m);
                 case PI.WM_.LBUTTONDOWN:
                 case PI.WM_.RBUTTONDOWN:
                 case PI.WM_.MBUTTONDOWN:
@@ -603,6 +605,28 @@ public class VisualPopupManager : IMessageFilter
         }
 
         return processed;
+    }
+
+    private bool ProcessMouseWheel(ref Message m)
+    {
+        if (CurrentPopup is not VisualContextMenu contextMenu)
+        {
+            return false;
+        }
+
+        var screenPt = new Point(PI.LOWORD((int)m.LParam), PI.HIWORD((int)m.LParam));
+        if (!contextMenu.ClientRectangle.Contains(contextMenu.PointToClient(screenPt)))
+        {
+            return false;
+        }
+
+        if (m.HWnd == contextMenu.Handle)
+        {
+            return false;
+        }
+
+        PI.SendMessage(contextMenu.Handle, m.Msg, m.WParam, m.LParam);
+        return true;
     }
 
     private bool ProcessMouseMove(ref Message m)

@@ -88,21 +88,29 @@ internal class ViewLayoutContextMenuOverflowColumn : ViewLayoutStack
     /// Scrolls the column up or down by one item.
     /// </summary>
     /// <param name="scrollUp">True to scroll up; otherwise scroll down.</param>
-    public void Scroll(bool scrollUp)
+    /// <returns>True if the visible range changed.</returns>
+    public bool Scroll(bool scrollUp)
     {
         if (scrollUp)
         {
-            if (_topIndex > 0)
+            if (_topIndex <= 0)
             {
-                _topIndex--;
-                Rebuild(null);
+                return false;
             }
-        }
-        else if (GetLastVisibleIndex(null) < _allItems.Count - 1)
-        {
-            _topIndex++;
+
+            _topIndex--;
             Rebuild(null);
+            return true;
         }
+
+        if (GetLastVisibleIndexCore(null) >= _allItems.Count - 1)
+        {
+            return false;
+        }
+
+        _topIndex++;
+        Rebuild(null);
+        return true;
     }
 
     /// <summary>
@@ -123,9 +131,9 @@ internal class ViewLayoutContextMenuOverflowColumn : ViewLayoutStack
             return false;
         }
 
+        var startTopIndex = _topIndex;
         var lineCount = scrollLines < 0 ? 1 : scrollLines;
         var scrollUp = delta > 0;
-        var startIndex = _topIndex;
 
         for (var i = 0; i < lineCount; i++)
         {
@@ -149,7 +157,7 @@ internal class ViewLayoutContextMenuOverflowColumn : ViewLayoutStack
             }
         }
 
-        if (startIndex != _topIndex)
+        if (_topIndex != startTopIndex)
         {
             Rebuild(null);
             return true;
@@ -159,12 +167,19 @@ internal class ViewLayoutContextMenuOverflowColumn : ViewLayoutStack
     }
 
     /// <summary>
+    /// Gets the index of the last menu item visible in the column.
+    /// </summary>
+    /// <param name="context">Optional layout context for measurement.</param>
+    /// <returns>Last visible item index.</returns>
+    public int GetLastVisibleIndex(ViewLayoutContext? context) => GetLastVisibleIndexCore(context);
+
+    /// <summary>
     /// Gets a value indicating whether more items exist below the visible range.
     /// </summary>
     /// <param name="context">Optional layout context for measurement.</param>
     /// <returns>True if more items can be scrolled into view.</returns>
     public bool HasMoreBelow(ViewLayoutContext? context) =>
-        GetLastVisibleIndex(context) < _allItems.Count - 1;
+        GetLastVisibleIndexCore(context) < _allItems.Count - 1;
 
     /// <summary>
     /// Gets a value indicating whether items exist above the visible range.
@@ -191,7 +206,7 @@ internal class ViewLayoutContextMenuOverflowColumn : ViewLayoutStack
             return;
         }
 
-        var lastVisible = GetLastVisibleIndex(context);
+        var lastVisible = GetLastVisibleIndexCore(context);
         if (index > lastVisible)
         {
             _topIndex = index;
@@ -220,6 +235,43 @@ internal class ViewLayoutContextMenuOverflowColumn : ViewLayoutStack
     {
         ViewBase active = target.GetActiveView();
         return ContainsView(active);
+    }
+
+    /// <summary>
+    /// Gets the index of a menu item view within the column.
+    /// </summary>
+    /// <param name="view">View to locate.</param>
+    /// <returns>Item index, or -1 if not found.</returns>
+    public int GetItemIndex(ViewBase view) => _allItems.IndexOf(view);
+
+    /// <summary>
+    /// Gets the view for a menu item at the specified index.
+    /// </summary>
+    /// <param name="index">Item index.</param>
+    /// <returns>Item view, or null if out of range.</returns>
+    public ViewBase? GetItemView(int index) =>
+        index >= 0 && index < _allItems.Count ? _allItems[index] : null;
+
+    /// <summary>
+    /// Gets the index of the first visible menu item.
+    /// </summary>
+    public int TopIndex => _topIndex;
+
+    /// <summary>
+    /// Determines if a menu item is within the currently visible range.
+    /// </summary>
+    /// <param name="view">View to test.</param>
+    /// <param name="context">Optional layout context for measurement.</param>
+    /// <returns>True if the item is visible without scrolling.</returns>
+    public bool IsItemVisible(ViewBase view, ViewLayoutContext? context)
+    {
+        var index = GetItemIndex(view);
+        if (index < 0)
+        {
+            return true;
+        }
+
+        return index >= _topIndex && index <= GetLastVisibleIndexCore(context);
     }
     #endregion
 
@@ -304,7 +356,7 @@ internal class ViewLayoutContextMenuOverflowColumn : ViewLayoutStack
         return total + (scrollHeight * 2) > _maxContentHeight;
     }
 
-    private int GetLastVisibleIndex(ViewLayoutContext? context)
+    private int GetLastVisibleIndexCore(ViewLayoutContext? context)
     {
         if (!IsOverflowActive(context))
         {
