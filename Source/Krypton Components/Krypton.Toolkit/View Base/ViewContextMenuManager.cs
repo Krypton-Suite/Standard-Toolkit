@@ -27,6 +27,13 @@ public class ViewContextMenuManager : ViewManager
     private System.Windows.Forms.Timer? _itemDelayTimer;
     #endregion
 
+    #region Public
+    /// <summary>
+    /// Gets and sets the overflow columns used for scroll item display.
+    /// </summary>
+    internal List<ViewLayoutContextMenuOverflowColumn> OverflowColumns { get; set; } = [];
+    #endregion
+
     #region Identity
     /// <summary>
     /// Initialize a new instance of the ViewContextMenuManager class.
@@ -108,6 +115,7 @@ public class ViewContextMenuManager : ViewManager
                 }
 
                 _target.ShowTarget();
+                EnsureOverflowTargetVisible();
             }
         }
     }
@@ -146,6 +154,7 @@ public class ViewContextMenuManager : ViewManager
 
         // Tell new target to draw as highlighted and start delay timer
         _target?.ShowTarget();
+        EnsureOverflowTargetVisible();
     }
 
     /// <summary>
@@ -570,6 +579,12 @@ public class ViewContextMenuManager : ViewManager
         // Find the next item below the current one
         IContextMenuTarget? newTarget = FindDownTarget(targets, current.ClientRectangle);
 
+        // If nothing found, try scrolling an overflow column before wrapping
+        if (newTarget == null && TryOverflowScrollDown(current, targets, out newTarget))
+        {
+            return newTarget;
+        }
+
         // If nothing found, then we must be at the bottom of the display
         if (newTarget == null)
         {
@@ -632,6 +647,12 @@ public class ViewContextMenuManager : ViewManager
     {
         // Find the next item above the current one
         IContextMenuTarget? newTarget = FindUpTarget(targets, current.ClientRectangle);
+
+        // If nothing found, try scrolling an overflow column before wrapping
+        if (newTarget == null && TryOverflowScrollUp(current, targets, out newTarget))
+        {
+            return newTarget;
+        }
 
         // If nothing found, then we must be at the top of the display
         if (newTarget == null)
@@ -832,6 +853,84 @@ public class ViewContextMenuManager : ViewManager
         double vertDistance = Math.Abs(((source.Top + source.Bottom) / 2) - ((compare.Top + compare.Bottom) / 2));
         var distance = Math.Sqrt((horzDistance * horzDistance) + (vertDistance * vertDistance));
         return distance;
+    }
+
+    /// <summary>
+    /// Scroll all overflow columns in the requested direction.
+    /// </summary>
+    /// <param name="scrollUp">True to scroll up; otherwise scroll down.</param>
+    public void ScrollOverflow(bool scrollUp)
+    {
+        foreach (ViewLayoutContextMenuOverflowColumn column in OverflowColumns)
+        {
+            column.Scroll(scrollUp);
+        }
+    }
+
+    private void EnsureOverflowTargetVisible()
+    {
+        if (_target == null || OverflowColumns.Count == 0)
+        {
+            return;
+        }
+
+        if (AlignControl is not VisualPopup popup)
+        {
+            return;
+        }
+
+        using var context = new ViewLayoutContext(this, AlignControl, AlignControl, popup.Renderer);
+        foreach (ViewLayoutContextMenuOverflowColumn column in OverflowColumns)
+        {
+            if (column.ContainsTarget(_target))
+            {
+                column.EnsureVisible(_target.GetActiveView(), context);
+            }
+        }
+    }
+
+    private bool TryOverflowScrollDown(IContextMenuTarget current, TargetList targets, out IContextMenuTarget? newTarget)
+    {
+        foreach (ViewLayoutContextMenuOverflowColumn column in OverflowColumns)
+        {
+            if (!column.ContainsTarget(current) || !column.HasMoreBelow(null))
+            {
+                continue;
+            }
+
+            column.Scroll(false);
+            TargetList refreshed = ConstructKeyboardTargets(Root);
+            newTarget = FindDownTarget(refreshed, current.ClientRectangle);
+            if (newTarget != null)
+            {
+                return true;
+            }
+        }
+
+        newTarget = null;
+        return false;
+    }
+
+    private bool TryOverflowScrollUp(IContextMenuTarget current, TargetList targets, out IContextMenuTarget? newTarget)
+    {
+        foreach (ViewLayoutContextMenuOverflowColumn column in OverflowColumns)
+        {
+            if (!column.ContainsTarget(current) || !column.HasMoreAbove)
+            {
+                continue;
+            }
+
+            column.Scroll(true);
+            TargetList refreshed = ConstructKeyboardTargets(Root);
+            newTarget = FindUpTarget(refreshed, current.ClientRectangle);
+            if (newTarget != null)
+            {
+                return true;
+            }
+        }
+
+        newTarget = null;
+        return false;
     }
 
     private void OnDelayTimerExpire(object? sender, EventArgs e)
