@@ -18,15 +18,59 @@
     <GenerateResourceWarnOnBinaryFormatterUse>false</GenerateResourceWarnOnBinaryFormatterUse>
   </PropertyGroup>
 
+  <Choose>
+    <When Condition="'$(Configuration)' == 'Nightly' Or '$(Configuration)' == 'Canary' Or '$(Configuration)' == 'Debug'">
+      <PropertyGroup>
+        <TargetFrameworks Condition="'$(ExcludeVs2019UnsupportedTargetFrameworks)' == 'true'">net472;net48;net481</TargetFrameworks>
+        <TargetFrameworks Condition="'$(ExcludeVs2019UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' == 'true'">net472;net48;net481;net8.0-windows;net9.0-windows</TargetFrameworks>
+        <TargetFrameworks Condition="'$(ExcludeVs2019UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true'">net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
+      </PropertyGroup>
+    </When>
+    <Otherwise>
+      <PropertyGroup>
+        <TargetFrameworks Condition="'$(ExcludeVs2019UnsupportedTargetFrameworks)' == 'true'">net472;net48;net481</TargetFrameworks>
+        <TargetFrameworks Condition="'$(ExcludeVs2019UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' == 'true'">net472;net48;net481;net8.0-windows;net9.0-windows</TargetFrameworks>
+        <TargetFrameworks Condition="'$(ExcludeVs2019UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true'">net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
+
+        <TargetFrameworks Condition="'$(TFMs)' == 'all' And '$(ExcludeVs2019UnsupportedTargetFrameworks)' == 'true'">net472;net48;net481</TargetFrameworks>
+        <TargetFrameworks Condition="'$(TFMs)' == 'all' And '$(ExcludeVs2019UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' == 'true'">net472;net48;net481;net8.0-windows;net9.0-windows</TargetFrameworks>
+        <TargetFrameworks Condition="'$(TFMs)' == 'all' And '$(ExcludeVs2019UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true'">net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
+      </PropertyGroup>
+    </Otherwise>
+  </Choose>
+
+  <PropertyGroup>
+    <_NavigatorUtilitiesProject>$(MSBuildThisFileDirectory)..\Krypton.Navigator.Utilities\Krypton.Navigator.Utilities.csproj</_NavigatorUtilitiesProject>
+    <_ToolkitUtilitiesProject>$(MSBuildThisFileDirectory)..\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj</_ToolkitUtilitiesProject>
+    <_JumpListProject>$(MSBuildThisFileDirectory)..\Krypton.Toolkit.JumpList\Krypton.Toolkit.JumpList.csproj</_JumpListProject>
+    <HasOptionalTestProjects>false</HasOptionalTestProjects>
+    <HasOptionalTestProjects Condition="Exists('$(_NavigatorUtilitiesProject)') And Exists('$(_ToolkitUtilitiesProject)') And Exists('$(_JumpListProject)')">true</HasOptionalTestProjects>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(HasOptionalTestProjects)' == 'true'">
+    <DefineConstants>$(DefineConstants);HAS_OPTIONAL_TEST_PROJECTS</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Krypton.Docking\Krypton.Docking 2022.csproj" />
-    <ProjectReference Include="..\Krypton.Navigator.Utilities\Krypton.Navigator.Utilities.csproj" />
     <ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
     <ProjectReference Include="..\Krypton.Ribbon\Krypton.Ribbon 2022.csproj" />
-    <ProjectReference Include="..\Krypton.Toolkit.JumpList\Krypton.Toolkit.JumpList.csproj" />
     <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
-    <ProjectReference Include="..\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj" />
     <ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="Exists('$(_NavigatorUtilitiesProject)')">
+    <ProjectReference Include="$(_NavigatorUtilitiesProject)" />
+  </ItemGroup>
+  <ItemGroup Condition="Exists('$(_JumpListProject)')">
+    <ProjectReference Include="$(_JumpListProject)" />
+  </ItemGroup>
+  <ItemGroup Condition="Exists('$(_ToolkitUtilitiesProject)')">
+    <ProjectReference Include="$(_ToolkitUtilitiesProject)" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(HasOptionalTestProjects)' == 'true'">
+    <Compile Include="StartScreen.OptionalProjectDemos.cs" />
   </ItemGroup>
 
   <!-- WebView2: prefer Lib/WebView2 (matches Krypton.Toolkit.Utilities), fallback to NuGet when DLLs missing -->
