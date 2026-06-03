@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -27,11 +27,11 @@ public class ViewContextMenuManager : ViewManager
     private System.Windows.Forms.Timer? _itemDelayTimer;
     #endregion
 
-    #region OverflowColumns
+    #region Public
     /// <summary>
-    /// Gets or sets overflow columns used when the menu height is constrained.
+    /// Gets and sets the overflow columns used for scroll item display.
     /// </summary>
-    internal List<ViewLayoutContextMenuOverflowColumn> OverflowColumns { get; set; } = new List<ViewLayoutContextMenuOverflowColumn>();
+    internal List<ViewLayoutContextMenuOverflowColumn> OverflowColumns { get; set; } = [];
     #endregion
 
     #region Identity
@@ -115,7 +115,7 @@ public class ViewContextMenuManager : ViewManager
                 }
 
                 _target.ShowTarget();
-                EnsureOverflowTargetVisible(_target);
+                EnsureOverflowTargetVisible();
             }
         }
     }
@@ -154,6 +154,7 @@ public class ViewContextMenuManager : ViewManager
 
         // Tell new target to draw as highlighted and start delay timer
         _target?.ShowTarget();
+        EnsureOverflowTargetVisible();
     }
 
     /// <summary>
@@ -206,10 +207,8 @@ public class ViewContextMenuManager : ViewManager
         // Find the next appropriate target
         IContextMenuTarget? newTarget = _target == null ? FindBottomLeftTarget(targets) : FindUpTarget(targets, _target);
 
-        if (newTarget == null && _target != null && TryOverflowScrollUp(_target, targets, out newTarget))
-        {
-        }
-        else if ((newTarget != null) && (newTarget != _target))
+        // If we found a new target, then make it the current target
+        if ((newTarget != null) && (newTarget != _target))
         {
             SetTarget(newTarget, false);
         }
@@ -225,10 +224,8 @@ public class ViewContextMenuManager : ViewManager
         // Find the next appropriate target
         IContextMenuTarget? newTarget = _target == null ? FindTopLeftTarget(targets) : FindDownTarget(targets, _target);
 
-        if (newTarget == null && _target != null && TryOverflowScrollDown(_target, targets, out newTarget))
-        {
-        }
-        else if ((newTarget != null) && (newTarget != _target))
+        // If we found a new target, then make it the current target
+        if ((newTarget != null) && (newTarget != _target))
         {
             SetTarget(newTarget, false);
         }
@@ -582,6 +579,12 @@ public class ViewContextMenuManager : ViewManager
         // Find the next item below the current one
         IContextMenuTarget? newTarget = FindDownTarget(targets, current.ClientRectangle);
 
+        // If nothing found, try scrolling an overflow column before wrapping
+        if (newTarget == null && TryOverflowScrollDown(current, targets, out newTarget))
+        {
+            return newTarget;
+        }
+
         // If nothing found, then we must be at the bottom of the display
         if (newTarget == null)
         {
@@ -644,6 +647,12 @@ public class ViewContextMenuManager : ViewManager
     {
         // Find the next item above the current one
         IContextMenuTarget? newTarget = FindUpTarget(targets, current.ClientRectangle);
+
+        // If nothing found, try scrolling an overflow column before wrapping
+        if (newTarget == null && TryOverflowScrollUp(current, targets, out newTarget))
+        {
+            return newTarget;
+        }
 
         // If nothing found, then we must be at the top of the display
         if (newTarget == null)
@@ -846,6 +855,96 @@ public class ViewContextMenuManager : ViewManager
         return distance;
     }
 
+    /// <summary>
+    /// Scroll all overflow columns in the requested direction.
+    /// </summary>
+    /// <param name="scrollUp">True to scroll up; otherwise scroll down.</param>
+    public void ScrollOverflow(bool scrollUp)
+    {
+        foreach (ViewLayoutContextMenuOverflowColumn column in OverflowColumns)
+        {
+            column.Scroll(scrollUp);
+        }
+
+        RequestOverflowLayout();
+    }
+
+    private void EnsureOverflowTargetVisible()
+    {
+        if (_target == null || OverflowColumns.Count == 0)
+        {
+            return;
+        }
+
+        if (AlignControl is not VisualPopup popup)
+        {
+            return;
+        }
+
+        using var context = new ViewLayoutContext(this, AlignControl, AlignControl, popup.Renderer);
+        foreach (ViewLayoutContextMenuOverflowColumn column in OverflowColumns)
+        {
+            if (column.ContainsTarget(_target))
+            {
+                column.EnsureVisible(_target.GetActiveView(), context);
+            }
+        }
+    }
+
+    private bool TryOverflowScrollDown(IContextMenuTarget current, TargetList targets, out IContextMenuTarget? newTarget)
+    {
+        foreach (ViewLayoutContextMenuOverflowColumn column in OverflowColumns)
+        {
+            if (!column.ContainsTarget(current) || !column.HasMoreBelow(null))
+            {
+                continue;
+            }
+
+            column.Scroll(false);
+            RequestOverflowLayout();
+            TargetList refreshed = ConstructKeyboardTargets(Root);
+            newTarget = FindDownTarget(refreshed, current.ClientRectangle);
+            if (newTarget != null)
+            {
+                return true;
+            }
+        }
+
+        newTarget = null;
+        return false;
+    }
+
+    private bool TryOverflowScrollUp(IContextMenuTarget current, TargetList targets, out IContextMenuTarget? newTarget)
+    {
+        foreach (ViewLayoutContextMenuOverflowColumn column in OverflowColumns)
+        {
+            if (!column.ContainsTarget(current) || !column.HasMoreAbove)
+            {
+                continue;
+            }
+
+            column.Scroll(true);
+            RequestOverflowLayout();
+            TargetList refreshed = ConstructKeyboardTargets(Root);
+            newTarget = FindUpTarget(refreshed, current.ClientRectangle);
+            if (newTarget != null)
+            {
+                return true;
+            }
+        }
+
+        newTarget = null;
+        return false;
+    }
+
+    private void RequestOverflowLayout()
+    {
+        if (AlignControl is VisualPopup popup)
+        {
+            popup.PerformNeedPaint(true);
+        }
+    }
+
     private void OnDelayTimerExpire(object? sender, EventArgs e)
     {
         if (_itemDelayTimer != null)
@@ -873,108 +972,6 @@ public class ViewContextMenuManager : ViewManager
                 }
             }
         }
-    }
-
-    private IRenderer? GetMenuRenderer() => Control is VisualPopup popup ? popup.Renderer : null;
-
-    private void EnsureOverflowTargetVisible(IContextMenuTarget target)
-    {
-        if (OverflowColumns.Count == 0)
-        {
-            return;
-        }
-
-        IRenderer? renderer = GetMenuRenderer();
-        if (renderer == null)
-        {
-            return;
-        }
-
-        ViewBase view = target.GetActiveView();
-        using var context = new ViewLayoutContext(this, Control, AlignControl, renderer);
-        foreach (ViewLayoutContextMenuOverflowColumn column in OverflowColumns)
-        {
-            if (column.ContainsView(view))
-            {
-                column.EnsureVisible(view, context);
-                Layout(renderer);
-                return;
-            }
-        }
-    }
-
-    private bool TryOverflowScrollUp(IContextMenuTarget current, TargetList targets, out IContextMenuTarget? newTarget)
-    {
-        newTarget = null;
-        foreach (ViewLayoutContextMenuOverflowColumn column in OverflowColumns)
-        {
-            if (!column.ContainsTarget(current))
-            {
-                continue;
-            }
-
-            if (column.HasMoreAbove)
-            {
-                column.Scroll(true);
-                IRenderer? renderer = GetMenuRenderer();
-                if (renderer != null)
-                {
-                    Layout(renderer);
-                }
-
-                EnsureOverflowTargetVisible(current);
-                newTarget = current;
-                return true;
-            }
-
-            foreach (IContextMenuTarget target in targets)
-            {
-                if (target.GetActiveView() is ViewDrawMenuScrollButton { ScrollUp: true })
-                {
-                    newTarget = target;
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    private bool TryOverflowScrollDown(IContextMenuTarget current, TargetList targets, out IContextMenuTarget? newTarget)
-    {
-        newTarget = null;
-        foreach (ViewLayoutContextMenuOverflowColumn column in OverflowColumns)
-        {
-            if (!column.ContainsTarget(current))
-            {
-                continue;
-            }
-
-            if (column.HasMoreBelow(null))
-            {
-                column.Scroll(false);
-                IRenderer? renderer = GetMenuRenderer();
-                if (renderer != null)
-                {
-                    Layout(renderer);
-                }
-
-                EnsureOverflowTargetVisible(current);
-                newTarget = current;
-                return true;
-            }
-
-            foreach (IContextMenuTarget target in targets)
-            {
-                if (target.GetActiveView() is ViewDrawMenuScrollButton { ScrollUp: false })
-                {
-                    newTarget = target;
-                    return true;
-                }
-            }
-        }
-
-        return false;
     }
 
     #endregion

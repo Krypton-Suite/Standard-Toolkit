@@ -1,12 +1,9 @@
 #region BSD License
 /*
- * 
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
+ *
  */
 #endregion
 
@@ -18,7 +15,7 @@ namespace Krypton.Toolkit;
 internal class ViewLayoutContextMenuOverflowColumn : ViewLayoutStack
 {
     #region Instance Fields
-    private readonly List<ViewBase> _allItems = new List<ViewBase>();
+    private readonly List<ViewBase> _allItems = [];
     private readonly IContextMenuProvider _provider;
     private readonly ViewContextMenuManager _viewManager;
     private readonly NeedPaintHandler _needPaint;
@@ -128,6 +125,7 @@ internal class ViewLayoutContextMenuOverflowColumn : ViewLayoutStack
 
         var lineCount = scrollLines < 0 ? 1 : scrollLines;
         var scrollUp = delta > 0;
+        var startIndex = _topIndex;
 
         for (var i = 0; i < lineCount; i++)
         {
@@ -151,7 +149,7 @@ internal class ViewLayoutContextMenuOverflowColumn : ViewLayoutStack
             }
         }
 
-        if (scrollUp || HasMoreBelow(null))
+        if (startIndex != _topIndex)
         {
             Rebuild(null);
             return true;

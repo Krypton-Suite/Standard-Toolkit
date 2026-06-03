@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -66,6 +66,36 @@ public class ViewControl : Control
 
         // Remember incoming references
         _rootControl = rootControl;
+
+        // Create delegate so child elements can request a repaint
+        NeedPaintDelegate = OnNeedPaint;
+    }
+
+    /// <summary>
+    /// Initialize a new instance of the ViewControl class.
+    /// </summary>
+    /// <param name="rootPopup">Top level visual popup.</param>
+    public ViewControl([DisallowNull] VisualPopup rootPopup)
+    {
+        Debug.Assert(rootPopup != null);
+
+        // We use double buffering to reduce drawing flicker
+        SetStyle(ControlStyles.OptimizedDoubleBuffer |
+                 ControlStyles.AllPaintingInWmPaint |
+                 ControlStyles.UserPaint, true);
+
+        // We need to repaint entire control whenever resized
+        SetStyle(ControlStyles.ResizeRedraw, true);
+
+        // We are not selectable
+        SetStyle(ControlStyles.Selectable, false);
+
+        // Default
+        TransparentBackground = false;
+        InDesignMode = false;
+
+        // Remember incoming references
+        _rootPopup = rootPopup;
 
         // Create delegate so child elements can request a repaint
         NeedPaintDelegate = OnNeedPaint;
