@@ -26,6 +26,19 @@ This repository uses a **warn-then-fail** branch policy enforced in CI ([#3610](
 
 **Rollout:** leave enforce off while teams fix existing PRs, then set `BRANCH_POLICY_ENFORCE=true` and add **PR branch policy** as a required status check on protected branches.
 
+## Deploy on `master` first
+
+These workflows and config files must be present on the **default branch (`master`)**, not only on `alpha`:
+
+- `.github/workflows/sync-github-from-master.yml`
+- `.github/workflows/pr-branch-policy.yml`
+- `.github/branch-policy.json`
+- `.github/scripts/Invoke-BranchPolicyCheck.ps1`
+
+GitHub runs scheduled workflows and uses the default-branch copy of workflow definitions. If a PR merges this feature **only** into `alpha`, **Sync .github from master** does not run on the schedule until the same `.github/` tree exists on `master` (merge, cherry-pick, or a `.github/`-only PR `master` → downstream is not the bootstrap path — use **master** directly or **Sync** after `master` has the files).
+
+If `alpha` is later replaced (e.g. with `alpha-recovered`), commits that exist only on the old `alpha` tip can be lost unless this work is also on the recovered line (replay/cherry-pick the same commits).
+
 ## Automated `.github` sync
 
 Workflow **Sync .github from master** (`.github/workflows/sync-github-from-master.yml`) opens PRs that copy only `.github/` from `master` onto configured release branches.
