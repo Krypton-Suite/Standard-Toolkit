@@ -14,7 +14,7 @@ This repository uses a **warn-then-fail** branch policy enforced in CI ([#3610](
 | `alpha` → `alpha-backup` | Yes (automated backup sync) |
 | Release line → `master` | **No** (do not merge `alpha` / `canary` / LTS into `master` via PR) |
 
-Downstream branches must **contain** `master` in Git history (they may still differ in product code). If CI reports “behind master”, merge `master` into the target branch or merge an open **Sync .github from master** PR.
+**Workflow/CI alignment** with `master` is by **file content** under `.github/`, not by Git ancestry. Use **Sync .github from master** (or a manual PR that only touches `.github/`). Release lines may legitimately diverge from `master` in product history; policy does **not** require merging `master` into every downstream branch.
 
 ## Warn vs fail
 
@@ -30,11 +30,7 @@ Downstream branches must **contain** `master` in Git history (they may still dif
 
 Workflow **Sync .github from master** (`.github/workflows/sync-github-from-master.yml`) opens PRs that copy only `.github/` from `master` onto configured release branches.
 
-Targets include `alpha`, `canary`, `gold`, `prerelease`, `V105-LTS`, `V85-LTS`, and `V110` (see `syncGithubFromMasterTargets` in `branch-policy.json`).
-
-## Behind-master report (optional)
-
-Workflow **Branch behind master report** runs weekly (report-only, never fails). Disable with `BRANCH_BEHIND_MASTER_REPORT_DISABLED=true`.
+Targets include `alpha`, `canary`, `gold`, `prerelease`, `V105-LTS`, `V85-LTS`, and `V110` (see `syncGithubFromMasterTargets` in `branch-policy.json`). The sync uses `git checkout origin/master -- .github` on the target branch tip (path copy, not a merge of `master`).
 
 ## Required checks on `master` vs release branches
 
@@ -49,7 +45,7 @@ When enforcing policy, require **PR branch policy** on release-branch rulesets o
 
 Machine-readable rules: [branch-policy.json](branch-policy.json)
 
-Edit `downstreamBranches`, `syncGithubFromMasterTargets`, and `mustContainMasterAncestor` there when adding a new release line.
+Edit `downstreamBranches` and `syncGithubFromMasterTargets` there when adding a new release line.
 
 ## Branch names
 

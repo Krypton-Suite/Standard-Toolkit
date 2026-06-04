@@ -35,11 +35,9 @@ jobs:
             echo "enabled=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Checkout (merge commit, full history for ancestry)
+      - name: Checkout
         if: steps.kill_switch.outputs.enabled == 'true'
         uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
 
       - name: List changed files
         if: steps.kill_switch.outputs.enabled == 'true'
