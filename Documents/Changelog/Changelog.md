@@ -45,6 +45,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#3678](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3678), fixed net4x TestForm runtime deployment for preserialized resource dependencies used by generated resources.
 * Implemented [#3658](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3658), add accessibility support for custom drawn Krypton controls and editable control ButtonSpecs.
 * Implemented [#804](https://github.com/Krypton-Suite/Standard-Toolkit/issues/804), `KryptonDataGridView` external corner rounding via `StateNormal.Border.Rounding` (and `StateDisabled.Border`, same as other Krypton controls; `-1` inherits/disables). Clips the data area, paints a rounded outer border, draws rounded backgrounds/borders on outer corner cells, and detaches native scrollbars to themed `Krypton` scrollbars in the gutter while rounding is active. `PaletteDataGridViewAll` exposes `Border` in the designer (replacing `PaletteBorder` visibility).
 * Resolved [#2862](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2862), Fixed flicker in VisualForm resizing for .net 10+
