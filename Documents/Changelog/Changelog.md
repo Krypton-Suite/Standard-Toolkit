@@ -47,6 +47,7 @@
 
 ## 2026-07-20 - Build 2607 (Version 105-LTS - Patch 3) - July 2026
 
+* Implemented [#3672](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3672), Drop support for `SLN` and move to `SLNX` solution files
 * Resolved [#2862](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2862), Fixed VisualForm resize flicker in .NET 10+
 * Implemented [#3550](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3550), Auto complete issues
 * Resolved [#3580](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3580), Fix docked header autosizing
