@@ -2236,6 +2236,8 @@ public abstract class PaletteBase : Component
     {
         for (var owner = GetType(); owner != null; owner = owner.BaseType)
         {
+            System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(owner.TypeHandle);
+
             var key = (owner, enumType, index);
 
             if (_colorLut.ContainsKey(key))
