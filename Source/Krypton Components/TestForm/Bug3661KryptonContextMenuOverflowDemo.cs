@@ -141,17 +141,6 @@ public partial class Bug3661KryptonContextMenuOverflowDemo : KryptonForm
                 items.Items.Add(new KryptonContextMenuSeparator());
             }
 
-            if (i == 5)
-            {
-                items.Items.Add(new KryptonContextMenuCheckBox("Sample check box"));
-            }
-
-            if (i == 10)
-            {
-                items.Items.Add(new KryptonContextMenuRadioButton("Radio option A"));
-                items.Items.Add(new KryptonContextMenuRadioButton("Radio option B"));
-            }
-
             var item = new KryptonContextMenuItem($"Mixed item {i}")
             {
                 ExtraText = i % 3 == 0 ? "Extra text column" : string.Empty,

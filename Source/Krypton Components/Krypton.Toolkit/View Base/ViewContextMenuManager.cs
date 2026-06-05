@@ -928,7 +928,7 @@ public class ViewContextMenuManager : ViewManager
     {
         foreach (ViewLayoutContextMenuOverflowColumn column in OverflowColumns)
         {
-            if (!column.ContainsTarget(current) || !column.HasMoreBelow(null))
+            if (!column.ContainsTarget(current) || !HasNextOverflowItem(column, current) || !column.HasMoreBelow(null))
             {
                 continue;
             }
@@ -955,7 +955,7 @@ public class ViewContextMenuManager : ViewManager
     {
         foreach (ViewLayoutContextMenuOverflowColumn column in OverflowColumns)
         {
-            if (!column.ContainsTarget(current) || !column.HasMoreAbove)
+            if (!column.ContainsTarget(current) || !HasPreviousOverflowItem(column, current) || !column.HasMoreAbove)
             {
                 continue;
             }
@@ -990,13 +990,27 @@ public class ViewContextMenuManager : ViewManager
                 continue;
             }
 
-            if (scrollDown ? column.HasMoreBelow(null) : column.HasMoreAbove)
+            if (scrollDown
+                    ? !HasNextOverflowItem(column, current) || column.HasMoreBelow(null)
+                    : !HasPreviousOverflowItem(column, current) || column.HasMoreAbove)
             {
                 return true;
             }
         }
 
         return false;
+    }
+
+    private static bool HasNextOverflowItem(ViewLayoutContextMenuOverflowColumn column, IContextMenuTarget current)
+    {
+        var itemIndex = column.GetItemIndex(current.GetActiveView());
+        return itemIndex >= 0 && itemIndex < column.ItemCount - 1;
+    }
+
+    private static bool HasPreviousOverflowItem(ViewLayoutContextMenuOverflowColumn column, IContextMenuTarget current)
+    {
+        var itemIndex = column.GetItemIndex(current.GetActiveView());
+        return itemIndex > 0;
     }
 
     private static IContextMenuTarget? FindOverflowSiblingTarget(ViewLayoutContextMenuOverflowColumn column,

@@ -255,7 +255,14 @@ internal class ViewLayoutContextMenuOverflowColumn : ViewLayoutStack
     public override Size GetPreferredSize(ViewLayoutContext context)
     {
         Rebuild(context);
-        return base.GetPreferredSize(context);
+        var preferredSize = base.GetPreferredSize(context);
+
+        if (IsOverflowActive(context))
+        {
+            preferredSize.Width = Math.Max(preferredSize.Width, GetWidestItemWidth(context));
+        }
+
+        return preferredSize;
     }
     #endregion
 
@@ -369,6 +376,21 @@ internal class ViewLayoutContextMenuOverflowColumn : ViewLayoutStack
         }
 
         return item.GetPreferredSize(context).Height;
+    }
+
+    private int GetWidestItemWidth(ViewLayoutContext context)
+    {
+        var width = 0;
+
+        foreach (ViewBase item in _allItems)
+        {
+            width = Math.Max(width, item.GetPreferredSize(context).Width);
+        }
+
+        width = Math.Max(width, GetScrollUpButton().GetPreferredSize(context).Width);
+        width = Math.Max(width, GetScrollDownButton().GetPreferredSize(context).Width);
+
+        return width;
     }
 
     private int GetScrollButtonHeight(ViewLayoutContext? context) =>
