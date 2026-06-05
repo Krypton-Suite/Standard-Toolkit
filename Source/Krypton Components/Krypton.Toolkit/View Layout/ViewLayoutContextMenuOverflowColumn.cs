@@ -60,9 +60,13 @@ internal class ViewLayoutContextMenuOverflowColumn : ViewLayoutStack
     {
         while (column.Count > 0)
         {
-            ViewBase child = column[0];
+            ViewBase? child = column[0];
             column.RemoveAt(0);
-            _allItems.Add(child);
+
+            if (child is not null)
+            {
+                _allItems.Add(child);
+            }
         }
 
         Rebuild(null);

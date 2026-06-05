@@ -558,7 +558,10 @@ public class VisualContextMenu : VisualPopup
 
         for (var i = 0; i < _viewColumns.Count; i++)
         {
-            WrapOverflowTargets(_viewColumns[i], contextMenuManager);
+            if (_viewColumns[i] is ViewBase columnRoot)
+            {
+                WrapOverflowTargets(columnRoot, contextMenuManager);
+            }
         }
 
         contextMenuManager.OverflowColumns = _overflowColumns;
