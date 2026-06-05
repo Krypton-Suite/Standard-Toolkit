@@ -317,6 +317,11 @@ namespace TestForm
                 KryptonMessageBoxIcon.Warning, KryptonMessageBoxDefaultButton.Button2);
         }
 
+        private void kryptonButton11_Click(object sender, EventArgs e)
+        {
+            new Bug3661KryptonContextMenuOverflowDemo().Show();
+        }
+
 		private void kryptonButton10_Click(object sender, EventArgs e)
 		{
             kryptonCustomPaletteBase1.UseKryptonFileDialogs = true;

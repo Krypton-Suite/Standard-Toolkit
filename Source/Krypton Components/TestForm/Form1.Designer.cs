@@ -90,6 +90,7 @@
 			this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
 			this.kryptonCheckSet1 = new Krypton.Toolkit.KryptonCheckSet(this.components);
 			this.kryptonButton10 = new Krypton.Toolkit.KryptonButton();
+			this.kryptonButton11 = new Krypton.Toolkit.KryptonButton();
 			((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
 			this.kryptonPanel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -99,6 +100,7 @@
 			// kryptonPanel1
 			// 
 			this.kryptonPanel1.Controls.Add(this.kryptonButton9);
+			this.kryptonPanel1.Controls.Add(this.kryptonButton11);
 			this.kryptonPanel1.Controls.Add(this.kcbtnFormBorderStyleSizableToolWindow);
 			this.kryptonPanel1.Controls.Add(this.kcbtnFormBorderStyleFixedToolWindow);
 			this.kryptonPanel1.Controls.Add(this.kcbtnFormBorderStyleSizable);
@@ -141,6 +143,15 @@
 			this.kryptonButton9.TabIndex = 26;
 			this.kryptonButton9.Values.Text = "Test #1837";
 			this.kryptonButton9.Click += new System.EventHandler(this.kryptonButton9_Click);
+			// 
+			// kryptonButton11
+			// 
+			this.kryptonButton11.Location = new System.Drawing.Point(14, 446);
+			this.kryptonButton11.Name = "kryptonButton11";
+			this.kryptonButton11.Size = new System.Drawing.Size(183, 25);
+			this.kryptonButton11.TabIndex = 27;
+			this.kryptonButton11.Values.Text = "Test #3661";
+			this.kryptonButton11.Click += new System.EventHandler(this.kryptonButton11_Click);
 			// 
 			// kcbtnFormBorderStyleSizableToolWindow
 			// 
@@ -641,5 +652,6 @@
         private Krypton.Toolkit.KryptonContextMenuCheckBox kryptonContextMenuCheckBox1;
         private Krypton.Toolkit.KryptonButton kryptonButton9;
 		private Krypton.Toolkit.KryptonButton kryptonButton10;
+		private Krypton.Toolkit.KryptonButton kryptonButton11;
 	}
 }

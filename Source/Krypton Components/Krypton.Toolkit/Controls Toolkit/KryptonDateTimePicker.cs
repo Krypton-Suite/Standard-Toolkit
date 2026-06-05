@@ -2142,7 +2142,7 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    kcm.Palette = Palette;
+                    kcm.LocalCustomPalette = Palette as KryptonCustomPaletteBase;
                 }
 
                 // Give user a change to modify the context menu or even cancel the menu entirely

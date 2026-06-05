@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobiteg, et al. 2017 - 2026. All rights reserved.
+ *
  */
 #endregion
 
@@ -233,7 +233,7 @@ namespace Krypton.Toolkit
                     // That are associated with crumb items
                     if (_buttonToCrumb.TryGetValue(crumbButton, out KryptonBreadCrumbItem _))
                     {
-                        // If the button is pressed then point button downwards, 
+                        // If the button is pressed then point button downwards,
                         // otherwise we point in the direction the buttons laid out.
                         crumbButton.DropDownOrientation = crumbButton.ElementState == PaletteState.Pressed ? VisualOrientation.Top : VisualOrientation.Left;
                     }
@@ -405,9 +405,9 @@ namespace Krypton.Toolkit
                     var kcm = new KryptonContextMenu
                     {
                         // Use same palette settings for context menu as the main control
-                        Palette = _kryptonBreadCrumb.Palette
+                        LocalCustomPalette = _kryptonBreadCrumb.Palette as KryptonCustomPaletteBase
                     };
-                    if (kcm.Palette == null)
+                    if (kcm.LocalCustomPalette == null)
                     {
                         kcm.PaletteMode = _kryptonBreadCrumb.PaletteMode;
                     }
@@ -448,7 +448,7 @@ namespace Krypton.Toolkit
                     if (bcma is { Cancel: false, KryptonContextMenu: not null } &&
                         CommonHelper.ValidKryptonContextMenu(bcma.KryptonContextMenu))
                     {
-                        // Cache the controller for use in menu close processing, prevents the need to 
+                        // Cache the controller for use in menu close processing, prevents the need to
                         // store anything in the KryptonContextMenu tag and so free up its use to the user.
                         _pressedButtonController = controller;
 
@@ -515,9 +515,9 @@ namespace Krypton.Toolkit
                 var kcm = new KryptonContextMenu
                 {
                     // Use same palette settings for context menu as the main control
-                    Palette = _kryptonBreadCrumb.Palette
+                    LocalCustomPalette = _kryptonBreadCrumb.Palette as KryptonCustomPaletteBase
                 };
-                if (kcm.Palette == null)
+                if (kcm.LocalCustomPalette == null)
                 {
                     kcm.PaletteMode = _kryptonBreadCrumb.PaletteMode;
                 }
@@ -594,7 +594,7 @@ namespace Krypton.Toolkit
                 if (cpma is { Cancel: false, KryptonContextMenu: not null } &&
                     CommonHelper.ValidKryptonContextMenu(cpma.KryptonContextMenu))
                 {
-                    // Cache the controller for use in menu close processing, prevents the need to 
+                    // Cache the controller for use in menu close processing, prevents the need to
                     // store anything in the KryptonContextMenu tag and so free up its use to the user.
                     _pressedButtonController = controller;
 

@@ -546,6 +546,10 @@ namespace Krypton.Toolkit
         /// <value>The scroll bar strings.</value>
         public static KryptonScrollBarStrings ScrollBarStrings { get; } = new KryptonScrollBarStrings();
 
+        /// <summary>Gets the context menu strings.</summary>
+        /// <value>The context menu strings.</value>
+        public static KryptonContextMenuStrings ContextMenuStrings { get; } = new KryptonContextMenuStrings();
+
         #endregion
 
         #region Identity
