@@ -37,14 +37,14 @@ internal class ViewDrawMenuScrollButton : ViewDrawCanvas
         _provider = provider;
         _scrollUp = scrollUp;
 
-        var text = KryptonManager.Strings.ContextMenuStrings.GetOverflowScrollText(scrollUp,
+        var text = KryptonLanguageManager.ContextMenuStrings.GetOverflowScrollText(scrollUp,
             provider.ProviderOverflowScrollUseArrows);
 
         _contentPalette = new PaletteContent(provider.ProviderStateNormal.ItemTextStandard);
         _contentPalette.ShortText.TextH = PaletteRelativeAlign.Center;
 
         _drawContent = new ViewDrawContent(_contentPalette,
-            new FixedContentValue(text, string.Empty, null, GlobalStaticVariables.EMPTY_COLOR),
+            new FixedContentValue(text, string.Empty, null, Color.Empty),
             VisualOrientation.Top);
 
         var docker = new ViewLayoutDocker();

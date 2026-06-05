@@ -169,14 +169,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="invoices.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="app.manifest" />
-    <None Include="App.config" />
     <None Include="KryptonTaskDialogDemo\DemoDialogs\KryptonTaskDialogDemoForm.CommandLinkButtons1.cs" />
   </ItemGroup>
 

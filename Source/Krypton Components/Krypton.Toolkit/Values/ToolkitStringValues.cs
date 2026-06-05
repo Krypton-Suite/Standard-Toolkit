@@ -1,9 +1,9 @@
 ﻿#region BSD License
 /*
- *  
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2023 - 2026. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2023 - 2026. All rights reserved.
+ *
  */
 #endregion
 
@@ -539,6 +539,8 @@ public class ToolkitStringValues : Storage /*GlobalId*/
     /// <value>The context menu strings.</value>
     public static KryptonContextMenuStrings ContextMenuStrings { get; } = new();
 
+    /// <summary>Gets the toast notification strings.</summary>
+    /// <value>The toast notification strings.</value>
     public static KryptonToastNotificationStrings ToastNotificationStrings { get; } = new();
 
     #endregion
@@ -553,7 +555,7 @@ public class ToolkitStringValues : Storage /*GlobalId*/
 
     /// <summary>Converts to string.</summary>
     /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
-    public override string ToString() => !IsDefault ? "Modified" : GlobalStaticVariables.DEFAULT_EMPTY_STRING;
+    public override string ToString() => !IsDefault ? "Modified" : string.Empty;
 
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]

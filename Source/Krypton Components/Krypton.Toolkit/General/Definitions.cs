@@ -16,13 +16,13 @@ namespace Krypton.Toolkit;
 /*
  * Core definitions file for the Krypton Toolkit containing interfaces, enums, and type definitions
  * used throughout the Krypton UI component library.
- * 
+ *
  * This file contains:
  *  - Core interfaces for content values, button specifications, and context menu providers
  *  - Enumerations for UI states, orientations, styles, and behaviors
  *  - Type definitions for palette states, button styles, and layout specifications
  *  - Constants and enumerations for message boxes, icons, and theme types
- * 
+ *
  *  The definitions in this file provide the foundational types and contracts that enable
  *  the flexible theming, styling, and behavior customization capabilities of the Krypton Toolkit.
  */
@@ -59,48 +59,6 @@ public interface IContentValues
     /// </summary>
     /// <returns>String value.</returns>
     string GetLongText();
-
-    /// <summary>
-    /// Gets the overlay image.
-    /// </summary>
-    /// <param name="state">The state for which the overlay image is needed.</param>
-    /// <returns>Overlay image value, or null if no overlay image is set.</returns>
-    Image? GetOverlayImage(PaletteState state);
-
-    /// <summary>
-    /// Gets the overlay image color that should be transparent.
-    /// </summary>
-    /// <param name="state">The state for which the overlay image is needed.</param>
-    /// <returns>Color value.</returns>
-    Color GetOverlayImageTransparentColor(PaletteState state);
-
-    /// <summary>
-    /// Gets the position of the overlay image relative to the main image.
-    /// </summary>
-    /// <param name="state">The state for which the overlay position is needed.</param>
-    /// <returns>Overlay image position.</returns>
-    OverlayImagePosition GetOverlayImagePosition(PaletteState state);
-
-    /// <summary>
-    /// Gets the scaling mode for the overlay image.
-    /// </summary>
-    /// <param name="state">The state for which the overlay scale mode is needed.</param>
-    /// <returns>Overlay image scale mode.</returns>
-    OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state);
-
-    /// <summary>
-    /// Gets the scale factor for the overlay image (used when scale mode is Percentage or ProportionalToMain).
-    /// </summary>
-    /// <param name="state">The state for which the overlay scale factor is needed.</param>
-    /// <returns>Scale factor (0.0 to 2.0).</returns>
-    float GetOverlayImageScaleFactor(PaletteState state);
-
-    /// <summary>
-    /// Gets the fixed size for the overlay image (used when scale mode is FixedSize).
-    /// </summary>
-    /// <param name="state">The state for which the overlay fixed size is needed.</param>
-    /// <returns>Fixed size for the overlay image.</returns>
-    Size GetOverlayImageFixedSize(PaletteState state);
 }
 #endregion
 
@@ -785,6 +743,40 @@ public interface IKryptonDesignerSelect
     /// Request the parent control be selected.
     /// </summary>
     void SelectParentControl();
+}
+#endregion
+
+#region IKryptonComposition
+/// <summary>
+/// Exposes interface for visual form to cooperate with a view for composition.
+/// </summary>
+public interface IKryptonComposition
+{
+    /// <summary>
+    /// Gets the pixel height of the composition extension into the client area.
+    /// </summary>
+    int CompHeight { get; }
+
+    /// <summary>
+    /// Should painting be performed for the selection glyph.
+    /// </summary>
+    bool CompVisible { get; set; }
+
+    /// <summary>
+    /// Gets and sets the form that owns the composition.
+    /// </summary>
+    VisualForm CompOwnerForm { get; set; }
+
+    /// <summary>
+    /// Request a repaint and optional layout.
+    /// </summary>
+    /// <param name="needLayout">Is a layout required.</param>
+    void CompNeedPaint(bool needLayout);
+
+    /// <summary>
+    /// Gets the handle of the composition element control.
+    /// </summary>
+    IntPtr CompHandle { get; }
 }
 #endregion
 
@@ -1918,6 +1910,50 @@ public enum ThemeColorSortMode
 }
 #endregion
 
+#region Enum TaskDialogButtons
+/// <summary>
+/// Specifies task dialog buttons.
+/// </summary>
+[Flags]
+public enum TaskDialogButtons
+{
+    /// <summary>
+    /// Specifies no buttons be shown.
+    /// </summary>
+    None = 0x00,
+
+    /// <summary>
+    /// Specifies the OK button.
+    /// </summary>
+    OK = 0x01,
+
+    /// <summary>
+    /// Specifies the Cancel button.
+    /// </summary>
+    Cancel = 0x02,
+
+    /// <summary>
+    /// Specifies the Yes button.
+    /// </summary>
+    Yes = 0x04,
+
+    /// <summary>
+    /// Specifies the No button.
+    /// </summary>
+    No = 0x08,
+
+    /// <summary>
+    /// Specifies the Retry button.
+    /// </summary>
+    Retry = 0x10,
+
+    /// <summary>
+    /// Specifies the Close button.
+    /// </summary>
+    Close = 0x20
+}
+#endregion
+
 #region CheckedSelectionMode
 /// <summary>
 /// Specifies selection mode of the KryptonCheckedListBox.
@@ -2084,164 +2120,6 @@ public enum MessageBoxContentAreaType
     Normal = 0,
     /// <summary>Use a <see cref="T:KryptonLinkWrapLabel"/> as the content area type of a <see cref="T:KryptonMessageBox"/>.</summary>
     LinkLabel = 1
-}
-
-#endregion
-
-#region Enum KryptonMessageBoxIcon
-
-/// <summary>Specifies the icon type for <see cref="T:KryptonMessageBox"/>.</summary>
-// ToDo: Fix converter, as it throws errors...
-//[TypeConverter(typeof(KryptonMessageBoxIconConverter))]
-public enum KryptonMessageBoxIcon
-{
-    /// <summary>Specify no icon.</summary>
-    None = 0,
-
-    /// <summary>Specify a hand icon.</summary>
-    Hand = 1,
-
-    /// <summary>
-    /// Specify the system hand icon.
-    /// The message box contains a symbol consisting of a white X in a circle with a red background.
-    /// </summary>
-    SystemHand = MessageBoxIcon.Hand,
-
-    /// <summary>Specify a question icon.</summary>
-    Question = 2,
-
-    /// <summary>Specify the system question icon.</summary>
-    SystemQuestion = MessageBoxIcon.Question,
-
-    /// <summary>Specify an exclamation icon.</summary>
-    Exclamation = 3,
-
-    /// <summary>Specify the system exclamation icon.</summary>
-    SystemExclamation = MessageBoxIcon.Exclamation,
-
-    /// <summary>Specify an asterisk icon.</summary>
-    Asterisk = 4,
-
-    /// <summary>
-    /// Specify the system asterisk icon.
-    /// The message box contains a symbol consisting of a lowercase letter i in a circle.
-    /// </summary>
-    SystemAsterisk = MessageBoxIcon.Asterisk,
-
-    /// <summary>Specify a stop icon.</summary>
-    Stop = 5,
-
-    /// <summary>
-    /// Specify the system hand icon.
-    /// The message box contains a symbol consisting of a white X in a circle with a red background.
-    /// </summary>
-    SystemStop = MessageBoxIcon.Stop,
-
-    /// <summary>
-    /// Specify a error icon.
-    /// The message box contains a symbol consisting of white X in a circle with a red background.
-    /// </summary>
-    Error = 6,
-
-    /// <summary>
-    /// Specify the system hand icon.
-    /// The message box contains a symbol consisting of a white X in a circle with a red background.
-    /// </summary>
-    SystemError = MessageBoxIcon.Error,
-
-    /// <summary>Specify a warning icon.</summary>
-    Warning = 7,
-
-    /// <summary>Specify the system warning icon.</summary>
-    SystemWarning = MessageBoxIcon.Warning,
-
-    /// <summary>Specify an information icon.</summary>
-    Information = 8,
-
-    /// <summary>Specify the system information icon.</summary>
-    SystemInformation = MessageBoxIcon.Information,
-
-    /// <summary>Specify a UAC shield icon.</summary>
-    Shield = 9,
-
-    /// <summary>Specify a Windows logo icon.</summary>
-    WindowsLogo = 10,
-
-    /// <summary>Specify your application icon.</summary>
-    Application = 11,
-
-    /// <summary>Specify the default system application icon. See <see cref="SystemIcons.Application"/>.</summary>
-    SystemApplication = 12
-}
-
-#endregion
-
-#region Enum KryptonMessageBoxButtons
-
-/// <summary>
-/// Specifies constants defining which buttons to display on a <see cref="T:KryptonMessageBox" />.
-/// Provides themed alternatives to the standard MessageBox buttons with consistent Krypton styling.
-/// </summary>
-public enum KryptonMessageBoxButtons
-{
-    /// <summary>
-    ///  Specifies that the message box contains an OK button.
-    /// </summary>
-    OK = MessageBoxButtons.OK,
-
-    /// <summary>
-    ///  Specifies that the message box contains OK and Cancel buttons.
-    /// </summary>
-    OKCancel = MessageBoxButtons.OKCancel,
-
-    /// <summary>
-    ///  Specifies that the message box contains Abort, Retry, and Ignore buttons.
-    /// </summary>
-    AbortRetryIgnore = MessageBoxButtons.AbortRetryIgnore,
-
-    /// <summary>
-    ///  Specifies that the message box contains Yes, No, and Cancel buttons.
-    /// </summary>
-    YesNoCancel = MessageBoxButtons.YesNoCancel,
-
-    /// <summary>
-    ///  Specifies that the message box contains Yes and No buttons.
-    /// </summary>
-    YesNo = MessageBoxButtons.YesNo,
-
-    /// <summary>
-    ///  Specifies that the message box contains Retry and Cancel buttons.
-    /// </summary>
-    RetryCancel = MessageBoxButtons.RetryCancel,
-
-    /// <summary>
-    ///  Specifies that the message box contains Cancel, Try Again, and Continue buttons.
-    /// </summary>
-#if NET8_0_OR_GREATER
-        CancelTryContinue = MessageBoxButtons.CancelTryContinue
-#else
-    CancelTryContinue = 0x00000006
-#endif
-}
-
-#endregion
-
-#region Enum KryptonMessageBoxDefaultButton
-
-/// <summary>Specifies constants defining the default button on a <seealso cref="T:KryptonMessageBox"/>.</summary>
-public enum KryptonMessageBoxDefaultButton
-{
-    /// <summary>The first button on the message box is the default button.</summary>
-    Button1 = 0,
-
-    /// <summary>The second button on the message box is the default button.</summary>
-    Button2 = 256,
-
-    /// <summary>The third button on the message box is the default button.</summary>
-    Button3 = 512,
-
-    /// <summary>Specifies that the Help button on the message box should be the default button.</summary>
-    Button4 = 768
 }
 
 #endregion
@@ -3082,12 +2960,23 @@ public enum KryptonEmojiListType
 
 #endregion
 
+#region Enum ToolkitType
+
+public enum ToolkitType
+{
+    Canary = 0,
+    Nightly = 1,
+    Stable = 2
+}
+
+#endregion
+
 #region IKryptonSystemMenu
 
 /// <summary>
 /// Defines the interface for system menu functionality.
 /// </summary>
-internal interface IKryptonSystemMenu
+public interface IKryptonSystemMenu
 {
     /// <summary>
     /// Gets or sets whether the system menu is enabled.

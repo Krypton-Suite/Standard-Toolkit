@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
- *  
+ *
  */
 #endregion
 
@@ -115,7 +115,7 @@ public class VisualContextMenu : VisualPopup
             // Must unhook from the palette paint event
             if (_palette != null)
             {
-                _palette.PalettePaintInternal -= OnPaletteNeedPaint;
+                _palette.PalettePaint -= OnPaletteNeedPaint;
                 _palette.BasePaletteChanged -= OnBaseChanged;
                 _palette.BaseRendererChanged -= OnBaseChanged;
             }
@@ -152,7 +152,7 @@ public class VisualContextMenu : VisualPopup
     /// </summary>
     /// <param name="screenRect">Screen rectangle.</param>
     public new void Show(Rectangle screenRect) =>
-        // When the relative position is not provided we assume a default 
+        // When the relative position is not provided we assume a default
         // of below and aligned to the left edge of the screen rectangle.
         Show(screenRect, KryptonContextMenuPositionH.Left, KryptonContextMenuPositionV.Below);
 
@@ -458,7 +458,7 @@ public class VisualContextMenu : VisualPopup
         };
 
         var layoutDocker = new ViewLayoutDocker();
-        Padding outerPadding = _provider.ProviderRedirector.GetMetricPadding(null, PaletteState.Normal, PaletteMetricPadding.ContextMenuItemOuter);
+        Padding outerPadding = _provider.ProviderRedirector.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.ContextMenuItemOuter);
         layoutDocker.Add(new ViewLayoutSeparator(outerPadding.Top), ViewDockStyle.Top);
         layoutDocker.Add(new ViewLayoutSeparator(outerPadding.Bottom), ViewDockStyle.Bottom);
         layoutDocker.Add(new ViewLayoutSeparator(outerPadding.Left), ViewDockStyle.Left);
@@ -505,7 +505,7 @@ public class VisualContextMenu : VisualPopup
             // Unhook from current palette events
             if (_palette is not null)
             {
-                _palette.PalettePaintInternal -= OnPaletteNeedPaint;
+                _palette.PalettePaint -= OnPaletteNeedPaint;
                 _palette.BasePaletteChanged -= OnBaseChanged;
                 _palette.BaseRendererChanged -= OnBaseChanged;
             }
@@ -522,7 +522,7 @@ public class VisualContextMenu : VisualPopup
             // Hook to new palette events
             if (_palette != null)
             {
-                _palette.PalettePaintInternal += OnPaletteNeedPaint;
+                _palette.PalettePaint += OnPaletteNeedPaint;
                 _palette.BasePaletteChanged += OnBaseChanged;
                 _palette.BaseRendererChanged += OnBaseChanged;
             }
