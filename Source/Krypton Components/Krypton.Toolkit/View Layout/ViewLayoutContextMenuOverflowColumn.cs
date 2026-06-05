@@ -208,6 +208,7 @@ internal class ViewLayoutContextMenuOverflowColumn : ViewLayoutStack
                 _topIndex--;
             }
 
+            BackfillVisibleRange(context, index);
             Rebuild(context);
         }
     }
@@ -366,6 +367,21 @@ internal class ViewLayoutContextMenuOverflowColumn : ViewLayoutStack
         }
 
         return lastVisible;
+    }
+
+    private void BackfillVisibleRange(ViewLayoutContext context, int requiredIndex)
+    {
+        while (_topIndex > 0)
+        {
+            var previousTopIndex = _topIndex;
+            _topIndex--;
+
+            if (GetLastVisibleIndex(context) < requiredIndex)
+            {
+                _topIndex = previousTopIndex;
+                break;
+            }
+        }
     }
 
     private static int MeasureItemHeight(ViewBase item, ViewLayoutContext? context)
