@@ -1,0 +1,163 @@
+# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+# Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2026 - 2026. All rights reserved.
+#
+# Opens pull requests that copy only .github/ from master onto downstream release branches ([#3610]).
+# Uses path checkout (git checkout origin/master -- .github), not merge/rebase of master into the line.
+# Does not require downstream branches to contain master in Git history.
+#
+# KILL-SWITCH: SYNC_GITHUB_FROM_MASTER_DISABLED=true
+# Targets are listed in .github/branch-policy.json (syncGithubFromMasterTargets).
+# DEPLOYMENT: This file must exist on the repository DEFAULT BRANCH (master) before scheduled
+# sync and push-to-master triggers work. Merging only into alpha does not activate it on GitHub.
+# After merge to master, use workflow_dispatch or push under .github/ on master; then merge sync PRs downstream.
+
+name: Sync .github from master
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - '.github/**'
+  schedule:
+    - cron: '30 3 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sync kill switch
+        id: kill_switch
+        shell: bash
+        run: |
+          disabled="${{ vars.SYNC_GITHUB_FROM_MASTER_DISABLED }}"
+          if [ "$disabled" = "true" ]; then
+            echo "::warning:: Sync .github from master is DISABLED (SYNC_GITHUB_FROM_MASTER_DISABLED=true)."
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Security - Verify Repository
+        if: steps.kill_switch.outputs.enabled == 'true'
+        shell: bash
+        run: |
+          if [ "$GITHUB_REPOSITORY" != "Krypton-Suite/Standard-Toolkit" ]; then
+            echo "::error::Invalid repository: $GITHUB_REPOSITORY"
+            exit 1
+          fi
+
+      - name: Checkout
+        if: steps.kill_switch.outputs.enabled == 'true'
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Load sync targets
+        if: steps.kill_switch.outputs.enabled == 'true'
+        id: targets
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $policyPath = Join-Path $env:GITHUB_WORKSPACE '.github/branch-policy.json'
+          $policy = Get-Content -LiteralPath $policyPath -Raw | ConvertFrom-Json
+          $targets = @($policy.syncGithubFromMasterTargets) -join ','
+          echo "targets=$targets" >> $env:GITHUB_OUTPUT
+
+      - name: Open sync PRs
+        if: steps.kill_switch.outputs.enabled == 'true'
+        uses: actions/github-script@v9
+        env:
+          TARGET_BRANCHES: ${{ steps.targets.outputs.targets }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { execSync } = require('child_process');
+            const { owner, repo } = context.repo;
+            const targets = (process.env.TARGET_BRANCHES || '')
+              .split(',')
+              .map((b) => b.trim())
+              .filter(Boolean);
+
+            const results = [];
+
+            for (const target of targets) {
+              try {
+                await github.rest.repos.getBranch({ owner, repo, branch: target });
+              } catch (err) {
+                if (err.status === 404) {
+                  console.log(`Skip ${target}: branch does not exist.`);
+                  continue;
+                }
+                throw err;
+              }
+
+              const syncBranch = `sync/github-from-master-${target.toLowerCase().replace(/[^a-z0-9-]/g, '-')}`;
+              execSync('git fetch --no-tags origin master', { stdio: 'inherit' });
+              execSync(`git fetch --no-tags origin ${target}`, { stdio: 'inherit' });
+              execSync(`git checkout -B ${syncBranch} origin/${target}`, { stdio: 'inherit' });
+              execSync('git checkout origin/master -- .github', { stdio: 'inherit' });
+
+              const status = execSync('git status --porcelain .github', { encoding: 'utf8' }).trim();
+              if (!status) {
+                console.log(`${target}: .github already matches master.`);
+                results.push({ target, action: 'noop' });
+                continue;
+              }
+
+              execSync('git config user.name "github-actions[bot]"', { stdio: 'inherit' });
+              execSync('git config user.email "github-actions[bot]@users.noreply.github.com"', { stdio: 'inherit' });
+              execSync(`git commit -m "chore(ci): sync .github from master into ${target}"`, { stdio: 'inherit' });
+              execSync(`git push --force origin HEAD:refs/heads/${syncBranch}`, { stdio: 'inherit' });
+
+              const { data: openPrs } = await github.rest.pulls.list({
+                owner,
+                repo,
+                state: 'open',
+                head: `${owner}:${syncBranch}`,
+                base: target
+              });
+
+              if (openPrs.length > 0) {
+                console.log(`${target}: open PR already exists #${openPrs[0].number}`);
+                results.push({ target, action: 'existing', number: openPrs[0].number });
+                continue;
+              }
+
+              const { data: pr } = await github.rest.pulls.create({
+                owner,
+                repo,
+                title: `chore(ci): sync .github from master → ${target}`,
+                head: syncBranch,
+                base: target,
+                body: [
+                  'Automated PR: copies only `.github/` from `master` onto this branch.',
+                  '',
+                  'Part of branch policy ([#3610](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3610)).',
+                  'Do not add product code in this PR.',
+                  '',
+                  '*Triggered by Sync .github from master workflow.*'
+                ].join('\n')
+              });
+
+              try {
+                await github.rest.issues.addLabels({
+                  owner,
+                  repo,
+                  issue_number: pr.number,
+                  labels: ['chore:workflow-sync']
+                });
+              } catch (labelErr) {
+                console.warn(`Could not add label chore:workflow-sync: ${labelErr.message}`);
+              }
+
+              console.log(`${target}: created PR #${pr.number}`);
+              results.push({ target, action: 'created', number: pr.number });
+            }
+
+            return results;
