@@ -22,7 +22,7 @@
   - `dotnet run --project "Source/Krypton Components/TestForm/TestForm.csproj" -c Debug`
 - Preset builds (Windows cmd):
   - `Scripts/build-stable.cmd` | `Scripts/build-canary.cmd` | `Scripts/build-nightly.cmd`
-- Outputs land in `Bin/<Configuration>/`. Supported TFMs include `net472`, `net48`, `net481`, `net8.0-windows`, `net9.0-windows`, `net10.0-windows`
+- Outputs land in `Bin/<Configuration>/`. VS2019/full MSBuild builds only .NET Framework 4.x TFMs; supported TFMs include `net472`, `net48`, `net481`, `net8.0-windows`, `net9.0-windows`, `net10.0-windows`
 
 ## Coding Style & Naming Conventions
 - Line endings/encoding: CRLF, UTF-8 with BOM
