@@ -1,4 +1,4 @@
-# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+﻿# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
 # Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, tobitege et al. 2026 - 2026. All rights reserved.
 #
 # KILL-SWITCH: To disable this workflow, set repository variable NIGHTLY_DISABLED=true
@@ -6,6 +6,9 @@
 # To re-enable: Set NIGHTLY_DISABLED=false or delete the variable
 
 name: Nightly Release
+
+permissions:
+  contents: read
 
 on:
   schedule:
@@ -15,13 +18,13 @@ on:
 
 jobs:
   nightly:
-    runs-on: windows-latest
+    runs-on: windows-2025-vs2026
     environment: production  # Requires approval before publishing
 
     concurrency:
       group: nightly-alpha
       cancel-in-progress: true
-    
+
     steps:
       # Nightly Release kill switch
       - name: Nightly Release Kill Switch Check
@@ -73,19 +76,50 @@ jobs:
           ref: alpha
           fetch-depth: 0
 
+      # Nightly always builds alpha; the workflow file may land before Populate-WebView2.ps1 is merged to alpha.
+      - name: Checkout WebView2 CI script overlay
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          sparse-checkout: Scripts/CI/Populate-WebView2.ps1
+          sparse-checkout-cone-mode: true
+          path: _ci-overlay
+
+      - name: Ensure WebView2 CI script
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $dest = Join-Path $env:GITHUB_WORKSPACE 'Scripts/CI/Populate-WebView2.ps1'
+          if (Test-Path -LiteralPath $dest) {
+            Write-Host 'WebView2 CI script already present on checked-out branch.'
+            exit 0
+          }
+          $src = Join-Path $env:GITHUB_WORKSPACE '_ci-overlay/Scripts/CI/Populate-WebView2.ps1'
+          if (-not (Test-Path -LiteralPath $src)) {
+            Write-Error @"
+          Scripts/CI/Populate-WebView2.ps1 is missing on alpha and on workflow ref ($env:GITHUB_SHA).
+          Merge Scripts/CI/Populate-WebView2.ps1 into alpha in the same change set as these workflow updates.
+          "@
+          }
+          New-Item -ItemType Directory -Force -Path (Split-Path -Parent $dest) | Out-Null
+          Copy-Item -LiteralPath $src -Destination $dest -Force
+          Write-Host 'Copied WebView2 CI script from workflow ref onto alpha checkout.'
+
       - name: Check for changes in last 24 hours
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         id: check_changes
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          
+
           # Get commits from last 24 hours on alpha branch
           $yesterday = (Get-Date).AddDays(-1).ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss")
           $commitCount = git rev-list --count --since="$yesterday" alpha
-          
+
           Write-Host "Commits in last 24 hours: $commitCount"
-          
+
           if ([int]$commitCount -gt 0) {
             Write-Host "Changes detected - proceeding with nightly build"
             echo "has_changes=true" >> $env:GITHUB_OUTPUT
@@ -99,8 +133,8 @@ jobs:
         run: |
           Write-Host "::notice::No commits in the last 24 hours. Skipping nightly build and publish."
 
-      # .NET 9 and 10
-      - name: Setup .NET
+      # .NET 9 and 10; .NET 11 for net11.0-windows (DOTNET_PREVIEW_SETUP_VERSION when set, else 11.0.x).
+      - name: Setup .NET (9 and 10)
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v5
@@ -109,25 +143,70 @@ jobs:
             9.0.x
             10.0.x
 
-      # .NET 11 (Preview)
-      - name: Setup .NET 11 (Preview)
+      - name: Setup .NET 11 (stable)
+        id: setup_dotnet11_stable_nightly
+        continue-on-error: true
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: 11.0.x
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+
+      - name: Setup .NET 11 (preview fallback)
+        # Kill switch check
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.setup_dotnet11_stable_nightly.outcome == 'failure'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
           dotnet-quality: preview
 
-      # global.json dynamically generate (use latest SDK available)
-      - name: Force .NET 11 SDK via global.json
+      # Preview .NET SDK. USE_DOTNET_PREVIEW=false skips preview SDK; global.json step uses stable SDK.
+      - name: Setup .NET Preview
+        # Kill switch check
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION }}
+          dotnet-quality: preview
+
+      # Pin sdk.version for CI; preview band follows USE_DOTNET_PREVIEW; stable path prefers .NET 11 for net11.0-windows TFMs.
+      - name: Pin SDK via global.json
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
+        env:
+          DOTNET_PREVIEW_SDK_BAND: ${{ vars.DOTNET_PREVIEW_SDK_BAND }}
+          USE_DOTNET_PREVIEW: ${{ vars.USE_DOTNET_PREVIEW }}
         run: |
-          $sdkVersion = (dotnet --list-sdks | Select-String "11.0").ToString().Split(" ")[0]
-          if (-not $sdkVersion) {
-            # Fallback to .NET 10 if .NET 11 is not available
-            $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
+          $ErrorActionPreference = 'Stop'
+          function Get-ListedSdkVersion([string]$Pattern) {
+            $hit = dotnet --list-sdks | Select-String $Pattern | Select-Object -Last 1
+            if (-not $hit) { return $null }
+            $line = $hit.Line.TrimEnd()
+            if ($line -match '^(\d+\.\d+\.\d+)\s') { return $Matches[1] }
+            return (($line -split '\s+', 2)[0])
           }
-          Write-Output "Using SDK $sdkVersion"
+
+          $usePreview = $env:USE_DOTNET_PREVIEW -ne 'false'
+          $sdkVersion = $null
+          if (-not $usePreview) {
+            $sdkVersion = Get-ListedSdkVersion '11.0'
+            if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '10.0' }
+            if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '9.0' }
+          } else {
+            if (-not $env:DOTNET_PREVIEW_SDK_BAND) {
+              Write-Error 'DOTNET_PREVIEW_SDK_BAND is not set (repository variable).'
+            }
+            $sdkVersion = Get-ListedSdkVersion $env:DOTNET_PREVIEW_SDK_BAND
+            if (-not $sdkVersion) {
+              $sdkVersion = Get-ListedSdkVersion '11.0'
+            }
+            if (-not $sdkVersion) {
+              $sdkVersion = Get-ListedSdkVersion '10.0'
+            }
+          }
+          if (-not $sdkVersion) {
+            Write-Error 'Could not resolve an SDK version for global.json.'
+          }
+          Write-Host "Using SDK $sdkVersion"
           @"
           {
             "sdk": {
@@ -139,13 +218,13 @@ jobs:
 
       - name: Setup MSBuild
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
-        uses: microsoft/setup-msbuild@v2
+        uses: microsoft/setup-msbuild@v3
         with:
           msbuild-architecture: x64
 
       - name: Setup NuGet
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
-        uses: NuGet/setup-nuget@v2
+        uses: NuGet/setup-nuget@v4
 
       - name: Cache NuGet
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
@@ -156,53 +235,57 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      - name: Populate WebView2 (preview)
+      # Prerelease WebView2 required for net11.0-windows; stable packages do not support .NET 11 yet.
+      - name: Resolve WebView2 version
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
+        id: webview2_version
         shell: pwsh
         run: |
-          $root = $env:GITHUB_WORKSPACE
-          if (-not $root) { $root = (Get-Location).Path }
-          $utilProj = Join-Path $root "Source\Krypton Components\Krypton.Utilities\Krypton.Utilities.csproj"
-          $libDir = Join-Path $root "Source\Krypton Components\Krypton.Utilities\Lib\WebView2"
-          if (-not (Test-Path $utilProj)) { Write-Error "Project not found: $utilProj"; exit 1 }
-          if (-not (Test-Path $libDir)) { New-Item -ItemType Directory -Path $libDir -Force }
-          $packageId = "Microsoft.Web.WebView2"
-          # Use prerelease versions for alpha/nightly builds to avoid .NET 11.0 requirement
-          Write-Host "Using prerelease=true for WebView2 SDK lookup (nightly build)"
-          $latestVersion = $null
-          try {
-            $searchResponse = Invoke-RestMethod -Uri "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=true&semVerLevel=2.0.0&take=1" -Method Get
-            if ($searchResponse.data -and $searchResponse.data.Count -gt 0) { $latestVersion = $searchResponse.data[0].version }
-          } catch {
-            try {
-              $response = Invoke-RestMethod -Uri "https://api.nuget.org/v3-flatcontainer/$packageId/index.json" -Method Get
-              # Include prerelease versions
-              $allVersions = $response.versions | Where-Object { $_ -match '^\d+\.\d+\.\d+' }
-              if ($allVersions) { $latestVersion = $allVersions | Sort-Object { [System.Version]($_ -replace '-.*', '') } -Descending | Select-Object -First 1 }
-            } catch {}
-          }
-          if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
-          Write-Host "Using WebView2 (preview): $latestVersion"
-          dotnet add $utilProj package $packageId --version $latestVersion
-          dotnet restore $utilProj
-          $nugetBase = Join-Path $env:USERPROFILE ".nuget\packages\microsoft.web.webview2\$latestVersion"
-          @("Microsoft.Web.WebView2.Core.dll","Microsoft.Web.WebView2.WinForms.dll","WebView2Loader.dll") | ForEach-Object {
-            $f = Get-ChildItem -Path $nugetBase -Recurse -Name $_ -ErrorAction SilentlyContinue | Select-Object -First 1
-            if ($f) { Copy-Item (Join-Path $nugetBase $f) $libDir -Force; Write-Host "Copied $_" }
-          }
-          dotnet remove $utilProj package $packageId
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          & (Join-Path $repoRoot 'Scripts/CI/Populate-WebView2.ps1') -Prerelease -ResolveVersionOnly -WriteGitHubOutputVersion
 
+      - name: Restore WebView2 cache
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
+        id: webview2_cache_restore
+        uses: actions/cache/restore@v5
+        continue-on-error: true
+        with:
+          path: ${{ runner.temp }}/webview2
+          key: webview2-${{ runner.os }}-${{ steps.webview2_version.outputs.version }}
+          restore-keys: |
+            webview2-${{ runner.os }}-
+
+      - name: Populate WebView2 (Preview)
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
+        shell: pwsh
+        env:
+          WEBVIEW2_VERSION: ${{ steps.webview2_version.outputs.version }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          & (Join-Path $repoRoot 'Scripts/CI/Populate-WebView2.ps1') -Prerelease -Version $env:WEBVIEW2_VERSION
+
+      - name: Save WebView2 cache
+        if: success() && steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
+        uses: actions/cache/save@v5
+        continue-on-error: true
+        with:
+          path: ${{ runner.temp }}/webview2
+          key: ${{ steps.webview2_cache_restore.outputs.cache-primary-key }}
+
+      # /m: multi-processor MSBuild (all runner CPUs). nightly.proj uses BuildInParallel; project references still order builds.
       - name: Restore
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
-        run: msbuild "Scripts/Build/nightly.proj" /t:Restore /p:Configuration=Nightly /p:Platform="Any CPU"
+        run: msbuild /m "Scripts/Build/nightly.proj" /t:Restore /p:Configuration=Nightly /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Build Nightly
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
-        run: msbuild "Scripts/Build/nightly.proj" /t:Build /p:Configuration=Nightly /p:Platform="Any CPU"
+        run: msbuild /m "Scripts/Build/nightly.proj" /t:Build /restore /p:Configuration=Nightly /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Pack Nightly
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
-        run: msbuild "Scripts/Build/nightly.proj" /t:Pack /p:Configuration=Nightly /p:Platform="Any CPU"
+        run: msbuild /m "Scripts/Build/nightly.proj" /t:Pack /restore /p:Configuration=Nightly /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Push NuGet Packages to nuget.org
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
@@ -215,12 +298,23 @@ jobs:
             echo "packages_published=false" >> $env:GITHUB_OUTPUT
             exit 0
           }
-          
-          $packages = Get-ChildItem "Bin/Packages/Nightly/*.nupkg" -ErrorAction SilentlyContinue
+
+          $packageCandidates = @(
+            "artifacts/packages/Nightly/*.nupkg",
+            "Bin/Packages/Nightly/*.nupkg"
+          )
+          $packages = @(Get-ChildItem -Path $packageCandidates -ErrorAction SilentlyContinue | Sort-Object FullName -Unique)
           $publishedAny = $false
-          
+          $repoRoot = if ($null -ne $env:GITHUB_WORKSPACE -and $env:GITHUB_WORKSPACE -ne '') { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/StandardToolkitNupkgGuard.ps1')
+          $standardToolkitNupkgSizeGateFailed = $false
+
           if ($packages) {
             foreach ($package in $packages) {
+              if (-not (Test-StandardToolkitNupkgPushAllowed -Package $package)) {
+                $standardToolkitNupkgSizeGateFailed = $true
+                continue
+              }
               Write-Output "Pushing package: $($package.Name)"
               try {
                 $output = dotnet nuget push "$($package.FullName)" --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate 2>&1 | Out-String
@@ -239,10 +333,15 @@ jobs:
           } else {
             Write-Output "No NuGet packages found to push"
           }
-          
+
+          if ($standardToolkitNupkgSizeGateFailed) {
+            exit 1
+          }
+
           echo "packages_published=$publishedAny" >> $env:GITHUB_OUTPUT
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          STANDARD_TOOLKIT_MIN_NUPKG_MB: ${{ vars.STANDARD_TOOLKIT_MIN_NUPKG_MB }}
 
       - name: Get Version
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
@@ -251,38 +350,66 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           $version = $null
-          
-          # Try to get version from the built assembly (most reliable)
+          $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
+          $msbuildConfig = 'Nightly'
+
+          # Primary source: built Krypton.Toolkit.dll assembly version.
           try {
-            $dllPath = Get-ChildItem "Bin/Nightly/net48/Krypton.Toolkit.dll" -ErrorAction Stop
+            $dllRelativePaths = @(
+              "artifacts/bin/$msbuildConfig/net48/Krypton.Toolkit.dll",
+              "Bin/$msbuildConfig/net48/Krypton.Toolkit.dll",
+              "Bin/Nightly/net48/Krypton.Toolkit.dll"
+            )
+            $dllPath = $null
+            foreach ($p in $dllRelativePaths) {
+              if (Test-Path -LiteralPath $p) { $dllPath = Get-Item -LiteralPath $p; break }
+            }
+
+            if (-not $dllPath) {
+              $searchRoots = @("artifacts/bin", "Bin/$msbuildConfig", "Bin/Nightly", "Bin")
+              foreach ($root in $searchRoots) {
+                if (Test-Path -LiteralPath $root) {
+                  $candidate = Get-ChildItem -Path $root -Recurse -Filter "Krypton.Toolkit.dll" -ErrorAction SilentlyContinue | Select-Object -First 1
+                  if ($candidate) { $dllPath = $candidate; break }
+                }
+              }
+            }
+
+            if (-not $dllPath) { throw "Krypton.Toolkit.dll not found under artifacts or Bin." }
             $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
-            $version = $assemblyVersion.ToString()
-            Write-Host "Got version from assembly: $version"
+            $assemblyVersionText = $assemblyVersion.ToString()
+            if ($assemblyVersionText -match '^[1-9]\d{2,}\.\d+\.\d+\.\d+$') {
+              $version = $assemblyVersionText
+              Write-Host "Got version from assembly: $version ($($dllPath.FullName))"
+            } else {
+              Write-Warning "Ignoring unexpected assembly version '$assemblyVersionText' from $($dllPath.FullName)."
+            }
           } catch {
             Write-Host "Could not read version from assembly: $_"
           }
-          
-          # Fallback: Try to read from csproj XML
+
+          # Backup source: evaluated MSBuild Version when assembly probing fails.
           if (-not $version) {
             try {
-              $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit.csproj'
-              [xml]$projXml = Get-Content $proj
-              $versionNode = $projXml.SelectSingleNode("//Version")
-              if ($versionNode) {
-                $version = $versionNode.InnerText.Trim()
-                Write-Host "Got version from csproj: $version"
+              $evaluated = (& dotnet msbuild "`"$proj`"" -getProperty:Version -p:Configuration=$msbuildConfig -nologo -v:q).Trim()
+              if ($evaluated) {
+                if ($evaluated -match '^[1-9]\d{2,}\.\d+\.\d+\.\d+$') {
+                  $version = $evaluated
+                  Write-Host "Got version from MSBuild fallback: $version"
+                } else {
+                  Write-Warning "Ignoring unexpected MSBuild version '$evaluated'."
+                }
               }
             } catch {
-              Write-Host "Could not read version from csproj: $_"
+              Write-Host "Could not read version from MSBuild: $_"
             }
           }
-          
-          # Last resort fallback
+
           if (-not $version) {
             Write-Warning "Version not found, using fallback."
             $version = "100.25.1.1"
           }
-          
+
           Write-Host "Final determined version: $version"
           echo "version=$version" >> $env:GITHUB_OUTPUT
           echo "tag=v$version-nightly" >> $env:GITHUB_OUTPUT
@@ -295,7 +422,7 @@ jobs:
             Write-Warning "DISCORD_WEBHOOK_NIGHTLY not set - skipping Discord notification"
             exit 0
           }
-          
+
           $payload = @{
             embeds = @(
               @{
@@ -331,7 +458,7 @@ jobs:
               }
             )
           } | ConvertTo-Json -Depth 10
-          
+
           Invoke-RestMethod -Uri $env:DISCORD_WEBHOOK_NIGHTLY -Method Post -Body $payload -ContentType "application/json"
         env:
           DISCORD_WEBHOOK_NIGHTLY: ${{ secrets.DISCORD_WEBHOOK_NIGHTLY }}

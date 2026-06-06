@@ -1,7 +1,10 @@
-# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+﻿# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
 # Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2025 - 2026. All rights reserved.
 
 name: Build
+
+permissions:
+  contents: read
 
 on:
   pull_request:
@@ -14,43 +17,66 @@ on:
       - canary
       - gold
       - V105-LTS
-      - V85-LTS
     paths-ignore: ['.git*', '.vscode']
   workflow_dispatch:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-2025-vs2026
     if: github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'workflow_dispatch')
 
     steps:
       - name: Checkout
         uses: actions/checkout@v6
 
-      # .NET 9 and 10
-      - name: Setup .NET
+      # .NET 9 and 10 always; .NET 11 — DOTNET_PREVIEW_SETUP_VERSION when set, else 11.0.x (stable attempt, then preview).
+      - name: Setup .NET (9 and 10)
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: |
             9.0.x
             10.0.x
 
-      # .NET 11 (Preview)
-      - name: Setup .NET 11 (Preview)
+      - name: Setup .NET 11 (stable)
+        id: setup_dotnet11_stable
+        continue-on-error: true
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: 11.0.x
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+
+      - name: Setup .NET 11 (preview fallback)
+        if: steps.setup_dotnet11_stable.outcome == 'failure'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
           dotnet-quality: preview
 
-      # global.json dynamically generate (use latest SDK available)
-      - name: Force .NET 11 SDK via global.json
+      # Optional extra preview SDK (repo variable). USE_DOTNET_PREVIEW=false skips; global.json pins latest installed band below.
+      - name: Setup .NET Preview
+        if: vars.USE_DOTNET_PREVIEW != 'false'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION }}
+          dotnet-quality: preview
+
+      # Pin sdk.version to newest installed 11.x / 10.x / 9.x for reproducible CI (must support all TargetFrameworks).
+      - name: Pin SDK via global.json
         run: |
-          $sdkVersion = (dotnet --list-sdks | Select-String "11.0").ToString().Split(" ")[0]
-          if (-not $sdkVersion) {
-            # Fallback to .NET 10 if .NET 11 is not available
-            $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
+          $ErrorActionPreference = 'Stop'
+          function Get-ListedSdkVersion([string]$Pattern) {
+            $hit = dotnet --list-sdks | Select-String $Pattern | Select-Object -Last 1
+            if (-not $hit) { return $null }
+            $line = $hit.Line.TrimEnd()
+            if ($line -match '^(\d+\.\d+\.\d+)\s') { return $Matches[1] }
+            return (($line -split '\s+', 2)[0])
           }
-          Write-Output "Using SDK $sdkVersion"
+          $sdkVersion = Get-ListedSdkVersion '11.0'
+          if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '10.0' }
+          if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '9.0' }
+          if (-not $sdkVersion) {
+            Write-Error 'Could not resolve an SDK version for global.json.'
+          }
+          Write-Host "Using SDK $sdkVersion"
           @"
           {
             "sdk": {
@@ -61,12 +87,12 @@ jobs:
           "@ | Out-File -Encoding utf8 global.json
 
       - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v2
+        uses: microsoft/setup-msbuild@v3
         with:
           msbuild-architecture: x64
 
       - name: Setup NuGet
-        uses: NuGet/setup-nuget@v2.0.1
+        uses: NuGet/setup-nuget@v4
 
       - name: Cache NuGet
         uses: actions/cache@v5
@@ -76,56 +102,57 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      - name: Populate WebView2 (latest)
+      # TODO: Remove the step-level `if` below in November 2026 so WebView2 runs on all branches.
+      # Prerelease WebView2 required for net11.0-windows on alpha/canary; stable packages do not support .NET 11 yet.
+      - name: Resolve WebView2 version
+        if: github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary'
+        id: webview2_version
         shell: pwsh
         run: |
-          $root = $env:GITHUB_WORKSPACE
-          if (-not $root) { $root = (Get-Location).Path }
-          $utilProj = Join-Path $root "Source\Krypton Components\Krypton.Utilities\Krypton.Utilities.csproj"
-          $libDir = Join-Path $root "Source\Krypton Components\Krypton.Utilities\Lib\WebView2"
-          if (-not (Test-Path $utilProj)) { Write-Error "Project not found: $utilProj"; exit 1 }
-          if (-not (Test-Path $libDir)) { New-Item -ItemType Directory -Path $libDir -Force }
-          $packageId = "Microsoft.Web.WebView2"
-          # Use prerelease versions for alpha and canary branches to avoid .NET 11.0 requirement
-          $usePrerelease = ($env:GITHUB_REF -eq 'refs/heads/alpha' -or $env:GITHUB_REF -eq 'refs/heads/canary')
-          $prereleaseParam = if ($usePrerelease) { "true" } else { "false" }
-          Write-Host "Using prerelease=$prereleaseParam for WebView2 SDK lookup"
-          $latestVersion = $null
-          try {
-            $searchResponse = Invoke-RestMethod -Uri "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=$prereleaseParam&semVerLevel=2.0.0&take=1" -Method Get
-            if ($searchResponse.data -and $searchResponse.data.Count -gt 0) { $latestVersion = $searchResponse.data[0].version }
-          } catch {
-            try {
-              $response = Invoke-RestMethod -Uri "https://api.nuget.org/v3-flatcontainer/$packageId/index.json" -Method Get
-              if ($usePrerelease) {
-                # Include prerelease versions
-                $allVersions = $response.versions | Where-Object { $_ -match '^\d+\.\d+\.\d+' }
-                if ($allVersions) { $latestVersion = $allVersions | Sort-Object { [System.Version]($_ -replace '-.*', '') } -Descending | Select-Object -First 1 }
-              } else {
-                $stableVersions = $response.versions | Where-Object { $_ -notmatch '[-]' -and $_ -match '^\d+\.\d+\.\d+$' }
-                if ($stableVersions) { $latestVersion = $stableVersions | Sort-Object { [System.Version]$_ } -Descending | Select-Object -First 1 }
-              }
-            } catch {}
-          }
-          if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
-          Write-Host "Using WebView2 ($(if ($usePrerelease) { 'preview' } else { 'latest' })): $latestVersion"
-          dotnet add $utilProj package $packageId --version $latestVersion
-          dotnet restore $utilProj
-          $nugetBase = Join-Path $env:USERPROFILE ".nuget\packages\microsoft.web.webview2\$latestVersion"
-          @("Microsoft.Web.WebView2.Core.dll","Microsoft.Web.WebView2.WinForms.dll","WebView2Loader.dll") | ForEach-Object {
-            $f = Get-ChildItem -Path $nugetBase -Recurse -Name $_ -ErrorAction SilentlyContinue | Select-Object -First 1
-            if ($f) { Copy-Item (Join-Path $nugetBase $f) $libDir -Force; Write-Host "Copied $_" }
-          }
-          dotnet remove $utilProj package $packageId
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          & (Join-Path $repoRoot 'Scripts/CI/Populate-WebView2.ps1') -Prerelease -ResolveVersionOnly -WriteGitHubOutputVersion
 
+      - name: Restore WebView2 cache
+        if: github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary'
+        id: webview2_cache_restore
+        uses: actions/cache/restore@v5
+        continue-on-error: true
+        with:
+          path: ${{ runner.temp }}/webview2
+          key: webview2-${{ runner.os }}-${{ steps.webview2_version.outputs.version }}
+          restore-keys: |
+            webview2-${{ runner.os }}-
+
+      - name: Populate WebView2 (Preview)
+        if: github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary'
+        shell: pwsh
+        env:
+          WEBVIEW2_VERSION: ${{ steps.webview2_version.outputs.version }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          & (Join-Path $repoRoot 'Scripts/CI/Populate-WebView2.ps1') -Prerelease -Version $env:WEBVIEW2_VERSION
+
+      - name: Save WebView2 cache
+        if: success() && (github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary')
+        uses: actions/cache/save@v5
+        continue-on-error: true
+        with:
+          path: ${{ runner.temp }}/webview2
+          key: ${{ steps.webview2_cache_restore.outputs.cache-primary-key }}
+
+      # Match nightly.proj: Release + TFMs=all so TargetFrameworks / package graphs align (avoids CS7069 / prune mismatches).
+      # UseArtifactsOutput must match MSBuild Build (avoids NETSDK1005 under artifacts/obj).
       - name: Restore
-        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx"
+        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx" -p:Configuration=Release -p:TFMs=all -p:UseArtifactsOutput=true
 
+      # /m: multi-processor MSBuild; nightly.proj sets BuildInParallel on the Krypton.* graph.
       - name: Build
-        run: msbuild "Scripts/Build/nightly.proj" /t:Rebuild /p:Configuration=Release /p:Platform="Any CPU"
+        run: msbuild /m "Scripts/Build/nightly.proj" /t:Rebuild /restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
   release:
-    runs-on: windows-latest
+    runs-on: windows-2025-vs2026
     if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
     needs: build
 
@@ -133,19 +160,46 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      # .NET 9 and 10
-      - name: Setup .NET
+      # .NET 9 and 10 always; .NET 11 — DOTNET_PREVIEW_SETUP_VERSION when set, else 11.0.x (same resolution as build job).
+      - name: Setup .NET (9 and 10)
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: |
             9.0.x
             10.0.x
 
-      # global.json dynamically generate
-      - name: Force .NET 10 SDK via global.json
+      - name: Setup .NET 11 (stable)
+        id: setup_dotnet11_stable_release
+        continue-on-error: true
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+
+      - name: Setup .NET 11 (preview fallback)
+        if: steps.setup_dotnet11_stable_release.outcome == 'failure'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+          dotnet-quality: preview
+
+      # Pin sdk.version to newest installed 11.x / 10.x / 9.x for reproducible CI (must support all TargetFrameworks).
+      - name: Pin SDK via global.json
         run: |
-          $sdkVersion = (dotnet --list-sdks | Select-String "10.0").ToString().Split(" ")[0]
-          Write-Output "Using SDK $sdkVersion"
+          $ErrorActionPreference = 'Stop'
+          function Get-ListedSdkVersion([string]$Pattern) {
+            $hit = dotnet --list-sdks | Select-String $Pattern | Select-Object -Last 1
+            if (-not $hit) { return $null }
+            $line = $hit.Line.TrimEnd()
+            if ($line -match '^(\d+\.\d+\.\d+)\s') { return $Matches[1] }
+            return (($line -split '\s+', 2)[0])
+          }
+          $sdkVersion = Get-ListedSdkVersion '11.0'
+          if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '10.0' }
+          if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '9.0' }
+          if (-not $sdkVersion) {
+            Write-Error 'Could not resolve an SDK version for global.json.'
+          }
+          Write-Host "Using SDK $sdkVersion"
           @"
           {
             "sdk": {
@@ -156,12 +210,12 @@ jobs:
           "@ | Out-File -Encoding utf8 global.json
 
       - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v2
+        uses: microsoft/setup-msbuild@v3
         with:
           msbuild-architecture: x64
 
       - name: Setup NuGet
-        uses: NuGet/setup-nuget@v2.0.1
+        uses: NuGet/setup-nuget@v4
 
       - name: Cache NuGet
         uses: actions/cache@v5
@@ -171,61 +225,117 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      - name: Populate WebView2 (latest)
+      # TODO: Remove the step-level `if` below in November 2026 so WebView2 runs on all branches.
+      # Prerelease WebView2 required for net11.0-windows on alpha/canary; stable packages do not support .NET 11 yet.
+      - name: Resolve WebView2 version
+        if: github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary'
+        id: webview2_version_release
         shell: pwsh
         run: |
-          $root = $env:GITHUB_WORKSPACE
-          if (-not $root) { $root = (Get-Location).Path }
-          $utilProj = Join-Path $root "Source\Krypton Components\Krypton.Utilities\Krypton.Utilities.csproj"
-          $libDir = Join-Path $root "Source\Krypton Components\Krypton.Utilities\Lib\WebView2"
-          if (-not (Test-Path $utilProj)) { Write-Error "Project not found: $utilProj"; exit 1 }
-          if (-not (Test-Path $libDir)) { New-Item -ItemType Directory -Path $libDir -Force }
-          $packageId = "Microsoft.Web.WebView2"
-          # Use prerelease versions for alpha and canary branches to avoid .NET 11.0 requirement
-          $usePrerelease = ($env:GITHUB_REF -eq 'refs/heads/alpha' -or $env:GITHUB_REF -eq 'refs/heads/canary')
-          $prereleaseParam = if ($usePrerelease) { "true" } else { "false" }
-          Write-Host "Using prerelease=$prereleaseParam for WebView2 SDK lookup"
-          $latestVersion = $null
-          try {
-            $searchResponse = Invoke-RestMethod -Uri "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=$prereleaseParam&semVerLevel=2.0.0&take=1" -Method Get
-            if ($searchResponse.data -and $searchResponse.data.Count -gt 0) { $latestVersion = $searchResponse.data[0].version }
-          } catch {
-            try {
-              $response = Invoke-RestMethod -Uri "https://api.nuget.org/v3-flatcontainer/$packageId/index.json" -Method Get
-              if ($usePrerelease) {
-                # Include prerelease versions
-                $allVersions = $response.versions | Where-Object { $_ -match '^\d+\.\d+\.\d+' }
-                if ($allVersions) { $latestVersion = $allVersions | Sort-Object { [System.Version]($_ -replace '-.*', '') } -Descending | Select-Object -First 1 }
-              } else {
-                $stableVersions = $response.versions | Where-Object { $_ -notmatch '[-]' -and $_ -match '^\d+\.\d+\.\d+$' }
-                if ($stableVersions) { $latestVersion = $stableVersions | Sort-Object { [System.Version]$_ } -Descending | Select-Object -First 1 }
-              }
-            } catch {}
-          }
-          if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
-          Write-Host "Using WebView2 ($(if ($usePrerelease) { 'preview' } else { 'latest' })): $latestVersion"
-          dotnet add $utilProj package $packageId --version $latestVersion
-          dotnet restore $utilProj
-          $nugetBase = Join-Path $env:USERPROFILE ".nuget\packages\microsoft.web.webview2\$latestVersion"
-          @("Microsoft.Web.WebView2.Core.dll","Microsoft.Web.WebView2.WinForms.dll","WebView2Loader.dll") | ForEach-Object {
-            $f = Get-ChildItem -Path $nugetBase -Recurse -Name $_ -ErrorAction SilentlyContinue | Select-Object -First 1
-            if ($f) { Copy-Item (Join-Path $nugetBase $f) $libDir -Force; Write-Host "Copied $_" }
-          }
-          dotnet remove $utilProj package $packageId
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          & (Join-Path $repoRoot 'Scripts/CI/Populate-WebView2.ps1') -Prerelease -ResolveVersionOnly -WriteGitHubOutputVersion
 
+      - name: Restore WebView2 cache
+        if: github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary'
+        id: webview2_cache_restore_release
+        uses: actions/cache/restore@v5
+        continue-on-error: true
+        with:
+          path: ${{ runner.temp }}/webview2
+          key: webview2-${{ runner.os }}-${{ steps.webview2_version_release.outputs.version }}
+          restore-keys: |
+            webview2-${{ runner.os }}-
+
+      - name: Populate WebView2 (Preview)
+        if: github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary'
+        shell: pwsh
+        env:
+          WEBVIEW2_VERSION: ${{ steps.webview2_version_release.outputs.version }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          & (Join-Path $repoRoot 'Scripts/CI/Populate-WebView2.ps1') -Prerelease -Version $env:WEBVIEW2_VERSION
+
+      - name: Save WebView2 cache
+        if: success() && (github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary')
+        uses: actions/cache/save@v5
+        continue-on-error: true
+        with:
+          path: ${{ runner.temp }}/webview2
+          key: ${{ steps.webview2_cache_restore_release.outputs.cache-primary-key }}
+
+      # UseArtifactsOutput must match Build/Pack so project.assets.json lands under artifacts/obj (avoids NETSDK1005).
       - name: Restore
-        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx"
+        run: msbuild /m "Scripts/Build/build.proj" /t:Restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true /p:TFMs=all
 
+      # /m: multi-processor MSBuild (all runner CPUs). build.proj orchestrates Krypton.* in parallel where references allow.
       - name: Build Release
-        run: msbuild "Scripts/Build/build.proj" /t:Build /p:Configuration=Release /p:Platform="Any CPU"
+        run: msbuild /m "Scripts/Build/build.proj" /t:Build /restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Pack Release
-        run: msbuild "Scripts/Build/build.proj" /t:Pack /p:Configuration=Release /p:Platform="Any CPU"
+        run: msbuild /m "Scripts/Build/build.proj" /t:Pack /restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true /p:TFMs=all
 
       - name: Get Version
         id: get_version
+        shell: pwsh
         run: |
-          $version = (dotnet build "Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit.csproj" --no-restore --verbosity quiet | Select-String "Version" | ForEach-Object { $_.Line.Split('=')[1].Trim() })
+          $ErrorActionPreference = 'Stop'
+          $version = $null
+          $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
+          $msbuildConfig = 'Release'
+
+          # Primary source: built Krypton.Toolkit.dll assembly version.
+          try {
+            $dllRelativePaths = @(
+              "artifacts/bin/$msbuildConfig/net48/Krypton.Toolkit.dll",
+              "Bin/$msbuildConfig/net48/Krypton.Toolkit.dll"
+            )
+            $dllPath = $null
+            foreach ($p in $dllRelativePaths) {
+              if (Test-Path -LiteralPath $p) { $dllPath = Get-Item -LiteralPath $p; break }
+            }
+
+            if (-not $dllPath) {
+              $searchRoots = @("artifacts/bin", "Bin/$msbuildConfig", "Bin")
+              foreach ($root in $searchRoots) {
+                if (Test-Path -LiteralPath $root) {
+                  $candidate = Get-ChildItem -Path $root -Recurse -Filter "Krypton.Toolkit.dll" -ErrorAction SilentlyContinue | Select-Object -First 1
+                  if ($candidate) { $dllPath = $candidate; break }
+                }
+              }
+            }
+
+            if (-not $dllPath) { throw "Krypton.Toolkit.dll not found under artifacts or Bin." }
+            $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
+            $assemblyVersionText = $assemblyVersion.ToString()
+            if ($assemblyVersionText -match '^[1-9]\d{2,}\.\d+\.\d+\.\d+$') {
+              $version = $assemblyVersionText
+              Write-Host "Got version from assembly: $version ($($dllPath.FullName))"
+            } else {
+              Write-Warning "Ignoring unexpected assembly version '$assemblyVersionText' from $($dllPath.FullName)."
+            }
+          } catch {
+            Write-Host "Could not read version from assembly: $_"
+          }
+
+          # Backup source: evaluated MSBuild Version when assembly probing fails.
+          if (-not $version) {
+            try {
+              $evaluated = (& dotnet msbuild "`"$proj`"" -getProperty:Version -p:Configuration=$msbuildConfig -nologo -v:q).Trim()
+              if ($evaluated) {
+                if ($evaluated -match '^[1-9]\d{2,}\.\d+\.\d+\.\d+$') {
+                  $version = $evaluated
+                  Write-Host "Got version from MSBuild fallback: $version"
+                } else {
+                  Write-Warning "Ignoring unexpected MSBuild version '$evaluated'."
+                }
+              }
+            } catch {
+              Write-Host "Could not read version from MSBuild: $_"
+            }
+          }
+
           if (-not $version) {
             $version = "100.25.1.1"  # Fallback version
           }
