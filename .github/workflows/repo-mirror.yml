@@ -1,0 +1,559 @@
+# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+# Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, tobitege et al. 2026 - 2026. All rights reserved.
+#
+# Mirrors major branches from this repository to a separate GitHub repository.
+# Branches: master, gold, canary, alpha, V105-LTS, V85-LTS (plus all tags).
+# Maintains mirror equivalence: updates refs on the target, deletes configured branches
+# removed from source, prunes tags removed from source, and fails if a configured branch
+# is missing from both source and mirror (typo guard).
+#
+# KILL-SWITCH: To disable this workflow, set repository variable REPO_MIRROR_DISABLED=true
+# Location: Repository Settings → Secrets and variables → Actions → Variables tab
+# To re-enable: Set REPO_MIRROR_DISABLED=false or delete the variable
+#
+# Required configuration:
+#   Variable  MIRROR_REPO         Target repo as owner/name (e.g. Krypton-Suite/Standard-Toolkit-Mirror)
+#   Secret    MIRROR_REPO_TOKEN   PAT with contents:write on the target repository
+#
+# Optional:
+#   Variable  MIRROR_BRANCHES     Comma-separated branch list (overrides the default six branches)
+#   Variable  MIRROR_SYNC_TAGS      Set to "false" to skip tag sync (default: sync tags)
+#   Variable  REPO_MIRROR_ON_PR_MERGE  Set to "true" to enable syncs on merged pull requests
+#   Secret    DISCORD_WEBHOOK_MIRROR  Discord webhook for mirror notifications
+#
+# Testing: Actions → Repository Mirror → Run workflow → enable "Dry run" to validate
+# configuration, clone the source, and list refs without force-pushing. Use a dedicated
+# test mirror repository before pointing MIRROR_REPO at production backup storage.
+#
+# DEPLOYMENT: Scheduled runs use the workflow file on the repository DEFAULT BRANCH (master).
+# Pull request triggers fire when a PR targeting a listed base branch is closed. The mirror job
+# only runs on merged PRs when REPO_MIRROR_ON_PR_MERGE=true.
+# Merge to master for the daily cron; backport to other major branches if needed.
+
+name: Repository Mirror
+
+on:
+  schedule:
+    # Daily safety-net sync at 02:00 UTC (runs only when this file exists on default branch: master)
+    - cron: '0 2 * * *'
+  pull_request:
+    # PR close events targeting these base branches are considered for merge-triggered syncs
+    types:
+      - closed
+    branches:
+      - master
+      - gold
+      - canary
+      - alpha
+      - alpha-backup
+      - V105-LTS
+      - V85-LTS
+      # The branch before code enters the alpha branch, i.e. V120
+      - prerelease
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Validate configuration and list refs without pushing to the mirror
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  mirror:
+    if: github.event_name != 'pull_request' || (github.event.pull_request.merged == true && vars.REPO_MIRROR_ON_PR_MERGE == 'true')
+    runs-on: ubuntu-latest
+
+    concurrency:
+      group: repo-mirror
+      cancel-in-progress: false
+
+    steps:
+      - name: Repository Mirror Kill Switch Check
+        id: kill_switch
+        run: |
+          disabled="${{ vars.REPO_MIRROR_DISABLED }}"
+          if [ "$disabled" = "true" ]; then
+            echo "::warning:: Repository Mirror workflow is currently DISABLED via kill switch (REPO_MIRROR_DISABLED=true)"
+            echo "To re-enable: Go to Repository Settings -> Secrets and Variables -> Actions -> Variables -> Set REPO_MIRROR_DISABLED to 'false'."
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Repository Mirror kill switch check has passed, continuing..."
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Security - Verify Repository
+        if: steps.kill_switch.outputs.enabled == 'true'
+        run: |
+          if [ "$GITHUB_REPOSITORY" != "Krypton-Suite/Standard-Toolkit" ]; then
+            echo "::error::Security: Invalid repository '$GITHUB_REPOSITORY'. This workflow should only run on Krypton-Suite/Standard-Toolkit"
+            exit 1
+          fi
+          echo "Repository verified: $GITHUB_REPOSITORY"
+
+      - name: Mirror branches to target repository
+        if: steps.kill_switch.outputs.enabled == 'true'
+        id: mirror
+        env:
+          SOURCE_REPO_TOKEN: ${{ github.token }}
+          MIRROR_REPO: ${{ vars.MIRROR_REPO }}
+          MIRROR_REPO_TOKEN: ${{ secrets.MIRROR_REPO_TOKEN }}
+          MIRROR_BRANCHES: ${{ vars.MIRROR_BRANCHES }}
+          MIRROR_SYNC_TAGS: ${{ vars.MIRROR_SYNC_TAGS }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run == true && 'true' || 'false' }}
+        run: |
+          set -euo pipefail
+
+          install_git_credential_helper() {
+            {
+              echo '#!/bin/sh'
+              echo 'case "$1" in'
+              echo 'get)'
+              echo '  echo "username=x-access-token"'
+              echo '  echo "password=${GIT_CREDENTIAL_TOKEN}"'
+              echo '  ;;'
+              echo 'esac'
+            } > /tmp/git-credential-actions
+            chmod +x /tmp/git-credential-actions
+          }
+
+          git_with_token() {
+            local token="$1"
+            shift
+            GIT_CREDENTIAL_TOKEN="$token" git -c "credential.helper=!/tmp/git-credential-actions" "$@"
+          }
+
+          normalize_mirror_repo() {
+            local value="$1"
+            if [[ "$value" == https://github.com/* ]] || [[ "$value" == http://github.com/* ]]; then
+              value="${value#*github.com/}"
+              value="${value%.git}"
+              value="${value%/}"
+              echo "Normalized MIRROR_REPO from full URL to: $value" >&2
+            fi
+            printf '%s' "$value"
+          }
+
+          validate_owner_repo() {
+            local value="$1"
+            local label="$2"
+            if ! [[ "$value" =~ ^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$ ]]; then
+              echo "::error::${label} must be a strict owner/repo identifier (got: ${value})"
+              exit 1
+            fi
+          }
+
+          trim_value() {
+            local value="$1"
+            value="${value#"${value%%[![:space:]]*}"}"
+            value="${value%"${value##*[![:space:]]}"}"
+            printf '%s' "$value"
+          }
+
+          validate_branch_name() {
+            local branch="$1"
+            if ! git check-ref-format --branch "$branch" 2>/dev/null; then
+              echo "::error::Invalid branch name in MIRROR_BRANCHES: '${branch}'"
+              exit 1
+            fi
+          }
+
+          mirror_has_branch() {
+            printf '%s\n' "$mirror_branch_names" | grep -Fx -- "$1" >/dev/null
+          }
+
+          tag_on_source() {
+            printf '%s\n' "$source_tags" | grep -Fx -- "$1" >/dev/null
+          }
+
+          list_mirror_tag_names() {
+            git_with_token "$MIRROR_REPO_TOKEN" ls-remote --tags "$mirror_remote" \
+              | awk '{print $2}' \
+              | sed 's|^refs/tags/||' \
+              | grep -v '\^{}$' \
+              | sort -u
+          }
+
+          list_source_tag_names() {
+            git tag -l | sort -u
+          }
+
+          write_outputs() {
+            {
+              echo "pushed_branches=${pushed_branches[*]}"
+              echo "would_push_branches=${would_push_branches[*]}"
+              echo "deleted_branches=${deleted_branches[*]}"
+              echo "would_delete_branches=${would_delete_branches[*]}"
+              echo "missing_branches=${missing_branches[*]}"
+              echo "failed_branches=${failed_branches[*]}"
+              echo "pruned_tags=${pruned_tags[*]}"
+              echo "would_prune_tags=${would_prune_tags[*]}"
+              echo "tags_synced=${tags_synced}"
+              echo "tags_prune_failed=${tags_prune_failed}"
+              echo "tags_failed=${tags_failed}"
+              echo "source_tag_count=${source_tag_count:-0}"
+              echo "dry_run=${DRY_RUN}"
+              echo "mirror_repo=${repo_path}"
+            } >> "$GITHUB_OUTPUT"
+          }
+
+          if [ -z "${MIRROR_REPO_TOKEN:-}" ] || [ -z "${MIRROR_REPO:-}" ]; then
+            echo "::error::MIRROR_REPO (variable) and MIRROR_REPO_TOKEN (secret) must both be configured."
+            exit 1
+          fi
+
+          if [ -z "${SOURCE_REPO_TOKEN:-}" ]; then
+            echo "::error::SOURCE_REPO_TOKEN is not available for source repository access."
+            exit 1
+          fi
+
+          repo_path="$(normalize_mirror_repo "$MIRROR_REPO")"
+          validate_owner_repo "$repo_path" "MIRROR_REPO"
+          validate_owner_repo "$GITHUB_REPOSITORY" "Source repository"
+
+          if [ "$repo_path" = "$GITHUB_REPOSITORY" ]; then
+            echo "::error::MIRROR_REPO must not be the source repository ($GITHUB_REPOSITORY)."
+            exit 1
+          fi
+
+          if [ -n "${MIRROR_BRANCHES:-}" ]; then
+            IFS=',' read -r -a branches <<< "$MIRROR_BRANCHES"
+          else
+            branches=(master gold canary alpha V105-LTS V85-LTS)
+          fi
+
+          normalized_branches=()
+          for branch in "${branches[@]}"; do
+            branch="$(trim_value "$branch")"
+            if [ -z "$branch" ]; then
+              echo "::error::Empty branch entry in MIRROR_BRANCHES."
+              exit 1
+            fi
+            validate_branch_name "$branch"
+            normalized_branches+=("$branch")
+          done
+          branches=("${normalized_branches[@]}")
+
+          mirror_remote="https://github.com/${repo_path}.git"
+          source_remote="https://github.com/${GITHUB_REPOSITORY}.git"
+
+          install_git_credential_helper
+
+          if [ "$DRY_RUN" = "true" ]; then
+            echo "::notice::Dry run enabled — validating configuration and listing refs; no force pushes will occur."
+          fi
+
+          echo "Cloning source repository (bare)..."
+          git_with_token "$SOURCE_REPO_TOKEN" clone --bare "$source_remote" source.git
+          cd source.git
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          echo "Fetching mirror refs..."
+          mirror_branch_names="$(git_with_token "$MIRROR_REPO_TOKEN" ls-remote --heads "$mirror_remote" | awk '{print $2}' | sed 's|^refs/heads/||' | sort)"
+
+          if [ "$DRY_RUN" = "true" ]; then
+            echo "Checking mirror repository reachability..."
+            if git_with_token "$MIRROR_REPO_TOKEN" ls-remote "$mirror_remote" HEAD >/dev/null 2>&1; then
+              echo "Mirror repository is reachable."
+            else
+              echo "::warning::Mirror repository is not reachable with the configured token (ls-remote failed)."
+            fi
+          fi
+
+          pushed_branches=()
+          would_push_branches=()
+          deleted_branches=()
+          would_delete_branches=()
+          missing_branches=()
+          failed_branches=()
+          pruned_tags=()
+          would_prune_tags=()
+          tags_synced=false
+          tags_failed=false
+          tags_prune_failed=false
+          source_tag_count=0
+
+          for branch in "${branches[@]}"; do
+            if git show-ref --verify --quiet "refs/heads/${branch}"; then
+              if [ "$DRY_RUN" = "true" ]; then
+                echo "Would push branch: ${branch}"
+                would_push_branches+=("$branch")
+              else
+                echo "Pushing branch: ${branch}"
+                if git_with_token "$MIRROR_REPO_TOKEN" push --force "$mirror_remote" "refs/heads/${branch}:refs/heads/${branch}"; then
+                  pushed_branches+=("$branch")
+                else
+                  failed_branches+=("$branch")
+                fi
+              fi
+            elif mirror_has_branch "$branch"; then
+              if [ "$DRY_RUN" = "true" ]; then
+                echo "Would delete branch from mirror (removed from source): ${branch}"
+                would_delete_branches+=("$branch")
+              else
+                echo "Deleting branch from mirror (removed from source): ${branch}"
+                if git_with_token "$MIRROR_REPO_TOKEN" push "$mirror_remote" --delete "$branch"; then
+                  deleted_branches+=("$branch")
+                else
+                  failed_branches+=("$branch")
+                fi
+              fi
+            else
+              echo "::error::Configured branch '${branch}' does not exist on source or mirror (check MIRROR_BRANCHES for typos)."
+              missing_branches+=("$branch")
+            fi
+          done
+
+          if [ "${MIRROR_SYNC_TAGS:-true}" != "false" ]; then
+            source_tags="$(list_source_tag_names)"
+            mirror_tags="$(list_mirror_tag_names)"
+            if [ -n "$source_tags" ]; then
+              source_tag_count="$(printf '%s\n' "$source_tags" | sed '/^$/d' | wc -l | tr -d ' ')"
+            fi
+
+            if [ -n "$source_tags" ]; then
+              if [ "$DRY_RUN" = "true" ]; then
+                echo "Would sync ${source_tag_count} tag(s) from source."
+              else
+                echo "Syncing tags from source..."
+                if git_with_token "$MIRROR_REPO_TOKEN" push --force "$mirror_remote" 'refs/tags/*:refs/tags/*'; then
+                  tags_synced=true
+                else
+                  tags_failed=true
+                  echo "::error::Tag push failed."
+                fi
+              fi
+            else
+              echo "No tags on source to sync."
+            fi
+
+            while IFS= read -r tag; do
+              [ -z "$tag" ] && continue
+              if ! tag_on_source "$tag"; then
+                if [ "$DRY_RUN" = "true" ]; then
+                  echo "Would prune tag from mirror (removed from source): ${tag}"
+                  would_prune_tags+=("$tag")
+                else
+                  echo "Pruning tag from mirror (removed from source): ${tag}"
+                  if git_with_token "$MIRROR_REPO_TOKEN" push "$mirror_remote" ":refs/tags/${tag}"; then
+                    pruned_tags+=("$tag")
+                  else
+                    tags_prune_failed=true
+                    echo "::error::Failed to prune tag '${tag}' from mirror."
+                  fi
+                fi
+              fi
+            done <<< "$mirror_tags"
+          fi
+
+          write_outputs
+
+          if [ "${#missing_branches[@]}" -gt 0 ]; then
+            echo "::error::Configured branch(es) missing from source and mirror: ${missing_branches[*]}"
+            exit 1
+          fi
+
+          if [ "${#failed_branches[@]}" -gt 0 ]; then
+            echo "::error::Failed to mirror branch(es): ${failed_branches[*]}"
+            exit 1
+          fi
+
+          if [ "$tags_failed" = "true" ] || [ "$tags_prune_failed" = "true" ]; then
+            exit 1
+          fi
+
+          if [ "$DRY_RUN" = "true" ]; then
+            echo "Dry run complete -> ${repo_path}"
+            echo "  Would push branches: ${would_push_branches[*]:-(none)}"
+            echo "  Would delete branches: ${would_delete_branches[*]:-(none)}"
+            echo "  Would prune tags: ${would_prune_tags[*]:-(none)}"
+          else
+            echo "Mirror complete -> ${repo_path}"
+            echo "  Pushed branches: ${pushed_branches[*]:-(none)}"
+            echo "  Deleted branches: ${deleted_branches[*]:-(none)}"
+            echo "  Pruned tags: ${pruned_tags[*]:-(none)}"
+          fi
+          echo "  Tags synced: $tags_synced"
+          echo "  Tags failed: $tags_failed"
+          echo "  Tag prune failed: $tags_prune_failed"
+
+      - name: Discord notification
+        if: steps.kill_switch.outputs.enabled == 'true' && always() && steps.mirror.outcome != 'skipped'
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_MIRROR }}
+          MIRROR_OUTCOME: ${{ steps.mirror.outcome }}
+          PUSHED_BRANCHES: ${{ steps.mirror.outputs.pushed_branches }}
+          WOULD_PUSH_BRANCHES: ${{ steps.mirror.outputs.would_push_branches }}
+          DELETED_BRANCHES: ${{ steps.mirror.outputs.deleted_branches }}
+          WOULD_DELETE_BRANCHES: ${{ steps.mirror.outputs.would_delete_branches }}
+          MISSING_BRANCHES: ${{ steps.mirror.outputs.missing_branches }}
+          FAILED_BRANCHES: ${{ steps.mirror.outputs.failed_branches }}
+          PRUNED_TAGS: ${{ steps.mirror.outputs.pruned_tags }}
+          WOULD_PRUNE_TAGS: ${{ steps.mirror.outputs.would_prune_tags }}
+          TAGS_SYNCED: ${{ steps.mirror.outputs.tags_synced }}
+          TAGS_FAILED: ${{ steps.mirror.outputs.tags_failed }}
+          TAGS_PRUNE_FAILED: ${{ steps.mirror.outputs.tags_prune_failed }}
+          SOURCE_TAG_COUNT: ${{ steps.mirror.outputs.source_tag_count }}
+          DRY_RUN: ${{ steps.mirror.outputs.dry_run }}
+          MIRROR_REPO: ${{ steps.mirror.outputs.mirror_repo || vars.MIRROR_REPO }}
+          SOURCE_REPO: ${{ github.repository }}
+          EVENT_NAME: ${{ github.event_name }}
+          REF_NAME: ${{ github.ref_name }}
+          SHA: ${{ github.sha }}
+        run: |
+          if [ -z "$DISCORD_WEBHOOK" ]; then
+            echo "DISCORD_WEBHOOK_MIRROR not set - skipping Discord notification"
+            exit 0
+          fi
+
+          # Format space-separated branch/tag lists as one bullet per line for Discord fields.
+          format_ref_list() {
+            local value="$1"
+            if [ -z "$value" ]; then
+              printf '%s' '_none_'
+              return
+            fi
+            local line result=""
+            for line in $value; do
+              result="${result}• \`${line}\`"$'\n'
+            done
+            printf '%s' "${result%$'\n'}"
+          }
+
+          source_url="${GITHUB_SERVER_URL}/${SOURCE_REPO}"
+          mirror_url=""
+          if [ -n "${MIRROR_REPO:-}" ]; then
+            mirror_url="${GITHUB_SERVER_URL}/${MIRROR_REPO}"
+          fi
+
+          case "$EVENT_NAME" in
+            schedule)
+              trigger="Scheduled (daily 02:00 UTC)"
+              ;;
+            workflow_dispatch)
+              if [ "$DRY_RUN" = "true" ]; then
+                trigger="Manual — dry run"
+              else
+                trigger="Manual run"
+              fi
+              ;;
+            push)
+              trigger="Push to \`${REF_NAME}\`"
+              ;;
+            pull_request)
+              trigger="Merged PR #${{ github.event.pull_request.number }} into \`${{ github.event.pull_request.base.ref }}\`"
+              ;;
+            *)
+              trigger="$EVENT_NAME"
+              ;;
+          esac
+
+          if [ "$MIRROR_OUTCOME" = "success" ]; then
+            color=3066993
+            if [ "$DRY_RUN" = "true" ]; then
+              title="🪞 Repository Mirror — dry run OK"
+            else
+              title="🪞 Repository Mirror — sync OK"
+            fi
+          else
+            color=15158332
+            title="🪞 Repository Mirror — failed"
+          fi
+
+          if [ "$TAGS_FAILED" = "true" ]; then
+            tags_status="❌ Tag push failed"
+          elif [ "$TAGS_PRUNE_FAILED" = "true" ]; then
+            tags_status="❌ Tag prune failed"
+          elif [ "$DRY_RUN" = "true" ]; then
+            if [ "${SOURCE_TAG_COUNT:-0}" -gt 0 ]; then
+              tags_status="Dry run — ${SOURCE_TAG_COUNT} tag(s) would sync"
+            else
+              tags_status="Dry run — no tags on source"
+            fi
+          elif [ "$TAGS_SYNCED" = "true" ]; then
+            tags_status="✅ Synced ${SOURCE_TAG_COUNT:-0} tag(s)"
+          elif [ "${SOURCE_TAG_COUNT:-0}" -gt 0 ]; then
+            tags_status="⚠️ ${SOURCE_TAG_COUNT} tag(s) on source (sync not confirmed)"
+          else
+            tags_status="No tags on source"
+          fi
+
+          if [ "$DRY_RUN" = "true" ]; then
+            branch_field_name="🌿 Would push"
+            branch_field_value="$(format_ref_list "$WOULD_PUSH_BRANCHES")"
+            delete_branches="$WOULD_DELETE_BRANCHES"
+            delete_field_name="🗑️ Would delete"
+            prune_tags="$WOULD_PRUNE_TAGS"
+            prune_field_name="🏷️ Would prune tags"
+          else
+            branch_field_name="🌿 Pushed"
+            branch_field_value="$(format_ref_list "$PUSHED_BRANCHES")"
+            delete_branches="$DELETED_BRANCHES"
+            delete_field_name="🗑️ Deleted"
+            prune_tags="$PRUNED_TAGS"
+            prune_field_name="🏷️ Pruned tags"
+          fi
+
+          fields_json='[]'
+          add_field() {
+            local name="$1"
+            local value="$2"
+            local inline="${3:-false}"
+            fields_json="$(jq -n \
+              --argjson fields "$fields_json" \
+              --arg name "$name" \
+              --arg value "$value" \
+              --argjson inline "$inline" \
+              '$fields + [{name: $name, value: $value, inline: $inline}]')"
+          }
+
+          add_field "📤 Source" "[${SOURCE_REPO}](${source_url})" true
+          if [ -n "$mirror_url" ]; then
+            add_field "📥 Target" "[${MIRROR_REPO}](${mirror_url})" true
+          else
+            add_field "📥 Target" "_not configured_" true
+          fi
+          add_field "⚡ Trigger" "$trigger" true
+          add_field "$branch_field_name" "$branch_field_value" false
+          add_field "🏷️ Tags" "$tags_status" true
+
+          if [ -n "$delete_branches" ]; then
+            add_field "$delete_field_name" "$(format_ref_list "$delete_branches")" false
+          fi
+          if [ -n "$prune_tags" ]; then
+            add_field "$prune_field_name" "$(format_ref_list "$prune_tags")" false
+          fi
+          if [ -n "${MISSING_BRANCHES:-}" ]; then
+            add_field "⚠️ Missing" "$(format_ref_list "$MISSING_BRANCHES")" false
+          fi
+          if [ -n "${FAILED_BRANCHES:-}" ]; then
+            add_field "❌ Failed" "$(format_ref_list "$FAILED_BRANCHES")" false
+          fi
+
+          run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          links="[Workflow run](${run_url})"
+          if [ "$EVENT_NAME" = "push" ] && [ -n "${SHA:-}" ]; then
+            short_sha="${SHA:0:7}"
+            links="${links} · [Trigger commit](${source_url}/commit/${SHA}) (\`${short_sha}\`)"
+          fi
+          add_field "🔗 Links" "$links" false
+
+          payload=$(jq -n \
+            --arg title "$title" \
+            --argjson color "$color" \
+            --argjson fields "$fields_json" \
+            '{
+              username: "Repository Mirror",
+              avatar_url: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
+              embeds: [{
+                title: $title,
+                color: $color,
+                fields: $fields,
+                timestamp: (now | todate),
+                footer: { text: "Repository Mirror · GitHub Actions" }
+              }]
+            }')
+          curl -sS -X POST "$DISCORD_WEBHOOK" -H "Content-Type: application/json" -d "$payload"
