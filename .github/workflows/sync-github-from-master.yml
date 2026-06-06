@@ -2,10 +2,14 @@
 # Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2026 - 2026. All rights reserved.
 #
 # Opens pull requests that copy only .github/ from master onto downstream release branches ([#3610]).
+# Uses path checkout (git checkout origin/master -- .github), not merge/rebase of master into the line.
+# Does not require downstream branches to contain master in Git history.
 #
 # KILL-SWITCH: SYNC_GITHUB_FROM_MASTER_DISABLED=true
 # Targets are listed in .github/branch-policy.json (syncGithubFromMasterTargets).
-# Scheduled runs use the workflow file on the default branch (master).
+# DEPLOYMENT: This file must exist on the repository DEFAULT BRANCH (master) before scheduled
+# sync and push-to-master triggers work. Merging only into alpha does not activate it on GitHub.
+# After merge to master, use workflow_dispatch or push under .github/ on master; then merge sync PRs downstream.
 
 name: Sync .github from master
 

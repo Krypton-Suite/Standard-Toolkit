@@ -1276,5 +1276,5 @@ jobs:
           key: ${{ steps.nuget_cache_restore.outputs.cache-primary-key }}
 
       # Note: NuGet publishing for alpha/nightly builds is handled by nightly.yml workflow
-      # which runs on a schedule and checks for changes on alpha (24h, then optional retention window)
+      # which runs on a schedule and checks for changes in the last 24 hours
       
