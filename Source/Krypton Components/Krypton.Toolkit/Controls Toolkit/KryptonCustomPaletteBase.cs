@@ -4333,6 +4333,8 @@ public class KryptonCustomPaletteBase : PaletteBase
                 return ButtonSpecs.RibbonMinimize;
             case PaletteButtonSpecStyle.RibbonExpand:
                 return ButtonSpecs.RibbonExpand;
+            case PaletteButtonSpecStyle.Undo:
+                return ButtonSpecs.Previous;
             default:
                 // Unknown or out-of-range values (e.g. newer enum, bad serialization) — avoid crashing the UI.
                 Debug.Assert(false, $"Unhandled {nameof(PaletteButtonSpecStyle)}: {(int)style}");
