@@ -84,18 +84,18 @@ These merged PRs are in the Jan 30-31 window around the selected base. They are 
 | #3179 | 03/18/2026 20:38:35 | V105-LTS | applied | 2171b4aa2f8c8c337ebe44e4a7bed290a9642adf | 7f68cdb20ec03155d721c51a4586ad7404c953e2 | 3164-V105-Font-property-values-are-being-serialized-depending-of-the-current-culture-in-exported-XML-theme-file | Fixes [3164]-V105-LTS Font property values are being serialized depending of the current culture in exported XML theme | Applied as `2e7af95da`. |
 | #3269 | 03/27/2026 07:47:48 | V105-LTS | audit catch-up contents against source PRs | 254aa9f59b7b96154030eb0bee0668143b6cc0d5 | a72911dda057563a2ba10bb1dc5e1e040902f7d1 | master | * Catchup 27/03/2026 | Catch-up/parity PR; not replayed directly. |
 | #3274 | 03/28/2026 17:16:33 | V105-LTS | manual resolution | 38d41813782bbb18c60e7d6a2231b883160dbfd3 | c6dce2dc849e7aab2585009bb90d2a022c31eb71 | V105-testform-startscreen-paletteviewer-udate | V105-testform-startscreen-paletteviewer-udate | Applied as `9210ce87c`; StartScreen button-list conflict resolved to PR generic `CreateButton<TForm>` list while preserving the PR's PaletteViewer update. |
-| #3272 | 03/28/2026 17:16:52 | V105-LTS | pending replay | 89025dccafc87ac95ae918472924ef77e74b70bb | db9d76a6bd6e6a9fecec7a0bc1829c12cc10c84e | 2801-V105-KryptonTextBox-Validating-event-fires-twice | 2801-V105-KryptonTextBox-Validating-event-fires-twice | |
+| #3272 | 03/28/2026 17:16:52 | V105-LTS | applied | 89025dccafc87ac95ae918472924ef77e74b70bb | db9d76a6bd6e6a9fecec7a0bc1829c12cc10c84e | 2801-V105-KryptonTextBox-Validating-event-fires-twice | 2801-V105-KryptonTextBox-Validating-event-fires-twice | Applied as `53283750a`; prerequisite #2805 was replayed from original PR source first because #3272 only removed TODO markers around that fix. |
 | #3281 | 03/29/2026 06:58:03 | V105-LTS | audit catch-up contents against source PRs | cd36f24c0756397051ac4f464dfbc8e763e60ea7 | 69d3c3c6bccacd9d288fae03b3e742d992aad4ca | master | * Catchup 29/03/2026 | |
-| #3254 | 03/29/2026 07:23:20 | V105-LTS | pending replay | db21fc64d936fd7ee7d4de6357f846f9df315f26 | 80ae22e8b55f59e3a75c084da3f1a7b01ce3e7b6 | V105-LTS-3225-bug-ribbon-large-button-image-to-text-separator-not-dpi-scaled | * Ribbon large button image-to-text separator not DPI-scaled (V105) | |
-| #3251 | 03/30/2026 07:38:22 | V105-LTS | pending replay | 7e77bdf2275e29df49bbfe7a47d5d7d8484afbe5 | ea2440d01719b271741e97fdf398afd714854daa | V105-LTS-3227-bug-kryptondockingmanagerloadconfigfromarray-throws-exception | `KryptonDockingManager.LoadConfigFromArray` throws exception (V105) | |
-| #3284 | 04/01/2026 09:58:41 | V105-LTS | pending replay | 1772131a37500561020debf1acfb5498828f9199 | 990c8ae4082a242b20f429dc51fab73197b267a9 | V110-LTS-missing-brackets | * Fix double bracket issue | |
-| #3307 | 04/05/2026 07:11:54 | V105-LTS | pending replay | 1514baf184c30120012857e9096b65c70c8bf1d8 | b2b7efeb672f065571c1574157a765a3915e361f | V105-LTS-3256-bug-tree-view-event-is-crashing | * Tree View Event is Crashing (V105 LTS) | |
-| #3310 | 04/11/2026 08:11:08 | V105-LTS | pending replay | 95b8d65d0d921ad7398e636593896596c21874bf | fe86b85ed25421d94203c677e50d646ddecd1b6c | V105-LTS-1002-feature-request-implement-actionlists-for-file-dialogs | Implement `ActionLists` for file dialogs (V105 LTS) | |
+| #3254 | 03/29/2026 07:23:20 | V105-LTS | applied | db21fc64d936fd7ee7d4de6357f846f9df315f26 | 80ae22e8b55f59e3a75c084da3f1a7b01ce3e7b6 | V105-LTS-3225-bug-ribbon-large-button-image-to-text-separator-not-dpi-scaled | * Ribbon large button image-to-text separator not DPI-scaled (V105) | Applied as `16099711f`. |
+| #3251 | 03/30/2026 07:38:22 | V105-LTS | applied | 7e77bdf2275e29df49bbfe7a47d5d7d8484afbe5 | ea2440d01719b271741e97fdf398afd714854daa | V105-LTS-3227-bug-kryptondockingmanagerloadconfigfromarray-throws-exception | `KryptonDockingManager.LoadConfigFromArray` throws exception (V105) | Applied as `15c55ee73`. |
+| #3284 | 04/01/2026 09:58:41 | V105-LTS | applied | 1772131a37500561020debf1acfb5498828f9199 | 990c8ae4082a242b20f429dc51fab73197b267a9 | V110-LTS-missing-brackets | * Fix double bracket issue | Applied as `a98814a51`; prerequisite #2834 was replayed from original PR source first because #3284 modifies its RichTextBox formatting test. |
+| #3307 | 04/05/2026 07:11:54 | V105-LTS | applied | 1514baf184c30120012857e9096b65c70c8bf1d8 | b2b7efeb672f065571c1574157a765a3915e361f | V105-LTS-3256-bug-tree-view-event-is-crashing | * Tree View Event is Crashing (V105 LTS) | Applied as `53f7e5503`. |
+| #3310 | 04/11/2026 08:11:08 | V105-LTS | applied | 95b8d65d0d921ad7398e636593896596c21874bf | fe86b85ed25421d94203c677e50d646ddecd1b6c | V105-LTS-1002-feature-request-implement-actionlists-for-file-dialogs | Implement `ActionLists` for file dialogs (V105 LTS) | Applied as `e8219cfd0`. |
 | #3318 | 04/12/2026 06:21:50 | V105-LTS | audit catch-up contents against source PRs | 5b67a51917d8c52b94685a1f5944280d2554b9dd | 0305e0c71733ec95be6a5f8def5cf54e5ef506d7 | master | * Catchup 12/04/2026 | |
 | #3335 | 04/19/2026 07:25:24 | V105-LTS | audit catch-up contents against source PRs | b0faf03453e075fce3fe9fd58eb97b1a25c23b53 | 37fa89fabbb8e84fdb405bdf7326d325c1b1d0aa | master | * Catchup 19/04/2026 | |
-| #3340 | 04/21/2026 06:41:35 | V105-LTS | pending replay | 78d4aa911012e5b0aaec76e02e27b424101a7ecb | 634f49cf8d139e188b755647f76d7647464286e9 | V105-LTS-3283-bug-kryptonthemecombobox-does-not-change-theme-when-selectedindex-is-changed | * `KryptonThemeComboBox` does not change theme when `SelectedIndex` (… | |
-| #3355 | 04/26/2026 07:10:56 | V105-LTS | pending replay | 0b5cc68f26a386b4ab57096553c5d632fc48ea4a | 304aee0f2d78298ce8b1cfbc4f6dfb4bdc38a49a | V105-LTS-3342-bug-kryptontextbox-text-flickers-when-resizing-the-control-multiline-active | * `KryptonTextBox`, text flickers when resizing the control (multilin… | |
-| #3351 | 04/27/2026 09:04:40 | V105-LTS | pending replay | 27f70055d3b77fc25b86f47b3470cc65e0c5d8e4 | 02c4939065acd61fc0d4944b70deb32df53b0187 | 3164-V105-Font-property-values-are-being-serialized-depending-of-the-current-culture-in-exported-XML-theme-file | v105-Fix Font null handling in XML serialization and deserialization | |
+| #3340 | 04/21/2026 06:41:35 | V105-LTS | applied | 78d4aa911012e5b0aaec76e02e27b424101a7ecb | 634f49cf8d139e188b755647f76d7647464286e9 | V105-LTS-3283-bug-kryptonthemecombobox-does-not-change-theme-when-selectedindex-is-changed | * `KryptonThemeComboBox` does not change theme when `SelectedIndex` (… | Applied as `5bd2c9953`. |
+| #3355 | 04/26/2026 07:10:56 | V105-LTS | applied | 0b5cc68f26a386b4ab57096553c5d632fc48ea4a | 304aee0f2d78298ce8b1cfbc4f6dfb4bdc38a49a | V105-LTS-3342-bug-kryptontextbox-text-flickers-when-resizing-the-control-multiline-active | * `KryptonTextBox`, text flickers when resizing the control (multilin… | Applied as `a7c838977`. |
+| #3351 | 04/27/2026 09:04:40 | V105-LTS | applied | 27f70055d3b77fc25b86f47b3470cc65e0c5d8e4 | 02c4939065acd61fc0d4944b70deb32df53b0187 | 3164-V105-Font-property-values-are-being-serialized-depending-of-the-current-culture-in-exported-XML-theme-file | v105-Fix Font null handling in XML serialization and deserialization | Applied as `71e41c772`. |
 | #3374 | 04/30/2026 07:26:41 | V105-LTS | audit catch-up contents against source PRs | 221ffe00aa3bbb13a6878140ad30d41e1651aa33 | 4ce6e4d54a24a55334909f3d09d307bbeaca8fea | master | * Catchup 30/04/2026 | |
 | #3392 | 05/03/2026 09:07:02 | V105-LTS | audit catch-up contents against source PRs | 14d8d5cc43df8d43571308130a7cb740e9e16f6a | 3b0c6d7343090ac36cc77e414a509ea33e435547 | master | * Catchup 03/05/2026 | |
 | #3396 | 05/03/2026 11:08:58 | V105-LTS | audit catch-up contents against source PRs | 0276b046a13aefd0b05d4fd45ba57884b2697cf8 | 1dfcb12d2e7f9f387884030995f004059cddffab | master | * Catchup 03/05/2026 - ii | |
@@ -205,6 +205,15 @@ These master PRs are not replay inputs by default. They are checked only when a 
 | #3603 | 05/31/2026 06:37:17 | master | pending replay | d4587e0c8892f8e359f5735e937075e945fc2d7e | cba7a62cc0c6fc1a6fb08cff0c000f8fda2c0f8a | dependabot/github_actions/master/softprops/action-gh-release-3 | Bump softprops/action-gh-release from 2 to 3 | |
 | #3677 | 06/05/2026 07:08:25 | master | pending replay | 5981070b31ebcfa534d3909f5476700d0a0cdc3c | f29d7b3872b0d9e5da80796a0fc137b4dd2c5516 | 3610-feature-request-harden-workflows-master | * Implements #3610 | |
 
+## Pre-Jan Source PRs Recovered During Replay
+
+These PRs are outside the Jan 30+ audit window but were required because later audited PRs depended on them and the trustworthy base did not contain them.
+
+| PR | Merged At | Source | Result Commit | Reason |
+|---|---|---|---|---|
+| #2805 | 2025-12-29 | dc1148b360a27c55de17db798d3465cdead03043 | 55af3efde | Original V105 source for issue #2801 validation-forwarding implementation; required before #3272 cleanup. |
+| #2834 | 2026-01-06 | def4b978e9bb1f8eb49a55d5a2e13785dbe44a06 | 601a055a2 | Original V105 source for issue #2832 RichTextBox formatting preservation and test form; required before #3284 cleanup. |
+
 ## Replay Log
 
 | Order | PR | Source | Result Commit | Decision | Scope | Notes |
@@ -250,6 +259,19 @@ These master PRs are not replay inputs by default. They are checked only when a 
 | 39 | #3179 | 2171b4aa2f8c8c337ebe44e4a7bed290a9642adf | 2e7af95da | applied | PR merge delta | Clean cherry-pick from merge commit. |
 | 40 | #3269 | 254aa9f59b7b96154030eb0bee0668143b6cc0d5 | n/a | audit catch-up contents against source PRs | catch-up PR | Not replayed directly; source PRs remain the recovery source. |
 | 41 | #3274 | 38d41813782bbb18c60e7d6a2231b883160dbfd3 | 9210ce87c | manual resolution | TestForm start screen + PaletteViewer | StartScreen button-list conflict resolved to PR generic `CreateButton<TForm>` list; PaletteViewer replayed from PR merge commit. |
+| 42 | #2805 | dc1148b360a27c55de17db798d3465cdead03043 | 55af3efde | prerequisite source replay | validation forwarding | Pre-Jan original V105 PR recovered because #3272 depended on this implementation and the trustworthy base did not contain it. |
+| 43 | #3272 | 89025dccafc87ac95ae918472924ef77e74b70bb | 53283750a | applied | validation TODO cleanup | Applied after #2805; source commit only removed TODO markers around the validation-forwarding fix. |
+| 44 | #3254 | db21fc64d936fd7ee7d4de6357f846f9df315f26 | 16099711f | applied | ribbon separator DPI | Clean cherry-pick from merge commit. |
+| 45 | #3251 | 7e77bdf2275e29df49bbfe7a47d5d7d8484afbe5 | 15c55ee73 | applied | docking LoadConfigFromArray | Clean cherry-pick from merge commit. |
+| 46 | #2834 | def4b978e9bb1f8eb49a55d5a2e13785dbe44a06 | 601a055a2 | prerequisite source replay | RichTextBox formatting preservation | Pre-Jan original V105 PR recovered because #3284 modified this test/fix and the trustworthy base did not contain it. |
+| 47 | #3284 | 1772131a37500561020debf1acfb5498828f9199 | a98814a51 | applied | TestForm bracket/style cleanup | Applied after #2834; clean replay of follow-up changes. |
+| 48 | #3307 | 1514baf184c30120012857e9096b65c70c8bf1d8 | 53f7e5503 | applied | tree view event crash | Clean cherry-pick from merge commit. |
+| 49 | #3310 | 95b8d65d0d921ad7398e636593896596c21874bf | e8219cfd0 | applied | file dialog ActionLists | Clean cherry-pick from merge commit. |
+| 50 | #3318 | 5b67a51917d8c52b94685a1f5944280d2554b9dd | n/a | audit catch-up contents against source PRs | catch-up PR | Not replayed directly; source PRs remain the recovery source. |
+| 51 | #3335 | b0faf03453e075fce3fe9fd58eb97b1a25c23b53 | n/a | audit catch-up contents against source PRs | catch-up PR | Not replayed directly; source PRs remain the recovery source. |
+| 52 | #3340 | 78d4aa911012e5b0aaec76e02e27b424101a7ecb | 5bd2c9953 | applied | KryptonThemeComboBox selected index | Clean cherry-pick from merge commit. |
+| 53 | #3355 | 0b5cc68f26a386b4ab57096553c5d632fc48ea4a | a7c838977 | applied | KryptonTextBox multiline resize flicker | Clean cherry-pick from merge commit. |
+| 54 | #3351 | 27f70055d3b77fc25b86f47b3470cc65e0c5d8e4 | 71e41c772 | applied | font XML null handling | Clean cherry-pick from merge commit. |
 
 ## Verification Log
 
