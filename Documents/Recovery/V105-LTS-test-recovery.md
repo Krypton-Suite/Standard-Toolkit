@@ -213,6 +213,11 @@ These PRs are outside the Jan 30+ audit window but were required because later a
 |---|---|---|---|---|
 | #2805 | 2025-12-29 | dc1148b360a27c55de17db798d3465cdead03043 | 55af3efde | Original V105 source for issue #2801 validation-forwarding implementation; required before #3272 cleanup. |
 | #2834 | 2026-01-06 | def4b978e9bb1f8eb49a55d5a2e13785dbe44a06 | 601a055a2 | Original V105 source for issue #2832 RichTextBox formatting preservation and test form; required before #3284 cleanup. |
+| #2756 | 2025-12-16 | 563b9c084be93547f8b8a2bdaa733f45466096d5 | f7a95466c | Original V105 source for issue #2753 `IFocusLostMenuItem`; required before #2768/#2775 because the selected base did not contain the interface. |
+| #2768 | 2025-12-18 | e81221ff14036b956813b74c4dbb5e3566c8d0c4 | f7a95466c | Original V105 source for issue #2753 control implementations; required before #2775 helper concurrency support. |
+| #2773 | 2025-12-19 | 2bc088478c46e31ede1cfda28e79c23fb830a8ca | 3fa8f9571 | Original V105 source for issue #2753 `PI.DTM_`; required by #2775 `FocusLostMenuHelper` DateTimePicker close handling. |
+| #2775 | 2025-12-20 | 49a194f26f28bd8bc436ab6f519e7c2a60d1ef93 | 075c6fe5e | Original V105 source for issue #2753 FocusLostMenuHelper concurrency support; required because the selected base did not contain `ConcurrentSimpleList<T>` or `FocusLostMenuHelper`. |
+| issue #762 | 2026-01-09 | a7ff2126c08693398496f9a85ee26ebc8f2f883a | 075c6fe5e | Original V105 source for UIA provider support; required because the selected base did not contain the accessibility provider files later visible only through restore/clean history. |
 
 ## Replay Log
 
@@ -305,6 +310,32 @@ These PRs are outside the Jan 30+ audit window but were required because later a
 | 85 | #3643 | e93194441a4dca6dda43810710199dcfd8de1af2 | n/a | skip by policy | restore catch-up | Restore/catch-up PR; not replayed directly. |
 | 86 | #3652 | d1b80e88ad684d79733d6dda6b829a2a60f1f2b1 | 120b92d32 | applied | scrollbar display follow-up | Clean cherry-pick from merge commit. |
 | 87 | #3656 | accf1d5fc0d2418c1bab6944605b09f58af08dcd | 968dc8221 | applied | VisualForm .NET10 flicker | Clean cherry-pick from merge commit. |
+| 88 | #2775 | 49a194f26f28bd8bc436ab6f519e7c2a60d1ef93 | beb7aad2c | prerequisite source replay | FocusLostMenuHelper concurrency | Recovered original V105 source rather than restore/clean tree state; resolved missing-file conflict by keeping #2775 `FocusLostMenuHelper.cs`. |
+| 89 | issue #762 | a7ff2126c08693398496f9a85ee26ebc8f2f883a | 058708093 | prerequisite source replay | accessibility providers | Recovered original V105 source rather than restore/clean tree state; StartScreen conflict resolved to the recovered generic `CreateButton<TForm>` pattern with the accessibility test entry intact. |
+| 90 | #2756 | 563b9c084be93547f8b8a2bdaa733f45466096d5 | beb7aad2c | prerequisite source replay | FocusLostMenuItem interface | Recovered original V105 `Definitions.cs` interface declaration; changelog and helper conflicts resolved to already-recovered branch state. |
+| 91 | #2768 | e81221ff14036b956813b74c4dbb5e3566c8d0c4 | beb7aad2c | prerequisite source replay | FocusLostMenuItem implementations | Recovered original V105 implementations in KryptonContextMenu, KryptonStatusStrip, KryptonToolStrip, and ribbon focus handling. |
+| 92 | #2773 | 2bc088478c46e31ede1cfda28e79c23fb830a8ca | beb7aad2c | prerequisite source replay | DateTimePicker close message constant | Recovered original V105 `PI.DTM_` constant required by #2775; helper conflict resolved to the already-recovered #2775 helper. |
+| 93 | source commit | 4e80d3b35c4df25cba1a07acf967ca04ab39cfd1 | 058708093 | source replay | hard-coded output path removal | Recovered original source commit `* Removes hard-coded paths` so component projects use the per-TFM output path from `Directory.Build.targets`; deleted project conflicts resolved by keeping deleted projects deleted. |
+| 94 | source-map batch | 60af54502; 77fe50a06; 8f9fbd794; 90584905e; a72e12e67; 17df4d237; fb37014ec; 802381729; 20dc04863; 9f330a040; 12114fb34; be4521250; 4ede127fd; e10aa3199 | 971e374a0; 058708093; 1d5ef7dc0; beb7aad2c | source replay | exact source-mapped file recovery | Recovered the remaining files whose `StdTk-105` content matched original source commits exactly: script wrappers, CI helpers, solution entries, `VisualForm`, `MouseControlFinder`, and selected TestForm repro/designer files. Restore, purge, and catch-up tree states were not used as replay sources; source trailing whitespace was normalized only where required by `git diff --check`, with comments otherwise preserved. |
+| 95 | source-map batch | 0ee4a96b; 3ddff8d93; d1a09183f; da86ddd9f; dfdaef32a; 78c434872; 89025dcca; d1d020df5; bffcb0597; e1c9f57de; cae65720f; 9291d1cd7; 59b7573c8; 645e04961; 6c2adaa1e; cf0827f25; fce824a11; beec2fbf9; 8be011460; 4016ef676; bb6f0b98f; 8a741ccaa; 9f330a040; ecdac5fd8; 12114fb34; be4521250 | 058708093; beb7aad2c; 40988f8c2; 1d5ef7dc0; 971e374a0 | source replay | traced non-reset source providers | Recovered files whose `StdTk-105` blobs traced to non-restore source commits, including valid pre-Jan V105 PRs and later source fixes. Files whose only exact blob provider was Jan 31 `* Reset` were deliberately not replayed from `Reset`; those are tracked as cleanup/whitespace investigation items. Trailing whitespace was normalized only where required by `git diff --check`, with comments otherwise preserved. |
+| 96 | source-map correction | 71e41c772; d1d020df5; a0b995521; a7ff2126c | 40988f8c2; 058708093 | manual source composition | final traced source file recovery | Rebuilt `KryptonCustomPaletteBase.cs` from the later #3351 V105 source state plus the earlier #2706 `PaletteButtonSpecStyle.Undo` case, then restored the source-backed headers for `VisualMultilineStringEditorForm.cs` and `KryptonCheckedListBoxAccessibleObject.cs`. No Jan 31 `Reset` content was used as a replay source. |
+| 97 | workflow source-map batch | f26442759; f2c842cd5; d5b29dc00 | 8b2caf3c8; 4fb7be4c3 | source replay | `.github/workflows` recovery | Recovered workflow files from source-backed providers: V105 `.github` sync state for automation/TestForm workflows, PR #3620 for MSBuild quoting in build/release workflows, and `d5b29dc00` for the templates release workflow. Jan/May restore, purge, reset, and catch-up commits were not used as replay sources. One workflow file retains only whitespace-normalized differences from `StdTk-105` because trailing spaces were removed for `git diff --check`. |
+| 98 | #3517 | 4c4e7d592bae26eaed39fcd6f3d403ac6e7e1668 | 38171ac2b | source replay | Visual Studio template sources | Recovered the missing `Templates` tree from PR #3517 source commit. Blob traces also showed later catch-up/RTM/restore holders, but those were not used as replay sources. Two designer files retain only whitespace-normalized differences from `StdTk-105` after trailing spaces were removed for `git diff --check`. |
+
+## Authorship Rewrite Map
+
+The recovery-only tail was rewritten after the template/workflow replay audit so replay commits no longer imply that `tobitege` authored unrelated source changes. Safety ref: `backup/V105-LTS-test-before-author-fix-20260606`.
+
+| New Commit | Author | Source Scope |
+|---|---|---|
+| 8b2caf3c8 | `github-actions[bot] <github-actions[bot]@users.noreply.github.com>` | V105 `.github` sync workflow automation from `f26442759`. |
+| 4fb7be4c3 | `Peter Wagner <peterwagner@live.co.uk>` | Workflow fixes from `f2c842cd5` and `d5b29dc00`. |
+| 38171ac2b | `Peter Wagner <peterwagner@live.co.uk>` | Visual Studio template sources from PR #3517 source commit `4c4e7d592`. |
+| 1d5ef7dc0 | `Lesandro Gotardo <148582027+lesandrog@users.noreply.github.com>` | Ribbon/mouse source changes from Lesandro-authored provider commits. |
+| beb7aad2c | `giduac <96108132+giduac@users.noreply.github.com>` | FocusLost, validation, menu/task dialog, palette border, and MDI source fixes from giduac-authored providers. |
+| 40988f8c2 | `Jorge A. Avilés <102550248+mcpbcs@users.noreply.github.com>` | Composite `KryptonCustomPaletteBase.cs` recovery from #3351 plus #2706 co-author note. |
+| 971e374a0 | `tobitege <10787084+tobitege@users.noreply.github.com>` | Tobitege-authored build, docking, and VisualForm source fixes. |
+| 058708093 | `Peter Wagner <peterwagner@live.co.uk>` | Peter-authored script, project, accessibility, palette, TestForm, and control source fixes. |
 
 ## Verification Log
 
@@ -317,4 +348,10 @@ These PRs are outside the Jan 30+ audit window but were required because later a
 | ModernBuild `ScriptProfile` | pass | `ScriptProfile` remains present under `Scripts/ModernBuild` after #3520 and #3609. |
 | template package script | pass | `Scripts/CI/Apply-TemplatesNuGetPackage.ps1` was not found in `templates-release.yml` paths. |
 | rating column #3220 | pass | `KryptonDataGridViewRatingColumn.cs` contains `_defaultRatingMaximum`. |
+| `StdTk-105` scoped source/script comparison | pass with documented residuals | No remaining source-content gaps in the known comparison set. Residuals are 16 whitespace-only differences from trailing-whitespace normalization for `git diff --check`, plus two skipped `.csproj.user` files. |
+| `StdTk-105` workflow comparison | pass with documented residual | `.github/workflows` now has 12 exact matches and one whitespace-only difference (`auto-label-pr-backup.yml`) after trailing-whitespace normalization. Missing workflow files were restored from source-backed providers. |
+| `StdTk-105` Templates comparison | pass with documented residual | `Templates` now has 20 exact matches and two whitespace-only differences after trailing-whitespace normalization. The tree was restored from PR #3517 source commit. |
 | upstream comparison | investigated | `git diff --name-status upstream/V105-LTS HEAD` reported 137 differing paths: 1 added, 57 deleted, 79 modified. This is an investigation list only; upstream restore/catch-up tree content was not accepted as truth. |
+| `V95-(Archived)` evidence check | investigated | Local and origin `V95-(Archived)` both point to `5ddac8c99` and stop on 2026-01-29. It is clean of the recent purge/restore window but does not contain the #2753/#762/#4e80d3b3 corrective source commits, so it is a pre-Jan comparator only for this build-fix set. |
+| `gold` evidence check | pass | Local `gold`, `origin/gold`, and `upstream/gold` all contain source commits `563b9c084`, `e81221ff1`, `2bc088478`, `49a194f26`, `a7ff2126`, and `4e80d3b3`; this corroborates the corrective replay sources independently of `V105-LTS` restore commits. |
+| .NET Framework 4.8 LTS build | pass | Re-run after source-map recovery: `MSBuild.exe Scripts\VS2022\longtermstable.proj /t:Clean;Build /p:Configuration=Release /p:TargetFramework=net48 /p:ExcludeVs2022UnsupportedTargetFrameworks=true /m:1 /v:minimal` completed successfully, producing all five component assemblies under `Bin\Release\net48\`. |
