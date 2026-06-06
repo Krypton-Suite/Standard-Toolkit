@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+  <Metadata>
+    <Identity Id="Krypton.Suite.StandardToolkit.Templates" Version="110.0.0.0" Language="en-US" Publisher="Krypton Suite" />
+    <DisplayName>Krypton Templates</DisplayName>
+    <Description xml:space="preserve">Visual Studio item and project templates for the Krypton Standard Toolkit (Krypton Form, Krypton Ribbon Form, Krypton WinForms App, Krypton Ribbon WinForms App).</Description>
+    <Tags>Krypton, WinForms, Templates</Tags>
+  </Metadata>
+  <Installation>
+    <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0,19.0)">
+      <ProductArchitecture>amd64</ProductArchitecture>
+    </InstallationTarget>
+    <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[17.0,19.0)">
+      <ProductArchitecture>amd64</ProductArchitecture>
+    </InstallationTarget>
+    <InstallationTarget Id="Microsoft.VisualStudio.Enterprise" Version="[17.0,19.0)">
+      <ProductArchitecture>amd64</ProductArchitecture>
+    </InstallationTarget>
+  </Installation>
+  <Dependencies>
+    <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.7.2,)" />
+  </Dependencies>
+  <Prerequisites>
+    <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[17.0,)" DisplayName="Visual Studio core editor" />
+  </Prerequisites>
+  <Assets>
+    <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="File" Path="ItemTemplates\CSharp\1033\KryptonForm" d:TargetPath="ItemTemplates\CSharp\1033\KryptonForm" />
+    <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="File" Path="ItemTemplates\CSharp\1033\KryptonRibbonForm" d:TargetPath="ItemTemplates\CSharp\1033\KryptonRibbonForm" />
+    <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="File" Path="ProjectTemplates\CSharp\1033\KryptonWinFormsApp" d:TargetPath="ProjectTemplates\CSharp\1033\KryptonWinFormsApp" />
+    <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="File" Path="ProjectTemplates\CSharp\1033\KryptonRibbonWinFormsApp" d:TargetPath="ProjectTemplates\CSharp\1033\KryptonRibbonWinFormsApp" />
+  </Assets>
+</PackageManifest>
