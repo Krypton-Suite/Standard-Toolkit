@@ -1074,6 +1074,26 @@ public class KryptonDataGridView : DataGridView
 
     #region Protected Override
     /// <inheritdoc/>
+    protected override void OnScroll(ScrollEventArgs e)
+    {
+        base.OnScroll(e);
+
+        // #2681 - work-around
+        // Headers not correctly repainted on horizontal mouse scroll
+        if (e.ScrollOrientation == ScrollOrientation.HorizontalScroll
+            && (MouseButtons & MouseButtons.Left) == MouseButtons.Left)
+        {
+            for (int i = 0; i < Columns.Count; i++)
+            {
+                if (Columns[i].Displayed)
+                {
+                    InvalidateCell(Columns[i].HeaderCell);
+                }
+            }
+        }
+    }
+
+    /// <inheritdoc/>
     protected override void OnDataBindingComplete(DataGridViewBindingCompleteEventArgs e)
     {
         base.OnDataBindingComplete(e);
@@ -1327,6 +1347,7 @@ public class KryptonDataGridView : DataGridView
                 using (var renderContext = new RenderContext(this, tempG, tempCellBounds, Renderer!))
                 {
                     bool isHeaderCell = e.RowIndex == -1 && e.ColumnIndex >= 0;
+
                     Rectangle headerContentBounds = Rectangle.Empty;
 
                     // Force the border to have a specified maximum border edge
