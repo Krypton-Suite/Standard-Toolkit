@@ -39,13 +39,14 @@ for /f "tokens=* usebackq" %%A in (`tzutil /g`) do (
     set "zone=%%A"
 )
 
+REM Phased Krypton.* build + /m (see Scripts\Build\Krypton.Orchestration.targets).
 @echo Started to build Nightly release
 @echo:
 @echo Started: %date% %time% %zone%
 @echo:
 set "targets=Build"
 if not "%~1" == "" set "targets=%~1"
-"%msbuildpath%\msbuild.exe" -t:%targets% "%SCRIPT_DIR%nightly.proj" /fl /flp:logfile="%SCRIPT_DIR%..\..\Logs\nightly-build-log.log" /bl:"%SCRIPT_DIR%..\..\Logs\nightly-build-log.binlog"  /clp:Summary;ShowTimestamp /v:quiet
+"%msbuildpath%\msbuild.exe" /m -t:%targets% "%SCRIPT_DIR%nightly.proj" /fl /flp:logfile="%SCRIPT_DIR%..\..\Logs\nightly-build-log.log" /bl:"%SCRIPT_DIR%..\..\Logs\nightly-build-log.binlog"  /clp:Summary;ShowTimestamp /v:quiet
 @echo:
 :: -t:rebuild
 
