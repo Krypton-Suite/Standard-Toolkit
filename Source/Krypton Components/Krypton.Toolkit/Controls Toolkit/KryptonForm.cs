@@ -39,20 +39,80 @@ public class KryptonForm : VisualForm,
             _kryptonForm = kryptonForm;
         }
 
-        public override PaletteRelativeAlign GetContentShortTextH(PaletteContentStyle style, PaletteState state) => style switch
+        public override PaletteRelativeAlign GetContentShortTextH(PaletteContentStyle style, PaletteState state)
         {
-            PaletteContentStyle.HeaderForm
+            if (style is PaletteContentStyle.HeaderForm
                 or PaletteContentStyle.HeaderPrimary
                 or PaletteContentStyle.HeaderDockInactive
                 or PaletteContentStyle.HeaderDockActive
                 or PaletteContentStyle.HeaderSecondary
                 or PaletteContentStyle.HeaderCustom1
                 or PaletteContentStyle.HeaderCustom2
-                or PaletteContentStyle.HeaderCustom3 => _kryptonForm._formTitleAlign != PaletteRelativeAlign.Inherit
+                or PaletteContentStyle.HeaderCustom3)
+            {
+                // In RTL mode with RightToLeftLayout enabled, position title on the right (Far)
+                // The content layout system will position text before image when both are Far,
+                // so the order is: [Buttons] [Title] [Icon]
+                if (_kryptonForm.RightToLeft == RightToLeft.Yes && _kryptonForm.RightToLeftLayout)
+                {
+                    // Title should be Far (right side) so it appears on the right before the icon
+                    return PaletteRelativeAlign.Far;
+                }
+
+                // Use custom title align if set, otherwise use base
+                return _kryptonForm._formTitleAlign != PaletteRelativeAlign.Inherit
                     ? _kryptonForm._formTitleAlign
-                    : base.GetContentShortTextH(style, state),
-            _ => base.GetContentShortTextH(style, state)
-        };
+                    : base.GetContentShortTextH(style, state);
+            }
+
+            return base.GetContentShortTextH(style, state);
+        }
+
+        public override PaletteRelativeAlign GetContentLongTextH(PaletteContentStyle style, PaletteState state)
+        {
+            // Handle header styles
+            if (style is PaletteContentStyle.HeaderForm
+                or PaletteContentStyle.HeaderPrimary
+                or PaletteContentStyle.HeaderDockInactive
+                or PaletteContentStyle.HeaderDockActive
+                or PaletteContentStyle.HeaderSecondary
+                or PaletteContentStyle.HeaderCustom1
+                or PaletteContentStyle.HeaderCustom2
+                or PaletteContentStyle.HeaderCustom3)
+            {
+                // In RTL mode with RightToLeftLayout enabled, position TextExtra on the left (Near)
+                // so it appears after the control box buttons: [Buttons] [TextExtra] [Title] [Icon]
+                if (_kryptonForm.RightToLeft == RightToLeft.Yes && _kryptonForm.RightToLeftLayout)
+                {
+                    // TextExtra should be Near (left side) so it appears after the buttons
+                    return PaletteRelativeAlign.Near;
+                }
+            }
+
+            return base.GetContentLongTextH(style, state);
+        }
+
+        public override PaletteRelativeAlign GetContentImageH(PaletteContentStyle style, PaletteState state)
+        {
+            // In RTL mode with RightToLeftLayout enabled, position icon on the right (Far)
+            if (_kryptonForm.RightToLeft == RightToLeft.Yes && _kryptonForm.RightToLeftLayout)
+            {
+                return style switch
+                {
+                    PaletteContentStyle.HeaderForm
+                        or PaletteContentStyle.HeaderPrimary
+                        or PaletteContentStyle.HeaderDockInactive
+                        or PaletteContentStyle.HeaderDockActive
+                        or PaletteContentStyle.HeaderSecondary
+                        or PaletteContentStyle.HeaderCustom1
+                        or PaletteContentStyle.HeaderCustom2
+                        or PaletteContentStyle.HeaderCustom3 => PaletteRelativeAlign.Far,
+                    _ => base.GetContentImageH(style, state)
+                };
+            }
+
+            return base.GetContentImageH(style, state);
+        }
     }
 
     /// <summary>
@@ -265,35 +325,20 @@ public class KryptonForm : VisualForm,
         base.PaletteChanged += (s, e) => _internalKryptonPanel.PaletteMode = PaletteMode;
         // END #1979 Temporary fix
 
-        // Instantiate system menu items only to keep the compiler happy
+        // KryptonSystemMenu
         _systemMenuContextMenu = new();
-
-        SystemMenuValues = new (_systemMenuContextMenu);
-
-        // Init only here. Must instantiate in OnHandleCreated
-        _kryptonSystemMenu = null;
+        SystemMenuValues = new(_systemMenuContextMenu);
+        _kryptonSystemMenu = GetSystemMenu();
     }
     #endregion
 
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    public SystemMenuValues SystemMenuValues { get; }
-    public bool ShouldSerializeSystemMenuValues() => !SystemMenuValues.IsDefault;
-    public void ResetSystemMenuValues() => SystemMenuValues.Reset();
-
     #region Private
-    private void SetupSystemMenu() 
+    private KryptonSystemMenu? GetSystemMenu()
     {
-        if (!DesignMode)
-        {
-            _kryptonSystemMenu = new(this, _drawContent, _systemMenuContextMenu);
-
-            // When the _kryptonSystemMenu is instantiated the listener is not enabled by default.
-            // From there SystemMenuValues.Enabled will trigger and control if the listener to be active or not.
-            if (SystemMenuValues.Enabled)
-            {
-                _kryptonSystemMenu.EnableListener();
-            }
-        }
+        // Only assign the menu at runtime
+        return CommonHelper.DesignMode()
+            ? null
+            : new(this, _drawContent, _systemMenuContextMenu);
     }
     #endregion
 
@@ -755,14 +800,21 @@ public class KryptonForm : VisualForm,
                 _internalKryptonPanel.ClientSize = ClientSize;
             }
 
-            // Route to base.Controls when MDI is enabled
-            return base.IsMdiContainer ? base.Controls : _internalKryptonPanel.Controls;
+            // Route to base.Controls when MDI is enabled, or when SetInheritedControlOverride is called
+            return (base.IsMdiContainer || _internalPanelState == InheritBool.True)
+                ? base.Controls
+                : _internalKryptonPanel.Controls;
         }
     }
 
     #endregion
 
     #region Public (new)
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public SystemMenuValues SystemMenuValues { get; }
+    public bool ShouldSerializeSystemMenuValues() => !SystemMenuValues.IsDefault;
+    public void ResetSystemMenuValues() => SystemMenuValues.Reset();
+
     /// <summary>
     /// Toggles display of the minimize button.
     /// </summary>
@@ -1256,7 +1308,29 @@ public class KryptonForm : VisualForm,
             UpdateTitleStyle(value);
         }
     }
-    
+
+    /// <summary>
+    /// Gets and sets the RightToLeft property.
+    /// </summary>
+    [Browsable(true)]
+    [DefaultValue(RightToLeft.No)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public override RightToLeft RightToLeft
+    {
+        get => base.RightToLeft;
+
+        set
+        {
+            if (base.RightToLeft != value)
+            {
+                base.RightToLeft = value;
+
+                OnRightToLeftChanged(EventArgs.Empty);
+            }
+        }
+    }
+
     /// <summary>
     /// Gets or sets a value indicating whether the form has a control box.
     /// </summary>
@@ -1619,6 +1693,24 @@ public class KryptonForm : VisualForm,
         InvalidateNonClient();
     }
 
+    /// <inheritdoc />
+    protected override void OnRightToLeftChanged(EventArgs e)
+    {
+        base.OnRightToLeftChanged(e);
+
+        // Recreate buttons when RTL changes to update their positions
+        _buttonManager?.RecreateButtons();
+    }
+
+    /// <inheritdoc />
+    protected override void OnRightToLeftLayoutChanged(EventArgs e)
+    {
+        base.OnRightToLeftLayoutChanged(e);
+
+        // Recreate buttons when RTL changes to update their positions
+        _buttonManager?.RecreateButtons();
+    }
+
     /// <summary>
     /// When border style changes via property, force non-client repaint so grippie updates immediately.
     /// </summary>
@@ -1849,9 +1941,6 @@ public class KryptonForm : VisualForm,
 
         // Register with the ActiveFormTracker
         ActiveFormTracker.Attach(this);
-
-        // At runtime only, hookup the system menu.
-        SetupSystemMenu();
 
         // Ensure Material defaults are applied as early as possible for new forms
         ApplyMaterialFormChromeDefaultsIfNeeded();
@@ -2166,6 +2255,38 @@ public class KryptonForm : VisualForm,
         return ret;
     }
 
+    /// <inheritdoc />
+    protected override bool OnWM_NCCALCSIZE(ref Message m)
+    {
+        // Does the LParam contain a RECT or an NCCALCSIZE_PARAMS
+        if (m.WParam != IntPtr.Zero)
+        {
+            // Get the border sizing needed around the client area
+            Padding borders = RealWindowBorders;
+
+            // If caption should be hidden, set top border to 0 to prevent white band
+            if (ShouldHideCaption())
+            {
+                borders = new Padding(borders.Left, 0, borders.Right, borders.Bottom);
+            }
+
+            // Extract the Win32 NCCALCSIZE_PARAMS structure from LPARAM
+            PI.NCCALCSIZE_PARAMS calcsize = (PI.NCCALCSIZE_PARAMS)m.GetLParam(typeof(PI.NCCALCSIZE_PARAMS))!;
+
+            // Reduce provided RECT by the borders
+            calcsize.rectProposed.left += borders.Left;
+            calcsize.rectProposed.top += borders.Top;
+            calcsize.rectProposed.right -= borders.Right;
+            calcsize.rectProposed.bottom -= borders.Bottom;
+
+            // Put back the modified structure
+            Marshal.StructureToPtr(calcsize, m.LParam, false);
+        }
+
+        // Message processed, do not pass onto base class for processing
+        return true;
+    }
+
     protected override void OnMove(EventArgs e)
     {
         base.OnMove(e);
@@ -2304,6 +2425,30 @@ public class KryptonForm : VisualForm,
         }
     }
 
+    /// <summary>
+    /// Determines if the caption area should be hidden (no text, no icon, no control box, no visible buttons).
+    /// </summary>
+    /// <returns>True if caption should be hidden; otherwise false.</returns>
+    private bool ShouldHideCaption()
+    {
+        // Check if there are any visible buttons
+        bool hasVisibleButtons = false;
+        foreach (ButtonSpecView bsv in _buttonManager.ButtonSpecViews)
+        {
+            if (bsv.ViewCenter.Visible && bsv.ViewButton.Enabled)
+            {
+                hasVisibleButtons = true;
+                break;
+            }
+        }
+
+        // Hide caption if no control box, no text, no icon, and no visible buttons
+        return !ControlBox
+               && string.IsNullOrEmpty(GetShortText())
+               && GetDefinedIcon() == null
+               && !hasVisibleButtons;
+    }
+
     private bool CheckViewLayout()
     {
         // Cannot process a message for a disposed control
@@ -2342,16 +2487,29 @@ public class KryptonForm : VisualForm,
                     _headerStylePrev = _headerStyle;
                 }
 
-                // Update the heading to enforce a fixed Material-like caption height when Material renderer is active
-                if (Renderer is RenderMaterial)
+                bool shouldHideCaption = ShouldHideCaption();
+
+                if (shouldHideCaption)
                 {
-                    const int materialCaptionHeight = 44; // px
-                    _headingFixedSize.FixedSize = new Size(materialCaptionHeight, materialCaptionHeight);
+                    _headingFixedSize.FixedSize = Size.Empty;
+
+                    _headingFixedSize.Visible = false;
                 }
                 else
                 {
-                    Padding windowBorders = RealWindowBorders;
-                    _headingFixedSize.FixedSize = new Size(windowBorders.Top, windowBorders.Top);
+                    _headingFixedSize.Visible = true;
+
+                    // Update the heading to enforce a fixed Material-like caption height when Material renderer is active
+                    if (Renderer is RenderMaterial)
+                    {
+                        const int materialCaptionHeight = 44; // px
+                        _headingFixedSize.FixedSize = new Size(materialCaptionHeight, materialCaptionHeight);
+                    }
+                    else
+                    {
+                        Padding windowBorders = RealWindowBorders;
+                        _headingFixedSize.FixedSize = new Size(windowBorders.Top, windowBorders.Top);
+                    }
                 }
 
                 // A change in window state since last time requires a layout
@@ -2909,16 +3067,12 @@ public class KryptonForm : VisualForm,
             // a drop shadow around the form
             CreateParams cp = base.CreateParams;
 
-#pragma warning disable CS0618 // Type or member is obsolete
+            #pragma warning disable CS0618 // Type or member is obsolete
             if (UseDropShadow)
             {
                 cp.ClassStyle |= CS_DROPSHADOW;
             }
-#pragma warning restore CS0618 // Type or member is obsolete
-            if (!CloseBox)
-            {
-                cp.ClassStyle |= CP_NOCLOSE_BUTTON;
-            }
+            #pragma warning restore CS0618 // Type or member is obsolete
 
             return cp;
         }

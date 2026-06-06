@@ -1,9 +1,9 @@
 ﻿#region BSD License
 /*
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2025. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2025. All rights reserved.
+ *
  */
 #endregion
 
@@ -40,6 +40,7 @@ namespace TestForm
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BasicToastNotificationTest));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.kbtnShow = new Krypton.Toolkit.KryptonButton();
+            this.kbtnDemoFeatures = new Krypton.Toolkit.KryptonButton();
             this.kryptonBorderEdge1 = new Krypton.Toolkit.KryptonBorderEdge();
             this.kryptonPanel2 = new Krypton.Toolkit.KryptonPanel();
             this.kryptonLabel7 = new Krypton.Toolkit.KryptonLabel();
@@ -87,10 +88,11 @@ namespace TestForm
             ((System.ComponentModel.ISupportInitialize)(this.kcmbToastTitleAlignmentH)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kcmbToastIcon)).BeginInit();
             this.SuspendLayout();
-            // 
+            //
             // kryptonPanel1
-            // 
+            //
             this.kryptonPanel1.Controls.Add(this.kbtnShow);
+            this.kryptonPanel1.Controls.Add(this.kbtnDemoFeatures);
             this.kryptonPanel1.Controls.Add(this.kryptonBorderEdge1);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 430);
@@ -98,9 +100,9 @@ namespace TestForm
             this.kryptonPanel1.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
             this.kryptonPanel1.Size = new System.Drawing.Size(894, 50);
             this.kryptonPanel1.TabIndex = 0;
-            // 
+            //
             // kbtnShow
-            // 
+            //
             this.kbtnShow.Location = new System.Drawing.Point(776, 13);
             this.kbtnShow.Name = "kbtnShow";
             this.kbtnShow.Size = new System.Drawing.Size(90, 25);
@@ -108,18 +110,28 @@ namespace TestForm
             this.kbtnShow.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnShow.Values.Text = "Show";
             this.kbtnShow.Click += new System.EventHandler(this.kbtnShow_Click);
-            // 
+            //
+            // kbtnDemoFeatures
+            //
+            this.kbtnDemoFeatures.Location = new System.Drawing.Point(531, 13);
+            this.kbtnDemoFeatures.Name = "kbtnDemoFeatures";
+            this.kbtnDemoFeatures.Size = new System.Drawing.Size(239, 25);
+            this.kbtnDemoFeatures.TabIndex = 2;
+            this.kbtnDemoFeatures.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnDemoFeatures.Values.Text = "Demo Features #1282";
+            this.kbtnDemoFeatures.Click += new System.EventHandler(this.kbtnDemoFeatures_Click);
+            //
             // kryptonBorderEdge1
-            // 
+            //
             this.kryptonBorderEdge1.BorderStyle = Krypton.Toolkit.PaletteBorderStyle.HeaderPrimary;
             this.kryptonBorderEdge1.Dock = System.Windows.Forms.DockStyle.Top;
             this.kryptonBorderEdge1.Location = new System.Drawing.Point(0, 0);
             this.kryptonBorderEdge1.Name = "kryptonBorderEdge1";
             this.kryptonBorderEdge1.Size = new System.Drawing.Size(894, 1);
             this.kryptonBorderEdge1.Text = "kryptonBorderEdge1";
-            // 
+            //
             // kryptonPanel2
-            // 
+            //
             this.kryptonPanel2.Controls.Add(this.kryptonLabel7);
             this.kryptonPanel2.Controls.Add(this.kryptonLabel6);
             this.kryptonPanel2.Controls.Add(this.kcmbToastTitleAlignmentV);
@@ -152,25 +164,25 @@ namespace TestForm
             this.kryptonPanel2.Name = "kryptonPanel2";
             this.kryptonPanel2.Size = new System.Drawing.Size(894, 430);
             this.kryptonPanel2.TabIndex = 1;
-            // 
+            //
             // kryptonLabel7
-            // 
+            //
             this.kryptonLabel7.Location = new System.Drawing.Point(461, 298);
             this.kryptonLabel7.Name = "kryptonLabel7";
             this.kryptonLabel7.Size = new System.Drawing.Size(21, 20);
             this.kryptonLabel7.TabIndex = 31;
             this.kryptonLabel7.Values.Text = "V:";
-            // 
+            //
             // kryptonLabel6
-            // 
+            //
             this.kryptonLabel6.Location = new System.Drawing.Point(145, 298);
             this.kryptonLabel6.Name = "kryptonLabel6";
             this.kryptonLabel6.Size = new System.Drawing.Size(22, 20);
             this.kryptonLabel6.TabIndex = 30;
             this.kryptonLabel6.Values.Text = "H:";
-            // 
+            //
             // kcmbToastTitleAlignmentV
-            // 
+            //
             this.kcmbToastTitleAlignmentV.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.kcmbToastTitleAlignmentV.DropDownWidth = 274;
             this.kcmbToastTitleAlignmentV.IntegralHeight = false;
@@ -180,9 +192,9 @@ namespace TestForm
             this.kcmbToastTitleAlignmentV.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kcmbToastTitleAlignmentV.TabIndex = 29;
             this.kcmbToastTitleAlignmentV.SelectedIndexChanged += new System.EventHandler(this.kcmbToastTitleAlignmentV_SelectedIndexChanged);
-            // 
+            //
             // kbtnSampleText
-            // 
+            //
             this.kbtnSampleText.Location = new System.Drawing.Point(13, 66);
             this.kbtnSampleText.Name = "kbtnSampleText";
             this.kbtnSampleText.Size = new System.Drawing.Size(66, 25);
@@ -190,27 +202,27 @@ namespace TestForm
             this.kbtnSampleText.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnSampleText.Values.Text = "Fill &Text";
             this.kbtnSampleText.Click += new System.EventHandler(this.kbtnSampleText_Click);
-            // 
+            //
             // kchkShowDoNotShowAgain
-            // 
+            //
             this.kchkShowDoNotShowAgain.Location = new System.Drawing.Point(503, 197);
             this.kchkShowDoNotShowAgain.Name = "kchkShowDoNotShowAgain";
             this.kchkShowDoNotShowAgain.Size = new System.Drawing.Size(165, 20);
             this.kchkShowDoNotShowAgain.TabIndex = 27;
             this.kchkShowDoNotShowAgain.Values.Text = "Show Do Not Show Again";
             this.kchkShowDoNotShowAgain.CheckedChanged += new System.EventHandler(this.kchkShowDoNotShowAgain_CheckedChanged);
-            // 
+            //
             // kchkUseRTL
-            // 
+            //
             this.kchkUseRTL.Location = new System.Drawing.Point(201, 274);
             this.kchkUseRTL.Name = "kchkUseRTL";
             this.kchkUseRTL.Size = new System.Drawing.Size(67, 20);
             this.kchkUseRTL.TabIndex = 26;
             this.kchkUseRTL.Values.Text = "Use RTL";
             this.kchkUseRTL.CheckedChanged += new System.EventHandler(this.kchkUseRTL_CheckedChanged);
-            // 
+            //
             // kcbtnBorderColor2
-            // 
+            //
             this.kcbtnBorderColor2.CustomColorPreviewShape = Krypton.Toolkit.KryptonColorButtonCustomColorPreviewShape.Circle;
             this.kcbtnBorderColor2.Location = new System.Drawing.Point(537, 166);
             this.kcbtnBorderColor2.Name = "kcbtnBorderColor2";
@@ -220,9 +232,9 @@ namespace TestForm
             this.kcbtnBorderColor2.Values.RoundedCorners = 8;
             this.kcbtnBorderColor2.Values.Text = "Border Color 2";
             this.kcbtnBorderColor2.SelectedColorChanged += new System.EventHandler<Krypton.Toolkit.ColorEventArgs>(this.kcbtnBorderColor2_SelectedColorChanged);
-            // 
+            //
             // kcbtnBorderColor1
-            // 
+            //
             this.kcbtnBorderColor1.CustomColorPreviewShape = Krypton.Toolkit.KryptonColorButtonCustomColorPreviewShape.Circle;
             this.kcbtnBorderColor1.Location = new System.Drawing.Point(365, 166);
             this.kcbtnBorderColor1.Name = "kcbtnBorderColor1";
@@ -232,22 +244,22 @@ namespace TestForm
             this.kcbtnBorderColor1.Values.RoundedCorners = 8;
             this.kcbtnBorderColor1.Values.Text = "Border Color 1";
             this.kcbtnBorderColor1.SelectedColorChanged += new System.EventHandler<Krypton.Toolkit.ColorEventArgs>(this.kcbtnBorderColor1_SelectedColorChanged);
-            // 
+            //
             // kchkReportLocation
-            // 
+            //
             this.kchkReportLocation.Location = new System.Drawing.Point(187, 248);
             this.kchkReportLocation.Name = "kchkReportLocation";
             this.kchkReportLocation.Size = new System.Drawing.Size(110, 20);
             this.kchkReportLocation.TabIndex = 23;
             this.kchkReportLocation.Values.Text = "Report Location";
             this.kchkReportLocation.CheckedChanged += new System.EventHandler(this.kchkReportLocation_CheckedChanged);
-            // 
+            //
             // kryptonGroupBox1
-            // 
+            //
             this.kryptonGroupBox1.Location = new System.Drawing.Point(365, 13);
-            // 
+            //
             // kryptonGroupBox1.Panel
-            // 
+            //
             this.kryptonGroupBox1.Panel.Controls.Add(this.klblStartLocationX);
             this.kryptonGroupBox1.Panel.Controls.Add(this.kchkSetDefaultLocation);
             this.kryptonGroupBox1.Panel.Controls.Add(this.klblStartLocation);
@@ -256,35 +268,35 @@ namespace TestForm
             this.kryptonGroupBox1.Panel.Controls.Add(this.klblStartLocationY);
             this.kryptonGroupBox1.Size = new System.Drawing.Size(443, 146);
             this.kryptonGroupBox1.TabIndex = 22;
-            // 
+            //
             // klblStartLocationX
-            // 
+            //
             this.klblStartLocationX.Enabled = false;
             this.klblStartLocationX.Location = new System.Drawing.Point(12, 73);
             this.klblStartLocationX.Name = "klblStartLocationX";
             this.klblStartLocationX.Size = new System.Drawing.Size(20, 20);
             this.klblStartLocationX.TabIndex = 23;
             this.klblStartLocationX.Values.Text = "X:";
-            // 
+            //
             // kchkSetDefaultLocation
-            // 
+            //
             this.kchkSetDefaultLocation.Location = new System.Drawing.Point(12, 11);
             this.kchkSetDefaultLocation.Name = "kchkSetDefaultLocation";
             this.kchkSetDefaultLocation.Size = new System.Drawing.Size(133, 20);
             this.kchkSetDefaultLocation.TabIndex = 22;
             this.kchkSetDefaultLocation.Values.Text = "Set Default Location";
-            // 
+            //
             // klblStartLocation
-            // 
+            //
             this.klblStartLocation.Enabled = false;
             this.klblStartLocation.Location = new System.Drawing.Point(12, 47);
             this.klblStartLocation.Name = "klblStartLocation";
             this.klblStartLocation.Size = new System.Drawing.Size(89, 20);
             this.klblStartLocation.TabIndex = 18;
             this.klblStartLocation.Values.Text = "Start Location:";
-            // 
+            //
             // knudStartLocationY
-            // 
+            //
             this.knudStartLocationY.Enabled = false;
             this.knudStartLocationY.Increment = new decimal(new int[] {
             1,
@@ -310,9 +322,9 @@ namespace TestForm
             0,
             0,
             0});
-            // 
+            //
             // knudStartLocationX
-            // 
+            //
             this.knudStartLocationX.Enabled = false;
             this.knudStartLocationX.Increment = new decimal(new int[] {
             1,
@@ -338,26 +350,26 @@ namespace TestForm
             0,
             0,
             0});
-            // 
+            //
             // klblStartLocationY
-            // 
+            //
             this.klblStartLocationY.Enabled = false;
             this.klblStartLocationY.Location = new System.Drawing.Point(164, 73);
             this.klblStartLocationY.Name = "klblStartLocationY";
             this.klblStartLocationY.Size = new System.Drawing.Size(23, 20);
             this.klblStartLocationY.TabIndex = 20;
             this.klblStartLocationY.Values.Text = " Y:";
-            // 
+            //
             // kchkShowProgressBar
-            // 
+            //
             this.kchkShowProgressBar.Location = new System.Drawing.Point(187, 221);
             this.kchkShowProgressBar.Name = "kchkShowProgressBar";
             this.kchkShowProgressBar.Size = new System.Drawing.Size(125, 20);
             this.kchkShowProgressBar.TabIndex = 17;
             this.kchkShowProgressBar.Values.Text = "Show Progress Bar";
-            // 
+            //
             // kcmbToastTitleAlignmentH
-            // 
+            //
             this.kcmbToastTitleAlignmentH.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.kcmbToastTitleAlignmentH.DropDownWidth = 274;
             this.kcmbToastTitleAlignmentH.IntegralHeight = false;
@@ -367,9 +379,9 @@ namespace TestForm
             this.kcmbToastTitleAlignmentH.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kcmbToastTitleAlignmentH.TabIndex = 16;
             this.kcmbToastTitleAlignmentH.SelectedIndexChanged += new System.EventHandler(this.kcmbToastTitleAlignmentH_SelectedIndexChanged);
-            // 
+            //
             // knudCountdownSeconds
-            // 
+            //
             this.knudCountdownSeconds.Increment = new decimal(new int[] {
             1,
             0,
@@ -395,17 +407,17 @@ namespace TestForm
             0,
             0});
             this.knudCountdownSeconds.ValueChanged += new System.EventHandler(this.knudCountdownSeconds_ValueChanged);
-            // 
+            //
             // kryptonLabel5
-            // 
+            //
             this.kryptonLabel5.Location = new System.Drawing.Point(13, 366);
             this.kryptonLabel5.Name = "kryptonLabel5";
             this.kryptonLabel5.Size = new System.Drawing.Size(126, 20);
             this.kryptonLabel5.TabIndex = 14;
             this.kryptonLabel5.Values.Text = "Countdown Seconds:";
-            // 
+            //
             // kbtnTitleFont
-            // 
+            //
             this.kbtnTitleFont.AutoSize = true;
             this.kbtnTitleFont.Location = new System.Drawing.Point(208, 335);
             this.kbtnTitleFont.Name = "kbtnTitleFont";
@@ -414,9 +426,9 @@ namespace TestForm
             this.kbtnTitleFont.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnTitleFont.Values.Text = "Title Font";
             this.kbtnTitleFont.Click += new System.EventHandler(this.kbtnTitleFont_Click);
-            // 
+            //
             // kbtnContentFont
-            // 
+            //
             this.kbtnContentFont.AutoSize = true;
             this.kbtnContentFont.Location = new System.Drawing.Point(85, 335);
             this.kbtnContentFont.Name = "kbtnContentFont";
@@ -425,26 +437,26 @@ namespace TestForm
             this.kbtnContentFont.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnContentFont.Values.Text = "Content Font";
             this.kbtnContentFont.Click += new System.EventHandler(this.kbtnContentFont_Click);
-            // 
+            //
             // kryptonLabel4
-            // 
+            //
             this.kryptonLabel4.Location = new System.Drawing.Point(13, 298);
             this.kryptonLabel4.Name = "kryptonLabel4";
             this.kryptonLabel4.Size = new System.Drawing.Size(96, 20);
             this.kryptonLabel4.TabIndex = 10;
             this.kryptonLabel4.Values.Text = "Title Alignment:";
-            // 
+            //
             // kchkShowCloseBox
-            // 
+            //
             this.kchkShowCloseBox.Location = new System.Drawing.Point(85, 273);
             this.kchkShowCloseBox.Name = "kchkShowCloseBox";
             this.kchkShowCloseBox.Size = new System.Drawing.Size(110, 20);
             this.kchkShowCloseBox.TabIndex = 9;
             this.kchkShowCloseBox.Values.Text = "Show Close Box";
             this.kchkShowCloseBox.CheckedChanged += new System.EventHandler(this.kchkShowCloseBox_CheckedChanged);
-            // 
+            //
             // kchkTopMost
-            // 
+            //
             this.kchkTopMost.Checked = true;
             this.kchkTopMost.CheckState = System.Windows.Forms.CheckState.Checked;
             this.kchkTopMost.Location = new System.Drawing.Point(85, 247);
@@ -452,27 +464,27 @@ namespace TestForm
             this.kchkTopMost.Size = new System.Drawing.Size(76, 20);
             this.kchkTopMost.TabIndex = 8;
             this.kchkTopMost.Values.Text = "Top Most";
-            // 
+            //
             // kchkUseFade
-            // 
+            //
             this.kchkUseFade.Location = new System.Drawing.Point(85, 221);
             this.kchkUseFade.Name = "kchkUseFade";
             this.kchkUseFade.Size = new System.Drawing.Size(73, 20);
             this.kchkUseFade.TabIndex = 7;
             this.kchkUseFade.Values.Text = "Use Fade";
             this.kchkUseFade.CheckedChanged += new System.EventHandler(this.kchkUseFade_CheckedChanged);
-            // 
+            //
             // ktxtCustomToastIconPath
-            // 
+            //
             this.ktxtCustomToastIconPath.Enabled = false;
             this.ktxtCustomToastIconPath.Location = new System.Drawing.Point(85, 191);
             this.ktxtCustomToastIconPath.Name = "ktxtCustomToastIconPath";
             this.ktxtCustomToastIconPath.ShowEllipsisButton = true;
             this.ktxtCustomToastIconPath.Size = new System.Drawing.Size(274, 24);
             this.ktxtCustomToastIconPath.TabIndex = 6;
-            // 
+            //
             // kcmbToastIcon
-            // 
+            //
             this.kcmbToastIcon.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.kcmbToastIcon.DropDownWidth = 274;
             this.kcmbToastIcon.IntegralHeight = false;
@@ -482,17 +494,17 @@ namespace TestForm
             this.kcmbToastIcon.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kcmbToastIcon.TabIndex = 5;
             this.kcmbToastIcon.SelectedIndexChanged += new System.EventHandler(this.kcmbToastIcon_SelectedIndexChanged);
-            // 
+            //
             // kryptonLabel3
-            // 
+            //
             this.kryptonLabel3.Location = new System.Drawing.Point(13, 165);
             this.kryptonLabel3.Name = "kryptonLabel3";
             this.kryptonLabel3.Size = new System.Drawing.Size(36, 20);
             this.kryptonLabel3.TabIndex = 4;
             this.kryptonLabel3.Values.Text = "Icon:";
-            // 
+            //
             // ktxtToastContent
-            // 
+            //
             this.ktxtToastContent.Location = new System.Drawing.Point(85, 41);
             this.ktxtToastContent.Multiline = true;
             this.ktxtToastContent.Name = "ktxtToastContent";
@@ -500,34 +512,34 @@ namespace TestForm
             this.ktxtToastContent.TabIndex = 3;
             this.ktxtToastContent.Text = "Put your message here...";
             this.ktxtToastContent.TextChanged += new System.EventHandler(this.ktxtToastContent_TextChanged);
-            // 
+            //
             // ktxtToastTitle
-            // 
+            //
             this.ktxtToastTitle.Location = new System.Drawing.Point(85, 13);
             this.ktxtToastTitle.Name = "ktxtToastTitle";
             this.ktxtToastTitle.Size = new System.Drawing.Size(274, 23);
             this.ktxtToastTitle.TabIndex = 2;
             this.ktxtToastTitle.Text = "This is a test";
             this.ktxtToastTitle.TextChanged += new System.EventHandler(this.ktxtToastTitle_TextChanged);
-            // 
+            //
             // kryptonLabel2
-            // 
+            //
             this.kryptonLabel2.Location = new System.Drawing.Point(13, 39);
             this.kryptonLabel2.Name = "kryptonLabel2";
             this.kryptonLabel2.Size = new System.Drawing.Size(36, 20);
             this.kryptonLabel2.TabIndex = 1;
             this.kryptonLabel2.Values.Text = "Text:";
-            // 
+            //
             // kryptonLabel1
-            // 
+            //
             this.kryptonLabel1.Location = new System.Drawing.Point(13, 13);
             this.kryptonLabel1.Name = "kryptonLabel1";
             this.kryptonLabel1.Size = new System.Drawing.Size(36, 20);
             this.kryptonLabel1.TabIndex = 0;
             this.kryptonLabel1.Values.Text = "Title:";
-            // 
+            //
             // BasicToastNotificationTest
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(894, 480);
@@ -560,6 +572,7 @@ namespace TestForm
         private Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge1;
         private Krypton.Toolkit.KryptonPanel kryptonPanel2;
         private Krypton.Toolkit.KryptonButton kbtnShow;
+        private Krypton.Toolkit.KryptonButton kbtnDemoFeatures;
         private Krypton.Toolkit.KryptonCheckBox kchkUseFade;
         private Krypton.Toolkit.KryptonTextBox ktxtCustomToastIconPath;
         private Krypton.Toolkit.KryptonComboBox kcmbToastIcon;

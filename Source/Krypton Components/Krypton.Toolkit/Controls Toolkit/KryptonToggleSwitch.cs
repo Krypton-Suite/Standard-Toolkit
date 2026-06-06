@@ -119,9 +119,10 @@ public class KryptonToggleSwitch : Control, IContentValues
                 _checked = value;
 
                 _animationTimer.Start();
+                StartAnimation();
+                Invalidate();
 
                 CheckedChanged?.Invoke(this, EventArgs.Empty);
-                StartAnimation();
             }
         }
     }
@@ -361,7 +362,7 @@ public class KryptonToggleSwitch : Control, IContentValues
         }
 
         _knobSize = Math.Max(10, Math.Min(Height - _padding * 2, Width / 3));
-            
+
         _padding = Math.Max(2, Height / 8);
 
         Invalidate();
@@ -424,10 +425,15 @@ public class KryptonToggleSwitch : Control, IContentValues
     /// <summary>Gets the state of the current.</summary>
     private IPaletteTriple GetCurrentState()
     {
-        return !Enabled ? StateDisabled :
-            _isPressed ? StatePressed :
-            _isTracking ? StateTracking :
-            (StateNormal != null ? StateNormal : StateCommon);
+        return !Enabled
+            ? StateDisabled
+            : _isPressed
+                ? StatePressed
+                : _isTracking
+                    ? StateTracking
+                    : (StateNormal != null
+                        ? StateNormal
+                        : StateCommon);
     }
 
     /// <summary>Gets the knob rectangle.</summary>
@@ -513,7 +519,7 @@ public class KryptonToggleSwitch : Control, IContentValues
         if (ToggleSwitchValues.EnableEmbossEffect)
         {
             Color embossColor = KryptonManager.CurrentGlobalPalette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Disabled);
-                
+
             using (GraphicsPath embossPath = GetRoundedRectangle(bounds, ToggleSwitchValues.CornerRadius))
             {
                 using (Brush embossBrush = new SolidBrush(Color.FromArgb(50, embossColor)))
@@ -648,7 +654,7 @@ public class KryptonToggleSwitch : Control, IContentValues
 
                 // Ensure text remains within bounds
                 textX = Checked ? _padding : Math.Min(Width - textSize.Width - _padding, knobEdge);
-                   
+
                 float textY = (Height - textSize.Height) / 2f; // Center text vertically
 
                 if (ToggleSwitchValues.ShowText)

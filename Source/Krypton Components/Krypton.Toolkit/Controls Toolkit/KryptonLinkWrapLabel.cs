@@ -1,9 +1,9 @@
 ﻿#region BSD License
 /*
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *
  */
 #endregion
 
@@ -293,7 +293,7 @@ public class KryptonLinkWrapLabel : LinkLabel
                 switch (value)
                 {
                     case PaletteMode.Custom:
-                        // Do nothing, you must assign a palette to the 
+                        // Do nothing, you must assign a palette to the
                         // 'Palette' property in order to get the custom mode
                         break;
                     default:
@@ -684,6 +684,12 @@ public class KryptonLinkWrapLabel : LinkLabel
     }
 
     /// <summary>
+    /// Creates the accessibility object for the KryptonLinkWrapLabel control.
+    /// </summary>
+    /// <returns>A new KryptonLinkWrapLabelAccessibleObject instance for the control.</returns>
+    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonLinkWrapLabelAccessibleObject(this);
+
+    /// <summary>
     /// Processes a mnemonic character.
     /// </summary>
     /// <param name="charCode">The mnemonic character entered.</param>
@@ -861,8 +867,8 @@ public class KryptonLinkWrapLabel : LinkLabel
     }
 
     private void OnKryptonContextMenuDisposed(object? sender, EventArgs e) =>
-        // When the current krypton context menu is disposed, we should remove 
-        // it to prevent it being used again, as that would just throw an exception 
+        // When the current krypton context menu is disposed, we should remove
+        // it to prevent it being used again, as that would just throw an exception
         // because it has been disposed.
         KryptonContextMenu = null;
 

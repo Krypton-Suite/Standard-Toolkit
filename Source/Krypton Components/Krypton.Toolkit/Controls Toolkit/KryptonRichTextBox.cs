@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
- *  
+ *
  */
 #endregion
 
@@ -138,7 +138,7 @@ public class KryptonRichTextBox : VisualControlBase,
             var lParam = Marshal.AllocCoTaskMem(Marshal.SizeOf(fmtRange));
             Marshal.StructureToPtr(fmtRange, lParam, false);
 
-            //Send the rendered data for printing 
+            //Send the rendered data for printing
             var res = (IntPtr)PI.SendMessage(Handle, PI.EM_FORMATRANGE, wParam, lParam);
 
             //Free the block of memory allocated
@@ -524,7 +524,7 @@ public class KryptonRichTextBox : VisualControlBase,
 
     #region Public
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Set a watermark/prompt message for the user.")]
@@ -1346,7 +1346,7 @@ public class KryptonRichTextBox : VisualControlBase,
     public void Clear() => _richTextBox.Clear();
 
     /// <summary>
-    /// Clears information about the most recent operation from the undo buffer of the rich text box. 
+    /// Clears information about the most recent operation from the undo buffer of the rich text box.
     /// </summary>
     public void ClearUndo() => _richTextBox.ClearUndo();
 
@@ -1784,6 +1784,12 @@ public class KryptonRichTextBox : VisualControlBase,
     /// <returns>A new instance of Control.ControlCollection assigned to the control.</returns>
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     protected override ControlCollection CreateControlsInstance() => new KryptonReadOnlyControls(this);
+
+    /// <summary>
+    /// Creates the accessibility object for the KryptonRichTextBox control.
+    /// </summary>
+    /// <returns>A new KryptonRichTextBoxAccessibleObject instance for the control.</returns>
+    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonRichTextBoxAccessibleObject(this);
 
     /// <summary>
     /// Raises the HandleCreated event.
