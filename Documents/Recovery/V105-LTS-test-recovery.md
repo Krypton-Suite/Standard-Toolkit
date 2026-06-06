@@ -312,7 +312,7 @@ These PRs are outside the Jan 30+ audit window but were required because later a
 |---|---|---|
 | `git status --short` | pass with expected untracked files before cleanup | Only `.recovery-work/` scratch and `recovery-alpha-local-backup-20260603.bundle` were untracked. |
 | `git diff --check` | pass | No whitespace errors reported. |
-| conflict-marker search | pass | No `<<<<<<<`/`>>>>>>>` markers found in repo search. |
+| conflict-marker search | pass | No merge-conflict marker lines found in repo search. |
 | restore/purge ancestry | pass | Known restore/purge/tree-copy commits checked: `544cb8896`, `8599ab08e`, `67bb2b680`, `56e2b0496`, `2c1dc3cd6`, `77a279a44`, `ffb4fd983`, `c963b33e5`, `7c9ec6088`, `e93194441`; none are ancestors of `HEAD`. |
 | ModernBuild `ScriptProfile` | pass | `ScriptProfile` remains present under `Scripts/ModernBuild` after #3520 and #3609. |
 | template package script | pass | `Scripts/CI/Apply-TemplatesNuGetPackage.ps1` was not found in `templates-release.yml` paths. |
