@@ -1,0 +1,277 @@
+# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+# Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2026 - 2026. All rights reserved.
+
+name: Build TestForm
+
+permissions:
+  contents: read
+
+# Preview SDK band: repository Variables DOTNET_PREVIEW_SETUP_VERSION / DOTNET_PREVIEW_SDK_BAND.
+# USE_DOTNET_PREVIEW=false skips the Preview job and uses Stable on canary/alpha instead.
+env:
+  DOTNET_PREVIEW_SETUP_VERSION: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION }}
+  DOTNET_PREVIEW_SDK_BAND: ${{ vars.DOTNET_PREVIEW_SDK_BAND }}
+
+on:
+  pull_request:
+    branches: ['**']
+    types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - master
+      - alpha
+      - canary
+      - gold
+      - V105-LTS
+    paths-ignore: ['.git*', '.vscode']
+  workflow_dispatch:
+
+jobs:
+  Stable:
+    name: Stable
+    runs-on: windows-2025-vs2026
+    # Skip canary/alpha for Stable unless USE_DOTNET_PREVIEW=false (then Stable covers preview-disabled branches; #3421).
+    if: ${{ (github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'workflow_dispatch')) && (!((github.event_name == 'push' || github.event_name == 'workflow_dispatch') && (github.ref == 'refs/heads/canary' || github.ref == 'refs/heads/alpha')) || vars.USE_DOTNET_PREVIEW == 'false') && (!(github.event_name == 'pull_request' && (github.base_ref == 'canary' || github.base_ref == 'alpha')) || vars.USE_DOTNET_PREVIEW == 'false') }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: |
+            9.0.x
+            10.0.x
+
+      # Stable TFMs only; rollForward latestPatch (matches Stable job intent).
+      - name: Pin SDK via global.json (stable)
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $stableLine = dotnet --list-sdks |
+            Where-Object { $_ -match '^10\.0\.[0-9]+\s' } |
+            Select-Object -Last 1
+          $sdkVersion = $null
+          if ($stableLine -match '^(\d+\.\d+\.\d+)\s') {
+            $sdkVersion = $Matches[1]
+          }
+          if (-not $sdkVersion) {
+            $fallback = dotnet --list-sdks | Where-Object { $_ -match '^9\.0\.[0-9]+\s' } | Select-Object -Last 1
+            if ($fallback -match '^(\d+\.\d+\.\d+)\s') { $sdkVersion = $Matches[1] }
+          }
+          if (-not $sdkVersion) {
+            Write-Error 'No 10.0.x or 9.0.x SDK found after setup-dotnet.'
+          }
+          Write-Host "Using SDK $sdkVersion"
+          @"
+          {
+            "sdk": {
+              "version": "$sdkVersion",
+              "rollForward": "latestPatch",
+              "allowPrerelease": false
+            }
+          }
+          "@ | Out-File -Encoding utf8 global.json
+
+      - name: Restore NuGet cache
+        id: stable-nuget-cache-restore
+        uses: actions/cache/restore@v5
+        continue-on-error: true
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-testform-stable-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-testform-stable-
+            ${{ runner.os }}-nuget-
+
+      - name: Restore TestForm
+        run: dotnet restore "Source/Krypton Components/TestForm/TestForm.csproj" -p:Configuration=Release -p:TFMs=all
+
+      - name: Validate TestForm linked resources
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $projectDir = Join-Path $env:GITHUB_WORKSPACE 'Source\Krypton Components\TestForm'
+          $resxFiles = @(
+            Join-Path $projectDir 'Properties\Resources.resx'
+            Join-Path $projectDir 'KryptonTaskDialogDemo\KryptonTaskDialogDemoResources.resx'
+          )
+
+          $missing = New-Object System.Collections.Generic.List[string]
+          foreach ($resxPath in $resxFiles) {
+            if (-not (Test-Path -LiteralPath $resxPath)) {
+              $missing.Add("Missing .resx file: $resxPath")
+              continue
+            }
+
+            [xml]$resx = Get-Content -LiteralPath $resxPath
+            $resxDir = Split-Path -Parent $resxPath
+
+            foreach ($data in $resx.root.data) {
+              if ($data.type -ne 'System.Resources.ResXFileRef, System.Windows.Forms') {
+                continue
+              }
+
+              $valueText = [string]$data.value
+              if ([string]::IsNullOrWhiteSpace($valueText)) {
+                continue
+              }
+
+              $parts = $valueText.Split(';', 2)
+              $relativePath = $parts[0].Trim()
+              if ([string]::IsNullOrWhiteSpace($relativePath)) {
+                continue
+              }
+
+              $fullPath = [System.IO.Path]::GetFullPath((Join-Path $resxDir $relativePath))
+              if (-not (Test-Path -LiteralPath $fullPath)) {
+                $resourceName = [string]$data.name
+                $missing.Add("$resxPath -> data '$resourceName' references missing file '$fullPath'")
+              }
+            }
+          }
+
+          if ($missing.Count -gt 0) {
+            Write-Error ("Linked resource validation failed:`n" + ($missing -join "`n"))
+          }
+
+      - name: Build TestForm
+        run: dotnet build "Source/Krypton Components/TestForm/TestForm.csproj" -p:Configuration=Release --no-restore -p:TFMs=all -m:1 -p:BuildInParallel=false
+
+      - name: Save NuGet cache
+        if: success() && github.event_name != 'pull_request'
+        uses: actions/cache/save@v5
+        continue-on-error: true
+        with:
+          path: ~/.nuget/packages
+          key: ${{ steps.stable-nuget-cache-restore.outputs.cache-primary-key }}
+
+  Preview:
+    name: Preview
+    runs-on: windows-2025-vs2026
+    if: ${{ (github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'workflow_dispatch')) && vars.USE_DOTNET_PREVIEW != 'false' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: |
+            9.0.x
+            10.0.x
+
+      - name: Setup .NET Preview
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ env.DOTNET_PREVIEW_SETUP_VERSION }}
+          dotnet-quality: preview
+
+      # Preview band from DOTNET_PREVIEW_SDK_BAND; TestForm Preview job only.
+      - name: Pin SDK via global.json (preview)
+        shell: pwsh
+        env:
+          SDK_BAND: ${{ env.DOTNET_PREVIEW_SDK_BAND }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $band = $env:SDK_BAND
+          if (-not $band) {
+            Write-Error 'DOTNET_PREVIEW_SDK_BAND is not set.'
+          }
+          $escaped = [regex]::Escape($band)
+          $pick = dotnet --list-sdks |
+            Where-Object { $_ -match "^$escaped\." } |
+            Select-Object -Last 1
+          if (-not $pick) {
+            Write-Error "No preview SDK found for band '$band'. Check DOTNET_PREVIEW_SETUP_VERSION / DOTNET_PREVIEW_SDK_BAND in the workflow env."
+          }
+          if ($pick -match '^(\S+)\s') {
+            $sdkVersion = $Matches[1]
+          } else {
+            Write-Error "Could not parse SDK version from line: $pick"
+          }
+          Write-Host "Using preview SDK $sdkVersion (band $band)"
+          @"
+          {
+            "sdk": {
+              "version": "$sdkVersion",
+              "rollForward": "latestFeature",
+              "allowPrerelease": true
+            }
+          }
+          "@ | Out-File -Encoding utf8 global.json
+
+      - name: Restore NuGet cache
+        id: preview-nuget-cache-restore
+        uses: actions/cache/restore@v5
+        continue-on-error: true
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-testform-preview-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-testform-preview-
+            ${{ runner.os }}-nuget-
+
+      - name: Restore TestForm
+        run: dotnet restore "Source/Krypton Components/TestForm/TestForm.csproj" -p:Configuration=Release -p:TFMs=all
+
+      - name: Validate TestForm linked resources
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $projectDir = Join-Path $env:GITHUB_WORKSPACE 'Source\Krypton Components\TestForm'
+          $resxFiles = @(
+            Join-Path $projectDir 'Properties\Resources.resx'
+            Join-Path $projectDir 'KryptonTaskDialogDemo\KryptonTaskDialogDemoResources.resx'
+          )
+
+          $missing = New-Object System.Collections.Generic.List[string]
+          foreach ($resxPath in $resxFiles) {
+            if (-not (Test-Path -LiteralPath $resxPath)) {
+              $missing.Add("Missing .resx file: $resxPath")
+              continue
+            }
+
+            [xml]$resx = Get-Content -LiteralPath $resxPath
+            $resxDir = Split-Path -Parent $resxPath
+
+            foreach ($data in $resx.root.data) {
+              if ($data.type -ne 'System.Resources.ResXFileRef, System.Windows.Forms') {
+                continue
+              }
+
+              $valueText = [string]$data.value
+              if ([string]::IsNullOrWhiteSpace($valueText)) {
+                continue
+              }
+
+              $parts = $valueText.Split(';', 2)
+              $relativePath = $parts[0].Trim()
+              if ([string]::IsNullOrWhiteSpace($relativePath)) {
+                continue
+              }
+
+              $fullPath = [System.IO.Path]::GetFullPath((Join-Path $resxDir $relativePath))
+              if (-not (Test-Path -LiteralPath $fullPath)) {
+                $resourceName = [string]$data.name
+                $missing.Add("$resxPath -> data '$resourceName' references missing file '$fullPath'")
+              }
+            }
+          }
+
+          if ($missing.Count -gt 0) {
+            Write-Error ("Linked resource validation failed:`n" + ($missing -join "`n"))
+          }
+
+      - name: Build TestForm
+        run: dotnet build "Source/Krypton Components/TestForm/TestForm.csproj" -p:Configuration=Release --no-restore -p:TFMs=all -m:1 -p:BuildInParallel=false
+
+      - name: Save NuGet cache
+        if: success() && github.event_name != 'pull_request'
+        uses: actions/cache/save@v5
+        continue-on-error: true
+        with:
+          path: ~/.nuget/packages
+          key: ${{ steps.preview-nuget-cache-restore.outputs.cache-primary-key }}
