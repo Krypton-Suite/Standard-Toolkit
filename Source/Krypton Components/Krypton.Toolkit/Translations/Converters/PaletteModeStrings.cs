@@ -86,6 +86,8 @@ public class PaletteModeStrings : GlobalId
     internal const string DEFAULT_PALETTE_MATERIAL_DARK_RIPPLE = @"Material - Dark (Ripple)";
     internal const string DEFAULT_PALETTE_RETRO_GREEN = @"Retro - Green";
     internal const string DEFAULT_PALETTE_RETRO_BLUE = @"Retro - Blue";
+    internal const string DEFAULT_PALETTE_MACOS_LIGHT = @"macOS - Light";
+    internal const string DEFAULT_PALETTE_MACOS_DARK = @"macOS - Dark";
     internal const string DEFAULT_PALETTE_CUSTOM = @"Custom";
 
     #endregion
@@ -128,8 +130,8 @@ public class PaletteModeStrings : GlobalId
             { DEFAULT_PALETTE_OFFICE_2010_BLACK_DARK_MODE, PaletteMode.Office2010BlackDarkMode },
             //{ DEFAULT_PALETTE_OFFICE_2010_DARK_GRAY, PaletteMode.Office2010DarkGray },
             //{ PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2010_LIGHT_GRAY, PaletteMode.Office2010LightGray },
-            //{ DEFAULT_PALETTE_OFFICE_2013_DARK_GRAY, PaletteMode.Office2013DarkGray },
-            //{ PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2013_LIGHT_GRAY, PaletteMode.Office2013LightGray },
+            { DEFAULT_PALETTE_OFFICE_2013_DARK_GRAY, PaletteMode.Office2013DarkGray },
+            { DEFAULT_PALETTE_OFFICE_2013_LIGHT_GRAY, PaletteMode.Office2013LightGray },
             { DEFAULT_PALETTE_OFFICE_2013_WHITE, PaletteMode.Office2013White },
             { DEFAULT_PALETTE_SPARKLE_BLUE, PaletteMode.SparkleBlue },
             { DEFAULT_PALETTE_SPARKLE_BLUE_DARK_MODE, PaletteMode.SparkleBlueDarkMode },
@@ -174,6 +176,8 @@ public class PaletteModeStrings : GlobalId
             { DEFAULT_PALETTE_MATERIAL_DARK_RIPPLE, PaletteMode.MaterialDarkRipple },
             { DEFAULT_PALETTE_RETRO_GREEN, PaletteMode.RetroGreen },
             { DEFAULT_PALETTE_RETRO_BLUE, PaletteMode.RetroBlue },
+            { DEFAULT_PALETTE_MACOS_LIGHT, PaletteMode.MacOSLight },
+            { DEFAULT_PALETTE_MACOS_DARK, PaletteMode.MacOSDark },
             { DEFAULT_PALETTE_CUSTOM, PaletteMode.Custom }
         });
 
@@ -812,5 +816,4 @@ public class PaletteModeStrings : GlobalId
     #endregion
 
     #endregion
-
 }

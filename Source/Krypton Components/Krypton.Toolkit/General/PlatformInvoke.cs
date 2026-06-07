@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -30,6 +30,7 @@
 
 // Note: DO NOT REMOVE!!!
 using Microsoft.Win32.SafeHandles;
+
 using static System.Runtime.InteropServices.Marshal;
 
 #pragma warning disable CS1587 // XML comment is not placed on a valid language element
@@ -508,7 +509,7 @@ internal partial class PI
         CHECKED = 0x0001,
         INDETERMINATE = 0x0002
     }
-    
+
     internal struct DTM_
     {
         // Closes a date and time picker (DTP) control. Send this message explicitly or by using the DateTime\_CloseMonthCal macro.
@@ -1618,10 +1619,10 @@ internal partial class PI
             SHOWWINDOW = 0x0018,
             CTLCOLOR =
                 0x0019, //replaced by https://learn.microsoft.com/en-us/windows/win32/devnotes/wm-ctlcolor-#remarks
-            // <summary>
-            // An application sends the WM_WININICHANGE message to all top-level windows after making a change to the WIN.INI file. The SystemParametersInfo function sends this message after an application uses the function to change a setting in WIN.INI.
-            // Note  The WM_WININICHANGE message is provided only for compatibility with earlier versions of the system. Applications should use the WM_SETTINGCHANGE message.
-            // </summary>
+                        // <summary>
+                        // An application sends the WM_WININICHANGE message to all top-level windows after making a change to the WIN.INI file. The SystemParametersInfo function sends this message after an application uses the function to change a setting in WIN.INI.
+                        // Note  The WM_WININICHANGE message is provided only for compatibility with earlier versions of the system. Applications should use the WM_SETTINGCHANGE message.
+                        // </summary>
             WININICHANGE = 0x001A,
             // <summary>
             // An application sends the WM_WININICHANGE message to all top-level windows after making a change to the WIN.INI file. The SystemParametersInfo function sends this message after an application uses the function to change a setting in WIN.INI.
@@ -2783,7 +2784,7 @@ internal partial class PI
                 0x8, // Obsolete, but provided for compatibility with 16-bit versions of Windows. Applications should use BS_OWNERDRAW instead.
             AUTORADIOBUTTON =
                 0x9, // Creates a button that is the same as a radio button, except that when the user selects it, the system automatically sets the button's check state to checked and automatically sets the check state for all other buttons in the same group to cleared.
-            // PUSHBOX = 0xA
+                     // PUSHBOX = 0xA
             OWNERDRAW =
                 0xB, // Creates an owner-drawn button. The owner window receives a WM_DRAWITEM message when a visual aspect of the button has changed. Do not combine the BS_OWNERDRAW style with any other button styles.
             TYPEMASK =
@@ -4180,12 +4181,15 @@ No 	                    No 	                    Show text only
             return result == 0;
         }
 
-        public static void Windows10EnableBlurBehind(IntPtr hWnd, bool enabled)
+        public static void Windows10EnableBlurBehind(IntPtr hWnd, bool enabled) =>
+            Windows10EnableBlurBehind(hWnd, enabled, Color.FromArgb(200, Color.White));
+
+        public static void Windows10EnableBlurBehind(IntPtr hWnd, bool enabled, Color gradientColor)
         {
             var accPolicy = new AccentPolicy(
                 enabled ? DWMACCENTSTATE.ACCENT_ENABLE_BLURBEHIND : DWMACCENTSTATE.ACCENT_DISABLED,
                 AccentFlags.UserGradientColour,
-                Color.FromArgb(200, Color.White).ToArgb(),
+                enabled ? ToAbgr(gradientColor) : 0,
                 0);
             //{
             //    AccentState = DWMACCENTSTATE.ACCENT_ENABLE_BLURBEHIND,
@@ -4210,6 +4214,9 @@ No 	                    No 	                    Show text only
                 }
             }
         }
+
+        private static int ToAbgr(Color color) =>
+            (color.A << 24) | (color.B << 16) | (color.G << 8) | color.R;
 
         public static bool WindowEnableBlurBehind(IntPtr hWnd, bool enabled)
         {
@@ -5513,14 +5520,14 @@ internal static class BoolExtensions
     /// <param name="b">The BOOL value to check</param>
     /// <returns>True if the BOOL value is not FALSE; otherwise, false</returns>
     public static bool IsTrue(this PI.BOOL b) => b != PI.BOOL.FALSE;
-    
+
     /// <summary>
     /// Determines whether the BOOL value represents false.
     /// </summary>
     /// <param name="b">The BOOL value to check</param>
     /// <returns>True if the BOOL value is FALSE; otherwise, false</returns>
     public static bool IsFalse(this PI.BOOL b) => b == PI.BOOL.FALSE;
-    
+
     /// <summary>
     /// Converts a .NET boolean value to a Windows BOOL value.
     /// </summary>

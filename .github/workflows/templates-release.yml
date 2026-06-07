@@ -16,6 +16,7 @@ on:
       - V110
     paths:
       - "Templates/**"
+      - "Scripts/CI/Apply-TemplatesNuGetPackage.ps1"
       - ".github/workflows/templates-release.yml"
   workflow_dispatch:
 
@@ -108,6 +109,15 @@ jobs:
           echo "version=$version" >> $env:GITHUB_OUTPUT
           echo "vsix_version=$vsixVersion" >> $env:GITHUB_OUTPUT
 
+      - name: Apply channel NuGet package to project templates
+        if: steps.templates_release_kill_switch.outputs.enabled == 'true'
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          & "${{ github.workspace }}/Scripts/CI/Apply-TemplatesNuGetPackage.ps1" `
+            -Channel '${{ steps.channel.outputs.channel }}' `
+            -RepoRoot '${{ github.workspace }}'
+
       - name: Build Visual Studio Templates zip artifacts
         if: steps.templates_release_kill_switch.outputs.enabled == 'true'
         id: package_templates
@@ -196,7 +206,7 @@ jobs:
 
       - name: Upload workflow artifact
         if: steps.templates_release_kill_switch.outputs.enabled == 'true'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: templates-${{ steps.channel.outputs.channel }}
           path: |
@@ -206,7 +216,7 @@ jobs:
 
       - name: Publish templates to GitHub Release
         if: steps.templates_release_kill_switch.outputs.enabled == 'true'
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ steps.channel.outputs.tag }}
           name: ${{ steps.channel.outputs.title }}
@@ -224,6 +234,8 @@ jobs:
             - Project template (`Krypton WinForms App`)
             - Project template (`Krypton Ribbon WinForms App`)
             - Bundle archive with all templates and documentation
+
+            Project templates reference the NuGet package for this channel (`Krypton.Standard.Toolkit`, `.Canary`, or `.Nightly`).
 
             Source branch: `${{ steps.channel.outputs.branch }}`
             Build stamp: `${{ steps.channel.outputs.version }}`

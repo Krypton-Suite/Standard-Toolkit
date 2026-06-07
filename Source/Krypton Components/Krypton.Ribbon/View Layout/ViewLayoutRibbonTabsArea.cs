@@ -244,7 +244,9 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
     {
         // Update visible state of the app button/tab to reflect current state
         LayoutAppButton.Visible = _ribbon.RibbonFileAppButton.AppButtonVisible && (_ribbon.RibbonShape == PaletteRibbonShape.Office2007);
-        LayoutAppTab.Visible = _ribbon.RibbonFileAppButton.AppButtonVisible && (_ribbon.RibbonShape != PaletteRibbonShape.Office2007);
+        LayoutAppTab.Visible = _ribbon.RibbonFileAppButton.AppButtonVisible
+                               && _ribbon.RibbonShape != PaletteRibbonShape.Office2007
+                               && _ribbon.RibbonShape != PaletteRibbonShape.MacOS;
         _leftSeparator.SeparatorSize = (_ribbon.RibbonShape == PaletteRibbonShape.Office2007) ? new Size(BUTTON_TAB_GAP_2007, BUTTON_TAB_GAP_2007) : new Size(BUTTON_TAB_GAP_2010, BUTTON_TAB_GAP_2010);
 
         // If no app button then need separator to stop first tab being to close to the left edge
@@ -388,7 +390,7 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
         // Office 2010 does not close on a double click
         if (_ribbon.IgnoreDoubleClickClose
             || _ribbon.RibbonShape == PaletteRibbonShape.Office2010
-           )
+            || _ribbon.RibbonShape == PaletteRibbonShape.MacOS)
         {
             return;
         }
