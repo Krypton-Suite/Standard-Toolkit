@@ -147,7 +147,7 @@ internal class VisualPopupAppMenu : VisualPopup
             var index = 1;
             foreach (KryptonRibbonRecentDoc recentDoc in _ribbon.RibbonFileAppButton.AppButtonRecentDocs)
             {
-                documentStack.Add(new ViewDrawRibbonAppMenuRecentDec(_ribbon, _provider, recentDoc, _ribbon.RibbonFileAppButton.AppButtonMaxRecentSize.Width, NeedPaintDelegate, index++));
+                documentStack.Add(new ViewDrawRibbonAppMenuRecentDoc(_ribbon, _provider, recentDoc, _ribbon.RibbonFileAppButton.AppButtonMaxRecentSize.Width, NeedPaintDelegate, index++));
             }
 
             // Add separator entry which is then used to fill remained space

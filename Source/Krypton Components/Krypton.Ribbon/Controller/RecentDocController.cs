@@ -25,7 +25,7 @@ internal class RecentDocController : GlobalId,
 {
     #region Instance Fields
     private bool _mouseOver;
-    private readonly ViewDrawRibbonAppMenuRecentDec _menuItem;
+    private readonly ViewDrawRibbonAppMenuRecentDoc _menuItem;
     private NeedPaintHandler? _needPaint;
 
     #endregion
@@ -38,7 +38,7 @@ internal class RecentDocController : GlobalId,
     /// <param name="menuItem">Target menu item view element.</param>
     /// <param name="needPaint">Delegate for notifying paint requests.</param>
     public RecentDocController([DisallowNull] ViewContextMenuManager? viewManager,
-        [DisallowNull] ViewDrawRibbonAppMenuRecentDec? menuItem,
+        [DisallowNull] ViewDrawRibbonAppMenuRecentDoc? menuItem,
         [DisallowNull] NeedPaintHandler? needPaint)
     {
         Debug.Assert(viewManager is not null);

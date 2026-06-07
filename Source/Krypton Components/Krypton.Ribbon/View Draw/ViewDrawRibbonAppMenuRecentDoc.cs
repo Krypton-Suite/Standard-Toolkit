@@ -17,7 +17,7 @@ namespace Krypton.Ribbon;
 /// <summary>
 /// Draw the image/text of a recent document in the application menu.
 /// </summary>
-internal class ViewDrawRibbonAppMenuRecentDec : ViewDrawCanvas
+internal class ViewDrawRibbonAppMenuRecentDoc : ViewDrawCanvas
 {
     #region Instance Fields
     private readonly int _maxWidth;
@@ -26,7 +26,7 @@ internal class ViewDrawRibbonAppMenuRecentDec : ViewDrawCanvas
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the ViewDrawRibbonAppMenuRecentDec class.
+    /// Initialize a new instance of the ViewDrawRibbonAppMenuRecentDoc class.
     /// </summary>
     /// <param name="ribbon">Reference to owning ribbon instance.</param>
     /// <param name="provider">Provider of context menu information.</param>
@@ -34,7 +34,7 @@ internal class ViewDrawRibbonAppMenuRecentDec : ViewDrawCanvas
     /// <param name="maxWidth">Maximum width allowed for the item.</param>
     /// <param name="needPaintDelegate">Delegate for requesting paint updates.</param>
     /// <param name="index">Recent document index.</param>
-    public ViewDrawRibbonAppMenuRecentDec(KryptonRibbon ribbon,
+    public ViewDrawRibbonAppMenuRecentDoc(KryptonRibbon ribbon,
         IContextMenuProvider provider,
         KryptonRibbonRecentDoc recentDoc,
         int maxWidth,
@@ -95,7 +95,7 @@ internal class ViewDrawRibbonAppMenuRecentDec : ViewDrawCanvas
     /// <returns>User readable name of the instance.</returns>
     public override string ToString() =>
         // Return the class name and instance identifier
-        $@"ViewDrawRibbonAppMenuRecentDec:{Id}";
+        $@"ViewDrawRibbonAppMenuRecentDoc:{Id}";
 
     #endregion
 
