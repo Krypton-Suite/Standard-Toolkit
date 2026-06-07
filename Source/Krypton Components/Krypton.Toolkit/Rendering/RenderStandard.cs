@@ -57,7 +57,6 @@ public class RenderStandard : RenderBase
 	private const int SPACING_TAB_SMOOTH_LRO = 9;
 	private const int SPACING_TAB_SMOOTH_TO = 7;
 	private const int GROUP_FRAME_TITLE_HEIGHT = 8;
-	private const int DROP_DOWN_ARROW_BASE_SIZE = 10;
 	private const float GROUP_GRADIENT_TWO = 0.16f;
 	private const float GROUP_GRADIENT_FRAME = 0.32f;
 
@@ -2582,16 +2581,11 @@ public class RenderStandard : RenderBase
 		PaletteState state,
 		VisualOrientation orientation)
 	{
-		var paletteBase = KryptonManager.CurrentGlobalPalette;
-		var baseSize = (paletteBase != null ? paletteBase.GetMetricInt(context.Control as KryptonForm, state, PaletteMetricInt.DropDownArrowBaseSize) : -1);
-		if (baseSize <= 0)
-		{
-			baseSize = DROP_DOWN_ARROW_BASE_SIZE;
-		}
-
-		var square = Math.Min(context.DisplayRectangle.Width, context.DisplayRectangle.Height);
-		square = Math.Min(square, baseSize);
-		square = (int)(square * context.Graphics.DpiY / 96f);
+		var square = DropDownArrowGlyphMetrics.ResolvePixelSize(
+			context.Graphics.DpiY,
+			context.DisplayRectangle,
+			context.Control,
+			state);
 
 		return new Size(square, square);
 	}
@@ -2625,72 +2619,15 @@ public class RenderStandard : RenderBase
 			throw new ArgumentNullException(nameof(palette));
 		}
 
-		var translateX = 0;
-		var translateY = 0;
-		var rotation = 0f;
-
-		// Perform any transformations needed for orientation
-		switch (orientation)
+		var direction = orientation switch
 		{
-			case VisualOrientation.Bottom:
-				// Translate to opposite side of origin, so the rotate can
-				// then bring it back to original position but mirror image
-				translateX = (displayRect.X * 2) + displayRect.Width;
-				translateY = (displayRect.Y * 2) + displayRect.Height;
-				rotation = 180f;
-				break;
+			VisualOrientation.Bottom => DropDownArrowGlyphDirection.Up,
+			VisualOrientation.Left => DropDownArrowGlyphDirection.Right,
+			VisualOrientation.Right => DropDownArrowGlyphDirection.Left,
+			_ => DropDownArrowGlyphDirection.Down
+		};
 
-			case VisualOrientation.Left:
-				// Invert the dimensions of the rectangle for drawing upwards
-				displayRect = displayRect with { Width = displayRect.Height, Height = displayRect.Width };
-				// Translate back from a quarter left turn to the original place
-				translateX = displayRect.X - displayRect.Y;
-				translateY = displayRect.X + displayRect.Y + displayRect.Width;
-				rotation = -90f;
-				break;
-
-			case VisualOrientation.Right:
-				// Invert the dimensions of the rectangle for drawing upwards
-				displayRect = displayRect with { Width = displayRect.Height, Height = displayRect.Width };
-				// Translate back from a quarter right turn to the original place
-				translateX = displayRect.X + displayRect.Y + displayRect.Height;
-				translateY = -(displayRect.X - displayRect.Y);
-				rotation = 90f;
-				break;
-		}
-
-		try
-		{
-			// Apply the transforms if we have any to apply
-			if ((translateX != 0) || (translateY != 0))
-			{
-				context.Graphics.TranslateTransform(translateX, translateY);
-			}
-
-			if (rotation != 0f)
-			{
-				context.Graphics.RotateTransform(rotation);
-			}
-
-			// Finally, just draw the image and let the transforms do the rest
-			DrawInputControlDropDownGlyph(context, displayRect, palette, state);
-		}
-		catch (ArgumentException)
-		{
-		}
-		finally
-		{
-			if (rotation != 0f)
-			{
-				context.Graphics.RotateTransform(-rotation);
-			}
-
-			// Remove the applied transforms
-			if ((translateX != 0) | (translateY != 0))
-			{
-				context.Graphics.TranslateTransform(-translateX, -translateY);
-			}
-		}
+		DrawInputControlDropDownGlyph(context, displayRect, palette, state, direction);
 	}
 
 	/// <summary>
@@ -2791,6 +2728,13 @@ public class RenderStandard : RenderBase
 		Rectangle cellRect,
 		[DisallowNull] IPaletteContent paletteContent,
 		PaletteState state)
+		=> DrawInputControlDropDownGlyph(context, cellRect, paletteContent, state, DropDownArrowGlyphDirection.Down);
+
+	private static void DrawInputControlDropDownGlyph(RenderContext context,
+		Rectangle cellRect,
+		IPaletteContent paletteContent,
+		PaletteState state,
+		DropDownArrowGlyphDirection direction)
 	{
 		Debug.Assert(context != null);
 		Debug.Assert(paletteContent != null);
@@ -2806,40 +2750,9 @@ public class RenderStandard : RenderBase
 			throw new ArgumentNullException(nameof(paletteContent));
 		}
 
-		Color c1 = paletteContent.GetContentShortTextColor1(state);
-		Color c2 = paletteContent.GetContentShortTextColor2(state);
-		if (c2 == Color.Empty
-			|| c2 == Color.Transparent)
-		{
-			c2 = Color.FromArgb(64, c1.R, c1.G, c1.B);
-		}
+        (Color outline, Color fill) = DropDownArrowGlyphColors.Resolve(context, paletteContent, state);
 
-		// Find the top left starting position for drawing lines
-		float xOffset = cellRect.Width / 4f;
-		float yOffset = cellRect.Height / 4f;
-		float xStart = cellRect.Left + xOffset;
-		float yStart = cellRect.Top + yOffset;
-
-		//using Pen darkPen = new Pen(c1),
-		//    lightPen = new Pen(c2);
-
-		using var path = new GraphicsPath();
-		// Define path with the geometry information only
-		path.AddLines([
-			new PointF(xStart, yStart),
-			new PointF(xStart + 2 * xOffset, yStart),
-			new PointF(xStart + xOffset, yStart + 2 * yOffset)
-		]);
-		path.CloseFigure();
-
-		using var aa = new AntiAlias(context.Graphics);
-		// Fill Triangle
-		using var brush = new SolidBrush(c2);
-		context.Graphics.FillPath(brush, path);
-
-		// Draw Triangle
-		using Pen darkPen = new Pen(c1);
-		context.Graphics.DrawPath(darkPen, path);
+        DropDownArrowGlyphCache.Draw(context.Graphics, cellRect, outline, fill, direction, context.Control);
 	}
 
 	/// <summary>

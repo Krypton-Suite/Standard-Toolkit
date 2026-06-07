@@ -320,7 +320,7 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
             case PaletteMetricInt.None:
                 return 0;
             case PaletteMetricInt.DropDownArrowBaseSize:
-                return 10;
+                return DropDownArrowGlyphDefaults.DefaultBaseSizeAt96Dpi;
             default:
                 return base.GetMetricInt(owningForm, state, metric);
         }
