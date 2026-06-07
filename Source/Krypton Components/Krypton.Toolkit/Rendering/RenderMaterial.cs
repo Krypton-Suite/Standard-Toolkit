@@ -11,7 +11,7 @@ namespace Krypton.Toolkit;
 /// Renderer targeting a flat, dense Material visual language.
 /// </summary>
 /// <seealso cref="RenderOffice2010" />
-public sealed class RenderMaterial : RenderOffice2010
+public class RenderMaterial : RenderOffice2010
 {
     #region Constructor
     static RenderMaterial()

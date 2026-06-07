@@ -1085,7 +1085,7 @@ public class KryptonRibbon : VisualSimple,
                 _minimizeBar.Visible = RealMinimizedMode && (QATLocation != QATLocation.Below);
 
                 // Update the full-bar version of the QAT
-                _qatBelowRibbon.Visible = _qatLocation == QATLocation.Below;
+                _qatBelowRibbon.Visible = _qatLocation == QATLocation.Below && RibbonShape != PaletteRibbonShape.MacOS;
 
                 // Update the minibar versions of the QAT
                 CaptionArea?.UpdateQAT();

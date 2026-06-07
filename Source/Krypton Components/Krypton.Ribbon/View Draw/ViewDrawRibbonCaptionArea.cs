@@ -224,8 +224,12 @@ internal class ViewDrawRibbonCaptionArea : ViewDrawDocker
     public void UpdateQAT()
     {
         var before = _captionQAT.Visible;
-        _captionQAT.Visible = _ribbon is { Visible: true, QATLocation: QATLocation.Above };
-        _nonCaptionQAT.Visible = _ribbon is { Visible: true, QATLocation: QATLocation.Above };
+
+        bool showQat = _ribbon.RibbonShape != PaletteRibbonShape.MacOS
+                       && _ribbon is { Visible: true, QATLocation: QATLocation.Above };
+        _captionQAT.Visible = showQat;
+        _nonCaptionQAT.Visible = showQat;
+
         UpdateVisible();
 
         // A change in integrated caption visibility
