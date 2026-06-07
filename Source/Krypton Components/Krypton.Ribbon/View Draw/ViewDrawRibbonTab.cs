@@ -29,8 +29,10 @@ internal class ViewDrawRibbonTab : ViewComposite,
     #region Instance Fields
     private readonly Padding _preferredBorder2007; // = new(12, 3, 12, 1);
     private readonly Padding _preferredBorder2010; // = new(8, 4, 8, 3);
+    private readonly Padding _preferredBorderMac;
     private readonly Padding _layoutBorder2007; // = new(4, 3, 4, 1);
     private readonly Padding _layoutBorder2010; // = new(1, 4, 0, 3);
+    private readonly Padding _layoutBorderMac;
     private KryptonRibbonTab? _ribbonTab;
     private readonly PaletteRibbonGeneral _paletteGeneral;
     private readonly PaletteRibbonDoubleInheritOverride _overrideStateNormal;
@@ -124,8 +126,10 @@ internal class ViewDrawRibbonTab : ViewComposite,
 
         _preferredBorder2007 = new Padding((int)(12 * FactorDpiX), (int)(3 * FactorDpiY), (int)(12 * FactorDpiX), (int)(1 * FactorDpiY));
         _preferredBorder2010 = new Padding((int)(8 * FactorDpiX), (int)(4 * FactorDpiY), (int)(8 * FactorDpiX), (int)(3 * FactorDpiY));
+        _preferredBorderMac = new Padding((int)(10 * FactorDpiX), (int)(2 * FactorDpiY), (int)(10 * FactorDpiX), (int)(0 * FactorDpiY));
         _layoutBorder2007 = new Padding((int)(4 * FactorDpiX), (int)(3 * FactorDpiY), (int)(4 * FactorDpiX), (int)(1 * FactorDpiY));
         _layoutBorder2010 = new Padding((int)(1 * FactorDpiX), (int)(4 * FactorDpiY), (int)(0 * FactorDpiX), (int)(3 * FactorDpiY));
+        _layoutBorderMac = new Padding((int)(2 * FactorDpiX), (int)(2 * FactorDpiY), (int)(2 * FactorDpiX), (int)(0 * FactorDpiY));
     }
 
     /// <summary>
@@ -285,6 +289,7 @@ internal class ViewDrawRibbonTab : ViewComposite,
                 PaletteRibbonShape.Office2013 => _preferredBorder2010,
                 PaletteRibbonShape.Microsoft365 => _preferredBorder2010,
                 PaletteRibbonShape.VisualStudio => _preferredBorder2010,
+                PaletteRibbonShape.MacOS => _preferredBorderMac,
                 _ => _preferredBorder2007
             };
         }
@@ -304,6 +309,7 @@ internal class ViewDrawRibbonTab : ViewComposite,
                 PaletteRibbonShape.Office2010 => _layoutBorder2010,
                 PaletteRibbonShape.Office2013 => _layoutBorder2010,
                 PaletteRibbonShape.Microsoft365 => _layoutBorder2010,
+                PaletteRibbonShape.MacOS => _layoutBorderMac,
                 _ => _layoutBorder2007
             };
         }
@@ -423,13 +429,15 @@ internal class ViewDrawRibbonTab : ViewComposite,
                 _paletteContextCurrent.LightBackground = false;
                 break;
             case PaletteRibbonShape.Office2010:
+            case PaletteRibbonShape.MacOS:
                 if (cts != null)
                 {
                     RenderBefore2010ContextTab(context, cts);
                 }
 
-                _paletteContextCurrent.LightBackground = KryptonManager.CurrentGlobalPaletteMode.ToString()
-                    .StartsWith(PaletteMode.Office2010Black.ToString());
+                _paletteContextCurrent.LightBackground = Ribbon.RibbonShape == PaletteRibbonShape.MacOS
+                                                        || KryptonManager.CurrentGlobalPaletteMode.ToString()
+                                                            .StartsWith(nameof(PaletteMode.Office2010Black));
                 break;
         }
 
@@ -453,6 +461,7 @@ internal class ViewDrawRibbonTab : ViewComposite,
             switch (Ribbon.RibbonShape)
             {
                 case PaletteRibbonShape.Office2010:
+                case PaletteRibbonShape.MacOS:
                     RenderAfter2010ContextTab();
                     break;
             }

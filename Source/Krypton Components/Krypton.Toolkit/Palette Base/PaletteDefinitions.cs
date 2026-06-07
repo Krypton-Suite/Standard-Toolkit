@@ -4319,7 +4319,12 @@ public enum PaletteRibbonShape
     /// <summary>
     /// Specifies the Visual Studio ribbon shape.
     /// </summary>
-    VisualStudio
+    VisualStudio,
+
+    /// <summary>
+    /// Specifies the macOS unified-toolbar ribbon shape (flat tab strip, compact groups).
+    /// </summary>
+    MacOS
 }
 #endregion
 

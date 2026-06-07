@@ -913,6 +913,11 @@ public enum RendererMode
     Retro,
 
     /// <summary>
+    /// Specifies the RenderMacOS be used.
+    /// </summary>
+    MacOS,
+
+    /// <summary>
     /// Specifies a custom renderer be used.
     /// </summary>
     Custom

@@ -586,6 +586,7 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
                             }
                             break;
                         case PaletteRibbonShape.Office2010:
+                        case PaletteRibbonShape.MacOS:
                             maxBorders = PaletteDrawBorders.All;
                             break;
                     }

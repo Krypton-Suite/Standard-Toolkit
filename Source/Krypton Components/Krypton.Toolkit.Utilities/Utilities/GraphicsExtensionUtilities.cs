@@ -354,6 +354,8 @@ public static class GraphicsExtensionUtilities
             PaletteMode.MaterialDark => true,
             PaletteMode.MaterialLightRipple => true,
             PaletteMode.MaterialDarkRipple => true,
+            PaletteMode.MacOSDark => true,
+            PaletteMode.MacOSLight => true,
             _ => false
         };
     }
