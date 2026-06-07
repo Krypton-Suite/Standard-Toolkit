@@ -30,6 +30,24 @@ public abstract class PaletteOffice2007Base : PaletteBase
         }
         _defaultsRegistered = true;
 
+        RegisterColor<AppButtonNormalColor>(AppButtonNormalColor.Color1, Color.FromArgb(243, 245, 248));
+        RegisterColor<AppButtonNormalColor>(AppButtonNormalColor.Color2, Color.FromArgb(214, 220, 231));
+        RegisterColor<AppButtonNormalColor>(AppButtonNormalColor.Color3, Color.FromArgb(188, 198, 211));
+        RegisterColor<AppButtonNormalColor>(AppButtonNormalColor.Color4, Color.FromArgb(254, 254, 255));
+        RegisterColor<AppButtonNormalColor>(AppButtonNormalColor.Color5, Color.FromArgb(206, 213, 225));
+
+        RegisterColor<AppButtonPressedColor>(AppButtonPressedColor.Color1, Color.FromArgb(235, 227, 196));
+        RegisterColor<AppButtonPressedColor>(AppButtonPressedColor.Color2, Color.FromArgb(228, 198, 149));
+        RegisterColor<AppButtonPressedColor>(AppButtonPressedColor.Color3, Color.FromArgb(166, 97, 7));
+        RegisterColor<AppButtonPressedColor>(AppButtonPressedColor.Color4, Color.FromArgb(242, 155, 57));
+        RegisterColor<AppButtonPressedColor>(AppButtonPressedColor.Color5, Color.FromArgb(236, 136, 9));
+
+        RegisterColor<AppButtonTrackColor>(AppButtonTrackColor.Color1, Color.FromArgb(255, 251, 230));
+        RegisterColor<AppButtonTrackColor>(AppButtonTrackColor.Color2, Color.FromArgb(248, 230, 143));
+        RegisterColor<AppButtonTrackColor>(AppButtonTrackColor.Color3, Color.FromArgb(238, 213, 126));
+        RegisterColor<AppButtonTrackColor>(AppButtonTrackColor.Color4, Color.FromArgb(254, 247, 129));
+        RegisterColor<AppButtonTrackColor>(AppButtonTrackColor.Color5, Color.FromArgb(240, 201, 41));
+
         RegisterColor<ButtonBackColor>(ButtonBackColor.Color1, Color.FromArgb(221, 221, 221));
         RegisterColor<ButtonBackColor>(ButtonBackColor.Color2, Color.FromArgb(236, 236, 236));
         RegisterColor<ButtonBackColor>(ButtonBackColor.Color3, Color.FromArgb(255, 213,  77));
@@ -48,6 +66,22 @@ public abstract class PaletteOffice2007Base : PaletteBase
         RegisterColor<ButtonBorderColor>(ButtonBorderColor.Color5, Color.FromArgb(255, 196,  68));
         RegisterColor<ButtonBorderColor>(ButtonBorderColor.Color6, Color.FromArgb(158, 130,  85));
         RegisterColor<ButtonBorderColor>(ButtonBorderColor.Color7, Color.FromArgb(254, 218, 144));
+
+        RegisterColor<RibbonGroupCollapsedBack>(RibbonGroupCollapsedBack.Color1, Color.FromArgb(48, 255, 255, 255));
+        RegisterColor<RibbonGroupCollapsedBack>(RibbonGroupCollapsedBack.Color2, Color.FromArgb(235, 235, 235));
+
+        RegisterColor<RibbonGroupCollapsedBackT>(RibbonGroupCollapsedBackT.Color1, Color.FromArgb(48, 255, 255, 255));
+        RegisterColor<RibbonGroupCollapsedBackT>(RibbonGroupCollapsedBackT.Color2, Color.FromArgb(235, 235, 235));
+
+        RegisterColor<RibbonGroupCollapsedBorder>(RibbonGroupCollapsedBorder.Color1, Color.FromArgb(128, 199, 199, 199));
+        RegisterColor<RibbonGroupCollapsedBorder>(RibbonGroupCollapsedBorder.Color2, Color.FromArgb(199, 199, 199));
+        RegisterColor<RibbonGroupCollapsedBorder>(RibbonGroupCollapsedBorder.Color3, Color.FromArgb(48, 255, 255, 255));
+        RegisterColor<RibbonGroupCollapsedBorder>(RibbonGroupCollapsedBorder.Color4, Color.FromArgb(235, 235, 235));
+
+        RegisterColor<RibbonGroupCollapsedBorderT>(RibbonGroupCollapsedBorderT.Color1, Color.FromArgb(128, 168, 184, 196));
+        RegisterColor<RibbonGroupCollapsedBorderT>(RibbonGroupCollapsedBorderT.Color2, Color.FromArgb(168, 184, 196));
+        RegisterColor<RibbonGroupCollapsedBorderT>(RibbonGroupCollapsedBorderT.Color3, Color.FromArgb(48, 255, 255, 255));
+        RegisterColor<RibbonGroupCollapsedBorderT>(RibbonGroupCollapsedBorderT.Color4, Color.FromArgb(192, 207, 220));
     }
 
     #region Padding
