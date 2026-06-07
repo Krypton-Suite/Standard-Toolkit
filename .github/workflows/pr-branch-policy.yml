@@ -1,0 +1,83 @@
+# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+# Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2026 - 2026. All rights reserved.
+#
+# Validates pull-request base/head pairings ([#3610](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3610)). No master ancestry check.
+#
+# Warn-only by default. Set repository variable BRANCH_POLICY_ENFORCE=true to fail PRs on violations.
+# Set BRANCH_POLICY_DISABLED=true to skip this workflow.
+# See .github/BRANCH_POLICY.md
+
+name: PR branch policy
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  policy:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.head.repo.full_name == github.repository
+
+    steps:
+      - name: Branch policy kill switch
+        id: kill_switch
+        shell: bash
+        run: |
+          disabled="${{ vars.BRANCH_POLICY_DISABLED }}"
+          if [ "$disabled" = "true" ]; then
+            echo "::warning:: PR branch policy workflow is DISABLED (BRANCH_POLICY_DISABLED=true)."
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout
+        if: steps.kill_switch.outputs.enabled == 'true'
+        uses: actions/checkout@v6
+
+      - name: List changed files
+        if: steps.kill_switch.outputs.enabled == 'true'
+        id: files
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const prNumber = context.payload.pull_request.number;
+            const files = [];
+            for await (const response of github.paginate.iterator(
+              github.rest.pulls.listFiles,
+              { owner, repo, pull_number: prNumber, per_page: 100 }
+            )) {
+              for (const file of response.data) {
+                files.push(file.filename);
+              }
+            }
+            core.setOutput('paths', files.join('\n'));
+
+      - name: Run branch policy check
+        if: steps.kill_switch.outputs.enabled == 'true'
+        shell: pwsh
+        env:
+          PR_BASE: ${{ github.event.pull_request.base.ref }}
+          PR_HEAD: ${{ github.event.pull_request.head.ref }}
+          CHANGED_FILES: ${{ steps.files.outputs.paths }}
+          POLICY_PATH: ${{ github.workspace }}/.github/branch-policy.json
+          ENFORCE: ${{ vars.BRANCH_POLICY_ENFORCE }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $files = @()
+          if ($env:CHANGED_FILES) {
+            $files = $env:CHANGED_FILES -split "`n" | Where-Object { $_ }
+          }
+          & "${{ github.workspace }}/.github/scripts/Invoke-BranchPolicyCheck.ps1" `
+            -BaseRef $env:PR_BASE `
+            -HeadRef $env:PR_HEAD `
+            -ChangedFiles $files `
+            -PolicyPath $env:POLICY_PATH `
+            -Enforce $(if ($env:ENFORCE) { $env:ENFORCE } else { 'false' }) `
+            -Repository $env:REPOSITORY

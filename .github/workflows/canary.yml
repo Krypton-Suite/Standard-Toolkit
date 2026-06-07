@@ -335,7 +335,7 @@ jobs:
           $msbuildConfig = 'Canary'
 
           try {
-            $evaluated = (& dotnet msbuild "`"$proj`"" -getProperty:Version -p:Configuration=$msbuildConfig -nologo -v:q).Trim()
+            $evaluated = (& dotnet msbuild "$proj" -getProperty:Version -p:Configuration=$msbuildConfig -nologo -v:q).Trim()
             if ($evaluated) {
               if ($evaluated -match '^[1-9]\d{2,}\.\d+\.\d+\.\d+$') {
                 $version = $evaluated
