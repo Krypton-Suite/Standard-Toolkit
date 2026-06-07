@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -1000,11 +1000,10 @@ public sealed class KryptonManager : Component
                 return PaletteOffice2010Black;
             case PaletteMode.Office2010BlackDarkMode:
                 return PaletteOffice2010BlackDarkMode;
-            // TODO: Re-enable this once completed
-            // case PaletteMode.Office2013DarkGray:
-            // return PaletteOffice2013DarkGray;
-            // case PaletteMode.Office2013LightGray:
-            // return PaletteOffice2013LightGray;
+            case PaletteMode.Office2013DarkGray:
+                return PaletteOffice2013DarkGray;
+            case PaletteMode.Office2013LightGray:
+                return PaletteOffice2013LightGray;
             case PaletteMode.Office2013White:
                 return PaletteOffice2013White;
             case PaletteMode.SparkleBlue:
@@ -1666,6 +1665,8 @@ public sealed class KryptonManager : Component
             case PaletteMode.VisualStudio2010Render2010:
                 Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.Office2010ToolBarImages);
                 break;
+            case PaletteMode.Office2013DarkGray:
+            case PaletteMode.Office2013LightGray:
             case PaletteMode.Office2013White:
             case PaletteMode.VisualStudio2010Render2013:
                 Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.Office2013ToolBarImages);
