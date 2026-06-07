@@ -24,6 +24,14 @@
 		<Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="$(TargetFramework.StartsWith('net4'))">
+		<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+	</PropertyGroup>
+
+	<ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
+		<PackageReference Include="System.Resources.Extensions" Version="8.0.0" />
+	</ItemGroup>
+
 	<Choose>
 		<When Condition="'$(Configuration)' == 'Canary'">
 			<ItemGroup>

@@ -41,8 +41,11 @@
         <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
         <NoWarn>1701;1702</NoWarn>
         <Configurations>Debug;Release;Installer;Nightly;Canary;LTS</Configurations>
-        <DocumentationFile>..\..\..\Bin\$(Configuration)\Krypton.Toolkit.xml</DocumentationFile>
-        <OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
+        <DocumentationFile>..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.xml</DocumentationFile>
+        <OutputPath Condition="'$(UseArtifactsOutput)' == 'true'">..\..\..\Bin\$(Configuration)\$(TargetFramework)\</OutputPath>
+        <OutputPath Condition="'$(UseArtifactsOutput)' != 'true'">..\..\..\Bin\$(Configuration)\</OutputPath>
+        <AppendTargetFrameworkToOutputPath Condition="'$(UseArtifactsOutput)' == 'true'">false</AppendTargetFrameworkToOutputPath>
+        <AppendTargetFrameworkToOutputPath Condition="'$(UseArtifactsOutput)' != 'true'">true</AppendTargetFrameworkToOutputPath>
         <LangVersion>preview</LangVersion>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <LangVersion>preview</LangVersion>
