@@ -206,7 +206,7 @@ jobs:
 
       - name: Upload workflow artifact
         if: steps.templates_release_kill_switch.outputs.enabled == 'true'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: templates-${{ steps.channel.outputs.channel }}
           path: |
@@ -216,7 +216,7 @@ jobs:
 
       - name: Publish templates to GitHub Release
         if: steps.templates_release_kill_switch.outputs.enabled == 'true'
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ steps.channel.outputs.tag }}
           name: ${{ steps.channel.outputs.title }}
