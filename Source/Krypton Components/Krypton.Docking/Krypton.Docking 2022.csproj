@@ -108,7 +108,7 @@
         </EmbeddedResource>
     </ItemGroup>
     <PropertyGroup>
-        <DocumentationFile>..\..\..\Bin\$(Configuration)\Krypton.Docking.xml</DocumentationFile>
+        <DocumentationFile>..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Docking.xml</DocumentationFile>
         <OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
     </PropertyGroup>
     <PropertyGroup>

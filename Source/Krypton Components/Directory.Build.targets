@@ -3,6 +3,14 @@
 		<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.targets', '$(MSBuildThisFileDirectory)../../'))" />
 		-->
 
+	<PropertyGroup>
+		<PackageOutputPath>$(MSBuildThisFileDirectory)..\..\Bin\Packages\$(Configuration)\</PackageOutputPath>
+		<OutputPath>$(MSBuildThisFileDirectory)..\..\Bin\$(Configuration)\</OutputPath>
+		<AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+		<IntermediateOutputPath>$(MSBuildProjectDirectory)\obj\$(Configuration)\$(TargetFramework)\</IntermediateOutputPath>
+		<AppendTargetFrameworkToIntermediateOutputPath>false</AppendTargetFrameworkToIntermediateOutputPath>
+	</PropertyGroup>
+
 	<Choose>
 		<When Condition="'$(Configuration)' == 'Canary'">
 			<PropertyGroup>

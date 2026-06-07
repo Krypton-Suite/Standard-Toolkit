@@ -41,7 +41,7 @@
         <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
         <NoWarn>1701;1702</NoWarn>
         <Configurations>Debug;Release;Installer;Nightly;Canary;LTS</Configurations>
-        <DocumentationFile>..\..\..\Bin\$(Configuration)\Krypton.Toolkit.xml</DocumentationFile>
+        <DocumentationFile>..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.xml</DocumentationFile>
         <OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
         <LangVersion>preview</LangVersion>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>

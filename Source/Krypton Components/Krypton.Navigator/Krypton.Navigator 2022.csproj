@@ -106,7 +106,7 @@
         </EmbeddedResource>
     </ItemGroup>
     <PropertyGroup>
-        <DocumentationFile>..\..\..\Bin\$(Configuration)\Krypton.Navigator.xml</DocumentationFile>
+        <DocumentationFile>..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Navigator.xml</DocumentationFile>
         <OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
     </PropertyGroup>
     <PropertyGroup>
