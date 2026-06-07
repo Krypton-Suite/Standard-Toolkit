@@ -19,7 +19,7 @@ namespace Krypton.Toolkit;
 public enum PaletteMode
 {
     /*
-     * Adjustements made as per ticket 1328.
+     * Adjustments made as per ticket 1328.
      * See: https://github.com/Krypton-Suite/Standard-Toolkit/issues/1328
      *
      * These entries (also those disabled) are now sorted in the order of the SupportedThemes Dictionary.
@@ -163,19 +163,15 @@ public enum PaletteMode
     Office2010LightGray,
     */
 
-    /* ToDo: Re-enable when the gray themes are completed
     /// <summary>
     /// Specifies the dark Gray color variant of the Office 2013 appearance.
     /// </summary>
     Office2013DarkGray,
-    */
 
-    /* ToDo: Re-enable when the gray themes are completed
     /// <summary>
     /// Specifies the light Gray color variant of the Office 2013 appearance.
     /// </summary>
     Office2013LightGray,
-    */
 
     /// <summary>
     /// Specifies the White color variant of the Office 2013 appearance.
@@ -401,6 +397,16 @@ public enum PaletteMode
     /// Norton Commander style blue RetroUI palette.
     /// </summary>
     RetroBlue,
+
+    /// <summary>
+    /// macOS-inspired light palette (Material renderer, Apple HIG colors).
+    /// </summary>
+    MacOSLight,
+
+    /// <summary>
+    /// macOS-inspired dark palette (Material renderer, Apple HIG colors).
+    /// </summary>
+    MacOSDark,
 
     /// <summary>
     /// Specifies a custom palette be used.
