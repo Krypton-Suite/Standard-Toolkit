@@ -1,11 +1,11 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -5464,6 +5464,8 @@ public class KryptonCustomPaletteBase : PaletteBase
             case PaletteState.Disabled:
                 return grid.StateDisabled.DataCell.Back;
             case PaletteState.Normal:
+            case PaletteState.ContextNormal:
+            case PaletteState.FocusOverride:
                 return grid.StateNormal.DataCell.Back;
             case PaletteState.CheckedNormal:
                 return grid.StateSelected.DataCell.Back;
@@ -5523,6 +5525,8 @@ public class KryptonCustomPaletteBase : PaletteBase
             case PaletteState.Disabled:
                 return grid.StateDisabled.DataCell.Border;
             case PaletteState.Normal:
+            case PaletteState.ContextNormal:
+            case PaletteState.FocusOverride:
                 return grid.StateNormal.DataCell.Border;
             case PaletteState.CheckedNormal:
                 return grid.StateSelected.DataCell.Border;
@@ -5583,6 +5587,8 @@ public class KryptonCustomPaletteBase : PaletteBase
             case PaletteState.Disabled:
                 return grid.StateDisabled.DataCell.Content;
             case PaletteState.Normal:
+            case PaletteState.ContextNormal:
+            case PaletteState.FocusOverride:
                 return grid.StateNormal.DataCell.Content;
             case PaletteState.CheckedNormal:
                 return grid.StateSelected.DataCell.Content;
