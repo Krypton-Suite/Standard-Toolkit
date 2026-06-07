@@ -200,6 +200,7 @@ internal static class KryptonScrollBarRenderer
         GripColors[0] = _palette.ColorTable.GripLight;
         GripColors[1] = _palette.ColorTable.GripDark;
 
+        DropDownArrowGlyphCache.Clear();
     }
 
     private static void InitColorsForRetroPalette(PaletteBase palette)
@@ -294,6 +295,8 @@ internal static class KryptonScrollBarRenderer
 
         GripColors[0] = Color.FromArgb(64, 64, 64);
         GripColors[1] = border;
+
+        DropDownArrowGlyphCache.Clear();
     }
     #endregion
 
@@ -924,13 +927,18 @@ internal static class KryptonScrollBarRenderer
         ScrollBarArrowButtonState state,
         bool arrowUp)
     {
-        using Image arrowImage = GetArrowDownButtonImage(state);
+        using Image chromeImage = GetArrowDownButtonChromeImage(state);
         if (arrowUp)
         {
-            arrowImage.RotateFlip(RotateFlipType.Rotate180FlipNone);
+            chromeImage.RotateFlip(RotateFlipType.Rotate180FlipNone);
         }
 
-        g.DrawImage(arrowImage, rect);
+        g.DrawImage(chromeImage, rect);
+
+        DropDownArrowGlyphDirection direction = arrowUp
+            ? DropDownArrowGlyphDirection.Up
+            : DropDownArrowGlyphDirection.Down;
+        DrawArrowGlyph(g, rect, state, direction);
     }
 
     /// <summary>
@@ -946,18 +954,60 @@ internal static class KryptonScrollBarRenderer
         ScrollBarArrowButtonState state,
         bool arrowUp)
     {
-        using Image arrowImage = GetArrowDownButtonImage(state);
-        arrowImage.RotateFlip(arrowUp ? RotateFlipType.Rotate90FlipNone : RotateFlipType.Rotate270FlipNone);
+        using Image chromeImage = GetArrowDownButtonChromeImage(state);
+        chromeImage.RotateFlip(arrowUp ? RotateFlipType.Rotate90FlipNone : RotateFlipType.Rotate270FlipNone);
 
-        g.DrawImage(arrowImage, rect);
+        g.DrawImage(chromeImage, rect);
+
+        DropDownArrowGlyphDirection direction = arrowUp
+            ? DropDownArrowGlyphDirection.Left
+            : DropDownArrowGlyphDirection.Right;
+        DrawArrowGlyph(g, rect, state, direction);
     }
 
+    private static void DrawArrowGlyph(
+        Graphics g,
+        Rectangle buttonRect,
+        ScrollBarArrowButtonState state,
+        DropDownArrowGlyphDirection direction)
+    {
+        Rectangle glyphRect = GetArrowGlyphCellRect(buttonRect);
+        if (glyphRect.Width <= 0 || glyphRect.Height <= 0)
+        {
+            return;
+        }
+
+        PaletteState paletteState = MapArrowStateToPaletteState(state);
+        (Color outline, Color fill) = DropDownArrowGlyphColors.Resolve(_palette, paletteState);
+        DropDownArrowGlyphCache.Draw(g, glyphRect, outline, fill, direction);
+    }
+
+    private static Rectangle GetArrowGlyphCellRect(Rectangle buttonRect)
+    {
+        int size = Math.Min(buttonRect.Width, buttonRect.Height);
+        size = Math.Max(4, (size * 3) / 5);
+
+        return new Rectangle(
+            buttonRect.X + ((buttonRect.Width - size) / 2),
+            buttonRect.Y + ((buttonRect.Height - size) / 2),
+            size,
+            size);
+    }
+
+    private static PaletteState MapArrowStateToPaletteState(ScrollBarArrowButtonState state) => state switch
+    {
+        ScrollBarArrowButtonState.UpDisabled or ScrollBarArrowButtonState.DownDisabled => PaletteState.Disabled,
+        ScrollBarArrowButtonState.UpHot or ScrollBarArrowButtonState.DownHot => PaletteState.Tracking,
+        ScrollBarArrowButtonState.UpPressed or ScrollBarArrowButtonState.DownPressed => PaletteState.Pressed,
+        _ => PaletteState.Normal
+    };
+
     /// <summary>
-    /// Draws the arrow down button for the scrollbar.
+    /// Draws the arrow button chrome (without the chevron glyph) for the scrollbar.
     /// </summary>
     /// <param name="state">The button state.</param>
-    /// <returns>The arrow down button as <see cref="Image"/>.</returns>
-    private static Image GetArrowDownButtonImage(
+    /// <returns>The arrow button chrome as <see cref="Image"/>.</returns>
+    private static Image GetArrowDownButtonChromeImage(
         ScrollBarArrowButtonState state)
     {
         var rect = new Rectangle(0, 0, 15, 17);
@@ -1062,21 +1112,6 @@ internal static class KryptonScrollBarRenderer
             {
                 g.FillRectangle(brush, lower);
             }
-        }
-
-        using var arrowIcon = (Image)GetScrollBarArrowDownBitmap().Clone();
-        if (state is ScrollBarArrowButtonState.DownDisabled or ScrollBarArrowButtonState.UpDisabled)
-        {
-            ControlPaint.DrawImageDisabled(
-                g,
-                arrowIcon,
-                3,
-                6,
-                Color.Transparent);
-        }
-        else
-        {
-            g.DrawImage(arrowIcon, 3, 6);
         }
 
         return bitmap;
