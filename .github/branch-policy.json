@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Pull-request branch pairing rules for Krypton-Suite/Standard-Toolkit. See .github/BRANCH_POLICY.md.",
+  "downstreamBranches": [
+    "alpha",
+    "alpha-backup",
+    "canary",
+    "Canary",
+    "gold",
+    "prerelease",
+    "V105-LTS",
+    "V85-LTS",
+    "V110"
+  ],
+  "longLivedHeadBranches": [
+    "master",
+    "main",
+    "alpha",
+    "alpha-backup",
+    "canary",
+    "Canary",
+    "gold",
+    "prerelease",
+    "V105-LTS",
+    "V85-LTS",
+    "V110"
+  ],
+  "syncGithubFromMasterTargets": [
+    "alpha",
+    "canary",
+    "gold",
+    "prerelease",
+    "V105-LTS",
+    "V85-LTS",
+    "V110"
+  ],
+  "rules": [
+    {
+      "id": "master-github-downstream",
+      "description": "Workflow changes from master into release lines must touch only .github/",
+      "baseIn": "downstreamBranches",
+      "head": "master",
+      "pathsOnlyPrefix": ".github/"
+    },
+    {
+      "id": "alpha-to-alpha-backup",
+      "description": "alpha-backup is updated from alpha only",
+      "base": "alpha-backup",
+      "head": "alpha"
+    },
+    {
+      "id": "no-long-lived-to-master",
+      "description": "Do not open product PRs from another release line into master",
+      "base": "master",
+      "headIn": "longLivedHeadBranches",
+      "forbidden": true
+    }
+  ]
+}
