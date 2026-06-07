@@ -83,6 +83,10 @@ internal class CalculatedValues
                     _groupHeightModifier = -3;
                     _groupsHeightModifier = -3;
                     break;
+                case PaletteRibbonShape.MacOS:
+                    _groupHeightModifier = -4;
+                    _groupsHeightModifier = -4;
+                    break;
             }
         }
 
@@ -122,6 +126,13 @@ internal class CalculatedValues
         // Apply shape specific modifiers
         GroupHeight += _groupHeightModifier;
         GroupsHeight += _groupsHeightModifier;
+
+        // macOS unified toolbar: no labeled group captions under clusters
+        if (_lastShape == PaletteRibbonShape.MacOS)
+        {
+            GroupHeight -= GroupTitleHeight;
+            GroupTitleHeight = 0;
+        }
     }
     #endregion
 
