@@ -3614,7 +3614,7 @@ public abstract class PaletteOffice2007Base : PaletteBase
             case PaletteMetricInt.None:
                 return 0;
             case PaletteMetricInt.DropDownArrowBaseSize:
-                return 10;
+                return DropDownArrowGlyphDefaults.DefaultBaseSizeAt96Dpi;
             default:
                 // Should never happen!
                 Debug.Assert(false);
