@@ -931,8 +931,7 @@
   </ItemGroup>
 
   <!-- Bundle preserialized-resource dependencies in the nupkg (aggregate packages suppress dependencies). -->
-  <Target Name="KryptonPackPreserializedResourceDependencies"
-          BeforeTargets="_GetPackageFiles">
+  <Target Name="KryptonPackPreserializedResourceDependencies" BeforeTargets="_GetPackageFiles">
 	<PropertyGroup>
 	  <_KryptonPackSreLibFolder Condition="$(TargetFramework.StartsWith('net4'))">net462</_KryptonPackSreLibFolder>
 	  <_KryptonPackSreLibFolder Condition="'$(TargetFramework)' == 'net8.0-windows'">net8.0</_KryptonPackSreLibFolder>

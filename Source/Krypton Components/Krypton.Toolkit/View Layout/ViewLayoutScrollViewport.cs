@@ -116,6 +116,87 @@ public class ViewLayoutScrollViewport : ViewLayoutDocker
     }
 
     /// <summary>
+    /// Initialize a new instance of the ViewLayoutScrollViewport class.
+    /// </summary>
+    /// <param name="rootPopup">Top level visual popup.</param>
+    /// <param name="viewportFiller">View element to place inside viewport.</param>
+    /// <param name="paletteBorderEdge">Palette for use with the border edge.</param>
+    /// <param name="paletteMetrics">Palette source for metrics.</param>
+    /// <param name="metricPadding">Metric used to get view padding.</param>
+    /// <param name="metricOvers">Metric used to get overposition.</param>
+    /// <param name="orientation">Orientation for the viewport children.</param>
+    /// <param name="alignment">Alignment of the children within the viewport.</param>
+    /// <param name="animateChange">Animate changes in the viewport.</param>
+    /// <param name="vertical">Is the viewport vertical.</param>
+    /// <param name="needPaintDelegate">Delegate for notifying paint requests.</param>
+    public ViewLayoutScrollViewport([DisallowNull] VisualPopup rootPopup,
+        [DisallowNull] ViewBase viewportFiller,
+        PaletteBorderEdge paletteBorderEdge,
+        IPaletteMetric? paletteMetrics,
+        PaletteMetricPadding metricPadding,
+        PaletteMetricInt metricOvers,
+        VisualOrientation orientation,
+        RelativePositionAlign alignment,
+        bool animateChange,
+        bool vertical,
+        [DisallowNull] NeedPaintHandler needPaintDelegate)
+    {
+        Debug.Assert(rootPopup != null);
+        Debug.Assert(viewportFiller != null);
+        Debug.Assert(needPaintDelegate != null);
+
+        // We need a way to notify changes in layout
+        _needPaintDelegate = needPaintDelegate;
+
+        // By default we are showing the contained viewport in vertical scrolling
+        _viewportVertical = vertical;
+
+        // Our initial visual orientation should match the parameter
+        Orientation = orientation;
+
+        // Create the child viewport
+        Viewport = new ViewLayoutViewport(paletteMetrics!, metricPadding,
+            metricOvers, ViewportOrientation(_viewportVertical),
+            alignment, animateChange)
+        {
+
+            // Default to same alignment for both directions
+            CounterAlignment = alignment,
+
+            // We always want the viewport to fill any remainder space
+            FillSpace = true
+        };
+
+        // Put the provided element inside the viewport
+        Viewport.Add(viewportFiller!);
+
+        // Hook into animation step events
+        Viewport.AnimateStep += OnAnimateStep;
+
+        // To prevent the contents of the viewport from being able to draw outside
+        // the viewport (such as having child controls) we use a ViewLayoutControl
+        // that uses a child control to restrict the drawing region.
+        ViewControl = new ViewLayoutControl(rootPopup!, Viewport);
+
+        // Create the scrollbar and matching border edge
+        ScrollbarV = new ViewDrawScrollBar(true);
+        ScrollbarH = new ViewDrawScrollBar(false);
+        BorderEdgeV = new ViewDrawBorderEdge(paletteBorderEdge, System.Windows.Forms.Orientation.Vertical);
+        BorderEdgeH = new ViewDrawBorderEdge(paletteBorderEdge, System.Windows.Forms.Orientation.Horizontal);
+
+        // Hook into scroll position changes
+        ScrollbarV.ScrollChanged += OnScrollVChanged;
+        ScrollbarH.ScrollChanged += OnScrollHChanged;
+
+        // Add with appropriate docking style
+        Add(ViewControl, ViewDockStyle.Fill);
+        Add(BorderEdgeV, ViewDockStyle.Right);
+        Add(BorderEdgeH, ViewDockStyle.Bottom);
+        Add(ScrollbarV, ViewDockStyle.Right);
+        Add(ScrollbarH, ViewDockStyle.Bottom);
+    }
+
+    /// <summary>
     /// Release unmanaged and optionally managed resources.
     /// </summary>
     /// <param name="disposing">Called from Dispose method.</param>

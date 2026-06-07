@@ -2,7 +2,7 @@
 
 This repository uses a **warn-then-fail** branch policy enforced in CI ([#3610](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3610)).
 
-**Full developer documentation:** [Documents/Developers/Contributing/BranchPolicyandWorkflowHardening.md](../Documents/Developers/Contributing/BranchPolicyandWorkflowHardening.md) (architecture, rules, operations, troubleshooting).
+**Full developer documentation:** [Branch Policy and Workflow Hardening](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/articles/Contributing/BranchPolicyandWorkflowHardening.html) (architecture, rules, operations, troubleshooting).
 
 ## Product vs workflow changes
 
@@ -47,7 +47,7 @@ Targets include `alpha`, `canary`, `gold`, `prerelease`, `V105-LTS`, `V85-LTS`, 
 
 ## Required checks on `master` vs release branches
 
-When enforcing policy, require **PR branch policy** on release-branch rulesets only — not on `master` — so topic PRs into `master` are not gated by this check. Details in the [developer documentation](../Documents/Developers/Contributing/BranchPolicyandWorkflowHardening.md#required-check-only-on-release-branches-not-topic-prs--master).
+When enforcing policy, require **PR branch policy** on release-branch rulesets only — not on `master` — so topic PRs into `master` are not gated by this check. Details in the [developer documentation](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/articles/Contributing/BranchPolicyandWorkflowHardening.html#required-check-only-on-release-branches-not-topic-prs--master).
 
 | Variable | Purpose |
 |----------|---------|

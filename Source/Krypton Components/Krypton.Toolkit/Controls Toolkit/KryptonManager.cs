@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -29,6 +29,8 @@ public sealed class KryptonManager : Component
     private static bool _globalShowAdministratorSuffix = true;
     internal static bool _globalUseKryptonFileDialogs = true;
     private static bool _globalUseKryptonScrollbars = false;
+    private static DropDownArrowRenderMode _globalDropDownArrowRenderMode = DropDownArrowRenderMode.Unicode;
+    private static DropDownArrowGlyphStyle _globalDropDownArrowGlyphStyle = DropDownArrowGlyphStyle.Bevel;
     private static bool _globalTouchscreenMode = false;
     private static float _globalTouchscreenScaleFactor = 1.25f;
     private static bool _globalTouchscreenFontScaling = true;
@@ -147,6 +149,7 @@ public sealed class KryptonManager : Component
     private static RenderMicrosoft365? _renderMicrosoft365;
     private static RenderMaterial? _renderMaterial;
     private static RenderRetro? _renderRetro;
+    private static RenderMacOS? _renderMacOS;
     private static RenderSparkle? _renderSparkle;
     private static RenderVisualStudio2010With2007? _renderVisualStudio2010With2007;
     private static RenderVisualStudio2010With2010? _renderVisualStudio2010With2010;
@@ -171,6 +174,20 @@ public sealed class KryptonManager : Component
     [Category(@"Property Changed")]
     [Description(@"Occurs when the value of the GlobalUseThemeFormChromeBorderWidth property is changed.")]
     public static event EventHandler? GlobalUseThemeFormChromeBorderWidthChanged;
+
+    /// <summary>
+    /// Occurs when the drop-down arrow render mode changes.
+    /// </summary>
+    [Category(@"Property Changed")]
+    [Description(@"Occurs when the value of the GlobalDropDownArrowRenderMode property is changed.")]
+    public static event EventHandler? GlobalDropDownArrowRenderModeChanged;
+
+    /// <summary>
+    /// Occurs when the value of the GlobalDropDownArrowGlyphStyle property is changed.
+    /// </summary>
+    [Category(@"Property Changed")]
+    [Description(@"Occurs when the value of the GlobalDropDownArrowGlyphStyle property is changed.")]
+    public static event EventHandler? GlobalDropDownArrowGlyphStyleChanged;
 
     /// <summary>
     /// Occurs when the touchscreen support setting or scale factor changes.
@@ -256,6 +273,8 @@ public sealed class KryptonManager : Component
                                ShouldSerializeToolkitStrings() ||
                                ShouldSerializeUseKryptonFileDialogs() ||
                                ShouldSerializeGlobalUseKryptonScrollbars() ||
+                               ShouldSerializeGlobalDropDownArrowRenderMode() ||
+                               ShouldSerializeGlobalDropDownArrowGlyphStyle() ||
                                ShouldSerializeBaseFont() ||
                                ShouldSerializeGlobalPaletteMode() ||
                                ShouldSerializeTouchscreenSettings());
@@ -273,6 +292,8 @@ public sealed class KryptonManager : Component
         ResetToolkitStrings();
         ResetUseKryptonFileDialogs();
         ResetGlobalUseKryptonScrollbars();
+        ResetGlobalDropDownArrowRenderMode();
+        ResetGlobalDropDownArrowGlyphStyle();
         ResetBaseFont();
         ResetGlobalPaletteMode();
         ResetTouchscreenSettings();
@@ -426,6 +447,33 @@ public sealed class KryptonManager : Component
     private bool ShouldSerializeGlobalUseKryptonScrollbars() => GlobalUseKryptonScrollbars;
     private void ResetGlobalUseKryptonScrollbars() => GlobalUseKryptonScrollbars = false;
 
+    /// <summary>
+    /// Gets or sets how drop-down arrow glyphs are rendered across Krypton controls.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"How drop-down arrow glyphs are rendered: Unicode characters (default) or pixel-aligned polygons.")]
+    [DefaultValue(DropDownArrowRenderMode.Unicode)]
+    public DropDownArrowRenderMode GlobalDropDownArrowRenderMode
+    {
+        get => DropDownArrowRenderMode;
+        set => DropDownArrowRenderMode = value;
+    }
+    private bool ShouldSerializeGlobalDropDownArrowRenderMode() => GlobalDropDownArrowRenderMode != DropDownArrowRenderMode.Unicode;
+    private void ResetGlobalDropDownArrowRenderMode() => GlobalDropDownArrowRenderMode = DropDownArrowRenderMode.Unicode;
+
+    /// <summary>
+    /// Gets or sets how two-tone drop-down arrow glyphs are composited (flat, bevel, or emboss).
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"How two-tone drop-down arrow glyphs are composited: Flat, Bevel (raised), or Emboss (inset).")]
+    [DefaultValue(DropDownArrowGlyphStyle.Bevel)]
+    public DropDownArrowGlyphStyle GlobalDropDownArrowGlyphStyle
+    {
+        get => DropDownArrowGlyphStyle;
+        set => DropDownArrowGlyphStyle = value;
+    }
+    private bool ShouldSerializeGlobalDropDownArrowGlyphStyle() => GlobalDropDownArrowGlyphStyle != DropDownArrowGlyphStyle.Bevel;
+    private void ResetGlobalDropDownArrowGlyphStyle() => GlobalDropDownArrowGlyphStyle = DropDownArrowGlyphStyle.Bevel;
 
     /// <summary>
     /// Gets or sets a value indicating if KryptonForm instances are allowed to UseThemeFormChromeBorderWidth.
@@ -603,6 +651,48 @@ public sealed class KryptonManager : Component
             {
                 // Use new value
                 _globalUseKryptonScrollbars = value;
+            }
+        }
+    }
+    #endregion
+
+    #region Static DropDownArrowRenderMode
+    /// <summary>
+    /// Gets and sets how drop-down arrow glyphs are rendered across Krypton controls.
+    /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public static DropDownArrowRenderMode DropDownArrowRenderMode
+    {
+        get => _globalDropDownArrowRenderMode;
+
+        set
+        {
+            if (_globalDropDownArrowRenderMode != value)
+            {
+                _globalDropDownArrowRenderMode = value;
+                DropDownArrowGlyphCache.Clear();
+                OnGlobalDropDownArrowRenderModeChanged(EventArgs.Empty);
+            }
+        }
+    }
+    #endregion
+
+    #region Static DropDownArrowGlyphStyle
+    /// <summary>
+    /// Gets and sets how two-tone drop-down arrow glyphs are composited across Krypton controls.
+    /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public static DropDownArrowGlyphStyle DropDownArrowGlyphStyle
+    {
+        get => _globalDropDownArrowGlyphStyle;
+
+        set
+        {
+            if (_globalDropDownArrowGlyphStyle != value)
+            {
+                _globalDropDownArrowGlyphStyle = value;
+                DropDownArrowGlyphCache.Clear();
+                OnGlobalDropDownArrowGlyphStyleChanged(EventArgs.Empty);
             }
         }
     }
@@ -999,11 +1089,10 @@ public sealed class KryptonManager : Component
                 return PaletteOffice2010Black;
             case PaletteMode.Office2010BlackDarkMode:
                 return PaletteOffice2010BlackDarkMode;
-            // TODO: Re-enable this once completed
-            // case PaletteMode.Office2013DarkGray:
-            // return PaletteOffice2013DarkGray;
-            // case PaletteMode.Office2013LightGray:
-            // return PaletteOffice2013LightGray;
+            case PaletteMode.Office2013DarkGray:
+                return PaletteOffice2013DarkGray;
+            case PaletteMode.Office2013LightGray:
+                return PaletteOffice2013LightGray;
             case PaletteMode.Office2013White:
                 return PaletteOffice2013White;
             case PaletteMode.SparkleBlue:
@@ -1070,6 +1159,10 @@ public sealed class KryptonManager : Component
                 return PaletteRetroGreen;
             case PaletteMode.RetroBlue:
                 return PaletteRetroBlue;
+            case PaletteMode.MacOSLight:
+                return PaletteMacOSLight;
+            case PaletteMode.MacOSDark:
+                return PaletteMacOSDark;
 
             case PaletteMode.Custom:
             case PaletteMode.Global:
@@ -1373,6 +1466,16 @@ public sealed class KryptonManager : Component
     /// </summary>
     public static PaletteRetroBlue PaletteRetroBlue => _paletteRetroBlue ??= new PaletteRetroBlue();
 
+    /// <summary>
+    /// Gets the macOS-inspired light palette.
+    /// </summary>
+    public static PaletteMacOSLight PaletteMacOSLight => _paletteMacOSLight ??= new PaletteMacOSLight();
+
+    /// <summary>
+    /// Gets the macOS-inspired dark palette.
+    /// </summary>
+    public static PaletteMacOSDark PaletteMacOSDark => _paletteMacOSDark ??= new PaletteMacOSDark();
+
     private static PaletteMaterialLight? _paletteMaterialLight;
     private static PaletteMaterialDark? _paletteMaterialDark;
     private static PaletteMaterialLightRipple? _paletteMaterialLightRipple;
@@ -1380,6 +1483,8 @@ public sealed class KryptonManager : Component
 
     private static PaletteRetroGreen? _paletteRetroGreen;
     private static PaletteRetroBlue? _paletteRetroBlue;
+    private static PaletteMacOSLight? _paletteMacOSLight;
+    private static PaletteMacOSDark? _paletteMacOSDark;
 
     //public static PaletteBase CustomPaletteBase => _customPalette ??= new PaletteBase ();
 
@@ -1420,6 +1525,8 @@ public sealed class KryptonManager : Component
                 return RenderMaterial;
             case RendererMode.Retro:
                 return RenderRetro;
+            case RendererMode.MacOS:
+                return RenderMacOS;
             case RendererMode.Inherit:
             case RendererMode.Custom:
             default:
@@ -1463,6 +1570,11 @@ public sealed class KryptonManager : Component
     /// Gets the single instance of the Retro renderer.
     /// </summary>
     public static RenderRetro RenderRetro => _renderRetro ??= new RenderRetro();
+
+    /// <summary>
+    /// Gets the single instance of the macOS-inspired renderer.
+    /// </summary>
+    public static RenderMacOS RenderMacOS => _renderMacOS ??= new RenderMacOS();
 
     /// <summary>
     /// Gets the single instance of the professional renderer.
@@ -1586,6 +1698,10 @@ public sealed class KryptonManager : Component
 
     private static void OnGlobalUseThemeFormChromeBorderWidthChanged(EventArgs e) => GlobalUseThemeFormChromeBorderWidthChanged?.Invoke(null, e);
 
+    private static void OnGlobalDropDownArrowRenderModeChanged(EventArgs e) => GlobalDropDownArrowRenderModeChanged?.Invoke(null, e);
+
+    private static void OnGlobalDropDownArrowGlyphStyleChanged(EventArgs e) => GlobalDropDownArrowGlyphStyleChanged?.Invoke(null, e);
+
     private static void OnGlobalPaletteChanged(EventArgs e)
     {
         UpdateToolStripManager();
@@ -1642,6 +1758,8 @@ public sealed class KryptonManager : Component
             case PaletteMode.VisualStudio2010Render2010:
                 Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.Office2010ToolBarImages);
                 break;
+            case PaletteMode.Office2013DarkGray:
+            case PaletteMode.Office2013LightGray:
             case PaletteMode.Office2013White:
             case PaletteMode.VisualStudio2010Render2013:
                 Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.Office2013ToolBarImages);
@@ -1672,6 +1790,10 @@ public sealed class KryptonManager : Component
             case PaletteMode.RetroGreen:
             case PaletteMode.RetroBlue:
                 Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.Office2010ToolBarImages);
+                break;
+            case PaletteMode.MacOSLight:
+            case PaletteMode.MacOSDark:
+                Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.Microsoft365ToolBarImages);
                 break;
             default:
                 // Should not happen!

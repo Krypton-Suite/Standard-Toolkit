@@ -23,6 +23,7 @@ public class VisualContextMenu : VisualPopup
     private readonly ContextMenuProvider _provider;
     private ViewDrawDocker _drawDocker;
     private readonly ViewLayoutStack _viewColumns;
+    private readonly List<ViewLayoutContextMenuOverflowColumn> _overflowColumns = [];
 
     #endregion
 
@@ -183,6 +184,7 @@ public class VisualContextMenu : VisualPopup
         bool constrain)
     {
         // Find the preferred size of the context menu if it could be any size it likes
+        ClearOverflowHeight();
         Size preferredSize = CalculatePreferredSize();
 
         // Get the working area of the monitor that most of the screen rectangle is inside
@@ -190,6 +192,13 @@ public class VisualContextMenu : VisualPopup
 
         if (constrain)
         {
+            var maxHeight = Math.Min(workingArea.Height, preferredSize.Height);
+            if (preferredSize.Height > maxHeight)
+            {
+                ApplyOverflowHeight(maxHeight);
+                preferredSize = CalculatePreferredSize();
+            }
+
             // Limit size of context menu to the working area
             preferredSize.Width = Math.Min(workingArea.Width, preferredSize.Width);
             preferredSize.Height = Math.Min(workingArea.Height, preferredSize.Height);
@@ -379,6 +388,27 @@ public class VisualContextMenu : VisualPopup
         base.OnKeyDown(e);
     }
 
+    /// <inheritdoc />
+    protected internal override bool ProcessMouseWheelMessage(ref Message m)
+    {
+        var delta = (short)((m.WParam.ToInt64() >> 16) & 0xFFFF);
+        return ScrollMenuByWheel(delta);
+    }
+
+    /// <summary>
+    /// Raises the MouseWheel event.
+    /// </summary>
+    /// <param name="e">A MouseEventArgs that contains the event data.</param>
+    protected override void OnMouseWheel(MouseEventArgs e)
+    {
+        if (ScrollMenuByWheel(e.Delta))
+        {
+            return;
+        }
+
+        base.OnMouseWheel(e);
+    }
+
     /// <summary>
     /// Raises the Layout event.
     /// </summary>
@@ -424,6 +454,8 @@ public class VisualContextMenu : VisualPopup
     {
         // Ask the top level collection to generate the child view elements
         items.GenerateView(_provider, this, _viewColumns, true, true, NeedPaintDelegate);
+
+        WrapColumnsForOverflow();
 
         // Create the control panel canvas
         var mainBackground = new ViewDrawCanvas(_provider.ProviderStateCommon.ControlInner.Back,
@@ -520,6 +552,117 @@ public class VisualContextMenu : VisualPopup
 
         // Kill this pop-up window
         Dispose();
+    }
+
+    private void WrapColumnsForOverflow()
+    {
+        _overflowColumns.Clear();
+
+        if (ViewManager is not ViewContextMenuManager contextMenuManager)
+        {
+            return;
+        }
+
+        for (var i = 0; i < _viewColumns.Count; i++)
+        {
+            WrapOverflowTargets(_viewColumns[i], contextMenuManager);
+        }
+
+        contextMenuManager.OverflowColumns = _overflowColumns;
+    }
+
+    private void WrapOverflowTargets(ViewBase columnRoot, ViewContextMenuManager contextMenuManager)
+    {
+        var piles = EnumerateMenuItemPiles(columnRoot);
+        var wrapped = false;
+
+        foreach (ViewLayoutMenuItemsPile pile in piles)
+        {
+            WrapItemStack(pile.ItemStack, contextMenuManager);
+            wrapped = true;
+        }
+
+        if (!wrapped && columnRoot is ViewLayoutStack { Horizontal: false } column)
+        {
+            WrapItemStack(column, contextMenuManager);
+        }
+    }
+
+    private static IEnumerable<ViewLayoutMenuItemsPile> EnumerateMenuItemPiles(ViewBase root)
+    {
+        if (root is ViewLayoutMenuItemsPile pile)
+        {
+            yield return pile;
+            yield break;
+        }
+
+        if (root is ViewLayoutStack stack)
+        {
+            foreach (ViewBase child in stack)
+            {
+                foreach (ViewLayoutMenuItemsPile childPile in EnumerateMenuItemPiles(child))
+                {
+                    yield return childPile;
+                }
+            }
+        }
+    }
+
+    private void WrapItemStack(ViewLayoutStack itemStack, ViewContextMenuManager contextMenuManager)
+    {
+        if (itemStack.Count == 0)
+        {
+            return;
+        }
+
+        var overflowColumn = new ViewLayoutContextMenuOverflowColumn(_provider, contextMenuManager,
+            NeedPaintDelegate);
+        overflowColumn.Adopt(itemStack);
+        itemStack.Add(overflowColumn);
+        _overflowColumns.Add(overflowColumn);
+    }
+
+    private void ApplyOverflowHeight(int maxMenuHeight)
+    {
+        using var context = new ViewLayoutContext(ViewManager, this, this, Renderer);
+        var columnsHeight = _viewColumns.GetPreferredSize(context).Height;
+        var rootHeight = ViewManager!.Root!.GetPreferredSize(context).Height;
+        var chromeHeight = Math.Max(0, rootHeight - columnsHeight);
+        var contentHeight = Math.Max(1, maxMenuHeight - chromeHeight);
+
+        foreach (ViewLayoutContextMenuOverflowColumn column in _overflowColumns)
+        {
+            column.SetMaxContentHeight(contentHeight, context);
+        }
+    }
+
+    private void ClearOverflowHeight()
+    {
+        foreach (ViewLayoutContextMenuOverflowColumn column in _overflowColumns)
+        {
+            column.ClearMaxContentHeight();
+        }
+    }
+
+    private bool ScrollMenuByWheel(int delta)
+    {
+        if (delta == 0 || _overflowColumns.Count == 0)
+        {
+            return false;
+        }
+
+        var scrolled = false;
+        foreach (ViewLayoutContextMenuOverflowColumn column in _overflowColumns)
+        {
+            scrolled |= column.ScrollByWheel(delta);
+        }
+
+        if (scrolled)
+        {
+            PerformNeedPaint(true);
+        }
+
+        return scrolled;
     }
     #endregion
 }

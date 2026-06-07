@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  
+	  <TargetFramework>net10.0-windows</TargetFramework>
+	        <UseWindowsForms>true</UseWindowsForms>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <AssemblyName>MacPaletteExport</AssemblyName>
+    <RootNamespace>MacPaletteExport</RootNamespace>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Platforms>AnyCPU</Platforms>
+    <OutputType>Exe</OutputType>	
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Krypton Components\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+  </ItemGroup>
+
+</Project>
