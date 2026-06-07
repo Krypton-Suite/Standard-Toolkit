@@ -22,8 +22,12 @@
 	        AfterTargets="ResolveAssemblyReferences"
 	        BeforeTargets="_GenerateSuggestedBindingRedirectsCache"
 	        Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' And '$(GenerateBindingRedirectsOutputType)' == 'true' And '$(DesignTimeBuild)' != 'true' And '$(BuildingProject)' == 'true'">
+		<ItemGroup>
+			<_KryptonSreCopyLocalDll Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Filename)' == 'System.Resources.Extensions'" />
+		</ItemGroup>
 		<PropertyGroup>
-			<_KryptonSreDllPath Condition="'$(PkgSystem_Resources_Extensions)' != '' And Exists('$(PkgSystem_Resources_Extensions)\lib\net462\System.Resources.Extensions.dll')">$(PkgSystem_Resources_Extensions)\lib\net462\System.Resources.Extensions.dll</_KryptonSreDllPath>
+			<_KryptonSreDllPath Condition="'@(_KryptonSreCopyLocalDll)' != ''">@(_KryptonSreCopyLocalDll->'%(FullPath)')</_KryptonSreDllPath>
+			<_KryptonSreDllPath Condition="'$(_KryptonSreDllPath)' == '' And '$(PkgSystem_Resources_Extensions)' != '' And Exists('$(PkgSystem_Resources_Extensions)\lib\net462\System.Resources.Extensions.dll')">$(PkgSystem_Resources_Extensions)\lib\net462\System.Resources.Extensions.dll</_KryptonSreDllPath>
 			<_KryptonSreDllPath Condition="'$(_KryptonSreDllPath)' == '' And '$(PkgSystem_Resources_Extensions)' != '' And Exists('$(PkgSystem_Resources_Extensions)\lib\net461\System.Resources.Extensions.dll')">$(PkgSystem_Resources_Extensions)\lib\net461\System.Resources.Extensions.dll</_KryptonSreDllPath>
 		</PropertyGroup>
 		<GetAssemblyIdentity AssemblyFiles="$(_KryptonSreDllPath)"

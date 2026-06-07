@@ -45,6 +45,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#3678](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3678), fixed net4x TestForm runtime deployment for preserialized resource dependencies used by generated resources.
 * Resolved [#3682](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3682), fixed detached themed `KryptonDataGridView` scrollbars so mouse clicks, page jumps, and thumb dragging route to the native grid scrolling path.
 * Resolved [#3679](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3679), fixed the TreeViewExample custom palette crash when property grid data cell states request short text colors.
 * Implemented [#3658](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3658), add accessibility support for custom drawn Krypton controls and editable control ButtonSpecs.
