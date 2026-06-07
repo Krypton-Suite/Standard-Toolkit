@@ -1,7 +1,7 @@
 # New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
 # Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2026 - 2026. All rights reserved.
 #
-# Validates pull-request base/head pairings and branch ancestry ([#3610](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3610)).
+# Validates pull-request base/head pairings ([#3610](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3610)). No master ancestry check.
 #
 # Warn-only by default. Set repository variable BRANCH_POLICY_ENFORCE=true to fail PRs on violations.
 # Set BRANCH_POLICY_DISABLED=true to skip this workflow.
@@ -35,11 +35,9 @@ jobs:
             echo "enabled=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Checkout (merge commit, full history for ancestry)
+      - name: Checkout
         if: steps.kill_switch.outputs.enabled == 'true'
         uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
 
       - name: List changed files
         if: steps.kill_switch.outputs.enabled == 'true'

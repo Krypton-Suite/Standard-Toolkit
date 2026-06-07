@@ -3472,11 +3472,6 @@ public class KryptonDataGridView : DataGridView
             return;
         }
 
-        if (e.Type == ScrollEventType.EndScroll)
-        {
-            return;
-        }
-
         if (!TryGetNativeDataGridScrollBar(horizontal, out ScrollBar? nativeScrollBar)
             || nativeScrollBar == null
             || !nativeScrollBar.IsHandleCreated)
@@ -3492,9 +3487,14 @@ public class KryptonDataGridView : DataGridView
             int newValue = Math.Max(nativeScrollBar.Minimum, Math.Min(scrollableMaximum, e.NewValue));
             IntPtr nativeScrollBarHandle = nativeScrollBar.Handle;
             int message = horizontal ? (int)PI.WM_.HSCROLL : (int)PI.WM_.VSCROLL;
-            int scrollRequest = e.Type == ScrollEventType.ThumbTrack
-                ? (int)PI.SB_.THUMBTRACK
-                : (int)PI.SB_.THUMBPOSITION;
+            int scrollRequest = GetDetachedScrollRequest(horizontal, e.Type);
+
+            if (ShouldSetDetachedScrollPosition(e.Type))
+            {
+                PI.SB_ scrollBar = horizontal ? PI.SB_.HORZ : PI.SB_.VERT;
+                PI.SetScrollPos(Handle, scrollBar, newValue, true);
+                PI.SetScrollPos(nativeScrollBarHandle, PI.SB_.CTL, newValue, true);
+            }
 
             // DataGridView scrolls via WM_*SCROLL routed to its child scroll bar handle.
             PI.SendMessage(Handle, message,
@@ -3507,6 +3507,44 @@ public class KryptonDataGridView : DataGridView
         finally
         {
             _suppressRoundingScrollSync = false;
+        }
+    }
+
+    private static int GetDetachedScrollRequest(bool horizontal, ScrollEventType type)
+    {
+        switch (type)
+        {
+            case ScrollEventType.SmallDecrement:
+                return horizontal ? (int)PI.SB_.LINELEFT : (int)PI.SB_.LINEUP;
+            case ScrollEventType.SmallIncrement:
+                return horizontal ? (int)PI.SB_.LINERIGHT : (int)PI.SB_.LINEDOWN;
+            case ScrollEventType.LargeDecrement:
+                return horizontal ? (int)PI.SB_.PAGELEFT : (int)PI.SB_.PAGEUP;
+            case ScrollEventType.LargeIncrement:
+                return horizontal ? (int)PI.SB_.PAGERIGHT : (int)PI.SB_.PAGEDOWN;
+            case ScrollEventType.First:
+                return horizontal ? (int)PI.SB_.LEFT : (int)PI.SB_.TOP;
+            case ScrollEventType.Last:
+                return horizontal ? (int)PI.SB_.RIGHT : (int)PI.SB_.BOTTOM;
+            case ScrollEventType.ThumbTrack:
+                return (int)PI.SB_.THUMBTRACK;
+            case ScrollEventType.ThumbPosition:
+            case ScrollEventType.EndScroll:
+            default:
+                return (int)PI.SB_.THUMBPOSITION;
+        }
+    }
+
+    private static bool ShouldSetDetachedScrollPosition(ScrollEventType type)
+    {
+        switch (type)
+        {
+            case ScrollEventType.ThumbTrack:
+            case ScrollEventType.ThumbPosition:
+            case ScrollEventType.EndScroll:
+                return true;
+            default:
+                return false;
         }
     }
 
