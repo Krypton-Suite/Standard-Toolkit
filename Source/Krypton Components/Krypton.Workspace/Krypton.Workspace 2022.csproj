@@ -95,7 +95,10 @@
     </ItemGroup>
     <PropertyGroup>
         <DocumentationFile>..\..\..\Bin\$(Configuration)\$(TargetFramework)\Krypton.Workspace.xml</DocumentationFile>
-        <OutputPath>..\..\..\Bin\$(Configuration)\</OutputPath>
+        <OutputPath Condition="'$(UseArtifactsOutput)' == 'true'">..\..\..\Bin\$(Configuration)\$(TargetFramework)\</OutputPath>
+        <OutputPath Condition="'$(UseArtifactsOutput)' != 'true'">..\..\..\Bin\$(Configuration)\</OutputPath>
+        <AppendTargetFrameworkToOutputPath Condition="'$(UseArtifactsOutput)' == 'true'">false</AppendTargetFrameworkToOutputPath>
+        <AppendTargetFrameworkToOutputPath Condition="'$(UseArtifactsOutput)' != 'true'">true</AppendTargetFrameworkToOutputPath>
     </PropertyGroup>
     <PropertyGroup>
         <NoWarn>1701;1702</NoWarn>
