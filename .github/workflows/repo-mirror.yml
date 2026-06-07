@@ -18,6 +18,7 @@
 # Optional:
 #   Variable  MIRROR_BRANCHES     Comma-separated branch list (overrides the default six branches)
 #   Variable  MIRROR_SYNC_TAGS      Set to "false" to skip tag sync (default: sync tags)
+#   Variable  REPO_MIRROR_ON_PR_MERGE  Set to "true" to enable syncs on merged pull requests
 #   Secret    DISCORD_WEBHOOK_MIRROR  Discord webhook for mirror notifications
 #
 # Testing: Actions → Repository Mirror → Run workflow → enable "Dry run" to validate
@@ -25,8 +26,9 @@
 # test mirror repository before pointing MIRROR_REPO at production backup storage.
 #
 # DEPLOYMENT: Scheduled runs use the workflow file on the repository DEFAULT BRANCH (master).
-# Push triggers fire only on branches that contain this file. Merge to master for the daily
-# cron; backport to other major branches if push-triggered sync is required on those lines.
+# Pull request triggers fire when a PR targeting a listed base branch is closed. The mirror job
+# only runs on merged PRs when REPO_MIRROR_ON_PR_MERGE=true.
+# Merge to master for the daily cron; backport to other major branches if needed.
 
 name: Repository Mirror
 
@@ -34,8 +36,10 @@ on:
   schedule:
     # Daily safety-net sync at 02:00 UTC (runs only when this file exists on default branch: master)
     - cron: '0 2 * * *'
-  push:
-    # Each branch below triggers this workflow only when this file is present on that branch
+  pull_request:
+    # PR close events targeting these base branches are considered for merge-triggered syncs
+    types:
+      - closed
     branches:
       - master
       - gold
@@ -58,6 +62,7 @@ permissions:
 
 jobs:
   mirror:
+    if: github.event_name != 'pull_request' || (github.event.pull_request.merged == true && vars.REPO_MIRROR_ON_PR_MERGE == 'true')
     runs-on: ubuntu-latest
 
     concurrency:
@@ -187,6 +192,7 @@ jobs:
               echo "tags_synced=${tags_synced}"
               echo "tags_prune_failed=${tags_prune_failed}"
               echo "tags_failed=${tags_failed}"
+              echo "source_tag_count=${source_tag_count:-0}"
               echo "dry_run=${DRY_RUN}"
               echo "mirror_repo=${repo_path}"
             } >> "$GITHUB_OUTPUT"
@@ -268,6 +274,7 @@ jobs:
           tags_synced=false
           tags_failed=false
           tags_prune_failed=false
+          source_tag_count=0
 
           for branch in "${branches[@]}"; do
             if git show-ref --verify --quiet "refs/heads/${branch}"; then
@@ -303,10 +310,12 @@ jobs:
           if [ "${MIRROR_SYNC_TAGS:-true}" != "false" ]; then
             source_tags="$(list_source_tag_names)"
             mirror_tags="$(list_mirror_tag_names)"
+            if [ -n "$source_tags" ]; then
+              source_tag_count="$(printf '%s\n' "$source_tags" | sed '/^$/d' | wc -l | tr -d ' ')"
+            fi
 
             if [ -n "$source_tags" ]; then
               if [ "$DRY_RUN" = "true" ]; then
-                source_tag_count="$(printf '%s\n' "$source_tags" | sed '/^$/d' | wc -l | tr -d ' ')"
                 echo "Would sync ${source_tag_count} tag(s) from source."
               else
                 echo "Syncing tags from source..."
@@ -387,96 +396,164 @@ jobs:
           TAGS_SYNCED: ${{ steps.mirror.outputs.tags_synced }}
           TAGS_FAILED: ${{ steps.mirror.outputs.tags_failed }}
           TAGS_PRUNE_FAILED: ${{ steps.mirror.outputs.tags_prune_failed }}
+          SOURCE_TAG_COUNT: ${{ steps.mirror.outputs.source_tag_count }}
           DRY_RUN: ${{ steps.mirror.outputs.dry_run }}
-          MIRROR_REPO: ${{ steps.mirror.outputs.mirror_repo }}
+          MIRROR_REPO: ${{ steps.mirror.outputs.mirror_repo || vars.MIRROR_REPO }}
+          SOURCE_REPO: ${{ github.repository }}
+          EVENT_NAME: ${{ github.event_name }}
+          REF_NAME: ${{ github.ref_name }}
+          SHA: ${{ github.sha }}
         run: |
           if [ -z "$DISCORD_WEBHOOK" ]; then
             echo "DISCORD_WEBHOOK_MIRROR not set - skipping Discord notification"
             exit 0
           fi
 
+          # Format space-separated branch/tag lists as one bullet per line for Discord fields.
+          format_ref_list() {
+            local value="$1"
+            if [ -z "$value" ]; then
+              printf '%s' '_none_'
+              return
+            fi
+            local line result=""
+            for line in $value; do
+              result="${result}• \`${line}\`"$'\n'
+            done
+            printf '%s' "${result%$'\n'}"
+          }
+
+          source_url="${GITHUB_SERVER_URL}/${SOURCE_REPO}"
+          mirror_url=""
+          if [ -n "${MIRROR_REPO:-}" ]; then
+            mirror_url="${GITHUB_SERVER_URL}/${MIRROR_REPO}"
+          fi
+
+          case "$EVENT_NAME" in
+            schedule)
+              trigger="Scheduled (daily 02:00 UTC)"
+              ;;
+            workflow_dispatch)
+              if [ "$DRY_RUN" = "true" ]; then
+                trigger="Manual — dry run"
+              else
+                trigger="Manual run"
+              fi
+              ;;
+            push)
+              trigger="Push to \`${REF_NAME}\`"
+              ;;
+            pull_request)
+              trigger="Merged PR #${{ github.event.pull_request.number }} into \`${{ github.event.pull_request.base.ref }}\`"
+              ;;
+            *)
+              trigger="$EVENT_NAME"
+              ;;
+          esac
+
           if [ "$MIRROR_OUTCOME" = "success" ]; then
             color=3066993
             if [ "$DRY_RUN" = "true" ]; then
-              title="Repository Mirror dry run succeeded"
+              title="🪞 Repository Mirror — dry run OK"
             else
-              title="Repository Mirror succeeded"
+              title="🪞 Repository Mirror — sync OK"
             fi
           else
             color=15158332
-            title="Repository Mirror failed"
+            title="🪞 Repository Mirror — failed"
           fi
 
           if [ "$TAGS_FAILED" = "true" ]; then
-            tags_line="Tag push failed"
+            tags_status="❌ Tag push failed"
           elif [ "$TAGS_PRUNE_FAILED" = "true" ]; then
-            tags_line="Tag prune failed"
-          elif [ "$TAGS_SYNCED" = "true" ]; then
-            tags_line="Tags synced: true"
+            tags_status="❌ Tag prune failed"
           elif [ "$DRY_RUN" = "true" ]; then
-            tags_line="Tags: dry run (not pushed/pruned)"
+            if [ "${SOURCE_TAG_COUNT:-0}" -gt 0 ]; then
+              tags_status="Dry run — ${SOURCE_TAG_COUNT} tag(s) would sync"
+            else
+              tags_status="Dry run — no tags on source"
+            fi
+          elif [ "$TAGS_SYNCED" = "true" ]; then
+            tags_status="✅ Synced ${SOURCE_TAG_COUNT:-0} tag(s)"
+          elif [ "${SOURCE_TAG_COUNT:-0}" -gt 0 ]; then
+            tags_status="⚠️ ${SOURCE_TAG_COUNT} tag(s) on source (sync not confirmed)"
           else
-            tags_line="Tags synced: false"
+            tags_status="No tags on source"
           fi
-
-          dry_run_line=""
-          branch_line_label="Pushed"
-          branch_line_value="${PUSHED_BRANCHES:-none}"
-          delete_line=""
-          prune_line=""
-          missing_line=""
 
           if [ "$DRY_RUN" = "true" ]; then
-            dry_run_line="\n• Mode: dry run (no pushes/deletes)"
-            branch_line_label="Would push"
-            branch_line_value="${WOULD_PUSH_BRANCHES:-none}"
-            if [ -n "${WOULD_DELETE_BRANCHES:-}" ]; then
-              delete_line="\n• Would delete: ${WOULD_DELETE_BRANCHES}"
-            fi
-            if [ -n "${WOULD_PRUNE_TAGS:-}" ]; then
-              prune_line="\n• Would prune tags: ${WOULD_PRUNE_TAGS}"
-            fi
+            branch_field_name="🌿 Would push"
+            branch_field_value="$(format_ref_list "$WOULD_PUSH_BRANCHES")"
+            delete_branches="$WOULD_DELETE_BRANCHES"
+            delete_field_name="🗑️ Would delete"
+            prune_tags="$WOULD_PRUNE_TAGS"
+            prune_field_name="🏷️ Would prune tags"
           else
-            if [ -n "${DELETED_BRANCHES:-}" ]; then
-              delete_line="\n• Deleted: ${DELETED_BRANCHES}"
-            fi
-            if [ -n "${PRUNED_TAGS:-}" ]; then
-              prune_line="\n• Pruned tags: ${PRUNED_TAGS}"
-            fi
+            branch_field_name="🌿 Pushed"
+            branch_field_value="$(format_ref_list "$PUSHED_BRANCHES")"
+            delete_branches="$DELETED_BRANCHES"
+            delete_field_name="🗑️ Deleted"
+            prune_tags="$PRUNED_TAGS"
+            prune_field_name="🏷️ Pruned tags"
           fi
 
-          if [ -n "${MISSING_BRANCHES:-}" ]; then
-            missing_line="\n• Missing: ${MISSING_BRANCHES}"
+          fields_json='[]'
+          add_field() {
+            local name="$1"
+            local value="$2"
+            local inline="${3:-false}"
+            fields_json="$(jq -n \
+              --argjson fields "$fields_json" \
+              --arg name "$name" \
+              --arg value "$value" \
+              --argjson inline "$inline" \
+              '$fields + [{name: $name, value: $value, inline: $inline}]')"
+          }
+
+          add_field "📤 Source" "[${SOURCE_REPO}](${source_url})" true
+          if [ -n "$mirror_url" ]; then
+            add_field "📥 Target" "[${MIRROR_REPO}](${mirror_url})" true
+          else
+            add_field "📥 Target" "_not configured_" true
           fi
+          add_field "⚡ Trigger" "$trigger" true
+          add_field "$branch_field_name" "$branch_field_value" false
+          add_field "🏷️ Tags" "$tags_status" true
+
+          if [ -n "$delete_branches" ]; then
+            add_field "$delete_field_name" "$(format_ref_list "$delete_branches")" false
+          fi
+          if [ -n "$prune_tags" ]; then
+            add_field "$prune_field_name" "$(format_ref_list "$prune_tags")" false
+          fi
+          if [ -n "${MISSING_BRANCHES:-}" ]; then
+            add_field "⚠️ Missing" "$(format_ref_list "$MISSING_BRANCHES")" false
+          fi
+          if [ -n "${FAILED_BRANCHES:-}" ]; then
+            add_field "❌ Failed" "$(format_ref_list "$FAILED_BRANCHES")" false
+          fi
+
+          run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          links="[Workflow run](${run_url})"
+          if [ "$EVENT_NAME" = "push" ] && [ -n "${SHA:-}" ]; then
+            short_sha="${SHA:0:7}"
+            links="${links} · [Trigger commit](${source_url}/commit/${SHA}) (\`${short_sha}\`)"
+          fi
+          add_field "🔗 Links" "$links" false
 
           payload=$(jq -n \
             --arg title "$title" \
-            --arg mirror_repo "$MIRROR_REPO" \
-            --arg branch_line_label "$branch_line_label" \
-            --arg branch_line_value "$branch_line_value" \
-            --arg delete_line "$delete_line" \
-            --arg prune_line "$prune_line" \
-            --arg missing_line "$missing_line" \
-            --arg failed "${FAILED_BRANCHES:-none}" \
-            --arg tags_line "$tags_line" \
-            --arg dry_run_line "$dry_run_line" \
-            --arg run_url "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" \
             --argjson color "$color" \
+            --argjson fields "$fields_json" \
             '{
+              username: "Repository Mirror",
+              avatar_url: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
               embeds: [{
                 title: $title,
-                description: (
-                  "Target: " + $mirror_repo + "\n\n"
-                  + "• " + $branch_line_label + ": " + $branch_line_value
-                  + $delete_line + $prune_line + $missing_line + "\n"
-                  + "• Failed: " + $failed + "\n"
-                  + "• " + $tags_line
-                  + $dry_run_line + "\n"
-                  + "• [Workflow run](" + $run_url + ")"
-                ),
                 color: $color,
+                fields: $fields,
                 timestamp: (now | todate),
-                footer: { text: "Repository Mirror" }
+                footer: { text: "Repository Mirror · GitHub Actions" }
               }]
             }')
           curl -sS -X POST "$DISCORD_WEBHOOK" -H "Content-Type: application/json" -d "$payload"

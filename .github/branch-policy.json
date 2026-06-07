@@ -25,16 +25,6 @@
     "V85-LTS",
     "V110"
   ],
-  "mustContainMasterAncestor": [
-    "alpha",
-    "canary",
-    "Canary",
-    "gold",
-    "prerelease",
-    "V105-LTS",
-    "V85-LTS",
-    "V110"
-  ],
   "syncGithubFromMasterTargets": [
     "alpha",
     "canary",
