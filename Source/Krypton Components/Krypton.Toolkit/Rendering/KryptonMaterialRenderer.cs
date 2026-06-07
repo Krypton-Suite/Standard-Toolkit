@@ -13,7 +13,7 @@ namespace Krypton.Toolkit;
 /// Minimal Material renderer for ToolStrip/ContextMenu: flat dark/light backgrounds, subtle item highlight, thin borders.
 /// Does not alter ColorTable classes; reads fonts and text colors from provided ColorTable.
 /// </summary>
-public sealed class KryptonMaterialRenderer : KryptonProfessionalRenderer
+public class KryptonMaterialRenderer : KryptonProfessionalRenderer
 {
     public KryptonMaterialRenderer([DisallowNull] KryptonColorTable kct)
         : base(kct)

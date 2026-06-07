@@ -20,6 +20,20 @@ namespace Krypton.Toolkit;
  Description("Displays a Kryptonised version of the standard Font dialog, that prompts the user to choose a font from those installed on the local computer.")]
 public class KryptonFontDialog : FontDialog
 {
+    // CF_PRINTERFONTS — shows printer-font description area in the font dialog.
+    private const int PrinterFontDescriptionOption = 0x02;
+
+    private static readonly MethodInfo? s_getOptionMethod = typeof(FontDialog).GetMethod(
+        @"GetOption",
+        BindingFlags.NonPublic | BindingFlags.Instance);
+
+    private static readonly MethodInfo? s_setOptionMethod = typeof(FontDialog).GetMethod(
+        @"SetOption",
+        BindingFlags.NonPublic | BindingFlags.Instance);
+
+    private static readonly object? s_printerFontDescriptionOption =
+        CreateFontDialogOptionArgument(s_getOptionMethod, PrinterFontDescriptionOption);
+
     private readonly CommonDialogHandler _commonDialogHandler;
     private bool _displayExtendedColorsButton;
 
@@ -88,20 +102,23 @@ public class KryptonFontDialog : FontDialog
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public bool DisplayIsPrinterFontDescription
     {
-        get
-        {
-            // internal bool GetOption(int option) => (uint) (this.options & option) > 0U;
-            var funcSetOption = typeof(FontDialog).GetMethod(@"GetOption", BindingFlags.NonPublic | BindingFlags.Instance);
-            return (bool)funcSetOption!.Invoke(this, [0x02])!;
-        }
-        set
-        {
-            //internal void SetOption(int option, bool value)
-            var funcSetOption = typeof(FontDialog).GetMethod(@"SetOption", BindingFlags.NonPublic | BindingFlags.Instance);
-            funcSetOption!.Invoke(this, [0x02, value]);
-        }
+        get => (bool)s_getOptionMethod!.Invoke(this, [s_printerFontDescriptionOption!])!;
+        set => s_setOptionMethod!.Invoke(this, [s_printerFontDescriptionOption!, value]);
     }
 
+    private static object? CreateFontDialogOptionArgument(MethodInfo? method, int flagValue)
+    {
+        if (method == null)
+        {
+            return null;
+        }
+
+        var optionType = method.GetParameters()[0].ParameterType;
+
+        return optionType == typeof(int)
+            ? flagValue
+            : Enum.ToObject(optionType, flagValue);
+    }
 
     //protected override bool RunDialog(IntPtr hWndOwner)
     //{

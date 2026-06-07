@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -101,11 +101,11 @@ public class PaletteOffice2013LightGray : PaletteOffice2013Base
     }
 
     /// <summary>
-    /// Initialize a new instance of the PaletteOffice2013DarkGray class.
+    /// Initialize a new instance of the PaletteOffice2013LightGray class.
     /// </summary>
     public PaletteOffice2013LightGray()
         : base(
-        new EmptySchemeBase(),
+        new PaletteOffice2013LightGray_BaseScheme(),
         _checkBoxList,
         _galleryButtonList,
         _radioButtonArray)
