@@ -89,7 +89,7 @@ namespace TestForm
             this.lblDescription.StateCommon.ShortText.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.lblDescription.StateCommon.ShortText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.lblDescription.TabIndex = 0;
-            this.lblDescription.Values.Text = "Drop-down arrows are smaller (10px base @ 96 DPI) and DPI-aware. Move this window between monitors to verify scaling. Issue #2129.";
+            this.lblDescription.Values.Text = "Drop-down arrows: Unicode ▼ by default, or polygon glyphs via KryptonManager.DropDownArrowRenderMode. DPI-aware (Issue #2129, #3663).";
             //
             // lblTheme
             //
@@ -123,7 +123,7 @@ namespace TestForm
             this.lblDpiInfo.Size = new System.Drawing.Size(654, 20);
             this.lblDpiInfo.StateCommon.ShortText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.lblDpiInfo.TabIndex = 4;
-            this.lblDpiInfo.Values.Text = "DPI: 96×96 | Scale: 100% | Drop-down arrow: 10×10px";
+            this.lblDpiInfo.Values.Text = "DPI: 96×96 | Scale: 100% | Drop-down arrow: 14×14px";
             //
             // grpMain
             //

@@ -3046,7 +3046,7 @@ public abstract class PaletteMicrosoft365BlueLightModeBase : PaletteBase
             case PaletteMetricInt.None:
                 return 0;
             case PaletteMetricInt.DropDownArrowBaseSize:
-                return 10;
+                return DropDownArrowGlyphDefaults.DefaultBaseSizeAt96Dpi;
             default:
                 // Should never happen!
                 Debug.Assert(false);
