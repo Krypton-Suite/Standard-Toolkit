@@ -226,7 +226,7 @@ jobs:
             echo "packages_published=false" >> $env:GITHUB_OUTPUT
             exit 0
           }
-          
+
           $packageCandidates = @(
             "artifacts/packages/Release/*.nupkg",
             "Bin/Packages/Release/*.nupkg"
@@ -283,7 +283,7 @@ jobs:
           $msbuildConfig = 'Release'
 
           try {
-            $evaluated = (& dotnet msbuild "`"$proj`"" -getProperty:Version -p:Configuration=$msbuildConfig -nologo -v:q).Trim()
+            $evaluated = (& dotnet msbuild "$proj" -getProperty:Version -p:Configuration=$msbuildConfig -nologo -v:q).Trim()
             if ($evaluated) {
               if ($evaluated -match '^[1-9]\d{2,}\.\d+\.\d+\.\d+$') {
                 $version = $evaluated
@@ -338,7 +338,7 @@ jobs:
             Write-Warning "DISCORD_WEBHOOK_MASTER not set - skipping Discord notification"
             exit 0
           }
-          
+
           $payload = @{
             embeds = @(
               @{
@@ -374,7 +374,7 @@ jobs:
               }
             )
           } | ConvertTo-Json -Depth 10
-          
+
           Invoke-RestMethod -Uri "${{ secrets.DISCORD_WEBHOOK_MASTER }}" -Method Post -Body $payload -ContentType "application/json"
         env:
           DISCORD_WEBHOOK_MASTER: ${{ secrets.DISCORD_WEBHOOK_MASTER }}
@@ -570,7 +570,7 @@ jobs:
             echo "packages_published=false" >> $env:GITHUB_OUTPUT
             exit 0
           }
-          
+
           $packageCandidates = @(
             "artifacts/packages/Release/*.nupkg",
             "Bin/Packages/Release/*.nupkg"
@@ -627,7 +627,7 @@ jobs:
           $msbuildConfig = 'Release'
 
           try {
-            $evaluated = (& dotnet msbuild "`"$proj`"" -getProperty:Version -p:Configuration=$msbuildConfig -nologo -v:q).Trim()
+            $evaluated = (& dotnet msbuild "$proj" -getProperty:Version -p:Configuration=$msbuildConfig -nologo -v:q).Trim()
             if ($evaluated) {
               if ($evaluated -match '^[1-9]\d{2,}\.\d+\.\d+\.\d+$') {
                 $version = $evaluated
@@ -682,7 +682,7 @@ jobs:
             Write-Warning "DISCORD_WEBHOOK_MASTER not set - skipping Discord notification"
             exit 0
           }
-          
+
           $payload = @{
             embeds = @(
               @{
@@ -718,7 +718,7 @@ jobs:
               }
             )
           } | ConvertTo-Json -Depth 10
-          
+
           Invoke-RestMethod -Uri "${{ secrets.DISCORD_WEBHOOK_MASTER }}" -Method Post -Body $payload -ContentType "application/json"
         env:
           DISCORD_WEBHOOK_MASTER: ${{ secrets.DISCORD_WEBHOOK_MASTER }}
@@ -933,7 +933,7 @@ jobs:
             echo "packages_published=false" >> $env:GITHUB_OUTPUT
             exit 0
           }
-          
+
           $packageCandidates = @(
             "artifacts/packages/Canary/*.nupkg",
             "Bin/Packages/Canary/*.nupkg"
@@ -990,7 +990,7 @@ jobs:
           $msbuildConfig = 'Canary'
 
           try {
-            $evaluated = (& dotnet msbuild "`"$proj`"" -getProperty:Version -p:Configuration=$msbuildConfig -nologo -v:q).Trim()
+            $evaluated = (& dotnet msbuild "$proj" -getProperty:Version -p:Configuration=$msbuildConfig -nologo -v:q).Trim()
             if ($evaluated) {
               if ($evaluated -match '^[1-9]\d{2,}\.\d+\.\d+\.\d+$') {
                 $version = $evaluated
@@ -1045,7 +1045,7 @@ jobs:
             Write-Warning "DISCORD_WEBHOOK_CANARY not set - skipping Discord notification"
             exit 0
           }
-          
+
           $payload = @{
             embeds = @(
               @{
@@ -1081,7 +1081,7 @@ jobs:
               }
             )
           } | ConvertTo-Json -Depth 10
-          
+
           Invoke-RestMethod -Uri "${{ secrets.DISCORD_WEBHOOK_CANARY }}" -Method Post -Body $payload -ContentType "application/json"
         env:
           DISCORD_WEBHOOK_CANARY: ${{ secrets.DISCORD_WEBHOOK_CANARY }}
@@ -1277,4 +1277,3 @@ jobs:
 
       # Note: NuGet publishing for alpha/nightly builds is handled by nightly.yml workflow
       # which runs on a schedule and checks for changes in the last 24 hours
-      

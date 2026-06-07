@@ -31,41 +31,41 @@ jobs:
           script: |
             const { owner, repo } = context.repo;
             const prNumber = context.payload.pull_request.number;
-
+            
             // Get the list of files changed in this PR
             const { data: files } = await github.rest.pulls.listFiles({
               owner,
               repo,
               pull_number: prNumber,
             });
-
+            
             // Check if alpha-backup-sync.yml is in the changed files
             const targetFile = '.github/workflows/alpha-backup-sync.yml';
             const modifiesWorkflow = files.some(file => file.filename === targetFile);
-
+            
             if (!modifiesWorkflow) {
               console.log(`PR #${prNumber} does not modify ${targetFile}, skipping label.`);
               return;
             }
-
+            
             console.log(`PR #${prNumber} modifies ${targetFile}, adding label 'chore:automatic-backup'.`);
-
+            
             // Get existing labels on the PR
             const { data: pr } = await github.rest.pulls.get({
               owner,
               repo,
               pull_number: prNumber,
             });
-
+            
             const existingLabels = (pr.labels || []).map(label => label.name);
             const labelToAdd = 'chore:automatic-backup';
-
+            
             // Only add the label if it's not already present
             if (existingLabels.includes(labelToAdd)) {
               console.log(`Label '${labelToAdd}' is already present on PR #${prNumber}.`);
               return;
             }
-
+            
             // Add the label
             try {
               await github.rest.issues.addLabels({
