@@ -3537,15 +3537,11 @@ public class KryptonDataGridView : DataGridView
 
     private static bool ShouldSetDetachedScrollPosition(ScrollEventType type)
     {
-        switch (type)
+        return type switch
         {
-            case ScrollEventType.ThumbTrack:
-            case ScrollEventType.ThumbPosition:
-            case ScrollEventType.EndScroll:
-                return true;
-            default:
-                return false;
-        }
+            ScrollEventType.ThumbTrack or ScrollEventType.ThumbPosition or ScrollEventType.EndScroll => true,
+            _ => false
+        };
     }
 
     private void OnRoundingScrollSyncTimerTick(object? sender, EventArgs e) =>

@@ -232,26 +232,16 @@ public class ViewDrawBadge : ViewLeaf
     {
         int offset = _badgeValues.BadgeContentValues.BadgeMargin;
 
-        Point location;
-
-        switch (_badgeValues.BadgeContentValues.Position)
+        Point location = _badgeValues.BadgeContentValues.Position switch
         {
-            case BadgePosition.TopRight:
-                location = new Point(parentRect.Right - badgeSize.Width - offset, parentRect.Top + offset);
-                break;
-            case BadgePosition.TopLeft:
-                location = new Point(parentRect.Left + offset, parentRect.Top + offset);
-                break;
-            case BadgePosition.BottomRight:
-                location = new Point(parentRect.Right - badgeSize.Width - offset, parentRect.Bottom - badgeSize.Height - offset);
-                break;
-            case BadgePosition.BottomLeft:
-                location = new Point(parentRect.Left + offset, parentRect.Bottom - badgeSize.Height - offset);
-                break;
-            default:
-                location = new Point(parentRect.Right - badgeSize.Width - offset, parentRect.Top + offset);
-                break;
-        }
+            BadgePosition.TopRight => new Point(parentRect.Right - badgeSize.Width - offset, parentRect.Top + offset),
+            BadgePosition.TopLeft => new Point(parentRect.Left + offset, parentRect.Top + offset),
+            BadgePosition.BottomRight => new Point(parentRect.Right - badgeSize.Width - offset,
+                parentRect.Bottom - badgeSize.Height - offset),
+            BadgePosition.BottomLeft => new Point(parentRect.Left + offset,
+                parentRect.Bottom - badgeSize.Height - offset),
+            _ => new Point(parentRect.Right - badgeSize.Width - offset, parentRect.Top + offset)
+        };
 
         return location;
     }

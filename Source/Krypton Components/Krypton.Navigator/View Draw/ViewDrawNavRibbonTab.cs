@@ -311,23 +311,14 @@ internal class ViewDrawNavRibbonTab : ViewComposite,
         // We take on all the provided size
         ClientRectangle = context.DisplayRectangle;
 
-        var layoutPadding = Padding.Empty;
-
-        switch (_borderBackOrient)
+        var layoutPadding = _borderBackOrient switch
         {
-            case VisualOrientation.Top:
-                layoutPadding = _layoutBorderTop;
-                break;
-            case VisualOrientation.Left:
-                layoutPadding = _layoutBorderLeft;
-                break;
-            case VisualOrientation.Right:
-                layoutPadding = _layoutBorderRight;
-                break;
-            case VisualOrientation.Bottom:
-                layoutPadding = _layoutBorderBottom;
-                break;
-        }
+            VisualOrientation.Top => _layoutBorderTop,
+            VisualOrientation.Left => _layoutBorderLeft,
+            VisualOrientation.Right => _layoutBorderRight,
+            VisualOrientation.Bottom => _layoutBorderBottom,
+            _ => Padding.Empty
+        };
 
         // Reduce the display size by our border spacing
         context.DisplayRectangle = CommonHelper.ApplyPadding(_borderBackOrient, context.DisplayRectangle, layoutPadding);
@@ -523,39 +514,23 @@ internal class ViewDrawNavRibbonTab : ViewComposite,
         {
             if (Checked)
             {
-                switch (buttonState)
+                buttonState = buttonState switch
                 {
-                    case PaletteState.Normal:
-                    case PaletteState.CheckedNormal:
-                        buttonState = PaletteState.CheckedNormal;
-                        break;
-                    case PaletteState.Tracking:
-                    case PaletteState.CheckedTracking:
-                        buttonState = PaletteState.CheckedTracking;
-                        break;
-                    case PaletteState.Pressed:
-                    case PaletteState.CheckedPressed:
-                        buttonState = PaletteState.CheckedPressed;
-                        break;
-                }
+                    PaletteState.Normal or PaletteState.CheckedNormal => PaletteState.CheckedNormal,
+                    PaletteState.Tracking or PaletteState.CheckedTracking => PaletteState.CheckedTracking,
+                    PaletteState.Pressed or PaletteState.CheckedPressed => PaletteState.CheckedPressed,
+                    _ => buttonState
+                };
             }
             else
             {
-                switch (buttonState)
+                buttonState = buttonState switch
                 {
-                    case PaletteState.Normal:
-                    case PaletteState.CheckedNormal:
-                        buttonState = PaletteState.Normal;
-                        break;
-                    case PaletteState.Tracking:
-                    case PaletteState.CheckedTracking:
-                        buttonState = PaletteState.Tracking;
-                        break;
-                    case PaletteState.Pressed:
-                    case PaletteState.CheckedPressed:
-                        buttonState = PaletteState.Pressed;
-                        break;
-                }
+                    PaletteState.Normal or PaletteState.CheckedNormal => PaletteState.Normal,
+                    PaletteState.Tracking or PaletteState.CheckedTracking => PaletteState.Tracking,
+                    PaletteState.Pressed or PaletteState.CheckedPressed => PaletteState.Pressed,
+                    _ => buttonState
+                };
             }
         }
 

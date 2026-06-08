@@ -108,25 +108,18 @@ public class DropDockingIndicatorsRounded : NativeWindow,
         var yHalf = _dragData.DockWindowSize.Height / 2;
         var xHalf = _dragData.DockWindowSize.Width / 2;
 
-        Point location;
-        switch (_dragData.ShowLeft)
+        Point location = _dragData.ShowLeft switch
         {
-            case true when _dragData is { ShowRight: false, ShowMiddle: false } and { ShowTop: false, ShowBottom: false }:
-                location = new Point(screenRect.Left + 10, yMid - yHalf);
-                break;
-            case false when _dragData is { ShowRight: true, ShowMiddle: false } and { ShowTop: false, ShowBottom: false }:
-                location = new Point(screenRect.Right - _dragData.DockWindowSize.Width - 10, yMid - yHalf);
-                break;
-            case false when _dragData is { ShowRight: false, ShowMiddle: false } and { ShowTop: true, ShowBottom: false }:
-                location = new Point(xMid - xHalf, screenRect.Top + 10);
-                break;
-            case false when _dragData is { ShowRight: false, ShowMiddle: false } and { ShowTop: false, ShowBottom: true }:
-                location = new Point(xMid - xHalf, screenRect.Bottom - _dragData.DockWindowSize.Height - 10);
-                break;
-            default:
-                location = new Point(xMid - xHalf, yMid - yHalf);
-                break;
-        }
+            true when _dragData is { ShowRight: false, ShowMiddle: false } and { ShowTop: false, ShowBottom: false } =>
+                new Point(screenRect.Left + 10, yMid - yHalf),
+            false when _dragData is { ShowRight: true, ShowMiddle: false } and { ShowTop: false, ShowBottom: false } =>
+                new Point(screenRect.Right - _dragData.DockWindowSize.Width - 10, yMid - yHalf),
+            false when _dragData is { ShowRight: false, ShowMiddle: false } and { ShowTop: true, ShowBottom: false } =>
+                new Point(xMid - xHalf, screenRect.Top + 10),
+            false when _dragData is { ShowRight: false, ShowMiddle: false } and { ShowTop: false, ShowBottom: true } =>
+                new Point(xMid - xHalf, screenRect.Bottom - _dragData.DockWindowSize.Height - 10),
+            _ => new Point(xMid - xHalf, yMid - yHalf)
+        };
 
         // Update the image for display
         UpdateLayeredWindow(new Rectangle(location, _showRect.Size));

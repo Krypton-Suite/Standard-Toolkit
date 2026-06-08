@@ -328,15 +328,12 @@ public class KryptonTreeComboBox : KryptonComboBoxUserControl
     /// <returns>Formatted display text.</returns>
     public string FormatNodeDisplay(TreeNode node)
     {
-        switch (_displayMode)
+        return _displayMode switch
         {
-            case KryptonTreeComboBoxDisplayMode.FullPath:
-                return FormatFullPath(node);
-            case KryptonTreeComboBoxDisplayMode.Breadcrumb:
-                return FormatBreadcrumb(node);
-            default:
-                return node.Text;
-        }
+            KryptonTreeComboBoxDisplayMode.FullPath => FormatFullPath(node),
+            KryptonTreeComboBoxDisplayMode.Breadcrumb => FormatBreadcrumb(node),
+            _ => node.Text
+        };
     }
 
     #endregion

@@ -1494,29 +1494,17 @@ public class KryptonCodeEditor : VisualPanel,
         }
 
         char charAtPos = text[pos];
-        char? matchingChar = null;
 
-        switch (charAtPos)
+        char? matchingChar = charAtPos switch
         {
-            case '{':
-                matchingChar = '}';
-                break;
-            case '}':
-                matchingChar = '{';
-                break;
-            case '(':
-                matchingChar = ')';
-                break;
-            case ')':
-                matchingChar = '(';
-                break;
-            case '[':
-                matchingChar = ']';
-                break;
-            case ']':
-                matchingChar = '[';
-                break;
-        }
+            '{' => '}',
+            '}' => '{',
+            '(' => ')',
+            ')' => '(',
+            '[' => ']',
+            ']' => '[',
+            _ => null
+        };
 
         if (matchingChar.HasValue)
         {

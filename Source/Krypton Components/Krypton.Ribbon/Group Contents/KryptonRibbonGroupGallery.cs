@@ -607,15 +607,12 @@ public class KryptonRibbonGroupGallery : KryptonRibbonGroupContainer
         {
             _itemSizeCurrent = value;
 
-            switch (value)
+            Gallery.InternalPreferredItemSize = value switch
             {
-                case GroupItemSize.Large:
-                    Gallery.InternalPreferredItemSize = new Size(InternalItemCount, 1);
-                    break;
-                case GroupItemSize.Medium:
-                    Gallery.InternalPreferredItemSize = new Size(MediumItemCount, 1);
-                    break;
-            }
+                GroupItemSize.Large => new Size(InternalItemCount, 1),
+                GroupItemSize.Medium => new Size(MediumItemCount, 1),
+                _ => Gallery.InternalPreferredItemSize
+            };
 
             OnPropertyChanged(nameof(ItemSizeCurrent));
         }

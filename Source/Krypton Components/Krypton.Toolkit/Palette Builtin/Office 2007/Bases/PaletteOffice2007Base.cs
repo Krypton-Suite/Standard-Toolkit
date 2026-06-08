@@ -336,39 +336,29 @@ public abstract class PaletteOffice2007Base : PaletteBase
             return InheritBool.Inherit;
         }
 
-        switch (style)
+        return style switch
         {
-            case PaletteBackStyle.SeparatorLowProfile:
-            case PaletteBackStyle.SeparatorCustom1:
-            case PaletteBackStyle.SeparatorCustom2:
-            case PaletteBackStyle.SeparatorCustom3:
-                return InheritBool.False;
-            case PaletteBackStyle.ButtonLowProfile:
-            case PaletteBackStyle.ButtonBreadCrumb:
-            case PaletteBackStyle.ButtonListItem:
-            case PaletteBackStyle.ButtonCommand:
-            case PaletteBackStyle.ButtonButtonSpec:
-            case PaletteBackStyle.ButtonCalendarDay:
-            case PaletteBackStyle.ButtonNavigatorOverflow:
-            case PaletteBackStyle.ButtonForm:
-            case PaletteBackStyle.ButtonFormClose:
-                return state switch
+            PaletteBackStyle.SeparatorLowProfile or PaletteBackStyle.SeparatorCustom1
+                or PaletteBackStyle.SeparatorCustom2 or PaletteBackStyle.SeparatorCustom3 => InheritBool.False,
+            PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem
+                or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec
+                or PaletteBackStyle.ButtonCalendarDay or PaletteBackStyle.ButtonNavigatorOverflow
+                or PaletteBackStyle.ButtonForm or PaletteBackStyle.ButtonFormClose => state switch
                 {
-                    PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride =>
-                        InheritBool.False,
+                    PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => InheritBool
+                        .False,
                     _ => InheritBool.True
-                };
-            case PaletteBackStyle.ContextMenuItemImage or PaletteBackStyle.ContextMenuItemHighlight:
-                return state switch
-                {
-                    PaletteState.Normal or PaletteState.NormalDefaultOverride => InheritBool.False,
-                    _ => InheritBool.True
-                };
-            case PaletteBackStyle.ButtonInputControl:
-                return state is PaletteState.Disabled or PaletteState.Normal ? InheritBool.False : InheritBool.True;
-            default:
-                return InheritBool.True; // Default to drawing the background
-        }
+                },
+            PaletteBackStyle.ContextMenuItemImage or PaletteBackStyle.ContextMenuItemHighlight => state switch
+            {
+                PaletteState.Normal or PaletteState.NormalDefaultOverride => InheritBool.False,
+                _ => InheritBool.True
+            },
+            PaletteBackStyle.ButtonInputControl => state is PaletteState.Disabled or PaletteState.Normal
+                ? InheritBool.False
+                : InheritBool.True,
+            _ => InheritBool.True
+        };
     }
 
     /// <summary>

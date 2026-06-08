@@ -1030,15 +1030,12 @@ internal class ViewLayoutBar : ViewComposite
         // Do we need to apply right to left by aligning in opposite direction?
         if (IsOneLine && !BarVertical && (context.Control!.RightToLeft == RightToLeft.Yes))
         {
-            switch (align)
+            align = align switch
             {
-                case RelativePositionAlign.Near:
-                    align = RelativePositionAlign.Far;
-                    break;
-                case RelativePositionAlign.Far:
-                    align = RelativePositionAlign.Near;
-                    break;
-            }
+                RelativePositionAlign.Near => RelativePositionAlign.Far,
+                RelativePositionAlign.Far => RelativePositionAlign.Near,
+                _ => align
+            };
         }
 
         switch (align)
@@ -1073,15 +1070,12 @@ internal class ViewLayoutBar : ViewComposite
         // Do we need to apply right to left by aligning in opposite direction?
         if (IsOneLine && !BarVertical && (context.Control!.RightToLeft == RightToLeft.Yes))
         {
-            switch (align)
+            align = align switch
             {
-                case RelativePositionAlign.Near:
-                    align = RelativePositionAlign.Far;
-                    break;
-                case RelativePositionAlign.Far:
-                    align = RelativePositionAlign.Near;
-                    break;
-            }
+                RelativePositionAlign.Near => RelativePositionAlign.Far,
+                RelativePositionAlign.Far => RelativePositionAlign.Near,
+                _ => align
+            };
         }
 
         switch (align)

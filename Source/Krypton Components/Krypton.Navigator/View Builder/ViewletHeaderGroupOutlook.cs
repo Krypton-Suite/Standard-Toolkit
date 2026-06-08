@@ -44,13 +44,13 @@ internal class ViewletHeaderGroupOutlook : ViewletHeaderGroup
     /// <param name="e">Property changed details.</param>
     public override void ViewBuilderPropertyChanged(PropertyChangedEventArgs e)
     {
-        switch (e.PropertyName)
+        e = e.PropertyName switch
         {
-            case @"HeaderSecondaryVisibleOutlook":
+            @"HeaderSecondaryVisibleOutlook" =>
                 // Call base class but update the standard visible property
-                e = new PropertyChangedEventArgs("HeaderVisibleSecondary");
-                break;
-        }
+                new PropertyChangedEventArgs("HeaderVisibleSecondary"),
+            _ => e
+        };
 
         // Let base class handle property
         base.ViewBuilderPropertyChanged(e);

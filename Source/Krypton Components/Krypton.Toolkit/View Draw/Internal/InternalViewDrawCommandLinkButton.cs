@@ -447,18 +447,13 @@ public class InternalViewDrawCommandLinkButton : ViewComposite
             if (AllowUncheck)
             {
                 // Show feedback on tracking and pressed
-                switch (buttonState)
+                buttonState = buttonState switch
                 {
-                    case PaletteState.Normal:
-                        buttonState = PaletteState.CheckedNormal;
-                        break;
-                    case PaletteState.Tracking:
-                        buttonState = PaletteState.CheckedTracking;
-                        break;
-                    case PaletteState.Pressed:
-                        buttonState = PaletteState.CheckedPressed;
-                        break;
-                }
+                    PaletteState.Normal => PaletteState.CheckedNormal,
+                    PaletteState.Tracking => PaletteState.CheckedTracking,
+                    PaletteState.Pressed => PaletteState.CheckedPressed,
+                    _ => buttonState
+                };
             }
             else
             {

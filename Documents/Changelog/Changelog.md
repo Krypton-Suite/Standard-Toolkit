@@ -45,6 +45,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#3718](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3718), Use 'switch' expression
 * Resolved [#3719](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3719), Information exposure through transmitted data
 * Resolved [#3670](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3670), Fixed AppButton color registration in several themes
 * Resolved [#3678](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3678), Fixed net4x TestForm runtime deployment for preserialized resource dependencies used by generated resources.

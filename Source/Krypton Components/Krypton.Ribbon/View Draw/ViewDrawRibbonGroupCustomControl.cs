@@ -227,19 +227,15 @@ internal class ViewDrawRibbonGroupCustomControl : ViewComposite,
             Rectangle viewRect = _ribbon.KeyTipToScreen(this);
 
             // Determine the screen position of the key tip
-            var screenPt = Point.Empty;
 
             // Determine the screen position of the key tip dependant on item location/size
-            switch (_currentSize)
+            var screenPt = _currentSize switch
             {
-                case GroupItemSize.Large:
-                    screenPt = new Point(viewRect.Left + (viewRect.Width / 2), viewRect.Bottom);
-                    break;
-                case GroupItemSize.Medium:
-                case GroupItemSize.Small:
-                    screenPt = _ribbon.CalculatedValues.KeyTipRectToPoint(viewRect, lineHint);
-                    break;
-            }
+                GroupItemSize.Large => new Point(viewRect.Left + (viewRect.Width / 2), viewRect.Bottom),
+                GroupItemSize.Medium or GroupItemSize.Small => _ribbon.CalculatedValues.KeyTipRectToPoint(viewRect,
+                    lineHint),
+                _ => Point.Empty
+            };
 
             keyTipList.Add(new KeyTipInfo(GroupCustomControl!.Enabled, 
                 GroupCustomControl.KeyTip,

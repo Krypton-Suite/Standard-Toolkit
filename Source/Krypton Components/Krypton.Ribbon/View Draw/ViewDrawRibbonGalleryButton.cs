@@ -264,39 +264,26 @@ internal class ViewDrawRibbonGalleryButton : ViewLeaf, IContentValues
     public virtual Image? GetImage(PaletteState state)
     {
         // Find the correct collection of images
-        GalleryButtonImages? images = null;
-        switch (_button)
+        GalleryButtonImages? images = _button switch
         {
-            case PaletteRibbonGalleryButton.Up:
-                images = _images.Up;
-                break;
-            case PaletteRibbonGalleryButton.Down:
-                images = _images.Down;
-                break;
-            case PaletteRibbonGalleryButton.DropDown:
-                images = _images.DropDown;
-                break;
-        }
+            PaletteRibbonGalleryButton.Up => _images.Up,
+            PaletteRibbonGalleryButton.Down => _images.Down,
+            PaletteRibbonGalleryButton.DropDown => _images.DropDown,
+            _ => null
+        };
 
         // Get image based on state
         Image? image = null;
         if (images != null)
         {
-            switch (State)
+            image = State switch
             {
-                case PaletteState.Disabled:
-                    image = images.Disabled;
-                    break;
-                case PaletteState.Normal:
-                    image = images.Normal;
-                    break;
-                case PaletteState.Tracking:
-                    image = images.Tracking;
-                    break;
-                case PaletteState.Pressed:
-                    image = images.Pressed;
-                    break;
-            }
+                PaletteState.Disabled => images.Disabled,
+                PaletteState.Normal => images.Normal,
+                PaletteState.Tracking => images.Tracking,
+                PaletteState.Pressed => images.Pressed,
+                _ => image
+            };
             // If no image then get the common image
             image ??= images.Common;
         }

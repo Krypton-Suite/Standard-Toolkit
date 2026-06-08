@@ -426,15 +426,14 @@ public abstract class PaletteMicrosoft365BlueDarkModeBase : PaletteBase
 
                     case PaletteState.Pressed:
                     case PaletteState.Tracking:
-                        switch (style)
+                        return style switch
                         {
-                            case PaletteBackStyle.TabLowProfile:
-                                return GlobalStaticVariables.EMPTY_COLOR;
-                            case PaletteBackStyle.TabHighProfile:
-                                return state == PaletteState.Tracking ? GetArrayColor<ButtonBackColor>(ButtonBackColor.Color3) : GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5);
-                            default:
-                                return SystemColors.Window;
-                        }
+                            PaletteBackStyle.TabLowProfile => GlobalStaticVariables.EMPTY_COLOR,
+                            PaletteBackStyle.TabHighProfile => state == PaletteState.Tracking
+                                ? GetArrayColor<ButtonBackColor>(ButtonBackColor.Color3)
+                                : GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5),
+                            _ => SystemColors.Window
+                        };
 
                     case PaletteState.CheckedNormal:
                     case PaletteState.CheckedPressed:

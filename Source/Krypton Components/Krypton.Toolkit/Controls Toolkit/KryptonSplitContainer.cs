@@ -532,27 +532,21 @@ public class KryptonSplitContainer : VisualControlContainment,
                 // Orientation determines the width/height to use
                 if (Orientation == Orientation.Vertical)
                 {
-                    switch (_fixedPanel)
+                    _fixedDistance = _fixedPanel switch
                     {
-                        case FixedPanel.Panel1:
-                            _fixedDistance = Panel1.Width;
-                            break;
-                        case FixedPanel.Panel2:
-                            _fixedDistance = Panel2.Width;
-                            break;
-                    }
+                        FixedPanel.Panel1 => Panel1.Width,
+                        FixedPanel.Panel2 => Panel2.Width,
+                        _ => _fixedDistance
+                    };
                 }
                 else
                 {
-                    switch (_fixedPanel)
+                    _fixedDistance = _fixedPanel switch
                     {
-                        case FixedPanel.Panel1:
-                            _fixedDistance = Panel1.Height;
-                            break;
-                        case FixedPanel.Panel2:
-                            _fixedDistance = Panel2.Height;
-                            break;
-                    }
+                        FixedPanel.Panel1 => Panel1.Height,
+                        FixedPanel.Panel2 => Panel2.Height,
+                        _ => _fixedDistance
+                    };
                 }
             }
         }

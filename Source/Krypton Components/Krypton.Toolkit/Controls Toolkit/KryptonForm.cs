@@ -2635,15 +2635,13 @@ public class KryptonForm : VisualForm,
 				{
 					var notNormal = false;
 					foreach (ButtonSpecView bsv in _buttonManager.ButtonSpecViews)
-					{
-						switch (bsv.ViewButton.State)
-						{
-							case PaletteState.Tracking:
-							case PaletteState.Pressed:
-								notNormal = true;
-								break;
-						}
-					}
+                    {
+                        notNormal = bsv.ViewButton.State switch
+                        {
+                            PaletteState.Tracking or PaletteState.Pressed => true,
+                            _ => notNormal
+                        };
+                    }
 
 					if (_lastNotNormal != notNormal)
 					{
@@ -3102,20 +3100,15 @@ public class KryptonForm : VisualForm,
 	/// <summary>Updates the title style.</summary>
 	/// <param name="titleStyle">The title style.</param>
 	private void UpdateTitleStyle(KryptonFormTitleStyle titleStyle)
-	{
-		switch (titleStyle)
-		{
-			case KryptonFormTitleStyle.Inherit:
-				FormTitleAlign = PaletteRelativeAlign.Inherit;
-				break;
-			case KryptonFormTitleStyle.Classic:
-				FormTitleAlign = PaletteRelativeAlign.Near;
-				break;
-			case KryptonFormTitleStyle.Modern:
-				FormTitleAlign = PaletteRelativeAlign.Center;
-				break;
-		}
-	}
+    {
+        FormTitleAlign = titleStyle switch
+        {
+            KryptonFormTitleStyle.Inherit => PaletteRelativeAlign.Inherit,
+            KryptonFormTitleStyle.Classic => PaletteRelativeAlign.Near,
+            KryptonFormTitleStyle.Modern => PaletteRelativeAlign.Center,
+            _ => FormTitleAlign
+        };
+    }
 
 	/*/// <summary>
 	/// Starts a timer to distinguish between click and drag operations.

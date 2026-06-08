@@ -111,21 +111,14 @@ internal class KryptonDropContentEditor : UITypeEditor
         // Format items for display
         listBox.Format += (_, e) =>
         {
-            switch (e.ListItem)
+            e.Value = e.ListItem switch
             {
-                case string s:
-                    e.Value = s;
-                    break;
-                case Type t:
-                    e.Value = $"[New] {t.Name} ({t.Namespace ?? "<global>"})";
-                    break;
-                case Component c when c.Site != null && !string.IsNullOrEmpty(c.Site.Name):
-                    e.Value = $"{c.Site.Name} ({c.GetType().Name})";
-                    break;
-                default:
-                    e.Value = e.ListItem?.GetType().Name ?? string.Empty;
-                    break;
-            }
+                string s => s,
+                Type t => $"[New] {t.Name} ({t.Namespace ?? "<global>"})",
+                Component c when c.Site != null && !string.IsNullOrEmpty(c.Site.Name) =>
+                    $"{c.Site.Name} ({c.GetType().Name})",
+                _ => e.ListItem?.GetType().Name ?? string.Empty
+            };
         };
 
         // Auto-size the height to fit (cap at 12 visible rows)

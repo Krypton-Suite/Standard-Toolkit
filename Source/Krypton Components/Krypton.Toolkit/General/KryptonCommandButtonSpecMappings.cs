@@ -79,40 +79,24 @@ internal static class KryptonCommandButtonSpecMappings
     {
         var toolBarStrings = KryptonManager.Strings.ToolBarStrings;
 
-        switch (commandType)
+        return commandType switch
         {
-            case KryptonCommandType.HelpCommand:
-                return KryptonManager.Strings.ButtonSpecStyleStrings.FormHelp;
-            case KryptonCommandType.IntegratedToolBarNewCommand:
-                return toolBarStrings.New;
-            case KryptonCommandType.IntegratedToolBarOpenCommand:
-                return toolBarStrings.Open;
-            case KryptonCommandType.IntegratedToolBarSaveCommand:
-                return toolBarStrings.Save;
-            case KryptonCommandType.IntegratedToolBarSaveAsCommand:
-                return toolBarStrings.SaveAs;
-            case KryptonCommandType.IntegratedToolBarSaveAllCommand:
-                return toolBarStrings.SaveAll;
-            case KryptonCommandType.IntegratedToolBarCutCommand:
-                return toolBarStrings.Cut;
-            case KryptonCommandType.IntegratedToolBarCopyCommand:
-                return toolBarStrings.Copy;
-            case KryptonCommandType.IntegratedToolBarPasteCommand:
-                return toolBarStrings.Paste;
-            case KryptonCommandType.IntegratedToolBarUndoCommand:
-                return toolBarStrings.Undo;
-            case KryptonCommandType.IntegratedToolBarRedoCommand:
-                return toolBarStrings.Redo;
-            case KryptonCommandType.IntegratedToolBarPageSetupCommand:
-                return toolBarStrings.PageSetup;
-            case KryptonCommandType.IntegratedToolBarPrintPreviewCommand:
-                return toolBarStrings.PrintPreview;
-            case KryptonCommandType.IntegratedToolBarPrintCommand:
-                return toolBarStrings.Print;
-            case KryptonCommandType.IntegratedToolBarQuickPrintCommand:
-                return toolBarStrings.QuickPrint;
-            default:
-                return string.Empty;
-        }
+            KryptonCommandType.HelpCommand => KryptonManager.Strings.ButtonSpecStyleStrings.FormHelp,
+            KryptonCommandType.IntegratedToolBarNewCommand => toolBarStrings.New,
+            KryptonCommandType.IntegratedToolBarOpenCommand => toolBarStrings.Open,
+            KryptonCommandType.IntegratedToolBarSaveCommand => toolBarStrings.Save,
+            KryptonCommandType.IntegratedToolBarSaveAsCommand => toolBarStrings.SaveAs,
+            KryptonCommandType.IntegratedToolBarSaveAllCommand => toolBarStrings.SaveAll,
+            KryptonCommandType.IntegratedToolBarCutCommand => toolBarStrings.Cut,
+            KryptonCommandType.IntegratedToolBarCopyCommand => toolBarStrings.Copy,
+            KryptonCommandType.IntegratedToolBarPasteCommand => toolBarStrings.Paste,
+            KryptonCommandType.IntegratedToolBarUndoCommand => toolBarStrings.Undo,
+            KryptonCommandType.IntegratedToolBarRedoCommand => toolBarStrings.Redo,
+            KryptonCommandType.IntegratedToolBarPageSetupCommand => toolBarStrings.PageSetup,
+            KryptonCommandType.IntegratedToolBarPrintPreviewCommand => toolBarStrings.PrintPreview,
+            KryptonCommandType.IntegratedToolBarPrintCommand => toolBarStrings.Print,
+            KryptonCommandType.IntegratedToolBarQuickPrintCommand => toolBarStrings.QuickPrint,
+            _ => string.Empty
+        };
     }
 }

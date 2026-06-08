@@ -653,14 +653,11 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
 
     private void OnClusterPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        var updateLayout = false;
-
-        switch (e.PropertyName)
+        var updateLayout = e.PropertyName switch
         {
-            case nameof(Visible):
-                updateLayout = true;
-                break;
-        }
+            nameof(Visible) => true,
+            _ => false
+        };
 
         if (updateLayout)
         {

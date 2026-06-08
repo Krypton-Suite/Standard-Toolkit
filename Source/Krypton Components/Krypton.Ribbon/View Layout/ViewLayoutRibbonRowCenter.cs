@@ -160,21 +160,14 @@ internal class ViewLayoutRibbonRowCenter : ViewComposite
         // We take on all the available display area
         ClientRectangle = context.DisplayRectangle;
 
-        var preferredSize = Size.Empty;
-
         // Cache the size for the current item
-        switch (CurrentSize)
+        var preferredSize = CurrentSize switch
         {
-            case GroupItemSize.Small:
-                preferredSize = _preferredSizeSmall;
-                break;
-            case GroupItemSize.Medium:
-                preferredSize = _preferredSizeMedium;
-                break;
-            case GroupItemSize.Large:
-                preferredSize = _preferredSizeLarge;
-                break;
-        }
+            GroupItemSize.Small => _preferredSizeSmall,
+            GroupItemSize.Medium => _preferredSizeMedium,
+            GroupItemSize.Large => _preferredSizeLarge,
+            _ => Size.Empty
+        };
 
         // Starting left offset is half the difference between the client width and the total child widths
         var xOffset = (ClientWidth - preferredSize.Width) / 2;
@@ -186,26 +179,20 @@ internal class ViewLayoutRibbonRowCenter : ViewComposite
             if (child.Visible)
             {
                 // Get the cached size of the child
-                var childPreferred = Size.Empty;
-                    
-                switch (CurrentSize)
+
+                var childPreferred = CurrentSize switch
                 {
-                    case GroupItemSize.Small:
-                        childPreferred = _viewToSmall.TryGetValue(child, out Size value)
-                            ? value
-                            : child.GetPreferredSize(context);
-                        break;
-                    case GroupItemSize.Medium:
-                        childPreferred = _viewToMedium.TryGetValue(child, out Size value1)
-                            ? value1
-                            : child.GetPreferredSize(context);
-                        break;
-                    case GroupItemSize.Large:
-                        childPreferred = _viewToLarge.TryGetValue(child, out Size value2)
-                            ? value2
-                            : child.GetPreferredSize(context);
-                        break;
-                }
+                    GroupItemSize.Small => _viewToSmall.TryGetValue(child, out Size value)
+                        ? value
+                        : child.GetPreferredSize(context),
+                    GroupItemSize.Medium => _viewToMedium.TryGetValue(child, out Size value1)
+                        ? value1
+                        : child.GetPreferredSize(context),
+                    GroupItemSize.Large => _viewToLarge.TryGetValue(child, out Size value2)
+                        ? value2
+                        : child.GetPreferredSize(context),
+                    _ => Size.Empty
+                };
 
                 // Find vertical offset for centering
                 var yOffset = (ClientHeight - childPreferred.Height) / 2;

@@ -255,12 +255,11 @@ internal class ViewBuilderOutlookFull : ViewBuilderOutlookBase
     /// <param name="e">Property changed details.</param>
     protected override void OnViewBuilderPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        switch (e.PropertyName)
+        _viewOutlook.VerticalViewport = e.PropertyName switch
         {
-            case @"OrientationOutlook":
-                _viewOutlook.VerticalViewport = (Navigator.Outlook.Orientation == Orientation.Vertical);
-                break;
-        }
+            @"OrientationOutlook" => (Navigator.Outlook.Orientation == Orientation.Vertical),
+            _ => _viewOutlook.VerticalViewport
+        };
 
         // Let base class perform other actions
         base.OnViewBuilderPropertyChanged(sender, e);

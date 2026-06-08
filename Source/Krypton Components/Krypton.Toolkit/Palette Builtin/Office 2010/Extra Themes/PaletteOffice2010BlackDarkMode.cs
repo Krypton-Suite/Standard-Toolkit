@@ -4511,13 +4511,11 @@ public abstract class PaletteOffice2010BlackDarkModeBase : PaletteBase
                 }
                 break;
             case PaletteRibbonBackStyle.RibbonGroupArea:
-                switch (state)
-                    {
-                        case PaletteState.Tracking:
-                            return BaseColors!.RibbonGroupBorder1; 
-                        default:
-                            return BaseColors!.RibbonGroupsArea3;
-                    }
+                return state switch
+                {
+                    PaletteState.Tracking => BaseColors!.RibbonGroupBorder1,
+                    _ => BaseColors!.RibbonGroupsArea3
+                };
             case PaletteRibbonBackStyle.RibbonTab:
                 switch (state)
                 {
