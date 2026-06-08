@@ -59,6 +59,10 @@
 		</Otherwise>
 	</Choose>
 
+	<PropertyGroup Condition="'$(ExcludeNet11)' == 'true' And '$(TFMs)' == 'all'">
+		<TargetFrameworks>net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
+	</PropertyGroup>
+
 	<!--Sets up the language version.-->
 	<!--https://learn.microsoft.com/en-gb/dotnet/csharp/language-reference/configure-language-version#configure-multiple-projects-->
 	<PropertyGroup>
