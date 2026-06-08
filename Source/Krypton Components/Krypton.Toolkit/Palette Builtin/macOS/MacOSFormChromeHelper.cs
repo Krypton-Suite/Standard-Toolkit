@@ -26,11 +26,6 @@ internal static class MacOSFormChromeHelper
             return;
         }
 
-        if (!form.UseDropShadow)
-        {
-            form.UseDropShadow = true;
-        }
-
         PI.Dwm.WindowBorderlessDropShadow(form.Handle, DwmDropShadowMargin);
         PI.Dwm.Windows10EnableBlurBehind(form.Handle, true, palette.GetTitleBarBlurTintColor());
     }

@@ -66,6 +66,7 @@ internal static class DropDownArrowGlyphFactory
     /// <param name="fill">The fill color of the glyph.</param>
     /// <param name="direction">The direction of the glyph.</param>
     /// <param name="renderMode">The render mode of the glyph.</param>
+    /// <param name="style">The glyph drawing style.</param>
     internal static Image Create(int size, Color outline, Color fill, DropDownArrowGlyphDirection direction, DropDownArrowRenderMode renderMode, DropDownArrowGlyphStyle style)
     {
         if (!HasDistinctFill(outline, fill))
@@ -220,7 +221,9 @@ internal static class DropDownArrowGlyphFactory
             }
         }
 
-        return new Font(SystemFonts.MessageBoxFont.FontFamily, boxSize * 0.7f, FontStyle.Regular, GraphicsUnit.Pixel);
+        FontFamily fontFamily = SystemFonts.MessageBoxFont?.FontFamily ?? FontFamily.GenericSansSerif;
+
+        return new Font(fontFamily, boxSize * 0.7f, FontStyle.Regular, GraphicsUnit.Pixel);
     }
 
     private static Point[] GetTrianglePoints(int size, DropDownArrowGlyphDirection direction)
