@@ -692,34 +692,24 @@ internal class ViewDrawRibbonTab : ViewComposite,
             {
                 if (Checked)
                 {
-                    switch (buttonState)
+                    buttonState = buttonState switch
                     {
-                        case PaletteState.Normal:
-                        case PaletteState.CheckedNormal:
-                        case PaletteState.ContextCheckedNormal:
-                            buttonState = contextTab ? PaletteState.ContextCheckedNormal : PaletteState.CheckedNormal;
-                            break;
-                        case PaletteState.Tracking:
-                        case PaletteState.CheckedTracking:
-                        case PaletteState.ContextCheckedTracking:
-                            buttonState = contextTab ? PaletteState.ContextCheckedTracking : PaletteState.CheckedTracking;
-                            break;
-                    }
+                        PaletteState.Normal or PaletteState.CheckedNormal or PaletteState.ContextCheckedNormal =>
+                            contextTab ? PaletteState.ContextCheckedNormal : PaletteState.CheckedNormal,
+                        PaletteState.Tracking or PaletteState.CheckedTracking or PaletteState.ContextCheckedTracking =>
+                            contextTab ? PaletteState.ContextCheckedTracking : PaletteState.CheckedTracking,
+                        _ => buttonState
+                    };
                 }
                 else
                 {
-                    switch (buttonState)
+                    buttonState = buttonState switch
                     {
-                        case PaletteState.CheckedNormal:
-                        case PaletteState.ContextCheckedNormal:
-                            buttonState = PaletteState.Normal;
-                            break;
-                        case PaletteState.Tracking:
-                        case PaletteState.CheckedTracking:
-                        case PaletteState.ContextCheckedTracking:
-                            buttonState = contextTab ? PaletteState.ContextTracking : PaletteState.Tracking;
-                            break;
-                    }
+                        PaletteState.CheckedNormal or PaletteState.ContextCheckedNormal => PaletteState.Normal,
+                        PaletteState.Tracking or PaletteState.CheckedTracking or PaletteState.ContextCheckedTracking =>
+                            contextTab ? PaletteState.ContextTracking : PaletteState.Tracking,
+                        _ => buttonState
+                    };
                 }
             }
 

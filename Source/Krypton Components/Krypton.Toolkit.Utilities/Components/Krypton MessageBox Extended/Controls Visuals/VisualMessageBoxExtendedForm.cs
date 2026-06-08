@@ -398,13 +398,11 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
     {
         if (!showCtrlCopy.HasValue)
         {
-            switch (_kryptonMessageBoxIcon)
+            showCtrlCopy = _kryptonMessageBoxIcon switch
             {
-                case ExtendedKryptonMessageBoxIcon.Error:
-                case ExtendedKryptonMessageBoxIcon.Exclamation:
-                    showCtrlCopy = true;
-                    break;
-            }
+                ExtendedKryptonMessageBoxIcon.Error or ExtendedKryptonMessageBoxIcon.Exclamation => true,
+                _ => showCtrlCopy
+            };
         }
 
         if (showCtrlCopy == true)
@@ -1005,33 +1003,24 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
 
     private void UpdateDefault(KryptonMessageBoxDefaultButton? defaultButton)
     {
-        switch (defaultButton)
+        AcceptButton = defaultButton switch
         {
-            case KryptonMessageBoxDefaultButton.Button1:
+            KryptonMessageBoxDefaultButton.Button1 =>
                 //_button1.Select();
-                AcceptButton = _button1;
-                break;
-            case KryptonMessageBoxDefaultButton.Button2:
+                _button1,
+            KryptonMessageBoxDefaultButton.Button2 =>
                 //_button2.Select();
-                AcceptButton = _button2;
-                break;
-            case KryptonMessageBoxDefaultButton.Button3:
+                _button2,
+            KryptonMessageBoxDefaultButton.Button3 =>
                 //_button3.Select();
-                AcceptButton = _button3;
-                break;
-            case KryptonMessageBoxDefaultButton.Button4:
-                AcceptButton = _showHelpButton ? _button4 : _button1;
-                break;
+                _button3,
+            KryptonMessageBoxDefaultButton.Button4 => _showHelpButton ? _button4 : _button1,
             //case KryptonMessageBoxDefaultButton.Button5:
             //    AcceptButton = _showActionButton ? _button5 : _button1;
             //    break;
-            case null:
-                AcceptButton = _button1;
-                break;
-            default:
-                AcceptButton = _showHelpButton ? _button4 : _button1;
-                break;
-        }
+            null => _button1,
+            _ => _showHelpButton ? _button4 : _button1
+        };
     }
 
     private void UpdateDefault()

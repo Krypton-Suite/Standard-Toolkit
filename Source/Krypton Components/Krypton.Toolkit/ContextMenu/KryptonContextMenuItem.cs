@@ -685,16 +685,12 @@ public class KryptonContextMenuItem : KryptonContextMenuItemBase
             CheckState state = KryptonCommand?.CheckState ?? CheckState;
 
             // Find new state
-            switch (state)
+            state = state switch
             {
-                case CheckState.Unchecked:
-                    state = CheckState.Checked;
-                    break;
-                case CheckState.Indeterminate:
-                case CheckState.Checked:
-                    state = CheckState.Unchecked;
-                    break;
-            }
+                CheckState.Unchecked => CheckState.Checked,
+                CheckState.Indeterminate or CheckState.Checked => CheckState.Unchecked,
+                _ => state
+            };
 
             // Update correct property
             if (KryptonCommand != null)

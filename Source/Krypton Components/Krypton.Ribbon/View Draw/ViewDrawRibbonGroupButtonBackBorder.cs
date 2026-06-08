@@ -247,18 +247,13 @@ internal class ViewDrawRibbonGroupButtonBackBorder : ViewComposite
             // Do we need to modify this for the checked state?
             if (Checked && (ButtonType == GroupButtonType.Check))
             {
-                switch (drawState)
+                drawState = drawState switch
                 {
-                    case PaletteState.Normal:
-                        drawState = PaletteState.CheckedNormal;
-                        break;
-                    case PaletteState.Tracking:
-                        drawState = PaletteState.CheckedTracking;
-                        break;
-                    case PaletteState.Pressed:
-                        drawState = PaletteState.CheckedPressed;
-                        break;
-                }
+                    PaletteState.Normal => PaletteState.CheckedNormal,
+                    PaletteState.Tracking => PaletteState.CheckedTracking,
+                    PaletteState.Pressed => PaletteState.CheckedPressed,
+                    _ => drawState
+                };
             }
         }
 

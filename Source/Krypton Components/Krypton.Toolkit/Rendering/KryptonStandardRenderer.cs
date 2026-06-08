@@ -35,22 +35,14 @@ public class KryptonStandardRenderer : KryptonProfessionalRenderer
     /// <param name="e">A ToolStripItemTextRenderEventArgs that contains the event data.</param>
     protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
     {
-        switch (e.ToolStrip)
+        e.TextColor = e.ToolStrip switch
         {
-            case MenuStrip _:
-                e.TextColor = KCT.MenuStripText;
-                break;
-            case StatusStrip _:
-                e.TextColor = KCT.StatusStripText;
-                break;
-            case ContextMenuStrip _:
-            case ToolStripDropDown _:
-                e.TextColor = KCT.MenuItemText;
-                break;
-            case ToolStrip _:
-                e.TextColor = KCT.ToolStripText;
-                break;
-        }
+            MenuStrip _ => KCT.MenuStripText,
+            StatusStrip _ => KCT.StatusStripText,
+            ContextMenuStrip _ or ToolStripDropDown _ => KCT.MenuItemText,
+            ToolStrip _ => KCT.ToolStripText,
+            _ => e.TextColor
+        };
 
         base.OnRenderItemText(e);
     }

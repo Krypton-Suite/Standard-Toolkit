@@ -227,17 +227,12 @@ public class KryptonDataGridViewCheckBoxColumn : KryptonDataGridViewIconColumn
                     DataGridView.InvalidateColumn(Index);
                 }
 
-                switch (value)
+                DefaultCellStyle.NullValue = value switch
                 {
-                    case true 
-                        when DefaultCellStyle.NullValue is bool and false:
-                        DefaultCellStyle.NullValue = CheckState.Indeterminate;
-                        break;
-                    case false 
-                        when (DefaultCellStyle.NullValue is CheckState and CheckState.Indeterminate):
-                        DefaultCellStyle.NullValue = false;
-                        break;
-                }
+                    true when DefaultCellStyle.NullValue is bool and false => CheckState.Indeterminate,
+                    false when (DefaultCellStyle.NullValue is CheckState and CheckState.Indeterminate) => false,
+                    _ => DefaultCellStyle.NullValue
+                };
             }
         }
     }

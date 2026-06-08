@@ -770,25 +770,13 @@ internal static class ScrollBarExtendedRenderer
         g.SmoothingMode = SmoothingMode.None;
         g.InterpolationMode = InterpolationMode.Low;
 
-        var index = -1;
-
-        switch (state)
+        var index = state switch
         {
-            case ScrollBarArrowButtonState.UpHot:
-            case ScrollBarArrowButtonState.DownHot:
-                index = 1;
-                break;
-
-            case ScrollBarArrowButtonState.UpActive:
-            case ScrollBarArrowButtonState.DownActive:
-                index = 0;
-                break;
-
-            case ScrollBarArrowButtonState.UpPressed:
-            case ScrollBarArrowButtonState.DownPressed:
-                index = 2;
-                break;
-        }
+            ScrollBarArrowButtonState.UpHot or ScrollBarArrowButtonState.DownHot => 1,
+            ScrollBarArrowButtonState.UpActive or ScrollBarArrowButtonState.DownActive => 0,
+            ScrollBarArrowButtonState.UpPressed or ScrollBarArrowButtonState.DownPressed => 2,
+            _ => -1
+        };
 
         if (index != -1)
         {

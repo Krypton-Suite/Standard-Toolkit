@@ -123,16 +123,12 @@ internal sealed class MultilineStringEditor1 : KryptonForm //Form
     /// </param>
     protected override void WndProc(ref Message m)
     {
-        var handled = false;
-        switch (m.Msg)
+        var handled = m.Msg switch
         {
-            case PI.WM_.NCHITTEST:
-                handled = OnNcHitTest(ref m);
-                break;
-            case PI.WM_.GETMINMAXINFO:
-                handled = OnGetMinMaxInfo(ref m);
-                break;
-        }
+            PI.WM_.NCHITTEST => OnNcHitTest(ref m),
+            PI.WM_.GETMINMAXINFO => OnGetMinMaxInfo(ref m),
+            _ => false
+        };
 
         if (!handled)
         {

@@ -2942,17 +2942,12 @@ public class KryptonRibbon : VisualSimple,
 
     internal ViewBase? GetNextQATView(ViewBase qatView, bool tab)
     {
-        ViewBase? view = null;
-
-        switch (QATLocation)
+        ViewBase? view = QATLocation switch
         {
-            case QATLocation.Above:
-                view = CaptionArea?.VisibleQAT.GetNextQATView(qatView);
-                break;
-            case QATLocation.Below:
-                view = _qatBelowContents.GetNextQATView(qatView);
-                break;
-        }
+            QATLocation.Above => CaptionArea?.VisibleQAT.GetNextQATView(qatView),
+            QATLocation.Below => _qatBelowContents.GetNextQATView(qatView),
+            _ => null
+        };
 
         // Get the first near edge button (the last near button is the leftmost one!)
         view ??= TabsArea?.ButtonSpecManager?.GetLastVisibleViewButton(PaletteRelativeEdgeAlign.Near);
@@ -2997,17 +2992,12 @@ public class KryptonRibbon : VisualSimple,
 
     internal ViewBase? GetPreviousQATView(ViewBase qatView)
     {
-        ViewBase? view = null;
-
-        switch (QATLocation)
+        ViewBase? view = QATLocation switch
         {
-            case QATLocation.Above:
-                view = CaptionArea?.VisibleQAT.GetPreviousQATView(qatView);
-                break;
-            case QATLocation.Below:
-                view = _qatBelowContents.GetPreviousQATView(qatView);
-                break;
-        }
+            QATLocation.Above => CaptionArea?.VisibleQAT.GetPreviousQATView(qatView),
+            QATLocation.Below => _qatBelowContents.GetPreviousQATView(qatView),
+            _ => null
+        };
 
         // Move back to the application button/tab
         if (view == null

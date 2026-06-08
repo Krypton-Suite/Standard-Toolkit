@@ -171,15 +171,12 @@ internal class ViewDrawRibbonGalleryItem : ViewDrawButton,
         PaletteState tempState = ElementState;
         if (_gallery.TrackingIndex == _imageIndex)
         {
-            switch (tempState)
+            ElementState = tempState switch
             {
-                case PaletteState.Normal:
-                    ElementState = PaletteState.Tracking;
-                    break;
-                case PaletteState.CheckedNormal:
-                    ElementState = PaletteState.CheckedTracking;
-                    break;
-            }
+                PaletteState.Normal => PaletteState.Tracking,
+                PaletteState.CheckedNormal => PaletteState.CheckedTracking,
+                _ => ElementState
+            };
         }
 
         // Let base class draw using the temp state, then put back to original

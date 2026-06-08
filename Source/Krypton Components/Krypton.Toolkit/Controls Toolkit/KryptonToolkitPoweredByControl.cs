@@ -97,20 +97,13 @@ public partial class KryptonToolkitPoweredByControl : UserControl
 
     private void SetLogo(ToolkitSupportType ToolkitSupportType)
     {
-        switch (ToolkitSupportType)
+        kpbxLogo.Image = ToolkitSupportType switch
         {
-            case ToolkitSupportType.Canary:
-                kpbxLogo.Image = ToolkitLogoImageResources.Krypton_Canary;
-                break;
-            case ToolkitSupportType.Nightly:
-                kpbxLogo.Image = ToolkitLogoImageResources.Krypton_Nightly;
-                break;
-            case ToolkitSupportType.Stable:
-                kpbxLogo.Image = ToolkitLogoImageResources.Krypton_Stable;
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(ToolkitSupportType), ToolkitSupportType, null);
-        }
+            ToolkitSupportType.Canary => ToolkitLogoImageResources.Krypton_Canary,
+            ToolkitSupportType.Nightly => ToolkitLogoImageResources.Krypton_Nightly,
+            ToolkitSupportType.Stable => ToolkitLogoImageResources.Krypton_Stable,
+            _ => throw new ArgumentOutOfRangeException(nameof(ToolkitSupportType), ToolkitSupportType, null)
+        };
     }
 
     private void klwlblDetails_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

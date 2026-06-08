@@ -93,17 +93,13 @@ public abstract class PaletteVisualStudio2022DarkBase : PaletteVisualStudioBase
 
     private Color GetDropDownItemBackColor(PaletteState state)
     {
-        switch (state)
+        return state switch
         {
-            case PaletteState.Tracking:
-            case PaletteState.Pressed:
-            case PaletteState.CheckedNormal:
-            case PaletteState.CheckedTracking:
-            case PaletteState.CheckedPressed:
-                return base.GetBackColor1(PaletteBackStyle.PanelAlternate, PaletteState.Normal);
-            default:
-                return base.GetBackColor1(PaletteBackStyle.PanelClient, PaletteState.Normal);
-        }
+            PaletteState.Tracking or PaletteState.Pressed or PaletteState.CheckedNormal or PaletteState.CheckedTracking
+                or PaletteState.CheckedPressed => base.GetBackColor1(PaletteBackStyle.PanelAlternate,
+                    PaletteState.Normal),
+            _ => base.GetBackColor1(PaletteBackStyle.PanelClient, PaletteState.Normal)
+        };
     }
 
     private static Color GetDropDownItemTextColor(PaletteState state) =>

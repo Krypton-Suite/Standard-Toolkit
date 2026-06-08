@@ -523,18 +523,13 @@ public class KryptonRibbonGroupCheckBox : KryptonRibbonGroupItem
                     CheckState checkState = KryptonCommand?.CheckState ?? CheckState;
 
                     // Find new state based on the current state
-                    switch (checkState)
+                    checkState = checkState switch
                     {
-                        case CheckState.Unchecked:
-                            checkState = CheckState.Checked;
-                            break;
-                        case CheckState.Checked:
-                            checkState = ThreeState ? CheckState.Indeterminate : CheckState.Unchecked;
-                            break;
-                        case CheckState.Indeterminate:
-                            checkState = CheckState.Unchecked;
-                            break;
-                    }
+                        CheckState.Unchecked => CheckState.Checked,
+                        CheckState.Checked => ThreeState ? CheckState.Indeterminate : CheckState.Unchecked,
+                        CheckState.Indeterminate => CheckState.Unchecked,
+                        _ => checkState
+                    };
 
                     // Push back the change to the attached command
                     if (KryptonCommand != null)

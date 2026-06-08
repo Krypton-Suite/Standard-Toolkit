@@ -415,36 +415,21 @@ public class KryptonGroupBox : VisualControlContainment
             if (_captionOrientation != value)
             {
                 _captionOrientation = value;
-                switch (_captionOrientation)
+                _drawContent.Orientation = _captionOrientation switch
                 {
-                    case ButtonOrientation.FixedTop:
-                        _drawContent.Orientation = VisualOrientation.Top;
-                        break;
-                    case ButtonOrientation.FixedBottom:
-                        _drawContent.Orientation = VisualOrientation.Bottom;
-                        break;
-                    case ButtonOrientation.FixedLeft:
-                        _drawContent.Orientation = VisualOrientation.Left;
-                        break;
-                    case ButtonOrientation.FixedRight:
-                        _drawContent.Orientation = VisualOrientation.Right;
-                        break;
-                    case ButtonOrientation.Auto:
-                        switch (_captionEdge)
-                        {
-                            case VisualOrientation.Top:
-                            case VisualOrientation.Bottom:
-                                _drawContent.Orientation = VisualOrientation.Top;
-                                break;
-                            case VisualOrientation.Left:
-                                _drawContent.Orientation = VisualOrientation.Left;
-                                break;
-                            case VisualOrientation.Right:
-                                _drawContent.Orientation = VisualOrientation.Right;
-                                break;
-                        }
-                        break;
-                }
+                    ButtonOrientation.FixedTop => VisualOrientation.Top,
+                    ButtonOrientation.FixedBottom => VisualOrientation.Bottom,
+                    ButtonOrientation.FixedLeft => VisualOrientation.Left,
+                    ButtonOrientation.FixedRight => VisualOrientation.Right,
+                    ButtonOrientation.Auto => _captionEdge switch
+                    {
+                        VisualOrientation.Top or VisualOrientation.Bottom => VisualOrientation.Top,
+                        VisualOrientation.Left => VisualOrientation.Left,
+                        VisualOrientation.Right => VisualOrientation.Right,
+                        _ => _drawContent.Orientation
+                    },
+                    _ => _drawContent.Orientation
+                };
 
                 PerformNeedPaint(true);
             }

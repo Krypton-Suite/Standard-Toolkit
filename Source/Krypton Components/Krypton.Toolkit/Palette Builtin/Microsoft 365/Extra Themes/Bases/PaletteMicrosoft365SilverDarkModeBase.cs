@@ -406,274 +406,204 @@ public abstract class PaletteMicrosoft365SilverDarkModeBase : PaletteBase
             return GlobalStaticVariables.EMPTY_COLOR;
         }
 
-        switch (style)
+        return style switch
         {
-            case PaletteBackStyle.GridHeaderColumnList:
-            case PaletteBackStyle.GridHeaderColumnCustom1:
-            case PaletteBackStyle.GridHeaderColumnCustom2:
-            case PaletteBackStyle.GridHeaderColumnCustom3:
-            case PaletteBackStyle.GridHeaderRowList:
-            case PaletteBackStyle.GridHeaderRowCustom1:
-            case PaletteBackStyle.GridHeaderRowCustom2:
-            case PaletteBackStyle.GridHeaderRowCustom3:
-                return state switch
+            PaletteBackStyle.GridHeaderColumnList or PaletteBackStyle.GridHeaderColumnCustom1
+                or PaletteBackStyle.GridHeaderColumnCustom2 or PaletteBackStyle.GridHeaderColumnCustom3
+                or PaletteBackStyle.GridHeaderRowList or PaletteBackStyle.GridHeaderRowCustom1
+                or PaletteBackStyle.GridHeaderRowCustom2 or PaletteBackStyle.GridHeaderRowCustom3 => state switch
                 {
                     PaletteState.Disabled => _disabledBack,
                     PaletteState.Pressed => BaseColors.GridListPressed1,
                     PaletteState.CheckedNormal => BaseColors.GridListSelected,
                     _ => BaseColors.GridListNormal1
-                };
-            case PaletteBackStyle.GridHeaderColumnSheet:
-                return state switch
+                },
+            PaletteBackStyle.GridHeaderColumnSheet => state switch
+            {
+                PaletteState.Disabled => _disabledBack,
+                PaletteState.Tracking or PaletteState.Pressed => BaseColors.GridSheetColPressed1,
+                PaletteState.CheckedNormal => BaseColors.GridSheetColSelected1,
+                _ => BaseColors.GridSheetColNormal1
+            },
+            PaletteBackStyle.GridHeaderRowSheet => state switch
+            {
+                PaletteState.Disabled => _disabledBack,
+                PaletteState.Tracking or PaletteState.Pressed => BaseColors.GridSheetRowPressed,
+                PaletteState.CheckedNormal => BaseColors.GridSheetRowSelected,
+                _ => BaseColors.GridSheetRowNormal
+            },
+            PaletteBackStyle.GridDataCellList or PaletteBackStyle.GridDataCellCustom1
+                or PaletteBackStyle.GridDataCellCustom2
+                or PaletteBackStyle.GridDataCellCustom3 => state == PaletteState.CheckedNormal
+                    ? BaseColors.GridDataCellSelected
+                    : BaseColors.PanelAlternative,
+            PaletteBackStyle.GridDataCellSheet => state == PaletteState.CheckedNormal
+                ? GetArrayColor<ButtonBackColor>(ButtonBackColor.Color7)
+                : BaseColors.PanelAlternative,
+            PaletteBackStyle.TabHighProfile or PaletteBackStyle.TabStandardProfile or PaletteBackStyle.TabLowProfile
+                or PaletteBackStyle.TabOneNote or PaletteBackStyle.TabCustom1 or PaletteBackStyle.TabCustom2
+                or PaletteBackStyle.TabCustom3 => state switch
                 {
-                    PaletteState.Disabled => _disabledBack,
-                    PaletteState.Tracking or PaletteState.Pressed => BaseColors.GridSheetColPressed1,
-                    PaletteState.CheckedNormal => BaseColors.GridSheetColSelected1,
-                    _ => BaseColors.GridSheetColNormal1
-                };
-            case PaletteBackStyle.GridHeaderRowSheet:
-                return state switch
-                {
-                    PaletteState.Disabled => _disabledBack,
-                    PaletteState.Tracking or PaletteState.Pressed => BaseColors.GridSheetRowPressed,
-                    PaletteState.CheckedNormal => BaseColors.GridSheetRowSelected,
-                    _ => BaseColors.GridSheetRowNormal
-                };
-            case PaletteBackStyle.GridDataCellList:
-            case PaletteBackStyle.GridDataCellCustom1:
-            case PaletteBackStyle.GridDataCellCustom2:
-            case PaletteBackStyle.GridDataCellCustom3:
-                return state == PaletteState.CheckedNormal
-                    ? BaseColors.GridDataCellSelected : BaseColors.PanelAlternative;
-
-            case PaletteBackStyle.GridDataCellSheet:
-                return state == PaletteState.CheckedNormal ? GetArrayColor<ButtonBackColor>(ButtonBackColor.Color7) : BaseColors.PanelAlternative;
-
-            case PaletteBackStyle.TabHighProfile:
-            case PaletteBackStyle.TabStandardProfile:
-            case PaletteBackStyle.TabLowProfile:
-            case PaletteBackStyle.TabOneNote:
-            case PaletteBackStyle.TabCustom1:
-            case PaletteBackStyle.TabCustom2:
-            case PaletteBackStyle.TabCustom3:
-                switch (state)
-                {
-                    case PaletteState.Disabled:
-                        return style == PaletteBackStyle.TabLowProfile ? GlobalStaticVariables.EMPTY_COLOR : _disabledBack;
-
-                    case PaletteState.Normal:
-                        return style == PaletteBackStyle.TabLowProfile ? GlobalStaticVariables.EMPTY_COLOR : SystemColors.Window;
-
-                    case PaletteState.Pressed:
-                    case PaletteState.Tracking:
-                        switch (style)
-                        {
-                            case PaletteBackStyle.TabLowProfile:
-                                return GlobalStaticVariables.EMPTY_COLOR;
-                            case PaletteBackStyle.TabHighProfile:
-                                return state == PaletteState.Tracking ? GetArrayColor<ButtonBackColor>(ButtonBackColor.Color3) : GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5);
-                            default:
-                                return SystemColors.Window;
-                        }
-
-                    case PaletteState.CheckedNormal:
-                    case PaletteState.CheckedPressed:
-                    case PaletteState.CheckedTracking:
-                        return style == PaletteBackStyle.TabHighProfile
-                            ? state == PaletteState.CheckedNormal ? GetArrayColor<ButtonBackColor>(ButtonBackColor.Color7) :
-                            state == PaletteState.CheckedPressed ? GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5) : GetArrayColor<ButtonBackColor>(ButtonBackColor.Color9)
-                            : SystemColors.Window;
-
-                    default:
-                        throw DebugTools.NotImplemented(state.ToString());
-                }
-            case PaletteBackStyle.TabDock:
-            case PaletteBackStyle.TabDockAutoHidden:
-                return state switch
-                {
-                    PaletteState.Disabled => _disabledBack,
-                    PaletteState.Normal or PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking or PaletteState.Pressed or PaletteState.Tracking => SystemColors.Window,
+                    PaletteState.Disabled => style == PaletteBackStyle.TabLowProfile
+                        ? GlobalStaticVariables.EMPTY_COLOR
+                        : _disabledBack,
+                    PaletteState.Normal => style == PaletteBackStyle.TabLowProfile
+                        ? GlobalStaticVariables.EMPTY_COLOR
+                        : SystemColors.Window,
+                    PaletteState.Pressed or PaletteState.Tracking => style switch
+                    {
+                        PaletteBackStyle.TabLowProfile => GlobalStaticVariables.EMPTY_COLOR,
+                        PaletteBackStyle.TabHighProfile => state == PaletteState.Tracking
+                            ? GetArrayColor<ButtonBackColor>(ButtonBackColor.Color3)
+                            : GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5),
+                        _ => SystemColors.Window
+                    },
+                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking =>
+                        style == PaletteBackStyle.TabHighProfile
+                            ? state == PaletteState.CheckedNormal
+                                ?
+                                GetArrayColor<ButtonBackColor>(ButtonBackColor.Color7)
+                                : state == PaletteState.CheckedPressed
+                                    ? GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5)
+                                    : GetArrayColor<ButtonBackColor>(ButtonBackColor.Color9)
+                            : SystemColors.Window,
                     _ => throw DebugTools.NotImplemented(state.ToString())
-                };
-            case PaletteBackStyle.HeaderForm:
-                return state == PaletteState.Disabled
-                    ? BaseColors.FormBorderHeaderInactive1
-                    : BaseColors.FormBorderHeaderActive1;
-
-            case PaletteBackStyle.HeaderCalendar:
-                return state == PaletteState.Disabled
-                    ? BaseColors.HeaderPrimaryBack1
-                    : BaseColors.HeaderPrimaryBack2;
-
-            case PaletteBackStyle.HeaderPrimary:
-            case PaletteBackStyle.HeaderCustom1:
-            case PaletteBackStyle.HeaderCustom2:
-            case PaletteBackStyle.HeaderCustom3:
-                return state == PaletteState.Disabled ? _disabledBack : BaseColors.HeaderPrimaryBack1;
-
-            case PaletteBackStyle.HeaderDockInactive:
-                return state == PaletteState.Disabled ? _disabledBack : BaseColors.HeaderDockInactiveBack1;
-
-            case PaletteBackStyle.HeaderDockActive:
-                return state == PaletteState.Disabled ? _disabledBack : GetArrayColor<ButtonBackColor>(ButtonBackColor.Color7);
-
-            case PaletteBackStyle.HeaderSecondary:
-                return state == PaletteState.Disabled ? _disabledBack : BaseColors.HeaderSecondaryBack1;
-
-            case PaletteBackStyle.SeparatorHighInternalProfile:
-                return state == PaletteState.Disabled ? _disabledBack : BaseColors.SeparatorHighInternalBorder1;
-
-            case PaletteBackStyle.SeparatorHighProfile:
-                return state == PaletteState.Disabled ? _disabledBack : BaseColors.SeparatorHighBorder1;
-
-            case PaletteBackStyle.SeparatorLowProfile:
-            case PaletteBackStyle.SeparatorCustom1:
-            case PaletteBackStyle.SeparatorCustom2:
-            case PaletteBackStyle.SeparatorCustom3:
-            case PaletteBackStyle.PanelClient:
-                // Note: Alter these to control the backgrounds
-                return state == PaletteState.Disabled
+                },
+            PaletteBackStyle.TabDock or PaletteBackStyle.TabDockAutoHidden => state switch
+            {
+                PaletteState.Disabled => _disabledBack,
+                PaletteState.Normal or PaletteState.CheckedNormal or PaletteState.CheckedPressed
+                    or PaletteState.CheckedTracking or PaletteState.Pressed
+                    or PaletteState.Tracking => SystemColors.Window,
+                _ => throw DebugTools.NotImplemented(state.ToString())
+            },
+            PaletteBackStyle.HeaderForm => state == PaletteState.Disabled
+                ? BaseColors.FormBorderHeaderInactive1
+                : BaseColors.FormBorderHeaderActive1,
+            PaletteBackStyle.HeaderCalendar => state == PaletteState.Disabled
+                ? BaseColors.HeaderPrimaryBack1
+                : BaseColors.HeaderPrimaryBack2,
+            PaletteBackStyle.HeaderPrimary or PaletteBackStyle.HeaderCustom1 or PaletteBackStyle.HeaderCustom2
+                or PaletteBackStyle.HeaderCustom3 => state == PaletteState.Disabled
                     ? _disabledBack
-                    : BaseColors.PanelClient;
-            case PaletteBackStyle.PanelCustom1:
-            case PaletteBackStyle.PanelCustom2:
-            case PaletteBackStyle.PanelCustom3:
-            case PaletteBackStyle.ControlGroupBox:
-            case PaletteBackStyle.GridBackgroundList:
-            case PaletteBackStyle.GridBackgroundSheet:
-            case PaletteBackStyle.GridBackgroundCustom1:
-            case PaletteBackStyle.GridBackgroundCustom2:
-            case PaletteBackStyle.GridBackgroundCustom3:
-                return BaseColors.PanelClient;
-            case PaletteBackStyle.PanelAlternate:
+                    : BaseColors.HeaderPrimaryBack1,
+            PaletteBackStyle.HeaderDockInactive => state == PaletteState.Disabled
+                ? _disabledBack
+                : BaseColors.HeaderDockInactiveBack1,
+            PaletteBackStyle.HeaderDockActive => state == PaletteState.Disabled
+                ? _disabledBack
+                : GetArrayColor<ButtonBackColor>(ButtonBackColor.Color7),
+            PaletteBackStyle.HeaderSecondary => state == PaletteState.Disabled
+                ? _disabledBack
+                : BaseColors.HeaderSecondaryBack1,
+            PaletteBackStyle.SeparatorHighInternalProfile => state == PaletteState.Disabled
+                ? _disabledBack
+                : BaseColors.SeparatorHighInternalBorder1,
+            PaletteBackStyle.SeparatorHighProfile => state == PaletteState.Disabled
+                ? _disabledBack
+                : BaseColors.SeparatorHighBorder1,
+            PaletteBackStyle.SeparatorLowProfile or PaletteBackStyle.SeparatorCustom1
+                or PaletteBackStyle.SeparatorCustom2 or PaletteBackStyle.SeparatorCustom3
+                or PaletteBackStyle.PanelClient =>
                 // Note: Alter these to control the backgrounds
-                return state == PaletteState.Disabled
-                    ? _disabledBack
-                    : BaseColors.PanelAlternative;
-            case PaletteBackStyle.PanelRibbonInactive:
-                return BaseColors.FormBorderInactiveLight;
-            case PaletteBackStyle.FormMain:
-            case PaletteBackStyle.FormCustom1:
-            case PaletteBackStyle.FormCustom2:
-            case PaletteBackStyle.FormCustom3:
-                return state == PaletteState.Disabled
+                state == PaletteState.Disabled ? _disabledBack : BaseColors.PanelClient,
+            PaletteBackStyle.PanelCustom1 or PaletteBackStyle.PanelCustom2 or PaletteBackStyle.PanelCustom3
+                or PaletteBackStyle.ControlGroupBox or PaletteBackStyle.GridBackgroundList
+                or PaletteBackStyle.GridBackgroundSheet or PaletteBackStyle.GridBackgroundCustom1
+                or PaletteBackStyle.GridBackgroundCustom2
+                or PaletteBackStyle.GridBackgroundCustom3 => BaseColors.PanelClient,
+            PaletteBackStyle.PanelAlternate =>
+                // Note: Alter these to control the backgrounds
+                state == PaletteState.Disabled ? _disabledBack : BaseColors.PanelAlternative,
+            PaletteBackStyle.PanelRibbonInactive => BaseColors.FormBorderInactiveLight,
+            PaletteBackStyle.FormMain or PaletteBackStyle.FormCustom1 or PaletteBackStyle.FormCustom2
+                or PaletteBackStyle.FormCustom3 => state == PaletteState.Disabled
                     ? BaseColors.FormBorderInactiveLight
-                    : BaseColors.FormBorderActiveLight;
-            case PaletteBackStyle.Control:
-            case PaletteBackStyle.ControlClient:
+                    : BaseColors.FormBorderActiveLight,
+            PaletteBackStyle.Control or PaletteBackStyle.ControlClient =>
                 // Note: Alter these to control the backgrounds
-                return state == PaletteState.Disabled
-                    ? _disabledBack
-                    : BaseColors.PanelClient;
-            case PaletteBackStyle.ControlAlternate:
+                state == PaletteState.Disabled ? _disabledBack : BaseColors.PanelClient,
+            PaletteBackStyle.ControlAlternate =>
                 // Note: Alter these to control the backgrounds
-                return state == PaletteState.Disabled
-                    ? _disabledBack
-                    : BaseColors.PanelAlternative;
-            case PaletteBackStyle.ControlCustom1:
-            case PaletteBackStyle.ControlCustom2:
-            case PaletteBackStyle.ControlCustom3:
+                state == PaletteState.Disabled ? _disabledBack : BaseColors.PanelAlternative,
+            PaletteBackStyle.ControlCustom1 or PaletteBackStyle.ControlCustom2 or PaletteBackStyle.ControlCustom3 =>
                 // Note: This controls the input control dropdown background
-                return BaseColors.PanelClient;
-            case PaletteBackStyle.InputControlStandalone:
-            case PaletteBackStyle.InputControlRibbon:
-            case PaletteBackStyle.InputControlCustom1:
-            case PaletteBackStyle.InputControlCustom2:
-            case PaletteBackStyle.InputControlCustom3:
-                return state == PaletteState.Disabled
-                    ? BaseColors.InputControlBackDisabled
+                BaseColors.PanelClient,
+            PaletteBackStyle.InputControlStandalone or PaletteBackStyle.InputControlRibbon
+                or PaletteBackStyle.InputControlCustom1 or PaletteBackStyle.InputControlCustom2
+                or PaletteBackStyle.InputControlCustom3 => state == PaletteState.Disabled
+                    ?
+                    BaseColors.InputControlBackDisabled
                     : (state == PaletteState.Tracking) || (style == PaletteBackStyle.InputControlStandalone)
                         ? BaseColors.InputControlBackNormal
-                        : BaseColors.InputControlBackInactive;
-            case PaletteBackStyle.ControlRibbon:
-                return BaseColors.RibbonTabSelected4;
-            case PaletteBackStyle.ControlRibbonAppMenu:
-                return BaseColors.AppButtonBack1;
-            case PaletteBackStyle.ControlToolTip:
-                return _toolTipBack1;
-            case PaletteBackStyle.ContextMenuOuter:
-                return _contextMenuBack;
-            case PaletteBackStyle.ContextMenuSeparator:
-            case PaletteBackStyle.ContextMenuItemSplit:
-                return state switch
+                        : BaseColors.InputControlBackInactive,
+            PaletteBackStyle.ControlRibbon => BaseColors.RibbonTabSelected4,
+            PaletteBackStyle.ControlRibbonAppMenu => BaseColors.AppButtonBack1,
+            PaletteBackStyle.ControlToolTip => _toolTipBack1,
+            PaletteBackStyle.ContextMenuOuter => _contextMenuBack,
+            PaletteBackStyle.ContextMenuSeparator or PaletteBackStyle.ContextMenuItemSplit => state switch
+            {
+                PaletteState.Tracking => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color3),
+                _ => _contextMenuBack
+            },
+            PaletteBackStyle.ContextMenuInner => _contextMenuBack,
+            PaletteBackStyle.ContextMenuHeading => BaseColors.ContextMenuHeadingBack,
+            PaletteBackStyle.ContextMenuItemImageColumn => BaseColors.ContextMenuImageColumn,
+            PaletteBackStyle.ContextMenuItemImage => _contextMenuImageBackChecked,
+            PaletteBackStyle.ButtonForm => state switch
+            {
+                PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => Color.Empty,
+                PaletteState.CheckedNormal => BaseColors.FormButtonBack1Checked,
+                PaletteState.Tracking => BaseColors.FormButtonBack1Track,
+                PaletteState.CheckedTracking => BaseColors.FormButtonBack1CheckTrack,
+                PaletteState.Pressed or PaletteState.CheckedPressed => BaseColors.FormButtonBack1Pressed,
+                _ => throw DebugTools.NotImplemented(state.ToString())
+            },
+            PaletteBackStyle.ButtonFormClose => state switch
+            {
+                PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => Color.Empty,
+                PaletteState.CheckedNormal => _formCloseChecked1,
+                PaletteState.Tracking => _formCloseTracking1,
+                PaletteState.CheckedTracking => _formCloseCheckedTracking1,
+                PaletteState.Pressed or PaletteState.CheckedPressed => _formClosePressed1,
+                _ => throw DebugTools.NotImplemented(state.ToString())
+            },
+            PaletteBackStyle.ButtonStandalone or PaletteBackStyle.ButtonGallery or PaletteBackStyle.ButtonAlternate
+                or PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb
+                or PaletteBackStyle.ButtonListItem or PaletteBackStyle.ButtonCommand
+                or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ButtonCalendarDay
+                or PaletteBackStyle.ButtonCluster or PaletteBackStyle.ButtonCustom1 or PaletteBackStyle.ButtonCustom2
+                or PaletteBackStyle.ButtonCustom3 or PaletteBackStyle.ButtonInputControl
+                or PaletteBackStyle.ContextMenuItemHighlight => state switch
                 {
-                    PaletteState.Tracking => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color3),
-                    _ => _contextMenuBack
-                };
-            case PaletteBackStyle.ContextMenuInner:
-                return _contextMenuBack;
-            case PaletteBackStyle.ContextMenuHeading:
-                return BaseColors.ContextMenuHeadingBack;
-            case PaletteBackStyle.ContextMenuItemImageColumn:
-                return BaseColors.ContextMenuImageColumn;
-            case PaletteBackStyle.ContextMenuItemImage:
-                return _contextMenuImageBackChecked;
-            case PaletteBackStyle.ButtonForm:
-                return state switch
-                {
-                    PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => Color
-                        .Empty,
-                    PaletteState.CheckedNormal => BaseColors.FormButtonBack1Checked,
-                    PaletteState.Tracking => BaseColors.FormButtonBack1Track,
-                    PaletteState.CheckedTracking => BaseColors.FormButtonBack1CheckTrack,
-                    PaletteState.Pressed or PaletteState.CheckedPressed => BaseColors.FormButtonBack1Pressed,
-                    _ => throw DebugTools.NotImplemented(state.ToString())
-                };
-            case PaletteBackStyle.ButtonFormClose:
-                return state switch
-                {
-                    PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => Color
-                        .Empty,
-                    PaletteState.CheckedNormal => _formCloseChecked1,
-                    PaletteState.Tracking => _formCloseTracking1,
-                    PaletteState.CheckedTracking => _formCloseCheckedTracking1,
-                    PaletteState.Pressed or PaletteState.CheckedPressed => _formClosePressed1,
-                    _ => throw DebugTools.NotImplemented(state.ToString())
-                };
-            case PaletteBackStyle.ButtonStandalone:
-            case PaletteBackStyle.ButtonGallery:
-            case PaletteBackStyle.ButtonAlternate:
-            case PaletteBackStyle.ButtonLowProfile:
-            case PaletteBackStyle.ButtonBreadCrumb:
-            case PaletteBackStyle.ButtonListItem:
-            case PaletteBackStyle.ButtonCommand:
-            case PaletteBackStyle.ButtonButtonSpec:
-            case PaletteBackStyle.ButtonCalendarDay:
-            case PaletteBackStyle.ButtonCluster:
-            case PaletteBackStyle.ButtonCustom1:
-            case PaletteBackStyle.ButtonCustom2:
-            case PaletteBackStyle.ButtonCustom3:
-            case PaletteBackStyle.ButtonInputControl:
-            case PaletteBackStyle.ContextMenuItemHighlight:
-                return state switch
-                {
-                    PaletteState.Disabled => style == PaletteBackStyle.ButtonGallery ? BaseColors.RibbonGalleryBack1 : _disabledBack,
+                    PaletteState.Disabled => style == PaletteBackStyle.ButtonGallery
+                        ? BaseColors.RibbonGalleryBack1
+                        : _disabledBack,
                     PaletteState.Normal => BaseColors.ButtonNormalBack1,
                     PaletteState.NormalDefaultOverride => BaseColors.ButtonNormalDefaultBack1,
                     PaletteState.CheckedNormal => style == PaletteBackStyle.ButtonInputControl
                         ? BaseColors.ButtonNormalBack1
                         : GetArrayColor<ButtonBackColor>(ButtonBackColor.Color7),
                     PaletteState.Tracking => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color3),
-                    PaletteState.Pressed or PaletteState.CheckedPressed => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5),
+                    PaletteState.Pressed or PaletteState.CheckedPressed => GetArrayColor<ButtonBackColor>(
+                        ButtonBackColor.Color5),
                     PaletteState.CheckedTracking => style == PaletteBackStyle.ButtonInputControl
                         ? BaseColors.ButtonNormalBack1
                         : GetArrayColor<ButtonBackColor>(ButtonBackColor.Color9),
                     _ => throw DebugTools.NotImplemented(state.ToString())
-                };
-            case PaletteBackStyle.ButtonNavigatorStack:
-            case PaletteBackStyle.ButtonNavigatorOverflow:
-            case PaletteBackStyle.ButtonNavigatorMini:
-                return state switch
+                },
+            PaletteBackStyle.ButtonNavigatorStack or PaletteBackStyle.ButtonNavigatorOverflow
+                or PaletteBackStyle.ButtonNavigatorMini => state switch
                 {
                     PaletteState.Disabled => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color2),
                     PaletteState.Tracking => BaseColors.ButtonNavigatorTrack1,
                     PaletteState.Pressed => BaseColors.ButtonNavigatorPressed1,
-                    PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => BaseColors.ButtonNavigatorChecked1,
+                    PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed =>
+                        BaseColors.ButtonNavigatorChecked1,
                     _ => BaseColors.ButtonNormalNavigatorBack1
-                };
-            default:
-                throw DebugTools.NotImplemented(style.ToString());
-        }
+                },
+            _ => throw DebugTools.NotImplemented(style.ToString())
+        };
     }
 
     /// <summary>
@@ -690,259 +620,208 @@ public abstract class PaletteMicrosoft365SilverDarkModeBase : PaletteBase
             return GlobalStaticVariables.EMPTY_COLOR;
         }
 
-        switch (style)
+        return style switch
         {
-            case PaletteBackStyle.GridHeaderColumnList:
-            case PaletteBackStyle.GridHeaderColumnCustom1:
-            case PaletteBackStyle.GridHeaderColumnCustom2:
-            case PaletteBackStyle.GridHeaderColumnCustom3:
-            case PaletteBackStyle.GridHeaderRowList:
-            case PaletteBackStyle.GridHeaderRowCustom1:
-            case PaletteBackStyle.GridHeaderRowCustom2:
-            case PaletteBackStyle.GridHeaderRowCustom3:
-                return state switch
+            PaletteBackStyle.GridHeaderColumnList or PaletteBackStyle.GridHeaderColumnCustom1
+                or PaletteBackStyle.GridHeaderColumnCustom2 or PaletteBackStyle.GridHeaderColumnCustom3
+                or PaletteBackStyle.GridHeaderRowList or PaletteBackStyle.GridHeaderRowCustom1
+                or PaletteBackStyle.GridHeaderRowCustom2 or PaletteBackStyle.GridHeaderRowCustom3 => state switch
                 {
                     PaletteState.Disabled => _disabledBack,
                     PaletteState.Pressed => BaseColors.GridListPressed2,
                     PaletteState.CheckedNormal => BaseColors.GridListSelected,
                     _ => BaseColors.GridListNormal2
-                };
-            case PaletteBackStyle.GridHeaderColumnSheet:
-                return state switch
+                },
+            PaletteBackStyle.GridHeaderColumnSheet => state switch
+            {
+                PaletteState.Disabled => _disabledBack,
+                PaletteState.Tracking or PaletteState.Pressed => BaseColors.GridSheetColPressed2,
+                PaletteState.CheckedNormal => BaseColors.GridSheetColSelected2,
+                _ => BaseColors.GridSheetColNormal2
+            },
+            PaletteBackStyle.GridHeaderRowSheet => state switch
+            {
+                PaletteState.Disabled => _disabledBack,
+                PaletteState.Tracking or PaletteState.Pressed => BaseColors.GridSheetRowPressed,
+                PaletteState.CheckedNormal => BaseColors.GridSheetRowSelected,
+                _ => BaseColors.GridSheetRowNormal
+            },
+            PaletteBackStyle.GridDataCellList or PaletteBackStyle.GridDataCellCustom1
+                or PaletteBackStyle.GridDataCellCustom2
+                or PaletteBackStyle.GridDataCellCustom3 => state == PaletteState.CheckedNormal
+                    ? BaseColors.GridDataCellSelected
+                    : BaseColors.PanelAlternative,
+            PaletteBackStyle.GridDataCellSheet => state == PaletteState.CheckedNormal
+                ? GetArrayColor<ButtonBackColor>(ButtonBackColor.Color8)
+                : BaseColors.PanelAlternative,
+            PaletteBackStyle.TabHighProfile or PaletteBackStyle.TabStandardProfile or PaletteBackStyle.TabLowProfile
+                or PaletteBackStyle.TabOneNote or PaletteBackStyle.TabCustom1 or PaletteBackStyle.TabCustom2
+                or PaletteBackStyle.TabCustom3 => state switch
                 {
-                    PaletteState.Disabled => _disabledBack,
-                    PaletteState.Tracking or PaletteState.Pressed => BaseColors.GridSheetColPressed2,
-                    PaletteState.CheckedNormal => BaseColors.GridSheetColSelected2,
-                    _ => BaseColors.GridSheetColNormal2
-                };
-            case PaletteBackStyle.GridHeaderRowSheet:
-                return state switch
-                {
-                    PaletteState.Disabled => _disabledBack,
-                    PaletteState.Tracking or PaletteState.Pressed => BaseColors.GridSheetRowPressed,
-                    PaletteState.CheckedNormal => BaseColors.GridSheetRowSelected,
-                    _ => BaseColors.GridSheetRowNormal
-                };
-            case PaletteBackStyle.GridDataCellList:
-            case PaletteBackStyle.GridDataCellCustom1:
-            case PaletteBackStyle.GridDataCellCustom2:
-            case PaletteBackStyle.GridDataCellCustom3:
-                return state == PaletteState.CheckedNormal ? BaseColors.GridDataCellSelected : BaseColors.PanelAlternative;
-
-            case PaletteBackStyle.GridDataCellSheet:
-                return state == PaletteState.CheckedNormal ? GetArrayColor<ButtonBackColor>(ButtonBackColor.Color8) : BaseColors.PanelAlternative;
-
-            case PaletteBackStyle.TabHighProfile:
-            case PaletteBackStyle.TabStandardProfile:
-            case PaletteBackStyle.TabLowProfile:
-            case PaletteBackStyle.TabOneNote:
-            case PaletteBackStyle.TabCustom1:
-            case PaletteBackStyle.TabCustom2:
-            case PaletteBackStyle.TabCustom3:
-                return state switch
-                {
-                    PaletteState.Disabled => style == PaletteBackStyle.TabLowProfile ? GlobalStaticVariables.EMPTY_COLOR : _disabledBack,
-                    PaletteState.Normal => style == PaletteBackStyle.TabLowProfile ? GlobalStaticVariables.EMPTY_COLOR : BaseColors.ButtonNormalBack2,
-                    PaletteState.Tracking or PaletteState.Pressed => style == PaletteBackStyle.TabLowProfile ? GlobalStaticVariables.EMPTY_COLOR : SystemColors.Window,
-                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => SystemColors.Window,
+                    PaletteState.Disabled => style == PaletteBackStyle.TabLowProfile
+                        ? GlobalStaticVariables.EMPTY_COLOR
+                        : _disabledBack,
+                    PaletteState.Normal => style == PaletteBackStyle.TabLowProfile
+                        ? GlobalStaticVariables.EMPTY_COLOR
+                        : BaseColors.ButtonNormalBack2,
+                    PaletteState.Tracking or PaletteState.Pressed => style == PaletteBackStyle.TabLowProfile
+                        ? GlobalStaticVariables.EMPTY_COLOR
+                        : SystemColors.Window,
+                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking =>
+                        SystemColors.Window,
                     _ => throw DebugTools.NotImplemented(state.ToString())
-                };
-            case PaletteBackStyle.TabDock:
-                return state switch
-                {
-                    PaletteState.Disabled => _disabledBack,
-                    PaletteState.Normal => BaseColors.HeaderDockInactiveBack1,
-                    PaletteState.Tracking or PaletteState.Pressed => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5),
-                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => SystemColors.Window,
-                    _ => throw DebugTools.NotImplemented(state.ToString())
-                };
-            case PaletteBackStyle.TabDockAutoHidden:
-                return state switch
-                {
-                    PaletteState.Disabled => _disabledBack,
-                    PaletteState.Normal or PaletteState.CheckedNormal => BaseColors.HeaderDockInactiveBack1,
-                    PaletteState.Tracking or PaletteState.CheckedTracking or PaletteState.Pressed or PaletteState.CheckedPressed => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5),
-                    _ => throw DebugTools.NotImplemented(state.ToString())
-                };
-            case PaletteBackStyle.HeaderForm:
-                return state == PaletteState.Disabled
-                    ? BaseColors.FormBorderHeaderInactive2
-                    : BaseColors.FormBorderHeaderActive2;
-
-            case PaletteBackStyle.HeaderCalendar:
-                return state == PaletteState.Disabled
-                    ? BaseColors.HeaderPrimaryBack1
-                    : BaseColors.HeaderPrimaryBack2;
-
-            case PaletteBackStyle.HeaderPrimary:
-            case PaletteBackStyle.HeaderCustom1:
-            case PaletteBackStyle.HeaderCustom2:
-            case PaletteBackStyle.HeaderCustom3:
-                return state == PaletteState.Disabled ? _disabledBack : BaseColors.HeaderPrimaryBack2;
-
-            case PaletteBackStyle.HeaderDockInactive:
-                return state == PaletteState.Disabled ? _disabledBack : BaseColors.HeaderDockInactiveBack2;
-
-            case PaletteBackStyle.HeaderDockActive:
-                return state == PaletteState.Disabled ? _disabledBack : GetArrayColor<ButtonBackColor>(ButtonBackColor.Color8);
-
-            case PaletteBackStyle.HeaderSecondary:
-                return state == PaletteState.Disabled ? _disabledBack : BaseColors.HeaderSecondaryBack2;
-
-            case PaletteBackStyle.SeparatorHighInternalProfile:
-                return state == PaletteState.Disabled ? _disabledBack : BaseColors.SeparatorHighInternalBorder2;
-
-            case PaletteBackStyle.SeparatorHighProfile:
-                return state == PaletteState.Disabled ? _disabledBack : BaseColors.SeparatorHighBorder2;
-
-            case PaletteBackStyle.SeparatorLowProfile:
-            case PaletteBackStyle.SeparatorCustom1:
-            case PaletteBackStyle.SeparatorCustom2:
-            case PaletteBackStyle.SeparatorCustom3:
-            case PaletteBackStyle.PanelClient:
-                // Note: Alter these to control the backgrounds
-                return state == PaletteState.Disabled
+                },
+            PaletteBackStyle.TabDock => state switch
+            {
+                PaletteState.Disabled => _disabledBack,
+                PaletteState.Normal => BaseColors.HeaderDockInactiveBack1,
+                PaletteState.Tracking or PaletteState.Pressed => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5),
+                PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking =>
+                    SystemColors.Window,
+                _ => throw DebugTools.NotImplemented(state.ToString())
+            },
+            PaletteBackStyle.TabDockAutoHidden => state switch
+            {
+                PaletteState.Disabled => _disabledBack,
+                PaletteState.Normal or PaletteState.CheckedNormal => BaseColors.HeaderDockInactiveBack1,
+                PaletteState.Tracking or PaletteState.CheckedTracking or PaletteState.Pressed
+                    or PaletteState.CheckedPressed => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5),
+                _ => throw DebugTools.NotImplemented(state.ToString())
+            },
+            PaletteBackStyle.HeaderForm => state == PaletteState.Disabled
+                ? BaseColors.FormBorderHeaderInactive2
+                : BaseColors.FormBorderHeaderActive2,
+            PaletteBackStyle.HeaderCalendar => state == PaletteState.Disabled
+                ? BaseColors.HeaderPrimaryBack1
+                : BaseColors.HeaderPrimaryBack2,
+            PaletteBackStyle.HeaderPrimary or PaletteBackStyle.HeaderCustom1 or PaletteBackStyle.HeaderCustom2
+                or PaletteBackStyle.HeaderCustom3 => state == PaletteState.Disabled
                     ? _disabledBack
-                    : BaseColors.PanelClient;
-            case PaletteBackStyle.PanelCustom1:
-            case PaletteBackStyle.PanelCustom2:
-            case PaletteBackStyle.PanelCustom3:
-            case PaletteBackStyle.ControlGroupBox:
-            case PaletteBackStyle.GridBackgroundList:
-            case PaletteBackStyle.GridBackgroundSheet:
-            case PaletteBackStyle.GridBackgroundCustom1:
-            case PaletteBackStyle.GridBackgroundCustom2:
-            case PaletteBackStyle.GridBackgroundCustom3:
-                return BaseColors.PanelClient;
-            case PaletteBackStyle.PanelAlternate:
+                    : BaseColors.HeaderPrimaryBack2,
+            PaletteBackStyle.HeaderDockInactive => state == PaletteState.Disabled
+                ? _disabledBack
+                : BaseColors.HeaderDockInactiveBack2,
+            PaletteBackStyle.HeaderDockActive => state == PaletteState.Disabled
+                ? _disabledBack
+                : GetArrayColor<ButtonBackColor>(ButtonBackColor.Color8),
+            PaletteBackStyle.HeaderSecondary => state == PaletteState.Disabled
+                ? _disabledBack
+                : BaseColors.HeaderSecondaryBack2,
+            PaletteBackStyle.SeparatorHighInternalProfile => state == PaletteState.Disabled
+                ? _disabledBack
+                : BaseColors.SeparatorHighInternalBorder2,
+            PaletteBackStyle.SeparatorHighProfile => state == PaletteState.Disabled
+                ? _disabledBack
+                : BaseColors.SeparatorHighBorder2,
+            PaletteBackStyle.SeparatorLowProfile or PaletteBackStyle.SeparatorCustom1
+                or PaletteBackStyle.SeparatorCustom2 or PaletteBackStyle.SeparatorCustom3
+                or PaletteBackStyle.PanelClient =>
                 // Note: Alter these to control the backgrounds
-                return state == PaletteState.Disabled
-                    ? _disabledBack
-                    : BaseColors.PanelAlternative;
-            case PaletteBackStyle.PanelRibbonInactive:
-                return BaseColors.FormBorderInactiveDark;
-            case PaletteBackStyle.FormMain:
-            case PaletteBackStyle.FormCustom1:
-            case PaletteBackStyle.FormCustom2:
-            case PaletteBackStyle.FormCustom3:
-                return state == PaletteState.Disabled
+                state == PaletteState.Disabled ? _disabledBack : BaseColors.PanelClient,
+            PaletteBackStyle.PanelCustom1 or PaletteBackStyle.PanelCustom2 or PaletteBackStyle.PanelCustom3
+                or PaletteBackStyle.ControlGroupBox or PaletteBackStyle.GridBackgroundList
+                or PaletteBackStyle.GridBackgroundSheet or PaletteBackStyle.GridBackgroundCustom1
+                or PaletteBackStyle.GridBackgroundCustom2
+                or PaletteBackStyle.GridBackgroundCustom3 => BaseColors.PanelClient,
+            PaletteBackStyle.PanelAlternate =>
+                // Note: Alter these to control the backgrounds
+                state == PaletteState.Disabled ? _disabledBack : BaseColors.PanelAlternative,
+            PaletteBackStyle.PanelRibbonInactive => BaseColors.FormBorderInactiveDark,
+            PaletteBackStyle.FormMain or PaletteBackStyle.FormCustom1 or PaletteBackStyle.FormCustom2
+                or PaletteBackStyle.FormCustom3 => state == PaletteState.Disabled
                     ? BaseColors.FormBorderInactiveDark
-                    : BaseColors.FormBorderActiveDark;
-            case PaletteBackStyle.Control:
-            case PaletteBackStyle.ControlClient:
+                    : BaseColors.FormBorderActiveDark,
+            PaletteBackStyle.Control or PaletteBackStyle.ControlClient =>
                 // Note: Alter these to control the backgrounds
-                return state == PaletteState.Disabled
-                    ? _disabledBack
-                    : BaseColors.PanelClient;
-            case PaletteBackStyle.ControlAlternate:
+                state == PaletteState.Disabled ? _disabledBack : BaseColors.PanelClient,
+            PaletteBackStyle.ControlAlternate =>
                 // Note: Alter these to control the backgrounds
-                return state == PaletteState.Disabled
-                    ? _disabledBack
-                    : BaseColors.PanelAlternative;
-            case PaletteBackStyle.ControlCustom1:
-            case PaletteBackStyle.ControlCustom2:
-            case PaletteBackStyle.ControlCustom3:
+                state == PaletteState.Disabled ? _disabledBack : BaseColors.PanelAlternative,
+            PaletteBackStyle.ControlCustom1 or PaletteBackStyle.ControlCustom2 or PaletteBackStyle.ControlCustom3 =>
                 // Note: This controls the input control dropdown background
-                return BaseColors.PanelClient;
-            case PaletteBackStyle.InputControlStandalone:
-            case PaletteBackStyle.InputControlRibbon:
-            case PaletteBackStyle.InputControlCustom1:
-            case PaletteBackStyle.InputControlCustom2:
-            case PaletteBackStyle.InputControlCustom3:
-                return state == PaletteState.Disabled
-                    ? BaseColors.InputControlBackDisabled
+                BaseColors.PanelClient,
+            PaletteBackStyle.InputControlStandalone or PaletteBackStyle.InputControlRibbon
+                or PaletteBackStyle.InputControlCustom1 or PaletteBackStyle.InputControlCustom2
+                or PaletteBackStyle.InputControlCustom3 => state == PaletteState.Disabled
+                    ?
+                    BaseColors.InputControlBackDisabled
                     : (state == PaletteState.Tracking) || (style == PaletteBackStyle.InputControlStandalone)
                         ? BaseColors.InputControlBackNormal
-                        : BaseColors.InputControlBackInactive;
-            case PaletteBackStyle.ControlRibbon:
-                return BaseColors.RibbonTabSelected4;
-            case PaletteBackStyle.ControlRibbonAppMenu:
-                return BaseColors.AppButtonBack2;
-            case PaletteBackStyle.ControlToolTip:
-                return _toolTipBack2;
-            case PaletteBackStyle.ContextMenuOuter:
-                return _contextMenuBack;
-            case PaletteBackStyle.ContextMenuSeparator:
-            case PaletteBackStyle.ContextMenuItemSplit:
-                return state switch
+                        : BaseColors.InputControlBackInactive,
+            PaletteBackStyle.ControlRibbon => BaseColors.RibbonTabSelected4,
+            PaletteBackStyle.ControlRibbonAppMenu => BaseColors.AppButtonBack2,
+            PaletteBackStyle.ControlToolTip => _toolTipBack2,
+            PaletteBackStyle.ContextMenuOuter => _contextMenuBack,
+            PaletteBackStyle.ContextMenuSeparator or PaletteBackStyle.ContextMenuItemSplit => state switch
+            {
+                PaletteState.Tracking => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color4),
+                _ => _contextMenuBack
+            },
+            PaletteBackStyle.ContextMenuInner => _contextMenuBack,
+            PaletteBackStyle.ContextMenuHeading => BaseColors.ContextMenuHeadingBack,
+            PaletteBackStyle.ContextMenuItemImageColumn => BaseColors.ContextMenuImageColumn,
+            PaletteBackStyle.ContextMenuItemImage => _contextMenuImageBackChecked,
+            PaletteBackStyle.ButtonForm => state switch
+            {
+                PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride =>
+                    GlobalStaticVariables.EMPTY_COLOR,
+                PaletteState.CheckedNormal => BaseColors.FormButtonBack2Checked,
+                PaletteState.Tracking => BaseColors.FormButtonBack2Track,
+                PaletteState.CheckedTracking => BaseColors.FormButtonBack2CheckTrack,
+                PaletteState.Pressed or PaletteState.CheckedPressed => BaseColors.FormButtonBack2Pressed,
+                _ => throw DebugTools.NotImplemented(state.ToString())
+            },
+            PaletteBackStyle.ButtonFormClose => state switch
+            {
+                PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride =>
+                    GlobalStaticVariables.EMPTY_COLOR,
+                PaletteState.CheckedNormal => _formCloseChecked2,
+                PaletteState.Tracking => _formCloseTracking2,
+                PaletteState.CheckedTracking => _formCloseCheckedTracking2,
+                PaletteState.Pressed or PaletteState.CheckedPressed => _formClosePressed2,
+                _ => throw DebugTools.NotImplemented(state.ToString())
+            },
+            PaletteBackStyle.ButtonStandalone or PaletteBackStyle.ButtonGallery or PaletteBackStyle.ButtonAlternate
+                or PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb
+                or PaletteBackStyle.ButtonListItem or PaletteBackStyle.ButtonCommand
+                or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ButtonCalendarDay
+                or PaletteBackStyle.ButtonCluster or PaletteBackStyle.ButtonCustom1 or PaletteBackStyle.ButtonCustom2
+                or PaletteBackStyle.ButtonCustom3 or PaletteBackStyle.ButtonInputControl
+                or PaletteBackStyle.ContextMenuItemHighlight => state switch
                 {
-                    PaletteState.Tracking => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color4),
-                    _ => _contextMenuBack
-                };
-            case PaletteBackStyle.ContextMenuInner:
-                return _contextMenuBack;
-            case PaletteBackStyle.ContextMenuHeading:
-                return BaseColors.ContextMenuHeadingBack;
-            case PaletteBackStyle.ContextMenuItemImageColumn:
-                return BaseColors.ContextMenuImageColumn;
-            case PaletteBackStyle.ContextMenuItemImage:
-                return _contextMenuImageBackChecked;
-            case PaletteBackStyle.ButtonForm:
-                return state switch
-                {
-                    PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => GlobalStaticVariables.EMPTY_COLOR,
-                    PaletteState.CheckedNormal => BaseColors.FormButtonBack2Checked,
-                    PaletteState.Tracking => BaseColors.FormButtonBack2Track,
-                    PaletteState.CheckedTracking => BaseColors.FormButtonBack2CheckTrack,
-                    PaletteState.Pressed or PaletteState.CheckedPressed => BaseColors.FormButtonBack2Pressed,
-                    _ => throw DebugTools.NotImplemented(state.ToString())
-                };
-            case PaletteBackStyle.ButtonFormClose:
-                return state switch
-                {
-                    PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => GlobalStaticVariables.EMPTY_COLOR,
-                    PaletteState.CheckedNormal => _formCloseChecked2,
-                    PaletteState.Tracking => _formCloseTracking2,
-                    PaletteState.CheckedTracking => _formCloseCheckedTracking2,
-                    PaletteState.Pressed or PaletteState.CheckedPressed => _formClosePressed2,
-                    _ => throw DebugTools.NotImplemented(state.ToString())
-                };
-            case PaletteBackStyle.ButtonStandalone:
-            case PaletteBackStyle.ButtonGallery:
-            case PaletteBackStyle.ButtonAlternate:
-            case PaletteBackStyle.ButtonLowProfile:
-            case PaletteBackStyle.ButtonBreadCrumb:
-            case PaletteBackStyle.ButtonListItem:
-            case PaletteBackStyle.ButtonCommand:
-            case PaletteBackStyle.ButtonButtonSpec:
-            case PaletteBackStyle.ButtonCalendarDay:
-            case PaletteBackStyle.ButtonCluster:
-            case PaletteBackStyle.ButtonCustom1:
-            case PaletteBackStyle.ButtonCustom2:
-            case PaletteBackStyle.ButtonCustom3:
-            case PaletteBackStyle.ButtonInputControl:
-            case PaletteBackStyle.ContextMenuItemHighlight:
-                return state switch
-                {
-                    PaletteState.Disabled => style == PaletteBackStyle.ButtonGallery ? BaseColors.RibbonGalleryBack1 : GetArrayColor<ButtonBackColor>(ButtonBackColor.Color2),
+                    PaletteState.Disabled => style == PaletteBackStyle.ButtonGallery
+                        ? BaseColors.RibbonGalleryBack1
+                        : GetArrayColor<ButtonBackColor>(ButtonBackColor.Color2),
                     PaletteState.Normal => BaseColors.ButtonNormalBack2,
-                    PaletteState.NormalDefaultOverride => style is PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ContextMenuItemHighlight
+                    PaletteState.NormalDefaultOverride => style is PaletteBackStyle.ButtonLowProfile
+                        or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem
+                        or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec
+                        or PaletteBackStyle.ContextMenuItemHighlight
                         ? GlobalStaticVariables.EMPTY_COLOR
                         : BaseColors.ButtonNormalDefaultBack2,
                     PaletteState.CheckedNormal => style == PaletteBackStyle.ButtonInputControl
                         ? BaseColors.ButtonNormalBack2
                         : GetArrayColor<ButtonBackColor>(ButtonBackColor.Color8),
                     PaletteState.Tracking => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color4),
-                    PaletteState.Pressed or PaletteState.CheckedPressed => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color6),
+                    PaletteState.Pressed or PaletteState.CheckedPressed => GetArrayColor<ButtonBackColor>(
+                        ButtonBackColor.Color6),
                     PaletteState.CheckedTracking => style == PaletteBackStyle.ButtonInputControl
                         ? BaseColors.ButtonNormalBack1
                         : GetArrayColor<ButtonBackColor>(ButtonBackColor.Color10),
                     _ => throw DebugTools.NotImplemented(state.ToString())
-                };
-            case PaletteBackStyle.ButtonNavigatorStack:
-            case PaletteBackStyle.ButtonNavigatorOverflow:
-            case PaletteBackStyle.ButtonNavigatorMini:
-                return state switch
+                },
+            PaletteBackStyle.ButtonNavigatorStack or PaletteBackStyle.ButtonNavigatorOverflow
+                or PaletteBackStyle.ButtonNavigatorMini => state switch
                 {
                     PaletteState.Disabled => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color2),
                     PaletteState.Tracking => BaseColors.ButtonNavigatorTrack2,
                     PaletteState.Pressed => BaseColors.ButtonNavigatorPressed2,
-                    PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => BaseColors.ButtonNavigatorChecked2,
+                    PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed =>
+                        BaseColors.ButtonNavigatorChecked2,
                     _ => BaseColors.ButtonNormalNavigatorBack2
-                };
-            default:
-                throw DebugTools.NotImplemented(style.ToString());
-        }
+                },
+            _ => throw DebugTools.NotImplemented(style.ToString())
+        };
     }
 
     /// <summary>

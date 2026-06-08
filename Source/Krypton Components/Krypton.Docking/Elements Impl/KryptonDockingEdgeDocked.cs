@@ -382,22 +382,18 @@ public class KryptonDockingEdgeDocked : DockingElementClosedCollection
         }
 
         // Allow movement rectangle to extend inwards according to inner rectangle and outwards according to dockspace size
-        var retRect = Rectangle.Empty;
-        switch (Edge)
+        var retRect = Edge switch
         {
-            case DockingEdge.Left:
-                retRect = new Rectangle(moveRect.X - reduceWidth, moveRect.Y, moveRect.Width + reduceWidth + expandWidth, moveRect.Height);
-                break;
-            case DockingEdge.Right:
-                retRect = new Rectangle(moveRect.X - expandWidth, moveRect.Y, moveRect.Width + reduceWidth + expandWidth, moveRect.Height);
-                break;
-            case DockingEdge.Top:
-                retRect = new Rectangle(moveRect.X, moveRect.Y - reduceHeight, moveRect.Width, moveRect.Height + reduceHeight + expandHeight);
-                break;
-            case DockingEdge.Bottom:
-                retRect = new Rectangle(moveRect.X, moveRect.Y - expandHeight, moveRect.Width, moveRect.Height + reduceHeight + expandHeight);
-                break;
-        }
+            DockingEdge.Left => new Rectangle(moveRect.X - reduceWidth, moveRect.Y,
+                moveRect.Width + reduceWidth + expandWidth, moveRect.Height),
+            DockingEdge.Right => new Rectangle(moveRect.X - expandWidth, moveRect.Y,
+                moveRect.Width + reduceWidth + expandWidth, moveRect.Height),
+            DockingEdge.Top => new Rectangle(moveRect.X, moveRect.Y - reduceHeight, moveRect.Width,
+                moveRect.Height + reduceHeight + expandHeight),
+            DockingEdge.Bottom => new Rectangle(moveRect.X, moveRect.Y - expandHeight, moveRect.Width,
+                moveRect.Height + reduceHeight + expandHeight),
+            _ => Rectangle.Empty
+        };
 
         // We do not allow negative width/height
         retRect.Width = Math.Max(retRect.Width, 0);
