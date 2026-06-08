@@ -2509,9 +2509,7 @@ public class KryptonTreeView : VisualControlBase,
         if (e.Cancel && !_isRecreating)
         {
             _pendingMultiSelectToggle = null;
-
-            _selectUpdateCount--;
-            _treeView.EndUpdate();
+            EndSelectUpdateBatches();
         }
     }
 
@@ -2536,13 +2534,23 @@ public class KryptonTreeView : VisualControlBase,
         }
         finally
         {
-            if (!_isRecreating && _selectUpdateCount > 0)
-            {
-                _selectUpdateCount--;
-                _treeView.EndUpdate();
-            }
-
+            EndSelectUpdateBatches();
             _pendingMultiSelectToggle = null;
+        }
+    }
+
+    /// <summary>
+    /// Pairs every outstanding <see cref="TreeView.BeginUpdate"/> from selection batching with
+    /// <see cref="TreeView.EndUpdate"/>. Programmatic deselect-to-null can leave an extra
+    /// <c>BeforeSelect</c> without a matching <c>AfterSelect</c>; draining here avoids a stuck
+    /// <c>WM_SETREDRAW(FALSE)</c> that blanks the control (#3720).
+    /// </summary>
+    private void EndSelectUpdateBatches()
+    {
+        while (!_isRecreating && _selectUpdateCount > 0)
+        {
+            _selectUpdateCount--;
+            _treeView.EndUpdate();
         }
     }
 
