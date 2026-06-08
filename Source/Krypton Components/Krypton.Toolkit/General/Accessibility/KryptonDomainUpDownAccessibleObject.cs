@@ -130,6 +130,25 @@ internal class KryptonDomainUpDownAccessibleObject : Control.ControlAccessibleOb
             // Fall back to control's text
             return _owner.Text;
         }
+
+        set
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            for (int i = 0; i < _owner.Items.Count; i++)
+            {
+                if (string.Equals(Convert.ToString(_owner.Items[i]), value, StringComparison.CurrentCulture))
+                {
+                    _owner.SelectedIndex = i;
+                    return;
+                }
+            }
+
+            _owner.Text = value;
+        }
     }
 
     /// <summary>

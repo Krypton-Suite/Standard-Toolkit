@@ -27,7 +27,7 @@ public sealed class PaletteMacOSLight_BaseScheme : KryptonColorSchemeBase
     public override Color ButtonNormalNavigatorBack2 { get; set; } = Color.FromArgb(242, 242, 247);
     public override Color PanelClient { get; set; } = Color.FromArgb(245, 245, 247);
     public override Color PanelAlternative { get; set; } = Color.FromArgb(242, 242, 247);
-    public override Color ControlBorder { get; set; } = Color.FromArgb(198, 198, 200);
+    public override Color ControlBorder { get; set; } = Color.FromArgb(174, 174, 178);
     public override Color SeparatorHighBorder1 { get; set; } = Color.FromArgb(245, 245, 247);
     public override Color SeparatorHighBorder2 { get; set; } = Color.FromArgb(229, 229, 234);
     public override Color HeaderPrimaryBack1 { get; set; } = Color.FromArgb(245, 245, 247);
@@ -179,9 +179,9 @@ public sealed class PaletteMacOSLight_BaseScheme : KryptonColorSchemeBase
     public override Color NavigatorMiniBackColor { get; set; } = Color.FromArgb(229, 229, 234);
     public override Color GridListNormal1 { get; set; } = Color.FromArgb(245, 245, 247);
     public override Color GridListNormal2 { get; set; } = Color.FromArgb(242, 242, 247);
-    public override Color GridListPressed1 { get; set; } = Color.FromArgb(242, 242, 247);
-    public override Color GridListPressed2 { get; set; } = Color.FromArgb(252, 253, 255);
-    public override Color GridListSelected { get; set; } = Color.FromArgb(179, 212, 255);
+    public override Color GridListPressed1 { get; set; } = Color.FromArgb(0, 122, 255);
+    public override Color GridListPressed2 { get; set; } = Color.FromArgb(10, 132, 255);
+    public override Color GridListSelected { get; set; } = Color.FromArgb(0, 122, 255);
     public override Color GridSheetColNormal1 { get; set; } = Color.FromArgb(245, 245, 247);
     public override Color GridSheetColNormal2 { get; set; } = Color.FromArgb(242, 242, 247);
     public override Color GridSheetColPressed1 { get; set; } = Color.FromArgb(223, 226, 228);
@@ -192,7 +192,7 @@ public sealed class PaletteMacOSLight_BaseScheme : KryptonColorSchemeBase
     public override Color GridSheetRowPressed { get; set; } = Color.FromArgb(187, 196, 209);
     public override Color GridSheetRowSelected { get; set; } = Color.FromArgb(255, 213, 141);
     public override Color GridDataCellBorder { get; set; } = Color.FromArgb(188, 195, 209);
-    public override Color GridDataCellSelected { get; set; } = Color.FromArgb(179, 212, 255);
+    public override Color GridDataCellSelected { get; set; } = Color.FromArgb(0, 122, 255);
     public override Color InputControlTextNormal { get; set; } = Color.FromArgb(29, 29, 31);
     public override Color InputControlTextDisabled { get; set; } = Color.FromArgb(77, 77, 77);
     public override Color InputControlBorderNormal { get; set; } = Color.FromArgb(198, 198, 200);

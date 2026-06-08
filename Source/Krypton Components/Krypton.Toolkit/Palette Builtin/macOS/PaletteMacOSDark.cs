@@ -30,7 +30,7 @@ public class PaletteMacOSDark : PaletteMacOSBase
         };
 
         var scheme = new PaletteMacOSDark_BaseScheme();
-        var darkPalette = MaterialSelectionGlyphFactory.FromScheme(scheme, isDarkSurface: true);
+        var darkPalette = MaterialSelectionGlyphFactory.FromMacOSScheme(scheme);
 
         var cbStrip = MaterialSelectionGlyphFactory.CreateCheckBoxStrip(darkPalette, _checkBoxList.ImageSize);
         for (int i = 0; i < cbStrip.Length; i++)

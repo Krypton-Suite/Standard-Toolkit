@@ -57,19 +57,17 @@ public class RenderMacOS : RenderMaterial
         bool selected = state is PaletteState.CheckedNormal or PaletteState.CheckedTracking;
         if (selected)
         {
-            var fill = palette.GetBorderColor2(state);
-            if (fill == GlobalStaticVariables.EMPTY_COLOR || fill.IsEmpty)
+            // Tab face is painted in DrawBack (RenderBefore). DrawBorderLast calls us after content,
+            // so do not fill the tab rectangle, or we paint over the page title text.
+            var accent = palette.GetBorderColor1(state);
+            if (accent == GlobalStaticVariables.EMPTY_COLOR || accent.IsEmpty)
             {
-                fill = palette.GetBorderColor1(state);
+                accent = palette.GetBorderColor2(state);
             }
 
-            using var brush = new SolidBrush(fill);
-            using var path = CreateTabTopRoundedPath(rect, TabTopCornerRadius);
-            context.Graphics.FillPath(brush, path);
-
-            var accent = palette.GetBorderColor1(state);
-            using var pen = new Pen(accent, Math.Max(2f, palette.GetBorderWidth(state)));
-            var y = rect.Bottom - (pen.Width / 2f);
+            float thickness = Math.Max(2f, palette.GetBorderWidth(state));
+            using var pen = new Pen(accent, thickness);
+            float y = rect.Bottom - (pen.Width / 2f);
             context.Graphics.DrawLine(pen, rect.Left + TabTopCornerRadius, y, rect.Right - TabTopCornerRadius, y);
             return;
         }

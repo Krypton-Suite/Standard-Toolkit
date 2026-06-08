@@ -18,7 +18,7 @@ public sealed class PaletteMacOSDark_BaseScheme : KryptonColorSchemeBase
     public override Color TextButtonNormal { get; set; } = Color.White;
     public override Color TextButtonChecked { get; set; } = Color.White;
     public override Color ButtonNormalBorder { get; set; } = Color.FromArgb(137, 135, 133);
-    public override Color ButtonNormalDefaultBorder { get; set; } = Color.FromArgb(127, 125, 123);
+    public override Color ButtonNormalDefaultBorder { get; set; } = Color.FromArgb(0, 122, 255);
     public override Color ButtonNormalBack1 { get; set; } = Color.FromArgb(28, 28, 30);
     public override Color ButtonNormalBack2 { get; set; } = Color.FromArgb(44, 44, 46);
     public override Color ButtonNormalDefaultBack1 { get; set; } = Color.FromArgb(10, 132, 255);
@@ -179,9 +179,9 @@ public sealed class PaletteMacOSDark_BaseScheme : KryptonColorSchemeBase
     public override Color NavigatorMiniBackColor { get; set; } = Color.FromArgb(58, 58, 60);
     public override Color GridListNormal1 { get; set; } = Color.FromArgb(28, 28, 30);
     public override Color GridListNormal2 { get; set; } = Color.FromArgb(44, 44, 46);
-    public override Color GridListPressed1 { get; set; } = Color.FromArgb(44, 44, 46);
-    public override Color GridListPressed2 { get; set; } = Color.FromArgb(44, 44, 46);
-    public override Color GridListSelected { get; set; } = Color.FromArgb(33, 33, 33);
+    public override Color GridListPressed1 { get; set; } = Color.FromArgb(10, 132, 255);
+    public override Color GridListPressed2 { get; set; } = Color.FromArgb(0, 122, 255);
+    public override Color GridListSelected { get; set; } = Color.FromArgb(10, 132, 255);
     public override Color GridSheetColNormal1 { get; set; } = Color.FromArgb(28, 28, 30);
     public override Color GridSheetColNormal2 { get; set; } = Color.FromArgb(44, 44, 46);
     public override Color GridSheetColPressed1 { get; set; } = Color.FromArgb(224, 224, 224);
@@ -192,7 +192,7 @@ public sealed class PaletteMacOSDark_BaseScheme : KryptonColorSchemeBase
     public override Color GridSheetRowPressed { get; set; } = Color.FromArgb(196, 196, 196);
     public override Color GridSheetRowSelected { get; set; } = Color.FromArgb(44, 44, 46);
     public override Color GridDataCellBorder { get; set; } = Color.FromArgb(188, 195, 209);
-    public override Color GridDataCellSelected { get; set; } = Color.FromArgb(91, 91, 91);
+    public override Color GridDataCellSelected { get; set; } = Color.FromArgb(10, 132, 255);
     public override Color InputControlTextNormal { get; set; } = Color.White;
     public override Color InputControlTextDisabled { get; set; } = Color.FromArgb(172, 168, 153);
     public override Color InputControlBorderNormal { get; set; } = Color.FromArgb(77, 77, 77);

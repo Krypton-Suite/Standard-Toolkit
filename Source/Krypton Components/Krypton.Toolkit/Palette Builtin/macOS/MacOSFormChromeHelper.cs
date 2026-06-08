@@ -26,11 +26,6 @@ internal static class MacOSFormChromeHelper
             return;
         }
 
-        if (!form.UseDropShadow)
-        {
-            form.UseDropShadow = true;
-        }
-
         PI.Dwm.WindowBorderlessDropShadow(form.Handle, DwmDropShadowMargin);
         PI.Dwm.Windows10EnableBlurBehind(form.Handle, true, palette.GetTitleBarBlurTintColor());
     }
@@ -41,6 +36,8 @@ internal static class MacOSFormChromeHelper
         {
             return;
         }
+
+        PI.Dwm.WindowBorderlessDropShadow(form.Handle, 0);
 
         PI.Dwm.Windows10EnableBlurBehind(form.Handle, false, Color.Empty);
     }

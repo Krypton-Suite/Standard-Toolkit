@@ -71,7 +71,29 @@ public class KryptonMacOSRenderer : KryptonMaterialRenderer
             return;
         }
 
+        if (e.ToolStrip is MenuStrip && (e.Item.Selected || e.Item.Pressed))
+        {
+            var rect = new Rectangle(2, 0, e.Item.Bounds.Width - 4, e.Item.Bounds.Height);
+            var hi = KCT.Palette.GetBackColor1(PaletteBackStyle.ContextMenuItemHighlight, PaletteState.Tracking);
+            using var brush = new SolidBrush(hi);
+            e.Graphics.FillRectangle(brush, rect);
+            return;
+        }
+
         base.OnRenderMenuItemBackground(e);
+    }
+
+    protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
+    {
+        if (e.ToolStrip is MenuStrip && e.Item is ToolStripMenuItem && (e.Item.Selected || e.Item.Pressed))
+        {
+            var textColor = KCT.Palette.GetContentShortTextColor1(
+                PaletteContentStyle.ContextMenuItemTextStandard, PaletteState.Tracking);
+            e.TextColor = textColor;
+            return;
+        }
+
+        base.OnRenderItemText(e);
     }
 
     private static GraphicsPath CreateRoundedBorderPath(Rectangle rect, float radius)
