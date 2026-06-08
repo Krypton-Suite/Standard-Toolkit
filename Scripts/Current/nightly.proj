@@ -9,7 +9,7 @@
 		<NightlyZipName>Krypton-Nightly</NightlyZipName>
 	</PropertyGroup>
 
-	<Target Name="Clean">
+	<Target Name="Clean" DependsOnTargets="Restore">
 		<ItemGroup>
 			<Projects Include="..\..\Source\Krypton Components\Krypton.*\*.csproj" />
 		</ItemGroup>

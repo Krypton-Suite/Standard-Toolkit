@@ -3,6 +3,48 @@
 		<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.targets', '$(MSBuildThisFileDirectory)../../'))" />
 		-->
 
+	<!-- Per-TFM output under $(KryptonBuildOutputRoot)$(Configuration)\: legacy builds use Bin\Release\net472\;
+	     UseArtifactsOutput=true uses artifacts\bin\Release\net472\. A single shared folder makes the last
+	     inner multi-target build overwrite Krypton.Toolkit.dll (etc.), so net472 then references net10+ (CS1705). -->
+	<PropertyGroup Condition="'$(TargetFramework)' != ''">
+		<OutputPath>$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\</OutputPath>
+		<!-- Keep OutDir in sync: props set OutputPath before this; SDK freezes OutDir unless updated with OutputPath. -->
+		<OutDir>$(OutputPath)</OutDir>
+		<!-- Shared per-TFM output folder across projects; avoid project-to-project copy/clean churn in the same directory. -->
+		<UseCommonOutputDirectory>true</UseCommonOutputDirectory>
+	</PropertyGroup>
+
+	<!-- Outer cross-targeting build: default BuildInParallel=true dispatches inner TFMs concurrently. With custom
+	     OutputPath/IntermediateOutputPath, concurrent inner builds can still mis-resolve or overwrite outputs in
+	     practice (CS1705: referenced assembly built for a higher TFM). Serialize inner TFMs per project. -->
+	<PropertyGroup Condition="'$(TargetFrameworks)' != '' And '$(TargetFramework)' == ''">
+		<BuildInParallel>false</BuildInParallel>
+	</PropertyGroup>
+
+	<Import Project="$(MSBuildThisFileDirectory)NetFramework.SystemResourcesExtensions.targets"
+	        Condition="Exists('$(MSBuildThisFileDirectory)NetFramework.SystemResourcesExtensions.targets')" />
+
+	<PropertyGroup Condition="$(TargetFramework.StartsWith('net4'))">
+		<_KryptonSystemResourcesExtensionsPath Condition="'$(_KryptonSystemResourcesExtensionsPath)' == '' And '$(PkgSystem_Resources_Extensions)' != ''">$(PkgSystem_Resources_Extensions)\lib\net462\System.Resources.Extensions.dll</_KryptonSystemResourcesExtensionsPath>
+		<_KryptonSystemResourcesExtensionsPath Condition="'$(_KryptonSystemResourcesExtensionsPath)' == '' And '$(NuGetPackageRoot)' != ''">$(NuGetPackageRoot)system.resources.extensions\9.0.10\lib\net462\System.Resources.Extensions.dll</_KryptonSystemResourcesExtensionsPath>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Reference Include="System.Resources.Extensions" Condition="'$(_KryptonSystemResourcesExtensionsPath)' != '' And Exists('$(_KryptonSystemResourcesExtensionsPath)')">
+			<HintPath>$(_KryptonSystemResourcesExtensionsPath)</HintPath>
+			<Private>true</Private>
+		</Reference>
+	</ItemGroup>
+
+	<Target Name="KryptonAddSystemResourcesExtensionsToGenerateResourceReferences"
+	        BeforeTargets="CoreResGen"
+	        Condition="$(TargetFramework.StartsWith('net4')) And '$(GenerateResourceUsePreserializedResources)' == 'true' And '$(_KryptonSystemResourcesExtensionsPath)' != '' And Exists('$(_KryptonSystemResourcesExtensionsPath)')">
+		<ItemGroup>
+			<ReferencePath Include="$(_KryptonSystemResourcesExtensionsPath)" />
+			<ReferencePathWithRefAssemblies Include="$(_KryptonSystemResourcesExtensionsPath)" />
+		</ItemGroup>
+	</Target>
+
 	<Choose>
 		<When Condition="'$(Configuration)' == 'Canary'">
 			<PropertyGroup>

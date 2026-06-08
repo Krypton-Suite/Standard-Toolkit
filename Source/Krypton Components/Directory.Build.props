@@ -31,7 +31,7 @@
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(UsingMicrosoftNETSdk)' == 'true'">
-		<PackageReference Include="System.Resources.Extensions" Version="9.0.10" />
+		<PackageReference Include="System.Resources.Extensions" Version="9.0.10" GeneratePathProperty="true" />
 		<PackageReference Include="Microsoft.Net.Compilers.Toolset" Version="4.14.0" PrivateAssets="all" Condition="'$(ExcludeVs2019UnsupportedTargetFrameworks)' == 'true'" />
 	</ItemGroup>
 
