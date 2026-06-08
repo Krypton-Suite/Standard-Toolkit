@@ -46,9 +46,10 @@ internal class KryptonRichTextBoxAccessibleObject : Control.ControlAccessibleObj
 
             // Try to get name from internal RichTextBox first
             var internalAccessible = _owner.RichTextBox?.AccessibilityObject;
-            if (!string.IsNullOrEmpty(internalAccessible?.Name))
+            string? name = internalAccessible?.Name;
+            if (!string.IsNullOrEmpty(name))
             {
-                return internalAccessible.Name;
+                return name;
             }
 
             // Fall back to base implementation
@@ -70,9 +71,10 @@ internal class KryptonRichTextBoxAccessibleObject : Control.ControlAccessibleObj
 
             // Try to get description from internal RichTextBox first
             var internalAccessible = _owner.RichTextBox?.AccessibilityObject;
-            if (!string.IsNullOrEmpty(internalAccessible?.Description))
+            string? description = internalAccessible?.Description;
+            if (!string.IsNullOrEmpty(description))
             {
-                return internalAccessible.Description;
+                return description;
             }
 
             // Fall back to base implementation

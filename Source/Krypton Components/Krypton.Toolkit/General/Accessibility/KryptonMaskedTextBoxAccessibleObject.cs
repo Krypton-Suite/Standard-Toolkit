@@ -46,9 +46,10 @@ internal class KryptonMaskedTextBoxAccessibleObject : Control.ControlAccessibleO
 
             // Try to get name from internal MaskedTextBox first
             var internalAccessible = _owner.MaskedTextBox?.AccessibilityObject;
-            if (!string.IsNullOrEmpty(internalAccessible?.Name))
+            string? name = internalAccessible?.Name;
+            if (!string.IsNullOrEmpty(name))
             {
-                return internalAccessible.Name;
+                return name;
             }
 
             // Fall back to base implementation
@@ -70,9 +71,10 @@ internal class KryptonMaskedTextBoxAccessibleObject : Control.ControlAccessibleO
 
             // Try to get description from internal MaskedTextBox first
             var internalAccessible = _owner.MaskedTextBox?.AccessibilityObject;
-            if (!string.IsNullOrEmpty(internalAccessible?.Description))
+            string? description = internalAccessible?.Description;
+            if (!string.IsNullOrEmpty(description))
             {
-                return internalAccessible.Description;
+                return description;
             }
 
             // Fall back to base implementation

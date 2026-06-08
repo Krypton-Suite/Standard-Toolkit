@@ -1,9 +1,6 @@
 #region BSD License
 /*
  *
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
- *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
  *
@@ -14,10 +11,6 @@ namespace Krypton.Ribbon;
 
 internal class KryptonRibbonAccessibleObject : Control.ControlAccessibleObject
 {
-    #region Static Fields
-    private static readonly char[] _whiteSpace = new[] { ' ', '\t', '\r', '\n' };
-    #endregion
-
     #region Instance Fields
     private readonly KryptonRibbon _ribbon;
     #endregion
@@ -142,14 +135,12 @@ internal class KryptonRibbonAccessibleObject : Control.ControlAccessibleObject
 
     private static string? Normalize(string? value)
     {
-        if (string.IsNullOrEmpty(value))
+        if (string.IsNullOrWhiteSpace(value))
         {
             return null;
         }
 
-        string normalized = value.Trim(_whiteSpace);
-
-        return normalized.Length == 0 ? null : normalized;
+        return value!.Trim();
     }
 
     private static string? CombineText(string? line1, string? line2)
@@ -226,20 +217,13 @@ internal class KryptonRibbonAccessibleObject : Control.ControlAccessibleObject
             customControl.GetType().Name);
     }
 
-    private static string? ItemName(KryptonRibbonGroupItem item)
+    private static string? ItemName(KryptonRibbonGroupItem item) => item switch
     {
-        switch (item)
-        {
-            case KryptonRibbonGroupButton button:
-                return ButtonName(button);
-            case KryptonRibbonGroupCheckBox checkBox:
-                return CheckBoxName(checkBox);
-            case KryptonRibbonGroupCustomControl customControl:
-                return CustomControlName(customControl);
-            default:
-                return FirstNonEmpty(ToolTipName(item.ToolTipValues), SiteName(item), item.GetType().Name);
-        }
-    }
+        KryptonRibbonGroupButton button => ButtonName(button),
+        KryptonRibbonGroupCheckBox checkBox => CheckBoxName(checkBox),
+        KryptonRibbonGroupCustomControl customControl => CustomControlName(customControl),
+        _ => FirstNonEmpty(ToolTipName(item.ToolTipValues), SiteName(item), item.GetType().Name)
+    };
 
     private static string? ItemDescription(KryptonRibbonGroupItem item) => ToolTipDescription(item.ToolTipValues);
 
@@ -289,53 +273,29 @@ internal class KryptonRibbonAccessibleObject : Control.ControlAccessibleObject
         return null;
     }
 
-    private static ViewBase? ItemView(KryptonRibbonGroupItem item)
+    private static ViewBase? ItemView(KryptonRibbonGroupItem item) => item switch
     {
-        switch (item)
-        {
-            case KryptonRibbonGroupButton button:
-                return button.ButtonView;
-            case KryptonRibbonGroupCheckBox checkBox:
-                return checkBox.CheckBoxView;
-            case KryptonRibbonGroupCustomControl customControl:
-                return customControl.CustomControlView;
-            default:
-                return null;
-        }
-    }
+        KryptonRibbonGroupButton button => button.ButtonView,
+        KryptonRibbonGroupCheckBox checkBox => checkBox.CheckBoxView,
+        KryptonRibbonGroupCustomControl customControl => customControl.CustomControlView,
+        _ => null
+    };
 
-    private static bool ItemEnabled(KryptonRibbonGroupItem item)
+    private static bool ItemEnabled(KryptonRibbonGroupItem item) => item switch
     {
-        switch (item)
-        {
-            case KryptonRibbonGroupButton button:
-                return button.KryptonCommand?.Enabled ?? button.Enabled;
-            case KryptonRibbonGroupCheckBox checkBox:
-                return checkBox.KryptonCommand?.Enabled ?? checkBox.Enabled;
-            case KryptonRibbonGroupCustomControl customControl:
-                return customControl.Enabled && (customControl.CustomControl?.Enabled ?? true);
-            default:
-                return true;
-        }
-    }
+        KryptonRibbonGroupButton button => button.KryptonCommand?.Enabled ?? button.Enabled,
+        KryptonRibbonGroupCheckBox checkBox => checkBox.KryptonCommand?.Enabled ?? checkBox.Enabled,
+        KryptonRibbonGroupCustomControl customControl => customControl.Enabled && (customControl.CustomControl?.Enabled ?? true),
+        _ => true
+    };
 
-    private static CheckState ItemCheckState(KryptonRibbonGroupItem item)
+    private static CheckState ItemCheckState(KryptonRibbonGroupItem item) => item switch
     {
-        switch (item)
-        {
-            case KryptonRibbonGroupButton button:
-                if (button.ButtonType == GroupButtonType.Check)
-                {
-                    return button.KryptonCommand?.Checked ?? button.Checked ? CheckState.Checked : CheckState.Unchecked;
-                }
-
-                return CheckState.Unchecked;
-            case KryptonRibbonGroupCheckBox checkBox:
-                return checkBox.KryptonCommand?.CheckState ?? checkBox.CheckState;
-            default:
-                return CheckState.Unchecked;
-        }
-    }
+        KryptonRibbonGroupButton { ButtonType: GroupButtonType.Check } button =>
+            (button.KryptonCommand?.Checked ?? button.Checked) ? CheckState.Checked : CheckState.Unchecked,
+        KryptonRibbonGroupCheckBox checkBox => checkBox.KryptonCommand?.CheckState ?? checkBox.CheckState,
+        _ => CheckState.Unchecked
+    };
 
     private static IEnumerable<KryptonRibbonGroupItem> ChildItems(KryptonRibbonGroup group)
     {
@@ -535,23 +495,13 @@ internal class KryptonRibbonAccessibleObject : Control.ControlAccessibleObject
 
         public override string DefaultAction => _item is KryptonRibbonGroupCustomControl ? @"Focus" : @"Press";
 
-        public override AccessibleRole Role
+        public override AccessibleRole Role => _item switch
         {
-            get
-            {
-                switch (_item)
-                {
-                    case KryptonRibbonGroupCheckBox:
-                        return AccessibleRole.CheckButton;
-                    case KryptonRibbonGroupButton button:
-                        return button.ButtonType == GroupButtonType.Check ? AccessibleRole.CheckButton : AccessibleRole.PushButton;
-                    case KryptonRibbonGroupCustomControl customControl:
-                        return customControl.CustomControl?.AccessibilityObject.Role ?? AccessibleRole.Client;
-                    default:
-                        return AccessibleRole.PushButton;
-                }
-            }
-        }
+            KryptonRibbonGroupCheckBox _ => AccessibleRole.CheckButton,
+            KryptonRibbonGroupButton button => button.ButtonType == GroupButtonType.Check ? AccessibleRole.CheckButton : AccessibleRole.PushButton,
+            KryptonRibbonGroupCustomControl customControl => customControl.CustomControl?.AccessibilityObject.Role ?? AccessibleRole.Client,
+            _ => AccessibleRole.PushButton
+        };
 
         public override AccessibleStates State
         {
