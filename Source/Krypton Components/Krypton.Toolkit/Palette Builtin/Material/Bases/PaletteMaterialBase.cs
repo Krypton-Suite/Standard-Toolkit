@@ -207,13 +207,15 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
             // the scheme panel color instead of the base Microsoft 365 window color.
             case PaletteBackStyle.ControlClient:
                 return base.GetBackColor1(PaletteBackStyle.PanelClient, state);
-            // DataGridView data cells should use the surface background (dark in Material Dark)
+            // DataGridView data cells use the surface background; selected uses scheme highlight
             case PaletteBackStyle.GridDataCellList:
             case PaletteBackStyle.GridDataCellSheet:
             case PaletteBackStyle.GridDataCellCustom1:
             case PaletteBackStyle.GridDataCellCustom2:
             case PaletteBackStyle.GridDataCellCustom3:
-                return BaseColors?.PanelClient ?? base.GetBackColor1(PaletteBackStyle.PanelClient, state);
+                return state == PaletteState.CheckedNormal
+                    ? BaseColors?.GridDataCellSelected ?? base.GetBackColor1(style, state)
+                    : BaseColors?.PanelClient ?? base.GetBackColor1(PaletteBackStyle.PanelClient, state);
             case PaletteBackStyle.ContextMenuOuter:
             case PaletteBackStyle.ContextMenuInner:
                 // Use scheme surface so Light stays light and Dark stays dark
@@ -255,7 +257,9 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
             case PaletteBackStyle.GridDataCellCustom1:
             case PaletteBackStyle.GridDataCellCustom2:
             case PaletteBackStyle.GridDataCellCustom3:
-                return BaseColors?.PanelClient ?? base.GetBackColor2(PaletteBackStyle.PanelClient, state);
+                return state == PaletteState.CheckedNormal
+                    ? BaseColors?.GridDataCellSelected ?? base.GetBackColor2(style, state)
+                    : BaseColors?.PanelClient ?? base.GetBackColor2(PaletteBackStyle.PanelClient, state);
             case PaletteBackStyle.ContextMenuOuter:
             case PaletteBackStyle.ContextMenuInner:
                 return BaseColors?.PanelAlternative ?? base.GetBackColor2(PaletteBackStyle.PanelClient, state);

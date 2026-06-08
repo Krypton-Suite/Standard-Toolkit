@@ -37,6 +37,8 @@ internal static class MacOSFormChromeHelper
             return;
         }
 
+        PI.Dwm.WindowBorderlessDropShadow(form.Handle, 0);
+
         PI.Dwm.Windows10EnableBlurBehind(form.Handle, false, Color.Empty);
     }
 }
