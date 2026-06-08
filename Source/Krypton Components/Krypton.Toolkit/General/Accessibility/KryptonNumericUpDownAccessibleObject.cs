@@ -130,6 +130,23 @@ internal class KryptonNumericUpDownAccessibleObject : Control.ControlAccessibleO
             // Fall back to control's text
             return _owner.Text;
         }
+
+        set
+        {
+            if (decimal.TryParse(value, out decimal result))
+            {
+                if (result < _owner.Minimum)
+                {
+                    result = _owner.Minimum;
+                }
+                else if (result > _owner.Maximum)
+                {
+                    result = _owner.Maximum;
+                }
+
+                _owner.Value = result;
+            }
+        }
     }
 
     /// <summary>

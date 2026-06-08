@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -39,9 +39,14 @@ internal class KryptonTextBoxAccessibleObject : Control.ControlAccessibleObject
     {
         get
         {
+            if (!string.IsNullOrEmpty(_owner.AccessibleName))
+            {
+                return _owner.AccessibleName;
+            }
+
             // Try to get name from internal TextBox first
             var internalAccessible = _owner.TextBox?.AccessibilityObject;
-            if (internalAccessible?.Name != null)
+            if (!string.IsNullOrEmpty(internalAccessible?.Name))
             {
                 return internalAccessible.Name;
             }
@@ -58,9 +63,14 @@ internal class KryptonTextBoxAccessibleObject : Control.ControlAccessibleObject
     {
         get
         {
+            if (!string.IsNullOrEmpty(_owner.AccessibleDescription))
+            {
+                return _owner.AccessibleDescription;
+            }
+
             // Try to get description from internal TextBox first
             var internalAccessible = _owner.TextBox?.AccessibilityObject;
-            if (internalAccessible?.Description != null)
+            if (!string.IsNullOrEmpty(internalAccessible?.Description))
             {
                 return internalAccessible.Description;
             }
@@ -129,6 +139,20 @@ internal class KryptonTextBoxAccessibleObject : Control.ControlAccessibleObject
 
             // Fall back to control's text
             return _owner.Text;
+        }
+
+        set
+        {
+            string text = value ?? string.Empty;
+
+            if (_owner.TextBox != null)
+            {
+                _owner.TextBox.Text = text;
+            }
+            else
+            {
+                _owner.Text = text;
+            }
         }
     }
 

@@ -820,6 +820,7 @@ public class KryptonCheckedListBox : VisualControlBase,
 
             return (IEnumerator)_miGetEnumerator?.Invoke(InnerArray, [stateMask, anyBit])!;
         }
+
         #endregion
 
         #region Private
