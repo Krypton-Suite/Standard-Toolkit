@@ -978,6 +978,32 @@ public class KryptonNumericUpDown : VisualControlBase,
     [Browsable(false)]
     public NumericUpDown NumericUpDown => _numericUpDown;
 
+    /// <inheritdoc />
+    [DefaultValue(null)]
+    [Localizable(true)]
+    public new string? AccessibleName
+    {
+        get => base.AccessibleName;
+        set
+        {
+            base.AccessibleName = value;
+            NumericUpDown.AccessibleName = value;
+        }
+    }
+
+    /// <inheritdoc />
+    [DefaultValue(null)]
+    [Localizable(true)]
+    public new string? AccessibleDescription
+    {
+        get => base.AccessibleDescription;
+        set
+        {
+            base.AccessibleDescription = value;
+            NumericUpDown.AccessibleDescription = value;
+        }
+    }
+
     /// <summary>
     /// Gets access to the contained input control.
     /// </summary>

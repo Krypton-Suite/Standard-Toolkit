@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <AssemblyName>RibbonAccessibilityProbe</AssemblyName>
+    <RootNamespace>RibbonAccessibilityProbe</RootNamespace>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Platforms>AnyCPU</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Krypton Components\Krypton.Ribbon\Krypton.Ribbon 2022.csproj" />
+    <ProjectReference Include="..\..\Krypton Components\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+  </ItemGroup>
+</Project>

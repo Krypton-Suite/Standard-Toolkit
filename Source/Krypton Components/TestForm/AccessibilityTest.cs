@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV), et al. 2024 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV), tobitege, et al. 2024 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -521,6 +521,7 @@ public partial class AccessibilityTest : KryptonForm
         {
             var accessible = control.AccessibilityObject;
             result.AccessibleObjectCreated = accessible != null;
+            var errors = new List<string>();
 
             if (accessible != null)
             {
@@ -542,7 +543,19 @@ public partial class AccessibilityTest : KryptonForm
                     result.NavigationWorks = false;
                 }
 
-                result.Success = true;
+                if (!string.IsNullOrEmpty(control.AccessibleName) && string.IsNullOrEmpty(result.Name))
+                {
+                    errors.Add($"AccessibleName '{control.AccessibleName}' is not exposed.");
+                }
+
+                if (control.AccessibleRole != AccessibleRole.Default
+                    && result.Role != control.AccessibleRole.ToString())
+                {
+                    errors.Add($"AccessibleRole '{control.AccessibleRole}' is not exposed.");
+                }
+
+                result.Success = errors.Count == 0;
+                result.ErrorMessage = string.Join("; ", errors);
             }
             else
             {

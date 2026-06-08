@@ -243,6 +243,12 @@ public class KryptonRibbon : VisualSimple,
 
         base.Dispose(disposing);
     }
+
+    /// <summary>
+    /// Creates the accessibility object for the ribbon.
+    /// </summary>
+    /// <returns>A new KryptonRibbonAccessibleObject instance.</returns>
+    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonRibbonAccessibleObject(this);
     #endregion
 
     #region Public Hidden Properties

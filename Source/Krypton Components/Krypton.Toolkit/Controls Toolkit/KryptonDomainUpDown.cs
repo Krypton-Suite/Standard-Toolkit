@@ -949,6 +949,32 @@ public class KryptonDomainUpDown : VisualControlBase,
     [Browsable(false)]
     public DomainUpDown DomainUpDown => _domainUpDown;
 
+    /// <inheritdoc />
+    [DefaultValue(null)]
+    [Localizable(true)]
+    public new string? AccessibleName
+    {
+        get => base.AccessibleName;
+        set
+        {
+            base.AccessibleName = value;
+            DomainUpDown.AccessibleName = value;
+        }
+    }
+
+    /// <inheritdoc />
+    [DefaultValue(null)]
+    [Localizable(true)]
+    public new string? AccessibleDescription
+    {
+        get => base.AccessibleDescription;
+        set
+        {
+            base.AccessibleDescription = value;
+            DomainUpDown.AccessibleDescription = value;
+        }
+    }
+
     /// <summary>
     /// Gets access to the contained input control.
     /// </summary>

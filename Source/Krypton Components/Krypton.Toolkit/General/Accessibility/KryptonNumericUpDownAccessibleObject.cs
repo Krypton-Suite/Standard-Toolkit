@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -39,11 +39,17 @@ internal class KryptonNumericUpDownAccessibleObject : Control.ControlAccessibleO
     {
         get
         {
+            if (!string.IsNullOrEmpty(_owner.AccessibleName))
+            {
+                return _owner.AccessibleName;
+            }
+
             // Try to get name from internal NumericUpDown first
             var internalAccessible = _owner.NumericUpDown?.AccessibilityObject;
-            if (internalAccessible?.Name != null)
+            string? name = internalAccessible?.Name;
+            if (!string.IsNullOrEmpty(name))
             {
-                return internalAccessible.Name;
+                return name;
             }
 
             // Fall back to base implementation
@@ -58,11 +64,17 @@ internal class KryptonNumericUpDownAccessibleObject : Control.ControlAccessibleO
     {
         get
         {
+            if (!string.IsNullOrEmpty(_owner.AccessibleDescription))
+            {
+                return _owner.AccessibleDescription;
+            }
+
             // Try to get description from internal NumericUpDown first
             var internalAccessible = _owner.NumericUpDown?.AccessibilityObject;
-            if (internalAccessible?.Description != null)
+            string? description = internalAccessible?.Description;
+            if (!string.IsNullOrEmpty(description))
             {
-                return internalAccessible.Description;
+                return description;
             }
 
             // Fall back to base implementation
@@ -129,6 +141,23 @@ internal class KryptonNumericUpDownAccessibleObject : Control.ControlAccessibleO
 
             // Fall back to control's text
             return _owner.Text;
+        }
+
+        set
+        {
+            if (decimal.TryParse(value, out decimal result))
+            {
+                if (result < _owner.Minimum)
+                {
+                    result = _owner.Minimum;
+                }
+                else if (result > _owner.Maximum)
+                {
+                    result = _owner.Maximum;
+                }
+
+                _owner.Value = result;
+            }
         }
     }
 

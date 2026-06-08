@@ -715,6 +715,12 @@ public class KryptonCommandLinkButton : VisualSimpleBase, IButtonControl
     /// </summary>
     protected virtual ViewDrawCommandLinkButton ViewDrawButton => _drawCommandLinkButton;
 
+    /// <summary>
+    /// Creates a new accessibility object for the control.
+    /// </summary>
+    /// <returns>A new KryptonCommandLinkButtonAccessibleObject instance for the control.</returns>
+    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonCommandLinkButtonAccessibleObject(this);
+
     #endregion
 
     #region Implementation
@@ -740,4 +746,5 @@ public class KryptonCommandLinkButton : VisualSimpleBase, IButtonControl
     }
 
     #endregion
+
 }

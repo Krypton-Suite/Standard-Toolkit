@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -156,14 +156,7 @@ internal class KryptonListViewAccessibleObject : Control.ControlAccessibleObject
     /// <returns>An AccessibleObject that represents the child accessible object corresponding to the specified index.</returns>
     public override AccessibleObject? GetChild(int index)
     {
-        // Delegate to internal ListView's children
-        var internalAccessible = _owner.ListView?.AccessibilityObject;
-        if (internalAccessible != null)
-        {
-            return internalAccessible.GetChild(index);
-        }
-
-        return base.GetChild(index);
+        return null;
     }
 
     /// <summary>
@@ -172,14 +165,7 @@ internal class KryptonListViewAccessibleObject : Control.ControlAccessibleObject
     /// <returns>The number of children belonging to an accessible object.</returns>
     public override int GetChildCount()
     {
-        // Delegate to internal ListView's child count
-        var internalAccessible = _owner.ListView?.AccessibilityObject;
-        if (internalAccessible != null)
-        {
-            return internalAccessible.GetChildCount();
-        }
-
-        return base.GetChildCount();
+        return 0;
     }
 
     /// <summary>
