@@ -1155,10 +1155,7 @@ public class KryptonDataGridView : DataGridView
     {
         base.OnScroll(e);
 
-        if (_roundingUsesDetachedScrollbars && !_suppressRoundingScrollSync && _roundingScrollBarInteractionDepth == 0)
-        {
-            SyncDetachedRoundingScrollbarsFromGrid(false);
-        }
+        SyncDetachedRoundingScrollbarsFromGridIfIdle(false);
 
         // #2681 - work-around
         // Headers not correctly repainted on horizontal mouse scroll
@@ -1333,7 +1330,7 @@ public class KryptonDataGridView : DataGridView
         // the painting to fail.
         if ((_cellDown.X == -1) || (_cellDown.Y == -1))
         {
-            DoubleBuffered = false;
+            base.DoubleBuffered = false;
         }
 
         base.OnCellMouseDown(e);
@@ -1358,9 +1355,9 @@ public class KryptonDataGridView : DataGridView
         _cellDown = _nullCell;
 
         // Put back double buffered if it was turned off in the OnCellMouseDown
-        if (!DoubleBuffered)
+        if (!base.DoubleBuffered)
         {
-            DoubleBuffered = true;
+            base.DoubleBuffered = true;
         }
 
         base.OnCellMouseUp(e);
@@ -2981,24 +2978,18 @@ public class KryptonDataGridView : DataGridView
             return;
         }
 
-        var hScrollInfo = new WIN32ScrollBars.ScrollInfo
-        {
-            cbSize = Marshal.SizeOf(typeof(WIN32ScrollBars.ScrollInfo)),
-            fMask = (int)PI.SIF_.ALL
-        };
         var vScrollInfo = new WIN32ScrollBars.ScrollInfo
         {
             cbSize = Marshal.SizeOf(typeof(WIN32ScrollBars.ScrollInfo)),
             fMask = (int)PI.SIF_.ALL
         };
 
-        bool hasHScroll = PI.GetScrollInfo(Handle, PI.SB_.HORZ, ref hScrollInfo);
         bool hasVScroll = PI.GetScrollInfo(Handle, PI.SB_.VERT, ref vScrollInfo);
 
         _suppressRoundingScrollSync = true;
         try
         {
-            UpdateDetachedHorizontalScrollBar(hasHScroll, hScrollInfo);
+            UpdateDetachedHorizontalScrollBar();
             UpdateDetachedVerticalScrollBar(hasVScroll, vScrollInfo);
         }
         finally
@@ -3009,11 +3000,19 @@ public class KryptonDataGridView : DataGridView
         LayoutDetachedRoundingScrollbars(layoutScrollbars);
     }
 
-    private void UpdateDetachedHorizontalScrollBar(bool hasNativeScrollInfo, WIN32ScrollBars.ScrollInfo scrollInfo)
+    private void SyncDetachedRoundingScrollbarsFromGridIfIdle(bool layoutScrollbars)
+    {
+        if (_roundingUsesDetachedScrollbars && !_suppressRoundingScrollSync && _roundingScrollBarInteractionDepth == 0)
+        {
+            SyncDetachedRoundingScrollbarsFromGrid(layoutScrollbars);
+        }
+    }
+
+    private void UpdateDetachedHorizontalScrollBar()
     {
         if (_roundingHScrollBar == null || !WantsDetachedHorizontalScrollBar())
         {
-            if (_roundingHScrollBar != null)
+            if (_roundingHScrollBar != null && _roundingHScrollBar.Visible)
             {
                 _roundingHScrollBar.Visible = false;
             }
@@ -3021,29 +3020,17 @@ public class KryptonDataGridView : DataGridView
             return;
         }
 
-        SetDetachedHorizontalScrollBarBounds(false);
-
         int minimum;
         int maximum;
         int page;
         int position;
-        if (TryGetNativeDataGridScrollBarMetrics(true, out minimum, out maximum, out page, out position))
-        {
-            ApplyDetachedScrollBarMetrics(_roundingHScrollBar, minimum, maximum, page, position);
-            return;
-        }
-
-        if (hasNativeScrollInfo && TryGetNativeScrollMetrics(scrollInfo, out minimum, out maximum, out page, out position))
-        {
-            ApplyDetachedScrollBarMetrics(_roundingHScrollBar, minimum, maximum, page, position);
-            return;
-        }
-
         if (TryComputeHorizontalScrollMetrics(out minimum, out maximum, out page, out position))
         {
             ApplyDetachedScrollBarMetrics(_roundingHScrollBar, minimum, maximum, page, position);
+            return;
         }
-        else
+
+        if (_roundingHScrollBar.Visible)
         {
             _roundingHScrollBar.Visible = false;
         }
@@ -3053,15 +3040,13 @@ public class KryptonDataGridView : DataGridView
     {
         if (_roundingVScrollBar == null || !WantsDetachedVerticalScrollBar())
         {
-            if (_roundingVScrollBar != null)
+            if (_roundingVScrollBar != null && _roundingVScrollBar.Visible)
             {
                 _roundingVScrollBar.Visible = false;
             }
 
             return;
         }
-
-        SetDetachedVerticalScrollBarBounds(false);
 
         int minimum;
         int maximum;
@@ -3085,7 +3070,10 @@ public class KryptonDataGridView : DataGridView
         }
         else
         {
-            _roundingVScrollBar.Visible = false;
+            if (_roundingVScrollBar.Visible)
+            {
+                _roundingVScrollBar.Visible = false;
+            }
         }
     }
 
@@ -3339,33 +3327,7 @@ public class KryptonDataGridView : DataGridView
 
     private int GetHorizontalScrollPositionInPixels()
     {
-        var hScrollInfo = new WIN32ScrollBars.ScrollInfo
-        {
-            cbSize = Marshal.SizeOf(typeof(WIN32ScrollBars.ScrollInfo)),
-            fMask = (int)PI.SIF_.POS
-        };
-
-        if (IsHandleCreated && PI.GetScrollInfo(Handle, PI.SB_.HORZ, ref hScrollInfo))
-        {
-            return hScrollInfo.nPos;
-        }
-
-        int position = 0;
-        int firstColumn = Math.Max(0, FirstDisplayedScrollingColumnIndex);
-        if (RowHeadersVisible)
-        {
-            position += RowHeadersWidth;
-        }
-
-        for (int i = 0; i < firstColumn && i < Columns.Count; i++)
-        {
-            if (Columns[i].Visible)
-            {
-                position += Columns[i].Width;
-            }
-        }
-
-        return position;
+        return HorizontalScrollingOffset;
     }
 
     private static int GetNativeScrollableMaximum(int minimum, int maximum, int page) =>
@@ -4092,6 +4054,14 @@ public class KryptonDataGridView : DataGridView
         base.WndProc(ref m);
     }
     #endregion menus
+
+    /// <inheritdoc/>
+    protected override void OnColumnWidthChanged(DataGridViewColumnEventArgs e)
+    {
+        base.OnColumnWidthChanged(e);
+
+        SyncDetachedRoundingScrollbarsFromGridIfIdle(false);
+    }
 
     #region Column ButtonSpec wiring
     /// <summary>
