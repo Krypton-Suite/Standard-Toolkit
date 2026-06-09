@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -158,12 +158,14 @@ internal class KryptonListBoxAccessibleObject : Control.ControlAccessibleObject
     {
         // Delegate to internal ListBox's children
         var internalAccessible = _owner.ListBox?.AccessibilityObject;
-        if (internalAccessible != null)
+        if (internalAccessible != null && HasNativeItemChildren(internalAccessible))
         {
             return internalAccessible.GetChild(index);
         }
 
-        return base.GetChild(index);
+        return index >= 0 && index < _owner.Items.Count
+            ? new KryptonListBoxItemAccessibleObject(this, _owner, index)
+            : null;
     }
 
     /// <summary>
@@ -174,12 +176,27 @@ internal class KryptonListBoxAccessibleObject : Control.ControlAccessibleObject
     {
         // Delegate to internal ListBox's child count
         var internalAccessible = _owner.ListBox?.AccessibilityObject;
-        if (internalAccessible != null)
+        if (internalAccessible != null && HasNativeItemChildren(internalAccessible))
         {
             return internalAccessible.GetChildCount();
         }
 
-        return base.GetChildCount();
+        return _owner.Items.Count;
+    }
+
+    /// <summary>
+    /// Retrieves the currently selected child.
+    /// </summary>
+    /// <returns>The selected child accessible object.</returns>
+    public override AccessibleObject? GetSelected()
+    {
+        var internalAccessible = _owner.ListBox?.AccessibilityObject;
+        if (internalAccessible != null && HasNativeItemChildren(internalAccessible))
+        {
+            return internalAccessible.GetSelected();
+        }
+
+        return _owner.SelectedIndex >= 0 ? GetChild(_owner.SelectedIndex) : null;
     }
 
     /// <summary>
@@ -215,6 +232,102 @@ internal class KryptonListBoxAccessibleObject : Control.ControlAccessibleObject
         {
             base.Select(flags);
         }
+    }
+    #endregion
+
+    #region Implementation
+    private static bool HasNativeItemChildren(AccessibleObject accessibleObject)
+    {
+        for (int i = 0; i < accessibleObject.GetChildCount(); i++)
+        {
+            AccessibleObject? child = accessibleObject.GetChild(i);
+            if (child?.Role == AccessibleRole.ListItem)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private sealed class KryptonListBoxItemAccessibleObject : AccessibleObject
+    {
+        private readonly AccessibleObject _parent;
+        private readonly KryptonListBox _owner;
+        private readonly int _index;
+
+        public KryptonListBoxItemAccessibleObject(AccessibleObject parent, KryptonListBox owner, int index)
+        {
+            _parent = parent;
+            _owner = owner;
+            _index = index;
+        }
+
+        public override AccessibleObject? Parent => _parent;
+
+        public override string? Name => _owner.ListBox.GetItemText(_owner.Items[_index]);
+
+        public override AccessibleRole Role => AccessibleRole.ListItem;
+
+        public override AccessibleStates State
+        {
+            get
+            {
+                AccessibleStates state = AccessibleStates.Focusable | AccessibleStates.Selectable;
+
+                if (_owner.GetSelected(_index))
+                {
+                    state |= AccessibleStates.Selected;
+                }
+
+                if (_owner.ListBox.Focused && _owner.SelectedIndex == _index)
+                {
+                    state |= AccessibleStates.Focused;
+                }
+
+                if (!_owner.Enabled)
+                {
+                    state |= AccessibleStates.Unavailable;
+                }
+
+                Rectangle bounds = _owner.GetItemRectangle(_index);
+                if (bounds.IsEmpty)
+                {
+                    state |= AccessibleStates.Invisible;
+                }
+
+                return state;
+            }
+        }
+
+        public override Rectangle Bounds => _owner.ListBox.RectangleToScreen(_owner.GetItemRectangle(_index));
+
+        public override string DefaultAction => @"Select";
+
+        public override void DoDefaultAction() => Select(AccessibleSelection.TakeSelection);
+
+        public override void Select(AccessibleSelection flags)
+        {
+            if (_owner.SelectionMode == SelectionMode.None)
+            {
+                return;
+            }
+
+            if ((flags & AccessibleSelection.TakeSelection) == AccessibleSelection.TakeSelection)
+            {
+                _owner.SelectedIndex = _index;
+            }
+            else if ((flags & AccessibleSelection.AddSelection) == AccessibleSelection.AddSelection)
+            {
+                _owner.SetSelected(_index, true);
+            }
+            else if ((flags & AccessibleSelection.RemoveSelection) == AccessibleSelection.RemoveSelection)
+            {
+                _owner.SetSelected(_index, false);
+            }
+        }
+
+        public override int GetChildCount() => 0;
     }
     #endregion
 }

@@ -47,6 +47,7 @@
 
 ## 2026-07-20 - Build 2607 (Version 105-LTS - Patch 3) - July 2026
 
+* Implemented [#3714](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3714), Add accessibility support for custom drawn Krypton controls and editable control ButtonSpecs.
 * Resolved [#3690](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3690), Fix VS 2019 build targeting so VS 2019 uses only .NET Framework 4.x projects while VS2022/Current scripts refresh restore assets for modern target frameworks.
 * Resolved [#2862](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2862), Fixed VisualForm resize flicker in .NET 10+
 * Implemented [#3550](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3550), Auto complete issues

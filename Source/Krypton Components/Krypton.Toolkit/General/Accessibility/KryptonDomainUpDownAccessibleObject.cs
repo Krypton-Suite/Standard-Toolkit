@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -39,11 +39,17 @@ internal class KryptonDomainUpDownAccessibleObject : Control.ControlAccessibleOb
     {
         get
         {
+            if (!string.IsNullOrEmpty(_owner.AccessibleName))
+            {
+                return _owner.AccessibleName;
+            }
+
             // Try to get name from internal DomainUpDown first
             var internalAccessible = _owner.DomainUpDown?.AccessibilityObject;
-            if (internalAccessible?.Name != null)
+            string? name = internalAccessible?.Name;
+            if (!string.IsNullOrEmpty(name))
             {
-                return internalAccessible.Name;
+                return name;
             }
 
             // Fall back to base implementation
@@ -58,11 +64,17 @@ internal class KryptonDomainUpDownAccessibleObject : Control.ControlAccessibleOb
     {
         get
         {
+            if (!string.IsNullOrEmpty(_owner.AccessibleDescription))
+            {
+                return _owner.AccessibleDescription;
+            }
+
             // Try to get description from internal DomainUpDown first
             var internalAccessible = _owner.DomainUpDown?.AccessibilityObject;
-            if (internalAccessible?.Description != null)
+            string? description = internalAccessible?.Description;
+            if (!string.IsNullOrEmpty(description))
             {
-                return internalAccessible.Description;
+                return description;
             }
 
             // Fall back to base implementation
@@ -129,6 +141,25 @@ internal class KryptonDomainUpDownAccessibleObject : Control.ControlAccessibleOb
 
             // Fall back to control's text
             return _owner.Text;
+        }
+
+        set
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            for (int i = 0; i < _owner.Items.Count; i++)
+            {
+                if (string.Equals(Convert.ToString(_owner.Items[i]), value, StringComparison.CurrentCulture))
+                {
+                    _owner.SelectedIndex = i;
+                    return;
+                }
+            }
+
+            _owner.Text = value;
         }
     }
 
