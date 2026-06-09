@@ -5732,9 +5732,11 @@ public class RenderStandard : RenderBase
 					float ratio = Math.Min(displayRect.Width / (float)memento.Image.Width,
 						displayRect.Height / (float)memento.Image.Height);
 
+					bool avoidPurple = memento.ImageTransparentColor != GlobalStaticVariables.EMPTY_COLOR;
+
 					// Resize image to fit display area
 					memento.Image = CommonHelper.ScaleImageForSizedDisplay(memento.Image, memento.Image.Width * ratio,
-						memento.Image.Height * ratio, false);
+						memento.Image.Height * ratio, avoidPurple);
 				}
 
 				if (memento.Image != null)
