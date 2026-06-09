@@ -58,6 +58,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<AboutBoxTest>("AboutBox", "Try this About Box for a change");
         CreateButton<AccessibilityTest>("Accessibility Test (UIA Providers)", "Comprehensive demo and test for UIA Provider implementation (Issue #762). Tests all 10 controls with accessibility support, organized by category with detailed results.");
         CreateButton<ButtonsTest>("Buttons Test", "All the buttons you want to test.");
+        CreateButton<Bug3661KryptonContextMenuOverflowDemo>("Bug 3661 Context Menu Overflow", "Issue #3661: KryptonContextMenu with more items than fit on screen shows Scroll Up/Scroll Down rows, mouse-wheel scrolling, and keyboard navigation past visible items. Long list, mixed content, programmatic placement, and keyboard-open scenarios.");
         CreateButton<Bug3381KryptonButtonRoundedTextCenteringDemo>("Bug 3381 KryptonButton Rounded Text Centering", "Demo for issue #3381: vertical and horizontal text centering inside heavily rounded KryptonButton (wide pill, Cyrillic, font metrics). Includes side-by-side stress, tall narrow capsule, low-rounding baseline, and live rounding / TextV / font / height controls.");
         CreateButton<Bug3367KryptonTextBoxButtonSpecHoverDemo>("Bug 3367 TextBox ButtonSpec Hover", "Demo for issue #3367: ButtonSpec hover flicker on KryptonTextBox, KryptonMaskedTextBox, and KryptonForm (ImageStates.ImageNormal without Image).");
         CreateButton<CommandLinkButtons>("CommandLink Buttons", "No comment");

@@ -27,6 +27,7 @@ public class KryptonContextMenu : Component,
 {
     #region Instance Fields
     private bool _disposed;
+    private bool? _overflowScrollUseArrows;
     private readonly PaletteRedirectContextMenu _redirectorImages;
     private readonly PaletteRedirect _redirector;
 
@@ -207,6 +208,31 @@ public class KryptonContextMenu : Component,
     [DefaultValue(true)]
     [Bindable(true)]
     public bool Enabled { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether overflow scroll rows use arrow glyphs instead of Scroll Up/Scroll Down text.
+    /// When null, <see cref="KryptonContextMenuStrings.OverflowScrollUseArrows"/> is used.
+    /// </summary>
+    [Category(@"Appearance")]
+    [Description(@"When set, overflow scroll rows show arrow glyphs instead of text labels. When null, uses global KryptonContextMenuStrings.OverflowScrollUseArrows.")]
+    [DefaultValue(null)]
+    [Bindable(true)]
+    public bool? OverflowScrollUseArrows
+    {
+        get => _overflowScrollUseArrows;
+        set => _overflowScrollUseArrows = value;
+    }
+
+    private bool ShouldSerializeOverflowScrollUseArrows() => _overflowScrollUseArrows.HasValue;
+
+    /// <summary>Resets <see cref="OverflowScrollUseArrows"/> to the global default.</summary>
+    public void ResetOverflowScrollUseArrows() => _overflowScrollUseArrows = null;
+
+    /// <summary>
+    /// Gets the effective overflow scroll arrow setting for this menu.
+    /// </summary>
+    internal bool GetEffectiveOverflowScrollUseArrows() =>
+        _overflowScrollUseArrows ?? KryptonManager.Strings.ContextMenuStrings.OverflowScrollUseArrows;
 
     /// <summary>
     /// Gets or sets the palette to be applied.

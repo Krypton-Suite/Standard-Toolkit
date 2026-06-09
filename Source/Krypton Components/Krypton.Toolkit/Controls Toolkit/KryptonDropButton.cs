@@ -721,11 +721,14 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
     /// <param name="m">A Windows-based message.</param>
     protected override void WndProc(ref Message m)
     {
-        // Prevent base class from showing a context menu when right clicking it
-        if (m.Msg != PI.WM_.CONTEXTMENU)
+        // Drop buttons show KryptonContextMenu on left-click; suppress the default right-click
+        // context menu path. KryptonButton is excluded so attached menus work on right-click.
+        if (m.Msg == PI.WM_.CONTEXTMENU && this is not KryptonButton)
         {
-            base.WndProc(ref m);
+            return;
         }
+
+        base.WndProc(ref m);
     }
     #endregion
 

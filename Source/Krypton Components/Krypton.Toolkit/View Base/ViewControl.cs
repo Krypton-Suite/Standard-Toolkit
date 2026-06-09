@@ -70,6 +70,36 @@ public class ViewControl : Control
         // Create delegate so child elements can request a repaint
         NeedPaintDelegate = OnNeedPaint;
     }
+
+    /// <summary>
+    /// Initialize a new instance of the ViewControl class.
+    /// </summary>
+    /// <param name="rootPopup">Top level visual popup.</param>
+    public ViewControl([DisallowNull] VisualPopup rootPopup)
+    {
+        Debug.Assert(rootPopup != null);
+
+        // We use double buffering to reduce drawing flicker
+        SetStyle(ControlStyles.OptimizedDoubleBuffer |
+                 ControlStyles.AllPaintingInWmPaint |
+                 ControlStyles.UserPaint, true);
+
+        // We need to repaint entire control whenever resized
+        SetStyle(ControlStyles.ResizeRedraw, true);
+
+        // We are not selectable
+        SetStyle(ControlStyles.Selectable, false);
+
+        // Default
+        TransparentBackground = false;
+        InDesignMode = false;
+
+        // Remember incoming references
+        _rootPopup = rootPopup;
+
+        // Create delegate so child elements can request a repaint
+        NeedPaintDelegate = OnNeedPaint;
+    }
     #endregion
 
     #region ViewLayoutControl
