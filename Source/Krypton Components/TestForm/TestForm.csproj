@@ -73,6 +73,12 @@
     <Compile Update="Bug3381KryptonButtonRoundedTextCenteringDemo.Designer.cs">
       <DependentUpon>Bug3381KryptonButtonRoundedTextCenteringDemo.cs</DependentUpon>
     </Compile>
+    <Compile Update="Bug3661KryptonContextMenuOverflowDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Bug3661KryptonContextMenuOverflowDemo.Designer.cs">
+      <DependentUpon>Bug3661KryptonContextMenuOverflowDemo.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>

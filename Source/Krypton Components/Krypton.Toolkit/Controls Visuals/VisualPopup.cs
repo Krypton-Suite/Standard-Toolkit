@@ -675,6 +675,13 @@ public class VisualPopup : ContainerControl
     }
 
     /// <summary>
+    /// Process a mouse wheel message when the pointer is over this popup.
+    /// </summary>
+    /// <param name="m">Mouse wheel message.</param>
+    /// <returns>True if handled; otherwise false.</returns>
+    protected internal virtual bool ProcessMouseWheelMessage(ref Message m) => false;
+
+    /// <summary>
     /// Processes Windows messages.
     /// </summary>
     /// <param name="m">The Windows Message to process.</param>

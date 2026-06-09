@@ -268,5 +268,9 @@ public class AppButtonMenuProvider : IContextMenuProvider
     /// </summary>
     public NeedPaintHandler ProviderNeedPaintDelegate { get; }
 
+    /// <inheritdoc />
+    public bool ProviderOverflowScrollUseArrows =>
+        KryptonManager.Strings.ContextMenuStrings.OverflowScrollUseArrows;
+
     #endregion
 }

@@ -452,6 +452,8 @@ public class VisualPopupManager : IMessageFilter
                 case PI.WM_.NCRBUTTONDOWN:
                 case PI.WM_.NCMBUTTONDOWN:
                     return ProcessNonClientMouseDown(ref m);
+                case PI.WM_.MOUSEWHEEL:
+                    return ProcessMouseWheel(ref m);
             }
         }
 
@@ -460,6 +462,40 @@ public class VisualPopupManager : IMessageFilter
     #endregion
 
     #region Implementation
+    private bool ProcessMouseWheel(ref Message m)
+    {
+        if (CurrentPopup == null || CurrentPopup.IsDisposed)
+        {
+            return false;
+        }
+
+        Point screenPt = WheelMessageToScreenPt(m);
+        if (!CurrentPopup.RectangleToScreen(CurrentPopup.ClientRectangle).Contains(screenPt))
+        {
+            return false;
+        }
+
+        return CurrentPopup.ProcessMouseWheelMessage(ref m);
+    }
+
+    private static Point WheelMessageToScreenPt(Message m)
+    {
+        var x = PI.LOWORD((int)m.LParam);
+        var y = PI.HIWORD((int)m.LParam);
+
+        if (x >= 32767)
+        {
+            x -= 65536;
+        }
+
+        if (y >= 32767)
+        {
+            y -= 65536;
+        }
+
+        return new Point(x, y);
+    }
+
     private bool ProcessKeyboard(ref Message m)
     {
         // If focus is not inside the current popup...

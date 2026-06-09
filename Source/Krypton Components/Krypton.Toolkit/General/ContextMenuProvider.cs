@@ -71,6 +71,7 @@ public class ContextMenuProvider : IContextMenuProvider
         ProviderNeedPaintDelegate = needPaintDelegate;
         ProviderShowHorz = provider.ProviderShowHorz;
         ProviderShowVert = provider.ProviderShowVert;
+        ProviderOverflowScrollUseArrows = provider.ProviderOverflowScrollUseArrows;
     }
 
     /// <summary>
@@ -112,6 +113,7 @@ public class ContextMenuProvider : IContextMenuProvider
         ProviderRedirector = redirector;
         ProviderNeedPaintDelegate = needPaintDelegate;
         ProviderCanCloseMenu = true;
+        ProviderOverflowScrollUseArrows = contextMenu.GetEffectiveOverflowScrollUseArrows();
     }
 
     /// <summary>
@@ -160,6 +162,7 @@ public class ContextMenuProvider : IContextMenuProvider
         ProviderPaletteMode = paletteMode;
         ProviderRedirector = redirector;
         ProviderNeedPaintDelegate = needPaintDelegate;
+        ProviderOverflowScrollUseArrows = KryptonManager.Strings.ContextMenuStrings.OverflowScrollUseArrows;
     }
     #endregion
 
@@ -321,6 +324,9 @@ public class ContextMenuProvider : IContextMenuProvider
     /// Gets a delegate used to indicate a repaint is required.
     /// </summary>
     public NeedPaintHandler ProviderNeedPaintDelegate { get; }
+
+    /// <inheritdoc />
+    public bool ProviderOverflowScrollUseArrows { get; }
 
     #endregion
 }
