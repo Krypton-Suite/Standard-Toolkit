@@ -1241,7 +1241,7 @@ public class KryptonDataGridView : DataGridView
         // the painting to fail.
         if ((_cellDown.X == -1) || (_cellDown.Y == -1))
         {
-            DoubleBuffered = false;
+            base.DoubleBuffered = false;
         }
 
         base.OnCellMouseDown(e);
@@ -1266,9 +1266,9 @@ public class KryptonDataGridView : DataGridView
         _cellDown = _nullCell;
 
         // Put back double buffered if it was turned off in the OnCellMouseDown
-        if (!DoubleBuffered)
+        if (!base.DoubleBuffered)
         {
-            DoubleBuffered = true;
+            base.DoubleBuffered = true;
         }
 
         base.OnCellMouseUp(e);
