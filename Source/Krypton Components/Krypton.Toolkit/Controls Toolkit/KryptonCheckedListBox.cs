@@ -820,6 +820,7 @@ public class KryptonCheckedListBox : VisualControlBase,
 
             return (IEnumerator)_miGetEnumerator?.Invoke(InnerArray, [stateMask, anyBit])!;
         }
+
         #endregion
 
         #region Private
@@ -937,15 +938,47 @@ public class KryptonCheckedListBox : VisualControlBase,
             var selectedIndex = SelectedIndex;
             if ((selectedIndex >= 0) && (selectedIndex < Items.Count))
             {
-                if (!_killNextSelect && ((selectedIndex == _lastSelected) || _kryptonCheckedListBox.CheckOnClick))
+                if (!_killNextSelect)
                 {
-                    CheckState checkedState = _kryptonCheckedListBox.GetItemCheckState(selectedIndex);
-                    CheckState newCheckValue = (checkedState != CheckState.Unchecked) ? CheckState.Unchecked : CheckState.Checked;
-                    var ice = new ItemCheckEventArgs(selectedIndex, newCheckValue, checkedState);
-                    _kryptonCheckedListBox.SetItemCheckState(selectedIndex, ice.NewValue);
+                    Action<int>? selectAction = _kryptonCheckedListBox.SelectionMode switch
+                    {
+                        CheckedSelectionMode.MultiSimple or CheckedSelectionMode.MultiExtended => ToggleItemCheckState,
+                        CheckedSelectionMode.Radio => CheckRadioItem,
+                        _ when (selectedIndex == _lastSelected) || _kryptonCheckedListBox.CheckOnClick => ToggleItemCheckState,
+                        _ => null
+                    };
+
+                    selectAction?.Invoke(selectedIndex);
                 }
+
                 _lastSelected = selectedIndex;
                 Invalidate();
+            }
+
+            void ToggleItemCheckState(int itemIndex)
+            {
+                CheckState checkedState = _kryptonCheckedListBox.GetItemCheckState(itemIndex);
+                CheckState newCheckValue = (checkedState != CheckState.Unchecked) ? CheckState.Unchecked : CheckState.Checked;
+                var ice = new ItemCheckEventArgs(itemIndex, newCheckValue, checkedState);
+                _kryptonCheckedListBox.SetItemCheckState(itemIndex, ice.NewValue);
+            }
+
+            void CheckRadioItem(int itemIndex)
+            {
+                for (int i = 0; i < _kryptonCheckedListBox.Items.Count; i++)
+                {
+                    if (i != itemIndex && _kryptonCheckedListBox.GetItemCheckState(i) != CheckState.Unchecked)
+                    {
+                        _kryptonCheckedListBox.SetItemCheckState(i, CheckState.Unchecked);
+                    }
+                }
+
+                CheckState checkedState = _kryptonCheckedListBox.GetItemCheckState(itemIndex);
+                if (checkedState == CheckState.Unchecked)
+                {
+                    var ice = new ItemCheckEventArgs(itemIndex, CheckState.Checked, checkedState);
+                    _kryptonCheckedListBox.SetItemCheckState(itemIndex, ice.NewValue);
+                }
             }
         }
         #endregion
@@ -976,6 +1009,7 @@ public class KryptonCheckedListBox : VisualControlBase,
     private ButtonStyle _style;
     private readonly IntPtr _screenDC;
     private int _lastSelectedIndex;
+    private CheckedSelectionMode _currentSelectionMode = CheckedSelectionMode.One;
     private bool _mouseOver;
     private bool _alwaysActive;
     private bool _forcedLayout;
@@ -1471,17 +1505,31 @@ public class KryptonCheckedListBox : VisualControlBase,
     /// Gets or sets the selection mode of the KryptonCheckedListBox control.
     /// </summary>
     [Category(@"Behavior")]
-    [Description(@"Indicates if the checked list box is to be single-select or not selectable. (Multi## not supported)")]
+    [Description(@"Indicates if the checked list box is to be single-select, multi-select or not selectable.")]
     [DefaultValue(CheckedSelectionMode.One)]
     public virtual CheckedSelectionMode SelectionMode
     {
-        get => _listBox.SelectionMode == System.Windows.Forms.SelectionMode.One
-            ? CheckedSelectionMode.One
-            : CheckedSelectionMode.None;
+        get => _listBox.SelectionMode switch
+        {
+            System.Windows.Forms.SelectionMode.One => _currentSelectionMode == CheckedSelectionMode.Radio ? CheckedSelectionMode.Radio : CheckedSelectionMode.One,
+            System.Windows.Forms.SelectionMode.MultiSimple => CheckedSelectionMode.MultiSimple,
+            System.Windows.Forms.SelectionMode.MultiExtended => CheckedSelectionMode.MultiExtended,
+            _ => CheckedSelectionMode.None
+        };
 
-        set => _listBox.SelectionMode = (value == CheckedSelectionMode.One)
-            ? System.Windows.Forms.SelectionMode.One
-            : System.Windows.Forms.SelectionMode.None;
+        set
+        {
+            _currentSelectionMode = value;
+
+            _listBox.SelectionMode = value switch
+            {
+                CheckedSelectionMode.One => System.Windows.Forms.SelectionMode.One,
+                CheckedSelectionMode.MultiSimple => System.Windows.Forms.SelectionMode.MultiSimple,
+                CheckedSelectionMode.MultiExtended => System.Windows.Forms.SelectionMode.MultiExtended,
+                CheckedSelectionMode.Radio => System.Windows.Forms.SelectionMode.One,
+                _ => System.Windows.Forms.SelectionMode.None
+            };
+        }
     }
 
     /// <summary>

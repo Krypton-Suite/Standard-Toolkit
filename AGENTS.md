@@ -31,11 +31,14 @@
 - Projects use `global using` like in GlobalDeclarations.cs, do not add new usings in other files
 - Before adding new variables check for existing ones
 - No variable aliasing
+- New files must use only the current Standard Toolkit BSD header. Do not add the original ComponentFactory BSD header unless the file is derived from original ComponentFactory source.
 
 ## C# Rules
 - Surgical edits: preserve structure, identifiers, and existing comments; avoid adding defensive checks unless asked
 - No unneeded `try/catch` blocks if there's no catch handling
 - Idioms: use null-propagation and object/collection initializers where consistent
+- Fix compiler, analyzer, and IDE warnings in new or modified code before handing work back
+- Prefer switch expressions for simple value/type dispatch that only returns a value; keep switch statements for complex control flow or side effects
 - Compatibility: ensure changes build for `net472` and C# 7.3
 - WinForms: `UseWindowsForms=true`; prefer designer-friendly patterns and keep partial classes tidy
 - WinForms designer: keep object declarations at file bottom; initialize in `*.Designer.cs` `InitializeComponent()`
