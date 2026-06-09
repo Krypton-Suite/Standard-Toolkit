@@ -183,6 +183,7 @@ public class KryptonDataGridView : DataGridView
     private KryptonVScrollBar? _roundingVScrollBar;
     private KryptonHScrollBar? _roundingHScrollBar;
     private bool _suppressRoundingScrollSync;
+    private bool _roundingResizeScrollSyncPending;
     private int _roundingScrollBarInteractionDepth;
     private System.Windows.Forms.Timer? _roundingScrollSyncTimer;
     private string _toolTipText;
@@ -1873,6 +1874,7 @@ public class KryptonDataGridView : DataGridView
     {
         base.OnResize(e);
         UpdateRoundingAppearance();
+        QueueDetachedRoundingScrollbarsResizeSync();
     }
 
     /// <summary>
@@ -2796,6 +2798,7 @@ public class KryptonDataGridView : DataGridView
 
         bool wasUsingDetachedScrollbars = _roundingUsesDetachedScrollbars;
         _roundingScrollBarInteractionDepth = 0;
+        _roundingResizeScrollSyncPending = false;
         if (wasUsingDetachedScrollbars)
         {
             ShowNativeScrollbarsAfterRounding();
@@ -3006,6 +3009,35 @@ public class KryptonDataGridView : DataGridView
         {
             SyncDetachedRoundingScrollbarsFromGrid(layoutScrollbars);
         }
+    }
+
+    private void QueueDetachedRoundingScrollbarsResizeSync()
+    {
+        if (!_roundingUsesDetachedScrollbars
+            || _roundingResizeScrollSyncPending
+            || !IsHandleCreated
+            || IsDisposed
+            || Disposing)
+        {
+            return;
+        }
+
+        _roundingResizeScrollSyncPending = true;
+        BeginInvoke((System.Windows.Forms.MethodInvoker)(() =>
+        {
+            _roundingResizeScrollSyncPending = false;
+
+            if (!_roundingUsesDetachedScrollbars
+                || !IsHandleCreated
+                || IsDisposed
+                || Disposing)
+            {
+                return;
+            }
+
+            HideNativeScrollbarsForRounding();
+            SyncDetachedRoundingScrollbarsFromGridIfIdle(true);
+        }));
     }
 
     private void UpdateDetachedHorizontalScrollBar()
