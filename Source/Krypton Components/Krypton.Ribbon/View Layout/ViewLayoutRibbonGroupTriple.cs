@@ -495,19 +495,13 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
                 if (child!.Visible)
                 {
                     // Get the cached size of this view
-                    var childSize = Size.Empty;
-                    switch (_currentSize)
+                    var childSize = _currentSize switch
                     {
-                        case GroupItemSize.Small:
-                            childSize = _smallCache[child];
-                            break;
-                        case GroupItemSize.Medium:
-                            childSize = _mediumCache[child];
-                            break;
-                        case GroupItemSize.Large:
-                            childSize = _largeCache[child];
-                            break;
-                    }
+                        GroupItemSize.Small => _smallCache[child],
+                        GroupItemSize.Medium => _mediumCache[child],
+                        GroupItemSize.Large => _largeCache[child],
+                        _ => Size.Empty
+                    };
 
                     if (horizontal)
                     {
@@ -523,18 +517,15 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
                     else
                     {
                         // Define display rectangle for the group
-                        switch (_ribbonTriple.ItemAlignment)
+                        context.DisplayRectangle = _ribbonTriple.ItemAlignment switch
                         {
-                            case RibbonItemAlignment.Near:
-                                context.DisplayRectangle = new Rectangle(x, y, childSize.Width, childSize.Height);
-                                break;
-                            case RibbonItemAlignment.Center:
-                                context.DisplayRectangle = new Rectangle(x + ((widest - childSize.Width) / 2), y, childSize.Width, childSize.Height);
-                                break;
-                            case RibbonItemAlignment.Far:
-                                context.DisplayRectangle = new Rectangle(x + widest - childSize.Width, y, childSize.Width, childSize.Height);
-                                break;
-                        }
+                            RibbonItemAlignment.Near => new Rectangle(x, y, childSize.Width, childSize.Height),
+                            RibbonItemAlignment.Center => new Rectangle(x + ((widest - childSize.Width) / 2), y,
+                                childSize.Width, childSize.Height),
+                            RibbonItemAlignment.Far => new Rectangle(x + widest - childSize.Width, y, childSize.Width,
+                                childSize.Height),
+                            _ => context.DisplayRectangle
+                        };
 
                         // Position the element
                         this[i]?.Layout(context);

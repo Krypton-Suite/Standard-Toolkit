@@ -70,42 +70,27 @@ public partial class KryptonContextMenuCollectionEditor
             #region Implementation
             private int ImageIndexFromItem()
             {
-                switch (Item)
+                return Item switch
                 {
-                    case KryptonContextMenuColorColumns _:
-                        return 0;
-                    case KryptonContextMenuHeading _:
-                        return 1;
-                    case KryptonContextMenuItem _:
-                        return 2;
-                    case KryptonContextMenuItems _:
-                        return 3;
-                    case KryptonContextMenuSeparator _:
-                        return 4;
-                    case KryptonContextMenuRadioButton _:
-                        return 5;
-                    case KryptonContextMenuCheckBox _:
-                        return 6;
-                    case KryptonContextMenuCheckButton _:
-                        return 7;
-                    case KryptonContextMenuLinkLabel _:
-                        return 8;
+                    KryptonContextMenuColorColumns _ => 0,
+                    KryptonContextMenuHeading _ => 1,
+                    KryptonContextMenuItem _ => 2,
+                    KryptonContextMenuItems _ => 3,
+                    KryptonContextMenuSeparator _ => 4,
+                    KryptonContextMenuRadioButton _ => 5,
+                    KryptonContextMenuCheckBox _ => 6,
+                    KryptonContextMenuCheckButton _ => 7,
+                    KryptonContextMenuLinkLabel _ => 8,
                     //imageList.Images.SetKeyName(9, "delete2.png");
                     //imageList.Images.SetKeyName(10, "arrow_up_blue.png");
                     //imageList.Images.SetKeyName(11, "arrow_down_blue.png");
-                    case KryptonContextMenuImageSelect _:
-                        return 12;
-                    case KryptonContextMenuMonthCalendar _:
-                        return 13;
-                    case KryptonContextMenuComboBox _:
-                        return 14;
-                    case KryptonContextMenuTextBox _:
-                        return 15;
-                    case KryptonContextMenuProgressBar _:
-                        return 16;
-                }
-
-                return 2;
+                    KryptonContextMenuImageSelect _ => 12,
+                    KryptonContextMenuMonthCalendar _ => 13,
+                    KryptonContextMenuComboBox _ => 14,
+                    KryptonContextMenuTextBox _ => 15,
+                    KryptonContextMenuProgressBar _ => 16,
+                    _ => 2
+                };
             }
 
             private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e) =>

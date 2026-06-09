@@ -300,13 +300,13 @@ internal class ViewBuilderOutlookMini : ViewBuilderOutlookBase
     /// <param name="e">Property changed details.</param>
     protected override void OnViewBuilderPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        switch (e.PropertyName)
+        _selectedButton.Orientation = e.PropertyName switch
         {
-            case @"OrientationOutlook":
-                _selectedButton.Orientation = (Navigator.Outlook.Orientation == Orientation.Vertical ?
-                    VisualOrientation.Left : VisualOrientation.Top);
-                break;
-        }
+            @"OrientationOutlook" => (Navigator.Outlook.Orientation == Orientation.Vertical
+                ? VisualOrientation.Left
+                : VisualOrientation.Top),
+            _ => _selectedButton.Orientation
+        };
 
         // Let base class continue with processing change
         base.OnViewBuilderPropertyChanged(sender, e);

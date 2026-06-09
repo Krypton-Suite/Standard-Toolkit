@@ -112,23 +112,20 @@ public abstract class ShellDialogWrapper
         {
             if (button.Button?.Parent is Panel panel)
             {
-                switch (button.DlgCtrlId)
+                panel.Location = button.DlgCtrlId switch
                 {
                     // Do not use strings as they will be localised
-                    case 1: // @"&Save"
+                    1 => // @"&Save"
                         // case @"&Open":
                         // case @"Select Folder":
-                        panel.Location = new Point(
-                            (int)(clientSize.Width - 116 * _scaleFactor - button.Button.Width * 1.1),
-                            (int)(clientSize.Height - 12 * _scaleFactor - button.Button.Height));
-                        break;
-                    case 2:
+                        new Point((int)(clientSize.Width - 116 * _scaleFactor - button.Button.Width * 1.1),
+                            (int)(clientSize.Height - 12 * _scaleFactor - button.Button.Height)),
+                    2 =>
                         //case @"Cancel":
-                        panel.Location = new Point(
-                            (int)(clientSize.Width - 30 * _scaleFactor - button.Button.Width),
-                            (int)(clientSize.Height - 12 * _scaleFactor - button.Button.Height));
-                        break;
-                }
+                        new Point((int)(clientSize.Width - 30 * _scaleFactor - button.Button.Width),
+                            (int)(clientSize.Height - 12 * _scaleFactor - button.Button.Height)),
+                    _ => panel.Location
+                };
             }
         }
         _commonDialogHandler._wrapperForm.ResumeLayout(false);

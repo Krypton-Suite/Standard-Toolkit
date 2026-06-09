@@ -4624,180 +4624,112 @@ public class KryptonCustomPaletteBase : PaletteBase
         // Must update the redirector values used if the palette source is used
         Common.StateCommon.BorderStyle = style;
 
-        switch (style)
+        return style switch
         {
-            case PaletteBorderStyle.ButtonStandalone:
-                return GetPaletteBorderButton(ButtonStyles.ButtonStandalone, state);
-            case PaletteBorderStyle.ButtonAlternate:
-                return GetPaletteBorderButton(ButtonStyles.ButtonAlternate, state);
-            case PaletteBorderStyle.ButtonLowProfile:
-                return GetPaletteBorderButton(ButtonStyles.ButtonLowProfile, state);
-            case PaletteBorderStyle.ButtonButtonSpec:
-                return GetPaletteBorderButton(ButtonStyles.ButtonButtonSpec, state);
-            case PaletteBorderStyle.ButtonBreadCrumb:
-                return GetPaletteBorderButton(ButtonStyles.ButtonBreadCrumb, state);
-            case PaletteBorderStyle.ButtonCalendarDay:
-                return GetPaletteBorderCalendarDay(CalendarDay, state);
-            case PaletteBorderStyle.ButtonCluster:
-                return GetPaletteBorderButton(ButtonStyles.ButtonCluster, state);
-            case PaletteBorderStyle.ButtonGallery:
-                return GetPaletteBorderButton(ButtonStyles.ButtonGallery, state);
-            case PaletteBorderStyle.ButtonNavigatorStack:
-                return GetPaletteBorderButton(ButtonStyles.ButtonNavigatorStack, state);
-            case PaletteBorderStyle.ButtonNavigatorOverflow:
-                return GetPaletteBorderButton(ButtonStyles.ButtonNavigatorOverflow, state);
-            case PaletteBorderStyle.ButtonNavigatorMini:
-                return GetPaletteBorderButton(ButtonStyles.ButtonNavigatorMini, state);
-            case PaletteBorderStyle.ButtonInputControl:
-                return GetPaletteBorderButton(ButtonStyles.ButtonInputControl, state);
-            case PaletteBorderStyle.ButtonListItem:
-                return GetPaletteBorderButton(ButtonStyles.ButtonListItem, state);
-            case PaletteBorderStyle.ButtonForm:
-                return GetPaletteBorderButton(ButtonStyles.ButtonForm, state);
-            case PaletteBorderStyle.ButtonFormClose:
-                return GetPaletteBorderButton(ButtonStyles.ButtonFormClose, state);
-            case PaletteBorderStyle.ButtonCommand:
-                return GetPaletteBorderButton(ButtonStyles.ButtonCommand, state);
-            case PaletteBorderStyle.ButtonCustom1:
-                return GetPaletteBorderButton(ButtonStyles.ButtonCustom1, state);
-            case PaletteBorderStyle.ButtonCustom2:
-                return GetPaletteBorderButton(ButtonStyles.ButtonCustom2, state);
-            case PaletteBorderStyle.ButtonCustom3:
-                return GetPaletteBorderButton(ButtonStyles.ButtonCustom3, state);
-            case PaletteBorderStyle.ControlClient:
-                return GetPaletteBorderControl(ControlStyles.ControlClient, state);
-            case PaletteBorderStyle.ControlAlternate:
-                return GetPaletteBorderControl(ControlStyles.ControlAlternate, state);
-            case PaletteBorderStyle.ControlGroupBox:
-                return GetPaletteBorderControl(ControlStyles.ControlGroupBox, state);
-            case PaletteBorderStyle.ControlToolTip:
-                return GetPaletteBorderControl(ControlStyles.ControlToolTip, state);
-            case PaletteBorderStyle.ControlRibbon:
-                return GetPaletteBorderControl(ControlStyles.ControlRibbon, state);
-            case PaletteBorderStyle.ControlRibbonAppMenu:
-                return GetPaletteBorderControl(ControlStyles.ControlRibbonAppMenu, state);
-            case PaletteBorderStyle.ControlCustom1:
-                return GetPaletteBorderControl(ControlStyles.ControlCustom1, state);
-            case PaletteBorderStyle.ControlCustom2:
-                return GetPaletteBorderControl(ControlStyles.ControlCustom2, state);
-            case PaletteBorderStyle.ControlCustom3:
-                return GetPaletteBorderControl(ControlStyles.ControlCustom3, state);
-            case PaletteBorderStyle.InputControlStandalone:
-                return GetPaletteInputControl(InputControlStyles.InputControlStandalone, state).Border;
-            case PaletteBorderStyle.InputControlRibbon:
-                return GetPaletteInputControl(InputControlStyles.InputControlRibbon, state).Border;
-            case PaletteBorderStyle.InputControlCustom1:
-                return GetPaletteInputControl(InputControlStyles.InputControlCustom1, state).Border;
-            case PaletteBorderStyle.InputControlCustom2:
-                return GetPaletteInputControl(InputControlStyles.InputControlCustom2, state).Border;
-            case PaletteBorderStyle.InputControlCustom3:
-                return GetPaletteInputControl(InputControlStyles.InputControlCustom3, state).Border;
-            case PaletteBorderStyle.FormMain:
-                return GetPaletteBorderForm(FormStyles.FormMain, state);
-            case PaletteBorderStyle.FormCustom1:
-                return GetPaletteBorderForm(FormStyles.FormCustom1, state);
-            case PaletteBorderStyle.FormCustom2:
-                return GetPaletteBorderForm(FormStyles.FormCustom2, state);
-            case PaletteBorderStyle.FormCustom3:
-                return GetPaletteBorderForm(FormStyles.FormCustom3, state);
-            case PaletteBorderStyle.GridHeaderColumnList:
-                return GetPaletteBorderGridHeaderColumn(GridStyles.GridList, state);
-            case PaletteBorderStyle.GridHeaderColumnSheet:
-                return GetPaletteBorderGridHeaderColumn(GridStyles.GridSheet, state);
-            case PaletteBorderStyle.GridHeaderColumnCustom1:
-                return GetPaletteBorderGridHeaderColumn(GridStyles.GridCustom1, state);
-            case PaletteBorderStyle.GridHeaderColumnCustom2:
-                return GetPaletteBorderGridHeaderColumn(GridStyles.GridCustom2, state);
-            case PaletteBorderStyle.GridHeaderColumnCustom3:
-                return GetPaletteBorderGridHeaderColumn(GridStyles.GridCustom3, state);
-            case PaletteBorderStyle.GridHeaderRowList:
-                return GetPaletteBorderGridHeaderRow(GridStyles.GridList, state);
-            case PaletteBorderStyle.GridHeaderRowSheet:
-                return GetPaletteBorderGridHeaderRow(GridStyles.GridSheet, state);
-            case PaletteBorderStyle.GridHeaderRowCustom1:
-                return GetPaletteBorderGridHeaderRow(GridStyles.GridCustom1, state);
-            case PaletteBorderStyle.GridHeaderRowCustom2:
-                return GetPaletteBorderGridHeaderRow(GridStyles.GridCustom2, state);
-            case PaletteBorderStyle.GridHeaderRowCustom3:
-                return GetPaletteBorderGridHeaderRow(GridStyles.GridCustom3, state);
-            case PaletteBorderStyle.GridDataCellList:
-                return GetPaletteBorderGridDataCell(GridStyles.GridList, state);
-            case PaletteBorderStyle.GridDataCellSheet:
-                return GetPaletteBorderGridDataCell(GridStyles.GridSheet, state);
-            case PaletteBorderStyle.GridDataCellCustom1:
-                return GetPaletteBorderGridDataCell(GridStyles.GridCustom1, state);
-            case PaletteBorderStyle.GridDataCellCustom2:
-                return GetPaletteBorderGridDataCell(GridStyles.GridCustom2, state);
-            case PaletteBorderStyle.GridDataCellCustom3:
-                return GetPaletteBorderGridDataCell(GridStyles.GridCustom3, state);
-            case PaletteBorderStyle.HeaderPrimary:
-                return GetPaletteBorderHeader(HeaderStyles.HeaderPrimary, state);
-            case PaletteBorderStyle.HeaderSecondary:
-                return GetPaletteBorderHeader(HeaderStyles.HeaderSecondary, state);
-            case PaletteBorderStyle.HeaderDockInactive:
-                return GetPaletteBorderHeader(HeaderStyles.HeaderDockInactive, state);
-            case PaletteBorderStyle.HeaderDockActive:
-                return GetPaletteBorderHeader(HeaderStyles.HeaderDockActive, state);
-            case PaletteBorderStyle.HeaderCalendar:
-                return GetPaletteBorderHeader(HeaderStyles.HeaderCalendar, state);
-            case PaletteBorderStyle.HeaderForm:
-                return GetPaletteBorderHeader(HeaderStyles.HeaderForm, state);
-            case PaletteBorderStyle.HeaderCustom1:
-                return GetPaletteBorderHeader(HeaderStyles.HeaderCustom1, state);
-            case PaletteBorderStyle.HeaderCustom2:
-                return GetPaletteBorderHeader(HeaderStyles.HeaderCustom2, state);
-            case PaletteBorderStyle.HeaderCustom3:
-                return GetPaletteBorderHeader(HeaderStyles.HeaderCustom3, state);
-            case PaletteBorderStyle.SeparatorLowProfile:
-                return GetPaletteBorderSeparator(SeparatorStyles.SeparatorLowProfile, state);
-            case PaletteBorderStyle.SeparatorHighProfile:
-                return GetPaletteBorderSeparator(SeparatorStyles.SeparatorHighProfile, state);
-            case PaletteBorderStyle.SeparatorHighInternalProfile:
-                return GetPaletteBorderSeparator(SeparatorStyles.SeparatorHighInternalProfile, state);
-            case PaletteBorderStyle.SeparatorCustom1:
-                return GetPaletteBorderSeparator(SeparatorStyles.SeparatorCustom1, state);
-            case PaletteBorderStyle.SeparatorCustom2:
-                return GetPaletteBorderSeparator(SeparatorStyles.SeparatorCustom2, state);
-            case PaletteBorderStyle.SeparatorCustom3:
-                return GetPaletteBorderSeparator(SeparatorStyles.SeparatorCustom3, state);
-            case PaletteBorderStyle.TabHighProfile:
-                return GetPaletteBorderTab(TabStyles.TabHighProfile, state);
-            case PaletteBorderStyle.TabStandardProfile:
-                return GetPaletteBorderTab(TabStyles.TabStandardProfile, state);
-            case PaletteBorderStyle.TabLowProfile:
-                return GetPaletteBorderTab(TabStyles.TabLowProfile, state);
-            case PaletteBorderStyle.TabDock:
-                return GetPaletteBorderTab(TabStyles.TabDock, state);
-            case PaletteBorderStyle.TabDockAutoHidden:
-                return GetPaletteBorderTab(TabStyles.TabDockAutoHidden, state);
-            case PaletteBorderStyle.TabOneNote:
-                return GetPaletteBorderTab(TabStyles.TabOneNote, state);
-            case PaletteBorderStyle.TabCustom1:
-                return GetPaletteBorderTab(TabStyles.TabCustom1, state);
-            case PaletteBorderStyle.TabCustom2:
-                return GetPaletteBorderTab(TabStyles.TabCustom2, state);
-            case PaletteBorderStyle.TabCustom3:
-                return GetPaletteBorderTab(TabStyles.TabCustom3, state);
-            case PaletteBorderStyle.ContextMenuOuter:
-                return ContextMenu.StateCommon.ControlOuter.Border;
-            case PaletteBorderStyle.ContextMenuInner:
-                return ContextMenu.StateCommon.ControlInner.Border;
-            case PaletteBorderStyle.ContextMenuHeading:
-                return ContextMenu.StateCommon.Heading.Border;
-            case PaletteBorderStyle.ContextMenuItemHighlight:
-                return GetPaletteBorderContextMenuItemHighlight(state);
-            case PaletteBorderStyle.ContextMenuItemImage:
-                return GetPaletteBorderContextMenuItemImage(state);
-            case PaletteBorderStyle.ContextMenuItemSplit:
-                return GetPaletteBorderContextMenuItemSplit(state);
-            case PaletteBorderStyle.ContextMenuItemImageColumn:
-                return ContextMenu.StateCommon.ItemImageColumn.Border;
-            case PaletteBorderStyle.ContextMenuSeparator:
-                return ContextMenu.StateCommon.Separator.Border;
-            default:
-                // Should never happen!
-                throw DebugTools.NotImplemented(style.ToString());
-        }
+            PaletteBorderStyle.ButtonStandalone => GetPaletteBorderButton(ButtonStyles.ButtonStandalone, state),
+            PaletteBorderStyle.ButtonAlternate => GetPaletteBorderButton(ButtonStyles.ButtonAlternate, state),
+            PaletteBorderStyle.ButtonLowProfile => GetPaletteBorderButton(ButtonStyles.ButtonLowProfile, state),
+            PaletteBorderStyle.ButtonButtonSpec => GetPaletteBorderButton(ButtonStyles.ButtonButtonSpec, state),
+            PaletteBorderStyle.ButtonBreadCrumb => GetPaletteBorderButton(ButtonStyles.ButtonBreadCrumb, state),
+            PaletteBorderStyle.ButtonCalendarDay => GetPaletteBorderCalendarDay(CalendarDay, state),
+            PaletteBorderStyle.ButtonCluster => GetPaletteBorderButton(ButtonStyles.ButtonCluster, state),
+            PaletteBorderStyle.ButtonGallery => GetPaletteBorderButton(ButtonStyles.ButtonGallery, state),
+            PaletteBorderStyle.ButtonNavigatorStack => GetPaletteBorderButton(ButtonStyles.ButtonNavigatorStack, state),
+            PaletteBorderStyle.ButtonNavigatorOverflow => GetPaletteBorderButton(ButtonStyles.ButtonNavigatorOverflow,
+                state),
+            PaletteBorderStyle.ButtonNavigatorMini => GetPaletteBorderButton(ButtonStyles.ButtonNavigatorMini, state),
+            PaletteBorderStyle.ButtonInputControl => GetPaletteBorderButton(ButtonStyles.ButtonInputControl, state),
+            PaletteBorderStyle.ButtonListItem => GetPaletteBorderButton(ButtonStyles.ButtonListItem, state),
+            PaletteBorderStyle.ButtonForm => GetPaletteBorderButton(ButtonStyles.ButtonForm, state),
+            PaletteBorderStyle.ButtonFormClose => GetPaletteBorderButton(ButtonStyles.ButtonFormClose, state),
+            PaletteBorderStyle.ButtonCommand => GetPaletteBorderButton(ButtonStyles.ButtonCommand, state),
+            PaletteBorderStyle.ButtonCustom1 => GetPaletteBorderButton(ButtonStyles.ButtonCustom1, state),
+            PaletteBorderStyle.ButtonCustom2 => GetPaletteBorderButton(ButtonStyles.ButtonCustom2, state),
+            PaletteBorderStyle.ButtonCustom3 => GetPaletteBorderButton(ButtonStyles.ButtonCustom3, state),
+            PaletteBorderStyle.ControlClient => GetPaletteBorderControl(ControlStyles.ControlClient, state),
+            PaletteBorderStyle.ControlAlternate => GetPaletteBorderControl(ControlStyles.ControlAlternate, state),
+            PaletteBorderStyle.ControlGroupBox => GetPaletteBorderControl(ControlStyles.ControlGroupBox, state),
+            PaletteBorderStyle.ControlToolTip => GetPaletteBorderControl(ControlStyles.ControlToolTip, state),
+            PaletteBorderStyle.ControlRibbon => GetPaletteBorderControl(ControlStyles.ControlRibbon, state),
+            PaletteBorderStyle.ControlRibbonAppMenu => GetPaletteBorderControl(ControlStyles.ControlRibbonAppMenu,
+                state),
+            PaletteBorderStyle.ControlCustom1 => GetPaletteBorderControl(ControlStyles.ControlCustom1, state),
+            PaletteBorderStyle.ControlCustom2 => GetPaletteBorderControl(ControlStyles.ControlCustom2, state),
+            PaletteBorderStyle.ControlCustom3 => GetPaletteBorderControl(ControlStyles.ControlCustom3, state),
+            PaletteBorderStyle.InputControlStandalone => GetPaletteInputControl(
+                    InputControlStyles.InputControlStandalone, state)
+                .Border,
+            PaletteBorderStyle.InputControlRibbon => GetPaletteInputControl(InputControlStyles.InputControlRibbon,
+                    state)
+                .Border,
+            PaletteBorderStyle.InputControlCustom1 => GetPaletteInputControl(InputControlStyles.InputControlCustom1,
+                    state)
+                .Border,
+            PaletteBorderStyle.InputControlCustom2 => GetPaletteInputControl(InputControlStyles.InputControlCustom2,
+                    state)
+                .Border,
+            PaletteBorderStyle.InputControlCustom3 => GetPaletteInputControl(InputControlStyles.InputControlCustom3,
+                    state)
+                .Border,
+            PaletteBorderStyle.FormMain => GetPaletteBorderForm(FormStyles.FormMain, state),
+            PaletteBorderStyle.FormCustom1 => GetPaletteBorderForm(FormStyles.FormCustom1, state),
+            PaletteBorderStyle.FormCustom2 => GetPaletteBorderForm(FormStyles.FormCustom2, state),
+            PaletteBorderStyle.FormCustom3 => GetPaletteBorderForm(FormStyles.FormCustom3, state),
+            PaletteBorderStyle.GridHeaderColumnList => GetPaletteBorderGridHeaderColumn(GridStyles.GridList, state),
+            PaletteBorderStyle.GridHeaderColumnSheet => GetPaletteBorderGridHeaderColumn(GridStyles.GridSheet, state),
+            PaletteBorderStyle.GridHeaderColumnCustom1 => GetPaletteBorderGridHeaderColumn(GridStyles.GridCustom1,
+                state),
+            PaletteBorderStyle.GridHeaderColumnCustom2 => GetPaletteBorderGridHeaderColumn(GridStyles.GridCustom2,
+                state),
+            PaletteBorderStyle.GridHeaderColumnCustom3 => GetPaletteBorderGridHeaderColumn(GridStyles.GridCustom3,
+                state),
+            PaletteBorderStyle.GridHeaderRowList => GetPaletteBorderGridHeaderRow(GridStyles.GridList, state),
+            PaletteBorderStyle.GridHeaderRowSheet => GetPaletteBorderGridHeaderRow(GridStyles.GridSheet, state),
+            PaletteBorderStyle.GridHeaderRowCustom1 => GetPaletteBorderGridHeaderRow(GridStyles.GridCustom1, state),
+            PaletteBorderStyle.GridHeaderRowCustom2 => GetPaletteBorderGridHeaderRow(GridStyles.GridCustom2, state),
+            PaletteBorderStyle.GridHeaderRowCustom3 => GetPaletteBorderGridHeaderRow(GridStyles.GridCustom3, state),
+            PaletteBorderStyle.GridDataCellList => GetPaletteBorderGridDataCell(GridStyles.GridList, state),
+            PaletteBorderStyle.GridDataCellSheet => GetPaletteBorderGridDataCell(GridStyles.GridSheet, state),
+            PaletteBorderStyle.GridDataCellCustom1 => GetPaletteBorderGridDataCell(GridStyles.GridCustom1, state),
+            PaletteBorderStyle.GridDataCellCustom2 => GetPaletteBorderGridDataCell(GridStyles.GridCustom2, state),
+            PaletteBorderStyle.GridDataCellCustom3 => GetPaletteBorderGridDataCell(GridStyles.GridCustom3, state),
+            PaletteBorderStyle.HeaderPrimary => GetPaletteBorderHeader(HeaderStyles.HeaderPrimary, state),
+            PaletteBorderStyle.HeaderSecondary => GetPaletteBorderHeader(HeaderStyles.HeaderSecondary, state),
+            PaletteBorderStyle.HeaderDockInactive => GetPaletteBorderHeader(HeaderStyles.HeaderDockInactive, state),
+            PaletteBorderStyle.HeaderDockActive => GetPaletteBorderHeader(HeaderStyles.HeaderDockActive, state),
+            PaletteBorderStyle.HeaderCalendar => GetPaletteBorderHeader(HeaderStyles.HeaderCalendar, state),
+            PaletteBorderStyle.HeaderForm => GetPaletteBorderHeader(HeaderStyles.HeaderForm, state),
+            PaletteBorderStyle.HeaderCustom1 => GetPaletteBorderHeader(HeaderStyles.HeaderCustom1, state),
+            PaletteBorderStyle.HeaderCustom2 => GetPaletteBorderHeader(HeaderStyles.HeaderCustom2, state),
+            PaletteBorderStyle.HeaderCustom3 => GetPaletteBorderHeader(HeaderStyles.HeaderCustom3, state),
+            PaletteBorderStyle.SeparatorLowProfile => GetPaletteBorderSeparator(SeparatorStyles.SeparatorLowProfile,
+                state),
+            PaletteBorderStyle.SeparatorHighProfile => GetPaletteBorderSeparator(SeparatorStyles.SeparatorHighProfile,
+                state),
+            PaletteBorderStyle.SeparatorHighInternalProfile => GetPaletteBorderSeparator(
+                SeparatorStyles.SeparatorHighInternalProfile, state),
+            PaletteBorderStyle.SeparatorCustom1 => GetPaletteBorderSeparator(SeparatorStyles.SeparatorCustom1, state),
+            PaletteBorderStyle.SeparatorCustom2 => GetPaletteBorderSeparator(SeparatorStyles.SeparatorCustom2, state),
+            PaletteBorderStyle.SeparatorCustom3 => GetPaletteBorderSeparator(SeparatorStyles.SeparatorCustom3, state),
+            PaletteBorderStyle.TabHighProfile => GetPaletteBorderTab(TabStyles.TabHighProfile, state),
+            PaletteBorderStyle.TabStandardProfile => GetPaletteBorderTab(TabStyles.TabStandardProfile, state),
+            PaletteBorderStyle.TabLowProfile => GetPaletteBorderTab(TabStyles.TabLowProfile, state),
+            PaletteBorderStyle.TabDock => GetPaletteBorderTab(TabStyles.TabDock, state),
+            PaletteBorderStyle.TabDockAutoHidden => GetPaletteBorderTab(TabStyles.TabDockAutoHidden, state),
+            PaletteBorderStyle.TabOneNote => GetPaletteBorderTab(TabStyles.TabOneNote, state),
+            PaletteBorderStyle.TabCustom1 => GetPaletteBorderTab(TabStyles.TabCustom1, state),
+            PaletteBorderStyle.TabCustom2 => GetPaletteBorderTab(TabStyles.TabCustom2, state),
+            PaletteBorderStyle.TabCustom3 => GetPaletteBorderTab(TabStyles.TabCustom3, state),
+            PaletteBorderStyle.ContextMenuOuter => ContextMenu.StateCommon.ControlOuter.Border,
+            PaletteBorderStyle.ContextMenuInner => ContextMenu.StateCommon.ControlInner.Border,
+            PaletteBorderStyle.ContextMenuHeading => ContextMenu.StateCommon.Heading.Border,
+            PaletteBorderStyle.ContextMenuItemHighlight => GetPaletteBorderContextMenuItemHighlight(state),
+            PaletteBorderStyle.ContextMenuItemImage => GetPaletteBorderContextMenuItemImage(state),
+            PaletteBorderStyle.ContextMenuItemSplit => GetPaletteBorderContextMenuItemSplit(state),
+            PaletteBorderStyle.ContextMenuItemImageColumn => ContextMenu.StateCommon.ItemImageColumn.Border,
+            PaletteBorderStyle.ContextMenuSeparator => ContextMenu.StateCommon.Separator.Border,
+            _ => throw DebugTools.NotImplemented(style.ToString())
+        };
     }
 
     private IPaletteContent GetPaletteContent(PaletteContentStyle style, PaletteState state)

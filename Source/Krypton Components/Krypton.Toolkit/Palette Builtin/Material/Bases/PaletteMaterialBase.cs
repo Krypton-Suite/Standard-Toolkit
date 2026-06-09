@@ -90,51 +90,28 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
             return PaletteColorStyle.Inherit;
         }
 
-        switch (style)
+        return style switch
         {
-            case PaletteBackStyle.ButtonStandalone:
-            case PaletteBackStyle.ButtonAlternate:
-            case PaletteBackStyle.ButtonLowProfile:
-            case PaletteBackStyle.ButtonBreadCrumb:
-            case PaletteBackStyle.ButtonListItem:
-            case PaletteBackStyle.ButtonCommand:
-            case PaletteBackStyle.ButtonButtonSpec:
-            case PaletteBackStyle.ButtonCluster:
-            case PaletteBackStyle.ButtonForm:
-            case PaletteBackStyle.ButtonFormClose:
-            case PaletteBackStyle.ButtonCustom1:
-            case PaletteBackStyle.ButtonCustom2:
-            case PaletteBackStyle.ButtonCustom3:
+            PaletteBackStyle.ButtonStandalone or PaletteBackStyle.ButtonAlternate or PaletteBackStyle.ButtonLowProfile
+                or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem
+                or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ButtonCluster
+                or PaletteBackStyle.ButtonForm or PaletteBackStyle.ButtonFormClose or PaletteBackStyle.ButtonCustom1
+                or PaletteBackStyle.ButtonCustom2 or PaletteBackStyle.ButtonCustom3 =>
                 // Force flat solid fills for buttons
-                return PaletteColorStyle.Solid;
-            case PaletteBackStyle.ContextMenuOuter:
-            case PaletteBackStyle.ContextMenuInner:
-            case PaletteBackStyle.ContextMenuItemHighlight:
-                return PaletteColorStyle.Solid;
-            case PaletteBackStyle.ControlClient:
-            case PaletteBackStyle.ControlAlternate:
-            case PaletteBackStyle.ControlCustom1:
-            case PaletteBackStyle.ControlCustom2:
-            case PaletteBackStyle.ControlCustom3:
-            case PaletteBackStyle.HeaderPrimary:
-            case PaletteBackStyle.HeaderSecondary:
-            case PaletteBackStyle.HeaderDockActive:
-            case PaletteBackStyle.HeaderDockInactive:
-            case PaletteBackStyle.HeaderForm:
-            case PaletteBackStyle.HeaderCalendar:
-            case PaletteBackStyle.HeaderCustom1:
-            case PaletteBackStyle.HeaderCustom2:
-            case PaletteBackStyle.HeaderCustom3:
-            case PaletteBackStyle.FormMain:
-            case PaletteBackStyle.InputControlStandalone:
-            case PaletteBackStyle.InputControlRibbon:
-            case PaletteBackStyle.InputControlCustom1:
-            case PaletteBackStyle.InputControlCustom2:
-            case PaletteBackStyle.InputControlCustom3:
-                return PaletteColorStyle.Solid;
-            default:
-                return base.GetBackColorStyle(style, state);
-        }
+                PaletteColorStyle.Solid,
+            PaletteBackStyle.ContextMenuOuter or PaletteBackStyle.ContextMenuInner
+                or PaletteBackStyle.ContextMenuItemHighlight => PaletteColorStyle.Solid,
+            PaletteBackStyle.ControlClient or PaletteBackStyle.ControlAlternate or PaletteBackStyle.ControlCustom1
+                or PaletteBackStyle.ControlCustom2 or PaletteBackStyle.ControlCustom3 or PaletteBackStyle.HeaderPrimary
+                or PaletteBackStyle.HeaderSecondary or PaletteBackStyle.HeaderDockActive
+                or PaletteBackStyle.HeaderDockInactive or PaletteBackStyle.HeaderForm or PaletteBackStyle.HeaderCalendar
+                or PaletteBackStyle.HeaderCustom1 or PaletteBackStyle.HeaderCustom2 or PaletteBackStyle.HeaderCustom3
+                or PaletteBackStyle.FormMain or PaletteBackStyle.InputControlStandalone
+                or PaletteBackStyle.InputControlRibbon or PaletteBackStyle.InputControlCustom1
+                or PaletteBackStyle.InputControlCustom2
+                or PaletteBackStyle.InputControlCustom3 => PaletteColorStyle.Solid,
+            _ => base.GetBackColorStyle(style, state)
+        };
     }
 
     /// <inheritdoc />
@@ -145,125 +122,83 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
             return PaletteGraphicsHint.Inherit;
         }
 
-        switch (style)
+        return style switch
         {
-            case PaletteBackStyle.ContextMenuOuter:
-            case PaletteBackStyle.ContextMenuInner:
-            case PaletteBackStyle.ContextMenuItemHighlight:
-                return PaletteGraphicsHint.None;
-            case PaletteBackStyle.ControlClient:
-            case PaletteBackStyle.ControlAlternate:
-            case PaletteBackStyle.ControlCustom1:
-            case PaletteBackStyle.ControlCustom2:
-            case PaletteBackStyle.ControlCustom3:
-            case PaletteBackStyle.HeaderPrimary:
-            case PaletteBackStyle.HeaderSecondary:
-            case PaletteBackStyle.HeaderDockActive:
-            case PaletteBackStyle.HeaderDockInactive:
-            case PaletteBackStyle.HeaderForm:
-            case PaletteBackStyle.HeaderCalendar:
-            case PaletteBackStyle.HeaderCustom1:
-            case PaletteBackStyle.HeaderCustom2:
-            case PaletteBackStyle.HeaderCustom3:
-            case PaletteBackStyle.FormMain:
-            case PaletteBackStyle.InputControlStandalone:
-            case PaletteBackStyle.InputControlRibbon:
-            case PaletteBackStyle.InputControlCustom1:
-            case PaletteBackStyle.InputControlCustom2:
-            case PaletteBackStyle.InputControlCustom3:
-                return PaletteGraphicsHint.None;
-            default:
-                return base.GetBackGraphicsHint(style, state);
-        }
+            PaletteBackStyle.ContextMenuOuter or PaletteBackStyle.ContextMenuInner
+                or PaletteBackStyle.ContextMenuItemHighlight => PaletteGraphicsHint.None,
+            PaletteBackStyle.ControlClient or PaletteBackStyle.ControlAlternate or PaletteBackStyle.ControlCustom1
+                or PaletteBackStyle.ControlCustom2 or PaletteBackStyle.ControlCustom3 or PaletteBackStyle.HeaderPrimary
+                or PaletteBackStyle.HeaderSecondary or PaletteBackStyle.HeaderDockActive
+                or PaletteBackStyle.HeaderDockInactive or PaletteBackStyle.HeaderForm or PaletteBackStyle.HeaderCalendar
+                or PaletteBackStyle.HeaderCustom1 or PaletteBackStyle.HeaderCustom2 or PaletteBackStyle.HeaderCustom3
+                or PaletteBackStyle.FormMain or PaletteBackStyle.InputControlStandalone
+                or PaletteBackStyle.InputControlRibbon or PaletteBackStyle.InputControlCustom1
+                or PaletteBackStyle.InputControlCustom2
+                or PaletteBackStyle.InputControlCustom3 => PaletteGraphicsHint.None,
+            _ => base.GetBackGraphicsHint(style, state)
+        };
     }
 
     /// <inheritdoc />
     public override Color GetBackColor1(PaletteBackStyle style, PaletteState state)
     {
         // Force dark popups and context menus without touching scheme files
-        switch (style)
+        return style switch
         {
             // Buttons: use neutral surface color; state-specific nuances are small and handled by BorderColor/2
-            case PaletteBackStyle.ButtonStandalone:
-            case PaletteBackStyle.ButtonAlternate:
-            case PaletteBackStyle.ButtonLowProfile:
-            case PaletteBackStyle.ButtonBreadCrumb:
-            case PaletteBackStyle.ButtonListItem:
-            case PaletteBackStyle.ButtonCommand:
-            case PaletteBackStyle.ButtonButtonSpec:
-            case PaletteBackStyle.ButtonCluster:
-            case PaletteBackStyle.ButtonForm:
-            case PaletteBackStyle.ButtonFormClose:
-            case PaletteBackStyle.ButtonCustom1:
-            case PaletteBackStyle.ButtonCustom2:
-            case PaletteBackStyle.ButtonCustom3:
+            PaletteBackStyle.ButtonStandalone or PaletteBackStyle.ButtonAlternate or PaletteBackStyle.ButtonLowProfile
+                or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem
+                or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ButtonCluster
+                or PaletteBackStyle.ButtonForm or PaletteBackStyle.ButtonFormClose or PaletteBackStyle.ButtonCustom1
+                or PaletteBackStyle.ButtonCustom2 or PaletteBackStyle.ButtonCustom3 =>
                 // Neutral container/background for Material with state overlays
-                return GetMaterialButtonBackColor(state);
-            case PaletteBackStyle.HeaderForm:
-            case PaletteBackStyle.HeaderPrimary:
+                GetMaterialButtonBackColor(state),
+            PaletteBackStyle.HeaderForm or PaletteBackStyle.HeaderPrimary =>
                 // Flat, solid header background from scheme
-                return BaseColors?.HeaderPrimaryBack1 ?? SystemColors.ControlDark;
+                BaseColors?.HeaderPrimaryBack1 ?? SystemColors.ControlDark,
             // Ensure dropdown/popups that use ControlClient (e.g. ComboBox list) pick up
             // the scheme panel color instead of the base Microsoft 365 window color.
-            case PaletteBackStyle.ControlClient:
-                return base.GetBackColor1(PaletteBackStyle.PanelClient, state);
-            // DataGridView data cells should use the surface background (dark in Material Dark)
-            case PaletteBackStyle.GridDataCellList:
-            case PaletteBackStyle.GridDataCellSheet:
-            case PaletteBackStyle.GridDataCellCustom1:
-            case PaletteBackStyle.GridDataCellCustom2:
-            case PaletteBackStyle.GridDataCellCustom3:
-                return BaseColors?.PanelClient ?? base.GetBackColor1(PaletteBackStyle.PanelClient, state);
-            case PaletteBackStyle.ContextMenuOuter:
-            case PaletteBackStyle.ContextMenuInner:
+            PaletteBackStyle.ControlClient => base.GetBackColor1(PaletteBackStyle.PanelClient, state),
+            // DataGridView data cells use the surface background; selected uses scheme highlight
+            PaletteBackStyle.GridDataCellList or PaletteBackStyle.GridDataCellSheet
+                or PaletteBackStyle.GridDataCellCustom1 or PaletteBackStyle.GridDataCellCustom2
+                or PaletteBackStyle.GridDataCellCustom3 => state == PaletteState.CheckedNormal
+                    ? BaseColors?.GridDataCellSelected ?? base.GetBackColor1(style, state)
+                    : BaseColors?.PanelClient ?? base.GetBackColor1(PaletteBackStyle.PanelClient, state),
+            PaletteBackStyle.ContextMenuOuter or PaletteBackStyle.ContextMenuInner =>
                 // Use scheme surface so Light stays light and Dark stays dark
-                return BaseColors?.PanelClient ?? base.GetBackColor1(PaletteBackStyle.PanelClient, state);
-            case PaletteBackStyle.ContextMenuItemHighlight:
+                BaseColors?.PanelClient ?? base.GetBackColor1(PaletteBackStyle.PanelClient, state),
+            PaletteBackStyle.ContextMenuItemHighlight =>
                 // Use the same subtle overlay model as buttons for hover/pressed highlight
-                return GetMaterialButtonBackColor(state);
-            default:
-                return base.GetBackColor1(style, state);
-        }
+                GetMaterialButtonBackColor(state),
+            _ => base.GetBackColor1(style, state)
+        };
     }
 
     /// <inheritdoc />
     public override Color GetBackColor2(PaletteBackStyle style, PaletteState state)
     {
-        switch (style)
+        return style switch
         {
-            case PaletteBackStyle.ButtonStandalone:
-            case PaletteBackStyle.ButtonAlternate:
-            case PaletteBackStyle.ButtonLowProfile:
-            case PaletteBackStyle.ButtonBreadCrumb:
-            case PaletteBackStyle.ButtonListItem:
-            case PaletteBackStyle.ButtonCommand:
-            case PaletteBackStyle.ButtonButtonSpec:
-            case PaletteBackStyle.ButtonCluster:
-            case PaletteBackStyle.ButtonForm:
-            case PaletteBackStyle.ButtonFormClose:
-            case PaletteBackStyle.ButtonCustom1:
-            case PaletteBackStyle.ButtonCustom2:
-            case PaletteBackStyle.ButtonCustom3:
-                return GetMaterialButtonBackColor(state);
-            case PaletteBackStyle.HeaderForm:
-            case PaletteBackStyle.HeaderPrimary:
-                return BaseColors?.HeaderPrimaryBack2 ?? SystemColors.ControlDarkDark;
-            case PaletteBackStyle.ControlClient:
-                return base.GetBackColor2(PaletteBackStyle.PanelClient, state);
-            case PaletteBackStyle.GridDataCellList:
-            case PaletteBackStyle.GridDataCellSheet:
-            case PaletteBackStyle.GridDataCellCustom1:
-            case PaletteBackStyle.GridDataCellCustom2:
-            case PaletteBackStyle.GridDataCellCustom3:
-                return BaseColors?.PanelClient ?? base.GetBackColor2(PaletteBackStyle.PanelClient, state);
-            case PaletteBackStyle.ContextMenuOuter:
-            case PaletteBackStyle.ContextMenuInner:
-                return BaseColors?.PanelAlternative ?? base.GetBackColor2(PaletteBackStyle.PanelClient, state);
-            case PaletteBackStyle.ContextMenuItemHighlight:
-                return GetMaterialButtonBackColor(state);
-            default:
-                return base.GetBackColor2(style, state);
-        }
+            PaletteBackStyle.ButtonStandalone or PaletteBackStyle.ButtonAlternate or PaletteBackStyle.ButtonLowProfile
+                or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem
+                or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ButtonCluster
+                or PaletteBackStyle.ButtonForm or PaletteBackStyle.ButtonFormClose or PaletteBackStyle.ButtonCustom1
+                or PaletteBackStyle.ButtonCustom2
+                or PaletteBackStyle.ButtonCustom3 => GetMaterialButtonBackColor(state),
+            PaletteBackStyle.HeaderForm or PaletteBackStyle.HeaderPrimary => BaseColors?.HeaderPrimaryBack2 ??
+                                                                             SystemColors.ControlDarkDark,
+            PaletteBackStyle.ControlClient => base.GetBackColor2(PaletteBackStyle.PanelClient, state),
+            PaletteBackStyle.GridDataCellList or PaletteBackStyle.GridDataCellSheet
+                or PaletteBackStyle.GridDataCellCustom1 or PaletteBackStyle.GridDataCellCustom2
+                or PaletteBackStyle.GridDataCellCustom3 => state == PaletteState.CheckedNormal
+                    ? BaseColors?.GridDataCellSelected ?? base.GetBackColor2(style, state)
+                    : BaseColors?.PanelClient ?? base.GetBackColor2(PaletteBackStyle.PanelClient, state),
+            PaletteBackStyle.ContextMenuOuter or PaletteBackStyle.ContextMenuInner => BaseColors?.PanelAlternative ??
+                base.GetBackColor2(PaletteBackStyle.PanelClient, state),
+            PaletteBackStyle.ContextMenuItemHighlight => GetMaterialButtonBackColor(state),
+            _ => base.GetBackColor2(style, state)
+        };
     }
     #endregion
 
@@ -293,89 +228,57 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
             return -1;
         }
 
-        switch (metric)
+        return metric switch
         {
-            case PaletteMetricInt.PageButtonInset:
-            case PaletteMetricInt.RibbonTabGap:
-            case PaletteMetricInt.HeaderButtonEdgeInsetCalendar:
-                return 1;
-            case PaletteMetricInt.CheckButtonGap:
-                return 3;
-            case PaletteMetricInt.HeaderButtonEdgeInsetForm:
-                return 0;
-            case PaletteMetricInt.HeaderButtonEdgeInsetFormRight:
-                return 0;
-            case PaletteMetricInt.HeaderButtonEdgeInsetInputControl:
-                return 2; // keep buttons close to edges for Material
-            case PaletteMetricInt.HeaderButtonEdgeInsetPrimary:
-            case PaletteMetricInt.HeaderButtonEdgeInsetSecondary:
-            case PaletteMetricInt.HeaderButtonEdgeInsetDockInactive:
-            case PaletteMetricInt.HeaderButtonEdgeInsetDockActive:
-            case PaletteMetricInt.HeaderButtonEdgeInsetCustom1:
-            case PaletteMetricInt.HeaderButtonEdgeInsetCustom2:
-            case PaletteMetricInt.HeaderButtonEdgeInsetCustom3:
-            case PaletteMetricInt.BarButtonEdgeOutside:
-            case PaletteMetricInt.BarButtonEdgeInside:
-                return 1;
-            case PaletteMetricInt.None:
-                return 0;
-            case PaletteMetricInt.DropDownArrowBaseSize:
-                return DropDownArrowGlyphDefaults.DefaultBaseSizeAt96Dpi;
-            default:
-                return base.GetMetricInt(owningForm, state, metric);
-        }
+            PaletteMetricInt.PageButtonInset or PaletteMetricInt.RibbonTabGap
+                or PaletteMetricInt.HeaderButtonEdgeInsetCalendar => 1,
+            PaletteMetricInt.CheckButtonGap => 3,
+            PaletteMetricInt.HeaderButtonEdgeInsetForm => 0,
+            PaletteMetricInt.HeaderButtonEdgeInsetFormRight => 0,
+            PaletteMetricInt.HeaderButtonEdgeInsetInputControl => 2 // keep buttons close to edges for Material
+            ,
+            PaletteMetricInt.HeaderButtonEdgeInsetPrimary or PaletteMetricInt.HeaderButtonEdgeInsetSecondary
+                or PaletteMetricInt.HeaderButtonEdgeInsetDockInactive
+                or PaletteMetricInt.HeaderButtonEdgeInsetDockActive or PaletteMetricInt.HeaderButtonEdgeInsetCustom1
+                or PaletteMetricInt.HeaderButtonEdgeInsetCustom2 or PaletteMetricInt.HeaderButtonEdgeInsetCustom3
+                or PaletteMetricInt.BarButtonEdgeOutside or PaletteMetricInt.BarButtonEdgeInside => 1,
+            PaletteMetricInt.None => 0,
+            PaletteMetricInt.DropDownArrowBaseSize => DropDownArrowGlyphDefaults.DefaultBaseSizeAt96Dpi,
+            _ => base.GetMetricInt(owningForm, state, metric)
+        };
     }
 
     /// <inheritdoc />
     public override Padding GetMetricPadding(KryptonForm? owningForm, PaletteState state, PaletteMetricPadding metric)
     {
-        switch (metric)
+        return metric switch
         {
-            case PaletteMetricPadding.HeaderButtonPaddingForm:
-                return new Padding(0);
-            case PaletteMetricPadding.PageButtonPadding:
-                return _metricPaddingPageButtons;
-            case PaletteMetricPadding.BarPaddingTabs:
-                return _metricPaddingBarTabs;
-            case PaletteMetricPadding.BarPaddingInside:
-            case PaletteMetricPadding.BarPaddingOnly:
-                return _metricPaddingBarInside;
-            case PaletteMetricPadding.BarPaddingOutside:
+            PaletteMetricPadding.HeaderButtonPaddingForm => new Padding(0),
+            PaletteMetricPadding.PageButtonPadding => _metricPaddingPageButtons,
+            PaletteMetricPadding.BarPaddingTabs => _metricPaddingBarTabs,
+            PaletteMetricPadding.BarPaddingInside or PaletteMetricPadding.BarPaddingOnly => _metricPaddingBarInside,
+            PaletteMetricPadding.BarPaddingOutside =>
                 // Remove top/left outer padding around bar items to avoid stray chrome lines
-                return Padding.Empty;
-            case PaletteMetricPadding.RibbonButtonPadding:
-                return _metricPaddingRibbon;
-            case PaletteMetricPadding.RibbonAppButton:
-                return _metricPaddingRibbonAppButton;
-            case PaletteMetricPadding.HeaderButtonPaddingInputControl:
-                return _metricPaddingInputControl;
-            case PaletteMetricPadding.HeaderButtonPaddingPrimary:
-            case PaletteMetricPadding.HeaderButtonPaddingSecondary:
-            case PaletteMetricPadding.HeaderButtonPaddingDockInactive:
-            case PaletteMetricPadding.HeaderButtonPaddingDockActive:
-            case PaletteMetricPadding.HeaderButtonPaddingCustom1:
-            case PaletteMetricPadding.HeaderButtonPaddingCustom2:
-            case PaletteMetricPadding.HeaderButtonPaddingCustom3:
-            case PaletteMetricPadding.HeaderButtonPaddingCalendar:
-            case PaletteMetricPadding.BarButtonPadding:
-                return _metricPaddingHeader;
-            case PaletteMetricPadding.HeaderGroupPaddingPrimary:
-            case PaletteMetricPadding.HeaderGroupPaddingSecondary:
-            case PaletteMetricPadding.HeaderGroupPaddingDockInactive:
-            case PaletteMetricPadding.HeaderGroupPaddingDockActive:
-            case PaletteMetricPadding.SeparatorPaddingLowProfile:
-            case PaletteMetricPadding.SeparatorPaddingHighInternalProfile:
-            case PaletteMetricPadding.SeparatorPaddingHighProfile:
-            case PaletteMetricPadding.SeparatorPaddingCustom1:
-            case PaletteMetricPadding.SeparatorPaddingCustom2:
-            case PaletteMetricPadding.SeparatorPaddingCustom3:
-            case PaletteMetricPadding.ContextMenuItemHighlight:
-            case PaletteMetricPadding.ContextMenuItemsCollection:
-            case PaletteMetricPadding.ContextMenuItemOuter:
-                return Padding.Empty;
-            default:
-                return base.GetMetricPadding(owningForm, state, metric);
-        }
+                Padding.Empty,
+            PaletteMetricPadding.RibbonButtonPadding => _metricPaddingRibbon,
+            PaletteMetricPadding.RibbonAppButton => _metricPaddingRibbonAppButton,
+            PaletteMetricPadding.HeaderButtonPaddingInputControl => _metricPaddingInputControl,
+            PaletteMetricPadding.HeaderButtonPaddingPrimary or PaletteMetricPadding.HeaderButtonPaddingSecondary
+                or PaletteMetricPadding.HeaderButtonPaddingDockInactive
+                or PaletteMetricPadding.HeaderButtonPaddingDockActive or PaletteMetricPadding.HeaderButtonPaddingCustom1
+                or PaletteMetricPadding.HeaderButtonPaddingCustom2 or PaletteMetricPadding.HeaderButtonPaddingCustom3
+                or PaletteMetricPadding.HeaderButtonPaddingCalendar
+                or PaletteMetricPadding.BarButtonPadding => _metricPaddingHeader,
+            PaletteMetricPadding.HeaderGroupPaddingPrimary or PaletteMetricPadding.HeaderGroupPaddingSecondary
+                or PaletteMetricPadding.HeaderGroupPaddingDockInactive
+                or PaletteMetricPadding.HeaderGroupPaddingDockActive or PaletteMetricPadding.SeparatorPaddingLowProfile
+                or PaletteMetricPadding.SeparatorPaddingHighInternalProfile
+                or PaletteMetricPadding.SeparatorPaddingHighProfile or PaletteMetricPadding.SeparatorPaddingCustom1
+                or PaletteMetricPadding.SeparatorPaddingCustom2 or PaletteMetricPadding.SeparatorPaddingCustom3
+                or PaletteMetricPadding.ContextMenuItemHighlight or PaletteMetricPadding.ContextMenuItemsCollection
+                or PaletteMetricPadding.ContextMenuItemOuter => Padding.Empty,
+            _ => base.GetMetricPadding(owningForm, state, metric)
+        };
     }
     #endregion
 
@@ -425,46 +328,31 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
 
     private static bool IsAnyButtonBorderStyle(PaletteBorderStyle style)
     {
-        switch (style)
+        return style switch
         {
-            case PaletteBorderStyle.ButtonStandalone:
-            case PaletteBorderStyle.ButtonGallery:
-            case PaletteBorderStyle.ButtonAlternate:
-            case PaletteBorderStyle.ButtonLowProfile:
-            case PaletteBorderStyle.ButtonBreadCrumb:
-            case PaletteBorderStyle.ButtonListItem:
-            case PaletteBorderStyle.ButtonCommand:
-            case PaletteBorderStyle.ButtonButtonSpec:
-            case PaletteBorderStyle.ButtonCluster:
-            case PaletteBorderStyle.ButtonForm:
-            case PaletteBorderStyle.ButtonFormClose:
-            case PaletteBorderStyle.ButtonCustom1:
-            case PaletteBorderStyle.ButtonCustom2:
-            case PaletteBorderStyle.ButtonCustom3:
-            case PaletteBorderStyle.ButtonNavigatorStack:
-            case PaletteBorderStyle.ButtonNavigatorOverflow:
-            case PaletteBorderStyle.ButtonNavigatorMini:
-            case PaletteBorderStyle.ButtonCalendarDay:
-            case PaletteBorderStyle.ButtonInputControl:
-                return true;
-            default:
-                return false;
-        }
+            PaletteBorderStyle.ButtonStandalone or PaletteBorderStyle.ButtonGallery
+                or PaletteBorderStyle.ButtonAlternate or PaletteBorderStyle.ButtonLowProfile
+                or PaletteBorderStyle.ButtonBreadCrumb or PaletteBorderStyle.ButtonListItem
+                or PaletteBorderStyle.ButtonCommand or PaletteBorderStyle.ButtonButtonSpec
+                or PaletteBorderStyle.ButtonCluster or PaletteBorderStyle.ButtonForm
+                or PaletteBorderStyle.ButtonFormClose or PaletteBorderStyle.ButtonCustom1
+                or PaletteBorderStyle.ButtonCustom2 or PaletteBorderStyle.ButtonCustom3
+                or PaletteBorderStyle.ButtonNavigatorStack or PaletteBorderStyle.ButtonNavigatorOverflow
+                or PaletteBorderStyle.ButtonNavigatorMini or PaletteBorderStyle.ButtonCalendarDay
+                or PaletteBorderStyle.ButtonInputControl => true,
+            _ => false
+        };
     }
 
     private static bool IsAnyInputBorderStyle(PaletteBorderStyle style)
     {
-        switch (style)
+        return style switch
         {
-            case PaletteBorderStyle.InputControlStandalone:
-            case PaletteBorderStyle.InputControlRibbon:
-            case PaletteBorderStyle.InputControlCustom1:
-            case PaletteBorderStyle.InputControlCustom2:
-            case PaletteBorderStyle.InputControlCustom3:
-                return true;
-            default:
-                return false;
-        }
+            PaletteBorderStyle.InputControlStandalone or PaletteBorderStyle.InputControlRibbon
+                or PaletteBorderStyle.InputControlCustom1 or PaletteBorderStyle.InputControlCustom2
+                or PaletteBorderStyle.InputControlCustom3 => true,
+            _ => false
+        };
     }
     /// <inheritdoc />
     public override PaletteDrawBorders GetBorderDrawBorders(PaletteBorderStyle style, PaletteState state)
@@ -611,69 +499,48 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
     /// <inheritdoc />
     public override Color GetContentShortTextColor1(PaletteContentStyle style, PaletteState state)
     {
-        switch (style)
+        return style switch
         {
             // Ensure KryptonDataGridView header text follows scheme header text
             // ToolStrip/Context menu item text should follow header text (white in Material Dark)
-            case PaletteContentStyle.ButtonListItem:
-            case PaletteContentStyle.HeaderForm:
-            case PaletteContentStyle.GridHeaderColumnList:
-            case PaletteContentStyle.GridHeaderColumnSheet:
-            case PaletteContentStyle.GridHeaderColumnCustom1:
-            case PaletteContentStyle.GridHeaderColumnCustom2:
-            case PaletteContentStyle.GridHeaderColumnCustom3:
-            case PaletteContentStyle.GridHeaderRowList:
-            case PaletteContentStyle.GridHeaderRowSheet:
-            case PaletteContentStyle.GridHeaderRowCustom1:
-            case PaletteContentStyle.GridHeaderRowCustom2:
-            case PaletteContentStyle.GridHeaderRowCustom3:
-            case PaletteContentStyle.ContextMenuItemTextStandard:
-            case PaletteContentStyle.ContextMenuItemTextAlternate:
-            case PaletteContentStyle.ContextMenuItemShortcutText:
-                return BaseColors?.HeaderText ?? base.GetContentShortTextColor1(style, state);
-
+            PaletteContentStyle.ButtonListItem or PaletteContentStyle.HeaderForm
+                or PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet
+                or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2
+                or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList
+                or PaletteContentStyle.GridHeaderRowSheet or PaletteContentStyle.GridHeaderRowCustom1
+                or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3
+                or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate
+                or PaletteContentStyle.ContextMenuItemShortcutText => BaseColors?.HeaderText ??
+                                                                      base.GetContentShortTextColor1(style, state),
             // Data cells: always use on-surface text (white in Material Dark, dark in Light)
-            case PaletteContentStyle.GridDataCellList:
-            case PaletteContentStyle.GridDataCellSheet:
-            case PaletteContentStyle.GridDataCellCustom1:
-            case PaletteContentStyle.GridDataCellCustom2:
-            case PaletteContentStyle.GridDataCellCustom3:
-                return BaseColors?.TextLabelControl ?? base.GetContentShortTextColor1(style, state);
-        }
-
-        return base.GetContentShortTextColor1(style, state);
+            PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet
+                or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2
+                or PaletteContentStyle.GridDataCellCustom3 => BaseColors?.TextLabelControl ??
+                                                              base.GetContentShortTextColor1(style, state),
+            _ => base.GetContentShortTextColor1(style, state)
+        };
     }
 
     /// <inheritdoc />
     public override Color GetContentShortTextColor2(PaletteContentStyle style, PaletteState state)
     {
-        switch (style)
+        return style switch
         {
-            case PaletteContentStyle.GridHeaderColumnList:
-            case PaletteContentStyle.GridHeaderColumnSheet:
-            case PaletteContentStyle.GridHeaderColumnCustom1:
-            case PaletteContentStyle.GridHeaderColumnCustom2:
-            case PaletteContentStyle.GridHeaderColumnCustom3:
-            case PaletteContentStyle.GridHeaderRowList:
-            case PaletteContentStyle.GridHeaderRowSheet:
-            case PaletteContentStyle.GridHeaderRowCustom1:
-            case PaletteContentStyle.GridHeaderRowCustom2:
-            case PaletteContentStyle.GridHeaderRowCustom3:
-            case PaletteContentStyle.ContextMenuItemTextStandard:
-            case PaletteContentStyle.ContextMenuItemTextAlternate:
-            case PaletteContentStyle.ContextMenuItemShortcutText:
-                return BaseColors?.HeaderText ?? base.GetContentShortTextColor2(style, state);
-
+            PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet
+                or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2
+                or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList
+                or PaletteContentStyle.GridHeaderRowSheet or PaletteContentStyle.GridHeaderRowCustom1
+                or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3
+                or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate
+                or PaletteContentStyle.ContextMenuItemShortcutText => BaseColors?.HeaderText ??
+                                                                      base.GetContentShortTextColor2(style, state),
             // Data cells: always use on-surface text secondary color (often same as Color1)
-            case PaletteContentStyle.GridDataCellList:
-            case PaletteContentStyle.GridDataCellSheet:
-            case PaletteContentStyle.GridDataCellCustom1:
-            case PaletteContentStyle.GridDataCellCustom2:
-            case PaletteContentStyle.GridDataCellCustom3:
-                return BaseColors?.TextLabelControl ?? base.GetContentShortTextColor2(style, state);
-        }
-
-        return base.GetContentShortTextColor2(style, state);
+            PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet
+                or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2
+                or PaletteContentStyle.GridDataCellCustom3 => BaseColors?.TextLabelControl ??
+                                                              base.GetContentShortTextColor2(style, state),
+            _ => base.GetContentShortTextColor2(style, state)
+        };
     }
 
     /// <inheritdoc />

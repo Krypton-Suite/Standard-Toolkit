@@ -299,15 +299,12 @@ public static class GraphicsExtensions
         try
         {
             // Only provide fallbacks for specific icons that we have embedded resources for
-            switch (iconId)
+            return iconId switch
             {
-                case ImageresIconID.Shield:
-                case ImageresIconID.ShieldAlt:
-                    return GetUACShieldFallbackIcon(targetSize, selectionStrategy);
-                default:
-                    // For other icons, we don't have embedded fallbacks
-                    return null;
-            }
+                ImageresIconID.Shield or ImageresIconID.ShieldAlt => GetUACShieldFallbackIcon(targetSize,
+                    selectionStrategy),
+                _ => null
+            };
         }
         catch (Exception)
         {

@@ -110,22 +110,14 @@ public class DragTargetControlEdge : DragTarget
     public override bool PerformDrop(Point screenPt, PageDragEndData? data)
     {
         // Find our docking edge
-        KryptonDockingEdge? dockingEdge = null;
-        switch (Edge)
+        KryptonDockingEdge? dockingEdge = Edge switch
         {
-            case VisualOrientation.Left:
-                dockingEdge = ControlElement[@"Left"] as KryptonDockingEdge;
-                break;
-            case VisualOrientation.Right:
-                dockingEdge = ControlElement[@"Right"] as KryptonDockingEdge;
-                break;
-            case VisualOrientation.Top:
-                dockingEdge = ControlElement[@"Top"] as KryptonDockingEdge;
-                break;
-            case VisualOrientation.Bottom:
-                dockingEdge = ControlElement[@"Bottom"] as KryptonDockingEdge;
-                break;
-        }
+            VisualOrientation.Left => ControlElement[@"Left"] as KryptonDockingEdge,
+            VisualOrientation.Right => ControlElement[@"Right"] as KryptonDockingEdge,
+            VisualOrientation.Top => ControlElement[@"Top"] as KryptonDockingEdge,
+            VisualOrientation.Bottom => ControlElement[@"Bottom"] as KryptonDockingEdge,
+            _ => null
+        };
 
         // Find the docked edge
         var dockedEdge = dockingEdge?[@"Docked"] as KryptonDockingEdgeDocked;

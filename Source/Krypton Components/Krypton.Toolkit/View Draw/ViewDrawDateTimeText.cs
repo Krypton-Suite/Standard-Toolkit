@@ -1229,15 +1229,12 @@ public class ViewDrawDateTimeText : ViewLeaf
         {
             if (FragFormat.StartsWith("t"))
             {
-                switch (dt.Hour)
+                dt = dt.Hour switch
                 {
-                    case > 11 when am:
-                        dt = dt.AddHours(-12);
-                        break;
-                    case < 12 when !am:
-                        dt = dt.AddHours(12);
-                        break;
-                }
+                    > 11 when am => dt.AddHours(-12),
+                    < 12 when !am => dt.AddHours(12),
+                    _ => dt
+                };
             }
 
             return dt;

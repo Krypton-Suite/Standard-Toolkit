@@ -385,19 +385,13 @@ public class PaletteBorderInheritOverride : PaletteBorderInherit
     /// </summary>
     private static bool PreferBackupBorderRoundingForFocusMerge(PaletteState state)
     {
-        switch (state)
+        return state switch
         {
-            case PaletteState.Tracking:
-            case PaletteState.Pressed:
-            case PaletteState.CheckedTracking:
-            case PaletteState.CheckedPressed:
-            case PaletteState.ContextTracking:
-            case PaletteState.ContextPressed:
-            case PaletteState.ContextCheckedTracking:
-                return true;
-            default:
-                return false;
-        }
+            PaletteState.Tracking or PaletteState.Pressed or PaletteState.CheckedTracking or PaletteState.CheckedPressed
+                or PaletteState.ContextTracking or PaletteState.ContextPressed
+                or PaletteState.ContextCheckedTracking => true,
+            _ => false
+        };
     }
 
     private float MergeBorderRoundingForFocusOverride(PaletteState state)

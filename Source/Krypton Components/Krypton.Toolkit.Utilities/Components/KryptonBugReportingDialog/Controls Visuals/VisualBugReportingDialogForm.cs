@@ -568,7 +568,9 @@ public partial class VisualBugReportingDialogForm : KryptonForm
         {
             sb.AppendLine("Exception Details:");
             sb.AppendLine("-----------------");
-            sb.AppendLine(FormatExceptionDetails(_exception));
+            sb.AppendLine($"Exception Type: {_exception.GetType().Name}");
+            sb.AppendLine($"Message: {_exception.Message}");
+            sb.AppendLine($"Stack Trace: {_exception.StackTrace}");
             sb.AppendLine();
         }
 

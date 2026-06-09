@@ -178,33 +178,18 @@ internal class KryptonFormFadeController
 
         _fadeCompleted = finished!;
 
-        switch (fadeSpeedChoice)
+        _fadeSpeed = fadeSpeedChoice switch
         {
-            case FadeSpeedChoice.Slowest:
-                _fadeSpeed = KryptonFormFadeSpeed.DEFAULT_SLOWEST;
-                break;
-            case FadeSpeedChoice.Slower:
-                _fadeSpeed = KryptonFormFadeSpeed.DEFAULT_SLOWER;
-                break;
-            case FadeSpeedChoice.Slow:
-                _fadeSpeed = KryptonFormFadeSpeed.DEFAULT_SLOW;
-                break;
-            case FadeSpeedChoice.Normal:
-                _fadeSpeed = KryptonFormFadeSpeed.DEFAULT_NORMAL;
-                break;
-            case FadeSpeedChoice.Fast:
-                _fadeSpeed = KryptonFormFadeSpeed.DEFAULT_FAST;
-                break;
-            case FadeSpeedChoice.Faster:
-                _fadeSpeed = KryptonFormFadeSpeed.DEFAULT_FASTER;
-                break;
-            case FadeSpeedChoice.Fastest:
-                _fadeSpeed = KryptonFormFadeSpeed.DEFAULT_FASTEST;
-                break;
-            case FadeSpeedChoice.Custom:
-                _fadeSpeed = fadeSpeed ?? 0.5f;
-                break;
-        }
+            FadeSpeedChoice.Slowest => KryptonFormFadeSpeed.DEFAULT_SLOWEST,
+            FadeSpeedChoice.Slower => KryptonFormFadeSpeed.DEFAULT_SLOWER,
+            FadeSpeedChoice.Slow => KryptonFormFadeSpeed.DEFAULT_SLOW,
+            FadeSpeedChoice.Normal => KryptonFormFadeSpeed.DEFAULT_NORMAL,
+            FadeSpeedChoice.Fast => KryptonFormFadeSpeed.DEFAULT_FAST,
+            FadeSpeedChoice.Faster => KryptonFormFadeSpeed.DEFAULT_FASTER,
+            FadeSpeedChoice.Fastest => KryptonFormFadeSpeed.DEFAULT_FASTEST,
+            FadeSpeedChoice.Custom => fadeSpeed ?? 0.5f,
+            _ => _fadeSpeed
+        };
 
         _fadeDirection = FormFadeDirection.In;
 
@@ -243,33 +228,18 @@ internal class KryptonFormFadeController
 
         _owner.Opacity = 100;
 
-        switch (fadeSpeedChoice)
+        _fadeSpeed = fadeSpeedChoice switch
         {
-            case FadeSpeedChoice.Slowest:
-                _fadeSpeed = KryptonFormFadeSpeed.DEFAULT_SLOWEST;
-                break;
-            case FadeSpeedChoice.Slower:
-                _fadeSpeed = KryptonFormFadeSpeed.DEFAULT_SLOWER;
-                break;
-            case FadeSpeedChoice.Slow:
-                _fadeSpeed = KryptonFormFadeSpeed.DEFAULT_SLOW;
-                break;
-            case FadeSpeedChoice.Normal:
-                _fadeSpeed = KryptonFormFadeSpeed.DEFAULT_NORMAL;
-                break;
-            case FadeSpeedChoice.Fast:
-                _fadeSpeed = KryptonFormFadeSpeed.DEFAULT_FAST;
-                break;
-            case FadeSpeedChoice.Faster:
-                _fadeSpeed = KryptonFormFadeSpeed.DEFAULT_FASTER;
-                break;
-            case FadeSpeedChoice.Fastest:
-                _fadeSpeed = KryptonFormFadeSpeed.DEFAULT_FASTEST;
-                break;
-            case FadeSpeedChoice.Custom:
-                _fadeSpeed = fadeSpeed ?? 0.5f;
-                break;
-        }
+            FadeSpeedChoice.Slowest => KryptonFormFadeSpeed.DEFAULT_SLOWEST,
+            FadeSpeedChoice.Slower => KryptonFormFadeSpeed.DEFAULT_SLOWER,
+            FadeSpeedChoice.Slow => KryptonFormFadeSpeed.DEFAULT_SLOW,
+            FadeSpeedChoice.Normal => KryptonFormFadeSpeed.DEFAULT_NORMAL,
+            FadeSpeedChoice.Fast => KryptonFormFadeSpeed.DEFAULT_FAST,
+            FadeSpeedChoice.Faster => KryptonFormFadeSpeed.DEFAULT_FASTER,
+            FadeSpeedChoice.Fastest => KryptonFormFadeSpeed.DEFAULT_FASTEST,
+            FadeSpeedChoice.Custom => fadeSpeed ?? 0.5f,
+            _ => _fadeSpeed
+        };
 
         _fadeDirection = FormFadeDirection.Out;
 

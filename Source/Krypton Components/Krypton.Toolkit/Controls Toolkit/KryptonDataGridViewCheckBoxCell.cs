@@ -143,20 +143,13 @@ public class KryptonDataGridViewCheckBoxCell : DataGridViewCheckBoxCell
             // Should we draw the content foreground?
             if ((paintParts & DataGridViewPaintParts.ContentForeground) == DataGridViewPaintParts.ContentForeground)
             {
-                var checkState = CheckState.Unchecked;
-
-                switch (formattedValue)
+                var checkState = formattedValue switch
                 {
-                    case CheckState state:
-                        checkState = state;
-                        break;
-                    case bool b when b:
-                        checkState = CheckState.Checked;
-                        break;
-                    case bool b:
-                        checkState = CheckState.Unchecked;
-                        break;
-                }
+                    CheckState state => state,
+                    bool b when b => CheckState.Checked,
+                    bool b => CheckState.Unchecked,
+                    _ => CheckState.Unchecked
+                };
 
                 // Is this cell the currently active cell
                 var currentCell = (rowIndex == DataGridView.CurrentCellAddress.Y) &&

@@ -409,19 +409,14 @@ internal sealed class KryptonDropDownHostForm : Form
                 return false;
             }
 
-            switch (m.Msg)
+            return m.Msg switch
             {
-                case (int)PI.WM_.LBUTTONDOWN:
-                case (int)PI.WM_.RBUTTONDOWN:
-                case (int)PI.WM_.MBUTTONDOWN:
-                    return ProcessMouseDown(ref m);
-                case (int)PI.WM_.NCLBUTTONDOWN:
-                case (int)PI.WM_.NCRBUTTONDOWN:
-                case (int)PI.WM_.NCMBUTTONDOWN:
-                    return ProcessNonClientMouseDown(ref m);
-            }
-
-            return false;
+                (int)PI.WM_.LBUTTONDOWN or (int)PI.WM_.RBUTTONDOWN or (int)PI.WM_.MBUTTONDOWN =>
+                    ProcessMouseDown(ref m),
+                (int)PI.WM_.NCLBUTTONDOWN or (int)PI.WM_.NCRBUTTONDOWN or (int)PI.WM_.NCMBUTTONDOWN =>
+                    ProcessNonClientMouseDown(ref m),
+                _ => false
+            };
         }
 
         private bool ProcessMouseDown(ref Message m)

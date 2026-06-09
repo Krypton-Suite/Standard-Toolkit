@@ -155,13 +155,11 @@ internal partial class VisualMessageBoxRtlAwareForm : KryptonForm
     {
         if (!showCtrlCopy.HasValue)
         {
-            switch (_kryptonMessageBoxIcon)
+            showCtrlCopy = _kryptonMessageBoxIcon switch
             {
-                case KryptonMessageBoxIcon.Error:
-                case KryptonMessageBoxIcon.Exclamation:
-                    showCtrlCopy = true;
-                    break;
-            }
+                KryptonMessageBoxIcon.Error or KryptonMessageBoxIcon.Exclamation => true,
+                _ => showCtrlCopy
+            };
         }
 
         if (showCtrlCopy == true)

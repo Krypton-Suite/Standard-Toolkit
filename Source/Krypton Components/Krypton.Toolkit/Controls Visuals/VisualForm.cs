@@ -1208,14 +1208,13 @@ public abstract class VisualForm : Form,
 		if (_themedApp
 			&& !CommonHelper.IsFormMaximized(this)
 			&& (MdiParent is null || UseThemeFormChromeBorderWidth))
-		{
-			switch (m.Msg)
-			{
-				case PI.WM_.NCCALCSIZE:
-					processed = OnWM_NCCALCSIZE(ref m);
-					break;
-			}
-		}
+        {
+            processed = m.Msg switch
+            {
+                PI.WM_.NCCALCSIZE => OnWM_NCCALCSIZE(ref m),
+                _ => processed
+            };
+        }
 
 		// Do we need to override message processing?
 		if (!IsDisposed && !Disposing)

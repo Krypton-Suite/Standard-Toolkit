@@ -1790,63 +1790,49 @@ public class RenderStandard : RenderBase
 				// Calculate the extra needed for the outsize variant
 				var x = tabBorderStyle == TabBorderStyle.SlantOutsizeNear ? SPACING_TAB_OUTSIZE_PADDING : 0;
 
-				switch (orientation)
-				{
-					case VisualOrientation.Top:
-						ret = rtl
-							? new Padding(borderWidth + x, borderWidth + x,
-								borderWidth + x + SPACING_TAB_SLANT_PADDING - 1, 0)
-							: new Padding(borderWidth + x + SPACING_TAB_SLANT_PADDING - 1, borderWidth + x,
-								borderWidth + x, 0);
-
-						break;
-					case VisualOrientation.Left:
-						ret = new Padding(borderWidth + x + SPACING_TAB_SLANT_PADDING - 1, borderWidth + x, borderWidth + x, 0);
-						break;
-					case VisualOrientation.Right:
-						ret = new Padding(borderWidth + x, borderWidth + x, borderWidth + x + SPACING_TAB_SLANT_PADDING - 1, 0);
-						break;
-					case VisualOrientation.Bottom:
-						ret = rtl
-							? new Padding(borderWidth + x + SPACING_TAB_SLANT_PADDING - 1, borderWidth + x,
-								borderWidth + x, 0)
-							: new Padding(borderWidth + x, borderWidth + x,
-								borderWidth + x + SPACING_TAB_SLANT_PADDING - 1, 0);
-
-						break;
-				}
-				break;
+                ret = orientation switch
+                {
+                    VisualOrientation.Top => rtl
+                        ? new Padding(borderWidth + x, borderWidth + x, borderWidth + x + SPACING_TAB_SLANT_PADDING - 1,
+                            0)
+                        : new Padding(borderWidth + x + SPACING_TAB_SLANT_PADDING - 1, borderWidth + x, borderWidth + x,
+                            0),
+                    VisualOrientation.Left => new Padding(borderWidth + x + SPACING_TAB_SLANT_PADDING - 1,
+                        borderWidth + x, borderWidth + x, 0),
+                    VisualOrientation.Right => new Padding(borderWidth + x, borderWidth + x,
+                        borderWidth + x + SPACING_TAB_SLANT_PADDING - 1, 0),
+                    VisualOrientation.Bottom => rtl
+                        ? new Padding(borderWidth + x + SPACING_TAB_SLANT_PADDING - 1, borderWidth + x, borderWidth + x,
+                            0)
+                        : new Padding(borderWidth + x, borderWidth + x, borderWidth + x + SPACING_TAB_SLANT_PADDING - 1,
+                            0),
+                    _ => ret
+                };
+                break;
 			case TabBorderStyle.SlantEqualFar:
 			case TabBorderStyle.SlantOutsizeFar:
 				// Calculate the extra needed for the outsize variant
 				var y = tabBorderStyle == TabBorderStyle.SlantOutsizeFar ? SPACING_TAB_OUTSIZE_PADDING : 0;
 
-				switch (orientation)
-				{
-					case VisualOrientation.Top:
-						ret = rtl
-							? new Padding(borderWidth + y + SPACING_TAB_SLANT_PADDING - 1, borderWidth + y,
-								borderWidth + y, 0)
-							: new Padding(borderWidth + y, borderWidth + y,
-								borderWidth + y + SPACING_TAB_SLANT_PADDING - 1, 0);
-
-						break;
-					case VisualOrientation.Left:
-						ret = new Padding(borderWidth + y, borderWidth + y, borderWidth + y + SPACING_TAB_SLANT_PADDING - 1, 0);
-						break;
-					case VisualOrientation.Right:
-						ret = new Padding(borderWidth + y + SPACING_TAB_SLANT_PADDING - 1, borderWidth + y, borderWidth + y, 0);
-						break;
-					case VisualOrientation.Bottom:
-						ret = rtl
-							? new Padding(borderWidth + y, borderWidth + y,
-								borderWidth + y + SPACING_TAB_SLANT_PADDING - 1, 0)
-							: new Padding(borderWidth + y + SPACING_TAB_SLANT_PADDING - 1, borderWidth + y,
-								borderWidth + y, 0);
-
-						break;
-				}
-				break;
+                ret = orientation switch
+                {
+                    VisualOrientation.Top => rtl
+                        ? new Padding(borderWidth + y + SPACING_TAB_SLANT_PADDING - 1, borderWidth + y, borderWidth + y,
+                            0)
+                        : new Padding(borderWidth + y, borderWidth + y, borderWidth + y + SPACING_TAB_SLANT_PADDING - 1,
+                            0),
+                    VisualOrientation.Left => new Padding(borderWidth + y, borderWidth + y,
+                        borderWidth + y + SPACING_TAB_SLANT_PADDING - 1, 0),
+                    VisualOrientation.Right => new Padding(borderWidth + y + SPACING_TAB_SLANT_PADDING - 1,
+                        borderWidth + y, borderWidth + y, 0),
+                    VisualOrientation.Bottom => rtl
+                        ? new Padding(borderWidth + y, borderWidth + y, borderWidth + y + SPACING_TAB_SLANT_PADDING - 1,
+                            0)
+                        : new Padding(borderWidth + y + SPACING_TAB_SLANT_PADDING - 1, borderWidth + y, borderWidth + y,
+                            0),
+                    _ => ret
+                };
+                break;
 			case TabBorderStyle.SlantEqualBoth:
 			case TabBorderStyle.SlantOutsizeBoth:
 				// Calculate the extra needed for the outsize variant
@@ -1865,28 +1851,19 @@ public class RenderStandard : RenderBase
 				var bp = selected ? SPACING_TAB_ONE_NOTE_BPS : SPACING_TAB_ONE_NOTE_BPI;
 				var rp = selected ? SPACING_TAB_ONE_NOTE_RPS : SPACING_TAB_ONE_NOTE_RPI;
 
-				switch (orientation)
-				{
-					case VisualOrientation.Top:
-						ret = rtl
-							? new Padding(borderWidth + rp, borderWidth + tp, borderWidth + lp, bp)
-							: new Padding(borderWidth + lp, borderWidth + tp, borderWidth + rp, bp);
-
-						break;
-					case VisualOrientation.Left:
-						ret = new Padding(borderWidth + rp, borderWidth + tp, borderWidth + lp, bp);
-						break;
-					case VisualOrientation.Right:
-						ret = new Padding(borderWidth + lp, borderWidth + tp, borderWidth + rp, bp);
-						break;
-					case VisualOrientation.Bottom:
-						ret = rtl
-							? new Padding(borderWidth + lp, borderWidth + tp, borderWidth + rp, bp)
-							: new Padding(borderWidth + rp, borderWidth + tp, borderWidth + lp, bp);
-
-						break;
-				}
-				break;
+                ret = orientation switch
+                {
+                    VisualOrientation.Top => rtl
+                        ? new Padding(borderWidth + rp, borderWidth + tp, borderWidth + lp, bp)
+                        : new Padding(borderWidth + lp, borderWidth + tp, borderWidth + rp, bp),
+                    VisualOrientation.Left => new Padding(borderWidth + rp, borderWidth + tp, borderWidth + lp, bp),
+                    VisualOrientation.Right => new Padding(borderWidth + lp, borderWidth + tp, borderWidth + rp, bp),
+                    VisualOrientation.Bottom => rtl
+                        ? new Padding(borderWidth + lp, borderWidth + tp, borderWidth + rp, bp)
+                        : new Padding(borderWidth + rp, borderWidth + tp, borderWidth + lp, bp),
+                    _ => ret
+                };
+                break;
 			case TabBorderStyle.SmoothEqual:
 				ret = new Padding(borderWidth + SPACING_TAB_SMOOTH_LRE, borderWidth + SPACING_TAB_SMOOTH_TE, borderWidth + SPACING_TAB_SMOOTH_LRE, 0);
 				break;
@@ -3183,25 +3160,17 @@ public class RenderStandard : RenderBase
 		Debug.Assert(paletteContent is not null);
 
 		// Get the appropriate each to draw
-		Image? rowImage = null;
 
-		switch (rowGlyph)
-		{
-			case GridRowGlyph.ArrowStar:
-				rowImage = _gridRowIndicators.Images[rtl ? 4 : 0];
-				break;
-			case GridRowGlyph.Star:
-				rowImage = _gridRowIndicators.Images[rtl ? 5 : 1];
-				break;
-			case GridRowGlyph.Pencil:
-				rowImage = _gridRowIndicators.Images[rtl ? 6 : 2];
-				break;
-			case GridRowGlyph.Arrow:
-				rowImage = _gridRowIndicators.Images[rtl ? 7 : 3];
-				break;
-		}
+        Image? rowImage = rowGlyph switch
+        {
+            GridRowGlyph.ArrowStar => _gridRowIndicators.Images[rtl ? 4 : 0],
+            GridRowGlyph.Star => _gridRowIndicators.Images[rtl ? 5 : 1],
+            GridRowGlyph.Pencil => _gridRowIndicators.Images[rtl ? 6 : 2],
+            GridRowGlyph.Arrow => _gridRowIndicators.Images[rtl ? 7 : 3],
+            _ => null
+        };
 
-		// Is there enough room to draw the image?
+        // Is there enough room to draw the image?
 		if ((rowImage != null) &&
 			(rowImage.Width < cellRect.Width) &&
 			(rowImage.Height < cellRect.Height))
@@ -6335,18 +6304,15 @@ public class RenderStandard : RenderBase
 
 		// If drawing from right to left...
 		if (rtl == RightToLeft.Yes)
-		{
-			switch (drawH)
-			{
-				// Then invert the near and far positioning
-				case PaletteRelativeAlign.Near:
-					drawH = PaletteRelativeAlign.Far;
-					break;
-				case PaletteRelativeAlign.Far:
-					drawH = PaletteRelativeAlign.Near;
-					break;
-			}
-		}
+        {
+            drawH = drawH switch
+            {
+                // Then invert the near and far positioning
+                PaletteRelativeAlign.Near => PaletteRelativeAlign.Far,
+                PaletteRelativeAlign.Far => PaletteRelativeAlign.Near,
+                _ => drawH
+            };
+        }
 
 		switch (drawH)
 		{

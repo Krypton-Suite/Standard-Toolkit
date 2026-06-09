@@ -257,16 +257,12 @@ public class ViewLayoutViewport : ViewComposite
     /// <param name="offset">New offset to use.</param>
     public void SetOffsetV(int offset)
     {
-        switch (AlignmentRTL)
+        _offset.Y = AlignmentRTL switch
         {
-            case RelativePositionAlign.Near:
-            case RelativePositionAlign.Center:
-                _offset.Y = -offset;
-                break;
-            case RelativePositionAlign.Far:
-                _offset.Y = offset;
-                break;
-        }
+            RelativePositionAlign.Near or RelativePositionAlign.Center => -offset,
+            RelativePositionAlign.Far => offset,
+            _ => _offset.Y
+        };
     }
     #endregion
 
@@ -277,16 +273,12 @@ public class ViewLayoutViewport : ViewComposite
     /// <param name="offset">New offset to use.</param>
     public void SetOffsetH(int offset)
     {
-        switch (AlignmentRTL)
+        _offset.X = AlignmentRTL switch
         {
-            case RelativePositionAlign.Near:
-            case RelativePositionAlign.Center:
-                _offset.X = -offset;
-                break;
-            case RelativePositionAlign.Far:
-                _offset.X = offset;
-                break;
-        }
+            RelativePositionAlign.Near or RelativePositionAlign.Center => -offset,
+            RelativePositionAlign.Far => offset,
+            _ => _offset.X
+        };
     }
     #endregion
 

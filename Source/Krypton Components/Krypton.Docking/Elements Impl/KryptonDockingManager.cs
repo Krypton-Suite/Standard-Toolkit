@@ -2605,17 +2605,12 @@ public class KryptonDockingManager : DockingElementOpenCollection
             }
 
             // Set the correct direction for the stacking of cells at the root
-            switch (edge)
+            dockspace.DockspaceControl.Root.Orientation = edge switch
             {
-                case DockingEdge.Left:
-                case DockingEdge.Right:
-                    dockspace.DockspaceControl.Root.Orientation = Orientation.Vertical;
-                    break;
-                case DockingEdge.Top:
-                case DockingEdge.Bottom:
-                    dockspace.DockspaceControl.Root.Orientation = Orientation.Horizontal;
-                    break;
-            }
+                DockingEdge.Left or DockingEdge.Right => Orientation.Vertical,
+                DockingEdge.Top or DockingEdge.Bottom => Orientation.Horizontal,
+                _ => dockspace.DockspaceControl.Root.Orientation
+            };
         }
 
         return dockspace;
@@ -2935,17 +2930,12 @@ public class KryptonDockingManager : DockingElementOpenCollection
             }
 
             // Set the correct direction for the stacking of cells at the root
-            switch (edge)
+            dockspace.DockspaceControl.Root.Orientation = edge switch
             {
-                case DockingEdge.Left:
-                case DockingEdge.Right:
-                    dockspace.DockspaceControl.Root.Orientation = Orientation.Vertical;
-                    break;
-                case DockingEdge.Top:
-                case DockingEdge.Bottom:
-                    dockspace.DockspaceControl.Root.Orientation = Orientation.Horizontal;
-                    break;
-            }
+                DockingEdge.Left or DockingEdge.Right => Orientation.Vertical,
+                DockingEdge.Top or DockingEdge.Bottom => Orientation.Horizontal,
+                _ => dockspace.DockspaceControl.Root.Orientation
+            };
         }
 
         return dockspace;
