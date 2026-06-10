@@ -25,6 +25,7 @@ public partial class TouchscreenHighDpiDemo : KryptonForm
 {
     private Timer _dpiMonitorTimer;
     private bool _updatingFromEvent;
+    private readonly Dictionary<Control, Rectangle> _baselineBounds = new();
 
     public TouchscreenHighDpiDemo()
     {
@@ -47,6 +48,8 @@ public partial class TouchscreenHighDpiDemo : KryptonForm
 
         // Setup demo controls
         SetupDemoControls();
+
+        grpSettings.Panel.AutoScroll = true;
 
         // Setup event handlers
         chkEnableTouchscreen.CheckedChanged += ChkEnableTouchscreen_CheckedChanged;
@@ -376,12 +379,78 @@ public partial class TouchscreenHighDpiDemo : KryptonForm
             trackFontScaleFactor.Enabled = fontScalingEnabled;
             lblFontScaleFactor.Enabled = touchscreenEnabled;
             lblFontScaleValue.Enabled = touchscreenEnabled;
+
+            ApplyScaledDemoLayout(settings);
         }
         finally
         {
             _updatingFromEvent = false;
         }
     }
+
+    private void ApplyScaledDemoLayout(TouchscreenSettingValues settings)
+    {
+        CaptureBaselineBounds(grpControls.Panel);
+        CaptureBaselineBounds(grpSettings.Panel);
+
+        float scaleFactor = 1f;
+        if (settings.TouchscreenModeEnabled)
+        {
+            scaleFactor = settings.ControlScaleFactor;
+            if (settings.FontScalingEnabled)
+            {
+                scaleFactor = Math.Max(scaleFactor, settings.FontScaleFactor);
+            }
+        }
+
+        scaleFactor = Math.Max(1f, scaleFactor);
+
+        grpControls.Panel.SuspendLayout();
+        grpSettings.Panel.SuspendLayout();
+
+        try
+        {
+            foreach (KeyValuePair<Control, Rectangle> entry in _baselineBounds)
+            {
+                Control control = entry.Key;
+                if (control.IsDisposed || control.Dock == DockStyle.Fill)
+                {
+                    continue;
+                }
+
+                Rectangle bounds = entry.Value;
+                control.Bounds = new Rectangle(
+                    ScaleLayoutValue(bounds.X, scaleFactor),
+                    ScaleLayoutValue(bounds.Y, scaleFactor),
+                    ScaleLayoutSize(bounds.Width, scaleFactor),
+                    ScaleLayoutSize(bounds.Height, scaleFactor));
+            }
+        }
+        finally
+        {
+            grpSettings.Panel.ResumeLayout(true);
+            grpControls.Panel.ResumeLayout(true);
+        }
+    }
+
+    private void CaptureBaselineBounds(Control parent)
+    {
+        foreach (Control child in parent.Controls)
+        {
+            if (child.Dock != DockStyle.Fill && !_baselineBounds.ContainsKey(child))
+            {
+                _baselineBounds.Add(child, child.Bounds);
+            }
+
+            CaptureBaselineBounds(child);
+        }
+    }
+
+    private static int ScaleLayoutValue(int value, float scaleFactor) =>
+        Math.Max(0, (int)Math.Round(value * scaleFactor));
+
+    private static int ScaleLayoutSize(int value, float scaleFactor) =>
+        Math.Max(1, (int)Math.Round(value * scaleFactor));
 
     private void UpdateStatus()
     {
