@@ -319,7 +319,7 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
             case PaletteMetricInt.BarButtonEdgeInside:
                 return 1;
             case PaletteMetricInt.DropDownArrowBaseSize:
-                return 10;
+                return DropDownArrowGlyphDefaults.DefaultBaseSizeAt96Dpi;
             case PaletteMetricInt.None:
                 return 0;
             default:
