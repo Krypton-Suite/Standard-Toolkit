@@ -1,7 +1,7 @@
 #region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & tobitege et al. 2025 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2025 - 2026. All rights reserved.
  */
 #endregion
 
@@ -44,6 +44,12 @@ public sealed class AppState
     /// Gets or sets the project file path for the build operation.
     /// </summary>
     public string ProjectFile { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the selected scripts profile (Auto, VS2022, Current).
+    /// Controls which Scripts folder variant is preferred when resolving .proj files.
+    /// </summary>
+    public ScriptProfile ScriptProfile { get; set; } = ScriptProfile.Auto;
 
     #endregion
 
