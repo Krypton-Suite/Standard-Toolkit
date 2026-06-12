@@ -177,7 +177,7 @@
 	
 		Target Framework Mapping:
 		- .NET Framework TFMs (net472, net48, net481): Use the TFM as-is in package paths
-		- .NET 8+ Windows TFMs (net8.0-windows, net9.0-windows, net10.0-windows): Map to netX.0-windows7.0 format
+		- .NET 8+ Windows TFMs (net8.0-windows, net9.0-windows, net10.0-windows, net11.0-windows): Map to netX.0-windows7.0 format
 		  This mapping is required because NuGet packages use a specific version string format for .NET Core/5+ Windows TFMs
 		  Example: net10.0-windows -> net10.0-windows7.0 in the package lib folder
 	
