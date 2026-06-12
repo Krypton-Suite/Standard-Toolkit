@@ -14,12 +14,23 @@
 		<KryptonDockingProject>$(KryptonComponentsRoot)\Krypton.Docking\Krypton.Docking 2022.csproj</KryptonDockingProject>
 		<KryptonComponentBuildProperties Condition="'$(TFMs)' != ''">Configuration=$(Configuration);TFMs=$(TFMs)</KryptonComponentBuildProperties>
 		<KryptonComponentBuildProperties Condition="'$(TFMs)' == ''">Configuration=$(Configuration);TFMs=all</KryptonComponentBuildProperties>
+		<KryptonComponentBuildProperties Condition="'$(ExcludeNet11)' != ''">$(KryptonComponentBuildProperties);ExcludeNet11=$(ExcludeNet11)</KryptonComponentBuildProperties>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<KryptonParallelAfterToolkit Include="$(KryptonRibbonProject)" />
 		<KryptonParallelAfterToolkit Include="$(KryptonNavigatorProject)" />
 	</ItemGroup>
+
+	<Target Name="KryptonCleanNuGetRestoreState" BeforeTargets="Restore">
+		<ItemGroup>
+			<KryptonNuGetAssets Include="$(KryptonComponentsRoot)\Krypton.*\obj\*.json" />
+			<KryptonNuGetAssets Include="$(KryptonComponentsRoot)\Krypton.*\obj\*.cache" />
+			<KryptonNuGetAssets Include="$(KryptonComponentsRoot)\Krypton.*\obj\*.g.targets" />
+			<KryptonNuGetAssets Include="$(KryptonComponentsRoot)\Krypton.*\obj\*.g.props" />
+		</ItemGroup>
+		<Delete Files="@(KryptonNuGetAssets)" />
+	</Target>
 
 	<Target Name="KryptonBuild">
 		<MSBuild Projects="$(KryptonToolkitProject)"

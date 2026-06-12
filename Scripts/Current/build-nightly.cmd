@@ -46,7 +46,10 @@ REM Phased Krypton.* build + /m (see Scripts\Build\Krypton.Orchestration.targets
 @echo:
 set "targets=Build"
 if not "%~1" == "" set "targets=%~1"
+setlocal
+call "%~dp0setup-dotnet11-sdk.cmd" || (endlocal & goto exitbatch)
 "%msbuildpath%\msbuild.exe" /m -t:%targets% "%SCRIPT_DIR%nightly.proj" /fl /flp:logfile="%SCRIPT_DIR%..\..\Logs\nightly-build-log.log" /bl:"%SCRIPT_DIR%..\..\Logs\nightly-build-log.binlog"  /clp:Summary;ShowTimestamp /v:quiet
+endlocal
 @echo:
 :: -t:rebuild
 
