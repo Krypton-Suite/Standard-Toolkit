@@ -7,30 +7,50 @@
 		<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
 	</PropertyGroup>
 
+	<!-- Target Framework Selection: Determines which .NET versions to build for based on configuration -->
+	<PropertyGroup>
+		<Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
+		<ExcludeModernTargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' == '' And '$(CI)' != 'true' And '$(MSBuildRuntimeType)' == 'Full' And $([System.String]::Copy('$(VisualStudioVersion)').StartsWith('16.'))">true</ExcludeModernTargetFrameworks>
+		<ExcludeVs2022UnsupportedTargetFrameworks Condition="'$(ExcludeVs2022UnsupportedTargetFrameworks)' == '' And '$(CI)' != 'true' And '$(MSBuildRuntimeType)' == 'Full' And $([System.String]::Copy('$(VisualStudioVersion)').StartsWith('17.'))">true</ExcludeVs2022UnsupportedTargetFrameworks>
+		<ExcludeNet11 Condition="'$(ExcludeNet11)' == '' And '$(CI)' != 'true' And '$(MSBuildRuntimeType)' == 'Full' And $([System.String]::Copy('$(VisualStudioVersion)').StartsWith('18.'))">true</ExcludeNet11>
+	</PropertyGroup>
+
 	<ItemGroup>
-		<PackageReference Include="System.Resources.Extensions" Version="9.0.10" />
+		<PackageReference Include="System.Resources.Extensions" Version="9.0.10" GeneratePathProperty="true" />
+		<PackageReference Include="Microsoft.Net.Compilers.Toolset" Version="4.14.0" PrivateAssets="all" Condition="'$(ExcludeModernTargetFrameworks)' == 'true'" />
 	</ItemGroup>
 
-	<!-- Target Framework Selection: Determines which .NET versions to build for based on configuration -->
 	<Choose>
 		<!-- Nightly, Canary, and Debug configurations build for all target frameworks -->
 		<When Condition="'$(Configuration)' == 'Nightly' Or '$(Configuration)' == 'Canary' Or '$(Configuration)' == 'Debug'">
 			<PropertyGroup>
-				<TargetFrameworks>net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows;net11.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' == 'true'">net472;net48;net481</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' == 'true'">net472;net48;net481;net8.0-windows;net9.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' == 'true'">net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' != 'true'">net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows;net11.0-windows</TargetFrameworks>
 			</PropertyGroup>
 		</When>
 		<!-- When SkipNetFramework is true, only build for .NET 8+ (used for testing/CI scenarios) -->
 		<When Condition="'$(SkipNetFramework)' == 'true'">
 			<PropertyGroup>
-				<TargetFrameworks>net8.0-windows;net9.0-windows;net10.0-windows;net11.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' == 'true'">net48;net481</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' == 'true'">net8.0-windows;net9.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' == 'true'">net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' != 'true'">net8.0-windows;net9.0-windows;net10.0-windows;net11.0-windows</TargetFrameworks>
 			</PropertyGroup>
 		</When>
 		<!-- Otherwise, build for .NET Framework 4.8+ and .NET 8+ (default) -->
 		<Otherwise>
 			<PropertyGroup>
-				<TargetFrameworks>net48;net481;net8.0-windows;net9.0-windows;net10.0-windows;net11.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' == 'true'">net48;net481</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' == 'true'">net48;net481;net8.0-windows;net9.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' == 'true'">net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' != 'true'">net48;net481;net8.0-windows;net9.0-windows;net10.0-windows;net11.0-windows</TargetFrameworks>
 				<!-- When TFMs=all, include .NET Framework 4.7.2 as well -->
-				<TargetFrameworks Condition="'$(TFMs)' == 'all'">net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows;net11.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(TFMs)' == 'all' And '$(ExcludeModernTargetFrameworks)' == 'true'">net472;net48;net481</TargetFrameworks>
+				<TargetFrameworks Condition="'$(TFMs)' == 'all' And '$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' == 'true'">net472;net48;net481;net8.0-windows;net9.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(TFMs)' == 'all' And '$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' == 'true'">net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(TFMs)' == 'all' And '$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' != 'true'">net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows;net11.0-windows</TargetFrameworks>
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>
@@ -56,12 +76,12 @@
 
 	<!-- Configure NuGet package output to separate directory for easier management -->
 	<PropertyGroup>
-		<PackageOutputPath>$(MSBuildThisFileDirectory)..\..\Bin\Packages\$(Configuration)\</PackageOutputPath>
+		<PackageOutputPath>$(KryptonPackageOutputRoot)$(Configuration)\</PackageOutputPath>
 		<!-- Ensure multi-target outputs don't overwrite each other -->
-		<OutputPath>$(MSBuildThisFileDirectory)..\..\Bin\$(Configuration)\$(TargetFramework)\</OutputPath>
+		<OutputPath>$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\</OutputPath>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<!-- Per-TFM obj avoids races when msbuild /m compiles multiple target frameworks at once -->
-		<IntermediateOutputPath>$(MSBuildProjectDirectory)obj\$(Configuration)\$(TargetFramework)\</IntermediateOutputPath>
+		<IntermediateOutputPath>$(MSBuildProjectDirectory)\obj\$(Configuration)\$(TargetFramework)\</IntermediateOutputPath>
 		<AppendTargetFrameworkToIntermediateOutputPath>false</AppendTargetFrameworkToIntermediateOutputPath>
 	</PropertyGroup>
 
