@@ -1,7 +1,7 @@
 ﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2023 - 2026. All rights reserved.
  */
 #endregion
 
@@ -97,20 +97,13 @@ public partial class KryptonToolkitPoweredByControl : UserControl
 
     private void SetLogo(ToolkitSupportType ToolkitSupportType)
     {
-        switch (ToolkitSupportType)
+        kpbxLogo.Image = ToolkitSupportType switch
         {
-            case ToolkitSupportType.Canary:
-                kpbxLogo.Image = ToolkitLogoImageResources.Krypton_Canary;
-                break;
-            case ToolkitSupportType.Nightly:
-                kpbxLogo.Image = ToolkitLogoImageResources.Krypton_Nightly;
-                break;
-            case ToolkitSupportType.Stable:
-                kpbxLogo.Image = ToolkitLogoImageResources.Krypton_Stable;
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(ToolkitSupportType), ToolkitSupportType, null);
-        }
+            ToolkitSupportType.Canary => ToolkitLogoImageResources.Krypton_Canary,
+            ToolkitSupportType.Nightly => ToolkitLogoImageResources.Krypton_Nightly,
+            ToolkitSupportType.Stable => ToolkitLogoImageResources.Krypton_Stable,
+            _ => throw new ArgumentOutOfRangeException(nameof(ToolkitSupportType), ToolkitSupportType, null)
+        };
     }
 
     private void klwlblDetails_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -121,26 +114,26 @@ public partial class KryptonToolkitPoweredByControl : UserControl
         }
         catch (Exception exception)
         {
-            KryptonExceptionHandler.CaptureException(exception, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(exception, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 
     private void GetVersions()
     {
         string dockingLocation =
-            $@"{Path.GetDirectoryName(Application.ExecutablePath)}\{GlobalStaticValues.DEFAULT_DOCKING_FILE}";
+            $@"{Path.GetDirectoryName(Application.ExecutablePath)}\{GlobalStaticVariables.DEFAULT_DOCKING_FILE}";
 
         string navigatorLocation =
-            $@"{Path.GetDirectoryName(Application.ExecutablePath)}\{GlobalStaticValues.DEFAULT_NAVIGATOR_FILE}";
+            $@"{Path.GetDirectoryName(Application.ExecutablePath)}\{GlobalStaticVariables.DEFAULT_NAVIGATOR_FILE}";
 
         string ribbonLocation =
-            $@"{Path.GetDirectoryName(Application.ExecutablePath)}\{GlobalStaticValues.DEFAULT_RIBBON_FILE}";
+            $@"{Path.GetDirectoryName(Application.ExecutablePath)}\{GlobalStaticVariables.DEFAULT_RIBBON_FILE}";
 
         string toolkitLocation =
-            $@"{Path.GetDirectoryName(Application.ExecutablePath)}\{GlobalStaticValues.DEFAULT_TOOLKIT_FILE}";
+            $@"{Path.GetDirectoryName(Application.ExecutablePath)}\{GlobalStaticVariables.DEFAULT_TOOLKIT_FILE}";
 
         string workspaceLocation =
-            $@"{Path.GetDirectoryName(Application.ExecutablePath)}\{GlobalStaticValues.DEFAULT_WORKSPACE_FILE}";
+            $@"{Path.GetDirectoryName(Application.ExecutablePath)}\{GlobalStaticVariables.DEFAULT_WORKSPACE_FILE}";
 
         FileVersionInfo dockingFileVersionInfo = FileVersionInfo.GetVersionInfo(dockingLocation);
 
@@ -158,7 +151,7 @@ public partial class KryptonToolkitPoweredByControl : UserControl
         }
         else
         {
-            kwlblDockingVersion.Text = $@"Cannot find file: '{GlobalStaticValues.DEFAULT_DOCKING_FILE}'";
+            kwlblDockingVersion.Text = $@"Cannot find file: '{GlobalStaticVariables.DEFAULT_DOCKING_FILE}'";
         }
 
         if (File.Exists(navigatorLocation))
@@ -167,7 +160,7 @@ public partial class KryptonToolkitPoweredByControl : UserControl
         }
         else
         {
-            kwlblNavigatorVersion.Text = $@"Cannot find file: '{GlobalStaticValues.DEFAULT_WORKSPACE_FILE}'";
+            kwlblNavigatorVersion.Text = $@"Cannot find file: '{GlobalStaticVariables.DEFAULT_WORKSPACE_FILE}'";
         }
 
         if (File.Exists(ribbonLocation))
@@ -176,7 +169,7 @@ public partial class KryptonToolkitPoweredByControl : UserControl
         }
         else
         {
-            kwlblRibbonVersion.Text = $@"Cannot find file: '{GlobalStaticValues.DEFAULT_RIBBON_FILE}'";
+            kwlblRibbonVersion.Text = $@"Cannot find file: '{GlobalStaticVariables.DEFAULT_RIBBON_FILE}'";
         }
 
         if (File.Exists(toolkitLocation))
@@ -185,7 +178,7 @@ public partial class KryptonToolkitPoweredByControl : UserControl
         }
         else
         {
-            kwlblToolkitVersion.Text = $@"Cannot find file: '{GlobalStaticValues.DEFAULT_TOOLKIT_FILE}'";
+            kwlblToolkitVersion.Text = $@"Cannot find file: '{GlobalStaticVariables.DEFAULT_TOOLKIT_FILE}'";
         }
 
         if (File.Exists(workspaceLocation))
@@ -194,7 +187,7 @@ public partial class KryptonToolkitPoweredByControl : UserControl
         }
         else
         {
-            kwlblWorkspaceVersion.Text = $@"Cannot find file: '{GlobalStaticValues.DEFAULT_WORKSPACE_FILE}'";
+            kwlblWorkspaceVersion.Text = $@"Cannot find file: '{GlobalStaticVariables.DEFAULT_WORKSPACE_FILE}'";
         }
     }
 

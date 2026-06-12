@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -197,7 +197,7 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
             drawRect.Width += borderPadding.Horizontal;
             drawRect.Height += borderPadding.Vertical;
         }
-        else if (Ribbon.RibbonShape == PaletteRibbonShape.Office2010)
+        else if (Ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.MacOS)
         {
             // Prevent the left and right edges from being drawn
             drawRect.X -= 1;
@@ -206,6 +206,18 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
 
         // Use renderer to draw the tab background
         _memento = context.Renderer.RenderRibbon.DrawRibbonBack(Ribbon.RibbonShape, context, drawRect, State, this, VisualOrientation.Top, _memento);
+
+        if (TryGetRetroPopupBorderColor(out Color popupBorderColor))
+        {
+            using var borderPen = new Pen(popupBorderColor, 1f);
+            context.Graphics.DrawRectangle(borderPen, drawRect.X, drawRect.Y, drawRect.Width - 1, drawRect.Height - 1);
+        }
+
+        if (TryGetRetroRibbonSeparatorColor(out Color separatorColor))
+        {
+            using var separatorPen = new Pen(separatorColor, 1f);
+            context.Graphics.DrawLine(separatorPen, drawRect.X, drawRect.Bottom - 1, drawRect.Right - 1, drawRect.Bottom - 1);
+        }
     }
     #endregion
 
@@ -215,7 +227,10 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteState state) => _inherit.GetRibbonBackColorStyle(state);
+    public PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteState state) =>
+        _borderOutside && KryptonManager.CurrentGlobalPalette is PaletteRetroBase
+            ? PaletteRibbonColorStyle.Solid
+            : _inherit.GetRibbonBackColorStyle(state);
 
     /// <summary>
     /// Gets the first background color for the ribbon item.
@@ -224,6 +239,11 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
     /// <returns>Color value.</returns>
     public Color GetRibbonBackColor1(PaletteState state)
     {
+        if (TryGetRetroPopupColor(out Color popupColor))
+        {
+            return popupColor;
+        }
+
         Color retColor = _inherit.GetRibbonBackColor1(state);
 
         // If empty then try and recover the context specific color
@@ -242,6 +262,11 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
     /// <returns>Color value.</returns>
     public Color GetRibbonBackColor2(PaletteState state)
     {
+        if (TryGetRetroPopupColor(out Color popupColor))
+        {
+            return popupColor;
+        }
+
         Color retColor = _inherit.GetRibbonBackColor2(state);
 
         // If empty then try and recover the context specific color
@@ -260,6 +285,11 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
     /// <returns>Color value.</returns>
     public Color GetRibbonBackColor3(PaletteState state)
     {
+        if (TryGetRetroPopupBorderColor(out Color popupColor))
+        {
+            return popupColor;
+        }
+
         Color retColor = _inherit.GetRibbonBackColor3(state);
 
         // If empty then try and recover the context specific color
@@ -278,6 +308,11 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
     /// <returns>Color value.</returns>
     public Color GetRibbonBackColor4(PaletteState state)
     {
+        if (TryGetRetroPopupBorderColor(out Color popupColor))
+        {
+            return popupColor;
+        }
+
         Color retColor = _inherit.GetRibbonBackColor4(state);
 
         // If empty then try and recover the context specific color
@@ -296,6 +331,11 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
     /// <returns>Color value.</returns>
     public Color GetRibbonBackColor5(PaletteState state)
     {
+        if (TryGetRetroPopupBorderColor(out Color popupColor))
+        {
+            return popupColor;
+        }
+
         Color retColor = _inherit.GetRibbonBackColor5(state);
 
         // If empty then try and recover the context specific color
@@ -343,6 +383,42 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
         }
 
         return Color.Empty;
+    }
+
+    private bool TryGetRetroPopupColor(out Color color)
+    {
+        if (_borderOutside && KryptonManager.CurrentGlobalPalette is PaletteRetroBase retroPalette)
+        {
+            color = retroPalette.RetroPopupBackColor;
+            return true;
+        }
+
+        color = GlobalStaticVariables.EMPTY_COLOR;
+        return false;
+    }
+
+    private bool TryGetRetroPopupBorderColor(out Color color)
+    {
+        if (_borderOutside && KryptonManager.CurrentGlobalPalette is PaletteRetroBase retroPalette)
+        {
+            color = retroPalette.RetroPopupBorderColor;
+            return true;
+        }
+
+        color = GlobalStaticVariables.EMPTY_COLOR;
+        return false;
+    }
+
+    private bool TryGetRetroRibbonSeparatorColor(out Color color)
+    {
+        if (!_borderOutside && KryptonManager.CurrentGlobalPalette is PaletteRetroBase retroPalette)
+        {
+            color = retroPalette.RetroRibbonSeparatorColor;
+            return true;
+        }
+
+        color = GlobalStaticVariables.EMPTY_COLOR;
+        return false;
     }
     #endregion
 }

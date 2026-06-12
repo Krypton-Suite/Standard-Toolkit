@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -21,6 +21,8 @@ public class PaletteBorderInheritForced : PaletteBorderInherit
     private IPaletteBorder? _inherit;
     private PaletteDrawBorders _forceBorderEdges;
     private bool _forceBorders;
+    private float _forceBorderRounding;
+    private bool _forceBorderRoundingActive;
 
     #endregion
 
@@ -38,6 +40,32 @@ public class PaletteBorderInheritForced : PaletteBorderInherit
         MaxBorderEdges = PaletteDrawBorders.All;
         ForceGraphicsHint = PaletteGraphicsHint.Inherit;
         BorderIgnoreNormal = false;
+        _forceBorderRounding = -1f;
+        _forceBorderRoundingActive = false;
+    }
+    #endregion
+
+    #region ClearForcedState
+    /// <summary>
+    /// Reset forced border edge and rounding overrides.
+    /// </summary>
+    public void ClearForcedState()
+    {
+        _forceBorders = false;
+        _forceBorderRoundingActive = false;
+        ForceGraphicsHint = PaletteGraphicsHint.Inherit;
+    }
+    #endregion
+
+    #region ForceBorderRounding
+    /// <summary>
+    /// Force the border rounding to a particular value.
+    /// </summary>
+    /// <param name="rounding">Rounding to apply.</param>
+    public void ForceBorderRounding(float rounding)
+    {
+        _forceBorderRounding = rounding;
+        _forceBorderRoundingActive = true;
     }
     #endregion
 
@@ -142,14 +170,14 @@ public class PaletteBorderInheritForced : PaletteBorderInherit
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public override Color GetBorderColor1(PaletteState state) => _inherit?.GetBorderColor1(state) ?? GlobalStaticValues.EMPTY_COLOR;
+    public override Color GetBorderColor1(PaletteState state) => _inherit?.GetBorderColor1(state) ?? GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the second border color.
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public override Color GetBorderColor2(PaletteState state) => _inherit?.GetBorderColor2(state) ?? GlobalStaticValues.EMPTY_COLOR;
+    public override Color GetBorderColor2(PaletteState state) => _inherit?.GetBorderColor2(state) ?? GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the color drawing style.
@@ -184,7 +212,8 @@ public class PaletteBorderInheritForced : PaletteBorderInherit
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Border rounding.</returns>
-    public override float GetBorderRounding(PaletteState state) => _inherit?.GetBorderRounding(state) ?? 0.0f;
+    public override float GetBorderRounding(PaletteState state) =>
+        _forceBorderRoundingActive ? _forceBorderRounding : _inherit?.GetBorderRounding(state) ?? 0.0f;
 
     /// <summary>
     /// Gets a border image.

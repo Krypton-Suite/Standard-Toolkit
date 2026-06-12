@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -536,7 +536,7 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <returns>Color value.</returns>
     public override Color GetBackColor1(PaletteBackStyle style, PaletteState state) =>
         // Find the correct destination in the palette and pass on request
-        GetPaletteBack(style, state)?.GetBackColor1(state) ?? GlobalStaticValues.EMPTY_COLOR;
+        GetPaletteBack(style, state)?.GetBackColor1(state) ?? GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the second back color.
@@ -546,7 +546,7 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <returns>Color value.</returns>
     public override Color GetBackColor2(PaletteBackStyle style, PaletteState state) =>
         // Find the correct destination in the palette and pass on request
-        GetPaletteBack(style, state)?.GetBackColor2(state) ?? GlobalStaticValues.EMPTY_COLOR;
+        GetPaletteBack(style, state)?.GetBackColor2(state) ?? GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the color background drawing style.
@@ -1130,12 +1130,13 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <inheritdoc />
     public override int GetMetricInt(KryptonForm? owningForm, PaletteState state, PaletteMetricInt metric) => metric switch
     {
-        PaletteMetricInt.BarButtonEdgeInside or PaletteMetricInt.BarButtonEdgeOutside or PaletteMetricInt.CheckButtonGap or PaletteMetricInt.RibbonTabGap => Navigator.StateCommon.Bar.GetMetricInt(owningForm, state, metric),
+        PaletteMetricInt.BarButtonEdgeInside or PaletteMetricInt.BarButtonEdgeOutside or PaletteMetricInt.CheckButtonGap or PaletteMetricInt.RibbonTabGap or PaletteMetricInt.DropDownArrowBaseSize => Navigator.StateCommon.Bar.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetPrimary => HeaderStyles.HeaderPrimary.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetSecondary => HeaderStyles.HeaderSecondary.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetDockInactive => HeaderStyles.HeaderDockInactive.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetDockActive => HeaderStyles.HeaderDockActive.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetForm => HeaderStyles.HeaderForm.StateCommon.GetMetricInt(owningForm, state, metric),
+        PaletteMetricInt.HeaderButtonEdgeInsetFormRight => HeaderStyles.HeaderForm.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetCustom1 => HeaderStyles.HeaderCustom1.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetCustom2 => HeaderStyles.HeaderCustom2.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetCustom3 => HeaderStyles.HeaderCustom3.StateCommon.GetMetricInt(owningForm, state, metric),
@@ -1966,6 +1967,16 @@ public class KryptonCustomPaletteBase : PaletteBase
             {
                 ResetOperation(null);
             }
+            else if (this.InDesignMode())
+            {
+                // In design mode (e.g. VS designer), run synchronously to avoid PerformOperation
+                // deadlock/freeze with ModalWaitDialog and worker thread (see issue #2927)
+                ResetOperation(null);
+
+                KryptonMessageBox.Show("Reset of palette is completed.",
+                    "Palette Reset",
+                    KryptonMessageBoxButtons.OK);
+            }
             else
             {
                 // Perform the reset operation on a separate worker thread
@@ -2007,6 +2018,16 @@ public class KryptonCustomPaletteBase : PaletteBase
             if (silent)
             {
                 PopulateFromBaseOperation(null);
+            }
+            else if (this.InDesignMode())
+            {
+                // In design mode (e.g. VS designer), run synchronously to avoid PerformOperation
+                // deadlock/freeze with ModalWaitDialog and worker thread (see issue #2927)
+                PopulateFromBaseOperation(null);
+
+                KryptonMessageBox.Show("Relevant values have been populated.",
+                    "Populate Values",
+                    KryptonMessageBoxButtons.OK);
             }
             else
             {
@@ -2056,7 +2077,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                 paletteFileName = kofd.FileName;
 
                 // Set the theme name to the file name
-                PaletteName = paletteFileName;
+                PaletteName = Path.GetFileNameWithoutExtension(paletteFileName);
             }
         }
         else
@@ -2075,7 +2096,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                 paletteFileName = dialog.FileName;
 
                 // Set the theme name to the file name
-                PaletteName = paletteFileName;
+                PaletteName = Path.GetFileNameWithoutExtension(paletteFileName);
             }
         }
         if (!string.IsNullOrWhiteSpace(paletteFileName))
@@ -2106,7 +2127,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             paletteFileName = dialog.FileName;
 
             // Set the theme name to the file name
-            PaletteName = paletteFileName;
+            PaletteName = Path.GetFileNameWithoutExtension(paletteFileName);
         }
 
         if (!string.IsNullOrWhiteSpace(paletteFileName))
@@ -2179,10 +2200,12 @@ public class KryptonCustomPaletteBase : PaletteBase
         // Set the file path
         SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(ret));
 
-        // Set the palette name
-        // TODO: Get paletteName from the paletteBase
-
-        SetPaletteName(Path.GetFileName(ret));
+        // Use bundled name from file if present, otherwise fall back to filename
+        if (string.IsNullOrWhiteSpace(GetPaletteName()))
+        {
+            // Set the theme name to the file name
+            SetPaletteName(Path.GetFileName(ret));
+        }
 
         return ret;
     }
@@ -2218,6 +2241,8 @@ public class KryptonCustomPaletteBase : PaletteBase
             {
                 throw;
             }
+
+            KryptonExceptionHandler.CaptureException(aex);
 
             stream.Position = 0;
             PerformUpgrade(stream);
@@ -2292,7 +2317,7 @@ public class KryptonCustomPaletteBase : PaletteBase
         }
         catch (Exception e)
         {
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 
@@ -2435,7 +2460,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                 SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(ksfd.FileName));
 
                 // Set the theme name to the file name
-                PaletteName = ksfd.FileName;
+                PaletteName = Path.GetFileNameWithoutExtension(ksfd.FileName);
 
                 return Export(ksfd.FileName, true, false);
             }
@@ -2455,7 +2480,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                 SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(dialog.FileName));
 
                 // Set the theme name to the file name
-                PaletteName = dialog.FileName;
+                PaletteName = Path.GetFileNameWithoutExtension(dialog.FileName);
 
                 // Use the existing export overload that takes the target name
                 return Export(dialog.FileName, true, false);
@@ -2482,7 +2507,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(dialog.FileName));
 
             // Set the theme name to the file name
-            PaletteName = dialog.FileName;
+            PaletteName = Path.GetFileNameWithoutExtension(dialog.FileName);
 
             // Use the existing export overload that takes the target name
             return Export(dialog.FileName, true, false);
@@ -3087,11 +3112,31 @@ public class KryptonCustomPaletteBase : PaletteBase
             // Grab the version number of the format being loaded
             var version = int.Parse(root.GetAttribute(nameof(Version)));
 
-            if (version < GlobalStaticValues.CURRENT_SUPPORTED_PALETTE_VERSION)
+            if (version < GlobalStaticConstants.CURRENT_SUPPORTED_PALETTE_VERSION)
             {
                 throw new ArgumentException(
-                    $"Version '{version}' number is incompatible, only version {GlobalStaticValues.CURRENT_SUPPORTED_PALETTE_VERSION} or above can be imported.\nUse the PaletteUpgradeTool from the Application tab of the KryptonExplorer to upgrade.");
+                    $"Version '{version}' number is incompatible, only version {GlobalStaticConstants.CURRENT_SUPPORTED_PALETTE_VERSION} or above can be imported.\nUse the PaletteUpgradeTool from the Application tab of the KryptonExplorer to upgrade.");
             }
+
+            // Restore bundled palette name so external themes display correctly (e.g. in KryptonManager)
+            if (root.HasAttribute("Name"))
+            {
+                SetPaletteName(root.GetAttribute("Name"));
+            }
+
+            // Import order: establish a full baseline from BasePalette, then apply the XML theme on top.
+            //
+            // PopulateFromBaseOperation resets the palette hierarchy and copies values from the current
+            // BasePalette (via each storage type's PopulateFromBase). That ensures every property that the
+            // theme file does NOT serialize still reflects inheritance from the base theme instead of
+            // leftover C# defaults or stale state from a previous load—avoiding gaps in metrics, button
+            // specs, header chrome, etc. (e.g. stray rendering next to caption buttons).
+            //
+            // The steps below (ImportImagesFromElement / ImportObjectFromElement) then overwrite only what
+            // the XML actually defines. Theme wins for anything present in the file; anything omitted keeps
+            // the values we just populated from BasePalette. Doing populate after import would fight the
+            // file and could reset explicit theme settings, so populate must run first.
+            PopulateFromBaseOperation(null);
 
             // Grab the properties and images elements
             var props = root.SelectSingleNode(nameof(Properties)) as XmlElement;
@@ -3114,14 +3159,10 @@ public class KryptonCustomPaletteBase : PaletteBase
             // Use reflection to import the palette hierarchy
             ImportImagesFromElement(images, imageCache);
             ImportObjectFromElement(props, imageCache, this);
-
-            // Set the palette name
-            // TODO: Get paletteName from the paletteBase
-            //SetPaletteName(root.SelectSingleNode(Name));
         }
         catch (Exception e)
         {
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
         finally
         {
@@ -3232,16 +3273,23 @@ public class KryptonCustomPaletteBase : PaletteBase
             doc.AppendChild(doc.CreateComment(
                 "New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)"));
             doc.AppendChild(doc.CreateComment(
-                $"Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - {DateTime.Now.Year}. All rights reserved."));
+                $"Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), Giduac, tobitege, Lesandro, KamaniAR, et al. 2017 - {DateTime.Now.Year}. All rights reserved."));
             doc.AppendChild(doc.CreateComment("WARNING: Modifying this file may render it invalid for importing."));
             doc.AppendChild(doc.CreateComment($@"Date created: {DateTime.Now.ToLongDateString()}"));
 
             // Create a root node with version and the date information, by
             // having a version number the loading of older version is easier
             var root = doc.CreateElement("KryptonPalette");
-            root.SetAttribute(nameof(Version), GlobalStaticValues.CURRENT_SUPPORTED_PALETTE_VERSION.ToString());
+            root.SetAttribute(nameof(Version), GlobalStaticConstants.CURRENT_SUPPORTED_PALETTE_VERSION.ToString());
             root.SetAttribute("Generated",
                 $"{DateTime.Now.ToLongDateString()}, @{DateTime.Now.ToShortTimeString()}");
+
+            // Bundle the palette display name so it can be shown correctly when loaded (e.g. in KryptonManager)
+            if (!string.IsNullOrWhiteSpace(PaletteName))
+            {
+                root.SetAttribute("Name", PaletteName);
+            }
+
             doc.AppendChild(root);
 
             // Add two children, one for storing actual palette values the other for cached images
@@ -3261,7 +3309,7 @@ public class KryptonCustomPaletteBase : PaletteBase
         }
         catch (Exception e)
         {
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
 
             return new XmlDocument();
         }
@@ -3347,22 +3395,32 @@ public class KryptonCustomPaletteBase : PaletteBase
                                     }
                                     else
                                     {
-                                        object? setValue = null;
+										object? setValue = null;
 
-                                        // We ignore conversion of a Font of value (none) because instead
-                                        // of providing null it returns a default font value
-                                        if (valueType != nameof(Font) || valueValue != @"(none)")
-                                        {
-                                            // We need the type converter to create a string representation
-                                            var converter = TypeDescriptor.GetConverter(StringToType(valueType));
+										// Resolve the CLR type from the serialized Type attribute
+										Type resolvedType = StringToType(valueType);
 
-                                            // Recreate the value using the converter
-                                            setValue = converter.ConvertFromInvariantString(valueValue);
-                                        }
+										// -----------------------------------------------------------------
+										// We intentionally skip conversion when importing a Font with
+										// Value="(none)".
+										//
+										// Reason:
+										// - "(none)" represents an explicitly unset Font (Font == null)
+										// - Converting "(none)" using FontConverter would return
+										//   a default Font instance instead of null
+										//
+										// By skipping the conversion, the property is correctly restored
+										// as null.
+										// -----------------------------------------------------------------
+										if (resolvedType != typeof(Font) || valueValue != "(none)")
+										{
+											var converter = TypeDescriptor.GetConverter(resolvedType);
+											setValue = converter.ConvertFromInvariantString(valueValue);
+										}
 
-                                        // Push the value into the actual property
-                                        prop.SetValue(obj, setValue, null);
-                                    }
+										// Assign the restored value (null for "(none)" Font cases)
+										prop.SetValue(obj, setValue, null);
+									}
                                 }
                             }
                         }
@@ -3504,10 +3562,29 @@ public class KryptonCustomPaletteBase : PaletteBase
                         // Should we test if the property value is the default?
                         if (ignoreDefaults)
                         {
+                            // First prefer the component-model pattern used across the palette hierarchy.
+                            // If a ShouldSerialize<PropertyName>() method exists and returns false, treat
+                            // the property as default and do not export it.
+                            var shouldSerializeMethod = t.GetMethod($"ShouldSerialize{prop.Name}",
+                                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+                                binder: null,
+                                types: Type.EmptyTypes,
+                                modifiers: null);
+
+                            if (shouldSerializeMethod != null &&
+                                shouldSerializeMethod.ReturnType == typeof(bool))
+                            {
+                                if (!(bool)shouldSerializeMethod.Invoke(obj, null)!)
+                                {
+                                    ignore = true;
+                                }
+                            }
+
                             var defaultAttribs = prop.GetCustomAttributes(typeof(DefaultValueAttribute), false);
 
                             // Does this property have a default value attribute?
-                            if (defaultAttribs.Length == 1)
+                            // Use the first one found (KryptonDefaultColor is a DefaultValueAttribute subclass)
+                            if (!ignore && defaultAttribs.Length >= 1)
                             {
                                 // Cast to correct type
                                 var defaultAttrib = defaultAttribs[0] as DefaultValueAttribute;
@@ -3574,11 +3651,71 @@ public class KryptonCustomPaletteBase : PaletteBase
                             }
                             else
                             {
-                                // We need the type converter to create a string representation
+                              // -----------------------------------------------------------------------------
+                              // Special handling for Font properties
+                              // -----------------------------------------------------------------------------
+                              if (prop.PropertyType == typeof(Font))
+                              {
+                                // -------------------------------------------------------------------------
+                                // A Font property may legitimately be NULL when the user has not explicitly
+                                // assigned a font value.
+                                //
+                                // In this case, NULL does NOT indicate an error. It simply means:
+                                //   - No explicit Font value was provided by the user
+                                //
+                                // However, NULL cannot be represented directly in XML. If no value is
+                                // written, the persisted state becomes ambiguous.
+                                //
+                                // To make this state explicit and deterministic, we serialize a sentinel
+                                // value.
+                                //
+                                // Convention:
+                                //   "(none)" => no Font explicitly assigned (Font == null)
+                                // -------------------------------------------------------------------------
+                                if (childObj == null)
+                                {
+                                  childElement.SetAttribute("Value", "(none)");
+                                }
+                                else
+                                {
+                                  // ---------------------------------------------------------------------
+                                  // When a Font value is present, we preserve the existing serialization
+                                  // behavior and use the standard TypeConverter.
+                                  //
+                                  // This is intentional:
+                                  // - It preserves backward compatibility with previously exported XML
+                                  // - It avoids changing the established serialization format
+                                  //
+                                  // Note:
+                                  // While a CultureInfo is provided, this does not guarantee complete
+                                  // invariance for all internal conversions performed by the converter.
+                                  // The behavior is kept as-is for compatibility reasons.
+                                  // ---------------------------------------------------------------------
+                                  var cultureInfo = new CultureInfo("en-US");
+
+                                  var converter = TypeDescriptor.GetConverter(prop.PropertyType);
+
+                                  var converted = converter.ConvertTo(context: null, culture: cultureInfo, value: childObj, destinationType: typeof(string));
+
+                                  childElement.SetAttribute("Value", converted?.ToString() ?? string.Empty);
+                                }
+                              }
+                              else
+                              {
+                                // -------------------------------------------------------------------------
+                                // Default serialization path for all non-Font property types.
+                                //
+                                // The existing TypeConverter-based logic is preserved without changes
+                                // to avoid unintended behavioral differences.
+                                // -------------------------------------------------------------------------
+                                var cultureInfo = new CultureInfo("en-US");
+
                                 var converter = TypeDescriptor.GetConverter(prop.PropertyType);
 
-                                // Save to an invariant string so that load is not affected by culture
-                                childElement.SetAttribute(@"Value", converter.ConvertToInvariantString(childObj!));
+                                var converted = converter.ConvertTo(context: null, culture: cultureInfo, value: childObj!, destinationType: typeof(string));
+
+                                childElement.SetAttribute("Value", converted?.ToString() ?? string.Empty);
+                              }
                             }
                         }
                     }
@@ -3670,8 +3807,8 @@ public class KryptonCustomPaletteBase : PaletteBase
                             {
                                 var defaultAttribs = prop.GetCustomAttributes(typeof(DefaultValueAttribute), false);
 
-                                // Does this property have a default value attribute?
-                                if (defaultAttribs.Length == 1)
+                                // Does this property have at least one default value attribute?
+                                if (defaultAttribs.Length >= 1)
                                 {
                                     // Cast to correct type
                                     var defaultAttrib = (DefaultValueAttribute)defaultAttribs[0];
@@ -4248,10 +4385,33 @@ public class KryptonCustomPaletteBase : PaletteBase
                 return ButtonSpecs.RibbonMinimize;
             case PaletteButtonSpecStyle.RibbonExpand:
                 return ButtonSpecs.RibbonExpand;
+            case PaletteButtonSpecStyle.Undo:
+                return ButtonSpecs.Previous;
+            case PaletteButtonSpecStyle.New:
+            case PaletteButtonSpecStyle.Open:
+            case PaletteButtonSpecStyle.Save:
+            case PaletteButtonSpecStyle.SaveAs:
+            case PaletteButtonSpecStyle.SaveAll:
+            case PaletteButtonSpecStyle.Cut:
+            case PaletteButtonSpecStyle.Copy:
+            case PaletteButtonSpecStyle.Paste:
+            case PaletteButtonSpecStyle.Redo:
+            case PaletteButtonSpecStyle.PageSetup:
+            case PaletteButtonSpecStyle.PrintPreview:
+            case PaletteButtonSpecStyle.Print:
+            case PaletteButtonSpecStyle.QuickPrint:
+            case PaletteButtonSpecStyle.SelectAll:
+            case PaletteButtonSpecStyle.SelectNone:
+            case PaletteButtonSpecStyle.Search:
+                return ButtonSpecs.Generic;
             default:
-                // Should never happen!
-                Debug.Assert(false);
-                throw DebugTools.NotImplemented(style.ToString());
+                // Unknown or out-of-range values (e.g. newer enum, bad serialization) — avoid crashing the UI.
+                Debug.Assert(false, $"Unhandled {nameof(PaletteButtonSpecStyle)}: {(int)style}");
+                if (Debugger.IsAttached)
+                {
+                    throw DebugTools.NotImplemented(style.ToString());
+                }
+                return ButtonSpecs.Generic;
         }
     }
 
@@ -4464,180 +4624,112 @@ public class KryptonCustomPaletteBase : PaletteBase
         // Must update the redirector values used if the palette source is used
         Common.StateCommon.BorderStyle = style;
 
-        switch (style)
+        return style switch
         {
-            case PaletteBorderStyle.ButtonStandalone:
-                return GetPaletteBorderButton(ButtonStyles.ButtonStandalone, state);
-            case PaletteBorderStyle.ButtonAlternate:
-                return GetPaletteBorderButton(ButtonStyles.ButtonAlternate, state);
-            case PaletteBorderStyle.ButtonLowProfile:
-                return GetPaletteBorderButton(ButtonStyles.ButtonLowProfile, state);
-            case PaletteBorderStyle.ButtonButtonSpec:
-                return GetPaletteBorderButton(ButtonStyles.ButtonButtonSpec, state);
-            case PaletteBorderStyle.ButtonBreadCrumb:
-                return GetPaletteBorderButton(ButtonStyles.ButtonBreadCrumb, state);
-            case PaletteBorderStyle.ButtonCalendarDay:
-                return GetPaletteBorderCalendarDay(CalendarDay, state);
-            case PaletteBorderStyle.ButtonCluster:
-                return GetPaletteBorderButton(ButtonStyles.ButtonCluster, state);
-            case PaletteBorderStyle.ButtonGallery:
-                return GetPaletteBorderButton(ButtonStyles.ButtonGallery, state);
-            case PaletteBorderStyle.ButtonNavigatorStack:
-                return GetPaletteBorderButton(ButtonStyles.ButtonNavigatorStack, state);
-            case PaletteBorderStyle.ButtonNavigatorOverflow:
-                return GetPaletteBorderButton(ButtonStyles.ButtonNavigatorOverflow, state);
-            case PaletteBorderStyle.ButtonNavigatorMini:
-                return GetPaletteBorderButton(ButtonStyles.ButtonNavigatorMini, state);
-            case PaletteBorderStyle.ButtonInputControl:
-                return GetPaletteBorderButton(ButtonStyles.ButtonInputControl, state);
-            case PaletteBorderStyle.ButtonListItem:
-                return GetPaletteBorderButton(ButtonStyles.ButtonListItem, state);
-            case PaletteBorderStyle.ButtonForm:
-                return GetPaletteBorderButton(ButtonStyles.ButtonForm, state);
-            case PaletteBorderStyle.ButtonFormClose:
-                return GetPaletteBorderButton(ButtonStyles.ButtonFormClose, state);
-            case PaletteBorderStyle.ButtonCommand:
-                return GetPaletteBorderButton(ButtonStyles.ButtonCommand, state);
-            case PaletteBorderStyle.ButtonCustom1:
-                return GetPaletteBorderButton(ButtonStyles.ButtonCustom1, state);
-            case PaletteBorderStyle.ButtonCustom2:
-                return GetPaletteBorderButton(ButtonStyles.ButtonCustom2, state);
-            case PaletteBorderStyle.ButtonCustom3:
-                return GetPaletteBorderButton(ButtonStyles.ButtonCustom3, state);
-            case PaletteBorderStyle.ControlClient:
-                return GetPaletteBorderControl(ControlStyles.ControlClient, state);
-            case PaletteBorderStyle.ControlAlternate:
-                return GetPaletteBorderControl(ControlStyles.ControlAlternate, state);
-            case PaletteBorderStyle.ControlGroupBox:
-                return GetPaletteBorderControl(ControlStyles.ControlGroupBox, state);
-            case PaletteBorderStyle.ControlToolTip:
-                return GetPaletteBorderControl(ControlStyles.ControlToolTip, state);
-            case PaletteBorderStyle.ControlRibbon:
-                return GetPaletteBorderControl(ControlStyles.ControlRibbon, state);
-            case PaletteBorderStyle.ControlRibbonAppMenu:
-                return GetPaletteBorderControl(ControlStyles.ControlRibbonAppMenu, state);
-            case PaletteBorderStyle.ControlCustom1:
-                return GetPaletteBorderControl(ControlStyles.ControlCustom1, state);
-            case PaletteBorderStyle.ControlCustom2:
-                return GetPaletteBorderControl(ControlStyles.ControlCustom2, state);
-            case PaletteBorderStyle.ControlCustom3:
-                return GetPaletteBorderControl(ControlStyles.ControlCustom3, state);
-            case PaletteBorderStyle.InputControlStandalone:
-                return GetPaletteInputControl(InputControlStyles.InputControlStandalone, state).Border;
-            case PaletteBorderStyle.InputControlRibbon:
-                return GetPaletteInputControl(InputControlStyles.InputControlRibbon, state).Border;
-            case PaletteBorderStyle.InputControlCustom1:
-                return GetPaletteInputControl(InputControlStyles.InputControlCustom1, state).Border;
-            case PaletteBorderStyle.InputControlCustom2:
-                return GetPaletteInputControl(InputControlStyles.InputControlCustom2, state).Border;
-            case PaletteBorderStyle.InputControlCustom3:
-                return GetPaletteInputControl(InputControlStyles.InputControlCustom3, state).Border;
-            case PaletteBorderStyle.FormMain:
-                return GetPaletteBorderForm(FormStyles.FormMain, state);
-            case PaletteBorderStyle.FormCustom1:
-                return GetPaletteBorderForm(FormStyles.FormCustom1, state);
-            case PaletteBorderStyle.FormCustom2:
-                return GetPaletteBorderForm(FormStyles.FormCustom2, state);
-            case PaletteBorderStyle.FormCustom3:
-                return GetPaletteBorderForm(FormStyles.FormCustom3, state);
-            case PaletteBorderStyle.GridHeaderColumnList:
-                return GetPaletteBorderGridHeaderColumn(GridStyles.GridList, state);
-            case PaletteBorderStyle.GridHeaderColumnSheet:
-                return GetPaletteBorderGridHeaderColumn(GridStyles.GridSheet, state);
-            case PaletteBorderStyle.GridHeaderColumnCustom1:
-                return GetPaletteBorderGridHeaderColumn(GridStyles.GridCustom1, state);
-            case PaletteBorderStyle.GridHeaderColumnCustom2:
-                return GetPaletteBorderGridHeaderColumn(GridStyles.GridCustom2, state);
-            case PaletteBorderStyle.GridHeaderColumnCustom3:
-                return GetPaletteBorderGridHeaderColumn(GridStyles.GridCustom3, state);
-            case PaletteBorderStyle.GridHeaderRowList:
-                return GetPaletteBorderGridHeaderRow(GridStyles.GridList, state);
-            case PaletteBorderStyle.GridHeaderRowSheet:
-                return GetPaletteBorderGridHeaderRow(GridStyles.GridSheet, state);
-            case PaletteBorderStyle.GridHeaderRowCustom1:
-                return GetPaletteBorderGridHeaderRow(GridStyles.GridCustom1, state);
-            case PaletteBorderStyle.GridHeaderRowCustom2:
-                return GetPaletteBorderGridHeaderRow(GridStyles.GridCustom2, state);
-            case PaletteBorderStyle.GridHeaderRowCustom3:
-                return GetPaletteBorderGridHeaderRow(GridStyles.GridCustom3, state);
-            case PaletteBorderStyle.GridDataCellList:
-                return GetPaletteBorderGridDataCell(GridStyles.GridList, state);
-            case PaletteBorderStyle.GridDataCellSheet:
-                return GetPaletteBorderGridDataCell(GridStyles.GridSheet, state);
-            case PaletteBorderStyle.GridDataCellCustom1:
-                return GetPaletteBorderGridDataCell(GridStyles.GridCustom1, state);
-            case PaletteBorderStyle.GridDataCellCustom2:
-                return GetPaletteBorderGridDataCell(GridStyles.GridCustom2, state);
-            case PaletteBorderStyle.GridDataCellCustom3:
-                return GetPaletteBorderGridDataCell(GridStyles.GridCustom3, state);
-            case PaletteBorderStyle.HeaderPrimary:
-                return GetPaletteBorderHeader(HeaderStyles.HeaderPrimary, state);
-            case PaletteBorderStyle.HeaderSecondary:
-                return GetPaletteBorderHeader(HeaderStyles.HeaderSecondary, state);
-            case PaletteBorderStyle.HeaderDockInactive:
-                return GetPaletteBorderHeader(HeaderStyles.HeaderDockInactive, state);
-            case PaletteBorderStyle.HeaderDockActive:
-                return GetPaletteBorderHeader(HeaderStyles.HeaderDockActive, state);
-            case PaletteBorderStyle.HeaderCalendar:
-                return GetPaletteBorderHeader(HeaderStyles.HeaderCalendar, state);
-            case PaletteBorderStyle.HeaderForm:
-                return GetPaletteBorderHeader(HeaderStyles.HeaderForm, state);
-            case PaletteBorderStyle.HeaderCustom1:
-                return GetPaletteBorderHeader(HeaderStyles.HeaderCustom1, state);
-            case PaletteBorderStyle.HeaderCustom2:
-                return GetPaletteBorderHeader(HeaderStyles.HeaderCustom2, state);
-            case PaletteBorderStyle.HeaderCustom3:
-                return GetPaletteBorderHeader(HeaderStyles.HeaderCustom3, state);
-            case PaletteBorderStyle.SeparatorLowProfile:
-                return GetPaletteBorderSeparator(SeparatorStyles.SeparatorLowProfile, state);
-            case PaletteBorderStyle.SeparatorHighProfile:
-                return GetPaletteBorderSeparator(SeparatorStyles.SeparatorHighProfile, state);
-            case PaletteBorderStyle.SeparatorHighInternalProfile:
-                return GetPaletteBorderSeparator(SeparatorStyles.SeparatorHighInternalProfile, state);
-            case PaletteBorderStyle.SeparatorCustom1:
-                return GetPaletteBorderSeparator(SeparatorStyles.SeparatorCustom1, state);
-            case PaletteBorderStyle.SeparatorCustom2:
-                return GetPaletteBorderSeparator(SeparatorStyles.SeparatorCustom2, state);
-            case PaletteBorderStyle.SeparatorCustom3:
-                return GetPaletteBorderSeparator(SeparatorStyles.SeparatorCustom3, state);
-            case PaletteBorderStyle.TabHighProfile:
-                return GetPaletteBorderTab(TabStyles.TabHighProfile, state);
-            case PaletteBorderStyle.TabStandardProfile:
-                return GetPaletteBorderTab(TabStyles.TabStandardProfile, state);
-            case PaletteBorderStyle.TabLowProfile:
-                return GetPaletteBorderTab(TabStyles.TabLowProfile, state);
-            case PaletteBorderStyle.TabDock:
-                return GetPaletteBorderTab(TabStyles.TabDock, state);
-            case PaletteBorderStyle.TabDockAutoHidden:
-                return GetPaletteBorderTab(TabStyles.TabDockAutoHidden, state);
-            case PaletteBorderStyle.TabOneNote:
-                return GetPaletteBorderTab(TabStyles.TabOneNote, state);
-            case PaletteBorderStyle.TabCustom1:
-                return GetPaletteBorderTab(TabStyles.TabCustom1, state);
-            case PaletteBorderStyle.TabCustom2:
-                return GetPaletteBorderTab(TabStyles.TabCustom2, state);
-            case PaletteBorderStyle.TabCustom3:
-                return GetPaletteBorderTab(TabStyles.TabCustom3, state);
-            case PaletteBorderStyle.ContextMenuOuter:
-                return ContextMenu.StateCommon.ControlOuter.Border;
-            case PaletteBorderStyle.ContextMenuInner:
-                return ContextMenu.StateCommon.ControlInner.Border;
-            case PaletteBorderStyle.ContextMenuHeading:
-                return ContextMenu.StateCommon.Heading.Border;
-            case PaletteBorderStyle.ContextMenuItemHighlight:
-                return GetPaletteBorderContextMenuItemHighlight(state);
-            case PaletteBorderStyle.ContextMenuItemImage:
-                return GetPaletteBorderContextMenuItemImage(state);
-            case PaletteBorderStyle.ContextMenuItemSplit:
-                return GetPaletteBorderContextMenuItemSplit(state);
-            case PaletteBorderStyle.ContextMenuItemImageColumn:
-                return ContextMenu.StateCommon.ItemImageColumn.Border;
-            case PaletteBorderStyle.ContextMenuSeparator:
-                return ContextMenu.StateCommon.Separator.Border;
-            default:
-                // Should never happen!
-                throw DebugTools.NotImplemented(style.ToString());
-        }
+            PaletteBorderStyle.ButtonStandalone => GetPaletteBorderButton(ButtonStyles.ButtonStandalone, state),
+            PaletteBorderStyle.ButtonAlternate => GetPaletteBorderButton(ButtonStyles.ButtonAlternate, state),
+            PaletteBorderStyle.ButtonLowProfile => GetPaletteBorderButton(ButtonStyles.ButtonLowProfile, state),
+            PaletteBorderStyle.ButtonButtonSpec => GetPaletteBorderButton(ButtonStyles.ButtonButtonSpec, state),
+            PaletteBorderStyle.ButtonBreadCrumb => GetPaletteBorderButton(ButtonStyles.ButtonBreadCrumb, state),
+            PaletteBorderStyle.ButtonCalendarDay => GetPaletteBorderCalendarDay(CalendarDay, state),
+            PaletteBorderStyle.ButtonCluster => GetPaletteBorderButton(ButtonStyles.ButtonCluster, state),
+            PaletteBorderStyle.ButtonGallery => GetPaletteBorderButton(ButtonStyles.ButtonGallery, state),
+            PaletteBorderStyle.ButtonNavigatorStack => GetPaletteBorderButton(ButtonStyles.ButtonNavigatorStack, state),
+            PaletteBorderStyle.ButtonNavigatorOverflow => GetPaletteBorderButton(ButtonStyles.ButtonNavigatorOverflow,
+                state),
+            PaletteBorderStyle.ButtonNavigatorMini => GetPaletteBorderButton(ButtonStyles.ButtonNavigatorMini, state),
+            PaletteBorderStyle.ButtonInputControl => GetPaletteBorderButton(ButtonStyles.ButtonInputControl, state),
+            PaletteBorderStyle.ButtonListItem => GetPaletteBorderButton(ButtonStyles.ButtonListItem, state),
+            PaletteBorderStyle.ButtonForm => GetPaletteBorderButton(ButtonStyles.ButtonForm, state),
+            PaletteBorderStyle.ButtonFormClose => GetPaletteBorderButton(ButtonStyles.ButtonFormClose, state),
+            PaletteBorderStyle.ButtonCommand => GetPaletteBorderButton(ButtonStyles.ButtonCommand, state),
+            PaletteBorderStyle.ButtonCustom1 => GetPaletteBorderButton(ButtonStyles.ButtonCustom1, state),
+            PaletteBorderStyle.ButtonCustom2 => GetPaletteBorderButton(ButtonStyles.ButtonCustom2, state),
+            PaletteBorderStyle.ButtonCustom3 => GetPaletteBorderButton(ButtonStyles.ButtonCustom3, state),
+            PaletteBorderStyle.ControlClient => GetPaletteBorderControl(ControlStyles.ControlClient, state),
+            PaletteBorderStyle.ControlAlternate => GetPaletteBorderControl(ControlStyles.ControlAlternate, state),
+            PaletteBorderStyle.ControlGroupBox => GetPaletteBorderControl(ControlStyles.ControlGroupBox, state),
+            PaletteBorderStyle.ControlToolTip => GetPaletteBorderControl(ControlStyles.ControlToolTip, state),
+            PaletteBorderStyle.ControlRibbon => GetPaletteBorderControl(ControlStyles.ControlRibbon, state),
+            PaletteBorderStyle.ControlRibbonAppMenu => GetPaletteBorderControl(ControlStyles.ControlRibbonAppMenu,
+                state),
+            PaletteBorderStyle.ControlCustom1 => GetPaletteBorderControl(ControlStyles.ControlCustom1, state),
+            PaletteBorderStyle.ControlCustom2 => GetPaletteBorderControl(ControlStyles.ControlCustom2, state),
+            PaletteBorderStyle.ControlCustom3 => GetPaletteBorderControl(ControlStyles.ControlCustom3, state),
+            PaletteBorderStyle.InputControlStandalone => GetPaletteInputControl(
+                    InputControlStyles.InputControlStandalone, state)
+                .Border,
+            PaletteBorderStyle.InputControlRibbon => GetPaletteInputControl(InputControlStyles.InputControlRibbon,
+                    state)
+                .Border,
+            PaletteBorderStyle.InputControlCustom1 => GetPaletteInputControl(InputControlStyles.InputControlCustom1,
+                    state)
+                .Border,
+            PaletteBorderStyle.InputControlCustom2 => GetPaletteInputControl(InputControlStyles.InputControlCustom2,
+                    state)
+                .Border,
+            PaletteBorderStyle.InputControlCustom3 => GetPaletteInputControl(InputControlStyles.InputControlCustom3,
+                    state)
+                .Border,
+            PaletteBorderStyle.FormMain => GetPaletteBorderForm(FormStyles.FormMain, state),
+            PaletteBorderStyle.FormCustom1 => GetPaletteBorderForm(FormStyles.FormCustom1, state),
+            PaletteBorderStyle.FormCustom2 => GetPaletteBorderForm(FormStyles.FormCustom2, state),
+            PaletteBorderStyle.FormCustom3 => GetPaletteBorderForm(FormStyles.FormCustom3, state),
+            PaletteBorderStyle.GridHeaderColumnList => GetPaletteBorderGridHeaderColumn(GridStyles.GridList, state),
+            PaletteBorderStyle.GridHeaderColumnSheet => GetPaletteBorderGridHeaderColumn(GridStyles.GridSheet, state),
+            PaletteBorderStyle.GridHeaderColumnCustom1 => GetPaletteBorderGridHeaderColumn(GridStyles.GridCustom1,
+                state),
+            PaletteBorderStyle.GridHeaderColumnCustom2 => GetPaletteBorderGridHeaderColumn(GridStyles.GridCustom2,
+                state),
+            PaletteBorderStyle.GridHeaderColumnCustom3 => GetPaletteBorderGridHeaderColumn(GridStyles.GridCustom3,
+                state),
+            PaletteBorderStyle.GridHeaderRowList => GetPaletteBorderGridHeaderRow(GridStyles.GridList, state),
+            PaletteBorderStyle.GridHeaderRowSheet => GetPaletteBorderGridHeaderRow(GridStyles.GridSheet, state),
+            PaletteBorderStyle.GridHeaderRowCustom1 => GetPaletteBorderGridHeaderRow(GridStyles.GridCustom1, state),
+            PaletteBorderStyle.GridHeaderRowCustom2 => GetPaletteBorderGridHeaderRow(GridStyles.GridCustom2, state),
+            PaletteBorderStyle.GridHeaderRowCustom3 => GetPaletteBorderGridHeaderRow(GridStyles.GridCustom3, state),
+            PaletteBorderStyle.GridDataCellList => GetPaletteBorderGridDataCell(GridStyles.GridList, state),
+            PaletteBorderStyle.GridDataCellSheet => GetPaletteBorderGridDataCell(GridStyles.GridSheet, state),
+            PaletteBorderStyle.GridDataCellCustom1 => GetPaletteBorderGridDataCell(GridStyles.GridCustom1, state),
+            PaletteBorderStyle.GridDataCellCustom2 => GetPaletteBorderGridDataCell(GridStyles.GridCustom2, state),
+            PaletteBorderStyle.GridDataCellCustom3 => GetPaletteBorderGridDataCell(GridStyles.GridCustom3, state),
+            PaletteBorderStyle.HeaderPrimary => GetPaletteBorderHeader(HeaderStyles.HeaderPrimary, state),
+            PaletteBorderStyle.HeaderSecondary => GetPaletteBorderHeader(HeaderStyles.HeaderSecondary, state),
+            PaletteBorderStyle.HeaderDockInactive => GetPaletteBorderHeader(HeaderStyles.HeaderDockInactive, state),
+            PaletteBorderStyle.HeaderDockActive => GetPaletteBorderHeader(HeaderStyles.HeaderDockActive, state),
+            PaletteBorderStyle.HeaderCalendar => GetPaletteBorderHeader(HeaderStyles.HeaderCalendar, state),
+            PaletteBorderStyle.HeaderForm => GetPaletteBorderHeader(HeaderStyles.HeaderForm, state),
+            PaletteBorderStyle.HeaderCustom1 => GetPaletteBorderHeader(HeaderStyles.HeaderCustom1, state),
+            PaletteBorderStyle.HeaderCustom2 => GetPaletteBorderHeader(HeaderStyles.HeaderCustom2, state),
+            PaletteBorderStyle.HeaderCustom3 => GetPaletteBorderHeader(HeaderStyles.HeaderCustom3, state),
+            PaletteBorderStyle.SeparatorLowProfile => GetPaletteBorderSeparator(SeparatorStyles.SeparatorLowProfile,
+                state),
+            PaletteBorderStyle.SeparatorHighProfile => GetPaletteBorderSeparator(SeparatorStyles.SeparatorHighProfile,
+                state),
+            PaletteBorderStyle.SeparatorHighInternalProfile => GetPaletteBorderSeparator(
+                SeparatorStyles.SeparatorHighInternalProfile, state),
+            PaletteBorderStyle.SeparatorCustom1 => GetPaletteBorderSeparator(SeparatorStyles.SeparatorCustom1, state),
+            PaletteBorderStyle.SeparatorCustom2 => GetPaletteBorderSeparator(SeparatorStyles.SeparatorCustom2, state),
+            PaletteBorderStyle.SeparatorCustom3 => GetPaletteBorderSeparator(SeparatorStyles.SeparatorCustom3, state),
+            PaletteBorderStyle.TabHighProfile => GetPaletteBorderTab(TabStyles.TabHighProfile, state),
+            PaletteBorderStyle.TabStandardProfile => GetPaletteBorderTab(TabStyles.TabStandardProfile, state),
+            PaletteBorderStyle.TabLowProfile => GetPaletteBorderTab(TabStyles.TabLowProfile, state),
+            PaletteBorderStyle.TabDock => GetPaletteBorderTab(TabStyles.TabDock, state),
+            PaletteBorderStyle.TabDockAutoHidden => GetPaletteBorderTab(TabStyles.TabDockAutoHidden, state),
+            PaletteBorderStyle.TabOneNote => GetPaletteBorderTab(TabStyles.TabOneNote, state),
+            PaletteBorderStyle.TabCustom1 => GetPaletteBorderTab(TabStyles.TabCustom1, state),
+            PaletteBorderStyle.TabCustom2 => GetPaletteBorderTab(TabStyles.TabCustom2, state),
+            PaletteBorderStyle.TabCustom3 => GetPaletteBorderTab(TabStyles.TabCustom3, state),
+            PaletteBorderStyle.ContextMenuOuter => ContextMenu.StateCommon.ControlOuter.Border,
+            PaletteBorderStyle.ContextMenuInner => ContextMenu.StateCommon.ControlInner.Border,
+            PaletteBorderStyle.ContextMenuHeading => ContextMenu.StateCommon.Heading.Border,
+            PaletteBorderStyle.ContextMenuItemHighlight => GetPaletteBorderContextMenuItemHighlight(state),
+            PaletteBorderStyle.ContextMenuItemImage => GetPaletteBorderContextMenuItemImage(state),
+            PaletteBorderStyle.ContextMenuItemSplit => GetPaletteBorderContextMenuItemSplit(state),
+            PaletteBorderStyle.ContextMenuItemImageColumn => ContextMenu.StateCommon.ItemImageColumn.Border,
+            PaletteBorderStyle.ContextMenuSeparator => ContextMenu.StateCommon.Separator.Border,
+            _ => throw DebugTools.NotImplemented(style.ToString())
+        };
     }
 
     private IPaletteContent GetPaletteContent(PaletteContentStyle style, PaletteState state)
@@ -5304,6 +5396,8 @@ public class KryptonCustomPaletteBase : PaletteBase
             case PaletteState.Disabled:
                 return grid.StateDisabled.DataCell.Back;
             case PaletteState.Normal:
+            case PaletteState.ContextNormal:
+            case PaletteState.FocusOverride:
                 return grid.StateNormal.DataCell.Back;
             case PaletteState.CheckedNormal:
                 return grid.StateSelected.DataCell.Back;
@@ -5363,6 +5457,8 @@ public class KryptonCustomPaletteBase : PaletteBase
             case PaletteState.Disabled:
                 return grid.StateDisabled.DataCell.Border;
             case PaletteState.Normal:
+            case PaletteState.ContextNormal:
+            case PaletteState.FocusOverride:
                 return grid.StateNormal.DataCell.Border;
             case PaletteState.CheckedNormal:
                 return grid.StateSelected.DataCell.Border;
@@ -5423,6 +5519,8 @@ public class KryptonCustomPaletteBase : PaletteBase
             case PaletteState.Disabled:
                 return grid.StateDisabled.DataCell.Content;
             case PaletteState.Normal:
+            case PaletteState.ContextNormal:
+            case PaletteState.FocusOverride:
                 return grid.StateNormal.DataCell.Content;
             case PaletteState.CheckedNormal:
                 return grid.StateSelected.DataCell.Content;

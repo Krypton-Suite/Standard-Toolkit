@@ -4,7 +4,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  */
 #endregion
 
@@ -46,7 +46,7 @@ public class PaletteRibbonText : Storage,
         NeedPaint = needPaint;
 
         // Define default values
-        _textColor = GlobalStaticValues.EMPTY_COLOR;
+        _textColor = GlobalStaticVariables.EMPTY_COLOR;
     }
     #endregion
 
@@ -56,7 +56,7 @@ public class PaletteRibbonText : Storage,
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => TextColor == GlobalStaticValues.EMPTY_COLOR;
+    public override bool IsDefault => TextColor == GlobalStaticVariables.EMPTY_COLOR;
 
     #endregion
 
@@ -89,7 +89,7 @@ public class PaletteRibbonText : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Color for the text.")]
-    [DefaultValue(typeof(Color), "")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color TextColor
     {
@@ -105,17 +105,17 @@ public class PaletteRibbonText : Storage,
         }
     }
 
-    private bool ShouldSerializeTextColor() => TextColor != GlobalStaticValues.EMPTY_COLOR;
-    private void ResetTextColor() => TextColor = GlobalStaticValues.EMPTY_COLOR;
+    private bool ShouldSerializeTextColor() => TextColor != GlobalStaticVariables.EMPTY_COLOR;
+    private void ResetTextColor() => TextColor = GlobalStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the tab color for the item text.
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public Color GetRibbonTextColor(PaletteState state) => TextColor != GlobalStaticValues.EMPTY_COLOR
+    public Color GetRibbonTextColor(PaletteState state) => TextColor != GlobalStaticVariables.EMPTY_COLOR
         ? TextColor
-        : (_inheritText?.GetRibbonTextColor(state) ?? GlobalStaticValues.EMPTY_COLOR);
+        : (_inheritText?.GetRibbonTextColor(state) ?? GlobalStaticVariables.EMPTY_COLOR);
 
     #endregion
 }

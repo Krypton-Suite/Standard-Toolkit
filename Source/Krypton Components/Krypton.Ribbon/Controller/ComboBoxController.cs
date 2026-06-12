@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -39,9 +39,9 @@ internal class ComboBoxController : GlobalId,
         [DisallowNull] KryptonRibbonGroupComboBox comboBox,
         [DisallowNull] ViewDrawRibbonGroupComboBox target)
     {
-        _ribbon = ribbon ?? throw new Exception( GlobalStaticValues.VariableCannotBeNull(nameof(_ribbon)));
-        _comboBox = comboBox ?? throw new Exception(GlobalStaticValues.VariableCannotBeNull(nameof(_comboBox)));
-        _target = target ?? throw new Exception(GlobalStaticValues.VariableCannotBeNull(nameof(_target)));
+        _ribbon = ribbon ?? throw new Exception( GlobalStaticFunctions.VariableCannotBeNull(nameof(_ribbon)));
+        _comboBox = comboBox ?? throw new Exception(GlobalStaticFunctions.VariableCannotBeNull(nameof(_comboBox)));
+        _target = target ?? throw new Exception(GlobalStaticFunctions.VariableCannotBeNull(nameof(_target)));
     }
     #endregion
 
@@ -158,7 +158,7 @@ internal class ComboBoxController : GlobalId,
 
         if (ribbon.TabsArea is null)
         {
-            throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
+            throw new NullReferenceException(GlobalStaticFunctions.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
         }
 
         switch (e.KeyData)

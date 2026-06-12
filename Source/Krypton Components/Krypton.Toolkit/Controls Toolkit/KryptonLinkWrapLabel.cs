@@ -1,9 +1,9 @@
 ﻿#region BSD License
 /*
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
+ *
  */
 #endregion
 
@@ -464,10 +464,10 @@ public class KryptonLinkWrapLabel : LinkLabel
         font ??= StateCommon.Font ?? _redirector.GetContentShortTextFont(_labelContentStyle, ps);
 
         // Recover text color from state common or as last resort the inherited palette
-        if (textColor == GlobalStaticValues.EMPTY_COLOR)
+        if (textColor == GlobalStaticVariables.EMPTY_COLOR)
         {
             textColor = StateCommon.TextColor;
-            if (textColor == GlobalStaticValues.EMPTY_COLOR)
+            if (textColor == GlobalStaticVariables.EMPTY_COLOR)
             {
                 textColor = _redirector.GetContentShortTextColor1(_labelContentStyle, ps);
             }
@@ -565,10 +565,10 @@ public class KryptonLinkWrapLabel : LinkLabel
         font ??= StateCommon.Font ?? _redirector.GetContentShortTextFont(_labelContentStyle, ps);
 
         // Recover text color from state common or as last resort the inherited palette
-        if (textColor == GlobalStaticValues.EMPTY_COLOR)
+        if (textColor == GlobalStaticVariables.EMPTY_COLOR)
         {
             textColor = StateCommon.TextColor;
-            if (textColor == GlobalStaticValues.EMPTY_COLOR)
+            if (textColor == GlobalStaticVariables.EMPTY_COLOR)
             {
                 textColor = _redirector.GetContentShortTextColor1(_labelContentStyle, ps);
             }
@@ -591,9 +591,12 @@ public class KryptonLinkWrapLabel : LinkLabel
         }
 
         ForeColor = textColor;
-        e.Graphics.TextRenderingHint = CommonHelper.PaletteTextHintToRenderingHint(hint);
 
-        base.OnPaint(e);
+        // Use GraphicsTextHint to properly save/restore TextRenderingHint to prevent affecting other controls
+        using (new GraphicsTextHint(e.Graphics, CommonHelper.PaletteTextHintToRenderingHint(hint)))
+        {
+            base.OnPaint(e);
+        }
     }
 
     /// <summary>

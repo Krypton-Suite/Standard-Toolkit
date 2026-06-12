@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -36,7 +36,7 @@ public class KryptonListBox : VisualControlBase,
         private readonly IntPtr _screenDC;
         private bool _mouseOver;
         // Capture scroll position before user click
-        private int _preClickTopIndex;
+        private int _preClickTopIndex = -1;
 
         #endregion
 
@@ -372,10 +372,18 @@ public class KryptonListBox : VisualControlBase,
             finally
             {
                 EndUpdate();
+                _preClickTopIndex = -1;
                 // Re-enable redraw and repaint
                 PI.SendMessage(Handle, PI.SETREDRAW, (IntPtr)1, IntPtr.Zero);
                 Invalidate();
             }
+        }
+
+        protected override void OnMouseWheel(MouseEventArgs e)
+        {
+            int oldTopIndex = TopIndex;
+            base.OnMouseWheel(e);
+            _kryptonListBox.SyncScrollbarManagerMouseWheel(e.Delta, oldTopIndex, TopIndex);
         }
 
         private void OnInternalListBoxMouseDown(object? sender, MouseEventArgs e)
@@ -397,6 +405,10 @@ public class KryptonListBox : VisualControlBase,
                     // For non-visible items, don't capture - let normal scrolling happen
                     _preClickTopIndex = -1;
                 }
+            }
+            else
+            {
+                _preClickTopIndex = -1;
             }
         }
     }
@@ -426,7 +438,11 @@ public class KryptonListBox : VisualControlBase,
     private bool _forcedLayout;
     private bool _trackingMouseEnter;
     // Captures the scroll position before a click/selection change
-    private int _preClickTopIndex;
+    private int _preClickTopIndex = -1;
+    private KryptonScrollbarManager? _scrollbarManager;
+    private bool? _useKryptonScrollbars;
+    private bool _pendingScrollbarManagerRefresh;
+
     #endregion
 
     #region Events
@@ -679,7 +695,14 @@ public class KryptonListBox : VisualControlBase,
     /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
     protected override void Dispose(bool disposing)
     {
+        if (disposing)
+        {
+            _scrollbarManager?.Dispose();
+            _scrollbarManager = null;
+        }
+
         base.Dispose(disposing);
+
         if (_screenDC != IntPtr.Zero)
         {
             PI.DeleteDC(_screenDC);
@@ -1175,6 +1198,42 @@ public class KryptonListBox : VisualControlBase,
     }
 
     /// <summary>
+    /// Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.")]
+    [DefaultValue(false)]
+    public bool UseKryptonScrollbars
+    {
+        get => _useKryptonScrollbars ?? KryptonManager.UseKryptonScrollbars;
+        set
+        {
+            bool currentValue = _useKryptonScrollbars ?? KryptonManager.UseKryptonScrollbars;
+            if (currentValue != value)
+            {
+                _useKryptonScrollbars = value;
+                UpdateScrollbarManager();
+            }
+        }
+    }
+
+    private bool ShouldSerializeUseKryptonScrollbars() => _useKryptonScrollbars.HasValue;
+
+    private void ResetUseKryptonScrollbars()
+    {
+        _useKryptonScrollbars = null;
+        UpdateScrollbarManager();
+    }
+
+    /// <summary>
+    /// Gets access to the scrollbar manager when UseKryptonScrollbars is enabled.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public KryptonScrollbarManager? ScrollbarManager => _scrollbarManager;
+
+
+    /// <summary>
     /// Unselects all items in the KryptonListBox.
     /// </summary>
     public void ClearSelected() => _listBox.ClearSelected();
@@ -1374,6 +1433,12 @@ public class KryptonListBox : VisualControlBase,
     protected override ControlCollection CreateControlsInstance() => new KryptonReadOnlyControls(this);
 
     /// <summary>
+    /// Creates the accessibility object for the KryptonListBox control.
+    /// </summary>
+    /// <returns>A new KryptonListBoxAccessibleObject instance for the control.</returns>
+    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonListBoxAccessibleObject(this);
+
+    /// <summary>
     /// Raises the PaletteChanged event.
     /// </summary>
     /// <param name="e">An EventArgs that contains the event data.</param>
@@ -1401,6 +1466,8 @@ public class KryptonListBox : VisualControlBase,
             _listBox.EndUpdate();
         }
         base.OnPaletteChanged(e);
+        RecreateScrollbarManager();
+        QueueScrollbarManagerRefresh();
     }
 
     /// <summary>
@@ -1411,6 +1478,7 @@ public class KryptonListBox : VisualControlBase,
     protected override void OnPaletteNeedPaint(object? sender, NeedLayoutEventArgs e)
     {
         _listBox.RefreshItemSizes();
+        RefreshScrollbarManager();
         base.OnPaletteChanged(e);
     }
 
@@ -1521,6 +1589,12 @@ public class KryptonListBox : VisualControlBase,
 
         // We need a layout to occur before any painting
         InvokeLayout();
+
+        // Update scrollbars to match current setting
+        if (UseKryptonScrollbars)
+        {
+            UpdateScrollbarManager();
+        }
     }
 
     /// <summary>
@@ -1747,7 +1821,7 @@ public class KryptonListBox : VisualControlBase,
             _contentValues!.ShortText = _listBox.GetItemText(Items[index]);
             _contentValues.LongText = null;
             _contentValues.Image = null;
-            _contentValues.ImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
+            _contentValues.ImageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
         }
     }
 
@@ -1850,9 +1924,9 @@ public class KryptonListBox : VisualControlBase,
 
     private void OnListBoxPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-    private void OnListBoxValidated(object? sender, EventArgs e) => OnValidated(e);
+    private void OnListBoxValidated(object? sender, EventArgs e) => ForwardValidated(e);
 
-    private void OnListBoxValidating(object? sender, CancelEventArgs e) => OnValidating(e);
+    private void OnListBoxValidating(object? sender, CancelEventArgs e) => ForwardValidating(e);
 
     private void OnListBoxMouseChange(object? sender, EventArgs e)
     {
@@ -1878,6 +1952,77 @@ public class KryptonListBox : VisualControlBase,
     private void OnDoubleClick(object? sender, EventArgs e) => base.OnDoubleClick(e);
 
     private void OnMouseDoubleClick(object? sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
+
+    private void SyncScrollbarManagerMouseWheel(int delta, int oldTopIndex, int newTopIndex) =>
+        _scrollbarManager?.SyncListBoxMouseWheel(delta, oldTopIndex, newTopIndex);
+
+    private void UpdateScrollbarManager()
+    {
+        if (UseKryptonScrollbars)
+        {
+            if (_scrollbarManager == null)
+            {
+                _scrollbarManager = new KryptonScrollbarManager(_listBox, ScrollbarManagerMode.NativeWrapper)
+                {
+                    Enabled = true
+                };
+            }
+        }
+        else
+        {
+            if (_scrollbarManager != null)
+            {
+                _scrollbarManager.Dispose();
+                _scrollbarManager = null;
+            }
+        }
+    }
+
+    private void RefreshScrollbarManager()
+    {
+        if (!UseKryptonScrollbars)
+        {
+            return;
+        }
+
+        UpdateScrollbarManager();
+        _scrollbarManager?.UpdateScrollbars();
+    }
+
+    private void RecreateScrollbarManager()
+    {
+        if (!UseKryptonScrollbars)
+        {
+            return;
+        }
+
+        if (_scrollbarManager != null)
+        {
+            _scrollbarManager.Dispose();
+            _scrollbarManager = null;
+        }
+
+        UpdateScrollbarManager();
+        _scrollbarManager?.UpdateScrollbars();
+    }
+
+    private void QueueScrollbarManagerRefresh()
+    {
+        if (_pendingScrollbarManagerRefresh || !IsHandleCreated || IsDisposed)
+        {
+            return;
+        }
+
+        _pendingScrollbarManagerRefresh = true;
+        BeginInvoke((System.Windows.Forms.MethodInvoker)(() =>
+        {
+            _pendingScrollbarManagerRefresh = false;
+            if (!IsDisposed && IsHandleCreated)
+            {
+                RefreshScrollbarManager();
+            }
+        }));
+    }
 
     #endregion
 }

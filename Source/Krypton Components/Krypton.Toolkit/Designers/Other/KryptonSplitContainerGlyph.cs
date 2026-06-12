@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -41,14 +41,14 @@ internal class KryptonSplitContainerGlyph : Glyph
         Debug.Assert(relatedDesigner is not null);
 
         // Remember incoming references
-        _selectionService = selectionService ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(selectionService)));
-        _behaviorService = behaviorService ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(behaviorService)));
-        _adorner = adorner ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(adorner)));
+        _selectionService = selectionService ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(selectionService)));
+        _behaviorService = behaviorService ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(behaviorService)));
+        _adorner = adorner ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(adorner)));
 
         // Find the related control
         if ( relatedDesigner is null)
         {
-            throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(relatedDesigner)));
+            throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(relatedDesigner)));
         }
 
         _splitContainer = relatedDesigner.Component as KryptonSplitContainer;

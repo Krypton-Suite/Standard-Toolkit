@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -480,22 +480,18 @@ public class KryptonDockingEdgeAutoHidden : DockingElementClosedCollection
         var expandHeight = Math.Max(innerSize.Height - _slidePanel.Height, 0);
 
         // Create movement rectangle based on the initial rectangle and the allowed range
-        var retRect = Rectangle.Empty;
-        switch (Edge)
+        var retRect = Edge switch
         {
-            case DockingEdge.Left:
-                retRect = new Rectangle(moveRect.X - reduceWidth, moveRect.Y, moveRect.Width + reduceWidth + expandWidth, moveRect.Height);
-                break;
-            case DockingEdge.Right:
-                retRect = new Rectangle(moveRect.X - expandWidth, moveRect.Y, moveRect.Width + reduceWidth + expandWidth, moveRect.Height);
-                break;
-            case DockingEdge.Top:
-                retRect = new Rectangle(moveRect.X, moveRect.Y - reduceHeight, moveRect.Width, moveRect.Height + reduceHeight + expandHeight);
-                break;
-            case DockingEdge.Bottom:
-                retRect = new Rectangle(moveRect.X, moveRect.Y - expandHeight, moveRect.Width, moveRect.Height + reduceHeight + expandHeight);
-                break;
-        }
+            DockingEdge.Left => new Rectangle(moveRect.X - reduceWidth, moveRect.Y,
+                moveRect.Width + reduceWidth + expandWidth, moveRect.Height),
+            DockingEdge.Right => new Rectangle(moveRect.X - expandWidth, moveRect.Y,
+                moveRect.Width + reduceWidth + expandWidth, moveRect.Height),
+            DockingEdge.Top => new Rectangle(moveRect.X, moveRect.Y - reduceHeight, moveRect.Width,
+                moveRect.Height + reduceHeight + expandHeight),
+            DockingEdge.Bottom => new Rectangle(moveRect.X, moveRect.Y - expandHeight, moveRect.Width,
+                moveRect.Height + reduceHeight + expandHeight),
+            _ => Rectangle.Empty
+        };
 
         // We do not allow negative width/height
         retRect.Width = Math.Max(retRect.Width, 0);

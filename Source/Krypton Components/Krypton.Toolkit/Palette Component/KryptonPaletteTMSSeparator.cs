@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -36,8 +36,8 @@ public class KryptonPaletteTMSSeparator : KryptonPaletteTMSBase
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => (InternalKCT.InternalSeparatorDark == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalSeparatorLight == GlobalStaticValues.EMPTY_COLOR);
+    public override bool IsDefault => (InternalKCT.InternalSeparatorDark == GlobalStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalSeparatorLight == GlobalStaticVariables.EMPTY_COLOR);
 
     #endregion
 
@@ -74,7 +74,7 @@ public class KryptonPaletteTMSSeparator : KryptonPaletteTMSBase
     /// <summary>
     /// Resets the SeparatorDark property to its default value.
     /// </summary>
-    public void ResetSeparatorDark() => SeparatorDark = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetSeparatorDark() => SeparatorDark = GlobalStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region SeparatorLight
@@ -99,6 +99,6 @@ public class KryptonPaletteTMSSeparator : KryptonPaletteTMSBase
     /// <summary>
     /// Resets the SeparatorLight property to its default value.
     /// </summary>
-    public void ResetSeparatorLight() => SeparatorLight = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetSeparatorLight() => SeparatorLight = GlobalStaticVariables.EMPTY_COLOR;
     #endregion
 }

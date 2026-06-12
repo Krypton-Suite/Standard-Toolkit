@@ -1,7 +1,7 @@
-﻿#region BSD License
+#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2021 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2021 - 2026. All rights reserved.
  */
 #endregion
 
@@ -16,7 +16,7 @@ namespace Krypton.Toolkit;
 /// </summary>
 /// <seealso cref="ListView" />
 [ToolboxItem(true)]
-[ToolboxBitmap(typeof(ListView))]
+[ToolboxBitmap(typeof(ListView), "ToolboxBitmaps.KryptonListView.bmp")]
 [Designer(typeof(KryptonListViewDesigner))]
 [DesignerCategory(@"code")]
 [Description(@"A Kryptonised listview.")]
@@ -317,6 +317,9 @@ public class KryptonListView : VisualControlBase,
     private bool _mouseOver;
     private bool _alwaysActive;
     private bool _forcedLayout;
+    private KryptonScrollbarManager? _scrollbarManager;
+    private bool? _useKryptonScrollbars;
+
     #endregion
 
     #region Events
@@ -479,7 +482,15 @@ public class KryptonListView : VisualControlBase,
 
     private void OnItemChecked(object? sender, ItemCheckedEventArgs e) => ItemChecked?.Invoke(this, e);
 
-    private void OnItemSelectionChanged(object? sender, ListViewItemSelectionChangedEventArgs e) => ItemSelectionChanged?.Invoke(this, e);
+    private void OnItemSelectionChanged(object? sender, ListViewItemSelectionChangedEventArgs e)
+    {
+        if (e.Item != null)
+        {
+            SetItemState(e.Item);
+        }
+
+        ItemSelectionChanged?.Invoke(this, e);
+    }
 
     private void OnListViewKeyDown(object? sender, KeyEventArgs e) => OnKeyDown(e);
 
@@ -503,6 +514,12 @@ public class KryptonListView : VisualControlBase,
     /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
     protected override void Dispose(bool disposing)
     {
+        if (disposing)
+        {
+            _scrollbarManager?.Dispose();
+            _scrollbarManager = null;
+        }
+
         base.Dispose(disposing);
         if (_screenDC != IntPtr.Zero)
         {
@@ -1300,6 +1317,37 @@ public class KryptonListView : VisualControlBase,
     /// </summary>
     public new void Select() => _listView.Select();
 
+    /// <summary>
+    /// Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.")]
+    [DefaultValue(false)]
+    public bool UseKryptonScrollbars
+    {
+        get => _useKryptonScrollbars ?? KryptonManager.UseKryptonScrollbars;
+        set
+        {
+            bool currentValue = _useKryptonScrollbars ?? KryptonManager.UseKryptonScrollbars;
+            if (currentValue != value)
+            {
+                _useKryptonScrollbars = value;
+                UpdateScrollbarManager();
+            }
+        }
+    }
+
+    private bool ShouldSerializeUseKryptonScrollbars() => _useKryptonScrollbars.HasValue;
+
+    private void ResetUseKryptonScrollbars() => _useKryptonScrollbars = null;
+
+    /// <summary>
+    /// Gets access to the scrollbar manager when UseKryptonScrollbars is enabled.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public KryptonScrollbarManager? ScrollbarManager => _scrollbarManager;
+
     #endregion public
 
     #region DrawItem and SubItem
@@ -1321,10 +1369,20 @@ public class KryptonListView : VisualControlBase,
             _drawDockerOuter.ElementState = state;
 
             _listView.BackColor = doubleState.PaletteBack.GetBackColor1(state);
+            SyncListViewNativeTextColor();
             foreach (ListViewItem li in Items)
             {
                 SetItemState(li);
             }
+        }
+    }
+
+    private void SyncListViewNativeTextColor()
+    {
+        Color text = StateCommon.Node.Content.GetContentShortTextColor1(PaletteState.Normal);
+        if (_listView.ForeColor != text)
+        {
+            _listView.ForeColor = text;
         }
     }
 
@@ -1477,6 +1535,12 @@ public class KryptonListView : VisualControlBase,
     protected override ControlCollection CreateControlsInstance() => new KryptonReadOnlyControls(this);
 
     /// <summary>
+    /// Creates the accessibility object for the KryptonListView control.
+    /// </summary>
+    /// <returns>A new KryptonListViewAccessibleObject instance for the control.</returns>
+    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonListViewAccessibleObject(this);
+
+    /// <summary>
     /// Raises the PaletteChanged event.
     /// </summary>
     /// <param name="e">An EventArgs that contains the event data.</param>
@@ -1522,9 +1586,13 @@ public class KryptonListView : VisualControlBase,
 
         // We need a layout to occur before any painting
         InvokeLayout();
+
+        if (KryptonManager.UseKryptonScrollbars)
+        {
+            UpdateScrollbarManager();
+        }
     }
-
-
+    
     /// <summary>
     /// Raises the MouseDown event.
     /// </summary>
@@ -1696,4 +1764,25 @@ public class KryptonListView : VisualControlBase,
 
     private bool ShouldSerializeOverrideFocus() => !OverrideFocus.IsDefault;
 
+    private void UpdateScrollbarManager()
+    {
+        if (KryptonManager.UseKryptonScrollbars)
+        {
+            if (_scrollbarManager == null)
+            {
+                _scrollbarManager = new KryptonScrollbarManager(_listView, ScrollbarManagerMode.NativeWrapper)
+                {
+                    Enabled = true
+                };
+            }
+        }
+        else
+        {
+            if (_scrollbarManager != null)
+            {
+                _scrollbarManager.Dispose();
+                _scrollbarManager = null;
+            }
+        }
+    }
 }

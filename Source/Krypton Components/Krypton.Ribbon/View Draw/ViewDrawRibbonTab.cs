@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -29,8 +29,10 @@ internal class ViewDrawRibbonTab : ViewComposite,
     #region Instance Fields
     private readonly Padding _preferredBorder2007; // = new(12, 3, 12, 1);
     private readonly Padding _preferredBorder2010; // = new(8, 4, 8, 3);
+    private readonly Padding _preferredBorderMac;
     private readonly Padding _layoutBorder2007; // = new(4, 3, 4, 1);
     private readonly Padding _layoutBorder2010; // = new(1, 4, 0, 3);
+    private readonly Padding _layoutBorderMac;
     private KryptonRibbonTab? _ribbonTab;
     private readonly PaletteRibbonGeneral _paletteGeneral;
     private readonly PaletteRibbonDoubleInheritOverride _overrideStateNormal;
@@ -124,8 +126,10 @@ internal class ViewDrawRibbonTab : ViewComposite,
 
         _preferredBorder2007 = new Padding((int)(12 * FactorDpiX), (int)(3 * FactorDpiY), (int)(12 * FactorDpiX), (int)(1 * FactorDpiY));
         _preferredBorder2010 = new Padding((int)(8 * FactorDpiX), (int)(4 * FactorDpiY), (int)(8 * FactorDpiX), (int)(3 * FactorDpiY));
+        _preferredBorderMac = new Padding((int)(10 * FactorDpiX), (int)(2 * FactorDpiY), (int)(10 * FactorDpiX), (int)(0 * FactorDpiY));
         _layoutBorder2007 = new Padding((int)(4 * FactorDpiX), (int)(3 * FactorDpiY), (int)(4 * FactorDpiX), (int)(1 * FactorDpiY));
         _layoutBorder2010 = new Padding((int)(1 * FactorDpiX), (int)(4 * FactorDpiY), (int)(0 * FactorDpiX), (int)(3 * FactorDpiY));
+        _layoutBorderMac = new Padding((int)(2 * FactorDpiX), (int)(2 * FactorDpiY), (int)(2 * FactorDpiX), (int)(0 * FactorDpiY));
     }
 
     /// <summary>
@@ -285,6 +289,7 @@ internal class ViewDrawRibbonTab : ViewComposite,
                 PaletteRibbonShape.Office2013 => _preferredBorder2010,
                 PaletteRibbonShape.Microsoft365 => _preferredBorder2010,
                 PaletteRibbonShape.VisualStudio => _preferredBorder2010,
+                PaletteRibbonShape.MacOS => _preferredBorderMac,
                 _ => _preferredBorder2007
             };
         }
@@ -304,6 +309,7 @@ internal class ViewDrawRibbonTab : ViewComposite,
                 PaletteRibbonShape.Office2010 => _layoutBorder2010,
                 PaletteRibbonShape.Office2013 => _layoutBorder2010,
                 PaletteRibbonShape.Microsoft365 => _layoutBorder2010,
+                PaletteRibbonShape.MacOS => _layoutBorderMac,
                 _ => _layoutBorder2007
             };
         }
@@ -423,13 +429,15 @@ internal class ViewDrawRibbonTab : ViewComposite,
                 _paletteContextCurrent.LightBackground = false;
                 break;
             case PaletteRibbonShape.Office2010:
+            case PaletteRibbonShape.MacOS:
                 if (cts != null)
                 {
                     RenderBefore2010ContextTab(context, cts);
                 }
 
-                _paletteContextCurrent.LightBackground = KryptonManager.CurrentGlobalPaletteMode.ToString()
-                    .StartsWith(PaletteMode.Office2010Black.ToString());
+                _paletteContextCurrent.LightBackground = Ribbon.RibbonShape == PaletteRibbonShape.MacOS
+                                                        || KryptonManager.CurrentGlobalPaletteMode.ToString()
+                                                            .StartsWith(nameof(PaletteMode.Office2010Black));
                 break;
         }
 
@@ -453,6 +461,7 @@ internal class ViewDrawRibbonTab : ViewComposite,
             switch (Ribbon.RibbonShape)
             {
                 case PaletteRibbonShape.Office2010:
+                case PaletteRibbonShape.MacOS:
                     RenderAfter2010ContextTab();
                     break;
             }
@@ -497,6 +506,48 @@ internal class ViewDrawRibbonTab : ViewComposite,
     /// </summary>
     /// <returns>Title string.</returns>
     public string GetLongText() => string.Empty;
+
+    /// <summary>
+    /// Gets the overlay image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay image is needed.</param>
+    /// <returns>Overlay image value, or null if no overlay image is set.</returns>
+    public Image? GetOverlayImage(PaletteState state) => null;
+
+    /// <summary>
+    /// Gets the overlay image color that should be transparent.
+    /// </summary>
+    /// <param name="state">The state for which the overlay image is needed.</param>
+    /// <returns>Color value.</returns>
+    public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+
+    /// <summary>
+    /// Gets the position of the overlay image relative to the main image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay position is needed.</param>
+    /// <returns>Overlay image position.</returns>
+    public OverlayImagePosition GetOverlayImagePosition(PaletteState state) => OverlayImagePosition.TopRight;
+
+    /// <summary>
+    /// Gets the scaling mode for the overlay image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay scale mode is needed.</param>
+    /// <returns>Overlay image scale mode.</returns>
+    public OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) => OverlayImageScaleMode.None;
+
+    /// <summary>
+    /// Gets the scale factor for the overlay image (used when scale mode is Percentage or ProportionalToMain).
+    /// </summary>
+    /// <param name="state">The state for which the overlay scale factor is needed.</param>
+    /// <returns>Scale factor (0.0 to 2.0).</returns>
+    public float GetOverlayImageScaleFactor(PaletteState state) => 0.5f;
+
+    /// <summary>
+    /// Gets the fixed size for the overlay image (used when scale mode is FixedSize).
+    /// </summary>
+    /// <param name="state">The state for which the overlay fixed size is needed.</param>
+    /// <returns>Fixed size.</returns>
+    public Size GetOverlayImageFixedSize(PaletteState state) => new Size(16, 16);
 
     #endregion
 
@@ -641,34 +692,24 @@ internal class ViewDrawRibbonTab : ViewComposite,
             {
                 if (Checked)
                 {
-                    switch (buttonState)
+                    buttonState = buttonState switch
                     {
-                        case PaletteState.Normal:
-                        case PaletteState.CheckedNormal:
-                        case PaletteState.ContextCheckedNormal:
-                            buttonState = contextTab ? PaletteState.ContextCheckedNormal : PaletteState.CheckedNormal;
-                            break;
-                        case PaletteState.Tracking:
-                        case PaletteState.CheckedTracking:
-                        case PaletteState.ContextCheckedTracking:
-                            buttonState = contextTab ? PaletteState.ContextCheckedTracking : PaletteState.CheckedTracking;
-                            break;
-                    }
+                        PaletteState.Normal or PaletteState.CheckedNormal or PaletteState.ContextCheckedNormal =>
+                            contextTab ? PaletteState.ContextCheckedNormal : PaletteState.CheckedNormal,
+                        PaletteState.Tracking or PaletteState.CheckedTracking or PaletteState.ContextCheckedTracking =>
+                            contextTab ? PaletteState.ContextCheckedTracking : PaletteState.CheckedTracking,
+                        _ => buttonState
+                    };
                 }
                 else
                 {
-                    switch (buttonState)
+                    buttonState = buttonState switch
                     {
-                        case PaletteState.CheckedNormal:
-                        case PaletteState.ContextCheckedNormal:
-                            buttonState = PaletteState.Normal;
-                            break;
-                        case PaletteState.Tracking:
-                        case PaletteState.CheckedTracking:
-                        case PaletteState.ContextCheckedTracking:
-                            buttonState = contextTab ? PaletteState.ContextTracking : PaletteState.Tracking;
-                            break;
-                    }
+                        PaletteState.CheckedNormal or PaletteState.ContextCheckedNormal => PaletteState.Normal,
+                        PaletteState.Tracking or PaletteState.CheckedTracking or PaletteState.ContextCheckedTracking =>
+                            contextTab ? PaletteState.ContextTracking : PaletteState.Tracking,
+                        _ => buttonState
+                    };
                 }
             }
 

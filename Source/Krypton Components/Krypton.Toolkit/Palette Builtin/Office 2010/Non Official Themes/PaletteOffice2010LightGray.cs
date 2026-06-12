@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -26,17 +26,17 @@ public class PaletteOffice2010LightGray : PaletteOffice2010Base
 
     #region Ribbon Specific Colors
 
-    private static readonly Color _ribbonAppButtonDarkColor = GlobalStaticValues.EMPTY_COLOR;
+    private static readonly Color _ribbonAppButtonDarkColor = GlobalStaticVariables.EMPTY_COLOR;
 
-    private static readonly Color _ribbonAppButtonLightColor = GlobalStaticValues.EMPTY_COLOR;
+    private static readonly Color _ribbonAppButtonLightColor = GlobalStaticVariables.EMPTY_COLOR;
 
-    private static readonly Color _ribbonAppButtonTextColor = GlobalStaticValues.EMPTY_COLOR;
+    private static readonly Color _ribbonAppButtonTextColor = GlobalStaticVariables.EMPTY_COLOR;
 
     #endregion
 
     #region Rafting
 
-    private readonly float _gradientRafting = GlobalStaticValues.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT;
+    private readonly float _gradientRafting = GlobalStaticConstants.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT;
 
     #endregion
 
@@ -56,7 +56,7 @@ public class PaletteOffice2010LightGray : PaletteOffice2010Base
 
     /// <inheritdoc />
     public override Color GetRibbonTabRowGradientColor1(PaletteState state) =>
-        GlobalStaticValues.TAB_ROW_GRADIENT_FIRST_COLOR;
+        GlobalStaticVariables.TAB_ROW_GRADIENT_FIRST_COLOR;
 
     /// <inheritdoc />
     public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) =>
@@ -67,7 +67,7 @@ public class PaletteOffice2010LightGray : PaletteOffice2010Base
         _tabRowBackgroundGradientRaftingLightColor;
 
     /// <inheritdoc />
-    public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+    public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
 
     /// <inheritdoc />
     public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => _gradientRafting;

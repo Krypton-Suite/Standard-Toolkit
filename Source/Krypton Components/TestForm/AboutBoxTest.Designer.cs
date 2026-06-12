@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2025. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2024 - 2026. All rights reserved. 
  *  
  */
 #endregion
@@ -134,7 +134,6 @@ namespace TestForm
             this.kryptonTextBox4.Name = "kryptonTextBox4";
             this.kryptonTextBox4.Size = new System.Drawing.Size(649, 26);
             this.kryptonTextBox4.TabIndex = 10;
-            this.kryptonTextBox4.Text = "kryptonTextBox4";
             // 
             // bsaBrowseMainImage
             // 
@@ -149,7 +148,6 @@ namespace TestForm
             this.kryptonTextBox3.Name = "kryptonTextBox3";
             this.kryptonTextBox3.Size = new System.Drawing.Size(649, 26);
             this.kryptonTextBox3.TabIndex = 9;
-            this.kryptonTextBox3.Text = "kryptonTextBox3";
             // 
             // bsaBrowseHeaderImage
             // 
@@ -163,7 +161,6 @@ namespace TestForm
             this.kryptonTextBox2.Name = "kryptonTextBox2";
             this.kryptonTextBox2.Size = new System.Drawing.Size(649, 23);
             this.kryptonTextBox2.TabIndex = 8;
-            this.kryptonTextBox2.Text = "kryptonTextBox2";
             // 
             // kryptonTextBox1
             // 
@@ -172,7 +169,6 @@ namespace TestForm
             this.kryptonTextBox1.Name = "kryptonTextBox1";
             this.kryptonTextBox1.Size = new System.Drawing.Size(649, 26);
             this.kryptonTextBox1.TabIndex = 7;
-            this.kryptonTextBox1.Text = "kryptonTextBox1";
             // 
             // bsaAssemblyBrowse
             // 

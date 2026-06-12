@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -103,6 +103,20 @@ public interface IRenderBorder
     Padding GetBorderDisplayPadding(IPaletteBorder? palette,
         PaletteState state,
         VisualOrientation orientation);
+
+    /// <summary>
+    /// Gets the padding used to position display elements completely inside border drawing,
+    /// clamping corner rounding to fit <paramref name="borderOuterSize"/> the same way as the border path when width and height are greater than zero.
+    /// </summary>
+    /// <param name="palette">Palette used for drawing.</param>
+    /// <param name="state">State associated with rendering.</param>
+    /// <param name="orientation">Visual orientation of the border.</param>
+    /// <param name="borderOuterSize">Outer bounds of the border; use (0,0) to preserve legacy padding from palette rounding alone.</param>
+    /// <returns>Padding structure detailing all four edges.</returns>
+    Padding GetBorderDisplayPadding(IPaletteBorder? palette,
+        PaletteState state,
+        VisualOrientation orientation,
+        Size borderOuterSize);
 
     /// <summary>
     /// Generate a graphics path that is the outside edge of the border.
@@ -892,6 +906,16 @@ public enum RendererMode
     /// Specifies the RenderMaterial be used.
     /// </summary>
     Material,
+
+    /// <summary>
+    /// Specifies the RenderRetro be used.
+    /// </summary>
+    Retro,
+
+    /// <summary>
+    /// Specifies the RenderMacOS be used.
+    /// </summary>
+    MacOS,
 
     /// <summary>
     /// Specifies a custom renderer be used.

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -68,8 +68,8 @@ internal class KryptonRibbonGroupRadioButtonDesigner : ComponentDesigner
         }
 
         // Get access to the services
-        _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_designerHost)));
-        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_changeService)));
+        _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
+        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
 
         // We need to know when we are being removed/changed
         _changeService!.ComponentChanged += OnComponentChanged;
@@ -136,7 +136,7 @@ internal class KryptonRibbonGroupRadioButtonDesigner : ComponentDesigner
 
         if (_ribbonRadioButton.Ribbon != null)
         {
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ParentItems)));
+            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(ParentItems)));
             moveFirst = items.IndexOf(_ribbonRadioButton) > 0;
             movePrev = items.IndexOf(_ribbonRadioButton) > 0;
             moveNext = items.IndexOf(_ribbonRadioButton) < (items.Count - 1);
@@ -163,7 +163,7 @@ internal class KryptonRibbonGroupRadioButtonDesigner : ComponentDesigner
         if (_ribbonRadioButton.Ribbon != null)
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ParentItems)));
+            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(ParentItems)));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupRadioButton MoveFirst");
@@ -171,7 +171,7 @@ internal class KryptonRibbonGroupRadioButtonDesigner : ComponentDesigner
             try
             {
                 // Get access to the Items property
-                MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonRadioButton.RibbonContainer!)[@"Items"] ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("propertyItems"));
+                MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonRadioButton.RibbonContainer!)[@"Items"] ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("propertyItems"));
 
                 RaiseComponentChanging(propertyItems);
 
@@ -195,7 +195,7 @@ internal class KryptonRibbonGroupRadioButtonDesigner : ComponentDesigner
         if (_ribbonRadioButton.Ribbon != null)
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ParentItems)));
+            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(ParentItems)));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupRadioButton MovePrevious");
@@ -203,7 +203,7 @@ internal class KryptonRibbonGroupRadioButtonDesigner : ComponentDesigner
             try
             {
                 // Get access to the Items property
-                MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonRadioButton.RibbonContainer!)[@"Items"] ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("propertyItems"));
+                MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonRadioButton.RibbonContainer!)[@"Items"] ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("propertyItems"));
 
                 RaiseComponentChanging(propertyItems);
 
@@ -229,7 +229,7 @@ internal class KryptonRibbonGroupRadioButtonDesigner : ComponentDesigner
         if (_ribbonRadioButton.Ribbon != null)
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ParentItems)));
+            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(ParentItems)));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupRadioButton MoveNext");
@@ -237,7 +237,7 @@ internal class KryptonRibbonGroupRadioButtonDesigner : ComponentDesigner
             try
             {
                 // Get access to the Items property
-                MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonRadioButton.RibbonContainer!)[@"Items"] ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("propertyItems"));
+                MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonRadioButton.RibbonContainer!)[@"Items"] ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("propertyItems"));
 
                 RaiseComponentChanging(propertyItems);
 
@@ -263,7 +263,7 @@ internal class KryptonRibbonGroupRadioButtonDesigner : ComponentDesigner
         if (_ribbonRadioButton.Ribbon != null)
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ParentItems)));
+            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(ParentItems)));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupRadioButton MoveLast");
@@ -271,7 +271,7 @@ internal class KryptonRibbonGroupRadioButtonDesigner : ComponentDesigner
             try
             {
                 // Get access to the Items property
-                MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonRadioButton.RibbonContainer!)[@"Items"] ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("propertyItems"));
+                MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonRadioButton.RibbonContainer!)[@"Items"] ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("propertyItems"));
 
                 RaiseComponentChanging(propertyItems);
 
@@ -295,7 +295,7 @@ internal class KryptonRibbonGroupRadioButtonDesigner : ComponentDesigner
         if (_ribbonRadioButton.Ribbon != null)
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ParentItems)));
+            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(ParentItems)));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupRadioButton DeleteRadioButton");
@@ -303,7 +303,7 @@ internal class KryptonRibbonGroupRadioButtonDesigner : ComponentDesigner
             try
             {
                 // Get access to the Items property
-                MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonRadioButton.RibbonContainer!)[@"Items"] ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("propertyItems"));
+                MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonRadioButton.RibbonContainer!)[@"Items"] ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("propertyItems"));
 
                 // Remove the ribbon group from the ribbon tab
                 RaiseComponentChanging(null);

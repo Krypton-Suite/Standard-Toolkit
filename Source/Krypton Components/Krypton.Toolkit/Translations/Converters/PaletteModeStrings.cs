@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2023 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2023 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -84,6 +84,10 @@ public class PaletteModeStrings : GlobalId
     internal const string DEFAULT_PALETTE_MATERIAL_DARK = @"Material - Dark";
     internal const string DEFAULT_PALETTE_MATERIAL_LIGHT_RIPPLE = @"Material - Light (Ripple)";
     internal const string DEFAULT_PALETTE_MATERIAL_DARK_RIPPLE = @"Material - Dark (Ripple)";
+    internal const string DEFAULT_PALETTE_RETRO_GREEN = @"Retro - Green";
+    internal const string DEFAULT_PALETTE_RETRO_BLUE = @"Retro - Blue";
+    internal const string DEFAULT_PALETTE_MACOS_LIGHT = @"macOS - Light";
+    internal const string DEFAULT_PALETTE_MACOS_DARK = @"macOS - Dark";
     internal const string DEFAULT_PALETTE_CUSTOM = @"Custom";
 
     #endregion
@@ -126,8 +130,8 @@ public class PaletteModeStrings : GlobalId
             { DEFAULT_PALETTE_OFFICE_2010_BLACK_DARK_MODE, PaletteMode.Office2010BlackDarkMode },
             //{ DEFAULT_PALETTE_OFFICE_2010_DARK_GRAY, PaletteMode.Office2010DarkGray },
             //{ PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2010_LIGHT_GRAY, PaletteMode.Office2010LightGray },
-            //{ DEFAULT_PALETTE_OFFICE_2013_DARK_GRAY, PaletteMode.Office2013DarkGray },
-            //{ PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2013_LIGHT_GRAY, PaletteMode.Office2013LightGray },
+            { DEFAULT_PALETTE_OFFICE_2013_DARK_GRAY, PaletteMode.Office2013DarkGray },
+            { DEFAULT_PALETTE_OFFICE_2013_LIGHT_GRAY, PaletteMode.Office2013LightGray },
             { DEFAULT_PALETTE_OFFICE_2013_WHITE, PaletteMode.Office2013White },
             { DEFAULT_PALETTE_SPARKLE_BLUE, PaletteMode.SparkleBlue },
             { DEFAULT_PALETTE_SPARKLE_BLUE_DARK_MODE, PaletteMode.SparkleBlueDarkMode },
@@ -164,12 +168,16 @@ public class PaletteModeStrings : GlobalId
             //{ DEFAULT_PALETTE_VISUAL_STUDIO_2017_LIGHT_MODE, PaletteMode.VisualStudio2017LightMode },
             //{ DEFAULT_PALETTE_VISUAL_STUDIO_2019_DARK_MODE, PaletteMode.VisualStudio2019DarkMode },
             //{ DEFAULT_PALETTE_VISUAL_STUDIO_2019_LIGHT_MODE, PaletteMode.VisualStudio2019LightMode },
-            //{ DEFAULT_PALETTE_VISUAL_STUDIO_2022_DARK_MODE, PaletteMode.VisualStudio2022DarkMode },
-            //{ DEFAULT_PALETTE_VISUAL_STUDIO_2022_LIGHT_MODE, PaletteMode.VisualStudio2022LightMode },
+            { DEFAULT_PALETTE_VISUAL_STUDIO_2022_DARK_MODE, PaletteMode.VisualStudio2022Dark },
+            //{ DEFAULT_PALETTE_VISUAL_STUDIO_2022_LIGHT_MODE, PaletteMode.VisualStudio2022Light },
             { DEFAULT_PALETTE_MATERIAL_LIGHT, PaletteMode.MaterialLight },
             { DEFAULT_PALETTE_MATERIAL_DARK, PaletteMode.MaterialDark },
             { DEFAULT_PALETTE_MATERIAL_LIGHT_RIPPLE, PaletteMode.MaterialLightRipple },
             { DEFAULT_PALETTE_MATERIAL_DARK_RIPPLE, PaletteMode.MaterialDarkRipple },
+            { DEFAULT_PALETTE_RETRO_GREEN, PaletteMode.RetroGreen },
+            { DEFAULT_PALETTE_RETRO_BLUE, PaletteMode.RetroBlue },
+            { DEFAULT_PALETTE_MACOS_LIGHT, PaletteMode.MacOSLight },
+            { DEFAULT_PALETTE_MACOS_DARK, PaletteMode.MacOSDark },
             { DEFAULT_PALETTE_CUSTOM, PaletteMode.Custom }
         });
 
@@ -808,5 +816,4 @@ public class PaletteModeStrings : GlobalId
     #endregion
 
     #endregion
-
 }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -2765,10 +2765,8 @@ public class KryptonWorkspace : VisualContainerControl,
 
         // Are both items allowed to be resized by the user?
         // (at design time we can get null references)
-        if (/*(after == null)
-            ||*/ !after.WorkspaceAllowResizing
-                 || (before == null)
-                 || !before.WorkspaceAllowResizing
+        if (after is not { WorkspaceAllowResizing: true }
+            || before is not { WorkspaceAllowResizing: true }
            )
         {
             return false;
@@ -3806,12 +3804,12 @@ public class KryptonWorkspace : VisualContainerControl,
 
             if (_menuPage is null)
             {
-                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_menuPage)));
+                throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_menuPage)));
             }
 
             if (_menuCell is null)
             {
-                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_menuCell)));
+                throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_menuCell)));
             }
 
             // Update the individual menu options

@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2025 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2025 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -189,6 +189,34 @@ public partial class DataGridViewDemo : KryptonForm
         kdgvMain.StateCommon.HeaderColumn.Border.DrawBorders = kdgvMain.StateCommon.DataCell.Border.DrawBorders;
 
         kdgvMain.HideOuterBorders = !kchkShowGridLines.Checked;
+    }
+
+    private void kchkCornerRounding_CheckedChanged(object sender, EventArgs e) => ApplyCornerRoundingFromDemo();
+
+    private void knudCornerRoundingRadius_ValueChanged(object sender, EventArgs e) => ApplyCornerRoundingFromDemo();
+
+    private void ApplyCornerRoundingFromDemo()
+    {
+        knudCornerRoundingRadius.Enabled = kchkCornerRounding.Checked;
+
+        float rounding = kchkCornerRounding.Checked ? (float)knudCornerRoundingRadius.Value : -1f;
+        kdgvMain.StateNormal.Border.Rounding = rounding;
+        kdgvMain.StateDisabled.Border.Rounding = rounding;
+
+        if (kchkCornerRounding.Checked)
+        {
+            kdgvMain.StateNormal.Border.Draw = InheritBool.True;
+            kdgvMain.StateDisabled.Border.Draw = InheritBool.True;
+            kdgvMain.StateNormal.Border.DrawBorders = PaletteDrawBorders.All;
+            kdgvMain.StateDisabled.Border.DrawBorders = PaletteDrawBorders.All;
+        }
+        else
+        {
+            kdgvMain.StateNormal.Border.Draw = InheritBool.Inherit;
+            kdgvMain.StateDisabled.Border.Draw = InheritBool.Inherit;
+            kdgvMain.StateNormal.Border.DrawBorders = PaletteDrawBorders.Inherit;
+            kdgvMain.StateDisabled.Border.DrawBorders = PaletteDrawBorders.Inherit;
+        }
     }
 
     private void kcmbAutoSizeColumnsMode_SelectedIndexChanged(object sender, EventArgs e)

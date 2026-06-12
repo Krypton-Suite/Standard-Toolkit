@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -179,61 +179,40 @@ public class TrackBarController : GlobalId,
             throw new ArgumentNullException(nameof(e));
         }
 
-        switch (e.KeyCode)
+        _drawTB.ViewDrawTrackBar.ScrollValue = e.KeyCode switch
         {
-            case Keys.Left:
-            case Keys.Up:
-                _drawTB.ViewDrawTrackBar.ScrollValue = Math.Max(_drawTB.ViewDrawTrackBar.Minimum,
-                    _drawTB.ViewDrawTrackBar.Orientation == Orientation.Horizontal
-                        ? Math.Min(_drawTB.ViewDrawTrackBar.Value - _drawTB.ViewDrawTrackBar.SmallChange,
-                            _drawTB.ViewDrawTrackBar.Maximum)
-                        : Math.Min(_drawTB.ViewDrawTrackBar.Value + _drawTB.ViewDrawTrackBar.SmallChange,
-                            _drawTB.ViewDrawTrackBar.Maximum));
-
-                break;
-            case Keys.Right:
-            case Keys.Down:
-                _drawTB.ViewDrawTrackBar.ScrollValue = Math.Max(_drawTB.ViewDrawTrackBar.Minimum,
-                    _drawTB.ViewDrawTrackBar.Orientation == Orientation.Horizontal
-                        ? Math.Min(_drawTB.ViewDrawTrackBar.Value + _drawTB.ViewDrawTrackBar.SmallChange,
-                            _drawTB.ViewDrawTrackBar.Maximum)
-                        : Math.Min(_drawTB.ViewDrawTrackBar.Value - _drawTB.ViewDrawTrackBar.SmallChange,
-                            _drawTB.ViewDrawTrackBar.Maximum));
-
-                break;
-            case Keys.Home:
-                _drawTB.ViewDrawTrackBar.ScrollValue =
-                    _drawTB.ViewDrawTrackBar.Orientation == Orientation.Horizontal
-                        ? _drawTB.ViewDrawTrackBar.Minimum
-                        : _drawTB.ViewDrawTrackBar.Maximum;
-
-                break;
-            case Keys.End:
-                _drawTB.ViewDrawTrackBar.ScrollValue =
-                    _drawTB.ViewDrawTrackBar.Orientation == Orientation.Horizontal
-                        ? _drawTB.ViewDrawTrackBar.Maximum
-                        : _drawTB.ViewDrawTrackBar.Minimum;
-
-                break;
-            case Keys.PageDown:
-                _drawTB.ViewDrawTrackBar.ScrollValue = Math.Max(_drawTB.ViewDrawTrackBar.Minimum,
-                    _drawTB.ViewDrawTrackBar.Orientation == Orientation.Horizontal
-                        ? Math.Min(_drawTB.ViewDrawTrackBar.Value + _drawTB.ViewDrawTrackBar.LargeChange,
-                            _drawTB.ViewDrawTrackBar.Maximum)
-                        : Math.Min(_drawTB.ViewDrawTrackBar.Value - _drawTB.ViewDrawTrackBar.LargeChange,
-                            _drawTB.ViewDrawTrackBar.Maximum));
-
-                break;
-            case Keys.PageUp:
-                _drawTB.ViewDrawTrackBar.ScrollValue = Math.Max(_drawTB.ViewDrawTrackBar.Minimum,
-                    _drawTB.ViewDrawTrackBar.Orientation == Orientation.Horizontal
-                        ? Math.Min(_drawTB.ViewDrawTrackBar.Value - _drawTB.ViewDrawTrackBar.LargeChange,
-                            _drawTB.ViewDrawTrackBar.Maximum)
-                        : Math.Min(_drawTB.ViewDrawTrackBar.Value + _drawTB.ViewDrawTrackBar.LargeChange,
-                            _drawTB.ViewDrawTrackBar.Maximum));
-
-                break;
-        }
+            Keys.Left or Keys.Up => Math.Max(_drawTB.ViewDrawTrackBar.Minimum,
+                _drawTB.ViewDrawTrackBar.Orientation == Orientation.Horizontal
+                    ? Math.Min(_drawTB.ViewDrawTrackBar.Value - _drawTB.ViewDrawTrackBar.SmallChange,
+                        _drawTB.ViewDrawTrackBar.Maximum)
+                    : Math.Min(_drawTB.ViewDrawTrackBar.Value + _drawTB.ViewDrawTrackBar.SmallChange,
+                        _drawTB.ViewDrawTrackBar.Maximum)),
+            Keys.Right or Keys.Down => Math.Max(_drawTB.ViewDrawTrackBar.Minimum,
+                _drawTB.ViewDrawTrackBar.Orientation == Orientation.Horizontal
+                    ? Math.Min(_drawTB.ViewDrawTrackBar.Value + _drawTB.ViewDrawTrackBar.SmallChange,
+                        _drawTB.ViewDrawTrackBar.Maximum)
+                    : Math.Min(_drawTB.ViewDrawTrackBar.Value - _drawTB.ViewDrawTrackBar.SmallChange,
+                        _drawTB.ViewDrawTrackBar.Maximum)),
+            Keys.Home => _drawTB.ViewDrawTrackBar.Orientation == Orientation.Horizontal
+                ? _drawTB.ViewDrawTrackBar.Minimum
+                : _drawTB.ViewDrawTrackBar.Maximum,
+            Keys.End => _drawTB.ViewDrawTrackBar.Orientation == Orientation.Horizontal
+                ? _drawTB.ViewDrawTrackBar.Maximum
+                : _drawTB.ViewDrawTrackBar.Minimum,
+            Keys.PageDown => Math.Max(_drawTB.ViewDrawTrackBar.Minimum,
+                _drawTB.ViewDrawTrackBar.Orientation == Orientation.Horizontal
+                    ? Math.Min(_drawTB.ViewDrawTrackBar.Value + _drawTB.ViewDrawTrackBar.LargeChange,
+                        _drawTB.ViewDrawTrackBar.Maximum)
+                    : Math.Min(_drawTB.ViewDrawTrackBar.Value - _drawTB.ViewDrawTrackBar.LargeChange,
+                        _drawTB.ViewDrawTrackBar.Maximum)),
+            Keys.PageUp => Math.Max(_drawTB.ViewDrawTrackBar.Minimum,
+                _drawTB.ViewDrawTrackBar.Orientation == Orientation.Horizontal
+                    ? Math.Min(_drawTB.ViewDrawTrackBar.Value - _drawTB.ViewDrawTrackBar.LargeChange,
+                        _drawTB.ViewDrawTrackBar.Maximum)
+                    : Math.Min(_drawTB.ViewDrawTrackBar.Value + _drawTB.ViewDrawTrackBar.LargeChange,
+                        _drawTB.ViewDrawTrackBar.Maximum)),
+            _ => _drawTB.ViewDrawTrackBar.Value
+        };
     }
 
     /// <summary>

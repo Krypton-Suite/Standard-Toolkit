@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -473,6 +473,12 @@ public class KryptonRadioButton : VisualSimpleBase
 
     #region Protected
     /// <summary>
+    /// Creates a new accessibility object for this control.
+    /// </summary>
+    /// <returns>A new accessibility object for this control.</returns>
+    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonRadioButtonAccessibleObject(this);
+
+    /// <summary>
     /// Raises the DoubleClick event.
     /// </summary>
     /// <param name="e">An EventArgs containing the event data.</param>
@@ -581,6 +587,14 @@ public class KryptonRadioButton : VisualSimpleBase
 
         // No match found, let base class do standard processing
         return base.ProcessMnemonic(charCode);
+    }
+
+    internal void PerformAccessibilityClick()
+    {
+        if (CanSelect)
+        {
+            OnClick(EventArgs.Empty);
+        }
     }
 
     /// <summary>

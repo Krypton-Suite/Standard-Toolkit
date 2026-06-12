@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -495,19 +495,13 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
                 if (child!.Visible)
                 {
                     // Get the cached size of this view
-                    var childSize = Size.Empty;
-                    switch (_currentSize)
+                    var childSize = _currentSize switch
                     {
-                        case GroupItemSize.Small:
-                            childSize = _smallCache[child];
-                            break;
-                        case GroupItemSize.Medium:
-                            childSize = _mediumCache[child];
-                            break;
-                        case GroupItemSize.Large:
-                            childSize = _largeCache[child];
-                            break;
-                    }
+                        GroupItemSize.Small => _smallCache[child],
+                        GroupItemSize.Medium => _mediumCache[child],
+                        GroupItemSize.Large => _largeCache[child],
+                        _ => Size.Empty
+                    };
 
                     if (horizontal)
                     {
@@ -523,18 +517,15 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
                     else
                     {
                         // Define display rectangle for the group
-                        switch (_ribbonTriple.ItemAlignment)
+                        context.DisplayRectangle = _ribbonTriple.ItemAlignment switch
                         {
-                            case RibbonItemAlignment.Near:
-                                context.DisplayRectangle = new Rectangle(x, y, childSize.Width, childSize.Height);
-                                break;
-                            case RibbonItemAlignment.Center:
-                                context.DisplayRectangle = new Rectangle(x + ((widest - childSize.Width) / 2), y, childSize.Width, childSize.Height);
-                                break;
-                            case RibbonItemAlignment.Far:
-                                context.DisplayRectangle = new Rectangle(x + widest - childSize.Width, y, childSize.Width, childSize.Height);
-                                break;
-                        }
+                            RibbonItemAlignment.Near => new Rectangle(x, y, childSize.Width, childSize.Height),
+                            RibbonItemAlignment.Center => new Rectangle(x + ((widest - childSize.Width) / 2), y,
+                                childSize.Width, childSize.Height),
+                            RibbonItemAlignment.Far => new Rectangle(x + widest - childSize.Width, y, childSize.Width,
+                                childSize.Height),
+                            _ => context.DisplayRectangle
+                        };
 
                         // Position the element
                         this[i]?.Layout(context);

@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2024 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2024 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -16,6 +16,13 @@ public partial class ButtonsTest : KryptonForm
         InitializeComponent();
         kcbColorScheme.SelectedItem = "OfficeThemes";
         kcbSortMode.Enabled = false;
+
+        // #1673 sample: progress bar in the shared UAC drop-down context menu
+        kryptonContextMenuItems1.Items.Insert(0, new KryptonContextMenuProgressBar
+        {
+            MinimumWidth = 200,
+            Value = 42
+        });
     }
 
     private void kcbtnDropDown_SelectedColorChanged(object sender, ColorEventArgs e)

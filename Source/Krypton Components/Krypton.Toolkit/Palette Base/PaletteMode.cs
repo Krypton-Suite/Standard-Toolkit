@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -19,7 +19,7 @@ namespace Krypton.Toolkit;
 public enum PaletteMode
 {
     /*
-     * Adjustements made as per ticket 1328.
+     * Adjustments made as per ticket 1328.
      * See: https://github.com/Krypton-Suite/Standard-Toolkit/issues/1328
      *
      * These entries (also those disabled) are now sorted in the order of the SupportedThemes Dictionary.
@@ -163,19 +163,15 @@ public enum PaletteMode
     Office2010LightGray,
     */
 
-    /* ToDo: Re-enable when the gray themes are completed
     /// <summary>
     /// Specifies the dark Gray color variant of the Office 2013 appearance.
     /// </summary>
     Office2013DarkGray,
-    */
 
-    /* ToDo: Re-enable when the gray themes are completed
     /// <summary>
     /// Specifies the light Gray color variant of the Office 2013 appearance.
     /// </summary>
     Office2013LightGray,
-    */
 
     /// <summary>
     /// Specifies the White color variant of the Office 2013 appearance.
@@ -362,10 +358,10 @@ public enum PaletteMode
     ///// </summary>
     //VisualStudio2019Light,
 
-    ///// <summary>
-    ///// Specifies the visual studio 2022 dark palette theme.
-    ///// </summary>
-    //VisualStudio2022Dark,
+    /// <summary>
+    /// Specifies the visual studio 2022 dark palette theme.
+    /// </summary>
+    VisualStudio2022Dark,
 
     ///// <summary>
     ///// Specifies the visual studio 2022 light palette theme.
@@ -391,6 +387,26 @@ public enum PaletteMode
     /// Material Dark palette with Ripple effect.
     /// </summary>
     MaterialDarkRipple,
+
+    /// <summary>
+    /// DOS teal/green RetroUI palette.
+    /// </summary>
+    RetroGreen,
+
+    /// <summary>
+    /// Norton Commander style blue RetroUI palette.
+    /// </summary>
+    RetroBlue,
+
+    /// <summary>
+    /// macOS-inspired light palette (Material renderer, Apple HIG colors).
+    /// </summary>
+    MacOSLight,
+
+    /// <summary>
+    /// macOS-inspired dark palette (Material renderer, Apple HIG colors).
+    /// </summary>
+    MacOSDark,
 
     /// <summary>
     /// Specifies a custom palette be used.

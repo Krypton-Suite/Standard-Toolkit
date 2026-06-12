@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV), Giduac, et al. 2024 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV), Giduac, et al. 2024 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -92,18 +92,18 @@ internal class InternalKryptonCountdownButton : KryptonButton
     /// <summary>Initializes a new instance of the <see cref="InternalKryptonCountdownButton" /> class.</summary>
     public InternalKryptonCountdownButton()
     {
-        _initialCountdownSeconds = GlobalStaticValues.DEFAULT_COUNTDOWN_VALUE;
+        _initialCountdownSeconds = GlobalStaticConstants.DEFAULT_COUNTDOWN_VALUE;
 
         _countdownTimer = new Timer
         {
-            Interval = GlobalStaticValues.DEFAULT_COUNTDOWN_INTERVAL
+            Interval = GlobalStaticConstants.DEFAULT_COUNTDOWN_INTERVAL
         };
 
         _countdownTimer.Tick += OnCountdownTimer_Tick;
 
-        CountdownDuration = GlobalStaticValues.DEFAULT_COUNTDOWN_VALUE;
+        CountdownDuration = GlobalStaticConstants.DEFAULT_COUNTDOWN_VALUE;
 
-        CountdownInterval = GlobalStaticValues.DEFAULT_COUNTDOWN_INTERVAL;
+        CountdownInterval = GlobalStaticConstants.DEFAULT_COUNTDOWN_INTERVAL;
     }
 
     #endregion

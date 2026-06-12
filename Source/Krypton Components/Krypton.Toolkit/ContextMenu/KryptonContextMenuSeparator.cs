@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -98,7 +98,7 @@ public class KryptonContextMenuSeparator : KryptonContextMenuItemBase
 
             // Take up same space as the image column, so separator starts close to actual text
             var imageContent = new ViewDrawContent(provider.ProviderStateCommon.ItemImage.Content,
-                new FixedContentValue(null, null, null, GlobalStaticValues.EMPTY_COLOR), VisualOrientation.Top);
+                new FixedContentValue(null, null, null, GlobalStaticVariables.EMPTY_COLOR), VisualOrientation.Top);
             var imageCanvas = new ViewDrawMenuImageCanvas(provider.ProviderStateCommon.ItemImage.Back,
                 provider.ProviderStateCommon.ItemImage.Border, 0, true)
             {

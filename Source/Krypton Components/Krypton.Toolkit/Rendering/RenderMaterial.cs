@@ -1,7 +1,7 @@
 #region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2025 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2025 - 2026. All rights reserved.
  */
 #endregion
 
@@ -11,7 +11,7 @@ namespace Krypton.Toolkit;
 /// Renderer targeting a flat, dense Material visual language.
 /// </summary>
 /// <seealso cref="RenderOffice2010" />
-public sealed class RenderMaterial : RenderOffice2010
+public class RenderMaterial : RenderOffice2010
 {
     #region Constructor
     static RenderMaterial()
@@ -63,12 +63,12 @@ public sealed class RenderMaterial : RenderOffice2010
     }
 
     /// <inheritdoc />
-    public override Padding GetBorderDisplayPadding(IPaletteBorder? palette, PaletteState state, VisualOrientation orientation)
+    public override Padding GetBorderDisplayPadding(IPaletteBorder? palette, PaletteState state, VisualOrientation orientation, Size borderOuterSize)
     {
         // Prefer minimal interior insets; fall back to base for overrides or unknowns
         if (CommonHelper.IsOverrideState(state))
         {
-            return base.GetBorderDisplayPadding(palette, state, orientation);
+            return base.GetBorderDisplayPadding(palette, state, orientation, borderOuterSize);
         }
 
         return Padding.Empty;

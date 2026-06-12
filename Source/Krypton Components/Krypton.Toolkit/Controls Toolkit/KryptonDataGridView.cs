@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -60,7 +60,7 @@ public class KryptonDataGridView : DataGridView
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+        public Color GetImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the content short text.
@@ -73,6 +73,48 @@ public class KryptonDataGridView : DataGridView
         /// </summary>
         /// <returns>String value.</returns>
         public string GetLongText() => string.Empty;
+
+        /// <summary>
+        /// Gets the overlay image.
+        /// </summary>
+        /// <param name="state">The state for which the overlay image is needed.</param>
+        /// <returns>Overlay image value, or null if no overlay image is set.</returns>
+        public Image? GetOverlayImage(PaletteState state) => null;
+
+        /// <summary>
+        /// Gets the overlay image color that should be transparent.
+        /// </summary>
+        /// <param name="state">The state for which the overlay image is needed.</param>
+        /// <returns>Color value.</returns>
+        public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+
+        /// <summary>
+        /// Gets the position of the overlay image relative to the main image.
+        /// </summary>
+        /// <param name="state">The state for which the overlay position is needed.</param>
+        /// <returns>Overlay image position.</returns>
+        public OverlayImagePosition GetOverlayImagePosition(PaletteState state) => OverlayImagePosition.TopRight;
+
+        /// <summary>
+        /// Gets the scaling mode for the overlay image.
+        /// </summary>
+        /// <param name="state">The state for which the overlay scale mode is needed.</param>
+        /// <returns>Overlay image scale mode.</returns>
+        public OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) => OverlayImageScaleMode.None;
+
+        /// <summary>
+        /// Gets the scale factor for the overlay image.
+        /// </summary>
+        /// <param name="state">The state for which the overlay scale factor is needed.</param>
+        /// <returns>Scale factor.</returns>
+        public float GetOverlayImageScaleFactor(PaletteState state) => 0.5f;
+
+        /// <summary>
+        /// Gets the fixed size for the overlay image.
+        /// </summary>
+        /// <param name="state">The state for which the overlay fixed size is needed.</param>
+        /// <returns>Fixed size.</returns>
+        public Size GetOverlayImageFixedSize(PaletteState state) => new Size(16, 16);
 
         #endregion
     }
@@ -136,6 +178,14 @@ public class KryptonDataGridView : DataGridView
     private Point _cellDown;
     private System.Windows.Forms.Timer? _showTimer;
     private bool _hideOuterBorders;
+    private ScrollBars _savedScrollBarsForRounding;
+    private bool _roundingUsesDetachedScrollbars;
+    private KryptonVScrollBar? _roundingVScrollBar;
+    private KryptonHScrollBar? _roundingHScrollBar;
+    private bool _suppressRoundingScrollSync;
+    private bool _roundingResizeScrollSyncPending;
+    private int _roundingScrollBarInteractionDepth;
+    private System.Windows.Forms.Timer? _roundingScrollSyncTimer;
     private string _toolTipText;
     private byte _oldLocation;
     private DataGridViewCell? _oldCell;
@@ -195,6 +245,31 @@ public class KryptonDataGridView : DataGridView
         SetupViewAndStates();
         SetupDefaults();
         SetupSyncCellStyles();
+        UpdateRoundingAppearance();
+    }
+
+    /// <inheritdoc />
+    protected override void OnHandleCreated(EventArgs e)
+    {
+        base.OnHandleCreated(e);
+        UpdateRoundingAppearance();
+    }
+
+    /// <summary>
+    /// Gets or sets which scroll bars are visible on the grid.
+    /// </summary>
+    [Category(@"Layout")]
+    [DefaultValue(ScrollBars.Both)]
+    public new ScrollBars ScrollBars
+    {
+        get => _roundingUsesDetachedScrollbars ? _savedScrollBarsForRounding : base.ScrollBars;
+
+        set
+        {
+            _savedScrollBarsForRounding = value;
+            base.ScrollBars = value;
+            UpdateRoundingScrollbars();
+        }
     }
 
     /// <summary>
@@ -227,6 +302,8 @@ public class KryptonDataGridView : DataGridView
 
             // Dispose of view manager related resources
             ViewManager?.Dispose();
+
+            DisableDetachedRoundingScrollbars();
         }
 
         base.Dispose(disposing);
@@ -944,6 +1021,8 @@ public class KryptonDataGridView : DataGridView
         // palette setting and any state overrides that are defined
         SyncCellStylesWithPalette();
 
+        UpdateRoundingAppearance();
+
         // Continue with usual painting logic
         OnNeedPaint(sender, e);
     }
@@ -1071,8 +1150,29 @@ public class KryptonDataGridView : DataGridView
     }
     #endregion
 
-
     #region Protected Override
+    /// <inheritdoc/>
+    protected override void OnScroll(ScrollEventArgs e)
+    {
+        base.OnScroll(e);
+
+        SyncDetachedRoundingScrollbarsFromGridIfIdle(false);
+
+        // #2681 - work-around
+        // Headers not correctly repainted on horizontal mouse scroll
+        if (e.ScrollOrientation == ScrollOrientation.HorizontalScroll
+            && (MouseButtons & MouseButtons.Left) == MouseButtons.Left)
+        {
+            for (int i = 0; i < Columns.Count; i++)
+            {
+                if (Columns[i].Displayed)
+                {
+                    InvalidateCell(Columns[i].HeaderCell);
+                }
+            }
+        }
+    }
+
     /// <inheritdoc/>
     protected override void OnDataBindingComplete(DataGridViewBindingCompleteEventArgs e)
     {
@@ -1091,6 +1191,16 @@ public class KryptonDataGridView : DataGridView
     protected override void OnPaintBackground(PaintEventArgs pevent)
     {
         // Do nothing
+    }
+
+    /// <summary>
+    /// Raises the Paint event.
+    /// </summary>
+    /// <param name="e">A PaintEventArgs that contains the event data.</param>
+    protected override void OnPaint(PaintEventArgs e)
+    {
+        base.OnPaint(e);
+        DrawCornerRoundingBorder(e.Graphics, e.ClipRectangle);
     }
 
     /// <summary>
@@ -1221,7 +1331,7 @@ public class KryptonDataGridView : DataGridView
         // the painting to fail.
         if ((_cellDown.X == -1) || (_cellDown.Y == -1))
         {
-            DoubleBuffered = false;
+            base.DoubleBuffered = false;
         }
 
         base.OnCellMouseDown(e);
@@ -1246,9 +1356,9 @@ public class KryptonDataGridView : DataGridView
         _cellDown = _nullCell;
 
         // Put back double buffered if it was turned off in the OnCellMouseDown
-        if (!DoubleBuffered)
+        if (!base.DoubleBuffered)
         {
-            DoubleBuffered = true;
+            base.DoubleBuffered = true;
         }
 
         base.OnCellMouseUp(e);
@@ -1327,11 +1437,19 @@ public class KryptonDataGridView : DataGridView
                 using (var renderContext = new RenderContext(this, tempG, tempCellBounds, Renderer!))
                 {
                     bool isHeaderCell = e.RowIndex == -1 && e.ColumnIndex >= 0;
+
                     Rectangle headerContentBounds = Rectangle.Empty;
 
                     // Force the border to have a specified maximum border edge
+                    _borderForced.ClearForcedState();
                     _borderForced.SetInherit(paletteBorder);
                     _borderForced.MaxBorderEdges = GetCellMaxBorderEdges(e.CellBounds, e.ColumnIndex, e.RowIndex);
+
+                    if (HasCornerRounding && TryGetOuterCornerBorderEdges(e.CellBounds, out _))
+                    {
+                        _borderForced.ForceBorderRounding(GetEffectiveCornerRounding());
+                        _borderForced.ForceGraphicsHint = PaletteGraphicsHint.AntiAlias;
+                    }
 
                     // Get the padding used to decide how to draw the background
                     Padding borderPadding = Renderer!.RenderStandardBorder.GetBorderRawPadding(_borderForced, state, VisualOrientation.Top);
@@ -1699,7 +1817,7 @@ public class KryptonDataGridView : DataGridView
                             focusCellBounds.X++;
                         }
 
-                        ControlPaint.DrawFocusRectangle(e.Graphics!, focusCellBounds, GlobalStaticValues.EMPTY_COLOR, paletteContent!.GetContentShortTextColor1(state));
+                        ControlPaint.DrawFocusRectangle(e.Graphics!, focusCellBounds, GlobalStaticVariables.EMPTY_COLOR, paletteContent!.GetContentShortTextColor1(state));
                     }
                 }
             }
@@ -1751,6 +1869,14 @@ public class KryptonDataGridView : DataGridView
         _refreshAll = false;
     }
 
+    /// <inheritdoc />
+    protected override void OnResize(EventArgs e)
+    {
+        base.OnResize(e);
+        UpdateRoundingAppearance();
+        QueueDetachedRoundingScrollbarsResizeSync();
+    }
+
     /// <summary>
     /// Raises the EnabledChanged event.
     /// </summary>
@@ -1781,6 +1907,8 @@ public class KryptonDataGridView : DataGridView
 
         // Let base class layout child controls
         base.OnLayout(levent);
+
+        UpdateRoundingAppearance();
     }
     #endregion
 
@@ -2209,12 +2337,12 @@ public class KryptonDataGridView : DataGridView
     {
         PaletteState state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
 
-        if ((ColumnHeadersDefaultCellStyle.BackColor == GlobalStaticValues.EMPTY_COLOR) ||
+        if ((ColumnHeadersDefaultCellStyle.BackColor == GlobalStaticVariables.EMPTY_COLOR) ||
             (ColumnHeadersDefaultCellStyle.BackColor == _columnBackColor))
         {
             _columnBackColor = StateNormal.HeaderColumn.Back.Color1;
 
-            if (_columnBackColor == GlobalStaticValues.EMPTY_COLOR)
+            if (_columnBackColor == GlobalStaticVariables.EMPTY_COLOR)
             {
                 _columnBackColor = StateNormal.HeaderColumn.Back.GetBackColor1(state);
             }
@@ -2222,12 +2350,12 @@ public class KryptonDataGridView : DataGridView
             ColumnHeadersDefaultCellStyle.BackColor = _columnBackColor;
         }
 
-        if ((RowHeadersDefaultCellStyle.BackColor == GlobalStaticValues.EMPTY_COLOR) ||
+        if ((RowHeadersDefaultCellStyle.BackColor == GlobalStaticVariables.EMPTY_COLOR) ||
             (RowHeadersDefaultCellStyle.BackColor == _rowBackColor))
         {
             _rowBackColor = StateNormal.HeaderRow.Back.Color1;
 
-            if (_rowBackColor == GlobalStaticValues.EMPTY_COLOR)
+            if (_rowBackColor == GlobalStaticVariables.EMPTY_COLOR)
             {
                 _rowBackColor = StateNormal.HeaderRow.Back.GetBackColor1(state);
             }
@@ -2235,12 +2363,12 @@ public class KryptonDataGridView : DataGridView
             RowHeadersDefaultCellStyle.BackColor = _rowBackColor;
         }
 
-        if ((DefaultCellStyle.BackColor == GlobalStaticValues.EMPTY_COLOR) ||
+        if ((DefaultCellStyle.BackColor == GlobalStaticVariables.EMPTY_COLOR) ||
             (DefaultCellStyle.BackColor == _dataCellBackColor))
         {
             _dataCellBackColor = StateNormal.DataCell.Back.Color1;
 
-            if (_dataCellBackColor == GlobalStaticValues.EMPTY_COLOR)
+            if (_dataCellBackColor == GlobalStaticVariables.EMPTY_COLOR)
             {
                 _dataCellBackColor = StateNormal.DataCell.Back.GetBackColor1(state);
             }
@@ -2253,12 +2381,12 @@ public class KryptonDataGridView : DataGridView
     {
         PaletteState state = Enabled ? PaletteState.CheckedNormal : PaletteState.Disabled;
 
-        if ((ColumnHeadersDefaultCellStyle.SelectionBackColor == GlobalStaticValues.EMPTY_COLOR) ||
+        if ((ColumnHeadersDefaultCellStyle.SelectionBackColor == GlobalStaticVariables.EMPTY_COLOR) ||
             (ColumnHeadersDefaultCellStyle.SelectionBackColor == _columnSelBackColor))
         {
             _columnSelBackColor = StateSelected.HeaderColumn.Back.Color1;
 
-            if (_columnSelBackColor == GlobalStaticValues.EMPTY_COLOR)
+            if (_columnSelBackColor == GlobalStaticVariables.EMPTY_COLOR)
             {
                 _columnSelBackColor = StateSelected.HeaderColumn.Back.GetBackColor1(state);
             }
@@ -2266,12 +2394,12 @@ public class KryptonDataGridView : DataGridView
             ColumnHeadersDefaultCellStyle.SelectionBackColor = _columnSelBackColor;
         }
 
-        if ((RowHeadersDefaultCellStyle.SelectionBackColor == GlobalStaticValues.EMPTY_COLOR) ||
+        if ((RowHeadersDefaultCellStyle.SelectionBackColor == GlobalStaticVariables.EMPTY_COLOR) ||
             (RowHeadersDefaultCellStyle.SelectionBackColor == _rowSelBackColor))
         {
             _rowSelBackColor = StateSelected.HeaderRow.Back.Color1;
 
-            if (_rowSelBackColor == GlobalStaticValues.EMPTY_COLOR)
+            if (_rowSelBackColor == GlobalStaticVariables.EMPTY_COLOR)
             {
                 _rowSelBackColor = StateSelected.HeaderRow.Back.GetBackColor1(state);
             }
@@ -2279,12 +2407,12 @@ public class KryptonDataGridView : DataGridView
             RowHeadersDefaultCellStyle.SelectionBackColor = _rowSelBackColor;
         }
 
-        if ((DefaultCellStyle.SelectionBackColor == GlobalStaticValues.EMPTY_COLOR) ||
+        if ((DefaultCellStyle.SelectionBackColor == GlobalStaticVariables.EMPTY_COLOR) ||
             (DefaultCellStyle.SelectionBackColor == _dataCellSelBackColor))
         {
             _dataCellSelBackColor = StateSelected.DataCell.Back.Color1;
 
-            if (_dataCellSelBackColor == GlobalStaticValues.EMPTY_COLOR)
+            if (_dataCellSelBackColor == GlobalStaticVariables.EMPTY_COLOR)
             {
                 _dataCellSelBackColor = StateSelected.DataCell.Back.GetBackColor1(state);
             }
@@ -2297,12 +2425,12 @@ public class KryptonDataGridView : DataGridView
     {
         PaletteState state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
 
-        if ((ColumnHeadersDefaultCellStyle.ForeColor == GlobalStaticValues.EMPTY_COLOR) ||
+        if ((ColumnHeadersDefaultCellStyle.ForeColor == GlobalStaticVariables.EMPTY_COLOR) ||
             (ColumnHeadersDefaultCellStyle.ForeColor == _columnForeColor))
         {
             _columnForeColor = StateNormal.HeaderColumn.Content.Color1;
 
-            if (_columnForeColor == GlobalStaticValues.EMPTY_COLOR)
+            if (_columnForeColor == GlobalStaticVariables.EMPTY_COLOR)
             {
                 _columnForeColor = StateNormal.HeaderColumn.Content.GetContentShortTextColor1(state);
             }
@@ -2310,12 +2438,12 @@ public class KryptonDataGridView : DataGridView
             ColumnHeadersDefaultCellStyle.ForeColor = _columnForeColor;
         }
 
-        if ((RowHeadersDefaultCellStyle.ForeColor == GlobalStaticValues.EMPTY_COLOR) ||
+        if ((RowHeadersDefaultCellStyle.ForeColor == GlobalStaticVariables.EMPTY_COLOR) ||
             (RowHeadersDefaultCellStyle.ForeColor == _rowForeColor))
         {
             _rowForeColor = StateNormal.HeaderRow.Content.Color1;
 
-            if (_rowForeColor == GlobalStaticValues.EMPTY_COLOR)
+            if (_rowForeColor == GlobalStaticVariables.EMPTY_COLOR)
             {
                 _rowForeColor = StateNormal.HeaderRow.Content.GetContentShortTextColor1(state);
             }
@@ -2323,12 +2451,12 @@ public class KryptonDataGridView : DataGridView
             RowHeadersDefaultCellStyle.ForeColor = _rowForeColor;
         }
 
-        if ((DefaultCellStyle.ForeColor == GlobalStaticValues.EMPTY_COLOR) ||
+        if ((DefaultCellStyle.ForeColor == GlobalStaticVariables.EMPTY_COLOR) ||
             (DefaultCellStyle.ForeColor == _dataCellForeColor))
         {
             _dataCellForeColor = StateNormal.DataCell.Content.Color1;
 
-            if (_dataCellForeColor == GlobalStaticValues.EMPTY_COLOR)
+            if (_dataCellForeColor == GlobalStaticVariables.EMPTY_COLOR)
             {
                 _dataCellForeColor = StateNormal.DataCell.Content.GetContentShortTextColor1(state);
             }
@@ -2341,12 +2469,12 @@ public class KryptonDataGridView : DataGridView
     {
         PaletteState state = Enabled ? PaletteState.CheckedNormal : PaletteState.Disabled;
 
-        if ((ColumnHeadersDefaultCellStyle.SelectionForeColor == GlobalStaticValues.EMPTY_COLOR) ||
+        if ((ColumnHeadersDefaultCellStyle.SelectionForeColor == GlobalStaticVariables.EMPTY_COLOR) ||
             (ColumnHeadersDefaultCellStyle.SelectionForeColor == _columnSelForeColor))
         {
             _columnSelForeColor = StateSelected.HeaderColumn.Content.Color1;
 
-            if (_columnSelForeColor == GlobalStaticValues.EMPTY_COLOR)
+            if (_columnSelForeColor == GlobalStaticVariables.EMPTY_COLOR)
             {
                 _columnSelForeColor = StateSelected.HeaderColumn.Content.GetContentShortTextColor1(state);
             }
@@ -2354,12 +2482,12 @@ public class KryptonDataGridView : DataGridView
             ColumnHeadersDefaultCellStyle.SelectionForeColor = _columnSelForeColor;
         }
 
-        if ((RowHeadersDefaultCellStyle.SelectionForeColor == GlobalStaticValues.EMPTY_COLOR) ||
+        if ((RowHeadersDefaultCellStyle.SelectionForeColor == GlobalStaticVariables.EMPTY_COLOR) ||
             (RowHeadersDefaultCellStyle.SelectionForeColor == _rowSelForeColor))
         {
             _rowSelForeColor = StateSelected.HeaderRow.Content.Color1;
 
-            if (_rowSelForeColor == GlobalStaticValues.EMPTY_COLOR)
+            if (_rowSelForeColor == GlobalStaticVariables.EMPTY_COLOR)
             {
                 _rowSelForeColor = StateSelected.HeaderRow.Content.GetContentShortTextColor1(state);
             }
@@ -2367,12 +2495,12 @@ public class KryptonDataGridView : DataGridView
             RowHeadersDefaultCellStyle.SelectionForeColor = _rowSelForeColor;
         }
 
-        if ((DefaultCellStyle.SelectionForeColor == GlobalStaticValues.EMPTY_COLOR) ||
+        if ((DefaultCellStyle.SelectionForeColor == GlobalStaticVariables.EMPTY_COLOR) ||
             (DefaultCellStyle.SelectionForeColor == _dataCellSelForeColor))
         {
             _dataCellSelForeColor = StateSelected.DataCell.Content.Color1;
 
-            if (_dataCellSelForeColor == GlobalStaticValues.EMPTY_COLOR)
+            if (_dataCellSelForeColor == GlobalStaticVariables.EMPTY_COLOR)
             {
                 _dataCellSelForeColor = StateSelected.DataCell.Content.GetContentShortTextColor1(state);
             }
@@ -2452,6 +2580,11 @@ public class KryptonDataGridView : DataGridView
         int column,
         int row)
     {
+        if (HasCornerRounding && TryGetOuterCornerBorderEdges(cellBounds, out PaletteDrawBorders cornerEdges))
+        {
+            return cornerEdges;
+        }
+
         // We always draw the bottom border and left/right depending on RTL setting
         PaletteDrawBorders maxBorders = PaletteDrawBorders.Bottom |
                                         (RightToLeftInternal ? PaletteDrawBorders.Left :
@@ -2472,12 +2605,14 @@ public class KryptonDataGridView : DataGridView
 
         // Check if the cell is hard against the far or bottom edges, if so do not need to draw
         // border that is hard against the edge as it will then look like it has double borders
-        if (HideOuterBorders)
+        Rectangle outerBounds = GetOuterRoundingBounds();
+
+        if (HideOuterBorders || HasCornerRounding)
         {
             // With RTL we check the left border
             if (RightToLeftInternal)
             {
-                if (cellBounds.Left == 0)
+                if (IsAtOuterLeft(cellBounds))
                 {
                     maxBorders &= ~PaletteDrawBorders.Left;
                 }
@@ -2485,20 +2620,971 @@ public class KryptonDataGridView : DataGridView
             else
             {
                 // Check the right border
-                if (cellBounds.Right == Width)
+                if (IsAtOuterRight(cellBounds, outerBounds))
                 {
                     maxBorders &= ~PaletteDrawBorders.Right;
                 }
             }
 
             // Check the bottom border
-            if (cellBounds.Bottom == Height)
+            if (IsAtOuterBottom(cellBounds, outerBounds))
             {
                 maxBorders &= ~PaletteDrawBorders.Bottom;
             }
         }
 
+        if (HasCornerRounding)
+        {
+            if (IsAtOuterTop(cellBounds))
+            {
+                maxBorders &= ~PaletteDrawBorders.Top;
+            }
+
+            if (RightToLeftInternal)
+            {
+                if (IsAtOuterRight(cellBounds, outerBounds))
+                {
+                    maxBorders &= ~PaletteDrawBorders.Right;
+                }
+            }
+            else
+            {
+                if (IsAtOuterLeft(cellBounds))
+                {
+                    maxBorders &= ~PaletteDrawBorders.Left;
+                }
+            }
+        }
+
         return maxBorders;
+    }
+
+    private bool TryGetOuterCornerBorderEdges(Rectangle cellBounds, out PaletteDrawBorders cornerEdges)
+    {
+        cornerEdges = PaletteDrawBorders.None;
+
+        if (!HasCornerRounding)
+        {
+            return false;
+        }
+
+        Rectangle outerBounds = GetOuterRoundingBounds();
+        bool atTop = IsAtOuterTop(cellBounds);
+        bool atBottom = IsAtOuterBottom(cellBounds, outerBounds);
+        bool atLeft = IsAtOuterLeft(cellBounds);
+        bool atRight = IsAtOuterRight(cellBounds, outerBounds);
+
+        if (atTop && atLeft)
+        {
+            cornerEdges = PaletteDrawBorders.Top | PaletteDrawBorders.Left;
+            return true;
+        }
+
+        if (atTop && atRight)
+        {
+            cornerEdges = PaletteDrawBorders.Top | PaletteDrawBorders.Right;
+            return true;
+        }
+
+        if (atBottom && atLeft)
+        {
+            cornerEdges = PaletteDrawBorders.Bottom | PaletteDrawBorders.Left;
+            return true;
+        }
+
+        if (atBottom && atRight)
+        {
+            cornerEdges = PaletteDrawBorders.Bottom | PaletteDrawBorders.Right;
+            return true;
+        }
+
+        return false;
+    }
+
+    private bool AreCornerRoundingStatesReady() => StateNormal != null && StateDisabled != null;
+
+    private bool HasCornerRounding => AreCornerRoundingStatesReady() && GetEffectiveCornerRounding() > 0f;
+
+    private float GetEffectiveCornerRounding()
+    {
+        if (!AreCornerRoundingStatesReady())
+        {
+            return 0f;
+        }
+
+        PaletteBorder border = Enabled ? StateNormal.Border : StateDisabled.Border;
+        float configuredRounding = border.GetConfiguredRounding();
+        if (configuredRounding > 0f)
+        {
+            return configuredRounding;
+        }
+
+        PaletteState state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
+        return Math.Max(0f, border.GetBorderRounding(state));
+    }
+
+    /// <summary>
+    /// Outer rectangle used for region clipping, outer border, and corner-cell detection.
+    /// </summary>
+    private Rectangle GetOuterRoundingBounds() => ClientRectangle;
+
+    private void UpdateRoundingAppearance()
+    {
+        UpdateRoundingScrollbars();
+        UpdateCornerRoundingRegion();
+    }
+
+    private void UpdateRoundingScrollbars()
+    {
+        if (ShouldUseDetachedScrollbars())
+        {
+            if (!_roundingUsesDetachedScrollbars)
+            {
+                EnableDetachedRoundingScrollbars();
+            }
+            else
+            {
+                SyncDetachedRoundingScrollbarsFromGrid(true);
+            }
+        }
+        else if (_roundingUsesDetachedScrollbars)
+        {
+            DisableDetachedRoundingScrollbars();
+        }
+    }
+
+    private bool ShouldUseDetachedScrollbars()
+    {
+        ScrollBars scrollBars = _roundingUsesDetachedScrollbars ? _savedScrollBarsForRounding : base.ScrollBars;
+        return scrollBars != ScrollBars.None;
+    }
+
+    private void EnableDetachedRoundingScrollbars()
+    {
+        _savedScrollBarsForRounding = base.ScrollBars;
+        _roundingUsesDetachedScrollbars = true;
+
+        if (_roundingScrollSyncTimer == null)
+        {
+            _roundingScrollSyncTimer = new System.Windows.Forms.Timer { Interval = 150 };
+            _roundingScrollSyncTimer.Tick += OnRoundingScrollSyncTimerTick;
+        }
+
+        _roundingScrollSyncTimer.Start();
+
+        EnsureDetachedRoundingScrollbarsCreated();
+        HideNativeScrollbarsForRounding();
+        SyncDetachedRoundingScrollbarsFromGrid(true);
+        PerformLayout();
+    }
+
+    private void DisableDetachedRoundingScrollbars()
+    {
+        if (!_roundingUsesDetachedScrollbars
+            && _roundingVScrollBar == null
+            && _roundingHScrollBar == null
+            && _roundingScrollSyncTimer == null)
+        {
+            return;
+        }
+
+        if (_roundingScrollSyncTimer != null)
+        {
+            _roundingScrollSyncTimer.Stop();
+            _roundingScrollSyncTimer.Tick -= OnRoundingScrollSyncTimerTick;
+            _roundingScrollSyncTimer.Dispose();
+            _roundingScrollSyncTimer = null;
+        }
+
+        bool wasUsingDetachedScrollbars = _roundingUsesDetachedScrollbars;
+        _roundingScrollBarInteractionDepth = 0;
+        _roundingResizeScrollSyncPending = false;
+        if (wasUsingDetachedScrollbars)
+        {
+            ShowNativeScrollbarsAfterRounding();
+            _roundingUsesDetachedScrollbars = false;
+        }
+
+        KryptonVScrollBar? vScrollBar = _roundingVScrollBar;
+        KryptonHScrollBar? hScrollBar = _roundingHScrollBar;
+        _roundingVScrollBar = null;
+        _roundingHScrollBar = null;
+
+        if (vScrollBar != null)
+        {
+            vScrollBar.Scroll -= OnDetachedRoundingVScroll;
+            vScrollBar.MouseDown -= OnDetachedRoundingScrollBarMouseDown;
+            vScrollBar.MouseUp -= OnDetachedRoundingScrollBarMouseUp;
+            Controls.Remove(vScrollBar);
+            vScrollBar.Dispose();
+        }
+
+        if (hScrollBar != null)
+        {
+            hScrollBar.Scroll -= OnDetachedRoundingHScroll;
+            hScrollBar.MouseDown -= OnDetachedRoundingScrollBarMouseDown;
+            hScrollBar.MouseUp -= OnDetachedRoundingScrollBarMouseUp;
+            Controls.Remove(hScrollBar);
+            hScrollBar.Dispose();
+        }
+
+        if (wasUsingDetachedScrollbars)
+        {
+            PerformLayout();
+        }
+    }
+
+    private void EnsureDetachedRoundingScrollbarsCreated()
+    {
+        if (_roundingVScrollBar == null)
+        {
+            _roundingVScrollBar = new KryptonVScrollBar
+            {
+                TabStop = false,
+                Visible = false
+            };
+            SetDetachedVerticalScrollBarBounds(false);
+            _roundingVScrollBar.Scroll += OnDetachedRoundingVScroll;
+            _roundingVScrollBar.MouseDown += OnDetachedRoundingScrollBarMouseDown;
+            _roundingVScrollBar.MouseUp += OnDetachedRoundingScrollBarMouseUp;
+            Controls.Add(_roundingVScrollBar);
+        }
+
+        if (_roundingHScrollBar == null)
+        {
+            _roundingHScrollBar = new KryptonHScrollBar
+            {
+                TabStop = false,
+                Visible = false
+            };
+            SetDetachedHorizontalScrollBarBounds(false);
+            _roundingHScrollBar.Scroll += OnDetachedRoundingHScroll;
+            _roundingHScrollBar.MouseDown += OnDetachedRoundingScrollBarMouseDown;
+            _roundingHScrollBar.MouseUp += OnDetachedRoundingScrollBarMouseUp;
+            Controls.Add(_roundingHScrollBar);
+        }
+    }
+
+    private void HideNativeScrollbarsForRounding()
+    {
+        // Keep the native child scroll bars functional (Visible = true) so DataGridView
+        // scroll routing continues to work. Krypton scroll bars are layered on top.
+        SendNativeDataGridScrollBarsToBack();
+
+        if (!IsHandleCreated)
+        {
+            return;
+        }
+
+        try
+        {
+            _ = PI.ShowScrollBar(Handle, (int)PI.SB_.BOTH, false);
+        }
+        catch
+        {
+            // If native scrollbars cannot be hidden, continue with detached Krypton scrollbars
+        }
+    }
+
+    private void SendNativeDataGridScrollBarsToBack()
+    {
+        for (int i = 0; i < Controls.Count; i++)
+        {
+            if (Controls[i] is ScrollBar scrollBar)
+            {
+                scrollBar.SendToBack();
+            }
+        }
+    }
+
+    private void ShowNativeScrollbarsAfterRounding()
+    {
+        // Native child scroll bars were kept alive while detached; just refresh layout.
+        Invalidate(true);
+    }
+
+    private bool WantsDetachedVerticalScrollBar() =>
+        _savedScrollBarsForRounding == ScrollBars.Vertical || _savedScrollBarsForRounding == ScrollBars.Both;
+
+    private bool WantsDetachedHorizontalScrollBar() =>
+        _savedScrollBarsForRounding == ScrollBars.Horizontal || _savedScrollBarsForRounding == ScrollBars.Both;
+
+    private int GetDetachedDataRight(bool showVertical) =>
+        ClientSize.Width - (showVertical ? SystemInformation.VerticalScrollBarWidth : 0);
+
+    private int GetDetachedDataBottom(bool showHorizontal) =>
+        ClientSize.Height - (showHorizontal ? SystemInformation.HorizontalScrollBarHeight : 0);
+
+    private void SetDetachedVerticalScrollBarBounds(bool showVertical) =>
+        SetDetachedVerticalScrollBarBounds(showVertical, GetDetachedDataBottom(false));
+
+    private void SetDetachedVerticalScrollBarBounds(bool showVertical, int dataBottom)
+    {
+        if (_roundingVScrollBar == null)
+        {
+            return;
+        }
+
+        int scrollbarWidth = SystemInformation.VerticalScrollBarWidth;
+        int dataRight = GetDetachedDataRight(showVertical);
+        _roundingVScrollBar.SetBounds(dataRight, 0, scrollbarWidth, Math.Max(0, dataBottom));
+    }
+
+    private void SetDetachedHorizontalScrollBarBounds(bool showHorizontal) =>
+        SetDetachedHorizontalScrollBarBounds(showHorizontal, GetDetachedDataRight(false));
+
+    private void SetDetachedHorizontalScrollBarBounds(bool showHorizontal, int dataRight)
+    {
+        if (_roundingHScrollBar == null)
+        {
+            return;
+        }
+
+        int scrollbarHeight = SystemInformation.HorizontalScrollBarHeight;
+        int dataBottom = GetDetachedDataBottom(showHorizontal);
+        _roundingHScrollBar.SetBounds(0, dataBottom, Math.Max(0, dataRight), scrollbarHeight);
+    }
+
+    private void LayoutDetachedRoundingScrollbars(bool updateRoundingRegion = true)
+    {
+        if (!_roundingUsesDetachedScrollbars)
+        {
+            return;
+        }
+
+        EnsureDetachedRoundingScrollbarsCreated();
+
+        bool showVertical = WantsDetachedVerticalScrollBar() && _roundingVScrollBar != null && _roundingVScrollBar.Visible;
+        bool showHorizontal = WantsDetachedHorizontalScrollBar() && _roundingHScrollBar != null && _roundingHScrollBar.Visible;
+
+        int dataRight = GetDetachedDataRight(showVertical);
+        int dataBottom = GetDetachedDataBottom(showHorizontal);
+
+        SetDetachedVerticalScrollBarBounds(showVertical, dataBottom);
+        _roundingVScrollBar?.BringToFront();
+
+        SetDetachedHorizontalScrollBarBounds(showHorizontal, dataRight);
+        _roundingHScrollBar?.BringToFront();
+
+        SendNativeDataGridScrollBarsToBack();
+
+        if (updateRoundingRegion)
+        {
+            UpdateCornerRoundingRegion();
+        }
+    }
+
+    private void SyncDetachedRoundingScrollbarsFromGrid(bool layoutScrollbars)
+    {
+        if (!_roundingUsesDetachedScrollbars || !IsHandleCreated || _suppressRoundingScrollSync)
+        {
+            return;
+        }
+
+        var vScrollInfo = new WIN32ScrollBars.ScrollInfo
+        {
+            cbSize = Marshal.SizeOf(typeof(WIN32ScrollBars.ScrollInfo)),
+            fMask = (int)PI.SIF_.ALL
+        };
+
+        bool hasVScroll = PI.GetScrollInfo(Handle, PI.SB_.VERT, ref vScrollInfo);
+
+        _suppressRoundingScrollSync = true;
+        try
+        {
+            UpdateDetachedHorizontalScrollBar();
+            UpdateDetachedVerticalScrollBar(hasVScroll, vScrollInfo);
+        }
+        finally
+        {
+            _suppressRoundingScrollSync = false;
+        }
+
+        LayoutDetachedRoundingScrollbars(layoutScrollbars);
+    }
+
+    private void SyncDetachedRoundingScrollbarsFromGridIfIdle(bool layoutScrollbars)
+    {
+        if (_roundingUsesDetachedScrollbars && !_suppressRoundingScrollSync && _roundingScrollBarInteractionDepth == 0)
+        {
+            SyncDetachedRoundingScrollbarsFromGrid(layoutScrollbars);
+        }
+    }
+
+    private void QueueDetachedRoundingScrollbarsResizeSync()
+    {
+        if (!_roundingUsesDetachedScrollbars
+            || _roundingResizeScrollSyncPending
+            || !IsHandleCreated
+            || IsDisposed
+            || Disposing)
+        {
+            return;
+        }
+
+        _roundingResizeScrollSyncPending = true;
+        BeginInvoke((System.Windows.Forms.MethodInvoker)(() =>
+        {
+            _roundingResizeScrollSyncPending = false;
+
+            if (!_roundingUsesDetachedScrollbars
+                || !IsHandleCreated
+                || IsDisposed
+                || Disposing)
+            {
+                return;
+            }
+
+            HideNativeScrollbarsForRounding();
+            SyncDetachedRoundingScrollbarsFromGridIfIdle(true);
+        }));
+    }
+
+    private void UpdateDetachedHorizontalScrollBar()
+    {
+        if (_roundingHScrollBar == null || !WantsDetachedHorizontalScrollBar())
+        {
+            if (_roundingHScrollBar != null && _roundingHScrollBar.Visible)
+            {
+                _roundingHScrollBar.Visible = false;
+            }
+
+            return;
+        }
+
+        int minimum;
+        int maximum;
+        int page;
+        int position;
+        if (TryComputeHorizontalScrollMetrics(out minimum, out maximum, out page, out position))
+        {
+            ApplyDetachedScrollBarMetrics(_roundingHScrollBar, minimum, maximum, page, position);
+            return;
+        }
+
+        if (_roundingHScrollBar.Visible)
+        {
+            _roundingHScrollBar.Visible = false;
+        }
+    }
+
+    private void UpdateDetachedVerticalScrollBar(bool hasNativeScrollInfo, WIN32ScrollBars.ScrollInfo scrollInfo)
+    {
+        if (_roundingVScrollBar == null || !WantsDetachedVerticalScrollBar())
+        {
+            if (_roundingVScrollBar != null && _roundingVScrollBar.Visible)
+            {
+                _roundingVScrollBar.Visible = false;
+            }
+
+            return;
+        }
+
+        int minimum;
+        int maximum;
+        int page;
+        int position;
+        if (TryGetNativeDataGridScrollBarMetrics(false, out minimum, out maximum, out page, out position))
+        {
+            ApplyDetachedScrollBarMetrics(_roundingVScrollBar, minimum, maximum, page, position);
+            return;
+        }
+
+        if (hasNativeScrollInfo && TryGetNativeScrollMetrics(scrollInfo, out minimum, out maximum, out page, out position))
+        {
+            ApplyDetachedScrollBarMetrics(_roundingVScrollBar, minimum, maximum, page, position);
+            return;
+        }
+
+        if (TryComputeVerticalScrollMetrics(out minimum, out maximum, out page, out position))
+        {
+            ApplyDetachedScrollBarMetrics(_roundingVScrollBar, minimum, maximum, page, position);
+        }
+        else
+        {
+            if (_roundingVScrollBar.Visible)
+            {
+                _roundingVScrollBar.Visible = false;
+            }
+        }
+    }
+
+    private static bool TryGetNativeScrollMetrics(WIN32ScrollBars.ScrollInfo scrollInfo,
+        out int minimum,
+        out int maximum,
+        out int page,
+        out int position)
+    {
+        minimum = scrollInfo.nMin;
+        maximum = scrollInfo.nMax;
+        page = Math.Max(1, scrollInfo.nPage);
+        position = scrollInfo.nPos;
+
+        int scrollableMaximum = GetNativeScrollableMaximum(scrollInfo);
+        if (scrollableMaximum <= minimum)
+        {
+            return false;
+        }
+
+        position = Math.Min(position, scrollableMaximum);
+        return true;
+    }
+
+    private static void ApplyDetachedScrollBarMetrics(KryptonVScrollBar scrollBar,
+        int minimum,
+        int maximum,
+        int page,
+        int position)
+    {
+        if (!scrollBar.Visible)
+        {
+            scrollBar.Visible = true;
+        }
+
+        int largeChange = Math.Max(1, page);
+        if (scrollBar.Minimum != minimum)
+        {
+            scrollBar.Minimum = minimum;
+        }
+
+        if (scrollBar.Maximum != maximum)
+        {
+            scrollBar.Maximum = maximum;
+        }
+
+        if (scrollBar.LargeChange != largeChange)
+        {
+            scrollBar.LargeChange = largeChange;
+        }
+
+        if (scrollBar.SmallChange != 1)
+        {
+            scrollBar.SmallChange = 1;
+        }
+
+        if (scrollBar.Value != position)
+        {
+            scrollBar.Value = position;
+        }
+    }
+
+    private static void ApplyDetachedScrollBarMetrics(KryptonHScrollBar scrollBar,
+        int minimum,
+        int maximum,
+        int page,
+        int position)
+    {
+        if (!scrollBar.Visible)
+        {
+            scrollBar.Visible = true;
+        }
+
+        int largeChange = Math.Max(1, page);
+        if (scrollBar.Minimum != minimum)
+        {
+            scrollBar.Minimum = minimum;
+        }
+
+        if (scrollBar.Maximum != maximum)
+        {
+            scrollBar.Maximum = maximum;
+        }
+
+        if (scrollBar.LargeChange != largeChange)
+        {
+            scrollBar.LargeChange = largeChange;
+        }
+
+        if (scrollBar.SmallChange != 1)
+        {
+            scrollBar.SmallChange = 1;
+        }
+
+        if (scrollBar.Value != position)
+        {
+            scrollBar.Value = position;
+        }
+    }
+
+    private int GetDetachedScrollContentHeight()
+    {
+        int contentHeight = Rows.GetRowsHeight(DataGridViewElementStates.Visible);
+        if (ColumnHeadersVisible)
+        {
+            contentHeight += ColumnHeadersHeight;
+        }
+
+        return contentHeight;
+    }
+
+    private int GetDetachedScrollContentWidth()
+    {
+        int contentWidth = RowHeadersVisible ? RowHeadersWidth : 0;
+        for (int i = 0; i < Columns.Count; i++)
+        {
+            DataGridViewColumn column = Columns[i];
+            if (column.Visible)
+            {
+                contentWidth += column.Width;
+            }
+        }
+
+        return contentWidth;
+    }
+
+    private void GetDetachedScrollBarVisibility(out bool showVertical, out bool showHorizontal)
+    {
+        showVertical = false;
+        showHorizontal = false;
+
+        bool wantsVertical = WantsDetachedVerticalScrollBar();
+        bool wantsHorizontal = WantsDetachedHorizontalScrollBar();
+        if (!wantsVertical && !wantsHorizontal)
+        {
+            return;
+        }
+
+        int contentHeight = wantsVertical ? GetDetachedScrollContentHeight() : 0;
+        int contentWidth = wantsHorizontal ? GetDetachedScrollContentWidth() : 0;
+        int clientHeight = ClientSize.Height;
+        int clientWidth = ClientSize.Width;
+        int horizontalScrollBarHeight = SystemInformation.HorizontalScrollBarHeight;
+        int verticalScrollBarWidth = SystemInformation.VerticalScrollBarWidth;
+
+        for (int iteration = 0; iteration < 3; iteration++)
+        {
+            int viewportHeight = clientHeight - (showHorizontal ? horizontalScrollBarHeight : 0);
+            int viewportWidth = clientWidth - (showVertical ? verticalScrollBarWidth : 0);
+
+            bool newShowVertical = wantsVertical && contentHeight > viewportHeight;
+            bool newShowHorizontal = wantsHorizontal && contentWidth > viewportWidth;
+
+            if (newShowVertical == showVertical && newShowHorizontal == showHorizontal)
+            {
+                break;
+            }
+
+            showVertical = newShowVertical;
+            showHorizontal = newShowHorizontal;
+        }
+    }
+
+    private int GetDetachedScrollViewportHeight()
+    {
+        GetDetachedScrollBarVisibility(out _, out bool showHorizontal);
+
+        int viewportHeight = ClientSize.Height;
+        if (showHorizontal)
+        {
+            viewportHeight -= SystemInformation.HorizontalScrollBarHeight;
+        }
+
+        return Math.Max(0, viewportHeight);
+    }
+
+    private int GetDetachedScrollViewportWidth()
+    {
+        GetDetachedScrollBarVisibility(out bool showVertical, out _);
+
+        int viewportWidth = ClientSize.Width;
+        if (showVertical)
+        {
+            viewportWidth -= SystemInformation.VerticalScrollBarWidth;
+        }
+
+        return Math.Max(0, viewportWidth);
+    }
+
+    private bool TryComputeVerticalScrollMetrics(out int minimum,
+        out int maximum,
+        out int page,
+        out int position)
+    {
+        minimum = 0;
+        maximum = 0;
+        page = 1;
+        position = 0;
+
+        int contentHeight = GetDetachedScrollContentHeight();
+
+        page = Math.Max(1, GetDetachedScrollViewportHeight());
+        if (contentHeight <= page)
+        {
+            return false;
+        }
+
+        maximum = Math.Max(minimum, contentHeight - 1);
+        position = Math.Min(GetVerticalScrollPositionInPixels(), GetNativeScrollableMaximum(minimum, maximum, page));
+        return true;
+    }
+
+    private bool TryComputeHorizontalScrollMetrics(out int minimum,
+        out int maximum,
+        out int page,
+        out int position)
+    {
+        minimum = 0;
+        maximum = 0;
+        page = 1;
+        position = 0;
+
+        int contentWidth = GetDetachedScrollContentWidth();
+
+        page = Math.Max(1, GetDetachedScrollViewportWidth());
+        if (contentWidth <= page)
+        {
+            return false;
+        }
+
+        maximum = Math.Max(minimum, contentWidth - 1);
+        position = Math.Min(GetHorizontalScrollPositionInPixels(), GetNativeScrollableMaximum(minimum, maximum, page));
+        return true;
+    }
+
+    private int GetVerticalScrollPositionInPixels()
+    {
+        int position = 0;
+        int firstRow = Math.Max(0, FirstDisplayedScrollingRowIndex);
+
+        for (int i = 0; i < firstRow && i < Rows.Count; i++)
+        {
+            if (Rows[i].Visible)
+            {
+                position += Rows[i].Height;
+            }
+        }
+
+        return position;
+    }
+
+    private int GetHorizontalScrollPositionInPixels()
+    {
+        return HorizontalScrollingOffset;
+    }
+
+    private static int GetNativeScrollableMaximum(int minimum, int maximum, int page) =>
+        Math.Max(minimum, maximum - Math.Max(1, page) + 1);
+
+    private static int GetNativeScrollableMaximum(WIN32ScrollBars.ScrollInfo scrollInfo)
+    {
+        int page = Math.Max(1, scrollInfo.nPage);
+        long scrollableMaximum = (long)scrollInfo.nMax - page + 1;
+
+        if (scrollableMaximum < scrollInfo.nMin)
+        {
+            return scrollInfo.nMin;
+        }
+
+        return scrollableMaximum > int.MaxValue ? int.MaxValue : (int)scrollableMaximum;
+    }
+
+    private void OnDetachedRoundingVScroll(object? sender, ScrollEventArgs e) =>
+        ApplyDetachedRoundingScrollToGrid(false, e);
+
+    private void OnDetachedRoundingHScroll(object? sender, ScrollEventArgs e) =>
+        ApplyDetachedRoundingScrollToGrid(true, e);
+
+    private void OnDetachedRoundingScrollBarMouseDown(object? sender, MouseEventArgs e)
+    {
+        _roundingScrollBarInteractionDepth++;
+        _roundingScrollSyncTimer?.Stop();
+    }
+
+    private void OnDetachedRoundingScrollBarMouseUp(object? sender, MouseEventArgs e)
+    {
+        if (_roundingScrollBarInteractionDepth > 0)
+        {
+            _roundingScrollBarInteractionDepth--;
+        }
+
+        if (_roundingScrollBarInteractionDepth == 0)
+        {
+            SyncDetachedRoundingScrollbarsFromGrid(false);
+            _roundingScrollSyncTimer?.Start();
+        }
+    }
+
+    private bool TryGetNativeDataGridScrollBar(bool horizontal, out ScrollBar? nativeScrollBar)
+    {
+        nativeScrollBar = null;
+
+        for (int i = 0; i < Controls.Count; i++)
+        {
+            Control control = Controls[i];
+            if (horizontal && control is HScrollBar hScrollBar)
+            {
+                nativeScrollBar = hScrollBar;
+                return true;
+            }
+
+            if (!horizontal && control is VScrollBar vScrollBar)
+            {
+                nativeScrollBar = vScrollBar;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private bool TryGetNativeDataGridScrollBarMetrics(bool horizontal,
+        out int minimum,
+        out int maximum,
+        out int page,
+        out int position)
+    {
+        minimum = 0;
+        maximum = 0;
+        page = 1;
+        position = 0;
+
+        if (!TryGetNativeDataGridScrollBar(horizontal, out ScrollBar? nativeScrollBar)
+            || nativeScrollBar == null)
+        {
+            return false;
+        }
+
+        minimum = nativeScrollBar.Minimum;
+        maximum = nativeScrollBar.Maximum;
+        page = Math.Max(1, nativeScrollBar.LargeChange);
+        position = nativeScrollBar.Value;
+
+        int scrollableMaximum = Math.Max(minimum, maximum - page + 1);
+        if (scrollableMaximum <= minimum)
+        {
+            return false;
+        }
+
+        position = Math.Min(position, scrollableMaximum);
+        return true;
+    }
+
+    private void ApplyDetachedRoundingScrollToGrid(bool horizontal, ScrollEventArgs e)
+    {
+        if (!_roundingUsesDetachedScrollbars || !IsHandleCreated || _suppressRoundingScrollSync)
+        {
+            return;
+        }
+
+        if (!TryGetNativeDataGridScrollBar(horizontal, out ScrollBar? nativeScrollBar)
+            || nativeScrollBar == null
+            || !nativeScrollBar.IsHandleCreated)
+        {
+            return;
+        }
+
+        _suppressRoundingScrollSync = true;
+        try
+        {
+            int scrollableMaximum = Math.Max(nativeScrollBar.Minimum,
+                nativeScrollBar.Maximum - Math.Max(1, nativeScrollBar.LargeChange) + 1);
+            int newValue = Math.Max(nativeScrollBar.Minimum, Math.Min(scrollableMaximum, e.NewValue));
+            IntPtr nativeScrollBarHandle = nativeScrollBar.Handle;
+            int message = horizontal ? (int)PI.WM_.HSCROLL : (int)PI.WM_.VSCROLL;
+            int scrollRequest = GetDetachedScrollRequest(horizontal, e.Type);
+
+            if (ShouldSetDetachedScrollPosition(e.Type))
+            {
+                PI.SB_ scrollBar = horizontal ? PI.SB_.HORZ : PI.SB_.VERT;
+                PI.SetScrollPos(Handle, scrollBar, newValue, true);
+                PI.SetScrollPos(nativeScrollBarHandle, PI.SB_.CTL, newValue, true);
+            }
+
+            // DataGridView scrolls via WM_*SCROLL routed to its child scroll bar handle.
+            PI.SendMessage(Handle, message,
+                (IntPtr)(scrollRequest | (newValue << 16)), nativeScrollBarHandle);
+        }
+        catch
+        {
+            // Ignore scroll sync failures
+        }
+        finally
+        {
+            _suppressRoundingScrollSync = false;
+        }
+    }
+
+    private static int GetDetachedScrollRequest(bool horizontal, ScrollEventType type)
+    {
+        switch (type)
+        {
+            case ScrollEventType.SmallDecrement:
+                return horizontal ? (int)PI.SB_.LINELEFT : (int)PI.SB_.LINEUP;
+            case ScrollEventType.SmallIncrement:
+                return horizontal ? (int)PI.SB_.LINERIGHT : (int)PI.SB_.LINEDOWN;
+            case ScrollEventType.LargeDecrement:
+                return horizontal ? (int)PI.SB_.PAGELEFT : (int)PI.SB_.PAGEUP;
+            case ScrollEventType.LargeIncrement:
+                return horizontal ? (int)PI.SB_.PAGERIGHT : (int)PI.SB_.PAGEDOWN;
+            case ScrollEventType.First:
+                return horizontal ? (int)PI.SB_.LEFT : (int)PI.SB_.TOP;
+            case ScrollEventType.Last:
+                return horizontal ? (int)PI.SB_.RIGHT : (int)PI.SB_.BOTTOM;
+            case ScrollEventType.ThumbTrack:
+                return (int)PI.SB_.THUMBTRACK;
+            case ScrollEventType.ThumbPosition:
+            case ScrollEventType.EndScroll:
+            default:
+                return (int)PI.SB_.THUMBPOSITION;
+        }
+    }
+
+    private static bool ShouldSetDetachedScrollPosition(ScrollEventType type)
+    {
+        return type switch
+        {
+            ScrollEventType.ThumbTrack or ScrollEventType.ThumbPosition or ScrollEventType.EndScroll => true,
+            _ => false
+        };
+    }
+
+    private void OnRoundingScrollSyncTimerTick(object? sender, EventArgs e) =>
+        SyncDetachedRoundingScrollbarsFromGrid(false);
+
+    private static bool IsAtOuterTop(Rectangle cellBounds) => cellBounds.Top == 0;
+
+    private static bool IsAtOuterLeft(Rectangle cellBounds) => cellBounds.Left == 0;
+
+    private static bool IsAtOuterBottom(Rectangle cellBounds, Rectangle outerBounds) =>
+        cellBounds.Bottom >= outerBounds.Bottom;
+
+    private static bool IsAtOuterRight(Rectangle cellBounds, Rectangle outerBounds) =>
+        cellBounds.Right >= outerBounds.Right;
+
+    private void UpdateCornerRoundingRegion()
+    {
+        float rounding = GetEffectiveCornerRounding();
+        Rectangle outerBounds = GetOuterRoundingBounds();
+        if (rounding <= 0f || outerBounds.Width <= 0 || outerBounds.Height <= 0)
+        {
+            Region?.Dispose();
+            Region = null;
+            return;
+        }
+
+        int radius = (int)Math.Round(rounding, MidpointRounding.AwayFromZero);
+        using GraphicsPath path = new GraphicsPath();
+        using (GraphicsPath roundedPath = CommonHelper.RoundedRectanglePath(outerBounds, radius))
+        {
+            path.AddPath(roundedPath, false);
+        }
+
+        Region? oldRegion = Region;
+        Region = new Region(path);
+        oldRegion?.Dispose();
+    }
+
+    private void DrawCornerRoundingBorder(Graphics graphics, Rectangle clipBounds)
+    {
+        if (!HasCornerRounding || Renderer == null)
+        {
+            return;
+        }
+
+        using var context = new RenderContext(this, graphics, clipBounds, Renderer);
+        IPaletteBorder paletteBorder = Enabled ? StateNormal.Border : StateDisabled.Border;
+        PaletteState borderState = Enabled ? PaletteState.Normal : PaletteState.Disabled;
+        Renderer.RenderStandardBorder.DrawBorder(context, GetOuterRoundingBounds(), paletteBorder, VisualOrientation.Top, borderState);
     }
 
     private void ViewManagerLayout()
@@ -3000,6 +4086,14 @@ public class KryptonDataGridView : DataGridView
         base.WndProc(ref m);
     }
     #endregion menus
+
+    /// <inheritdoc/>
+    protected override void OnColumnWidthChanged(DataGridViewColumnEventArgs e)
+    {
+        base.OnColumnWidthChanged(e);
+
+        SyncDetachedRoundingScrollbarsFromGridIfIdle(false);
+    }
 
     #region Column ButtonSpec wiring
     /// <summary>

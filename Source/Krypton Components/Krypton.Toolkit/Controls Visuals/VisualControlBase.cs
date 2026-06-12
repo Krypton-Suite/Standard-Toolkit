@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -25,6 +25,7 @@ public abstract class VisualControlBase : Control,
     #endregion
 
     #region Instance Fields
+
     private bool _layoutDirty;
     private bool _refresh;
     private bool _refreshAll;
@@ -37,8 +38,11 @@ public abstract class VisualControlBase : Control,
     private readonly SimpleCall _refreshCall;
     private readonly SimpleCall _layoutCall;
     private KryptonContextMenu? _kryptonContextMenu;
-    protected VisualPopupToolTip? visualBasePopupToolTip;
+    protected VisualPopupToolTip? _visualBasePopupToolTip;
     private readonly ToolTipManager _toolTipManager;
+    private bool _isForwardingValidationFromChild;
+    private int _minimumControlHeight;
+
     #endregion
 
     #region Events
@@ -484,6 +488,28 @@ public abstract class VisualControlBase : Control,
     /// </summary>
     public void ResetToolTipValues() => ToolTipValues.Reset();
 
+    /// <summary>
+    /// Gets or sets a minimum height for the control, independent of font size.
+    /// When set to a value greater than zero, the control height will never fall below
+    /// this value, allowing input controls to be aligned to a consistent design height
+    /// regardless of the active palette font. Set to 0 to use the palette-driven preferred height.
+    /// </summary>
+    [Category(@"Layout")]
+    [Description(@"Specifies a minimum height for the control, independent of font size. Set to 0 to use the palette-driven preferred height.")]
+    [DefaultValue(0)]
+    public virtual int MinimumControlHeight
+    {
+        get => _minimumControlHeight;
+        set
+        {
+            if (_minimumControlHeight != value)
+            {
+                _minimumControlHeight = value;
+                PerformLayout();
+            }
+        }
+    }
+
     #endregion
 
     #region Public IKryptonDebug
@@ -769,6 +795,50 @@ public abstract class VisualControlBase : Control,
     protected virtual PaletteRedirect CreateRedirector() => new PaletteRedirect(_palette);
 
     /// <summary>
+    /// Forward a Validating event from a child control. This method should be called by derived classes
+    /// when forwarding validation events from internal controls to prevent duplicate validation events
+    /// when the control is marked as a ContainerControl.
+    /// </summary>
+    /// <param name="e">A CancelEventArgs that contains the event data.</param>
+    protected void ForwardValidating(CancelEventArgs e)
+    {
+        // Indicate that we are forwarding a validation event
+        _isForwardingValidationFromChild = true;
+
+        try
+        {
+            OnValidating(e);
+        }
+        finally
+        {
+            // Clear forwarding indication
+            _isForwardingValidationFromChild = false;
+        }
+    }
+
+    /// <summary>
+    /// Forward a Validated event from a child control. This method should be called by derived classes
+    /// when forwarding validation events from internal controls to prevent duplicate validation events
+    /// when the control is marked as a ContainerControl.
+    /// </summary>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected void ForwardValidated(EventArgs e)
+    {
+        // Indicate that we are forwarding a validation event
+        _isForwardingValidationFromChild = true;
+
+        try
+        {
+            OnValidated(e);
+        }
+        finally
+        {
+            // Clear forwarding indication
+            _isForwardingValidationFromChild = false;
+        }
+    }
+
+    /// <summary>
     /// Update global event attachments.
     /// </summary>
     /// <param name="attach">True if attaching; otherwise false.</param>
@@ -777,18 +847,90 @@ public abstract class VisualControlBase : Control,
         if (attach)
         {
             KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
+            KryptonManager.GlobalDropDownArrowRenderModeChanged += OnGlobalDropDownArrowSettingsChanged;
+            KryptonManager.GlobalDropDownArrowGlyphStyleChanged += OnGlobalDropDownArrowSettingsChanged;
+            KryptonManager.GlobalTouchscreenSupportChanged += OnGlobalTouchscreenSupportChanged;
             SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
         }
         else
         {
             KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
+            KryptonManager.GlobalDropDownArrowRenderModeChanged -= OnGlobalDropDownArrowSettingsChanged;
+            KryptonManager.GlobalDropDownArrowGlyphStyleChanged -= OnGlobalDropDownArrowSettingsChanged;
+            KryptonManager.GlobalTouchscreenSupportChanged -= OnGlobalTouchscreenSupportChanged;
             SystemEvents.UserPreferenceChanged -= OnUserPreferenceChanged;
+        }
+    }
+
+    /// <summary>
+    /// Occurs when global drop-down arrow glyph settings have been changed.
+    /// </summary>
+    /// <param name="sender">Source of the event.</param>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected virtual void OnGlobalDropDownArrowSettingsChanged(object? sender, EventArgs e)
+    {
+        if (IsHandleCreated)
+        {
+            OnNeedPaint(LocalCustomPalette, new NeedLayoutEventArgs(false));
         }
     }
     // ReSharper restore VirtualMemberNeverOverridden.Global
     #endregion
 
     #region Protected Overrides
+
+    /// <summary>
+    /// Raises the Validated event when the control is finished validating.
+    /// </summary>
+    /// <remarks>Override this method to perform additional actions when the control is validated. Be sure to
+    /// call the base implementation to ensure the Validated event is raised.</remarks>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected override void OnValidated(EventArgs e)
+    {
+        // Root cause fix: When ContainerControl style is set, Windows Forms validation mechanism treats
+        // this control as a container and validates it separately from its children. Since these
+        // controls are wrapper controls that forward validation from their child controls via
+        // ForwardValidating(), we suppress container control validation to prevent duplicate events.
+        //
+        // The fix: When we receive a Validating event that is NOT from a forwarded child control
+        // (indicated by _isForwardingValidationFromChild flag), and this control has ContainerControl
+        // style set, this is the container control validation being triggered. We suppress it because
+        // child controls already handle validation and forward it to us via ForwardValidating().
+        if (!_isForwardingValidationFromChild && GetStyle(ControlStyles.ContainerControl))
+        {
+            // This is container control validation - suppress it to prevent duplicate events
+            return;
+        }
+
+        // This is either validation from a child control (forwarded) or normal validation
+        base.OnValidated(e);
+    }
+
+    /// <summary>
+    /// Raises the Validating event, allowing validation logic to be performed before the control loses focus.
+    /// </summary>
+    /// <param name="e">A CancelEventArgs that contains the event data. Setting the Cancel property to <see langword="true"/> will prevent the control from losing focus.</param>
+    protected override void OnValidating(CancelEventArgs e)
+    {
+        // Root cause fix: When ContainerControl style is set, Windows Forms validation mechanism treats
+        // this control as a container and validates it separately from its children. Since these
+        // controls are wrapper controls that forward validation from their child controls via
+        // ForwardValidated(), we suppress container control validation to prevent duplicate events.
+        //
+        // The fix: When we receive a Validated event that is NOT from a forwarded child control
+        // (indicated by _isForwardingValidationFromChild flag), and this control has ContainerControl
+        // style set, this is the container control validation being triggered. We suppress it because
+        // child controls already handle validation and forward it to us via ForwardValidated().
+        if (!_isForwardingValidationFromChild && GetStyle(ControlStyles.ContainerControl))
+        {
+            // This is container control validation - suppress it to prevent duplicate events
+            return;
+        }
+
+        // This is either validation from a child control (forwarded) or normal validation
+        base.OnValidating(e);
+    }
+
     /// <summary>
     /// Raises the RightToLeftChanged event.
     /// </summary>
@@ -1081,6 +1223,21 @@ public abstract class VisualControlBase : Control,
     }
 
     /// <summary>
+    /// Occurs when the global touchscreen support setting has been changed.
+    /// </summary>
+    /// <param name="sender">Source of the event.</param>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected virtual void OnGlobalTouchscreenSupportChanged(object? sender, EventArgs e)
+    {
+        // Touchscreen support affects control sizing, so we need to relayout
+        // Need to recalculate anything relying on sizing
+        DirtyPaletteCounter++;
+
+        // A change in touchscreen support means we need to layout and redraw
+        OnNeedPaint(LocalCustomPalette, new NeedLayoutEventArgs(true));
+    }
+
+    /// <summary>
     /// Occurs when a user preference has changed.
     /// </summary>
     /// <param name="sender">Source of the event.</param>
@@ -1297,11 +1454,11 @@ public abstract class VisualControlBase : Control,
                )
             {
                 // Remove any currently showing tooltip
-                visualBasePopupToolTip?.Dispose();
+                _visualBasePopupToolTip?.Dispose();
 
                 // Create the actual tooltip popup object
                 // ReSharper disable once UseObjectOrCollectionInitializer
-                visualBasePopupToolTip = new VisualPopupToolTip(Redirector,
+                _visualBasePopupToolTip = new VisualPopupToolTip(Redirector,
                     ToolTipValues,
                     Renderer,
                     PaletteBackStyle.ControlToolTip,
@@ -1309,15 +1466,15 @@ public abstract class VisualControlBase : Control,
                     CommonHelper.ContentStyleFromLabelStyle(ToolTipValues.ToolTipStyle),
                     ToolTipValues.ToolTipShadow);
 
-                visualBasePopupToolTip.Disposed += OnVisualPopupToolTipDisposed;
-                visualBasePopupToolTip.ShowRelativeTo(e.Target, e.ControlMousePosition);
+                _visualBasePopupToolTip.Disposed += OnVisualPopupToolTipDisposed;
+                _visualBasePopupToolTip.ShowRelativeTo(e.Target, e.ControlMousePosition);
             }
         }
     }
 
     private void OnCancelToolTip(object? sender, EventArgs e) =>
         // Remove any currently showing tooltip
-        visualBasePopupToolTip?.Dispose();
+        _visualBasePopupToolTip?.Dispose();
 
     private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
     {
@@ -1326,7 +1483,7 @@ public abstract class VisualControlBase : Control,
         popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
         // Not showing a popup page anymore
-        visualBasePopupToolTip = null;
+        _visualBasePopupToolTip = null;
     }
 
     /// <inheritdoc />

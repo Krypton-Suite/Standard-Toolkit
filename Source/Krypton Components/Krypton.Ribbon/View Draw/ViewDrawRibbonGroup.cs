@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -509,7 +509,9 @@ internal class ViewDrawRibbonGroup : ViewComposite,
         ClientRectangle = context!.DisplayRectangle;
 
         // Update the title element with the height of the group title area
-        _viewNormalTitle.Height = _ribbon.CalculatedValues.GroupTitleHeight;
+        bool macRibbon = _ribbon.RibbonShape == PaletteRibbonShape.MacOS;
+        _viewNormalTitle.Visible = !macRibbon;
+        _viewNormalTitle.Height = macRibbon ? 0 : _ribbon.CalculatedValues.GroupTitleHeight;
 
         // We only show the dialog box launcher button if group says we need one
         _viewNormalDialog.Visible = _ribbonGroup.DialogBoxLauncher;
@@ -596,13 +598,14 @@ internal class ViewDrawRibbonGroup : ViewComposite,
                         _lastRibbonShape = PaletteRibbonShape.Office2007;
                         break;
                     case PaletteRibbonShape.Office2010:
+                        case PaletteRibbonShape.MacOS:
                         _totalBorders = _totalLeftRightBorders2010;
                         _layoutNormalMain.VertOffset = _vertOffset2010;
                         _layoutNormalSepTop.SeparatorSize = new Size(_normalBorderTop2010, _normalBorderTop2010);
                         _layoutNormalSepLeft.SeparatorSize = new Size(_normalBorderLeft2010, _normalBorderLeft2010);
                         _layoutNormalSepRight.SeparatorSize = new Size(_normalBorderRight2010, _normalBorderRight2010);
                         _layoutCollapsedImagePadding.PreferredPadding = _collapsedImagePadding2010;
-                        _lastRibbonShape = PaletteRibbonShape.Office2010;
+                        _lastRibbonShape = _ribbon.RibbonShape;
                         break;
                 }
             }
@@ -889,6 +892,7 @@ internal class ViewDrawRibbonGroup : ViewComposite,
             }
                 break;
             case PaletteRibbonShape.Office2010:
+            case PaletteRibbonShape.MacOS:
             {
                 Rectangle drawRect = ClientRectangle;
 

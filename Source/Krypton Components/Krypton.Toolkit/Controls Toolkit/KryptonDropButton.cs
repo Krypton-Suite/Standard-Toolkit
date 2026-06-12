@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -25,6 +25,7 @@ namespace Krypton.Toolkit;
 public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValues
 {
     #region Instance Fields
+
     protected internal readonly ViewDrawButton _drawButton;
     private ButtonStyle _style;
     protected internal readonly ButtonController _buttonController;
@@ -36,6 +37,8 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
     private bool _isDefault;
     private bool _useMnemonic;
     private bool _wasEnabled;
+    private bool _isSelectable;
+
     #endregion
 
     #region Events
@@ -70,10 +73,14 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
         _style = ButtonStyle.Standalone;
         DialogResult = DialogResult.None;
         _useMnemonic = true;
+        _isSelectable = true;
 
         // Create content storage
         Values = CreateButtonValues(NeedPaintDelegate);
         Values.TextChanged += OnButtonTextChanged;
+
+        // Create badge storage
+        BadgeValues = CreateBadgeValues(NeedPaintDelegate);
 
         // Create the palette storage
         StateCommon = new PaletteTripleRedirect(Redirector, PaletteBackStyle.ButtonStandalone, PaletteBorderStyle.ButtonStandalone, PaletteContentStyle.ButtonStandalone, NeedPaintDelegate);
@@ -123,6 +130,9 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
 
         // Create the view manager instance
         ViewManager = new ViewManager(this, _drawButton);
+
+        // Set up badge values on the button
+        _drawButton.SetBadgeValues(BadgeValues, this);
     }
     #endregion
 
@@ -306,6 +316,18 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
     public ButtonValues Values { get; }
 
     private bool ShouldSerializeValues() => !Values.IsDefault;
+
+    /// <summary>
+    /// Gets access to the badge values.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Badge values")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public BadgeValues BadgeValues { get; }
+
+    private void ResetBadgeValues() => BadgeValues.Reset();
+
+    private bool ShouldSerializeBadgeValues() => !BadgeValues.IsDefault;
 
     /// <summary>
     /// Gets access to the common button appearance that other states can override.
@@ -516,6 +538,28 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
         get => base.ImeMode;
         set => base.ImeMode = value;
     }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the button can receive focus when clicked.
+    /// When <c>false</c>, clicking the button does not steal focus from the currently active
+    /// control — useful for on-screen keyboards where input must remain in a text field or grid cell.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"When false, the button does not receive focus when clicked. Useful for on-screen keyboards so that input goes to the currently focused control.")]
+    [DefaultValue(true)]
+    public bool IsSelectable
+    {
+        get => _isSelectable;
+        set
+        {
+            if (_isSelectable != value)
+            {
+                _isSelectable = value;
+                SetStyle(ControlStyles.Selectable, value);
+            }
+        }
+    }
+
     #endregion
 
     #region IContentValues
@@ -545,6 +589,49 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
     /// <returns>Color value.</returns>
     public Color GetImageTransparentColor(PaletteState state) =>
         KryptonCommand?.ImageTransparentColor ?? Values.GetImageTransparentColor(state);
+
+    /// <summary>
+    /// Gets the overlay image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay image is needed.</param>
+    /// <returns>Overlay image value, or null if no overlay image is set.</returns>
+    public Image? GetOverlayImage(PaletteState state) => Values.GetOverlayImage(state);
+
+    /// <summary>
+    /// Gets the overlay image color that should be transparent.
+    /// </summary>
+    /// <param name="state">The state for which the overlay image is needed.</param>
+    /// <returns>Color value.</returns>
+    public Color GetOverlayImageTransparentColor(PaletteState state) => Values.GetOverlayImageTransparentColor(state);
+
+    /// <summary>
+    /// Gets the position of the overlay image relative to the main image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay position is needed.</param>
+    /// <returns>Overlay image position.</returns>
+    public OverlayImagePosition GetOverlayImagePosition(PaletteState state) => Values.GetOverlayImagePosition(state);
+
+    /// <summary>
+    /// Gets the scaling mode for the overlay image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay scale mode is needed.</param>
+    /// <returns>Overlay image scale mode.</returns>
+    public OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) => Values.GetOverlayImageScaleMode(state);
+
+    /// <summary>
+    /// Gets the scale factor for the overlay image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay scale factor is needed.</param>
+    /// <returns>Scale factor.</returns>
+    public float GetOverlayImageScaleFactor(PaletteState state) => Values.GetOverlayImageScaleFactor(state);
+
+    /// <summary>
+    /// Gets the fixed size for the overlay image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay fixed size is needed.</param>
+    /// <returns>Fixed size.</returns>
+    public Size GetOverlayImageFixedSize(PaletteState state) => Values.GetOverlayImageFixedSize(state);
+
     #endregion
 
     #region Protected Overrides
@@ -557,6 +644,11 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
     /// Gets the default Input Method Editor (IME) mode supported by this control.
     /// </summary>
     protected override ImeMode DefaultImeMode => ImeMode.Disable;
+
+    /// <summary>
+    /// Creates the accessibility object for the control.
+    /// </summary>
+    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonDropButtonAccessibleObject(this);
 
     /// <summary>
     /// Raises the EnabledChanged event.
@@ -696,11 +788,14 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
     /// <param name="m">A Windows-based message.</param>
     protected override void WndProc(ref Message m)
     {
-        // Prevent base class from showing a context menu when right clicking it
-        if (m.Msg != PI.WM_.CONTEXTMENU)
+        // Drop buttons show KryptonContextMenu on left-click; suppress the default right-click
+        // context menu path. KryptonButton is excluded so attached menus work on right-click.
+        if (m.Msg == PI.WM_.CONTEXTMENU && this is not KryptonButton)
         {
-            base.WndProc(ref m);
+            return;
         }
+
+        base.WndProc(ref m);
     }
     #endregion
 
@@ -767,6 +862,13 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
     /// <returns>Set of button values.</returns>
     /// <param name="needPaint">Delegate for notifying paint requests.</param>
     protected virtual ButtonValues CreateButtonValues(NeedPaintHandler needPaint) => new ButtonValues(needPaint);
+
+    /// <summary>
+    /// Creates the badge values instance.
+    /// </summary>
+    /// <param name="needPaint">Delegate for notifying paint requests.</param>
+    /// <returns>BadgeValues instance.</returns>
+    protected virtual BadgeValues CreateBadgeValues(NeedPaintHandler needPaint) => new BadgeValues(needPaint);
 
     /// <summary>
     /// Gets access to the view element for the button.

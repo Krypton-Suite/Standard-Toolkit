@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -175,45 +175,40 @@ internal class VisualPopupPage : VisualPopup
             var position = _navigator.ResolvePopupPagePosition();
 
             // Find the size and position relative to the parent screen rect
-            switch (position)
+            parentScreenRect = position switch
             {
-                case PopupPagePosition.AboveNear:
-                    parentScreenRect = new Rectangle(parentScreenRect.Left, parentScreenRect.Top - _navigator.PopupPages.Gap - popupSize.Height, popupSize.Width, popupSize.Height);
-                    break;
-                case PopupPagePosition.AboveMatch:
-                    parentScreenRect = new Rectangle(parentScreenRect.Left, parentScreenRect.Top - _navigator.PopupPages.Gap - popupSize.Height, parentScreenRect.Width, popupSize.Height);
-                    break;
-                case PopupPagePosition.AboveFar:
-                    parentScreenRect = new Rectangle(parentScreenRect.Right - popupSize.Width, parentScreenRect.Top - _navigator.PopupPages.Gap - popupSize.Height, popupSize.Width, popupSize.Height);
-                    break;
-                case PopupPagePosition.BelowNear:
-                    parentScreenRect = new Rectangle(parentScreenRect.Left, parentScreenRect.Bottom + _navigator.PopupPages.Gap, popupSize.Width, popupSize.Height);
-                    break;
-                case PopupPagePosition.BelowMatch:
-                    parentScreenRect = new Rectangle(parentScreenRect.Left, parentScreenRect.Bottom + _navigator.PopupPages.Gap, parentScreenRect.Width, popupSize.Height);
-                    break;
-                case PopupPagePosition.BelowFar:
-                    parentScreenRect = new Rectangle(parentScreenRect.Right - popupSize.Width, parentScreenRect.Bottom + _navigator.PopupPages.Gap, popupSize.Width, popupSize.Height);
-                    break;
-                case PopupPagePosition.FarBottom:
-                    parentScreenRect = new Rectangle(parentScreenRect.Right + _navigator.PopupPages.Gap, parentScreenRect.Bottom - popupSize.Height, popupSize.Width, popupSize.Height);
-                    break;
-                case PopupPagePosition.FarMatch:
-                    parentScreenRect = new Rectangle(parentScreenRect.Right + _navigator.PopupPages.Gap, parentScreenRect.Top, popupSize.Width, parentScreenRect.Height);
-                    break;
-                case PopupPagePosition.FarTop:
-                    parentScreenRect = new Rectangle(parentScreenRect.Right + _navigator.PopupPages.Gap, parentScreenRect.Top, popupSize.Width, popupSize.Height);
-                    break;
-                case PopupPagePosition.NearBottom:
-                    parentScreenRect = new Rectangle(parentScreenRect.Left - _navigator.PopupPages.Gap - popupSize.Width, parentScreenRect.Bottom - popupSize.Height, popupSize.Width, popupSize.Height);
-                    break;
-                case PopupPagePosition.NearMatch:
-                    parentScreenRect = new Rectangle(parentScreenRect.Left - _navigator.PopupPages.Gap - popupSize.Width, parentScreenRect.Top, popupSize.Width, parentScreenRect.Height);
-                    break;
-                case PopupPagePosition.NearTop:
-                    parentScreenRect = new Rectangle(parentScreenRect.Left - _navigator.PopupPages.Gap - popupSize.Width, parentScreenRect.Top, popupSize.Width, popupSize.Height);
-                    break;
-            }
+                PopupPagePosition.AboveNear => new Rectangle(parentScreenRect.Left,
+                    parentScreenRect.Top - _navigator.PopupPages.Gap - popupSize.Height, popupSize.Width,
+                    popupSize.Height),
+                PopupPagePosition.AboveMatch => new Rectangle(parentScreenRect.Left,
+                    parentScreenRect.Top - _navigator.PopupPages.Gap - popupSize.Height, parentScreenRect.Width,
+                    popupSize.Height),
+                PopupPagePosition.AboveFar => new Rectangle(parentScreenRect.Right - popupSize.Width,
+                    parentScreenRect.Top - _navigator.PopupPages.Gap - popupSize.Height, popupSize.Width,
+                    popupSize.Height),
+                PopupPagePosition.BelowNear => new Rectangle(parentScreenRect.Left,
+                    parentScreenRect.Bottom + _navigator.PopupPages.Gap, popupSize.Width, popupSize.Height),
+                PopupPagePosition.BelowMatch => new Rectangle(parentScreenRect.Left,
+                    parentScreenRect.Bottom + _navigator.PopupPages.Gap, parentScreenRect.Width, popupSize.Height),
+                PopupPagePosition.BelowFar => new Rectangle(parentScreenRect.Right - popupSize.Width,
+                    parentScreenRect.Bottom + _navigator.PopupPages.Gap, popupSize.Width, popupSize.Height),
+                PopupPagePosition.FarBottom => new Rectangle(parentScreenRect.Right + _navigator.PopupPages.Gap,
+                    parentScreenRect.Bottom - popupSize.Height, popupSize.Width, popupSize.Height),
+                PopupPagePosition.FarMatch => new Rectangle(parentScreenRect.Right + _navigator.PopupPages.Gap,
+                    parentScreenRect.Top, popupSize.Width, parentScreenRect.Height),
+                PopupPagePosition.FarTop => new Rectangle(parentScreenRect.Right + _navigator.PopupPages.Gap,
+                    parentScreenRect.Top, popupSize.Width, popupSize.Height),
+                PopupPagePosition.NearBottom => new Rectangle(
+                    parentScreenRect.Left - _navigator.PopupPages.Gap - popupSize.Width,
+                    parentScreenRect.Bottom - popupSize.Height, popupSize.Width, popupSize.Height),
+                PopupPagePosition.NearMatch => new Rectangle(
+                    parentScreenRect.Left - _navigator.PopupPages.Gap - popupSize.Width, parentScreenRect.Top,
+                    popupSize.Width, parentScreenRect.Height),
+                PopupPagePosition.NearTop => new Rectangle(
+                    parentScreenRect.Left - _navigator.PopupPages.Gap - popupSize.Width, parentScreenRect.Top,
+                    popupSize.Width, popupSize.Height),
+                _ => parentScreenRect
+            };
         }
 
         if (_page != null)

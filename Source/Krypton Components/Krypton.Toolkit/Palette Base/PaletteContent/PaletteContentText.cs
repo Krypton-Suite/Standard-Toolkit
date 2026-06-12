@@ -4,7 +4,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  */
 #endregion
 
@@ -48,8 +48,8 @@ public class PaletteContentText : Storage
             ContentTextV = PaletteRelativeAlign.Inherit;
             ContentTextMultiLineH = PaletteRelativeAlign.Inherit;
             ContentTextMultiLine = InheritBool.Inherit;
-            ContentTextColor1 = GlobalStaticValues.EMPTY_COLOR;
-            ContentTextColor2 = GlobalStaticValues.EMPTY_COLOR;
+            ContentTextColor1 = GlobalStaticVariables.EMPTY_COLOR;
+            ContentTextColor2 = GlobalStaticVariables.EMPTY_COLOR;
             ContentTextColorStyle = PaletteColorStyle.Inherit;
             ContentTextColorAlign = PaletteRectangleAlign.Inherit;
             ContentTextColorAngle = -1;
@@ -68,8 +68,8 @@ public class PaletteContentText : Storage
                                  (ContentTextV == PaletteRelativeAlign.Inherit) &&
                                  (ContentTextMultiLineH == PaletteRelativeAlign.Inherit) &&
                                  (ContentTextMultiLine == InheritBool.Inherit) &&
-                                 (ContentTextColor1 == GlobalStaticValues.EMPTY_COLOR) &&
-                                 (ContentTextColor2 == GlobalStaticValues.EMPTY_COLOR) &&
+                                 (ContentTextColor1 == GlobalStaticVariables.EMPTY_COLOR) &&
+                                 (ContentTextColor2 == GlobalStaticVariables.EMPTY_COLOR) &&
                                  (ContentTextColorStyle == PaletteColorStyle.Inherit) &&
                                  (ContentTextColorAlign == PaletteRectangleAlign.Inherit) &&
                                  (ContentTextColorAngle == -1) &&
@@ -444,7 +444,7 @@ public class PaletteContentText : Storage
     [RefreshProperties(RefreshProperties.All)]
     public virtual Color Color1
     {
-        get => _storage?.ContentTextColor1 ?? GlobalStaticValues.EMPTY_COLOR;
+        get => _storage?.ContentTextColor1 ?? GlobalStaticVariables.EMPTY_COLOR;
 
         set
         {
@@ -459,7 +459,7 @@ public class PaletteContentText : Storage
             }
             else
             {
-                if (value != GlobalStaticValues.EMPTY_COLOR)
+                if (value != GlobalStaticVariables.EMPTY_COLOR)
                 {
                     _storage = new InternalStorage
                     {
@@ -484,7 +484,7 @@ public class PaletteContentText : Storage
     [RefreshProperties(RefreshProperties.All)]
     public virtual Color Color2
     {
-        get => _storage?.ContentTextColor2 ?? GlobalStaticValues.EMPTY_COLOR;
+        get => _storage?.ContentTextColor2 ?? GlobalStaticVariables.EMPTY_COLOR;
 
         set
         {
@@ -499,7 +499,7 @@ public class PaletteContentText : Storage
             }
             else
             {
-                if (value != GlobalStaticValues.EMPTY_COLOR)
+                if (value != GlobalStaticVariables.EMPTY_COLOR)
                 {
                     _storage = new InternalStorage
                     {

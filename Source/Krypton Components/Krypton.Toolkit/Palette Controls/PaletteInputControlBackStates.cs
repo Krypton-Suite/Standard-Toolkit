@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -41,7 +41,7 @@ public class PaletteInputControlBackStates : Storage,
         NeedPaint = needPaint;
 
         // Default the initial values
-        _color1 = GlobalStaticValues.EMPTY_COLOR;
+        _color1 = GlobalStaticVariables.EMPTY_COLOR;
     }
     #endregion
 
@@ -51,7 +51,7 @@ public class PaletteInputControlBackStates : Storage,
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => Color1 == GlobalStaticValues.EMPTY_COLOR;
+    public override bool IsDefault => Color1 == GlobalStaticVariables.EMPTY_COLOR;
 
     #endregion
 
@@ -120,7 +120,7 @@ public class PaletteInputControlBackStates : Storage,
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public Color GetBackColor1(PaletteState state) => Color1 != GlobalStaticValues.EMPTY_COLOR ? Color1 : Inherit.GetBackColor1(state);
+    public Color GetBackColor1(PaletteState state) => Color1 != GlobalStaticVariables.EMPTY_COLOR ? Color1 : Inherit.GetBackColor1(state);
 
     #endregion
 

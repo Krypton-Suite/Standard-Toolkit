@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -44,6 +44,7 @@ public class KryptonPage : VisualPanel
     private readonly PaletteNavigatorRedirect? _stateCommon;
     private readonly PaletteNavigator _stateDisabled;
     private readonly PaletteNavigator _stateNormal;
+    private readonly BadgeValues _badgeValues;
     private readonly NeedPaintHandler? _needDisabledPaint;
     private readonly NeedPaintHandler? _needNormalPaint;
     private BoolFlags31 _flags;
@@ -241,6 +242,7 @@ public class KryptonPage : VisualPanel
 
         _stateDisabled = new PaletteNavigator(_stateCommon, _needDisabledPaint);
         _stateNormal = new PaletteNavigator(_stateCommon, _needNormalPaint);
+        _badgeValues = new BadgeValues(NeedPaintDelegate);
         StateTracking = new PaletteNavigatorOtherEx(_stateCommon, _needNormalPaint);
         StatePressed = new PaletteNavigatorOtherEx(_stateCommon, _needNormalPaint);
         StateSelected = new PaletteNavigatorOther(_stateCommon, _needNormalPaint);
@@ -401,6 +403,21 @@ public class KryptonPage : VisualPanel
     }
 
     private bool ShouldSerializeOverrideFocus() => !OverrideFocus.IsDefault;
+
+    /// <summary>
+    /// Gets access to the badge values.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Badge values")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public BadgeValues BadgeValues
+    {
+        [DebuggerStepThrough]
+        get => _badgeValues;
+    }
+
+    private bool ShouldSerializeBadgeValues() => !BadgeValues.IsDefault;
+    private void ResetBadgeValues() => BadgeValues.Reset();
 
     /// <summary>
     /// Gets and sets the page text.
@@ -973,72 +990,44 @@ public class KryptonPage : VisualPanel
     /// <returns>Matching string.</returns>
     public virtual string GetTextMapping(MapKryptonPageText mapping)
     {
-        var ret = string.Empty;
-
         // Recover the first preference value
-        switch (mapping)
+        var ret = mapping switch
         {
-            case MapKryptonPageText.Text:
-            case MapKryptonPageText.TextTitle:
-            case MapKryptonPageText.TextTitleDescription:
-            case MapKryptonPageText.TextDescription:
-                ret = Text;
-                break;
-            case MapKryptonPageText.Title:
-            case MapKryptonPageText.TitleDescription:
-            case MapKryptonPageText.TitleText:
-                ret = TextTitle;
-                break;
-            case MapKryptonPageText.Description:
-            case MapKryptonPageText.DescriptionText:
-            case MapKryptonPageText.DescriptionTitle:
-            case MapKryptonPageText.DescriptionTitleText:
-                ret = TextDescription;
-                break;
-            case MapKryptonPageText.ToolTipTitle:
-                ret = ToolTipTitle;
-                break;
-            case MapKryptonPageText.ToolTipBody:
-                ret = ToolTipBody;
-                break;
-        }
+            MapKryptonPageText.Text or MapKryptonPageText.TextTitle or MapKryptonPageText.TextTitleDescription
+                or MapKryptonPageText.TextDescription => Text,
+            MapKryptonPageText.Title or MapKryptonPageText.TitleDescription
+                or MapKryptonPageText.TitleText => TextTitle,
+            MapKryptonPageText.Description or MapKryptonPageText.DescriptionText or MapKryptonPageText.DescriptionTitle
+                or MapKryptonPageText.DescriptionTitleText => TextDescription,
+            MapKryptonPageText.ToolTipTitle => ToolTipTitle,
+            MapKryptonPageText.ToolTipBody => ToolTipBody,
+            _ => string.Empty
+        };
 
         // If nothing found then...
         if (string.IsNullOrEmpty(ret))
         {
             // Recover the second preference value
-            switch (mapping)
+            ret = mapping switch
             {
-                case MapKryptonPageText.TitleText:
-                case MapKryptonPageText.DescriptionText:
-                    ret = Text;
-                    break;
-                case MapKryptonPageText.TextTitle:
-                case MapKryptonPageText.TextTitleDescription:
-                case MapKryptonPageText.DescriptionTitle:
-                case MapKryptonPageText.DescriptionTitleText:
-                    ret = TextTitle;
-                    break;
-                case MapKryptonPageText.TextDescription:
-                case MapKryptonPageText.TitleDescription:
-                    ret = TextDescription;
-                    break;
-            }
+                MapKryptonPageText.TitleText or MapKryptonPageText.DescriptionText => Text,
+                MapKryptonPageText.TextTitle or MapKryptonPageText.TextTitleDescription
+                    or MapKryptonPageText.DescriptionTitle or MapKryptonPageText.DescriptionTitleText => TextTitle,
+                MapKryptonPageText.TextDescription or MapKryptonPageText.TitleDescription => TextDescription,
+                _ => ret
+            };
         }
 
         // If nothing found then...
         if (string.IsNullOrEmpty(ret))
         {
             // Recover the third preference value
-            switch (mapping)
+            ret = mapping switch
             {
-                case MapKryptonPageText.DescriptionTitleText:
-                    ret = Text;
-                    break;
-                case MapKryptonPageText.TextTitleDescription:
-                    ret = TextDescription;
-                    break;
-            }
+                MapKryptonPageText.DescriptionTitleText => Text,
+                MapKryptonPageText.TextTitleDescription => TextDescription,
+                _ => ret
+            };
         }
 
         // We do not want to return a null
@@ -1052,65 +1041,43 @@ public class KryptonPage : VisualPanel
     /// <returns>Image reference.</returns>
     public virtual Image? GetImageMapping(MapKryptonPageImage mapping)
     {
-        Image? ret = null;
-
         // Recover the first preference value
-        switch (mapping)
+        Image? ret = mapping switch
         {
-            case MapKryptonPageImage.Small:
-            case MapKryptonPageImage.SmallMedium:
-            case MapKryptonPageImage.SmallMediumLarge:
-                ret = ImageSmall;
-                break;
-            case MapKryptonPageImage.Medium:
-            case MapKryptonPageImage.MediumLarge:
-            case MapKryptonPageImage.MediumSmall:
-                ret = ImageMedium;
-                break;
-            case MapKryptonPageImage.Large:
-            case MapKryptonPageImage.LargeMedium:
-            case MapKryptonPageImage.LargeMediumSmall:
-                ret = ImageLarge;
-                break;
-            case MapKryptonPageImage.ToolTip:
-                ret = ToolTipImage;
-                break;
-        }
+            MapKryptonPageImage.Small or MapKryptonPageImage.SmallMedium
+                or MapKryptonPageImage.SmallMediumLarge => ImageSmall,
+            MapKryptonPageImage.Medium or MapKryptonPageImage.MediumLarge
+                or MapKryptonPageImage.MediumSmall => ImageMedium,
+            MapKryptonPageImage.Large or MapKryptonPageImage.LargeMedium
+                or MapKryptonPageImage.LargeMediumSmall => ImageLarge,
+            MapKryptonPageImage.ToolTip => ToolTipImage,
+            _ => null
+        };
 
         // If nothing found then...
         if (ret == null)
         {
             // Recover the second preference value
-            switch (mapping)
+            ret = mapping switch
             {
-                case MapKryptonPageImage.MediumSmall:
-                    ret = ImageSmall;
-                    break;
-                case MapKryptonPageImage.SmallMedium:
-                case MapKryptonPageImage.SmallMediumLarge:
-                case MapKryptonPageImage.LargeMedium:
-                case MapKryptonPageImage.LargeMediumSmall:
-                    ret = ImageMedium;
-                    break;
-                case MapKryptonPageImage.MediumLarge:
-                    ret = ImageLarge;
-                    break;
-            }
+                MapKryptonPageImage.MediumSmall => ImageSmall,
+                MapKryptonPageImage.SmallMedium or MapKryptonPageImage.SmallMediumLarge
+                    or MapKryptonPageImage.LargeMedium or MapKryptonPageImage.LargeMediumSmall => ImageMedium,
+                MapKryptonPageImage.MediumLarge => ImageLarge,
+                _ => ret
+            };
         }
 
         // If nothing found then...
         if (ret == null)
         {
             // Recover the third preference value
-            switch (mapping)
+            ret = mapping switch
             {
-                case MapKryptonPageImage.LargeMediumSmall:
-                    ret = ImageSmall;
-                    break;
-                case MapKryptonPageImage.SmallMediumLarge:
-                    ret = ImageLarge;
-                    break;
-            }
+                MapKryptonPageImage.LargeMediumSmall => ImageSmall,
+                MapKryptonPageImage.SmallMediumLarge => ImageLarge,
+                _ => ret
+            };
         }
 
         return ret;

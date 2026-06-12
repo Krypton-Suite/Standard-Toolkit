@@ -2,12 +2,14 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFrameworks>net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
+    <!-- Jump list COM (CustomDestinationList) requires matching process architecture. Target x64 on 64-bit Windows to avoid REGDB_E_CLASSNOTREG. -->
+    <PlatformTarget>x64</PlatformTarget>
     <Nullable>enable</Nullable>
     <!--https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/warning-waves-->
     <WarningLevel>8</WarningLevel>
     <AnalysisLevel>latest</AnalysisLevel>
     <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
     <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
     <ForceDesignerDPIUnaware>true</ForceDesignerDPIUnaware>
     <ApplicationVisualStyles>true</ApplicationVisualStyles>
@@ -18,11 +20,37 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Krypton.Docking\Krypton.Docking 2022.csproj" />
+    <ProjectReference Include="..\Krypton.Navigator.Utilities\Krypton.Navigator.Utilities.csproj" />
     <ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
     <ProjectReference Include="..\Krypton.Ribbon\Krypton.Ribbon 2022.csproj" />
+    <ProjectReference Include="..\Krypton.Toolkit.JumpList\Krypton.Toolkit.JumpList.csproj" />
     <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+    <ProjectReference Include="..\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj" />
     <ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
   </ItemGroup>
+
+  <!-- WebView2: prefer Lib/WebView2 (matches Krypton.Toolkit.Utilities), fallback to NuGet when DLLs missing -->
+  <PropertyGroup>
+    <WebView2LibPath>$(MSBuildThisFileDirectory)..\Krypton.Toolkit.Utilities\Lib\WebView2</WebView2LibPath>
+    <WebView2CoreDll>$(WebView2LibPath)\Microsoft.Web.WebView2.Core.dll</WebView2CoreDll>
+    <WebView2WinFormsDll>$(WebView2LibPath)\Microsoft.Web.WebView2.WinForms.dll</WebView2WinFormsDll>
+  </PropertyGroup>
+  <ItemGroup Condition="Exists('$(WebView2CoreDll)') And Exists('$(WebView2WinFormsDll)')">
+    <Reference Include="Microsoft.Web.WebView2.Core">
+      <HintPath>$(WebView2CoreDll)</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Web.WebView2.WinForms">
+      <HintPath>$(WebView2WinFormsDll)</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup Condition="!Exists('$(WebView2CoreDll)') Or !Exists('$(WebView2WinFormsDll)')">
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3800.47" />
+  </ItemGroup>
+  <PropertyGroup Condition="Exists('$(WebView2CoreDll)') And Exists('$(WebView2WinFormsDll)')">
+    <DefineConstants>$(DefineConstants);WEBVIEW2_AVAILABLE</DefineConstants>
+  </PropertyGroup>
 
   <ItemGroup>
     <Compile Update="KryptonTaskDialogDemo\DemoDialogs\KryptonTaskDialogDemoForm.ProgressBar1.cs">
@@ -47,9 +75,45 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Update="Bug3382CueHintLinesDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Bug3382CueHintLinesDemo.Designer.cs">
+      <DependentUpon>Bug3382CueHintLinesDemo.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Bug3381KryptonButtonRoundedTextCenteringDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Bug3381KryptonButtonRoundedTextCenteringDemo.Designer.cs">
+      <DependentUpon>Bug3381KryptonButtonRoundedTextCenteringDemo.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Bug3383KryptonButtonStateTrackingRoundingDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Bug3383KryptonButtonStateTrackingRoundingDemo.Designer.cs">
+      <DependentUpon>Bug3383KryptonButtonStateTrackingRoundingDemo.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Bug3661KryptonContextMenuOverflowDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Bug3661KryptonContextMenuOverflowDemo.Designer.cs">
+      <DependentUpon>Bug3661KryptonContextMenuOverflowDemo.cs</DependentUpon>
+    </Compile>
+    <Compile Update="KryptonComboBoxUserControlDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonTreeComboBoxDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonCheckedListComboBoxDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Bug3381KryptonButtonRoundedTextCenteringDemo.resx">
+      <DependentUpon>Bug3381KryptonButtonRoundedTextCenteringDemo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Update="KryptonTaskDialogDemo\KryptonTaskDialogDemoResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>KryptonTaskDialogDemoResources.Designer.cs</LastGenOutput>
@@ -81,8 +145,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Bogus" Version="35.6.4" />
+    <PackageReference Include="Bogus" Version="35.6.5" />
     <PackageReference Include="Cyotek.Windows.Forms.ColorPicker" Version="2.0.0-beta.7" />
+    <PackageReference Include="System.Private.Uri" Version="4.3.2" />
   </ItemGroup>
 
 </Project>

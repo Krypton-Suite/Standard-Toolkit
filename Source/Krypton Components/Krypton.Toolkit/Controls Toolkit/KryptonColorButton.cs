@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -37,12 +37,15 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
     private Color _selectedColor;
     private Color _emptyBorderColor;
     private readonly List<Color> _recentColors;
+    private Color[]? _customColors;
+    private int _maxCustomColors = 24;
     private Image? _wasImage;
     private bool _wasEnabled;
     private bool _isDefault;
     private bool _useMnemonic;
     private bool _allowFullOpen;
     private bool _clickOverriden;
+    private bool _isSelectable;
     private KryptonColorButtonCustomColorPreviewShape _customColorPreviewShape;
     private ThemeColorSortMode _themeColorSortMode;
 
@@ -57,6 +60,9 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
     private readonly KryptonContextMenuColorColumns _colorsTheme;
     private readonly KryptonContextMenuColorColumns _colorsStandard;
     private readonly KryptonContextMenuColorColumns _colorsRecent;
+    private readonly KryptonContextMenuSeparator _separatorCustom;
+    private readonly KryptonContextMenuHeading _headingCustom;
+    private readonly KryptonContextMenuColorColumns _colorsCustom;
     private readonly KryptonContextMenuSeparator _separatorNoColor;
     private readonly KryptonContextMenuItems _itemsNoColor;
     private readonly KryptonContextMenuItem _itemNoColor;
@@ -119,6 +125,7 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
         VisibleThemes = true;
         VisibleStandard = true;
         VisibleRecent = true;
+        VisibleCustomColors = true;
         VisibleNoColor = true;
         VisibleMoreColors = true;
         AutoRecentColors = true;
@@ -132,6 +139,7 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
         MaxRecentColors = 10;
         _recentColors = [];
         _allowFullOpen = true;
+        _isSelectable = true;
 
         // Create the context menu items
         _kryptonContextMenu = new KryptonContextMenu();
@@ -144,6 +152,9 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
         _separatorRecent = new KryptonContextMenuSeparator();
         _headingRecent = new KryptonContextMenuHeading(KryptonManager.Strings.ColorStrings.RecentColors); //@"Recent Colors");
         _colorsRecent = new KryptonContextMenuColorColumns(ColorScheme.None);
+        _separatorCustom = new KryptonContextMenuSeparator();
+        _headingCustom = new KryptonContextMenuHeading(KryptonManager.Strings.ColorStrings.CustomColors);
+        _colorsCustom = new KryptonContextMenuColorColumns(ColorScheme.None);
         _separatorNoColor = new KryptonContextMenuSeparator();
         _itemNoColor = new KryptonContextMenuItem(/*@"&No Color"*/ KryptonManager.Strings.ColorStrings.NoColor, GenericImageResources.ButtonNoColor, OnClickNoColor);
         _itemsNoColor = new KryptonContextMenuItems();
@@ -156,6 +167,7 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
             _separatorTheme, _headingTheme, _colorsTheme,
             _separatorStandard, _headingStandard, _colorsStandard,
             _separatorRecent, _headingRecent, _colorsRecent,
+            _separatorCustom, _headingCustom, _colorsCustom,
             _separatorNoColor, _itemsNoColor,
             _separatorMoreColors, _itemsMoreColors
         ]);
@@ -330,6 +342,19 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
     public int MaxRecentColors { get; set; }
 
     /// <summary>
+    /// Gets and sets the maximum number of custom colors to display in the drop-down.
+    /// When CustomColors contains more than this value, only the first MaxCustomColors are shown.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Maximum number of custom colors to display. Extra colors in CustomColors are not shown.")]
+    [DefaultValue(24)]
+    public int MaxCustomColors
+    {
+        get => _maxCustomColors;
+        set => _maxCustomColors = Math.Max(1, Math.Min(128, value));
+    }
+
+    /// <summary>
     /// Gets and sets the visible state of the themes color set.
     /// </summary>
     [Category(@"Behavior")]
@@ -352,6 +377,27 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
     [Description(@"Determine the visible state of the recent color set.")]
     [DefaultValue(true)]
     public bool VisibleRecent { get; set; }
+
+    /// <summary>
+    /// Gets and sets the visible state of the custom color set.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Determine the visible state of the custom color set. Only applies when CustomColors has been set.")]
+    [DefaultValue(true)]
+    public bool VisibleCustomColors { get; set; }
+
+    /// <summary>
+    /// Gets or sets an optional set of custom colours to display in the drop-down.
+    /// When set, a \"Custom Colors\" section is shown. Set VisibleThemes, VisibleStandard and VisibleRecent to false to show only these colours.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Optional set of custom colours to display. Set VisibleThemes, VisibleStandard and VisibleRecent to false to show only these colours.")]
+    [DefaultValue(null)]
+    public Color[]? CustomColors
+    {
+        get => _customColors;
+        set => _customColors = value;
+    }
 
     /// <summary>
     /// Gets and sets the visible state of the no color menu item.
@@ -865,6 +911,28 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
             }
         }
     }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the button can receive focus when clicked.
+    /// When <c>false</c>, clicking the button does not steal focus from the currently active
+    /// control — useful for on-screen keyboards where input must remain in a text field or grid cell.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"When false, the button does not receive focus when clicked. Useful for on-screen keyboards so that input goes to the currently focused control.")]
+    [DefaultValue(true)]
+    public bool IsSelectable
+    {
+        get => _isSelectable;
+        set
+        {
+            if (_isSelectable != value)
+            {
+                _isSelectable = value;
+                SetStyle(ControlStyles.Selectable, value);
+            }
+        }
+    }
+
     #endregion
 
     #region IContentValues
@@ -895,6 +963,48 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
     public Color GetImageTransparentColor(PaletteState state) =>
         KryptonCommand?.ImageTransparentColor ?? Values.GetImageTransparentColor(state);
 
+    /// <summary>
+    /// Gets the overlay image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay image is needed.</param>
+    /// <returns>Overlay image value, or null if no overlay image is set.</returns>
+    public Image? GetOverlayImage(PaletteState state) => null;
+
+    /// <summary>
+    /// Gets the overlay image color that should be transparent.
+    /// </summary>
+    /// <param name="state">The state for which the overlay image is needed.</param>
+    /// <returns>Color value.</returns>
+    public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+
+    /// <summary>
+    /// Gets the position of the overlay image relative to the main image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay position is needed.</param>
+    /// <returns>Overlay image position.</returns>
+    public OverlayImagePosition GetOverlayImagePosition(PaletteState state) => OverlayImagePosition.TopRight;
+
+    /// <summary>
+    /// Gets the scaling mode for the overlay image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay scale mode is needed.</param>
+    /// <returns>Overlay image scale mode.</returns>
+    public OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) => OverlayImageScaleMode.None;
+
+    /// <summary>
+    /// Gets the scale factor for the overlay image (used when scale mode is Percentage or ProportionalToMain).
+    /// </summary>
+    /// <param name="state">The state for which the overlay scale factor is needed.</param>
+    /// <returns>Scale factor (0.0 to 2.0).</returns>
+    public float GetOverlayImageScaleFactor(PaletteState state) => 0.5f;
+
+    /// <summary>
+    /// Gets the fixed size for the overlay image (used when scale mode is FixedSize).
+    /// </summary>
+    /// <param name="state">The state for which the overlay fixed size is needed.</param>
+    /// <returns>Fixed size.</returns>
+    public Size GetOverlayImageFixedSize(PaletteState state) => new Size(16, 16);
+
     #endregion
 
     #region Protected Overrides
@@ -909,6 +1019,12 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
     protected override ImeMode DefaultImeMode => ImeMode.Disable;
 
     /// <summary>
+    /// Creates a new accessibility object for this control.
+    /// </summary>
+    /// <returns>A new accessibility object for this control.</returns>
+    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonColorButtonAccessibleObject(this);
+
+    /// <summary>
     /// Clean up any resources being used.
     /// </summary>
     /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -917,6 +1033,8 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
         if (disposing)
         {
             KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChangedForThemeColors;
+            _kryptonContextMenu?.Close();
+            _kryptonContextMenu?.Dispose();
         }
 
         base.Dispose(disposing);
@@ -1288,6 +1406,7 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
                 DecideOnVisible(_separatorTheme, _colorsTheme);
                 DecideOnVisible(_separatorStandard, _colorsStandard);
                 DecideOnVisible(_separatorRecent, _colorsRecent);
+                DecideOnVisible(_separatorCustom, _colorsCustom);
                 DecideOnVisible(_separatorNoColor, _itemsNoColor);
                 DecideOnVisible(_separatorMoreColors, _itemsMoreColors);
 
@@ -1376,7 +1495,7 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
     public void AddUpdateRecentColors(IList<Color> colors)
     {
         foreach (Color color in colors
-                     .Where(static color => (color != null) && !color.Equals(GlobalStaticValues.EMPTY_COLOR))
+                     .Where(static color => (color != null) && !color.Equals(GlobalStaticVariables.EMPTY_COLOR))
                      .Where(color => !Enumerable.Contains(_recentColors, color)))
         {
             // Add to start of the list
@@ -1419,7 +1538,7 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
             }
 
             // If this color valid and so possible to become a recent color
-            if ((color != null) && !color.Equals(GlobalStaticValues.EMPTY_COLOR))
+            if ((color != null) && !color.Equals(GlobalStaticVariables.EMPTY_COLOR))
             {
                 var found = false;
                 foreach (Color recentColor in _recentColors)
@@ -1453,6 +1572,8 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
         _separatorTheme.Visible = _headingTheme.Visible = _colorsTheme.Visible = VisibleThemes;
         _separatorStandard.Visible = _headingStandard.Visible = _colorsStandard.Visible = VisibleStandard;
         _separatorRecent.Visible = _headingRecent.Visible = _colorsRecent.Visible = VisibleRecent && (_recentColors.Count > 0);
+        var hasCustomColors = _customColors is { Length: > 0 };
+        _separatorCustom.Visible = _headingCustom.Visible = _colorsCustom.Visible = VisibleCustomColors && hasCustomColors;
         _itemsNoColor.Visible = VisibleNoColor;
         _itemsMoreColors.Visible = VisibleMoreColors;
 
@@ -1466,6 +1587,7 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
             : Strings.ThemeColors;
         _headingStandard.Text = Strings.StandardColors;
         _headingRecent.Text = Strings.RecentColors;
+        _headingCustom.Text = Strings.CustomColors;
         _itemNoColor.Text = Strings.NoColor;
         _itemMoreColors.Text = Strings.MoreColors;
 
@@ -1502,8 +1624,24 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
             _colorsRecent.SetCustomColors(colors);
         }
 
+        // Define the custom colors (one column per color, single row), cap at MaxCustomColors
+        if (hasCustomColors && VisibleCustomColors)
+        {
+            var count = Math.Min(_customColors!.Length, Math.Max(1, MaxCustomColors));
+            var customGrid = new Color[count][];
+            for (var i = 0; i < _customColors.Length; i++)
+            {
+                customGrid[i] = [_customColors[i]];
+            }
+            _colorsCustom.SetCustomColors(customGrid);
+        }
+        else
+        {
+            _colorsCustom.SetCustomColors(null);
+        }
+
         // Should the no color entry be checked?
-        _itemNoColor.Checked = _selectedColor.Equals(GlobalStaticValues.EMPTY_COLOR);
+        _itemNoColor.Checked = _selectedColor.Equals(GlobalStaticVariables.EMPTY_COLOR);
     }
 
     private void DecideOnVisible(KryptonContextMenuItemBase visible, KryptonContextMenuItemBase target)
@@ -1542,7 +1680,7 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
 
     private void OnColumnsSelectedColorChanged(object? sender, ColorEventArgs e) => SelectedColor = e.Color;
 
-    private void OnClickNoColor(object? sender, EventArgs e) => SelectedColor = GlobalStaticValues.EMPTY_COLOR;
+    private void OnClickNoColor(object? sender, EventArgs e) => SelectedColor = GlobalStaticVariables.EMPTY_COLOR;
 
     private void OnClickMoreColors(object? sender, EventArgs e)
     {

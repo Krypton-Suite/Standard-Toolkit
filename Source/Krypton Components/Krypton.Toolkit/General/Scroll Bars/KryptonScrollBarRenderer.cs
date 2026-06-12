@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
+ *
  */
 #endregion
 
@@ -82,6 +82,12 @@ internal static class KryptonScrollBarRenderer
         _palette = KryptonManager.CurrentGlobalPalette;
         _paletteRedirect = new PaletteRedirect(_palette);
 
+        if (RetroRenderHelper.IsRetroPalette(_palette))
+        {
+            InitColorsForRetroPalette(_palette);
+            return;
+        }
+
         //Init Colors
         // hot state
         _thumbColors[0, 0] = _palette.GetBorderColor1(PaletteBorderStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(96, 111, 148); // border color
@@ -132,6 +138,11 @@ internal static class KryptonScrollBarRenderer
          * | |-----------------------------------------| |
          * |                                             |
          * ----------------------------------------------- (15,17)
+         *
+         * The 15x17 diagram describes the source arrow bitmap only.
+         * Track and thumb rectangles are supplied by the controls and can
+         * be larger at high DPI, so those paint paths must fill rect, not a
+         * fixed 15px interior.
          */
 
         // hot state
@@ -189,6 +200,103 @@ internal static class KryptonScrollBarRenderer
         GripColors[0] = _palette.ColorTable.GripLight;
         GripColors[1] = _palette.ColorTable.GripDark;
 
+        DropDownArrowGlyphCache.Clear();
+    }
+
+    private static void InitColorsForRetroPalette(PaletteBase palette)
+    {
+        Color face = palette.GetBackColor1(PaletteBackStyle.PanelAlternate, PaletteState.Normal);
+        if (face.IsEmpty || face == GlobalStaticVariables.EMPTY_COLOR)
+        {
+            face = palette is PaletteRetroBase retro
+                ? retro.ButtonDisabledColor
+                : Color.FromArgb(192, 192, 192);
+        }
+
+        Color faceLight = Color.FromArgb(223, 223, 223);
+        Color faceMid = face;
+        Color faceDark = Color.FromArgb(160, 160, 160);
+        Color border = palette.GetBorderColor1(PaletteBorderStyle.InputControlStandalone, PaletteState.Normal);
+        if (border.IsEmpty || border == GlobalStaticVariables.EMPTY_COLOR)
+        {
+            border = Color.Black;
+        }
+
+        _thumbColors[0, 0] = border;
+        _thumbColors[0, 1] = faceLight;
+        _thumbColors[0, 2] = faceMid;
+        _thumbColors[0, 3] = faceDark;
+        _thumbColors[0, 4] = faceMid;
+        _thumbColors[0, 5] = faceLight;
+        _thumbColors[0, 6] = faceDark;
+        _thumbColors[0, 7] = border;
+
+        _thumbColors[1, 0] = border;
+        _thumbColors[1, 1] = faceLight;
+        _thumbColors[1, 2] = Color.White;
+        _thumbColors[1, 3] = faceLight;
+        _thumbColors[1, 4] = faceMid;
+        _thumbColors[1, 5] = faceLight;
+        _thumbColors[1, 6] = faceDark;
+        _thumbColors[1, 7] = faceDark;
+
+        _thumbColors[2, 0] = border;
+        _thumbColors[2, 1] = faceDark;
+        _thumbColors[2, 2] = faceMid;
+        _thumbColors[2, 3] = faceLight;
+        _thumbColors[2, 4] = faceDark;
+        _thumbColors[2, 5] = faceMid;
+        _thumbColors[2, 6] = faceDark;
+        _thumbColors[2, 7] = faceDark;
+
+        _arrowColors[0, 0] = faceLight;
+        _arrowColors[0, 1] = faceMid;
+        _arrowColors[0, 2] = Color.White;
+        _arrowColors[0, 3] = faceLight;
+        _arrowColors[0, 4] = faceMid;
+        _arrowColors[0, 5] = faceLight;
+        _arrowColors[0, 6] = Color.White;
+        _arrowColors[0, 7] = Color.White;
+
+        _arrowColors[1, 0] = faceMid;
+        _arrowColors[1, 1] = faceMid;
+        _arrowColors[1, 2] = faceLight;
+        _arrowColors[1, 3] = faceLight;
+        _arrowColors[1, 4] = faceMid;
+        _arrowColors[1, 5] = faceLight;
+        _arrowColors[1, 6] = faceLight;
+        _arrowColors[1, 7] = Color.White;
+
+        _arrowColors[2, 0] = faceDark;
+        _arrowColors[2, 1] = faceDark;
+        _arrowColors[2, 2] = faceMid;
+        _arrowColors[2, 3] = faceMid;
+        _arrowColors[2, 4] = faceDark;
+        _arrowColors[2, 5] = faceDark;
+        _arrowColors[2, 6] = faceMid;
+        _arrowColors[2, 7] = faceLight;
+
+        _backgroundColors[0] = faceDark;
+        _backgroundColors[1] = Color.White;
+        _backgroundColors[2] = faceLight;
+        _backgroundColors[3] = faceMid;
+        _backgroundColors[4] = face;
+
+        _trackColors[0] = faceDark;
+        _trackColors[1] = faceLight;
+
+        _arrowBorderColors[0] = border;
+        _arrowBorderColors[1] = border;
+        _arrowBorderColors[2] = faceDark;
+        _arrowBorderColors[3] = faceDark;
+
+        BorderColors[0] = border;
+        BorderColors[1] = border;
+
+        GripColors[0] = Color.FromArgb(64, 64, 64);
+        GripColors[1] = border;
+
+        DropDownArrowGlyphCache.Clear();
     }
     #endregion
 
@@ -434,6 +542,14 @@ internal static class KryptonScrollBarRenderer
     /// <param name="rect">The rectangle in which to paint.</param>
     private static void DrawBackgroundVertical(Graphics g, Rectangle rect)
     {
+        // Fill the full supplied bounds first. At high DPI the themed scrollbar is
+        // wider than the original 15px bitmap math, and fixed interior widths leave
+        // stale pixels along the inner edge while dragging.
+        using (var brush = new SolidBrush(_backgroundColors[4]))
+        {
+            g.FillRectangle(brush, rect);
+        }
+
         using (var p = new Pen(_backgroundColors[0]))
         {
             g.DrawLine(p, rect.Left + 1, rect.Top + 1, rect.Left + 1, rect.Bottom - 1);
@@ -445,20 +561,31 @@ internal static class KryptonScrollBarRenderer
             g.DrawLine(p, rect.Left + 2, rect.Top + 1, rect.Left + 2, rect.Bottom - 1);
         }
 
-        var firstRect = new Rectangle(rect.Left + 3, rect.Top, 8, rect.Height);
+        int gradientLeft = rect.Left + 3;
+        int gradientRight = rect.Right - 2;
 
-        var secondRect = new Rectangle(firstRect.Right - 1, firstRect.Top, 7, firstRect.Height);
-
-        using (var brush = new LinearGradientBrush(firstRect, _backgroundColors[2],
-                   _backgroundColors[3], LinearGradientMode.Horizontal))
+        if (gradientRight <= gradientLeft)
         {
-            g.FillRectangle(brush, firstRect);
+            return;
         }
 
-        using (var brush = new LinearGradientBrush(secondRect, _backgroundColors[3],
+        var gradientRect = Rectangle.FromLTRB(gradientLeft, rect.Top, gradientRight, rect.Bottom);
+
+        using (var brush = new LinearGradientBrush(gradientRect, _backgroundColors[2],
                    _backgroundColors[4], LinearGradientMode.Horizontal))
         {
-            g.FillRectangle(brush, secondRect);
+            brush.InterpolationColors = new ColorBlend(3)
+            {
+                Colors =
+                [
+                    _backgroundColors[2],
+                    _backgroundColors[3],
+                    _backgroundColors[4]
+                ],
+                Positions = [0f, .5f, 1f]
+            };
+
+            g.FillRectangle(brush, gradientRect);
         }
     }
 
@@ -469,6 +596,13 @@ internal static class KryptonScrollBarRenderer
     /// <param name="rect">The rectangle in which to paint.</param>
     private static void DrawBackgroundHorizontal(Graphics g, Rectangle rect)
     {
+        // See DrawBackgroundVertical: this rect can be DPI-scaled, so the whole
+        // background must be repainted before drawing the themed interior.
+        using (var brush = new SolidBrush(_backgroundColors[4]))
+        {
+            g.FillRectangle(brush, rect);
+        }
+
         using (var p = new Pen(_backgroundColors[0]))
         {
             g.DrawLine(p, rect.Left + 1, rect.Top + 1, rect.Right - 1, rect.Top + 1);
@@ -480,20 +614,31 @@ internal static class KryptonScrollBarRenderer
             g.DrawLine(p, rect.Left + 1, rect.Top + 2, rect.Right - 1, rect.Top + 2);
         }
 
-        var firstRect = new Rectangle(rect.Left, rect.Top + 3, rect.Width, 8);
+        int gradientTop = rect.Top + 3;
+        int gradientBottom = rect.Bottom - 2;
 
-        var secondRect = new Rectangle(firstRect.Left, firstRect.Bottom - 1, firstRect.Width, 7);
-
-        using (var brush = new LinearGradientBrush(firstRect, _backgroundColors[2],
-                   _backgroundColors[3], LinearGradientMode.Vertical))
+        if (gradientBottom <= gradientTop)
         {
-            g.FillRectangle(brush, firstRect);
+            return;
         }
 
-        using (var brush = new LinearGradientBrush(secondRect, _backgroundColors[3],
+        var gradientRect = Rectangle.FromLTRB(rect.Left, gradientTop, rect.Right, gradientBottom);
+
+        using (var brush = new LinearGradientBrush(gradientRect, _backgroundColors[2],
                    _backgroundColors[4], LinearGradientMode.Vertical))
         {
-            g.FillRectangle(brush, secondRect);
+            brush.InterpolationColors = new ColorBlend(3)
+            {
+                Colors =
+                [
+                    _backgroundColors[2],
+                    _backgroundColors[3],
+                    _backgroundColors[4]
+                ],
+                Positions = [0f, .5f, 1f]
+            };
+
+            g.FillRectangle(brush, gradientRect);
         }
     }
 
@@ -504,7 +649,14 @@ internal static class KryptonScrollBarRenderer
     /// <param name="rect">The rectangle in which to paint.</param>
     private static void DrawTrackVertical(Graphics g, Rectangle rect)
     {
-        var innerRect = new Rectangle(rect.Left + 1, rect.Top, 15, rect.Height);
+        // Keep this relative to rect.Width; hard-coded 15px track painting misses
+        // the right-side pixels when the scrollbar is scaled.
+        var innerRect = new Rectangle(rect.Left + 1, rect.Top, Math.Max(0, rect.Width - 2), rect.Height);
+
+        if (innerRect.Width <= 0 || innerRect.Height <= 0)
+        {
+            return;
+        }
 
         using var brush = new LinearGradientBrush(innerRect, _trackColors[0], _trackColors[1],
             LinearGradientMode.Horizontal);
@@ -518,7 +670,14 @@ internal static class KryptonScrollBarRenderer
     /// <param name="rect">The rectangle in which to paint.</param>
     private static void DrawTrackHorizontal(Graphics g, Rectangle rect)
     {
-        var innerRect = new Rectangle(rect.Left, rect.Top + 1, rect.Width, 15);
+        // Keep this relative to rect.Height; hard-coded 15px track painting misses
+        // the lower pixels when the scrollbar is scaled.
+        var innerRect = new Rectangle(rect.Left, rect.Top + 1, rect.Width, Math.Max(0, rect.Height - 2));
+
+        if (innerRect.Width <= 0 || innerRect.Height <= 0)
+        {
+            return;
+        }
 
         using var brush = new LinearGradientBrush(innerRect, _trackColors[0], _trackColors[1],
             LinearGradientMode.Vertical);
@@ -582,9 +741,22 @@ internal static class KryptonScrollBarRenderer
         Rectangle innerRect = rect;
         innerRect.Inflate(-1, -1);
 
-        Rectangle r = innerRect;
-        r.Width = 6;
-        r.Height++;
+        if (innerRect.Width <= 0 || innerRect.Height <= 0)
+        {
+            return;
+        }
+
+        // Clear the full inner thumb before applying the split gradient. The old
+        // fixed 6px halves only covered a 12px interior and could leave stale
+        // vertical strips at high DPI.
+        using (var brush = new SolidBrush(_thumbColors[index, 5]))
+        {
+            g.FillRectangle(brush, innerRect);
+        }
+
+        int leftWidth = Math.Max(1, innerRect.Width / 2);
+
+        Rectangle r = new Rectangle(innerRect.Left, innerRect.Top, leftWidth, innerRect.Height + 1);
 
         // draw left gradient
         using (var brush = new LinearGradientBrush(r, _thumbColors[index, 1],
@@ -593,7 +765,7 @@ internal static class KryptonScrollBarRenderer
             g.FillRectangle(brush, r);
         }
 
-        r.X = r.Right;
+        r = new Rectangle(r.Right, innerRect.Top, Math.Max(1, innerRect.Right - r.Right), innerRect.Height + 1);
 
         // draw right gradient
         if (index == 0)
@@ -666,9 +838,22 @@ internal static class KryptonScrollBarRenderer
         Rectangle innerRect = rect;
         innerRect.Inflate(-1, -1);
 
-        Rectangle r = innerRect;
-        r.Height = 6;
-        r.Width++;
+        if (innerRect.Width <= 0 || innerRect.Height <= 0)
+        {
+            return;
+        }
+
+        // Clear the full inner thumb before applying the split gradient. The old
+        // fixed 6px halves only covered a 12px interior and could leave stale
+        // horizontal strips at high DPI.
+        using (var brush = new SolidBrush(_thumbColors[index, 5]))
+        {
+            g.FillRectangle(brush, innerRect);
+        }
+
+        int topHeight = Math.Max(1, innerRect.Height / 2);
+
+        Rectangle r = new Rectangle(innerRect.Left, innerRect.Top, innerRect.Width + 1, topHeight);
 
         // draw left gradient
         using (var brush = new LinearGradientBrush(r, _thumbColors[index, 1],
@@ -677,7 +862,7 @@ internal static class KryptonScrollBarRenderer
             g.FillRectangle(brush, r);
         }
 
-        r.Y = r.Bottom;
+        r = new Rectangle(innerRect.Left, r.Bottom, innerRect.Width + 1, Math.Max(1, innerRect.Bottom - r.Bottom));
 
         // draw right gradient
         if (index == 0)
@@ -742,13 +927,18 @@ internal static class KryptonScrollBarRenderer
         ScrollBarArrowButtonState state,
         bool arrowUp)
     {
-        using Image arrowImage = GetArrowDownButtonImage(state);
+        using Image chromeImage = GetArrowDownButtonChromeImage(state);
         if (arrowUp)
         {
-            arrowImage.RotateFlip(RotateFlipType.Rotate180FlipNone);
+            chromeImage.RotateFlip(RotateFlipType.Rotate180FlipNone);
         }
 
-        g.DrawImage(arrowImage, rect);
+        g.DrawImage(chromeImage, rect);
+
+        DropDownArrowGlyphDirection direction = arrowUp
+            ? DropDownArrowGlyphDirection.Up
+            : DropDownArrowGlyphDirection.Down;
+        DrawArrowGlyph(g, rect, state, direction);
     }
 
     /// <summary>
@@ -764,18 +954,60 @@ internal static class KryptonScrollBarRenderer
         ScrollBarArrowButtonState state,
         bool arrowUp)
     {
-        using Image arrowImage = GetArrowDownButtonImage(state);
-        arrowImage.RotateFlip(arrowUp ? RotateFlipType.Rotate90FlipNone : RotateFlipType.Rotate270FlipNone);
+        using Image chromeImage = GetArrowDownButtonChromeImage(state);
+        chromeImage.RotateFlip(arrowUp ? RotateFlipType.Rotate90FlipNone : RotateFlipType.Rotate270FlipNone);
 
-        g.DrawImage(arrowImage, rect);
+        g.DrawImage(chromeImage, rect);
+
+        DropDownArrowGlyphDirection direction = arrowUp
+            ? DropDownArrowGlyphDirection.Left
+            : DropDownArrowGlyphDirection.Right;
+        DrawArrowGlyph(g, rect, state, direction);
     }
 
+    private static void DrawArrowGlyph(
+        Graphics g,
+        Rectangle buttonRect,
+        ScrollBarArrowButtonState state,
+        DropDownArrowGlyphDirection direction)
+    {
+        Rectangle glyphRect = GetArrowGlyphCellRect(buttonRect);
+        if (glyphRect.Width <= 0 || glyphRect.Height <= 0)
+        {
+            return;
+        }
+
+        PaletteState paletteState = MapArrowStateToPaletteState(state);
+        (Color outline, Color fill) = DropDownArrowGlyphColors.Resolve(_palette, paletteState);
+        DropDownArrowGlyphCache.Draw(g, glyphRect, outline, fill, direction);
+    }
+
+    private static Rectangle GetArrowGlyphCellRect(Rectangle buttonRect)
+    {
+        int size = Math.Min(buttonRect.Width, buttonRect.Height);
+        size = Math.Max(4, (size * 3) / 5);
+
+        return new Rectangle(
+            buttonRect.X + ((buttonRect.Width - size) / 2),
+            buttonRect.Y + ((buttonRect.Height - size) / 2),
+            size,
+            size);
+    }
+
+    private static PaletteState MapArrowStateToPaletteState(ScrollBarArrowButtonState state) => state switch
+    {
+        ScrollBarArrowButtonState.UpDisabled or ScrollBarArrowButtonState.DownDisabled => PaletteState.Disabled,
+        ScrollBarArrowButtonState.UpHot or ScrollBarArrowButtonState.DownHot => PaletteState.Tracking,
+        ScrollBarArrowButtonState.UpPressed or ScrollBarArrowButtonState.DownPressed => PaletteState.Pressed,
+        _ => PaletteState.Normal
+    };
+
     /// <summary>
-    /// Draws the arrow down button for the scrollbar.
+    /// Draws the arrow button chrome (without the chevron glyph) for the scrollbar.
     /// </summary>
     /// <param name="state">The button state.</param>
-    /// <returns>The arrow down button as <see cref="Image"/>.</returns>
-    private static Image GetArrowDownButtonImage(
+    /// <returns>The arrow button chrome as <see cref="Image"/>.</returns>
+    private static Image GetArrowDownButtonChromeImage(
         ScrollBarArrowButtonState state)
     {
         var rect = new Rectangle(0, 0, 15, 17);
@@ -786,25 +1018,13 @@ internal static class KryptonScrollBarRenderer
         g.SmoothingMode = SmoothingMode.None;
         g.InterpolationMode = InterpolationMode.Low;
 
-        var index = -1;
-
-        switch (state)
+        var index = state switch
         {
-            case ScrollBarArrowButtonState.UpHot:
-            case ScrollBarArrowButtonState.DownHot:
-                index = 1;
-                break;
-
-            case ScrollBarArrowButtonState.UpActive:
-            case ScrollBarArrowButtonState.DownActive:
-                index = 0;
-                break;
-
-            case ScrollBarArrowButtonState.UpPressed:
-            case ScrollBarArrowButtonState.DownPressed:
-                index = 2;
-                break;
-        }
+            ScrollBarArrowButtonState.UpHot or ScrollBarArrowButtonState.DownHot => 1,
+            ScrollBarArrowButtonState.UpActive or ScrollBarArrowButtonState.DownActive => 0,
+            ScrollBarArrowButtonState.UpPressed or ScrollBarArrowButtonState.DownPressed => 2,
+            _ => -1
+        };
 
         if (index != -1)
         {
@@ -880,21 +1100,6 @@ internal static class KryptonScrollBarRenderer
             {
                 g.FillRectangle(brush, lower);
             }
-        }
-
-        using var arrowIcon = (Image)GetScrollBarArrowDownBitmap().Clone();
-        if (state is ScrollBarArrowButtonState.DownDisabled or ScrollBarArrowButtonState.UpDisabled)
-        {
-            ControlPaint.DrawImageDisabled(
-                g,
-                arrowIcon,
-                3,
-                6,
-                Color.Transparent);
-        }
-        else
-        {
-            g.DrawImage(arrowIcon, 3, 6);
         }
 
         return bitmap;

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -257,16 +257,12 @@ public class ViewLayoutViewport : ViewComposite
     /// <param name="offset">New offset to use.</param>
     public void SetOffsetV(int offset)
     {
-        switch (AlignmentRTL)
+        _offset.Y = AlignmentRTL switch
         {
-            case RelativePositionAlign.Near:
-            case RelativePositionAlign.Center:
-                _offset.Y = -offset;
-                break;
-            case RelativePositionAlign.Far:
-                _offset.Y = offset;
-                break;
-        }
+            RelativePositionAlign.Near or RelativePositionAlign.Center => -offset,
+            RelativePositionAlign.Far => offset,
+            _ => _offset.Y
+        };
     }
     #endregion
 
@@ -277,16 +273,12 @@ public class ViewLayoutViewport : ViewComposite
     /// <param name="offset">New offset to use.</param>
     public void SetOffsetH(int offset)
     {
-        switch (AlignmentRTL)
+        _offset.X = AlignmentRTL switch
         {
-            case RelativePositionAlign.Near:
-            case RelativePositionAlign.Center:
-                _offset.X = -offset;
-                break;
-            case RelativePositionAlign.Far:
-                _offset.X = offset;
-                break;
-        }
+            RelativePositionAlign.Near or RelativePositionAlign.Center => -offset,
+            RelativePositionAlign.Far => offset,
+            _ => _offset.X
+        };
     }
     #endregion
 

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -51,8 +51,8 @@ public class PaletteContentInheritOverride : PaletteContentInherit
         Debug.Assert(backup != null);
 
         // Store incoming values
-        _primary = primary ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(primary)));
-        _backup = backup ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(backup)));
+        _primary = primary ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(primary)));
+        _backup = backup ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(backup)));
         Apply = apply;
         OverrideState = overrideState;
 
@@ -232,7 +232,7 @@ public class PaletteContentInheritOverride : PaletteContentInherit
         {
             Color ret = _primary.GetContentImageColorMap(Override ? OverrideState : state);
 
-            if (ret == GlobalStaticValues.EMPTY_COLOR)
+            if (ret == GlobalStaticVariables.EMPTY_COLOR)
             {
                 ret = _backup.GetContentImageColorMap(state);
             }
@@ -256,7 +256,7 @@ public class PaletteContentInheritOverride : PaletteContentInherit
         {
             Color ret = _primary.GetContentImageColorTo(Override ? OverrideState : state);
 
-            if (ret == GlobalStaticValues.EMPTY_COLOR)
+            if (ret == GlobalStaticVariables.EMPTY_COLOR)
             {
                 ret = _backup.GetContentImageColorTo(state);
             }
@@ -486,7 +486,7 @@ public class PaletteContentInheritOverride : PaletteContentInherit
         {
             Color ret = _primary.GetContentShortTextColor1(Override ? OverrideState : state);
 
-            if (ret == GlobalStaticValues.EMPTY_COLOR)
+            if (ret == GlobalStaticVariables.EMPTY_COLOR)
             {
                 ret = _backup.GetContentShortTextColor1(state);
             }
@@ -510,7 +510,7 @@ public class PaletteContentInheritOverride : PaletteContentInherit
         {
             Color ret = _primary.GetContentShortTextColor2(Override ? OverrideState : state);
 
-            if (ret == GlobalStaticValues.EMPTY_COLOR)
+            if (ret == GlobalStaticVariables.EMPTY_COLOR)
             {
                 ret = _backup.GetContentShortTextColor2(state);
             }
@@ -879,7 +879,7 @@ public class PaletteContentInheritOverride : PaletteContentInherit
         {
             Color ret = _primary.GetContentLongTextColor1(Override ? OverrideState : state);
 
-            if (ret == GlobalStaticValues.EMPTY_COLOR)
+            if (ret == GlobalStaticVariables.EMPTY_COLOR)
             {
                 ret = _backup.GetContentLongTextColor1(state);
             }
@@ -903,7 +903,7 @@ public class PaletteContentInheritOverride : PaletteContentInherit
         {
             Color ret = _primary.GetContentLongTextColor2(Override ? OverrideState : state);
 
-            if (ret == GlobalStaticValues.EMPTY_COLOR)
+            if (ret == GlobalStaticVariables.EMPTY_COLOR)
             {
                 ret = _backup.GetContentLongTextColor2(state);
             }

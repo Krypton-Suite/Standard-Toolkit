@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2024 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -67,15 +67,44 @@ internal partial class VisualSplashScreenForm : KryptonForm/*, ISplashScreenData
 
     private void VisualSplashScreenForm_Load(object sender, EventArgs e)
     {
-        FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(_splashScreenData.Assembly.Location /*_entryAssembly.Location*/);
+        string location = _splashScreenData.Assembly.Location;
+        if (string.IsNullOrEmpty(location))
+        {
+            location = Assembly.GetEntryAssembly()?.Location ?? string.Empty;
+        }
+
+        if (string.IsNullOrEmpty(location))
+        {
+            location = Assembly.GetExecutingAssembly().Location;
+        }
+
+        FileVersionInfo? fvi = null;
+        if (!string.IsNullOrEmpty(location))
+        {
+            try
+            {
+                fvi = FileVersionInfo.GetVersionInfo(location);
+            }
+            catch (ArgumentException)
+            {
+                // Location may be invalid (e.g. in-memory assembly when using dotnet run)
+            }
+        }
 
         pbxApplicationIcon.Image = _splashScreenData.ApplicationLogo /*_applicationLogo*/;
 
         kwlblApplicationName.Text = Application.ProductName;
 
-        kwlblCopyright.Text = $@"{KryptonManager.Strings.SplashScreenStrings.Copyright}: {fvi.LegalCopyright}";
+        string copyright = fvi?.LegalCopyright ?? string.Empty;
 
-        kwlblVersion.Text = $@"{KryptonManager.Strings.SplashScreenStrings.Version}: {fvi.FileVersion}";
+        kwlblCopyright.Text = string.IsNullOrEmpty(copyright)
+            ? $@"{KryptonManager.Strings.SplashScreenStrings.Copyright}:"
+            : $@"{KryptonManager.Strings.SplashScreenStrings.Copyright}: {copyright}";
+
+        string fileVersion = fvi?.FileVersion ?? _splashScreenData.Assembly.GetName().Version?.ToString() ?? string.Empty;
+        kwlblVersion.Text = string.IsNullOrEmpty(fileVersion)
+            ? $@"{KryptonManager.Strings.SplashScreenStrings.Version}:"
+            : $@"{KryptonManager.Strings.SplashScreenStrings.Version}: {fileVersion}";
 
         kwlblApplicationName.Visible = _splashScreenData.ShowApplicationName;
 
@@ -114,7 +143,7 @@ internal partial class VisualSplashScreenForm : KryptonForm/*, ISplashScreenData
     {
         kpbProgress.Increment(1);
 
-        kpbProgress.Text = _splashScreenData.ShowProgressBarPercentage ? $@"{kpbProgress.Value}%" : GlobalStaticValues.DEFAULT_EMPTY_STRING;
+        kpbProgress.Text = _splashScreenData.ShowProgressBarPercentage ? $@"{kpbProgress.Value}%" : GlobalStaticVariables.DEFAULT_EMPTY_STRING;
 
         if (kpbProgress.Value == kpbProgress.Maximum)
         {
@@ -137,7 +166,7 @@ internal partial class VisualSplashScreenForm : KryptonForm/*, ISplashScreenData
 
     private void kbtnClose_MouseLeave(object sender, EventArgs e)
     {
-        kbtnClose.StateCommon.Content.ShortText.Color1 = GlobalStaticValues.EMPTY_COLOR;
+        kbtnClose.StateCommon.Content.ShortText.Color1 = GlobalStaticVariables.EMPTY_COLOR;
     }
 
     #endregion

@@ -1,9 +1,9 @@
 ﻿#region BSD License
 /*
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2025. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2023 - 2026. All rights reserved.
+ *
  */
 #endregion
 
@@ -15,6 +15,7 @@ namespace Krypton.Toolkit;
 ///  'File Browser dialog' from which the user can select a Directory.
 /// </summary>
 [DesignerCategory(@"code")]
+[Designer(typeof(KryptonFolderBrowserDialogDesigner))]
 [Description("Displays a Kryptonised version of the standard 'File Browser dialog' from which the user can select a Directory.")]
 [ToolboxBitmap(typeof(FolderBrowserDialog), @"ToolboxBitmaps.KryptonFolderBrowserDialog.bmp")]
 [ToolboxItem(true)]
@@ -29,26 +30,24 @@ public class KryptonFolderBrowserDialog : ShellDialogWrapper, IDisposable
     /// <inheritdoc />
     protected override DialogResult ShowActualDialog(IWin32Window? owner) => _internalOpenFileDialog.ShowDialog(owner);
 
-    // If the description is used then the following code will need to be uncommented out, and then sort out the bottom buttons
-    //private protected override bool WndActivated(object sender, CbtEventArgs e)
-    //{
-    //    if (!base.WndActivated(sender, e))
-    //    {
-    //        // Not handled
-    //        return false;
-    //    }
+    private protected override bool WndActivated(object sender, MsdnMag.CbtEventArgs e)
+    {
+        if (!base.WndActivated(sender, e))
+        {
+            // Not handled
+            return false;
+        }
 
-    //    // Modify the ShellDialogWrapper window
-    //    // When it is the BrowseDlg, the Backgrounds of the list's etc are all messed up if made transparent
-    //    PI.SetWindowLong(_handle, PI.GWL_.EXSTYLE,
-    //        PI.GetWindowLong(_handle, PI.GWL_.EXSTYLE) ^ PI.WS_EX_.TRANSPARENT);
-    //    return true;
-    //}
+        // BrowseDlg does not repaint the native list backgrounds correctly when transparent.
+        var exStyle = PI.GetWindowLong(_handle, PI.GWL_.EXSTYLE);
+        PI.SetWindowLong(_handle, PI.GWL_.EXSTYLE, exStyle & ~PI.WS_EX_.TRANSPARENT);
+        return true;
+    }
 
 #if NET8_0_OR_GREATER
         /// <inheritdoc />
-        public override Guid? ClientGuid 
-        { 
+        public override Guid? ClientGuid
+        {
             get => _internalOpenFileDialog.ClientGuid;
             set => _internalOpenFileDialog.ClientGuid = value;
         }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -35,8 +35,8 @@ public class PaletteContentImage : Storage
             ContentImageH = PaletteRelativeAlign.Inherit;
             ContentImageV = PaletteRelativeAlign.Inherit;
             ContentEffect = PaletteImageEffect.Inherit;
-            ContentImageColorMap = GlobalStaticValues.EMPTY_COLOR;
-            ContentImageColorTo = GlobalStaticValues.EMPTY_COLOR;
+            ContentImageColorMap = GlobalStaticVariables.EMPTY_COLOR;
+            ContentImageColorTo = GlobalStaticVariables.EMPTY_COLOR;
         }
 
         /// <summary>
@@ -45,8 +45,8 @@ public class PaletteContentImage : Storage
         public bool IsDefault => (ContentImageH == PaletteRelativeAlign.Inherit) &&
                                  (ContentImageV == PaletteRelativeAlign.Inherit) &&
                                  (ContentEffect == PaletteImageEffect.Inherit) &&
-                                 (ContentImageColorMap == GlobalStaticValues.EMPTY_COLOR) &&
-                                 (ContentImageColorTo == GlobalStaticValues.EMPTY_COLOR);
+                                 (ContentImageColorMap == GlobalStaticVariables.EMPTY_COLOR) &&
+                                 (ContentImageColorTo == GlobalStaticVariables.EMPTY_COLOR);
     }
     #endregion
 
@@ -215,7 +215,7 @@ public class PaletteContentImage : Storage
     [RefreshProperties(RefreshProperties.All)]
     public Color ImageColorMap
     {
-        get => _storage?.ContentImageColorMap ?? GlobalStaticValues.EMPTY_COLOR;
+        get => _storage?.ContentImageColorMap ?? GlobalStaticVariables.EMPTY_COLOR;
 
         set
         {
@@ -230,7 +230,7 @@ public class PaletteContentImage : Storage
             }
             else
             {
-                if (value != GlobalStaticValues.EMPTY_COLOR)
+                if (value != GlobalStaticVariables.EMPTY_COLOR)
                 {
                     _storage = new InternalStorage
                     {
@@ -255,7 +255,7 @@ public class PaletteContentImage : Storage
     [RefreshProperties(RefreshProperties.All)]
     public Color ImageColorTo
     {
-        get => _storage?.ContentImageColorTo ?? GlobalStaticValues.EMPTY_COLOR;
+        get => _storage?.ContentImageColorTo ?? GlobalStaticVariables.EMPTY_COLOR;
 
         set
         {
@@ -270,7 +270,7 @@ public class PaletteContentImage : Storage
             }
             else
             {
-                if (value != GlobalStaticValues.EMPTY_COLOR)
+                if (value != GlobalStaticVariables.EMPTY_COLOR)
                 {
                     _storage = new InternalStorage
                     {

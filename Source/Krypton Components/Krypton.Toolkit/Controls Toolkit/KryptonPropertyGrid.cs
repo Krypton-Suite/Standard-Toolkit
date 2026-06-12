@@ -1,7 +1,7 @@
 ﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2021 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2021 - 2026. All rights reserved.
  */
 #endregion
 
@@ -11,7 +11,7 @@ namespace Krypton.Toolkit;
 /// /// <seealso cref="PropertyGrid" />
 [Description(@"A property grid control that supports the Krypton render.")]
 [Designer(typeof(KryptonPropertyGridDesigner))]
-[ToolboxBitmap(typeof(PropertyGrid), "ToolboxBitmaps.KryptonPropertyGridVersion2.bmp")]
+[ToolboxBitmap(typeof(PropertyGrid), "ToolboxBitmaps.KryptonPropertyGrid.bmp")]
 [ToolboxItem(true)]
 public class KryptonPropertyGrid : VisualControlBase,
     IContainedInputControl
@@ -233,7 +233,10 @@ public class KryptonPropertyGrid : VisualControlBase,
     private readonly IntPtr _screenDC;
     private bool _alwaysActive;
     private bool _forcedLayout;
+    private readonly KryptonContextMenu _resetContextMenu;
     private readonly KryptonContextMenuItem _resetMenuItem;
+    private KryptonScrollbarManager? _scrollbarManager;
+    private bool? _useKryptonScrollbars;
 
     /// <summary>Occurs before a key is pressed while the control has focus.</summary>
     [Description(@"Occurs before a key is pressed while the control has focus.")]
@@ -268,13 +271,14 @@ public class KryptonPropertyGrid : VisualControlBase,
         base.Padding = new Padding(1);
 
         // Create the palette provider
-        StateCommon = new PaletteInputControlTripleRedirect(Redirector, PaletteBackStyle.InputControlStandalone, PaletteBorderStyle.HeaderCalendar, PaletteContentStyle.LabelNormalPanel, null);
+        StateCommon = new PaletteInputControlTripleRedirect(Redirector, PaletteBackStyle.GridBackgroundList, PaletteBorderStyle.HeaderCalendar, PaletteContentStyle.GridDataCellList, null);
         StateDisabled = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);
         StateNormal = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);
         StateActive = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);
 
         // Create the internal list box used for containing content
         _propertyGrid = new InternalPropertyGrid(this);
+        _propertyGrid.Font = DefaultFont; // Ensure valid font before DocComment.WmCreate; prevents Font.GetHeight ArgumentException
         _propertyGrid.Click += OnPropertyGridClick; // SKC: make sure that the default click is also routed.
         _propertyGrid.GotFocus += OnPropertyGridGotFocus;
         _propertyGrid.LostFocus += OnPropertyGridLostFocus;
@@ -311,7 +315,8 @@ public class KryptonPropertyGrid : VisualControlBase,
         ((KryptonReadOnlyControls)Controls).AddInternal(_propertyGrid);
 
         // Create a new KryptonContextMenu
-        KryptonContextMenu = new KryptonContextMenu();
+        _resetContextMenu = new KryptonContextMenu();
+        KryptonContextMenu = _resetContextMenu;
 
         KryptonContextMenuItems menuItems = new KryptonContextMenuItems();
 
@@ -319,7 +324,7 @@ public class KryptonPropertyGrid : VisualControlBase,
 
         menuItems.Items.Add(_resetMenuItem);
 
-        KryptonContextMenu.Items.Add(menuItems);
+        _resetContextMenu.Items.Add(menuItems);
     }
 
     /// <summary>
@@ -328,6 +333,14 @@ public class KryptonPropertyGrid : VisualControlBase,
     /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
     protected override void Dispose(bool disposing)
     {
+        if (disposing)
+        {
+            _resetContextMenu.Close();
+            _resetContextMenu.Dispose();
+            _scrollbarManager?.Dispose();
+            _scrollbarManager = null;
+        }
+
         base.Dispose(disposing);
         if (_screenDC != IntPtr.Zero)
         {
@@ -433,6 +446,39 @@ public class KryptonPropertyGrid : VisualControlBase,
     /// Activates the control.
     /// </summary>
     public new void Select() => _propertyGrid.Select();
+
+    /// <summary>
+    /// Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.
+    /// If not explicitly set, uses the global value from KryptonManager.UseKryptonScrollbars.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars. If not explicitly set, uses the global value from KryptonManager.UseKryptonScrollbars.")]
+    [DefaultValue(false)]
+    public bool UseKryptonScrollbars
+    {
+        get => _useKryptonScrollbars ?? KryptonManager.UseKryptonScrollbars;
+        set
+        {
+            bool currentValue = _useKryptonScrollbars ?? KryptonManager.UseKryptonScrollbars;
+            if (currentValue != value)
+            {
+                _useKryptonScrollbars = value;
+                UpdateScrollbarManager();
+            }
+        }
+    }
+
+    private bool ShouldSerializeUseKryptonScrollbars() => _useKryptonScrollbars.HasValue;
+
+    private void ResetUseKryptonScrollbars() => _useKryptonScrollbars = null;
+
+    /// <summary>
+    /// Gets access to the scrollbar manager when UseKryptonScrollbars is enabled.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public KryptonScrollbarManager? ScrollbarManager => _scrollbarManager;
+
     #endregion
 
     #region Expose Useful parts
@@ -632,10 +678,10 @@ public class KryptonPropertyGrid : VisualControlBase,
             _propertyGrid.ViewDrawPanel.ElementState = pState;
             _drawDockerOuter.ElementState = pState;
 
-            var normalFont = gridState.PaletteContent?.GetContentShortTextFont(PaletteState.ContextNormal);
-            var disabledFont = gridState.PaletteContent?.GetContentShortTextFont(PaletteState.Disabled);
-
-            _propertyGrid.Font = (Enabled ? normalFont : disabledFont)!;
+            // Use DefaultFont for PropertyGrid to avoid Font.GetHeight ArgumentException in DocComment.UpdateUIWithFont.
+            // Palette fonts can be invalid in certain themes or contexts, causing crash during PropertyGrid child creation.
+            Font safeFont = DefaultFont;
+            _propertyGrid.Font = safeFont;
             _propertyGrid.BackColor =
                 gridState.PaletteBack.GetBackColor1(Enabled ? PaletteState.Normal : PaletteState.Disabled);
 
@@ -648,21 +694,19 @@ public class KryptonPropertyGrid : VisualControlBase,
                 {
                     state = PaletteState.FocusOverride;
                     triple = StateActive;
-                    control.Font = StateActive.PaletteContent?.GetContentShortTextFont(PaletteState.FocusOverride)!;
                 }
                 else if (control.Enabled)
                 {
                     state = PaletteState.ContextNormal;
                     triple = StateNormal;
-                    // Note: tobitege commented out to avoid unrecoverable exception in System.Drawing, when toggling theme back and forth
-                    control.Font = normalFont!;
                 }
                 else
                 {
                     state = PaletteState.Disabled;
                     triple = StateDisabled;
-                    control.Font = disabledFont!;
                 }
+
+                control.Font = safeFont; // Same as PropertyGrid; avoids DocComment Font.GetHeight crash
 
                 control.ForeColor = triple.PaletteContent!.GetContentShortTextColor1(state);
                 control.BackColor = triple.PaletteBack.GetBackColor1(state);
@@ -680,7 +724,6 @@ public class KryptonPropertyGrid : VisualControlBase,
     }
 
     private IPaletteTriple GetTripleState() => Enabled ? (IsActive ? StateActive : StateNormal) : StateDisabled;
-
 
     private static Color ContrastColor(Color color)
     {
@@ -789,6 +832,9 @@ public class KryptonPropertyGrid : VisualControlBase,
     {
         // Let base class do standard stuff
         base.OnHandleCreated(e);
+
+        // Initialize scrollbar manager if needed
+        UpdateScrollbarManager();
 
         // Force the font to be set into the text box child control
         PerformNeedPaint(false);
@@ -909,6 +955,7 @@ public class KryptonPropertyGrid : VisualControlBase,
     protected override void OnEnabledChanged(EventArgs e)
     {
         base.OnEnabledChanged(e);
+        UpdateScrollbarManager();
         UpdateStateAndPalettes();
         PerformNeedPaint(false);
         _propertyGrid.Invalidate();
@@ -988,6 +1035,32 @@ public class KryptonPropertyGrid : VisualControlBase,
             }
 
             _propertyGrid.Refresh();
+        }
+    }
+
+    private void UpdateScrollbarManager()
+    {
+        if (KryptonManager.UseKryptonScrollbars)
+        {
+            if (_scrollbarManager == null)
+            {
+                _scrollbarManager = new KryptonScrollbarManager(_propertyGrid, ScrollbarManagerMode.NativeWrapper)
+                {
+                    Enabled = Enabled
+                };
+            }
+            else
+            {
+                _scrollbarManager.Enabled = Enabled;
+            }
+        }
+        else
+        {
+            if (_scrollbarManager != null)
+            {
+                _scrollbarManager.Dispose();
+                _scrollbarManager = null;
+            }
         }
     }
 

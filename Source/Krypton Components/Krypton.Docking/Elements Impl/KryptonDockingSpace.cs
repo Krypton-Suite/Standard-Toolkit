@@ -1,11 +1,11 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -703,6 +703,10 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
         {
             xmlWriter.WriteAttributeString(@"S", CommonHelper.SizeToString(SpaceControl.Size));
 
+            // Ensure layout is performed before saving to commit any structural changes
+            // (e.g., cells added when docking to edges) to the Root.Children collection
+            SpaceControl.PerformLayout();
+
             // Output an xml for the contained workspace
             SpaceControl.PageSaving += OnSpaceControlPageSaving;
             SpaceControl.SaveLayoutToXml(xmlWriter);
@@ -784,22 +788,33 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
 
         set
         {
-            // Should only ever set the value once
+            if (value == null)
+            {
+                // Allow clearing when the space has been disposed (e.g. empty dockspace after config load)
+                if (_space != null)
+                {
+                    _space.Disposed -= OnSpaceDisposed;
+                    _space.WorkspaceCellAdding -= OnSpaceCellAdding;
+                    _space.PageDrop -= RaiseSpacePageDrop;
+                    _space = null;
+                }
+
+                return;
+            }
+
+            // Should only ever set the value once (except when clearing with null)
             if (_space != null)
             {
                 throw new ArgumentException(@"Cannot set the 'Space' property more than once.", nameof(SpaceControl));
             }
 
             // Cache for future use
-            _space = value ?? throw new ArgumentNullException(nameof(value));
+            _space = value;
 
             // Hook into space events we need to monitor
-            if (SpaceControl != null)
-            {
-                SpaceControl.Disposed += OnSpaceDisposed;
-                SpaceControl.WorkspaceCellAdding += OnSpaceCellAdding;
-                SpaceControl.PageDrop += RaiseSpacePageDrop;
-            }
+            _space!.Disposed += OnSpaceDisposed;
+            _space.WorkspaceCellAdding += OnSpaceCellAdding;
+            _space.PageDrop += RaiseSpacePageDrop;
         }
     }
 
@@ -909,15 +924,20 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
     private void OnSpaceDisposed(object? sender, EventArgs e)
     {
         // Unhook from events to prevent memory leaking
-        if (SpaceControl != null)
+        if (sender is KryptonSpace space)
         {
-            SpaceControl.Disposed -= OnSpaceDisposed;
-            SpaceControl.WorkspaceCellAdding -= OnSpaceCellAdding;
-            SpaceControl.PageDrop -= RaiseSpacePageDrop;
+            space.Disposed -= OnSpaceDisposed;
+            space.WorkspaceCellAdding -= OnSpaceCellAdding;
+            space.PageDrop -= RaiseSpacePageDrop;
         }
 
         // Raise event to indicate the space control has been removed
         RaiseRemoved();
+
+        if (ReferenceEquals(sender, _space))
+        {
+            _space = null;
+        }
     }
 
     private void OnSpaceCellAdding(object? sender, WorkspaceCellEventArgs e)

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -63,7 +63,7 @@ public abstract class ButtonSpecRemapByContentBase : PaletteRedirect
         Color mapColor = OverrideImageColor(state);
 
         // If a map color provided then return is
-        return (mapColor != GlobalStaticValues.EMPTY_COLOR) && (PaletteContent != null) ? mapColor : base.GetContentImageColorMap(style, state);
+        return (mapColor != GlobalStaticVariables.EMPTY_COLOR) && (PaletteContent != null) ? mapColor : base.GetContentImageColorMap(style, state);
     }
     #endregion
 
@@ -80,7 +80,7 @@ public abstract class ButtonSpecRemapByContentBase : PaletteRedirect
         Color mapColor = OverrideImageColor(state);
 
         // If mapping occurring then return the target remap color
-        if ((mapColor != GlobalStaticValues.EMPTY_COLOR) && (PaletteContent != null))
+        if ((mapColor != GlobalStaticVariables.EMPTY_COLOR) && (PaletteContent != null))
         {
             PaletteState getState = PaletteState;
 
@@ -144,7 +144,7 @@ public abstract class ButtonSpecRemapByContentBase : PaletteRedirect
                 // ReSharper restore RedundantBaseQualifier
 
                 // If we are supposed to remap a color
-                if (mapColor != GlobalStaticValues.EMPTY_COLOR)
+                if (mapColor != GlobalStaticVariables.EMPTY_COLOR)
                 {
                     // ReSharper disable RedundantBaseQualifier
                     // Get the button style requested
@@ -160,7 +160,7 @@ public abstract class ButtonSpecRemapByContentBase : PaletteRedirect
             }
         }
 
-        return GlobalStaticValues.EMPTY_COLOR;
+        return GlobalStaticVariables.EMPTY_COLOR;
     }
 
     private bool OverrideTextColor(PaletteState state)

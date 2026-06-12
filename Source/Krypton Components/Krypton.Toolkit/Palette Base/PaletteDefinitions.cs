@@ -1,11 +1,11 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -1241,6 +1241,12 @@ public enum PaletteMetricInt
     HeaderButtonEdgeInsetForm,
 
     /// <summary>
+    /// Specifies how far to inset the right edge of form header buttons (e.g. close button).
+    /// Use 0 to align the close button with the form edge for easier corner clicking.
+    /// </summary>
+    HeaderButtonEdgeInsetFormRight,
+
+    /// <summary>
     /// Specifies how far to inset a button on a calendar header.
     /// </summary>
     HeaderButtonEdgeInsetCalendar,
@@ -1280,7 +1286,66 @@ public enum PaletteMetricInt
     /// <summary>
     /// Specifies the spacing gap been each ribbon tab.
     /// </summary>
-    RibbonTabGap
+    RibbonTabGap,
+
+    /// <summary>
+    /// Specifies the base size (at 96 DPI) of the drop-down arrow glyph in logical pixels.
+    /// </summary>
+    DropDownArrowBaseSize
+}
+#endregion
+
+#region Enum DropDownArrowRenderMode
+/// <summary>
+/// Specifies how drop-down arrow glyphs are rendered across Krypton controls.
+/// </summary>
+public enum DropDownArrowRenderMode
+{
+    /// <summary>
+    /// Unicode triangle characters (e.g. ▼) drawn with a symbol font.
+    /// </summary>
+    Unicode,
+
+    /// <summary>
+    /// Pixel-aligned polygon glyphs using palette outline and fill colours.
+    /// </summary>
+    Polygon
+}
+#endregion
+
+#region Enum DropDownArrowGlyphStyle
+/// <summary>
+/// Specifies how two-tone drop-down arrow glyphs are composited from outline and fill layers.
+/// </summary>
+public enum DropDownArrowGlyphStyle
+{
+    /// <summary>
+    /// Fill and outline glyphs are drawn at the same position (outline on top).
+    /// </summary>
+    Flat,
+
+    /// <summary>
+    /// Raised bevel: outline at the origin, fill offset down-right.
+    /// </summary>
+    Bevel,
+
+    /// <summary>
+    /// Inset/embossed: fill at the origin, outline offset down-right.
+    /// </summary>
+    Emboss
+}
+#endregion
+
+#region DropDownArrowGlyphDefaults
+/// <summary>
+/// Default drop-down arrow glyph metrics shared by built-in palettes and renderers.
+/// </summary>
+public static class DropDownArrowGlyphDefaults
+{
+    /// <summary>
+    /// Base drop-down arrow size in logical pixels at 96 DPI.
+    /// </summary>
+    public const int DefaultBaseSizeAt96Dpi = 14;
 }
 #endregion
 
@@ -4254,7 +4319,12 @@ public enum PaletteRibbonShape
     /// <summary>
     /// Specifies the Visual Studio ribbon shape.
     /// </summary>
-    VisualStudio
+    VisualStudio,
+
+    /// <summary>
+    /// Specifies the macOS unified-toolbar ribbon shape (flat tab strip, compact groups).
+    /// </summary>
+    MacOS
 }
 #endregion
 

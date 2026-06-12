@@ -4,7 +4,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  */
 #endregion
 
@@ -147,7 +147,7 @@ internal class VisualPopupAppMenu : VisualPopup
             var index = 1;
             foreach (KryptonRibbonRecentDoc recentDoc in _ribbon.RibbonFileAppButton.AppButtonRecentDocs)
             {
-                documentStack.Add(new ViewDrawRibbonAppMenuRecentDec(_ribbon, _provider, recentDoc, _ribbon.RibbonFileAppButton.AppButtonMaxRecentSize.Width, NeedPaintDelegate, index++));
+                documentStack.Add(new ViewDrawRibbonAppMenuRecentDoc(_ribbon, _provider, recentDoc, _ribbon.RibbonFileAppButton.AppButtonMaxRecentSize.Width, NeedPaintDelegate, index++));
             }
 
             // Add separator entry which is then used to fill remained space

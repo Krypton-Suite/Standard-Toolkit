@@ -1,8 +1,8 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2025 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -103,42 +103,44 @@ public sealed class PaletteVisualStudio2010Microsoft365Variation_BaseScheme : Kr
     public override Color RibbonGroupsArea5                { get; set; } = Color.FromArgb(216, 228, 242);
     public override Color RibbonGroupBorder1               { get; set; } = Color.FromArgb(235, 240, 246);
     public override Color RibbonGroupBorder2               { get; set; } = Color.FromArgb(240, 246, 252);
-    public override Color RibbonGroupTitle1                { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupTitle2                { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupBorderContext1        { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupBorderContext2        { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupTitleContext1         { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupTitleContext2         { get; set; } = GlobalStaticValues.EMPTY_COLOR;
+    public override Color RibbonGroupTitle1                { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color RibbonGroupTitle2                { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color RibbonGroupBorderContext1        { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color RibbonGroupBorderContext2        { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color RibbonGroupTitleContext1         { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color RibbonGroupTitleContext2         { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
     public override Color RibbonGroupDialogDark            { get; set; } = Color.FromArgb(135, 142, 152);
     public override Color RibbonGroupDialogLight           { get; set; } = Color.FromArgb(165, 174, 183);
-    public override Color RibbonGroupTitleTracking1        { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupTitleTracking2        { get; set; } = GlobalStaticValues.EMPTY_COLOR;
+    public override Color RibbonGroupTitleTracking1        { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color RibbonGroupTitleTracking2        { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
     public override Color RibbonMinimizeBarDark            { get; set; } = Color.FromArgb(139, 160, 188);
     public override Color RibbonMinimizeBarLight           { get; set; } = Color.FromArgb(198, 218, 240);
-    public override Color RibbonGroupCollapsedBorder1      { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupCollapsedBorder2      { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupCollapsedBorder3      { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupCollapsedBorder4      { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupCollapsedBack1        { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupCollapsedBack2        { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupCollapsedBack3        { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupCollapsedBack4        { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupCollapsedBorderT1     { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupCollapsedBorderT2     { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupCollapsedBorderT3     { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupCollapsedBorderT4     { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupCollapsedBackT1       { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupCollapsedBackT2       { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupCollapsedBackT3       { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupCollapsedBackT4       { get; set; } = GlobalStaticValues.EMPTY_COLOR;
+    public override Color RibbonGroupCollapsedBorder1      { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color RibbonGroupCollapsedBorder2      { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color RibbonGroupCollapsedBorder3      { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color RibbonGroupCollapsedBorder4      { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color RibbonGroupCollapsedBack1        { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color RibbonGroupCollapsedBack2        { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color RibbonGroupCollapsedBack3        { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color RibbonGroupCollapsedBack4        { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color RibbonGroupCollapsedBorderT1     { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color RibbonGroupCollapsedBorderT2     { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color RibbonGroupCollapsedBorderT3     { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color RibbonGroupCollapsedBorderT4     { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color RibbonGroupCollapsedBackT1       { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color RibbonGroupCollapsedBackT2       { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color RibbonGroupCollapsedBackT3       { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color RibbonGroupCollapsedBackT4       { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
     public override Color RibbonGroupFrameBorder1          { get; set; } = Color.FromArgb(189, 203, 218);
     public override Color RibbonGroupFrameBorder2          { get; set; } = Color.FromArgb(184, 199, 216);
     public override Color RibbonGroupFrameInside1          { get; set; } = Color.FromArgb(233, 241, 250);
     public override Color RibbonGroupFrameInside2          { get; set; } = Color.FromArgb(222, 233, 246);
-    public override Color RibbonGroupFrameInside3          { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color RibbonGroupFrameInside4          { get; set; } = GlobalStaticValues.EMPTY_COLOR;
+    public override Color RibbonGroupFrameInside3          { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color RibbonGroupFrameInside4          { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
     public override Color RibbonGroupCollapsedText         { get; set; } = Color.FromArgb(30, 57, 91);
-    public override Color RibbonGroupButtonText            { get; set; } = GlobalStaticValues.EMPTY_COLOR; // missing value
+    public override Color RibbonGroupTextTracking          { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color ButtonTextTracking               { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color RibbonGroupButtonText            { get; set; } = GlobalStaticVariables.EMPTY_COLOR; // missing value
     public override Color AlternatePressedBack1            { get; set; } = Color.FromArgb(118, 153, 200);
     public override Color AlternatePressedBack2            { get; set; } = Color.FromArgb(184, 215, 253);
     public override Color AlternatePressedBorder1          { get; set; } = Color.FromArgb(135, 156, 175);
@@ -208,7 +210,7 @@ public sealed class PaletteVisualStudio2010Microsoft365Variation_BaseScheme : Kr
     public override Color AppButtonOuter1                  { get; set; } = Color.FromArgb(195, 212, 235);
     public override Color AppButtonOuter2                  { get; set; } = Color.FromArgb(195, 212, 235);
     public override Color AppButtonOuter3                  { get; set; } = Color.FromArgb(195, 212, 235);
-    public override Color AppButtonInner1                  { get; set; } = GlobalStaticValues.EMPTY_COLOR;
+    public override Color AppButtonInner1                  { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
     public override Color AppButtonInner2                  { get; set; } = Color.FromArgb(114, 142, 173);
     public override Color AppButtonMenuDocsBack            { get; set; } = Color.White;
     public override Color AppButtonMenuDocsText            { get; set; } = Color.FromArgb(0, 0, 0);
@@ -238,12 +240,12 @@ public sealed class PaletteVisualStudio2010Microsoft365Variation_BaseScheme : Kr
     public override Color ButtonNavigatorChecked1          { get; set; } = Color.FromArgb(200, 219, 240);
     public override Color ButtonNavigatorChecked2          { get; set; } = Color.FromArgb(177, 201, 228);
     public override Color ToolTipBottom                    { get; set; } = Color.FromArgb(201, 217, 239);
-    public override Color MenuItemText                     { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color MenuMarginGradientStart          { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color MenuMarginGradientMiddle         { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color MenuMarginGradientEnd            { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color DisabledMenuItemText             { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color MenuStripText                    { get; set; } = GlobalStaticValues.EMPTY_COLOR;
+    public override Color MenuItemText                     { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color MenuMarginGradientStart          { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color MenuMarginGradientMiddle         { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color MenuMarginGradientEnd            { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color DisabledMenuItemText             { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color MenuStripText                    { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
     public override Color TrackBarTickMarks                { get; set; } = Color.FromArgb(116, 150, 194);
     public override Color TrackBarTopTrack                 { get; set; } = Color.FromArgb(116, 150, 194);
     public override Color TrackBarBottomTrack              { get; set; } = Color.FromArgb(152, 190, 241);

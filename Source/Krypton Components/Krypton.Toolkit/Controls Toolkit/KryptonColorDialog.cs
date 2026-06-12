@@ -1,7 +1,7 @@
 ﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2021 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2021 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -15,7 +15,7 @@ namespace Krypton.Toolkit;
 /// Represents a common dialog box that displays colours
 /// that are currently installed on the system.
 /// </summary>
-[ToolboxBitmap(typeof(ColorDialog), "ToolboxBitmaps.KryptonColorDialog.png"),
+[ToolboxBitmap(typeof(ColorDialog), "ToolboxBitmaps.KryptonColorDialog.bmp"),
  Description("Displays a Kryptonised version of the standard Colour dialog, which displays colours that are currently installed on the system.")]
 public class KryptonColorDialog : ColorDialog
 {

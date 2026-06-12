@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -70,8 +70,8 @@ internal class KryptonRibbonGroupCheckBoxDesigner : ComponentDesigner
         }
 
         // Get access to the services
-        _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_designerHost)));
-        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_changeService)));
+        _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
+        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
 
         // We need to know when we are being removed/changed
         _changeService.ComponentChanged += OnComponentChanged;
@@ -162,12 +162,10 @@ internal class KryptonRibbonGroupCheckBoxDesigner : ComponentDesigner
 
     private void OnMoveFirst(object? sender, EventArgs e)
     {
-        if (_ribbonCheckBox is not null
-            && _ribbonCheckBox.Ribbon is not null
-            && _ribbonCheckBox.RibbonContainer is not null)
+        if (_ribbonCheckBox is { Ribbon: not null, RibbonContainer: not null })
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
+            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCheckBox MoveFirst");
@@ -196,13 +194,11 @@ internal class KryptonRibbonGroupCheckBoxDesigner : ComponentDesigner
 
     private void OnMovePrevious(object? sender, EventArgs e)
     {
-        if (_ribbonCheckBox is not null
-            && _ribbonCheckBox.Ribbon is not null
-            && _ribbonCheckBox.RibbonContainer is not null)
+        if (_ribbonCheckBox is { Ribbon: not null, RibbonContainer: not null })
 
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
+            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCheckBox MovePrevious");
@@ -233,12 +229,10 @@ internal class KryptonRibbonGroupCheckBoxDesigner : ComponentDesigner
 
     private void OnMoveNext(object? sender, EventArgs e)
     {
-        if (_ribbonCheckBox is not null
-            && _ribbonCheckBox.Ribbon is not null
-            && _ribbonCheckBox.RibbonContainer is not null)
+        if (_ribbonCheckBox is { Ribbon: not null, RibbonContainer: not null })
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
+            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCheckBox MoveNext");
@@ -269,12 +263,10 @@ internal class KryptonRibbonGroupCheckBoxDesigner : ComponentDesigner
 
     private void OnMoveLast(object? sender, EventArgs e)
     {
-        if (_ribbonCheckBox is not null
-            && _ribbonCheckBox.Ribbon is not null
-            && _ribbonCheckBox.RibbonContainer is not null)
+        if (_ribbonCheckBox is { Ribbon: not null, RibbonContainer: not null })
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
+            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCheckBox MoveLast");
@@ -303,12 +295,10 @@ internal class KryptonRibbonGroupCheckBoxDesigner : ComponentDesigner
 
     private void OnDeleteCheckBox(object? sender, EventArgs e)
     {
-        if (_ribbonCheckBox is not null
-            && _ribbonCheckBox.Ribbon is not null
-            && _ribbonCheckBox.RibbonContainer is not null)
+        if (_ribbonCheckBox is { Ribbon: not null, RibbonContainer: not null })
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("items"));
+            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCheckBox DeleteCheckBox");
@@ -341,7 +331,7 @@ internal class KryptonRibbonGroupCheckBoxDesigner : ComponentDesigner
 
     private void OnVisible(object? sender, EventArgs e)
     {
-        if (_ribbonCheckBox is not null && _ribbonCheckBox.Ribbon is not null)
+        if (_ribbonCheckBox?.Ribbon != null)
 
         {
             _changeService.OnComponentChanged(_ribbonCheckBox, null, _ribbonCheckBox.Visible, !_ribbonCheckBox.Visible);
@@ -351,7 +341,7 @@ internal class KryptonRibbonGroupCheckBoxDesigner : ComponentDesigner
 
     private void OnEnabled(object? sender, EventArgs e)
     {
-        if (_ribbonCheckBox is not null && _ribbonCheckBox.Ribbon is not null)
+        if (_ribbonCheckBox?.Ribbon != null)
         {
             _changeService.OnComponentChanged(_ribbonCheckBox, null, _ribbonCheckBox.Enabled, !_ribbonCheckBox.Enabled);
             _ribbonCheckBox.Enabled = !_ribbonCheckBox.Enabled;
@@ -360,7 +350,7 @@ internal class KryptonRibbonGroupCheckBoxDesigner : ComponentDesigner
 
     private void OnAutoCheck(object? sender, EventArgs e)
     {
-        if (_ribbonCheckBox is not null && _ribbonCheckBox.Ribbon is not null)
+        if (_ribbonCheckBox?.Ribbon != null)
         {
             _changeService.OnComponentChanged(_ribbonCheckBox, null, _ribbonCheckBox.AutoCheck, !_ribbonCheckBox.AutoCheck);
             _ribbonCheckBox.AutoCheck = !_ribbonCheckBox.AutoCheck;
@@ -369,7 +359,7 @@ internal class KryptonRibbonGroupCheckBoxDesigner : ComponentDesigner
 
     private void OnThreeState(object? sender, EventArgs e)
     {
-        if (_ribbonCheckBox is not null && _ribbonCheckBox.Ribbon is not null)
+        if (_ribbonCheckBox?.Ribbon != null)
         {
             _changeService.OnComponentChanged(_ribbonCheckBox, null, _ribbonCheckBox.ThreeState, !_ribbonCheckBox.ThreeState);
             _ribbonCheckBox.ThreeState = !_ribbonCheckBox.ThreeState;
@@ -378,7 +368,7 @@ internal class KryptonRibbonGroupCheckBoxDesigner : ComponentDesigner
 
     private void OnChecked(object? sender, EventArgs e)
     {
-        if (_ribbonCheckBox is not null && _ribbonCheckBox.Ribbon is not null)
+        if (_ribbonCheckBox?.Ribbon != null)
         {
             _changeService.OnComponentChanged(_ribbonCheckBox, null, _ribbonCheckBox.Checked, !_ribbonCheckBox.Checked);
             _ribbonCheckBox.Checked = !_ribbonCheckBox.Checked;
