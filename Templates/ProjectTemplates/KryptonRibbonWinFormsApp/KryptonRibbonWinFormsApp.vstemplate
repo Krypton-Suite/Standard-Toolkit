@@ -1,0 +1,18 @@
+<VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
+  <TemplateData>
+    <Name>Krypton Ribbon WinForms App</Name>
+    <Description>Creates a new WinForms app configured for Krypton Toolkit with a ribbon-based main form.</Description>
+    <ProjectType>CSharp</ProjectType>
+    <DefaultName>KryptonRibbonWinFormsApp</DefaultName>
+    <SortOrder>1201</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <ProvideDefaultName>true</ProvideDefaultName>
+  </TemplateData>
+  <TemplateContent>
+    <Project File="KryptonRibbonWinFormsApp.csproj" ReplaceParameters="true" TargetFileName="$safeprojectname$.csproj">
+      <ProjectItem ReplaceParameters="true">Program.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true">MainForm.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true">MainForm.Designer.cs</ProjectItem>
+    </Project>
+  </TemplateContent>
+</VSTemplate>

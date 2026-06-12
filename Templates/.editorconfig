@@ -1,0 +1,4 @@
+# VSIX manifests must be UTF-8 without BOM (VSSDK1048 if a BOM precedes <?xml).
+[*.vsixmanifest]
+charset = utf-8
+end_of_line = lf

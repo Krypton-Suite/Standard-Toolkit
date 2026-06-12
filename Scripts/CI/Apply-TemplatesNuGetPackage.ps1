@@ -27,7 +27,6 @@ $templateCsprojs = @(
 
 $utf8NoBom = New-Object System.Text.UTF8Encoding $false
 $pattern = 'Include="Krypton\.Standard\.Toolkit(?:\.Canary|\.Nightly)?"'
-$targetInclude = "Include=`"$packageId`""
 
 foreach ($path in $templateCsprojs) {
     if (-not (Test-Path -LiteralPath $path)) {
@@ -35,12 +34,7 @@ foreach ($path in $templateCsprojs) {
     }
 
     $text = [System.IO.File]::ReadAllText($path, $utf8NoBom)
-    if ($text -match [regex]::Escape($targetInclude)) {
-        Write-Host "Already set to '$packageId' in: $path"
-        continue
-    }
-
-    $updated = [regex]::Replace($text, $pattern, $targetInclude)
+    $updated = [regex]::Replace($text, $pattern, "Include=`"$packageId`"")
     if ($updated -eq $text) {
         throw "PackageReference for Krypton.Standard.Toolkit was not found in: $path"
     }
