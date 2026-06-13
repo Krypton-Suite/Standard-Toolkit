@@ -101,7 +101,7 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
 
             return Ribbon.RibbonShape switch
             {
-                PaletteRibbonShape.Office2010 => _borderPadding2010,
+                PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS => _borderPadding2010,
                 PaletteRibbonShape.VisualStudio2010 => _borderPaddingVisualStudio2010,
                 PaletteRibbonShape.Office2013 => _borderPadding2013,
                 PaletteRibbonShape.Microsoft365 => _borderPadding365,
@@ -197,7 +197,7 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
             drawRect.Width += borderPadding.Horizontal;
             drawRect.Height += borderPadding.Vertical;
         }
-        else if (Ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.MacOS)
+        else if (Ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS)
         {
             // Prevent the left and right edges from being drawn
             drawRect.X -= 1;

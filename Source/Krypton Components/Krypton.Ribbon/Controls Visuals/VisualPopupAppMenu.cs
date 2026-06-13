@@ -192,7 +192,7 @@ internal class VisualPopupAppMenu : VisualPopup
     private void CreateAppButtonBottom() => _appButtonBottom = new ViewDrawRibbonAppButton(_ribbon, true)
     {
         ElementState = PaletteState.Pressed,
-        Visible = _ribbon.RibbonShape != PaletteRibbonShape.Office2010
+        Visible = _ribbon.RibbonShape is not (PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS)
     };
 
     private void CreateOutsideDocker()

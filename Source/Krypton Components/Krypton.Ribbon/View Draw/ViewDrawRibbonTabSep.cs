@@ -94,6 +94,8 @@ internal class ViewDrawRibbonTabSep : ViewLayoutRibbonSeparator
                     context.Graphics.FillRectangle(sepBrush, ClientLocation.X + 2, ClientLocation.Y, 1, ClientHeight - 1);
                     break;
                 case PaletteRibbonShape.Office2010:
+                case PaletteRibbonShape.OSXAqua:
+                case PaletteRibbonShape.MacOS:
                 case PaletteRibbonShape.VisualStudio2010:
                     context.Graphics.FillRectangle(sepBrush, ClientLocation.X + 1, ClientLocation.Y, 1, ClientHeight - 1);
 
@@ -101,8 +103,6 @@ internal class ViewDrawRibbonTabSep : ViewLayoutRibbonSeparator
                     {
                         context.Graphics.FillRectangle(sepLightBrush, ClientLocation.X + 2, ClientLocation.Y, 1, ClientHeight - 1);
                     }
-                    break;
-                case PaletteRibbonShape.MacOS:
                     break;
             }
         }

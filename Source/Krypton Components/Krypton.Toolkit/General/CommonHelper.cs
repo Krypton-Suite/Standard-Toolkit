@@ -555,6 +555,14 @@ public static class CommonHelper
     public static bool IsOverrideState(PaletteState state) => (state & PaletteState.Override) == PaletteState.Override;
 
     /// <summary>
+    /// Right-edge inset for form header buttons on the Far edge, aligned with the left form header inset.
+    /// </summary>
+    /// <param name="owningForm">Form providing non-client border metrics.</param>
+    /// <returns>Pixel inset from the right chrome edge.</returns>
+    public static int GetFormHeaderButtonEdgeInsetRight(KryptonForm? owningForm) =>
+        owningForm == null ? 0 : Math.Max(2, owningForm.RealWindowBorders.Right);
+
+    /// <summary>
     /// Gets a value indicating if the provided value is an override state but excludes one value.
     /// </summary>
     /// <param name="state">Specific state.</param>

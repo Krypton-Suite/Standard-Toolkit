@@ -598,7 +598,8 @@ internal class ViewDrawRibbonGroup : ViewComposite,
                         _lastRibbonShape = PaletteRibbonShape.Office2007;
                         break;
                     case PaletteRibbonShape.Office2010:
-                        case PaletteRibbonShape.MacOS:
+                    case PaletteRibbonShape.OSXAqua:
+                    case PaletteRibbonShape.MacOS:
                         _totalBorders = _totalLeftRightBorders2010;
                         _layoutNormalMain.VertOffset = _vertOffset2010;
                         _layoutNormalSepTop.SeparatorSize = new Size(_normalBorderTop2010, _normalBorderTop2010);
@@ -892,6 +893,7 @@ internal class ViewDrawRibbonGroup : ViewComposite,
             }
                 break;
             case PaletteRibbonShape.Office2010:
+            case PaletteRibbonShape.OSXAqua:
             case PaletteRibbonShape.MacOS:
             {
                 Rectangle drawRect = ClientRectangle;

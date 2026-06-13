@@ -210,7 +210,7 @@ internal class ViewDrawRibbonContextTitle : ViewLeaf,
         }
 
         // Office 2010 draws a shadow effect of the text
-        if (_ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.VisualStudio2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365 or PaletteRibbonShape.VisualStudio)
+        if (_ribbon.RibbonShape is PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS or PaletteRibbonShape.Office2010 or PaletteRibbonShape.VisualStudio2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365 or PaletteRibbonShape.VisualStudio)
         {
             var shadowTextRect1 = _textRect with { X = _textRect.X - 1, Y = _textRect.Y + 1 };
             var shadowTextRect2 = _textRect with { X = _textRect.X + 1, Y = _textRect.Y + 1 };
@@ -259,7 +259,7 @@ internal class ViewDrawRibbonContextTitle : ViewLeaf,
         }
 
         // Office 2010 draws a shadow effect of the text
-        if ((_ribbon.RibbonShape == PaletteRibbonShape.Office2010) && (_mementoContentShadow1 != null))
+        if ((_ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS) && (_mementoContentShadow1 != null))
         {
             PaletteState state = _ribbon.Enabled ? PaletteState.Normal : PaletteState.Disabled;
 
