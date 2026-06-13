@@ -46,6 +46,7 @@
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
 * Implemented [#3657](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3657), OS X Aqua Themes
+* Resolved [#3741](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3741), Message indicating that `KryptonCustomPaletteBase` has Not Implemented. Fixed custom palette "Not Implemented" prompts when `GlobalCustomPalette` is set in designer mode (grid background/content `Tracking` and `ContextNormal` state fallbacks)
 * Resolved [#3736](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3736), Fixed high-dpi scaling causing magenta image borders
 * Implemented [#3718](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3718), Use 'switch' expression
 * Resolved [#3720](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3720), `KryptonTreeView` freezes blank after programmatic `SelectedNode = null` then re-select (drain leaked selection `BeginUpdate`/`EndUpdate` batches from #3282/#3498)

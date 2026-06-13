@@ -12,8 +12,8 @@
 		<KryptonNavigatorProject>$(KryptonComponentsRoot)\Krypton.Navigator\Krypton.Navigator 2022.csproj</KryptonNavigatorProject>
 		<KryptonWorkspaceProject>$(KryptonComponentsRoot)\Krypton.Workspace\Krypton.Workspace 2022.csproj</KryptonWorkspaceProject>
 		<KryptonDockingProject>$(KryptonComponentsRoot)\Krypton.Docking\Krypton.Docking 2022.csproj</KryptonDockingProject>
-		<KryptonComponentBuildProperties Condition="'$(TFMs)' != ''">Configuration=$(Configuration);TFMs=$(TFMs)</KryptonComponentBuildProperties>
-		<KryptonComponentBuildProperties Condition="'$(TFMs)' == ''">Configuration=$(Configuration);TFMs=all</KryptonComponentBuildProperties>
+		<KryptonComponentBuildProperties Condition="'$(TFMs)' != ''">Configuration=$(Configuration);TFMs=$(TFMs);UseArtifactsOutput=$(UseArtifactsOutput)</KryptonComponentBuildProperties>
+		<KryptonComponentBuildProperties Condition="'$(TFMs)' == ''">Configuration=$(Configuration);TFMs=all;UseArtifactsOutput=$(UseArtifactsOutput)</KryptonComponentBuildProperties>
 		<KryptonComponentBuildProperties Condition="'$(ExcludeNet11)' != ''">$(KryptonComponentBuildProperties);ExcludeNet11=$(ExcludeNet11)</KryptonComponentBuildProperties>
 	</PropertyGroup>
 
