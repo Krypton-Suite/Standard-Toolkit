@@ -900,11 +900,15 @@ public abstract class VisualControlBase : Control,
         if (attach)
         {
             KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
+            KryptonManager.GlobalDropDownArrowRenderModeChanged += OnGlobalDropDownArrowSettingsChanged;
+            KryptonManager.GlobalDropDownArrowGlyphStyleChanged += OnGlobalDropDownArrowSettingsChanged;
             SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
         }
         else
         {
             KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
+            KryptonManager.GlobalDropDownArrowRenderModeChanged -= OnGlobalDropDownArrowSettingsChanged;
+            KryptonManager.GlobalDropDownArrowGlyphStyleChanged -= OnGlobalDropDownArrowSettingsChanged;
             SystemEvents.UserPreferenceChanged -= OnUserPreferenceChanged;
         }
     }
@@ -1509,6 +1513,20 @@ public abstract class VisualControlBase : Control,
 
         base.OnHandleCreated(e);
     }
+
+    /// <summary>
+    /// Occurs when global drop-down arrow glyph settings have been changed.
+    /// </summary>
+    /// <param name="sender">Source of the event.</param>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected virtual void OnGlobalDropDownArrowSettingsChanged(object? sender, EventArgs e)
+    {
+        if (IsHandleCreated)
+        {
+            OnNeedPaint(LocalCustomPalette, new NeedLayoutEventArgs(false));
+        }
+    }
+
     #endregion
 
 }

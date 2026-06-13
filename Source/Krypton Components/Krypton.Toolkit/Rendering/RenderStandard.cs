@@ -4,7 +4,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
  */
 #endregion
 
@@ -57,7 +57,6 @@ public class RenderStandard : RenderBase
 	private const int SPACING_TAB_SMOOTH_LRO = 9;
 	private const int SPACING_TAB_SMOOTH_TO = 7;
 	private const int GROUP_FRAME_TITLE_HEIGHT = 8;
-	private const int DROP_DOWN_ARROW_BASE_SIZE = 10;
 	private const float GROUP_GRADIENT_TWO = 0.16f;
 	private const float GROUP_GRADIENT_FRAME = 0.32f;
 
@@ -350,21 +349,21 @@ public class RenderStandard : RenderBase
 
 		_gridSortOrder = new ImageList
 		{
-			TransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR,
+			TransparentColor = Color.Empty,
 			ImageSize = new Size(17, 11)
 		};
 		_gridSortOrder.Images.AddStrip(GridImageResources.GridSortOrder);
 
 		_gridRowIndicators = new ImageList
 		{
-			TransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR,
+			TransparentColor = Color.Empty,
 			ImageSize = new Size(19, 13)
 		};
 		_gridRowIndicators.Images.AddStrip(GridImageResources.GridRowIndicators);
 
 		_gridErrorIcon = new ImageList
 		{
-			TransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR,
+			TransparentColor = Color.Empty,
 			ImageSize = new Size(18, 17)
 		};
 		_gridErrorIcon.Images.AddStrip(GenericImageResources.GridErrorIcon);
@@ -501,7 +500,7 @@ public class RenderStandard : RenderBase
 			float paletteRounding = palette.GetBorderRounding(state);
 			float roundingForPadding = paletteRounding;
 
-			// Match CreateBorderBackPath: rounding must fit inside the outer rectangle (#3381)
+			// Match CreateBorderBackPath: rounding must fit inside the outer rectangle
 			if (borderOuterSize.Width > 0 && borderOuterSize.Height > 0)
 			{
 				float maxRounding = Math.Min(borderOuterSize.Width / 2f, borderOuterSize.Height / 2f) - borderWidth;
@@ -1374,6 +1373,22 @@ public class RenderStandard : RenderBase
 				palette.GetContentImageColorTo(state));
 		}
 
+		// Draw overlay image if present
+		if (standard.DrawOverlayImage && standard.OverlayImage != null &&
+			!standard.OverlayImageRect.IsEmpty &&
+			standard.OverlayImageRect.Width > 0 &&
+			standard.OverlayImageRect.Height > 0)
+		{
+			DrawImageHelper(context,
+				standard.OverlayImage,
+				standard.OverlayImageTransparentColor,
+				standard.OverlayImageRect,
+				orientation,
+				palette.GetContentImageEffect(state),
+				palette.GetContentImageColorMap(state),
+				palette.GetContentImageColorTo(state));
+		}
+
 		if (standard.DrawShortText)
 		{
 			using var hint = new GraphicsTextHint(context.Graphics, standard.ShortTextHint);
@@ -1775,62 +1790,48 @@ public class RenderStandard : RenderBase
 				// Calculate the extra needed for the outsize variant
 				var x = tabBorderStyle == TabBorderStyle.SlantOutsizeNear ? SPACING_TAB_OUTSIZE_PADDING : 0;
 
-				switch (orientation)
+				ret = orientation switch
 				{
-					case VisualOrientation.Top:
-						ret = rtl
-							? new Padding(borderWidth + x, borderWidth + x,
-								borderWidth + x + SPACING_TAB_SLANT_PADDING - 1, 0)
-							: new Padding(borderWidth + x + SPACING_TAB_SLANT_PADDING - 1, borderWidth + x,
-								borderWidth + x, 0);
-
-						break;
-					case VisualOrientation.Left:
-						ret = new Padding(borderWidth + x + SPACING_TAB_SLANT_PADDING - 1, borderWidth + x, borderWidth + x, 0);
-						break;
-					case VisualOrientation.Right:
-						ret = new Padding(borderWidth + x, borderWidth + x, borderWidth + x + SPACING_TAB_SLANT_PADDING - 1, 0);
-						break;
-					case VisualOrientation.Bottom:
-						ret = rtl
-							? new Padding(borderWidth + x + SPACING_TAB_SLANT_PADDING - 1, borderWidth + x,
-								borderWidth + x, 0)
-							: new Padding(borderWidth + x, borderWidth + x,
-								borderWidth + x + SPACING_TAB_SLANT_PADDING - 1, 0);
-
-						break;
-				}
+					VisualOrientation.Top => rtl
+						? new Padding(borderWidth + x, borderWidth + x, borderWidth + x + SPACING_TAB_SLANT_PADDING - 1,
+							0)
+						: new Padding(borderWidth + x + SPACING_TAB_SLANT_PADDING - 1, borderWidth + x, borderWidth + x,
+							0),
+					VisualOrientation.Left => new Padding(borderWidth + x + SPACING_TAB_SLANT_PADDING - 1,
+						borderWidth + x, borderWidth + x, 0),
+					VisualOrientation.Right => new Padding(borderWidth + x, borderWidth + x,
+						borderWidth + x + SPACING_TAB_SLANT_PADDING - 1, 0),
+					VisualOrientation.Bottom => rtl
+						? new Padding(borderWidth + x + SPACING_TAB_SLANT_PADDING - 1, borderWidth + x, borderWidth + x,
+							0)
+						: new Padding(borderWidth + x, borderWidth + x, borderWidth + x + SPACING_TAB_SLANT_PADDING - 1,
+							0),
+					_ => ret
+				};
 				break;
 			case TabBorderStyle.SlantEqualFar:
 			case TabBorderStyle.SlantOutsizeFar:
 				// Calculate the extra needed for the outsize variant
 				var y = tabBorderStyle == TabBorderStyle.SlantOutsizeFar ? SPACING_TAB_OUTSIZE_PADDING : 0;
 
-				switch (orientation)
+				ret = orientation switch
 				{
-					case VisualOrientation.Top:
-						ret = rtl
-							? new Padding(borderWidth + y + SPACING_TAB_SLANT_PADDING - 1, borderWidth + y,
-								borderWidth + y, 0)
-							: new Padding(borderWidth + y, borderWidth + y,
-								borderWidth + y + SPACING_TAB_SLANT_PADDING - 1, 0);
-
-						break;
-					case VisualOrientation.Left:
-						ret = new Padding(borderWidth + y, borderWidth + y, borderWidth + y + SPACING_TAB_SLANT_PADDING - 1, 0);
-						break;
-					case VisualOrientation.Right:
-						ret = new Padding(borderWidth + y + SPACING_TAB_SLANT_PADDING - 1, borderWidth + y, borderWidth + y, 0);
-						break;
-					case VisualOrientation.Bottom:
-						ret = rtl
-							? new Padding(borderWidth + y, borderWidth + y,
-								borderWidth + y + SPACING_TAB_SLANT_PADDING - 1, 0)
-							: new Padding(borderWidth + y + SPACING_TAB_SLANT_PADDING - 1, borderWidth + y,
-								borderWidth + y, 0);
-
-						break;
-				}
+					VisualOrientation.Top => rtl
+						? new Padding(borderWidth + y + SPACING_TAB_SLANT_PADDING - 1, borderWidth + y, borderWidth + y,
+							0)
+						: new Padding(borderWidth + y, borderWidth + y, borderWidth + y + SPACING_TAB_SLANT_PADDING - 1,
+							0),
+					VisualOrientation.Left => new Padding(borderWidth + y, borderWidth + y,
+						borderWidth + y + SPACING_TAB_SLANT_PADDING - 1, 0),
+					VisualOrientation.Right => new Padding(borderWidth + y + SPACING_TAB_SLANT_PADDING - 1,
+						borderWidth + y, borderWidth + y, 0),
+					VisualOrientation.Bottom => rtl
+						? new Padding(borderWidth + y, borderWidth + y, borderWidth + y + SPACING_TAB_SLANT_PADDING - 1,
+							0)
+						: new Padding(borderWidth + y + SPACING_TAB_SLANT_PADDING - 1, borderWidth + y, borderWidth + y,
+							0),
+					_ => ret
+				};
 				break;
 			case TabBorderStyle.SlantEqualBoth:
 			case TabBorderStyle.SlantOutsizeBoth:
@@ -1850,27 +1851,18 @@ public class RenderStandard : RenderBase
 				var bp = selected ? SPACING_TAB_ONE_NOTE_BPS : SPACING_TAB_ONE_NOTE_BPI;
 				var rp = selected ? SPACING_TAB_ONE_NOTE_RPS : SPACING_TAB_ONE_NOTE_RPI;
 
-				switch (orientation)
+				ret = orientation switch
 				{
-					case VisualOrientation.Top:
-						ret = rtl
-							? new Padding(borderWidth + rp, borderWidth + tp, borderWidth + lp, bp)
-							: new Padding(borderWidth + lp, borderWidth + tp, borderWidth + rp, bp);
-
-						break;
-					case VisualOrientation.Left:
-						ret = new Padding(borderWidth + rp, borderWidth + tp, borderWidth + lp, bp);
-						break;
-					case VisualOrientation.Right:
-						ret = new Padding(borderWidth + lp, borderWidth + tp, borderWidth + rp, bp);
-						break;
-					case VisualOrientation.Bottom:
-						ret = rtl
-							? new Padding(borderWidth + lp, borderWidth + tp, borderWidth + rp, bp)
-							: new Padding(borderWidth + rp, borderWidth + tp, borderWidth + lp, bp);
-
-						break;
-				}
+					VisualOrientation.Top => rtl
+						? new Padding(borderWidth + rp, borderWidth + tp, borderWidth + lp, bp)
+						: new Padding(borderWidth + lp, borderWidth + tp, borderWidth + rp, bp),
+					VisualOrientation.Left => new Padding(borderWidth + rp, borderWidth + tp, borderWidth + lp, bp),
+					VisualOrientation.Right => new Padding(borderWidth + lp, borderWidth + tp, borderWidth + rp, bp),
+					VisualOrientation.Bottom => rtl
+						? new Padding(borderWidth + lp, borderWidth + tp, borderWidth + rp, bp)
+						: new Padding(borderWidth + rp, borderWidth + tp, borderWidth + lp, bp),
+					_ => ret
+				};
 				break;
 			case TabBorderStyle.SmoothEqual:
 				ret = new Padding(borderWidth + SPACING_TAB_SMOOTH_LRE, borderWidth + SPACING_TAB_SMOOTH_TE, borderWidth + SPACING_TAB_SMOOTH_LRE, 0);
@@ -2566,16 +2558,11 @@ public class RenderStandard : RenderBase
 		PaletteState state,
 		VisualOrientation orientation)
 	{
-		var paletteBase = KryptonManager.CurrentGlobalPalette;
-		var baseSize = (paletteBase != null ? paletteBase.GetMetricInt(null, state, PaletteMetricInt.DropDownArrowBaseSize) : 0);
-		if (baseSize <= 0)
-		{
-			baseSize = DROP_DOWN_ARROW_BASE_SIZE;
-		}
-
-		var square = Math.Min(context.DisplayRectangle.Width, context.DisplayRectangle.Height);
-		square = Math.Min(square, baseSize);
-		square = (int)(square * context.Graphics.DpiY / 96f);
+		var square = DropDownArrowGlyphMetrics.ResolvePixelSize(
+			context.Graphics.DpiY,
+			context.DisplayRectangle,
+			context.Control,
+			state);
 
 		return new Size(square, square);
 	}
@@ -2609,72 +2596,15 @@ public class RenderStandard : RenderBase
 			throw new ArgumentNullException(nameof(palette));
 		}
 
-		var translateX = 0;
-		var translateY = 0;
-		var rotation = 0f;
-
-		// Perform any transformations needed for orientation
-		switch (orientation)
+		var direction = orientation switch
 		{
-			case VisualOrientation.Bottom:
-				// Translate to opposite side of origin, so the rotate can
-				// then bring it back to original position but mirror image
-				translateX = (displayRect.X * 2) + displayRect.Width;
-				translateY = (displayRect.Y * 2) + displayRect.Height;
-				rotation = 180f;
-				break;
+			VisualOrientation.Bottom => DropDownArrowGlyphDirection.Up,
+			VisualOrientation.Left => DropDownArrowGlyphDirection.Right,
+			VisualOrientation.Right => DropDownArrowGlyphDirection.Left,
+			_ => DropDownArrowGlyphDirection.Down
+		};
 
-			case VisualOrientation.Left:
-				// Invert the dimensions of the rectangle for drawing upwards
-				displayRect = displayRect with { Width = displayRect.Height, Height = displayRect.Width };
-				// Translate back from a quarter left turn to the original place
-				translateX = displayRect.X - displayRect.Y;
-				translateY = displayRect.X + displayRect.Y + displayRect.Width;
-				rotation = -90f;
-				break;
-
-			case VisualOrientation.Right:
-				// Invert the dimensions of the rectangle for drawing upwards
-				displayRect = displayRect with { Width = displayRect.Height, Height = displayRect.Width };
-				// Translate back from a quarter right turn to the original place
-				translateX = displayRect.X + displayRect.Y + displayRect.Height;
-				translateY = -(displayRect.X - displayRect.Y);
-				rotation = 90f;
-				break;
-		}
-
-		try
-		{
-			// Apply the transforms if we have any to apply
-			if ((translateX != 0) || (translateY != 0))
-			{
-				context.Graphics.TranslateTransform(translateX, translateY);
-			}
-
-			if (rotation != 0f)
-			{
-				context.Graphics.RotateTransform(rotation);
-			}
-
-			// Finally, just draw the image and let the transforms do the rest
-			DrawInputControlDropDownGlyph(context, displayRect, palette, state);
-		}
-		catch (ArgumentException)
-		{
-		}
-		finally
-		{
-			if (rotation != 0f)
-			{
-				context.Graphics.RotateTransform(-rotation);
-			}
-
-			// Remove the applied transforms
-			if ((translateX != 0) | (translateY != 0))
-			{
-				context.Graphics.TranslateTransform(-translateX, -translateY);
-			}
-		}
+		DrawInputControlDropDownGlyph(context, displayRect, palette, state, direction);
 	}
 
 	/// <summary>
@@ -2775,6 +2705,13 @@ public class RenderStandard : RenderBase
 		Rectangle cellRect,
 		[DisallowNull] IPaletteContent paletteContent,
 		PaletteState state)
+		=> DrawInputControlDropDownGlyph(context, cellRect, paletteContent, state, DropDownArrowGlyphDirection.Down);
+
+	private static void DrawInputControlDropDownGlyph(RenderContext context,
+		Rectangle cellRect,
+		IPaletteContent paletteContent,
+		PaletteState state,
+		DropDownArrowGlyphDirection direction)
 	{
 		Debug.Assert(context != null);
 		Debug.Assert(paletteContent != null);
@@ -2790,40 +2727,9 @@ public class RenderStandard : RenderBase
 			throw new ArgumentNullException(nameof(paletteContent));
 		}
 
-		Color c1 = paletteContent.GetContentShortTextColor1(state);
-		Color c2 = paletteContent.GetContentShortTextColor2(state);
-		if (c2 == Color.Empty
-			|| c2 == Color.Transparent)
-		{
-			c2 = Color.FromArgb(64, c1.R, c1.G, c1.B);
-		}
+		(Color outline, Color fill) = DropDownArrowGlyphColors.Resolve(context, paletteContent, state);
 
-		// Find the top left starting position for drawing lines
-		float xOffset = cellRect.Width / 4f;
-		float yOffset = cellRect.Height / 4f;
-		float xStart = cellRect.Left + xOffset;
-		float yStart = cellRect.Top + yOffset;
-
-		//using Pen darkPen = new Pen(c1),
-		//    lightPen = new Pen(c2);
-
-		using var path = new GraphicsPath();
-		// Define path with the geometry information only
-		path.AddLines([
-			new PointF(xStart, yStart),
-			new PointF(xStart + 2 * xOffset, yStart),
-			new PointF(xStart + xOffset, yStart + 2 * yOffset)
-		]);
-		path.CloseFigure();
-
-		using var aa = new AntiAlias(context.Graphics);
-		// Fill Triangle
-		using var brush = new SolidBrush(c2);
-		context.Graphics.FillPath(brush, path);
-
-		// Draw Triangle
-		using Pen darkPen = new Pen(c1);
-		context.Graphics.DrawPath(darkPen, path);
+		DropDownArrowGlyphCache.Draw(context.Graphics, cellRect, outline, fill, direction, context.Control);
 	}
 
 	/// <summary>
@@ -3254,23 +3160,15 @@ public class RenderStandard : RenderBase
 		Debug.Assert(paletteContent is not null);
 
 		// Get the appropriate each to draw
-		Image? rowImage = null;
 
-		switch (rowGlyph)
+		Image? rowImage = rowGlyph switch
 		{
-			case GridRowGlyph.ArrowStar:
-				rowImage = _gridRowIndicators.Images[rtl ? 4 : 0];
-				break;
-			case GridRowGlyph.Star:
-				rowImage = _gridRowIndicators.Images[rtl ? 5 : 1];
-				break;
-			case GridRowGlyph.Pencil:
-				rowImage = _gridRowIndicators.Images[rtl ? 6 : 2];
-				break;
-			case GridRowGlyph.Arrow:
-				rowImage = _gridRowIndicators.Images[rtl ? 7 : 3];
-				break;
-		}
+			GridRowGlyph.ArrowStar => _gridRowIndicators.Images[rtl ? 4 : 0],
+			GridRowGlyph.Star => _gridRowIndicators.Images[rtl ? 5 : 1],
+			GridRowGlyph.Pencil => _gridRowIndicators.Images[rtl ? 6 : 2],
+			GridRowGlyph.Arrow => _gridRowIndicators.Images[rtl ? 7 : 3],
+			_ => null
+		};
 
 		// Is there enough room to draw the image?
 		if ((rowImage != null) &&
@@ -3340,7 +3238,7 @@ public class RenderStandard : RenderBase
 
 			if (state == PaletteState.Disabled)
 			{
-				ControlPaint.DrawImageDisabled(context!.Graphics, errorImage, x, y, GlobalStaticValues.EMPTY_COLOR);
+				ControlPaint.DrawImageDisabled(context!.Graphics, errorImage, x, y, Color.Empty);
 			}
 			else
 			{
@@ -5831,11 +5729,14 @@ public class RenderStandard : RenderBase
 					|| (displayRect.Height < memento.Image.Height)
 				   )
 				{
-					var ratio = 1.0f * Math.Min(memento.Image.Width, memento.Image.Height) / Math.Max(memento.Image.Width, memento.Image.Height);
+					float ratio = Math.Min(displayRect.Width / (float)memento.Image.Width,
+						displayRect.Height / (float)memento.Image.Height);
+
+					bool avoidPurple = memento.ImageTransparentColor != Color.Empty;
 
 					// Resize image to fit display area
-					memento.Image = CommonHelper.ScaleImageForSizedDisplay(memento.Image, displayRect.Width * ratio,
-						displayRect.Height * ratio, false);
+					memento.Image = CommonHelper.ScaleImageForSizedDisplay(memento.Image, memento.Image.Width * ratio,
+						memento.Image.Height * ratio, avoidPurple);
 				}
 
 				if (memento.Image != null)
@@ -6367,16 +6268,13 @@ public class RenderStandard : RenderBase
 		// If drawing from right to left...
 		if (rtl == RightToLeft.Yes)
 		{
-			switch (drawH)
+			drawH = drawH switch
 			{
 				// Then invert the near and far positioning
-				case PaletteRelativeAlign.Near:
-					drawH = PaletteRelativeAlign.Far;
-					break;
-				case PaletteRelativeAlign.Far:
-					drawH = PaletteRelativeAlign.Near;
-					break;
-			}
+				PaletteRelativeAlign.Near => PaletteRelativeAlign.Far,
+				PaletteRelativeAlign.Far => PaletteRelativeAlign.Near,
+				_ => drawH
+			};
 		}
 
 		switch (drawH)
@@ -8170,7 +8068,7 @@ public class RenderStandard : RenderBase
 				cache.Dispose();
 
 				// If c5 has a colour then use that to highlight the tab
-				if (c5 != GlobalStaticValues.EMPTY_COLOR)
+				if (c5 != Color.Empty)
 				{
 					if (!standard)
 					{
@@ -8447,7 +8345,7 @@ public class RenderStandard : RenderBase
 				cache.Dispose();
 
 				// If c5 has a colour then use that to highlight the tab
-				if (c5 != GlobalStaticValues.EMPTY_COLOR)
+				if (c5 != Color.Empty)
 				{
 					c1 = c5;
 					c2 = CommonHelper.MergeColors(c2, 0.8f, ControlPaint.Light(c5), 0.2f);
@@ -9374,7 +9272,7 @@ public class RenderStandard : RenderBase
 				cache.Dispose();
 
 				// If we have a context color to use then modify the drawing colors
-				if (c5 != GlobalStaticValues.EMPTY_COLOR)
+				if (c5 != Color.Empty)
 				{
 					if (!standard)
 					{
@@ -9406,7 +9304,7 @@ public class RenderStandard : RenderBase
 
 			context.Graphics.FillPath(cache.CenterBrush!, cache.OutsidePath!);
 
-			if (c5 != GlobalStaticValues.EMPTY_COLOR)
+			if (c5 != Color.Empty)
 			{
 				context.Graphics.FillPath(cache.InsideBrush!, cache.InsidePath!);
 			}
@@ -10427,7 +10325,7 @@ public class RenderStandard : RenderBase
 			Color topDark = palette.GetRibbonBackColor3(state);
 			Color bottomLight = palette.GetRibbonBackColor4(state);
 			Color bottomMedium = palette.GetRibbonBackColor5(state);
-			Color bottomDark = CommonHelper.MergeColors(topDark, 0.78f, GlobalStaticValues.EMPTY_COLOR, 0.22f);
+			Color bottomDark = CommonHelper.MergeColors(topDark, 0.78f, Color.Empty, 0.22f);
 
 			var generate = true;
 			MementoRibbonAppButton cache;
@@ -10924,7 +10822,7 @@ public class RenderStandard : RenderBase
 					90f);
 
 				cache.PressedFillBrush = new LinearGradientBrush(new RectangleF(rect.X - 1, rect.Y - 1, rect.Width + 2, rect.Height + 2),
-					Color.FromArgb((dark ? GlobalStaticValues.EMPTY_COLOR : _whiten10).A, cache.C4),
+					Color.FromArgb((dark ? Color.Empty : _whiten10).A, cache.C4),
 					Color.FromArgb((dark ? _darken38 : _darken16).A, cache.C5),
 					90f);
 				cache.TrackFillBrush.Blend = _linear50Blend;
@@ -12182,6 +12080,7 @@ public class RenderStandard : RenderBase
 	#endregion
 
 	#region StandardContentMemento
+
 	/// <summary>
 	/// Internal help class used to store content rendering details.
 	/// </summary>
@@ -12194,6 +12093,12 @@ public class RenderStandard : RenderBase
 		public Image? Image;
 		public Color ImageTransparentColor;
 		public Rectangle ImageRect;
+		public bool DrawOverlayImage;
+		public Image? OverlayImage;
+		public Color OverlayImageTransparentColor;
+		public Rectangle OverlayImageRect;
+		public float OverlayImageScaleFactor;
+		public Size OverlayImageFixedSize;
 		public PaletteTextTrim ShortTextTrimming;
 		public AccurateTextMemento? ShortTextMemento;
 		public Rectangle ShortTextRect;
@@ -12212,6 +12117,8 @@ public class RenderStandard : RenderBase
 			LongTextTrimming = PaletteTextTrim.EllipsisCharacter;
 			ShortTextTrimming = PaletteTextTrim.EllipsisCharacter;
 			Orientation = VisualOrientation.Top;
+			OverlayImageScaleFactor = 0.5f;
+			OverlayImageFixedSize = new Size(16, 16);
 		}
 
 		/// <summary>
@@ -12258,8 +12165,10 @@ public class RenderStandard : RenderBase
 					// Reposition the short text relative the display rectangle
 					if (DrawShortText)
 					{
-						ShortTextRect.X = displayRect.Right - ShortTextRect.Width - (ShortTextRect.X - displayRect.Left);
-						ShortTextRect.Y = displayRect.Bottom - ShortTextRect.Height - (ShortTextRect.Y - displayRect.Top);
+						ShortTextRect.X = displayRect.Right - ShortTextRect.Width -
+										  (ShortTextRect.X - displayRect.Left);
+						ShortTextRect.Y = displayRect.Bottom - ShortTextRect.Height -
+										  (ShortTextRect.Y - displayRect.Top);
 					}
 
 					// Reposition the long text relative the display rectangle
@@ -12268,6 +12177,7 @@ public class RenderStandard : RenderBase
 						LongTextRect.X = displayRect.Right - LongTextRect.Width - (LongTextRect.X - displayRect.Left);
 						LongTextRect.Y = displayRect.Bottom - LongTextRect.Height - (LongTextRect.Y - displayRect.Top);
 					}
+
 					break;
 				case VisualOrientation.Left:
 					Orientation = VisualOrientation.Left;
@@ -12276,7 +12186,8 @@ public class RenderStandard : RenderBase
 					if (DrawImage)
 					{
 						var x = ImageRect.Y - displayRect.Top;
-						ImageRect.Y = displayRect.Top + displayRect.Width - ImageRect.Width - (ImageRect.X - displayRect.X);
+						ImageRect.Y = displayRect.Top + displayRect.Width - ImageRect.Width -
+									  (ImageRect.X - displayRect.X);
 						ImageRect.X = x + displayRect.Left;
 					}
 
@@ -12284,7 +12195,8 @@ public class RenderStandard : RenderBase
 					if (DrawShortText)
 					{
 						var x = ShortTextRect.Y - displayRect.Top;
-						ShortTextRect.Y = displayRect.Top + displayRect.Width - ShortTextRect.Width - (ShortTextRect.X - displayRect.X);
+						ShortTextRect.Y = displayRect.Top + displayRect.Width - ShortTextRect.Width -
+										  (ShortTextRect.X - displayRect.X);
 						ShortTextRect.X = x + displayRect.Left;
 						SwapRectangleSizes(ref ShortTextRect);
 					}
@@ -12293,10 +12205,12 @@ public class RenderStandard : RenderBase
 					if (DrawLongText)
 					{
 						var x = LongTextRect.Y - displayRect.Top;
-						LongTextRect.Y = displayRect.Top + displayRect.Width - LongTextRect.Width - (LongTextRect.X - displayRect.X);
+						LongTextRect.Y = displayRect.Top + displayRect.Width - LongTextRect.Width -
+										 (LongTextRect.X - displayRect.X);
 						LongTextRect.X = x + displayRect.Left;
 						SwapRectangleSizes(ref LongTextRect);
 					}
+
 					break;
 				case VisualOrientation.Right:
 					Orientation = VisualOrientation.Right;
@@ -12326,11 +12240,15 @@ public class RenderStandard : RenderBase
 						LongTextRect.Y = y + displayRect.Top;
 						SwapRectangleSizes(ref LongTextRect);
 					}
+
 					break;
 			}
 		}
 
-		private static void SwapRectangleSizes(ref Rectangle rect) => (rect.Width, rect.Height) = (rect.Height, rect.Width);
+		private static void SwapRectangleSizes(ref Rectangle rect) =>
+			(rect.Width, rect.Height) = (rect.Height, rect.Width);
+
 	}
+
 	#endregion
 }

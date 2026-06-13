@@ -3103,7 +3103,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeBase : PaletteBase
             case PaletteMetricInt.BarButtonEdgeInside:
                 return 3;
             case PaletteMetricInt.DropDownArrowBaseSize:
-                return 10;
+                return DropDownArrowGlyphDefaults.DefaultBaseSizeAt96Dpi;
             case PaletteMetricInt.None:
                 return 0;
             default:

@@ -28,6 +28,8 @@ public sealed class KryptonManager : Component
     private static bool _globalUseThemeFormChromeBorderWidth = true;
     private static bool _globalShowAdministratorSuffix = true;
     internal static bool _globalUseKryptonFileDialogs = true;
+    private static DropDownArrowRenderMode _globalDropDownArrowRenderMode = DropDownArrowRenderMode.Unicode;
+    private static DropDownArrowGlyphStyle _globalDropDownArrowGlyphStyle = DropDownArrowGlyphStyle.Bevel;
     private static Font? _baseFont;
 
     // Initialize the default modes
@@ -149,6 +151,20 @@ public sealed class KryptonManager : Component
     [Category(@"Property Changed")]
     [Description(@"Occurs when the value of the GlobalUseThemeFormChromeBorderWidth property is changed.")]
     public static event EventHandler? GlobalUseThemeFormChromeBorderWidthChanged;
+
+    /// <summary>
+    /// Occurs when the drop-down arrow render mode changes.
+    /// </summary>
+    [Category(@"Property Changed")]
+    [Description(@"Occurs when the value of the GlobalDropDownArrowRenderMode property is changed.")]
+    public static event EventHandler? GlobalDropDownArrowRenderModeChanged;
+
+    /// <summary>
+    /// Occurs when the value of the GlobalDropDownArrowGlyphStyle property is changed.
+    /// </summary>
+    [Category(@"Property Changed")]
+    [Description(@"Occurs when the value of the GlobalDropDownArrowGlyphStyle property is changed.")]
+    public static event EventHandler? GlobalDropDownArrowGlyphStyleChanged;
     #endregion
 
     #region Identity
@@ -217,6 +233,8 @@ public sealed class KryptonManager : Component
                                ShouldSerializeToolkitStrings() ||
                                ShouldSerializeUseKryptonFileDialogs() ||
                                ShouldSerializeBaseFont() ||
+                               ShouldSerializeGlobalDropDownArrowRenderMode() ||
+                               ShouldSerializeGlobalDropDownArrowGlyphStyle() ||
                                ShouldSerializeGlobalPaletteMode());
 
     /// <summary>
@@ -233,6 +251,8 @@ public sealed class KryptonManager : Component
         ResetUseKryptonFileDialogs();
         ResetBaseFont();
         ResetGlobalPaletteMode();
+        ResetGlobalDropDownArrowRenderMode();
+        ResetGlobalDropDownArrowGlyphStyle();
     }
 
     /// <summary>
@@ -419,6 +439,34 @@ public sealed class KryptonManager : Component
     }
     private bool ShouldSerializeShowAdministratorSuffix() => !UseAdministratorSuffix;
     private void ResetShowAdministratorSuffix() => UseAdministratorSuffix = true;
+
+    /// <summary>
+    /// Gets or sets how drop-down arrow glyphs are rendered across Krypton controls.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"How drop-down arrow glyphs are rendered: Unicode characters (default) or pixel-aligned polygons.")]
+    [DefaultValue(DropDownArrowRenderMode.Unicode)]
+    public DropDownArrowRenderMode GlobalDropDownArrowRenderMode
+    {
+        get => DropDownArrowRenderMode;
+        set => DropDownArrowRenderMode = value;
+    }
+    private bool ShouldSerializeGlobalDropDownArrowRenderMode() => GlobalDropDownArrowRenderMode != DropDownArrowRenderMode.Unicode;
+    private void ResetGlobalDropDownArrowRenderMode() => GlobalDropDownArrowRenderMode = DropDownArrowRenderMode.Unicode;
+
+    /// <summary>
+    /// Gets or sets how two-tone drop-down arrow glyphs are composited (flat, bevel, or emboss).
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"How two-tone drop-down arrow glyphs are composited: Flat, Bevel (raised), or Emboss (inset).")]
+    [DefaultValue(DropDownArrowGlyphStyle.Bevel)]
+    public DropDownArrowGlyphStyle GlobalDropDownArrowGlyphStyle
+    {
+        get => DropDownArrowGlyphStyle;
+        set => DropDownArrowGlyphStyle = value;
+    }
+    private bool ShouldSerializeGlobalDropDownArrowGlyphStyle() => GlobalDropDownArrowGlyphStyle != DropDownArrowGlyphStyle.Bevel;
+    private void ResetGlobalDropDownArrowGlyphStyle() => GlobalDropDownArrowGlyphStyle = DropDownArrowGlyphStyle.Bevel;
 
     #endregion
 
@@ -1126,6 +1174,10 @@ public sealed class KryptonManager : Component
 
     private static void OnGlobalUseThemeFormChromeBorderWidthChanged(EventArgs e) => GlobalUseThemeFormChromeBorderWidthChanged?.Invoke(null, e);
 
+    private static void OnGlobalDropDownArrowRenderModeChanged(EventArgs e) => GlobalDropDownArrowRenderModeChanged?.Invoke(null, e);
+
+    private static void OnGlobalDropDownArrowGlyphStyleChanged(EventArgs e) => GlobalDropDownArrowGlyphStyleChanged?.Invoke(null, e);
+
     private static void OnGlobalPaletteChanged(EventArgs e)
     {
         UpdateToolStripManager();
@@ -1229,4 +1281,45 @@ public sealed class KryptonManager : Component
 
     #endregion
 
+    #region Static DropDownArrowRenderMode
+    /// <summary>
+    /// Gets and sets how drop-down arrow glyphs are rendered across Krypton controls.
+    /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public static DropDownArrowRenderMode DropDownArrowRenderMode
+    {
+        get => _globalDropDownArrowRenderMode;
+
+        set
+        {
+            if (_globalDropDownArrowRenderMode != value)
+            {
+                _globalDropDownArrowRenderMode = value;
+                DropDownArrowGlyphCache.Clear();
+                OnGlobalDropDownArrowRenderModeChanged(EventArgs.Empty);
+            }
+        }
+    }
+    #endregion
+
+    #region Static DropDownArrowGlyphStyle
+    /// <summary>
+    /// Gets and sets how two-tone drop-down arrow glyphs are composited across Krypton controls.
+    /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public static DropDownArrowGlyphStyle DropDownArrowGlyphStyle
+    {
+        get => _globalDropDownArrowGlyphStyle;
+
+        set
+        {
+            if (_globalDropDownArrowGlyphStyle != value)
+            {
+                _globalDropDownArrowGlyphStyle = value;
+                DropDownArrowGlyphCache.Clear();
+                OnGlobalDropDownArrowGlyphStyleChanged(EventArgs.Empty);
+            }
+        }
+    }
+    #endregion
 }
