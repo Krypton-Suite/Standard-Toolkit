@@ -212,7 +212,7 @@ internal class VisualPopupQATOverflow : VisualPopup
         base.OnLayout(levent);
         var borderRounding = _ribbon.RibbonShape switch
         {
-            PaletteRibbonShape.Office2010 => 1,
+            PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS => 1,
             _ => 2
         };
 

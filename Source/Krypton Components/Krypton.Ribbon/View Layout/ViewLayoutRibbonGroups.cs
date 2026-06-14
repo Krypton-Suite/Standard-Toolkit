@@ -370,7 +370,7 @@ internal class ViewLayoutRibbonGroups : ViewComposite
             {
                 retSize = _ribbon.RibbonShape switch
                 {
-                    PaletteRibbonShape.Office2010 or PaletteRibbonShape.MacOS => new Size(SEP_LENGTH_2010, SEP_LENGTH_2010),
+                    PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS => new Size(SEP_LENGTH_2010, SEP_LENGTH_2010),
                     _ => new Size(SEP_LENGTH_2007, SEP_LENGTH_2007)
                 };
             }
