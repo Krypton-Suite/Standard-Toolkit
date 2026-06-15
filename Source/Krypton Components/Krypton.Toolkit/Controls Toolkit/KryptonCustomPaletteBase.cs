@@ -23,6 +23,7 @@ namespace Krypton.Toolkit;
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(KryptonCustomPaletteBase), "ToolboxBitmaps.KryptonPalette.bmp")]
 [DefaultEvent(nameof(PalettePaint))]
+[DefaultProperty(nameof(BasePaletteMode))]
 [DesignerCategory(@"code")]
 [Designer(typeof(KryptonCustomPaletteBaseDesigner))]
 [Description(@"A customisable palette component.")]
@@ -42,6 +43,7 @@ public class KryptonCustomPaletteBase : PaletteBase
     private IRenderer? _baseRenderer;
     private RendererMode _baseRenderMode;
     private PaletteBase? _basePalette;
+    private PaletteMode _basePaletteMode;
     private readonly PaletteRedirect _redirector;
     private readonly NeedPaintHandler _needPaintDelegate;
 
@@ -58,6 +60,7 @@ public class KryptonCustomPaletteBase : PaletteBase
 
         // Set the default palette/palette mode
         _basePalette = KryptonManager.GetPaletteForMode(ThemeManager.DefaultGlobalPalette);
+        _basePaletteMode = ThemeManager.DefaultGlobalPalette;
 
         // Set the default renderer
         _baseRenderer = null;
@@ -2703,6 +2706,7 @@ public class KryptonCustomPaletteBase : PaletteBase
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool IsDefault => !(ShouldSerializeCustomisedKryptonPaletteFilePath()
                                || ShouldSerializePaletteName()
+                               || ShouldSerializeBasePaletteMode()
                                || ShouldSerializeBasePalette()
                                || ShouldSerializeBaseRendererMode()
                                || ShouldSerializeBaseRenderer()
@@ -2715,6 +2719,7 @@ public class KryptonCustomPaletteBase : PaletteBase
     {
         ResetCustomisedKryptonPaletteFilePath();
         ResetPaletteName();
+        ResetBasePaletteMode();
         ResetBasePalette();
         ResetBaseRendererMode();
         ResetBaseRenderer();
@@ -2742,6 +2747,72 @@ public class KryptonCustomPaletteBase : PaletteBase
     private bool ShouldSerializePaletteName() => !string.IsNullOrWhiteSpace(PaletteName);
     private void ResetPaletteName() => PaletteName = string.Empty;
 
+        /// <summary>
+        /// Gets or sets the base palette used to inherit from.
+        /// </summary>
+        [KryptonPersist(false, false)]
+        [Category(@"Visuals")]
+        [Description(@"Base palette used to inherit from.")]
+        [DefaultValue(GlobalStaticConstants.GLOBAL_DEFAULT_PALETTE_MODE)]
+        public PaletteMode BasePaletteMode
+        {
+            get => _basePaletteMode;
+
+            set
+            {
+                if (_basePaletteMode != value)
+                {
+                    // Action depends on new value
+                    switch (value)
+                    {
+                        case PaletteMode.Custom:
+                            // Do nothing, you must assign a palette to the
+                            // 'BasePalette' property in order to get the custom mode
+                            break;
+                        default:
+                            // Cache the original values
+                            PaletteMode tempMode = _basePaletteMode;
+                            PaletteBase? tempPalette = _basePalette;
+
+                            // Use the new value
+                            _basePaletteMode = value;
+                            _basePalette = KryptonManager.GetPaletteForMode(_basePaletteMode);
+
+                            // If the new value creates a circular reference
+                            if (HasCircularReference())
+                            {
+                                // Restore the original values
+                                _basePaletteMode = tempMode;
+                                _basePalette = tempPalette;
+
+                                throw new ArgumentOutOfRangeException(nameof(value), @"Cannot use palette that would create a circular reference");
+                            }
+                            else
+                            {
+                                // Restore the original base palette as 'SetPalette' will not
+                                // work correctly unless it still has the old value in place
+                                _basePalette = tempPalette;
+                            }
+
+                            // Get a reference to the standard palette from its name
+                            SetPalette(KryptonManager.GetPaletteForMode(_basePaletteMode));
+
+                            // Fire events to indicate a change in palette values
+                            OnBasePaletteChanged(this, EventArgs.Empty);
+                            OnBaseRendererChanged(this, EventArgs.Empty);
+                            //OnAllowFormChromeChanged(this, EventArgs.Empty);
+                            OnButtonSpecChanged(this, EventArgs.Empty);
+                            OnPalettePaint(this, new PaletteLayoutEventArgs(true, true));
+                            break;
+                    }
+                }
+            }
+        }
+
+        private bool ShouldSerializeBasePaletteMode() => BasePaletteMode != ThemeManager.DefaultGlobalPalette;
+
+        private void ResetBasePaletteMode() => BasePaletteMode = ThemeManager.DefaultGlobalPalette;
+
     /// <summary>
     /// Gets and sets the KryptonPalette used to inherit from.
     /// </summary>
@@ -2757,11 +2828,33 @@ public class KryptonCustomPaletteBase : PaletteBase
             // Only interested in changes of value
             if (_basePalette != value)
             {
+                // Store the original values
+                PaletteMode tempMode = _basePaletteMode;
+                PaletteBase? tempPalette = _basePalette;
+
+                // Find the new palette mode based on the incoming value
+                _basePaletteMode = value == null ? ThemeManager.DefaultGlobalPalette : PaletteMode.Custom;
+
+                    if (HasCircularReference())
+                    {
+                        // Put back the original palette details
+                        _basePaletteMode = tempMode;
+                        _basePalette = tempPalette;
+
+                        throw new ArgumentOutOfRangeException(nameof(value), @"Cannot use palette that would create a circular reference");
+                    }
+                    else
+                    {
+                        // Restore the original base palette as 'SetPalette' will not 
+                        // work correctly unless it still has the old value in place
+                        _basePalette = tempPalette;
+                    }
+
                 // If no custom palette is required
                 if (value == null)
                 {
                     // Get the appropriate palette for the global mode
-                    SetPalette(KryptonManager.GetPaletteForMode(ThemeManager.DefaultGlobalPalette));
+                    SetPalette(KryptonManager.GetPaletteForMode(_basePaletteMode));
                 }
                 else
                 {
@@ -2972,6 +3065,52 @@ public class KryptonCustomPaletteBase : PaletteBase
         }
     }
     #endregion
+
+        #region Internal
+        internal bool HasCircularReference()
+        {
+            // Use a dictionary as a set to check for existence
+            var paletteSet = new Dictionary<PaletteBase, bool>();
+
+            // Start processing from ourself upwards
+            PaletteBase? palette = this;
+
+            // Keep searching until no more palettes found
+            while (palette != null)
+            {
+                // If the palette has already been encountered then it is a circular reference
+                if (paletteSet.ContainsKey(palette))
+                {
+                    return true;
+                }
+                else
+                {
+                    // Otherwise, add to the set
+                    paletteSet.Add(palette, true);
+                    // Cast to correct type
+
+                    // If this is a KryptonPalette instance
+                    if (palette is KryptonCustomPaletteBase owner)
+                    {
+                        // Get the next palette up in hierarchy
+                        palette = owner.BasePaletteMode switch
+                        {
+                            PaletteMode.Custom => owner.BasePalette,
+                            PaletteMode.Global => KryptonManager.CurrentGlobalPalette,
+                            _ => null
+                        };
+                    }
+                    else
+                    {
+                        palette = null;
+                    }
+                }
+            }
+
+            // No circular reference encountered
+            return false;
+        }
+        #endregion
 
     #region Implementation Persistence, Used by threading
     private object? ResetOperation(object? parameter)
@@ -3395,32 +3534,32 @@ public class KryptonCustomPaletteBase : PaletteBase
                                     }
                                     else
                                     {
-										object? setValue = null;
+                                        object? setValue = null;
 
-										// Resolve the CLR type from the serialized Type attribute
-										Type resolvedType = StringToType(valueType);
+                                        // Resolve the CLR type from the serialized Type attribute
+                                        Type resolvedType = StringToType(valueType);
 
-										// -----------------------------------------------------------------
-										// We intentionally skip conversion when importing a Font with
-										// Value="(none)".
-										//
-										// Reason:
-										// - "(none)" represents an explicitly unset Font (Font == null)
-										// - Converting "(none)" using FontConverter would return
-										//   a default Font instance instead of null
-										//
-										// By skipping the conversion, the property is correctly restored
-										// as null.
-										// -----------------------------------------------------------------
-										if (resolvedType != typeof(Font) || valueValue != "(none)")
-										{
-											var converter = TypeDescriptor.GetConverter(resolvedType);
-											setValue = converter.ConvertFromInvariantString(valueValue);
-										}
+                                        // -----------------------------------------------------------------
+                                        // We intentionally skip conversion when importing a Font with
+                                        // Value="(none)".
+                                        //
+                                        // Reason:
+                                        // - "(none)" represents an explicitly unset Font (Font == null)
+                                        // - Converting "(none)" using FontConverter would return
+                                        //   a default Font instance instead of null
+                                        //
+                                        // By skipping the conversion, the property is correctly restored
+                                        // as null.
+                                        // -----------------------------------------------------------------
+                                        if (resolvedType != typeof(Font) || valueValue != "(none)")
+                                        {
+                                            var converter = TypeDescriptor.GetConverter(resolvedType);
+                                            setValue = converter.ConvertFromInvariantString(valueValue);
+                                        }
 
-										// Assign the restored value (null for "(none)" Font cases)
-										prop.SetValue(obj, setValue, null);
-									}
+                                        // Assign the restored value (null for "(none)" Font cases)
+                                        prop.SetValue(obj, setValue, null);
+                                    }
                                 }
                             }
                         }
