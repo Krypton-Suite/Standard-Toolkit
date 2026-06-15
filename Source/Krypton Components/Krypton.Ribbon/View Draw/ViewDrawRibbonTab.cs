@@ -289,7 +289,7 @@ internal class ViewDrawRibbonTab : ViewComposite,
                 PaletteRibbonShape.Office2013 => _preferredBorder2010,
                 PaletteRibbonShape.Microsoft365 => _preferredBorder2010,
                 PaletteRibbonShape.VisualStudio => _preferredBorder2010,
-                PaletteRibbonShape.MacOS => _preferredBorderMac,
+                PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS => _preferredBorderMac,
                 _ => _preferredBorder2007
             };
         }
@@ -429,6 +429,7 @@ internal class ViewDrawRibbonTab : ViewComposite,
                 _paletteContextCurrent.LightBackground = false;
                 break;
             case PaletteRibbonShape.Office2010:
+            case PaletteRibbonShape.OSXAqua:
             case PaletteRibbonShape.MacOS:
                 if (cts != null)
                 {
@@ -461,6 +462,7 @@ internal class ViewDrawRibbonTab : ViewComposite,
             switch (Ribbon.RibbonShape)
             {
                 case PaletteRibbonShape.Office2010:
+                case PaletteRibbonShape.OSXAqua:
                 case PaletteRibbonShape.MacOS:
                     RenderAfter2010ContextTab();
                     break;

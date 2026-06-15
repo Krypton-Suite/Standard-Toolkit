@@ -86,6 +86,7 @@ public class PaletteModeStrings : GlobalId
     internal const string DEFAULT_PALETTE_MATERIAL_DARK_RIPPLE = @"Material - Dark (Ripple)";
     internal const string DEFAULT_PALETTE_RETRO_GREEN = @"Retro - Green";
     internal const string DEFAULT_PALETTE_RETRO_BLUE = @"Retro - Blue";
+    internal const string DEFAULT_PALETTE_OSX_AQUA = @"Mac OS X Aqua";
     internal const string DEFAULT_PALETTE_MACOS_LIGHT = @"macOS - Light";
     internal const string DEFAULT_PALETTE_MACOS_DARK = @"macOS - Dark";
     internal const string DEFAULT_PALETTE_CUSTOM = @"Custom";
@@ -97,7 +98,7 @@ public class PaletteModeStrings : GlobalId
         new BiDictionary<string, PaletteMode>(new Dictionary<string, PaletteMode>
         {
             /*
-             * Adjustements made as per ticket 1328.
+             * Adjustments made as per ticket 1328.
              * See: https://github.com/Krypton-Suite/Standard-Toolkit/issues/1328
              *
              * When ever this list is changed, inspect the PaletteMode enum for consistency.
@@ -176,6 +177,7 @@ public class PaletteModeStrings : GlobalId
             { DEFAULT_PALETTE_MATERIAL_DARK_RIPPLE, PaletteMode.MaterialDarkRipple },
             { DEFAULT_PALETTE_RETRO_GREEN, PaletteMode.RetroGreen },
             { DEFAULT_PALETTE_RETRO_BLUE, PaletteMode.RetroBlue },
+            { DEFAULT_PALETTE_OSX_AQUA, PaletteMode.MacOSXAqua },
             { DEFAULT_PALETTE_MACOS_LIGHT, PaletteMode.MacOSLight },
             { DEFAULT_PALETTE_MACOS_DARK, PaletteMode.MacOSDark },
             { DEFAULT_PALETTE_CUSTOM, PaletteMode.Custom }

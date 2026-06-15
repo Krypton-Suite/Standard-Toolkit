@@ -388,9 +388,7 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
     public void TestForAppButtonDoubleClick()
     {
         // Office 2010 does not close on a double click
-        if (_ribbon.IgnoreDoubleClickClose
-            || _ribbon.RibbonShape == PaletteRibbonShape.Office2010
-            || _ribbon.RibbonShape == PaletteRibbonShape.MacOS)
+        if (_ribbon.IgnoreDoubleClickClose || _ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS)
         {
             return;
         }

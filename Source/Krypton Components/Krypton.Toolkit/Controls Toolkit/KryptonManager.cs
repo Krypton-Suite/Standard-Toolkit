@@ -149,6 +149,7 @@ public sealed class KryptonManager : Component
     private static RenderMicrosoft365? _renderMicrosoft365;
     private static RenderMaterial? _renderMaterial;
     private static RenderRetro? _renderRetro;
+    private static RenderMacOSXAqua? _renderMacOSXAqua;
     private static RenderMacOS? _renderMacOS;
     private static RenderSparkle? _renderSparkle;
     private static RenderVisualStudio2010With2007? _renderVisualStudio2010With2007;
@@ -1159,6 +1160,10 @@ public sealed class KryptonManager : Component
                 return PaletteRetroGreen;
             case PaletteMode.RetroBlue:
                 return PaletteRetroBlue;
+
+            case PaletteMode.MacOSXAqua:
+                return PaletteMacOSXAqua;
+
             case PaletteMode.MacOSLight:
                 return PaletteMacOSLight;
             case PaletteMode.MacOSDark:
@@ -1466,6 +1471,8 @@ public sealed class KryptonManager : Component
     /// </summary>
     public static PaletteRetroBlue PaletteRetroBlue => _paletteRetroBlue ??= new PaletteRetroBlue();
 
+    public static PaletteMacOSXAqua PaletteMacOSXAqua => _paletteMacOSXAqua ??= new PaletteMacOSXAqua();
+
     /// <summary>
     /// Gets the macOS-inspired light palette.
     /// </summary>
@@ -1483,6 +1490,7 @@ public sealed class KryptonManager : Component
 
     private static PaletteRetroGreen? _paletteRetroGreen;
     private static PaletteRetroBlue? _paletteRetroBlue;
+    private static PaletteMacOSXAqua? _paletteMacOSXAqua;
     private static PaletteMacOSLight? _paletteMacOSLight;
     private static PaletteMacOSDark? _paletteMacOSDark;
 
@@ -1527,6 +1535,8 @@ public sealed class KryptonManager : Component
                 return RenderRetro;
             case RendererMode.MacOS:
                 return RenderMacOS;
+            case RendererMode.OSXAqua:
+                return RenderMacOSXAqua;
             case RendererMode.Inherit:
             case RendererMode.Custom:
             default:
@@ -1575,6 +1585,11 @@ public sealed class KryptonManager : Component
     /// Gets the single instance of the macOS-inspired renderer.
     /// </summary>
     public static RenderMacOS RenderMacOS => _renderMacOS ??= new RenderMacOS();
+
+    /// <summary>
+    /// Gets the single instance of the Mac OS X Aqua-inspired renderer.
+    /// </summary>
+    public static RenderMacOSXAqua RenderMacOSXAqua => _renderMacOSXAqua ??= new RenderMacOSXAqua();
 
     /// <summary>
     /// Gets the single instance of the professional renderer.
@@ -1791,6 +1806,7 @@ public sealed class KryptonManager : Component
             case PaletteMode.RetroBlue:
                 Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.Office2010ToolBarImages);
                 break;
+            case PaletteMode.MacOSXAqua:
             case PaletteMode.MacOSLight:
             case PaletteMode.MacOSDark:
                 Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.Microsoft365ToolBarImages);

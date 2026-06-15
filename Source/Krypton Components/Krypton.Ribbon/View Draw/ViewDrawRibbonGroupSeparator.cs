@@ -179,6 +179,7 @@ internal class ViewDrawRibbonGroupSeparator : ViewLeaf,
                     _preferredSize = _preferredSize2007;
                     break;
                 case PaletteRibbonShape.Office2010:
+                case PaletteRibbonShape.OSXAqua:
                 case PaletteRibbonShape.MacOS:
                     _lastShape = _ribbon.RibbonShape;
                     _preferredSize = _preferredSize2010;

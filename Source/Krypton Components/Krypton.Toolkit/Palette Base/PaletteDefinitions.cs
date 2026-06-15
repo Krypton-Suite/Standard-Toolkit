@@ -4322,6 +4322,11 @@ public enum PaletteRibbonShape
     VisualStudio,
 
     /// <summary>
+    /// Specifies the OS X Aqua ribbon shape.
+    /// </summary>
+    OSXAqua,
+
+    /// <summary>
     /// Specifies the macOS unified-toolbar ribbon shape (flat tab strip, compact groups).
     /// </summary>
     MacOS

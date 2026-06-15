@@ -114,12 +114,23 @@ public class KryptonForm : VisualForm,
 
 			return base.GetContentImageH(style, state);
 		}
-	}
 
-	/// <summary>
-	/// Collection for managing ButtonSpecAny instances.
-	/// </summary>
-	public class FormButtonSpecCollection : ButtonSpecCollection<ButtonSpecAny>
+        /// <inheritdoc/>
+        public override PaletteRelativeEdgeAlign GetButtonSpecEdge(PaletteButtonSpecStyle style)
+        {
+            if (_kryptonForm._formTrafficLightEdge != PaletteRelativeEdgeAlign.Inherit && IsFormWindowButtonSpecStyle(style))
+            {
+                return _kryptonForm._formTrafficLightEdge;
+            }
+
+            return base.GetButtonSpecEdge(style);
+        }
+    }
+
+    /// <summary>
+    /// Collection for managing ButtonSpecAny instances.
+    /// </summary>
+    public class FormButtonSpecCollection : ButtonSpecCollection<ButtonSpecAny>
 	{
 		#region Identity
 		/// <summary>
@@ -174,7 +185,8 @@ public class KryptonForm : VisualForm,
 	private readonly ViewLayoutNull _layoutNull;
 	private HeaderStyle _headerStyle;
 	private PaletteRelativeAlign _formTitleAlign;
-	private HeaderStyle _headerStylePrev;
+    private PaletteRelativeEdgeAlign _formTrafficLightEdge;
+    private HeaderStyle _headerStylePrev;
 	private FormWindowState _regionWindowState;
 	private FormWindowState _lastWindowState;
 	private string? _textExtra;
@@ -223,6 +235,7 @@ public class KryptonForm : VisualForm,
 		// Default properties
 		_headerStyle = HeaderStyle.Form;
 		_formTitleAlign = PaletteRelativeAlign.Near;
+		_formTrafficLightEdge = PaletteRelativeEdgeAlign.Inherit;
 		_headerStylePrev = _headerStyle;
 		AllowButtonSpecToolTips = false;
 		_allowFormChrome = true;
@@ -1024,10 +1037,37 @@ public class KryptonForm : VisualForm,
 	private bool ShouldSerializeFormTitleAlign() => _formTitleAlign != PaletteRelativeAlign.Near;
 	private void ResetFormTitleAlign() => _formTitleAlign = PaletteRelativeAlign.Near;
 
-	/// <summary>
-	/// Gets and sets the chrome group border style.
-	/// </summary>
-	[Category(@"Visuals")]
+    /// <summary>
+    /// Gets and sets where form minimize/maximize/close buttons are placed for macOS-style palettes.
+    /// <see cref="PaletteRelativeEdgeAlign.Inherit"/> uses the palette default (left for Aqua/Mac).
+    /// <see cref="PaletteRelativeEdgeAlign.Far"/> places traffic-light glyphs on the right in standard Windows order.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Placement of form traffic-light buttons. Inherit uses the palette; Far places them on the right like a standard Windows application.")]
+    [RefreshProperties(RefreshProperties.All)]
+    [DefaultValue(PaletteRelativeEdgeAlign.Inherit)]
+    public PaletteRelativeEdgeAlign FormTrafficLightEdge
+    {
+        get => _formTrafficLightEdge;
+
+        set
+        {
+            if (_formTrafficLightEdge != value)
+            {
+                _formTrafficLightEdge = value;
+                ApplyLeftTrafficLightFormChromeIfNeeded();
+                PerformNeedPaint(true);
+            }
+        }
+    }
+    private bool ShouldSerializeFormTrafficLightEdge() => _formTrafficLightEdge != PaletteRelativeEdgeAlign.Inherit;
+    private void ResetFormTrafficLightEdge() => _formTrafficLightEdge = PaletteRelativeEdgeAlign.Inherit;
+
+
+    /// <summary>
+    /// Gets and sets the chrome group border style.
+    /// </summary>
+    [Category(@"Visuals")]
 	[Description(@"Chrome group border style.")]
 	[DefaultValue(PaletteBorderStyle.FormMain)]
 	public PaletteBorderStyle GroupBorderStyle
@@ -1682,11 +1722,16 @@ public class KryptonForm : VisualForm,
 
 		ApplyMaterialFormChromeDefaultsIfNeeded();
 
-		// Ensure we don't interfere with StartPosition by waiting until after positioning
-		if (IsHandleCreated)
+        ApplyLeftTrafficLightFormChromeIfNeeded();
+
+        // Ensure we don't interfere with StartPosition by waiting until after positioning
+        if (IsHandleCreated)
 		{
 			UpdateUseThemeFormChromeBorderWidthDecision();
-		}
+
+            ApplyLeftTrafficLightFormChromeIfNeeded();
+
+        }
 	}
 
 	/// <summary>
@@ -1834,8 +1879,10 @@ public class KryptonForm : VisualForm,
 
 		ApplyMaterialFormChromeDefaultsIfNeeded();
 
-		// Ensure the sizing grip reflects new theme immediately
-		RecalcNonClient();
+        ApplyLeftTrafficLightFormChromeIfNeeded();
+
+        // Ensure the sizing grip reflects new theme immediately
+        RecalcNonClient();
 		// Deferred call for theme churning during toggle
 		if (IsHandleCreated)
 		{
@@ -2635,13 +2682,13 @@ public class KryptonForm : VisualForm,
 				{
 					var notNormal = false;
 					foreach (ButtonSpecView bsv in _buttonManager.ButtonSpecViews)
-                    {
-                        notNormal = bsv.ViewButton.State switch
-                        {
-                            PaletteState.Tracking or PaletteState.Pressed => true,
-                            _ => notNormal
-                        };
-                    }
+					{
+						notNormal = bsv.ViewButton.State switch
+						{
+							PaletteState.Tracking or PaletteState.Pressed => true,
+							_ => notNormal
+						};
+					}
 
 					if (_lastNotNormal != notNormal)
 					{
@@ -2985,7 +3032,7 @@ public class KryptonForm : VisualForm,
 
 		ClearMacWindowEffects();
 
-		if (Renderer is RenderMaterial)
+		if (Renderer is RenderMaterial && Renderer is not RenderMacOS)
 		{
 			if (FormTitleAlign is PaletteRelativeAlign.Near or PaletteRelativeAlign.Inherit)
 			{
@@ -2999,10 +3046,81 @@ public class KryptonForm : VisualForm,
 		}
 	}
 
-	/// <summary>
-	/// Synchronizes the form fixed button spec order.
-	/// </summary>
-	private void SyncFormFixedButtonSpecOrder()
+    private static bool IsFormWindowButtonSpecStyle(PaletteButtonSpecStyle style) =>
+       style switch
+       {
+           PaletteButtonSpecStyle.FormClose or PaletteButtonSpecStyle.FormMin or PaletteButtonSpecStyle.FormMax
+               or PaletteButtonSpecStyle.FormRestore or PaletteButtonSpecStyle.FormHelp => true,
+           _ => false
+       };
+
+    private bool UsesLeftTrafficLightFormButtons() =>
+        Redirector.GetButtonSpecEdge(PaletteButtonSpecStyle.FormClose) == PaletteRelativeEdgeAlign.Near;
+
+    private void SyncLeftTrafficLightFormButtonOrderIfNeeded()
+    {
+        bool leftTrafficLights = UsesLeftTrafficLightFormButtons();
+        int closeIndex = _buttonSpecsFixed.IndexOf(ButtonSpecClose);
+        int minIndex = _buttonSpecsFixed.IndexOf(ButtonSpecMin);
+        int maxIndex = _buttonSpecsFixed.IndexOf(ButtonSpecMax);
+        if (closeIndex < 0 || minIndex < 0 || maxIndex < 0)
+        {
+            return;
+        }
+
+        // ButtonSpecManagerDraw inserts each spec at index 0, so collection order is the inverse of
+        // left-to-right layout. Target visuals: mac left = red, yellow, green; Windows right = yellow, green, red.
+        bool macCollectionOrder = closeIndex < minIndex && minIndex < maxIndex;
+        bool windowsCollectionOrder = maxIndex < minIndex && minIndex < closeIndex;
+        if (leftTrafficLights && !macCollectionOrder)
+        {
+            _buttonSpecsFixed.Clear();
+            _buttonSpecsFixed.AddRange([ButtonSpecClose, ButtonSpecMin, ButtonSpecMax]);
+            _buttonManager.RecreateButtons();
+        }
+        else if (!leftTrafficLights && !windowsCollectionOrder)
+        {
+            _buttonSpecsFixed.Clear();
+            _buttonSpecsFixed.AddRange([ButtonSpecMax, ButtonSpecMin, ButtonSpecClose]);
+            _buttonManager.RecreateButtons();
+        }
+    }
+
+    private void ApplyLeftTrafficLightFormChromeIfNeeded()
+    {
+        SyncLeftTrafficLightFormButtonOrderIfNeeded();
+
+        if (!UsesLeftTrafficLightFormButtons())
+        {
+            return;
+        }
+
+        if (FormTitleAlign is PaletteRelativeAlign.Near or PaletteRelativeAlign.Inherit)
+        {
+            FormTitleAlign = PaletteRelativeAlign.Center;
+        }
+
+        AllowIconDisplay = false;
+    }
+
+    private void ApplyMacOSFormWindowEffectsIfNeeded()
+    {
+        if (GetResolvedPalette() is PaletteMacOSBase macPalette)
+        {
+            MacOSFormChromeHelper.ApplyWindowEffects(this, macPalette);
+            return;
+        }
+
+        if (IsHandleCreated)
+        {
+            MacOSFormChromeHelper.ClearWindowEffects(this);
+        }
+    }
+
+    /// <summary>
+    /// Synchronizes the form fixed button spec order.
+    /// </summary>
+    private void SyncFormFixedButtonSpecOrder()
 	{
 		var palette = GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
 		_buttonSpecsFixed.Clear();
@@ -3087,6 +3205,8 @@ public class KryptonForm : VisualForm,
 
 			// Apply Material defaults when global palette switches
 			ApplyMaterialFormChromeDefaultsIfNeeded();
+			ApplyLeftTrafficLightFormChromeIfNeeded();
+			ApplyMacOSFormWindowEffectsIfNeeded();
 
 			// Ensure sizing grip updates with theme
 			RecalcNonClient();
@@ -3100,15 +3220,15 @@ public class KryptonForm : VisualForm,
 	/// <summary>Updates the title style.</summary>
 	/// <param name="titleStyle">The title style.</param>
 	private void UpdateTitleStyle(KryptonFormTitleStyle titleStyle)
-    {
-        FormTitleAlign = titleStyle switch
-        {
-            KryptonFormTitleStyle.Inherit => PaletteRelativeAlign.Inherit,
-            KryptonFormTitleStyle.Classic => PaletteRelativeAlign.Near,
-            KryptonFormTitleStyle.Modern => PaletteRelativeAlign.Center,
-            _ => FormTitleAlign
-        };
-    }
+	{
+		FormTitleAlign = titleStyle switch
+		{
+			KryptonFormTitleStyle.Inherit => PaletteRelativeAlign.Inherit,
+			KryptonFormTitleStyle.Classic => PaletteRelativeAlign.Near,
+			KryptonFormTitleStyle.Modern => PaletteRelativeAlign.Center,
+			_ => FormTitleAlign
+		};
+	}
 
 	/*/// <summary>
 	/// Starts a timer to distinguish between click and drag operations.
