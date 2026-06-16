@@ -2763,48 +2763,44 @@ public class KryptonCustomPaletteBase : PaletteBase
                 if (_basePaletteMode != value)
                 {
                     // Action depends on new value
-                    switch (value)
+                    if (value == PaletteMode.Custom)
                     {
-                        case PaletteMode.Custom:
-                            // Do nothing, you must assign a palette to the
-                            // 'BasePalette' property in order to get the custom mode
-                            break;
-                        default:
-                            // Cache the original values
-                            PaletteMode tempMode = _basePaletteMode;
-                            PaletteBase? tempPalette = _basePalette;
-
-                            // Use the new value
-                            _basePaletteMode = value;
-                            _basePalette = KryptonManager.GetPaletteForMode(_basePaletteMode);
-
-                            // If the new value creates a circular reference
-                            if (HasCircularReference())
-                            {
-                                // Restore the original values
-                                _basePaletteMode = tempMode;
-                                _basePalette = tempPalette;
-
-                                throw new ArgumentOutOfRangeException(nameof(value), @"Cannot use palette that would create a circular reference");
-                            }
-                            else
-                            {
-                                // Restore the original base palette as 'SetPalette' will not
-                                // work correctly unless it still has the old value in place
-                                _basePalette = tempPalette;
-                            }
-
-                            // Get a reference to the standard palette from its name
-                            SetPalette(KryptonManager.GetPaletteForMode(_basePaletteMode));
-
-                            // Fire events to indicate a change in palette values
-                            OnBasePaletteChanged(this, EventArgs.Empty);
-                            OnBaseRendererChanged(this, EventArgs.Empty);
-                            //OnAllowFormChromeChanged(this, EventArgs.Empty);
-                            OnButtonSpecChanged(this, EventArgs.Empty);
-                            OnPalettePaint(this, new PaletteLayoutEventArgs(true, true));
-                            break;
+                        // Do nothing, you must assign a palette to the
+                        // 'BasePalette' property in order to get the custom mode
+                        return;
                     }
+
+                    // Cache the original values
+                    PaletteMode tempMode = _basePaletteMode;
+                    PaletteBase? tempPalette = _basePalette;
+
+                    // Use the new value
+                    _basePaletteMode = value;
+                    _basePalette = KryptonManager.GetPaletteForMode(_basePaletteMode);
+
+                    // If the new value creates a circular reference
+                    if (HasCircularReference())
+                    {
+                        // Restore the original values
+                        _basePaletteMode = tempMode;
+                        _basePalette = tempPalette;
+
+                        throw new ArgumentOutOfRangeException(nameof(value), @"Cannot use palette that would create a circular reference");
+                    }
+
+                    // Restore the original base palette as 'SetPalette' will not
+                    // work correctly unless it still has the old value in place
+                    _basePalette = tempPalette;
+
+                    // Get a reference to the standard palette from its name
+                    SetPalette(KryptonManager.GetPaletteForMode(_basePaletteMode));
+
+                    // Fire events to indicate a change in palette values
+                    OnBasePaletteChanged(this, EventArgs.Empty);
+                    OnBaseRendererChanged(this, EventArgs.Empty);
+                    //OnAllowFormChromeChanged(this, EventArgs.Empty);
+                    OnButtonSpecChanged(this, EventArgs.Empty);
+                    OnPalettePaint(this, new PaletteLayoutEventArgs(true, true));
                 }
             }
         }
