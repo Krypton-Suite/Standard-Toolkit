@@ -3995,7 +3995,7 @@ public class KryptonCustomPaletteBase : PaletteBase
         [typeof(PaletteImageEffect)] = nameof(PaletteImageEffect),
         [typeof(PaletteImageStyle)] = nameof(PaletteImageStyle),
         [typeof(PaletteTextHint)] = nameof(PaletteTextHint),
-                [typeof(PaletteTextHotkeyPrefix)] = nameof(PaletteTextHotkeyPrefix),
+        [typeof(PaletteTextHotkeyPrefix)] = nameof(PaletteTextHotkeyPrefix),
         [typeof(PaletteTextTrim)] = nameof(PaletteTextTrim),
         [typeof(PaletteColorStyle)] = nameof(PaletteColorStyle),
         [typeof(PaletteGraphicsHint)] = nameof(PaletteGraphicsHint),
