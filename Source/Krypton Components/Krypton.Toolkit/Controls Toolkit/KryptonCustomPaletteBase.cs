@@ -2080,7 +2080,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                 paletteFileName = kofd.FileName;
 
                 // Set the theme name to the file name
-                PaletteName = Path.GetFileNameWithoutExtension(paletteFileName);
+                //PaletteName = Path.GetFileNameWithoutExtension(paletteFileName);
             }
         }
         else
@@ -2099,7 +2099,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                 paletteFileName = dialog.FileName;
 
                 // Set the theme name to the file name
-                PaletteName = Path.GetFileNameWithoutExtension(paletteFileName);
+                //PaletteName = Path.GetFileNameWithoutExtension(paletteFileName);
             }
         }
         if (!string.IsNullOrWhiteSpace(paletteFileName))
@@ -2130,7 +2130,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             paletteFileName = dialog.FileName;
 
             // Set the theme name to the file name
-            PaletteName = Path.GetFileNameWithoutExtension(paletteFileName);
+            //PaletteName = Path.GetFileNameWithoutExtension(paletteFileName);
         }
 
         if (!string.IsNullOrWhiteSpace(paletteFileName))
@@ -2201,14 +2201,14 @@ public class KryptonCustomPaletteBase : PaletteBase
         ret ??= string.Empty;
 
         // Set the file path
-        SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(ret));
+        //SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(ret));
 
         // Use bundled name from file if present, otherwise fall back to filename
-        if (string.IsNullOrWhiteSpace(GetPaletteName()))
-        {
-            // Set the theme name to the file name
-            SetPaletteName(Path.GetFileName(ret));
-        }
+        //if (string.IsNullOrWhiteSpace(GetPaletteName()))
+        //{
+        //    // Set the theme name to the file name
+        //    SetPaletteName(Path.GetFileName(ret));
+        //}
 
         return ret;
     }
@@ -3254,10 +3254,10 @@ public class KryptonCustomPaletteBase : PaletteBase
             }
 
             // Restore bundled palette name so external themes display correctly (e.g. in KryptonManager)
-            if (root.HasAttribute("Name"))
-            {
-                SetPaletteName(root.GetAttribute("Name"));
-            }
+            //if (root.HasAttribute("Name"))
+            //{
+            //    SetPaletteName(root.GetAttribute("Name"));
+            //}
 
             // Import order: establish a full baseline from BasePalette, then apply the XML theme on top.
             //
@@ -3271,7 +3271,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             // the XML actually defines. Theme wins for anything present in the file; anything omitted keeps
             // the values we just populated from BasePalette. Doing populate after import would fight the
             // file and could reset explicit theme settings, so populate must run first.
-            PopulateFromBaseOperation(null);
+            //PopulateFromBaseOperation(null);
 
             // Grab the properties and images elements
             var props = root.SelectSingleNode(nameof(Properties)) as XmlElement;
@@ -3471,90 +3471,94 @@ public class KryptonCustomPaletteBase : PaletteBase
                 // Search each of the attributes applied to the property
                 foreach (var attrib in prop.GetCustomAttributes(false))
                 {
-                    // Is it marked with the special krypton persist marker?
-                    if (attrib is KryptonPersistAttribute persistAttribute)
+                    //The addition was suppressed, which caused CS0272
+                    if (prop.Name != "PaletteName" && prop.Name != "CustomisedKryptonPaletteFilePath")
                     {
-                        // Cast attribute to the correct type
-
-                        // Check if there is an element matching the property
-
-                        // Can only import if a matching XML element is found
-                        if (element?.SelectSingleNode(prop.Name) is XmlElement childElement)
+                        // Is it marked with the special krypton persist marker?
+                        if (attrib is KryptonPersistAttribute persistAttribute)
                         {
-                            // Should we navigate down inside the property?
-                            if (persistAttribute.Navigate)
-                            {
-                                // If we can read the property value
-                                if (prop.CanRead)
-                                {
-                                    // Grab the property object and recurse into it
-                                    var childObj = prop.GetValue(obj, null);
-                                    ImportObjectFromElement(childElement, imageCache, childObj);
-                                }
-                            }
-                            else
-                            {
-                                // The xml element must have a type and value in order to recreate it
-                                if (childElement.HasAttribute(nameof(Type)) &&
-                                    childElement.HasAttribute(@"Value"))
-                                {
-                                    // Get the type/value attributes
-                                    var valueType = childElement.GetAttribute(nameof(Type));
-                                    var valueValue = childElement.GetAttribute(@"Value");
+                            // Cast attribute to the correct type
 
-                                    // We special case the loading of images
-                                    if (prop.PropertyType == typeof(Image))
+                            // Check if there is an element matching the property
+
+                            // Can only import if a matching XML element is found
+                            if (element?.SelectSingleNode(prop.Name) is XmlElement childElement)
+                            {
+                                // Should we navigate down inside the property?
+                                if (persistAttribute.Navigate)
+                                {
+                                    // If we can read the property value
+                                    if (prop.CanRead)
                                     {
-                                        if (valueValue.Length == 0)
+                                        // Grab the property object and recurse into it
+                                        var childObj = prop.GetValue(obj, null);
+                                        ImportObjectFromElement(childElement, imageCache, childObj);
+                                    }
+                                }
+                                else
+                                {
+                                    // The xml element must have a type and value in order to recreate it
+                                    if (childElement.HasAttribute(nameof(Type)) &&
+                                        childElement.HasAttribute(@"Value"))
+                                    {
+                                        // Get the type/value attributes
+                                        var valueType = childElement.GetAttribute(nameof(Type));
+                                        var valueValue = childElement.GetAttribute(@"Value");
+
+                                        // We special case the loading of images
+                                        if (prop.PropertyType == typeof(Image))
                                         {
-                                            // An empty string represents a null image value
-                                            prop.SetValue(obj, null, null);
+                                            if (valueValue.Length == 0)
+                                            {
+                                                // An empty string represents a null image value
+                                                prop.SetValue(obj, null, null);
+                                            }
+                                            else
+                                            {
+                                                /*// Have we already encountered the image?
+                                                        if (imageCache.ContainsKey(valueValue))
+                                                        {
+                                                            // Push the image from the cache into the property
+                                                            prop.SetValue(obj, valueValue, null);
+                                                        }
+                                                        else
+                                                        {
+                                                            // Cannot find image to set to empty
+                                                            prop.SetValue(obj, null, null);
+                                                        }*/
+
+                                                // If image exists in dictionary, push the image from the cache into the property, else null.
+                                                prop.SetValue(obj, imageCache.TryGetValue(valueValue, out var imageValue) ? imageValue : null, null);
+                                            }
                                         }
                                         else
                                         {
-                                            /*// Have we already encountered the image?
-                                                    if (imageCache.ContainsKey(valueValue))
-                                                    {
-                                                        // Push the image from the cache into the property
-                                                        prop.SetValue(obj, valueValue, null);
-                                                    }
-                                                    else
-                                                    {
-                                                        // Cannot find image to set to empty
-                                                        prop.SetValue(obj, null, null);
-                                                    }*/
+                                            object? setValue = null;
 
-                                            // If image exists in dictionary, push the image from the cache into the property, else null.
-                                            prop.SetValue(obj, imageCache.TryGetValue(valueValue, out var imageValue) ? imageValue : null, null);
+                                            // Resolve the CLR type from the serialized Type attribute
+                                            Type resolvedType = StringToType(valueType);
+
+                                            // -----------------------------------------------------------------
+                                            // We intentionally skip conversion when importing a Font with
+                                            // Value="(none)".
+                                            //
+                                            // Reason:
+                                            // - "(none)" represents an explicitly unset Font (Font == null)
+                                            // - Converting "(none)" using FontConverter would return
+                                            //   a default Font instance instead of null
+                                            //
+                                            // By skipping the conversion, the property is correctly restored
+                                            // as null.
+                                            // -----------------------------------------------------------------
+                                            if (resolvedType != typeof(Font) || valueValue != "(none)")
+                                            {
+                                                var converter = TypeDescriptor.GetConverter(resolvedType);
+                                                setValue = converter.ConvertFromInvariantString(valueValue);
+                                            }
+
+                                            // Assign the restored value (null for "(none)" Font cases)
+                                            prop.SetValue(obj, setValue, null);
                                         }
-                                    }
-                                    else
-                                    {
-                                        object? setValue = null;
-
-                                        // Resolve the CLR type from the serialized Type attribute
-                                        Type resolvedType = StringToType(valueType);
-
-                                        // -----------------------------------------------------------------
-                                        // We intentionally skip conversion when importing a Font with
-                                        // Value="(none)".
-                                        //
-                                        // Reason:
-                                        // - "(none)" represents an explicitly unset Font (Font == null)
-                                        // - Converting "(none)" using FontConverter would return
-                                        //   a default Font instance instead of null
-                                        //
-                                        // By skipping the conversion, the property is correctly restored
-                                        // as null.
-                                        // -----------------------------------------------------------------
-                                        if (resolvedType != typeof(Font) || valueValue != "(none)")
-                                        {
-                                            var converter = TypeDescriptor.GetConverter(resolvedType);
-                                            setValue = converter.ConvertFromInvariantString(valueValue);
-                                        }
-
-                                        // Assign the restored value (null for "(none)" Font cases)
-                                        prop.SetValue(obj, setValue, null);
                                     }
                                 }
                             }
@@ -3564,7 +3568,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             }
         }
     }
-
+    
     private void ImportImagesFromElement(XmlElement element, ImageReverseDictionary imageCache)
     {
         // Get all nodes storing images
