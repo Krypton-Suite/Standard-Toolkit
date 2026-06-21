@@ -13,6 +13,7 @@ namespace Krypton.Toolkit.Utilities;
 /// Provides designer and component tray access to global custom strings exposed by <see cref="KryptonCustomStrings"/>.
 /// </summary>
 [ToolboxItem(true)]
+[ToolboxBitmap(typeof(KryptonCustomStringsManager), "ToolboxBitmaps.KryptonCustomStringsManager.bmp")]
 [Designer(typeof(KryptonCustomStringsManagerDesigner))]
 [DefaultProperty(nameof(CustomStrings))]
 [Description(@"Access global custom string values that can be localised.")]

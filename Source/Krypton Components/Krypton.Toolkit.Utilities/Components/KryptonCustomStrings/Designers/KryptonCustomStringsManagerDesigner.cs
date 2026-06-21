@@ -29,6 +29,25 @@ internal class KryptonCustomStringsManagerDesigner : ComponentDesigner
 
         _manager = component as KryptonCustomStringsManager;
         _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
+
+        if (_service != null)
+        {
+            _service.ComponentChanged += OnComponentChanged;
+        }
+    }
+
+    /// <inheritdoc />
+    public override DesignerActionListCollection ActionLists
+    {
+        get
+        {
+            var actionLists = new DesignerActionListCollection
+            {
+                new KryptonCustomStringsManagerActionList(this)
+            };
+
+            return actionLists;
+        }
     }
 
     /// <inheritdoc />
@@ -59,6 +78,8 @@ internal class KryptonCustomStringsManagerDesigner : ComponentDesigner
             _resetVerb.Enabled = _manager != null && !KryptonCustomStrings.Values.IsDefault;
         }
     }
+
+    private void OnComponentChanged(object? sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
 
     private void OnResetCustomStrings(object? sender, EventArgs e)
     {
