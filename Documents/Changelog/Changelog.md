@@ -45,6 +45,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#3757](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3757), Make the `KryptonManager` strings more flexible to use. `KryptonCustomStrings` and `KryptonCustomStringsManager` in `Krypton.Toolkit.Utilities` for application key/value and strongly-typed custom string sets
 * Implemented [#3657](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3657), OS X Aqua Themes
 * Resolved [#3741](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3741), Message indicating that `KryptonCustomPaletteBase` has Not Implemented. Fixed custom palette "Not Implemented" prompts when `GlobalCustomPalette` is set in designer mode (grid background/content `Tracking` and `ContextNormal` state fallbacks)
 * Resolved [#3736](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3736), Fixed high-dpi scaling causing magenta image borders
