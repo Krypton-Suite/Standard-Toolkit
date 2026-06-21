@@ -110,6 +110,17 @@
 	  <Folder Include="Resources\" />
 	</ItemGroup>
 
+	<!-- KryptonToast form .resx files under deep folders exceed MAX_PATH for obj intermediates.
+	     Use namespace + type name (WinForms convention) instead of path-derived manifest names. -->
+	<Target Name="ShortenKryptonToastFormResourceNames" BeforeTargets="CreateManifestResourceNames">
+		<ItemGroup>
+			<EmbeddedResource Condition="$([System.String]::Copy('%(Identity)').Contains('KryptonToast\Controls Visuals\'))">
+				<ManifestResourceName>Krypton.Toolkit.Utilities.$([System.IO.Path]::GetFileNameWithoutExtension('%(Identity)'))</ManifestResourceName>
+				<LogicalName>Krypton.Toolkit.Utilities.$([System.IO.Path]::GetFileNameWithoutExtension('%(Identity)')).resources</LogicalName>
+			</EmbeddedResource>
+		</ItemGroup>
+	</Target>
+
 	<ItemGroup>
 	  <Compile Update="Components\Krypton AboutBox\Controls Visuals\VisualAboutBoxForm.cs">
 	    <SubType>Form</SubType>
