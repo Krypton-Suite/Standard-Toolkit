@@ -913,6 +913,11 @@ public enum RendererMode
     Retro,
 
     /// <summary>
+    /// Specifies the RenderAqua be used.
+    /// </summary>
+    OSXAqua,
+
+    /// <summary>
     /// Specifies the RenderMacOS be used.
     /// </summary>
     MacOS,

@@ -556,7 +556,7 @@ public static class GraphicsExtensions
             PaletteMode.MaterialDarkRipple => true,
             PaletteMode.VisualStudio2022Dark => true,
             PaletteMode.RetroGreen or PaletteMode.RetroBlue => true,
-            PaletteMode.MacOSDark or PaletteMode.MacOSLight => true,
+            PaletteMode.MacOSXAqua or PaletteMode.MacOSDark or PaletteMode.MacOSLight => true,
             _ => false
         };
     }

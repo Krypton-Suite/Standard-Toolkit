@@ -400,8 +400,8 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
         ClientRectangle = context!.DisplayRectangle;
 
         // Define visible state of the separators
-        _startSep.Visible = _startSepVisible && (_lastShape == PaletteRibbonShape.Office2010);
-        _endSep.Visible = _endSepVisible && (_lastShape == PaletteRibbonShape.Office2010);
+        _startSep.Visible = _startSepVisible && (_lastShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS);
+        _endSep.Visible = _endSepVisible && (_lastShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS);
 
         // Are there any children to layout?
         if (Count > 0)
@@ -490,10 +490,10 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
         // Grab the shape of the ribbon
         _lastShape = _ribbon.RibbonShape;
 
-        var itemEdgeVisible = _lastShape != PaletteRibbonShape.Office2010;
-        var itemEdgeIgnoreNormal = _lastShape == PaletteRibbonShape.Office2010;
-        var itemConstantBorder = _lastShape != PaletteRibbonShape.Office2010;
-        var itemDrawNonTrackingAreas = _lastShape != PaletteRibbonShape.Office2010;
+        var itemEdgeVisible = _lastShape is not (PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS);
+        var itemEdgeIgnoreNormal = _lastShape is (PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS);
+        var itemConstantBorder = _lastShape is not (PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS);
+        var itemDrawNonTrackingAreas = _lastShape is not (PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS);
 
         // Remove all child elements
         Clear();
@@ -586,6 +586,7 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
                             }
                             break;
                         case PaletteRibbonShape.Office2010:
+                        case PaletteRibbonShape.OSXAqua:
                         case PaletteRibbonShape.MacOS:
                             maxBorders = PaletteDrawBorders.All;
                             break;
@@ -631,8 +632,8 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
         Add(_endSep);
 
         // Define visible state of the separators
-        _startSep.Visible = _lastShape == PaletteRibbonShape.Office2010;
-        _endSep.Visible = _lastShape == PaletteRibbonShape.Office2010;
+        _startSep.Visible = _lastShape is (PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS);
+        _endSep.Visible = _lastShape is (PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS);
 
         // When in design time help mode
         if (_ribbon.InDesignHelperMode)

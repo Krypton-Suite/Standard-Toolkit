@@ -399,6 +399,11 @@ public enum PaletteMode
     RetroBlue,
 
     /// <summary>
+    /// macOS-inspired Aqua palette (Material renderer, Apple HIG colors).
+    /// </summary>
+    MacOSXAqua,
+
+    /// <summary>
     /// macOS-inspired light palette (Material renderer, Apple HIG colors).
     /// </summary>
     MacOSLight,

@@ -188,7 +188,7 @@ internal class ViewDrawRibbonQATBorder : ViewComposite
         }
 
         // We never draw the background/border for Office 2010 shape QAT
-        if (_minibar && (_ribbon.RibbonShape == PaletteRibbonShape.Office2010))
+        if (_minibar && (_ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS))
         {
             return;
         }
@@ -246,7 +246,7 @@ internal class ViewDrawRibbonQATBorder : ViewComposite
         {
             if (_minibar)
             {
-                if (_ribbon.RibbonShape == PaletteRibbonShape.Office2010)
+                if (_ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS)
                 {
                     return _noBorderPadding;
                 }
@@ -257,7 +257,7 @@ internal class ViewDrawRibbonQATBorder : ViewComposite
             }
             else
             {
-                return _ribbon.RibbonShape == PaletteRibbonShape.Office2010 ? _fullbarBorderPadding_2010 : _fullbarBorderPadding_2007;
+                return _ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS ? _fullbarBorderPadding_2010 : _fullbarBorderPadding_2007;
             }
         }
     }

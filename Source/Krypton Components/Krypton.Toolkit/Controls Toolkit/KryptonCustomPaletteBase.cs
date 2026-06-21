@@ -5337,6 +5337,8 @@ public class KryptonCustomPaletteBase : PaletteBase
             case PaletteState.Disabled:
                 return grid.StateDisabled.Background;
             case PaletteState.Normal:
+            case PaletteState.ContextNormal:    // Occurs from the TreeGrid
+            case PaletteState.Tracking:         // Grid background has no tracking state
                 return grid.StateNormal.Background;
             default:
                 // Should never happen!
