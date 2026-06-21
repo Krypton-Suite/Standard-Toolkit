@@ -12,6 +12,10 @@
 		<KryptonNavigatorProject>$(KryptonComponentsRoot)\Krypton.Navigator\Krypton.Navigator 2022.csproj</KryptonNavigatorProject>
 		<KryptonWorkspaceProject>$(KryptonComponentsRoot)\Krypton.Workspace\Krypton.Workspace 2022.csproj</KryptonWorkspaceProject>
 		<KryptonDockingProject>$(KryptonComponentsRoot)\Krypton.Docking\Krypton.Docking 2022.csproj</KryptonDockingProject>
+		<KryptonToolkitJumpListProject>$(KryptonComponentsRoot)\Krypton.Toolkit.JumpList\Krypton.Toolkit.JumpList.csproj</KryptonToolkitJumpListProject>
+		<KryptonNavigatorUtilitiesProject>$(KryptonComponentsRoot)\Krypton.Navigator.Utilities\Krypton.Navigator.Utilities.csproj</KryptonNavigatorUtilitiesProject>
+		<KryptonToolkitUtilitiesProject>$(KryptonComponentsRoot)\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj</KryptonToolkitUtilitiesProject>
+		<KryptonStandardToolkitProject>$(KryptonComponentsRoot)\Krypton.Standard.Toolkit\Krypton.Standard.Toolkit.csproj</KryptonStandardToolkitProject>
 		<KryptonComponentBuildProperties Condition="'$(TFMs)' != ''">Configuration=$(Configuration);TFMs=$(TFMs);UseArtifactsOutput=$(UseArtifactsOutput)</KryptonComponentBuildProperties>
 		<KryptonComponentBuildProperties Condition="'$(TFMs)' == ''">Configuration=$(Configuration);TFMs=all;UseArtifactsOutput=$(UseArtifactsOutput)</KryptonComponentBuildProperties>
 		<KryptonComponentBuildProperties Condition="'$(ExcludeNet11)' != ''">$(KryptonComponentBuildProperties);ExcludeNet11=$(ExcludeNet11)</KryptonComponentBuildProperties>
@@ -49,6 +53,17 @@
 		<MSBuild Projects="$(KryptonDockingProject)"
 		         Properties="$(KryptonComponentBuildProperties)"
 		         Targets="Build" />
+
+		<!-- Satellite assemblies for Krypton.Standard.Toolkit; sequential to avoid shared-output races. -->
+		<MSBuild Projects="$(KryptonToolkitJumpListProject)"
+		         Properties="$(KryptonComponentBuildProperties)"
+		         Targets="Build" />
+		<MSBuild Projects="$(KryptonNavigatorUtilitiesProject)"
+		         Properties="$(KryptonComponentBuildProperties)"
+		         Targets="Build" />
+		<MSBuild Projects="$(KryptonToolkitUtilitiesProject)"
+		         Properties="$(KryptonComponentBuildProperties)"
+		         Targets="Build" />
 	</Target>
 
 	<Target Name="KryptonPack">
@@ -66,6 +81,15 @@
 		         Targets="Pack" />
 
 		<MSBuild Projects="$(KryptonDockingProject)"
+		         Properties="$(KryptonComponentBuildProperties)"
+		         Targets="Pack" />
+
+		<!-- JumpList is bundled in the aggregate package but is not a Standard.Toolkit project reference. -->
+		<MSBuild Projects="$(KryptonToolkitJumpListProject)"
+		         Properties="$(KryptonComponentBuildProperties)"
+		         Targets="Build" />
+
+		<MSBuild Projects="$(KryptonStandardToolkitProject)"
 		         Properties="$(KryptonComponentBuildProperties)"
 		         Targets="Pack" />
 	</Target>
