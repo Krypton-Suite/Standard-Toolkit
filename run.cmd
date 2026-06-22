@@ -1,4 +1,4 @@
-﻿:: Last updated: Saturday 16th August, 2025 @ 19:00
+:: Last updated: Monday 22nd June, 2026 @ 12:00
 
 @echo off
 
@@ -16,7 +16,7 @@ goto selectvsversion
 :selectvsversion
 cls
 
-@echo Welcome to the Krypton Toolkit Build system, version: 3.0.
+@echo Welcome to the Krypton Toolkit Build system, version: 3.1.
 @echo Please select the Visual Studio toolset to target.
 echo:
 @echo ==============================================================================================
@@ -265,10 +265,9 @@ echo Deleted the 'Krypton.Workspace\obj' folder
 echo Deleting the 'Logs' folder
 del /f "Logs"
 
-:: ===================================================================================================
+exit /b 0
 
-:cleanproject
-goto cleanproject
+:: ===================================================================================================
 
 :buildproject
 goto buildmenu
@@ -280,7 +279,7 @@ goto packmenu
 goto debugmenu
 
 :nugettools
-goto createarchives
+goto nugettoolsmenu
 
 :createarchives
 cls
@@ -533,6 +532,9 @@ pause
 
 goto packstable
 
+:packlts
+goto packltsmenu
+
 :packltsmenu
 
 cls
@@ -629,9 +631,11 @@ cls
 
 call "%VS_SCRIPTS_DIR%\build-nightly.cmd"
 
+goto debugmenu
+
 :: ===================================================================================================
 
-:nugettools
+:nugettoolsmenu
 cls
 
 
@@ -659,6 +663,8 @@ if %answer%==6 (goto mainmenu)
 @echo Invalid input, please try again.
 
 pause
+
+goto buildandcreatenugetpackages
 
 :: ===================================================================================================
 
@@ -706,6 +712,8 @@ call "%VS_SCRIPTS_DIR%\build-nightly-custom.cmd" Pack
 
 pause
 
+goto mainmenu
+
 :: ===================================================================================================
 
 :rebuildproject
@@ -714,29 +722,45 @@ cls
 
 call "%VS_SCRIPTS_DIR%\rebuild-build-nightly.cmd"
 
+goto buildmenu
+
 :: ===================================================================================================
 
 :buildandpacknightly
 cls
 
-:: goto clearproject
-
-
-:: build-nightly.cmd
-
 call "%VS_SCRIPTS_DIR%\build-nightly.cmd" Pack
+
+pause
+
+goto buildandpacktoolkitmenu
 
 :buildandpackcanary
 cls
 
-
 call "%VS_SCRIPTS_DIR%\build-canary.cmd" Pack
+
+pause
+
+goto buildandpacktoolkitmenu
 
 :buildandpackstable
 cls
 
-
 call "%VS_SCRIPTS_DIR%\build-stable.cmd" Pack
+
+pause
+
+goto buildandpacktoolkitmenu
+
+:buildandpacklts
+cls
+
+call "%VS_SCRIPTS_DIR%\build-lts.cmd" Pack
+
+pause
+
+goto buildandpacktoolkitmenu
 
 :: ===================================================================================================
 
