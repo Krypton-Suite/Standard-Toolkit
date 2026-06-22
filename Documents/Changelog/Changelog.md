@@ -45,6 +45,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#3767](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3767), Adjust the position and size of the buttons in the `KryptonMessageBox`
 * Resolved [#1870](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1870), Restored `BasePaletteMode` in `KryptonCustomPaletteBase`
 * Resolved [#3751](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3751), `Krypton.Standard.Toolkit.Nightly` NuGet package does not upload
 * Implemented [#3657](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3657), OS X Aqua Themes
