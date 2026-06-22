@@ -12,7 +12,7 @@ param(
     [string]$HeadRef,
 
     [Parameter(Mandatory = $true)]
-    [string[]]$ChangedFiles,
+    [string]$ChangedFilesFile,
 
     [Parameter(Mandatory = $true)]
     [string]$PolicyPath,
@@ -25,6 +25,11 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+
+$ChangedFiles = @()
+if (Test-Path -LiteralPath $ChangedFilesFile) {
+    $ChangedFiles = @(Get-Content -LiteralPath $ChangedFilesFile -Raw | ConvertFrom-Json)
+}
 
 function Write-PolicyMessage {
     param(
