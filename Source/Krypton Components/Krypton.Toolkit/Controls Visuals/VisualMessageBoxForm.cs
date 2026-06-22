@@ -608,12 +608,12 @@ internal partial class VisualMessageBoxForm : KryptonForm
     {
         var numButtons = 1;
 
-        //Maximum width "Try Again" 72px
-        var minButtonWith = 72;
+        //Maximum width "Try Again" 62px
+        var minButtonWith = 62;
 
         // Button1 is always visible
         Size button1Size = _button1.GetPreferredSize(Size.Empty);
-        var maxButtonSize = button1Size with { Width = Math.Max(minButtonWith, button1Size.Width + GlobalStaticConstants.GLOBAL_BUTTON_PADDING) };
+        var maxButtonSize = button1Size with { Width = Math.Max(minButtonWith, button1Size.Width) + GlobalStaticConstants.GLOBAL_BUTTON_PADDING };
 
         // If Button2 is visible
         if (_button2.Enabled)
