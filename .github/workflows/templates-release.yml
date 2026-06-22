@@ -47,7 +47,7 @@ jobs:
 
       - name: Checkout
         if: steps.templates_release_kill_switch.outputs.enabled == 'true'
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
