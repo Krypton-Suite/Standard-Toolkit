@@ -48,9 +48,66 @@ public class KryptonCircularProgressBar : KryptonProgressBar
     private IDisposable? _mementoOuterRingBack;
     private IDisposable? _mementoInnerRingBack;
 
+    private int _innerMargin = 2;
+    private int _innerWidth = -1;
+    private int _outerMargin = -25;
+    private int _outerWidth = 26;
+    private int _progressWidth = 25;
+    private Font _secondaryFont;
+    private Padding _subscriptMargin;
+    private string _subscriptText = string.Empty;
+    private Padding _superscriptMargin;
+    private string _superscriptText = string.Empty;
+    private Padding _textMargin;
+
+    private const int MinimumDiameter = 48;
+
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets and sets the automatic resize of the control to fit centre text and ring layout.
+    /// </summary>
+    [Category("Layout")]
+    [Localizable(true)]
+    [Browsable(true)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    [RefreshProperties(RefreshProperties.All)]
+    [DefaultValue(true)]
+    public override bool AutoSize
+    {
+        get => base.AutoSize;
+        set
+        {
+            if (base.AutoSize == value)
+            {
+                return;
+            }
+
+            base.AutoSize = value;
+
+            if (value)
+            {
+                PerformLayout();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets and sets the mode for when auto sizing.
+    /// </summary>
+    [Browsable(false)]
+    [Localizable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [DefaultValue(AutoSizeMode.GrowAndShrink)]
+    public AutoSizeMode AutoSizeMode
+    {
+        get => GetAutoSizeMode();
+        set => SetAutoSizeMode(value);
+    }
 
     /// <summary>
     ///     Sets a known animation function.
@@ -107,42 +164,123 @@ public class KryptonCircularProgressBar : KryptonProgressBar
         get => base.Font;
         set
         {
-            if (value != null)
+            if (value == null || ReferenceEquals(base.Font, value))
             {
-                base.Font = value;
+                return;
             }
+
+            base.Font = value;
+            OnContentLayoutChanged();
         }
     }
 
     /// <summary>
     /// </summary>
     [Category("Layout"), DefaultValue(2)]
-    public int InnerMargin { get; set; }
+    public int InnerMargin
+    {
+        get => _innerMargin;
+        set
+        {
+            if (_innerMargin == value)
+            {
+                return;
+            }
+
+            _innerMargin = value;
+            OnContentLayoutChanged();
+        }
+    }
 
     /// <summary>
     /// </summary>
     [Category("Layout"), DefaultValue(-1)]
-    public int InnerWidth { get; set; }
+    public int InnerWidth
+    {
+        get => _innerWidth;
+        set
+        {
+            if (_innerWidth == value)
+            {
+                return;
+            }
+
+            _innerWidth = value;
+            OnContentLayoutChanged();
+        }
+    }
 
     /// <summary>
     /// </summary>
     [Category("Layout"), DefaultValue(-25)]
-    public int OuterMargin { get; set; }
+    public int OuterMargin
+    {
+        get => _outerMargin;
+        set
+        {
+            if (_outerMargin == value)
+            {
+                return;
+            }
+
+            _outerMargin = value;
+            OnContentLayoutChanged();
+        }
+    }
 
     /// <summary>
     /// </summary>
     [Category("Layout"), DefaultValue(26)]
-    public int OuterWidth { get; set; }
+    public int OuterWidth
+    {
+        get => _outerWidth;
+        set
+        {
+            if (_outerWidth == value)
+            {
+                return;
+            }
+
+            _outerWidth = value;
+            OnContentLayoutChanged();
+        }
+    }
 
     /// <summary>
     /// </summary>
     [Category("Layout"), DefaultValue(25)]
-    public int ProgressWidth { get; set; }
+    public int ProgressWidth
+    {
+        get => _progressWidth;
+        set
+        {
+            if (_progressWidth == value)
+            {
+                return;
+            }
+
+            _progressWidth = value;
+            OnContentLayoutChanged();
+        }
+    }
 
     /// <summary>
     /// </summary>
     [Category("Appearance"), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public Font SecondaryFont { get; set; }
+    public Font SecondaryFont
+    {
+        get => _secondaryFont;
+        set
+        {
+            if (ReferenceEquals(_secondaryFont, value))
+            {
+                return;
+            }
+
+            _secondaryFont = value;
+            OnContentLayoutChanged();
+        }
+    }
 
     /// <summary>
     /// </summary>
@@ -152,22 +290,78 @@ public class KryptonCircularProgressBar : KryptonProgressBar
     /// <summary>
     /// </summary>
     [Category("Layout"), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public Padding SubscriptMargin { get; set; }
+    public Padding SubscriptMargin
+    {
+        get => _subscriptMargin;
+        set
+        {
+            if (_subscriptMargin == value)
+            {
+                return;
+            }
+
+            _subscriptMargin = value;
+            OnContentLayoutChanged();
+        }
+    }
 
     /// <summary>
     /// </summary>
     [Category("Appearance"), DefaultValue("")]
-    public string SubscriptText { get; set; }
+    public string SubscriptText
+    {
+        get => _subscriptText;
+        set
+        {
+            value ??= string.Empty;
+
+            if (_subscriptText == value)
+            {
+                return;
+            }
+
+            _subscriptText = value;
+            OnContentLayoutChanged();
+        }
+    }
 
     /// <summary>
     /// </summary>
     [Category("Layout"), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public Padding SuperscriptMargin { get; set; }
+    public Padding SuperscriptMargin
+    {
+        get => _superscriptMargin;
+        set
+        {
+            if (_superscriptMargin == value)
+            {
+                return;
+            }
+
+            _superscriptMargin = value;
+            OnContentLayoutChanged();
+        }
+    }
 
     /// <summary>
     /// </summary>
     [Category("Appearance"), DefaultValue("")]
-    public string SuperscriptText { get; set; }
+    public string SuperscriptText
+    {
+        get => _superscriptText;
+        set
+        {
+            value ??= string.Empty;
+
+            if (_superscriptText == value)
+            {
+                return;
+            }
+
+            _superscriptText = value;
+            OnContentLayoutChanged();
+        }
+    }
 
     /// <summary>
     ///     Gets or sets the text in the <see cref="KryptonCircularProgressBar" />.
@@ -184,7 +378,41 @@ public class KryptonCircularProgressBar : KryptonProgressBar
     /// <summary>
     /// </summary>
     [Category("Layout"), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public Padding TextMargin { get; set; }
+    public Padding TextMargin
+    {
+        get => _textMargin;
+        set
+        {
+            if (_textMargin == value)
+            {
+                return;
+            }
+
+            _textMargin = value;
+            OnContentLayoutChanged();
+        }
+    }
+
+    /// <summary>Gets or sets the current position of the progress bar.</summary>
+    [Category("Behavior")]
+    [Bindable(true)]
+    [Description("Gets or sets the current position of the progress bar.")]
+    [RefreshProperties(RefreshProperties.Repaint)]
+    [DefaultValue(0)]
+    public new int Value
+    {
+        get => base.Value;
+        set
+        {
+            if (base.Value == value)
+            {
+                return;
+            }
+
+            base.Value = value;
+            OnContentLayoutChanged();
+        }
+    }
 
     /// <summary>
     /// Gets access to the common outer ring appearance that other states can override.
@@ -355,8 +583,6 @@ public class KryptonCircularProgressBar : KryptonProgressBar
 
         SubscriptText = string.Empty;
 
-        Size = new Size(320, 320);
-
         BackColor = Color.Transparent;
 
         _outerRingStateCommon = new PaletteDoubleRedirect(ProgressPaletteRedirect,
@@ -380,11 +606,149 @@ public class KryptonCircularProgressBar : KryptonProgressBar
         _subscriptStateDisabled = new PaletteTriple(_subscriptStateCommon, OnCircularNeedPaint);
 
         Text = @"0";
+
+        AutoSize = true;
+        AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        Size = GetPreferredSize(Size.Empty);
     }
 
     #endregion
 
     #region Methods
+
+    private void OnContentLayoutChanged()
+    {
+        if (AutoSize && (IsHandleCreated || DesignMode))
+        {
+            PerformLayout();
+        }
+
+        Invalidate();
+    }
+
+    private SizeF MeasureTextContent(Graphics graphics)
+    {
+        string text = Text ?? string.Empty;
+        if (text.Length == 0)
+        {
+            return SizeF.Empty;
+        }
+
+        graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
+
+        Font secondaryFont = SecondaryFont ?? Font!;
+        SizeF textSize = graphics.MeasureString(text, Font!);
+        float left = 0;
+        float top = 0;
+        float right = textSize.Width;
+        float bottom = textSize.Height;
+
+        if (!string.IsNullOrEmpty(SubscriptText) || !string.IsNullOrEmpty(SuperscriptText))
+        {
+            float maxSWidth = 0;
+            SizeF supSize = SizeF.Empty;
+            SizeF subSize = SizeF.Empty;
+
+            if (!string.IsNullOrEmpty(SuperscriptText))
+            {
+                supSize = graphics.MeasureString(SuperscriptText, secondaryFont);
+                maxSWidth = Math.Max(supSize.Width, maxSWidth);
+                supSize.Width -= SuperscriptMargin.Right;
+                supSize.Height -= SuperscriptMargin.Bottom;
+            }
+
+            if (!string.IsNullOrEmpty(SubscriptText))
+            {
+                subSize = graphics.MeasureString(SubscriptText, secondaryFont);
+                maxSWidth = Math.Max(subSize.Width, maxSWidth);
+                subSize.Width -= SubscriptMargin.Right;
+                subSize.Height -= SubscriptMargin.Bottom;
+            }
+
+            left -= maxSWidth / 4f;
+
+            if (!string.IsNullOrEmpty(SuperscriptText))
+            {
+                float supLeft = left + textSize.Width - supSize.Width / 2f + SuperscriptMargin.Left;
+                float supTop = top - supSize.Height * 0.85f + SuperscriptMargin.Top;
+                left = Math.Min(left, supLeft);
+                top = Math.Min(top, supTop);
+                right = Math.Max(right, supLeft + supSize.Width);
+                bottom = Math.Max(bottom, supTop + supSize.Height);
+            }
+
+            if (!string.IsNullOrEmpty(SubscriptText))
+            {
+                float subLeft = left + textSize.Width - subSize.Width / 2f + SubscriptMargin.Left;
+                float subTop = top + textSize.Height * 0.85f + SubscriptMargin.Top;
+                right = Math.Max(right, subLeft + subSize.Width);
+                bottom = Math.Max(bottom, subTop + subSize.Height);
+            }
+        }
+
+        return new SizeF(right - left, bottom - top);
+    }
+
+    private Size CalculateContentPreferredSize()
+    {
+        SizeF contentSize;
+        using (var image = new Bitmap(1, 1))
+        using (Graphics graphics = Graphics.FromImage(image))
+        {
+            contentSize = MeasureTextContent(graphics);
+        }
+
+        float width = contentSize.Width;
+        float height = contentSize.Height;
+
+        if (width <= 0 || height <= 0)
+        {
+            width = 16;
+            height = 16;
+        }
+
+        width += TextMargin.Horizontal;
+        height += TextMargin.Vertical;
+
+        if (InnerWidth != 0 && InnerWidth >= 0)
+        {
+            width += 2 * InnerWidth;
+            height += 2 * InnerWidth;
+        }
+
+        width += 2 * InnerMargin;
+        height += 2 * InnerMargin;
+
+        if (ProgressWidth >= 0)
+        {
+            width += 2 * ProgressWidth;
+            height += 2 * ProgressWidth;
+        }
+
+        width -= 2 * OuterMargin;
+        height -= 2 * OuterMargin;
+
+        if (OuterWidth != 0 && OuterWidth >= 0)
+        {
+            width += 2 * OuterWidth;
+            height += 2 * OuterWidth;
+        }
+
+        if (OuterWidth + OuterMargin < 0)
+        {
+            float offset = Math.Abs(OuterWidth + OuterMargin);
+            width += 2 * offset;
+            height += 2 * offset;
+        }
+
+        width += 4;
+        height += 4;
+
+        int diameter = (int)Math.Ceiling(Math.Max(width, height));
+        diameter = Math.Max(diameter, MinimumDiameter);
+
+        return new Size(diameter, diameter);
+    }
 
     private static PointF AddPoint(PointF point, int value)
     {
@@ -825,6 +1189,46 @@ public class KryptonCircularProgressBar : KryptonProgressBar
     #endregion
 
     #region Overrides
+
+    /// <inheritdoc />
+    public override Size GetPreferredSize(Size proposedSize)
+    {
+        if (!AutoSize)
+        {
+            return base.GetPreferredSize(proposedSize);
+        }
+
+        Size preferredSize = CalculateContentPreferredSize();
+
+        if (MaximumSize.Width > 0)
+        {
+            preferredSize.Width = Math.Min(MaximumSize.Width, preferredSize.Width);
+        }
+
+        if (MaximumSize.Height > 0)
+        {
+            preferredSize.Height = Math.Min(MaximumSize.Height, preferredSize.Height);
+        }
+
+        if (MinimumSize.Width > 0)
+        {
+            preferredSize.Width = Math.Max(MinimumSize.Width, preferredSize.Width);
+        }
+
+        if (MinimumSize.Height > 0)
+        {
+            preferredSize.Height = Math.Max(MinimumSize.Height, preferredSize.Height);
+        }
+
+        return preferredSize;
+    }
+
+    /// <inheritdoc />
+    protected override void OnTextChanged(EventArgs e)
+    {
+        base.OnTextChanged(e);
+        OnContentLayoutChanged();
+    }
 
     /// <inheritdoc />
     protected override void Dispose(bool disposing)
