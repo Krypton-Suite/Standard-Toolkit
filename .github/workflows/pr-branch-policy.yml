@@ -37,7 +37,7 @@ jobs:
 
       - name: Checkout
         if: steps.kill_switch.outputs.enabled == 'true'
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: List changed files
         if: steps.kill_switch.outputs.enabled == 'true'
@@ -64,20 +64,26 @@ jobs:
         env:
           PR_BASE: ${{ github.event.pull_request.base.ref }}
           PR_HEAD: ${{ github.event.pull_request.head.ref }}
-          CHANGED_FILES: ${{ steps.files.outputs.paths }}
           POLICY_PATH: ${{ github.workspace }}/.github/branch-policy.json
           ENFORCE: ${{ vars.BRANCH_POLICY_ENFORCE }}
           REPOSITORY: ${{ github.repository }}
         run: |
           $ErrorActionPreference = 'Stop'
           $files = @()
-          if ($env:CHANGED_FILES) {
-            $files = $env:CHANGED_FILES -split "`n" | Where-Object { $_ }
+          if ("${{ steps.files.outputs.paths }}" -ne "") {
+            $files = "${{ steps.files.outputs.paths }}" -split "`n" | Where-Object { $_ }
           }
-          & "${{ github.workspace }}/.github/scripts/Invoke-BranchPolicyCheck.ps1" `
-            -BaseRef $env:PR_BASE `
-            -HeadRef $env:PR_HEAD `
-            -ChangedFiles $files `
-            -PolicyPath $env:POLICY_PATH `
-            -Enforce $(if ($env:ENFORCE) { $env:ENFORCE } else { 'false' }) `
-            -Repository $env:REPOSITORY
+          $tempFile = Join-Path $env:RUNNER_TEMP "changed_files_$([guid]::NewGuid()).json"
+          $files | ConvertTo-Json -AsArray | Out-File -FilePath $tempFile -Encoding utf8
+          try {
+            & "${{ github.workspace }}/.github/scripts/Invoke-BranchPolicyCheck.ps1" `
+              -BaseRef $env:PR_BASE `
+              -HeadRef $env:PR_HEAD `
+              -ChangedFilesFile $tempFile `
+              -PolicyPath $env:POLICY_PATH `
+              -Enforce $(if ($env:ENFORCE) { $env:ENFORCE } else { 'false' }) `
+              -Repository $env:REPOSITORY
+          }
+          finally {
+            Remove-Item -Force -LiteralPath $tempFile -ErrorAction SilentlyContinue
+          }
