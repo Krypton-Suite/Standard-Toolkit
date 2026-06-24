@@ -47,6 +47,7 @@
 
 ## 2026-07-20 - Build 2607 (Version 105-LTS - Patch 3) - July 2026
 
+* Resolved [#3767](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3767), Adjust the position and size of the buttons in the `KryptonMessageBox`
 * Implemented [#3663](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3663), Use glyphs for dropdown arrows. Drop-down arrows use cached bitmap glyphs instead of anti-aliased vector paths; Unicode triangles (e.g. ▼) are the default, with pixel-aligned polygon glyphs available via `KryptonManager.DropDownArrowRenderMode` / `GlobalDropDownArrowRenderMode`; two-tone arrows composite separate fill and outline glyph layers with configurable style via `DropDownArrowGlyphStyle` / `GlobalDropDownArrowGlyphStyle` (`Flat`, `Bevel`, `Emboss`); colours use `TextButtonNormal` + `InputDropDownNormal2` (disabled: `InputDropDownDisabled1` / `2`); `ButtonValues.DropDownArrowColor` overrides when set; default base size is 14 logical pixels at 96 DPI (`DropDownArrowGlyphDefaults.DefaultBaseSizeAt96Dpi`), with DPI scaling via `DropDownArrowBaseSize` on each paint and layout pass; `KryptonScrollBar`, `KryptonHScrollBar`, and `KryptonVScrollBar` arrow buttons use the same glyph renderer
 * Resolved [#3661](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3661), Fixed KContextMenu items overflow not visible
 * Resolved [#3682](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3682), Fixed KryptonDataGridView column resize flicker
