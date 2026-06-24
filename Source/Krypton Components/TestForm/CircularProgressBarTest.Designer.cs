@@ -125,14 +125,13 @@ namespace TestForm
             this.kcpbMain.AnimationSpeed = 500;
             this.kcpbMain.Location = new System.Drawing.Point(24, 88);
             this.kcpbMain.Name = "kcpbMain";
-            this.kcpbMain.Size = new System.Drawing.Size(320, 320);
             this.kcpbMain.StateCommon.Back.Color1 = System.Drawing.Color.MediumSeaGreen;
             this.kcpbMain.StateDisabled.Back.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
             this.kcpbMain.StateNormal.Back.ColorStyle = Krypton.Toolkit.PaletteColorStyle.GlassNormalFull;
             this.kcpbMain.SubscriptText = "CPU";
             this.kcpbMain.SuperscriptText = "%";
             this.kcpbMain.TabIndex = 0;
-            this.kcpbMain.Text = "65";
+            this.kcpbMain.UseValueAsText = true;
             this.kcpbMain.Value = 65;
             this.kcpbMain.ValueBackColorStyle = Krypton.Toolkit.PaletteColorStyle.GlassNormalFull;
             // 
@@ -447,6 +446,7 @@ namespace TestForm
             this.kchkUseValueAsText.Size = new System.Drawing.Size(165, 20);
             this.kchkUseValueAsText.TabIndex = 4;
             this.kchkUseValueAsText.Values.Text = "Use progress value as text";
+            this.kchkUseValueAsText.Checked = true;
             this.kchkUseValueAsText.CheckedChanged += new System.EventHandler(this.kchkUseValueAsText_CheckedChanged);
             // 
             // txtSubscript

@@ -61,6 +61,8 @@ public class KryptonCircularProgressBar : KryptonProgressBar
     private Padding _textMargin;
 
     private const int MinimumDiameter = 48;
+    private const float MinimumSupersampleScale = 2f;
+    private const float MaximumSupersampleScale = 3f;
 
     #endregion
 
@@ -571,15 +573,15 @@ public class KryptonCircularProgressBar : KryptonProgressBar
 
         InnerWidth = -1;
 
-        TextMargin = new Padding(8, 8, 0, 0);
+        TextMargin = Padding.Empty;
 
         Value = 0;
 
-        SuperscriptMargin = new Padding(10, 35, 0, 0);
+        SuperscriptMargin = Padding.Empty;
 
         SuperscriptText = string.Empty;
 
-        SubscriptMargin = new Padding(10, -35, 0, 0);
+        SubscriptMargin = Padding.Empty;
 
         SubscriptText = string.Empty;
 
@@ -626,67 +628,142 @@ public class KryptonCircularProgressBar : KryptonProgressBar
         Invalidate();
     }
 
-    private SizeF MeasureTextContent(Graphics graphics)
+    private static void ConfigureGraphicsQuality(Graphics graphics)
+    {
+        graphics.SmoothingMode = SmoothingMode.HighQuality;
+        graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+        graphics.CompositingQuality = CompositingQuality.HighQuality;
+        graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+        graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
+    }
+
+    private float GetPaintScaleFactor()
+    {
+        float dpiScale = IsHandleCreated && DeviceDpi > 0 ? DeviceDpi / 96f : 1f;
+        return Math.Min(MaximumSupersampleScale, Math.Max(MinimumSupersampleScale, dpiScale));
+    }
+
+    private void ReleasePaletteMementos()
+    {
+        _mementoProgressBack?.Dispose();
+        _mementoProgressBack = null;
+        _mementoOuterRingBack?.Dispose();
+        _mementoOuterRingBack = null;
+        _mementoInnerRingBack?.Dispose();
+        _mementoInnerRingBack = null;
+    }
+
+    private static void FillEllipseHole(Graphics graphics, Brush brush, PointF point, SizeF size)
+    {
+        using GraphicsPath holePath = new GraphicsPath();
+        holePath.AddEllipse(point.X, point.Y, size.Width, size.Height);
+        graphics.FillPath(brush, holePath);
+    }
+
+    private static readonly StringFormat s_centreTextMeasureFormat = CreateCentreTextMeasureFormat();
+
+    private static StringFormat CreateCentreTextMeasureFormat()
+    {
+        StringFormat format = (StringFormat)StringFormat.GenericTypographic.Clone();
+        format.FormatFlags |= StringFormatFlags.MeasureTrailingSpaces;
+        return format;
+    }
+
+    private struct CentreTextLayout
+    {
+        public RectangleF Main;
+        public RectangleF Superscript;
+        public RectangleF Subscript;
+        public bool HasSuperscript;
+        public bool HasSubscript;
+        public RectangleF Bounds;
+
+        public void Offset(float dx, float dy)
+        {
+            Main.Offset(dx, dy);
+
+            if (HasSuperscript)
+            {
+                Superscript.Offset(dx, dy);
+            }
+
+            if (HasSubscript)
+            {
+                Subscript.Offset(dx, dy);
+            }
+
+            Bounds.Offset(dx, dy);
+        }
+    }
+
+    private CentreTextLayout CalculateCentreTextLayout(Graphics graphics, RectangleF textArea)
     {
         string text = Text ?? string.Empty;
-        if (text.Length == 0)
+        Font mainFont = Font!;
+        Font secondaryFont = SecondaryFont ?? mainFont;
+
+        SizeF mainSize = graphics.MeasureString(text, mainFont, int.MaxValue, s_centreTextMeasureFormat);
+        bool hasSuperscript = !string.IsNullOrEmpty(SuperscriptText);
+        bool hasSubscript = !string.IsNullOrEmpty(SubscriptText);
+
+        var layout = new CentreTextLayout
+        {
+            Main = new RectangleF(0, 0, mainSize.Width, mainSize.Height),
+            HasSuperscript = hasSuperscript,
+            HasSubscript = hasSubscript,
+            Bounds = new RectangleF(0, 0, mainSize.Width, mainSize.Height)
+        };
+
+        if (hasSuperscript || hasSubscript)
+        {
+            SizeF supSize = hasSuperscript
+                ? graphics.MeasureString(SuperscriptText, secondaryFont, int.MaxValue, s_centreTextMeasureFormat)
+                : SizeF.Empty;
+            SizeF subSize = hasSubscript
+                ? graphics.MeasureString(SubscriptText, secondaryFont, int.MaxValue, s_centreTextMeasureFormat)
+                : SizeF.Empty;
+
+            float suffixWidth = Math.Max(hasSuperscript ? supSize.Width : 0f, hasSubscript ? subSize.Width : 0f);
+            float anchorX = layout.Main.Width - suffixWidth * 0.22f;
+
+            if (hasSuperscript)
+            {
+                layout.Superscript = new RectangleF(
+                    anchorX + SuperscriptMargin.Left,
+                    -supSize.Height * 0.40f + SuperscriptMargin.Top,
+                    supSize.Width,
+                    supSize.Height);
+                layout.Bounds = RectangleF.Union(layout.Bounds, layout.Superscript);
+            }
+
+            if (hasSubscript)
+            {
+                layout.Subscript = new RectangleF(
+                    anchorX + SubscriptMargin.Left,
+                    layout.Main.Height - subSize.Height * 0.60f + SubscriptMargin.Top,
+                    subSize.Width,
+                    subSize.Height);
+                layout.Bounds = RectangleF.Union(layout.Bounds, layout.Subscript);
+            }
+        }
+
+        float offsetX = textArea.X + (textArea.Width - layout.Bounds.Width) / 2f - layout.Bounds.X;
+        float offsetY = textArea.Y + (textArea.Height - layout.Bounds.Height) / 2f - layout.Bounds.Y;
+        layout.Offset(offsetX, offsetY);
+
+        return layout;
+    }
+
+    private SizeF MeasureTextContent(Graphics graphics)
+    {
+        if (string.IsNullOrEmpty(Text))
         {
             return SizeF.Empty;
         }
 
-        graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
-
-        Font secondaryFont = SecondaryFont ?? Font!;
-        SizeF textSize = graphics.MeasureString(text, Font!);
-        float left = 0;
-        float top = 0;
-        float right = textSize.Width;
-        float bottom = textSize.Height;
-
-        if (!string.IsNullOrEmpty(SubscriptText) || !string.IsNullOrEmpty(SuperscriptText))
-        {
-            float maxSWidth = 0;
-            SizeF supSize = SizeF.Empty;
-            SizeF subSize = SizeF.Empty;
-
-            if (!string.IsNullOrEmpty(SuperscriptText))
-            {
-                supSize = graphics.MeasureString(SuperscriptText, secondaryFont);
-                maxSWidth = Math.Max(supSize.Width, maxSWidth);
-                supSize.Width -= SuperscriptMargin.Right;
-                supSize.Height -= SuperscriptMargin.Bottom;
-            }
-
-            if (!string.IsNullOrEmpty(SubscriptText))
-            {
-                subSize = graphics.MeasureString(SubscriptText, secondaryFont);
-                maxSWidth = Math.Max(subSize.Width, maxSWidth);
-                subSize.Width -= SubscriptMargin.Right;
-                subSize.Height -= SubscriptMargin.Bottom;
-            }
-
-            left -= maxSWidth / 4f;
-
-            if (!string.IsNullOrEmpty(SuperscriptText))
-            {
-                float supLeft = left + textSize.Width - supSize.Width / 2f + SuperscriptMargin.Left;
-                float supTop = top - supSize.Height * 0.85f + SuperscriptMargin.Top;
-                left = Math.Min(left, supLeft);
-                top = Math.Min(top, supTop);
-                right = Math.Max(right, supLeft + supSize.Width);
-                bottom = Math.Max(bottom, supTop + supSize.Height);
-            }
-
-            if (!string.IsNullOrEmpty(SubscriptText))
-            {
-                float subLeft = left + textSize.Width - subSize.Width / 2f + SubscriptMargin.Left;
-                float subTop = top + textSize.Height * 0.85f + SubscriptMargin.Top;
-                right = Math.Max(right, subLeft + subSize.Width);
-                bottom = Math.Max(bottom, subTop + subSize.Height);
-            }
-        }
-
-        return new SizeF(right - left, bottom - top);
+        ConfigureGraphicsQuality(graphics);
+        CentreTextLayout layout = CalculateCentreTextLayout(graphics, new RectangleF(0, 0, 10000, 10000));
+        return layout.Bounds.Size;
     }
 
     private Size CalculateContentPreferredSize()
@@ -750,25 +827,21 @@ public class KryptonCircularProgressBar : KryptonProgressBar
         return new Size(diameter, diameter);
     }
 
-    private static PointF AddPoint(PointF point, int value)
+    private static PointF InsetPoint(PointF point, float value)
     {
         point.X += value;
-
         point.Y += value;
-
         return point;
     }
 
-    private static SizeF AddSize(SizeF size, int value)
+    private static SizeF InsetSize(SizeF size, float value)
     {
-        size.Height += value;
-
-        size.Width += value;
-
+        size.Width -= 2f * value;
+        size.Height -= 2f * value;
         return size;
     }
 
-    private static Rectangle ToRectangle(RectangleF rectangle) => new Rectangle((int)rectangle.X, (int)rectangle.Y, (int)rectangle.Width, (int)rectangle.Height);
+    private static Rectangle ToRectangle(RectangleF rectangle) => Rectangle.Round(rectangle);
 
     private void OnCircularNeedPaint(object? sender, NeedLayoutEventArgs e)
     {
@@ -832,7 +905,7 @@ public class KryptonCircularProgressBar : KryptonProgressBar
         }
 
         using GraphicsPath path = new GraphicsPath();
-        path.AddEllipse(bounds);
+        path.AddEllipse(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
         memento = renderer.RenderStandardBack.DrawBack(renderContext, bounds, path, paletteBack,
             VisualOrientation.Top, state, memento);
     }
@@ -858,7 +931,7 @@ public class KryptonCircularProgressBar : KryptonProgressBar
         }
 
         using GraphicsPath path = new GraphicsPath();
-        path.AddPie(bounds, startAngle, sweepAngle);
+        path.AddPie(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height, startAngle, sweepAngle);
         memento = renderer.RenderStandardBack.DrawBack(renderContext, bounds, path, paletteBack,
             VisualOrientation.Top, state, memento);
     }
@@ -1017,14 +1090,25 @@ public class KryptonCircularProgressBar : KryptonProgressBar
     protected virtual void StartPaint(PaintEventArgs e)
     {
         PaletteBase? palette = ResolvedPalette;
-        if (palette == null || _backBrush == null)
+        if (palette == null || _backBrush == null || Width <= 0 || Height <= 0)
         {
             return;
         }
 
-        Graphics g = e.Graphics;
         IRenderer renderer = palette.GetRenderer();
-        using RenderContext renderContext = new RenderContext(this, g, e.ClipRectangle, renderer);
+        float paintScale = GetPaintScaleFactor();
+        int bufferWidth = (int)Math.Ceiling(Width * paintScale);
+        int bufferHeight = (int)Math.Ceiling(Height * paintScale);
+
+        using var paintSurface = new Bitmap(bufferWidth, bufferHeight, PixelFormat.Format32bppPArgb);
+        using Graphics paintGraphics = Graphics.FromImage(paintSurface);
+        ConfigureGraphicsQuality(paintGraphics);
+        paintGraphics.Clear(Color.Transparent);
+        paintGraphics.ScaleTransform(paintScale, paintScale);
+
+        ReleasePaletteMementos();
+
+        using RenderContext renderContext = new RenderContext(this, paintGraphics, new Rectangle(0, 0, Width, Height), renderer);
 
         var (barPaletteState, barState) = GetProgressBarPaletteState();
         var (outerPaletteState, outerState) = GetOuterRingPaletteState();
@@ -1034,152 +1118,145 @@ public class KryptonCircularProgressBar : KryptonProgressBar
 
         lock (this)
         {
-            g.TextRenderingHint = TextRenderingHint.AntiAlias;
-            g.SmoothingMode = SmoothingMode.AntiAlias;
-            var point = AddPoint(Point.Empty, 2);
-            var size = AddSize(Size, -2 * 2);
-
-            if (OuterWidth + OuterMargin < 0)
-            {
-                var offset = Math.Abs(OuterWidth + OuterMargin);
-                point = AddPoint(Point.Empty, offset);
-                size = AddSize(Size, -2 * offset);
-            }
-
-            if (ShouldDrawPaletteBack(outerPaletteState.PaletteBack, outerState, OuterWidth))
-            {
-                DrawPaletteEllipseBack(renderContext, renderer, new RectangleF(point, size),
-                    outerPaletteState.PaletteBack, outerState, ref _mementoOuterRingBack);
-
-                if (OuterWidth >= 0)
-                {
-                    point = AddPoint(point, OuterWidth);
-                    size = AddSize(size, -2 * OuterWidth);
-                    g.FillEllipse(_backBrush, new RectangleF(point, size));
-                }
-            }
-
-            point = AddPoint(point, OuterMargin);
-            size = AddSize(size, -2 * OuterMargin);
-
-            float sweepAngle = Maximum == Minimum
-                ? 0f
-                : ((_animatedValue ?? Value) - Minimum) / (Maximum - Minimum) * 360f;
-
-            DrawPalettePieBack(renderContext, renderer, new RectangleF(point, size),
-                _animatedStartAngle ?? StartAngle, sweepAngle, ValueBackPalette, barState, ref _mementoProgressBack);
-
-            if (ProgressWidth >= 0)
-            {
-                point = AddPoint(point, ProgressWidth);
-                size = AddSize(size, -2 * ProgressWidth);
-                g.FillEllipse(_backBrush, new RectangleF(point, size));
-            }
-
-            point = AddPoint(point, InnerMargin);
-            size = AddSize(size, -2 * InnerMargin);
-
-            if (ShouldDrawPaletteBack(innerPaletteState.PaletteBack, innerState, InnerWidth))
-            {
-                DrawPaletteEllipseBack(renderContext, renderer, new RectangleF(point, size),
-                    innerPaletteState.PaletteBack, innerState, ref _mementoInnerRingBack);
-
-                if (InnerWidth >= 0)
-                {
-                    point = AddPoint(point, InnerWidth);
-                    size = AddSize(size, -2 * InnerWidth);
-                    g.FillEllipse(_backBrush, new RectangleF(point, size));
-                }
-            }
-
-            if (Text == string.Empty)
-            {
-                return;
-            }
-
-            point.X += TextMargin.Left;
-            point.Y += TextMargin.Top;
-            size.Width -= TextMargin.Right;
-            size.Height -= TextMargin.Bottom;
-            var stringFormat =
-                new StringFormat(RightToLeft == RightToLeft.Yes ? StringFormatFlags.DirectionRightToLeft : 0)
-                {
-                    Alignment = StringAlignment.Center,
-                    LineAlignment = StringAlignment.Near
-                };
-            var textSize = g.MeasureString(Text, Font!);
-            var textPoint = new PointF(
-                point.X + (size.Width - textSize.Width) / 2,
-                point.Y + (size.Height - textSize.Height) / 2);
-
-            if (SubscriptText != string.Empty || SuperscriptText != string.Empty)
-            {
-                float maxSWidth = 0;
-                var supSize = SizeF.Empty;
-                var subSize = SizeF.Empty;
-
-                if (SuperscriptText != string.Empty)
-                {
-                    supSize = g.MeasureString(SuperscriptText, SecondaryFont);
-                    maxSWidth = Math.Max(supSize.Width, maxSWidth);
-                    supSize.Width -= SuperscriptMargin.Right;
-                    supSize.Height -= SuperscriptMargin.Bottom;
-                }
-
-                if (SubscriptText != string.Empty)
-                {
-                    subSize = g.MeasureString(SubscriptText, SecondaryFont);
-                    maxSWidth = Math.Max(subSize.Width, maxSWidth);
-                    subSize.Width -= SubscriptMargin.Right;
-                    subSize.Height -= SubscriptMargin.Bottom;
-                }
-
-                textPoint.X -= maxSWidth / 4;
-
-                if (SuperscriptText != string.Empty)
-                {
-                    var supPoint = new PointF(
-                        textPoint.X + textSize.Width - supSize.Width / 2,
-                        textPoint.Y - supSize.Height * 0.85f);
-                    supPoint.X += SuperscriptMargin.Left;
-                    supPoint.Y += SuperscriptMargin.Top;
-                    Color superscriptColor = superscriptPaletteState.PaletteContent!.GetContentShortTextColor1(superscriptState);
-                    using var superscriptBrush = new SolidBrush(superscriptColor);
-                    g.DrawString(
-                        SuperscriptText,
-                        SecondaryFont,
-                        superscriptBrush,
-                        new RectangleF(supPoint, supSize),
-                        stringFormat);
-                }
-
-                if (SubscriptText != string.Empty)
-                {
-                    var subPoint = new PointF(
-                        textPoint.X + textSize.Width - subSize.Width / 2,
-                        textPoint.Y + textSize.Height * 0.85f);
-                    subPoint.X += SubscriptMargin.Left;
-                    subPoint.Y += SubscriptMargin.Top;
-                    Color subscriptColor = subscriptPaletteState.PaletteContent!.GetContentShortTextColor1(subscriptState);
-                    using var subscriptBrush = new SolidBrush(subscriptColor);
-                    g.DrawString(
-                        SubscriptText,
-                        SecondaryFont,
-                        subscriptBrush,
-                        new RectangleF(subPoint, subSize),
-                        stringFormat);
-                }
-            }
-
-            Color textColor = barPaletteState.PaletteContent!.GetContentShortTextColor1(barState);
-            using var textBrush = new SolidBrush(textColor);
-            g.DrawString(
-                Text,
-                Font,
-                textBrush,
-                new RectangleF(textPoint, textSize),
-                stringFormat);
+            PaintCircularContent(
+                paintGraphics,
+                renderContext,
+                renderer,
+                barPaletteState,
+                barState,
+                outerPaletteState,
+                outerState,
+                innerPaletteState,
+                innerState,
+                superscriptPaletteState,
+                superscriptState,
+                subscriptPaletteState,
+                subscriptState);
         }
+
+        ConfigureGraphicsQuality(e.Graphics);
+        e.Graphics.CompositingMode = CompositingMode.SourceOver;
+        e.Graphics.DrawImage(paintSurface, 0, 0, Width, Height);
+    }
+
+    private void PaintCircularContent(
+        Graphics g,
+        RenderContext renderContext,
+        IRenderer renderer,
+        IPaletteTriple barPaletteState,
+        PaletteState barState,
+        IPaletteDouble outerPaletteState,
+        PaletteState outerState,
+        IPaletteDouble innerPaletteState,
+        PaletteState innerState,
+        IPaletteTriple superscriptPaletteState,
+        PaletteState superscriptState,
+        IPaletteTriple subscriptPaletteState,
+        PaletteState subscriptState)
+    {
+        Brush backBrush = _backBrush!;
+        ConfigureGraphicsQuality(g);
+
+        PointF point = new PointF(2f, 2f);
+        SizeF size = new SizeF(Width - 4f, Height - 4f);
+
+        if (OuterWidth + OuterMargin < 0)
+        {
+            float offset = Math.Abs(OuterWidth + OuterMargin);
+            point = new PointF(offset, offset);
+            size = new SizeF(Width - 2f * offset, Height - 2f * offset);
+        }
+
+        if (ShouldDrawPaletteBack(outerPaletteState.PaletteBack, outerState, OuterWidth))
+        {
+            DrawPaletteEllipseBack(renderContext, renderer, new RectangleF(point, size),
+                outerPaletteState.PaletteBack, outerState, ref _mementoOuterRingBack);
+
+            if (OuterWidth >= 0)
+            {
+                point = InsetPoint(point, OuterWidth);
+                size = InsetSize(size, OuterWidth);
+                FillEllipseHole(g, backBrush, point, size);
+            }
+        }
+
+        point = InsetPoint(point, OuterMargin);
+        size = InsetSize(size, OuterMargin);
+
+        float sweepAngle = Maximum == Minimum
+            ? 0f
+            : ((_animatedValue ?? Value) - Minimum) / (Maximum - Minimum) * 360f;
+
+        DrawPalettePieBack(renderContext, renderer, new RectangleF(point, size),
+            _animatedStartAngle ?? StartAngle, sweepAngle, ValueBackPalette, barState, ref _mementoProgressBack);
+
+        if (ProgressWidth >= 0)
+        {
+            point = InsetPoint(point, ProgressWidth);
+            size = InsetSize(size, ProgressWidth);
+            FillEllipseHole(g, backBrush, point, size);
+        }
+
+        point = InsetPoint(point, InnerMargin);
+        size = InsetSize(size, InnerMargin);
+
+        if (ShouldDrawPaletteBack(innerPaletteState.PaletteBack, innerState, InnerWidth))
+        {
+            DrawPaletteEllipseBack(renderContext, renderer, new RectangleF(point, size),
+                innerPaletteState.PaletteBack, innerState, ref _mementoInnerRingBack);
+
+            if (InnerWidth >= 0)
+            {
+                point = InsetPoint(point, InnerWidth);
+                size = InsetSize(size, InnerWidth);
+                FillEllipseHole(g, backBrush, point, size);
+            }
+        }
+
+        if (Text == string.Empty)
+        {
+            return;
+        }
+
+        var textArea = new RectangleF(
+            point.X + TextMargin.Left,
+            point.Y + TextMargin.Top,
+            size.Width - TextMargin.Horizontal,
+            size.Height - TextMargin.Vertical);
+
+        CentreTextLayout layout = CalculateCentreTextLayout(g, textArea);
+
+        using var drawFormat = new StringFormat(StringFormat.GenericTypographic)
+        {
+            Alignment = StringAlignment.Center,
+            LineAlignment = StringAlignment.Center,
+            FormatFlags = StringFormatFlags.NoClip | StringFormatFlags.NoWrap
+        };
+
+        if (RightToLeft == RightToLeft.Yes)
+        {
+            drawFormat.FormatFlags |= StringFormatFlags.DirectionRightToLeft;
+        }
+
+        Font secondaryFont = SecondaryFont ?? Font!;
+
+        if (layout.HasSuperscript)
+        {
+            Color superscriptColor = superscriptPaletteState.PaletteContent!.GetContentShortTextColor1(superscriptState);
+            using var superscriptBrush = new SolidBrush(superscriptColor);
+            g.DrawString(SuperscriptText, secondaryFont, superscriptBrush, layout.Superscript, drawFormat);
+        }
+
+        if (layout.HasSubscript)
+        {
+            Color subscriptColor = subscriptPaletteState.PaletteContent!.GetContentShortTextColor1(subscriptState);
+            using var subscriptBrush = new SolidBrush(subscriptColor);
+            g.DrawString(SubscriptText, secondaryFont, subscriptBrush, layout.Subscript, drawFormat);
+        }
+
+        Color textColor = barPaletteState.PaletteContent!.GetContentShortTextColor1(barState);
+        using var textBrush = new SolidBrush(textColor);
+        g.DrawString(Text, Font, textBrush, layout.Main, drawFormat);
     }
 
     /// <summary>Increments the specified value.</summary>
@@ -1323,6 +1400,8 @@ public class KryptonCircularProgressBar : KryptonProgressBar
     {
         base.OnSizeChanged(e);
 
+        ReleasePaletteMementos();
+        RecreateBackgroundBrush();
         Invalidate();
     }
 
