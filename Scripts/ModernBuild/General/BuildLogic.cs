@@ -318,13 +318,20 @@ internal static class BuildLogic
             return null;
         }
 
-        string productLine = parts[0] switch
+        string productLine;
+        if (int.TryParse(parts[0], out int major) && major >= 18)
         {
-            "18"   => "Visual Studio 2026",
-            "2022" => "Visual Studio 2022",
-            "2019" => "Visual Studio 2019",
-            _      => $"Visual Studio {parts[0]}"
-        };
+            productLine = $"Visual Studio {major + 2008}";
+        }
+        else
+        {
+            productLine = parts[0] switch
+            {
+                "2022" => "Visual Studio 2022",
+                "2019" => "Visual Studio 2019",
+                _      => $"Visual Studio {parts[0]}"
+            };
+        }
 
         return $"{productLine} {parts[1]}";
     }
@@ -413,7 +420,7 @@ internal static class BuildLogic
             {
                 return ScriptProfile.VS2022;
             }
-            if (msBuildPath.IndexOf("\\Microsoft Visual Studio\\18\\", StringComparison.OrdinalIgnoreCase) >= 0)
+            if (IsCurrentGenerationMsBuildPath(msBuildPath))
             {
                 return ScriptProfile.Current;
             }
@@ -421,6 +428,29 @@ internal static class BuildLogic
 
         // Default auto preference to Current for forward-compatible setups.
         return ScriptProfile.Current;
+    }
+
+    /// <summary>
+    /// Returns true when <paramref name="msBuildPath"/> is under a yearly Visual Studio install (major 18+).
+    /// </summary>
+    private static bool IsCurrentGenerationMsBuildPath(string msBuildPath)
+    {
+        const string marker = "\\Microsoft Visual Studio\\";
+        int markerIndex = msBuildPath.IndexOf(marker, StringComparison.OrdinalIgnoreCase);
+        if (markerIndex < 0)
+        {
+            return false;
+        }
+
+        string remainder = msBuildPath.Substring(markerIndex + marker.Length);
+        int slashIndex = remainder.IndexOf('\\');
+        if (slashIndex <= 0)
+        {
+            return false;
+        }
+
+        string folder = remainder.Substring(0, slashIndex);
+        return int.TryParse(folder, out int major) && major >= 18;
     }
 
     /// <summary>

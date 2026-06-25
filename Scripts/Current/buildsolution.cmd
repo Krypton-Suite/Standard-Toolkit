@@ -3,9 +3,8 @@ setlocal EnableExtensions
 set "SCRIPT_DIR=%~dp0"
 pushd "%SCRIPT_DIR%"
 
-call "%SCRIPT_DIR%..\Common\find-msbuild.cmd" 18
+call "%SCRIPT_DIR%..\Common\find-msbuild.cmd" current
 if errorlevel 1 (
-echo "Unable to detect suitable environment. Check if VS 2026 is installed."
 pause
 goto exitbatch
 )

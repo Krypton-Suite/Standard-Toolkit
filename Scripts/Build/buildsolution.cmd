@@ -12,7 +12,6 @@ if /I "%INPUT%"=="2026" goto vs2026build
 :vs2019build
 call "%SCRIPT_DIR%..\Common\find-msbuild.cmd" 2019
 if errorlevel 1 (
-echo "Unable to detect suitable environment. Check if VS 2019 is installed."
 pause
 goto exitbatch
 )
@@ -27,9 +26,9 @@ REM /m: multi-processor MSBuild (all logical CPUs).
 "%msbuildpath%\msbuild.exe" /m /t:%targets% "%SCRIPT_DIR%build.proj" /fl /flp:logfile="%SCRIPT_DIR%..\..\Logs\solution-build-log.log" /bl:"%SCRIPT_DIR%..\..\Logs\solution-build-log.binlog" /clp:Summary;ShowTimestamp /v:quiet
 
 :vs2026build
-call "%SCRIPT_DIR%..\Common\find-msbuild.cmd" 18
+call "%SCRIPT_DIR%..\Common\find-msbuild.cmd" current
 if errorlevel 1 (
-echo "Unable to detect suitable environment. Check if VS 2026 is installed."
+pause
 goto exitbatch
 )
 goto build2026

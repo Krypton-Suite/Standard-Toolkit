@@ -84,7 +84,7 @@ Use `Debug` instead of `Release` when you built a Debug configuration, and subst
 In Auto mode, ModernBuild chooses an effective profile from the detected MSBuild path:
 
 - MSBuild path containing `\Microsoft Visual Studio\2022\` -> `VS2022`
-- MSBuild path containing `\Microsoft Visual Studio\18\` -> `Current`
+- MSBuild path under `\Microsoft Visual Studio\<major>\` where `<major>` is 18 or higher -> `Current`
 - otherwise defaults to `Current`
 
 Special case:
