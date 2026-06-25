@@ -103,7 +103,7 @@ namespace Krypton.Toolkit
             // _button4
             // 
             this._button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._button4.AutoSize = true;
+            this._button4.AutoSize = false;
             this._button4.Enabled = false;
             this._button4.IgnoreAltF4 = false;
             this._button4.Location = new System.Drawing.Point(203, 0);
@@ -119,7 +119,7 @@ namespace Krypton.Toolkit
             // _button3
             // 
             this._button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._button3.AutoSize = true;
+            this._button3.AutoSize = false;
             this._button3.Enabled = false;
             this._button3.IgnoreAltF4 = false;
             this._button3.Location = new System.Drawing.Point(166, 0);
@@ -135,7 +135,7 @@ namespace Krypton.Toolkit
             // _button1
             // 
             this._button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._button1.AutoSize = true;
+            this._button1.AutoSize = false;
             this._button1.Enabled = false;
             this._button1.IgnoreAltF4 = false;
             this._button1.Location = new System.Drawing.Point(90, 0);
@@ -151,7 +151,7 @@ namespace Krypton.Toolkit
             // _button2
             // 
             this._button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._button2.AutoSize = true;
+            this._button2.AutoSize = false;
             this._button2.Enabled = false;
             this._button2.IgnoreAltF4 = false;
             this._button2.Location = new System.Drawing.Point(128, 0);
