@@ -36,6 +36,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Content Include="Utilities\WinFormAnimatiion\General\Icon.png" />
 	  <Content Include="Krypton.ico">
 	    <Pack>false</Pack>
 	  </Content>
