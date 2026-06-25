@@ -12,7 +12,6 @@ if /I "%INPUT%"=="2022" goto vs2022build
 :vs2019build
 call "%SCRIPT_DIR%..\Common\find-msbuild.cmd" 2019
 if errorlevel 1 (
-echo "Unable to detect suitable environment. Check if VS 2019 is installed."
 pause
 goto exitbatch
 )
@@ -29,7 +28,7 @@ REM /m: multi-processor MSBuild (all logical CPUs).
 :vs2022build
 call "%SCRIPT_DIR%..\Common\find-msbuild.cmd" 2022
 if errorlevel 1 (
-echo "Unable to detect suitable environment. Check if VS 2022 is installed."
+pause
 goto exitbatch
 )
 goto build2022

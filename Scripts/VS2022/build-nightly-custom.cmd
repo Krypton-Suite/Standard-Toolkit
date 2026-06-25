@@ -5,7 +5,6 @@ pushd "%SCRIPT_DIR%"
 
 call "%SCRIPT_DIR%..\Common\find-msbuild.cmd" 2022
 if errorlevel 1 (
-echo "Unable to detect suitable environment. Check if VS 2022 is installed."
 echo.
 pause
 goto exitbatch
