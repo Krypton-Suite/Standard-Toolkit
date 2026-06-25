@@ -1,4 +1,6 @@
 @echo off
+REM Nightly rebuild using Visual Studio major 18+ (profile "current") from Scripts/Build/.
+REM MSBuild discovery: Scripts\Common\find-msbuild.cmd. Failure text comes from the helper; this script only pauses.
 setlocal EnableExtensions
 set "SCRIPT_DIR=%~dp0"
 pushd "%SCRIPT_DIR%"

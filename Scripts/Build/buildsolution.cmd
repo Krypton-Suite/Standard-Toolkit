@@ -1,4 +1,6 @@
 echo off
+REM Interactive solution build: VS 2019 (profile "2019") or VS 2026+ (profile "current") via user prompt.
+REM MSBuild discovery: Scripts\Common\find-msbuild.cmd at :vs2019build and :vs2026build. Failure text from the helper.
 setlocal EnableExtensions
 set "SCRIPT_DIR=%~dp0"
 pushd "%SCRIPT_DIR%"
