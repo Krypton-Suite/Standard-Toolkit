@@ -104,6 +104,7 @@ namespace TestForm
             this.ktxtAnimatedGlow.GlowingBorderValues.Enable = true;
             this.ktxtAnimatedGlow.GlowingBorderValues.ShowWhen = Krypton.Toolkit.InputGlowingBorderShowWhen.Focused;
             this.ktxtAnimatedGlow.GlowingBorderValues.Style = Krypton.Toolkit.InputGlowingBorderStyle.All;
+            this.ktxtAnimatedGlow.GlowingBorderValues.AnimationSpeed = 1.5F;
             this.ktxtAnimatedGlow.Location = new System.Drawing.Point(3, 23);
             this.ktxtAnimatedGlow.Name = "ktxtAnimatedGlow";
             this.ktxtAnimatedGlow.Size = new System.Drawing.Size(690, 30);
@@ -145,6 +146,7 @@ namespace TestForm
             this.kcmbGlow.AlwaysActive = false;
             this.kcmbGlow.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kcmbGlow.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.kcmbGlow.GlowingBorderValues.AnimationSpeed = 0.5F;
             this.kcmbGlow.GlowingBorderValues.Enable = true;
             this.kcmbGlow.Items.AddRange(new object[] {
             "Option Alpha",

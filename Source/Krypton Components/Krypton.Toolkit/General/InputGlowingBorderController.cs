@@ -18,6 +18,9 @@ internal sealed class InputGlowingBorderController : IDisposable
 {
     #region Instance Fields
 
+    private const int BaseTimerInterval = 50;
+    private const float BasePhaseStep = 0.04f;
+
     private readonly InputGlowingBorderValues _values;
     private readonly NeedPaintHandler? _needPaint;
     private readonly Func<bool> _shouldDraw;
@@ -71,7 +74,7 @@ internal sealed class InputGlowingBorderController : IDisposable
         {
             _timer = new Timer
             {
-                Interval = 50
+                Interval = BaseTimerInterval
             };
             _timer.Tick += OnAnimationTick;
         }
@@ -110,7 +113,7 @@ internal sealed class InputGlowingBorderController : IDisposable
             return;
         }
 
-        _animationPhase += 0.04f;
+        _animationPhase += BasePhaseStep * _values.AnimationSpeed;
         if (_animationPhase > 1f)
         {
             _animationPhase -= 1f;

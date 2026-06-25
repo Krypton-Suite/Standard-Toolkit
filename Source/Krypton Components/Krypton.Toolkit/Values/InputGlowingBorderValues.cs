@@ -19,6 +19,7 @@ public class InputGlowingBorderValues : Storage
 
     private bool _enable;
     private bool _animate = true;
+    private float _animationSpeed = 1f;
     private InputGlowingBorderShowWhen _showWhen = InputGlowingBorderShowWhen.Focused;
     private InputGlowingBorderStyle _style = InputGlowingBorderStyle.Bottom;
 
@@ -43,6 +44,7 @@ public class InputGlowingBorderValues : Storage
     /// <inheritdoc />
     public override bool IsDefault => !ShouldSerializeEnable()
                                       && !ShouldSerializeAnimate()
+                                      && !ShouldSerializeAnimationSpeed()
                                       && !ShouldSerializeShowWhen()
                                       && !ShouldSerializeStyle()
                                       && Colors.IsDefault;
@@ -108,6 +110,38 @@ public class InputGlowingBorderValues : Storage
     /// Resets the Animate property to its default value.
     /// </summary>
     public void ResetAnimate() => Animate = true;
+
+    #endregion
+
+    #region AnimationSpeed
+
+    /// <summary>
+    /// Gets and sets the glowing border animation speed multiplier.
+    /// </summary>
+    [Category(@"Glowing Border")]
+    [Description(@"Animation speed multiplier. 1 is the default speed; values greater than 1 animate faster and values less than 1 animate slower.")]
+    [DefaultValue(1f)]
+    public float AnimationSpeed
+    {
+        get => _animationSpeed;
+
+        set
+        {
+            float speed = Math.Max(0.1f, Math.Min(10f, value));
+            if (Math.Abs(_animationSpeed - speed) > float.Epsilon)
+            {
+                _animationSpeed = speed;
+                PerformNeedPaint(false);
+            }
+        }
+    }
+
+    private bool ShouldSerializeAnimationSpeed() => Math.Abs(_animationSpeed - 1f) > float.Epsilon;
+
+    /// <summary>
+    /// Resets the AnimationSpeed property to its default value.
+    /// </summary>
+    public void ResetAnimationSpeed() => AnimationSpeed = 1f;
 
     #endregion
 
