@@ -740,6 +740,7 @@ public class KryptonDomainUpDown : VisualControlBase,
     private ButtonSpecAccessibilityProxyManager? _buttonSpecAccessibilityProxyManager;
     private readonly ViewLayoutDocker _drawDockerInner;
     private readonly ViewDrawDocker _drawDockerOuter;
+    private readonly InputGlowingBorderViewIntegration _glowingBorder;
     private readonly ViewLayoutFill _layoutFill;
     private readonly InternalDomainUpDown _domainUpDown;
     private InputControlStyle _inputControlStyle;
@@ -893,8 +894,10 @@ public class KryptonDomainUpDown : VisualControlBase,
             { _drawDockerInner, ViewDockStyle.Fill }
         };
 
+        _glowingBorder = new InputGlowingBorderViewIntegration(this, NeedPaintDelegate, () => IsActive, GetTripleState, _drawDockerOuter);
+
         // Create the view manager instance
-        ViewManager = new ViewManager(this, _drawDockerOuter);
+        ViewManager = new ViewManager(this, _glowingBorder.ViewRoot);
 
         // Create button specification collection manager
         _buttonManager = new ButtonSpecManagerLayout(this, Redirector, ButtonSpecs, null,
@@ -934,6 +937,8 @@ public class KryptonDomainUpDown : VisualControlBase,
 
             // Tell the buttons class to cleanup resources
             _subclassButtons?.Dispose();
+
+            _glowingBorder.Dispose();
         }
 
         base.Dispose(disposing);
@@ -1303,6 +1308,16 @@ public class KryptonDomainUpDown : VisualControlBase,
     public PaletteInputControlTripleRedirect StateCommon { get; }
 
     private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
+
+    /// <summary>
+    /// Gets access to optional glowing border settings.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Optional glowing border drawn on the control.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public InputGlowingBorderValues GlowingBorderValues => _glowingBorder.Values;
+
+    private bool ShouldSerializeGlowingBorderValues() => !GlowingBorderValues.IsDefault;
 
     /// <summary>
     /// Gets access to the disabled textbox appearance entries.
@@ -1720,6 +1735,7 @@ public class KryptonDomainUpDown : VisualControlBase,
     protected override void OnMouseEnter(EventArgs e)
     {
         _mouseOver = true;
+        _glowingBorder.UpdateAnimationState();
         PerformNeedPaint(true);
         InvalidateChildren();
         base.OnMouseEnter(e);
@@ -1732,6 +1748,7 @@ public class KryptonDomainUpDown : VisualControlBase,
     protected override void OnMouseLeave(EventArgs e)
     {
         _mouseOver = false;
+        _glowingBorder.UpdateAnimationState();
         PerformNeedPaint(true);
         InvalidateChildren();
         base.OnMouseLeave(e);
@@ -2026,6 +2043,8 @@ public class KryptonDomainUpDown : VisualControlBase,
         PaletteState state = Enabled ? (IsActive ? PaletteState.Tracking : PaletteState.Normal) : PaletteState.Disabled;
 
         _drawDockerOuter.ElementState = state;
+
+        _glowingBorder.UpdateAnimationState();
     }
 
     internal PaletteInputControlTripleStates GetTripleState() => Enabled ? (IsActive ? StateActive : StateNormal) : StateDisabled;

@@ -26,6 +26,12 @@ namespace Krypton.Toolkit;
 [Designer(typeof(KryptonButtonDesigner))]
 public class KryptonButton : KryptonDropButton
 {
+    #region Instance Fields
+
+    private readonly InputGlowingBorderViewIntegration _glowingBorder;
+
+    #endregion
+
     #region Identity
     /// <summary>
     /// Initialize a new instance of the KryptonButton class.
@@ -38,10 +44,29 @@ public class KryptonButton : KryptonDropButton
 
         // Create a button controller to handle button style behaviour
         _buttonController.BecomesFixed = false;
+
+        _glowingBorder = new InputGlowingBorderViewIntegration(this,
+            NeedPaintDelegate,
+            () => IsButtonActive,
+            GetTripleState,
+            ViewDrawButton,
+            () => ViewDrawButton.State);
+
+        ViewManager = new ViewManager(this, _glowingBorder.ViewRoot);
     }
     #endregion
 
     #region Public
+    /// <summary>
+    /// Gets access to the optional glowing border values.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Optional glowing border drawn around the button.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public InputGlowingBorderValues GlowingBorderValues => _glowingBorder.Values;
+
+    private bool ShouldSerializeGlowingBorderValues() => !GlowingBorderValues.IsDefault;
+
     /// <summary>
     /// Gets and sets the visual orientation of the control
     /// </summary>
@@ -85,5 +110,57 @@ public class KryptonButton : KryptonDropButton
         get => base.Splitter;
         set => base.Splitter = value;
     }
+
+    /// <summary>
+    /// Request the control repaint itself and children.
+    /// </summary>
+    /// <param name="needLayout">Does the palette change require a layout.</param>
+    public override void PerformNeedPaint(bool needLayout)
+    {
+        _glowingBorder.UpdateAnimationState();
+        base.PerformNeedPaint(needLayout);
+    }
+    #endregion
+
+    #region Protected Overrides
+    /// <summary>
+    /// Release managed and unmanaged resources.
+    /// </summary>
+    /// <param name="disposing">true to release both managed and unmanaged resources.</param>
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            _glowingBorder.Dispose();
+        }
+
+        base.Dispose(disposing);
+    }
+    #endregion
+
+    #region Implementation
+
+    private bool IsButtonActive
+    {
+        get
+        {
+            if (DesignMode || ContainsFocus)
+            {
+                return true;
+            }
+
+            return ViewDrawButton.State switch
+            {
+                PaletteState.Tracking => true,
+                PaletteState.Pressed => true,
+                PaletteState.CheckedTracking => true,
+                PaletteState.CheckedPressed => true,
+                _ => false
+            };
+        }
+    }
+
+    private IPaletteTriple GetTripleState() => Enabled ? ViewDrawButton.CurrentPalette : StateDisabled;
+
     #endregion
 }

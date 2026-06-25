@@ -179,6 +179,8 @@ public class KryptonForm : VisualForm,
 	private readonly FormFixedButtonSpecCollection _buttonSpecsFixed;
 	private VisualPopupToolTip? _visualPopupToolTip;
 	private readonly ViewDrawForm _drawDocker;
+	private readonly InputGlowingBorderViewIntegration _glowingBorder;
+	private readonly PaletteDoubleTripleAdapter _formPaletteTriple;
 	private readonly ViewDrawDocker _drawHeading;
 	private readonly ViewDrawContent _drawContent;
 	private readonly ViewDecoratorFixedSize _headingFixedSize;
@@ -314,6 +316,9 @@ public class KryptonForm : VisualForm,
 			{ _layoutNull, ViewDockStyle.Fill }
 		};
 
+		_formPaletteTriple = new PaletteDoubleTripleAdapter(GetFormPaletteState);
+		_glowingBorder = new InputGlowingBorderViewIntegration(this, NeedPaintDelegate, () => WindowActive, () => _formPaletteTriple, _drawDocker, () => _drawDocker.State);
+
 		// Create button specification collection manager
 		_buttonManager = new ButtonSpecManagerDraw(this, Redirector, ButtonSpecs, _buttonSpecsFixed,
 			[_drawHeading],
@@ -340,7 +345,7 @@ public class KryptonForm : VisualForm,
 		KryptonManager.GlobalTouchscreenSupportChanged += OnGlobalTouchscreenSupportChanged;
 
 		// Create the view manager instance
-		ViewManager = new ViewManager(this, _drawDocker);
+		ViewManager = new ViewManager(this, _glowingBorder.ViewRoot);
 
 		_titleStyle = KryptonFormTitleStyle.Inherit;
 
@@ -617,6 +622,8 @@ public class KryptonForm : VisualForm,
 
 			// Dispose the click timer
 			_clickTimer?.Dispose();
+
+			_glowingBorder.Dispose();
 		}
 
 		base.Dispose(disposing);
@@ -1167,6 +1174,16 @@ public class KryptonForm : VisualForm,
 	public PaletteForm StateActive { get; }
 
 	private bool ShouldSerializeStateActive() => !StateActive.IsDefault;
+
+	/// <summary>
+	/// Gets access to optional glowing border settings for the form chrome.
+	/// </summary>
+	[Category(@"Visuals")]
+	[Description(@"Optional glowing border drawn on the form chrome.")]
+	[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+	public InputGlowingBorderValues GlowingBorderValues => _glowingBorder.Values;
+
+	private bool ShouldSerializeGlowingBorderValues() => !GlowingBorderValues.IsDefault;
 
 	/// <summary>
 	/// Gets the collection of button specifications.
@@ -1795,6 +1812,8 @@ public class KryptonForm : VisualForm,
 		_drawDocker.Enabled = WindowActive;
 		_drawHeading.Enabled = WindowActive;
 		_drawContent.Enabled = WindowActive;
+
+		_glowingBorder.UpdateAnimationState();
 
 		PerformNeedPaint(false);
 
@@ -2444,6 +2463,9 @@ public class KryptonForm : VisualForm,
 	#endregion
 
 	#region Implementation
+
+	private IPaletteDouble GetFormPaletteState() => WindowActive ? StateActive : StateInactive;
+
 	private void OnFormBorderStyleChanged()
 	{
 		// KryptonForm uses ButtonSpecs for Form control buttons.

@@ -959,8 +959,7 @@ public class KryptonComboBox : VisualControlBase,
     private ButtonSpecAccessibilityProxyManager? _buttonSpecAccessibilityProxyManager;
     private readonly ViewLayoutDocker _drawDockerInner;
     private readonly ViewDrawDocker _drawDockerOuter;
-    private readonly ViewDecoratorInputGlow _viewGlowDecorator;
-    private readonly InputGlowingBorderHost _glowingBorderHost;
+    private readonly InputGlowingBorderViewIntegration _glowingBorder;
     private readonly ViewLayoutFill _layoutFill;
     private readonly InternalComboBox _comboBox;
     private readonly InternalPanel _comboHolder;
@@ -1304,11 +1303,8 @@ public class KryptonComboBox : VisualControlBase,
             { _drawDockerInner, ViewDockStyle.Fill }
         };
 
-        _glowingBorderHost = new InputGlowingBorderHost(this, NeedPaintDelegate, () => IsActive, GetComboBoxTripleState, () => _drawDockerOuter.State);
-        _viewGlowDecorator = new ViewDecoratorInputGlow(_glowingBorderHost, _drawDockerOuter);
-
-        // Create the view manager instance
-        ViewManager = new ViewManager(this, _viewGlowDecorator);
+        _glowingBorder = new InputGlowingBorderViewIntegration(this, NeedPaintDelegate, () => IsActive, GetComboBoxTripleState, _drawDockerOuter);
+        ViewManager = new ViewManager(this, _glowingBorder.ViewRoot);
 
         // Create button specification collection manager
         _buttonManager = new ButtonSpecManagerLayout(this, Redirector, ButtonSpecs, null,
@@ -1366,7 +1362,7 @@ public class KryptonComboBox : VisualControlBase,
             _buttonSpecAccessibilityProxyManager?.Dispose();
             _buttonSpecAccessibilityProxyManager = null;
 
-            _glowingBorderHost.Dispose();
+            _glowingBorder.Dispose();
 
             CueHint.DisposeAnimation();
         }
@@ -1751,7 +1747,7 @@ public class KryptonComboBox : VisualControlBase,
             if (_alwaysActive != value)
             {
                 _alwaysActive = value;
-                _glowingBorderHost.UpdateAnimationState();
+                _glowingBorder.UpdateAnimationState();
                 PerformNeedPaint(true);
             }
         }
@@ -1763,7 +1759,7 @@ public class KryptonComboBox : VisualControlBase,
     [Category(@"Visuals")]
     [Description(@"Optional glowing bottom border settings.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    public InputGlowingBorderValues GlowingBorderValues => _glowingBorderHost.Values;
+    public InputGlowingBorderValues GlowingBorderValues => _glowingBorder.Values;
 
     private bool ShouldSerializeGlowingBorderValues() => !GlowingBorderValues.IsDefault;
 
@@ -2744,7 +2740,7 @@ public class KryptonComboBox : VisualControlBase,
     protected override void OnMouseEnter(EventArgs e)
     {
         _mouseOver = true;
-        _glowingBorderHost.UpdateAnimationState();
+        _glowingBorder.UpdateAnimationState();
         PerformNeedPaint(false);
         _comboBox.Invalidate();
         base.OnMouseEnter(e);
@@ -2757,7 +2753,7 @@ public class KryptonComboBox : VisualControlBase,
     protected override void OnMouseLeave(EventArgs e)
     {
         _mouseOver = false;
-        _glowingBorderHost.UpdateAnimationState();
+        _glowingBorder.UpdateAnimationState();
         PerformNeedPaint(false);
         _comboBox.Invalidate();
         base.OnMouseLeave(e);
@@ -3033,7 +3029,7 @@ public class KryptonComboBox : VisualControlBase,
         PaletteState state = Enabled ? (IsActive ? PaletteState.Tracking : PaletteState.Normal) : PaletteState.Disabled;
 
         _drawDockerOuter.ElementState = state;
-        _glowingBorderHost.UpdateAnimationState();
+        _glowingBorder.UpdateAnimationState();
     }
 
     internal PaletteInputControlTripleStates GetComboBoxTripleState() => Enabled ? IsActive ? StateActive.ComboBox : StateNormal.ComboBox : StateDisabled.ComboBox;

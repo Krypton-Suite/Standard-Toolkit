@@ -53,6 +53,7 @@ public class KryptonDateTimePicker : VisualControlBase,
 
     #region Instance Fields
     private readonly ViewDrawDocker _drawDockerOuter;
+    private readonly InputGlowingBorderViewIntegration _glowingBorder;
     private readonly ViewLayoutDocker _drawDockerInner;
     private readonly ViewLayoutStretch _dropStretch;
     private readonly ViewLayoutFit _upDownFit;
@@ -287,8 +288,10 @@ public class KryptonDateTimePicker : VisualControlBase,
             { new ViewLayoutPadding(new Padding(2, 0, 1, 0), _drawDockerInner), ViewDockStyle.Fill }
         };
 
+        _glowingBorder = new InputGlowingBorderViewIntegration(this, NeedPaintDelegate, () => IsActive, GetTripleState, _drawDockerOuter);
+
         // Create the view manager instance
-        ViewManager = new ViewManager(this, _drawDockerOuter);
+        ViewManager = new ViewManager(this, _glowingBorder.ViewRoot);
 
         // Create button specification collection manager
         _buttonManager = new ButtonSpecManagerDraw(this, Redirector, ButtonSpecs, null,
@@ -325,6 +328,8 @@ public class KryptonDateTimePicker : VisualControlBase,
             _buttonManager?.Destruct();
             _buttonSpecAccessibilityProxyManager?.Dispose();
             _buttonSpecAccessibilityProxyManager = null;
+
+            _glowingBorder.Dispose();
         }
 
         base.Dispose(disposing);
@@ -1250,6 +1255,16 @@ public class KryptonDateTimePicker : VisualControlBase,
     private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
     /// <summary>
+    /// Gets access to optional glowing border settings.
+    /// </summary>
+    [Category(@"Visuals - DateTimePicker")]
+    [Description(@"Optional glowing border drawn on the control.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public InputGlowingBorderValues GlowingBorderValues => _glowingBorder.Values;
+
+    private bool ShouldSerializeGlowingBorderValues() => !GlowingBorderValues.IsDefault;
+
+    /// <summary>
     /// Gets access to the disabled date time picker appearance entries.
     /// </summary>
     [Category(@"Visuals - DateTimePicker")]
@@ -2059,6 +2074,8 @@ public class KryptonDateTimePicker : VisualControlBase,
         PaletteState state = Enabled ? (IsActive ? PaletteState.Tracking : PaletteState.Normal) : PaletteState.Disabled;
 
         _drawDockerOuter.ElementState = state;
+
+        _glowingBorder.UpdateAnimationState();
     }
 
     private IPaletteTriple GetTripleState() => Enabled ? (IsActive ? StateActive : StateNormal) : StateDisabled;
