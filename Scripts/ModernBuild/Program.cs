@@ -26,6 +26,8 @@ internal static class Program
         // Initialize the Terminal.Gui framework
         Application.Init();
 
+        string msBuildPath = BuildLogic.LocateMSBuildExecutable();
+
         // Create and initialize the application state with default values
         var state = new AppState
         {
@@ -38,7 +40,9 @@ internal static class Program
             // Discover the repository root directory
             RootPath = BuildLogic.FindRepoRoot(),
             // Locate the MSBuild executable on the system
-            MsBuildPath = BuildLogic.LocateMSBuildExecutable(),
+            MsBuildPath = msBuildPath,
+            MsBuildToolVersion = BuildLogic.GetMSBuildToolVersion(msBuildPath),
+            VsProductDescription = BuildLogic.DescribeVisualStudioInstallation(msBuildPath),
             // Set initial tail buffer size for output display
             TailLines = 200
         };
