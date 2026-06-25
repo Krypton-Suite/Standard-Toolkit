@@ -814,18 +814,17 @@ public static class BuildUI
     }
 
     /// <summary>
-    /// Returns whether the selected channel supports a dedicated Rebuild target in its .proj file.
+    /// Returns whether the selected channel supports a dedicated Rebuild target.
     /// </summary>
     /// <param name="channel">The selected build channel.</param>
-    /// <returns>True when Rebuild is defined for the channel; otherwise false.</returns>
+    /// <returns>True for Nightly; otherwise false.</returns>
     private static bool SupportsRebuildForChannel(ChannelType channel)
     {
         return channel == ChannelType.Nightly;
     }
 
     /// <summary>
-    /// Normalizes Ops action selections when channel capabilities change.
-    /// Ensures combinations like Canary/Stable + Rebuild are not kept selected.
+    /// Normalizes the Ops action when switching away from a channel that supports Rebuild.
     /// </summary>
     /// <param name="state">The current application state.</param>
     private static void NormalizeOpsActionForChannel(AppState state)
@@ -968,7 +967,19 @@ public static class BuildUI
         {
             st = "FAILED";
         }
-        TimeSpan? elapsed = state.IsRunning && state.StartTimeUtc.HasValue ? DateTime.UtcNow - state.StartTimeUtc.Value : (TimeSpan?)null;
+        TimeSpan? elapsed = null;
+        if (state.StartTimeUtc.HasValue)
+        {
+            DateTime? endTimeUtc = state.IsRunning ? DateTime.UtcNow : state.EndTimeUtc;
+            if (endTimeUtc.HasValue)
+            {
+                elapsed = endTimeUtc.Value - state.StartTimeUtc.Value;
+                if (elapsed.Value < TimeSpan.Zero)
+                {
+                    elapsed = TimeSpan.Zero;
+                }
+            }
+        }
         string elapsedText = elapsed.HasValue ? elapsed.Value.ToString("hh\\:mm\\:ss") : "--:--:--";
         if (ui.SummaryFrame != null)
         {
@@ -1073,8 +1084,8 @@ public static class BuildUI
             if (ui.Hint != null)
             {
                 ui.Hint.Text = showF9
-                    ? "F-keys cycle options.\nF9 cycles PackMode. F5 toggles Run/Stop."
-                    : "F-keys cycle options.\nF9 cycles Scripts profile. F5 toggles Run/Stop.";
+                    ? "F-keys cycle options.\nF9 cycles PackMode.\nF5 toggles Run/Stop."
+                    : "F-keys cycle options.\nF9 cycles Scripts profile.\nF5 toggles Run/Stop.";
             }
         }
         else
@@ -1217,7 +1228,9 @@ public static class BuildUI
 
         AddKV("Project", TrimScriptsPath(state.ProjectFile));
         AddKV("Scripts", FormatScriptProfile(state));
+        AddKV("Visual Studio", state.VsProductDescription);
         AddKV("MSBuild", state.MsBuildPath);
+        AddKV("MSBuild version", state.MsBuildToolVersion);
 
         AddKV("Text Log", TrimLogsPath(Path.Combine(state.RootPath, "Logs", prefix + "-build-summary.log")));
         AddKV("BinLog", TrimLogsPath(Path.Combine(state.RootPath, "Logs", prefix + "-build.binlog")));

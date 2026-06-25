@@ -39,6 +39,16 @@ public sealed class AppState
     /// Gets or sets the path to the MSBuild executable.
     /// </summary>
     public string MsBuildPath { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the MSBuild tool version from <c>MSBuild.exe -version</c>.
+    /// </summary>
+    public string MsBuildToolVersion { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the resolved Visual Studio product description for the MSBuild install.
+    /// </summary>
+    public string VsProductDescription { get; set; } = string.Empty;
     
     /// <summary>
     /// Gets or sets the project file path for the build operation.
@@ -93,6 +103,11 @@ public sealed class AppState
     /// Gets or sets the UTC start time of the current build operation.
     /// </summary>
     public DateTime? StartTimeUtc { get; set; }
+
+    /// <summary>
+    /// Gets or sets the UTC end time of the most recently completed build operation.
+    /// </summary>
+    public DateTime? EndTimeUtc { get; set; }
     
     /// <summary>
     /// Gets or sets the count of errors encountered during the build.

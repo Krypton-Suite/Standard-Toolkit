@@ -1,37 +1,16 @@
 @echo off
+REM Long-term stable build using the Scripts/VS2022/ toolset (Visual Studio 2022, profile "2022")
+REM MSBuild discovery: Scripts\Common\find-msbuild.cmd. Failure text comes from the helper; this script only pauses.
 setlocal EnableExtensions
 set "SCRIPT_DIR=%~dp0"
 pushd "%SCRIPT_DIR%"
 
-if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Preview\MSBuild\Current\Bin" goto vs17prev
-if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin" goto vs17ent
-if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin" goto vs17pro
-if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin" goto vs17com
-if exist "%ProgramFiles%\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin" goto vs17build
-
-echo "Unable to detect suitable environment. Check if VS 2022 is installed."
+call "%SCRIPT_DIR%..\Common\find-msbuild.cmd" 2022
+if errorlevel 1 (
 echo.
 pause
 goto exitbatch
-
-:vs17prev
-set "msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\Preview\MSBuild\Current\Bin"
-goto build
-
-:vs17ent
-set "msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin"
-goto build
-
-:vs17pro
-set "msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin"
-goto build
-
-:vs17com
-set "msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin"
-goto build
-
-:vs17build
-set "msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin"
+)
 goto build
 
 :build
@@ -45,7 +24,8 @@ for /f "tokens=* usebackq" %%A in (`tzutil /g`) do (
 @echo:
 set "targets=Build"
 if not "%~1" == "" set "targets=%~1"
-"%msbuildpath%\msbuild.exe" /t:%targets% "%SCRIPT_DIR%longtermstable.proj" /fl /flp:logfile="%SCRIPT_DIR%..\..\Logs\long-term-stable-build-log.log" /bl:"%SCRIPT_DIR%..\..\Logs\long-term-stable-build-log.binlog" /clp:Summary;ShowTimestamp /v:quiet
+REM Phased Krypton.* build + /m (see Scripts\Build\Krypton.Orchestration.targets).
+"%msbuildpath%\msbuild.exe" /m /t:%targets% "%SCRIPT_DIR%longtermstable.proj" /fl /flp:logfile="%SCRIPT_DIR%..\..\Logs\long-term-stable-build-log.log" /bl:"%SCRIPT_DIR%..\..\Logs\long-term-stable-build-log.binlog" /clp:Summary;ShowTimestamp /v:quiet
 @echo:
 @echo Stable release build completed: %date% %time% %zone%
 @echo:
