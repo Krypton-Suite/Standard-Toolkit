@@ -26,6 +26,8 @@ internal static class Program
         // Initialize the Terminal.Gui framework
         Application.Init();
 
+        // Resolve MSBuild once at startup (vswhere, override env vars, then Program Files fallback).
+        // Toolset metadata is shown in the Build Settings panel before any build runs.
         string msBuildPath = BuildLogic.LocateMSBuildExecutable();
 
         // Create and initialize the application state with default values

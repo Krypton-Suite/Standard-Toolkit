@@ -1,4 +1,6 @@
 @echo off
+REM Long-term stable build using the Scripts/Current/ toolset (Visual Studio major 18+, profile "current").
+REM MSBuild discovery: Scripts\Common\find-msbuild.cmd. Failure text comes from the helper; this script only pauses.
 setlocal EnableExtensions
 set "SCRIPT_DIR=%~dp0"
 pushd "%SCRIPT_DIR%"

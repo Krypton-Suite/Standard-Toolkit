@@ -1,4 +1,6 @@
 @echo off
+REM Stable release build using the Scripts/VS2022/ toolset (Visual Studio 2022, profile "2022").
+REM MSBuild discovery: Scripts\Common\find-msbuild.cmd. Failure text comes from the helper; this script only pauses.
 setlocal EnableExtensions
 set "SCRIPT_DIR=%~dp0"
 pushd "%SCRIPT_DIR%"
