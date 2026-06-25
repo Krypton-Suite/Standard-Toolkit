@@ -134,6 +134,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<CalendarTest>("Calendar", string.Empty);
         CreateButton<ComboBoxDateTimePickerConsistencyDemo>("ComboBox/DateTimePicker Consistency", "Comprehensive demonstration of KComboBox and KDateTimePicker consistency fix (Issue #1651). Shows drop-down buttons stretching to full height and centered text.");
         CreateButton<DropDownArrowsDemo>("Drop-Down Arrows Demo", "Comprehensive demonstration of drop-down arrows: smaller size and DPI awareness (Issue #2129). Shows KryptonButton, KryptonDropButton, KryptonComboBox, KryptonDateTimePicker, KryptonColorButton, and KryptonNumericUpDown. Move window between monitors to verify DPI scaling.");
+        CreateButton<KryptonDropZoneDemo>("Krypton Drop Zone", "Comprehensive demo of KryptonDropZone: drag-and-drop and browse, extension/size/count limits, folder scanning, undo, sorting, context menu, keyboard shortcuts, FileValidating, and SaveToFile/LoadFromFile API.");
         CreateButton<ControlsTest>("Controls Test", string.Empty);
         CreateButton<DataGridViewDemo>("KryptonDataGridView Demo", string.Empty);
         CreateButton<BindingNavigatorDemo>("KryptonBindingNavigator Demo", "Comprehensive example of KryptonBindingNavigator with data binding");

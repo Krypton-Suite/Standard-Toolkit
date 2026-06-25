@@ -108,6 +108,12 @@
     <Compile Update="KryptonCheckedListComboBoxDemo.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="KryptonDropZoneDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonDropZoneDemo.Designer.cs">
+      <DependentUpon>KryptonDropZoneDemo.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>

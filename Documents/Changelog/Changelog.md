@@ -45,6 +45,8 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#3780](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3780), Bring the `KryptonDropZone` over
+   * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Implemented [#3757](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3757), Make the `KryptonManager` strings more flexible to use. `KryptonCustomStrings` and `KryptonCustomStringsManager` in `Krypton.Toolkit.Utilities` for application key/value and strongly-typed custom string sets
 * Resolved [#1870](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1870), Restored `BasePaletteMode` in `KryptonCustomPaletteBase`
 * Resolved [#3751](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3751), `Krypton.Standard.Toolkit.Nightly` NuGet package does not upload
