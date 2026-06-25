@@ -1086,7 +1086,7 @@ public class KryptonForm : VisualForm,
     /// <see cref="PaletteRelativeEdgeAlign.Inherit"/> uses the palette default (Near / traffic lights for
     /// macOS and OS X Aqua). <see cref="PaletteRelativeEdgeAlign.Far"/> forces a standard Windows
     /// control box on the Far edge (physical right in LTR). When set to Far, the RTL Far→Near remap in
-    /// <see cref="FormPaletteRedirect.GetButtonSpecEdge"/> is bypassed so the developer controls edge
+    /// <see cref="KryptonForm.FormPaletteRedirect.GetButtonSpecEdge(PaletteButtonSpecStyle)"/> is bypassed so the developer controls edge
     /// explicitly. <see cref="PaletteRelativeEdgeAlign.Near"/> forces traffic-light placement on the
     /// Near edge regardless of palette.
     /// </remarks>
@@ -3131,7 +3131,7 @@ public class KryptonForm : VisualForm,
     /// </summary>
     /// <remarks>
     /// Uses the palette's <em>native</em> edge from <see cref="PaletteBase.GetButtonSpecEdge"/>,
-    /// not <see cref="Redirector"/>. After issue #3786, the redirector remaps Far→Near for standard
+    /// not <see cref="VisualForm.Redirector"/>. After issue #3786, the redirector remaps Far→Near for standard
     /// palettes in RTL; consulting the redirector here would mis-classify RTL Office forms as
     /// traffic-light layouts and apply the wrong collection order.
     /// </remarks>
@@ -3245,7 +3245,7 @@ public class KryptonForm : VisualForm,
     /// </summary>
     /// <remarks>
     /// Single source of truth for Min/Max/Close collection order. Visual placement (left vs right)
-    /// is handled separately by <see cref="FormPaletteRedirect.GetButtonSpecEdge"/> and
+    /// is handled separately by <see cref="KryptonForm.FormPaletteRedirect.GetButtonSpecEdge(PaletteButtonSpecStyle)"/> and
     /// <see cref="ButtonSpecManagerBase.GetButtonSpecDockStyle"/>.
     /// </remarks>
     private void SyncFormFixedButtonSpecOrder()

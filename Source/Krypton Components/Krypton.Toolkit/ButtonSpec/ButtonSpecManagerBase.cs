@@ -918,7 +918,7 @@ public abstract class ButtonSpecManagerBase : GlobalId
     /// <returns>Dock style to assign before RTL mirroring.</returns>
     /// <remarks>
     /// Maps palette Near/Far edge to Left/Right dock. Form chrome relies on
-    /// <see cref="FormPaletteRedirect.GetButtonSpecEdge"/> to move standard Far-edge buttons to the
+    /// <see cref="KryptonForm.FormPaletteRedirect.GetButtonSpecEdge(PaletteButtonSpecStyle)"/> to move standard Far-edge buttons to the
     /// physical left in RTL (Far→Near remap) rather than depending on
     /// <see cref="ViewDrawDocker.CalculateDock"/> alone, which does not consistently mirror
     /// caption button specs (issue #3786).
