@@ -339,6 +339,8 @@ public class KryptonTextBox : VisualControlBase,
     private readonly ButtonSpecManagerLayout? _buttonManager;
     private readonly ViewLayoutDocker _drawDockerInner;
     private readonly ViewDrawDocker _drawDockerOuter;
+    private readonly ViewDecoratorInputGlow _viewGlowDecorator;
+    private readonly InputGlowingBorderHost _glowingBorderHost;
     private readonly ViewLayoutFill _layoutFill;
     private readonly InternalTextBox _textBox;
     private InputControlStyle _inputControlStyle;
@@ -518,8 +520,11 @@ public class KryptonTextBox : VisualControlBase,
             { _drawDockerInner, ViewDockStyle.Fill }
         };
 
+        _glowingBorderHost = new InputGlowingBorderHost(this, NeedPaintDelegate, () => IsActive, GetTripleState, () => _drawDockerOuter.State);
+        _viewGlowDecorator = new ViewDecoratorInputGlow(_glowingBorderHost, _drawDockerOuter);
+
         // Create the view manager instance
-        ViewManager = new ViewManager(this, _drawDockerOuter);
+        ViewManager = new ViewManager(this, _viewGlowDecorator);
 
         // Create button specification collection manager
         _buttonManager = new ButtonSpecManagerLayout(this, Redirector, ButtonSpecs, null,
@@ -572,6 +577,8 @@ public class KryptonTextBox : VisualControlBase,
 
             _scrollbarManager?.Dispose();
             _scrollbarManager = null;
+
+            _glowingBorderHost.Dispose();
         }
 
         base.Dispose(disposing);
@@ -597,6 +604,16 @@ public class KryptonTextBox : VisualControlBase,
     public PaletteCueHintText CueHint { get; }
 
     private bool ShouldSerializeCueHint() => !CueHint.IsDefault;
+
+    /// <summary>
+    /// Gets access to the optional glowing bottom border settings.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Optional glowing bottom border settings.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public InputGlowingBorderValues GlowingBorderValues => _glowingBorderHost.Values;
+
+    private bool ShouldSerializeGlowingBorderValues() => !GlowingBorderValues.IsDefault;
 
 
     /// <summary>
@@ -858,6 +875,7 @@ public class KryptonTextBox : VisualControlBase,
             if (_alwaysActive != value)
             {
                 _alwaysActive = value;
+                _glowingBorderHost.UpdateAnimationState();
                 PerformNeedPaint(true);
             }
         }
@@ -1594,6 +1612,7 @@ public class KryptonTextBox : VisualControlBase,
     {
         // Change in enabled state requires a layout and repaint
         UpdateStateAndPalettes();
+        _glowingBorderHost.UpdateAnimationState();
 
         // Update view elements
         _drawDockerInner.Enabled = Enabled;
@@ -1717,6 +1736,7 @@ public class KryptonTextBox : VisualControlBase,
     protected override void OnMouseEnter(EventArgs e)
     {
         _mouseOver = true;
+        _glowingBorderHost.UpdateAnimationState();
         PerformNeedPaint(true);
         _textBox.Invalidate();
         base.OnMouseEnter(e);
@@ -1736,6 +1756,7 @@ public class KryptonTextBox : VisualControlBase,
         }
 
         _mouseOver = false;
+        _glowingBorderHost.UpdateAnimationState();
         PerformNeedPaint(true);
         _textBox.Invalidate();
         base.OnMouseLeave(e);
@@ -1899,6 +1920,7 @@ public class KryptonTextBox : VisualControlBase,
         PaletteState state = Enabled ? (IsActive ? PaletteState.Tracking : PaletteState.Normal) : PaletteState.Disabled;
 
         _drawDockerOuter.ElementState = state;
+        _glowingBorderHost.UpdateAnimationState();
     }
 
     internal IPaletteTriple GetTripleState() => Enabled ? (IsActive ? StateActive : StateNormal) : StateDisabled;

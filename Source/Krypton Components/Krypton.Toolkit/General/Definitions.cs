@@ -1598,6 +1598,47 @@ public enum InputControlStyle
 }
 #endregion
 
+#region Enum InputGlowingBorderShowWhen
+/// <summary>
+/// Specifies when an optional input control glowing border is shown.
+/// </summary>
+public enum InputGlowingBorderShowWhen
+{
+    /// <summary>
+    /// Show the glowing border only when the input has keyboard focus.
+    /// </summary>
+    Focused,
+
+    /// <summary>
+    /// Show the glowing border when the input is active (focused, mouse over, or AlwaysActive).
+    /// </summary>
+    Active,
+
+    /// <summary>
+    /// Always show the glowing border when enabled.
+    /// </summary>
+    Always
+}
+#endregion
+
+#region Enum InputGlowingBorderStyle
+/// <summary>
+/// Specifies how an optional input control glowing border is drawn.
+/// </summary>
+public enum InputGlowingBorderStyle
+{
+    /// <summary>
+    /// Draw the glow along the bottom edge only.
+    /// </summary>
+    Bottom,
+
+    /// <summary>
+    /// Draw the glow around the entire control border.
+    /// </summary>
+    All
+}
+#endregion
+
 #region Enum SeparatorStyle
 /// <summary>
 /// Specifies the separator style.
