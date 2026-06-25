@@ -1287,6 +1287,7 @@ public class KryptonComboBox : VisualControlBase,
         _comboBox.Validated += OnComboBoxValidated;
         _comboHolder = new InternalPanel(this);
         _comboHolder.Controls.Add(_comboBox);
+        CueHint.AttachAnimation(ShouldAnimateCueHint, () => _comboBox.Invalidate());
 
         // Create the element that fills the remainder space and remembers fill rectangle
         _layoutFill = new ViewLayoutFill(_comboHolder);
@@ -1366,6 +1367,8 @@ public class KryptonComboBox : VisualControlBase,
             _buttonSpecAccessibilityProxyManager = null;
 
             _glowingBorderHost.Dispose();
+
+            CueHint.DisposeAnimation();
         }
 
         base.Dispose(disposing);
@@ -2634,6 +2637,7 @@ public class KryptonComboBox : VisualControlBase,
         // Change in enabled state requires a layout and repaint
         UpdateStateAndPalettes();
         PerformNeedPaint(true);
+        CueHint.SyncAnimation();
 
         // Let base class fire standard event
         base.OnEnabledChanged(e);
@@ -2968,6 +2972,12 @@ public class KryptonComboBox : VisualControlBase,
     #endregion
 
     #region Implementation
+
+    private bool ShouldAnimateCueHint() =>
+        Enabled
+        && !string.IsNullOrWhiteSpace(CueHint.CueHintText)
+        && string.IsNullOrEmpty(Text);
+
     private void AttachEditControl()
     {
         if (!IsDisposed && !Disposing)
@@ -3289,7 +3299,11 @@ public class KryptonComboBox : VisualControlBase,
         _comboBox.Invalidate();
     }
 
-    private void OnComboBoxTextChanged(object? sender, EventArgs e) => OnTextChanged(e);
+    private void OnComboBoxTextChanged(object? sender, EventArgs e)
+    {
+        CueHint.SyncAnimation();
+        OnTextChanged(e);
+    }
 
     private void OnComboBoxTextUpdate(object? sender, EventArgs e) => OnTextUpdate(e);
 

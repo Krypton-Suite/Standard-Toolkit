@@ -49,7 +49,7 @@ namespace TestForm
             this.kwlblInfo.Padding = new System.Windows.Forms.Padding(12, 12, 12, 8);
             this.kwlblInfo.Text =
                 @"Issue #3784: Optional glowing border on KryptonTextBox, KryptonComboBox, and KryptonRichTextBox. " +
-                @"Controls use the active theme colours; configure glow via GlowingBorderValues. Tab into each control to compare.";
+                @"Controls use the active theme colours; configure glow via GlowingBorderValues and cue shimmer via CueHint.Animate. Tab into each control to compare.";
             //
             // kryptonPanelMain
             //
@@ -99,7 +99,9 @@ namespace TestForm
             // ktxtAnimatedGlow
             //
             this.ktxtAnimatedGlow.AlwaysActive = false;
-            this.ktxtAnimatedGlow.CueHint.CueHintText = "Describe the app or website or idea that you want";
+            this.ktxtAnimatedGlow.CueHint.Animate = true;
+            this.ktxtAnimatedGlow.CueHint.AnimationSpeed = 0.75F;
+            this.ktxtAnimatedGlow.CueHint.CueHintText = "Describe the app or website or idea that you want to build";
             this.ktxtAnimatedGlow.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ktxtAnimatedGlow.GlowingBorderValues.Enable = true;
             this.ktxtAnimatedGlow.GlowingBorderValues.ShowWhen = Krypton.Toolkit.InputGlowingBorderShowWhen.Focused;

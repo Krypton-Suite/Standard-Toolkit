@@ -61,11 +61,17 @@ internal sealed class ViewDecoratorInputGlow : ViewDecorator
         InputGlowingBorderValues values = _provider.Values;
         IPaletteTriple tripleState = _provider.GetGlowingBorderTripleState();
         PaletteState state = _provider.GetGlowingBorderState();
-        float rounding = tripleState.PaletteBorder?.GetBorderRounding(state) ?? 0f;
+        IPaletteBorder? paletteBorder = tripleState.PaletteBorder;
 
-        InputGlowBorderRenderer.Draw(context.Graphics,
+        if (paletteBorder == null)
+        {
+            return;
+        }
+
+        InputGlowBorderRenderer.Draw(context,
             bounds,
-            rounding,
+            paletteBorder,
+            state,
             _provider.AnimationPhase,
             values.Animate,
             values.Style,

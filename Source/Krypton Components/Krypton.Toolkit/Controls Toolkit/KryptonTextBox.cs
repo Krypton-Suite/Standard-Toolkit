@@ -484,6 +484,7 @@ public class KryptonTextBox : VisualControlBase,
 
         // Create the internal text box used for containing content
         _textBox = new InternalTextBox(this);
+        CueHint.AttachAnimation(ShouldAnimateCueHint, () => _textBox.Invalidate());
         _textBox.DoubleClick += OnDoubleClick;
         _textBox.MouseDoubleClick += OnMouseDoubleClick;
         _textBox.TrackMouseEnter += OnTextBoxMouseChange;
@@ -579,6 +580,8 @@ public class KryptonTextBox : VisualControlBase,
             _scrollbarManager = null;
 
             _glowingBorderHost.Dispose();
+
+            CueHint.DisposeAnimation();
         }
 
         base.Dispose(disposing);
@@ -1613,6 +1616,7 @@ public class KryptonTextBox : VisualControlBase,
         // Change in enabled state requires a layout and repaint
         UpdateStateAndPalettes();
         _glowingBorderHost.UpdateAnimationState();
+        CueHint.SyncAnimation();
 
         // Update view elements
         _drawDockerInner.Enabled = Enabled;
@@ -1907,6 +1911,11 @@ public class KryptonTextBox : VisualControlBase,
 
     #region Implementation
 
+    private bool ShouldAnimateCueHint() =>
+        Enabled
+        && !string.IsNullOrWhiteSpace(CueHint.CueHintText)
+        && string.IsNullOrEmpty(Text);
+
     private void UpdateStateAndPalettes()
     {
         // Get the correct palette settings to use
@@ -1958,7 +1967,11 @@ public class KryptonTextBox : VisualControlBase,
 
     private void OnTextBoxAcceptsTabChanged(object? sender, EventArgs e) => OnAcceptsTabChanged(e);
 
-    private void OnTextBoxTextChanged(object? sender, EventArgs e) => OnTextChanged(e);
+    private void OnTextBoxTextChanged(object? sender, EventArgs e)
+    {
+        CueHint.SyncAnimation();
+        OnTextChanged(e);
+    }
 
     private void OnTextBoxTextAlignChanged(object? sender, EventArgs e) => OnTextAlignChanged(e);
 

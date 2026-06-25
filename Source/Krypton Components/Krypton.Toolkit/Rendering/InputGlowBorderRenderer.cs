@@ -20,9 +20,10 @@ internal static class InputGlowBorderRenderer
     /// <summary>
     /// Draw a glowing border inside the specified bounds.
     /// </summary>
-    public static void Draw(Graphics g,
+    public static void Draw(RenderContext context,
         Rectangle bounds,
-        float cornerRounding,
+        IPaletteBorder paletteBorder,
+        PaletteState state,
         float animationPhase,
         bool animate,
         InputGlowingBorderStyle style,
@@ -35,89 +36,98 @@ internal static class InputGlowBorderRenderer
             return;
         }
 
+        if (context.Renderer == null)
+        {
+            return;
+        }
+
+        using GraphicsPath path = GetGlowBorderPath(context, bounds, paletteBorder, state, style);
+        if (path.PointCount == 0)
+        {
+            return;
+        }
+
+        using var antiAlias = new AntiAlias(context.Graphics);
+
+        if (style == InputGlowingBorderStyle.Bottom)
+        {
+            DrawBottomHalo(context.Graphics, path, animate, highlightColor);
+        }
+
+        DrawPathGlow(context.Graphics, bounds, path, animationPhase, animate, edgeColor1, edgeColor2, highlightColor);
+    }
+
+    private static GraphicsPath GetGlowBorderPath(RenderContext context,
+        Rectangle bounds,
+        IPaletteBorder paletteBorder,
+        PaletteState state,
+        InputGlowingBorderStyle style)
+    {
+        var forcedPalette = new PaletteBorderInheritForced(paletteBorder);
+
         if (style == InputGlowingBorderStyle.All)
         {
-            DrawAll(g, bounds, cornerRounding, animationPhase, animate, edgeColor1, edgeColor2, highlightColor);
+            forcedPalette.ForceBorderEdges(PaletteDrawBorders.All);
         }
         else
         {
-            DrawBottom(g, bounds, cornerRounding, animationPhase, animate, edgeColor1, edgeColor2, highlightColor);
+            float rounding = paletteBorder.GetBorderRounding(state);
+            forcedPalette.ForceBorderEdges(rounding > 0.1f
+                ? PaletteDrawBorders.BottomLeftRight
+                : PaletteDrawBorders.Bottom);
         }
+
+        return context.Renderer!.RenderStandardBorder.GetBorderPath(context,
+            bounds,
+            forcedPalette,
+            VisualOrientation.Top,
+            state);
     }
 
-    private static void DrawBottom(Graphics g,
-        Rectangle bounds,
-        float cornerRounding,
-        float animationPhase,
+    private static void DrawBottomHalo(Graphics g,
+        GraphicsPath path,
         bool animate,
-        Color edgeColor1,
-        Color edgeColor2,
         Color highlightColor)
     {
-        using var antiAlias = new AntiAlias(g);
-
-        float phaseOffset = animate ? animationPhase * bounds.Width : 0f;
-        int inset = Math.Max(1, (int)Math.Ceiling(cornerRounding / 2f));
-        int left = bounds.Left + inset;
-        int right = bounds.Right - inset;
-        int width = right - left;
-
-        if (width <= 0)
+        RectangleF pathBounds = path.GetBounds();
+        if (pathBounds.Width <= 0 || pathBounds.Height <= 0)
         {
             return;
         }
 
-        // Soft upward glow from the bottom edge.
-        float ellipseWidth = width * 0.55f;
+        float ellipseWidth = pathBounds.Width * 0.55f;
         float ellipseHeight = GlowHeight * 1.6f;
         var ellipseRect = new RectangleF(
-            left + ((width - ellipseWidth) / 2f),
-            bounds.Bottom - GlowHeight - (ellipseHeight / 2f),
+            pathBounds.Left + ((pathBounds.Width - ellipseWidth) / 2f),
+            pathBounds.Bottom - GlowHeight - (ellipseHeight / 2f),
             ellipseWidth,
             ellipseHeight);
 
-        if (ellipseRect.Width > 0 && ellipseRect.Height > 0)
+        if (ellipseRect.Width <= 0 || ellipseRect.Height <= 0)
         {
-            using var ellipsePath = new GraphicsPath();
-            ellipsePath.AddEllipse(ellipseRect);
-            using var glowBrush = new PathGradientBrush(ellipsePath)
-            {
-                CenterColor = Color.FromArgb(animate ? 72 : 56, highlightColor),
-                CenterPoint = new PointF(ellipseRect.Left + (ellipseRect.Width / 2f), ellipseRect.Bottom - 1f)
-            };
-            glowBrush.SurroundColors = [Color.Transparent];
-            g.FillPath(glowBrush, ellipsePath);
+            return;
         }
 
-        // Bright spectral line along the bottom edge.
-        var lineRect = new RectangleF(left, bounds.Bottom - LineHeight, width, LineHeight);
-        using var lineBrush = CreateSpectralBrush(lineRect, phaseOffset, edgeColor1, edgeColor2, highlightColor);
-        g.FillRectangle(lineBrush, lineRect);
+        using var ellipsePath = new GraphicsPath();
+        ellipsePath.AddEllipse(ellipseRect);
+        using var glowBrush = new PathGradientBrush(ellipsePath)
+        {
+            CenterColor = Color.FromArgb(animate ? 72 : 56, highlightColor),
+            CenterPoint = new PointF(ellipseRect.Left + (ellipseRect.Width / 2f), ellipseRect.Bottom - 1f)
+        };
+        glowBrush.SurroundColors = [Color.Transparent];
+        g.FillPath(glowBrush, ellipsePath);
     }
 
-    private static void DrawAll(Graphics g,
+    private static void DrawPathGlow(Graphics g,
         Rectangle bounds,
-        float cornerRounding,
+        GraphicsPath path,
         float animationPhase,
         bool animate,
         Color edgeColor1,
         Color edgeColor2,
         Color highlightColor)
     {
-        using var antiAlias = new AntiAlias(g);
-
-        int rounding = GetPathRounding(bounds, cornerRounding);
-        var pathRect = bounds;
-        pathRect.Inflate(-(int)Math.Ceiling(LineHeight / 2f), -(int)Math.Ceiling(LineHeight / 2f));
-
-        if (pathRect.Width <= 0 || pathRect.Height <= 0)
-        {
-            return;
-        }
-
-        using GraphicsPath path = CommonHelper.RoundedRectanglePath(pathRect, rounding);
-
-        // Soft outer halo following the full border path.
         using (var haloPen = new Pen(Color.FromArgb(animate ? 40 : 30, highlightColor), LineHeight + 6f)
                {
                    LineJoin = LineJoin.Round,
@@ -144,13 +154,6 @@ internal static class InputGlowBorderRenderer
             EndCap = LineCap.Round
         };
         g.DrawPath(borderPen, path);
-    }
-
-    private static int GetPathRounding(Rectangle bounds, float cornerRounding)
-    {
-        int rounding = (int)Math.Max(0f, cornerRounding);
-        int maxRounding = Math.Min(bounds.Width, bounds.Height) / 2;
-        return Math.Min(rounding, maxRounding);
     }
 
     private static LinearGradientBrush CreateSpectralBrush(RectangleF brushRect,

@@ -449,6 +449,7 @@ public class KryptonRichTextBox : VisualControlBase,
 
         // Create the internal text box used for containing content
         _richTextBox = new InternalRichTextBox(this);
+        CueHint.AttachAnimation(ShouldAnimateCueHint, () => _richTextBox.Invalidate());
         _richTextBox.TrackMouseEnter += OnRichTextBoxMouseChange;
         _richTextBox.TrackMouseLeave += OnRichTextBoxMouseChange;
         _richTextBox.AcceptsTabChanged += OnRichTextBoxAcceptsTabChanged;
@@ -527,6 +528,8 @@ public class KryptonRichTextBox : VisualControlBase,
             _scrollbarManager = null;
 
             _glowingBorderHost.Dispose();
+
+            CueHint.DisposeAnimation();
         }
 
         base.Dispose(disposing);
@@ -1880,6 +1883,7 @@ public class KryptonRichTextBox : VisualControlBase,
         _drawDockerOuter.Enabled = Enabled;
 
         PerformNeedPaint(true);
+        CueHint.SyncAnimation();
 
         // Let base class fire standard event
         base.OnEnabledChanged(e);
@@ -2286,6 +2290,11 @@ public class KryptonRichTextBox : VisualControlBase,
 
     #region Implementation
 
+    private bool ShouldAnimateCueHint() =>
+        Enabled
+        && !string.IsNullOrWhiteSpace(CueHint.CueHintText)
+        && TextLength == 0;
+
     private void UpdateScrollbarManager()
     {
         if (UseKryptonScrollbars)
@@ -2359,6 +2368,7 @@ public class KryptonRichTextBox : VisualControlBase,
             _richTextBox.Invalidate();
         }
 
+        CueHint.SyncAnimation();
         OnTextChanged(e);
     }
 
