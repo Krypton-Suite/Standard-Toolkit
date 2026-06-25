@@ -45,6 +45,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#3786](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3786), Control box buttons shown in wrong order (maximize before minimize on standard palettes; traffic lights green-yellow-red instead of red-yellow-green on macOS-style palettes)
 * Implemented [#3763](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3763), Bring the `KryptonCircularProgressBar` over
    * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Resolved [#3767](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3767), Adjust the position and size of the buttons in the `KryptonMessageBox`

@@ -3068,20 +3068,21 @@ public class KryptonForm : VisualForm,
             return;
         }
 
-        // ButtonSpecManagerDraw inserts each spec at index 0, so collection order is the inverse of
-        // left-to-right layout. Target visuals: mac left = red, yellow, green; Windows right = yellow, green, red.
-        bool macCollectionOrder = closeIndex < minIndex && minIndex < maxIndex;
-        bool windowsCollectionOrder = maxIndex < minIndex && minIndex < closeIndex;
+        // Near-edge traffic lights insert before the spacer, so collection order is the inverse of
+        // left-to-right layout. macOS: [max, min, close] → close, minimize, maximize/restore (red, yellow, green).
+        // Far-edge Windows control box: collection order matches minimize, maximize/restore, close.
+        bool macCollectionOrder = maxIndex < minIndex && minIndex < closeIndex;
+        bool windowsCollectionOrder = minIndex < maxIndex && maxIndex < closeIndex;
         if (leftTrafficLights && !macCollectionOrder)
         {
             _buttonSpecsFixed.Clear();
-            _buttonSpecsFixed.AddRange([ButtonSpecClose, ButtonSpecMin, ButtonSpecMax]);
+            _buttonSpecsFixed.AddRange([ButtonSpecMax, ButtonSpecMin, ButtonSpecClose]);
             _buttonManager.RecreateButtons();
         }
         else if (!leftTrafficLights && !windowsCollectionOrder)
         {
             _buttonSpecsFixed.Clear();
-            _buttonSpecsFixed.AddRange([ButtonSpecMax, ButtonSpecMin, ButtonSpecClose]);
+            _buttonSpecsFixed.AddRange([ButtonSpecMin, ButtonSpecMax, ButtonSpecClose]);
             _buttonManager.RecreateButtons();
         }
     }
@@ -3140,8 +3141,8 @@ public class KryptonForm : VisualForm,
 			}
 			else
 			{
-				// MacOS layout is Close, Min, Max (regardless of RTL or LTR)
-				_buttonSpecsFixed.AddRange([ButtonSpecClose, ButtonSpecMin, ButtonSpecMax]);
+				// macOS traffic lights: close, minimize, maximize/restore (red, yellow, green) on the left
+				_buttonSpecsFixed.AddRange([ButtonSpecMax, ButtonSpecMin, ButtonSpecClose]);
 			}
 		}
 		else
