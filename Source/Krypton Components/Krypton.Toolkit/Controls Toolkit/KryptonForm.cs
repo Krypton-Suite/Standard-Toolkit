@@ -1795,7 +1795,9 @@ public class KryptonForm : VisualForm,
 	{
 		base.OnShown(e);
 
+		// Host code may set palette/RTL after OnLoad; re-sync and recreate so views match collection order.
 		SyncFormFixedButtonSpecOrder();
+		SyncLeftTrafficLightFormButtonOrderIfNeeded();
 		if (ControlBox)
 		{
 			_buttonManager?.RecreateButtons();
@@ -3247,27 +3249,22 @@ public class KryptonForm : VisualForm,
     /// Single source of truth for Min/Max/Close collection order. Visual placement (left vs right)
     /// is handled separately by <see cref="KryptonForm.FormPaletteRedirect.GetButtonSpecEdge(PaletteButtonSpecStyle)"/> and
     /// <see cref="ButtonSpecManagerBase.GetButtonSpecDockStyle"/>.
+    /// <para>
+    /// Near-edge traffic-light layouts (macOS, OS X Aqua, or <see cref="FormTrafficLightEdge"/> = Near)
+    /// use collection [max, min, close]. All other layouts use Windows collection [min, max, close].
+    /// </para>
     /// </remarks>
     private void SyncFormFixedButtonSpecOrder()
 	{
-		var palette = GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
 		_buttonSpecsFixed.Clear();
-		if (palette is PaletteMacOSBase)
+		if (UsesLeftTrafficLightFormButtons())
 		{
-			if (PaletteValues.UseWindowsControlBoxLayout)
-			{
-				// Windows-style glyphs on the Far edge (or left in RTL via redirector remap).
-				_buttonSpecsFixed.AddRange([ButtonSpecMin, ButtonSpecMax, ButtonSpecClose]);
-			}
-			else
-			{
-				// Native macOS traffic-light order on the Near edge (see SyncLeftTrafficLightFormButtonOrderIfNeeded).
-				_buttonSpecsFixed.AddRange([ButtonSpecMax, ButtonSpecMin, ButtonSpecClose]);
-			}
+			// Near-edge traffic lights: collection [max, min, close] → Close → Min → Max along the bar.
+			_buttonSpecsFixed.AddRange([ButtonSpecMax, ButtonSpecMin, ButtonSpecClose]);
 		}
 		else
 		{
-			// Standard Office / Microsoft 365 / Professional palettes.
+			// Standard Office / Far-edge control box (including macOS + FormTrafficLightEdge = Far).
 			_buttonSpecsFixed.AddRange([ButtonSpecMin, ButtonSpecMax, ButtonSpecClose]);
 		}
 	}
