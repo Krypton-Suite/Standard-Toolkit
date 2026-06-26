@@ -1,22 +1,29 @@
 # Repository Guidelines
 
-## Recent Tooling Mistakes To Avoid
+## Always
 
-- Do not combine `cmd.exe` variable assignment and use in the same command line. `%VAR%` is expanded before `set` takes effect, which created a stash named `"%STASH_MSG%"`. Correct example: `git stash push -m "3493-followup" -- .`
-- Do not pass complex PowerShell through `cmd.exe` with unescaped `$variables`; `cmd.exe` can strip or alter the command before PowerShell sees it. Correct example: run PowerShell directly with `$path = Join-Path (Get-Location) 'AGENTS.md'; Get-Content -LiteralPath $path -Raw`.
-- Do not build long `git commit -m` commands when the body contains tokens such as `--check`; argument parsing can treat body text as options. Correct example: write the message to a temp file and run `git commit -F <message-file>`.
-- Do not rely on shell quotes for `gh` arguments with spaces when the wrapper has already mishandled them. Correct example: use a JSON input file with `gh api ... --input <json-file>` or a PowerShell argument array.
-- Do not try to rename an existing stash with `git stash store -m`; stash display names may still come from the original stash commit. Correct example: re-apply the stash, then create a fresh `git stash push -m "3493-followup" -- .` if the label matters.
-- Do not over-escape regex patterns for `rg`. A pattern like `msbuild\\.exe` can search for the wrong text. Correct example in PowerShell: `$pattern = 'msbuild\.exe'; $root = 'Scripts'; rg -n $pattern $root --glob '*.cmd'`.
-- Do not use `findstr` quoted path experiments for ordinary file reads or searches. Correct example: `$path = 'Scripts\VS2022\rebuild-build-nightly.cmd'; Select-String -LiteralPath $path -Pattern 'nightly.proj'`.
+Before considering a task complete:
+
+- Build the affected project if instructed.
+- Fix compiler warnings introduced by your changes.
+- Update TestForm when adding a feature.
+- Update Changelog.md for completed features and bug fixes.
+- Add developer documentation for substantial new features.
+- Preserve binary compatibility unless explicitly instructed otherwise.
+
+## Shell Guidelines
+
+- Prefer PowerShell for shell commands.
+- Use cmd.exe only when reproducing Windows batch behavior.
+- Use PowerShell cmdlets instead of findstr where possible.
+- Avoid relying on cmd.exe variable expansion for complex commands.
+- For complex Git operations, prefer temporary files or PowerShell arrays over long quoted command lines.
 
 ## Environment
 
 - OS: Windows
-- Shell: Use PowerShell for agentic shell calls. Use `cmd.exe` only when invoking or reproducing Windows batch-script behavior.
 - Tools: Visual Studio 2022 (v17) and appropriate .NET SDKs starting with `net472`
-- Build scripts are Windows `.cmd` files under `Scripts/`
-- Do not run build scripts unless instructed to do so
+- Build scripts are Windows `.cmd` files under `Scripts/`; do not run them unless explicitly instructed (see **Build, Test, and Development Commands**)
 
 ## Project Structure & Module Organization
 
@@ -28,6 +35,14 @@
 - `Documents/`, `Assets/`, `Logs/`: Docs, images, and build logs
 - `Documents/Changelog/Changelog.md`: User-facing release notes for completed bugs and features
 - `Documents/Development/`: In-depth developer guides for completed features (APIs, architecture, usage); not listed in `Documents/Changelog/Changelog.md` or `Scripts/ModernBuild/README.md`
+
+## Architecture
+
+- `Krypton.Toolkit` contains the shared infrastructure.
+- `Krypton.Ribbon` depends on `Krypton.Toolkit`.
+- `Krypton.Navigator` depends on `Krypton.Toolkit`.
+- Rendering flows through the palette and renderer abstractions.
+- New controls should integrate with the palette system rather than hardcoding appearance.
 
 ## Build, Test, and Development Commands
 
