@@ -1892,6 +1892,35 @@ public class KryptonProgressBar : Control, IContentValues
 
     #endregion
 
+    #region Protected
+
+    /// <summary>
+    /// Gets the palette redirector used by the progress bar.
+    /// </summary>
+    protected PaletteRedirect ProgressPaletteRedirect => _paletteRedirect;
+
+    /// <summary>
+    /// Gets the resolved palette instance.
+    /// </summary>
+    protected PaletteBase? ResolvedPalette => _palette;
+
+    /// <summary>
+    /// Gets the palette used for the progress value fill.
+    /// </summary>
+    protected IPaletteBack ValueBackPalette => _stateBackValue;
+
+    /// <summary>
+    /// Gets the progress bar palette triple and state for the current enabled state.
+    /// </summary>
+    protected (IPaletteTriple BarPaletteState, PaletteState BarState) GetProgressBarPaletteState() => GetBarPaletteState();
+
+    /// <summary>
+    /// Updates threshold-based colours when tri-state values are enabled.
+    /// </summary>
+    protected void SyncThresholdColors() => UpdateThresholdColor();
+
+    #endregion
+
     #region Designer removal
 
     /// <inheritdoc />
