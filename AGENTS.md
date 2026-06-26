@@ -26,6 +26,7 @@
 - `Scripts/`: Build and packaging scripts; `run.cmd` (root) launches an interactive menu; scripts live under `Scripts/VS2022/`, `Scripts/Current/`, `Scripts/Build/` (e.g., `build-stable.cmd`, `build-canary.cmd`, `build-nightly.cmd`, `build.proj`)
 - `Bin/`: Build outputs by configuration (e.g., `Bin/Debug`)
 - `Documents/`, `Assets/`, `Logs/`: Docs, images, and build logs
+- `Documents/Development/`: In-depth developer guides for completed features (APIs, architecture, usage); not listed in `Documents/Changelog/Changelog.md` or `Scripts/ModernBuild/README.md`
 
 ## Build, Test, and Development Commands
 
@@ -106,6 +107,41 @@ For substantial packages (e.g. `Krypton.Docking`), work in this order:
 4. Thin subclasses and adapters last — often a one-line class summary is enough.
 
 Validate documentation-only changes with a targeted `dotnet build` of the affected project when practical.
+
+## Feature Developer Documentation
+
+When a **new feature** is completed (not bug fixes or refactors unless they introduce a substantial new capability), add a **comprehensive developer guide** as a Markdown file under `Documents/Development/`.
+
+### When to write
+
+- New public APIs, components, designer support, build/packaging features, or user-facing subsystems.
+- Skip for trivial fixes, comment-only changes, and internal refactors with no new surface area.
+
+### What to include
+
+Each guide should be **in-depth** and **maintainer-focused**, covering as applicable:
+
+- **Overview** — problem solved, scope, and which package(s) own the feature.
+- **Architecture** — key types, relationships, and data/control flow (diagrams welcome).
+- **Public API** — classes, interfaces, enums, events, and extension points with signatures and behavior.
+- **Usage** — minimal code or designer steps; common integration patterns.
+- **Configuration / persistence** — settings, XML, flags, or MSBuild properties if relevant.
+- **Edge cases** — threading, TFM differences, breaking changes, migration notes.
+- **Validation** — how to exercise the feature in `TestForm` or a harness.
+
+### File conventions
+
+- Location: `Documents/Development/`
+- Name: descriptive kebab or Pascal-style title, e.g. `Krypton-Docking-Developer-Guide.md` or `Visual-Studio-Templates-Developer-Guide.md`.
+- One feature (or cohesive subsystem) per file; cross-link related guides when helpful.
+- CRLF, UTF-8; match tone and structure of existing repo docs.
+
+### Do not list in these files
+
+- **Do not** add changelog entries or release notes for these guides in `Documents/Changelog/Changelog.md`.
+- **Do not** add references or index entries for these guides in `Scripts/ModernBuild/README.md`.
+
+Changelog and ModernBuild README stay focused on user-facing release history and build tooling respectively. Developer guides are discovered via `Documents/Development/` and code cross-references only.
 
 ## Testing Guidelines
 
