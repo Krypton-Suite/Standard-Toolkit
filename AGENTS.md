@@ -5,11 +5,10 @@
 Before considering a task complete:
 
 - Build the affected project if instructed.
-- Fix compiler warnings introduced by your changes.
+- Treat new analyzer warnings as part of the build unless they already existed.
 - Update TestForm when adding a feature.
 - Update Changelog.md for completed features and bug fixes.
 - Add developer documentation for substantial new features.
-- Preserve binary compatibility unless explicitly instructed otherwise.
 
 ## Shell Guidelines
 
@@ -44,6 +43,24 @@ Before considering a task complete:
 - Rendering flows through the palette and renderer abstractions.
 - New controls should integrate with the palette system rather than hardcoding appearance.
 
+## Editing Philosophy
+
+- Make the smallest change that correctly solves the task.
+- Preserve existing formatting and coding style.
+- Do not refactor unrelated code.
+- Do not rename identifiers unless requested.
+
+## Public API
+
+### Compatibility
+
+- New code must remain compatible with `net472`.
+- Do not use language features newer than C# 7.3 unless the project already conditionally supports them.
+
+### Stability
+
+- Preserve binary compatibility unless explicitly instructed otherwise.
+
 ## Build, Test, and Development Commands
 
 - Script/CI builds use phased orchestration (`Scripts/Build/Krypton.Orchestration.targets`) with `msbuild /m` for parallel TFMs; do not build all `Krypton.*` projects in one parallel batch (shared `Bin/<Configuration>/<tfm>/` outputs).
@@ -72,14 +89,13 @@ Before considering a task complete:
 
 ## C# Rules
 
-- Surgical edits: preserve structure, identifiers, and existing comments; avoid adding defensive checks unless asked
 - No unneeded `try/catch` blocks if there's no catch handling
 - Idioms: use null-propagation and object/collection initializers where consistent
-- Fix compiler, analyzer, and IDE warnings in new or modified code before handing work back
+- Treat new analyzer warnings as part of the build unless they already existed.
 - Prefer switch expressions for simple value/type dispatch that only returns a value; keep switch statements for complex control flow or side effects
-- Compatibility: ensure changes build for `net472` and C# 7.3
 - WinForms: `UseWindowsForms=true`; prefer designer-friendly patterns and keep partial classes tidy
 - WinForms designer: keep object declarations at file bottom; initialize in `*.Designer.cs` `InitializeComponent()`
+- Do not manually edit generated `*.Designer.cs` files unless the task specifically requires it.
 - Constraint: do not use `yield return` inside `catch` blocks
 
 ## Code Documentation Guidelines
