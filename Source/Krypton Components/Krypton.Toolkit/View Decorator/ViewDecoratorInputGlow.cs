@@ -15,7 +15,7 @@ namespace Krypton.Toolkit;
 internal sealed class ViewDecoratorInputGlow : ViewDecorator
 {
     #region Instance Fields
-    private readonly IInputGlowingBorderProvider _provider;
+    private readonly IInputPulsingBorderProvider _provider;
     #endregion
 
     #region Identity
@@ -24,7 +24,7 @@ internal sealed class ViewDecoratorInputGlow : ViewDecorator
     /// </summary>
     /// <param name="provider">Glowing border provider.</param>
     /// <param name="child">Decorated view.</param>
-    public ViewDecoratorInputGlow(IInputGlowingBorderProvider provider, ViewBase child)
+    public ViewDecoratorInputGlow(IInputPulsingBorderProvider provider, ViewBase child)
         : base(child)
     {
         _provider = provider;
@@ -58,7 +58,7 @@ internal sealed class ViewDecoratorInputGlow : ViewDecorator
             return;
         }
 
-        InputGlowingBorderValues values = _provider.Values;
+        InputPulsingBorderValues values = _provider.Values;
         IPaletteTriple tripleState = _provider.GetGlowingBorderTripleState();
         PaletteState state = _provider.GetGlowingBorderState();
         IPaletteBorder? paletteBorder = tripleState.PaletteBorder;
@@ -68,7 +68,7 @@ internal sealed class ViewDecoratorInputGlow : ViewDecorator
             return;
         }
 
-        InputGlowBorderRenderer.Draw(context,
+        InputPulsingBorderRenderer.Draw(context,
             bounds,
             paletteBorder,
             state,

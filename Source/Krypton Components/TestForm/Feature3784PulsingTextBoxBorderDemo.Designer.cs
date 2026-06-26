@@ -9,7 +9,7 @@
 
 namespace TestForm
 {
-    partial class Feature3784GlowingTextBoxBorderDemo
+    partial class Feature3784PulsingTextBoxBorderDemo
     {
         private System.ComponentModel.IContainer components = null;
 
@@ -199,10 +199,10 @@ namespace TestForm
             this.ktxtAnimatedGlow.CueHint.AnimationSpeed = 0.75F;
             this.ktxtAnimatedGlow.CueHint.CueHintText = "Describe the app or website or idea that you want to build";
             this.ktxtAnimatedGlow.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ktxtAnimatedGlow.GlowingBorderValues.AnimationSpeed = 1.5F;
-            this.ktxtAnimatedGlow.GlowingBorderValues.Enable = true;
-            this.ktxtAnimatedGlow.GlowingBorderValues.ShowWhen = Krypton.Toolkit.InputGlowingBorderShowWhen.Focused;
-            this.ktxtAnimatedGlow.GlowingBorderValues.Style = Krypton.Toolkit.InputGlowingBorderStyle.All;
+            this.ktxtAnimatedGlow.PulsingBorderValues.AnimationSpeed = 1.5F;
+            this.ktxtAnimatedGlow.PulsingBorderValues.Enable = true;
+            this.ktxtAnimatedGlow.PulsingBorderValues.ShowWhen = Krypton.Toolkit.InputPulsingBorderShowWhen.Focused;
+            this.ktxtAnimatedGlow.PulsingBorderValues.Style = Krypton.Toolkit.InputPulsingBorderStyle.All;
             this.ktxtAnimatedGlow.Location = new System.Drawing.Point(3, 25);
             this.ktxtAnimatedGlow.Name = "ktxtAnimatedGlow";
             this.ktxtAnimatedGlow.Size = new System.Drawing.Size(576, 30);
@@ -223,9 +223,9 @@ namespace TestForm
             this.ktxtStaticGlow.AlwaysActive = false;
             this.ktxtStaticGlow.CueHint.CueHintText = "Static bottom glow while focused";
             this.ktxtStaticGlow.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ktxtStaticGlow.GlowingBorderValues.Animate = false;
-            this.ktxtStaticGlow.GlowingBorderValues.Enable = true;
-            this.ktxtStaticGlow.GlowingBorderValues.ShowWhen = Krypton.Toolkit.InputGlowingBorderShowWhen.Focused;
+            this.ktxtStaticGlow.PulsingBorderValues.Animate = false;
+            this.ktxtStaticGlow.PulsingBorderValues.Enable = true;
+            this.ktxtStaticGlow.PulsingBorderValues.ShowWhen = Krypton.Toolkit.InputPulsingBorderShowWhen.Focused;
             this.ktxtStaticGlow.Location = new System.Drawing.Point(3, 86);
             this.ktxtStaticGlow.Name = "ktxtStaticGlow";
             this.ktxtStaticGlow.Size = new System.Drawing.Size(576, 30);
@@ -245,8 +245,8 @@ namespace TestForm
             //
             this.kmtxtPhone.AlwaysActive = false;
             this.kmtxtPhone.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kmtxtPhone.GlowingBorderValues.AnimationSpeed = 1.2F;
-            this.kmtxtPhone.GlowingBorderValues.Enable = true;
+            this.kmtxtPhone.PulsingBorderValues.AnimationSpeed = 1.2F;
+            this.kmtxtPhone.PulsingBorderValues.Enable = true;
             this.kmtxtPhone.Location = new System.Drawing.Point(3, 147);
             this.kmtxtPhone.Mask = "(000) 000-0000";
             this.kmtxtPhone.Name = "kmtxtPhone";
@@ -269,8 +269,8 @@ namespace TestForm
             this.kcmbGlow.CueHint.CueHintText = "Choose an option…";
             this.kcmbGlow.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kcmbGlow.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.kcmbGlow.GlowingBorderValues.AnimationSpeed = 0.5F;
-            this.kcmbGlow.GlowingBorderValues.Enable = true;
+            this.kcmbGlow.PulsingBorderValues.AnimationSpeed = 0.5F;
+            this.kcmbGlow.PulsingBorderValues.Enable = true;
             this.kcmbGlow.Items.AddRange(new object[] { "Option Alpha", "Option Beta", "Option Gamma" });
             this.kcmbGlow.Location = new System.Drawing.Point(3, 208);
             this.kcmbGlow.Name = "kcmbGlow";
@@ -291,7 +291,7 @@ namespace TestForm
             //
             this.krtbGlow.AlwaysActive = false;
             this.krtbGlow.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.krtbGlow.GlowingBorderValues.Enable = true;
+            this.krtbGlow.PulsingBorderValues.Enable = true;
             this.krtbGlow.Location = new System.Drawing.Point(3, 269);
             this.krtbGlow.Name = "krtbGlow";
             this.krtbGlow.Size = new System.Drawing.Size(576, 66);
@@ -312,7 +312,7 @@ namespace TestForm
             //
             this.knudQuantity.AlwaysActive = false;
             this.knudQuantity.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.knudQuantity.GlowingBorderValues.Enable = true;
+            this.knudQuantity.PulsingBorderValues.Enable = true;
             this.knudQuantity.Location = new System.Drawing.Point(3, 366);
             this.knudQuantity.Maximum = new decimal(new int[] { 99, 0, 0, 0 });
             this.knudQuantity.Name = "knudQuantity";
@@ -334,8 +334,8 @@ namespace TestForm
             //
             this.kdudPriority.AlwaysActive = false;
             this.kdudPriority.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kdudPriority.GlowingBorderValues.Enable = true;
-            this.kdudPriority.GlowingBorderValues.Style = Krypton.Toolkit.InputGlowingBorderStyle.All;
+            this.kdudPriority.PulsingBorderValues.Enable = true;
+            this.kdudPriority.PulsingBorderValues.Style = Krypton.Toolkit.InputPulsingBorderStyle.All;
             this.kdudPriority.Items.Add("Low");
             this.kdudPriority.Items.Add("Normal");
             this.kdudPriority.Items.Add("High");
@@ -358,8 +358,8 @@ namespace TestForm
             //
             this.kdtpDue.AlwaysActive = false;
             this.kdtpDue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kdtpDue.GlowingBorderValues.AnimationSpeed = 0.8F;
-            this.kdtpDue.GlowingBorderValues.Enable = true;
+            this.kdtpDue.PulsingBorderValues.AnimationSpeed = 0.8F;
+            this.kdtpDue.PulsingBorderValues.Enable = true;
             this.kdtpDue.Location = new System.Drawing.Point(3, 488);
             this.kdtpDue.Name = "kdtpDue";
             this.kdtpDue.Size = new System.Drawing.Size(576, 30);
@@ -379,7 +379,7 @@ namespace TestForm
             //
             this.kcalcBudget.AlwaysActive = false;
             this.kcalcBudget.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kcalcBudget.GlowingBorderValues.Enable = true;
+            this.kcalcBudget.PulsingBorderValues.Enable = true;
             this.kcalcBudget.Location = new System.Drawing.Point(3, 549);
             this.kcalcBudget.Name = "kcalcBudget";
             this.kcalcBudget.Size = new System.Drawing.Size(576, 30);
@@ -399,9 +399,9 @@ namespace TestForm
             // kbtnGlow
             //
             this.kbtnGlow.Dock = System.Windows.Forms.DockStyle.Left;
-            this.kbtnGlow.GlowingBorderValues.Enable = true;
-            this.kbtnGlow.GlowingBorderValues.ShowWhen = Krypton.Toolkit.InputGlowingBorderShowWhen.Active;
-            this.kbtnGlow.GlowingBorderValues.Style = Krypton.Toolkit.InputGlowingBorderStyle.All;
+            this.kbtnGlow.PulsingBorderValues.Enable = true;
+            this.kbtnGlow.PulsingBorderValues.ShowWhen = Krypton.Toolkit.InputPulsingBorderShowWhen.Active;
+            this.kbtnGlow.PulsingBorderValues.Style = Krypton.Toolkit.InputPulsingBorderStyle.All;
             this.kbtnGlow.Location = new System.Drawing.Point(3, 610);
             this.kbtnGlow.Name = "kbtnGlow";
             this.kbtnGlow.Size = new System.Drawing.Size(180, 30);

@@ -288,7 +288,7 @@ public class KryptonRichTextBox : VisualControlBase,
     private VisualPopupToolTip? _visualPopupToolTip;
     private readonly ViewLayoutDocker _drawDockerInner;
     private readonly ViewDrawDocker _drawDockerOuter;
-    private readonly InputGlowingBorderViewIntegration _glowingBorder;
+    private readonly InputPulsingBorderViewIntegration _pulsingBorder;
     private readonly ViewLayoutFill _layoutFill;
     private readonly InternalRichTextBox _richTextBox;
     private InputControlStyle _inputControlStyle;
@@ -486,8 +486,8 @@ public class KryptonRichTextBox : VisualControlBase,
             { _drawDockerInner, ViewDockStyle.Fill }
         };
 
-        _glowingBorder = new InputGlowingBorderViewIntegration(this, NeedPaintDelegate, () => IsActive, GetTripleState, _drawDockerOuter);
-        ViewManager = new ViewManager(this, _glowingBorder.ViewRoot);
+        _pulsingBorder = new InputPulsingBorderViewIntegration(this, NeedPaintDelegate, () => IsActive, GetTripleState, _drawDockerOuter);
+        ViewManager = new ViewManager(this, _pulsingBorder.ViewRoot);
 
         // Create the manager for handling tooltips
         ToolTipManager = new ToolTipManager(ToolTipValues);
@@ -523,7 +523,7 @@ public class KryptonRichTextBox : VisualControlBase,
             _scrollbarManager?.Dispose();
             _scrollbarManager = null;
 
-            _glowingBorder.Dispose();
+            _pulsingBorder.Dispose();
 
             CueHint.DisposeAnimation();
         }
@@ -1072,21 +1072,21 @@ public class KryptonRichTextBox : VisualControlBase,
             if (_alwaysActive != value)
             {
                 _alwaysActive = value;
-                _glowingBorder.UpdateAnimationState();
+                _pulsingBorder.UpdateAnimationState();
                 PerformNeedPaint(true);
             }
         }
     }
 
     /// <summary>
-    /// Gets access to the optional glowing bottom border settings.
+    /// Gets access to the optional pulsing bottom border settings.
     /// </summary>
     [Category(@"Visuals")]
-    [Description(@"Optional glowing bottom border settings.")]
+    [Description(@"Optional pulsing bottom border settings.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    public InputGlowingBorderValues GlowingBorderValues => _glowingBorder.Values;
+    public InputPulsingBorderValues PulsingBorderValues => _pulsingBorder.Values;
 
-    private bool ShouldSerializeGlowingBorderValues() => !GlowingBorderValues.IsDefault;
+    private bool ShouldSerializePulsingBorderValues() => !PulsingBorderValues.IsDefault;
 
     /// <summary>
     /// Gets or sets the lines of text in a multiline edit, as an array of String values.
@@ -1977,7 +1977,7 @@ public class KryptonRichTextBox : VisualControlBase,
     protected override void OnMouseEnter(EventArgs e)
     {
         _mouseOver = true;
-        _glowingBorder.UpdateAnimationState();
+        _pulsingBorder.UpdateAnimationState();
         PerformNeedPaint(true);
         _richTextBox.Invalidate();
         base.OnMouseEnter(e);
@@ -1990,7 +1990,7 @@ public class KryptonRichTextBox : VisualControlBase,
     protected override void OnMouseLeave(EventArgs e)
     {
         _mouseOver = false;
-        _glowingBorder.UpdateAnimationState();
+        _pulsingBorder.UpdateAnimationState();
         PerformNeedPaint(true);
         _richTextBox.Invalidate();
         base.OnMouseLeave(e);
@@ -2326,7 +2326,7 @@ public class KryptonRichTextBox : VisualControlBase,
         PaletteState state = Enabled ? (IsActive ? PaletteState.Tracking : PaletteState.Normal) : PaletteState.Disabled;
 
         _drawDockerOuter.ElementState = state;
-        _glowingBorder.UpdateAnimationState();
+        _pulsingBorder.UpdateAnimationState();
     }
 
     internal IPaletteTriple GetTripleState() => Enabled ? (IsActive ? StateActive : StateNormal) : StateDisabled;

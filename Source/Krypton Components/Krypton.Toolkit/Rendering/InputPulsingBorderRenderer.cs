@@ -10,15 +10,15 @@
 namespace Krypton.Toolkit;
 
 /// <summary>
-/// Draws an optional glowing border for input controls.
+/// Draws an optional pulsing border for input controls.
 /// </summary>
-internal static class InputGlowBorderRenderer
+internal static class InputPulsingBorderRenderer
 {
     private const int GlowHeight = 10;
     private const float LineHeight = 2.5f;
 
     /// <summary>
-    /// Draw a glowing border inside the specified bounds.
+    /// Draw a pulsing border inside the specified bounds.
     /// </summary>
     public static void Draw(RenderContext context,
         Rectangle bounds,
@@ -26,7 +26,7 @@ internal static class InputGlowBorderRenderer
         PaletteState state,
         float animationPhase,
         bool animate,
-        InputGlowingBorderStyle style,
+        InputPulsingBorderStyle style,
         Color edgeColor1,
         Color edgeColor2,
         Color highlightColor)
@@ -49,7 +49,7 @@ internal static class InputGlowBorderRenderer
 
         using var antiAlias = new AntiAlias(context.Graphics);
 
-        if (style == InputGlowingBorderStyle.Bottom)
+        if (style == InputPulsingBorderStyle.Bottom)
         {
             DrawBottomHalo(context.Graphics, path, animate, highlightColor);
         }
@@ -61,11 +61,11 @@ internal static class InputGlowBorderRenderer
         Rectangle bounds,
         IPaletteBorder paletteBorder,
         PaletteState state,
-        InputGlowingBorderStyle style)
+        InputPulsingBorderStyle style)
     {
         var forcedPalette = new PaletteBorderInheritForced(paletteBorder);
 
-        if (style == InputGlowingBorderStyle.All)
+        if (style == InputPulsingBorderStyle.All)
         {
             forcedPalette.ForceBorderEdges(PaletteDrawBorders.All);
         }

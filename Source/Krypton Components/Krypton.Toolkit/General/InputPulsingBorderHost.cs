@@ -10,9 +10,9 @@
 namespace Krypton.Toolkit;
 
 /// <summary>
-/// Hosts glowing border values and animation for an input control.
+/// Hosts pulsing border values and animation for an input control.
 /// </summary>
-internal sealed class InputGlowingBorderHost : IInputGlowingBorderProvider, IDisposable
+internal sealed class InputPulsingBorderHost : IInputPulsingBorderProvider, IDisposable
 {
     #region Instance Fields
 
@@ -20,7 +20,7 @@ internal sealed class InputGlowingBorderHost : IInputGlowingBorderProvider, IDis
     private readonly Func<bool> _isActive;
     private readonly Func<IPaletteTriple> _getTripleState;
     private readonly Func<PaletteState> _getBorderState;
-    private readonly InputGlowingBorderController _controller;
+    private readonly InputPulsingBorderController _controller;
 
     #endregion
 
@@ -34,7 +34,7 @@ internal sealed class InputGlowingBorderHost : IInputGlowingBorderProvider, IDis
     /// <param name="isActive">Delegate that returns whether the control is active.</param>
     /// <param name="getTripleState">Delegate that returns the current palette triple state.</param>
     /// <param name="getBorderState">Delegate that returns the current border palette state.</param>
-    public InputGlowingBorderHost(Control control,
+    public InputPulsingBorderHost(Control control,
         NeedPaintHandler needPaint,
         Func<bool> isActive,
         Func<IPaletteTriple> getTripleState,
@@ -51,8 +51,8 @@ internal sealed class InputGlowingBorderHost : IInputGlowingBorderProvider, IDis
             UpdateAnimationState();
         };
 
-        Values = new InputGlowingBorderValues(needPaintHandler);
-        _controller = new InputGlowingBorderController(Values, needPaint, () => ShouldDrawGlowingBorder());
+        Values = new InputPulsingBorderValues(needPaintHandler);
+        _controller = new InputPulsingBorderController(Values, needPaint, () => ShouldDrawGlowingBorder());
     }
 
     #endregion
@@ -60,7 +60,7 @@ internal sealed class InputGlowingBorderHost : IInputGlowingBorderProvider, IDis
     #region IInputGlowingBorderProvider
 
     /// <inheritdoc />
-    public InputGlowingBorderValues Values { get; }
+    public InputPulsingBorderValues Values { get; }
 
     /// <inheritdoc />
     public float AnimationPhase => _controller.AnimationPhase;
@@ -80,7 +80,7 @@ internal sealed class InputGlowingBorderHost : IInputGlowingBorderProvider, IDis
     #region Public
 
     /// <summary>
-    /// Updates the animation timer based on the current glowing border state.
+    /// Updates the animation timer based on the current pulsing border state.
     /// </summary>
     public void UpdateAnimationState() => _controller.UpdateAnimationState();
 
@@ -95,8 +95,8 @@ internal sealed class InputGlowingBorderHost : IInputGlowingBorderProvider, IDis
 
     private bool ShouldShowGlowingBorder() => Values.ShowWhen switch
     {
-        InputGlowingBorderShowWhen.Always => true,
-        InputGlowingBorderShowWhen.Active => _isActive(),
+        InputPulsingBorderShowWhen.Always => true,
+        InputPulsingBorderShowWhen.Active => _isActive(),
         _ => _control.ContainsFocus
     };
 

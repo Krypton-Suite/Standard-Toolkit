@@ -10,14 +10,14 @@
 namespace Krypton.Toolkit;
 
 /// <summary>
-/// Provides glowing border state for input control view rendering.
+/// Provides pulsing border state for input control view rendering.
 /// </summary>
-internal interface IInputGlowingBorderProvider
+internal interface IInputPulsingBorderProvider
 {
     /// <summary>
-    /// Gets the glowing border values.
+    /// Gets the pulsing border values.
     /// </summary>
-    InputGlowingBorderValues Values { get; }
+    InputPulsingBorderValues Values { get; }
 
     /// <summary>
     /// Gets the current animation phase.
@@ -25,7 +25,7 @@ internal interface IInputGlowingBorderProvider
     float AnimationPhase { get; }
 
     /// <summary>
-    /// Gets a value indicating whether the glowing border should currently be drawn.
+    /// Gets a value indicating whether the pulsing border should currently be drawn.
     /// </summary>
     bool ShouldDrawGlowingBorder();
 

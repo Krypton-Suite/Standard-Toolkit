@@ -10,18 +10,18 @@
 namespace Krypton.Toolkit;
 
 /// <summary>
-/// Storage for optional input control glowing border settings.
+/// Storage for optional input control pulsing border settings.
 /// </summary>
-[TypeConverter(typeof(InputGlowingBorderValuesConverter))]
-public class InputGlowingBorderValues : Storage
+[TypeConverter(typeof(InputPulsingBorderValuesConverter))]
+public class InputPulsingBorderValues : Storage
 {
     #region Instance Fields
 
     private bool _enable;
     private bool _animate = true;
     private float _animationSpeed = 1f;
-    private InputGlowingBorderShowWhen _showWhen = InputGlowingBorderShowWhen.Focused;
-    private InputGlowingBorderStyle _style = InputGlowingBorderStyle.Bottom;
+    private InputPulsingBorderShowWhen _showWhen = InputPulsingBorderShowWhen.Focused;
+    private InputPulsingBorderStyle _style = InputPulsingBorderStyle.Bottom;
 
     #endregion
 
@@ -31,10 +31,10 @@ public class InputGlowingBorderValues : Storage
     /// Initialize a new instance of the InputGlowingBorderValues class.
     /// </summary>
     /// <param name="needPaint">Delegate for notifying paint requests.</param>
-    public InputGlowingBorderValues(NeedPaintHandler? needPaint)
+    public InputPulsingBorderValues(NeedPaintHandler? needPaint)
     {
         NeedPaint = needPaint;
-        Colors = new InputGlowingBorderColorValues(needPaint);
+        Colors = new InputPulsingBorderColorValues(needPaint);
     }
 
     #endregion
@@ -54,10 +54,10 @@ public class InputGlowingBorderValues : Storage
     #region Enable
 
     /// <summary>
-    /// Gets and sets whether the glowing bottom border is drawn on the control.
+    /// Gets and sets whether the pulsing bottom border is drawn on the control.
     /// </summary>
     [Category(@"Glowing Border")]
-    [Description(@"Gets and sets whether the glowing border is drawn on the control.")]
+    [Description(@"Gets and sets whether the pulsing border is drawn on the control.")]
     [DefaultValue(false)]
     public bool Enable
     {
@@ -85,10 +85,10 @@ public class InputGlowingBorderValues : Storage
     #region Animate
 
     /// <summary>
-    /// Gets and sets whether the glowing border animates while visible.
+    /// Gets and sets whether the pulsing border animates while visible.
     /// </summary>
     [Category(@"Glowing Border")]
-    [Description(@"Gets and sets whether the glowing border animates while visible.")]
+    [Description(@"Gets and sets whether the pulsing border animates while visible.")]
     [DefaultValue(true)]
     public bool Animate
     {
@@ -116,7 +116,7 @@ public class InputGlowingBorderValues : Storage
     #region AnimationSpeed
 
     /// <summary>
-    /// Gets and sets the glowing border animation speed multiplier.
+    /// Gets and sets the pulsing border animation speed multiplier.
     /// </summary>
     [Category(@"Glowing Border")]
     [Description(@"Animation speed multiplier. 1 is the default speed; values greater than 1 animate faster and values less than 1 animate slower.")]
@@ -148,12 +148,12 @@ public class InputGlowingBorderValues : Storage
     #region ShowWhen
 
     /// <summary>
-    /// Gets and sets when the glowing border is shown.
+    /// Gets and sets when the pulsing border is shown.
     /// </summary>
     [Category(@"Glowing Border")]
-    [Description(@"Gets and sets when the glowing border is shown.")]
-    [DefaultValue(InputGlowingBorderShowWhen.Focused)]
-    public InputGlowingBorderShowWhen ShowWhen
+    [Description(@"Gets and sets when the pulsing border is shown.")]
+    [DefaultValue(InputPulsingBorderShowWhen.Focused)]
+    public InputPulsingBorderShowWhen ShowWhen
     {
         get => _showWhen;
 
@@ -167,12 +167,12 @@ public class InputGlowingBorderValues : Storage
         }
     }
 
-    private bool ShouldSerializeShowWhen() => _showWhen != InputGlowingBorderShowWhen.Focused;
+    private bool ShouldSerializeShowWhen() => _showWhen != InputPulsingBorderShowWhen.Focused;
 
     /// <summary>
     /// Resets the ShowWhen property to its default value.
     /// </summary>
-    public void ResetShowWhen() => ShowWhen = InputGlowingBorderShowWhen.Focused;
+    public void ResetShowWhen() => ShowWhen = InputPulsingBorderShowWhen.Focused;
 
     #endregion
 
@@ -183,8 +183,8 @@ public class InputGlowingBorderValues : Storage
     /// </summary>
     [Category(@"Glowing Border")]
     [Description(@"Gets and sets whether the glow follows the bottom edge only or the entire border.")]
-    [DefaultValue(InputGlowingBorderStyle.Bottom)]
-    public InputGlowingBorderStyle Style
+    [DefaultValue(InputPulsingBorderStyle.Bottom)]
+    public InputPulsingBorderStyle Style
     {
         get => _style;
 
@@ -198,24 +198,24 @@ public class InputGlowingBorderValues : Storage
         }
     }
 
-    private bool ShouldSerializeStyle() => _style != InputGlowingBorderStyle.Bottom;
+    private bool ShouldSerializeStyle() => _style != InputPulsingBorderStyle.Bottom;
 
     /// <summary>
     /// Resets the Style property to its default value.
     /// </summary>
-    public void ResetStyle() => Style = InputGlowingBorderStyle.Bottom;
+    public void ResetStyle() => Style = InputPulsingBorderStyle.Bottom;
 
     #endregion
 
     #region Colors
 
     /// <summary>
-    /// Gets access to the glowing border color values.
+    /// Gets access to the pulsing border color values.
     /// </summary>
     [Category(@"Glowing Border")]
-    [Description(@"Colors used to render the glowing border.")]
+    [Description(@"Colors used to render the pulsing border.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    public InputGlowingBorderColorValues Colors { get; }
+    public InputPulsingBorderColorValues Colors { get; }
 
     private bool ShouldSerializeColors() => !Colors.IsDefault;
 

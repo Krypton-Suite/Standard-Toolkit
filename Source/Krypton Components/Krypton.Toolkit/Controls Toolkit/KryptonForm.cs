@@ -115,22 +115,22 @@ public class KryptonForm : VisualForm,
 			return base.GetContentImageH(style, state);
 		}
 
-        /// <inheritdoc/>
-        public override PaletteRelativeEdgeAlign GetButtonSpecEdge(PaletteButtonSpecStyle style)
-        {
-            if (_kryptonForm._formTrafficLightEdge != PaletteRelativeEdgeAlign.Inherit && IsFormWindowButtonSpecStyle(style))
-            {
-                return _kryptonForm._formTrafficLightEdge;
-            }
+		/// <inheritdoc/>
+		public override PaletteRelativeEdgeAlign GetButtonSpecEdge(PaletteButtonSpecStyle style)
+		{
+			if (_kryptonForm._formTrafficLightEdge != PaletteRelativeEdgeAlign.Inherit && IsFormWindowButtonSpecStyle(style))
+			{
+				return _kryptonForm._formTrafficLightEdge;
+			}
 
-            return base.GetButtonSpecEdge(style);
-        }
-    }
+			return base.GetButtonSpecEdge(style);
+		}
+	}
 
-    /// <summary>
-    /// Collection for managing ButtonSpecAny instances.
-    /// </summary>
-    public class FormButtonSpecCollection : ButtonSpecCollection<ButtonSpecAny>
+	/// <summary>
+	/// Collection for managing ButtonSpecAny instances.
+	/// </summary>
+	public class FormButtonSpecCollection : ButtonSpecCollection<ButtonSpecAny>
 	{
 		#region Identity
 		/// <summary>
@@ -179,7 +179,7 @@ public class KryptonForm : VisualForm,
 	private readonly FormFixedButtonSpecCollection _buttonSpecsFixed;
 	private VisualPopupToolTip? _visualPopupToolTip;
 	private readonly ViewDrawForm _drawDocker;
-	private readonly InputGlowingBorderViewIntegration _glowingBorder;
+	private readonly InputPulsingBorderViewIntegration _pulsingBorder;
 	private readonly PaletteDoubleTripleAdapter _formPaletteTriple;
 	private readonly ViewDrawDocker _drawHeading;
 	private readonly ViewDrawContent _drawContent;
@@ -187,8 +187,8 @@ public class KryptonForm : VisualForm,
 	private readonly ViewLayoutNull _layoutNull;
 	private HeaderStyle _headerStyle;
 	private PaletteRelativeAlign _formTitleAlign;
-    private PaletteRelativeEdgeAlign _formTrafficLightEdge;
-    private HeaderStyle _headerStylePrev;
+	private PaletteRelativeEdgeAlign _formTrafficLightEdge;
+	private HeaderStyle _headerStylePrev;
 	private FormWindowState _regionWindowState;
 	private FormWindowState _lastWindowState;
 	private string? _textExtra;
@@ -317,7 +317,7 @@ public class KryptonForm : VisualForm,
 		};
 
 		_formPaletteTriple = new PaletteDoubleTripleAdapter(GetFormPaletteState);
-		_glowingBorder = new InputGlowingBorderViewIntegration(this, NeedPaintDelegate, () => WindowActive, () => _formPaletteTriple, _drawDocker, () => _drawDocker.State);
+		_pulsingBorder = new InputPulsingBorderViewIntegration(this, NeedPaintDelegate, () => WindowActive, () => _formPaletteTriple, _drawDocker, () => _drawDocker.State);
 
 		// Create button specification collection manager
 		_buttonManager = new ButtonSpecManagerDraw(this, Redirector, ButtonSpecs, _buttonSpecsFixed,
@@ -345,7 +345,7 @@ public class KryptonForm : VisualForm,
 		KryptonManager.GlobalTouchscreenSupportChanged += OnGlobalTouchscreenSupportChanged;
 
 		// Create the view manager instance
-		ViewManager = new ViewManager(this, _glowingBorder.ViewRoot);
+		ViewManager = new ViewManager(this, _pulsingBorder.ViewRoot);
 
 		_titleStyle = KryptonFormTitleStyle.Inherit;
 
@@ -623,7 +623,7 @@ public class KryptonForm : VisualForm,
 			// Dispose the click timer
 			_clickTimer?.Dispose();
 
-			_glowingBorder.Dispose();
+			_pulsingBorder.Dispose();
 		}
 
 		base.Dispose(disposing);
@@ -1044,37 +1044,37 @@ public class KryptonForm : VisualForm,
 	private bool ShouldSerializeFormTitleAlign() => _formTitleAlign != PaletteRelativeAlign.Near;
 	private void ResetFormTitleAlign() => _formTitleAlign = PaletteRelativeAlign.Near;
 
-    /// <summary>
-    /// Gets and sets where form minimize/maximize/close buttons are placed for macOS-style palettes.
-    /// <see cref="PaletteRelativeEdgeAlign.Inherit"/> uses the palette default (left for Aqua/Mac).
-    /// <see cref="PaletteRelativeEdgeAlign.Far"/> places traffic-light glyphs on the right in standard Windows order.
-    /// </summary>
-    [Category(@"Visuals")]
-    [Description(@"Placement of form traffic-light buttons. Inherit uses the palette; Far places them on the right like a standard Windows application.")]
-    [RefreshProperties(RefreshProperties.All)]
-    [DefaultValue(PaletteRelativeEdgeAlign.Inherit)]
-    public PaletteRelativeEdgeAlign FormTrafficLightEdge
-    {
-        get => _formTrafficLightEdge;
+	/// <summary>
+	/// Gets and sets where form minimize/maximize/close buttons are placed for macOS-style palettes.
+	/// <see cref="PaletteRelativeEdgeAlign.Inherit"/> uses the palette default (left for Aqua/Mac).
+	/// <see cref="PaletteRelativeEdgeAlign.Far"/> places traffic-light glyphs on the right in standard Windows order.
+	/// </summary>
+	[Category(@"Visuals")]
+	[Description(@"Placement of form traffic-light buttons. Inherit uses the palette; Far places them on the right like a standard Windows application.")]
+	[RefreshProperties(RefreshProperties.All)]
+	[DefaultValue(PaletteRelativeEdgeAlign.Inherit)]
+	public PaletteRelativeEdgeAlign FormTrafficLightEdge
+	{
+		get => _formTrafficLightEdge;
 
-        set
-        {
-            if (_formTrafficLightEdge != value)
-            {
-                _formTrafficLightEdge = value;
-                ApplyLeftTrafficLightFormChromeIfNeeded();
-                PerformNeedPaint(true);
-            }
-        }
-    }
-    private bool ShouldSerializeFormTrafficLightEdge() => _formTrafficLightEdge != PaletteRelativeEdgeAlign.Inherit;
-    private void ResetFormTrafficLightEdge() => _formTrafficLightEdge = PaletteRelativeEdgeAlign.Inherit;
+		set
+		{
+			if (_formTrafficLightEdge != value)
+			{
+				_formTrafficLightEdge = value;
+				ApplyLeftTrafficLightFormChromeIfNeeded();
+				PerformNeedPaint(true);
+			}
+		}
+	}
+	private bool ShouldSerializeFormTrafficLightEdge() => _formTrafficLightEdge != PaletteRelativeEdgeAlign.Inherit;
+	private void ResetFormTrafficLightEdge() => _formTrafficLightEdge = PaletteRelativeEdgeAlign.Inherit;
 
 
-    /// <summary>
-    /// Gets and sets the chrome group border style.
-    /// </summary>
-    [Category(@"Visuals")]
+	/// <summary>
+	/// Gets and sets the chrome group border style.
+	/// </summary>
+	[Category(@"Visuals")]
 	[Description(@"Chrome group border style.")]
 	[DefaultValue(PaletteBorderStyle.FormMain)]
 	public PaletteBorderStyle GroupBorderStyle
@@ -1176,14 +1176,14 @@ public class KryptonForm : VisualForm,
 	private bool ShouldSerializeStateActive() => !StateActive.IsDefault;
 
 	/// <summary>
-	/// Gets access to optional glowing border settings for the form chrome.
+	/// Gets access to optional pulsing border settings for the form chrome.
 	/// </summary>
 	[Category(@"Visuals")]
-	[Description(@"Optional glowing border drawn on the form chrome.")]
+	[Description(@"Optional pulsing border drawn on the form chrome.")]
 	[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-	public InputGlowingBorderValues GlowingBorderValues => _glowingBorder.Values;
+	public InputPulsingBorderValues PulsingBorderValues => _pulsingBorder.Values;
 
-	private bool ShouldSerializeGlowingBorderValues() => !GlowingBorderValues.IsDefault;
+	private bool ShouldSerializePulsingBorderValues() => !PulsingBorderValues.IsDefault;
 
 	/// <summary>
 	/// Gets the collection of button specifications.
@@ -1739,16 +1739,16 @@ public class KryptonForm : VisualForm,
 
 		ApplyMaterialFormChromeDefaultsIfNeeded();
 
-        ApplyLeftTrafficLightFormChromeIfNeeded();
+		ApplyLeftTrafficLightFormChromeIfNeeded();
 
-        // Ensure we don't interfere with StartPosition by waiting until after positioning
-        if (IsHandleCreated)
+		// Ensure we don't interfere with StartPosition by waiting until after positioning
+		if (IsHandleCreated)
 		{
 			UpdateUseThemeFormChromeBorderWidthDecision();
 
-            ApplyLeftTrafficLightFormChromeIfNeeded();
+			ApplyLeftTrafficLightFormChromeIfNeeded();
 
-        }
+		}
 	}
 
 	/// <summary>
@@ -1813,7 +1813,7 @@ public class KryptonForm : VisualForm,
 		_drawHeading.Enabled = WindowActive;
 		_drawContent.Enabled = WindowActive;
 
-		_glowingBorder.UpdateAnimationState();
+		_pulsingBorder.UpdateAnimationState();
 
 		PerformNeedPaint(false);
 
@@ -1898,10 +1898,10 @@ public class KryptonForm : VisualForm,
 
 		ApplyMaterialFormChromeDefaultsIfNeeded();
 
-        ApplyLeftTrafficLightFormChromeIfNeeded();
+		ApplyLeftTrafficLightFormChromeIfNeeded();
 
-        // Ensure the sizing grip reflects new theme immediately
-        RecalcNonClient();
+		// Ensure the sizing grip reflects new theme immediately
+		RecalcNonClient();
 		// Deferred call for theme churning during toggle
 		if (IsHandleCreated)
 		{
@@ -3068,81 +3068,81 @@ public class KryptonForm : VisualForm,
 		}
 	}
 
-    private static bool IsFormWindowButtonSpecStyle(PaletteButtonSpecStyle style) =>
-       style switch
-       {
-           PaletteButtonSpecStyle.FormClose or PaletteButtonSpecStyle.FormMin or PaletteButtonSpecStyle.FormMax
-               or PaletteButtonSpecStyle.FormRestore or PaletteButtonSpecStyle.FormHelp => true,
-           _ => false
-       };
+	private static bool IsFormWindowButtonSpecStyle(PaletteButtonSpecStyle style) =>
+	   style switch
+	   {
+		   PaletteButtonSpecStyle.FormClose or PaletteButtonSpecStyle.FormMin or PaletteButtonSpecStyle.FormMax
+			   or PaletteButtonSpecStyle.FormRestore or PaletteButtonSpecStyle.FormHelp => true,
+		   _ => false
+	   };
 
-    private bool UsesLeftTrafficLightFormButtons() =>
-        Redirector.GetButtonSpecEdge(PaletteButtonSpecStyle.FormClose) == PaletteRelativeEdgeAlign.Near;
+	private bool UsesLeftTrafficLightFormButtons() =>
+		Redirector.GetButtonSpecEdge(PaletteButtonSpecStyle.FormClose) == PaletteRelativeEdgeAlign.Near;
 
-    private void SyncLeftTrafficLightFormButtonOrderIfNeeded()
-    {
-        bool leftTrafficLights = UsesLeftTrafficLightFormButtons();
-        int closeIndex = _buttonSpecsFixed.IndexOf(ButtonSpecClose);
-        int minIndex = _buttonSpecsFixed.IndexOf(ButtonSpecMin);
-        int maxIndex = _buttonSpecsFixed.IndexOf(ButtonSpecMax);
-        if (closeIndex < 0 || minIndex < 0 || maxIndex < 0)
-        {
-            return;
-        }
+	private void SyncLeftTrafficLightFormButtonOrderIfNeeded()
+	{
+		bool leftTrafficLights = UsesLeftTrafficLightFormButtons();
+		int closeIndex = _buttonSpecsFixed.IndexOf(ButtonSpecClose);
+		int minIndex = _buttonSpecsFixed.IndexOf(ButtonSpecMin);
+		int maxIndex = _buttonSpecsFixed.IndexOf(ButtonSpecMax);
+		if (closeIndex < 0 || minIndex < 0 || maxIndex < 0)
+		{
+			return;
+		}
 
-        // ButtonSpecManagerDraw inserts each spec at index 0, so collection order is the inverse of
-        // left-to-right layout. Target visuals: mac left = red, yellow, green; Windows right = yellow, green, red.
-        bool macCollectionOrder = closeIndex < minIndex && minIndex < maxIndex;
-        bool windowsCollectionOrder = maxIndex < minIndex && minIndex < closeIndex;
-        if (leftTrafficLights && !macCollectionOrder)
-        {
-            _buttonSpecsFixed.Clear();
-            _buttonSpecsFixed.AddRange([ButtonSpecClose, ButtonSpecMin, ButtonSpecMax]);
-            _buttonManager.RecreateButtons();
-        }
-        else if (!leftTrafficLights && !windowsCollectionOrder)
-        {
-            _buttonSpecsFixed.Clear();
-            _buttonSpecsFixed.AddRange([ButtonSpecMax, ButtonSpecMin, ButtonSpecClose]);
-            _buttonManager.RecreateButtons();
-        }
-    }
+		// ButtonSpecManagerDraw inserts each spec at index 0, so collection order is the inverse of
+		// left-to-right layout. Target visuals: mac left = red, yellow, green; Windows right = yellow, green, red.
+		bool macCollectionOrder = closeIndex < minIndex && minIndex < maxIndex;
+		bool windowsCollectionOrder = maxIndex < minIndex && minIndex < closeIndex;
+		if (leftTrafficLights && !macCollectionOrder)
+		{
+			_buttonSpecsFixed.Clear();
+			_buttonSpecsFixed.AddRange([ButtonSpecClose, ButtonSpecMin, ButtonSpecMax]);
+			_buttonManager.RecreateButtons();
+		}
+		else if (!leftTrafficLights && !windowsCollectionOrder)
+		{
+			_buttonSpecsFixed.Clear();
+			_buttonSpecsFixed.AddRange([ButtonSpecMax, ButtonSpecMin, ButtonSpecClose]);
+			_buttonManager.RecreateButtons();
+		}
+	}
 
-    private void ApplyLeftTrafficLightFormChromeIfNeeded()
-    {
-        SyncLeftTrafficLightFormButtonOrderIfNeeded();
+	private void ApplyLeftTrafficLightFormChromeIfNeeded()
+	{
+		SyncLeftTrafficLightFormButtonOrderIfNeeded();
 
-        if (!UsesLeftTrafficLightFormButtons())
-        {
-            return;
-        }
+		if (!UsesLeftTrafficLightFormButtons())
+		{
+			return;
+		}
 
-        if (FormTitleAlign is PaletteRelativeAlign.Near or PaletteRelativeAlign.Inherit)
-        {
-            FormTitleAlign = PaletteRelativeAlign.Center;
-        }
+		if (FormTitleAlign is PaletteRelativeAlign.Near or PaletteRelativeAlign.Inherit)
+		{
+			FormTitleAlign = PaletteRelativeAlign.Center;
+		}
 
-        AllowIconDisplay = false;
-    }
+		AllowIconDisplay = false;
+	}
 
-    private void ApplyMacOSFormWindowEffectsIfNeeded()
-    {
-        if (GetResolvedPalette() is PaletteMacOSBase macPalette)
-        {
-            MacOSFormChromeHelper.ApplyWindowEffects(this, macPalette);
-            return;
-        }
+	private void ApplyMacOSFormWindowEffectsIfNeeded()
+	{
+		if (GetResolvedPalette() is PaletteMacOSBase macPalette)
+		{
+			MacOSFormChromeHelper.ApplyWindowEffects(this, macPalette);
+			return;
+		}
 
-        if (IsHandleCreated)
-        {
-            MacOSFormChromeHelper.ClearWindowEffects(this);
-        }
-    }
+		if (IsHandleCreated)
+		{
+			MacOSFormChromeHelper.ClearWindowEffects(this);
+		}
+	}
 
-    /// <summary>
-    /// Synchronizes the form fixed button spec order.
-    /// </summary>
-    private void SyncFormFixedButtonSpecOrder()
+	/// <summary>
+	/// Synchronizes the form fixed button spec order.
+	/// </summary>
+	private void SyncFormFixedButtonSpecOrder()
 	{
 		var palette = GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
 		_buttonSpecsFixed.Clear();

@@ -10,10 +10,10 @@
 namespace Krypton.Toolkit;
 
 /// <summary>
-/// Storage for input control glowing border colors.
+/// Storage for input control pulsing border colors.
 /// </summary>
-[TypeConverter(typeof(InputGlowingBorderColorValuesConverter))]
-public class InputGlowingBorderColorValues : Storage
+[TypeConverter(typeof(InputPulsingBorderColorValuesConverter))]
+public class InputPulsingBorderColorValues : Storage
 {
     #region Static Fields
 
@@ -37,7 +37,7 @@ public class InputGlowingBorderColorValues : Storage
     /// Initialize a new instance of the InputGlowingBorderColorValues class.
     /// </summary>
     /// <param name="needPaint">Delegate for notifying paint requests.</param>
-    public InputGlowingBorderColorValues(NeedPaintHandler? needPaint) => NeedPaint = needPaint;
+    public InputPulsingBorderColorValues(NeedPaintHandler? needPaint) => NeedPaint = needPaint;
 
     #endregion
 
@@ -53,10 +53,10 @@ public class InputGlowingBorderColorValues : Storage
     #region Color1
 
     /// <summary>
-    /// Gets and sets the first edge color used for the glowing border gradient.
+    /// Gets and sets the first edge color used for the pulsing border gradient.
     /// </summary>
     [Category(@"Glowing Border")]
-    [Description(@"The first edge color used for the glowing border gradient.")]
+    [Description(@"The first edge color used for the pulsing border gradient.")]
     [TypeConverter(typeof(ColorConverter))]
     public Color Color1
     {
@@ -84,10 +84,10 @@ public class InputGlowingBorderColorValues : Storage
     #region Color2
 
     /// <summary>
-    /// Gets and sets the second edge color used for the glowing border gradient.
+    /// Gets and sets the second edge color used for the pulsing border gradient.
     /// </summary>
     [Category(@"Glowing Border")]
-    [Description(@"The second edge color used for the glowing border gradient.")]
+    [Description(@"The second edge color used for the pulsing border gradient.")]
     [TypeConverter(typeof(ColorConverter))]
     public Color Color2
     {
@@ -115,10 +115,10 @@ public class InputGlowingBorderColorValues : Storage
     #region HighlightColor
 
     /// <summary>
-    /// Gets and sets the highlight color used at the center of the glowing border.
+    /// Gets and sets the highlight color used at the center of the pulsing border.
     /// </summary>
     [Category(@"Glowing Border")]
-    [Description(@"The highlight color used at the center of the glowing border.")]
+    [Description(@"The highlight color used at the center of the pulsing border.")]
     [TypeConverter(typeof(ColorConverter))]
     public Color HighlightColor
     {

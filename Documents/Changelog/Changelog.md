@@ -45,7 +45,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
-* Implemented [#3784](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3784), Optional glowing border for `KryptonTextBox`, `KryptonMaskedTextBox`, `KryptonComboBox`, `KryptonRichTextBox`, `KryptonNumericUpDown`, `KryptonDomainUpDown`, `KryptonDateTimePicker`, `KryptonCalcInput`, `KryptonButton`, and `KryptonForm` via expandable `GlowingBorderValues` (Enable, Animate, `AnimationSpeed`, ShowWhen, `Style` as bottom-only or full border, and `Colors` with designer type converters); optional animated cue hint shimmer via `CueHint.Animate`, `CueHint.AnimationSpeed`, and `CueHint.HighlightColor`
+* Implemented [#3784](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3784), Optional pulsing border for `KryptonTextBox`, `KryptonMaskedTextBox`, `KryptonComboBox`, `KryptonRichTextBox`, `KryptonNumericUpDown`, `KryptonDomainUpDown`, `KryptonDateTimePicker`, `KryptonCalcInput`, `KryptonButton`, and `KryptonForm` via expandable `GlowingBorderValues` (Enable, Animate, `AnimationSpeed`, ShowWhen, `Style` as bottom-only or full border, and `Colors` with designer type converters); optional animated cue hint shimmer via `CueHint.Animate`, `CueHint.AnimationSpeed`, and `CueHint.HighlightColor`
 * Implemented [#3763](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3763), Bring the `KryptonCircularProgressBar` over
    * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Resolved [#3767](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3767), Adjust the position and size of the buttons in the `KryptonMessageBox`

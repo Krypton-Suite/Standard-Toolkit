@@ -1598,42 +1598,42 @@ public enum InputControlStyle
 }
 #endregion
 
-#region Enum InputGlowingBorderShowWhen
+#region Enum InputPulsingBorderShowWhen
 /// <summary>
-/// Specifies when an optional input control glowing border is shown.
+/// Specifies when an optional input control pulsing border is shown.
 /// </summary>
-public enum InputGlowingBorderShowWhen
+public enum InputPulsingBorderShowWhen
 {
     /// <summary>
-    /// Show the glowing border only when the input has keyboard focus.
+    /// Show the pulsing border only when the input has keyboard focus.
     /// </summary>
     Focused,
 
     /// <summary>
-    /// Show the glowing border when the input is active (focused, mouse over, or AlwaysActive).
+    /// Show the pulsing border when the input is active (focused, mouse over, or AlwaysActive).
     /// </summary>
     Active,
 
     /// <summary>
-    /// Always show the glowing border when enabled.
+    /// Always show the pulsing border when enabled.
     /// </summary>
     Always
 }
 #endregion
 
-#region Enum InputGlowingBorderStyle
+#region Enum InputPulsingBorderStyle
 /// <summary>
-/// Specifies how an optional input control glowing border is drawn.
+/// Specifies how an optional input control pulsing border is drawn.
 /// </summary>
-public enum InputGlowingBorderStyle
+public enum InputPulsingBorderStyle
 {
     /// <summary>
-    /// Draw the glow along the bottom edge only.
+    /// Draw the pulsing border along the bottom edge only.
     /// </summary>
     Bottom,
 
     /// <summary>
-    /// Draw the glow around the entire control border.
+    /// Draw the pulsing border around the entire control border.
     /// </summary>
     All
 }

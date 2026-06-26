@@ -10,9 +10,9 @@
 namespace Krypton.Toolkit;
 
 /// <summary>
-/// Provides a type converter for <see cref="InputGlowingBorderValues"/>.
+/// Provides a type converter for <see cref="InputPulsingBorderValues"/>.
 /// </summary>
-public class InputGlowingBorderValuesConverter : ExpandableObjectConverter
+public class InputPulsingBorderValuesConverter : ExpandableObjectConverter
 {
     /// <inheritdoc />
     public override bool CanConvertTo(ITypeDescriptorContext? context, Type? destinationType) =>
@@ -21,7 +21,7 @@ public class InputGlowingBorderValuesConverter : ExpandableObjectConverter
     /// <inheritdoc />
     public override object? ConvertTo(ITypeDescriptorContext? context, CultureInfo? culture, object? value, Type destinationType)
     {
-        if (destinationType == typeof(string) && value is InputGlowingBorderValues glowingBorderValues)
+        if (destinationType == typeof(string) && value is InputPulsingBorderValues glowingBorderValues)
         {
             if (!glowingBorderValues.Enable)
             {

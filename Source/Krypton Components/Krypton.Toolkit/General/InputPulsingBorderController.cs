@@ -12,16 +12,16 @@ using Timer = System.Windows.Forms.Timer;
 namespace Krypton.Toolkit;
 
 /// <summary>
-/// Manages glowing border animation for input controls.
+/// Manages pulsing border animation for input controls.
 /// </summary>
-internal sealed class InputGlowingBorderController : IDisposable
+internal sealed class InputPulsingBorderController : IDisposable
 {
     #region Instance Fields
 
     private const int BaseTimerInterval = 50;
     private const float BasePhaseStep = 0.04f;
 
-    private readonly InputGlowingBorderValues _values;
+    private readonly InputPulsingBorderValues _values;
     private readonly NeedPaintHandler? _needPaint;
     private readonly Func<bool> _shouldDraw;
     private Timer? _timer;
@@ -37,7 +37,7 @@ internal sealed class InputGlowingBorderController : IDisposable
     /// <param name="values">Glowing border values.</param>
     /// <param name="needPaint">Delegate for notifying paint requests.</param>
     /// <param name="shouldDraw">Delegate that indicates whether the glow should currently draw.</param>
-    public InputGlowingBorderController(InputGlowingBorderValues values,
+    public InputPulsingBorderController(InputPulsingBorderValues values,
         NeedPaintHandler? needPaint,
         Func<bool> shouldDraw)
     {
@@ -60,7 +60,7 @@ internal sealed class InputGlowingBorderController : IDisposable
     #region Public
 
     /// <summary>
-    /// Updates the animation timer based on the current glowing border state.
+    /// Updates the animation timer based on the current pulsing border state.
     /// </summary>
     public void UpdateAnimationState()
     {

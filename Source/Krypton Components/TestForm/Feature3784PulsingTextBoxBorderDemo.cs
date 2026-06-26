@@ -14,11 +14,11 @@ namespace TestForm;
 /// <summary>
 /// Comprehensive manual demo for GitHub issue #3784: optional glowing borders and cue hint shimmer.
 /// </summary>
-public partial class Feature3784GlowingTextBoxBorderDemo : KryptonForm
+public partial class Feature3784PulsingTextBoxBorderDemo : KryptonForm
 {
     private bool _syncingSettings;
 
-    public Feature3784GlowingTextBoxBorderDemo()
+    public Feature3784PulsingTextBoxBorderDemo()
     {
         InitializeComponent();
         WireEvents();
@@ -60,16 +60,16 @@ public partial class Feature3784GlowingTextBoxBorderDemo : KryptonForm
 
     private IEnumerable<GlowTarget> GetGlowTargets()
     {
-        yield return new GlowTarget("Hero TextBox", ktxtAnimatedGlow, () => ktxtAnimatedGlow.GlowingBorderValues, () => ktxtAnimatedGlow.CueHint);
-        yield return new GlowTarget("Static TextBox", ktxtStaticGlow, () => ktxtStaticGlow.GlowingBorderValues, () => ktxtStaticGlow.CueHint);
-        yield return new GlowTarget("MaskedTextBox", kmtxtPhone, () => kmtxtPhone.GlowingBorderValues, null);
-        yield return new GlowTarget("ComboBox", kcmbGlow, () => kcmbGlow.GlowingBorderValues, () => kcmbGlow.CueHint);
-        yield return new GlowTarget("RichTextBox", krtbGlow, () => krtbGlow.GlowingBorderValues, () => krtbGlow.CueHint);
-        yield return new GlowTarget("NumericUpDown", knudQuantity, () => knudQuantity.GlowingBorderValues, null);
-        yield return new GlowTarget("DomainUpDown", kdudPriority, () => kdudPriority.GlowingBorderValues, null);
-        yield return new GlowTarget("DateTimePicker", kdtpDue, () => kdtpDue.GlowingBorderValues, null);
-        yield return new GlowTarget("CalcInput", kcalcBudget, () => kcalcBudget.GlowingBorderValues, null);
-        yield return new GlowTarget("Button", kbtnGlow, () => kbtnGlow.GlowingBorderValues, null);
+        yield return new GlowTarget("Hero TextBox", ktxtAnimatedGlow, () => ktxtAnimatedGlow.PulsingBorderValues, () => ktxtAnimatedGlow.CueHint);
+        yield return new GlowTarget("Static TextBox", ktxtStaticGlow, () => ktxtStaticGlow.PulsingBorderValues, () => ktxtStaticGlow.CueHint);
+        yield return new GlowTarget("MaskedTextBox", kmtxtPhone, () => kmtxtPhone.PulsingBorderValues, null);
+        yield return new GlowTarget("ComboBox", kcmbGlow, () => kcmbGlow.PulsingBorderValues, () => kcmbGlow.CueHint);
+        yield return new GlowTarget("RichTextBox", krtbGlow, () => krtbGlow.PulsingBorderValues, () => krtbGlow.CueHint);
+        yield return new GlowTarget("NumericUpDown", knudQuantity, () => knudQuantity.PulsingBorderValues, null);
+        yield return new GlowTarget("DomainUpDown", kdudPriority, () => kdudPriority.PulsingBorderValues, null);
+        yield return new GlowTarget("DateTimePicker", kdtpDue, () => kdtpDue.PulsingBorderValues, null);
+        yield return new GlowTarget("CalcInput", kcalcBudget, () => kcalcBudget.PulsingBorderValues, null);
+        yield return new GlowTarget("Button", kbtnGlow, () => kbtnGlow.PulsingBorderValues, null);
     }
 
     private IEnumerable<GlowTarget> GetSelectedTargets()
@@ -85,41 +85,41 @@ public partial class Feature3784GlowingTextBoxBorderDemo : KryptonForm
 
     private void ApplyFactoryDefaults()
     {
-        ApplyGlowDefaults(ktxtAnimatedGlow.GlowingBorderValues, true, true, InputGlowingBorderShowWhen.Focused, InputGlowingBorderStyle.All, 1.5f);
+        ApplyGlowDefaults(ktxtAnimatedGlow.PulsingBorderValues, true, true, InputPulsingBorderShowWhen.Focused, InputPulsingBorderStyle.All, 1.5f);
         ApplyCueDefaults(ktxtAnimatedGlow.CueHint, true, 0.75f, "Describe the app or website or idea that you want to build");
 
-        ApplyGlowDefaults(ktxtStaticGlow.GlowingBorderValues, true, false, InputGlowingBorderShowWhen.Focused, InputGlowingBorderStyle.Bottom, 1f);
+        ApplyGlowDefaults(ktxtStaticGlow.PulsingBorderValues, true, false, InputPulsingBorderShowWhen.Focused, InputPulsingBorderStyle.Bottom, 1f);
         ApplyCueDefaults(ktxtStaticGlow.CueHint, false, 1f, "Static bottom glow while focused");
 
-        ApplyGlowDefaults(kmtxtPhone.GlowingBorderValues, true, true, InputGlowingBorderShowWhen.Focused, InputGlowingBorderStyle.Bottom, 1.2f);
+        ApplyGlowDefaults(kmtxtPhone.PulsingBorderValues, true, true, InputPulsingBorderShowWhen.Focused, InputPulsingBorderStyle.Bottom, 1.2f);
 
-        ApplyGlowDefaults(kcmbGlow.GlowingBorderValues, true, true, InputGlowingBorderShowWhen.Focused, InputGlowingBorderStyle.Bottom, 0.5f);
+        ApplyGlowDefaults(kcmbGlow.PulsingBorderValues, true, true, InputPulsingBorderShowWhen.Focused, InputPulsingBorderStyle.Bottom, 0.5f);
         ApplyCueDefaults(kcmbGlow.CueHint, false, 1f, "Choose an option…");
 
-        ApplyGlowDefaults(krtbGlow.GlowingBorderValues, true, true, InputGlowingBorderShowWhen.Focused, InputGlowingBorderStyle.Bottom, 1f);
+        ApplyGlowDefaults(krtbGlow.PulsingBorderValues, true, true, InputPulsingBorderShowWhen.Focused, InputPulsingBorderStyle.Bottom, 1f);
         krtbGlow.Text = "Rich text with glowing border";
 
-        ApplyGlowDefaults(knudQuantity.GlowingBorderValues, true, true, InputGlowingBorderShowWhen.Focused, InputGlowingBorderStyle.Bottom, 1f);
+        ApplyGlowDefaults(knudQuantity.PulsingBorderValues, true, true, InputPulsingBorderShowWhen.Focused, InputPulsingBorderStyle.Bottom, 1f);
         knudQuantity.Value = 3;
 
-        ApplyGlowDefaults(kdudPriority.GlowingBorderValues, true, true, InputGlowingBorderShowWhen.Focused, InputGlowingBorderStyle.All, 1f);
+        ApplyGlowDefaults(kdudPriority.PulsingBorderValues, true, true, InputPulsingBorderShowWhen.Focused, InputPulsingBorderStyle.All, 1f);
         kdudPriority.SelectedIndex = 1;
 
-        ApplyGlowDefaults(kdtpDue.GlowingBorderValues, true, true, InputGlowingBorderShowWhen.Focused, InputGlowingBorderStyle.Bottom, 0.8f);
+        ApplyGlowDefaults(kdtpDue.PulsingBorderValues, true, true, InputPulsingBorderShowWhen.Focused, InputPulsingBorderStyle.Bottom, 0.8f);
 
-        ApplyGlowDefaults(kcalcBudget.GlowingBorderValues, true, true, InputGlowingBorderShowWhen.Focused, InputGlowingBorderStyle.Bottom, 1f);
+        ApplyGlowDefaults(kcalcBudget.PulsingBorderValues, true, true, InputPulsingBorderShowWhen.Focused, InputPulsingBorderStyle.Bottom, 1f);
         kcalcBudget.Value = 1250.50m;
 
-        ApplyGlowDefaults(kbtnGlow.GlowingBorderValues, true, true, InputGlowingBorderShowWhen.Active, InputGlowingBorderStyle.All, 1f);
+        ApplyGlowDefaults(kbtnGlow.PulsingBorderValues, true, true, InputPulsingBorderShowWhen.Active, InputPulsingBorderStyle.All, 1f);
 
         SyncSettingsFromTarget();
     }
 
-    private static void ApplyGlowDefaults(InputGlowingBorderValues values,
+    private static void ApplyGlowDefaults(InputPulsingBorderValues values,
         bool enable,
         bool animate,
-        InputGlowingBorderShowWhen showWhen,
-        InputGlowingBorderStyle style,
+        InputPulsingBorderShowWhen showWhen,
+        InputPulsingBorderStyle style,
         float speed)
     {
         values.Enable = enable;
@@ -161,7 +161,7 @@ public partial class Feature3784GlowingTextBoxBorderDemo : KryptonForm
             ? GetGlowTargets().First()
             : GetSelectedTargets().First();
 
-        InputGlowingBorderValues values = target.GetGlow();
+        InputPulsingBorderValues values = target.GetGlow();
 
         _syncingSettings = true;
         try
@@ -169,7 +169,7 @@ public partial class Feature3784GlowingTextBoxBorderDemo : KryptonForm
             kchkEnable.Checked = values.Enable;
             kchkAnimate.Checked = values.Animate;
             kcmbShowWhen.SelectedIndex = (int)values.ShowWhen;
-            kcmbStyle.SelectedIndex = values.Style == InputGlowingBorderStyle.All ? 1 : 0;
+            kcmbStyle.SelectedIndex = values.Style == InputPulsingBorderStyle.All ? 1 : 0;
             knudAnimationSpeed.Value = (decimal)values.AnimationSpeed;
 
             PaletteCueHintText? cue = target.GetCueHint?.Invoke();
@@ -200,14 +200,14 @@ public partial class Feature3784GlowingTextBoxBorderDemo : KryptonForm
             return;
         }
 
-        var showWhen = (InputGlowingBorderShowWhen)kcmbShowWhen.SelectedIndex;
-        var style = kcmbStyle.SelectedIndex == 1 ? InputGlowingBorderStyle.All : InputGlowingBorderStyle.Bottom;
+        var showWhen = (InputPulsingBorderShowWhen)kcmbShowWhen.SelectedIndex;
+        var style = kcmbStyle.SelectedIndex == 1 ? InputPulsingBorderStyle.All : InputPulsingBorderStyle.Bottom;
         float speed = (float)knudAnimationSpeed.Value;
         float cueSpeed = (float)knudCueSpeed.Value;
 
         foreach (GlowTarget target in GetSelectedTargets())
         {
-            InputGlowingBorderValues glow = target.GetGlow();
+            InputPulsingBorderValues glow = target.GetGlow();
             glow.Enable = kchkEnable.Checked;
             glow.Animate = kchkAnimate.Checked;
             glow.ShowWhen = showWhen;
@@ -235,11 +235,11 @@ public partial class Feature3784GlowingTextBoxBorderDemo : KryptonForm
             ClientSize = new Size(520, 220),
             MinimumSize = new Size(400, 180)
         };
-        form.GlowingBorderValues.Enable = true;
-        form.GlowingBorderValues.Animate = true;
-        form.GlowingBorderValues.ShowWhen = InputGlowingBorderShowWhen.Active;
-        form.GlowingBorderValues.Style = InputGlowingBorderStyle.All;
-        form.GlowingBorderValues.AnimationSpeed = 1f;
+        form.PulsingBorderValues.Enable = true;
+        form.PulsingBorderValues.Animate = true;
+        form.PulsingBorderValues.ShowWhen = InputPulsingBorderShowWhen.Active;
+        form.PulsingBorderValues.Style = InputPulsingBorderStyle.All;
+        form.PulsingBorderValues.AnimationSpeed = 1f;
 
         var panel = new KryptonPanel { Dock = DockStyle.Fill, Padding = new Padding(16) };
         var label = new KryptonWrapLabel
@@ -262,7 +262,7 @@ public partial class Feature3784GlowingTextBoxBorderDemo : KryptonForm
     {
         public GlowTarget(string name,
             Control control,
-            Func<InputGlowingBorderValues> getGlow,
+            Func<InputPulsingBorderValues> getGlow,
             Func<PaletteCueHintText>? getCueHint)
         {
             Name = name;
@@ -273,7 +273,7 @@ public partial class Feature3784GlowingTextBoxBorderDemo : KryptonForm
 
         public string Name { get; }
         public Control Control { get; }
-        public Func<InputGlowingBorderValues> GetGlow { get; }
+        public Func<InputPulsingBorderValues> GetGlow { get; }
         public Func<PaletteCueHintText>? GetCueHint { get; }
     }
 }

@@ -28,7 +28,7 @@ public class KryptonButton : KryptonDropButton
 {
     #region Instance Fields
 
-    private readonly InputGlowingBorderViewIntegration _glowingBorder;
+    private readonly InputPulsingBorderViewIntegration _pulsingBorder;
 
     #endregion
 
@@ -45,27 +45,27 @@ public class KryptonButton : KryptonDropButton
         // Create a button controller to handle button style behaviour
         _buttonController.BecomesFixed = false;
 
-        _glowingBorder = new InputGlowingBorderViewIntegration(this,
+        _pulsingBorder = new InputPulsingBorderViewIntegration(this,
             NeedPaintDelegate,
             () => IsButtonActive,
             GetTripleState,
             ViewDrawButton,
             () => ViewDrawButton.State);
 
-        ViewManager = new ViewManager(this, _glowingBorder.ViewRoot);
+        ViewManager = new ViewManager(this, _pulsingBorder.ViewRoot);
     }
     #endregion
 
     #region Public
     /// <summary>
-    /// Gets access to the optional glowing border values.
+    /// Gets access to the optional pulsing border values.
     /// </summary>
     [Category(@"Visuals")]
-    [Description(@"Optional glowing border drawn around the button.")]
+    [Description(@"Optional pulsing border drawn around the button.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    public InputGlowingBorderValues GlowingBorderValues => _glowingBorder.Values;
+    public InputPulsingBorderValues PulsingBorderValues => _pulsingBorder.Values;
 
-    private bool ShouldSerializeGlowingBorderValues() => !GlowingBorderValues.IsDefault;
+    private bool ShouldSerializePulsingBorderValues() => !PulsingBorderValues.IsDefault;
 
     /// <summary>
     /// Gets and sets the visual orientation of the control
@@ -117,7 +117,7 @@ public class KryptonButton : KryptonDropButton
     /// <param name="needLayout">Does the palette change require a layout.</param>
     public override void PerformNeedPaint(bool needLayout)
     {
-        _glowingBorder.UpdateAnimationState();
+        _pulsingBorder.UpdateAnimationState();
         base.PerformNeedPaint(needLayout);
     }
     #endregion
@@ -131,7 +131,7 @@ public class KryptonButton : KryptonDropButton
     {
         if (disposing)
         {
-            _glowingBorder.Dispose();
+            _pulsingBorder.Dispose();
         }
 
         base.Dispose(disposing);
