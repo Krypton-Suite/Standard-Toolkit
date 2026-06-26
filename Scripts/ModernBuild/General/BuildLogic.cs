@@ -144,16 +144,35 @@ internal static class BuildLogic
     }
 
     /// <summary>
-    /// Locates the MSBuild executable on the system.
-    /// First attempts to use vswhere.exe to find the latest Visual Studio installation,
-    /// then falls back to common installation paths for Visual Studio 2022.
+    /// Locates the MSBuild executable on the system for ModernBuild.
     /// </summary>
-    /// <returns>The full path to the MSBuild executable.</returns>
+    /// <remarks>
+    /// Discovery order mirrors <c>Scripts/Common/find-msbuild.cmd</c>:
+    /// <list type="number">
+    /// <item><description><c>MSBUILDPATH</c> / <c>MSBUILD_PATH</c> override</description></item>
+    /// <item><description><c>vswhere.exe -latest</c> with the MSBuild workload</description></item>
+    /// <item><description>Fallback paths under <c>%ProgramFiles%</c> for VS 18 and VS 2022 editions</description></item>
+    /// </list>
+    /// </remarks>
+    /// <returns>The full path to <c>MSBuild.exe</c>.</returns>
     /// <exception cref="InvalidOperationException">Thrown when MSBuild.exe cannot be found.</exception>
     internal static string LocateMSBuildExecutable()
     {
+        // Same override names as the batch helper (Scripts/Common/find-msbuild.cmd).
+        string? overridePath = Environment.GetEnvironmentVariable("MSBUILDPATH")
+            ?? Environment.GetEnvironmentVariable("MSBUILD_PATH");
+        if (!string.IsNullOrWhiteSpace(overridePath))
+        {
+            string overrideExe = Path.Combine(overridePath.TrimEnd('\\', '/'), "MSBuild.exe");
+            if (File.Exists(overrideExe))
+            {
+                return overrideExe;
+            }
+        }
+
         try
         {
+            // vswhere ships with the Visual Studio Installer and resolves custom install paths.
             string vswhere = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),
                 "Microsoft Visual Studio",
@@ -180,21 +199,158 @@ internal static class BuildLogic
         }
         catch {}
 
-        string[] candidates = new[]
+        // Last resort: default Program Files layout (does not cover custom drives without vswhere).
+        string programFiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+        string[] roots =
         {
-            "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\MSBuild\\Current\\Bin\\MSBuild.exe",
-            "C:\\Program Files\\Microsoft Visual Studio\\2022\\Professional\\MSBuild\\Current\\Bin\\MSBuild.exe",
-            "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe"
+            Path.Combine(programFiles, @"Microsoft Visual Studio\18"),
+            Path.Combine(programFiles, @"Microsoft Visual Studio\2022")
         };
+        string[] editions = { "Insiders", "Preview", "Enterprise", "Professional", "Community", "BuildTools" };
 
-        foreach (string c in candidates)
+        foreach (string root in roots)
         {
-            if (File.Exists(c))
+            foreach (string edition in editions)
             {
-                return c;
+                string candidate = Path.Combine(root, edition, @"MSBuild\Current\Bin\MSBuild.exe");
+                if (File.Exists(candidate))
+                {
+                    return candidate;
+                }
             }
         }
-        throw new InvalidOperationException("Could not find MSBuild.exe. Please ensure Visual Studio 2022 is installed.");
+
+        throw new InvalidOperationException("Could not find MSBuild.exe. Please ensure Visual Studio 2022 or later is installed.");
+    }
+
+    /// <summary>
+    /// Returns the MSBuild tool version reported by <c>MSBuild.exe -version</c>.
+    /// </summary>
+    /// <param name="msBuildExecutablePath">Full path to MSBuild.exe.</param>
+    /// <returns>The version string, or <c>unknown</c> when it cannot be read.</returns>
+    internal static string GetMSBuildToolVersion(string msBuildExecutablePath)
+    {
+        try
+        {
+            var psi = new ProcessStartInfo
+            {
+                FileName = msBuildExecutablePath,
+                Arguments = "-version -nologo",
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                CreateNoWindow = true
+            };
+            using var p = Process.Start(psi)!;
+            string? version = p.StandardOutput.ReadLine();
+            p.WaitForExit(3000);
+            return string.IsNullOrWhiteSpace(version) ? "unknown" : version.Trim();
+        }
+        catch
+        {
+            return "unknown";
+        }
+    }
+
+    /// <summary>
+    /// Describes the Visual Studio installation that owns the given MSBuild executable.
+    /// </summary>
+    /// <param name="msBuildExecutablePath">Full path to MSBuild.exe.</param>
+    /// <returns>A display name such as <c>Visual Studio Enterprise 2026</c>.</returns>
+    internal static string DescribeVisualStudioInstallation(string msBuildExecutablePath)
+    {
+        string? fromVswhere = TryGetVisualStudioDisplayName(msBuildExecutablePath);
+        if (!string.IsNullOrWhiteSpace(fromVswhere))
+        {
+            return fromVswhere;
+        }
+
+        return DescribeVisualStudioFromPath(msBuildExecutablePath) ?? "Visual Studio";
+    }
+
+    private static string? TryGetVisualStudioDisplayName(string msBuildExecutablePath)
+    {
+        try
+        {
+            string vswhere = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),
+                "Microsoft Visual Studio",
+                "Installer",
+                "vswhere.exe");
+            if (!File.Exists(vswhere))
+            {
+                return null;
+            }
+
+            // vswhere emits installationPath and displayName as alternating lines per instance.
+            var psi = new ProcessStartInfo
+            {
+                FileName = vswhere,
+                Arguments = "-products * -requires Microsoft.Component.MSBuild -property installationPath -property displayName",
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                CreateNoWindow = true
+            };
+            using var p = Process.Start(psi)!;
+            string output = p.StandardOutput.ReadToEnd();
+            p.WaitForExit(3000);
+
+            string[] lines = output.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i + 1 < lines.Length; i += 2)
+            {
+                string installPath = lines[i].Trim().TrimEnd('\\');
+                string displayName = lines[i + 1].Trim();
+                // Match the install that owns this MSBuild.exe (works for any drive letter).
+                if (msBuildExecutablePath.StartsWith(installPath, StringComparison.OrdinalIgnoreCase)
+                    && !string.IsNullOrWhiteSpace(displayName))
+                {
+                    return displayName;
+                }
+            }
+        }
+        catch {}
+
+        return null;
+    }
+
+    /// <summary>
+    /// Builds a human-readable product name from the MSBuild path when vswhere is unavailable.
+    /// </summary>
+    private static string? DescribeVisualStudioFromPath(string msBuildExecutablePath)
+    {
+        string normalized = msBuildExecutablePath.Replace('/', '\\');
+        const string marker = @"\Microsoft Visual Studio\";
+        int markerIndex = normalized.IndexOf(marker, StringComparison.OrdinalIgnoreCase);
+        if (markerIndex < 0)
+        {
+            return null;
+        }
+
+        // Path shape: ...\Microsoft Visual Studio\<folder>\<edition>\MSBuild\Current\Bin\MSBuild.exe
+        string remainder = normalized.Substring(markerIndex + marker.Length);
+        string[] parts = remainder.Split('\\');
+        if (parts.Length < 2)
+        {
+            return null;
+        }
+
+        string productLine;
+        if (int.TryParse(parts[0], out int major) && major >= 18)
+        {
+            // Yearly releases from VS 2026 onward use numeric major folders (18, 19, 20, ...).
+            // Marketing year aligns with major + 2008 (18 -> 2026, 19 -> 2027).
+            productLine = $"Visual Studio {major + 2008}";
+        }
+        else
+        {
+            productLine = parts[0] switch
+            {
+                "2022" => "Visual Studio 2022",
+                "2019" => "Visual Studio 2019",
+                _      => $"Visual Studio {parts[0]}"
+            };
+        }
+
+        return $"{productLine} {parts[1]}";
     }
 
     /// <summary>
@@ -277,11 +433,13 @@ internal static class BuildLogic
 
         if (!string.IsNullOrWhiteSpace(msBuildPath))
         {
+            // Fixed marketing folder for VS 2022 scripts.
             if (msBuildPath.IndexOf("\\Microsoft Visual Studio\\2022\\", StringComparison.OrdinalIgnoreCase) >= 0)
             {
                 return ScriptProfile.VS2022;
             }
-            if (msBuildPath.IndexOf("\\Microsoft Visual Studio\\18\\", StringComparison.OrdinalIgnoreCase) >= 0)
+            // Yearly installs use numeric majors (18, 19, 20, ...) under Scripts/Current/.
+            if (IsCurrentGenerationMsBuildPath(msBuildPath))
             {
                 return ScriptProfile.Current;
             }
@@ -289,6 +447,33 @@ internal static class BuildLogic
 
         // Default auto preference to Current for forward-compatible setups.
         return ScriptProfile.Current;
+    }
+
+    /// <summary>
+    /// Returns true when <paramref name="msBuildPath"/> is under a yearly Visual Studio install (major 18+).
+    /// </summary>
+    /// <remarks>
+    /// Folder examples: <c>\Microsoft Visual Studio\18\</c>, <c>\19\</c>, <c>\20\</c>.
+    /// Used by Auto profile resolution so new yearly releases map to Scripts/Current/ without code changes.
+    /// </remarks>
+    private static bool IsCurrentGenerationMsBuildPath(string msBuildPath)
+    {
+        const string marker = "\\Microsoft Visual Studio\\";
+        int markerIndex = msBuildPath.IndexOf(marker, StringComparison.OrdinalIgnoreCase);
+        if (markerIndex < 0)
+        {
+            return false;
+        }
+
+        string remainder = msBuildPath.Substring(markerIndex + marker.Length);
+        int slashIndex = remainder.IndexOf('\\');
+        if (slashIndex <= 0)
+        {
+            return false;
+        }
+
+        string folder = remainder.Substring(0, slashIndex);
+        return int.TryParse(folder, out int major) && major >= 18;
     }
 
     /// <summary>
