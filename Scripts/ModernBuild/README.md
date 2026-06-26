@@ -17,7 +17,8 @@ ModernBuild uses `Terminal.Gui` and runs `MSBuild.exe` and `nuget.exe` under the
 
 - Windows 10/11
 - Visual Studio with MSBuild (VS2022 and newer supported)
-  - ModernBuild uses `vswhere.exe` to locate MSBuild and falls back to common VS2022 paths
+  - ModernBuild uses `vswhere.exe` to locate MSBuild and falls back to `%ProgramFiles%` install paths
+  - Batch build scripts share `Scripts/Common/find-msbuild.cmd`; set `MSBUILDPATH` or `MSBUILD_PATH` to override
 - `nuget.exe` available on PATH for NuGet operations
   - Example download: `https://dist.nuget.org/win-x86-commandline/latest/nuget.exe`
 
@@ -63,7 +64,7 @@ Use `Debug` instead of `Release` when you built a Debug configuration, and subst
 ### UI layout
 
 - Tasks (top-left): hotkeys and current selections
-- Build Settings (left): resolved project file, scripts profile, MSBuild path, logs
+- Build Settings (left): resolved project file, scripts profile, Visual Studio product, MSBuild path, MSBuild version, logs
 - Live Output (right): streaming MSBuild/NuGet output
 - Summary (bottom): tail summary of the last run
 
@@ -83,7 +84,7 @@ Use `Debug` instead of `Release` when you built a Debug configuration, and subst
 In Auto mode, ModernBuild chooses an effective profile from the detected MSBuild path:
 
 - MSBuild path containing `\Microsoft Visual Studio\2022\` -> `VS2022`
-- MSBuild path containing `\Microsoft Visual Studio\18\` -> `Current`
+- MSBuild path under `\Microsoft Visual Studio\<major>\` where `<major>` is 18 or higher -> `Current`
 - otherwise defaults to `Current`
 
 Special case:
