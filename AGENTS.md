@@ -21,7 +21,7 @@
 ## Project Structure & Module Organization
 
 - `Source/Krypton Components`: Core libraries (`Krypton.Toolkit`, `Krypton.Ribbon`, `Krypton.Navigator`, `Krypton.Workspace`, `Krypton.Docking`) and the solution `Krypton Toolkit Suite 2022 - VS2022.sln`
-- `Source/Krypton Components/TestForm`: WinForms sample app used to validate changes
+- `Source/Krypton Components/TestForm`: WinForms sample app used to validate changes; add or extend demos here when features or bugs are completed (see **TestForm Demos**)
 - `Source/TestHarnesses`: Small repro/test harnesses (e.g., `ThemeSwapRepro`)
 - `Scripts/`: Build and packaging scripts; `run.cmd` (root) launches an interactive menu; scripts live under `Scripts/VS2022/`, `Scripts/Current/`, `Scripts/Build/` (e.g., `build-stable.cmd`, `build-canary.cmd`, `build-nightly.cmd`, `build.proj`)
 - `Bin/`: Build outputs by configuration (e.g., `Bin/Debug`)
@@ -128,7 +128,11 @@ Each guide should be **in-depth** and **maintainer-focused**, covering as applic
 - **Usage** — minimal code or designer steps; common integration patterns.
 - **Configuration / persistence** — settings, XML, flags, or MSBuild properties if relevant.
 - **Edge cases** — threading, TFM differences, breaking changes, migration notes.
-- **Validation** — how to exercise the feature in `TestForm` or a harness.
+- **Validation** — how to exercise the feature in `TestForm` or a harness (link to the demo form registered in `StartScreen`).
+
+### TestForm demo
+
+When the feature warrants user-visible validation, add or update a demo per **TestForm Demos** and reference it here.
 
 ### File conventions
 
@@ -183,17 +187,61 @@ Match existing style:
 - Entries for developer guides under `Documents/Development/`.
 - References to `Scripts/ModernBuild/README.md` or build-script internals unless the change is user-facing.
 
+## TestForm Demos
+
+`Source/Krypton Components/TestForm` (`TestForm.csproj`) is the primary interactive validation app. When a **feature** is completed, add a **comprehensive demo** or **extend an existing demo** so maintainers and reviewers can exercise the capability without reading source first.
+
+### When to add or update
+
+- **Features** — new controls, APIs, designer behavior, themes, dialogs, or subsystems: add or expand a demo.
+- **Bug fixes** — add a minimal repro when none exists; extend an existing demo when the fix changes observable behavior worth regression-testing.
+- Skip demos for comment-only work, pure refactors, or changes with no UI/API surface.
+
+### Registration
+
+- Register every new form in `StartScreen.AddButtons()` via `CreateButton<TForm>(heading, description)`.
+- Heading: short title (often includes issue number for bug demos).
+- Description: what to try, expected outcome, and which scenarios are covered.
+- Follow existing naming: `BugNNNNShortNameDemo` for issue repros; `FeatureNameDemo` or `FeatureNameTest` for broader showcases.
+
+### Demo content
+
+A good demo is **comprehensive** for its scope:
+
+- Exercises the main API paths, properties, events, and theme/palette switches relevant to the change.
+- Includes short on-form instructions (labels or a read-only text block) so manual steps are obvious.
+- Uses `KryptonForm` and Krypton controls for the host unless the scenario requires otherwise.
+- Keeps designer-friendly structure: logic in `*.cs`, layout in `*.Designer.cs` `InitializeComponent()`.
+
+### Krypton vs standard WinForms
+
+Where the feature is a **Krypton replacement or wrapper** for a built-in control (or parity/behavior is the point), provide a **side-by-side comparison** when practical:
+
+- Place native WinForms control(s) and Krypton control(s) in the same form (e.g. split columns in a `TableLayoutPanel`), matching size, text, and interaction where possible.
+- Label each side clearly (e.g. “Native TextBox” / “KryptonTextBox”).
+- Document what should match and what is intentionally different.
+- See existing patterns: `Bug3342KryptonTextBoxResizeFlickerDemo`, `KryptonFolderBrowserDialogDemo`, `AccessibilityTest`, `Bug3343RichTextBoxEditLossDemo`.
+
+Skip the comparison when there is no meaningful WinForms equivalent (e.g. ribbon-only or docking-only features).
+
+### Project conventions
+
+- Add new `.cs` / `.Designer.cs` / `.resx` files to `TestForm.csproj` if not picked up automatically.
+- Reference `Krypton.Toolkit.Utilities` / `Krypton.Navigator.Utilities` when the demo targets those assemblies.
+- Run: `dotnet run --project ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug`
+
 ## Testing Guidelines
 
 - No formal unit test suite. Validate changes via `TestForm` scenarios and harnesses under `Source/TestHarnesses`
 - When fixing a bug, add/adjust a minimal repro in `TestForm` or a harness and describe manual steps in the PR
+- When completing a **feature**, add or update a comprehensive demo in `TestForm` per **TestForm Demos** (include Krypton vs WinForms comparison where appropriate)
 - When completing a bug fix or feature, update `Documents/Changelog/Changelog.md` per **Changelog** in this file
 
 ## Commit & Pull Request Guidelines
 
 - Commits: short, imperative subject; reference issues/PRs (e.g., `Fix autosizing (#2433)` or `2439 V100 datecell autosizing`)
 - PRs: clear description, linked issues, screenshots/gifs for UI changes, notes on breaking changes/TFM impact
-- Completed bugs and features: update `Documents/Changelog/Changelog.md` (see **Changelog** above); add a `Documents/Development/` guide when the feature warrants in-depth maintainer docs.
+- Completed bugs and features: update `Documents/Changelog/Changelog.md` (see **Changelog** above); add or update a `TestForm` demo for features (see **TestForm Demos**); add a `Documents/Development/` guide when the feature warrants in-depth maintainer docs.
 - Do not add routine validation noise to commit messages or PR descriptions. Mention checks only when they are essential context, unusual, failed, or specifically requested.
 
 ## Security & Configuration Tips
