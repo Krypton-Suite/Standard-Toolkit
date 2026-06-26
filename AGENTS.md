@@ -60,6 +60,15 @@ Before considering a task complete:
 ### Stability
 
 - Preserve binary compatibility unless explicitly instructed otherwise.
+- Avoid changing public or protected member signatures unless explicitly requested.
+- Do not rename public types or namespaces.
+- Preserve designer serialization compatibility.
+
+## Performance
+
+- Avoid unnecessary allocations in paint paths.
+- Avoid creating disposable GDI objects inside tight rendering loops.
+- Reuse existing rendering infrastructure whenever possible.
 
 ## Build, Test, and Development Commands
 
@@ -89,9 +98,10 @@ Before considering a task complete:
 
 ## C# Rules
 
+- Preserve the existing nullable reference type annotations and context (`<Nullable>enable</Nullable>` is set at project level).
+- Do not enable or disable nullable in individual files unless requested.
 - No unneeded `try/catch` blocks if there's no catch handling
 - Idioms: use null-propagation and object/collection initializers where consistent
-- Treat new analyzer warnings as part of the build unless they already existed.
 - Prefer switch expressions for simple value/type dispatch that only returns a value; keep switch statements for complex control flow or side effects
 - WinForms: `UseWindowsForms=true`; prefer designer-friendly patterns and keep partial classes tidy
 - WinForms designer: keep object declarations at file bottom; initialize in `*.Designer.cs` `InitializeComponent()`
