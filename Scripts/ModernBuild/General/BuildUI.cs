@@ -1228,7 +1228,9 @@ public static class BuildUI
 
         AddKV("Project", TrimScriptsPath(state.ProjectFile));
         AddKV("Scripts", FormatScriptProfile(state));
+        AddKV("Visual Studio", state.VsProductDescription);
         AddKV("MSBuild", state.MsBuildPath);
+        AddKV("MSBuild version", state.MsBuildToolVersion);
 
         AddKV("Text Log", TrimLogsPath(Path.Combine(state.RootPath, "Logs", prefix + "-build-summary.log")));
         AddKV("BinLog", TrimLogsPath(Path.Combine(state.RootPath, "Logs", prefix + "-build.binlog")));

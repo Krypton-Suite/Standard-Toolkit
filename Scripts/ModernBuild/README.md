@@ -10,8 +10,8 @@ It uses `Terminal.Gui` for the UI and drives `MSBuild.exe` and `nuget.exe` under
 
 ### Requirements
 - Windows 10/11
-- Visual Studio 2022 with the MSBuild component
-  - ModernBuild auto-detects MSBuild via `vswhere.exe`. If detection fails it looks in common VS2022 install paths and will error if not found.
+- Visual Studio 2022 or later with the MSBuild component
+  - ModernBuild auto-detects MSBuild via `vswhere.exe`, then `%ProgramFiles%` install paths. Set `MSBUILDPATH` or `MSBUILD_PATH` to override. The Build Settings panel shows the resolved Visual Studio product, MSBuild path, and MSBuild version.
 - `nuget.exe` available on PATH for NuGet operations
   - Download from `https://dist.nuget.org/win-x86-commandline/latest/nuget.exe` and place it in a folder on PATH, or in the repo’s `Scripts/` folder.
 
@@ -42,7 +42,7 @@ Tip: Run ModernBuild from the repository root so it can auto-detect the correct 
 
 ### UI layout
 - Tasks (top-left): hotkeys and current selections; switches between Ops and NuGet pages
-- Build Settings (left): current project, MSBuild path, and log file locations
+- Build Settings (left): current project, Visual Studio product, MSBuild path/version, and log file locations
 - Live Output (right): streaming MSBuild/NuGet output; press Enter on a line to copy it
 - Summary (bottom): recent summary/log tail for quick diagnostics (paged)
 
@@ -110,7 +110,7 @@ Tip: Run ModernBuild from the repository root so it can auto-detect the correct 
 - Stable channel → `build.proj`
 - Installer (not exposed on Ops page) → `installer.proj`
 
-The Auto scripts profile chooses `VS2022` when MSBuild is detected under Visual Studio 2022, `Current` when MSBuild is detected under Visual Studio 18 (VS 2026), and otherwise defaults to `Current`.
+The Auto scripts profile chooses `VS2022` when MSBuild is detected under Visual Studio 2022, `Current` when MSBuild is detected under a yearly Visual Studio install (major 18+, e.g. VS 2026), and otherwise defaults to `Current`.
 
 The effective profile controls the search order:
 - VS2022: `Scripts/VS2022/`, then `Scripts/Current/`, then `Scripts/Build/`
@@ -119,7 +119,7 @@ The effective profile controls the search order:
 
 ### Troubleshooting
 - "Could not find MSBuild.exe"
-  - Ensure Visual Studio 2022 is installed with MSBuild; rerun ModernBuild
+  - Ensure Visual Studio with the MSBuild component is installed; set `MSBUILDPATH` or `MSBUILD_PATH` if needed; rerun ModernBuild
 - `nuget.exe` not found
   - Put `nuget.exe` on PATH or in the repo’s `Scripts/` folder
 - "Project file not found: ..."

@@ -21,7 +21,9 @@
 - Run sample app:
   - `dotnet run --project "Source/Krypton Components/TestForm/TestForm.csproj" -c Debug`
 - Preset builds (Windows cmd):
-  - `Scripts/build-stable.cmd` | `Scripts/build-canary.cmd` | `Scripts/build-nightly.cmd`
+  - `Scripts/VS2022/build-stable.cmd` | `Scripts/VS2022/build-canary.cmd` | `Scripts/VS2022/build-nightly.cmd` (Visual Studio 2022)
+  - `Scripts/Current/build-stable.cmd` | `Scripts/Current/build-canary.cmd` | `Scripts/Current/build-nightly.cmd` (Visual Studio 2026 or later)
+  - Build scripts locate MSBuild via `Scripts\Common\find-msbuild.cmd` (`vswhere.exe`, then standard install paths). Profiles: `2019`, `2022`, `current` (newest VS major 18+), or a pinned major (`18`, `19`, …). Override with `MSBUILDPATH` or `MSBUILD_PATH` pointing at `MSBuild\Current\Bin`.
 - Outputs land in `Bin/<Configuration>/`. VS2019/full MSBuild builds only .NET Framework 4.x TFMs; supported TFMs include `net472`, `net48`, `net481`, `net8.0-windows`, `net9.0-windows`, `net10.0-windows`
 
 ## Coding Style & Naming Conventions

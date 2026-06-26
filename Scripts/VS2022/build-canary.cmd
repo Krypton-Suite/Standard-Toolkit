@@ -1,37 +1,16 @@
 @echo off
+REM Canary release build using the Scripts/VS2022/ toolset (Visual Studio 2022, profile "2022").
+REM MSBuild discovery: Scripts\Common\find-msbuild.cmd. Failure text comes from the helper; this script only pauses.
 setlocal EnableExtensions
 set "SCRIPT_DIR=%~dp0"
 pushd "%SCRIPT_DIR%"
 
-if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Preview\MSBuild\Current\Bin" goto vs17prev
-if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin" goto vs17ent
-if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin" goto vs17pro
-if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin" goto vs17com
-if exist "%ProgramFiles%\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin" goto vs17build
-
-echo "Unable to detect suitable environment. Check if VS 2022 is installed."
+call "%SCRIPT_DIR%..\Common\find-msbuild.cmd" 2022
+if errorlevel 1 (
 echo.
 pause
 goto exitbatch
-
-:vs17prev
-set "msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\Preview\MSBuild\Current\Bin"
-goto build
-
-:vs17ent
-set "msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin"
-goto build
-
-:vs17pro
-set "msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin"
-goto build
-
-:vs17com
-set "msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin"
-goto build
-
-:vs17build
-set "msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin"
+)
 goto build
 
 :build

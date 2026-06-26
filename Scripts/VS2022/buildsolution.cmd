@@ -10,34 +10,12 @@ if /I "%INPUT%"=="2022" goto vs2022build
 goto exitbatch
 
 :vs2022build
-if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Preview\MSBuild\Current\Bin" goto vs17prev
-if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin" goto vs17ent
-if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin" goto vs17pro
-if exist "%ProgramFiles%\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin" goto vs17com
-if exist "%ProgramFiles%\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin" goto vs17build
-
-echo "Unable to detect suitable environment. Check if VS 2022 is installed."
-goto exitbatch
+call "%SCRIPT_DIR%..\Common\find-msbuild.cmd" 2022
+if errorlevel 1 (
+echo.
 pause
-
-:vs17prev
-set "msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\Preview\MSBuild\Current\Bin"
-goto build2022
-
-:vs17ent
-set "msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin"
-goto build2022
-
-:vs17pro
-set "msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin"
-goto build2022
-
-:vs17com
-set "msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin"
-goto build2022
-
-:vs17build
-set "msbuildpath=%ProgramFiles%\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin"
+goto exitbatch
+)
 goto build2022
 
 :build2022
