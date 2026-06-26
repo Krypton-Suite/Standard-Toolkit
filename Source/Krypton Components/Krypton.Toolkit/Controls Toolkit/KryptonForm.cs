@@ -51,12 +51,11 @@ public class KryptonForm : VisualForm,
 				or PaletteContentStyle.HeaderCustom2
 				or PaletteContentStyle.HeaderCustom3)
 			{
-				// In RTL mode with RightToLeftLayout enabled, position title on the right (Far)
-				// The content layout system will position text before image when both are Far,
-				// so the order is: [Buttons] [Title] [Icon]
+				// RTL caption reading order (physical left → right):
+				// [Control box] [TextExtra] [Title] [Icon]
+				// Title is Far so it sits on the physical right, immediately before the icon.
 				if (_kryptonForm.RightToLeft == RightToLeft.Yes && _kryptonForm.RightToLeftLayout)
 				{
-					// Title should be Far (right side) so it appears on the right before the icon
 					return PaletteRelativeAlign.Far;
 				}
 
@@ -81,11 +80,9 @@ public class KryptonForm : VisualForm,
 				or PaletteContentStyle.HeaderCustom2
 				or PaletteContentStyle.HeaderCustom3)
 			{
-				// In RTL mode with RightToLeftLayout enabled, position TextExtra on the left (Near)
-				// so it appears after the control box buttons: [Buttons] [TextExtra] [Title] [Icon]
+				// TextExtra uses Near so it follows the control box on the physical left in RTL.
 				if (_kryptonForm.RightToLeft == RightToLeft.Yes && _kryptonForm.RightToLeftLayout)
 				{
-					// TextExtra should be Near (left side) so it appears after the buttons
 					return PaletteRelativeAlign.Near;
 				}
 			}
@@ -95,7 +92,7 @@ public class KryptonForm : VisualForm,
 
 		public override PaletteRelativeAlign GetContentImageH(PaletteContentStyle style, PaletteState state)
 		{
-			// In RTL mode with RightToLeftLayout enabled, position icon on the right (Far)
+			// Icon uses Far in RTL so it anchors on the physical right of the caption.
 			if (_kryptonForm.RightToLeft == RightToLeft.Yes && _kryptonForm.RightToLeftLayout)
 			{
 				return style switch
@@ -115,22 +112,66 @@ public class KryptonForm : VisualForm,
 			return base.GetContentImageH(style, state);
 		}
 
-		/// <inheritdoc/>
-		public override PaletteRelativeEdgeAlign GetButtonSpecEdge(PaletteButtonSpecStyle style)
-		{
-			if (_kryptonForm._formTrafficLightEdge != PaletteRelativeEdgeAlign.Inherit && IsFormWindowButtonSpecStyle(style))
-			{
-				return _kryptonForm._formTrafficLightEdge;
-			}
+        /// <inheritdoc/>
+        /// <remarks>
+        /// <para>
+        /// Form window button placement is resolved in two stages:
+        /// </para>
+        /// <list type="number">
+        /// <item>
+        /// <description>
+        /// <b>Palette edge</b> (<see cref="PaletteRelativeEdgeAlign"/> Near/Far) — which side of the
+        /// caption docker the buttons belong on. Office/Microsoft palettes declare Far; macOS palettes
+        /// declare Near for traffic-light glyphs.
+        /// </description>
+        /// </item>
+        /// <item>
+        /// <description>
+        /// <b>View dock</b> — <see cref="ButtonSpecManagerBase"/> maps that edge to
+        /// <see cref="ViewDockStyle"/> Left/Right. Custom form chrome does not rely on
+        /// <see cref="ViewDrawDocker.CalculateDock"/> mirroring for Far-edge buttons in RTL, so this
+        /// redirector remaps palette Far → Near when RTL is active (issue #3786).
+        /// </description>
+        /// </item>
+        /// </list>
+        /// <para>
+        /// Collection order (<see cref="SyncFormFixedButtonSpecOrder"/>) is separate from edge placement:
+        /// the same [min, max, close] collection yields Min→Max→Close in LTR (right side) and
+        /// Close→Max→Min in RTL (left side) because the docker inserts each spec before the caption
+        /// spacer and lays out mirrored edges differently.
+        /// </para>
+        /// </remarks>
+        public override PaletteRelativeEdgeAlign GetButtonSpecEdge(PaletteButtonSpecStyle style)
+        {
+            // Per-form override wins (e.g. macOS palette with FormTrafficLightEdge = Far keeps a
+            // Windows-style control box on the Far side without the RTL Far→Near remap below).
+            if (_kryptonForm._formTrafficLightEdge != PaletteRelativeEdgeAlign.Inherit && IsFormWindowButtonSpecStyle(style))
+            {
+                return _kryptonForm._formTrafficLightEdge;
+            }
 
-			return base.GetButtonSpecEdge(style);
-		}
-	}
+            var edge = base.GetButtonSpecEdge(style);
 
-	/// <summary>
-	/// Collection for managing ButtonSpecAny instances.
-	/// </summary>
-	public class FormButtonSpecCollection : ButtonSpecCollection<ButtonSpecAny>
+            if (!IsFormWindowButtonSpecStyle(style)
+                || !_kryptonForm.UsesRtlFormButtonLayout())
+            {
+                return edge;
+            }
+
+            // Standard palettes: FormClose/Min/Max are Far in LTR (physical right).
+            // In RTL the control box must move to the physical left (leading edge). Remap Far→Near
+            // so ButtonSpecManagerDraw docks Left. Do not remap native Near-edge palettes (macOS
+            // traffic lights) — they must stay on the physical left in both LTR and RTL.
+            return edge == PaletteRelativeEdgeAlign.Far
+                ? PaletteRelativeEdgeAlign.Near
+                : edge;
+        }
+    }
+
+    /// <summary>
+    /// Collection for managing ButtonSpecAny instances.
+    /// </summary>
+    public class FormButtonSpecCollection : ButtonSpecCollection<ButtonSpecAny>
 	{
 		#region Identity
 		/// <summary>
@@ -160,6 +201,7 @@ public class KryptonForm : VisualForm,
 		}
 		#endregion
 	}
+
 	#endregion
 
 	#region Static Fields
@@ -1044,37 +1086,43 @@ public class KryptonForm : VisualForm,
 	private bool ShouldSerializeFormTitleAlign() => _formTitleAlign != PaletteRelativeAlign.Near;
 	private void ResetFormTitleAlign() => _formTitleAlign = PaletteRelativeAlign.Near;
 
-	/// <summary>
-	/// Gets and sets where form minimize/maximize/close buttons are placed for macOS-style palettes.
-	/// <see cref="PaletteRelativeEdgeAlign.Inherit"/> uses the palette default (left for Aqua/Mac).
-	/// <see cref="PaletteRelativeEdgeAlign.Far"/> places traffic-light glyphs on the right in standard Windows order.
-	/// </summary>
-	[Category(@"Visuals")]
-	[Description(@"Placement of form traffic-light buttons. Inherit uses the palette; Far places them on the right like a standard Windows application.")]
-	[RefreshProperties(RefreshProperties.All)]
-	[DefaultValue(PaletteRelativeEdgeAlign.Inherit)]
-	public PaletteRelativeEdgeAlign FormTrafficLightEdge
-	{
-		get => _formTrafficLightEdge;
+    /// <summary>
+    /// Gets and sets where form minimize/maximize/close buttons are placed for macOS-style palettes.
+    /// </summary>
+    /// <remarks>
+    /// <see cref="PaletteRelativeEdgeAlign.Inherit"/> uses the palette default (Near / traffic lights for
+    /// macOS and OS X Aqua). <see cref="PaletteRelativeEdgeAlign.Far"/> forces a standard Windows
+    /// control box on the Far edge (physical right in LTR). When set to Far, the RTL Far→Near remap in
+    /// <see cref="KryptonForm.FormPaletteRedirect.GetButtonSpecEdge(PaletteButtonSpecStyle)"/> is bypassed so the developer controls edge
+    /// explicitly. <see cref="PaletteRelativeEdgeAlign.Near"/> forces traffic-light placement on the
+    /// Near edge regardless of palette.
+    /// </remarks>
+    [Category(@"Visuals")]
+    [Description(@"Placement of form traffic-light buttons. Inherit uses the palette; Far places them on the right like a standard Windows application.")]
+    [RefreshProperties(RefreshProperties.All)]
+    [DefaultValue(PaletteRelativeEdgeAlign.Inherit)]
+    public PaletteRelativeEdgeAlign FormTrafficLightEdge
+    {
+        get => _formTrafficLightEdge;
 
-		set
-		{
-			if (_formTrafficLightEdge != value)
-			{
-				_formTrafficLightEdge = value;
-				ApplyLeftTrafficLightFormChromeIfNeeded();
-				PerformNeedPaint(true);
-			}
-		}
-	}
-	private bool ShouldSerializeFormTrafficLightEdge() => _formTrafficLightEdge != PaletteRelativeEdgeAlign.Inherit;
-	private void ResetFormTrafficLightEdge() => _formTrafficLightEdge = PaletteRelativeEdgeAlign.Inherit;
+        set
+        {
+            if (_formTrafficLightEdge != value)
+            {
+                _formTrafficLightEdge = value;
+                ApplyLeftTrafficLightFormChromeIfNeeded();
+                PerformNeedPaint(true);
+            }
+        }
+    }
+    private bool ShouldSerializeFormTrafficLightEdge() => _formTrafficLightEdge != PaletteRelativeEdgeAlign.Inherit;
+    private void ResetFormTrafficLightEdge() => _formTrafficLightEdge = PaletteRelativeEdgeAlign.Inherit;
 
 
-	/// <summary>
-	/// Gets and sets the chrome group border style.
-	/// </summary>
-	[Category(@"Visuals")]
+    /// <summary>
+    /// Gets and sets the chrome group border style.
+    /// </summary>
+    [Category(@"Visuals")]
 	[Description(@"Chrome group border style.")]
 	[DefaultValue(PaletteBorderStyle.FormMain)]
 	public PaletteBorderStyle GroupBorderStyle
@@ -1755,9 +1803,22 @@ public class KryptonForm : VisualForm,
 	/// Raises the Shown event.
 	/// </summary>
 	/// <param name="e">An EventArgs containing event data.</param>
+	/// <remarks>
+	/// Host code (e.g. TestForm demos) may set <see cref="RightToLeft"/> after <see cref="OnLoad"/>
+	/// completes. Re-sync button collection order and recreate views so edge placement and visual
+	/// sequence match the final RTL/LTR state (issue #3786).
+	/// </remarks>
 	protected override void OnShown(EventArgs e)
 	{
 		base.OnShown(e);
+
+		// Host code may set palette/RTL after OnLoad; re-sync and recreate so views match collection order.
+		SyncFormFixedButtonSpecOrder();
+		SyncLeftTrafficLightFormButtonOrderIfNeeded();
+		if (ControlBox)
+		{
+			_buttonManager?.RecreateButtons();
+		}
 	}
 
 	/// <summary>
@@ -1833,9 +1894,17 @@ public class KryptonForm : VisualForm,
 	}
 
 	/// <inheritdoc />
+	/// <remarks>
+	/// Both <see cref="RightToLeft"/> and <see cref="RightToLeftLayout"/> are required for form RTL
+	/// chrome. Either property change can arrive first, so always re-sync collection order and
+	/// recreate button views on both handlers.
+	/// </remarks>
 	protected override void OnRightToLeftChanged(EventArgs e)
 	{
 		base.OnRightToLeftChanged(e);
+
+		SyncFormFixedButtonSpecOrder();
+		SyncLeftTrafficLightFormButtonOrderIfNeeded();
 
 		// Recreate buttons when RTL changes to update their positions
 		_buttonManager?.RecreateButtons();
@@ -1844,9 +1913,13 @@ public class KryptonForm : VisualForm,
 	}
 
 	/// <inheritdoc />
+	/// <remarks>See <see cref="OnRightToLeftChanged"/>.</remarks>
 	protected override void OnRightToLeftLayoutChanged(EventArgs e)
 	{
 		base.OnRightToLeftLayoutChanged(e);
+
+		SyncFormFixedButtonSpecOrder();
+		SyncLeftTrafficLightFormButtonOrderIfNeeded();
 
 		// Recreate buttons when RTL changes to update their positions
 		_buttonManager?.RecreateButtons();
@@ -3068,114 +3141,153 @@ public class KryptonForm : VisualForm,
 		}
 	}
 
-	private static bool IsFormWindowButtonSpecStyle(PaletteButtonSpecStyle style) =>
-	   style switch
-	   {
-		   PaletteButtonSpecStyle.FormClose or PaletteButtonSpecStyle.FormMin or PaletteButtonSpecStyle.FormMax
-			   or PaletteButtonSpecStyle.FormRestore or PaletteButtonSpecStyle.FormHelp => true,
-		   _ => false
-	   };
+    private static bool IsFormWindowButtonSpecStyle(PaletteButtonSpecStyle style) =>
+       style switch
+       {
+           PaletteButtonSpecStyle.FormClose or PaletteButtonSpecStyle.FormMin or PaletteButtonSpecStyle.FormMax
+               or PaletteButtonSpecStyle.FormRestore or PaletteButtonSpecStyle.FormHelp => true,
+           _ => false
+       };
 
-	private bool UsesLeftTrafficLightFormButtons() =>
-		Redirector.GetButtonSpecEdge(PaletteButtonSpecStyle.FormClose) == PaletteRelativeEdgeAlign.Near;
+    /// <summary>
+    /// Returns true when the resolved palette places form window buttons on the Near edge
+    /// (macOS / OS X Aqua traffic lights), as opposed to the standard Office Far-edge control box.
+    /// </summary>
+    /// <remarks>
+    /// Uses the palette's <em>native</em> edge from <see cref="PaletteBase.GetButtonSpecEdge"/>,
+    /// not <see cref="VisualForm.Redirector"/>. After issue #3786, the redirector remaps Far→Near for standard
+    /// palettes in RTL; consulting the redirector here would mis-classify RTL Office forms as
+    /// traffic-light layouts and apply the wrong collection order.
+    /// </remarks>
+    private bool UsesLeftTrafficLightFormButtons()
+    {
+        if (_formTrafficLightEdge != PaletteRelativeEdgeAlign.Inherit)
+        {
+            return _formTrafficLightEdge == PaletteRelativeEdgeAlign.Near;
+        }
 
-	private void SyncLeftTrafficLightFormButtonOrderIfNeeded()
+        var palette = GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
+        return palette.GetButtonSpecEdge(PaletteButtonSpecStyle.FormClose) == PaletteRelativeEdgeAlign.Near;
+    }
+
+    /// <summary>
+    /// True when WinForms RTL layout is fully enabled for this form.
+    /// </summary>
+    /// <remarks>Matches <see cref="CommonHelper.IsRightToLeftLayout"/>.</remarks>
+    private bool UsesRtlFormButtonLayout() =>
+        RightToLeftLayout && RightToLeft == RightToLeft.Yes;
+
+    /// <summary>
+    /// Ensures <see cref="_buttonSpecsFixed"/> collection order matches the active palette and edge.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// <see cref="ButtonSpecManagerDraw"/> inserts each fixed spec before the caption metric spacer.
+    /// That means collection index order is <b>not</b> the same as left-to-right visual order:
+    /// </para>
+    /// <list type="bullet">
+    /// <item>
+    /// <description>
+    /// <b>Far-edge / Windows control box</b> — collection [min, max, close] for both LTR and RTL.
+    /// LTR (dock right): Min → Max → Close. RTL (dock left after Far→Near remap): Close → Max → Min.
+    /// </description>
+    /// </item>
+    /// <item>
+    /// <description>
+    /// <b>Near-edge / traffic lights</b> — collection [max, min, close] so visuals read
+    /// Close (red) → Min (yellow) → Max (green) on the physical left.
+    /// </description>
+    /// </item>
+    /// </list>
+    /// <para>
+    /// Called from palette/load/RTL change paths; recreates button views when order was wrong.
+    /// </para>
+    /// </remarks>
+    private void SyncLeftTrafficLightFormButtonOrderIfNeeded()
+    {
+        bool leftTrafficLights = UsesLeftTrafficLightFormButtons();
+        int closeIndex = _buttonSpecsFixed.IndexOf(ButtonSpecClose);
+        int minIndex = _buttonSpecsFixed.IndexOf(ButtonSpecMin);
+        int maxIndex = _buttonSpecsFixed.IndexOf(ButtonSpecMax);
+        if (closeIndex < 0 || minIndex < 0 || maxIndex < 0)
+        {
+            return;
+        }
+
+        // Near-edge traffic lights: collection [max, min, close].
+        bool macCollectionOrder = maxIndex < minIndex && minIndex < closeIndex;
+        // Far-edge Windows control box: collection [min, max, close] (same indices for LTR and RTL).
+        bool windowsCollectionOrder = minIndex < maxIndex && maxIndex < closeIndex;
+        if (leftTrafficLights && !macCollectionOrder)
+        {
+            _buttonSpecsFixed.Clear();
+            _buttonSpecsFixed.AddRange([ButtonSpecMax, ButtonSpecMin, ButtonSpecClose]);
+            _buttonManager.RecreateButtons();
+        }
+        else if (!leftTrafficLights && !windowsCollectionOrder)
+        {
+            SyncFormFixedButtonSpecOrder();
+            _buttonManager.RecreateButtons();
+        }
+    }
+
+    private void ApplyLeftTrafficLightFormChromeIfNeeded()
+    {
+        // Correct collection order first (traffic-light vs Windows sequences).
+        SyncLeftTrafficLightFormButtonOrderIfNeeded();
+
+        if (!UsesLeftTrafficLightFormButtons())
+        {
+            return;
+        }
+
+        // macOS-style chrome defaults: centred title, no form icon in the caption.
+        if (FormTitleAlign is PaletteRelativeAlign.Near or PaletteRelativeAlign.Inherit)
+        {
+            FormTitleAlign = PaletteRelativeAlign.Center;
+        }
+
+        AllowIconDisplay = false;
+    }
+
+    private void ApplyMacOSFormWindowEffectsIfNeeded()
+    {
+        if (GetResolvedPalette() is PaletteMacOSBase macPalette)
+        {
+            MacOSFormChromeHelper.ApplyWindowEffects(this, macPalette);
+            return;
+        }
+
+        if (IsHandleCreated)
+        {
+            MacOSFormChromeHelper.ClearWindowEffects(this);
+        }
+    }
+
+    /// <summary>
+    /// Rebuilds <see cref="_buttonSpecsFixed"/> in the order required by the current palette.
+    /// </summary>
+    /// <remarks>
+    /// Single source of truth for Min/Max/Close collection order. Visual placement (left vs right)
+    /// is handled separately by <see cref="KryptonForm.FormPaletteRedirect.GetButtonSpecEdge(PaletteButtonSpecStyle)"/> and
+    /// <see cref="ButtonSpecManagerBase.GetButtonSpecDockStyle"/>.
+    /// <para>
+    /// Near-edge traffic-light layouts (macOS, OS X Aqua, or <see cref="FormTrafficLightEdge"/> = Near)
+    /// use collection [max, min, close]. All other layouts use Windows collection [min, max, close].
+    /// </para>
+    /// </remarks>
+    private void SyncFormFixedButtonSpecOrder()
 	{
-		bool leftTrafficLights = UsesLeftTrafficLightFormButtons();
-		int closeIndex = _buttonSpecsFixed.IndexOf(ButtonSpecClose);
-		int minIndex = _buttonSpecsFixed.IndexOf(ButtonSpecMin);
-		int maxIndex = _buttonSpecsFixed.IndexOf(ButtonSpecMax);
-		if (closeIndex < 0 || minIndex < 0 || maxIndex < 0)
-		{
-			return;
-		}
-
-		// ButtonSpecManagerDraw inserts each spec at index 0, so collection order is the inverse of
-		// left-to-right layout. Target visuals: mac left = red, yellow, green; Windows right = yellow, green, red.
-		bool macCollectionOrder = closeIndex < minIndex && minIndex < maxIndex;
-		bool windowsCollectionOrder = maxIndex < minIndex && minIndex < closeIndex;
-		if (leftTrafficLights && !macCollectionOrder)
-		{
-			_buttonSpecsFixed.Clear();
-			_buttonSpecsFixed.AddRange([ButtonSpecClose, ButtonSpecMin, ButtonSpecMax]);
-			_buttonManager.RecreateButtons();
-		}
-		else if (!leftTrafficLights && !windowsCollectionOrder)
-		{
-			_buttonSpecsFixed.Clear();
-			_buttonSpecsFixed.AddRange([ButtonSpecMax, ButtonSpecMin, ButtonSpecClose]);
-			_buttonManager.RecreateButtons();
-		}
-	}
-
-	private void ApplyLeftTrafficLightFormChromeIfNeeded()
-	{
-		SyncLeftTrafficLightFormButtonOrderIfNeeded();
-
-		if (!UsesLeftTrafficLightFormButtons())
-		{
-			return;
-		}
-
-		if (FormTitleAlign is PaletteRelativeAlign.Near or PaletteRelativeAlign.Inherit)
-		{
-			FormTitleAlign = PaletteRelativeAlign.Center;
-		}
-
-		AllowIconDisplay = false;
-	}
-
-	private void ApplyMacOSFormWindowEffectsIfNeeded()
-	{
-		if (GetResolvedPalette() is PaletteMacOSBase macPalette)
-		{
-			MacOSFormChromeHelper.ApplyWindowEffects(this, macPalette);
-			return;
-		}
-
-		if (IsHandleCreated)
-		{
-			MacOSFormChromeHelper.ClearWindowEffects(this);
-		}
-	}
-
-	/// <summary>
-	/// Synchronizes the form fixed button spec order.
-	/// </summary>
-	private void SyncFormFixedButtonSpecOrder()
-	{
-		var palette = GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
 		_buttonSpecsFixed.Clear();
-		if (palette is PaletteMacOSBase)
+		if (UsesLeftTrafficLightFormButtons())
 		{
-			if (PaletteValues.UseWindowsControlBoxLayout)
-			{
-				// Windows layout is Close, Min, Max (regardless of RTL or LTR)
-				if (RightToLeftLayout && RightToLeft == RightToLeft.Yes)
-				{
-					_buttonSpecsFixed.AddRange([ButtonSpecClose, ButtonSpecMax, ButtonSpecMin]);
-				}
-				else
-				{
-					_buttonSpecsFixed.AddRange([ButtonSpecMin, ButtonSpecMax, ButtonSpecClose]);
-				}
-			}
-			else
-			{
-				// MacOS layout is Close, Min, Max (regardless of RTL or LTR)
-				_buttonSpecsFixed.AddRange([ButtonSpecClose, ButtonSpecMin, ButtonSpecMax]);
-			}
+			// Near-edge traffic lights: collection [max, min, close] → Close → Min → Max along the bar.
+			_buttonSpecsFixed.AddRange([ButtonSpecMax, ButtonSpecMin, ButtonSpecClose]);
 		}
 		else
 		{
-			if (RightToLeftLayout && RightToLeft == RightToLeft.Yes)
-			{
-				_buttonSpecsFixed.AddRange([ButtonSpecClose, ButtonSpecMax, ButtonSpecMin]);
-			}
-			else
-			{
-				_buttonSpecsFixed.AddRange([ButtonSpecMin, ButtonSpecMax, ButtonSpecClose]);
-			}
+			// Standard Office / Far-edge control box (including macOS + FormTrafficLightEdge = Far).
+			_buttonSpecsFixed.AddRange([ButtonSpecMin, ButtonSpecMax, ButtonSpecClose]);
 		}
 	}
 
