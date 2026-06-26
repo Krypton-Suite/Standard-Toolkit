@@ -26,6 +26,7 @@
 - `Scripts/`: Build and packaging scripts; `run.cmd` (root) launches an interactive menu; scripts live under `Scripts/VS2022/`, `Scripts/Current/`, `Scripts/Build/` (e.g., `build-stable.cmd`, `build-canary.cmd`, `build-nightly.cmd`, `build.proj`)
 - `Bin/`: Build outputs by configuration (e.g., `Bin/Debug`)
 - `Documents/`, `Assets/`, `Logs/`: Docs, images, and build logs
+- `Documents/Changelog/Changelog.md`: User-facing release notes for completed bugs and features
 - `Documents/Development/`: In-depth developer guides for completed features (APIs, architecture, usage); not listed in `Documents/Changelog/Changelog.md` or `Scripts/ModernBuild/README.md`
 
 ## Build, Test, and Development Commands
@@ -143,15 +144,52 @@ Each guide should be **in-depth** and **maintainer-focused**, covering as applic
 
 Changelog and ModernBuild README stay focused on user-facing release history and build tooling respectively. Developer guides are discovered via `Documents/Development/` and code cross-references only.
 
+## Changelog
+
+When a **bug fix** or **feature** is completed, add an entry to `Documents/Changelog/Changelog.md` in the same change set (or immediately before merge).
+
+### When to update
+
+- **Resolved** — bug fixes, regressions, and defect corrections tied to an issue.
+- **Implemented** — new features, enhancements, and new public capability.
+- Skip changelog updates for comment-only work, internal refactors with no user-visible effect, and `Documents/Development/` guide files (those are separate from release notes).
+
+### Where to add
+
+- Append to the **current in-progress release** section at the top of the file (the first `##` heading after the table of contents), e.g. `## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026`.
+- Add new bullets **after** the section heading, before older entries in that section (newest first within the section).
+- If no suitable section exists yet, follow the heading pattern used by adjacent releases and add a table-of-contents link.
+
+### Entry format
+
+Match existing style:
+
+```markdown
+* Resolved [#1234](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1234), Short user-facing summary of the fix.
+* Implemented [#5678](https://github.com/Krypton-Suite/Standard-Toolkit/issues/5678), Short user-facing summary of the feature.
+```
+
+- Prefix with `Resolved` or `Implemented` (same verbs as existing entries).
+- Link the GitHub issue when one exists (`[#NNNN](https://github.com/Krypton-Suite/Standard-Toolkit/issues/NNNN)`).
+- One line per item; use indented sub-bullets only when extra user-facing detail is needed (see existing entries).
+- Write for **consumers** of the toolkit (what changed and why it matters), not implementation detail—that belongs in `Documents/Development/` or code comments.
+
+### Do not add to the changelog
+
+- Entries for developer guides under `Documents/Development/`.
+- References to `Scripts/ModernBuild/README.md` or build-script internals unless the change is user-facing.
+
 ## Testing Guidelines
 
 - No formal unit test suite. Validate changes via `TestForm` scenarios and harnesses under `Source/TestHarnesses`
 - When fixing a bug, add/adjust a minimal repro in `TestForm` or a harness and describe manual steps in the PR
+- When completing a bug fix or feature, update `Documents/Changelog/Changelog.md` per **Changelog** in this file
 
 ## Commit & Pull Request Guidelines
 
 - Commits: short, imperative subject; reference issues/PRs (e.g., `Fix autosizing (#2433)` or `2439 V100 datecell autosizing`)
 - PRs: clear description, linked issues, screenshots/gifs for UI changes, notes on breaking changes/TFM impact
+- Completed bugs and features: update `Documents/Changelog/Changelog.md` (see **Changelog** above); add a `Documents/Development/` guide when the feature warrants in-depth maintainer docs.
 - Do not add routine validation noise to commit messages or PR descriptions. Mention checks only when they are essential context, unusual, failed, or specifically requested.
 
 ## Security & Configuration Tips
