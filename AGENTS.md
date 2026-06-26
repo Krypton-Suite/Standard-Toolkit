@@ -65,6 +65,48 @@
 - WinForms designer: keep object declarations at file bottom; initialize in `*.Designer.cs` `InitializeComponent()`
 - Constraint: do not use `yield return` inside `catch` blocks
 
+## Code Documentation Guidelines
+
+When asked to review or document code, add comments only where they help a maintainer understand **non-obvious** behavior. Do not narrate what the code already says.
+
+### What to comment
+
+- **Class-level summaries** for types that participate in a larger model (composite trees, state machines, store/restore flows, drag hosts). Name sibling types and the role of the class in the hierarchy.
+- **Inline comments** at decision points for:
+  - Multi-step algorithms (store-then-restore, orphan handling, greedy layout shrink)
+  - Propagation (`PropogateAction`, `StartUpdate`/`EndUpdate`, reverse child iteration)
+  - State machines and message-filter / focus edge cases
+  - Drag-drop choreography (hidden float window reuse, target priority, placeholder pages)
+  - XML persistence quirks (element order, attribute meaning, misnamed APIs, buffer length)
+  - Geometry or ordering that is not obvious from property names (z-order, hot vs draw rects, remainder path parsing)
+- **Brief region comments** above enum groups that act as a catalog for a subsystem (e.g. propagation actions).
+
+### What not to comment
+
+- Obvious boilerplate (`// This constructor creates an instance of X`, `// Return the result`, restating parameter names).
+- Every public member when XML documentation already describes intent adequately.
+- **Event Args**, **Resources**, **Designer** / **`.Designer.cs`**, and other thin property-bag or generated files unless logic is non-trivial.
+- Large blocks of unchanged legacy code unrelated to the task.
+
+### Style
+
+- Keep comments **clear and concise** — one or two sentences; prefer plain language over jargon.
+- Preserve existing comments and XML docs; extend or clarify them surgically rather than replacing wholesale.
+- Use `///` XML summaries for types and public API; use `//` for inline implementation notes.
+- In XML, use `<see cref="..."/>` and `<c>...</c>` to link related types and enum values.
+- Match surrounding voice (this codebase often uses short `//` notes inside `switch` arms and multi-step flows).
+
+### Prioritization (large modules)
+
+For substantial packages (e.g. `Krypton.Docking`), work in this order:
+
+1. Root orchestrator and base abstractions (manager, element base, definitions/enums).
+2. Core implementation layers (space/edge/group elements, primary controls).
+3. Specialized flows (auto-hidden slide, drag targets, persistence load/save).
+4. Thin subclasses and adapters last — often a one-line class summary is enough.
+
+Validate documentation-only changes with a targeted `dotnet build` of the affected project when practical.
+
 ## Testing Guidelines
 
 - No formal unit test suite. Validate changes via `TestForm` scenarios and harnesses under `Source/TestHarnesses`
