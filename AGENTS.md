@@ -167,10 +167,12 @@ Match existing style:
 ```markdown
 * Resolved [#1234](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1234), Short user-facing summary of the fix.
 * Implemented [#5678](https://github.com/Krypton-Suite/Standard-Toolkit/issues/5678), Short user-facing summary of the feature.
+* Implemented [#9012](https://github.com/Krypton-Suite/Standard-Toolkit/issues/9012), **[Breaking Change]** Summary of what broke and what consumers must update.
 ```
 
 - Prefix with `Resolved` or `Implemented` (same verbs as existing entries).
 - Link the GitHub issue when one exists (`[#NNNN](https://github.com/Krypton-Suite/Standard-Toolkit/issues/NNNN)`).
+- If the change is **breaking** for consumers (API removal/rename, behavior change requiring migration, assembly/namespace moves), insert `**[Breaking Change]**` immediately after the issue link comma and before the summary.
 - One line per item; use indented sub-bullets only when extra user-facing detail is needed (see existing entries).
 - Write for **consumers** of the toolkit (what changed and why it matters), not implementation detail—that belongs in `Documents/Development/` or code comments.
 
