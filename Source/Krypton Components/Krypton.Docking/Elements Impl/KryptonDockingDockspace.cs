@@ -13,7 +13,8 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Provides docking functionality within a control edge using a KryptonDockspace.
+/// Docked host on a control edge. Raises <see cref="HasVisibleCells"/> / <see cref="HasNoVisibleCells"/>
+/// when the last visible page in all cells disappears so the dockspace control can hide itself.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]

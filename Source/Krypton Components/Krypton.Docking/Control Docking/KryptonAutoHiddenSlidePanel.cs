@@ -17,7 +17,9 @@ using Timer = System.Windows.Forms.Timer;
 namespace Krypton.Docking;
 
 /// <summary>
-/// Extends the KryptonPanel to work as a panel for hosting the display of a sliding in/out page.
+/// Animated slide-out host for auto-hidden content. State machine:
+/// Hidden → SlidingOut → Showing → SlidingIn → Hidden. <see cref="IMessageFilter"/> dismisses the panel
+/// when focus or the mouse leaves the slide/dockspace area; separator drag resizes against client minimums.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]
@@ -28,6 +30,7 @@ public class KryptonAutoHiddenSlidePanel : KryptonPanel,
     #region Static Fields
 
     private const int SLIDE_MINIMUM = 27;
+    // int.MaxValue advances the full distance each tick (instant slide); 16 would animate incrementally.
     private const int SLIDE_DISTANCE = int.MaxValue; // = 16;
     private const int SLIDE_INTERVAL = 15;
     private const int CLIENT_MINIMUM = 22;
@@ -160,7 +163,7 @@ public class KryptonAutoHiddenSlidePanel : KryptonPanel,
         // Do not show ourselves until we are needed
         Visible = false;
 
-        // Add a Button that is not showing and used to push focus away from the dockspace
+        // Off-screen focus sink so keyboard focus leaves the slide dockspace when sliding in.
         _dummyTarget = new Button
         {
             Location = new Point(-200, -200),
@@ -702,7 +705,7 @@ public class KryptonAutoHiddenSlidePanel : KryptonPanel,
         var slideSize = new Size(separatorPreferred.Width + dockspacePreferred.Width,
             separatorPreferred.Height + dockspacePreferred.Height);
 
-        // Find the maximum allowed size based on the owning control client area reduced by a sensible minimum
+        // Clamp slide size to remaining client area minus tab strips on other edges.
         Size innerSize = _control.ClientRectangle.Size;
         innerSize.Width -= CLIENT_MINIMUM;
         innerSize.Height -= CLIENT_MINIMUM;

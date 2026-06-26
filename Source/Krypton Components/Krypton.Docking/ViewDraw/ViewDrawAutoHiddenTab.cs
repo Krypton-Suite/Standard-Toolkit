@@ -14,7 +14,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// View element that can draw an auto hidden tab based on a KryptonPage as the source.
+/// Renders one auto-hidden tab from page palette state; orientation follows the dock edge.
 /// </summary>
 internal class ViewDrawAutoHiddenTab : ViewDrawButton,
     IContentValues

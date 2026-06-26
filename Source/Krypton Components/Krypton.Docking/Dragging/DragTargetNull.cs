@@ -35,6 +35,7 @@ public class DragTargetNull : DragTarget
     /// <param name="data">Data to pass to the target to process drop.</param>
     /// <returns>Drop was performed and the source can perform any removal of pages as required.</returns>
     public override bool PerformDrop(Point screenPt, PageDragEndData? data) => true;
+    // Returning true tells the drag source not to remove pages (no valid drop occurred).
 
     #endregion
 }
