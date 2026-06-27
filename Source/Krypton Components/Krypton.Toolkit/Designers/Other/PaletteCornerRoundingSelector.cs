@@ -31,16 +31,21 @@ internal partial class PaletteCornerRoundingSelector : UserControl
     {
         get
         {
-            if (checkBoxInherit.Checked)
-            {
-                return PaletteCornerRounding.Inherit;
-            }
-
-            return new PaletteCornerRounding(
+            PaletteCornerRounding rounding = new PaletteCornerRounding(
                 GetCornerValue(checkBoxTopLeft, numericUpDownTopLeft),
                 GetCornerValue(checkBoxTopRight, numericUpDownTopRight),
                 GetCornerValue(checkBoxBottomRight, numericUpDownBottomRight),
                 GetCornerValue(checkBoxBottomLeft, numericUpDownBottomLeft));
+
+            if (rounding.TopLeft == PaletteCornerRounding.InheritValue
+                && rounding.TopRight == PaletteCornerRounding.InheritValue
+                && rounding.BottomRight == PaletteCornerRounding.InheritValue
+                && rounding.BottomLeft == PaletteCornerRounding.InheritValue)
+            {
+                return PaletteCornerRounding.Inherit;
+            }
+
+            return rounding;
         }
 
         set
@@ -116,21 +121,18 @@ internal partial class PaletteCornerRoundingSelector : UserControl
         numericUpDownBottomLeft.Value = 0m;
     }
 
+    private bool HasAnyCornerOverride() =>
+        checkBoxTopLeft.Checked
+        || checkBoxTopRight.Checked
+        || checkBoxBottomRight.Checked
+        || checkBoxBottomLeft.Checked;
+
     private void UpdateCornerControlStates()
     {
-        bool inheritAll = checkBoxInherit.Checked;
-        labelOr.Enabled = !inheritAll;
-
-        UpdateCornerRow(checkBoxTopLeft, numericUpDownTopLeft, inheritAll);
-        UpdateCornerRow(checkBoxTopRight, numericUpDownTopRight, inheritAll);
-        UpdateCornerRow(checkBoxBottomRight, numericUpDownBottomRight, inheritAll);
-        UpdateCornerRow(checkBoxBottomLeft, numericUpDownBottomLeft, inheritAll);
-    }
-
-    private static void UpdateCornerRow(CheckBox checkBox, NumericUpDown numericUpDown, bool inheritAll)
-    {
-        checkBox.Enabled = !inheritAll;
-        numericUpDown.Enabled = !inheritAll && checkBox.Checked;
+        numericUpDownTopLeft.Enabled = checkBoxTopLeft.Checked;
+        numericUpDownTopRight.Enabled = checkBoxTopRight.Checked;
+        numericUpDownBottomRight.Enabled = checkBoxBottomRight.Checked;
+        numericUpDownBottomLeft.Enabled = checkBoxBottomLeft.Checked;
     }
 
     private void checkBoxInherit_CheckedChanged(object? sender, EventArgs e)
@@ -153,6 +155,19 @@ internal partial class PaletteCornerRoundingSelector : UserControl
         if (_loadingValue)
         {
             return;
+        }
+
+        if (HasAnyCornerOverride())
+        {
+            _loadingValue = true;
+            checkBoxInherit.Checked = false;
+            _loadingValue = false;
+        }
+        else
+        {
+            _loadingValue = true;
+            checkBoxInherit.Checked = true;
+            _loadingValue = false;
         }
 
         UpdateCornerControlStates();
