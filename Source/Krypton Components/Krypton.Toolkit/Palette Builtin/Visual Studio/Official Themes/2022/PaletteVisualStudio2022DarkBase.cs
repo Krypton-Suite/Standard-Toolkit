@@ -110,6 +110,13 @@ public abstract class PaletteVisualStudio2022DarkBase : PaletteVisualStudioBase
         }
 
         var color = GetSchemeColor(SchemeBaseColors.TextListItem);
+        if (!color.IsEmpty)
+        {
+            return color;
+        }
+
+        // Backward compatible: list items previously followed TextLabelControl before #880.
+        color = GetSchemeColor(SchemeBaseColors.TextLabelControl);
         return color.IsEmpty ? Color.White : color;
     }
 }
