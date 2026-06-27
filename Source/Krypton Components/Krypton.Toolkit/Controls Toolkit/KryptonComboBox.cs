@@ -959,6 +959,7 @@ public class KryptonComboBox : VisualControlBase,
     private ButtonSpecAccessibilityProxyManager? _buttonSpecAccessibilityProxyManager;
     private readonly ViewLayoutDocker _drawDockerInner;
     private readonly ViewDrawDocker _drawDockerOuter;
+    private readonly InputPulsingBorderViewIntegration _pulsingBorder;
     private readonly ViewLayoutFill _layoutFill;
     private readonly InternalComboBox _comboBox;
     private readonly InternalPanel _comboHolder;
@@ -1285,6 +1286,7 @@ public class KryptonComboBox : VisualControlBase,
         _comboBox.Validated += OnComboBoxValidated;
         _comboHolder = new InternalPanel(this);
         _comboHolder.Controls.Add(_comboBox);
+        CueHint.AttachAnimation(ShouldAnimateCueHint, () => _comboBox.Invalidate());
 
         // Create the element that fills the remainder space and remembers fill rectangle
         _layoutFill = new ViewLayoutFill(_comboHolder);
@@ -1301,8 +1303,8 @@ public class KryptonComboBox : VisualControlBase,
             { _drawDockerInner, ViewDockStyle.Fill }
         };
 
-        // Create the view manager instance
-        ViewManager = new ViewManager(this, _drawDockerOuter);
+        _pulsingBorder = new InputPulsingBorderViewIntegration(this, NeedPaintDelegate, () => IsActive, GetComboBoxTripleState, _drawDockerOuter);
+        ViewManager = new ViewManager(this, _pulsingBorder.ViewRoot);
 
         // Create button specification collection manager
         _buttonManager = new ButtonSpecManagerLayout(this, Redirector, ButtonSpecs, null,
@@ -1359,6 +1361,10 @@ public class KryptonComboBox : VisualControlBase,
             _buttonManager?.Destruct();
             _buttonSpecAccessibilityProxyManager?.Dispose();
             _buttonSpecAccessibilityProxyManager = null;
+
+            _pulsingBorder.Dispose();
+
+            CueHint.DisposeAnimation();
         }
 
         base.Dispose(disposing);
@@ -1741,10 +1747,21 @@ public class KryptonComboBox : VisualControlBase,
             if (_alwaysActive != value)
             {
                 _alwaysActive = value;
+                _pulsingBorder.UpdateAnimationState();
                 PerformNeedPaint(true);
             }
         }
     }
+
+    /// <summary>
+    /// Gets access to the optional pulsing bottom border settings.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Optional pulsing bottom border settings.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public InputPulsingBorderValues PulsingBorderValues => _pulsingBorder.Values;
+
+    private bool ShouldSerializePulsingBorderValues() => !PulsingBorderValues.IsDefault;
 
     /// <summary>
     /// Gets and sets the appearance and functionality of the KryptonComboBox.
@@ -2614,7 +2631,9 @@ public class KryptonComboBox : VisualControlBase,
         _buttonSpecAccessibilityProxyManager?.Sync();
 
         // Change in enabled state requires a layout and repaint
+        UpdateStateAndPalettes();
         PerformNeedPaint(true);
+        CueHint.SyncAnimation();
 
         // Let base class fire standard event
         base.OnEnabledChanged(e);
@@ -2721,6 +2740,7 @@ public class KryptonComboBox : VisualControlBase,
     protected override void OnMouseEnter(EventArgs e)
     {
         _mouseOver = true;
+        _pulsingBorder.UpdateAnimationState();
         PerformNeedPaint(false);
         _comboBox.Invalidate();
         base.OnMouseEnter(e);
@@ -2733,6 +2753,7 @@ public class KryptonComboBox : VisualControlBase,
     protected override void OnMouseLeave(EventArgs e)
     {
         _mouseOver = false;
+        _pulsingBorder.UpdateAnimationState();
         PerformNeedPaint(false);
         _comboBox.Invalidate();
         base.OnMouseLeave(e);
@@ -2947,6 +2968,12 @@ public class KryptonComboBox : VisualControlBase,
     #endregion
 
     #region Implementation
+
+    private bool ShouldAnimateCueHint() =>
+        Enabled
+        && !string.IsNullOrWhiteSpace(CueHint.CueHintText)
+        && string.IsNullOrEmpty(Text);
+
     private void AttachEditControl()
     {
         if (!IsDisposed && !Disposing)
@@ -3002,6 +3029,7 @@ public class KryptonComboBox : VisualControlBase,
         PaletteState state = Enabled ? (IsActive ? PaletteState.Tracking : PaletteState.Normal) : PaletteState.Disabled;
 
         _drawDockerOuter.ElementState = state;
+        _pulsingBorder.UpdateAnimationState();
     }
 
     internal PaletteInputControlTripleStates GetComboBoxTripleState() => Enabled ? IsActive ? StateActive.ComboBox : StateNormal.ComboBox : StateDisabled.ComboBox;
@@ -3232,6 +3260,8 @@ public class KryptonComboBox : VisualControlBase,
 
     private void OnComboBoxGotFocus(object? sender, EventArgs e)
     {
+        UpdateStateAndPalettes();
+
         if (DropDownStyle == ComboBoxStyle.DropDown)
         {
             _subclassEdit!.Visible = true;
@@ -3256,6 +3286,8 @@ public class KryptonComboBox : VisualControlBase,
             _comboBox.Font = GetComboBoxTripleState().Content.GetContentShortTextFont(PaletteState.Normal)!;
         }
 
+        UpdateStateAndPalettes();
+
         // ReSharper disable RedundantBaseQualifier
         base.OnLostFocus(e);
         // ReSharper restore RedundantBaseQualifier
@@ -3263,7 +3295,11 @@ public class KryptonComboBox : VisualControlBase,
         _comboBox.Invalidate();
     }
 
-    private void OnComboBoxTextChanged(object? sender, EventArgs e) => OnTextChanged(e);
+    private void OnComboBoxTextChanged(object? sender, EventArgs e)
+    {
+        CueHint.SyncAnimation();
+        OnTextChanged(e);
+    }
 
     private void OnComboBoxTextUpdate(object? sender, EventArgs e) => OnTextUpdate(e);
 
