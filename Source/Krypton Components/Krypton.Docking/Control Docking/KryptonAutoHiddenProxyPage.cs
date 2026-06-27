@@ -13,7 +13,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Acts as a proxy for a KryptonPage inside an auto hidden group.
+/// Stand-in page that mirrors appearance and state of a cached page in an auto-hidden group.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]
@@ -22,8 +22,10 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonAutoHiddenProxyPage class.
+    /// Wraps the supplied page, copying tab text and last-visible-set state from the source.
     /// </summary>
+    /// <param name="page">Page whose properties this proxy forwards; must not be null.</param>
+    /// <exception cref="ArgumentNullException">Thrown when page is null.</exception>
     public KryptonAutoHiddenProxyPage(KryptonPage page)
     {
 
@@ -52,12 +54,12 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
 
     #region Public
     /// <summary>
-    /// Gets a reference to the page for which this is a proxy.
+    /// The underlying page whose properties and events this proxy forwards.
     /// </summary>
     public KryptonPage Page { get; }
 
     /// <summary>
-    /// Gets and sets the page text.
+    /// Tab text synchronized between this proxy and the wrapped page.
     /// </summary>
     [AllowNull]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -79,7 +81,7 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
     }
 
     /// <summary>
-    /// Gets and sets the title text for the page.
+    /// Title text forwarded to the wrapped page.
     /// </summary>
     [AllowNull]
     [DesignerSerializationVisibility( DesignerSerializationVisibility.Visible )]
@@ -91,7 +93,7 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
     }
 
     /// <summary>
-    /// Gets and sets the description text for the page.
+    /// Description text forwarded to the wrapped page.
     /// </summary>
     [AllowNull]
     [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden)]
@@ -103,7 +105,7 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
     }
 
     /// <summary>
-    /// Gets and sets the small image for the page.
+    /// Small tab image forwarded to the wrapped page.
     /// </summary>
     [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
     public override Bitmap? ImageSmall
@@ -114,7 +116,7 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
     }
 
     /// <summary>
-    /// Gets and sets the medium image for the page.
+    /// Medium tab image forwarded to the wrapped page.
     /// </summary>
     [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
     public override Bitmap? ImageMedium
@@ -125,7 +127,7 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
     }
 
     /// <summary>
-    /// Gets and sets the large image for the page.
+    /// Large tab image forwarded to the wrapped page.
     /// </summary>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override Bitmap? ImageLarge
@@ -136,7 +138,7 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
     }
 
     /// <summary>
-    /// Gets and sets the page tooltip image.
+    /// Tooltip image forwarded to the wrapped page.
     /// </summary>
     [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
     public override Bitmap? ToolTipImage
@@ -147,7 +149,7 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
     }
 
     /// <summary>
-    /// Gets and sets the tooltip image transparent color.
+    /// Tooltip image transparency color forwarded to the wrapped page.
     /// </summary>
     [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
     public override Color ToolTipImageTransparentColor
@@ -158,7 +160,7 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
     }
 
     /// <summary>
-    /// Gets and sets the page tooltip title text.
+    /// Tooltip title forwarded to the wrapped page.
     /// </summary>
     [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden)]
     public override string ToolTipTitle
@@ -169,7 +171,7 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
     }
 
     /// <summary>
-    /// Gets and sets the page tooltip body text.
+    /// Tooltip body text forwarded to the wrapped page.
     /// </summary>
     [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
     public override string ToolTipBody
@@ -180,7 +182,7 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
     }
 
     /// <summary>
-    /// Gets and sets the tooltip label style.
+    /// Tooltip label style forwarded to the wrapped page.
     /// </summary>
     [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
     public override LabelStyle ToolTipStyle
@@ -191,7 +193,7 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
     }
 
     /// <summary>
-    /// Gets and sets the KryptonContextMenu to show when right-clicked.
+    /// Context menu shown on right-click, forwarded to the wrapped page.
     /// </summary>
     [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
     public override KryptonContextMenu? KryptonContextMenu
@@ -202,7 +204,7 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
     }
 
     /// <summary>
-    /// Gets and sets the unique name of the page.
+    /// Unique name forwarded to the wrapped page.
     /// </summary>
     [DisallowNull]
     [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden)]
@@ -214,21 +216,21 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
     }
 
     /// <summary>
-    /// Gets the string that matches the mapping request.
+    /// Returns mapped text from the wrapped page for the requested mapping.
     /// </summary>
-    /// <param name="mapping">Text mapping.</param>
-    /// <returns>Matching string.</returns>
+    /// <param name="mapping">Text field to resolve.</param>
+    /// <returns>Mapped text from the wrapped page.</returns>
     public override string GetTextMapping(MapKryptonPageText mapping) => Page.GetTextMapping(mapping);
 
     /// <summary>
-    /// Gets the image that matches the mapping request.
+    /// Returns mapped image from the wrapped page for the requested mapping.
     /// </summary>
-    /// <param name="mapping">Image mapping.</param>
-    /// <returns>Image reference.</returns>
+    /// <param name="mapping">Image field to resolve.</param>
+    /// <returns>Mapped image from the wrapped page, or null when none applies.</returns>
     public override Image? GetImageMapping(MapKryptonPageImage mapping) => Page.GetImageMapping(mapping);
 
     /// <summary>
-    /// Gets and sets the set of page flags.
+    /// Page flags forwarded to the wrapped page.
     /// </summary>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override int Flags
@@ -239,26 +241,26 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
     }
 
     /// <summary>
-    /// Set all the provided flags to true.
+    /// Sets the specified flags on the wrapped page.
     /// </summary>
-    /// <param name="flags">Flags to set.</param>
+    /// <param name="flags">Flags to enable on the wrapped page.</param>
     public override void SetFlags(KryptonPageFlags flags) => Page.SetFlags(flags);
 
     /// <summary>
-    /// Sets all the provided flags to false.
+    /// Clears the specified flags on the wrapped page.
     /// </summary>
-    /// <param name="flags">Flags to set.</param>
+    /// <param name="flags">Flags to disable on the wrapped page.</param>
     public override void ClearFlags(KryptonPageFlags flags) => Page.ClearFlags(flags);
 
     /// <summary>
-    /// Are all the provided flags set to true.
+    /// Reports whether all specified flags are set on the wrapped page.
     /// </summary>
-    /// <param name="flags">Flags to test.</param>
-    /// <returns>True if all provided flags are defined as true; otherwise false.</returns>
+    /// <param name="flags">Flags to test on the wrapped page.</param>
+    /// <returns>True when every specified flag is set on the wrapped page; otherwise false.</returns>
     public override bool AreFlagsSet(KryptonPageFlags flags) => Page.AreFlagsSet(flags);
 
     /// <summary>
-    /// Gets the last value set to the Visible property.
+    /// Last-visible-set state forwarded to the wrapped page.
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -270,7 +272,9 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
         set => Page.LastVisibleSet = value;
     }
 
-    /// <summary>Occurs when an appearance specific page property has changed.</summary>
+    /// <summary>
+    /// Forwards appearance property change notifications from the wrapped page.
+    /// </summary>
     public override event PropertyChangedEventHandler? AppearancePropertyChanged
     {
         add => Page.AppearancePropertyChanged += value;

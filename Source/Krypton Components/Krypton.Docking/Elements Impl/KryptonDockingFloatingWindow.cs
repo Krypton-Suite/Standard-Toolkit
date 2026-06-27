@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -30,7 +30,7 @@ public class KryptonDockingFloatingWindow : DockingElementClosedCollection
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonDockingFloatingWindow class.
+    /// Creates a floating window element that hosts the supplied floatspace.
     /// </summary>
     /// <param name="name">Initial name of the element.</param>
     /// <param name="owner">Reference to form that owns the floating windows.</param>
@@ -68,7 +68,7 @@ public class KryptonDockingFloatingWindow : DockingElementClosedCollection
 
     #region Public
     /// <summary>
-    /// Gets and sets access to the parent docking element.
+    /// Parent element in the docking hierarchy; assigning a value syncs tooltip strings from the docking manager.
     /// </summary>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override IDockingElement? Parent
@@ -84,7 +84,7 @@ public class KryptonDockingFloatingWindow : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Gets the window this element is managing.
+    /// Floating window associated with this docking element.
     /// </summary>
     public KryptonFloatingWindow FloatingWindow { get; }
 
@@ -94,7 +94,7 @@ public class KryptonDockingFloatingWindow : DockingElementClosedCollection
     public KryptonDockingFloatspace FloatspaceElement { get; }
 
     /// <summary>
-    /// Propagates an action request down the hierarchy of docking elements.
+    /// Forwards the specified docking action to child elements.
     /// </summary>
     /// <param name="action">Action that is requested to be performed.</param>
     /// <param name="uniqueNames">Array of unique names of the pages the action relates to.</param>
@@ -137,7 +137,7 @@ public class KryptonDockingFloatingWindow : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Propagates a request for drag targets down the hierarchy of docking elements.
+    /// Contributes drag targets from this element and its descendants into the supplied list.
     /// </summary>
     /// <param name="floatingWindow">Reference to window being dragged.</param>
     /// <param name="dragData">Set of pages being dragged.</param>
@@ -177,7 +177,7 @@ public class KryptonDockingFloatingWindow : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Saves docking configuration information using a provider xml writer.
+    /// Writes this element and its descendants to the supplied XML writer.
     /// </summary>
     /// <param name="xmlWriter">Xml writer object.</param>
     public override void SaveElementToXml(XmlWriter xmlWriter)

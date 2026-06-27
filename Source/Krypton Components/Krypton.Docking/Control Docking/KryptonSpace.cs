@@ -13,7 +13,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Extends the KryptonWorkspace with common functionality shared by various docking implementations.
+/// Workspace base that adds docking header buttons, focus tracking, visibility coordination, and layout persistence for docked spaces.
 /// </summary>
 public abstract class KryptonSpace : KryptonWorkspace
 {
@@ -76,49 +76,49 @@ public abstract class KryptonSpace : KryptonWorkspace
 
     #region Events
     /// <summary>
-    /// Occurs when the focus moves to be inside the KryptonWorkspaceCell instance.
+    /// Raised when keyboard focus enters a workspace cell, after header styles are updated.
     /// </summary>
     [Category("DockableWorkspace")]
     [Description("Occurs when the focus moves to be inside the KryptonWorkspaceCell instance.")]
     public event EventHandler<WorkspaceCellEventArgs>? CellGainsFocus;
 
     /// <summary>
-    /// Occurs when the focus moves away from inside the KryptonWorkspaceCell instance.
+    /// Raised when keyboard focus leaves a workspace cell, after header styles are updated.
     /// </summary>
     [Category("DockableWorkspace")]
     [Description("Occurs when the focus moves away from inside the KryptonWorkspaceCell instance.")]
     public event EventHandler<WorkspaceCellEventArgs>? CellLosesFocus;
 
     /// <summary>
-    /// Occurs when a page is being inserted into a cell.
+    /// Raised before a page is inserted into a cell so docking logic can perform additional setup.
     /// </summary>
     [Category("DockableWorkspace")]
     [Description("Occurs when a page is being inserted into a cell.")]
     public event EventHandler<KryptonPageEventArgs>? CellPageInserting;
 
     /// <summary>
-    /// Occurs when a page requests that it be closed.
+    /// Raised when the user clicks a cell close button for the selected page.
     /// </summary>
     [Category("DockableWorkspace")]
     [Description("Occurs when a page requests that it be closed.")]
     public event EventHandler<UniqueNameEventArgs>? PageCloseClicked;
 
     /// <summary>
-    /// Occurs when a page requests that it be auto hidden state switched.
+    /// Raised when the user clicks a cell pin button to toggle auto-hidden state for the selected page.
     /// </summary>
     [Category("DockableWorkspace")]
     [Description("Occurs when a page requests that it be auto hidden state switched.")]
     public event EventHandler<UniqueNameEventArgs>? PageAutoHiddenClicked;
 
     /// <summary>
-    /// Occurs when a page requests that a drop-down menu be shown.
+    /// Raised when a page drop-down menu is requested from a header button or context menu path.
     /// </summary>
     [Category("DockableWorkspace")]
     [Description("Occurs when a page drop-down menu is requested from a header button.")]
     public event EventHandler<CancelDropDownEventArgs>? PageDropDownClicked;
 
     /// <summary>
-    /// Occurs when a page or set of pages have been double clicked.
+    /// Raised when the user double-clicks a tab or primary header for one or more visible non-placeholder pages.
     /// </summary>
     [Category("DockableWorkspace")]
     [Description("Occurs when a page or set of pages have been double clicked.")]
@@ -176,7 +176,7 @@ public abstract class KryptonSpace : KryptonWorkspace
 
     #region Public
     /// <summary>
-    /// Gets and sets the tooltip used for the close button.
+    /// Tooltip text for close header buttons; updating refreshes existing button specs.
     /// </summary>
     [Category("Dockable")]
     [Description("Tooltip for the close button.")]
@@ -193,7 +193,7 @@ public abstract class KryptonSpace : KryptonWorkspace
     }
 
     /// <summary>
-    /// Gets and sets the tooltip used for the pin button.
+    /// Tooltip text for pin header buttons; updating refreshes existing button specs.
     /// </summary>
     [Category("Dockable")]
     [Description("Tooltip for the pin button.")]
@@ -210,7 +210,7 @@ public abstract class KryptonSpace : KryptonWorkspace
     }
 
     /// <summary>
-    /// Gets and sets the tooltips used for the drop-down button.
+    /// Tooltip text for drop-down header buttons; updating refreshes existing button specs.
     /// </summary>
     [Category("Dockable")]
     [Description("Tooltip for the drop-down button.")]
@@ -227,21 +227,21 @@ public abstract class KryptonSpace : KryptonWorkspace
     }
 
     /// <summary>
-    /// Gets the button spec type for the pin button.
+    /// When true, pin buttons use horizontal styling and toggle docked versus auto-hidden for slide-out hosts.
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool AutoHiddenHost { get; set; }
 
     /// <summary>
-    /// Requests the visible state be updated.
+    /// Schedules an asynchronous refresh of cell visibility after layout completes.
     /// </summary>
     public void UpdateVisible() => UpdateVisible(false);
 
     /// <summary>
-    /// Requests the visible state be updated.
+    /// Schedules an asynchronous refresh of cell visibility; optionally focuses the space after the update.
     /// </summary>
-    /// <param name="focus">Should the current cell be given the focus.</param>
+    /// <param name="focus">When true, moves focus to this space after visibility is recalculated.</param>
     public void UpdateVisible(bool focus)
     {
         if (ApplyDockingVisibility)
@@ -273,10 +273,10 @@ public abstract class KryptonSpace : KryptonWorkspace
     }
 
     /// <summary>
-    /// Write page details to xml during save process.
+    /// Writes page unique name, store-placeholder flag, and last-visible-set state to the layout XML stream.
     /// </summary>
-    /// <param name="xmlWriter">XmlWriter to use for saving.</param>
-    /// <param name="page">Reference to page.</param>
+    /// <param name="xmlWriter">Writer receiving the page element.</param>
+    /// <param name="page">Page being serialized.</param>
     public override void WritePageElement(XmlWriter xmlWriter, KryptonPage page)
     {
         XmlHelper.TextToXmlAttribute(xmlWriter, @"UN", page.UniqueName);
@@ -285,12 +285,13 @@ public abstract class KryptonSpace : KryptonWorkspace
     }
 
     /// <summary>
-    /// Read page details from xml during load process.
+    /// Reconstructs or recreates a page from layout XML, optionally converting it to a store placeholder.
     /// </summary>
-    /// <param name="xmlReader">XmlReader to use for loading.</param>
-    /// <param name="uniqueName">Unique name of page being loaded.</param>
-    /// <param name="existingPages">Set of existing pages.</param>
-    /// <returns>Reference to page to be added into the workspace cell.</returns>
+    /// <param name="xmlReader">Reader positioned at the page element.</param>
+    /// <param name="uniqueName">Unique name of the page being loaded.</param>
+    /// <param name="existingPages">Pages already known to the docking manager.</param>
+    /// <returns>Page to insert into a cell, or null when recreation was cancelled.</returns>
+    /// <exception cref="ArgumentException">Thrown when the reader cannot advance past the page start element.</exception>
     public override KryptonPage? ReadPageElement(XmlReader xmlReader,
         string uniqueName,
         UniqueNameToPage existingPages)

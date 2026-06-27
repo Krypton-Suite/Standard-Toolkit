@@ -2,10 +2,10 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ *  Â© Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. AvilÃ©s (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -22,7 +22,7 @@ public class KryptonDockingFloatspace : KryptonDockingSpace
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonDockingFloatspace class.
+    /// Creates a floatspace element for hosting pages inside a floating window.
     /// </summary>
     /// <param name="name">Initial name of the element.</param>
     public KryptonDockingFloatspace(string name)
@@ -41,12 +41,12 @@ public class KryptonDockingFloatspace : KryptonDockingSpace
 
     #region Public
     /// <summary>
-    /// Gets the control this element is managing.
+    /// Host control associated with this docking element.
     /// </summary>
     public KryptonFloatspace FloatspaceControl => (KryptonFloatspace)SpaceControl!;
 
     /// <summary>
-    /// Propagates a request for drag targets down the hierarchy of docking elements.
+    /// Contributes drag targets from this element and its descendants into the supplied list.
     /// </summary>
     /// <param name="floatingWindow">Reference to window being dragged.</param>
     /// <param name="dragData">Set of pages being dragged.</param>
@@ -80,7 +80,7 @@ public class KryptonDockingFloatspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Find the docking location of the named page.
+    /// Returns the docking location of the page with the specified unique name.
     /// </summary>
     /// <param name="uniqueName">Unique name of the page.</param>
     /// <returns>Enumeration value indicating docking location.</returns>
@@ -94,7 +94,7 @@ public class KryptonDockingFloatspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Find the docking element that contains the named page.
+    /// Returns the docking element that contains the page with the specified unique name.
     /// </summary>
     /// <param name="uniqueName">Unique name of the page.</param>
     /// <returns>IDockingElement reference if page is found; otherwise null.</returns>
@@ -108,7 +108,7 @@ public class KryptonDockingFloatspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Find the docking element that contains the location specific store page for the named page.
+    /// Returns the docking element that holds a store placeholder for the page at the specified location.
     /// </summary>
     /// <param name="location">Location to be searched.</param>
     /// <param name="uniqueName">Unique name of the page to be found.</param>
@@ -264,7 +264,7 @@ public class KryptonDockingFloatspace : KryptonDockingSpace
     protected override string XmlElementName => @"DF";
 
     /// <summary>
-    /// Loads docking configuration information using a provider xml reader.
+    /// Restores this element and its descendants from the supplied XML reader.
     /// </summary>
     /// <param name="xmlReader">Xml reader object.</param>
     /// <param name="pages">Collection of available pages for adding.</param>

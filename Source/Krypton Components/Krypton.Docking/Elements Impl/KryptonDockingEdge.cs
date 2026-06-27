@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -22,11 +22,11 @@ public class KryptonDockingEdge : DockingElementClosedCollection
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonDockingEdge class.
+    /// Creates an edge element with auto-hidden and docked child collections for the specified control edge.
     /// </summary>
     /// <param name="name">Initial name of the element.</param>
-    /// <param name="control">Reference to control that is being managed.</param>
-    /// <param name="edge">Docking edge being managed.</param>
+    /// <param name="control">Host control for the edge collections.</param>
+    /// <param name="edge">Edge of the host control represented by this element.</param>
     public KryptonDockingEdge(string name, Control control, DockingEdge edge)
         : base(name)
     {
@@ -41,12 +41,12 @@ public class KryptonDockingEdge : DockingElementClosedCollection
 
     #region Public
     /// <summary>
-    /// Gets the control this element is managing.
+    /// Host control associated with this docking element.
     /// </summary>
     public Control Control { get; }
 
     /// <summary>
-    /// Gets the docking edge this element is managing.
+    /// Control edge on which this element hosts docked or auto-hidden content.
     /// </summary>
     public DockingEdge Edge { get; }
 

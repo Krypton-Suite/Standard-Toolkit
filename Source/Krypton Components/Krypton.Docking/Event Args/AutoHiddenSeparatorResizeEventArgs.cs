@@ -13,18 +13,18 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Event arguments for a AutoHiddenSeparatorResize event.
+/// Event arguments raised while an auto-hidden separator is resized, allowing handlers to constrain the resize bounds.
 /// </summary>
 public class AutoHiddenSeparatorResizeEventArgs : EventArgs
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the AutoHiddenSeparatorResizeEventArgs class.
+    /// Captures the separator, dockspace, page, and initial resize bounds for the auto-hidden separator drag operation.
     /// </summary>
-    /// <param name="separator">Reference to separator control instance.</param>
-    /// <param name="dockspace">Reference to dockspace control instance.</param>
-    /// <param name="page">Reference to page contained in the dockspace.</param>
-    /// <param name="resizeRect">Initial resizing rectangle.</param>
+    /// <param name="separator">Separator control being dragged to resize the dockspace.</param>
+    /// <param name="dockspace">Dockspace control whose size is being adjusted.</param>
+    /// <param name="page">Page contained in the dockspace being resized; may be null.</param>
+    /// <param name="resizeRect">Initial bounds rectangle limiting dockspace resize during separator drag.</param>
     public AutoHiddenSeparatorResizeEventArgs(KryptonSeparator separator,
         KryptonDockspace dockspace,
         KryptonPage? page,
@@ -39,22 +39,22 @@ public class AutoHiddenSeparatorResizeEventArgs : EventArgs
 
     #region Public
     /// <summary>
-    /// Gets a reference to the KryptonSeparator control.
+    /// Separator control being dragged to resize the dockspace.
     /// </summary>
     public KryptonSeparator SeparatorControl { get; }
 
     /// <summary>
-    /// Gets a reference to the KryptonDockspace control.
+    /// Dockspace control whose size is being adjusted by the separator drag.
     /// </summary>
     public KryptonDockspace DockspaceControl { get; }
 
     /// <summary>
-    /// Gets a reference to the KryptonPage instance.
+    /// Page contained in the dockspace being resized; may be null.
     /// </summary>
     public KryptonPage? Page { get; }
 
     /// <summary>
-    /// Gets and sets the rectangle that limits resizing of the dockspace using the separator.
+    /// Bounds rectangle limiting dockspace resize during separator drag; handlers may adjust before resize applies.
     /// </summary>
     public Rectangle ResizeRect { get; set; }
 

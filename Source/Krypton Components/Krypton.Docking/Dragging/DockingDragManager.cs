@@ -15,7 +15,7 @@ using Timer = System.Windows.Forms.Timer;
 namespace Krypton.Docking;
 
 /// <summary>
-/// Manage a docking dragging operation.
+/// Coordinates docking drag-drop, floating window movement, and application message filtering.
 /// </summary>
 public class DockingDragManager : DragManager,
     IFloatingMessages,
@@ -32,10 +32,10 @@ public class DockingDragManager : DragManager,
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the DockingDragManager class.
+    /// Wires the drag manager to the owning docking manager and optional source control.
     /// </summary>
-    /// <param name="manager">Reference to manager creating this instance.</param>
-    /// <param name="c">Control that is starting the drag operation.</param>
+    /// <param name="manager">Docking manager that owns this drag operation.</param>
+    /// <param name="c">Control that initiated the drag, or <see langword="null"/> when not applicable.</param>
     public DockingDragManager(KryptonDockingManager manager, Control? c)
     {
         _manager = manager;
@@ -53,9 +53,9 @@ public class DockingDragManager : DragManager,
     }
 
     /// <summary>
-    /// Release unmanaged and optionally managed resources.
+    /// Removes the message filter, clears temporary stored pages, and disposes the move timer.
     /// </summary>
-    /// <param name="disposing">Called from Dispose method.</param>
+    /// <param name="disposing"><see langword="true"/> when called from <see cref="Dispose"/>; otherwise <see langword="false"/>.</param>
     protected override void Dispose(bool disposing)
     {
         RemoveFilter();
@@ -74,12 +74,12 @@ public class DockingDragManager : DragManager,
 
     #region Public
     /// <summary>
-    /// Gets and sets the window that is moved in sync with the mouse movement.
+    /// Floating window repositioned with the cursor during the drag; <see langword="null"/> when dragging without a floating window.
     /// </summary>
     public KryptonFloatingWindow? FloatingWindow { get; set; }
 
     /// <summary>
-    /// Gets and sets the offset of the floating window from the screen cursor.
+    /// Screen offset between the cursor and the top-left corner of <see cref="FloatingWindow"/>.
     /// </summary>
     public Point FloatingWindowOffset
     {
@@ -88,11 +88,11 @@ public class DockingDragManager : DragManager,
     }
 
     /// <summary>
-    /// Occurs when dragging starts.
+    /// Captures the floating window, installs message filtering, and starts base drag feedback.
     /// </summary>
-    /// <param name="screenPt">Mouse screen point at start of drag.</param>
-    /// <param name="dragEndData">Data to be dropped at destination.</param>
-    /// <returns>True if dragging was started; otherwise false.</returns>
+    /// <param name="screenPt">Screen coordinates where the drag started.</param>
+    /// <param name="dragEndData">Pages and context carried through the drag operation.</param>
+    /// <returns><see langword="true"/> when base drag startup succeeds; otherwise <see langword="false"/>.</returns>
     public override bool DragStart(Point screenPt, PageDragEndData? dragEndData)
     {
         if (FloatingWindow != null)
@@ -105,9 +105,9 @@ public class DockingDragManager : DragManager,
     }
 
     /// <summary>
-    /// Occurs on dragging movement.
+    /// Repositions <see cref="FloatingWindow"/> to follow the cursor and updates base drag feedback.
     /// </summary>
-    /// <param name="screenPt">Latest screen point during dragging.</param>
+    /// <param name="screenPt">Current screen coordinates of the cursor.</param>
     public override void DragMove(Point screenPt)
     {
         if (FloatingWindow != null)
@@ -152,10 +152,10 @@ public class DockingDragManager : DragManager,
     }
 
     /// <summary>
-    /// Occurs when dragging ends because of dropping.
+    /// Removes message filtering, completes the drop through the base drag manager, and raises <c>DoDragDropEnd</c> on the docking manager.
     /// </summary>
-    /// <param name="screenPt">Ending screen point when dropping.</param>
-    /// <returns>Drop was performed and the source can perform any removal of pages as required.</returns>
+    /// <param name="screenPt">Screen coordinates where the drop occurred.</param>
+    /// <returns><see langword="true"/> when the drop succeeded and the source may remove dragged pages; otherwise <see langword="false"/>.</returns>
     public override bool DragEnd(Point screenPt)
     {
         RemoveFilter();
@@ -165,7 +165,7 @@ public class DockingDragManager : DragManager,
     }
 
     /// <summary>
-    /// Occurs when dragging quits.
+    /// Removes message filtering, cancels the drag through the base drag manager, and raises <c>DoDragDropQuit</c> on the docking manager.
     /// </summary>
     public override void DragQuit()
     {
@@ -175,9 +175,10 @@ public class DockingDragManager : DragManager,
     }
 
     /// <summary>
-    /// Processes the WM_KEYDOWN from the floating window.
+    /// Ends the drag when Escape is pressed on the floating window.
     /// </summary>
-    /// <returns>True to eat message; otherwise false.</returns>
+    /// <param name="m">Windows message structure for the key-down event.</param>
+    /// <returns><see langword="true"/> when Escape was handled and the message should not propagate further; otherwise <see langword="false"/>.</returns>
     public bool OnKEYDOWN(ref Message m)
     {
         // Pressing escape ends dragging
@@ -192,14 +193,14 @@ public class DockingDragManager : DragManager,
     }
 
     /// <summary>
-    /// Processes the WM_MOUSEMOVE from the floating window.
+    /// Forwards the current cursor position to <see cref="DragMove"/>.
     /// </summary>
     public void OnMOUSEMOVE() =>
         // Update feedback to reflect the current mouse position
         DragMove(Control.MousePosition);
 
     /// <summary>
-    /// Processes the WM_LBUTTONUP from the floating window.
+    /// Completes the drag at the current cursor position and disposes this manager.
     /// </summary>
     public void OnLBUTTONUP()
     {
@@ -208,10 +209,10 @@ public class DockingDragManager : DragManager,
     }
 
     /// <summary>
-    /// Filters out a message before it is dispatched.
+    /// Intercepts keyboard and mouse messages during an active drag to update feedback or cancel the operation.
     /// </summary>
-    /// <param name="m">The message to be dispatched.</param>
-    /// <returns>true to filter the message and stop it from being dispatched.</returns>
+    /// <param name="m">Message being dispatched by the application.</param>
+    /// <returns><see langword="true"/> to stop further dispatch of keyboard messages; otherwise <see langword="false"/>.</returns>
     public bool PreFilterMessage(ref Message m)
     {
         switch (m.Msg)

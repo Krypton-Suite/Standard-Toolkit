@@ -13,17 +13,17 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Event arguments for a DockspaceCellAdding/DockspaceCellRemoving events.
+/// Event arguments raised when a workspace cell is added to or removed from a dockspace.
 /// </summary>
 public class DockspaceCellEventArgs : EventArgs
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the DockspaceCellEventArgs class.
+    /// Records the dockspace control, docking element, and cell involved in the add or remove operation.
     /// </summary>
-    /// <param name="dockspace">Reference to existing dockspace control instance.</param>
-    /// <param name="element">Reference to docking dockspace element that is managing the dockspace control.</param>
-    /// <param name="cell">Reference to dockspace control cell instance.</param>
+    /// <param name="dockspace">Dockspace control hosting the cell.</param>
+    /// <param name="element">Docking element coordinating the dockspace in the layout tree.</param>
+    /// <param name="cell">Workspace cell being added to or removed from the dockspace.</param>
     public DockspaceCellEventArgs(KryptonDockspace dockspace,
         KryptonDockingDockspace element,
         KryptonWorkspaceCell cell)
@@ -36,17 +36,17 @@ public class DockspaceCellEventArgs : EventArgs
 
     #region Public
     /// <summary>
-    /// Gets a reference to the KryptonDockspace that contains the cell.
+    /// Dockspace UI control hosting the cell.
     /// </summary>
     public KryptonDockspace DockspaceControl { get; }
 
     /// <summary>
-    /// Gets a reference to the KryptonDockingDockspace that is managing the dockspace.
+    /// Docking element coordinating the dockspace in the layout tree.
     /// </summary>
     public KryptonDockingDockspace DockspaceElement { get; }
 
     /// <summary>
-    /// Gets a reference to the KryptonWorkspaceCell control.
+    /// Workspace cell added to or removed from the dockspace.
     /// </summary>
     public KryptonWorkspaceCell CellControl { get; }
 

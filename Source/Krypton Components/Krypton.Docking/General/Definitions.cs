@@ -14,210 +14,211 @@ namespace Krypton.Docking;
 
 #region Interface IDockingElement
 /// <summary>
-/// Interface exposed by elements within the docking hierarchy.
+/// Contract for nodes in the docking hierarchy tree.
 /// </summary>
 public interface IDockingElement : IEnumerable<IDockingElement>
 {
     /// <summary>
-    /// Gets and sets the name of the docking element.
+    /// Unique identifier for this node within its parent collection.
     /// </summary>
     string Name { get; }
 
     /// <summary>
-    /// Gets a comma separated list of names leading to this element.
+    /// Comma-separated ancestry path from the root element to this node.
     /// </summary>
     string Path { get; }
 
     /// <summary>
-    /// Resolve the provided path.
+    /// Walks the hierarchy to locate the element at the given comma-separated path.
     /// </summary>
-    /// <param name="path">Comma separated list of names to resolve.</param>
-    /// <returns>IDockingElement reference if path was resolved with success; otherwise null.</returns>
+    /// <param name="path">Comma-separated list of element names to resolve.</param>
+    /// <returns>The matching element, or <see langword="null"/> when no node matches the path.</returns>
     IDockingElement? ResolvePath(string path);
 
     /// <summary>
-    /// Gets and sets access to the parent docking element.
+    /// Parent element in the hierarchy; <see langword="null"/> for the root.
     /// </summary>
     IDockingElement? Parent { get; set; }
 
     /// <summary>
-    /// Propagates an action request down the hierarchy of docking elements.
+    /// Broadcasts a docking action to descendants for the named pages.
     /// </summary>
-    /// <param name="action">Action that is requested to be performed.</param>
-    /// <param name="uniqueNames">Array of unique names of the pages the action relates to.</param>
+    /// <param name="action">Action requested from matching descendants.</param>
+    /// <param name="uniqueNames">Unique names of the pages the action applies to, or <see langword="null"/> when not page-specific.</param>
     void PropogateAction(DockingPropogateAction action, string[]? uniqueNames);
 
     /// <summary>
-    /// Propagates an action request down the hierarchy of docking elements.
+    /// Broadcasts a docking action to descendants for the supplied page instances.
     /// </summary>
-    /// <param name="action">Action that is requested to be performed.</param>
-    /// <param name="pages">Array of pages the action relates to.</param>
+    /// <param name="action">Action requested from matching descendants.</param>
+    /// <param name="pages">Page instances the action applies to.</param>
     void PropogateAction(DockingPropogateAction action, KryptonPage[] pages);
 
     /// <summary>
-    /// Propagates an action request down the hierarchy of docking elements.
+    /// Broadcasts a docking action to descendants with an associated integer value.
     /// </summary>
-    /// <param name="action">Action that is requested to be performed.</param>
-    /// <param name="value">Integer value associated with the request.</param>
+    /// <param name="action">Action requested from matching descendants.</param>
+    /// <param name="value">Integer value passed with the action.</param>
     void PropogateAction(DockingPropogateAction action, int value);
 
     /// <summary>
-    /// Propagates a boolean state request down the hierarchy of docking elements.
+    /// Queries descendants for a boolean state associated with a page.
     /// </summary>
-    /// <param name="state">Boolean state that is requested to be recovered.</param>
-    /// <param name="uniqueName">Unique name of the page the request relates to.</param>
-    /// <returns>True/False if state is known; otherwise null indicating no information available.</returns>
+    /// <param name="state">Boolean state to query.</param>
+    /// <param name="uniqueName">Unique name of the page the query applies to.</param>
+    /// <returns><see langword="true"/> or <see langword="false"/> when a descendant reports the state; otherwise <see langword="null"/> when no descendant can answer.</returns>
     bool? PropogateBoolState(DockingPropogateBoolState state, string uniqueName);
 
     /// <summary>
-    /// Propagates an integer state request down the hierarchy of docking elements.
+    /// Queries descendants to read or update an integer state value.
     /// </summary>
-    /// <param name="state">Integer state that is requested to be recovered.</param>
-    /// <param name="value">Value discovered from matching </param>
+    /// <param name="state">Integer state to query or modify.</param>
+    /// <param name="value">Value supplied to descendants and updated when a match is found.</param>
     void PropogateIntState(DockingPropogateIntState state, ref int value);
 
     /// <summary>
-    /// Propagates a request for drag targets down the hierarchy of docking elements.
+    /// Collects drag-drop targets from descendants for the pages being dragged.
     /// </summary>
-    /// <param name="floatingWindow">Reference to window being dragged.</param>
-    /// <param name="dragData">Set of pages being dragged.</param>
-    /// <param name="targets">Collection of drag targets.</param>
+    /// <param name="floatingWindow">Floating window being dragged, or <see langword="null"/> when the drag did not originate from a floating window.</param>
+    /// <param name="dragData">Pages and context for the drag operation.</param>
+    /// <param name="targets">Collection populated with targets discovered in descendants.</param>
     void PropogateDragTargets(KryptonFloatingWindow? floatingWindow,
         PageDragEndData? dragData,
         DragTargetList targets);
 
     /// <summary>
-    /// Propagates a page request down the hierarchy of docking elements.
+    /// Locates a page reference in descendants for the given state query.
     /// </summary>
-    /// <param name="state">Request that should result in a page reference if found.</param>
-    /// <param name="uniqueName">Unique name of the page the request relates to.</param>
-    /// <returns>Reference to page that matches the request; otherwise null.</returns>
+    /// <param name="state">Page lookup requested from descendants.</param>
+    /// <param name="uniqueName">Unique name of the page to locate.</param>
+    /// <returns>The matching page, or <see langword="null"/> when no descendant hosts that page.</returns>
     KryptonPage? PropogatePageState(DockingPropogatePageState state, string uniqueName);
 
     /// <summary>
-    /// Propagates a page list request down the hierarchy of docking elements.
+    /// Adds matching pages from descendants into the supplied collection.
     /// </summary>
-    /// <param name="state">Request that should result in pages collection being modified.</param>
-    /// <param name="pages">Pages collection for modification by the docking elements.</param>
+    /// <param name="state">Page-list query sent to descendants.</param>
+    /// <param name="pages">Collection appended by matching descendants.</param>
     void PropogatePageList(DockingPropogatePageList state, KryptonPageCollection pages);
 
     /// <summary>
-    /// Propagates a workspace cell list request down the hierarchy of docking elements.
+    /// Adds matching workspace cells from descendants into the supplied collection.
     /// </summary>
-    /// <param name="state">Request that should result in the cells collection being modified.</param>
-    /// <param name="cells">Cells collection for modification by the docking elements.</param>
+    /// <param name="state">Cell-list query sent to descendants.</param>
+    /// <param name="cells">Collection appended by matching descendants.</param>
     void PropogateCellList(DockingPropogateCellList state, KryptonWorkspaceCellList cells);
 
     /// <summary>
-    /// Find the docking location of the named page.
+    /// Returns the docking location of the page with the given unique name.
     /// </summary>
-    /// <param name="uniqueName">Unique name of the page.</param>
-    /// <returns>Enumeration value indicating docking location.</returns>
+    /// <param name="uniqueName">Unique name of the page to locate.</param>
+    /// <returns>The docking location reported by the hosting descendant.</returns>
     DockingLocation FindPageLocation(string uniqueName);
         
     /// <summary>
-    /// Find the docking element that contains the named page.
+    /// Returns the hierarchy node that currently hosts the named page.
     /// </summary>
-    /// <param name="uniqueName">Unique name of the page.</param>
-    /// <returns>IDockingElement reference if page is found; otherwise null.</returns>
+    /// <param name="uniqueName">Unique name of the page to locate.</param>
+    /// <returns>The hosting element, or <see langword="null"/> when the page is not in the hierarchy.</returns>
     IDockingElement? FindPageElement(string uniqueName);
 
     /// <summary>
-    /// Find the docking element that contains the location specific store page for the named page.
+    /// Returns the element holding the stored placeholder for the named page at the given location.
     /// </summary>
-    /// <param name="location">Location to be searched.</param>
-    /// <param name="uniqueName">Unique name of the page to be found.</param>
-    /// <returns>IDockingElement reference if store page is found; otherwise null.</returns>
+    /// <param name="location">Docking location whose store should be searched.</param>
+    /// <param name="uniqueName">Unique name of the page whose store entry is required.</param>
+    /// <returns>The element containing the store page, or <see langword="null"/> when no store entry exists.</returns>
     IDockingElement? FindStorePageElement(DockingLocation location, string uniqueName);
 
     /// <summary>
-    /// Find a floating docking element by searching the hierarchy.
+    /// Searches descendants for a floating element that can host the named page.
     /// </summary>
-    /// <param name="uniqueName">Named page for which a suitable floating element is required.</param>
-    /// <returns>KryptonDockingFloating reference if found; otherwise false.</returns>
+    /// <param name="uniqueName">Unique name of the page to place in a floating window.</param>
+    /// <returns>A suitable floating element, or <see langword="null"/> when none is found.</returns>
     KryptonDockingFloating? FindDockingFloating(string uniqueName);
 
     /// <summary>
-    /// Find a edge docked element by searching the hierarchy.
+    /// Searches descendants for an edge-docked element that can host the named page.
     /// </summary>
-    /// <param name="uniqueName">Named page for which a suitable docking edge element is required.</param>
-    /// <returns>KryptonDockingEdgeDocked reference if found; otherwise false.</returns>
+    /// <param name="uniqueName">Unique name of the page to dock against a control edge.</param>
+    /// <returns>A suitable edge-docked element, or <see langword="null"/> when none is found.</returns>
     KryptonDockingEdgeDocked? FindDockingEdgeDocked(string uniqueName);
 
     /// <summary>
-    /// Find a edge auto hidden element by searching the hierarchy.
+    /// Searches descendants for an auto-hidden edge element that can host the named page.
     /// </summary>
-    /// <param name="uniqueName">Named page for which a suitable auto hidden edge element is required.</param>
-    /// <returns>KryptonDockingEdgeAutoHidden reference if found; otherwise false.</returns>
+    /// <param name="uniqueName">Unique name of the page to auto-hide against a control edge.</param>
+    /// <returns>A suitable auto-hidden edge element, or <see langword="null"/> when none is found.</returns>
     KryptonDockingEdgeAutoHidden? FindDockingEdgeAutoHidden(string uniqueName);
 
     /// <summary>
-    /// Find a workspace element by searching the hierarchy.
+    /// Searches descendants for a workspace element that can host the named page.
     /// </summary>
-    /// <param name="uniqueName">Named page for which a suitable workspace element is required.</param>
-    /// <returns>KryptonDockingWorkspace reference if found; otherwise false.</returns>
+    /// <param name="uniqueName">Unique name of the page to place in a workspace.</param>
+    /// <returns>A suitable workspace element, or <see langword="null"/> when none is found.</returns>
     KryptonDockingWorkspace? FindDockingWorkspace(string uniqueName);
 
     /// <summary>
-    /// Find a navigator element by searching the hierarchy.
+    /// Searches descendants for a navigator element that can host the named page.
     /// </summary>
-    /// <param name="uniqueName">Named page for which a suitable navigator element is required.</param>
-    /// <returns>KryptonDockingNavigator reference if found; otherwise false.</returns>
+    /// <param name="uniqueName">Unique name of the page to place in a navigator.</param>
+    /// <returns>A suitable navigator element, or <see langword="null"/> when none is found.</returns>
     KryptonDockingNavigator? FindDockingNavigator(string uniqueName);
         
     /// <summary>
-    /// Saves docking configuration information using a provider xml writer.
+    /// Serializes this element and its descendants to XML.
     /// </summary>
-    /// <param name="xmlWriter">Xml writer object.</param>
+    /// <param name="xmlWriter">Writer that receives the docking configuration.</param>
     void SaveElementToXml(XmlWriter xmlWriter);
 
     /// <summary>
-    /// Loads docking configuration information using a provider xml reader.
+    /// Restores this element and its descendants from XML.
     /// </summary>
-    /// <param name="xmlReader">Xml reader object.</param>
-    /// <param name="pages">Collection of available pages.</param>
+    /// <param name="xmlReader">Reader positioned at the saved element markup.</param>
+    /// <param name="pages">Available pages used to resolve saved references.</param>
     void LoadElementFromXml(XmlReader xmlReader, KryptonPageCollection pages);
 
     /// <summary>
-    /// Gets the number of child docking elements.
+    /// Number of direct child docking elements.
     /// </summary>
     int Count { get; }
 
     /// <summary>
-    /// Gets the docking element at the specified index.
+    /// Direct child at the given zero-based index.
     /// </summary>
-    /// <param name="index">Index.</param>
-    /// <returns>Docking element at specified index.</returns>
+    /// <param name="index">Zero-based index of the child to return.</param>
+    /// <returns>The child at <paramref name="index"/>, or <see langword="null"/> when the index is out of range.</returns>
     IDockingElement? this[int index] { get; }
 
     /// <summary>
-    /// Gets the docking element with the specified name.
+    /// Direct child with the given name.
     /// </summary>
-    /// <param name="name">Name of element.</param>
-    /// <returns>Docking element with specified name.</returns>
+    /// <param name="name">Name of the child to return.</param>
+    /// <returns>The named child, or <see langword="null"/> when no child matches <paramref name="name"/>.</returns>
     IDockingElement? this[string name] { get; }
 }
 #endregion
 
 #region Interface IFloatingMessages
 /// <summary>
-/// Interface exposed by elements that provide floating messages.
+/// Callback surface for keyboard and mouse messages raised by a floating window during docking drag operations.
 /// </summary>
 public interface IFloatingMessages
 {
     /// <summary>
-    /// The WM_KEYDOWN message has occurred.
+    /// Notifies that <c>WM_KEYDOWN</c> was received from the floating window.
     /// </summary>
-    /// <returns>True to eat message; otherwise false.</returns>
+    /// <param name="m">Windows message structure for the key-down event.</param>
+    /// <returns><see langword="true"/> to stop further dispatch of the message; otherwise <see langword="false"/>.</returns>
     bool OnKEYDOWN(ref Message m);
 
     /// <summary>
-    /// The WM_MOUSEMOVE message has occurred.
+    /// Notifies that <c>WM_MOUSEMOVE</c> was received from the floating window.
     /// </summary>
     void OnMOUSEMOVE();
 
     /// <summary>
-    /// The WM_LBUTTONUP message has occurred.
+    /// Notifies that <c>WM_LBUTTONUP</c> was received from the floating window.
     /// </summary>
     void OnLBUTTONUP();
 }
@@ -225,259 +226,251 @@ public interface IFloatingMessages
 
 #region Enum DockingEdge
 /// <summary>
-/// Specifies a docking edge of a control.
+/// Edge of a host control used for docking layout.
 /// </summary>
 public enum DockingEdge
 {
-    /// <summary>Specifies the left edge of a control.</summary>
+    /// <summary>Left side of the host control.</summary>
     Left,
 
-    /// <summary>Specifies the right edge of a control.</summary>
+    /// <summary>Right side of the host control.</summary>
     Right,
 
-    /// <summary>Specifies the top edge of a control.</summary>
+    /// <summary>Top side of the host control.</summary>
     Top,
 
-    /// <summary>Specifies the bottom edge of a control.</summary>
+    /// <summary>Bottom side of the host control.</summary>
     Bottom
 }
 #endregion
 
 #region Enum DockingCloseAction
 /// <summary>
-/// Specifies the action to take when a docking close is required.
+/// Action taken when a docking page close is requested.
 /// </summary>
 public enum DockingCloseRequest
 {
-    /// <summary>Specifies no action be taken.</summary>
+    /// <summary>No close action is performed.</summary>
     None,
 
-    /// <summary>Specifies the named page be removed from the docking hierarchy.</summary>
+    /// <summary>The page is removed from the docking hierarchy.</summary>
     RemovePage,
 
-    /// <summary>Specifies the named page be removed from the docking hierarchy and then disposed.</summary>
+    /// <summary>The page is removed from the docking hierarchy and then disposed.</summary>
     RemovePageAndDispose,
 
-    /// <summary>Specifies the named page be hidden.</summary>
+    /// <summary>The page is hidden but remains in the hierarchy.</summary>
     HidePage
 }
 #endregion
 
 #region Enum DockingLocation
 /// <summary>
-/// Specifies the current docking location of a page.
+/// Current placement of a page within the docking system.
 /// </summary>
 public enum DockingLocation
 {
-    /// <summary>Specifies the page is auto hidden against a control edge.</summary>
+    /// <summary>Page is auto-hidden along a control edge.</summary>
     AutoHidden,
 
-    /// <summary>Specifies the page is docked against a control edge.</summary>
+    /// <summary>Page is docked along a control edge.</summary>
     Docked,
 
-    /// <summary>Specifies the page is inside a floating window.</summary>
+    /// <summary>Page is hosted inside a floating window.</summary>
     Floating,
 
-    /// <summary>Specifies the page is inside a standalone workspace.</summary>
+    /// <summary>Page is hosted inside a standalone workspace.</summary>
     Workspace,
 
-    /// <summary>Specifies the page is inside a standalone navigator.</summary>
+    /// <summary>Page is hosted inside a standalone navigator.</summary>
     Navigator,
 
-    /// <summary>Specifies the page is part of a custom extension.</summary>
+    /// <summary>Page is hosted by a custom docking extension.</summary>
     Custom,
 
-    /// <summary>Specifies the page is not inside the docking hierarchy.</summary>
+    /// <summary>Page is not present in the docking hierarchy.</summary>
     None
 }
 #endregion
 
 #region Enum DockingAutoHiddenShowState
 /// <summary>
-/// Specifies the sliding state of a docked auto hidden page.
+/// Slide animation state of an auto-hidden page panel.
 /// </summary>
 public enum DockingAutoHiddenShowState
 {
-    /// <summary>
-    /// Specifies the auto hidden page has become hidden.
-    /// </summary>
+    /// <summary>Panel is fully hidden against the control edge.</summary>
     Hidden,
 
-    /// <summary>
-    /// Specifies the auto hidden page is sliding out into view.
-    /// </summary>
+    /// <summary>Panel is animating out from the edge into view.</summary>
     SlidingOut,
 
-    /// <summary>
-    /// Specifies the auto hidden page is sliding back to be hidden.
-    /// </summary>
+    /// <summary>Panel is animating back toward the hidden position.</summary>
     SlidingIn,
 
-    /// <summary>
-    /// Specifies the auto hidden page is fully showing.
-    /// </summary>
+    /// <summary>Panel is fully visible along the control edge.</summary>
     Showing
 }
 #endregion
 
 #region Enum DockingPropogateAction
 /// <summary>
-/// Specifies a docking propogate action.
+/// Action broadcast to descendants during hierarchy updates.
 /// </summary>
 public enum DockingPropogateAction
 {
-    /// <summary>Specifies a null operation.</summary>
+    /// <summary>No operation.</summary>
     Null,
 
-    /// <summary>Specifies a multi-part update is starting.</summary>
+    /// <summary>Signals the start of a batched hierarchy update.</summary>
     StartUpdate,
 
-    /// <summary>Specifies a multi-part update has ended.</summary>
+    /// <summary>Signals the end of a batched hierarchy update.</summary>
     EndUpdate,
 
-    /// <summary>Specifies all display elements of the named pages be shown.</summary>
+    /// <summary>Shows display elements for the named pages.</summary>
     ShowPages,
 
-    /// <summary>Specifies all display elements of all pages be shown.</summary>
+    /// <summary>Shows display elements for every page in the hierarchy.</summary>
     ShowAllPages,
 
-    /// <summary>Specifies all display elements of the named pages be hidden.</summary>
+    /// <summary>Hides display elements for the named pages.</summary>
     HidePages,
 
-    /// <summary>Specifies all display elements of all pages be hidden.</summary>
+    /// <summary>Hides display elements for every page in the hierarchy.</summary>
     HideAllPages,
 
-    /// <summary>Specifies the named pages are replaced with position placeholders.</summary>
+    /// <summary>Replaces the named pages with position placeholders.</summary>
     StorePages,
 
-    /// <summary>Specifies all pages are replaced with position placeholders.</summary>
+    /// <summary>Replaces every page with position placeholders.</summary>
     StoreAllPages,
 
-    /// <summary>Specifies the position placeholders are restored with actual pages.</summary>
+    /// <summary>Restores actual pages from stored placeholders.</summary>
     RestorePages,
 
-    /// <summary>Specifies the auto hidden store pages should be removed for the named pages.</summary>
+    /// <summary>Removes auto-hidden store placeholders for the named pages.</summary>
     ClearAutoHiddenStoredPages,
 
-    /// <summary>Specifies the docked store pages should be removed for the named pages.</summary>
+    /// <summary>Removes docked store placeholders for the named pages.</summary>
     ClearDockedStoredPages,
 
-    /// <summary>Specifies the floating store pages should be removed for the named pages.</summary>
+    /// <summary>Removes floating store placeholders for the named pages.</summary>
     ClearFloatingStoredPages,
 
-    /// <summary>Specifies the filler store pages should be removed for the named pages.</summary>
+    /// <summary>Removes filler store placeholders for the named pages.</summary>
     ClearFillerStoredPages,
 
-    /// <summary>Specifies all stored pages should be removed for the named pages.</summary>
+    /// <summary>Removes all store placeholders for the named pages.</summary>
     ClearStoredPages,
 
-    /// <summary>Specifies all stored pages should be removed.</summary>
+    /// <summary>Removes every store placeholder in the hierarchy.</summary>
     ClearAllStoredPages,
 
-    /// <summary>Specifies all details of the named pages be removed.</summary>
+    /// <summary>Removes the named pages from the hierarchy.</summary>
     RemovePages,
 
-    /// <summary>Specifies all details of the named pages be removed and the page disposed.</summary>
+    /// <summary>Removes the named pages from the hierarchy and disposes them.</summary>
     RemoveAndDisposePages,
 
-    /// <summary>Specifies all details of all pages be removed.</summary>
+    /// <summary>Removes every page from the hierarchy.</summary>
     RemoveAllPages,
 
-    /// <summary>Specifies all details of all pages be removed and the pages disposed.</summary>
+    /// <summary>Removes every page from the hierarchy and disposes them.</summary>
     RemoveAndDisposeAllPages,
 
-    /// <summary>Specifies a loading operation is about to begin.</summary>
+    /// <summary>Signals that a configuration load is about to begin.</summary>
     Loading,
 
-    /// <summary>Specifies a dockspace with matching ordering value reposition its controls.</summary>
+    /// <summary>Requests dockspace controls with a matching order value to reposition themselves.</summary>
     RepositionDockspace,
 
-    /// <summary>Specifies the named string property has been updated.</summary>
+    /// <summary>Notifies descendants that a localized string property changed.</summary>
     StringChanged,
 
-    /// <summary>Specifies that debug output about the docking contents be output.</summary>
+    /// <summary>Requests diagnostic output of current docking contents.</summary>
     DebugOutput
 }
 #endregion
 
 #region Enum DockingPropogateBoolState
 /// <summary>
-/// Specifies a docking propogate for boolean state.
+/// Boolean state queried from descendants.
 /// </summary>
 public enum DockingPropogateBoolState
 {
-    /// <summary>Specifies active state for a named page.</summary>
+    /// <summary>Whether a descendant hosts the named page.</summary>
     ContainsPage,
 
-    /// <summary>Specifies store state for a named page.</summary>
+    /// <summary>Whether a descendant holds a stored placeholder for the named page.</summary>
     ContainsStorePage,
 
-    /// <summary>Specifies showing state for a named page.</summary>
+    /// <summary>Whether the named page is currently visible.</summary>
     IsPageShowing
 }
 #endregion
 
 #region Enum DockingPropogateIntState
 /// <summary>
-/// Specifies a docking propogate for integer state.
+/// Integer state queried from descendants.
 /// </summary>
 public enum DockingPropogateIntState
 {
-    /// <summary>Specifies control ordering for dockspace controls.</summary>
+    /// <summary>Ordering index assigned to dockspace controls.</summary>
     DockspaceOrder
 }
 #endregion
 
 #region Enum DockingPropogatePageState
 /// <summary>
-/// Specifies a docking propogate for page references.
+/// Page lookup requested from descendants.
 /// </summary>
 public enum DockingPropogatePageState
 {
-    /// <summary>Specifies a page referenced is required for the named page.</summary>
+    /// <summary>Locate the live page instance for the given unique name.</summary>
     PageForUniqueName
 }
 #endregion
 
 #region Enum DockingPropogatePageList
 /// <summary>
-/// Specifies a docking propogate for page list.
+/// Page-list query sent to descendants.
 /// </summary>
 public enum DockingPropogatePageList
 {
-    /// <summary>Specifies a list of all pages be created.</summary>
+    /// <summary>Collect every page in the hierarchy.</summary>
     All,
 
-    /// <summary>Specifies a list of all docked pages be created.</summary>
+    /// <summary>Collect pages that are docked along control edges.</summary>
     Docked,
 
-    /// <summary>Specifies a list of all auto hidden pages be created.</summary>
+    /// <summary>Collect pages that are auto-hidden along control edges.</summary>
     AutoHidden,
 
-    /// <summary>Specifies a list of all floating pages be created.</summary>
+    /// <summary>Collect pages hosted in floating windows.</summary>
     Floating,
 
-    /// <summary>Specifies a list of all filler pages be created.</summary>
+    /// <summary>Collect filler placeholder pages.</summary>
     Filler
 }
 #endregion
 
 #region Enum DockingPropogateCellList
 /// <summary>
-/// Specifies a docking propogate for cell list.
+/// Workspace cell-list query sent to descendants.
 /// </summary>
 public enum DockingPropogateCellList
 {
-    /// <summary>Specifies a list of all cells be created.</summary>
+    /// <summary>Collect every workspace cell in the hierarchy.</summary>
     All,
 
-    /// <summary>Specifies a list of all docked cells be created.</summary>
+    /// <summary>Collect workspace cells that host docked pages.</summary>
     Docked,
 
-    /// <summary>Specifies a list of all floating cells be created.</summary>
+    /// <summary>Collect workspace cells that host floating pages.</summary>
     Floating,
 
-    /// <summary>Specifies a list of all workspace cells be created.</summary>
+    /// <summary>Collect workspace cells in standalone workspaces.</summary>
     Workspace
 }
 #endregion

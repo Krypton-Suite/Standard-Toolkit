@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -38,11 +38,11 @@ public class KryptonDockingEdgeDocked : DockingElementClosedCollection
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonDockingEdgeDocked class.
+    /// Creates an edge-docked collection for the specified control and edge.
     /// </summary>
     /// <param name="name">Initial name of the element.</param>
-    /// <param name="control">Reference to control that is being managed.</param>
-    /// <param name="edge">Docking edge being managed.</param>
+    /// <param name="control">Host control for docked dockspaces.</param>
+    /// <param name="edge">Edge of the host control on which dockspaces are created.</param>
     public KryptonDockingEdgeDocked(string name, Control control, DockingEdge edge)
         : base(name)
     {
@@ -55,19 +55,19 @@ public class KryptonDockingEdgeDocked : DockingElementClosedCollection
 
     #region Public
     /// <summary>
-    /// Gets the control this element is managing.
+    /// Host control associated with this docking element.
     /// </summary>
     public Control Control { get; }
 
     /// <summary>
-    /// Gets the docking edge this element is managing.
+    /// Control edge on which this element hosts docked or auto-hidden content.
     /// </summary>
     public DockingEdge Edge { get; }
 
     /// <summary>
     /// Create and add a new dockspace instance to the correct edge of the owning control.
     /// </summary>
-    /// <returns>Reference to docking element that handles the new dockspace.</returns>
+    /// <returns>The newly created dockspace element.</returns>
     public KryptonDockingDockspace AppendDockspace() =>
         // Generate a unique string by creating a GUID
         AppendDockspace(CommonHelper.UniqueString);
@@ -76,7 +76,7 @@ public class KryptonDockingEdgeDocked : DockingElementClosedCollection
     /// Create and add a new dockspace instance to the correct edge of the owning control.
     /// </summary>
     /// <param name="name">Initial name of the dockspace element.</param>
-    /// <returns>Reference to docking element that handles the new dockspace.</returns>
+    /// <returns>The newly created dockspace element.</returns>
     public KryptonDockingDockspace AppendDockspace(string name) => AppendDockspace(name, new Size(200, 200));
 
     /// <summary>
@@ -84,14 +84,14 @@ public class KryptonDockingEdgeDocked : DockingElementClosedCollection
     /// </summary>
     /// <param name="name">Initial name of the dockspace element.</param>
     /// <param name="size">Initial size of the dockspace control.</param>
-    /// <returns>Reference to docking element that handles the new dockspace.</returns>
+    /// <returns>The newly created dockspace element.</returns>
     public KryptonDockingDockspace AppendDockspace(string name, Size size) => CreateAndInsertDockspace(Count, name, size);
 
     /// <summary>
     /// Create and insert a new dockspace instance to the correct edge of the owning control.
     /// </summary>
     /// <param name="index">Insertion index.</param>
-    /// <returns>Reference to docking element that handles the new dockspace.</returns>
+    /// <returns>The newly created dockspace element.</returns>
     public KryptonDockingDockspace InsertDockspace(int index) =>
         // Generate a unique string by creating a GUID
         InsertDockspace(index, CommonHelper.UniqueString);
@@ -101,7 +101,7 @@ public class KryptonDockingEdgeDocked : DockingElementClosedCollection
     /// </summary>
     /// <param name="index">Insertion index.</param>
     /// <param name="name">Initial name of the dockspace element.</param>
-    /// <returns>Reference to docking element that handles the new dockspace.</returns>
+    /// <returns>The newly created dockspace element.</returns>
     public KryptonDockingDockspace InsertDockspace(int index, string name) => InsertDockspace(index, name, new Size(200, 200));
 
     /// <summary>
@@ -110,14 +110,14 @@ public class KryptonDockingEdgeDocked : DockingElementClosedCollection
     /// <param name="index">Insertion index.</param>
     /// <param name="name">Initial name of the dockspace element.</param>
     /// <param name="size">Initial size of the dockspace control.</param>
-    /// <returns>Reference to docking element that handles the new dockspace.</returns>
+    /// <returns>The newly created dockspace element.</returns>
     public KryptonDockingDockspace InsertDockspace(int index, string name, Size size) => CreateAndInsertDockspace(index, name, size);
 
     /// <summary>
-    /// Find a edge docked element by searching the hierarchy.
+    /// Returns the edge-docked element associated with the specified page name.
     /// </summary>
     /// <param name="uniqueName">Named page for which a suitable docking edge element is required.</param>
-    /// <returns>KryptonDockingEdgeDocked reference if found; otherwise false.</returns>
+    /// <returns>This edge-docked collection.</returns>
     public override KryptonDockingEdgeDocked FindDockingEdgeDocked(string uniqueName) => this;
 
     #endregion

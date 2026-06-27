@@ -13,21 +13,21 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Extends the KryptonNavigator to work within the docking framework.
+/// Navigator variant wired into the docking framework for page insertion and header menu coordination.
 /// </summary>
 [ToolboxBitmap(typeof(KryptonDockableWorkspace), "ToolboxBitmaps.KryptonDockableNavigator.bmp")]
 public class KryptonDockableNavigator : KryptonNavigator
 {
     #region Events
     /// <summary>
-    /// Occurs when a page is being inserted into the navigator.
+    /// Raised before a page is inserted so docking logic can perform additional setup.
     /// </summary>
     [Category("DockableNavigator")]
     [Description("Occurs when a page is added to a workspace cell.")]
     public event EventHandler<KryptonPageEventArgs>? CellPageInserting;
 
     /// <summary>
-    /// Occurs when a page requests that a drop-down menu be shown.
+    /// Raised when a page context menu is about to open; handlers can populate or cancel the menu.
     /// </summary>
     [Category("DockableNavigator")]
     [Description("Occurs when a page requests that a drop-down menu be shown.")]
@@ -36,7 +36,7 @@ public class KryptonDockableNavigator : KryptonNavigator
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonDockableNavigator class.
+    /// Subscribes to page insertion and context menu display for docking coordination.
     /// </summary>
     public KryptonDockableNavigator()
     {

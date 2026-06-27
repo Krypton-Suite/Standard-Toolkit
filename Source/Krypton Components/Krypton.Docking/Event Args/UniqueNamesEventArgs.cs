@@ -13,22 +13,22 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Event arguments for events that need to provide a set of unique names.
+/// Event arguments exposing multiple page unique names for bulk docking operations.
 /// </summary>
 public class UniqueNamesEventArgs : EventArgs
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the UniqueNamesEventArgs class.
+    /// Stores the list of unique names supplied by the event source.
     /// </summary>
-    /// <param name="uniqueNames">Array of unique names.</param>
+    /// <param name="uniqueNames">Read-only list of page unique names referenced by the event.</param>
     public UniqueNamesEventArgs(IReadOnlyList<string> uniqueNames) => UniqueNames = uniqueNames;
 
     #endregion
 
     #region Public
     /// <summary>
-    /// Gets the array of unique names associated with the event.
+    /// Read-only list of page unique names referenced by the event.
     /// </summary>
     public IReadOnlyList<string> UniqueNames { get; }
 

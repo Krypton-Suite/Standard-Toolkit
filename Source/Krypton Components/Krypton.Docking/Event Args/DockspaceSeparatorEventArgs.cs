@@ -13,16 +13,16 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Event arguments for a DockspaceSeparatorAdding/DockspaceSeparatorRemoved event.
+/// Event arguments raised when a dockspace separator is added or removed.
 /// </summary>
 public class DockspaceSeparatorEventArgs : EventArgs
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the DockspaceSeparatorEventArgs class.
+    /// Stores the separator control and owning dockspace docking element for the event.
     /// </summary>
-    /// <param name="separator">Reference to separator control instance.</param>
-    /// <param name="element">Reference to dockspace docking element that is managing the separator.</param>
+    /// <param name="separator">Separator control instance being added or removed.</param>
+    /// <param name="element">Dockspace docking element that owns the separator; may be null.</param>
     public DockspaceSeparatorEventArgs(KryptonSeparator separator,
         KryptonDockingDockspace? element)
     {
@@ -33,12 +33,12 @@ public class DockspaceSeparatorEventArgs : EventArgs
 
     #region Public
     /// <summary>
-    /// Gets a reference to the KryptonSeparator control..
+    /// Separator control involved in the add or remove operation.
     /// </summary>
     public KryptonSeparator SeparatorControl { get; }
 
     /// <summary>
-    /// Gets a reference to the KryptonDockingDockspace that is managing the dockspace.
+    /// Dockspace docking element that owns the separator; may be null when the element is unavailable.
     /// </summary>
     public KryptonDockingDockspace? DockspaceElement { get; }
 
