@@ -1,0 +1,159 @@
+\doxysection{Krypton.\+Docking.\+Drag\+Target\+Control\+Edge Class Reference}
+\hypertarget{class_krypton_1_1_docking_1_1_drag_target_control_edge}{}\label{class_krypton_1_1_docking_1_1_drag_target_control_edge}\index{Krypton.Docking.DragTargetControlEdge@{Krypton.Docking.DragTargetControlEdge}}
+
+
+Target one of the four sides of a docking control.  
+
+
+Inheritance diagram for Krypton.\+Docking.\+Drag\+Target\+Control\+Edge\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_krypton_1_1_docking_1_1_drag_target_control_edge}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_drag_target_control_edge_a20225cd60567d20fd649006ba5d7969c}{Drag\+Target\+Control\+Edge}} (Rectangle screen\+Rect, Rectangle hot\+Rect, Rectangle draw\+Rect, Drag\+Target\+Hint hint, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_control}{Krypton\+Docking\+Control}} control\+Element, Krypton\+Page\+Flags allow\+Flags, bool outside\+Edge)
+\begin{DoxyCompactList}\small\item\em Initialize a new instance of the \doxylink{class_krypton_1_1_docking_1_1_drag_target_control_edge}{Drag\+Target\+Control\+Edge} class. \end{DoxyCompactList}\item 
+override bool \mbox{\hyperlink{class_krypton_1_1_docking_1_1_drag_target_control_edge_a4158b794a5388a8c72f2c22729aa0d3e}{Is\+Match}} (Point screen\+Pt, Page\+Drag\+End\+Data? drag\+End\+Data)
+\begin{DoxyCompactList}\small\item\em Is this target a match for the provided screen position. \end{DoxyCompactList}\item 
+override bool \mbox{\hyperlink{class_krypton_1_1_docking_1_1_drag_target_control_edge_a3aa4f64a96b752282e1ef06992e4e780}{Perform\+Drop}} (Point screen\+Pt, Page\+Drag\+End\+Data? data)
+\begin{DoxyCompactList}\small\item\em Perform the drop action associated with the target. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+override void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_drag_target_control_edge_a5c570e4d6cbd50cc3510764e36acc0b7}{Dispose}} (bool disposing)
+\begin{DoxyCompactList}\small\item\em Release unmanaged and optionally managed resources. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+Visual\+Orientation \mbox{\hyperlink{class_krypton_1_1_docking_1_1_drag_target_control_edge_afe6d22e5febcf21d96c2e952a735a68e}{Edge}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the dragging edge. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_control}{Krypton\+Docking\+Control}} \mbox{\hyperlink{class_krypton_1_1_docking_1_1_drag_target_control_edge_ad6bf861d46301c1ae6b5b41d7f14e89a}{Control\+Element}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the target docking element. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Target one of the four sides of a docking control. 
+
+\label{doc-constructors}
+\Hypertarget{class_krypton_1_1_docking_1_1_drag_target_control_edge_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_drag_target_control_edge_a20225cd60567d20fd649006ba5d7969c}\index{Krypton.Docking.DragTargetControlEdge@{Krypton.Docking.DragTargetControlEdge}!DragTargetControlEdge@{DragTargetControlEdge}}
+\index{DragTargetControlEdge@{DragTargetControlEdge}!Krypton.Docking.DragTargetControlEdge@{Krypton.Docking.DragTargetControlEdge}}
+\doxysubsubsection{\texorpdfstring{DragTargetControlEdge()}{DragTargetControlEdge()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_drag_target_control_edge_a20225cd60567d20fd649006ba5d7969c} 
+Krypton.\+Docking.\+Drag\+Target\+Control\+Edge.\+Drag\+Target\+Control\+Edge (\begin{DoxyParamCaption}\item[{Rectangle}]{screen\+Rect}{, }\item[{Rectangle}]{hot\+Rect}{, }\item[{Rectangle}]{draw\+Rect}{, }\item[{Drag\+Target\+Hint}]{hint}{, }\item[{\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_control}{Krypton\+Docking\+Control}}}]{control\+Element}{, }\item[{Krypton\+Page\+Flags}]{allow\+Flags}{, }\item[{bool}]{outside\+Edge}{}\end{DoxyParamCaption})}
+
+
+
+Initialize a new instance of the \doxylink{class_krypton_1_1_docking_1_1_drag_target_control_edge}{Drag\+Target\+Control\+Edge} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em screen\+Rect} & Rectangle for screen area.\\
+\hline
+{\em hot\+Rect} & Rectangle for hot area.\\
+\hline
+{\em draw\+Rect} & Rectangle for draw area.\\
+\hline
+{\em hint} & Target hint which should be one of the edges.\\
+\hline
+{\em control\+Element} & Workspace instance that contains cell.\\
+\hline
+{\em allow\+Flags} & Only drop pages that have one of these flags defined.\\
+\hline
+{\em outside\+Edge} & Add to the outside edge (otherwise the inner edge).\\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-func-members}
+\Hypertarget{class_krypton_1_1_docking_1_1_drag_target_control_edge_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_drag_target_control_edge_a5c570e4d6cbd50cc3510764e36acc0b7}\index{Krypton.Docking.DragTargetControlEdge@{Krypton.Docking.DragTargetControlEdge}!Dispose@{Dispose}}
+\index{Dispose@{Dispose}!Krypton.Docking.DragTargetControlEdge@{Krypton.Docking.DragTargetControlEdge}}
+\doxysubsubsection{\texorpdfstring{Dispose()}{Dispose()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_drag_target_control_edge_a5c570e4d6cbd50cc3510764e36acc0b7} 
+override void Krypton.\+Docking.\+Drag\+Target\+Control\+Edge.\+Dispose (\begin{DoxyParamCaption}\item[{bool}]{disposing}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Release unmanaged and optionally managed resources. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em disposing} & Called from Dispose method.\\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_krypton_1_1_docking_1_1_drag_target_control_edge_a4158b794a5388a8c72f2c22729aa0d3e}\index{Krypton.Docking.DragTargetControlEdge@{Krypton.Docking.DragTargetControlEdge}!IsMatch@{IsMatch}}
+\index{IsMatch@{IsMatch}!Krypton.Docking.DragTargetControlEdge@{Krypton.Docking.DragTargetControlEdge}}
+\doxysubsubsection{\texorpdfstring{IsMatch()}{IsMatch()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_drag_target_control_edge_a4158b794a5388a8c72f2c22729aa0d3e} 
+override bool Krypton.\+Docking.\+Drag\+Target\+Control\+Edge.\+Is\+Match (\begin{DoxyParamCaption}\item[{Point}]{screen\+Pt}{, }\item[{Page\+Drag\+End\+Data?}]{drag\+End\+Data}{}\end{DoxyParamCaption})}
+
+
+
+Is this target a match for the provided screen position. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em screen\+Pt} & Position in screen coordinates.\\
+\hline
+{\em drag\+End\+Data} & Data to be dropped at destination.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if a match; otherwise false.
+\end{DoxyReturn}
+\Hypertarget{class_krypton_1_1_docking_1_1_drag_target_control_edge_a3aa4f64a96b752282e1ef06992e4e780}\index{Krypton.Docking.DragTargetControlEdge@{Krypton.Docking.DragTargetControlEdge}!PerformDrop@{PerformDrop}}
+\index{PerformDrop@{PerformDrop}!Krypton.Docking.DragTargetControlEdge@{Krypton.Docking.DragTargetControlEdge}}
+\doxysubsubsection{\texorpdfstring{PerformDrop()}{PerformDrop()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_drag_target_control_edge_a3aa4f64a96b752282e1ef06992e4e780} 
+override bool Krypton.\+Docking.\+Drag\+Target\+Control\+Edge.\+Perform\+Drop (\begin{DoxyParamCaption}\item[{Point}]{screen\+Pt}{, }\item[{Page\+Drag\+End\+Data?}]{data}{}\end{DoxyParamCaption})}
+
+
+
+Perform the drop action associated with the target. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em screen\+Pt} & Position in screen coordinates.\\
+\hline
+{\em data} & Data to pass to the target to process drop.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Drop was performed and the source can perform any removal of pages as required.
+\end{DoxyReturn}
+
+
+\label{doc-property-members}
+\Hypertarget{class_krypton_1_1_docking_1_1_drag_target_control_edge_doc-property-members}
+\doxysubsection{Property Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_drag_target_control_edge_ad6bf861d46301c1ae6b5b41d7f14e89a}\index{Krypton.Docking.DragTargetControlEdge@{Krypton.Docking.DragTargetControlEdge}!ControlElement@{ControlElement}}
+\index{ControlElement@{ControlElement}!Krypton.Docking.DragTargetControlEdge@{Krypton.Docking.DragTargetControlEdge}}
+\doxysubsubsection{\texorpdfstring{ControlElement}{ControlElement}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_drag_target_control_edge_ad6bf861d46301c1ae6b5b41d7f14e89a} 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_control}{Krypton\+Docking\+Control}} Krypton.\+Docking.\+Drag\+Target\+Control\+Edge.\+Control\+Element\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Gets the target docking element. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_drag_target_control_edge_afe6d22e5febcf21d96c2e952a735a68e}\index{Krypton.Docking.DragTargetControlEdge@{Krypton.Docking.DragTargetControlEdge}!Edge@{Edge}}
+\index{Edge@{Edge}!Krypton.Docking.DragTargetControlEdge@{Krypton.Docking.DragTargetControlEdge}}
+\doxysubsubsection{\texorpdfstring{Edge}{Edge}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_drag_target_control_edge_afe6d22e5febcf21d96c2e952a735a68e} 
+Visual\+Orientation Krypton.\+Docking.\+Drag\+Target\+Control\+Edge.\+Edge\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Gets the dragging edge. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/\+Krypton-\/\+Reference-\/\+Repo/\+Standard-\/\+Toolkit/\+Source/\+Krypton Components/\+Krypton.\+Docking/\+Dragging/\mbox{\hyperlink{_drag_target_control_edge_8cs}{Drag\+Target\+Control\+Edge.\+cs}}\end{DoxyCompactItemize}

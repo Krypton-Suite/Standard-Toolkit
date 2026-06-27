@@ -1,0 +1,247 @@
+\doxysection{Krypton.\+Docking.\+Docking\+Drag\+Manager Class Reference}
+\hypertarget{class_krypton_1_1_docking_1_1_docking_drag_manager}{}\label{class_krypton_1_1_docking_1_1_docking_drag_manager}\index{Krypton.Docking.DockingDragManager@{Krypton.Docking.DockingDragManager}}
+
+
+Manage a docking dragging operation.  
+
+
+Inheritance diagram for Krypton.\+Docking.\+Docking\+Drag\+Manager\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=1.536351cm]{class_krypton_1_1_docking_1_1_docking_drag_manager}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_drag_manager_a10b98ed4074665b8ce2d95a1d2b0105b}{Docking\+Drag\+Manager}} (\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_manager}{Krypton\+Docking\+Manager}} manager, Control? c)
+\begin{DoxyCompactList}\small\item\em Initialize a new instance of the \doxylink{class_krypton_1_1_docking_1_1_docking_drag_manager}{Docking\+Drag\+Manager} class. \end{DoxyCompactList}\item 
+override bool \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_drag_manager_a1e036593a15ec29f4f59dbb9e9fc3e4f}{Drag\+Start}} (Point screen\+Pt, Page\+Drag\+End\+Data? drag\+End\+Data)
+\begin{DoxyCompactList}\small\item\em Occurs when dragging starts. \end{DoxyCompactList}\item 
+override void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_drag_manager_a3c5b3d15a1717f91ff3700507ef32c31}{Drag\+Move}} (Point screen\+Pt)
+\begin{DoxyCompactList}\small\item\em Occurs on dragging movement. \end{DoxyCompactList}\item 
+override bool \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_drag_manager_ac5030b038997f30b8131a4133d0c8cc5}{Drag\+End}} (Point screen\+Pt)
+\begin{DoxyCompactList}\small\item\em Occurs when dragging ends because of dropping. \end{DoxyCompactList}\item 
+override void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_drag_manager_ab1f2a45e6b74df0dc0d09b663a1276b1}{Drag\+Quit}} ()
+\begin{DoxyCompactList}\small\item\em Occurs when dragging quits. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_drag_manager_a3c0c95fbf1dfed0c803874515fee9434}{On\+KEYDOWN}} (ref Message m)
+\begin{DoxyCompactList}\small\item\em Processes the WM\+\_\+\+KEYDOWN from the floating window. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_drag_manager_af9ef71fed63437541a71c5ae12f8972c}{On\+MOUSEMOVE}} ()
+\begin{DoxyCompactList}\small\item\em Processes the WM\+\_\+\+MOUSEMOVE from the floating window. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_drag_manager_abad5876610d8d55975b139c8258fbe49}{On\+LBUTTONUP}} ()
+\begin{DoxyCompactList}\small\item\em Processes the WM\+\_\+\+LBUTTONUP from the floating window. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_drag_manager_a43a3e03ef5372ba4cd91b3a04cd0346f}{Pre\+Filter\+Message}} (ref Message m)
+\begin{DoxyCompactList}\small\item\em Filters out a message before it is dispatched. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+override void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_drag_manager_a7f0a178f4e1fa50c55bf8263e1247f9e}{Dispose}} (bool disposing)
+\begin{DoxyCompactList}\small\item\em Release unmanaged and optionally managed resources. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_floating_window}{Krypton\+Floating\+Window}}? \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_drag_manager_ae7b97f85ee110b28a2a138cd4b61dba8}{Floating\+Window}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets and sets the window that is moved in sync with the mouse movement. \end{DoxyCompactList}\item 
+Point \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_drag_manager_a7368be2d28efd9f90d71a60d4d0c2761}{Floating\+Window\+Offset}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets and sets the offset of the floating window from the screen cursor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Manage a docking dragging operation. 
+
+\label{doc-constructors}
+\Hypertarget{class_krypton_1_1_docking_1_1_docking_drag_manager_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_docking_drag_manager_a10b98ed4074665b8ce2d95a1d2b0105b}\index{Krypton.Docking.DockingDragManager@{Krypton.Docking.DockingDragManager}!DockingDragManager@{DockingDragManager}}
+\index{DockingDragManager@{DockingDragManager}!Krypton.Docking.DockingDragManager@{Krypton.Docking.DockingDragManager}}
+\doxysubsubsection{\texorpdfstring{DockingDragManager()}{DockingDragManager()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_docking_drag_manager_a10b98ed4074665b8ce2d95a1d2b0105b} 
+Krypton.\+Docking.\+Docking\+Drag\+Manager.\+Docking\+Drag\+Manager (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_manager}{Krypton\+Docking\+Manager}}}]{manager}{, }\item[{Control?}]{c}{}\end{DoxyParamCaption})}
+
+
+
+Initialize a new instance of the \doxylink{class_krypton_1_1_docking_1_1_docking_drag_manager}{Docking\+Drag\+Manager} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em manager} & Reference to manager creating this instance.\\
+\hline
+{\em c} & Control that is starting the drag operation.\\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-func-members}
+\Hypertarget{class_krypton_1_1_docking_1_1_docking_drag_manager_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_docking_drag_manager_a7f0a178f4e1fa50c55bf8263e1247f9e}\index{Krypton.Docking.DockingDragManager@{Krypton.Docking.DockingDragManager}!Dispose@{Dispose}}
+\index{Dispose@{Dispose}!Krypton.Docking.DockingDragManager@{Krypton.Docking.DockingDragManager}}
+\doxysubsubsection{\texorpdfstring{Dispose()}{Dispose()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_docking_drag_manager_a7f0a178f4e1fa50c55bf8263e1247f9e} 
+override void Krypton.\+Docking.\+Docking\+Drag\+Manager.\+Dispose (\begin{DoxyParamCaption}\item[{bool}]{disposing}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Release unmanaged and optionally managed resources. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em disposing} & Called from Dispose method.\\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_krypton_1_1_docking_1_1_docking_drag_manager_ac5030b038997f30b8131a4133d0c8cc5}\index{Krypton.Docking.DockingDragManager@{Krypton.Docking.DockingDragManager}!DragEnd@{DragEnd}}
+\index{DragEnd@{DragEnd}!Krypton.Docking.DockingDragManager@{Krypton.Docking.DockingDragManager}}
+\doxysubsubsection{\texorpdfstring{DragEnd()}{DragEnd()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_docking_drag_manager_ac5030b038997f30b8131a4133d0c8cc5} 
+override bool Krypton.\+Docking.\+Docking\+Drag\+Manager.\+Drag\+End (\begin{DoxyParamCaption}\item[{Point}]{screen\+Pt}{}\end{DoxyParamCaption})}
+
+
+
+Occurs when dragging ends because of dropping. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em screen\+Pt} & Ending screen point when dropping.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Drop was performed and the source can perform any removal of pages as required.
+\end{DoxyReturn}
+\Hypertarget{class_krypton_1_1_docking_1_1_docking_drag_manager_a3c5b3d15a1717f91ff3700507ef32c31}\index{Krypton.Docking.DockingDragManager@{Krypton.Docking.DockingDragManager}!DragMove@{DragMove}}
+\index{DragMove@{DragMove}!Krypton.Docking.DockingDragManager@{Krypton.Docking.DockingDragManager}}
+\doxysubsubsection{\texorpdfstring{DragMove()}{DragMove()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_docking_drag_manager_a3c5b3d15a1717f91ff3700507ef32c31} 
+override void Krypton.\+Docking.\+Docking\+Drag\+Manager.\+Drag\+Move (\begin{DoxyParamCaption}\item[{Point}]{screen\+Pt}{}\end{DoxyParamCaption})}
+
+
+
+Occurs on dragging movement. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em screen\+Pt} & Latest screen point during dragging.\\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_krypton_1_1_docking_1_1_docking_drag_manager_ab1f2a45e6b74df0dc0d09b663a1276b1}\index{Krypton.Docking.DockingDragManager@{Krypton.Docking.DockingDragManager}!DragQuit@{DragQuit}}
+\index{DragQuit@{DragQuit}!Krypton.Docking.DockingDragManager@{Krypton.Docking.DockingDragManager}}
+\doxysubsubsection{\texorpdfstring{DragQuit()}{DragQuit()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_docking_drag_manager_ab1f2a45e6b74df0dc0d09b663a1276b1} 
+override void Krypton.\+Docking.\+Docking\+Drag\+Manager.\+Drag\+Quit (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Occurs when dragging quits. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_docking_drag_manager_a1e036593a15ec29f4f59dbb9e9fc3e4f}\index{Krypton.Docking.DockingDragManager@{Krypton.Docking.DockingDragManager}!DragStart@{DragStart}}
+\index{DragStart@{DragStart}!Krypton.Docking.DockingDragManager@{Krypton.Docking.DockingDragManager}}
+\doxysubsubsection{\texorpdfstring{DragStart()}{DragStart()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_docking_drag_manager_a1e036593a15ec29f4f59dbb9e9fc3e4f} 
+override bool Krypton.\+Docking.\+Docking\+Drag\+Manager.\+Drag\+Start (\begin{DoxyParamCaption}\item[{Point}]{screen\+Pt}{, }\item[{Page\+Drag\+End\+Data?}]{drag\+End\+Data}{}\end{DoxyParamCaption})}
+
+
+
+Occurs when dragging starts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em screen\+Pt} & Mouse screen point at start of drag.\\
+\hline
+{\em drag\+End\+Data} & Data to be dropped at destination.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if dragging was started; otherwise false.
+\end{DoxyReturn}
+\Hypertarget{class_krypton_1_1_docking_1_1_docking_drag_manager_a3c0c95fbf1dfed0c803874515fee9434}\index{Krypton.Docking.DockingDragManager@{Krypton.Docking.DockingDragManager}!OnKEYDOWN@{OnKEYDOWN}}
+\index{OnKEYDOWN@{OnKEYDOWN}!Krypton.Docking.DockingDragManager@{Krypton.Docking.DockingDragManager}}
+\doxysubsubsection{\texorpdfstring{OnKEYDOWN()}{OnKEYDOWN()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_docking_drag_manager_a3c0c95fbf1dfed0c803874515fee9434} 
+bool Krypton.\+Docking.\+Docking\+Drag\+Manager.\+On\+KEYDOWN (\begin{DoxyParamCaption}\item[{ref Message}]{m}{}\end{DoxyParamCaption})}
+
+
+
+Processes the WM\+\_\+\+KEYDOWN from the floating window. 
+
+\begin{DoxyReturn}{Returns}
+True to eat message; otherwise false.
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_floating_messages_a183d1d7c9c68f85b857d6be2079796a4}{Krypton.\+Docking.\+IFloating\+Messages}}.
+
+\Hypertarget{class_krypton_1_1_docking_1_1_docking_drag_manager_abad5876610d8d55975b139c8258fbe49}\index{Krypton.Docking.DockingDragManager@{Krypton.Docking.DockingDragManager}!OnLBUTTONUP@{OnLBUTTONUP}}
+\index{OnLBUTTONUP@{OnLBUTTONUP}!Krypton.Docking.DockingDragManager@{Krypton.Docking.DockingDragManager}}
+\doxysubsubsection{\texorpdfstring{OnLBUTTONUP()}{OnLBUTTONUP()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_docking_drag_manager_abad5876610d8d55975b139c8258fbe49} 
+void Krypton.\+Docking.\+Docking\+Drag\+Manager.\+On\+LBUTTONUP (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Processes the WM\+\_\+\+LBUTTONUP from the floating window. 
+
+
+
+Implements \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_floating_messages_a472aef66d771de65816d967df388076c}{Krypton.\+Docking.\+IFloating\+Messages}}.
+
+\Hypertarget{class_krypton_1_1_docking_1_1_docking_drag_manager_af9ef71fed63437541a71c5ae12f8972c}\index{Krypton.Docking.DockingDragManager@{Krypton.Docking.DockingDragManager}!OnMOUSEMOVE@{OnMOUSEMOVE}}
+\index{OnMOUSEMOVE@{OnMOUSEMOVE}!Krypton.Docking.DockingDragManager@{Krypton.Docking.DockingDragManager}}
+\doxysubsubsection{\texorpdfstring{OnMOUSEMOVE()}{OnMOUSEMOVE()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_docking_drag_manager_af9ef71fed63437541a71c5ae12f8972c} 
+void Krypton.\+Docking.\+Docking\+Drag\+Manager.\+On\+MOUSEMOVE (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Processes the WM\+\_\+\+MOUSEMOVE from the floating window. 
+
+
+
+Implements \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_floating_messages_a73dd5514a29836211276da41b611e842}{Krypton.\+Docking.\+IFloating\+Messages}}.
+
+\Hypertarget{class_krypton_1_1_docking_1_1_docking_drag_manager_a43a3e03ef5372ba4cd91b3a04cd0346f}\index{Krypton.Docking.DockingDragManager@{Krypton.Docking.DockingDragManager}!PreFilterMessage@{PreFilterMessage}}
+\index{PreFilterMessage@{PreFilterMessage}!Krypton.Docking.DockingDragManager@{Krypton.Docking.DockingDragManager}}
+\doxysubsubsection{\texorpdfstring{PreFilterMessage()}{PreFilterMessage()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_docking_drag_manager_a43a3e03ef5372ba4cd91b3a04cd0346f} 
+bool Krypton.\+Docking.\+Docking\+Drag\+Manager.\+Pre\+Filter\+Message (\begin{DoxyParamCaption}\item[{ref Message}]{m}{}\end{DoxyParamCaption})}
+
+
+
+Filters out a message before it is dispatched. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em m} & The message to be dispatched.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true to filter the message and stop it from being dispatched.
+\end{DoxyReturn}
+
+
+\label{doc-property-members}
+\Hypertarget{class_krypton_1_1_docking_1_1_docking_drag_manager_doc-property-members}
+\doxysubsection{Property Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_docking_drag_manager_ae7b97f85ee110b28a2a138cd4b61dba8}\index{Krypton.Docking.DockingDragManager@{Krypton.Docking.DockingDragManager}!FloatingWindow@{FloatingWindow}}
+\index{FloatingWindow@{FloatingWindow}!Krypton.Docking.DockingDragManager@{Krypton.Docking.DockingDragManager}}
+\doxysubsubsection{\texorpdfstring{FloatingWindow}{FloatingWindow}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_docking_drag_manager_ae7b97f85ee110b28a2a138cd4b61dba8} 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_floating_window}{Krypton\+Floating\+Window}}? Krypton.\+Docking.\+Docking\+Drag\+Manager.\+Floating\+Window\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Gets and sets the window that is moved in sync with the mouse movement. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_docking_drag_manager_a7368be2d28efd9f90d71a60d4d0c2761}\index{Krypton.Docking.DockingDragManager@{Krypton.Docking.DockingDragManager}!FloatingWindowOffset@{FloatingWindowOffset}}
+\index{FloatingWindowOffset@{FloatingWindowOffset}!Krypton.Docking.DockingDragManager@{Krypton.Docking.DockingDragManager}}
+\doxysubsubsection{\texorpdfstring{FloatingWindowOffset}{FloatingWindowOffset}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_docking_drag_manager_a7368be2d28efd9f90d71a60d4d0c2761} 
+Point Krypton.\+Docking.\+Docking\+Drag\+Manager.\+Floating\+Window\+Offset\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Gets and sets the offset of the floating window from the screen cursor. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/\+Krypton-\/\+Reference-\/\+Repo/\+Standard-\/\+Toolkit/\+Source/\+Krypton Components/\+Krypton.\+Docking/\+Dragging/\mbox{\hyperlink{_docking_drag_manager_8cs}{Docking\+Drag\+Manager.\+cs}}\end{DoxyCompactItemize}

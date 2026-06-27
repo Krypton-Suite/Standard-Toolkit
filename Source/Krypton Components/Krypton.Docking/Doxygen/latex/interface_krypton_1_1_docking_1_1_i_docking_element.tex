@@ -1,0 +1,626 @@
+\doxysection{Krypton.\+Docking.\+IDocking\+Element Interface Reference}
+\hypertarget{interface_krypton_1_1_docking_1_1_i_docking_element}{}\label{interface_krypton_1_1_docking_1_1_i_docking_element}\index{Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}}
+
+
+Interface exposed by elements within the docking hierarchy.  
+
+
+Inheritance diagram for Krypton.\+Docking.\+IDocking\+Element\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=11.779935cm]{interface_krypton_1_1_docking_1_1_i_docking_element}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element}{IDocking\+Element}}? \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element_a068480d06855d52ce1fce6ff5e31d63a}{Resolve\+Path}} (string path)
+\begin{DoxyCompactList}\small\item\em Resolve the provided path. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element_af70d1de36b5808ee4d4878acdc8222f1}{Propogate\+Action}} (\mbox{\hyperlink{namespace_krypton_1_1_docking_ac8ad98ca60c1836b23886bf6598ab38d}{Docking\+Propogate\+Action}} action, string\mbox{[}$\,$\mbox{]}? unique\+Names)
+\begin{DoxyCompactList}\small\item\em Propagates an action request down the hierarchy of docking elements. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element_ae89db809554560a15b488f25767388cc}{Propogate\+Action}} (\mbox{\hyperlink{namespace_krypton_1_1_docking_ac8ad98ca60c1836b23886bf6598ab38d}{Docking\+Propogate\+Action}} action, Krypton\+Page\mbox{[}$\,$\mbox{]} pages)
+\begin{DoxyCompactList}\small\item\em Propagates an action request down the hierarchy of docking elements. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element_a5ed03dc9c05df4d1ad97b8eb62475140}{Propogate\+Action}} (\mbox{\hyperlink{namespace_krypton_1_1_docking_ac8ad98ca60c1836b23886bf6598ab38d}{Docking\+Propogate\+Action}} action, int value)
+\begin{DoxyCompactList}\small\item\em Propagates an action request down the hierarchy of docking elements. \end{DoxyCompactList}\item 
+bool? \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element_ab33eab98284deda40273537b58c7fecc}{Propogate\+Bool\+State}} (\mbox{\hyperlink{namespace_krypton_1_1_docking_ac5370c1674c796d848f49eaa40a112a2}{Docking\+Propogate\+Bool\+State}} state, string unique\+Name)
+\begin{DoxyCompactList}\small\item\em Propagates a boolean state request down the hierarchy of docking elements. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element_ab741cfb59f1a6399e9b86e0fc48447dd}{Propogate\+Int\+State}} (\mbox{\hyperlink{namespace_krypton_1_1_docking_aa0eb0e326c3aace833b31a848380f243}{Docking\+Propogate\+Int\+State}} state, ref int value)
+\begin{DoxyCompactList}\small\item\em Propagates an integer state request down the hierarchy of docking elements. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element_a35cd55fabd74bc8f4c9a8bd7cba11333}{Propogate\+Drag\+Targets}} (\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_floating_window}{Krypton\+Floating\+Window}}? floating\+Window, Page\+Drag\+End\+Data? drag\+Data, Drag\+Target\+List targets)
+\begin{DoxyCompactList}\small\item\em Propagates a request for drag targets down the hierarchy of docking elements. \end{DoxyCompactList}\item 
+Krypton\+Page? \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element_a6ae10d461fa0f8c38c937a89487488aa}{Propogate\+Page\+State}} (\mbox{\hyperlink{namespace_krypton_1_1_docking_a4953258c29eb2eabf0e56b94e55fb6ae}{Docking\+Propogate\+Page\+State}} state, string unique\+Name)
+\begin{DoxyCompactList}\small\item\em Propagates a page request down the hierarchy of docking elements. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element_a3d70a698ddbfaac103734321c15f2cbd}{Propogate\+Page\+List}} (\mbox{\hyperlink{namespace_krypton_1_1_docking_a6488c4f4dcf60e14dff777f8f4893c02}{Docking\+Propogate\+Page\+List}} state, Krypton\+Page\+Collection pages)
+\begin{DoxyCompactList}\small\item\em Propagates a page list request down the hierarchy of docking elements. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element_aeadf30b6fc39b03c2ebb1952f10153f8}{Propogate\+Cell\+List}} (\mbox{\hyperlink{namespace_krypton_1_1_docking_adad71cfc51303234b2817ff3938eb022}{Docking\+Propogate\+Cell\+List}} state, Krypton\+Workspace\+Cell\+List cells)
+\begin{DoxyCompactList}\small\item\em Propagates a workspace cell list request down the hierarchy of docking elements. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespace_krypton_1_1_docking_a3db89c47e2cadbbba33925a9e1d9229e}{Docking\+Location}} \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element_a9fd71820ab5340652038010ecacb35a8}{Find\+Page\+Location}} (string unique\+Name)
+\begin{DoxyCompactList}\small\item\em Find the docking location of the named page. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element}{IDocking\+Element}}? \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element_a44be5eeb6558c3c0c0461d27ffea2af7}{Find\+Page\+Element}} (string unique\+Name)
+\begin{DoxyCompactList}\small\item\em Find the docking element that contains the named page. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element}{IDocking\+Element}}? \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element_a3d406edeebe4acf518a41dcd7345c9e4}{Find\+Store\+Page\+Element}} (\mbox{\hyperlink{namespace_krypton_1_1_docking_a3db89c47e2cadbbba33925a9e1d9229e}{Docking\+Location}} location, string unique\+Name)
+\begin{DoxyCompactList}\small\item\em Find the docking element that contains the location specific store page for the named page. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_floating}{Krypton\+Docking\+Floating}}? \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element_ac41a8e259bd44b514dd05f205286773c}{Find\+Docking\+Floating}} (string unique\+Name)
+\begin{DoxyCompactList}\small\item\em Find a floating docking element by searching the hierarchy. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_edge_docked}{Krypton\+Docking\+Edge\+Docked}}? \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element_a3e2da0d48881cbf3b756c2b07e9d7b07}{Find\+Docking\+Edge\+Docked}} (string unique\+Name)
+\begin{DoxyCompactList}\small\item\em Find a edge docked element by searching the hierarchy. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_edge_auto_hidden}{Krypton\+Docking\+Edge\+Auto\+Hidden}}? \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element_a90f0f9c6c4343d196ebdf2cdf401b545}{Find\+Docking\+Edge\+Auto\+Hidden}} (string unique\+Name)
+\begin{DoxyCompactList}\small\item\em Find a edge auto hidden element by searching the hierarchy. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_workspace}{Krypton\+Docking\+Workspace}}? \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element_ace983575f2962440b81b8b88438748ef}{Find\+Docking\+Workspace}} (string unique\+Name)
+\begin{DoxyCompactList}\small\item\em Find a workspace element by searching the hierarchy. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_navigator}{Krypton\+Docking\+Navigator}}? \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element_a8366d7328f5717c12ee43cc126e9513f}{Find\+Docking\+Navigator}} (string unique\+Name)
+\begin{DoxyCompactList}\small\item\em Find a navigator element by searching the hierarchy. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element_ac7fd5e1c72aeab50272610475391c943}{Save\+Element\+To\+Xml}} (Xml\+Writer xml\+Writer)
+\begin{DoxyCompactList}\small\item\em Saves docking configuration information using a provider xml writer. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element_a5eb34684ae63817d51057465eaaa9946}{Load\+Element\+From\+Xml}} (Xml\+Reader xml\+Reader, Krypton\+Page\+Collection pages)
+\begin{DoxyCompactList}\small\item\em Loads docking configuration information using a provider xml reader. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+string \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element_a20b32f356260a6e9051843d8b49254fe}{Name}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets and sets the name of the docking element. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element_a0bf946fbf2781b8546d793cd8cda497d}{Path}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets a comma separated list of names leading to this element. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element}{IDocking\+Element}}? \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element_aa98159ba5896d0853d8fe7f86f5c82b6}{Parent}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets and sets access to the parent docking element. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element_afdaab6a5dfeb1069ad83c3ac7745efda}{Count}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the number of child docking elements. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element}{IDocking\+Element}}? \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element_a50b8aea8a1df7070a010ea7d08b2b2cb}{this\mbox{[}int index\mbox{]}}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the docking element at the specified index. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element}{IDocking\+Element}}? \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element_a89afaf774b29ecdb7f7885ab42e199f3}{this\mbox{[}string name\mbox{]}}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the docking element with the specified name. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Interface exposed by elements within the docking hierarchy. 
+
+\label{doc-func-members}
+\Hypertarget{interface_krypton_1_1_docking_1_1_i_docking_element_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{interface_krypton_1_1_docking_1_1_i_docking_element_a90f0f9c6c4343d196ebdf2cdf401b545}\index{Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}!FindDockingEdgeAutoHidden@{FindDockingEdgeAutoHidden}}
+\index{FindDockingEdgeAutoHidden@{FindDockingEdgeAutoHidden}!Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}}
+\doxysubsubsection{\texorpdfstring{FindDockingEdgeAutoHidden()}{FindDockingEdgeAutoHidden()}}
+{\footnotesize\ttfamily \label{interface_krypton_1_1_docking_1_1_i_docking_element_a90f0f9c6c4343d196ebdf2cdf401b545} 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_edge_auto_hidden}{Krypton\+Docking\+Edge\+Auto\+Hidden}}? Krypton.\+Docking.\+IDocking\+Element.\+Find\+Docking\+Edge\+Auto\+Hidden (\begin{DoxyParamCaption}\item[{string}]{unique\+Name}{}\end{DoxyParamCaption})}
+
+
+
+Find a edge auto hidden element by searching the hierarchy. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em unique\+Name} & Named page for which a suitable auto hidden edge element is required.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{class_krypton_1_1_docking_1_1_krypton_docking_edge_auto_hidden}{Krypton\+Docking\+Edge\+Auto\+Hidden} reference if found; otherwise false.
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_a7da2ad8b440c1afe7afdfd76ed016c31}{Krypton.\+Docking.\+Docking\+Element}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_edge_auto_hidden_af5711cbced2b55bdf72109e0d574e269}{Krypton.\+Docking.\+Krypton\+Docking\+Edge\+Auto\+Hidden}}, and \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_manager_aeeb5fce618dd3ada985e212edd2833ed}{Krypton.\+Docking.\+Krypton\+Docking\+Manager}}.
+
+\Hypertarget{interface_krypton_1_1_docking_1_1_i_docking_element_a3e2da0d48881cbf3b756c2b07e9d7b07}\index{Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}!FindDockingEdgeDocked@{FindDockingEdgeDocked}}
+\index{FindDockingEdgeDocked@{FindDockingEdgeDocked}!Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}}
+\doxysubsubsection{\texorpdfstring{FindDockingEdgeDocked()}{FindDockingEdgeDocked()}}
+{\footnotesize\ttfamily \label{interface_krypton_1_1_docking_1_1_i_docking_element_a3e2da0d48881cbf3b756c2b07e9d7b07} 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_edge_docked}{Krypton\+Docking\+Edge\+Docked}}? Krypton.\+Docking.\+IDocking\+Element.\+Find\+Docking\+Edge\+Docked (\begin{DoxyParamCaption}\item[{string}]{unique\+Name}{}\end{DoxyParamCaption})}
+
+
+
+Find a edge docked element by searching the hierarchy. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em unique\+Name} & Named page for which a suitable docking edge element is required.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{class_krypton_1_1_docking_1_1_krypton_docking_edge_docked}{Krypton\+Docking\+Edge\+Docked} reference if found; otherwise false.
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_a4ff7c07473c31bdc1f1f4bde6c2eec5a}{Krypton.\+Docking.\+Docking\+Element}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_edge_docked_ae46a9f9dc4db3cef78757b454fb5e60f}{Krypton.\+Docking.\+Krypton\+Docking\+Edge\+Docked}}, and \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_manager_af1b2d1fc5214eec1b2e3cd6f61c468cd}{Krypton.\+Docking.\+Krypton\+Docking\+Manager}}.
+
+\Hypertarget{interface_krypton_1_1_docking_1_1_i_docking_element_ac41a8e259bd44b514dd05f205286773c}\index{Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}!FindDockingFloating@{FindDockingFloating}}
+\index{FindDockingFloating@{FindDockingFloating}!Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}}
+\doxysubsubsection{\texorpdfstring{FindDockingFloating()}{FindDockingFloating()}}
+{\footnotesize\ttfamily \label{interface_krypton_1_1_docking_1_1_i_docking_element_ac41a8e259bd44b514dd05f205286773c} 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_floating}{Krypton\+Docking\+Floating}}? Krypton.\+Docking.\+IDocking\+Element.\+Find\+Docking\+Floating (\begin{DoxyParamCaption}\item[{string}]{unique\+Name}{}\end{DoxyParamCaption})}
+
+
+
+Find a floating docking element by searching the hierarchy. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em unique\+Name} & Named page for which a suitable floating element is required.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{class_krypton_1_1_docking_1_1_krypton_docking_floating}{Krypton\+Docking\+Floating} reference if found; otherwise false.
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_ac6df54153907c5d0b5d5cd5ed26b2174}{Krypton.\+Docking.\+Docking\+Element}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_floating_af0cf1e22f71f91b0a25287582e12b6fd}{Krypton.\+Docking.\+Krypton\+Docking\+Floating}}, and \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_manager_a1f1ba8e1da08f5a0c250c36f51512142}{Krypton.\+Docking.\+Krypton\+Docking\+Manager}}.
+
+\Hypertarget{interface_krypton_1_1_docking_1_1_i_docking_element_a8366d7328f5717c12ee43cc126e9513f}\index{Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}!FindDockingNavigator@{FindDockingNavigator}}
+\index{FindDockingNavigator@{FindDockingNavigator}!Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}}
+\doxysubsubsection{\texorpdfstring{FindDockingNavigator()}{FindDockingNavigator()}}
+{\footnotesize\ttfamily \label{interface_krypton_1_1_docking_1_1_i_docking_element_a8366d7328f5717c12ee43cc126e9513f} 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_navigator}{Krypton\+Docking\+Navigator}}? Krypton.\+Docking.\+IDocking\+Element.\+Find\+Docking\+Navigator (\begin{DoxyParamCaption}\item[{string}]{unique\+Name}{}\end{DoxyParamCaption})}
+
+
+
+Find a navigator element by searching the hierarchy. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em unique\+Name} & Named page for which a suitable navigator element is required.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{class_krypton_1_1_docking_1_1_krypton_docking_navigator}{Krypton\+Docking\+Navigator} reference if found; otherwise false.
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_a4feb1596854ac2554885caf4f1a8d828}{Krypton.\+Docking.\+Docking\+Element}}, and \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_navigator_a90521b6329fdfa7b48a7eb8abc6a0422}{Krypton.\+Docking.\+Krypton\+Docking\+Navigator}}.
+
+\Hypertarget{interface_krypton_1_1_docking_1_1_i_docking_element_ace983575f2962440b81b8b88438748ef}\index{Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}!FindDockingWorkspace@{FindDockingWorkspace}}
+\index{FindDockingWorkspace@{FindDockingWorkspace}!Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}}
+\doxysubsubsection{\texorpdfstring{FindDockingWorkspace()}{FindDockingWorkspace()}}
+{\footnotesize\ttfamily \label{interface_krypton_1_1_docking_1_1_i_docking_element_ace983575f2962440b81b8b88438748ef} 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_workspace}{Krypton\+Docking\+Workspace}}? Krypton.\+Docking.\+IDocking\+Element.\+Find\+Docking\+Workspace (\begin{DoxyParamCaption}\item[{string}]{unique\+Name}{}\end{DoxyParamCaption})}
+
+
+
+Find a workspace element by searching the hierarchy. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em unique\+Name} & Named page for which a suitable workspace element is required.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{class_krypton_1_1_docking_1_1_krypton_docking_workspace}{Krypton\+Docking\+Workspace} reference if found; otherwise false.
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_af482ef6bb1e795e1cb942eb01b7c277c}{Krypton.\+Docking.\+Docking\+Element}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_manager_a6202cfcb310a89861879be5a9583a1ea}{Krypton.\+Docking.\+Krypton\+Docking\+Manager}}, and \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_workspace_adb249b083f327fec95f1f13976ad0400}{Krypton.\+Docking.\+Krypton\+Docking\+Workspace}}.
+
+\Hypertarget{interface_krypton_1_1_docking_1_1_i_docking_element_a44be5eeb6558c3c0c0461d27ffea2af7}\index{Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}!FindPageElement@{FindPageElement}}
+\index{FindPageElement@{FindPageElement}!Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}}
+\doxysubsubsection{\texorpdfstring{FindPageElement()}{FindPageElement()}}
+{\footnotesize\ttfamily \label{interface_krypton_1_1_docking_1_1_i_docking_element_a44be5eeb6558c3c0c0461d27ffea2af7} 
+\mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element}{IDocking\+Element}}? Krypton.\+Docking.\+IDocking\+Element.\+Find\+Page\+Element (\begin{DoxyParamCaption}\item[{string}]{unique\+Name}{}\end{DoxyParamCaption})}
+
+
+
+Find the docking element that contains the named page. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em unique\+Name} & Unique name of the page.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{interface_krypton_1_1_docking_1_1_i_docking_element}{IDocking\+Element} reference if page is found; otherwise null.
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_aefb5dce1fde61df1e82c6275b6874d83}{Krypton.\+Docking.\+Docking\+Element}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group_a275b6184f29fb4ab80aa1b0f05f2b3e5}{Krypton.\+Docking.\+Krypton\+Docking\+Auto\+Hidden\+Group}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_dockspace_a126c359b2323a4ef183e9d8fc3468102}{Krypton.\+Docking.\+Krypton\+Docking\+Dockspace}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_floatspace_ada74c1cd6b2f1b2390ea07b09782e92b}{Krypton.\+Docking.\+Krypton\+Docking\+Floatspace}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_manager_aead4ad954699413b0f42075011b8f721}{Krypton.\+Docking.\+Krypton\+Docking\+Manager}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_navigator_a7d8e579c567978e9dcb9ee2e654f0cee}{Krypton.\+Docking.\+Krypton\+Docking\+Navigator}}, and \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_workspace_a9352fab6b895caf9b3ec3181579bda24}{Krypton.\+Docking.\+Krypton\+Docking\+Workspace}}.
+
+\Hypertarget{interface_krypton_1_1_docking_1_1_i_docking_element_a9fd71820ab5340652038010ecacb35a8}\index{Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}!FindPageLocation@{FindPageLocation}}
+\index{FindPageLocation@{FindPageLocation}!Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}}
+\doxysubsubsection{\texorpdfstring{FindPageLocation()}{FindPageLocation()}}
+{\footnotesize\ttfamily \label{interface_krypton_1_1_docking_1_1_i_docking_element_a9fd71820ab5340652038010ecacb35a8} 
+\mbox{\hyperlink{namespace_krypton_1_1_docking_a3db89c47e2cadbbba33925a9e1d9229e}{Docking\+Location}} Krypton.\+Docking.\+IDocking\+Element.\+Find\+Page\+Location (\begin{DoxyParamCaption}\item[{string}]{unique\+Name}{}\end{DoxyParamCaption})}
+
+
+
+Find the docking location of the named page. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em unique\+Name} & Unique name of the page.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Enumeration value indicating docking location.
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_ac092a12f7c1208f98a043a99aa46819d}{Krypton.\+Docking.\+Docking\+Element}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group_af0ce7ed9cc408f69fc2e6f128584c2d5}{Krypton.\+Docking.\+Krypton\+Docking\+Auto\+Hidden\+Group}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_dockspace_a97f6875ff9b65fd4bb69f0072e414f0d}{Krypton.\+Docking.\+Krypton\+Docking\+Dockspace}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_floatspace_ad6dc6e3f289aa59b0c44d2ae2ae92261}{Krypton.\+Docking.\+Krypton\+Docking\+Floatspace}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_manager_a91299c752f6f3ad41ff8fed90b24fe53}{Krypton.\+Docking.\+Krypton\+Docking\+Manager}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_navigator_afdec78c998ae4c736f168dc3aae4c0e4}{Krypton.\+Docking.\+Krypton\+Docking\+Navigator}}, and \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_workspace_ab09db5afc97b6621b355f6b0e6037453}{Krypton.\+Docking.\+Krypton\+Docking\+Workspace}}.
+
+\Hypertarget{interface_krypton_1_1_docking_1_1_i_docking_element_a3d406edeebe4acf518a41dcd7345c9e4}\index{Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}!FindStorePageElement@{FindStorePageElement}}
+\index{FindStorePageElement@{FindStorePageElement}!Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}}
+\doxysubsubsection{\texorpdfstring{FindStorePageElement()}{FindStorePageElement()}}
+{\footnotesize\ttfamily \label{interface_krypton_1_1_docking_1_1_i_docking_element_a3d406edeebe4acf518a41dcd7345c9e4} 
+\mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element}{IDocking\+Element}}? Krypton.\+Docking.\+IDocking\+Element.\+Find\+Store\+Page\+Element (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespace_krypton_1_1_docking_a3db89c47e2cadbbba33925a9e1d9229e}{Docking\+Location}}}]{location}{, }\item[{string}]{unique\+Name}{}\end{DoxyParamCaption})}
+
+
+
+Find the docking element that contains the location specific store page for the named page. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em location} & Location to be searched.\\
+\hline
+{\em unique\+Name} & Unique name of the page to be found.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{interface_krypton_1_1_docking_1_1_i_docking_element}{IDocking\+Element} reference if store page is found; otherwise null.
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_a04d90f8068301cfbfa2634407785c371}{Krypton.\+Docking.\+Docking\+Element}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group_ad47d2b5003916a3afe9ca18284ddef0d}{Krypton.\+Docking.\+Krypton\+Docking\+Auto\+Hidden\+Group}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_dockspace_a1580ca65e2b774d9a6e6dd3716d44da9}{Krypton.\+Docking.\+Krypton\+Docking\+Dockspace}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_floatspace_aab6c59f149e08f75c9c3f7c2f1af0ef7}{Krypton.\+Docking.\+Krypton\+Docking\+Floatspace}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_manager_a8eb58393c71c15729f6b3f095332fb64}{Krypton.\+Docking.\+Krypton\+Docking\+Manager}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_navigator_af5c4f04b8dac4335e27ccf80edfe444b}{Krypton.\+Docking.\+Krypton\+Docking\+Navigator}}, and \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_workspace_ae42c324000e813ff3b1f2e12201de520}{Krypton.\+Docking.\+Krypton\+Docking\+Workspace}}.
+
+\Hypertarget{interface_krypton_1_1_docking_1_1_i_docking_element_a5eb34684ae63817d51057465eaaa9946}\index{Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}!LoadElementFromXml@{LoadElementFromXml}}
+\index{LoadElementFromXml@{LoadElementFromXml}!Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}}
+\doxysubsubsection{\texorpdfstring{LoadElementFromXml()}{LoadElementFromXml()}}
+{\footnotesize\ttfamily \label{interface_krypton_1_1_docking_1_1_i_docking_element_a5eb34684ae63817d51057465eaaa9946} 
+void Krypton.\+Docking.\+IDocking\+Element.\+Load\+Element\+From\+Xml (\begin{DoxyParamCaption}\item[{Xml\+Reader}]{xml\+Reader}{, }\item[{Krypton\+Page\+Collection}]{pages}{}\end{DoxyParamCaption})}
+
+
+
+Loads docking configuration information using a provider xml reader. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em xml\+Reader} & Xml reader object.\\
+\hline
+{\em pages} & Collection of available pages.\\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_a1f79d9df1984ab8e8802fe3b794860bd}{Krypton.\+Docking.\+Docking\+Element}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group_a492a340e8e3a1cac94ea85b328f3fd51}{Krypton.\+Docking.\+Krypton\+Docking\+Auto\+Hidden\+Group}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_control_a4f96e233158fac2f43c81c7a6139ee6b}{Krypton.\+Docking.\+Krypton\+Docking\+Control}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_dockspace_adee3d34b630ade81a0f320bc1e0028df}{Krypton.\+Docking.\+Krypton\+Docking\+Dockspace}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_floatspace_a0b334bd6cb28842e7eef892a5f6146cd}{Krypton.\+Docking.\+Krypton\+Docking\+Floatspace}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_navigator_aafee7943f0cf72ca1107eb294bed2a28}{Krypton.\+Docking.\+Krypton\+Docking\+Navigator}}, and \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_space_a5d08984794dffcb2b9e2a2744b3589df}{Krypton.\+Docking.\+Krypton\+Docking\+Space}}.
+
+\Hypertarget{interface_krypton_1_1_docking_1_1_i_docking_element_a5ed03dc9c05df4d1ad97b8eb62475140}\index{Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}!PropogateAction@{PropogateAction}}
+\index{PropogateAction@{PropogateAction}!Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}}
+\doxysubsubsection{\texorpdfstring{PropogateAction()}{PropogateAction()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily \label{interface_krypton_1_1_docking_1_1_i_docking_element_a5ed03dc9c05df4d1ad97b8eb62475140} 
+void Krypton.\+Docking.\+IDocking\+Element.\+Propogate\+Action (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespace_krypton_1_1_docking_ac8ad98ca60c1836b23886bf6598ab38d}{Docking\+Propogate\+Action}}}]{action}{, }\item[{int}]{value}{}\end{DoxyParamCaption})}
+
+
+
+Propagates an action request down the hierarchy of docking elements. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em action} & Action that is requested to be performed.\\
+\hline
+{\em value} & Integer value associated with the request.\\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_aa500e0ae7f4f1b444da228590a9dd0db}{Krypton.\+Docking.\+Docking\+Element}}, and \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_dockspace_a1881a7185647113d1b4209665d9033e1}{Krypton.\+Docking.\+Krypton\+Docking\+Dockspace}}.
+
+\Hypertarget{interface_krypton_1_1_docking_1_1_i_docking_element_ae89db809554560a15b488f25767388cc}\index{Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}!PropogateAction@{PropogateAction}}
+\index{PropogateAction@{PropogateAction}!Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}}
+\doxysubsubsection{\texorpdfstring{PropogateAction()}{PropogateAction()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily \label{interface_krypton_1_1_docking_1_1_i_docking_element_ae89db809554560a15b488f25767388cc} 
+void Krypton.\+Docking.\+IDocking\+Element.\+Propogate\+Action (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespace_krypton_1_1_docking_ac8ad98ca60c1836b23886bf6598ab38d}{Docking\+Propogate\+Action}}}]{action}{, }\item[{Krypton\+Page\mbox{[}$\,$\mbox{]}}]{pages}{}\end{DoxyParamCaption})}
+
+
+
+Propagates an action request down the hierarchy of docking elements. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em action} & Action that is requested to be performed.\\
+\hline
+{\em pages} & Array of pages the action relates to.\\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_aaa3cf958f48ddcf8b65052c47f07b143}{Krypton.\+Docking.\+Docking\+Element}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group_ad3a615609a253e7d6d30e3538670e69b}{Krypton.\+Docking.\+Krypton\+Docking\+Auto\+Hidden\+Group}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_edge_auto_hidden_a9c56d3124da3f8eec17a7c80cbce17c6}{Krypton.\+Docking.\+Krypton\+Docking\+Edge\+Auto\+Hidden}}, and \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_space_a1307a38d330d9085b1cebca81d9ffdf6}{Krypton.\+Docking.\+Krypton\+Docking\+Space}}.
+
+\Hypertarget{interface_krypton_1_1_docking_1_1_i_docking_element_af70d1de36b5808ee4d4878acdc8222f1}\index{Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}!PropogateAction@{PropogateAction}}
+\index{PropogateAction@{PropogateAction}!Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}}
+\doxysubsubsection{\texorpdfstring{PropogateAction()}{PropogateAction()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily \label{interface_krypton_1_1_docking_1_1_i_docking_element_af70d1de36b5808ee4d4878acdc8222f1} 
+void Krypton.\+Docking.\+IDocking\+Element.\+Propogate\+Action (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespace_krypton_1_1_docking_ac8ad98ca60c1836b23886bf6598ab38d}{Docking\+Propogate\+Action}}}]{action}{, }\item[{string?\mbox{[}$\,$\mbox{]}}]{unique\+Names}{}\end{DoxyParamCaption})}
+
+
+
+Propagates an action request down the hierarchy of docking elements. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em action} & Action that is requested to be performed.\\
+\hline
+{\em unique\+Names} & Array of unique names of the pages the action relates to.\\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_a196676034f63c89718e0f593733e208b}{Krypton.\+Docking.\+Docking\+Element}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group_a66988bab95682215ef164d9a720d065b}{Krypton.\+Docking.\+Krypton\+Docking\+Auto\+Hidden\+Group}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_control_a0b7908e3e141e14ebbe13870622c0479}{Krypton.\+Docking.\+Krypton\+Docking\+Control}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_edge_auto_hidden_a5cea157a620b5ca4ff80bbf5ce2c9b90}{Krypton.\+Docking.\+Krypton\+Docking\+Edge\+Auto\+Hidden}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_floating_window_a091e8477ca241caf10d761dd934ef29a}{Krypton.\+Docking.\+Krypton\+Docking\+Floating\+Window}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_navigator_ab4e5ac9a1f7872e8c61b54ab34eee23b}{Krypton.\+Docking.\+Krypton\+Docking\+Navigator}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_space_abfeac53643a510118fed063b130ee650}{Krypton.\+Docking.\+Krypton\+Docking\+Space}}, and \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_workspace_a8093ac4e9cdc979925216df24e84484c}{Krypton.\+Docking.\+Krypton\+Docking\+Workspace}}.
+
+\Hypertarget{interface_krypton_1_1_docking_1_1_i_docking_element_ab33eab98284deda40273537b58c7fecc}\index{Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}!PropogateBoolState@{PropogateBoolState}}
+\index{PropogateBoolState@{PropogateBoolState}!Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}}
+\doxysubsubsection{\texorpdfstring{PropogateBoolState()}{PropogateBoolState()}}
+{\footnotesize\ttfamily \label{interface_krypton_1_1_docking_1_1_i_docking_element_ab33eab98284deda40273537b58c7fecc} 
+bool? Krypton.\+Docking.\+IDocking\+Element.\+Propogate\+Bool\+State (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespace_krypton_1_1_docking_ac5370c1674c796d848f49eaa40a112a2}{Docking\+Propogate\+Bool\+State}}}]{state}{, }\item[{string}]{unique\+Name}{}\end{DoxyParamCaption})}
+
+
+
+Propagates a boolean state request down the hierarchy of docking elements. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em state} & Boolean state that is requested to be recovered.\\
+\hline
+{\em unique\+Name} & Unique name of the page the request relates to.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True/\+False if state is known; otherwise null indicating no information available.
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_ad8754d8709b2989a8d3bec0e57824958}{Krypton.\+Docking.\+Docking\+Element}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group_a69745244295da89f5d9fabf642027cb0}{Krypton.\+Docking.\+Krypton\+Docking\+Auto\+Hidden\+Group}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_navigator_af5f224a0b85a1ecf6cef4f61def66192}{Krypton.\+Docking.\+Krypton\+Docking\+Navigator}}, and \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_space_a417259685b75d4a39be8aeb4dbf29e85}{Krypton.\+Docking.\+Krypton\+Docking\+Space}}.
+
+\Hypertarget{interface_krypton_1_1_docking_1_1_i_docking_element_aeadf30b6fc39b03c2ebb1952f10153f8}\index{Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}!PropogateCellList@{PropogateCellList}}
+\index{PropogateCellList@{PropogateCellList}!Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}}
+\doxysubsubsection{\texorpdfstring{PropogateCellList()}{PropogateCellList()}}
+{\footnotesize\ttfamily \label{interface_krypton_1_1_docking_1_1_i_docking_element_aeadf30b6fc39b03c2ebb1952f10153f8} 
+void Krypton.\+Docking.\+IDocking\+Element.\+Propogate\+Cell\+List (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespace_krypton_1_1_docking_adad71cfc51303234b2817ff3938eb022}{Docking\+Propogate\+Cell\+List}}}]{state}{, }\item[{Krypton\+Workspace\+Cell\+List}]{cells}{}\end{DoxyParamCaption})}
+
+
+
+Propagates a workspace cell list request down the hierarchy of docking elements. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em state} & Request that should result in the cells collection being modified.\\
+\hline
+{\em cells} & Cells collection for modification by the docking elements.\\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_aa7d6d13613a90933c72fb040c82c2a79}{Krypton.\+Docking.\+Docking\+Element}}, and \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_space_a5555b2e7e55af87e7d75d4b4b581f668}{Krypton.\+Docking.\+Krypton\+Docking\+Space}}.
+
+\Hypertarget{interface_krypton_1_1_docking_1_1_i_docking_element_a35cd55fabd74bc8f4c9a8bd7cba11333}\index{Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}!PropogateDragTargets@{PropogateDragTargets}}
+\index{PropogateDragTargets@{PropogateDragTargets}!Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}}
+\doxysubsubsection{\texorpdfstring{PropogateDragTargets()}{PropogateDragTargets()}}
+{\footnotesize\ttfamily \label{interface_krypton_1_1_docking_1_1_i_docking_element_a35cd55fabd74bc8f4c9a8bd7cba11333} 
+void Krypton.\+Docking.\+IDocking\+Element.\+Propogate\+Drag\+Targets (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_floating_window}{Krypton\+Floating\+Window}}?}]{floating\+Window}{, }\item[{Page\+Drag\+End\+Data?}]{drag\+Data}{, }\item[{Drag\+Target\+List}]{targets}{}\end{DoxyParamCaption})}
+
+
+
+Propagates a request for drag targets down the hierarchy of docking elements. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em floating\+Window} & Reference to window being dragged.\\
+\hline
+{\em drag\+Data} & Set of pages being dragged.\\
+\hline
+{\em targets} & Collection of drag targets.\\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_ae85c2ae0fe1efef17e34052d84c1fdad}{Krypton.\+Docking.\+Docking\+Element}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_control_a3a56feed77002e8dd3c214e294331683}{Krypton.\+Docking.\+Krypton\+Docking\+Control}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_dockspace_a0af534d9261a1019f62fb7f541ba3a6d}{Krypton.\+Docking.\+Krypton\+Docking\+Dockspace}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_floating_window_a75f5cc304ae10b6510cc2a2c16c7af6b}{Krypton.\+Docking.\+Krypton\+Docking\+Floating\+Window}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_floatspace_a7a824be16824baf9a2bba2df19beca83}{Krypton.\+Docking.\+Krypton\+Docking\+Floatspace}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_navigator_a1b1231ef19f03770c3d32f9d19747eb8}{Krypton.\+Docking.\+Krypton\+Docking\+Navigator}}, and \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_workspace_a219fdd9e7df00befa69fd1f930313974}{Krypton.\+Docking.\+Krypton\+Docking\+Workspace}}.
+
+\Hypertarget{interface_krypton_1_1_docking_1_1_i_docking_element_ab741cfb59f1a6399e9b86e0fc48447dd}\index{Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}!PropogateIntState@{PropogateIntState}}
+\index{PropogateIntState@{PropogateIntState}!Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}}
+\doxysubsubsection{\texorpdfstring{PropogateIntState()}{PropogateIntState()}}
+{\footnotesize\ttfamily \label{interface_krypton_1_1_docking_1_1_i_docking_element_ab741cfb59f1a6399e9b86e0fc48447dd} 
+void Krypton.\+Docking.\+IDocking\+Element.\+Propogate\+Int\+State (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespace_krypton_1_1_docking_aa0eb0e326c3aace833b31a848380f243}{Docking\+Propogate\+Int\+State}}}]{state}{, }\item[{ref int}]{value}{}\end{DoxyParamCaption})}
+
+
+
+Propagates an integer state request down the hierarchy of docking elements. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em state} & Integer state that is requested to be recovered.\\
+\hline
+{\em value} & Value discovered from matching \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_a14fd1310d423b2a845677af2cf3323b9}{Krypton.\+Docking.\+Docking\+Element}}, and \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_dockspace_a9e8722e79270145c73225c0334649f3d}{Krypton.\+Docking.\+Krypton\+Docking\+Dockspace}}.
+
+\Hypertarget{interface_krypton_1_1_docking_1_1_i_docking_element_a3d70a698ddbfaac103734321c15f2cbd}\index{Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}!PropogatePageList@{PropogatePageList}}
+\index{PropogatePageList@{PropogatePageList}!Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}}
+\doxysubsubsection{\texorpdfstring{PropogatePageList()}{PropogatePageList()}}
+{\footnotesize\ttfamily \label{interface_krypton_1_1_docking_1_1_i_docking_element_a3d70a698ddbfaac103734321c15f2cbd} 
+void Krypton.\+Docking.\+IDocking\+Element.\+Propogate\+Page\+List (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespace_krypton_1_1_docking_a6488c4f4dcf60e14dff777f8f4893c02}{Docking\+Propogate\+Page\+List}}}]{state}{, }\item[{Krypton\+Page\+Collection}]{pages}{}\end{DoxyParamCaption})}
+
+
+
+Propagates a page list request down the hierarchy of docking elements. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em state} & Request that should result in pages collection being modified.\\
+\hline
+{\em pages} & Pages collection for modification by the docking elements.\\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_a0e6dce985ec27e7cdbd5eabec5f43136}{Krypton.\+Docking.\+Docking\+Element}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group_aa7f55ad227eac9fd113bd44271807125}{Krypton.\+Docking.\+Krypton\+Docking\+Auto\+Hidden\+Group}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_navigator_ab7d978cb296f4e04f409f89175b65152}{Krypton.\+Docking.\+Krypton\+Docking\+Navigator}}, and \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_space_a31f8d11e76d4d6ac6e19f7452cefd07d}{Krypton.\+Docking.\+Krypton\+Docking\+Space}}.
+
+\Hypertarget{interface_krypton_1_1_docking_1_1_i_docking_element_a6ae10d461fa0f8c38c937a89487488aa}\index{Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}!PropogatePageState@{PropogatePageState}}
+\index{PropogatePageState@{PropogatePageState}!Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}}
+\doxysubsubsection{\texorpdfstring{PropogatePageState()}{PropogatePageState()}}
+{\footnotesize\ttfamily \label{interface_krypton_1_1_docking_1_1_i_docking_element_a6ae10d461fa0f8c38c937a89487488aa} 
+Krypton\+Page? Krypton.\+Docking.\+IDocking\+Element.\+Propogate\+Page\+State (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespace_krypton_1_1_docking_a4953258c29eb2eabf0e56b94e55fb6ae}{Docking\+Propogate\+Page\+State}}}]{state}{, }\item[{string}]{unique\+Name}{}\end{DoxyParamCaption})}
+
+
+
+Propagates a page request down the hierarchy of docking elements. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em state} & Request that should result in a page reference if found.\\
+\hline
+{\em unique\+Name} & Unique name of the page the request relates to.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Reference to page that matches the request; otherwise null.
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_a7e7f70dd3acff399f0d062127861ecf9}{Krypton.\+Docking.\+Docking\+Element}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group_af8f7c23db1a1bf48c95a6e7a71dc9a6f}{Krypton.\+Docking.\+Krypton\+Docking\+Auto\+Hidden\+Group}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_navigator_a45e1aae7484468afade69bf66d04435a}{Krypton.\+Docking.\+Krypton\+Docking\+Navigator}}, and \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_space_a5d590d3b041e194eaa963d296cae67f6}{Krypton.\+Docking.\+Krypton\+Docking\+Space}}.
+
+\Hypertarget{interface_krypton_1_1_docking_1_1_i_docking_element_a068480d06855d52ce1fce6ff5e31d63a}\index{Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}!ResolvePath@{ResolvePath}}
+\index{ResolvePath@{ResolvePath}!Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}}
+\doxysubsubsection{\texorpdfstring{ResolvePath()}{ResolvePath()}}
+{\footnotesize\ttfamily \label{interface_krypton_1_1_docking_1_1_i_docking_element_a068480d06855d52ce1fce6ff5e31d63a} 
+\mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element}{IDocking\+Element}}? Krypton.\+Docking.\+IDocking\+Element.\+Resolve\+Path (\begin{DoxyParamCaption}\item[{string}]{path}{}\end{DoxyParamCaption})}
+
+
+
+Resolve the provided path. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & Comma separated list of names to resolve.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{interface_krypton_1_1_docking_1_1_i_docking_element}{IDocking\+Element} reference if path was resolved with success; otherwise null.
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_a16355c4296b64fb2b3086c620c782499}{Krypton.\+Docking.\+Docking\+Element}}, and \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_manager_a583ffb1e7acd905357a0cb213eaaf35c}{Krypton.\+Docking.\+Krypton\+Docking\+Manager}}.
+
+\Hypertarget{interface_krypton_1_1_docking_1_1_i_docking_element_ac7fd5e1c72aeab50272610475391c943}\index{Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}!SaveElementToXml@{SaveElementToXml}}
+\index{SaveElementToXml@{SaveElementToXml}!Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}}
+\doxysubsubsection{\texorpdfstring{SaveElementToXml()}{SaveElementToXml()}}
+{\footnotesize\ttfamily \label{interface_krypton_1_1_docking_1_1_i_docking_element_ac7fd5e1c72aeab50272610475391c943} 
+void Krypton.\+Docking.\+IDocking\+Element.\+Save\+Element\+To\+Xml (\begin{DoxyParamCaption}\item[{Xml\+Writer}]{xml\+Writer}{}\end{DoxyParamCaption})}
+
+
+
+Saves docking configuration information using a provider xml writer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em xml\+Writer} & Xml writer object.\\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_a4070213d6897dc6d565418c71f940207}{Krypton.\+Docking.\+Docking\+Element}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group_a992602ecd55d1073ff6f3731540dbace}{Krypton.\+Docking.\+Krypton\+Docking\+Auto\+Hidden\+Group}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_dockspace_af830226daa668bac53d3405b5842f67c}{Krypton.\+Docking.\+Krypton\+Docking\+Dockspace}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_floating_window_a1cfee6776a6c4813afbaf7411a6c7fb6}{Krypton.\+Docking.\+Krypton\+Docking\+Floating\+Window}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_navigator_a2b906c8d6f65f9fbef2f0a777c925abf}{Krypton.\+Docking.\+Krypton\+Docking\+Navigator}}, and \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_space_af2c91e0fe215df89f968c153b93e7fd7}{Krypton.\+Docking.\+Krypton\+Docking\+Space}}.
+
+
+
+\label{doc-property-members}
+\Hypertarget{interface_krypton_1_1_docking_1_1_i_docking_element_doc-property-members}
+\doxysubsection{Property Documentation}
+\Hypertarget{interface_krypton_1_1_docking_1_1_i_docking_element_afdaab6a5dfeb1069ad83c3ac7745efda}\index{Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}!Count@{Count}}
+\index{Count@{Count}!Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}}
+\doxysubsubsection{\texorpdfstring{Count}{Count}}
+{\footnotesize\ttfamily \label{interface_krypton_1_1_docking_1_1_i_docking_element_afdaab6a5dfeb1069ad83c3ac7745efda} 
+int Krypton.\+Docking.\+IDocking\+Element.\+Count\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Gets the number of child docking elements. 
+
+
+
+Implemented in \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_a7f8553bdc6cd5889a521eb233c179c38}{Krypton.\+Docking.\+Docking\+Element}}, and \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_closed_collection_a27427c7ced48bb4640c54c3caa0609f6}{Krypton.\+Docking.\+Docking\+Element\+Closed\+Collection}}.
+
+\Hypertarget{interface_krypton_1_1_docking_1_1_i_docking_element_a20b32f356260a6e9051843d8b49254fe}\index{Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}!Name@{Name}}
+\index{Name@{Name}!Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}}
+\doxysubsubsection{\texorpdfstring{Name}{Name}}
+{\footnotesize\ttfamily \label{interface_krypton_1_1_docking_1_1_i_docking_element_a20b32f356260a6e9051843d8b49254fe} 
+string Krypton.\+Docking.\+IDocking\+Element.\+Name\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Gets and sets the name of the docking element. 
+
+
+
+Implemented in \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_a74ebd081a7c836df0b1635e9988fc2c9}{Krypton.\+Docking.\+Docking\+Element}}.
+
+\Hypertarget{interface_krypton_1_1_docking_1_1_i_docking_element_aa98159ba5896d0853d8fe7f86f5c82b6}\index{Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}!Parent@{Parent}}
+\index{Parent@{Parent}!Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}}
+\doxysubsubsection{\texorpdfstring{Parent}{Parent}}
+{\footnotesize\ttfamily \label{interface_krypton_1_1_docking_1_1_i_docking_element_aa98159ba5896d0853d8fe7f86f5c82b6} 
+\mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element}{IDocking\+Element}}? Krypton.\+Docking.\+IDocking\+Element.\+Parent\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Gets and sets access to the parent docking element. 
+
+
+
+Implemented in \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_ac041e5351d998df3c16278a95a529c4d}{Krypton.\+Docking.\+Docking\+Element}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_floating_window_a3030e5f6973660fd5df3621ce1dca5d1}{Krypton.\+Docking.\+Krypton\+Docking\+Floating\+Window}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_navigator_a22ebe2ed3d3891d4b1393b611bb4ad95}{Krypton.\+Docking.\+Krypton\+Docking\+Navigator}}, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_space_a05c06cb5d3e190182825a802a09f5b4a}{Krypton.\+Docking.\+Krypton\+Docking\+Space}}, and \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_workspace_a04cc69aec31d5e7d1af5d7741cd22c23}{Krypton.\+Docking.\+Krypton\+Docking\+Workspace}}.
+
+\Hypertarget{interface_krypton_1_1_docking_1_1_i_docking_element_a0bf946fbf2781b8546d793cd8cda497d}\index{Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}!Path@{Path}}
+\index{Path@{Path}!Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}}
+\doxysubsubsection{\texorpdfstring{Path}{Path}}
+{\footnotesize\ttfamily \label{interface_krypton_1_1_docking_1_1_i_docking_element_a0bf946fbf2781b8546d793cd8cda497d} 
+string Krypton.\+Docking.\+IDocking\+Element.\+Path\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Gets a comma separated list of names leading to this element. 
+
+
+
+Implemented in \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_a7841478b43713e0b6dc1856e1ce2cd55}{Krypton.\+Docking.\+Docking\+Element}}.
+
+\Hypertarget{interface_krypton_1_1_docking_1_1_i_docking_element_a50b8aea8a1df7070a010ea7d08b2b2cb}\index{Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}!this\mbox{[}int index\mbox{]}@{this[int index]}}
+\index{this\mbox{[}int index\mbox{]}@{this[int index]}!Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}}
+\doxysubsubsection{\texorpdfstring{this[int index]}{this[int index]}}
+{\footnotesize\ttfamily \label{interface_krypton_1_1_docking_1_1_i_docking_element_a50b8aea8a1df7070a010ea7d08b2b2cb} 
+\mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element}{IDocking\+Element}}? Krypton.\+Docking.\+IDocking\+Element.\+this\mbox{[}int index\mbox{]}\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Gets the docking element at the specified index. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & Index.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{namespace_krypton_1_1_docking}{Docking} element at specified index.
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_abaf1aa1db4a456c5aec432a052a322f1}{Krypton.\+Docking.\+Docking\+Element}}, and \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_closed_collection_aeb8a1694ed34bfe6df1e6d4877174b94}{Krypton.\+Docking.\+Docking\+Element\+Closed\+Collection}}.
+
+\Hypertarget{interface_krypton_1_1_docking_1_1_i_docking_element_a89afaf774b29ecdb7f7885ab42e199f3}\index{Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}!this\mbox{[}string name\mbox{]}@{this[string name]}}
+\index{this\mbox{[}string name\mbox{]}@{this[string name]}!Krypton.Docking.IDockingElement@{Krypton.Docking.IDockingElement}}
+\doxysubsubsection{\texorpdfstring{this[string name]}{this[string name]}}
+{\footnotesize\ttfamily \label{interface_krypton_1_1_docking_1_1_i_docking_element_a89afaf774b29ecdb7f7885ab42e199f3} 
+\mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element}{IDocking\+Element}}? Krypton.\+Docking.\+IDocking\+Element.\+this\mbox{[}string name\mbox{]}\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Gets the docking element with the specified name. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Name of element.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{namespace_krypton_1_1_docking}{Docking} element with specified name.
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_a983ec4639e6a1d47cf47fad0f8026421}{Krypton.\+Docking.\+Docking\+Element}}.
+
+
+
+The documentation for this interface was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/\+Krypton-\/\+Reference-\/\+Repo/\+Standard-\/\+Toolkit/\+Source/\+Krypton Components/\+Krypton.\+Docking/\+General/\mbox{\hyperlink{_definitions_8cs}{Definitions.\+cs}}\end{DoxyCompactItemize}

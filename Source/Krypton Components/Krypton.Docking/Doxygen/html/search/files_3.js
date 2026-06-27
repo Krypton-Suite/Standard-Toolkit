@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['definitions_2ecs_0',['Definitions.cs',['../_definitions_8cs.html',1,'']]],
+  ['dockablenavigatoreventargs_2ecs_1',['DockableNavigatorEventArgs.cs',['../_dockable_navigator_event_args_8cs.html',1,'']]],
+  ['dockableworkspacecelleventargs_2ecs_2',['DockableWorkspaceCellEventArgs.cs',['../_dockable_workspace_cell_event_args_8cs.html',1,'']]],
+  ['dockableworkspaceeventargs_2ecs_3',['DockableWorkspaceEventArgs.cs',['../_dockable_workspace_event_args_8cs.html',1,'']]],
+  ['dockgloballoadingeventargs_2ecs_4',['DockGlobalLoadingEventArgs.cs',['../_dock_global_loading_event_args_8cs.html',1,'']]],
+  ['dockglobalsavingeventargs_2ecs_5',['DockGlobalSavingEventArgs.cs',['../_dock_global_saving_event_args_8cs.html',1,'']]],
+  ['dockingdragmanager_2ecs_6',['DockingDragManager.cs',['../_docking_drag_manager_8cs.html',1,'']]],
+  ['dockingdragtargetprovider_2ecs_7',['DockingDragTargetProvider.cs',['../_docking_drag_target_provider_8cs.html',1,'']]],
+  ['dockingelement_2ecs_8',['DockingElement.cs',['../_docking_element_8cs.html',1,'']]],
+  ['dockingelementclosedcollection_2ecs_9',['DockingElementClosedCollection.cs',['../_docking_element_closed_collection_8cs.html',1,'']]],
+  ['dockingelementopencollection_2ecs_10',['DockingElementOpenCollection.cs',['../_docking_element_open_collection_8cs.html',1,'']]],
+  ['dockinghelper_2ecs_11',['DockingHelper.cs',['../_docking_helper_8cs.html',1,'']]],
+  ['dockingmanagerstrings_2ecs_12',['DockingManagerStrings.cs',['../_docking_manager_strings_8cs.html',1,'']]],
+  ['dockingmultiupdate_2ecs_13',['DockingMultiUpdate.cs',['../_docking_multi_update_8cs.html',1,'']]],
+  ['dockpageloadingeventargs_2ecs_14',['DockPageLoadingEventArgs.cs',['../_dock_page_loading_event_args_8cs.html',1,'']]],
+  ['dockpagesavingeventargs_2ecs_15',['DockPageSavingEventArgs.cs',['../_dock_page_saving_event_args_8cs.html',1,'']]],
+  ['dockspacecelleventargs_2ecs_16',['DockspaceCellEventArgs.cs',['../_dockspace_cell_event_args_8cs.html',1,'']]],
+  ['dockspaceeventargs_2ecs_17',['DockspaceEventArgs.cs',['../_dockspace_event_args_8cs.html',1,'']]],
+  ['dockspaceseparatoreventargs_2ecs_18',['DockspaceSeparatorEventArgs.cs',['../_dockspace_separator_event_args_8cs.html',1,'']]],
+  ['dockspaceseparatorresizeeventargs_2ecs_19',['DockspaceSeparatorResizeEventArgs.cs',['../_dockspace_separator_resize_event_args_8cs.html',1,'']]],
+  ['dragtargetcontroledge_2ecs_20',['DragTargetControlEdge.cs',['../_drag_target_control_edge_8cs.html',1,'']]],
+  ['dragtargetnull_2ecs_21',['DragTargetNull.cs',['../_drag_target_null_8cs.html',1,'']]]
+];

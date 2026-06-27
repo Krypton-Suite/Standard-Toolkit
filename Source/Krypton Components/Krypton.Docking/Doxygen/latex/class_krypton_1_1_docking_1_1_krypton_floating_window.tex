@@ -1,0 +1,229 @@
+\doxysection{Krypton.\+Docking.\+Krypton\+Floating\+Window Class Reference}
+\hypertarget{class_krypton_1_1_docking_1_1_krypton_floating_window}{}\label{class_krypton_1_1_docking_1_1_krypton_floating_window}\index{Krypton.Docking.KryptonFloatingWindow@{Krypton.Docking.KryptonFloatingWindow}}
+
+
+Extends the Krypton\+Form to act as a floating window within the docking framework.  
+
+
+Inheritance diagram for Krypton.\+Docking.\+Krypton\+Floating\+Window\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_krypton_1_1_docking_1_1_krypton_floating_window}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_floating_window_a68f384a6b8fde7f63cc2aaa980a1b05c}{Krypton\+Floating\+Window}} (Form owner, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_floatspace}{Krypton\+Floatspace}}? floatspace, bool use\+Minimise\+Box=false)
+\begin{DoxyCompactList}\small\item\em Initialize a new instance of the \doxylink{class_krypton_1_1_docking_1_1_krypton_floating_window}{Krypton\+Floating\+Window} class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+override void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_floating_window_a21a3015f9126c5c9a96d5f9367796011}{Wnd\+Proc}} (ref Message m)
+\begin{DoxyCompactList}\small\item\em Processes Windows messages. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_floating_window_a20772ec5df4d49f0442b7f4f1a398367}{On\+Window\+Close\+Clicked}} (\mbox{\hyperlink{class_krypton_1_1_docking_1_1_unique_names_event_args}{Unique\+Names\+Event\+Args}} e)
+\begin{DoxyCompactList}\small\item\em Raises the Window\+Close\+Clicked event. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_floating_window_a7202d74b2f735e76fa1adf5d2e907466}{On\+Window\+Caption\+Dragging}} (\mbox{\hyperlink{class_krypton_1_1_docking_1_1_screen_and_offset_event_args}{Screen\+And\+Offset\+Event\+Args}} e)
+\begin{DoxyCompactList}\small\item\em Raises the Window\+Caption\+Dragging event. \end{DoxyCompactList}\item 
+override void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_floating_window_a548fe8abc3b1f49af2ef7484e5717825}{On\+Load}} (Event\+Args e)
+\begin{DoxyCompactList}\small\item\em Raises the Load event. \end{DoxyCompactList}\item 
+override void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_floating_window_a073edd50f5040c805e68db528626bf7c}{On\+Closing}} (Cancel\+Event\+Args e)
+\begin{DoxyCompactList}\small\item\em Raises the Closing event. \end{DoxyCompactList}\item 
+override void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_floating_window_ae55db11a5a77ca9c587282fc70b65b4d}{On\+Activated}} (Event\+Args e)
+\begin{DoxyCompactList}\small\item\em Raises the Activated event. \end{DoxyCompactList}\item 
+override void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_floating_window_a67ebc4a1aa1ac9db9b9ecfef9e45e520}{On\+Deactivate}} (Event\+Args e)
+\begin{DoxyCompactList}\small\item\em Raises the Deactivate event. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_floatspace}{Krypton\+Floatspace}}? \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_floating_window_aa1d9a06b99a4c075a8a51881225a3995}{Floatspace\+Control}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets access to the contained \doxylink{class_krypton_1_1_docking_1_1_krypton_floatspace}{Krypton\+Floatspace} control. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Events}
+\begin{DoxyCompactItemize}
+\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_krypton_1_1_docking_1_1_unique_names_event_args}{Unique\+Names\+Event\+Args}} $>$? \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_floating_window_a1969980d5c528a74ecf4cc11004a62d1}{Window\+Close\+Clicked}}
+\begin{DoxyCompactList}\small\item\em Occurs when the window close is requested and provides the set of pages visible. \end{DoxyCompactList}\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_krypton_1_1_docking_1_1_screen_and_offset_event_args}{Screen\+And\+Offset\+Event\+Args}} $>$? \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_floating_window_a65a6d790031dcc48d26f6398a4a65575}{Window\+Caption\+Dragging}}
+\begin{DoxyCompactList}\small\item\em Occurs when the window needs to be drag and dropped by its caption. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Extends the Krypton\+Form to act as a floating window within the docking framework. 
+
+\label{doc-constructors}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_floating_window_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_floating_window_a68f384a6b8fde7f63cc2aaa980a1b05c}\index{Krypton.Docking.KryptonFloatingWindow@{Krypton.Docking.KryptonFloatingWindow}!KryptonFloatingWindow@{KryptonFloatingWindow}}
+\index{KryptonFloatingWindow@{KryptonFloatingWindow}!Krypton.Docking.KryptonFloatingWindow@{Krypton.Docking.KryptonFloatingWindow}}
+\doxysubsubsection{\texorpdfstring{KryptonFloatingWindow()}{KryptonFloatingWindow()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_floating_window_a68f384a6b8fde7f63cc2aaa980a1b05c} 
+Krypton.\+Docking.\+Krypton\+Floating\+Window.\+Krypton\+Floating\+Window (\begin{DoxyParamCaption}\item[{Form}]{owner}{, }\item[{\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_floatspace}{Krypton\+Floatspace}}?}]{floatspace}{, }\item[{bool}]{use\+Minimise\+Box}{ = {\ttfamily false}}\end{DoxyParamCaption})}
+
+
+
+Initialize a new instance of the \doxylink{class_krypton_1_1_docking_1_1_krypton_floating_window}{Krypton\+Floating\+Window} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em owner} & Reference to form that will own all the floating window.\\
+\hline
+{\em floatspace} & Reference to owning floatspace instance.\\
+\hline
+{\em use\+Minimise\+Box} & Allow window to be minimised.\\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-func-members}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_floating_window_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_floating_window_ae55db11a5a77ca9c587282fc70b65b4d}\index{Krypton.Docking.KryptonFloatingWindow@{Krypton.Docking.KryptonFloatingWindow}!OnActivated@{OnActivated}}
+\index{OnActivated@{OnActivated}!Krypton.Docking.KryptonFloatingWindow@{Krypton.Docking.KryptonFloatingWindow}}
+\doxysubsubsection{\texorpdfstring{OnActivated()}{OnActivated()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_floating_window_ae55db11a5a77ca9c587282fc70b65b4d} 
+override void Krypton.\+Docking.\+Krypton\+Floating\+Window.\+On\+Activated (\begin{DoxyParamCaption}\item[{Event\+Args}]{e}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Raises the Activated event. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em e} & An Event\+Args containing the event data.\\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_floating_window_a073edd50f5040c805e68db528626bf7c}\index{Krypton.Docking.KryptonFloatingWindow@{Krypton.Docking.KryptonFloatingWindow}!OnClosing@{OnClosing}}
+\index{OnClosing@{OnClosing}!Krypton.Docking.KryptonFloatingWindow@{Krypton.Docking.KryptonFloatingWindow}}
+\doxysubsubsection{\texorpdfstring{OnClosing()}{OnClosing()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_floating_window_a073edd50f5040c805e68db528626bf7c} 
+override void Krypton.\+Docking.\+Krypton\+Floating\+Window.\+On\+Closing (\begin{DoxyParamCaption}\item[{Cancel\+Event\+Args}]{e}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Raises the Closing event. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em e} & An Cancel\+Event\+Args that contains the event data.\\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_floating_window_a67ebc4a1aa1ac9db9b9ecfef9e45e520}\index{Krypton.Docking.KryptonFloatingWindow@{Krypton.Docking.KryptonFloatingWindow}!OnDeactivate@{OnDeactivate}}
+\index{OnDeactivate@{OnDeactivate}!Krypton.Docking.KryptonFloatingWindow@{Krypton.Docking.KryptonFloatingWindow}}
+\doxysubsubsection{\texorpdfstring{OnDeactivate()}{OnDeactivate()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_floating_window_a67ebc4a1aa1ac9db9b9ecfef9e45e520} 
+override void Krypton.\+Docking.\+Krypton\+Floating\+Window.\+On\+Deactivate (\begin{DoxyParamCaption}\item[{Event\+Args}]{e}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Raises the Deactivate event. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em e} & An Event\+Args containing the event data.\\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_floating_window_a548fe8abc3b1f49af2ef7484e5717825}\index{Krypton.Docking.KryptonFloatingWindow@{Krypton.Docking.KryptonFloatingWindow}!OnLoad@{OnLoad}}
+\index{OnLoad@{OnLoad}!Krypton.Docking.KryptonFloatingWindow@{Krypton.Docking.KryptonFloatingWindow}}
+\doxysubsubsection{\texorpdfstring{OnLoad()}{OnLoad()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_floating_window_a548fe8abc3b1f49af2ef7484e5717825} 
+override void Krypton.\+Docking.\+Krypton\+Floating\+Window.\+On\+Load (\begin{DoxyParamCaption}\item[{Event\+Args}]{e}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Raises the Load event. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em e} & An Event\+Args that contains the event data.\\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_floating_window_a7202d74b2f735e76fa1adf5d2e907466}\index{Krypton.Docking.KryptonFloatingWindow@{Krypton.Docking.KryptonFloatingWindow}!OnWindowCaptionDragging@{OnWindowCaptionDragging}}
+\index{OnWindowCaptionDragging@{OnWindowCaptionDragging}!Krypton.Docking.KryptonFloatingWindow@{Krypton.Docking.KryptonFloatingWindow}}
+\doxysubsubsection{\texorpdfstring{OnWindowCaptionDragging()}{OnWindowCaptionDragging()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_floating_window_a7202d74b2f735e76fa1adf5d2e907466} 
+virtual void Krypton.\+Docking.\+Krypton\+Floating\+Window.\+On\+Window\+Caption\+Dragging (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_krypton_1_1_docking_1_1_screen_and_offset_event_args}{Screen\+And\+Offset\+Event\+Args}}}]{e}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Raises the Window\+Caption\+Dragging event. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em e} & An \doxylink{class_krypton_1_1_docking_1_1_screen_and_offset_event_args}{Screen\+And\+Offset\+Event\+Args} that contains the event data.\\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_floating_window_a20772ec5df4d49f0442b7f4f1a398367}\index{Krypton.Docking.KryptonFloatingWindow@{Krypton.Docking.KryptonFloatingWindow}!OnWindowCloseClicked@{OnWindowCloseClicked}}
+\index{OnWindowCloseClicked@{OnWindowCloseClicked}!Krypton.Docking.KryptonFloatingWindow@{Krypton.Docking.KryptonFloatingWindow}}
+\doxysubsubsection{\texorpdfstring{OnWindowCloseClicked()}{OnWindowCloseClicked()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_floating_window_a20772ec5df4d49f0442b7f4f1a398367} 
+virtual void Krypton.\+Docking.\+Krypton\+Floating\+Window.\+On\+Window\+Close\+Clicked (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_krypton_1_1_docking_1_1_unique_names_event_args}{Unique\+Names\+Event\+Args}}}]{e}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Raises the Window\+Close\+Clicked event. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em e} & An \doxylink{class_krypton_1_1_docking_1_1_unique_names_event_args}{Unique\+Names\+Event\+Args} that contains the event data.\\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_floating_window_a21a3015f9126c5c9a96d5f9367796011}\index{Krypton.Docking.KryptonFloatingWindow@{Krypton.Docking.KryptonFloatingWindow}!WndProc@{WndProc}}
+\index{WndProc@{WndProc}!Krypton.Docking.KryptonFloatingWindow@{Krypton.Docking.KryptonFloatingWindow}}
+\doxysubsubsection{\texorpdfstring{WndProc()}{WndProc()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_floating_window_a21a3015f9126c5c9a96d5f9367796011} 
+override void Krypton.\+Docking.\+Krypton\+Floating\+Window.\+Wnd\+Proc (\begin{DoxyParamCaption}\item[{ref Message}]{m}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Processes Windows messages. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em m} & The Windows Message to process. \\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-property-members}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_floating_window_doc-property-members}
+\doxysubsection{Property Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_floating_window_aa1d9a06b99a4c075a8a51881225a3995}\index{Krypton.Docking.KryptonFloatingWindow@{Krypton.Docking.KryptonFloatingWindow}!FloatspaceControl@{FloatspaceControl}}
+\index{FloatspaceControl@{FloatspaceControl}!Krypton.Docking.KryptonFloatingWindow@{Krypton.Docking.KryptonFloatingWindow}}
+\doxysubsubsection{\texorpdfstring{FloatspaceControl}{FloatspaceControl}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_floating_window_aa1d9a06b99a4c075a8a51881225a3995} 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_floatspace}{Krypton\+Floatspace}}? Krypton.\+Docking.\+Krypton\+Floating\+Window.\+Floatspace\+Control\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Gets access to the contained \doxylink{class_krypton_1_1_docking_1_1_krypton_floatspace}{Krypton\+Floatspace} control. 
+
+
+
+\label{doc-event-members}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_floating_window_doc-event-members}
+\doxysubsection{Event Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_floating_window_a65a6d790031dcc48d26f6398a4a65575}\index{Krypton.Docking.KryptonFloatingWindow@{Krypton.Docking.KryptonFloatingWindow}!WindowCaptionDragging@{WindowCaptionDragging}}
+\index{WindowCaptionDragging@{WindowCaptionDragging}!Krypton.Docking.KryptonFloatingWindow@{Krypton.Docking.KryptonFloatingWindow}}
+\doxysubsubsection{\texorpdfstring{WindowCaptionDragging}{WindowCaptionDragging}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_floating_window_a65a6d790031dcc48d26f6398a4a65575} 
+Event\+Handler$<$\mbox{\hyperlink{class_krypton_1_1_docking_1_1_screen_and_offset_event_args}{Screen\+And\+Offset\+Event\+Args}}$>$? Krypton.\+Docking.\+Krypton\+Floating\+Window.\+Window\+Caption\+Dragging}
+
+
+
+Occurs when the window needs to be drag and dropped by its caption. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_floating_window_a1969980d5c528a74ecf4cc11004a62d1}\index{Krypton.Docking.KryptonFloatingWindow@{Krypton.Docking.KryptonFloatingWindow}!WindowCloseClicked@{WindowCloseClicked}}
+\index{WindowCloseClicked@{WindowCloseClicked}!Krypton.Docking.KryptonFloatingWindow@{Krypton.Docking.KryptonFloatingWindow}}
+\doxysubsubsection{\texorpdfstring{WindowCloseClicked}{WindowCloseClicked}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_floating_window_a1969980d5c528a74ecf4cc11004a62d1} 
+Event\+Handler$<$\mbox{\hyperlink{class_krypton_1_1_docking_1_1_unique_names_event_args}{Unique\+Names\+Event\+Args}}$>$? Krypton.\+Docking.\+Krypton\+Floating\+Window.\+Window\+Close\+Clicked}
+
+
+
+Occurs when the window close is requested and provides the set of pages visible. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/\+Krypton-\/\+Reference-\/\+Repo/\+Standard-\/\+Toolkit/\+Source/\+Krypton Components/\+Krypton.\+Docking/\+Control Docking/\mbox{\hyperlink{_krypton_floating_window_8cs}{Krypton\+Floating\+Window.\+cs}}\end{DoxyCompactItemize}

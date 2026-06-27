@@ -1,0 +1,28 @@
+var class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group =
+[
+    [ "KryptonDockingAutoHiddenGroup", "class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group.html#a8a6bea72a9018bd2d9f7f29185a1250c", null ],
+    [ "Append", "class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group.html#ad61ba8db306653e2e01e9f7e635f382c", null ],
+    [ "Append", "class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group.html#a56530565b60a4a8da70db642233d38b7", null ],
+    [ "FindPageElement", "class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group.html#a275b6184f29fb4ab80aa1b0f05f2b3e5", null ],
+    [ "FindPageLocation", "class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group.html#af0ce7ed9cc408f69fc2e6f128584c2d5", null ],
+    [ "FindStorePageElement", "class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group.html#ad47d2b5003916a3afe9ca18284ddef0d", null ],
+    [ "LoadChildDockingElement", "class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group.html#aa3323ca19a6b818de6aef3385fdd6984", null ],
+    [ "LoadElementFromXml", "class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group.html#a492a340e8e3a1cac94ea85b328f3fd51", null ],
+    [ "OnPageClicked", "class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group.html#a386e7829f172943ce713774bd08ca0fd", null ],
+    [ "OnPageHoverEnd", "class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group.html#a0d40846ac6d11a234b90e324c1e717ef", null ],
+    [ "OnPageHoverStart", "class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group.html#a6bfea3ff740a9075fa5bc8b181801589", null ],
+    [ "PropogateAction", "class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group.html#ad3a615609a253e7d6d30e3538670e69b", null ],
+    [ "PropogateAction", "class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group.html#a66988bab95682215ef164d9a720d065b", null ],
+    [ "PropogateBoolState", "class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group.html#a69745244295da89f5d9fabf642027cb0", null ],
+    [ "PropogatePageList", "class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group.html#aa7f55ad227eac9fd113bd44271807125", null ],
+    [ "PropogatePageState", "class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group.html#af8f7c23db1a1bf48c95a6e7a71dc9a6f", null ],
+    [ "SaveElementToXml", "class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group.html#a992602ecd55d1073ff6f3731540dbace", null ],
+    [ "VisiblePages", "class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group.html#a5a51df2321a2424e4318cf4fa2c01973", null ],
+    [ "AutoHiddenGroupControl", "class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group.html#a2e232ab1d8389e3f3b6064ff7a76e7f9", null ],
+    [ "Edge", "class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group.html#a6489bc3ea292a70909559454e2acfb80", null ],
+    [ "EdgeDockedElement", "class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group.html#a74e6882cdb32d8b6c60e58b91fba8ac5", null ],
+    [ "XmlElementName", "class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group.html#ad723124bd04711fd81e67d2960f65083", null ],
+    [ "PageClicked", "class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group.html#a643ac4b9323a3cb2e4b73659430cbd7f", null ],
+    [ "PageHoverEnd", "class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group.html#aeffdfc34bb059544d30bf025f01c645e", null ],
+    [ "PageHoverStart", "class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group.html#a5999ee7022b05d0291782f4dc78bf1bd", null ]
+];
