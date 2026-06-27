@@ -791,13 +791,15 @@ public class PaletteBorder : Storage,
     /// <returns>Per-corner border rounding.</returns>
     public virtual PaletteCornerRounding GetBorderCornerRounding(PaletteState state)
     {
+        float uniformRounding = GetBorderRounding(state);
+
         if (!HasPerCornerStorage())
         {
-            return _inherit.GetBorderCornerRounding(state);
+            return PaletteCornerRounding.Uniform(uniformRounding);
         }
 
         return PaletteCornerRounding.Merge(
-            GetBorderRounding(state),
+            uniformRounding,
             RoundingTopLeft,
             RoundingTopRight,
             RoundingBottomRight,
