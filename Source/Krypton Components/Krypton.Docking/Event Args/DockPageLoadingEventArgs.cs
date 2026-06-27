@@ -13,17 +13,17 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Event data for loading docking page configuration.
+/// Event arguments raised while a single docking page configuration is deserialized from XML.
 /// </summary>
 public class DockPageLoadingEventArgs : DockGlobalLoadingEventArgs
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the DockPageLoadingEventArgs class.
+    /// Extends global loading event arguments with the page being restored from configuration XML.
     /// </summary>
-    /// <param name="manager">Reference to owning docking manager instance.</param>
-    /// <param name="xmlReading">Xml reader for persisting custom data.</param>
-    /// <param name="page">Reference to page being loaded.</param>
+    /// <param name="manager">Docking manager performing the load operation; may be null.</param>
+    /// <param name="xmlReading">XML reader positioned at page configuration data.</param>
+    /// <param name="page">Page being restored from XML; may be null while configuration is still being deserialized.</param>
     public DockPageLoadingEventArgs(KryptonDockingManager? manager,
         XmlReader xmlReading,
         KryptonPage? page)
@@ -34,7 +34,7 @@ public class DockPageLoadingEventArgs : DockGlobalLoadingEventArgs
 
     #region Public
     /// <summary>
-    /// Gets the loading page reference.
+    /// Page being restored from XML; may be null while configuration is still being deserialized.
     /// </summary>
     public KryptonPage? Page { get; }
 

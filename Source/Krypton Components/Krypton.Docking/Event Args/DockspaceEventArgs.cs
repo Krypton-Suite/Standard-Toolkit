@@ -13,16 +13,16 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Event arguments for a DockspaceAdding/DockspaceRemoved events.
+/// Event arguments raised when a dockspace is added to or removed from the docking layout.
 /// </summary>
 public class DockspaceEventArgs : EventArgs
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the DockspaceEventArgs class.
+    /// Records the dockspace control and docking element for the add or remove operation.
     /// </summary>
-    /// <param name="dockspace">Reference to new dockspace control instance.</param>
-    /// <param name="element">Reference to docking dockspace element that is managing the dockspace control.</param>
+    /// <param name="dockspace">Dockspace UI control being added or removed.</param>
+    /// <param name="element">Docking element coordinating the dockspace in the layout tree; may be null.</param>
     public DockspaceEventArgs(KryptonDockspace dockspace,
         KryptonDockingDockspace? element)
     {
@@ -33,12 +33,12 @@ public class DockspaceEventArgs : EventArgs
 
     #region Public
     /// <summary>
-    /// Gets a reference to the KryptonDockspace control.
+    /// Dockspace UI control being added or removed.
     /// </summary>
     public KryptonDockspace DockspaceControl { get; }
 
     /// <summary>
-    /// Gets a reference to the KryptonDockingDockspace that is managing the dockspace control.
+    /// Docking element coordinating the dockspace in the layout tree; may be null.
     /// </summary>
     public KryptonDockingDockspace? DockspaceElement { get; }
 

@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -13,13 +13,13 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Extends base functionality by allowing a collection of child docking elements.
+/// Docking element collection that supports adding, inserting, and removing child elements.
 /// </summary>
 public abstract class DockingElementOpenCollection : DockingElementClosedCollection
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the DockingElementOpenCollection class.
+    /// Creates a docking element whose child collection supports add and remove operations.
     /// </summary>
     /// <param name="name">Initial name of the element.</param>
     protected DockingElementOpenCollection(string name)
@@ -30,27 +30,27 @@ public abstract class DockingElementOpenCollection : DockingElementClosedCollect
 
     #region Public
     /// <summary>
-    /// Append a docking element to the collection.
+    /// Adds a child docking element to the end of the collection and assigns its parent.
     /// </summary>
     /// <param name="item">IDockingElement reference.</param>
     public virtual void Add(IDockingElement item) => InternalAdd(item);
 
     /// <summary>
-    /// Append a docking element to the collection.
+    /// Adds a child docking element to the end of the collection and assigns its parent.
     /// </summary>
     /// <param name="index">Insert index.</param>
     /// <param name="item">IDockingElement reference.</param>
     public virtual void Insert(int index, IDockingElement item) => InternalInsert(index, item);
 
     /// <summary>
-    /// Removes first occurrence of specified docking element.
+    /// Removes the first matching child element and clears its parent reference.
     /// </summary>
     /// <param name="item">IDockingElement reference.</param>
-    /// <returns>True if removed; otherwise false.</returns>
+    /// <returns><see langword="true"/> when the element was removed; otherwise <see langword="false"/>.</returns>
     public virtual bool Remove(IDockingElement item) => InternalRemove(item);
 
     /// <summary>
-    /// Remove all docking elements from the collection.
+    /// Removes every child element and clears parent references.
     /// </summary>
     public virtual void Clear() => InternalClear();
     #endregion

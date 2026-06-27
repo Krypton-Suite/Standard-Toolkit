@@ -13,7 +13,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Helper class used inside a 'using' statement to notify start and end of a multi-part update.
+/// Scope object that signals the start and end of a batched docking hierarchy update.
 /// </summary>
 public class DockingMultiUpdate : IDisposable
 {
@@ -23,9 +23,10 @@ public class DockingMultiUpdate : IDisposable
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the DockingMultiUpdate class.
+    /// Signals <see cref="DockingPropogateAction.StartUpdate"/> to the supplied hierarchy root.
     /// </summary>
-    /// <param name="dockingElement">Reference to root element of docking hierarchy.</param>
+    /// <param name="dockingElement">Root element whose descendants receive the start-update broadcast.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="dockingElement"/> is <see langword="null"/>.</exception>
     public DockingMultiUpdate(IDockingElement dockingElement)
     {
 
@@ -35,7 +36,7 @@ public class DockingMultiUpdate : IDisposable
     }
 
     /// <summary>
-    /// Release managed and unmanaged resources.
+    /// Signals <see cref="DockingPropogateAction.EndUpdate"/> to the hierarchy root supplied at construction.
     /// </summary>
     public void Dispose()
     {

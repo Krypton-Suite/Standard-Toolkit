@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -22,7 +22,7 @@ public class KryptonDockingFloating : DockingElementClosedCollection
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonDockingFloating class.
+    /// Creates a floating-window collection owned by the specified form.
     /// </summary>
     /// <param name="name">Initial name of the element.</param>
     /// <param name="ownerForm">Reference to form that will own all the floating windows.</param>
@@ -39,25 +39,25 @@ public class KryptonDockingFloating : DockingElementClosedCollection
     public Form OwnerForm { get; }
 
     /// <summary>
-    /// Create and add a new floating window.
+    /// Creates and registers a new floating window with a generated unique name.
     /// </summary>
-    /// <returns>Reference to docking element that handles the new workspace.</returns>
+    /// <returns>The newly created floating window element.</returns>
     public KryptonDockingFloatingWindow AddFloatingWindow() =>
         // Generate a unique string by creating a GUID
         AddFloatingWindow(CommonHelper.UniqueString);
 
     /// <summary>
-    /// Create and add a new floating window.
+    /// Creates and registers a new floating window with the specified name.
     /// </summary>
-    /// <param name="name">Initial name of the dockspace element.</param>
-    /// <returns>Reference to docking element that handles the new workspace.</returns>
+    /// <param name="name">Initial name of the floating window element.</param>
+    /// <returns>The newly created floating window element.</returns>
     public KryptonDockingFloatingWindow AddFloatingWindow(string? name) => CreateFloatingWindow(name);
 
     /// <summary>
-    /// Find a floating docking element by searching the hierarchy.
+    /// Returns the floating docking element associated with the specified page name.
     /// </summary>
     /// <param name="uniqueName">Named page for which a suitable floating element is required.</param>
-    /// <returns>KryptonDockingFloating reference if found; otherwise false.</returns>
+    /// <returns>This floating collection when the page can be hosted here; otherwise the result of the base search.</returns>
     public override KryptonDockingFloating FindDockingFloating(string uniqueName) => this;
 
     /// <summary>
@@ -85,7 +85,7 @@ public class KryptonDockingFloating : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// 
+    /// When <see langword="true"/>, newly created floating windows expose a minimize box.
     /// </summary>
     [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden)]
     public bool UseMinimiseBox { get; set; }

@@ -13,13 +13,13 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Target that never matches and so acts as a null drag target.
+/// Placeholder drag target that never matches a drop location.
 /// </summary>
 public class DragTargetNull : DragTarget
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the DragTargetNull class.
+    /// Creates a non-matching target with empty screen, hot, and draw rectangles.
     /// </summary>
     public DragTargetNull()
         : base(Rectangle.Empty, Rectangle.Empty, Rectangle.Empty, DragTargetHint.None, KryptonPageFlags.All)
@@ -29,11 +29,11 @@ public class DragTargetNull : DragTarget
 
     #region Public
     /// <summary>
-    /// Perform the drop action associated with the target.
+    /// Always reports a successful drop without relocating pages.
     /// </summary>
     /// <param name="screenPt">Position in screen coordinates.</param>
-    /// <param name="data">Data to pass to the target to process drop.</param>
-    /// <returns>Drop was performed and the source can perform any removal of pages as required.</returns>
+    /// <param name="data">Drag data for the attempted drop.</param>
+    /// <returns>Always <see langword="true"/>.</returns>
     public override bool PerformDrop(Point screenPt, PageDragEndData? data) => true;
 
     #endregion

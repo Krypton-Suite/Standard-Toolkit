@@ -13,7 +13,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Provides the set of drag targets relevant to the set of pages being moved.
+/// Builds drag targets from the docking hierarchy for the pages being moved.
 /// </summary>
 public class DockingDragTargetProvider : IDragTargetProvider
 {
@@ -25,11 +25,11 @@ public class DockingDragTargetProvider : IDragTargetProvider
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the DragTargetNull class.
+    /// Captures the docking manager, optional source floating window, and pages for subsequent target generation.
     /// </summary>
-    /// <param name="manager">Reference to docking manager.</param>
-    /// <param name="floatingWindow">Reference to window being dragged.</param>
-    /// <param name="pages">Reference to collection of pages to drag.</param>
+    /// <param name="manager">Docking manager whose hierarchy supplies drag targets.</param>
+    /// <param name="floatingWindow">Floating window being dragged, or <see langword="null"/> when the drag did not originate from a floating window.</param>
+    /// <param name="pages">Pages whose allowed drop locations determine the target set.</param>
     public DockingDragTargetProvider(KryptonDockingManager manager, 
         KryptonFloatingWindow? floatingWindow,
         KryptonPageCollection pages)
@@ -42,10 +42,10 @@ public class DockingDragTargetProvider : IDragTargetProvider
 
     #region Public
     /// <summary>
-    /// Generate a list of drag targets that are relevant to the provided end data.
+    /// Assembles drag targets from the docking hierarchy for the supplied drag data.
     /// </summary>
-    /// <param name="dragEndData">Pages data being dragged.</param>
-    /// <returns>List of drag targets.</returns>
+    /// <param name="dragEndData">Pages and context for the drag operation.</param>
+    /// <returns>Targets discovered in the hierarchy; includes a <see cref="DragTargetNull"/> entry when no targets are found.</returns>
     public DragTargetList GenerateDragTargets(PageDragEndData? dragEndData)
     {
         var targets = new DragTargetList();

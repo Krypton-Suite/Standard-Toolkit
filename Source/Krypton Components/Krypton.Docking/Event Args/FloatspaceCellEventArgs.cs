@@ -13,17 +13,17 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Event arguments for a FloatspaceCellAdding/FloatingCellRemoving events.
+/// Event arguments raised when a workspace cell is added to or removed from a floatspace.
 /// </summary>
 public class FloatspaceCellEventArgs : EventArgs
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the FloatspaceCellEventArgs class.
+    /// Captures the floatspace control, docking element, and workspace cell involved in the add or remove operation.
     /// </summary>
-    /// <param name="floatspace">Reference to existing floatspace control instance.</param>
-    /// <param name="element">Reference to docking floatspace element that is managing the floatspace control.</param>
-    /// <param name="cell">Reference tofloatspace control cell instance.</param>
+    /// <param name="floatspace">Floatspace control hosting the cell; may be null during removal.</param>
+    /// <param name="element">Docking element coordinating the floatspace layout.</param>
+    /// <param name="cell">Workspace cell being added to or removed from the floatspace.</param>
     public FloatspaceCellEventArgs(KryptonFloatspace? floatspace,
         KryptonDockingFloatspace element,
         KryptonWorkspaceCell cell)
@@ -36,17 +36,17 @@ public class FloatspaceCellEventArgs : EventArgs
 
     #region Public
     /// <summary>
-    /// Gets a reference to the KryptonFloatspace control.
+    /// Floatspace UI control hosting the cell; may be null during removal.
     /// </summary>
     public KryptonFloatspace? FloatspaceControl { get; }
 
     /// <summary>
-    /// Gets a reference to the KryptonDockingFloatspace that is managing the floatspace.
+    /// Docking element coordinating the floatspace layout in the docking tree.
     /// </summary>
     public KryptonDockingFloatspace FloatspaceElement { get; }
 
     /// <summary>
-    /// Gets a reference to the KryptonWorkspaceCell control.
+    /// Workspace cell added to or removed from the floatspace.
     /// </summary>
     public KryptonWorkspaceCell CellControl { get; }
 

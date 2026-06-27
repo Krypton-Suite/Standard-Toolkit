@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -35,11 +35,11 @@ public class KryptonDockingEdgeAutoHidden : DockingElementClosedCollection
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonDockingEdgeAutoHidden class.
+    /// Creates an auto-hidden edge collection for the specified control and edge.
     /// </summary>
     /// <param name="name">Initial name of the element.</param>
-    /// <param name="control">Reference to control that is being managed.</param>
-    /// <param name="edge">Docking edge being managed.</param>
+    /// <param name="control">Host control for auto-hidden groups.</param>
+    /// <param name="edge">Edge of the host control on which auto-hidden groups are created.</param>
     public KryptonDockingEdgeAutoHidden(string name, Control control, DockingEdge edge)
         : base(name)
     {
@@ -73,19 +73,19 @@ public class KryptonDockingEdgeAutoHidden : DockingElementClosedCollection
 
     #region Public
     /// <summary>
-    /// Gets the control this element is managing.
+    /// Host control associated with this docking element.
     /// </summary>
     public Control Control { get; }
 
     /// <summary>
-    /// Gets the docking edge this element is managing.
+    /// Control edge on which this element hosts docked or auto-hidden content.
     /// </summary>
     public DockingEdge Edge { get; }
 
     /// <summary>
     /// Create and add a new auto hidden group instance to the correct edge of the owning control.
     /// </summary>
-    /// <returns>Reference to docking element that handles the new auto hidden group.</returns>
+    /// <returns>The newly created auto hidden group element.</returns>
     public KryptonDockingAutoHiddenGroup AppendAutoHiddenGroup() =>
         // Generate a unique string by creating a GUID
         AppendAutoHiddenGroup(CommonHelper.UniqueString);
@@ -94,14 +94,14 @@ public class KryptonDockingEdgeAutoHidden : DockingElementClosedCollection
     /// Create and add a new auto hidden group instance to the correct edge of the owning control.
     /// </summary>
     /// <param name="name">Initial name of the group element.</param>
-    /// <returns>Reference to docking element that handles the new auto hidden group.</returns>
+    /// <returns>The newly created auto hidden group element.</returns>
     public KryptonDockingAutoHiddenGroup AppendAutoHiddenGroup(string name) => CreateAndInsertAutoHiddenGroup(Count, name);
 
     /// <summary>
     /// Create and insert a new auto hidden group instance to the correct edge of the owning control.
     /// </summary>
     /// <param name="index">Insertion index.</param>
-    /// <returns>Reference to docking element that handles the new auto hidden group.</returns>
+    /// <returns>The newly created auto hidden group element.</returns>
     public KryptonDockingAutoHiddenGroup InsertAutoHiddenGroup(int index) =>
         // Generate a unique string by creating a GUID
         CreateAndInsertAutoHiddenGroup(index, CommonHelper.UniqueString);
@@ -111,11 +111,11 @@ public class KryptonDockingEdgeAutoHidden : DockingElementClosedCollection
     /// </summary>
     /// <param name="index">Insertion index.</param>
     /// <param name="name">Initial name of the group element.</param>
-    /// <returns>Reference to docking element that handles the new auto hidden group.</returns>
+    /// <returns>The newly created auto hidden group element.</returns>
     public KryptonDockingAutoHiddenGroup InsertAutoHiddenGroup(int index, string name) => CreateAndInsertAutoHiddenGroup(index, name);
 
     /// <summary>
-    /// Propagates an action request down the hierarchy of docking elements.
+    /// Forwards the specified docking action to child elements.
     /// </summary>
     /// <param name="action">Action that is requested to be performed.</param>
     /// <param name="uniqueNames">Array of unique names of the pages the action relates to.</param>
@@ -164,7 +164,7 @@ public class KryptonDockingEdgeAutoHidden : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Propagates an action request down the hierarchy of docking elements.
+    /// Forwards the specified docking action to child elements.
     /// </summary>
     /// <param name="action">Action that is requested to be performed.</param>
     /// <param name="pages">Array of pages the action relates to.</param>
@@ -187,10 +187,10 @@ public class KryptonDockingEdgeAutoHidden : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Find a edge auto hidden element by searching the hierarchy.
+    /// Returns the auto-hidden edge element associated with the specified page name.
     /// </summary>
     /// <param name="uniqueName">Named page for which a suitable auto hidden edge element is required.</param>
-    /// <returns>KryptonDockingEdgeAutoHidden reference if found; otherwise false.</returns>
+    /// <returns>This auto-hidden edge collection.</returns>
     public override KryptonDockingEdgeAutoHidden? FindDockingEdgeAutoHidden(string uniqueName) => this;
 
     /// <summary>

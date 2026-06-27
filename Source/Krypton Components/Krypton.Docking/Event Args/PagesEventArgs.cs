@@ -13,22 +13,22 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Event arguments for events that need to provide a colletion of pages.
+/// Event arguments exposing a collection of pages for bulk docking operations.
 /// </summary>
 public class PagesEventArgs : EventArgs
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the PagesEventArgs class.
+    /// Wraps the page collection supplied by the event source.
     /// </summary>
-    /// <param name="pages">Collection of pages.</param>
+    /// <param name="pages">Collection of pages affected by or referenced in the event.</param>
     public PagesEventArgs(KryptonPageCollection pages) => Pages = pages;
 
     #endregion
 
     #region Public
     /// <summary>
-    /// Gets access to a collection of pages.
+    /// Read-only collection of pages affected by or referenced in the event.
     /// </summary>
     public KryptonPageCollection Pages { get; }
 

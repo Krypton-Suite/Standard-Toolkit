@@ -13,16 +13,16 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Event arguments for a DockableNavigatorEventArgs event.
+/// Event arguments raised when a dockable navigator is added or removed from the docking layout.
 /// </summary>
 public class DockableNavigatorEventArgs : EventArgs
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the DockableNavigatorEventArgs class.
+    /// Records the navigator control and docking navigator element for the add or remove operation.
     /// </summary>
-    /// <param name="navigator">Reference to dockable navigator control instance.</param>
-    /// <param name="element">Reference to docking navigator element that is managing the dockable workspace control.</param>
+    /// <param name="navigator">Dockable navigator control being added or removed.</param>
+    /// <param name="element">Docking element coordinating the dockable navigator in the layout tree.</param>
     public DockableNavigatorEventArgs(KryptonDockableNavigator navigator,
         KryptonDockingNavigator element)
     {
@@ -33,12 +33,12 @@ public class DockableNavigatorEventArgs : EventArgs
 
     #region Public
     /// <summary>
-    /// Gets a reference to the KryptonDockableNavigator control.
+    /// Dockable navigator UI control being added or removed.
     /// </summary>
     public KryptonDockableNavigator DockableNavigatorControl { get; }
 
     /// <summary>
-    /// Gets a reference to the KryptonDockingNavigator that is managing the dockable workspace control.
+    /// Docking element coordinating the dockable navigator in the layout tree.
     /// </summary>
     public KryptonDockingNavigator DockingNavigatorElement { get; }
 

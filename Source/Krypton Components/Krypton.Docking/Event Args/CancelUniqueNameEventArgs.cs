@@ -13,16 +13,16 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Event arguments for events that need to provide a unique name but can be cancelled.
+/// Event arguments identifying a page by unique name where the pending docking operation can be cancelled.
 /// </summary>
 public class CancelUniqueNameEventArgs : UniqueNameEventArgs
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the CancelUniqueNameEventArgs class.
+    /// Stores the page unique name and initial cancellation flag for the event.
     /// </summary>
-    /// <param name="uniqueName">Unique name of page.</param>
-    /// <param name="cancel">Initial value for the cancel property.</param>
+    /// <param name="uniqueName">Stable unique name identifying the docking page.</param>
+    /// <param name="cancel">Initial value indicating whether the pending operation should be suppressed.</param>
     public CancelUniqueNameEventArgs([DisallowNull] string uniqueName, bool cancel)
         : base(uniqueName) =>
         Cancel = cancel;
@@ -31,7 +31,7 @@ public class CancelUniqueNameEventArgs : UniqueNameEventArgs
 
     #region Public
     /// <summary>
-    /// Gets and sets a value indicating if the event action should be cancelled.
+    /// When true, suppresses the pending docking operation identified by <see cref="UniqueNameEventArgs.UniqueName"/>.
     /// </summary>
     public bool Cancel { get; set; }
 

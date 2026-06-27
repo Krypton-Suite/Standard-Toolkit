@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -39,7 +39,7 @@ public class KryptonDockingDockspace : KryptonDockingSpace
     #region Identity
 
     /// <summary>
-    /// Initialize a new instance of the KryptonDockingDockspace class.
+    /// Creates a dockspace element docked against the specified control edge.
     /// </summary>
     /// <param name="name">Initial name of the element.</param>
     /// <param name="edge">Docking edge this dockspace is against.</param>
@@ -67,7 +67,7 @@ public class KryptonDockingDockspace : KryptonDockingSpace
 
     #region Public
     /// <summary>
-    /// Gets the control this element is managing.
+    /// Host control associated with this docking element.
     /// </summary>
     public KryptonDockspace DockspaceControl => (SpaceControl as KryptonDockspace)!;
 
@@ -90,7 +90,7 @@ public class KryptonDockingDockspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Propagates an action request down the hierarchy of docking elements.
+    /// Forwards the specified docking action to child elements.
     /// </summary>
     /// <param name="action">Action that is requested to be performed.</param>
     /// <param name="value">Integer value associated with the request.</param>
@@ -153,7 +153,7 @@ public class KryptonDockingDockspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Propagates an integer state request down the hierarchy of docking elements.
+    /// Forwards an integer state query to child elements, allowing each to update the supplied value.
     /// </summary>
     /// <param name="state">Integer state that is requested to be recovered.</param>
     /// <param name="value">Value discovered from matching </param>
@@ -162,7 +162,7 @@ public class KryptonDockingDockspace : KryptonDockingSpace
         value = Math.Max(value, Order);
 
     /// <summary>
-    /// Propagates a request for drag targets down the hierarchy of docking elements.
+    /// Contributes drag targets from this element and its descendants into the supplied list.
     /// </summary>
     /// <param name="floatingWindow">Reference to window being dragged.</param>
     /// <param name="dragData">Set of pages being dragged.</param>
@@ -196,7 +196,7 @@ public class KryptonDockingDockspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Find the docking location of the named page.
+    /// Returns the docking location of the page with the specified unique name.
     /// </summary>
     /// <param name="uniqueName">Unique name of the page.</param>
     /// <returns>Enumeration value indicating docking location.</returns>
@@ -210,7 +210,7 @@ public class KryptonDockingDockspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Find the docking element that contains the named page.
+    /// Returns the docking element that contains the page with the specified unique name.
     /// </summary>
     /// <param name="uniqueName">Unique name of the page.</param>
     /// <returns>IDockingElement reference if page is found; otherwise null.</returns>
@@ -224,7 +224,7 @@ public class KryptonDockingDockspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Find the docking element that contains the location specific store page for the named page.
+    /// Returns the docking element that holds a store placeholder for the page at the specified location.
     /// </summary>
     /// <param name="location">Location to be searched.</param>
     /// <param name="uniqueName">Unique name of the page to be found.</param>
@@ -334,7 +334,7 @@ public class KryptonDockingDockspace : KryptonDockingSpace
     protected override string XmlElementName => @"DD";
 
     /// <summary>
-    /// Saves docking configuration information using a provider xml writer.
+    /// Writes this element and its descendants to the supplied XML writer.
     /// </summary>
     /// <param name="xmlWriter">Xml writer object.</param>
     public override void SaveElementToXml(XmlWriter xmlWriter)
@@ -367,7 +367,7 @@ public class KryptonDockingDockspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Loads docking configuration information using a provider xml reader.
+    /// Restores this element and its descendants from the supplied XML reader.
     /// </summary>
     /// <param name="xmlReader">Xml reader object.</param>
     /// <param name="pages">Collection of available pages for adding.</param>
