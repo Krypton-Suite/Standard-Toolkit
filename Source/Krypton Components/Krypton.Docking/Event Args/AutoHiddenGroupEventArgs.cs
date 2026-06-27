@@ -13,16 +13,16 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Event arguments for a AutoHiddenGroupAdding/AutoHiddenGroupRemoved events.
+/// Event payload when an auto-hidden group control is added to or removed from the docking tree.
 /// </summary>
 public class AutoHiddenGroupEventArgs : EventArgs
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the AutoHiddenGroupEventArgs class.
+    /// Captures the auto-hidden group control and its owning docking element.
     /// </summary>
-    /// <param name="control">Reference to auto hidden group control instance.</param>
-    /// <param name="element">Reference to docking auto hidden group element that is managing the control.</param>
+    /// <param name="control">Auto-hidden group control that was added or removed.</param>
+    /// <param name="element">Docking element that owns the auto-hidden group control.</param>
     public AutoHiddenGroupEventArgs(KryptonAutoHiddenGroup control,
         KryptonDockingAutoHiddenGroup element)
     {
@@ -33,12 +33,12 @@ public class AutoHiddenGroupEventArgs : EventArgs
 
     #region Public
     /// <summary>
-    /// Gets a reference to the KryptonAutoHiddenGroup control.
+    /// Auto-hidden group control that was added or removed; assigned at construction.
     /// </summary>
     public KryptonAutoHiddenGroup AutoHiddenGroupControl { get; }
 
     /// <summary>
-    /// Gets a reference to the KryptonDockingAutoHiddenGroup that is managing the group.
+    /// Docking element that owns the auto-hidden group control; assigned at construction.
     /// </summary>
     public KryptonDockingAutoHiddenGroup AutoHiddenGroupElement { get; }
 

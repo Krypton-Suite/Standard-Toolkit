@@ -13,17 +13,17 @@
 namespace Krypton.Docking;
 
 /// <summary>
-///  Set of common helper routines for Docking functionality
+/// Shared conversion and layout helpers for mapping docking edges to WinForms types and measuring client area.
 /// </summary>
 public static class DockingHelper
 {
     #region Public
     /// <summary>
-    /// Convert from DockEdge to DockStyle enumeration value.
+    /// Maps a docking edge to the corresponding WinForms dock style, optionally mirroring to the opposite edge.
     /// </summary>
     /// <param name="edge">DockEdge value to convert.</param>
-    /// <param name="opposite">Should the separator be docked against the opposite edge.</param>
-    /// <returns>DockStyle value.</returns>
+    /// <param name="opposite">When true, returns the dock style for the opposite edge.</param>
+    /// <returns>DockStyle aligned with the requested edge.</returns>
     public static DockStyle DockStyleFromDockEdge(DockingEdge edge, bool opposite)
     {
         switch (edge)
@@ -45,10 +45,10 @@ public static class DockingHelper
     }
 
     /// <summary>
-    /// Convert the DockEdge to Orientation enumeration value.
+    /// Returns vertical orientation for left and right edges and horizontal orientation for top and bottom edges.
     /// </summary>
     /// <param name="edge">DockEdge value to convert.</param>
-    /// <returns>Orientation value.</returns>
+    /// <returns>Orientation aligned with the edge.</returns>
     public static Orientation OrientationFromDockEdge(DockingEdge edge) => edge switch
     {
         DockingEdge.Left or DockingEdge.Right => Orientation.Vertical,
@@ -56,10 +56,10 @@ public static class DockingHelper
     };
 
     /// <summary>
-    /// Find the inner space that occupied by the edge docking controls.
+    /// Returns the client rectangle remaining after subtracting space taken by visible edge-docked child controls.
     /// </summary>
     /// <param name="c">Reference to control.</param>
-    /// <returns>Rectangle in control coordinates.</returns>
+    /// <returns>Inner client area in control coordinates.</returns>
     public static Rectangle InnerRectangle(Control c)
     {
         // Start with entire client area

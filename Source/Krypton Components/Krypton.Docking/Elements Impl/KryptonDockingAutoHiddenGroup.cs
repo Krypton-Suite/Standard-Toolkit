@@ -13,7 +13,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Provides display and docking functionality for a group of auto hidden pages.
+/// Docking element that represents a tab group of auto-hidden pages on one edge, wrapping pages in proxy instances for display.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]
@@ -27,27 +27,27 @@ public class KryptonDockingAutoHiddenGroup : DockingElementClosedCollection
 
     #region Events
     /// <summary>
-    /// Occurs when the user clicks a page header and so requests it be shown.
+    /// Occurs when the user clicks a page tab and requests that page be shown in the slide-out panel.
     /// </summary>
     public event EventHandler<KryptonPageEventArgs>? PageClicked;
 
     /// <summary>
-    /// Occurs when the user hovers the mouse over a page in the group.
+    /// Occurs when the user moves the mouse over a page tab in the group.
     /// </summary>
     public event EventHandler<KryptonPageEventArgs>? PageHoverStart;
 
     /// <summary>
-    /// Occurs when the hover over a page ends.
+    /// Occurs when the mouse leaves a page tab after a hover.
     /// </summary>
     public event EventHandler<EventArgs>? PageHoverEnd;
     #endregion
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonDockingAutoHiddenGroup class.
+    /// Creates a <see cref="KryptonAutoHiddenGroup"/> tab control for <paramref name="edge"/> and wires page interaction events.
     /// </summary>
     /// <param name="name">Initial name of the element.</param>
-    /// <param name="edge">Docking edge being managed.</param>
+    /// <param name="edge">Edge where the auto-hidden group tabs are displayed.</param>
     public KryptonDockingAutoHiddenGroup(string name, DockingEdge edge)
         : base(name)
     {
@@ -66,18 +66,19 @@ public class KryptonDockingAutoHiddenGroup : DockingElementClosedCollection
 
     #region Public
     /// <summary>
-    /// Gets the docking edge this element is managing.
+    /// Edge where this group's tabs are displayed along the parent control.
     /// </summary>
     public DockingEdge Edge { get; }
 
     /// <summary>
-    /// Gets the control this element is managing.
+    /// Tab control that displays auto-hidden page tabs for this group.
     /// </summary>
     public KryptonAutoHiddenGroup AutoHiddenGroupControl { get; }
 
     /// <summary>
-    /// Gets the sibling docked edge.
+    /// Sibling docked-edge element under the same parent <see cref="KryptonDockingEdge"/>, located by the fixed name <c>Docked</c>.
     /// </summary>
+    /// <returns>The docked-edge element when the parent chain includes a <see cref="KryptonDockingEdge"/>; otherwise <see langword="null"/>.</returns>
     public KryptonDockingEdgeDocked? EdgeDockedElement
     {
         get
@@ -94,17 +95,21 @@ public class KryptonDockingAutoHiddenGroup : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Add a KryptonPage to the end of the auto hidden group.
+    /// Adds a page to the end of this auto-hidden group, wrapping non-store pages in a proxy.
     /// </summary>
-    /// <param name="page">KryptonPage to be added.</param>
+    /// <param name="page">Page to add.</param>
+    /// <exception cref="ArgumentOutOfRangeException">The page is already present elsewhere in the docking hierarchy.</exception>
+    /// <exception cref="ApplicationException">No docking manager is attached to this subtree.</exception>
     public void Append(KryptonPage page) =>
         // Use existing array adding method to prevent duplication of code
         Append(new[] { page });
 
     /// <summary>
-    /// Add the KryptonPage array to the end of the auto hidden group.
+    /// Adds pages to the end of this auto-hidden group, wrapping non-store pages in proxies and clearing conflicting store placeholders first.
     /// </summary>
-    /// <param name="pages">Array of KryptonPage's to be added.</param>
+    /// <param name="pages">Pages to add; <see langword="null"/> is ignored.</param>
+    /// <exception cref="ArgumentOutOfRangeException">A page is already present elsewhere in the docking hierarchy.</exception>
+    /// <exception cref="ApplicationException">No docking manager is attached to this subtree.</exception>
     public void Append(KryptonPage[]? pages)
     {
         // Demand that pages are not already present
@@ -117,10 +122,10 @@ public class KryptonDockingAutoHiddenGroup : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Propagates an action request down the hierarchy of docking elements.
+    /// Applies page visibility, removal, store, and loading actions to this group's tab control before forwarding to child elements.
     /// </summary>
-    /// <param name="action">Action that is requested to be performed.</param>
-    /// <param name="uniqueNames">Array of unique names of the pages the action relates to.</param>
+    /// <param name="action">Docking operation to forward.</param>
+    /// <param name="uniqueNames">Page unique names targeted by the action; <see langword="null"/> for actions that apply to all pages.</param>
     public override void PropogateAction(DockingPropogateAction action, string[]? uniqueNames)
     {
         switch (action)
@@ -227,10 +232,10 @@ public class KryptonDockingAutoHiddenGroup : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Propagates an action request down the hierarchy of docking elements.
+    /// Restores pages from store placeholders in this group's tab control before forwarding to child elements.
     /// </summary>
-    /// <param name="action">Action that is requested to be performed.</param>
-    /// <param name="pages">Array of pages the action relates to.</param>
+    /// <param name="action">Docking operation to forward.</param>
+    /// <param name="pages">Pages targeted by the action.</param>
     public override void PropogateAction(DockingPropogateAction action, KryptonPage[] pages)
     {
         switch (action)
@@ -245,11 +250,11 @@ public class KryptonDockingAutoHiddenGroup : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Propagates a boolean state request down the hierarchy of docking elements.
+    /// Answers page-presence, store-placeholder, and visibility queries for pages held by this group's tab control.
     /// </summary>
-    /// <param name="state">Boolean state that is requested to be recovered.</param>
-    /// <param name="uniqueName">Unique name of the page the request relates to.</param>
-    /// <returns>True/False if state is known; otherwise null indicating no information available.</returns>
+    /// <param name="state">Boolean query to resolve.</param>
+    /// <param name="uniqueName">Unique name of the page the query concerns.</param>
+    /// <returns><see langword="true"/> or <see langword="false"/> when this group can answer; otherwise delegates to the base implementation.</returns>
     public override bool? PropogateBoolState(DockingPropogateBoolState state, string uniqueName)
     {
         switch (state)
@@ -291,11 +296,11 @@ public class KryptonDockingAutoHiddenGroup : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Propagates a page request down the hierarchy of docking elements.
+    /// Returns the underlying page for a proxy entry in this group's tab control when asked for a page by unique name.
     /// </summary>
-    /// <param name="state">Request that should result in a page reference if found.</param>
-    /// <param name="uniqueName">Unique name of the page the request relates to.</param>
-    /// <returns>Reference to page that matches the request; otherwise null.</returns>
+    /// <param name="state">Page query to resolve.</param>
+    /// <param name="uniqueName">Unique name of the page the query concerns.</param>
+    /// <returns>The unwrapped page when a matching proxy exists; otherwise delegates to the base implementation.</returns>
     public override KryptonPage? PropogatePageState(DockingPropogatePageState state, string uniqueName)
     {
         if (state == DockingPropogatePageState.PageForUniqueName)
@@ -313,10 +318,10 @@ public class KryptonDockingAutoHiddenGroup : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Propagates a page list request down the hierarchy of docking elements.
+    /// Adds real (non-placeholder) auto-hidden pages from this group into <paramref name="pages"/> when the query requests all or auto-hidden pages.
     /// </summary>
-    /// <param name="state">Request that should result in pages collection being modified.</param>
-    /// <param name="pages">Pages collection for modification by the docking elements.</param>
+    /// <param name="state">Page-list query to resolve.</param>
+    /// <param name="pages">Collection to receive matching pages.</param>
     public override void PropogatePageList(DockingPropogatePageList state, KryptonPageCollection pages)
     {
         switch (state)
@@ -342,10 +347,10 @@ public class KryptonDockingAutoHiddenGroup : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Find the docking location of the named page.
+    /// Returns <see cref="DockingLocation.AutoHidden"/> when this group contains a non-placeholder page with <paramref name="uniqueName"/>.
     /// </summary>
-    /// <param name="uniqueName">Unique name of the page.</param>
-    /// <returns>Enumeration value indicating docking location.</returns>
+    /// <param name="uniqueName">Unique name of the page to locate.</param>
+    /// <returns><see cref="DockingLocation.AutoHidden"/> when the page is present; otherwise <see cref="DockingLocation.None"/>.</returns>
     public override DockingLocation FindPageLocation(string uniqueName)
     {
         KryptonPage? page = AutoHiddenGroupControl.Pages[uniqueName];
@@ -355,10 +360,10 @@ public class KryptonDockingAutoHiddenGroup : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Find the docking element that contains the named page.
+    /// Returns this element when it contains a non-placeholder page with <paramref name="uniqueName"/>.
     /// </summary>
-    /// <param name="uniqueName">Unique name of the page.</param>
-    /// <returns>IDockingElement reference if page is found; otherwise null.</returns>
+    /// <param name="uniqueName">Unique name of the page to locate.</param>
+    /// <returns>This instance when the page is present; otherwise <see langword="null"/>.</returns>
     public override IDockingElement? FindPageElement(string uniqueName)
     {
         KryptonPage? page = AutoHiddenGroupControl.Pages[uniqueName];
@@ -368,11 +373,11 @@ public class KryptonDockingAutoHiddenGroup : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Find the docking element that contains the location specific store page for the named page.
+    /// Returns this element when it holds a store placeholder for <paramref name="uniqueName"/> at <see cref="DockingLocation.AutoHidden"/>.
     /// </summary>
-    /// <param name="location">Location to be searched.</param>
-    /// <param name="uniqueName">Unique name of the page to be found.</param>
-    /// <returns>IDockingElement reference if store page is found; otherwise null.</returns>
+    /// <param name="location">Docking location to search.</param>
+    /// <param name="uniqueName">Unique name of the stored page.</param>
+    /// <returns>This instance when a matching store page exists; otherwise <see langword="null"/>.</returns>
     public override IDockingElement? FindStorePageElement(DockingLocation location, string uniqueName)
     {
         if (location == DockingLocation.AutoHidden)
@@ -388,9 +393,9 @@ public class KryptonDockingAutoHiddenGroup : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Return an array of the visible pages that are inside the auto hidden group.
+    /// Collects visible, non-placeholder pages from this group, returning the underlying pages unwrapped from their proxies.
     /// </summary>
-    /// <returns>Array of page references.</returns>
+    /// <returns>Array of visible page references; empty when no visible pages exist.</returns>
     public KryptonPage[] VisiblePages()
     {
         var pages = new List<KryptonPage>();
@@ -412,9 +417,9 @@ public class KryptonDockingAutoHiddenGroup : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Saves docking configuration information using a provider xml writer.
+    /// Writes this group's pages and saveable attributes to <paramref name="xmlWriter"/>, raising page-saving events for custom data.
     /// </summary>
-    /// <param name="xmlWriter">Xml writer object.</param>
+    /// <param name="xmlWriter">Xml writer receiving the serialized layout.</param>
     public override void SaveElementToXml(XmlWriter xmlWriter)
     {
         KryptonDockingManager? manager = DockingManager;
@@ -446,10 +451,10 @@ public class KryptonDockingAutoHiddenGroup : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Loads docking configuration information using a provider xml reader.
+    /// Loads pages from XML into this group, updates tab visibility, and disposes the group when loading produces no pages.
     /// </summary>
-    /// <param name="xmlReader">Xml reader object.</param>
-    /// <param name="pages">Collection of available pages for adding.</param>
+    /// <param name="xmlReader">Xml reader positioned at this element.</param>
+    /// <param name="pages">Collection of available pages for resolving unique names.</param>
     public override void LoadElementFromXml(XmlReader xmlReader, KryptonPageCollection pages)
     {
         // Let base class load the pages into the group

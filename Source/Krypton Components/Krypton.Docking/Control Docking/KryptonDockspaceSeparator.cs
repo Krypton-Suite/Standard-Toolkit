@@ -13,7 +13,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Extends the KryptonSeparator so work between dockspace entries on a control edge.
+/// Low-profile separator placed between dockspace regions along a control edge.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]
@@ -22,10 +22,10 @@ public class KryptonDockspaceSeparator : KryptonSeparator
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonDockspaceSeparator class.
+    /// Configures dock alignment, orientation, and low-profile separator style for the specified edge.
     /// </summary>
-    /// <param name="edge">Docking edge the separator is against.</param>
-    /// <param name="opposite">Should the separator be docked against the opposite edge.</param>
+    /// <param name="edge">Dock edge the separator adjoins.</param>
+    /// <param name="opposite">When true, docks the separator on the opposite side of the edge.</param>
     public KryptonDockspaceSeparator(DockingEdge edge, bool opposite)
     {
         // Setup docking specific settings for the separator
@@ -35,9 +35,9 @@ public class KryptonDockspaceSeparator : KryptonSeparator
     }
 
     /// <summary>
-    /// Gets a string representation of the class.
+    /// Returns a diagnostic label that includes dock alignment and separator orientation.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>Label identifying this separator instance.</returns>
     public override string ToString() => $@"KryptonDockspaceSeparator {Dock} {Orientation}";
 
     #endregion

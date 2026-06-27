@@ -13,17 +13,17 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Event data for saving docking page configuration.
+/// Event payload raised while a single page docking layout is being persisted to XML.
 /// </summary>
 public class DockPageSavingEventArgs : DockGlobalSavingEventArgs
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the DockPageSavingEventArgs class.
+    /// Captures the docking manager, XML writer, and page whose layout is being saved.
     /// </summary>
-    /// <param name="manager">Reference to owning docking manager instance.</param>
-    /// <param name="xmlWriter">Xml writer for persisting custom data.</param>
-    /// <param name="page">Reference to page being saved.</param>
+    /// <param name="manager">Docking manager owning the save operation; may be null.</param>
+    /// <param name="xmlWriter">XML writer receiving persisted page docking data.</param>
+    /// <param name="page">Page whose layout is being persisted.</param>
     public DockPageSavingEventArgs(KryptonDockingManager? manager,
         XmlWriter xmlWriter,
         KryptonPage page)
@@ -34,7 +34,7 @@ public class DockPageSavingEventArgs : DockGlobalSavingEventArgs
 
     #region Public
     /// <summary>
-    /// Gets the saving page reference.
+    /// Page whose layout is being persisted; assigned at construction and not modified afterward.
     /// </summary>
     public KryptonPage Page { get; }
 

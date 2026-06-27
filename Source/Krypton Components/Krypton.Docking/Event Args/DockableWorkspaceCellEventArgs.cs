@@ -13,17 +13,17 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Event arguments for a DockableWorkspaceCellAdding/DockableWorkspaceCellRemoving events.
+/// Event payload when a dockable workspace cell is added to or removed from a dockable workspace.
 /// </summary>
 public class DockableWorkspaceCellEventArgs : EventArgs
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the DockableWorkspaceCellEventArgs class.
+    /// Captures the parent dockable workspace, its docking element, and the affected workspace cell.
     /// </summary>
-    /// <param name="workspace">Reference to existing dockable workspace control instance.</param>
-    /// <param name="element">Reference to docking workspace element that is managing the dockable workspace control.</param>
-    /// <param name="cell">Reference to workspace control cell instance.</param>
+    /// <param name="workspace">Dockable workspace control that contains the cell.</param>
+    /// <param name="element">Docking element that owns the dockable workspace control.</param>
+    /// <param name="cell">Workspace cell that was added or removed.</param>
     public DockableWorkspaceCellEventArgs(KryptonDockableWorkspace workspace,
         KryptonDockingWorkspace element,
         KryptonWorkspaceCell cell)
@@ -36,17 +36,17 @@ public class DockableWorkspaceCellEventArgs : EventArgs
 
     #region Public
     /// <summary>
-    /// Gets a reference to the KryptonDockableWorkspace that contains the cell.
+    /// Dockable workspace control that contains the cell; assigned at construction.
     /// </summary>
     public KryptonDockableWorkspace DockableWorkspaceControl { get; }
 
     /// <summary>
-    /// Gets a reference to the KryptonDockingWorkspace that is managing the dockable workspace.
+    /// Docking element that owns the dockable workspace control; assigned at construction.
     /// </summary>
     public KryptonDockingWorkspace WorkspaceElement { get; }
 
     /// <summary>
-    /// Gets a reference to the KryptonWorkspaceCell control.
+    /// Workspace cell that was added or removed; assigned at construction.
     /// </summary>
     public KryptonWorkspaceCell CellControl { get; }
 

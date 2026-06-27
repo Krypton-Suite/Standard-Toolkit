@@ -12,7 +12,7 @@
 
 namespace Krypton.Docking;
 
-/// <summary>Extends the KryptonForm to act as a floating window within the docking framework.</summary>
+/// <summary>Top-level floating form that hosts a <see cref="KryptonFloatspace"/> and delegates caption drag and close to the docking manager.</summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]
 [DesignTimeVisible(false)]
@@ -24,23 +24,23 @@ public class KryptonFloatingWindow : KryptonForm
 
     #region Events
     /// <summary>
-    /// Occurs when the window close is requested and provides the set of pages visible.
+    /// Raised when the user attempts to close the window; supplies unique names of visible, closeable pages and the close is cancelled.
     /// </summary>
     public event EventHandler<UniqueNamesEventArgs>? WindowCloseClicked;
 
     /// <summary>
-    /// Occurs when the window needs to be drag and dropped by its caption.
+    /// Raised when the user drags the caption bar (excluding min/close buttons) so the docking manager can reposition the window.
     /// </summary>
     public event EventHandler<ScreenAndOffsetEventArgs>? WindowCaptionDragging;
     #endregion
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonFloatingWindow class.
+    /// Configures floating-form chrome, assigns the owner form, and hosts the supplied floatspace as the client content.
     /// </summary>
-    /// <param name="owner">Reference to form that will own all the floating window.</param>
-    /// <param name="floatspace">Reference to owning floatspace instance.</param>
-    /// <param name="useMinimiseBox">Allow window to be minimised.</param>
+    /// <param name="owner">Form that owns this floating window and receives minimize synchronization.</param>
+    /// <param name="floatspace">Workspace hosted inside the floating window; may be null.</param>
+    /// <param name="useMinimiseBox">When true, shows a minimize box on the floating window.</param>
     public KryptonFloatingWindow(Form owner, KryptonFloatspace? floatspace, bool useMinimiseBox = false)
     {
         SetInheritedControlOverride();
@@ -71,7 +71,7 @@ public class KryptonFloatingWindow : KryptonForm
 
     #region Public
     /// <summary>
-    /// Gets access to the contained KryptonFloatspace control.
+    /// <see cref="KryptonFloatspace"/> hosted as the floating window client area, or null when none was supplied.
     /// </summary>
     public KryptonFloatspace? FloatspaceControl { get; }
 

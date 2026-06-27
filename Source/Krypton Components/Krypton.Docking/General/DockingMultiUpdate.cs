@@ -13,7 +13,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Helper class used inside a 'using' statement to notify start and end of a multi-part update.
+/// RAII scope that signals StartUpdate and EndUpdate to the docking hierarchy for batched layout changes.
 /// </summary>
 public class DockingMultiUpdate : IDisposable
 {
@@ -23,9 +23,10 @@ public class DockingMultiUpdate : IDisposable
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the DockingMultiUpdate class.
+    /// Begins a multi-part update by propagating StartUpdate from the given root element.
     /// </summary>
     /// <param name="dockingElement">Reference to root element of docking hierarchy.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="dockingElement"/> is null.</exception>
     public DockingMultiUpdate(IDockingElement dockingElement)
     {
 
@@ -35,7 +36,7 @@ public class DockingMultiUpdate : IDisposable
     }
 
     /// <summary>
-    /// Release managed and unmanaged resources.
+    /// Ends the multi-part update by propagating EndUpdate from the root element.
     /// </summary>
     public void Dispose()
     {

@@ -13,7 +13,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Storage for docking manager strings.
+/// Localizable tooltip and context-menu labels used by KryptonDockingManager.
 /// </summary>
 public class DockingManagerStrings : Storage
 {
@@ -43,14 +43,14 @@ public class DockingManagerStrings : Storage
 
     #region Events
     /// <summary>
-    /// Occurs whenever a property has changed value.
+    /// Raised after a string value changes.
     /// </summary>
     public event PropertyChangedEventHandler? PropertyChanged;
     #endregion
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the DockingManagerStrings class.
+    /// Initializes all labels to built-in English defaults.
     /// </summary>
     /// <param name="docking">Reference to owning docking manager.</param>
     public DockingManagerStrings(KryptonDockingManager docking)
@@ -69,7 +69,7 @@ public class DockingManagerStrings : Storage
 
     #region IsDefault
     /// <summary>
-    /// Gets a value indicating if all values are default.
+    /// True when every label still matches the built-in default values.
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -85,7 +85,7 @@ public class DockingManagerStrings : Storage
 
     #region TextAutoHide
     /// <summary>
-    /// Gets and sets the text to use for the auto hide button tooltip.
+    /// Tooltip for the auto hide button.
     /// </summary>
     [Category("Visuals")]
     [Description("Text to use for the auto hide button tooltip.")]
@@ -107,14 +107,14 @@ public class DockingManagerStrings : Storage
     }
 
     /// <summary>
-    /// Resets the TextAutoHide property to its default value.
+    /// Restores the auto hide tooltip to the built-in default.
     /// </summary>
     public void ResetTextAutoHide() => TextAutoHide = DEFAULT_TEXT_AUTO_HIDE;
     #endregion
 
     #region TextClose
     /// <summary>
-    /// Gets and sets the text to use for the close button tooltip.
+    /// Tooltip for the close button.
     /// </summary>
     [Category("Visuals")]
     [Description("Text to use for the close button tooltip.")]
@@ -136,14 +136,14 @@ public class DockingManagerStrings : Storage
     }
 
     /// <summary>
-    /// Resets the TextClose property to its default value.
+    /// Restores the close tooltip to the built-in default.
     /// </summary>
     public void ResetTextClose() => TextClose = DEFAULT_TEXT_CLOSE;
     #endregion
 
     #region TextCloseAllButThis
     /// <summary>
-    /// Gets and sets the text to use for the 'close all but this' button tooltip.
+    /// Tooltip for the close-all-but-this button.
     /// </summary>
     [Category("Visuals")]
     [Description("Text to use for the 'close all but this' button tooltip.")]
@@ -165,14 +165,14 @@ public class DockingManagerStrings : Storage
     }
 
     /// <summary>
-    /// Resets the TextCloseAllButThis property to its default value.
+    /// Restores the close-all-but-this tooltip to the built-in default.
     /// </summary>
     public void ResetTextCloseAllButThis() => TextCloseAllButThis = DEFAULT_TEXT_CLOSE_ALL_BUT_THIS;
     #endregion
 
     #region TextDock
     /// <summary>
-    /// Gets and sets the text to use for the dock menu item.
+    /// Label for the dock context-menu item.
     /// </summary>
     [Category("Visuals")]
     [Description("Text to use for the dock menu item.")]
@@ -194,14 +194,14 @@ public class DockingManagerStrings : Storage
     }
 
     /// <summary>
-    /// Resets the TextDock property to its default value.
+    /// Restores the dock menu label to the built-in default.
     /// </summary>
     public void ResetTextDock() => TextDock = DEFAULT_TEXT_DOCK;
     #endregion
 
     #region TextFloat
     /// <summary>
-    /// Gets and sets the text to use for the float menu item.
+    /// Label for the float context-menu item.
     /// </summary>
     [Category("Visuals")]
     [Description("Text to use for the float menu item.")]
@@ -223,14 +223,14 @@ public class DockingManagerStrings : Storage
     }
 
     /// <summary>
-    /// Resets the TextFloat property to its default value.
+    /// Restores the float menu label to the built-in default.
     /// </summary>
     public void ResetTextFloat() => TextFloat = DEFAULT_TEXT_DOCK;
     #endregion
 
     #region TextHide
     /// <summary>
-    /// Gets and sets the text to use for the hide menu item.
+    /// Label for the hide context-menu item.
     /// </summary>
     [Category("Visuals")]
     [Description("Text to use for the hide menu item.")]
@@ -252,7 +252,7 @@ public class DockingManagerStrings : Storage
     }
 
     /// <summary>
-    /// Resets the TextHide property to its default value.
+    /// Restores the hide menu label to the built-in default.
     /// </summary>
     public void ResetTextHide() => TextHide = DEFAULT_TEXT_DOCK;
 
@@ -260,7 +260,7 @@ public class DockingManagerStrings : Storage
 
     #region TextTabbedDocument
     /// <summary>
-    /// Gets and sets the text to use for the tabbed document menu item.
+    /// Label for the tabbed document context-menu item.
     /// </summary>
     [Category("Visuals")]
     [Description("Text to use for the tabbed document menu item.")]
@@ -282,7 +282,7 @@ public class DockingManagerStrings : Storage
     }
 
     /// <summary>
-    /// Resets the TextTabbedDocument property to its default value.
+    /// Restores the tabbed document menu label to the built-in default.
     /// </summary>
     public void ResetTextTabbedDocument() => TextTabbedDocument = DEFAULT_TEXT_TABBED_DOCUMENT;
 
@@ -290,7 +290,7 @@ public class DockingManagerStrings : Storage
 
     #region TextWindowLocation
     /// <summary>
-    /// Gets and sets the text to use for the drop-down button tooltip.
+    /// Tooltip for the window-position drop-down button.
     /// </summary>
     [Category("Visuals")]
     [Description("Text to use for the drop-down button tooltip.")]
@@ -312,7 +312,7 @@ public class DockingManagerStrings : Storage
     }
 
     /// <summary>
-    /// Resets the TextWindowLocation property to its default value.
+    /// Restores the window-position tooltip to the built-in default.
     /// </summary>
     public void ResetTextWindowLocation() => TextWindowLocation = DEFAULT_TEXT_WINDOW_LOCATION;
     #endregion

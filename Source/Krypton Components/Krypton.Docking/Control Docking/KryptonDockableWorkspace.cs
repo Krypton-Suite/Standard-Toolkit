@@ -13,14 +13,14 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Extends the KryptonWorkspace to work within the docking framework.
+/// Dockable workspace that enables tab context menus and elevates the active cell's tab profile above inactive cells.
 /// </summary>
 [ToolboxBitmap(typeof(KryptonDockableWorkspace), "ToolboxBitmaps.KryptonDockableWorkspace.bmp")]
 public class KryptonDockableWorkspace : KryptonSpace
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonDockableWorkspace class.
+    /// Initializes a workspace space with store name "Workspace" and enables workspace tab context menus.
     /// </summary>
     public KryptonDockableWorkspace()
         : base(nameof(Workspace)) =>
@@ -28,9 +28,9 @@ public class KryptonDockableWorkspace : KryptonSpace
         ContextMenus.ShowContextMenu = true;
 
     /// <summary>
-    /// Gets a string representation of the instance.
+    /// Returns a diagnostic label that includes the control type name and current <see cref="Control.Dock"/> assignment.
     /// </summary>
-    /// <returns>String.</returns>
+    /// <returns>Label identifying this workspace instance.</returns>
     public override string ToString() => $"KryptonDockableWorkspace {Dock}";
 
     #endregion

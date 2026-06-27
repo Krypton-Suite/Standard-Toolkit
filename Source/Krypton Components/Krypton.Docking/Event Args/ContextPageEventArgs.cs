@@ -13,17 +13,17 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Event arguments for events that need a page and context menu.
+/// Event payload for page context menu display where handlers may cancel showing or customize the menu.
 /// </summary>
 public class ContextPageEventArgs : CancelEventArgs
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the ContextPageEventArgs class.
+    /// Captures the target page, context menu, and initial cancel flag for context menu display.
     /// </summary>
-    /// <param name="page">Page associated with the context menu.</param>
-    /// <param name="contextMenu">Context menu that can be customized.</param>
-    /// <param name="cancel">Initial value for the cancel property.</param>
+    /// <param name="page">Page whose context menu is being shown; may be null.</param>
+    /// <param name="contextMenu">Context menu to display; handlers may customize items before display.</param>
+    /// <param name="cancel">Initial cancel flag; when true the menu is not shown.</param>
     public ContextPageEventArgs(KryptonPage? page, 
         KryptonContextMenu contextMenu,
         bool cancel)
@@ -36,12 +36,12 @@ public class ContextPageEventArgs : CancelEventArgs
 
     #region Public
     /// <summary>
-    /// Gets access to page associated with the context menu.
+    /// Page whose context menu is being shown; may be null.
     /// </summary>
     public KryptonPage? Page { get; }
 
     /// <summary>
-    /// Gets access to context menu that can be customized.
+    /// Context menu to display; handlers may customize items before display. May be null.
     /// </summary>
     public KryptonContextMenu? KryptonContextMenu { get; }
 

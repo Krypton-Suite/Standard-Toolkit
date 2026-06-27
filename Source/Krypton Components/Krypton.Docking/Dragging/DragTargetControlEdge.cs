@@ -13,7 +13,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Target one of the four sides of a docking control.
+/// Drop target on an inner or outer edge of a docking control that inserts a new dockspace.
 /// </summary>
 public class DragTargetControlEdge : DragTarget
 {
@@ -24,15 +24,16 @@ public class DragTargetControlEdge : DragTarget
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the DragTargetControlEdge class.
+    /// Creates an edge target with screen, hot, and draw rectangles tied to a docking control.
     /// </summary>
     /// <param name="screenRect">Rectangle for screen area.</param>
     /// <param name="hotRect">Rectangle for hot area.</param>
     /// <param name="drawRect">Rectangle for draw area.</param>
     /// <param name="hint">Target hint which should be one of the edges.</param>
-    /// <param name="controlElement">Workspace instance that contains cell.</param>
+    /// <param name="controlElement">Docking control that owns the edge.</param>
     /// <param name="allowFlags">Only drop pages that have one of these flags defined.</param>
-    /// <param name="outsideEdge">Add to the outside edge (otherwise the inner edge).</param>
+    /// <param name="outsideEdge">When true, insert at the outer edge; otherwise append at the inner edge.</param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="hint"/> is not an edge value.</exception>
     public DragTargetControlEdge(Rectangle screenRect,
         Rectangle hotRect,
         Rectangle drawRect,
@@ -84,17 +85,17 @@ public class DragTargetControlEdge : DragTarget
 
     #region Public
     /// <summary>
-    /// Gets the dragging edge.
+    /// Visual edge where the dockspace will be created.
     /// </summary>
     public VisualOrientation Edge { get; }
 
     /// <summary>
-    /// Gets the target docking element.
+    /// Docking control that owns the edge and receives dropped pages.
     /// </summary>
     public KryptonDockingControl ControlElement { get; private set; }
 
     /// <summary>
-    /// Is this target a match for the provided screen position.
+    /// Always considered active regardless of screen position.
     /// </summary>
     /// <param name="screenPt">Position in screen coordinates.</param>
     /// <param name="dragEndData">Data to be dropped at destination.</param>
@@ -102,7 +103,7 @@ public class DragTargetControlEdge : DragTarget
     public override bool IsMatch(Point screenPt, PageDragEndData? dragEndData) => true;
 
     /// <summary>
-    /// Perform the drop action associated with the target.
+    /// Stores eligible docked pages and appends or inserts a dockspace on the matched edge.
     /// </summary>
     /// <param name="screenPt">Position in screen coordinates.</param>
     /// <param name="data">Data to pass to the target to process drop.</param>

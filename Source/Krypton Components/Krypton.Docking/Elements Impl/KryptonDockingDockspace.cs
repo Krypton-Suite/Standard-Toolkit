@@ -13,7 +13,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Provides docking functionality within a control edge using a KryptonDockspace.
+/// Docking element that hosts docked pages in a <see cref="KryptonDockspace"/> aligned to a control edge.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]
@@ -26,12 +26,12 @@ public class KryptonDockingDockspace : KryptonDockingSpace
 
     #region Events
     /// <summary>
-    /// Occurs when the dockspace changes to have one or more visible cells.
+    /// Occurs when at least one workspace cell becomes visible in the dockspace.
     /// </summary>
     public event EventHandler? HasVisibleCells;
 
     /// <summary>
-    /// Occurs when the dockspace changes to no longer have any visible cells.
+    /// Occurs when no workspace cells remain visible in the dockspace.
     /// </summary>
     public event EventHandler? HasNoVisibleCells;
     #endregion
@@ -39,11 +39,11 @@ public class KryptonDockingDockspace : KryptonDockingSpace
     #region Identity
 
     /// <summary>
-    /// Initialize a new instance of the KryptonDockingDockspace class.
+    /// Creates a dockspace element with a <see cref="KryptonDockspace"/> control docked to the specified edge and initial size.
     /// </summary>
     /// <param name="name">Initial name of the element.</param>
-    /// <param name="edge">Docking edge this dockspace is against.</param>
-    /// <param name="size">Initial size of the dockspace.</param>
+    /// <param name="edge">Control edge against which the dockspace is aligned.</param>
+    /// <param name="size">Initial size of the dockspace control.</param>
     public KryptonDockingDockspace(string name, DockingEdge edge, Size size)
         : base(name, @"Docked")
     {
@@ -67,12 +67,12 @@ public class KryptonDockingDockspace : KryptonDockingSpace
 
     #region Public
     /// <summary>
-    /// Gets the control this element is managing.
+    /// The <see cref="KryptonDockspace"/> workspace control created and owned by this element.
     /// </summary>
     public KryptonDockspace DockspaceControl => (SpaceControl as KryptonDockspace)!;
 
     /// <summary>
-    /// Gets the sibling auto hidden edge.
+    /// Auto-hidden edge element sibling under the same <see cref="KryptonDockingEdge"/> parent, when present.
     /// </summary>
     public KryptonDockingEdgeAutoHidden? EdgeAutoHiddenElement
     {
@@ -90,10 +90,10 @@ public class KryptonDockingDockspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Propagates an action request down the hierarchy of docking elements.
+    /// Repositions this dockspace and its separator among sibling controls when the action is <see cref="DockingPropogateAction.RepositionDockspace"/> and the order value matches.
     /// </summary>
-    /// <param name="action">Action that is requested to be performed.</param>
-    /// <param name="value">Integer value associated with the request.</param>
+    /// <param name="action">Docking action to apply.</param>
+    /// <param name="value">Dockspace order used to match the reposition request.</param>
     public override void PropogateAction(DockingPropogateAction action, int value)
     {
         switch (action)
@@ -153,20 +153,20 @@ public class KryptonDockingDockspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Propagates an integer state request down the hierarchy of docking elements.
+    /// Updates the supplied order value to the larger of its current value and this element's <c>Order</c>.
     /// </summary>
-    /// <param name="state">Integer state that is requested to be recovered.</param>
-    /// <param name="value">Value discovered from matching </param>
+    /// <param name="state">Integer state query; not evaluated by this override.</param>
+    /// <param name="value">Current maximum order; updated to the larger of its existing value and this element's order.</param>
     public override void PropogateIntState(DockingPropogateIntState state, ref int value) =>
         // User our value if it is the largest encountered so far
         value = Math.Max(value, Order);
 
     /// <summary>
-    /// Propagates a request for drag targets down the hierarchy of docking elements.
+    /// When the dockspace has visible cells, adds drag targets for dragged pages that allow docked placement.
     /// </summary>
-    /// <param name="floatingWindow">Reference to window being dragged.</param>
-    /// <param name="dragData">Set of pages being dragged.</param>
-    /// <param name="targets">Collection of drag targets.</param>
+    /// <param name="floatingWindow">Floating window associated with the drag operation.</param>
+    /// <param name="dragData">Pages being dragged.</param>
+    /// <param name="targets">Collection that receives generated dockspace drag targets.</param>
     public override void PropogateDragTargets(KryptonFloatingWindow? floatingWindow,
         PageDragEndData? dragData,
         DragTargetList targets)
@@ -196,10 +196,10 @@ public class KryptonDockingDockspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Find the docking location of the named page.
+    /// Returns <see cref="DockingLocation.Docked"/> when a non-placeholder page with the unique name exists in this dockspace; otherwise <see cref="DockingLocation.None"/>.
     /// </summary>
-    /// <param name="uniqueName">Unique name of the page.</param>
-    /// <returns>Enumeration value indicating docking location.</returns>
+    /// <param name="uniqueName">Unique name of the page to locate.</param>
+    /// <returns>The docking location for the named page.</returns>
     public override DockingLocation FindPageLocation(string uniqueName)
     {
         KryptonPage? page = DockspaceControl.PageForUniqueName(uniqueName);
@@ -210,10 +210,10 @@ public class KryptonDockingDockspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Find the docking element that contains the named page.
+    /// Returns this element when it contains a non-placeholder page with the specified unique name.
     /// </summary>
-    /// <param name="uniqueName">Unique name of the page.</param>
-    /// <returns>IDockingElement reference if page is found; otherwise null.</returns>
+    /// <param name="uniqueName">Unique name of the page to locate.</param>
+    /// <returns>This docking element when the page is present; otherwise <see langword="null"/>.</returns>
     public override IDockingElement? FindPageElement(string uniqueName)
     {
         KryptonPage? page = DockspaceControl.PageForUniqueName(uniqueName);
@@ -224,11 +224,11 @@ public class KryptonDockingDockspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Find the docking element that contains the location specific store page for the named page.
+    /// When <paramref name="location"/> is <see cref="DockingLocation.Docked"/>, returns this element if a store page with the unique name exists.
     /// </summary>
-    /// <param name="location">Location to be searched.</param>
-    /// <param name="uniqueName">Unique name of the page to be found.</param>
-    /// <returns>IDockingElement reference if store page is found; otherwise null.</returns>
+    /// <param name="location">Docking location that must be searched.</param>
+    /// <param name="uniqueName">Unique name of the store page to locate.</param>
+    /// <returns>This docking element when a matching store page is present; otherwise <see langword="null"/>.</returns>
     public override IDockingElement? FindStorePageElement(DockingLocation location, string uniqueName)
     {
         if (location == DockingLocation.Docked)
@@ -334,9 +334,9 @@ public class KryptonDockingDockspace : KryptonDockingSpace
     protected override string XmlElementName => @"DD";
 
     /// <summary>
-    /// Saves docking configuration information using a provider xml writer.
+    /// Persists dockspace XML after recalculating sibling order from the parent control collection.
     /// </summary>
-    /// <param name="xmlWriter">Xml writer object.</param>
+    /// <param name="xmlWriter">XML writer that receives the serialized layout.</param>
     public override void SaveElementToXml(XmlWriter xmlWriter)
     {
         // Find the ordered position of this dockspace inside the parent control
@@ -367,10 +367,10 @@ public class KryptonDockingDockspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Loads docking configuration information using a provider xml reader.
+    /// Restores dockspace layout from XML, applies saved dimension along the docked axis, raises visibility events, and disposes the control when no pages were loaded.
     /// </summary>
-    /// <param name="xmlReader">Xml reader object.</param>
-    /// <param name="pages">Collection of available pages for adding.</param>
+    /// <param name="xmlReader">XML reader positioned at this element.</param>
+    /// <param name="pages">Available pages used to recreate layout content.</param>
     public override void LoadElementFromXml(XmlReader xmlReader, KryptonPageCollection pages)
     {
         // Let base class load the pages into the dockspace

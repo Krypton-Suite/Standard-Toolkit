@@ -13,22 +13,22 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Event arguments for events that need to provide a unique name.
+/// Event payload identifying a single docking page by its unique name.
 /// </summary>
 public class UniqueNameEventArgs : EventArgs
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the UniqueNameEventArgs class.
+    /// Captures the unique name of the page associated with the event.
     /// </summary>
-    /// <param name="uniqueName">Unique name of page.</param>
+    /// <param name="uniqueName">Unique name of the page.</param>
     public UniqueNameEventArgs(string uniqueName) => UniqueName = uniqueName;
 
     #endregion
 
     #region Public
     /// <summary>
-    /// Gets the unique name of a page.
+    /// Unique name of the page; assigned at construction and not modified afterward.
     /// </summary>
     public string UniqueName { get; }
 

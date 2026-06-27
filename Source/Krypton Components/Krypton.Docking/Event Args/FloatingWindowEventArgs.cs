@@ -13,16 +13,16 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Event arguments for a FloatingWindowAdding/FloatingWindowRemoved event.
+/// Event payload when a floating window is added to or removed from the docking tree.
 /// </summary>
 public class FloatingWindowEventArgs : EventArgs
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the FloatingWindowEventArgs class.
+    /// Captures the floating window and its owning docking element.
     /// </summary>
-    /// <param name="floatingWindow">Reference to floating window instance.</param>
-    /// <param name="element">Reference to docking floating winodw element that is managing the floating window.</param>
+    /// <param name="floatingWindow">Floating window that was added or removed.</param>
+    /// <param name="element">Docking element that owns the floating window.</param>
     public FloatingWindowEventArgs(KryptonFloatingWindow floatingWindow,
         KryptonDockingFloatingWindow element)
     {
@@ -33,12 +33,12 @@ public class FloatingWindowEventArgs : EventArgs
 
     #region Public
     /// <summary>
-    /// Gets a reference to the KryptonFloatingWindow control.
+    /// Floating window that was added or removed; assigned at construction.
     /// </summary>
     public KryptonFloatingWindow FloatingWindow { get; }
 
     /// <summary>
-    /// Gets a reference to the KryptonDockingFloatingWindow that is managing the dockspace.
+    /// Docking element that owns the floating window; assigned at construction.
     /// </summary>
     public KryptonDockingFloatingWindow FloatingWindowElement { get; }
 

@@ -22,10 +22,10 @@ public class KryptonStorePage : KryptonPage
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonStorePage class.
+    /// Creates an invisible placeholder that preserves a page unique name and docking storage context for later restoration.
     /// </summary>
-    /// <param name="uniqueName">UniqueName of the page this is placeholding.</param>
-    /// <param name="storeName">Storage name associated with this page location.</param>
+    /// <param name="uniqueName">Unique name of the page being represented.</param>
+    /// <param name="storeName">Docking storage context that owns this placeholder.</param>
     public KryptonStorePage([DisallowNull] string uniqueName, string storeName)
     {
         Visible = false;
@@ -36,7 +36,7 @@ public class KryptonStorePage : KryptonPage
 
     #region Public
     /// <summary>
-    /// As a placeholder this page is never visible.
+    /// Always false for placeholders; the setter is a no-op so layout persistence cannot mark store pages visible.
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -48,7 +48,7 @@ public class KryptonStorePage : KryptonPage
     }
 
     /// <summary>
-    /// Gets the storage name associated with this page.
+    /// Docking storage context (for example "Docked" or "Floating") that identifies where this placeholder belongs in the layout.
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]

@@ -16,7 +16,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Base class for docking elements that manage a KryptonSpace derived class.
+/// Abstract base for docking elements whose page layout is hosted in a <see cref="KryptonSpace"/>-derived workspace control.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]
@@ -44,17 +44,21 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
 
     #region Public
     /// <summary>
-    /// Add a KryptonPage to the currently active cell or create a new cell is no cell is currently active.
+    /// Appends a page to the active workspace cell, or creates a root cell when none is active or the active cell has no pages.
     /// </summary>
-    /// <param name="page">KryptonPage to be added.</param>
+    /// <param name="page">Page to append; must not already be present in the docking hierarchy.</param>
+    /// <exception cref="ApplicationException">No <see cref="KryptonDockingManager"/> is attached to this subtree.</exception>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="page"/> is already present in the docking hierarchy.</exception>
     public void Append(KryptonPage page) =>
         // Use existing array adding method to prevent duplication of code
         Append(new[] { page });
 
     /// <summary>
-    /// Add a KryptonPage array to the currently active cell or create a new cell is no cell is currently active.
+    /// Appends pages to the active workspace cell, or creates a root cell when none is active or the active cell has no pages.
     /// </summary>
-    /// <param name="pages">Array of KryptonPage instances to be added.</param>
+    /// <param name="pages">Pages to append; ignored when <see langword="null"/>. Each page must not already be present in the docking hierarchy.</param>
+    /// <exception cref="ApplicationException">No <see cref="KryptonDockingManager"/> is attached to this subtree.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">A page in <paramref name="pages"/> is already present in the docking hierarchy.</exception>
     public void Append(KryptonPage[]? pages)
     {
         // Demand that pages are not already present
@@ -112,19 +116,23 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Add a KryptonPage into an existing cell.
+    /// Appends a page to the end of an existing workspace cell in this space.
     /// </summary>
-    /// <param name="cell">Reference to existing workspace cell.</param>
-    /// <param name="page">KryptonPage instance to be added.</param>
+    /// <param name="cell">Target cell; must belong to this space's workspace.</param>
+    /// <param name="page">Page to append.</param>
     public void CellAppend(KryptonWorkspaceCell cell, KryptonPage page) =>
         // Use existing array adding method to prevent duplication of code
         CellAppend(cell, new[] { page });
 
     /// <summary>
-    /// Add a KryptonPage array into an existing cell.
+    /// Appends pages to the end of an existing workspace cell in this space.
     /// </summary>
-    /// <param name="cell">Reference to existing workspace cell.</param>
-    /// <param name="pages">Array of KryptonPage instances to be added.</param>
+    /// <param name="cell">Target cell; must belong to this space's workspace.</param>
+    /// <param name="pages">Pages to append; ignored when <see langword="null"/>.</param>
+    /// <exception cref="ApplicationException">No <see cref="KryptonDockingManager"/> is attached to this subtree.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="cell"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="cell"/> is not contained in this space's workspace.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">A page in <paramref name="pages"/> is already present in the docking hierarchy.</exception>
     public void CellAppend(KryptonWorkspaceCell cell, KryptonPage[]? pages)
     {
         // Demand that pages are not already present
@@ -162,21 +170,25 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Add a KryptonPage array into an existing cell starting at the provided index.
+    /// Inserts a page into an existing workspace cell at the specified index.
     /// </summary>
-    /// <param name="cell">Reference to existing workspace cell.</param>
-    /// <param name="index">Index for inserting new pages.</param>
-    /// <param name="page">KryptonPage instance to be added.</param>
+    /// <param name="cell">Target cell; must belong to this space's workspace.</param>
+    /// <param name="index">Zero-based insertion index within the cell.</param>
+    /// <param name="page">Page to insert.</param>
     public void CellInsert(KryptonWorkspaceCell cell, int index, KryptonPage page) =>
         // Use existing array adding method to prevent duplication of code
         CellInsert(cell, index, new[] { page });
 
     /// <summary>
-    /// Add a KryptonPage array into an existing cell starting at the provided index.
+    /// Inserts pages into an existing workspace cell in sequence starting at the specified index.
     /// </summary>
-    /// <param name="cell">Reference to existing workspace cell.</param>
-    /// <param name="index">Index for inserting new pages.</param>
-    /// <param name="pages">Array of KryptonPage instances to be added.</param>
+    /// <param name="cell">Target cell; must belong to this space's workspace.</param>
+    /// <param name="index">Zero-based insertion index for the first page.</param>
+    /// <param name="pages">Pages to insert; ignored when <see langword="null"/>.</param>
+    /// <exception cref="ApplicationException">No <see cref="KryptonDockingManager"/> is attached to this subtree.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="cell"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="cell"/> is not contained in this space's workspace.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">A page in <paramref name="pages"/> is already present in the docking hierarchy.</exception>
     public void CellInsert([DisallowNull] KryptonWorkspaceCell cell, int index, KryptonPage[]? pages)
     {
         // Demand that pages are not already present
@@ -217,7 +229,7 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Gets and sets access to the parent docking element.
+    /// Assigning a parent refreshes manager tooltip strings and raises cell-adding notifications for each workspace cell already in the space.
     /// </summary>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override IDockingElement? Parent
@@ -241,10 +253,11 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Propagates an action request down the hierarchy of docking elements.
+    /// Executes workspace-level docking actions against contained cells and pages before continuing propagation to child elements.
     /// </summary>
-    /// <param name="action">Action that is requested to be performed.</param>
-    /// <param name="uniqueNames">Array of unique names of the pages the action relates to.</param>
+    /// <param name="action">Docking action to apply within this space.</param>
+    /// <param name="uniqueNames">Unique names of pages targeted by the action; required for several <paramref name="action"/> values.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="uniqueNames"/> is <see langword="null"/> for an action that requires page names.</exception>
     public override void PropogateAction(DockingPropogateAction action, string[]? uniqueNames)
     {
         if (SpaceControl == null)
@@ -456,10 +469,10 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Propagates an action request down the hierarchy of docking elements.
+    /// Replaces matching store pages with supplied pages when the action is <see cref="DockingPropogateAction.RestorePages"/>, then continues propagation.
     /// </summary>
-    /// <param name="action">Action that is requested to be performed.</param>
-    /// <param name="pages">Array of pages the action relates to.</param>
+    /// <param name="action">Docking action to apply.</param>
+    /// <param name="pages">Pages used to restore placeholders.</param>
     public override void PropogateAction(DockingPropogateAction action, KryptonPage[] pages)
     {
         if (action == DockingPropogateAction.RestorePages)
@@ -481,11 +494,11 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Propagates a boolean state request down the hierarchy of docking elements.
+    /// Answers workspace-specific boolean queries for page presence and visibility before delegating unmatched requests.
     /// </summary>
-    /// <param name="state">Boolean state that is requested to be recovered.</param>
-    /// <param name="uniqueName">Unique name of the page the request relates to.</param>
-    /// <returns>True/False if state is known; otherwise null indicating no information available.</returns>
+    /// <param name="state">Boolean query to resolve.</param>
+    /// <param name="uniqueName">Unique name of the page the query targets.</param>
+    /// <returns><see langword="true"/> or <see langword="false"/> when this space can answer the query; otherwise <see langword="null"/>.</returns>
     public override bool? PropogateBoolState(DockingPropogateBoolState state, string uniqueName)
     {
         switch (state)
@@ -527,11 +540,11 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Propagates a page request down the hierarchy of docking elements.
+    /// Returns a non-placeholder page matching the unique name when the request is <see cref="DockingPropogatePageState.PageForUniqueName"/>.
     /// </summary>
-    /// <param name="state">Request that should result in a page reference if found.</param>
-    /// <param name="uniqueName">Unique name of the page the request relates to.</param>
-    /// <returns>Reference to page that matches the request; otherwise null.</returns>
+    /// <param name="state">Page query to resolve.</param>
+    /// <param name="uniqueName">Unique name of the page to locate.</param>
+    /// <returns>The matching page when found in this space; otherwise <see langword="null"/> before delegating to child elements.</returns>
     public override KryptonPage? PropogatePageState(DockingPropogatePageState state, string uniqueName)
     {
         switch (state)
@@ -553,10 +566,10 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Propagates a page list request down the hierarchy of docking elements.
+    /// Adds non-placeholder pages from workspace cells to the supplied collection when the list scope matches this space type.
     /// </summary>
-    /// <param name="state">Request that should result in pages collection being modified.</param>
-    /// <param name="pages">Pages collection for modification by the docking elements.</param>
+    /// <param name="state">Scope that selects which pages are collected.</param>
+    /// <param name="pages">Collection to receive matching pages.</param>
     public override void PropogatePageList(DockingPropogatePageList state, KryptonPageCollection pages)
     {
         // If the request relevant to this space control?
@@ -595,10 +608,10 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Propagates a workspace cell list request down the hierarchy of docking elements.
+    /// Adds workspace cells from this space to the supplied collection when the cell-list scope matches this space type.
     /// </summary>
-    /// <param name="state">Request that should result in the cells collection being modified.</param>
-    /// <param name="cells">Cells collection for modification by the docking elements.</param>
+    /// <param name="state">Scope that selects which cells are collected.</param>
+    /// <param name="cells">Collection to receive matching cells.</param>
     public override void PropogateCellList(DockingPropogateCellList state, KryptonWorkspaceCellList cells)
     {
         var processCells = state switch
@@ -625,15 +638,15 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Gets the number of visible pages.
+    /// Number of pages currently marked visible in the workspace, excluding placeholders.
     /// </summary>
     public int VisiblePages => SpaceControl?.PageVisibleCount ?? 0;
 
     /// <summary>
-    /// Return an array of the visible pages that are inside the cell that contains the provided unique name.
+    /// Collects visible, non-placeholder pages from the workspace cell that contains the named page.
     /// </summary>
-    /// <param name="uniqueName">Unique name of page that is inside the target cell.</param>
-    /// <returns>Array of page references.</returns>
+    /// <param name="uniqueName">Unique name of any page in the target cell.</param>
+    /// <returns>Visible pages from that cell, or an empty array when the cell is not found.</returns>
     public KryptonPage[] CellVisiblePages(string uniqueName)
     {
         var pages = new List<KryptonPage>();
@@ -650,16 +663,17 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Return the workspace cell that contains the named page.
+    /// Locates the workspace cell containing a page with the specified unique name.
     /// </summary>
-    /// <param name="uniqueName">Unique name for search.</param>
-    /// <returns>Reference to KryptonWorkspaceCell if match found; otherwise null.</returns>
+    /// <param name="uniqueName">Unique name of the page to search for.</param>
+    /// <returns>The containing cell when found; otherwise <see langword="null"/>.</returns>
     public KryptonWorkspaceCell? CellForPage(string uniqueName) => SpaceControl?.CellForUniqueName(uniqueName);
 
     /// <summary>
-    /// Ensure the provided page is selected within the cell that contains it.
+    /// Selects the page with the specified unique name within its containing workspace cell.
     /// </summary>
-    /// <param name="uniqueName">Unique name to be selected.</param>
+    /// <param name="uniqueName">Unique name of the page to select.</param>
+    /// <remarks>No change occurs when the named page is not found in this space.</remarks>
     public void SelectPage(string uniqueName)
     {
         // Find the cell that contains the target named paged
@@ -673,7 +687,7 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Update the strings from the docking manager.
+    /// Copies close, auto-hide, and window-location tooltip text from the docking manager into the workspace control.
     /// </summary>
     public void UpdateStrings()
     {
@@ -690,9 +704,9 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Saves docking configuration information using a provider xml writer.
+    /// Writes this space element and its workspace layout, including size and page structure, to XML.
     /// </summary>
-    /// <param name="xmlWriter">Xml writer object.</param>
+    /// <param name="xmlWriter">XML writer that receives the serialized layout.</param>
     public override void SaveElementToXml(XmlWriter xmlWriter)
     {
         // Output workspace based docking element
@@ -718,10 +732,11 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Loads docking configuration information using a provider xml reader.
+    /// Reads this space element and restores workspace layout from XML.
     /// </summary>
-    /// <param name="xmlReader">Xml reader object.</param>
-    /// <param name="pages">Collection of available pages for adding.</param>
+    /// <param name="xmlReader">XML reader positioned at this element.</param>
+    /// <param name="pages">Available pages used to recreate layout content.</param>
+    /// <exception cref="ArgumentException">The XML element name, attributes, or child structure do not match the expected layout format.</exception>
     public override void LoadElementFromXml(XmlReader xmlReader, KryptonPageCollection pages)
     {
         // Is it the expected xml element name?

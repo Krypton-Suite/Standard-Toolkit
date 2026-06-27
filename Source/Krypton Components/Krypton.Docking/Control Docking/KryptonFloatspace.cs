@@ -13,7 +13,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Extends the KryptonWorkspace to work within the docking floating window.
+/// Workspace hosted inside a floating window with docking pin actions disabled.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]
@@ -22,7 +22,7 @@ public class KryptonFloatspace : KryptonSpace
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonFloatspace class.
+    /// Initializes a floating workspace space with store name "Floating".
     /// </summary>
     public KryptonFloatspace()
         : base("Floating")
@@ -30,9 +30,9 @@ public class KryptonFloatspace : KryptonSpace
     }
 
     /// <summary>
-    /// Gets a string representation of the class.
+    /// Returns a diagnostic label that includes the control type name and current <see cref="Control.Dock"/> assignment.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>Label identifying this floatspace instance.</returns>
     public override string ToString() => $"KryptonFloatspace {Dock}";
 
     /// <summary>

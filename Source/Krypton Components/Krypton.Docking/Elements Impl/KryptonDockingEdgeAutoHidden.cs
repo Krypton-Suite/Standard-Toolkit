@@ -13,7 +13,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Provides auto hidden docking functionality against a specific control edge.
+/// Docking element that hosts auto-hidden page groups along one edge of a control, including the slide-out panel used to display selected pages.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]
@@ -35,11 +35,12 @@ public class KryptonDockingEdgeAutoHidden : DockingElementClosedCollection
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonDockingEdgeAutoHidden class.
+    /// Creates the auto-hidden hosting panel and slide-out panel on <paramref name="edge"/> of <paramref name="control"/>.
     /// </summary>
     /// <param name="name">Initial name of the element.</param>
-    /// <param name="control">Reference to control that is being managed.</param>
-    /// <param name="edge">Docking edge being managed.</param>
+    /// <param name="control">Control whose edge receives auto-hidden groups and the slide-out panel.</param>
+    /// <param name="edge">Edge of <paramref name="control"/> where auto-hidden groups are placed.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="control"/> is <see langword="null"/>.</exception>
     public KryptonDockingEdgeAutoHidden(string name, Control control, DockingEdge edge)
         : base(name)
     {
@@ -73,52 +74,52 @@ public class KryptonDockingEdgeAutoHidden : DockingElementClosedCollection
 
     #region Public
     /// <summary>
-    /// Gets the control this element is managing.
+    /// Control whose edge hosts the auto-hidden panel and slide-out panel owned by this element.
     /// </summary>
     public Control Control { get; }
 
     /// <summary>
-    /// Gets the docking edge this element is managing.
+    /// Edge of <see cref="Control"/> where auto-hidden groups and the slide-out panel are placed.
     /// </summary>
     public DockingEdge Edge { get; }
 
     /// <summary>
-    /// Create and add a new auto hidden group instance to the correct edge of the owning control.
+    /// Creates an auto-hidden group with a generated unique name at the outer end of this edge collection.
     /// </summary>
-    /// <returns>Reference to docking element that handles the new auto hidden group.</returns>
+    /// <returns>The new <see cref="KryptonDockingAutoHiddenGroup"/> element, already added to this collection and hosting panel.</returns>
     public KryptonDockingAutoHiddenGroup AppendAutoHiddenGroup() =>
         // Generate a unique string by creating a GUID
         AppendAutoHiddenGroup(CommonHelper.UniqueString);
 
     /// <summary>
-    /// Create and add a new auto hidden group instance to the correct edge of the owning control.
+    /// Creates an auto-hidden group with the supplied name at the outer end of this edge collection.
     /// </summary>
     /// <param name="name">Initial name of the group element.</param>
-    /// <returns>Reference to docking element that handles the new auto hidden group.</returns>
+    /// <returns>The new <see cref="KryptonDockingAutoHiddenGroup"/> element, already added to this collection and hosting panel.</returns>
     public KryptonDockingAutoHiddenGroup AppendAutoHiddenGroup(string name) => CreateAndInsertAutoHiddenGroup(Count, name);
 
     /// <summary>
-    /// Create and insert a new auto hidden group instance to the correct edge of the owning control.
+    /// Creates an auto-hidden group with a generated unique name at the specified index.
     /// </summary>
-    /// <param name="index">Insertion index.</param>
-    /// <returns>Reference to docking element that handles the new auto hidden group.</returns>
+    /// <param name="index">Zero-based insertion index within this edge collection.</param>
+    /// <returns>The new <see cref="KryptonDockingAutoHiddenGroup"/> element, already added to this collection and hosting panel.</returns>
     public KryptonDockingAutoHiddenGroup InsertAutoHiddenGroup(int index) =>
         // Generate a unique string by creating a GUID
         CreateAndInsertAutoHiddenGroup(index, CommonHelper.UniqueString);
 
     /// <summary>
-    /// Create and insert a new auto hidden group instance to the correct edge of the owning control.
+    /// Creates an auto-hidden group with the supplied name at the specified index.
     /// </summary>
-    /// <param name="index">Insertion index.</param>
+    /// <param name="index">Zero-based insertion index within this edge collection.</param>
     /// <param name="name">Initial name of the group element.</param>
-    /// <returns>Reference to docking element that handles the new auto hidden group.</returns>
+    /// <returns>The new <see cref="KryptonDockingAutoHiddenGroup"/> element, already added to this collection and hosting panel.</returns>
     public KryptonDockingAutoHiddenGroup InsertAutoHiddenGroup(int index, string name) => CreateAndInsertAutoHiddenGroup(index, name);
 
     /// <summary>
-    /// Propagates an action request down the hierarchy of docking elements.
+    /// Forwards <paramref name="action"/> to child elements after updating the slide-out panel for page removal, bulk removal, or string changes.
     /// </summary>
-    /// <param name="action">Action that is requested to be performed.</param>
-    /// <param name="uniqueNames">Array of unique names of the pages the action relates to.</param>
+    /// <param name="action">Docking operation to forward.</param>
+    /// <param name="uniqueNames">Page unique names targeted by the action; <see langword="null"/> for actions that apply to all pages.</param>
     public override void PropogateAction(DockingPropogateAction action, string[]? uniqueNames)
     {
         switch (action)
@@ -164,10 +165,10 @@ public class KryptonDockingEdgeAutoHidden : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Propagates an action request down the hierarchy of docking elements.
+    /// Forwards <paramref name="action"/> to child elements after hiding the slide-out panel when restoring named pages.
     /// </summary>
-    /// <param name="action">Action that is requested to be performed.</param>
-    /// <param name="pages">Array of pages the action relates to.</param>
+    /// <param name="action">Docking operation to forward.</param>
+    /// <param name="pages">Pages targeted by the action.</param>
     public override void PropogateAction(DockingPropogateAction action, KryptonPage[] pages)
     {
         switch (action)
@@ -187,24 +188,24 @@ public class KryptonDockingEdgeAutoHidden : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Find a edge auto hidden element by searching the hierarchy.
+    /// Short-circuits hierarchy search by returning this element as the auto-hidden edge host.
     /// </summary>
-    /// <param name="uniqueName">Named page for which a suitable auto hidden edge element is required.</param>
-    /// <returns>KryptonDockingEdgeAutoHidden reference if found; otherwise false.</returns>
+    /// <param name="uniqueName">Unique name used when locating an auto-hidden edge host; not evaluated by this override.</param>
+    /// <returns>This instance.</returns>
     public override KryptonDockingEdgeAutoHidden? FindDockingEdgeAutoHidden(string uniqueName) => this;
 
     /// <summary>
-    /// Slide the specified page into view and optionally select.
+    /// Slides the slide-out panel into view for the page identified by <paramref name="page"/>.
     /// </summary>
-    /// <param name="page">Page to slide into view.</param>
-    /// <param name="select">True to select the page; otherwise false.</param>
+    /// <param name="page">Page to display in the slide-out panel.</param>
+    /// <param name="select">When <see langword="true"/>, selects the page after sliding out; otherwise shows without changing selection.</param>
     public void SlidePageOut(KryptonPage page, bool select) => SlidePageOut(page.UniqueName, select);
 
     /// <summary>
-    /// Slide the specified page into view and optionally select.
+    /// Slides the slide-out panel into view for the page with the supplied unique name.
     /// </summary>
-    /// <param name="uniqueName">Name of page to slide into view.</param>
-    /// <param name="select">True to select the page; otherwise false.</param>
+    /// <param name="uniqueName">Unique name of the page to display in the slide-out panel.</param>
+    /// <param name="select">When <see langword="true"/>, selects the page after sliding out; otherwise shows without changing selection.</param>
     public void SlidePageOut(string uniqueName, bool select)
     {
         // Search each of our AutoHiddenGroup entries
