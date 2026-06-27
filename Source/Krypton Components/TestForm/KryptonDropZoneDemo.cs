@@ -159,10 +159,10 @@ public sealed partial class KryptonDropZoneDemo : KryptonForm
             WrapContents = true
         };
         uploadIconFlow.Controls.Add(CreateActionButton(@"Browse for icon…", BrowseForUploadIcon));
-        uploadIconFlow.Controls.Add(CreateActionButton(@"Use built-in icon", () =>
+        uploadIconFlow.Controls.Add(CreateActionButton(@"Use default icon", () =>
         {
             kdzDropZone.Appearance.UploadIcon = null;
-            Log(@"Appearance.UploadIcon = null (built-in icon).");
+            Log(@"Appearance.UploadIcon = null (default UploadDocument icon).");
         }));
 
         return WrapGroup(@"Appearance",

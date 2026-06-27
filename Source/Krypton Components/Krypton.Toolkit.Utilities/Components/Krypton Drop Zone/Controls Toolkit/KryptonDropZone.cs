@@ -390,13 +390,14 @@ public class KryptonDropZone : KryptonPanel
         _dropZoneLabel = new KryptonWrapLabel
         {
             Dock = DockStyle.Fill,
+            AutoSize = false,
             TextAlign = ContentAlignment.MiddleCenter
         };
 
         _uploadIcon = new PictureBox
         {
             Size = new Size(48, 48),
-            SizeMode = PictureBoxSizeMode.CenterImage,
+            SizeMode = PictureBoxSizeMode.Zoom,
             BackColor = Color.Transparent,
             TabStop = false
         };
@@ -446,6 +447,7 @@ public class KryptonDropZone : KryptonPanel
         _dropzonePanel.Controls.Add(_uploadIcon);
         _dropzonePanel.Controls.Add(_dropZoneLabel);
         _dropzonePanel.Resize += (_, _) => CenterDropZoneContent();
+        _dropzonePanel.Layout += (_, _) => CenterDropZoneContent();
         _dropzonePanel.Paint += DropzonePanel_Paint;
         _dropzonePanel.Click += OnDropZoneAreaClick;
         _dropzonePanel.DragEnter += KryptonDropZone_DragEnter;
@@ -691,6 +693,7 @@ public class KryptonDropZone : KryptonPanel
         bool card = IsCardLayout;
 
         _headerLabel.Visible = card && !string.IsNullOrWhiteSpace(_strings.HeaderText);
+        _headerLabel.Padding = card ? new Padding(4, 0, 4, 4) : Padding.Empty;
         _previewHeaderLabel.Visible = card && _appearance.ShowPreviewHeader && ShowFileListView;
         _actionPanel.Visible = card && _appearance.ShowActionButtons;
         _uploadIcon.Visible = card && _appearance.ShowUploadIcon;
@@ -706,6 +709,8 @@ public class KryptonDropZone : KryptonPanel
         _dropzonePanel.StateCommon.Color2 = card ? Color.Transparent : _dropzonePanel.StateCommon.Color2;
 
         _dropZoneLabel.Dock = card ? DockStyle.None : DockStyle.Fill;
+        _dropZoneLabel.AutoSize = false;
+        _dropZoneLabel.TextAlign = ContentAlignment.MiddleCenter;
         _dropZoneLabel.LabelStyle = card ? LabelStyle.NormalControl : _dropZoneLabel.LabelStyle;
         _dropZoneLabel.Cursor = card ? Cursors.Hand : Cursors.Default;
 
@@ -1783,27 +1788,31 @@ public class KryptonDropZone : KryptonPanel
 
     private void CenterDropZoneContent()
     {
-        if (!IsCardLayout)
+        if (!IsCardLayout || _dropzonePanel.ClientSize.Width <= 0)
         {
             return;
         }
 
+        int labelWidth = Math.Max(120, _dropzonePanel.ClientSize.Width - 48);
+        Size labelSize = _dropZoneLabel.GetPreferredSize(new Size(labelWidth, 200));
+        int labelHeight = Math.Max(20, labelSize.Height);
+
         int iconHeight = _uploadIcon.Visible ? _uploadIcon.Height : 0;
-        int gap = _uploadIcon.Visible ? 8 : 0;
-        int labelHeight = Math.Max(32, _dropZoneLabel.PreferredSize.Height);
+        int gap = _uploadIcon.Visible ? 12 : 0;
         int totalHeight = iconHeight + gap + labelHeight;
-        int y = Math.Max(8, (_dropzonePanel.ClientSize.Height - totalHeight) / 2);
-        int centerX = _dropzonePanel.ClientSize.Width / 2;
+        int y = Math.Max(0, (_dropzonePanel.ClientSize.Height - totalHeight) / 2);
 
         if (_uploadIcon.Visible)
         {
-            _uploadIcon.Location = new Point(centerX - (_uploadIcon.Width / 2), y);
+            _uploadIcon.Location = new Point((_dropzonePanel.ClientSize.Width - _uploadIcon.Width) / 2, y);
             y += iconHeight + gap;
         }
 
-        int labelWidth = Math.Max(80, _dropzonePanel.ClientSize.Width - 24);
-        _dropZoneLabel.Location = new Point(( _dropzonePanel.ClientSize.Width - labelWidth) / 2, y);
+        _dropZoneLabel.Location = new Point((_dropzonePanel.ClientSize.Width - labelWidth) / 2, y);
         _dropZoneLabel.Size = new Size(labelWidth, labelHeight);
+
+        _uploadIcon.BringToFront();
+        _dropZoneLabel.BringToFront();
     }
 
     private void UpdateUploadIcon()
@@ -1816,11 +1825,13 @@ public class KryptonDropZone : KryptonPanel
         Color iconColor = _appearance.UsePaletteColors ? GetThemedContentColor() : Color.Gray;
         DisposeRenderedUploadIconImage();
 
-        Image? customIcon = _appearance.UploadIcon;
-        _renderedUploadIconImage = customIcon != null
-            ? CreateTintedIconImage(customIcon, iconColor, _appearance.UploadIconSize)
-            : CreateUploadIconImage(iconColor, _appearance.UploadIconSize);
+        Image sourceIcon = _appearance.UploadIcon ?? DropZoneResources.UploadDocument;
+        bool isDefaultIcon = _appearance.UploadIcon == null;
+        _renderedUploadIconImage = isDefaultIcon || !_appearance.UsePaletteColors
+            ? CreateScaledIconImage(sourceIcon, _appearance.UploadIconSize)
+            : CreateTintedIconImage(sourceIcon, iconColor, _appearance.UploadIconSize);
         _uploadIcon.Image = _renderedUploadIconImage;
+        CenterDropZoneContent();
     }
 
     private void DisposeRenderedUploadIconImage()
@@ -1832,6 +1843,24 @@ public class KryptonDropZone : KryptonPanel
 
         _renderedUploadIconImage.Dispose();
         _renderedUploadIconImage = null;
+    }
+
+    private static Bitmap CreateScaledIconImage(Image source, int size)
+    {
+        var bitmap = new Bitmap(size, size, PixelFormat.Format32bppArgb);
+        using Graphics g = Graphics.FromImage(bitmap);
+        g.Clear(Color.Transparent);
+        g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+        g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+        float scale = Math.Min((float)size / source.Width, (float)size / source.Height);
+        int width = Math.Max(1, (int)(source.Width * scale));
+        int height = Math.Max(1, (int)(source.Height * scale));
+        int x = (size - width) / 2;
+        int y = (size - height) / 2;
+        g.DrawImage(source, new Rectangle(x, y, width, height));
+
+        return bitmap;
     }
 
     private static Bitmap CreateTintedIconImage(Image source, Color tint, int size)
@@ -1864,36 +1893,6 @@ public class KryptonDropZone : KryptonPanel
             [0, 0, 0, 1, 0],
             [0, 0, 0, 0, 1]
         });
-    }
-
-    private static Image CreateUploadIconImage(Color color, int size)
-    {
-        var bitmap = new Bitmap(size, size);
-        using Graphics g = Graphics.FromImage(bitmap);
-        g.SmoothingMode = SmoothingMode.AntiAlias;
-        g.Clear(Color.Transparent);
-
-        float scale = size / 48f;
-        using var brush = new SolidBrush(color);
-        using var pen = new Pen(color, 2f * scale);
-
-        g.FillEllipse(brush, 8 * scale, 18 * scale, 32 * scale, 20 * scale);
-        g.DrawArc(pen, 4 * scale, 6 * scale, 16 * scale, 16 * scale, 180, 180);
-        g.DrawArc(pen, 28 * scale, 6 * scale, 16 * scale, 16 * scale, 180, 180);
-
-        var arrow = new PointF[]
-        {
-            new(24 * scale, 10 * scale),
-            new(18 * scale, 20 * scale),
-            new(21 * scale, 20 * scale),
-            new(21 * scale, 30 * scale),
-            new(27 * scale, 30 * scale),
-            new(27 * scale, 20 * scale),
-            new(30 * scale, 20 * scale)
-        };
-        g.FillPolygon(brush, arrow);
-
-        return bitmap;
     }
 
     protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

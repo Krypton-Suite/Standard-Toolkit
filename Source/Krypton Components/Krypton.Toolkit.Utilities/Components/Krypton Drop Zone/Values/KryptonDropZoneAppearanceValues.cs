@@ -27,7 +27,7 @@ public class KryptonDropZoneAppearanceValues : Storage
     private const bool DEFAULT_SHOW_PREVIEW_HEADER = true;
     private const bool DEFAULT_SHOW_ACTION_BUTTONS = true;
     private const bool DEFAULT_USE_PALETTE_COLORS = true;
-    private const int DEFAULT_UPLOAD_ICON_SIZE = 48;
+    private const int DEFAULT_UPLOAD_ICON_SIZE = 64;
 
     #endregion
 
@@ -152,7 +152,7 @@ public class KryptonDropZoneAppearanceValues : Storage
     }
 
     [Category(@"Layout")]
-    [Description(@"Custom image displayed above the drop zone text in Card layout. When null, a built-in upload icon is drawn. The image is tinted using the palette content color when UsePaletteColors is true.")]
+    [Description(@"Custom image displayed above the drop zone text in Card layout. When null, the default UploadDocument image from DropZoneResources is used at full color. Custom images are tinted using the palette content color when UsePaletteColors is true.")]
     [DefaultValue(null)]
     public Image? UploadIcon
     {
@@ -268,6 +268,9 @@ public class KryptonDropZoneAppearanceValues : Storage
 
     #region Colors
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the Card layout derives idle border, background, icon, and stripe colors from the active Krypton palette.
+    /// </summary>
     [Category(@"Colors")]
     [Description(@"When true, Card layout derives idle border, background, icon, and stripe colors from the active Krypton palette.")]
     [DefaultValue(DEFAULT_USE_PALETTE_COLORS)]
