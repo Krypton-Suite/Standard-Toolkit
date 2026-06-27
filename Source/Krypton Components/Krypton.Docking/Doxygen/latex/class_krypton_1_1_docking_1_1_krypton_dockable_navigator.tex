@@ -1,0 +1,115 @@
+\doxysection{Krypton.\+Docking.\+Krypton\+Dockable\+Navigator Class Reference}
+\hypertarget{class_krypton_1_1_docking_1_1_krypton_dockable_navigator}{}\label{class_krypton_1_1_docking_1_1_krypton_dockable_navigator}\index{Krypton.Docking.KryptonDockableNavigator@{Krypton.Docking.KryptonDockableNavigator}}
+
+
+Navigator integrated with the docking framework; surfaces page-\/insertion and context-\/menu customization events to docking elements.  
+
+
+Inheritance diagram for Krypton.\+Docking.\+Krypton\+Dockable\+Navigator\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_krypton_1_1_docking_1_1_krypton_dockable_navigator}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_dockable_navigator_a9ae0c3d4385006fd2831258ee7937beb}{Krypton\+Dockable\+Navigator}} ()
+\begin{DoxyCompactList}\small\item\em Subscribes to page insertion and context-\/menu display so docking events are raised from navigator activity. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_dockable_navigator_af5183539e1b57a214e82aa10d1312441}{On\+Cell\+Page\+Inserting}} (Krypton\+Page\+Event\+Args e)
+\begin{DoxyCompactList}\small\item\em Raises the Cell\+Page\+Inserting event. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_dockable_navigator_abd41ed7ffc8a2b603081caa007b18244}{On\+Page\+Drop\+Down\+Clicked}} (\mbox{\hyperlink{class_krypton_1_1_docking_1_1_cancel_drop_down_event_args}{Cancel\+Drop\+Down\+Event\+Args}} e)
+\begin{DoxyCompactList}\small\item\em Raises the Page\+Drop\+Down\+Clicked event. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Events}
+\begin{DoxyCompactItemize}
+\item 
+Event\+Handler$<$ Krypton\+Page\+Event\+Args $>$? \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_dockable_navigator_a9c1f307543baea1dcdd68be2cc39ee03}{Cell\+Page\+Inserting}}
+\begin{DoxyCompactList}\small\item\em Raised before a page is inserted so docking elements can perform additional setup. \end{DoxyCompactList}\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_krypton_1_1_docking_1_1_cancel_drop_down_event_args}{Cancel\+Drop\+Down\+Event\+Args}} $>$? \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_dockable_navigator_af2a1aea7662f84d3eae56fb1fbd3f46a}{Page\+Drop\+Down\+Clicked}}
+\begin{DoxyCompactList}\small\item\em Raised when a tab context menu is about to open; handlers can customize or cancel the menu. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Navigator integrated with the docking framework; surfaces page-\/insertion and context-\/menu customization events to docking elements. 
+
+\label{doc-constructors}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_dockable_navigator_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_dockable_navigator_a9ae0c3d4385006fd2831258ee7937beb}\index{Krypton.Docking.KryptonDockableNavigator@{Krypton.Docking.KryptonDockableNavigator}!KryptonDockableNavigator@{KryptonDockableNavigator}}
+\index{KryptonDockableNavigator@{KryptonDockableNavigator}!Krypton.Docking.KryptonDockableNavigator@{Krypton.Docking.KryptonDockableNavigator}}
+\doxysubsubsection{\texorpdfstring{KryptonDockableNavigator()}{KryptonDockableNavigator()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_dockable_navigator_a9ae0c3d4385006fd2831258ee7937beb} 
+Krypton.\+Docking.\+Krypton\+Dockable\+Navigator.\+Krypton\+Dockable\+Navigator (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Subscribes to page insertion and context-\/menu display so docking events are raised from navigator activity. 
+
+
+
+\label{doc-func-members}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_dockable_navigator_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_dockable_navigator_af5183539e1b57a214e82aa10d1312441}\index{Krypton.Docking.KryptonDockableNavigator@{Krypton.Docking.KryptonDockableNavigator}!OnCellPageInserting@{OnCellPageInserting}}
+\index{OnCellPageInserting@{OnCellPageInserting}!Krypton.Docking.KryptonDockableNavigator@{Krypton.Docking.KryptonDockableNavigator}}
+\doxysubsubsection{\texorpdfstring{OnCellPageInserting()}{OnCellPageInserting()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_dockable_navigator_af5183539e1b57a214e82aa10d1312441} 
+virtual void Krypton.\+Docking.\+Krypton\+Dockable\+Navigator.\+On\+Cell\+Page\+Inserting (\begin{DoxyParamCaption}\item[{Krypton\+Page\+Event\+Args}]{e}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Raises the Cell\+Page\+Inserting event. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em e} & An Krypton\+Page\+Event\+Args containing the event data.\\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_dockable_navigator_abd41ed7ffc8a2b603081caa007b18244}\index{Krypton.Docking.KryptonDockableNavigator@{Krypton.Docking.KryptonDockableNavigator}!OnPageDropDownClicked@{OnPageDropDownClicked}}
+\index{OnPageDropDownClicked@{OnPageDropDownClicked}!Krypton.Docking.KryptonDockableNavigator@{Krypton.Docking.KryptonDockableNavigator}}
+\doxysubsubsection{\texorpdfstring{OnPageDropDownClicked()}{OnPageDropDownClicked()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_dockable_navigator_abd41ed7ffc8a2b603081caa007b18244} 
+virtual void Krypton.\+Docking.\+Krypton\+Dockable\+Navigator.\+On\+Page\+Drop\+Down\+Clicked (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_krypton_1_1_docking_1_1_cancel_drop_down_event_args}{Cancel\+Drop\+Down\+Event\+Args}}}]{e}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Raises the Page\+Drop\+Down\+Clicked event. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em e} & An \doxylink{class_krypton_1_1_docking_1_1_cancel_drop_down_event_args}{Cancel\+Drop\+Down\+Event\+Args} containing the event data.\\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-event-members}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_dockable_navigator_doc-event-members}
+\doxysubsection{Event Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_dockable_navigator_a9c1f307543baea1dcdd68be2cc39ee03}\index{Krypton.Docking.KryptonDockableNavigator@{Krypton.Docking.KryptonDockableNavigator}!CellPageInserting@{CellPageInserting}}
+\index{CellPageInserting@{CellPageInserting}!Krypton.Docking.KryptonDockableNavigator@{Krypton.Docking.KryptonDockableNavigator}}
+\doxysubsubsection{\texorpdfstring{CellPageInserting}{CellPageInserting}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_dockable_navigator_a9c1f307543baea1dcdd68be2cc39ee03} 
+Event\+Handler$<$Krypton\+Page\+Event\+Args$>$? Krypton.\+Docking.\+Krypton\+Dockable\+Navigator.\+Cell\+Page\+Inserting}
+
+
+
+Raised before a page is inserted so docking elements can perform additional setup. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_dockable_navigator_af2a1aea7662f84d3eae56fb1fbd3f46a}\index{Krypton.Docking.KryptonDockableNavigator@{Krypton.Docking.KryptonDockableNavigator}!PageDropDownClicked@{PageDropDownClicked}}
+\index{PageDropDownClicked@{PageDropDownClicked}!Krypton.Docking.KryptonDockableNavigator@{Krypton.Docking.KryptonDockableNavigator}}
+\doxysubsubsection{\texorpdfstring{PageDropDownClicked}{PageDropDownClicked}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_dockable_navigator_af2a1aea7662f84d3eae56fb1fbd3f46a} 
+Event\+Handler$<$\mbox{\hyperlink{class_krypton_1_1_docking_1_1_cancel_drop_down_event_args}{Cancel\+Drop\+Down\+Event\+Args}}$>$? Krypton.\+Docking.\+Krypton\+Dockable\+Navigator.\+Page\+Drop\+Down\+Clicked}
+
+
+
+Raised when a tab context menu is about to open; handlers can customize or cancel the menu. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/\+Krypton/\+Standard-\/\+Toolkit/\+Source/\+Krypton Components/\+Krypton.\+Docking/\+Control Docking/\mbox{\hyperlink{_krypton_dockable_navigator_8cs}{Krypton\+Dockable\+Navigator.\+cs}}\end{DoxyCompactItemize}

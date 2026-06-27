@@ -1,0 +1,127 @@
+\doxysection{Krypton.\+Docking.\+Krypton\+Dockspace Class Reference}
+\hypertarget{class_krypton_1_1_docking_1_1_krypton_dockspace}{}\label{class_krypton_1_1_docking_1_1_krypton_dockspace}\index{Krypton.Docking.KryptonDockspace@{Krypton.Docking.KryptonDockspace}}
+
+
+Workspace hosted on a control dock edge with a default minimum size for docked page layout.  
+
+
+Inheritance diagram for Krypton.\+Docking.\+Krypton\+Dockspace\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{class_krypton_1_1_docking_1_1_krypton_dockspace}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_dockspace}{Krypton\+Dockspace}}() override string \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_dockspace_ae9ce3dd628cdf7db8dcf2cf0e8c71b99}{To\+String}} ()
+\begin{DoxyCompactList}\small\item\em Initializes a docked space with store name "{}\+Docked"{} and a 150×150 default Control.\+Minimum\+Size. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space}{Krypton.\+Docking.\+Krypton\+Space}}}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space_a0cb97e241cc1488bd975174c9a05a1a2}{Update\+Visible}} ()
+\begin{DoxyCompactList}\small\item\em Schedules an asynchronous refresh of cell visibility based on visible page counts when \doxylink{class_krypton_1_1_docking_1_1_krypton_space_ae18ee8aae62c7b5389ea33788b3899ce}{Apply\+Docking\+Visibility} is enabled. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space_a16d1f400fa436e26f8b6a955797fd878}{Update\+Visible}} (bool focus)
+\begin{DoxyCompactList}\small\item\em Schedules an asynchronous refresh of cell visibility; optionally requests focus on this space after the update completes. \end{DoxyCompactList}\item 
+override void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space_aaba549a8fb5dc7199c0eed4544856b22}{Write\+Page\+Element}} (Xml\+Writer xml\+Writer, Krypton\+Page page)
+\begin{DoxyCompactList}\small\item\em Writes unique name, store-\/page flag, and last-\/visible state as XML attributes when saving a docking layout. \end{DoxyCompactList}\item 
+override? Krypton\+Page \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space_a5847dff538101ef9d20f9fc90cb64a98}{Read\+Page\+Element}} (Xml\+Reader xml\+Reader, string unique\+Name, Unique\+Name\+To\+Page existing\+Pages)
+\begin{DoxyCompactList}\small\item\em Resolves or recreates a page from XML during layout load; may substitute a \doxylink{class_krypton_1_1_docking_1_1_krypton_store_page}{Krypton\+Store\+Page} when the store flag is set. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space}{Krypton.\+Docking.\+Krypton\+Space}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space_af265bd4b8afeaad4eb8391ca28b8dedf}{Krypton\+Space}} (string store\+Name)
+\begin{DoxyCompactList}\small\item\em Initialize a new instance of the \doxylink{class_krypton_1_1_docking_1_1_krypton_space}{Krypton\+Space} class. \end{DoxyCompactList}\item 
+override void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space_a3efe8080d08fb1b8e842d9b7281702d0}{Dispose}} (bool disposing)
+\begin{DoxyCompactList}\small\item\em Clean up any resources being used. \end{DoxyCompactList}\item 
+override void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space_a3c4ad3f1e2d110b22d059e1ae75f6d10}{On\+Handle\+Created}} (Event\+Args e)
+\begin{DoxyCompactList}\small\item\em Overridden to apply any pending visible update that was deferred because the handle did not exist when \doxylink{class_krypton_1_1_docking_1_1_krypton_space_a16d1f400fa436e26f8b6a955797fd878}{Update\+Visible(bool)} was called (e.\+g. the form was hidden while a docking configuration was being loaded). \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space_af56534e99c65a35ef0de81f701c8c0e5}{On\+Cell\+Gains\+Focus}} (Workspace\+Cell\+Event\+Args e)
+\begin{DoxyCompactList}\small\item\em Raises the Cell\+Gains\+Focus event. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space_a2b9b7ff71b4c2282e51d4e8e5c5bb732}{On\+Cell\+Loses\+Focus}} (Workspace\+Cell\+Event\+Args e)
+\begin{DoxyCompactList}\small\item\em Raises the Cell\+Loses\+Focus event. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space_ae3a8e0392a2059b4db7c2b28347af5f2}{On\+Cell\+Page\+Inserting}} (Krypton\+Page\+Event\+Args e)
+\begin{DoxyCompactList}\small\item\em Raises the Cell\+Page\+Inserting event. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space_aa46fcd8c8446e0a37216278e7153ae33}{On\+Page\+Close\+Clicked}} (\mbox{\hyperlink{class_krypton_1_1_docking_1_1_unique_name_event_args}{Unique\+Name\+Event\+Args}} e)
+\begin{DoxyCompactList}\small\item\em Raises the Page\+Close\+Clicked event. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space_afc7ac2697237dfbba6d92086d9d32b59}{On\+Page\+Auto\+Hidden\+Clicked}} (\mbox{\hyperlink{class_krypton_1_1_docking_1_1_unique_name_event_args}{Unique\+Name\+Event\+Args}} e)
+\begin{DoxyCompactList}\small\item\em Raises the Page\+Auto\+Hidden\+Clicked event. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space_a3a090a75f256d5735094888c64b41097}{On\+Page\+Drop\+Down\+Clicked}} (\mbox{\hyperlink{class_krypton_1_1_docking_1_1_cancel_drop_down_event_args}{Cancel\+Drop\+Down\+Event\+Args}} e)
+\begin{DoxyCompactList}\small\item\em Raises the Page\+Drop\+Down\+Clicked event. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space_adf5893757a68bab16778cc7e7f8f8938}{On\+Pages\+Double\+Clicked}} (\mbox{\hyperlink{class_krypton_1_1_docking_1_1_unique_names_event_args}{Unique\+Names\+Event\+Args}} e)
+\begin{DoxyCompactList}\small\item\em Raises the Pages\+Double\+Clicked event. \end{DoxyCompactList}\item 
+override void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space_a1b08e0da45fb9521b8102e7ed639b604}{New\+Cell\+Initialize}} (Krypton\+Workspace\+Cell cell)
+\begin{DoxyCompactList}\small\item\em Initialize a new cell. \end{DoxyCompactList}\item 
+override void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space_a2a66f702b5c319bd8edae64955303fa9}{Existing\+Cell\+Detach}} (Krypton\+Workspace\+Cell cell)
+\begin{DoxyCompactList}\small\item\em Detach an existing cell. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space_a632f6943acb3090b82111fe0f02d708b}{Update\+Cell\+Actions}} (Krypton\+Workspace\+Cell cell, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space_1_1_cached_cell_state}{Cached\+Cell\+State}} cell\+State)
+\begin{DoxyCompactList}\small\item\em Update the cell settings to reflect the provided page, cell and page flag settings. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Properties inherited from \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space}{Krypton.\+Docking.\+Krypton\+Space}}}
+\begin{DoxyCompactItemize}
+\item 
+string \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space_a15fa9aac4ae878657024463d109c53b1}{Close\+Tooltip}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Tooltip text applied to close button specs on all cells; changing this value refreshes existing button tooltips. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space_a6613468973e005bb5b24ca74d1738fac}{Pin\+Tooltip}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Tooltip text applied to pin button specs on all cells; changing this value refreshes existing button tooltips. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space_aed4a5d693befca693c9baa994ae47c0f}{Drop\+Down\+Tooltip}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Tooltip text applied to drop-\/down button specs on all cells; changing this value refreshes existing button tooltips. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space_af6504b7989f237dbd5e0924e51138be7}{Auto\+Hidden\+Host}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em When true, pin buttons use horizontal style and honor Krypton\+Page\+Flags.\+Docking\+Allow\+Docked; when false, vertical style and Krypton\+Page\+Flags.\+Docking\+Allow\+Auto\+Hidden apply. \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space_a593ce7ffc098933598dff38d96b7cd3b}{Apply\+Docking\+Appearance}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets a value indicating if docking specific appearance should be applied. \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space_a0ece0ef7fd764047fe73a22d40925871}{Apply\+Docking\+Close\+Action}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets a value indicating if docking specific close action should be applied. \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space_ab971115fd51cd51538784df9147dc529}{Apply\+Docking\+Pin\+Action}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets a value indicating if docking specific pin actions should be applied. \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space_a9d63298c41a59ee8cff740ec95187569}{Apply\+Docking\+Drop\+Down\+Action}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets a value indicating if docking specific drop-\/down actions should be applied. \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space_ae18ee8aae62c7b5389ea33788b3899ce}{Apply\+Docking\+Visibility}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets a value indicating if docking specific visible changes should be applied. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Events inherited from \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space}{Krypton.\+Docking.\+Krypton\+Space}}}
+\begin{DoxyCompactItemize}
+\item 
+Event\+Handler$<$ Workspace\+Cell\+Event\+Args $>$? \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space_a7eddf4e0ab0dfbaf37566de9abe8d782}{Cell\+Gains\+Focus}}
+\begin{DoxyCompactList}\small\item\em Raised when keyboard focus enters a workspace cell, after the cell header switches to the active dock style. \end{DoxyCompactList}\item 
+Event\+Handler$<$ Workspace\+Cell\+Event\+Args $>$? \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space_af6d8de6b0deb73d65a8ec175e877872e}{Cell\+Loses\+Focus}}
+\begin{DoxyCompactList}\small\item\em Raised when keyboard focus leaves a workspace cell, after the cell header switches to the inactive dock style. \end{DoxyCompactList}\item 
+Event\+Handler$<$ Krypton\+Page\+Event\+Args $>$? \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space_abdfd0caf55737e48ca255185407800c2}{Cell\+Page\+Inserting}}
+\begin{DoxyCompactList}\small\item\em Raised before a page is inserted into a cell so docking elements can perform additional setup. \end{DoxyCompactList}\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_krypton_1_1_docking_1_1_unique_name_event_args}{Unique\+Name\+Event\+Args}} $>$? \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space_a80546e9a38e07881d89167207b64bda9}{Page\+Close\+Clicked}}
+\begin{DoxyCompactList}\small\item\em Raised when the user activates a cell close button for the selected page. \end{DoxyCompactList}\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_krypton_1_1_docking_1_1_unique_name_event_args}{Unique\+Name\+Event\+Args}} $>$? \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space_a23e1118ef3826ef7185e8b34d26d5629}{Page\+Auto\+Hidden\+Clicked}}
+\begin{DoxyCompactList}\small\item\em Raised when the user activates a cell pin button to toggle auto-\/hidden docking for the selected page. \end{DoxyCompactList}\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_krypton_1_1_docking_1_1_cancel_drop_down_event_args}{Cancel\+Drop\+Down\+Event\+Args}} $>$? \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space_a5ace75039e0941939f831240ed117aef}{Page\+Drop\+Down\+Clicked}}
+\begin{DoxyCompactList}\small\item\em Raised when a page drop-\/down menu is requested from a header button or context menu. \end{DoxyCompactList}\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_krypton_1_1_docking_1_1_unique_names_event_args}{Unique\+Names\+Event\+Args}} $>$? \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_space_a82ccd39e1ad1c8336b8205da6e17a5f4}{Pages\+Double\+Clicked}}
+\begin{DoxyCompactList}\small\item\em Raised when the user double-\/clicks a page tab or primary header with one or more visible non-\/placeholder pages. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Workspace hosted on a control dock edge with a default minimum size for docked page layout. 
+
+\label{doc-func-members}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_dockspace_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_dockspace_ae9ce3dd628cdf7db8dcf2cf0e8c71b99}\index{Krypton.Docking.KryptonDockspace@{Krypton.Docking.KryptonDockspace}!ToString@{ToString}}
+\index{ToString@{ToString}!Krypton.Docking.KryptonDockspace@{Krypton.Docking.KryptonDockspace}}
+\doxysubsubsection{\texorpdfstring{ToString()}{ToString()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_dockspace_ae9ce3dd628cdf7db8dcf2cf0e8c71b99} 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_dockspace}{Krypton\+Dockspace}}() override string Krypton.\+Docking.\+Krypton\+Dockspace.\+To\+String (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Initializes a docked space with store name "{}\+Docked"{} and a 150×150 default Control.\+Minimum\+Size. 
+
+If Min Size not set in the Embedded control, then will default to 150, 50 
+
+Returns a diagnostic label that includes the control type name and current Control.\+Dock assignment.
+
+\begin{DoxyReturn}{Returns}
+Label identifying this dockspace instance.
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/\+Krypton/\+Standard-\/\+Toolkit/\+Source/\+Krypton Components/\+Krypton.\+Docking/\+Control Docking/\mbox{\hyperlink{_krypton_dockspace_8cs}{Krypton\+Dockspace.\+cs}}\end{DoxyCompactItemize}

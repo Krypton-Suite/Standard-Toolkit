@@ -1,0 +1,65 @@
+\doxysection{Krypton.\+Docking.\+Dock\+Page\+Saving\+Event\+Args Class Reference}
+\hypertarget{class_krypton_1_1_docking_1_1_dock_page_saving_event_args}{}\label{class_krypton_1_1_docking_1_1_dock_page_saving_event_args}\index{Krypton.Docking.DockPageSavingEventArgs@{Krypton.Docking.DockPageSavingEventArgs}}
+
+
+Event payload raised while a single page docking layout is being persisted to XML.  
+
+
+Inheritance diagram for Krypton.\+Docking.\+Dock\+Page\+Saving\+Event\+Args\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_krypton_1_1_docking_1_1_dock_page_saving_event_args}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_dock_page_saving_event_args}{Dock\+Page\+Saving\+Event\+Args}}(\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_manager}{Krypton\+Docking\+Manager}}? manager, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_dock_global_saving_event_args_ab41dfdf57de4aafe3e8196a5dc9b03ec}{Xml\+Writer}} xml\+Writer, Krypton\+Page page) Krypton\+Page \mbox{\hyperlink{class_krypton_1_1_docking_1_1_dock_page_saving_event_args_ab8cc93b748454f82e9bee2d7726f88f0}{Page}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Captures the docking manager, XML writer, and page whose layout is being saved. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Properties inherited from \mbox{\hyperlink{class_krypton_1_1_docking_1_1_dock_global_saving_event_args}{Krypton.\+Docking.\+Dock\+Global\+Saving\+Event\+Args}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_manager}{Krypton\+Docking\+Manager}}? \mbox{\hyperlink{class_krypton_1_1_docking_1_1_dock_global_saving_event_args_aa8164e72d519975606251834c2326bf0}{Docking\+Manager}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em \doxylink{namespace_krypton_1_1_docking}{Docking} manager owning the save operation; may be null. \end{DoxyCompactList}\item 
+Xml\+Writer \mbox{\hyperlink{class_krypton_1_1_docking_1_1_dock_global_saving_event_args_ab41dfdf57de4aafe3e8196a5dc9b03ec}{Xml\+Writer}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em XML writer receiving persisted global docking data; handlers append custom elements to this stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_krypton_1_1_docking_1_1_dock_global_saving_event_args}{Krypton.\+Docking.\+Dock\+Global\+Saving\+Event\+Args}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_dock_global_saving_event_args_a09a36303c5a70acfe6ff9fe5617dada2}{Dock\+Global\+Saving\+Event\+Args}} (\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_manager}{Krypton\+Docking\+Manager}}? manager, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_dock_global_saving_event_args_ab41dfdf57de4aafe3e8196a5dc9b03ec}{Xml\+Writer}} xml\+Writer)
+\begin{DoxyCompactList}\small\item\em Captures the docking manager and XML writer active during global layout save. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Event payload raised while a single page docking layout is being persisted to XML. 
+
+\label{doc-property-members}
+\Hypertarget{class_krypton_1_1_docking_1_1_dock_page_saving_event_args_doc-property-members}
+\doxysubsection{Property Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_dock_page_saving_event_args_ab8cc93b748454f82e9bee2d7726f88f0}\index{Krypton.Docking.DockPageSavingEventArgs@{Krypton.Docking.DockPageSavingEventArgs}!Page@{Page}}
+\index{Page@{Page}!Krypton.Docking.DockPageSavingEventArgs@{Krypton.Docking.DockPageSavingEventArgs}}
+\doxysubsubsection{\texorpdfstring{Page}{Page}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_dock_page_saving_event_args_ab8cc93b748454f82e9bee2d7726f88f0} 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_dock_page_saving_event_args}{Dock\+Page\+Saving\+Event\+Args}} (\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_manager}{Krypton\+Docking\+Manager}}? manager, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_dock_global_saving_event_args_ab41dfdf57de4aafe3e8196a5dc9b03ec}{Xml\+Writer}} xml\+Writer, Krypton\+Page page) Krypton\+Page Krypton.\+Docking.\+Dock\+Page\+Saving\+Event\+Args.\+Page\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Captures the docking manager, XML writer, and page whose layout is being saved. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em manager} & \doxylink{namespace_krypton_1_1_docking}{Docking} manager owning the save operation; may be null.\\
+\hline
+{\em xml\+Writer} & XML writer receiving persisted page docking data.\\
+\hline
+{\em page} & Page whose layout is being persisted.\\
+\hline
+\end{DoxyParams}
+
+
+Page whose layout is being persisted; assigned at construction and not modified afterward. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/\+Krypton/\+Standard-\/\+Toolkit/\+Source/\+Krypton Components/\+Krypton.\+Docking/\+Event Args/\mbox{\hyperlink{_dock_page_saving_event_args_8cs}{Dock\+Page\+Saving\+Event\+Args.\+cs}}\end{DoxyCompactItemize}

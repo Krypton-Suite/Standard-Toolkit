@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['dockablenavigatoreventargs_0',['DockableNavigatorEventArgs',['../class_krypton_1_1_docking_1_1_dockable_navigator_event_args.html',1,'Krypton::Docking']]],
+  ['dockableworkspacecelleventargs_1',['DockableWorkspaceCellEventArgs',['../class_krypton_1_1_docking_1_1_dockable_workspace_cell_event_args.html',1,'Krypton::Docking']]],
+  ['dockableworkspaceeventargs_2',['DockableWorkspaceEventArgs',['../class_krypton_1_1_docking_1_1_dockable_workspace_event_args.html',1,'Krypton::Docking']]],
+  ['dockgloballoadingeventargs_3',['DockGlobalLoadingEventArgs',['../class_krypton_1_1_docking_1_1_dock_global_loading_event_args.html',1,'Krypton::Docking']]],
+  ['dockglobalsavingeventargs_4',['DockGlobalSavingEventArgs',['../class_krypton_1_1_docking_1_1_dock_global_saving_event_args.html',1,'Krypton::Docking']]],
+  ['dockingdragmanager_5',['DockingDragManager',['../class_krypton_1_1_docking_1_1_docking_drag_manager.html',1,'Krypton::Docking']]],
+  ['dockingdragtargetprovider_6',['DockingDragTargetProvider',['../class_krypton_1_1_docking_1_1_docking_drag_target_provider.html',1,'Krypton::Docking']]],
+  ['dockingelement_7',['DockingElement',['../class_krypton_1_1_docking_1_1_docking_element.html',1,'Krypton::Docking']]],
+  ['dockingelementclosedcollection_8',['DockingElementClosedCollection',['../class_krypton_1_1_docking_1_1_docking_element_closed_collection.html',1,'Krypton::Docking']]],
+  ['dockingelementopencollection_9',['DockingElementOpenCollection',['../class_krypton_1_1_docking_1_1_docking_element_open_collection.html',1,'Krypton::Docking']]],
+  ['dockingmanagerstrings_10',['DockingManagerStrings',['../class_krypton_1_1_docking_1_1_docking_manager_strings.html',1,'Krypton::Docking']]],
+  ['dockingmultiupdate_11',['DockingMultiUpdate',['../class_krypton_1_1_docking_1_1_docking_multi_update.html',1,'Krypton::Docking']]],
+  ['dockpageloadingeventargs_12',['DockPageLoadingEventArgs',['../class_krypton_1_1_docking_1_1_dock_page_loading_event_args.html',1,'Krypton::Docking']]],
+  ['dockpagesavingeventargs_13',['DockPageSavingEventArgs',['../class_krypton_1_1_docking_1_1_dock_page_saving_event_args.html',1,'Krypton::Docking']]],
+  ['dockspacecelleventargs_14',['DockspaceCellEventArgs',['../class_krypton_1_1_docking_1_1_dockspace_cell_event_args.html',1,'Krypton::Docking']]],
+  ['dockspaceeventargs_15',['DockspaceEventArgs',['../class_krypton_1_1_docking_1_1_dockspace_event_args.html',1,'Krypton::Docking']]],
+  ['dockspaceseparatoreventargs_16',['DockspaceSeparatorEventArgs',['../class_krypton_1_1_docking_1_1_dockspace_separator_event_args.html',1,'Krypton::Docking']]],
+  ['dockspaceseparatorresizeeventargs_17',['DockspaceSeparatorResizeEventArgs',['../class_krypton_1_1_docking_1_1_dockspace_separator_resize_event_args.html',1,'Krypton::Docking']]],
+  ['dragtargetcontroledge_18',['DragTargetControlEdge',['../class_krypton_1_1_docking_1_1_drag_target_control_edge.html',1,'Krypton::Docking']]],
+  ['dragtargetnull_19',['DragTargetNull',['../class_krypton_1_1_docking_1_1_drag_target_null.html',1,'Krypton::Docking']]]
+];

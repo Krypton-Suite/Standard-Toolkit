@@ -1,0 +1,75 @@
+\doxysection{Krypton.\+Docking.\+Docking\+Drag\+Target\+Provider Class Reference}
+\hypertarget{class_krypton_1_1_docking_1_1_docking_drag_target_provider}{}\label{class_krypton_1_1_docking_1_1_docking_drag_target_provider}\index{Krypton.Docking.DockingDragTargetProvider@{Krypton.Docking.DockingDragTargetProvider}}
+
+
+Builds drop targets from the docking hierarchy for the pages being moved.  
+
+
+Inheritance diagram for Krypton.\+Docking.\+Docking\+Drag\+Target\+Provider\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_krypton_1_1_docking_1_1_docking_drag_target_provider}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_drag_target_provider_a0a38f5a10c00643a65438ad3b18ee476}{Docking\+Drag\+Target\+Provider}} (\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_manager}{Krypton\+Docking\+Manager}} manager, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_floating_window}{Krypton\+Floating\+Window}}? floating\+Window, Krypton\+Page\+Collection pages)
+\begin{DoxyCompactList}\small\item\em Captures the manager, optional floating source window, and pages being dragged. \end{DoxyCompactList}\item 
+Drag\+Target\+List \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_drag_target_provider_a11451eaf3777ec95fdb7e052c05e5bda}{Generate\+Drag\+Targets}} (Page\+Drag\+End\+Data? drag\+End\+Data)
+\begin{DoxyCompactList}\small\item\em Collects targets from the docking hierarchy and adds a null target when none are returned. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Builds drop targets from the docking hierarchy for the pages being moved. 
+
+\label{doc-constructors}
+\Hypertarget{class_krypton_1_1_docking_1_1_docking_drag_target_provider_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_docking_drag_target_provider_a0a38f5a10c00643a65438ad3b18ee476}\index{Krypton.Docking.DockingDragTargetProvider@{Krypton.Docking.DockingDragTargetProvider}!DockingDragTargetProvider@{DockingDragTargetProvider}}
+\index{DockingDragTargetProvider@{DockingDragTargetProvider}!Krypton.Docking.DockingDragTargetProvider@{Krypton.Docking.DockingDragTargetProvider}}
+\doxysubsubsection{\texorpdfstring{DockingDragTargetProvider()}{DockingDragTargetProvider()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_docking_drag_target_provider_a0a38f5a10c00643a65438ad3b18ee476} 
+Krypton.\+Docking.\+Docking\+Drag\+Target\+Provider.\+Docking\+Drag\+Target\+Provider (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_manager}{Krypton\+Docking\+Manager}}}]{manager}{, }\item[{\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_floating_window}{Krypton\+Floating\+Window}}?}]{floating\+Window}{, }\item[{Krypton\+Page\+Collection}]{pages}{}\end{DoxyParamCaption})}
+
+
+
+Captures the manager, optional floating source window, and pages being dragged. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em manager} & Reference to docking manager.\\
+\hline
+{\em floating\+Window} & Reference to window being dragged.\\
+\hline
+{\em pages} & Reference to collection of pages to drag.\\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-func-members}
+\Hypertarget{class_krypton_1_1_docking_1_1_docking_drag_target_provider_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_docking_drag_target_provider_a11451eaf3777ec95fdb7e052c05e5bda}\index{Krypton.Docking.DockingDragTargetProvider@{Krypton.Docking.DockingDragTargetProvider}!GenerateDragTargets@{GenerateDragTargets}}
+\index{GenerateDragTargets@{GenerateDragTargets}!Krypton.Docking.DockingDragTargetProvider@{Krypton.Docking.DockingDragTargetProvider}}
+\doxysubsubsection{\texorpdfstring{GenerateDragTargets()}{GenerateDragTargets()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_docking_drag_target_provider_a11451eaf3777ec95fdb7e052c05e5bda} 
+Drag\+Target\+List Krypton.\+Docking.\+Docking\+Drag\+Target\+Provider.\+Generate\+Drag\+Targets (\begin{DoxyParamCaption}\item[{Page\+Drag\+End\+Data?}]{drag\+End\+Data}{}\end{DoxyParamCaption})}
+
+
+
+Collects targets from the docking hierarchy and adds a null target when none are returned. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em drag\+End\+Data} & Pages data being dragged.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+List of drag targets.
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/\+Krypton/\+Standard-\/\+Toolkit/\+Source/\+Krypton Components/\+Krypton.\+Docking/\+Dragging/\mbox{\hyperlink{_docking_drag_target_provider_8cs}{Docking\+Drag\+Target\+Provider.\+cs}}\end{DoxyCompactItemize}

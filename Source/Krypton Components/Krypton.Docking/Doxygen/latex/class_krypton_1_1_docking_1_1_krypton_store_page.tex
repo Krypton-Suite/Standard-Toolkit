@@ -1,0 +1,80 @@
+\doxysection{Krypton.\+Docking.\+Krypton\+Store\+Page Class Reference}
+\hypertarget{class_krypton_1_1_docking_1_1_krypton_store_page}{}\label{class_krypton_1_1_docking_1_1_krypton_store_page}\index{Krypton.Docking.KryptonStorePage@{Krypton.Docking.KryptonStorePage}}
+
+
+Acts as a placeholder for a Krypton\+Page so that it can be restored to this location at a later time.  
+
+
+Inheritance diagram for Krypton.\+Docking.\+Krypton\+Store\+Page\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_krypton_1_1_docking_1_1_krypton_store_page}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_store_page_aec02d24ddf2fe4a4902959e5f9cdd17b}{Krypton\+Store\+Page}} (\mbox{[}Disallow\+Null\mbox{]} string unique\+Name, string store\+Name)
+\begin{DoxyCompactList}\small\item\em Creates an invisible placeholder that preserves a page unique name and docking storage context for later restoration. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+override bool \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_store_page_aab13d0f944f198320eec1eb39a4fb501}{Last\+Visible\+Set}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Always false for placeholders; the setter is a no-\/op so layout persistence cannot mark store pages visible. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_store_page_a1cb158ac4767aea0bbc1b53d76de8615}{Store\+Name}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em \doxylink{namespace_krypton_1_1_docking}{Docking} storage context (for example "{}\+Docked"{} or "{}\+Floating"{}) that identifies where this placeholder belongs in the layout. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Acts as a placeholder for a Krypton\+Page so that it can be restored to this location at a later time. 
+
+\label{doc-constructors}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_store_page_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_store_page_aec02d24ddf2fe4a4902959e5f9cdd17b}\index{Krypton.Docking.KryptonStorePage@{Krypton.Docking.KryptonStorePage}!KryptonStorePage@{KryptonStorePage}}
+\index{KryptonStorePage@{KryptonStorePage}!Krypton.Docking.KryptonStorePage@{Krypton.Docking.KryptonStorePage}}
+\doxysubsubsection{\texorpdfstring{KryptonStorePage()}{KryptonStorePage()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_store_page_aec02d24ddf2fe4a4902959e5f9cdd17b} 
+Krypton.\+Docking.\+Krypton\+Store\+Page.\+Krypton\+Store\+Page (\begin{DoxyParamCaption}\item[{\mbox{[}\+Disallow\+Null\mbox{]} string}]{unique\+Name}{, }\item[{string}]{store\+Name}{}\end{DoxyParamCaption})}
+
+
+
+Creates an invisible placeholder that preserves a page unique name and docking storage context for later restoration. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em unique\+Name} & Unique name of the page being represented.\\
+\hline
+{\em store\+Name} & \doxylink{namespace_krypton_1_1_docking}{Docking} storage context that owns this placeholder.\\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-property-members}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_store_page_doc-property-members}
+\doxysubsection{Property Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_store_page_aab13d0f944f198320eec1eb39a4fb501}\index{Krypton.Docking.KryptonStorePage@{Krypton.Docking.KryptonStorePage}!LastVisibleSet@{LastVisibleSet}}
+\index{LastVisibleSet@{LastVisibleSet}!Krypton.Docking.KryptonStorePage@{Krypton.Docking.KryptonStorePage}}
+\doxysubsubsection{\texorpdfstring{LastVisibleSet}{LastVisibleSet}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_store_page_aab13d0f944f198320eec1eb39a4fb501} 
+override bool Krypton.\+Docking.\+Krypton\+Store\+Page.\+Last\+Visible\+Set\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Always false for placeholders; the setter is a no-\/op so layout persistence cannot mark store pages visible. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_store_page_a1cb158ac4767aea0bbc1b53d76de8615}\index{Krypton.Docking.KryptonStorePage@{Krypton.Docking.KryptonStorePage}!StoreName@{StoreName}}
+\index{StoreName@{StoreName}!Krypton.Docking.KryptonStorePage@{Krypton.Docking.KryptonStorePage}}
+\doxysubsubsection{\texorpdfstring{StoreName}{StoreName}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_store_page_a1cb158ac4767aea0bbc1b53d76de8615} 
+string Krypton.\+Docking.\+Krypton\+Store\+Page.\+Store\+Name\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+\doxylink{namespace_krypton_1_1_docking}{Docking} storage context (for example "{}\+Docked"{} or "{}\+Floating"{}) that identifies where this placeholder belongs in the layout. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/\+Krypton/\+Standard-\/\+Toolkit/\+Source/\+Krypton Components/\+Krypton.\+Docking/\+Control Docking/\mbox{\hyperlink{_krypton_store_page_8cs}{Krypton\+Store\+Page.\+cs}}\end{DoxyCompactItemize}

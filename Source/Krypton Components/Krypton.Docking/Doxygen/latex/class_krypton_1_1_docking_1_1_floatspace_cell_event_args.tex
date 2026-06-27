@@ -1,0 +1,94 @@
+\doxysection{Krypton.\+Docking.\+Floatspace\+Cell\+Event\+Args Class Reference}
+\hypertarget{class_krypton_1_1_docking_1_1_floatspace_cell_event_args}{}\label{class_krypton_1_1_docking_1_1_floatspace_cell_event_args}\index{Krypton.Docking.FloatspaceCellEventArgs@{Krypton.Docking.FloatspaceCellEventArgs}}
+
+
+Event payload when a floatspace workspace cell is added to or removed from a floatspace.  
+
+
+Inheritance diagram for Krypton.\+Docking.\+Floatspace\+Cell\+Event\+Args\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_krypton_1_1_docking_1_1_floatspace_cell_event_args}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_floatspace_cell_event_args_a9e730cd83b727d81e26e72f500f27108}{Floatspace\+Cell\+Event\+Args}} (\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_floatspace}{Krypton\+Floatspace}}? floatspace, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_floatspace}{Krypton\+Docking\+Floatspace}} element, Krypton\+Workspace\+Cell cell)
+\begin{DoxyCompactList}\small\item\em Captures the parent floatspace, its docking element, and the affected workspace cell. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_floatspace}{Krypton\+Floatspace}}? \mbox{\hyperlink{class_krypton_1_1_docking_1_1_floatspace_cell_event_args_a4feb0f545373cdaa3850cb2889e9f8ba}{Floatspace\+Control}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Floatspace control that contains the cell; may be null. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_floatspace}{Krypton\+Docking\+Floatspace}} \mbox{\hyperlink{class_krypton_1_1_docking_1_1_floatspace_cell_event_args_ab000e90e4822f9c242e99931f132a6cc}{Floatspace\+Element}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em \doxylink{namespace_krypton_1_1_docking}{Docking} element that owns the floatspace control; assigned at construction. \end{DoxyCompactList}\item 
+Krypton\+Workspace\+Cell \mbox{\hyperlink{class_krypton_1_1_docking_1_1_floatspace_cell_event_args_a14007af63541efc3fbeeb053f0be62c4}{Cell\+Control}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Workspace cell that was added or removed; assigned at construction. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Event payload when a floatspace workspace cell is added to or removed from a floatspace. 
+
+\label{doc-constructors}
+\Hypertarget{class_krypton_1_1_docking_1_1_floatspace_cell_event_args_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_floatspace_cell_event_args_a9e730cd83b727d81e26e72f500f27108}\index{Krypton.Docking.FloatspaceCellEventArgs@{Krypton.Docking.FloatspaceCellEventArgs}!FloatspaceCellEventArgs@{FloatspaceCellEventArgs}}
+\index{FloatspaceCellEventArgs@{FloatspaceCellEventArgs}!Krypton.Docking.FloatspaceCellEventArgs@{Krypton.Docking.FloatspaceCellEventArgs}}
+\doxysubsubsection{\texorpdfstring{FloatspaceCellEventArgs()}{FloatspaceCellEventArgs()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_floatspace_cell_event_args_a9e730cd83b727d81e26e72f500f27108} 
+Krypton.\+Docking.\+Floatspace\+Cell\+Event\+Args.\+Floatspace\+Cell\+Event\+Args (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_floatspace}{Krypton\+Floatspace}}?}]{floatspace}{, }\item[{\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_floatspace}{Krypton\+Docking\+Floatspace}}}]{element}{, }\item[{Krypton\+Workspace\+Cell}]{cell}{}\end{DoxyParamCaption})}
+
+
+
+Captures the parent floatspace, its docking element, and the affected workspace cell. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em floatspace} & Floatspace control that contains the cell; may be null.\\
+\hline
+{\em element} & \doxylink{namespace_krypton_1_1_docking}{Docking} element that owns the floatspace control.\\
+\hline
+{\em cell} & Workspace cell that was added or removed.\\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-property-members}
+\Hypertarget{class_krypton_1_1_docking_1_1_floatspace_cell_event_args_doc-property-members}
+\doxysubsection{Property Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_floatspace_cell_event_args_a14007af63541efc3fbeeb053f0be62c4}\index{Krypton.Docking.FloatspaceCellEventArgs@{Krypton.Docking.FloatspaceCellEventArgs}!CellControl@{CellControl}}
+\index{CellControl@{CellControl}!Krypton.Docking.FloatspaceCellEventArgs@{Krypton.Docking.FloatspaceCellEventArgs}}
+\doxysubsubsection{\texorpdfstring{CellControl}{CellControl}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_floatspace_cell_event_args_a14007af63541efc3fbeeb053f0be62c4} 
+Krypton\+Workspace\+Cell Krypton.\+Docking.\+Floatspace\+Cell\+Event\+Args.\+Cell\+Control\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Workspace cell that was added or removed; assigned at construction. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_floatspace_cell_event_args_a4feb0f545373cdaa3850cb2889e9f8ba}\index{Krypton.Docking.FloatspaceCellEventArgs@{Krypton.Docking.FloatspaceCellEventArgs}!FloatspaceControl@{FloatspaceControl}}
+\index{FloatspaceControl@{FloatspaceControl}!Krypton.Docking.FloatspaceCellEventArgs@{Krypton.Docking.FloatspaceCellEventArgs}}
+\doxysubsubsection{\texorpdfstring{FloatspaceControl}{FloatspaceControl}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_floatspace_cell_event_args_a4feb0f545373cdaa3850cb2889e9f8ba} 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_floatspace}{Krypton\+Floatspace}}? Krypton.\+Docking.\+Floatspace\+Cell\+Event\+Args.\+Floatspace\+Control\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Floatspace control that contains the cell; may be null. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_floatspace_cell_event_args_ab000e90e4822f9c242e99931f132a6cc}\index{Krypton.Docking.FloatspaceCellEventArgs@{Krypton.Docking.FloatspaceCellEventArgs}!FloatspaceElement@{FloatspaceElement}}
+\index{FloatspaceElement@{FloatspaceElement}!Krypton.Docking.FloatspaceCellEventArgs@{Krypton.Docking.FloatspaceCellEventArgs}}
+\doxysubsubsection{\texorpdfstring{FloatspaceElement}{FloatspaceElement}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_floatspace_cell_event_args_ab000e90e4822f9c242e99931f132a6cc} 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_floatspace}{Krypton\+Docking\+Floatspace}} Krypton.\+Docking.\+Floatspace\+Cell\+Event\+Args.\+Floatspace\+Element\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+\doxylink{namespace_krypton_1_1_docking}{Docking} element that owns the floatspace control; assigned at construction. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/\+Krypton/\+Standard-\/\+Toolkit/\+Source/\+Krypton Components/\+Krypton.\+Docking/\+Event Args/\mbox{\hyperlink{_floatspace_cell_event_args_8cs}{Floatspace\+Cell\+Event\+Args.\+cs}}\end{DoxyCompactItemize}
