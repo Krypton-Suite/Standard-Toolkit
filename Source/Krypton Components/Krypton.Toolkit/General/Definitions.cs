@@ -1598,6 +1598,47 @@ public enum InputControlStyle
 }
 #endregion
 
+#region Enum InputPulsingBorderShowWhen
+/// <summary>
+/// Specifies when an optional input control pulsing border is shown.
+/// </summary>
+public enum InputPulsingBorderShowWhen
+{
+    /// <summary>
+    /// Show the pulsing border only when the input has keyboard focus.
+    /// </summary>
+    Focused,
+
+    /// <summary>
+    /// Show the pulsing border when the input is active (focused, mouse over, or AlwaysActive).
+    /// </summary>
+    Active,
+
+    /// <summary>
+    /// Always show the pulsing border when enabled.
+    /// </summary>
+    Always
+}
+#endregion
+
+#region Enum InputPulsingBorderStyle
+/// <summary>
+/// Specifies how an optional input control pulsing border is drawn.
+/// </summary>
+public enum InputPulsingBorderStyle
+{
+    /// <summary>
+    /// Draw the pulsing border along the bottom edge only.
+    /// </summary>
+    Bottom,
+
+    /// <summary>
+    /// Draw the pulsing border around the entire control border.
+    /// </summary>
+    All
+}
+#endregion
+
 #region Enum SeparatorStyle
 /// <summary>
 /// Specifies the separator style.
