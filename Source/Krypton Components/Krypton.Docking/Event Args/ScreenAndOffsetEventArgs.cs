@@ -13,16 +13,16 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Event arguments for events that need a screen point and element offset.
+/// Event payload carrying screen coordinates when a floating window caption drag begins.
 /// </summary>
 public class ScreenAndOffsetEventArgs : EventArgs
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the ScreenAndOffsetEventArgs class.
+    /// Captures the screen pointer position and offset from the window origin at drag start.
     /// </summary>
-    /// <param name="screenPoint">Screen point.</param>
-    /// <param name="elementOffset">Element offset.</param>
+    /// <param name="screenPoint">Screen coordinates of the pointer when dragging started.</param>
+    /// <param name="elementOffset">Pointer offset from the floating window top-left corner at drag start.</param>
     public ScreenAndOffsetEventArgs(Point screenPoint, Point elementOffset)
     {
         ScreenPoint = screenPoint;
@@ -32,12 +32,12 @@ public class ScreenAndOffsetEventArgs : EventArgs
 
     #region Public
     /// <summary>
-    /// Gets the screen point.
+    /// Screen coordinates of the pointer when dragging started; assigned at construction.
     /// </summary>
     public Point ScreenPoint { get; }
 
     /// <summary>
-    /// Gets the element offset.
+    /// Pointer offset from the floating window top-left corner at drag start; assigned at construction.
     /// </summary>
     public Point ElementOffset { get; }
 

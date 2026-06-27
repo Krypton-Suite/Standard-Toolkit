@@ -13,7 +13,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Acts as a proxy for a KryptonPage inside an auto hidden group.
+/// Stand-in <see cref="KryptonPage"/> in an auto-hidden group that forwards appearance, flags, and events to a cached real page.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]
@@ -22,8 +22,9 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonAutoHiddenProxyPage class.
+    /// Captures the target page and mirrors <see cref="Text"/> and control visibility onto it.
     /// </summary>
+    /// <param name="page">Page represented by this proxy; null throws <see cref="ArgumentNullException"/>.</param>
     public KryptonAutoHiddenProxyPage(KryptonPage page)
     {
 
@@ -52,12 +53,12 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
 
     #region Public
     /// <summary>
-    /// Gets a reference to the page for which this is a proxy.
+    /// Underlying page whose properties and events this proxy forwards.
     /// </summary>
     public KryptonPage Page { get; }
 
     /// <summary>
-    /// Gets and sets the page text.
+    /// Tab caption mirrored on both the proxy and the cached page; falls back to the base value when <see cref="Page"/> is null during initialization.
     /// </summary>
     [AllowNull]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -79,7 +80,7 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
     }
 
     /// <summary>
-    /// Gets and sets the title text for the page.
+    /// Title text forwarded to and from the cached page.
     /// </summary>
     [AllowNull]
     [DesignerSerializationVisibility( DesignerSerializationVisibility.Visible )]
@@ -91,7 +92,7 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
     }
 
     /// <summary>
-    /// Gets and sets the description text for the page.
+    /// Description text forwarded to and from the cached page.
     /// </summary>
     [AllowNull]
     [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden)]
@@ -103,7 +104,7 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
     }
 
     /// <summary>
-    /// Gets and sets the small image for the page.
+    /// Small tab image forwarded to and from the cached page.
     /// </summary>
     [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
     public override Bitmap? ImageSmall
@@ -114,7 +115,7 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
     }
 
     /// <summary>
-    /// Gets and sets the medium image for the page.
+    /// Medium tab image forwarded to and from the cached page.
     /// </summary>
     [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
     public override Bitmap? ImageMedium
@@ -125,7 +126,7 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
     }
 
     /// <summary>
-    /// Gets and sets the large image for the page.
+    /// Large tab image forwarded to and from the cached page.
     /// </summary>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override Bitmap? ImageLarge
@@ -136,7 +137,7 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
     }
 
     /// <summary>
-    /// Gets and sets the page tooltip image.
+    /// Tooltip image forwarded to and from the cached page.
     /// </summary>
     [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
     public override Bitmap? ToolTipImage
@@ -147,7 +148,7 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
     }
 
     /// <summary>
-    /// Gets and sets the tooltip image transparent color.
+    /// Transparent color for the tooltip image on the cached page.
     /// </summary>
     [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
     public override Color ToolTipImageTransparentColor
@@ -158,7 +159,7 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
     }
 
     /// <summary>
-    /// Gets and sets the page tooltip title text.
+    /// Tooltip title text forwarded to and from the cached page.
     /// </summary>
     [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden)]
     public override string ToolTipTitle
@@ -169,7 +170,7 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
     }
 
     /// <summary>
-    /// Gets and sets the page tooltip body text.
+    /// Tooltip body text forwarded to and from the cached page.
     /// </summary>
     [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
     public override string ToolTipBody
@@ -180,7 +181,7 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
     }
 
     /// <summary>
-    /// Gets and sets the tooltip label style.
+    /// Tooltip label style forwarded to and from the cached page.
     /// </summary>
     [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
     public override LabelStyle ToolTipStyle
@@ -191,7 +192,7 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
     }
 
     /// <summary>
-    /// Gets and sets the KryptonContextMenu to show when right-clicked.
+    /// Context menu shown on right-click, forwarded to and from the cached page.
     /// </summary>
     [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
     public override KryptonContextMenu? KryptonContextMenu
@@ -202,7 +203,7 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
     }
 
     /// <summary>
-    /// Gets and sets the unique name of the page.
+    /// Unique page identifier forwarded to and from the cached page.
     /// </summary>
     [DisallowNull]
     [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden)]
@@ -214,21 +215,21 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
     }
 
     /// <summary>
-    /// Gets the string that matches the mapping request.
+    /// Resolves display text from the cached page for the requested mapping.
     /// </summary>
-    /// <param name="mapping">Text mapping.</param>
-    /// <returns>Matching string.</returns>
+    /// <param name="mapping">Text field to resolve.</param>
+    /// <returns>Text from the cached page for the mapping.</returns>
     public override string GetTextMapping(MapKryptonPageText mapping) => Page.GetTextMapping(mapping);
 
     /// <summary>
-    /// Gets the image that matches the mapping request.
+    /// Resolves a display image from the cached page for the requested mapping.
     /// </summary>
-    /// <param name="mapping">Image mapping.</param>
-    /// <returns>Image reference.</returns>
+    /// <param name="mapping">Image field to resolve.</param>
+    /// <returns>Image from the cached page for the mapping.</returns>
     public override Image? GetImageMapping(MapKryptonPageImage mapping) => Page.GetImageMapping(mapping);
 
     /// <summary>
-    /// Gets and sets the set of page flags.
+    /// Page flags forwarded to and from the cached page.
     /// </summary>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override int Flags
@@ -239,26 +240,26 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
     }
 
     /// <summary>
-    /// Set all the provided flags to true.
+    /// Enables the specified flags on the cached page.
     /// </summary>
-    /// <param name="flags">Flags to set.</param>
+    /// <param name="flags">Flags to enable.</param>
     public override void SetFlags(KryptonPageFlags flags) => Page.SetFlags(flags);
 
     /// <summary>
-    /// Sets all the provided flags to false.
+    /// Clears the specified flags on the cached page.
     /// </summary>
-    /// <param name="flags">Flags to set.</param>
+    /// <param name="flags">Flags to clear.</param>
     public override void ClearFlags(KryptonPageFlags flags) => Page.ClearFlags(flags);
 
     /// <summary>
-    /// Are all the provided flags set to true.
+    /// Returns whether all specified flags are enabled on the cached page.
     /// </summary>
     /// <param name="flags">Flags to test.</param>
-    /// <returns>True if all provided flags are defined as true; otherwise false.</returns>
+    /// <returns>True when every flag is set on the cached page; otherwise false.</returns>
     public override bool AreFlagsSet(KryptonPageFlags flags) => Page.AreFlagsSet(flags);
 
     /// <summary>
-    /// Gets the last value set to the Visible property.
+    /// Last visibility assignment forwarded to the cached page.
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -270,7 +271,9 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
         set => Page.LastVisibleSet = value;
     }
 
-    /// <summary>Occurs when an appearance specific page property has changed.</summary>
+    /// <summary>
+    /// Appearance property changes on the cached page; subscribers attach to the underlying page's event.
+    /// </summary>
     public override event PropertyChangedEventHandler? AppearancePropertyChanged
     {
         add => Page.AppearancePropertyChanged += value;

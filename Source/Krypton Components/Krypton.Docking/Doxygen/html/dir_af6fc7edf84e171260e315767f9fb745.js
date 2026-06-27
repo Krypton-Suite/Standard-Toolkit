@@ -1,0 +1,4 @@
+var dir_af6fc7edf84e171260e315767f9fb745 =
+[
+    [ "Krypton.Docking", "dir_30311460923a5e6cf71f822906765308.html", "dir_30311460923a5e6cf71f822906765308" ]
+];

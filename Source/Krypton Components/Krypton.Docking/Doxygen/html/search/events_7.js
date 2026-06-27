@@ -1,0 +1,19 @@
+var searchData=
+[
+  ['pageautohiddenclicked_0',['PageAutoHiddenClicked',['../class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel.html#a997bf3a212a6e29f92ee4325ac821d73',1,'Krypton.Docking.KryptonAutoHiddenSlidePanel.PageAutoHiddenClicked'],['../class_krypton_1_1_docking_1_1_krypton_space.html#a23e1118ef3826ef7185e8b34d26d5629',1,'Krypton.Docking.KryptonSpace.PageAutoHiddenClicked']]],
+  ['pageautohiddenrequest_1',['PageAutoHiddenRequest',['../class_krypton_1_1_docking_1_1_krypton_docking_manager.html#a58e5538e9d2d3a92399fbc8c3724b210',1,'Krypton::Docking::KryptonDockingManager']]],
+  ['pageclicked_2',['PageClicked',['../class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group.html#a643ac4b9323a3cb2e4b73659430cbd7f',1,'Krypton::Docking::KryptonDockingAutoHiddenGroup']]],
+  ['pagecloseclicked_3',['PageCloseClicked',['../class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel.html#a7a8ef3220567d0a61321c8abf4926724',1,'Krypton.Docking.KryptonAutoHiddenSlidePanel.PageCloseClicked'],['../class_krypton_1_1_docking_1_1_krypton_space.html#a80546e9a38e07881d89167207b64bda9',1,'Krypton.Docking.KryptonSpace.PageCloseClicked']]],
+  ['pagecloserequest_4',['PageCloseRequest',['../class_krypton_1_1_docking_1_1_krypton_docking_manager.html#a5080b85b7698f4eda5167b0fe152b3f7',1,'Krypton::Docking::KryptonDockingManager']]],
+  ['pagedockedrequest_5',['PageDockedRequest',['../class_krypton_1_1_docking_1_1_krypton_docking_manager.html#ab144b3bdd3894666023a9404e3d25602',1,'Krypton::Docking::KryptonDockingManager']]],
+  ['pagedropdownclicked_6',['PageDropDownClicked',['../class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel.html#acff783f78d4b14666c20561cb09bc6d7',1,'Krypton.Docking.KryptonAutoHiddenSlidePanel.PageDropDownClicked'],['../class_krypton_1_1_docking_1_1_krypton_dockable_navigator.html#af2a1aea7662f84d3eae56fb1fbd3f46a',1,'Krypton.Docking.KryptonDockableNavigator.PageDropDownClicked'],['../class_krypton_1_1_docking_1_1_krypton_space.html#a5ace75039e0941939f831240ed117aef',1,'Krypton.Docking.KryptonSpace.PageDropDownClicked']]],
+  ['pagefloatingrequest_7',['PageFloatingRequest',['../class_krypton_1_1_docking_1_1_krypton_docking_manager.html#ab24853b8f70e534f3656e2f6be6ebe98',1,'Krypton::Docking::KryptonDockingManager']]],
+  ['pagehoverend_8',['PageHoverEnd',['../class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group.html#aeffdfc34bb059544d30bf025f01c645e',1,'Krypton::Docking::KryptonDockingAutoHiddenGroup']]],
+  ['pagehoverstart_9',['PageHoverStart',['../class_krypton_1_1_docking_1_1_krypton_docking_auto_hidden_group.html#a5999ee7022b05d0291782f4dc78bf1bd',1,'Krypton::Docking::KryptonDockingAutoHiddenGroup']]],
+  ['pageloading_10',['PageLoading',['../class_krypton_1_1_docking_1_1_krypton_docking_manager.html#a533e7a8b3c9fbbce3afbb84cf9b7e18c',1,'Krypton::Docking::KryptonDockingManager']]],
+  ['pagenavigatorrequest_11',['PageNavigatorRequest',['../class_krypton_1_1_docking_1_1_krypton_docking_manager.html#a44bd892565d28c8b7b4ac4dd79935c21',1,'Krypton::Docking::KryptonDockingManager']]],
+  ['pagesaving_12',['PageSaving',['../class_krypton_1_1_docking_1_1_krypton_docking_manager.html#af8c3571cdbb647f1e1ae76dac7105ded',1,'Krypton::Docking::KryptonDockingManager']]],
+  ['pagesdoubleclicked_13',['PagesDoubleClicked',['../class_krypton_1_1_docking_1_1_krypton_space.html#a82ccd39e1ad1c8336b8205da6e17a5f4',1,'Krypton::Docking::KryptonSpace']]],
+  ['pageworkspacerequest_14',['PageWorkspaceRequest',['../class_krypton_1_1_docking_1_1_krypton_docking_manager.html#a9b69de111cf90dc1858765ff0181020f',1,'Krypton::Docking::KryptonDockingManager']]],
+  ['propertychanged_15',['PropertyChanged',['../class_krypton_1_1_docking_1_1_docking_manager_strings.html#aae31fbbe4b49a59d7d7aa8302eb055b7',1,'Krypton::Docking::DockingManagerStrings']]]
+];

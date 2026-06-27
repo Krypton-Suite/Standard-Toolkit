@@ -13,7 +13,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Provides the set of drag targets relevant to the set of pages being moved.
+/// Builds drop targets from the docking hierarchy for the pages being moved.
 /// </summary>
 public class DockingDragTargetProvider : IDragTargetProvider
 {
@@ -25,12 +25,12 @@ public class DockingDragTargetProvider : IDragTargetProvider
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the DragTargetNull class.
+    /// Captures the manager, optional floating source window, and pages being dragged.
     /// </summary>
     /// <param name="manager">Reference to docking manager.</param>
     /// <param name="floatingWindow">Reference to window being dragged.</param>
     /// <param name="pages">Reference to collection of pages to drag.</param>
-    public DockingDragTargetProvider(KryptonDockingManager manager, 
+    public DockingDragTargetProvider(KryptonDockingManager manager,
         KryptonFloatingWindow? floatingWindow,
         KryptonPageCollection pages)
     {
@@ -42,7 +42,7 @@ public class DockingDragTargetProvider : IDragTargetProvider
 
     #region Public
     /// <summary>
-    /// Generate a list of drag targets that are relevant to the provided end data.
+    /// Collects targets from the docking hierarchy and adds a null target when none are returned.
     /// </summary>
     /// <param name="dragEndData">Pages data being dragged.</param>
     /// <returns>List of drag targets.</returns>

@@ -13,7 +13,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Extends the KryptonWorkspace to work within the docking edge of a control.
+/// Dockspace variant used inside auto-hidden slide panels; shows a single page in header-group mode with page drag disabled.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]
@@ -22,7 +22,7 @@ public class KryptonDockspaceSlide : KryptonDockspace
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonDockspaceSlide class.
+    /// Disables in-control page drag because slide-out dockspaces host a single transient page.
     /// </summary>
     public KryptonDockspaceSlide() =>
         // Cannot drag pages inside the sliding dockspace

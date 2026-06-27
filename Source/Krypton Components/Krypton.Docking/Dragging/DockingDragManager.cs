@@ -15,7 +15,7 @@ using Timer = System.Windows.Forms.Timer;
 namespace Krypton.Docking;
 
 /// <summary>
-/// Manage a docking dragging operation.
+/// Coordinates page drag-and-drop for docking, including floating-window tracking, message filtering, and drop completion.
 /// </summary>
 public class DockingDragManager : DragManager,
     IFloatingMessages,
@@ -32,7 +32,7 @@ public class DockingDragManager : DragManager,
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the DockingDragManager class.
+    /// Creates a drag manager bound to a docking manager and optional source control.
     /// </summary>
     /// <param name="manager">Reference to manager creating this instance.</param>
     /// <param name="c">Control that is starting the drag operation.</param>
@@ -74,12 +74,12 @@ public class DockingDragManager : DragManager,
 
     #region Public
     /// <summary>
-    /// Gets and sets the window that is moved in sync with the mouse movement.
+    /// Floating window repositioned with the cursor during the drag, if any.
     /// </summary>
     public KryptonFloatingWindow? FloatingWindow { get; set; }
 
     /// <summary>
-    /// Gets and sets the offset of the floating window from the screen cursor.
+    /// Screen offset from the cursor to the floating window's top-left corner, clamped during moves.
     /// </summary>
     public Point FloatingWindowOffset
     {
@@ -88,7 +88,7 @@ public class DockingDragManager : DragManager,
     }
 
     /// <summary>
-    /// Occurs when dragging starts.
+    /// Captures the floating window when present, installs a message filter, and starts base drag feedback.
     /// </summary>
     /// <param name="screenPt">Mouse screen point at start of drag.</param>
     /// <param name="dragEndData">Data to be dropped at destination.</param>
@@ -105,7 +105,7 @@ public class DockingDragManager : DragManager,
     }
 
     /// <summary>
-    /// Occurs on dragging movement.
+    /// Repositions the floating window to follow the cursor when one is assigned.
     /// </summary>
     /// <param name="screenPt">Latest screen point during dragging.</param>
     public override void DragMove(Point screenPt)
@@ -152,7 +152,7 @@ public class DockingDragManager : DragManager,
     }
 
     /// <summary>
-    /// Occurs when dragging ends because of dropping.
+    /// Completes the drop, removes the message filter, and raises DoDragDropEnd on the manager.
     /// </summary>
     /// <param name="screenPt">Ending screen point when dropping.</param>
     /// <returns>Drop was performed and the source can perform any removal of pages as required.</returns>
@@ -165,7 +165,7 @@ public class DockingDragManager : DragManager,
     }
 
     /// <summary>
-    /// Occurs when dragging quits.
+    /// Cancels the drag without dropping and raises DoDragDropQuit on the manager.
     /// </summary>
     public override void DragQuit()
     {
@@ -175,7 +175,7 @@ public class DockingDragManager : DragManager,
     }
 
     /// <summary>
-    /// Processes the WM_KEYDOWN from the floating window.
+    /// Ends the drag when Escape is pressed and suppresses the key message.
     /// </summary>
     /// <returns>True to eat message; otherwise false.</returns>
     public bool OnKEYDOWN(ref Message m)
@@ -192,14 +192,14 @@ public class DockingDragManager : DragManager,
     }
 
     /// <summary>
-    /// Processes the WM_MOUSEMOVE from the floating window.
+    /// Forwards the current cursor position to DragMove.
     /// </summary>
     public void OnMOUSEMOVE() =>
         // Update feedback to reflect the current mouse position
         DragMove(Control.MousePosition);
 
     /// <summary>
-    /// Processes the WM_LBUTTONUP from the floating window.
+    /// Completes the drag at the current cursor position and disposes the manager.
     /// </summary>
     public void OnLBUTTONUP()
     {
@@ -208,7 +208,7 @@ public class DockingDragManager : DragManager,
     }
 
     /// <summary>
-    /// Filters out a message before it is dispatched.
+    /// Intercepts keyboard and mouse messages during drag to update feedback or cancel when focus leaves the floating window.
     /// </summary>
     /// <param name="m">The message to be dispatched.</param>
     /// <returns>true to filter the message and stop it from being dispatched.</returns>

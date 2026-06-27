@@ -13,7 +13,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Extends the KryptonWorkspace to work within the docking edge of a control.
+/// Workspace hosted on a control dock edge with a default minimum size for docked page layout.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]
@@ -22,7 +22,7 @@ public class KryptonDockspace : KryptonSpace
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonDockspace class.
+    /// Initializes a docked space with store name "Docked" and a 150×150 default <see cref="Control.MinimumSize"/>.
     /// </summary>
     /// <remarks>
     /// If Min Size not set in the Embedded control, then will default to 150, 50
@@ -33,9 +33,9 @@ public class KryptonDockspace : KryptonSpace
         base.MinimumSize = new Size(150, 150);
 
     /// <summary>
-    /// Gets a string representation of the class.
+    /// Returns a diagnostic label that includes the control type name and current <see cref="Control.Dock"/> assignment.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>Label identifying this dockspace instance.</returns>
     public override string ToString() => $@"KryptonDockspace {Dock}";
 
     #endregion

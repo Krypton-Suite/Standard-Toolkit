@@ -1,0 +1,206 @@
+\doxysection{Krypton.\+Docking.\+Krypton\+Docking\+Edge Class Reference}
+\hypertarget{class_krypton_1_1_docking_1_1_krypton_docking_edge}{}\label{class_krypton_1_1_docking_1_1_krypton_docking_edge}\index{Krypton.Docking.KryptonDockingEdge@{Krypton.Docking.KryptonDockingEdge}}
+
+
+\doxylink{namespace_krypton_1_1_docking}{Docking} element for one edge of a control; creates docked and auto-\/hidden child collections during construction.  
+
+
+Inheritance diagram for Krypton.\+Docking.\+Krypton\+Docking\+Edge\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.620462cm]{class_krypton_1_1_docking_1_1_krypton_docking_edge}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_edge_a99a1e97fdd5c6dd79e43349393ab4b02}{Krypton\+Docking\+Edge}} (string name, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_edge_a41de6059b3a67cb033524f2d13b931c1}{Control}} control, \mbox{\hyperlink{namespace_krypton_1_1_docking_a47e5cca7dda6dd2a68940df960b435bf}{Docking\+Edge}} edge)
+\begin{DoxyCompactList}\small\item\em Creates auto-\/hidden and docked child elements for {\itshape edge}  of {\itshape control} . \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_closed_collection}{Krypton.\+Docking.\+Docking\+Element\+Closed\+Collection}}}
+\begin{DoxyCompactItemize}
+\item 
+override IEnumerator$<$ \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element}{IDocking\+Element}} $>$ \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_closed_collection_afd5e7fb758f3288d63fdaa9796f7aa22}{Get\+Enumerator}} ()
+\begin{DoxyCompactList}\small\item\em Enumerates direct children in list order. \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_closed_collection_a7b448d41a3b0fd61e603ac83948905dc}{Contains}} (\mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element}{IDocking\+Element}} item)
+\begin{DoxyCompactList}\small\item\em Reports whether {\itshape item}  is a direct child of this collection. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element}{Krypton.\+Docking.\+Docking\+Element}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual ? \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element}{IDocking\+Element}} \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_a16355c4296b64fb2b3086c620c782499}{Resolve\+Path}} (string path)
+\begin{DoxyCompactList}\small\item\em Walks the hierarchy by matching the first comma-\/separated segment to this element, then delegates the remainder to children. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_a196676034f63c89718e0f593733e208b}{Propogate\+Action}} (\mbox{\hyperlink{namespace_krypton_1_1_docking_ac8ad98ca60c1836b23886bf6598ab38d}{Docking\+Propogate\+Action}} action, string\mbox{[}$\,$\mbox{]}? unique\+Names)
+\begin{DoxyCompactList}\small\item\em Invokes {\itshape action}  on each direct child in reverse index order so self-\/removing children do not disturb the loop. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_aaa3cf958f48ddcf8b65052c47f07b143}{Propogate\+Action}} (\mbox{\hyperlink{namespace_krypton_1_1_docking_ac8ad98ca60c1836b23886bf6598ab38d}{Docking\+Propogate\+Action}} action, Krypton\+Page\mbox{[}$\,$\mbox{]} pages)
+\begin{DoxyCompactList}\small\item\em Invokes {\itshape action}  on each direct child in reverse index order, passing the supplied pages. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_aa500e0ae7f4f1b444da228590a9dd0db}{Propogate\+Action}} (\mbox{\hyperlink{namespace_krypton_1_1_docking_ac8ad98ca60c1836b23886bf6598ab38d}{Docking\+Propogate\+Action}} action, int value)
+\begin{DoxyCompactList}\small\item\em Invokes {\itshape action}  on each direct child in reverse index order, passing the integer argument. \end{DoxyCompactList}\item 
+virtual ? bool \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_ad8754d8709b2989a8d3bec0e57824958}{Propogate\+Bool\+State}} (\mbox{\hyperlink{namespace_krypton_1_1_docking_ac5370c1674c796d848f49eaa40a112a2}{Docking\+Propogate\+Bool\+State}} state, string unique\+Name)
+\begin{DoxyCompactList}\small\item\em Asks each child in order for {\itshape state} ; returns the first definite answer. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_a14fd1310d423b2a845677af2cf3323b9}{Propogate\+Int\+State}} (\mbox{\hyperlink{namespace_krypton_1_1_docking_aa0eb0e326c3aace833b31a848380f243}{Docking\+Propogate\+Int\+State}} state, ref int value)
+\begin{DoxyCompactList}\small\item\em Forwards {\itshape state}  to each child in reverse index order so they can update {\itshape value} . \end{DoxyCompactList}\item 
+virtual ? Krypton\+Page \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_a7e7f70dd3acff399f0d062127861ecf9}{Propogate\+Page\+State}} (\mbox{\hyperlink{namespace_krypton_1_1_docking_a4953258c29eb2eabf0e56b94e55fb6ae}{Docking\+Propogate\+Page\+State}} state, string unique\+Name)
+\begin{DoxyCompactList}\small\item\em Asks each child in order for {\itshape state} ; returns the first matching page. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_a0e6dce985ec27e7cdbd5eabec5f43136}{Propogate\+Page\+List}} (\mbox{\hyperlink{namespace_krypton_1_1_docking_a6488c4f4dcf60e14dff777f8f4893c02}{Docking\+Propogate\+Page\+List}} state, Krypton\+Page\+Collection pages)
+\begin{DoxyCompactList}\small\item\em Invokes {\itshape state}  on each child in reverse index order so they can add pages to {\itshape pages} . \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_aa7d6d13613a90933c72fb040c82c2a79}{Propogate\+Cell\+List}} (\mbox{\hyperlink{namespace_krypton_1_1_docking_adad71cfc51303234b2817ff3938eb022}{Docking\+Propogate\+Cell\+List}} state, Krypton\+Workspace\+Cell\+List cells)
+\begin{DoxyCompactList}\small\item\em Invokes {\itshape state}  on each child in reverse index order so they can add cells to {\itshape cells} . \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_ae85c2ae0fe1efef17e34052d84c1fdad}{Propogate\+Drag\+Targets}} (\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_floating_window}{Krypton\+Floating\+Window}}? floating\+Window, Page\+Drag\+End\+Data? drag\+Data, Drag\+Target\+List targets)
+\begin{DoxyCompactList}\small\item\em Asks each child to contribute drag targets for the current drag operation. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{namespace_krypton_1_1_docking_a3db89c47e2cadbbba33925a9e1d9229e}{Docking\+Location}} \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_ac092a12f7c1208f98a043a99aa46819d}{Find\+Page\+Location}} (string unique\+Name)
+\begin{DoxyCompactList}\small\item\em Returns the first non-\/\doxylink{namespace_krypton_1_1_docking_a3db89c47e2cadbbba33925a9e1d9229ea6adf97f83acf6453d4a6a4b1070f3754}{Docking\+Location.\+None} location reported by a child for {\itshape unique\+Name} . \end{DoxyCompactList}\item 
+virtual ? \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element}{IDocking\+Element}} \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_aefb5dce1fde61df1e82c6275b6874d83}{Find\+Page\+Element}} (string unique\+Name)
+\begin{DoxyCompactList}\small\item\em Returns the first child that contains a non-\/placeholder page with {\itshape unique\+Name} . \end{DoxyCompactList}\item 
+virtual ? \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element}{IDocking\+Element}} \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_a04d90f8068301cfbfa2634407785c371}{Find\+Store\+Page\+Element}} (\mbox{\hyperlink{namespace_krypton_1_1_docking_a3db89c47e2cadbbba33925a9e1d9229e}{Docking\+Location}} location, string unique\+Name)
+\begin{DoxyCompactList}\small\item\em Returns the first child that holds a store placeholder for {\itshape unique\+Name}  at {\itshape location} . \end{DoxyCompactList}\item 
+virtual ? \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_floating}{Krypton\+Docking\+Floating}} \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_ac6df54153907c5d0b5d5cd5ed26b2174}{Find\+Docking\+Floating}} (string unique\+Name)
+\begin{DoxyCompactList}\small\item\em Returns the first \doxylink{class_krypton_1_1_docking_1_1_krypton_docking_floating}{Krypton\+Docking\+Floating} child that answers for {\itshape unique\+Name} . \end{DoxyCompactList}\item 
+virtual ? \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_edge_docked}{Krypton\+Docking\+Edge\+Docked}} \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_a4ff7c07473c31bdc1f1f4bde6c2eec5a}{Find\+Docking\+Edge\+Docked}} (string unique\+Name)
+\begin{DoxyCompactList}\small\item\em Returns the first \doxylink{class_krypton_1_1_docking_1_1_krypton_docking_edge_docked}{Krypton\+Docking\+Edge\+Docked} child that answers for {\itshape unique\+Name} . \end{DoxyCompactList}\item 
+virtual ? \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_edge_auto_hidden}{Krypton\+Docking\+Edge\+Auto\+Hidden}} \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_a7da2ad8b440c1afe7afdfd76ed016c31}{Find\+Docking\+Edge\+Auto\+Hidden}} (string unique\+Name)
+\begin{DoxyCompactList}\small\item\em Returns the first \doxylink{class_krypton_1_1_docking_1_1_krypton_docking_edge_auto_hidden}{Krypton\+Docking\+Edge\+Auto\+Hidden} child that answers for {\itshape unique\+Name} . \end{DoxyCompactList}\item 
+virtual ? \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_workspace}{Krypton\+Docking\+Workspace}} \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_af482ef6bb1e795e1cb942eb01b7c277c}{Find\+Docking\+Workspace}} (string unique\+Name)
+\begin{DoxyCompactList}\small\item\em Returns the first \doxylink{class_krypton_1_1_docking_1_1_krypton_docking_workspace}{Krypton\+Docking\+Workspace} child that answers for {\itshape unique\+Name} . \end{DoxyCompactList}\item 
+virtual ? \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_navigator}{Krypton\+Docking\+Navigator}} \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_a4feb1596854ac2554885caf4f1a8d828}{Find\+Docking\+Navigator}} (string unique\+Name)
+\begin{DoxyCompactList}\small\item\em Returns the first \doxylink{class_krypton_1_1_docking_1_1_krypton_docking_navigator}{Krypton\+Docking\+Navigator} child that answers for {\itshape unique\+Name} . \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_a4070213d6897dc6d565418c71f940207}{Save\+Element\+To\+Xml}} (Xml\+Writer xml\+Writer)
+\begin{DoxyCompactList}\small\item\em Writes this element and each child as nested XML using \doxylink{class_krypton_1_1_docking_1_1_docking_element_ac2e30982f415541e0b35f4e39216ee1d}{Xml\+Element\+Name}. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_a1f79d9df1984ab8e8802fe3b794860bd}{Load\+Element\+From\+Xml}} (Xml\+Reader xml\+Reader, Krypton\+Page\+Collection pages)
+\begin{DoxyCompactList}\small\item\em Validates the current XML element, reloads element-\/specific state, then loads each child in sequence. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_ae118b19fab45c6dc5cacaaaec5ff01ff}{Demand\+Pages\+Not\+Be\+Present}} (Krypton\+Page\mbox{[}$\,$\mbox{]}? pages)
+\begin{DoxyCompactList}\small\item\em Throws when any non-\/\doxylink{class_krypton_1_1_docking_1_1_krypton_store_page}{Krypton\+Store\+Page} in {\itshape pages}  is already hosted in this hierarchy. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_a5da22bc2798bd2b04323019dd82cb361}{Demand\+Docking\+Manager}} ()
+\begin{DoxyCompactList}\small\item\em Throws when no ancestor \doxylink{class_krypton_1_1_docking_1_1_krypton_docking_manager}{Krypton\+Docking\+Manager} can be reached through \doxylink{class_krypton_1_1_docking_1_1_docking_element_ac041e5351d998df3c16278a95a529c4d}{Parent}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element}{IDocking\+Element}}? \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_a835e5feb811c51c5db92a48db3144a8e}{Get\+Parent\+Type}} (Type find\+Type)
+\begin{DoxyCompactList}\small\item\em Walks \doxylink{class_krypton_1_1_docking_1_1_docking_element_ac041e5351d998df3c16278a95a529c4d}{Parent} until an element whose runtime type equals {\itshape find\+Type}  is found. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+Control \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_edge_a41de6059b3a67cb033524f2d13b931c1}{Control}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Control whose edge this element represents in the docking hierarchy. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespace_krypton_1_1_docking_a47e5cca7dda6dd2a68940df960b435bf}{Docking\+Edge}} \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_edge_aebf590e5e30d4c4c81ad9987479ce29f}{Edge}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Edge of \doxylink{class_krypton_1_1_docking_1_1_krypton_docking_edge_a41de6059b3a67cb033524f2d13b931c1}{Control} represented by this element and its child collections. \end{DoxyCompactList}\item 
+override string \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_edge_a975cb9da9d512475daf3978140267780}{Xml\+Element\+Name}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the xml element name to use when saving. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Properties inherited from \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_closed_collection}{Krypton.\+Docking.\+Docking\+Element\+Closed\+Collection}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_closed_collection}{Docking\+Element\+Closed\+Collection}}(string? name) override int \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_closed_collection_a27427c7ced48bb4640c54c3caa0609f6}{Count}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Number of direct child elements held in the internal list. \end{DoxyCompactList}\item 
+override? \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element}{IDocking\+Element}} \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_closed_collection_aeb8a1694ed34bfe6df1e6d4877174b94}{this\mbox{[}int index\mbox{]}}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Child at {\itshape index}  in insertion order. \end{DoxyCompactList}\item 
+override? \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element}{IDocking\+Element}} \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_closed_collection_ab08bf81faa4aa90e78612d848427c074}{this\mbox{[}string? name\mbox{]}}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em First child whose \doxylink{class_krypton_1_1_docking_1_1_docking_element_a74ebd081a7c836df0b1635e9988fc2c9}{Docking\+Element.\+Name} equals {\itshape name} . \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Properties inherited from \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element}{Krypton.\+Docking.\+Docking\+Element}}}
+\begin{DoxyCompactItemize}
+\item 
+string \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_a74ebd081a7c836df0b1635e9988fc2c9}{Name}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Identifier used when building comma-\/separated paths and resolving child elements by name. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_a7841478b43713e0b6dc1856e1ce2cd55}{Path}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets a comma separated list of names leading to this element. \end{DoxyCompactList}\item 
+virtual ? \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element}{IDocking\+Element}} \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_ac041e5351d998df3c16278a95a529c4d}{Parent}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Parent element in the docking tree; assigning a parent that already contains a child with the same \doxylink{class_krypton_1_1_docking_1_1_docking_element_a74ebd081a7c836df0b1635e9988fc2c9}{Name} throws. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_a543da41067f1b249b00d2c7947bfffed}{Has\+Dock\+Manager}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em {\ttfamily true} when walking \doxylink{class_krypton_1_1_docking_1_1_docking_element_ac041e5351d998df3c16278a95a529c4d}{Parent} reaches a \doxylink{class_krypton_1_1_docking_1_1_krypton_docking_manager}{Krypton\+Docking\+Manager}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_manager}{Krypton\+Docking\+Manager}}? \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_aedc279e715d097c769f3496e400ff8cb}{Docking\+Manager}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em The nearest \doxylink{class_krypton_1_1_docking_1_1_krypton_docking_manager}{Krypton\+Docking\+Manager} ancestor, discovered by walking \doxylink{class_krypton_1_1_docking_1_1_docking_element_ac041e5351d998df3c16278a95a529c4d}{Parent}. \end{DoxyCompactList}\item 
+virtual int \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_a7f8553bdc6cd5889a521eb233c179c38}{Count}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Number of direct child elements; the default implementation returns zero. \end{DoxyCompactList}\item 
+virtual ? \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element}{IDocking\+Element}} \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_abaf1aa1db4a456c5aec432a052a322f1}{this\mbox{[}int index\mbox{]}}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Direct child at {\itshape index} ; the default implementation returns {\ttfamily null}. \end{DoxyCompactList}\item 
+virtual ? \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element}{IDocking\+Element}} \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_a983ec4639e6a1d47cf47fad0f8026421}{this\mbox{[}string name\mbox{]}}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Direct child whose \doxylink{class_krypton_1_1_docking_1_1_docking_element_a74ebd081a7c836df0b1635e9988fc2c9}{Name} equals {\itshape name} ; the default implementation returns {\ttfamily null}. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_ac2e30982f415541e0b35f4e39216ee1d}{Xml\+Element\+Name}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the xml element name to use when saving. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_closed_collection}{Krypton.\+Docking.\+Docking\+Element\+Closed\+Collection}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_closed_collection_a9978519f569f5dee0c8ff2500d6aa6bf}{Internal\+Add}} (\mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element}{IDocking\+Element}} item)
+\begin{DoxyCompactList}\small\item\em Append a docking element to the collection. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_closed_collection_af1d16b984d45b2bf25bb393d9bbec82e}{Internal\+Insert}} (int index, \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element}{IDocking\+Element}} item)
+\begin{DoxyCompactList}\small\item\em Insert a docking element to the collection. \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_closed_collection_af6aca78b876fc87b2c36b1431a8410ed}{Internal\+Remove}} (\mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element}{IDocking\+Element}} item)
+\begin{DoxyCompactList}\small\item\em Removes first occurrence of specified docking element. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_closed_collection_ac29d2ebe1e5dc657f711ae4132a81f52}{Internal\+Clear}} ()
+\begin{DoxyCompactList}\small\item\em Remove all docking elements from the collection. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element}{Krypton.\+Docking.\+Docking\+Element}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_a87362ce248cfb54b28b971bfbd7fb8b8}{Docking\+Element}} (string? name)
+\begin{DoxyCompactList}\small\item\em Initialize a new instance of the \doxylink{class_krypton_1_1_docking_1_1_docking_element}{Docking\+Element} class. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_a92cba396071cc832def42f290d54ec1c}{Load\+Docking\+Element}} (Xml\+Reader xml\+Reader, Krypton\+Page\+Collection pages)
+\begin{DoxyCompactList}\small\item\em Perform docking element specific actions based on the loading xml. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_docking_element_af3325cf2cfbf7043c586be5cd18bba6d}{Load\+Child\+Docking\+Element}} (Xml\+Reader xml\+Reader, Krypton\+Page\+Collection pages, \mbox{\hyperlink{interface_krypton_1_1_docking_1_1_i_docking_element}{IDocking\+Element}}? child)
+\begin{DoxyCompactList}\small\item\em Perform docking element specific actions for loading a child xml. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\doxylink{namespace_krypton_1_1_docking}{Docking} element for one edge of a control; creates docked and auto-\/hidden child collections during construction. 
+
+\label{doc-constructors}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_docking_edge_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_docking_edge_a99a1e97fdd5c6dd79e43349393ab4b02}\index{Krypton.Docking.KryptonDockingEdge@{Krypton.Docking.KryptonDockingEdge}!KryptonDockingEdge@{KryptonDockingEdge}}
+\index{KryptonDockingEdge@{KryptonDockingEdge}!Krypton.Docking.KryptonDockingEdge@{Krypton.Docking.KryptonDockingEdge}}
+\doxysubsubsection{\texorpdfstring{KryptonDockingEdge()}{KryptonDockingEdge()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_docking_edge_a99a1e97fdd5c6dd79e43349393ab4b02} 
+Krypton.\+Docking.\+Krypton\+Docking\+Edge.\+Krypton\+Docking\+Edge (\begin{DoxyParamCaption}\item[{string}]{name}{, }\item[{\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_edge_a41de6059b3a67cb033524f2d13b931c1}{Control}}}]{control}{, }\item[{\mbox{\hyperlink{namespace_krypton_1_1_docking_a47e5cca7dda6dd2a68940df960b435bf}{Docking\+Edge}}}]{edge}{}\end{DoxyParamCaption})}
+
+
+
+Creates auto-\/hidden and docked child elements for {\itshape edge}  of {\itshape control} . 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Initial name of the element.\\
+\hline
+{\em control} & Control whose edge is configured for docking.\\
+\hline
+{\em edge} & Edge of {\itshape control}  represented by this element.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Argument\+Null\+Exception} & {\itshape control}  is {\ttfamily null}.\\
+\hline
+\end{DoxyExceptions}
+
+
+\label{doc-property-members}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_docking_edge_doc-property-members}
+\doxysubsection{Property Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_docking_edge_a41de6059b3a67cb033524f2d13b931c1}\index{Krypton.Docking.KryptonDockingEdge@{Krypton.Docking.KryptonDockingEdge}!Control@{Control}}
+\index{Control@{Control}!Krypton.Docking.KryptonDockingEdge@{Krypton.Docking.KryptonDockingEdge}}
+\doxysubsubsection{\texorpdfstring{Control}{Control}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_docking_edge_a41de6059b3a67cb033524f2d13b931c1} 
+Control Krypton.\+Docking.\+Krypton\+Docking\+Edge.\+Control\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Control whose edge this element represents in the docking hierarchy. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_docking_edge_aebf590e5e30d4c4c81ad9987479ce29f}\index{Krypton.Docking.KryptonDockingEdge@{Krypton.Docking.KryptonDockingEdge}!Edge@{Edge}}
+\index{Edge@{Edge}!Krypton.Docking.KryptonDockingEdge@{Krypton.Docking.KryptonDockingEdge}}
+\doxysubsubsection{\texorpdfstring{Edge}{Edge}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_docking_edge_aebf590e5e30d4c4c81ad9987479ce29f} 
+\mbox{\hyperlink{namespace_krypton_1_1_docking_a47e5cca7dda6dd2a68940df960b435bf}{Docking\+Edge}} Krypton.\+Docking.\+Krypton\+Docking\+Edge.\+Edge\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Edge of \doxylink{class_krypton_1_1_docking_1_1_krypton_docking_edge_a41de6059b3a67cb033524f2d13b931c1}{Control} represented by this element and its child collections. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_docking_edge_a975cb9da9d512475daf3978140267780}\index{Krypton.Docking.KryptonDockingEdge@{Krypton.Docking.KryptonDockingEdge}!XmlElementName@{XmlElementName}}
+\index{XmlElementName@{XmlElementName}!Krypton.Docking.KryptonDockingEdge@{Krypton.Docking.KryptonDockingEdge}}
+\doxysubsubsection{\texorpdfstring{XmlElementName}{XmlElementName}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_docking_edge_a975cb9da9d512475daf3978140267780} 
+override string Krypton.\+Docking.\+Krypton\+Docking\+Edge.\+Xml\+Element\+Name\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [protected]}}
+
+
+
+Gets the xml element name to use when saving. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/\+Krypton/\+Standard-\/\+Toolkit/\+Source/\+Krypton Components/\+Krypton.\+Docking/\+Elements Impl/\mbox{\hyperlink{_krypton_docking_edge_8cs}{Krypton\+Docking\+Edge.\+cs}}\end{DoxyCompactItemize}

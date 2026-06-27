@@ -13,13 +13,13 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Target that never matches and so acts as a null drag target.
+/// Placeholder drag target that never changes layout but satisfies the requirement for at least one target.
 /// </summary>
 public class DragTargetNull : DragTarget
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the DragTargetNull class.
+    /// Creates a non-interactive target with empty geometry and all page flags allowed.
     /// </summary>
     public DragTargetNull()
         : base(Rectangle.Empty, Rectangle.Empty, Rectangle.Empty, DragTargetHint.None, KryptonPageFlags.All)
@@ -29,7 +29,7 @@ public class DragTargetNull : DragTarget
 
     #region Public
     /// <summary>
-    /// Perform the drop action associated with the target.
+    /// Always returns true without changing layout.
     /// </summary>
     /// <param name="screenPt">Position in screen coordinates.</param>
     /// <param name="data">Data to pass to the target to process drop.</param>

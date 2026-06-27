@@ -13,7 +13,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Provides docking functionality within a floating window using a KryptonFloatspace.
+/// Docking element that hosts floating pages in a <see cref="KryptonFloatspace"/> inside a floating window.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]
@@ -22,7 +22,7 @@ public class KryptonDockingFloatspace : KryptonDockingSpace
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonDockingFloatspace class.
+    /// Creates a floatspace element with a fill-docked <see cref="KryptonFloatspace"/> control wired to standard page interaction events.
     /// </summary>
     /// <param name="name">Initial name of the element.</param>
     public KryptonDockingFloatspace(string name)
@@ -41,16 +41,16 @@ public class KryptonDockingFloatspace : KryptonDockingSpace
 
     #region Public
     /// <summary>
-    /// Gets the control this element is managing.
+    /// The <see cref="KryptonFloatspace"/> workspace control created and owned by this element.
     /// </summary>
     public KryptonFloatspace FloatspaceControl => (KryptonFloatspace)SpaceControl!;
 
     /// <summary>
-    /// Propagates a request for drag targets down the hierarchy of docking elements.
+    /// When the floatspace has visible cells, adds drag targets for dragged pages that allow floating placement.
     /// </summary>
-    /// <param name="floatingWindow">Reference to window being dragged.</param>
-    /// <param name="dragData">Set of pages being dragged.</param>
-    /// <param name="targets">Collection of drag targets.</param>
+    /// <param name="floatingWindow">Floating window associated with the drag operation.</param>
+    /// <param name="dragData">Pages being dragged.</param>
+    /// <param name="targets">Collection that receives generated floatspace drag targets.</param>
     public override void PropogateDragTargets(KryptonFloatingWindow? floatingWindow,
         PageDragEndData? dragData,
         DragTargetList targets)
@@ -80,10 +80,10 @@ public class KryptonDockingFloatspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Find the docking location of the named page.
+    /// Returns <see cref="DockingLocation.Floating"/> when a non-placeholder page with the unique name exists in this floatspace; otherwise <see cref="DockingLocation.None"/>.
     /// </summary>
-    /// <param name="uniqueName">Unique name of the page.</param>
-    /// <returns>Enumeration value indicating docking location.</returns>
+    /// <param name="uniqueName">Unique name of the page to locate.</param>
+    /// <returns>The docking location for the named page.</returns>
     public override DockingLocation FindPageLocation(string uniqueName)
     {
         KryptonPage? page = FloatspaceControl.PageForUniqueName(uniqueName);
@@ -94,10 +94,10 @@ public class KryptonDockingFloatspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Find the docking element that contains the named page.
+    /// Returns this element when it contains a non-placeholder page with the specified unique name.
     /// </summary>
-    /// <param name="uniqueName">Unique name of the page.</param>
-    /// <returns>IDockingElement reference if page is found; otherwise null.</returns>
+    /// <param name="uniqueName">Unique name of the page to locate.</param>
+    /// <returns>This docking element when the page is present; otherwise <see langword="null"/>.</returns>
     public override IDockingElement? FindPageElement(string uniqueName)
     {
         KryptonPage? page = FloatspaceControl.PageForUniqueName(uniqueName);
@@ -108,11 +108,11 @@ public class KryptonDockingFloatspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Find the docking element that contains the location specific store page for the named page.
+    /// When <paramref name="location"/> is <see cref="DockingLocation.Floating"/>, returns this element if a store page with the unique name exists.
     /// </summary>
-    /// <param name="location">Location to be searched.</param>
-    /// <param name="uniqueName">Unique name of the page to be found.</param>
-    /// <returns>IDockingElement reference if store page is found; otherwise null.</returns>
+    /// <param name="location">Docking location that must be searched.</param>
+    /// <param name="uniqueName">Unique name of the store page to locate.</param>
+    /// <returns>This docking element when a matching store page is present; otherwise <see langword="null"/>.</returns>
     public override IDockingElement? FindStorePageElement(DockingLocation location, string uniqueName)
     {
         if (location == DockingLocation.Floating)
@@ -264,10 +264,10 @@ public class KryptonDockingFloatspace : KryptonDockingSpace
     protected override string XmlElementName => @"DF";
 
     /// <summary>
-    /// Loads docking configuration information using a provider xml reader.
+    /// Restores floatspace layout from XML and disposes the control when no pages were loaded.
     /// </summary>
-    /// <param name="xmlReader">Xml reader object.</param>
-    /// <param name="pages">Collection of available pages for adding.</param>
+    /// <param name="xmlReader">XML reader positioned at this element.</param>
+    /// <param name="pages">Available pages used to recreate layout content.</param>
     public override void LoadElementFromXml(XmlReader xmlReader, KryptonPageCollection pages)
     {
         // Let base class load the pages into the floatspace

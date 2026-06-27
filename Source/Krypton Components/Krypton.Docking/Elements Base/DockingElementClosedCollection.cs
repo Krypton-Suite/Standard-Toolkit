@@ -13,7 +13,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Extends base functionality by allowing a collection of child docking elements.
+/// Docking element that owns a fixed list of child elements exposed through indexing and enumeration.
 /// </summary>
 public abstract class DockingElementClosedCollection : DockingElement
 {
@@ -22,10 +22,6 @@ public abstract class DockingElementClosedCollection : DockingElement
     #endregion
 
     #region Identity
-    /// <summary>
-    /// Initialize a new instance of the DockingElementClosedCollection class.
-    /// </summary>
-    /// <param name="name">Initial name of the element.</param>
     protected DockingElementClosedCollection(string? name)
         : base(name) =>
         _elements = new List<IDockingElement>();
@@ -34,22 +30,22 @@ public abstract class DockingElementClosedCollection : DockingElement
 
     #region Public
     /// <summary>
-    /// Gets the number of child docking elements.
+    /// Number of direct child elements held in the internal list.
     /// </summary>
     public override int Count => _elements.Count;
 
     /// <summary>
-    /// Gets the docking element at the specified index.
+    /// Child at <paramref name="index"/> in insertion order.
     /// </summary>
-    /// <param name="index">Index.</param>
-    /// <returns>Docking element at specified index.</returns>
+    /// <param name="index">Zero-based index into the child list.</param>
+    /// <returns>The child at <paramref name="index"/>.</returns>
     public override IDockingElement? this[int index] => _elements[index];
 
     /// <summary>
-    /// Gets the docking element with the specified name.
+    /// First child whose <see cref="DockingElement.Name"/> equals <paramref name="name"/>.
     /// </summary>
-    /// <param name="name">Name of element.</param>
-    /// <returns>Docking element with specified name.</returns>
+    /// <param name="name">Child name to match.</param>
+    /// <returns>The matching child, or <see langword="null"/> when <paramref name="name"/> is <see langword="null"/> or not found.</returns>
     public override IDockingElement? this[string? name]
     {
         get
@@ -62,16 +58,16 @@ public abstract class DockingElementClosedCollection : DockingElement
     }
 
     /// <summary>
-    /// Shallow enumerate over child docking elements.
+    /// Enumerates direct children in list order.
     /// </summary>
-    /// <returns>Enumerator instance.</returns>
+    /// <returns>An enumerator over the child list.</returns>
     public override IEnumerator<IDockingElement> GetEnumerator() => _elements.GetEnumerator();
 
     /// <summary>
-    /// Determines whether the collection contains the docking element.
+    /// Reports whether <paramref name="item"/> is a direct child of this collection.
     /// </summary>
-    /// <param name="item">IDockingElement reference.</param>
-    /// <returns>True if view found; otherwise false.</returns>
+    /// <param name="item">Candidate child element.</param>
+    /// <returns><see langword="true"/> when <paramref name="item"/> is in the list; otherwise <see langword="false"/>.</returns>
     public virtual bool Contains(IDockingElement item) => _elements.Contains(item);
 
     #endregion

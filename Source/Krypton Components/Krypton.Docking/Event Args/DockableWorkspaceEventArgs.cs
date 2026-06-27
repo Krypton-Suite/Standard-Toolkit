@@ -13,16 +13,16 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Event arguments for a DockableWorkspaceRemoved event.
+/// Event payload when a dockable workspace control is added to or removed from the docking tree.
 /// </summary>
 public class DockableWorkspaceEventArgs : EventArgs
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the DockableWorkspaceEventArgs class.
+    /// Captures the dockable workspace control and its owning docking element.
     /// </summary>
-    /// <param name="workspace">Reference to dockable workspace control instance.</param>
-    /// <param name="element">Reference to docking workspace element that is managing the dockable workspace control.</param>
+    /// <param name="workspace">Dockable workspace control that was added or removed; may be null.</param>
+    /// <param name="element">Docking element that owns the dockable workspace control.</param>
     public DockableWorkspaceEventArgs(KryptonDockableWorkspace? workspace,
         KryptonDockingWorkspace element)
     {
@@ -33,12 +33,12 @@ public class DockableWorkspaceEventArgs : EventArgs
 
     #region Public
     /// <summary>
-    /// Gets a reference to the KryptonDockableWorkspace control.
+    /// Dockable workspace control that was added or removed; may be null.
     /// </summary>
     public KryptonDockableWorkspace? DockableWorkspaceControl { get; }
 
     /// <summary>
-    /// Gets a reference to the KryptonDockingWorkspace that is managing the dockable workspace control.
+    /// Docking element that owns the dockable workspace control; assigned at construction.
     /// </summary>
     public KryptonDockingWorkspace DockingWorkspaceElement { get; }
 

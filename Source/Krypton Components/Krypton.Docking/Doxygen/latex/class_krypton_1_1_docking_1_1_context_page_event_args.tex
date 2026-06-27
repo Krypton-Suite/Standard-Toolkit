@@ -1,0 +1,82 @@
+\doxysection{Krypton.\+Docking.\+Context\+Page\+Event\+Args Class Reference}
+\hypertarget{class_krypton_1_1_docking_1_1_context_page_event_args}{}\label{class_krypton_1_1_docking_1_1_context_page_event_args}\index{Krypton.Docking.ContextPageEventArgs@{Krypton.Docking.ContextPageEventArgs}}
+
+
+Event payload for page context menu display where handlers may cancel showing or customize the menu.  
+
+
+Inheritance diagram for Krypton.\+Docking.\+Context\+Page\+Event\+Args\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_krypton_1_1_docking_1_1_context_page_event_args}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_context_page_event_args_ab25007b846519543387966a559f34969}{Context\+Page\+Event\+Args}} (Krypton\+Page? page, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_context_page_event_args_a375d63dac4bc6e36c379de6a22a28f4f}{Krypton\+Context\+Menu}} context\+Menu, bool cancel)
+\begin{DoxyCompactList}\small\item\em Captures the target page, context menu, and initial cancel flag for context menu display. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+Krypton\+Page? \mbox{\hyperlink{class_krypton_1_1_docking_1_1_context_page_event_args_ad1f03e3b8525a6e3b8a81188d1bbe7df}{Page}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Page whose context menu is being shown; may be null. \end{DoxyCompactList}\item 
+Krypton\+Context\+Menu? \mbox{\hyperlink{class_krypton_1_1_docking_1_1_context_page_event_args_a375d63dac4bc6e36c379de6a22a28f4f}{Krypton\+Context\+Menu}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Context menu to display; handlers may customize items before display. May be null. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Event payload for page context menu display where handlers may cancel showing or customize the menu. 
+
+\label{doc-constructors}
+\Hypertarget{class_krypton_1_1_docking_1_1_context_page_event_args_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_context_page_event_args_ab25007b846519543387966a559f34969}\index{Krypton.Docking.ContextPageEventArgs@{Krypton.Docking.ContextPageEventArgs}!ContextPageEventArgs@{ContextPageEventArgs}}
+\index{ContextPageEventArgs@{ContextPageEventArgs}!Krypton.Docking.ContextPageEventArgs@{Krypton.Docking.ContextPageEventArgs}}
+\doxysubsubsection{\texorpdfstring{ContextPageEventArgs()}{ContextPageEventArgs()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_context_page_event_args_ab25007b846519543387966a559f34969} 
+Krypton.\+Docking.\+Context\+Page\+Event\+Args.\+Context\+Page\+Event\+Args (\begin{DoxyParamCaption}\item[{Krypton\+Page?}]{page}{, }\item[{\mbox{\hyperlink{class_krypton_1_1_docking_1_1_context_page_event_args_a375d63dac4bc6e36c379de6a22a28f4f}{Krypton\+Context\+Menu}}}]{context\+Menu}{, }\item[{bool}]{cancel}{}\end{DoxyParamCaption})}
+
+
+
+Captures the target page, context menu, and initial cancel flag for context menu display. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em page} & Page whose context menu is being shown; may be null.\\
+\hline
+{\em context\+Menu} & Context menu to display; handlers may customize items before display.\\
+\hline
+{\em cancel} & Initial cancel flag; when true the menu is not shown.\\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-property-members}
+\Hypertarget{class_krypton_1_1_docking_1_1_context_page_event_args_doc-property-members}
+\doxysubsection{Property Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_context_page_event_args_a375d63dac4bc6e36c379de6a22a28f4f}\index{Krypton.Docking.ContextPageEventArgs@{Krypton.Docking.ContextPageEventArgs}!KryptonContextMenu@{KryptonContextMenu}}
+\index{KryptonContextMenu@{KryptonContextMenu}!Krypton.Docking.ContextPageEventArgs@{Krypton.Docking.ContextPageEventArgs}}
+\doxysubsubsection{\texorpdfstring{KryptonContextMenu}{KryptonContextMenu}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_context_page_event_args_a375d63dac4bc6e36c379de6a22a28f4f} 
+Krypton\+Context\+Menu? Krypton.\+Docking.\+Context\+Page\+Event\+Args.\+Krypton\+Context\+Menu\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Context menu to display; handlers may customize items before display. May be null. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_context_page_event_args_ad1f03e3b8525a6e3b8a81188d1bbe7df}\index{Krypton.Docking.ContextPageEventArgs@{Krypton.Docking.ContextPageEventArgs}!Page@{Page}}
+\index{Page@{Page}!Krypton.Docking.ContextPageEventArgs@{Krypton.Docking.ContextPageEventArgs}}
+\doxysubsubsection{\texorpdfstring{Page}{Page}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_context_page_event_args_ad1f03e3b8525a6e3b8a81188d1bbe7df} 
+Krypton\+Page? Krypton.\+Docking.\+Context\+Page\+Event\+Args.\+Page\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Page whose context menu is being shown; may be null. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/\+Krypton/\+Standard-\/\+Toolkit/\+Source/\+Krypton Components/\+Krypton.\+Docking/\+Event Args/\mbox{\hyperlink{_context_page_event_args_8cs}{Context\+Page\+Event\+Args.\+cs}}\end{DoxyCompactItemize}

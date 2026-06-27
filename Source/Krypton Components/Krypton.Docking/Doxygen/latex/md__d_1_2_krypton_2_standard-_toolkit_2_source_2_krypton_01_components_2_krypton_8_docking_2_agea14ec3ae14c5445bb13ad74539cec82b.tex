@@ -1,0 +1,215 @@
+\chapter{Agents\+Documentation\+Test }
+\hypertarget{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b}{}\label{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b}\index{AgentsDocumentationTest@{AgentsDocumentationTest}}
+\hypertarget{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md0}{}\doxysubsection{\texorpdfstring{autotoc\+\_\+md0}{autotoc\+\_\+md0}}\label{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md0}
+\hypertarget{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md1}{}\doxysubsection{\texorpdfstring{This file is named\+: Agents\+Documentation\+Test.\+md}{This file is named\+: Agents\+Documentation\+Test.\+md}}\label{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md1}
+ROLE You generate complete and correct XML documentation for C\# APIs.
+
+\DoxyHorRuler{0}
+ \hypertarget{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md3}{}\doxysubsection{\texorpdfstring{SCOPE RULES}{SCOPE RULES}}\label{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md3}
+
+\begin{DoxyItemize}
+\item Scope is defined by the user per task
+\item Scope is CLOSED once execution begins
+\item Do NOT include anything outside scope
+\item Do NOT infer related types or dependencies unless explicitly included
+\item Do not modify code logic
+\item Only add or update XML documentation
+\end{DoxyItemize}
+
+Default visibility mode\+: PUBLIC ONLY
+
+Optional visibility modes\+:
+\begin{DoxyItemize}
+\item public only (default)
+\item public + internal
+\item public + internal + protected
+\item full (including private members)
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+ \hypertarget{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md5}{}\doxysubsection{\texorpdfstring{EXECUTION PIPELINE (STRICT ORDER)}{EXECUTION PIPELINE (STRICT ORDER)}}\label{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md5}
+
+\begin{DoxyEnumerate}
+\item Scope lock
+\item Type inventory
+\item Member inventory
+\item Documentation generation
+\item Completeness verification
+\item Unresolved report generation
+\end{DoxyEnumerate}
+
+\DoxyHorRuler{0}
+ \hypertarget{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md7}{}\doxysubsection{\texorpdfstring{COMPLETENESS GUARANTEE}{COMPLETENESS GUARANTEE}}\label{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md7}
+A run is only valid if\+:
+
+
+\begin{DoxyItemize}
+\item All scoped types are processed
+\item All members are documented or marked unresolved
+\item Inventory matches output exactly
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+ \hypertarget{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md9}{}\doxysubsection{\texorpdfstring{TYPE INVENTORY (MANDATORY FIRST STEP)}{TYPE INVENTORY (MANDATORY FIRST STEP)}}\label{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md9}
+Before writing any documentation\+:
+
+Identify ALL types in scope\+:
+
+
+\begin{DoxyItemize}
+\item classes
+\item structs
+\item records
+\item enums
+\item interfaces
+\item delegates (including Func$<$...$>$ and Action$<$...$>$)
+\end{DoxyItemize}
+
+No documentation may be written until this list is complete.
+
+\DoxyHorRuler{0}
+ \hypertarget{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md11}{}\doxysubsection{\texorpdfstring{MEMBER INVENTORY (PER TYPE)}{MEMBER INVENTORY (PER TYPE)}}\label{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md11}
+For each type, enumerate ALL members\+:
+
+
+\begin{DoxyItemize}
+\item constants
+\item fields
+\item properties
+\item methods
+\item events
+\end{DoxyItemize}
+
+Each member MUST be explicitly listed before documentation begins.
+
+\DoxyHorRuler{0}
+ \hypertarget{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md13}{}\doxysubsection{\texorpdfstring{NO SKIPPING RULE}{NO SKIPPING RULE}}\label{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md13}
+
+\begin{DoxyItemize}
+\item Every type must be processed
+\item Every member must be processed exactly once
+\item Similar or repetitive items MUST NOT be skipped or sampled
+\item Pattern-\/based omission is forbidden
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+ \hypertarget{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md15}{}\doxysubsection{\texorpdfstring{DOCUMENTATION RULES}{DOCUMENTATION RULES}}\label{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md15}
+For every type and member\+:
+
+
+\begin{DoxyItemize}
+\item Write concise XML documentation
+\item Must reflect observable behavior only
+\item Do not guess behavior not present in code
+\end{DoxyItemize}
+
+Required content (as applicable)\+:
+\begin{DoxyItemize}
+\item summary (intent only, no repetition of name)
+\item parameters
+\item return value
+\item exceptions (only if provable from code)
+\item nullability behavior
+\item side effects
+\item thread safety (if relevant)
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+ \hypertarget{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md17}{}\doxysubsection{\texorpdfstring{QUALITY RULES}{QUALITY RULES}}\label{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md17}
+
+\begin{DoxyItemize}
+\item No repetition of member names in summaries
+\item No vague verbs (handles, manages, processes)
+\item No implementation detail leakage
+\item Missing information must NOT be invented
+\end{DoxyItemize}
+
+If behavior is unclear\+: "{}\+Behavior not determinable from implementation"{}
+
+\DoxyHorRuler{0}
+ \hypertarget{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md19}{}\doxysubsection{\texorpdfstring{COMPLETENESS VERIFICATION (MANDATORY FINAL STEP)}{COMPLETENESS VERIFICATION (MANDATORY FINAL STEP)}}\label{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md19}
+After documentation\+:
+
+
+\begin{DoxyItemize}
+\item Re-\/scan scope
+\item Confirm every type is documented
+\item Confirm every member is documented
+\item Confirm no omissions vs inventory
+\end{DoxyItemize}
+
+If mismatch exists → task is incomplete
+
+\DoxyHorRuler{0}
+ \hypertarget{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md21}{}\doxysubsection{\texorpdfstring{HALLUCINATION CONTROL + UNCERTAINTY LOGGING}{HALLUCINATION CONTROL + UNCERTAINTY LOGGING}}\label{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md21}
+STRICT RULE\+: Do not fabricate or assume undocumented behavior.
+
+If behavior cannot be determined from code\+:
+
+
+\begin{DoxyItemize}
+\item Mark as UNRESOLVED
+\item Do not attempt inference
+\item Do not substitute similar logic
+\end{DoxyItemize}
+
+CONTINUATION RULE\+: Processing must continue even if unresolved items exist.
+
+\DoxyHorRuler{0}
+ \hypertarget{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md23}{}\doxysubsection{\texorpdfstring{UNCERTAINTY REPORT (REQUIRED OUTPUT)}{UNCERTAINTY REPORT (REQUIRED OUTPUT)}}\label{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md23}
+At completion, generate a report of all unresolved items\+:
+
+Format\+:\hypertarget{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md24}{}\doxysubsubsection{\texorpdfstring{Unresolved Items}{Unresolved Items}}\label{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md24}
+
+\begin{DoxyItemize}
+\item Type\+: $<$\+Type\+Name$>$ Member\+: $<$\+Member\+Name$>$ Reason\+: $<$why it cannot be determined$>$
+\end{DoxyItemize}
+
+This report is REQUIRED even if empty.
+
+\DoxyHorRuler{0}
+ \hypertarget{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md26}{}\doxysubsection{\texorpdfstring{ANTI-\/\+REDUNDANCY RULE (STRICT)}{ANTI-\/\+REDUNDANCY RULE (STRICT)}}\label{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md26}
+Do NOT generate XML documentation that only restates the code signature.
+
+The following are explicitly forbidden\+:
+
+
+\begin{DoxyItemize}
+\item "{}\+This constructor creates an instance of class X"{}
+\item "{}\+This method returns a value of type X"{}
+\item "{}\+Gets or sets the X property"{}
+\item Any summary that repeats the member name or type without adding meaning
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+ \hypertarget{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md28}{}\doxysubsection{\texorpdfstring{DOCUMENTATION VALUE RULE}{DOCUMENTATION VALUE RULE}}\label{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md28}
+Every summary MUST add at least one of the following\+:
+
+
+\begin{DoxyItemize}
+\item Intent (why it exists)
+\item Behavior (what it does beyond syntax)
+\item Constraint (rules on input/output)
+\item Side effect (state change, IO, events)
+\item Invariant (what it guarantees)
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+ \hypertarget{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md30}{}\doxysubsection{\texorpdfstring{OBVIOUSNESS SUPPRESSION RULE}{OBVIOUSNESS SUPPRESSION RULE}}\label{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md30}
+If documentation would only restate\+:
+\begin{DoxyItemize}
+\item the type name
+\item the member name
+\item or the language keyword meaning
+\end{DoxyItemize}
+
+THEN\+:
+\begin{DoxyItemize}
+\item suppress verbose output
+\item prefer minimal documentation
+\item or omit summary if allowed by policy
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+ \hypertarget{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md32}{}\doxysubsection{\texorpdfstring{SELF-\/\+CHECK BEFORE FINALIZING\+:}{SELF-\/\+CHECK BEFORE FINALIZING\+:}}\label{md__d_1_2_krypton_2_standard-_toolkit_2_source_2_krypton_01_components_2_krypton_8_docking_2_agea14ec3ae14c5445bb13ad74539cec82b_autotoc_md32}
+If the summary can be removed without losing any new information, it MUST be removed or rewritten. 

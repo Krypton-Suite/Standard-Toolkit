@@ -1,0 +1,341 @@
+\doxysection{Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Slide\+Panel Class Reference}
+\hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel}{}\label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel}\index{Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}}
+
+
+Animated slide-\/out host that reveals an auto-\/hidden page from a dock edge and dismisses it on focus loss or Escape.  
+
+
+Inheritance diagram for Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Slide\+Panel\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=1.944445cm]{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_aacdb9e2ec3898e41b6309405e391bf2e}{Krypton\+Auto\+Hidden\+Slide\+Panel}} (Control control, \mbox{\hyperlink{namespace_krypton_1_1_docking_a47e5cca7dda6dd2a68940df960b435bf}{Docking\+Edge}} edge, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_panel}{Krypton\+Auto\+Hidden\+Panel}} panel)
+\begin{DoxyCompactList}\small\item\em Plants the slide panel into the host control, wires slide/dismiss timers, and registers as an application message filter. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_aabaf4d4f681f4d5a8eee3c223d509915}{Hide\+Unique\+Name}} ()
+\begin{DoxyCompactList}\small\item\em Immediately hides the slide-\/out when any page is currently shown or animating. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a49eefdc306539f072294aefb875baa27}{Hide\+Unique\+Name}} (string unique\+Name)
+\begin{DoxyCompactList}\small\item\em Immediately hides the slide-\/out only when the displayed page\textquotesingle{}s unique name matches {\itshape unique\+Name} . \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a38af230ac1a7321c88eba91f00958b97}{Slide\+Out}} (Krypton\+Page? page, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_group}{Krypton\+Auto\+Hidden\+Group}} group, bool select)
+\begin{DoxyCompactList}\small\item\em Animates the panel open to display {\itshape page} ; switches pages or reverses slide direction when already showing a different page. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a46b2a77f722fef66045ce35267933c44}{Slide\+In}} ()
+\begin{DoxyCompactList}\small\item\em Schedules a delayed slide-\/in when the panel is showing or sliding out; no effect when already hidden or sliding in. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_ad8d02de215fe4cf219e1546cc7e1c93d}{Update\+Size}} (int width, int height)
+\begin{DoxyCompactList}\small\item\em While fully shown, applies size deltas to the panel and persists the new dimensions on the displayed page\textquotesingle{}s Krypton\+Page.\+Auto\+Hidden\+Slide\+Size value. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a9188e29c2cbaf7717ec68d7654ee5e52}{Pre\+Filter\+Message}} (ref Message msg)
+\begin{DoxyCompactList}\small\item\em Intercepts Escape to dismiss the slide-\/out and monitors mouse movement to start or cancel the dismiss timer when the pointer leaves the slide or tab areas. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+override void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_ad8f9c50c405bf6d08b7668debd3bcaae}{Dispose}} (bool disposing)
+\begin{DoxyCompactList}\small\item\em Clean up any resources being used. \end{DoxyCompactList}\item 
+override void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_afac29f6ff3f950d7c1bcc2bcc90bac42}{On\+Leave}} (Event\+Args e)
+\begin{DoxyCompactList}\small\item\em Raises the Leave event. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_dockspace}{Krypton\+Dockspace}} \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a6b3f88d26c60a4aaa0bdc60951c167f8}{Dockspace\+Control}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Embedded \doxylink{class_krypton_1_1_docking_1_1_krypton_dockspace_slide}{Krypton\+Dockspace\+Slide} that hosts the sliding page content. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_dockspace_separator}{Krypton\+Dockspace\+Separator}} \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_ac7089f10298fc7c73e2f17c47395a4b1}{Separator\+Control}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Separator between the slide-\/out content and the remaining client area. \end{DoxyCompactList}\item 
+Krypton\+Page? \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a13e34a0910c896368c44147b3b75e53d}{Page}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Page currently displayed in the slide-\/out, or null when hidden. \end{DoxyCompactList}\item 
+IDrag\+Page\+Notify? \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a763ea0f616c6e447c0722ef23ca9560f}{Drag\+Page\+Notify}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Drag notification interface forwarded to the embedded dockspace for page drag operations. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Events}
+\begin{DoxyCompactItemize}
+\item 
+Event\+Handler$<$ Splitter\+Move\+Rect\+Menu\+Args $>$? \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a43eb5d6a49467145ad4c0f18950eb414}{Splitter\+Move\+Rect}}
+\begin{DoxyCompactList}\small\item\em Raised before the embedded separator moves; handlers can supply the allowed movement rectangle via event args. \end{DoxyCompactList}\item 
+Splitter\+Event\+Handler? \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a062b8844c429e7db38f4b76e88fc5016}{Splitter\+Moved}}
+\begin{DoxyCompactList}\small\item\em Raised after the embedded separator completes a move that changed its position. \end{DoxyCompactList}\item 
+Splitter\+Cancel\+Event\+Handler? \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a535e849ffc89ad451b25f93fbac8934e}{Splitter\+Moving}}
+\begin{DoxyCompactList}\small\item\em Raised while the embedded separator is being dragged to a new position; cancellation is supported via event args. \end{DoxyCompactList}\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_krypton_1_1_docking_1_1_unique_name_event_args}{Unique\+Name\+Event\+Args}} $>$? \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a7a8ef3220567d0a61321c8abf4926724}{Page\+Close\+Clicked}}
+\begin{DoxyCompactList}\small\item\em Raised when the user activates a page close button in the embedded dockspace. \end{DoxyCompactList}\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_krypton_1_1_docking_1_1_unique_name_event_args}{Unique\+Name\+Event\+Args}} $>$? \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a997bf3a212a6e29f92ee4325ac821d73}{Page\+Auto\+Hidden\+Clicked}}
+\begin{DoxyCompactList}\small\item\em Raised when the user activates a page auto-\/hidden pin button in the embedded dockspace. \end{DoxyCompactList}\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_krypton_1_1_docking_1_1_cancel_drop_down_event_args}{Cancel\+Drop\+Down\+Event\+Args}} $>$? \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_acff783f78d4b14666c20561cb09bc6d7}{Page\+Drop\+Down\+Clicked}}
+\begin{DoxyCompactList}\small\item\em Raised when a page requests a drop-\/down menu from the embedded dockspace; the slide-\/out is focused first to prevent premature dismissal. \end{DoxyCompactList}\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_krypton_1_1_docking_1_1_auto_hidden_showing_state_event_args}{Auto\+Hidden\+Showing\+State\+Event\+Args}} $>$? \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a7806d1e4c554d1dcc334177094991c8d}{Auto\+Hidden\+Showing\+State\+Changed}}
+\begin{DoxyCompactList}\small\item\em Raised when the slide panel transitions between \doxylink{namespace_krypton_1_1_docking_ab48ff79c6bbce7a3120f66b195805f92}{Docking\+Auto\+Hidden\+Show\+State} values. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Animated slide-\/out host that reveals an auto-\/hidden page from a dock edge and dismisses it on focus loss or Escape. 
+
+\label{doc-constructors}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_aacdb9e2ec3898e41b6309405e391bf2e}\index{Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}!KryptonAutoHiddenSlidePanel@{KryptonAutoHiddenSlidePanel}}
+\index{KryptonAutoHiddenSlidePanel@{KryptonAutoHiddenSlidePanel}!Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}}
+\doxysubsubsection{\texorpdfstring{KryptonAutoHiddenSlidePanel()}{KryptonAutoHiddenSlidePanel()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_aacdb9e2ec3898e41b6309405e391bf2e} 
+Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Slide\+Panel.\+Krypton\+Auto\+Hidden\+Slide\+Panel (\begin{DoxyParamCaption}\item[{Control}]{control}{, }\item[{\mbox{\hyperlink{namespace_krypton_1_1_docking_a47e5cca7dda6dd2a68940df960b435bf}{Docking\+Edge}}}]{edge}{, }\item[{\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_panel}{Krypton\+Auto\+Hidden\+Panel}}}]{panel}{}\end{DoxyParamCaption})}
+
+
+
+Plants the slide panel into the host control, wires slide/dismiss timers, and registers as an application message filter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em control} & Host control whose client area receives the slide panel.\\
+\hline
+{\em edge} & Dock edge from which pages slide out.\\
+\hline
+{\em panel} & Auto-\/hidden tab panel adjacent to this slide area.\\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-func-members}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_ad8f9c50c405bf6d08b7668debd3bcaae}\index{Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}!Dispose@{Dispose}}
+\index{Dispose@{Dispose}!Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}}
+\doxysubsubsection{\texorpdfstring{Dispose()}{Dispose()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_ad8f9c50c405bf6d08b7668debd3bcaae} 
+override void Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Slide\+Panel.\+Dispose (\begin{DoxyParamCaption}\item[{bool}]{disposing}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Clean up any resources being used. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em disposing} & true if managed resources should be disposed; otherwise, false.\\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_aabaf4d4f681f4d5a8eee3c223d509915}\index{Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}!HideUniqueName@{HideUniqueName}}
+\index{HideUniqueName@{HideUniqueName}!Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}}
+\doxysubsubsection{\texorpdfstring{HideUniqueName()}{HideUniqueName()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_aabaf4d4f681f4d5a8eee3c223d509915} 
+void Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Slide\+Panel.\+Hide\+Unique\+Name (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Immediately hides the slide-\/out when any page is currently shown or animating. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a49eefdc306539f072294aefb875baa27}\index{Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}!HideUniqueName@{HideUniqueName}}
+\index{HideUniqueName@{HideUniqueName}!Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}}
+\doxysubsubsection{\texorpdfstring{HideUniqueName()}{HideUniqueName()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a49eefdc306539f072294aefb875baa27} 
+void Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Slide\+Panel.\+Hide\+Unique\+Name (\begin{DoxyParamCaption}\item[{string}]{unique\+Name}{}\end{DoxyParamCaption})}
+
+
+
+Immediately hides the slide-\/out only when the displayed page\textquotesingle{}s unique name matches {\itshape unique\+Name} . 
+
+
+\begin{DoxyParams}{Parameters}
+{\em unique\+Name} & Unique name of the page to hide.\\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_afac29f6ff3f950d7c1bcc2bcc90bac42}\index{Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}!OnLeave@{OnLeave}}
+\index{OnLeave@{OnLeave}!Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}}
+\doxysubsubsection{\texorpdfstring{OnLeave()}{OnLeave()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_afac29f6ff3f950d7c1bcc2bcc90bac42} 
+override void Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Slide\+Panel.\+On\+Leave (\begin{DoxyParamCaption}\item[{Event\+Args}]{e}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Raises the Leave event. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em e} & An Event\+Args containing the event data.\\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a9188e29c2cbaf7717ec68d7654ee5e52}\index{Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}!PreFilterMessage@{PreFilterMessage}}
+\index{PreFilterMessage@{PreFilterMessage}!Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}}
+\doxysubsubsection{\texorpdfstring{PreFilterMessage()}{PreFilterMessage()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a9188e29c2cbaf7717ec68d7654ee5e52} 
+bool Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Slide\+Panel.\+Pre\+Filter\+Message (\begin{DoxyParamCaption}\item[{ref Message}]{msg}{}\end{DoxyParamCaption})}
+
+
+
+Intercepts Escape to dismiss the slide-\/out and monitors mouse movement to start or cancel the dismiss timer when the pointer leaves the slide or tab areas. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & Windows message being dispatched.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True when Escape dismisses the slide-\/out; otherwise false to allow normal dispatch.
+\end{DoxyReturn}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a46b2a77f722fef66045ce35267933c44}\index{Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}!SlideIn@{SlideIn}}
+\index{SlideIn@{SlideIn}!Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}}
+\doxysubsubsection{\texorpdfstring{SlideIn()}{SlideIn()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a46b2a77f722fef66045ce35267933c44} 
+void Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Slide\+Panel.\+Slide\+In (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Schedules a delayed slide-\/in when the panel is showing or sliding out; no effect when already hidden or sliding in. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a38af230ac1a7321c88eba91f00958b97}\index{Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}!SlideOut@{SlideOut}}
+\index{SlideOut@{SlideOut}!Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}}
+\doxysubsubsection{\texorpdfstring{SlideOut()}{SlideOut()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a38af230ac1a7321c88eba91f00958b97} 
+void Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Slide\+Panel.\+Slide\+Out (\begin{DoxyParamCaption}\item[{Krypton\+Page?}]{page}{, }\item[{\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_group}{Krypton\+Auto\+Hidden\+Group}}}]{group}{, }\item[{bool}]{select}{}\end{DoxyParamCaption})}
+
+
+
+Animates the panel open to display {\itshape page} ; switches pages or reverses slide direction when already showing a different page. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em page} & Page to display in the slide-\/out.\\
+\hline
+{\em group} & Auto-\/hidden group that owns the page tab.\\
+\hline
+{\em select} & When true, moves focus into the dockspace after sliding out.\\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_ad8d02de215fe4cf219e1546cc7e1c93d}\index{Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}!UpdateSize@{UpdateSize}}
+\index{UpdateSize@{UpdateSize}!Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}}
+\doxysubsubsection{\texorpdfstring{UpdateSize()}{UpdateSize()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_ad8d02de215fe4cf219e1546cc7e1c93d} 
+void Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Slide\+Panel.\+Update\+Size (\begin{DoxyParamCaption}\item[{int}]{width}{, }\item[{int}]{height}{}\end{DoxyParamCaption})}
+
+
+
+While fully shown, applies size deltas to the panel and persists the new dimensions on the displayed page\textquotesingle{}s Krypton\+Page.\+Auto\+Hidden\+Slide\+Size value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em width} & Width delta to apply for left/right edges.\\
+\hline
+{\em height} & Height delta to apply for top/bottom edges.\\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-property-members}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_doc-property-members}
+\doxysubsection{Property Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a6b3f88d26c60a4aaa0bdc60951c167f8}\index{Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}!DockspaceControl@{DockspaceControl}}
+\index{DockspaceControl@{DockspaceControl}!Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}}
+\doxysubsubsection{\texorpdfstring{DockspaceControl}{DockspaceControl}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a6b3f88d26c60a4aaa0bdc60951c167f8} 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_dockspace}{Krypton\+Dockspace}} Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Slide\+Panel.\+Dockspace\+Control\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Embedded \doxylink{class_krypton_1_1_docking_1_1_krypton_dockspace_slide}{Krypton\+Dockspace\+Slide} that hosts the sliding page content. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a763ea0f616c6e447c0722ef23ca9560f}\index{Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}!DragPageNotify@{DragPageNotify}}
+\index{DragPageNotify@{DragPageNotify}!Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}}
+\doxysubsubsection{\texorpdfstring{DragPageNotify}{DragPageNotify}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a763ea0f616c6e447c0722ef23ca9560f} 
+IDrag\+Page\+Notify? Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Slide\+Panel.\+Drag\+Page\+Notify\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Drag notification interface forwarded to the embedded dockspace for page drag operations. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a13e34a0910c896368c44147b3b75e53d}\index{Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}!Page@{Page}}
+\index{Page@{Page}!Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}}
+\doxysubsubsection{\texorpdfstring{Page}{Page}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a13e34a0910c896368c44147b3b75e53d} 
+Krypton\+Page? Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Slide\+Panel.\+Page\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Page currently displayed in the slide-\/out, or null when hidden. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_ac7089f10298fc7c73e2f17c47395a4b1}\index{Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}!SeparatorControl@{SeparatorControl}}
+\index{SeparatorControl@{SeparatorControl}!Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}}
+\doxysubsubsection{\texorpdfstring{SeparatorControl}{SeparatorControl}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_ac7089f10298fc7c73e2f17c47395a4b1} 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_dockspace_separator}{Krypton\+Dockspace\+Separator}} Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Slide\+Panel.\+Separator\+Control\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Separator between the slide-\/out content and the remaining client area. 
+
+
+
+\label{doc-event-members}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_doc-event-members}
+\doxysubsection{Event Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a7806d1e4c554d1dcc334177094991c8d}\index{Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}!AutoHiddenShowingStateChanged@{AutoHiddenShowingStateChanged}}
+\index{AutoHiddenShowingStateChanged@{AutoHiddenShowingStateChanged}!Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}}
+\doxysubsubsection{\texorpdfstring{AutoHiddenShowingStateChanged}{AutoHiddenShowingStateChanged}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a7806d1e4c554d1dcc334177094991c8d} 
+Event\+Handler$<$\mbox{\hyperlink{class_krypton_1_1_docking_1_1_auto_hidden_showing_state_event_args}{Auto\+Hidden\+Showing\+State\+Event\+Args}}$>$? Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Slide\+Panel.\+Auto\+Hidden\+Showing\+State\+Changed}
+
+
+
+Raised when the slide panel transitions between \doxylink{namespace_krypton_1_1_docking_ab48ff79c6bbce7a3120f66b195805f92}{Docking\+Auto\+Hidden\+Show\+State} values. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a997bf3a212a6e29f92ee4325ac821d73}\index{Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}!PageAutoHiddenClicked@{PageAutoHiddenClicked}}
+\index{PageAutoHiddenClicked@{PageAutoHiddenClicked}!Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}}
+\doxysubsubsection{\texorpdfstring{PageAutoHiddenClicked}{PageAutoHiddenClicked}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a997bf3a212a6e29f92ee4325ac821d73} 
+Event\+Handler$<$\mbox{\hyperlink{class_krypton_1_1_docking_1_1_unique_name_event_args}{Unique\+Name\+Event\+Args}}$>$? Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Slide\+Panel.\+Page\+Auto\+Hidden\+Clicked}
+
+
+
+Raised when the user activates a page auto-\/hidden pin button in the embedded dockspace. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a7a8ef3220567d0a61321c8abf4926724}\index{Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}!PageCloseClicked@{PageCloseClicked}}
+\index{PageCloseClicked@{PageCloseClicked}!Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}}
+\doxysubsubsection{\texorpdfstring{PageCloseClicked}{PageCloseClicked}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a7a8ef3220567d0a61321c8abf4926724} 
+Event\+Handler$<$\mbox{\hyperlink{class_krypton_1_1_docking_1_1_unique_name_event_args}{Unique\+Name\+Event\+Args}}$>$? Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Slide\+Panel.\+Page\+Close\+Clicked}
+
+
+
+Raised when the user activates a page close button in the embedded dockspace. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_acff783f78d4b14666c20561cb09bc6d7}\index{Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}!PageDropDownClicked@{PageDropDownClicked}}
+\index{PageDropDownClicked@{PageDropDownClicked}!Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}}
+\doxysubsubsection{\texorpdfstring{PageDropDownClicked}{PageDropDownClicked}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_acff783f78d4b14666c20561cb09bc6d7} 
+Event\+Handler$<$\mbox{\hyperlink{class_krypton_1_1_docking_1_1_cancel_drop_down_event_args}{Cancel\+Drop\+Down\+Event\+Args}}$>$? Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Slide\+Panel.\+Page\+Drop\+Down\+Clicked}
+
+
+
+Raised when a page requests a drop-\/down menu from the embedded dockspace; the slide-\/out is focused first to prevent premature dismissal. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a062b8844c429e7db38f4b76e88fc5016}\index{Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}!SplitterMoved@{SplitterMoved}}
+\index{SplitterMoved@{SplitterMoved}!Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}}
+\doxysubsubsection{\texorpdfstring{SplitterMoved}{SplitterMoved}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a062b8844c429e7db38f4b76e88fc5016} 
+Splitter\+Event\+Handler? Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Slide\+Panel.\+Splitter\+Moved}
+
+
+
+Raised after the embedded separator completes a move that changed its position. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a43eb5d6a49467145ad4c0f18950eb414}\index{Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}!SplitterMoveRect@{SplitterMoveRect}}
+\index{SplitterMoveRect@{SplitterMoveRect}!Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}}
+\doxysubsubsection{\texorpdfstring{SplitterMoveRect}{SplitterMoveRect}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a43eb5d6a49467145ad4c0f18950eb414} 
+Event\+Handler$<$Splitter\+Move\+Rect\+Menu\+Args$>$? Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Slide\+Panel.\+Splitter\+Move\+Rect}
+
+
+
+Raised before the embedded separator moves; handlers can supply the allowed movement rectangle via event args. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a535e849ffc89ad451b25f93fbac8934e}\index{Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}!SplitterMoving@{SplitterMoving}}
+\index{SplitterMoving@{SplitterMoving}!Krypton.Docking.KryptonAutoHiddenSlidePanel@{Krypton.Docking.KryptonAutoHiddenSlidePanel}}
+\doxysubsubsection{\texorpdfstring{SplitterMoving}{SplitterMoving}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_slide_panel_a535e849ffc89ad451b25f93fbac8934e} 
+Splitter\+Cancel\+Event\+Handler? Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Slide\+Panel.\+Splitter\+Moving}
+
+
+
+Raised while the embedded separator is being dragged to a new position; cancellation is supported via event args. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/\+Krypton/\+Standard-\/\+Toolkit/\+Source/\+Krypton Components/\+Krypton.\+Docking/\+Control Docking/\mbox{\hyperlink{_krypton_auto_hidden_slide_panel_8cs}{Krypton\+Auto\+Hidden\+Slide\+Panel.\+cs}}\end{DoxyCompactItemize}

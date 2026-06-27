@@ -13,22 +13,22 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Event arguments for events that need to provide a colletion of pages.
+/// Event payload carrying a collection of docking pages, such as pages left without a parent after layout changes.
 /// </summary>
 public class PagesEventArgs : EventArgs
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the PagesEventArgs class.
+    /// Captures the page collection supplied when the event is raised.
     /// </summary>
-    /// <param name="pages">Collection of pages.</param>
+    /// <param name="pages">Pages associated with the event.</param>
     public PagesEventArgs(KryptonPageCollection pages) => Pages = pages;
 
     #endregion
 
     #region Public
     /// <summary>
-    /// Gets access to a collection of pages.
+    /// Pages associated with the event; assigned at construction and not modified afterward.
     /// </summary>
     public KryptonPageCollection Pages { get; }
 

@@ -15,7 +15,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Provides docking functionality for a floating window that contains just a dockspace.
+/// Docking element that hosts a single floatspace inside a floating <see cref="KryptonFloatingWindow"/>.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]
@@ -30,12 +30,13 @@ public class KryptonDockingFloatingWindow : DockingElementClosedCollection
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonDockingFloatingWindow class.
+    /// Creates a <see cref="KryptonFloatingWindow"/> around <paramref name="floatspace"/> and adds the floatspace as the sole child element.
     /// </summary>
     /// <param name="name">Initial name of the element.</param>
-    /// <param name="owner">Reference to form that owns the floating windows.</param>
-    /// <param name="floatspace">Reference to form that will own all the floating window.</param>
-    /// <param name="useMinimiseBox">Allow window to be minimised.</param>
+    /// <param name="owner">Form assigned as owner of the floating window.</param>
+    /// <param name="floatspace">Floatspace element hosted inside the floating window.</param>
+    /// <param name="useMinimiseBox">Whether the floating window shows a minimise box.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="owner"/> or <paramref name="floatspace"/> is <see langword="null"/>.</exception>
     public KryptonDockingFloatingWindow(string? name, [DisallowNull] Form owner, [DisallowNull] KryptonDockingFloatspace floatspace, bool useMinimiseBox)
         : base(name)
     {
@@ -68,7 +69,7 @@ public class KryptonDockingFloatingWindow : DockingElementClosedCollection
 
     #region Public
     /// <summary>
-    /// Gets and sets access to the parent docking element.
+    /// When assigned, refreshes floatspace strings from the docking manager.
     /// </summary>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override IDockingElement? Parent
@@ -84,20 +85,20 @@ public class KryptonDockingFloatingWindow : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Gets the window this element is managing.
+    /// On-screen floating window control created for this element.
     /// </summary>
     public KryptonFloatingWindow FloatingWindow { get; }
 
     /// <summary>
-    /// Gets the floatspace element contained by the floating window.
+    /// Floatspace child hosted inside <see cref="FloatingWindow"/>.
     /// </summary>
     public KryptonDockingFloatspace FloatspaceElement { get; }
 
     /// <summary>
-    /// Propagates an action request down the hierarchy of docking elements.
+    /// For <see cref="DockingPropogateAction.StartUpdate"/> and <see cref="DockingPropogateAction.EndUpdate"/>, suspends floatspace layout and toggles an obscuring overlay; other actions delegate to the base implementation.
     /// </summary>
-    /// <param name="action">Action that is requested to be performed.</param>
-    /// <param name="uniqueNames">Array of unique names of the pages the action relates to.</param>
+    /// <param name="action">Docking operation to forward.</param>
+    /// <param name="uniqueNames">Page unique names targeted by the action.</param>
     public override void PropogateAction(DockingPropogateAction action, string[]? uniqueNames)
     {
         switch (action)
@@ -137,11 +138,11 @@ public class KryptonDockingFloatingWindow : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Propagates a request for drag targets down the hierarchy of docking elements.
+    /// Contributes drag targets only when this floating window is visible and is not the window being dragged.
     /// </summary>
-    /// <param name="floatingWindow">Reference to window being dragged.</param>
-    /// <param name="dragData">Set of pages being dragged.</param>
-    /// <param name="targets">Collection of drag targets.</param>
+    /// <param name="floatingWindow">Floating window under drag, if any.</param>
+    /// <param name="dragData">Pages under drag.</param>
+    /// <param name="targets">List to append candidate targets into.</param>
     public override void PropogateDragTargets(KryptonFloatingWindow? floatingWindow,
         PageDragEndData? dragData,
         DragTargetList targets)
@@ -154,16 +155,16 @@ public class KryptonDockingFloatingWindow : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Return the workspace cell that contains the named page.
+    /// Locates the workspace cell in the contained floatspace that hosts <paramref name="uniqueName"/>.
     /// </summary>
-    /// <param name="uniqueName">Unique name for search.</param>
-    /// <returns>Reference to KryptonWorkspaceCell if match found; otherwise null.</returns>
+    /// <param name="uniqueName">Unique name of the page to locate.</param>
+    /// <returns>The hosting cell, or <see langword="null"/> when the page is not present.</returns>
     public KryptonWorkspaceCell? CellForPage(string uniqueName) => FloatspaceElement.CellForPage(uniqueName);
 
     /// <summary>
-    /// Ensure the provided page is selected within the cell that contains it.
+    /// Selects <paramref name="uniqueName"/> within its workspace cell when that page exists in the floatspace.
     /// </summary>
-    /// <param name="uniqueName">Unique name to be selected.</param>
+    /// <param name="uniqueName">Unique name of the page to select.</param>
     public void SelectPage(string uniqueName)
     {
         // Find the cell that contains the target named paged
@@ -177,9 +178,9 @@ public class KryptonDockingFloatingWindow : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Saves docking configuration information using a provider xml writer.
+    /// Writes floating-window location, client size, and child element XML for this element.
     /// </summary>
-    /// <param name="xmlWriter">Xml writer object.</param>
+    /// <param name="xmlWriter">Destination XML writer.</param>
     public override void SaveElementToXml(XmlWriter xmlWriter)
     {
         // Output floating window docking element

@@ -16,7 +16,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Provides docking functionality by attaching to an existing KryptonDockableWorkspace
+/// Docking element bound to a <see cref="KryptonDockableWorkspace"/> that hosts pages in workspace cells.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]
@@ -25,7 +25,7 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonDockingWorkspace class.
+    /// Delegates to the three-parameter constructor with store name <c>Workspace</c> and a new <see cref="KryptonDockableWorkspace"/>.
     /// </summary>
     /// <param name="name">Initial name of the element.</param>
     public KryptonDockingWorkspace(string name)
@@ -34,11 +34,12 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Initialize a new instance of the KryptonDockingWorkspace class.
+    /// Attaches to <paramref name="workspace"/> and subscribes to cell insert and page drag events.
     /// </summary>
     /// <param name="name">Initial name of the element.</param>
-    /// <param name="storeName">Name to use for storage pages.</param>
-    /// <param name="workspace">Reference to workspace to manage.</param>
+    /// <param name="storeName">Name used when creating store-page placeholders.</param>
+    /// <param name="workspace">Dockable workspace control to host pages.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="workspace"/> is <see langword="null"/>.</exception>
     public KryptonDockingWorkspace(string name,
         string storeName,
         [DisallowNull] KryptonDockableWorkspace workspace)
@@ -56,12 +57,12 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
 
     #region Public
     /// <summary>
-    /// Gets the control this element is managing.
+    /// Dockable workspace control hosted by this element, when <see cref="KryptonDockingSpace.SpaceControl"/> is a workspace instance.
     /// </summary>
     public KryptonDockableWorkspace? DockableWorkspaceControl => SpaceControl as KryptonDockableWorkspace;
 
     /// <summary>
-    /// Gets and sets access to the parent docking element.
+    /// When assigned, raises <c>DockableWorkspaceAdded</c> on the docking manager when one is reachable.
     /// </summary>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override IDockingElement? Parent
@@ -82,9 +83,10 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Show all display elements of the provided page.
+    /// Propagates a show request for the supplied page through the docking hierarchy inside a batched update.
     /// </summary>
-    /// <param name="page">Reference to page that should be shown.</param>
+    /// <param name="page">Page whose display elements should become visible.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="page"/> is <see langword="null"/>.</exception>
     public void ShowPage([DisallowNull] KryptonPage page)
     {
         // Cannot show a null reference
@@ -97,9 +99,10 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Show all display elements of the provided page.
+    /// Propagates a show request for the named page through the docking hierarchy inside a batched update.
     /// </summary>
-    /// <param name="uniqueName">Unique name of the page that should be shown.</param>
+    /// <param name="uniqueName">Unique name of the page whose display elements should become visible.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="uniqueName"/> is <see langword="null"/>.</exception>
     public void ShowPage([DisallowNull] string uniqueName)
     {
         // Cannot show a null reference
@@ -112,9 +115,11 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Show all display elements of the provided pages.
+    /// Propagates a show request for the supplied pages through the docking hierarchy inside a batched update.
     /// </summary>
-    /// <param name="pages">Array of references to pages that should be shown.</param>
+    /// <param name="pages">Pages whose display elements should become visible.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="pages"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="pages"/> contains a null entry.</exception>
     public void ShowPages([DisallowNull] KryptonPage[] pages)
     {
         // Cannot show a null reference
@@ -142,9 +147,11 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Show all display elements of the provided pages.
+    /// Propagates a show request for the named pages through the docking hierarchy inside a batched update.
     /// </summary>
-    /// <param name="uniqueNames">Array of unique names of the pages that should be shown.</param>
+    /// <param name="uniqueNames">Unique names of pages whose display elements should become visible.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="uniqueNames"/> is <see langword="null"/> or contains a null entry.</exception>
+    /// <exception cref="ArgumentException"><paramref name="uniqueNames"/> contains an empty string.</exception>
     public void ShowPages([DisallowNull] string[] uniqueNames)
     {
         // Cannot show a null reference
@@ -175,7 +182,7 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Show all display elements of all pages.
+    /// Propagates a show-all request through the docking hierarchy inside a batched update.
     /// </summary>
     public void ShowAllPages()
     {
@@ -184,9 +191,10 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Hide all display elements of the provided page.
+    /// Propagates a hide request for the supplied page through the docking hierarchy inside a batched update.
     /// </summary>
-    /// <param name="page">Reference to page that should be hidden.</param>
+    /// <param name="page">Page whose display elements should be hidden.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="page"/> is <see langword="null"/>.</exception>
     public void HidePage([DisallowNull] KryptonPage page)
     {
         // Cannot hide a null reference
@@ -199,9 +207,10 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Hide all display elements of the provided page.
+    /// Propagates a hide request for the named page through the docking hierarchy inside a batched update when <paramref name="uniqueName"/> is non-empty.
     /// </summary>
-    /// <param name="uniqueName">Unique name of the page that should be hidden.</param>
+    /// <param name="uniqueName">Unique name of the page whose display elements should be hidden.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="uniqueName"/> is <see langword="null"/>.</exception>
     public void HidePage([DisallowNull] string uniqueName)
     {
         // Cannot hide a null reference
@@ -217,9 +226,11 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Hide all display elements of the provided pages.
+    /// Propagates a hide request for the supplied pages through the docking hierarchy inside a batched update.
     /// </summary>
-    /// <param name="pages">Array of references to pages that should be hidden.</param>
+    /// <param name="pages">Pages whose display elements should be hidden.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="pages"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="pages"/> contains a null entry.</exception>
     public void HidePages([DisallowNull] KryptonPage[] pages)
     {
         // Cannot hide a null reference
@@ -248,9 +259,11 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Hide all display elements of the provided pages.
+    /// Propagates a hide request for the named pages through the docking hierarchy inside a batched update.
     /// </summary>
-    /// <param name="uniqueNames">Array of unique names of the pages that should be hidden.</param>
+    /// <param name="uniqueNames">Unique names of pages whose display elements should be hidden.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="uniqueNames"/> is <see langword="null"/> or contains a null entry.</exception>
+    /// <exception cref="ArgumentException"><paramref name="uniqueNames"/> contains an empty string.</exception>
     public void HidePages([DisallowNull] string[] uniqueNames)
     {
         // Cannot hide a null reference
@@ -281,7 +294,7 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Hide all display elements of all pages.
+    /// Propagates a hide-all request through the docking hierarchy inside a batched update.
     /// </summary>
     public void HideAllPages()
     {
@@ -290,10 +303,12 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Remove the named page.
+    /// Propagates a remove request for the named page through the docking hierarchy inside a batched update.
     /// </summary>
-    /// <param name="uniqueName">Unique name of the page that should be removed.</param>
-    /// <param name="disposePage">Should the page be disposed when removed.</param>
+    /// <param name="uniqueName">Unique name of the page to remove.</param>
+    /// <param name="disposePage">Whether removed pages should also be disposed.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="uniqueName"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="uniqueName"/> is empty.</exception>
     public void RemovePage([DisallowNull] string uniqueName, bool disposePage)
     {
         // Cannot remove a null reference
@@ -312,10 +327,12 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Remove the referenced pages.
+    /// Propagates a remove request for the supplied pages through the docking hierarchy inside a batched update.
     /// </summary>
-    /// <param name="pages">Array of references to pages that should be removed.</param>
-    /// <param name="disposePage">Should the page be disposed when removed.</param>
+    /// <param name="pages">Pages to remove.</param>
+    /// <param name="disposePage">Whether removed pages should also be disposed.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="pages"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="pages"/> contains a null entry.</exception>
     public void RemovePages([DisallowNull] KryptonPage[] pages, bool disposePage)
     {
         // Cannot remove a null reference
@@ -344,10 +361,12 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Remove the named pages.
+    /// Propagates a remove request for the named pages through the docking hierarchy inside a batched update.
     /// </summary>
-    /// <param name="uniqueNames">Array of unique names of the pages that should be removed.</param>
-    /// <param name="disposePage">Should the page be disposed when removed.</param>
+    /// <param name="uniqueNames">Unique names of pages to remove.</param>
+    /// <param name="disposePage">Whether removed pages should also be disposed.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="uniqueNames"/> is <see langword="null"/> or contains a null entry.</exception>
+    /// <exception cref="ArgumentException"><paramref name="uniqueNames"/> contains an empty string.</exception>
     public void RemovePages([DisallowNull] string[] uniqueNames, bool disposePage)
     {
         // Cannot remove a null reference
@@ -379,9 +398,9 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Remove all pages.
+    /// Propagates a remove-all request through the docking hierarchy inside a batched update.
     /// </summary>
-    /// <param name="disposePage">Should the page be disposed when removed.</param>
+    /// <param name="disposePage">Whether removed pages should also be disposed.</param>
     public void RemoveAllPages(bool disposePage)
     {
         // Remove all details about all pages from all parts of the hierarchy
@@ -390,10 +409,10 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Propagates an action request down the hierarchy of docking elements.
+    /// Ignores selected global show, hide, and remove-all actions; delegates all other actions to the base implementation.
     /// </summary>
-    /// <param name="action">Action that is requested to be performed.</param>
-    /// <param name="uniqueNames">Array of unique names of the pages the action relates to.</param>
+    /// <param name="action">Docking operation to forward.</param>
+    /// <param name="uniqueNames">Page unique names targeted by the action.</param>
     public override void PropogateAction(DockingPropogateAction action, string[]? uniqueNames)
     {
         switch (action)
@@ -411,11 +430,11 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Propagates a request for drag targets down the hierarchy of docking elements.
+    /// Appends workspace drag targets for dragged pages that allow workspace docking.
     /// </summary>
-    /// <param name="floatingWindow">Reference to window being dragged.</param>
-    /// <param name="dragData">Set of pages being dragged.</param>
-    /// <param name="targets">Collection of drag targets.</param>
+    /// <param name="floatingWindow">Floating window under drag, if any.</param>
+    /// <param name="dragData">Pages under drag.</param>
+    /// <param name="targets">List to append candidate targets into.</param>
     public override void PropogateDragTargets(KryptonFloatingWindow? floatingWindow,
         PageDragEndData? dragData,
         DragTargetList targets)
@@ -443,10 +462,10 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Find the docking location of the named page.
+    /// Returns <see cref="DockingLocation.Workspace"/> when a non-placeholder page with <paramref name="uniqueName"/> is hosted in this workspace.
     /// </summary>
-    /// <param name="uniqueName">Unique name of the page.</param>
-    /// <returns>Enumeration value indicating docking location.</returns>
+    /// <param name="uniqueName">Unique name of the page to locate.</param>
+    /// <returns><see cref="DockingLocation.Workspace"/> when the page is present; otherwise <see cref="DockingLocation.None"/>.</returns>
     public override DockingLocation FindPageLocation(string uniqueName)
     {
         KryptonPage? page = DockableWorkspaceControl?.PageForUniqueName(uniqueName);
@@ -457,10 +476,10 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Find the docking element that contains the named page.
+    /// Returns this element when a non-placeholder page with <paramref name="uniqueName"/> is hosted in this workspace.
     /// </summary>
-    /// <param name="uniqueName">Unique name of the page.</param>
-    /// <returns>IDockingElement reference if page is found; otherwise null.</returns>
+    /// <param name="uniqueName">Unique name of the page to locate.</param>
+    /// <returns>This element when the page is present; otherwise <see langword="null"/>.</returns>
     public override IDockingElement? FindPageElement(string uniqueName)
     {
         KryptonPage? page = DockableWorkspaceControl?.PageForUniqueName(uniqueName);
@@ -471,11 +490,11 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Find the docking element that contains the location specific store page for the named page.
+    /// Returns this element when a store-page placeholder for <paramref name="uniqueName"/> exists at <see cref="DockingLocation.Workspace"/>.
     /// </summary>
-    /// <param name="location">Location to be searched.</param>
-    /// <param name="uniqueName">Unique name of the page to be found.</param>
-    /// <returns>IDockingElement reference if store page is found; otherwise null.</returns>
+    /// <param name="location">Docking location to search.</param>
+    /// <param name="uniqueName">Unique name of the page whose placeholder is sought.</param>
+    /// <returns>This element when a matching store page is present; otherwise <see langword="null"/>.</returns>
     public override IDockingElement? FindStorePageElement(DockingLocation location, string uniqueName)
     {
         if (location == DockingLocation.Workspace)
@@ -491,10 +510,10 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Find a workspace element by searching the hierarchy.
+    /// Always returns this element; the <paramref name="uniqueName"/> argument is not consulted.
     /// </summary>
-    /// <param name="uniqueName">Named page for which a suitable workspace element is required.</param>
-    /// <returns>KryptonDockingWorkspace reference if found; otherwise false.</returns>
+    /// <param name="uniqueName">Unique name of the page being located.</param>
+    /// <returns>This element.</returns>
     public override KryptonDockingWorkspace FindDockingWorkspace(string uniqueName) => this;
 
     #endregion

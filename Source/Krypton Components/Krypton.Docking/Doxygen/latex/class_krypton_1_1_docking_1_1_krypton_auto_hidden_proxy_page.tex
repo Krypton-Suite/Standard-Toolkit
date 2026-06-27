@@ -1,0 +1,385 @@
+\doxysection{Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Proxy\+Page Class Reference}
+\hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page}{}\label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page}\index{Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}}
+
+
+Stand-\/in Krypton\+Page in an auto-\/hidden group that forwards appearance, flags, and events to a cached real page.  
+
+
+Inheritance diagram for Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Proxy\+Page\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a51a2f0b1222e728dc39967b8b283eb71}{Krypton\+Auto\+Hidden\+Proxy\+Page}} (Krypton\+Page page)
+\begin{DoxyCompactList}\small\item\em Captures the target page and mirrors \doxylink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a41fe6ee2c8de2f4e431480ad566a9e29}{Text} and control visibility onto it. \end{DoxyCompactList}\item 
+override string \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a72bdaed46e099f88ed37a84d31a311ff}{Get\+Text\+Mapping}} (Map\+Krypton\+Page\+Text mapping)
+\begin{DoxyCompactList}\small\item\em Resolves display text from the cached page for the requested mapping. \end{DoxyCompactList}\item 
+override? Image \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_ac9ade01a950ffd39ad162401893f51dc}{Get\+Image\+Mapping}} (Map\+Krypton\+Page\+Image mapping)
+\begin{DoxyCompactList}\small\item\em Resolves a display image from the cached page for the requested mapping. \end{DoxyCompactList}\item 
+override void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a8cbbd2e984cc6a9a4c30a93ca6acc310}{Set\+Flags}} (Krypton\+Page\+Flags flags)
+\begin{DoxyCompactList}\small\item\em Enables the specified flags on the cached page. \end{DoxyCompactList}\item 
+override void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a53cd28da23f2177da1afe6720cc6d4ca}{Clear\+Flags}} (Krypton\+Page\+Flags flags)
+\begin{DoxyCompactList}\small\item\em Clears the specified flags on the cached page. \end{DoxyCompactList}\item 
+override bool \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a4a2ced81f13524574d77f0b4ce86dd72}{Are\+Flags\+Set}} (Krypton\+Page\+Flags flags)
+\begin{DoxyCompactList}\small\item\em Returns whether all specified flags are enabled on the cached page. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+override void \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_ae9b4507ffb6690085897ec6f7f14f1a2}{Dispose}} (bool disposing)
+\begin{DoxyCompactList}\small\item\em Clean up any resources being used. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+Krypton\+Page \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_ae70fa8fec2696c9bfdbb28d488fb9b5e}{Page}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Underlying page whose properties and events this proxy forwards. \end{DoxyCompactList}\item 
+override string \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a41fe6ee2c8de2f4e431480ad566a9e29}{Text}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Tab caption mirrored on both the proxy and the cached page; falls back to the base value when \doxylink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_ae70fa8fec2696c9bfdbb28d488fb9b5e}{Page} is null during initialization. \end{DoxyCompactList}\item 
+override string \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a4394a3f64c30100c6fb2b6e434a47939}{Text\+Title}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Title text forwarded to and from the cached page. \end{DoxyCompactList}\item 
+override string \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_ac3bbe523d69d222e7766124ba9a686b4}{Text\+Description}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Description text forwarded to and from the cached page. \end{DoxyCompactList}\item 
+override? Bitmap \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_aabd153fb42c1be35be0872eed66ef364}{Image\+Small}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Small tab image forwarded to and from the cached page. \end{DoxyCompactList}\item 
+override? Bitmap \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a82a1b8f9f073458b1b648e60eb65e26e}{Image\+Medium}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Medium tab image forwarded to and from the cached page. \end{DoxyCompactList}\item 
+override? Bitmap \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a37e2f89af9622c85f3b09ad4dd89142e}{Image\+Large}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Large tab image forwarded to and from the cached page. \end{DoxyCompactList}\item 
+override? Bitmap \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a28b91fb7401771608f955a433588824d}{Tool\+Tip\+Image}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Tooltip image forwarded to and from the cached page. \end{DoxyCompactList}\item 
+override Color \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_ae210b52ec347a8bec3623dc3d9fd55f7}{Tool\+Tip\+Image\+Transparent\+Color}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Transparent color for the tooltip image on the cached page. \end{DoxyCompactList}\item 
+override string \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a46c68070efd88af690e00cdf55ce717c}{Tool\+Tip\+Title}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Tooltip title text forwarded to and from the cached page. \end{DoxyCompactList}\item 
+override string \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a1ba7dea16d16a18801ba8f227bdbd2fe}{Tool\+Tip\+Body}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Tooltip body text forwarded to and from the cached page. \end{DoxyCompactList}\item 
+override Label\+Style \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a262b07d001d4493176dc4fc1418bbb82}{Tool\+Tip\+Style}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Tooltip label style forwarded to and from the cached page. \end{DoxyCompactList}\item 
+override? Krypton\+Context\+Menu \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_ae06d28d54feed9841c6d41a90e88665f}{Krypton\+Context\+Menu}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Context menu shown on right-\/click, forwarded to and from the cached page. \end{DoxyCompactList}\item 
+override string \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a40d562e387c0690b39e384b66d5e2472}{Unique\+Name}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Unique page identifier forwarded to and from the cached page. \end{DoxyCompactList}\item 
+override int \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_ab5094c62cc4c9b89806a84091fcb0678}{Flags}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Page flags forwarded to and from the cached page. \end{DoxyCompactList}\item 
+override bool \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a85731d40c59bc64d38966d24d95844a0}{Last\+Visible\+Set}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Last visibility assignment forwarded to the cached page. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Events}
+\begin{DoxyCompactItemize}
+\item 
+override? Property\+Changed\+Event\+Handler \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a3b2ca68831ac6d2f464871f6d9ece271}{Appearance\+Property\+Changed}}\hspace{0.3cm}{\ttfamily  \mbox{[}add, remove\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Appearance property changes on the cached page; subscribers attach to the underlying page\textquotesingle{}s event. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Stand-\/in Krypton\+Page in an auto-\/hidden group that forwards appearance, flags, and events to a cached real page. 
+
+\label{doc-constructors}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a51a2f0b1222e728dc39967b8b283eb71}\index{Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}!KryptonAutoHiddenProxyPage@{KryptonAutoHiddenProxyPage}}
+\index{KryptonAutoHiddenProxyPage@{KryptonAutoHiddenProxyPage}!Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}}
+\doxysubsubsection{\texorpdfstring{KryptonAutoHiddenProxyPage()}{KryptonAutoHiddenProxyPage()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a51a2f0b1222e728dc39967b8b283eb71} 
+Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Proxy\+Page.\+Krypton\+Auto\+Hidden\+Proxy\+Page (\begin{DoxyParamCaption}\item[{Krypton\+Page}]{page}{}\end{DoxyParamCaption})}
+
+
+
+Captures the target page and mirrors \doxylink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a41fe6ee2c8de2f4e431480ad566a9e29}{Text} and control visibility onto it. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em page} & Page represented by this proxy; null throws Argument\+Null\+Exception.\\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-func-members}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a4a2ced81f13524574d77f0b4ce86dd72}\index{Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}!AreFlagsSet@{AreFlagsSet}}
+\index{AreFlagsSet@{AreFlagsSet}!Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}}
+\doxysubsubsection{\texorpdfstring{AreFlagsSet()}{AreFlagsSet()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a4a2ced81f13524574d77f0b4ce86dd72} 
+override bool Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Proxy\+Page.\+Are\+Flags\+Set (\begin{DoxyParamCaption}\item[{Krypton\+Page\+Flags}]{flags}{}\end{DoxyParamCaption})}
+
+
+
+Returns whether all specified flags are enabled on the cached page. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em flags} & Flags to test.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True when every flag is set on the cached page; otherwise false.
+\end{DoxyReturn}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a53cd28da23f2177da1afe6720cc6d4ca}\index{Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}!ClearFlags@{ClearFlags}}
+\index{ClearFlags@{ClearFlags}!Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}}
+\doxysubsubsection{\texorpdfstring{ClearFlags()}{ClearFlags()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a53cd28da23f2177da1afe6720cc6d4ca} 
+override void Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Proxy\+Page.\+Clear\+Flags (\begin{DoxyParamCaption}\item[{Krypton\+Page\+Flags}]{flags}{}\end{DoxyParamCaption})}
+
+
+
+Clears the specified flags on the cached page. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em flags} & Flags to clear.\\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_ae9b4507ffb6690085897ec6f7f14f1a2}\index{Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}!Dispose@{Dispose}}
+\index{Dispose@{Dispose}!Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}}
+\doxysubsubsection{\texorpdfstring{Dispose()}{Dispose()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_ae9b4507ffb6690085897ec6f7f14f1a2} 
+override void Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Proxy\+Page.\+Dispose (\begin{DoxyParamCaption}\item[{bool}]{disposing}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Clean up any resources being used. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em disposing} & true if managed resources should be disposed; otherwise, false.\\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_ac9ade01a950ffd39ad162401893f51dc}\index{Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}!GetImageMapping@{GetImageMapping}}
+\index{GetImageMapping@{GetImageMapping}!Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}}
+\doxysubsubsection{\texorpdfstring{GetImageMapping()}{GetImageMapping()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_ac9ade01a950ffd39ad162401893f51dc} 
+override? Image Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Proxy\+Page.\+Get\+Image\+Mapping (\begin{DoxyParamCaption}\item[{Map\+Krypton\+Page\+Image}]{mapping}{}\end{DoxyParamCaption})}
+
+
+
+Resolves a display image from the cached page for the requested mapping. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mapping} & Image field to resolve.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Image from the cached page for the mapping.
+\end{DoxyReturn}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a72bdaed46e099f88ed37a84d31a311ff}\index{Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}!GetTextMapping@{GetTextMapping}}
+\index{GetTextMapping@{GetTextMapping}!Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}}
+\doxysubsubsection{\texorpdfstring{GetTextMapping()}{GetTextMapping()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a72bdaed46e099f88ed37a84d31a311ff} 
+override string Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Proxy\+Page.\+Get\+Text\+Mapping (\begin{DoxyParamCaption}\item[{Map\+Krypton\+Page\+Text}]{mapping}{}\end{DoxyParamCaption})}
+
+
+
+Resolves display text from the cached page for the requested mapping. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mapping} & Text field to resolve.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Text from the cached page for the mapping.
+\end{DoxyReturn}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a8cbbd2e984cc6a9a4c30a93ca6acc310}\index{Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}!SetFlags@{SetFlags}}
+\index{SetFlags@{SetFlags}!Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}}
+\doxysubsubsection{\texorpdfstring{SetFlags()}{SetFlags()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a8cbbd2e984cc6a9a4c30a93ca6acc310} 
+override void Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Proxy\+Page.\+Set\+Flags (\begin{DoxyParamCaption}\item[{Krypton\+Page\+Flags}]{flags}{}\end{DoxyParamCaption})}
+
+
+
+Enables the specified flags on the cached page. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em flags} & Flags to enable.\\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-property-members}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_doc-property-members}
+\doxysubsection{Property Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_ab5094c62cc4c9b89806a84091fcb0678}\index{Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}!Flags@{Flags}}
+\index{Flags@{Flags}!Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}}
+\doxysubsubsection{\texorpdfstring{Flags}{Flags}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_ab5094c62cc4c9b89806a84091fcb0678} 
+override int Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Proxy\+Page.\+Flags\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Page flags forwarded to and from the cached page. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a37e2f89af9622c85f3b09ad4dd89142e}\index{Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}!ImageLarge@{ImageLarge}}
+\index{ImageLarge@{ImageLarge}!Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}}
+\doxysubsubsection{\texorpdfstring{ImageLarge}{ImageLarge}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a37e2f89af9622c85f3b09ad4dd89142e} 
+override? Bitmap Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Proxy\+Page.\+Image\+Large\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Large tab image forwarded to and from the cached page. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a82a1b8f9f073458b1b648e60eb65e26e}\index{Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}!ImageMedium@{ImageMedium}}
+\index{ImageMedium@{ImageMedium}!Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}}
+\doxysubsubsection{\texorpdfstring{ImageMedium}{ImageMedium}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a82a1b8f9f073458b1b648e60eb65e26e} 
+override? Bitmap Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Proxy\+Page.\+Image\+Medium\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Medium tab image forwarded to and from the cached page. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_aabd153fb42c1be35be0872eed66ef364}\index{Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}!ImageSmall@{ImageSmall}}
+\index{ImageSmall@{ImageSmall}!Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}}
+\doxysubsubsection{\texorpdfstring{ImageSmall}{ImageSmall}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_aabd153fb42c1be35be0872eed66ef364} 
+override? Bitmap Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Proxy\+Page.\+Image\+Small\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Small tab image forwarded to and from the cached page. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_ae06d28d54feed9841c6d41a90e88665f}\index{Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}!KryptonContextMenu@{KryptonContextMenu}}
+\index{KryptonContextMenu@{KryptonContextMenu}!Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}}
+\doxysubsubsection{\texorpdfstring{KryptonContextMenu}{KryptonContextMenu}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_ae06d28d54feed9841c6d41a90e88665f} 
+override? Krypton\+Context\+Menu Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Proxy\+Page.\+Krypton\+Context\+Menu\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Context menu shown on right-\/click, forwarded to and from the cached page. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a85731d40c59bc64d38966d24d95844a0}\index{Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}!LastVisibleSet@{LastVisibleSet}}
+\index{LastVisibleSet@{LastVisibleSet}!Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}}
+\doxysubsubsection{\texorpdfstring{LastVisibleSet}{LastVisibleSet}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a85731d40c59bc64d38966d24d95844a0} 
+override bool Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Proxy\+Page.\+Last\+Visible\+Set\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Last visibility assignment forwarded to the cached page. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_ae70fa8fec2696c9bfdbb28d488fb9b5e}\index{Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}!Page@{Page}}
+\index{Page@{Page}!Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}}
+\doxysubsubsection{\texorpdfstring{Page}{Page}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_ae70fa8fec2696c9bfdbb28d488fb9b5e} 
+Krypton\+Page Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Proxy\+Page.\+Page\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Underlying page whose properties and events this proxy forwards. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a41fe6ee2c8de2f4e431480ad566a9e29}\index{Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}!Text@{Text}}
+\index{Text@{Text}!Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}}
+\doxysubsubsection{\texorpdfstring{Text}{Text}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a41fe6ee2c8de2f4e431480ad566a9e29} 
+override string Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Proxy\+Page.\+Text\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Tab caption mirrored on both the proxy and the cached page; falls back to the base value when \doxylink{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_ae70fa8fec2696c9bfdbb28d488fb9b5e}{Page} is null during initialization. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_ac3bbe523d69d222e7766124ba9a686b4}\index{Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}!TextDescription@{TextDescription}}
+\index{TextDescription@{TextDescription}!Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}}
+\doxysubsubsection{\texorpdfstring{TextDescription}{TextDescription}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_ac3bbe523d69d222e7766124ba9a686b4} 
+override string Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Proxy\+Page.\+Text\+Description\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Description text forwarded to and from the cached page. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a4394a3f64c30100c6fb2b6e434a47939}\index{Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}!TextTitle@{TextTitle}}
+\index{TextTitle@{TextTitle}!Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}}
+\doxysubsubsection{\texorpdfstring{TextTitle}{TextTitle}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a4394a3f64c30100c6fb2b6e434a47939} 
+override string Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Proxy\+Page.\+Text\+Title\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Title text forwarded to and from the cached page. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a1ba7dea16d16a18801ba8f227bdbd2fe}\index{Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}!ToolTipBody@{ToolTipBody}}
+\index{ToolTipBody@{ToolTipBody}!Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}}
+\doxysubsubsection{\texorpdfstring{ToolTipBody}{ToolTipBody}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a1ba7dea16d16a18801ba8f227bdbd2fe} 
+override string Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Proxy\+Page.\+Tool\+Tip\+Body\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Tooltip body text forwarded to and from the cached page. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a28b91fb7401771608f955a433588824d}\index{Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}!ToolTipImage@{ToolTipImage}}
+\index{ToolTipImage@{ToolTipImage}!Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}}
+\doxysubsubsection{\texorpdfstring{ToolTipImage}{ToolTipImage}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a28b91fb7401771608f955a433588824d} 
+override? Bitmap Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Proxy\+Page.\+Tool\+Tip\+Image\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Tooltip image forwarded to and from the cached page. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_ae210b52ec347a8bec3623dc3d9fd55f7}\index{Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}!ToolTipImageTransparentColor@{ToolTipImageTransparentColor}}
+\index{ToolTipImageTransparentColor@{ToolTipImageTransparentColor}!Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}}
+\doxysubsubsection{\texorpdfstring{ToolTipImageTransparentColor}{ToolTipImageTransparentColor}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_ae210b52ec347a8bec3623dc3d9fd55f7} 
+override Color Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Proxy\+Page.\+Tool\+Tip\+Image\+Transparent\+Color\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Transparent color for the tooltip image on the cached page. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a262b07d001d4493176dc4fc1418bbb82}\index{Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}!ToolTipStyle@{ToolTipStyle}}
+\index{ToolTipStyle@{ToolTipStyle}!Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}}
+\doxysubsubsection{\texorpdfstring{ToolTipStyle}{ToolTipStyle}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a262b07d001d4493176dc4fc1418bbb82} 
+override Label\+Style Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Proxy\+Page.\+Tool\+Tip\+Style\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Tooltip label style forwarded to and from the cached page. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a46c68070efd88af690e00cdf55ce717c}\index{Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}!ToolTipTitle@{ToolTipTitle}}
+\index{ToolTipTitle@{ToolTipTitle}!Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}}
+\doxysubsubsection{\texorpdfstring{ToolTipTitle}{ToolTipTitle}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a46c68070efd88af690e00cdf55ce717c} 
+override string Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Proxy\+Page.\+Tool\+Tip\+Title\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Tooltip title text forwarded to and from the cached page. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a40d562e387c0690b39e384b66d5e2472}\index{Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}!UniqueName@{UniqueName}}
+\index{UniqueName@{UniqueName}!Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}}
+\doxysubsubsection{\texorpdfstring{UniqueName}{UniqueName}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a40d562e387c0690b39e384b66d5e2472} 
+override string Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Proxy\+Page.\+Unique\+Name\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Unique page identifier forwarded to and from the cached page. 
+
+
+
+\label{doc-event-members}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_doc-event-members}
+\doxysubsection{Event Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a3b2ca68831ac6d2f464871f6d9ece271}\index{Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}!AppearancePropertyChanged@{AppearancePropertyChanged}}
+\index{AppearancePropertyChanged@{AppearancePropertyChanged}!Krypton.Docking.KryptonAutoHiddenProxyPage@{Krypton.Docking.KryptonAutoHiddenProxyPage}}
+\doxysubsubsection{\texorpdfstring{AppearancePropertyChanged}{AppearancePropertyChanged}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_krypton_auto_hidden_proxy_page_a3b2ca68831ac6d2f464871f6d9ece271} 
+override? Property\+Changed\+Event\+Handler Krypton.\+Docking.\+Krypton\+Auto\+Hidden\+Proxy\+Page.\+Appearance\+Property\+Changed\hspace{0.3cm}{\ttfamily [add]}, {\ttfamily [remove]}}
+
+
+
+Appearance property changes on the cached page; subscribers attach to the underlying page\textquotesingle{}s event. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/\+Krypton/\+Standard-\/\+Toolkit/\+Source/\+Krypton Components/\+Krypton.\+Docking/\+Control Docking/\mbox{\hyperlink{_krypton_auto_hidden_proxy_page_8cs}{Krypton\+Auto\+Hidden\+Proxy\+Page.\+cs}}\end{DoxyCompactItemize}

@@ -13,16 +13,16 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Event arguments for events that need to provide a unique name but can be cancelled.
+/// Event payload for page layout change requests that handlers can veto.
 /// </summary>
 public class CancelUniqueNameEventArgs : UniqueNameEventArgs
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the CancelUniqueNameEventArgs class.
+    /// Captures the page unique name and initial cancel flag for the layout request.
     /// </summary>
-    /// <param name="uniqueName">Unique name of page.</param>
-    /// <param name="cancel">Initial value for the cancel property.</param>
+    /// <param name="uniqueName">Unique name of the page.</param>
+    /// <param name="cancel">Initial cancel flag; when true the request is already vetoed before handlers run.</param>
     public CancelUniqueNameEventArgs([DisallowNull] string uniqueName, bool cancel)
         : base(uniqueName) =>
         Cancel = cancel;
@@ -31,7 +31,7 @@ public class CancelUniqueNameEventArgs : UniqueNameEventArgs
 
     #region Public
     /// <summary>
-    /// Gets and sets a value indicating if the event action should be cancelled.
+    /// When true after handlers run, the requested layout change is not applied.
     /// </summary>
     public bool Cancel { get; set; }
 

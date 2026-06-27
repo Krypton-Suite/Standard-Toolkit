@@ -1,0 +1,65 @@
+\doxysection{Krypton.\+Docking.\+Dockspace\+Separator\+Resize\+Event\+Args Class Reference}
+\hypertarget{class_krypton_1_1_docking_1_1_dockspace_separator_resize_event_args}{}\label{class_krypton_1_1_docking_1_1_dockspace_separator_resize_event_args}\index{Krypton.Docking.DockspaceSeparatorResizeEventArgs@{Krypton.Docking.DockspaceSeparatorResizeEventArgs}}
+
+
+Event payload for dockspace separator resize operations where handlers may adjust movement limits.  
+
+
+Inheritance diagram for Krypton.\+Docking.\+Dockspace\+Separator\+Resize\+Event\+Args\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_krypton_1_1_docking_1_1_dockspace_separator_resize_event_args}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_dockspace_separator_resize_event_args}{Dockspace\+Separator\+Resize\+Event\+Args}}(Krypton\+Separator separator, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_dockspace}{Krypton\+Docking\+Dockspace}} element, Rectangle resize\+Rect) Rectangle \mbox{\hyperlink{class_krypton_1_1_docking_1_1_dockspace_separator_resize_event_args_a53a22a4eda58fd8342a0aa52055e1ba0}{Resize\+Rect}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Captures the separator, owning dockspace element, and initial resize bounds. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Properties inherited from \mbox{\hyperlink{class_krypton_1_1_docking_1_1_dockspace_separator_event_args}{Krypton.\+Docking.\+Dockspace\+Separator\+Event\+Args}}}
+\begin{DoxyCompactItemize}
+\item 
+Krypton\+Separator \mbox{\hyperlink{class_krypton_1_1_docking_1_1_dockspace_separator_event_args_ae93744b1db36f94506b1a07dd280b3fb}{Separator\+Control}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Separator control that was added or removed; assigned at construction. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_dockspace}{Krypton\+Docking\+Dockspace}}? \mbox{\hyperlink{class_krypton_1_1_docking_1_1_dockspace_separator_event_args_a0483efbc1d1ccf00bc700a4811bf329b}{Dockspace\+Element}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em \doxylink{namespace_krypton_1_1_docking}{Docking} element that owns the separator; may be null. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_krypton_1_1_docking_1_1_dockspace_separator_event_args}{Krypton.\+Docking.\+Dockspace\+Separator\+Event\+Args}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_dockspace_separator_event_args_a14785d9b95347a7f07e355efaf82f4e8}{Dockspace\+Separator\+Event\+Args}} (Krypton\+Separator separator, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_dockspace}{Krypton\+Docking\+Dockspace}}? element)
+\begin{DoxyCompactList}\small\item\em Captures the separator control and its owning dockspace docking element. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Event payload for dockspace separator resize operations where handlers may adjust movement limits. 
+
+\label{doc-property-members}
+\Hypertarget{class_krypton_1_1_docking_1_1_dockspace_separator_resize_event_args_doc-property-members}
+\doxysubsection{Property Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_dockspace_separator_resize_event_args_a53a22a4eda58fd8342a0aa52055e1ba0}\index{Krypton.Docking.DockspaceSeparatorResizeEventArgs@{Krypton.Docking.DockspaceSeparatorResizeEventArgs}!ResizeRect@{ResizeRect}}
+\index{ResizeRect@{ResizeRect}!Krypton.Docking.DockspaceSeparatorResizeEventArgs@{Krypton.Docking.DockspaceSeparatorResizeEventArgs}}
+\doxysubsubsection{\texorpdfstring{ResizeRect}{ResizeRect}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_dockspace_separator_resize_event_args_a53a22a4eda58fd8342a0aa52055e1ba0} 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_dockspace_separator_resize_event_args}{Dockspace\+Separator\+Resize\+Event\+Args}} (Krypton\+Separator separator, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_docking_dockspace}{Krypton\+Docking\+Dockspace}} element, Rectangle resize\+Rect) Rectangle Krypton.\+Docking.\+Dockspace\+Separator\+Resize\+Event\+Args.\+Resize\+Rect\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Captures the separator, owning dockspace element, and initial resize bounds. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em separator} & Separator control being dragged.\\
+\hline
+{\em element} & \doxylink{namespace_krypton_1_1_docking}{Docking} element that owns the separator.\\
+\hline
+{\em resize\+Rect} & Initial movement rectangle before handler adjustment.\\
+\hline
+\end{DoxyParams}
+
+
+Movement rectangle applied during separator dragging; handlers may change this value before it is applied. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/\+Krypton/\+Standard-\/\+Toolkit/\+Source/\+Krypton Components/\+Krypton.\+Docking/\+Event Args/\mbox{\hyperlink{_dockspace_separator_resize_event_args_8cs}{Dockspace\+Separator\+Resize\+Event\+Args.\+cs}}\end{DoxyCompactItemize}

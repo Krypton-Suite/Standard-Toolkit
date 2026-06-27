@@ -13,16 +13,16 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Event arguments for the change in auto hidden page showing state.
+/// Event payload reporting a change to an auto-hidden page slide-out showing state.
 /// </summary>
 public class AutoHiddenShowingStateEventArgs : EventArgs
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the AutoHiddenShowingStateEventArgs class.
+    /// Captures the affected page and its new auto-hidden showing state.
     /// </summary>
-    /// <param name="page">Page for which state has changed.</param>
-    /// <param name="state">New state of the auto hidden page.</param>
+    /// <param name="page">Page whose showing state changed; may be null.</param>
+    /// <param name="state">New showing state of the auto-hidden page.</param>
     public AutoHiddenShowingStateEventArgs(KryptonPage? page, DockingAutoHiddenShowState state)
     {
         Page = page;
@@ -32,12 +32,12 @@ public class AutoHiddenShowingStateEventArgs : EventArgs
 
     #region Public
     /// <summary>
-    /// Gets the page that has had the state change.
+    /// Page whose showing state changed; may be null.
     /// </summary>
     public KryptonPage? Page { get; }
 
     /// <summary>
-    /// Gets the new state of the auto hidden page.
+    /// New showing state of the auto-hidden page; assigned at construction.
     /// </summary>
     public DockingAutoHiddenShowState NewState { get; }
 

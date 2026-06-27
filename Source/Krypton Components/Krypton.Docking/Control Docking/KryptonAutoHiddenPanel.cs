@@ -13,7 +13,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Extends the KryptonPanel to work as a panel for hosting KryptonAutoHiddenGroup controls.
+/// Panel that stacks <see cref="KryptonAutoHiddenGroup"/> controls along a dock edge with inward-facing padding.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]
@@ -28,9 +28,9 @@ public class KryptonAutoHiddenPanel : KryptonPanel
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonAutoHiddenPanel class.
+    /// Applies edge-specific padding so child auto-hidden groups are inset from the inner dock boundary.
     /// </summary>
-    /// <param name="edge">Docking edge being managed.</param>
+    /// <param name="edge">Dock edge where this panel is anchored.</param>
     public KryptonAutoHiddenPanel(DockingEdge edge)
     {
         // Add extra padding between the child items and the side facing inwards
@@ -56,8 +56,10 @@ public class KryptonAutoHiddenPanel : KryptonPanel
 
     #region Public
     /// <summary>
-    /// Retrieves the size of a rectangular area into which a control can be fitted.
+    /// Returns the aggregate preferred size of visible child groups plus panel padding; summing width or height depends on <see cref="Control.Dock"/>.
     /// </summary>
+    /// <param name="proposedSize">Layout constraint passed to each child group.</param>
+    /// <returns>Combined preferred size for all visible auto-hidden groups.</returns>
     public override Size GetPreferredSize(Size proposedSize)
     {
         var width = 0;

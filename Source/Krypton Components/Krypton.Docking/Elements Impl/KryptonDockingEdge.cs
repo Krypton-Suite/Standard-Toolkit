@@ -13,7 +13,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Provides docking functionality for a specific edge of a control.
+/// Docking element for one edge of a control; creates docked and auto-hidden child collections during construction.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]
@@ -22,11 +22,12 @@ public class KryptonDockingEdge : DockingElementClosedCollection
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonDockingEdge class.
+    /// Creates auto-hidden and docked child elements for <paramref name="edge"/> of <paramref name="control"/>.
     /// </summary>
     /// <param name="name">Initial name of the element.</param>
-    /// <param name="control">Reference to control that is being managed.</param>
-    /// <param name="edge">Docking edge being managed.</param>
+    /// <param name="control">Control whose edge is configured for docking.</param>
+    /// <param name="edge">Edge of <paramref name="control"/> represented by this element.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="control"/> is <see langword="null"/>.</exception>
     public KryptonDockingEdge(string name, Control control, DockingEdge edge)
         : base(name)
     {
@@ -41,12 +42,12 @@ public class KryptonDockingEdge : DockingElementClosedCollection
 
     #region Public
     /// <summary>
-    /// Gets the control this element is managing.
+    /// Control whose edge this element represents in the docking hierarchy.
     /// </summary>
     public Control Control { get; }
 
     /// <summary>
-    /// Gets the docking edge this element is managing.
+    /// Edge of <see cref="Control"/> represented by this element and its child collections.
     /// </summary>
     public DockingEdge Edge { get; }
 

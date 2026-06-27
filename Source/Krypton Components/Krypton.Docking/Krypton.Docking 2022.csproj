@@ -87,6 +87,9 @@
 	  <LastGenOutput>GenericImageResources.Designer.cs</LastGenOutput>
 	</EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Doxygen\" />
+  </ItemGroup>
   <PropertyGroup>
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>

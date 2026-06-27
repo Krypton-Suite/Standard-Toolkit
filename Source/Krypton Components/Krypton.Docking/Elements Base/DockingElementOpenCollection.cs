@@ -13,15 +13,11 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Extends base functionality by allowing a collection of child docking elements.
+/// Child collection that exposes add, insert, remove, and clear operations on top of a closed child list.
 /// </summary>
 public abstract class DockingElementOpenCollection : DockingElementClosedCollection
 {
     #region Identity
-    /// <summary>
-    /// Initialize a new instance of the DockingElementOpenCollection class.
-    /// </summary>
-    /// <param name="name">Initial name of the element.</param>
     protected DockingElementOpenCollection(string name)
         : base(name)
     {
@@ -30,27 +26,27 @@ public abstract class DockingElementOpenCollection : DockingElementClosedCollect
 
     #region Public
     /// <summary>
-    /// Append a docking element to the collection.
+    /// Appends <paramref name="item"/> as the last child and sets its <see cref="DockingElement.Parent"/>.
     /// </summary>
-    /// <param name="item">IDockingElement reference.</param>
+    /// <param name="item">Child element to add.</param>
     public virtual void Add(IDockingElement item) => InternalAdd(item);
 
     /// <summary>
-    /// Append a docking element to the collection.
+    /// Inserts <paramref name="item"/> at <paramref name="index"/> and sets its <see cref="DockingElement.Parent"/>.
     /// </summary>
-    /// <param name="index">Insert index.</param>
-    /// <param name="item">IDockingElement reference.</param>
+    /// <param name="index">Zero-based insertion index.</param>
+    /// <param name="item">Child element to insert.</param>
     public virtual void Insert(int index, IDockingElement item) => InternalInsert(index, item);
 
     /// <summary>
-    /// Removes first occurrence of specified docking element.
+    /// Removes the first occurrence of <paramref name="item"/> and clears its parent link when removal succeeds.
     /// </summary>
-    /// <param name="item">IDockingElement reference.</param>
-    /// <returns>True if removed; otherwise false.</returns>
+    /// <param name="item">Child element to remove.</param>
+    /// <returns><see langword="true"/> when <paramref name="item"/> was removed; otherwise <see langword="false"/>.</returns>
     public virtual bool Remove(IDockingElement item) => InternalRemove(item);
 
     /// <summary>
-    /// Remove all docking elements from the collection.
+    /// Removes every child and clears each child's <see cref="DockingElement.Parent"/> reference.
     /// </summary>
     public virtual void Clear() => InternalClear();
     #endregion

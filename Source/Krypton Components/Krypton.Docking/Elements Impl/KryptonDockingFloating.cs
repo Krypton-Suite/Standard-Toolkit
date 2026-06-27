@@ -13,7 +13,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Provides docking functionality for floating windows.
+/// Root collection element that creates and tracks floating-window children for a single owner form.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]
@@ -22,10 +22,11 @@ public class KryptonDockingFloating : DockingElementClosedCollection
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonDockingFloating class.
+    /// Records <paramref name="ownerForm"/> as the owner form for floating windows created under this element.
     /// </summary>
     /// <param name="name">Initial name of the element.</param>
-    /// <param name="ownerForm">Reference to form that will own all the floating windows.</param>
+    /// <param name="ownerForm">Form assigned as owner for every floating window created under this element.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="ownerForm"/> is <see langword="null"/>.</exception>
     public KryptonDockingFloating(string name, Form ownerForm)
         : base(name) =>
         OwnerForm = ownerForm ?? throw new ArgumentNullException(nameof(ownerForm));
@@ -34,37 +35,37 @@ public class KryptonDockingFloating : DockingElementClosedCollection
 
     #region Public
     /// <summary>
-    /// Gets the form the floating windows have as the owner.
+    /// Form assigned as owner for every floating window created under this element.
     /// </summary>
     public Form OwnerForm { get; }
 
     /// <summary>
-    /// Create and add a new floating window.
+    /// Creates a child floating-window element with an auto-generated name and raises manager customization events.
     /// </summary>
-    /// <returns>Reference to docking element that handles the new workspace.</returns>
+    /// <returns>The new floating-window element added to this collection.</returns>
     public KryptonDockingFloatingWindow AddFloatingWindow() =>
         // Generate a unique string by creating a GUID
         AddFloatingWindow(CommonHelper.UniqueString);
 
     /// <summary>
-    /// Create and add a new floating window.
+    /// Creates a child floating-window element with the supplied name and raises manager customization events.
     /// </summary>
-    /// <param name="name">Initial name of the dockspace element.</param>
-    /// <returns>Reference to docking element that handles the new workspace.</returns>
+    /// <param name="name">Initial name of the floating-window element; may be <see langword="null"/>.</param>
+    /// <returns>The new floating-window element added to this collection.</returns>
     public KryptonDockingFloatingWindow AddFloatingWindow(string? name) => CreateFloatingWindow(name);
 
     /// <summary>
-    /// Find a floating docking element by searching the hierarchy.
+    /// Always returns this element; the <paramref name="uniqueName"/> argument is not consulted.
     /// </summary>
-    /// <param name="uniqueName">Named page for which a suitable floating element is required.</param>
-    /// <returns>KryptonDockingFloating reference if found; otherwise false.</returns>
+    /// <param name="uniqueName">Unique name of the page being located.</param>
+    /// <returns>This element.</returns>
     public override KryptonDockingFloating FindDockingFloating(string uniqueName) => this;
 
     /// <summary>
-    /// Return the floating window element that contains a placeholder for the named page.
+    /// Searches child floating-window elements for one that contains a store-page placeholder for <paramref name="uniqueName"/>.
     /// </summary>
-    /// <param name="uniqueName">Unique name for search.</param>
-    /// <returns>Reference to KryptonDockingFloatingWindow if placeholder found; otherwise null.</returns>
+    /// <param name="uniqueName">Unique name of the page whose placeholder is sought.</param>
+    /// <returns>The first matching child floating-window element, or <see langword="null"/> when none contain the placeholder.</returns>
     public KryptonDockingFloatingWindow? FloatingWindowForStorePage(string uniqueName)
     {
         // Search all the child docking elements
@@ -85,7 +86,7 @@ public class KryptonDockingFloating : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// 
+    /// Whether newly created floating windows expose a minimise box; not serialized by the designer.
     /// </summary>
     [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden)]
     public bool UseMinimiseBox { get; set; }

@@ -13,16 +13,16 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Event arguments for a FloatspaceAdding/FloatspaceRemoved event.
+/// Event payload when a floatspace control is added to or removed from the docking tree.
 /// </summary>
 public class FloatspaceEventArgs : EventArgs
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the FloatspaceEventArgs class.
+    /// Captures the floatspace control and its owning docking element.
     /// </summary>
-    /// <param name="floatspace">Reference to new floatspace control instance.</param>
-    /// <param name="element">Reference to docking floatspace element that is managing the floatspace control.</param>
+    /// <param name="floatspace">Floatspace control that was added or removed; may be null.</param>
+    /// <param name="element">Docking element that owns the floatspace control.</param>
     public FloatspaceEventArgs(KryptonFloatspace? floatspace,
         KryptonDockingFloatspace element)
     {
@@ -33,12 +33,12 @@ public class FloatspaceEventArgs : EventArgs
 
     #region Public
     /// <summary>
-    /// Gets a reference to the KryptonFloatspace control..
+    /// Floatspace control that was added or removed; may be null.
     /// </summary>
     public KryptonFloatspace? FloatspaceControl { get; }
 
     /// <summary>
-    /// Gets a reference to the KryptonDockingFloatspace that is managing the space control.
+    /// Docking element that owns the floatspace control; assigned at construction.
     /// </summary>
     public KryptonDockingFloatspace FloatspaceElement { get; }
 

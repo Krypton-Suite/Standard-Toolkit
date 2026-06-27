@@ -13,17 +13,17 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Event arguments for a DockspaceCellAdding/DockspaceCellRemoving events.
+/// Event payload when a dockspace workspace cell is added to or removed from a dockspace.
 /// </summary>
 public class DockspaceCellEventArgs : EventArgs
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the DockspaceCellEventArgs class.
+    /// Captures the parent dockspace, its docking element, and the affected workspace cell.
     /// </summary>
-    /// <param name="dockspace">Reference to existing dockspace control instance.</param>
-    /// <param name="element">Reference to docking dockspace element that is managing the dockspace control.</param>
-    /// <param name="cell">Reference to dockspace control cell instance.</param>
+    /// <param name="dockspace">Dockspace control that contains the cell.</param>
+    /// <param name="element">Docking element that owns the dockspace control.</param>
+    /// <param name="cell">Workspace cell that was added or removed.</param>
     public DockspaceCellEventArgs(KryptonDockspace dockspace,
         KryptonDockingDockspace element,
         KryptonWorkspaceCell cell)
@@ -36,17 +36,17 @@ public class DockspaceCellEventArgs : EventArgs
 
     #region Public
     /// <summary>
-    /// Gets a reference to the KryptonDockspace that contains the cell.
+    /// Dockspace control that contains the cell; assigned at construction.
     /// </summary>
     public KryptonDockspace DockspaceControl { get; }
 
     /// <summary>
-    /// Gets a reference to the KryptonDockingDockspace that is managing the dockspace.
+    /// Docking element that owns the dockspace control; assigned at construction.
     /// </summary>
     public KryptonDockingDockspace DockspaceElement { get; }
 
     /// <summary>
-    /// Gets a reference to the KryptonWorkspaceCell control.
+    /// Workspace cell that was added or removed; assigned at construction.
     /// </summary>
     public KryptonWorkspaceCell CellControl { get; }
 

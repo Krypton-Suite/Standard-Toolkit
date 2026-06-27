@@ -17,7 +17,7 @@ using Timer = System.Windows.Forms.Timer;
 namespace Krypton.Docking;
 
 /// <summary>
-/// Extends the KryptonPanel to work as a panel for hosting the display of a sliding in/out page.
+/// Animated slide-out host that reveals an auto-hidden page from a dock edge and dismisses it on focus loss or Escape.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]
@@ -57,49 +57,49 @@ public class KryptonAutoHiddenSlidePanel : KryptonPanel,
     #region Events
 
     /// <summary>
-    /// Occurs when the separator is about to be moved and requests the rectangle of allowed movement.
+    /// Raised before the embedded separator moves; handlers can supply the allowed movement rectangle via event args.
     /// </summary>
     [Category("Behavior")]
     [Description("Occurs when the separator is about to be moved and requests the rectangle of allowed movement.")]
     public event EventHandler<SplitterMoveRectMenuArgs>? SplitterMoveRect;
 
     /// <summary>
-    /// Occurs when the separator move finishes and a move has occurred.
+    /// Raised after the embedded separator completes a move that changed its position.
     /// </summary>
     [Category("Behavior")]
     [Description("Occurs when the separator move finishes and a move has occurred.")]
     public event SplitterEventHandler? SplitterMoved;
 
     /// <summary>
-    /// Occurs when the separator has moved to a new position.
+    /// Raised while the embedded separator is being dragged to a new position; cancellation is supported via event args.
     /// </summary>
     [Category("Behavior")]
     [Description("Occurs when the separator has moved to a new position.")]
     public event SplitterCancelEventHandler? SplitterMoving;
 
     /// <summary>
-    /// Occurs when the user clicks the close button for a page.
+    /// Raised when the user activates a page close button in the embedded dockspace.
     /// </summary>
     [Category("Behavior")]
     [Description("Occurs when the user clicks the close button for a page.")]
     public event EventHandler<UniqueNameEventArgs>? PageCloseClicked;
 
     /// <summary>
-    /// Occurs when the user clicks the auto hidden button for a page.
+    /// Raised when the user activates a page auto-hidden pin button in the embedded dockspace.
     /// </summary>
     [Category("Behavior")]
     [Description("Occurs when the user clicks the auto hidden button for a page.")]
     public event EventHandler<UniqueNameEventArgs>? PageAutoHiddenClicked;
 
     /// <summary>
-    /// Occurs when a page requests that a drop-down menu be shown.
+    /// Raised when a page requests a drop-down menu from the embedded dockspace; the slide-out is focused first to prevent premature dismissal.
     /// </summary>
     [Category("Behavior")]
     [Description("Occurs when the user clicks the drop-down button for a page.")]
     public event EventHandler<CancelDropDownEventArgs>? PageDropDownClicked;
 
     /// <summary>
-    /// Occurs when an auto hidden page showing state changes.
+    /// Raised when the slide panel transitions between <see cref="DockingAutoHiddenShowState"/> values.
     /// </summary>
     [Category("Behavior")]
     [Description("Occurs when an auto hidden page showing state changes.")]
@@ -110,11 +110,11 @@ public class KryptonAutoHiddenSlidePanel : KryptonPanel,
     #region Identity
 
     /// <summary>
-    /// Initialize a new instance of the KryptonAutoHiddenSlidePanel class.
+    /// Plants the slide panel into the host control, wires slide/dismiss timers, and registers as an application message filter.
     /// </summary>
-    /// <param name="control">Reference to control that is being managed.</param>
-    /// <param name="edge">Docking edge being managed.</param>
-    /// <param name="panel">Reference to auto hidden panel for this edge.</param>
+    /// <param name="control">Host control whose client area receives the slide panel.</param>
+    /// <param name="edge">Dock edge from which pages slide out.</param>
+    /// <param name="panel">Auto-hidden tab panel adjacent to this slide area.</param>
     public KryptonAutoHiddenSlidePanel(Control control, DockingEdge edge, KryptonAutoHiddenPanel panel)
     {
         _control = control;
@@ -229,23 +229,23 @@ public class KryptonAutoHiddenSlidePanel : KryptonPanel,
     #region Public
 
     /// <summary>
-    /// Gets access to the KryptonDockspace control.
+    /// Embedded <see cref="KryptonDockspaceSlide"/> that hosts the sliding page content.
     /// </summary>
     public KryptonDockspace DockspaceControl => _dockspaceSlide;
 
     /// <summary>
-    /// Gets access to the KryptonSeparator control.
+    /// Separator between the slide-out content and the remaining client area.
     /// </summary>
     public KryptonDockspaceSeparator SeparatorControl { get; }
 
     /// <summary>
-    /// Gets access to the KryptonPage associated with the slide panel.
+    /// Page currently displayed in the slide-out, or null when hidden.
     /// </summary>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public KryptonPage? Page { get; private set; }
 
     /// <summary>
-    /// Gets and sets the drag page notify interface associated with the embedded dockspace.
+    /// Drag notification interface forwarded to the embedded dockspace for page drag operations.
     /// </summary>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public IDragPageNotify? DragPageNotify
@@ -255,7 +255,7 @@ public class KryptonAutoHiddenSlidePanel : KryptonPanel,
     }
 
     /// <summary>
-    /// Remove from view any slide out page.
+    /// Immediately hides the slide-out when any page is currently shown or animating.
     /// </summary>
     public void HideUniqueName()
     {
@@ -267,9 +267,9 @@ public class KryptonAutoHiddenSlidePanel : KryptonPanel,
     }
 
     /// <summary>
-    /// Remove from view the slide out page if it matches the unique name provided.
+    /// Immediately hides the slide-out only when the displayed page's unique name matches <paramref name="uniqueName"/>.
     /// </summary>
-    /// <param name="uniqueName">Unique name of the page to be hidden.</param>
+    /// <param name="uniqueName">Unique name of the page to hide.</param>
     public void HideUniqueName(string uniqueName)
     {
         // If we are processing the provided page then instantly remove it
@@ -280,11 +280,11 @@ public class KryptonAutoHiddenSlidePanel : KryptonPanel,
     }
 
     /// <summary>
-    /// Requests the panel slide into view and display the provided page.
+    /// Animates the panel open to display <paramref name="page"/>; switches pages or reverses slide direction when already showing a different page.
     /// </summary>
-    /// <param name="page">Reference to page for display.</param>
-    /// <param name="group">Reference to auto hidden group that displays the page.</param>
-    /// <param name="select">Should the sliding out page become selected.</param>
+    /// <param name="page">Page to display in the slide-out.</param>
+    /// <param name="group">Auto-hidden group that owns the page tab.</param>
+    /// <param name="select">When true, moves focus into the dockspace after sliding out.</param>
     public void SlideOut(KryptonPage? page, KryptonAutoHiddenGroup group, bool select)
     {
         // Check to see if we allowed to perform operations
@@ -391,7 +391,7 @@ public class KryptonAutoHiddenSlidePanel : KryptonPanel,
     }
 
     /// <summary>
-    /// Requests the panel slide out of view.
+    /// Schedules a delayed slide-in when the panel is showing or sliding out; no effect when already hidden or sliding in.
     /// </summary>
     public void SlideIn()
     {
@@ -421,10 +421,10 @@ public class KryptonAutoHiddenSlidePanel : KryptonPanel,
     }
 
     /// <summary>
-    /// Update the size and position of the slide out panel.
+    /// While fully shown, applies size deltas to the panel and persists the new dimensions on the displayed page's <see cref="KryptonPage.AutoHiddenSlideSize"/> value.
     /// </summary>
-    /// <param name="width">Delta width to apply.</param>
-    /// <param name="height">Delta height to apply.</param>
+    /// <param name="width">Width delta to apply for left/right edges.</param>
+    /// <param name="height">Height delta to apply for top/bottom edges.</param>
     public void UpdateSize(int width, int height)
     {
         // Can only apply change when fully showing
@@ -499,10 +499,10 @@ public class KryptonAutoHiddenSlidePanel : KryptonPanel,
     }
 
     /// <summary>
-    /// Filters out a message before it is dispatched.
+    /// Intercepts Escape to dismiss the slide-out and monitors mouse movement to start or cancel the dismiss timer when the pointer leaves the slide or tab areas.
     /// </summary>
-    /// <param name="msg">The message to be dispatched. You cannot modify this message. </param>
-    /// <returns>true to filter out; false otherwise.</returns>
+    /// <param name="msg">Windows message being dispatched.</param>
+    /// <returns>True when Escape dismisses the slide-out; otherwise false to allow normal dispatch.</returns>
     public bool PreFilterMessage(ref Message msg)
     {
         // The form this component is situated on

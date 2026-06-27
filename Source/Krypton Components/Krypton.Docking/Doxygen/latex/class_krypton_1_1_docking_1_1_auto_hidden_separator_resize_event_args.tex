@@ -1,0 +1,108 @@
+\doxysection{Krypton.\+Docking.\+Auto\+Hidden\+Separator\+Resize\+Event\+Args Class Reference}
+\hypertarget{class_krypton_1_1_docking_1_1_auto_hidden_separator_resize_event_args}{}\label{class_krypton_1_1_docking_1_1_auto_hidden_separator_resize_event_args}\index{Krypton.Docking.AutoHiddenSeparatorResizeEventArgs@{Krypton.Docking.AutoHiddenSeparatorResizeEventArgs}}
+
+
+Event payload for auto-\/hidden dockspace separator resize operations where handlers may adjust movement limits.  
+
+
+Inheritance diagram for Krypton.\+Docking.\+Auto\+Hidden\+Separator\+Resize\+Event\+Args\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_krypton_1_1_docking_1_1_auto_hidden_separator_resize_event_args}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_auto_hidden_separator_resize_event_args_a296dfeedbbb283f2537c171466ae5d8e}{Auto\+Hidden\+Separator\+Resize\+Event\+Args}} (Krypton\+Separator separator, \mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_dockspace}{Krypton\+Dockspace}} dockspace, Krypton\+Page? page, Rectangle resize\+Rect)
+\begin{DoxyCompactList}\small\item\em Captures the separator, dockspace, page, and initial resize bounds for the auto-\/hidden resize. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+Krypton\+Separator \mbox{\hyperlink{class_krypton_1_1_docking_1_1_auto_hidden_separator_resize_event_args_a3082fc971c20131da65866a515b8645c}{Separator\+Control}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Separator control being dragged; assigned at construction. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_dockspace}{Krypton\+Dockspace}} \mbox{\hyperlink{class_krypton_1_1_docking_1_1_auto_hidden_separator_resize_event_args_a8f22cb564db9425a0782d63699f1a7f6}{Dockspace\+Control}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Dockspace control adjacent to the separator; assigned at construction. \end{DoxyCompactList}\item 
+Krypton\+Page? \mbox{\hyperlink{class_krypton_1_1_docking_1_1_auto_hidden_separator_resize_event_args_a38a5bf1e4bc3109180063572ef4376cb}{Page}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Page contained in the dockspace; may be null. \end{DoxyCompactList}\item 
+Rectangle \mbox{\hyperlink{class_krypton_1_1_docking_1_1_auto_hidden_separator_resize_event_args_ac103618e5d4cd8d92946f301f30b2d61}{Resize\+Rect}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Movement rectangle applied during separator dragging; handlers may change this value before it is applied. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Event payload for auto-\/hidden dockspace separator resize operations where handlers may adjust movement limits. 
+
+\label{doc-constructors}
+\Hypertarget{class_krypton_1_1_docking_1_1_auto_hidden_separator_resize_event_args_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_auto_hidden_separator_resize_event_args_a296dfeedbbb283f2537c171466ae5d8e}\index{Krypton.Docking.AutoHiddenSeparatorResizeEventArgs@{Krypton.Docking.AutoHiddenSeparatorResizeEventArgs}!AutoHiddenSeparatorResizeEventArgs@{AutoHiddenSeparatorResizeEventArgs}}
+\index{AutoHiddenSeparatorResizeEventArgs@{AutoHiddenSeparatorResizeEventArgs}!Krypton.Docking.AutoHiddenSeparatorResizeEventArgs@{Krypton.Docking.AutoHiddenSeparatorResizeEventArgs}}
+\doxysubsubsection{\texorpdfstring{AutoHiddenSeparatorResizeEventArgs()}{AutoHiddenSeparatorResizeEventArgs()}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_auto_hidden_separator_resize_event_args_a296dfeedbbb283f2537c171466ae5d8e} 
+Krypton.\+Docking.\+Auto\+Hidden\+Separator\+Resize\+Event\+Args.\+Auto\+Hidden\+Separator\+Resize\+Event\+Args (\begin{DoxyParamCaption}\item[{Krypton\+Separator}]{separator}{, }\item[{\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_dockspace}{Krypton\+Dockspace}}}]{dockspace}{, }\item[{Krypton\+Page?}]{page}{, }\item[{Rectangle}]{resize\+Rect}{}\end{DoxyParamCaption})}
+
+
+
+Captures the separator, dockspace, page, and initial resize bounds for the auto-\/hidden resize. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em separator} & Separator control being dragged.\\
+\hline
+{\em dockspace} & Dockspace control adjacent to the separator.\\
+\hline
+{\em page} & Page contained in the dockspace; may be null.\\
+\hline
+{\em resize\+Rect} & Initial movement rectangle before handler adjustment.\\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-property-members}
+\Hypertarget{class_krypton_1_1_docking_1_1_auto_hidden_separator_resize_event_args_doc-property-members}
+\doxysubsection{Property Documentation}
+\Hypertarget{class_krypton_1_1_docking_1_1_auto_hidden_separator_resize_event_args_a8f22cb564db9425a0782d63699f1a7f6}\index{Krypton.Docking.AutoHiddenSeparatorResizeEventArgs@{Krypton.Docking.AutoHiddenSeparatorResizeEventArgs}!DockspaceControl@{DockspaceControl}}
+\index{DockspaceControl@{DockspaceControl}!Krypton.Docking.AutoHiddenSeparatorResizeEventArgs@{Krypton.Docking.AutoHiddenSeparatorResizeEventArgs}}
+\doxysubsubsection{\texorpdfstring{DockspaceControl}{DockspaceControl}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_auto_hidden_separator_resize_event_args_a8f22cb564db9425a0782d63699f1a7f6} 
+\mbox{\hyperlink{class_krypton_1_1_docking_1_1_krypton_dockspace}{Krypton\+Dockspace}} Krypton.\+Docking.\+Auto\+Hidden\+Separator\+Resize\+Event\+Args.\+Dockspace\+Control\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Dockspace control adjacent to the separator; assigned at construction. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_auto_hidden_separator_resize_event_args_a38a5bf1e4bc3109180063572ef4376cb}\index{Krypton.Docking.AutoHiddenSeparatorResizeEventArgs@{Krypton.Docking.AutoHiddenSeparatorResizeEventArgs}!Page@{Page}}
+\index{Page@{Page}!Krypton.Docking.AutoHiddenSeparatorResizeEventArgs@{Krypton.Docking.AutoHiddenSeparatorResizeEventArgs}}
+\doxysubsubsection{\texorpdfstring{Page}{Page}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_auto_hidden_separator_resize_event_args_a38a5bf1e4bc3109180063572ef4376cb} 
+Krypton\+Page? Krypton.\+Docking.\+Auto\+Hidden\+Separator\+Resize\+Event\+Args.\+Page\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Page contained in the dockspace; may be null. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_auto_hidden_separator_resize_event_args_ac103618e5d4cd8d92946f301f30b2d61}\index{Krypton.Docking.AutoHiddenSeparatorResizeEventArgs@{Krypton.Docking.AutoHiddenSeparatorResizeEventArgs}!ResizeRect@{ResizeRect}}
+\index{ResizeRect@{ResizeRect}!Krypton.Docking.AutoHiddenSeparatorResizeEventArgs@{Krypton.Docking.AutoHiddenSeparatorResizeEventArgs}}
+\doxysubsubsection{\texorpdfstring{ResizeRect}{ResizeRect}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_auto_hidden_separator_resize_event_args_ac103618e5d4cd8d92946f301f30b2d61} 
+Rectangle Krypton.\+Docking.\+Auto\+Hidden\+Separator\+Resize\+Event\+Args.\+Resize\+Rect\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Movement rectangle applied during separator dragging; handlers may change this value before it is applied. 
+
+\Hypertarget{class_krypton_1_1_docking_1_1_auto_hidden_separator_resize_event_args_a3082fc971c20131da65866a515b8645c}\index{Krypton.Docking.AutoHiddenSeparatorResizeEventArgs@{Krypton.Docking.AutoHiddenSeparatorResizeEventArgs}!SeparatorControl@{SeparatorControl}}
+\index{SeparatorControl@{SeparatorControl}!Krypton.Docking.AutoHiddenSeparatorResizeEventArgs@{Krypton.Docking.AutoHiddenSeparatorResizeEventArgs}}
+\doxysubsubsection{\texorpdfstring{SeparatorControl}{SeparatorControl}}
+{\footnotesize\ttfamily \label{class_krypton_1_1_docking_1_1_auto_hidden_separator_resize_event_args_a3082fc971c20131da65866a515b8645c} 
+Krypton\+Separator Krypton.\+Docking.\+Auto\+Hidden\+Separator\+Resize\+Event\+Args.\+Separator\+Control\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Separator control being dragged; assigned at construction. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/\+Krypton/\+Standard-\/\+Toolkit/\+Source/\+Krypton Components/\+Krypton.\+Docking/\+Event Args/\mbox{\hyperlink{_auto_hidden_separator_resize_event_args_8cs}{Auto\+Hidden\+Separator\+Resize\+Event\+Args.\+cs}}\end{DoxyCompactItemize}

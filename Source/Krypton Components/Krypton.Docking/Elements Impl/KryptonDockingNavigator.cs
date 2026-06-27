@@ -16,7 +16,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Provides docking functionality by attaching to an existing KryptonDockableNavigator
+/// Docking element bound to a <see cref="KryptonDockableNavigator"/> that hosts pages as navigator tabs.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]
@@ -30,7 +30,7 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonDockingNavigator class.
+    /// Delegates to the three-parameter constructor with store name <c>Workspace</c> and a new <see cref="KryptonDockableNavigator"/>.
     /// </summary>
     /// <param name="name">Initial name of the element.</param>
     public KryptonDockingNavigator(string name)
@@ -39,11 +39,12 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Initialize a new instance of the KryptonDockingNavigator class.
+    /// Attaches to <paramref name="navigator"/> and subscribes to page insert, drag, and drop events.
     /// </summary>
     /// <param name="name">Initial name of the element.</param>
-    /// <param name="storeName">Name to use for storage pages.</param>
-    /// <param name="navigator">Reference to navigator to manage.</param>
+    /// <param name="storeName">Name used when creating store-page placeholders.</param>
+    /// <param name="navigator">Dockable navigator control to host pages.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="navigator"/> is <see langword="null"/>.</exception>
     public KryptonDockingNavigator(string name,
         string storeName,
         KryptonDockableNavigator navigator)
@@ -61,12 +62,12 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
 
     #region Public
     /// <summary>
-    /// Gets the control this element is managing.
+    /// Dockable navigator control that hosts this element's pages.
     /// </summary>
     public KryptonDockableNavigator DockableNavigatorControl { get; }
 
     /// <summary>
-    /// Gets and sets access to the parent docking element.
+    /// When assigned, raises <c>DockableNavigatorAdded</c> on the docking manager when one is reachable.
     /// </summary>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override IDockingElement? Parent
@@ -87,17 +88,21 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Add a KryptonPage to the navigator.
+    /// Adds a single page to the navigator after verifying it is not already hosted in the hierarchy.
     /// </summary>
-    /// <param name="page">KryptonPage to be added.</param>
+    /// <param name="page">Page to append.</param>
+    /// <exception cref="ArgumentOutOfRangeException">The page is already present in the docking hierarchy.</exception>
+    /// <exception cref="ApplicationException">No docking manager is attached to this subtree.</exception>
     public void Append(KryptonPage page) =>
         // Use existing array adding method to prevent duplication of code
         Append(new[] { page });
 
     /// <summary>
-    /// Add a KryptonPage array to the navigator.
+    /// Adds pages to the navigator after verifying they are not already hosted in the hierarchy, then updates navigator minimum size from page and bar metrics.
     /// </summary>
-    /// <param name="pages">Array of KryptonPage instances to be added.</param>
+    /// <param name="pages">Pages to append; may be <see langword="null"/>.</param>
+    /// <exception cref="ArgumentOutOfRangeException">A page is already present in the docking hierarchy.</exception>
+    /// <exception cref="ApplicationException">No docking manager is attached to this subtree.</exception>
     public void Append(KryptonPage[]? pages)
     {
         // Demand that pages are not already present
@@ -136,9 +141,10 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Show all display elements of the provided page.
+    /// Propagates a show request for the supplied page through the docking hierarchy inside a batched update.
     /// </summary>
-    /// <param name="page">Reference to page that should be shown.</param>
+    /// <param name="page">Page whose display elements should become visible.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="page"/> is <see langword="null"/>.</exception>
     public void ShowPage(KryptonPage page)
     {
         // Cannot show a null reference
@@ -151,9 +157,10 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Show all display elements of the provided page.
+    /// Propagates a show request for the named page through the docking hierarchy inside a batched update.
     /// </summary>
-    /// <param name="uniqueName">Unique name of the page that should be shown.</param>
+    /// <param name="uniqueName">Unique name of the page whose display elements should become visible.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="uniqueName"/> is null or whitespace.</exception>
     public void ShowPage([DisallowNull] string uniqueName)
     {
         // Cannot show a null reference
@@ -166,9 +173,11 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Show all display elements of the provided pages.
+    /// Propagates a show request for the supplied pages through the docking hierarchy inside a batched update.
     /// </summary>
-    /// <param name="pages">Array of references to pages that should be shown.</param>
+    /// <param name="pages">Pages whose display elements should become visible.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="pages"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="pages"/> contains a null entry.</exception>
     public void ShowPages(KryptonPage[] pages)
     {
         // Cannot show a null reference
@@ -196,9 +205,11 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Show all display elements of the provided pages.
+    /// Propagates a show request for the named pages through the docking hierarchy inside a batched update.
     /// </summary>
-    /// <param name="uniqueNames">Array of unique names of the pages that should be shown.</param>
+    /// <param name="uniqueNames">Unique names of pages whose display elements should become visible.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="uniqueNames"/> is <see langword="null"/> or contains a null entry.</exception>
+    /// <exception cref="ArgumentException"><paramref name="uniqueNames"/> contains an empty string.</exception>
     public void ShowPages([DisallowNull] string[] uniqueNames)
     {
         // Cannot show a null reference
@@ -229,7 +240,7 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Show all display elements of all pages.
+    /// Propagates a show-all request through the docking hierarchy inside a batched update.
     /// </summary>
     public void ShowAllPages()
     {
@@ -238,9 +249,10 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Hide all display elements of the provided page.
+    /// Propagates a hide request for the supplied page through the docking hierarchy inside a batched update.
     /// </summary>
-    /// <param name="page">Reference to page that should be hidden.</param>
+    /// <param name="page">Page whose display elements should be hidden.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="page"/> is <see langword="null"/>.</exception>
     public void HidePage(KryptonPage page)
     {
         // Cannot hide a null reference
@@ -253,9 +265,10 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Hide all display elements of the provided page.
+    /// Propagates a hide request for the named page through the docking hierarchy inside a batched update when <paramref name="uniqueName"/> is non-empty.
     /// </summary>
-    /// <param name="uniqueName">Unique name of the page that should be hidden.</param>
+    /// <param name="uniqueName">Unique name of the page whose display elements should be hidden.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="uniqueName"/> is <see langword="null"/>.</exception>
     public void HidePage(string uniqueName)
     {
         // Cannot hide a null reference
@@ -271,9 +284,11 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Hide all display elements of the provided pages.
+    /// Propagates a hide request for the supplied pages through the docking hierarchy inside a batched update.
     /// </summary>
-    /// <param name="pages">Array of references to pages that should be hidden.</param>
+    /// <param name="pages">Pages whose display elements should be hidden.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="pages"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="pages"/> contains a null entry.</exception>
     public void HidePages(KryptonPage[] pages)
     {
         // Cannot hide a null reference
@@ -302,9 +317,11 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Hide all display elements of the provided pages.
+    /// Propagates a hide request for the named pages through the docking hierarchy inside a batched update.
     /// </summary>
-    /// <param name="uniqueNames">Array of unique names of the pages that should be hidden.</param>
+    /// <param name="uniqueNames">Unique names of pages whose display elements should be hidden.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="uniqueNames"/> is <see langword="null"/> or contains a null entry.</exception>
+    /// <exception cref="ArgumentException"><paramref name="uniqueNames"/> contains an empty string.</exception>
     public void HidePages(string[] uniqueNames)
     {
         // Cannot hide a null reference
@@ -335,7 +352,7 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Hide all display elements of all pages.
+    /// Propagates a hide-all request through the docking hierarchy inside a batched update.
     /// </summary>
     public void HideAllPages()
     {
@@ -344,10 +361,12 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Remove the named page.
+    /// Propagates a remove request for the named page through the docking hierarchy inside a batched update.
     /// </summary>
-    /// <param name="uniqueName">Unique name of the page that should be removed.</param>
-    /// <param name="disposePage">Should the page be disposed when removed.</param>
+    /// <param name="uniqueName">Unique name of the page to remove.</param>
+    /// <param name="disposePage">Whether removed pages should also be disposed.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="uniqueName"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="uniqueName"/> is empty.</exception>
     public void RemovePage(string uniqueName, bool disposePage)
     {
         // Cannot remove a null reference
@@ -366,10 +385,12 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Remove the referenced pages.
+    /// Propagates a remove request for the supplied pages through the docking hierarchy inside a batched update.
     /// </summary>
-    /// <param name="pages">Array of references to pages that should be removed.</param>
-    /// <param name="disposePage">Should the page be disposed when removed.</param>
+    /// <param name="pages">Pages to remove.</param>
+    /// <param name="disposePage">Whether removed pages should also be disposed.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="pages"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="pages"/> contains a null entry.</exception>
     public void RemovePages(KryptonPage[] pages, bool disposePage)
     {
         // Cannot remove a null reference
@@ -398,10 +419,12 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Remove the named pages.
+    /// Propagates a remove request for the named pages through the docking hierarchy inside a batched update.
     /// </summary>
-    /// <param name="uniqueNames">Array of unique names of the pages that should be removed.</param>
-    /// <param name="disposePage">Should the page be disposed when removed.</param>
+    /// <param name="uniqueNames">Unique names of pages to remove.</param>
+    /// <param name="disposePage">Whether removed pages should also be disposed.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="uniqueNames"/> is <see langword="null"/> or contains a null entry.</exception>
+    /// <exception cref="ArgumentException"><paramref name="uniqueNames"/> contains an empty string.</exception>
     public void RemovePages(string[] uniqueNames, bool disposePage)
     {
         // Cannot remove a null reference
@@ -433,9 +456,9 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Remove all pages.
+    /// Propagates a remove-all request through the docking hierarchy inside a batched update.
     /// </summary>
-    /// <param name="disposePage">Should the page be disposed when removed.</param>
+    /// <param name="disposePage">Whether removed pages should also be disposed.</param>
     public void RemoveAllPages(bool disposePage)
     {
         // Remove all details about all pages from all parts of the hierarchy
@@ -444,10 +467,11 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Propagates an action request down the hierarchy of docking elements.
+    /// Applies navigator-specific handling for loading, store-page, and debug actions, ignores selected global actions, then delegates remaining actions to the base implementation.
     /// </summary>
-    /// <param name="action">Action that is requested to be performed.</param>
-    /// <param name="uniqueNames">Array of unique names of the pages the action relates to.</param>
+    /// <param name="action">Docking operation to forward.</param>
+    /// <param name="uniqueNames">Page unique names targeted by the action.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="uniqueNames"/> is <see langword="null"/> for actions that require page names.</exception>
     public override void PropogateAction(DockingPropogateAction action, string[]? uniqueNames)
     {
         KryptonPageCollection pageCollection = DockableNavigatorControl.Pages;
@@ -533,11 +557,11 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Propagates a boolean state request down the hierarchy of docking elements.
+    /// Answers <see cref="DockingPropogateBoolState.ContainsPage"/>, <see cref="DockingPropogateBoolState.ContainsStorePage"/>, and <see cref="DockingPropogateBoolState.IsPageShowing"/> for navigator-hosted pages before delegating to the base implementation.
     /// </summary>
-    /// <param name="state">Boolean state that is requested to be recovered.</param>
-    /// <param name="uniqueName">Unique name of the page the request relates to.</param>
-    /// <returns>True/False if state is known; otherwise null indicating no information available.</returns>
+    /// <param name="state">Boolean query to resolve.</param>
+    /// <param name="uniqueName">Unique name of the page the query concerns.</param>
+    /// <returns><see langword="true"/> or <see langword="false"/> when this navigator can answer; otherwise the base result.</returns>
     public override bool? PropogateBoolState(DockingPropogateBoolState state, string uniqueName)
     {
         switch (state)
@@ -579,11 +603,11 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Propagates a page request down the hierarchy of docking elements.
+    /// Returns a non-placeholder navigator page for <see cref="DockingPropogatePageState.PageForUniqueName"/> before delegating to the base implementation.
     /// </summary>
-    /// <param name="state">Request that should result in a page reference if found.</param>
-    /// <param name="uniqueName">Unique name of the page the request relates to.</param>
-    /// <returns>Reference to page that matches the request; otherwise null.</returns>
+    /// <param name="state">Page query to resolve.</param>
+    /// <param name="uniqueName">Unique name of the page the query concerns.</param>
+    /// <returns>The matching page when hosted here and not a store page; otherwise the base result.</returns>
     public override KryptonPage? PropogatePageState(DockingPropogatePageState state, string uniqueName)
     {
         if (state == DockingPropogatePageState.PageForUniqueName)
@@ -601,10 +625,10 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Propagates a page list request down the hierarchy of docking elements.
+    /// Appends non-placeholder navigator pages to <paramref name="pages"/> for <see cref="DockingPropogatePageList.All"/> and <see cref="DockingPropogatePageList.Filler"/> requests before delegating to the base implementation.
     /// </summary>
-    /// <param name="state">Request that should result in pages collection being modified.</param>
-    /// <param name="pages">Pages collection for modification by the docking elements.</param>
+    /// <param name="state">Page-list query to resolve.</param>
+    /// <param name="pages">Collection to append matching pages into.</param>
     public override void PropogatePageList(DockingPropogatePageList state, KryptonPageCollection pages)
     {
         switch (state)
@@ -637,11 +661,11 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Propagates a request for drag targets down the hierarchy of docking elements.
+    /// Appends navigator drag targets for dragged pages that allow navigator docking.
     /// </summary>
-    /// <param name="floatingWindow">Reference to window being dragged.</param>
-    /// <param name="dragData">Set of pages being dragged.</param>
-    /// <param name="targets">Collection of drag targets.</param>
+    /// <param name="floatingWindow">Floating window under drag, if any.</param>
+    /// <param name="dragData">Pages under drag.</param>
+    /// <param name="targets">List to append candidate targets into.</param>
     public override void PropogateDragTargets(KryptonFloatingWindow? floatingWindow,
         PageDragEndData? dragData,
         DragTargetList targets)
@@ -668,10 +692,10 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Find the docking location of the named page.
+    /// Returns <see cref="DockingLocation.Navigator"/> when a non-placeholder page with <paramref name="uniqueName"/> is hosted in this navigator.
     /// </summary>
-    /// <param name="uniqueName">Unique name of the page.</param>
-    /// <returns>Enumeration value indicating docking location.</returns>
+    /// <param name="uniqueName">Unique name of the page to locate.</param>
+    /// <returns><see cref="DockingLocation.Navigator"/> when the page is present; otherwise <see cref="DockingLocation.None"/>.</returns>
     public override DockingLocation FindPageLocation(string uniqueName)
     {
         KryptonPage? page = DockableNavigatorControl.Pages[uniqueName];
@@ -682,10 +706,10 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Find the docking element that contains the named page.
+    /// Returns this element when a non-placeholder page with <paramref name="uniqueName"/> is hosted in this navigator.
     /// </summary>
-    /// <param name="uniqueName">Unique name of the page.</param>
-    /// <returns>IDockingElement reference if page is found; otherwise null.</returns>
+    /// <param name="uniqueName">Unique name of the page to locate.</param>
+    /// <returns>This element when the page is present; otherwise <see langword="null"/>.</returns>
     public override IDockingElement? FindPageElement(string uniqueName)
     {
         KryptonPage? page = DockableNavigatorControl.Pages[uniqueName];
@@ -696,11 +720,11 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Find the docking element that contains the location specific store page for the named page.
+    /// Returns this element when a store-page placeholder for <paramref name="uniqueName"/> exists at <see cref="DockingLocation.Navigator"/>.
     /// </summary>
-    /// <param name="location">Location to be searched.</param>
-    /// <param name="uniqueName">Unique name of the page to be found.</param>
-    /// <returns>IDockingElement reference if store page is found; otherwise null.</returns>
+    /// <param name="location">Docking location to search.</param>
+    /// <param name="uniqueName">Unique name of the page whose placeholder is sought.</param>
+    /// <returns>This element when a matching store page is present; otherwise <see langword="null"/>.</returns>
     public override IDockingElement? FindStorePageElement(DockingLocation location, string uniqueName)
     {
         if (location == DockingLocation.Navigator)
@@ -716,21 +740,21 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Find a navigator element by searching the hierarchy.
+    /// Always returns this element; the <paramref name="uniqueName"/> argument is not consulted.
     /// </summary>
-    /// <param name="uniqueName">Named page for which a suitable navigator element is required.</param>
-    /// <returns>KryptonDockingNavigator reference if found; otherwise false.</returns>
+    /// <param name="uniqueName">Unique name of the page being located.</param>
+    /// <returns>This element.</returns>
     public override KryptonDockingNavigator FindDockingNavigator(string uniqueName) => this;
 
     /// <summary>
-    /// Gets the number of visible pages.
+    /// Count of visible pages reported by the dockable navigator.
     /// </summary>
     public int VisiblePages => DockableNavigatorControl.Pages.VisibleCount;
 
     /// <summary>
-    /// Ensure the provided page is selected within the cell that contains it.
+    /// Sets the dockable navigator selected page when <paramref name="uniqueName"/> is present in its page collection.
     /// </summary>
-    /// <param name="uniqueName">Unique name to be selected.</param>
+    /// <param name="uniqueName">Unique name of the page to select.</param>
     public void SelectPage(string uniqueName)
     {
         // Check that the pages collection contains the named paged
@@ -742,9 +766,9 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Saves docking configuration information using a provider xml writer.
+    /// Writes navigator page entries and custom page data for pages that allow configuration save.
     /// </summary>
-    /// <param name="xmlWriter">Xml writer object.</param>
+    /// <param name="xmlWriter">Destination XML writer.</param>
     public override void SaveElementToXml(XmlWriter xmlWriter)
     {
         // Output navigator docking element
@@ -775,10 +799,11 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Loads docking configuration information using a provider xml reader.
+    /// Clears existing navigator pages and rebuilds layout from persisted page entries, raising page-loading events for custom data.
     /// </summary>
-    /// <param name="xmlReader">Xml reader object.</param>
-    /// <param name="pages">Collection of available pages for adding.</param>
+    /// <param name="xmlReader">Source XML reader positioned at this element.</param>
+    /// <param name="pages">Pool of pages available to satisfy non-placeholder entries.</param>
+    /// <exception cref="ArgumentException">The XML structure or attributes do not match this element.</exception>
     public override void LoadElementFromXml(XmlReader xmlReader, KryptonPageCollection pages)
     {
         // Is it the expected xml element name?
