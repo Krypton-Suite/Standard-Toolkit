@@ -102,6 +102,14 @@ public abstract class PaletteVisualStudio2022DarkBase : PaletteVisualStudioBase
         };
     }
 
-    private static Color GetDropDownItemTextColor(PaletteState state) =>
-        state == PaletteState.Disabled ? Color.FromArgb(100, 100, 100) : Color.White;
+    private Color GetDropDownItemTextColor(PaletteState state)
+    {
+        if (state == PaletteState.Disabled)
+        {
+            return Color.FromArgb(100, 100, 100);
+        }
+
+        var color = GetSchemeColor(SchemeBaseColors.TextListItem);
+        return color.IsEmpty ? Color.White : color;
+    }
 }
