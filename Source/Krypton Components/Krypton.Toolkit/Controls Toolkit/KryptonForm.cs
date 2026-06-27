@@ -221,14 +221,16 @@ public class KryptonForm : VisualForm,
 	private readonly FormFixedButtonSpecCollection _buttonSpecsFixed;
 	private VisualPopupToolTip? _visualPopupToolTip;
 	private readonly ViewDrawForm _drawDocker;
+	private readonly InputPulsingBorderViewIntegration _pulsingBorder;
+	private readonly PaletteDoubleTripleAdapter _formPaletteTriple;
 	private readonly ViewDrawDocker _drawHeading;
 	private readonly ViewDrawContent _drawContent;
 	private readonly ViewDecoratorFixedSize _headingFixedSize;
 	private readonly ViewLayoutNull _layoutNull;
 	private HeaderStyle _headerStyle;
 	private PaletteRelativeAlign _formTitleAlign;
-    private PaletteRelativeEdgeAlign _formTrafficLightEdge;
-    private HeaderStyle _headerStylePrev;
+	private PaletteRelativeEdgeAlign _formTrafficLightEdge;
+	private HeaderStyle _headerStylePrev;
 	private FormWindowState _regionWindowState;
 	private FormWindowState _lastWindowState;
 	private string? _textExtra;
@@ -356,6 +358,9 @@ public class KryptonForm : VisualForm,
 			{ _layoutNull, ViewDockStyle.Fill }
 		};
 
+		_formPaletteTriple = new PaletteDoubleTripleAdapter(GetFormPaletteState);
+		_pulsingBorder = new InputPulsingBorderViewIntegration(this, NeedPaintDelegate, () => WindowActive, () => _formPaletteTriple, _drawDocker, () => _drawDocker.State);
+
 		// Create button specification collection manager
 		_buttonManager = new ButtonSpecManagerDraw(this, Redirector, ButtonSpecs, _buttonSpecsFixed,
 			[_drawHeading],
@@ -382,7 +387,7 @@ public class KryptonForm : VisualForm,
 		KryptonManager.GlobalTouchscreenSupportChanged += OnGlobalTouchscreenSupportChanged;
 
 		// Create the view manager instance
-		ViewManager = new ViewManager(this, _drawDocker);
+		ViewManager = new ViewManager(this, _pulsingBorder.ViewRoot);
 
 		_titleStyle = KryptonFormTitleStyle.Inherit;
 
@@ -659,6 +664,8 @@ public class KryptonForm : VisualForm,
 
 			// Dispose the click timer
 			_clickTimer?.Dispose();
+
+			_pulsingBorder.Dispose();
 		}
 
 		base.Dispose(disposing);
@@ -1217,6 +1224,16 @@ public class KryptonForm : VisualForm,
 	private bool ShouldSerializeStateActive() => !StateActive.IsDefault;
 
 	/// <summary>
+	/// Gets access to optional pulsing border settings for the form chrome.
+	/// </summary>
+	[Category(@"Visuals")]
+	[Description(@"Optional pulsing border drawn on the form chrome.")]
+	[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+	public InputPulsingBorderValues PulsingBorderValues => _pulsingBorder.Values;
+
+	private bool ShouldSerializePulsingBorderValues() => !PulsingBorderValues.IsDefault;
+
+	/// <summary>
 	/// Gets the collection of button specifications.
 	/// </summary>
 	[Category(@"Visuals")]
@@ -1770,16 +1787,16 @@ public class KryptonForm : VisualForm,
 
 		ApplyMaterialFormChromeDefaultsIfNeeded();
 
-        ApplyLeftTrafficLightFormChromeIfNeeded();
+		ApplyLeftTrafficLightFormChromeIfNeeded();
 
-        // Ensure we don't interfere with StartPosition by waiting until after positioning
-        if (IsHandleCreated)
+		// Ensure we don't interfere with StartPosition by waiting until after positioning
+		if (IsHandleCreated)
 		{
 			UpdateUseThemeFormChromeBorderWidthDecision();
 
-            ApplyLeftTrafficLightFormChromeIfNeeded();
+			ApplyLeftTrafficLightFormChromeIfNeeded();
 
-        }
+		}
 	}
 
 	/// <summary>
@@ -1856,6 +1873,8 @@ public class KryptonForm : VisualForm,
 		_drawDocker.Enabled = WindowActive;
 		_drawHeading.Enabled = WindowActive;
 		_drawContent.Enabled = WindowActive;
+
+		_pulsingBorder.UpdateAnimationState();
 
 		PerformNeedPaint(false);
 
@@ -1952,10 +1971,10 @@ public class KryptonForm : VisualForm,
 
 		ApplyMaterialFormChromeDefaultsIfNeeded();
 
-        ApplyLeftTrafficLightFormChromeIfNeeded();
+		ApplyLeftTrafficLightFormChromeIfNeeded();
 
-        // Ensure the sizing grip reflects new theme immediately
-        RecalcNonClient();
+		// Ensure the sizing grip reflects new theme immediately
+		RecalcNonClient();
 		// Deferred call for theme churning during toggle
 		if (IsHandleCreated)
 		{
@@ -2517,6 +2536,9 @@ public class KryptonForm : VisualForm,
 	#endregion
 
 	#region Implementation
+
+	private IPaletteDouble GetFormPaletteState() => WindowActive ? StateActive : StateInactive;
+
 	private void OnFormBorderStyleChanged()
 	{
 		// KryptonForm uses ButtonSpecs for Form control buttons.

@@ -339,6 +339,7 @@ public class KryptonTextBox : VisualControlBase,
     private readonly ButtonSpecManagerLayout? _buttonManager;
     private readonly ViewLayoutDocker _drawDockerInner;
     private readonly ViewDrawDocker _drawDockerOuter;
+    private readonly InputPulsingBorderViewIntegration _pulsingBorder;
     private readonly ViewLayoutFill _layoutFill;
     private readonly InternalTextBox _textBox;
     private InputControlStyle _inputControlStyle;
@@ -482,6 +483,7 @@ public class KryptonTextBox : VisualControlBase,
 
         // Create the internal text box used for containing content
         _textBox = new InternalTextBox(this);
+        CueHint.AttachAnimation(ShouldAnimateCueHint, () => _textBox.Invalidate());
         _textBox.DoubleClick += OnDoubleClick;
         _textBox.MouseDoubleClick += OnMouseDoubleClick;
         _textBox.TrackMouseEnter += OnTextBoxMouseChange;
@@ -518,8 +520,10 @@ public class KryptonTextBox : VisualControlBase,
             { _drawDockerInner, ViewDockStyle.Fill }
         };
 
+        _pulsingBorder = new InputPulsingBorderViewIntegration(this, NeedPaintDelegate, () => IsActive, GetTripleState, _drawDockerOuter);
+
         // Create the view manager instance
-        ViewManager = new ViewManager(this, _drawDockerOuter);
+        ViewManager = new ViewManager(this, _pulsingBorder.ViewRoot);
 
         // Create button specification collection manager
         _buttonManager = new ButtonSpecManagerLayout(this, Redirector, ButtonSpecs, null,
@@ -572,6 +576,10 @@ public class KryptonTextBox : VisualControlBase,
 
             _scrollbarManager?.Dispose();
             _scrollbarManager = null;
+
+            _pulsingBorder.Dispose();
+
+            CueHint.DisposeAnimation();
         }
 
         base.Dispose(disposing);
@@ -597,6 +605,16 @@ public class KryptonTextBox : VisualControlBase,
     public PaletteCueHintText CueHint { get; }
 
     private bool ShouldSerializeCueHint() => !CueHint.IsDefault;
+
+    /// <summary>
+    /// Gets access to the optional pulsing bottom border settings.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Optional pulsing bottom border settings.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public InputPulsingBorderValues PulsingBorderValues => _pulsingBorder.Values;
+
+    private bool ShouldSerializePulsingBorderValues() => !PulsingBorderValues.IsDefault;
 
 
     /// <summary>
@@ -858,6 +876,7 @@ public class KryptonTextBox : VisualControlBase,
             if (_alwaysActive != value)
             {
                 _alwaysActive = value;
+                _pulsingBorder.UpdateAnimationState();
                 PerformNeedPaint(true);
             }
         }
@@ -1594,6 +1613,8 @@ public class KryptonTextBox : VisualControlBase,
     {
         // Change in enabled state requires a layout and repaint
         UpdateStateAndPalettes();
+        _pulsingBorder.UpdateAnimationState();
+        CueHint.SyncAnimation();
 
         // Update view elements
         _drawDockerInner.Enabled = Enabled;
@@ -1717,6 +1738,7 @@ public class KryptonTextBox : VisualControlBase,
     protected override void OnMouseEnter(EventArgs e)
     {
         _mouseOver = true;
+        _pulsingBorder.UpdateAnimationState();
         PerformNeedPaint(true);
         _textBox.Invalidate();
         base.OnMouseEnter(e);
@@ -1736,6 +1758,7 @@ public class KryptonTextBox : VisualControlBase,
         }
 
         _mouseOver = false;
+        _pulsingBorder.UpdateAnimationState();
         PerformNeedPaint(true);
         _textBox.Invalidate();
         base.OnMouseLeave(e);
@@ -1886,6 +1909,11 @@ public class KryptonTextBox : VisualControlBase,
 
     #region Implementation
 
+    private bool ShouldAnimateCueHint() =>
+        Enabled
+        && !string.IsNullOrWhiteSpace(CueHint.CueHintText)
+        && string.IsNullOrEmpty(Text);
+
     private void UpdateStateAndPalettes()
     {
         // Get the correct palette settings to use
@@ -1899,6 +1927,7 @@ public class KryptonTextBox : VisualControlBase,
         PaletteState state = Enabled ? (IsActive ? PaletteState.Tracking : PaletteState.Normal) : PaletteState.Disabled;
 
         _drawDockerOuter.ElementState = state;
+        _pulsingBorder.UpdateAnimationState();
     }
 
     internal IPaletteTriple GetTripleState() => Enabled ? (IsActive ? StateActive : StateNormal) : StateDisabled;
@@ -1936,7 +1965,11 @@ public class KryptonTextBox : VisualControlBase,
 
     private void OnTextBoxAcceptsTabChanged(object? sender, EventArgs e) => OnAcceptsTabChanged(e);
 
-    private void OnTextBoxTextChanged(object? sender, EventArgs e) => OnTextChanged(e);
+    private void OnTextBoxTextChanged(object? sender, EventArgs e)
+    {
+        CueHint.SyncAnimation();
+        OnTextChanged(e);
+    }
 
     private void OnTextBoxTextAlignChanged(object? sender, EventArgs e) => OnTextAlignChanged(e);
 
