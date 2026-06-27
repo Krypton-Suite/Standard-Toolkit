@@ -18,6 +18,11 @@ public readonly struct PaletteCornerRounding : IEquatable<PaletteCornerRounding>
     /// <summary>Sentinel value indicating a corner should inherit from uniform rounding.</summary>
     public const float InheritValue = -1f;
 
+    internal const string TopLeftLabel = @"Top Left";
+    internal const string TopRightLabel = @"Top Right";
+    internal const string BottomRightLabel = @"Bottom Right";
+    internal const string BottomLeftLabel = @"Bottom Left";
+
     /// <summary>
     /// Initialize a new instance of the PaletteCornerRounding structure.
     /// </summary>
@@ -111,6 +116,22 @@ public readonly struct PaletteCornerRounding : IEquatable<PaletteCornerRounding>
     /// <inheritdoc />
     public override string ToString()
     {
+        if (!HasInherit)
+        {
+            if (IsUniform)
+            {
+                return TopLeft.ToString(CultureInfo.CurrentCulture);
+            }
+
+            return string.Join(@", ", new[]
+            {
+                FormatCorner(TopLeftLabel, TopLeft),
+                FormatCorner(TopRightLabel, TopRight),
+                FormatCorner(BottomRightLabel, BottomRight),
+                FormatCorner(BottomLeftLabel, BottomLeft)
+            });
+        }
+
         if (TopLeft == InheritValue
             && TopRight == InheritValue
             && BottomRight == InheritValue
@@ -119,6 +140,49 @@ public readonly struct PaletteCornerRounding : IEquatable<PaletteCornerRounding>
             return @"Inherit";
         }
 
-        return IsUniform ? TopLeft.ToString(CultureInfo.CurrentCulture) : $"TL={TopLeft}, TR={TopRight}, BR={BottomRight}, BL={BottomLeft}";
+        var parts = new List<string>(4);
+        AddCornerIfOverridden(parts, TopLeftLabel, TopLeft);
+        AddCornerIfOverridden(parts, TopRightLabel, TopRight);
+        AddCornerIfOverridden(parts, BottomRightLabel, BottomRight);
+        AddCornerIfOverridden(parts, BottomLeftLabel, BottomLeft);
+        return string.Join(@", ", parts);
     }
+
+    /// <summary>
+    /// Applies a parsed corner label and value to the matching corner field.
+    /// </summary>
+    internal static void ApplyCornerLabel(string label, float value, ref float topLeft, ref float topRight, ref float bottomRight, ref float bottomLeft)
+    {
+        string normalized = label.Trim().Replace(@"-", @" ").ToUpperInvariant();
+        switch (normalized)
+        {
+            case @"TL":
+            case @"TOP LEFT":
+                topLeft = value;
+                break;
+            case @"TR":
+            case @"TOP RIGHT":
+                topRight = value;
+                break;
+            case @"BR":
+            case @"BOTTOM RIGHT":
+                bottomRight = value;
+                break;
+            case @"BL":
+            case @"BOTTOM LEFT":
+                bottomLeft = value;
+                break;
+        }
+    }
+
+    private static void AddCornerIfOverridden(List<string> parts, string label, float value)
+    {
+        if (value != InheritValue)
+        {
+            parts.Add(FormatCorner(label, value));
+        }
+    }
+
+    private static string FormatCorner(string label, float value) =>
+        $"{label} = {value.ToString(CultureInfo.CurrentCulture)}";
 }

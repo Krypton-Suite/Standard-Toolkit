@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -23,20 +23,50 @@ internal class PaletteCornerRoundingConverter : TypeConverter
     {
         if (value is string text)
         {
-            string[] parts = text.Split([',', ';'], StringSplitOptions.RemoveEmptyEntries);
-            if (parts.Length == 1
-                && float.TryParse(parts[0].Trim(), NumberStyles.Float, culture ?? CultureInfo.CurrentCulture, out float uniform))
+            text = text.Trim();
+            CultureInfo formatCulture = culture ?? CultureInfo.CurrentCulture;
+
+            if (string.Equals(text, @"Inherit", StringComparison.OrdinalIgnoreCase))
+            {
+                return PaletteCornerRounding.Inherit;
+            }
+
+            if (text.IndexOf('=') >= 0)
+            {
+                float topLeft = PaletteCornerRounding.InheritValue;
+                float topRight = PaletteCornerRounding.InheritValue;
+                float bottomRight = PaletteCornerRounding.InheritValue;
+                float bottomLeft = PaletteCornerRounding.InheritValue;
+
+                string[] parts = text.Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (string part in parts)
+                {
+                    string[] pair = part.Trim().Split(new[] { '=' }, 2, StringSplitOptions.None);
+                    if (pair.Length != 2 || !TryParseCornerValue(pair[1].Trim(), formatCulture, out float cornerValue))
+                    {
+                        continue;
+                    }
+
+                    PaletteCornerRounding.ApplyCornerLabel(pair[0], cornerValue, ref topLeft, ref topRight, ref bottomRight, ref bottomLeft);
+                }
+
+                return new PaletteCornerRounding(topLeft, topRight, bottomRight, bottomLeft);
+            }
+
+            string[] values = text.Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
+            if (values.Length == 1
+                && float.TryParse(values[0].Trim(), NumberStyles.Float, formatCulture, out float uniform))
             {
                 return PaletteCornerRounding.Uniform(uniform);
             }
 
-            if (parts.Length == 4
-                && float.TryParse(parts[0].Trim(), NumberStyles.Float, culture ?? CultureInfo.CurrentCulture, out float topLeft)
-                && float.TryParse(parts[1].Trim(), NumberStyles.Float, culture ?? CultureInfo.CurrentCulture, out float topRight)
-                && float.TryParse(parts[2].Trim(), NumberStyles.Float, culture ?? CultureInfo.CurrentCulture, out float bottomRight)
-                && float.TryParse(parts[3].Trim(), NumberStyles.Float, culture ?? CultureInfo.CurrentCulture, out float bottomLeft))
+            if (values.Length == 4
+                && float.TryParse(values[0].Trim(), NumberStyles.Float, formatCulture, out float valueTopLeft)
+                && float.TryParse(values[1].Trim(), NumberStyles.Float, formatCulture, out float valueTopRight)
+                && float.TryParse(values[2].Trim(), NumberStyles.Float, formatCulture, out float valueBottomRight)
+                && float.TryParse(values[3].Trim(), NumberStyles.Float, formatCulture, out float valueBottomLeft))
             {
-                return new PaletteCornerRounding(topLeft, topRight, bottomRight, bottomLeft);
+                return new PaletteCornerRounding(valueTopLeft, valueTopRight, valueBottomRight, valueBottomLeft);
             }
         }
 
@@ -52,5 +82,16 @@ internal class PaletteCornerRoundingConverter : TypeConverter
         }
 
         return base.ConvertTo(context, culture, value, destinationType);
+    }
+
+    private static bool TryParseCornerValue(string text, CultureInfo culture, out float value)
+    {
+        if (string.Equals(text, @"Inherit", StringComparison.OrdinalIgnoreCase))
+        {
+            value = PaletteCornerRounding.InheritValue;
+            return true;
+        }
+
+        return float.TryParse(text, NumberStyles.Float, culture, out value);
     }
 }

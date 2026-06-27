@@ -68,7 +68,7 @@ namespace Krypton.Toolkit
             checkBoxTopLeft.Name = "checkBoxTopLeft";
             checkBoxTopLeft.Size = new Size(69, 19);
             checkBoxTopLeft.TabIndex = 2;
-            checkBoxTopLeft.Text = "Top-Left";
+            checkBoxTopLeft.Text = "Top Left";
             checkBoxTopLeft.UseVisualStyleBackColor = true;
             checkBoxTopLeft.CheckedChanged += CornerOverride_CheckedChanged;
             //
@@ -79,7 +79,7 @@ namespace Krypton.Toolkit
             checkBoxTopRight.Name = "checkBoxTopRight";
             checkBoxTopRight.Size = new Size(77, 19);
             checkBoxTopRight.TabIndex = 4;
-            checkBoxTopRight.Text = "Top-Right";
+            checkBoxTopRight.Text = "Top Right";
             checkBoxTopRight.UseVisualStyleBackColor = true;
             checkBoxTopRight.CheckedChanged += CornerOverride_CheckedChanged;
             //
@@ -90,7 +90,7 @@ namespace Krypton.Toolkit
             checkBoxBottomRight.Name = "checkBoxBottomRight";
             checkBoxBottomRight.Size = new Size(97, 19);
             checkBoxBottomRight.TabIndex = 6;
-            checkBoxBottomRight.Text = "Bottom-Right";
+            checkBoxBottomRight.Text = "Bottom Right";
             checkBoxBottomRight.UseVisualStyleBackColor = true;
             checkBoxBottomRight.CheckedChanged += CornerOverride_CheckedChanged;
             //
@@ -101,7 +101,7 @@ namespace Krypton.Toolkit
             checkBoxBottomLeft.Name = "checkBoxBottomLeft";
             checkBoxBottomLeft.Size = new Size(89, 19);
             checkBoxBottomLeft.TabIndex = 8;
-            checkBoxBottomLeft.Text = "Bottom-Left";
+            checkBoxBottomLeft.Text = "Bottom Left";
             checkBoxBottomLeft.UseVisualStyleBackColor = true;
             checkBoxBottomLeft.CheckedChanged += CornerOverride_CheckedChanged;
             //
