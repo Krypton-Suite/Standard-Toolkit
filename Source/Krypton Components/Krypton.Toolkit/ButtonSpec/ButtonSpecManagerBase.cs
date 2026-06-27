@@ -831,7 +831,7 @@ public abstract class ButtonSpecManagerBase : GlobalId
             buttonView.ViewCenter.Orientation = DockerOrientation(viewDockerIndex);
 
             // Insert the button view into the docker
-            AddViewToDocker(viewDockerIndex, GetDockStyle(buttonSpec), buttonView.ViewCenter, _viewMetrics != null);
+            AddViewToDocker(viewDockerIndex, GetButtonSpecDockStyle(buttonSpec), buttonView.ViewCenter, _viewMetrics != null);
 
             // Perform any last construction steps for button spec
             ButtonSpecCreated(buttonSpec, buttonView, viewDockerIndex);
@@ -911,15 +911,23 @@ public abstract class ButtonSpecManagerBase : GlobalId
         return -1;
     }
 
-    private ViewDockStyle GetDockStyle(ButtonSpec spec)
+    /// <summary>
+    /// Gets the dock style for a button spec before <see cref="ViewDrawDocker"/> layout.
+    /// </summary>
+    /// <param name="spec">Button spec instance.</param>
+    /// <returns>Dock style to assign before RTL mirroring.</returns>
+    /// <remarks>
+    /// Maps palette Near/Far edge to Left/Right dock. Form chrome relies on
+    /// <see cref="KryptonForm.FormPaletteRedirect.GetButtonSpecEdge(PaletteButtonSpecStyle)"/> to move standard Far-edge buttons to the
+    /// physical left in RTL (Far→Near remap) rather than depending on
+    /// <see cref="ViewDrawDocker.CalculateDock"/> alone, which does not consistently mirror
+    /// caption button specs (issue #3786).
+    /// </remarks>
+    protected virtual ViewDockStyle GetButtonSpecDockStyle(ButtonSpec spec)
     {
         var edge = spec.GetEdge(_redirector);
 
-        var isRtl = CommonHelper.IsRightToLeftLayout(Control);
-
-        // In RTL mode with RightToLeftLayout enabled, reverse the dock style
-        return isRtl ? edge == RelativeEdgeAlign.Near ? ViewDockStyle.Right : ViewDockStyle.Left :
-            edge == RelativeEdgeAlign.Near ? ViewDockStyle.Left : ViewDockStyle.Right;
+        return edge == RelativeEdgeAlign.Near ? ViewDockStyle.Left : ViewDockStyle.Right;
     }
 
     private VisualOrientation CalculateOrientation(VisualOrientation viewOrientation,

@@ -45,6 +45,8 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#3786](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3786), Control box buttons shown in wrong order and on the wrong edge in RTL (standard palettes now close, maximize/restore, minimize on the left; macOS and OS X Aqua traffic lights red-yellow-green on first show)
+* Implemented [#3788](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3788), Allow build scripts to find Visual Studio. Build scripts locate Visual Studio/MSBuild via `Scripts/Common/find-msbuild.cmd` (`vswhere.exe`, `current` profile for yearly VS 18+, custom install paths and non-default drives); override with `MSBUILDPATH` or `MSBUILD_PATH`. Build scripts and ModernBuild locate MSBuild via `Scripts/Common/find-msbuild.cmd` and `vswhere.exe`, with `%ProgramFiles%` fallback and `MSBUILDPATH` / `MSBUILD_PATH` overrides for custom or non-system-drive Visual Studio installs
 * Implemented [#3763](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3763), Bring the `KryptonCircularProgressBar` over
    * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Resolved [#3767](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3767), Adjust the position and size of the buttons in the `KryptonMessageBox`

@@ -1,4 +1,6 @@
 echo off
+REM Interactive solution build: VS 2019 (profile "2019") or VS 2026+ (profile "current") via user prompt.
+REM MSBuild discovery: Scripts\Common\find-msbuild.cmd at :vs2019build and :vs2026build. Failure text from the helper.
 setlocal EnableExtensions
 set "SCRIPT_DIR=%~dp0"
 pushd "%SCRIPT_DIR%"
@@ -10,36 +12,11 @@ if /I "%INPUT%"=="2019" goto vs2019build
 if /I "%INPUT%"=="2026" goto vs2026build
 
 :vs2019build
-if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Insiders\MSBuild\Current\Bin" goto vs16prev
-if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin" goto vs16ent
-if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Professional\MSBuild\Current\Bin" goto vs16pro
-if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin" goto vs16com
-if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\Bin" goto vs16build
-
-echo "Unable to detect suitable environment. Check if VS 2019 is installed."
-
+call "%SCRIPT_DIR%..\Common\find-msbuild.cmd" 2019
+if errorlevel 1 (
 pause
-
 goto exitbatch
-
-:vs16prev
-set msbuildpath=%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Insiders\MSBuild\Current\Bin
-goto build2019
-
-:vs16ent
-set msbuildpath=%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin
-goto build2019
-
-:vs16pro
-set msbuildpath=%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Professional\MSBuild\Current\Bin
-goto build2019
-
-:vs16com
-set msbuildpath=%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin
-goto build2019
-
-:vs16build
-set msbuildpath=%ProgramFiles(x86)%\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\Bin
+)
 goto build2019
 
 :build2019
@@ -51,34 +28,11 @@ REM /m: multi-processor MSBuild (all logical CPUs).
 "%msbuildpath%\msbuild.exe" /m /t:%targets% "%SCRIPT_DIR%build.proj" /fl /flp:logfile="%SCRIPT_DIR%..\..\Logs\solution-build-log.log" /bl:"%SCRIPT_DIR%..\..\Logs\solution-build-log.binlog" /clp:Summary;ShowTimestamp /v:quiet
 
 :vs2026build
-if exist "%ProgramFiles%\Microsoft Visual Studio\18\Insiders\MSBuild\Current\Bin" goto vscurrentinsiders
-if exist "%ProgramFiles%\Microsoft Visual Studio\18\Enterprise\MSBuild\Current\Bin" goto vscurrentent
-if exist "%ProgramFiles%\Microsoft Visual Studio\18\Professional\MSBuild\Current\Bin" goto vscurrentpro
-if exist "%ProgramFiles%\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin" goto vscurrentcom
-if exist "%ProgramFiles%\Microsoft Visual Studio\18\BuildTools\MSBuild\Current\Bin" goto vscurrentbuild
-
-echo "Unable to detect suitable environment. Check if VS 2026 is installed."
-goto exitbatch
+call "%SCRIPT_DIR%..\Common\find-msbuild.cmd" current
+if errorlevel 1 (
 pause
-
-:vscurrentinsiders
-set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\18\Insiders\MSBuild\Current\Bin
-goto build2026
-
-:vscurrentent
-set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\18\Enterprise\MSBuild\Current\Bin
-goto build2026
-
-:vscurrentpro
-set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\18\Professional\MSBuild\Current\Bin
-goto build2026
-
-:vscurrentcom
-set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin
-goto build2026
-
-:vscurrentbuild
-set msbuildpath=%ProgramFiles%\Microsoft Visual Studio\18\BuildTools\MSBuild\Current\Bin
+goto exitbatch
+)
 goto build2026
 
 :build2026
