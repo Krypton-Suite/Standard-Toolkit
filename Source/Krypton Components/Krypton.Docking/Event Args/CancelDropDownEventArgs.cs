@@ -13,16 +13,16 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Event arguments for cancellable events that need to provide a unique name and context menu.
+/// Cancellable event arguments for drop-down context menu display with associated page context.
 /// </summary>
 public class CancelDropDownEventArgs : CancelEventArgs
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the CancelDropDownEventArgs class.
+    /// Associates the context menu and page with the event; cancellation defaults to false.
     /// </summary>
-    /// <param name="contextMenu">Reference to associated context menu.</param>
-    /// <param name="page">Reference to the associated page.</param>
+    /// <param name="contextMenu">Context menu about to be shown; may be null.</param>
+    /// <param name="page">Page associated with the drop-down; may be null.</param>
     public CancelDropDownEventArgs(KryptonContextMenu? contextMenu, KryptonPage? page)
         : base(false)
     {
@@ -33,12 +33,12 @@ public class CancelDropDownEventArgs : CancelEventArgs
 
     #region Public
     /// <summary>
-    /// Gets a reference to the context menu.
+    /// Context menu about to be shown; may be null.
     /// </summary>
     public KryptonContextMenu? KryptonContextMenu { get; }
 
     /// <summary>
-    /// Gets a reference to the page.
+    /// Page associated with the drop-down; may be null.
     /// </summary>
     public KryptonPage? Page { get; }
 

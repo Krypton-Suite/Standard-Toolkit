@@ -13,17 +13,17 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Event arguments for a DockspaceSeparatorResize event.
+/// Event arguments raised while a dockspace separator is resized, allowing handlers to constrain the resize bounds.
 /// </summary>
 public class DockspaceSeparatorResizeEventArgs : DockspaceSeparatorEventArgs
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the DockspaceSeparatorResizeEventArgs class.
+    /// Extends separator event arguments with initial resize bounds for the dockspace separator drag operation.
     /// </summary>
-    /// <param name="separator">Reference to separator control instance.</param>
-    /// <param name="element">Reference to dockspace docking element that is managing the separator.</param>
-    /// <param name="resizeRect">Initial resizing rectangle.</param>
+    /// <param name="separator">Separator control being dragged to resize the dockspace.</param>
+    /// <param name="element">Dockspace docking element that owns the separator.</param>
+    /// <param name="resizeRect">Initial bounds rectangle limiting dockspace resize during separator drag.</param>
     public DockspaceSeparatorResizeEventArgs(KryptonSeparator separator,
         KryptonDockingDockspace element,
         Rectangle resizeRect)
@@ -34,7 +34,7 @@ public class DockspaceSeparatorResizeEventArgs : DockspaceSeparatorEventArgs
 
     #region Public
     /// <summary>
-    /// Gets and sets the rectangle that limits resizing of the dockspace using the separator.
+    /// Bounds rectangle limiting dockspace resize during separator drag; handlers may adjust before resize applies.
     /// </summary>
     public Rectangle ResizeRect { get; set; }
 

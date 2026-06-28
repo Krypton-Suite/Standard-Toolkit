@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -18,7 +18,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Manages a hierarchy of docking elements to provide docking windows functionality.
+/// Root docking component that coordinates page visibility, layout persistence, drag-and-drop, and user requests across a hierarchy of docking elements.
 /// </summary>
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(KryptonDockingManager), "ToolboxBitmaps.KryptonDockingManager.bmp")]
@@ -72,14 +72,14 @@ public class KryptonDockingManager : DockingElementOpenCollection
     public event EventHandler<CancelUniqueNameEventArgs>? PageNavigatorRequest;
 
     /// <summary>
-    /// Occurs when a docking context menu is about to be shown for a page.
+    /// Occurs before a page context menu is shown. Set <see cref="CancelEventArgs.Cancel"/> to suppress display.
     /// </summary>
     [Category("User Request")]
     [Description("Occurs when a docking context menu is about to be shown for a page.")]
     public event EventHandler<ContextPageEventArgs>? ShowPageContextMenu;
 
     /// <summary>
-    /// Occurs when a dockable workspace context menu is about to be shown for a page.
+    /// Occurs before a dockable workspace page context menu is shown. Set <see cref="CancelEventArgs.Cancel"/> to suppress display.
     /// </summary>
     [Category("User Request")]
     [Description("Occurs when a dockable workspace context menu is about to be shown for a page.")]
@@ -319,7 +319,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonDockingManager class.
+    /// Creates a docking manager that uses the default root element name.
     /// </summary>
     public KryptonDockingManager()
         : this(nameof(DockingManager))
@@ -327,7 +327,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
     }
 
     /// <summary>
-    /// Initialize a new instance of the KryptonDockingManager class.
+    /// Creates a docking manager that uses the specified root element name.
     /// </summary>
     /// <param name="name">Initial name of the element.</param>
     public KryptonDockingManager(string name)
@@ -339,14 +339,14 @@ public class KryptonDockingManager : DockingElementOpenCollection
 
     #region Public
     /// <summary>
-    /// Manage auto hidden/docked capabilities for provided control.
+    /// Creates and registers a <see cref="KryptonDockingControl"/> for the specified host control.
     /// </summary>
     /// <param name="c">Reference to control instance.</param>
     /// <returns>KryptonDockingControl instance created.</returns>
     public KryptonDockingControl ManageControl(Control c) => ManageControl(nameof(Control), c);
 
     /// <summary>
-    /// Manage auto hidden/docked capabilities for provided control.
+    /// Creates and registers a <see cref="KryptonDockingControl"/> for the specified host control.
     /// </summary>
     /// <param name="c">Reference to control instance.</param>
     /// <param name="navigator">Reference to docking navigator that is inside the control.</param>
@@ -354,7 +354,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
     public KryptonDockingControl ManageControl(Control c, KryptonDockingNavigator navigator) => ManageControl(nameof(Control), c, navigator);
 
     /// <summary>
-    /// Manage auto hidden/docked capabilities for provided control.
+    /// Creates and registers a <see cref="KryptonDockingControl"/> for the specified host control.
     /// </summary>
     /// <param name="c">Reference to control instance.</param>
     /// <param name="workspace">Reference to docking workspace that is inside the control.</param>
@@ -362,7 +362,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
     public KryptonDockingControl ManageControl(Control c, KryptonDockingWorkspace workspace) => ManageControl(nameof(Control), c, workspace);
 
     /// <summary>
-    /// Manage auto hidden/docked capabilities for provided control.
+    /// Creates and registers a <see cref="KryptonDockingControl"/> for the specified host control.
     /// </summary>
     /// <param name="name">Name for new docking element.</param>
     /// <param name="c">Reference to control instance.</param>
@@ -375,7 +375,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
     }
 
     /// <summary>
-    /// Manage auto hidden/docked capabilities for provided control.
+    /// Creates and registers a <see cref="KryptonDockingControl"/> for the specified host control.
     /// </summary>
     /// <param name="name">Name for new docking element.</param>
     /// <param name="c">Reference to control instance.</param>
@@ -389,7 +389,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
     }
 
     /// <summary>
-    /// Manage auto hidden/docked capabilities for provided control.
+    /// Creates and registers a <see cref="KryptonDockingControl"/> for the specified host control.
     /// </summary>
     /// <param name="name">Name for new docking element.</param>
     /// <param name="c">Reference to control instance.</param>
@@ -403,14 +403,14 @@ public class KryptonDockingManager : DockingElementOpenCollection
     }
 
     /// <summary>
-    /// Manage floating windows capability for provided form.
+    /// Creates and registers a <see cref="KryptonDockingFloating"/> element for the specified owner form.
     /// </summary>
     /// <param name="f">Reference to form.</param>
     /// <returns>KryptonDockingFloating instance created.</returns>
     public KryptonDockingFloating ManageFloating(Form f) => ManageFloating(@"Floating", f);
 
     /// <summary>
-    /// Manage floating windows capability for provided form.
+    /// Creates and registers a <see cref="KryptonDockingFloating"/> element for the specified owner form.
     /// </summary>
     /// <param name="name">Name for new docking element.</param>
     /// <param name="f">Reference to form.</param>
@@ -423,14 +423,14 @@ public class KryptonDockingManager : DockingElementOpenCollection
     }
 
     /// <summary>
-    /// Manage docking capability for provided dockable workspace control.
+    /// Creates and registers a <see cref="KryptonDockingWorkspace"/> element for the specified workspace control.
     /// </summary>
     /// <param name="w">Reference to dockable workspace.</param>
     /// <returns>KryptonDockingWorkspace instance created.</returns>
     public KryptonDockingWorkspace ManageWorkspace(KryptonDockableWorkspace w) => ManageWorkspace(nameof(Workspace), @"Filler", w);
 
     /// <summary>
-    /// Manage docking capability for provided dockable workspace control.
+    /// Creates and registers a <see cref="KryptonDockingWorkspace"/> element for the specified workspace control.
     /// </summary>
     /// <param name="name">Name for new docking element.</param>
     /// <param name="w">Reference to dockable workspace.</param>
@@ -438,7 +438,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
     public KryptonDockingWorkspace ManageWorkspace(string name, KryptonDockableWorkspace w) => ManageWorkspace(name, @"Filler", w);
 
     /// <summary>
-    /// Manage docking capability for provided dockable workspace control.
+    /// Creates and registers a <see cref="KryptonDockingWorkspace"/> element for the specified workspace control.
     /// </summary>
     /// <param name="name">Name for new docking element.</param>
     /// <param name="storeName">Store name for docking element.</param>
@@ -452,14 +452,14 @@ public class KryptonDockingManager : DockingElementOpenCollection
     }
 
     /// <summary>
-    /// Manage docking capability for provided dockable navigator control.
+    /// Creates and registers a <see cref="KryptonDockingNavigator"/> element for the specified navigator control.
     /// </summary>
     /// <param name="n">Reference to dockable navigator.</param>
     /// <returns>KryptonDockingNavigator instance created.</returns>
     public KryptonDockingNavigator ManageNavigator(KryptonDockableNavigator n) => ManageNavigator(nameof(Navigator), @"Filler", n);
 
     /// <summary>
-    /// Manage docking capability for provided dockable navigator control.
+    /// Creates and registers a <see cref="KryptonDockingNavigator"/> element for the specified navigator control.
     /// </summary>
     /// <param name="name">Name for new docking element.</param>
     /// <param name="n">Reference to dockable navigator.</param>
@@ -467,7 +467,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
     public KryptonDockingNavigator ManageNavigator(string name, KryptonDockableNavigator n) => ManageNavigator(name, @"Filler", n);
 
     /// <summary>
-    /// Manage docking capability for provided dockable navigator control.
+    /// Creates and registers a <see cref="KryptonDockingNavigator"/> element for the specified navigator control.
     /// </summary>
     /// <param name="name">Name for new docking element.</param>
     /// <param name="storeName">Store name for docking element.</param>
@@ -481,13 +481,13 @@ public class KryptonDockingManager : DockingElementOpenCollection
     }
 
     /// <summary>
-    /// Gets access to the set of display strings required of the docking hierarchy display elements.
+    /// Display strings applied to docking hierarchy tooltips and context actions.
     /// </summary>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public DockingManagerStrings Strings { get; private set; }
 
     /// <summary>
-    /// Resolve the provided path.
+    /// Locates the child element matching a comma-separated name path.
     /// </summary>
     /// <param name="path">Comma separated list of names to resolve.</param>
     /// <returns>IDockingElement reference if path was resolved with success; otherwise null.</returns>
@@ -921,7 +921,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
     /// Find the page reference that has the requested unique name.
     /// </summary>
     /// <param name="uniqueName">Unique name of page that should be found.</param>
-    /// <returns>Reference to page if the named page exists in the docking hierarchy; otherwise false.</returns>
+    /// <returns>The page reference when found in the hierarchy; otherwise <see langword="null"/>.</returns>
     public KryptonPage? PageForUniqueName([DisallowNull] string uniqueName)
     {
         // Cannot find a null reference
@@ -1138,7 +1138,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
     }
 
     /// <summary>
-    /// Find the docking location of the named page.
+    /// Returns the docking location of the page with the specified unique name.
     /// </summary>
     /// <param name="uniqueName">Unique name of the page.</param>
     /// <returns>Enumeration value indicating docking location.</returns>
@@ -1174,7 +1174,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
     }
 
     /// <summary>
-    /// Find the docking element that contains the named page.
+    /// Returns the docking element that contains the page with the specified unique name.
     /// </summary>
     /// <param name="uniqueName">Unique name of the page.</param>
     /// <returns>IDockingElement reference if page is found; otherwise null.</returns>
@@ -1197,7 +1197,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
     }
 
     /// <summary>
-    /// Find the docking element that contains the location specific store page for the named page.
+    /// Returns the docking element that holds a store placeholder for the page at the specified location.
     /// </summary>
     /// <param name="location">Location to be searched.</param>
     /// <param name="page">Reference to page.</param>
@@ -1211,7 +1211,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
     }
 
     /// <summary>
-    /// Find the docking element that contains the location specific store page for the named page.
+    /// Returns the docking element that holds a store placeholder for the page at the specified location.
     /// </summary>
     /// <param name="location">Location to be searched.</param>
     /// <param name="uniqueName">Unique name of the page to be found.</param>
@@ -1234,10 +1234,10 @@ public class KryptonDockingManager : DockingElementOpenCollection
     }
 
     /// <summary>
-    /// Find a floating docking element by searching the hierarchy.
+    /// Returns the floating docking element associated with the specified page name.
     /// </summary>
     /// <param name="uniqueName">Named page for which a suitable floating element is required.</param>
-    /// <returns>KryptonDockingFloating reference if found; otherwise false.</returns>
+    /// <returns>The matching floating element, or <see langword="null"/> when none is found.</returns>
     public override KryptonDockingFloating? FindDockingFloating(string uniqueName)
     {
         // First preference is to find an existing store page inside a floating element
@@ -1251,10 +1251,10 @@ public class KryptonDockingManager : DockingElementOpenCollection
     }
 
     /// <summary>
-    /// Find a edge docked element by searching the hierarchy.
+    /// Returns the edge-docked element associated with the specified page name.
     /// </summary>
     /// <param name="uniqueName">Named page for which a suitable docking edge element is required.</param>
-    /// <returns>KryptonDockingEdgeDocked reference if found; otherwise false.</returns>
+    /// <returns>The matching edge-docked element, or <see langword="null"/> when none is found.</returns>
     public override KryptonDockingEdgeDocked? FindDockingEdgeDocked(string uniqueName)
     {
         // Try and find as an existing page inside the hierarchy
@@ -1311,10 +1311,10 @@ public class KryptonDockingManager : DockingElementOpenCollection
     }
 
     /// <summary>
-    /// Find a edge auto hidden element by searching the hierarchy.
+    /// Returns the auto-hidden edge element associated with the specified page name.
     /// </summary>
     /// <param name="uniqueName">Named page for which a suitable auto hidden edge element is required.</param>
-    /// <returns>KryptonDockingEdgeAutoHidden reference if found; otherwise false.</returns>
+    /// <returns>The matching auto-hidden edge element, or <see langword="null"/> when none is found.</returns>
     public override KryptonDockingEdgeAutoHidden? FindDockingEdgeAutoHidden(string uniqueName)
     {
         // Try and find as an existing page inside the hierarchy
@@ -1371,10 +1371,10 @@ public class KryptonDockingManager : DockingElementOpenCollection
     }
 
     /// <summary>
-    /// Find a workspace element by searching the hierarchy.
+    /// Returns the workspace docking element associated with the specified page name.
     /// </summary>
     /// <param name="uniqueName">Named page for which a suitable workspace element is required.</param>
-    /// <returns>KryptonDockingWorkspace reference if found; otherwise false.</returns>
+    /// <returns>The matching workspace element, or <see langword="null"/> when none is found.</returns>
     public override KryptonDockingWorkspace? FindDockingWorkspace(string uniqueName)
     {
         // First preference is to find an existing store page inside a workspace element
@@ -1388,7 +1388,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
     }
 
     /// <summary>
-    /// Gets and sets the default request action to use for a close.
+    /// Default action applied when <see cref="CloseRequest(System.Collections.Generic.IReadOnlyList{string})"/> runs without a custom <see cref="PageCloseRequest"/> handler.
     /// </summary>
     [DefaultValue(typeof(DockingCloseRequest), "HidePage")]
     public DockingCloseRequest DefaultCloseRequest { get; set; }
@@ -1809,11 +1809,12 @@ public class KryptonDockingManager : DockingElementOpenCollection
     }
 
     /// <summary>
-    /// Populate a context menu appropriate for a non-dockable workspace provided page.
+    /// Raises <see cref="ShowPageContextMenu"/> and returns whether the menu should be displayed.
     /// </summary>
-    /// <param name="page">Reference to page.</param>
-    /// <param name="kcm">Reference to context menu.</param>
-    /// <returns>True if the context menu should be displayed; otherwise false.</returns>
+    /// <param name="page">Page whose context menu is requested.</param>
+    /// <param name="kcm">Context menu to populate before display.</param>
+    /// <returns><see langword="true"/> when the menu should be shown; otherwise <see langword="false"/>.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="page"/> or <paramref name="kcm"/> is <see langword="null"/>.</exception>
     public virtual bool ShowPageContextMenuRequest([DisallowNull] KryptonPage? page, [DisallowNull] KryptonContextMenu kcm)
     {
         // Cannot action a null reference
@@ -2153,7 +2154,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
     /// Perform a switch from floating to docked for the named pages.
     /// </summary>
     /// <param name="uniqueNames">Unique name of floating pages that need switching.</param>
-    /// <returns>KryptonDockingDockspace reference if a new dockspace needed to be created; otherwise false.</returns>
+    /// <returns>The newly created dockspace when one was required; otherwise <see langword="null"/>.</returns>
     public virtual KryptonDockingDockspace? SwitchFloatingToDockedRequest([DisallowNull] string[] uniqueNames)
     {
         // Cannot action a null reference
@@ -2295,7 +2296,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
     /// Perform a switch from floating to new floating window for the named pages.
     /// </summary>
     /// <param name="uniqueNames">Unique name of floating pages that need switching.</param>
-    /// <returns>KryptonDockingFloatingWindow reference on success; otherwise false.</returns>
+    /// <returns>The newly created floating window when the switch succeeds; otherwise <see langword="null"/>.</returns>
     public virtual KryptonDockingFloatingWindow? SwitchFloatingToFloatingWindowRequest([DisallowNull] IReadOnlyList<string> uniqueNames)
     {
         // Cannot action a null reference
@@ -2399,7 +2400,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
     /// Perform a switch from auto hidden group to docked cell for the visible pages inside the group.
     /// </summary>
     /// <param name="uniqueName">Unique name of page inside auto hidden group that needs switching.</param>
-    /// <returns>KryptonDockingDockspace reference if a new dockspace needed to be created; otherwise false.</returns>
+    /// <returns>The newly created dockspace when one was required; otherwise <see langword="null"/>.</returns>
     public virtual KryptonDockingDockspace? SwitchAutoHiddenGroupToDockedCellRequest([DisallowNull] string uniqueName)
     {
         // Cannot switch a null reference
@@ -3277,7 +3278,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
     }
 
     /// <summary>
-    /// Saves docking configuration information using a provider xml writer.
+    /// Writes this element and its descendants to the supplied XML writer.
     /// </summary>
     /// <param name="xmlWriter">Xml writer object.</param>
     public void SaveConfigToXml(XmlWriter xmlWriter)
@@ -3646,10 +3647,10 @@ public class KryptonDockingManager : DockingElementOpenCollection
     }
 
     /// <summary>
-    /// Return the cell the page belongs to, when available (JDH Software add)
+    /// Returns the workspace cell containing the named page when it is docked or floating.
     /// </summary>
-    /// <param name="uniqueName">The uniqueName of the page.</param>
-    /// <returns>The KryptonWorkspaceCell.</returns>
+    /// <param name="uniqueName">Unique name of the page.</param>
+    /// <returns>The workspace cell hosting the page, or <see langword="null"/> when the page is not in a dockspace or floatspace.</returns>
     public KryptonWorkspaceCell? DockingCellForPage(string uniqueName)
     {
         //Action depends on current location of the page

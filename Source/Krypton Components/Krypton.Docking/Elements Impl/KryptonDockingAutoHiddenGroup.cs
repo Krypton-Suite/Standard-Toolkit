@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -44,10 +44,10 @@ public class KryptonDockingAutoHiddenGroup : DockingElementClosedCollection
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonDockingAutoHiddenGroup class.
+    /// Creates an auto-hidden group element for the specified control edge.
     /// </summary>
     /// <param name="name">Initial name of the element.</param>
-    /// <param name="edge">Docking edge being managed.</param>
+    /// <param name="edge">Edge of the host control on which the group is displayed.</param>
     public KryptonDockingAutoHiddenGroup(string name, DockingEdge edge)
         : base(name)
     {
@@ -66,12 +66,12 @@ public class KryptonDockingAutoHiddenGroup : DockingElementClosedCollection
 
     #region Public
     /// <summary>
-    /// Gets the docking edge this element is managing.
+    /// Control edge on which this element hosts docked or auto-hidden content.
     /// </summary>
     public DockingEdge Edge { get; }
 
     /// <summary>
-    /// Gets the control this element is managing.
+    /// Host control associated with this docking element.
     /// </summary>
     public KryptonAutoHiddenGroup AutoHiddenGroupControl { get; }
 
@@ -117,7 +117,7 @@ public class KryptonDockingAutoHiddenGroup : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Propagates an action request down the hierarchy of docking elements.
+    /// Forwards the specified docking action to child elements.
     /// </summary>
     /// <param name="action">Action that is requested to be performed.</param>
     /// <param name="uniqueNames">Array of unique names of the pages the action relates to.</param>
@@ -227,7 +227,7 @@ public class KryptonDockingAutoHiddenGroup : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Propagates an action request down the hierarchy of docking elements.
+    /// Forwards the specified docking action to child elements.
     /// </summary>
     /// <param name="action">Action that is requested to be performed.</param>
     /// <param name="pages">Array of pages the action relates to.</param>
@@ -245,7 +245,7 @@ public class KryptonDockingAutoHiddenGroup : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Propagates a boolean state request down the hierarchy of docking elements.
+    /// Queries child elements for a boolean page state and returns the first definitive answer.
     /// </summary>
     /// <param name="state">Boolean state that is requested to be recovered.</param>
     /// <param name="uniqueName">Unique name of the page the request relates to.</param>
@@ -291,7 +291,7 @@ public class KryptonDockingAutoHiddenGroup : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Propagates a page request down the hierarchy of docking elements.
+    /// Queries child elements for a page reference matching the supplied state.
     /// </summary>
     /// <param name="state">Request that should result in a page reference if found.</param>
     /// <param name="uniqueName">Unique name of the page the request relates to.</param>
@@ -313,7 +313,7 @@ public class KryptonDockingAutoHiddenGroup : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Propagates a page list request down the hierarchy of docking elements.
+    /// Adds matching pages from child elements into the supplied collection.
     /// </summary>
     /// <param name="state">Request that should result in pages collection being modified.</param>
     /// <param name="pages">Pages collection for modification by the docking elements.</param>
@@ -342,7 +342,7 @@ public class KryptonDockingAutoHiddenGroup : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Find the docking location of the named page.
+    /// Returns the docking location of the page with the specified unique name.
     /// </summary>
     /// <param name="uniqueName">Unique name of the page.</param>
     /// <returns>Enumeration value indicating docking location.</returns>
@@ -355,7 +355,7 @@ public class KryptonDockingAutoHiddenGroup : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Find the docking element that contains the named page.
+    /// Returns the docking element that contains the page with the specified unique name.
     /// </summary>
     /// <param name="uniqueName">Unique name of the page.</param>
     /// <returns>IDockingElement reference if page is found; otherwise null.</returns>
@@ -368,7 +368,7 @@ public class KryptonDockingAutoHiddenGroup : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Find the docking element that contains the location specific store page for the named page.
+    /// Returns the docking element that holds a store placeholder for the page at the specified location.
     /// </summary>
     /// <param name="location">Location to be searched.</param>
     /// <param name="uniqueName">Unique name of the page to be found.</param>
@@ -412,7 +412,7 @@ public class KryptonDockingAutoHiddenGroup : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Saves docking configuration information using a provider xml writer.
+    /// Writes this element and its descendants to the supplied XML writer.
     /// </summary>
     /// <param name="xmlWriter">Xml writer object.</param>
     public override void SaveElementToXml(XmlWriter xmlWriter)
@@ -446,7 +446,7 @@ public class KryptonDockingAutoHiddenGroup : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Loads docking configuration information using a provider xml reader.
+    /// Restores this element and its descendants from the supplied XML reader.
     /// </summary>
     /// <param name="xmlReader">Xml reader object.</param>
     /// <param name="pages">Collection of available pages for adding.</param>

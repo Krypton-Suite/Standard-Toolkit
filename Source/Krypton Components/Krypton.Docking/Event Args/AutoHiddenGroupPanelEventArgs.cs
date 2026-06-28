@@ -13,16 +13,16 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Event arguments for a AutoHiddenGroupPanelAdding/AutoHiddenGroupPanelRemoved events.
+/// Event arguments raised when an auto-hidden group panel is added to or removed from an edge.
 /// </summary>
 public class AutoHiddenGroupPanelEventArgs : EventArgs
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the AutoHiddenGroupPanelEventArgs class.
+    /// Records the panel control and edge auto-hidden docking element for the add or remove operation.
     /// </summary>
-    /// <param name="autoHiddenPanel">Reference to auto hidden panel control instance.</param>
-    /// <param name="element">Reference to docking auto hidden edge element that is managing the panel.</param>
+    /// <param name="autoHiddenPanel">Panel control sliding out from the auto-hidden edge.</param>
+    /// <param name="element">Docking element for the auto-hidden edge hosting the panel.</param>
     public AutoHiddenGroupPanelEventArgs(KryptonAutoHiddenPanel autoHiddenPanel,
         KryptonDockingEdgeAutoHidden element)
     {
@@ -33,12 +33,12 @@ public class AutoHiddenGroupPanelEventArgs : EventArgs
 
     #region Public
     /// <summary>
-    /// Gets a reference to the KryptonAutoHiddenPanel control.
+    /// Panel control sliding out from the auto-hidden edge.
     /// </summary>
     public KryptonAutoHiddenPanel AutoHiddenPanelControl { get; }
 
     /// <summary>
-    /// Gets a reference to the KryptonDockingEdgeAutoHidden that is managing the edge.
+    /// Docking element for the auto-hidden edge hosting the panel.
     /// </summary>
     public KryptonDockingEdgeAutoHidden EdgeAutoHiddenElement { get; }
 

@@ -13,22 +13,22 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Event arguments for events that need to provide a store page reference.
+/// Event arguments that expose a store page reference for docking store and restore operations.
 /// </summary>
 public class StorePageEventArgs : EventArgs
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the StorePageEventArgs class.
+    /// Associates the store page with the event for page restore or persistence workflows.
     /// </summary>
-    /// <param name="storePage">Reference to store page that is associated with the event.</param>
+    /// <param name="storePage">Store page instance referenced by the event.</param>
     public StorePageEventArgs(KryptonStorePage storePage) => StorePage = storePage;
 
     #endregion
 
     #region Public
     /// <summary>
-    /// Gets a reference to store page that is associated with the event.
+    /// Store page instance referenced by the event for page restore or persistence workflows.
     /// </summary>
     public KryptonStorePage StorePage { get; }
 

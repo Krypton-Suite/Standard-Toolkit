@@ -13,16 +13,16 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Event arguments for the PageCloseRequest event.
+/// Event arguments for page close requests where handlers can override the close action before it proceeds.
 /// </summary>
 public class CloseRequestEventArgs : UniqueNameEventArgs
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the CloseRequestEventArgs class.
+    /// Sets the page unique name and initial close request action for the event.
     /// </summary>
-    /// <param name="uniqueName">Unique name of the page associated with the event.</param>
-    /// <param name="closeRequest">Initial close action to use.</param>
+    /// <param name="uniqueName">Unique name of the page associated with the close request.</param>
+    /// <param name="closeRequest">Initial close action proposed by the docking manager.</param>
     public CloseRequestEventArgs(string uniqueName, DockingCloseRequest closeRequest)
         : base(uniqueName) =>
         CloseRequest = closeRequest;
@@ -31,7 +31,7 @@ public class CloseRequestEventArgs : UniqueNameEventArgs
 
     #region Public
     /// <summary>
-    /// Gets and sets the close action to be performed.
+    /// Close action to perform; handlers may change this value before the close request proceeds.
     /// </summary>
     public DockingCloseRequest CloseRequest { get; set; }
 

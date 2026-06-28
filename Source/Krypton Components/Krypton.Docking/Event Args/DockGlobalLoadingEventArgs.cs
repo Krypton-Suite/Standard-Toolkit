@@ -13,16 +13,16 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Event data for loading global docking configuration.
+/// Event arguments raised while global docking configuration is deserialized from XML.
 /// </summary>
 public class DockGlobalLoadingEventArgs : EventArgs
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the DockGlobalLoadingEventArgs class.
+    /// Associates the docking manager with the XML reader used to load global configuration.
     /// </summary>
-    /// <param name="manager">Reference to owning docking manager instance.</param>
-    /// <param name="xmlReading">Xml reader for persisting custom data.</param>
+    /// <param name="manager">Docking manager receiving the loaded configuration; may be null.</param>
+    /// <param name="xmlReading">XML reader positioned at global docking configuration data.</param>
     public DockGlobalLoadingEventArgs(KryptonDockingManager? manager,
         XmlReader xmlReading)
     {
@@ -33,12 +33,12 @@ public class DockGlobalLoadingEventArgs : EventArgs
 
     #region Public
     /// <summary>
-    /// Gets the docking manager reference.
+    /// Docking manager receiving the loaded configuration; may be null.
     /// </summary>
     public KryptonDockingManager? DockingManager { get; }
 
     /// <summary>
-    /// Gets the xml reader.
+    /// XML reader positioned at global docking configuration for custom persistence extensions.
     /// </summary>
     public XmlReader XmlReader { get; }
 

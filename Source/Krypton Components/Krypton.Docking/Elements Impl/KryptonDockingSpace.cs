@@ -2,10 +2,10 @@
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ *  Â© Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. AvilÃ©s (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -16,7 +16,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Base class for docking elements that manage a KryptonSpace derived class.
+/// Base class for docking elements backed by a <see cref="KryptonSpace"/> control.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]
@@ -32,7 +32,7 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonDockingSpace class.
+    /// Creates a space-backed docking element that uses the specified store page name.
     /// </summary>
     /// <param name="name">Initial name of the element.</param>
     /// <param name="storeName">Name to use for storage pages.</param>
@@ -217,7 +217,7 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Gets and sets access to the parent docking element.
+    /// Parent element in the docking hierarchy; assigning a value syncs tooltip strings and raises cell-adding events for existing cells.
     /// </summary>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override IDockingElement? Parent
@@ -241,7 +241,7 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Propagates an action request down the hierarchy of docking elements.
+    /// Forwards the specified docking action to child elements.
     /// </summary>
     /// <param name="action">Action that is requested to be performed.</param>
     /// <param name="uniqueNames">Array of unique names of the pages the action relates to.</param>
@@ -456,7 +456,7 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Propagates an action request down the hierarchy of docking elements.
+    /// Forwards the specified docking action to child elements.
     /// </summary>
     /// <param name="action">Action that is requested to be performed.</param>
     /// <param name="pages">Array of pages the action relates to.</param>
@@ -481,7 +481,7 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Propagates a boolean state request down the hierarchy of docking elements.
+    /// Queries child elements for a boolean page state and returns the first definitive answer.
     /// </summary>
     /// <param name="state">Boolean state that is requested to be recovered.</param>
     /// <param name="uniqueName">Unique name of the page the request relates to.</param>
@@ -527,7 +527,7 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Propagates a page request down the hierarchy of docking elements.
+    /// Queries child elements for a page reference matching the supplied state.
     /// </summary>
     /// <param name="state">Request that should result in a page reference if found.</param>
     /// <param name="uniqueName">Unique name of the page the request relates to.</param>
@@ -553,7 +553,7 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Propagates a page list request down the hierarchy of docking elements.
+    /// Adds matching pages from child elements into the supplied collection.
     /// </summary>
     /// <param name="state">Request that should result in pages collection being modified.</param>
     /// <param name="pages">Pages collection for modification by the docking elements.</param>
@@ -595,7 +595,7 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Propagates a workspace cell list request down the hierarchy of docking elements.
+    /// Adds matching workspace cells from child elements into the supplied collection.
     /// </summary>
     /// <param name="state">Request that should result in the cells collection being modified.</param>
     /// <param name="cells">Cells collection for modification by the docking elements.</param>
@@ -690,7 +690,7 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Saves docking configuration information using a provider xml writer.
+    /// Writes this element and its descendants to the supplied XML writer.
     /// </summary>
     /// <param name="xmlWriter">Xml writer object.</param>
     public override void SaveElementToXml(XmlWriter xmlWriter)
@@ -718,7 +718,7 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
     }
 
     /// <summary>
-    /// Loads docking configuration information using a provider xml reader.
+    /// Restores this element and its descendants from the supplied XML reader.
     /// </summary>
     /// <param name="xmlReader">Xml reader object.</param>
     /// <param name="pages">Collection of available pages for adding.</param>

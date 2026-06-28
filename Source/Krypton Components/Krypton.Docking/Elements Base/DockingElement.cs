@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -15,7 +15,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Implements base docking element functionality.
+/// Abstract base for docking hierarchy elements that forward actions, queries, and persistence to child elements.
 /// </summary>
 public abstract class DockingElement : Component,
     IDockingElement
@@ -38,14 +38,14 @@ public abstract class DockingElement : Component,
 
     #region Public
     /// <summary>
-    /// Gets and sets the name of the docking element.
+    /// Element identifier used for path resolution and XML persistence.
     /// </summary>
     [Browsable(false)]
     [DisallowNull]
     public string Name { get; }
 
     /// <summary>
-    /// Gets a comma separated list of names leading to this element.
+    /// Comma-separated ancestor names from the root of the hierarchy to this element.
     /// </summary>
     [Browsable(false)]
     public string Path
@@ -75,10 +75,12 @@ public abstract class DockingElement : Component,
     }
 
     /// <summary>
-    /// Resolve the provided path.
+    /// Locates the child element matching a comma-separated name path.
     /// </summary>
-    /// <param name="path">Comma separated list of names to resolve.</param>
-    /// <returns>IDockingElement reference if path was resolved with success; otherwise null.</returns>
+    /// <param name="path">Comma-separated list of element names, starting with this element's <see cref="Name"/>.</param>
+    /// <returns>The matching element, or <see langword="null"/> when no segment matches.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="path"/> is empty.</exception>
     public virtual IDockingElement? ResolvePath(string path)
     {
         // Cannot resolve a null reference
@@ -119,8 +121,9 @@ public abstract class DockingElement : Component,
     }
 
     /// <summary>
-    /// Gets and sets access to the parent docking element.
+    /// Parent element in the docking hierarchy.
     /// </summary>
+    /// <exception cref="ArgumentNullException">The assigned parent already contains a child with the same <see cref="Name"/>.</exception>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public virtual IDockingElement? Parent
@@ -140,7 +143,7 @@ public abstract class DockingElement : Component,
     }
 
     /// <summary>
-    /// Propagates an action request down the hierarchy of docking elements.
+    /// Forwards the specified docking action to child elements.
     /// </summary>
     /// <param name="action">Action that is requested to be performed.</param>
     /// <param name="uniqueNames">
@@ -160,7 +163,7 @@ public abstract class DockingElement : Component,
     }
 
     /// <summary>
-    /// Propagates an action request down the hierarchy of docking elements.
+    /// Forwards the specified docking action to child elements.
     /// </summary>
     /// <param name="action">Action that is requested to be performed.</param>
     /// <param name="pages">Array of pages the action relates to.</param>
@@ -175,7 +178,7 @@ public abstract class DockingElement : Component,
     }
 
     /// <summary>
-    /// Propagates an action request down the hierarchy of docking elements.
+    /// Forwards the specified docking action to child elements.
     /// </summary>
     /// <param name="action">Action that is requested to be performed.</param>
     /// <param name="value">Integer value associated with the request.</param>
@@ -190,7 +193,7 @@ public abstract class DockingElement : Component,
     }
 
     /// <summary>
-    /// Propagates a boolean state request down the hierarchy of docking elements.
+    /// Queries child elements for a boolean page state and returns the first definitive answer.
     /// </summary>
     /// <param name="state">Boolean state that is requested to be recovered.</param>
     /// <param name="uniqueName">Unique name of the page the request relates to.</param>
@@ -212,7 +215,7 @@ public abstract class DockingElement : Component,
     }
 
     /// <summary>
-    /// Propagates an integer state request down the hierarchy of docking elements.
+    /// Forwards an integer state query to child elements, allowing each to update the supplied value.
     /// </summary>
     /// <param name="state">Integer state that is requested to be recovered.</param>
     /// <param name="value">Value discovered from matching </param>
@@ -226,7 +229,7 @@ public abstract class DockingElement : Component,
     }
 
     /// <summary>
-    /// Propagates a page request down the hierarchy of docking elements.
+    /// Queries child elements for a page reference matching the supplied state.
     /// </summary>
     /// <param name="state">Request that should result in a page reference if found.</param>
     /// <param name="uniqueName">Unique name of the page the request relates to.</param>
@@ -248,7 +251,7 @@ public abstract class DockingElement : Component,
     }
 
     /// <summary>
-    /// Propagates a page list request down the hierarchy of docking elements.
+    /// Adds matching pages from child elements into the supplied collection.
     /// </summary>
     /// <param name="state">Request that should result in pages collection being modified.</param>
     /// <param name="pages">Pages collection for modification by the docking elements.</param>
@@ -263,7 +266,7 @@ public abstract class DockingElement : Component,
     }
 
     /// <summary>
-    /// Propagates a workspace cell list request down the hierarchy of docking elements.
+    /// Adds matching workspace cells from child elements into the supplied collection.
     /// </summary>
     /// <param name="state">Request that should result in the cells collection being modified.</param>
     /// <param name="cells">Cells collection for modification by the docking elements.</param>
@@ -278,7 +281,7 @@ public abstract class DockingElement : Component,
     }
 
     /// <summary>
-    /// Propagates a request for drag targets down the hierarchy of docking elements.
+    /// Contributes drag targets from this element and its descendants into the supplied list.
     /// </summary>
     /// <param name="floatingWindow">Reference to window being dragged.</param>
     /// <param name="dragData">Set of pages being dragged.</param>
@@ -295,7 +298,7 @@ public abstract class DockingElement : Component,
     }
 
     /// <summary>
-    /// Find the docking location of the named page.
+    /// Returns the docking location of the page with the specified unique name.
     /// </summary>
     /// <param name="uniqueName">Unique name of the page.</param>
     /// <returns>Enumeration value indicating docking location.</returns>
@@ -318,7 +321,7 @@ public abstract class DockingElement : Component,
     }
 
     /// <summary>
-    /// Find the docking element that contains the named page.
+    /// Returns the docking element that contains the page with the specified unique name.
     /// </summary>
     /// <param name="uniqueName">Unique name of the page.</param>
     /// <returns>IDockingElement reference if page is found; otherwise null.</returns>
@@ -341,7 +344,7 @@ public abstract class DockingElement : Component,
     }
 
     /// <summary>
-    /// Find the docking element that contains the location specific store page for the named page.
+    /// Returns the docking element that holds a store placeholder for the page at the specified location.
     /// </summary>
     /// <param name="location">Location to be searched.</param>
     /// <param name="uniqueName">Unique name of the page to be found.</param>
@@ -365,10 +368,10 @@ public abstract class DockingElement : Component,
     }
 
     /// <summary>
-    /// Find a floating docking element by searching the hierarchy.
+    /// Returns the floating docking element associated with the specified page name.
     /// </summary>
     /// <param name="uniqueName">Named page for which a suitable floating element is required.</param>
-    /// <returns>KryptonDockingFloating reference if found; otherwise false.</returns>
+    /// <returns>The matching floating element, or <see langword="null"/> when none is found.</returns>
     public virtual KryptonDockingFloating? FindDockingFloating(string uniqueName)
     {
         // Default to not finding the element
@@ -388,10 +391,10 @@ public abstract class DockingElement : Component,
     }
 
     /// <summary>
-    /// Find a edge docked element by searching the hierarchy.
+    /// Returns the edge-docked element associated with the specified page name.
     /// </summary>
     /// <param name="uniqueName">Named page for which a suitable docking edge element is required.</param>
-    /// <returns>KryptonDockingEdgeDocked reference if found; otherwise false.</returns>
+    /// <returns>The matching edge-docked element, or <see langword="null"/> when none is found.</returns>
     public virtual KryptonDockingEdgeDocked? FindDockingEdgeDocked(string uniqueName)
     {
         // Default to not finding the element
@@ -411,10 +414,10 @@ public abstract class DockingElement : Component,
     }
 
     /// <summary>
-    /// Find a edge auto hidden element by searching the hierarchy.
+    /// Returns the auto-hidden edge element associated with the specified page name.
     /// </summary>
     /// <param name="uniqueName">Named page for which a suitable auto hidden edge element is required.</param>
-    /// <returns>KryptonDockingEdgeAutoHidden reference if found; otherwise false.</returns>
+    /// <returns>The matching auto-hidden edge element, or <see langword="null"/> when none is found.</returns>
     public virtual KryptonDockingEdgeAutoHidden? FindDockingEdgeAutoHidden(string uniqueName)
     {
         // Default to not finding the element
@@ -434,10 +437,10 @@ public abstract class DockingElement : Component,
     }
 
     /// <summary>
-    /// Find a workspace element by searching the hierarchy.
+    /// Returns the workspace docking element associated with the specified page name.
     /// </summary>
     /// <param name="uniqueName">Named page for which a suitable workspace element is required.</param>
-    /// <returns>KryptonDockingWorkspace reference if found; otherwise false.</returns>
+    /// <returns>The matching workspace element, or <see langword="null"/> when none is found.</returns>
     public virtual KryptonDockingWorkspace? FindDockingWorkspace(string uniqueName)
     {
         // Default to not finding the element
@@ -457,10 +460,10 @@ public abstract class DockingElement : Component,
     }
 
     /// <summary>
-    /// Find a navigator element by searching the hierarchy.
+    /// Returns the navigator docking element associated with the specified page name.
     /// </summary>
     /// <param name="uniqueName">Named page for which a suitable navigator element is required.</param>
-    /// <returns>KryptonDockingNavigator reference if found; otherwise false.</returns>
+    /// <returns>The matching navigator element, or <see langword="null"/> when none is found.</returns>
     public virtual KryptonDockingNavigator? FindDockingNavigator(string uniqueName)
     {
         // Default to not finding the element
@@ -480,7 +483,7 @@ public abstract class DockingElement : Component,
     }
 
     /// <summary>
-    /// Saves docking configuration information using a provider xml writer.
+    /// Writes this element and its descendants to the supplied XML writer.
     /// </summary>
     /// <param name="xmlWriter">Xml writer object.</param>
     public virtual void SaveElementToXml(XmlWriter xmlWriter)
@@ -501,10 +504,11 @@ public abstract class DockingElement : Component,
     }
 
     /// <summary>
-    /// Loads docking configuration information using a provider xml reader.
+    /// Restores this element and its descendants from the supplied XML reader.
     /// </summary>
-    /// <param name="xmlReader">Xml reader object.</param>
-    /// <param name="pages">Collection of available pages for adding.</param>
+    /// <param name="xmlReader">Reader positioned on this element's start tag.</param>
+    /// <param name="pages">Pages available to satisfy saved layout references.</param>
+    /// <exception cref="ArgumentException">The XML element name, attributes, or child structure does not match this element.</exception>
     public virtual void LoadElementFromXml(XmlReader xmlReader, KryptonPageCollection pages)
     {
         // Is it the expected xml element name?
@@ -554,9 +558,11 @@ public abstract class DockingElement : Component,
     }
 
     /// <summary>
-    /// Checks that the provided set of pages are not already present in the docking hierarchy.
+    /// Throws when any non-store page in the array is already present in the docking hierarchy.
     /// </summary>
-    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    /// <param name="pages">Pages to validate; store pages are always permitted.</param>
+    /// <exception cref="ApplicationException">No <see cref="KryptonDockingManager"/> ancestor is available.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">A non-store page is already present in the docking hierarchy.</exception>
     public void DemandPagesNotBePresent(KryptonPage[]? pages)
     {
         // We need a docking manager in order to perform testing
@@ -572,9 +578,9 @@ public abstract class DockingElement : Component,
     }
 
     /// <summary>
-    /// Checks that this element has access to a docking manager, throwing exception if not.
+    /// Throws when no <see cref="KryptonDockingManager"/> ancestor is available.
     /// </summary>
-    /// <exception cref="ApplicationException"></exception>
+    /// <exception cref="ApplicationException"><see cref="HasDockManager"/> is <see langword="false"/>.</exception>
     public void DemandDockingManager()
     {
         if (!HasDockManager)
@@ -584,13 +590,13 @@ public abstract class DockingElement : Component,
     }
 
     /// <summary>
-    /// Returns a value indicating if this docking element has access to a parent docking manager.
+    /// <see langword="true"/> when a <see cref="KryptonDockingManager"/> ancestor exists; otherwise <see langword="false"/>.
     /// </summary>
     [Browsable(false)]
     public bool HasDockManager => (DockingManager != null);
 
     /// <summary>
-    /// Finds the KryptonDockingManager instance that owns this part of the docking hierarchy.
+    /// The <see cref="KryptonDockingManager"/> ancestor of this element, if one exists.
     /// </summary>
     [Browsable(false)]
     public KryptonDockingManager? DockingManager
@@ -617,7 +623,7 @@ public abstract class DockingElement : Component,
     }
 
     /// <summary>
-    /// Search up the parent chain looking for the specified type of object.
+    /// Returns the nearest ancestor whose runtime type matches <paramref name="findType"/>.
     /// </summary>
     /// <param name="findType">Type of the instance we are searching for.</param>
     /// <returns>Object reference if found and it implements IDockingElement; otherwise null.</returns>
@@ -642,27 +648,27 @@ public abstract class DockingElement : Component,
     }
 
     /// <summary>
-    /// Gets the number of child docking elements.
+    /// Number of immediate child docking elements.
     /// </summary>
     [Browsable(false)]
     public virtual int Count => 0;
 
     /// <summary>
-    /// Gets the docking element at the specified index.
+    /// Child docking element at the specified zero-based index.
     /// </summary>
     /// <param name="index">Index.</param>
     /// <returns>Docking element at specified index.</returns>
     public virtual IDockingElement? this[int index] => null;
 
     /// <summary>
-    /// Gets the docking element with the specified name.
+    /// First child docking element with the specified name.
     /// </summary>
     /// <param name="name">Name of element.</param>
     /// <returns>Docking element with specified name.</returns>
     public virtual IDockingElement? this[string name] => null;
 
     /// <summary>
-    /// Shallow enumerate over child docking elements.
+    /// Enumerates immediate child docking elements.
     /// </summary>
     /// <returns>Enumerator instance.</returns>
     public virtual IEnumerator<IDockingElement> GetEnumerator()
@@ -671,7 +677,7 @@ public abstract class DockingElement : Component,
     }
 
     /// <summary>
-    /// Enumerate using non-generic interface.
+    /// Non-generic enumeration of immediate child docking elements.
     /// </summary>
     /// <returns>Enumerator instance.</returns>
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

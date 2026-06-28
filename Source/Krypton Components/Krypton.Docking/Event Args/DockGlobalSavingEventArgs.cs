@@ -13,16 +13,16 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Event data for saving global docking configuration.
+/// Event arguments raised while global docking configuration is serialized to XML.
 /// </summary>
 public class DockGlobalSavingEventArgs : EventArgs
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the DockGlobalSavingEventArgs class.
+    /// Associates the docking manager with the XML writer used to persist global configuration.
     /// </summary>
-    /// <param name="manager">Reference to owning docking manager instance.</param>
-    /// <param name="xmlWriter">Xml writer for persisting custom data.</param>
+    /// <param name="manager">Docking manager performing the save operation; may be null.</param>
+    /// <param name="xmlWriter">XML writer receiving global docking configuration data.</param>
     public DockGlobalSavingEventArgs(KryptonDockingManager? manager,
         XmlWriter xmlWriter)
     {
@@ -33,12 +33,12 @@ public class DockGlobalSavingEventArgs : EventArgs
 
     #region Public
     /// <summary>
-    /// Gets the docking manager reference.
+    /// Docking manager performing the save operation; may be null.
     /// </summary>
     public KryptonDockingManager? DockingManager { get; }
 
     /// <summary>
-    /// Gets the xml writer.
+    /// XML writer receiving global docking configuration for custom persistence extensions.
     /// </summary>
     public XmlWriter XmlWriter { get; }
 

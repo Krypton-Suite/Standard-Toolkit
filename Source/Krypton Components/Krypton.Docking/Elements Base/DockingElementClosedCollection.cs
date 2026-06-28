@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -13,7 +13,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Extends base functionality by allowing a collection of child docking elements.
+/// Docking element that maintains an ordered collection of child elements with name-based lookup.
 /// </summary>
 public abstract class DockingElementClosedCollection : DockingElement
 {
@@ -23,7 +23,7 @@ public abstract class DockingElementClosedCollection : DockingElement
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the DockingElementClosedCollection class.
+    /// Creates a docking element with an empty child collection.
     /// </summary>
     /// <param name="name">Initial name of the element.</param>
     protected DockingElementClosedCollection(string? name)
@@ -34,19 +34,19 @@ public abstract class DockingElementClosedCollection : DockingElement
 
     #region Public
     /// <summary>
-    /// Gets the number of child docking elements.
+    /// Number of immediate child docking elements.
     /// </summary>
     public override int Count => _elements.Count;
 
     /// <summary>
-    /// Gets the docking element at the specified index.
+    /// Child docking element at the specified zero-based index.
     /// </summary>
     /// <param name="index">Index.</param>
     /// <returns>Docking element at specified index.</returns>
     public override IDockingElement? this[int index] => _elements[index];
 
     /// <summary>
-    /// Gets the docking element with the specified name.
+    /// First child docking element with the specified name.
     /// </summary>
     /// <param name="name">Name of element.</param>
     /// <returns>Docking element with specified name.</returns>
@@ -62,23 +62,23 @@ public abstract class DockingElementClosedCollection : DockingElement
     }
 
     /// <summary>
-    /// Shallow enumerate over child docking elements.
+    /// Enumerates immediate child docking elements.
     /// </summary>
     /// <returns>Enumerator instance.</returns>
     public override IEnumerator<IDockingElement> GetEnumerator() => _elements.GetEnumerator();
 
     /// <summary>
-    /// Determines whether the collection contains the docking element.
+    /// <see langword="true"/> when the collection contains the specified element; otherwise <see langword="false"/>.
     /// </summary>
     /// <param name="item">IDockingElement reference.</param>
-    /// <returns>True if view found; otherwise false.</returns>
+    /// <returns><see langword="true"/> when the collection contains the specified element; otherwise <see langword="false"/>.</returns>
     public virtual bool Contains(IDockingElement item) => _elements.Contains(item);
 
     #endregion
 
     #region Protected
     /// <summary>
-    /// Append a docking element to the collection.
+    /// Adds a child docking element to the end of the collection and assigns its parent.
     /// </summary>
     /// <param name="item">IDockingElement reference.</param>
     protected virtual void InternalAdd(IDockingElement item)
@@ -105,7 +105,7 @@ public abstract class DockingElementClosedCollection : DockingElement
     }
 
     /// <summary>
-    /// Removes first occurrence of specified docking element.
+    /// Removes the first matching child element and clears its parent reference.
     /// </summary>
     /// <param name="item">IDockingElement reference.</param>
     /// <returns>True if removed; otherwise false.</returns>
@@ -125,7 +125,7 @@ public abstract class DockingElementClosedCollection : DockingElement
     }
 
     /// <summary>
-    /// Remove all docking elements from the collection.
+    /// Removes every child element and clears parent references.
     /// </summary>
     protected virtual void InternalClear()
     {

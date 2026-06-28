@@ -13,7 +13,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Extends the KryptonNavigator to work as a docking auto hidden group control.
+/// Bar-tab navigator that hosts auto-hidden pages along a docking edge.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]
@@ -22,15 +22,16 @@ public class KryptonAutoHiddenGroup : KryptonNavigator
 {
     #region Events
     /// <summary>
-    /// Occurs when a page is becoming stored.
+    /// Raised before a page is replaced with a store placeholder so handlers can ensure its unique name remains valid for this auto-hidden location.
     /// </summary>
     public event EventHandler<UniqueNameEventArgs>? StoringPage;
     #endregion
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonAutoHiddenGroup class.
+    /// Configures bar-tab-only navigator appearance, tab orientation, and dock alignment for the specified edge.
     /// </summary>
+    /// <param name="edge">Docking edge that determines bar orientation and control dock style.</param>
     public KryptonAutoHiddenGroup(DockingEdge edge)
     {
         // Define appropriate appearance/behavior for an auto hidden group
@@ -76,7 +77,7 @@ public class KryptonAutoHiddenGroup : KryptonNavigator
 
     #region Public
     /// <summary>
-    /// Convert all pages into store placeholders.
+    /// Replaces every non-placeholder page with a <see cref="KryptonStorePage"/> that retains the same unique name.
     /// </summary>
     public void StoreAllPages()
     {
@@ -96,9 +97,9 @@ public class KryptonAutoHiddenGroup : KryptonNavigator
     }
 
     /// <summary>
-    /// Convert the named pages into store placeholders.
+    /// Replaces matching non-placeholder pages with store placeholders that keep the same unique names.
     /// </summary>
-    /// <param name="uniqueNames">Array of page names.</param>
+    /// <param name="uniqueNames">Unique names of pages to store; when null, no pages are changed.</param>
     public void StorePages(string[]? uniqueNames)
     {
         if (uniqueNames == null)
@@ -124,9 +125,9 @@ public class KryptonAutoHiddenGroup : KryptonNavigator
     }
 
     /// <summary>
-    /// Convert matching placeholders into actual pages.
+    /// Swaps store placeholders for the supplied pages when unique names match.
     /// </summary>
-    /// <param name="pages">Array of pages to restore.</param>
+    /// <param name="pages">Pages to restore into the group.</param>
     public void RestorePages(KryptonPage[] pages)
     {
         foreach (KryptonPage page in pages)

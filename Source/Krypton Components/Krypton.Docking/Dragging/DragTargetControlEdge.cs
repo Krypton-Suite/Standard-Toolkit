@@ -13,7 +13,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Target one of the four sides of a docking control.
+/// Drag target that docks pages onto one side of a <see cref="KryptonDockingControl"/>.
 /// </summary>
 public class DragTargetControlEdge : DragTarget
 {
@@ -24,15 +24,16 @@ public class DragTargetControlEdge : DragTarget
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the DragTargetControlEdge class.
+    /// Defines screen, hot, and draw rectangles for an edge drop zone on the supplied control element.
     /// </summary>
-    /// <param name="screenRect">Rectangle for screen area.</param>
-    /// <param name="hotRect">Rectangle for hot area.</param>
-    /// <param name="drawRect">Rectangle for draw area.</param>
-    /// <param name="hint">Target hint which should be one of the edges.</param>
-    /// <param name="controlElement">Workspace instance that contains cell.</param>
-    /// <param name="allowFlags">Only drop pages that have one of these flags defined.</param>
-    /// <param name="outsideEdge">Add to the outside edge (otherwise the inner edge).</param>
+    /// <param name="screenRect">Screen rectangle for the full target area.</param>
+    /// <param name="hotRect">Screen rectangle that highlights when the cursor is over the target.</param>
+    /// <param name="drawRect">Screen rectangle used to render drop feedback.</param>
+    /// <param name="hint">Edge hint; must be one of the edge or transfer values in <see cref="DragTargetHint"/>.</param>
+    /// <param name="controlElement">Docking control that receives dropped pages.</param>
+    /// <param name="allowFlags">Page flags required for a page to be accepted by this target.</param>
+    /// <param name="outsideEdge">When <see langword="true"/>, inserts the new dockspace on the outer edge; otherwise appends on the inner edge.</param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="hint"/> is not an edge value.</exception>
     public DragTargetControlEdge(Rectangle screenRect,
         Rectangle hotRect,
         Rectangle drawRect,
@@ -68,9 +69,9 @@ public class DragTargetControlEdge : DragTarget
     }
 
     /// <summary>
-    /// Release unmanaged and optionally managed resources.
+    /// Releases the reference to <see cref="ControlElement"/> when disposing managed resources.
     /// </summary>
-    /// <param name="disposing">Called from Dispose method.</param>
+    /// <param name="disposing"><see langword="true"/> when called from <see cref="Dispose"/>; otherwise <see langword="false"/>.</param>
     protected override void Dispose(bool disposing)
     {
         if (disposing)
@@ -84,29 +85,29 @@ public class DragTargetControlEdge : DragTarget
 
     #region Public
     /// <summary>
-    /// Gets the dragging edge.
+    /// Visual edge of <see cref="ControlElement"/> that receives dropped pages.
     /// </summary>
     public VisualOrientation Edge { get; }
 
     /// <summary>
-    /// Gets the target docking element.
+    /// Docking control whose edge dockspace receives the drop.
     /// </summary>
     public KryptonDockingControl ControlElement { get; private set; }
 
     /// <summary>
-    /// Is this target a match for the provided screen position.
+    /// Always returns <see langword="true"/> for any screen position and drag data.
     /// </summary>
     /// <param name="screenPt">Position in screen coordinates.</param>
-    /// <param name="dragEndData">Data to be dropped at destination.</param>
-    /// <returns>True if a match; otherwise false.</returns>
+    /// <param name="dragEndData">Drag data for the attempted match.</param>
+    /// <returns>Always <see langword="true"/>.</returns>
     public override bool IsMatch(Point screenPt, PageDragEndData? dragEndData) => true;
 
     /// <summary>
-    /// Perform the drop action associated with the target.
+    /// Creates or extends a dockspace on <see cref="Edge"/> and transfers allowed pages into it.
     /// </summary>
     /// <param name="screenPt">Position in screen coordinates.</param>
-    /// <param name="data">Data to pass to the target to process drop.</param>
-    /// <returns>Drop was performed and the source can perform any removal of pages as required.</returns>
+    /// <param name="data">Pages to dock; only pages with <see cref="KryptonPageFlags.DockingAllowDocked"/> and an approved <c>PageDockedRequest</c> are transferred.</param>
+    /// <returns><see langword="true"/> when at least one page was docked; otherwise <see langword="false"/>.</returns>
     public override bool PerformDrop(Point screenPt, PageDragEndData? data)
     {
         // Find our docking edge

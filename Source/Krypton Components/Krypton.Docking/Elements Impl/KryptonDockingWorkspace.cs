@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -25,7 +25,7 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
 {
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonDockingWorkspace class.
+    /// Creates a workspace docking element with a default dockable workspace control.
     /// </summary>
     /// <param name="name">Initial name of the element.</param>
     public KryptonDockingWorkspace(string name)
@@ -34,11 +34,12 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Initialize a new instance of the KryptonDockingWorkspace class.
+    /// Creates a workspace docking element with the specified store name and dockable workspace control.
     /// </summary>
     /// <param name="name">Initial name of the element.</param>
-    /// <param name="storeName">Name to use for storage pages.</param>
-    /// <param name="workspace">Reference to workspace to manage.</param>
+    /// <param name="storeName">Name used for store placeholder pages.</param>
+    /// <param name="workspace">Dockable workspace control to attach.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="workspace"/> is <see langword="null"/>.</exception>
     public KryptonDockingWorkspace(string name,
         string storeName,
         [DisallowNull] KryptonDockableWorkspace workspace)
@@ -56,12 +57,12 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
 
     #region Public
     /// <summary>
-    /// Gets the control this element is managing.
+    /// Host control associated with this docking element.
     /// </summary>
     public KryptonDockableWorkspace? DockableWorkspaceControl => SpaceControl as KryptonDockableWorkspace;
 
     /// <summary>
-    /// Gets and sets access to the parent docking element.
+    /// Parent element in the docking hierarchy; assigning a value raises <see cref="KryptonDockingManager.DockableWorkspaceAdded"/> when a manager is available.
     /// </summary>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override IDockingElement? Parent
@@ -390,7 +391,7 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Propagates an action request down the hierarchy of docking elements.
+    /// Forwards the specified docking action to child elements.
     /// </summary>
     /// <param name="action">Action that is requested to be performed.</param>
     /// <param name="uniqueNames">Array of unique names of the pages the action relates to.</param>
@@ -411,7 +412,7 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Propagates a request for drag targets down the hierarchy of docking elements.
+    /// Contributes drag targets from this element and its descendants into the supplied list.
     /// </summary>
     /// <param name="floatingWindow">Reference to window being dragged.</param>
     /// <param name="dragData">Set of pages being dragged.</param>
@@ -443,7 +444,7 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Find the docking location of the named page.
+    /// Returns the docking location of the page with the specified unique name.
     /// </summary>
     /// <param name="uniqueName">Unique name of the page.</param>
     /// <returns>Enumeration value indicating docking location.</returns>
@@ -457,7 +458,7 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Find the docking element that contains the named page.
+    /// Returns the docking element that contains the page with the specified unique name.
     /// </summary>
     /// <param name="uniqueName">Unique name of the page.</param>
     /// <returns>IDockingElement reference if page is found; otherwise null.</returns>
@@ -471,7 +472,7 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Find the docking element that contains the location specific store page for the named page.
+    /// Returns the docking element that holds a store placeholder for the page at the specified location.
     /// </summary>
     /// <param name="location">Location to be searched.</param>
     /// <param name="uniqueName">Unique name of the page to be found.</param>
@@ -491,10 +492,10 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
     }
 
     /// <summary>
-    /// Find a workspace element by searching the hierarchy.
+    /// Returns the workspace docking element associated with the specified page name.
     /// </summary>
     /// <param name="uniqueName">Named page for which a suitable workspace element is required.</param>
-    /// <returns>KryptonDockingWorkspace reference if found; otherwise false.</returns>
+    /// <returns>This workspace docking element.</returns>
     public override KryptonDockingWorkspace FindDockingWorkspace(string uniqueName) => this;
 
     #endregion

@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -36,10 +36,11 @@ public class KryptonDockingControl : DockingElementOpenCollection
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonDockingControl class.
+    /// Creates a docking control element that hosts edge docking for the specified control.
     /// </summary>
     /// <param name="name">Initial name of the element.</param>
-    /// <param name="control">Reference to control derived instance.</param>
+    /// <param name="control">Host control that receives docked and auto-hidden content.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="control"/> is <see langword="null"/>.</exception>
     public KryptonDockingControl(string name, [DisallowNull] Control control)
         : base(name)
     {
@@ -52,11 +53,12 @@ public class KryptonDockingControl : DockingElementOpenCollection
     }
 
     /// <summary>
-    /// Initialize a new instance of the KryptonDockingControl class.
+    /// Creates a docking control element with a designated inner navigator region.
     /// </summary>
     /// <param name="name">Initial name of the element.</param>
-    /// <param name="control">Reference to control derived instance.</param>
-    /// <param name="navigator">Inner space occupied by a KryptonDockingNavigator.</param>
+    /// <param name="control">Host control that receives docked and auto-hidden content.</param>
+    /// <param name="navigator">Navigator element occupying the inner client area.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="control"/> or <paramref name="navigator"/> is <see langword="null"/>.</exception>
     public KryptonDockingControl(string name, [DisallowNull] Control control, [DisallowNull] KryptonDockingNavigator navigator)
         : base(name)
     {
@@ -74,11 +76,12 @@ public class KryptonDockingControl : DockingElementOpenCollection
     }
 
     /// <summary>
-    /// Initialize a new instance of the KryptonDockingControl class.
+    /// Creates a docking control element with a designated inner workspace region.
     /// </summary>
     /// <param name="name">Initial name of the element.</param>
-    /// <param name="control">Reference to control derived instance.</param>
-    /// <param name="workspace">Inner space occupied by a KryptonDockingNavigator.</param>
+    /// <param name="control">Host control that receives docked and auto-hidden content.</param>
+    /// <param name="workspace">Workspace element occupying the inner client area.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="control"/> or <paramref name="workspace"/> is <see langword="null"/>.</exception>
     public KryptonDockingControl(string name, [DisallowNull] Control control, [DisallowNull] KryptonDockingWorkspace workspace)
         : base(name)
     {
@@ -98,13 +101,13 @@ public class KryptonDockingControl : DockingElementOpenCollection
 
     #region Public
     /// <summary>
-    /// Gets the control this element is managing.
+    /// Host control associated with this docking element.
     /// </summary>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public Control Control { get; private set; }
 
     /// <summary>
-    /// Gets and sets the minimum size for the inner area of the control that docking should not overlap.
+    /// Minimum width and height reserved for the host control center area after edge docking.
     /// </summary>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public Size InnerMinimum
@@ -122,7 +125,7 @@ public class KryptonDockingControl : DockingElementOpenCollection
     }
 
     /// <summary>
-    /// Propagates an action request down the hierarchy of docking elements.
+    /// Forwards the specified docking action to child elements.
     /// </summary>
     /// <param name="action">Action that is requested to be performed.</param>
     /// <param name="uniqueNames">Array of unique names of the pages the action relates to.</param>
@@ -179,7 +182,7 @@ public class KryptonDockingControl : DockingElementOpenCollection
     }
 
     /// <summary>
-    /// Propagates a request for drag targets down the hierarchy of docking elements.
+    /// Contributes drag targets from this element and its descendants into the supplied list.
     /// </summary>
     /// <param name="floatingWindow">Reference to window being dragged.</param>
     /// <param name="dragData">Set of pages being dragged.</param>
@@ -316,7 +319,7 @@ public class KryptonDockingControl : DockingElementOpenCollection
     protected override string XmlElementName => @"DC";
 
     /// <summary>
-    /// Loads docking configuration information using a provider xml reader.
+    /// Restores this element and its descendants from the supplied XML reader.
     /// </summary>
     /// <param name="xmlReader">Xml reader object.</param>
     /// <param name="pages">Collection of available pages for adding.</param>

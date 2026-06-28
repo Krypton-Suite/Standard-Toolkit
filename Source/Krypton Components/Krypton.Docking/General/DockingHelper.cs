@@ -13,17 +13,17 @@
 namespace Krypton.Docking;
 
 /// <summary>
-///  Set of common helper routines for Docking functionality
+/// Static conversion and layout helpers for docking edge geometry.
 /// </summary>
 public static class DockingHelper
 {
     #region Public
     /// <summary>
-    /// Convert from DockEdge to DockStyle enumeration value.
+    /// Maps a <see cref="DockingEdge"/> to the equivalent <see cref="DockStyle"/> value.
     /// </summary>
-    /// <param name="edge">DockEdge value to convert.</param>
-    /// <param name="opposite">Should the separator be docked against the opposite edge.</param>
-    /// <returns>DockStyle value.</returns>
+    /// <param name="edge">Edge to convert.</param>
+    /// <param name="opposite">When <see langword="true"/>, returns the style for the opposite edge.</param>
+    /// <returns>The matching <see cref="DockStyle"/> for <paramref name="edge"/>.</returns>
     public static DockStyle DockStyleFromDockEdge(DockingEdge edge, bool opposite)
     {
         switch (edge)
@@ -45,10 +45,10 @@ public static class DockingHelper
     }
 
     /// <summary>
-    /// Convert the DockEdge to Orientation enumeration value.
+    /// Maps a <see cref="DockingEdge"/> to the axis orientation used for separators along that edge.
     /// </summary>
-    /// <param name="edge">DockEdge value to convert.</param>
-    /// <returns>Orientation value.</returns>
+    /// <param name="edge">Edge to convert.</param>
+    /// <returns><see cref="Orientation.Vertical"/> for left and right edges; otherwise <see cref="Orientation.Horizontal"/>.</returns>
     public static Orientation OrientationFromDockEdge(DockingEdge edge) => edge switch
     {
         DockingEdge.Left or DockingEdge.Right => Orientation.Vertical,
@@ -56,10 +56,10 @@ public static class DockingHelper
     };
 
     /// <summary>
-    /// Find the inner space that occupied by the edge docking controls.
+    /// Calculates the client-area rectangle remaining after subtracting visible edge-docked child controls.
     /// </summary>
-    /// <param name="c">Reference to control.</param>
-    /// <returns>Rectangle in control coordinates.</returns>
+    /// <param name="c">Host control whose docked children reduce the inner area.</param>
+    /// <returns>Remaining client rectangle in control coordinates.</returns>
     public static Rectangle InnerRectangle(Control c)
     {
         // Start with entire client area
