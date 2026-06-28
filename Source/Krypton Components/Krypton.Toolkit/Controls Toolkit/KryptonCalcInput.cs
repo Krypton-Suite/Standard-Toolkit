@@ -28,6 +28,7 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
     private ButtonSpecAccessibilityProxyManager? _buttonSpecAccessibilityProxyManager;
     private readonly ViewLayoutDocker _drawDockerInner;
     private readonly ViewDrawDocker _drawDockerOuter;
+    private readonly InputPulsingBorderViewIntegration _pulsingBorder;
     private readonly ViewLayoutFill _layoutFill;
     private readonly KryptonTextBox _textBox;
     private readonly ViewDrawDropDownButton _dropDownGlyph;
@@ -200,8 +201,10 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
             { _drawDockerInner, ViewDockStyle.Fill }
         };
 
+        _pulsingBorder = new InputPulsingBorderViewIntegration(this, NeedPaintDelegate, () => IsActive, GetTripleState, _drawDockerOuter);
+
         // Create the view manager instance
-        ViewManager = new ViewManager(this, _drawDockerOuter);
+        ViewManager = new ViewManager(this, _pulsingBorder.ViewRoot);
 
         // Create button specification collection manager
         _buttonManager = new ButtonSpecManagerLayout(this, Redirector, ButtonSpecs, null,
@@ -280,6 +283,8 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
             _buttonManager?.Destruct();
             _buttonSpecAccessibilityProxyManager?.Dispose();
             _buttonSpecAccessibilityProxyManager = null;
+
+            _pulsingBorder.Dispose();
         }
 
         base.Dispose(disposing);
@@ -634,6 +639,16 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
     public PaletteInputControlTripleRedirect StateCommon { get; }
 
     private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
+
+    /// <summary>
+    /// Gets access to optional pulsing border settings.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Optional pulsing border drawn on the control.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public InputPulsingBorderValues PulsingBorderValues => _pulsingBorder.Values;
+
+    private bool ShouldSerializePulsingBorderValues() => !PulsingBorderValues.IsDefault;
 
     /// <summary>
     /// Gets access to the disabled textbox appearance entries.
@@ -1000,6 +1015,7 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
     protected override void OnMouseEnter(EventArgs e)
     {
         _mouseOver = true;
+        _pulsingBorder.UpdateAnimationState();
         PerformNeedPaint(true);
         InvalidateChildren();
         base.OnMouseEnter(e);
@@ -1012,6 +1028,7 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
     protected override void OnMouseLeave(EventArgs e)
     {
         _mouseOver = false;
+        _pulsingBorder.UpdateAnimationState();
         PerformNeedPaint(true);
         InvalidateChildren();
         base.OnMouseLeave(e);
@@ -1214,6 +1231,8 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
         PaletteState state = Enabled ? (IsActive ? PaletteState.Tracking : PaletteState.Normal) : PaletteState.Disabled;
 
         _drawDockerOuter.ElementState = state;
+
+        _pulsingBorder.UpdateAnimationState();
     }
 
     internal PaletteInputControlTripleStates GetTripleState() => Enabled ? (IsActive ? StateActive : StateNormal) : StateDisabled;

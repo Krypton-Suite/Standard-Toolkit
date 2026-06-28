@@ -288,6 +288,7 @@ public class KryptonRichTextBox : VisualControlBase,
     private VisualPopupToolTip? _visualPopupToolTip;
     private readonly ViewLayoutDocker _drawDockerInner;
     private readonly ViewDrawDocker _drawDockerOuter;
+    private readonly InputPulsingBorderViewIntegration _pulsingBorder;
     private readonly ViewLayoutFill _layoutFill;
     private readonly InternalRichTextBox _richTextBox;
     private InputControlStyle _inputControlStyle;
@@ -447,6 +448,7 @@ public class KryptonRichTextBox : VisualControlBase,
 
         // Create the internal text box used for containing content
         _richTextBox = new InternalRichTextBox(this);
+        CueHint.AttachAnimation(ShouldAnimateCueHint, () => _richTextBox.Invalidate());
         _richTextBox.TrackMouseEnter += OnRichTextBoxMouseChange;
         _richTextBox.TrackMouseLeave += OnRichTextBoxMouseChange;
         _richTextBox.AcceptsTabChanged += OnRichTextBoxAcceptsTabChanged;
@@ -484,8 +486,8 @@ public class KryptonRichTextBox : VisualControlBase,
             { _drawDockerInner, ViewDockStyle.Fill }
         };
 
-        // Create the view manager instance
-        ViewManager = new ViewManager(this, _drawDockerOuter);
+        _pulsingBorder = new InputPulsingBorderViewIntegration(this, NeedPaintDelegate, () => IsActive, GetTripleState, _drawDockerOuter);
+        ViewManager = new ViewManager(this, _pulsingBorder.ViewRoot);
 
         // Create the manager for handling tooltips
         ToolTipManager = new ToolTipManager(ToolTipValues);
@@ -520,6 +522,10 @@ public class KryptonRichTextBox : VisualControlBase,
 
             _scrollbarManager?.Dispose();
             _scrollbarManager = null;
+
+            _pulsingBorder.Dispose();
+
+            CueHint.DisposeAnimation();
         }
 
         base.Dispose(disposing);
@@ -1066,10 +1072,21 @@ public class KryptonRichTextBox : VisualControlBase,
             if (_alwaysActive != value)
             {
                 _alwaysActive = value;
+                _pulsingBorder.UpdateAnimationState();
                 PerformNeedPaint(true);
             }
         }
     }
+
+    /// <summary>
+    /// Gets access to the optional pulsing bottom border settings.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Optional pulsing bottom border settings.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public InputPulsingBorderValues PulsingBorderValues => _pulsingBorder.Values;
+
+    private bool ShouldSerializePulsingBorderValues() => !PulsingBorderValues.IsDefault;
 
     /// <summary>
     /// Gets or sets the lines of text in a multiline edit, as an array of String values.
@@ -1862,6 +1879,7 @@ public class KryptonRichTextBox : VisualControlBase,
         _drawDockerOuter.Enabled = Enabled;
 
         PerformNeedPaint(true);
+        CueHint.SyncAnimation();
 
         // Let base class fire standard event
         base.OnEnabledChanged(e);
@@ -1959,6 +1977,7 @@ public class KryptonRichTextBox : VisualControlBase,
     protected override void OnMouseEnter(EventArgs e)
     {
         _mouseOver = true;
+        _pulsingBorder.UpdateAnimationState();
         PerformNeedPaint(true);
         _richTextBox.Invalidate();
         base.OnMouseEnter(e);
@@ -1971,6 +1990,7 @@ public class KryptonRichTextBox : VisualControlBase,
     protected override void OnMouseLeave(EventArgs e)
     {
         _mouseOver = false;
+        _pulsingBorder.UpdateAnimationState();
         PerformNeedPaint(true);
         _richTextBox.Invalidate();
         base.OnMouseLeave(e);
@@ -2266,6 +2286,11 @@ public class KryptonRichTextBox : VisualControlBase,
 
     #region Implementation
 
+    private bool ShouldAnimateCueHint() =>
+        Enabled
+        && !string.IsNullOrWhiteSpace(CueHint.CueHintText)
+        && TextLength == 0;
+
     private void UpdateScrollbarManager()
     {
         if (UseKryptonScrollbars)
@@ -2301,9 +2326,10 @@ public class KryptonRichTextBox : VisualControlBase,
         PaletteState state = Enabled ? (IsActive ? PaletteState.Tracking : PaletteState.Normal) : PaletteState.Disabled;
 
         _drawDockerOuter.ElementState = state;
+        _pulsingBorder.UpdateAnimationState();
     }
 
-    private IPaletteTriple GetTripleState() => Enabled ? (IsActive ? StateActive : StateNormal) : StateDisabled;
+    internal IPaletteTriple GetTripleState() => Enabled ? (IsActive ? StateActive : StateNormal) : StateDisabled;
 
     private void OnRichTextBoxMouseChange(object? sender, EventArgs e)
     {
@@ -2338,6 +2364,7 @@ public class KryptonRichTextBox : VisualControlBase,
             _richTextBox.Invalidate();
         }
 
+        CueHint.SyncAnimation();
         OnTextChanged(e);
     }
 
