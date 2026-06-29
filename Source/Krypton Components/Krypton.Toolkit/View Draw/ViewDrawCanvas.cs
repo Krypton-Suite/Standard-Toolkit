@@ -329,18 +329,12 @@ public class ViewDrawCanvas : ViewComposite
     /// <returns>Path instance.</returns>
     public GraphicsPath? GetOuterBorderPath(RenderContext context)
     {
-        if (context?.Renderer is null)
+        if (_paletteBorder is null || context?.Renderer is null)
         {
             return null;
         }
 
-        if (_paletteBorder is not null)
-        {
-            return context.Renderer.RenderStandardBorder.GetOutsideBorderPath(context, ClientRectangle, _paletteBorder, Orientation, State);
-        }
-
-        // No palette details to use
-        return null;
+        return context.Renderer.RenderStandardBorder.GetOutsideBorderPath(context, ClientRectangle, _paletteBorder, Orientation, State);
     }
     #endregion
 
