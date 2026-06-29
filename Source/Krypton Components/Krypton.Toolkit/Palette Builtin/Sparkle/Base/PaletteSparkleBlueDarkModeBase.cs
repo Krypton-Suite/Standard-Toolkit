@@ -1873,6 +1873,12 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
         };
     }
 
+    private Color GetSparkleListItemNormalTextColor()
+    {
+        var color = GetSchemeColor(SchemeBaseColors.TextListItem);
+        return color.IsEmpty ? _colorDark00 : color;
+    }
+
     /// <summary>
     /// Gets the first back color for the short text.
     /// </summary>
@@ -1933,7 +1939,12 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
         return style switch
         {
             PaletteContentStyle.LabelAlternateControl or PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemShortcutText or PaletteContentStyle.ContextMenuItemTextAlternate => _colorDark00,
-            PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand => state switch
+            PaletteContentStyle.ButtonListItem => state switch
+            {
+                PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.Tracking => GetSparkleListItemNormalTextColor(),
+                _ => _colorWhite255
+            },
+            PaletteContentStyle.ButtonCommand => state switch
             {
                 PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.Tracking => _colorDark00,
                 _ => _colorWhite255
@@ -2010,7 +2021,13 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
         return style switch
         {
             PaletteContentStyle.LabelAlternateControl or PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate or PaletteContentStyle.ContextMenuItemShortcutText => _colorDark00,
-            PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand => state switch
+            PaletteContentStyle.ButtonListItem => state switch
+            {
+                PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.Tracking => GetSparkleListItemNormalTextColor(),
+                PaletteState.Pressed or PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _colorWhite255,
+                _ => throw DebugTools.NotImplemented(state.ToString())
+            },
+            PaletteContentStyle.ButtonCommand => state switch
             {
                 PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.Tracking => _colorDark00,
                 PaletteState.Pressed or PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _colorWhite255,
@@ -2413,7 +2430,13 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
         return style switch
         {
             PaletteContentStyle.LabelAlternateControl or PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemShortcutText or PaletteContentStyle.ContextMenuItemTextAlternate => _colorDark00,
-            PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand => state switch
+            PaletteContentStyle.ButtonListItem => state switch
+            {
+                PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.Tracking => GetSparkleListItemNormalTextColor(),
+                PaletteState.Pressed or PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _colorWhite255,
+                _ => throw DebugTools.NotImplemented(state.ToString())
+            },
+            PaletteContentStyle.ButtonCommand => state switch
             {
                 PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.Tracking => _colorDark00,
                 PaletteState.Pressed or PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _colorWhite255,
@@ -2489,7 +2512,13 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
         return style switch
         {
             PaletteContentStyle.LabelAlternateControl or PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate or PaletteContentStyle.ContextMenuItemShortcutText => _colorDark00,
-            PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand => state switch
+            PaletteContentStyle.ButtonListItem => state switch
+            {
+                PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.Tracking => GetSparkleListItemNormalTextColor(),
+                PaletteState.Pressed or PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _colorWhite255,
+                _ => throw DebugTools.NotImplemented(state.ToString())
+            },
+            PaletteContentStyle.ButtonCommand => state switch
             {
                 PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.Tracking => _colorDark00,
                 PaletteState.Pressed or PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _colorWhite255,

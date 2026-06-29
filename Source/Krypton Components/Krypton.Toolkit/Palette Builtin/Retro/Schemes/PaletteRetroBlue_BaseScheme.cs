@@ -32,6 +32,7 @@ public sealed class PaletteRetroBlue_BaseScheme : PaletteRetroGreen_BaseScheme
         NavigatorMiniBackColor = DosBlue;
 
         TextLabelControl = Color.White;
+        TextListItem = Color.White;
         TextLabelPanel = Color.White;
         TextButtonNormal = Color.White;
         TextButtonChecked = DosYellow;

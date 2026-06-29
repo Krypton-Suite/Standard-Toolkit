@@ -12,6 +12,7 @@ namespace Krypton.Toolkit;
 public sealed class EmptySchemeBase : KryptonColorSchemeBase
 {
     public override Color TextLabelControl                 { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color TextListItem                     { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
     public override Color TextButtonNormal                 { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
     public override Color TextButtonChecked                { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
     public override Color ButtonNormalBorder               { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
