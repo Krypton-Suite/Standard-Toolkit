@@ -12,6 +12,7 @@ namespace Krypton.Toolkit;
 public sealed class PaletteOffice2007Silver_BaseScheme : KryptonColorSchemeBase
 {
     public override Color TextLabelControl                 { get; set; } = Color.FromArgb( 56, 63, 70);
+    public override Color TextListItem                     { get; set; } = Color.FromArgb( 56, 63, 70);
     public override Color TextButtonNormal                 { get; set; } = Color.FromArgb( 56, 63, 70);
     public override Color TextButtonChecked                { get; set; } = Color.Black;
     public override Color ButtonNormalBorder               { get; set; } = Color.FromArgb(141, 148, 157);

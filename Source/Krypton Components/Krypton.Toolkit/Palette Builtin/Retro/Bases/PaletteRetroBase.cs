@@ -976,7 +976,11 @@ public abstract class PaletteRetroBase : PaletteVisualStudioBase
 
     protected virtual Color GetRetroListItemNormalBackColor() => Color.White;
 
-    protected virtual Color GetRetroListItemNormalTextColor() => Color.Black;
+    protected virtual Color GetRetroListItemNormalTextColor()
+    {
+        var color = BaseColors?.TextListItem ?? GlobalStaticVariables.EMPTY_COLOR;
+        return color.IsEmpty ? Color.Black : color;
+    }
 
     protected override void Dispose(bool disposing)
     {
