@@ -45,6 +45,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#3814](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3814), Fixes three inconsistencies in `DockingManagerStrings`
 * Implemented [#880](https://github.com/Krypton-Suite/Standard-Toolkit/issues/880), Tree views, lists, button text colours _should_ not share the same values
 * Implemented [#3784](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3784), Optional pulsing border for `KryptonTextBox`, `KryptonMaskedTextBox`, `KryptonComboBox`, `KryptonRichTextBox`, `KryptonNumericUpDown`, `KryptonDomainUpDown`, `KryptonDateTimePicker`, `KryptonCalcInput`, `KryptonButton`, and `KryptonForm` via expandable `GlowingBorderValues` (Enable, Animate, `AnimationSpeed`, ShowWhen, `Style` as bottom-only or full border, and `Colors` with designer type converters); optional animated cue hint shimmer via `CueHint.Animate`, `CueHint.AnimationSpeed`, and `CueHint.HighlightColor`
 * Resolved [#3786](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3786), Control box buttons shown in wrong order and on the wrong edge in RTL (standard palettes now close, maximize/restore, minimize on the left; macOS and OS X Aqua traffic lights red-yellow-green on first show)
