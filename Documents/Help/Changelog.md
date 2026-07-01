@@ -4,6 +4,7 @@
 
 # 2026-06-22 - Build 2606 (Patch 11) - June 2026
 
+* Resolved [#3814](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3814), Fixes three inconsistencies in `DockingManagerStrings`
 * Resolved [#3661](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3661), KContextMenu items overflow not visible
 * Implemented [#3550](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3550), Auto complete issues
 * Implemented [#3514](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3514), Include `README.md` in NuGet Packages
