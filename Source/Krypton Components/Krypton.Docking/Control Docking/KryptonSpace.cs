@@ -71,6 +71,7 @@ public abstract class KryptonSpace : KryptonWorkspace
     private string _closeTooltip;
     private string _pinTooltip;
     private string _dropDownTooltip;
+    private bool _allowPageToolTips;
     private readonly string _storeName;
     #endregion
 
@@ -151,6 +152,7 @@ public abstract class KryptonSpace : KryptonWorkspace
         _closeTooltip = "Close";
         _pinTooltip = "Auto Hidden";
         _dropDownTooltip = "Window Position";
+        _allowPageToolTips = true;
         _storeName = storeName;
     }
 
@@ -227,7 +229,27 @@ public abstract class KryptonSpace : KryptonWorkspace
     }
 
     /// <summary>
-    /// Gets the button spec type for the pin button.
+    /// Gets and sets a value indicating if tooltips should be displayed for page tab headers.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Should tooltips be displayed for page tab headers.")]
+    [DefaultValue(true)]
+    public bool AllowPageToolTips
+    {
+        get => _allowPageToolTips;
+
+        set
+        {
+            if (_allowPageToolTips != value)
+            {
+                _allowPageToolTips = value;
+                UpdatePageToolTips();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating if this space is hosting auto hidden content.
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -455,6 +477,8 @@ public abstract class KryptonSpace : KryptonWorkspace
             cell.ToolTips.AllowButtonSpecToolTips = true;
             cell.ToolTips.AllowButtonSpecToolTipPriority = false;
         }
+
+        cell.ToolTips.AllowPageToolTips = AllowPageToolTips;
 
         // Hook into cell specific events
         cell.ShowContextMenu += OnCellShowContextMenu;
@@ -1017,6 +1041,17 @@ public abstract class KryptonSpace : KryptonWorkspace
             if (state.CloseButtonSpec != null)
             {
                 state.CloseButtonSpec.ToolTipTitle = CloseTooltip;
+            }
+        }
+    }
+
+    private void UpdatePageToolTips()
+    {
+        foreach (CachedCellState state in _lookupCellState.Values)
+        {
+            if (state.Cell != null)
+            {
+                state.Cell.ToolTips.AllowPageToolTips = AllowPageToolTips;
             }
         }
     }
