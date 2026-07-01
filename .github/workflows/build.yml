@@ -95,7 +95,7 @@ jobs:
         uses: NuGet/setup-nuget@v4
 
       - name: Cache NuGet
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
@@ -116,7 +116,7 @@ jobs:
       - name: Restore WebView2 cache
         if: github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary'
         id: webview2_cache_restore
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         continue-on-error: true
         with:
           path: ${{ runner.temp }}/webview2
@@ -136,7 +136,7 @@ jobs:
 
       - name: Save WebView2 cache
         if: success() && (github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary')
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         continue-on-error: true
         with:
           path: ${{ runner.temp }}/webview2
@@ -218,7 +218,7 @@ jobs:
         uses: NuGet/setup-nuget@v4
 
       - name: Cache NuGet
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
@@ -239,7 +239,7 @@ jobs:
       - name: Restore WebView2 cache
         if: github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary'
         id: webview2_cache_restore_release
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         continue-on-error: true
         with:
           path: ${{ runner.temp }}/webview2
@@ -259,7 +259,7 @@ jobs:
 
       - name: Save WebView2 cache
         if: success() && (github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary')
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         continue-on-error: true
         with:
           path: ${{ runner.temp }}/webview2

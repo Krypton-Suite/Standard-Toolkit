@@ -76,7 +76,7 @@ jobs:
 
       - name: Restore NuGet cache
         id: stable-nuget-cache-restore
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         continue-on-error: true
         with:
           path: ~/.nuget/packages
@@ -141,7 +141,7 @@ jobs:
 
       - name: Save NuGet cache
         if: success() && github.event_name != 'pull_request'
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         continue-on-error: true
         with:
           path: ~/.nuget/packages
@@ -205,7 +205,7 @@ jobs:
 
       - name: Restore NuGet cache
         id: preview-nuget-cache-restore
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         continue-on-error: true
         with:
           path: ~/.nuget/packages
@@ -270,7 +270,7 @@ jobs:
 
       - name: Save NuGet cache
         if: success() && github.event_name != 'pull_request'
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         continue-on-error: true
         with:
           path: ~/.nuget/packages
