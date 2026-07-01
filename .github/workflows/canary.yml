@@ -201,7 +201,7 @@ jobs:
       - name: Cache NuGet
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         id: nuget_cache_restore
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         continue-on-error: true
         with:
           path: ~/.nuget/packages
@@ -222,7 +222,7 @@ jobs:
       - name: Restore WebView2 cache
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         id: webview2_cache_restore
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         continue-on-error: true
         with:
           path: ${{ runner.temp }}/webview2
@@ -242,7 +242,7 @@ jobs:
 
       - name: Save WebView2 cache
         if: success() && steps.canary_release_kill_switch.outputs.enabled == 'true'
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         continue-on-error: true
         with:
           path: ${{ runner.temp }}/webview2
@@ -263,7 +263,7 @@ jobs:
 
       - name: Save NuGet cache
         if: success() && steps.canary_release_kill_switch.outputs.enabled == 'true'
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         continue-on-error: true
         with:
           path: ~/.nuget/packages
