@@ -78,6 +78,7 @@ public class DockingManagerStrings : Storage
                                        _textDock.Equals(DEFAULT_TEXT_DOCK) &&
                                        _textFloat.Equals(DEFAULT_TEXT_FLOAT) &&
                                        _textHide.Equals(DEFAULT_TEXT_HIDE) &&
+                                       _textCloseAllButThis.Equals(DEFAULT_TEXT_CLOSE_ALL_BUT_THIS) &&
                                        _textTabbedDocument.Equals(DEFAULT_TEXT_TABBED_DOCUMENT) &&
                                        _textWindowLocation.Equals(DEFAULT_TEXT_WINDOW_LOCATION));
 
@@ -225,7 +226,7 @@ public class DockingManagerStrings : Storage
     /// <summary>
     /// Resets the TextFloat property to its default value.
     /// </summary>
-    public void ResetTextFloat() => TextFloat = DEFAULT_TEXT_DOCK;
+    public void ResetTextFloat() => TextFloat = DEFAULT_TEXT_FLOAT;
     #endregion
 
     #region TextHide
@@ -254,7 +255,7 @@ public class DockingManagerStrings : Storage
     /// <summary>
     /// Resets the TextHide property to its default value.
     /// </summary>
-    public void ResetTextHide() => TextHide = DEFAULT_TEXT_DOCK;
+    public void ResetTextHide() => TextHide = DEFAULT_TEXT_HIDE;
 
     #endregion
 
