@@ -478,7 +478,7 @@ public abstract class KryptonSpace : KryptonWorkspace
             cell.ToolTips.AllowButtonSpecToolTipPriority = false;
         }
 
-        cell.ToolTips.AllowPageToolTips = AllowPageToolTips;
+        cell.ToolTips.AllowPageToolTips = _allowPageToolTips;
 
         // Hook into cell specific events
         cell.ShowContextMenu += OnCellShowContextMenu;
@@ -1028,20 +1028,11 @@ public abstract class KryptonSpace : KryptonWorkspace
     {
         foreach (CachedCellState state in _lookupCellState.Values)
         {
-            if (state.DropDownButtonSpec != null)
-            {
-                state.DropDownButtonSpec.ToolTipTitle = DropDownTooltip;
-            }
+            state.DropDownButtonSpec?.ToolTipTitle = DropDownTooltip;
 
-            if (state.PinButtonSpec != null)
-            {
-                state.PinButtonSpec.ToolTipTitle = PinTooltip;
-            }
+            state.PinButtonSpec?.ToolTipTitle = PinTooltip;
 
-            if (state.CloseButtonSpec != null)
-            {
-                state.CloseButtonSpec.ToolTipTitle = CloseTooltip;
-            }
+            state.CloseButtonSpec?.ToolTipTitle = CloseTooltip;
         }
     }
 
@@ -1049,10 +1040,7 @@ public abstract class KryptonSpace : KryptonWorkspace
     {
         foreach (CachedCellState state in _lookupCellState.Values)
         {
-            if (state.Cell != null)
-            {
-                state.Cell.ToolTips.AllowPageToolTips = AllowPageToolTips;
-            }
+            state.Cell?.ToolTips.AllowPageToolTips = AllowPageToolTips;
         }
     }
     #endregion
