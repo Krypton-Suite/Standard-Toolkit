@@ -88,7 +88,6 @@ internal static class BuildLogic
             ChannelType.Canary  => "canary.proj",
             _                   => "build.proj"
         };
-
         return ResolveProjectFile(state.RootPath, name, state.ScriptProfile, state.MsBuildPath);
     }
 
@@ -103,14 +102,13 @@ internal static class BuildLogic
     private static string ResolveProjectFile(string rootPath, string name, ScriptProfile scriptProfile, string msBuildPath)
     {
         IReadOnlyList<string> folderOrder = GetScriptResolutionOrder(scriptProfile, msBuildPath);
-        var candidates = new List<string>(folderOrder.Count + 2);
+        var candidates = new List<string>(folderOrder.Count + 4);
 
         foreach (string folder in folderOrder)
         {
             candidates.Add(Path.Combine(rootPath, "Scripts", folder, name));
         }
 
-        // Legacy locations kept for backward compatibility with older repo layouts.
         candidates.Add(Path.Combine(rootPath, "Scripts", name));
         candidates.Add(Path.Combine(rootPath, "Scripts", "Project-Files", name));
 
@@ -145,12 +143,92 @@ internal static class BuildLogic
 
     /// <summary>
     /// Locates the MSBuild executable on the system.
-    /// First attempts to use vswhere.exe to find the latest Visual Studio installation,
-    /// then falls back to common installation paths for Visual Studio 2022.
+    /// Discovery order matches <c>Scripts\Common\find-msbuild.cmd</c>:
+    /// MSBUILDPATH / MSBUILD_PATH override, vswhere.exe, then standard install folders under Program Files.
     /// </summary>
     /// <returns>The full path to the MSBuild executable.</returns>
     /// <exception cref="InvalidOperationException">Thrown when MSBuild.exe cannot be found.</exception>
     internal static string LocateMSBuildExecutable()
+    {
+        string? path = TryResolveMsBuildFromEnvironment()
+            ?? TryResolveMsBuildFromVswhere()
+            ?? TryResolveMsBuildFromProgramFilesFallback();
+
+        if (!string.IsNullOrWhiteSpace(path))
+        {
+            return path;
+        }
+
+        throw new InvalidOperationException(
+            "Could not find MSBuild.exe. Install Visual Studio 2026 or later with MSBuild, " +
+            "or set MSBUILDPATH / MSBUILD_PATH to the MSBuild\\Current\\Bin directory.");
+    }
+
+    /// <summary>
+    /// Returns the MSBuild tool version reported by <c>MSBuild.exe -version</c>.
+    /// </summary>
+    /// <param name="msBuildExecutablePath">Full path to MSBuild.exe.</param>
+    /// <returns>The version string, or <c>unknown</c> when it cannot be read.</returns>
+    internal static string GetMSBuildToolVersion(string msBuildExecutablePath)
+    {
+        try
+        {
+            var psi = new ProcessStartInfo
+            {
+                FileName = msBuildExecutablePath,
+                Arguments = "-version -nologo",
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                CreateNoWindow = true
+            };
+            using var p = Process.Start(psi)!;
+            string? line = p.StandardOutput.ReadLine();
+            p.WaitForExit(3000);
+            return string.IsNullOrWhiteSpace(line) ? "unknown" : line.Trim();
+        }
+        catch
+        {
+            return "unknown";
+        }
+    }
+
+    /// <summary>
+    /// Describes the Visual Studio product associated with an MSBuild.exe path.
+    /// </summary>
+    /// <param name="msBuildExecutablePath">Full path to MSBuild.exe.</param>
+    /// <returns>A display name such as <c>Visual Studio Enterprise 2026</c>, or a path-derived label.</returns>
+    internal static string DescribeVisualStudioInstallation(string msBuildExecutablePath)
+    {
+        string? fromVswhere = TryGetVisualStudioDisplayName(msBuildExecutablePath);
+        if (!string.IsNullOrWhiteSpace(fromVswhere))
+        {
+            return fromVswhere;
+        }
+
+        return DescribeVisualStudioFromPath(msBuildExecutablePath);
+    }
+
+    private static string? TryResolveMsBuildFromEnvironment()
+    {
+        foreach (string variable in new[] { "MSBUILDPATH", "MSBUILD_PATH" })
+        {
+            string? dir = Environment.GetEnvironmentVariable(variable);
+            if (string.IsNullOrWhiteSpace(dir))
+            {
+                continue;
+            }
+
+            string exe = Path.Combine(dir.TrimEnd('\\', '/'), "MSBuild.exe");
+            if (File.Exists(exe))
+            {
+                return exe;
+            }
+        }
+
+        return null;
+    }
+
+    private static string? TryResolveMsBuildFromVswhere()
     {
         try
         {
@@ -159,42 +237,175 @@ internal static class BuildLogic
                 "Microsoft Visual Studio",
                 "Installer",
                 "vswhere.exe");
-            if (File.Exists(vswhere))
+            if (!File.Exists(vswhere))
             {
-                var psi = new ProcessStartInfo
+                return null;
+            }
+
+            var psi = new ProcessStartInfo
+            {
+                FileName = vswhere,
+                Arguments = "-version [18.0,) -latest -products * -requires Microsoft.Component.MSBuild -find MSBuild\\Current\\Bin\\MSBuild.exe",
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                CreateNoWindow = true
+            };
+            using var p = Process.Start(psi)!;
+            string? path = p.StandardOutput.ReadLine();
+            p.WaitForExit(3000);
+            if (!string.IsNullOrWhiteSpace(path) && File.Exists(path))
+            {
+                return path;
+            }
+        }
+        catch { }
+
+        return null;
+    }
+
+    private static string? TryResolveMsBuildFromProgramFilesFallback()
+    {
+        string programFiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+        string[] editions = { "Insiders", "Enterprise", "Professional", "Community", "BuildTools", "Preview" };
+
+        foreach (string edition in editions)
+        {
+            string candidate = Path.Combine(programFiles, "Microsoft Visual Studio", "2022", edition, "MSBuild", "Current", "Bin", "MSBuild.exe");
+            if (File.Exists(candidate))
+            {
+                return candidate;
+            }
+        }
+
+        for (int major = 99; major >= 18; major--)
+        {
+            foreach (string edition in editions)
+            {
+                string candidate = Path.Combine(programFiles, "Microsoft Visual Studio", major.ToString(), edition, "MSBuild", "Current", "Bin", "MSBuild.exe");
+                if (File.Exists(candidate))
                 {
-                    FileName = vswhere,
-                    Arguments = "-latest -products * -requires Microsoft.Component.MSBuild -find MSBuild\\Current\\Bin\\MSBuild.exe",
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    CreateNoWindow = true
-                };
-                using var p = Process.Start(psi)!;
-                string? path = p.StandardOutput.ReadLine();
-                p.WaitForExit(3000);
-                if (!string.IsNullOrWhiteSpace(path) && File.Exists(path))
-                {
-                    return path!;
+                    return candidate;
                 }
             }
         }
-        catch {}
 
-        string[] candidates = new[]
-        {
-            "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\MSBuild\\Current\\Bin\\MSBuild.exe",
-            "C:\\Program Files\\Microsoft Visual Studio\\2022\\Professional\\MSBuild\\Current\\Bin\\MSBuild.exe",
-            "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe"
-        };
+        return null;
+    }
 
-        foreach (string c in candidates)
+    private static string? TryGetVisualStudioDisplayName(string msBuildExecutablePath)
+    {
+        try
         {
-            if (File.Exists(c))
+            string vswhere = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),
+                "Microsoft Visual Studio",
+                "Installer",
+                "vswhere.exe");
+            if (!File.Exists(vswhere))
             {
-                return c;
+                return null;
             }
+
+            string normalized = Path.GetFullPath(msBuildExecutablePath);
+            var psi = new ProcessStartInfo
+            {
+                FileName = vswhere,
+                Arguments = "-products * -requires Microsoft.Component.MSBuild -property installationPath,displayName",
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                CreateNoWindow = true
+            };
+            using var p = Process.Start(psi)!;
+            string? installPath = null;
+            string? displayName = null;
+            while (true)
+            {
+                string? line = p.StandardOutput.ReadLine();
+                if (line == null)
+                {
+                    break;
+                }
+
+                if (installPath == null)
+                {
+                    installPath = line.Trim();
+                    continue;
+                }
+
+                displayName = line.Trim();
+                if (!string.IsNullOrEmpty(installPath) &&
+                    normalized.StartsWith(Path.GetFullPath(installPath), StringComparison.OrdinalIgnoreCase) &&
+                    !string.IsNullOrEmpty(displayName))
+                {
+                    p.WaitForExit(3000);
+                    return displayName;
+                }
+
+                installPath = null;
+                displayName = null;
+            }
+
+            p.WaitForExit(3000);
         }
-        throw new InvalidOperationException("Could not find MSBuild.exe. Please ensure Visual Studio 2022 is installed.");
+        catch { }
+
+        return null;
+    }
+
+    private static string DescribeVisualStudioFromPath(string msBuildExecutablePath)
+    {
+        string[] parts = msBuildExecutablePath.Split(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+        for (int i = 0; i < parts.Length - 1; i++)
+        {
+            if (!string.Equals(parts[i], "Microsoft Visual Studio", StringComparison.OrdinalIgnoreCase))
+            {
+                continue;
+            }
+
+            string folder = parts[i + 1];
+            string? edition = i + 2 < parts.Length ? parts[i + 2] : null;
+            if (int.TryParse(folder, out int major) && major >= 18)
+            {
+                int year = major + 2008;
+                return string.IsNullOrEmpty(edition)
+                    ? $"Visual Studio {year}"
+                    : $"Visual Studio {edition} {year}";
+            }
+
+            if (!string.IsNullOrEmpty(edition))
+            {
+                return $"Visual Studio {edition} {folder}";
+            }
+
+            return $"Visual Studio {folder}";
+        }
+
+        return "Visual Studio";
+    }
+
+    private static bool IsCurrentGenerationMsBuildPath(string msBuildPath)
+    {
+        if (string.IsNullOrWhiteSpace(msBuildPath))
+        {
+            return false;
+        }
+
+        const string marker = "\\Microsoft Visual Studio\\";
+        int idx = msBuildPath.IndexOf(marker, StringComparison.OrdinalIgnoreCase);
+        if (idx < 0)
+        {
+            return false;
+        }
+
+        string segment = msBuildPath.Substring(idx + marker.Length);
+        int slash = segment.IndexOf('\\');
+        if (slash <= 0)
+        {
+            return false;
+        }
+
+        string folder = segment.Substring(0, slash);
+        return int.TryParse(folder, out int major) && major >= 18;
     }
 
     /// <summary>
@@ -281,13 +492,13 @@ internal static class BuildLogic
             {
                 return ScriptProfile.VS2022;
             }
-            if (msBuildPath.IndexOf("\\Microsoft Visual Studio\\18\\", StringComparison.OrdinalIgnoreCase) >= 0)
+
+            if (IsCurrentGenerationMsBuildPath(msBuildPath))
             {
                 return ScriptProfile.Current;
             }
         }
 
-        // Default auto preference to Current for forward-compatible setups.
         return ScriptProfile.Current;
     }
 
@@ -366,6 +577,7 @@ internal static class BuildLogic
         state.NuGetRunPushAfterMsBuild = false;
         state.NuGetRunZipAfterMsBuild = false;
         state.LastCompletedTarget = null;
+        state.EndTimeUtc = null;
         if (state.Action == BuildAction.NuGetTools)
         {
             StartNuGetTools(state);
@@ -380,6 +592,7 @@ internal static class BuildLogic
             state.SummaryReady = false;
             state.ErrorCount = 0;
             state.WarningCount = 0;
+            state.EndTimeUtc = null;
 
             var nugetTargets = new List<string>();
             switch (state.NuGetAction)
@@ -493,6 +706,7 @@ internal static class BuildLogic
         finally
         {
             state.IsRunning = false;
+            state.EndTimeUtc = DateTime.UtcNow;
             state.PendingTargets = null;
         }
     }
@@ -677,6 +891,7 @@ internal static class BuildLogic
         if (state.PendingTargets == null || state.PendingTargets.Count == 0)
         {
             state.IsRunning = false;
+            state.EndTimeUtc = DateTime.UtcNow;
             return;
         }
         string nextTarget = state.PendingTargets.Dequeue();
@@ -696,6 +911,7 @@ internal static class BuildLogic
         {
             state.OnOutput?.Invoke($"Project file not found: {state.ProjectFile}");
             state.IsRunning = false;
+            state.EndTimeUtc = DateTime.UtcNow;
             state.LastExitCode = 1;
             return;
         }
@@ -787,6 +1003,7 @@ internal static class BuildLogic
                 catch {}
                 TryLoadSummary(state);
                 state.IsRunning = false;
+                state.EndTimeUtc = DateTime.UtcNow;
                 state.RequestRenderAll?.Invoke();
                 return;
             }
@@ -826,6 +1043,7 @@ internal static class BuildLogic
                 // Only load summary once at the end of the full chain
                 TryLoadSummary(state);
                 state.IsRunning = false;
+                state.EndTimeUtc = DateTime.UtcNow;
                 state.RequestRenderAll?.Invoke();
             }
         };
@@ -834,6 +1052,7 @@ internal static class BuildLogic
         {
             state.StartTimeUtc = DateTime.UtcNow;
         }
+        state.EndTimeUtc = null;
         state.IsRunning = true;
         state.Process.Start();
         state.Process.BeginOutputReadLine();
@@ -896,6 +1115,7 @@ internal static class BuildLogic
         }
         state.IsRunning = true;
         state.StartTimeUtc = DateTime.UtcNow;
+        state.EndTimeUtc = null;
         state.Tail.Clear();
         state.SummaryReady = false;
         state.ErrorCount = 0;
@@ -928,6 +1148,7 @@ internal static class BuildLogic
             DelDir("Logs");
             state.LastExitCode = 0;
             state.IsRunning = false;
+            state.EndTimeUtc = DateTime.UtcNow;
             state.SummaryLines = new[] { "Clean completed." };
             state.SummaryReady = true;
             state.OnOutput?.Invoke("Clean complete.");
@@ -993,12 +1214,14 @@ internal static class BuildLogic
         {
             state.LastExitCode = state.Process?.ExitCode ?? -1;
             state.IsRunning = false;
+            state.EndTimeUtc = DateTime.UtcNow;
             state.SummaryLines = new[] { $"NuGet tools exited with code {state.LastExitCode}." };
             state.SummaryReady = true;
         };
 
         state.IsRunning = true;
         state.StartTimeUtc = DateTime.UtcNow;
+        state.EndTimeUtc = null;
         state.Process.Start();
         state.Process.BeginOutputReadLine();
         state.Process.BeginErrorReadLine();
@@ -1213,6 +1436,7 @@ internal static class BuildLogic
         if (state.NuGetPushQueue == null || state.NuGetPushQueue.Count == 0)
         {
             state.IsRunning = false;
+            state.EndTimeUtc = DateTime.UtcNow;
             state.LastExitCode = 0;
             state.SummaryLines = new[] { "NuGet push completed." };
             state.SummaryReady = true;
@@ -1280,6 +1504,7 @@ internal static class BuildLogic
                 state.OnOutput?.Invoke($"[red]nuget.exe exited with code {code} for {Path.GetFileName(pkg)}[/]");
                 state.LastExitCode = code;
                 state.IsRunning = false;
+                state.EndTimeUtc = DateTime.UtcNow;
                 state.SummaryLines = new[] { $"NuGet push failed for {Path.GetFileName(pkg)} (code {code})." };
                 state.SummaryReady = true;
                 state.RequestRenderAll?.Invoke();
@@ -1291,6 +1516,7 @@ internal static class BuildLogic
         {
             state.StartTimeUtc = DateTime.UtcNow;
         }
+        state.EndTimeUtc = null;
         state.IsRunning = true;
         state.Process.Start();
         state.Process.BeginOutputReadLine();
