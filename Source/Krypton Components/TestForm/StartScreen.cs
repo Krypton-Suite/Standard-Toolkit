@@ -147,6 +147,8 @@ public partial class StartScreen : KryptonForm
         CreateButton<InputBoxTest>("InputBox", string.Empty);
         CreateButton<JumpListTest>("Jump List Test", "Comprehensive demonstration of jump lists on KryptonForm with user tasks, custom categories, known categories, and interactive examples.");
         CreateButton<KryptonFolderBrowserDialogDemo>("Folder Browser Dialog", "Comprehensive demo of KryptonFolderBrowserDialog: configure Title, Icon, SelectedPath, RootFolder, and InitialDirectory, compare with the standard dialog, and try preset scenarios.");
+        CreateButton<KryptonKnobDemo>("Krypton Knob", "Comprehensive demo of KryptonKnob rotary control with full palette State### integration: drag and keyboard input, scale marks, disabled state, theme switching, custom State colours, and property-grid exploration.");
+        CreateButton<KryptonKnobAlternateDemo>("Krypton Knob (Enhanced)", "Comprehensive demo of KryptonKnobAlternate with numeric graduations, arc angles, subdivisions, two-click interaction, full palette State### integration, legacy colour properties, theme switching, and property-grid exploration.");
         CreateButton<MessageBoxTest>("MessageBox", string.Empty);
         CreateButton<Main>("Old Style Main: Fullscreen", string.Empty);
         CreateButton<ProgressBarTriStateTest>("ProgressBar Tri-State", string.Empty);
