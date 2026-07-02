@@ -685,6 +685,7 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
                 SpaceControl.CloseTooltip = dockingManager.Strings.TextClose;
                 SpaceControl.PinTooltip = dockingManager.Strings.TextAutoHide;
                 SpaceControl.DropDownTooltip = dockingManager.Strings.TextWindowLocation;
+                SpaceControl.AllowPageToolTips = dockingManager.AllowPageToolTips;
             }
         }
     }
