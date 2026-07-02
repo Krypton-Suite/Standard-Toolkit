@@ -1,31 +1,74 @@
 # Repository Guidelines
 
-## Recent Tooling Mistakes To Avoid
+## Always
 
-- Do not combine `cmd.exe` variable assignment and use in the same command line. `%VAR%` is expanded before `set` takes effect, which created a stash named `"%STASH_MSG%"`. Correct example: `git stash push -m "3493-followup" -- .`
-- Do not pass complex PowerShell through `cmd.exe` with unescaped `$variables`; `cmd.exe` can strip or alter the command before PowerShell sees it. Correct example: run PowerShell directly with `$path = Join-Path (Get-Location) 'AGENTS.md'; Get-Content -LiteralPath $path -Raw`.
-- Do not build long `git commit -m` commands when the body contains tokens such as `--check`; argument parsing can treat body text as options. Correct example: write the message to a temp file and run `git commit -F <message-file>`.
-- Do not rely on shell quotes for `gh` arguments with spaces when the wrapper has already mishandled them. Correct example: use a JSON input file with `gh api ... --input <json-file>` or a PowerShell argument array.
-- Do not try to rename an existing stash with `git stash store -m`; stash display names may still come from the original stash commit. Correct example: re-apply the stash, then create a fresh `git stash push -m "3493-followup" -- .` if the label matters.
-- Do not over-escape regex patterns for `rg`. A pattern like `msbuild\\.exe` can search for the wrong text. Correct example in PowerShell: `$pattern = 'msbuild\.exe'; $root = 'Scripts'; rg -n $pattern $root --glob '*.cmd'`.
-- Do not use `findstr` quoted path experiments for ordinary file reads or searches. Correct example: `$path = 'Scripts\VS2022\rebuild-build-nightly.cmd'; Select-String -LiteralPath $path -Pattern 'nightly.proj'`.
+Before considering a task complete:
+
+- Build the affected project if instructed.
+- Treat new analyzer warnings as part of the build unless they already existed.
+- Update TestForm when adding a feature.
+- Update Changelog.md for completed features and bug fixes.
+- Add developer documentation for substantial new features.
+
+## Shell Guidelines
+
+- Prefer PowerShell for shell commands.
+- Use cmd.exe only when reproducing Windows batch behavior.
+- Use PowerShell cmdlets instead of findstr where possible.
+- Avoid relying on cmd.exe variable expansion for complex commands.
+- For complex Git operations, prefer temporary files or PowerShell arrays over long quoted command lines.
 
 ## Environment
 
 - OS: Windows
-- Shell: Use PowerShell for agentic shell calls. Use `cmd.exe` only when invoking or reproducing Windows batch-script behavior.
 - Tools: Visual Studio 2022 (v17) and appropriate .NET SDKs starting with `net472`
-- Build scripts are Windows `.cmd` files under `Scripts/`
-- Do not run build scripts unless instructed to do so
+- Build scripts are Windows `.cmd` files under `Scripts/`; do not run them unless explicitly instructed (see **Build, Test, and Development Commands**)
 
 ## Project Structure & Module Organization
 
 - `Source/Krypton Components`: Core libraries (`Krypton.Toolkit`, `Krypton.Ribbon`, `Krypton.Navigator`, `Krypton.Workspace`, `Krypton.Docking`) and the solution `Krypton Toolkit Suite 2022 - VS2022.sln`
-- `Source/Krypton Components/TestForm`: WinForms sample app used to validate changes
+- `Source/Krypton Components/TestForm`: WinForms sample app used to validate changes; add or extend demos here when features or bugs are completed (see **TestForm Demos**)
 - `Source/TestHarnesses`: Small repro/test harnesses (e.g., `ThemeSwapRepro`)
 - `Scripts/`: Build and packaging scripts; `run.cmd` (root) launches an interactive menu; scripts live under `Scripts/VS2022/`, `Scripts/Current/`, `Scripts/Build/` (e.g., `build-stable.cmd`, `build-canary.cmd`, `build-nightly.cmd`, `build.proj`)
 - `Bin/`: Build outputs by configuration (e.g., `Bin/Debug`)
 - `Documents/`, `Assets/`, `Logs/`: Docs, images, and build logs
+- `Documents/Changelog/Changelog.md`: User-facing release notes for completed bugs and features
+- `Documents/Development/`: In-depth developer guides for completed features (APIs, architecture, usage); not listed in `Documents/Changelog/Changelog.md` or `Scripts/ModernBuild/README.md`
+
+## Architecture
+
+- `Krypton.Toolkit` contains the shared infrastructure.
+- `Krypton.Ribbon` depends on `Krypton.Toolkit`.
+- `Krypton.Navigator` depends on `Krypton.Toolkit`.
+- Rendering flows through the palette and renderer abstractions.
+- New controls should integrate with the palette system rather than hardcoding appearance.
+
+## Editing Philosophy
+
+- Make the smallest change that correctly solves the task.
+- Preserve existing formatting and coding style.
+- Do not refactor unrelated code.
+- Do not rename identifiers unless requested.
+
+## Public API
+
+### Compatibility
+
+- New code must remain compatible with `net472`.
+- Do not use language features newer than C# 7.3 unless the project already conditionally supports them.
+
+### Stability
+
+- Preserve binary compatibility unless explicitly instructed otherwise.
+- Avoid changing public or protected member signatures unless explicitly requested.
+- Do not rename public types or namespaces.
+- Preserve designer serialization compatibility.
+
+## Performance
+
+- Avoid unnecessary allocations in paint paths.
+- Avoid creating disposable GDI objects inside tight rendering loops.
+- Reuse existing rendering infrastructure whenever possible.
 
 ## Build, Test, and Development Commands
 
@@ -55,25 +98,191 @@
 
 ## C# Rules
 
-- Surgical edits: preserve structure, identifiers, and existing comments; avoid adding defensive checks unless asked
+- Preserve the existing nullable reference type annotations and context (`<Nullable>enable</Nullable>` is set at project level).
+- Do not enable or disable nullable in individual files unless requested.
 - No unneeded `try/catch` blocks if there's no catch handling
 - Idioms: use null-propagation and object/collection initializers where consistent
-- Fix compiler, analyzer, and IDE warnings in new or modified code before handing work back
 - Prefer switch expressions for simple value/type dispatch that only returns a value; keep switch statements for complex control flow or side effects
-- Compatibility: ensure changes build for `net472` and C# 7.3
 - WinForms: `UseWindowsForms=true`; prefer designer-friendly patterns and keep partial classes tidy
 - WinForms designer: keep object declarations at file bottom; initialize in `*.Designer.cs` `InitializeComponent()`
+- Do not manually edit generated `*.Designer.cs` files unless the task specifically requires it.
 - Constraint: do not use `yield return` inside `catch` blocks
+
+## Code Documentation Guidelines
+
+When asked to review or document code, add comments only where they help a maintainer understand **non-obvious** behavior. Do not narrate what the code already says.
+
+### What to comment
+
+- **Class-level summaries** for types that participate in a larger model (composite trees, state machines, store/restore flows, drag hosts). Name sibling types and the role of the class in the hierarchy.
+- **Inline comments** at decision points for:
+  - Multi-step algorithms (store-then-restore, orphan handling, greedy layout shrink)
+  - Propagation (`PropogateAction`, `StartUpdate`/`EndUpdate`, reverse child iteration)
+  - State machines and message-filter / focus edge cases
+  - Drag-drop choreography (hidden float window reuse, target priority, placeholder pages)
+  - XML persistence quirks (element order, attribute meaning, misnamed APIs, buffer length)
+  - Geometry or ordering that is not obvious from property names (z-order, hot vs draw rects, remainder path parsing)
+- **Brief region comments** above enum groups that act as a catalog for a subsystem (e.g. propagation actions).
+
+### What not to comment
+
+- Obvious boilerplate (`// This constructor creates an instance of X`, `// Return the result`, restating parameter names).
+- Every public member when XML documentation already describes intent adequately.
+- **Event Args**, **Resources**, **Designer** / **`.Designer.cs`**, and other thin property-bag or generated files unless logic is non-trivial.
+- Large blocks of unchanged legacy code unrelated to the task.
+
+### Style
+
+- Keep comments **clear and concise** — one or two sentences; prefer plain language over jargon.
+- Preserve existing comments and XML docs; extend or clarify them surgically rather than replacing wholesale.
+- Use `///` XML summaries for types and public API; use `//` for inline implementation notes.
+- In XML, use `<see cref="..."/>` and `<c>...</c>` to link related types and enum values.
+- Match surrounding voice (this codebase often uses short `//` notes inside `switch` arms and multi-step flows).
+
+### Prioritization (large modules)
+
+For substantial packages (e.g. `Krypton.Docking`), work in this order:
+
+1. Root orchestrator and base abstractions (manager, element base, definitions/enums).
+2. Core implementation layers (space/edge/group elements, primary controls).
+3. Specialized flows (auto-hidden slide, drag targets, persistence load/save).
+4. Thin subclasses and adapters last — often a one-line class summary is enough.
+
+Validate documentation-only changes with a targeted `dotnet build` of the affected project when practical.
+
+## Feature Developer Documentation
+
+When a **new feature** is completed (not bug fixes or refactors unless they introduce a substantial new capability), add a **comprehensive developer guide** as a Markdown file under `Documents/Development/`.
+
+### When to write
+
+- New public APIs, components, designer support, build/packaging features, or user-facing subsystems.
+- Skip for trivial fixes, comment-only changes, and internal refactors with no new surface area.
+
+### What to include
+
+Each guide should be **in-depth** and **maintainer-focused**, covering as applicable:
+
+- **Overview** — problem solved, scope, and which package(s) own the feature.
+- **Architecture** — key types, relationships, and data/control flow (diagrams welcome).
+- **Public API** — classes, interfaces, enums, events, and extension points with signatures and behavior.
+- **Usage** — minimal code or designer steps; common integration patterns.
+- **Configuration / persistence** — settings, XML, flags, or MSBuild properties if relevant.
+- **Edge cases** — threading, TFM differences, breaking changes, migration notes.
+- **Validation** — how to exercise the feature in `TestForm` or a harness (link to the demo form registered in `StartScreen`).
+
+### TestForm demo
+
+When the feature warrants user-visible validation, add or update a demo per **TestForm Demos** and reference it here.
+
+### File conventions
+
+- Location: `Documents/Development/`
+- Name: descriptive kebab or Pascal-style title, e.g. `Krypton-Docking-Developer-Guide.md` or `Visual-Studio-Templates-Developer-Guide.md`.
+- One feature (or cohesive subsystem) per file; cross-link related guides when helpful.
+- CRLF, UTF-8; match tone and structure of existing repo docs.
+
+### Do not list in these files
+
+- **Do not** add changelog entries or release notes for these guides in `Documents/Changelog/Changelog.md`.
+- **Do not** add references or index entries for these guides in `Scripts/ModernBuild/README.md`.
+
+Changelog and ModernBuild README stay focused on user-facing release history and build tooling respectively. Developer guides are discovered via `Documents/Development/` and code cross-references only.
+
+## Changelog
+
+When a **bug fix** or **feature** is completed, add an entry to `Documents/Changelog/Changelog.md` in the same change set (or immediately before merge).
+
+### When to update
+
+- **Resolved** — bug fixes, regressions, and defect corrections tied to an issue.
+- **Implemented** — new features, enhancements, and new public capability.
+- Skip changelog updates for comment-only work, internal refactors with no user-visible effect, and `Documents/Development/` guide files (those are separate from release notes).
+
+### Where to add
+
+- Append to the **current in-progress release** section at the top of the file (the first `##` heading after the table of contents), e.g. `## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026`.
+- Add new bullets **after** the section heading, before older entries in that section (newest first within the section).
+- If no suitable section exists yet, follow the heading pattern used by adjacent releases and add a table-of-contents link.
+
+### Entry format
+
+Match existing style:
+
+```markdown
+* Resolved [#1234](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1234), Short user-facing summary of the fix.
+* Implemented [#5678](https://github.com/Krypton-Suite/Standard-Toolkit/issues/5678), Short user-facing summary of the feature.
+   * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
+* Implemented [#9012](https://github.com/Krypton-Suite/Standard-Toolkit/issues/9012), **[Breaking Change]** Summary of what broke and what consumers must update.
+```
+
+- Prefix with `Resolved` or `Implemented` (same verbs as existing entries).
+- Link the GitHub issue when one exists (`[#NNNN](https://github.com/Krypton-Suite/Standard-Toolkit/issues/NNNN)`).
+- If the change is **breaking** for consumers (API removal/rename, behavior change requiring migration, assembly/namespace moves), insert `**[Breaking Change]**` immediately after the issue link comma and before the summary.
+- If the feature lives in `Krypton.Toolkit.Utilities.csproj` or `Krypton.Navigator.Utilities.csproj`, append the indented NuGet sub-bullet shown in the example above (`To use, you will need to download the Krypton.Standard.Toolkit NuGet package…`). Use the matching assembly name (`Krypton.Toolkit.Utilities` or `Krypton.Navigator.Utilities`).
+- One line per item; use indented sub-bullets only when extra user-facing detail is needed (see existing entries).
+- Write for **consumers** of the toolkit (what changed and why it matters), not implementation detail—that belongs in `Documents/Development/` or code comments.
+
+### Do not add to the changelog
+
+- Entries for developer guides under `Documents/Development/`.
+- References to `Scripts/ModernBuild/README.md` or build-script internals unless the change is user-facing.
+
+## TestForm Demos
+
+`Source/Krypton Components/TestForm` (`TestForm.csproj`) is the primary interactive validation app. When a **feature** is completed, add a **comprehensive demo** or **extend an existing demo** so maintainers and reviewers can exercise the capability without reading source first.
+
+### When to add or update
+
+- **Features** — new controls, APIs, designer behavior, themes, dialogs, or subsystems: add or expand a demo.
+- **Bug fixes** — add a minimal repro when none exists; extend an existing demo when the fix changes observable behavior worth regression-testing.
+- Skip demos for comment-only work, pure refactors, or changes with no UI/API surface.
+
+### Registration
+
+- Register every new form in `StartScreen.AddButtons()` via `CreateButton<TForm>(heading, description)`.
+- Heading: short title (often includes issue number for bug demos).
+- Description: what to try, expected outcome, and which scenarios are covered.
+- Follow existing naming: `BugNNNNShortNameDemo` for issue repros; `FeatureNameDemo` or `FeatureNameTest` for broader showcases.
+
+### Demo content
+
+A good demo is **comprehensive** for its scope:
+
+- Exercises the main API paths, properties, events, and theme/palette switches relevant to the change.
+- Includes short on-form instructions (labels or a read-only text block) so manual steps are obvious.
+- Uses `KryptonForm` and Krypton controls for the host unless the scenario requires otherwise.
+- Keeps designer-friendly structure: logic in `*.cs`, layout in `*.Designer.cs` `InitializeComponent()`.
+
+### Krypton vs standard WinForms
+
+Where the feature is a **Krypton replacement or wrapper** for a built-in control (or parity/behavior is the point), provide a **side-by-side comparison** when practical:
+
+- Place native WinForms control(s) and Krypton control(s) in the same form (e.g. split columns in a `TableLayoutPanel`), matching size, text, and interaction where possible.
+- Label each side clearly (e.g. “Native TextBox” / “KryptonTextBox”).
+- Document what should match and what is intentionally different.
+- See existing patterns: `Bug3342KryptonTextBoxResizeFlickerDemo`, `KryptonFolderBrowserDialogDemo`, `AccessibilityTest`, `Bug3343RichTextBoxEditLossDemo`.
+
+Skip the comparison when there is no meaningful WinForms equivalent (e.g. ribbon-only or docking-only features).
+
+### Project conventions
+
+- Add new `.cs` / `.Designer.cs` / `.resx` files to `TestForm.csproj` if not picked up automatically.
+- Reference `Krypton.Toolkit.Utilities` / `Krypton.Navigator.Utilities` when the demo targets those assemblies.
+- Run: `dotnet run --project ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug`
 
 ## Testing Guidelines
 
 - No formal unit test suite. Validate changes via `TestForm` scenarios and harnesses under `Source/TestHarnesses`
 - When fixing a bug, add/adjust a minimal repro in `TestForm` or a harness and describe manual steps in the PR
+- When completing a **feature**, add or update a comprehensive demo in `TestForm` per **TestForm Demos** (include Krypton vs WinForms comparison where appropriate)
+- When completing a bug fix or feature, update `Documents/Changelog/Changelog.md` per **Changelog** in this file
 
 ## Commit & Pull Request Guidelines
 
 - Commits: short, imperative subject; reference issues/PRs (e.g., `Fix autosizing (#2433)` or `2439 V100 datecell autosizing`)
 - PRs: clear description, linked issues, screenshots/gifs for UI changes, notes on breaking changes/TFM impact
+- Completed bugs and features: update `Documents/Changelog/Changelog.md` (see **Changelog** above); add or update a `TestForm` demo for features (see **TestForm Demos**); add a `Documents/Development/` guide when the feature warrants in-depth maintainer docs.
 - Do not add routine validation noise to commit messages or PR descriptions. Mention checks only when they are essential context, unusual, failed, or specifically requested.
 
 ## Security & Configuration Tips
