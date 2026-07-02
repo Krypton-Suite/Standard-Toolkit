@@ -76,6 +76,8 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
             // Let base class perform standard processing
             base.Parent = value;
 
+            UpdatePageToolTips();
+
             // Generate event so that any dockable navigator customization can be performed.
             KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
@@ -526,6 +528,9 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
                 Console.WriteLine(GetType().ToString());
                 DockableNavigatorControl.DebugOutput();
                 break;
+            case DockingPropogateAction.StringChanged:
+                UpdatePageToolTips();
+                break;
         }
 
         // Let base class perform standard processing
@@ -920,6 +925,15 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
     #endregion
 
     #region Implementation
+    private void UpdatePageToolTips()
+    {
+        KryptonDockingManager? dockingManager = DockingManager;
+        if (dockingManager != null)
+        {
+            DockableNavigatorControl.ToolTips.AllowPageToolTips = dockingManager.AllowPageToolTips;
+        }
+    }
+
     private void OnDockableNavigatorDisposed(object? sender, EventArgs e)
     {
         // Unhook from events to prevent memory leaking
