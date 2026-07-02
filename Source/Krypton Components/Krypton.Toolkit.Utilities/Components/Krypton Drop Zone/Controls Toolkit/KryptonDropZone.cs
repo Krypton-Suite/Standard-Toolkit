@@ -162,99 +162,7 @@ public class KryptonDropZone : KryptonPanel
     public bool ShouldSerializeBehavior() => !Behavior.IsDefault;
 
     private void ResetBehavior() => Behavior.Reset();
-
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public bool ShowFileListView
-    {
-        get => _behavior.ShowFileListView;
-        set => _behavior.ShowFileListView = value;
-    }
-
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public bool ShowClearButton
-    {
-        get => _behavior.ShowClearButton;
-        set => _behavior.ShowClearButton = value;
-    }
-
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public bool ShowBrowseButton
-    {
-        get => _behavior.ShowBrowseButton;
-        set => _behavior.ShowBrowseButton = value;
-    }
-
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public bool ShowStatusLabel
-    {
-        get => _behavior.ShowStatusLabel;
-        set => _behavior.ShowStatusLabel = value;
-    }
-
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public List<string> AllowedExtensions => _behavior.AllowedExtensions;
-
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public int MaxFileCount
-    {
-        get => _behavior.MaxFileCount;
-        set => _behavior.MaxFileCount = value;
-    }
-
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public long MaxFileSize
-    {
-        get => _behavior.MaxFileSize;
-        set => _behavior.MaxFileSize = value;
-    }
-
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public long UploadSizeQuota
-    {
-        get => _behavior.UploadSizeQuota;
-        set => _behavior.UploadSizeQuota = value;
-    }
-
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public bool ShowUploadQuotaProgressBar
-    {
-        get => _behavior.ShowUploadQuotaProgressBar;
-        set => _behavior.ShowUploadQuotaProgressBar = value;
-    }
-
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public bool AllowDirectories
-    {
-        get => _behavior.AllowDirectories;
-        set => _behavior.AllowDirectories = value;
-    }
-
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public bool SearchSubdirectories
-    {
-        get => _behavior.SearchSubdirectories;
-        set => _behavior.SearchSubdirectories = value;
-    }
-
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public bool EnableUndo
-    {
-        get => _behavior.EnableUndo;
-        set => _behavior.EnableUndo = value;
-    }
-
+    
     [Category("Data")]
     [Description("Read-only runtime state of the dropped file list, selection, and animation.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -269,38 +177,6 @@ public class KryptonDropZone : KryptonPanel
         get => _strings.DropZoneText;
         set => _strings.DropZoneText = value;
     }
-
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public IReadOnlyList<string> DroppedFiles => _data.DroppedFiles;
-
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public string? SelectedFile => _data.SelectedFile;
-
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public IReadOnlyList<string> SelectedFiles => _data.SelectedFiles;
-
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public int FileCount => _data.FileCount;
-
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public bool CanUndo => _data.CanUndo;
-
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public long TotalDroppedSize => _data.TotalDroppedSize;
-
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public long RemainingUploadSize => _data.RemainingUploadSize;
-
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public DropZoneAnimationScenario CurrentAnimationScenario => _data.CurrentAnimationScenario;
 
     #endregion
 
@@ -577,7 +453,7 @@ public class KryptonDropZone : KryptonPanel
             _menuRemove.Enabled = selected > 0;
             _menuOpenFolder.Enabled = selected == 1;
             _menuCopyPaths.Enabled = selected > 0;
-            _menuUndo.Enabled = EnableUndo && CanUndo;
+            _menuUndo.Enabled = _behavior.EnableUndo && _data.CanUndo;
             _menuClear.Enabled = _droppedFilesList.Count > 0;
         };
     }
@@ -707,7 +583,7 @@ public class KryptonDropZone : KryptonPanel
 
         _headerLabel.Visible = card && !string.IsNullOrWhiteSpace(_strings.HeaderText);
         _headerLabel.Padding = card ? new Padding(4, 0, 4, 4) : Padding.Empty;
-        _previewHeaderLabel.Visible = card && _appearance.ShowPreviewHeader && ShowFileListView;
+        _previewHeaderLabel.Visible = card && _appearance.ShowPreviewHeader && _behavior.ShowFileListView;
         _actionPanel.Visible = card && _appearance.ShowActionButtons;
         _uploadIcon.Visible = card && _appearance.ShowUploadIcon;
         _controlSeparator.Visible = !card;
@@ -727,11 +603,11 @@ public class KryptonDropZone : KryptonPanel
         _dropZoneLabel.LabelStyle = card ? LabelStyle.NormalControl : _dropZoneLabel.LabelStyle;
         _dropZoneLabel.Cursor = card ? Cursors.Hand : Cursors.Default;
 
-        _browseButton.Visible = ShowBrowseButton && !card;
-        _clearButton.Visible = ShowClearButton && !card && _droppedFilesList.Count > 0;
+        _browseButton.Visible = _behavior.ShowBrowseButton && !card;
+        _clearButton.Visible = _behavior.ShowClearButton && !card && _droppedFilesList.Count > 0;
 
         _fileListView.View = card ? View.Tile : View.Details;
-        _fileListView.HeaderStyle = card ? ColumnHeaderStyle.None : ColumnHeaderStyle.None;
+        _fileListView.HeaderStyle = ColumnHeaderStyle.None;
         _fileListView.SmallImageList = _appearance.ShowFileListIcons
             ? (card ? _previewIconCache : _iconCache)
             : null;
@@ -914,9 +790,9 @@ public class KryptonDropZone : KryptonPanel
     private void BrowseButton_Click(object? sender, EventArgs e)
     {
         using var dialog = new OpenFileDialog { Multiselect = true, Title = _strings.OpenFileDialogTitle };
-        if (AllowedExtensions.Count > 0)
+        if (_behavior.AllowedExtensions.Count > 0)
         {
-            string filter = string.Join(";", AllowedExtensions.Select(ext => "*" + ext));
+            string filter = string.Join(";", _behavior.AllowedExtensions.Select(ext => "*" + ext));
             dialog.Filter = string.Format(_strings.OpenFileDialogFilterFormat, filter);
         }
         if (dialog.ShowDialog() == DialogResult.OK)
@@ -961,10 +837,10 @@ public class KryptonDropZone : KryptonPanel
             allFiles = await Task.Run(() =>
             {
                 var results = new List<string>();
-                var searchOption = SearchSubdirectories ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+                var searchOption = _behavior.SearchSubdirectories ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
                 foreach (string path in droppedPaths)
                 {
-                    if (Directory.Exists(path) && AllowDirectories)
+                    if (Directory.Exists(path) && _behavior.AllowDirectories)
                     {
                         try { results.AddRange(Directory.GetFiles(path, "*.*", searchOption)); }
                         catch (UnauthorizedAccessException) { /* skip inaccessible folders */ }
@@ -1013,11 +889,11 @@ public class KryptonDropZone : KryptonPanel
             validFiles.Add(file);
         }
 
-        if (MaxFileCount > 0 && _droppedFilesList.Count + validFiles.Count > MaxFileCount)
+        if (_behavior.MaxFileCount > 0 && _droppedFilesList.Count + validFiles.Count > _behavior.MaxFileCount)
         {
-            int allowedCount = Math.Max(0, MaxFileCount - _droppedFilesList.Count);
+            int allowedCount = Math.Max(0, _behavior.MaxFileCount - _droppedFilesList.Count);
             var overflow = validFiles.Skip(allowedCount).ToList();
-            foreach (var f in overflow) _rejectionReasons[f] = string.Format(_strings.ExceedsMaxFileCountFormat, MaxFileCount);
+            foreach (var f in overflow) _rejectionReasons[f] = string.Format(_strings.ExceedsMaxFileCountFormat, _behavior.MaxFileCount);
             invalidFiles.AddRange(overflow);
             validFiles = validFiles.Take(allowedCount).ToList();
         }
@@ -1061,24 +937,24 @@ public class KryptonDropZone : KryptonPanel
     {
         reason = string.Empty;
 
-        if (AllowedExtensions.Count > 0)
+        if (_behavior.AllowedExtensions.Count > 0)
         {
             string ext = Path.GetExtension(filePath).ToLowerInvariant();
-            if (!AllowedExtensions.Any(a => string.Equals(a, ext, StringComparison.OrdinalIgnoreCase)))
+            if (!(_behavior.AllowedExtensions.Any(a => string.Equals(a, ext, StringComparison.OrdinalIgnoreCase))))
             {
                 reason = string.Format(_strings.ExtensionNotAllowedFormat, ext);
                 return false;
             }
         }
 
-        if (MaxFileSize > 0)
+        if (_behavior.MaxFileSize > 0)
         {
             try
             {
                 var info = new FileInfo(filePath);
-                if (info.Length > MaxFileSize)
+                if (info.Length > _behavior.MaxFileSize)
                 {
-                    reason = string.Format(_strings.FileExceedsMaxSizeFormat, FormatFileSize(MaxFileSize));
+                    reason = string.Format(_strings.FileExceedsMaxSizeFormat, FormatFileSize(_behavior.MaxFileSize));
                     return false;
                 }
             }
@@ -1117,7 +993,7 @@ public class KryptonDropZone : KryptonPanel
                 _fileListView.Items.Add(item);
             }
 
-            bool showClassicClear = ShowClearButton && !IsCardLayout && _droppedFilesList.Count > 0;
+            bool showClassicClear = _behavior.ShowClearButton && !IsCardLayout && _droppedFilesList.Count > 0;
             _clearButton.Visible = showClassicClear;
             _submitButton.Enabled = _droppedFilesList.Count > 0;
         }
@@ -1244,7 +1120,7 @@ public class KryptonDropZone : KryptonPanel
     {
         if (_behavior.UploadSizeQuota > 0)
         {
-            if (RemainingUploadSize <= 0)
+            if (_data.RemainingUploadSize <= 0)
             {
                 return DropZoneAnimationScenario.QuotaExceeded;
             }
@@ -1267,7 +1143,7 @@ public class KryptonDropZone : KryptonPanel
 
         if (_behavior.UploadSizeQuota > 0)
         {
-            if (RemainingUploadSize <= 0)
+            if (_data.RemainingUploadSize <= 0)
             {
                 return DropZoneAnimationScenario.QuotaExceeded;
             }
@@ -1300,7 +1176,7 @@ public class KryptonDropZone : KryptonPanel
         }
 
         _currentAnimationScenario = scenario;
-        OnPropertyChanged(nameof(CurrentAnimationScenario));
+        OnPropertyChanged(nameof(_data.CurrentAnimationScenario));
     }
 
     private int GetQuotaUsagePercent()
@@ -1310,7 +1186,7 @@ public class KryptonDropZone : KryptonPanel
             return 0;
         }
 
-        return (int)Math.Min(100, TotalDroppedSize * 100L / _behavior.UploadSizeQuota);
+        return (int)Math.Min(100, _data.TotalDroppedSize * 100L / _behavior.UploadSizeQuota);
     }
 
     private void AnimateDropZoneColor(Color targetColor, int durationMs, Action? onComplete)
@@ -1459,7 +1335,7 @@ public class KryptonDropZone : KryptonPanel
 
     private void PushUndoState()
     {
-        if (!EnableUndo)
+        if (!_behavior.EnableUndo)
         {
             return;
         }
@@ -1474,7 +1350,7 @@ public class KryptonDropZone : KryptonPanel
 
     public void Undo()
     {
-        if (!EnableUndo || _undoStack.Count == 0)
+        if (!_behavior.EnableUndo || _undoStack.Count == 0)
         {
             return;
         }
@@ -1877,7 +1753,7 @@ public class KryptonDropZone : KryptonPanel
         List<string> files = ExpandDraggedPaths(droppedPaths);
         if (files.Count == 0)
         {
-            return AllowDirectories && droppedPaths.Any(Directory.Exists);
+            return _behavior.AllowDirectories && droppedPaths.Any(Directory.Exists);
         }
 
         foreach (string file in files)
@@ -1887,7 +1763,7 @@ public class KryptonDropZone : KryptonPanel
                 continue;
             }
 
-            if (MaxFileCount > 0 && _droppedFilesList.Count >= MaxFileCount)
+            if (_behavior.MaxFileCount > 0 && _droppedFilesList.Count >= _behavior.MaxFileCount)
             {
                 continue;
             }
@@ -1910,10 +1786,10 @@ public class KryptonDropZone : KryptonPanel
     private List<string> ExpandDraggedPaths(string[] droppedPaths)
     {
         var results = new List<string>();
-        var searchOption = SearchSubdirectories ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+        var searchOption = _behavior.SearchSubdirectories ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
         foreach (string path in droppedPaths)
         {
-            if (Directory.Exists(path) && AllowDirectories)
+            if (Directory.Exists(path) && _behavior.AllowDirectories)
             {
                 try { results.AddRange(Directory.GetFiles(path, "*.*", searchOption)); }
                 catch (UnauthorizedAccessException) { /* skip inaccessible folders */ }
