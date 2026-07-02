@@ -191,13 +191,23 @@ public class KryptonToggleSwitch : Control, IContentValues
 
         ToggleSwitchValues = new ToggleSwitchValues { OffColor = Color.Red, OnColor = Color.Green };
 
+        // Cache the current global palette setting
+        _palette = KryptonManager.CurrentGlobalPalette;
+
+        // Hook into palette events
+        if (_palette != null)
+        {
+            _palette.PalettePaintInternal += OnPalettePaint;
+        }
+
+        // We want to be notified whenever the global palette changes
         KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
 
-        // Initialize PaletteRedirect with a default context
-        PaletteRedirect redirector = new PaletteRedirect(KryptonManager.CurrentGlobalPalette);
+        // Create a redirection to the base palette
+        _paletteRedirect = new PaletteRedirect(_palette);
 
         // Default state configuration
-        StateCommon = new PaletteTripleRedirect(redirector, PaletteBackStyle.ButtonStandalone, PaletteBorderStyle.ButtonStandalone, PaletteContentStyle.ButtonStandalone);
+        StateCommon = new PaletteTripleRedirect(_paletteRedirect, PaletteBackStyle.ButtonStandalone, PaletteBorderStyle.ButtonStandalone, PaletteContentStyle.ButtonStandalone);
         StateDisabled = new PaletteTriple(StateCommon, OnNeedPaintHandler);
         StateNormal = new PaletteTriple(StateCommon, OnNeedPaintHandler);
         StatePressed = new PaletteTriple(StateCommon, OnNeedPaintHandler);
