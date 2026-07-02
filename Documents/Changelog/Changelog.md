@@ -45,6 +45,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#797](https://github.com/Krypton-Suite/Standard-Toolkit/issues/797), Individual border corner rounding via `PaletteBorder.CornerRounding` and per-corner `RoundingTopLeft`, `RoundingTopRight`, `RoundingBottomRight`, and `RoundingBottomLeft` properties (`-1` inherits from `Rounding`). Rendering, layout padding, and orientation handling honor mixed corner radii.
 * Resolved [#3826](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3826), Null reference in `KryptonToggleSwitch` when the global palette changes
    * **[Breaking Change]**: The `Checked` property has been moved from `KryptonToggleSwitch` to `KryptonToggleSwitchValues`. Please update your code accordingly.
 * Resolved [#3814](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3814), Fixes three inconsistencies in `DockingManagerStrings`

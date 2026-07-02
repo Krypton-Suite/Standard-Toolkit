@@ -361,6 +361,15 @@ public abstract class PaletteBase : Component
     public abstract float GetBorderRounding(PaletteBorderStyle style, PaletteState state);
 
     /// <summary>
+    /// Gets the border corner rounding for each corner.
+    /// </summary>
+    /// <param name="style">Border style.</param>
+    /// <param name="state">Palette value should be applicable to this state.</param>
+    /// <returns>Per-corner rounding radii.</returns>
+    public virtual PaletteCornerRounding GetBorderCornerRounding(PaletteBorderStyle style, PaletteState state) =>
+        PaletteCornerRounding.Uniform(GetBorderRounding(style, state));
+
+    /// <summary>
     /// Gets a border image.
     /// </summary>
     /// <param name="style">Border style.</param>
