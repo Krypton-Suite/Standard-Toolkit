@@ -335,7 +335,11 @@ public class KryptonDockingManager : DockingElementOpenCollection
     {
         InitializeManager();
     }
-    #endregion    
+    #endregion
+
+    #region Instance Fields
+    private bool _allowPageToolTips = true;
+    #endregion
 
     #region Public
     /// <summary>
@@ -1392,6 +1396,26 @@ public class KryptonDockingManager : DockingElementOpenCollection
     /// </summary>
     [DefaultValue(typeof(DockingCloseRequest), "HidePage")]
     public DockingCloseRequest DefaultCloseRequest { get; set; }
+
+    /// <summary>
+    /// Gets and sets a value indicating if tooltips should be displayed for docking tab headers.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Should tooltips be displayed for docking tab headers.")]
+    [DefaultValue(true)]
+    public bool AllowPageToolTips
+    {
+        get => _allowPageToolTips;
+
+        set
+        {
+            if (_allowPageToolTips != value)
+            {
+                _allowPageToolTips = value;
+                PropogateAction(DockingPropogateAction.StringChanged, null as string[]);
+            }
+        }
+    }
 
     /// <summary>
     /// Perform the close request for a set of named pages.
