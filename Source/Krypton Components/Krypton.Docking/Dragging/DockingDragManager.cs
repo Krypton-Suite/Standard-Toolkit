@@ -15,7 +15,8 @@ using Timer = System.Windows.Forms.Timer;
 namespace Krypton.Docking;
 
 /// <summary>
-/// Manage a docking dragging operation.
+/// Docking-specific drag manager: tracks a <see cref="KryptonFloatingWindow"/> during page moves,
+/// filters Win32 messages for float-window caption drag, and clears temporary store pages on dispose.
 /// </summary>
 public class DockingDragManager : DragManager,
     IFloatingMessages,

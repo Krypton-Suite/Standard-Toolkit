@@ -13,7 +13,8 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Provides the set of drag targets relevant to the set of pages being moved.
+/// Collects drop targets from the docking tree via <see cref="KryptonDockingManager"/> propagation.
+/// Falls back to <see cref="DragTargetNull"/> when no edge or cell accepts the dragged pages.
 /// </summary>
 public class DockingDragTargetProvider : IDragTargetProvider
 {

@@ -18,7 +18,11 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Manages a hierarchy of docking elements to provide docking windows functionality.
+/// Manages the docking element tree for one or more host controls. Typical hierarchy:
+/// Manager → <see cref="KryptonDockingControl"/> → <see cref="KryptonDockingEdge"/> (per side) →
+/// <see cref="KryptonDockingEdgeDocked"/> / <see cref="KryptonDockingEdgeAutoHidden"/> → dockspaces,
+/// groups, float windows, workspaces, or navigators. Location changes store the page at its source
+/// (<see cref="DockingPropogateAction.StorePages"/>) before restoring at the target so tab order survives.
 /// </summary>
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(KryptonDockingManager), "ToolboxBitmaps.KryptonDockingManager.bmp")]
@@ -1262,8 +1266,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
 
         switch (element)
         {
-            // If exists as a dockspace page...
-            // Find the edge the dockspace is against and return the matching docked edge
+            // If exists as a dockspace page, walk up to the docked-edge sibling.
             case KryptonDockingDockspace when element.GetParentType(typeof(KryptonDockingEdgeDocked)) is KryptonDockingEdgeDocked edge:
                 return edge;
             // If exists as a auto hidden group page...
@@ -1481,7 +1484,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
                 KryptonPage? page = PageForUniqueName(uniqueName);
                 if (page != null)
                 {
-                    // Ensure all docking controls have been laid out before the change is processed
+                    // Flush pending layout so store-page indices and control bounds are current.
                     Application.DoEvents();
 
                     var args = new CancelUniqueNameEventArgs(uniqueName,
@@ -1546,7 +1549,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
                 KryptonPage? page = PageForUniqueName(uniqueName);
                 if (page != null)
                 {
-                    // Ensure all docking controls have been laid out before the change is processed
+                    // Flush pending layout so store-page indices and control bounds are current.
                     Application.DoEvents();
 
                     var args = new CancelUniqueNameEventArgs(uniqueName,
@@ -1621,7 +1624,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
                 KryptonPage? page = PageForUniqueName(uniqueName);
                 if (page != null)
                 {
-                    // Ensure all docking controls have been laid out before the change is processed
+                    // Flush pending layout so store-page indices and control bounds are current.
                     Application.DoEvents();
 
                     var args = new CancelUniqueNameEventArgs(uniqueName,
@@ -1696,7 +1699,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
                 KryptonPage? page = PageForUniqueName(uniqueName);
                 if (page != null)
                 {
-                    // Ensure all docking controls have been laid out before the change is processed
+                    // Flush pending layout so store-page indices and control bounds are current.
                     Application.DoEvents();
 
                     var args = new CancelUniqueNameEventArgs(uniqueName,
@@ -1765,7 +1768,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
                 KryptonPage? page = PageForUniqueName(uniqueName);
                 if (page != null)
                 {
-                    // Ensure all docking controls have been laid out before the change is processed
+                    // Flush pending layout so store-page indices and control bounds are current.
                     Application.DoEvents();
 
                     var args = new CancelUniqueNameEventArgs(uniqueName,
@@ -3226,7 +3229,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
         SaveConfigToStream(ms, encoding);
         ms.Close();
 
-        // Return an array of bytes that contain the streamed XML
+        // GetBuffer() may be longer than the written XML; prefer ToArray() if exact length matters.
         return ms.GetBuffer();
     }
 
@@ -3322,7 +3325,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
     }
 
     /// <summary>
-    /// Loads docking configuration information from given filename.
+    /// Loads docking configuration from a file path. Despite the name, this overload does not read a byte array.
     /// </summary>
     /// <param name="filename">Name of file to read from.</param>
     public void LoadConfigFromArray(string filename)
@@ -3410,7 +3413,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
             }
 
             using var update = new DockingMultiUpdate(this);
-            // Create a list of all the existing pages
+            // Snapshot current pages, wipe hierarchy (Loading), then rebuild from KD/DGD/DM XML.
             var currentPages = new KryptonPageCollection();
             PropogatePageList(DockingPropogatePageList.All, currentPages);
 
@@ -4043,7 +4046,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
 
     private static void RemoveControlStorePages(DockingElement element, string[] uniqueNames, bool autoHidden, bool docked)
     {
-        // Find the control element from the provided starting point
+        // Pin/unpin can leave store pages on both edges of the same control; clear both sides.
         KryptonDockingControl? control = element as KryptonDockingControl ?? element.GetParentType(typeof(KryptonDockingControl)) as KryptonDockingControl;
 
         // If we managed to find a docking control element to work with

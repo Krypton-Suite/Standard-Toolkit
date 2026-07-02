@@ -13,7 +13,8 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Extends base functionality by allowing a collection of child docking elements.
+/// Read-only child collection surface; mutations go through protected <c>Internal*</c> helpers so
+/// derived types control when children are added. Element names must be unique within a collection.
 /// </summary>
 public abstract class DockingElementClosedCollection : DockingElement
 {

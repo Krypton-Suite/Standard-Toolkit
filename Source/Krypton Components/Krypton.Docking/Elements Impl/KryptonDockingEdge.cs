@@ -13,7 +13,9 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Provides docking functionality for a specific edge of a control.
+/// One physical edge of a host control. Always owns paired <see cref="KryptonDockingEdgeAutoHidden"/>
+/// and <see cref="KryptonDockingEdgeDocked"/> children so pin/unpin can move pages between slide tabs
+/// and visible dockspaces on the same side.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]

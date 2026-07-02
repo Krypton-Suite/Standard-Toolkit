@@ -13,7 +13,8 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Extends base functionality by allowing a collection of child docking elements.
+/// Exposes public Add/Insert/Remove/Clear on top of the closed collection; used by the manager root
+/// and <see cref="KryptonDockingControl"/> where callers assemble the docking tree at runtime.
 /// </summary>
 public abstract class DockingElementOpenCollection : DockingElementClosedCollection
 {

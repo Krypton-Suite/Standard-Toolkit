@@ -13,7 +13,8 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Extends the KryptonWorkspace with common functionality shared by various docking implementations.
+/// Workspace base for dockspace, floatspace, and filler hosts. Caches per-cell button specs and focus
+/// state because docking chrome (close, pin, dropdown) is attached outside the workspace cell model.
 /// </summary>
 public abstract class KryptonSpace : KryptonWorkspace
 {
@@ -24,7 +25,7 @@ public abstract class KryptonSpace : KryptonWorkspace
     protected class CellToCachedState : Dictionary<KryptonWorkspaceCell, CachedCellState> { };
 
     /// <summary>
-    /// State cached per-cell within the workspace.
+    /// Per-cell docking chrome and focus tracking; keyed by cell because specs are not on KryptonWorkspaceCell.
     /// </summary>
     protected class CachedCellState
     {
@@ -321,7 +322,7 @@ public abstract class KryptonSpace : KryptonWorkspace
 
         if (page != null)
         {
-            // If this is a store page then recreate as a store page type
+            // Attribute S marks a persisted placeholder; recreate as KryptonStorePage with this host's store name.
             if (CommonHelper.StringToBool(XmlHelper.XmlAttributeToText(xmlReader, @"S")))
             {
                 page = new KryptonStorePage(page.UniqueName, _storeName);

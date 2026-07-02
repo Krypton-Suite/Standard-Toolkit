@@ -264,6 +264,7 @@ public enum DockingCloseRequest
 #endregion
 
 #region Enum DockingLocation
+// Values drive FindPageLocation and location-scoped store-page lookup/clear during pin/float moves.
 /// <summary>
 /// Specifies the current docking location of a page.
 /// </summary>
@@ -321,6 +322,9 @@ public enum DockingAutoHiddenShowState
 #endregion
 
 #region Enum DockingPropogateAction
+// Propagation bus: KryptonDockingManager and callers issue these; each element handles what applies
+// locally and forwards the rest. Store*/Clear* actions cooperate with KryptonStorePage placeholders
+// that preserve tab index while a page moves between docked, auto-hidden, floating, or filler hosts.
 /// <summary>
 /// Specifies a docking propogate action.
 /// </summary>

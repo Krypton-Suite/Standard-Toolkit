@@ -100,6 +100,7 @@ public class DragTargetControlEdge : DragTarget
     /// <param name="dragEndData">Data to be dropped at destination.</param>
     /// <returns>True if a match; otherwise false.</returns>
     public override bool IsMatch(Point screenPt, PageDragEndData? dragEndData) => true;
+    // Hot-rect hit testing lives in the base DragTarget; this override defers to that geometry.
 
     /// <summary>
     /// Perform the drop action associated with the target.
@@ -149,7 +150,7 @@ public class DragTargetControlEdge : DragTarget
             // Transfer valid pages into the new dockspace
             if (transferPages.Count > 0)
             {
-                // Convert the incoming pages into store pages for restoring later
+                // Store at source before append so the drag source can remove pages without losing index.
                 manager?.PropogateAction(DockingPropogateAction.StorePages, transferUniqueNames.ToArray());
 
                 // Create a new dockspace at the start of the list so it is closest to the control edge
