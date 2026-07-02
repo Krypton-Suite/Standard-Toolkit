@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -28,6 +28,12 @@ namespace Krypton.Docking;
 [Description("Docking management component.")]
 public class KryptonDockingManager : DockingElementOpenCollection
 {
+    #region Instance Fields
+
+    private bool _allowPageToolTips = true;
+
+    #endregion
+
     #region Events
     /// <summary>
     /// Occurs when the user requests a page be closed.
@@ -1392,6 +1398,26 @@ public class KryptonDockingManager : DockingElementOpenCollection
     /// </summary>
     [DefaultValue(typeof(DockingCloseRequest), "HidePage")]
     public DockingCloseRequest DefaultCloseRequest { get; set; }
+
+    /// <summary>
+    /// Gets and sets a value indicating if tooltips should be displayed for docking tab headers.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Should tooltips be displayed for docking tab headers.")]
+    [DefaultValue(true)]
+    public bool AllowPageToolTips
+    {
+        get => _allowPageToolTips;
+
+        set
+        {
+            if (_allowPageToolTips != value)
+            {
+                _allowPageToolTips = value;
+                PropogateAction(DockingPropogateAction.StringChanged, null as string[]);
+            }
+        }
+    }
 
     /// <summary>
     /// Perform the close request for a set of named pages.
