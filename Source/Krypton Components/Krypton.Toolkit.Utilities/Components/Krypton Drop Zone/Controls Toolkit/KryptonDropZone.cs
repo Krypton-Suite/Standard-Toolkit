@@ -89,6 +89,8 @@ public class KryptonDropZone : KryptonPanel
     private readonly KryptonDropZoneStrings _strings;
     private readonly KryptonDropZoneAnimationValues _animation;
     private readonly KryptonDropZoneAppearanceValues _appearance;
+    private readonly KryptonDropZoneBehaviorValues _behavior;
+    private readonly KryptonDropZoneDataValues _data;
 
     private KryptonLabel _headerLabel;
     private KryptonLabel _previewHeaderLabel;
@@ -120,8 +122,6 @@ public class KryptonDropZone : KryptonPanel
 
     private FileSortMode _currentSortMode = FileSortMode.Name;
     private bool _sortAscending = true;
-    private long _uploadSizeQuota;
-    private bool _showUploadQuotaProgressBar;
     private Timer? _animationTimer;
     private Color _animationStartColor;
     private Color _animationTargetColor;
@@ -130,6 +130,10 @@ public class KryptonDropZone : KryptonPanel
     private Action? _animationCompleteCallback;
     private bool _isDragHoverActive;
     private DropZoneAnimationScenario _currentAnimationScenario = DropZoneAnimationScenario.Idle;
+
+    private ListViewItem? _reorderDragItem;
+    private Point _reorderDragStartPoint;
+    private bool _isReorderDragInProgress;
 
     #endregion
 
@@ -151,111 +155,114 @@ public class KryptonDropZone : KryptonPanel
     public KryptonDropZoneAppearanceValues Appearance => _appearance;
 
     [Category("Behavior")]
-    [Description("Whether to display the list of dropped files.")]
-    [DefaultValue(true)]
-    public bool ShowFileListView
-    {
-        get => _fileListView.Visible;
-        set { if (_fileListView.Visible != value) { _fileListView.Visible = value; OnPropertyChanged(nameof(ShowFileListView)); } }
-    }
-
-    [Category("Behavior")]
-    [Description("Whether to display the Clear All button.")]
-    [DefaultValue(true)]
-    public bool ShowClearButton { get; set; } = true;
-
-    [Category("Behavior")]
-    [Description("Whether to display a Browse button as a keyboard-accessible alternative to drag-and-drop.")]
-    [DefaultValue(true)]
-    public bool ShowBrowseButton
-    {
-        get => _browseButton.Visible;
-        set { if (_browseButton.Visible != value) { _browseButton.Visible = value; OnPropertyChanged(nameof(ShowBrowseButton)); } }
-    }
-
-    [Category("Behavior")]
-    [Description("Whether to display the status summary (file count / size).")]
-    [DefaultValue(true)]
-    public bool ShowStatusLabel
-    {
-        get => _statusLabel.Visible;
-        set { if (_statusLabel.Visible != value) { _statusLabel.Visible = value; OnPropertyChanged(nameof(ShowStatusLabel)); } }
-    }
-
-    [Category("Behavior")]
-    [Description("A list of allowed file extensions (including the dot, e.g., '.txt').")]
+    [Description("Behavior settings for the drop zone control.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    public List<string> AllowedExtensions { get; set; } =
-        [".txt", ".png", ".jpg", ".jpeg", ".gif", ".bmp", ".xls", ".xlsx", ".csv", ".pdf", ".doc", ".docx"];
+    public KryptonDropZoneBehaviorValues Behavior => _behavior;
 
-    [Category("Behavior")]
-    [Description("Maximum number of files that can be dropped. Set to 0 for unlimited.")]
-    [DefaultValue(0)]
-    public int MaxFileCount { get; set; } = 0;
+    public bool ShouldSerializeBehavior() => !Behavior.IsDefault;
 
-    [Category("Behavior")]
-    [Description("Maximum file size in bytes. Set to 0 for unlimited.")]
-    [DefaultValue(0)]
-    public long MaxFileSize { get; set; } = 0;
-
-    [Category("Behavior")]
-    [Description("Maximum combined size in bytes for all dropped files. Set to 0 for unlimited.")]
-    [DefaultValue(0)]
-    public long UploadSizeQuota
-    {
-        get => _uploadSizeQuota;
-        set
-        {
-            long quota = Math.Max(0, value);
-            if (_uploadSizeQuota == quota)
-            {
-                return;
-            }
-
-            _uploadSizeQuota = quota;
-            UpdateQuotaDisplay();
-            OnPropertyChanged(nameof(UploadSizeQuota));
-        }
-    }
-
-    [Category("Behavior")]
-    [Description("Whether to display a progress bar showing upload size quota usage.")]
-    [DefaultValue(false)]
-    public bool ShowUploadQuotaProgressBar
-    {
-        get => _showUploadQuotaProgressBar;
-        set
-        {
-            if (_showUploadQuotaProgressBar == value)
-            {
-                return;
-            }
-
-            _showUploadQuotaProgressBar = value;
-            UpdateQuotaDisplay();
-            OnPropertyChanged(nameof(ShowUploadQuotaProgressBar));
-        }
-    }
-
-    [Category("Behavior")]
-    [Description("Whether to allow dropping directories.")]
-    [DefaultValue(true)]
-    public bool AllowDirectories { get; set; } = true;
-
-    [Category("Behavior")]
-    [Description("Whether to search subdirectories when dropping folders.")]
-    [DefaultValue(false)]
-    public bool SearchSubdirectories { get; set; } = false;
-
-    [Category("Behavior")]
-    [Description("Whether undo (Ctrl+Z) is enabled for Clear/Remove/Drop operations.")]
-    [DefaultValue(true)]
-    public bool EnableUndo { get; set; } = true;
+    private void ResetBehavior() => Behavior.Reset();
 
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [Category("Appearance")]
-    [Description("Text displayed in the drop zone.")]
+    public bool ShowFileListView
+    {
+        get => _behavior.ShowFileListView;
+        set => _behavior.ShowFileListView = value;
+    }
+
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public bool ShowClearButton
+    {
+        get => _behavior.ShowClearButton;
+        set => _behavior.ShowClearButton = value;
+    }
+
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public bool ShowBrowseButton
+    {
+        get => _behavior.ShowBrowseButton;
+        set => _behavior.ShowBrowseButton = value;
+    }
+
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public bool ShowStatusLabel
+    {
+        get => _behavior.ShowStatusLabel;
+        set => _behavior.ShowStatusLabel = value;
+    }
+
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public List<string> AllowedExtensions => _behavior.AllowedExtensions;
+
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public int MaxFileCount
+    {
+        get => _behavior.MaxFileCount;
+        set => _behavior.MaxFileCount = value;
+    }
+
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public long MaxFileSize
+    {
+        get => _behavior.MaxFileSize;
+        set => _behavior.MaxFileSize = value;
+    }
+
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public long UploadSizeQuota
+    {
+        get => _behavior.UploadSizeQuota;
+        set => _behavior.UploadSizeQuota = value;
+    }
+
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public bool ShowUploadQuotaProgressBar
+    {
+        get => _behavior.ShowUploadQuotaProgressBar;
+        set => _behavior.ShowUploadQuotaProgressBar = value;
+    }
+
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public bool AllowDirectories
+    {
+        get => _behavior.AllowDirectories;
+        set => _behavior.AllowDirectories = value;
+    }
+
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public bool SearchSubdirectories
+    {
+        get => _behavior.SearchSubdirectories;
+        set => _behavior.SearchSubdirectories = value;
+    }
+
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public bool EnableUndo
+    {
+        get => _behavior.EnableUndo;
+        set => _behavior.EnableUndo = value;
+    }
+
+    [Category("Data")]
+    [Description("Read-only runtime state of the dropped file list, selection, and animation.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public KryptonDropZoneDataValues Data => _data;
+
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [Description("Shortcut to Strings.DropZoneText. Prefer Strings.DropZoneText in the designer.")]
     [DefaultValue(KryptonDropZoneStrings.DEFAULT_DROP_ZONE_TEXT)]
     public string DropZoneText
     {
@@ -263,56 +270,37 @@ public class KryptonDropZone : KryptonPanel
         set => _strings.DropZoneText = value;
     }
 
-    [Category("Data")]
-    [Description("Gets the list of currently dropped files.")]
     [Browsable(false)]
-    public IReadOnlyList<string> DroppedFiles => _droppedFilesList.AsReadOnly();
-
-    [Category("Data")]
-    [Description("Gets the full path of the first selected file, or null when nothing is selected.")]
-    [Browsable(false)]
-    public string? SelectedFile
-    {
-        get
-        {
-            if (_fileListView.SelectedItems.Count == 0)
-            {
-                return null;
-            }
-
-            return _fileListView.SelectedItems[0].Tag as string;
-        }
-    }
-
-    [Category("Data")]
-    [Description("Gets the paths of the currently selected files.")]
-    [Browsable(false)]
-    public IReadOnlyList<string> SelectedFiles => GetSelectedFiles();
-
-    [Category("Data")]
-    [Description("Gets the count of dropped files.")]
-    [Browsable(false)]
-    public int FileCount => _droppedFilesList.Count;
-
-    [Category("Data")]
-    [Description("Whether an undo operation is currently available.")]
-    [Browsable(false)]
-    public bool CanUndo => _undoStack.Count > 0;
-
-    [Category("Data")]
-    [Description("Gets the combined size in bytes of all dropped files.")]
-    [Browsable(false)]
-    public long TotalDroppedSize => GetTotalDroppedSize();
-
-    [Category("Data")]
-    [Description("Gets the remaining upload size quota in bytes, or long.MaxValue when no quota is set.")]
-    [Browsable(false)]
-    public long RemainingUploadSize => _uploadSizeQuota > 0
-        ? Math.Max(0, _uploadSizeQuota - TotalDroppedSize)
-        : long.MaxValue;
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public IReadOnlyList<string> DroppedFiles => _data.DroppedFiles;
 
     [Browsable(false)]
-    public DropZoneAnimationScenario CurrentAnimationScenario => _currentAnimationScenario;
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public string? SelectedFile => _data.SelectedFile;
+
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public IReadOnlyList<string> SelectedFiles => _data.SelectedFiles;
+
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public int FileCount => _data.FileCount;
+
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public bool CanUndo => _data.CanUndo;
+
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public long TotalDroppedSize => _data.TotalDroppedSize;
+
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public long RemainingUploadSize => _data.RemainingUploadSize;
+
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public DropZoneAnimationScenario CurrentAnimationScenario => _data.CurrentAnimationScenario;
 
     #endregion
 
@@ -333,10 +321,13 @@ public class KryptonDropZone : KryptonPanel
         _strings = new KryptonDropZoneStrings(this);
         _animation = new KryptonDropZoneAnimationValues(this);
         _appearance = new KryptonDropZoneAppearanceValues(this);
+        _behavior = new KryptonDropZoneBehaviorValues(this);
+        _data = new KryptonDropZoneDataValues(this);
         AllowDrop = true;
         InitializeControls();
         InitializeEvents();
         ApplyThemeStyling();
+        ApplyBehaviorToControls();
         ApplyLayout();
         ApplyStrings();
         SetDropZonePanelColor(_animation.IdleColor);
@@ -381,6 +372,9 @@ public class KryptonDropZone : KryptonPanel
         _fileListView.Columns.Add(new ColumnHeader { Width = -2 });
         _fileListView.DragEnter += FileListView_DragEnter;
         _fileListView.DragDrop += FileListView_DragDrop;
+        _fileListView.MouseDown += FileListView_MouseDown;
+        _fileListView.MouseMove += FileListView_MouseMove;
+        _fileListView.MouseUp += FileListView_MouseUp;
         _fileListView.KeyDown += FileListView_KeyDown;
         _fileListView.MouseDoubleClick += FileListView_MouseDoubleClick;
 
@@ -624,6 +618,7 @@ public class KryptonDropZone : KryptonPanel
     {
         ApplyLayout();
         ApplyThemeStyling();
+        UpdateListView();
         if (!_isDragHoverActive)
         {
             RefreshIdleDropZoneAppearance(instant: !_animation.Enabled);
@@ -643,6 +638,24 @@ public class KryptonDropZone : KryptonPanel
         {
             RefreshIdleDropZoneAppearance(instant: !_animation.Enabled);
         }
+    }
+
+    internal void OnBehaviorValuesChanged(string? propertyName)
+    {
+        ApplyBehaviorToControls();
+        UpdateQuotaDisplay();
+        if (propertyName is { Length: > 0 })
+        {
+            OnPropertyChanged(propertyName);
+        }
+    }
+
+    private void ApplyBehaviorToControls()
+    {
+        _fileListView.Visible = _behavior.ShowFileListView;
+        _browseButton.Visible = _behavior.ShowBrowseButton;
+        _statusLabel.Visible = _behavior.ShowStatusLabel;
+        ApplyLayout();
     }
 
     private void ApplyStrings()
@@ -719,7 +732,9 @@ public class KryptonDropZone : KryptonPanel
 
         _fileListView.View = card ? View.Tile : View.Details;
         _fileListView.HeaderStyle = card ? ColumnHeaderStyle.None : ColumnHeaderStyle.None;
-        _fileListView.SmallImageList = card ? _previewIconCache : _iconCache;
+        _fileListView.SmallImageList = _appearance.ShowFileListIcons
+            ? (card ? _previewIconCache : _iconCache)
+            : null;
         if (card)
         {
             _fileListView.TileSize = new Size(72, 72);
@@ -806,6 +821,70 @@ public class KryptonDropZone : KryptonPanel
         {
             EndDragHoverAnimation();
             await HandleDropAsync(e);
+        }
+    }
+
+    private void FileListView_MouseDown(object? sender, MouseEventArgs e)
+    {
+        if (e.Button != MouseButtons.Left)
+        {
+            return;
+        }
+
+        _reorderDragItem = _fileListView.GetItemAt(e.X, e.Y);
+        if (_reorderDragItem == null)
+        {
+            return;
+        }
+
+        if (!_fileListView.SelectedItems.Contains(_reorderDragItem))
+        {
+            _fileListView.SelectedItems.Clear();
+            _reorderDragItem.Selected = true;
+        }
+
+        _reorderDragStartPoint = new Point(e.X, e.Y);
+        _isReorderDragInProgress = false;
+    }
+
+    private void FileListView_MouseMove(object? sender, MouseEventArgs e)
+    {
+        if (_reorderDragItem == null)
+        {
+            return;
+        }
+
+        if ((Control.MouseButtons & MouseButtons.Left) == 0 || _isReorderDragInProgress)
+        {
+            return;
+        }
+
+        int dx = e.X - _reorderDragStartPoint.X;
+        int dy = e.Y - _reorderDragStartPoint.Y;
+        if (Math.Abs(dx) < SystemInformation.DragSize.Width && Math.Abs(dy) < SystemInformation.DragSize.Height)
+        {
+            return;
+        }
+
+        _isReorderDragInProgress = true;
+        if (!_fileListView.SelectedItems.Contains(_reorderDragItem))
+        {
+            _fileListView.SelectedItems.Clear();
+            _reorderDragItem.Selected = true;
+        }
+
+        _fileListView.DoDragDrop(_reorderDragItem, DragDropEffects.Move);
+
+        _reorderDragItem = null;
+        _isReorderDragInProgress = false;
+    }
+
+    private void FileListView_MouseUp(object? sender, MouseEventArgs e)
+    {
+        if (e.Button == MouseButtons.Left)
+        {
+            _reorderDragItem = null;
+            _isReorderDragInProgress = false;
         }
     }
 
@@ -943,17 +1022,17 @@ public class KryptonDropZone : KryptonPanel
             validFiles = validFiles.Take(allowedCount).ToList();
         }
 
-        if (_uploadSizeQuota > 0 && validFiles.Count > 0)
+        if (_behavior.UploadSizeQuota > 0 && validFiles.Count > 0)
         {
             long used = GetTotalDroppedSize();
             var withinQuota = new List<string>(validFiles.Count);
             foreach (string file in validFiles)
             {
                 long fileSize = GetFileSizeSafe(file);
-                if (used + fileSize > _uploadSizeQuota)
+                if (used + fileSize > _behavior.UploadSizeQuota)
                 {
                     invalidFiles.Add(file);
-                    _rejectionReasons[file] = string.Format(_strings.ExceedsUploadQuotaFormat, FormatFileSize(Math.Max(0, _uploadSizeQuota - used)));
+                    _rejectionReasons[file] = string.Format(_strings.ExceedsUploadQuotaFormat, FormatFileSize(Math.Max(0, _behavior.UploadSizeQuota - used)));
                     continue;
                 }
 
@@ -1021,23 +1100,11 @@ public class KryptonDropZone : KryptonPanel
             _fileListView.Items.Clear();
             foreach (string file in _droppedFilesList)
             {
-                var ext = Path.GetExtension(file).ToLowerInvariant();
                 ImageList iconCache = IsCardLayout ? _previewIconCache : _iconCache;
-                if (!iconCache.Images.ContainsKey(ext))
-                {
-                    try
-                    {
-                        using Icon? icon = Icon.ExtractAssociatedIcon(file);
-                        if (icon != null)
-                        {
-                            iconCache.Images.Add(ext, icon.ToBitmap());
-                        }
-                    }
-                    catch { /* fall back to no icon */ }
-                }
+                string? imageKey = ResolveListItemImageKey(file, iconCache);
 
                 bool valid = IsValidFile(file, out string reason);
-                var item = new ListViewItem(Path.GetFileName(file), iconCache.Images.ContainsKey(ext) ? ext : null)
+                var item = new ListViewItem(Path.GetFileName(file), imageKey)
                 {
                     Tag = file,
                     ToolTipText = valid ? file : string.Format(_strings.SkippedFileToolTipFormat, file, _strings.SkippedFileToolTipNewLine, reason)
@@ -1081,15 +1148,15 @@ public class KryptonDropZone : KryptonPanel
 
     private void UpdateQuotaDisplay()
     {
-        bool show = _showUploadQuotaProgressBar && _uploadSizeQuota > 0;
+        bool show = _behavior.ShowUploadQuotaProgressBar && _behavior.UploadSizeQuota > 0;
         _quotaLabel.Visible = show;
         _quotaProgressBar.Visible = show;
         if (show)
         {
             long used = GetTotalDroppedSize();
-            long remaining = Math.Max(0, _uploadSizeQuota - used);
-            _quotaLabel.Text = string.Format(_strings.UploadQuotaFormat, FormatFileSize(used), FormatFileSize(_uploadSizeQuota), FormatFileSize(remaining));
-            _quotaProgressBar.Value = (int)Math.Min(100, used * 100L / _uploadSizeQuota);
+            long remaining = Math.Max(0, _behavior.UploadSizeQuota - used);
+            _quotaLabel.Text = string.Format(_strings.UploadQuotaFormat, FormatFileSize(used), FormatFileSize(_behavior.UploadSizeQuota), FormatFileSize(remaining));
+            _quotaProgressBar.Value = (int)Math.Min(100, used * 100L / _behavior.UploadSizeQuota);
         }
 
         if (!_isDragHoverActive)
@@ -1175,7 +1242,7 @@ public class KryptonDropZone : KryptonPanel
 
     private DropZoneAnimationScenario GetIdleScenario()
     {
-        if (_uploadSizeQuota > 0)
+        if (_behavior.UploadSizeQuota > 0)
         {
             if (RemainingUploadSize <= 0)
             {
@@ -1198,7 +1265,7 @@ public class KryptonDropZone : KryptonPanel
             return DropZoneAnimationScenario.DropRejected;
         }
 
-        if (_uploadSizeQuota > 0)
+        if (_behavior.UploadSizeQuota > 0)
         {
             if (RemainingUploadSize <= 0)
             {
@@ -1238,12 +1305,12 @@ public class KryptonDropZone : KryptonPanel
 
     private int GetQuotaUsagePercent()
     {
-        if (_uploadSizeQuota <= 0)
+        if (_behavior.UploadSizeQuota <= 0)
         {
             return 0;
         }
 
-        return (int)Math.Min(100, TotalDroppedSize * 100L / _uploadSizeQuota);
+        return (int)Math.Min(100, TotalDroppedSize * 100L / _behavior.UploadSizeQuota);
     }
 
     private void AnimateDropZoneColor(Color targetColor, int durationMs, Action? onComplete)
@@ -1511,6 +1578,19 @@ public class KryptonDropZone : KryptonPanel
         ProcessIncomingFiles(filePaths.Where(File.Exists).Distinct().ToList());
     }
 
+    /// <summary>
+    /// Refreshes Card/Classic chrome and list-view rendering (tile/details + icons) without processing drops.
+    /// </summary>
+    public void RefreshLayout()
+    {
+        ApplyLayout();
+        UpdateListView();
+        CenterDropZoneContent();
+
+        _fileListView.Invalidate();
+        _controlsPanel.Invalidate();
+    }
+
     public void SaveToFile(string path) => File.WriteAllLines(path, _droppedFilesList);
 
     public void LoadFromFile(string path)
@@ -1533,6 +1613,69 @@ public class KryptonDropZone : KryptonPanel
 
     #region Helpers
 
+    internal IReadOnlyList<string> GetDroppedFilesSnapshot() => _droppedFilesList.AsReadOnly();
+
+    internal int GetDroppedFileCount() => _droppedFilesList.Count;
+
+    internal long GetTotalDroppedSize() => _droppedFilesList.Sum(GetFileSizeSafe);
+
+    internal long GetRemainingUploadSize() => _behavior.UploadSizeQuota > 0
+        ? Math.Max(0, _behavior.UploadSizeQuota - GetTotalDroppedSize())
+        : long.MaxValue;
+
+    internal string? GetSelectedFilePath()
+    {
+        if (_fileListView.SelectedItems.Count == 0)
+        {
+            return null;
+        }
+
+        return _fileListView.SelectedItems[0].Tag as string;
+    }
+
+    internal IReadOnlyList<string> GetSelectedFilePaths() => GetSelectedFiles();
+
+    internal bool GetCanUndo() => _undoStack.Count > 0;
+
+    internal DropZoneAnimationScenario GetCurrentAnimationScenario() => _currentAnimationScenario;
+
+    private string? ResolveListItemImageKey(string path, ImageList iconCache)
+    {
+        if (!_appearance.ShowFileListIcons)
+        {
+            return null;
+        }
+
+        bool largeIcon = IsCardLayout;
+        string cacheKey = Directory.Exists(path)
+            ? $"__folder__:{path}"
+            : Path.GetExtension(path).ToLowerInvariant();
+
+        if (string.IsNullOrEmpty(cacheKey))
+        {
+            cacheKey = path;
+        }
+
+        if (!iconCache.Images.ContainsKey(cacheKey))
+        {
+            Icon? icon = FileSystemIconHelper.GetFileSystemIcon(path, largeIcon);
+
+            if (icon != null)
+            {
+                try
+                {
+                    iconCache.Images.Add(cacheKey, icon.ToBitmap());
+                }
+                finally
+                {
+                    icon.Dispose();
+                }
+            }
+        }
+
+        return iconCache.Images.ContainsKey(cacheKey) ? cacheKey : null;
+    }
+
     private IReadOnlyList<string> GetSelectedFiles()
     {
         if (_fileListView.SelectedItems.Count == 0)
@@ -1551,8 +1694,6 @@ public class KryptonDropZone : KryptonPanel
 
         return paths.AsReadOnly();
     }
-
-    private long GetTotalDroppedSize() => _droppedFilesList.Sum(GetFileSizeSafe);
 
     private static long GetFileSizeSafe(string path)
     {
@@ -1751,10 +1892,10 @@ public class KryptonDropZone : KryptonPanel
                 continue;
             }
 
-            if (_uploadSizeQuota > 0)
+            if (_behavior.UploadSizeQuota > 0)
             {
                 long fileSize = GetFileSizeSafe(file);
-                if (GetTotalDroppedSize() + fileSize > _uploadSizeQuota)
+                if (GetTotalDroppedSize() + fileSize > _behavior.UploadSizeQuota)
                 {
                     continue;
                 }

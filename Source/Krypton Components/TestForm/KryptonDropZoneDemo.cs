@@ -19,6 +19,7 @@ public sealed partial class KryptonDropZoneDemo : KryptonForm
 {
     private KryptonCheckBox _chkCustomValidation = null!;
     private KryptonCheckBox _chkShowFileList = null!;
+    private KryptonCheckBox _chkShowFileListIcons = null!;
     private KryptonCheckBox _chkShowBrowse = null!;
     private KryptonCheckBox _chkShowStatus = null!;
     private KryptonCheckBox _chkShowClear = null!;
@@ -113,6 +114,11 @@ public sealed partial class KryptonDropZoneDemo : KryptonForm
         };
 
         _chkShowFileList = CreateCheckBox(@"Show file list / preview", true, c => { kdzDropZone.ShowFileListView = c.Checked; Log($@"ShowFileListView = {c.Checked}"); });
+        _chkShowFileListIcons = CreateCheckBox(@"Show file / folder icons in list", true, c =>
+        {
+            kdzDropZone.Appearance.ShowFileListIcons = c.Checked;
+            Log($@"Appearance.ShowFileListIcons = {c.Checked}");
+        });
         _chkShowBrowse = CreateCheckBox(@"Show browse button (Classic)", false, c => { kdzDropZone.ShowBrowseButton = c.Checked; Log($@"ShowBrowseButton = {c.Checked}"); });
         _chkShowStatus = CreateCheckBox(@"Show status label (Classic)", false, c => { kdzDropZone.ShowStatusLabel = c.Checked; Log($@"ShowStatusLabel = {c.Checked}"); });
         _chkShowClear = CreateCheckBox(@"Show clear button (Classic)", false, c =>
@@ -171,7 +177,7 @@ public sealed partial class KryptonDropZoneDemo : KryptonForm
             FieldLabel(@"Header text (Card):"), _txtHeaderText,
             FieldLabel(@"Preview header (Card):"), _txtPreviewHeader,
             FieldLabel(@"Upload icon (Card):"), uploadIconFlow,
-            _chkShowFileList, _chkShowBrowse, _chkShowStatus, _chkShowClear,
+            _chkShowFileList, _chkShowFileListIcons, _chkShowBrowse, _chkShowStatus, _chkShowClear,
             _chkShowUploadIcon, _chkShowStripedDragFeedback, _chkShowActionButtons, _chkUsePaletteColors,
             chkEnableAnimation);
     }
@@ -317,6 +323,7 @@ public sealed partial class KryptonDropZoneDemo : KryptonForm
     {
         dropZone.Appearance.Layout = DropZoneLayout.Card;
         dropZone.Appearance.ShowUploadIcon = true;
+        dropZone.Appearance.ShowFileListIcons = true;
         dropZone.Appearance.ShowStripedDragFeedback = true;
         dropZone.Appearance.ShowActionButtons = true;
         dropZone.Appearance.UsePaletteColors = true;
@@ -428,6 +435,7 @@ public sealed partial class KryptonDropZoneDemo : KryptonForm
         _txtPreviewHeader.Text = @"Preview:";
         _cmbLayout.SelectedIndex = 1;
         _chkShowFileList.Checked = true;
+        _chkShowFileListIcons.Checked = true;
         _chkShowBrowse.Checked = false;
         _chkShowStatus.Checked = false;
         _chkShowClear.Checked = false;
@@ -471,6 +479,7 @@ public sealed partial class KryptonDropZoneDemo : KryptonForm
         _txtPreviewHeader.Text = @"Preview:";
         _cmbLayout.SelectedIndex = 0;
         _chkShowFileList.Checked = true;
+        _chkShowFileListIcons.Checked = true;
         _chkShowBrowse.Checked = true;
         _chkShowStatus.Checked = true;
         _chkShowClear.Checked = true;
@@ -619,7 +628,7 @@ public sealed partial class KryptonDropZoneDemo : KryptonForm
         }
     }
 
-    private void RefreshListChrome() => kdzDropZone.AddFiles(Array.Empty<string>());
+    private void RefreshListChrome() => kdzDropZone.RefreshLayout();
 
     private void RefreshSummary()
     {

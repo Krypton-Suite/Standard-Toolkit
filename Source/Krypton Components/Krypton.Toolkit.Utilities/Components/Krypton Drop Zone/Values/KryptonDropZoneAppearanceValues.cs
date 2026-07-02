@@ -25,6 +25,7 @@ public class KryptonDropZoneAppearanceValues : Storage
     private const bool DEFAULT_SHOW_UPLOAD_ICON = true;
     private const bool DEFAULT_SHOW_STRIPED_DRAG_FEEDBACK = true;
     private const bool DEFAULT_SHOW_PREVIEW_HEADER = true;
+    private const bool DEFAULT_SHOW_FILE_LIST_ICONS = true;
     private const bool DEFAULT_SHOW_ACTION_BUTTONS = true;
     private const bool DEFAULT_USE_PALETTE_COLORS = true;
     private const int DEFAULT_UPLOAD_ICON_SIZE = 64;
@@ -42,6 +43,7 @@ public class KryptonDropZoneAppearanceValues : Storage
     private bool _showUploadIcon = DEFAULT_SHOW_UPLOAD_ICON;
     private bool _showStripedDragFeedback = DEFAULT_SHOW_STRIPED_DRAG_FEEDBACK;
     private bool _showPreviewHeader = DEFAULT_SHOW_PREVIEW_HEADER;
+    private bool _showFileListIcons = DEFAULT_SHOW_FILE_LIST_ICONS;
     private bool _showActionButtons = DEFAULT_SHOW_ACTION_BUTTONS;
     private bool _usePaletteColors = DEFAULT_USE_PALETTE_COLORS;
     private Image? _uploadIcon;
@@ -68,6 +70,7 @@ public class KryptonDropZoneAppearanceValues : Storage
         _showUploadIcon == DEFAULT_SHOW_UPLOAD_ICON &&
         _showStripedDragFeedback == DEFAULT_SHOW_STRIPED_DRAG_FEEDBACK &&
         _showPreviewHeader == DEFAULT_SHOW_PREVIEW_HEADER &&
+        _showFileListIcons == DEFAULT_SHOW_FILE_LIST_ICONS &&
         _showActionButtons == DEFAULT_SHOW_ACTION_BUTTONS &&
         _usePaletteColors == DEFAULT_USE_PALETTE_COLORS &&
         _uploadIcon == null &&
@@ -189,6 +192,24 @@ public class KryptonDropZoneAppearanceValues : Storage
     }
 
     [Category(@"Layout")]
+    [Description(@"Whether to show shell file and folder icons beside items in the file list.")]
+    [DefaultValue(DEFAULT_SHOW_FILE_LIST_ICONS)]
+    public bool ShowFileListIcons
+    {
+        get => _showFileListIcons;
+        set
+        {
+            if (_showFileListIcons == value)
+            {
+                return;
+            }
+
+            _showFileListIcons = value;
+            _owner?.OnAppearanceValuesChanged();
+        }
+    }
+
+    [Category(@"Layout")]
     [Description(@"Whether to show a Preview header above the file list in Card layout.")]
     [DefaultValue(DEFAULT_SHOW_PREVIEW_HEADER)]
     public bool ShowPreviewHeader
@@ -303,6 +324,7 @@ public class KryptonDropZoneAppearanceValues : Storage
         ShowUploadIcon = DEFAULT_SHOW_UPLOAD_ICON;
         ShowStripedDragFeedback = DEFAULT_SHOW_STRIPED_DRAG_FEEDBACK;
         ShowPreviewHeader = DEFAULT_SHOW_PREVIEW_HEADER;
+        ShowFileListIcons = DEFAULT_SHOW_FILE_LIST_ICONS;
         ShowActionButtons = DEFAULT_SHOW_ACTION_BUTTONS;
         UsePaletteColors = DEFAULT_USE_PALETTE_COLORS;
         UploadIcon = null;
