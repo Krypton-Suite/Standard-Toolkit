@@ -113,17 +113,17 @@ public sealed partial class KryptonDropZoneDemo : KryptonForm
             Log($@"Strings.PreviewHeader = '{kdzDropZone.Strings.PreviewHeader}'");
         };
 
-        _chkShowFileList = CreateCheckBox(@"Show file list / preview", true, c => { kdzDropZone.ShowFileListView = c.Checked; Log($@"ShowFileListView = {c.Checked}"); });
+        _chkShowFileList = CreateCheckBox(@"Show file list / preview", true, c => { kdzDropZone.Behavior.ShowFileListView = c.Checked; Log($@"ShowFileListView = {c.Checked}"); });
         _chkShowFileListIcons = CreateCheckBox(@"Show file / folder icons in list", true, c =>
         {
             kdzDropZone.Appearance.ShowFileListIcons = c.Checked;
             Log($@"Appearance.ShowFileListIcons = {c.Checked}");
         });
-        _chkShowBrowse = CreateCheckBox(@"Show browse button (Classic)", false, c => { kdzDropZone.ShowBrowseButton = c.Checked; Log($@"ShowBrowseButton = {c.Checked}"); });
-        _chkShowStatus = CreateCheckBox(@"Show status label (Classic)", false, c => { kdzDropZone.ShowStatusLabel = c.Checked; Log($@"ShowStatusLabel = {c.Checked}"); });
+        _chkShowBrowse = CreateCheckBox(@"Show browse button (Classic)", false, c => { kdzDropZone.Behavior.ShowBrowseButton = c.Checked; Log($@"ShowBrowseButton = {c.Checked}"); });
+        _chkShowStatus = CreateCheckBox(@"Show status label (Classic)", false, c => { kdzDropZone.Behavior.ShowStatusLabel = c.Checked; Log($@"ShowStatusLabel = {c.Checked}"); });
         _chkShowClear = CreateCheckBox(@"Show clear button (Classic)", false, c =>
         {
-            kdzDropZone.ShowClearButton = c.Checked;
+            kdzDropZone.Behavior.ShowClearButton = c.Checked;
             RefreshListChrome();
             Log($@"ShowClearButton = {c.Checked}");
         });
@@ -187,9 +187,9 @@ public sealed partial class KryptonDropZoneDemo : KryptonForm
         _txtAllowedExtensions = CreateTextBox(@".png, .jpg, .jpeg, .gif, .bmp");
         _txtAllowedExtensions.Leave += (_, _) => ApplyAllowedExtensionsFromText();
 
-        _chkAllowDirectories = CreateCheckBox(@"Allow dropping folders", true, c => { kdzDropZone.AllowDirectories = c.Checked; Log($@"AllowDirectories = {c.Checked}"); });
-        _chkSearchSubdirectories = CreateCheckBox(@"Search subdirectories when dropping folders", false, c => { kdzDropZone.SearchSubdirectories = c.Checked; Log($@"SearchSubdirectories = {c.Checked}"); });
-        _chkEnableUndo = CreateCheckBox(@"Enable undo (Ctrl+Z)", true, c => { kdzDropZone.EnableUndo = c.Checked; RefreshSummary(); Log($@"EnableUndo = {c.Checked}"); });
+        _chkAllowDirectories = CreateCheckBox(@"Allow dropping folders", true, c => { kdzDropZone.Behavior.AllowDirectories = c.Checked; Log($@"AllowDirectories = {c.Checked}"); });
+        _chkSearchSubdirectories = CreateCheckBox(@"Search subdirectories when dropping folders", false, c => { kdzDropZone.Behavior.SearchSubdirectories = c.Checked; Log($@"SearchSubdirectories = {c.Checked}"); });
+        _chkEnableUndo = CreateCheckBox(@"Enable undo (Ctrl+Z)", true, c => { kdzDropZone.Behavior.EnableUndo = c.Checked; RefreshSummary(); Log($@"EnableUndo = {c.Checked}"); });
         _chkCustomValidation = CreateCheckBox(@"Reject files whose name contains 'demo' (FileValidating)", false, c => Log($@"Custom FileValidating = {c.Checked}"));
 
         return WrapGroup(@"Behavior", FieldLabel(@"Allowed extensions (comma-separated):"), _txtAllowedExtensions,
@@ -201,28 +201,28 @@ public sealed partial class KryptonDropZoneDemo : KryptonForm
         _numMaxFileCount = CreateNumeric(0, 0, 999, 0);
         _numMaxFileCount.ValueChanged += (_, _) =>
         {
-            kdzDropZone.MaxFileCount = (int)_numMaxFileCount.Value;
-            Log($@"MaxFileCount = {kdzDropZone.MaxFileCount} (0 = unlimited)");
+            kdzDropZone.Behavior.MaxFileCount = (int)_numMaxFileCount.Value;
+            Log($@"MaxFileCount = {kdzDropZone.Behavior.MaxFileCount} (0 = unlimited)");
         };
 
         _numMaxFileSizeKb = CreateNumeric(0, 0, 1024 * 1024, 0);
         _numMaxFileSizeKb.ValueChanged += (_, _) =>
         {
-            kdzDropZone.MaxFileSize = (long)_numMaxFileSizeKb.Value * 1024L;
-            Log($@"MaxFileSize = {kdzDropZone.MaxFileSize} bytes ({_numMaxFileSizeKb.Value} KB, 0 = unlimited)");
+            kdzDropZone.Behavior.MaxFileSize = (long)_numMaxFileSizeKb.Value * 1024L;
+            Log($@"MaxFileSize = {kdzDropZone.Behavior.MaxFileSize} bytes ({_numMaxFileSizeKb.Value} KB, 0 = unlimited)");
         };
 
         _numUploadQuotaKb = CreateNumeric(0, 0, 1024 * 1024, 0);
         _numUploadQuotaKb.ValueChanged += (_, _) =>
         {
-            kdzDropZone.UploadSizeQuota = (long)_numUploadQuotaKb.Value * 1024L;
+            kdzDropZone.Behavior.UploadSizeQuota = (long)_numUploadQuotaKb.Value * 1024L;
             RefreshSummary();
-            Log($@"UploadSizeQuota = {kdzDropZone.UploadSizeQuota} bytes ({_numUploadQuotaKb.Value} KB, 0 = unlimited)");
+            Log($@"UploadSizeQuota = {kdzDropZone.Behavior.UploadSizeQuota} bytes ({_numUploadQuotaKb.Value} KB, 0 = unlimited)");
         };
 
         _chkShowUploadQuota = CreateCheckBox(@"Show upload quota progress bar", false, c =>
         {
-            kdzDropZone.ShowUploadQuotaProgressBar = c.Checked;
+            kdzDropZone.Behavior.ShowUploadQuotaProgressBar = c.Checked;
             RefreshSummary();
             Log($@"ShowUploadQuotaProgressBar = {c.Checked}");
         });
@@ -285,7 +285,7 @@ public sealed partial class KryptonDropZoneDemo : KryptonForm
 
         flow.Controls.Add(CreateActionButton(@"Undo", () =>
         {
-            if (!kdzDropZone.CanUndo)
+            if (!kdzDropZone.Data.CanUndo)
             {
                 Log(@"Undo: nothing to undo.");
                 return;
@@ -315,8 +315,8 @@ public sealed partial class KryptonDropZoneDemo : KryptonForm
 
     private void OnFilesSubmit(object? sender, EventArgs e)
     {
-        Log($@"FilesSubmit: {kdzDropZone.FileCount} file(s) ready — {string.Join(@"; ", kdzDropZone.DroppedFiles.Take(3))}"
-            + (kdzDropZone.FileCount > 3 ? @" …" : string.Empty));
+        Log($@"FilesSubmit: {kdzDropZone.Data.FileCount} file(s) ready — {string.Join(@"; ", kdzDropZone.Data.DroppedFiles.Take(3))}"
+            + (kdzDropZone.Data.FileCount > 3 ? @" …" : string.Empty));
     }
 
     private static void ApplyCardDemoDefaults(KryptonDropZone dropZone)
@@ -332,10 +332,10 @@ public sealed partial class KryptonDropZoneDemo : KryptonForm
         dropZone.Strings.PreviewHeader = @"Preview:";
         dropZone.Strings.CancelButton = @"Cancel";
         dropZone.Strings.SubmitButton = @"Submit";
-        dropZone.ShowBrowseButton = false;
-        dropZone.ShowClearButton = false;
-        dropZone.ShowStatusLabel = false;
-        dropZone.AllowedExtensions = [".png", ".jpg", ".jpeg", ".gif", ".bmp"];
+        dropZone.Behavior.ShowBrowseButton = false;
+        dropZone.Behavior.ShowClearButton = false;
+        dropZone.Behavior.ShowStatusLabel = false;
+        dropZone.Behavior.SetAllowedExtensions([".png", ".jpg", ".jpeg", ".gif", ".bmp"]);
     }
 
     private static void ApplyClassicDemoDefaults(KryptonDropZone dropZone)
@@ -344,11 +344,11 @@ public sealed partial class KryptonDropZoneDemo : KryptonForm
         dropZone.Strings.HeaderText = string.Empty;
         dropZone.DropZoneText = @"Drag files here, or browse";
         dropZone.Strings.PreviewHeader = @"Preview:";
-        dropZone.ShowBrowseButton = true;
-        dropZone.ShowClearButton = true;
-        dropZone.ShowStatusLabel = true;
-        dropZone.AllowedExtensions =
-            [".txt", ".png", ".jpg", ".jpeg", ".gif", ".bmp", ".xls", ".xlsx", ".csv", ".pdf", ".doc", ".docx"];
+        dropZone.Behavior.ShowBrowseButton = true;
+        dropZone.Behavior.ShowClearButton = true;
+        dropZone.Behavior.ShowStatusLabel = true;
+        dropZone.Behavior.SetAllowedExtensions(
+            [".txt", ".png", ".jpg", ".jpeg", ".gif", ".bmp", ".xls", ".xlsx", ".csv", ".pdf", ".doc", ".docx"]);
     }
 
     private void SetCardAppearanceControlsEnabled(bool card)
@@ -391,7 +391,7 @@ public sealed partial class KryptonDropZoneDemo : KryptonForm
     private void OnFilesDropped(object? sender, KryptonDropZone.FilesDroppedEventArgs e)
     {
         RefreshSummary();
-        Log($@"FilesDropped: {e.ValidFiles.Count} accepted, {e.InvalidFiles.Count} rejected, {e.AllFiles.Count} total in batch. Scenario: {kdzDropZone.CurrentAnimationScenario}.");
+        Log($@"FilesDropped: {e.ValidFiles.Count} accepted, {e.InvalidFiles.Count} rejected, {e.AllFiles.Count} total in batch. Scenario: {kdzDropZone.Data.CurrentAnimationScenario}.");
         if (e.ValidFiles.Count > 0)
         {
             Log(@"  Accepted: " + string.Join(@"; ", e.ValidFiles.Take(5)) + (e.ValidFiles.Count > 5 ? @" …" : string.Empty));
@@ -456,14 +456,14 @@ public sealed partial class KryptonDropZoneDemo : KryptonForm
 
         ApplyCardDemoDefaults(kdzDropZone);
         kdzDropZone.DropZoneText = _txtDropZoneText.Text;
-        kdzDropZone.ShowFileListView = true;
-        kdzDropZone.AllowDirectories = true;
-        kdzDropZone.SearchSubdirectories = false;
-        kdzDropZone.EnableUndo = true;
-        kdzDropZone.MaxFileCount = 0;
-        kdzDropZone.MaxFileSize = 0;
-        kdzDropZone.UploadSizeQuota = 0;
-        kdzDropZone.ShowUploadQuotaProgressBar = false;
+        kdzDropZone.Behavior.ShowFileListView = true;
+        kdzDropZone.Behavior.AllowDirectories = true;
+        kdzDropZone.Behavior.SearchSubdirectories = false;
+        kdzDropZone.Behavior.EnableUndo = true;
+        kdzDropZone.Behavior.MaxFileCount = 0;
+        kdzDropZone.Behavior.MaxFileSize = 0;
+        kdzDropZone.Behavior.UploadSizeQuota = 0;
+        kdzDropZone.Behavior.ShowUploadQuotaProgressBar = false;
         ApplyAllowedExtensionsFromText(silent: true);
         SetCardAppearanceControlsEnabled(card: true);
         RefreshListChrome();
@@ -496,14 +496,14 @@ public sealed partial class KryptonDropZoneDemo : KryptonForm
 
         ApplyClassicDemoDefaults(kdzDropZone);
         kdzDropZone.DropZoneText = _txtDropZoneText.Text;
-        kdzDropZone.ShowFileListView = true;
-        kdzDropZone.AllowDirectories = true;
-        kdzDropZone.SearchSubdirectories = false;
-        kdzDropZone.EnableUndo = true;
-        kdzDropZone.MaxFileCount = 0;
-        kdzDropZone.MaxFileSize = 0;
-        kdzDropZone.UploadSizeQuota = 0;
-        kdzDropZone.ShowUploadQuotaProgressBar = false;
+        kdzDropZone.Behavior.ShowFileListView = true;
+        kdzDropZone.Behavior.AllowDirectories = true;
+        kdzDropZone.Behavior.SearchSubdirectories = false;
+        kdzDropZone.Behavior.EnableUndo = true;
+        kdzDropZone.Behavior.MaxFileCount = 0;
+        kdzDropZone.Behavior.MaxFileSize = 0;
+        kdzDropZone.Behavior.UploadSizeQuota = 0;
+        kdzDropZone.Behavior.ShowUploadQuotaProgressBar = false;
         ApplyAllowedExtensionsFromText(silent: true);
         SetCardAppearanceControlsEnabled(card: false);
         RefreshListChrome();
@@ -521,10 +521,10 @@ public sealed partial class KryptonDropZoneDemo : KryptonForm
         _numMaxFileSizeKb.Value = 0;
         ResumeSettingsEvents();
 
-        kdzDropZone.AllowDirectories = false;
-        kdzDropZone.SearchSubdirectories = false;
-        kdzDropZone.MaxFileCount = 0;
-        kdzDropZone.MaxFileSize = 0;
+        kdzDropZone.Behavior.AllowDirectories = false;
+        kdzDropZone.Behavior.SearchSubdirectories = false;
+        kdzDropZone.Behavior.MaxFileCount = 0;
+        kdzDropZone.Behavior.MaxFileSize = 0;
         ApplyAllowedExtensionsFromText(silent: true);
         RefreshSummary();
         Log(@"Preset applied: Images only (.png, .jpg, .jpeg, .gif, .bmp).");
@@ -539,12 +539,12 @@ public sealed partial class KryptonDropZoneDemo : KryptonForm
         _chkShowUploadQuota.Checked = true;
         ResumeSettingsEvents();
 
-        kdzDropZone.MaxFileCount = 5;
-        kdzDropZone.MaxFileSize = 1024L * 1024L;
-        kdzDropZone.UploadSizeQuota = 5L * 1024L * 1024L;
-        kdzDropZone.ShowUploadQuotaProgressBar = true;
-        kdzDropZone.AllowDirectories = false;
-        kdzDropZone.SearchSubdirectories = false;
+        kdzDropZone.Behavior.MaxFileCount = 5;
+        kdzDropZone.Behavior.MaxFileSize = 1024L * 1024L;
+        kdzDropZone.Behavior.UploadSizeQuota = 5L * 1024L * 1024L;
+        kdzDropZone.Behavior.ShowUploadQuotaProgressBar = true;
+        kdzDropZone.Behavior.AllowDirectories = false;
+        kdzDropZone.Behavior.SearchSubdirectories = false;
         RefreshSummary();
         Log(@"Preset applied: Strict limits (max 5 files, 1 MB each, 5 MB total quota with progress bar, no folders).");
     }
@@ -557,8 +557,8 @@ public sealed partial class KryptonDropZoneDemo : KryptonForm
         _txtDropZoneText.Text = @"Drop a folder to collect all files (including subfolders)";
         ResumeSettingsEvents();
 
-        kdzDropZone.AllowDirectories = true;
-        kdzDropZone.SearchSubdirectories = true;
+        kdzDropZone.Behavior.AllowDirectories = true;
+        kdzDropZone.Behavior.SearchSubdirectories = true;
         kdzDropZone.DropZoneText = _txtDropZoneText.Text;
         RefreshSummary();
         Log(@"Preset applied: Recursive folders (AllowDirectories + SearchSubdirectories).");
@@ -574,8 +574,7 @@ public sealed partial class KryptonDropZoneDemo : KryptonForm
             .Distinct(StringComparer.OrdinalIgnoreCase)
             .ToList();
 
-        kdzDropZone.AllowedExtensions.Clear();
-        kdzDropZone.AllowedExtensions.AddRange(extensions);
+        kdzDropZone.Behavior.SetAllowedExtensions(extensions);
 
         if (!silent)
         {
@@ -597,7 +596,7 @@ public sealed partial class KryptonDropZoneDemo : KryptonForm
         }
 
         kdzDropZone.SaveToFile(dialog.FileName);
-        Log($@"SaveToFile('{dialog.FileName}') — {kdzDropZone.FileCount} path(s).");
+        Log($@"SaveToFile('{dialog.FileName}') — {kdzDropZone.Data.FileCount} path(s).");
     }
 
     private void LoadListFromFile()
@@ -614,7 +613,7 @@ public sealed partial class KryptonDropZoneDemo : KryptonForm
 
         kdzDropZone.LoadFromFile(dialog.FileName);
         RefreshSummary();
-        Log($@"LoadFromFile('{dialog.FileName}') — {kdzDropZone.FileCount} path(s) now in the list.");
+        Log($@"LoadFromFile('{dialog.FileName}') — {kdzDropZone.Data.FileCount} path(s) now in the list.");
     }
 
     private void ListByExtension()
@@ -632,10 +631,10 @@ public sealed partial class KryptonDropZoneDemo : KryptonForm
 
     private void RefreshSummary()
     {
-        string quota = kdzDropZone.UploadSizeQuota > 0
-            ? $@"  |  Quota remaining: {FormatBytes(kdzDropZone.RemainingUploadSize)} / {FormatBytes(kdzDropZone.UploadSizeQuota)}"
+        string quota = kdzDropZone.Behavior.UploadSizeQuota > 0
+            ? $@"  |  Quota remaining: {FormatBytes(kdzDropZone.Data.RemainingUploadSize)} / {FormatBytes(kdzDropZone.Behavior.UploadSizeQuota)}"
             : string.Empty;
-        klblSummary.Text = $@"Files: {kdzDropZone.FileCount}  |  CanUndo: {kdzDropZone.CanUndo}  |  Undo: {(kdzDropZone.EnableUndo ? @"enabled" : @"disabled")}{quota}";
+        klblSummary.Text = $@"Files: {kdzDropZone.Data.FileCount}  |  CanUndo: {kdzDropZone.Data.CanUndo}  |  Undo: {(kdzDropZone.Behavior.EnableUndo ? @"enabled" : @"disabled")}{quota}";
     }
 
     private static string FormatBytes(long bytes)

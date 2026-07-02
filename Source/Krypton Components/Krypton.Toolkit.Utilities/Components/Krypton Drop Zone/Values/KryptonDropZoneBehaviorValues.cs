@@ -138,7 +138,30 @@ public class KryptonDropZoneBehaviorValues : Storage
     [Category(@"Validation")]
     [Description(@"A list of allowed file extensions (including the dot, e.g., '.txt').")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Editor("System.ComponentModel.Design.CollectionEditor, System.Design", typeof(UITypeEditor))]
+    [Localizable(true)]
     public List<string> AllowedExtensions => _allowedExtensions;
+
+    /// <summary>
+    /// Replaces the allowed extension list.
+    /// </summary>
+    /// <param name="extensions">Extension values such as '.txt'. Pass null or empty to allow all extensions.</param>
+    public void SetAllowedExtensions(IEnumerable<string>? extensions)
+    {
+        _allowedExtensions.Clear();
+        if (extensions != null)
+        {
+            foreach (string extension in extensions)
+            {
+                if (!string.IsNullOrWhiteSpace(extension))
+                {
+                    _allowedExtensions.Add(NormalizeExtension(extension));
+                }
+            }
+        }
+
+        _owner?.OnBehaviorValuesChanged(nameof(AllowedExtensions));
+    }
 
     [Category(@"Validation")]
     [Description(@"Maximum number of files that can be dropped. Set to 0 for unlimited.")]
@@ -212,8 +235,7 @@ public class KryptonDropZoneBehaviorValues : Storage
         _showClearButton = DEFAULT_SHOW_CLEAR_BUTTON;
         _showBrowseButton = DEFAULT_SHOW_BROWSE_BUTTON;
         _showStatusLabel = DEFAULT_SHOW_STATUS_LABEL;
-        _allowedExtensions.Clear();
-        _allowedExtensions.AddRange(DefaultAllowedExtensions);
+        SetAllowedExtensions(DefaultAllowedExtensions);
         _maxFileCount = DEFAULT_MAX_FILE_COUNT;
         _maxFileSize = DEFAULT_MAX_FILE_SIZE;
         _uploadSizeQuota = DEFAULT_UPLOAD_SIZE_QUOTA;
@@ -230,9 +252,18 @@ public class KryptonDropZoneBehaviorValues : Storage
 
     private void ResetAllowedExtensions()
     {
-        _allowedExtensions.Clear();
-        _allowedExtensions.AddRange(DefaultAllowedExtensions);
-        _owner?.OnBehaviorValuesChanged(nameof(AllowedExtensions));
+        SetAllowedExtensions(DefaultAllowedExtensions);
+    }
+
+    private static string NormalizeExtension(string extension)
+    {
+        string trimmed = extension.Trim();
+        if (trimmed.Length == 0)
+        {
+            return trimmed;
+        }
+
+        return trimmed.StartsWith(".", StringComparison.Ordinal) ? trimmed : "." + trimmed;
     }
 
     private bool AllowedExtensionsEqualsDefault()

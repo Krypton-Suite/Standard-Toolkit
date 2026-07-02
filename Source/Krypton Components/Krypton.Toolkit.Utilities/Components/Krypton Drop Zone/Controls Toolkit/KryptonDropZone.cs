@@ -162,7 +162,20 @@ public class KryptonDropZone : KryptonPanel
     public bool ShouldSerializeBehavior() => !Behavior.IsDefault;
 
     private void ResetBehavior() => Behavior.Reset();
-    
+
+    [Category("Behavior")]
+    [Description("Allowed file extensions (including the dot, e.g., '.txt'). Use the collection editor to add or remove entries.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [Editor("System.ComponentModel.Design.CollectionEditor, System.Design", typeof(UITypeEditor))]
+    [Localizable(true)]
+    public List<string> AllowedExtensions => _behavior.AllowedExtensions;
+
+    /// <summary>
+    /// Replaces the allowed extension list.
+    /// </summary>
+    /// <param name="extensions">Extension values such as '.txt'. Pass null or empty to allow all extensions.</param>
+    public void SetAllowedExtensions(IEnumerable<string>? extensions) => _behavior.SetAllowedExtensions(extensions);
+
     [Category("Data")]
     [Description("Read-only runtime state of the dropped file list, selection, and animation.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
