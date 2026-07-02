@@ -26,7 +26,7 @@ public partial class DockingRedockDemo : KryptonForm
     {
         InitializeComponent();
         InitializeDocking();
-        UpdateStatus("Ready. Add a document, then undock (Float) and redock by dragging back.");
+        UpdateStatus("Ready. Add a document, hover tabs for tooltips, then undock (Float) and redock by dragging back.");
     }
 
     private void InitializeDocking()
@@ -44,6 +44,8 @@ public partial class DockingRedockDemo : KryptonForm
             Text = name,
             TextTitle = name,
             TextDescription = $"Document: {name}",
+            ToolTipTitle = name,
+            ToolTipBody = $"Document: {name} (hover the tab to verify docking page tooltips, Issue #3829)",
             UniqueName = $"Unique_{name}_{Guid.NewGuid():N}",
             MinimumSize = new Size(200, 200)
         };
