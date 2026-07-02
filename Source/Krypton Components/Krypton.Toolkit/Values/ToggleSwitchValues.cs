@@ -17,6 +17,7 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
 {
     #region Instance Fields
 
+    private bool _checked;
     private bool _enableEmbossEffect;
     private bool _animateGradientEffect;
     private bool _enableKnobGradient;
@@ -37,6 +38,7 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
     /// <summary>Initializes a new instance of the <see cref="ToggleSwitchValues" /> class.</summary>
     public ToggleSwitchValues()
     {
+        _checked = false;
         _enableEmbossEffect = false;
         _animateGradientEffect = false;
         _enableKnobGradient = false;
@@ -69,6 +71,25 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
     #endregion
 
     #region Public
+
+    /// <summary>Gets or sets a value indicating whether the toggle switch is checked.</summary>
+    /// <value><c>true</c> if checked; otherwise, <c>false</c>.</value>
+    [Category("Behavior")]
+    [Description("Indicates whether the toggle switch is checked.")]
+    [DefaultValue(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public bool Checked
+    {
+        get => _checked;
+        set
+        {
+            if (_checked != value)
+            {
+                _checked = value;
+                OnPropertyChanged(nameof(Checked));
+            }
+        }
+    }
 
     /// <summary>Gets or sets a value indicating whether [enable emboss effect].</summary>
     /// <value><c>true</c> if [enable emboss effect]; otherwise, <c>false</c>.</value>
@@ -296,7 +317,7 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
     /// <summary>Gets a value indicating whether this instance is default.</summary>
     /// <value><c>true</c> if this instance is default; otherwise, <c>false</c>.</value>
     [Browsable(false)]
-    public bool IsDefault => !_enableEmbossEffect && !_enableKnobGradient && _gradientStartIntensity.Equals(0.8f) &&
+    public bool IsDefault => !_checked && !_enableEmbossEffect && !_enableKnobGradient && _gradientStartIntensity.Equals(0.8f) &&
                              _gradientEndIntensity.Equals(0.6f) &&
                              _gradientDirection == LinearGradientMode.ForwardDiagonal && _onColor == Color.Green &&
                              _offColor == Color.Red && _cornerRadius == 10 && _useThemeColors;
@@ -308,6 +329,7 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
     /// <summary>Resets the values.</summary>
     public void Reset()
     {
+        Checked = false;
         EnableEmbossEffect = false;
         AnimateGradientEffect = false;
         EnableKnobGradient = false;
