@@ -15,6 +15,51 @@ namespace Krypton.Toolkit.Utilities;
 internal static class TreeViewMultiSelectHelper
 {
     /// <summary>
+    /// Returns every node in the same flat display order as <see cref="TreeNode.NextVisibleNode"/>.
+    /// </summary>
+    internal static List<TreeNode> GetFlatVisibleNodes(TreeView treeView)
+    {
+        var result = new List<TreeNode>();
+        if (treeView.Nodes.Count == 0)
+        {
+            return result;
+        }
+
+        for (TreeNode? current = treeView.Nodes[0]; current is not null; current = current.NextVisibleNode)
+        {
+            result.Add(current);
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Returns the inclusive visible range between two nodes in flat display order.
+    /// </summary>
+    internal static List<TreeNode> GetInclusiveVisibleRange(TreeNode anchor, TreeNode end)
+    {
+        TreeNode first = GetEarlierVisibleNode(anchor, end);
+        TreeNode last = ReferenceEquals(first, anchor) ? end : anchor;
+
+        var range = new List<TreeNode>();
+        for (TreeNode? current = first; current is not null; current = current.NextVisibleNode)
+        {
+            range.Add(current);
+            if (ReferenceEquals(current, last))
+            {
+                break;
+            }
+        }
+
+        if (range.Count == 0 || !ReferenceEquals(range[range.Count - 1], last))
+        {
+            return new List<TreeNode> { end };
+        }
+
+        return range;
+    }
+
+    /// <summary>
     /// Enumerates nodes in the order they are displayed when the tree is expanded.
     /// </summary>
     internal static IEnumerable<TreeNode> EnumerateVisibleNodes(TreeNodeCollection nodes)
@@ -110,13 +155,7 @@ internal static class TreeViewMultiSelectHelper
 
     private static Rectangle GetNodeBoundsFromVisibleOrder(TreeView treeView, TreeNode node)
     {
-        TreeNode? current = treeView.TopNode;
-        if (current is null && treeView.Nodes.Count > 0)
-        {
-            current = treeView.Nodes[0];
-        }
-
-        if (current is null)
+        if (treeView.Nodes.Count == 0)
         {
             return Rectangle.Empty;
         }
@@ -124,7 +163,7 @@ internal static class TreeViewMultiSelectHelper
         var y = 0;
         var itemHeight = Math.Max(1, treeView.ItemHeight);
 
-        while (current is not null)
+        for (TreeNode? current = treeView.Nodes[0]; current is not null; current = current.NextVisibleNode)
         {
             if (ReferenceEquals(current, node))
             {
@@ -132,9 +171,32 @@ internal static class TreeViewMultiSelectHelper
             }
 
             y += itemHeight;
-            current = current.NextVisibleNode;
         }
 
         return Rectangle.Empty;
+    }
+
+    private static TreeNode GetEarlierVisibleNode(TreeNode first, TreeNode second)
+    {
+        TreeView? treeView = first.TreeView ?? second.TreeView;
+        if (treeView is null || treeView.Nodes.Count == 0)
+        {
+            return first;
+        }
+
+        for (TreeNode? current = treeView.Nodes[0]; current is not null; current = current.NextVisibleNode)
+        {
+            if (ReferenceEquals(current, first))
+            {
+                return first;
+            }
+
+            if (ReferenceEquals(current, second))
+            {
+                return second;
+            }
+        }
+
+        return first;
     }
 }

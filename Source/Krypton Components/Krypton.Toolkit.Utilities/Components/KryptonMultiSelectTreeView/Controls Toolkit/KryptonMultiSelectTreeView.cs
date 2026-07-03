@@ -208,13 +208,12 @@ public class KryptonMultiSelectTreeView : KryptonTreeView
 
         if ((modifiers & Keys.Shift) == Keys.Shift)
         {
-            TreeNode? anchor = _selectionAnchor ?? SelectedNode;
+            TreeNode? anchor = ResolveSelectionAnchor();
             if (anchor is not null)
             {
                 e.Cancel = true;
                 SelectRange(anchor, e.Node);
                 FocusSelectedNode(e.Node);
-                _selectionAnchor = anchor;
                 return;
             }
         }
@@ -232,7 +231,11 @@ public class KryptonMultiSelectTreeView : KryptonTreeView
 
         if (e.Button == MouseButtons.Left)
         {
-            _selectionAnchor = e.Node;
+            var modifiers = Control.ModifierKeys;
+            if ((modifiers & (Keys.Shift | Keys.Control)) == Keys.None)
+            {
+                _selectionAnchor = e.Node;
+            }
         }
     }
 
@@ -356,7 +359,7 @@ public class KryptonMultiSelectTreeView : KryptonTreeView
 
         if ((modifiers & Keys.Shift) == Keys.Shift)
         {
-            TreeNode? anchor = _selectionAnchor ?? SelectedNode;
+            TreeNode? anchor = ResolveSelectionAnchor();
             if (anchor is not null)
             {
                 SelectRange(anchor, hit.Node);
@@ -429,23 +432,49 @@ public class KryptonMultiSelectTreeView : KryptonTreeView
 
     private void SelectRange(TreeNode anchor, TreeNode end)
     {
-        var visible = TreeViewMultiSelectHelper.EnumerateVisibleNodes(Nodes).ToList();
-        var startIndex = visible.IndexOf(anchor);
-        var endIndex = visible.IndexOf(end);
-
-        if (startIndex < 0 || endIndex < 0)
-        {
-            ApplySelection(new[] { end }, extend: false, focusNode: end);
-            return;
-        }
-
-        if (startIndex > endIndex)
-        {
-            (startIndex, endIndex) = (endIndex, startIndex);
-        }
-
-        var range = visible.GetRange(startIndex, endIndex - startIndex + 1);
+        List<TreeNode> range = TreeViewMultiSelectHelper.GetInclusiveVisibleRange(anchor, end);
         ApplySelection(range, extend: false, focusNode: end);
+    }
+
+    private TreeNode? ResolveSelectionAnchor()
+    {
+        if (_selectionAnchor is not null && IsNodeInFlatVisibleOrder(_selectionAnchor))
+        {
+            return _selectionAnchor;
+        }
+
+        if (SelectedNode is not null && IsNodeInFlatVisibleOrder(SelectedNode))
+        {
+            return SelectedNode;
+        }
+
+        foreach (TreeNode node in _selectedNodesList)
+        {
+            if (IsNodeInFlatVisibleOrder(node))
+            {
+                return node;
+            }
+        }
+
+        return null;
+    }
+
+    private bool IsNodeInFlatVisibleOrder(TreeNode node)
+    {
+        if (node.TreeView != TreeView)
+        {
+            return false;
+        }
+
+        foreach (TreeNode visible in TreeViewMultiSelectHelper.GetFlatVisibleNodes(TreeView))
+        {
+            if (ReferenceEquals(visible, node))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void ApplySelection(IEnumerable<TreeNode> nodes, bool extend, TreeNode? focusNode)
@@ -505,7 +534,10 @@ public class KryptonMultiSelectTreeView : KryptonTreeView
         if (focusNode is not null)
         {
             FocusSelectedNode(focusNode);
-            _selectionAnchor ??= focusNode;
+            if ((Control.ModifierKeys & Keys.Shift) == Keys.None)
+            {
+                _selectionAnchor ??= focusNode;
+            }
         }
 
         SyncCheckStatesFromSelection();
