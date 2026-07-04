@@ -143,6 +143,10 @@ public struct KryptonMessageBoxExtendedData
 
     public bool ShowMoreDetailsOption { get; set; }
 
+    /// <summary>Gets or sets a value indicating whether the "more details" footer starts expanded.</summary>
+    /// <value><c>true</c> to show the details region expanded on open; otherwise, <c>false</c> (collapsed).</value>
+    public bool MoreDetailsExpanded { get; set; }
+
     public PaletteRelativeAlign? RichTextBoxTextAlignment { get; set; }
 
     public string? MoreDetailsButtonText { get; set; }

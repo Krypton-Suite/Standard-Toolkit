@@ -608,6 +608,19 @@ public static class KryptonMessageBoxExtended
                 null, null, null, null,
                 showCloseButton, footerText, footerExpanded, footerContentType, footerRichTextBoxHeight);
 
+    /// <summary>Shows a <seealso cref="KryptonMessageBoxExtended"/> configured from a <see cref="KryptonMessageBoxExtendedData"/> instance.</summary>
+    /// <param name="data">The data describing the message box content and behaviour. Set <see cref="KryptonMessageBoxExtendedData.ShowMoreDetailsOption"/> together with <see cref="KryptonMessageBoxExtendedData.MoreDetailsMessageText"/> (and optionally <see cref="KryptonMessageBoxExtendedData.MoreDetailsButtonText"/>) to include a collapsible ("more details") footer region.</param>
+    /// <param name="showCloseButton">Whether to show the close button on the message box form.</param>
+    /// <returns>One of the <see cref="DialogResult"/> values.</returns>
+    public static DialogResult Show(KryptonMessageBoxExtendedData data, bool showCloseButton = true)
+    {
+        using var kmbe = new VisualMessageBoxExtendedForm(data, showCloseButton);
+
+        return data.Owner != null
+            ? kmbe.ShowDialog(data.Owner)
+            : kmbe.ShowDialog();
+    }
+
     #endregion
 
     #region Implementation

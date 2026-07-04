@@ -183,6 +183,11 @@ public class KryptonGlobalToolkitStrings : GlobalId
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public static KryptonExceptionDialogStrings KryptonExceptionDialogStrings { get; } = new KryptonExceptionDialogStrings();
 
+    /// <summary>Gets the foldable dialog strings.</summary>
+    /// <value>The foldable dialog strings.</value>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public static KryptonFoldableDialogStrings KryptonFoldableDialogStrings { get; } = new KryptonFoldableDialogStrings();
+
     /// <summary>Gets the miscellaneous theme strings.</summary>
     /// <value>The miscellaneous theme strings.</value>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -568,6 +573,17 @@ public class KryptonGlobalToolkitStrings : GlobalId
     public KryptonExceptionDialogStrings ExceptionDialogStrings => KryptonExceptionDialogStrings;
     private bool ShouldSerializeExceptionDialogStrings() => !KryptonExceptionDialogStrings.IsDefault;
     private void ResetExceptionDialogStrings() => KryptonExceptionDialogStrings.Reset();
+
+    /// <summary>Gets the krypton foldable dialog strings.</summary>
+    /// <value>The krypton foldable dialog strings.</value>
+    [Category(@"Visuals")]
+    [Description(@"Collection of foldable dialog strings.")]
+    [MergableProperty(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Localizable(true)]
+    public KryptonFoldableDialogStrings FoldableDialogStrings => KryptonFoldableDialogStrings;
+    private bool ShouldSerializeFoldableDialogStrings() => !KryptonFoldableDialogStrings.IsDefault;
+    private void ResetFoldableDialogStrings() => KryptonFoldableDialogStrings.Reset();
 
     /// <summary>Gets the krypton print preview dialog strings.</summary>
     /// <value>The krypton print preview dialog strings.</value>

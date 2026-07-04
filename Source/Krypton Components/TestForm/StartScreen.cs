@@ -95,6 +95,8 @@ public partial class StartScreen : KryptonForm
         CreateButton<DateTimeExample>("DateTime Example", string.Empty);
         CreateButton<DockingConfigSaveLoadTest>("Docking Config Save/Load Test", "Test SaveConfigToArray and LoadConfigFromArray");
         CreateButton<DockingRedockDemo>("Docking Redock Demo", "Demo for Issue #2933: undock (Float) then redock; no floating window left behind.");
+        CreateButton<FoldableDialogDemo>("Foldable Dialog", "Demo for Issue #3840: KryptonFoldableDialog, a message-box style dialog with a collapsible (foldable) details region modelled on the Visual Studio Just-In-Time debugger dialog. Configure caption, heading, message, details, icon, buttons, default button, and initial expanded state, or try the JIT-style preset.");
+        CreateButton<MessageBoxExtendedFoldableDemo>("Message Box Extended - Foldable Footer", "Demo for the optional expandable (foldable) footer of KryptonMessageBoxExtended: a collapsible details region (Text, CheckBox, or RichTextBox) with a Show/Hide details toggle that matches the KryptonFoldableDialog expander. Configure message, caption, icon, buttons, footer content type, RichTextBox height, and initial expanded state, or try the JIT-style preset.");
         CreateButton<FontAwesomeTest>("Font Awesome Test", string.Empty);
         CreateButton<FloatingWindowTest>("Floating Window Test", "Comprehensive test for floating window bug fix (Issue #2721)");
         CreateButton<FloatingToolbarsDemo>("Floating Toolbars Demo", "Comprehensive demonstration of KryptonFloatingToolbars features including drag-and-drop floating/docking, programmatic control, animation, window styles, docking preview indicators, custom themes, state persistence, and multi-monitor support.");

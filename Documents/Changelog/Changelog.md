@@ -45,6 +45,11 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#3840](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3840), Foldable dialog  
+   * `KryptonFoldableDialog`, a message-box style dialog with a collapsible (foldable) details region modelled on the Visual Studio Just-In-Time debugger dialog. Configure the caption, heading, message, foldable details, icon, buttons, default button, and initial expanded state via `KryptonFoldableDialogData`.
+   * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
+* Implemented an optional expandable (foldable) footer for `KryptonMessageBoxExtended`, giving it a collapsible details region (Text, CheckBox, or RichTextBox) with a Show/Hide details toggle that matches the `KryptonFoldableDialog` expander (▼/▲ glyph and localizable `KryptonManager.Strings.FoldableDialogStrings`). Opt in via the `footerText`, `footerExpanded`, `footerContentType`, and `footerRichTextBoxHeight` parameters on `KryptonMessageBoxExtended.Show(...)`, or via a new `KryptonMessageBoxExtended.Show(KryptonMessageBoxExtendedData)` overload using the now-active `ShowMoreDetailsOption`, `MoreDetailsExpanded`, `MoreDetailsMessageText`, and `MoreDetailsButtonText` properties.
+   * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Implemented [#3829](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3829), Showing Tab ToolTips for Docking Pages
 * Resolved [#3826](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3826), Null reference in `KryptonToggleSwitch` when the global palette changes
    * **[Breaking Change]**: The `Checked` property has been moved from `KryptonToggleSwitch` to `KryptonToggleSwitchValues`. Please update your code accordingly.
