@@ -17,6 +17,7 @@ public class MessageBoxStrings : GlobalId
     #region Static Values
 
     private const string DEFAULT_COLLAPSE = @"&Collapse ▲";
+    private const string DEFAULT_COPY_TO_CLIPBOARD = @"C&opy to Clipboard";
     private const string DEFAULT_EXPAND = @"E&xpand ▼";
     private const string DEFAULT_MORE_DETAILS = @"&More Details...";
     private const string DEFAULT_LESS_DETAILS = @"L&ess Details...";
@@ -45,6 +46,7 @@ public class MessageBoxStrings : GlobalId
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool IsDefault => Collapse.Equals(DEFAULT_COLLAPSE) && 
+                             CopyToClipboard.Equals(DEFAULT_COPY_TO_CLIPBOARD) &&
                              Expand.Equals(DEFAULT_EXPAND) && 
                              MoreDetails.Equals(DEFAULT_MORE_DETAILS) &&
                              LessDetails.Equals(DEFAULT_LESS_DETAILS);
@@ -62,6 +64,16 @@ public class MessageBoxStrings : GlobalId
     [DefaultValue(DEFAULT_COLLAPSE)]
     [RefreshProperties(RefreshProperties.All)]
     public string Collapse { get; set; }
+
+    /// <summary>
+    /// Gets and sets the copy to clipboard text.
+    /// </summary>
+    [Localizable(true)]
+    [Category(@"Values")]
+    [Description(@"Copy to clipboard text.")]
+    [DefaultValue(DEFAULT_COPY_TO_CLIPBOARD)]
+    [RefreshProperties(RefreshProperties.All)]
+    public string CopyToClipboard { get; set; }
 
     /// <summary>
     /// Gets and sets the expand text on the expand button.
@@ -89,9 +101,13 @@ public class MessageBoxStrings : GlobalId
 
     #region Implementation
 
+    /// <summary>
+    /// Resets the values to their default state.
+    /// </summary>
     public void Reset()
     {
         Collapse = DEFAULT_COLLAPSE;
+        CopyToClipboard = DEFAULT_COPY_TO_CLIPBOARD;
         Expand = DEFAULT_EXPAND;
         MoreDetails = DEFAULT_MORE_DETAILS;
         LessDetails = DEFAULT_LESS_DETAILS;
