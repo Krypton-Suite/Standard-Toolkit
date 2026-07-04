@@ -36,6 +36,7 @@ public class KryptonFoldableDialogData
         DefaultButton = KryptonMessageBoxDefaultButton.Button1;
         ExpandButtonText = _expandText;
         CollapseButtonText = _collapseText;
+        StartPosition = FormStartPosition.CenterScreen;
     }
 
     #endregion
@@ -78,6 +79,14 @@ public class KryptonFoldableDialogData
 
     /// <summary>Gets or sets the window that owns the dialog.</summary>
     public IWin32Window? Owner { get; set; }
+
+    /// <summary>Gets or sets the initial position of the dialog when it is first shown.</summary>
+    /// <remarks>
+    /// Defaults to <see cref="FormStartPosition.CenterScreen"/>. <see cref="FormStartPosition.CenterParent"/>
+    /// centres the dialog on its <see cref="Owner"/> (falling back to the screen when no owner is set), and
+    /// <see cref="FormStartPosition.Manual"/> leaves the position unchanged.
+    /// </remarks>
+    public FormStartPosition StartPosition { get; set; }
 
     #endregion
 }

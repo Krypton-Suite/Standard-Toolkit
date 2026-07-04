@@ -39,6 +39,10 @@ public partial class FoldableDialogDemo : KryptonForm
         kcmbDefault.Items.Clear();
         kcmbDefault.Items.AddRange(Enum.GetNames(typeof(KryptonMessageBoxDefaultButton)));
         kcmbDefault.SelectedItem = nameof(KryptonMessageBoxDefaultButton.Button1);
+
+        kcmbStartPosition.Items.Clear();
+        kcmbStartPosition.Items.AddRange(Enum.GetNames(typeof(FormStartPosition)));
+        kcmbStartPosition.SelectedItem = nameof(FormStartPosition.CenterScreen);
     }
 
     private void LoadSampleContent()
@@ -69,6 +73,7 @@ public partial class FoldableDialogDemo : KryptonForm
         Icon = ParseEnum(kcmbIcon.SelectedItem, ExtendedKryptonMessageBoxIcon.Error),
         Buttons = ParseEnum(kcmbButtons.SelectedItem, KryptonMessageBoxButtons.OKCancel),
         DefaultButton = ParseEnum(kcmbDefault.SelectedItem, KryptonMessageBoxDefaultButton.Button1),
+        StartPosition = ParseEnum(kcmbStartPosition.SelectedItem, FormStartPosition.CenterScreen),
         Expanded = kchkExpanded.Checked
     };
 

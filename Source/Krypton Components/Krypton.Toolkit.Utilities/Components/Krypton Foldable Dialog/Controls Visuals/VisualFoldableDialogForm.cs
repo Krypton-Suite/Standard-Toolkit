@@ -81,8 +81,6 @@ internal partial class VisualFoldableDialogForm : KryptonForm
         kbtnExpander.Visible = _hasDetails;
         kpnlDetails.Visible = false;
 
-        StartPosition = FormStartPosition.CenterScreen;
-
         SetupIcon();
 
         SetupButtons();
@@ -241,19 +239,40 @@ internal partial class VisualFoldableDialogForm : KryptonForm
         ClientSize = new Size(ClientSize.Width, clientHeight);
     }
 
-    private void CenterToOwnerOrScreen()
+    /// <summary>
+    /// Positions the dialog according to the requested <see cref="KryptonFoldableDialogData.StartPosition"/>.
+    /// This is applied manually (rather than via <see cref="Form.StartPosition"/>) because the dialog is
+    /// resized in <see cref="OnLoad"/> once the final header/details layout is known, i.e. after WinForms
+    /// would already have positioned a <see cref="FormStartPosition.CenterScreen"/> window.
+    /// </summary>
+    private void ApplyStartPosition()
     {
-        Rectangle bounds = Screen.PrimaryScreen!.WorkingArea;
+        Form? ownerForm = _data.Owner is Control control && control.FindForm() is { IsDisposed: false } form
+            ? form
+            : null;
 
-        if (_data.Owner is Control control && control.FindForm() is { } ownerForm && !ownerForm.IsDisposed)
+        switch (_data.StartPosition)
         {
-            bounds = ownerForm.Bounds;
+            case FormStartPosition.Manual:
+                // The caller (or designer) controls the location; leave it untouched.
+                break;
+            case FormStartPosition.CenterParent when ownerForm != null:
+                CenterWithin(ownerForm.Bounds);
+                break;
+            default:
+                // CenterScreen (the default) and any unsupported value centre on the working area of the
+                // screen hosting the owner, falling back to the primary screen when there is no owner.
+                CenterWithin((ownerForm != null ? Screen.FromControl(ownerForm) : Screen.PrimaryScreen!).WorkingArea);
+                break;
         }
+    }
 
+    private void CenterWithin(Rectangle bounds)
+    {
         var left = bounds.Left + ((bounds.Width - Width) / 2);
         var top = bounds.Top + ((bounds.Height - Height) / 2);
 
-        Location = new Point(Math.Max(0, left), Math.Max(0, top));
+        Location = new Point(Math.Max(bounds.Left, left), Math.Max(bounds.Top, top));
     }
 
     /// <summary>
@@ -365,7 +384,7 @@ internal partial class VisualFoldableDialogForm : KryptonForm
 
         ApplyExpandState(_data.Expanded);
 
-        CenterToOwnerOrScreen();
+        ApplyStartPosition();
     }
 
     /// <inheritdoc />

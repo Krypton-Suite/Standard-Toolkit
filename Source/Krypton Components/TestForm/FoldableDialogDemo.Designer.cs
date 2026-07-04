@@ -33,6 +33,8 @@ namespace TestForm
             this.kbtnJitPreset = new Krypton.Toolkit.KryptonButton();
             this.kbtnShow = new Krypton.Toolkit.KryptonButton();
             this.kchkExpanded = new Krypton.Toolkit.KryptonCheckBox();
+            this.kcmbStartPosition = new Krypton.Toolkit.KryptonComboBox();
+            this.klblStartPosition = new Krypton.Toolkit.KryptonLabel();
             this.kcmbDefault = new Krypton.Toolkit.KryptonComboBox();
             this.klblDefault = new Krypton.Toolkit.KryptonLabel();
             this.kcmbButtons = new Krypton.Toolkit.KryptonComboBox();
@@ -50,6 +52,7 @@ namespace TestForm
             this.klblInstructions = new Krypton.Toolkit.KryptonWrapLabel();
             ((System.ComponentModel.ISupportInitialize)(this.kpnlMain)).BeginInit();
             this.kpnlMain.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kcmbStartPosition)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kcmbDefault)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kcmbButtons)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kcmbIcon)).BeginInit();
@@ -61,6 +64,8 @@ namespace TestForm
             this.kpnlMain.Controls.Add(this.kbtnJitPreset);
             this.kpnlMain.Controls.Add(this.kbtnShow);
             this.kpnlMain.Controls.Add(this.kchkExpanded);
+            this.kpnlMain.Controls.Add(this.kcmbStartPosition);
+            this.kpnlMain.Controls.Add(this.klblStartPosition);
             this.kpnlMain.Controls.Add(this.kcmbDefault);
             this.kpnlMain.Controls.Add(this.klblDefault);
             this.kpnlMain.Controls.Add(this.kcmbButtons);
@@ -80,7 +85,7 @@ namespace TestForm
             this.kpnlMain.Location = new System.Drawing.Point(0, 0);
             this.kpnlMain.Name = "kpnlMain";
             this.kpnlMain.Padding = new System.Windows.Forms.Padding(12);
-            this.kpnlMain.Size = new System.Drawing.Size(644, 561);
+            this.kpnlMain.Size = new System.Drawing.Size(644, 593);
             this.kpnlMain.TabIndex = 0;
             // 
             // klblResult
@@ -88,39 +93,57 @@ namespace TestForm
             this.klblResult.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.klblResult.LabelStyle = Krypton.Toolkit.LabelStyle.BoldControl;
-            this.klblResult.Location = new System.Drawing.Point(12, 464);
+            this.klblResult.Location = new System.Drawing.Point(12, 496);
             this.klblResult.Name = "klblResult";
             this.klblResult.Size = new System.Drawing.Size(83, 20);
-            this.klblResult.TabIndex = 18;
+            this.klblResult.TabIndex = 20;
             this.klblResult.Values.Text = "Last result: -";
             // 
             // kbtnJitPreset
             // 
-            this.kbtnJitPreset.Location = new System.Drawing.Point(312, 416);
+            this.kbtnJitPreset.Location = new System.Drawing.Point(312, 448);
             this.kbtnJitPreset.Name = "kbtnJitPreset";
             this.kbtnJitPreset.Size = new System.Drawing.Size(190, 30);
-            this.kbtnJitPreset.TabIndex = 17;
+            this.kbtnJitPreset.TabIndex = 19;
             this.kbtnJitPreset.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnJitPreset.Values.Text = "Show JIT-style Preset";
             this.kbtnJitPreset.Click += new System.EventHandler(this.kbtnJitPreset_Click);
             // 
             // kbtnShow
             // 
-            this.kbtnShow.Location = new System.Drawing.Point(160, 416);
+            this.kbtnShow.Location = new System.Drawing.Point(160, 448);
             this.kbtnShow.Name = "kbtnShow";
             this.kbtnShow.Size = new System.Drawing.Size(140, 30);
-            this.kbtnShow.TabIndex = 16;
+            this.kbtnShow.TabIndex = 18;
             this.kbtnShow.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnShow.Values.Text = "Show Dialog";
             this.kbtnShow.Click += new System.EventHandler(this.kbtnShow_Click);
             // 
             // kchkExpanded
             // 
-            this.kchkExpanded.Location = new System.Drawing.Point(160, 384);
+            this.kchkExpanded.Location = new System.Drawing.Point(160, 416);
             this.kchkExpanded.Name = "kchkExpanded";
             this.kchkExpanded.Size = new System.Drawing.Size(215, 20);
-            this.kchkExpanded.TabIndex = 15;
+            this.kchkExpanded.TabIndex = 17;
             this.kchkExpanded.Values.Text = "Show details expanded on open";
+            // 
+            // kcmbStartPosition
+            // 
+            this.kcmbStartPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.kcmbStartPosition.DropDownWidth = 200;
+            this.kcmbStartPosition.IntegralHeight = false;
+            this.kcmbStartPosition.Location = new System.Drawing.Point(160, 382);
+            this.kcmbStartPosition.Name = "kcmbStartPosition";
+            this.kcmbStartPosition.Size = new System.Drawing.Size(200, 22);
+            this.kcmbStartPosition.TabIndex = 16;
+            // 
+            // klblStartPosition
+            // 
+            this.klblStartPosition.Location = new System.Drawing.Point(12, 382);
+            this.klblStartPosition.Name = "klblStartPosition";
+            this.klblStartPosition.Size = new System.Drawing.Size(90, 20);
+            this.klblStartPosition.TabIndex = 15;
+            this.klblStartPosition.Values.Text = "Start position:";
             // 
             // kcmbDefault
             // 
@@ -265,15 +288,16 @@ namespace TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(644, 561);
+            this.ClientSize = new System.Drawing.Size(644, 593);
             this.Controls.Add(this.kpnlMain);
-            this.MinimumSize = new System.Drawing.Size(560, 480);
+            this.MinimumSize = new System.Drawing.Size(560, 512);
             this.Name = "FoldableDialogDemo";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Foldable Dialog Demo (Issue #3840)";
             ((System.ComponentModel.ISupportInitialize)(this.kpnlMain)).EndInit();
             this.kpnlMain.ResumeLayout(false);
             this.kpnlMain.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kcmbStartPosition)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kcmbDefault)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kcmbButtons)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kcmbIcon)).EndInit();
@@ -299,6 +323,8 @@ namespace TestForm
         private Krypton.Toolkit.KryptonComboBox kcmbButtons;
         private Krypton.Toolkit.KryptonLabel klblDefault;
         private Krypton.Toolkit.KryptonComboBox kcmbDefault;
+        private Krypton.Toolkit.KryptonLabel klblStartPosition;
+        private Krypton.Toolkit.KryptonComboBox kcmbStartPosition;
         private Krypton.Toolkit.KryptonCheckBox kchkExpanded;
         private Krypton.Toolkit.KryptonButton kbtnShow;
         private Krypton.Toolkit.KryptonButton kbtnJitPreset;
