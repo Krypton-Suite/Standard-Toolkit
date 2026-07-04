@@ -88,6 +88,8 @@ public partial class StartScreen : KryptonForm
         CreateButton<BugReportingDialogTest>("BugReportingTool", "Easily report bugs with this tool.");
         CreateButton<CodeEditorTest>("Code Editor", "Native code editor with syntax highlighting, line numbering, code folding, and auto-completion.");
         CreateButton<CountdownButtonTest>("Countdown Button", "Comprehensive demonstration of KryptonCountdownButton features with customizable duration, format, and enable-at-zero options.");
+        CreateButton<KryptonEnumButtonDemo>("Enum Button", "Issue #3838: KryptonEnumButton cycles through the values of an enum on click, showing DescriptionAttribute text or field names. Demonstrates wrap-around, reverse on right-click, programmatic cycling, and value-changed events.");
+        CreateButton<KryptonEnumCommandLinkButtonDemo>("Enum Command Link Button", "Issue #3838: KryptonEnumCommandLinkButton cycles enum values as command links (heading + description). Demonstrates attribute-driven vs provider-driven text, per-value icons, wrap/clamp, humanize, sort order, excluded values, keyboard/wheel cycling, a cancelable veto, data binding, and a synced radio-button group.");
         CreateButton<CommandLinkButtons>("CommandLink Buttons", "No comment");
         CreateButton<KryptonCommandButtonSpecDemo>("KryptonCommand ButtonSpec", "Issue #1133: KryptonCommand.CommandType drives integrated toolbar and help ButtonSpecs with palette-aware images. Click toolbar and help buttons; change theme to verify refresh.");
         CreateButton<ControlStylesForm>("Control Styles", string.Empty);
