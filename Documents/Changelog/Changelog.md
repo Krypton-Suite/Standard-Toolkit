@@ -45,6 +45,8 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#3855](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3855), Cross-project source linking
+   * Cross-project source linking: shared interop moved to internal `Krypton.Interop` assembly; remaining compile links centralized in `Krypton.Shared/Krypton.SharedCompileItems.props`.
 * Implemented [#3829](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3829), Showing Tab ToolTips for Docking Pages
 * Resolved [#3826](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3826), Null reference in `KryptonToggleSwitch` when the global palette changes
    * **[Breaking Change]**: The `Checked` property has been moved from `KryptonToggleSwitch` to `KryptonToggleSwitchValues`. Please update your code accordingly.

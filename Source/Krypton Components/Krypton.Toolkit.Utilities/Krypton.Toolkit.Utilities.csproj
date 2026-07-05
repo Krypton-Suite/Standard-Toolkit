@@ -29,11 +29,10 @@
 		<NoWarn>1701;1702</NoWarn>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<Compile Include="..\Krypton.Toolkit\General\PlatformInvoke.cs" Link="General\PlatformInvoke.cs" />
-		<Compile Include="..\Krypton.Toolkit\Utilities\FileSystemIconHelper.cs" Link="Components\KryptonFileSystemTreeView\Utilities\FileSystemIconHelper.cs" />
-		<Compile Include="..\Krypton.Toolkit\Tooling\GeneralToolkitUtilities.cs" Link="Tooling\GeneralToolkitUtilities.cs" />
-	</ItemGroup>
+	<Import Project="..\Krypton.Shared\Krypton.SharedCompileItems.props" />
+	<PropertyGroup>
+		<IncludeKryptonUtilitiesSourceLinks>true</IncludeKryptonUtilitiesSourceLinks>
+	</PropertyGroup>
 
 	<ItemGroup>
 	  <Content Include="Utilities\WinFormAnimatiion\General\Icon.png" />

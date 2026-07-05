@@ -920,6 +920,10 @@
 	<Optimize>True</Optimize>
   </PropertyGroup>
 
+  <ItemGroup>
+	<ProjectReference Include="..\Krypton.Interop\Krypton.Interop.csproj" />
+  </ItemGroup>
+
   <!-- .NET Framework: SRE deploy, binding redirects, consumer targets; runtime hook in KryptonPreserializedResourceAssemblyResolve. -->
   <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
 	<None Include="Krypton.Toolkit.dll.config" CopyToOutputDirectory="PreserveNewest" />
