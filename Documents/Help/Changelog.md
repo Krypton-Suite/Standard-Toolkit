@@ -2,6 +2,12 @@
 
 =======
 
+# 2026-08-24 - Build 2608 (Patch 12) - August 2026
+
+* Implemented [#3788](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3788), Allow build scripts to find Visual Studio. Build scripts locate Visual Studio/MSBuild via `Scripts/Common/find-msbuild.cmd` (`vswhere.exe`, `current` profile for yearly VS 18+, custom install paths and non-default drives); override with `MSBUILDPATH` or `MSBUILD_PATH`. Build scripts and ModernBuild locate MSBuild via `Scripts/Common/find-msbuild.cmd` and `vswhere.exe`, with `%ProgramFiles%` fallback and `MSBUILDPATH` / `MSBUILD_PATH` overrides for custom or non-system-drive Visual Studio installs
+
+=======
+
 # 2026-06-22 - Build 2606 (Patch 11) - June 2026
 
 * Resolved [#3814](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3814), Fixes three inconsistencies in `DockingManagerStrings`
