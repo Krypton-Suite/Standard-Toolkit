@@ -146,6 +146,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<GroupBoxTest>("GroupBox", string.Empty);
         CreateButton<InputBoxTest>("InputBox", string.Empty);
         CreateButton<JumpListTest>("Jump List Test", "Comprehensive demonstration of jump lists on KryptonForm with user tasks, custom categories, known categories, and interactive examples.");
+        CreateButton<KryptonLoggerDemo>("Krypton Logger (#3856)", "Issue #3856: exercise KryptonLogger, CommonHelper.LogOutput, optional file logging (set KRYPTON_LOG or KRYPTON_LOG_PATH before launch), custom IKryptonLogger, parallel stress writes, and theme-swap WM tracing.");
         CreateButton<KryptonFolderBrowserDialogDemo>("Folder Browser Dialog", "Comprehensive demo of KryptonFolderBrowserDialog: configure Title, Icon, SelectedPath, RootFolder, and InitialDirectory, compare with the standard dialog, and try preset scenarios.");
         CreateButton<MessageBoxTest>("MessageBox", string.Empty);
         CreateButton<Main>("Old Style Main: Fullscreen", string.Empty);
