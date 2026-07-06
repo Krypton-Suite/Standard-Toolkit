@@ -399,6 +399,36 @@ public enum PaletteMode
     RetroBlue,
 
     /// <summary>
+    /// Windows XP Luna blue (Normal Color) palette.
+    /// </summary>
+    WindowsXPLunaBlue,
+
+    /// <summary>
+    /// Windows XP Luna olive (HomeStead) palette.
+    /// </summary>
+    WindowsXPLunaOlive,
+
+    /// <summary>
+    /// Windows XP Luna silver (Metallic) palette.
+    /// </summary>
+    WindowsXPLunaSilver,
+
+    /// <summary>
+    /// Windows XP Royale (Energy Blue) palette.
+    /// </summary>
+    WindowsXPRoyale,
+
+    /// <summary>
+    /// Windows XP Royale Noir palette.
+    /// </summary>
+    WindowsXPRoyaleNoir,
+
+    /// <summary>
+    /// Windows XP Zune palette.
+    /// </summary>
+    WindowsXPZune,
+
+    /// <summary>
     /// macOS-inspired Aqua palette (Material renderer, Apple HIG colors).
     /// </summary>
     MacOSXAqua,

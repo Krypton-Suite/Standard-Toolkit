@@ -119,6 +119,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<TaskbarThumbnailButtonsDemo>("Taskbar Thumbnail Buttons", "Demo of taskbar thumbnail toolbar buttons (Play, Pause, Next, Stop) in the taskbar preview. Hover the taskbar button to see them.");
         CreateButton<TaskbarProgressBarDemo>("Taskbar Progress Bar Demo", "Comprehensive demo of KryptonProgressBar taskbar synchronisation (Issue #2890). Covers enable/disable toggle, simulated download, manual slider, all ProgressBarStyles, all KryptonTaskbarProgressState overrides (Normal/Error/Paused/Indeterminate/NoProgress), and Min/Max range.");
         CreateButton<MacOSThemeSmokeTest>("macOS Theme", "Smoke test for macOS Light/Dark palettes: traffic-light title-bar buttons, RenderMacOS rounded controls, navigator tabs, theme combo, context menu, sample XML import/export (Documents/Palettes).");
+        CreateButton<WindowsXPLunaThemeSmokeTest>("Windows XP Visual Styles", "Smoke test for Luna, Royale, Royale Noir, and Zune palettes: RenderWindowsXPLuna glossy buttons, theme combo, context menu, palette XML export/import.");
         CreateButton<ThemeControlExamples>("Theme Controls", string.Empty);
         CreateButton<TooltipTimeoutTest>("Tooltip Extended/Infinite Timeout", "Comprehensive demo of extended and infinite tooltip timeout (Issue #3075). Krypton tooltips support AutoPopDelay > 5000ms and 0 (infinite) on all Windows versions.");
         CreateButton<KryptonTextBoxValidatingTest>("TextBox Validating Test", "Tests fix for Validating event duplication bug #2801");
