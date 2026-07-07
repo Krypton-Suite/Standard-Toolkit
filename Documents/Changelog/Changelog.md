@@ -51,6 +51,8 @@
 * Resolved `KryptonMessageBoxExtended` appending a spurious `[60]` countdown to the caption when the timeout facility was not being used
 * Resolved `KryptonMessageBoxExtended` collapsing line breaks in the Normal (text) container by normalising line endings so a lone `\n` renders correctly (previously only `\r\n` produced a line break)
 * Resolved `KryptonMessageBoxExtended` sizing issues where the action buttons overlapped and overflowed the right edge and the message text was clipped (the buttons are now fixed-width like the standard `KryptonMessageBox` and the content area is given the full measured width and height)
+* Implemented [#797](https://github.com/Krypton-Suite/Standard-Toolkit/issues/797), Individual border corner rounding via `PaletteBorder.CornerRounding` and per-corner `RoundingTopLeft`, `RoundingTopRight`, `RoundingBottomRight`, and `RoundingBottomLeft` properties (`-1` inherits from `Rounding`). Rendering, layout padding, and orientation handling honor mixed corner radii.
+* Implemented [#3861](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3861), Permits customizing glyph colors (#3663) using `KryptonCustomPalette`.
 * Implemented [#3829](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3829), Showing Tab ToolTips for Docking Pages
 * Resolved [#3826](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3826), Null reference in `KryptonToggleSwitch` when the global palette changes
    * **[Breaking Change]**: The `Checked` property has been moved from `KryptonToggleSwitch` to `KryptonToggleSwitchValues`. Please update your code accordingly.
