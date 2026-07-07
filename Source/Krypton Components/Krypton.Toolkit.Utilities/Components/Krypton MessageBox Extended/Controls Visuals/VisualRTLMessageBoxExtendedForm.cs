@@ -1281,8 +1281,12 @@ public partial class VisualRTLMessageBoxExtendedForm : KryptonForm
             }
         }
 
-        // Update toggle button text
-        _footerToggleButton.Values.Text = expanded ? @"Hide details" : @"Show details";
+        // Update toggle button text: match the KryptonFoldableDialog expander with an up/down triangle
+        // glyph and the shared, localizable "Show/Hide details" strings.
+        var foldableStrings = KryptonManager.Strings.FoldableDialogStrings;
+        _footerToggleButton.Values.Text = expanded
+            ? $"\u25B2  {foldableStrings.ExpandText}"
+            : $"\u25BC  {foldableStrings.CollapseText}";
 
         // Calculate footer height based on expanded state and content type
         if (expanded)
