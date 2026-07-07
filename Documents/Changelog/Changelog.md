@@ -45,6 +45,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#3848](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3848), Removed dead code: obsolete docking drag timer, unused `KryptonForm` designer scaffolding, and unimplemented custom palette binary export designer action; `AccurateText` draw path now applies the text rendering hint captured at measure time
 * Implemented [#3833](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3833), Expand `KryptonCheckBox` to allow more text
    * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Implemented [#3780](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3780), Bring the `KryptonDropZone` over
