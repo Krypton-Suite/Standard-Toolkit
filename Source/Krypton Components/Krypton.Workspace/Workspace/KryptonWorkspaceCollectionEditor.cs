@@ -14,13 +14,13 @@ using System.Linq;
 
 namespace Krypton.Workspace;
 
-internal class KryptonWorkspaceCollectionEditor : CollectionEditor
+internal class KryptonWorkspaceCollectionEditor : KryptonDesignerCollectionEditor
 {
     #region Classes
     /// <summary>
     /// Form used for editing the KryptonWorkspaceCollection.
     /// </summary>
-    protected partial class KryptonWorkspaceCollectionForm : CollectionForm
+    protected partial class KryptonWorkspaceCollectionForm : KryptonDesignerCollectionForm
     {
         #region Types
         /// <summary>
@@ -802,20 +802,19 @@ internal class KryptonWorkspaceCollectionEditor : CollectionEditor
         #endregion
 
         #region Instance Fields
-        // TODO: Use Krypton
         private readonly KryptonWorkspaceCollectionEditor _editor;
         private DictItemBase _beforeItems;
-        private readonly TreeView _treeView;
-        private readonly PropertyGrid _propertyGrid;
-        private readonly Button _buttonMoveUp;
-        private readonly Button _buttonMoveDown;
-        private readonly Button _buttonAddPage;
-        private readonly Button _buttonAddCell;
-        private readonly Button _buttonAddSequence;
-        private readonly Button _buttonOk;
-        private readonly Button _buttonDelete;
-        private readonly Label _labelItemProperties;
-        private readonly Label _labelWorkspaceCollection;
+        private readonly KryptonTreeView _treeView;
+        private readonly KryptonPropertyGrid _propertyGrid;
+        private readonly KryptonButton _buttonMoveUp;
+        private readonly KryptonButton _buttonMoveDown;
+        private readonly KryptonButton _buttonAddPage;
+        private readonly KryptonButton _buttonAddCell;
+        private readonly KryptonButton _buttonAddSequence;
+        private readonly KryptonButton _buttonOk;
+        private readonly KryptonButton _buttonDelete;
+        private readonly KryptonLabel _labelItemProperties;
+        private readonly KryptonLabel _labelWorkspaceCollection;
         #endregion
 
         #region Identity
@@ -827,17 +826,17 @@ internal class KryptonWorkspaceCollectionEditor : CollectionEditor
         {
             _editor = editor;
 
-            _buttonOk = new Button();
-            _treeView = new TreeView();
-            _buttonMoveUp = new Button();
-            _buttonMoveDown = new Button();
-            _buttonAddPage = new Button();
-            _buttonAddCell = new Button();
-            _buttonAddSequence = new Button();
-            _buttonDelete = new Button();
-            _propertyGrid = new PropertyGrid();
-            _labelItemProperties = new Label();
-            _labelWorkspaceCollection = new Label();
+            _buttonOk = new KryptonButton();
+            _treeView = new KryptonTreeView();
+            _buttonMoveUp = new KryptonButton();
+            _buttonMoveDown = new KryptonButton();
+            _buttonAddPage = new KryptonButton();
+            _buttonAddCell = new KryptonButton();
+            _buttonAddSequence = new KryptonButton();
+            _buttonDelete = new KryptonButton();
+            _propertyGrid = new KryptonPropertyGrid();
+            _labelItemProperties = new KryptonLabel();
+            _labelWorkspaceCollection = new KryptonLabel();
             SuspendLayout();
             // 
             // buttonOK
@@ -846,10 +845,9 @@ internal class KryptonWorkspaceCollectionEditor : CollectionEditor
             _buttonOk.DialogResult = DialogResult.OK;
             _buttonOk.Location = new Point(547, 382);
             _buttonOk.Name = nameof(_buttonOk);
-            _buttonOk.Size = new Size(75, 23);
+            _buttonOk.Size = new Size(90, 25);
             _buttonOk.TabIndex = 8;
-            _buttonOk.Text = "OK";
-            _buttonOk.UseVisualStyleBackColor = true;
+            _buttonOk.Values.Text = "OK";
             _buttonOk.Click += buttonOK_Click;
             // 
             // treeView
@@ -866,48 +864,30 @@ internal class KryptonWorkspaceCollectionEditor : CollectionEditor
             // 
             // buttonMoveUp
             // 
+            ConfigureToolbarButton(_buttonMoveUp, GeneralImageResources.arrow_up_blue, "Move Up", buttonMoveUp_Click);
             _buttonMoveUp.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            _buttonMoveUp.Image = GeneralImageResources.arrow_up_blue;
-            _buttonMoveUp.ImageAlign = ContentAlignment.MiddleLeft;
             _buttonMoveUp.Location = new Point(272, 32);
             _buttonMoveUp.Name = nameof(_buttonMoveUp);
             _buttonMoveUp.Size = new Size(95, 28);
             _buttonMoveUp.TabIndex = 2;
-            _buttonMoveUp.Text = " Move Up";
-            _buttonMoveUp.TextAlign = ContentAlignment.MiddleLeft;
-            _buttonMoveUp.TextImageRelation = TextImageRelation.ImageBeforeText;
-            _buttonMoveUp.UseVisualStyleBackColor = true;
-            _buttonMoveUp.Click += buttonMoveUp_Click;
             // 
             // buttonMoveDown
             // 
+            ConfigureToolbarButton(_buttonMoveDown, GeneralImageResources.arrow_down_blue, "Move Down", buttonMoveDown_Click);
             _buttonMoveDown.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            _buttonMoveDown.Image = GeneralImageResources.arrow_down_blue;
-            _buttonMoveDown.ImageAlign = ContentAlignment.MiddleLeft;
             _buttonMoveDown.Location = new Point(272, 66);
             _buttonMoveDown.Name = nameof(_buttonMoveDown);
             _buttonMoveDown.Size = new Size(95, 28);
             _buttonMoveDown.TabIndex = 3;
-            _buttonMoveDown.Text = " Move Down";
-            _buttonMoveDown.TextAlign = ContentAlignment.MiddleLeft;
-            _buttonMoveDown.TextImageRelation = TextImageRelation.ImageBeforeText;
-            _buttonMoveDown.UseVisualStyleBackColor = true;
-            _buttonMoveDown.Click += buttonMoveDown_Click;
             // 
             // buttonDelete
             // 
+            ConfigureToolbarButton(_buttonDelete, GeneralImageResources.Delete, "Delete Item", buttonDelete_Click);
             _buttonDelete.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            _buttonDelete.Image = GeneralImageResources.Delete;
-            _buttonDelete.ImageAlign = ContentAlignment.MiddleLeft;
             _buttonDelete.Location = new Point(272, 234);
             _buttonDelete.Name = nameof(_buttonDelete);
             _buttonDelete.Size = new Size(95, 28);
             _buttonDelete.TabIndex = 5;
-            _buttonDelete.Text = " Delete Item";
-            _buttonDelete.TextAlign = ContentAlignment.MiddleLeft;
-            _buttonDelete.TextImageRelation = TextImageRelation.ImageBeforeText;
-            _buttonDelete.UseVisualStyleBackColor = true;
-            _buttonDelete.Click += buttonDelete_Click;
             // 
             // propertyGrid
             // 
@@ -941,54 +921,35 @@ internal class KryptonWorkspaceCollectionEditor : CollectionEditor
             // 
             // buttonAddPage
             // 
+            ConfigureToolbarButton(_buttonAddPage, GeneralImageResources.add, "Page", buttonAddPage_Click);
             _buttonAddPage.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            _buttonAddPage.Image = GeneralImageResources.add;
-            _buttonAddPage.ImageAlign = ContentAlignment.MiddleLeft;
             _buttonAddPage.Location = new Point(272, 114);
             _buttonAddPage.Name = nameof(_buttonAddPage);
             _buttonAddPage.Size = new Size(95, 28);
             _buttonAddPage.TabIndex = 4;
-            _buttonAddPage.Text = " Page";
-            _buttonAddPage.TextAlign = ContentAlignment.MiddleLeft;
-            _buttonAddPage.TextImageRelation = TextImageRelation.ImageBeforeText;
-            _buttonAddPage.UseVisualStyleBackColor = true;
-            _buttonAddPage.Click += buttonAddPage_Click;
             // 
             // buttonAddCell
             // 
+            ConfigureToolbarButton(_buttonAddCell, GeneralImageResources.add, "Cell", buttonAddCell_Click);
             _buttonAddCell.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            _buttonAddCell.Image = GeneralImageResources.add;
-            _buttonAddCell.ImageAlign = ContentAlignment.MiddleLeft;
             _buttonAddCell.Location = new Point(272, 148);
             _buttonAddCell.Name = nameof(_buttonAddCell);
             _buttonAddCell.Size = new Size(95, 28);
             _buttonAddCell.TabIndex = 9;
-            _buttonAddCell.Text = " Cell";
-            _buttonAddCell.TextAlign = ContentAlignment.MiddleLeft;
-            _buttonAddCell.TextImageRelation = TextImageRelation.ImageBeforeText;
-            _buttonAddCell.UseVisualStyleBackColor = true;
-            _buttonAddCell.Click += buttonAddCell_Click;
             // 
             // buttonAddSequence
             // 
+            ConfigureToolbarButton(_buttonAddSequence, GeneralImageResources.add, "Sequence", buttonAddSequence_Click);
             _buttonAddSequence.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            _buttonAddSequence.Image = GeneralImageResources.add;
-            _buttonAddSequence.ImageAlign = ContentAlignment.MiddleLeft;
             _buttonAddSequence.Location = new Point(272, 182);
             _buttonAddSequence.Name = nameof(_buttonAddSequence);
             _buttonAddSequence.Size = new Size(95, 28);
             _buttonAddSequence.TabIndex = 9;
-            _buttonAddSequence.Text = " Sequence";
-            _buttonAddSequence.TextAlign = ContentAlignment.MiddleLeft;
-            _buttonAddSequence.TextImageRelation = TextImageRelation.ImageBeforeText;
-            _buttonAddSequence.UseVisualStyleBackColor = true;
-            _buttonAddSequence.Click += buttonAddSequence_Click;
 
             AcceptButton = _buttonOk;
             AutoScaleDimensions = new SizeF(6F, 13F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(634, 414);
-            ControlBox = false;
             Controls.Add(_treeView);
             Controls.Add(_buttonMoveUp);
             Controls.Add(_buttonMoveDown);
@@ -1004,8 +965,8 @@ internal class KryptonWorkspaceCollectionEditor : CollectionEditor
             Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             MinimumSize = new Size(501, 344);
             Name = nameof(KryptonWorkspaceCollectionForm);
-            StartPosition = FormStartPosition.CenterScreen;
             Text = "Workspace Collection Editor";
+            ApplyWorkspacePalette();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1017,38 +978,55 @@ internal class KryptonWorkspaceCollectionEditor : CollectionEditor
         /// </summary>
         protected override void OnEditValueChanged()
         {
-            if (EditValue != null)
+            if (EditValue is null || Items is null)
             {
-                // Need to link the property browser to a site otherwise Image properties cannot be
-                // edited because it cannot navigate to the owning project for its resources
-                _propertyGrid.Site = new PropertyGridSite(Context!, _propertyGrid);
-
-                // Cache a lookup of all items before changes are made
-                _beforeItems = CreateItemsDictionary(Items);
-
-                // Add all the top level clones
-                _treeView.Nodes.Clear();
-                foreach (Component item in Items)
-                {
-                    AddMenuTreeNode(item, null);
-                }
-
-                // Expand to show all entries
-                _treeView.ExpandAll();
-
-                // Select the first node
-                if (_treeView.Nodes.Count > 0)
-                {
-                    _treeView.SelectedNode = _treeView.Nodes[0];
-                }
-
-                UpdateButtons();
-                UpdatePropertyGrid();
+                return;
             }
+
+            // Need to link the property browser to a site otherwise Image properties cannot be
+            // edited because it cannot navigate to the owning project for its resources
+            _propertyGrid.Site = new PropertyGridSite(Context!, _propertyGrid);
+            ApplyWorkspacePalette();
+
+            // Cache a lookup of all items before changes are made
+            _beforeItems = CreateItemsDictionary(Items);
+
+            // Add all the top level clones
+            _treeView.Nodes.Clear();
+            foreach (Component item in Items)
+            {
+                AddMenuTreeNode(item, null);
+            }
+
+            // Expand to show all entries
+            _treeView.ExpandAll();
+
+            // Select the first node
+            if (_treeView.Nodes.Count > 0)
+            {
+                _treeView.SelectedNode = _treeView.Nodes[0];
+            }
+
+            UpdateButtons();
+            UpdatePropertyGrid();
         }
         #endregion
 
         #region Implementation
+        private static void ConfigureToolbarButton(KryptonButton button, Image image, string text, EventHandler click)
+        {
+            button.ButtonStyle = ButtonStyle.ListItem;
+            button.Values.Image = image;
+            button.Values.Text = text;
+            button.Click += click;
+        }
+
+        private void ApplyWorkspacePalette()
+        {
+            var workspace = _editor.Workspace;
+            ApplyOwnerPalette(workspace.PaletteMode, workspace.Palette as KryptonCustomPaletteBase);
+        }
+
         private void OnVisibleChanged(object? sender, EventArgs e)
         {
             if (Visible)
@@ -1853,10 +1831,11 @@ internal class KryptonWorkspaceCollectionEditor : CollectionEditor
 
     #region Protected Overrides
     /// <summary>
-    /// Creates a new form to display and edit the current collection.
+    /// Creates the Krypton-themed workspace collection editor form.
     /// </summary>
-    /// <returns>A CollectionForm to provide as the user interface for editing the collection.</returns>
-    protected override CollectionForm CreateCollectionForm() => new KryptonWorkspaceCollectionForm(this);
+    /// <returns>Editor form instance.</returns>
+    protected override KryptonDesignerCollectionForm CreateKryptonDesignerCollectionForm() =>
+        new KryptonWorkspaceCollectionForm(this);
 
     #endregion
 }

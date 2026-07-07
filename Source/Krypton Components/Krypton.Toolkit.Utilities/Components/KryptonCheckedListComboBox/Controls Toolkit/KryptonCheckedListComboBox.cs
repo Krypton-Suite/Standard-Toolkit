@@ -207,7 +207,7 @@ public class KryptonCheckedListComboBox : KryptonComboBoxUserControl
     [Category(@"Data")]
     [Description(@"The collection of items in the drop-down list.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    [Editor(@"System.Windows.Forms.Design.ListControlStringCollectionEditor", typeof(UITypeEditor))]
+    [Editor(typeof(KryptonDesignerListControlStringCollectionEditor), typeof(UITypeEditor))]
     public ListBox.ObjectCollection Items => _dropDown.Items;
 
     /// <summary>

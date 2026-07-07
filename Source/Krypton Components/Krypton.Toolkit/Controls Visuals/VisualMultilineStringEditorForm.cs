@@ -57,6 +57,8 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
 
         SetupControlsText();
 
+        SetupInputCanvas();
+
         UpdateInput(_contents, _collection);
     }
 
@@ -115,7 +117,27 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
         _collection = null;
     }
 
-    private void SetupInputCanvas()
+    internal string[] GetEditedLines() =>
+        _useRichTextBox ? [.. krtbContents.Lines] : [.. ktxtStringCollection.Lines];
+
+    internal string GetEditedText() =>
+        _useRichTextBox ? krtbContents.Text : ktxtStringCollection.Text;
+
+    internal void SetEditText(string text)
+    {
+        SetupInputCanvas();
+
+        if (_useRichTextBox)
+        {
+            krtbContents.Text = text;
+        }
+        else
+        {
+            ktxtStringCollection.Text = text;
+        }
+    }
+
+    internal void SetupInputCanvas()
     {
         if (_useRichTextBox)
         {
@@ -187,47 +209,31 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
 
     internal static string[]? InternalShow(IWin32Window? owner, string[] input, bool? useRichTextBox, string? headerText, string windowTitle)
     {
-        string[]? collection;
-
         IWin32Window? showOwner = owner ?? FromHandle(PI.GetActiveWindow());
 
         using var kmse = new VisualMultilineStringEditorForm(input, null, useRichTextBox, headerText, windowTitle);
 
         kmse.StartPosition = showOwner == null ? FormStartPosition.CenterParent : FormStartPosition.CenterScreen;
 
-        collection = kmse._useRichTextBox ? kmse.krtbContents.Lines : kmse.ktxtStringCollection.Lines;
-
-        return kmse.ShowDialog(showOwner) == DialogResult.OK ? collection : null;
+        return kmse.ShowDialog(showOwner) == DialogResult.OK ? kmse.GetEditedLines() : null;
     }
 
     internal static StringCollection? InternalShowStringCollection(IWin32Window? owner, StringCollection input, bool? useRichTextBox, string? headerText, string windowTitle)
     {
-        StringCollection? collection;
-
         IWin32Window? showOwner = owner ?? FromHandle(PI.GetActiveWindow());
 
         using var kmse = new VisualMultilineStringEditorForm(null, input, useRichTextBox, headerText, windowTitle);
 
         kmse.StartPosition = showOwner == null ? FormStartPosition.CenterParent : FormStartPosition.CenterScreen;
 
-        if (kmse._useRichTextBox)
+        if (kmse.ShowDialog(showOwner) != DialogResult.OK)
         {
-            collection = [];
-
-            string[] tmp = kmse.krtbContents.Lines;
-
-            collection.AddRange(tmp);
-        }
-        else
-        {
-            collection = [];
-
-            string[] tmp = kmse.ktxtStringCollection.Lines;
-
-            collection.AddRange(tmp);
+            return null;
         }
 
-        return kmse.ShowDialog(showOwner) == DialogResult.OK ? collection : null;
+        var collection = new StringCollection();
+        collection.AddRange(kmse.GetEditedLines());
+        return collection;
     }
 
     #endregion

@@ -1924,7 +1924,7 @@ public class KryptonComboBox : VisualControlBase,
     /// </summary>
     [Category(@"Data")]
     [Description(@"The items in the KryptonComboBox.")]
-    [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+    [Editor(typeof(KryptonDesignerListControlStringCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     [MergableProperty(false)]
     [Localizable(true)]
@@ -2053,7 +2053,7 @@ public class KryptonComboBox : VisualControlBase,
     /// Gets or sets the StringCollection to use when the AutoCompleteSource property is set to CustomSource.
     /// </summary>
     [Description(@"The StringCollection to use when the AutoCompleteSource property is set to CustomSource.")]
-    [Editor(@"System.Windows.Forms.Design.ListControlStringCollectionEditor", typeof(UITypeEditor))]
+    [Editor(typeof(KryptonDesignerListControlStringCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     [EditorBrowsable(EditorBrowsableState.Always)]
     [Localizable(true)]

@@ -144,7 +144,7 @@ public partial class KryptonDataGridViewComboBoxColumn : KryptonDataGridViewIcon
     [Category(@"Data")]
     [Description(@"The allowable items of the domain up down.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    [Editor(@"System.Windows.Forms.Design.StringCollectionEditor", typeof(UITypeEditor))]
+    [Editor(typeof(KryptonDesignerStringCollectionEditor), typeof(UITypeEditor))]
     [Localizable(true)]
     public List<object> Items { get; }
 
@@ -320,7 +320,7 @@ public partial class KryptonDataGridViewComboBoxColumn : KryptonDataGridViewIcon
     /// Gets or sets the StringCollection to use when the AutoCompleteSource property is set to CustomSource.
     /// </summary>
     [Description(@"The StringCollection to use when the AutoCompleteSource property is set to CustomSource.")]
-    [Editor(@"System.Windows.Forms.Design.ListControlStringCollectionEditor", typeof(UITypeEditor))]
+    [Editor(typeof(KryptonDesignerListControlStringCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     [EditorBrowsable(EditorBrowsableState.Always)]
     [Localizable(true)]

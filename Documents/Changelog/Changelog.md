@@ -45,6 +45,8 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#3849](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3849), Workspace collection editor uses native WinForms controls
+   * Designer collection editors now use Krypton controls and `KryptonForm` chrome: workspace sequence, context menu items, breadcrumb items, check-button collection editors, string collection editors, and multiline text/`Lines` editors inherit the owning component palette at design time
 * Implemented [#3837](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3837), MultiSelect Treeview
    * `KryptonMultiSelectTreeView` in `Krypton.Toolkit.Utilities` with Ctrl+click toggle, Shift+click range selection, rubber-band drag selection, check-box selection, and a `SelectedNodes` collection; core `KryptonTreeView` exposes `IsNodeMultiSelected` for multi-highlight painting
 * Implemented [#3848](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3848), Removed dead code: obsolete docking drag timer, unused `KryptonForm` designer scaffolding, and unimplemented custom palette binary export designer action; `AccurateText` draw path now applies the text rendering hint captured at measure time

@@ -1,11 +1,8 @@
 ﻿#region BSD License
 /*
  * 
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -77,6 +74,8 @@ internal partial class KryptonCheckButtonCollectionForm : KryptonForm
     #region Implementation
     private void KryptonCheckButtonCollectionForm_Load(object sender, EventArgs e)
     {
+        ApplyOwnerPalette();
+
         // Get access to the container of the check set
         IContainer container = _checkSet!.Container!;
 
@@ -93,8 +92,8 @@ internal partial class KryptonCheckButtonCollectionForm : KryptonForm
 
                     // Add a new entry to the list box but only check it if 
                     // it is already present in the check buttons collection
-                    checkedListBox.Items.Add(new ListEntry(checkButton),
-                        _checkSet.CheckButtons.Contains(checkButton));
+                    var index = checkedListBox.Items.Add(new ListEntry(checkButton));
+                    checkedListBox.SetItemChecked(index, _checkSet.CheckButtons.Contains(checkButton));
                 }
             }
         }
@@ -144,6 +143,24 @@ internal partial class KryptonCheckButtonCollectionForm : KryptonForm
         foreach(KryptonCheckButton checkButton in copy)
         {
             _checkSet.CheckButtons.Remove(checkButton);
+        }
+    }
+
+    private void ApplyOwnerPalette()
+    {
+        if (_checkSet?.Container is not IContainer container)
+        {
+            return;
+        }
+
+        foreach (var component in container.Components)
+        {
+            if (component is VisualControlBase visualControl)
+            {
+                KryptonDesignerCollectionForm.ApplyPalette(Controls, visualControl.PaletteMode,
+                    visualControl.LocalCustomPalette);
+                return;
+            }
         }
     }
     #endregion

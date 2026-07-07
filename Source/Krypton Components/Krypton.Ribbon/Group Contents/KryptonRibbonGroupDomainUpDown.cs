@@ -250,7 +250,7 @@ public class KryptonRibbonGroupDomainUpDown : KryptonRibbonGroupItem
     [Category(@"Data")]
     [Description(@"The allowable items of the domain up down.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    [Editor(@"System.Windows.Forms.Design.StringCollectionEditor", typeof(UITypeEditor))]
+    [Editor(typeof(KryptonDesignerStringCollectionEditor), typeof(UITypeEditor))]
     [Localizable(true)]
     public DomainUpDown.DomainUpDownItemCollection Items => DomainUpDown!.Items;
 

@@ -587,7 +587,7 @@ public class KryptonRibbonGroupComboBox : KryptonRibbonGroupItem
     /// </summary>
     [Category(@"Data")]
     [Description(@"The items in the KryptonComboBox.")]
-    [Editor(@"System.Windows.Forms.Design.ListControlStringCollectionEditor", typeof(UITypeEditor))]
+    [Editor(typeof(KryptonDesignerListControlStringCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     [MergableProperty(false)]
     [Localizable(true)]
@@ -629,7 +629,7 @@ public class KryptonRibbonGroupComboBox : KryptonRibbonGroupItem
     /// Gets or sets the StringCollection to use when the AutoCompleteSource property is set to CustomSource.
     /// </summary>
     [Description(@"The StringCollection to use when the AutoCompleteSource property is set to CustomSource.")]
-    [Editor(@"System.Windows.Forms.Design.ListControlStringCollectionEditor", typeof(UITypeEditor))]
+    [Editor(typeof(KryptonDesignerListControlStringCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     [EditorBrowsable(EditorBrowsableState.Always)]
     [Localizable(true)]

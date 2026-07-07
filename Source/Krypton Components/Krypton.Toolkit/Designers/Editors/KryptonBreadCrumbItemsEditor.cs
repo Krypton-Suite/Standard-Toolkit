@@ -12,13 +12,13 @@
 
 namespace Krypton.Toolkit;
 
-internal class KryptonBreadCrumbItemsEditor : CollectionEditor
+internal class KryptonBreadCrumbItemsEditor : KryptonDesignerCollectionEditor
 {
     #region Classes
     /// <summary>
     /// Form used for editing the KryptonBreadCrumbItems.
     /// </summary>
-    protected partial class KryptonBreadCrumbItemsForm : CollectionForm
+    protected partial class KryptonBreadCrumbItemsForm : KryptonDesignerCollectionForm
     {
         #region Types
         /// <summary>
@@ -230,19 +230,18 @@ internal class KryptonBreadCrumbItemsEditor : CollectionEditor
         #endregion
 
         #region Instance Fields
-        private readonly KryptonBreadCrumbItemsEditor _editor;
         private DictItemBase _beforeItems;
-        private readonly Button buttonOK;
-        private readonly Button buttonCancel;
-        private readonly TreeView treeView1;
-        private readonly Button buttonMoveUp;
-        private readonly Button buttonMoveDown;
-        private readonly Button buttonAddItem;
-        private readonly Button buttonDelete;
-        private readonly PropertyGrid propertyGrid1;
-        private readonly Label label1;
-        private readonly Label label2;
-        private readonly Button buttonAddChild;
+        private readonly KryptonButton buttonOK;
+        private readonly KryptonButton buttonCancel;
+        private readonly KryptonTreeView treeView1;
+        private readonly KryptonButton buttonMoveUp;
+        private readonly KryptonButton buttonMoveDown;
+        private readonly KryptonButton buttonAddItem;
+        private readonly KryptonButton buttonDelete;
+        private readonly KryptonPropertyGrid propertyGrid1;
+        private readonly KryptonLabel label1;
+        private readonly KryptonLabel label2;
+        private readonly KryptonButton buttonAddChild;
         #endregion
 
         #region Identity
@@ -252,19 +251,17 @@ internal class KryptonBreadCrumbItemsEditor : CollectionEditor
         public KryptonBreadCrumbItemsForm(KryptonBreadCrumbItemsEditor editor)
             : base(editor)
         {
-            _editor = editor;
-
-            buttonOK = new Button();
-            buttonCancel = new Button();
-            treeView1 = new TreeView();
-            buttonMoveUp = new Button();
-            buttonMoveDown = new Button();
-            buttonAddItem = new Button();
-            buttonDelete = new Button();
-            propertyGrid1 = new PropertyGrid();
-            label1 = new Label();
-            label2 = new Label();
-            buttonAddChild = new Button();
+            buttonOK = new KryptonButton();
+            buttonCancel = new KryptonButton();
+            treeView1 = new KryptonTreeView();
+            buttonMoveUp = new KryptonButton();
+            buttonMoveDown = new KryptonButton();
+            buttonAddItem = new KryptonButton();
+            buttonDelete = new KryptonButton();
+            propertyGrid1 = new KryptonPropertyGrid();
+            label1 = new KryptonLabel();
+            label2 = new KryptonLabel();
+            buttonAddChild = new KryptonButton();
             SuspendLayout();
             // 
             // buttonOK
@@ -273,10 +270,9 @@ internal class KryptonBreadCrumbItemsEditor : CollectionEditor
             buttonOK.DialogResult = DialogResult.OK;
             buttonOK.Location = new Point(547, 382);
             buttonOK.Name = nameof(buttonOK);
-            buttonOK.Size = new Size(75, 23);
+            buttonOK.Size = new Size(90, 25);
             buttonOK.TabIndex = 9;
-            buttonOK.Text = "OK";
-            buttonOK.UseVisualStyleBackColor = true;
+            buttonOK.Values.Text = "OK";
             buttonOK.Click += buttonOK_Click;
             // 
             // buttonCancel
@@ -285,10 +281,9 @@ internal class KryptonBreadCrumbItemsEditor : CollectionEditor
             buttonCancel.DialogResult = DialogResult.Cancel;
             buttonCancel.Location = new Point(12, 382);
             buttonCancel.Name = nameof(buttonCancel);
-            buttonCancel.Size = new Size(75, 23);
+            buttonCancel.Size = new Size(90, 25);
             buttonCancel.TabIndex = 8;
-            buttonCancel.Text = "Cancel";
-            buttonCancel.UseVisualStyleBackColor = true;
+            buttonCancel.Values.Text = "Cancel";
             buttonCancel.Click += buttonCancel_Click;
             // 
             // treeView1
@@ -303,63 +298,39 @@ internal class KryptonBreadCrumbItemsEditor : CollectionEditor
             // 
             // buttonMoveUp
             // 
+            ConfigureToolbarButton(buttonMoveUp, BlueArrowResources.arrow_up_blue, "Move Up", buttonMoveUp_Click);
             buttonMoveUp.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            buttonMoveUp.Image = BlueArrowResources.arrow_up_blue;
-            buttonMoveUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             buttonMoveUp.Location = new Point(272, 32);
             buttonMoveUp.Name = nameof(buttonMoveUp);
             buttonMoveUp.Size = new Size(95, 28);
             buttonMoveUp.TabIndex = 2;
-            buttonMoveUp.Text = "Move Up";
-            buttonMoveUp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            buttonMoveUp.TextImageRelation = TextImageRelation.ImageBeforeText;
-            buttonMoveUp.UseVisualStyleBackColor = true;
-            buttonMoveUp.Click += buttonMoveUp_Click;
             // 
             // buttonMoveDown
             // 
+            ConfigureToolbarButton(buttonMoveDown, BlueArrowResources.arrow_down_blue, "Move Down", buttonMoveDown_Click);
             buttonMoveDown.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            buttonMoveDown.Image = BlueArrowResources.arrow_down_blue;
-            buttonMoveDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             buttonMoveDown.Location = new Point(272, 66);
             buttonMoveDown.Name = nameof(buttonMoveDown);
             buttonMoveDown.Size = new Size(95, 28);
             buttonMoveDown.TabIndex = 3;
-            buttonMoveDown.Text = "Move Down";
-            buttonMoveDown.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            buttonMoveDown.TextImageRelation = TextImageRelation.ImageBeforeText;
-            buttonMoveDown.UseVisualStyleBackColor = true;
-            buttonMoveDown.Click += buttonMoveDown_Click;
             // 
             // buttonAddItem
             // 
+            ConfigureToolbarButton(buttonAddItem, GenericImageResources.add, "Add Sibling", buttonAddSibling_Click);
             buttonAddItem.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            buttonAddItem.Image = GenericImageResources.add;
-            buttonAddItem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             buttonAddItem.Location = new Point(272, 112);
             buttonAddItem.Name = nameof(buttonAddItem);
             buttonAddItem.Size = new Size(95, 28);
             buttonAddItem.TabIndex = 4;
-            buttonAddItem.Text = "Add Sibling";
-            buttonAddItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            buttonAddItem.TextImageRelation = TextImageRelation.ImageBeforeText;
-            buttonAddItem.UseVisualStyleBackColor = true;
-            buttonAddItem.Click += buttonAddSibling_Click;
             // 
             // buttonDelete
             // 
+            ConfigureToolbarButton(buttonDelete, GenericImageResources.delete, "Delete Item", buttonDelete_Click);
             buttonDelete.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            buttonDelete.Image = GenericImageResources.delete;
-            buttonDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             buttonDelete.Location = new Point(272, 190);
             buttonDelete.Name = nameof(buttonDelete);
             buttonDelete.Size = new Size(95, 28);
             buttonDelete.TabIndex = 6;
-            buttonDelete.Text = "Delete Item";
-            buttonDelete.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            buttonDelete.TextImageRelation = TextImageRelation.ImageBeforeText;
-            buttonDelete.UseVisualStyleBackColor = true;
-            buttonDelete.Click += buttonDelete_Click;
             // 
             // propertyGrid1
             // 
@@ -379,7 +350,7 @@ internal class KryptonBreadCrumbItemsEditor : CollectionEditor
             label1.Name = nameof(label1);
             label1.Size = new Size(81, 13);
             label1.TabStop = false;
-            label1.Text = "Item Properties";
+            label1.Values.Text = "Item Properties";
             // 
             // label2
             // 
@@ -388,31 +359,23 @@ internal class KryptonBreadCrumbItemsEditor : CollectionEditor
             label2.Name = nameof(label2);
             label2.Size = new Size(142, 13);
             label2.TabStop = false;
-            label2.Text = "BreadCrumbItems Collection";
+            label2.Values.Text = "BreadCrumbItems Collection";
             // 
             // buttonAddChild
             // 
+            ConfigureToolbarButton(buttonAddChild, GenericImageResources.add, "Add Child", buttonAddChild_Click);
             buttonAddChild.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            buttonAddChild.Image = GenericImageResources.add;
-            buttonAddChild.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             buttonAddChild.Location = new Point(272, 146);
             buttonAddChild.Name = nameof(buttonAddChild);
             buttonAddChild.Size = new Size(95, 28);
             buttonAddChild.TabIndex = 5;
-            buttonAddChild.Text = "Add Child";
-            buttonAddChild.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            buttonAddChild.TextImageRelation = TextImageRelation.ImageBeforeText;
-            buttonAddChild.UseVisualStyleBackColor = true;
-            buttonAddChild.Click += buttonAddChild_Click;
             // 
             // KryptonBreadCrumbCollectionForm
             // 
             AcceptButton = buttonOK;
             CancelButton = buttonCancel;
-            AutoScaleDimensions = new SizeF(6F, 13F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleMode = AutoScaleMode.None;
             ClientSize = new Size(634, 414);
-            ControlBox = false;
             Controls.Add(buttonAddChild);
             Controls.Add(label2);
             Controls.Add(label1);
@@ -428,7 +391,6 @@ internal class KryptonBreadCrumbItemsEditor : CollectionEditor
             //MinimumSize = new Size(501, 296);
             MinimumSize = new Size(634, 414);
             Name = "KryptonBreadCrumbCollectionForm";
-            StartPosition = FormStartPosition.CenterScreen;
             Text = "BreadCrumbItem Collection Editor";
             ResumeLayout(false);
             PerformLayout();
@@ -441,42 +403,101 @@ internal class KryptonBreadCrumbItemsEditor : CollectionEditor
         /// </summary>
         protected override void OnEditValueChanged()
         {
-            if (EditValue != null)
+            if (EditValue is null || Items is null)
             {
-                // Cache a lookup of all items before changes are made
-                _beforeItems = CreateItemsDictionary(Items);
-
-                // Need to link the property browser to a site otherwise Image properties cannot be
-                // edited because it cannot navigate to the owning project for its resources
-                propertyGrid1.Site = new PropertyGridSite(Context!, propertyGrid1);
-
-                // Add all the top level clones
-                treeView1.Nodes.Clear();
-                foreach (KryptonBreadCrumbItem item in Items)
-                {
-                    AddMenuTreeNode(item, null);
-                }
-
-                // Expand to show all entries
-                treeView1.ExpandAll();
-
-                // Select the first node
-                if (treeView1.Nodes.Count > 0)
-                {
-                    treeView1.SelectedNode = treeView1.Nodes[0];
-                }
-
-                UpdateButtons();
-                UpdatePropertyGrid();
+                return;
             }
+
+            // Cache a lookup of all items before changes are made
+            _beforeItems = CreateItemsDictionary(Items);
+
+            // Need to link the property browser to a site otherwise Image properties cannot be
+            // edited because it cannot navigate to the owning project for its resources
+            propertyGrid1.Site = new PropertyGridSite(Context!, propertyGrid1);
+            ApplyOwnerPalette();
+
+            // Add all the top level clones
+            treeView1.Nodes.Clear();
+            foreach (KryptonBreadCrumbItem item in Items)
+            {
+                AddMenuTreeNode(item, null);
+            }
+
+            // Expand to show all entries
+            treeView1.ExpandAll();
+
+            // Select the first node
+            if (treeView1.Nodes.Count > 0)
+            {
+                treeView1.SelectedNode = treeView1.Nodes[0];
+            }
+
+            UpdateButtons();
+            UpdatePropertyGrid();
         }
         #endregion
 
         #region Implementation
+        private static void ConfigureToolbarButton(KryptonButton button, Image image, string text, EventHandler click)
+        {
+            button.ButtonStyle = ButtonStyle.ListItem;
+            button.Values.Image = image;
+            button.Values.Text = text;
+            button.Click += click;
+        }
+
+        private void ApplyOwnerPalette()
+        {
+            if (FindOwningBreadCrumb() is KryptonBreadCrumb breadCrumb)
+            {
+                ApplyOwnerPalette(breadCrumb.PaletteMode, breadCrumb.LocalCustomPalette);
+            }
+        }
+
+        private KryptonBreadCrumb? FindOwningBreadCrumb()
+        {
+            KryptonBreadCrumbItem? rootItem = null;
+
+            if (Items != null && Items.Length > 0 && Items[0] is KryptonBreadCrumbItem firstItem)
+            {
+                rootItem = firstItem.Parent;
+                while (rootItem?.Parent != null)
+                {
+                    rootItem = rootItem.Parent;
+                }
+            }
+
+            if (!(Context?.Container is IContainer container))
+            {
+                return null;
+            }
+
+            if (rootItem != null)
+            {
+                foreach (var component in container.Components)
+                {
+                    if (component is KryptonBreadCrumb breadCrumb && breadCrumb.RootItem == rootItem)
+                    {
+                        return breadCrumb;
+                    }
+                }
+            }
+
+            foreach (var component in container.Components)
+            {
+                if (component is KryptonBreadCrumb breadCrumb)
+                {
+                    return breadCrumb;
+                }
+            }
+
+            return null;
+        }
+
         private void buttonCancel_Click(object? sender, EventArgs e)
         {
             treeView1.Nodes.Clear();
-            this.Close();
+            Close();
         }
 
         private void buttonOK_Click(object? sender, EventArgs e)
@@ -917,10 +938,11 @@ internal class KryptonBreadCrumbItemsEditor : CollectionEditor
 
     #region Protected Overrides
     /// <summary>
-    /// Creates a new form to display and edit the current collection.
+    /// Creates the Krypton-themed breadcrumb items collection editor form.
     /// </summary>
-    /// <returns>A CollectionForm to provide as the user interface for editing the collection.</returns>
-    protected override CollectionForm CreateCollectionForm() => new KryptonBreadCrumbItemsForm(this);
+    /// <returns>Editor form instance.</returns>
+    protected override KryptonDesignerCollectionForm CreateKryptonDesignerCollectionForm() =>
+        new KryptonBreadCrumbItemsForm(this);
 
     #endregion
 }
