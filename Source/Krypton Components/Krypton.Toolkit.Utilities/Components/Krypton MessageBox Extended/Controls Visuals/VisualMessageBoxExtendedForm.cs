@@ -184,12 +184,17 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         int? footerRichTextBoxHeight = null,
         ExtendedKryptonMessageBoxCountdownButton countdownButton = ExtendedKryptonMessageBoxCountdownButton.None,
         int? countdownButtonSeconds = null,
-        DialogResult? countdownButtonDialogResult = null)
+        DialogResult? countdownButtonDialogResult = null,
+        bool? showCopyButton = null)
     {
+        // Normalize line endings so a lone "\n" is rendered as a line break by the multiline content controls
+        text = text.Replace("\r\n", "\n").Replace("\r", "\n").Replace("\n", "\r\n");
+
         // Store incoming values
         _text = text;
 
-        _caption = useTimeOut is { } or false ? $"{caption} [{timeOut}]" : caption;
+        // Only append the timeout countdown to the caption when the timeout facility is actually being used
+        _caption = useTimeOut is true ? $"{caption} [{timeOut}]" : caption;
 
         _buttons = buttons;
         _kryptonMessageBoxIcon = icon;
@@ -251,6 +256,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         UpdateDefault();
         UpdateHelp();
         UpdateTextExtra(showCtrlCopy);
+        UpdateCopyButton(showCopyButton);
         
         // Apply countdown to selected button if specified
         ApplyCountdownToButton();
@@ -290,6 +296,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         UpdateDefault(_messageBoxExtendedData.DefaultButton);
         UpdateHelp(_messageBoxExtendedData.ShowHelpButton);
         UpdateTextExtra(_messageBoxExtendedData.ShowCtrlCopy);
+        UpdateCopyButton(_messageBoxExtendedData.ShowCopyButton);
 
         UpdateContentAreaType(_messageBoxExtendedData.MessageContentAreaType, _messageBoxExtendedData.MessageTextAlignment, _messageBoxExtendedData.MessageTextBoxAlignment, _messageBoxExtendedData.RichTextBoxTextAlignment);
 
@@ -323,6 +330,9 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
     {
         // Set the text of the form
         Text = string.IsNullOrEmpty(caption) ? string.Empty : caption.Split(Environment.NewLine.ToCharArray())[0];
+
+        // Normalize line endings so a lone "\n" is rendered as a line break by the multiline content controls
+        text = text?.Replace("\r\n", "\n").Replace("\r", "\n").Replace("\n", "\r\n");
 
         switch (contentAreaType)
         {
@@ -427,6 +437,35 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
             TextExtra = @"Ctrl+c to copy";
         }
     }
+
+    private void UpdateCopyButton(bool? showCopyButton)
+    {
+        if (showCopyButton != true)
+        {
+            return;
+        }
+
+        _copyButton.Text = KryptonManager.Strings.MessageBoxStrings.CopyToClipboard;
+
+        if (_messageBoxTypeface != null)
+        {
+            _copyButton.StateCommon.Content.ShortText.Font = _messageBoxTypeface;
+        }
+
+        _copyButton.Visible = true;
+        _copyButton.Enabled = true;
+
+        // No DialogResult is assigned so clicking Copy leaves the message box open.
+        _copyButton.Click += OnCopyButtonClick;
+
+        // Match the Alt+F4 handling of the action buttons when the control box is hidden.
+        if (!ControlBox)
+        {
+            _copyButton.IgnoreAltF4 = true;
+        }
+    }
+
+    private void OnCopyButtonClick(object? sender, EventArgs e) => CopyMessageBoxContentToClipboard();
 
     private void UpdateIcon(ExtendedKryptonMessageBoxIcon icon)
     {
@@ -1255,22 +1294,43 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
             textSize = Size.Ceiling(messageSize);
         }
 
-        // Find size of icon area plus the text area added together
+        // Determine which control is actually displaying the message so its chrome can be accounted for
+        Control contentControl = _messageContainerType switch
+        {
+            ExtendedKryptonMessageBoxMessageContainerType.RichTextBox => krtbMessageText,
+            ExtendedKryptonMessageBoxMessageContainerType.HyperLink => klwlblMessageText,
+            _ => kwlblMessageText
+        };
+
+        // Chrome around the content control (its own margin, the content panel padding and the input control
+        // border insets). Without this the control is handed less width than was measured, so the text wraps
+        // further than expected and is clipped vertically
+        Size contentChrome = new(contentControl.Margin.Horizontal + kpnlContent.Padding.Horizontal + (GlobalStaticValues.GLOBAL_BUTTON_PADDING * 2),
+            contentControl.Margin.Vertical + kpnlContent.Padding.Vertical + GlobalStaticValues.GLOBAL_BUTTON_PADDING);
+
+        Size textArea = new(textSize.Width + contentChrome.Width, textSize.Height + contentChrome.Height);
+
+        // Find size of icon area (including its margins) plus the text area added together
         if (_messageIcon.Image != null)
         {
-            return new Size(textSize.Width + _messageIcon.Width, Math.Max(_messageIcon.Height + 10, textSize.Height));
+            Size iconArea = new(_messageIcon.Width + _messageIcon.Margin.Horizontal, _messageIcon.Height + _messageIcon.Margin.Vertical);
+
+            return new Size(textArea.Width + iconArea.Width, Math.Max(iconArea.Height, textArea.Height));
         }
 
-        return textSize;
+        return textArea;
     }
 
     private Size UpdateButtonsSizing()
     {
         var numButtons = 1;
 
+        // Smallest width any action button is allowed to be (matches the standard KryptonMessageBox)
+        const int MIN_BUTTON_WIDTH = 62;
+
         // Button1 is always visible
         Size button1Size = _button1.GetPreferredSize(Size.Empty);
-        Size maxButtonSize = new(button1Size.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING, button1Size.Height);
+        Size maxButtonSize = new(Math.Max(MIN_BUTTON_WIDTH, button1Size.Width) + GlobalStaticValues.GLOBAL_BUTTON_PADDING, button1Size.Height);
 
         // If Button2 is visible
         if (_button2.Enabled)
@@ -1329,11 +1389,26 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         _button1.Location = new Point(right - maxButtonSize.Width, GlobalStaticValues.GLOBAL_BUTTON_PADDING);
         _button1.Size = maxButtonSize;
 
-        // Size the panel for the buttons
-        _panelButtons.Size = new Size(maxButtonSize.Width * numButtons + GlobalStaticValues.GLOBAL_BUTTON_PADDING * (numButtons + 1), maxButtonSize.Height + GlobalStaticValues.GLOBAL_BUTTON_PADDING * 2);
-
         // Button area is the number of buttons with GLOBAL_BUTTON_PADDINGs between them and 10 pixels around all edges
-        return new Size(maxButtonSize.Width * numButtons + GlobalStaticValues.GLOBAL_BUTTON_PADDING * (numButtons + 1), maxButtonSize.Height + GlobalStaticValues.GLOBAL_BUTTON_PADDING * 2);
+        var buttonsAreaWidth = maxButtonSize.Width * numButtons + GlobalStaticValues.GLOBAL_BUTTON_PADDING * (numButtons + 1);
+
+        // The optional Copy button is anchored to the left edge, opposite the action buttons
+        if (_copyButton.Enabled)
+        {
+            Size copyPreferredSize = _copyButton.GetPreferredSize(Size.Empty);
+            var copyButtonSize = new Size(Math.Max(maxButtonSize.Width, copyPreferredSize.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING), maxButtonSize.Height);
+
+            _copyButton.Location = new Point(GlobalStaticValues.GLOBAL_BUTTON_PADDING, GlobalStaticValues.GLOBAL_BUTTON_PADDING);
+            _copyButton.Size = copyButtonSize;
+
+            // Widen the area so the Copy button never overlaps the action buttons
+            buttonsAreaWidth += copyButtonSize.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING * 2;
+        }
+
+        // Size the panel for the buttons
+        _panelButtons.Size = new Size(buttonsAreaWidth, maxButtonSize.Height + GlobalStaticValues.GLOBAL_BUTTON_PADDING * 2);
+
+        return new Size(buttonsAreaWidth, maxButtonSize.Height + GlobalStaticValues.GLOBAL_BUTTON_PADDING * 2);
     }
 
     private void AnyKeyDown(object sender, KeyEventArgs e)
@@ -1352,16 +1427,25 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
             return;
         }
 
+        // Pressing Ctrl+C (or clicking the optional Copy button) copies the contents into the clipboard
+        CopyMessageBoxContentToClipboard();
+    }
+
+    /// <summary>
+    /// Copies the caption, message and button captions into the clipboard using the standard
+    /// Windows message box format. Shared by the Ctrl+C shortcut and the optional Copy button.
+    /// </summary>
+    private void CopyMessageBoxContentToClipboard()
+    {
         const string DIVIDER = @"---------------------------";
         const string BUTTON_TEXT_SPACER = @"   ";
 
-        // Pressing Ctrl+C should copy message text into the clipboard
         var sb = new StringBuilder();
 
         sb.AppendLine(DIVIDER);
         sb.AppendLine(Text);
         sb.AppendLine(DIVIDER);
-        sb.AppendLine(kwlblMessageText.Text);
+        sb.AppendLine(GetMessageBoxTextForCopy());
         sb.AppendLine(DIVIDER);
         sb.Append(_button1.Text).Append(BUTTON_TEXT_SPACER);
         if (_button2.Enabled)
@@ -1384,6 +1468,14 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         Clipboard.SetText(sb.ToString(), TextDataFormat.Text);
         Clipboard.SetText(sb.ToString(), TextDataFormat.UnicodeText);
     }
+
+    /// <summary>Returns the message text from whichever content control is currently visible.</summary>
+    private string GetMessageBoxTextForCopy() =>
+        krtbMessageText.Visible
+            ? krtbMessageText.Text
+            : klwlblMessageText.Visible
+                ? klwlblMessageText.Text
+                : kwlblMessageText.Text;
 
     private void LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
