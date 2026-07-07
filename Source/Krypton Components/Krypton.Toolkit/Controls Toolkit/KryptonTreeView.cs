@@ -2123,6 +2123,16 @@ public class KryptonTreeView : VisualControlBase,
         return depth * _treeView.Indent;
     }
 
+    /// <summary>
+    /// When overridden, indicates whether a node should be painted as selected in addition to the native TreeView selection.
+    /// </summary>
+    /// <param name="node">The tree node to query.</param>
+    /// <returns><c>true</c> if the node should be drawn as selected; otherwise, <c>false</c>.</returns>
+    protected virtual bool IsNodeMultiSelected(TreeNode node) => false;
+
+    private bool IsNodeDrawSelected(TreeNode node, TreeNodeStates state) =>
+        (state & TreeNodeStates.Selected) == TreeNodeStates.Selected || IsNodeMultiSelected(node);
+
     private void OnTreeViewDrawNode(object? sender, DrawTreeNodeEventArgs e)
     {
         // OwnerDrawAll: skip native item painting (CDRF_SKIPDEFAULT).
@@ -2133,6 +2143,10 @@ public class KryptonTreeView : VisualControlBase,
         {
             return;
         }
+
+        var nativeSelected = (e.State & TreeNodeStates.Selected) == TreeNodeStates.Selected;
+        var isDrawSelected = IsNodeDrawSelected(e.Node, e.State);
+        var isMultiSelectedOnly = IsNodeMultiSelected(e.Node) && !nativeSelected;
 
         // Update our content object with values from the node
         UpdateContentFromNode(e.Node);
@@ -2205,7 +2219,7 @@ public class KryptonTreeView : VisualControlBase,
         else
         {
             // If selected then show as a checked item
-            if ((e.State & TreeNodeStates.Selected) == TreeNodeStates.Selected)
+            if (isDrawSelected)
             {
                 _drawButton.Checked = true;
 
@@ -2249,10 +2263,10 @@ public class KryptonTreeView : VisualControlBase,
 
             _overrideNormal.Apply = hasFocus;
             _overrideTracking.Apply = hasFocus;
-            _overrideMultiSelect.Apply = hasFocus;
+            _overrideMultiSelect.Apply = hasFocus || isMultiSelectedOnly;
             _overrideCheckedTracking.Apply = hasFocus;
             _overrideCheckedNormal.Apply = hasFocus;
-            _overrideCheckedMultiSelect.Apply = hasFocus;
+            _overrideCheckedMultiSelect.Apply = hasFocus || isMultiSelectedOnly;
         }
 
         // Update the view with the calculated state
@@ -2370,8 +2384,6 @@ public class KryptonTreeView : VisualControlBase,
                 _layoutDocker.Render(context);
             }
 
-            var isSelected = (e.State & TreeNodeStates.Selected) == TreeNodeStates.Selected;
-
             // Do we draw an image for the node?
             if (ImageList != null)
             {
@@ -2380,7 +2392,7 @@ public class KryptonTreeView : VisualControlBase,
 
                 try
                 {
-                    if (isSelected)
+                    if (isDrawSelected)
                     {
                         // Check node values before tree level values
                         if (!string.IsNullOrEmpty(e.Node.SelectedImageKey))

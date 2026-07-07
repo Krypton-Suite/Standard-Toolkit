@@ -168,6 +168,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<TextBoxEventTest>("TextBox", string.Empty);
         CreateButton<TextSuggestionDemo>("TextSuggestion", string.Empty);
         CreateButton<TreeViewExample>("TreeView", string.Empty);
+        CreateButton<MultiSelectTreeViewExample>("Multi-Select TreeView", "Ctrl/Shift click, rubber-band drag, check boxes, and SelectedNodes (#3837).");
         CreateButton<TouchscreenSupportTest>("Touchscreen Support Test", "Comprehensive demonstration of touchscreen support with real-time scale factor adjustment.");
         CreateButton<ControlboxTouchscreenDemo>("Controlbox && Context Menu Touchscreen", "Demonstration of touchscreen support for controlbox buttons (minimize, maximize, close) and KryptonContextMenu items (Issue #2925).");
         CreateButton<TimerTest>("Timer", "Test KryptonTimer with interval configuration and event tracking.");
