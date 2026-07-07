@@ -45,6 +45,8 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#3780](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3780), Bring the `KryptonDropZone` over
+   * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Implemented [#3840](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3840), Foldable dialog  
    * `KryptonFoldableDialog`, a message-box style dialog with a collapsible (foldable) details region modelled on the Visual Studio Just-In-Time debugger dialog. Configure the caption, heading, message, foldable details, icon, buttons, default button, initial expanded state, and start position (`StartPosition`, defaults to `CenterScreen`; `CenterParent` centres on the owner) via `KryptonFoldableDialogData`.
    * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
