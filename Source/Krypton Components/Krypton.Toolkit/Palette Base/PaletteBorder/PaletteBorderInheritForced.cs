@@ -215,6 +215,12 @@ public class PaletteBorderInheritForced : PaletteBorderInherit
     public override float GetBorderRounding(PaletteState state) =>
         _forceBorderRoundingActive ? _forceBorderRounding : _inherit?.GetBorderRounding(state) ?? 0.0f;
 
+    /// <inheritdoc />
+    public override PaletteCornerRounding GetBorderCornerRounding(PaletteState state) =>
+        _forceBorderRoundingActive
+            ? PaletteCornerRounding.Uniform(_forceBorderRounding)
+            : _inherit?.GetBorderCornerRounding(state) ?? PaletteCornerRounding.Uniform(0.0f);
+
     /// <summary>
     /// Gets a border image.
     /// </summary>
