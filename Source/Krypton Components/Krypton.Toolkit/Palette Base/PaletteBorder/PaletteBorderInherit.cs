@@ -90,6 +90,14 @@ public abstract class PaletteBorderInherit : GlobalId,
     public abstract float GetBorderRounding(PaletteState state);
 
     /// <summary>
+    /// Gets the border rounding for each corner.
+    /// </summary>
+    /// <param name="state">Palette value should be applicable to this state.</param>
+    /// <returns>Per-corner border rounding.</returns>
+    public virtual PaletteCornerRounding GetBorderCornerRounding(PaletteState state) =>
+        PaletteCornerRounding.Uniform(GetBorderRounding(state));
+
+    /// <summary>
     /// Gets a border image.
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
