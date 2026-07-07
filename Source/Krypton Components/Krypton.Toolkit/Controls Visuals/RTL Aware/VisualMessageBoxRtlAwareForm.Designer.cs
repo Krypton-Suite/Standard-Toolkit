@@ -36,6 +36,7 @@ namespace Krypton.Toolkit
             this._button3 = new Krypton.Toolkit.MessageButton();
             this._button1 = new Krypton.Toolkit.MessageButton();
             this._button2 = new Krypton.Toolkit.MessageButton();
+            this._copyButton = new Krypton.Toolkit.MessageButton();
             this._messageIcon = new System.Windows.Forms.PictureBox();
             this.kpnlContentArea = new Krypton.Toolkit.KryptonPanel();
             this.krtbMessageText = new Krypton.Toolkit.KryptonRichTextBox();
@@ -87,6 +88,7 @@ namespace Krypton.Toolkit
             this._panelButtons.Controls.Add(this._button3);
             this._panelButtons.Controls.Add(this._button1);
             this._panelButtons.Controls.Add(this._button2);
+            this._panelButtons.Controls.Add(this._copyButton);
             this._panelButtons.Dock = System.Windows.Forms.DockStyle.Fill;
             this._panelButtons.Location = new System.Drawing.Point(0, 43);
             this._panelButtons.Margin = new System.Windows.Forms.Padding(0);
@@ -173,6 +175,23 @@ namespace Krypton.Toolkit
             this._button2.Values.Text = "B2";
             this._button2.Visible = false;
             // 
+            // _copyButton
+            // 
+            this._copyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
+            this._copyButton.AutoSize = true;
+            this._copyButton.Enabled = false;
+            this._copyButton.IgnoreAltF4 = false;
+            this._copyButton.Location = new System.Drawing.Point(10, 10);
+            this._copyButton.Margin = new System.Windows.Forms.Padding(0);
+            this._copyButton.MinimumSize = new System.Drawing.Size(38, 21);
+            this._copyButton.Name = "_copyButton";
+            this._copyButton.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this._copyButton.Size = new System.Drawing.Size(38, 23);
+            this._copyButton.TabIndex = 3;
+            this._copyButton.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this._copyButton.Values.Text = "Copy";
+            this._copyButton.Visible = false;
+            // 
             // _messageIcon
             // 
             this._messageIcon.BackColor = System.Drawing.Color.Transparent;
@@ -227,6 +246,7 @@ namespace Krypton.Toolkit
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AnyKeyDown);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.OnFormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
@@ -251,6 +271,7 @@ namespace Krypton.Toolkit
         private MessageButton _button3;
         private MessageButton _button1;
         private MessageButton _button2;
+        private MessageButton _copyButton;
         private PictureBox _messageIcon;
         private KryptonPanel kpnlContentArea;
         private KryptonRichTextBox krtbMessageText;
