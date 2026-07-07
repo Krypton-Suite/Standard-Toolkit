@@ -91,6 +91,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <EmbeddedResource Update="Components\Krypton Drop Zone\Resources\DropZoneResources.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <CustomToolNamespace>Krypton.Toolkit.Utilities</CustomToolNamespace>
+	    <LastGenOutput>DropZoneResources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
 	  <EmbeddedResource Update="Components\KryptonSearchBox\Resource Files\SearchBoxImageResources.resx">
 	    <Generator>ResXFileCodeGenerator</Generator>
 	    <CustomToolNamespace>Krypton.Toolkit.Utilities</CustomToolNamespace>
@@ -130,6 +135,11 @@
 	  </Compile>
 	  <Compile Update="Components\Krypton AboutBox\View Base\InternalAssemblyDetails.cs">
 	    <SubType>UserControl</SubType>
+	  </Compile>
+	  <Compile Update="Components\Krypton Drop Zone\Resources\DropZoneResources.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>DropZoneResources.resx</DependentUpon>
 	  </Compile>
 	  <Compile Update="Components\KryptonSearchBox\Resource Files\SearchBoxImageResources.Designer.cs">
 	    <DesignTime>True</DesignTime>

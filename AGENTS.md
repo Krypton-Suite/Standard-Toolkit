@@ -19,6 +19,7 @@ Before considering a task complete:
 - Update TestForm when adding a feature.
 - Update Changelog.md for completed features and bug fixes.
 - Add developer documentation for substantial new features.
+- Write a PR description in `Documents/PR/` for completed features and bug fixes (see **Pull Request Descriptions**).
 
 ## Shell Guidelines
 
@@ -44,6 +45,7 @@ Before considering a task complete:
 - `Documents/`, `Assets/`, `Logs/`: Docs, images, and build logs
 - `Documents/Changelog/Changelog.md`: User-facing release notes for completed bugs and features
 - `Documents/Development/`: In-depth developer guides for completed features (APIs, architecture, usage); not listed in `Documents/Changelog/Changelog.md` or `Scripts/ModernBuild/README.md`
+- `Documents/PR/`: One Markdown PR description per completed bug fix or feature, drafted before opening the pull request (see **Pull Request Descriptions**)
 
 ## Architecture
 
@@ -293,8 +295,45 @@ Skip the comparison when there is no meaningful WinForms equivalent (e.g. ribbon
 
 - Commits: short, imperative subject; reference issues/PRs (e.g., `Fix autosizing (#2433)` or `2439 V100 datecell autosizing`)
 - PRs: clear description, linked issues, screenshots/gifs for UI changes, notes on breaking changes/TFM impact
-- Completed bugs and features: update `Documents/Changelog/Changelog.md` (see **Changelog** above); add or update a `TestForm` demo for features (see **TestForm Demos**); add a `Documents/Development/` guide when the feature warrants in-depth maintainer docs.
+- Completed bugs and features: update `Documents/Changelog/Changelog.md` (see **Changelog** above); add or update a `TestForm` demo for features (see **TestForm Demos**); add a `Documents/Development/` guide when the feature warrants in-depth maintainer docs; write a PR description in `Documents/PR/` (see **Pull Request Descriptions** below).
 - Do not add routine validation noise to commit messages or PR descriptions. Mention checks only when they are essential context, unusual, failed, or specifically requested.
+
+## Pull Request Descriptions
+
+When a **bug fix** or **feature** is completed, create a **PR description** as a Markdown file in the `Documents/PR/` folder in the same change set (before the pull request is opened). The file is the reviewer-facing record that can be pasted directly into the GitHub PR body.
+
+### When to add
+
+- **Resolved** — bug fixes, regressions, and defect corrections.
+- **Implemented** — new features, enhancements, and new public capability.
+- Skip for comment-only work and internal refactors with no user-visible effect (same policy as **Changelog**).
+
+### File conventions
+
+- Location: `Documents/PR/`
+- Copy `Documents/PR/TEMPLATE.md` to `Documents/PR/<issue-or-branch>-<short-title>.md`, e.g. `Documents/PR/3720-foldable-dialog.md` or `Documents/PR/2444-agents-md.md`. Use the issue number when one exists.
+- One file per bug fix or feature (or the cohesive set of changes going into a single PR).
+- CRLF, UTF-8; match the tone and structure of existing repo docs.
+
+### What to include
+
+Fill in every applicable section of `Documents/PR/TEMPLATE.md` (delete those that do not apply):
+
+- **Summary** — consumer-facing description of what changed and why it matters.
+- **Related issues** — `Closes #NNNN` when an issue exists.
+- **Type of change** — bug fix / feature / breaking change / docs.
+- **Changes** — notable changes grouped by area or project.
+- **Affected packages & target frameworks** — only those touched/verified.
+- **Validation** — `TestForm` demo name, manual steps, and the build command used.
+- **Screenshots / GIFs** — for any UI change.
+- **Changelog** — the matching `Documents/Changelog/Changelog.md` entry.
+- **Breaking changes & migration** — what consumers must update, if anything.
+- **Developer documentation** — link to the `Documents/Development/` guide for substantial features.
+
+### Do not
+
+- Do not add changelog entries or release notes inside `Documents/PR/` files — those belong in `Documents/Changelog/Changelog.md`.
+- Do not add references or index entries for `Documents/PR/` files in `Scripts/ModernBuild/README.md`.
 
 ## Security & Configuration Tips
 

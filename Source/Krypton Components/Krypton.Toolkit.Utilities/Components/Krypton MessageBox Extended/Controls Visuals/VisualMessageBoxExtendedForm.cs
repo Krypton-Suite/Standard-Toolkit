@@ -122,6 +122,9 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
 
     private readonly int? _footerRichTextBoxHeight;
 
+    // Optional custom caption for the footer toggle button (from KryptonMessageBoxExtendedData.MoreDetailsButtonText).
+    private string? _footerToggleCaption;
+
     private readonly ExtendedKryptonMessageBoxCountdownButton _countdownButton;
 
     private readonly int? _countdownButtonSeconds;
@@ -300,6 +303,20 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         UpdateContentLinkArea(_messageBoxExtendedData.ContentLinkArea);
 
         SetupOptionalCheckBox();
+
+        UpdateCloseButtonVisibility(showCloseButton);
+
+        // Wire up the optional expandable "more details" footer from the data model. The details are shown
+        // in a RichTextBox and MoreDetailsButtonText (when supplied) overrides the toggle caption.
+        if (_messageBoxExtendedData.ShowMoreDetailsOption && !string.IsNullOrEmpty(_messageBoxExtendedData.MoreDetailsMessageText))
+        {
+            _footerText = _messageBoxExtendedData.MoreDetailsMessageText;
+            _footerContentType = ExtendedKryptonMessageBoxFooterContentType.RichTextBox;
+            _footerExpanded = _messageBoxExtendedData.MoreDetailsExpanded;
+            _footerToggleCaption = _messageBoxExtendedData.MoreDetailsButtonText;
+
+            SetupFooter(_footerText, _footerExpanded, _footerContentType, _footerRichTextBoxHeight);
+        }
 
         // Finally calculate and set form sizing
         UpdateSizing(_messageBoxExtendedData.Owner);
@@ -1727,8 +1744,21 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
             }
         }
 
-        // Update toggle button text
-        _footerToggleButton.Values.Text = expanded ? @"Hide details" : @"Show details";
+        // Update toggle button text: match the KryptonFoldableDialog expander with an up/down triangle
+        // glyph. When the data model supplies a custom "more details" caption use it for both states,
+        // otherwise fall back to the shared, localizable "Show/Hide details" strings.
+        var glyph = expanded ? '\u25B2' : '\u25BC';
+        string caption;
+        if (!string.IsNullOrEmpty(_footerToggleCaption))
+        {
+            caption = _footerToggleCaption!;
+        }
+        else
+        {
+            var foldableStrings = KryptonManager.Strings.FoldableDialogStrings;
+            caption = expanded ? foldableStrings.ExpandText : foldableStrings.CollapseText;
+        }
+        _footerToggleButton.Values.Text = $"{glyph}  {caption}";
 
         // Calculate footer height based on expanded state and content type
         if (expanded)
