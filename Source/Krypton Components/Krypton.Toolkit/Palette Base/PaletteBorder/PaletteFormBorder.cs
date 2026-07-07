@@ -108,6 +108,17 @@ public class PaletteFormBorder : PaletteBorder
         return base.GetBorderRounding(state);
     }
 
+    /// <inheritdoc />
+    public override PaletteCornerRounding GetBorderCornerRounding(PaletteState state)
+    {
+        if (Draw == InheritBool.False || Rounding == -1F)
+        {
+            return PaletteCornerRounding.Uniform(0f);
+        }
+
+        return base.GetBorderCornerRounding(state);
+    }
+
     /// <summary>
     /// Gets the graphics hint for drawing the border.
     /// </summary>
