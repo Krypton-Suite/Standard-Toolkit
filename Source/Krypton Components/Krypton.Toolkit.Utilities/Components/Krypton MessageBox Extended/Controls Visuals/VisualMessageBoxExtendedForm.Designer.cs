@@ -226,6 +226,7 @@
             // _footerToggleButton
             // 
             this._footerToggleButton.AutoSize = true;
+            this._footerToggleButton.ButtonStyle = Krypton.Toolkit.ButtonStyle.LowProfile;
             this._footerToggleButton.Location = new System.Drawing.Point(10, 5);
             this._footerToggleButton.Margin = new System.Windows.Forms.Padding(0);
             this._footerToggleButton.Name = "_footerToggleButton";
