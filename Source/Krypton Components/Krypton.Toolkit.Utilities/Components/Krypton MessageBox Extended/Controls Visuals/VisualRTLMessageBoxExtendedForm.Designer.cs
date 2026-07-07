@@ -36,6 +36,7 @@
             this._button3 = new Krypton.Toolkit.Utilities.MessageButton();
             this._button1 = new Krypton.Toolkit.Utilities.MessageButton();
             this._button2 = new Krypton.Toolkit.Utilities.MessageButton();
+            this._copyButton = new Krypton.Toolkit.Utilities.MessageButton();
             this._messageIcon = new System.Windows.Forms.PictureBox();
             this._panelFooter = new Krypton.Toolkit.KryptonPanel();
             this._footerBorderEdge = new Krypton.Toolkit.KryptonBorderEdge();
@@ -101,6 +102,7 @@
             this._panelButtons.Controls.Add(this._button3);
             this._panelButtons.Controls.Add(this._button1);
             this._panelButtons.Controls.Add(this._button2);
+            this._panelButtons.Controls.Add(this._copyButton);
             this._panelButtons.Dock = System.Windows.Forms.DockStyle.Fill;
             this._panelButtons.Location = new System.Drawing.Point(0, 79);
             this._panelButtons.Margin = new System.Windows.Forms.Padding(0);
@@ -122,7 +124,7 @@
             // _button4
             // 
             this._button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._button4.AutoSize = true;
+            this._button4.AutoSize = false;
             this._button4.Enabled = false;
             this._button4.IgnoreAltF4 = false;
             this._button4.Location = new System.Drawing.Point(200, 0);
@@ -137,7 +139,7 @@
             // _button3
             // 
             this._button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._button3.AutoSize = true;
+            this._button3.AutoSize = false;
             this._button3.Enabled = false;
             this._button3.IgnoreAltF4 = false;
             this._button3.Location = new System.Drawing.Point(163, 0);
@@ -152,7 +154,7 @@
             // _button1
             // 
             this._button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._button1.AutoSize = true;
+            this._button1.AutoSize = false;
             this._button1.Enabled = false;
             this._button1.IgnoreAltF4 = false;
             this._button1.Location = new System.Drawing.Point(87, 0);
@@ -167,7 +169,7 @@
             // _button2
             // 
             this._button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._button2.AutoSize = true;
+            this._button2.AutoSize = false;
             this._button2.Enabled = false;
             this._button2.IgnoreAltF4 = false;
             this._button2.Location = new System.Drawing.Point(125, 0);
@@ -178,6 +180,21 @@
             this._button2.TabIndex = 1;
             this._button2.Values.Text = "B2";
             this._button2.Visible = false;
+            // 
+            // _copyButton
+            // 
+            this._copyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
+            this._copyButton.AutoSize = false;
+            this._copyButton.Enabled = false;
+            this._copyButton.IgnoreAltF4 = false;
+            this._copyButton.Location = new System.Drawing.Point(0, 0);
+            this._copyButton.Margin = new System.Windows.Forms.Padding(0);
+            this._copyButton.MinimumSize = new System.Drawing.Size(38, 21);
+            this._copyButton.Name = "_copyButton";
+            this._copyButton.Size = new System.Drawing.Size(38, 24);
+            this._copyButton.TabIndex = 3;
+            this._copyButton.Values.Text = "Copy";
+            this._copyButton.Visible = false;
             // 
             // _panelFooter
             // 
@@ -321,6 +338,7 @@
             this.ClientSize = new System.Drawing.Size(200, 100);
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "VisualMessageBoxExtendedRtlAwareForm";
@@ -329,6 +347,7 @@
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AnyKeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -358,6 +377,7 @@
         private MessageButton _button3;
         private MessageButton _button1;
         private MessageButton _button2;
+        private MessageButton _copyButton;
         private PictureBox _messageIcon;
         private KryptonPanel _panelFooter;
         private KryptonBorderEdge _footerBorderEdge;
