@@ -189,6 +189,9 @@ internal class PaletteGalleryBackBorder : IPaletteBack,
     /// <returns>Border rounding.</returns>
     public float GetBorderRounding(PaletteState state) => 0;
 
+    /// <inheritdoc />
+    public PaletteCornerRounding GetBorderCornerRounding(PaletteState state) => PaletteCornerRounding.Uniform(0f);
+
     /// <summary>
     /// Gets a border image.
     /// </summary>

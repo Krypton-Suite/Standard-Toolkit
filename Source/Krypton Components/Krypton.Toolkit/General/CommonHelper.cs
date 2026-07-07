@@ -747,6 +747,32 @@ public static class CommonHelper
     }
 
     /// <summary>
+    /// Adjust corner rounding values to match the required orientation.
+    /// </summary>
+    /// <param name="corners">Corner rounding to orientate.</param>
+    /// <param name="orientation">How to adjust the corner rounding.</param>
+    /// <returns>Corner rounding adjusted for orientation.</returns>
+    public static PaletteCornerRounding OrientateCornerRounding(PaletteCornerRounding corners,
+        VisualOrientation orientation)
+    {
+        switch (orientation)
+        {
+            case VisualOrientation.Top:
+                return corners;
+            case VisualOrientation.Bottom:
+                return new PaletteCornerRounding(corners.BottomRight, corners.BottomLeft, corners.TopLeft, corners.TopRight);
+            case VisualOrientation.Left:
+                return new PaletteCornerRounding(corners.BottomLeft, corners.TopLeft, corners.TopRight, corners.BottomRight);
+            case VisualOrientation.Right:
+                return new PaletteCornerRounding(corners.TopRight, corners.BottomRight, corners.BottomLeft, corners.TopLeft);
+            default:
+                Debug.Assert(false);
+                DebugTools.NotImplemented(orientation.ToString());
+                return corners;
+        }
+    }
+
+    /// <summary>
     /// Apply a reversed orientation so that when orientated again it comes out with the original value.
     /// </summary>
     /// <param name="borders">Border edges to be drawn.</param>
