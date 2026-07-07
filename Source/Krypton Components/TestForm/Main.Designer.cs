@@ -65,6 +65,7 @@ namespace TestForm
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.kryptonProgressBar2 = new Krypton.Toolkit.KryptonProgressBar();
             this.kryptonButton14 = new Krypton.Toolkit.KryptonButton();
+            this.kbtnCheckBoxExtendedDemo = new Krypton.Toolkit.KryptonButton();
             this.kryptonButton13 = new Krypton.Toolkit.KryptonButton();
             this.kbtnDialogs = new Krypton.Toolkit.KryptonButton();
             this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
@@ -166,6 +167,7 @@ namespace TestForm
             this.kryptonPanel1.Controls.Add(this.progressBar1);
             this.kryptonPanel1.Controls.Add(this.kryptonProgressBar2);
             this.kryptonPanel1.Controls.Add(this.kryptonButton14);
+            this.kryptonPanel1.Controls.Add(this.kbtnCheckBoxExtendedDemo);
             this.kryptonPanel1.Controls.Add(this.kryptonButton13);
             this.kryptonPanel1.Controls.Add(this.kbtnDialogs);
             this.kryptonPanel1.Controls.Add(this.kryptonThemeComboBox1);
@@ -465,6 +467,16 @@ namespace TestForm
             this.kryptonButton14.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kryptonButton14.Values.Text = "kryptonButton14";
             this.kryptonButton14.Click += new System.EventHandler(this.kryptonButton14_Click);
+            // 
+            // kbtnCheckBoxExtendedDemo
+            // 
+            this.kbtnCheckBoxExtendedDemo.Location = new System.Drawing.Point(153, 434);
+            this.kbtnCheckBoxExtendedDemo.Name = "kbtnCheckBoxExtendedDemo";
+            this.kbtnCheckBoxExtendedDemo.Size = new System.Drawing.Size(134, 25);
+            this.kbtnCheckBoxExtendedDemo.TabIndex = 86;
+            this.kbtnCheckBoxExtendedDemo.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnCheckBoxExtendedDemo.Values.Text = "CheckBox Extended";
+            this.kbtnCheckBoxExtendedDemo.Click += new System.EventHandler(this.kbtnCheckBoxExtendedDemo_Click);
             // 
             // kryptonButton13
             // 
@@ -1050,6 +1062,7 @@ namespace TestForm
         private Krypton.Toolkit.KryptonThemeComboBox kryptonThemeComboBox1;
         private KryptonButton kbtnDialogs;
         private KryptonButton kryptonButton13;
+        private KryptonButton kbtnCheckBoxExtendedDemo;
         private KryptonButton kryptonButton14;
         private ProgressBar progressBar1;
         private KryptonProgressBar kryptonProgressBar2;
