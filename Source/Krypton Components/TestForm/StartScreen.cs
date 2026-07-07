@@ -77,6 +77,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<Bug3786ControlBoxOrderDemo>("Bug 3786 Control Box Order", "Issue #3786: comprehensive demo for KryptonForm control box order (LTR/RTL), macOS traffic lights (red-yellow-green), RTL left-side placement, FormTrafficLightEdge, and live PASS/FAIL diagnostics.");
         CreateButton<Bug3367KryptonTextBoxButtonSpecHoverDemo>("Bug 3367 TextBox ButtonSpec Hover", "Demo for issue #3367: ButtonSpec hover flicker on KryptonTextBox/KryptonMaskedTextBox, including ImageStates.ImageNormal without the Image property.");
         CreateButton<Bug3382CueHintLinesDemo>("Bug 3382 CueHint line artifacts", "Demo for issue #3382: KryptonTextBox CueHint with TextH Near and mixed cue/content fonts — verify no stray top/left lines; cue remains vertically centered.");
+        CreateButton<Issue797IndividualCornerRoundingDemo>("Issue 797 Individual corner rounding", "Demo for issue #797: per-corner border rounding via StateNormal.Border.RoundingTopLeft/TopRight/BottomLeft/BottomRight. Left: TL/TR/BL=5, BR=0; right: uniform rounding.");
         CreateButton<Bug3383KryptonButtonStateTrackingRoundingDemo>("Bug 3383 KryptonButton hover rounding vs OverrideFocus", "Demo for issue #3383: large StateCommon rounding with different StateTracking rounding and OverrideFocus rounding — Tab to focus, then hover (left repro vs right matched control). Corner fill and stroke should align after the palette merge fix.");
         CreateButton<Bug3451KryptonHeaderGroupPanelDemo>("Bug 3451 HeaderGroup panel parenting", "Demo for issue #3451: add child controls to KryptonHeaderGroup, KryptonGroup, and KryptonGroupBox via the internal Panel at design time. Open in the WinForms Designer and drag controls into each content area; verify no ReadOnly controls collection error.");
         CreateButton<Bug3661KryptonContextMenuOverflowDemo>("Bug 3661 Context Menu Overflow", "Issue #3661: KryptonContextMenu with more items than fit on screen shows Scroll Up/Scroll Down rows, mouse-wheel scrolling, and keyboard navigation past visible items. Long list, mixed content, programmatic placement, and keyboard-open scenarios.");
@@ -95,6 +96,8 @@ public partial class StartScreen : KryptonForm
         CreateButton<DateTimeExample>("DateTime Example", string.Empty);
         CreateButton<DockingConfigSaveLoadTest>("Docking Config Save/Load Test", "Test SaveConfigToArray and LoadConfigFromArray");
         CreateButton<DockingRedockDemo>("Docking Redock Demo", "Demo for Issue #2933: undock (Float) then redock; no floating window left behind.");
+        CreateButton<FoldableDialogDemo>("Foldable Dialog", "Demo for Issue #3840: KryptonFoldableDialog, a message-box style dialog with a collapsible (foldable) details region modelled on the Visual Studio Just-In-Time debugger dialog. Configure caption, heading, message, details, icon, buttons, default button, and initial expanded state, or try the JIT-style preset.");
+        CreateButton<MessageBoxExtendedFoldableDemo>("Message Box Extended - Foldable Footer", "Demo for the optional expandable (foldable) footer of KryptonMessageBoxExtended: a collapsible details region (Text, CheckBox, or RichTextBox) with a Show/Hide details toggle that matches the KryptonFoldableDialog expander. Configure message, caption, icon, buttons, footer content type, RichTextBox height, and initial expanded state, or try the JIT-style preset.");
         CreateButton<FontAwesomeTest>("Font Awesome Test", string.Empty);
         CreateButton<FloatingWindowTest>("Floating Window Test", "Comprehensive test for floating window bug fix (Issue #2721)");
         CreateButton<FloatingToolbarsDemo>("Floating Toolbars Demo", "Comprehensive demonstration of KryptonFloatingToolbars features including drag-and-drop floating/docking, programmatic control, animation, window styles, docking preview indicators, custom themes, state persistence, and multi-monitor support.");
@@ -149,6 +152,8 @@ public partial class StartScreen : KryptonForm
         CreateButton<JumpListTest>("Jump List Test", "Comprehensive demonstration of jump lists on KryptonForm with user tasks, custom categories, known categories, and interactive examples.");
         CreateButton<KryptonFolderBrowserDialogDemo>("Folder Browser Dialog", "Comprehensive demo of KryptonFolderBrowserDialog: configure Title, Icon, SelectedPath, RootFolder, and InitialDirectory, compare with the standard dialog, and try preset scenarios.");
         CreateButton<MessageBoxTest>("MessageBox", string.Empty);
+        CreateButton<MessageBoxCopyButtonDemo>("MessageBox Copy Button", "Issue #3836: comprehensive demo of the optional 'Copy' button on KryptonMessageBox. Configure buttons, icon, default button, RTL and the opt-in flags (Copy/Close/Ctrl+C/Help), then preview what the Copy button or Ctrl+C places on the clipboard. Includes quick presets (Error, Yes/No/Cancel + Help, RTL).");
+        CreateButton<MessageBoxExtendedCopyButtonDemo>("MessageBox Extended Copy Button", "Issue #3836 parity: comprehensive demo of the optional 'Copy' button on KryptonMessageBoxExtended. Configure buttons, icon, default button, content type (Normal/RichTextBox/HyperLink), RTL and the opt-in flags (Copy/Close/Ctrl+C/Help), then preview the clipboard. Includes presets (Error, RichTextBox, HyperLink, struct-based path) and verifies Ctrl+C copies all content types.");
         CreateButton<Main>("Old Style Main: Fullscreen", string.Empty);
         CreateButton<ProgressBarTriStateTest>("ProgressBar Tri-State", string.Empty);
         CreateButton<OverlayImageTest>("Overlay Image Test", "Comprehensive demonstration of overlay images on KryptonButton and KryptonLabel with configurable positions and scaling modes.");
@@ -172,6 +177,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<RibbonMdiDemo>("Ribbon MDI Demo (Issue #2921)", "Comprehensive demo for Issue #2921: Ribbon + MDI. Verifies no double ribbon tabs when opening/closing maximized MDI children; close/minimize/maximize and QAT click areas aligned with visuals.");
         CreateButton<Bug3203QATLocationHiddenFormTest>("Ribbon QATLocation=Hidden does not hide QAT when FormBorderStyle=None (Issue #3203)", string.Empty);
         CreateButton<Bug3183SmallSquareRenderedNextToClose>("Small Square Rendered Next to Close Button (Issue #3183)", string.Empty);
+        CreateButton<GlyphColors>("Glyph Colors", "Customization of glyph colors using kryptonCustomPalette");
     }
 
     private void OnFormClosing(object? sender, FormClosingEventArgs e)

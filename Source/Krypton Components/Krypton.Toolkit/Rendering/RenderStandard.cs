@@ -497,24 +497,17 @@ public class RenderStandard : RenderBase
 		if (CommonHelper.HasABorder(borders))
 		{
 			var borderWidth = palette.GetBorderWidth(state);
-			float paletteRounding = palette.GetBorderRounding(state);
-			float roundingForPadding = paletteRounding;
+			PaletteCornerRounding paletteCorners = CommonHelper.OrientateCornerRounding(
+				palette.GetBorderCornerRounding(state), orientation);
+			float roundingForPaddingTop = Math.Max(paletteCorners.TopLeft, paletteCorners.TopRight);
+			float roundingForPaddingRight = Math.Max(paletteCorners.TopRight, paletteCorners.BottomRight);
+			float roundingForPaddingBottom = Math.Max(paletteCorners.BottomLeft, paletteCorners.BottomRight);
+			float roundingForPaddingLeft = Math.Max(paletteCorners.TopLeft, paletteCorners.BottomLeft);
 
-			// Match CreateBorderBackPath: rounding must fit inside the outer rectangle
-			if (borderOuterSize.Width > 0 && borderOuterSize.Height > 0)
-			{
-				float maxRounding = Math.Min(borderOuterSize.Width / 2f, borderOuterSize.Height / 2f) - borderWidth;
-				if (maxRounding < 0f)
-				{
-					maxRounding = 0f;
-				}
-
-				roundingForPadding = Math.Min(paletteRounding, maxRounding);
-			}
-
-			// Divide the rounding effect by PI to get the actual pixel distance needed
-			// for offsetting. But add 2, so it starts indenting on a rounding of just 1.
-			int roundPadding = Convert.ToInt16((roundingForPadding + borderWidth + 2) / Math.PI);
+			int roundPaddingTop = ComputeRoundPadding(roundingForPaddingTop, borderWidth, borderOuterSize);
+			int roundPaddingRight = ComputeRoundPadding(roundingForPaddingRight, borderWidth, borderOuterSize);
+			int roundPaddingBottom = ComputeRoundPadding(roundingForPaddingBottom, borderWidth, borderOuterSize);
+			int roundPaddingLeft = ComputeRoundPadding(roundingForPaddingLeft, borderWidth, borderOuterSize);
 
 			// If not involving rounding then padding for an edge is just the border width
 			var squarePadding = borderWidth;
@@ -523,14 +516,32 @@ public class RenderStandard : RenderBase
 			if (borderWidth > 1)
 			{
 				var halfExtra = borderWidth / 2;
-				roundPadding += halfExtra;
+				roundPaddingTop += halfExtra;
+				roundPaddingRight += halfExtra;
+				roundPaddingBottom += halfExtra;
+				roundPaddingLeft += halfExtra;
 			}
 
 			// Enforce the width of the border as the minimum to ensure
 			// it still works as expected for small values of rounding
-			if (roundPadding < borderWidth)
+			if (roundPaddingTop < borderWidth)
 			{
-				roundPadding = borderWidth;
+				roundPaddingTop = borderWidth;
+			}
+
+			if (roundPaddingRight < borderWidth)
+			{
+				roundPaddingRight = borderWidth;
+			}
+
+			if (roundPaddingBottom < borderWidth)
+			{
+				roundPaddingBottom = borderWidth;
+			}
+
+			if (roundPaddingLeft < borderWidth)
+			{
+				roundPaddingLeft = borderWidth;
 			}
 
 			switch (borders)
@@ -538,11 +549,11 @@ public class RenderStandard : RenderBase
 				case PaletteDrawBorders.Bottom:
 					return new Padding(0, 0, 0, squarePadding);
 				case PaletteDrawBorders.BottomLeft:
-					return new Padding(roundPadding, 0, 0, roundPadding);
+					return new Padding(roundPaddingLeft, 0, 0, roundPaddingBottom);
 				case PaletteDrawBorders.BottomLeftRight:
-					return new Padding(roundPadding, 0, roundPadding, roundPadding);
+					return new Padding(roundPaddingLeft, 0, roundPaddingRight, roundPaddingBottom);
 				case PaletteDrawBorders.BottomRight:
-					return new Padding(0, 0, roundPadding, roundPadding);
+					return new Padding(0, 0, roundPaddingRight, roundPaddingBottom);
 				case PaletteDrawBorders.Left:
 					return new Padding(squarePadding, 0, 0, 0);
 				case PaletteDrawBorders.LeftRight:
@@ -554,17 +565,17 @@ public class RenderStandard : RenderBase
 				case PaletteDrawBorders.TopBottom:
 					return new Padding(0, squarePadding, 0, squarePadding);
 				case PaletteDrawBorders.TopBottomLeft:
-					return new Padding(roundPadding, roundPadding, 0, roundPadding);
+					return new Padding(roundPaddingLeft, roundPaddingTop, 0, roundPaddingBottom);
 				case PaletteDrawBorders.TopBottomRight:
-					return new Padding(0, roundPadding, roundPadding, roundPadding);
+					return new Padding(0, roundPaddingTop, roundPaddingRight, roundPaddingBottom);
 				case PaletteDrawBorders.TopLeft:
-					return new Padding(roundPadding, roundPadding, 0, 0);
+					return new Padding(roundPaddingLeft, roundPaddingTop, 0, 0);
 				case PaletteDrawBorders.TopLeftRight:
-					return new Padding(roundPadding, roundPadding, roundPadding, 0);
+					return new Padding(roundPaddingLeft, roundPaddingTop, roundPaddingRight, 0);
 				case PaletteDrawBorders.TopRight:
-					return new Padding(0, roundPadding, roundPadding, 0);
+					return new Padding(0, roundPaddingTop, roundPaddingRight, 0);
 				case PaletteDrawBorders.All:
-					return new Padding(roundPadding);
+					return new Padding(roundPaddingLeft, roundPaddingTop, roundPaddingRight, roundPaddingBottom);
 				default:
 					// Should never happen!
 					Debug.Assert(false);
@@ -614,7 +625,7 @@ public class RenderStandard : RenderBase
 		return CreateBorderBackPath(true, false, rect,
 			CommonHelper.OrientateDrawBorders(palette.GetBorderDrawBorders(state), orientation),
 			palette.GetBorderWidth(state),
-			palette.GetBorderRounding(state),
+			CommonHelper.OrientateCornerRounding(palette.GetBorderCornerRounding(state), orientation),
 			0);
 	}
 
@@ -663,7 +674,7 @@ public class RenderStandard : RenderBase
 			rect,
 			CommonHelper.OrientateDrawBorders(palette.GetBorderDrawBorders(state), orientation),
 			palette.GetBorderWidth(state),
-			palette.GetBorderRounding(state),
+			CommonHelper.OrientateCornerRounding(palette.GetBorderCornerRounding(state), orientation),
 			0);
 	}
 
@@ -714,7 +725,7 @@ public class RenderStandard : RenderBase
 			rect,
 			CommonHelper.OrientateDrawBorders(palette.GetBorderDrawBorders(state), orientation),
 			palette.GetBorderWidth(state),
-			palette.GetBorderRounding(state),
+			CommonHelper.OrientateCornerRounding(palette.GetBorderCornerRounding(state), orientation),
 			0);
 	}
 
@@ -766,7 +777,7 @@ public class RenderStandard : RenderBase
 				using var clip = new Clipping(context.Graphics, rect);
 				// We always create the first border path variant
 				using GraphicsPath borderPath0 = CreateBorderBackPath(true, true, rect, borders, borderWidth,
-					paletteBorder.GetBorderRounding(state), 0);
+					CommonHelper.OrientateCornerRounding(paletteBorder.GetBorderCornerRounding(state), orientation), 0);
 
 				GraphicsPath? borderPath1 = null;
 
@@ -774,7 +785,7 @@ public class RenderStandard : RenderBase
 				if (borders is PaletteDrawBorders.TopBottom or PaletteDrawBorders.LeftRight)
 				{
 					borderPath1 = CreateBorderBackPath(true, true, rect, borders, borderWidth,
-						paletteBorder.GetBorderRounding(state), 1);
+						CommonHelper.OrientateCornerRounding(paletteBorder.GetBorderCornerRounding(state), orientation), 1);
 				}
 
 				// Get the rectangle to use when dealing with gradients
@@ -3400,7 +3411,7 @@ public class RenderStandard : RenderBase
 			else
 			{
 				// If there is rounding causing transparent corners
-				if (paletteBorder.GetBorderRounding(state) > 0)
+				if (paletteBorder.GetBorderCornerRounding(state).HasRounding)
 				{
 					return true;
 				}
@@ -3848,22 +3859,20 @@ public class RenderStandard : RenderBase
 		Rectangle rect,
 		PaletteDrawBorders borders,
 		int borderWidth,
-		float borderRounding,
+		PaletteCornerRounding borderCornerRounding,
 		int variant)
 	{
 		var borderPath = new GraphicsPath();
-		if (borderRounding < 0.1f
+		if (borderCornerRounding.MaxRadius < 0.1f
 			&& CommonHelper.HasABorder(borders)
 		   )
 		{   // Deal with issues arrising within https://github.com/Krypton-Suite/Standard-Toolkit/issues/1871
-			borderRounding = 0.1f;
+			borderCornerRounding = PaletteCornerRounding.Uniform(0.1f);
 		}
 
 		if (rect is { Width: > 0, Height: > 0 })
 		{
-			// Only use a rounding that will fit inside the rect
-			var rounding = Math.Min(borderRounding, Math.Min(rect.Width / 2f, rect.Height / 2f) - borderWidth);
-
+			var arcs = RoundedPathHelper.CornerArcLengths.FromCornerRounding(borderCornerRounding, rect, borderWidth);
 
 			if (middle)
 			{
@@ -3893,16 +3902,14 @@ public class RenderStandard : RenderBase
 				{
 					rect.Width -= halfBorderWidthTL;
 				}
-			}
 
-			// Find the width/height of the arc box
-			var arcLength = rounding * 2;
-			var arcLength1 = arcLength + 1;
+				arcs = RoundedPathHelper.CornerArcLengths.FromCornerRounding(borderCornerRounding, rect, borderWidth);
+			}
 
 			// If drawing all the four borders use a single routine
 			if (CommonHelper.HasAllBorders(borders))
 			{
-				CreateAllBorderBackPath(middle, borderPath, rect, borderWidth, rounding, forBorder, arcLength, arcLength1);
+				CreateAllBorderBackPath(middle, borderPath, rect, borderWidth, arcs, forBorder);
 			}
 			else
 			{
@@ -3915,9 +3922,9 @@ public class RenderStandard : RenderBase
 					{
 						// If rounding is used we need to use a path so that corner rounding is honored but
 						// because this is going to be used as a region we need to close the path as well.
-						if (rounding > 0)
+						if (arcs.HasAnyRounding)
 						{
-							CreateBorderBackPathOnlyClosed(middle, borders, borderPath, rect, arcLength, variant);
+							CreateBorderBackPathOnlyClosed(middle, borders, borderPath, rect, arcs, variant);
 						}
 						else
 						{
@@ -3929,9 +3936,9 @@ public class RenderStandard : RenderBase
 					{
 						// We are calculating the middle of the border as the brush will then draw the entire
 						// border from the middle outwards.
-						if (rounding > 0)
+						if (arcs.HasAnyRounding)
 						{
-							CreateBorderBackPathOnly(middle, borders, borderPath, rect, arcLength, variant);
+							CreateBorderBackPathOnly(middle, borders, borderPath, rect, arcs, variant);
 						}
 						else
 						{
@@ -3943,9 +3950,9 @@ public class RenderStandard : RenderBase
 				{
 					// Calculating a complete path for the entire area and not just the specified borders
 					// If there is rounding we need to calculate a path that honors the rounding at corners
-					if (rounding > 0)
+					if (arcs.HasAnyRounding)
 					{
-						CreateBorderBackPathComplete(middle, borders, borderPath, rect, arcLength);
+						CreateBorderBackPathComplete(middle, borders, borderPath, rect, arcs);
 					}
 					else
 					{
@@ -3961,15 +3968,15 @@ public class RenderStandard : RenderBase
 
 	private static void CreateAllBorderBackPath(bool middle,
 		GraphicsPath borderPath,
-		RectangleF rectF,
+		Rectangle rect,
 		int width,
-		float rounding,
-		bool forBorder,
-		float arcLength,
-		float arcLength1)
+		RoundedPathHelper.CornerArcLengths arcs,
+		bool forBorder)
 	{
+		var rectF = (RectangleF)rect;
+
 		// If there is no room for any rounding effect...
-		if (rounding <= 0)
+		if (!arcs.HasAnyRounding)
 		{
 			//// If the width is an odd number then need to reduce by 1 in each dimension
 			if (forBorder && middle && ((width % 2) == 1))
@@ -3983,26 +3990,39 @@ public class RenderStandard : RenderBase
 		}
 		else
 		{
-			// If trying to get the outside edge then perform some offsetting so that
-			// when converted to a region it draws nicely inside the path outline
-			//if (!middle && ((width % 2) == 1))
-			//{
-			//    rectF.X -= 0.25f;
-			//    rectF.Y -= 0.25f;
-			//    rectF.Width += 0.75f;
-			//    rectF.Height += 0.75f;
-			//}
-
-			// The border is made of up a quarter of a circle arc, in each corner
-			borderPath.AddArc(rectF.Left, rectF.Top, arcLength, arcLength, 180f, 90f);
-			borderPath.AddArc(rectF.Right - arcLength1, rectF.Top, arcLength, arcLength, 270f, 90f);
-			borderPath.AddArc(rectF.Right - arcLength1, rectF.Bottom - arcLength1, arcLength, arcLength, 0f, 90f);
-			borderPath.AddArc(rectF.Left, rectF.Bottom - arcLength1, arcLength, arcLength, 90f, 90f);
-
-			// Make the last and first arc join up
-			borderPath.CloseFigure();
+			RoundedPathHelper.AppendRoundedRectangle(borderPath, rectF, arcs, true);
 		}
 	}
+
+	private static int ComputeRoundPadding(float paletteRounding, int borderWidth, Size borderOuterSize)
+	{
+		float roundingForPadding = paletteRounding;
+
+		// Match CreateBorderBackPath: rounding must fit inside the outer rectangle
+		if (borderOuterSize.Width > 0 && borderOuterSize.Height > 0)
+		{
+			float maxRounding = Math.Min(borderOuterSize.Width / 2f, borderOuterSize.Height / 2f) - borderWidth;
+			if (maxRounding < 0f)
+			{
+				maxRounding = 0f;
+			}
+
+			roundingForPadding = Math.Min(paletteRounding, maxRounding);
+		}
+
+		// Divide the rounding effect by PI to get the actual pixel distance needed
+		// for offsetting. But add 2, so it starts indenting on a rounding of just 1.
+		return Convert.ToInt16((roundingForPadding + borderWidth + 2) / Math.PI);
+	}
+
+	private static GraphicsPath CreateBorderBackPath(bool forBorder,
+		bool middle,
+		Rectangle rect,
+		PaletteDrawBorders borders,
+		int borderWidth,
+		float borderRounding,
+		int variant) =>
+		CreateBorderBackPath(forBorder, middle, rect, borders, borderWidth, PaletteCornerRounding.Uniform(borderRounding), variant);
 
 	private static void CreateBorderBackPathOnly(PaletteDrawBorders borders,
 		GraphicsPath borderPath,
@@ -4092,9 +4112,18 @@ public class RenderStandard : RenderBase
 		PaletteDrawBorders borders,
 		GraphicsPath borderPath,
 		RectangleF rectF,
-		float arcLength,
+		RoundedPathHelper.CornerArcLengths arcs,
 		int variant)
 	{
+		float arcTL = arcs.TopLeft;
+		float arcTR = arcs.TopRight;
+		float arcBR = arcs.BottomRight;
+		float arcBL = arcs.BottomLeft;
+		float arcTRX = arcTR > 0f ? arcTR + 1f : 0f;
+		float arcBRX = arcBR > 0f ? arcBR + 1f : 0f;
+		float arcBLY = arcBL > 0f ? arcBL + 1f : 0f;
+		float arcBRY = arcBR > 0f ? arcBR + 1f : 0f;
+
 		// Reduce the width and height by 1 pixel for drawing into rectangle
 		// Fixes the issue as displayed here: https://github.com/Krypton-Suite/Standard-Toolkit/issues/1871#issuecomment-2503893001
 		rectF.Width--;
@@ -4150,48 +4179,48 @@ public class RenderStandard : RenderBase
 
 				break;
 			case PaletteDrawBorders.TopLeft:
-				borderPath.AddLine(rectF.Left, rectF.Bottom + 1, rectF.Left, rectF.Top + arcLength);
-				borderPath.AddArc(rectF.Left, rectF.Top, arcLength, arcLength, 180f, 90f);
-				borderPath.AddLine(rectF.Left + arcLength, rectF.Top, rectF.Right + 1, rectF.Top);
+				borderPath.AddLine(rectF.Left, rectF.Bottom + 1, rectF.Left, rectF.Top + arcTL);
+				borderPath.AddArc(rectF.Left, rectF.Top, arcTL, arcTL, 180f, 90f);
+				borderPath.AddLine(rectF.Left + arcTL, rectF.Top, rectF.Right + 1, rectF.Top);
 				break;
 			case PaletteDrawBorders.TopRight:
-				borderPath.AddLine(rectF.Left - 1, rectF.Top, rectF.Right - arcLength, rectF.Top);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Top, arcLength, arcLength, -90f, 90f);
-				borderPath.AddLine(rectF.Right, rectF.Top + arcLength, rectF.Right, rectF.Bottom + 1);
+				borderPath.AddLine(rectF.Left - 1, rectF.Top, rectF.Right - arcTRX, rectF.Top);
+				borderPath.AddArc(rectF.Right - arcTRX, rectF.Top, arcTR, arcTR, -90f, 90f);
+				borderPath.AddLine(rectF.Right, rectF.Top + arcTR, rectF.Right, rectF.Bottom + 1);
 				break;
 			case PaletteDrawBorders.BottomRight:
-				borderPath.AddLine(rectF.Right, rectF.Top - 1, rectF.Right, rectF.Bottom - arcLength);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Bottom - arcLength, arcLength, arcLength, 0f, 90f);
-				borderPath.AddLine(rectF.Right - arcLength, rectF.Bottom, rectF.Left - 1, rectF.Bottom);
+				borderPath.AddLine(rectF.Right, rectF.Top - 1, rectF.Right, rectF.Bottom - arcBRY);
+				borderPath.AddArc(rectF.Right - arcBRX, rectF.Bottom - arcBRY, arcBR, arcBR, 0f, 90f);
+				borderPath.AddLine(rectF.Right - arcBRX, rectF.Bottom, rectF.Left - 1, rectF.Bottom);
 				break;
 			case PaletteDrawBorders.BottomLeft:
-				borderPath.AddLine(rectF.Right + 1, rectF.Bottom, rectF.Left + arcLength, rectF.Bottom);
-				borderPath.AddArc(rectF.Left, rectF.Bottom - arcLength, arcLength, arcLength, 90f, 90f);
-				borderPath.AddLine(rectF.Left, rectF.Bottom - arcLength, rectF.Left, rectF.Top - 1);
+				borderPath.AddLine(rectF.Right + 1, rectF.Bottom, rectF.Left + arcBL, rectF.Bottom);
+				borderPath.AddArc(rectF.Left, rectF.Bottom - arcBLY, arcBL, arcBL, 90f, 90f);
+				borderPath.AddLine(rectF.Left, rectF.Bottom - arcBLY, rectF.Left, rectF.Top - 1);
 				break;
 			case PaletteDrawBorders.TopBottomLeft:
-				borderPath.AddLine(rectF.Right + 1, rectF.Bottom, rectF.Left + arcLength, rectF.Bottom);
-				borderPath.AddArc(rectF.Left, rectF.Bottom - arcLength, arcLength, arcLength, 90f, 90f);
-				borderPath.AddArc(rectF.Left, rectF.Top, arcLength, arcLength, 180f, 90f);
-				borderPath.AddLine(rectF.Left + arcLength, rectF.Top, rectF.Right + 1, rectF.Top);
+				borderPath.AddLine(rectF.Right + 1, rectF.Bottom, rectF.Left + arcBL, rectF.Bottom);
+				borderPath.AddArc(rectF.Left, rectF.Bottom - arcBLY, arcBL, arcBL, 90f, 90f);
+				borderPath.AddArc(rectF.Left, rectF.Top, arcTL, arcTL, 180f, 90f);
+				borderPath.AddLine(rectF.Left + arcTL, rectF.Top, rectF.Right + 1, rectF.Top);
 				break;
 			case PaletteDrawBorders.TopBottomRight:
-				borderPath.AddLine(rectF.Left - 1, rectF.Top, rectF.Right - arcLength, rectF.Top);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Top, arcLength, arcLength, -90f, 90f);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Bottom - arcLength, arcLength, arcLength, 0f, 90f);
-				borderPath.AddLine(rectF.Right - arcLength, rectF.Bottom, rectF.Left - 1, rectF.Bottom);
+				borderPath.AddLine(rectF.Left - 1, rectF.Top, rectF.Right - arcTRX, rectF.Top);
+				borderPath.AddArc(rectF.Right - arcTRX, rectF.Top, arcTR, arcTR, -90f, 90f);
+				borderPath.AddArc(rectF.Right - arcBRX, rectF.Bottom - arcBRY, arcBR, arcBR, 0f, 90f);
+				borderPath.AddLine(rectF.Right - arcBRX, rectF.Bottom, rectF.Left - 1, rectF.Bottom);
 				break;
 			case PaletteDrawBorders.TopLeftRight:
-				borderPath.AddLine(rectF.Left, rectF.Bottom + 1, rectF.Left, rectF.Top + arcLength);
-				borderPath.AddArc(rectF.Left, rectF.Top, arcLength, arcLength, 180f, 90f);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Top, arcLength, arcLength, -90f, 90f);
-				borderPath.AddLine(rectF.Right, rectF.Top + arcLength, rectF.Right, rectF.Bottom + 1);
+				borderPath.AddLine(rectF.Left, rectF.Bottom + 1, rectF.Left, rectF.Top + arcTL);
+				borderPath.AddArc(rectF.Left, rectF.Top, arcTL, arcTL, 180f, 90f);
+				borderPath.AddArc(rectF.Right - arcTRX, rectF.Top, arcTR, arcTR, -90f, 90f);
+				borderPath.AddLine(rectF.Right, rectF.Top + arcTR, rectF.Right, rectF.Bottom + 1);
 				break;
 			case PaletteDrawBorders.BottomLeftRight:
-				borderPath.AddLine(rectF.Right, rectF.Top - 1, rectF.Right, rectF.Bottom - arcLength);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Bottom - arcLength, arcLength, arcLength, 0f, 90f);
-				borderPath.AddArc(rectF.Left, rectF.Bottom - arcLength, arcLength, arcLength, 90f, 90f);
-				borderPath.AddLine(rectF.Left, rectF.Bottom - arcLength, rectF.Left, rectF.Top - 1);
+				borderPath.AddLine(rectF.Right, rectF.Top - 1, rectF.Right, rectF.Bottom - arcBRY);
+				borderPath.AddArc(rectF.Right - arcBRX, rectF.Bottom - arcBRY, arcBR, arcBR, 0f, 90f);
+				borderPath.AddArc(rectF.Left, rectF.Bottom - arcBLY, arcBL, arcBL, 90f, 90f);
+				borderPath.AddLine(rectF.Left, rectF.Bottom - arcBLY, rectF.Left, rectF.Top - 1);
 				break;
 		}
 	}
@@ -4200,9 +4229,18 @@ public class RenderStandard : RenderBase
 		PaletteDrawBorders borders,
 		GraphicsPath borderPath,
 		RectangleF rectF,
-		float arcLength,
+		RoundedPathHelper.CornerArcLengths arcs,
 		int variant)
 	{
+		float arcTL = arcs.TopLeft;
+		float arcTR = arcs.TopRight;
+		float arcBR = arcs.BottomRight;
+		float arcBL = arcs.BottomLeft;
+		float arcTRX = arcTR > 0f ? arcTR + 1f : 0f;
+		float arcBRX = arcBR > 0f ? arcBR + 1f : 0f;
+		float arcBLY = arcBL > 0f ? arcBL + 1f : 0f;
+		float arcBRY = arcBR > 0f ? arcBR + 1f : 0f;
+
 		// If trying to get the outside edge then perform some offsetting so that
 		// when converted to a region it draws nicely inside the path outline
 		//if (!middle)
@@ -4230,52 +4268,52 @@ public class RenderStandard : RenderBase
 				borderPath.AddRectangle(rectF);
 				break;
 			case PaletteDrawBorders.TopLeft:
-				borderPath.AddLine(rectF.Left, rectF.Bottom + 1, rectF.Left, rectF.Top + arcLength);
-				borderPath.AddArc(rectF.Left, rectF.Top, arcLength, arcLength, 180f, 90f);
-				borderPath.AddLine(rectF.Left + arcLength, rectF.Top, rectF.Right + 1, rectF.Top);
+				borderPath.AddLine(rectF.Left, rectF.Bottom + 1, rectF.Left, rectF.Top + arcTL);
+				borderPath.AddArc(rectF.Left, rectF.Top, arcTL, arcTL, 180f, 90f);
+				borderPath.AddLine(rectF.Left + arcTL, rectF.Top, rectF.Right + 1, rectF.Top);
 				borderPath.AddLine(rectF.Right, rectF.Top, rectF.Right, rectF.Bottom);
 				break;
 			case PaletteDrawBorders.TopRight:
-				borderPath.AddLine(rectF.Left - 1, rectF.Top, rectF.Right - arcLength, rectF.Top);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Top, arcLength, arcLength, -90f, 90f);
-				borderPath.AddLine(rectF.Right, rectF.Top + arcLength, rectF.Right, rectF.Bottom + 1);
+				borderPath.AddLine(rectF.Left - 1, rectF.Top, rectF.Right - arcTRX, rectF.Top);
+				borderPath.AddArc(rectF.Right - arcTRX, rectF.Top, arcTR, arcTR, -90f, 90f);
+				borderPath.AddLine(rectF.Right, rectF.Top + arcTR, rectF.Right, rectF.Bottom + 1);
 				borderPath.AddLine(rectF.Right, rectF.Bottom, rectF.Left, rectF.Bottom);
 				break;
 			case PaletteDrawBorders.BottomRight:
-				borderPath.AddLine(rectF.Right, rectF.Top - 1, rectF.Right, rectF.Bottom - arcLength);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Bottom - arcLength, arcLength, arcLength, 0f, 90f);
-				borderPath.AddLine(rectF.Right - arcLength, rectF.Bottom, rectF.Left - 1, rectF.Bottom);
+				borderPath.AddLine(rectF.Right, rectF.Top - 1, rectF.Right, rectF.Bottom - arcBRY);
+				borderPath.AddArc(rectF.Right - arcBRX, rectF.Bottom - arcBRY, arcBR, arcBR, 0f, 90f);
+				borderPath.AddLine(rectF.Right - arcBRX, rectF.Bottom, rectF.Left - 1, rectF.Bottom);
 				borderPath.AddLine(rectF.Left, rectF.Bottom, rectF.Left, rectF.Top);
 				break;
 			case PaletteDrawBorders.BottomLeft:
-				borderPath.AddLine(rectF.Right + 1, rectF.Bottom, rectF.Left + arcLength, rectF.Bottom);
-				borderPath.AddArc(rectF.Left, rectF.Bottom - arcLength, arcLength, arcLength, 90f, 90f);
-				borderPath.AddLine(rectF.Left, rectF.Bottom - arcLength, rectF.Left, rectF.Top - 1);
+				borderPath.AddLine(rectF.Right + 1, rectF.Bottom, rectF.Left + arcBL, rectF.Bottom);
+				borderPath.AddArc(rectF.Left, rectF.Bottom - arcBLY, arcBL, arcBL, 90f, 90f);
+				borderPath.AddLine(rectF.Left, rectF.Bottom - arcBLY, rectF.Left, rectF.Top - 1);
 				borderPath.AddLine(rectF.Left, rectF.Top, rectF.Right, rectF.Top);
 				break;
 			case PaletteDrawBorders.TopBottomLeft:
-				borderPath.AddLine(rectF.Right + 1, rectF.Bottom, rectF.Left + arcLength, rectF.Bottom);
-				borderPath.AddArc(rectF.Left, rectF.Bottom - arcLength, arcLength, arcLength, 90f, 90f);
-				borderPath.AddArc(rectF.Left, rectF.Top, arcLength, arcLength, 180f, 90f);
-				borderPath.AddLine(rectF.Left + arcLength, rectF.Top, rectF.Right + 1, rectF.Top);
+				borderPath.AddLine(rectF.Right + 1, rectF.Bottom, rectF.Left + arcBL, rectF.Bottom);
+				borderPath.AddArc(rectF.Left, rectF.Bottom - arcBLY, arcBL, arcBL, 90f, 90f);
+				borderPath.AddArc(rectF.Left, rectF.Top, arcTL, arcTL, 180f, 90f);
+				borderPath.AddLine(rectF.Left + arcTL, rectF.Top, rectF.Right + 1, rectF.Top);
 				break;
 			case PaletteDrawBorders.TopBottomRight:
-				borderPath.AddLine(rectF.Left - 1, rectF.Top, rectF.Right - arcLength, rectF.Top);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Top, arcLength, arcLength, -90f, 90f);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Bottom - arcLength, arcLength, arcLength, 0f, 90f);
-				borderPath.AddLine(rectF.Right - arcLength, rectF.Bottom, rectF.Left - 1, rectF.Bottom);
+				borderPath.AddLine(rectF.Left - 1, rectF.Top, rectF.Right - arcTRX, rectF.Top);
+				borderPath.AddArc(rectF.Right - arcTRX, rectF.Top, arcTR, arcTR, -90f, 90f);
+				borderPath.AddArc(rectF.Right - arcBRX, rectF.Bottom - arcBRY, arcBR, arcBR, 0f, 90f);
+				borderPath.AddLine(rectF.Right - arcBRX, rectF.Bottom, rectF.Left - 1, rectF.Bottom);
 				break;
 			case PaletteDrawBorders.TopLeftRight:
-				borderPath.AddLine(rectF.Left, rectF.Bottom + 1, rectF.Left, rectF.Top + arcLength);
-				borderPath.AddArc(rectF.Left, rectF.Top, arcLength, arcLength, 180f, 90f);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Top, arcLength, arcLength, -90f, 90f);
-				borderPath.AddLine(rectF.Right, rectF.Top + arcLength, rectF.Right, rectF.Bottom + 1);
+				borderPath.AddLine(rectF.Left, rectF.Bottom + 1, rectF.Left, rectF.Top + arcTL);
+				borderPath.AddArc(rectF.Left, rectF.Top, arcTL, arcTL, 180f, 90f);
+				borderPath.AddArc(rectF.Right - arcTRX, rectF.Top, arcTR, arcTR, -90f, 90f);
+				borderPath.AddLine(rectF.Right, rectF.Top + arcTR, rectF.Right, rectF.Bottom + 1);
 				break;
 			case PaletteDrawBorders.BottomLeftRight:
-				borderPath.AddLine(rectF.Right, rectF.Top - 1, rectF.Right, rectF.Bottom - arcLength);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Bottom - arcLength, arcLength, arcLength, 0f, 90f);
-				borderPath.AddArc(rectF.Left, rectF.Bottom - arcLength, arcLength, arcLength, 90f, 90f);
-				borderPath.AddLine(rectF.Left, rectF.Bottom - arcLength, rectF.Left, rectF.Top - 1);
+				borderPath.AddLine(rectF.Right, rectF.Top - 1, rectF.Right, rectF.Bottom - arcBRY);
+				borderPath.AddArc(rectF.Right - arcBRX, rectF.Bottom - arcBRY, arcBR, arcBR, 0f, 90f);
+				borderPath.AddArc(rectF.Left, rectF.Bottom - arcBLY, arcBL, arcBL, 90f, 90f);
+				borderPath.AddLine(rectF.Left, rectF.Bottom - arcBLY, rectF.Left, rectF.Top - 1);
 				break;
 		}
 	}
@@ -4284,8 +4322,17 @@ public class RenderStandard : RenderBase
 		PaletteDrawBorders borders,
 		GraphicsPath borderPath,
 		RectangleF rectF,
-		float arcLength)
+		RoundedPathHelper.CornerArcLengths arcs)
 	{
+		float arcTL = arcs.TopLeft;
+		float arcTR = arcs.TopRight;
+		float arcBR = arcs.BottomRight;
+		float arcBL = arcs.BottomLeft;
+		float arcTRX = arcTR > 0f ? arcTR + 1f : 0f;
+		float arcBRX = arcBR > 0f ? arcBR + 1f : 0f;
+		float arcBLY = arcBL > 0f ? arcBL + 1f : 0f;
+		float arcBRY = arcBR > 0f ? arcBR + 1f : 0f;
+
 		// If trying to get the outside edge then perform some offsetting so that
 		// when converted to a region it draws nicely inside the path outline
 		//if (!middle)
@@ -4309,16 +4356,16 @@ public class RenderStandard : RenderBase
 				borderPath.AddRectangle(rectF);
 				break;
 			case PaletteDrawBorders.TopLeft:
-				borderPath.AddLine(rectF.Left, rectF.Bottom, rectF.Left, rectF.Top + arcLength);
-				borderPath.AddArc(rectF.Left, rectF.Top, arcLength, arcLength, 180f, 90f);
-				borderPath.AddLine(rectF.Left + arcLength, rectF.Top, rectF.Right, rectF.Top);
+				borderPath.AddLine(rectF.Left, rectF.Bottom, rectF.Left, rectF.Top + arcTL);
+				borderPath.AddArc(rectF.Left, rectF.Top, arcTL, arcTL, 180f, 90f);
+				borderPath.AddLine(rectF.Left + arcTL, rectF.Top, rectF.Right, rectF.Top);
 				borderPath.AddLine(rectF.Right, rectF.Top, rectF.Right, rectF.Bottom);
 				borderPath.AddLine(rectF.Right, rectF.Bottom, rectF.Left, rectF.Bottom);
 				break;
 			case PaletteDrawBorders.TopRight:
-				borderPath.AddLine(rectF.Left, rectF.Top, rectF.Right - arcLength, rectF.Top);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Top, arcLength, arcLength, -90f, 90f);
-				borderPath.AddLine(rectF.Right, rectF.Top + arcLength, rectF.Right, rectF.Bottom);
+				borderPath.AddLine(rectF.Left, rectF.Top, rectF.Right - arcTRX, rectF.Top);
+				borderPath.AddArc(rectF.Right - arcTRX, rectF.Top, arcTR, arcTR, -90f, 90f);
+				borderPath.AddLine(rectF.Right, rectF.Top + arcTR, rectF.Right, rectF.Bottom);
 				borderPath.AddLine(rectF.Right, rectF.Bottom, rectF.Left, rectF.Bottom);
 				borderPath.AddLine(rectF.Left, rectF.Bottom, rectF.Left, rectF.Top);
 				break;
@@ -4327,9 +4374,9 @@ public class RenderStandard : RenderBase
 				rectF.Width -= 1;
 				rectF.Height -= 1;
 
-				borderPath.AddLine(rectF.Right, rectF.Top, rectF.Right, rectF.Bottom - arcLength);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Bottom - arcLength, arcLength, arcLength, 0f, 90f);
-				borderPath.AddLine(rectF.Right - arcLength, rectF.Bottom, rectF.Left, rectF.Bottom);
+				borderPath.AddLine(rectF.Right, rectF.Top, rectF.Right, rectF.Bottom - arcBRY);
+				borderPath.AddArc(rectF.Right - arcBRX, rectF.Bottom - arcBRY, arcBR, arcBR, 0f, 90f);
+				borderPath.AddLine(rectF.Right - arcBRX, rectF.Bottom, rectF.Left, rectF.Bottom);
 				borderPath.AddLine(rectF.Left, rectF.Bottom, rectF.Left, rectF.Top);
 				borderPath.AddLine(rectF.Left, rectF.Top, rectF.Right, rectF.Top);
 				break;
@@ -4339,17 +4386,17 @@ public class RenderStandard : RenderBase
 				rectF.Width -= 1;
 				rectF.Height -= 1;
 
-				borderPath.AddLine(rectF.Right, rectF.Bottom, rectF.Left + arcLength, rectF.Bottom);
-				borderPath.AddArc(rectF.Left, rectF.Bottom - arcLength, arcLength, arcLength, 90f, 90f);
-				borderPath.AddLine(rectF.Left, rectF.Bottom - arcLength, rectF.Left, rectF.Top);
+				borderPath.AddLine(rectF.Right, rectF.Bottom, rectF.Left + arcBL, rectF.Bottom);
+				borderPath.AddArc(rectF.Left, rectF.Bottom - arcBLY, arcBL, arcBL, 90f, 90f);
+				borderPath.AddLine(rectF.Left, rectF.Bottom - arcBLY, rectF.Left, rectF.Top);
 				borderPath.AddLine(rectF.Left, rectF.Top, rectF.Right, rectF.Top);
 				borderPath.AddLine(rectF.Right, rectF.Top, rectF.Right, rectF.Bottom);
 				break;
 			case PaletteDrawBorders.TopBottomLeft:
-				borderPath.AddLine(rectF.Right, rectF.Bottom, rectF.Left + arcLength, rectF.Bottom);
-				borderPath.AddArc(rectF.Left, rectF.Bottom - arcLength, arcLength, arcLength, 90f, 90f);
-				borderPath.AddArc(rectF.Left, rectF.Top, arcLength, arcLength, 180f, 90f);
-				borderPath.AddLine(rectF.Left + arcLength, rectF.Top, rectF.Right, rectF.Top);
+				borderPath.AddLine(rectF.Right, rectF.Bottom, rectF.Left + arcBL, rectF.Bottom);
+				borderPath.AddArc(rectF.Left, rectF.Bottom - arcBLY, arcBL, arcBL, 90f, 90f);
+				borderPath.AddArc(rectF.Left, rectF.Top, arcTL, arcTL, 180f, 90f);
+				borderPath.AddLine(rectF.Left + arcTL, rectF.Top, rectF.Right, rectF.Top);
 				borderPath.AddLine(rectF.Right, rectF.Top, rectF.Right, rectF.Bottom);
 				break;
 			case PaletteDrawBorders.TopBottomRight:
@@ -4357,17 +4404,17 @@ public class RenderStandard : RenderBase
 				rectF.Width -= 1;
 				rectF.Height -= 1;
 
-				borderPath.AddLine(rectF.Left, rectF.Top, rectF.Right - arcLength, rectF.Top);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Top, arcLength, arcLength, -90f, 90f);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Bottom - arcLength, arcLength, arcLength, 0f, 90f);
-				borderPath.AddLine(rectF.Right - arcLength, rectF.Bottom, rectF.Left, rectF.Bottom);
+				borderPath.AddLine(rectF.Left, rectF.Top, rectF.Right - arcTRX, rectF.Top);
+				borderPath.AddArc(rectF.Right - arcTRX, rectF.Top, arcTR, arcTR, -90f, 90f);
+				borderPath.AddArc(rectF.Right - arcBRX, rectF.Bottom - arcBRY, arcBR, arcBR, 0f, 90f);
+				borderPath.AddLine(rectF.Right - arcBRX, rectF.Bottom, rectF.Left, rectF.Bottom);
 				borderPath.AddLine(rectF.Left, rectF.Bottom, rectF.Left, rectF.Top);
 				break;
 			case PaletteDrawBorders.TopLeftRight:
-				borderPath.AddLine(rectF.Left, rectF.Bottom, rectF.Left, rectF.Top + arcLength);
-				borderPath.AddArc(rectF.Left, rectF.Top, arcLength, arcLength, 180f, 90f);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Top, arcLength, arcLength, -90f, 90f);
-				borderPath.AddLine(rectF.Right, rectF.Top + arcLength, rectF.Right, rectF.Bottom);
+				borderPath.AddLine(rectF.Left, rectF.Bottom, rectF.Left, rectF.Top + arcTL);
+				borderPath.AddArc(rectF.Left, rectF.Top, arcTL, arcTL, 180f, 90f);
+				borderPath.AddArc(rectF.Right - arcTRX, rectF.Top, arcTR, arcTR, -90f, 90f);
+				borderPath.AddLine(rectF.Right, rectF.Top + arcTR, rectF.Right, rectF.Bottom);
 				borderPath.AddLine(rectF.Right, rectF.Bottom, rectF.Left, rectF.Bottom);
 				break;
 			case PaletteDrawBorders.BottomLeftRight:
@@ -4376,9 +4423,9 @@ public class RenderStandard : RenderBase
 				rectF.Width -= 1;
 				rectF.Height -= 1;
 
-				borderPath.AddLine(rectF.Right, rectF.Top, rectF.Right, rectF.Bottom - arcLength);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Bottom - arcLength, arcLength, arcLength, 0f, 90f);
-				borderPath.AddArc(rectF.Left, rectF.Bottom - arcLength, arcLength, arcLength, 90f, 90f);
+				borderPath.AddLine(rectF.Right, rectF.Top, rectF.Right, rectF.Bottom - arcBRY);
+				borderPath.AddArc(rectF.Right - arcBRX, rectF.Bottom - arcBRY, arcBR, arcBR, 0f, 90f);
+				borderPath.AddArc(rectF.Left, rectF.Bottom - arcBLY, arcBL, arcBL, 90f, 90f);
 				borderPath.AddLine(rectF.Left, rectF.Top, rectF.Right, rectF.Top);
 				break;
 		}
@@ -6623,8 +6670,8 @@ public class RenderStandard : RenderBase
 			new RectangleF(drawRect.X - 1, drawRect.Y - 1, drawRect.Width + 2, drawRect.Height + 1);
 		var rectInside =
 			new Rectangle(drawRect.X + 2, drawRect.Y + 2, drawRect.Width - 4, drawRect.Height - 4);
-		using GraphicsPath borderPath = CreateBorderBackPath(true, true, drawRect, PaletteDrawBorders.All, 1, rounding, 0),
-			insidePath = CreateBorderBackPath(true, true, rectInside, PaletteDrawBorders.All, 1, rounding - 1, 0);
+		using GraphicsPath borderPath = CreateBorderBackPath(true, true, drawRect, PaletteDrawBorders.All, 1, PaletteCornerRounding.Uniform(rounding), 0),
+			insidePath = CreateBorderBackPath(true, true, rectInside, PaletteDrawBorders.All, 1, PaletteCornerRounding.Uniform(rounding - 1), 0);
 		using (var borderBrush = new SolidBrush(Color.FromArgb(196, Color.White)))
 		{
 			context.Graphics.FillPath(borderBrush, borderPath);
