@@ -97,6 +97,8 @@ public partial class StartScreen : KryptonForm
         CreateButton<DateTimeExample>("DateTime Example", string.Empty);
         CreateButton<DockingConfigSaveLoadTest>("Docking Config Save/Load Test", "Test SaveConfigToArray and LoadConfigFromArray");
         CreateButton<DockingRedockDemo>("Docking Redock Demo", "Demo for Issue #2933: undock (Float) then redock; no floating window left behind.");
+        CreateButton<FoldableDialogDemo>("Foldable Dialog", "Demo for Issue #3840: KryptonFoldableDialog, a message-box style dialog with a collapsible (foldable) details region modelled on the Visual Studio Just-In-Time debugger dialog. Configure caption, heading, message, details, icon, buttons, default button, and initial expanded state, or try the JIT-style preset.");
+        CreateButton<MessageBoxExtendedFoldableDemo>("Message Box Extended - Foldable Footer", "Demo for the optional expandable (foldable) footer of KryptonMessageBoxExtended: a collapsible details region (Text, CheckBox, or RichTextBox) with a Show/Hide details toggle that matches the KryptonFoldableDialog expander. Configure message, caption, icon, buttons, footer content type, RichTextBox height, and initial expanded state, or try the JIT-style preset.");
         CreateButton<FontAwesomeTest>("Font Awesome Test", string.Empty);
         CreateButton<FloatingWindowTest>("Floating Window Test", "Comprehensive test for floating window bug fix (Issue #2721)");
         CreateButton<FloatingToolbarsDemo>("Floating Toolbars Demo", "Comprehensive demonstration of KryptonFloatingToolbars features including drag-and-drop floating/docking, programmatic control, animation, window styles, docking preview indicators, custom themes, state persistence, and multi-monitor support.");
@@ -140,6 +142,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<CalendarTest>("Calendar", string.Empty);
         CreateButton<ComboBoxDateTimePickerConsistencyDemo>("ComboBox/DateTimePicker Consistency", "Comprehensive demonstration of KComboBox and KDateTimePicker consistency fix (Issue #1651). Shows drop-down buttons stretching to full height and centered text.");
         CreateButton<DropDownArrowsDemo>("Drop-Down Arrows Demo", "Comprehensive demonstration of drop-down arrows: smaller size and DPI awareness (Issue #2129). Shows KryptonButton, KryptonDropButton, KryptonComboBox, KryptonDateTimePicker, KryptonColorButton, and KryptonNumericUpDown. Move window between monitors to verify DPI scaling.");
+        CreateButton<KryptonDropZoneDemo>("Krypton Drop Zone", "Comprehensive demo of KryptonDropZone: drag-and-drop and browse, extension/size/count limits, folder scanning, undo, sorting, context menu, keyboard shortcuts, FileValidating, and SaveToFile/LoadFromFile API.");
         CreateButton<ControlsTest>("Controls Test", string.Empty);
         CreateButton<DataGridViewDemo>("KryptonDataGridView Demo", string.Empty);
         CreateButton<BindingNavigatorDemo>("KryptonBindingNavigator Demo", "Comprehensive example of KryptonBindingNavigator with data binding");
@@ -150,6 +153,8 @@ public partial class StartScreen : KryptonForm
         CreateButton<JumpListTest>("Jump List Test", "Comprehensive demonstration of jump lists on KryptonForm with user tasks, custom categories, known categories, and interactive examples.");
         CreateButton<KryptonFolderBrowserDialogDemo>("Folder Browser Dialog", "Comprehensive demo of KryptonFolderBrowserDialog: configure Title, Icon, SelectedPath, RootFolder, and InitialDirectory, compare with the standard dialog, and try preset scenarios.");
         CreateButton<MessageBoxTest>("MessageBox", string.Empty);
+        CreateButton<MessageBoxCopyButtonDemo>("MessageBox Copy Button", "Issue #3836: comprehensive demo of the optional 'Copy' button on KryptonMessageBox. Configure buttons, icon, default button, RTL and the opt-in flags (Copy/Close/Ctrl+C/Help), then preview what the Copy button or Ctrl+C places on the clipboard. Includes quick presets (Error, Yes/No/Cancel + Help, RTL).");
+        CreateButton<MessageBoxExtendedCopyButtonDemo>("MessageBox Extended Copy Button", "Issue #3836 parity: comprehensive demo of the optional 'Copy' button on KryptonMessageBoxExtended. Configure buttons, icon, default button, content type (Normal/RichTextBox/HyperLink), RTL and the opt-in flags (Copy/Close/Ctrl+C/Help), then preview the clipboard. Includes presets (Error, RichTextBox, HyperLink, struct-based path) and verifies Ctrl+C copies all content types.");
         CreateButton<Main>("Old Style Main: Fullscreen", string.Empty);
         CreateButton<ProgressBarTriStateTest>("ProgressBar Tri-State", string.Empty);
         CreateButton<OverlayImageTest>("Overlay Image Test", "Comprehensive demonstration of overlay images on KryptonButton and KryptonLabel with configurable positions and scaling modes.");
