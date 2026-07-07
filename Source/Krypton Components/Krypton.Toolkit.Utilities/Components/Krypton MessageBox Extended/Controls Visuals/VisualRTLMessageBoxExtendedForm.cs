@@ -1188,14 +1188,9 @@ public partial class VisualRTLMessageBoxExtendedForm : KryptonForm
 
         kcbOptionalCheckBox.ThreeState = _useOptionalCheckBoxThreeState;
 
-        if (_useOptionalCheckBoxThreeState)
-        {
-            kcbOptionalCheckBox.CheckState = _initialDoNotShowAgainCheckState;
-        }
-        else
-        {
-            kcbOptionalCheckBox.Checked = _optionalCheckBoxChecked;
-        }
+        _ = _useOptionalCheckBoxThreeState
+            ? (kcbOptionalCheckBox.CheckState = _initialDoNotShowAgainCheckState) == _initialDoNotShowAgainCheckState
+            : kcbOptionalCheckBox.Checked = _optionalCheckBoxChecked;
 
         kcbOptionalCheckBox.Text = _checkBoxText;
     }
@@ -1361,17 +1356,10 @@ public partial class VisualRTLMessageBoxExtendedForm : KryptonForm
         return messageBoxExtendedForm.kcbOptionalCheckBox.CheckState;
     }
 
-    private void OptionalCheckBox_CheckedChanged(object sender, EventArgs e)
-    {
-        if (_useOptionalCheckBoxThreeState)
-        {
-            _doNotShowAgainCheckStateResult = kcbOptionalCheckBox.CheckState;
-        }
-        else
-        {
-            _optionalCheckBoxChecked = kcbOptionalCheckBox.Checked;
-        }
-    }
+    private void OptionalCheckBox_CheckedChanged(object sender, EventArgs e) =>
+        _ = _useOptionalCheckBoxThreeState
+            ? (_doNotShowAgainCheckStateResult = kcbOptionalCheckBox.CheckState) == kcbOptionalCheckBox.CheckState
+            : _optionalCheckBoxChecked = kcbOptionalCheckBox.Checked;
 
     internal bool GetDoNotShowAgainChecked() => _optionalCheckBoxChecked;
 
