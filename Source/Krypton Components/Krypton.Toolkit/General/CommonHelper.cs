@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -1665,6 +1665,50 @@ public static class CommonHelper
         Cursor cur = Cursor.Current ?? Cursors.Default;
 
         return cur.HotSpot;
+    }
+
+    /// <summary>
+    /// Gets the screen-space bounds of the active cursor image for a screen hotspot position.
+    /// </summary>
+    /// <param name="screenHotSpot">Screen coordinates of the cursor hotspot (for example from <c>GetCursorPos</c>).</param>
+    /// <returns>Rectangle covering the full cursor bitmap in screen coordinates.</returns>
+    public static Rectangle GetCursorScreenBounds(Point screenHotSpot)
+    {
+        Cursor cursor = Cursor.Current ?? Cursors.Default;
+        Point hotSpot = cursor.HotSpot;
+        Size size = cursor.Size;
+
+        if (PI.GetIconInfo(cursor.Handle, out PI.ICONINFO iconInfo))
+        {
+            hotSpot = new Point(iconInfo.xHotspot, iconInfo.yHotspot);
+
+            IntPtr hBitmap = iconInfo.hbmColor != IntPtr.Zero ? iconInfo.hbmColor : iconInfo.hbmMask;
+            if (hBitmap != IntPtr.Zero)
+            {
+                var bitmap = new PI.BITMAP();
+                if (PI.GetObject(hBitmap, Marshal.SizeOf<PI.BITMAP>(), ref bitmap) != 0)
+                {
+                    int height = iconInfo.hbmColor != IntPtr.Zero ? bitmap.bmHeight : bitmap.bmHeight / 2;
+                    size = new Size(bitmap.bmWidth, Math.Max(1, height));
+                }
+            }
+
+            if (iconInfo.hbmMask != IntPtr.Zero)
+            {
+                PI.DeleteObject(iconInfo.hbmMask);
+            }
+
+            if (iconInfo.hbmColor != IntPtr.Zero)
+            {
+                PI.DeleteObject(iconInfo.hbmColor);
+            }
+        }
+
+        return new Rectangle(
+            screenHotSpot.X - hotSpot.X,
+            screenHotSpot.Y - hotSpot.Y,
+            Math.Max(1, size.Width),
+            Math.Max(1, size.Height));
     }
 
     /// <summary>

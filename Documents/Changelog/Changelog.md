@@ -47,6 +47,8 @@
 
 ## 2026-07-20 - Build 2607 (Version 105-LTS - Patch 3) - July 2026
 
+* Resolved [#3850](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3850), Tooltip hot-spot not respected 
+   * Tooltip placement now respects cursor hotspot and full cursor bounds
 * Implemented [#3861](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3861), Permits customizing glyph colors (#3663) using `KryptonCustomPalette`.
 * Implemented [#3829](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3829), Showing Tab ToolTips for Docking Pages
 * Resolved [#3826](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3826), Null reference in `KryptonToggleSwitch` when the global palette changes
@@ -61,7 +63,7 @@
 * Resolved [#2862](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2862), Fixed VisualForm resize flicker in .NET 10+
 * Implemented [#3550](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3550), Auto complete issues
 * Resolved [#3580](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3580), Fix docked header autosizing
-* Resolved [#397](https://github.com/Krypton-Suite/Standard-Toolkit/issues/397), normal context menus now use the same palette colours as `KryptonContextMenu`
+* Resolved [#397](https://github.com/Krypton-Suite/Standard-Toolkit/issues/397), Normal context menus now use the same palette colours as `KryptonContextMenu`
 * Resolved [#1976](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1976), `MenuItem###` theme settings now apply to menu item selected, pressed, and border rendering.
 * Implemented [#3598](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3598), Fix KryptonContextMenu disposal leaks
 * Implemented [#3514](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3514), Include `README.md` in NuGet Packages
