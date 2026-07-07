@@ -27,6 +27,7 @@ public static class KryptonLogger
     {
         get
         {
+            // Snapshot without locking; SetLogger may replace _customLogger on another thread.
             var custom = _customLogger;
             return custom ?? DefaultKryptonLogger.Instance;
         }
@@ -61,13 +62,38 @@ internal sealed class DefaultKryptonLogger : IKryptonLogger
     internal static readonly DefaultKryptonLogger Instance = new();
 
     private static readonly object FileSync = new();
-    private static string? _resolvedFilePath;
-    private static bool _filePathResolved;
+    #endregion
+
+    #region Instance Fields
+    private readonly StreamWriter? _fileWriter;
+    private readonly bool _fileLoggingEnabled;
     #endregion
 
     #region Identity
     private DefaultKryptonLogger()
     {
+        var filePath = ResolveLogFilePath();
+        if (string.IsNullOrWhiteSpace(filePath))
+        {
+            _fileLoggingEnabled = false;
+            return;
+        }
+
+        try
+        {
+            var directory = Path.GetDirectoryName(filePath);
+            if (!string.IsNullOrEmpty(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            _fileWriter = new StreamWriter(filePath, append: true) { AutoFlush = true };
+            _fileLoggingEnabled = true;
+        }
+        catch
+        {
+            _fileLoggingEnabled = false;
+        }
     }
     #endregion
 
@@ -75,10 +101,14 @@ internal sealed class DefaultKryptonLogger : IKryptonLogger
     /// <inheritdoc />
     public void Write(string message)
     {
+        if (string.IsNullOrWhiteSpace(message))
+        {
+            return;
+        }
+
         Debug.WriteLine(message);
 
-        var filePath = GetLogFilePath();
-        if (filePath == null)
+        if (!_fileLoggingEnabled)
         {
             return;
         }
@@ -88,13 +118,7 @@ internal sealed class DefaultKryptonLogger : IKryptonLogger
             var line = $"[{DateTime.Now:HH:mm:ss.fff}] {message}";
             lock (FileSync)
             {
-                var directory = Path.GetDirectoryName(filePath);
-                if (!string.IsNullOrEmpty(directory))
-                {
-                    Directory.CreateDirectory(directory);
-                }
-
-                File.AppendAllText(filePath, line + Environment.NewLine);
+                _fileWriter!.WriteLine(line);
             }
         }
         catch
@@ -104,35 +128,11 @@ internal sealed class DefaultKryptonLogger : IKryptonLogger
     #endregion
 
     #region Implementation
-    private static string? GetLogFilePath()
-    {
-        if (_filePathResolved)
-        {
-            return _resolvedFilePath;
-        }
-
-        lock (FileSync)
-        {
-            if (_filePathResolved)
-            {
-                return _resolvedFilePath;
-            }
-
-            _resolvedFilePath = ResolveLogFilePath();
-            _filePathResolved = true;
-            return _resolvedFilePath;
-        }
-    }
-
+    // Env-var precedence: KRYPTON_LOG_PATH (always) -> KRYPTON_LOG gate -> KRYPTON_LOG_WM -> %LOCALAPPDATA% default.
+    // KRYPTON_LOG is checked before WM/default so the common "logging off" path avoids those lookups at type init.
     private static string? ResolveLogFilePath()
     {
         var explicitPath = Environment.GetEnvironmentVariable("KRYPTON_LOG_PATH");
-        if (string.IsNullOrWhiteSpace(explicitPath))
-        {
-            // Backward compatibility with theme-swap WM tracing.
-            explicitPath = Environment.GetEnvironmentVariable("KRYPTON_LOG_WM");
-        }
-
         if (!string.IsNullOrWhiteSpace(explicitPath))
         {
             return explicitPath;
@@ -141,6 +141,13 @@ internal sealed class DefaultKryptonLogger : IKryptonLogger
         if (!IsFileLoggingEnabled())
         {
             return null;
+        }
+
+        // Legacy theme-swap WM tracing path; only consulted when KRYPTON_LOG is enabled.
+        explicitPath = Environment.GetEnvironmentVariable("KRYPTON_LOG_WM");
+        if (!string.IsNullOrWhiteSpace(explicitPath))
+        {
+            return explicitPath;
         }
 
         var localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);

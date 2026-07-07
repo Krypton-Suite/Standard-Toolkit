@@ -14,6 +14,12 @@ namespace Krypton.Toolkit;
 /// </summary>
 internal static class DebugLogger
 {
+    /// <summary>
+    /// Writes a theme-swap WM trace line through <see cref="KryptonLogger"/>.
+    /// Line termination is handled by the active logger; do not append <see cref="Environment.NewLine"/> here.
+    /// </summary>
+    /// <param name="message">The trace message (without the <c>[WM]</c> prefix).</param>
     public static void WriteLine(string message) =>
-        KryptonLogger.Write($"[WM] {message}");
+        // Concat avoids interpolation allocation on this hot WM-tracing path.
+        KryptonLogger.Write(string.Concat("[WM] ", message));
 }

@@ -149,23 +149,27 @@ public partial class KryptonLoggerDemo : KryptonForm
     private static string? ResolveExpectedLogFilePath()
     {
         var explicitPath = Environment.GetEnvironmentVariable("KRYPTON_LOG_PATH");
-        if (string.IsNullOrWhiteSpace(explicitPath))
-        {
-            explicitPath = Environment.GetEnvironmentVariable("KRYPTON_LOG_WM");
-        }
-
         if (!string.IsNullOrWhiteSpace(explicitPath))
         {
             return explicitPath;
         }
 
-        return IsTruthy(Environment.GetEnvironmentVariable("KRYPTON_LOG"))
-            ? Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                "Krypton-Suite",
-                "Toolkit",
-                "Krypton.log")
-            : null;
+        if (!IsTruthy(Environment.GetEnvironmentVariable("KRYPTON_LOG")))
+        {
+            return null;
+        }
+
+        explicitPath = Environment.GetEnvironmentVariable("KRYPTON_LOG_WM");
+        if (!string.IsNullOrWhiteSpace(explicitPath))
+        {
+            return explicitPath;
+        }
+
+        return Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+            "Krypton-Suite",
+            "Toolkit",
+            "Krypton.log");
     }
 
     private static bool IsTruthy(string? value) =>
