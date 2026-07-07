@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -64,6 +64,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<ButtonTextTrackingExample>("Button Text Tracking", "Demonstrates alternate text color for tracking (hover) state on KryptonButton, KryptonCheckButton, KryptonColorButton and other controls (Issue #1326). Improves readability in dark themes.");
         CreateButton<TextListItemExample>("Text List Item", "Demonstrates independent list and tree item text color via SchemeBaseColors.TextListItem (Issue #880). TextLabelControl, TextListItem, and TextButtonNormal each drive labels, tree/list controls, and buttons separately. Contrast preset, per-slot color pickers, live scheme readout, and theme switching.");
         CreateButton<ButtonsTest>("Buttons Test", "All the buttons you want to test.");
+        CreateButton<CheckBoxExtendedDemo>("CheckBox Extended", "Issue #3833: KryptonCheckBoxExtended in Krypton.Toolkit.Utilities for word-wrapped check box text and optional subtext. Compare with standard KryptonCheckBox at the same width.");
         CreateButton<KryptonColorButtonDemo>("KryptonColorButton Custom Colours", "Comprehensive demo of KryptonColorButton custom colours (Issue #776): CustomColors, MaxCustomColors, and visibility. Only 10 colours, or custom + theme + standard, or cap display count.");
         CreateButton<KryptonComboBoxUserControlDemo>("KryptonComboBoxUserControl", "Demo for Issue #3443: a ComboBox-style control whose drop-down hosts any UserControl. Shows tree-picker, grid-picker and a plain (non-contract) UserControl scenario.");
         CreateButton<KryptonTreeComboBoxDemo>("KryptonTreeComboBox", "Demo for Issue #3444: ComboBox-style control with a grouped tree drop-down (leaf/full path, breadcrumb, and parent-node selection).");
@@ -76,6 +77,8 @@ public partial class StartScreen : KryptonForm
         CreateButton<Bug3342KryptonTextBoxResizeFlickerDemo>("Bug 3342 Multiline TextBox Flicker", "Demo for issue #3342: multiline KryptonTextBox text flicker while resizing. Includes manual resize steps and an automated stress-resize toggle.");
         CreateButton<Bug3786ControlBoxOrderDemo>("Bug 3786 Control Box Order", "Issue #3786: comprehensive demo for KryptonForm control box order (LTR/RTL), macOS traffic lights (red-yellow-green), RTL left-side placement, FormTrafficLightEdge, and live PASS/FAIL diagnostics.");
         CreateButton<Bug3367KryptonTextBoxButtonSpecHoverDemo>("Bug 3367 TextBox ButtonSpec Hover", "Demo for issue #3367: ButtonSpec hover flicker on KryptonTextBox/KryptonMaskedTextBox, including ImageStates.ImageNormal without the Image property.");
+        CreateButton<Bug3382CueHintLinesDemo>("Bug 3382 CueHint line artifacts", "Demo for issue #3382: KryptonTextBox CueHint with TextH Near and mixed cue/content fonts � verify no stray top/left lines; cue remains vertically centered.");
+        CreateButton<Bug3383KryptonButtonStateTrackingRoundingDemo>("Bug 3383 KryptonButton hover rounding vs OverrideFocus", "Demo for issue #3383: large StateCommon rounding with different StateTracking rounding and OverrideFocus rounding � Tab to focus, then hover (left repro vs right matched control). Corner fill and stroke should align after the palette merge fix.");
         CreateButton<Bug3382CueHintLinesDemo>("Bug 3382 CueHint line artifacts", "Demo for issue #3382: KryptonTextBox CueHint with TextH Near and mixed cue/content fonts — verify no stray top/left lines; cue remains vertically centered.");
         CreateButton<Issue797IndividualCornerRoundingDemo>("Issue 797 Individual corner rounding", "Demo for issue #797: per-corner border rounding via StateNormal.Border.RoundingTopLeft/TopRight/BottomLeft/BottomRight. Left: TL/TR/BL=5, BR=0; right: uniform rounding.");
         CreateButton<Bug3383KryptonButtonStateTrackingRoundingDemo>("Bug 3383 KryptonButton hover rounding vs OverrideFocus", "Demo for issue #3383: large StateCommon rounding with different StateTracking rounding and OverrideFocus rounding — Tab to focus, then hover (left repro vs right matched control). Corner fill and stroke should align after the palette merge fix.");
