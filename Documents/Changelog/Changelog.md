@@ -45,6 +45,8 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#3842](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3842), `KryptonMessageBoxExtended` RTL routing on the optional-checkbox `bool`- and `CheckState`-returning `ShowCore` paths (the RTL extended message box now displays and returns the checkbox state, matching the LTR behaviour)
+   * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Implemented [#3780](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3780), Bring the `KryptonDropZone` over
    * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Implemented [#3840](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3840), Foldable dialog  
