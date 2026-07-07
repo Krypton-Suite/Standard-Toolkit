@@ -35,8 +35,8 @@ internal static class DropDownArrowGlyphColors
         Color fill;
         if (state == PaletteState.Disabled)
         {
-            outline = palette.GetSchemeColor(SchemeBaseColors.InputDropDownDisabled1);
-            fill = palette.GetSchemeColor(SchemeBaseColors.InputDropDownDisabled2);
+            outline = palette.GetContentShortTextColor1(PaletteContentStyle.ButtonInputControl, PaletteState.Disabled);
+            fill = palette.GetContentShortTextColor2(PaletteContentStyle.ButtonInputControl, PaletteState.Disabled);
             if (outline == Color.Empty || outline == Color.Empty)
             {
                 outline = palette.GetContentShortTextColor1(PaletteContentStyle.ButtonStandalone, PaletteState.Disabled);
@@ -44,8 +44,8 @@ internal static class DropDownArrowGlyphColors
         }
         else
         {
-            outline = palette.GetSchemeColor(SchemeBaseColors.TextButtonNormal);
-            fill = palette.GetSchemeColor(SchemeBaseColors.InputDropDownNormal2);
+            outline = palette.GetContentShortTextColor1(PaletteContentStyle.ButtonStandalone, PaletteState.Normal);
+            fill = palette.GetContentShortTextColor2(PaletteContentStyle.ButtonInputControl, PaletteState.Normal);
             if (outline == Color.Empty || outline == Color.Empty)
             {
                 outline = palette.GetContentShortTextColor1(PaletteContentStyle.ButtonStandalone, state);
