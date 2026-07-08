@@ -221,4 +221,7 @@
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>
+
+	<Import Project="$(MSBuildThisFileDirectory)Krypton.Shared\Krypton.Interop.Package.targets"
+	        Condition="Exists('$(MSBuildThisFileDirectory)Krypton.Shared\Krypton.Interop.Package.targets')" />
 </Project>

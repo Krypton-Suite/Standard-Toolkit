@@ -236,6 +236,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         _showOptionalCheckBox = showOptionalCheckBox ?? false;
         _isDoNotShowAgainCheckedResult = initialDoNotShowAgainCheckBoxChecked ?? false;
         _initialDoNotShowAgainCheckState = initialDoNotShowAgainCheckBoxCheckState ?? CheckState.Unchecked;
+        _doNotShowAgainCheckStateResult = _initialDoNotShowAgainCheckState;
         _checkBoxText = optionalCheckBoxText ?? string.Empty;
         _useOptionalCheckBoxThreeState = useOptionalCheckBoxThreeState ?? false;
         _footerText = footerText;
@@ -1642,11 +1643,13 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
     {
         kcbOptionalCheckBox.Visible = _showOptionalCheckBox;
 
-        kcbOptionalCheckBox.Checked = _initialDoNotShowAgainCheck;
+        kcbOptionalCheckBox.ThreeState = _useOptionalCheckBoxThreeState;
+
+        _ = _useOptionalCheckBoxThreeState
+            ? (kcbOptionalCheckBox.CheckState = _initialDoNotShowAgainCheckState) == _initialDoNotShowAgainCheckState
+            : kcbOptionalCheckBox.Checked = _initialDoNotShowAgainCheck;
 
         kcbOptionalCheckBox.Text = _checkBoxText;
-
-        kcbOptionalCheckBox.ThreeState = _useOptionalCheckBoxThreeState;
     }
 
     /// <summary>
@@ -1819,23 +1822,12 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         return messageBoxExtendedForm.GetDoNotShowAgainCheckState();
     }
 
-    private void OptionalCheckBox_CheckedChanged(object sender, EventArgs e)
-    {
-        if (_useOptionalCheckBoxThreeState)
-        {
-            SetDoNotShowAgainCheckState(kcbOptionalCheckBox.CheckState);
-        }
-        else
-        {
-            SetDoNotShowAgainChecked(kcbOptionalCheckBox.Checked);
-        }
-    }
-
-    private void SetDoNotShowAgainChecked(bool value) => _isDoNotShowAgainCheckedResult = value;
+    private void OptionalCheckBox_CheckedChanged(object sender, EventArgs e) =>
+        _ = _useOptionalCheckBoxThreeState
+            ? (_doNotShowAgainCheckStateResult = kcbOptionalCheckBox.CheckState) == kcbOptionalCheckBox.CheckState
+            : _isDoNotShowAgainCheckedResult = kcbOptionalCheckBox.Checked;
 
     internal bool GetDoNotShowAgainChecked() => _isDoNotShowAgainCheckedResult;
-
-    private void SetDoNotShowAgainCheckState(CheckState value) => _doNotShowAgainCheckStateResult = value;
 
     internal CheckState GetDoNotShowAgainCheckState() => _doNotShowAgainCheckStateResult;
 

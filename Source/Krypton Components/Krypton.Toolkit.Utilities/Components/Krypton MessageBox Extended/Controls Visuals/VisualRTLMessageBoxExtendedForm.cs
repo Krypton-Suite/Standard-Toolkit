@@ -50,6 +50,10 @@ public partial class VisualRTLMessageBoxExtendedForm : KryptonForm
 
     private bool _optionalCheckBoxChecked;
 
+    private readonly CheckState _initialDoNotShowAgainCheckState;
+
+    private CheckState _doNotShowAgainCheckStateResult;
+
     private readonly Color _messageTextColour;
 
     private readonly Color[]? _buttonTextColours = new Color[4];
@@ -161,6 +165,7 @@ public partial class VisualRTLMessageBoxExtendedForm : KryptonForm
         HorizontalAlignment? messageTextBoxAlignment,
         bool? showOptionalCheckBox,
         bool? optionalCheckBoxChecked,
+        CheckState? optionalCheckBoxCheckState,
         string? optionalCheckBoxText,
         bool? useOptionalCheckBoxThreeState,
         bool? useTimeOut,
@@ -221,6 +226,8 @@ public partial class VisualRTLMessageBoxExtendedForm : KryptonForm
         // Optional checkbox
         _showOptionalCheckBox = showOptionalCheckBox ?? false;
         _optionalCheckBoxChecked = optionalCheckBoxChecked ?? false;
+        _initialDoNotShowAgainCheckState = optionalCheckBoxCheckState ?? CheckState.Unchecked;
+        _doNotShowAgainCheckStateResult = _initialDoNotShowAgainCheckState;
         _checkBoxText = optionalCheckBoxText ?? string.Empty;
         _useOptionalCheckBoxThreeState = useOptionalCheckBoxThreeState ?? false;
         _footerText = footerText;
@@ -1179,11 +1186,13 @@ public partial class VisualRTLMessageBoxExtendedForm : KryptonForm
     {
         kcbOptionalCheckBox.Visible = _showOptionalCheckBox;
 
-        kcbOptionalCheckBox.Checked = _optionalCheckBoxChecked;
+        kcbOptionalCheckBox.ThreeState = _useOptionalCheckBoxThreeState;
+
+        _ = _useOptionalCheckBoxThreeState
+            ? (kcbOptionalCheckBox.CheckState = _initialDoNotShowAgainCheckState) == _initialDoNotShowAgainCheckState
+            : kcbOptionalCheckBox.Checked = _optionalCheckBoxChecked;
 
         kcbOptionalCheckBox.Text = _checkBoxText;
-
-        kcbOptionalCheckBox.ThreeState = _useOptionalCheckBoxThreeState;
     }
 
     /// <summary>
@@ -1347,7 +1356,14 @@ public partial class VisualRTLMessageBoxExtendedForm : KryptonForm
         return messageBoxExtendedForm.kcbOptionalCheckBox.CheckState;
     }
 
-    private void OptionalCheckBox_CheckedChanged(object sender, EventArgs e) => _optionalCheckBoxChecked = kcbOptionalCheckBox.Checked;
+    private void OptionalCheckBox_CheckedChanged(object sender, EventArgs e) =>
+        _ = _useOptionalCheckBoxThreeState
+            ? (_doNotShowAgainCheckStateResult = kcbOptionalCheckBox.CheckState) == kcbOptionalCheckBox.CheckState
+            : _optionalCheckBoxChecked = kcbOptionalCheckBox.Checked;
+
+    internal bool GetDoNotShowAgainChecked() => _optionalCheckBoxChecked;
+
+    internal CheckState GetDoNotShowAgainCheckState() => _doNotShowAgainCheckStateResult;
 
     private void UpdateCloseButtonVisibility(bool? visible) => CloseBox = visible ?? true;
 
