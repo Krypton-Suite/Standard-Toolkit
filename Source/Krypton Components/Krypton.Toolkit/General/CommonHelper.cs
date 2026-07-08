@@ -1548,20 +1548,10 @@ public static class CommonHelper
     }
 
     /// <summary>
-    /// Output some debug data to a log file that exists in same directory as the application.
+    /// Writes a diagnostic message through <see cref="KryptonLogger"/>.
     /// </summary>
     /// <param name="str">String to output.</param>
-    public static void LogOutput(string str)
-    {
-        // TODO: Make this thread aware !
-        // TODO: DO NOT WRITE to the application path, as that might / will be UAC protected !!
-        //var fi = new FileInfo(Application.ExecutablePath);
-        //using var writer = new StreamWriter($@"{fi.DirectoryName}LogOutput.txt", true, Encoding.ASCII);
-        //writer.Write($@"{DateTime.Now.ToLongTimeString()} :  ");
-        //writer.WriteLine(str);
-        //writer.Flush();
-        Debug.WriteLine(str);
-    }
+    public static void LogOutput(string str) => KryptonLogger.Write(str);
 
     /// <summary>
     /// Checks if we are inside the Visual Studio IDE.

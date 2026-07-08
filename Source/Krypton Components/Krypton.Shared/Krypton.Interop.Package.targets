@@ -1,0 +1,33 @@
+<Project>
+	<!--
+	  Include Krypton.Interop.dll in packable Krypton module packages.
+	  Krypton.Standard.Toolkit has its own explicit inclusion target.
+	-->
+	<Target Name="KryptonIncludeInteropInPackage"
+	        BeforeTargets="_GetPackageFiles"
+	        Condition="'$(IsPackable)' == 'true' And '$(PackageId)' != 'Krypton.Standard.Toolkit' And '$(PackageId)' != ''">
+		<PropertyGroup>
+			<_KryptonInteropLibDir>$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\</_KryptonInteropLibDir>
+		</PropertyGroup>
+		<ItemGroup>
+			<TfmSpecificPackageFile Include="$(_KryptonInteropLibDir)Krypton.Interop.dll" Condition="Exists('$(_KryptonInteropLibDir)Krypton.Interop.dll')">
+				<PackagePath>lib\$(TargetFramework)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="..\Krypton.Interop\bin\$(Configuration)\$(TargetFramework)\Krypton.Interop.dll" Condition="!Exists('$(_KryptonInteropLibDir)Krypton.Interop.dll') And Exists('..\Krypton.Interop\bin\$(Configuration)\$(TargetFramework)\Krypton.Interop.dll')">
+				<PackagePath>lib\$(TargetFramework)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonInteropLibDir)Krypton.Interop.xml" Condition="Exists('$(_KryptonInteropLibDir)Krypton.Interop.xml')">
+				<PackagePath>lib\$(TargetFramework)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="..\Krypton.Interop\bin\$(Configuration)\$(TargetFramework)\Krypton.Interop.xml" Condition="!Exists('$(_KryptonInteropLibDir)Krypton.Interop.xml') And Exists('..\Krypton.Interop\bin\$(Configuration)\$(TargetFramework)\Krypton.Interop.xml')">
+				<PackagePath>lib\$(TargetFramework)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonInteropLibDir)Krypton.Interop.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('$(_KryptonInteropLibDir)Krypton.Interop.pdb')">
+				<PackagePath>lib\$(TargetFramework)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="..\Krypton.Interop\bin\$(Configuration)\$(TargetFramework)\Krypton.Interop.pdb" Condition="'$(IncludeSymbols)' == 'true' And !Exists('$(_KryptonInteropLibDir)Krypton.Interop.pdb') And Exists('..\Krypton.Interop\bin\$(Configuration)\$(TargetFramework)\Krypton.Interop.pdb')">
+				<PackagePath>lib\$(TargetFramework)\</PackagePath>
+			</TfmSpecificPackageFile>
+		</ItemGroup>
+	</Target>
+</Project>

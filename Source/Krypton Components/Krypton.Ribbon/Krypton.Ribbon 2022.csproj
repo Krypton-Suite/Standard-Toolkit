@@ -31,6 +31,11 @@
     <Description>This is the ribbon module.</Description>
   </PropertyGroup>
 
+  <Import Project="..\Krypton.Shared\Krypton.SharedCompileItems.props" />
+  <PropertyGroup>
+    <IncludeKryptonGlobalSuppressionsLink>true</IncludeKryptonGlobalSuppressionsLink>
+  </PropertyGroup>
+
   <ItemGroup>
     <Reference Include="System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net4'))">
       <SpecificVersion>True</SpecificVersion>
@@ -40,11 +45,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\Krypton.Toolkit\General\GlobalSuppressions.cs" Link="General\GlobalSuppressions.cs" />
-    <Compile Include="..\Krypton.Toolkit\General\PlatformInvoke.cs">
-      <Link>General\PlatformInvoke.cs</Link>
-    </Compile>
-    <Compile Include="..\Krypton.Toolkit\Utilities\AllowNullAttribute.cs" Link="General\AllowNullAttribute.cs" />
     <Compile Update="ButtonSpec\ButtonSpecAppMenu.cs" />
     <Compile Update="ButtonSpec\ButtonSpecMdiChildFixed.cs" />
     <Compile Update="ButtonSpec\ButtonSpecMdiChildClose.cs" />
