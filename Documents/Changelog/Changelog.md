@@ -45,6 +45,8 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#3856](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3856), Replace `CommonHelper.LogOutput` with thread-safe, non-UAC-protected logging
+   * Thread-safe diagnostic logging via `IKryptonLogger` and `KryptonLogger`. `CommonHelper.LogOutput` now delegates to the shared logger; optional file output uses `%LOCALAPPDATA%` or `KRYPTON_LOG` / `KRYPTON_LOG_PATH` instead of the application directory.
 * Resolved [#3842](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3842), `KryptonMessageBoxExtended` RTL routing on the optional-checkbox `bool`- and `CheckState`-returning `ShowCore` paths (the RTL extended message box now displays and returns the checkbox state, matching the LTR behaviour)
 * Implemented [#3855](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3855), Cross-project source linking
    * Cross-project source linking: shared interop moved to internal `Krypton.Interop` assembly; remaining compile links centralized in `Krypton.Shared/Krypton.SharedCompileItems.props`.
