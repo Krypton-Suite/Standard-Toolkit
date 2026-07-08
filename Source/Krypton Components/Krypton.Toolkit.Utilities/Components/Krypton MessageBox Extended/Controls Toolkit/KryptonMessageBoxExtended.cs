@@ -699,7 +699,7 @@ public static class KryptonMessageBoxExtended
     {
         IWin32Window? showOwner = ValidateOptions(owner, options, helpInfo);
 
-        if (options == MessageBoxOptions.RightAlign | (options == MessageBoxOptions.RtlReading))
+        if (options is MessageBoxOptions.RightAlign or MessageBoxOptions.RtlReading)
         {
             using var kmbertl = new VisualRTLMessageBoxExtendedForm(showOwner, text,
                 caption, buttons,
@@ -728,6 +728,7 @@ public static class KryptonMessageBoxExtended
                 messageTextBoxAlignment,
                 showOptionalCheckBox,
                 initialDoNotShowAgainCheckBoxChecked,
+                initialDoNotShowAgainCheckBoxCheckState,
                 optionalCheckBoxText,
                 useOptionalCheckBoxThreeState,
                 useTimeOut,
@@ -742,7 +743,9 @@ public static class KryptonMessageBoxExtended
                 countdownButtonDialogResult,
                 showCopyButton);
 
-            return true;
+            kmbertl.Show();
+
+            return kmbertl.GetDoNotShowAgainChecked();
         }
         else
         {
@@ -895,7 +898,7 @@ public static class KryptonMessageBoxExtended
     {
         IWin32Window? showOwner = ValidateOptions(owner, options, helpInfo);
 
-        if (options == MessageBoxOptions.RightAlign | options == MessageBoxOptions.RtlReading)
+        if (options is MessageBoxOptions.RightAlign or MessageBoxOptions.RtlReading)
         {
             using var kmbertl = new VisualRTLMessageBoxExtendedForm(showOwner, text,
                 caption, buttons,
@@ -924,6 +927,7 @@ public static class KryptonMessageBoxExtended
                 messageTextBoxAlignment,
                 showOptionalCheckBox,
                 initialDoNotShowAgainCheckBoxChecked,
+                initialDoNotShowAgainCheckBoxCheckState,
                 optionalCheckBoxText,
                 useOptionalCheckBoxThreeState,
                 useTimeOut,
@@ -938,7 +942,9 @@ public static class KryptonMessageBoxExtended
                 countdownButtonDialogResult,
                 showCopyButton);
 
-            return CheckState.Unchecked;
+            kmbertl.Show();
+
+            return kmbertl.GetDoNotShowAgainCheckState();
         }
         else
         {
@@ -1079,7 +1085,7 @@ public static class KryptonMessageBoxExtended
     {
         IWin32Window? showOwner = ValidateOptions(owner, options, helpInfo);
 
-        if (options == MessageBoxOptions.RightAlign | options == MessageBoxOptions.RtlReading)
+        if (options is MessageBoxOptions.RightAlign or MessageBoxOptions.RtlReading)
         {
             using var kmbertl = new VisualRTLMessageBoxExtendedForm(showOwner, text,
                 caption, buttons,
@@ -1106,6 +1112,7 @@ public static class KryptonMessageBoxExtended
                 messageTextAlignment,
                 richTextBoxTextAlignment,
                 messageTextBoxAlignment,
+                null,
                 null,
                 null,
                 null,

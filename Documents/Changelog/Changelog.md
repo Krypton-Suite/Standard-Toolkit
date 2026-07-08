@@ -45,6 +45,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#3842](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3842), `KryptonMessageBoxExtended` RTL routing on the optional-checkbox `bool`- and `CheckState`-returning `ShowCore` paths (the RTL extended message box now displays and returns the checkbox state, matching the LTR behaviour)
 * Implemented [#3855](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3855), Cross-project source linking
    * Cross-project source linking: shared interop moved to internal `Krypton.Interop` assembly; remaining compile links centralized in `Krypton.Shared/Krypton.SharedCompileItems.props`.
 * Implemented [#3837](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3837), MultiSelect Treeview
