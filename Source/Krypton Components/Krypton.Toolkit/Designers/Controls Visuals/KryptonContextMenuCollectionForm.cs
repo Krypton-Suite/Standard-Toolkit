@@ -209,7 +209,7 @@ public partial class KryptonContextMenuCollectionEditor
         /// <summary>
         /// Initialize a new instance of the KryptonContextMenuCollectionForm class.
         /// </summary>
-        public KryptonContextMenuCollectionForm(KryptonContextMenuCollectionEditor editor)
+        public KryptonContextMenuCollectionForm(KryptonDesignerCollectionEditor editor)
             : base(editor)
         {
             InitializeComponent();

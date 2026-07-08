@@ -14,8 +14,7 @@
 
 namespace Krypton.Ribbon;
 
-// ToDo V120 LTS: Migrate collection editor to KryptonDesignerCollectionForm (currently uses native System.ComponentModel.Design.CollectionForm).
-internal class KryptonRibbonGroupLinesCollectionEditor : CollectionEditor
+internal class KryptonRibbonGroupLinesCollectionEditor : KryptonDesignerStandardCollectionEditor
 {
     /// <summary>
     /// Initialize a new instance of the KryptonRibbonGroupLineCollectionEditor class.

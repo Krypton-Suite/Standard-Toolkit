@@ -15,8 +15,7 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// CollectionEditor used for a KryptonContextMenuItemCollection instance.
 /// </summary>
-// ToDo V120 LTS: Migrate collection editor to KryptonDesignerCollectionForm (currently uses native System.ComponentModel.Design.CollectionForm).
-public class KryptonContextMenuItemCollectionEditor : CollectionEditor
+public class KryptonContextMenuItemCollectionEditor : KryptonDesignerCollectionEditor
 {
     /// <summary>
     /// Initialize a new instance of the KryptonContextMenuItemCollectionEditor class.
@@ -25,6 +24,10 @@ public class KryptonContextMenuItemCollectionEditor : CollectionEditor
         : base(typeof(KryptonContextMenuItemCollection))
     {
     }
+
+    /// <inheritdoc />
+    protected override KryptonDesignerCollectionForm CreateKryptonDesignerCollectionForm() =>
+        KryptonContextMenuCollectionEditor.CreateCollectionForm(this);
 
     /// <summary>
     /// Gets the data types that this collection editor can contain. 

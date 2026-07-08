@@ -139,6 +139,33 @@ public abstract class KryptonDesignerCollectionForm : KryptonForm
     }
 
     /// <summary>
+    /// Applies the owning component palette from the current designer context.
+    /// </summary>
+    protected void ApplyOwnerPaletteFromContext()
+    {
+        if (Context?.Instance is VisualControlBase visualControl)
+        {
+            ApplyOwnerPalette(visualControl.PaletteMode, visualControl.LocalCustomPalette);
+        }
+        else if (Context?.Instance is DataGridViewColumn column
+                 && column.DataGridView is KryptonDataGridView grid)
+        {
+            ApplyOwnerPalette(grid.PaletteMode, grid.Palette as KryptonCustomPaletteBase);
+        }
+    }
+
+    /// <summary>
+    /// Commits the edited items back to the collection instance.
+    /// </summary>
+    protected void CommitDesignerItems()
+    {
+        if (Items is not null)
+        {
+            EditValue = Editor.ApplyDesignerItems(EditValue, Items);
+        }
+    }
+
+    /// <summary>
     /// Applies palette settings to all <see cref="VisualControlBase"/> descendants.
     /// </summary>
     /// <param name="controls">Root control collection.</param>
@@ -219,6 +246,32 @@ public abstract class KryptonDesignerCollectionEditor : CollectionEditor
     /// <param name="serviceType">Type of service to retrieve.</param>
     /// <returns>Service instance if available.</returns>
     internal object? GetDesignerService(Type serviceType) => Context?.GetService(serviceType);
+
+    /// <summary>
+    /// Writes the edited items into the collection instance.
+    /// </summary>
+    /// <param name="editValue">Collection instance.</param>
+    /// <param name="items">Updated items.</param>
+    /// <returns>Updated collection instance.</returns>
+    internal object? ApplyDesignerItems(object? editValue, object[] items) => SetItems(editValue, items);
+
+    /// <summary>
+    /// Gets the display text for a collection item.
+    /// </summary>
+    /// <param name="value">Collection item.</param>
+    /// <returns>Display text.</returns>
+    internal string GetDesignerDisplayText(object? value) => GetDisplayText(value!);
+
+    /// <summary>
+    /// Gets the item types that can be created in the collection editor.
+    /// </summary>
+    /// <returns>Creatable item types.</returns>
+    internal Type[] GetDesignerNewItemTypes() => CreateNewItemTypes();
+
+    /// <summary>
+    /// Gets the collection item type edited by this editor.
+    /// </summary>
+    internal Type DesignerCollectionItemType => CollectionType;
     #endregion
 
     #region Protected

@@ -27,13 +27,23 @@ public partial class KryptonContextMenuCollectionEditor : KryptonDesignerCollect
     }
     #endregion
 
+    #region Internal
+    /// <summary>
+    /// Creates the shared Krypton context-menu collection editor form.
+    /// </summary>
+    /// <param name="editor">Owning collection editor.</param>
+    /// <returns>Editor form instance.</returns>
+    internal static KryptonDesignerCollectionForm CreateCollectionForm(KryptonDesignerCollectionEditor editor) =>
+        new KryptonContextMenuCollectionForm(editor);
+    #endregion
+
     #region Protected Overrides
     /// <summary>
     /// Creates the Krypton-themed collection editor form.
     /// </summary>
     /// <returns>Editor form instance.</returns>
     protected override KryptonDesignerCollectionForm CreateKryptonDesignerCollectionForm() =>
-        new KryptonContextMenuCollectionForm(this);
+        CreateCollectionForm(this);
 
     /// <summary>
     /// Gets the data types that this collection editor can contain. 

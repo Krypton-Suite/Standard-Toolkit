@@ -62,8 +62,7 @@ public partial class KryptonTaskDialogElementCommandLinkButtons : KryptonTaskDia
     /// <summary>
     /// Krypton CommandLink Buttons collection.
     /// </summary>
-    // ToDo V120 LTS: Migrate collection editor to KryptonDesignerCollectionForm (currently uses native System.ComponentModel.Design.CollectionForm).
-    [Editor(typeof(KryptonTaskDialogElementCommandLinkButtons.ButtonsCollectionEditor), typeof(UITypeEditor))]
+    [Editor(typeof(KryptonTaskDialogCommandLinkButtonsCollectionEditor), typeof(UITypeEditor))]
     public ObservableCollection<InternalKryptonCommandLinkButton> Buttons => _buttons;
 
     /// <summary>

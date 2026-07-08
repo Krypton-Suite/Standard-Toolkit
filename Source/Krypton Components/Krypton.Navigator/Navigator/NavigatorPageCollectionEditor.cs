@@ -12,8 +12,7 @@
 
 namespace Krypton.Navigator;
 
-// ToDo V120 LTS: Migrate collection editor to KryptonDesignerCollectionForm (currently uses native System.ComponentModel.Design.CollectionForm).
-internal class NavigatorPageCollectionEditor : CollectionEditor
+internal class NavigatorPageCollectionEditor : KryptonDesignerStandardCollectionEditor
 {
     /// <summary>
     /// Initialize a new instance of the NavigatorPageCollectionEditor class.
