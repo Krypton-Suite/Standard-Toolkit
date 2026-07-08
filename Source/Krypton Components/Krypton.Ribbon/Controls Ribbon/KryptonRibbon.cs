@@ -710,6 +710,7 @@ public class KryptonRibbon : VisualSimple,
     /// </summary>
     [Category(@"Values")]
     [Description(@"Collection of button specifications.")]
+    [Editor(typeof(KryptonDesignerButtonSpecAnyCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public RibbonButtonSpecAnyCollection ButtonSpecs { get; private set; }
 

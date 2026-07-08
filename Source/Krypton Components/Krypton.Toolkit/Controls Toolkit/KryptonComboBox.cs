@@ -2048,6 +2048,7 @@ public class KryptonComboBox : VisualControlBase,
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Collection of button specifications.")]
+    [Editor(typeof(KryptonDesignerButtonSpecAnyCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public ComboBoxButtonSpecCollection ButtonSpecs { get; }
 

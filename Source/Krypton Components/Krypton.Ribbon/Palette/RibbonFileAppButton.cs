@@ -182,6 +182,7 @@ public class RibbonFileAppButton : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Collection of button specifications for the app button context menu.")]
+    [Editor(typeof(KryptonDesignerButtonSpecAppMenuCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public AppMenuButtonSpecCollection AppButtonSpecs { get; }
 

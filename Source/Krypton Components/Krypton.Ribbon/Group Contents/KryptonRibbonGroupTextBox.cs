@@ -647,6 +647,7 @@ public class KryptonRibbonGroupTextBox : KryptonRibbonGroupItem
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Collection of button specifications.")]
+    [Editor(typeof(KryptonDesignerButtonSpecAnyCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public KryptonTextBox.TextBoxButtonSpecCollection ButtonSpecs => TextBox!.ButtonSpecs;
 
