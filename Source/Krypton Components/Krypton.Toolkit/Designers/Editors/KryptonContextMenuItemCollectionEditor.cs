@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -15,6 +15,7 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// CollectionEditor used for a KryptonContextMenuItemCollection instance.
 /// </summary>
+// ToDo V120 LTS: Migrate collection editor to KryptonDesignerCollectionForm (currently uses native System.ComponentModel.Design.CollectionForm).
 public class KryptonContextMenuItemCollectionEditor : CollectionEditor
 {
     /// <summary>

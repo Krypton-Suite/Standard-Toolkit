@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
@@ -134,6 +134,7 @@ public class RibbonFileAppButton : Storage
     [Category(@"Values")]
     [Description(@"Context menu items for the application button.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    // ToDo V120 LTS: Migrate collection editor to KryptonDesignerCollectionForm (currently uses native System.ComponentModel.Design.CollectionForm).
     [Editor(typeof(KryptonContextMenuItemCollectionEditor), typeof(UITypeEditor))]
     public virtual KryptonContextMenuItemCollection AppButtonMenuItems => _appButtonMenuItems.Items;
 
@@ -146,6 +147,7 @@ public class RibbonFileAppButton : Storage
     [Category(@"Values")]
     [Description(@"Recent document entries for the application buttton.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    // ToDo V120 LTS: Migrate collection editor to KryptonDesignerCollectionForm (currently uses native System.ComponentModel.Design.CollectionForm).
     [Editor(@"Krypton.Ribbon.KryptonRibbonRecentDocCollectionEditor, Krypton.Ribbon", typeof(UITypeEditor))]
     public virtual KryptonRibbonRecentDocCollection AppButtonRecentDocs { get; }
 
@@ -254,6 +256,7 @@ public class RibbonFileAppButton : Storage
     [Bindable(true)]
     [Category(@"Appearance")]
     [Description(@"Title text for use in associated ToolTip.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [DefaultValue("")]
     [Localizable(true)]
@@ -268,6 +271,7 @@ public class RibbonFileAppButton : Storage
     [Bindable(true)]
     [Category(@"Appearance")]
     [Description(@"Body text for use in associated ToolTip.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [DefaultValue("")]
     [Localizable(true)]

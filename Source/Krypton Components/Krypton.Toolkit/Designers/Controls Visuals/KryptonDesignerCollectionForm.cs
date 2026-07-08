@@ -14,6 +14,10 @@ namespace Krypton.Toolkit;
 /// </summary>
 public abstract class KryptonDesignerCollectionForm : KryptonForm
 {
+    #region Instance Fields
+    private bool _designerDpiConfigured;
+    #endregion
+
     #region Identity
     /// <summary>
     /// Initialize a new instance of the <see cref="KryptonDesignerCollectionForm"/> class.
@@ -106,11 +110,32 @@ public abstract class KryptonDesignerCollectionForm : KryptonForm
         ApplyPalette(Controls, paletteMode, customPalette);
     }
 
+    /// <summary>
+    /// Configures DPI scaling for the designer editor dialog.
+    /// </summary>
+    protected void ConfigureDesignerDpi()
+    {
+        if (_designerDpiConfigured)
+        {
+            return;
+        }
+
+        KryptonDesignerEditorDpi.Configure(this);
+        _designerDpiConfigured = true;
+    }
+
+    /// <inheritdoc />
+    protected override void OnLoad(EventArgs e)
+    {
+        ConfigureDesignerDpi();
+        base.OnLoad(e);
+    }
+
     /// <inheritdoc />
     protected override void OnShown(EventArgs e)
     {
         base.OnShown(e);
-        RefreshPropertyGrids(Controls);
+        KryptonDesignerEditorDpi.ApplyOnShown(this);
     }
 
     /// <summary>
@@ -140,23 +165,6 @@ public abstract class KryptonDesignerCollectionForm : KryptonForm
             if (control.HasChildren)
             {
                 ApplyPalette(control.Controls, paletteMode, customPalette);
-            }
-        }
-    }
-
-    private static void RefreshPropertyGrids(Control.ControlCollection controls)
-    {
-        foreach (Control control in controls)
-        {
-            if (control is KryptonPropertyGrid propertyGrid)
-            {
-                propertyGrid.PerformLayout();
-                propertyGrid.Invalidate(true);
-            }
-
-            if (control.HasChildren)
-            {
-                RefreshPropertyGrids(control.Controls);
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -622,6 +622,7 @@ public class KryptonPage : VisualPanel
     [Localizable(true)]
     [Category(@"Appearance")]
     [Description(@"Page tooltip title text.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [DefaultValue("")]
     public virtual string ToolTipTitle
@@ -647,6 +648,7 @@ public class KryptonPage : VisualPanel
     [Localizable(true)]
     [Category(@"Appearance")]
     [Description(@"Page tooltip body text.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [DefaultValue("")]
     public virtual string ToolTipBody

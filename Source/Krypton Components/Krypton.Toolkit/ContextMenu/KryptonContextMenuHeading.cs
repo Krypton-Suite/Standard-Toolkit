@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -140,6 +140,7 @@ public class KryptonContextMenuHeading : KryptonContextMenuItemBase
     [KryptonPersist]
     [Category(@"Appearance")]
     [Description(@"Heading menu item text.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [Localizable(true)]
     [DefaultValue(@"Heading")]
@@ -163,6 +164,7 @@ public class KryptonContextMenuHeading : KryptonContextMenuItemBase
     [KryptonPersist]
     [Category(@"Appearance")]
     [Description(@"Heading menu item extra text.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [Localizable(true)]
     [AllowNull]

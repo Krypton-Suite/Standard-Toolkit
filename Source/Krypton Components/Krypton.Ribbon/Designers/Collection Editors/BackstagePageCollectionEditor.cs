@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -9,6 +9,7 @@
 
 namespace Krypton.Ribbon;
 
+// ToDo V120 LTS: Migrate collection editor to KryptonDesignerCollectionForm (currently uses native System.ComponentModel.Design.CollectionForm).
 internal class BackstagePageCollectionEditor : CollectionEditor
 {
     /// <summary>

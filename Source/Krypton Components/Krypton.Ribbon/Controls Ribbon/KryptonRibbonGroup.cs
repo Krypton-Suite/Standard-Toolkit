@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -432,6 +432,7 @@ public class KryptonRibbonGroup : Component
     [Category(@"Visuals")]
     [Description(@"Collection of ribbon group items.")]
     [MergableProperty(false)]
+    // ToDo V120 LTS: Migrate collection editor to KryptonDesignerCollectionForm (currently uses native System.ComponentModel.Design.CollectionForm).
     [Editor(typeof(KryptonRibbonGroupContainerCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public KryptonRibbonGroupContainerCollection Items { get; }

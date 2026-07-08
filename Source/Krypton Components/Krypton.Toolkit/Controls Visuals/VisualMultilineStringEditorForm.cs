@@ -64,6 +64,23 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
 
     #endregion
 
+    #region Protected
+    /// <inheritdoc />
+    protected override void OnLoad(EventArgs e)
+    {
+        KryptonDesignerEditorDpi.Configure(this);
+        base.OnLoad(e);
+    }
+
+    /// <inheritdoc />
+    protected override void OnShown(EventArgs e)
+    {
+        base.OnShown(e);
+        KryptonDesignerEditorDpi.ApplyOnShown(this);
+    }
+
+    #endregion
+
     #region Implementation
 
     private void SetupControlsText()

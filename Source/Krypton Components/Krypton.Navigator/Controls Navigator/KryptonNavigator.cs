@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -363,6 +363,7 @@ public class KryptonNavigator : VisualSimple,
     [Category(@"Visuals")]
     [Description(@"Collection of pages in the navigator control.")]
     [MergableProperty(false)]
+    // ToDo V120 LTS: Migrate collection editor to KryptonDesignerCollectionForm (currently uses native System.ComponentModel.Design.CollectionForm).
     [Editor(typeof(NavigatorPageCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public KryptonPageCollection Pages { get; private set; }

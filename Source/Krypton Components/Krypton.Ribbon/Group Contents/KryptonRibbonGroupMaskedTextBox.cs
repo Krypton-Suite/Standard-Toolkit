@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -417,6 +417,7 @@ public class KryptonRibbonGroupMaskedTextBox : KryptonRibbonGroupItem
     /// Gets and sets the text associated with the control.
     /// </summary>
     [Category(@"Appearance")]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.MaskedTextBoxTextEditor).
     [Editor(@"System.Windows.Forms.Design.MaskedTextBoxTextEditor", typeof(UITypeEditor))]
     [AllowNull]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]

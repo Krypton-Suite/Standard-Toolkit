@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -1641,6 +1641,7 @@ public class KryptonComboBox : VisualControlBase,
     /// </summary>
     [Category(@"Data")]
     [Description(@"Indicates the property to use as the actual value of the items in the control.")]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.DataMemberFieldEditor).
     [Editor(@"System.Windows.Forms.Design.DataMemberFieldEditor", typeof(UITypeEditor))]
     [DefaultValue(@"")]
     public string ValueMember
@@ -1670,6 +1671,7 @@ public class KryptonComboBox : VisualControlBase,
     [Category(@"Data")]
     [Description(@"Indicates the property to display for the items in this control.")]
     [TypeConverter(@"System.Windows.Forms.Design.DataMemberFieldConverter")]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.DataMemberFieldEditor).
     [Editor(@"System.Windows.Forms.Design.DataMemberFieldEditor", typeof(UITypeEditor))]
     [DefaultValue(@"")]
     public string DisplayMember
@@ -2094,6 +2096,7 @@ public class KryptonComboBox : VisualControlBase,
     /// Gets or sets the format specifier characters that indicate how a value is to be Displayed.
     /// </summary>
     [Description(@"The format specifier characters that indicate how a value is to be Displayed.")]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.FormatStringEditor).
     [Editor(@"System.Windows.Forms.Design.FormatStringEditor", typeof(UITypeEditor))]
     [MergableProperty(false)]
     [DefaultValue(@"")]

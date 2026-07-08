@@ -1,11 +1,11 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ *  Â© Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. AvilÃ©s (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -246,7 +246,7 @@ public class KryptonTextBox : VisualControlBase,
                                         drawString = new string(PasswordChar, Text.Length);
                                     }
 
-                                    // Define the font to use for disabled painting – always query the palette first.
+                                    // Define the font to use for disabled painting â€“ always query the palette first.
                                     // Avoids exception - magnitudes faster than another repaint AND try/catch.
                                     var disabledFont = _kryptonTextBox
                                                            .GetTripleState()
@@ -763,6 +763,7 @@ public class KryptonTextBox : VisualControlBase,
     /// <summary>
     /// Gets and sets the text associated with the control.
     /// </summary>
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [AllowNull]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
@@ -887,6 +888,7 @@ public class KryptonTextBox : VisualControlBase,
     /// </summary>
     [Category(@"Appearance")]
     [Description(@"The lines of text in a multiline edit, as an array of String values.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerStringArrayEditor (replaces System.Windows.Forms.Design.StringArrayEditor).
     [Editor(@"System.Windows.Forms.Design.StringArrayEditor", typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [MergableProperty(false)]
@@ -2121,6 +2123,7 @@ public class KryptonTextBox : VisualControlBase,
     private bool IsMouseReallyOverControl() =>
         IsHandleCreated && ClientRectangle.Contains(PointToClient(Control.MousePosition));
 
+    // ToDo V120 LTS: Replace MultilineStringEditor1 inline popup with KryptonDesignerMultilineStringEditor.
     private void OnEditorButtonClicked(object? sender, EventArgs e) => new MultilineStringEditor1(this).ShowEditor();
 
     private void OnMouseDoubleClick(object? sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);

@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -184,6 +184,7 @@ public class ButtonValues : Storage,
     [Category(@"Visuals")]
     [Description(@"Button text.")]
     [RefreshProperties(RefreshProperties.All)]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [AllowNull]
     public string Text
@@ -217,6 +218,7 @@ public class ButtonValues : Storage,
     [Category(@"Visuals")]
     [Description(@"Button extra text.")]
     [RefreshProperties(RefreshProperties.All)]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [DefaultValue(@"")]
     public string ExtraText

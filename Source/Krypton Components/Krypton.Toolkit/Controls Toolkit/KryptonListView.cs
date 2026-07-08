@@ -707,6 +707,7 @@ public class KryptonListView : VisualControlBase,
     /// <returns>A <see cref="T:System.Windows.Forms.ListView.ColumnHeaderCollection" /> that represents the column headers that appear when the <see cref="P:System.Windows.Forms.ListView.View" /> property is set to <see cref="F:System.Windows.Forms.View.Details" />.</returns>
     [Category("CatBehavior")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed collection editor (replaces System.Windows.Forms.Design.ColumnHeaderCollectionEditor).
     [Editor("System.Windows.Forms.Design.ColumnHeaderCollectionEditor, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
     [Description("collection of all column headers that appear in the control")]
     [Localizable(true)]
@@ -755,6 +756,7 @@ public class KryptonListView : VisualControlBase,
     [Category("Behavior")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     [Localizable(true)]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed collection editor (replaces System.Windows.Forms.Design.ListViewGroupCollectionEditor).
     [Editor("System.Windows.Forms.Design.ListViewGroupCollectionEditor, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a",
         typeof(UITypeEditor))]
     [Description("ListViewGroupsDescr")]
@@ -815,6 +817,7 @@ public class KryptonListView : VisualControlBase,
     [Category("Behavior")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     [Localizable(true)]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed collection editor (replaces System.Windows.Forms.Design.ListViewItemCollectionEditor).
     [Editor(
         "System.Windows.Forms.Design.ListViewItemCollectionEditor, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a",
         typeof(UITypeEditor))]

@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -166,6 +166,7 @@ public class KryptonDropZone : KryptonPanel
     [Category("Behavior")]
     [Description("Allowed file extensions (including the dot, e.g., '.txt'). Use the collection editor to add or remove entries.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerCollectionForm (replaces System.ComponentModel.Design.CollectionEditor).
     [Editor("System.ComponentModel.Design.CollectionEditor, System.Design", typeof(UITypeEditor))]
     [Localizable(true)]
     public List<string> AllowedExtensions => _behavior.AllowedExtensions;

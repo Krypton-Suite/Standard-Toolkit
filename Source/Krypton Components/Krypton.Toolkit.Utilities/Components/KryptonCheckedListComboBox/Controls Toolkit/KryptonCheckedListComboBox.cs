@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. AvilÃ©s (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -141,6 +141,7 @@ public class KryptonCheckedListComboBox : KryptonComboBoxUserControl
     /// </summary>
     [Category(@"Data")]
     [Description(@"Indicates the property to display for the items when a data source is set.")]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.DataMemberFieldEditor).
     [Editor(@"System.Windows.Forms.Design.DataMemberFieldEditor, System.Design", typeof(UITypeEditor))]
     [DefaultValue("")]
     public string? DisplayMember
@@ -158,6 +159,7 @@ public class KryptonCheckedListComboBox : KryptonComboBoxUserControl
     /// </summary>
     [Category(@"Data")]
     [Description(@"Indicates the property to use as the actual value when a data source is set.")]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.DataMemberFieldEditor).
     [Editor(@"System.Windows.Forms.Design.DataMemberFieldEditor, System.Design", typeof(UITypeEditor))]
     [DefaultValue("")]
     public string? ValueMember
@@ -172,6 +174,7 @@ public class KryptonCheckedListComboBox : KryptonComboBoxUserControl
     /// </summary>
     [Category(@"Data")]
     [Description(@"Formatting applied to displayed text when formatting is enabled.")]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.FormatStringEditor).
     [Editor(@"System.Windows.Forms.Design.FormatStringEditor, System.Design", typeof(UITypeEditor))]
     [DefaultValue("")]
     public string? FormatString
