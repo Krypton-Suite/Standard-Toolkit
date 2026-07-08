@@ -3124,14 +3124,26 @@ No 	                    No 	                    Show text only
     #endregion
 
     #region Static User32
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial uint GetDpiForWindow(IntPtr hWnd);
+    #else
 
     [DllImport(Libraries.User32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern uint GetDpiForWindow(IntPtr hWnd);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial BOOL EndDialog(IntPtr hDlg, IntPtr nResult);
+    #else
 
     [DllImport(Libraries.User32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern BOOL EndDialog(IntPtr hDlg, IntPtr nResult);
+    #endif
 
     internal static BOOL EndDialog(HandleRef hDlg, IntPtr nResult)
     {
@@ -3139,42 +3151,95 @@ No 	                    No 	                    Show text only
         GC.KeepAlive(hDlg.Wrapper);
         return result;
     }
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, EntryPoint = "SetWindowTextW", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool SetWindowText(IntPtr hwnd, String lpString);
+    #else
 
     [DllImport(Libraries.User32, SetLastError = true, EntryPoint = "SetWindowTextW", CharSet = CharSet.Unicode)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool SetWindowText(IntPtr hwnd, String lpString);
+    #endif
+    #if NET8_0_OR_GREATER
+    // https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-isdlgbuttonchecked
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial BST_ IsDlgButtonChecked(IntPtr hDlg, int nIDButton);
+    #else
 
     // https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-isdlgbuttonchecked
     [DllImport(Libraries.User32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern BST_ IsDlgButtonChecked(IntPtr hDlg, int nIDButton);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial int GetDlgCtrlID(IntPtr hwndCtl);
+    #else
 
     [DllImport(Libraries.User32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int GetDlgCtrlID(IntPtr hwndCtl);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool DestroyWindow(IntPtr hWnd);
+    #else
 
     [DllImport(Libraries.User32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool DestroyWindow(IntPtr hWnd);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, [MarshalAs(UnmanagedType.Bool)] bool bRepaint);
+    #else
 
     [DllImport(Libraries.User32, SetLastError = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
+    #else
 
     [DllImport(Libraries.User32, SetLastError = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
+    #endif
 
     internal delegate bool WindowEnumProc(IntPtr hwnd, IntPtr lparam);
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool EnumChildWindows(IntPtr hwnd, WindowEnumProc callback, IntPtr lParam);
+    #else
 
     [DllImport(Libraries.User32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static extern bool EnumChildWindows(IntPtr hwnd, WindowEnumProc callback, IntPtr lParam);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr GetDlgItem(IntPtr hWnd, int nIDDlgItem);
+    #else
 
     [DllImport(Libraries.User32, ExactSpelling = true, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr GetDlgItem(IntPtr hWnd, int nIDDlgItem);
+    #endif
 
     [DllImport(Libraries.User32, EntryPoint = "GetWindowTextW", CharSet = CharSet.Unicode, SetLastError = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
@@ -3192,77 +3257,173 @@ No 	                    No 	                    Show text only
         SendMessage(hwnd, WM_.GETTEXT, (IntPtr)sb.Capacity, sb);
         return sb.ToString();
     }
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool GetScrollInfo(IntPtr hWnd, SB_ nBar, ref WIN32ScrollBars.ScrollInfo lpScrollInfo);
+    #else
 
     [DllImport(Libraries.User32, SetLastError = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool GetScrollInfo(IntPtr hWnd, SB_ nBar, ref WIN32ScrollBars.ScrollInfo lpScrollInfo);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial int SetScrollInfo(IntPtr hwnd, SB_ nBar, ref WIN32ScrollBars.ScrollInfo lpcScrollInfo, [MarshalAs(UnmanagedType.Bool)] bool redraw);
+    #else
 
     [DllImport(Libraries.User32, SetLastError = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int SetScrollInfo(IntPtr hwnd, SB_ nBar, ref WIN32ScrollBars.ScrollInfo lpcScrollInfo,
         bool redraw);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial int GetScrollPos(IntPtr hWnd, SB_ nBar);
+    #else
 
     [DllImport(Libraries.User32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int GetScrollPos(IntPtr hWnd, SB_ nBar);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial int SetScrollPos(IntPtr hWnd, SB_ nBar, int nPos, [MarshalAs(UnmanagedType.Bool)] bool bRedraw);
+    #else
 
     [DllImport(Libraries.User32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int SetScrollPos(IntPtr hWnd, SB_ nBar, int nPos, bool bRedraw);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool ShowScrollBar(IntPtr hWnd, int wBar, [MarshalAs(UnmanagedType.Bool)] bool bShow);
+    #else
 
     [DllImport(Libraries.User32, SetLastError = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool ShowScrollBar(IntPtr hWnd, int wBar, bool bShow);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool GetScrollRange(IntPtr Handle, SB_ nBar, ref IntPtr min, ref IntPtr max);
+    #else
 
     [DllImport(Libraries.User32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool GetScrollRange(IntPtr Handle, SB_ nBar, ref IntPtr min, ref IntPtr max);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr LoadImage(IntPtr hinst, string lpszName, uint uType, int cxDesired, int cyDesired, uint fuLoad);
+    #else
 
     [DllImport(Libraries.User32, SetLastError = true, CharSet = CharSet.Unicode)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr LoadImage(IntPtr hinst, string lpszName, uint uType, int cxDesired, int cyDesired,
         uint fuLoad);
+    #endif
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool SetMenu(HandleRef hWnd, HandleRef hMenu);
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial int UnhookWindowsHookEx(IntPtr idHook);
+    #else
 
     [DllImport(Libraries.User32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int UnhookWindowsHookEx(IntPtr idHook);
+    #endif
 
     internal delegate IntPtr HookProc(int code, IntPtr wParam, IntPtr lParam);
 
     public delegate void TimerProc(IntPtr hWnd, uint uMsg, UIntPtr nIDEvent, uint dwTime);
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr SetWindowsHookEx(WH_ idHook, HookProc lpfn, IntPtr hInstance, int threadId);
+    #else
 
     [DllImport(Libraries.User32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr SetWindowsHookEx(WH_ idHook, HookProc lpfn, IntPtr hInstance, int threadId);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr CallNextHookEx(IntPtr idHook, int nCode, IntPtr wParam, IntPtr lParam);
+    #else
 
     [DllImport(Libraries.User32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr CallNextHookEx(IntPtr idHook, int nCode, IntPtr wParam, IntPtr lParam);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool PrintWindow(IntPtr hwnd, IntPtr hDC, uint nFlags);
+    #else
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool PrintWindow(IntPtr hwnd, IntPtr hDC, uint nFlags);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool SetLayeredWindowAttributes(IntPtr hwnd, uint crKey, byte bAlpha, LWA_ dwFlags);
+    #else
 
     [DllImport(Libraries.User32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool SetLayeredWindowAttributes(IntPtr hwnd, uint crKey, byte bAlpha, LWA_ dwFlags);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial short VkKeyScan(char ch);
+    #else
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern short VkKeyScan(char ch);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr WindowFromPoint(POINT pt);
+    #else
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr WindowFromPoint(POINT pt);
+    #endif
+    #if NET8_0_OR_GREATER
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [LibraryImport(Libraries.User32, EntryPoint = "GetWindowInfo", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool GetWindowInfoInt(IntPtr hwnd, ref WINDOWINFO pwi);
+    #else
 
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     [return: MarshalAs(UnmanagedType.Bool)]
     [DllImport(Libraries.User32, EntryPoint = "GetWindowInfo", SetLastError = true)]
     private static extern bool GetWindowInfoInt(IntPtr hwnd, ref WINDOWINFO pwi);
+    #endif
 
     [StructLayout(LayoutKind.Sequential)]
     internal struct WINDOWINFO
@@ -3289,10 +3450,16 @@ No 	                    No 	                    Show text only
         pwi = new WINDOWINFO();
         return GetWindowInfoInt(hwnd, ref pwi);
     }
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial uint GetWindowLong(IntPtr hWnd, GWL_ nIndex);
+    #else
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern uint GetWindowLong(IntPtr hWnd, GWL_ nIndex);
+    #endif
 
     // This is aliased as a macro in 32bit Windows.
     internal static IntPtr GetWindowLongPtr(IntPtr hwnd, GWL_ nIndex)
@@ -3307,14 +3474,26 @@ No 	                    No 	                    Show text only
 
         return ret;
     }
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, EntryPoint = "GetWindowLong", SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    private static partial int GetWindowLongPtr32(IntPtr hWnd, GWL_ nIndex);
+    #else
 
     [DllImport(Libraries.User32, EntryPoint = "GetWindowLong", SetLastError = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     private static extern int GetWindowLongPtr32(IntPtr hWnd, GWL_ nIndex);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, EntryPoint = "GetWindowLongPtr", SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    private static partial IntPtr GetWindowLongPtr64(IntPtr hWnd, GWL_ nIndex);
+    #else
 
     [DllImport(Libraries.User32, EntryPoint = "GetWindowLongPtr", SetLastError = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     private static extern IntPtr GetWindowLongPtr64(IntPtr hWnd, GWL_ nIndex);
+    #endif
 
     internal static IntPtr SetClassLongPtr(IntPtr hWnd, int nIndex, IntPtr dwNewLong, bool noThrow = true)
     {
@@ -3351,58 +3530,130 @@ No 	                    No 	                    Show text only
 
         return ret;
     }
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, EntryPoint = @"GetClassLong", SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    private static partial uint GetClassLongPtr32(IntPtr hWnd, int nIndex);
+    #else
 
     [DllImport(Libraries.User32, EntryPoint = @"GetClassLong", SetLastError = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     private static extern uint GetClassLongPtr32(IntPtr hWnd, int nIndex);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, EntryPoint = @"GetClassLongPtr", SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    private static partial IntPtr GetClassLongPtr64(IntPtr hWnd, int nIndex);
+    #else
 
     [DllImport(Libraries.User32, EntryPoint = @"GetClassLongPtr", SetLastError = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     private static extern IntPtr GetClassLongPtr64(IntPtr hWnd, int nIndex);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, EntryPoint = "SetClassLong")]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial uint SetClassLongPtr32(IntPtr hWnd, int nIndex, uint dwNewLong);
+    #else
 
     [DllImport(Libraries.User32, EntryPoint = "SetClassLong")]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern uint SetClassLongPtr32(IntPtr hWnd, int nIndex, uint dwNewLong);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, EntryPoint = "SetClassLongPtr")]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr SetClassLongPtr64(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
+    #else
 
     [DllImport(Libraries.User32, EntryPoint = "SetClassLongPtr")]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr SetClassLongPtr64(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool IntersectRect(out RECT lprcDst, ref RECT lprcSrc1, ref RECT lprcSrc2);
+    #else
 
     [DllImport(Libraries.User32)]
     [return: MarshalAs(UnmanagedType.Bool)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool IntersectRect([Out] out RECT lprcDst, [In] ref RECT lprcSrc1, [In] ref RECT lprcSrc2);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool InvalidateRect(IntPtr hWnd, RECT rect, [MarshalAs(UnmanagedType.Bool)] bool erase);
+    #else
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool InvalidateRect(IntPtr hWnd, RECT rect, bool erase);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool InvalidateRect(IntPtr hWnd, IntPtr rect, [MarshalAs(UnmanagedType.Bool)] bool erase);
+    #else
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool InvalidateRect(IntPtr hWnd, IntPtr rect, bool erase);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool IsWindowVisible(IntPtr hWnd);
+    #else
 
     [DllImport(Libraries.User32)]
     [return: MarshalAs(UnmanagedType.Bool)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool IsWindowVisible(IntPtr hWnd);
+    #endif
 
     [DllImport(Libraries.User32, SetLastError = true, CharSet = CharSet.Auto, BestFitMapping = false,
         ThrowOnUnmappableChar = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int LoadString(SafeModuleHandle hInstance, uint uID, StringBuilder lpBuffer, int nBufferMax);
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool UpdateWindow(IntPtr hWnd);
+    #else
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool UpdateWindow(IntPtr hWnd);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool ScreenToClient(IntPtr hWnd, ref POINT lpPoint);
+    #else
 
     [DllImport(Libraries.User32)]
     [return: MarshalAs(UnmanagedType.Bool)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool ScreenToClient(IntPtr hWnd, ref POINT lpPoint);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial uint SetWindowLong(IntPtr hwnd, GWL_ nIndex, uint nLong);
+    #else
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern uint SetWindowLong(IntPtr hwnd, GWL_ nIndex, uint nLong);
+    #endif
 
     // This is aliased as a macro in 32bit Windows.
     [SuppressMessage("Microsoft.Performance", @"CA1811:AvoidUncalledPrivateCode")]
@@ -3410,80 +3661,178 @@ No 	                    No 	                    Show text only
         IntPtr.Size > 4
             ? SetWindowLongPtr64(hwnd, nIndex, dwNewLong)
             : new IntPtr(SetWindowLongPtr32(hwnd, nIndex, dwNewLong.ToInt32()));
+    #if NET8_0_OR_GREATER
+    [SuppressMessage("Microsoft.Interoperability", @"CA1400:PInvokeEntryPointsShouldExist")]
+    [SuppressMessage("Microsoft.Performance", @"CA1811:AvoidUncalledPrivateCode")]
+    [LibraryImport(Libraries.User32, EntryPoint = "SetWindowLong", SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    private static partial int SetWindowLongPtr32(IntPtr hWnd, GWL_ nIndex, int dwNewLong);
+    #else
 
     [SuppressMessage("Microsoft.Interoperability", @"CA1400:PInvokeEntryPointsShouldExist")]
     [SuppressMessage("Microsoft.Performance", @"CA1811:AvoidUncalledPrivateCode")]
     [DllImport(Libraries.User32, EntryPoint = "SetWindowLong", SetLastError = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     private static extern int SetWindowLongPtr32(IntPtr hWnd, GWL_ nIndex, int dwNewLong);
+    #endif
+    #if NET8_0_OR_GREATER
+    [SuppressMessage("Microsoft.Interoperability", @"CA1400:PInvokeEntryPointsShouldExist")]
+    [SuppressMessage("Microsoft.Performance", @"CA1811:AvoidUncalledPrivateCode")]
+    [LibraryImport(Libraries.User32, EntryPoint = "SetWindowLongPtr", SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    private static partial IntPtr SetWindowLongPtr64(IntPtr hWnd, GWL_ nIndex, IntPtr dwNewLong);
+    #else
 
     [SuppressMessage("Microsoft.Interoperability", @"CA1400:PInvokeEntryPointsShouldExist")]
     [SuppressMessage("Microsoft.Performance", @"CA1811:AvoidUncalledPrivateCode")]
     [DllImport(Libraries.User32, EntryPoint = "SetWindowLongPtr", SetLastError = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     private static extern IntPtr SetWindowLongPtr64(IntPtr hWnd, GWL_ nIndex, IntPtr dwNewLong);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr GetActiveWindow();
+    #else
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr GetActiveWindow();
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial int ShowWindow(IntPtr hWnd, ShowWindowCommands cmdShow);
+    #else
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int ShowWindow(IntPtr hWnd, ShowWindowCommands cmdShow);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr GetFocus();
+    #else
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr GetFocus();
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr SetFocus(IntPtr hWnd);
+    #else
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr SetFocus(IntPtr hWnd);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool HideCaret(IntPtr hWnd);
+    #else
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool HideCaret(IntPtr hWnd);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool ShowCaret(IntPtr hWnd);
+    #else
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool ShowCaret(IntPtr hWnd);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool DestroyIcon(IntPtr hIcon);
+    #else
 
     [DllImport(Libraries.User32, SetLastError = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool DestroyIcon(IntPtr hIcon);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial ushort GetKeyState(int virtKey);
+    #else
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern ushort GetKeyState(int virtKey);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr SendDlgItemMessage(IntPtr hDlg, int nIDDlgItem, int Msg, IntPtr wParam, IntPtr lParam);
+    #else
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr
         SendDlgItemMessage(IntPtr hDlg, int nIDDlgItem, int Msg, IntPtr wParam, IntPtr lParam);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial uint SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
+    #else
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern uint SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, EntryPoint = "SendMessageW")]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, [MarshalAs(UnmanagedType.LPWStr)] string lParam);
+    #else
 
     [DllImport(Libraries.User32, EntryPoint = "SendMessageW")]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam,
         [MarshalAs(UnmanagedType.LPWStr)] string lParam);
+    #endif
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, [Out] StringBuilder lParam);
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial uint SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, ref TITLEBARINFOEX lParam);
+    #else
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern uint SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, ref TITLEBARINFOEX lParam);
+    #endif
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr SendMessage(HandleRef hWnd, int msg, int wParam, ref TV_ITEM lParam);
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+    #else
 
     [DllImport(Libraries.User32, SetLastError = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+    #endif
 
     internal static void PostMessageSafe(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam)
     {
@@ -3493,89 +3842,206 @@ No 	                    No 	                    Show text only
             throw new Win32Exception(GetLastWin32Error());
         }
     }
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr DeferWindowPos(IntPtr hWinPosInfo, IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, SWP_ uFlags);
+    #else
 
 
     [DllImport(Libraries.User32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr DeferWindowPos(IntPtr hWinPosInfo, IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y,
         int cx, int cy, SWP_ uFlags);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr BeginDeferWindowPos(int nNumWindows);
+    #else
 
     [DllImport(Libraries.User32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr BeginDeferWindowPos(int nNumWindows);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool EndDeferWindowPos(IntPtr hWinPosInfo);
+    #else
 
     [DllImport(Libraries.User32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool EndDeferWindowPos(IntPtr hWinPosInfo);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool SetWindowPos(IntPtr hWnd, IntPtr hWndAfter, int X, int Y, int Width, int Height, SWP_ flags);
+    #else
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [return: MarshalAs(UnmanagedType.Bool)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndAfter, int X, int Y, int Width, int Height,
         SWP_ flags);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool SetForegroundWindow(IntPtr hWnd);
+    #else
 
     [DllImport(Libraries.User32)]
     [return: MarshalAs(UnmanagedType.Bool)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool SetForegroundWindow(IntPtr hWnd);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool RedrawWindow(IntPtr hWnd, IntPtr rectUpdate, IntPtr hRgnUpdate, uint uFlags);
+    #else
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool RedrawWindow(IntPtr hWnd, IntPtr rectUpdate, IntPtr hRgnUpdate, uint uFlags);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool RedrawWindow(IntPtr hWnd, ref RECT rectUpdate, IntPtr hRgnUpdate, uint uFlags);
+    #else
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool RedrawWindow(IntPtr hWnd, ref RECT rectUpdate, IntPtr hRgnUpdate, uint uFlags);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool UpdateLayeredWindow(IntPtr hwnd, IntPtr hdcDst, ref POINT pptDst, ref SIZE psize, IntPtr hdcSrc, ref POINT pptSrc, uint crKey, ref BLENDFUNCTION pblend, uint dwFlags);
+    #else
 
     [DllImport(Libraries.User32, ExactSpelling = true, SetLastError = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool UpdateLayeredWindow(IntPtr hwnd, IntPtr hdcDst,
         ref POINT pptDst, ref SIZE psize, IntPtr hdcSrc, ref POINT pptSrc, uint crKey,
         [In] ref BLENDFUNCTION pblend, uint dwFlags);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool TrackMouseEvent(ref TRACKMOUSEEVENTS tme);
+    #else
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool TrackMouseEvent(ref TRACKMOUSEEVENTS tme);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr GetDC(IntPtr hWnd);
+    #else
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr GetDC(IntPtr hWnd);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr GetDCEx(IntPtr hWnd, IntPtr hRgnClip, uint fdwOptions);
+    #else
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr GetDCEx(IntPtr hWnd, IntPtr hRgnClip, uint fdwOptions);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr GetWindowDC(IntPtr hwnd);
+    #else
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr GetWindowDC(IntPtr hwnd);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool GetWindowRect(IntPtr hWnd, ref RECT rect);
+    #else
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool GetWindowRect(IntPtr hWnd, ref RECT rect);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial int ReleaseDC(IntPtr hWnd, IntPtr hDC);
+    #else
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int ReleaseDC(IntPtr hWnd, IntPtr hDC);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial void DisableProcessWindowsGhosting();
+    #else
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern void DisableProcessWindowsGhosting();
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial void AdjustWindowRect(ref RECT rect, uint dwStyle, [MarshalAs(UnmanagedType.Bool)] bool hasMenu);
+    #else
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern void AdjustWindowRect(ref RECT rect, uint dwStyle, bool hasMenu);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial void AdjustWindowRectEx(ref RECT rect, uint dwStyle, [MarshalAs(UnmanagedType.Bool)] bool hasMenu, int dwExSytle);
+    #else
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern void AdjustWindowRectEx(ref RECT rect, uint dwStyle, bool hasMenu, int dwExSytle);
+    #endif
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int MapWindowPoints(IntPtr hWndFrom, IntPtr hWndTo, [In, Out] POINTC pt, int cPoints);
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool TranslateMessage(ref MSG lpMsg);
+    #else
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool TranslateMessage([In] ref MSG lpMsg);
+    #endif
 
     [DllImport(Libraries.User32, CharSet = CharSet.Unicode)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
@@ -3588,22 +4054,48 @@ No 	                    No 	                    Show text only
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool EndPaint(IntPtr hwnd, ref PAINTSTRUCT ps);
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool GetClientRect(IntPtr hWnd, out RECT lpRect);
+    #else
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool GetClientRect(IntPtr hWnd, out RECT lpRect);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool InflateRect(ref RECT lprc, int dx, int dy);
+    #else
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool InflateRect(ref RECT lprc, int dx, int dy);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr GetWindow(IntPtr hWnd, uint uCmd);
+    #else
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr GetWindow(IntPtr hWnd, uint uCmd);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial uint RegisterWindowMessage(string lpString);
+    #else
 
     [DllImport(Libraries.User32, CharSet = CharSet.Unicode)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern uint RegisterWindowMessage(string lpString);
+    #endif
 
     [SuppressMessage("Microsoft.Performance", @"CA1811:AvoidUncalledPrivateCode")]
     [DllImport(Libraries.User32, EntryPoint = "GetMonitorInfo", SetLastError = true)]
@@ -3621,59 +4113,147 @@ No 	                    No 	                    Show text only
 
         return mi;
     }
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr MonitorFromWindow(IntPtr handle, int flags);
+    #else
 
     [DllImport(Libraries.User32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr GetSystemMenu(IntPtr hWnd, [MarshalAs(UnmanagedType.Bool)] bool bRevert);
+    #else
 
     [DllImport(Libraries.User32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial int EnableMenuItem(IntPtr hMenu, SC_ targetId, MF_ state);
+    #else
 
     [DllImport(Libraries.User32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int EnableMenuItem(IntPtr hMenu, SC_ targetId, MF_ state);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr RemoveMenu(IntPtr hMenu, uint nPosition, MF_ wFlags);
+    #else
 
     [DllImport(Libraries.User32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr RemoveMenu(IntPtr hMenu, uint nPosition, MF_ wFlags);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial int GetMenuItemCount(IntPtr hMenu);
+    #else
 
     [DllImport(Libraries.User32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int GetMenuItemCount(IntPtr hMenu);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial int GetMenuItemID(IntPtr hMenu, int nPos);
+    #else
 
     [DllImport(Libraries.User32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int GetMenuItemID(IntPtr hMenu, int nPos);
+    #endif
 
     [DllImport(Libraries.User32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int GetMenuString(IntPtr hMenu, uint uIDItem, StringBuilder lpString, int nMaxCount,
         MF_ uFlag);
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool GetMenuItemInfo(IntPtr hMenu, uint uItem, [MarshalAs(UnmanagedType.Bool)] bool fByPosition, ref MENUITEMINFO lpmii);
+    #else
 
     [DllImport(Libraries.User32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool GetMenuItemInfo(IntPtr hMenu, uint uItem, bool fByPosition, ref MENUITEMINFO lpmii);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial int GetSystemMetrics(SM_ smIndex);
+    #else
 
     [DllImport(Libraries.User32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int GetSystemMetrics(SM_ smIndex);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, EntryPoint = "GetCursorInfo")]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool GetCursorInfo(ref CURSORINFO pci);
+    #else
 
     [DllImport(Libraries.User32, EntryPoint = "GetCursorInfo")]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool GetCursorInfo(ref CURSORINFO pci);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, EntryPoint = "CopyIcon")]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr CopyIcon(IntPtr hIcon);
+    #else
 
     [DllImport(Libraries.User32, EntryPoint = "CopyIcon")]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr CopyIcon(IntPtr hIcon);
+    #endif
 
     [DllImport(Libraries.User32, EntryPoint = "GetIconInfo")]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool GetIconInfo(IntPtr hIcon, out ICONINFO piconinfo);
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool MessageBeep(BeepType type);
+    #else
 
     [DllImport(Libraries.User32, ExactSpelling = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool MessageBeep(BeepType type);
+    #endif
+    #if NET8_0_OR_GREATER
+    /// <summary>
+    /// Retrieves a handle to a window that has the specified relationship (Z-Order or owner) to the specified window.
+    /// </summary>
+    /// <remarks>The EnumChildWindows function is more reliable than calling GetWindow in a loop. An application that
+    /// calls GetWindow to perform this task risks being caught in an infinite loop or referencing a handle to a window
+    /// that has been destroyed.</remarks>
+    /// <param name="hWnd">A handle to a window. The window handle retrieved is relative to this window, based on the
+    /// value of the uCmd parameter.</param>
+    /// <param name="uCmd">The relationship between the specified window and the window whose handle is to be
+    /// retrieved.</param>
+    /// <returns>
+    /// If the function succeeds, the return value is a window handle. If no window exists with the specified relationship
+    /// to the specified window, the return value is NULL. To get extended error information, call GetLastError.
+    /// </returns>
+    [LibraryImport(Libraries.User32, SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr GetWindow(IntPtr hWnd, GetWindowType uCmd);
+    #else
 
     /// <summary>
     /// Retrieves a handle to a window that has the specified relationship (Z-Order or owner) to the specified window.
@@ -3692,22 +4272,47 @@ No 	                    No 	                    Show text only
     [DllImport(Libraries.User32, SetLastError = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr GetWindow(IntPtr hWnd, GetWindowType uCmd);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr ChildWindowFromPoint(IntPtr hWndParent, POINT pt);
+    #else
 
     [DllImport(Libraries.User32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr ChildWindowFromPoint(IntPtr hWndParent, POINT pt);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr GetParent(IntPtr hWnd);
+    #else
 
     [DllImport(Libraries.User32, ExactSpelling = true, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr GetParent(IntPtr hWnd);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial int FillRect(IntPtr hDC, ref RECT lprc, IntPtr hbr);
+    #else
 
     [DllImport(Libraries.User32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int FillRect(IntPtr hDC, [In] ref RECT lprc, IntPtr hbr);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttribData data);
+    #else
 
     [DllImport(Libraries.User32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttribData data);
+    #endif
 
     [StructLayout(LayoutKind.Sequential)]
     internal struct WindowCompositionAttribData
@@ -3792,92 +4397,329 @@ No 	                    No 	                    Show text only
         }
     }
 
+#if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr FindWindow([MarshalAs(UnmanagedType.LPWStr)] string? lpClassName, [MarshalAs(UnmanagedType.LPWStr)] string? lpWindowName);
+#else
+    [DllImport(Libraries.User32, CharSet = CharSet.Unicode, SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static extern IntPtr FindWindow(string? lpClassName, string? lpWindowName);
+#endif
+
+#if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool SetProcessDPIAware();
+#else
+    [DllImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static extern bool SetProcessDPIAware();
+#endif
+
+#if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool GetCursorPos(out POINT lpPoint);
+#else
+    [DllImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static extern bool GetCursorPos(out POINT lpPoint);
+#endif
+
+#if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial int GetWindowTextLength(IntPtr hWnd);
+#else
+    [DllImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static extern int GetWindowTextLength(IntPtr hWnd);
+#endif
+
+#if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial UIntPtr SetTimer(IntPtr hWnd, UIntPtr nIDEvent, uint uElapse, TimerProc lpTimerFunc);
+#else
+    [DllImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static extern UIntPtr SetTimer(IntPtr hWnd, UIntPtr nIDEvent, uint uElapse, TimerProc lpTimerFunc);
+#endif
+
+    /// <summary>
+    /// Array marshalling is not LibraryImport-friendly; keep DllImport on all TFMs.
+    /// </summary>
+    [DllImport(Libraries.Shell32, EntryPoint = "ExtractIconExW", CharSet = CharSet.Unicode, ExactSpelling = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static extern int ExtractIconEx(string lpszFile, int nIconIndex, IntPtr[]? phiconLarge, IntPtr[]? phiconSmall, int amountIcons);
+
+    /// <summary>
+    /// Stock icon info with fixed path buffer for dual-path LibraryImport.
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    internal unsafe struct SHSTOCKICONINFO
+    {
+        public uint cbSize;
+        public IntPtr hIcon;
+        public int iSysImageIndex;
+        public int iIcon;
+        public fixed char szPath[260];
+    }
+
+    internal const uint SHGSI_ICON = 0x000000100;
+
+#if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Shell32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial int SHGetStockIconInfo(uint siid, uint uFlags, ref SHSTOCKICONINFO psii);
+#else
+    [DllImport(Libraries.Shell32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static extern int SHGetStockIconInfo(uint siid, uint uFlags, ref SHSTOCKICONINFO psii);
+#endif
+
+    /// <summary>
+    /// BCM / command-link note helpers (IntPtr handle; prefer over HandleRef local imports).
+    /// </summary>
+#if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, EntryPoint = "SendMessageW", StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr SendMessageW(IntPtr hWnd, uint Msg, IntPtr wParam, string lParam);
+#else
+    [DllImport(Libraries.User32, EntryPoint = "SendMessageW", CharSet = CharSet.Unicode)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static extern IntPtr SendMessageW(IntPtr hWnd, uint Msg, IntPtr wParam, string lParam);
+#endif
+
+    [DllImport(Libraries.User32, EntryPoint = "SendMessageW", CharSet = CharSet.Unicode)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static extern IntPtr SendMessageW(IntPtr hWnd, uint Msg, ref int wParam, StringBuilder lParam);
+
+    internal static IntPtr SendMessageBool(IntPtr hWnd, uint Msg, IntPtr wParam, bool lParam) =>
+        new IntPtr(unchecked((int)SendMessage(hWnd, unchecked((int)Msg), wParam, lParam ? (IntPtr)1 : IntPtr.Zero)));
+
+    /// <summary>
+    /// Converts a native <see cref="RECT"/> to <see cref="System.Drawing.Rectangle"/> (LTRB).
+    /// </summary>
+    internal static System.Drawing.Rectangle RectToRectangle(RECT rect) =>
+        System.Drawing.Rectangle.FromLTRB(rect.left, rect.top, rect.right, rect.bottom);
+
+#if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial int GetGuiResources(IntPtr hProcess, int uiFlags);
+#else
+    [DllImport(Libraries.User32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static extern int GetGuiResources(IntPtr hProcess, int uiFlags);
+#endif
+
     #endregion
 
     #region Static Gdi32
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdiplus, SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial int GdipCreateSolidFill(int color, out IntPtr brush);
+    #else
 
     [DllImport(Libraries.Gdiplus, CharSet = CharSet.Unicode, SetLastError = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int GdipCreateSolidFill(int color, out IntPtr brush);
+    #endif
 
     [DllImport(Libraries.Gdiplus, EntryPoint = "GdipDeleteBrush", CharSet = CharSet.Unicode, SetLastError = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int GdipDeleteBrush(HandleRef brush);
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial int BitBlt(IntPtr hDestDC, int x, int y, int nWidth, int nHeight, IntPtr hSrcDC, int xSrc, int ySrc, int dwRop);
+    #else
 
     [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int BitBlt(IntPtr hDestDC, int x, int y, int nWidth, int nHeight, IntPtr hSrcDC, int xSrc,
         int ySrc, int dwRop);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial StretchBltMode SetStretchBltMode(IntPtr hdc, StretchBltMode iStretchMode);
+    #else
 
     [DllImport(Libraries.Gdi32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern StretchBltMode SetStretchBltMode(IntPtr hdc, StretchBltMode iStretchMode);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr CreateBitmap(int nWidth, int nHeight, uint cPlanes, uint cBitsPerPel, IntPtr lpvBits);
+    #else
 
     [DllImport(Libraries.Gdi32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr CreateBitmap(int nWidth, int nHeight, uint cPlanes, uint cBitsPerPel, IntPtr lpvBits);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr CreateCompatibleBitmap(IntPtr hDC, int nWidth, int nHeight);
+    #else
 
     [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr CreateCompatibleBitmap(IntPtr hDC, int nWidth, int nHeight);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial int ExcludeClipRect(IntPtr hDC, int x1, int y1, int x2, int y2);
+    #else
 
     [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int ExcludeClipRect(IntPtr hDC, int x1, int y1, int x2, int y2);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial int IntersectClipRect(IntPtr hdc, int nLeftRect, int nTopRect, int nRightRect, int nBottomRect);
+    #else
 
     [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int IntersectClipRect(IntPtr hdc, int nLeftRect, int nTopRect, int nRightRect,
         int nBottomRect);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial int GetDeviceCaps(IntPtr hDC, DeviceCap nIndex);
+    #else
 
     [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int GetDeviceCaps(IntPtr hDC, DeviceCap nIndex);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr CreateDIBSection(IntPtr hDC, ref BITMAPINFO pBMI, uint iUsage, out IntPtr ppvBits, IntPtr hSection, uint dwOffset);
+    #else
 
     [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr CreateDIBSection(IntPtr hDC, [In] ref BITMAPINFO pBMI, uint iUsage,
         out IntPtr ppvBits, IntPtr hSection, uint dwOffset);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr CreateCompatibleDC(IntPtr hDC);
+    #else
 
     [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr CreateCompatibleDC(IntPtr hDC);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial uint GetPixel(IntPtr hdc, int nXPos, int nYPos);
+    #else
 
     [DllImport(Libraries.Gdi32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern uint GetPixel(IntPtr hdc, int nXPos, int nYPos);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial uint SetPixel(IntPtr hdc, int X, int Y, uint crColor);
+    #else
 
     [DllImport(Libraries.Gdi32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern uint SetPixel(IntPtr hdc, int X, int Y, uint crColor);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial int GetObject(IntPtr hgdiobj, int cbBuffer, ref BITMAP lpvObject);
+    #else
 
     [DllImport(Libraries.Gdi32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int GetObject(IntPtr hgdiobj, int cbBuffer, ref BITMAP lpvObject);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr SelectObject(IntPtr hDC, IntPtr hObject);
+    #else
 
     [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr SelectObject(IntPtr hDC, IntPtr hObject);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr DeleteObject(IntPtr hObject);
+    #else
 
     [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr DeleteObject(IntPtr hObject);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr GetStockObject(StockObjects fnObject);
+    #else
 
     [DllImport(Libraries.Gdi32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr GetStockObject(StockObjects fnObject);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool DeleteDC(IntPtr hDC);
+    #else
 
     [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool DeleteDC(IntPtr hDC);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial int SetDCPenColor(IntPtr hdc, int crColor);
+    #else
 
     [DllImport(Libraries.Gdi32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int SetDCPenColor(IntPtr hdc, int crColor);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial int SetDCBrushColor(IntPtr hdc, int crColor);
+    #else
 
     [DllImport(Libraries.Gdi32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int SetDCBrushColor(IntPtr hdc, int crColor);
+    #endif
 
     [DllImport(Libraries.Gdi32, EntryPoint = "SaveDC", CharSet = CharSet.Auto, SetLastError = true,
         ExactSpelling = true)]
@@ -3892,15 +4734,28 @@ No 	                    No 	                    Show text only
     [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool GetViewportOrgEx(HandleRef hDC, [In, Out] POINTC point);
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool OffsetViewportOrgEx(IntPtr hdc, int nXOffset, int nYOffset, out POINT lpPoint);
+    #else
 
     [DllImport(Libraries.Gdi32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool OffsetViewportOrgEx(IntPtr hdc, int nXOffset, int nYOffset, out POINT lpPoint);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32, EntryPoint = "CreateRectRgn", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr IntCreateRectRgn(int x1, int y1, int x2, int y2);
+    #else
 
     [DllImport(Libraries.Gdi32, EntryPoint = "CreateRectRgn", CharSet = CharSet.Auto, SetLastError = true,
         ExactSpelling = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr IntCreateRectRgn(int x1, int y1, int x2, int y2);
+    #endif
 
     [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
@@ -3909,56 +4764,120 @@ No 	                    No 	                    Show text only
     [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool SetViewportOrgEx(HandleRef hDC, int x, int y, [In, Out] POINTC point);
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32, SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial int GetRgnBox(IntPtr hRegion, ref RECT clipRect);
+    #else
 
     [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int GetRgnBox(IntPtr hRegion, ref RECT clipRect);
+    #endif
 
     [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int CombineRgn(HandleRef hRgn, HandleRef hRgn1, HandleRef hRgn2, int nCombineMode);
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool RoundRect(IntPtr hdc, int nLeftRect, int nTopRect, int nRightRect, int nBottomRect, int nEllipseWidth, int nEllipseHeight);
+    #else
 
     [DllImport(Libraries.Gdi32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool RoundRect(IntPtr hdc, int nLeftRect, int nTopRect, int nRightRect, int nBottomRect,
         int nEllipseWidth, int nEllipseHeight);
+    #endif
 
 
     [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int SelectClipRgn(HandleRef hDC, HandleRef hRgn);
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32, SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial int SelectClipRgn(IntPtr hDC, IntPtr hRgn);
+    #else
 
     [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int SelectClipRgn(IntPtr hDC, IntPtr hRgn);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32, SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial uint SetTextColor(IntPtr hdc, int crColor);
+    #else
 
     [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern uint SetTextColor(IntPtr hdc, int crColor);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32, SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial uint SetBkColor(IntPtr hdc, int crColor);
+    #else
 
     [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern uint SetBkColor(IntPtr hdc, int crColor);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32, SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial uint SetBkMode(IntPtr hdc, int crColor);
+    #else
 
     [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern uint SetBkMode(IntPtr hdc, int crColor);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32, SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr CreateSolidBrush(int crColor);
+    #else
 
     [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr CreateSolidBrush(int crColor);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool MoveToEx(IntPtr hdc, int X, int Y, IntPtr lpPoint);
+    #else
 
     [DllImport(Libraries.Gdi32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool MoveToEx(IntPtr hdc, int X, int Y, IntPtr lpPoint);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool LineTo(IntPtr hdc, int nXEnd, int nYEnd);
+    #else
 
     [DllImport(Libraries.Gdi32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool LineTo(IntPtr hdc, int nXEnd, int nYEnd);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool Rectangle(IntPtr hdc, int nLeftRect, int nTopRect, int nRightRect, int nBottomRect);
+    #else
 
     [DllImport(Libraries.Gdi32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool Rectangle(IntPtr hdc, int nLeftRect, int nTopRect, int nRightRect, int nBottomRect);
+    #endif
 
     #endregion
 
@@ -3972,8 +4891,16 @@ No 	                    No 	                    Show text only
 
     #region dwmapi
 
-    public class Dwm
+    public partial class Dwm
     {
+        #if NET8_0_OR_GREATER
+        // Applicable to Vista -> Win 8
+        // Warning API's appear deprecated on MSDN for Win 10
+        // https://msdn.microsoft.com/en-us/library/windows/desktop/aa969508(v=vs.85).aspx
+        [LibraryImport(Libraries.DWMApi)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static partial int DwmEnableBlurBehindWindow(IntPtr hwnd, ref DWM_BLURBEHIND blurBehind);
+        #else
 
         // Applicable to Vista -> Win 8
         // Warning API's appear deprecated on MSDN for Win 10
@@ -3983,43 +4910,83 @@ No 	                    No 	                    Show text only
         [DllImport(Libraries.DWMApi)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int DwmEnableBlurBehindWindow(IntPtr hwnd, ref DWM_BLURBEHIND blurBehind);
+        #endif
+        #if NET8_0_OR_GREATER
+        // https://msdn.microsoft.com/it-it/library/windows/desktop/aa969512(v=vs.85).aspx
+        [LibraryImport(Libraries.DWMApi)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static partial int DwmExtendFrameIntoClientArea(IntPtr hWnd, ref MARGINS pMarInset);
+        #else
 
         // https://msdn.microsoft.com/it-it/library/windows/desktop/aa969512(v=vs.85).aspx
         [DllImport(Libraries.DWMApi)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int DwmExtendFrameIntoClientArea(IntPtr hWnd, ref MARGINS pMarInset);
+        #endif
+        #if NET8_0_OR_GREATER
+        // https://msdn.microsoft.com/en-us/library/windows/desktop/aa969515(v=vs.85).aspx
+        [LibraryImport(Libraries.DWMApi)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static partial int DwmGetWindowAttribute(IntPtr hwnd, DWMWINDOWATTRIBUTE attr, ref int attrValue, int attrSize);
+        #else
 
         // https://msdn.microsoft.com/en-us/library/windows/desktop/aa969515(v=vs.85).aspx
         [DllImport(Libraries.DWMApi)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int DwmGetWindowAttribute(IntPtr hwnd, DWMWINDOWATTRIBUTE attr, ref int attrValue,
             int attrSize);
+        #endif
+        #if NET8_0_OR_GREATER
+        [LibraryImport(Libraries.DWMApi)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static partial int DwmGetWindowAttribute(IntPtr hwnd, DWMWINDOWATTRIBUTE attr, out RECT pvAttribute, int attrSize);
+        #else
 
         [DllImport(Libraries.DWMApi)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int DwmGetWindowAttribute(IntPtr hwnd, DWMWINDOWATTRIBUTE attr, out RECT pvAttribute,
             int attrSize);
+        #endif
 
         internal static Rectangle DwmGetWindowRect(IntPtr hwnd)
         {
             DwmGetWindowAttribute(hwnd, DWMWINDOWATTRIBUTE.ExtendedFrameBounds, out RECT rect, SizeOf(typeof(RECT)));
             return System.Drawing.Rectangle.FromLTRB(rect.left, rect.top, rect.right, rect.bottom);
         }
+        #if NET8_0_OR_GREATER
+        //https://msdn.microsoft.com/en-us/library/windows/desktop/aa969524(v=vs.85).aspx
+        [LibraryImport(Libraries.DWMApi)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static partial int DwmSetWindowAttribute(IntPtr hwnd, DWMWINDOWATTRIBUTE attr, ref int attrValue, int attrSize);
+        #else
 
         //https://msdn.microsoft.com/en-us/library/windows/desktop/aa969524(v=vs.85).aspx
         [DllImport(Libraries.DWMApi)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int DwmSetWindowAttribute(IntPtr hwnd, DWMWINDOWATTRIBUTE attr, ref int attrValue,
             int attrSize);
+        #endif
+        #if NET8_0_OR_GREATER
+        [LibraryImport(Libraries.DWMApi)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static partial int DwmIsCompositionEnabled(ref int pfEnabled);
+        #else
 
         [DllImport(Libraries.DWMApi)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int DwmIsCompositionEnabled(ref int pfEnabled);
+        #endif
+        #if NET8_0_OR_GREATER
+        [LibraryImport(Libraries.DWMApi, StringMarshalling = StringMarshalling.Utf16)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static partial int DwmDefWindowProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam, out IntPtr result);
+        #else
 
         [DllImport(Libraries.DWMApi, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int DwmDefWindowProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam,
             out IntPtr result);
+        #endif
 
         public enum DWMWINDOWATTRIBUTE : uint
         {
@@ -4303,31 +5270,61 @@ No 	                    No 	                    Show text only
     internal static IntPtr GetNativeImage(Bitmap bitmap) => IntPtr.Zero;
 
     internal static Guid BlurEffectGuid = new Guid("{633C80A4-1843-482B-9EF2-BE2834C5FDD4}");
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdiplus, SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial int GdipCreateEffect(Guid guid, out IntPtr effect);
+    #else
 
     [DllImport(Libraries.Gdiplus, SetLastError = true, ExactSpelling = true, CharSet = CharSet.Unicode)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int GdipCreateEffect(Guid guid, out IntPtr effect);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdiplus, SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial int GdipSetEffectParameters(IntPtr effect, IntPtr parameters, uint size);
+    #else
 
     [DllImport(Libraries.Gdiplus, SetLastError = true, ExactSpelling = true, CharSet = CharSet.Unicode)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int GdipSetEffectParameters(IntPtr effect, IntPtr parameters, uint size);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdiplus, SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial int GdipBitmapApplyEffect(IntPtr bitmap, IntPtr effect, ref RECT rectOfInterest, [MarshalAs(UnmanagedType.Bool)] bool useAuxData, IntPtr auxData, int auxDataSize);
+    #else
 
     [DllImport(Libraries.Gdiplus, SetLastError = true, ExactSpelling = true, CharSet = CharSet.Unicode)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int GdipBitmapApplyEffect(IntPtr bitmap, IntPtr effect, ref RECT rectOfInterest,
         bool useAuxData, IntPtr auxData, int auxDataSize);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdiplus, SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial int GdipDeleteEffect(IntPtr effect);
+    #else
 
     [DllImport(Libraries.Gdiplus, SetLastError = true, ExactSpelling = true, CharSet = CharSet.Unicode)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int GdipDeleteEffect(IntPtr effect);
+    #endif
 
     #endregion GDIPlus
 
     #region Static Ole32
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Ole32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial void CoCreateGuid(ref GUIDSTRUCT guid);
+    #else
 
     [DllImport(Libraries.Ole32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern void CoCreateGuid(ref GUIDSTRUCT guid);
+    #endif
 
     #endregion
 
@@ -4414,39 +5411,89 @@ No 	                    No 	                    Show text only
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int DrawThemeTextEx(IntPtr hTheme, IntPtr hDC, int iPartId, int iStateId, string text,
         int iCharCount, int dwFlags, ref RECT pRect, ref DTTOPTS pOptions);
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.UxTheme, EntryPoint = "#94", StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial int GetImmersiveColorSetCount();
+    #else
 
     [DllImport(Libraries.UxTheme, EntryPoint = "#94", CharSet = CharSet.Unicode)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int GetImmersiveColorSetCount();
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.UxTheme, EntryPoint = "#95", StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial uint GetImmersiveColorFromColorSetEx(uint dwImmersiveColorSet, uint dwImmersiveColorType, [MarshalAs(UnmanagedType.Bool)] bool bIgnoreHighContrast, uint dwHighContrastCacheMode);
+    #else
 
     [DllImport(Libraries.UxTheme, EntryPoint = "#95", CharSet = CharSet.Unicode)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern uint GetImmersiveColorFromColorSetEx(uint dwImmersiveColorSet, uint dwImmersiveColorType,
         bool bIgnoreHighContrast, uint dwHighContrastCacheMode);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.UxTheme, EntryPoint = "#96", StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial uint GetImmersiveColorTypeFromName(string name);
+    #else
 
     [DllImport(Libraries.UxTheme, EntryPoint = "#96", CharSet = CharSet.Unicode)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern uint GetImmersiveColorTypeFromName(string name);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.UxTheme, EntryPoint = "#98", StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial uint GetImmersiveUserColorSetPreference([MarshalAs(UnmanagedType.Bool)] bool bForceCheckRegistry, [MarshalAs(UnmanagedType.Bool)] bool bSkipCheckOnFail);
+    #else
 
     [DllImport(Libraries.UxTheme, EntryPoint = "#98", CharSet = CharSet.Unicode)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern uint GetImmersiveUserColorSetPreference(bool bForceCheckRegistry, bool bSkipCheckOnFail);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.UxTheme, EntryPoint = "#100", StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr GetImmersiveColorNamedTypeByIndex(uint dwIndex);
+    #else
 
     [DllImport(Libraries.UxTheme, EntryPoint = "#100", CharSet = CharSet.Unicode)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr GetImmersiveColorNamedTypeByIndex(uint dwIndex);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.UxTheme, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool IsAppThemed();
+    #else
 
     [DllImport(Libraries.UxTheme, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool IsAppThemed();
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.UxTheme, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool IsThemeActive();
+    #else
 
     [DllImport(Libraries.UxTheme, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool IsThemeActive();
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.UxTheme, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial int SetWindowTheme(IntPtr hWnd, string? subAppName, string? subIdList);
+    #else
 
     [DllImport(Libraries.UxTheme, CharSet = CharSet.Unicode)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int SetWindowTheme(IntPtr hWnd, string? subAppName, string? subIdList);
+    #endif
 
     #endregion
 
@@ -4485,11 +5532,18 @@ No 	                    No 	                    Show text only
         GHND = MOVEABLE | ZEROINIT,
         GPTR = FIXED | ZEROINIT
     }
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Kernel32, SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool FreeLibrary(IntPtr hModule);
+    #else
 
     [DllImport(Libraries.Kernel32, SetLastError = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static extern bool FreeLibrary([In] IntPtr hModule);
+    #endif
 
     /// <summary>
     /// Return the length of the string
@@ -4499,14 +5553,26 @@ No 	                    No 	                    Show text only
     public static extern uint FormatMessage(FORMAT_MESSAGE_ dwFlags, IntPtr lpSource,
         uint dwMessageId, uint dwLanguageId, ref IntPtr lpBuffer,
         uint nSize, string[] Arguments);
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Kernel32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr GlobalAlloc(GMEM uFlags, int dwBytes);
+    #else
 
     [DllImport(Libraries.Kernel32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr GlobalAlloc(GMEM uFlags, int dwBytes);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Kernel32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr GlobalFree(IntPtr hMem);
+    #else
 
     [DllImport(Libraries.Kernel32, ExactSpelling = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr GlobalFree(IntPtr hMem);
+    #endif
 
     [DllImport(Libraries.Kernel32, CharSet = CharSet.Unicode, BestFitMapping = false, ThrowOnUnmappableChar = true,
         SetLastError = true)]
@@ -4514,10 +5580,16 @@ No 	                    No 	                    Show text only
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     [System.Runtime.Versioning.ResourceExposure(System.Runtime.Versioning.ResourceScope.Process)]
     internal static extern IntPtr GetModuleHandle(string? moduleName);
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Kernel32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial int GetCurrentThreadId();
+    #else
 
     [DllImport(Libraries.Kernel32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int GetCurrentThreadId();
+    #endif
 
     [DllImport(Libraries.Kernel32, CharSet = CharSet.Unicode, SetLastError = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
@@ -4547,14 +5619,26 @@ No 	                    No 	                    Show text only
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int MultiByteToWideChar(int codePage, int dwFlags, byte[] lpMultiByteStr,
         int cchMultiByte, char[] lpWideCharStr, int cchWideChar);
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Kernel32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial short QueryPerformanceCounter(ref long var);
+    #else
 
     [DllImport(Libraries.Kernel32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern short QueryPerformanceCounter(ref long var);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Kernel32, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial short QueryPerformanceFrequency(ref long var);
+    #else
 
     [DllImport(Libraries.Kernel32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern short QueryPerformanceFrequency(ref long var);
+    #endif
 
     #endregion
 
@@ -4589,10 +5673,16 @@ No 	                    No 	                    Show text only
     }
 
     #endregion
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Comdlg32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    public static partial FNERR CommDlgExtendedError();
+    #else
 
     [DllImport(Libraries.Comdlg32, ExactSpelling = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     public static extern FNERR CommDlgExtendedError();
+    #endif
 
     [DllImport(Libraries.Comdlg32, CharSet = CharSet.Auto, SetLastError = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
@@ -5253,6 +6343,15 @@ No 	                    No 	                    Show text only
     #endregion
 
     #region Jump List (ICustomDestinationList)
+    #if NET8_0_OR_GREATER
+    /// <summary>
+    /// Assigns an explicit Application User Model ID to the current process.
+    /// Must be called before any UI is presented or jump list manipulation occurs.
+    /// </summary>
+    [LibraryImport(Libraries.Shell32, SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial int SetCurrentProcessExplicitAppUserModelID( [MarshalAs(UnmanagedType.LPWStr)] string appId);
+    #else
 
     /// <summary>
     /// Assigns an explicit Application User Model ID to the current process.
@@ -5262,6 +6361,7 @@ No 	                    No 	                    Show text only
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern int SetCurrentProcessExplicitAppUserModelID(
         [MarshalAs(UnmanagedType.LPWStr)] string appId);
+    #endif
 
     /// <summary>
     /// COM interface for Windows 7+ custom jump list functionality.
@@ -5436,14 +6536,26 @@ No 	                    No 	                    Show text only
         fmtid = new Guid("F29F85E0-4FF9-1068-AB91-08002B27B3D9"),
         pid = 2
     };
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Propsys, StringMarshalling = StringMarshalling.Utf16)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    private static partial int InitPropVariantFromString([MarshalAs(UnmanagedType.LPWStr)] string psz, out PROPVARIANT ppropvar);
+    #else
 
     [DllImport(Libraries.Propsys, CharSet = CharSet.Unicode)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     private static extern int InitPropVariantFromString([MarshalAs(UnmanagedType.LPWStr)] string psz, out PROPVARIANT ppropvar);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Propsys)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    private static partial int PropVariantClear(ref PROPVARIANT pvar);
+    #else
 
     [DllImport(Libraries.Propsys)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     private static extern int PropVariantClear(ref PROPVARIANT pvar);
+    #endif
 
     /// <summary>
     /// IID for IPropertyStore interface.

@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -649,13 +649,6 @@ public class KryptonCommandLinkButton : VisualSimpleBase, IButtonControl
 
     #endregion
 
-    #region WIN32 Calls
-
-
-    [DllImport(Libraries.User32, CharSet = CharSet.Unicode)]
-    static extern int SendMessage(HandleRef hWnd, uint msg, IntPtr wParam, bool lParam);
-
-    #endregion
 
     #region Protected Virtual
 

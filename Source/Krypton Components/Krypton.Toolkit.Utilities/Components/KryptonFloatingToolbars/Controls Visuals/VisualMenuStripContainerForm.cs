@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -79,23 +79,18 @@ public partial class VisualMenuStripContainerForm : KryptonForm
     #endregion
 
     #region Runtime Routines
-    [DllImport("user32.dll")]
-    static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
-
-    [DllImport("user32.dll")]
-    static extern int GetMenuItemCount(IntPtr hMenu);
-
-    [DllImport("user32.dll")]
-    static extern bool RemoveMenu(IntPtr hMenu, uint uPosition, uint uFlags);
+    private static void StripSystemSizeCommands(IntPtr hwnd)
+    {
+        IntPtr pm = PI.GetSystemMenu(hwnd, false);
+        PI.RemoveMenu(pm, (uint)PI.SC_.RESTORE, PI.MF_.BYCOMMAND);
+        PI.RemoveMenu(pm, (uint)PI.SC_.MINIMIZE, PI.MF_.BYCOMMAND);
+        PI.RemoveMenu(pm, (uint)PI.SC_.MAXIMIZE, PI.MF_.BYCOMMAND);
+    }
     #endregion
 
     #region Constants
     //private const int SC_SIZE = 0xF000;
     //private const int SC_MOVE = 0xF010;
-    private const int SC_MINIMIZE = 0xF020;
-    private const int SC_MAXIMIZE = 0xF030;
-    private const int SC_RESTORE = 0xF120;
-    private const int MF_BYCOMMAND = 0x0000;
     //private const int MF_BYPOSITION = 0x400;
 
     //private const int SC_NEXTWINDOW = 0xF040;
@@ -127,13 +122,7 @@ public partial class VisualMenuStripContainerForm : KryptonForm
 
         _captionWidth = Height - ClientSize.Height - _dFrameWidth;
 
-        IntPtr pm = GetSystemMenu(Handle, false);
-
-        RemoveMenu(pm, SC_RESTORE, MF_BYCOMMAND);
-
-        RemoveMenu(pm, SC_MINIMIZE, MF_BYCOMMAND);
-
-        RemoveMenu(pm, SC_MAXIMIZE, MF_BYCOMMAND);
+        StripSystemSizeCommands(Handle);
     }
 
     private void MenuStripContainerWindow_FormClosing(object sender, FormClosingEventArgs e)

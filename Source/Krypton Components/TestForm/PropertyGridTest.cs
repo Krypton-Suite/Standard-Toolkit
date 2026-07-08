@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -168,48 +168,118 @@ public partial class PropertyGridTest : KryptonForm
 
         KryptonMessageBox.Show(message, title);
     }
+    #if NET8_0_OR_GREATER
+    [LibraryImport("user32.dll")]
+    private static partial int GetGuiResources(IntPtr hProcess, int uiFlags);
+    #else
 
     [DllImport("user32.dll")]
     private static extern int GetGuiResources(IntPtr hProcess, int uiFlags);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport("gdi32.dll", SetLastError = true)]
+    private static partial IntPtr CreateCompatibleDC(IntPtr hdc);
+    #else
 
     [DllImport("gdi32.dll", SetLastError = true)]
     private static extern IntPtr CreateCompatibleDC(IntPtr hdc);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport("gdi32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool DeleteDC(IntPtr hdc);
+    #else
 
     [DllImport("gdi32.dll", SetLastError = true)]
     private static extern bool DeleteDC(IntPtr hdc);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport("user32.dll")]
+    private static partial IntPtr GetDC(IntPtr hWnd);
+    #else
 
     [DllImport("user32.dll")]
     private static extern IntPtr GetDC(IntPtr hWnd);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport("user32.dll")]
+    private static partial int ReleaseDC(IntPtr hWnd, IntPtr hDC);
+    #else
 
     [DllImport("user32.dll")]
     private static extern int ReleaseDC(IntPtr hWnd, IntPtr hDC);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport("gdi32.dll", EntryPoint = "CreateCompatibleBitmap")]
+    private static partial IntPtr CreateCompatibleBitmap(IntPtr hdc, int nWidth, int nHeight);
+    #else
 
     [DllImport("gdi32.dll", EntryPoint = "CreateCompatibleBitmap")]
     private static extern IntPtr CreateCompatibleBitmap(IntPtr hdc, int nWidth, int nHeight);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport("gdi32.dll", EntryPoint = "SelectObject")]
+    public static partial IntPtr SelectObject(IntPtr hdc, IntPtr hgdiobj);
+    #else
 
     [DllImport("gdi32.dll", EntryPoint = "SelectObject")]
     public static extern IntPtr SelectObject(IntPtr hdc, IntPtr hgdiobj);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport("gdi32.dll", EntryPoint = "DeleteObject")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static partial bool DeleteObject(IntPtr hObject);
+    #else
 
     [DllImport("gdi32.dll", EntryPoint = "DeleteObject")]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern bool DeleteObject(IntPtr hObject);
+    #endif
+    #if NET8_0_OR_GREATER
+    // Flush GDI batching to force release of cached handles
+    [LibraryImport("gdi32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool GdiFlush();
+    #else
 
     // Flush GDI batching to force release of cached handles
     [DllImport("gdi32.dll")]
     private static extern bool GdiFlush();
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport("gdi32.dll", EntryPoint = "BitBlt", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool BitBlt(IntPtr hdc, int nXDest, int nYDest, int nWidth, int nHeight, IntPtr hdcSrc, int nXSrc, int nYSrc, int dwRop);
+    #else
 
     [DllImport("gdi32.dll", EntryPoint = "BitBlt", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     private static extern bool BitBlt(IntPtr hdc, int nXDest, int nYDest, int nWidth, int nHeight, IntPtr hdcSrc, int nXSrc, int nYSrc, int dwRop);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport("gdi32.dll")]
+    private static partial IntPtr CreateSolidBrush(int crColor);
+    #else
 
     [DllImport("gdi32.dll")]
     private static extern IntPtr CreateSolidBrush(int crColor);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport("user32.dll")]
+    private static partial int FillRect(IntPtr hDC, ref RECT lprc, IntPtr hbr);
+    #else
 
     [DllImport("user32.dll")]
     private static extern int FillRect(IntPtr hDC, [In] ref RECT lprc, IntPtr hbr);
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport("gdi32.dll")]
+    private static partial IntPtr GetCurrentObject(IntPtr hdc, int objectType); // objectType 7 = OBJ_BITMAP
+    #else
 
     [DllImport("gdi32.dll")]
     private static extern IntPtr GetCurrentObject(IntPtr hdc, int objectType); // objectType 7 = OBJ_BITMAP
+    #endif
 
     private const int OBJ_BITMAP = 7;
 

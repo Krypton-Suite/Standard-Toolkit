@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -10,7 +10,7 @@
 namespace Krypton.Toolkit.Utilities;
 
 [ToolboxBitmap(typeof(KryptonFloatableMenuStrip), "ToolboxBitmaps.FloatableToolStrip.bmp")]
-public class KryptonFloatableMenuStrip : KryptonMenuStrip
+public partial class KryptonFloatableMenuStrip : KryptonMenuStrip
 {
     #region Instance Fields
 
@@ -479,8 +479,11 @@ public class KryptonFloatableMenuStrip : KryptonMenuStrip
     #endregion
 
     #region Runtime Methods
-    [DllImport("User32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
-    private static extern void GetCursorPos(out Point point);
+    private static void GetCursorPos(out Point point)
+    {
+        PI.GetCursorPos(out PI.POINT pt);
+        point = pt;
+    }
     #endregion
 
     #region Identity

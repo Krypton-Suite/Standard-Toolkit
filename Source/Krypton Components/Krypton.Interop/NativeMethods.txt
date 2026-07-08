@@ -1,0 +1,5 @@
+# CsWin32 NativeMethods list for Krypton.Interop.
+# Leave empty (or comment-only) unless adding a *new* API not already in PI.
+# Example when needed:
+# GetDpiForMonitor
+# SystemParametersInfoW
