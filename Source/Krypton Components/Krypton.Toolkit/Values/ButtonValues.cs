@@ -102,6 +102,7 @@ public class ButtonValues : Storage,
     [Category(@"Visuals")]
     [Description(@"Button image.")]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;

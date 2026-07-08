@@ -131,43 +131,29 @@ internal sealed class KryptonDesignerStandardCollectionForm : KryptonDesignerCol
             AutoSize = true,
             AutoSizeMode = AutoSizeMode.GrowAndShrink,
             ColumnCount = 2,
-            Dock = DockStyle.Fill
+            Dock = DockStyle.Bottom
         };
         buttonPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
         buttonPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
         buttonPanel.Controls.Add(_buttonAdd, 0, 0);
         buttonPanel.Controls.Add(_buttonRemove, 1, 0);
 
-        var okCancelPanel = new FlowLayoutPanel
-        {
-            AutoSize = true,
-            AutoSizeMode = AutoSizeMode.GrowAndShrink,
-            Dock = DockStyle.Fill,
-            FlowDirection = FlowDirection.RightToLeft,
-            WrapContents = false
-        };
-        okCancelPanel.Controls.Add(_buttonCancel);
-        okCancelPanel.Controls.Add(_buttonOk);
-
-        var layout = new TableLayoutPanel
+        var content = new TableLayoutPanel
         {
             ColumnCount = 2,
-            Dock = DockStyle.Fill,
-            Padding = new Padding(KryptonDesignerEditorDpi.Scale(this, 9))
+            Dock = DockStyle.Fill
         };
-        layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 45F));
-        layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 55F));
-        layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-        layout.RowStyles.Add(new RowStyle());
-        layout.RowStyles.Add(new RowStyle());
-        layout.Controls.Add(membersPanel, 0, 0);
-        layout.Controls.Add(propertiesPanel, 1, 0);
-        layout.Controls.Add(buttonPanel, 0, 1);
-        layout.Controls.Add(okCancelPanel, 1, 2);
-        layout.SetRowSpan(membersPanel, 2);
-        layout.SetRowSpan(propertiesPanel, 2);
+        content.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 45F));
+        content.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 55F));
+        content.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        content.RowStyles.Add(new RowStyle());
+        content.Controls.Add(membersPanel, 0, 0);
+        content.Controls.Add(propertiesPanel, 1, 0);
+        content.Controls.Add(buttonPanel, 0, 1);
 
-        Controls.Add(layout);
+        var buttonBar = KryptonDesignerEditorButtonBar.Create(this, _buttonOk, _buttonCancel);
+        Controls.Add(KryptonDesignerEditorContentPanel.Create(this, content));
+        Controls.Add(buttonBar);
     }
 
     /// <inheritdoc />
@@ -301,11 +287,10 @@ internal sealed class KryptonDesignerStandardCollectionForm : KryptonDesignerCol
         var okButton = new KryptonButton
         {
             DialogResult = DialogResult.OK,
-            Dock = DockStyle.Bottom,
             Values = { Text = KryptonManager.Strings.GeneralStrings.OK }
         };
         form.Controls.Add(listBox);
-        form.Controls.Add(okButton);
+        form.Controls.Add(KryptonDesignerEditorButtonBar.Create(form, okButton));
         form.AcceptButton = okButton;
 
         return form.ShowDialog(this) == DialogResult.OK && listBox.SelectedItem is Type selected

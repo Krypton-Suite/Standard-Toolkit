@@ -248,23 +248,16 @@ public partial class KryptonContextMenuCollectionEditor
             SuspendLayout();
             // 
             // buttonOK
-            // 
-            _buttonOk.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             _buttonOk.DialogResult = DialogResult.OK;
-            _buttonOk.Location = new Point(729, 675);
             _buttonOk.Name = nameof(_buttonOk);
-            _buttonOk.Size = new Size(75, 33);
             _buttonOk.TabIndex = 16;
             _buttonOk.Values.Text = @"OK";
             _buttonOk.Click += buttonOK_Click;
             // 
             // buttonCancel
             // 
-            _buttonCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             _buttonCancel.DialogResult = DialogResult.Cancel;
-            _buttonCancel.Location = new Point(10, 675);
             _buttonCancel.Name = nameof(_buttonCancel);
-            _buttonCancel.Size = new Size(90, 33);
             _buttonCancel.TabIndex = 17;
             _buttonCancel.Values.Text = @"Cancel";
             _buttonCancel.Click += buttonCancel_Click;
@@ -336,10 +329,7 @@ public partial class KryptonContextMenuCollectionEditor
             // buttonDelete
             // 
             ConfigureImageListButton(_buttonDelete, _imageList, 9, @"Delete", buttonDelete_Click);
-            _buttonDelete.Anchor = AnchorStyles.Top;
-            _buttonDelete.Location = new Point(316, 688);
             _buttonDelete.Name = nameof(_buttonDelete);
-            _buttonDelete.Size = new Size(184, 32);
             _buttonDelete.TabIndex = 14;
             // 
             // buttonMoveUp
@@ -503,21 +493,17 @@ public partial class KryptonContextMenuCollectionEditor
             _tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 226F));
             _tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             _tableLayoutPanel1.Controls.Add(_label1, 0, 0);
-            _tableLayoutPanel1.Controls.Add(_buttonOk, 2, 2);
-            _tableLayoutPanel1.Controls.Add(_buttonCancel, 0, 2);
             _tableLayoutPanel1.Controls.Add(_label2, 2, 0);
             _tableLayoutPanel1.Controls.Add(_treeView, 0, 1);
             _tableLayoutPanel1.Controls.Add(_propertyGrid1, 2, 1);
             _tableLayoutPanel1.Controls.Add(_panel1, 1, 1);
-            _tableLayoutPanel1.Controls.Add(_buttonDelete, 1, 2);
             _tableLayoutPanel1.Dock = DockStyle.Fill;
             _tableLayoutPanel1.Location = new Point(0, 0);
             _tableLayoutPanel1.Name = "_tableLayoutPanel1";
-            _tableLayoutPanel1.RowCount = 3;
+            _tableLayoutPanel1.RowCount = 2;
             _tableLayoutPanel1.RowStyles.Add(new RowStyle());
             _tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            _tableLayoutPanel1.RowStyles.Add(new RowStyle());
-            _tableLayoutPanel1.Size = new Size(816, 724);
+            _tableLayoutPanel1.Size = new Size(816, 674);
             _tableLayoutPanel1.TabIndex = 17;
             // 
             // panel1
@@ -549,7 +535,8 @@ public partial class KryptonContextMenuCollectionEditor
             CancelButton = _buttonCancel;
             AutoScaleMode = AutoScaleMode.None;
             ClientSize = new Size(816, 724);
-            Controls.Add(_tableLayoutPanel1);
+            Controls.Add(KryptonDesignerEditorContentPanel.Create(this, _tableLayoutPanel1));
+            Controls.Add(KryptonDesignerEditorButtonBar.Create(this, _buttonOk, _buttonCancel, _buttonDelete));
             Font = new Font(@"Tahoma", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             MinimumSize = new Size(733, 593);
             Name = nameof(KryptonContextMenuCollectionForm);
@@ -613,13 +600,7 @@ public partial class KryptonContextMenuCollectionEditor
             button.Click += click;
         }
 
-        private void ApplyOwnerPalette()
-        {
-            if (Context?.Instance is KryptonContextMenu contextMenu)
-            {
-                ApplyOwnerPalette(contextMenu.PaletteMode, contextMenu.LocalCustomPalette);
-            }
-        }
+        private void ApplyOwnerPalette() => ApplyOwnerPaletteFromContext();
 
         private void buttonCancel_Click(object? sender, EventArgs e)
         {

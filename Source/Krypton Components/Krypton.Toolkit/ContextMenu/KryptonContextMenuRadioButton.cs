@@ -218,6 +218,7 @@ public class KryptonContextMenuRadioButton : KryptonContextMenuItemBase
     [Description(@"Radio button image.")]
     [DefaultValue(null)]
     [Localizable(true)]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;

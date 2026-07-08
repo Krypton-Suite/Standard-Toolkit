@@ -109,6 +109,7 @@ public abstract class HeaderValuesBase : Storage,
     [Category(@"Visuals")]
     [Description(@"Heading image.")]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;

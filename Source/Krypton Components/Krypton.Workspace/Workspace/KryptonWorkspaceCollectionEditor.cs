@@ -813,8 +813,9 @@ internal class KryptonWorkspaceCollectionEditor : KryptonDesignerCollectionEdito
         private readonly KryptonButton _buttonAddPage;
         private readonly KryptonButton _buttonAddCell;
         private readonly KryptonButton _buttonAddSequence;
-        private readonly KryptonButton _buttonOk;
-        private readonly KryptonButton _buttonDelete;
+            private readonly KryptonButton _buttonOk;
+            private readonly KryptonButton _buttonCancel;
+            private readonly KryptonButton _buttonDelete;
         private readonly KryptonLabel _labelItemProperties;
         private readonly KryptonLabel _labelWorkspaceCollection;
         #endregion
@@ -829,6 +830,7 @@ internal class KryptonWorkspaceCollectionEditor : KryptonDesignerCollectionEdito
             _editor = editor;
 
             _buttonOk = new KryptonButton();
+            _buttonCancel = new KryptonButton();
             _treeView = new KryptonTreeView();
             _buttonMoveUp = new KryptonButton();
             _buttonMoveDown = new KryptonButton();
@@ -843,14 +845,18 @@ internal class KryptonWorkspaceCollectionEditor : KryptonDesignerCollectionEdito
             // 
             // buttonOK
             // 
-            _buttonOk.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             _buttonOk.DialogResult = DialogResult.OK;
-            _buttonOk.Location = new Point(547, 382);
             _buttonOk.Name = nameof(_buttonOk);
-            _buttonOk.Size = new Size(90, 25);
             _buttonOk.TabIndex = 8;
-            _buttonOk.Values.Text = "OK";
+            _buttonOk.Values.Text = KryptonManager.Strings.GeneralStrings.OK;
             _buttonOk.Click += buttonOK_Click;
+            // 
+            // buttonCancel
+            // 
+            _buttonCancel.DialogResult = DialogResult.Cancel;
+            _buttonCancel.Name = nameof(_buttonCancel);
+            _buttonCancel.TabIndex = 9;
+            _buttonCancel.Values.Text = KryptonManager.Strings.GeneralStrings.Cancel;
             // 
             // treeView
             // 
@@ -949,23 +955,28 @@ internal class KryptonWorkspaceCollectionEditor : KryptonDesignerCollectionEdito
             _buttonAddSequence.TabIndex = 9;
 
             AcceptButton = _buttonOk;
+            CancelButton = _buttonCancel;
             AutoScaleDimensions = new SizeF(6F, 13F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(634, 414);
-            Controls.Add(_treeView);
-            Controls.Add(_buttonMoveUp);
-            Controls.Add(_buttonMoveDown);
-            Controls.Add(_buttonAddPage);
-            Controls.Add(_buttonAddCell);
-            Controls.Add(_buttonAddSequence);
-            Controls.Add(_propertyGrid);
-            Controls.Add(_buttonDelete);
-            Controls.Add(_buttonOk);
-            Controls.Add(_labelWorkspaceCollection);
-            Controls.Add(_labelItemProperties);
+            ClientSize = new Size(634, 464);
+
+            var contentLayout = new Panel { Dock = DockStyle.Fill };
+            contentLayout.Controls.Add(_treeView);
+            contentLayout.Controls.Add(_buttonMoveUp);
+            contentLayout.Controls.Add(_buttonMoveDown);
+            contentLayout.Controls.Add(_buttonAddPage);
+            contentLayout.Controls.Add(_buttonAddCell);
+            contentLayout.Controls.Add(_buttonAddSequence);
+            contentLayout.Controls.Add(_propertyGrid);
+            contentLayout.Controls.Add(_buttonDelete);
+            contentLayout.Controls.Add(_labelWorkspaceCollection);
+            contentLayout.Controls.Add(_labelItemProperties);
+
+            Controls.Add(KryptonDesignerEditorContentPanel.Create(this, contentLayout));
+            Controls.Add(KryptonDesignerEditorButtonBar.Create(this, _buttonOk, _buttonCancel));
             VisibleChanged += OnVisibleChanged;
             Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            MinimumSize = new Size(501, 344);
+            MinimumSize = new Size(501, 394);
             Name = nameof(KryptonWorkspaceCollectionForm);
             Text = "Workspace Collection Editor";
             ApplyWorkspacePalette();
@@ -1026,7 +1037,15 @@ internal class KryptonWorkspaceCollectionEditor : KryptonDesignerCollectionEdito
         private void ApplyWorkspacePalette()
         {
             var workspace = _editor.Workspace;
-            ApplyOwnerPalette(workspace.PaletteMode, workspace.Palette as KryptonCustomPaletteBase);
+            var mode = workspace.PaletteMode;
+            var custom = workspace.Palette as KryptonCustomPaletteBase;
+            if (mode == PaletteMode.Global)
+            {
+                mode = KryptonManager.CurrentGlobalPaletteMode;
+                custom = KryptonManager.CurrentGlobalPalette as KryptonCustomPaletteBase;
+            }
+
+            KryptonDesignerEditorTheme.ApplyToForm(this, mode, custom);
         }
 
         private void OnVisibleChanged(object? sender, EventArgs e)

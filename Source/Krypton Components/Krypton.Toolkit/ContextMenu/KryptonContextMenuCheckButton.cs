@@ -225,6 +225,7 @@ public class KryptonContextMenuCheckButton : KryptonContextMenuItemBase
     [Description(@"Check box image.")]
     [DefaultValue(null)]
     [Localizable(true)]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;

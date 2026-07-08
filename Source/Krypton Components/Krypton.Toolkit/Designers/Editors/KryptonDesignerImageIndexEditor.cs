@@ -76,7 +76,7 @@ public sealed class KryptonDesignerImageIndexEditor : UITypeEditor
 
     #region Implementation
     private UITypeEditor ImageEditor =>
-        _imageEditor ??= TypeDescriptor.GetEditor(typeof(Image), typeof(UITypeEditor)) as UITypeEditor ?? new UITypeEditor();
+        _imageEditor ??= new KryptonDesignerImageEditor();
 
     private ImageList? GetImageList(ITypeDescriptorContext context)
     {

@@ -103,7 +103,6 @@ internal sealed class KryptonDesignerFormatStringEditorForm : KryptonForm
         var okButton = new KryptonButton
         {
             DialogResult = DialogResult.OK,
-            Anchor = AnchorStyles.Bottom | AnchorStyles.Right,
             Values = { Text = KryptonManager.Strings.GeneralStrings.OK }
         };
         okButton.Click += (_, _) => PushChanges();
@@ -111,7 +110,6 @@ internal sealed class KryptonDesignerFormatStringEditorForm : KryptonForm
         var cancelButton = new KryptonButton
         {
             DialogResult = DialogResult.Cancel,
-            Anchor = AnchorStyles.Bottom | AnchorStyles.Right,
             Values = { Text = KryptonManager.Strings.GeneralStrings.Cancel }
         };
 
@@ -119,8 +117,7 @@ internal sealed class KryptonDesignerFormatStringEditorForm : KryptonForm
         {
             Dock = DockStyle.Fill,
             ColumnCount = 1,
-            Padding = new Padding(KryptonDesignerEditorDpi.Scale(this, 9)),
-            RowCount = 8
+            RowCount = 7
         };
         layout.RowStyles.Add(new RowStyle());
         layout.RowStyles.Add(new RowStyle());
@@ -129,7 +126,6 @@ internal sealed class KryptonDesignerFormatStringEditorForm : KryptonForm
         layout.RowStyles.Add(new RowStyle());
         layout.RowStyles.Add(new RowStyle());
         layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-        layout.RowStyles.Add(new RowStyle());
 
         layout.Controls.Add(formatTypeLabel, 0, 0);
         layout.Controls.Add(_formatTypeCombo, 0, 1);
@@ -139,16 +135,9 @@ internal sealed class KryptonDesignerFormatStringEditorForm : KryptonForm
         layout.Controls.Add(_nullValueTextBox, 0, 5);
         layout.Controls.Add(_previewLabel, 0, 6);
 
-        var buttonPanel = new FlowLayoutPanel
-        {
-            Dock = DockStyle.Fill,
-            FlowDirection = FlowDirection.RightToLeft
-        };
-        buttonPanel.Controls.Add(cancelButton);
-        buttonPanel.Controls.Add(okButton);
-        layout.Controls.Add(buttonPanel, 0, 7);
-
-        Controls.Add(layout);
+        var buttonBar = KryptonDesignerEditorButtonBar.Create(this, okButton, cancelButton);
+        Controls.Add(KryptonDesignerEditorContentPanel.Create(this, layout));
+        Controls.Add(buttonBar);
 
         AcceptButton = okButton;
         CancelButton = cancelButton;

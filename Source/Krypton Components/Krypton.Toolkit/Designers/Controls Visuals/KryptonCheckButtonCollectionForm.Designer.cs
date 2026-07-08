@@ -41,46 +41,55 @@ internal partial class KryptonCheckButtonCollectionForm
         buttonOK = new KryptonButton();
         buttonCancel = new KryptonButton();
         label = new KryptonLabel();
+        contentPanel = new KryptonPanel();
         SuspendLayout();
+        contentPanel.SuspendLayout();
+        // 
+        // contentPanel
+        // 
+        contentPanel.Controls.Add(checkedListBox);
+        contentPanel.Controls.Add(label);
+        contentPanel.Dock = DockStyle.Fill;
+        contentPanel.Location = new Point(0, 0);
+        contentPanel.Name = "contentPanel";
+        contentPanel.Padding = new Padding(12, 9, 12, 9);
+        contentPanel.PanelBackStyle = PaletteBackStyle.PanelClient;
+        contentPanel.Size = new Size(305, 267);
+        contentPanel.TabIndex = 0;
         // 
         // checkedListBox
         // 
-        checkedListBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+        checkedListBox.Dock = DockStyle.Fill;
         checkedListBox.CheckOnClick = true;
-        checkedListBox.Location = new Point(12, 30);
+        checkedListBox.Location = new Point(12, 29);
         checkedListBox.Name = "checkedListBox";
-        checkedListBox.Size = new Size(281, 246);
+        checkedListBox.Size = new Size(281, 229);
         checkedListBox.TabIndex = 1;
+        // 
+        // label
+        // 
+        label.AutoSize = true;
+        label.Dock = DockStyle.Top;
+        label.Location = new Point(12, 9);
+        label.Name = "label";
+        label.Size = new Size(214, 20);
+        label.TabIndex = 0;
+        label.Values.Text = "Select the check buttons to group together";
         // 
         // buttonOK
         // 
-        buttonOK.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
         buttonOK.DialogResult = DialogResult.OK;
-        buttonOK.Location = new Point(136, 282);
         buttonOK.Name = "buttonOK";
-        buttonOK.Size = new Size(90, 25);
         buttonOK.TabIndex = 2;
         buttonOK.Values.Text = "OK";
         buttonOK.Click += buttonOK_Click;
         // 
         // buttonCancel
         // 
-        buttonCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
         buttonCancel.DialogResult = DialogResult.Cancel;
-        buttonCancel.Location = new Point(218, 282);
         buttonCancel.Name = "buttonCancel";
-        buttonCancel.Size = new Size(90, 25);
         buttonCancel.TabIndex = 3;
         buttonCancel.Values.Text = "Cancel";
-        // 
-        // label
-        // 
-        label.AutoSize = true;
-        label.Location = new Point(9, 9);
-        label.Name = "label";
-        label.Size = new Size(214, 20);
-        label.TabIndex = 0;
-        label.Values.Text = "Select the check buttons to group together";
         // 
         // KryptonCheckButtonCollectionForm
         // 
@@ -90,19 +99,18 @@ internal partial class KryptonCheckButtonCollectionForm
         CancelButton = buttonCancel;
         ClientSize = new Size(305, 317);
         ControlBox = false;
-        Controls.Add(label);
-        Controls.Add(buttonCancel);
-        Controls.Add(buttonOK);
-        Controls.Add(checkedListBox);
+        Controls.Add(contentPanel);
+        Controls.Add(KryptonDesignerEditorButtonBar.Create(this, buttonOK, buttonCancel));
         Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-        MinimumSize = new Size(250, 205);
+        MinimumSize = new Size(250, 255);
         Name = "KryptonCheckButtonCollectionForm";
         StartPosition = FormStartPosition.CenterScreen;
         Text = "CheckButtons Collection Editor";
         Load += KryptonCheckButtonCollectionForm_Load;
+        contentPanel.ResumeLayout(false);
+        contentPanel.PerformLayout();
         ResumeLayout(false);
         PerformLayout();
-
     }
 
     #endregion
@@ -111,4 +119,5 @@ internal partial class KryptonCheckButtonCollectionForm
     private KryptonButton buttonOK;
     private KryptonButton buttonCancel;
     private KryptonLabel label;
+    private KryptonPanel contentPanel;
 }

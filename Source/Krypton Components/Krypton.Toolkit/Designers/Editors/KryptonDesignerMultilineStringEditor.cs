@@ -117,28 +117,66 @@ internal static class KryptonDesignerEditorPalette
 {
     internal static void ApplyDesignerPalette(KryptonForm form, ITypeDescriptorContext context)
     {
-        if (context.Instance is VisualControlBase visualControl)
+        KryptonDesignerEditorTheme.ApplyFromContext(form, context);
+        EnsureMultilineButtonBarThemeSelector(form);
+    }
+
+    /// <summary>
+    /// Injects a local theme selector into the designed MultilineStringEditor button panel when present.
+    /// </summary>
+    private static void EnsureMultilineButtonBarThemeSelector(KryptonForm form)
+    {
+        var buttonPanel = FindNamedPanel(form.Controls, @"kpnlButtons");
+        if (buttonPanel is null || FindNamedCombo(buttonPanel.Controls, @"kcmbDesignerEditorTheme") is not null)
         {
-            ApplyPaletteToForm(form, visualControl.PaletteMode, visualControl.LocalCustomPalette);
             return;
         }
 
-        if (context.Instance is DataGridViewColumn column
-            && column.DataGridView is KryptonDataGridView grid)
-        {
-            ApplyPaletteToForm(form, grid.PaletteMode, grid.Palette as KryptonCustomPaletteBase);
-        }
+        var themeCombo = KryptonDesignerEditorTheme.CreateThemeSelector(
+            form,
+            form.PaletteMode,
+            form.LocalCustomPalette);
+        themeCombo.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+        themeCombo.Location = new Point(
+            KryptonDesignerEditorDpi.Scale(form, 9),
+            KryptonDesignerEditorDpi.Scale(form, 13));
+        themeCombo.Size = KryptonDesignerEditorDpi.Scale(form, new Size(220, 25));
+        buttonPanel.Controls.Add(themeCombo);
+        themeCombo.BringToFront();
     }
 
-    private static void ApplyPaletteToForm(KryptonForm form, PaletteMode paletteMode,
-        KryptonCustomPaletteBase? customPalette)
+    private static KryptonPanel? FindNamedPanel(Control.ControlCollection controls, string name)
     {
-        form.PaletteMode = paletteMode;
-        if (paletteMode == PaletteMode.Custom)
+        foreach (Control control in controls)
         {
-            form.LocalCustomPalette = customPalette;
+            if (control is KryptonPanel panel && panel.Name == name)
+            {
+                return panel;
+            }
+
+            if (control.HasChildren)
+            {
+                var nested = FindNamedPanel(control.Controls, name);
+                if (nested is not null)
+                {
+                    return nested;
+                }
+            }
         }
 
-        KryptonDesignerCollectionForm.ApplyPalette(form.Controls, paletteMode, customPalette);
+        return null;
+    }
+
+    private static KryptonComboBox? FindNamedCombo(Control.ControlCollection controls, string name)
+    {
+        foreach (Control control in controls)
+        {
+            if (control is KryptonComboBox combo && combo.Name == name)
+            {
+                return combo;
+            }
+        }
+
+        return null;
     }
 }

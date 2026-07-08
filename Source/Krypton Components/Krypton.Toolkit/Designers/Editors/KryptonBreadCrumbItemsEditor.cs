@@ -74,6 +74,7 @@ internal class KryptonBreadCrumbItemsEditor : KryptonDesignerCollectionEditor
             /// </summary>
             [Category(@"Appearance")]
             [DefaultValue(null)]
+            [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
             public Image? Image
             {
                 get => _item.Image;
@@ -239,8 +240,8 @@ internal class KryptonBreadCrumbItemsEditor : KryptonDesignerCollectionEditor
         private readonly KryptonButton buttonAddItem;
         private readonly KryptonButton buttonDelete;
         private readonly KryptonPropertyGrid propertyGrid1;
-        private readonly KryptonLabel label1;
-        private readonly KryptonLabel label2;
+        private readonly KryptonGroupBox groupBoxItems;
+        private readonly KryptonGroupBox groupBoxProperties;
         private readonly KryptonButton buttonAddChild;
         #endregion
 
@@ -259,139 +260,120 @@ internal class KryptonBreadCrumbItemsEditor : KryptonDesignerCollectionEditor
             buttonAddItem = new KryptonButton();
             buttonDelete = new KryptonButton();
             propertyGrid1 = new KryptonPropertyGrid();
-            label1 = new KryptonLabel();
-            label2 = new KryptonLabel();
+            groupBoxItems = new KryptonGroupBox();
+            groupBoxProperties = new KryptonGroupBox();
             buttonAddChild = new KryptonButton();
             SuspendLayout();
-            // 
+
             // buttonOK
-            // 
-            buttonOK.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            buttonOK.AutoSize = true;
+            buttonOK.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             buttonOK.DialogResult = DialogResult.OK;
-            buttonOK.Location = new Point(547, 382);
             buttonOK.Name = nameof(buttonOK);
-            buttonOK.Size = new Size(90, 25);
+            buttonOK.MinimumSize = new Size(90, 25);
             buttonOK.TabIndex = 9;
-            buttonOK.Values.Text = "OK";
+            buttonOK.Values.Text = KryptonManager.Strings.GeneralStrings.OK;
             buttonOK.Click += buttonOK_Click;
-            // 
+
             // buttonCancel
-            // 
-            buttonCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            buttonCancel.AutoSize = true;
+            buttonCancel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             buttonCancel.DialogResult = DialogResult.Cancel;
-            buttonCancel.Location = new Point(12, 382);
             buttonCancel.Name = nameof(buttonCancel);
-            buttonCancel.Size = new Size(90, 25);
+            buttonCancel.MinimumSize = new Size(90, 25);
             buttonCancel.TabIndex = 8;
-            buttonCancel.Values.Text = "Cancel";
+            buttonCancel.Values.Text = KryptonManager.Strings.GeneralStrings.Cancel;
             buttonCancel.Click += buttonCancel_Click;
-            // 
+
             // treeView1
-            // 
-            treeView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            treeView1.Location = new Point(12, 32);
+            treeView1.Dock = DockStyle.Fill;
             treeView1.Name = nameof(treeView1);
-            treeView1.Size = new Size(254, 339);
             treeView1.TabIndex = 1;
             treeView1.HideSelection = false;
             treeView1.AfterSelect += treeView1_AfterSelect;
-            // 
-            // buttonMoveUp
-            // 
-            ConfigureToolbarButton(buttonMoveUp, BlueArrowResources.arrow_up_blue, "Move Up", buttonMoveUp_Click);
-            buttonMoveUp.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            buttonMoveUp.Location = new Point(272, 32);
-            buttonMoveUp.Name = nameof(buttonMoveUp);
-            buttonMoveUp.Size = new Size(95, 28);
-            buttonMoveUp.TabIndex = 2;
-            // 
-            // buttonMoveDown
-            // 
-            ConfigureToolbarButton(buttonMoveDown, BlueArrowResources.arrow_down_blue, "Move Down", buttonMoveDown_Click);
-            buttonMoveDown.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            buttonMoveDown.Location = new Point(272, 66);
-            buttonMoveDown.Name = nameof(buttonMoveDown);
-            buttonMoveDown.Size = new Size(95, 28);
-            buttonMoveDown.TabIndex = 3;
-            // 
-            // buttonAddItem
-            // 
-            ConfigureToolbarButton(buttonAddItem, GenericImageResources.add, "Add Sibling", buttonAddSibling_Click);
-            buttonAddItem.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            buttonAddItem.Location = new Point(272, 112);
-            buttonAddItem.Name = nameof(buttonAddItem);
-            buttonAddItem.Size = new Size(95, 28);
-            buttonAddItem.TabIndex = 4;
-            // 
-            // buttonDelete
-            // 
-            ConfigureToolbarButton(buttonDelete, GenericImageResources.delete, "Delete Item", buttonDelete_Click);
-            buttonDelete.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            buttonDelete.Location = new Point(272, 190);
-            buttonDelete.Name = nameof(buttonDelete);
-            buttonDelete.Size = new Size(95, 28);
-            buttonDelete.TabIndex = 6;
-            // 
+
             // propertyGrid1
-            // 
-            propertyGrid1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            propertyGrid1.Dock = DockStyle.Fill;
             propertyGrid1.HelpVisible = false;
-            propertyGrid1.Location = new Point(373, 32);
             propertyGrid1.Name = nameof(propertyGrid1);
-            propertyGrid1.Size = new Size(249, 339);
             propertyGrid1.TabIndex = 7;
             propertyGrid1.ToolbarVisible = false;
-            // 
-            // label1
-            // 
-            label1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            label1.AutoSize = true;
-            label1.Location = new Point(370, 13);
-            label1.Name = nameof(label1);
-            label1.Size = new Size(81, 13);
-            label1.TabStop = false;
-            label1.Values.Text = "Item Properties";
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(12, 13);
-            label2.Name = nameof(label2);
-            label2.Size = new Size(142, 13);
-            label2.TabStop = false;
-            label2.Values.Text = "BreadCrumbItems Collection";
-            // 
-            // buttonAddChild
-            // 
-            ConfigureToolbarButton(buttonAddChild, GenericImageResources.add, "Add Child", buttonAddChild_Click);
-            buttonAddChild.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            buttonAddChild.Location = new Point(272, 146);
+
+            // groupBoxItems
+            groupBoxItems.Dock = DockStyle.Fill;
+            groupBoxItems.Name = nameof(groupBoxItems);
+            groupBoxItems.Values.Heading = @"BreadCrumbItems Collection";
+            groupBoxItems.Panel.Controls.Add(treeView1);
+
+            // groupBoxProperties
+            groupBoxProperties.Dock = DockStyle.Fill;
+            groupBoxProperties.Name = nameof(groupBoxProperties);
+            groupBoxProperties.Values.Heading = @"Item Properties";
+            groupBoxProperties.Panel.Controls.Add(propertyGrid1);
+
+            // Navigation buttons
+            ConfigureToolbarButton(buttonMoveUp, BlueArrowResources.arrow_up_blue, @"Move Up", buttonMoveUp_Click);
+            buttonMoveUp.Name = nameof(buttonMoveUp);
+            buttonMoveUp.TabIndex = 2;
+
+            ConfigureToolbarButton(buttonMoveDown, BlueArrowResources.arrow_down_blue, @"Move Down", buttonMoveDown_Click);
+            buttonMoveDown.Name = nameof(buttonMoveDown);
+            buttonMoveDown.TabIndex = 3;
+
+            ConfigureToolbarButton(buttonAddItem, GenericImageResources.add, @"Add Sibling", buttonAddSibling_Click);
+            buttonAddItem.Name = nameof(buttonAddItem);
+            buttonAddItem.TabIndex = 4;
+
+            ConfigureToolbarButton(buttonAddChild, GenericImageResources.add, @"Add Child", buttonAddChild_Click);
             buttonAddChild.Name = nameof(buttonAddChild);
-            buttonAddChild.Size = new Size(95, 28);
             buttonAddChild.TabIndex = 5;
-            // 
-            // KryptonBreadCrumbCollectionForm
-            // 
+
+            ConfigureToolbarButton(buttonDelete, GenericImageResources.delete, @"Delete Item", buttonDelete_Click);
+            buttonDelete.Name = nameof(buttonDelete);
+            buttonDelete.TabIndex = 6;
+
+            var navPanel = new FlowLayoutPanel
+            {
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                Dock = DockStyle.Fill,
+                FlowDirection = FlowDirection.TopDown,
+                WrapContents = false,
+                Padding = new Padding(3, 0, 3, 0)
+            };
+            navPanel.Controls.Add(buttonMoveUp);
+            navPanel.Controls.Add(buttonMoveDown);
+            navPanel.Controls.Add(buttonAddItem);
+            navPanel.Controls.Add(buttonAddChild);
+            navPanel.Controls.Add(buttonDelete);
+
+            var layout = new TableLayoutPanel
+            {
+                ColumnCount = 3,
+                Dock = DockStyle.Fill,
+                RowCount = 1
+            };
+            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
+            layout.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60F));
+            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            layout.Controls.Add(groupBoxItems, 0, 0);
+            layout.Controls.Add(navPanel, 1, 0);
+            layout.Controls.Add(groupBoxProperties, 2, 0);
+
+            var buttonBar = KryptonDesignerEditorButtonBar.Create(this, buttonOK, buttonCancel);
+            var contentHost = KryptonDesignerEditorContentPanel.Create(this, layout);
+
             AcceptButton = buttonOK;
             CancelButton = buttonCancel;
             AutoScaleMode = AutoScaleMode.None;
-            ClientSize = new Size(634, 414);
-            Controls.Add(buttonAddChild);
-            Controls.Add(label2);
-            Controls.Add(label1);
-            Controls.Add(propertyGrid1);
-            Controls.Add(buttonDelete);
-            Controls.Add(buttonAddItem);
-            Controls.Add(buttonMoveDown);
-            Controls.Add(buttonMoveUp);
-            Controls.Add(treeView1);
-            Controls.Add(buttonCancel);
-            Controls.Add(buttonOK);
+            ClientSize = new Size(720, 510);
+            Controls.Add(contentHost);
+            Controls.Add(buttonBar);
             Font = new Font(@"Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            //MinimumSize = new Size(501, 296);
-            MinimumSize = new Size(634, 414);
+            MinimumSize = new Size(640, 470);
             Name = "KryptonBreadCrumbCollectionForm";
-            Text = "BreadCrumbItem Collection Editor";
+            Text = @"BreadCrumbItem Collection Editor";
             ResumeLayout(false);
             PerformLayout();
         }
@@ -440,7 +422,10 @@ internal class KryptonBreadCrumbItemsEditor : KryptonDesignerCollectionEditor
         #region Implementation
         private static void ConfigureToolbarButton(KryptonButton button, Image image, string text, EventHandler click)
         {
+            button.AutoSize = true;
+            button.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             button.ButtonStyle = ButtonStyle.ListItem;
+            button.MinimumSize = new Size(110, 28);
             button.Values.Image = image;
             button.Values.Text = text;
             button.Click += click;
@@ -450,8 +435,19 @@ internal class KryptonBreadCrumbItemsEditor : KryptonDesignerCollectionEditor
         {
             if (FindOwningBreadCrumb() is KryptonBreadCrumb breadCrumb)
             {
-                ApplyOwnerPalette(breadCrumb.PaletteMode, breadCrumb.LocalCustomPalette);
+                var mode = breadCrumb.PaletteMode;
+                var custom = breadCrumb.LocalCustomPalette;
+                if (mode == PaletteMode.Global)
+                {
+                    mode = KryptonManager.CurrentGlobalPaletteMode;
+                    custom = KryptonManager.CurrentGlobalPalette as KryptonCustomPaletteBase;
+                }
+
+                KryptonDesignerEditorTheme.ApplyToForm(this, mode, custom);
+                return;
             }
+
+            ApplyOwnerPaletteFromContext();
         }
 
         private KryptonBreadCrumb? FindOwningBreadCrumb()

@@ -139,20 +139,10 @@ public abstract class KryptonDesignerCollectionForm : KryptonForm
     }
 
     /// <summary>
-    /// Applies the owning component palette from the current designer context.
+    /// Applies the owning component palette when set; otherwise the manager global palette.
     /// </summary>
-    protected void ApplyOwnerPaletteFromContext()
-    {
-        if (Context?.Instance is VisualControlBase visualControl)
-        {
-            ApplyOwnerPalette(visualControl.PaletteMode, visualControl.LocalCustomPalette);
-        }
-        else if (Context?.Instance is DataGridViewColumn column
-                 && column.DataGridView is KryptonDataGridView grid)
-        {
-            ApplyOwnerPalette(grid.PaletteMode, grid.Palette as KryptonCustomPaletteBase);
-        }
-    }
+    protected void ApplyOwnerPaletteFromContext() =>
+        KryptonDesignerEditorTheme.ApplyFromContext(this, Context);
 
     /// <summary>
     /// Commits the edited items back to the collection instance.

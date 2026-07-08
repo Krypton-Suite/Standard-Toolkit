@@ -164,20 +164,28 @@ internal partial class KryptonCheckButtonCollectionForm : KryptonForm
 
     private void ApplyOwnerPalette()
     {
-        if (_checkSet?.Container is not IContainer container)
+        if (_checkSet?.Container is IContainer container)
         {
-            return;
-        }
-
-        foreach (var component in container.Components)
-        {
-            if (component is VisualControlBase visualControl)
+            foreach (var component in container.Components)
             {
-                KryptonDesignerCollectionForm.ApplyPalette(Controls, visualControl.PaletteMode,
-                    visualControl.LocalCustomPalette);
-                return;
+                if (component is VisualControlBase visualControl)
+                {
+                    var mode = visualControl.PaletteMode;
+                    var custom = visualControl.LocalCustomPalette;
+                    if (mode == PaletteMode.Global)
+                    {
+                        mode = KryptonManager.CurrentGlobalPaletteMode;
+                        custom = KryptonManager.CurrentGlobalPalette as KryptonCustomPaletteBase;
+                    }
+
+                    KryptonDesignerEditorTheme.ApplyToForm(this, mode, custom);
+                    return;
+                }
             }
         }
+
+        KryptonDesignerEditorTheme.ApplyToForm(this, KryptonManager.CurrentGlobalPaletteMode,
+            KryptonManager.CurrentGlobalPalette as KryptonCustomPaletteBase);
     }
     #endregion
 }

@@ -137,36 +137,23 @@ internal sealed class KryptonDesignerTreeNodeCollectionForm : KryptonDesignerCol
         navPanel.Controls.Add(_buttonMoveUp);
         navPanel.Controls.Add(_buttonMoveDown);
 
-        var okCancelPanel = new FlowLayoutPanel
-        {
-            Dock = DockStyle.Fill,
-            FlowDirection = FlowDirection.RightToLeft
-        };
-        okCancelPanel.Controls.Add(_buttonCancel);
-        okCancelPanel.Controls.Add(_buttonOk);
-
         var layout = new TableLayoutPanel
         {
             Dock = DockStyle.Fill,
             ColumnCount = 3,
-            Padding = new Padding(KryptonDesignerEditorDpi.Scale(this, 9)),
-            RowCount = 3
+            RowCount = 1
         };
         layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
         layout.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
         layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60F));
         layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-        layout.RowStyles.Add(new RowStyle());
-        layout.RowStyles.Add(new RowStyle());
         layout.Controls.Add(membersPanel, 0, 0);
         layout.Controls.Add(navPanel, 1, 0);
         layout.Controls.Add(propertiesPanel, 2, 0);
-        layout.Controls.Add(okCancelPanel, 2, 2);
-        layout.SetRowSpan(membersPanel, 2);
-        layout.SetRowSpan(navPanel, 2);
-        layout.SetRowSpan(propertiesPanel, 2);
 
-        Controls.Add(layout);
+        var buttonBar = KryptonDesignerEditorButtonBar.Create(this, _buttonOk, _buttonCancel);
+        Controls.Add(KryptonDesignerEditorContentPanel.Create(this, layout));
+        Controls.Add(buttonBar);
     }
 
     /// <inheritdoc />
