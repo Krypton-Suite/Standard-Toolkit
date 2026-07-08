@@ -12,7 +12,11 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// Applies consistent DPI scaling to Krypton designer editor dialogs.
 /// </summary>
-internal static class KryptonDesignerEditorDpi
+/// <remarks>
+/// Use these helpers when building a custom <see cref="KryptonDesignerCollectionForm"/> so
+/// sizes match other toolkit designer dialogs across DPI settings.
+/// </remarks>
+public static class KryptonDesignerEditorDpi
 {
     private const float DesignDpi = 96f;
 
@@ -20,7 +24,7 @@ internal static class KryptonDesignerEditorDpi
     /// Configures a designer editor form to scale from a 96 DPI design baseline.
     /// </summary>
     /// <param name="form">Editor form.</param>
-    internal static void Configure(Form form)
+    public static void Configure(Form form)
     {
         form.AutoScaleDimensions = new SizeF(DesignDpi, DesignDpi);
         form.AutoScaleMode = AutoScaleMode.Dpi;
@@ -30,7 +34,7 @@ internal static class KryptonDesignerEditorDpi
     /// Refreshes layout after the editor is shown on a possibly high-DPI display.
     /// </summary>
     /// <param name="form">Editor form.</param>
-    internal static void ApplyOnShown(Form form)
+    public static void ApplyOnShown(Form form)
     {
         KryptonManager.InvalidateDpiCache();
 
@@ -43,7 +47,7 @@ internal static class KryptonDesignerEditorDpi
     /// </summary>
     /// <param name="form">Editor form.</param>
     /// <returns>DPI scale factor relative to 96 DPI.</returns>
-    internal static float GetDpiFactor(Form form) =>
+    public static float GetDpiFactor(Form form) =>
         form.IsHandleCreated ? KryptonManager.GetDpiFactor(form.Handle) : KryptonManager.GetDpiFactor();
 
     /// <summary>
@@ -52,7 +56,7 @@ internal static class KryptonDesignerEditorDpi
     /// <param name="form">Editor form.</param>
     /// <param name="designPixels">Value authored at 96 DPI.</param>
     /// <returns>Scaled pixel value.</returns>
-    internal static int Scale(Form form, int designPixels) =>
+    public static int Scale(Form form, int designPixels) =>
         (int)Math.Round(designPixels * GetDpiFactor(form));
 
     /// <summary>
@@ -61,7 +65,7 @@ internal static class KryptonDesignerEditorDpi
     /// <param name="form">Editor form.</param>
     /// <param name="designSize">Size authored at 96 DPI.</param>
     /// <returns>Scaled size.</returns>
-    internal static Size Scale(Form form, Size designSize)
+    public static Size Scale(Form form, Size designSize)
     {
         var factor = GetDpiFactor(form);
         return new Size(

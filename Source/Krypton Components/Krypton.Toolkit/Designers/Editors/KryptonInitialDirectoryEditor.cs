@@ -10,9 +10,14 @@
 namespace Krypton.Toolkit;
 
 /// <summary>
-/// Krypton-themed designer editor for the initial directory of a folder browser dialog.
+/// Krypton-themed designer editor for choosing an initial directory path (folder browser).
 /// </summary>
-internal sealed class KryptonInitialDirectoryEditor : KryptonDesignerFolderNameEditor
+/// <remarks>
+/// Prefer this editor for properties that represent a dialog's starting folder.
+/// For general folder paths, use <see cref="KryptonDesignerFolderNameEditor"/> or
+/// <see cref="KryptonDesignerSelectedPathEditor"/>.
+/// </remarks>
+public sealed class KryptonInitialDirectoryEditor : KryptonDesignerFolderNameEditor
 {
     #region Protected
     /// <inheritdoc />
