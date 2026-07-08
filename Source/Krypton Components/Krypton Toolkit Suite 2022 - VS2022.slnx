@@ -33,6 +33,10 @@
     <File Path="../../Directory.Build.props" />
     <File Path="Directory.Build.props" />
     <File Path="Directory.Build.targets" />
+    <File Path="Krypton.Shared/Krypton.Interop.Package.targets" />
+    <File Path="Krypton.Shared/Krypton.SharedCompileItems.props" />
+    <File Path="NetFramework.SystemResourcesExtensions.BindingRedirects.props" />
+    <File Path="NetFramework.SystemResourcesExtensions.targets" />
   </Folder>
   <Folder Name="/Solution Items/Build System/PROJ Files/">
     <File Path="../../Scripts/build.proj" />
@@ -96,6 +100,9 @@
     <Project Path="Krypton.Ribbon/Krypton.Ribbon 2022.csproj" />
     <Project Path="Krypton.Toolkit/Krypton.Toolkit 2022.csproj" />
     <Project Path="Krypton.Workspace/Krypton.Workspace 2022.csproj" />
+  </Folder>
+  <Folder Name="/Source/Shared Libraries/">
+    <Project Path="Krypton.Interop/Krypton.Interop.csproj" />
   </Folder>
   <Folder Name="/Source/Utility  Libraries/">
     <Project Path="Krypton.Navigator.Utilities/Krypton.Navigator.Utilities.csproj" Id="20869492-f8bf-4fc1-9714-44012de15756">

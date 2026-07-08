@@ -48,6 +48,11 @@
 * Implemented [#3849](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3849), Workspace collection editor uses native WinForms controls
    * Designer collection editors now use Krypton controls and `KryptonForm` chrome: workspace sequence, context menu items, breadcrumb items, check-button collection editors, string collection editors, and multiline text/`Lines` editors inherit the owning component palette at design time
    * Migrated designer editor dialogs use `KryptonDesignerEditorDpi` for consistent DPI scaling on high-DPI displays
+* Implemented [#3856](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3856), Replace `CommonHelper.LogOutput` with thread-safe, non-UAC-protected logging
+   * Thread-safe diagnostic logging via `IKryptonLogger` and `KryptonLogger`. `CommonHelper.LogOutput` now delegates to the shared logger; optional file output uses `%LOCALAPPDATA%` or `KRYPTON_LOG` / `KRYPTON_LOG_PATH` instead of the application directory.
+* Resolved [#3842](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3842), `KryptonMessageBoxExtended` RTL routing on the optional-checkbox `bool`- and `CheckState`-returning `ShowCore` paths (the RTL extended message box now displays and returns the checkbox state, matching the LTR behaviour)
+* Implemented [#3855](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3855), Cross-project source linking
+   * Cross-project source linking: shared interop moved to internal `Krypton.Interop` assembly; remaining compile links centralized in `Krypton.Shared/Krypton.SharedCompileItems.props`.
 * Implemented [#3837](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3837), MultiSelect Treeview
    * `KryptonMultiSelectTreeView` in `Krypton.Toolkit.Utilities` with Ctrl+click toggle, Shift+click range selection, rubber-band drag selection, check-box selection, and a `SelectedNodes` collection; core `KryptonTreeView` exposes `IsNodeMultiSelected` for multi-highlight painting
 * Implemented [#3848](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3848), Removed dead code: obsolete docking drag timer, unused `KryptonForm` designer scaffolding, and unimplemented custom palette binary export designer action; `AccurateText` draw path now applies the text rendering hint captured at measure time
