@@ -747,6 +747,20 @@ public interface IKryptonMonthCalendar
 }
 #endregion
 
+#region IKryptonLogger
+/// <summary>
+/// Receives diagnostic messages from the toolkit.
+/// </summary>
+public interface IKryptonLogger
+{
+    /// <summary>
+    /// Writes a diagnostic message.
+    /// </summary>
+    /// <param name="message">The message to write.</param>
+    void Write(string message);
+}
+#endregion
+
 #region IKryptonDebug
 /// <summary>
 /// Exposes access to the debugging helpers for krypton controls.
