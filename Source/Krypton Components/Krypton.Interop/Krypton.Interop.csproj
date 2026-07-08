@@ -31,8 +31,5 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
-	<ItemGroup>
-		<AdditionalFiles Include="NativeMethods.txt" />
-	</ItemGroup>
 
 </Project>
