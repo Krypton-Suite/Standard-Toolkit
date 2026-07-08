@@ -145,7 +145,12 @@ internal sealed class KryptonDesignerDesignBindingPicker : UserControl
         MinimumSize = new Size(250, 250);
         Size = new Size(320, 320);
 
-        var layout = new TableLayoutPanel { Dock = DockStyle.Fill, RowCount = 2 };
+        var layout = new TableLayoutPanel
+        {
+            Dock = DockStyle.Fill,
+            RowCount = 2,
+            BackColor = Color.Transparent
+        };
         layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
         layout.RowStyles.Add(new RowStyle());
         layout.Controls.Add(_treeView, 0, 0);

@@ -294,7 +294,6 @@ public class KryptonRibbonGroupCluster : KryptonRibbonGroupContainer
     [Category(@"Visuals")]
     [Description(@"Collection of ribbon group button cluster items.")]
     [MergableProperty(false)]
-    // ToDo V120 LTS: Migrate collection editor to KryptonDesignerCollectionForm (currently uses native System.ComponentModel.Design.CollectionForm).
     [Editor(typeof(KryptonRibbonGroupClusterCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public KryptonRibbonGroupClusterCollection Items { get; }

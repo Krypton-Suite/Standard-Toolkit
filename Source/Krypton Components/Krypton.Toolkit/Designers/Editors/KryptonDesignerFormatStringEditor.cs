@@ -117,7 +117,8 @@ internal sealed class KryptonDesignerFormatStringEditorForm : KryptonForm
         {
             Dock = DockStyle.Fill,
             ColumnCount = 1,
-            RowCount = 7
+            RowCount = 7,
+            BackColor = Color.Transparent
         };
         layout.RowStyles.Add(new RowStyle());
         layout.RowStyles.Add(new RowStyle());

@@ -336,10 +336,12 @@ internal class KryptonBreadCrumbItemsEditor : KryptonDesignerCollectionEditor
             {
                 AutoSize = true,
                 AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                Dock = DockStyle.Fill,
+                Dock = DockStyle.Top,
                 FlowDirection = FlowDirection.TopDown,
                 WrapContents = false,
-                Padding = new Padding(3, 0, 3, 0)
+                Padding = new Padding(0),
+                Margin = new Padding(0),
+                BackColor = Color.Transparent
             };
             navPanel.Controls.Add(buttonMoveUp);
             navPanel.Controls.Add(buttonMoveDown);
@@ -347,19 +349,33 @@ internal class KryptonBreadCrumbItemsEditor : KryptonDesignerCollectionEditor
             navPanel.Controls.Add(buttonAddChild);
             navPanel.Controls.Add(buttonDelete);
 
+            var navHost = new KryptonPanel
+            {
+                Dock = DockStyle.Fill,
+                Padding = new Padding(8, 18, 8, 8),
+                StateCommon = { Color1 = Color.Transparent }
+            };
+            navHost.Controls.Add(navPanel);
+
             var layout = new TableLayoutPanel
             {
                 ColumnCount = 3,
                 Dock = DockStyle.Fill,
-                RowCount = 1
+                RowCount = 1,
+                Padding = new Padding(6),
+                BackColor = Color.Transparent
             };
-            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
+            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 42F));
             layout.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
-            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60F));
+            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 58F));
             layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             layout.Controls.Add(groupBoxItems, 0, 0);
-            layout.Controls.Add(navPanel, 1, 0);
+            layout.Controls.Add(navHost, 1, 0);
             layout.Controls.Add(groupBoxProperties, 2, 0);
+
+            groupBoxItems.Margin = new Padding(0, 0, 6, 0);
+            navHost.Margin = new Padding(0, 0, 6, 0);
+            groupBoxProperties.Margin = new Padding(0);
 
             var buttonBar = KryptonDesignerEditorButtonBar.Create(this, buttonOK, buttonCancel);
             var contentHost = KryptonDesignerEditorContentPanel.Create(this, layout);
@@ -370,10 +386,9 @@ internal class KryptonBreadCrumbItemsEditor : KryptonDesignerCollectionEditor
             ClientSize = new Size(720, 510);
             Controls.Add(contentHost);
             Controls.Add(buttonBar);
-            Font = new Font(@"Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             MinimumSize = new Size(640, 470);
             Name = "KryptonBreadCrumbCollectionForm";
-            Text = @"BreadCrumbItem Collection Editor";
+            Text = @"BreadCrumbItems Collection Editor";
             ResumeLayout(false);
             PerformLayout();
         }
@@ -416,6 +431,7 @@ internal class KryptonBreadCrumbItemsEditor : KryptonDesignerCollectionEditor
 
             UpdateButtons();
             UpdatePropertyGrid();
+            treeView1.Focus();
         }
         #endregion
 
@@ -510,6 +526,7 @@ internal class KryptonBreadCrumbItemsEditor : KryptonDesignerCollectionEditor
 
             // Update collection with new set of items
             Items = rootItems;
+            CommitDesignerItems();
 
             // Clear down contents of tree as this form can be reused
             treeView1.Nodes.Clear();

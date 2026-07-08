@@ -172,7 +172,6 @@ public class KryptonBackstageView : KryptonPanel
     [Category(@"Backstage")]
     [Description(@"Collection of pages hosted by the backstage view.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    // ToDo V120 LTS: Migrate collection editor to KryptonDesignerCollectionForm (currently uses native System.ComponentModel.Design.CollectionForm).
     [Editor(typeof(BackstagePageCollectionEditor), typeof(UITypeEditor))]
     public KryptonBackstagePageCollection Pages => _pages;
 

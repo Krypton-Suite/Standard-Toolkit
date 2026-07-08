@@ -241,7 +241,8 @@ internal sealed class KryptonDesignerSelectResourceForm : KryptonForm
             Dock = DockStyle.Fill,
             FlowDirection = FlowDirection.TopDown,
             WrapContents = false,
-            Padding = new Padding(3)
+            Padding = new Padding(3),
+            BackColor = Color.Transparent
         };
         sourceLayout.Controls.Add(_radioLocal);
         sourceLayout.Controls.Add(_radioProject);
@@ -259,7 +260,8 @@ internal sealed class KryptonDesignerSelectResourceForm : KryptonForm
         {
             Dock = DockStyle.Fill,
             ColumnCount = 1,
-            RowCount = 2
+            RowCount = 2,
+            BackColor = Color.Transparent
         };
         previewPanel.RowStyles.Add(new RowStyle());
         previewPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
@@ -272,7 +274,8 @@ internal sealed class KryptonDesignerSelectResourceForm : KryptonForm
             AutoSize = true,
             FlowDirection = FlowDirection.LeftToRight,
             WrapContents = false,
-            Padding = new Padding(0, 6, 0, 0)
+            Padding = new Padding(0, 6, 0, 0),
+            BackColor = Color.Transparent
         };
         actionButtons.Controls.Add(_buttonImport);
         actionButtons.Controls.Add(_buttonClear);
@@ -281,7 +284,8 @@ internal sealed class KryptonDesignerSelectResourceForm : KryptonForm
         {
             Dock = DockStyle.Fill,
             ColumnCount = 2,
-            RowCount = 2
+            RowCount = 2,
+            BackColor = Color.Transparent
         };
         body.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 55F));
         body.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 45F));
@@ -296,7 +300,8 @@ internal sealed class KryptonDesignerSelectResourceForm : KryptonForm
         {
             Dock = DockStyle.Fill,
             ColumnCount = 1,
-            RowCount = 2
+            RowCount = 2,
+            BackColor = Color.Transparent
         };
         content.RowStyles.Add(new RowStyle());
         content.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));

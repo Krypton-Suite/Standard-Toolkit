@@ -848,7 +848,6 @@ public class KryptonRibbon : VisualSimple,
     [Category(@"Values")]
     [Description(@"Collection of ribbon quick access toolbar buttons.")]
     [MergableProperty(false)]
-    // ToDo V120 LTS: Migrate collection editor to KryptonDesignerCollectionForm (currently uses native System.ComponentModel.Design.CollectionForm).
     [Editor(typeof(KryptonRibbonQATButtonCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public KryptonRibbonQATButtonCollection QATButtons { get; private set; }

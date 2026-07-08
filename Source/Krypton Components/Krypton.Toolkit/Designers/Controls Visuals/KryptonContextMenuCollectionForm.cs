@@ -500,6 +500,7 @@ public partial class KryptonContextMenuCollectionEditor
             _tableLayoutPanel1.Dock = DockStyle.Fill;
             _tableLayoutPanel1.Location = new Point(0, 0);
             _tableLayoutPanel1.Name = "_tableLayoutPanel1";
+            _tableLayoutPanel1.BackColor = Color.Transparent;
             _tableLayoutPanel1.RowCount = 2;
             _tableLayoutPanel1.RowStyles.Add(new RowStyle());
             _tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
@@ -527,6 +528,7 @@ public partial class KryptonContextMenuCollectionEditor
             _panel1.Location = new Point(298, 24);
             _panel1.Name = "_panel1";
             _panel1.Size = new Size(220, 658);
+            _panel1.StateCommon.Color1 = Color.Transparent;
             _panel1.TabIndex = 17;
             // 
             // KryptonContextMenuCollectionForm

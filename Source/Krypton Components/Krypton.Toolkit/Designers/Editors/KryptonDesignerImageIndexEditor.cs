@@ -193,8 +193,9 @@ internal sealed class KryptonDesignerImageIndexDropDown : UserControl
         if (_useKeys)
         {
             _listBox.Items.Add(new ImageKeyItem("(none)", string.Empty));
-            foreach (string key in imageList.Images.Keys)
+            foreach (string? keyValue in imageList.Images.Keys)
             {
+                var key = keyValue ?? string.Empty;
                 _listBox.Items.Add(new ImageKeyItem(key, key));
             }
 

@@ -97,12 +97,14 @@ internal sealed class KryptonDesignerStandardCollectionForm : KryptonDesignerCol
     #region Implementation
     private string CollectionItemTypeName => _standardEditor.DesignerCollectionItemType.Name;
 
-    private static KryptonButton CreateButton(string text, EventHandler? click)
+    private KryptonButton CreateButton(string text, EventHandler? click)
     {
+        var buttonSize = KryptonDesignerEditorDpi.Scale(this, new Size(112, 28));
         var button = new KryptonButton
         {
-            AutoSize = true,
-            AutoSizeMode = AutoSizeMode.GrowAndShrink,
+            AutoSize = false,
+            Size = buttonSize,
+            MinimumSize = buttonSize,
             Values = { Text = text }
         };
 
@@ -120,18 +122,22 @@ internal sealed class KryptonDesignerStandardCollectionForm : KryptonDesignerCol
         membersPanel.Controls.Add(_listBox);
         membersPanel.Controls.Add(_membersLabel);
         _membersLabel.Dock = DockStyle.Top;
+        membersPanel.Margin = new Padding(0, 0, 6, 0);
 
         var propertiesPanel = new KryptonPanel { Dock = DockStyle.Fill };
         propertiesPanel.Controls.Add(_propertyGrid);
         propertiesPanel.Controls.Add(_propertiesLabel);
         _propertiesLabel.Dock = DockStyle.Top;
+        propertiesPanel.Margin = new Padding(0);
 
         var buttonPanel = new TableLayoutPanel
         {
             AutoSize = true,
             AutoSizeMode = AutoSizeMode.GrowAndShrink,
             ColumnCount = 2,
-            Dock = DockStyle.Bottom
+            Dock = DockStyle.Bottom,
+            Margin = new Padding(0, 6, 0, 0),
+            BackColor = Color.Transparent
         };
         buttonPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
         buttonPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
@@ -141,7 +147,9 @@ internal sealed class KryptonDesignerStandardCollectionForm : KryptonDesignerCol
         var content = new TableLayoutPanel
         {
             ColumnCount = 2,
-            Dock = DockStyle.Fill
+            Dock = DockStyle.Fill,
+            Padding = new Padding(6),
+            BackColor = Color.Transparent
         };
         content.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 45F));
         content.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 55F));
@@ -170,6 +178,7 @@ internal sealed class KryptonDesignerStandardCollectionForm : KryptonDesignerCol
         ApplyOwnerPaletteFromContext();
         UpdateButtons();
         UpdatePropertyGrid();
+        _listBox.Focus();
     }
 
     private void RefreshList()
@@ -271,7 +280,7 @@ internal sealed class KryptonDesignerStandardCollectionForm : KryptonDesignerCol
             Text = @"Select item type",
             ClientSize = KryptonDesignerEditorDpi.Scale(this, new Size(320, 280))
         };
-        ApplyOwnerPaletteFromContext();
+        KryptonDesignerEditorTheme.ApplyFromContext(form, Context);
 
         var listBox = new KryptonListBox { Dock = DockStyle.Fill };
         foreach (var itemType in itemTypes)

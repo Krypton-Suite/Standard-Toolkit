@@ -113,6 +113,13 @@ internal partial class KryptonCheckButtonCollectionForm : KryptonForm
                 }
             }
         }
+
+        if (checkedListBox.Items.Count > 0)
+        {
+            checkedListBox.SelectedIndex = 0;
+        }
+
+        checkedListBox.Focus();
     }
 
     private void buttonOK_Click(object sender, EventArgs e)

@@ -94,12 +94,14 @@ internal sealed class KryptonDesignerTreeNodeCollectionForm : KryptonDesignerCol
     #endregion
 
     #region Implementation
-    private static KryptonButton CreateButton(string text, EventHandler? click)
+    private KryptonButton CreateButton(string text, EventHandler? click)
     {
+        var buttonSize = KryptonDesignerEditorDpi.Scale(this, new Size(112, 28));
         var button = new KryptonButton
         {
-            AutoSize = true,
-            AutoSizeMode = AutoSizeMode.GrowAndShrink,
+            AutoSize = false,
+            Size = buttonSize,
+            MinimumSize = buttonSize,
             Values = { Text = text }
         };
         if (click is not null)
@@ -117,19 +119,24 @@ internal sealed class KryptonDesignerTreeNodeCollectionForm : KryptonDesignerCol
         membersPanel.Controls.Add(_treeView);
         membersPanel.Controls.Add(membersLabel);
         membersLabel.Dock = DockStyle.Top;
+        membersPanel.Margin = new Padding(0, 0, 6, 0);
 
         var propertiesPanel = new KryptonPanel { Dock = DockStyle.Fill };
         propertiesPanel.Controls.Add(_propertyGrid);
         propertiesPanel.Controls.Add(_propertiesLabel);
         _propertiesLabel.Dock = DockStyle.Top;
+        propertiesPanel.Margin = new Padding(0);
 
         var navPanel = new FlowLayoutPanel
         {
-            Dock = DockStyle.Fill,
+            Dock = DockStyle.Top,
             FlowDirection = FlowDirection.TopDown,
             WrapContents = false,
             AutoSize = true,
-            AutoSizeMode = AutoSizeMode.GrowAndShrink
+            AutoSizeMode = AutoSizeMode.GrowAndShrink,
+            Margin = new Padding(0),
+            Padding = new Padding(0),
+            BackColor = Color.Transparent
         };
         navPanel.Controls.Add(_buttonAddRoot);
         navPanel.Controls.Add(_buttonAddChild);
@@ -137,18 +144,29 @@ internal sealed class KryptonDesignerTreeNodeCollectionForm : KryptonDesignerCol
         navPanel.Controls.Add(_buttonMoveUp);
         navPanel.Controls.Add(_buttonMoveDown);
 
+        var navHost = new KryptonPanel
+        {
+            Dock = DockStyle.Fill,
+            Padding = new Padding(8, 18, 8, 8),
+            Margin = new Padding(0, 0, 6, 0),
+            StateCommon = { Color1 = Color.Transparent }
+        };
+        navHost.Controls.Add(navPanel);
+
         var layout = new TableLayoutPanel
         {
             Dock = DockStyle.Fill,
             ColumnCount = 3,
-            RowCount = 1
+            RowCount = 1,
+            Padding = new Padding(6),
+            BackColor = Color.Transparent
         };
-        layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
+        layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 42F));
         layout.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
-        layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60F));
+        layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 58F));
         layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
         layout.Controls.Add(membersPanel, 0, 0);
-        layout.Controls.Add(navPanel, 1, 0);
+        layout.Controls.Add(navHost, 1, 0);
         layout.Controls.Add(propertiesPanel, 2, 0);
 
         var buttonBar = KryptonDesignerEditorButtonBar.Create(this, _buttonOk, _buttonCancel);
@@ -184,6 +202,7 @@ internal sealed class KryptonDesignerTreeNodeCollectionForm : KryptonDesignerCol
 
         UpdateButtons();
         UpdatePropertyGrid();
+        _treeView.Focus();
     }
 
     private void CopyImageListsFromDesignTreeView()

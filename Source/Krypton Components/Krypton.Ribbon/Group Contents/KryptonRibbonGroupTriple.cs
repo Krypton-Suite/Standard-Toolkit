@@ -460,7 +460,6 @@ public class KryptonRibbonGroupTriple : KryptonRibbonGroupContainer
     [Category(@"Visuals")]
     [Description(@"Collection of ribbon group triple items.")]
     [MergableProperty(false)]
-    // ToDo V120 LTS: Migrate collection editor to KryptonDesignerCollectionForm (currently uses native System.ComponentModel.Design.CollectionForm).
     [Editor(typeof(KryptonRibbonGroupTripleCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public KryptonRibbonGroupTripleCollection? Items { get; }
