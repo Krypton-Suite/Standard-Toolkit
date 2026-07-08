@@ -1,0 +1,18 @@
+<Project>
+	<!--
+	  Central MSBuild definitions for cross-project source linking.
+	  See Documents/Development/Cross-Project-Source-Linking.md
+	-->
+	<PropertyGroup>
+		<KryptonSharedRoot Condition="'$(KryptonSharedRoot)' == ''">$(MSBuildThisFileDirectory)..\Krypton.Toolkit\</KryptonSharedRoot>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(IncludeKryptonGlobalSuppressionsLink)' == 'true'">
+		<Compile Include="$(KryptonSharedRoot)General\GlobalSuppressions.cs" Link="General\GlobalSuppressions.cs" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(IncludeKryptonUtilitiesSourceLinks)' == 'true'">
+		<Compile Include="$(KryptonSharedRoot)Utilities\FileSystemIconHelper.cs" Link="Components\KryptonFileSystemTreeView\Utilities\FileSystemIconHelper.cs" />
+		<Compile Include="$(KryptonSharedRoot)Tooling\GeneralToolkitUtilities.cs" Link="Tooling\GeneralToolkitUtilities.cs" />
+	</ItemGroup>
+</Project>
