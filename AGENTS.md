@@ -50,6 +50,7 @@ Before considering a task complete:
 ## Architecture
 
 - `Krypton.Toolkit` contains the shared infrastructure.
+- `Krypton.Interop` holds shared internal Win32/P/Invoke and net472 nullable polyfills; referenced by `Krypton.Toolkit` and consumed transitively by sibling assemblies.
 - `Krypton.Ribbon` depends on `Krypton.Toolkit`.
 - `Krypton.Navigator` depends on `Krypton.Toolkit`.
 - Rendering flows through the palette and renderer abstractions.
