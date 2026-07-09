@@ -47,6 +47,7 @@
 
 * Implemented [#3874](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3874), Use the more optimised `LibraryImport`
    * Use source-generated `LibraryImport` for eligible Win32 P/Invokes on modern TFMs (Framework TFMs keep `DllImport`)
+* Implemented [#3807](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3807), `KryptonKnob` control
 * Resolved [#3850](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3850), Tooltip hot-spot not respected 
    * Tooltip placement now respects cursor hotspot and full cursor bounds
 * Implemented [#3856](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3856), Replace `CommonHelper.LogOutput` with thread-safe, non-UAC-protected logging
