@@ -1,11 +1,11 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  � Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avil�s (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -50,7 +50,7 @@ public class KryptonForm : VisualForm,
 				or PaletteContentStyle.HeaderCustom2
 				or PaletteContentStyle.HeaderCustom3)
 			{
-				// RTL caption reading order (physical left ? right):
+				// RTL caption reading order (physical left → right):
 				// [Control box] [TextExtra] [Title] [Icon]
 				// Title is Far so it sits on the physical right, immediately before the icon.
 				if (_kryptonForm.RightToLeft == RightToLeft.Yes && _kryptonForm.RightToLeftLayout)
@@ -119,31 +119,31 @@ public class KryptonForm : VisualForm,
         /// <list type="number">
         /// <item>
         /// <description>
-        /// <b>Palette edge</b> (<see cref="PaletteRelativeEdgeAlign"/> Near/Far) � which side of the
+        /// <b>Palette edge</b> (<see cref="PaletteRelativeEdgeAlign"/> Near/Far) — which side of the
         /// caption docker the buttons belong on. Office/Microsoft palettes declare Far; macOS palettes
         /// declare Near for traffic-light glyphs.
         /// </description>
         /// </item>
         /// <item>
         /// <description>
-        /// <b>View dock</b> � <see cref="ButtonSpecManagerBase"/> maps that edge to
+        /// <b>View dock</b> — <see cref="ButtonSpecManagerBase"/> maps that edge to
         /// <see cref="ViewDockStyle"/> Left/Right. Custom form chrome does not rely on
         /// <see cref="ViewDrawDocker.CalculateDock"/> mirroring for Far-edge buttons in RTL, so this
-        /// redirector remaps palette Far ? Near when RTL is active (issue #3786).
+        /// redirector remaps palette Far → Near when RTL is active (issue #3786).
         /// </description>
         /// </item>
         /// </list>
         /// <para>
         /// Collection order (<see cref="SyncFormFixedButtonSpecOrder"/>) is separate from edge placement:
-        /// the same [min, max, close] collection yields Min?Max?Close in LTR (right side) and
-        /// Close?Max?Min in RTL (left side) because the docker inserts each spec before the caption
+        /// the same [min, max, close] collection yields Min → Max → Close in LTR (right side) and
+        /// Close → Max → Min in RTL (left side) because the docker inserts each spec before the caption
         /// spacer and lays out mirrored edges differently.
         /// </para>
         /// </remarks>
         public override PaletteRelativeEdgeAlign GetButtonSpecEdge(PaletteButtonSpecStyle style)
         {
             // Per-form override wins (e.g. macOS palette with FormTrafficLightEdge = Far keeps a
-            // Windows-style control box on the Far side without the RTL Far?Near remap below).
+            // Windows-style control box on the Far side without the RTL Far→Near remap below).
             if (_kryptonForm._formTrafficLightEdge != PaletteRelativeEdgeAlign.Inherit && IsFormWindowButtonSpecStyle(style))
             {
                 return _kryptonForm._formTrafficLightEdge;
@@ -158,9 +158,9 @@ public class KryptonForm : VisualForm,
             }
 
             // Standard palettes: FormClose/Min/Max are Far in LTR (physical right).
-            // In RTL the control box must move to the physical left (leading edge). Remap Far?Near
+            // In RTL the control box must move to the physical left (leading edge). Remap Far→Near
             // so ButtonSpecManagerDraw docks Left. Do not remap native Near-edge palettes (macOS
-            // traffic lights) � they must stay on the physical left in both LTR and RTL.
+            // traffic lights) — they must stay on the physical left in both LTR and RTL.
             return edge == PaletteRelativeEdgeAlign.Far
                 ? PaletteRelativeEdgeAlign.Near
                 : edge;
@@ -1091,7 +1091,7 @@ public class KryptonForm : VisualForm,
     /// <remarks>
     /// <see cref="PaletteRelativeEdgeAlign.Inherit"/> uses the palette default (Near / traffic lights for
     /// macOS and OS X Aqua). <see cref="PaletteRelativeEdgeAlign.Far"/> forces a standard Windows
-    /// control box on the Far edge (physical right in LTR). When set to Far, the RTL Far?Near remap in
+    /// control box on the Far edge (physical right in LTR). When set to Far, the RTL Far→Near remap in
     /// <see cref="KryptonForm.FormPaletteRedirect.GetButtonSpecEdge(PaletteButtonSpecStyle)"/> is bypassed so the developer controls edge
     /// explicitly. <see cref="PaletteRelativeEdgeAlign.Near"/> forces traffic-light placement on the
     /// Near edge regardless of palette.
@@ -2296,7 +2296,7 @@ public class KryptonForm : VisualForm,
 		Padding borders = RealWindowBorders;
 
 		// Issue #2921: CustomCaptionArea is in form client coordinates (set by ribbon);
-		// hit-test pt is in window coordinates � convert for correct caption/drag detection.
+		// hit-test pt is in window coordinates — convert for correct caption/drag detection.
 		if (!CustomCaptionArea.IsEmpty)
 		{
 			var clientPt = new Point(pt.X - borders.Left, pt.Y - borders.Top);
@@ -3155,7 +3155,7 @@ public class KryptonForm : VisualForm,
     /// </summary>
     /// <remarks>
     /// Uses the palette's <em>native</em> edge from <see cref="PaletteBase.GetButtonSpecEdge"/>,
-    /// not <see cref="VisualForm.Redirector"/>. After issue #3786, the redirector remaps Far?Near for standard
+    /// not <see cref="VisualForm.Redirector"/>. After issue #3786, the redirector remaps Far→Near for standard
     /// palettes in RTL; consulting the redirector here would mis-classify RTL Office forms as
     /// traffic-light layouts and apply the wrong collection order.
     /// </remarks>
@@ -3188,14 +3188,14 @@ public class KryptonForm : VisualForm,
     /// <list type="bullet">
     /// <item>
     /// <description>
-    /// <b>Far-edge / Windows control box</b> � collection [min, max, close] for both LTR and RTL.
-    /// LTR (dock right): Min ? Max ? Close. RTL (dock left after Far?Near remap): Close ? Max ? Min.
+    /// <b>Far-edge / Windows control box</b> — collection [min, max, close] for both LTR and RTL.
+    /// LTR (dock right): Min → Max → Close. RTL (dock left after Far→Near remap): Close → Max → Min.
     /// </description>
     /// </item>
     /// <item>
     /// <description>
-    /// <b>Near-edge / traffic lights</b> � collection [max, min, close] so visuals read
-    /// Close (red) ? Min (yellow) ? Max (green) on the physical left.
+    /// <b>Near-edge / traffic lights</b> — collection [max, min, close] so visuals read
+    /// Close (red) → Min (yellow) → Max (green) on the physical left.
     /// </description>
     /// </item>
     /// </list>
@@ -3281,7 +3281,7 @@ public class KryptonForm : VisualForm,
 		_buttonSpecsFixed.Clear();
 		if (UsesLeftTrafficLightFormButtons())
 		{
-			// Near-edge traffic lights: collection [max, min, close] ? Close ? Min ? Max along the bar.
+			// Near-edge traffic lights: collection [max, min, close] → Close → Min → Max along the bar.
 			_buttonSpecsFixed.AddRange([ButtonSpecMax, ButtonSpecMin, ButtonSpecClose]);
 		}
 		else
