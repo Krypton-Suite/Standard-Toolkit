@@ -287,6 +287,15 @@ jobs:
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
         run: msbuild /m "Scripts/Build/nightly.proj" /t:Pack /restore /p:Configuration=Nightly /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
+      - name: Verify Krypton.Interop in NuGet packages
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
+          Test-KryptonInteropInPackages -Configuration Nightly -SkipIfInteropProjectMissing
+
       - name: Push NuGet Packages to nuget.org
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
         id: push_nuget

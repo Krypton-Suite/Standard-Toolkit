@@ -58,9 +58,6 @@
     <Compile Remove="Palette Install\WorkspacePageMenuBase.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Krypton.Toolkit\Utilities\AllowNullAttribute.cs" Link="General\AllowNullAttribute.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Update="Resources\GeneralImageResources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

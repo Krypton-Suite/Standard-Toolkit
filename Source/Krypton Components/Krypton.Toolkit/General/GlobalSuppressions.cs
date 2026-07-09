@@ -10,6 +10,8 @@
  */
 #endregion
 
+// Shared via MSBuild compile link — see Documents/Development/Cross-Project-Source-Linking.md
+
 // This file is used by Code Analysis to maintain SuppressMessage
 // attributes that are applied to this project.
 // Project-level suppressions either have no target or are given
