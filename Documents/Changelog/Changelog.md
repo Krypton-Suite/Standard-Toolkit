@@ -49,6 +49,7 @@
    * Designer collection editors now use Krypton controls and `KryptonForm` chrome: workspace sequence, context menu items, breadcrumb items, check-button collection editors, string collection editors, and multiline text/`Lines` editors inherit the owning component palette at design time
    * Migrated designer editor dialogs use `KryptonDesignerEditorDpi` for consistent DPI scaling on high-DPI displays
    * Implemented public Krypton designer `UITypeEditor` / `CollectionEditor` APIs for reuse on consumer components (`KryptonDesigner*` editors, collection bases, theme/DPI/button-bar helpers). Apply with `[Editor(typeof(...), typeof(UITypeEditor))]` or subclass `KryptonDesignerStandardCollectionEditor`.
+* Implemented [#3807](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3807), `KryptonKnob` control
 * Resolved [#3850](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3850), Tooltip hot-spot not respected 
    * Tooltip placement now respects cursor hotspot and full cursor bounds
 * Implemented [#3856](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3856), Replace `CommonHelper.LogOutput` with thread-safe, non-UAC-protected logging
