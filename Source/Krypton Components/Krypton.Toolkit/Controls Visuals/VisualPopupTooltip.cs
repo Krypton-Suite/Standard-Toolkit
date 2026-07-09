@@ -149,7 +149,8 @@ public class VisualPopupToolTip : VisualPopup
     private void ApplyPlacementAndShow(Point controlMousePosition, PopupPositionValues position,
         Control fallbackOwningControl, Rectangle fallbackPlacementRectInOwningClient)
     {
-        Point currentCursorHotSpot = CommonHelper.CaptureCursor();
+        Rectangle cursorBounds = CommonHelper.GetCursorScreenBounds(controlMousePosition);
+        const int cursorMargin = 2;
 
         Rectangle positionPlacementRectangle = position.PlacementRectangle;
         switch (position.PlacementMode)
@@ -162,7 +163,7 @@ public class VisualPopupToolTip : VisualPopup
             case PlacementMode.Mouse:
             case PlacementMode.MousePoint:
                 // The bounds of the mouse pointer. PlacementRectangle is ignored
-                positionPlacementRectangle = new Rectangle(controlMousePosition.X, controlMousePosition.Y, currentCursorHotSpot.X + 2, currentCursorHotSpot.Y + 2);
+                positionPlacementRectangle = cursorBounds;
                 break;
             default:
                 // The screen, or PlacementRectangle if it is set. The PlacementRectangle is relative to the screen.
@@ -176,7 +177,7 @@ public class VisualPopupToolTip : VisualPopup
                     }
                     else
                     {
-                        positionPlacementRectangle = new Rectangle(controlMousePosition.X, controlMousePosition.Y, currentCursorHotSpot.X + 2, currentCursorHotSpot.Y + 2);
+                        positionPlacementRectangle = cursorBounds;
                     }
                 }
                 else
@@ -199,10 +200,9 @@ public class VisualPopupToolTip : VisualPopup
             case PlacementMode.RelativePoint:
                 // The top-left corner of the target area.     The top-left corner of the Popup.
                 popupLocation = positionPlacementRectangle.Location;
-                if (positionPlacementRectangle.IntersectsWith(new Rectangle(controlMousePosition, (Size)currentCursorHotSpot)))
+                if (positionPlacementRectangle.IntersectsWith(cursorBounds))
                 {
-                    // TODO: SKC: Should really get the HotSpot from the Icon and use that !
-                    popupLocation.X = controlMousePosition.X + 4; // Still might "Bounce back" due to offscreen location
+                    popupLocation.X = cursorBounds.Right + cursorMargin;
                 }
                 break;
             case PlacementMode.Bottom:
@@ -214,10 +214,9 @@ public class VisualPopupToolTip : VisualPopup
                 // The center of the target area.     The center of the Popup.
                 popupLocation = positionPlacementRectangle.Location;
                 popupLocation.Offset(popupSize.Width / 2, -popupSize.Height / 2);
-                if (positionPlacementRectangle.IntersectsWith(new Rectangle(controlMousePosition, (Size)currentCursorHotSpot)))
+                if (positionPlacementRectangle.IntersectsWith(cursorBounds))
                 {
-                    // TODO: SKC: Should really get the HotSpot from the Icon and use that !
-                    popupLocation.X = controlMousePosition.X + 4; // Still might "Bounce back" due to offscreen location
+                    popupLocation.X = cursorBounds.Right + cursorMargin;
                 }
                 break;
             case PlacementMode.Left:
@@ -248,11 +247,12 @@ public class VisualPopupToolTip : VisualPopup
         // Get the size the popup would like to be
         Size popupSize = ViewManager!.GetPreferredSize(Renderer, Size.Empty);
 
-        // Find the screen position the popup will be relative to
-        Point currentCursorHotSpot = CommonHelper.CaptureCursor();
-        controlMousePosition.Offset(currentCursorHotSpot.X + 2, currentCursorHotSpot.Y + 2);
+        // Anchor below-right of the full cursor image so the hotspot is not covered
+        Rectangle cursorBounds = CommonHelper.GetCursorScreenBounds(controlMousePosition);
+        const int cursorMargin = 2;
+        var popupLocation = new Point(cursorBounds.Right + cursorMargin, cursorBounds.Bottom + cursorMargin);
         // Show it now!
-        Show(controlMousePosition, popupSize);
+        Show(popupLocation, popupSize);
     }
     #endregion
 

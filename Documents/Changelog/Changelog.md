@@ -47,6 +47,8 @@
 
 * Implemented [#3874](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3874), Use the more optimised `LibraryImport`
    * Use source-generated `LibraryImport` for eligible Win32 P/Invokes on modern TFMs (Framework TFMs keep `DllImport`)
+* Resolved [#3850](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3850), Tooltip hot-spot not respected 
+   * Tooltip placement now respects cursor hotspot and full cursor bounds
 * Implemented [#3856](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3856), Replace `CommonHelper.LogOutput` with thread-safe, non-UAC-protected logging
    * Thread-safe diagnostic logging via `IKryptonLogger` and `KryptonLogger`. `CommonHelper.LogOutput` now delegates to the shared logger; optional file output uses `%LOCALAPPDATA%` or `KRYPTON_LOG` / `KRYPTON_LOG_PATH` instead of the application directory.
 * Resolved [#3842](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3842), `KryptonMessageBoxExtended` RTL routing on the optional-checkbox `bool`- and `CheckState`-returning `ShowCore` paths (the RTL extended message box now displays and returns the checkbox state, matching the LTR behaviour)
@@ -97,7 +99,7 @@
 * Resolved [#3682](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3682), Fixed detached themed `KryptonDataGridView` scrollbars so mouse clicks, page jumps, and thumb dragging route to the native grid scrolling path.
 * Resolved [#3679](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3679), Fixed the TreeViewExample custom palette crash when property grid data cell states request short text colors.
 * Implemented [#3658](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3658), Add accessibility support for custom drawn Krypton controls and editable control ButtonSpecs.
-* Resolveed [#3661](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3661), KContextMenu items overflow not visible
+* Resolved [#3661](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3661), KContextMenu items overflow not visible
 * Resolved [#3682](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3682), Fixed detached themed `KryptonDataGridView` scrollbars so mouse clicks, page jumps, and thumb dragging route to the native grid scrolling path.
 * Resolved [#3679](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3679), Fixed the TreeViewExample custom palette crash when property grid data cell states request short text colors.
 * Implemented [#3658](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3658), Add accessibility support for custom drawn Krypton controls and editable control ButtonSpecs.
@@ -113,7 +115,7 @@
 * Resolved [#3580](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3580), Fix docked header autosizing
 * Resolved [#1976](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1976), `MenuItem###` theme settings now apply to menu item selected, pressed, and border rendering.
 * Resolved [#1929](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1929), `KryptonFolderBrowserDialog` drawing issues
-* Resolved [#397](https://github.com/Krypton-Suite/Standard-Toolkit/issues/397), normal context menus now use the same palette colours as `KryptonContextMenu`
+* Resolved [#397](https://github.com/Krypton-Suite/Standard-Toolkit/issues/397), Normal context menus now use the same palette colours as `KryptonContextMenu`
 * Resolved [#3545](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3545), `KryptonComboBoxUserControl` uses `VisualPopup` as a general `UserControl` host (e.g. `KryptonTreeView`, `DataGridView`). Replaced `VisualKryptonDropDownPopup` (`VisualPopup` + view layout over HWND children) with `KryptonDropDownHostForm`, a borderless top-level form that hosts `DropContent` on a plain `Panel` (not `KryptonPanel`), reuses the host between opens, and enables composited/double-buffered painting for the host and its descendants.
 * Resolved [#3616](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3616), Alpha Backup Synchronisation workflow fails to run
 * Implemented [#3591](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3591), Implement a automated backup system. Manual **Repository Restore from Mirror** workflow (`.github/workflows/repo-restore-from-mirror.yml`). Restores branches�and optionally tags�from the configured mirror back into this repository via `workflow_dispatch`. Supports dry-run preview (default), safe `new_branch` restore (e.g. `restore/alpha-2025-06-01`), guarded `force_push` (requires typing `RESTORE`), and point-in-time recovery using `restore_date` or `commit_sha`. Kill switch: `REPO_RESTORE_DISABLED=true`. Optional Discord: `DISCORD_WEBHOOK_RESTORE`.
