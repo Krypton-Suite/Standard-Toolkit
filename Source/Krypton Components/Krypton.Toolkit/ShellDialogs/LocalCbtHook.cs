@@ -103,13 +103,7 @@ internal class LocalCbtHook : LocalWindowsHook
     private void UpdateWindowData(IntPtr wParam)
     {
         m_hWnd = wParam;
-        var lpClassName = new StringBuilder
-        {
-            Capacity = 40
-        };
-        GetClassName(m_hWnd, lpClassName, 40);
-
-        m_class = lpClassName.ToString();
+        m_class = PI.GetClassNameString(m_hWnd, 40);
         var lpString = new StringBuilder
         {
             Capacity = 256
@@ -162,9 +156,6 @@ internal class LocalCbtHook : LocalWindowsHook
         e.ClassName = m_class;
         e.IsDialogWindow = m_isDialog;
     }
-
-    private static int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount) =>
-        PI.GetClassName(hWnd, lpClassName, nMaxCount);
 
     private static int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount) =>
         PI.GetWindowText(hWnd, lpString, nMaxCount);

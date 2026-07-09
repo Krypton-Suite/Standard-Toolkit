@@ -62,9 +62,9 @@ public partial class VisualToolStripContainerForm : KryptonForm
     private static void StripSystemSizeCommands(IntPtr hwnd)
     {
         IntPtr pm = PI.GetSystemMenu(hwnd, false);
-        PI.RemoveMenu(pm, (uint)PI.SC_.RESTORE, PI.MF_.BYCOMMAND);
-        PI.RemoveMenu(pm, (uint)PI.SC_.MINIMIZE, PI.MF_.BYCOMMAND);
-        PI.RemoveMenu(pm, (uint)PI.SC_.MAXIMIZE, PI.MF_.BYCOMMAND);
+        PI.RemoveMenu(pm, PI.SC_.RESTORE, PI.MF_.BYCOMMAND);
+        PI.RemoveMenu(pm, PI.SC_.MINIMIZE, PI.MF_.BYCOMMAND);
+        PI.RemoveMenu(pm, PI.SC_.MAXIMIZE, PI.MF_.BYCOMMAND);
     }
     #endregion
 

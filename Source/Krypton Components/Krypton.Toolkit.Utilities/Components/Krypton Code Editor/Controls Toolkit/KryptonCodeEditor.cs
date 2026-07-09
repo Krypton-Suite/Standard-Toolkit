@@ -599,7 +599,7 @@ public class KryptonCodeEditor : VisualPanel,
     {
         if (control != null && control.IsHandleCreated)
         {
-            PI.SendMessage(control.Handle, unchecked((int)0x000B), IntPtr.Zero, IntPtr.Zero);
+            PI.SendMessage(control.Handle, PI.SETREDRAW, IntPtr.Zero, IntPtr.Zero);
         }
     }
 
@@ -607,7 +607,7 @@ public class KryptonCodeEditor : VisualPanel,
     {
         if (control != null && control.IsHandleCreated)
         {
-            PI.SendMessage(control.Handle, unchecked((int)0x000B), (IntPtr)1, IntPtr.Zero);
+            PI.SendMessage(control.Handle, PI.SETREDRAW, (IntPtr)1, IntPtr.Zero);
             control.Invalidate();
         }
     }

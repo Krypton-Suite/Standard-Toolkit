@@ -7,7 +7,6 @@
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>..\Krypton.Toolkit.Utilities\StrongKrypton.snk</AssemblyOriginatorKeyFile>
     <Nullable>enable</Nullable>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <!--https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/warning-waves-->
     <WarningLevel>8</WarningLevel>
     <AnalysisLevel>latest</AnalysisLevel>

@@ -2908,7 +2908,7 @@ No 	                    No 	                    Show text only
         MOUSESELECT = 0x00008000
     }
 
-    internal enum SC_
+    internal enum SC_ : uint
     {
         SIZE = 0xF000,
         MOVE = 0xF010,
@@ -3617,10 +3617,52 @@ No 	                    No 	                    Show text only
     internal static extern bool IsWindowVisible(IntPtr hWnd);
     #endif
 
-    [DllImport(Libraries.User32, SetLastError = true, CharSet = CharSet.Auto, BestFitMapping = false,
-        ThrowOnUnmappableChar = true)]
+#if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, EntryPoint = "LoadStringW", StringMarshalling = StringMarshalling.Utf16, SetLastError = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    internal static extern int LoadString(SafeModuleHandle hInstance, uint uID, StringBuilder lpBuffer, int nBufferMax);
+    private static partial int LoadStringBuffer(IntPtr hInstance, uint uID, [Out] char[] lpBuffer, int nBufferMax);
+#else
+    [DllImport(Libraries.User32, EntryPoint = "LoadStringW", CharSet = CharSet.Unicode, SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    private static extern int LoadStringBuffer(IntPtr hInstance, uint uID, StringBuilder lpBuffer, int nBufferMax);
+#endif
+
+    internal static int LoadString(SafeModuleHandle hInstance, uint uID, StringBuilder lpBuffer, int nBufferMax)
+    {
+        IntPtr handle = hInstance.DangerousGetHandle();
+#if NET8_0_OR_GREATER
+        char[] buffer = new char[nBufferMax];
+        int length = LoadStringBuffer(handle, uID, buffer, nBufferMax);
+        if (length > 0)
+        {
+            lpBuffer.Length = 0;
+            lpBuffer.Append(buffer, 0, length);
+        }
+
+        GC.KeepAlive(hInstance);
+        return length;
+#else
+        int result = LoadStringBuffer(handle, uID, lpBuffer, nBufferMax);
+        GC.KeepAlive(hInstance);
+        return result;
+#endif
+    }
+
+    internal static string LoadString(SafeModuleHandle hInstance, uint uID, int maxBuffer = 256)
+    {
+        IntPtr handle = hInstance.DangerousGetHandle();
+#if NET8_0_OR_GREATER
+        char[] buffer = new char[maxBuffer];
+        int length = LoadStringBuffer(handle, uID, buffer, maxBuffer);
+        GC.KeepAlive(hInstance);
+        return length > 0 ? new string(buffer, 0, length) : string.Empty;
+#else
+        var sb = new StringBuilder(maxBuffer);
+        int length = LoadStringBuffer(handle, uID, sb, sb.Capacity);
+        GC.KeepAlive(hInstance);
+        return length > 0 ? sb.ToString() : string.Empty;
+#endif
+    }
     #if NET8_0_OR_GREATER
     [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
@@ -4043,9 +4085,44 @@ No 	                    No 	                    Show text only
     internal static extern bool TranslateMessage([In] ref MSG lpMsg);
     #endif
 
-    [DllImport(Libraries.User32, CharSet = CharSet.Unicode)]
+#if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, EntryPoint = "GetClassNameW", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    internal static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
+    private static partial int GetClassNameBuffer(IntPtr hWnd, [Out] char[] lpClassName, int nMaxCount);
+#else
+    [DllImport(Libraries.User32, EntryPoint = "GetClassNameW", CharSet = CharSet.Unicode, SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    private static extern int GetClassNameBuffer(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
+#endif
+
+    internal static int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount)
+    {
+#if NET8_0_OR_GREATER
+        char[] buffer = new char[nMaxCount];
+        int length = GetClassNameBuffer(hWnd, buffer, nMaxCount);
+        if (length > 0)
+        {
+            lpClassName.Length = 0;
+            lpClassName.Append(buffer, 0, length);
+        }
+
+        return length;
+#else
+        return GetClassNameBuffer(hWnd, lpClassName, nMaxCount);
+#endif
+    }
+
+    internal static string GetClassNameString(IntPtr hWnd, int maxCount = 256)
+    {
+#if NET8_0_OR_GREATER
+        char[] buffer = new char[maxCount];
+        int length = GetClassNameBuffer(hWnd, buffer, maxCount);
+        return length > 0 ? new string(buffer, 0, length) : string.Empty;
+#else
+        var sb = new StringBuilder(maxCount);
+        return GetClassNameBuffer(hWnd, sb, sb.Capacity) > 0 ? sb.ToString() : string.Empty;
+#endif
+    }
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
@@ -4146,12 +4223,12 @@ No 	                    No 	                    Show text only
     #if NET8_0_OR_GREATER
     [LibraryImport(Libraries.User32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    internal static partial IntPtr RemoveMenu(IntPtr hMenu, uint nPosition, MF_ wFlags);
+    internal static partial IntPtr RemoveMenu(IntPtr hMenu, SC_ nPosition, MF_ wFlags);
     #else
 
     [DllImport(Libraries.User32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    internal static extern IntPtr RemoveMenu(IntPtr hMenu, uint nPosition, MF_ wFlags);
+    internal static extern IntPtr RemoveMenu(IntPtr hMenu, SC_ nPosition, MF_ wFlags);
     #endif
     #if NET8_0_OR_GREATER
     [LibraryImport(Libraries.User32)]
@@ -4174,10 +4251,44 @@ No 	                    No 	                    Show text only
     internal static extern int GetMenuItemID(IntPtr hMenu, int nPos);
     #endif
 
-    [DllImport(Libraries.User32)]
+#if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, EntryPoint = "GetMenuStringW", StringMarshalling = StringMarshalling.Utf16)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    internal static extern int GetMenuString(IntPtr hMenu, uint uIDItem, StringBuilder lpString, int nMaxCount,
-        MF_ uFlag);
+    private static partial int GetMenuStringBuffer(IntPtr hMenu, uint uIDItem, [Out] char[] lpString, int nMaxCount, MF_ uFlag);
+#else
+    [DllImport(Libraries.User32, EntryPoint = "GetMenuStringW", CharSet = CharSet.Unicode)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    private static extern int GetMenuStringBuffer(IntPtr hMenu, uint uIDItem, StringBuilder lpString, int nMaxCount, MF_ uFlag);
+#endif
+
+    internal static int GetMenuString(IntPtr hMenu, uint uIDItem, StringBuilder lpString, int nMaxCount, MF_ uFlag)
+    {
+#if NET8_0_OR_GREATER
+        char[] buffer = new char[nMaxCount];
+        int length = GetMenuStringBuffer(hMenu, uIDItem, buffer, nMaxCount, uFlag);
+        if (length > 0)
+        {
+            lpString.Length = 0;
+            lpString.Append(buffer, 0, length);
+        }
+
+        return length;
+#else
+        return GetMenuStringBuffer(hMenu, uIDItem, lpString, nMaxCount, uFlag);
+#endif
+    }
+
+    internal static string GetMenuStringString(IntPtr hMenu, uint uIDItem, MF_ uFlag, int maxCount = 256)
+    {
+#if NET8_0_OR_GREATER
+        char[] buffer = new char[maxCount];
+        int length = GetMenuStringBuffer(hMenu, uIDItem, buffer, maxCount, uFlag);
+        return length > 0 ? new string(buffer, 0, length) : string.Empty;
+#else
+        var sb = new StringBuilder(maxCount);
+        return GetMenuStringBuffer(hMenu, uIDItem, sb, sb.Capacity, uFlag) > 0 ? sb.ToString() : string.Empty;
+#endif
+    }
     #if NET8_0_OR_GREATER
     [LibraryImport(Libraries.User32)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
@@ -4699,6 +4810,30 @@ No 	                    No 	                    Show text only
     [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool DeleteDC(IntPtr hDC);
+    #endif
+
+    internal const int OBJ_BITMAP = 7;
+
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool GdiFlush();
+    #else
+
+    [DllImport(Libraries.Gdi32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static extern bool GdiFlush();
+    #endif
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static partial IntPtr GetCurrentObject(IntPtr hdc, int objectType);
+    #else
+
+    [DllImport(Libraries.Gdi32)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static extern IntPtr GetCurrentObject(IntPtr hdc, int objectType);
     #endif
     #if NET8_0_OR_GREATER
     [LibraryImport(Libraries.Gdi32)]

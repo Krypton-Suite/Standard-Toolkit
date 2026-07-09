@@ -47,6 +47,7 @@
 
 * Implemented [#3874](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3874), Use the more optimised `LibraryImport`
    * Use source-generated `LibraryImport` for eligible Win32 P/Invokes on modern TFMs (Framework TFMs keep `DllImport`)
+   * `GetClassName`, `GetMenuString`, and `LoadString` now use `[Out] char[]` on modern TFMs with `GetClassNameString` / `GetMenuStringString` / string-returning `LoadString` helpers
 * Implemented [#3856](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3856), Replace `CommonHelper.LogOutput` with thread-safe, non-UAC-protected logging
    * Thread-safe diagnostic logging via `IKryptonLogger` and `KryptonLogger`. `CommonHelper.LogOutput` now delegates to the shared logger; optional file output uses `%LOCALAPPDATA%` or `KRYPTON_LOG` / `KRYPTON_LOG_PATH` instead of the application directory.
 * Resolved [#3842](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3842), `KryptonMessageBoxExtended` RTL routing on the optional-checkbox `bool`- and `CheckState`-returning `ShowCore` paths (the RTL extended message box now displays and returns the checkbox state, matching the LTR behaviour)
