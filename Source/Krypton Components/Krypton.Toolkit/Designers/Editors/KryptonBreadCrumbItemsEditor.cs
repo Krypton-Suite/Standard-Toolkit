@@ -12,7 +12,7 @@
 
 namespace Krypton.Toolkit;
 
-internal class KryptonBreadCrumbItemsEditor : KryptonDesignerCollectionEditor
+internal partial class KryptonBreadCrumbItemsEditor : KryptonDesignerCollectionEditor
 {
     #region Classes
     /// <summary>
@@ -230,21 +230,6 @@ internal class KryptonBreadCrumbItemsEditor : KryptonDesignerCollectionEditor
         }
         #endregion
 
-        #region Instance Fields
-        private DictItemBase _beforeItems;
-        private readonly KryptonButton buttonOK;
-        private readonly KryptonButton buttonCancel;
-        private readonly KryptonTreeView treeView1;
-        private readonly KryptonButton buttonMoveUp;
-        private readonly KryptonButton buttonMoveDown;
-        private readonly KryptonButton buttonAddItem;
-        private readonly KryptonButton buttonDelete;
-        private readonly KryptonPropertyGrid propertyGrid1;
-        private readonly KryptonGroupBox groupBoxItems;
-        private readonly KryptonGroupBox groupBoxProperties;
-        private readonly KryptonButton buttonAddChild;
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonBreadCrumbItemsForm class.
@@ -252,145 +237,7 @@ internal class KryptonBreadCrumbItemsEditor : KryptonDesignerCollectionEditor
         public KryptonBreadCrumbItemsForm(KryptonBreadCrumbItemsEditor editor)
             : base(editor)
         {
-            buttonOK = new KryptonButton();
-            buttonCancel = new KryptonButton();
-            treeView1 = new KryptonTreeView();
-            buttonMoveUp = new KryptonButton();
-            buttonMoveDown = new KryptonButton();
-            buttonAddItem = new KryptonButton();
-            buttonDelete = new KryptonButton();
-            propertyGrid1 = new KryptonPropertyGrid();
-            groupBoxItems = new KryptonGroupBox();
-            groupBoxProperties = new KryptonGroupBox();
-            buttonAddChild = new KryptonButton();
-            SuspendLayout();
-
-            // buttonOK
-            buttonOK.AutoSize = true;
-            buttonOK.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            buttonOK.DialogResult = DialogResult.OK;
-            buttonOK.Name = nameof(buttonOK);
-            buttonOK.MinimumSize = new Size(90, 25);
-            buttonOK.TabIndex = 9;
-            buttonOK.Values.Text = KryptonManager.Strings.GeneralStrings.OK;
-            buttonOK.Click += buttonOK_Click;
-
-            // buttonCancel
-            buttonCancel.AutoSize = true;
-            buttonCancel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            buttonCancel.DialogResult = DialogResult.Cancel;
-            buttonCancel.Name = nameof(buttonCancel);
-            buttonCancel.MinimumSize = new Size(90, 25);
-            buttonCancel.TabIndex = 8;
-            buttonCancel.Values.Text = KryptonManager.Strings.GeneralStrings.Cancel;
-            buttonCancel.Click += buttonCancel_Click;
-
-            // treeView1
-            treeView1.Dock = DockStyle.Fill;
-            treeView1.Name = nameof(treeView1);
-            treeView1.TabIndex = 1;
-            treeView1.HideSelection = false;
-            treeView1.AfterSelect += treeView1_AfterSelect;
-
-            // propertyGrid1
-            propertyGrid1.Dock = DockStyle.Fill;
-            propertyGrid1.HelpVisible = false;
-            propertyGrid1.Name = nameof(propertyGrid1);
-            propertyGrid1.TabIndex = 7;
-            propertyGrid1.ToolbarVisible = false;
-
-            // groupBoxItems
-            groupBoxItems.Dock = DockStyle.Fill;
-            groupBoxItems.Name = nameof(groupBoxItems);
-            groupBoxItems.Values.Heading = @"BreadCrumbItems Collection";
-            groupBoxItems.Panel.Controls.Add(treeView1);
-
-            // groupBoxProperties
-            groupBoxProperties.Dock = DockStyle.Fill;
-            groupBoxProperties.Name = nameof(groupBoxProperties);
-            groupBoxProperties.Values.Heading = @"Item Properties";
-            groupBoxProperties.Panel.Controls.Add(propertyGrid1);
-
-            // Navigation buttons
-            ConfigureToolbarButton(buttonMoveUp, BlueArrowResources.arrow_up_blue, @"Move Up", buttonMoveUp_Click);
-            buttonMoveUp.Name = nameof(buttonMoveUp);
-            buttonMoveUp.TabIndex = 2;
-
-            ConfigureToolbarButton(buttonMoveDown, BlueArrowResources.arrow_down_blue, @"Move Down", buttonMoveDown_Click);
-            buttonMoveDown.Name = nameof(buttonMoveDown);
-            buttonMoveDown.TabIndex = 3;
-
-            ConfigureToolbarButton(buttonAddItem, GenericImageResources.add, @"Add Sibling", buttonAddSibling_Click);
-            buttonAddItem.Name = nameof(buttonAddItem);
-            buttonAddItem.TabIndex = 4;
-
-            ConfigureToolbarButton(buttonAddChild, GenericImageResources.add, @"Add Child", buttonAddChild_Click);
-            buttonAddChild.Name = nameof(buttonAddChild);
-            buttonAddChild.TabIndex = 5;
-
-            ConfigureToolbarButton(buttonDelete, GenericImageResources.delete, @"Delete Item", buttonDelete_Click);
-            buttonDelete.Name = nameof(buttonDelete);
-            buttonDelete.TabIndex = 6;
-
-            var navPanel = new FlowLayoutPanel
-            {
-                AutoSize = true,
-                AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                Dock = DockStyle.Top,
-                FlowDirection = FlowDirection.TopDown,
-                WrapContents = false,
-                Padding = new Padding(0),
-                Margin = new Padding(0),
-                BackColor = Color.Transparent
-            };
-            navPanel.Controls.Add(buttonMoveUp);
-            navPanel.Controls.Add(buttonMoveDown);
-            navPanel.Controls.Add(buttonAddItem);
-            navPanel.Controls.Add(buttonAddChild);
-            navPanel.Controls.Add(buttonDelete);
-
-            var navHost = new KryptonPanel
-            {
-                Dock = DockStyle.Fill,
-                Padding = new Padding(8, 18, 8, 8),
-                StateCommon = { Color1 = Color.Transparent }
-            };
-            navHost.Controls.Add(navPanel);
-
-            var layout = new TableLayoutPanel
-            {
-                ColumnCount = 3,
-                Dock = DockStyle.Fill,
-                RowCount = 1,
-                Padding = new Padding(6),
-                BackColor = Color.Transparent
-            };
-            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 42F));
-            layout.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
-            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 58F));
-            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            layout.Controls.Add(groupBoxItems, 0, 0);
-            layout.Controls.Add(navHost, 1, 0);
-            layout.Controls.Add(groupBoxProperties, 2, 0);
-
-            groupBoxItems.Margin = new Padding(0, 0, 6, 0);
-            navHost.Margin = new Padding(0, 0, 6, 0);
-            groupBoxProperties.Margin = new Padding(0);
-
-            var buttonBar = KryptonDesignerEditorButtonBar.Create(this, buttonOK, buttonCancel);
-            var contentHost = KryptonDesignerEditorContentPanel.Create(this, layout);
-
-            AcceptButton = buttonOK;
-            CancelButton = buttonCancel;
-            AutoScaleMode = AutoScaleMode.None;
-            ClientSize = new Size(720, 510);
-            Controls.Add(contentHost);
-            Controls.Add(buttonBar);
-            MinimumSize = new Size(640, 470);
-            Name = "KryptonBreadCrumbCollectionForm";
-            Text = @"BreadCrumbItems Collection Editor";
-            ResumeLayout(false);
-            PerformLayout();
+            InitializeComponent();
         }
         #endregion
 
