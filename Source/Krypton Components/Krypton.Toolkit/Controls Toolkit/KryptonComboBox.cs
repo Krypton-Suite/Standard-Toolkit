@@ -265,6 +265,16 @@ public class KryptonComboBox : VisualControlBase,
         }
 
         /// <summary>
+        /// Raises the HandleCreated event.
+        /// </summary>
+        /// <param name="e">An EventArgs containing the event data.</param>
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+            _kryptonComboBox.OnInternalComboBoxHandleCreated();
+        }
+
+        /// <summary>
         /// Raises the FontChanged event.
         /// </summary>
         /// <param name="e">Contains the event data.</param>
@@ -1357,7 +1367,7 @@ public class KryptonComboBox : VisualControlBase,
         _comboBox.DrawMode = DrawMode.OwnerDrawVariable;
 
         // Designer may set Enabled=false before the handle exists; sync themed disabled colors now.
-        SyncComboBoxAppearance(_comboBox.IsHandleCreated);
+        ApplyDisabledStartupAppearance();
 
         // Raise event to show control is now initialized
         OnInitialized(EventArgs.Empty);
@@ -2551,10 +2561,36 @@ public class KryptonComboBox : VisualControlBase,
 
         // Layout can recreate the native edit child; hide it again before the first paint.
         UpdateEditControl();
-        SyncComboBoxAppearance(true);
+        ApplyDisabledStartupAppearance();
 
         // We need to recalculate the correct height
         Height = PreferredHeight;
+    }
+
+    /// <summary>
+    /// Raises the ParentChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing the event data.</param>
+    protected override void OnParentChanged(EventArgs e)
+    {
+        base.OnParentChanged(e);
+        if (Parent != null)
+        {
+            ApplyDisabledStartupAppearance();
+        }
+    }
+
+    /// <summary>
+    /// Raises the VisibleChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing the event data.</param>
+    protected override void OnVisibleChanged(EventArgs e)
+    {
+        base.OnVisibleChanged(e);
+        if (Visible)
+        {
+            ApplyDisabledStartupAppearance();
+        }
     }
 
     /// <summary>
@@ -2563,8 +2599,8 @@ public class KryptonComboBox : VisualControlBase,
     /// <param name="e">An EventArgs that contains the event data.</param>
     protected override void OnEnabledChanged(EventArgs e)
     {
-        // Propagate to the internal ComboBox so InternalComboBox.OnEnabledChanged can suppress native disabled styling.
-        _comboBox.Enabled = Enabled;
+        // Do not propagate Enabled to the internal ComboBox; WS_DISABLED on the native HWND
+        // causes system disabled painting to win over the themed owner-draw path (#3879).
 
         // Ensure we have subclassed the contained edit control
         UpdateEditControl();
@@ -2821,16 +2857,17 @@ public class KryptonComboBox : VisualControlBase,
     /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
     protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
     {
-        if (!e.NeedLayout)
-        {
-            _comboBox.Invalidate();
-        }
-        else if (!DroppedDown)
+        if (e.NeedLayout && !DroppedDown)
         {
             ForceControlLayout();
         }
 
         SyncComboBoxAppearance();
+
+        if (!e.NeedLayout)
+        {
+            _comboBox.Invalidate();
+        }
 
         base.OnNeedPaint(sender, e);
     }
@@ -2853,6 +2890,10 @@ public class KryptonComboBox : VisualControlBase,
     protected override void OnPaletteNeedPaint(object? sender, NeedLayoutEventArgs e)
     {
         base.OnPaletteNeedPaint(sender, e);
+        if (!Enabled)
+        {
+            SyncComboBoxAppearance();
+        }
         _comboBox.Invalidate();
     }
 
@@ -2958,6 +2999,17 @@ public class KryptonComboBox : VisualControlBase,
 
     internal PaletteInputControlTripleStates GetComboBoxTripleState() => Enabled ? IsActive ? StateActive.ComboBox : StateNormal.ComboBox : StateDisabled.ComboBox;
 
+    internal void OnInternalComboBoxHandleCreated() => ApplyDisabledStartupAppearance();
+
+    private void ApplyDisabledStartupAppearance()
+    {
+        if (!Enabled)
+        {
+            UpdateEditControl();
+            SyncComboBoxAppearance(true);
+        }
+    }
+
     private void SyncComboBoxAppearance(bool invalidateCombo = false)
     {
         if (IsDisposed || Disposing)
@@ -2976,6 +3028,7 @@ public class KryptonComboBox : VisualControlBase,
         if (invalidateCombo && _comboBox.IsHandleCreated)
         {
             _comboBox.Invalidate(true);
+            _comboBox.Update();
         }
     }
 
@@ -3244,7 +3297,15 @@ public class KryptonComboBox : VisualControlBase,
 
     private void OnComboBoxSelectionChangeCommitted(object? sender, EventArgs e) => OnSelectionChangeCommitted(e);
 
-    private void OnComboBoxSelectedIndexChanged(object? sender, EventArgs e) => OnSelectedIndexChanged(e);
+    private void OnComboBoxSelectedIndexChanged(object? sender, EventArgs e)
+    {
+        if (!Enabled)
+        {
+            SyncComboBoxAppearance(true);
+        }
+
+        OnSelectedIndexChanged(e);
+    }
 
     private void OnComboBoxDropDownStyleChanged(object? sender, EventArgs e) => OnDropDownStyleChanged(e);
 
