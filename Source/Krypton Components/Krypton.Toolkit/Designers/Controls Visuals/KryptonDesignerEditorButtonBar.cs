@@ -36,7 +36,7 @@ internal static class KryptonDesignerEditorButtonBar
         KryptonButton okButton,
         KryptonButton? cancelButton = null,
         params KryptonButton[] extraButtons) =>
-        Create(owner, includeThemeSelector: true, okButton, cancelButton, extraButtons);
+        Create(owner, DesignModeHelper.IncludeDesignerEditorThemeSelector, okButton, cancelButton, extraButtons);
 
     /// <summary>
     /// Creates a bottom-docked button bar with <see cref="PaletteBackStyle.PanelAlternate"/> chrome.

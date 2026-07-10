@@ -126,6 +126,11 @@ internal static class KryptonDesignerEditorPalette
     /// </summary>
     private static void EnsureMultilineButtonBarThemeSelector(KryptonForm form)
     {
+        if (!DesignModeHelper.IncludeDesignerEditorThemeSelector)
+        {
+            return;
+        }
+
         var buttonPanel = FindNamedPanel(form.Controls, @"kpnlButtons");
         if (buttonPanel is null || FindNamedCombo(buttonPanel.Controls, @"kcmbDesignerEditorTheme") is not null)
         {

@@ -45,6 +45,7 @@ internal static class InternalDesignerEditorFormChrome
         KryptonPanel contentHost,
         InternalDesignerEditorButtonBarPanel buttonBar)
     {
+        buttonBar.IncludeThemeSelector = DesignModeHelper.IncludeDesignerEditorThemeSelector;
         buttonBar.ApplyDpi(form);
         buttonBar.WireThemeToForm(form);
         form.AcceptButton = buttonBar.OkButton;
