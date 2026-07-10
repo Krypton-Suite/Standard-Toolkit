@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2020 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2020 - 2026. All rights reserved. 
  *  
  */
 #endregion
@@ -331,12 +331,12 @@ namespace Krypton.Toolkit
     internal static class FlashWindowExListener
     {
         private static readonly Dictionary<IntPtr, Form> _forms = new Dictionary<IntPtr, Form>();
-        private static readonly IntPtr _hHook;
         // Keep the HookProc delegate alive manually, such as using a class member as shown below,
         // otherwise the garbage collector will clean up the hook delegate eventually,
         // resulting in the code throwing a System.NullReferenceException.
-        // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
-        private static readonly PI.HookProc _hookProc;
+        private static readonly PI.HookProc _hookProc = ShellProc;
+        private static IntPtr _hHook = IntPtr.Zero;
+        private static bool _hookInstalled;
 
         /// <summary>
         /// Make sure there is something to call first
@@ -352,22 +352,36 @@ namespace Krypton.Toolkit
 
         static FlashWindowExListener()
         {
-            var processId = PI.GetCurrentThreadId();
-            // create an instance of the delegate that
-            // won't be garbage collected to avoid:
-            //   Managed Debugging Assistant 'CallbackOnCollectedDelegate' :** 
-            //   'A callback was made on a garbage collected delegate of type 
-            //   'WpfApp1!WpfApp1.MainWindow+NativeMethods+CBTProc::Invoke'. 
-            //   This may cause application crashes, corruption and data loss. 
-            //   When passing delegates to unmanaged code, they must be 
-            //   kept alive by the managed application until it is guaranteed 
-            //   that they will never be called.'
-            _hookProc = ShellProc;
+            // ApplicationExit only fires when Application.Run() ends; DomainUnload/ProcessExit
+            // cover VSTO/COM hosts that never call Application.Run().
+            Application.ApplicationExit += (_, _) => TryUnhook();
+            AppDomain.CurrentDomain.DomainUnload += (_, _) => TryUnhook();
+            AppDomain.CurrentDomain.ProcessExit += (_, _) => TryUnhook();
+        }
+
+        private static void EnsureHookInstalled()
+        {
+            if (_hookInstalled)
+            {
+                return;
+            }
 
             // we are interested in listening to WH_SHELL events, mainly the HSHELL_REDRAW event.
-            _hHook = PI.SetWindowsHookEx(PI.WH_.SHELL, _hookProc, IntPtr.Zero, processId);
+            _hHook = PI.SetWindowsHookEx(PI.WH_.SHELL, _hookProc, IntPtr.Zero, PI.GetCurrentThreadId());
+            _hookInstalled = _hHook != IntPtr.Zero;
+        }
 
-            Application.ApplicationExit += delegate { PI.UnhookWindowsHookEx(_hHook); };
+        private static void TryUnhook()
+        {
+            if (!_hookInstalled
+                || _hHook == IntPtr.Zero)
+            {
+                return;
+            }
+
+            PI.UnhookWindowsHookEx(_hHook);
+            _hHook = IntPtr.Zero;
+            _hookInstalled = false;
         }
 
         internal static void Register(Form f)
@@ -377,12 +391,24 @@ namespace Krypton.Toolkit
                 throw new ArgumentException("Cannot use disposed form.");
             }
 
+            EnsureHookInstalled();
+
             void OnHandleKnown()
             {
+                if (f.IsDisposed)
+                {
+                    return;
+                }
+
                 // hold the handle here to unregister it without depending on the form
                 var handle = f.Handle;
                 _forms[handle] = f;
-                f.Closing += delegate { Unregister(handle); };
+
+                void OnFormUnregistered(object? sender, EventArgs e) => Unregister(handle);
+
+                f.Closing += OnFormUnregistered;
+                f.FormClosed += OnFormUnregistered;
+                f.Disposed += OnFormUnregistered;
             }
 
             if (f.Handle == IntPtr.Zero)
@@ -402,6 +428,11 @@ namespace Krypton.Toolkit
             {
                 _forms.Remove(handle);
             }
+
+            if (_forms.Count == 0)
+            {
+                TryUnhook();
+            }
         }
 
         internal static void Unregister(Form f)
@@ -412,10 +443,20 @@ namespace Krypton.Toolkit
             {
                 _forms.Remove(f.Handle);
             }
+
+            if (_forms.Count == 0)
+            {
+                TryUnhook();
+            }
         }
 
         private static IntPtr ShellProc(int code, IntPtr wParam, IntPtr lParam)
         {
+            if (!_hookInstalled)
+            {
+                return PI.CallNextHookEx(IntPtr.Zero, code, wParam, lParam);
+            }
+
             if (code == PI.HSHELL_REDRAW)
             {
                 try
