@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -70,7 +70,7 @@ public static class KryptonDesignerEditorTheme
             form.LocalCustomPalette = null;
         }
 
-        KryptonDesignerCollectionForm.ApplyPalette(form.Controls, form.PaletteMode, form.LocalCustomPalette);
+        VisualDesignerCollectionForm.ApplyPalette(form.Controls, form.PaletteMode, form.LocalCustomPalette);
         SyncThemeSelector(form, form.PaletteMode == PaletteMode.Global
             ? KryptonManager.CurrentGlobalPaletteMode
             : form.PaletteMode);
@@ -89,6 +89,62 @@ public static class KryptonDesignerEditorTheme
     }
 
     /// <summary>
+    /// Wires an existing theme combo to change only the owning editor form's palette.
+    /// </summary>
+    /// <param name="combo">Theme combo box on the editor footer.</param>
+    /// <param name="form">Editor form to restyle.</param>
+    /// <param name="initialMode">Initial selection.</param>
+    /// <param name="initialCustom">Initial custom palette when mode is Custom.</param>
+    public static void WireThemeSelector(
+        KryptonComboBox combo,
+        KryptonForm form,
+        PaletteMode initialMode,
+        KryptonCustomPaletteBase? initialCustom)
+    {
+        var state = combo.Tag as ThemeSelectorState ?? new ThemeSelectorState();
+        combo.Tag = state;
+        combo.Name = ThemeSelectorName;
+        combo.DropDownStyle = ComboBoxStyle.DropDownList;
+
+        if (combo.Items.Count == 0)
+        {
+            combo.Items.AddRange(CommonHelperThemeSelectors.GetThemesArray());
+        }
+
+        if (!state.Wired)
+        {
+            combo.SelectedIndexChanged += (_, _) =>
+            {
+                if (state.Suppress || combo.SelectedItem is not string themeName || themeName.Length == 0)
+                {
+                    return;
+                }
+
+                var mode = ThemeManager.GetThemeManagerMode(themeName);
+                if (mode == PaletteMode.Custom)
+                {
+                    ApplyToForm(form, PaletteMode.Custom, initialCustom ?? form.LocalCustomPalette);
+                    return;
+                }
+
+                if (mode == PaletteMode.Global)
+                {
+                    ApplyToForm(form, KryptonManager.CurrentGlobalPaletteMode,
+                        KryptonManager.CurrentGlobalPalette as KryptonCustomPaletteBase);
+                    return;
+                }
+
+                ApplyToForm(form, mode, null);
+            };
+            state.Wired = true;
+        }
+
+        SyncThemeSelectorCombo(combo, initialMode == PaletteMode.Global
+            ? KryptonManager.CurrentGlobalPaletteMode
+            : initialMode);
+    }
+
+    /// <summary>
     /// Creates a theme combo that changes only the owning editor form's palette.
     /// </summary>
     /// <param name="form">Editor form to restyle.</param>
@@ -100,42 +156,12 @@ public static class KryptonDesignerEditorTheme
         PaletteMode initialMode,
         KryptonCustomPaletteBase? initialCustom)
     {
-        var state = new ThemeSelectorState();
         var combo = new KryptonComboBox
         {
             DropDownStyle = ComboBoxStyle.DropDownList,
-            Name = ThemeSelectorName,
-            Tag = state
+            Name = ThemeSelectorName
         };
-        combo.Items.AddRange(CommonHelperThemeSelectors.GetThemesArray());
-
-        combo.SelectedIndexChanged += (_, _) =>
-        {
-            if (state.Suppress || combo.SelectedItem is not string themeName || themeName.Length == 0)
-            {
-                return;
-            }
-
-            var mode = ThemeManager.GetThemeManagerMode(themeName);
-            if (mode == PaletteMode.Custom)
-            {
-                ApplyToForm(form, PaletteMode.Custom, initialCustom ?? form.LocalCustomPalette);
-                return;
-            }
-
-            if (mode == PaletteMode.Global)
-            {
-                ApplyToForm(form, KryptonManager.CurrentGlobalPaletteMode,
-                    KryptonManager.CurrentGlobalPalette as KryptonCustomPaletteBase);
-                return;
-            }
-
-            ApplyToForm(form, mode, null);
-        };
-
-        SyncThemeSelectorCombo(combo, initialMode == PaletteMode.Global
-            ? KryptonManager.CurrentGlobalPaletteMode
-            : initialMode);
+        WireThemeSelector(combo, form, initialMode, initialCustom);
         return combo;
     }
     #endregion
@@ -144,6 +170,7 @@ public static class KryptonDesignerEditorTheme
     private sealed class ThemeSelectorState
     {
         public bool Suppress;
+        public bool Wired;
     }
 
     private static void SyncThemeSelector(KryptonForm form, PaletteMode mode)

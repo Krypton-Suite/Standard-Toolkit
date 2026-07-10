@@ -9,7 +9,7 @@
 
 namespace Krypton.Toolkit;
 
-internal partial class KryptonCheckButtonCollectionForm : KryptonForm
+internal partial class VisualCheckButtonCollectionForm : KryptonForm
 {
     #region Type Definitions
     private class ListEntry
@@ -50,24 +50,25 @@ internal partial class KryptonCheckButtonCollectionForm : KryptonForm
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonCheckButtonCollectionForm class.
+    /// Initialize a new instance of the KryptonCheckButtonCollectionForm class for the WinForms designer.
     /// </summary>
-    public KryptonCheckButtonCollectionForm()
-        : this(null)
+    public VisualCheckButtonCollectionForm()
     {
         SetInheritedControlOverride();
+        InitializeComponent();
+        ConfigureDesignerChrome();
     }
 
     /// <summary>
     /// Initialize a new instance of the KryptonCheckButtonCollectionForm class.
     /// </summary>
-    public KryptonCheckButtonCollectionForm(KryptonCheckSet? checkSet)
+    public VisualCheckButtonCollectionForm(KryptonCheckSet? checkSet)
     {
         SetInheritedControlOverride();
-        // Remember the owning control
         _checkSet = checkSet;
 
         InitializeComponent();
+        ConfigureDesignerChrome();
     }
     #endregion
 
@@ -88,6 +89,14 @@ internal partial class KryptonCheckButtonCollectionForm : KryptonForm
     #endregion
 
     #region Implementation
+    private void ConfigureDesignerChrome()
+    {
+        InternalDesignerEditorFormChrome.Apply(this, kpnlContent, kpnlButtonBar);
+        kpnlButtonBar.OkButton.Values.Text = KryptonManager.Strings.GeneralStrings.OK;
+        kpnlButtonBar.CancelButton.Values.Text = KryptonManager.Strings.GeneralStrings.Cancel;
+        kpnlButtonBar.OkButton.Click += buttonOK_Click;
+    }
+
     private void KryptonCheckButtonCollectionForm_Load(object sender, EventArgs e)
     {
         ApplyOwnerPalette();
@@ -122,7 +131,7 @@ internal partial class KryptonCheckButtonCollectionForm : KryptonForm
         checkedListBox.Focus();
     }
 
-    private void buttonOK_Click(object sender, EventArgs e)
+    private void buttonOK_Click(object? sender, EventArgs e)
     {
         // Create a copy of the current check set buttons
         var copy = new List<KryptonCheckButton>();

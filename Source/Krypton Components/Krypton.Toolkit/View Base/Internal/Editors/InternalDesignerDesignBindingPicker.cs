@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -12,7 +12,7 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// Krypton-themed drop-down for selecting data sources and members at design time.
 /// </summary>
-internal partial class KryptonDesignerDesignBindingPicker : UserControl
+internal partial class InternalDesignerDesignBindingPicker : UserControl
 {
     #region Instance Fields
     private readonly bool _showDataSources;
@@ -22,9 +22,20 @@ internal partial class KryptonDesignerDesignBindingPicker : UserControl
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the <see cref="KryptonDesignerDesignBindingPicker"/> class.
+    /// Initialize a new instance of the <see cref="InternalDesignerDesignBindingPicker"/> class for the WinForms designer.
     /// </summary>
-    public KryptonDesignerDesignBindingPicker(
+    public InternalDesignerDesignBindingPicker()
+    {
+        _showDataSources = true;
+        _showDataMembers = false;
+        _selectListMembers = false;
+        InitializeComponent();
+    }
+
+    /// <summary>
+    /// Initialize a new instance of the <see cref="InternalDesignerDesignBindingPicker"/> class.
+    /// </summary>
+    public InternalDesignerDesignBindingPicker(
         ITypeDescriptorContext context,
         IServiceProvider provider,
         bool showDataSources,

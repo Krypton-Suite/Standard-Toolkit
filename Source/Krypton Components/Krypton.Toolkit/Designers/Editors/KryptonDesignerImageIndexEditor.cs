@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -40,7 +40,7 @@ public sealed class KryptonDesignerImageIndexEditor : UITypeEditor
             return value;
         }
 
-        using var dropDown = new KryptonDesignerImageIndexDropDown(imageList, value);
+        using var dropDown = new InternalDesignerImageIndexDropDown(imageList, value);
         editorService.DropDownControl(dropDown);
         return dropDown.SelectedValue ?? value;
     }

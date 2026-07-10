@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -9,9 +9,22 @@
 
 namespace Krypton.Toolkit;
 
-internal partial class KryptonDesignerFormatStringEditorForm
+internal partial class VisualDesignerFormatStringEditorForm
 {
     #region Windows Form Designer generated code
+
+    private IContainer components = null!;
+
+    /// <inheritdoc />
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing && (components != null))
+        {
+            components.Dispose();
+        }
+
+        base.Dispose(disposing);
+    }
 
     /// <summary>
     /// Required method for Designer support - do not modify
@@ -19,6 +32,7 @@ internal partial class KryptonDesignerFormatStringEditorForm
     /// </summary>
     private void InitializeComponent()
     {
+        components = new Container();
         var formatTypeLabel = new KryptonLabel { AutoSize = true, Values = { Text = @"Format type:" } };
         _formatTypeCombo = new KryptonComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Dock = DockStyle.Top };
         _formatTypeCombo.Items.AddRange(
@@ -42,21 +56,8 @@ internal partial class KryptonDesignerFormatStringEditorForm
         _previewLabel = new KryptonLabel
         {
             AutoSize = false,
-            Height = KryptonDesignerEditorDpi.Scale(this, 40),
+            Height = 40,
             Values = { Text = @"Preview:" }
-        };
-
-        _buttonOk = new KryptonButton
-        {
-            DialogResult = DialogResult.OK,
-            Values = { Text = KryptonManager.Strings.GeneralStrings.OK }
-        };
-        _buttonOk.Click += (_, _) => PushChanges();
-
-        _buttonCancel = new KryptonButton
-        {
-            DialogResult = DialogResult.Cancel,
-            Values = { Text = KryptonManager.Strings.GeneralStrings.Cancel }
         };
 
         _layout = new TableLayoutPanel
@@ -82,9 +83,28 @@ internal partial class KryptonDesignerFormatStringEditorForm
         _layout.Controls.Add(_nullValueTextBox, 0, 5);
         _layout.Controls.Add(_previewLabel, 0, 6);
 
-        Controls.Add(KryptonDesignerEditorContentPanel.Create(this, _layout));
-        Controls.Add(KryptonDesignerEditorButtonBar.Create(this, _buttonOk, _buttonCancel));
-        Name = nameof(KryptonDesignerFormatStringEditorForm);
+        kpnlContent = new KryptonPanel();
+        kpnlButtonBar = new InternalDesignerEditorButtonBarPanel();
+        ((ISupportInitialize)kpnlContent).BeginInit();
+        kpnlContent.SuspendLayout();
+        SuspendLayout();
+
+        kpnlContent.Controls.Add(_layout);
+        kpnlContent.Dock = DockStyle.Fill;
+        kpnlContent.Name = "kpnlContent";
+        kpnlContent.Padding = new Padding(9);
+        kpnlContent.PanelBackStyle = PaletteBackStyle.PanelClient;
+
+        kpnlButtonBar.Dock = DockStyle.Bottom;
+        kpnlButtonBar.Name = "kpnlButtonBar";
+
+        Controls.Add(kpnlContent);
+        Controls.Add(kpnlButtonBar);
+        Name = nameof(VisualDesignerFormatStringEditorForm);
+
+        ((ISupportInitialize)kpnlContent).EndInit();
+        kpnlContent.ResumeLayout(false);
+        ResumeLayout(false);
     }
 
     #endregion
@@ -93,7 +113,7 @@ internal partial class KryptonDesignerFormatStringEditorForm
     private KryptonTextBox _formatStringTextBox;
     private KryptonTextBox _nullValueTextBox;
     private KryptonLabel _previewLabel;
-    private KryptonButton _buttonOk;
-    private KryptonButton _buttonCancel;
     private TableLayoutPanel _layout;
+    private KryptonPanel kpnlContent;
+    private InternalDesignerEditorButtonBarPanel kpnlButtonBar;
 }

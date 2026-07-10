@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -27,8 +27,8 @@ public abstract class KryptonDesignerStandardCollectionEditor : KryptonDesignerC
 
     #region Protected
     /// <inheritdoc />
-    protected override KryptonDesignerCollectionForm CreateKryptonDesignerCollectionForm() =>
-        new KryptonDesignerStandardCollectionForm(this);
+    protected override VisualDesignerCollectionForm CreateKryptonDesignerCollectionForm() =>
+        new VisualStandardCollectionForm(this);
 
     /// <summary>
     /// Allows specialized editors to handle item removal before the item is destroyed.

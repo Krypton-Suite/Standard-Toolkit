@@ -9,24 +9,21 @@
 
 namespace Krypton.Toolkit;
 
-public partial class KryptonContextMenuCollectionEditor
+/// <summary>
+/// Form used for editing the KryptonContextMenuCollection.
+/// </summary>
+internal partial class VisualContextMenuCollectionForm : VisualDesignerCollectionForm
 {
-    #region Classes
+    #region Types
     /// <summary>
-    /// Form used for editing the KryptonContextMenuCollection.
+    /// Simple class to reduce the length of declarations!
     /// </summary>
-    protected partial class KryptonContextMenuCollectionForm : KryptonDesignerCollectionForm
-    {
-        #region Types
-        /// <summary>
-        /// Simple class to reduce the length of declarations!
-        /// </summary>
-        protected class DictItemBase : Dictionary<KryptonContextMenuItemBase, KryptonContextMenuItemBase>;
+    private class DictItemBase : Dictionary<KryptonContextMenuItemBase, KryptonContextMenuItemBase>;
 
         /// <summary>
         /// Tree node that is attached to a context menu item.
         /// </summary>
-        protected class MenuTreeNode : TreeNode
+    private class MenuTreeNode : TreeNode
         {
             #region Identity
             /// <summary>
@@ -97,7 +94,7 @@ public partial class KryptonContextMenuCollectionEditor
         /// <summary>
         /// Site that allows the property grid to discover Visual Studio services.
         /// </summary>
-        protected class PropertyGridSite : ISite, IServiceProvider
+    private class PropertyGridSite : ISite, IServiceProvider
         {
             #region Instance Fields
 
@@ -170,22 +167,35 @@ public partial class KryptonContextMenuCollectionEditor
         }
         #endregion
 
-        #region Instance Fields
-        private DictItemBase _beforeItems;
-        #endregion
+    #region Instance Fields
+    
+    private DictItemBase _beforeItems;
 
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the KryptonContextMenuCollectionForm class.
-        /// </summary>
-        public KryptonContextMenuCollectionForm(KryptonDesignerCollectionEditor editor)
-            : base(editor)
-        {
-            InitializeComponent();
-        }
-        #endregion
+    #endregion
 
-        #region Protected Overrides
+    #region Identity
+    /// <summary>
+    /// Initialize a new instance of the <see cref="VisualContextMenuCollectionForm"/> class for the WinForms designer.
+    /// </summary>
+    public VisualContextMenuCollectionForm()
+        : base()
+    {
+        InitializeComponent();
+        ConfigureDesignerChrome();
+    }
+
+    /// <summary>
+    /// Initialize a new instance of the KryptonContextMenuCollectionForm class.
+    /// </summary>
+    public VisualContextMenuCollectionForm(KryptonDesignerCollectionEditor editor)
+        : base(editor)
+    {
+        InitializeComponent();
+        ConfigureDesignerChrome();
+    }
+    #endregion
+
+    #region Protected Overrides
         /// <summary>
         /// Provides an opportunity to perform processing when a collection value has changed.
         /// </summary>
@@ -223,10 +233,19 @@ public partial class KryptonContextMenuCollectionEditor
             UpdateButtons();
             UpdatePropertyGrid();
         }
-        #endregion
+    #endregion
 
-        #region Implementation
-        private static void ConfigureImageListButton(KryptonButton button, ImageList imageList, int imageIndex,
+    #region Implementation
+    private void ConfigureDesignerChrome()
+    {
+        InternalDesignerEditorFormChrome.Apply(this, kpnlContent, kpnlButtonBar);
+        kpnlButtonBar.OkButton.Values.Text = KryptonManager.Strings.GeneralStrings.OK;
+        kpnlButtonBar.CancelButton.Values.Text = KryptonManager.Strings.GeneralStrings.Cancel;
+        kpnlButtonBar.OkButton.Click += buttonOK_Click;
+        kpnlButtonBar.CancelButton.Click += buttonCancel_Click;
+    }
+
+    private static void ConfigureImageListButton(KryptonButton button, ImageList imageList, int imageIndex,
             string text, EventHandler click)
         {
             button.ButtonStyle = ButtonStyle.ListItem;
@@ -711,9 +730,6 @@ public partial class KryptonContextMenuCollectionEditor
                     changeService.OnComponentChanged(item, null, null, null);
                 }
             }
-        }
-        #endregion
-
     }
     #endregion
 }

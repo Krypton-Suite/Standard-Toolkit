@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -26,7 +26,7 @@ public sealed class KryptonDesignerTreeNodeCollectionEditor : KryptonDesignerCol
 
     #region Protected
     /// <inheritdoc />
-    protected override KryptonDesignerCollectionForm CreateKryptonDesignerCollectionForm() =>
-        new KryptonDesignerTreeNodeCollectionForm(this);
+    protected override VisualDesignerCollectionForm CreateKryptonDesignerCollectionForm() =>
+        new VisualTreeNodeCollectionForm(this);
     #endregion
 }

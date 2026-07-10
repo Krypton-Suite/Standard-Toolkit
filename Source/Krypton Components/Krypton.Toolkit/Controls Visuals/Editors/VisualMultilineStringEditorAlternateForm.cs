@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -17,8 +17,8 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// Multiline String Editor Window.
 /// </summary>
-// ToDo V120 LTS: Align MultilineStringEditor1 with KryptonDesignerMultilineStringEditor and retire this legacy inline popup.
-internal sealed class MultilineStringEditor1 : KryptonForm //Form
+// ToDo V120 LTS: Align VisualMultilineStringEditorAlternateForm with KryptonDesignerMultilineStringEditor and retire this legacy inline popup.
+internal sealed class VisualMultilineStringEditorAlternateForm : KryptonForm //Form
 {
     #region Instance Members
     private bool _saveChanges = true;
@@ -32,7 +32,7 @@ internal sealed class MultilineStringEditor1 : KryptonForm //Form
     /// Initializes a new instance of the MultilineStringEditor class.
     /// </summary>
     /// <param name="owner"></param>
-    public MultilineStringEditor1(KryptonTextBox owner)
+    public VisualMultilineStringEditorAlternateForm(KryptonTextBox owner)
     {
         SetInheritedControlOverride();
         SuspendLayout();

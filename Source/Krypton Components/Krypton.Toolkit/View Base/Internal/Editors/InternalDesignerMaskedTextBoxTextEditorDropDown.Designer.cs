@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -9,9 +9,22 @@
 
 namespace Krypton.Toolkit;
 
-internal partial class KryptonDesignerMaskedTextBoxTextEditorDropDown
+internal partial class InternalDesignerMaskedTextBoxTextEditorDropDown
 {
     #region Windows Form Designer generated code
+
+    private IContainer components = null!;
+
+    /// <inheritdoc />
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing && (components != null))
+        {
+            components.Dispose();
+        }
+
+        base.Dispose(disposing);
+    }
 
     /// <summary>
     /// Required method for Designer support - do not modify
@@ -19,6 +32,7 @@ internal partial class KryptonDesignerMaskedTextBoxTextEditorDropDown
     /// </summary>
     private void InitializeComponent()
     {
+        components = new Container();
         _maskedTextBox = new KryptonMaskedTextBox
         {
             Dock = DockStyle.Fill,
@@ -34,7 +48,7 @@ internal partial class KryptonDesignerMaskedTextBoxTextEditorDropDown
         Size = new Size(180, 52);
         Controls.Add(_maskedTextBox);
         _maskedTextBox.KeyDown += (_, _) => { };
-        Name = nameof(KryptonDesignerMaskedTextBoxTextEditorDropDown);
+        Name = nameof(InternalDesignerMaskedTextBoxTextEditorDropDown);
     }
 
     #endregion

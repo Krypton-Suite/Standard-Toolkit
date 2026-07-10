@@ -41,7 +41,7 @@ internal class KryptonCheckButtonCollectionEditor : UITypeEditor
                 if (context.Instance is KryptonCheckSet checkSet)
                 {
                     // Create the dialog used to edit the set of KryptonCheckButtons
-                    KryptonCheckButtonCollectionForm dialog = new(checkSet);
+                    VisualCheckButtonCollectionForm dialog = new(checkSet);
 
                     if (editorService.ShowDialog(dialog) == DialogResult.OK)
                     {

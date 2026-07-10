@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -58,7 +58,7 @@ internal static class KryptonDesignerDesignBindingEditorHelper
         }
 
         var dataSource = dataSourceProperty.GetValue(context.Instance);
-        using var picker = new KryptonDesignerDesignBindingPicker(
+        using var picker = new InternalDesignerDesignBindingPicker(
             context,
             provider,
             showDataSources: false,
@@ -79,7 +79,7 @@ internal static class KryptonDesignerDesignBindingEditorHelper
             return value;
         }
 
-        using var picker = new KryptonDesignerDesignBindingPicker(
+        using var picker = new InternalDesignerDesignBindingPicker(
             context,
             provider,
             showDataSources: true,

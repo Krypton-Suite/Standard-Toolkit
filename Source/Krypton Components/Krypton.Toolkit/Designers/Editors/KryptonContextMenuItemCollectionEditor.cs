@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -26,7 +26,7 @@ public class KryptonContextMenuItemCollectionEditor : KryptonDesignerCollectionE
     }
 
     /// <inheritdoc />
-    protected override KryptonDesignerCollectionForm CreateKryptonDesignerCollectionForm() =>
+    protected override VisualDesignerCollectionForm CreateKryptonDesignerCollectionForm() =>
         KryptonContextMenuCollectionEditor.CreateCollectionForm(this);
 
     /// <summary>

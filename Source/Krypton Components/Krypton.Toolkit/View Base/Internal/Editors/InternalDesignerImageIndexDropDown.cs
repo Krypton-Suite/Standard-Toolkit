@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -12,19 +12,27 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// Drop-down list for selecting an image index or key from an <see cref="ImageList"/>.
 /// </summary>
-internal partial class KryptonDesignerImageIndexDropDown : UserControl
+internal partial class InternalDesignerImageIndexDropDown : UserControl
 {
     #region Instance Fields
-    private readonly bool _useKeys;
+    private bool _useKeys;
     #endregion
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the <see cref="KryptonDesignerImageIndexDropDown"/> class.
+    /// Initialize a new instance of the <see cref="InternalDesignerImageIndexDropDown"/> class for the WinForms designer.
+    /// </summary>
+    public InternalDesignerImageIndexDropDown()
+    {
+        InitializeComponent();
+    }
+
+    /// <summary>
+    /// Initialize a new instance of the <see cref="InternalDesignerImageIndexDropDown"/> class.
     /// </summary>
     /// <param name="imageList">Image list to display.</param>
     /// <param name="currentValue">Current property value.</param>
-    public KryptonDesignerImageIndexDropDown(ImageList imageList, object? currentValue)
+    public InternalDesignerImageIndexDropDown(ImageList imageList, object? currentValue)
     {
         _useKeys = currentValue is string;
 

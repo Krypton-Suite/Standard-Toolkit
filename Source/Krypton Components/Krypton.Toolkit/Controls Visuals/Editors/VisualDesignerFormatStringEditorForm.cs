@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -12,26 +12,38 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// Krypton-themed format-string editor dialog.
 /// </summary>
-internal partial class KryptonDesignerFormatStringEditorForm : KryptonForm
+internal partial class VisualDesignerFormatStringEditorForm : KryptonForm
 {
     #region Instance Fields
-    private readonly ITypeDescriptorContext _context;
+    private readonly ITypeDescriptorContext? _context;
     private readonly DataGridViewCellStyle? _cellStyle;
     private readonly ListControl? _listControl;
     #endregion
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the <see cref="KryptonDesignerFormatStringEditorForm"/> class.
+    /// Initialize a new instance of the <see cref="VisualDesignerFormatStringEditorForm"/> class for the WinForms designer.
+    /// </summary>
+    public VisualDesignerFormatStringEditorForm()
+    {
+        SetInheritedControlOverride();
+        InitializeComponent();
+        ConfigureDesignerChrome();
+    }
+
+    /// <summary>
+    /// Initialize a new instance of the <see cref="VisualDesignerFormatStringEditorForm"/> class.
     /// </summary>
     /// <param name="context">Designer context.</param>
-    public KryptonDesignerFormatStringEditorForm(ITypeDescriptorContext context)
+    public VisualDesignerFormatStringEditorForm(ITypeDescriptorContext context)
     {
+        SetInheritedControlOverride();
         _context = context;
         _cellStyle = context.Instance as DataGridViewCellStyle;
         _listControl = context.Instance as ListControl;
 
         InitializeComponent();
+        ConfigureDesignerChrome();
 
         Text = @"Format String Editor";
         ControlBox = false;
@@ -40,9 +52,6 @@ internal partial class KryptonDesignerFormatStringEditorForm : KryptonForm
         ClientSize = KryptonDesignerEditorDpi.Scale(this, new Size(420, 280));
         MinimumSize = ClientSize;
         MaximumSize = new Size(ClientSize.Width + 1, ClientSize.Height + 1);
-
-        AcceptButton = _buttonOk;
-        CancelButton = _buttonCancel;
 
         LoadInitialValues();
         KryptonDesignerEditorPalette.ApplyDesignerPalette(this, context);
@@ -66,6 +75,14 @@ internal partial class KryptonDesignerFormatStringEditorForm : KryptonForm
     #endregion
 
     #region Implementation
+    private void ConfigureDesignerChrome()
+    {
+        InternalDesignerEditorFormChrome.Apply(this, kpnlContent, kpnlButtonBar);
+        kpnlButtonBar.OkButton.Values.Text = KryptonManager.Strings.GeneralStrings.OK;
+        kpnlButtonBar.CancelButton.Values.Text = KryptonManager.Strings.GeneralStrings.Cancel;
+        kpnlButtonBar.OkButton.Click += (_, _) => PushChanges();
+    }
+
     private void LoadInitialValues()
     {
         var formatString = _cellStyle is not null ? _cellStyle.Format : _listControl?.FormatString ?? string.Empty;
@@ -85,32 +102,15 @@ internal partial class KryptonDesignerFormatStringEditorForm : KryptonForm
             return 0;
         }
 
-        if (formatString is "C" or "c" or "C0" or "C2")
+        return formatString switch
         {
-            return 2;
-        }
-
-        if (formatString is "N" or "n" or "N0" or "N2")
-        {
-            return 1;
-        }
-
-        if (formatString is "D" or "d" or "d" or "D")
-        {
-            return 3;
-        }
-
-        if (formatString is "T" or "t")
-        {
-            return 4;
-        }
-
-        if (formatString is "P" or "p" or "P0" or "P2")
-        {
-            return 5;
-        }
-
-        return 6;
+            "C" or "c" or "C0" or "C2" => 2,
+            "N" or "n" or "N0" or "N2" => 1,
+            "D" or "d" or "d" or "D" => 3,
+            "T" or "t" => 4,
+            "P" or "p" or "P0" or "P2" => 5,
+            _ => 6
+        };
     }
 
     private void ApplyPresetFormat()
@@ -135,7 +135,7 @@ internal partial class KryptonDesignerFormatStringEditorForm : KryptonForm
         {
             _previewLabel.Values.Text = string.Format(
                 CultureInfo.CurrentCulture,
-                @"Preview: {0:" + _formatStringTextBox.Text + "}",
+                @"Preview: {0:" + _formatStringTextBox.Text + @"}",
                 sample);
         }
         catch (FormatException)

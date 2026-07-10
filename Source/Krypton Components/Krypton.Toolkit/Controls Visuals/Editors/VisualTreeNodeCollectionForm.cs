@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -12,7 +12,7 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// Krypton-themed tree-node collection editor dialog.
 /// </summary>
-internal partial class KryptonDesignerTreeNodeCollectionForm : KryptonDesignerCollectionForm
+internal partial class VisualTreeNodeCollectionForm : VisualDesignerCollectionForm
 {
     #region Instance Fields
     private static readonly object NextNodeKey = new();
@@ -23,13 +23,24 @@ internal partial class KryptonDesignerTreeNodeCollectionForm : KryptonDesignerCo
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the <see cref="KryptonDesignerTreeNodeCollectionForm"/> class.
+    /// Initialize a new instance of the <see cref="VisualTreeNodeCollectionForm"/> class for the WinForms designer.
+    /// </summary>
+    public VisualTreeNodeCollectionForm()
+        : base()
+    {
+        InitializeComponent();
+        ConfigureDesignerChrome();
+    }
+
+    /// <summary>
+    /// Initialize a new instance of the <see cref="VisualTreeNodeCollectionForm"/> class.
     /// </summary>
     /// <param name="editor">Owning collection editor.</param>
-    public KryptonDesignerTreeNodeCollectionForm(KryptonDesignerCollectionEditor editor)
+    public VisualTreeNodeCollectionForm(KryptonDesignerCollectionEditor editor)
         : base(editor)
     {
         InitializeComponent();
+        ConfigureDesignerChrome();
 
         Text = @"TreeNode Collection Editor";
         ControlBox = false;
@@ -43,20 +54,24 @@ internal partial class KryptonDesignerTreeNodeCollectionForm : KryptonDesignerCo
             UpdatePropertyGrid();
             UpdateButtons();
         };
-
-        AcceptButton = _buttonOk;
-        CancelButton = _buttonCancel;
     }
     #endregion
 
     #region Implementation
+    private void ConfigureDesignerChrome()
+    {
+        InternalDesignerEditorFormChrome.Apply(this, kpnlContent, kpnlButtonBar);
+        kpnlButtonBar.OkButton.Values.Text = KryptonManager.Strings.GeneralStrings.OK;
+        kpnlButtonBar.CancelButton.Values.Text = KryptonManager.Strings.GeneralStrings.Cancel;
+        kpnlButtonBar.OkButton.Click += OnOkClick;
+    }
+
     private void ApplyButtonSizes()
     {
         var buttonSize = KryptonDesignerEditorDpi.Scale(this, new Size(112, 28));
         foreach (var button in new[]
                  {
-                     _buttonAddRoot, _buttonAddChild, _buttonDelete, _buttonMoveUp, _buttonMoveDown,
-                     _buttonOk, _buttonCancel
+                     _buttonAddRoot, _buttonAddChild, _buttonDelete, _buttonMoveUp, _buttonMoveDown
                  })
         {
             button.AutoSize = false;

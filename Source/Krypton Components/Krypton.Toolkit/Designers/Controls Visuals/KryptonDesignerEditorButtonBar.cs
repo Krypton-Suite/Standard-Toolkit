@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -12,13 +12,13 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// Creates the standard <see cref="PaletteBackStyle.PanelAlternate"/> footer bar used by designer editors.
 /// </summary>
-public static class KryptonDesignerEditorButtonBar
+internal static class KryptonDesignerEditorButtonBar
 {
     private const int DesignHeight = 50;
     private const int DesignPadding = 9;
     private const int DesignButtonTop = 13;
-    private const int DesignButtonWidth = 90;
-    private const int DesignButtonHeight = 25;
+    private const int DesignButtonWidth = 112;
+    private const int DesignButtonHeight = 28;
     private const int DesignButtonGap = 6;
     private const int DesignThemeWidth = 220;
 
@@ -31,7 +31,7 @@ public static class KryptonDesignerEditorButtonBar
     /// <param name="cancelButton">Optional Cancel button.</param>
     /// <param name="extraButtons">Optional additional buttons placed to the left of OK/Cancel.</param>
     /// <returns>Configured button bar panel.</returns>
-    public static KryptonPanel Create(
+    public static InternalDesignerEditorButtonBarPanel Create(
         KryptonForm owner,
         KryptonButton okButton,
         KryptonButton? cancelButton = null,
@@ -49,112 +49,46 @@ public static class KryptonDesignerEditorButtonBar
     /// <param name="cancelButton">Optional Cancel button.</param>
     /// <param name="extraButtons">Optional additional buttons placed to the left of OK/Cancel.</param>
     /// <returns>Configured button bar panel.</returns>
-    public static KryptonPanel Create(
+    public static InternalDesignerEditorButtonBarPanel Create(
         KryptonForm owner,
         bool includeThemeSelector,
         KryptonButton okButton,
         KryptonButton? cancelButton = null,
         params KryptonButton[] extraButtons)
     {
-        var padding = KryptonDesignerEditorDpi.Scale(owner, DesignPadding);
-        var buttonTop = KryptonDesignerEditorDpi.Scale(owner, DesignButtonTop);
-        var buttonSize = KryptonDesignerEditorDpi.Scale(owner, new Size(DesignButtonWidth, DesignButtonHeight));
-        var buttonGap = KryptonDesignerEditorDpi.Scale(owner, DesignButtonGap);
-        var panelHeight = KryptonDesignerEditorDpi.Scale(owner, DesignHeight);
-        var themeWidth = KryptonDesignerEditorDpi.Scale(owner, DesignThemeWidth);
-
-        var panel = new KryptonPanel
+        var panel = new InternalDesignerEditorButtonBarPanel
         {
-            Dock = DockStyle.Bottom,
-            Height = panelHeight,
-            PanelBackStyle = PaletteBackStyle.PanelAlternate
+            IncludeThemeSelector = includeThemeSelector
         };
 
-        // Top separator matching VisualMultilineStringEditorForm / toast footers.
-        var edge = new KryptonBorderEdge
-        {
-            BorderStyle = PaletteBorderStyle.HeaderPrimary,
-            Dock = DockStyle.Top,
-            Orientation = Orientation.Horizontal,
-            Name = @"kbDesignerEditorButtonBarEdge"
-        };
-
-        KryptonComboBox? themeCombo = null;
-        if (includeThemeSelector)
-        {
-            themeCombo = KryptonDesignerEditorTheme.CreateThemeSelector(
-                owner,
-                owner.PaletteMode,
-                owner.LocalCustomPalette);
-            themeCombo.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-            themeCombo.Size = new Size(themeWidth, buttonSize.Height);
-            themeCombo.Location = new Point(padding, buttonTop);
-            panel.Controls.Add(themeCombo);
-        }
-
-        var buttons = new List<KryptonButton>();
-        if (extraButtons is { Length: > 0 })
-        {
-            buttons.AddRange(extraButtons);
-        }
-
-        buttons.Add(okButton);
+        TransferButton(panel.OkButton, okButton);
         if (cancelButton is not null)
         {
-            buttons.Add(cancelButton);
+            TransferButton(panel.CancelButton, cancelButton);
+        }
+        else
+        {
+            panel.CancelButton.Visible = false;
         }
 
-        // Layout right-to-left: Cancel is rightmost when present, then OK, then extras.
-        var right = padding;
-        for (var i = buttons.Count - 1; i >= 0; i--)
+        foreach (var extraButton in extraButtons)
         {
-            var button = buttons[i];
-            ConfigureDialogButton(button, buttonSize);
-            button.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            button.Location = new Point(panel.Width - right - buttonSize.Width, buttonTop);
-            panel.Controls.Add(button);
-            right += buttonSize.Width + buttonGap;
+            panel.ExtraButtonHost.Controls.Add(extraButton);
         }
 
-        // Added last so docking places the separator at the top of the panel
-        // (same pattern as VisualMultilineStringEditorForm).
-        panel.Controls.Add(edge);
-        panel.Resize += (_, _) =>
-        {
-            if (themeCombo is not null)
-            {
-                themeCombo.Location = new Point(padding, buttonTop);
-                themeCombo.Size = new Size(themeWidth, buttonSize.Height);
-            }
-
-            LayoutButtons(panel, buttons, padding, buttonTop, buttonSize, buttonGap);
-        };
-
+        panel.ApplyDpi(owner);
+        panel.WireThemeToForm(owner);
         return panel;
     }
 
-    private static void ConfigureDialogButton(KryptonButton button, Size buttonSize)
+    private static void TransferButton(KryptonButton target, KryptonButton source)
     {
-        button.AutoSize = false;
-        button.Size = buttonSize;
-        button.MinimumSize = buttonSize;
-    }
-
-    private static void LayoutButtons(
-        KryptonPanel panel,
-        IReadOnlyList<KryptonButton> buttons,
-        int padding,
-        int buttonTop,
-        Size buttonSize,
-        int buttonGap)
-    {
-        var right = padding;
-        for (var i = buttons.Count - 1; i >= 0; i--)
-        {
-            var button = buttons[i];
-            button.Size = buttonSize;
-            button.Location = new Point(panel.ClientSize.Width - right - buttonSize.Width, buttonTop);
-            right += buttonSize.Width + buttonGap;
-        }
+        target.DialogResult = source.DialogResult;
+        target.Name = string.IsNullOrEmpty(source.Name) ? target.Name : source.Name;
+        target.TabIndex = source.TabIndex;
+        target.Values.Text = source.Values.Text;
+        target.Visible = source.Visible;
+        target.Enabled = source.Enabled;
+        target.Click += (_, _) => source.PerformClick();
     }
 }

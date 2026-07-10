@@ -9,9 +9,22 @@
 
 namespace Krypton.Toolkit;
 
-internal partial class KryptonDesignerTreeNodeCollectionForm
+internal partial class VisualTreeNodeCollectionForm
 {
     #region Windows Form Designer generated code
+
+    private IContainer components = null!;
+
+    /// <inheritdoc />
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing && (components != null))
+        {
+            components.Dispose();
+        }
+
+        base.Dispose(disposing);
+    }
 
     /// <summary>
     /// Required method for Designer support - do not modify
@@ -19,6 +32,7 @@ internal partial class KryptonDesignerTreeNodeCollectionForm
     /// </summary>
     private void InitializeComponent()
     {
+        components = new Container();
         _membersLabel = new KryptonLabel();
         _treeView = new KryptonTreeView();
         _membersPanel = new KryptonPanel();
@@ -30,16 +44,18 @@ internal partial class KryptonDesignerTreeNodeCollectionForm
         _buttonDelete = new KryptonButton();
         _buttonMoveUp = new KryptonButton();
         _buttonMoveDown = new KryptonButton();
-        _navPanel = new FlowLayoutPanel();
+        _navPanel = new TableLayoutPanel();
         _navHost = new KryptonPanel();
         _layout = new TableLayoutPanel();
-        _buttonOk = new KryptonButton();
-        _buttonCancel = new KryptonButton();
+        kpnlContent = new KryptonPanel();
+        kpnlButtonBar = new InternalDesignerEditorButtonBarPanel();
         _membersPanel.SuspendLayout();
         _propertiesPanel.SuspendLayout();
         _navPanel.SuspendLayout();
         _navHost.SuspendLayout();
         _layout.SuspendLayout();
+        ((ISupportInitialize)kpnlContent).BeginInit();
+        kpnlContent.SuspendLayout();
         SuspendLayout();
         //
         // _membersLabel
@@ -51,9 +67,7 @@ internal partial class KryptonDesignerTreeNodeCollectionForm
         //
         // _treeView
         //
-        _treeView.AllowDrop = true;
         _treeView.Dock = DockStyle.Fill;
-        _treeView.HideSelection = false;
         _treeView.Name = "_treeView";
         //
         // _membersPanel
@@ -61,7 +75,7 @@ internal partial class KryptonDesignerTreeNodeCollectionForm
         _membersPanel.Controls.Add(_treeView);
         _membersPanel.Controls.Add(_membersLabel);
         _membersPanel.Dock = DockStyle.Fill;
-        _membersPanel.Margin = new Padding(0, 0, 6, 0);
+        _membersPanel.Margin = new Padding(0, 0, 8, 0);
         _membersPanel.Name = "_membersPanel";
         //
         // _propertiesLabel
@@ -106,74 +120,74 @@ internal partial class KryptonDesignerTreeNodeCollectionForm
         //
         _buttonMoveUp.Name = "_buttonMoveUp";
         _buttonMoveUp.Values.Text = @"Move Up";
-        _buttonMoveUp.Click += (_, _) => MoveSelectedNode(up: true);
+        _buttonMoveUp.Click += (_, _) => MoveSelectedNode(true);
         //
         // _buttonMoveDown
         //
         _buttonMoveDown.Name = "_buttonMoveDown";
         _buttonMoveDown.Values.Text = @"Move Down";
-        _buttonMoveDown.Click += (_, _) => MoveSelectedNode(up: false);
+        _buttonMoveDown.Click += (_, _) => MoveSelectedNode(false);
         //
         // _navPanel
         //
         _navPanel.AutoSize = true;
         _navPanel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         _navPanel.BackColor = Color.Transparent;
-        _navPanel.Controls.Add(_buttonAddRoot);
-        _navPanel.Controls.Add(_buttonAddChild);
-        _navPanel.Controls.Add(_buttonDelete);
-        _navPanel.Controls.Add(_buttonMoveUp);
-        _navPanel.Controls.Add(_buttonMoveDown);
-        _navPanel.Dock = DockStyle.Top;
-        _navPanel.FlowDirection = FlowDirection.TopDown;
-        _navPanel.Margin = new Padding(0);
-        _navPanel.Padding = new Padding(0);
-        _navPanel.WrapContents = false;
+        _navPanel.ColumnCount = 5;
+        _navPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
+        _navPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
+        _navPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
+        _navPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
+        _navPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
+        _navPanel.Controls.Add(_buttonAddRoot, 0, 0);
+        _navPanel.Controls.Add(_buttonAddChild, 1, 0);
+        _navPanel.Controls.Add(_buttonDelete, 2, 0);
+        _navPanel.Controls.Add(_buttonMoveUp, 3, 0);
+        _navPanel.Controls.Add(_buttonMoveDown, 4, 0);
+        _navPanel.Dock = DockStyle.Bottom;
+        _navPanel.Margin = new Padding(0, 6, 0, 0);
         _navPanel.Name = "_navPanel";
+        _navPanel.RowCount = 1;
         //
         // _navHost
         //
         _navHost.Controls.Add(_navPanel);
-        _navHost.Dock = DockStyle.Fill;
-        _navHost.Margin = new Padding(0, 0, 6, 0);
-        _navHost.Padding = new Padding(8, 18, 8, 8);
-        _navHost.StateCommon.Color1 = Color.Transparent;
+        _navHost.Dock = DockStyle.Bottom;
         _navHost.Name = "_navHost";
         //
         // _layout
         //
         _layout.BackColor = Color.Transparent;
-        _layout.ColumnCount = 3;
+        _layout.ColumnCount = 2;
         _layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 42F));
-        _layout.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
         _layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 58F));
         _layout.Controls.Add(_membersPanel, 0, 0);
-        _layout.Controls.Add(_navHost, 1, 0);
-        _layout.Controls.Add(_propertiesPanel, 2, 0);
+        _layout.Controls.Add(_propertiesPanel, 1, 0);
         _layout.Dock = DockStyle.Fill;
         _layout.Padding = new Padding(6);
         _layout.RowCount = 1;
         _layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
         _layout.Name = "_layout";
         //
-        // _buttonOk
+        // kpnlContent
         //
-        _buttonOk.DialogResult = DialogResult.OK;
-        _buttonOk.Name = "_buttonOk";
-        _buttonOk.Values.Text = KryptonManager.Strings.GeneralStrings.OK;
-        _buttonOk.Click += OnOkClick;
+        kpnlContent.Controls.Add(_layout);
+        kpnlContent.Controls.Add(_navHost);
+        kpnlContent.Dock = DockStyle.Fill;
+        kpnlContent.Name = "kpnlContent";
+        kpnlContent.Padding = new Padding(9);
+        kpnlContent.PanelBackStyle = PaletteBackStyle.PanelClient;
         //
-        // _buttonCancel
+        // kpnlButtonBar
         //
-        _buttonCancel.DialogResult = DialogResult.Cancel;
-        _buttonCancel.Name = "_buttonCancel";
-        _buttonCancel.Values.Text = KryptonManager.Strings.GeneralStrings.Cancel;
+        kpnlButtonBar.Dock = DockStyle.Bottom;
+        kpnlButtonBar.Name = "kpnlButtonBar";
         //
-        // KryptonDesignerTreeNodeCollectionForm
+        // VisualTreeNodeCollectionForm
         //
-        Controls.Add(KryptonDesignerEditorContentPanel.Create(this, _layout));
-        Controls.Add(KryptonDesignerEditorButtonBar.Create(this, _buttonOk, _buttonCancel));
-        Name = nameof(KryptonDesignerTreeNodeCollectionForm);
+        Controls.Add(kpnlContent);
+        Controls.Add(kpnlButtonBar);
+        Name = nameof(VisualTreeNodeCollectionForm);
         _membersPanel.ResumeLayout(false);
         _membersPanel.PerformLayout();
         _propertiesPanel.ResumeLayout(false);
@@ -181,6 +195,9 @@ internal partial class KryptonDesignerTreeNodeCollectionForm
         _navPanel.ResumeLayout(false);
         _navHost.ResumeLayout(false);
         _layout.ResumeLayout(false);
+        _layout.PerformLayout();
+        ((ISupportInitialize)kpnlContent).EndInit();
+        kpnlContent.ResumeLayout(false);
         ResumeLayout(false);
     }
 
@@ -197,9 +214,9 @@ internal partial class KryptonDesignerTreeNodeCollectionForm
     private KryptonButton _buttonDelete;
     private KryptonButton _buttonMoveUp;
     private KryptonButton _buttonMoveDown;
-    private FlowLayoutPanel _navPanel;
+    private TableLayoutPanel _navPanel;
     private KryptonPanel _navHost;
     private TableLayoutPanel _layout;
-    private KryptonButton _buttonOk;
-    private KryptonButton _buttonCancel;
+    private KryptonPanel kpnlContent;
+    private InternalDesignerEditorButtonBarPanel kpnlButtonBar;
 }

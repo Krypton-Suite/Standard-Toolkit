@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -28,7 +28,7 @@ public sealed class KryptonDesignerFormatStringEditor : UITypeEditor
             return value;
         }
 
-        using var form = new KryptonDesignerFormatStringEditorForm(context);
+        using var form = new VisualDesignerFormatStringEditorForm(context);
         if (editorService.ShowDialog(form) == DialogResult.OK)
         {
             context.OnComponentChanged();

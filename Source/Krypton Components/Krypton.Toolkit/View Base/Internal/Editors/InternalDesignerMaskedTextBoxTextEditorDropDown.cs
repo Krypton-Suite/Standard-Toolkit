@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -12,7 +12,7 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// Drop-down host for editing masked text at design time.
 /// </summary>
-internal partial class KryptonDesignerMaskedTextBoxTextEditorDropDown : UserControl
+internal partial class InternalDesignerMaskedTextBoxTextEditorDropDown : UserControl
 {
     #region Instance Fields
     private bool _cancel;
@@ -20,11 +20,19 @@ internal partial class KryptonDesignerMaskedTextBoxTextEditorDropDown : UserCont
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the <see cref="KryptonDesignerMaskedTextBoxTextEditorDropDown"/> class.
+    /// Initialize a new instance of the <see cref="InternalDesignerMaskedTextBoxTextEditorDropDown"/> class for the WinForms designer.
+    /// </summary>
+    public InternalDesignerMaskedTextBoxTextEditorDropDown()
+    {
+        InitializeComponent();
+    }
+
+    /// <summary>
+    /// Initialize a new instance of the <see cref="InternalDesignerMaskedTextBoxTextEditorDropDown"/> class.
     /// </summary>
     /// <param name="instance">Component being edited.</param>
     /// <param name="value">Current property value.</param>
-    public KryptonDesignerMaskedTextBoxTextEditorDropDown(object instance, string? value)
+    public InternalDesignerMaskedTextBoxTextEditorDropDown(object instance, string? value)
     {
         InitializeComponent();
         ConfigureFromInstance(instance, value);

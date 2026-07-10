@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -12,29 +12,38 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// Standard Krypton-themed collection editor dialog with members list and property grid.
 /// </summary>
-internal partial class KryptonDesignerStandardCollectionForm : KryptonDesignerCollectionForm
+internal partial class VisualStandardCollectionForm : VisualDesignerCollectionForm
 {
     #region Instance Fields
-    private readonly KryptonDesignerStandardCollectionEditor _standardEditor;
+    private KryptonDesignerStandardCollectionEditor? _standardEditor;
     private object[]? _workingItems;
     #endregion
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the <see cref="KryptonDesignerStandardCollectionForm"/> class.
+    /// Initialize a new instance of the <see cref="VisualStandardCollectionForm"/> class for the WinForms designer.
+    /// </summary>
+    public VisualStandardCollectionForm()
+        : base()
+    {
+        InitializeComponent();
+        ConfigureDesignerChrome();
+    }
+
+    /// <summary>
+    /// Initialize a new instance of the <see cref="VisualStandardCollectionForm"/> class.
     /// </summary>
     /// <param name="editor">Owning collection editor.</param>
-    public KryptonDesignerStandardCollectionForm(KryptonDesignerStandardCollectionEditor editor)
+    public VisualStandardCollectionForm(KryptonDesignerStandardCollectionEditor editor)
         : base(editor)
     {
         _standardEditor = editor;
         InitializeComponent();
+        ConfigureDesignerChrome();
 
         Text = $"{CollectionItemTypeName} Collection Editor";
         ApplyButtonSizes();
         _listBox.SelectedIndexChanged += (_, _) => UpdatePropertyGrid();
-        AcceptButton = _buttonOk;
-        CancelButton = _buttonCancel;
         ControlBox = false;
         ClientSize = KryptonDesignerEditorDpi.Scale(this, new Size(640, 420));
         MinimumSize = KryptonDesignerEditorDpi.Scale(this, new Size(520, 320));
@@ -42,12 +51,20 @@ internal partial class KryptonDesignerStandardCollectionForm : KryptonDesignerCo
     #endregion
 
     #region Implementation
-    private string CollectionItemTypeName => _standardEditor.DesignerCollectionItemType.Name;
+    private void ConfigureDesignerChrome()
+    {
+        InternalDesignerEditorFormChrome.Apply(this, kpnlContent, kpnlButtonBar);
+        kpnlButtonBar.OkButton.Values.Text = KryptonManager.Strings.GeneralStrings.OK;
+        kpnlButtonBar.CancelButton.Values.Text = KryptonManager.Strings.GeneralStrings.Cancel;
+        kpnlButtonBar.OkButton.Click += OnOkClick;
+    }
+
+    private string CollectionItemTypeName => _standardEditor!.DesignerCollectionItemType.Name;
 
     private void ApplyButtonSizes()
     {
         var buttonSize = KryptonDesignerEditorDpi.Scale(this, new Size(112, 28));
-        foreach (var button in new[] { _buttonAdd, _buttonRemove, _buttonOk, _buttonCancel })
+        foreach (var button in new[] { _buttonAdd, _buttonRemove })
         {
             button.AutoSize = false;
             button.Size = buttonSize;
@@ -82,7 +99,7 @@ internal partial class KryptonDesignerStandardCollectionForm : KryptonDesignerCo
 
         foreach (var item in _workingItems)
         {
-            _listBox.Items.Add(new CollectionListItem(item, _standardEditor.GetDesignerDisplayText(item)));
+            _listBox.Items.Add(new CollectionListItem(item, _standardEditor!.GetDesignerDisplayText(item)));
         }
 
         if (_listBox.Items.Count > 0 && _listBox.SelectedIndex < 0)
@@ -98,7 +115,7 @@ internal partial class KryptonDesignerStandardCollectionForm : KryptonDesignerCo
             _propertiesLabel.Values.Text = string.Format(
                 CultureInfo.CurrentCulture,
                 @"{0} properties",
-                _standardEditor.GetDesignerDisplayText(entry.Item));
+                _standardEditor!.GetDesignerDisplayText(entry.Item));
             _propertyGrid.SelectedObject = entry.Item;
         }
         else
@@ -112,12 +129,12 @@ internal partial class KryptonDesignerStandardCollectionForm : KryptonDesignerCo
     {
         var hasSelection = _listBox.SelectedItem is not null;
         _buttonRemove.Enabled = hasSelection;
-        _buttonAdd.Enabled = _standardEditor.GetDesignerNewItemTypes().Length > 0;
+        _buttonAdd.Enabled = _standardEditor!.GetDesignerNewItemTypes().Length > 0;
     }
 
     private void OnAddClick(object? sender, EventArgs e)
     {
-        var itemTypes = _standardEditor.GetDesignerNewItemTypes();
+        var itemTypes = _standardEditor!.GetDesignerNewItemTypes();
         if (itemTypes.Length == 0)
         {
             return;
@@ -145,7 +162,7 @@ internal partial class KryptonDesignerStandardCollectionForm : KryptonDesignerCo
             return;
         }
 
-        _standardEditor.OnDesignerItemRemoving(entry.Item);
+        _standardEditor!.OnDesignerItemRemoving(entry.Item);
         _workingItems = RemoveItem(_workingItems, entry.Item);
         DestroyInstance(entry.Item);
         Items = _workingItems;

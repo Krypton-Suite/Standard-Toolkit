@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -28,7 +28,7 @@ public sealed class KryptonDesignerMaskedTextBoxTextEditor : UITypeEditor
             return value;
         }
 
-        using var dropDown = new KryptonDesignerMaskedTextBoxTextEditorDropDown(context.Instance, value as string);
+        using var dropDown = new InternalDesignerMaskedTextBoxTextEditorDropDown(context.Instance, value as string);
         editorService.DropDownControl(dropDown);
         return dropDown.Value ?? value;
     }

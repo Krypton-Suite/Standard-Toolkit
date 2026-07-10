@@ -30,9 +30,8 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
     {
         //SetInheritedControlOverride(); // Disabled as part of issue #2296. See the issue for details.
         InitializeComponent();
-
+        ConfigureDesignerChrome();
         InitialSetup();
-
         SetupControlsText();
     }
 
@@ -40,6 +39,7 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
     {
         //SetInheritedControlOverride(); // Disabled as part of issue #2296. See the issue for details.
         InitializeComponent();
+        ConfigureDesignerChrome();
 
         _contents = contents ?? [string.Empty];
 
@@ -51,7 +51,7 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
 
         _windowTitle = windowTitle ?? @"String Collection Editor";
 
-        klblHeader.Text = _headerText;
+        kryptonGroupBox1.Values.Heading = _headerText;
 
         Text = _windowTitle;
 
@@ -83,11 +83,17 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
 
     #region Implementation
 
+    private void ConfigureDesignerChrome()
+    {
+        InternalDesignerEditorFormChrome.Apply(this, kpnlContent, kpnlButtonBar);
+        kpnlButtonBar.OkButton.Click += kbtnOk_Click;
+    }
+
     private void SetupControlsText()
     {
-        kbtnCancel.Text = KryptonManager.Strings.GeneralStrings.Cancel;
+        kpnlButtonBar.OkButton.Values.Text = KryptonManager.Strings.GeneralStrings.OK;
 
-        kbtnOk.Text = KryptonManager.Strings.GeneralStrings.OK;
+        kpnlButtonBar.CancelButton.Values.Text = KryptonManager.Strings.GeneralStrings.Cancel;
 
         kcRichTextBoxCopy.Text = KryptonManager.Strings.ToolBarStrings.Copy;
 
@@ -116,7 +122,7 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
 
         _headerText = headerText ?? @"Enter the strings in the collection (one per line):";
 
-        klblHeader.Text = _headerText;
+        kryptonGroupBox1.Values.Heading = _headerText;
 
         Text = windowTitle ?? @"String Collection Editor";
     }
@@ -206,7 +212,7 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
         }
     }
 
-    private void kbtnOk_Click(object sender, EventArgs e) => _contents = _useRichTextBox ? [.. krtbContents.Lines] : [.. ktxtStringCollection.Lines];
+    private void kbtnOk_Click(object? sender, EventArgs e) => _contents = _useRichTextBox ? [.. krtbContents.Lines] : [.. ktxtStringCollection.Lines];
 
     private void kcRichTextBoxCut_Execute(object sender, EventArgs e) => krtbContents.Cut();
 

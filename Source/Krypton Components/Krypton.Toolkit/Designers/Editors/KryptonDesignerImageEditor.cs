@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -44,7 +44,7 @@ public sealed class KryptonDesignerImageEditor : UITypeEditor
             return value;
         }
 
-        using var form = new KryptonDesignerSelectResourceForm(context, value as Image);
+        using var form = new VisualSelectResourceForm(context, value as Image);
         KryptonDesignerEditorTheme.ApplyFromContext(form, context);
 
         if (editorService.ShowDialog(form) == DialogResult.OK)

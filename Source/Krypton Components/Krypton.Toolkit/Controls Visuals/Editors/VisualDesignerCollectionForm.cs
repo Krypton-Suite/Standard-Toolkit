@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -12,22 +12,31 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// Krypton-themed replacement for the designer <c>CollectionForm</c> type used by collection editors.
 /// </summary>
-public abstract class KryptonDesignerCollectionForm : KryptonForm
+public abstract class VisualDesignerCollectionForm : KryptonForm
 {
     #region Instance Fields
     private bool _designerDpiConfigured;
+    private readonly KryptonDesignerCollectionEditor? _editor;
     #endregion
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the <see cref="KryptonDesignerCollectionForm"/> class.
+    /// Initialize a new instance of the <see cref="VisualDesignerCollectionForm"/> class for the WinForms designer.
     /// </summary>
-    /// <param name="editor">Reference to owning collection editor.</param>
-    protected KryptonDesignerCollectionForm(KryptonDesignerCollectionEditor editor)
+    protected VisualDesignerCollectionForm()
     {
-        Editor = editor;
         ControlBox = false;
         StartPosition = FormStartPosition.CenterScreen;
+    }
+
+    /// <summary>
+    /// Initialize a new instance of the <see cref="VisualDesignerCollectionForm"/> class.
+    /// </summary>
+    /// <param name="editor">Reference to owning collection editor.</param>
+    protected VisualDesignerCollectionForm(KryptonDesignerCollectionEditor editor)
+        : this()
+    {
+        _editor = editor;
     }
     #endregion
 
@@ -35,12 +44,13 @@ public abstract class KryptonDesignerCollectionForm : KryptonForm
     /// <summary>
     /// Gets the owning collection editor.
     /// </summary>
-    protected KryptonDesignerCollectionEditor Editor { get; }
+    protected KryptonDesignerCollectionEditor Editor =>
+        _editor ?? throw new InvalidOperationException(@"Collection editor is not available outside a design-time session.");
 
     /// <summary>
     /// Gets the designer context from the owning editor.
     /// </summary>
-    public ITypeDescriptorContext? Context => Editor.DesignerContext;
+    public ITypeDescriptorContext? Context => _editor?.DesignerContext;
 
     /// <summary>
     /// Gets or sets the collection instance being edited.
@@ -59,8 +69,13 @@ public abstract class KryptonDesignerCollectionForm : KryptonForm
     /// <param name="value">Collection instance to edit.</param>
     public void InitializeEditValue(object? value)
     {
+        if (_editor is null)
+        {
+            return;
+        }
+
         EditValue = value;
-        Items = Editor.ExtractItems(value);
+        Items = _editor.ExtractItems(value);
 
         OnEditValueChanged();
     }
@@ -72,20 +87,22 @@ public abstract class KryptonDesignerCollectionForm : KryptonForm
     /// </summary>
     /// <param name="itemType">Type of the item to create.</param>
     /// <returns>New item instance.</returns>
-    protected object CreateInstance(Type itemType) => Editor.CreateDesignerInstance(itemType);
+    protected object CreateInstance(Type itemType) =>
+        _editor?.CreateDesignerInstance(itemType)
+        ?? throw new InvalidOperationException(@"Collection editor is not available outside a design-time session.");
 
     /// <summary>
     /// Destroys a collection item instance.
     /// </summary>
     /// <param name="instance">Instance to destroy.</param>
-    protected void DestroyInstance(object instance) => Editor.DestroyDesignerInstance(instance);
+    protected void DestroyInstance(object instance) => _editor?.DestroyDesignerInstance(instance);
 
     /// <summary>
     /// Gets the requested designer service.
     /// </summary>
     /// <param name="serviceType">Type of service to retrieve.</param>
     /// <returns>Service instance if available.</returns>
-    protected new object? GetService(Type serviceType) => Editor.GetDesignerService(serviceType);
+    protected new object? GetService(Type serviceType) => _editor?.GetDesignerService(serviceType);
 
     /// <summary>
     /// Provides an opportunity to perform processing when a collection value has changed.
@@ -149,9 +166,9 @@ public abstract class KryptonDesignerCollectionForm : KryptonForm
     /// </summary>
     protected void CommitDesignerItems()
     {
-        if (Items is not null)
+        if (Items is not null && _editor is not null)
         {
-            EditValue = Editor.ApplyDesignerItems(EditValue, Items);
+            EditValue = _editor.ApplyDesignerItems(EditValue, Items);
         }
     }
 
@@ -189,7 +206,7 @@ public abstract class KryptonDesignerCollectionForm : KryptonForm
 }
 
 /// <summary>
-/// Collection editor that hosts a <see cref="KryptonDesignerCollectionForm"/> with Krypton dialog chrome.
+/// Collection editor that hosts a <see cref="VisualDesignerCollectionForm"/> with Krypton dialog chrome.
 /// </summary>
 public abstract class KryptonDesignerCollectionEditor : CollectionEditor
 {
@@ -269,11 +286,11 @@ public abstract class KryptonDesignerCollectionEditor : CollectionEditor
     /// Creates the Krypton-themed collection editor form.
     /// </summary>
     /// <returns>Editor form instance.</returns>
-    protected abstract KryptonDesignerCollectionForm CreateKryptonDesignerCollectionForm();
+    protected abstract VisualDesignerCollectionForm CreateKryptonDesignerCollectionForm();
 
     /// <inheritdoc />
     protected override CollectionForm CreateCollectionForm() =>
-        throw new NotSupportedException($"{GetType().Name} uses {nameof(KryptonDesignerCollectionForm)}.");
+        throw new NotSupportedException($"{GetType().Name} uses {nameof(VisualDesignerCollectionForm)}.");
 
     /// <inheritdoc />
     public override object? EditValue(ITypeDescriptorContext? context, IServiceProvider provider, object? value)

@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -9,22 +9,29 @@
 
 namespace Krypton.Toolkit;
 
-public partial class KryptonContextMenuCollectionEditor
+internal partial class VisualContextMenuCollectionForm
 {
-    protected partial class KryptonContextMenuCollectionForm
-    {
-        #region Windows Form Designer generated code
+    #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
+    /// <inheritdoc />
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing && (components != null))
         {
-            components = new Container();
-            _buttonOk = new KryptonButton();
-            _buttonCancel = new KryptonButton();
-            _treeView = new KryptonTreeView();
+            components.Dispose();
+        }
+
+        base.Dispose(disposing);
+    }
+
+    /// <summary>
+    /// Required method for Designer support - do not modify
+    /// the contents of this method with the code editor.
+    /// </summary>
+    private void InitializeComponent()
+    {
+        components = new Container();
+        _treeView = new KryptonTreeView();
             _imageList = new ImageList(components);
             _label1 = new KryptonLabel();
             _buttonDelete = new KryptonButton();
@@ -45,28 +52,17 @@ public partial class KryptonContextMenuCollectionEditor
             _buttonAddImageSelect = new KryptonButton();
             _buttonAddComboBox = new KryptonButton();
             _buttonAddProgressBar = new KryptonButton();
-            _tableLayoutPanel1 = new TableLayoutPanel();
-            _panel1 = new KryptonPanel();
-            _tableLayoutPanel1.SuspendLayout();
-            _panel1.SuspendLayout();
-            SuspendLayout();
-            // 
-            // buttonOK
-            _buttonOk.DialogResult = DialogResult.OK;
-            _buttonOk.Name = nameof(_buttonOk);
-            _buttonOk.TabIndex = 16;
-            _buttonOk.Values.Text = @"OK";
-            _buttonOk.Click += buttonOK_Click;
-            // 
-            // buttonCancel
-            // 
-            _buttonCancel.DialogResult = DialogResult.Cancel;
-            _buttonCancel.Name = nameof(_buttonCancel);
-            _buttonCancel.TabIndex = 17;
-            _buttonCancel.Values.Text = @"Cancel";
-            _buttonCancel.Click += buttonCancel_Click;
-            // 
-            // treeView
+        _tableLayoutPanel1 = new TableLayoutPanel();
+        _panel1 = new KryptonPanel();
+        kpnlContent = new KryptonPanel();
+        kpnlButtonBar = new InternalDesignerEditorButtonBarPanel();
+        _tableLayoutPanel1.SuspendLayout();
+        _panel1.SuspendLayout();
+        ((ISupportInitialize)kpnlContent).BeginInit();
+        kpnlContent.SuspendLayout();
+        SuspendLayout();
+        // 
+        // treeView
             // 
             _treeView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             _treeView.HideSelection = false;
@@ -334,53 +330,65 @@ public partial class KryptonContextMenuCollectionEditor
             _panel1.Size = new Size(220, 658);
             _panel1.StateCommon.Color1 = Color.Transparent;
             _panel1.TabIndex = 17;
-            // 
-            // KryptonContextMenuCollectionForm
-            // 
-            AcceptButton = _buttonOk;
-            CancelButton = _buttonCancel;
-            AutoScaleMode = AutoScaleMode.None;
-            ClientSize = new Size(816, 724);
-            Controls.Add(KryptonDesignerEditorContentPanel.Create(this, _tableLayoutPanel1));
-            Controls.Add(KryptonDesignerEditorButtonBar.Create(this, _buttonOk, _buttonCancel, _buttonDelete));
-            Font = new Font(@"Tahoma", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            MinimumSize = new Size(733, 593);
-            Name = nameof(KryptonContextMenuCollectionForm);
-            Text = @"KryptonContextMenu Items Editor";
-            _tableLayoutPanel1.ResumeLayout(false);
-            _tableLayoutPanel1.PerformLayout();
-            _panel1.ResumeLayout(false);
-            ResumeLayout(false);
-            PerformLayout();
-        }
-
-        #endregion
-
-        private ImageList _imageList;
-        private KryptonButton _buttonOk;
-        private KryptonButton _buttonCancel;
-        private KryptonTreeView _treeView;
-        private KryptonLabel _label1;
-        private KryptonLabel _label2;
-        private KryptonButton _buttonDelete;
-        private KryptonButton _buttonMoveUp;
-        private KryptonButton _buttonMoveDown;
-        private KryptonButton _buttonAddCheckBox;
-        private KryptonButton _buttonAddCheckButton;
-        private KryptonButton _buttonAddRadioButton;
-        private KryptonButton _buttonAddLinkLabel;
-        private KryptonButton _buttonAddSeparator;
-        private KryptonButton _buttonAddItem;
-        private KryptonButton _buttonAddItems;
-        private KryptonButton _buttonAddHeading;
-        private KryptonButton _buttonAddMonthCalendar;
-        private KryptonButton _buttonAddColorColumns;
-        private KryptonButton _buttonAddImageSelect;
-        private KryptonButton _buttonAddComboBox;
-        private KryptonButton _buttonAddProgressBar;
-        private KryptonPropertyGrid _propertyGrid1;
-        private IContainer components;
-        private TableLayoutPanel _tableLayoutPanel1;
-        private KryptonPanel _panel1;
+        // 
+        // kpnlContent
+        // 
+        kpnlContent.Controls.Add(_tableLayoutPanel1);
+        kpnlContent.Dock = DockStyle.Fill;
+        kpnlContent.Name = "kpnlContent";
+        kpnlContent.Padding = new Padding(9);
+        kpnlContent.PanelBackStyle = PaletteBackStyle.PanelClient;
+        // 
+        // kpnlButtonBar
+        // 
+        kpnlButtonBar.Dock = DockStyle.Bottom;
+        kpnlButtonBar.ExtraButtonHost.Controls.Add(_buttonDelete);
+        kpnlButtonBar.Name = "kpnlButtonBar";
+        // 
+        // KryptonContextMenuCollectionForm
+        // 
+        AutoScaleMode = AutoScaleMode.None;
+        ClientSize = new Size(816, 724);
+        Controls.Add(kpnlContent);
+        Controls.Add(kpnlButtonBar);
+        Font = new Font(@"Tahoma", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+        MinimumSize = new Size(733, 593);
+        Name = nameof(VisualContextMenuCollectionForm);
+        Text = @"KryptonContextMenu Items Editor";
+        _tableLayoutPanel1.ResumeLayout(false);
+        _tableLayoutPanel1.PerformLayout();
+        _panel1.ResumeLayout(false);
+        ((ISupportInitialize)kpnlContent).EndInit();
+        kpnlContent.ResumeLayout(false);
+        ResumeLayout(false);
     }
+
+    #endregion
+
+    private ImageList _imageList;
+    private KryptonTreeView _treeView;
+    private KryptonLabel _label1;
+    private KryptonLabel _label2;
+    private KryptonButton _buttonDelete;
+    private KryptonButton _buttonMoveUp;
+    private KryptonButton _buttonMoveDown;
+    private KryptonButton _buttonAddCheckBox;
+    private KryptonButton _buttonAddCheckButton;
+    private KryptonButton _buttonAddRadioButton;
+    private KryptonButton _buttonAddLinkLabel;
+    private KryptonButton _buttonAddSeparator;
+    private KryptonButton _buttonAddItem;
+    private KryptonButton _buttonAddItems;
+    private KryptonButton _buttonAddHeading;
+    private KryptonButton _buttonAddMonthCalendar;
+    private KryptonButton _buttonAddColorColumns;
+    private KryptonButton _buttonAddImageSelect;
+    private KryptonButton _buttonAddComboBox;
+    private KryptonButton _buttonAddProgressBar;
+    private KryptonPropertyGrid _propertyGrid1;
+    private IContainer components;
+    private TableLayoutPanel _tableLayoutPanel1;
+    private KryptonPanel _panel1;
+    private KryptonPanel kpnlContent;
+    private InternalDesignerEditorButtonBarPanel kpnlButtonBar;
 }

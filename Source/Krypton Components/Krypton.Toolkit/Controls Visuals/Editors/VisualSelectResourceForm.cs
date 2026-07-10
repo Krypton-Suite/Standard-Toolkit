@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -12,7 +12,7 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// Krypton-themed Select Resource dialog for choosing an <see cref="Image"/>.
 /// </summary>
-internal partial class KryptonDesignerSelectResourceForm : KryptonForm
+internal partial class VisualSelectResourceForm : KryptonForm
 {
     #region Types
     private enum ResourceSource
@@ -39,7 +39,7 @@ internal partial class KryptonDesignerSelectResourceForm : KryptonForm
     #endregion
 
     #region Instance Fields
-    private readonly ITypeDescriptorContext _context;
+    private readonly ITypeDescriptorContext? _context;
     private Image? _selectedImage;
     private Image? _importedImage;
     private string? _importedPath;
@@ -50,17 +50,29 @@ internal partial class KryptonDesignerSelectResourceForm : KryptonForm
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the <see cref="KryptonDesignerSelectResourceForm"/> class.
+    /// Initialize a new instance of the <see cref="VisualSelectResourceForm"/> class for the WinForms designer.
+    /// </summary>
+    public VisualSelectResourceForm()
+    {
+        SetInheritedControlOverride();
+        InitializeComponent();
+        ConfigureDesignerChrome();
+    }
+
+    /// <summary>
+    /// Initialize a new instance of the <see cref="VisualSelectResourceForm"/> class.
     /// </summary>
     /// <param name="context">Designer context.</param>
     /// <param name="currentImage">Current property value.</param>
-    public KryptonDesignerSelectResourceForm(ITypeDescriptorContext context, Image? currentImage)
+    public VisualSelectResourceForm(ITypeDescriptorContext context, Image? currentImage)
     {
+        SetInheritedControlOverride();
         _context = context;
         _originalImage = currentImage;
         _selectedImage = currentImage;
 
         InitializeComponent();
+        ConfigureDesignerChrome();
 
         Text = @"Select Resource";
         ControlBox = false;
@@ -70,9 +82,6 @@ internal partial class KryptonDesignerSelectResourceForm : KryptonForm
         StartPosition = FormStartPosition.CenterScreen;
         ClientSize = KryptonDesignerEditorDpi.Scale(this, new Size(520, 420));
         MinimumSize = KryptonDesignerEditorDpi.Scale(this, new Size(460, 360));
-
-        AcceptButton = _buttonOk;
-        CancelButton = _buttonCancel;
 
         _source = currentImage is null ? ResourceSource.Local : ResourceSource.Local;
         _updating = true;
@@ -91,6 +100,13 @@ internal partial class KryptonDesignerSelectResourceForm : KryptonForm
     #endregion
 
     #region Implementation
+    private void ConfigureDesignerChrome()
+    {
+        InternalDesignerEditorFormChrome.Apply(this, kpnlContent, kpnlButtonBar);
+        kpnlButtonBar.OkButton.Values.Text = KryptonManager.Strings.GeneralStrings.OK;
+        kpnlButtonBar.CancelButton.Values.Text = KryptonManager.Strings.GeneralStrings.Cancel;
+    }
+
     private KryptonRadioButton CreateRadio(string text, ResourceSource source)
     {
         var radio = new KryptonRadioButton
@@ -152,7 +168,7 @@ internal partial class KryptonDesignerSelectResourceForm : KryptonForm
         _resourceList.Items.Clear();
         _resourceList.Items.Add(new ResourceEntry(@"(none)", null));
 
-        foreach (var entry in EnumerateProjectImages(_context))
+        foreach (var entry in EnumerateProjectImages(_context!))
         {
             _resourceList.Items.Add(new ResourceEntry(entry.Name, entry.Image));
         }
@@ -295,8 +311,7 @@ internal partial class KryptonDesignerSelectResourceForm : KryptonForm
     private static IEnumerable<ResourceEntry> EnumerateProjectImages(ITypeDescriptorContext context)
     {
         if (context.GetService(typeof(IDesignerHost)) is not IDesignerHost host
-            || host.RootComponent?.GetType() is not Type rootType
-            || rootType.Assembly is not Assembly assembly)
+            || host.RootComponent?.GetType() is not Type { Assembly: Assembly assembly } rootType)
         {
             yield break;
         }
@@ -313,8 +328,7 @@ internal partial class KryptonDesignerSelectResourceForm : KryptonForm
         {
             foreach (var type in assembly.GetTypes())
             {
-                if (type.Name == @"Resources"
-                    && type.Namespace is not null
+                if (type is { Name: @"Resources", Namespace: not null }
                     && type.Namespace.EndsWith(@".Properties", StringComparison.Ordinal))
                 {
                     candidates.Add(type);

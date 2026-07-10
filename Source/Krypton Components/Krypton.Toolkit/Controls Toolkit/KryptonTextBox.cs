@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -2125,7 +2125,7 @@ public class KryptonTextBox : VisualControlBase,
         IsHandleCreated && ClientRectangle.Contains(PointToClient(Control.MousePosition));
 
     // ToDo V120 LTS: Replace MultilineStringEditor1 inline popup with KryptonDesignerMultilineStringEditor.
-    private void OnEditorButtonClicked(object? sender, EventArgs e) => new MultilineStringEditor1(this).ShowEditor();
+    private void OnEditorButtonClicked(object? sender, EventArgs e) => new VisualMultilineStringEditorAlternateForm(this).ShowEditor();
 
     private void OnMouseDoubleClick(object? sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
 
