@@ -39,6 +39,7 @@ internal partial class VisualDesignerFormatStringEditorForm
         [
             @"No formatting",
             @"Numeric",
+            @"Decimal",
             @"Currency",
             @"Date",
             @"Time",
