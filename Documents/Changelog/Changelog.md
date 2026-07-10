@@ -1,4 +1,4 @@
-# ![Krypton logo](https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png?raw=true) Standard Toolkit - ChangeLog
+﻿# ![Krypton logo](https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png?raw=true) Standard Toolkit - ChangeLog
 
 =======
 
@@ -45,6 +45,8 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#3891](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3891), `KryptonContextMenu` Improvements
+   * Shared `KryptonCommand` support for `KryptonContextMenu` items — multiple menu entries can reference one command and pass a `CommandParameter` so a single `Execute` handler can branch on the originating item; includes `IKryptonContextMenuCommandItem`, `KryptonCommandContext`, and `KryptonCommandExecuteEventArgs`.
 * Implemented [#3807](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3807), `KryptonKnob` control
 * Resolved [#3850](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3850), Tooltip hot-spot not respected 
    * Tooltip placement now respects cursor hotspot and full cursor bounds
