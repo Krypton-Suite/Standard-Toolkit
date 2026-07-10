@@ -45,6 +45,8 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#3857](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3857), Implement `IsDefault` on Values types that currently throw `NotImplementedException`
+   * `IsDefault` on file-system Values types and related `Storage` stubs so PropertyGrid display, designer reset, and `ToString()` no longer throw
 * Implemented [#3807](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3807), `KryptonKnob` control
 * Resolved [#3850](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3850), Tooltip hot-spot not respected 
    * Tooltip placement now respects cursor hotspot and full cursor bounds

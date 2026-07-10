@@ -186,7 +186,14 @@ public class FileSystemTreeViewValues : Storage
 
     #region IsDefault
 
-    public override bool IsDefault => throw new NotImplementedException();
+    public override bool IsDefault =>
+        _rootMode == FileSystemRootMode.Drives &&
+        _rootPath == string.Empty &&
+        _showFiles &&
+        !_showHiddenFiles &&
+        !_showSystemFiles &&
+        _fileFilter == "*.*" &&
+        _showSpecialFolders;
 
     #endregion
 

@@ -177,7 +177,14 @@ public class FileSystemTreeViewValues : Storage
         }
     }
 
-    public override bool IsDefault => throw new NotImplementedException();
+    public override bool IsDefault =>
+        _rootMode == FileSystemRootMode.Drives &&
+        _rootPath == string.Empty &&
+        _showFiles &&
+        !_showHiddenFiles &&
+        !_showSystemFiles &&
+        _fileFilter == "*.*" &&
+        _showSpecialFolders;
 
     /// <summary>
     /// Returns a string representation of this object.
