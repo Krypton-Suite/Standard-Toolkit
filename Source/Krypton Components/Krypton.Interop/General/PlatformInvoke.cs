@@ -3581,50 +3581,75 @@ No 	                    No 	                    Show text only
     internal static extern bool IsWindowVisible(IntPtr hWnd);
     #endif
 
+    #region Native string buffer helpers
+
+    // Out-string P/Invokes use [Out] char[] on every TFM. APIs return the written length; when it
+    // equals capacity - 1 the result may be truncated (LoadString documents this) — grow and retry.
+    private const int NativeStringBufferMax = 4096;
+
+    private static string GetStringFromNativeBuffer(Func<char[], int, int> fill, int initialCapacity = 256)
+    {
+        int capacity = initialCapacity;
+        while (capacity <= NativeStringBufferMax)
+        {
+            char[] buffer = new char[capacity];
+            int length = fill(buffer, capacity);
+            if (length <= 0)
+            {
+                return string.Empty;
+            }
+
+            if (length < capacity - 1)
+            {
+                return new string(buffer, 0, length);
+            }
+
+            capacity <<= 1;
+        }
+
+        return string.Empty;
+    }
+
+    private static int CopyNativeStringToStringBuilder(char[] buffer, int length, StringBuilder destination)
+    {
+        if (length > 0)
+        {
+            destination.Length = 0;
+            destination.Append(buffer, 0, length);
+        }
+
+        return length;
+    }
+
+    #endregion
+
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     #if NET8_0_OR_GREATER
     [LibraryImport(Libraries.User32, EntryPoint = "LoadStringW", StringMarshalling = StringMarshalling.Utf16, SetLastError = true)]
     private static partial int LoadStringBuffer(IntPtr hInstance, uint uID, [Out] char[] lpBuffer, int nBufferMax);
     #else
     [DllImport(Libraries.User32, EntryPoint = "LoadStringW", CharSet = CharSet.Unicode, SetLastError = true)]
-    private static extern int LoadStringBuffer(IntPtr hInstance, uint uID, StringBuilder lpBuffer, int nBufferMax);
+    private static extern int LoadStringBuffer(IntPtr hInstance, uint uID, [Out] char[] lpBuffer, int nBufferMax);
     #endif
 
     internal static int LoadString(SafeModuleHandle hInstance, uint uID, StringBuilder lpBuffer, int nBufferMax)
     {
         IntPtr handle = hInstance.DangerousGetHandle();
-        #if NET8_0_OR_GREATER
         char[] buffer = new char[nBufferMax];
         int length = LoadStringBuffer(handle, uID, buffer, nBufferMax);
-        if (length > 0)
-        {
-            lpBuffer.Length = 0;
-            lpBuffer.Append(buffer, 0, length);
-        }
-
-        GC.KeepAlive(hInstance);
-        return length;
-        #else
-        int result = LoadStringBuffer(handle, uID, lpBuffer, nBufferMax);
+        int result = CopyNativeStringToStringBuilder(buffer, length, lpBuffer);
         GC.KeepAlive(hInstance);
         return result;
-        #endif
     }
 
     internal static string LoadString(SafeModuleHandle hInstance, uint uID, int maxBuffer = 256)
     {
         IntPtr handle = hInstance.DangerousGetHandle();
-        #if NET8_0_OR_GREATER
-        char[] buffer = new char[maxBuffer];
-        int length = LoadStringBuffer(handle, uID, buffer, maxBuffer);
+        string result = GetStringFromNativeBuffer(
+            (buffer, capacity) => LoadStringBuffer(handle, uID, buffer, capacity),
+            maxBuffer);
         GC.KeepAlive(hInstance);
-        return length > 0 ? new string(buffer, 0, length) : string.Empty;
-        #else
-        var sb = new StringBuilder(maxBuffer);
-        int length = LoadStringBuffer(handle, uID, sb, sb.Capacity);
-        GC.KeepAlive(hInstance);
-        return length > 0 ? sb.ToString() : string.Empty;
-        #endif
+        return result;
     }
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     #if NET8_0_OR_GREATER
@@ -4018,37 +4043,18 @@ No 	                    No 	                    Show text only
     private static partial int GetClassNameBuffer(IntPtr hWnd, [Out] char[] lpClassName, int nMaxCount);
     #else
     [DllImport(Libraries.User32, EntryPoint = "GetClassNameW", CharSet = CharSet.Unicode, SetLastError = true)]
-    private static extern int GetClassNameBuffer(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
+    private static extern int GetClassNameBuffer(IntPtr hWnd, [Out] char[] lpClassName, int nMaxCount);
     #endif
 
     internal static int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount)
     {
-        #if NET8_0_OR_GREATER
         char[] buffer = new char[nMaxCount];
         int length = GetClassNameBuffer(hWnd, buffer, nMaxCount);
-        if (length > 0)
-        {
-            lpClassName.Length = 0;
-            lpClassName.Append(buffer, 0, length);
-        }
-
-        return length;
-        #else
-        return GetClassNameBuffer(hWnd, lpClassName, nMaxCount);
-        #endif
+        return CopyNativeStringToStringBuilder(buffer, length, lpClassName);
     }
 
-    internal static string GetClassNameString(IntPtr hWnd, int maxCount = 256)
-    {
-        #if NET8_0_OR_GREATER
-        char[] buffer = new char[maxCount];
-        int length = GetClassNameBuffer(hWnd, buffer, maxCount);
-        return length > 0 ? new string(buffer, 0, length) : string.Empty;
-        #else
-        var sb = new StringBuilder(maxCount);
-        return GetClassNameBuffer(hWnd, sb, sb.Capacity) > 0 ? sb.ToString() : string.Empty;
-        #endif
-    }
+    internal static string GetClassNameString(IntPtr hWnd, int maxCount = 256) =>
+        GetStringFromNativeBuffer((buffer, capacity) => GetClassNameBuffer(hWnd, buffer, capacity), maxCount);
 
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
@@ -4173,37 +4179,20 @@ No 	                    No 	                    Show text only
     private static partial int GetMenuStringBuffer(IntPtr hMenu, uint uIDItem, [Out] char[] lpString, int nMaxCount, MF_ uFlag);
     #else
     [DllImport(Libraries.User32, EntryPoint = "GetMenuStringW", CharSet = CharSet.Unicode)]
-    private static extern int GetMenuStringBuffer(IntPtr hMenu, uint uIDItem, StringBuilder lpString, int nMaxCount, MF_ uFlag);
+    private static extern int GetMenuStringBuffer(IntPtr hMenu, uint uIDItem, [Out] char[] lpString, int nMaxCount, MF_ uFlag);
     #endif
 
     internal static int GetMenuString(IntPtr hMenu, uint uIDItem, StringBuilder lpString, int nMaxCount, MF_ uFlag)
     {
-        #if NET8_0_OR_GREATER
         char[] buffer = new char[nMaxCount];
         int length = GetMenuStringBuffer(hMenu, uIDItem, buffer, nMaxCount, uFlag);
-        if (length > 0)
-        {
-            lpString.Length = 0;
-            lpString.Append(buffer, 0, length);
-        }
-
-        return length;
-        #else
-        return GetMenuStringBuffer(hMenu, uIDItem, lpString, nMaxCount, uFlag);
-        #endif
+        return CopyNativeStringToStringBuilder(buffer, length, lpString);
     }
 
-    internal static string GetMenuStringString(IntPtr hMenu, uint uIDItem, MF_ uFlag, int maxCount = 256)
-    {
-        #if NET8_0_OR_GREATER
-        char[] buffer = new char[maxCount];
-        int length = GetMenuStringBuffer(hMenu, uIDItem, buffer, maxCount, uFlag);
-        return length > 0 ? new string(buffer, 0, length) : string.Empty;
-        #else
-        var sb = new StringBuilder(maxCount);
-        return GetMenuStringBuffer(hMenu, uIDItem, sb, sb.Capacity, uFlag) > 0 ? sb.ToString() : string.Empty;
-        #endif
-    }
+    internal static string GetMenuStringString(IntPtr hMenu, uint uIDItem, MF_ uFlag, int maxCount = 256) =>
+        GetStringFromNativeBuffer(
+            (buffer, capacity) => GetMenuStringBuffer(hMenu, uIDItem, buffer, capacity, uFlag),
+            maxCount);
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     #if NET8_0_OR_GREATER
     [LibraryImport(Libraries.User32)]
