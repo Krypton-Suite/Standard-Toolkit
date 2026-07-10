@@ -21,7 +21,7 @@ namespace Krypton.Toolkit;
 [DesignTimeVisible(false)]
 [DefaultProperty(nameof(Text))]
 [DefaultEvent(nameof(CheckedChanged))]
-public class KryptonContextMenuRadioButton : KryptonContextMenuItemBase
+public class KryptonContextMenuRadioButton : KryptonContextMenuItemBase, IKryptonContextMenuCommandItem
 {
     #region Instance Fields
     private bool _autoCheck;
@@ -33,6 +33,7 @@ public class KryptonContextMenuRadioButton : KryptonContextMenuItemBase
     private Color _imageTransparentColor;
     private readonly PaletteContentInheritRedirect _stateCommonRedirect;
     private KryptonCommand? _command;
+    private object? _commandParameter;
     private LabelStyle _style;
     private string _text;
 
@@ -421,6 +422,32 @@ public class KryptonContextMenuRadioButton : KryptonContextMenuItemBase
     }
 
     /// <summary>
+    /// Gets and sets an optional parameter value that can be used inside a shared KryptonCommand Execute handler.
+    /// </summary>
+    [KryptonPersist]
+    [Category(@"Behavior")]
+    [Description(@"Value passed to the KryptonCommand Execute handler to discriminate between menu items.")]
+    [DefaultValue(null)]
+    [Browsable(true)]
+    [TypeConverter(typeof(StringConverter))]
+    public object? CommandParameter
+    {
+        get => _commandParameter;
+
+        set
+        {
+            if (!Equals(_commandParameter, value))
+            {
+                _commandParameter = value;
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(CommandParameter)));
+            }
+        }
+    }
+
+    private bool ShouldSerializeCommandParameter() => CommandParameter != null;
+    private void ResetCommandParameter() => CommandParameter = null;
+
+    /// <summary>
     /// Generates a Click event for the component.
     /// </summary>
     public void PerformClick() => OnClick(EventArgs.Empty);
@@ -437,8 +464,8 @@ public class KryptonContextMenuRadioButton : KryptonContextMenuItemBase
     {
         Click?.Invoke(this, e);
 
-        // If we have an attached command then execute it
-        KryptonCommand?.PerformExecute();
+        // If we have an attached command then execute it, indicating this item as the sender
+        KryptonCommand?.PerformExecute(this);
     }
 
     /// <summary>

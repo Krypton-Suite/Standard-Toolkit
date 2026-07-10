@@ -382,9 +382,18 @@ public class KryptonCommand : Component, IKryptonCommand, INotifyPropertyChanged
     /// </summary>
     public void PerformExecute() => OnExecute(EventArgs.Empty);
 
-    // Allow specifying the originating sender so shared commands can identify the source control
+    /// <summary>
+    /// Generates an Execute event for a command, passing the originating source as the event sender.
+    /// </summary>
+    /// <param name="sender">The object that initiated command execution.</param>
     public void PerformExecute(object? sender)
-        => Execute?.Invoke(sender ?? this, EventArgs.Empty);
+    {
+        var source = sender ?? this;
+
+        KryptonCommandContext.TryGetCommandParameter(source, out var parameter);
+
+        Execute?.Invoke(source, new KryptonCommandExecuteEventArgs(source, parameter));
+    }
 
     #endregion
 

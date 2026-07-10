@@ -503,6 +503,12 @@ public interface IKryptonCommand
     /// Generates an Execute event for a command.
     /// </summary>
     void PerformExecute();
+
+    /// <summary>
+    /// Generates an Execute event for a command, passing the originating source as the event sender.
+    /// </summary>
+    /// <param name="sender">The object that initiated command execution.</param>
+    void PerformExecute(object? sender);
 }
 #endregion
 
