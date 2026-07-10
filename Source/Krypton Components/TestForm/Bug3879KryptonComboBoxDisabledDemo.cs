@@ -119,7 +119,9 @@ public sealed class Bug3879KryptonComboBoxDisabledDemo : KryptonForm
 
         if (disabledInDesigner)
         {
+            comboBox.BeginInit();
             comboBox.Enabled = false;
+            comboBox.EndInit();
         }
 
         return comboBox;
