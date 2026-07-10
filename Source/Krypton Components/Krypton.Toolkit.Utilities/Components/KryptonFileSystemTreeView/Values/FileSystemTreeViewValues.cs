@@ -177,6 +177,8 @@ public class FileSystemTreeViewValues : Storage
         }
     }
 
+    /// <inheritdoc />
+    [Browsable(false)]
     public override bool IsDefault =>
         _rootMode == FileSystemRootMode.Drives &&
         _rootPath == string.Empty &&

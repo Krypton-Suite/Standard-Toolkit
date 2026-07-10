@@ -186,6 +186,8 @@ public class FileSystemTreeViewValues : Storage
 
     #region IsDefault
 
+    /// <inheritdoc />
+    [Browsable(false)]
     public override bool IsDefault =>
         _rootMode == FileSystemRootMode.Drives &&
         _rootPath == string.Empty &&

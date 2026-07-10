@@ -146,6 +146,8 @@ internal class SystemTreeViewValues : Storage
         }
     }
 
+    /// <inheritdoc />
+    [Browsable(false)]
     public override bool IsDefault =>
         _showFiles &&
         !_showHiddenFiles &&

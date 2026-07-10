@@ -211,6 +211,8 @@
             }
         }
 
+        /// <inheritdoc />
+        [Browsable(false)]
         public override bool IsDefault =>
             _currentPath == string.Empty &&
             _showFiles &&
