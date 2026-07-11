@@ -17,7 +17,9 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
     #region Instance Fields
     private KryptonDesignerStandardCollectionEditor? _standardEditor;
     private object[]? _workingItems;
+    private object[]? _sessionStartOrder;
     private HashSet<object>? _sessionStartItems;
+    private List<DesignerItemPropertySnapshot>? _sessionPropertySnapshots;
     private readonly List<object> _pendingDestroy = [];
     #endregion
 
@@ -84,7 +86,9 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
         }
 
         _workingItems = (object[])Items.Clone();
+        _sessionStartOrder = (object[])_workingItems.Clone();
         _sessionStartItems = new HashSet<object>(_workingItems);
+        _sessionPropertySnapshots = CapturePropertySnapshots(_sessionStartOrder);
         _pendingDestroy.Clear();
         RefreshList();
         _propertyGrid.Site = new KryptonDesignerPropertyGridSite(Context, _propertyGrid);
@@ -190,38 +194,119 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
         Context?.OnComponentChanged();
     }
 
-    private void OnCancelClick(object? sender, EventArgs e)
+    private void OnCancelClick(object? sender, EventArgs e) => RevertSessionChanges();
+
+    private void RevertSessionChanges()
     {
-        if (_workingItems is null || _sessionStartItems is null)
+        if (_workingItems is null || _sessionStartOrder is null || _sessionStartItems is null)
         {
             return;
         }
 
-        foreach (var item in _workingItems)
+        var sessionAddedItems = CollectSessionAddedItems();
+        RestoreSessionMembership();
+        RestoreSessionPropertyValues();
+        DestroySessionAddedItems(sessionAddedItems);
+        _pendingDestroy.Clear();
+        _workingItems = Items;
+    }
+
+    private List<object> CollectSessionAddedItems()
+    {
+        var sessionAddedItems = new List<object>();
+        foreach (var item in _workingItems!)
         {
-            if (!_sessionStartItems.Contains(item))
+            if (!_sessionStartItems!.Contains(item))
             {
-                DestroyInstance(item);
-                if (item is IComponent component)
-                {
-                    Context?.Container?.Remove(component);
-                }
+                sessionAddedItems.Add(item);
             }
         }
 
         foreach (var item in _pendingDestroy)
         {
-            if (!_sessionStartItems.Contains(item))
+            if (!_sessionStartItems!.Contains(item) && !sessionAddedItems.Contains(item))
             {
-                DestroyInstance(item);
-                if (item is IComponent component)
-                {
-                    Context?.Container?.Remove(component);
-                }
+                sessionAddedItems.Add(item);
             }
         }
 
-        _pendingDestroy.Clear();
+        return sessionAddedItems;
+    }
+
+    private void RestoreSessionMembership()
+    {
+        Items = (object[])_sessionStartOrder!.Clone();
+        CommitDesignerItems();
+    }
+
+    private void RestoreSessionPropertyValues()
+    {
+        if (_sessionPropertySnapshots is null)
+        {
+            return;
+        }
+
+        foreach (var snapshot in _sessionPropertySnapshots)
+        {
+            RestorePropertySnapshot(snapshot.Item, snapshot.Properties);
+        }
+    }
+
+    private void DestroySessionAddedItems(IEnumerable<object> sessionAddedItems)
+    {
+        foreach (var item in sessionAddedItems)
+        {
+            DestroySessionItem(item);
+        }
+    }
+
+    private void DestroySessionItem(object item)
+    {
+        DestroyInstance(item);
+        if (item is IComponent component)
+        {
+            Context?.Container?.Remove(component);
+        }
+    }
+
+    private static List<DesignerItemPropertySnapshot> CapturePropertySnapshots(object[] items)
+    {
+        var snapshots = new List<DesignerItemPropertySnapshot>(items.Length);
+        foreach (var item in items)
+        {
+            snapshots.Add(new DesignerItemPropertySnapshot(item, CapturePropertySnapshot(item)));
+        }
+
+        return snapshots;
+    }
+
+    private static Dictionary<string, object?> CapturePropertySnapshot(object item)
+    {
+        var snapshot = new Dictionary<string, object?>(StringComparer.Ordinal);
+        foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(item))
+        {
+            if (property.IsReadOnly)
+            {
+                continue;
+            }
+
+            snapshot[property.Name] = property.GetValue(item);
+        }
+
+        return snapshot;
+    }
+
+    private static void RestorePropertySnapshot(object item, Dictionary<string, object?> snapshot)
+    {
+        foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(item))
+        {
+            if (property.IsReadOnly || !snapshot.TryGetValue(property.Name, out var value))
+            {
+                continue;
+            }
+
+            property.SetValue(item, value);
+        }
     }
 
     private Type? PromptNewItemType(IReadOnlyList<Type> itemTypes)
@@ -309,6 +394,19 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
         public string Text { get; }
 
         public override string ToString() => Text;
+    }
+
+    private sealed class DesignerItemPropertySnapshot
+    {
+        public DesignerItemPropertySnapshot(object item, Dictionary<string, object?> properties)
+        {
+            Item = item;
+            Properties = properties;
+        }
+
+        public object Item { get; }
+
+        public Dictionary<string, object?> Properties { get; }
     }
     #endregion
 }
