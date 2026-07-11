@@ -209,6 +209,18 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
             }
         }
 
+        foreach (var item in _pendingDestroy)
+        {
+            if (!_sessionStartItems.Contains(item))
+            {
+                DestroyInstance(item);
+                if (item is IComponent component)
+                {
+                    Context?.Container?.Remove(component);
+                }
+            }
+        }
+
         _pendingDestroy.Clear();
     }
 
