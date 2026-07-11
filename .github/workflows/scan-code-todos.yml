@@ -1,0 +1,657 @@
+# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+# Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2026 - 2026. All rights reserved.
+#
+# Scans a selected branch for inline TODO/ToDo comments and opens GitHub issues ([#3899]).
+#
+# Opt-in marker (default scan mode): a source comment using ToDo(issue) or TODO(issue)
+# with a colon and description (see issue template and Scan-CodeTodos.ps1).
+#
+# Deduplication before creating issues: fingerprint, matching title, or source file:line.
+#
+# Set include_all_markers=true to also pick up plain TODO/ToDo/FIXME/HACK comments.
+#
+# KILL-SWITCH: SCAN_CODE_TODOS_DISABLED=true (repository variable)
+# DEPLOYMENT: Must exist on the default branch before workflow_dispatch is available in the UI.
+
+name: Scan code TODOs
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: Branch to scan
+        required: true
+        default: master
+        type: string
+      dry_run:
+        description: Log actions only; do not create or close issues
+        required: true
+        default: true
+        type: boolean
+      max_issues:
+        description: Maximum new issues to create per run
+        required: true
+        default: 25
+        type: number
+      group_duplicates:
+        description: Group identical comment text into one issue
+        required: true
+        default: true
+        type: boolean
+      include_all_markers:
+        description: Include plain TODO/ToDo/FIXME/HACK (not only the opt-in marker)
+        required: true
+        default: false
+        type: boolean
+      close_stale:
+        description: Close open auto-created issues whose source comment no longer exists
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Scan kill switch
+        id: kill_switch
+        shell: bash
+        run: |
+          disabled="${{ vars.SCAN_CODE_TODOS_DISABLED }}"
+          if [ "$disabled" = "true" ]; then
+            echo "::warning:: Scan code TODOs is DISABLED (SCAN_CODE_TODOS_DISABLED=true)."
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Security - Verify Repository
+        if: steps.kill_switch.outputs.enabled == 'true'
+        shell: bash
+        run: |
+          if [ "$GITHUB_REPOSITORY" != "Krypton-Suite/Standard-Toolkit" ]; then
+            echo "::error::Invalid repository: $GITHUB_REPOSITORY"
+            exit 1
+          fi
+
+      - name: Checkout
+        if: steps.kill_switch.outputs.enabled == 'true'
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.branch }}
+
+      - name: Scan for TODO/ToDo comments
+        if: steps.kill_switch.outputs.enabled == 'true'
+        id: scan
+        shell: bash
+        env:
+          INCLUDE_ALL_MARKERS: ${{ inputs.include_all_markers }}
+        run: |
+          set -euo pipefail
+
+          if [ "$INCLUDE_ALL_MARKERS" = "true" ]; then
+            PATTERN='\b(?:TODO|ToDo|FIXME|HACK)\b(?!\s*\])(?:\s*\(\s*issue\s*\))?[:\s]*(.*)$'
+            rg -n --pcre2 "$PATTERN" \
+              Source .github/workflows Documents \
+              -g '!**/obj/**' \
+              -g '!**/bin/**' \
+              -g '!**/Bin/**' \
+              -g '!.github/workflows/scan-code-todos.yml' \
+              --json > todo-matches.jsonl || true
+          else
+            PATTERN='(?i)\b(?:TODO|ToDo)\s*\(\s*issue\s*\)\s*[:\s]*(.*)$'
+            rg -n --pcre2 "$PATTERN" \
+              Source .github/workflows Documents \
+              -g '!**/obj/**' \
+              -g '!**/bin/**' \
+              -g '!**/Bin/**' \
+              -g '!.github/workflows/scan-code-todos.yml' \
+              --json > todo-matches.jsonl || true
+          fi
+
+          if [ ! -s todo-matches.jsonl ]; then
+            echo "[]" > todo-matches.json
+            echo "match_count=0" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          node <<'NODE'
+          const fs = require('fs');
+          const crypto = require('crypto');
+
+          const includeAll = process.env.INCLUDE_ALL_MARKERS === 'true';
+          const lines = fs.readFileSync('todo-matches.jsonl', 'utf8').trim().split(/\r?\n/).filter(Boolean);
+          const matches = [];
+
+          const linkedIssuePattern = /(?:#\d{3,}|issues\/\d{3,})/i;
+
+          for (const line of lines) {
+            let event;
+            try {
+              event = JSON.parse(line);
+            } catch {
+              continue;
+            }
+            if (event.type !== 'match' || !event.data) {
+              continue;
+            }
+
+            const filePath = (event.data.path?.text || '').replace(/\\/g, '/');
+            const lineNumber = event.data.line_number;
+            const lineText = event.data.lines?.text || '';
+            const captures = event.data.submatches || [];
+            const commentText = (captures[0]?.match?.text || '').trim();
+
+            if (!filePath || !lineNumber) {
+              continue;
+            }
+
+            if (linkedIssuePattern.test(lineText)) {
+              continue;
+            }
+
+            const normalizedText = commentText
+              .replace(/\s+/g, ' ')
+              .trim()
+              .toLowerCase();
+
+            if (!normalizedText) {
+              continue;
+            }
+
+            const locationKey = `${filePath}:${lineNumber}:${normalizedText}`;
+            const locationHash = crypto.createHash('sha256').update(locationKey).digest('hex');
+
+            matches.push({
+              filePath,
+              lineNumber,
+              lineText: lineText.trimEnd(),
+              commentText,
+              normalizedText,
+              locationKey,
+              locationHash,
+              markerMode: includeAll ? 'all' : 'opt-in',
+            });
+          }
+
+          fs.writeFileSync('todo-matches.json', JSON.stringify(matches, null, 2));
+          console.log(`Parsed ${matches.length} TODO marker(s).`);
+          NODE
+
+          MATCH_COUNT="$(node -e "console.log(JSON.parse(require('fs').readFileSync('todo-matches.json','utf8')).length)")"
+          echo "match_count=$MATCH_COUNT" >> "$GITHUB_OUTPUT"
+
+      - name: Upload scan results
+        if: steps.kill_switch.outputs.enabled == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: code-todo-scan-${{ inputs.branch }}
+          path: todo-matches.json
+          if-no-files-found: ignore
+
+      - name: Create or close issues from scan results
+        if: steps.kill_switch.outputs.enabled == 'true'
+        uses: actions/github-script@v9
+        env:
+          BRANCH: ${{ inputs.branch }}
+          DRY_RUN: ${{ inputs.dry_run }}
+          MAX_ISSUES: ${{ inputs.max_issues }}
+          GROUP_DUPLICATES: ${{ inputs.group_duplicates }}
+          CLOSE_STALE: ${{ inputs.close_stale }}
+          INCLUDE_ALL_MARKERS: ${{ inputs.include_all_markers }}
+        with:
+          script: |
+            const fs = require('fs');
+            const crypto = require('crypto');
+
+            const { owner, repo } = context.repo;
+            const branch = process.env.BRANCH || 'master';
+            const isDryRun = String(process.env.DRY_RUN) === 'true';
+            const maxIssues = Math.max(0, Number(process.env.MAX_ISSUES) || 0);
+            const groupDuplicates = String(process.env.GROUP_DUPLICATES) === 'true';
+            const closeStale = String(process.env.CLOSE_STALE) === 'true';
+            const includeAllMarkers = String(process.env.INCLUDE_ALL_MARKERS) === 'true';
+
+            const fingerprintPrefix = '<!-- code-todo-scan:key=';
+            const fingerprintSuffix = ' -->';
+
+            const defaultLabels = [
+              'todo :spiral_notepad:',
+              'backlog',
+              'version:all versions',
+            ];
+
+            const pathAreaPatterns = [
+              { pattern: /krypton\.docking/i, label: 'area:docking' },
+              { pattern: /krypton\.navigator\.utilities/i, label: 'area:navigator-utilities' },
+              { pattern: /krypton\.navigator/i, label: 'area:navigator' },
+              { pattern: /krypton\.ribbon/i, label: 'area:ribbon' },
+              { pattern: /krypton\.workspace/i, label: 'area:workspace' },
+              { pattern: /krypton\.utilities/i, label: 'area:toolkit-utilities' },
+              { pattern: /testform/i, label: 'area:test-form' },
+              { pattern: /krypton\.toolkit/i, label: 'area:toolkit' },
+              { pattern: /\.github\/workflows/i, label: 'workflows' },
+              { pattern: /(^|\/)scripts\//i, label: 'area:buildsystem' },
+            ];
+
+            function readMatches() {
+              if (!fs.existsSync('todo-matches.json')) {
+                return [];
+              }
+              const raw = fs.readFileSync('todo-matches.json', 'utf8').trim();
+              if (!raw) {
+                return [];
+              }
+              return JSON.parse(raw);
+            }
+
+            function buildFingerprint(key) {
+              return `${fingerprintPrefix}${key}${fingerprintSuffix}`;
+            }
+
+            function extractFingerprint(body) {
+              if (!body) {
+                return null;
+              }
+              const match = body.match(/<!-- code-todo-scan:key=([a-f0-9]{64}) -->/i);
+              return match ? match[1] : null;
+            }
+
+            function summarizeTitle(text) {
+              const cleaned = (text || '')
+                .replace(/\s+/g, ' ')
+                .trim();
+              if (!cleaned) {
+                return 'Untitled code ToDo';
+              }
+              return cleaned.length > 80 ? `${cleaned.slice(0, 77)}...` : cleaned;
+            }
+
+            function resolveAreaLabels(filePath) {
+              const normalized = (filePath || '').replace(/\\/g, '/');
+              const labels = [];
+              for (const entry of pathAreaPatterns) {
+                if (entry.pattern.test(normalized)) {
+                  labels.push(entry.label);
+                }
+              }
+              return labels;
+            }
+
+            function buildSourceUrl(filePath, lineNumber) {
+              const encodedPath = filePath.split('/').map(encodeURIComponent).join('/');
+              return `https://github.com/${owner}/${repo}/blob/${branch}/${encodedPath}#L${lineNumber}`;
+            }
+
+            function groupKeyForMatch(match) {
+              if (groupDuplicates) {
+                return crypto.createHash('sha256').update(match.normalizedText).digest('hex');
+              }
+              return match.locationHash;
+            }
+
+            function buildLocationKey(filePath, lineNumber) {
+              const normalizedPath = (filePath || '').replace(/\\/g, '/').trim().toLowerCase();
+              return `${normalizedPath}:${lineNumber}`;
+            }
+
+            function normalizeCodeTodoTitle(title) {
+              const prefix = '[Code ToDo]: ';
+              let text = (title || '').trim();
+              if (text.toLowerCase().startsWith(prefix.toLowerCase())) {
+                text = text.slice(prefix.length);
+              }
+              return text.replace(/\s+/g, ' ').trim().toLowerCase();
+            }
+
+            function extractLocationKeysFromBody(body) {
+              const keys = new Set();
+              if (!body) {
+                return [];
+              }
+
+              const blobPattern = /\/blob\/[^/\s]+\/(.+?)#L(\d+)/gi;
+              let match;
+              while ((match = blobPattern.exec(body)) !== null) {
+                keys.add(buildLocationKey(decodeURIComponent(match[1]), Number(match[2])));
+              }
+
+              const tablePattern = /\|\s*`([^`]+)`\s*\|\s*(\d+)\s*\|/g;
+              while ((match = tablePattern.exec(body)) !== null) {
+                keys.add(buildLocationKey(match[1], Number(match[2])));
+              }
+
+              const plainPattern = /^([^\s|:]+):(\d+)\s*$/gm;
+              while ((match = plainPattern.exec(body)) !== null) {
+                keys.add(buildLocationKey(match[1], Number(match[2])));
+              }
+
+              const inlinePattern = /([A-Za-z0-9_./ -]+\.(?:cs|yml|yaml|md|ps1|cmd)):(\d+)/g;
+              while ((match = inlinePattern.exec(body)) !== null) {
+                keys.add(buildLocationKey(match[1], Number(match[2])));
+              }
+
+              return [...keys];
+            }
+
+            function toIssueInfo(issue) {
+              return {
+                number: issue.number,
+                state: issue.state,
+                title: issue.title,
+              };
+            }
+
+            async function buildDedupIndex() {
+              const byFingerprint = new Map();
+              const byTitle = new Map();
+              const byLocation = new Map();
+              const seenIssueNumbers = new Set();
+
+              function ingestIssue(issue) {
+                if (issue.pull_request || seenIssueNumbers.has(issue.number)) {
+                  return;
+                }
+
+                seenIssueNumbers.add(issue.number);
+                const issueInfo = toIssueInfo(issue);
+
+                const fingerprint = extractFingerprint(issue.body);
+                if (fingerprint) {
+                  byFingerprint.set(fingerprint, issueInfo);
+                }
+
+                const normalizedTitle = normalizeCodeTodoTitle(issue.title);
+                if (normalizedTitle) {
+                  if (!byTitle.has(normalizedTitle)) {
+                    byTitle.set(normalizedTitle, []);
+                  }
+                  byTitle.get(normalizedTitle).push(issueInfo);
+                }
+
+                for (const locationKey of extractLocationKeysFromBody(issue.body)) {
+                  if (!byLocation.has(locationKey)) {
+                    byLocation.set(locationKey, []);
+                  }
+                  byLocation.get(locationKey).push(issueInfo);
+                }
+              }
+
+              let page = 1;
+              while (true) {
+                const { data } = await github.rest.issues.listForRepo({
+                  owner,
+                  repo,
+                  labels: 'todo :spiral_notepad:',
+                  state: 'all',
+                  per_page: 100,
+                  page,
+                });
+
+                for (const issue of data) {
+                  ingestIssue(issue);
+                }
+
+                if (data.length < 100) {
+                  break;
+                }
+                page += 1;
+              }
+
+              page = 1;
+              while (true) {
+                const { data } = await github.rest.search.issuesAndPullRequests({
+                  q: `repo:${owner}/${repo} is:issue "[Code ToDo]:" in:title`,
+                  per_page: 100,
+                  page,
+                });
+
+                for (const issue of data.items || []) {
+                  try {
+                    const { data: fullIssue } = await github.rest.issues.get({
+                      owner,
+                      repo,
+                      issue_number: issue.number,
+                    });
+                    ingestIssue(fullIssue);
+                  } catch (error) {
+                    console.warn(`Could not load issue #${issue.number} for dedup index: ${error.message}`);
+                  }
+                }
+
+                if (!data.items || data.items.length < 100) {
+                  break;
+                }
+                page += 1;
+              }
+
+              return { byFingerprint, byTitle, byLocation };
+            }
+
+            function findDuplicate(group, title, dedupIndex) {
+              const fingerprintMatch = dedupIndex.byFingerprint.get(group.key);
+              if (fingerprintMatch) {
+                return { reason: 'fingerprint', issue: fingerprintMatch };
+              }
+
+              const normalizedTitle = normalizeCodeTodoTitle(title);
+              const titleMatches = dedupIndex.byTitle.get(normalizedTitle) || [];
+              if (titleMatches.length > 0) {
+                return { reason: 'title', issue: titleMatches[0] };
+              }
+
+              for (const location of group.locations) {
+                const locationKey = buildLocationKey(location.filePath, location.lineNumber);
+                const locationMatches = dedupIndex.byLocation.get(locationKey) || [];
+                if (locationMatches.length > 0) {
+                  return { reason: 'source location', issue: locationMatches[0], locationKey };
+                }
+              }
+
+              return null;
+            }
+
+            async function listTrackedIssues() {
+              const tracked = new Map();
+              let page = 1;
+              while (true) {
+                const { data } = await github.rest.issues.listForRepo({
+                  owner,
+                  repo,
+                  labels: 'todo :spiral_notepad:',
+                  state: 'all',
+                  per_page: 100,
+                  page,
+                });
+
+                for (const issue of data) {
+                  if (issue.pull_request) {
+                    continue;
+                  }
+                  const fingerprint = extractFingerprint(issue.body);
+                  if (fingerprint) {
+                    tracked.set(fingerprint, {
+                      number: issue.number,
+                      state: issue.state,
+                      title: issue.title,
+                    });
+                  }
+                }
+
+                if (data.length < 100) {
+                  break;
+                }
+                page += 1;
+              }
+              return tracked;
+            }
+
+            const matches = readMatches();
+            console.log(`Loaded ${matches.length} match(es) from scan (group_duplicates=${groupDuplicates}, include_all_markers=${includeAllMarkers}).`);
+
+            const grouped = new Map();
+            for (const match of matches) {
+              const key = groupKeyForMatch(match);
+              if (!grouped.has(key)) {
+                grouped.set(key, {
+                  key,
+                  commentText: match.commentText,
+                  normalizedText: match.normalizedText,
+                  locations: [],
+                });
+              }
+              grouped.get(key).locations.push(match);
+            }
+
+            const dedupIndex = await buildDedupIndex();
+            console.log(
+              `Dedup index: ${dedupIndex.byFingerprint.size} fingerprint(s), ` +
+              `${dedupIndex.byTitle.size} title(s), ${dedupIndex.byLocation.size} source location(s).`
+            );
+
+            const trackedIssues = await listTrackedIssues();
+            console.log(`Found ${trackedIssues.size} fingerprint-tracked issue(s) for stale closure.`);
+
+            const activeFingerprints = new Set(grouped.keys());
+            let createdCount = 0;
+            let skippedFingerprint = 0;
+            let skippedTitle = 0;
+            let skippedLocation = 0;
+            let skippedLimit = 0;
+
+            for (const group of grouped.values()) {
+              const title = `[Code ToDo]: ${summarizeTitle(group.commentText)}`;
+              const duplicate = findDuplicate(group, title, dedupIndex);
+              if (duplicate) {
+                if (duplicate.reason === 'fingerprint') {
+                  skippedFingerprint += 1;
+                } else if (duplicate.reason === 'title') {
+                  skippedTitle += 1;
+                } else {
+                  skippedLocation += 1;
+                }
+
+                const locationSuffix = duplicate.locationKey ? ` at ${duplicate.locationKey}` : '';
+                console.log(
+                  `Skipping existing issue #${duplicate.issue.number} (${duplicate.reason}${locationSuffix}) for "${title}".`
+                );
+                continue;
+              }
+
+              if (createdCount >= maxIssues) {
+                skippedLimit += 1;
+                continue;
+              }
+
+              const areaLabels = new Set();
+              for (const location of group.locations) {
+                for (const label of resolveAreaLabels(location.filePath)) {
+                  areaLabels.add(label);
+                }
+              }
+
+              const locationLines = group.locations
+                .sort((a, b) => a.filePath.localeCompare(b.filePath) || a.lineNumber - b.lineNumber)
+                .map(location => {
+                  const url = buildSourceUrl(location.filePath, location.lineNumber);
+                  return `| \`${location.filePath}\` | ${location.lineNumber} | [View source](${url}) |`;
+                });
+
+              const body = [
+                '### Summary',
+                '',
+                group.commentText || '_No comment text captured._',
+                '',
+                '### Source',
+                '',
+                '| File | Line | Link |',
+                '| --- | ---: | --- |',
+                ...locationLines,
+                '',
+                '### Scan metadata',
+                '',
+                `- Branch: \`${branch}\``,
+                `- Marker mode: ${includeAllMarkers ? 'all markers (TODO/ToDo/FIXME/HACK)' : 'opt-in marker only'}`,
+                `- Locations in this issue: ${group.locations.length}`,
+                `- Created by: [Scan code TODOs workflow](https://github.com/${owner}/${repo}/actions/workflows/scan-code-todos.yml)`,
+                '',
+                buildFingerprint(group.key),
+              ].join('\n');
+
+              const labels = [...new Set([...defaultLabels, ...areaLabels])];
+              console.log(`${isDryRun ? '[dry-run] Would create' : 'Creating'} issue: ${title}`);
+              console.log(`Labels: ${labels.join(', ')}`);
+
+              if (!isDryRun) {
+                await github.rest.issues.create({
+                  owner,
+                  repo,
+                  title,
+                  body,
+                  labels,
+                });
+              }
+
+              createdCount += 1;
+            }
+
+            let closedCount = 0;
+            if (closeStale) {
+              for (const [fingerprint, issue] of trackedIssues.entries()) {
+                if (issue.state !== 'open') {
+                  continue;
+                }
+                if (activeFingerprints.has(fingerprint)) {
+                  continue;
+                }
+
+                console.log(`${isDryRun ? '[dry-run] Would close' : 'Closing'} stale issue #${issue.number} (${issue.title}).`);
+                if (!isDryRun) {
+                  await github.rest.issues.update({
+                    owner,
+                    repo,
+                    issue_number: issue.number,
+                    state: 'closed',
+                    state_reason: 'not_planned',
+                  });
+
+                  await github.rest.issues.createComment({
+                    owner,
+                    repo,
+                    issue_number: issue.number,
+                    body: [
+                      'Closing as stale: the inline code comment tracked by this issue was not found during the latest scan.',
+                      '',
+                      `- Branch scanned: \`${branch}\``,
+                      `- Workflow run: ${context.payload.repository.html_url}/actions/runs/${context.runId}`,
+                    ].join('\n'),
+                  });
+                }
+
+                closedCount += 1;
+              }
+            }
+
+            core.summary
+              .addHeading('Code TODO scan summary')
+              .addTable([
+                [{ data: 'Metric', header: true }, { data: 'Count', header: true }],
+                [{ data: 'Matches scanned' }, { data: String(matches.length) }],
+                [{ data: 'Grouped candidates' }, { data: String(grouped.size) }],
+                [{ data: 'Issues created' }, { data: String(createdCount) }],
+                [{ data: 'Skipped (fingerprint)' }, { data: String(skippedFingerprint) }],
+                [{ data: 'Skipped (title)' }, { data: String(skippedTitle) }],
+                [{ data: 'Skipped (source location)' }, { data: String(skippedLocation) }],
+                [{ data: 'Skipped (max_issues limit)' }, { data: String(skippedLimit) }],
+                [{ data: 'Stale issues closed' }, { data: String(closedCount) }],
+                [{ data: 'Dry run' }, { data: String(isDryRun) }],
+              ])
+              .write();
+
+            if (skippedLimit > 0) {
+              core.warning(`${skippedLimit} candidate(s) were not created because max_issues=${maxIssues}. Increase max_issues or run again.`);
+            }
