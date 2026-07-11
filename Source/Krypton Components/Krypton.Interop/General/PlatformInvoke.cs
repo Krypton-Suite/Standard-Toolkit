@@ -3589,8 +3589,8 @@ No 	                    No 	                    Show text only
 
     private static string GetStringFromNativeBuffer(Func<char[], int, int> fill, int initialCapacity = 256)
     {
-        int capacity = initialCapacity;
-        while (capacity <= NativeStringBufferMax)
+        int capacity = Math.Max(initialCapacity, 1);
+        while (true)
         {
             char[] buffer = new char[capacity];
             int length = fill(buffer, capacity);
@@ -3604,10 +3604,14 @@ No 	                    No 	                    Show text only
                 return new string(buffer, 0, length);
             }
 
-            capacity <<= 1;
-        }
+            if (capacity >= NativeStringBufferMax)
+            {
+                // Win32 still reports a full buffer at the cap — return the truncated text rather than dropping it.
+                return new string(buffer, 0, length);
+            }
 
-        return string.Empty;
+            capacity = Math.Min(capacity << 1, NativeStringBufferMax);
+        }
     }
 
     private static int CopyNativeStringToStringBuilder(char[] buffer, int length, StringBuilder destination)
