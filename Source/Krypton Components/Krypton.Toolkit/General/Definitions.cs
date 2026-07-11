@@ -1572,6 +1572,49 @@ public enum ButtonStyle
 }
 #endregion
 
+#region Enum ToggleSwitchKnobStyle
+/// <summary>
+/// Specifies the visual style used to render a <see cref="KryptonToggleSwitch"/> knob.
+/// </summary>
+public enum ToggleSwitchKnobStyle
+{
+    /// <summary>
+    /// Specifies a diagonal gradient ellipse with a border.
+    /// </summary>
+    Classic,
+
+    /// <summary>
+    /// Specifies a linear gradient ellipse with configurable direction and intensity.
+    /// </summary>
+    Gradient,
+
+    /// <summary>
+    /// Specifies a solid ellipse with a border.
+    /// </summary>
+    Flat,
+
+    /// <summary>
+    /// Specifies a radial gradient ellipse.
+    /// </summary>
+    Radial,
+
+    /// <summary>
+    /// Specifies a thick ring with a hollow centre.
+    /// </summary>
+    Ring,
+
+    /// <summary>
+    /// Specifies an ellipse with bevelled highlight and shadow arcs.
+    /// </summary>
+    Bevel,
+
+    /// <summary>
+    /// Specifies a rounded-square knob.
+    /// </summary>
+    RoundedSquare
+}
+#endregion
+
 #region Enum InputControlStyle
 /// <summary>
 /// Specifies the input control style.

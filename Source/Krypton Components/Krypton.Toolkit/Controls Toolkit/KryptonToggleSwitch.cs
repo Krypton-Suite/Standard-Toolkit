@@ -157,13 +157,13 @@ public class KryptonToggleSwitch : Control, IContentValues
 
         _knobSize = 20;
         _padding = 4;
-        Size = new Size(90, _knobSize + _padding * 2);
 
         _animationTimer = new Timer { Interval = 15 };
-
         _animationTimer.Tick += OnAnimationTimerTick;
 
         ToggleSwitchValues = new ToggleSwitchValues { OffColor = Color.Red, OnColor = Color.Green };
+
+        Size = new Size(90, _knobSize + _padding * 2);
 
         // Cache the current global palette setting
         _palette = KryptonManager.CurrentGlobalPalette;
@@ -190,6 +190,7 @@ public class KryptonToggleSwitch : Control, IContentValues
         //StateCommon.SetRedirector();
 
         ResetToggleSwitchValues();
+        UpdateAnimationStateFromChecked();
     }
 
     #endregion
@@ -339,7 +340,7 @@ public class KryptonToggleSwitch : Control, IContentValues
     {
         base.OnResize(e);
 
-        using (GraphicsPath roundedPath = GetRoundedRectanglePath(ClientRectangle, /*ToggleSwitchValues.CornerRadius*/ 10))
+        using (GraphicsPath roundedPath = GetRoundedRectanglePath(ClientRectangle, ToggleSwitchValues.CornerRadius))
         {
             Region = new Region(roundedPath);
         }
@@ -347,6 +348,11 @@ public class KryptonToggleSwitch : Control, IContentValues
         _knobSize = Math.Max(10, Math.Min(Height - _padding * 2, Width / 3));
             
         _padding = Math.Max(2, Height / 8);
+
+        if (_animationTimer != null && !_animationTimer.Enabled && !_isDragging)
+        {
+            UpdateAnimationStateFromChecked();
+        }
 
         Invalidate();
     }
@@ -363,6 +369,11 @@ public class KryptonToggleSwitch : Control, IContentValues
         // Ensure elements scale properly
         _knobSize = Math.Max(10, Math.Min(Height - _padding * 2, Width / 3));
         _padding = Math.Max(2, Height / 8);
+
+        if (_animationTimer != null && !_animationTimer.Enabled && !_isDragging)
+        {
+            UpdateAnimationStateFromChecked();
+        }
 
         Invalidate(); // Force redraw
     }
@@ -401,8 +412,21 @@ public class KryptonToggleSwitch : Control, IContentValues
     /// <summary>Starts the animation.</summary>
     private void StartAnimation()
     {
-        _animationPosition = ToggleSwitchValues.Checked ? _padding : Width - _knobSize - _padding;
+        _animationPosition = ToggleSwitchValues.Checked ? GetOffPosition() : GetOnPosition();
+        _gradientAnimationProgress = ToggleSwitchValues.Checked ? 0f : 1f;
         _animationTimer.Start();
+    }
+
+    private float GetOffPosition() => _padding;
+
+    private float GetOnPosition() => Math.Max(_padding, Width - _knobSize - _padding);
+
+    private float GetTargetPosition() => ToggleSwitchValues.Checked ? GetOnPosition() : GetOffPosition();
+
+    private void UpdateAnimationStateFromChecked()
+    {
+        _animationPosition = GetTargetPosition();
+        _gradientAnimationProgress = ToggleSwitchValues.Checked ? 1f : 0f;
     }
 
     /// <summary>Gets the state of the current.</summary>
@@ -423,9 +447,14 @@ public class KryptonToggleSwitch : Control, IContentValues
     private RectangleF GetKnobRectangle()
     {
         float knobDiameter = _knobSize;
+        float x = _animationPosition > 0f ? _animationPosition : GetTargetPosition();
 
-        // Adjust x-position based on RTL
-        float x = ToggleSwitchValues.Checked ? Width - knobDiameter - _padding : _padding;
+        x = Math.Max(GetOffPosition(), Math.Min(GetOnPosition(), x));
+
+        if (RightToLeft == RightToLeft.Yes)
+        {
+            x = Width - knobDiameter - x;
+        }
 
         float y = (Height - knobDiameter) / 2f;
 
@@ -471,6 +500,21 @@ public class KryptonToggleSwitch : Control, IContentValues
         return path;
     }
 
+    private GraphicsPath GetRoundedRectangle(RectangleF bounds, float radius)
+    {
+        radius = Math.Max(1f, Math.Min(radius, Math.Min(bounds.Width, bounds.Height) / 2f));
+        float diameter = radius * 2f;
+        GraphicsPath path = new GraphicsPath();
+
+        path.AddArc(bounds.X, bounds.Y, diameter, diameter, 180, 90);
+        path.AddArc(bounds.Right - diameter, bounds.Y, diameter, diameter, 270, 90);
+        path.AddArc(bounds.Right - diameter, bounds.Bottom - diameter, diameter, diameter, 0, 90);
+        path.AddArc(bounds.X, bounds.Bottom - diameter, diameter, diameter, 90, 90);
+        path.CloseFigure();
+
+        return path;
+    }
+
     /// <summary>Adjusts the brightness.</summary>
     /// <param name="color">The color.</param>
     /// <param name="factor">The factor.</param>
@@ -482,6 +526,30 @@ public class KryptonToggleSwitch : Control, IContentValues
 
         return Color.FromArgb(color.A, Math.Min(r, 255), Math.Min(g, 255), Math.Min(b, 255));
     }
+
+    private Color GetLightColor(Color color, float factor) => AdjustBrightness(color, 1f + factor);
+
+    private Color GetDarkColor(Color color, float factor) => AdjustBrightness(color, 1f - factor);
+
+    private static Color LightenColor(Color color, byte amount)
+    {
+        int r = Math.Min(255, color.R + amount);
+        int g = Math.Min(255, color.G + amount);
+        int b = Math.Min(255, color.B + amount);
+
+        return Color.FromArgb(color.A, r, g, b);
+    }
+
+    private static Color DarkenColor(Color color, byte amount)
+    {
+        int r = Math.Max(0, color.R - amount);
+        int g = Math.Max(0, color.G - amount);
+        int b = Math.Max(0, color.B - amount);
+
+        return Color.FromArgb(color.A, r, g, b);
+    }
+
+    private float GetKnobHighlightPenWidth() => Math.Max(1.25f, Math.Min(_knob.Width, _knob.Height) * 0.09f);
 
     /// <summary>Adjusts for border.</summary>
     /// <param name="bounds">The bounds.</param>
@@ -539,54 +607,254 @@ public class KryptonToggleSwitch : Control, IContentValues
     private void DrawKnob(Graphics graphics, IPaletteTriple state)
     {
         _knob = GetKnobRectangle();
+        ResolveKnobColors(state, out Color faceColor1, out Color faceColor2, out Color borderColor, out Color trackColor);
 
-        if (ToggleSwitchValues.EnableKnobGradient)
+        switch (ToggleSwitchValues.KnobStyle)
         {
-            Color startColor, endColor;
+            case ToggleSwitchKnobStyle.Gradient:
+                DrawGradientKnob(graphics, faceColor1, faceColor2, borderColor);
+                break;
+            case ToggleSwitchKnobStyle.Flat:
+                DrawFlatKnob(graphics, faceColor1, borderColor);
+                break;
+            case ToggleSwitchKnobStyle.Radial:
+                DrawRadialKnob(graphics, faceColor1, faceColor2, borderColor);
+                break;
+            case ToggleSwitchKnobStyle.Ring:
+                DrawRingKnob(graphics, faceColor1, faceColor2, borderColor, trackColor);
+                break;
+            case ToggleSwitchKnobStyle.Bevel:
+                DrawBevelKnob(graphics, faceColor1, faceColor2, borderColor);
+                break;
+            case ToggleSwitchKnobStyle.RoundedSquare:
+                DrawRoundedSquareKnob(graphics, faceColor1, faceColor2, borderColor);
+                break;
+            default:
+                DrawClassicKnob(graphics, faceColor1, faceColor2);
+                break;
+        }
+    }
 
-            if (ToggleSwitchValues.UseThemeColors && KryptonManager.CurrentGlobalPalette != null)
+    private bool UseCustomKnobColors() =>
+        !ToggleSwitchValues.UseThemeColors || ToggleSwitchValues.OnlyShowColorOnKnob;
+
+    private void ResolveKnobColors(IPaletteTriple state, out Color faceColor1, out Color faceColor2, out Color borderColor, out Color trackColor)
+    {
+        float progress = ToggleSwitchValues.AnimateGradientEffect ? _gradientAnimationProgress : ToggleSwitchValues.Checked ? 1f : 0f;
+        bool useGradient = ToggleSwitchValues.EnableKnobGradient || ToggleSwitchValues.KnobStyle == ToggleSwitchKnobStyle.Gradient;
+
+        if (useGradient)
+        {
+            if (UseCustomKnobColors())
             {
-                // Get colors from the current theme
+                Color offStart = DarkenColor(ToggleSwitchValues.OffColor, 30);
+                Color onStart = DarkenColor(ToggleSwitchValues.OnColor, 30);
+                faceColor1 = InterpolateColor(offStart, onStart, progress);
+                faceColor2 = InterpolateColor(ToggleSwitchValues.OffColor, ToggleSwitchValues.OnColor, progress);
+            }
+            else if (ToggleSwitchValues.UseThemeColors && KryptonManager.CurrentGlobalPalette != null)
+            {
                 Color themeStartChecked = KryptonManager.CurrentGlobalPalette.GetContentShortTextColor1(PaletteContentStyle.ButtonStandalone, PaletteState.CheckedNormal);
                 Color themeEndChecked = KryptonManager.CurrentGlobalPalette.GetContentShortTextColor2(PaletteContentStyle.ButtonStandalone, PaletteState.CheckedNormal);
                 Color themeStartNormal = KryptonManager.CurrentGlobalPalette.GetContentShortTextColor1(PaletteContentStyle.ButtonStandalone, PaletteState.Normal);
                 Color themeEndNormal = KryptonManager.CurrentGlobalPalette.GetContentShortTextColor2(PaletteContentStyle.ButtonStandalone, PaletteState.Normal);
 
-                // Interpolate between the "Off" and "On" colors
-                startColor = InterpolateColor(themeStartNormal, themeStartChecked, _gradientAnimationProgress);
-                endColor = InterpolateColor(themeEndNormal, themeEndChecked, _gradientAnimationProgress);
+                faceColor1 = InterpolateColor(themeStartNormal, themeStartChecked, progress);
+                faceColor2 = InterpolateColor(themeEndNormal, themeEndChecked, progress);
             }
             else
             {
-                // Default: Smoothly transition between red and green
-                startColor = InterpolateColor(Color.DarkRed, Color.LimeGreen, _gradientAnimationProgress);
-                endColor = InterpolateColor(Color.Red, Color.Green, _gradientAnimationProgress);
+                Color offStart = DarkenColor(ToggleSwitchValues.OffColor, 30);
+                Color onStart = DarkenColor(ToggleSwitchValues.OnColor, 30);
+                faceColor1 = InterpolateColor(offStart, onStart, progress);
+                faceColor2 = InterpolateColor(ToggleSwitchValues.OffColor, ToggleSwitchValues.OnColor, progress);
             }
 
-            using (LinearGradientBrush knobBrush = new LinearGradientBrush(_knob, startColor, endColor, ToggleSwitchValues.GradientDirection))
+            faceColor1 = ApplyGradientIntensity(faceColor1, ToggleSwitchValues.GradientStartIntensity);
+            faceColor2 = ApplyGradientIntensity(faceColor2, ToggleSwitchValues.GradientEndIntensity);
+        }
+        else
+        {
+            faceColor1 = ResolveSolidKnobColor(state);
+            faceColor2 = AdjustBrightness(faceColor1, 0.8f);
+        }
+
+        borderColor = state.PaletteBorder!.GetBorderColor1(PaletteState.Normal);
+        trackColor = state.PaletteBack.GetBackColor1(PaletteState.Normal);
+    }
+
+    private static Color ApplyGradientIntensity(Color color, float intensity)
+    {
+        intensity = Math.Max(0f, Math.Min(2f, intensity));
+
+        return Color.FromArgb(
+            color.A,
+            (int)Math.Min(255, color.R * intensity),
+            (int)Math.Min(255, color.G * intensity),
+            (int)Math.Min(255, color.B * intensity));
+    }
+
+    private bool UsesKnobGradient() =>
+        ToggleSwitchValues.EnableKnobGradient || ToggleSwitchValues.KnobStyle == ToggleSwitchKnobStyle.Gradient;
+
+    private Color ResolveSolidKnobColor(IPaletteTriple state)
+    {
+        if (!UseCustomKnobColors() && ToggleSwitchValues.UseThemeColors && KryptonManager.CurrentGlobalPalette != null)
+        {
+            return ToggleSwitchValues.Checked ? state.PaletteBack.GetBackColor1(PaletteState.Pressed)
+                : _isTracking
+                    ? state.PaletteBack.GetBackColor1(PaletteState.Tracking)
+                    : state.PaletteBack.GetBackColor2(PaletteState.Normal);
+        }
+
+        return ToggleSwitchValues.Checked ? ToggleSwitchValues.OnColor : ToggleSwitchValues.OffColor;
+    }
+
+    private void DrawClassicKnob(Graphics graphics, Color faceColor1, Color faceColor2)
+    {
+        if (UsesKnobGradient())
+        {
+            DrawGradientKnob(graphics, faceColor1, faceColor2, Color.Empty, drawBorder: false);
+        }
+        else
+        {
+            using (SolidBrush knobBrush = new SolidBrush(faceColor1))
             {
                 graphics.FillEllipse(knobBrush, _knob);
             }
         }
-        else
+    }
+
+    private void DrawGradientKnob(Graphics graphics, Color faceColor1, Color faceColor2, Color borderColor, bool drawBorder = true)
+    {
+        using (LinearGradientBrush knobBrush = new LinearGradientBrush(_knob, faceColor1, faceColor2, ToggleSwitchValues.GradientDirection))
         {
-            Color knobColor;
-            if (ToggleSwitchValues.UseThemeColors && KryptonManager.CurrentGlobalPalette != null && !ToggleSwitchValues.OnlyShowColorOnKnob)
+            graphics.FillEllipse(knobBrush, _knob);
+        }
+
+        if (drawBorder)
+        {
+            using (Pen borderPen = new Pen(borderColor))
             {
-                knobColor = ToggleSwitchValues.Checked ? state.PaletteBack.GetBackColor1(PaletteState.Pressed)
-                    : _isTracking
-                        ? state.PaletteBack.GetBackColor1(PaletteState.Tracking)
-                        : state.PaletteBack.GetBackColor2(PaletteState.Normal);
+                graphics.DrawEllipse(borderPen, _knob.X, _knob.Y, _knob.Width, _knob.Height);
+            }
+        }
+    }
+
+    private void DrawFlatKnob(Graphics graphics, Color faceColor, Color borderColor)
+    {
+        using (SolidBrush knobBrush = new SolidBrush(faceColor))
+        using (Pen borderPen = new Pen(borderColor))
+        {
+            graphics.FillEllipse(knobBrush, _knob);
+            graphics.DrawEllipse(borderPen, _knob.X, _knob.Y, _knob.Width, _knob.Height);
+        }
+    }
+
+    private void DrawRadialKnob(Graphics graphics, Color faceColor1, Color faceColor2, Color borderColor)
+    {
+        Color centerColor = LightenColor(faceColor1, 42);
+        Color surroundColor = DarkenColor(faceColor2, 48);
+
+        PointF centerPoint = new PointF(
+            _knob.X + _knob.Width * 0.42f,
+            _knob.Y + _knob.Height * 0.38f);
+
+        using (GraphicsPath path = new GraphicsPath())
+        {
+            path.AddEllipse(_knob);
+
+            using (PathGradientBrush knobBrush = new PathGradientBrush(path))
+            using (Pen borderPen = new Pen(borderColor))
+            {
+                knobBrush.CenterColor = centerColor;
+                knobBrush.SurroundColors = new[] { surroundColor };
+                knobBrush.CenterPoint = centerPoint;
+                knobBrush.FocusScales = new PointF(0.35f, 0.35f);
+
+                graphics.FillPath(knobBrush, path);
+                graphics.DrawEllipse(borderPen, _knob.X, _knob.Y, _knob.Width, _knob.Height);
+            }
+        }
+    }
+
+    private void DrawRingKnob(Graphics graphics, Color faceColor1, Color faceColor2, Color borderColor, Color trackColor)
+    {
+        DrawClassicKnob(graphics, faceColor1, faceColor2);
+
+        float inset = Math.Max(3f, Math.Min(_knob.Width, _knob.Height) * 0.28f);
+        RectangleF innerRectangle = RectangleF.Inflate(_knob, -inset, -inset);
+
+        using (Pen borderPen = new Pen(borderColor))
+        using (SolidBrush innerBrush = new SolidBrush(trackColor))
+        using (Pen innerBorderPen = new Pen(GetDarkColor(borderColor, 0.25f)))
+        {
+            graphics.DrawEllipse(borderPen, _knob.X, _knob.Y, _knob.Width, _knob.Height);
+            graphics.FillEllipse(innerBrush, innerRectangle);
+            graphics.DrawEllipse(innerBorderPen, innerRectangle.X, innerRectangle.Y, innerRectangle.Width, innerRectangle.Height);
+        }
+    }
+
+    private void DrawBevelKnob(Graphics graphics, Color faceColor1, Color faceColor2, Color borderColor)
+    {
+        Color gradientEnd = UsesKnobGradient() ? faceColor2 : DarkenColor(faceColor1, 22);
+
+        using (LinearGradientBrush faceBrush = new LinearGradientBrush(_knob, faceColor1, gradientEnd, ToggleSwitchValues.GradientDirection))
+        {
+            graphics.FillEllipse(faceBrush, _knob);
+        }
+
+        float penWidth = GetKnobHighlightPenWidth();
+
+        using (Pen lightPen = new Pen(LightenColor(faceColor1, 60), penWidth))
+        using (Pen darkPen = new Pen(DarkenColor(faceColor1, 60), penWidth))
+        using (Pen borderPen = new Pen(borderColor))
+        {
+            lightPen.StartCap = LineCap.Round;
+            lightPen.EndCap = LineCap.Round;
+            darkPen.StartCap = LineCap.Round;
+            darkPen.EndCap = LineCap.Round;
+
+            for (int i = 0; i <= 2; i++)
+            {
+                float inset = i * (penWidth * 0.35f);
+                RectangleF arcRectangle = new RectangleF(
+                    _knob.X + inset,
+                    _knob.Y + inset,
+                    _knob.Width - inset * 2f,
+                    _knob.Height - inset * 2f);
+
+                graphics.DrawArc(lightPen, arcRectangle, -50, 165);
+                graphics.DrawArc(darkPen, arcRectangle, 130, 165);
+            }
+
+            graphics.DrawEllipse(borderPen, _knob.X, _knob.Y, _knob.Width, _knob.Height);
+        }
+    }
+
+    private void DrawRoundedSquareKnob(Graphics graphics, Color faceColor1, Color faceColor2, Color borderColor)
+    {
+        float radius = Math.Max(3f, Math.Min(_knob.Width, _knob.Height) * 0.25f);
+
+        using (GraphicsPath knobPath = GetRoundedRectangle(_knob, radius))
+        using (Pen borderPen = new Pen(borderColor))
+        {
+            if (UsesKnobGradient())
+            {
+                using (LinearGradientBrush knobBrush = new LinearGradientBrush(_knob, faceColor1, faceColor2, ToggleSwitchValues.GradientDirection))
+                {
+                    graphics.FillPath(knobBrush, knobPath);
+                }
             }
             else
             {
-                knobColor = ToggleSwitchValues.Checked ? ToggleSwitchValues.OnColor : ToggleSwitchValues.OffColor;
+                using (SolidBrush knobBrush = new SolidBrush(faceColor1))
+                {
+                    graphics.FillPath(knobBrush, knobPath);
+                }
             }
 
-            using (SolidBrush knobBrush = new SolidBrush(knobColor))
-            {
-                graphics.FillEllipse(knobBrush, _knob);
-            }
+            graphics.DrawPath(borderPen, knobPath);
         }
     }
 
@@ -704,20 +972,23 @@ public class KryptonToggleSwitch : Control, IContentValues
     /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
     private void OnAnimationTimerTick(object? sender, EventArgs e)
     {
-        // Determine the correct position for animation
-        float targetPosition = ToggleSwitchValues.Checked ? Width - _knobSize - _padding : _padding;
+        float targetPosition = GetTargetPosition();
 
         float step = 0.1f; // Adjust for smoothness
 
         _animationPosition = Lerp(_animationPosition, targetPosition, step);
+        _gradientAnimationProgress = GetOnPosition() == GetOffPosition()
+            ? (ToggleSwitchValues.Checked ? 1f : 0f)
+            : Math.Max(0f, Math.Min(1f, (_animationPosition - GetOffPosition()) / (GetOnPosition() - GetOffPosition())));
 
         if (Math.Abs(_animationPosition - targetPosition) < 0.5f)
         {
             _animationPosition = targetPosition;
+            _gradientAnimationProgress = ToggleSwitchValues.Checked ? 1f : 0f;
             _animationTimer.Stop();
         }
 
-        Invalidate(Rectangle.Ceiling(_knob));
+        Invalidate();
     }
 
     private float Lerp(float start, float end, float amount) => start + (end - start) * amount;

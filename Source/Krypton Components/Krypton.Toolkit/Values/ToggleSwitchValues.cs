@@ -30,6 +30,7 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
     private Color _offColor;
     private int _cornerRadius;
     private bool _useThemeColors;
+    private ToggleSwitchKnobStyle _knobStyle;
 
     #endregion
 
@@ -51,6 +52,7 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
         _offColor = Color.Red;
         _cornerRadius = 10;
         _useThemeColors = true;
+        _knobStyle = ToggleSwitchKnobStyle.Classic;
     }
 
     #endregion
@@ -129,7 +131,7 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
     /// <summary>Gets or sets a value indicating whether [enable knob gradient].</summary>
     /// <value><c>true</c> if [enable knob gradient]; otherwise, <c>false</c>.</value>
     [Category("Appearance")]
-    [Description("Indicates whether the knob should have a gradient effect.")]
+    [Description("Indicates whether the knob should have a gradient effect. Also applies to Classic, Bevel, Ring, and RoundedSquare styles.")]
     [DefaultValue(false)]
     public bool EnableKnobGradient
     {
@@ -146,7 +148,7 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
 
     /// <summary>Gets or sets a value indicating whether [show color only on knob].</summary>
     [Category("Appearance")]
-    [Description("Indicates whether the color should be only shown on the knob.")]
+    [Description("When true, OnColor and OffColor are applied to the knob even if UseThemeColors is enabled.")]
     [DefaultValue(true)]
     public bool OnlyShowColorOnKnob
     {
@@ -181,7 +183,7 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
     /// <summary>Gets or sets the gradient start intensity.</summary>
     /// <value>The gradient start intensity.</value>
     [Category("Appearance")]
-    [Description("Specifies the gradient intensity for the knob.")]
+    [Description("Specifies the gradient intensity applied to the start color of the knob gradient.")]
     [DefaultValue(0.8f)]
     public float GradientStartIntensity
     {
@@ -199,7 +201,7 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
     /// <summary>Gets or sets the gradient end intensity.</summary>
     /// <value>The gradient end intensity.</value>
     [Category("Appearance")]
-    [Description("Specifies the gradient intensity for the knob.")]
+    [Description("Specifies the gradient intensity applied to the end color of the knob gradient.")]
     [DefaultValue(0.6f)]
     public float GradientEndIntensity
     {
@@ -310,6 +312,23 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
         }
     }
 
+    /// <summary>Gets or sets the visual style used to render the switch knob.</summary>
+    [Category("Appearance")]
+    [Description("Specifies the visual style used to render the switch knob.")]
+    [DefaultValue(ToggleSwitchKnobStyle.Classic)]
+    public ToggleSwitchKnobStyle KnobStyle
+    {
+        get => _knobStyle;
+        set
+        {
+            if (_knobStyle != value)
+            {
+                _knobStyle = value;
+                OnPropertyChanged(nameof(KnobStyle));
+            }
+        }
+    }
+
     #endregion
 
     #region IsDefault
@@ -320,7 +339,8 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
     public bool IsDefault => !_checked && !_enableEmbossEffect && !_enableKnobGradient && _gradientStartIntensity.Equals(0.8f) &&
                              _gradientEndIntensity.Equals(0.6f) &&
                              _gradientDirection == LinearGradientMode.ForwardDiagonal && _onColor == Color.Green &&
-                             _offColor == Color.Red && _cornerRadius == 10 && _useThemeColors;
+                             _offColor == Color.Red && _cornerRadius == 10 && _useThemeColors &&
+                             _knobStyle == ToggleSwitchKnobStyle.Classic;
 
     #endregion
 
@@ -342,6 +362,7 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
         OffColor = Color.Red;
         CornerRadius = 10;
         UseThemeColors = true;
+        KnobStyle = ToggleSwitchKnobStyle.Classic;
     }
 
     #endregion
