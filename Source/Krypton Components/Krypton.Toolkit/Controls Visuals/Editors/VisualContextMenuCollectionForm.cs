@@ -258,13 +258,25 @@ internal partial class VisualContextMenuCollectionForm : VisualDesignerCollectio
 
         private void buttonCancel_Click(object? sender, EventArgs e)
         {
-            // Inform designer of changes in component items
-            SynchronizeCollections(_beforeItems, _beforeItems, Context!);
-
-            // Notify container that the value has been changed
-            Context!.OnComponentChanged();
-
+            DiscardAddedDesignerItems();
             _treeView.Nodes.Clear();
+        }
+
+        private void DiscardAddedDesignerItems()
+        {
+            var rootItems = new object[_treeView.Nodes.Count];
+            for (var i = 0; i < rootItems.Length; i++)
+            {
+                rootItems[i] = ((MenuTreeNode)_treeView.Nodes[i]).Item;
+            }
+
+            DictItemBase currentItems = CreateItemsDictionary(rootItems);
+
+            foreach (KryptonContextMenuItemBase item in currentItems.Values.Where(item => !_beforeItems.ContainsKey(item)))
+            {
+                DestroyInstance(item);
+                Context?.Container?.Remove(item);
+            }
         }
 
         private void buttonOK_Click(object? sender, EventArgs e)

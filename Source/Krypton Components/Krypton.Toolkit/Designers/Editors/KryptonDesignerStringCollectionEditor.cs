@@ -132,25 +132,23 @@ public class KryptonDesignerListControlStringCollectionEditor : KryptonDesignerS
     /// <inheritdoc />
     protected override void ValidateEditContext(ITypeDescriptorContext context)
     {
-        if (context.Instance is KryptonComboBox combo && combo.DataSource != null)
+        if (context.PropertyDescriptor?.Name != nameof(ComboBox.Items))
         {
-            throw new ArgumentException(@"Items cannot be modified when a DataSource is set.");
+            return;
         }
 
-        if (context.Instance is KryptonListBox listBox && listBox.DataSource != null)
-        {
-            throw new ArgumentException(@"Items cannot be modified when a DataSource is set.");
-        }
-
-        if (context.Instance is KryptonCheckedListBox checkedListBox && checkedListBox.DataSource != null)
-        {
-            throw new ArgumentException(@"Items cannot be modified when a DataSource is set.");
-        }
-
-        if (context.Instance is ListControl listControl && listControl.DataSource != null)
+        if (GetDataSource(context.Instance) != null)
         {
             throw new ArgumentException(@"Items cannot be modified when a DataSource is set.");
         }
     }
+
+    private static object? GetDataSource(object? instance) =>
+        instance switch
+        {
+            null => null,
+            ListControl listControl => listControl.DataSource,
+            _ => TypeDescriptor.GetProperties(instance)[nameof(ComboBox.DataSource)]?.GetValue(instance)
+        };
     #endregion
 }

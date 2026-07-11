@@ -25,6 +25,8 @@ public abstract class VisualDesignerCollectionForm : KryptonForm
     /// </summary>
     protected VisualDesignerCollectionForm()
     {
+        // Editor dialogs host content directly on the form surface, not the default internal panel.
+        SetInheritedControlOverride();
         ControlBox = false;
         StartPosition = FormStartPosition.CenterScreen;
     }

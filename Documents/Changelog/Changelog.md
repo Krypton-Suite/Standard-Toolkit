@@ -1,4 +1,4 @@
-# ![Krypton logo](https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png?raw=true) Standard Toolkit - ChangeLog
+﻿# ![Krypton logo](https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png?raw=true) Standard Toolkit - ChangeLog
 
 =======
 
@@ -49,6 +49,11 @@
    * Designer collection editors now use Krypton controls and `KryptonForm` chrome: workspace sequence, context menu items, breadcrumb items, check-button collection editors, string collection editors, and multiline text/`Lines` editors inherit the owning component palette at design time
    * Migrated designer editor dialogs use `KryptonDesignerEditorDpi` for consistent DPI scaling on high-DPI displays
    * Implemented public Krypton designer `UITypeEditor` / `CollectionEditor` APIs for reuse on consumer components (`KryptonDesigner*` editors, collection bases, theme/DPI/button-bar helpers). Apply with `[Editor(typeof(...), typeof(UITypeEditor))]` or subclass `KryptonDesignerStandardCollectionEditor`.
+   * Workspace collection editor OK now commits root-level item ordering and collection changes back to the designer `EditValue`.
+   * Resolved designer-editor footer theme selector remaining visible in Visual Studio 2022 when hosting Visual Studio version detection failed inside `devenv`.
+   * Resolved `KryptonDesignerListControlStringCollectionEditor` allowed editing `Items` at design time when `DataSource` was set on wrapper components such as `KryptonRibbonGroupComboBox` and `KryptonCheckedListComboBox`.
+   * Resolved, Context menu collection editor Cancel no longer notifies the designer that the collection changed; dismissing the dialog without OK no longer marks the form as modified.
+   * Resolved design-time failure in Krypton collection editors when `KryptonDesignerCollectionEditor.EditValue` did not assign the designer `Context`; workspace, navigator, breadcrumb, and other editors that rely on `Context` during the edit session could null-reference or skip layout and change notification.
 * Implemented [#3807](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3807), `KryptonKnob` control
 * Resolved [#3850](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3850), Tooltip hot-spot not respected 
    * Tooltip placement now respects cursor hotspot and full cursor bounds

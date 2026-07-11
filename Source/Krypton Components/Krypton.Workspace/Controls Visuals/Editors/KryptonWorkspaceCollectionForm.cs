@@ -933,6 +933,9 @@ internal partial class KryptonWorkspaceCollectionForm : VisualDesignerCollection
             // Update collection with new set of items
             Items = rootItems;
 
+            // Write items back to the collection instance for the designer EditValue return path
+            CommitDesignerItems();
+
             // Inform designer of changes in component items
             SynchronizeCollections(_beforeItems, afterItems, Context!);
 
