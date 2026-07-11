@@ -280,34 +280,78 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
         return snapshots;
     }
 
-    private static Dictionary<string, object?> CapturePropertySnapshot(object item)
+    // Nested storage objects (e.g. palette/state properties marked with
+    // DesignerSerializationVisibility.Content) are edited in place by the property grid,
+    // so a top-level reference snapshot is not enough to revert them on Cancel.
+    private const int MaxSnapshotDepth = 8;
+
+    private static PropertySnapshotNode CapturePropertySnapshot(object item)
     {
-        var snapshot = new Dictionary<string, object?>(StringComparer.Ordinal);
+        var visited = new HashSet<object>(ReferenceComparer.Instance) { item };
+        var root = new PropertySnapshotNode();
+        CapturePropertySnapshotNode(item, root, visited, 0);
+        return root;
+    }
+
+    private static void CapturePropertySnapshotNode(object item, PropertySnapshotNode node, HashSet<object> visited, int depth)
+    {
         foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(item))
         {
-            if (property.IsReadOnly)
+            var visibility = GetSerializationVisibility(property);
+            if (visibility == DesignerSerializationVisibility.Hidden)
             {
                 continue;
             }
 
-            snapshot[property.Name] = property.GetValue(item);
-        }
+            var value = property.GetValue(item);
+            if (!property.IsReadOnly)
+            {
+                node.Values[property.Name] = value;
+            }
 
-        return snapshot;
+            // Content visibility marks objects whose nested state is edited in place.
+            if (visibility == DesignerSerializationVisibility.Content
+                && value is not null
+                && !property.PropertyType.IsValueType
+                && value is not string
+                && depth < MaxSnapshotDepth
+                && visited.Add(value))
+            {
+                var child = new PropertySnapshotNode();
+                CapturePropertySnapshotNode(value, child, visited, depth + 1);
+                if (child.Values.Count > 0 || child.Children.Count > 0)
+                {
+                    node.Children[property.Name] = child;
+                }
+            }
+        }
     }
 
-    private static void RestorePropertySnapshot(object item, Dictionary<string, object?> snapshot)
+    private static void RestorePropertySnapshot(object item, PropertySnapshotNode node)
     {
         foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(item))
         {
-            if (property.IsReadOnly || !snapshot.TryGetValue(property.Name, out var value))
+            // Restore the top-level reference first so nested state is reverted on the
+            // original object when the user replaced it during the session.
+            if (!property.IsReadOnly
+                && node.Values.TryGetValue(property.Name, out var value)
+                && !Equals(property.GetValue(item), value))
             {
-                continue;
+                property.SetValue(item, value);
             }
 
-            property.SetValue(item, value);
+            if (node.Children.TryGetValue(property.Name, out var child)
+                && property.GetValue(item) is { } nested)
+            {
+                RestorePropertySnapshot(nested, child);
+            }
         }
     }
+
+    private static DesignerSerializationVisibility GetSerializationVisibility(PropertyDescriptor property) =>
+        property.Attributes[typeof(DesignerSerializationVisibilityAttribute)] is DesignerSerializationVisibilityAttribute attribute
+            ? attribute.Visibility
+            : DesignerSerializationVisibility.Visible;
 
     private Type? PromptNewItemType(IReadOnlyList<Type> itemTypes)
     {
@@ -398,7 +442,7 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
 
     private sealed class DesignerItemPropertySnapshot
     {
-        public DesignerItemPropertySnapshot(object item, Dictionary<string, object?> properties)
+        public DesignerItemPropertySnapshot(object item, PropertySnapshotNode properties)
         {
             Item = item;
             Properties = properties;
@@ -406,7 +450,23 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
 
         public object Item { get; }
 
-        public Dictionary<string, object?> Properties { get; }
+        public PropertySnapshotNode Properties { get; }
+    }
+
+    private sealed class PropertySnapshotNode
+    {
+        public Dictionary<string, object?> Values { get; } = new Dictionary<string, object?>(StringComparer.Ordinal);
+
+        public Dictionary<string, PropertySnapshotNode> Children { get; } = new Dictionary<string, PropertySnapshotNode>(StringComparer.Ordinal);
+    }
+
+    private sealed class ReferenceComparer : IEqualityComparer<object>
+    {
+        public static readonly ReferenceComparer Instance = new ReferenceComparer();
+
+        bool IEqualityComparer<object>.Equals(object? x, object? y) => ReferenceEquals(x, y);
+
+        int IEqualityComparer<object>.GetHashCode(object obj) => RuntimeHelpers.GetHashCode(obj);
     }
     #endregion
 }

@@ -246,6 +246,11 @@ public static class KryptonDesignerEditorTheme
                 customPalette = visualControl.LocalCustomPalette;
                 return true;
 
+            case VisualForm visualForm:
+                paletteMode = visualForm.PaletteMode;
+                customPalette = visualForm.LocalCustomPalette;
+                return true;
+
             case DataGridViewColumn { DataGridView: KryptonDataGridView grid }:
                 paletteMode = grid.PaletteMode;
                 customPalette = grid.Palette as KryptonCustomPaletteBase;
@@ -257,8 +262,54 @@ public static class KryptonDesignerEditorTheme
                 return true;
 
             default:
-                return false;
+                return TryGetReflectedOwnerPalette(instance, out paletteMode, out customPalette);
         }
+    }
+
+    // Components such as ribbon group items expose their owning Krypton control through a
+    // property (e.g. KryptonRibbonGroupItem.Ribbon) or field, but live in assemblies the
+    // toolkit cannot reference. Probe declared member types so editors opened for those
+    // components still follow the owning control theme instead of the global palette.
+    private static bool TryGetReflectedOwnerPalette(
+        object? instance,
+        out PaletteMode paletteMode,
+        out KryptonCustomPaletteBase? customPalette)
+    {
+        paletteMode = PaletteMode.Global;
+        customPalette = null;
+
+        if (instance is null)
+        {
+            return false;
+        }
+
+        foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(instance))
+        {
+            if (typeof(VisualControlBase).IsAssignableFrom(property.PropertyType)
+                && property.GetValue(instance) is VisualControlBase owner)
+            {
+                paletteMode = owner.PaletteMode;
+                customPalette = owner.LocalCustomPalette;
+                return true;
+            }
+        }
+
+        // Storage-style wrappers (e.g. RibbonFileAppButton) keep the owner in a private field.
+        for (var type = instance.GetType(); type is not null && type != typeof(object); type = type.BaseType)
+        {
+            foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
+            {
+                if (typeof(VisualControlBase).IsAssignableFrom(field.FieldType)
+                    && field.GetValue(instance) is VisualControlBase owner)
+                {
+                    paletteMode = owner.PaletteMode;
+                    customPalette = owner.LocalCustomPalette;
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
     #endregion
 }
