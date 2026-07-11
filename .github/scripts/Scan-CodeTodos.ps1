@@ -20,7 +20,7 @@ if ($IncludeAllMarkers) {
     $pattern = '\b(TODO|ToDo|FIXME|HACK)\b(?!\s*\])(?:\s*\(\s*issue\s*\))?[:\s]*(.*)$'
 }
 else {
-    $pattern = '(?i)\b(TODO|ToDo|FIXME)\s*\(\s*issue\s*\)\s*[:\s]*(.*)$'
+    $pattern = '(?i)\b(TODO|ToDo|FIXME|HACK)\s*\(\s*issue\s*\)\s*[:\s]*(.*)$'
 }
 
 $searchRoots = @(
@@ -35,11 +35,11 @@ $scanResults = @()
 function Get-MarkerType {
     param([string]$MarkerRaw)
 
-    if ($MarkerRaw.ToLowerInvariant() -eq 'fixme') {
-        return 'fixme'
+    switch ($MarkerRaw.ToLowerInvariant()) {
+        'fixme' { return 'fixme' }
+        'hack' { return 'hack' }
+        default { return 'todo' }
     }
-
-    return 'todo'
 }
 
 foreach ($root in $searchRoots) {
@@ -110,10 +110,11 @@ foreach ($root in $searchRoots) {
 }
 
 $todoCount = @($scanResults | Where-Object { $_.MarkerType -eq 'todo' }).Count
+$hackCount = @($scanResults | Where-Object { $_.MarkerType -eq 'hack' }).Count
 $fixmeCount = @($scanResults | Where-Object { $_.MarkerType -eq 'fixme' }).Count
 
-Write-Host "Scan mode: $(if ($IncludeAllMarkers) { 'all markers' } else { 'opt-in (ToDo/FIXME issue)' })"
-Write-Host "Matches: $($scanResults.Count) (todo=$todoCount, fixme=$fixmeCount)"
+Write-Host "Scan mode: $(if ($IncludeAllMarkers) { 'all markers' } else { 'opt-in (ToDo/FIXME/HACK issue)' })"
+Write-Host "Matches: $($scanResults.Count) (todo=$todoCount, hack=$hackCount, fixme=$fixmeCount)"
 
 if ($GroupDuplicates) {
     $groups = $scanResults | Group-Object -Property GroupKey
@@ -123,7 +124,11 @@ if ($GroupDuplicates) {
         Select-Object -First 25 |
         ForEach-Object {
             $sample = $_.Group[0]
-            $issueKind = if ($sample.MarkerType -eq 'fixme') { 'Bug Report' } else { 'Code ToDo' }
+            $issueKind = switch ($sample.MarkerType) {
+                'fixme' { 'Bug Report' }
+                'hack' { 'Code HACK' }
+                default { 'Code ToDo' }
+            }
             Write-Host ("[{0}] [{1}] {2} ({3} location(s))" -f $_.Count, $issueKind, $sample.CommentText, $_.Count)
             foreach ($item in $_.Group | Select-Object -First 3) {
                 Write-Host ("  - {0}:{1}" -f $item.FilePath, $item.LineNumber)

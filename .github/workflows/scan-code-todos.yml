@@ -7,11 +7,12 @@
 # Opt-in markers (default scan mode):
 #   ToDo(issue): / TODO(issue):  -> Code ToDo issue (code_todo.yml format)
 #   FIXME(issue):               -> Bug Report issue (bug_report.yml format)
+#   HACK(issue):                -> Code ToDo issue with has workaround label
 #
 # Deduplication before creating issues: fingerprint, matching title, or source file:line.
 #
 # Set include_all_markers=true to also pick up plain TODO/ToDo/FIXME/HACK comments.
-# Plain FIXME creates Bug Report issues; plain TODO/ToDo/HACK create Code ToDo issues.
+# Plain FIXME creates Bug Reports; plain TODO/ToDo/HACK create Code ToDo issues (HACK adds has workaround).
 #
 # KILL-SWITCH: SCAN_CODE_TODOS_DISABLED=true (repository variable)
 # DEPLOYMENT: Must exist on the default branch before workflow_dispatch is available in the UI.
@@ -106,7 +107,7 @@ jobs:
               -g '!.github/workflows/scan-code-todos.yml' \
               --json > todo-matches.jsonl || true
           else
-            PATTERN='(?i)\b(TODO|ToDo|FIXME)\s*\(\s*issue\s*\)\s*[:\s]*(.*)$'
+            PATTERN='(?i)\b(TODO|ToDo|FIXME|HACK)\s*\(\s*issue\s*\)\s*[:\s]*(.*)$'
             rg -n --pcre2 "$PATTERN" \
               Source .github/workflows Documents \
               -g '!**/obj/**' \
@@ -133,7 +134,14 @@ jobs:
             const linkedIssuePattern = /(?:#\d{3,}|issues\/\d{3,})/i;
 
             function resolveMarkerType(markerRaw) {
-              return String(markerRaw || '').toLowerCase() === 'fixme' ? 'fixme' : 'todo';
+              const marker = String(markerRaw || '').toLowerCase();
+              if (marker === 'fixme') {
+                return 'fixme';
+              }
+              if (marker === 'hack') {
+                return 'hack';
+              }
+              return 'todo';
             }
 
             for (const line of lines) {
@@ -228,11 +236,19 @@ jobs:
             const includeAllMarkers = String(process.env.INCLUDE_ALL_MARKERS) === 'true';
 
             const todoFingerprintPrefix = '<!-- code-todo-scan:key=';
+            const hackFingerprintPrefix = '<!-- code-hack-scan:key=';
             const fixmeFingerprintPrefix = '<!-- code-fixme-scan:key=';
             const fingerprintSuffix = ' -->';
 
             const todoLabels = [
               'todo :spiral_notepad:',
+              'backlog',
+              'version:all versions',
+            ];
+
+            const hackLabels = [
+              'todo :spiral_notepad:',
+              'has workaround',
               'backlog',
               'version:all versions',
             ];
@@ -291,8 +307,20 @@ jobs:
               return match ? match[1] : null;
             }
 
+            function buildHackFingerprint(key) {
+              return `${hackFingerprintPrefix}${key}${fingerprintSuffix}`;
+            }
+
+            function extractHackFingerprint(body) {
+              if (!body) {
+                return null;
+              }
+              const match = body.match(/<!-- code-hack-scan:key=([a-f0-9]{64}) -->/i);
+              return match ? match[1] : null;
+            }
+
             function extractAnyFingerprint(body) {
-              return extractTodoFingerprint(body) || extractFixmeFingerprint(body);
+              return extractTodoFingerprint(body) || extractHackFingerprint(body) || extractFixmeFingerprint(body);
             }
 
             function summarizeTitle(text, fallback) {
@@ -376,8 +404,14 @@ jobs:
               if (extractFixmeFingerprint(issue.body)) {
                 return 'fixme';
               }
+              if (extractHackFingerprint(issue.body)) {
+                return 'hack';
+              }
               if (extractTodoFingerprint(issue.body)) {
                 return 'todo';
+              }
+              if ((issue.body || '').includes('Marker type: hack')) {
+                return 'hack';
               }
               const title = (issue.title || '').trim().toLowerCase();
               if (title.startsWith('[bug]:')) {
@@ -389,11 +423,19 @@ jobs:
               return null;
             }
 
+            function normalizeTitleForMarkerType(title, markerType) {
+              return markerType === 'fixme'
+                ? normalizeBugTitle(title)
+                : normalizeCodeTodoTitle(title);
+            }
+
             function buildTitle(group) {
-              const summary = summarizeTitle(
-                group.commentText,
-                group.markerType === 'fixme' ? 'Untitled FIXME' : 'Untitled code ToDo'
-              );
+              const fallback = group.markerType === 'fixme'
+                ? 'Untitled FIXME'
+                : group.markerType === 'hack'
+                  ? 'Untitled HACK'
+                  : 'Untitled code ToDo';
+              const summary = summarizeTitle(group.commentText, fallback);
               return group.markerType === 'fixme'
                 ? `[Bug]: ${summary}`
                 : `[Code ToDo]: ${summary}`;
@@ -408,12 +450,26 @@ jobs:
                 });
             }
 
-            function buildTodoBody(group) {
-              return [
+            function buildCodeTodoBody(group) {
+              const markerLabel = group.markerType === 'hack' ? 'hack (workaround)' : 'code todo';
+              const fingerprint = group.markerType === 'hack'
+                ? buildHackFingerprint(group.key)
+                : buildTodoFingerprint(group.key);
+              const bodyParts = [
                 '### Summary',
                 '',
                 group.commentText || '_No comment text captured._',
                 '',
+              ];
+
+              if (group.markerType === 'hack') {
+                bodyParts.push(
+                  'This issue was filed automatically from an inline `HACK` (temporary workaround) comment in source code.',
+                  ''
+                );
+              }
+
+              bodyParts.push(
                 '### Source',
                 '',
                 '| File | Line | Link |',
@@ -423,13 +479,15 @@ jobs:
                 '### Scan metadata',
                 '',
                 `- Branch: \`${branch}\``,
-                `- Marker type: code todo`,
+                `- Marker type: ${markerLabel}`,
                 `- Marker mode: ${includeAllMarkers ? 'all markers (TODO/ToDo/FIXME/HACK)' : 'opt-in marker only'}`,
                 `- Locations in this issue: ${group.locations.length}`,
                 `- Created by: [Scan code TODOs workflow](https://github.com/${owner}/${repo}/actions/workflows/scan-code-todos.yml)`,
                 '',
-                buildTodoFingerprint(group.key),
-              ].join('\n');
+                fingerprint
+              );
+
+              return bodyParts.join('\n');
             }
 
             function buildBugReportBody(group) {
@@ -552,9 +610,7 @@ jobs:
 
                 const markerType = getIssueMarkerType(issue);
                 if (markerType) {
-                  const normalizedTitle = markerType === 'fixme'
-                    ? normalizeBugTitle(issue.title)
-                    : normalizeCodeTodoTitle(issue.title);
+                  const normalizedTitle = normalizeTitleForMarkerType(issue.title, markerType);
                   if (normalizedTitle) {
                     const titleKey = `${markerType}:${normalizedTitle}`;
                     if (!byTitle.has(titleKey)) {
@@ -656,9 +712,7 @@ jobs:
                 return { reason: 'fingerprint', issue: fingerprintMatch };
               }
 
-              const normalizedTitle = group.markerType === 'fixme'
-                ? normalizeBugTitle(title)
-                : normalizeCodeTodoTitle(title);
+              const normalizedTitle = normalizeTitleForMarkerType(title, group.markerType);
               const titleKey = `${group.markerType}:${normalizedTitle}`;
               const titleMatches = dedupIndex.byTitle.get(titleKey) || [];
               if (titleMatches.length > 0) {
@@ -693,13 +747,13 @@ jobs:
                   if (issue.pull_request) {
                     continue;
                   }
-                  const fingerprint = extractTodoFingerprint(issue.body);
+                  const fingerprint = extractTodoFingerprint(issue.body) || extractHackFingerprint(issue.body);
                   if (fingerprint) {
                     tracked.set(fingerprint, {
                       number: issue.number,
                       state: issue.state,
                       title: issue.title,
-                      markerType: 'todo',
+                      markerType: extractHackFingerprint(issue.body) ? 'hack' : 'todo',
                     });
                   }
                 }
@@ -774,6 +828,7 @@ jobs:
 
             const activeFingerprints = new Set(grouped.keys());
             let createdTodoCount = 0;
+            let createdHackCount = 0;
             let createdBugCount = 0;
             let skippedFingerprint = 0;
             let skippedTitle = 0;
@@ -799,18 +854,30 @@ jobs:
                 continue;
               }
 
-              if ((createdTodoCount + createdBugCount) >= maxIssues) {
+              if ((createdTodoCount + createdHackCount + createdBugCount) >= maxIssues) {
                 skippedLimit += 1;
                 continue;
               }
 
-              const body = group.markerType === 'fixme'
-                ? buildBugReportBody(group)
-                : buildTodoBody(group);
+              let body;
+              let labels;
 
-              const labels = group.markerType === 'fixme'
-                ? [...fixmeLabels]
-                : [...new Set([...todoLabels, ...group.locations.flatMap(location => resolveAreaLabels(location.filePath))])];
+              if (group.markerType === 'fixme') {
+                body = buildBugReportBody(group);
+                labels = [...fixmeLabels];
+              } else if (group.markerType === 'hack') {
+                body = buildCodeTodoBody(group);
+                labels = [...new Set([
+                  ...hackLabels,
+                  ...group.locations.flatMap(location => resolveAreaLabels(location.filePath)),
+                ])];
+              } else {
+                body = buildCodeTodoBody(group);
+                labels = [...new Set([
+                  ...todoLabels,
+                  ...group.locations.flatMap(location => resolveAreaLabels(location.filePath)),
+                ])];
+              }
 
               console.log(`${isDryRun ? '[dry-run] Would create' : 'Creating'} ${group.markerType} issue: ${title}`);
               console.log(`Labels: ${labels.join(', ')}`);
@@ -827,6 +894,8 @@ jobs:
 
               if (group.markerType === 'fixme') {
                 createdBugCount += 1;
+              } else if (group.markerType === 'hack') {
+                createdHackCount += 1;
               } else {
                 createdTodoCount += 1;
               }
@@ -876,6 +945,7 @@ jobs:
                 [{ data: 'Matches scanned' }, { data: String(matches.length) }],
                 [{ data: 'Grouped candidates' }, { data: String(grouped.size) }],
                 [{ data: 'Code ToDo issues created' }, { data: String(createdTodoCount) }],
+                [{ data: 'Code HACK issues created (workaround)' }, { data: String(createdHackCount) }],
                 [{ data: 'Bug Report issues created (FIXME)' }, { data: String(createdBugCount) }],
                 [{ data: 'Skipped (fingerprint)' }, { data: String(skippedFingerprint) }],
                 [{ data: 'Skipped (title)' }, { data: String(skippedTitle) }],
