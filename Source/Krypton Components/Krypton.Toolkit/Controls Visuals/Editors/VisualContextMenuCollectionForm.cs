@@ -169,7 +169,9 @@ internal partial class VisualContextMenuCollectionForm : VisualDesignerCollectio
 
     #region Instance Fields
     
-    private DictItemBase _beforeItems;
+    private DictItemBase _beforeItems = null!;
+    private List<KryptonContextMenuItemBase> _sessionStartRootOrder = null!;
+    private Dictionary<KryptonContextMenuItemBase, List<KryptonContextMenuItemBase>> _sessionStartChildOrder = null!;
 
     #endregion
 
@@ -208,6 +210,7 @@ internal partial class VisualContextMenuCollectionForm : VisualDesignerCollectio
 
             // Cache a lookup of all items before changes are made
             _beforeItems = CreateItemsDictionary(Items);
+            CaptureSessionSnapshot();
 
             // Need to link the property browser to a site otherwise Image properties cannot be
             // edited because it cannot navigate to the owning project for its resources
@@ -258,8 +261,75 @@ internal partial class VisualContextMenuCollectionForm : VisualDesignerCollectio
 
         private void buttonCancel_Click(object? sender, EventArgs e)
         {
-            DiscardAddedDesignerItems();
+            RevertSessionChanges();
             _treeView.Nodes.Clear();
+        }
+
+        private void RevertSessionChanges()
+        {
+            DiscardAddedDesignerItems();
+            RestoreSessionHierarchy();
+        }
+
+        private void CaptureSessionSnapshot()
+        {
+            _sessionStartRootOrder = Items!.Cast<KryptonContextMenuItemBase>().ToList();
+            _sessionStartChildOrder = new Dictionary<KryptonContextMenuItemBase, List<KryptonContextMenuItemBase>>();
+
+            foreach (KryptonContextMenuItemBase item in _beforeItems.Keys)
+            {
+                CaptureContextMenuChildOrder(item);
+            }
+        }
+
+        private void CaptureContextMenuChildOrder(KryptonContextMenuItemBase item)
+        {
+            switch (item)
+            {
+                case KryptonContextMenuItems items:
+                    _sessionStartChildOrder[item] = new List<KryptonContextMenuItemBase>(items.Items.Cast<KryptonContextMenuItemBase>());
+                    foreach (KryptonContextMenuItemBase child in items.Items)
+                    {
+                        CaptureContextMenuChildOrder(child);
+                    }
+                    break;
+
+                case KryptonContextMenuItem menuItem:
+                    _sessionStartChildOrder[item] = new List<KryptonContextMenuItemBase>(menuItem.Items.Cast<KryptonContextMenuItemBase>());
+                    foreach (KryptonContextMenuItemBase child in menuItem.Items)
+                    {
+                        CaptureContextMenuChildOrder(child);
+                    }
+                    break;
+            }
+        }
+
+        private void RestoreSessionHierarchy()
+        {
+            foreach (KeyValuePair<KryptonContextMenuItemBase, List<KryptonContextMenuItemBase>> entry in _sessionStartChildOrder)
+            {
+                switch (entry.Key)
+                {
+                    case KryptonContextMenuItems items:
+                        items.Items.Clear();
+                        foreach (KryptonContextMenuItemBase child in entry.Value)
+                        {
+                            items.Items.Add(child);
+                        }
+                        break;
+
+                    case KryptonContextMenuItem menuItem:
+                        menuItem.Items.Clear();
+                        foreach (KryptonContextMenuItemBase child in entry.Value)
+                        {
+                            menuItem.Items.Add(child);
+                        }
+                        break;
+                }
+            }
+
+            Items = _sessionStartRootOrder.ToArray();
+            CommitDesignerItems();
         }
 
         private void DiscardAddedDesignerItems()
@@ -293,6 +363,8 @@ internal partial class VisualContextMenuCollectionForm : VisualDesignerCollectio
 
             // Update collection with new set of items
             Items = rootItems;
+
+            CommitDesignerItems();
 
             // Clear down contents of tree as this form can be reused
             _treeView.Nodes.Clear();

@@ -256,6 +256,7 @@ internal partial class VisualBreadCrumbItemsForm : VisualDesignerCollectionForm
 
             // Cache a lookup of all items before changes are made
             _beforeItems = CreateItemsDictionary(Items);
+            CaptureSessionSnapshot();
 
             // Need to link the property browser to a site otherwise Image properties cannot be
             // edited because it cannot navigate to the owning project for its resources
@@ -366,8 +367,66 @@ internal partial class VisualBreadCrumbItemsForm : VisualDesignerCollectionForm
 
         private void buttonCancel_Click(object? sender, EventArgs e)
         {
+            RevertSessionChanges();
             treeView1.Nodes.Clear();
-            Close();
+        }
+
+        private void RevertSessionChanges()
+        {
+            DiscardAddedDesignerItems();
+            RestoreSessionHierarchy();
+        }
+
+        private void DiscardAddedDesignerItems()
+        {
+            var rootItems = new object[treeView1.Nodes.Count];
+            for (var i = 0; i < rootItems.Length; i++)
+            {
+                rootItems[i] = ((MenuTreeNode)treeView1.Nodes[i]).Item;
+            }
+
+            DictItemBase currentItems = CreateItemsDictionary(rootItems);
+
+            foreach (KryptonBreadCrumbItem item in currentItems.Values.Where(item => !_beforeItems.ContainsKey(item)))
+            {
+                DestroyInstance(item);
+                Context?.Container?.Remove(item);
+            }
+        }
+
+        private void CaptureSessionSnapshot()
+        {
+            _sessionStartRootOrder = Items!.Cast<KryptonBreadCrumbItem>().ToList();
+            _sessionStartChildOrder = new Dictionary<KryptonBreadCrumbItem, List<KryptonBreadCrumbItem>>();
+
+            foreach (KryptonBreadCrumbItem item in _beforeItems.Keys)
+            {
+                CaptureBreadCrumbChildOrder(item);
+            }
+        }
+
+        private void CaptureBreadCrumbChildOrder(KryptonBreadCrumbItem item)
+        {
+            _sessionStartChildOrder[item] = new List<KryptonBreadCrumbItem>(item.Items);
+            foreach (KryptonBreadCrumbItem child in item.Items)
+            {
+                CaptureBreadCrumbChildOrder(child);
+            }
+        }
+
+        private void RestoreSessionHierarchy()
+        {
+            foreach (KeyValuePair<KryptonBreadCrumbItem, List<KryptonBreadCrumbItem>> entry in _sessionStartChildOrder)
+            {
+                entry.Key.Items.Clear();
+                foreach (KryptonBreadCrumbItem child in entry.Value)
+                {
+                    entry.Key.Items.Add(child);
+                }
+            }
+
+            Items = _sessionStartRootOrder.ToArray();
+            CommitDesignerItems();
         }
 
         private void buttonOK_Click(object? sender, EventArgs e)

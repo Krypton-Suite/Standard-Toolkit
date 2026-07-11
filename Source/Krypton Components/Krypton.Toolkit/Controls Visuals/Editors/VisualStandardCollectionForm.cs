@@ -17,6 +17,8 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
     #region Instance Fields
     private KryptonDesignerStandardCollectionEditor? _standardEditor;
     private object[]? _workingItems;
+    private HashSet<object>? _sessionStartItems;
+    private readonly List<object> _pendingDestroy = [];
     #endregion
 
     #region Identity
@@ -57,6 +59,7 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
         kpnlButtonBar.OkButton.Values.Text = KryptonManager.Strings.GeneralStrings.OK;
         kpnlButtonBar.CancelButton.Values.Text = KryptonManager.Strings.GeneralStrings.Cancel;
         kpnlButtonBar.OkButton.Click += OnOkClick;
+        kpnlButtonBar.CancelButton.Click += OnCancelClick;
     }
 
     private string CollectionItemTypeName => _standardEditor!.DesignerCollectionItemType.Name;
@@ -81,6 +84,8 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
         }
 
         _workingItems = (object[])Items.Clone();
+        _sessionStartItems = new HashSet<object>(_workingItems);
+        _pendingDestroy.Clear();
         RefreshList();
         _propertyGrid.Site = new KryptonDesignerPropertyGridSite(Context, _propertyGrid);
         ApplyOwnerPaletteFromContext();
@@ -164,7 +169,7 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
 
         _standardEditor!.OnDesignerItemRemoving(entry.Item);
         _workingItems = RemoveItem(_workingItems, entry.Item);
-        DestroyInstance(entry.Item);
+        _pendingDestroy.Add(entry.Item);
         Items = _workingItems;
         RefreshList();
         UpdateButtons();
@@ -175,7 +180,36 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
     {
         Items = _workingItems;
         CommitDesignerItems();
+
+        foreach (var item in _pendingDestroy)
+        {
+            DestroyInstance(item);
+        }
+
+        _pendingDestroy.Clear();
         Context?.OnComponentChanged();
+    }
+
+    private void OnCancelClick(object? sender, EventArgs e)
+    {
+        if (_workingItems is null || _sessionStartItems is null)
+        {
+            return;
+        }
+
+        foreach (var item in _workingItems)
+        {
+            if (!_sessionStartItems.Contains(item))
+            {
+                DestroyInstance(item);
+                if (item is IComponent component)
+                {
+                    Context?.Container?.Remove(component);
+                }
+            }
+        }
+
+        _pendingDestroy.Clear();
     }
 
     private Type? PromptNewItemType(IReadOnlyList<Type> itemTypes)

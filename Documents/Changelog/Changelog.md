@@ -45,15 +45,18 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
-* Implemented [#3849](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3849), Workspace collection editor uses native WinForms controls
-   * Designer collection editors now use Krypton controls and `KryptonForm` chrome: workspace sequence, context menu items, breadcrumb items, check-button collection editors, string collection editors, and multiline text/`Lines` editors inherit the owning component palette at design time
-   * Migrated designer editor dialogs use `KryptonDesignerEditorDpi` for consistent DPI scaling on high-DPI displays
-   * Implemented public Krypton designer `UITypeEditor` / `CollectionEditor` APIs for reuse on consumer components (`KryptonDesigner*` editors, collection bases, theme/DPI/button-bar helpers). Apply with `[Editor(typeof(...), typeof(UITypeEditor))]` or subclass `KryptonDesignerStandardCollectionEditor`.
-   * Workspace collection editor OK now commits root-level item ordering and collection changes back to the designer `EditValue`.
-   * Resolved designer-editor footer theme selector remaining visible in Visual Studio 2022 when hosting Visual Studio version detection failed inside `devenv`.
-   * Resolved `KryptonDesignerListControlStringCollectionEditor` allowed editing `Items` at design time when `DataSource` was set on wrapper components such as `KryptonRibbonGroupComboBox` and `KryptonCheckedListComboBox`.
-   * Resolved, Context menu collection editor Cancel no longer notifies the designer that the collection changed; dismissing the dialog without OK no longer marks the form as modified.
-   * Resolved design-time failure in Krypton collection editors when `KryptonDesignerCollectionEditor.EditValue` did not assign the designer `Context`; workspace, navigator, breadcrumb, and other editors that rely on `Context` during the edit session could null-reference or skip layout and change notification.
+* Implemented [#3849](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3849), Krypton-themed designer property and collection editors replace native WinForms dialogs
+   * Designer collection and property editors now use Krypton controls and `KryptonForm` chrome — workspace sequence, context menu items, breadcrumb items, check-button collections, tree nodes, string/`Items` collections, multiline text/`Lines`, format string, and related binding/image/index editors inherit the owning component palette at design time
+   * Migrated editor dialogs use `KryptonDesignerEditorDpi` for consistent scaling on high-DPI displays
+   * Public `KryptonDesigner*` `UITypeEditor` / `CollectionEditor` APIs, shared chrome, theme/DPI/button-bar helpers, and collection bases for reuse on consumer components — apply with `[Editor(typeof(...), typeof(UITypeEditor))]` or subclass `KryptonDesignerStandardCollectionEditor`. See `Documents/Development/Krypton-Designer-Editors-Developer-Guide.md`.
+   * Workspace collection editor OK commits root-level item ordering and collection changes back to the designer `EditValue`
+   * Resolved Krypton-themed designer editor dialogs opening with blank content when child controls were routed to the hidden internal client panel; collection editor bases and multiline string editors now call `SetInheritedControlOverride()` before layout
+   * Resolved designer-editor footer theme selector showing in Visual Studio 2022; the local theme combo is hidden when hosted in `devenv` major version 17 (and when the hosting Visual Studio version cannot be determined)
+   * Resolved `KryptonDesignerListControlStringCollectionEditor` allowed editing `Items` at design time when `DataSource` was set on wrapper components such as `KryptonRibbonGroupComboBox` and `KryptonCheckedListComboBox`
+   * Resolved context menu collection editor OK not persisting collection changes to the designer (`CommitDesignerItems()`)
+   * Resolved designer collection editors (context menu, breadcrumb, standard list) leaving in-session adds, deletes, and reordering in place when Cancel was clicked; Cancel now restores the opened hierarchy and destroys session-only items without marking the form modified
+   * Resolved format string designer editor missing a Decimal preset and mis-detecting `D`/`d` patterns shared with date formats
+   * Resolved corrupted UTF-8 characters (`©`, accented contributor names) in several source license headers
 * Implemented [#3807](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3807), `KryptonKnob` control
 * Resolved [#3850](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3850), Tooltip hot-spot not respected 
    * Tooltip placement now respects cursor hotspot and full cursor bounds

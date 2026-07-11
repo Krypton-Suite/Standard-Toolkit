@@ -181,6 +181,8 @@ internal partial class VisualBreadCrumbItemsForm
     #endregion
 
     private DictItemBase _beforeItems = null!;
+    private List<KryptonBreadCrumbItem> _sessionStartRootOrder = null!;
+    private Dictionary<KryptonBreadCrumbItem, List<KryptonBreadCrumbItem>> _sessionStartChildOrder = null!;
     private KryptonTreeView treeView1;
     private KryptonButton buttonMoveUp;
     private KryptonButton buttonMoveDown;
