@@ -54,7 +54,7 @@
    * Resolved designer-editor footer theme selector showing in Visual Studio 2022; the local theme combo is hidden when hosted in `devenv` major version 17 (and when the hosting Visual Studio version cannot be determined)
    * Resolved `KryptonDesignerListControlStringCollectionEditor` allowed editing `Items` at design time when `DataSource` was set on wrapper components such as `KryptonRibbonGroupComboBox` and `KryptonCheckedListComboBox`
    * Resolved context menu collection editor OK not persisting collection changes to the designer (`CommitDesignerItems()`)
-   * Resolved designer collection editors (context menu, breadcrumb, standard list) leaving in-session adds, deletes, and reordering in place when Cancel was clicked; Cancel now restores the opened hierarchy and destroys session-only items without marking the form modified
+   * Resolved designer collection editors (context menu, breadcrumb, standard list, workspace sequence) leaving in-session adds, deletes, and reordering in place when Cancel was clicked; Cancel now restores the opened hierarchy and destroys session-only items without marking the form modified
    * Resolved format string designer editor missing a Decimal preset and mis-detecting `D`/`d` patterns shared with date formats
    * Resolved corrupted UTF-8 characters (`©`, accented contributor names) in several source license headers
 * Implemented [#3807](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3807), `KryptonKnob` control

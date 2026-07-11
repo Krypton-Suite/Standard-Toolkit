@@ -800,6 +800,9 @@ internal partial class KryptonWorkspaceCollectionForm : VisualDesignerCollection
     #region Instance Fields
     private readonly KryptonWorkspaceCollectionEditor? _editor;
     private DictItemBase _beforeItems = null!;
+    private List<Component> _sessionStartRootOrder = null!;
+    private Dictionary<KryptonWorkspaceSequence, List<Component>> _sessionStartSequenceChildren = null!;
+    private Dictionary<KryptonWorkspaceCell, List<KryptonPage>> _sessionStartCellPages = null!;
     #endregion
 
     #region Identity
@@ -843,6 +846,7 @@ internal partial class KryptonWorkspaceCollectionForm : VisualDesignerCollection
 
             // Cache a lookup of all items before changes are made
             _beforeItems = CreateItemsDictionary(Items);
+            CaptureSessionSnapshot();
 
             // Add all the top level clones
             _treeView.Nodes.Clear();
@@ -872,6 +876,7 @@ internal partial class KryptonWorkspaceCollectionForm : VisualDesignerCollection
         kpnlButtonBar.OkButton.Values.Text = KryptonManager.Strings.GeneralStrings.OK;
         kpnlButtonBar.CancelButton.Values.Text = KryptonManager.Strings.GeneralStrings.Cancel;
         kpnlButtonBar.OkButton.Click += buttonOK_Click;
+        kpnlButtonBar.CancelButton.Click += buttonCancel_Click;
     }
 
     private static void ConfigureToolbarButton(KryptonButton button, Image image, string text, EventHandler click)
@@ -944,6 +949,79 @@ internal partial class KryptonWorkspaceCollectionForm : VisualDesignerCollection
 
             // Clear down contents of tree as this form can be reused
             _treeView.Nodes.Clear();
+        }
+
+        private void buttonCancel_Click(object? sender, EventArgs e)
+        {
+            RevertSessionChanges();
+            _treeView.Nodes.Clear();
+        }
+
+        private void RevertSessionChanges()
+        {
+            DiscardAddedDesignerItems();
+            RestoreSessionHierarchy();
+        }
+
+        private void CaptureSessionSnapshot()
+        {
+            _sessionStartRootOrder = Items!.Cast<Component>().ToList();
+            _sessionStartSequenceChildren = new Dictionary<KryptonWorkspaceSequence, List<Component>>();
+            _sessionStartCellPages = new Dictionary<KryptonWorkspaceCell, List<KryptonPage>>();
+
+            foreach (Component item in _beforeItems.Keys)
+            {
+                switch (item)
+                {
+                    case KryptonWorkspaceSequence sequence:
+                        _sessionStartSequenceChildren[sequence] = new List<Component>(sequence.Children!.Cast<Component>());
+                        break;
+                    case KryptonWorkspaceCell cell:
+                        _sessionStartCellPages[cell] = new List<KryptonPage>(cell.Pages.Cast<KryptonPage>());
+                        break;
+                }
+            }
+        }
+
+        private void RestoreSessionHierarchy()
+        {
+            foreach (KeyValuePair<KryptonWorkspaceCell, List<KryptonPage>> entry in _sessionStartCellPages)
+            {
+                entry.Key.Pages.Clear();
+                foreach (KryptonPage page in entry.Value)
+                {
+                    entry.Key.Pages.Add(page);
+                }
+            }
+
+            foreach (KeyValuePair<KryptonWorkspaceSequence, List<Component>> entry in _sessionStartSequenceChildren)
+            {
+                entry.Key.Children!.Clear();
+                foreach (Component child in entry.Value)
+                {
+                    entry.Key.Children!.Add(child);
+                }
+            }
+
+            Items = _sessionStartRootOrder.ToArray();
+            CommitDesignerItems();
+        }
+
+        private void DiscardAddedDesignerItems()
+        {
+            var rootItems = new object[_treeView.Nodes.Count];
+            for (var i = 0; i < rootItems.Length; i++)
+            {
+                rootItems[i] = ((MenuTreeNode)_treeView.Nodes[i]).Item!;
+            }
+
+            DictItemBase currentItems = CreateItemsDictionary(rootItems);
+
+            foreach (Component item in currentItems.Values.Where(item => !_beforeItems.ContainsKey(item)))
+            {
+                DestroyInstance(item);
+                Context?.Container?.Remove(item);
+            }
         }
 
         private void buttonMoveUp_Click(object? sender, EventArgs e)

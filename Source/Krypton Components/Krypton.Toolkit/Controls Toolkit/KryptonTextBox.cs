@@ -246,7 +246,7 @@ public class KryptonTextBox : VisualControlBase,
                                         drawString = new string(PasswordChar, Text.Length);
                                     }
 
-                                    // Define the font to use for disabled painting â€“ always query the palette first.
+                                    // Define the font to use for disabled painting – always query the palette first.
                                     // Avoids exception - magnitudes faster than another repaint AND try/catch.
                                     var disabledFont = _kryptonTextBox
                                                            .GetTripleState()
