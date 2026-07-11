@@ -443,11 +443,7 @@ public class KryptonEnumButton : KryptonButton
         var field = _cycler.SelectedField;
         if (field is null)
         {
-            if (DesignMode && string.IsNullOrEmpty(base.Text))
-            {
-                base.Text = @"(KryptonEnumButton)";
-            }
-
+            base.Text = DesignMode ? @"(KryptonEnumButton)" : string.Empty;
             return;
         }
 

@@ -56,15 +56,40 @@ internal sealed class EnumTypeEditor : UITypeEditor
             }
         }
 
-        // Close on a selection change and on a click of the already-selected item.
-        listBox.SelectedIndexChanged += (_, _) => editorService.CloseDropDown();
-        listBox.Click += (_, _) => editorService.CloseDropDown();
-
         // Size the drop-down to a sensible number of visible rows.
         var visibleRows = Math.Min(Math.Max(listBox.Items.Count, 1), 12);
         listBox.Height = (listBox.ItemHeight * visibleRows) + 2;
 
+        var selectionCommitted = false;
+
+        listBox.MouseUp += (_, _) =>
+        {
+            selectionCommitted = true;
+            editorService.CloseDropDown();
+        };
+
+        listBox.KeyDown += (_, e) =>
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    selectionCommitted = true;
+                    editorService.CloseDropDown();
+                    e.Handled = true;
+                    break;
+                case Keys.Escape:
+                    editorService.CloseDropDown();
+                    e.Handled = true;
+                    break;
+            }
+        };
+
         editorService.DropDownControl(listBox);
+
+        if (!selectionCommitted)
+        {
+            return value;
+        }
 
         return listBox.SelectedItem switch
         {

@@ -508,6 +508,9 @@ public class KryptonEnumCommandLinkButton : KryptonCommandLinkButton
     {
         if (_cycler.SelectedField is null)
         {
+            CommandLinkTextValues.Heading = string.Empty;
+            CommandLinkTextValues.Description = string.Empty;
+            CommandLinkTextValues.UseDefaultImage = true;
             return;
         }
 
@@ -520,6 +523,10 @@ public class KryptonEnumCommandLinkButton : KryptonCommandLinkButton
         {
             CommandLinkTextValues.UseDefaultImage = false;
             CommandLinkTextValues.Image = _imageProvider(_cycler.SelectedValue!);
+        }
+        else
+        {
+            CommandLinkTextValues.UseDefaultImage = true;
         }
     }
 
