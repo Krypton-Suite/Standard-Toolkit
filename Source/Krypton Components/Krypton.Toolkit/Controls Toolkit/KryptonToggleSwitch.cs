@@ -41,6 +41,9 @@ public class KryptonToggleSwitch : Control, IContentValues
     private float _animationPosition;
     private float _dragOffset;
     private float _gradientAnimationProgress = 0f; // Tracks transition from 0 (Off) to 1 (On)
+    private float _pulseAnimationPhase;
+
+    private const float PulsePhaseStep = 0.04f;
 
     private ToggleSwitchValues? _toggleSwitchValues;
 
@@ -191,6 +194,7 @@ public class KryptonToggleSwitch : Control, IContentValues
 
         ResetToggleSwitchValues();
         UpdateAnimationStateFromChecked();
+        UpdatePulseAnimationState();
     }
 
     #endregion
@@ -376,6 +380,24 @@ public class KryptonToggleSwitch : Control, IContentValues
         }
 
         Invalidate(); // Force redraw
+    }
+
+    /// <summary>Raises the <see cref="E:System.Windows.Forms.Control.EnabledChanged">EnabledChanged</see> event.</summary>
+    /// <param name="e">An <see cref="T:System.EventArgs">EventArgs</see> that contains the event data.</param>
+    protected override void OnEnabledChanged(EventArgs e)
+    {
+        base.OnEnabledChanged(e);
+        UpdatePulseAnimationState();
+        Invalidate();
+    }
+
+    /// <summary>Raises the <see cref="E:System.Windows.Forms.Control.VisibleChanged">VisibleChanged</see> event.</summary>
+    /// <param name="e">An <see cref="T:System.EventArgs">EventArgs</see> that contains the event data.</param>
+    protected override void OnVisibleChanged(EventArgs e)
+    {
+        base.OnVisibleChanged(e);
+        UpdatePulseAnimationState();
+        Invalidate();
     }
 
     /// <summary>Releases the unmanaged resources used by the <see cref="T:System.Windows.Forms.Control">Control</see> and its child controls and optionally releases the managed resources.</summary>
@@ -606,8 +628,15 @@ public class KryptonToggleSwitch : Control, IContentValues
 
     private void DrawKnob(Graphics graphics, IPaletteTriple state)
     {
-        _knob = GetKnobRectangle();
+        RectangleF originalKnob = GetKnobRectangle();
+        _knob = originalKnob;
         ResolveKnobColors(state, out Color faceColor1, out Color faceColor2, out Color borderColor, out Color trackColor);
+
+        if (ShouldRunPulseAnimation())
+        {
+            DrawKnobPulseGlow(graphics, faceColor1);
+            _knob = GetPulsedKnobRectangle(originalKnob);
+        }
 
         switch (ToggleSwitchValues.KnobStyle)
         {
@@ -632,6 +661,74 @@ public class KryptonToggleSwitch : Control, IContentValues
             default:
                 DrawClassicKnob(graphics, faceColor1, faceColor2);
                 break;
+        }
+
+        _knob = originalKnob;
+    }
+
+    private bool ShouldRunPulseAnimation() =>
+        ToggleSwitchValues.EnableKnobPulse &&
+        ToggleSwitchValues.KnobPulseIntensity > float.Epsilon &&
+        Enabled &&
+        Visible;
+
+    private float GetKnobPulseFactor() =>
+        (float)(Math.Sin(_pulseAnimationPhase * Math.PI * 2d) * 0.5d + 0.5d);
+
+    private RectangleF GetPulsedKnobRectangle(RectangleF knob)
+    {
+        float pulse = GetKnobPulseFactor();
+        float intensity = ToggleSwitchValues.KnobPulseIntensity;
+        float scale = 1f + pulse * 0.08f * intensity;
+        float centerX = knob.X + knob.Width / 2f;
+        float centerY = knob.Y + knob.Height / 2f;
+        float width = knob.Width * scale;
+        float height = knob.Height * scale;
+
+        return new RectangleF(centerX - width / 2f, centerY - height / 2f, width, height);
+    }
+
+    private void DrawKnobPulseGlow(Graphics graphics, Color pulseColor)
+    {
+        float pulse = GetKnobPulseFactor();
+        float intensity = ToggleSwitchValues.KnobPulseIntensity;
+        float expansion = 1f + pulse * (6f * intensity + 2f);
+        int alpha = (int)(35 + pulse * 145 * intensity);
+
+        RectangleF glow = _knob;
+        glow.Inflate(expansion, expansion);
+
+        using (GraphicsPath glowPath = new GraphicsPath())
+        {
+            glowPath.AddEllipse(glow);
+
+            using (SolidBrush glowBrush = new SolidBrush(Color.FromArgb(alpha, pulseColor)))
+            {
+                graphics.FillPath(glowBrush, glowPath);
+            }
+        }
+    }
+
+    private bool IsSlideAnimating() => Math.Abs(_animationPosition - GetTargetPosition()) >= 0.5f;
+
+    private void UpdatePulseAnimationState()
+    {
+        if (_animationTimer == null)
+        {
+            return;
+        }
+
+        if (ShouldRunPulseAnimation())
+        {
+            if (!_animationTimer.Enabled && !IsSlideAnimating())
+            {
+                _animationTimer.Start();
+            }
+        }
+        else if (!IsSlideAnimating())
+        {
+            _animationTimer.Stop();
+            _pulseAnimationPhase = 0f;
         }
     }
 
@@ -972,23 +1069,48 @@ public class KryptonToggleSwitch : Control, IContentValues
     /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
     private void OnAnimationTimerTick(object? sender, EventArgs e)
     {
-        float targetPosition = GetTargetPosition();
+        bool needsInvalidate = false;
 
-        float step = 0.1f; // Adjust for smoothness
-
-        _animationPosition = Lerp(_animationPosition, targetPosition, step);
-        _gradientAnimationProgress = GetOnPosition() == GetOffPosition()
-            ? (ToggleSwitchValues.Checked ? 1f : 0f)
-            : Math.Max(0f, Math.Min(1f, (_animationPosition - GetOffPosition()) / (GetOnPosition() - GetOffPosition())));
-
-        if (Math.Abs(_animationPosition - targetPosition) < 0.5f)
+        if (IsSlideAnimating())
         {
-            _animationPosition = targetPosition;
-            _gradientAnimationProgress = ToggleSwitchValues.Checked ? 1f : 0f;
-            _animationTimer.Stop();
+            float targetPosition = GetTargetPosition();
+            float step = 0.1f; // Adjust for smoothness
+
+            _animationPosition = Lerp(_animationPosition, targetPosition, step);
+            _gradientAnimationProgress = GetOnPosition() == GetOffPosition()
+                ? (ToggleSwitchValues.Checked ? 1f : 0f)
+                : Math.Max(0f, Math.Min(1f, (_animationPosition - GetOffPosition()) / (GetOnPosition() - GetOffPosition())));
+
+            if (Math.Abs(_animationPosition - targetPosition) < 0.5f)
+            {
+                _animationPosition = targetPosition;
+                _gradientAnimationProgress = ToggleSwitchValues.Checked ? 1f : 0f;
+            }
+
+            needsInvalidate = true;
         }
 
-        Invalidate();
+        if (ShouldRunPulseAnimation())
+        {
+            _pulseAnimationPhase += PulsePhaseStep * ToggleSwitchValues.KnobPulseSpeed;
+            if (_pulseAnimationPhase > 1f)
+            {
+                _pulseAnimationPhase -= 1f;
+            }
+
+            needsInvalidate = true;
+        }
+
+        if (!IsSlideAnimating() && !ShouldRunPulseAnimation())
+        {
+            _animationTimer.Stop();
+            _pulseAnimationPhase = 0f;
+        }
+
+        if (needsInvalidate)
+        {
+            Invalidate();
+        }
     }
 
     private float Lerp(float start, float end, float amount) => start + (end - start) * amount;
@@ -1000,6 +1122,12 @@ public class KryptonToggleSwitch : Control, IContentValues
             _animationTimer.Start();
             StartAnimation();
             CheckedChanged?.Invoke(this, EventArgs.Empty);
+        }
+        else if (e.PropertyName == nameof(ToggleSwitchValues.EnableKnobPulse)
+                 || e.PropertyName == nameof(ToggleSwitchValues.KnobPulseSpeed)
+                 || e.PropertyName == nameof(ToggleSwitchValues.KnobPulseIntensity))
+        {
+            UpdatePulseAnimationState();
         }
 
         Invalidate();

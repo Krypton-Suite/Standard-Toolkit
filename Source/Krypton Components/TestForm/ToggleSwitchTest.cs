@@ -28,7 +28,7 @@ public partial class ToggleSwitchTest : KryptonForm
             Dock = DockStyle.Top,
             Height = 72,
             LabelStyle = LabelStyle.NormalPanel,
-            Text = "Issue #3890: compare knob styles. Set ToggleSwitchValues.OnColor/OffColor (default red/green) — with OnlyShowColorOnKnob=true they apply to the knob even when UseThemeColors is enabled. Enable EnableKnobGradient or choose the Gradient style for gradient fills.",
+            Text = "Issue #3890: compare knob styles. Set ToggleSwitchValues.OnColor/OffColor (default red/green) — with OnlyShowColorOnKnob=true they apply to the knob even when UseThemeColors is enabled. Enable EnableKnobGradient or choose the Gradient style for gradient fills. Enable EnableKnobPulse on the selected switch to preview the optional pulsing knob animation.",
             TextAlign = ContentAlignment.MiddleLeft
         };
 
@@ -78,6 +78,7 @@ public partial class ToggleSwitchTest : KryptonForm
         toggleSwitch.ToggleSwitchValues.OnlyShowColorOnKnob = true;
         toggleSwitch.ToggleSwitchValues.EnableKnobGradient = style == ToggleSwitchKnobStyle.Gradient;
         toggleSwitch.ToggleSwitchValues.AnimateGradientEffect = style == ToggleSwitchKnobStyle.Gradient;
+        toggleSwitch.ToggleSwitchValues.EnableKnobPulse = style == ToggleSwitchKnobStyle.Classic;
 
         previewContainer.Controls.Add(toggleSwitch);
         previewContainer.Controls.Add(styleLabel);
@@ -87,6 +88,6 @@ public partial class ToggleSwitchTest : KryptonForm
 
     private void UpdateStatusText()
     {
-        kryptonWrapLabel1.Text = $@"Selected switch: Checked = {ktsTest.ToggleSwitchValues.Checked}, KnobStyle = {ktsTest.ToggleSwitchValues.KnobStyle}";
+        kryptonWrapLabel1.Text = $@"Selected switch: Checked = {ktsTest.ToggleSwitchValues.Checked}, KnobStyle = {ktsTest.ToggleSwitchValues.KnobStyle}, EnableKnobPulse = {ktsTest.ToggleSwitchValues.EnableKnobPulse}";
     }
 }

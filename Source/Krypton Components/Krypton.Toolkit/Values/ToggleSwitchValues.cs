@@ -21,10 +21,13 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
     private bool _enableEmbossEffect;
     private bool _animateGradientEffect;
     private bool _enableKnobGradient;
+    private bool _enableKnobPulse;
     private bool _onlyShowColorOnKnob;
     private bool _showText;
     private float _gradientStartIntensity;
     private float _gradientEndIntensity;
+    private float _knobPulseSpeed;
+    private float _knobPulseIntensity;
     private LinearGradientMode _gradientDirection;
     private Color _onColor;
     private Color _offColor;
@@ -43,10 +46,13 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
         _enableEmbossEffect = false;
         _animateGradientEffect = false;
         _enableKnobGradient = false;
+        _enableKnobPulse = false;
         _onlyShowColorOnKnob = true;
         _showText = true;
         _gradientStartIntensity = 0.8f;
         _gradientEndIntensity = 0.6f;
+        _knobPulseSpeed = 1f;
+        _knobPulseIntensity = 0.5f;
         _gradientDirection = LinearGradientMode.ForwardDiagonal;
         _onColor = Color.Green;
         _offColor = Color.Red;
@@ -142,6 +148,59 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
             {
                 _enableKnobGradient = value;
                 OnPropertyChanged(nameof(EnableKnobGradient));
+            }
+        }
+    }
+
+    /// <summary>Gets or sets a value indicating whether the knob should pulse while the control is enabled and visible.</summary>
+    [Category("Appearance")]
+    [Description("Indicates whether the knob should pulse while the control is enabled and visible.")]
+    [DefaultValue(false)]
+    public bool EnableKnobPulse
+    {
+        get => _enableKnobPulse;
+        set
+        {
+            if (_enableKnobPulse != value)
+            {
+                _enableKnobPulse = value;
+                OnPropertyChanged(nameof(EnableKnobPulse));
+            }
+        }
+    }
+
+    /// <summary>Gets or sets the knob pulse animation speed multiplier.</summary>
+    [Category("Appearance")]
+    [Description("Knob pulse animation speed multiplier. 1 is the default speed; values greater than 1 animate faster and values less than 1 animate slower.")]
+    [DefaultValue(1f)]
+    public float KnobPulseSpeed
+    {
+        get => _knobPulseSpeed;
+        set
+        {
+            float speed = Math.Max(0.1f, Math.Min(10f, value));
+            if (Math.Abs(_knobPulseSpeed - speed) > float.Epsilon)
+            {
+                _knobPulseSpeed = speed;
+                OnPropertyChanged(nameof(KnobPulseSpeed));
+            }
+        }
+    }
+
+    /// <summary>Gets or sets the knob pulse intensity.</summary>
+    [Category("Appearance")]
+    [Description("Specifies how strong the knob pulse effect is. 0 is the minimum intensity; 1 is the maximum intensity.")]
+    [DefaultValue(0.5f)]
+    public float KnobPulseIntensity
+    {
+        get => _knobPulseIntensity;
+        set
+        {
+            float intensity = Math.Max(0f, Math.Min(1f, value));
+            if (Math.Abs(_knobPulseIntensity - intensity) > float.Epsilon)
+            {
+                _knobPulseIntensity = intensity;
+                OnPropertyChanged(nameof(KnobPulseIntensity));
             }
         }
     }
@@ -336,8 +395,11 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
     /// <summary>Gets a value indicating whether this instance is default.</summary>
     /// <value><c>true</c> if this instance is default; otherwise, <c>false</c>.</value>
     [Browsable(false)]
-    public bool IsDefault => !_checked && !_enableEmbossEffect && !_enableKnobGradient && _gradientStartIntensity.Equals(0.8f) &&
+    public bool IsDefault => !_checked && !_enableEmbossEffect && !_enableKnobGradient && !_enableKnobPulse &&
+                             _gradientStartIntensity.Equals(0.8f) &&
                              _gradientEndIntensity.Equals(0.6f) &&
+                             Math.Abs(_knobPulseSpeed - 1f) < float.Epsilon &&
+                             Math.Abs(_knobPulseIntensity - 0.5f) < float.Epsilon &&
                              _gradientDirection == LinearGradientMode.ForwardDiagonal && _onColor == Color.Green &&
                              _offColor == Color.Red && _cornerRadius == 10 && _useThemeColors &&
                              _knobStyle == ToggleSwitchKnobStyle.Classic;
@@ -353,6 +415,9 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
         EnableEmbossEffect = false;
         AnimateGradientEffect = false;
         EnableKnobGradient = false;
+        EnableKnobPulse = false;
+        KnobPulseSpeed = 1f;
+        KnobPulseIntensity = 0.5f;
         OnlyShowColorOnKnob = true;
         ShowText = true;
         GradientStartIntensity = 0.8f;
