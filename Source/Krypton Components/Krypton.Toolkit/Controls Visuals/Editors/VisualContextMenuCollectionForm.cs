@@ -172,6 +172,7 @@ internal partial class VisualContextMenuCollectionForm : VisualDesignerCollectio
     private DictItemBase _beforeItems = null!;
     private List<KryptonContextMenuItemBase> _sessionStartRootOrder = null!;
     private Dictionary<KryptonContextMenuItemBase, List<KryptonContextMenuItemBase>> _sessionStartChildOrder = null!;
+    private List<KryptonDesignerEditorPropertySnapshot.SnapshotEntry>? _sessionPropertySnapshots;
 
     #endregion
 
@@ -269,12 +270,14 @@ internal partial class VisualContextMenuCollectionForm : VisualDesignerCollectio
         {
             DiscardAddedDesignerItems();
             RestoreSessionHierarchy();
+            KryptonDesignerEditorPropertySnapshot.Restore(_sessionPropertySnapshots);
         }
 
         private void CaptureSessionSnapshot()
         {
             _sessionStartRootOrder = Items!.Cast<KryptonContextMenuItemBase>().ToList();
             _sessionStartChildOrder = new Dictionary<KryptonContextMenuItemBase, List<KryptonContextMenuItemBase>>();
+            _sessionPropertySnapshots = KryptonDesignerEditorPropertySnapshot.Capture(_beforeItems.Keys.Cast<object>());
 
             foreach (KryptonContextMenuItemBase item in _beforeItems.Keys)
             {

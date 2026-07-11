@@ -19,7 +19,7 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
     private object[]? _workingItems;
     private object[]? _sessionStartOrder;
     private HashSet<object>? _sessionStartItems;
-    private List<DesignerItemPropertySnapshot>? _sessionPropertySnapshots;
+    private List<KryptonDesignerEditorPropertySnapshot.SnapshotEntry>? _sessionPropertySnapshots;
     private readonly List<object> _pendingDestroy = [];
     #endregion
 
@@ -88,7 +88,7 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
         _workingItems = (object[])Items.Clone();
         _sessionStartOrder = (object[])_workingItems.Clone();
         _sessionStartItems = new HashSet<object>(_workingItems);
-        _sessionPropertySnapshots = CapturePropertySnapshots(_sessionStartOrder);
+        _sessionPropertySnapshots = KryptonDesignerEditorPropertySnapshot.Capture(_sessionStartOrder);
         _pendingDestroy.Clear();
         RefreshList();
         _propertyGrid.Site = new KryptonDesignerPropertyGridSite(Context, _propertyGrid);
@@ -205,7 +205,7 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
 
         var sessionAddedItems = CollectSessionAddedItems();
         RestoreSessionMembership();
-        RestoreSessionPropertyValues();
+        KryptonDesignerEditorPropertySnapshot.Restore(_sessionPropertySnapshots);
         DestroySessionAddedItems(sessionAddedItems);
         _pendingDestroy.Clear();
         _workingItems = Items;
@@ -239,19 +239,6 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
         CommitDesignerItems();
     }
 
-    private void RestoreSessionPropertyValues()
-    {
-        if (_sessionPropertySnapshots is null)
-        {
-            return;
-        }
-
-        foreach (var snapshot in _sessionPropertySnapshots)
-        {
-            RestorePropertySnapshot(snapshot.Item, snapshot.Properties);
-        }
-    }
-
     private void DestroySessionAddedItems(IEnumerable<object> sessionAddedItems)
     {
         foreach (var item in sessionAddedItems)
@@ -269,90 +256,6 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
         }
     }
 
-    private static List<DesignerItemPropertySnapshot> CapturePropertySnapshots(object[] items)
-    {
-        var snapshots = new List<DesignerItemPropertySnapshot>(items.Length);
-        foreach (var item in items)
-        {
-            snapshots.Add(new DesignerItemPropertySnapshot(item, CapturePropertySnapshot(item)));
-        }
-
-        return snapshots;
-    }
-
-    // Nested storage objects (e.g. palette/state properties marked with
-    // DesignerSerializationVisibility.Content) are edited in place by the property grid,
-    // so a top-level reference snapshot is not enough to revert them on Cancel.
-    private const int MaxSnapshotDepth = 8;
-
-    private static PropertySnapshotNode CapturePropertySnapshot(object item)
-    {
-        var visited = new HashSet<object>(ReferenceComparer.Instance) { item };
-        var root = new PropertySnapshotNode();
-        CapturePropertySnapshotNode(item, root, visited, 0);
-        return root;
-    }
-
-    private static void CapturePropertySnapshotNode(object item, PropertySnapshotNode node, HashSet<object> visited, int depth)
-    {
-        foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(item))
-        {
-            var visibility = GetSerializationVisibility(property);
-            if (visibility == DesignerSerializationVisibility.Hidden)
-            {
-                continue;
-            }
-
-            var value = property.GetValue(item);
-            if (!property.IsReadOnly)
-            {
-                node.Values[property.Name] = value;
-            }
-
-            // Content visibility marks objects whose nested state is edited in place.
-            if (visibility == DesignerSerializationVisibility.Content
-                && value is not null
-                && !property.PropertyType.IsValueType
-                && value is not string
-                && depth < MaxSnapshotDepth
-                && visited.Add(value))
-            {
-                var child = new PropertySnapshotNode();
-                CapturePropertySnapshotNode(value, child, visited, depth + 1);
-                if (child.Values.Count > 0 || child.Children.Count > 0)
-                {
-                    node.Children[property.Name] = child;
-                }
-            }
-        }
-    }
-
-    private static void RestorePropertySnapshot(object item, PropertySnapshotNode node)
-    {
-        foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(item))
-        {
-            // Restore the top-level reference first so nested state is reverted on the
-            // original object when the user replaced it during the session.
-            if (!property.IsReadOnly
-                && node.Values.TryGetValue(property.Name, out var value)
-                && !Equals(property.GetValue(item), value))
-            {
-                property.SetValue(item, value);
-            }
-
-            if (node.Children.TryGetValue(property.Name, out var child)
-                && property.GetValue(item) is { } nested)
-            {
-                RestorePropertySnapshot(nested, child);
-            }
-        }
-    }
-
-    private static DesignerSerializationVisibility GetSerializationVisibility(PropertyDescriptor property) =>
-        property.Attributes[typeof(DesignerSerializationVisibilityAttribute)] is DesignerSerializationVisibilityAttribute attribute
-            ? attribute.Visibility
-            : DesignerSerializationVisibility.Visible;
-
     private Type? PromptNewItemType(IReadOnlyList<Type> itemTypes)
     {
         using var form = new KryptonForm
@@ -363,6 +266,7 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
             Text = @"Select item type",
             ClientSize = KryptonDesignerEditorDpi.Scale(this, new Size(320, 280))
         };
+        form.SetInheritedControlOverride();
         KryptonDesignerEditorTheme.ApplyFromContext(form, Context);
 
         var listBox = new KryptonListBox { Dock = DockStyle.Fill };
@@ -438,35 +342,6 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
         public string Text { get; }
 
         public override string ToString() => Text;
-    }
-
-    private sealed class DesignerItemPropertySnapshot
-    {
-        public DesignerItemPropertySnapshot(object item, PropertySnapshotNode properties)
-        {
-            Item = item;
-            Properties = properties;
-        }
-
-        public object Item { get; }
-
-        public PropertySnapshotNode Properties { get; }
-    }
-
-    private sealed class PropertySnapshotNode
-    {
-        public Dictionary<string, object?> Values { get; } = new Dictionary<string, object?>(StringComparer.Ordinal);
-
-        public Dictionary<string, PropertySnapshotNode> Children { get; } = new Dictionary<string, PropertySnapshotNode>(StringComparer.Ordinal);
-    }
-
-    private sealed class ReferenceComparer : IEqualityComparer<object>
-    {
-        public static readonly ReferenceComparer Instance = new ReferenceComparer();
-
-        bool IEqualityComparer<object>.Equals(object? x, object? y) => ReferenceEquals(x, y);
-
-        int IEqualityComparer<object>.GetHashCode(object obj) => RuntimeHelpers.GetHashCode(obj);
     }
     #endregion
 }

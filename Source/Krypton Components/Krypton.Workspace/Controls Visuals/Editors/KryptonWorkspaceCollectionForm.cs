@@ -803,6 +803,7 @@ internal partial class KryptonWorkspaceCollectionForm : VisualDesignerCollection
     private List<Component> _sessionStartRootOrder = null!;
     private Dictionary<KryptonWorkspaceSequence, List<Component>> _sessionStartSequenceChildren = null!;
     private Dictionary<KryptonWorkspaceCell, List<KryptonPage>> _sessionStartCellPages = null!;
+    private List<KryptonDesignerEditorPropertySnapshot.SnapshotEntry>? _sessionPropertySnapshots;
     #endregion
 
     #region Identity
@@ -961,6 +962,7 @@ internal partial class KryptonWorkspaceCollectionForm : VisualDesignerCollection
         {
             DiscardAddedDesignerItems();
             RestoreSessionHierarchy();
+            KryptonDesignerEditorPropertySnapshot.Restore(_sessionPropertySnapshots);
         }
 
         private void CaptureSessionSnapshot()
@@ -968,6 +970,7 @@ internal partial class KryptonWorkspaceCollectionForm : VisualDesignerCollection
             _sessionStartRootOrder = Items!.Cast<Component>().ToList();
             _sessionStartSequenceChildren = new Dictionary<KryptonWorkspaceSequence, List<Component>>();
             _sessionStartCellPages = new Dictionary<KryptonWorkspaceCell, List<KryptonPage>>();
+            _sessionPropertySnapshots = KryptonDesignerEditorPropertySnapshot.Capture(_beforeItems.Keys.Cast<object>());
 
             foreach (Component item in _beforeItems.Keys)
             {
