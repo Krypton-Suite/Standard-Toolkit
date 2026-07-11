@@ -15,7 +15,7 @@ body:
 
         Use this template when filing a task that originates from an inline code comment.
 
-        **Automatic tracking:** The [Scan code TODOs](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/scan-code-todos.yml) workflow can create issues from comments marked with the opt-in syntax:
+        **Automatic tracking:** The [Scan code TODOs](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/scan-code-todos.yml) workflow can create issues from comments marked with the opt-in syntax. `FIXME(issue):` comments are filed as [Bug Reports](https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/.github/ISSUE_TEMPLATE/bug_report.yml). See the [developer guide](https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Documents/scan-code-todos-developer-guide.md) for full details.
 
         ```csharp
         // ToDo(issue): Short description of the work

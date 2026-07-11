@@ -17,10 +17,10 @@ param(
 $ErrorActionPreference = 'Stop'
 
 if ($IncludeAllMarkers) {
-    $pattern = '\b(?:TODO|ToDo|FIXME|HACK)\b(?!\s*\])(?:\s*\(\s*issue\s*\))?[:\s]*(.*)$'
+    $pattern = '\b(TODO|ToDo|FIXME|HACK)\b(?!\s*\])(?:\s*\(\s*issue\s*\))?[:\s]*(.*)$'
 }
 else {
-    $pattern = '(?i)\b(?:TODO|ToDo)\s*\(\s*issue\s*\)\s*[:\s]*(.*)$'
+    $pattern = '(?i)\b(TODO|ToDo|FIXME)\s*\(\s*issue\s*\)\s*[:\s]*(.*)$'
 }
 
 $searchRoots = @(
@@ -31,6 +31,16 @@ $searchRoots = @(
 
 $linkedIssuePattern = '(?:#\d{3,}|issues/\d{3,})'
 $scanResults = @()
+
+function Get-MarkerType {
+    param([string]$MarkerRaw)
+
+    if ($MarkerRaw.ToLowerInvariant() -eq 'fixme') {
+        return 'fixme'
+    }
+
+    return 'todo'
+}
 
 foreach ($root in $searchRoots) {
     if (-not (Test-Path -LiteralPath $root)) {
@@ -53,11 +63,13 @@ foreach ($root in $searchRoots) {
                     }
 
                     $relativePath = $file.FullName.Substring($RepositoryRoot.Length).TrimStart('\', '/').Replace('\', '/')
-                    $commentText = $Matches[1].Trim()
+                    $markerRaw = $Matches[1]
+                    $commentText = $Matches[2].Trim()
                     if ([string]::IsNullOrWhiteSpace($commentText)) {
                         return
                     }
 
+                    $markerType = Get-MarkerType -MarkerRaw $markerRaw
                     $normalizedText = ($commentText -replace '\s+', ' ').Trim().ToLowerInvariant()
                     $locationKey = "$relativePath`:$lineNumber`:$normalizedText"
                     $locationHash = [System.BitConverter]::ToString(
@@ -67,19 +79,26 @@ foreach ($root in $searchRoots) {
                     ).Replace('-', '').ToLowerInvariant()
 
                     $groupKey = if ($GroupDuplicates) {
+                        $groupPayload = "$markerType`:$normalizedText"
                         [System.BitConverter]::ToString(
                             [System.Security.Cryptography.SHA256]::Create().ComputeHash(
-                                [System.Text.Encoding]::UTF8.GetBytes($normalizedText)
+                                [System.Text.Encoding]::UTF8.GetBytes($groupPayload)
                             )
                         ).Replace('-', '').ToLowerInvariant()
                     }
                     else {
-                        $locationHash
+                        $locationPayload = "$markerType`:$locationHash"
+                        [System.BitConverter]::ToString(
+                            [System.Security.Cryptography.SHA256]::Create().ComputeHash(
+                                [System.Text.Encoding]::UTF8.GetBytes($locationPayload)
+                            )
+                        ).Replace('-', '').ToLowerInvariant()
                     }
 
                     $scanResults += [pscustomobject]@{
                         FilePath       = $relativePath
                         LineNumber     = $lineNumber
+                        MarkerType     = $markerType
                         CommentText    = $commentText
                         NormalizedText = $normalizedText
                         LocationHash   = $locationHash
@@ -90,8 +109,11 @@ foreach ($root in $searchRoots) {
         }
 }
 
-Write-Host "Scan mode: $(if ($IncludeAllMarkers) { 'all markers' } else { 'opt-in (ToDo(issue))' })"
-Write-Host "Matches: $($scanResults.Count)"
+$todoCount = @($scanResults | Where-Object { $_.MarkerType -eq 'todo' }).Count
+$fixmeCount = @($scanResults | Where-Object { $_.MarkerType -eq 'fixme' }).Count
+
+Write-Host "Scan mode: $(if ($IncludeAllMarkers) { 'all markers' } else { 'opt-in (ToDo/FIXME issue)' })"
+Write-Host "Matches: $($scanResults.Count) (todo=$todoCount, fixme=$fixmeCount)"
 
 if ($GroupDuplicates) {
     $groups = $scanResults | Group-Object -Property GroupKey
@@ -101,7 +123,8 @@ if ($GroupDuplicates) {
         Select-Object -First 25 |
         ForEach-Object {
             $sample = $_.Group[0]
-            Write-Host ("[{0}] {1} ({2} location(s))" -f $_.Count, $sample.CommentText, $_.Count)
+            $issueKind = if ($sample.MarkerType -eq 'fixme') { 'Bug Report' } else { 'Code ToDo' }
+            Write-Host ("[{0}] [{1}] {2} ({3} location(s))" -f $_.Count, $issueKind, $sample.CommentText, $_.Count)
             foreach ($item in $_.Group | Select-Object -First 3) {
                 Write-Host ("  - {0}:{1}" -f $item.FilePath, $item.LineNumber)
             }
@@ -112,10 +135,11 @@ if ($GroupDuplicates) {
 }
 else {
     $scanResults |
-        Sort-Object FilePath, LineNumber |
+        Sort-Object MarkerType, FilePath, LineNumber |
         Select-Object -First 50 |
         ForEach-Object {
-            Write-Host ("{0}:{1}  {2}" -f $_.FilePath, $_.LineNumber, $_.CommentText)
+            $issueKind = if ($_.MarkerType -eq 'fixme') { 'fixme' } else { 'todo' }
+            Write-Host ("[{0}] {1}:{2}  {3}" -f $issueKind, $_.FilePath, $_.LineNumber, $_.CommentText)
         }
 
     if ($scanResults.Count -gt 50) {
