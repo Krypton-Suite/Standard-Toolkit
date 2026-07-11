@@ -14,7 +14,11 @@
     Repository root. Defaults to GITHUB_WORKSPACE or the current location.
 
 .PARAMETER ChangedPaths
-    Optional relative paths to scan. When omitted, scans Source/, Documents/, .github/, and Scripts/.
+    Optional relative paths to scan. When omitted with `-ScanAll`, scans Source/, Documents/, .github/, and Scripts/.
+    When supplied (including an empty list), only those paths are scanned.
+
+.PARAMETER ScanAll
+    Scan all eligible files under the default roots instead of a supplied path list.
 
 .PARAMETER FailOnIssues
     When set, writes a workflow error and exits with code 1 if any issue is found.
@@ -120,12 +124,13 @@ function Test-SourceEncodingPathEligible {
 function Get-SourceEncodingScanPaths {
     param(
         [string]$RepoRoot,
-        [string[]]$ChangedPaths
+        [string[]]$ChangedPaths,
+        [switch]$ScanAll
     )
 
     $extensions = New-SourceEncodingExtensionSet
 
-    if ($ChangedPaths -and $ChangedPaths.Count -gt 0) {
+    if (-not $ScanAll) {
         $paths = [System.Collections.Generic.List[string]]::new()
         foreach ($relativePath in $ChangedPaths) {
             $relativePath = $relativePath.Trim().Replace('\', '/')
@@ -240,11 +245,12 @@ function Test-SourceEncodingIntegrity {
     param(
         [string]$RepoRoot = $(if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }),
         [string[]]$ChangedPaths = @(),
+        [switch]$ScanAll,
         [switch]$FailOnIssues
     )
 
     $RepoRoot = (Resolve-Path -LiteralPath $RepoRoot).Path
-    $scanPaths = Get-SourceEncodingScanPaths -RepoRoot $RepoRoot -ChangedPaths $ChangedPaths
+    $scanPaths = Get-SourceEncodingScanPaths -RepoRoot $RepoRoot -ChangedPaths $ChangedPaths -ScanAll:$ScanAll
     $allIssues = [System.Collections.Generic.List[object]]::new()
 
     foreach ($fullPath in $scanPaths) {
@@ -300,8 +306,13 @@ function Test-SourceEncodingIntegrity {
 if ($MyInvocation.InvocationName -ne '.') {
     param(
         [string[]]$ChangedPaths = @(),
+        [switch]$ScanAll,
         [switch]$FailOnIssues
     )
 
-    $null = Test-SourceEncodingIntegrity -ChangedPaths $ChangedPaths -FailOnIssues:$FailOnIssues
+    if (-not $ScanAll -and $ChangedPaths.Count -eq 0) {
+        $ScanAll = $true
+    }
+
+    $null = Test-SourceEncodingIntegrity -ChangedPaths $ChangedPaths -ScanAll:$ScanAll -FailOnIssues:$FailOnIssues
 }

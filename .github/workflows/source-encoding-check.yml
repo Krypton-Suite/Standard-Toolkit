@@ -141,7 +141,7 @@ jobs:
           }
 
           if ($scanAll) {
-            Test-SourceEncodingIntegrity -RepoRoot $repoRoot -FailOnIssues
+            Test-SourceEncodingIntegrity -RepoRoot $repoRoot -ScanAll -FailOnIssues
           }
           else {
             Test-SourceEncodingIntegrity -RepoRoot $repoRoot -ChangedPaths $changedPaths -FailOnIssues
