@@ -336,7 +336,8 @@ internal static class FlashWindowExListener
 {
     private static readonly Dictionary<IntPtr, Form> _forms = new Dictionary<IntPtr, Form>();
     private static IntPtr _hHook = IntPtr.Zero;
-    private static int _installManagedThreadId;
+    private static int _installNativeThreadId;
+    private static Form? _installThreadForm;
     private static readonly object _hookLock = new object();
     // Keep the HookProc delegate alive manually, such as using a class member as shown below,
     // otherwise the garbage collector will clean up the hook delegate eventually,
@@ -374,7 +375,7 @@ internal static class FlashWindowExListener
         AppDomain.CurrentDomain.ProcessExit += delegate { UninstallHookSafe(); };
     }
 
-    private static void EnsureHookInstalled()
+    private static void EnsureHookInstalled(Form installContextForm)
     {
         if (_hHook != IntPtr.Zero)
         {
@@ -388,7 +389,8 @@ internal static class FlashWindowExListener
                 return;
             }
 
-            _installManagedThreadId = Environment.CurrentManagedThreadId;
+            _installNativeThreadId = PI.GetCurrentThreadId();
+            _installThreadForm = installContextForm;
 
             // we are interested in listening to WH_SHELL events, mainly the HSHELL_REDRAW event.
             var threadId = PI.GetCurrentThreadId();
@@ -405,12 +407,15 @@ internal static class FlashWindowExListener
                 return;
             }
 
-            PI.UnhookWindowsHookEx(_hHook);
-            _hHook = IntPtr.Zero;
+            if (PI.UnhookWindowsHookEx(_hHook) != 0)
+            {
+                _hHook = IntPtr.Zero;
+                _installThreadForm = null;
+            }
         }
     }
 
-    private static void UninstallHookSafe()
+    private static void UninstallHookSafe(Form? marshalingForm = null)
     {
         if (_hHook == IntPtr.Zero)
         {
@@ -418,39 +423,75 @@ internal static class FlashWindowExListener
         }
 
         // WH_SHELL installed with a thread id must be unhooked on the installing thread.
-        if (Environment.CurrentManagedThreadId == _installManagedThreadId)
+        if (PI.GetCurrentThreadId() == _installNativeThreadId)
         {
             UninstallHook();
             return;
         }
 
+        // DomainUnload/ProcessExit must unhook synchronously; BeginInvoke would run too late.
+        foreach (var form in GetMarshalingCandidates(marshalingForm))
+        {
+            if (TryMarshalUninstallHook(form))
+            {
+                return;
+            }
+        }
+
+        // Last resort when no UI is available to marshal (may fail on the wrong thread).
+        UninstallHook();
+    }
+
+    private static IEnumerable<Form> GetMarshalingCandidates(Form? marshalingForm)
+    {
+        if (marshalingForm is { IsDisposed: false })
+        {
+            yield return marshalingForm;
+        }
+
+        if (_installThreadForm is { IsDisposed: false }
+            && !ReferenceEquals(_installThreadForm, marshalingForm))
+        {
+            yield return _installThreadForm;
+        }
+
         foreach (var form in _forms.Values.ToArray())
         {
-            if (form.IsDisposed)
+            if (form.IsDisposed
+                || ReferenceEquals(form, marshalingForm)
+                || ReferenceEquals(form, _installThreadForm))
             {
                 continue;
             }
 
-            try
-            {
-                if (form.InvokeRequired)
-                {
-                    form.BeginInvoke(new Action(UninstallHook));
-                }
-                else
-                {
-                    UninstallHook();
-                }
-
-                return;
-            }
-            catch
-            {
-                //
-            }
+            yield return form;
         }
+    }
 
-        UninstallHook();
+    private static bool TryMarshalUninstallHook(Form form)
+    {
+        try
+        {
+            if (!form.IsHandleCreated)
+            {
+                return false;
+            }
+
+            if (form.InvokeRequired)
+            {
+                form.Invoke(new Action(UninstallHook));
+            }
+            else
+            {
+                UninstallHook();
+            }
+
+            return _hHook == IntPtr.Zero;
+        }
+        catch
+        {
+            return false;
+        }
     }
 
     internal static void Register(Form f)
@@ -462,17 +503,21 @@ internal static class FlashWindowExListener
 
         void OnHandleKnown()
         {
-            EnsureHookInstalled();
+            EnsureHookInstalled(f);
 
             // hold the handle here to unregister it without depending on the form
             var handle = f.Handle;
             _forms[handle] = f;
 
+            void OnFormUnregistered(object? sender, EventArgs e) => Unregister(handle);
+
 #if NET10_0_OR_GREATER
-                f.FormClosing += delegate { Unregister(handle); };
+            f.FormClosing += OnFormUnregistered;
 #else
-            f.Closing += delegate { Unregister(handle); };
+            f.Closing += OnFormUnregistered;
 #endif
+            f.FormClosed += OnFormUnregistered;
+            f.Disposed += OnFormUnregistered;
         }
 
         if (f.Handle == IntPtr.Zero)
@@ -488,14 +533,17 @@ internal static class FlashWindowExListener
     internal static void Unregister(IntPtr handle)
     {
         // We can't use 'null', since the type of the object is 'IntPtr'. So we need to use 'IntPtr.Zero'.
-        if (handle != IntPtr.Zero)
+        if (handle == IntPtr.Zero)
         {
-            _forms.Remove(handle);
+            return;
+        }
 
-            if (_forms.Count == 0)
-            {
-                UninstallHookSafe();
-            }
+        _forms.TryGetValue(handle, out var closingForm);
+        _forms.Remove(handle);
+
+        if (_forms.Count == 0)
+        {
+            UninstallHookSafe(closingForm);
         }
     }
 
@@ -503,19 +551,22 @@ internal static class FlashWindowExListener
     {
         // This will crash if f has been disposed
         // We can't use 'null', since the type of the object is 'IntPtr'. So we need to use 'IntPtr.Zero'.
-        if (f.Handle != IntPtr.Zero)
+        if (f.Handle == IntPtr.Zero)
         {
-            _forms.Remove(f.Handle);
-
-            if (_forms.Count == 0)
-            {
-                UninstallHookSafe();
-            }
+            return;
         }
+
+        Unregister(f.Handle);
     }
 
     private static IntPtr ShellProc(int code, IntPtr wParam, IntPtr lParam)
     {
+        var hHook = _hHook;
+        if (hHook == IntPtr.Zero)
+        {
+            return PI.CallNextHookEx(IntPtr.Zero, code, wParam, lParam);
+        }
+
         if (code == PI.HSHELL_REDRAW)
         {
             try
@@ -531,9 +582,6 @@ internal static class FlashWindowExListener
             }
         }
 
-        var hHook = _hHook;
-        return hHook != IntPtr.Zero
-            ? PI.CallNextHookEx(hHook, code, wParam, lParam)
-            : PI.CallNextHookEx(IntPtr.Zero, code, wParam, lParam);
+        return PI.CallNextHookEx(hHook, code, wParam, lParam);
     }
 }
