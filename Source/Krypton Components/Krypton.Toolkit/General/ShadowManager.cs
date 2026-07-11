@@ -370,39 +370,38 @@ internal static class FlashWindowExListener
         //   that they will never be called.'
         _hookProc = ShellProc;
 
-        Application.ApplicationExit += delegate { UninstallHookSafe(); };
-        AppDomain.CurrentDomain.DomainUnload += delegate { UninstallHookSafe(); };
-        AppDomain.CurrentDomain.ProcessExit += delegate { UninstallHookSafe(); };
+        Application.ApplicationExit += delegate { UninstallHookSafe(null, onlyIfEmpty: false); };
+        AppDomain.CurrentDomain.DomainUnload += delegate { UninstallHookSafe(null, onlyIfEmpty: false); };
+        AppDomain.CurrentDomain.ProcessExit += delegate { UninstallHookSafe(null, onlyIfEmpty: false); };
     }
 
-    private static void EnsureHookInstalled(Form installContextForm)
+    // Caller must hold _hookLock so the hook lifecycle stays atomic with _forms membership.
+    private static void EnsureHookInstalledLocked(Form installContextForm)
     {
         if (_hHook != IntPtr.Zero)
         {
             return;
         }
 
-        lock (_hookLock)
-        {
-            if (_hHook != IntPtr.Zero)
-            {
-                return;
-            }
+        _installNativeThreadId = PI.GetCurrentThreadId();
+        _installThreadForm = installContextForm;
 
-            _installNativeThreadId = PI.GetCurrentThreadId();
-            _installThreadForm = installContextForm;
-
-            // we are interested in listening to WH_SHELL events, mainly the HSHELL_REDRAW event.
-            var threadId = PI.GetCurrentThreadId();
-            _hHook = PI.SetWindowsHookEx(PI.WH_.SHELL, _hookProc, IntPtr.Zero, threadId);
-        }
+        // we are interested in listening to WH_SHELL events, mainly the HSHELL_REDRAW event.
+        _hHook = PI.SetWindowsHookEx(PI.WH_.SHELL, _hookProc, IntPtr.Zero, _installNativeThreadId);
     }
 
-    private static void UninstallHook()
+    private static void UninstallHook(bool onlyIfEmpty)
     {
         lock (_hookLock)
         {
             if (_hHook == IntPtr.Zero)
+            {
+                return;
+            }
+
+            // A form may have (re)registered after the emptiness check that triggered this
+            // reference-count teardown; keep the hook alive so it is not stranded without one.
+            if (onlyIfEmpty && _forms.Count != 0)
             {
                 return;
             }
@@ -415,7 +414,7 @@ internal static class FlashWindowExListener
         }
     }
 
-    private static void UninstallHookSafe(Form? marshalingForm = null)
+    private static void UninstallHookSafe(Form? marshalingForm, bool onlyIfEmpty)
     {
         if (_hHook == IntPtr.Zero)
         {
@@ -425,21 +424,21 @@ internal static class FlashWindowExListener
         // WH_SHELL installed with a thread id must be unhooked on the installing thread.
         if (PI.GetCurrentThreadId() == _installNativeThreadId)
         {
-            UninstallHook();
+            UninstallHook(onlyIfEmpty);
             return;
         }
 
         // DomainUnload/ProcessExit must unhook synchronously; BeginInvoke would run too late.
         foreach (var form in GetMarshalingCandidates(marshalingForm))
         {
-            if (TryMarshalUninstallHook(form))
+            if (TryMarshalUninstallHook(form, onlyIfEmpty))
             {
                 return;
             }
         }
 
         // Last resort when no UI is available to marshal (may fail on the wrong thread).
-        UninstallHook();
+        UninstallHook(onlyIfEmpty);
     }
 
     private static IEnumerable<Form> GetMarshalingCandidates(Form? marshalingForm)
@@ -449,17 +448,24 @@ internal static class FlashWindowExListener
             yield return marshalingForm;
         }
 
-        if (_installThreadForm is { IsDisposed: false }
-            && !ReferenceEquals(_installThreadForm, marshalingForm))
+        var installForm = _installThreadForm;
+        if (installForm is { IsDisposed: false }
+            && !ReferenceEquals(installForm, marshalingForm))
         {
-            yield return _installThreadForm;
+            yield return installForm;
         }
 
-        foreach (var form in _forms.Values.ToArray())
+        Form[] snapshot;
+        lock (_hookLock)
+        {
+            snapshot = _forms.Values.ToArray();
+        }
+
+        foreach (var form in snapshot)
         {
             if (form.IsDisposed
                 || ReferenceEquals(form, marshalingForm)
-                || ReferenceEquals(form, _installThreadForm))
+                || ReferenceEquals(form, installForm))
             {
                 continue;
             }
@@ -468,7 +474,7 @@ internal static class FlashWindowExListener
         }
     }
 
-    private static bool TryMarshalUninstallHook(Form form)
+    private static bool TryMarshalUninstallHook(Form form, bool onlyIfEmpty)
     {
         try
         {
@@ -479,11 +485,11 @@ internal static class FlashWindowExListener
 
             if (form.InvokeRequired)
             {
-                form.Invoke(new Action(UninstallHook));
+                form.Invoke(new Action(() => UninstallHook(onlyIfEmpty)));
             }
             else
             {
-                UninstallHook();
+                UninstallHook(onlyIfEmpty);
             }
 
             return _hHook == IntPtr.Zero;
@@ -503,11 +509,16 @@ internal static class FlashWindowExListener
 
         void OnHandleKnown()
         {
-            EnsureHookInstalled(f);
-
             // hold the handle here to unregister it without depending on the form
             var handle = f.Handle;
-            _forms[handle] = f;
+
+            // Install-and-track atomically so a concurrent last-form close cannot uninstall
+            // the hook between install and _forms insertion (leaving this form stranded).
+            lock (_hookLock)
+            {
+                EnsureHookInstalledLocked(f);
+                _forms[handle] = f;
+            }
 
             void OnFormUnregistered(object? sender, EventArgs e) => Unregister(handle);
 
@@ -538,12 +549,18 @@ internal static class FlashWindowExListener
             return;
         }
 
-        _forms.TryGetValue(handle, out var closingForm);
-        _forms.Remove(handle);
-
-        if (_forms.Count == 0)
+        Form? closingForm;
+        bool nowEmpty;
+        lock (_hookLock)
         {
-            UninstallHookSafe(closingForm);
+            _forms.TryGetValue(handle, out closingForm);
+            _forms.Remove(handle);
+            nowEmpty = _forms.Count == 0;
+        }
+
+        if (nowEmpty)
+        {
+            UninstallHookSafe(closingForm, onlyIfEmpty: true);
         }
     }
 
@@ -569,16 +586,23 @@ internal static class FlashWindowExListener
 
         if (code == PI.HSHELL_REDRAW)
         {
-            try
+            Form? f;
+            lock (_hookLock)
             {
-                if (_forms.TryGetValue(wParam, out var f))
+                _forms.TryGetValue(wParam, out f);
+            }
+
+            // Raise outside the lock so handler code cannot deadlock against register/unregister.
+            if (f != null)
+            {
+                try
                 {
                     FlashEvent(f, (int)lParam == 1);
                 }
-            }
-            catch
-            {
-                //
+                catch
+                {
+                    //
+                }
             }
         }
 
