@@ -1,4 +1,4 @@
-# ![Krypton logo](https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png?raw=true) Standard Toolkit - ChangeLog
+﻿# ![Krypton logo](https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png?raw=true) Standard Toolkit - ChangeLog
 
 =======
 
@@ -45,7 +45,12 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#3894](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3894), `KryptonKnob` control colours
+   * `KryptonKnob` and `KryptonKnobAlternate` now render a visibly greyed-out disabled appearance (face, indicator, scale ticks/labels, and industrial backplate) when the control is disabled.
 * Implemented [#3807](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3807), `KryptonKnob` control
+   * The value indicator (inner circle) defaults to the palette `PanelAlternate` back colour instead of the track-bar position element colour.
+   * Hover and drag now apply `StateTracking` and `StatePressed` palette colours to the indicator as well as the knob face.
+   * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Resolved [#3850](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3850), Tooltip hot-spot not respected 
    * Tooltip placement now respects cursor hotspot and full cursor bounds
 * Implemented [#3856](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3856), Replace `CommonHelper.LogOutput` with thread-safe, non-UAC-protected logging
