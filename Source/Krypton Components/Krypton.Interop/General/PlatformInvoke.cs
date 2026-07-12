@@ -3197,6 +3197,11 @@ No 	                    No 	                    Show text only
     #else
 
     [DllImport(Libraries.User32, SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static extern bool EnableWindow(IntPtr hWnd, bool bEnable);
+
+    [DllImport(Libraries.User32, SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
     #endif
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
