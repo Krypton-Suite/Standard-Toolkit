@@ -49,6 +49,8 @@
    * Both controls also support cycle ordering (`SortOrder`: declaration / value / alphabetical), excluding values from the cycle, humanising PascalCase names, keyboard (arrow keys) and mouse-wheel cycling, per-value images, a cancelable `SelectedValueChanging` event to veto a change, data binding of `SelectedValue`, accessibility support, and a design-time drop-down editor for choosing the enum type in the property grid.
    * `KryptonEnumButton` and `KryptonEnumCommandLinkButton` now clear visible text when `EnumType` is unset, restore the default command-link image when `ImageProvider` is cleared, and allow full keyboard navigation in the design-time `EnumType` property-grid drop-down.
    * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as these controls are part of the `Krypton.Toolkit.Utilities` assembly.
+* Resolved [#3879](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3879), When the `KryptonComboBox` initializes in a disabled state, it displays using default system colors
+   * `KryptonComboBox` now displays theme disabled colors when initialized in a disabled state.
 * Implemented [#3807](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3807), `KryptonKnob` control
 * Resolved [#3850](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3850), Tooltip hot-spot not respected 
    * Tooltip placement now respects cursor hotspot and full cursor bounds
