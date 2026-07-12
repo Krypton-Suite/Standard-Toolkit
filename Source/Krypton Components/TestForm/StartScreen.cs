@@ -153,6 +153,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<KryptonDialogExamples>("Krypton Dialog tests", "Tests the various types of dialogs.");
         CreateButton<FadeFormTest>("FadeForm", string.Empty);
         CreateButton<GroupBoxTest>("GroupBox", string.Empty);
+        CreateButton<Bug3879KryptonComboBoxDisabledDemo>("3879 ComboBox Disabled", "Issue #3879: KryptonComboBox disabled at startup (DropDown and DropDownList) should use theme disabled colors. Toggle Enabled and switch themes to verify.");
         CreateButton<InputBoxTest>("InputBox", string.Empty);
         CreateButton<JumpListTest>("Jump List Test", "Comprehensive demonstration of jump lists on KryptonForm with user tasks, custom categories, known categories, and interactive examples.");
         CreateButton<KryptonLoggerDemo>("Krypton Logger (#3856)", "Issue #3856: exercise KryptonLogger, CommonHelper.LogOutput, optional file logging (set KRYPTON_LOG or KRYPTON_LOG_PATH before launch), custom IKryptonLogger, parallel stress writes, and theme-swap WM tracing.");
