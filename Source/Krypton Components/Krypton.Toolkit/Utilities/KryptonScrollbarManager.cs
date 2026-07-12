@@ -28,6 +28,7 @@ public class KryptonScrollbarManager : IDisposable
     private Control? _targetControl;
     private KryptonHScrollBar? _horizontalScrollBar;
     private KryptonVScrollBar? _verticalScrollBar;
+    private KryptonScrollBarCorner? _scrollBarCorner;
     private ScrollbarManagerMode _mode = ScrollbarManagerMode.Container;
     private bool _enabled = true;
     private bool _isUpdating;
@@ -515,6 +516,7 @@ public class KryptonScrollbarManager : IDisposable
             foreach (Control child in panel.Controls)
             {
                 if (child != _horizontalScrollBar && child != _verticalScrollBar &&
+                    child != _scrollBarCorner &&
                     child is not KryptonHScrollBar and not KryptonVScrollBar)
                 {
                     // Store original location on first access
@@ -540,6 +542,7 @@ public class KryptonScrollbarManager : IDisposable
             foreach (Control child in _contentContainer.Controls)
             {
                 if (child != _horizontalScrollBar && child != _verticalScrollBar &&
+                    child != _scrollBarCorner &&
                     child is not KryptonHScrollBar and not KryptonVScrollBar)
                 {
                     // Store original location on first access
@@ -1278,11 +1281,28 @@ public class KryptonScrollbarManager : IDisposable
         _scrollbarHostControl = null;
     }
 
+    private NativeWrapperScrollbarLayout? GetNativeWrapperScrollbarLayout()
+    {
+        Control? host = GetScrollbarHostControl();
+        if (host is IKryptonNativeWrapperScrollbarBounds boundsProvider)
+        {
+            return boundsProvider.GetNativeWrapperScrollbarLayout();
+        }
+
+        return null;
+    }
+
     private Rectangle GetTargetClientRectangleInHost()
     {
         if (_targetControl == null)
         {
             return Rectangle.Empty;
+        }
+
+        NativeWrapperScrollbarLayout? layout = GetNativeWrapperScrollbarLayout();
+        if (layout.HasValue)
+        {
+            return layout.Value.LaneRect;
         }
 
         Control? host = GetScrollbarHostControl();
@@ -1303,6 +1323,7 @@ public class KryptonScrollbarManager : IDisposable
     {
         MoveScrollbarToHost(_horizontalScrollBar, host);
         MoveScrollbarToHost(_verticalScrollBar, host);
+        MoveScrollbarToHost(_scrollBarCorner, host);
     }
 
     private static void MoveScrollbarToHost(Control? scrollbar, Control? host)
@@ -1442,6 +1463,17 @@ public class KryptonScrollbarManager : IDisposable
             _verticalScrollBar = null;
         }
 
+        if (_scrollBarCorner != null)
+        {
+            if (_scrollBarCorner.Parent != null)
+            {
+                RemoveScrollbarFromHost(_scrollBarCorner);
+            }
+
+            _scrollBarCorner.Dispose();
+            _scrollBarCorner = null;
+        }
+
         OnScrollbarsChanged();
     }
 
@@ -1452,43 +1484,106 @@ public class KryptonScrollbarManager : IDisposable
             return;
         }
 
-        Rectangle clientRect = GetTargetClientRectangleInHost();
+        NativeWrapperScrollbarLayout? wrapperLayout = GetNativeWrapperScrollbarLayout();
+        Rectangle laneRect = wrapperLayout?.LaneRect ?? GetTargetClientRectangleInHost();
+        Rectangle contentRect = wrapperLayout?.ContentRect ?? laneRect;
+
         int scrollbarWidth = SystemInformation.VerticalScrollBarWidth;
         int scrollbarHeight = SystemInformation.HorizontalScrollBarHeight;
 
         // Position horizontal scrollbar
         if (_horizontalScrollBar != null && _horizontalScrollBar.Visible)
         {
-            int hScrollY = clientRect.Bottom - scrollbarHeight;
-            int hScrollWidth = clientRect.Width - (_verticalScrollBar?.Visible == true ? scrollbarWidth : 0);
+            int hScrollY = contentRect.Bottom;
+            if (hScrollY + scrollbarHeight > laneRect.Bottom)
+            {
+                hScrollY = laneRect.Bottom - scrollbarHeight;
+            }
 
-            hScrollY = Math.Max(clientRect.Top, hScrollY);
+            int hScrollWidth = laneRect.Right - contentRect.Left;
+            if (_verticalScrollBar?.Visible == true)
+            {
+                hScrollWidth -= scrollbarWidth;
+            }
+
+            hScrollY = Math.Max(laneRect.Top, hScrollY);
             hScrollWidth = Math.Max(0, hScrollWidth);
 
-            _horizontalScrollBar.Location = new Point(clientRect.Left, hScrollY);
+            _horizontalScrollBar.Location = new Point(contentRect.Left, hScrollY);
             _horizontalScrollBar.Width = hScrollWidth;
-            _horizontalScrollBar.Height = scrollbarHeight;
+            _horizontalScrollBar.Height = Math.Max(scrollbarHeight, laneRect.Bottom - hScrollY);
         }
 
         // Position vertical scrollbar
         if (_verticalScrollBar != null && _verticalScrollBar.Visible)
         {
-            int vScrollX = clientRect.Right - scrollbarWidth;
-            int vScrollHeight = clientRect.Height - (_horizontalScrollBar?.Visible == true ? scrollbarHeight : 0);
+            int vScrollX = contentRect.Right;
+            int maxVScrollX = laneRect.Right - scrollbarWidth;
+            if (vScrollX > maxVScrollX)
+            {
+                vScrollX = maxVScrollX;
+            }
 
-            vScrollX = Math.Max(clientRect.Left, vScrollX);
+            int vScrollHeight = laneRect.Bottom - contentRect.Top;
+            if (_horizontalScrollBar?.Visible == true)
+            {
+                vScrollHeight -= _horizontalScrollBar!.Height;
+            }
+
+            vScrollX = Math.Max(laneRect.Left, vScrollX);
             vScrollHeight = Math.Max(0, vScrollHeight);
 
-            _verticalScrollBar.Location = new Point(vScrollX, clientRect.Top);
-            _verticalScrollBar.Width = scrollbarWidth;
+            _verticalScrollBar.Location = new Point(vScrollX, contentRect.Top);
+            _verticalScrollBar.Width = Math.Max(scrollbarWidth, laneRect.Right - vScrollX);
             _verticalScrollBar.Height = vScrollHeight;
+        }
+
+        bool showCorner = _horizontalScrollBar?.Visible == true && _verticalScrollBar?.Visible == true;
+        if (showCorner)
+        {
+            EnsureScrollBarCornerCreated();
+
+            _scrollBarCorner!.SetBounds(
+                laneRect.Right - scrollbarWidth,
+                laneRect.Bottom - scrollbarHeight,
+                scrollbarWidth,
+                scrollbarHeight);
+            _scrollBarCorner.Visible = true;
+        }
+        else if (_scrollBarCorner != null)
+        {
+            _scrollBarCorner.Visible = false;
         }
 
         BringScrollbarsToFront();
     }
 
+    private void EnsureScrollBarCornerCreated()
+    {
+        if (_scrollBarCorner != null)
+        {
+            return;
+        }
+
+        _scrollBarCorner = new KryptonScrollBarCorner
+        {
+            Visible = false
+        };
+
+        Control? host = GetScrollbarHostControl();
+        if (host != null && host.IsHandleCreated)
+        {
+            AddScrollbarToHost(host, _scrollBarCorner);
+        }
+    }
+
     private void BringScrollbarsToFront()
     {
+        if (_scrollBarCorner != null && _scrollBarCorner.Visible)
+        {
+            _scrollBarCorner.BringToFront();
+        }
+
         if (_horizontalScrollBar != null && _horizontalScrollBar.Visible)
         {
             _horizontalScrollBar.BringToFront();

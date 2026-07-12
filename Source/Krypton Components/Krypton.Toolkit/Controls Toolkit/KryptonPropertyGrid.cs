@@ -14,7 +14,8 @@ namespace Krypton.Toolkit;
 [ToolboxBitmap(typeof(PropertyGrid), "ToolboxBitmaps.KryptonPropertyGrid.bmp")]
 [ToolboxItem(true)]
 public class KryptonPropertyGrid : VisualControlBase,
-    IContainedInputControl
+    IContainedInputControl,
+    IKryptonNativeWrapperScrollbarBounds
 {
     #region Classes
     private class InternalPropertyGrid : PropertyGrid
@@ -1063,6 +1064,9 @@ public class KryptonPropertyGrid : VisualControlBase,
             }
         }
     }
+
+    NativeWrapperScrollbarLayout IKryptonNativeWrapperScrollbarBounds.GetNativeWrapperScrollbarLayout() =>
+        KryptonNativeWrapperScrollbarBoundsHelper.GetLayout(this, _layoutFill);
 
     #endregion
 }

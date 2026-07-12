@@ -24,7 +24,8 @@ namespace Krypton.Toolkit;
 [DesignerCategory(@"code")]
 [Description(@"Enables the user to enter text, and provides multi-line editing and password character masking.")]
 public class KryptonRichTextBox : VisualControlBase,
-    IContainedInputControl
+    IContainedInputControl,
+    IKryptonNativeWrapperScrollbarBounds
 {
     #region Classes
     private class InternalRichTextBox : RichTextBox
@@ -2776,6 +2777,9 @@ public class KryptonRichTextBox : VisualControlBase,
         // First semicolon is after the opening brace, so subtract 1
         return count - 1;
     }
+
+    NativeWrapperScrollbarLayout IKryptonNativeWrapperScrollbarBounds.GetNativeWrapperScrollbarLayout() =>
+        KryptonNativeWrapperScrollbarBoundsHelper.GetLayout(this, _layoutFill);
 
     #endregion
 }

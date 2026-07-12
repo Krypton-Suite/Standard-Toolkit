@@ -47,6 +47,8 @@
 
 * Resolved [#3902](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3902), Scrollbars leaves white gaps in between them and the borders
    * Krypton scrollbars no longer leave white gaps between the scrollbar and the control border on wrapped native controls
+   * Scrollbar placement now follows each wrapper's content and border lane layout
+   * The scrollbar corner square is themed when both horizontal and vertical scrollbars are visible
 * Resolved [#3879](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3879), When the `KryptonComboBox` initializes in a disabled state, it displays using default system colors
    * `KryptonComboBox` now displays theme disabled colors when initialized in a disabled state.
 * Implemented [#3807](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3807), `KryptonKnob` control

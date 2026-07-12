@@ -24,7 +24,8 @@ namespace Krypton.Toolkit;
 [DesignerCategory(@"code")]
 [Description(@"Enables the user to enter text, and provides multiline editing and password character masking.")]
 public class KryptonTextBox : VisualControlBase,
-    IContainedInputControl
+    IContainedInputControl,
+    IKryptonNativeWrapperScrollbarBounds
 {
     #region Classes
     private class InternalTextBox : TextBox
@@ -2179,6 +2180,9 @@ public class KryptonTextBox : VisualControlBase,
             }
         }
     }
+
+    NativeWrapperScrollbarLayout IKryptonNativeWrapperScrollbarBounds.GetNativeWrapperScrollbarLayout() =>
+        KryptonNativeWrapperScrollbarBoundsHelper.GetLayout(this, _layoutFill);
 
     #endregion
 }

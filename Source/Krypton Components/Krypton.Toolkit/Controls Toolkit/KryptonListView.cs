@@ -21,7 +21,8 @@ namespace Krypton.Toolkit;
 [DesignerCategory(@"code")]
 [Description(@"A Kryptonised listview.")]
 public class KryptonListView : VisualControlBase,
-    IContainedInputControl
+    IContainedInputControl,
+    IKryptonNativeWrapperScrollbarBounds
 {
     #region Classes
     private class InternalListView : ListView
@@ -1785,4 +1786,7 @@ public class KryptonListView : VisualControlBase,
             }
         }
     }
+
+    NativeWrapperScrollbarLayout IKryptonNativeWrapperScrollbarBounds.GetNativeWrapperScrollbarLayout() =>
+        KryptonNativeWrapperScrollbarBoundsHelper.GetLayout(this, _layoutFill);
 }

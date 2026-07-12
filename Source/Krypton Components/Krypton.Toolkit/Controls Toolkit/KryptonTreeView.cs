@@ -24,7 +24,8 @@ namespace Krypton.Toolkit;
 [Description(@"Displays a hierarchical collection of labeled items, each represented by a TreeNode")]
 [Docking(DockingBehavior.Ask)]
 public class KryptonTreeView : VisualControlBase,
-    IContainedInputControl
+    IContainedInputControl,
+    IKryptonNativeWrapperScrollbarBounds
 {
     #region Classes
     private class InternalTreeView : TreeView
@@ -2598,6 +2599,9 @@ public class KryptonTreeView : VisualControlBase,
     private void OnDoubleClick(object? sender, EventArgs e) => base.OnDoubleClick(e);
 
     private void OnMouseDoubleClick(object? sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
+
+    NativeWrapperScrollbarLayout IKryptonNativeWrapperScrollbarBounds.GetNativeWrapperScrollbarLayout() =>
+        KryptonNativeWrapperScrollbarBoundsHelper.GetLayout(this, _layoutFill);
 
     #endregion
 

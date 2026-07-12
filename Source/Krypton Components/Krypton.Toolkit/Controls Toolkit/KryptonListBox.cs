@@ -25,7 +25,8 @@ namespace Krypton.Toolkit;
 [DesignerCategory(@"code")]
 [Description(@"Represents a list box control that allows single or multiple item selection.")]
 public class KryptonListBox : VisualControlBase,
-    IContainedInputControl
+    IContainedInputControl,
+    IKryptonNativeWrapperScrollbarBounds
 {
     #region Classes
     private class InternalListBox : ListBox
@@ -2023,6 +2024,9 @@ public class KryptonListBox : VisualControlBase,
             }
         }));
     }
+
+    NativeWrapperScrollbarLayout IKryptonNativeWrapperScrollbarBounds.GetNativeWrapperScrollbarLayout() =>
+        KryptonNativeWrapperScrollbarBoundsHelper.GetLayout(this, _layoutFill);
 
     #endregion
 }
