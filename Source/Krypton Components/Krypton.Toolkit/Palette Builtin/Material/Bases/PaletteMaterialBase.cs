@@ -19,10 +19,10 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
 
     protected abstract bool IsDarkSurface();
 
-    private Color TokenSurface => BaseColors != null ? BaseColors.PanelClient : SystemColors.Control;
-    private Color TokenOnSurface => BaseColors != null ? BaseColors.TextLabelControl : SystemColors.ControlText;
-    private Color TokenOutline => BaseColors != null ? BaseColors.ControlBorder : SystemColors.ControlDark;
-    private Color TokenPrimary => BaseColors != null ? BaseColors.TextButtonNormal : SystemColors.HotTrack;
+    private Color TokenSurface => BaseColors?.PanelClient ?? SystemColors.Control;
+    private Color TokenOnSurface => BaseColors?.TextLabelControl ?? SystemColors.ControlText;
+    private Color TokenOutline => BaseColors?.ControlBorder ?? SystemColors.ControlDark;
+    private Color TokenPrimary => BaseColors?.TextButtonNormal ?? SystemColors.HotTrack;
 
     private Color GetMaterialButtonBackColor(PaletteState state)
     {

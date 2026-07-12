@@ -196,6 +196,11 @@
 	  <AutoGen>True</AutoGen>
 	  <DependentUpon>CommandLinkImageResources.resx</DependentUpon>
 	</Compile>
+	<Compile Update="ResourceFiles\ControlBox\MaterialControlBoxResources.Designer.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>MaterialControlBoxResources.resx</DependentUpon>
+	</Compile>
 	<Compile Update="ResourceFiles\ControlBox\Microsoft365ControlBoxResources.Designer.cs">
 	  <DesignTime>True</DesignTime>
 	  <AutoGen>True</AutoGen>
@@ -683,6 +688,10 @@
 	<EmbeddedResource Update="ResourceFiles\CommandLink\CommandLinkImageResources.resx">
 	  <Generator>ResXFileCodeGenerator</Generator>
 	  <LastGenOutput>CommandLinkImageResources.Designer.cs</LastGenOutput>
+	</EmbeddedResource>
+	<EmbeddedResource Update="ResourceFiles\ControlBox\MaterialControlBoxResources.resx">
+	  <Generator>ResXFileCodeGenerator</Generator>
+	  <LastGenOutput>MaterialControlBoxResources.Designer.cs</LastGenOutput>
 	</EmbeddedResource>
 	<EmbeddedResource Update="ResourceFiles\ControlBox\Microsoft365ControlBoxResources.resx">
 	  <Generator>ResXFileCodeGenerator</Generator>
