@@ -47,6 +47,8 @@
 
 * Resolved [#3894](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3894), `KryptonKnob` control colours
    * `KryptonKnob` and `KryptonKnobAlternate` now render a visibly greyed-out disabled appearance (face, indicator, scale ticks/labels, and industrial backplate) when the control is disabled.
+* Resolved [#3879](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3879), When the `KryptonComboBox` initializes in a disabled state, it displays using default system colors
+   * `KryptonComboBox` now displays theme disabled colors when initialized in a disabled state.
 * Implemented [#3807](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3807), `KryptonKnob` control
    * The value indicator (inner circle) defaults to the palette `PanelAlternate` back colour instead of the track-bar position element colour.
    * Hover and drag now apply `StateTracking` and `StatePressed` palette colours to the indicator as well as the knob face.
