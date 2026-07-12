@@ -58,6 +58,8 @@
    * Resolved standard Krypton collection editor Cancel leaving property-grid edits and membership changes on live collection items in place; Cancel now restores the opened item order and reverts in-session property changes on existing members
    * Resolved format string designer editor missing a Decimal preset and mis-detecting `D`/`d` patterns shared with date formats
    * Resolved corrupted UTF-8 characters (`©`, accented contributor names) in several source license headers
+* Resolved [#3879](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3879), When the `KryptonComboBox` initializes in a disabled state, it displays using default system colors
+   * `KryptonComboBox` now displays theme disabled colors when initialized in a disabled state.
 * Implemented [#3807](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3807), `KryptonKnob` control
 * Resolved [#3850](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3850), Tooltip hot-spot not respected 
    * Tooltip placement now respects cursor hotspot and full cursor bounds
