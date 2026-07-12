@@ -1234,8 +1234,10 @@ public class KryptonScrollbarManager : IDisposable
             return null;
         }
 
+        // Native wrapper controls inset the inner native control with border content
+        // padding. Host scrollbars on the outer Krypton wrapper so they align with
+        // the visible control edge instead of leaving a white gutter.
         if (_mode == ScrollbarManagerMode.NativeWrapper &&
-            _targetControl is ListBox &&
             _targetControl.Parent != null)
         {
             return _targetControl.Parent;
@@ -1294,8 +1296,7 @@ public class KryptonScrollbarManager : IDisposable
             return _targetControl.ClientRectangle;
         }
 
-        Point location = host.PointToClient(_targetControl.PointToScreen(Point.Empty));
-        return new Rectangle(location, _targetControl.Size);
+        return host.ClientRectangle;
     }
 
     private void MoveExistingScrollbarsToHost(Control? host)
@@ -1461,9 +1462,8 @@ public class KryptonScrollbarManager : IDisposable
             int hScrollY = clientRect.Bottom - scrollbarHeight;
             int hScrollWidth = clientRect.Width - (_verticalScrollBar?.Visible == true ? scrollbarWidth : 0);
 
-            // Ensure scrollbar stays within bounds
-            hScrollY = Math.Max(clientRect.Top, Math.Min(hScrollY, clientRect.Bottom - 1));
-            hScrollWidth = Math.Max(0, Math.Min(hScrollWidth, clientRect.Width));
+            hScrollY = Math.Max(clientRect.Top, hScrollY);
+            hScrollWidth = Math.Max(0, hScrollWidth);
 
             _horizontalScrollBar.Location = new Point(clientRect.Left, hScrollY);
             _horizontalScrollBar.Width = hScrollWidth;
@@ -1476,9 +1476,8 @@ public class KryptonScrollbarManager : IDisposable
             int vScrollX = clientRect.Right - scrollbarWidth;
             int vScrollHeight = clientRect.Height - (_horizontalScrollBar?.Visible == true ? scrollbarHeight : 0);
 
-            // Ensure scrollbar stays within bounds
-            vScrollX = Math.Max(clientRect.Left, Math.Min(vScrollX, clientRect.Right - 1));
-            vScrollHeight = Math.Max(0, Math.Min(vScrollHeight, clientRect.Height));
+            vScrollX = Math.Max(clientRect.Left, vScrollX);
+            vScrollHeight = Math.Max(0, vScrollHeight);
 
             _verticalScrollBar.Location = new Point(vScrollX, clientRect.Top);
             _verticalScrollBar.Width = scrollbarWidth;
