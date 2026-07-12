@@ -19,6 +19,7 @@ public class KryptonToolStrip : ToolStrip,
     IFocusLostMenuItem
 {
     #region Fields
+    private ToolStripFontSyncHelper? _fontSync;
     private bool _disposed;
     #endregion
 
@@ -29,6 +30,7 @@ public class KryptonToolStrip : ToolStrip,
 
         // Use Krypton
         RenderMode = ToolStripRenderMode.ManagerRenderMode;
+        _fontSync = new ToolStripFontSyncHelper(this, ToolStripFontKind.ToolStrip);
 
         // Register with the FocusLostMenuHelper
         Register(this);
@@ -40,8 +42,13 @@ public class KryptonToolStrip : ToolStrip,
     {
         if (!_disposed && disposing)
         {
+            _fontSync?.Dispose();
+            _fontSync = null;
+
             // Deregister from the FocusLostMenuHelper
             Deregister(this);
+
+            _disposed = true;
         }
 
         base.Dispose(disposing);
@@ -78,5 +85,4 @@ public class KryptonToolStrip : ToolStrip,
         FocusLostMenuHelper.Deregister(item);
     }
     #endregion
-
 }
