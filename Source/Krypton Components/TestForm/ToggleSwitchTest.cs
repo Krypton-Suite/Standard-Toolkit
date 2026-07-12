@@ -26,9 +26,9 @@ public partial class ToggleSwitchTest : KryptonForm
         {
             AutoSize = false,
             Dock = DockStyle.Top,
-            Height = 72,
+            Height = 88,
             LabelStyle = LabelStyle.NormalPanel,
-            Text = "Issue #3890: compare knob styles including Square, Grip, Chevron, Indicator, ThinTrack, and Pill. Set OnColor/OffColor for knob/track colours. Enable EnableKnobPulse on the Classic preview for the optional pulsing animation.",
+            Text = "Issue #3890: compare knob styles including Metallic (brushed-metal knob, recessed pill track, check/cross icons). Set OnColor/OffColor for track colours. Enable EnableKnobPulse on the Classic preview for the optional pulsing animation. Use ToggleSwitchValues.Orientation = Vertical with a tall, narrow size to exercise vertical layout.",
             TextAlign = ContentAlignment.MiddleLeft
         };
 
@@ -42,6 +42,7 @@ public partial class ToggleSwitchTest : KryptonForm
 
         kryptonPanel4.Controls.Add(previewPanel);
         kryptonPanel4.Controls.Add(instructionsLabel);
+        previewPanel.Controls.Add(CreateOrientationPreview());
 
         foreach (ToggleSwitchKnobStyle style in Enum.GetValues(typeof(ToggleSwitchKnobStyle)))
         {
@@ -49,6 +50,79 @@ public partial class ToggleSwitchTest : KryptonForm
         }
 
         kryptonPropertyGrid1.SelectedObject = ktsTest;
+    }
+
+    private Control CreateOrientationPreview()
+    {
+        KryptonPanel previewContainer = new KryptonPanel
+        {
+            Margin = new Padding(8),
+            Padding = new Padding(8),
+            Size = new Size(320, 280)
+        };
+
+        KryptonWrapLabel orientationLabel = new KryptonWrapLabel
+        {
+            AutoSize = false,
+            Dock = DockStyle.Top,
+            Height = 32,
+            LabelStyle = LabelStyle.BoldControl,
+            Text = "Orientation",
+            TextAlign = ContentAlignment.MiddleCenter
+        };
+
+        TableLayoutPanel layoutPanel = new TableLayoutPanel
+        {
+            ColumnCount = 2,
+            Dock = DockStyle.Fill,
+            Padding = new Padding(4)
+        };
+        layoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50f));
+        layoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50f));
+
+        layoutPanel.Controls.Add(CreateOrientationSample("Horizontal", ToggleSwitchOrientation.Horizontal, new Size(140, 44)), 0, 0);
+        layoutPanel.Controls.Add(CreateOrientationSample("Vertical", ToggleSwitchOrientation.Vertical, new Size(44, 140)), 1, 0);
+
+        previewContainer.Controls.Add(layoutPanel);
+        previewContainer.Controls.Add(orientationLabel);
+
+        return previewContainer;
+    }
+
+    private Control CreateOrientationSample(string caption, ToggleSwitchOrientation orientation, Size size)
+    {
+        KryptonPanel samplePanel = new KryptonPanel
+        {
+            Dock = DockStyle.Fill,
+            Padding = new Padding(8)
+        };
+
+        KryptonWrapLabel captionLabel = new KryptonWrapLabel
+        {
+            AutoSize = false,
+            Dock = DockStyle.Top,
+            Height = 24,
+            LabelStyle = LabelStyle.NormalControl,
+            Text = caption,
+            TextAlign = ContentAlignment.MiddleCenter
+        };
+
+        KryptonToggleSwitch toggleSwitch = new KryptonToggleSwitch
+        {
+            Anchor = AnchorStyles.None,
+            Location = new Point(48, 40),
+            Size = size
+        };
+        toggleSwitch.ToggleSwitchValues.Orientation = orientation;
+        toggleSwitch.ToggleSwitchValues.ShowText = true;
+        toggleSwitch.ToggleSwitchValues.ShowTrackIcons = orientation == ToggleSwitchOrientation.Vertical;
+        toggleSwitch.ToggleSwitchValues.KnobStyle = ToggleSwitchKnobStyle.Metallic;
+        toggleSwitch.ToggleSwitchValues.OffColor = Color.FromArgb(255, 214, 88, 52);
+
+        samplePanel.Controls.Add(toggleSwitch);
+        samplePanel.Controls.Add(captionLabel);
+
+        return samplePanel;
     }
 
     private Control CreateKnobStylePreview(ToggleSwitchKnobStyle style)
@@ -80,7 +154,13 @@ public partial class ToggleSwitchTest : KryptonForm
             || style == ToggleSwitchKnobStyle.Pill;
         toggleSwitch.ToggleSwitchValues.AnimateGradientEffect = style == ToggleSwitchKnobStyle.Gradient;
         toggleSwitch.ToggleSwitchValues.EnableKnobPulse = style == ToggleSwitchKnobStyle.Classic;
-        toggleSwitch.ToggleSwitchValues.ShowText = style != ToggleSwitchKnobStyle.ThinTrack;
+        toggleSwitch.ToggleSwitchValues.ShowText = style != ToggleSwitchKnobStyle.ThinTrack
+            && style != ToggleSwitchKnobStyle.Metallic;
+        toggleSwitch.ToggleSwitchValues.ShowTrackIcons = style == ToggleSwitchKnobStyle.Metallic;
+        if (style == ToggleSwitchKnobStyle.Metallic)
+        {
+            toggleSwitch.ToggleSwitchValues.OffColor = Color.FromArgb(255, 214, 88, 52);
+        }
 
         previewContainer.Controls.Add(toggleSwitch);
         previewContainer.Controls.Add(styleLabel);
@@ -90,6 +170,6 @@ public partial class ToggleSwitchTest : KryptonForm
 
     private void UpdateStatusText()
     {
-        kryptonWrapLabel1.Text = $@"Selected switch: Checked = {ktsTest.ToggleSwitchValues.Checked}, KnobStyle = {ktsTest.ToggleSwitchValues.KnobStyle}, EnableKnobPulse = {ktsTest.ToggleSwitchValues.EnableKnobPulse}";
+        kryptonWrapLabel1.Text = $@"Selected switch: Checked = {ktsTest.ToggleSwitchValues.Checked}, Orientation = {ktsTest.ToggleSwitchValues.Orientation}, KnobStyle = {ktsTest.ToggleSwitchValues.KnobStyle}, EnableKnobPulse = {ktsTest.ToggleSwitchValues.EnableKnobPulse}";
     }
 }

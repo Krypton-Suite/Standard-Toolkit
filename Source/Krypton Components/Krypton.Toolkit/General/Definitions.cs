@@ -1641,7 +1641,51 @@ public enum ToggleSwitchKnobStyle
     /// <summary>
     /// Specifies a capsule track with a soft vertical gradient and circular knob.
     /// </summary>
-    Pill
+    Pill,
+
+    /// <summary>
+    /// Specifies a recessed capsule track with a brushed-metal knob, drop shadow, and optional check/cross track icons.
+    /// </summary>
+    Metallic
+}
+#endregion
+
+#region Enum ToggleSwitchChevronDirection
+/// <summary>
+/// Specifies the direction of chevron glyphs drawn on a <see cref="ToggleSwitchKnobStyle.Chevron"/> knob.
+/// </summary>
+public enum ToggleSwitchChevronDirection
+{
+    /// <summary>
+    /// Points right when unchecked and left when checked.
+    /// </summary>
+    Auto,
+
+    /// <summary>
+    /// Always points left.
+    /// </summary>
+    Left,
+
+    /// <summary>
+    /// Always points right.
+    /// </summary>
+    Right
+}
+
+/// <summary>
+/// Specifies whether a <see cref="KryptonToggleSwitch"/> lays out horizontally or vertically.
+/// </summary>
+public enum ToggleSwitchOrientation
+{
+    /// <summary>
+    /// The knob travels left (off) to right (on).
+    /// </summary>
+    Horizontal,
+
+    /// <summary>
+    /// The knob travels top (off) to bottom (on).
+    /// </summary>
+    Vertical
 }
 #endregion
 

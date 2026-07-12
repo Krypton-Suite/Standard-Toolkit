@@ -24,6 +24,7 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
     private bool _enableKnobPulse;
     private bool _onlyShowColorOnKnob;
     private bool _showText;
+    private bool _showTrackIcons;
     private float _gradientStartIntensity;
     private float _gradientEndIntensity;
     private float _knobPulseSpeed;
@@ -34,6 +35,8 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
     private int _cornerRadius;
     private bool _useThemeColors;
     private ToggleSwitchKnobStyle _knobStyle;
+    private ToggleSwitchChevronDirection _knobChevronDirection;
+    private ToggleSwitchOrientation _orientation;
 
     #endregion
 
@@ -49,6 +52,7 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
         _enableKnobPulse = false;
         _onlyShowColorOnKnob = true;
         _showText = true;
+        _showTrackIcons = false;
         _gradientStartIntensity = 0.8f;
         _gradientEndIntensity = 0.6f;
         _knobPulseSpeed = 1f;
@@ -59,6 +63,8 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
         _cornerRadius = 10;
         _useThemeColors = true;
         _knobStyle = ToggleSwitchKnobStyle.Classic;
+        _knobChevronDirection = ToggleSwitchChevronDirection.Auto;
+        _orientation = ToggleSwitchOrientation.Horizontal;
     }
 
     #endregion
@@ -239,6 +245,23 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
         }
     }
 
+    /// <summary>Gets or sets a value indicating whether check and cross icons are drawn on the track.</summary>
+    [Category("Appearance")]
+    [Description("When true, a check icon is shown on the left when checked and a cross icon on the right when unchecked.")]
+    [DefaultValue(false)]
+    public bool ShowTrackIcons
+    {
+        get => _showTrackIcons;
+        set
+        {
+            if (_showTrackIcons != value)
+            {
+                _showTrackIcons = value;
+                OnPropertyChanged(nameof(ShowTrackIcons));
+            }
+        }
+    }
+
     /// <summary>Gets or sets the gradient start intensity.</summary>
     /// <value>The gradient start intensity.</value>
     [Category("Appearance")]
@@ -388,6 +411,40 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
         }
     }
 
+    /// <summary>Gets or sets the direction of chevron glyphs on a <see cref="ToggleSwitchKnobStyle.Chevron"/> knob.</summary>
+    [Category("Appearance")]
+    [Description("Specifies the direction of chevron glyphs on a Chevron knob. Auto points right when unchecked and left when checked.")]
+    [DefaultValue(ToggleSwitchChevronDirection.Auto)]
+    public ToggleSwitchChevronDirection KnobChevronDirection
+    {
+        get => _knobChevronDirection;
+        set
+        {
+            if (_knobChevronDirection != value)
+            {
+                _knobChevronDirection = value;
+                OnPropertyChanged(nameof(KnobChevronDirection));
+            }
+        }
+    }
+
+    /// <summary>Gets or sets whether the switch lays out horizontally or vertically.</summary>
+    [Category("Appearance")]
+    [Description("Specifies whether the knob travels horizontally (left/right) or vertically (top/bottom). Vertical layouts work best with a tall, narrow control size.")]
+    [DefaultValue(ToggleSwitchOrientation.Horizontal)]
+    public ToggleSwitchOrientation Orientation
+    {
+        get => _orientation;
+        set
+        {
+            if (_orientation != value)
+            {
+                _orientation = value;
+                OnPropertyChanged(nameof(Orientation));
+            }
+        }
+    }
+
     #endregion
 
     #region IsDefault
@@ -402,7 +459,8 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
                              Math.Abs(_knobPulseIntensity - 0.5f) < float.Epsilon &&
                              _gradientDirection == LinearGradientMode.ForwardDiagonal && _onColor == Color.Green &&
                              _offColor == Color.Red && _cornerRadius == 10 && _useThemeColors &&
-                             _knobStyle == ToggleSwitchKnobStyle.Classic;
+                             _knobStyle == ToggleSwitchKnobStyle.Classic &&
+                             _orientation == ToggleSwitchOrientation.Horizontal;
 
     #endregion
 
@@ -420,6 +478,7 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
         KnobPulseIntensity = 0.5f;
         OnlyShowColorOnKnob = true;
         ShowText = true;
+        ShowTrackIcons = false;
         GradientStartIntensity = 0.8f;
         GradientEndIntensity = 0.6f;
         GradientDirection = LinearGradientMode.ForwardDiagonal;
@@ -428,6 +487,8 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
         CornerRadius = 10;
         UseThemeColors = true;
         KnobStyle = ToggleSwitchKnobStyle.Classic;
+        KnobChevronDirection = ToggleSwitchChevronDirection.Auto;
+        Orientation = ToggleSwitchOrientation.Horizontal;
     }
 
     #endregion

@@ -28,7 +28,7 @@ public class KryptonToggleSwitch : Control, IContentValues
 
     private int _knobSize;
     private int _padding;
-    private int _dragStartX;
+    private int _dragStartPosition;
 
     private RectangleF _knob;
 
@@ -220,6 +220,7 @@ public class KryptonToggleSwitch : Control, IContentValues
 
         DrawBackground(e.Graphics, state, adjustedBounds);
         DrawBorder(e.Graphics, state, adjustedBounds);
+        DrawTrackIcons(e.Graphics, state, adjustedBounds);
         DrawKnob(e.Graphics, state);
         DrawOnOffText(e.Graphics, state);
 
@@ -270,9 +271,8 @@ public class KryptonToggleSwitch : Control, IContentValues
 
         if (_isDragging)
         {
-            // Update knob position based on mouse movement
-            float delta = e.X - _dragStartX;
-            _animationPosition = Math.Max(_padding, Math.Min(Width - _knobSize - _padding, _dragOffset + delta));
+            float delta = (IsVerticalLayout() ? e.Y : e.X) - _dragStartPosition;
+            _animationPosition = Math.Max(_padding, Math.Min(GetPrimaryDimension() - _knobSize - _padding, _dragOffset + delta));
 
             Invalidate(); // Redraw the control
         }
@@ -290,7 +290,7 @@ public class KryptonToggleSwitch : Control, IContentValues
             _isDragging = false;
 
             // Determine final state based on knob's position
-            float midpoint = (Width - _knobSize) / 2f;
+            float midpoint = (GetPrimaryDimension() - _knobSize) / 2f;
             ToggleSwitchValues.Checked = _animationPosition >= midpoint;
         }
         else if (_isPressed)
@@ -312,7 +312,8 @@ public class KryptonToggleSwitch : Control, IContentValues
         if (e.KeyCode == Keys.Space || e.KeyCode == Keys.Enter || e.KeyCode == Keys.Tab ||
             e.KeyCode == Keys.Add || e.KeyCode == Keys.Subtract || e.KeyCode == Keys.Home ||
             e.KeyCode == Keys.End || e.KeyCode == Keys.PageUp || e.KeyCode == Keys.PageDown ||
-            e.KeyCode == Keys.Left || e.KeyCode == Keys.Right)
+            e.KeyCode == Keys.Left || e.KeyCode == Keys.Right ||
+            e.KeyCode == Keys.Up || e.KeyCode == Keys.Down)
         {
             ToggleSwitchValues.Checked = !ToggleSwitchValues.Checked;
             stateChanged = true;
@@ -365,8 +366,16 @@ public class KryptonToggleSwitch : Control, IContentValues
     {
         base.OnSizeChanged(e);
 
-        Width = Math.Max(50, Width);
-        Height = Math.Max(20, Height);
+        if (IsVerticalLayout())
+        {
+            Width = Math.Max(20, Width);
+            Height = Math.Max(50, Height);
+        }
+        else
+        {
+            Width = Math.Max(50, Width);
+            Height = Math.Max(20, Height);
+        }
 
         UpdateLayoutMetrics();
 
@@ -435,9 +444,13 @@ public class KryptonToggleSwitch : Control, IContentValues
         _animationTimer.Start();
     }
 
+    private bool IsVerticalLayout() => ToggleSwitchValues.Orientation == ToggleSwitchOrientation.Vertical;
+
+    private int GetPrimaryDimension() => IsVerticalLayout() ? Height : Width;
+
     private float GetOffPosition() => _padding;
 
-    private float GetOnPosition() => Math.Max(_padding, Width - _knobSize - _padding);
+    private float GetOnPosition() => Math.Max(_padding, GetPrimaryDimension() - _knobSize - _padding);
 
     private float GetTargetPosition() => ToggleSwitchValues.Checked ? GetOnPosition() : GetOffPosition();
 
@@ -463,7 +476,20 @@ public class KryptonToggleSwitch : Control, IContentValues
 
     private void UpdateLayoutMetrics()
     {
-        if (UsesThinTrackLayout())
+        if (IsVerticalLayout())
+        {
+            if (UsesThinTrackLayout() || UsesOversizedKnobLayout())
+            {
+                _knobSize = Math.Max(10, (int)(Width * 0.82f));
+                _padding = Math.Max(2, (int)(Width * 0.09f));
+            }
+            else
+            {
+                _padding = Math.Max(2, Width / 8);
+                _knobSize = Math.Max(10, Math.Min(Width - _padding * 2, Height / 3));
+            }
+        }
+        else if (UsesThinTrackLayout() || UsesOversizedKnobLayout())
         {
             _knobSize = Math.Max(10, (int)(Height * 0.82f));
             _padding = Math.Max(2, (int)(Height * 0.09f));
@@ -477,9 +503,14 @@ public class KryptonToggleSwitch : Control, IContentValues
 
     private bool UsesThinTrackLayout() => ToggleSwitchValues.KnobStyle == ToggleSwitchKnobStyle.ThinTrack;
 
+    private bool UsesOversizedKnobLayout() => ToggleSwitchValues.KnobStyle == ToggleSwitchKnobStyle.Metallic;
+
+    private bool UsesMetallicLayout() => ToggleSwitchValues.KnobStyle == ToggleSwitchKnobStyle.Metallic;
+
     private bool UsesStyleColoredTrack() =>
         ToggleSwitchValues.KnobStyle == ToggleSwitchKnobStyle.ThinTrack
-        || ToggleSwitchValues.KnobStyle == ToggleSwitchKnobStyle.Pill;
+        || ToggleSwitchValues.KnobStyle == ToggleSwitchKnobStyle.Pill
+        || ToggleSwitchValues.KnobStyle == ToggleSwitchKnobStyle.Metallic;
 
     private bool UsesSquareKnobShape() =>
         ToggleSwitchValues.KnobStyle == ToggleSwitchKnobStyle.Square
@@ -490,9 +521,12 @@ public class KryptonToggleSwitch : Control, IContentValues
 
     private int GetEffectiveTrackCornerRadius(Rectangle bounds)
     {
-        if (ToggleSwitchValues.KnobStyle == ToggleSwitchKnobStyle.Pill || UsesThinTrackLayout())
+        if (ToggleSwitchValues.KnobStyle == ToggleSwitchKnobStyle.Pill
+            || ToggleSwitchValues.KnobStyle == ToggleSwitchKnobStyle.Metallic
+            || UsesThinTrackLayout())
         {
-            return Math.Max(1, bounds.Height / 2);
+            int crossDimension = IsVerticalLayout() ? bounds.Width : bounds.Height;
+            return Math.Max(1, crossDimension / 2);
         }
 
         return ToggleSwitchValues.CornerRadius;
@@ -503,6 +537,14 @@ public class KryptonToggleSwitch : Control, IContentValues
         if (!UsesThinTrackLayout())
         {
             return bounds;
+        }
+
+        if (IsVerticalLayout())
+        {
+            int trackWidth = Math.Max(4, (int)(bounds.Width * 0.32f));
+            int x = bounds.X + (bounds.Width - trackWidth) / 2;
+
+            return new Rectangle(x, bounds.Y + 2, trackWidth, Math.Max(8, bounds.Height - 4));
         }
 
         int trackHeight = Math.Max(4, (int)(bounds.Height * 0.32f));
@@ -531,7 +573,8 @@ public class KryptonToggleSwitch : Control, IContentValues
     private Color ResolveDecorativeKnobColor(IPaletteTriple state, Color faceColor)
     {
         if (ToggleSwitchValues.KnobStyle == ToggleSwitchKnobStyle.ThinTrack
-            || ToggleSwitchValues.KnobStyle == ToggleSwitchKnobStyle.Pill)
+            || ToggleSwitchValues.KnobStyle == ToggleSwitchKnobStyle.Pill
+            || ToggleSwitchValues.KnobStyle == ToggleSwitchKnobStyle.Metallic)
         {
             return Color.White;
         }
@@ -560,18 +603,25 @@ public class KryptonToggleSwitch : Control, IContentValues
     private RectangleF GetKnobRectangle()
     {
         float knobDiameter = _knobSize;
-        float x = _animationPosition > 0f ? _animationPosition : GetTargetPosition();
+        float position = _animationPosition > 0f ? _animationPosition : GetTargetPosition();
 
-        x = Math.Max(GetOffPosition(), Math.Min(GetOnPosition(), x));
+        position = Math.Max(GetOffPosition(), Math.Min(GetOnPosition(), position));
 
+        if (IsVerticalLayout())
+        {
+            float x = (Width - knobDiameter) / 2f;
+            return new RectangleF(x, position, knobDiameter, knobDiameter);
+        }
+
+        float horizontalPosition = position;
         if (RightToLeft == RightToLeft.Yes)
         {
-            x = Width - knobDiameter - x;
+            horizontalPosition = Width - knobDiameter - position;
         }
 
         float y = (Height - knobDiameter) / 2f;
 
-        return new RectangleF(x, y, knobDiameter, knobDiameter);
+        return new RectangleF(horizontalPosition, y, knobDiameter, knobDiameter);
     }
 
 
@@ -701,7 +751,8 @@ public class KryptonToggleSwitch : Control, IContentValues
 
         using (GraphicsPath backgroundPath = GetRoundedRectangle(trackBounds, cornerRadius))
         {
-            if (ToggleSwitchValues.KnobStyle == ToggleSwitchKnobStyle.Pill)
+            if (ToggleSwitchValues.KnobStyle == ToggleSwitchKnobStyle.Pill
+                || ToggleSwitchValues.KnobStyle == ToggleSwitchKnobStyle.Metallic)
             {
                 using (LinearGradientBrush backgroundBrush = new LinearGradientBrush(
                            trackBounds,
@@ -710,6 +761,11 @@ public class KryptonToggleSwitch : Control, IContentValues
                            LinearGradientMode.Vertical))
                 {
                     graphics.FillPath(backgroundBrush, backgroundPath);
+                }
+
+                if (UsesMetallicLayout())
+                {
+                    DrawTrackRecess(graphics, backgroundPath, trackBounds, IsVerticalLayout());
                 }
             }
             else
@@ -732,14 +788,38 @@ public class KryptonToggleSwitch : Control, IContentValues
 
         Rectangle trackBounds = GetTrackBounds(bounds);
         int cornerRadius = GetEffectiveTrackCornerRadius(trackBounds);
+        Color trackColor = ResolveTrackColor(state);
 
         // Border with rounded corners
         using (GraphicsPath borderPath = GetRoundedRectangle(trackBounds, cornerRadius))
         {
-            using (Pen borderPen = new Pen(state.PaletteBorder!.GetBorderColor1(PaletteState.Normal), state.PaletteBorder.GetBorderWidth(PaletteState.Normal)))
+            Color borderColor = UsesMetallicLayout()
+                ? DarkenColor(trackColor, 55)
+                : state.PaletteBorder!.GetBorderColor1(PaletteState.Normal);
+            float borderWidth = UsesMetallicLayout()
+                ? 1f
+                : state.PaletteBorder!.GetBorderWidth(PaletteState.Normal);
+
+            using (Pen borderPen = new Pen(borderColor, borderWidth))
             {
                 graphics.DrawPath(borderPen, borderPath);
             }
+        }
+    }
+
+    private static void DrawTrackRecess(Graphics graphics, GraphicsPath trackPath, Rectangle trackBounds, bool verticalLayout)
+    {
+        Rectangle shadeBounds = verticalLayout
+            ? new Rectangle(trackBounds.X, trackBounds.Y, Math.Max(4, trackBounds.Width / 2), trackBounds.Height)
+            : new Rectangle(trackBounds.X, trackBounds.Y, trackBounds.Width, Math.Max(4, trackBounds.Height / 2));
+
+        using (LinearGradientBrush recessBrush = new LinearGradientBrush(
+                   shadeBounds,
+                   Color.FromArgb(95, 0, 0, 0),
+                   Color.FromArgb(10, 0, 0, 0),
+                   verticalLayout ? LinearGradientMode.Horizontal : LinearGradientMode.Vertical))
+        {
+            graphics.FillPath(recessBrush, trackPath);
         }
     }
 
@@ -792,6 +872,9 @@ public class KryptonToggleSwitch : Control, IContentValues
                 break;
             case ToggleSwitchKnobStyle.Pill:
                 DrawPillKnob(graphics, state, faceColor1, faceColor2, borderColor);
+                break;
+            case ToggleSwitchKnobStyle.Metallic:
+                DrawMetallicKnob(graphics, state, faceColor1, faceColor2, borderColor);
                 break;
             default:
                 DrawClassicKnob(graphics, faceColor1, faceColor2);
@@ -1127,7 +1210,51 @@ public class KryptonToggleSwitch : Control, IContentValues
     private void DrawChevronKnob(Graphics graphics, Color faceColor1, Color faceColor2, Color borderColor)
     {
         DrawSquareKnob(graphics, faceColor1, faceColor2, borderColor);
-        DrawKnobChevrons(graphics, _knob, DarkenColor(faceColor1, 70));
+        if (IsVerticalLayout())
+        {
+            DrawKnobChevronVertical(graphics, _knob, DarkenColor(faceColor1, 70), ResolveChevronPointsDown());
+        }
+        else
+        {
+            DrawKnobChevron(graphics, _knob, DarkenColor(faceColor1, 70), ResolveChevronPointsRight());
+        }
+    }
+
+    private bool ResolveChevronPointsRight()
+    {
+        bool pointRight;
+        switch (ToggleSwitchValues.KnobChevronDirection)
+        {
+            case ToggleSwitchChevronDirection.Left:
+                pointRight = false;
+                break;
+            case ToggleSwitchChevronDirection.Right:
+                pointRight = true;
+                break;
+            default:
+                pointRight = !ToggleSwitchValues.Checked;
+                break;
+        }
+
+        if (RightToLeft == RightToLeft.Yes)
+        {
+            pointRight = !pointRight;
+        }
+
+        return pointRight;
+    }
+
+    private bool ResolveChevronPointsDown()
+    {
+        switch (ToggleSwitchValues.KnobChevronDirection)
+        {
+            case ToggleSwitchChevronDirection.Left:
+                return false;
+            case ToggleSwitchChevronDirection.Right:
+                return true;
+            default:
+                return !ToggleSwitchValues.Checked;
+        }
     }
 
     private void DrawIndicatorKnob(Graphics graphics, IPaletteTriple state, Color faceColor1, Color faceColor2, Color borderColor)
@@ -1183,6 +1310,212 @@ public class KryptonToggleSwitch : Control, IContentValues
         }
     }
 
+    private void DrawMetallicKnob(Graphics graphics, IPaletteTriple state, Color faceColor1, Color faceColor2, Color borderColor)
+    {
+        Color ringColor = ResolveMetallicRingColor(state, faceColor1);
+        DrawKnobDropShadow(graphics, _knob);
+        DrawBrushedMetalKnob(graphics, _knob, ringColor);
+    }
+
+    private Color ResolveMetallicRingColor(IPaletteTriple state, Color faceColor1)
+    {
+        if (UseCustomKnobColors())
+        {
+            return ToggleSwitchValues.Checked ? ToggleSwitchValues.OnColor : ToggleSwitchValues.OffColor;
+        }
+
+        if (ToggleSwitchValues.UseThemeColors && KryptonManager.CurrentGlobalPalette != null)
+        {
+            return ToggleSwitchValues.Checked
+                ? state.PaletteBack.GetBackColor1(PaletteState.Pressed)
+                : state.PaletteBack.GetBackColor1(PaletteState.Normal);
+        }
+
+        return faceColor1;
+    }
+
+    private static void DrawKnobDropShadow(Graphics graphics, RectangleF knob)
+    {
+        RectangleF shadow = knob;
+        shadow.Offset(0f, Math.Max(2f, knob.Height * 0.07f));
+        shadow.Inflate(1.5f, 1.5f);
+
+        using (GraphicsPath shadowPath = new GraphicsPath())
+        {
+            shadowPath.AddEllipse(shadow);
+
+            using (PathGradientBrush shadowBrush = new PathGradientBrush(shadowPath))
+            {
+                shadowBrush.CenterColor = Color.FromArgb(85, 0, 0, 0);
+                shadowBrush.SurroundColors = new[] { Color.Transparent };
+                graphics.FillPath(shadowBrush, shadowPath);
+            }
+        }
+    }
+
+    private static void DrawBrushedMetalKnob(Graphics graphics, RectangleF knob, Color ringColor)
+    {
+        float ringThickness = Math.Max(3.5f, Math.Min(knob.Width, knob.Height) * 0.16f);
+        RectangleF innerDisc = knob;
+        innerDisc.Inflate(-ringThickness, -ringThickness);
+
+        // Coloured outer ring with vertical lighting
+        using (LinearGradientBrush ringBrush = new LinearGradientBrush(
+                   knob,
+                   LightenColor(ringColor, 42),
+                   DarkenColor(ringColor, 38),
+                   LinearGradientMode.Vertical))
+        {
+            graphics.FillEllipse(ringBrush, knob);
+        }
+
+        // Brushed inner disc
+        const int segments = 8;
+        Color lightSegment = Color.FromArgb(255, 250, 251, 253);
+        Color darkSegment = Color.FromArgb(255, 168, 173, 180);
+        float sweepAngle = 360f / segments;
+
+        for (int i = 0; i < segments; i++)
+        {
+            bool upperHemisphere = i == 0 || i == 1 || i == 7;
+            Color segmentColor = i % 2 == 0 ? lightSegment : darkSegment;
+            if (!upperHemisphere)
+            {
+                segmentColor = i % 2 == 0 ? DarkenColor(lightSegment, 18) : DarkenColor(darkSegment, 12);
+            }
+
+            using (SolidBrush segmentBrush = new SolidBrush(segmentColor))
+            {
+                graphics.FillPie(segmentBrush, innerDisc.X, innerDisc.Y, innerDisc.Width, innerDisc.Height, (i * sweepAngle) - 90f, sweepAngle);
+            }
+        }
+
+        // Horizon lighting across the metal face
+        using (GraphicsPath innerPath = new GraphicsPath())
+        {
+            innerPath.AddEllipse(innerDisc);
+
+            Region previousClip = graphics.Clip;
+            graphics.SetClip(innerPath);
+
+            using (LinearGradientBrush horizonBrush = new LinearGradientBrush(
+                       innerDisc,
+                       Color.FromArgb(70, 255, 255, 255),
+                       Color.FromArgb(75, 35, 40, 48),
+                       LinearGradientMode.Vertical))
+            {
+                graphics.FillEllipse(horizonBrush, innerDisc);
+            }
+
+            graphics.Clip = previousClip;
+        }
+
+        // Centre hub
+        float centerX = knob.X + knob.Width / 2f;
+        float centerY = knob.Y + knob.Height / 2f;
+        float hubRadius = Math.Max(1.5f, Math.Min(innerDisc.Width, innerDisc.Height) * 0.07f);
+        RectangleF hubBounds = new RectangleF(centerX - hubRadius, centerY - hubRadius, hubRadius * 2f, hubRadius * 2f);
+
+        using (SolidBrush hubBrush = new SolidBrush(Color.FromArgb(255, 245, 247, 250)))
+        using (Pen hubPen = new Pen(Color.FromArgb(120, 130, 135, 142), Math.Max(0.75f, hubRadius * 0.25f)))
+        {
+            graphics.FillEllipse(hubBrush, hubBounds);
+            graphics.DrawEllipse(hubPen, hubBounds.X, hubBounds.Y, hubBounds.Width, hubBounds.Height);
+        }
+
+        // Ring and outer edge definition
+        using (Pen outerPen = new Pen(DarkenColor(ringColor, 65), Math.Max(1f, ringThickness * 0.12f)))
+        using (Pen innerRingPen = new Pen(DarkenColor(ringColor, 28), Math.Max(1f, ringThickness * 0.1f)))
+        {
+            graphics.DrawEllipse(outerPen, knob.X, knob.Y, knob.Width, knob.Height);
+            graphics.DrawEllipse(innerRingPen, innerDisc.X, innerDisc.Y, innerDisc.Width, innerDisc.Height);
+        }
+    }
+
+    private void DrawTrackIcons(Graphics graphics, IPaletteTriple state, Rectangle bounds)
+    {
+        if (!ToggleSwitchValues.ShowTrackIcons)
+        {
+            return;
+        }
+
+        RectangleF knob = GetKnobRectangle();
+
+        if (ToggleSwitchValues.Checked)
+        {
+            RectangleF iconArea = IsVerticalLayout() ? GetTopTrackIconArea(knob) : GetLeftTrackIconArea(knob);
+            DrawCheckmark(graphics, iconArea, Color.White);
+        }
+        else
+        {
+            RectangleF iconArea = IsVerticalLayout() ? GetBottomTrackIconArea(knob) : GetRightTrackIconArea(knob);
+            Color crossColor = UseCustomKnobColors()
+                ? DarkenColor(ToggleSwitchValues.OffColor, 45)
+                : DarkenColor(ResolveTrackColor(state), 45);
+            DrawCrossmark(graphics, iconArea, crossColor);
+        }
+    }
+
+    private RectangleF GetTopTrackIconArea(RectangleF knob) =>
+        new RectangleF(knob.X, _padding, knob.Width, Math.Max(0f, knob.Y - _padding));
+
+    private RectangleF GetBottomTrackIconArea(RectangleF knob) =>
+        new RectangleF(knob.X, knob.Bottom, knob.Width, Math.Max(0f, Height - _padding - knob.Bottom));
+
+    private RectangleF GetLeftTrackIconArea(RectangleF knob) =>
+        new RectangleF(_padding, knob.Y, Math.Max(0f, knob.X - _padding), knob.Height);
+
+    private RectangleF GetRightTrackIconArea(RectangleF knob) =>
+        new RectangleF(knob.Right, knob.Y, Math.Max(0f, Width - _padding - knob.Right), knob.Height);
+
+    private static void DrawCheckmark(Graphics graphics, RectangleF area, Color color)
+    {
+        if (area.Width <= 2f || area.Height <= 2f)
+        {
+            return;
+        }
+
+        float centerX = area.X + area.Width / 2f;
+        float centerY = area.Y + area.Height / 2f;
+        float size = Math.Min(area.Width, area.Height) * 0.34f;
+        float penWidth = Math.Max(1.5f, size * 0.18f);
+        PointF[] points =
+        {
+            new PointF(centerX - size * 0.45f, centerY + size * 0.05f),
+            new PointF(centerX - size * 0.05f, centerY + size * 0.42f),
+            new PointF(centerX + size * 0.5f, centerY - size * 0.42f)
+        };
+
+        using (Pen pen = new Pen(color, penWidth))
+        {
+            pen.StartCap = LineCap.Round;
+            pen.EndCap = LineCap.Round;
+            pen.LineJoin = LineJoin.Round;
+            graphics.DrawLines(pen, points);
+        }
+    }
+
+    private static void DrawCrossmark(Graphics graphics, RectangleF area, Color color)
+    {
+        if (area.Width <= 2f || area.Height <= 2f)
+        {
+            return;
+        }
+
+        float centerX = area.X + area.Width / 2f;
+        float centerY = area.Y + area.Height / 2f;
+        float size = Math.Min(area.Width, area.Height) * 0.22f;
+        float penWidth = Math.Max(1.5f, size * 0.22f);
+
+        using (Pen pen = new Pen(color, penWidth))
+        {
+            pen.StartCap = LineCap.Round;
+            pen.EndCap = LineCap.Round;
+            graphics.DrawLine(pen, centerX - size, centerY - size, centerX + size, centerY + size);
+            graphics.DrawLine(pen, centerX + size, centerY - size, centerX - size, centerY + size);
+        }
+    }
+
     private static void DrawKnobGripLines(Graphics graphics, RectangleF bounds, Color lineColor)
     {
         float centerX = bounds.X + bounds.Width / 2f;
@@ -1204,13 +1537,12 @@ public class KryptonToggleSwitch : Control, IContentValues
         }
     }
 
-    private static void DrawKnobChevrons(Graphics graphics, RectangleF bounds, Color glyphColor)
+    private static void DrawKnobChevron(Graphics graphics, RectangleF bounds, Color glyphColor, bool pointRight)
     {
         float centerX = bounds.X + bounds.Width / 2f;
         float centerY = bounds.Y + bounds.Height / 2f;
         float armWidth = Math.Max(2f, bounds.Width * 0.22f);
-        float armHeight = Math.Max(2f, bounds.Height * 0.09f);
-        float spacing = armHeight * 0.55f;
+        float armHeight = Math.Max(2f, bounds.Height * 0.2f);
         float penWidth = Math.Max(1.25f, bounds.Width * 0.06f);
 
         using (Pen pen = new Pen(glyphColor, penWidth))
@@ -1219,11 +1551,42 @@ public class KryptonToggleSwitch : Control, IContentValues
             pen.EndCap = LineCap.Round;
             pen.LineJoin = LineJoin.Round;
 
-            for (int i = 0; i < 2; i++)
+            if (pointRight)
             {
-                float y = centerY + ((i - 0.5f) * spacing);
-                graphics.DrawLine(pen, centerX - armWidth, y + armHeight, centerX, y - armHeight);
-                graphics.DrawLine(pen, centerX, y - armHeight, centerX + armWidth, y + armHeight);
+                graphics.DrawLine(pen, centerX - armWidth, centerY - armHeight, centerX + armWidth * 0.15f, centerY);
+                graphics.DrawLine(pen, centerX + armWidth * 0.15f, centerY, centerX - armWidth, centerY + armHeight);
+            }
+            else
+            {
+                graphics.DrawLine(pen, centerX + armWidth, centerY - armHeight, centerX - armWidth * 0.15f, centerY);
+                graphics.DrawLine(pen, centerX - armWidth * 0.15f, centerY, centerX + armWidth, centerY + armHeight);
+            }
+        }
+    }
+
+    private static void DrawKnobChevronVertical(Graphics graphics, RectangleF bounds, Color glyphColor, bool pointDown)
+    {
+        float centerX = bounds.X + bounds.Width / 2f;
+        float centerY = bounds.Y + bounds.Height / 2f;
+        float armWidth = Math.Max(2f, bounds.Width * 0.2f);
+        float armHeight = Math.Max(2f, bounds.Height * 0.22f);
+        float penWidth = Math.Max(1.25f, bounds.Height * 0.06f);
+
+        using (Pen pen = new Pen(glyphColor, penWidth))
+        {
+            pen.StartCap = LineCap.Round;
+            pen.EndCap = LineCap.Round;
+            pen.LineJoin = LineJoin.Round;
+
+            if (pointDown)
+            {
+                graphics.DrawLine(pen, centerX - armWidth, centerY - armHeight, centerX, centerY + armHeight * 0.15f);
+                graphics.DrawLine(pen, centerX, centerY + armHeight * 0.15f, centerX + armWidth, centerY - armHeight);
+            }
+            else
+            {
+                graphics.DrawLine(pen, centerX - armWidth, centerY + armHeight, centerX, centerY - armHeight * 0.15f);
+                graphics.DrawLine(pen, centerX, centerY - armHeight * 0.15f, centerX + armWidth, centerY + armHeight);
             }
         }
     }
@@ -1260,7 +1623,7 @@ public class KryptonToggleSwitch : Control, IContentValues
         string text = ToggleSwitchValues.Checked ? KryptonManager.Strings.CustomStrings.On : KryptonManager.Strings.CustomStrings.Off;
 
         // Define font and measure text size
-        float fontSize = Height / 3f;
+        float fontSize = (IsVerticalLayout() ? Width : Height) / 3f;
         using (Font font = new Font(Font.FontFamily, fontSize, FontStyle.Bold))
         {
             using (Brush textBrush = new SolidBrush(textColor))
@@ -1268,17 +1631,28 @@ public class KryptonToggleSwitch : Control, IContentValues
                 SizeF textSize = graphics.MeasureString(text, font);
 
                 float textX;
+                float textY;
                 float textPadding = Math.Max(4, _knobSize / 4); // Ensure a minimum padding
 
-                // Position knob's right edge
-                float knobEdge = _animationPosition + _knobSize + textPadding;
+                if (IsVerticalLayout())
+                {
+                    textX = (Width - textSize.Width) / 2f;
+                    float knobEdge = _animationPosition + _knobSize + textPadding;
+                    textY = ToggleSwitchValues.Checked
+                        ? _padding
+                        : Math.Min(Height - textSize.Height - _padding, knobEdge);
+                }
+                else
+                {
+                    // Position knob's right edge
+                    float knobEdge = _animationPosition + _knobSize + textPadding;
 
-                // Ensure text remains within bounds
-                textX = ToggleSwitchValues.Checked ? _padding : Math.Min(Width - textSize.Width - _padding, knobEdge);
-                   
-                float textY = (Height - textSize.Height) / 2f; // Center text vertically
+                    // Ensure text remains within bounds
+                    textX = ToggleSwitchValues.Checked ? _padding : Math.Min(Width - textSize.Width - _padding, knobEdge);
+                    textY = (Height - textSize.Height) / 2f; // Center text vertically
+                }
 
-                if (ToggleSwitchValues.ShowText)
+                if (ToggleSwitchValues.ShowText && !ToggleSwitchValues.ShowTrackIcons)
                 {
                     // Enable better text rendering for smooth appearance
                     // Use GraphicsTextHint to properly save/restore TextRenderingHint to prevent affecting other controls
@@ -1405,6 +1779,16 @@ public class KryptonToggleSwitch : Control, IContentValues
         else if (e.PropertyName == nameof(ToggleSwitchValues.KnobStyle))
         {
             UpdateLayoutMetrics();
+
+            using (GraphicsPath roundedPath = GetRoundedRectanglePath(ClientRectangle, GetEffectiveTrackCornerRadius(ClientRectangle)))
+            {
+                Region = new Region(roundedPath);
+            }
+        }
+        else if (e.PropertyName == nameof(ToggleSwitchValues.Orientation))
+        {
+            UpdateLayoutMetrics();
+            UpdateAnimationStateFromChecked();
 
             using (GraphicsPath roundedPath = GetRoundedRectanglePath(ClientRectangle, GetEffectiveTrackCornerRadius(ClientRectangle)))
             {
