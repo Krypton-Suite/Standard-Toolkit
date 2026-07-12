@@ -137,7 +137,7 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
     /// <summary>Gets or sets a value indicating whether [enable knob gradient].</summary>
     /// <value><c>true</c> if [enable knob gradient]; otherwise, <c>false</c>.</value>
     [Category("Appearance")]
-    [Description("Indicates whether the knob should have a gradient effect. Also applies to Classic, Bevel, Ring, and RoundedSquare styles.")]
+    [Description("Indicates whether the knob should have a gradient effect. Also applies to Classic, Bevel, Ring, RoundedSquare, Square, Grip, Chevron, and Indicator styles.")]
     [DefaultValue(false)]
     public bool EnableKnobGradient
     {

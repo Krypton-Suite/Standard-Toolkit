@@ -1611,7 +1611,37 @@ public enum ToggleSwitchKnobStyle
     /// <summary>
     /// Specifies a rounded-square knob.
     /// </summary>
-    RoundedSquare
+    RoundedSquare,
+
+    /// <summary>
+    /// Specifies a square knob with sharp corners.
+    /// </summary>
+    Square,
+
+    /// <summary>
+    /// Specifies a square knob with vertical grip lines.
+    /// </summary>
+    Grip,
+
+    /// <summary>
+    /// Specifies a square knob with stacked chevron glyphs.
+    /// </summary>
+    Chevron,
+
+    /// <summary>
+    /// Specifies a rounded-square knob with a centred indicator dot.
+    /// </summary>
+    Indicator,
+
+    /// <summary>
+    /// Specifies a thin rounded track with a large overlapping circular knob.
+    /// </summary>
+    ThinTrack,
+
+    /// <summary>
+    /// Specifies a capsule track with a soft vertical gradient and circular knob.
+    /// </summary>
+    Pill
 }
 #endregion
 

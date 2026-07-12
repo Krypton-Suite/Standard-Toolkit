@@ -46,7 +46,7 @@
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
 * Implemented [#3890](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3890), Different knob styles for `KryptonToggleSwitch`
-   * Added selectable knob styles for `KryptonToggleSwitch`, including classic, gradient, flat, radial, ring, bevel, and rounded-square rendering.
+   * Added selectable knob styles for `KryptonToggleSwitch`, including classic, gradient, flat, radial, ring, bevel, rounded-square, square, grip, chevron, indicator, thin-track, and pill rendering.
    * Added optional knob pulse animation via `ToggleSwitchValues.EnableKnobPulse`, with `KnobPulseSpeed` and `KnobPulseIntensity` controls.
 * Resolved [#3879](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3879), When the `KryptonComboBox` initializes in a disabled state, it displays using default system colors
    * `KryptonComboBox` now displays theme disabled colors when initialized in a disabled state.

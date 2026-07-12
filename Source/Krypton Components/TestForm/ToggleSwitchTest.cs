@@ -28,7 +28,7 @@ public partial class ToggleSwitchTest : KryptonForm
             Dock = DockStyle.Top,
             Height = 72,
             LabelStyle = LabelStyle.NormalPanel,
-            Text = "Issue #3890: compare knob styles. Set ToggleSwitchValues.OnColor/OffColor (default red/green) — with OnlyShowColorOnKnob=true they apply to the knob even when UseThemeColors is enabled. Enable EnableKnobGradient or choose the Gradient style for gradient fills. Enable EnableKnobPulse on the selected switch to preview the optional pulsing knob animation.",
+            Text = "Issue #3890: compare knob styles including Square, Grip, Chevron, Indicator, ThinTrack, and Pill. Set OnColor/OffColor for knob/track colours. Enable EnableKnobPulse on the Classic preview for the optional pulsing animation.",
             TextAlign = ContentAlignment.MiddleLeft
         };
 
@@ -76,9 +76,11 @@ public partial class ToggleSwitchTest : KryptonForm
         toggleSwitch.Size = new Size(140, 44);
         toggleSwitch.ToggleSwitchValues.KnobStyle = style;
         toggleSwitch.ToggleSwitchValues.OnlyShowColorOnKnob = true;
-        toggleSwitch.ToggleSwitchValues.EnableKnobGradient = style == ToggleSwitchKnobStyle.Gradient;
+        toggleSwitch.ToggleSwitchValues.EnableKnobGradient = style == ToggleSwitchKnobStyle.Gradient
+            || style == ToggleSwitchKnobStyle.Pill;
         toggleSwitch.ToggleSwitchValues.AnimateGradientEffect = style == ToggleSwitchKnobStyle.Gradient;
         toggleSwitch.ToggleSwitchValues.EnableKnobPulse = style == ToggleSwitchKnobStyle.Classic;
+        toggleSwitch.ToggleSwitchValues.ShowText = style != ToggleSwitchKnobStyle.ThinTrack;
 
         previewContainer.Controls.Add(toggleSwitch);
         previewContainer.Controls.Add(styleLabel);
