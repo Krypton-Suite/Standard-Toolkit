@@ -15,6 +15,7 @@
 #
 # KILL-SWITCH: SCAN_CODE_TODOS_DISABLED=true (repository variable)
 # TEST/FORK REPOS: Set EXPECTED_REPOSITORY=YourOrg/YourFork (repository variable) so the security check passes.
+# DISCORD: Set secret DISCORD_WEBHOOK_CODE_TODOS and enable notify_discord on workflow_dispatch (optional).
 # DEPLOYMENT: Must exist on the default branch before workflow_dispatch is available in the UI.
 # Branch input: choice list synced from .github/branch-policy.json (see sync-scan-code-todos-branches.yml).
 # Use branch_custom when branch is "other". Runtime validation uses branch-policy.json on each run.
@@ -71,6 +72,11 @@ on:
         type: boolean
       close_stale:
         description: Close open auto-created issues whose source comment no longer exists
+        required: true
+        default: false
+        type: boolean
+      notify_discord:
+        description: Post a run summary to Discord (requires secret DISCORD_WEBHOOK_CODE_TODOS)
         required: true
         default: false
         type: boolean
@@ -419,6 +425,7 @@ jobs:
 
       - name: Create or close issues from scan results
         if: steps.kill_switch.outputs.enabled == 'true'
+        id: issue_sync
         uses: actions/github-script@v9
         env:
           BRANCH: ${{ steps.scan_branch.outputs.ref }}
@@ -1188,3 +1195,104 @@ jobs:
             if (skippedLimit > 0) {
               core.warning(`${skippedLimit} candidate(s) were not created because max_issues=${maxIssues}. Increase max_issues or run again.`);
             }
+
+            fs.writeFileSync('scan-summary.json', JSON.stringify({
+              branch,
+              isDryRun,
+              includeAllMarkers,
+              markerMode: scanDiagnostics?.markerMode || (includeAllMarkers ? 'all' : 'opt-in'),
+              optInMarkerCount: scanDiagnostics?.optInMarkerCount ?? null,
+              plainMarkerCount: scanDiagnostics?.plainMarkerCount ?? null,
+              matchesScanned: matches.length,
+              groupedCandidates: grouped.size,
+              createdTodoCount,
+              createdHackCount,
+              createdBugCount,
+              skippedFingerprint,
+              skippedTitle,
+              skippedLocation,
+              skippedLimit,
+              closedCount,
+              workflowStatus: 'success',
+            }, null, 2));
+
+      - name: Discord notification
+        if: always() && steps.kill_switch.outputs.enabled == 'true' && inputs.notify_discord == true
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_CODE_TODOS }}
+          JOB_STATUS: ${{ job.status }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          if [ -z "$DISCORD_WEBHOOK" ]; then
+            echo "DISCORD_WEBHOOK_CODE_TODOS not set - skipping Discord notification"
+            exit 0
+          fi
+
+          if [ -f scan-summary.json ]; then
+            payload="$(jq -n \
+              --arg repo "$REPOSITORY" \
+              --arg run_url "$RUN_URL" \
+              --arg job_status "$JOB_STATUS" \
+              --argjson summary "$(cat scan-summary.json)" \
+              '
+              def n($v): if $v == null then "n/a" else ($v|tostring) end;
+              ($summary.markerMode // "opt-in") as $mode |
+              (if $summary.isDryRun then " (dry run)" else "" end) as $dry |
+              (if $job_status == "success" then 3066993 elif $job_status == "failure" then 15158332 else 16776960 end) as $color |
+              {
+                embeds: [{
+                  title: ("📝 Code TODO scan" + $dry),
+                  description: (
+                    "**Repository:** " + $repo + "\n" +
+                    "**Branch:** `" + ($summary.branch // "unknown") + "`\n" +
+                    "**Marker mode:** " + $mode + "\n" +
+                    "**Job status:** " + $job_status + "\n\n" +
+                    "**Scan**\n" +
+                    "• Matches scanned: " + n($summary.matchesScanned) + "\n" +
+                    "• Grouped candidates: " + n($summary.groupedCandidates) + "\n" +
+                    "• Opt-in markers on branch: " + n($summary.optInMarkerCount) + "\n" +
+                    "• Plain markers on branch: " + n($summary.plainMarkerCount) + "\n\n" +
+                    "**Issues**\n" +
+                    "• Code ToDo created: " + n($summary.createdTodoCount) + "\n" +
+                    "• HACK (workaround) created: " + n($summary.createdHackCount) + "\n" +
+                    "• Bug reports (FIXME) created: " + n($summary.createdBugCount) + "\n" +
+                    "• Stale closed: " + n($summary.closedCount) + "\n\n" +
+                    "**Skipped**\n" +
+                    "• Fingerprint: " + n($summary.skippedFingerprint) + "\n" +
+                    "• Title: " + n($summary.skippedTitle) + "\n" +
+                    "• Source location: " + n($summary.skippedLocation) + "\n" +
+                    "• max_issues limit: " + n($summary.skippedLimit) + "\n\n" +
+                    "[View workflow run](" + $run_url + ")"
+                  ),
+                  color: $color,
+                  timestamp: (now | todate),
+                  footer: { text: "Scan code TODOs" }
+                }]
+              }
+              ')"
+          else
+            payload="$(jq -n \
+              --arg repo "$REPOSITORY" \
+              --arg run_url "$RUN_URL" \
+              --arg job_status "$JOB_STATUS" \
+              '
+              {
+                embeds: [{
+                  title: "📝 Code TODO scan",
+                  description: (
+                    "**Repository:** " + $repo + "\n" +
+                    "**Job status:** " + $job_status + "\n\n" +
+                    "The workflow did not complete the issue sync step (no scan summary was produced).\n\n" +
+                    "[View workflow run](" + $run_url + ")"
+                  ),
+                  color: (if $job_status == "failure" then 15158332 else 16776960 end),
+                  timestamp: (now | todate),
+                  footer: { text: "Scan code TODOs" }
+                }]
+              }
+              ')"
+          fi
+
+          curl -sS -X POST "$DISCORD_WEBHOOK" -H "Content-Type: application/json" -d "$payload"
