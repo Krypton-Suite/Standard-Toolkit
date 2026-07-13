@@ -45,6 +45,11 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#3851](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3851), Rendering, DPI, and performance
+   * Rendering, DPI and performance improvements for the ribbon and form chrome.
+     * The ribbon Quick Access Toolbar overflow and context-arrow glyphs now scale with DPI and use per-theme geometry, so they stay aligned across themes and at 150%/200% display scaling.
+     * The `KryptonForm` non-glass background fill reuses a cached brush instead of allocating one on every paint.
+     * The `KryptonTextBox` multiline string editor button is now an internal fixed button, so it no longer appears in (nor can be removed, reordered, or serialized through) the public `ButtonSpecs` collection.
 * Resolved [#3879](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3879), When the `KryptonComboBox` initializes in a disabled state, it displays using default system colors
    * `KryptonComboBox` now displays theme disabled colors when initialized in a disabled state.
 * Implemented [#3807](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3807), `KryptonKnob` control
