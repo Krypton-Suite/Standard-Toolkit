@@ -1,8 +1,7 @@
-# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+﻿# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
 # Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2026 - 2026. All rights reserved.
 #
 # Scans a selected branch for inline TODO/ToDo comments and opens GitHub issues ([#3899]).
-# Developer guide: Documents/scan-code-todos-developer-guide.md
 #
 # Opt-in markers (default scan mode):
 #   ToDo(issue): / TODO(issue):  -> Code ToDo issue (code_todo.yml format)
@@ -16,6 +15,8 @@
 #
 # KILL-SWITCH: SCAN_CODE_TODOS_DISABLED=true (repository variable)
 # DEPLOYMENT: Must exist on the default branch before workflow_dispatch is available in the UI.
+# Branch input: choice list synced from .github/branch-policy.json (see sync-scan-code-todos-branches.yml).
+# Use branch_custom when branch is "other". Runtime validation uses branch-policy.json on each run.
 
 name: Scan code TODOs
 
@@ -23,9 +24,27 @@ on:
   workflow_dispatch:
     inputs:
       branch:
-        description: Branch to scan
+        description: Branch to scan (long-lived lines from branch-policy.json)
         required: true
-        default: master
+        default: alpha
+        type: choice
+        options:
+          # BEGIN: long-lived-branches (synced from branch-policy.json)
+          - master
+          - main
+          - alpha
+          - canary
+          - gold
+          - prerelease
+          - V110
+          - V105-LTS
+          - V85-LTS
+          # END: long-lived-branches
+          - other
+      branch_custom:
+        description: Custom branch name (required only when branch is "other")
+        required: false
+        default: ''
         type: string
       dry_run:
         description: Log actions only; do not create or close issues
@@ -86,11 +105,95 @@ jobs:
           fi
           echo "✓ Repository verified: $GITHUB_REPOSITORY"
 
+      - name: Checkout branch policy
+        if: steps.kill_switch.outputs.enabled == 'true'
+        uses: actions/checkout@v7
+        with:
+          sparse-checkout: |
+            .github/branch-policy.json
+          sparse-checkout-cone-mode: true
+
+      - name: Resolve scan branch
+        if: steps.kill_switch.outputs.enabled == 'true'
+        id: scan_branch
+        shell: bash
+        env:
+          BRANCH_INPUT: ${{ inputs.branch }}
+          BRANCH_CUSTOM: ${{ inputs.branch_custom }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require('fs');
+          const https = require('https');
+
+          const policy = JSON.parse(fs.readFileSync('.github/branch-policy.json', 'utf8'));
+          const allowed = new Set((policy.longLivedHeadBranches || []).map((b) => b.toLowerCase()));
+
+          let branch = process.env.BRANCH_INPUT || '';
+          if (branch === 'other') {
+            branch = process.env.BRANCH_CUSTOM || '';
+          }
+          branch = branch.replace(/^refs\/heads\//, '').trim();
+
+          if (!branch) {
+            console.error('::error::Provide branch_custom when branch is set to other.');
+            process.exit(1);
+          }
+
+          const input = process.env.BRANCH_INPUT || '';
+          if (input !== 'other' && !allowed.has(branch.toLowerCase())) {
+            console.warn(`::warning:: Branch '${branch}' is not listed in branch-policy.json longLivedHeadBranches.`);
+          }
+
+          const [owner, repo] = (process.env.GITHUB_REPOSITORY || '').split('/');
+          const token = process.env.GITHUB_TOKEN || '';
+
+          function branchExists(name) {
+            return new Promise((resolve) => {
+              const options = {
+                hostname: 'api.github.com',
+                path: `/repos/${owner}/${repo}/branches/${encodeURIComponent(name)}`,
+                method: 'GET',
+                headers: {
+                  'User-Agent': 'scan-code-todos-workflow',
+                  Authorization: `Bearer ${token}`,
+                  Accept: 'application/vnd.github+json',
+                },
+              };
+
+              const req = https.request(options, (res) => {
+                res.resume();
+                resolve(res.statusCode === 200);
+              });
+              req.on('error', () => resolve(false));
+              req.end();
+            });
+          }
+
+          (async () => {
+            const exists = await branchExists(branch);
+            if (!exists) {
+              console.error(`::error::Branch '${branch}' was not found on ${owner}/${repo}.`);
+              process.exit(1);
+            }
+
+            const output = process.env.GITHUB_OUTPUT;
+            if (output) {
+              fs.appendFileSync(output, `ref=${branch}\n`);
+            }
+            console.log(`Scan branch resolved to: ${branch}`);
+          })().catch((error) => {
+            console.error(`::error::${error.message}`);
+            process.exit(1);
+          });
+          NODE
+
       - name: Checkout
         if: steps.kill_switch.outputs.enabled == 'true'
         uses: actions/checkout@v7
         with:
-          ref: ${{ inputs.branch }}
+          ref: ${{ steps.scan_branch.outputs.ref }}
 
       - name: Install ripgrep
         if: steps.kill_switch.outputs.enabled == 'true'
@@ -223,7 +326,7 @@ jobs:
         if: steps.kill_switch.outputs.enabled == 'true'
         uses: actions/upload-artifact@v4
         with:
-          name: code-todo-scan-${{ inputs.branch }}
+          name: code-todo-scan-${{ steps.scan_branch.outputs.ref }}
           path: todo-matches.json
           if-no-files-found: ignore
 
@@ -231,7 +334,7 @@ jobs:
         if: steps.kill_switch.outputs.enabled == 'true'
         uses: actions/github-script@v9
         env:
-          BRANCH: ${{ inputs.branch }}
+          BRANCH: ${{ steps.scan_branch.outputs.ref }}
           DRY_RUN: ${{ inputs.dry_run }}
           MAX_ISSUES: ${{ inputs.max_issues }}
           GROUP_DUPLICATES: ${{ inputs.group_duplicates }}
