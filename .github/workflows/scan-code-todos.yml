@@ -76,11 +76,19 @@ jobs:
       - name: Security - Verify Repository
         if: steps.kill_switch.outputs.enabled == 'true'
         shell: bash
+        env:
+          EXPECTED_REPOSITORY: ${{ vars.EXPECTED_REPOSITORY }}
         run: |
-          if [ "$GITHUB_REPOSITORY" != "Krypton-Suite/Standard-Toolkit" ]; then
-            echo "::error::Invalid repository: $GITHUB_REPOSITORY"
+          $ErrorActionPreference = 'Stop'
+          $expectedRepository = $env:EXPECTED_REPOSITORY
+          if ([string]::IsNullOrWhiteSpace($expectedRepository)) {
+            $expectedRepository = 'Krypton-Suite/Standard-Toolkit'
+          }
+          if ($env:GITHUB_REPOSITORY -ne $expectedRepository) {
+            Write-Error "Security: Invalid repository '$env:GITHUB_REPOSITORY'. This workflow should only run on $expectedRepository"
             exit 1
-          fi
+          }
+          Write-Host "✓ Repository verified: $env:GITHUB_REPOSITORY"
 
       - name: Checkout
         if: steps.kill_switch.outputs.enabled == 'true'
