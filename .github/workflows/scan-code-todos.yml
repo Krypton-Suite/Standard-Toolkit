@@ -153,7 +153,15 @@ jobs:
           branch = branch.replace(/^refs\/heads\//, '').trim();
 
           if (!branch) {
-            console.error('::error::Provide branch_custom when branch is set to other.');
+            if ((process.env.BRANCH_INPUT || '') === 'other') {
+              console.error(
+                '::error::Provide branch_custom when branch is set to other. ' +
+                'When using workflow_dispatch, set the branch_custom input to the branch name to scan (e.g. feature/my-branch), ' +
+                'or pick a listed branch instead.'
+              );
+            } else {
+              console.error('::error::No scan branch was resolved. Set the branch workflow input to a valid branch name.');
+            }
             process.exit(1);
           }
 
