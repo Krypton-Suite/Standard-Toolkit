@@ -72,8 +72,9 @@
             // 
             // kbtnCancel
             // 
+            this.kbtnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.kbtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.kbtnCancel.Location = new System.Drawing.Point(804, 13);
+            this.kbtnCancel.Location = new System.Drawing.Point(987, 13);
             this.kbtnCancel.Name = "kbtnCancel";
             this.kbtnCancel.Size = new System.Drawing.Size(90, 25);
             this.kbtnCancel.TabIndex = 1;
@@ -116,6 +117,7 @@
             this.kryptonGroupBox2.Panel.Controls.Add(this.kryptonPanel3);
             this.kryptonGroupBox2.Size = new System.Drawing.Size(747, 607);
             this.kryptonGroupBox2.TabIndex = 1;
+            this.kryptonGroupBox2.Values.Heading = "ToggleSwitch Preview";
             // 
             // kryptonPanel4
             // 
@@ -164,6 +166,7 @@
             this.kryptonGroupBox1.Panel.Controls.Add(this.kryptonPropertyGrid1);
             this.kryptonGroupBox1.Size = new System.Drawing.Size(342, 607);
             this.kryptonGroupBox1.TabIndex = 0;
+            this.kryptonGroupBox1.Values.Heading = "ToggleSwitch Properties";
             // 
             // kryptonPropertyGrid1
             // 

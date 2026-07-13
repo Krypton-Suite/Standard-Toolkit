@@ -37,7 +37,8 @@ public partial class ToggleSwitchTest : KryptonForm
             AutoScroll = true,
             Dock = DockStyle.Fill,
             Padding = new Padding(12),
-            WrapContents = true
+            WrapContents = true,
+            BackColor = Color.Transparent
         };
 
         kryptonPanel4.Controls.Add(previewPanel);
