@@ -52,6 +52,13 @@ on:
         required: true
         default: true
         type: boolean
+      include_all_markers:
+        description: >-
+          Include plain TODO/ToDo/FIXME/HACK comments (not only ToDo(issue)/FIXME(issue)/HACK(issue)).
+          Leave false for opt-in scanning; set true to scan legacy plain markers (can be 1000+ on alpha).
+        required: true
+        default: false
+        type: boolean
       max_issues:
         description: Maximum new issues to create per run
         required: true
@@ -61,11 +68,6 @@ on:
         description: Group identical comment text into one issue
         required: true
         default: true
-        type: boolean
-      include_all_markers:
-        description: Scan plain TODO/ToDo/FIXME/HACK (default scans only ToDo(issue)/FIXME(issue)/HACK(issue))
-        required: true
-        default: false
         type: boolean
       close_stale:
         description: Close open auto-created issues whose source comment no longer exists
@@ -315,9 +317,9 @@ jobs:
             echo "[]" > todo-matches.json
             echo "match_count=0" >> "$GITHUB_OUTPUT"
             if [ "$INCLUDE_ALL_MARKERS" != "true" ] && [ "$PLAIN_MARKER_COUNT" -gt 0 ]; then
-              echo "::notice title=No opt-in markers found::Found 0 ToDo(issue)/FIXME(issue)/HACK(issue) comment(s) on this branch, but approximately ${PLAIN_MARKER_COUNT} plain TODO/ToDo/FIXME/HACK comment(s) exist. Enable include_all_markers to scan those, or mark work with // ToDo(issue): description"
+              echo "::notice title=No opt-in markers found::Found 0 ToDo(issue)/FIXME(issue)/HACK(issue) comment(s) on this branch, but approximately ${PLAIN_MARKER_COUNT} plain TODO/ToDo/FIXME/HACK comment(s) exist. Re-run with workflow input include_all_markers=true to scan those, or mark work with // ToDo(issue): description"
             elif [ "$INCLUDE_ALL_MARKERS" != "true" ]; then
-              echo "::notice title=No opt-in markers found::Found 0 ToDo(issue)/FIXME(issue)/HACK(issue) comment(s). Add markers like // ToDo(issue): description to track work, or enable include_all_markers to scan plain TODO comments."
+              echo "::notice title=No opt-in markers found::Found 0 ToDo(issue)/FIXME(issue)/HACK(issue) comment(s). Add markers like // ToDo(issue): description to track work, or re-run with workflow input include_all_markers=true to scan plain TODO comments."
             fi
             exit 0
           fi
@@ -1179,7 +1181,7 @@ jobs:
             if (!includeAllMarkers && matches.length === 0 && scanDiagnostics?.plainMarkerCount > 0) {
               core.warning(
                 `No opt-in markers were scanned, but approximately ${scanDiagnostics.plainMarkerCount} plain TODO/ToDo/FIXME/HACK comment(s) exist on this branch. ` +
-                'Enable include_all_markers to scan those, or use // ToDo(issue): description in source.'
+                'Re-run this workflow with include_all_markers=true to scan those, or use // ToDo(issue): description in source.'
               );
             }
 
