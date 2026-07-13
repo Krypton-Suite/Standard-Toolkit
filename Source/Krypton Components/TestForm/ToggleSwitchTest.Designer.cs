@@ -64,10 +64,10 @@
             this.kryptonPanel1.Controls.Add(this.kbtnCancel);
             this.kryptonPanel1.Controls.Add(this.kryptonBorderEdge1);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.kryptonPanel1.Location = new System.Drawing.Point(0, 448);
+            this.kryptonPanel1.Location = new System.Drawing.Point(0, 607);
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
-            this.kryptonPanel1.Size = new System.Drawing.Size(906, 50);
+            this.kryptonPanel1.Size = new System.Drawing.Size(1089, 50);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kbtnCancel
@@ -79,6 +79,7 @@
             this.kbtnCancel.TabIndex = 1;
             this.kbtnCancel.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnCancel.Values.Text = "&Cancel";
+            this.kbtnCancel.Click += new System.EventHandler(this.kbtnCancel_Click);
             // 
             // kryptonBorderEdge1
             // 
@@ -86,7 +87,7 @@
             this.kryptonBorderEdge1.Dock = System.Windows.Forms.DockStyle.Top;
             this.kryptonBorderEdge1.Location = new System.Drawing.Point(0, 0);
             this.kryptonBorderEdge1.Name = "kryptonBorderEdge1";
-            this.kryptonBorderEdge1.Size = new System.Drawing.Size(906, 1);
+            this.kryptonBorderEdge1.Size = new System.Drawing.Size(1089, 1);
             this.kryptonBorderEdge1.Text = "kryptonBorderEdge1";
             // 
             // kryptonManager1
@@ -101,7 +102,7 @@
             this.kryptonPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel2.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel2.Name = "kryptonPanel2";
-            this.kryptonPanel2.Size = new System.Drawing.Size(906, 448);
+            this.kryptonPanel2.Size = new System.Drawing.Size(1089, 607);
             this.kryptonPanel2.TabIndex = 2;
             // 
             // kryptonGroupBox2
@@ -113,7 +114,7 @@
             // 
             this.kryptonGroupBox2.Panel.Controls.Add(this.kryptonPanel4);
             this.kryptonGroupBox2.Panel.Controls.Add(this.kryptonPanel3);
-            this.kryptonGroupBox2.Size = new System.Drawing.Size(564, 448);
+            this.kryptonGroupBox2.Size = new System.Drawing.Size(747, 607);
             this.kryptonGroupBox2.TabIndex = 1;
             // 
             // kryptonPanel4
@@ -122,7 +123,7 @@
             this.kryptonPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel4.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel4.Name = "kryptonPanel4";
-            this.kryptonPanel4.Size = new System.Drawing.Size(560, 324);
+            this.kryptonPanel4.Size = new System.Drawing.Size(743, 483);
             this.kryptonPanel4.TabIndex = 1;
             // 
             // ktsTest
@@ -137,9 +138,9 @@
             // 
             this.kryptonPanel3.Controls.Add(this.kryptonWrapLabel1);
             this.kryptonPanel3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.kryptonPanel3.Location = new System.Drawing.Point(0, 324);
+            this.kryptonPanel3.Location = new System.Drawing.Point(0, 483);
             this.kryptonPanel3.Name = "kryptonPanel3";
-            this.kryptonPanel3.Size = new System.Drawing.Size(560, 100);
+            this.kryptonPanel3.Size = new System.Drawing.Size(743, 100);
             this.kryptonPanel3.TabIndex = 0;
             // 
             // kryptonWrapLabel1
@@ -149,19 +150,19 @@
             this.kryptonWrapLabel1.LabelStyle = Krypton.Toolkit.LabelStyle.TitleControl;
             this.kryptonWrapLabel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonWrapLabel1.Name = "kryptonWrapLabel1";
-            this.kryptonWrapLabel1.Size = new System.Drawing.Size(560, 100);
+            this.kryptonWrapLabel1.Size = new System.Drawing.Size(743, 100);
             this.kryptonWrapLabel1.Text = "kryptonWrapLabel1";
             this.kryptonWrapLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // kryptonGroupBox1
             // 
             this.kryptonGroupBox1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.kryptonGroupBox1.Location = new System.Drawing.Point(564, 0);
+            this.kryptonGroupBox1.Location = new System.Drawing.Point(747, 0);
             // 
             // kryptonGroupBox1.Panel
             // 
             this.kryptonGroupBox1.Panel.Controls.Add(this.kryptonPropertyGrid1);
-            this.kryptonGroupBox1.Size = new System.Drawing.Size(342, 448);
+            this.kryptonGroupBox1.Size = new System.Drawing.Size(342, 607);
             this.kryptonGroupBox1.TabIndex = 0;
             // 
             // kryptonPropertyGrid1
@@ -171,7 +172,7 @@
             this.kryptonPropertyGrid1.Name = "kryptonPropertyGrid1";
             this.kryptonPropertyGrid1.Padding = new System.Windows.Forms.Padding(1);
             this.kryptonPropertyGrid1.SelectedObject = this.ktsTest;
-            this.kryptonPropertyGrid1.Size = new System.Drawing.Size(338, 424);
+            this.kryptonPropertyGrid1.Size = new System.Drawing.Size(338, 583);
             this.kryptonPropertyGrid1.TabIndex = 0;
             this.kryptonPropertyGrid1.Text = "kryptonPropertyGrid1";
             // 
@@ -180,7 +181,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.kbtnCancel;
-            this.ClientSize = new System.Drawing.Size(906, 498);
+            this.ClientSize = new System.Drawing.Size(1089, 657);
             this.Controls.Add(this.kryptonPanel2);
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;

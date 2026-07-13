@@ -173,4 +173,9 @@ public partial class ToggleSwitchTest : KryptonForm
     {
         kryptonWrapLabel1.Text = $@"Selected switch: Checked = {ktsTest.ToggleSwitchValues.Checked}, Orientation = {ktsTest.ToggleSwitchValues.Orientation}, KnobStyle = {ktsTest.ToggleSwitchValues.KnobStyle}, EnableKnobPulse = {ktsTest.ToggleSwitchValues.EnableKnobPulse}";
     }
+
+    private void kbtnCancel_Click(object sender, EventArgs e)
+    {
+        Hide();
+    }
 }
