@@ -28,7 +28,7 @@ public partial class ToggleSwitchTest : KryptonForm
             Dock = DockStyle.Top,
             Height = 88,
             LabelStyle = LabelStyle.NormalPanel,
-            Text = "Issue #3890: compare knob styles including Metallic (brushed-metal knob, recessed pill track, check/cross icons). Set OnColor/OffColor for track colours. Enable EnableKnobPulse on the Classic preview for the optional pulsing animation. Use ToggleSwitchValues.Orientation = Vertical with a tall, narrow size to exercise vertical layout.",
+            Text = "Issue #3890: compare knob styles. Chevron: adjust KnobChevronGlyphSize (0.2-1) and EnableKnobGradient for optional knob fill gradient. Set OnColor/OffColor for track/knob colours.",
             TextAlign = ContentAlignment.MiddleLeft
         };
 
@@ -151,7 +151,8 @@ public partial class ToggleSwitchTest : KryptonForm
         toggleSwitch.ToggleSwitchValues.KnobStyle = style;
         toggleSwitch.ToggleSwitchValues.OnlyShowColorOnKnob = true;
         toggleSwitch.ToggleSwitchValues.EnableKnobGradient = style == ToggleSwitchKnobStyle.Gradient
-            || style == ToggleSwitchKnobStyle.Pill;
+            || style == ToggleSwitchKnobStyle.Pill
+            || style == ToggleSwitchKnobStyle.Chevron;
         toggleSwitch.ToggleSwitchValues.AnimateGradientEffect = style == ToggleSwitchKnobStyle.Gradient;
         toggleSwitch.ToggleSwitchValues.EnableKnobPulse = style == ToggleSwitchKnobStyle.Classic;
         toggleSwitch.ToggleSwitchValues.ShowText = style != ToggleSwitchKnobStyle.ThinTrack

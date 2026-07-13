@@ -36,6 +36,7 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
     private bool _useThemeColors;
     private ToggleSwitchKnobStyle _knobStyle;
     private ToggleSwitchChevronDirection _knobChevronDirection;
+    private float _knobChevronGlyphSize;
     private ToggleSwitchOrientation _orientation;
 
     #endregion
@@ -64,6 +65,7 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
         _useThemeColors = true;
         _knobStyle = ToggleSwitchKnobStyle.Classic;
         _knobChevronDirection = ToggleSwitchChevronDirection.Auto;
+        _knobChevronGlyphSize = 0.62f;
         _orientation = ToggleSwitchOrientation.Horizontal;
     }
 
@@ -428,6 +430,24 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
         }
     }
 
+    /// <summary>Gets or sets the chevron glyph size as a fraction of the knob size.</summary>
+    [Category("Appearance")]
+    [Description("Specifies the chevron glyph size on a Chevron knob as a fraction of the knob size. 1 uses the full knob size.")]
+    [DefaultValue(0.62f)]
+    public float KnobChevronGlyphSize
+    {
+        get => _knobChevronGlyphSize;
+        set
+        {
+            float size = Math.Max(0.2f, Math.Min(1f, value));
+            if (Math.Abs(_knobChevronGlyphSize - size) > float.Epsilon)
+            {
+                _knobChevronGlyphSize = size;
+                OnPropertyChanged(nameof(KnobChevronGlyphSize));
+            }
+        }
+    }
+
     /// <summary>Gets or sets whether the switch lays out horizontally or vertically.</summary>
     [Category("Appearance")]
     [Description("Specifies whether the knob travels horizontally (left/right) or vertically (top/bottom). Vertical layouts work best with a tall, narrow control size.")]
@@ -460,6 +480,7 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
                              _gradientDirection == LinearGradientMode.ForwardDiagonal && _onColor == Color.Green &&
                              _offColor == Color.Red && _cornerRadius == 10 && _useThemeColors &&
                              _knobStyle == ToggleSwitchKnobStyle.Classic &&
+                             Math.Abs(_knobChevronGlyphSize - 0.62f) < float.Epsilon &&
                              _orientation == ToggleSwitchOrientation.Horizontal;
 
     #endregion
@@ -488,6 +509,7 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
         UseThemeColors = true;
         KnobStyle = ToggleSwitchKnobStyle.Classic;
         KnobChevronDirection = ToggleSwitchChevronDirection.Auto;
+        KnobChevronGlyphSize = 0.62f;
         Orientation = ToggleSwitchOrientation.Horizontal;
     }
 

@@ -1213,7 +1213,7 @@ public class KryptonToggleSwitch : Control, IContentValues
         DrawKnobChevronGlyph(graphics, _knob, DarkenColor(faceColor1, 70), ResolveChevronGlyphDirection());
     }
 
-    private static void DrawKnobChevronGlyph(Graphics graphics, RectangleF knob, Color glyphColor, DropDownArrowGlyphDirection direction)
+    private void DrawKnobChevronGlyph(Graphics graphics, RectangleF knob, Color glyphColor, DropDownArrowGlyphDirection direction)
     {
         Rectangle knobRect = Rectangle.Round(knob);
         int size = ResolveKnobChevronGlyphSize(knobRect);
@@ -1228,10 +1228,10 @@ public class KryptonToggleSwitch : Control, IContentValues
         graphics.DrawImage(glyph, x, y, size, size);
     }
 
-    private static int ResolveKnobChevronGlyphSize(Rectangle knobRect)
+    private int ResolveKnobChevronGlyphSize(Rectangle knobRect)
     {
         int available = Math.Min(knobRect.Width, knobRect.Height);
-        return Math.Max(4, (int)(available * 0.62f));
+        return Math.Max(4, (int)(available * ToggleSwitchValues.KnobChevronGlyphSize));
     }
 
     private DropDownArrowGlyphDirection ResolveChevronGlyphDirection()
