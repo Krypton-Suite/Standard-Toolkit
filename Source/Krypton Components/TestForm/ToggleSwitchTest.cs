@@ -166,6 +166,11 @@ public partial class ToggleSwitchTest : KryptonForm
         previewContainer.Controls.Add(toggleSwitch);
         previewContainer.Controls.Add(styleLabel);
 
+        toggleSwitch.Click += (s, e) =>
+        {
+            kryptonPropertyGrid1.SelectedObject = toggleSwitch;
+        };
+
         return previewContainer;
     }
 
