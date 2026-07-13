@@ -14,6 +14,7 @@
 # Plain FIXME creates Bug Reports; plain TODO/ToDo/HACK create Code ToDo issues (HACK adds has workaround).
 #
 # KILL-SWITCH: SCAN_CODE_TODOS_DISABLED=true (repository variable)
+# TEST/FORK REPOS: Set EXPECTED_REPOSITORY=YourOrg/YourFork (repository variable) so the security check passes.
 # DEPLOYMENT: Must exist on the default branch before workflow_dispatch is available in the UI.
 # Branch input: choice list synced from .github/branch-policy.json (see sync-scan-code-todos-branches.yml).
 # Use branch_custom when branch is "other". Runtime validation uses branch-policy.json on each run.
@@ -187,18 +188,29 @@ jobs:
               };
 
               const req = https.request(options, (res) => {
-                res.resume();
-                resolve(res.statusCode === 200);
+                let body = '';
+                res.on('data', (chunk) => {
+                  body += chunk;
+                });
+                res.on('end', () => {
+                  resolve({ exists: res.statusCode === 200, statusCode: res.statusCode, body });
+                });
               });
-              req.on('error', () => resolve(false));
+              req.on('error', (error) => resolve({ exists: false, statusCode: 0, body: error.message }));
               req.end();
             });
           }
 
           (async () => {
-            const exists = await branchExists(branch);
-            if (!exists) {
-              console.error(`::error::Branch '${branch}' was not found on ${owner}/${repo}.`);
+            const result = await branchExists(branch);
+            if (!result.exists) {
+              if (result.statusCode === 404) {
+                console.error(`::error::Branch '${branch}' was not found on ${owner}/${repo}. Check the branch input or branch_custom value.`);
+              } else if (result.statusCode === 0) {
+                console.error(`::error::Could not verify branch '${branch}' on ${owner}/${repo}: ${result.body}`);
+              } else {
+                console.error(`::error::GitHub API returned HTTP ${result.statusCode} while verifying branch '${branch}' on ${owner}/${repo}.`);
+              }
               process.exit(1);
             }
 
@@ -251,8 +263,17 @@ jobs:
 
           count_rg_lines() {
             local pattern="$1"
-            rg -n --pcre2 "$pattern" "${SCAN_PATHS[@]}" "${SCAN_GLOBS[@]}" 2>/dev/null | wc -l | tr -d ' '
+            local count
+            # ripgrep exits 1 when there are no matches; pipefail would fail the step without handling that.
+            count="$(rg -n --pcre2 "$pattern" "${SCAN_PATHS[@]}" "${SCAN_GLOBS[@]}" 2>/dev/null | wc -l | tr -d ' ')" || count=0
+            printf '%s' "$count"
           }
+
+          for scan_path in "${SCAN_PATHS[@]}"; do
+            if [ ! -e "$scan_path" ]; then
+              echo "::warning::Scan path '$scan_path' was not found in the checkout. Marker counts may be incomplete."
+            fi
+          done
 
           if [ "$INCLUDE_ALL_MARKERS" = "true" ]; then
             PATTERN="$ALL_MARKERS_PATTERN"
