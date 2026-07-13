@@ -1210,18 +1210,47 @@ public class KryptonToggleSwitch : Control, IContentValues
     private void DrawChevronKnob(Graphics graphics, Color faceColor1, Color faceColor2, Color borderColor)
     {
         DrawSquareKnob(graphics, faceColor1, faceColor2, borderColor);
-        if (IsVerticalLayout())
-        {
-            DrawKnobChevronVertical(graphics, _knob, DarkenColor(faceColor1, 70), ResolveChevronPointsDown());
-        }
-        else
-        {
-            DrawKnobChevron(graphics, _knob, DarkenColor(faceColor1, 70), ResolveChevronPointsRight());
-        }
+        DrawKnobChevronGlyph(graphics, _knob, DarkenColor(faceColor1, 70), ResolveChevronGlyphDirection());
     }
 
-    private bool ResolveChevronPointsRight()
+    private static void DrawKnobChevronGlyph(Graphics graphics, RectangleF knob, Color glyphColor, DropDownArrowGlyphDirection direction)
     {
+        Rectangle knobRect = Rectangle.Round(knob);
+        int size = ResolveKnobChevronGlyphSize(knobRect);
+        if (size <= 0)
+        {
+            return;
+        }
+
+        Image glyph = DropDownArrowGlyphCache.GetOrCreate(size, glyphColor, glyphColor, direction);
+        int x = knobRect.X + ((knobRect.Width - size) / 2);
+        int y = knobRect.Y + ((knobRect.Height - size) / 2);
+        graphics.DrawImage(glyph, x, y, size, size);
+    }
+
+    private static int ResolveKnobChevronGlyphSize(Rectangle knobRect)
+    {
+        int available = Math.Min(knobRect.Width, knobRect.Height);
+        return Math.Max(4, (int)(available * 0.62f));
+    }
+
+    private DropDownArrowGlyphDirection ResolveChevronGlyphDirection()
+    {
+        if (IsVerticalLayout())
+        {
+            switch (ToggleSwitchValues.KnobChevronDirection)
+            {
+                case ToggleSwitchChevronDirection.Left:
+                    return DropDownArrowGlyphDirection.Up;
+                case ToggleSwitchChevronDirection.Right:
+                    return DropDownArrowGlyphDirection.Down;
+                default:
+                    return ToggleSwitchValues.Checked
+                        ? DropDownArrowGlyphDirection.Up
+                        : DropDownArrowGlyphDirection.Down;
+            }
+        }
+
         bool pointRight;
         switch (ToggleSwitchValues.KnobChevronDirection)
         {
@@ -1241,20 +1270,9 @@ public class KryptonToggleSwitch : Control, IContentValues
             pointRight = !pointRight;
         }
 
-        return pointRight;
-    }
-
-    private bool ResolveChevronPointsDown()
-    {
-        switch (ToggleSwitchValues.KnobChevronDirection)
-        {
-            case ToggleSwitchChevronDirection.Left:
-                return false;
-            case ToggleSwitchChevronDirection.Right:
-                return true;
-            default:
-                return !ToggleSwitchValues.Checked;
-        }
+        return pointRight
+            ? DropDownArrowGlyphDirection.Right
+            : DropDownArrowGlyphDirection.Left;
     }
 
     private void DrawIndicatorKnob(Graphics graphics, IPaletteTriple state, Color faceColor1, Color faceColor2, Color borderColor)
@@ -1533,60 +1551,6 @@ public class KryptonToggleSwitch : Control, IContentValues
             {
                 float x = centerX + (i * spacing);
                 graphics.DrawLine(pen, x, centerY - lineHeight / 2f, x, centerY + lineHeight / 2f);
-            }
-        }
-    }
-
-    private static void DrawKnobChevron(Graphics graphics, RectangleF bounds, Color glyphColor, bool pointRight)
-    {
-        float centerX = bounds.X + bounds.Width / 2f;
-        float centerY = bounds.Y + bounds.Height / 2f;
-        float armWidth = Math.Max(2f, bounds.Width * 0.22f);
-        float armHeight = Math.Max(2f, bounds.Height * 0.2f);
-        float penWidth = Math.Max(1.25f, bounds.Width * 0.06f);
-
-        using (Pen pen = new Pen(glyphColor, penWidth))
-        {
-            pen.StartCap = LineCap.Round;
-            pen.EndCap = LineCap.Round;
-            pen.LineJoin = LineJoin.Round;
-
-            if (pointRight)
-            {
-                graphics.DrawLine(pen, centerX - armWidth, centerY - armHeight, centerX + armWidth * 0.15f, centerY);
-                graphics.DrawLine(pen, centerX + armWidth * 0.15f, centerY, centerX - armWidth, centerY + armHeight);
-            }
-            else
-            {
-                graphics.DrawLine(pen, centerX + armWidth, centerY - armHeight, centerX - armWidth * 0.15f, centerY);
-                graphics.DrawLine(pen, centerX - armWidth * 0.15f, centerY, centerX + armWidth, centerY + armHeight);
-            }
-        }
-    }
-
-    private static void DrawKnobChevronVertical(Graphics graphics, RectangleF bounds, Color glyphColor, bool pointDown)
-    {
-        float centerX = bounds.X + bounds.Width / 2f;
-        float centerY = bounds.Y + bounds.Height / 2f;
-        float armWidth = Math.Max(2f, bounds.Width * 0.2f);
-        float armHeight = Math.Max(2f, bounds.Height * 0.22f);
-        float penWidth = Math.Max(1.25f, bounds.Height * 0.06f);
-
-        using (Pen pen = new Pen(glyphColor, penWidth))
-        {
-            pen.StartCap = LineCap.Round;
-            pen.EndCap = LineCap.Round;
-            pen.LineJoin = LineJoin.Round;
-
-            if (pointDown)
-            {
-                graphics.DrawLine(pen, centerX - armWidth, centerY - armHeight, centerX, centerY + armHeight * 0.15f);
-                graphics.DrawLine(pen, centerX, centerY + armHeight * 0.15f, centerX + armWidth, centerY - armHeight);
-            }
-            else
-            {
-                graphics.DrawLine(pen, centerX - armWidth, centerY + armHeight, centerX, centerY - armHeight * 0.15f);
-                graphics.DrawLine(pen, centerX, centerY - armHeight * 0.15f, centerX + armWidth, centerY + armHeight);
             }
         }
     }

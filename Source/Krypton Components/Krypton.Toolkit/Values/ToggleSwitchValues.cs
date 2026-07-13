@@ -413,7 +413,7 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
 
     /// <summary>Gets or sets the direction of chevron glyphs on a <see cref="ToggleSwitchKnobStyle.Chevron"/> knob.</summary>
     [Category("Appearance")]
-    [Description("Specifies the direction of chevron glyphs on a Chevron knob. Auto points right when unchecked and left when checked.")]
+    [Description("Specifies the direction of arrow glyphs on a Chevron knob. Auto points toward the checked position. Uses the same arrow glyphs as Krypton input controls.")]
     [DefaultValue(ToggleSwitchChevronDirection.Auto)]
     public ToggleSwitchChevronDirection KnobChevronDirection
     {
