@@ -113,6 +113,22 @@ jobs:
             .github/branch-policy.json
           sparse-checkout-cone-mode: true
 
+      - name: Validate branch inputs
+        if: steps.kill_switch.outputs.enabled == 'true'
+        shell: bash
+        env:
+          BRANCH_INPUT: ${{ inputs.branch }}
+          BRANCH_CUSTOM: ${{ inputs.branch_custom }}
+        run: |
+          set -euo pipefail
+          if [ "$BRANCH_INPUT" = "other" ]; then
+            branch_custom_trimmed="$(printf '%s' "$BRANCH_CUSTOM" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')"
+            if [ -z "$branch_custom_trimmed" ]; then
+              echo "::error::Provide branch_custom when branch is set to other. Pick a listed branch (master, alpha, ...) or set branch_custom to the exact branch name to scan (e.g. feature/my-branch)."
+              exit 1
+            fi
+          fi
+
       - name: Resolve scan branch
         if: steps.kill_switch.outputs.enabled == 'true'
         id: scan_branch
@@ -364,7 +380,7 @@ jobs:
 
       - name: Upload scan results
         if: steps.kill_switch.outputs.enabled == 'true'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: code-todo-scan-${{ steps.scan_branch.outputs.ref }}
           path: todo-matches.json
