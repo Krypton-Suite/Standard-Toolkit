@@ -79,22 +79,29 @@ jobs:
         env:
           EXPECTED_REPOSITORY: ${{ vars.EXPECTED_REPOSITORY }}
         run: |
-          $ErrorActionPreference = 'Stop'
-          $expectedRepository = $env:EXPECTED_REPOSITORY
-          if ([string]::IsNullOrWhiteSpace($expectedRepository)) {
-            $expectedRepository = 'Krypton-Suite/Standard-Toolkit'
-          }
-          if ($env:GITHUB_REPOSITORY -ne $expectedRepository) {
-            Write-Error "Security: Invalid repository '$env:GITHUB_REPOSITORY'. This workflow should only run on $expectedRepository"
+          expected_repository="${EXPECTED_REPOSITORY:-Krypton-Suite/Standard-Toolkit}"
+          if [ "$GITHUB_REPOSITORY" != "$expected_repository" ]; then
+            echo "::error::Security: Invalid repository '$GITHUB_REPOSITORY'. This workflow should only run on $expected_repository"
             exit 1
-          }
-          Write-Host "✓ Repository verified: $env:GITHUB_REPOSITORY"
+          fi
+          echo "✓ Repository verified: $GITHUB_REPOSITORY"
 
       - name: Checkout
         if: steps.kill_switch.outputs.enabled == 'true'
         uses: actions/checkout@v7
         with:
           ref: ${{ inputs.branch }}
+
+      - name: Install ripgrep
+        if: steps.kill_switch.outputs.enabled == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v rg >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y ripgrep
+          fi
+          rg --version
 
       - name: Scan for TODO/ToDo/FIXME comments
         if: steps.kill_switch.outputs.enabled == 'true'
