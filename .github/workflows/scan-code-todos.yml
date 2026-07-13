@@ -62,7 +62,7 @@ on:
         default: true
         type: boolean
       include_all_markers:
-        description: Include plain TODO/ToDo/FIXME/HACK (FIXME files as Bug Reports)
+        description: Scan plain TODO/ToDo/FIXME/HACK (default scans only ToDo(issue)/FIXME(issue)/HACK(issue))
         required: true
         default: false
         type: boolean
@@ -215,29 +215,65 @@ jobs:
         run: |
           set -euo pipefail
 
+          SCAN_PATHS=(Source .github/workflows Documents)
+          SCAN_GLOBS=(
+            -g '!**/obj/**'
+            -g '!**/bin/**'
+            -g '!**/Bin/**'
+            -g '!.github/workflows/scan-code-todos.yml'
+          )
+          ALL_MARKERS_PATTERN='\b(TODO|ToDo|FIXME|HACK)\b(?!\s*\])(?:\s*\(\s*issue\s*\))?[:\s]*(.*)$'
+          OPT_IN_PATTERN='(?i)\b(TODO|ToDo|FIXME|HACK)\s*\(\s*issue\s*\)\s*[:\s]*(.*)$'
+
+          count_rg_lines() {
+            local pattern="$1"
+            rg -n --pcre2 "$pattern" "${SCAN_PATHS[@]}" "${SCAN_GLOBS[@]}" 2>/dev/null | wc -l | tr -d ' '
+          }
+
           if [ "$INCLUDE_ALL_MARKERS" = "true" ]; then
-            PATTERN='\b(TODO|ToDo|FIXME|HACK)\b(?!\s*\])(?:\s*\(\s*issue\s*\))?[:\s]*(.*)$'
-            rg -n --pcre2 "$PATTERN" \
-              Source .github/workflows Documents \
-              -g '!**/obj/**' \
-              -g '!**/bin/**' \
-              -g '!**/Bin/**' \
-              -g '!.github/workflows/scan-code-todos.yml' \
+            PATTERN="$ALL_MARKERS_PATTERN"
+            rg -n --pcre2 "$PATTERN" "${SCAN_PATHS[@]}" "${SCAN_GLOBS[@]}" \
               --json > todo-matches.jsonl || true
+            MARKER_MODE="all"
           else
-            PATTERN='(?i)\b(TODO|ToDo|FIXME|HACK)\s*\(\s*issue\s*\)\s*[:\s]*(.*)$'
-            rg -n --pcre2 "$PATTERN" \
-              Source .github/workflows Documents \
-              -g '!**/obj/**' \
-              -g '!**/bin/**' \
-              -g '!**/Bin/**' \
-              -g '!.github/workflows/scan-code-todos.yml' \
+            PATTERN="$OPT_IN_PATTERN"
+            rg -n --pcre2 "$PATTERN" "${SCAN_PATHS[@]}" "${SCAN_GLOBS[@]}" \
               --json > todo-matches.jsonl || true
+            MARKER_MODE="opt-in"
           fi
+
+          RG_RAW_COUNT=0
+          if [ -s todo-matches.jsonl ]; then
+            RG_RAW_COUNT="$(wc -l < todo-matches.jsonl | tr -d ' ')"
+          fi
+
+          PLAIN_MARKER_COUNT="$(count_rg_lines "$ALL_MARKERS_PATTERN")"
+          OPT_IN_MARKER_COUNT="$(count_rg_lines "$OPT_IN_PATTERN")"
+          echo "marker_mode=$MARKER_MODE" >> "$GITHUB_OUTPUT"
+          echo "plain_marker_count=$PLAIN_MARKER_COUNT" >> "$GITHUB_OUTPUT"
+          echo "opt_in_marker_count=$OPT_IN_MARKER_COUNT" >> "$GITHUB_OUTPUT"
+          echo "rg_raw_count=$RG_RAW_COUNT" >> "$GITHUB_OUTPUT"
+
+          MARKER_MODE="$MARKER_MODE" RG_RAW_COUNT="$RG_RAW_COUNT" PLAIN_MARKER_COUNT="$PLAIN_MARKER_COUNT" OPT_IN_MARKER_COUNT="$OPT_IN_MARKER_COUNT" \
+            node <<'DIAG'
+          const fs = require('fs');
+          const diagnostics = {
+            markerMode: process.env.MARKER_MODE || 'opt-in',
+            rgRawCount: Number(process.env.RG_RAW_COUNT || 0),
+            plainMarkerCount: Number(process.env.PLAIN_MARKER_COUNT || 0),
+            optInMarkerCount: Number(process.env.OPT_IN_MARKER_COUNT || 0),
+          };
+          fs.writeFileSync('scan-diagnostics.json', JSON.stringify(diagnostics, null, 2));
+          DIAG
 
           if [ ! -s todo-matches.jsonl ]; then
             echo "[]" > todo-matches.json
             echo "match_count=0" >> "$GITHUB_OUTPUT"
+            if [ "$INCLUDE_ALL_MARKERS" != "true" ] && [ "$PLAIN_MARKER_COUNT" -gt 0 ]; then
+              echo "::notice title=No opt-in markers found::Found 0 ToDo(issue)/FIXME(issue)/HACK(issue) comment(s) on this branch, but approximately ${PLAIN_MARKER_COUNT} plain TODO/ToDo/FIXME/HACK comment(s) exist. Enable include_all_markers to scan those, or mark work with // ToDo(issue): description"
+            elif [ "$INCLUDE_ALL_MARKERS" != "true" ]; then
+              echo "::notice title=No opt-in markers found::Found 0 ToDo(issue)/FIXME(issue)/HACK(issue) comment(s). Add markers like // ToDo(issue): description to track work, or enable include_all_markers to scan plain TODO comments."
+            fi
             exit 0
           fi
 
@@ -278,7 +314,11 @@ jobs:
             const lineText = event.data.lines?.text || '';
             const captures = event.data.submatches || [];
             const markerRaw = (captures[0]?.match?.text || '').trim();
-            const commentText = (captures[1]?.match?.text || '').trim();
+            let commentText = (captures[1]?.match?.text || '').trim();
+            if (!commentText) {
+              const fallback = lineText.match(/(?:TODO|ToDo|FIXME|HACK)(?:\s*\(\s*issue\s*\))?\s*[:\s]+(.+)$/i);
+              commentText = (fallback?.[1] || '').trim();
+            }
 
             if (!filePath || !lineNumber) {
               continue;
@@ -399,6 +439,13 @@ jobs:
                 return [];
               }
               return JSON.parse(raw);
+            }
+
+            function readScanDiagnostics() {
+              if (!fs.existsSync('scan-diagnostics.json')) {
+                return null;
+              }
+              return JSON.parse(fs.readFileSync('scan-diagnostics.json', 'utf8'));
             }
 
             function buildTodoFingerprint(key) {
@@ -918,7 +965,14 @@ jobs:
             }
 
             const matches = readMatches();
+            const scanDiagnostics = readScanDiagnostics();
             console.log(`Loaded ${matches.length} match(es) from scan (group_duplicates=${groupDuplicates}, include_all_markers=${includeAllMarkers}).`);
+            if (scanDiagnostics) {
+              console.log(
+                `Scan diagnostics: mode=${scanDiagnostics.markerMode}, ` +
+                `opt-in=${scanDiagnostics.optInMarkerCount}, plain=${scanDiagnostics.plainMarkerCount}, rg_raw=${scanDiagnostics.rgRawCount}.`
+              );
+            }
 
             const grouped = new Map();
             for (const match of matches) {
@@ -1060,6 +1114,9 @@ jobs:
               .addHeading('Code marker scan summary')
               .addTable([
                 [{ data: 'Metric', header: true }, { data: 'Count', header: true }],
+                [{ data: 'Marker mode' }, { data: scanDiagnostics?.markerMode || (includeAllMarkers ? 'all' : 'opt-in') }],
+                [{ data: 'Opt-in markers on branch (ToDo(issue) etc.)' }, { data: String(scanDiagnostics?.optInMarkerCount ?? 'n/a') }],
+                [{ data: 'Plain markers on branch (TODO/ToDo/FIXME/HACK)' }, { data: String(scanDiagnostics?.plainMarkerCount ?? 'n/a') }],
                 [{ data: 'Matches scanned' }, { data: String(matches.length) }],
                 [{ data: 'Grouped candidates' }, { data: String(grouped.size) }],
                 [{ data: 'Code ToDo issues created' }, { data: String(createdTodoCount) }],
@@ -1073,6 +1130,13 @@ jobs:
                 [{ data: 'Dry run' }, { data: String(isDryRun) }],
               ])
               .write();
+
+            if (!includeAllMarkers && matches.length === 0 && scanDiagnostics?.plainMarkerCount > 0) {
+              core.warning(
+                `No opt-in markers were scanned, but approximately ${scanDiagnostics.plainMarkerCount} plain TODO/ToDo/FIXME/HACK comment(s) exist on this branch. ` +
+                'Enable include_all_markers to scan those, or use // ToDo(issue): description in source.'
+              );
+            }
 
             if (skippedLimit > 0) {
               core.warning(`${skippedLimit} candidate(s) were not created because max_issues=${maxIssues}. Increase max_issues or run again.`);
