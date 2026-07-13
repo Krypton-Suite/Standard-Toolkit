@@ -44,7 +44,10 @@ while ($i -lt $lines.Count) {
             if ($isDualPathImport -and $hasSearchPath) {
                 $attrIndent = if ([string]::IsNullOrEmpty($ifIndent)) { '    ' } else { $ifIndent }
                 $attrLine = "$attrIndent$searchPathLine"
-                $result.Add($attrLine)
+                $alreadyHoisted = ($ifStart -gt 0) -and (Test-IsSearchPathLine $lines[$ifStart - 1])
+                if (-not $alreadyHoisted) {
+                    $result.Add($attrLine)
+                }
                 $result.Add($line)
                 foreach ($bodyLine in $ifBody) {
                     if (-not (Test-IsSearchPathLine $bodyLine)) { $result.Add($bodyLine) }

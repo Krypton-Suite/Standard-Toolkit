@@ -3193,15 +3193,20 @@ No 	                    No 	                    Show text only
     #if NET8_0_OR_GREATER
     [LibraryImport(Libraries.User32, SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool EnableWindow(IntPtr hWnd, [MarshalAs(UnmanagedType.Bool)] bool bEnable);
+    #else
+
+    [DllImport(Libraries.User32, SetLastError = true)]
+    internal static extern bool EnableWindow(IntPtr hWnd, bool bEnable);
+    #endif
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
     internal static partial bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, [MarshalAs(UnmanagedType.Bool)] bool bRepaint);
     #else
 
     [DllImport(Libraries.User32, SetLastError = true)]
-    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    internal static extern bool EnableWindow(IntPtr hWnd, bool bEnable);
-
-    [DllImport(Libraries.User32, SetLastError = true)]
-    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
     #endif
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
