@@ -45,6 +45,8 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#3857](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3857), Implement `IsDefault` on Values types that currently throw `NotImplementedException`
+   * `IsDefault` on file-system Values types and related `Storage` stubs so PropertyGrid display, designer reset, and `ToString()` no longer throw
 * Implemented [#3891](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3891), `KryptonContextMenu` Improvements
    * Shared `KryptonCommand` support for `KryptonContextMenu` items — multiple menu entries can reference one command and pass a `CommandParameter` so a single `Execute` handler can branch on the originating item; includes `IKryptonContextMenuCommandItem`, `KryptonCommandContext`, and `KryptonCommandExecuteEventArgs`.
 * Resolved [#3894](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3894), `KryptonKnob` control colours
