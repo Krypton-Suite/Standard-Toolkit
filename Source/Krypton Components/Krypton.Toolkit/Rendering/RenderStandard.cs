@@ -2907,6 +2907,44 @@ public class RenderStandard : RenderBase
 		}
 	}
 
+	#region Ribbon Glyph Metrics
+
+	/// <summary>
+	/// Per-theme geometry for the two horizontal separator lines at the top of the ribbon
+	/// context arrow glyph. The only shape-dependent difference is how far those lines extend
+	/// on each side; every other offset is shared and DPI scaled at draw time. Storing the
+	/// insets here replaces the previous hard-coded per-shape branch (see issue #3851).
+	/// </summary>
+	private readonly struct RibbonContextArrowTopLine
+	{
+		public RibbonContextArrowTopLine(int leftInset, int rightInset)
+		{
+			LeftInset = leftInset;
+			RightInset = rightInset;
+		}
+
+		/// <summary>Base (96 DPI) horizontal inset applied to the left end of the top lines.</summary>
+		public int LeftInset { get; }
+
+		/// <summary>Base (96 DPI) horizontal inset applied to the right end of the top lines.</summary>
+		public int RightInset { get; }
+	}
+
+	/// <summary>
+	/// Returns the per-theme top separator geometry for the ribbon context arrow glyph.
+	/// </summary>
+	/// <param name="shape">Ribbon shape.</param>
+	private static RibbonContextArrowTopLine GetRibbonContextArrowTopLine(PaletteRibbonShape shape) =>
+		shape switch
+		{
+			// Office2010 / OSXAqua / MacOS bleed one pixel to the left and fill to the right edge.
+			PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS => new RibbonContextArrowTopLine(-1, 0),
+			// Office2007 / 2013 / 365 sit flush on the left and stop one pixel short on the right.
+			_ => new RibbonContextArrowTopLine(0, -1)
+		};
+
+	#endregion
+
 	/// <summary>
 	/// Perform drawing of a ribbon context arrow glyph.
 	/// </summary>
@@ -2948,24 +2986,31 @@ public class RenderStandard : RenderBase
 
 		using var darkPen = new Pen(c1);
 		using var lightPen = new Pen(c2);
-		// TODO: PWagner1 - please provide a better way of doing this for Various themes and dpi's
-		if (shape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS)
-		{
-			context.Graphics.DrawLine(darkPen, displayRect.Left - 1, displayRect.Top, displayRect.Right, displayRect.Top);
-			context.Graphics.DrawLine(lightPen, displayRect.Left - 1, displayRect.Top + 1, displayRect.Right, displayRect.Top + 1);
-		}
-		else
-		{
-			context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top, displayRect.Right - 1 , displayRect.Top);
-			context.Graphics.DrawLine(lightPen, displayRect.Left, displayRect.Top + 1, displayRect.Right - 1, displayRect.Top + 1);
-		}
 
-		context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top + 3, displayRect.Right -1, displayRect.Top + 3);
-		
-		context.Graphics.DrawLine(darkPen, displayRect.Right - 2, displayRect.Top + 4, displayRect.Left + displayRect.Width / 2, displayRect.Bottom - 5);
-		context.Graphics.DrawLine(darkPen, displayRect.Left + displayRect.Width / 2, displayRect.Bottom - 5, displayRect.Left + 1, displayRect.Top + 4);
-		context.Graphics.DrawLine(lightPen, displayRect.Left + 7, displayRect.Top + 5, displayRect.Left + displayRect.Width / 2, displayRect.Bottom - 4);
-		context.Graphics.DrawLine(lightPen, displayRect.Left + displayRect.Width / 2, displayRect.Bottom - 4, displayRect.Right - 8, displayRect.Top + 5);
+		// Scale the base (96 DPI) offsets so the glyph stays aligned across themes and DPI settings (issue #3851).
+		var dpiX = context.Graphics.DpiX / 96f;
+		var dpiY = context.Graphics.DpiY / 96f;
+		int Sx(int value) => (int)Math.Round(value * dpiX);
+		int Sy(int value) => (int)Math.Round(value * dpiY);
+
+		int left = displayRect.Left;
+		int top = displayRect.Top;
+		int right = displayRect.Right;
+		int bottom = displayRect.Bottom;
+		int midX = left + (displayRect.Width / 2);
+
+		// Per-theme top separator lines (only the horizontal extent differs between shapes)
+		RibbonContextArrowTopLine topLine = GetRibbonContextArrowTopLine(shape);
+		context.Graphics.DrawLine(darkPen, left + Sx(topLine.LeftInset), top, right + Sx(topLine.RightInset), top);
+		context.Graphics.DrawLine(lightPen, left + Sx(topLine.LeftInset), top + Sy(1), right + Sx(topLine.RightInset), top + Sy(1));
+
+		// Shared underline plus the downward chevron
+		context.Graphics.DrawLine(darkPen, left, top + Sy(3), right + Sx(-1), top + Sy(3));
+
+		context.Graphics.DrawLine(darkPen, right + Sx(-2), top + Sy(4), midX, bottom + Sy(-5));
+		context.Graphics.DrawLine(darkPen, midX, bottom + Sy(-5), left + Sx(1), top + Sy(4));
+		context.Graphics.DrawLine(lightPen, left + Sx(7), top + Sy(5), midX, bottom + Sy(-4));
+		context.Graphics.DrawLine(lightPen, midX, bottom + Sy(-4), right + Sx(-8), top + Sy(5));
 	}
 
 	/// <summary>
@@ -3015,16 +3060,28 @@ public class RenderStandard : RenderBase
 
 		using var darkPen = new Pen(c1);
 		using var lightPen = new Pen(c2);
-		// TODO: PWagner1 - please provide a better way of doing this for Various themes and dpi's
-		context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top + 1, displayRect.Left, displayRect.Top + 3);
-		context.Graphics.DrawLine(darkPen, displayRect.Left + 1, displayRect.Top + 2, displayRect.Left, displayRect.Top + 3);
-		context.Graphics.DrawLine(lightPen, displayRect.Left, displayRect.Top, displayRect.Left + 2, displayRect.Top + 2);
-		context.Graphics.DrawLine(lightPen, displayRect.Left + 1, displayRect.Top + 3, displayRect.Left, displayRect.Top + 4);
 
-		context.Graphics.DrawLine(darkPen, displayRect.Left + 4, displayRect.Top + 1, displayRect.Left + 4, displayRect.Top + 3);
-		context.Graphics.DrawLine(darkPen, displayRect.Left + 5, displayRect.Top + 2, displayRect.Left + 4, displayRect.Top + 3);
-		context.Graphics.DrawLine(lightPen, displayRect.Left + 4, displayRect.Top, displayRect.Left + 6, displayRect.Top + 2);
-		context.Graphics.DrawLine(lightPen, displayRect.Left + 5, displayRect.Top + 3, displayRect.Left + 4, displayRect.Top + 4);
+		// Scale the base (96 DPI) offsets so the two chevrons stay aligned across themes and DPI settings (issue #3851).
+		var dpiX = context.Graphics.DpiX / 96f;
+		var dpiY = context.Graphics.DpiY / 96f;
+		int Sx(int value) => (int)Math.Round(value * dpiX);
+		int Sy(int value) => (int)Math.Round(value * dpiY);
+
+		int top = displayRect.Top;
+
+		// Both chevrons share the same geometry; the second is shifted right by a fixed base gap.
+		int firstLeft = displayRect.Left;
+		int secondLeft = displayRect.Left + Sx(4);
+
+		context.Graphics.DrawLine(darkPen, firstLeft, top + Sy(1), firstLeft, top + Sy(3));
+		context.Graphics.DrawLine(darkPen, firstLeft + Sx(1), top + Sy(2), firstLeft, top + Sy(3));
+		context.Graphics.DrawLine(lightPen, firstLeft, top, firstLeft + Sx(2), top + Sy(2));
+		context.Graphics.DrawLine(lightPen, firstLeft + Sx(1), top + Sy(3), firstLeft, top + Sy(4));
+
+		context.Graphics.DrawLine(darkPen, secondLeft, top + Sy(1), secondLeft, top + Sy(3));
+		context.Graphics.DrawLine(darkPen, secondLeft + Sx(1), top + Sy(2), secondLeft, top + Sy(3));
+		context.Graphics.DrawLine(lightPen, secondLeft, top, secondLeft + Sx(2), top + Sy(2));
+		context.Graphics.DrawLine(lightPen, secondLeft + Sx(1), top + Sy(3), secondLeft, top + Sy(4));
 	}
 
 	/// <summary>
