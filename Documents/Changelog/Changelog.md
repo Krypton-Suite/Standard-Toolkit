@@ -45,6 +45,10 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#3838](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3838), An `EnumButton` - A button that has the text from an enum that toggles through the list of enums. `KryptonEnumButton`, a button that shows the current value of an enumeration and cycles through its values on each click (instead of a long list of radio buttons). The button text is taken from each value's `DescriptionAttribute` (falling back to the field name), and `SelectedValueChanged` / `EnumValueChanged` events report the new value. Supports wrap-around cycling, optional reverse-on-right-click, and programmatic `CycleNext` / `CyclePrevious`. A command-link styled variant, `KryptonEnumCommandLinkButton`, cycles enum values while showing the field name as the heading and the `DescriptionAttribute` text as the command-link description sub-text.
+   * Both controls also support cycle ordering (`SortOrder`: declaration / value / alphabetical), excluding values from the cycle, humanising PascalCase names, keyboard (arrow keys) and mouse-wheel cycling, per-value images, a cancelable `SelectedValueChanging` event to veto a change, data binding of `SelectedValue`, accessibility support, and a design-time drop-down editor for choosing the enum type in the property grid.
+   * `KryptonEnumButton` and `KryptonEnumCommandLinkButton` now clear visible text when `EnumType` is unset, restore the default command-link image when `ImageProvider` is cleared, and allow full keyboard navigation in the design-time `EnumType` property-grid drop-down.
+   * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as these controls are part of the `Krypton.Toolkit.Utilities` assembly.
 * Resolved [#3879](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3879), When the `KryptonComboBox` initializes in a disabled state, it displays using default system colors
    * `KryptonComboBox` now displays theme disabled colors when initialized in a disabled state.
 * Implemented [#3807](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3807), `KryptonKnob` control
