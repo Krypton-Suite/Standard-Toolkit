@@ -60,6 +60,8 @@ Machine-readable rules: [branch-policy.json](branch-policy.json)
 
 Edit `downstreamBranches` and `syncGithubFromMasterTargets` there when adding a new release line.
 
+**Scan code TODOs:** `longLivedHeadBranches` drives the branch dropdown in **Scan code TODOs** (`.github/workflows/scan-code-todos.yml`). After editing `branch-policy.json` on `master`, **Sync scan-code-todos branch options** updates the workflow choices automatically (or run `pwsh .github/scripts/Update-ScanCodeTodosBranchOptions.ps1` locally).
+
 ## Branch names
 
 - **`canary`** (lowercase) is used by `build.yml` and `release.yml`.
