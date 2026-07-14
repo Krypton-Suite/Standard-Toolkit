@@ -4462,8 +4462,6 @@ public class KryptonColorTable365BlueLightMode : KryptonColorTable
     private static readonly Color _buttonPressedEnd = Color.FromArgb(230, 239, 249);
     private static readonly Color _buttonCheckedBegin = Color.FromArgb(209, 226, 244);
     private static readonly Color _buttonCheckedEnd = Color.FromArgb(230, 239, 249);
-    private static Font _menuToolFont;
-    private static Font _statusFont;
 
     #endregion Static Fields
 
@@ -4473,22 +4471,13 @@ public class KryptonColorTable365BlueLightMode : KryptonColorTable
     #endregion
 
     #region Identity
-    [SecuritySafeCritical]
-    static KryptonColorTable365BlueLightMode()
-    {
-        // Get the font settings from the system
-        DefineFonts();
-
-        // We need to notice when system color settings change
-        SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
-    }
-
     /// <summary>
     /// Initialize a new instance of the KryptonColorTable365BlueLightMode class.
     /// </summary>
     /// <param name="colors">Source of </param>
     /// <param name="roundedEdges">Should have rounded edges.</param>
     /// <param name="palette">Associated palette instance.</param>
+    [SecuritySafeCritical]
     public KryptonColorTable365BlueLightMode([DisallowNull] Color[] colors,
         InheritBool roundedEdges, PaletteBase palette)
         : base(palette)
@@ -4950,30 +4939,6 @@ public class KryptonColorTable365BlueLightMode : KryptonColorTable
     public override Color StatusStripText => _colors[(int)SchemeBaseColors.StatusStripText];
 
     #endregion
-
-    #region MenuStripFont
-    /// <summary>
-    /// Gets the font used on the menu strip.
-    /// </summary>
-    public override Font MenuStripFont => _menuToolFont;
-
-    #endregion
-
-    #region ToolStripFont
-    /// <summary>
-    /// Gets the font used on the tool strip.
-    /// </summary>
-    public override Font ToolStripFont => _menuToolFont;
-
-    #endregion
-
-    #region StatusStripFont
-    /// <summary>
-    /// Gets the font used on the status strip.
-    /// </summary>
-    public override Font StatusStripFont => _statusFont;
-
-    #endregion
     #endregion
 
     #region ToolStrip
@@ -5048,20 +5013,6 @@ public class KryptonColorTable365BlueLightMode : KryptonColorTable
     public override Color ToolStripPanelGradientEnd => _colors[(int)SchemeBaseColors.ToolStripBack];
 
     #endregion
-    #endregion
-
-    #region Implementation
-    private static void DefineFonts()
-    {
-        // Create new font using system information
-        _menuToolFont = new Font(@"Segoe UI", SystemFonts.MenuFont!.SizeInPoints!, FontStyle.Regular);
-        _statusFont = new Font(@"Segoe UI", SystemFonts.StatusFont!.SizeInPoints!, FontStyle.Regular);
-    }
-
-    private static void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e) =>
-        // Update fonts to reflect any change in system settings
-        DefineFonts();
-
     #endregion
 }
 #endregion
