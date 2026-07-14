@@ -82,52 +82,106 @@ internal static class RoundedPathHelper
         float tr = arcs.TopRight;
         float br = arcs.BottomRight;
         float bl = arcs.BottomLeft;
+        float tlR = tl * 0.5f;
+        float trR = tr * 0.5f;
+        float brR = br * 0.5f;
+        float blR = bl * 0.5f;
         float trX = tr > 0f ? tr + 1f : 0f;
         float brX = br > 0f ? br + 1f : 0f;
         float blY = bl > 0f ? bl + 1f : 0f;
         float brY = br > 0f ? br + 1f : 0f;
 
+        // Top-left corner
         if (tl > 0f)
         {
-            path.AddLine(left, top + tl, left, top + tl);
             path.AddArc(left, top, tl, tl, 180f, 90f);
         }
-        else
+        else if (tr > 0f || br > 0f || bl > 0f)
         {
             path.AddLine(left, top, left, top);
         }
 
+        // Top edge when the adjacent corner is square
+        if (tl > 0f && tr == 0f)
+        {
+            path.AddLine(left + tlR, top, right, top);
+        }
+        else if (tl == 0f && tr > 0f)
+        {
+            path.AddLine(left, top, right - trX + trR, top);
+        }
+        else if (tl == 0f && tr == 0f && (br > 0f || bl > 0f))
+        {
+            path.AddLine(left, top, right, top);
+        }
+
+        // Top-right corner
         if (tr > 0f)
         {
-            path.AddLine(left + (tl > 0f ? tl : 0f), top, right - trX, top);
             path.AddArc(right - trX, top, tr, tr, 270f, 90f);
         }
-        else
+        else if (br > 0f || bl > 0f)
         {
-            path.AddLine(left + (tl > 0f ? tl : 0f), top, right, top);
+            path.AddLine(right, top, right, top);
         }
 
+        // Right edge when the adjacent corner is square
+        if (tr > 0f && br == 0f)
+        {
+            path.AddLine(right, top + trR, right, bottom);
+        }
+        else if (tr == 0f && br > 0f)
+        {
+            path.AddLine(right, top, right, bottom - brY + brR);
+        }
+        else if (tr == 0f && br == 0f && bl > 0f)
+        {
+            path.AddLine(right, top, right, bottom);
+        }
+
+        // Bottom-right corner
         if (br > 0f)
         {
-            path.AddLine(right, top + (tr > 0f ? tr : 0f), right, bottom - brY);
             path.AddArc(right - brX, bottom - brY, br, br, 0f, 90f);
         }
-        else
+        else if (bl > 0f)
         {
-            path.AddLine(right, top + (tr > 0f ? tr : 0f), right, bottom);
+            path.AddLine(right, bottom, right, bottom);
         }
 
+        // Bottom edge when the adjacent corner is square
+        if (br > 0f && bl == 0f)
+        {
+            path.AddLine(right - brX + brR, bottom, left, bottom);
+        }
+        else if (br == 0f && bl > 0f)
+        {
+            path.AddLine(right, bottom, left + blR, bottom);
+        }
+        else if (br == 0f && bl == 0f && tl > 0f)
+        {
+            path.AddLine(right, bottom, left, bottom);
+        }
+
+        // Bottom-left corner
         if (bl > 0f)
         {
-            path.AddLine(right - (br > 0f ? brX : 0f), bottom, left + bl, bottom);
             path.AddArc(left, bottom - blY, bl, bl, 90f, 90f);
         }
-        else
+        else if (tl > 0f)
         {
-            path.AddLine(right - (br > 0f ? brX : 0f), bottom, left, bottom);
+            path.AddLine(left, bottom, left, bottom);
         }
 
-        path.AddLine(left, bottom - (bl > 0f ? blY : 0f), left, top + (tl > 0f ? tl : 0f));
+        // Left edge when the adjacent corner is square
+        if (bl > 0f && tl == 0f)
+        {
+            path.AddLine(left, bottom - blY + blR, left, top);
+        }
+        else if (bl == 0f && tl > 0f)
+        {
+            path.AddLine(left, bottom, left, top + tlR);
+        }
 
         if (closeFigure)
         {
