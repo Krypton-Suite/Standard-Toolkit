@@ -43,4 +43,26 @@ public partial class Bug3902ScrollbarGapDemo : KryptonForm
             klstDemo.Items.Add($"Item {i + 1}: verify vertical scrollbar alignment.");
         }
     }
+
+    private void kchkThemedCorner_CheckedChanged(object? sender, EventArgs e)
+    {
+        ScrollbarCornerStyle style = kchkThemedCorner.Checked
+            ? ScrollbarCornerStyle.ThemedCorner
+            : ScrollbarCornerStyle.ExtendHorizontal;
+
+        if (ktbxDemo.ScrollbarManager != null)
+        {
+            ktbxDemo.ScrollbarManager.CornerStyle = style;
+        }
+
+        if (krtbDemo.ScrollbarManager != null)
+        {
+            krtbDemo.ScrollbarManager.CornerStyle = style;
+        }
+
+        if (klstDemo.ScrollbarManager != null)
+        {
+            klstDemo.ScrollbarManager.CornerStyle = style;
+        }
+    }
 }
