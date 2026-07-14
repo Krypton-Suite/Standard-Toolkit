@@ -5,6 +5,42 @@
 #   -Configuration          Release, Canary, Nightly, etc. (searches artifacts/packages and Bin/Packages)
 #   -PackageSearchPaths     Additional glob paths for .nupkg files
 #   -SkipIfInteropProjectMissing  Exit 0 when Krypton.Interop.csproj is absent (LTS branches without Interop)
+#   -MinimumMajorVersion    Exit 0 when the evaluated toolkit major version is below this value (V110+ Interop)
+
+function Get-KryptonToolkitMajorVersion {
+    param(
+        [string]$Configuration = 'Release',
+        [string]$RepoRoot = ''
+    )
+
+    if ([string]::IsNullOrWhiteSpace($RepoRoot)) {
+        $RepoRoot = if ($null -ne $env:GITHUB_WORKSPACE -and $env:GITHUB_WORKSPACE -ne '') {
+            $env:GITHUB_WORKSPACE
+        }
+        else {
+            (Get-Location).Path
+        }
+    }
+
+    if ([string]::IsNullOrWhiteSpace($Configuration)) {
+        $Configuration = 'Release'
+    }
+
+    $proj = Join-Path $RepoRoot 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
+    if (-not (Test-Path -LiteralPath $proj)) {
+        Write-Error "Krypton.Toolkit project not found at '$proj'."
+    }
+
+    $versionProperties = @('LibraryVersion', 'AssemblyVersion', 'Version')
+    foreach ($property in $versionProperties) {
+        $evaluated = (& dotnet msbuild $proj -getProperty:$property -p:Configuration=$Configuration -nologo -v:q).Trim()
+        if ($evaluated -match '^(\d+)\.') {
+            return [int]$Matches[1]
+        }
+    }
+
+    Write-Error "Could not resolve Krypton toolkit major version from MSBuild (tried: $($versionProperties -join ', '))."
+}
 
 function Test-PackageRequiresKryptonInterop {
     param(
@@ -65,7 +101,8 @@ function Test-KryptonInteropInPackages {
     param(
         [string]$Configuration = '',
         [string[]]$PackageSearchPaths = @(),
-        [switch]$SkipIfInteropProjectMissing
+        [switch]$SkipIfInteropProjectMissing,
+        [int]$MinimumMajorVersion = 0
     )
 
     $ErrorActionPreference = 'Stop'
@@ -75,6 +112,16 @@ function Test-KryptonInteropInPackages {
     }
     else {
         (Get-Location).Path
+    }
+
+    $msbuildConfiguration = if ([string]::IsNullOrWhiteSpace($Configuration)) { 'Release' } else { $Configuration }
+
+    if ($MinimumMajorVersion -gt 0) {
+        $major = Get-KryptonToolkitMajorVersion -Configuration $msbuildConfiguration -RepoRoot $repoRoot
+        if ($major -lt $MinimumMajorVersion) {
+            Write-Host "::notice:: Major version $major is below $MinimumMajorVersion; skipping Krypton.Interop NuGet package verification."
+            return
+        }
     }
 
     $interopProject = Join-Path $repoRoot 'Source/Krypton Components/Krypton.Interop/Krypton.Interop.csproj'
