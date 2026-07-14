@@ -1,32 +1,42 @@
 <Project>
 	<!--
 	  Include Krypton.Interop.dll in packable Krypton module packages.
+	  Must use TargetsForTfmSpecificContentInPackage — BeforeTargets="_GetPackageFiles" does not
+	  feed TfmSpecificPackageFile into NuGet's _GetTfmSpecificContentForPackage walk.
 	  Krypton.Standard.Toolkit has its own explicit inclusion target.
 	-->
-	<Target Name="KryptonIncludeInteropInPackage"
-	        BeforeTargets="_GetPackageFiles"
-	        Condition="'$(IsPackable)' == 'true' And '$(PackageId)' != 'Krypton.Standard.Toolkit' And '$(PackageId)' != ''">
+	<PropertyGroup Condition="'$(IsPackable)' != 'false' And '$(PackageId)' != '' And !$(PackageId.StartsWith('Krypton.Standard.Toolkit'))">
+		<TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);KryptonIncludeInteropInPackage</TargetsForTfmSpecificContentInPackage>
+	</PropertyGroup>
+
+	<Target Name="KryptonIncludeInteropInPackage">
 		<PropertyGroup>
 			<_KryptonInteropLibDir>$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\</_KryptonInteropLibDir>
+			<!-- Match NuGet Windows TFM folder naming used by project build output / Standard.Toolkit. -->
+			<_KryptonInteropLibFolderName Condition="'$(TargetFramework)' == 'net8.0-windows'">net8.0-windows7.0</_KryptonInteropLibFolderName>
+			<_KryptonInteropLibFolderName Condition="'$(TargetFramework)' == 'net9.0-windows'">net9.0-windows7.0</_KryptonInteropLibFolderName>
+			<_KryptonInteropLibFolderName Condition="'$(TargetFramework)' == 'net10.0-windows'">net10.0-windows7.0</_KryptonInteropLibFolderName>
+			<_KryptonInteropLibFolderName Condition="'$(TargetFramework)' == 'net11.0-windows'">net11.0-windows7.0</_KryptonInteropLibFolderName>
+			<_KryptonInteropLibFolderName Condition="'$(_KryptonInteropLibFolderName)' == ''">$(TargetFramework)</_KryptonInteropLibFolderName>
 		</PropertyGroup>
 		<ItemGroup>
 			<TfmSpecificPackageFile Include="$(_KryptonInteropLibDir)Krypton.Interop.dll" Condition="Exists('$(_KryptonInteropLibDir)Krypton.Interop.dll')">
-				<PackagePath>lib\$(TargetFramework)\</PackagePath>
+				<PackagePath>lib\$(_KryptonInteropLibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\Krypton.Interop\bin\$(Configuration)\$(TargetFramework)\Krypton.Interop.dll" Condition="!Exists('$(_KryptonInteropLibDir)Krypton.Interop.dll') And Exists('..\Krypton.Interop\bin\$(Configuration)\$(TargetFramework)\Krypton.Interop.dll')">
-				<PackagePath>lib\$(TargetFramework)\</PackagePath>
+				<PackagePath>lib\$(_KryptonInteropLibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="$(_KryptonInteropLibDir)Krypton.Interop.xml" Condition="Exists('$(_KryptonInteropLibDir)Krypton.Interop.xml')">
-				<PackagePath>lib\$(TargetFramework)\</PackagePath>
+				<PackagePath>lib\$(_KryptonInteropLibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\Krypton.Interop\bin\$(Configuration)\$(TargetFramework)\Krypton.Interop.xml" Condition="!Exists('$(_KryptonInteropLibDir)Krypton.Interop.xml') And Exists('..\Krypton.Interop\bin\$(Configuration)\$(TargetFramework)\Krypton.Interop.xml')">
-				<PackagePath>lib\$(TargetFramework)\</PackagePath>
+				<PackagePath>lib\$(_KryptonInteropLibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="$(_KryptonInteropLibDir)Krypton.Interop.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('$(_KryptonInteropLibDir)Krypton.Interop.pdb')">
-				<PackagePath>lib\$(TargetFramework)\</PackagePath>
+				<PackagePath>lib\$(_KryptonInteropLibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\Krypton.Interop\bin\$(Configuration)\$(TargetFramework)\Krypton.Interop.pdb" Condition="'$(IncludeSymbols)' == 'true' And !Exists('$(_KryptonInteropLibDir)Krypton.Interop.pdb') And Exists('..\Krypton.Interop\bin\$(Configuration)\$(TargetFramework)\Krypton.Interop.pdb')">
-				<PackagePath>lib\$(TargetFramework)\</PackagePath>
+				<PackagePath>lib\$(_KryptonInteropLibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 		</ItemGroup>
 	</Target>
