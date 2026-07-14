@@ -354,7 +354,11 @@ public class KryptonTextBox : VisualControlBase,
     private bool _showEllipsisButton;
     //private bool _isInAlphaNumericMode;
     private readonly ButtonSpecAny _editorButton;
+    // Internal (non-user) button specs such as the multiline editor button live here so they
+    // cannot be removed, reordered, or serialized through the public ButtonSpecs collection (issue #3851).
+    private readonly TextBoxButtonSpecCollection _buttonSpecsFixed;
     private ButtonSpecAccessibilityProxyManager? _buttonSpecAccessibilityProxyManager;
+    private ButtonSpecAccessibilityProxyManager? _buttonSpecAccessibilityProxyManagerFixed;
     private KryptonScrollbarManager? _scrollbarManager;
     private bool? _useKryptonScrollbars;
 
@@ -473,6 +477,7 @@ public class KryptonTextBox : VisualControlBase,
 
         // Create storage properties
         ButtonSpecs = new TextBoxButtonSpecCollection(this);
+        _buttonSpecsFixed = new TextBoxButtonSpecCollection(this);
 
         // Create the palette storage
         StateCommon = new PaletteInputControlTripleRedirect(Redirector, PaletteBackStyle.InputControlStandalone, PaletteBorderStyle.InputControlStandalone, PaletteContentStyle.InputControlStandalone, NeedPaintDelegate);
@@ -526,7 +531,7 @@ public class KryptonTextBox : VisualControlBase,
         ViewManager = new ViewManager(this, _pulsingBorder.ViewRoot);
 
         // Create button specification collection manager
-        _buttonManager = new ButtonSpecManagerLayout(this, Redirector, ButtonSpecs, null,
+        _buttonManager = new ButtonSpecManagerLayout(this, Redirector, ButtonSpecs, _buttonSpecsFixed,
             [_drawDockerInner],
             [StateCommon],
             [PaletteMetricInt.HeaderButtonEdgeInsetInputControl],
@@ -540,6 +545,7 @@ public class KryptonTextBox : VisualControlBase,
         ToolTipManager.CancelToolTip += OnCancelToolTip;
         _buttonManager.ToolTipManager = ToolTipManager;
         _buttonSpecAccessibilityProxyManager = new ButtonSpecAccessibilityProxyManager(this, ButtonSpecs, () => _buttonManager);
+        _buttonSpecAccessibilityProxyManagerFixed = new ButtonSpecAccessibilityProxyManager(this, _buttonSpecsFixed, () => _buttonManager);
 
         // Create the button spec for the multiline editor button.
         _editorButton = new ButtonSpecAny
@@ -573,6 +579,8 @@ public class KryptonTextBox : VisualControlBase,
             _buttonManager?.Destruct();
             _buttonSpecAccessibilityProxyManager?.Dispose();
             _buttonSpecAccessibilityProxyManager = null;
+            _buttonSpecAccessibilityProxyManagerFixed?.Dispose();
+            _buttonSpecAccessibilityProxyManagerFixed = null;
 
             _scrollbarManager?.Dispose();
             _scrollbarManager = null;
@@ -1498,21 +1506,25 @@ public class KryptonTextBox : VisualControlBase,
     protected void SetMultilineStringEditor(bool value)
     {
         _multilineStringEditor = value;
-        // FIXME: This should probably rather be drawn as a glyph or something and not be
-        // added to the ButtonSpecs that can be modified by the user, but I lack the
-        // familiarity with the Krypton Framework and the time to figure out how to implement
-        // this the proper way.
+
+        // The editor button is an internal, non-user button so it lives in the fixed spec
+        // collection rather than the public ButtonSpecs. This keeps it from being removed,
+        // reordered, or serialized by the designer while still rendering as a real button (issue #3851).
         if (value == false)
         {
-            ButtonSpecs.Remove(_editorButton);
+            _buttonSpecsFixed.Remove(_editorButton);
+        }
+        else if (!_buttonSpecsFixed.Contains(_editorButton))
+        {
+            _buttonSpecsFixed.Add(_editorButton);
         }
         else
         {
-            if (!ButtonSpecs.Contains(_editorButton))
-            {
-                ButtonSpecs.Add(_editorButton);
-            }
+            return;
         }
+
+        // Fixed spec changes are not auto-monitored by the button manager, so rebuild the button views.
+        _buttonManager?.RecreateButtons();
     }
     #endregion
 
@@ -1731,6 +1743,7 @@ public class KryptonTextBox : VisualControlBase,
 
             _textBox.SetBounds(fillRect.X, y, fillRect.Width, fillRect.Height);
             _buttonSpecAccessibilityProxyManager?.Sync();
+            _buttonSpecAccessibilityProxyManagerFixed?.Sync();
         }
     }
 
@@ -1811,6 +1824,7 @@ public class KryptonTextBox : VisualControlBase,
         {
             _textBox.Invalidate();
             _buttonSpecAccessibilityProxyManager?.Sync();
+            _buttonSpecAccessibilityProxyManagerFixed?.Sync();
         }
         else
         {

@@ -397,6 +397,8 @@ public sealed class KryptonManager : Component
             {
                 ResetBaseFont();
             }
+
+            OnGlobalPaletteChanged(EventArgs.Empty);
         }
     }
 
@@ -1688,6 +1690,11 @@ public sealed class KryptonManager : Component
         {
             UpdateToolStripManager();
         }
+
+        if (e.NeedLayout)
+        {
+            ToolStripFontSync.RefreshAllOpenForms();
+        }
     }
 
     private static void SetPalette(PaletteBase globalPalette)
@@ -1722,6 +1729,8 @@ public sealed class KryptonManager : Component
         UpdateToolStripManager();
 
         UpdatePaletteImages(CurrentGlobalPaletteMode);
+
+        ToolStripFontSync.RefreshAllOpenForms();
 
         GlobalPaletteChanged?.Invoke(null, e);
     }

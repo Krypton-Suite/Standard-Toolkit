@@ -65,7 +65,10 @@ public partial class KryptonKnob : VisualSimpleBase
 
         _drawKnob = new ViewDrawKnob(_overrideNormal, StateDisabled, _overrideTracking, _overridePressed, NeedPaintDelegate)
         {
-            IgnoreRender = false
+            IgnoreRender = false,
+            // Keep the view element in step with the control so the disabled palette is used
+            // even when Enabled was set before this view existed.
+            Enabled = Enabled
         };
         _drawKnob.ValueChanged += OnDrawValueChanged;
         _drawKnob.Scroll += OnDrawScroll;
@@ -122,7 +125,7 @@ public partial class KryptonKnob : VisualSimpleBase
     /// Gets access to the tracking knob appearance.
     /// </summary>
     [Category(@"Visuals")]
-    [Description(@"Overrides for defining tracking knob appearance.")]
+    [Description(@"Overrides for defining tracking knob face and indicator appearance.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public PaletteKnobFaceStates StateTracking { get; }
 
@@ -132,7 +135,7 @@ public partial class KryptonKnob : VisualSimpleBase
     /// Gets access to the pressed knob appearance.
     /// </summary>
     [Category(@"Visuals")]
-    [Description(@"Overrides for defining pressed knob appearance.")]
+    [Description(@"Overrides for defining pressed knob face and indicator appearance.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public PaletteKnobFaceStates StatePressed { get; }
 

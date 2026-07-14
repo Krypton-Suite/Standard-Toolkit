@@ -4644,20 +4644,9 @@ public class KryptonColorTable2010BlueDarkMode : KryptonColorTable
     private static readonly Color _buttonCheckedEnd = Color.FromArgb(255, 216, 107);
     private static readonly Color _menuItemSelectedBegin = Color.FromArgb(141, 168, 203);
     private static readonly Color _menuItemSelectedEnd = Color.FromArgb(95, 127, 169);
-    private static Font _menuToolFont;
-    private static Font _statusFont;
     #endregion
 
     #region Identity
-    static KryptonColorTable2010BlueDarkMode()
-    {
-        // Get the font settings from the system
-        DefineFonts();
-
-        // We need to notice when system color settings change
-        SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
-    }
-
     /// <summary>
     /// Initialize a new instance of the KryptonColorTable2010BlueDarkMode class.
     /// </summary>
@@ -5129,30 +5118,6 @@ public class KryptonColorTable2010BlueDarkMode : KryptonColorTable
     public override Color StatusStripText => Colors[(int)SchemeBaseColors.StatusStripText];
 
     #endregion
-
-    #region MenuStripFont
-    /// <summary>
-    /// Gets the font used on the menu strip.
-    /// </summary>
-    public override Font MenuStripFont => _menuToolFont;
-
-    #endregion
-
-    #region ToolStripFont
-    /// <summary>
-    /// Gets the font used on the tool strip.
-    /// </summary>
-    public override Font ToolStripFont => _menuToolFont;
-
-    #endregion
-
-    #region StatusStripFont
-    /// <summary>
-    /// Gets the font used on the status strip.
-    /// </summary>
-    public override Font StatusStripFont => _statusFont;
-
-    #endregion
     #endregion
 
     #region ToolStrip
@@ -5230,18 +5195,6 @@ public class KryptonColorTable2010BlueDarkMode : KryptonColorTable
     #endregion
 
     #region Implementation
-    private static void DefineFonts()
-    {
-        // Create new font using system information
-        // TODO: Should be using base font
-        _menuToolFont = new Font(@"Segoe UI", SystemFonts.MenuFont!.SizeInPoints!, FontStyle.Regular);
-        _statusFont = new Font(@"Segoe UI", SystemFonts.StatusFont!.SizeInPoints!, FontStyle.Regular);
-    }
-
-    private static void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e) =>
-        // Update fonts to reflect any change in system settings
-        DefineFonts();
-
     #endregion
 }
 #endregion
