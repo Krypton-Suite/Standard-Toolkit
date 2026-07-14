@@ -116,6 +116,12 @@
     <Compile Update="KryptonDropZoneDemo.Designer.cs">
       <DependentUpon>KryptonDropZoneDemo.cs</DependentUpon>
     </Compile>
+    <Compile Update="Feature3851RenderingDpiDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Feature3851RenderingDpiDemo.Designer.cs">
+      <DependentUpon>Feature3851RenderingDpiDemo.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
