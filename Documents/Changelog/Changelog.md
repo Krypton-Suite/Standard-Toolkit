@@ -45,6 +45,8 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#3881](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3881), FlashWindowExListener's WH_SHELL hook is never unhooked in hosts that don't call Application.Run() (e.g. VSTO/Office add-ins) — leads to AppDomainUnloadedException / host crash on shutdown
+   * `FlashWindowExListener` `WH_SHELL` hook is now removed when the last tracked `KryptonForm` closes and on `AppDomain` unload, preventing `AppDomainUnloadedException` crashes in hosts that do not call `Application.Run()` (for example VSTO/Office add-ins).
 * Implemented [#3857](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3857), Implement `IsDefault` on Values types that currently throw `NotImplementedException`
    * `IsDefault` on file-system Values types and related `Storage` stubs so PropertyGrid display, designer reset, and `ToString()` no longer throw
 * Implemented [#3891](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3891), `KryptonContextMenu` Improvements
