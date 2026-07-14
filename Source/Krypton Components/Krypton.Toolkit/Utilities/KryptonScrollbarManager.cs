@@ -1480,24 +1480,24 @@ public class KryptonScrollbarManager : IDisposable
         bool showVertical = _verticalScrollBar?.Visible == true;
         bool showHorizontal = _horizontalScrollBar?.Visible == true;
 
-        // Fill the lane flush. When both bars are visible, extend the vertical bar
-        // through the bottom-right corner and shorten the horizontal (same pattern as
-        // ViewLayoutScrollViewport / ViewDrawScrollBar.ShortSize).
         int vScrollX = laneRect.Right - scrollbarWidth;
         int vScrollY = laneRect.Top;
         int hScrollX = laneRect.Left;
         int hScrollY = laneRect.Bottom - scrollbarHeight;
 
-        if (showHorizontal && _horizontalScrollBar != null)
+        if (showHorizontal && showVertical && _horizontalScrollBar != null && _verticalScrollBar != null)
         {
-            int hScrollWidth = showVertical
-                ? Math.Max(0, vScrollX - hScrollX)
-                : laneRect.Width;
-
-            _horizontalScrollBar.SetBounds(hScrollX, hScrollY, hScrollWidth, scrollbarHeight);
+            // Both visible: the horizontal bar spans the full lane width so it fills the
+            // bottom-right corner, and the vertical bar stops above it. This keeps the
+            // vertical bar's bottom arrow clear of the corner.
+            _horizontalScrollBar.SetBounds(hScrollX, hScrollY, laneRect.Width, scrollbarHeight);
+            _verticalScrollBar.SetBounds(vScrollX, vScrollY, scrollbarWidth, Math.Max(0, hScrollY - vScrollY));
         }
-
-        if (showVertical && _verticalScrollBar != null)
+        else if (showHorizontal && _horizontalScrollBar != null)
+        {
+            _horizontalScrollBar.SetBounds(hScrollX, hScrollY, laneRect.Width, scrollbarHeight);
+        }
+        else if (showVertical && _verticalScrollBar != null)
         {
             _verticalScrollBar.SetBounds(vScrollX, vScrollY, scrollbarWidth, laneRect.Height);
         }
