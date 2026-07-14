@@ -22,5 +22,5 @@ public class KryptonPalettePropertyGrid : Storage
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => throw new NotImplementedException();
+    public override bool IsDefault => true;
 }
