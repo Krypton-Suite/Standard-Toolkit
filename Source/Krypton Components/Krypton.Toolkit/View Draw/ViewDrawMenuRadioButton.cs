@@ -161,6 +161,27 @@ internal class ViewDrawMenuRadioButton: ViewComposite
 
     #endregion
 
+    #region ResolveText
+
+    /// <summary>
+    /// Gets the resolved text value of the radio button item.
+    /// </summary>
+    private string ResolveText => _cachedCommand != null
+                                  && !string.IsNullOrEmpty(_cachedCommand.Text) ? _cachedCommand.Text : KryptonContextMenuRadioButton.Text;
+
+    #endregion
+
+    #region ResolveExtraText
+
+    /// <summary>
+    /// Gets the resolved extra text value of the radio button item.
+    /// </summary>
+    private string ResolveExtraText => _cachedCommand != null
+                                       && !string.IsNullOrEmpty(_cachedCommand.ExtraText) ? _cachedCommand.ExtraText : KryptonContextMenuRadioButton.ExtraText ?? string.Empty;
+
+    
+    #endregion
+
     #region KryptonContextMenuRadioButton
     /// <summary>
     /// Gets access to the actual radio button definiton.

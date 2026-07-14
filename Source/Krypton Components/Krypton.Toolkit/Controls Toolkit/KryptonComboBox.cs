@@ -265,6 +265,16 @@ public class KryptonComboBox : VisualControlBase,
         }
 
         /// <summary>
+        /// Raises the HandleCreated event.
+        /// </summary>
+        /// <param name="e">An EventArgs containing the event data.</param>
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+            _kryptonComboBox.OnInternalComboBoxHandleCreated();
+        }
+
+        /// <summary>
         /// Raises the FontChanged event.
         /// </summary>
         /// <param name="e">Contains the event data.</param>
@@ -1355,6 +1365,9 @@ public class KryptonComboBox : VisualControlBase,
 
         // Force calculation of the drop-down items again so they are sized correctly
         _comboBox.DrawMode = DrawMode.OwnerDrawVariable;
+
+        // Designer may set Enabled=false before the handle exists; sync themed disabled colors now.
+        ApplyDisabledStartupAppearance();
 
         // Raise event to show control is now initialized
         OnInitialized(EventArgs.Empty);
@@ -2546,8 +2559,38 @@ public class KryptonComboBox : VisualControlBase,
         // We need a layout to occur before any painting
         InvokeLayout();
 
+        // Layout can recreate the native edit child; hide it again before the first paint.
+        UpdateEditControl();
+        ApplyDisabledStartupAppearance();
+
         // We need to recalculate the correct height
         Height = PreferredHeight;
+    }
+
+    /// <summary>
+    /// Raises the ParentChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing the event data.</param>
+    protected override void OnParentChanged(EventArgs e)
+    {
+        base.OnParentChanged(e);
+        if (Parent != null)
+        {
+            ApplyDisabledStartupAppearance();
+        }
+    }
+
+    /// <summary>
+    /// Raises the VisibleChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing the event data.</param>
+    protected override void OnVisibleChanged(EventArgs e)
+    {
+        base.OnVisibleChanged(e);
+        if (Visible)
+        {
+            ApplyDisabledStartupAppearance();
+        }
     }
 
     /// <summary>
@@ -2556,6 +2599,9 @@ public class KryptonComboBox : VisualControlBase,
     /// <param name="e">An EventArgs that contains the event data.</param>
     protected override void OnEnabledChanged(EventArgs e)
     {
+        // Do not propagate Enabled to the internal ComboBox; WS_DISABLED on the native HWND
+        // causes system disabled painting to win over the themed owner-draw path (#3879).
+
         // Ensure we have subclassed the contained edit control
         UpdateEditControl();
 
@@ -2811,24 +2857,16 @@ public class KryptonComboBox : VisualControlBase,
     /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
     protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
     {
-        if (!e.NeedLayout)
-        {
-            _comboBox.Invalidate();
-        }
-        else if (!DroppedDown)
+        if (e.NeedLayout && !DroppedDown)
         {
             ForceControlLayout();
         }
 
-        if (!IsDisposed && !Disposing)
+        SyncComboBoxAppearance();
+
+        if (!e.NeedLayout)
         {
-            UpdateStateAndPalettes();
-            var triple = GetComboBoxTripleState();
-            PaletteState state = _drawDockerOuter.State;
-            _comboBox.BackColor = triple.PaletteBack.GetBackColor1(state);
-            _comboBox.ForeColor = triple.PaletteContent!.GetContentShortTextColor1(state);
-            _comboBox.Font = triple.PaletteContent.GetContentShortTextFont(state)!;
-            _comboHolder.BackColor = _comboBox.BackColor;
+            _comboBox.Invalidate();
         }
 
         base.OnNeedPaint(sender, e);
@@ -2852,6 +2890,10 @@ public class KryptonComboBox : VisualControlBase,
     protected override void OnPaletteNeedPaint(object? sender, NeedLayoutEventArgs e)
     {
         base.OnPaletteNeedPaint(sender, e);
+        if (!Enabled)
+        {
+            SyncComboBoxAppearance();
+        }
         _comboBox.Invalidate();
     }
 
@@ -2957,6 +2999,39 @@ public class KryptonComboBox : VisualControlBase,
 
     internal PaletteInputControlTripleStates GetComboBoxTripleState() => Enabled ? IsActive ? StateActive.ComboBox : StateNormal.ComboBox : StateDisabled.ComboBox;
 
+    internal void OnInternalComboBoxHandleCreated() => ApplyDisabledStartupAppearance();
+
+    private void ApplyDisabledStartupAppearance()
+    {
+        if (!Enabled)
+        {
+            UpdateEditControl();
+            SyncComboBoxAppearance(true);
+        }
+    }
+
+    private void SyncComboBoxAppearance(bool invalidateCombo = false)
+    {
+        if (IsDisposed || Disposing)
+        {
+            return;
+        }
+
+        UpdateStateAndPalettes();
+        var triple = GetComboBoxTripleState();
+        PaletteState state = _drawDockerOuter.State;
+        _comboBox.BackColor = triple.PaletteBack.GetBackColor1(state);
+        _comboBox.ForeColor = triple.PaletteContent!.GetContentShortTextColor1(state);
+        _comboBox.Font = triple.PaletteContent.GetContentShortTextFont(state)!;
+        _comboHolder.BackColor = _comboBox.BackColor;
+
+        if (invalidateCombo && _comboBox.IsHandleCreated)
+        {
+            _comboBox.Invalidate(true);
+            _comboBox.Update();
+        }
+    }
+
     private int PreferredHeight
     {
         get
@@ -2976,32 +3051,34 @@ public class KryptonComboBox : VisualControlBase,
         // Do we need to draw the edit area
         if ((e.State & DrawItemState.ComboBoxEdit) == DrawItemState.ComboBoxEdit)
         {
-            // TODO: Check if this is covered by the WM_PAINT in the internal Combo
-            // Always get base implementation to draw the background
-            e.DrawBackground();
+            PaletteState state = Enabled
+                ? IsActive
+                    ? PaletteState.Tracking
+                    : PaletteState.Normal
+                : PaletteState.Disabled;
+            var triple = GetComboBoxTripleState();
+            Color backColor = triple.PaletteBack.GetBackColor1(state);
+            Color textColor = triple.PaletteContent!.GetContentShortTextColor1(state);
+            Font? font = triple.PaletteContent.GetContentShortTextFont(state);
 
-            // Find correct text color
-            Color textColor = _comboBox.ForeColor;
+
             if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
             {
                 textColor = SystemColors.HighlightText;
+                backColor = SystemColors.Highlight;
             }
 
-            // Find correct background color
-            Color backColor = _comboBox.BackColor;
-            if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
+            using (var backBrush = new SolidBrush(backColor))
             {
-                backColor = SystemColors.Highlight;
+                e.Graphics.FillRectangle(backBrush, drawBounds);
             }
 
             // Is there an item to draw
             if (e.Index >= 0)
             {
-                // Set the correct text rendering hint for the text drawing. We only draw if the edit text is enabled so we
-                // just always grab the normal state value. Without this line the wrong hint can occur because it inherits
-                // it from the device context. Resulting in blurred text.
-                // Use GraphicsTextHint to properly save/restore TextRenderingHint to prevent affecting other controls
-                using (new GraphicsTextHint(e.Graphics, CommonHelper.PaletteTextHintToRenderingHint(StateNormal.Item.PaletteContent!.GetContentShortTextHint(PaletteState.Normal))))
+                // Without this line the wrong hint can occur because it inherits it from the device context.
+                // Use GraphicsTextHint to properly save/restore TextRenderingHint to prevent affecting other controls.
+                using (new GraphicsTextHint(e.Graphics, CommonHelper.PaletteTextHintToRenderingHint(triple.Content.GetContentShortTextHint(state))))
                 {
                     TextFormatFlags flags = TextFormatFlags.TextBoxControl | TextFormatFlags.NoPadding;
 
@@ -3016,7 +3093,7 @@ public class KryptonComboBox : VisualControlBase,
 
                     // Draw text using font defined by the control
                     TextRenderer.DrawText(e.Graphics,
-                        _comboBox.Text, _comboBox.Font,
+                        _comboBox.Text, font ?? _comboBox.Font,
                         drawBounds,
                         textColor, backColor,
                         flags);
@@ -3183,7 +3260,7 @@ public class KryptonComboBox : VisualControlBase,
 
     private void OnComboBoxGotFocus(object? sender, EventArgs e)
     {
-        if (DropDownStyle == ComboBoxStyle.DropDown)
+        if (DropDownStyle == ComboBoxStyle.DropDown && Enabled)
         {
             _subclassEdit!.Visible = true;
             PaletteState state = Enabled
@@ -3220,7 +3297,15 @@ public class KryptonComboBox : VisualControlBase,
 
     private void OnComboBoxSelectionChangeCommitted(object? sender, EventArgs e) => OnSelectionChangeCommitted(e);
 
-    private void OnComboBoxSelectedIndexChanged(object? sender, EventArgs e) => OnSelectedIndexChanged(e);
+    private void OnComboBoxSelectedIndexChanged(object? sender, EventArgs e)
+    {
+        if (!Enabled)
+        {
+            SyncComboBoxAppearance(true);
+        }
+
+        OnSelectedIndexChanged(e);
+    }
 
     private void OnComboBoxDropDownStyleChanged(object? sender, EventArgs e) => OnDropDownStyleChanged(e);
 
