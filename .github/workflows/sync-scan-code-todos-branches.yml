@@ -1,0 +1,53 @@
+# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+# Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2026 - 2026. All rights reserved.
+#
+# Keeps scan-code-todos.yml workflow_dispatch branch options in sync with branch-policy.json.
+
+name: Sync scan-code-todos branch options
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - '.github/branch-policy.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Security - Verify Repository
+        shell: bash
+        run: |
+          if [ "$GITHUB_REPOSITORY" != "Krypton-Suite/Standard-Toolkit" ]; then
+            echo "::error::Invalid repository: $GITHUB_REPOSITORY"
+            exit 1
+          fi
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Update scan-code-todos branch options
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          & "${{ github.workspace }}/.github/scripts/Update-ScanCodeTodosBranchOptions.ps1" -RepositoryRoot "${{ github.workspace }}"
+
+      - name: Commit and push if changed
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- .github/workflows/scan-code-todos.yml; then
+            echo "No branch option changes required."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .github/workflows/scan-code-todos.yml
+          git commit -m "chore(ci): sync scan-code-todos branch options from branch-policy"
+          git push
