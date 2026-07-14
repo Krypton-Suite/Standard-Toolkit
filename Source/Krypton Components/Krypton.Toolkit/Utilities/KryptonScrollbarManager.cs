@@ -1485,69 +1485,48 @@ public class KryptonScrollbarManager : IDisposable
         }
 
         NativeWrapperScrollbarLayout? wrapperLayout = GetNativeWrapperScrollbarLayout();
+        // Prefer the layout fill lane (already inside the themed border). Fall back to the
+        // host client area when the wrapper does not expose layout bounds.
         Rectangle laneRect = wrapperLayout?.LaneRect ?? GetTargetClientRectangleInHost();
-        Rectangle contentRect = wrapperLayout?.ContentRect ?? laneRect;
 
         int scrollbarWidth = SystemInformation.VerticalScrollBarWidth;
         int scrollbarHeight = SystemInformation.HorizontalScrollBarHeight;
 
-        // Position horizontal scrollbar
-        if (_horizontalScrollBar != null && _horizontalScrollBar.Visible)
+        bool showVertical = _verticalScrollBar?.Visible == true;
+        bool showHorizontal = _horizontalScrollBar?.Visible == true;
+
+        // Fill the lane flush on every edge — no artificial inset. The lane is already
+        // the docker interior, so this sits against the inside of the themed border
+        // without leaving a gutter or painting over the border stroke.
+        int vScrollX = laneRect.Right - scrollbarWidth;
+        int vScrollY = laneRect.Top;
+        int hScrollX = laneRect.Left;
+        int hScrollY = laneRect.Bottom - scrollbarHeight;
+
+        if (showHorizontal && _horizontalScrollBar != null)
         {
-            int hScrollY = contentRect.Bottom;
-            if (hScrollY + scrollbarHeight > laneRect.Bottom)
-            {
-                hScrollY = laneRect.Bottom - scrollbarHeight;
-            }
+            int hScrollWidth = showVertical
+                ? Math.Max(0, vScrollX - hScrollX)
+                : laneRect.Width;
 
-            int hScrollWidth = laneRect.Right - contentRect.Left;
-            if (_verticalScrollBar?.Visible == true)
-            {
-                hScrollWidth -= scrollbarWidth;
-            }
-
-            hScrollY = Math.Max(laneRect.Top, hScrollY);
-            hScrollWidth = Math.Max(0, hScrollWidth);
-
-            _horizontalScrollBar.Location = new Point(contentRect.Left, hScrollY);
-            _horizontalScrollBar.Width = hScrollWidth;
-            _horizontalScrollBar.Height = Math.Max(scrollbarHeight, laneRect.Bottom - hScrollY);
+            _horizontalScrollBar.SetBounds(hScrollX, hScrollY, hScrollWidth, scrollbarHeight);
         }
 
-        // Position vertical scrollbar
-        if (_verticalScrollBar != null && _verticalScrollBar.Visible)
+        if (showVertical && _verticalScrollBar != null)
         {
-            int vScrollX = contentRect.Right;
-            int maxVScrollX = laneRect.Right - scrollbarWidth;
-            if (vScrollX > maxVScrollX)
-            {
-                vScrollX = maxVScrollX;
-            }
+            int vScrollHeight = showHorizontal
+                ? Math.Max(0, hScrollY - vScrollY)
+                : laneRect.Height;
 
-            int vScrollHeight = laneRect.Bottom - contentRect.Top;
-            if (_horizontalScrollBar?.Visible == true)
-            {
-                vScrollHeight -= _horizontalScrollBar!.Height;
-            }
-
-            vScrollX = Math.Max(laneRect.Left, vScrollX);
-            vScrollHeight = Math.Max(0, vScrollHeight);
-
-            _verticalScrollBar.Location = new Point(vScrollX, contentRect.Top);
-            _verticalScrollBar.Width = Math.Max(scrollbarWidth, laneRect.Right - vScrollX);
-            _verticalScrollBar.Height = vScrollHeight;
+            _verticalScrollBar.SetBounds(vScrollX, vScrollY, scrollbarWidth, vScrollHeight);
         }
 
-        bool showCorner = _horizontalScrollBar?.Visible == true && _verticalScrollBar?.Visible == true;
-        if (showCorner)
+        bool showCorner = showHorizontal && showVertical;
+        if (showCorner && _horizontalScrollBar != null && _verticalScrollBar != null)
         {
             EnsureScrollBarCornerCreated();
 
-            _scrollBarCorner!.SetBounds(
-                laneRect.Right - scrollbarWidth,
-                laneRect.Bottom - scrollbarHeight,
-                scrollbarWidth,
-                scrollbarHeight);
+            _scrollBarCorner!.SetBounds(vScrollX, hScrollY, scrollbarWidth, scrollbarHeight);
             _scrollBarCorner.Visible = true;
         }
         else if (_scrollBarCorner != null)

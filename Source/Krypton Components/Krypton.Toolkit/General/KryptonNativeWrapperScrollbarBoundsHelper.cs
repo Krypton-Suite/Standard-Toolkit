@@ -37,12 +37,12 @@ internal struct NativeWrapperScrollbarLayout
     }
 
     /// <summary>
-    /// The outer lane available to scrollbars, typically the host client area.
+    /// Area inside the themed border (ViewLayoutFill client rectangle before display padding).
     /// </summary>
     public Rectangle LaneRect { get; }
 
     /// <summary>
-    /// The inner native content area, typically the latest <see cref="ViewLayoutFill.FillRect"/>.
+    /// The inner native content area (<see cref="ViewLayoutFill.FillRect"/>).
     /// </summary>
     public Rectangle ContentRect { get; }
 }
@@ -54,12 +54,27 @@ internal static class KryptonNativeWrapperScrollbarBoundsHelper
 {
     internal static NativeWrapperScrollbarLayout GetLayout(Control wrapper, ViewLayoutFill layoutFill)
     {
-        Rectangle laneRect = wrapper.ClientRectangle;
-        Rectangle contentRect = layoutFill.FillRect;
+        // ClientRectangle is the docker interior after border display padding — the
+        // lane scrollbars should fill, flush to the inside of the themed border.
+        // FillRect is that area minus DisplayPadding (the native child bounds).
+        Rectangle laneRect = layoutFill.ClientRectangle;
+        if (laneRect.IsEmpty)
+        {
+            laneRect = wrapper.ClientRectangle;
+        }
 
+        Rectangle contentRect = layoutFill.FillRect;
         if (contentRect.IsEmpty)
         {
             contentRect = laneRect;
+        }
+        else
+        {
+            contentRect = Rectangle.Intersect(contentRect, laneRect);
+            if (contentRect.IsEmpty)
+            {
+                contentRect = laneRect;
+            }
         }
 
         return new NativeWrapperScrollbarLayout(laneRect, contentRect);
