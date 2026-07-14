@@ -10,7 +10,7 @@
 namespace Krypton.Toolkit.Utilities;
 
 /// <summary>
-/// Implement storage for a knob face-only palette state.
+/// Implement storage for a knob face and indicator palette state used during tracking and pressed feedback.
 /// </summary>
 public class PaletteKnobFaceStates : Storage
 {
@@ -22,7 +22,7 @@ public class PaletteKnobFaceStates : Storage
     /// <param name="needPaint">Delegate for notifying paint requests.</param>
     public PaletteKnobFaceStates(PaletteKnobRedirect redirect,
         NeedPaintHandler needPaint)
-        : this(redirect.Face, needPaint)
+        : this(redirect.Face, redirect.Indicator, needPaint)
     {
     }
 
@@ -30,14 +30,18 @@ public class PaletteKnobFaceStates : Storage
     /// Initialize a new instance of the PaletteKnobFaceStates class.
     /// </summary>
     /// <param name="inheritFace">Source for inheriting face values.</param>
+    /// <param name="inheritIndicator">Source for inheriting indicator values.</param>
     /// <param name="needPaint">Delegate for notifying paint requests.</param>
     public PaletteKnobFaceStates([DisallowNull] IPaletteElementColor inheritFace,
+        [DisallowNull] IPaletteElementColor inheritIndicator,
         NeedPaintHandler needPaint)
     {
         Debug.Assert(inheritFace != null);
+        Debug.Assert(inheritIndicator != null);
 
         NeedPaint = needPaint;
         Face = new PaletteElementColor(inheritFace!, needPaint);
+        Indicator = new PaletteElementColor(inheritIndicator!, needPaint);
     }
     #endregion
 
@@ -47,7 +51,8 @@ public class PaletteKnobFaceStates : Storage
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => Face.IsDefault;
+    public override bool IsDefault => Face.IsDefault &&
+                                      Indicator.IsDefault;
 
     #endregion
 
@@ -56,7 +61,13 @@ public class PaletteKnobFaceStates : Storage
     /// Sets the inheritance parent.
     /// </summary>
     /// <param name="inheritFace">Source for inheriting face values.</param>
-    public void SetInherit(IPaletteElementColor inheritFace) => Face.SetInherit(inheritFace);
+    /// <param name="inheritIndicator">Source for inheriting indicator values.</param>
+    public void SetInherit(IPaletteElementColor inheritFace,
+        IPaletteElementColor inheritIndicator)
+    {
+        Face.SetInherit(inheritFace);
+        Indicator.SetInherit(inheritIndicator);
+    }
 
     #endregion
 
@@ -65,7 +76,11 @@ public class PaletteKnobFaceStates : Storage
     /// Populate values from the base palette.
     /// </summary>
     /// <param name="state">Palette state to use when populating.</param>
-    public void PopulateFromBase(PaletteState state) => Face.PopulateFromBase(state);
+    public void PopulateFromBase(PaletteState state)
+    {
+        Face.PopulateFromBase(state);
+        Indicator.PopulateFromBase(state);
+    }
 
     #endregion
 
@@ -80,6 +95,20 @@ public class PaletteKnobFaceStates : Storage
     public PaletteElementColor Face { get; }
 
     private bool ShouldSerializeFace() => !Face.IsDefault;
+
+    #endregion
+
+    #region Indicator
+    /// <summary>
+    /// Gets access to the value indicator appearance.
+    /// </summary>
+    [KryptonPersist]
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining value indicator appearance.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteElementColor Indicator { get; }
+
+    private bool ShouldSerializeIndicator() => !Indicator.IsDefault;
 
     #endregion
 }
