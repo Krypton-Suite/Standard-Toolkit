@@ -245,6 +245,8 @@ public class KryptonForm : VisualForm,
 	private StatusStrip? _statusStrip;
 	private bool _mdiTransferred;
 	private Bitmap? _cacheBitmap;
+	// Reused across paints so the non-glass background fill does not allocate a brush every WM_PAINT (issue #3851).
+	private SolidBrush? _cacheBackBrush;
 	private Icon? _cacheIcon;
 	private Control? _activeControl;
 	private KryptonFormTitleStyle _titleStyle;
@@ -306,6 +308,7 @@ public class KryptonForm : VisualForm,
 		ButtonSpecMin = new ButtonSpecFormWindowMin(this);
 		ButtonSpecMax = new ButtonSpecFormWindowMax(this);
 		ButtonSpecClose = new ButtonSpecFormWindowClose(this);
+		ButtonSpecHelp = new ButtonSpecFormWindowHelp(this);
 		SyncFormFixedButtonSpecOrder();
 
 		// Create the palette storage
@@ -644,12 +647,20 @@ public class KryptonForm : VisualForm,
 				_cacheBitmap = null;
 			}
 
+			// Clear down the cached background brush
+			if (_cacheBackBrush != null)
+			{
+				_cacheBackBrush.Dispose();
+				_cacheBackBrush = null;
+			}
+
 			// Dispose of the system menu, which will in turn release any open handle in the listener
 			_kryptonSystemMenu?.Dispose();
 
 			ButtonSpecMin.Dispose();
 			ButtonSpecMax.Dispose();
 			ButtonSpecClose.Dispose();
+			ButtonSpecHelp.Dispose();
 
 			// Detach the title bar fully (unsubscribes events, revokes view element,
 			// clears SetOwnerForm, destructs the button manager, and disposes the docker).
@@ -934,6 +945,27 @@ public class KryptonForm : VisualForm,
 			if (base.CloseBox != value)
 			{
 				base.CloseBox = value;
+				_buttonManager.PerformNeedPaint(true);
+			}
+		}
+	}
+
+	/// <summary>
+	/// Toggles display of the help button.
+	/// </summary>
+	[DefaultValue(false)]
+	[Category("Window Style")]
+	[Description("Toggles display of the help button.")]
+	[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+	public new bool HelpButton
+	{
+		get => base.HelpButton;
+
+		set
+		{
+			if (base.HelpButton != value)
+			{
+				base.HelpButton = value;
 				_buttonManager.PerformNeedPaint(true);
 			}
 		}
@@ -1295,6 +1327,14 @@ public class KryptonForm : VisualForm,
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 	public ButtonSpecFormWindowClose ButtonSpecClose { get; }
+
+	/// <summary>
+	/// Gets access to the help button spec.
+	/// </summary>
+	[Browsable(false)]
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+	public ButtonSpecFormWindowHelp ButtonSpecHelp { get; }
 
 	/// <summary>
 	/// Gets and sets a value indicating if the border should be inert to changes.
@@ -1675,7 +1715,8 @@ public class KryptonForm : VisualForm,
 		var windowPoint = ScreenToWindow(screenPoint);
 
 		// Check if the point is over any of the control buttons
-		return _buttonManager.GetButtonRectangle(ButtonSpecMin).Contains(windowPoint) ||
+		return _buttonManager.GetButtonRectangle(ButtonSpecHelp).Contains(windowPoint) ||
+			   _buttonManager.GetButtonRectangle(ButtonSpecMin).Contains(windowPoint) ||
 			   _buttonManager.GetButtonRectangle(ButtonSpecMax).Contains(windowPoint) ||
 			   _buttonManager.GetButtonRectangle(ButtonSpecClose).Contains(windowPoint);
 	}
@@ -2268,6 +2309,17 @@ public class KryptonForm : VisualForm,
 			}
 
 			return new IntPtr(PI.HT.CLOSE);
+		}
+
+		if (_buttonManager.GetButtonRectangle(ButtonSpecHelp).Contains(pt))
+		{
+			ViewBase? viewBase = ViewManager?.Root.ViewFromPoint(pt);
+			if (viewBase?.FindMouseController() is ButtonController buttonController)
+			{
+				buttonController.NonClientAsNormal = true;
+			}
+
+			return new IntPtr(PI.HT.HELP);
 		}
 
 		if (_buttonManager.GetButtonRectangle(ButtonSpecMax).Contains(pt))
@@ -2868,10 +2920,10 @@ public class KryptonForm : VisualForm,
 			}
 			else if (MdiParent != null)
 			{
-				using var backBrush = new SolidBrush(MdiParent.ActiveMdiChild == MdiParent
+				Color mdiColor = MdiParent.ActiveMdiChild == MdiParent
 					? StateActive.Border.Color1
-					: StateInactive.Border.Color1);
-				g.FillRectangle(backBrush, rect); // Bug #????
+					: StateInactive.Border.Color1;
+				g.FillRectangle(GetCachedBackBrush(mdiColor), rect); // Bug #????
 			}
 			else if (TransparencyKey == GlobalStaticVariables.TRANSPARENCY_KEY_COLOR)
 			{
@@ -2879,9 +2931,7 @@ public class KryptonForm : VisualForm,
 			}
 			else
 			{
-				// TODO: Use a cached brush !
-				using var backBrush = new SolidBrush(TransparencyKey);
-				g.FillRectangle(backBrush, rect); // Bug #1749
+				g.FillRectangle(GetCachedBackBrush(TransparencyKey), rect); // Bug #1749
 			}
 
 			// We draw the main form and header background
@@ -2891,6 +2941,23 @@ public class KryptonForm : VisualForm,
 			// Perform actual painting of the view
 			ViewManager.Paint(Renderer, new PaintEventArgs(g, rect));
 		}
+	}
+
+	/// <summary>
+	/// Returns a reusable solid brush for the requested colour, only allocating a new
+	/// instance when the colour actually changes. Avoids a per-paint allocation on the
+	/// non-glass background fill path (issue #3851).
+	/// </summary>
+	/// <param name="color">Background colour to fill with.</param>
+	private SolidBrush GetCachedBackBrush(Color color)
+	{
+		if (_cacheBackBrush == null || _cacheBackBrush.Color != color)
+		{
+			_cacheBackBrush?.Dispose();
+			_cacheBackBrush = new SolidBrush(color);
+		}
+
+		return _cacheBackBrush;
 	}
 
 	private void UpdateRegionForMaximized()
@@ -3220,7 +3287,7 @@ public class KryptonForm : VisualForm,
         if (leftTrafficLights && !macCollectionOrder)
         {
             _buttonSpecsFixed.Clear();
-            _buttonSpecsFixed.AddRange([ButtonSpecMax, ButtonSpecMin, ButtonSpecClose]);
+            _buttonSpecsFixed.AddRange([ButtonSpecHelp, ButtonSpecMax, ButtonSpecMin, ButtonSpecClose]);
             _buttonManager.RecreateButtons();
         }
         else if (!leftTrafficLights && !windowsCollectionOrder)
@@ -3280,13 +3347,13 @@ public class KryptonForm : VisualForm,
 		_buttonSpecsFixed.Clear();
 		if (UsesLeftTrafficLightFormButtons())
 		{
-			// Near-edge traffic lights: collection [max, min, close] → Close → Min → Max along the bar.
-			_buttonSpecsFixed.AddRange([ButtonSpecMax, ButtonSpecMin, ButtonSpecClose]);
+			// Near-edge traffic lights: collection [help, max, min, close] → Close → Min → Max along the bar.
+			_buttonSpecsFixed.AddRange([ButtonSpecHelp, ButtonSpecMax, ButtonSpecMin, ButtonSpecClose]);
 		}
 		else
 		{
 			// Standard Office / Far-edge control box (including macOS + FormTrafficLightEdge = Far).
-			_buttonSpecsFixed.AddRange([ButtonSpecMin, ButtonSpecMax, ButtonSpecClose]);
+			_buttonSpecsFixed.AddRange([ButtonSpecHelp, ButtonSpecMin, ButtonSpecMax, ButtonSpecClose]);
 		}
 	}
 

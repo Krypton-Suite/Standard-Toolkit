@@ -55,31 +55,14 @@ public class KryptonStandardRenderer : KryptonProfessionalRenderer
     /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
     protected override void OnRenderToolStripBackground(ToolStripRenderEventArgs e)
     {
-        // Make sure the font is current
+        SyncToolStripFont(e.ToolStrip);
+
         switch (e.ToolStrip)
         {
-            case MenuStrip _:
-            case ContextMenuStrip _:
-            case ToolStripDropDown _:
-                if (e.ToolStrip.Font != KCT.MenuStripFont)
-                {
-                    e.ToolStrip.Font = KCT.MenuStripFont;
-                }
-                break;
             case StatusStrip _:
                 if (TryRenderStatusStripOverride(e, e.Graphics))
                 {
                     return;
-                }
-                if (e.ToolStrip.Font != KCT.StatusStripFont)
-                {
-                    e.ToolStrip.Font = KCT.StatusStripFont;
-                }
-                break;
-            case ToolStrip _:
-                if (e.ToolStrip.Font != KCT.ToolStripFont)
-                {
-                    e.ToolStrip.Font = KCT.ToolStripFont;
                 }
                 break;
         }

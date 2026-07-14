@@ -4,6 +4,9 @@
 # KILL-SWITCH: To disable this workflow, set repository variable NIGHTLY_DISABLED=true
 # Location: Repository Settings → Secrets and variables → Actions → Variables tab
 # To re-enable: Set NIGHTLY_DISABLED=false or delete the variable
+#
+# SKIP CHANGE CHECK: Set repository variable SKIP_NIGHTLY_24_HOUR_CHECK=true to always force a nightly
+# build (scheduled or manual), or enable the skip_change_check workflow_dispatch input for a one-off run.
 
 name: Nightly Release
 
@@ -15,6 +18,11 @@ on:
     # Run nightly build automatically at midnight UTC every day
     - cron: '0 0 * * *'
   workflow_dispatch:  # Allow manual triggering for testing
+    inputs:
+      skip_change_check:
+        description: Skip the last-24-hours change check and force a nightly build
+        type: boolean
+        default: false
 
 jobs:
   nightly:
@@ -117,8 +125,18 @@ jobs:
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         id: check_changes
         shell: pwsh
+        env:
+          SKIP_CHANGE_CHECK_INPUT: ${{ github.event_name == 'workflow_dispatch' && inputs.skip_change_check == true && 'true' || 'false' }}
+          SKIP_NIGHTLY_24_HOUR_CHECK: ${{ vars.SKIP_NIGHTLY_24_HOUR_CHECK }}
         run: |
           $ErrorActionPreference = 'Stop'
+
+          if ($env:SKIP_CHANGE_CHECK_INPUT -eq 'true' -or $env:SKIP_NIGHTLY_24_HOUR_CHECK -eq 'true') {
+            $reason = if ($env:SKIP_CHANGE_CHECK_INPUT -eq 'true') { 'workflow_dispatch input' } else { 'SKIP_NIGHTLY_24_HOUR_CHECK=true' }
+            Write-Host "Change check skipped via $reason - forcing nightly build"
+            echo "has_changes=true" >> $env:GITHUB_OUTPUT
+            exit 0
+          }
 
           # Get commits from last 24 hours on alpha branch
           $yesterday = (Get-Date).AddDays(-1).ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss")
