@@ -45,13 +45,14 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
-* Implemented optional vertical layout for `KryptonToggleSwitch` via `ToggleSwitchValues.Orientation`.
-   * Horizontal remains the default (off left, on right). Vertical moves the knob top (off) to bottom (on) and works best with a tall, narrow control size.
 * Implemented [#3890](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3890), Different knob styles for `KryptonToggleSwitch`
    * Added selectable knob styles for `KryptonToggleSwitch`, including classic, gradient, flat, radial, ring, bevel, rounded-square, square, grip, chevron, indicator, thin-track, pill, and metallic rendering.
    * Added optional track check/cross icons via `ToggleSwitchValues.ShowTrackIcons`.
-   * Added optional knob pulse animation via `ToggleSwitchValues.EnableKnobPulse`, with `KnobPulseSpeed` and `KnobPulseIntensity` controls.
-   * Chevron knob glyph size is configurable via `ToggleSwitchValues.KnobChevronGlyphSize`; optional knob gradient uses `EnableKnobGradient`.
+   * Added optional knob pulse animation via `ToggleSwitchValues.Pulse` (`Enable`, `Speed`, `Intensity`).
+   * Chevron knob glyph size is configurable via `ToggleSwitchValues.Chevron.GlyphSize`; optional knob gradient uses `ToggleSwitchValues.Gradient`.
+   * **[Breaking Change]** `ToggleSwitchValues` gradient, pulse, and chevron settings are grouped under expandable `Gradient`, `Pulse`, and `Chevron` objects. Obsolete pass-through properties remain for migration.
+* Implemented optional vertical layout for `KryptonToggleSwitch` via `ToggleSwitchValues.Orientation`.
+   * Horizontal remains the default (off left, on right). Vertical moves the knob top (off) to bottom (on) and works best with a tall, narrow control size.
 * Resolved [#3879](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3879), When the `KryptonComboBox` initializes in a disabled state, it displays using default system colors
    * `KryptonComboBox` now displays theme disabled colors when initialized in a disabled state.
 * Implemented [#3807](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3807), `KryptonKnob` control

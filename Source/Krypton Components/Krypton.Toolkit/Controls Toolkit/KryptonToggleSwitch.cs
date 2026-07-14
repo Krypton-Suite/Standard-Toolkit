@@ -885,8 +885,8 @@ public class KryptonToggleSwitch : Control, IContentValues
     }
 
     private bool ShouldRunPulseAnimation() =>
-        ToggleSwitchValues.EnableKnobPulse &&
-        ToggleSwitchValues.KnobPulseIntensity > float.Epsilon &&
+        ToggleSwitchValues.Pulse.Enable &&
+        ToggleSwitchValues.Pulse.Intensity > float.Epsilon &&
         Enabled &&
         Visible;
 
@@ -896,7 +896,7 @@ public class KryptonToggleSwitch : Control, IContentValues
     private RectangleF GetPulsedKnobRectangle(RectangleF knob)
     {
         float pulse = GetKnobPulseFactor();
-        float intensity = ToggleSwitchValues.KnobPulseIntensity;
+        float intensity = ToggleSwitchValues.Pulse.Intensity;
         float scale = 1f + pulse * 0.08f * intensity;
         float centerX = knob.X + knob.Width / 2f;
         float centerY = knob.Y + knob.Height / 2f;
@@ -909,7 +909,7 @@ public class KryptonToggleSwitch : Control, IContentValues
     private void DrawKnobPulseGlow(Graphics graphics, Color pulseColor)
     {
         float pulse = GetKnobPulseFactor();
-        float intensity = ToggleSwitchValues.KnobPulseIntensity;
+        float intensity = ToggleSwitchValues.Pulse.Intensity;
         float expansion = 1f + pulse * (6f * intensity + 2f);
         int alpha = (int)(35 + pulse * 145 * intensity);
 
@@ -969,8 +969,8 @@ public class KryptonToggleSwitch : Control, IContentValues
 
     private void ResolveKnobColors(IPaletteTriple state, out Color faceColor1, out Color faceColor2, out Color borderColor, out Color trackColor)
     {
-        float progress = ToggleSwitchValues.AnimateGradientEffect ? _gradientAnimationProgress : ToggleSwitchValues.Checked ? 1f : 0f;
-        bool useGradient = ToggleSwitchValues.EnableKnobGradient || ToggleSwitchValues.KnobStyle == ToggleSwitchKnobStyle.Gradient;
+        float progress = ToggleSwitchValues.Gradient.Animate ? _gradientAnimationProgress : ToggleSwitchValues.Checked ? 1f : 0f;
+        bool useGradient = ToggleSwitchValues.Gradient.Enable || ToggleSwitchValues.KnobStyle == ToggleSwitchKnobStyle.Gradient;
 
         if (useGradient)
         {
@@ -999,8 +999,8 @@ public class KryptonToggleSwitch : Control, IContentValues
                 faceColor2 = InterpolateColor(ToggleSwitchValues.OffColor, ToggleSwitchValues.OnColor, progress);
             }
 
-            faceColor1 = ApplyGradientIntensity(faceColor1, ToggleSwitchValues.GradientStartIntensity);
-            faceColor2 = ApplyGradientIntensity(faceColor2, ToggleSwitchValues.GradientEndIntensity);
+            faceColor1 = ApplyGradientIntensity(faceColor1, ToggleSwitchValues.Gradient.StartIntensity);
+            faceColor2 = ApplyGradientIntensity(faceColor2, ToggleSwitchValues.Gradient.EndIntensity);
         }
         else
         {
@@ -1024,7 +1024,7 @@ public class KryptonToggleSwitch : Control, IContentValues
     }
 
     private bool UsesKnobGradient() =>
-        ToggleSwitchValues.EnableKnobGradient || ToggleSwitchValues.KnobStyle == ToggleSwitchKnobStyle.Gradient;
+        ToggleSwitchValues.Gradient.Enable || ToggleSwitchValues.KnobStyle == ToggleSwitchKnobStyle.Gradient;
 
     private Color ResolveSolidKnobColor(IPaletteTriple state)
     {
@@ -1056,7 +1056,7 @@ public class KryptonToggleSwitch : Control, IContentValues
 
     private void DrawGradientKnob(Graphics graphics, Color faceColor1, Color faceColor2, Color borderColor, bool drawBorder = true)
     {
-        using (LinearGradientBrush knobBrush = new LinearGradientBrush(_knob, faceColor1, faceColor2, ToggleSwitchValues.GradientDirection))
+        using (LinearGradientBrush knobBrush = new LinearGradientBrush(_knob, faceColor1, faceColor2, ToggleSwitchValues.Gradient.Direction))
         {
             graphics.FillEllipse(knobBrush, _knob);
         }
@@ -1128,7 +1128,7 @@ public class KryptonToggleSwitch : Control, IContentValues
     {
         Color gradientEnd = UsesKnobGradient() ? faceColor2 : DarkenColor(faceColor1, 22);
 
-        using (LinearGradientBrush faceBrush = new LinearGradientBrush(_knob, faceColor1, gradientEnd, ToggleSwitchValues.GradientDirection))
+        using (LinearGradientBrush faceBrush = new LinearGradientBrush(_knob, faceColor1, gradientEnd, ToggleSwitchValues.Gradient.Direction))
         {
             graphics.FillEllipse(faceBrush, _knob);
         }
@@ -1177,7 +1177,7 @@ public class KryptonToggleSwitch : Control, IContentValues
     {
         if (UsesKnobGradient())
         {
-            using (LinearGradientBrush knobBrush = new LinearGradientBrush(_knob, faceColor1, faceColor2, ToggleSwitchValues.GradientDirection))
+            using (LinearGradientBrush knobBrush = new LinearGradientBrush(_knob, faceColor1, faceColor2, ToggleSwitchValues.Gradient.Direction))
             {
                 graphics.FillPath(knobBrush, knobPath);
             }
@@ -1231,14 +1231,14 @@ public class KryptonToggleSwitch : Control, IContentValues
     private int ResolveKnobChevronGlyphSize(Rectangle knobRect)
     {
         int available = Math.Min(knobRect.Width, knobRect.Height);
-        return Math.Max(4, (int)(available * ToggleSwitchValues.KnobChevronGlyphSize));
+        return Math.Max(4, (int)(available * ToggleSwitchValues.Chevron.GlyphSize));
     }
 
     private DropDownArrowGlyphDirection ResolveChevronGlyphDirection()
     {
         if (IsVerticalLayout())
         {
-            switch (ToggleSwitchValues.KnobChevronDirection)
+            switch (ToggleSwitchValues.Chevron.Direction)
             {
                 case ToggleSwitchChevronDirection.Left:
                     return DropDownArrowGlyphDirection.Up;
@@ -1252,7 +1252,7 @@ public class KryptonToggleSwitch : Control, IContentValues
         }
 
         bool pointRight;
-        switch (ToggleSwitchValues.KnobChevronDirection)
+        switch (ToggleSwitchValues.Chevron.Direction)
         {
             case ToggleSwitchChevronDirection.Left:
                 pointRight = false;
@@ -1703,7 +1703,7 @@ public class KryptonToggleSwitch : Control, IContentValues
 
         if (ShouldRunPulseAnimation())
         {
-            _pulseAnimationPhase += PulsePhaseStep * ToggleSwitchValues.KnobPulseSpeed;
+            _pulseAnimationPhase += PulsePhaseStep * ToggleSwitchValues.Pulse.Speed;
             if (_pulseAnimationPhase > 1f)
             {
                 _pulseAnimationPhase -= 1f;
@@ -1734,9 +1734,7 @@ public class KryptonToggleSwitch : Control, IContentValues
             StartAnimation();
             CheckedChanged?.Invoke(this, EventArgs.Empty);
         }
-        else if (e.PropertyName == nameof(ToggleSwitchValues.EnableKnobPulse)
-                 || e.PropertyName == nameof(ToggleSwitchValues.KnobPulseSpeed)
-                 || e.PropertyName == nameof(ToggleSwitchValues.KnobPulseIntensity))
+        else if (e.PropertyName == nameof(ToggleSwitchValues.Pulse))
         {
             UpdatePulseAnimationState();
         }

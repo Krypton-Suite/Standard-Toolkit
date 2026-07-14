@@ -12,6 +12,9 @@
 
 namespace Krypton.Toolkit;
 
+/// <summary>
+/// Storage for <see cref="KryptonToggleSwitch"/> appearance and behaviour settings.
+/// </summary>
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
 {
@@ -19,25 +22,18 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
 
     private bool _checked;
     private bool _enableEmbossEffect;
-    private bool _animateGradientEffect;
-    private bool _enableKnobGradient;
-    private bool _enableKnobPulse;
     private bool _onlyShowColorOnKnob;
     private bool _showText;
     private bool _showTrackIcons;
-    private float _gradientStartIntensity;
-    private float _gradientEndIntensity;
-    private float _knobPulseSpeed;
-    private float _knobPulseIntensity;
-    private LinearGradientMode _gradientDirection;
     private Color _onColor;
     private Color _offColor;
     private int _cornerRadius;
     private bool _useThemeColors;
     private ToggleSwitchKnobStyle _knobStyle;
-    private ToggleSwitchChevronDirection _knobChevronDirection;
-    private float _knobChevronGlyphSize;
     private ToggleSwitchOrientation _orientation;
+    private readonly ToggleSwitchGradientValues _gradient;
+    private readonly ToggleSwitchPulseValues _pulse;
+    private readonly ToggleSwitchChevronValues _chevron;
 
     #endregion
 
@@ -46,28 +42,19 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
     /// <summary>Initializes a new instance of the <see cref="ToggleSwitchValues" /> class.</summary>
     public ToggleSwitchValues()
     {
-        _checked = false;
-        _enableEmbossEffect = false;
-        _animateGradientEffect = false;
-        _enableKnobGradient = false;
-        _enableKnobPulse = false;
-        _onlyShowColorOnKnob = true;
-        _showText = true;
-        _showTrackIcons = false;
-        _gradientStartIntensity = 0.8f;
-        _gradientEndIntensity = 0.6f;
-        _knobPulseSpeed = 1f;
-        _knobPulseIntensity = 0.5f;
-        _gradientDirection = LinearGradientMode.ForwardDiagonal;
-        _onColor = Color.Green;
-        _offColor = Color.Red;
-        _cornerRadius = 10;
-        _useThemeColors = true;
-        _knobStyle = ToggleSwitchKnobStyle.Classic;
-        _knobChevronDirection = ToggleSwitchChevronDirection.Auto;
-        _knobChevronGlyphSize = 0.62f;
-        _orientation = ToggleSwitchOrientation.Horizontal;
+        _gradient = new ToggleSwitchGradientValues();
+        _pulse = new ToggleSwitchPulseValues();
+        _chevron = new ToggleSwitchChevronValues();
+
+        _gradient.PropertyChanged += OnChildPropertyChanged;
+        _pulse.PropertyChanged += OnChildPropertyChanged;
+        _chevron.PropertyChanged += OnChildPropertyChanged;
+
+        Reset();
     }
+
+    /// <inheritdoc />
+    public override string ToString() => !IsDefault ? "Modified" : GlobalStaticVariables.DEFAULT_EMPTY_STRING;
 
     #endregion
 
@@ -78,18 +65,9 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
 
     #endregion
 
-    #region Event Handler
-
-    /// <summary>Called when [property changed].</summary>
-    /// <param name="propertyName">Name of the property.</param>
-    protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
-    #endregion
-
     #region Public
 
     /// <summary>Gets or sets a value indicating whether the toggle switch is checked.</summary>
-    /// <value><c>true</c> if checked; otherwise, <c>false</c>.</value>
     [Category("Behavior")]
     [Description("Indicates whether the toggle switch is checked.")]
     [DefaultValue(false)]
@@ -107,8 +85,7 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
         }
     }
 
-    /// <summary>Gets or sets a value indicating whether [enable emboss effect].</summary>
-    /// <value><c>true</c> if [enable emboss effect]; otherwise, <c>false</c>.</value>
+    /// <summary>Gets or sets a value indicating whether the emboss effect should be applied.</summary>
     [Category("Appearance")]
     [Description("Indicates whether the emboss effect should be applied.")]
     [DefaultValue(false)]
@@ -126,94 +103,40 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
         }
     }
 
+    /// <summary>Gets access to knob gradient settings.</summary>
     [Category("Appearance")]
-    [Description("Indicates whether the gradient effect should be animated.")]
-    [DefaultValue(false)]
-    public bool AnimateGradientEffect
-    {
-        get => _animateGradientEffect;
-        set
-        {
-            if (_animateGradientEffect != value)
-            {
-                _animateGradientEffect = value;
-                OnPropertyChanged(nameof(AnimateGradientEffect));
-            }
-        }
-    }
+    [Description("Storage for knob gradient settings.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public ToggleSwitchGradientValues Gradient => _gradient;
 
-    /// <summary>Gets or sets a value indicating whether [enable knob gradient].</summary>
-    /// <value><c>true</c> if [enable knob gradient]; otherwise, <c>false</c>.</value>
+    private bool ShouldSerializeGradient() => !Gradient.IsDefault;
+
+    /// <summary>Resets the Gradient property to its default value.</summary>
+    public void ResetGradient() => Gradient.Reset();
+
+    /// <summary>Gets access to knob pulse animation settings.</summary>
     [Category("Appearance")]
-    [Description("Indicates whether the knob should have a gradient effect. Also applies to Classic, Bevel, Ring, RoundedSquare, Square, Grip, Chevron, and Indicator styles.")]
-    [DefaultValue(false)]
-    public bool EnableKnobGradient
-    {
-        get => _enableKnobGradient;
-        set
-        {
-            if (_enableKnobGradient != value)
-            {
-                _enableKnobGradient = value;
-                OnPropertyChanged(nameof(EnableKnobGradient));
-            }
-        }
-    }
+    [Description("Storage for knob pulse animation settings.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public ToggleSwitchPulseValues Pulse => _pulse;
 
-    /// <summary>Gets or sets a value indicating whether the knob should pulse while the control is enabled and visible.</summary>
+    private bool ShouldSerializePulse() => !Pulse.IsDefault;
+
+    /// <summary>Resets the Pulse property to its default value.</summary>
+    public void ResetPulse() => Pulse.Reset();
+
+    /// <summary>Gets access to Chevron knob glyph settings.</summary>
     [Category("Appearance")]
-    [Description("Indicates whether the knob should pulse while the control is enabled and visible.")]
-    [DefaultValue(false)]
-    public bool EnableKnobPulse
-    {
-        get => _enableKnobPulse;
-        set
-        {
-            if (_enableKnobPulse != value)
-            {
-                _enableKnobPulse = value;
-                OnPropertyChanged(nameof(EnableKnobPulse));
-            }
-        }
-    }
+    [Description("Storage for Chevron knob glyph settings.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public ToggleSwitchChevronValues Chevron => _chevron;
 
-    /// <summary>Gets or sets the knob pulse animation speed multiplier.</summary>
-    [Category("Appearance")]
-    [Description("Knob pulse animation speed multiplier. 1 is the default speed; values greater than 1 animate faster and values less than 1 animate slower.")]
-    [DefaultValue(1f)]
-    public float KnobPulseSpeed
-    {
-        get => _knobPulseSpeed;
-        set
-        {
-            float speed = Math.Max(0.1f, Math.Min(10f, value));
-            if (Math.Abs(_knobPulseSpeed - speed) > float.Epsilon)
-            {
-                _knobPulseSpeed = speed;
-                OnPropertyChanged(nameof(KnobPulseSpeed));
-            }
-        }
-    }
+    private bool ShouldSerializeChevron() => !Chevron.IsDefault;
 
-    /// <summary>Gets or sets the knob pulse intensity.</summary>
-    [Category("Appearance")]
-    [Description("Specifies how strong the knob pulse effect is. 0 is the minimum intensity; 1 is the maximum intensity.")]
-    [DefaultValue(0.5f)]
-    public float KnobPulseIntensity
-    {
-        get => _knobPulseIntensity;
-        set
-        {
-            float intensity = Math.Max(0f, Math.Min(1f, value));
-            if (Math.Abs(_knobPulseIntensity - intensity) > float.Epsilon)
-            {
-                _knobPulseIntensity = intensity;
-                OnPropertyChanged(nameof(KnobPulseIntensity));
-            }
-        }
-    }
+    /// <summary>Resets the Chevron property to its default value.</summary>
+    public void ResetChevron() => Chevron.Reset();
 
-    /// <summary>Gets or sets a value indicating whether [show color only on knob].</summary>
+    /// <summary>Gets or sets a value indicating whether OnColor and OffColor apply to the knob when theme colours are enabled.</summary>
     [Category("Appearance")]
     [Description("When true, OnColor and OffColor are applied to the knob even if UseThemeColors is enabled.")]
     [DefaultValue(true)]
@@ -230,7 +153,7 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
         }
     }
 
-    /// <summary>Gets or sets a value indicating whether [show text].</summary>
+    /// <summary>Gets or sets a value indicating whether On/Off text should be shown.</summary>
     [Category("Appearance")]
     [Description("Indicates whether the text should be shown.")]
     [DefaultValue(true)]
@@ -264,62 +187,7 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
         }
     }
 
-    /// <summary>Gets or sets the gradient start intensity.</summary>
-    /// <value>The gradient start intensity.</value>
-    [Category("Appearance")]
-    [Description("Specifies the gradient intensity applied to the start color of the knob gradient.")]
-    [DefaultValue(0.8f)]
-    public float GradientStartIntensity
-    {
-        get => _gradientStartIntensity;
-        set
-        {
-            if (_gradientStartIntensity != value)
-            {
-                _gradientStartIntensity = value;
-                OnPropertyChanged(nameof(GradientStartIntensity));
-            }
-        }
-    }
-
-    /// <summary>Gets or sets the gradient end intensity.</summary>
-    /// <value>The gradient end intensity.</value>
-    [Category("Appearance")]
-    [Description("Specifies the gradient intensity applied to the end color of the knob gradient.")]
-    [DefaultValue(0.6f)]
-    public float GradientEndIntensity
-    {
-        get => _gradientEndIntensity;
-        set
-        {
-            if (_gradientEndIntensity != value)
-            {
-                _gradientEndIntensity = value;
-                OnPropertyChanged(nameof(GradientEndIntensity));
-            }
-        }
-    }
-
-    /// <summary>Gets or sets the gradient direction.</summary>
-    /// <value>The gradient direction.</value>
-    [Category("Appearance")]
-    [Description("Specifies the direction of the gradient.")]
-    [DefaultValue(LinearGradientMode.ForwardDiagonal)]
-    public LinearGradientMode GradientDirection
-    {
-        get => _gradientDirection;
-        set
-        {
-            if (_gradientDirection != value)
-            {
-                _gradientDirection = value;
-                OnPropertyChanged(nameof(GradientDirection));
-            }
-        }
-    }
-
     /// <summary>Gets or sets the color when on.</summary>
-    /// <value>The color when on.</value>
     [Category("Appearance")]
     [Description("Specifies the color when the switch is on.")]
     [DefaultValue(typeof(Color), "Green")]
@@ -337,7 +205,6 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
     }
 
     /// <summary>Gets or sets the color when off.</summary>
-    /// <value>The color when off.</value>
     [Category("Appearance")]
     [Description("Specifies the color when the switch is off.")]
     [DefaultValue(typeof(Color), "Red")]
@@ -354,6 +221,7 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
         }
     }
 
+    /// <summary>Gets or sets the corner radius of the switch.</summary>
     [Category("Appearance")]
     [Description("Specifies the corner radius of the switch.")]
     [DefaultValue(10)]
@@ -380,6 +248,7 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
         }
     }
 
+    /// <summary>Gets or sets a value indicating whether to use theme colors.</summary>
     [Category("Appearance")]
     [Description("Indicates whether to use theme colors.")]
     [DefaultValue(true)]
@@ -413,41 +282,6 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
         }
     }
 
-    /// <summary>Gets or sets the direction of chevron glyphs on a <see cref="ToggleSwitchKnobStyle.Chevron"/> knob.</summary>
-    [Category("Appearance")]
-    [Description("Specifies the direction of arrow glyphs on a Chevron knob. Auto points toward the checked position. Uses the same arrow glyphs as Krypton input controls.")]
-    [DefaultValue(ToggleSwitchChevronDirection.Auto)]
-    public ToggleSwitchChevronDirection KnobChevronDirection
-    {
-        get => _knobChevronDirection;
-        set
-        {
-            if (_knobChevronDirection != value)
-            {
-                _knobChevronDirection = value;
-                OnPropertyChanged(nameof(KnobChevronDirection));
-            }
-        }
-    }
-
-    /// <summary>Gets or sets the chevron glyph size as a fraction of the knob size.</summary>
-    [Category("Appearance")]
-    [Description("Specifies the chevron glyph size on a Chevron knob as a fraction of the knob size. 1 uses the full knob size.")]
-    [DefaultValue(0.62f)]
-    public float KnobChevronGlyphSize
-    {
-        get => _knobChevronGlyphSize;
-        set
-        {
-            float size = Math.Max(0.2f, Math.Min(1f, value));
-            if (Math.Abs(_knobChevronGlyphSize - size) > float.Epsilon)
-            {
-                _knobChevronGlyphSize = size;
-                OnPropertyChanged(nameof(KnobChevronGlyphSize));
-            }
-        }
-    }
-
     /// <summary>Gets or sets whether the switch lays out horizontally or vertically.</summary>
     [Category("Appearance")]
     [Description("Specifies whether the knob travels horizontally (left/right) or vertically (top/bottom). Vertical layouts work best with a tall, narrow control size.")]
@@ -467,21 +301,139 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
 
     #endregion
 
+    #region Compatibility Wrappers
+
+    /// <summary>Gets or sets whether the gradient effect should be animated.</summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use Gradient.Animate instead.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public bool AnimateGradientEffect
+    {
+        get => Gradient.Animate;
+        set => Gradient.Animate = value;
+    }
+
+    /// <summary>Gets or sets whether the knob should have a gradient effect.</summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use Gradient.Enable instead.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public bool EnableKnobGradient
+    {
+        get => Gradient.Enable;
+        set => Gradient.Enable = value;
+    }
+
+    /// <summary>Gets or sets the gradient start intensity.</summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use Gradient.StartIntensity instead.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public float GradientStartIntensity
+    {
+        get => Gradient.StartIntensity;
+        set => Gradient.StartIntensity = value;
+    }
+
+    /// <summary>Gets or sets the gradient end intensity.</summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use Gradient.EndIntensity instead.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public float GradientEndIntensity
+    {
+        get => Gradient.EndIntensity;
+        set => Gradient.EndIntensity = value;
+    }
+
+    /// <summary>Gets or sets the gradient direction.</summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use Gradient.Direction instead.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public LinearGradientMode GradientDirection
+    {
+        get => Gradient.Direction;
+        set => Gradient.Direction = value;
+    }
+
+    /// <summary>Gets or sets whether the knob should pulse.</summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use Pulse.Enable instead.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public bool EnableKnobPulse
+    {
+        get => Pulse.Enable;
+        set => Pulse.Enable = value;
+    }
+
+    /// <summary>Gets or sets the knob pulse animation speed multiplier.</summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use Pulse.Speed instead.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public float KnobPulseSpeed
+    {
+        get => Pulse.Speed;
+        set => Pulse.Speed = value;
+    }
+
+    /// <summary>Gets or sets the knob pulse intensity.</summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use Pulse.Intensity instead.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public float KnobPulseIntensity
+    {
+        get => Pulse.Intensity;
+        set => Pulse.Intensity = value;
+    }
+
+    /// <summary>Gets or sets the direction of chevron glyphs on a Chevron knob.</summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use Chevron.Direction instead.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public ToggleSwitchChevronDirection KnobChevronDirection
+    {
+        get => Chevron.Direction;
+        set => Chevron.Direction = value;
+    }
+
+    /// <summary>Gets or sets the chevron glyph size as a fraction of the knob size.</summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use Chevron.GlyphSize instead.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public float KnobChevronGlyphSize
+    {
+        get => Chevron.GlyphSize;
+        set => Chevron.GlyphSize = value;
+    }
+
+    #endregion
+
     #region IsDefault
 
     /// <summary>Gets a value indicating whether this instance is default.</summary>
-    /// <value><c>true</c> if this instance is default; otherwise, <c>false</c>.</value>
     [Browsable(false)]
-    public bool IsDefault => !_checked && !_enableEmbossEffect && !_enableKnobGradient && !_enableKnobPulse &&
-                             _gradientStartIntensity.Equals(0.8f) &&
-                             _gradientEndIntensity.Equals(0.6f) &&
-                             Math.Abs(_knobPulseSpeed - 1f) < float.Epsilon &&
-                             Math.Abs(_knobPulseIntensity - 0.5f) < float.Epsilon &&
-                             _gradientDirection == LinearGradientMode.ForwardDiagonal && _onColor == Color.Green &&
-                             _offColor == Color.Red && _cornerRadius == 10 && _useThemeColors &&
-                             _knobStyle == ToggleSwitchKnobStyle.Classic &&
-                             Math.Abs(_knobChevronGlyphSize - 0.62f) < float.Epsilon &&
-                             _orientation == ToggleSwitchOrientation.Horizontal;
+    public bool IsDefault =>
+        !_checked &&
+        !_enableEmbossEffect &&
+        Gradient.IsDefault &&
+        Pulse.IsDefault &&
+        Chevron.IsDefault &&
+        _onlyShowColorOnKnob &&
+        _showText &&
+        !_showTrackIcons &&
+        _onColor == Color.Green &&
+        _offColor == Color.Red &&
+        _cornerRadius == 10 &&
+        _useThemeColors &&
+        _knobStyle == ToggleSwitchKnobStyle.Classic &&
+        _orientation == ToggleSwitchOrientation.Horizontal;
 
     #endregion
 
@@ -492,29 +444,44 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
     {
         Checked = false;
         EnableEmbossEffect = false;
-        AnimateGradientEffect = false;
-        EnableKnobGradient = false;
-        EnableKnobPulse = false;
-        KnobPulseSpeed = 1f;
-        KnobPulseIntensity = 0.5f;
+        ResetGradient();
+        ResetPulse();
+        ResetChevron();
         OnlyShowColorOnKnob = true;
         ShowText = true;
         ShowTrackIcons = false;
-        GradientStartIntensity = 0.8f;
-        GradientEndIntensity = 0.6f;
-        GradientDirection = LinearGradientMode.ForwardDiagonal;
         OnColor = Color.Green;
         OffColor = Color.Red;
         CornerRadius = 10;
         UseThemeColors = true;
         KnobStyle = ToggleSwitchKnobStyle.Classic;
-        KnobChevronDirection = ToggleSwitchChevronDirection.Auto;
-        KnobChevronGlyphSize = 0.62f;
         Orientation = ToggleSwitchOrientation.Horizontal;
     }
 
     #endregion
 
-    /// <inheritdoc />
-    public override string ToString() => !IsDefault ? "Modified" : GlobalStaticVariables.DEFAULT_EMPTY_STRING;
+    #region Implementation
+
+    /// <summary>Called when a property value changes.</summary>
+    /// <param name="propertyName">Name of the property.</param>
+    protected void OnPropertyChanged(string propertyName) =>
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+    private void OnChildPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (ReferenceEquals(sender, _gradient))
+        {
+            OnPropertyChanged(nameof(Gradient));
+        }
+        else if (ReferenceEquals(sender, _pulse))
+        {
+            OnPropertyChanged(nameof(Pulse));
+        }
+        else if (ReferenceEquals(sender, _chevron))
+        {
+            OnPropertyChanged(nameof(Chevron));
+        }
+    }
+
+    #endregion
 }

@@ -28,7 +28,7 @@ public partial class ToggleSwitchTest : KryptonForm
             Dock = DockStyle.Top,
             Height = 88,
             LabelStyle = LabelStyle.NormalPanel,
-            Text = "Issue #3890: compare knob styles. Chevron: adjust KnobChevronGlyphSize (0.2-1) and EnableKnobGradient for optional knob fill gradient. Set OnColor/OffColor for track/knob colours.",
+            Text = "Issue #3890: compare knob styles. Nested settings: Gradient, Pulse, and Chevron expand under ToggleSwitchValues. Chevron: adjust Chevron.GlyphSize (0.2-1) and Gradient.Enable for optional knob fill gradient.",
             TextAlign = ContentAlignment.MiddleLeft
         };
 
@@ -151,11 +151,11 @@ public partial class ToggleSwitchTest : KryptonForm
         toggleSwitch.Size = new Size(140, 44);
         toggleSwitch.ToggleSwitchValues.KnobStyle = style;
         toggleSwitch.ToggleSwitchValues.OnlyShowColorOnKnob = true;
-        toggleSwitch.ToggleSwitchValues.EnableKnobGradient = style == ToggleSwitchKnobStyle.Gradient
+        toggleSwitch.ToggleSwitchValues.Gradient.Enable = style == ToggleSwitchKnobStyle.Gradient
             || style == ToggleSwitchKnobStyle.Pill
             || style == ToggleSwitchKnobStyle.Chevron;
-        toggleSwitch.ToggleSwitchValues.AnimateGradientEffect = style == ToggleSwitchKnobStyle.Gradient;
-        toggleSwitch.ToggleSwitchValues.EnableKnobPulse = style == ToggleSwitchKnobStyle.Classic;
+        toggleSwitch.ToggleSwitchValues.Gradient.Animate = style == ToggleSwitchKnobStyle.Gradient;
+        toggleSwitch.ToggleSwitchValues.Pulse.Enable = style == ToggleSwitchKnobStyle.Classic;
         toggleSwitch.ToggleSwitchValues.ShowText = style != ToggleSwitchKnobStyle.ThinTrack
             && style != ToggleSwitchKnobStyle.Metallic;
         toggleSwitch.ToggleSwitchValues.ShowTrackIcons = style == ToggleSwitchKnobStyle.Metallic;
@@ -177,7 +177,7 @@ public partial class ToggleSwitchTest : KryptonForm
 
     private void UpdateStatusText()
     {
-        kryptonWrapLabel1.Text = $@"Selected switch: Checked = {ktsTest.ToggleSwitchValues.Checked}, Orientation = {ktsTest.ToggleSwitchValues.Orientation}, KnobStyle = {ktsTest.ToggleSwitchValues.KnobStyle}, EnableKnobPulse = {ktsTest.ToggleSwitchValues.EnableKnobPulse}";
+        kryptonWrapLabel1.Text = $@"Selected switch: Checked = {ktsTest.ToggleSwitchValues.Checked}, Orientation = {ktsTest.ToggleSwitchValues.Orientation}, KnobStyle = {ktsTest.ToggleSwitchValues.KnobStyle}, Pulse.Enable = {ktsTest.ToggleSwitchValues.Pulse.Enable}";
     }
 
     private void kbtnCancel_Click(object sender, EventArgs e)
