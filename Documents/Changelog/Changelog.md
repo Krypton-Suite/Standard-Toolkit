@@ -45,6 +45,8 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#1297](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1297), Context, Menu, Status and Tool Strip fonts don't follow Krypton's
+   * Context, menu, status, and tool strip fonts now follow the Krypton base font family and size; strip fonts use regular weight (matching buttons and labels) even when `BaseFont` is bold or italic.
 * Resolved [#2475](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2475), 'Help' button does not show up
    * `KryptonForm` now renders a themed title-bar help button when `HelpButton` is enabled.
 * Implemented [#3851](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3851), Rendering, DPI, and performance
