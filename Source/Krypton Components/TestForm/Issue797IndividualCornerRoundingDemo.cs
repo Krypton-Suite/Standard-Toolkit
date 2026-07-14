@@ -17,5 +17,14 @@ public partial class Issue797IndividualCornerRoundingDemo : KryptonForm
     public Issue797IndividualCornerRoundingDemo()
     {
         InitializeComponent();
+        ConfigureCornerRounding();
+    }
+
+    private void ConfigureCornerRounding()
+    {
+        kbIndividualCorners.StateCommon.Border.RoundingTopLeft = 5F;
+        kbIndividualCorners.StateCommon.Border.RoundingTopRight = 5F;
+        kbIndividualCorners.StateCommon.Border.RoundingBottomLeft = 5F;
+        kbIndividualCorners.StateCommon.Border.RoundingBottomRight = 0F;
     }
 }
