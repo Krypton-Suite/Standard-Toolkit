@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2020 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2020 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -51,16 +51,16 @@ internal class ShadowManager
         switch (m.Msg)
         {
             case PI.WM_.WINDOWPOSCHANGED:
-            {
-                PI.WINDOWPOS structure = (PI.WINDOWPOS)Marshal.PtrToStructure(m.LParam, typeof(PI.WINDOWPOS))!;
-                var move = !structure.flags.HasFlag(PI.SWP_.NOSIZE | PI.SWP_.NOMOVE);
-                PositionShadowForms(move);
-
-                if (!move)
                 {
-                    ReCalcBrushes();
+                    PI.WINDOWPOS structure = (PI.WINDOWPOS)Marshal.PtrToStructure(m.LParam, typeof(PI.WINDOWPOS))!;
+                    var move = !structure.flags.HasFlag(PI.SWP_.NOSIZE | PI.SWP_.NOMOVE);
+                    PositionShadowForms(move);
+
+                    if (!move)
+                    {
+                        ReCalcBrushes();
+                    }
                 }
-            }
                 break;
         }
     }
@@ -234,11 +234,11 @@ internal class ShadowManager
             {
                 gp.AddEllipse(0, 0, blurOffset * 2, blurOffset * 2);
                 using (var pgb = new PathGradientBrush(gp)
-                       {
-                           CenterColor = _shadowValues.Colour,
-                           SurroundColors = [Color.Transparent],
-                           CenterPoint = new PointF(blurOffset, blurOffset)
-                       })
+                {
+                    CenterColor = _shadowValues.Colour,
+                    SurroundColors = [Color.Transparent],
+                    CenterPoint = new PointF(blurOffset, blurOffset)
+                })
                 {
                     // left-Top
                     g.FillPie(pgb, 0, 0, blurOffset * 2, blurOffset * 2, 180, 90);
@@ -335,7 +335,9 @@ internal class ShadowManager
 internal static class FlashWindowExListener
 {
     private static readonly Dictionary<IntPtr, Form> _forms = new Dictionary<IntPtr, Form>();
-    private static readonly IntPtr _hHook;
+    private static IntPtr _hHook = IntPtr.Zero;
+    private static int _installManagedThreadId;
+    private static readonly object _hookLock = new object();
     // Keep the HookProc delegate alive manually, such as using a class member as shown below,
     // otherwise the garbage collector will clean up the hook delegate eventually,
     // resulting in the code throwing a System.NullReferenceException.
@@ -356,7 +358,6 @@ internal static class FlashWindowExListener
 
     static FlashWindowExListener()
     {
-        var processId = PI.GetCurrentThreadId();
         // create an instance of the delegate that
         // won't be garbage collected to avoid:
         //   Managed Debugging Assistant 'CallbackOnCollectedDelegate' :**
@@ -368,10 +369,88 @@ internal static class FlashWindowExListener
         //   that they will never be called.'
         _hookProc = ShellProc;
 
-        // we are interested in listening to WH_SHELL events, mainly the HSHELL_REDRAW event.
-        _hHook = PI.SetWindowsHookEx(PI.WH_.SHELL, _hookProc, IntPtr.Zero, processId);
+        Application.ApplicationExit += delegate { UninstallHookSafe(); };
+        AppDomain.CurrentDomain.DomainUnload += delegate { UninstallHookSafe(); };
+        AppDomain.CurrentDomain.ProcessExit += delegate { UninstallHookSafe(); };
+    }
 
-        Application.ApplicationExit += delegate { PI.UnhookWindowsHookEx(_hHook); };
+    private static void EnsureHookInstalled()
+    {
+        if (_hHook != IntPtr.Zero)
+        {
+            return;
+        }
+
+        lock (_hookLock)
+        {
+            if (_hHook != IntPtr.Zero)
+            {
+                return;
+            }
+
+            _installManagedThreadId = Environment.CurrentManagedThreadId;
+
+            // we are interested in listening to WH_SHELL events, mainly the HSHELL_REDRAW event.
+            var threadId = PI.GetCurrentThreadId();
+            _hHook = PI.SetWindowsHookEx(PI.WH_.SHELL, _hookProc, IntPtr.Zero, threadId);
+        }
+    }
+
+    private static void UninstallHook()
+    {
+        lock (_hookLock)
+        {
+            if (_hHook == IntPtr.Zero)
+            {
+                return;
+            }
+
+            PI.UnhookWindowsHookEx(_hHook);
+            _hHook = IntPtr.Zero;
+        }
+    }
+
+    private static void UninstallHookSafe()
+    {
+        if (_hHook == IntPtr.Zero)
+        {
+            return;
+        }
+
+        // WH_SHELL installed with a thread id must be unhooked on the installing thread.
+        if (Environment.CurrentManagedThreadId == _installManagedThreadId)
+        {
+            UninstallHook();
+            return;
+        }
+
+        foreach (var form in _forms.Values.ToArray())
+        {
+            if (form.IsDisposed)
+            {
+                continue;
+            }
+
+            try
+            {
+                if (form.InvokeRequired)
+                {
+                    form.BeginInvoke(new Action(UninstallHook));
+                }
+                else
+                {
+                    UninstallHook();
+                }
+
+                return;
+            }
+            catch
+            {
+                //
+            }
+        }
+
+        UninstallHook();
     }
 
     internal static void Register(Form f)
@@ -383,6 +462,8 @@ internal static class FlashWindowExListener
 
         void OnHandleKnown()
         {
+            EnsureHookInstalled();
+
             // hold the handle here to unregister it without depending on the form
             var handle = f.Handle;
             _forms[handle] = f;
@@ -410,6 +491,11 @@ internal static class FlashWindowExListener
         if (handle != IntPtr.Zero)
         {
             _forms.Remove(handle);
+
+            if (_forms.Count == 0)
+            {
+                UninstallHookSafe();
+            }
         }
     }
 
@@ -420,6 +506,11 @@ internal static class FlashWindowExListener
         if (f.Handle != IntPtr.Zero)
         {
             _forms.Remove(f.Handle);
+
+            if (_forms.Count == 0)
+            {
+                UninstallHookSafe();
+            }
         }
     }
 
@@ -440,6 +531,9 @@ internal static class FlashWindowExListener
             }
         }
 
-        return PI.CallNextHookEx(_hHook, code, wParam, lParam);
+        var hHook = _hHook;
+        return hHook != IntPtr.Zero
+            ? PI.CallNextHookEx(hHook, code, wParam, lParam)
+            : PI.CallNextHookEx(IntPtr.Zero, code, wParam, lParam);
     }
 }

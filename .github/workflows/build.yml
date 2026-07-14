@@ -276,6 +276,26 @@ jobs:
       - name: Pack Release
         run: msbuild /m "Scripts/Build/build.proj" /t:Pack /restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true /p:TFMs=all
 
+      # Verify Krypton.Interop in NuGet packages (V110+ only)
+      - name: Resolve Krypton toolkit major version
+        id: krypton_major_version
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
+          $major = Get-KryptonToolkitMajorVersion -Configuration Release
+          echo "major=$major" >> $env:GITHUB_OUTPUT
+
+      - name: Verify Krypton.Interop in NuGet packages
+        if: steps.krypton_major_version.outputs.major >= 110
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
+          Test-KryptonInteropInPackages -Configuration Release -MinimumMajorVersion 110 -SkipIfInteropProjectMissing
+
       - name: Get Version
         id: get_version
         shell: pwsh

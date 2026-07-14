@@ -49,6 +49,13 @@
 
 * Resolved [#2475](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2475), 'Help' button does not show up
    * `KryptonForm` now renders a themed title-bar help button when `HelpButton` is enabled.
+* Resolved [#3881](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3881), FlashWindowExListener's WH_SHELL hook is never unhooked in hosts that don't call Application.Run() (e.g. VSTO/Office add-ins) — leads to AppDomainUnloadedException / host crash on shutdown
+   * `FlashWindowExListener` `WH_SHELL` hook is now removed when the last tracked `KryptonForm` closes and on `AppDomain` unload, preventing `AppDomainUnloadedException` crashes in hosts that do not call `Application.Run()` (for example VSTO/Office add-ins).
+* Resolved [#3879](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3879), When the `KryptonComboBox` initializes in a disabled state, it displays using default system colors
+   * `KryptonComboBox` now displays theme disabled colors when initialized in a disabled state.
+* Implemented [#3857](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3857), Implement `IsDefault` on `KryptonInputBoxValues` and `KryptonPalettePropertyGrid` so PropertyGrid display, designer reset, and `ToString()` no longer throw
+* Implemented [#3891](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3891), `KryptonContextMenu` Improvements
+   * Shared `KryptonCommand` support for `KryptonContextMenu` items — multiple menu entries can reference one command and pass a `CommandParameter` so a single `Execute` handler can branch on the originating item; includes `IKryptonContextMenuCommandItem`, `KryptonCommandContext`, and `KryptonCommandExecuteEventArgs`.
 * Resolved [#3850](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3850), Tooltip hot-spot not respected 
    * Tooltip placement now respects cursor hotspot and full cursor bounds
 * Implemented [#3861](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3861), Permits customizing glyph colors (#3663) using `KryptonCustomPalette`.
