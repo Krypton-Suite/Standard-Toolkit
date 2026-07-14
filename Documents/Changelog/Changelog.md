@@ -47,6 +47,7 @@
 
 ## 2026-07-20 - Build 2607 (Version 105-LTS - Patch 3) - July 2026
 
+* Implemented [#3857](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3857), Implement `IsDefault` on `KryptonInputBoxValues` and `KryptonPalettePropertyGrid` so PropertyGrid display, designer reset, and `ToString()` no longer throw
 * Implemented [#3891](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3891), `KryptonContextMenu` Improvements
    * Shared `KryptonCommand` support for `KryptonContextMenu` items — multiple menu entries can reference one command and pass a `CommandParameter` so a single `Execute` handler can branch on the originating item; includes `IKryptonContextMenuCommandItem`, `KryptonCommandContext`, and `KryptonCommandExecuteEventArgs`.
 * Resolved [#3850](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3850), Tooltip hot-spot not respected 
