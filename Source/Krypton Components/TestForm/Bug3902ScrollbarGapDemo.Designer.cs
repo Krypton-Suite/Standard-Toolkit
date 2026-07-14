@@ -87,7 +87,7 @@ namespace TestForm
             this.kwlblInstructions.Size = new System.Drawing.Size(854, 72);
             this.kwlblInstructions.Text =
                 "Issue #3902: inspect the right and bottom edges where Krypton scrollbars meet the control border, and the bottom-right corner when both scrollbars are visible.\r\n" +
-                "Expected: no white 1–2px strip between the scrollbar and the themed border, and no white square at the scrollbar intersection.\r\n" +
+                "Expected: no white strip between the scrollbar and the themed border; when both bars show, the vertical bar fills the corner (horizontal is shortened).\r\n" +
                 "Try at 100% and 150% display scaling. Swap themes from the TestForm menu to confirm across palettes.";
             this.kwlblInstructions.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             //

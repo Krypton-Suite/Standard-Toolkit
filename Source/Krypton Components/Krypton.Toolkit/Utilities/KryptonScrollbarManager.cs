@@ -28,7 +28,6 @@ public class KryptonScrollbarManager : IDisposable
     private Control? _targetControl;
     private KryptonHScrollBar? _horizontalScrollBar;
     private KryptonVScrollBar? _verticalScrollBar;
-    private KryptonScrollBarCorner? _scrollBarCorner;
     private ScrollbarManagerMode _mode = ScrollbarManagerMode.Container;
     private bool _enabled = true;
     private bool _isUpdating;
@@ -516,7 +515,6 @@ public class KryptonScrollbarManager : IDisposable
             foreach (Control child in panel.Controls)
             {
                 if (child != _horizontalScrollBar && child != _verticalScrollBar &&
-                    child != _scrollBarCorner &&
                     child is not KryptonHScrollBar and not KryptonVScrollBar)
                 {
                     // Store original location on first access
@@ -542,7 +540,6 @@ public class KryptonScrollbarManager : IDisposable
             foreach (Control child in _contentContainer.Controls)
             {
                 if (child != _horizontalScrollBar && child != _verticalScrollBar &&
-                    child != _scrollBarCorner &&
                     child is not KryptonHScrollBar and not KryptonVScrollBar)
                 {
                     // Store original location on first access
@@ -1323,7 +1320,6 @@ public class KryptonScrollbarManager : IDisposable
     {
         MoveScrollbarToHost(_horizontalScrollBar, host);
         MoveScrollbarToHost(_verticalScrollBar, host);
-        MoveScrollbarToHost(_scrollBarCorner, host);
     }
 
     private static void MoveScrollbarToHost(Control? scrollbar, Control? host)
@@ -1463,17 +1459,6 @@ public class KryptonScrollbarManager : IDisposable
             _verticalScrollBar = null;
         }
 
-        if (_scrollBarCorner != null)
-        {
-            if (_scrollBarCorner.Parent != null)
-            {
-                RemoveScrollbarFromHost(_scrollBarCorner);
-            }
-
-            _scrollBarCorner.Dispose();
-            _scrollBarCorner = null;
-        }
-
         OnScrollbarsChanged();
     }
 
@@ -1495,9 +1480,9 @@ public class KryptonScrollbarManager : IDisposable
         bool showVertical = _verticalScrollBar?.Visible == true;
         bool showHorizontal = _horizontalScrollBar?.Visible == true;
 
-        // Fill the lane flush on every edge — no artificial inset. The lane is already
-        // the docker interior, so this sits against the inside of the themed border
-        // without leaving a gutter or painting over the border stroke.
+        // Fill the lane flush. When both bars are visible, extend the vertical bar
+        // through the bottom-right corner and shorten the horizontal (same pattern as
+        // ViewLayoutScrollViewport / ViewDrawScrollBar.ShortSize).
         int vScrollX = laneRect.Right - scrollbarWidth;
         int vScrollY = laneRect.Top;
         int hScrollX = laneRect.Left;
@@ -1514,55 +1499,14 @@ public class KryptonScrollbarManager : IDisposable
 
         if (showVertical && _verticalScrollBar != null)
         {
-            int vScrollHeight = showHorizontal
-                ? Math.Max(0, hScrollY - vScrollY)
-                : laneRect.Height;
-
-            _verticalScrollBar.SetBounds(vScrollX, vScrollY, scrollbarWidth, vScrollHeight);
-        }
-
-        bool showCorner = showHorizontal && showVertical;
-        if (showCorner && _horizontalScrollBar != null && _verticalScrollBar != null)
-        {
-            EnsureScrollBarCornerCreated();
-
-            _scrollBarCorner!.SetBounds(vScrollX, hScrollY, scrollbarWidth, scrollbarHeight);
-            _scrollBarCorner.Visible = true;
-        }
-        else if (_scrollBarCorner != null)
-        {
-            _scrollBarCorner.Visible = false;
+            _verticalScrollBar.SetBounds(vScrollX, vScrollY, scrollbarWidth, laneRect.Height);
         }
 
         BringScrollbarsToFront();
     }
 
-    private void EnsureScrollBarCornerCreated()
-    {
-        if (_scrollBarCorner != null)
-        {
-            return;
-        }
-
-        _scrollBarCorner = new KryptonScrollBarCorner
-        {
-            Visible = false
-        };
-
-        Control? host = GetScrollbarHostControl();
-        if (host != null && host.IsHandleCreated)
-        {
-            AddScrollbarToHost(host, _scrollBarCorner);
-        }
-    }
-
     private void BringScrollbarsToFront()
     {
-        if (_scrollBarCorner != null && _scrollBarCorner.Visible)
-        {
-            _scrollBarCorner.BringToFront();
-        }
-
         if (_horizontalScrollBar != null && _horizontalScrollBar.Visible)
         {
             _horizontalScrollBar.BringToFront();

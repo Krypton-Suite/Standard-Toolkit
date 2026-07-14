@@ -47,7 +47,7 @@
 
 * Resolved [#3902](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3902), Scrollbars leaves white gaps in between them and the borders
    * Krypton scrollbars are hosted on the outer wrapper and fill the layout lane flush to the inside of the themed border
-   * The scrollbar corner square is themed when both horizontal and vertical scrollbars are visible
+   * When both scrollbars are visible, the vertical bar extends through the bottom-right corner (horizontal bar is shortened)
 * Resolved [#3881](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3881), FlashWindowExListener's WH_SHELL hook is never unhooked in hosts that don't call Application.Run() (e.g. VSTO/Office add-ins) — leads to AppDomainUnloadedException / host crash on shutdown
    * `FlashWindowExListener` `WH_SHELL` hook is now removed when the last tracked `KryptonForm` closes and on `AppDomain` unload, preventing `AppDomainUnloadedException` crashes in hosts that do not call `Application.Run()` (for example VSTO/Office add-ins).
 * Implemented [#3857](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3857), Implement `IsDefault` on Values types that currently throw `NotImplementedException`
