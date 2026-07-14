@@ -47,6 +47,20 @@
 
 * Implemented [#3857](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3857), Implement `IsDefault` on Values types that currently throw `NotImplementedException`
    * `IsDefault` on file-system Values types and related `Storage` stubs so PropertyGrid display, designer reset, and `ToString()` no longer throw
+* Implemented [#3891](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3891), `KryptonContextMenu` Improvements
+   * Shared `KryptonCommand` support for `KryptonContextMenu` items — multiple menu entries can reference one command and pass a `CommandParameter` so a single `Execute` handler can branch on the originating item; includes `IKryptonContextMenuCommandItem`, `KryptonCommandContext`, and `KryptonCommandExecuteEventArgs`.
+* Resolved [#3894](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3894), `KryptonKnob` control colours
+   * `KryptonKnob` and `KryptonKnobAlternate` now render a visibly greyed-out disabled appearance (face, indicator, scale ticks/labels, and industrial backplate) when the control is disabled.
+* Resolved [#1297](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1297), Context, Menu, Status and Tool Strip fonts don't follow Krypton's
+   * Context, menu, status, and tool strip fonts now follow the Krypton base font family and size; strip fonts use regular weight (matching buttons and labels) even when `BaseFont` is bold or italic.
+* Resolved [#2475](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2475), 'Help' button does not show up
+   * `KryptonForm` now renders a themed title-bar help button when `HelpButton` is enabled.
+* Implemented [#3851](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3851), Rendering, DPI, and performance
+   * Rendering, DPI and performance improvements for the ribbon and form chrome.
+     * The ribbon Quick Access Toolbar overflow and context-arrow glyphs now scale with DPI and use per-theme geometry, so they stay aligned across themes and at 150%/200% display scaling.
+     * The `KryptonForm` non-glass background fill reuses a cached brush instead of allocating one on every paint.
+     * The `KryptonTextBox` multiline string editor button is now an internal fixed button, so it no longer appears in (nor can be removed, reordered, or serialized through) the public `ButtonSpecs` collection.
+* Resolved NuGet packaging of `Krypton.Interop.dll` into individual module packages (`Krypton.Toolkit`, `Krypton.Ribbon`, `Krypton.Navigator`, `Krypton.Workspace`, `Krypton.Docking`) so `lib/<tfm>/` includes the interop assembly (follow-up to [#3855](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3855)).
 * Resolved [#3908](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3908), `Krypton.Interop` is not bundled with each NuGet packages
 * Implemented [#3838](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3838), An `EnumButton` - A button that has the text from an enum that toggles through the list of enums. `KryptonEnumButton`, a button that shows the current value of an enumeration and cycles through its values on each click (instead of a long list of radio buttons). The button text is taken from each value's `DescriptionAttribute` (falling back to the field name), and `SelectedValueChanged` / `EnumValueChanged` events report the new value. Supports wrap-around cycling, optional reverse-on-right-click, and programmatic `CycleNext` / `CyclePrevious`. A command-link styled variant, `KryptonEnumCommandLinkButton`, cycles enum values while showing the field name as the heading and the `DescriptionAttribute` text as the command-link description sub-text.
    * Both controls also support cycle ordering (`SortOrder`: declaration / value / alphabetical), excluding values from the cycle, humanising PascalCase names, keyboard (arrow keys) and mouse-wheel cycling, per-value images, a cancelable `SelectedValueChanging` event to veto a change, data binding of `SelectedValue`, accessibility support, and a design-time drop-down editor for choosing the enum type in the property grid.
@@ -55,6 +69,9 @@
 * Resolved [#3879](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3879), When the `KryptonComboBox` initializes in a disabled state, it displays using default system colors
    * `KryptonComboBox` now displays theme disabled colors when initialized in a disabled state.
 * Implemented [#3807](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3807), `KryptonKnob` control
+   * The value indicator (inner circle) defaults to the palette `PanelAlternate` back colour instead of the track-bar position element colour.
+   * Hover and drag now apply `StateTracking` and `StatePressed` palette colours to the indicator as well as the knob face.
+   * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Resolved [#3850](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3850), Tooltip hot-spot not respected 
    * Tooltip placement now respects cursor hotspot and full cursor bounds
 * Implemented [#3856](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3856), Replace `CommonHelper.LogOutput` with thread-safe, non-UAC-protected logging

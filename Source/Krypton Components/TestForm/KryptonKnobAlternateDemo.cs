@@ -46,12 +46,20 @@ public partial class KryptonKnobAlternateDemo : KryptonForm
         PopulateComboFromEnum(kcmbIndicatorShape, typeof(KnobIndicatorShape));
         kcmbIndicatorShape.SelectedItem = kknobMain.IndicatorShape;
 
-        kknobDisabled.Value = 65;
-        kknobDisabled.Enabled = false;
+        ConfigureComparisonKnob(kknobEnabledCompare, enabled: true);
+        ConfigureComparisonKnob(kknobDisabled, enabled: false);
 
         kryptonPropertyGrid1.SelectedObject = kknobMain;
         UpdateValueLabel(kknobMain.Value);
         UpdateStatus(@"Click once to focus, click again and drag to rotate. Arrow keys work when focused. Numeric graduations use ScaleDivisions.");
+    }
+
+    private static void ConfigureComparisonKnob(KryptonKnobAlternate knob, bool enabled)
+    {
+        knob.Value = 65;
+        knob.ShowLargeScale = true;
+        knob.ShowSmallScale = true;
+        knob.Enabled = enabled;
     }
 
     private static void PopulateComboFromEnum(KryptonComboBox combo, Type enumType)
@@ -197,9 +205,11 @@ public partial class KryptonKnobAlternateDemo : KryptonForm
         kknobMain.StateCommon.Face.Color2 = Color.DarkGreen;
         kknobMain.StateTracking.Face.Color1 = Color.LightGreen;
         kknobMain.StatePressed.Face.Color1 = Color.ForestGreen;
+        kknobMain.StateTracking.Indicator.Color1 = Color.Khaki;
+        kknobMain.StatePressed.Indicator.Color1 = Color.Goldenrod;
         kknobMain.StateCommon.Indicator.Color1 = Color.Orange;
         kknobMain.StateCommon.Tick.Color1 = Color.DimGray;
-        UpdateStatus(@"Applied custom face, tracking, pressed, indicator, and tick colours via State### properties.");
+        UpdateStatus(@"Applied custom face, tracking, pressed, and indicator colours (inner circle uses tracking/pressed indicator overrides on hover/drag).");
     }
 
     private void kbtnLegacyColourPreset_Click(object? sender, EventArgs e)

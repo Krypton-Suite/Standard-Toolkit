@@ -324,7 +324,7 @@ public partial class KryptonKnobAlternate : UserControl
     /// Gets access to the tracking knob appearance.
     /// </summary>
     [Category(@"Visuals")]
-    [Description(@"Overrides for defining tracking knob appearance.")]
+    [Description(@"Overrides for defining tracking knob face and indicator appearance.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public PaletteKnobFaceStates StateTracking { get; }
 
@@ -334,7 +334,7 @@ public partial class KryptonKnobAlternate : UserControl
     /// Gets access to the pressed knob appearance.
     /// </summary>
     [Category(@"Visuals")]
-    [Description(@"Overrides for defining pressed knob appearance.")]
+    [Description(@"Overrides for defining pressed knob face and indicator appearance.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public PaletteKnobFaceStates StatePressed { get; }
 
@@ -431,6 +431,10 @@ public partial class KryptonKnobAlternate : UserControl
 
         Graphics g = e.Graphics;
         var backplateSettings = Backplate.GetSettings();
+        if (!Enabled)
+        {
+            backplateSettings = KnobColorUtility.GetDisabledBackplateSettings(backplateSettings);
+        }
 
         _gOffScreen.Clear(BackColor);
         _gOffScreen.SmoothingMode = SmoothingMode.AntiAlias;
@@ -439,7 +443,7 @@ public partial class KryptonKnobAlternate : UserControl
         {
             KnobIndustrialDrawing.DrawBackplate(_gOffScreen, backplateSettings, _rBackplate, _rKnob);
 
-            if (backplateSettings.ShowDropShadow)
+            if (backplateSettings.ShowDropShadow && Enabled)
             {
                 KnobIndustrialDrawing.DrawKnobDropShadow(_gOffScreen, _rKnob);
             }
@@ -455,17 +459,25 @@ public partial class KryptonKnobAlternate : UserControl
             borderColor = facePalette.GetElementColor1(paletteState);
         }
 
-        if (_knobStyle == KnobStyle.Classic && backplateSettings.Shape == KnobBackplateShape.None && _brushKnob != null)
+        if (!Enabled)
+        {
+            faceColor1 = KnobColorUtility.GetDisabledColor(faceColor1);
+            faceColor2 = KnobColorUtility.GetDisabledColor(faceColor2);
+            borderColor = KnobColorUtility.GetDisabledColor(borderColor);
+        }
+
+        if (_knobStyle == KnobStyle.Classic && backplateSettings.Shape == KnobBackplateShape.None && _brushKnob != null && Enabled)
         {
             _gOffScreen.FillEllipse(_brushKnob, _rKnob);
             _gOffScreen.DrawEllipse(new Pen(borderColor), _rKnob);
         }
         else
         {
-            var drawColor1 = _knobStyle == KnobStyle.Classic ? GetLightColour(faceColor1, 55) : faceColor1;
+            var drawColor1 = faceColor1;
             var drawColor2 = faceColor2 == GlobalStaticVariables.EMPTY_COLOR ? faceColor1 : faceColor2;
-            if (_knobStyle == KnobStyle.Classic)
+            if (_knobStyle == KnobStyle.Classic && Enabled)
             {
+                drawColor1 = GetLightColour(faceColor1, 55);
                 drawColor2 = GetDarkColour(drawColor2, 55);
             }
 
@@ -480,7 +492,7 @@ public partial class KryptonKnobAlternate : UserControl
                 BackColor);
         }
 
-        if (_isFocused)
+        if (_isFocused && Enabled)
         {
             _dottedPen.Color = borderColor;
             _gOffScreen.DrawEllipse(_dottedPen, _rKnob);
@@ -488,6 +500,11 @@ public partial class KryptonKnobAlternate : UserControl
 
         DrawPointer(_gOffScreen);
         DrawDivisions(_gOffScreen, _rKnob);
+
+        if (!Enabled)
+        {
+            KnobColorUtility.DrawDisabledWash(_gOffScreen, _rKnob);
+        }
 
         if (backplateSettings.Shape != KnobBackplateShape.None)
         {
@@ -718,6 +735,13 @@ public partial class KryptonKnobAlternate : UserControl
             indicatorBorder = indicatorBegin;
         }
 
+        if (!Enabled)
+        {
+            indicatorBegin = KnobColorUtility.GetDisabledColor(indicatorBegin);
+            indicatorEnd = KnobColorUtility.GetDisabledColor(indicatorEnd);
+            indicatorBorder = KnobColorUtility.GetDisabledColor(indicatorBorder);
+        }
+
         float radius = _rKnob.Width / 2;
 
         // Draw a line
@@ -788,7 +812,7 @@ public partial class KryptonKnobAlternate : UserControl
             Rectangle rPointer = new Rectangle(Arrow.X - w / 2, Arrow.Y - w / 2, w, h);
 
 
-            DrawInsetCircle(ref g, rPointer, new Pen(GetLightColour(indicatorBorder, 55)));
+            DrawInsetCircle(ref g, rPointer, new Pen(Enabled ? GetLightColour(indicatorBorder, 55) : indicatorBorder));
 
             if (_brushKnobPointer != null)
             {
@@ -830,6 +854,10 @@ public partial class KryptonKnobAlternate : UserControl
 
         var tickPalette = GetTickPalette();
         var tickColor = tickPalette.GetElementColor1(GetTickPaletteState());
+        if (!Enabled)
+        {
+            tickColor = KnobColorUtility.GetDisabledColor(tickColor);
+        }
 
         Pen penL = new Pen(tickColor, 2 * _drawRatio);
         Pen penS = new Pen(tickColor, 1 * _drawRatio);
@@ -1117,9 +1145,17 @@ public partial class KryptonKnobAlternate : UserControl
             faceColor2 = faceColor1;
         }
 
+        if (!Enabled)
+        {
+            faceColor1 = KnobColorUtility.GetDisabledColor(faceColor1);
+            faceColor2 = KnobColorUtility.GetDisabledColor(faceColor2);
+        }
+
         _brushKnob?.Dispose();
+        var brushFace1 = Enabled ? GetLightColour(faceColor1, 55) : faceColor1;
+        var brushFace2 = Enabled ? GetDarkColour(faceColor2, 55) : faceColor2;
         _brushKnob = new LinearGradientBrush(
-            _rKnob, GetLightColour(faceColor1, 55), GetDarkColour(faceColor2, 55), LinearGradientMode.ForwardDiagonal);
+            _rKnob, brushFace1, brushFace2, LinearGradientMode.ForwardDiagonal);
 
         var indicatorPalette = GetIndicatorPalette();
         var indicatorBegin = indicatorPalette.GetElementColor1(paletteState);
@@ -1129,9 +1165,17 @@ public partial class KryptonKnobAlternate : UserControl
             indicatorEnd = indicatorBegin;
         }
 
+        if (!Enabled)
+        {
+            indicatorBegin = KnobColorUtility.GetDisabledColor(indicatorBegin);
+            indicatorEnd = KnobColorUtility.GetDisabledColor(indicatorEnd);
+        }
+
         _brushKnobPointer?.Dispose();
+        var brushIndicator1 = Enabled ? GetLightColour(indicatorBegin, 55) : indicatorBegin;
+        var brushIndicator2 = Enabled ? GetDarkColour(indicatorEnd, 55) : indicatorEnd;
         _brushKnobPointer = new LinearGradientBrush(
-            _rKnob, GetLightColour(indicatorBegin, 55), GetDarkColour(indicatorEnd, 55), LinearGradientMode.ForwardDiagonal);
+            _rKnob, brushIndicator1, brushIndicator2, LinearGradientMode.ForwardDiagonal);
     }
 
     /// <summary>
@@ -1366,7 +1410,20 @@ public partial class KryptonKnobAlternate : UserControl
 
     private PaletteState GetTickPaletteState() => Enabled ? PaletteState.Normal : PaletteState.Disabled;
 
-    private IPaletteElementColor GetIndicatorPalette() => Enabled ? _overrideNormal.Indicator : StateDisabled.Indicator;
+    private IPaletteElementColor GetIndicatorPalette()
+    {
+        if (!Enabled)
+        {
+            return StateDisabled.Indicator;
+        }
+
+        return _elementState switch
+        {
+            PaletteState.Tracking => _overrideTracking.Indicator,
+            PaletteState.Pressed => _overridePressed.Indicator,
+            _ => _overrideNormal.Indicator
+        };
+    }
 
     private void KryptonKnobControlEnhanced_Resize(object? sender, EventArgs e)
     {

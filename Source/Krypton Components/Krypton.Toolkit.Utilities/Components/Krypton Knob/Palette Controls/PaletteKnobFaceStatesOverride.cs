@@ -10,7 +10,7 @@
 namespace Krypton.Toolkit.Utilities;
 
 /// <summary>
-/// Allow the knob face palette to be overridden optionally.
+/// Allow the knob face and indicator palette to be overridden optionally during tracking and pressed feedback.
 /// </summary>
 public class PaletteKnobFaceStatesOverride : GlobalId
 {
@@ -40,6 +40,7 @@ public class PaletteKnobFaceStatesOverride : GlobalId
         }
 
         Face = new PaletteElementColorInheritOverride(normalStates.Face, overrideStates.Face);
+        Indicator = new PaletteElementColorInheritOverride(normalStates.Indicator, overrideStates.Indicator);
 
         Apply = false;
         Override = true;
@@ -54,8 +55,11 @@ public class PaletteKnobFaceStatesOverride : GlobalId
     /// <param name="normalStates">New normal palette.</param>
     /// <param name="overrideStates">New override palette.</param>
     public void SetPalettes(PaletteKnobRedirect normalStates,
-        PaletteKnobFaceStates overrideStates) =>
+        PaletteKnobFaceStates overrideStates)
+    {
         Face.SetPalettes(normalStates.Face, overrideStates.Face);
+        Indicator.SetPalettes(normalStates.Indicator, overrideStates.Indicator);
+    }
 
     #endregion
 
@@ -66,7 +70,11 @@ public class PaletteKnobFaceStatesOverride : GlobalId
     public bool Apply
     {
         get => Face.Apply;
-        set => Face.Apply = value;
+        set
+        {
+            Face.Apply = value;
+            Indicator.Apply = value;
+        }
     }
     #endregion
 
@@ -77,7 +85,11 @@ public class PaletteKnobFaceStatesOverride : GlobalId
     public bool Override
     {
         get => Face.Override;
-        set => Face.Override = value;
+        set
+        {
+            Face.Override = value;
+            Indicator.Override = value;
+        }
     }
     #endregion
 
@@ -88,7 +100,11 @@ public class PaletteKnobFaceStatesOverride : GlobalId
     public PaletteState OverrideState
     {
         get => Face.OverrideState;
-        set => Face.OverrideState = value;
+        set
+        {
+            Face.OverrideState = value;
+            Indicator.OverrideState = value;
+        }
     }
     #endregion
 
@@ -101,6 +117,18 @@ public class PaletteKnobFaceStatesOverride : GlobalId
     [Description(@"Overrides for defining knob face appearance.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public PaletteElementColorInheritOverride Face { get; }
+
+    #endregion
+
+    #region Indicator
+    /// <summary>
+    /// Gets access to the value indicator appearance.
+    /// </summary>
+    [KryptonPersist]
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining value indicator appearance.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteElementColorInheritOverride Indicator { get; }
 
     #endregion
 }

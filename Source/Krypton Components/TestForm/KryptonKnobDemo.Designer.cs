@@ -59,6 +59,9 @@ namespace TestForm
             this.klblValue = new Krypton.Toolkit.KryptonLabel();
             this.klblHeading = new Krypton.Toolkit.KryptonLabel();
             this.kryptonPanelPreview = new Krypton.Toolkit.KryptonPanel();
+            this.klblDisabledInfo = new Krypton.Toolkit.KryptonLabel();
+            this.klblEnabledCompareCaption = new Krypton.Toolkit.KryptonLabel();
+            this.kknobEnabledCompare = new Krypton.Toolkit.Utilities.KryptonKnob();
             this.klblDisabledCaption = new Krypton.Toolkit.KryptonLabel();
             this.kknobDisabled = new Krypton.Toolkit.Utilities.KryptonKnob();
             this.klblMainCaption = new Krypton.Toolkit.KryptonLabel();
@@ -527,6 +530,9 @@ namespace TestForm
             // 
             // kryptonPanelPreview
             // 
+            this.kryptonPanelPreview.Controls.Add(this.klblDisabledInfo);
+            this.kryptonPanelPreview.Controls.Add(this.klblEnabledCompareCaption);
+            this.kryptonPanelPreview.Controls.Add(this.kknobEnabledCompare);
             this.kryptonPanelPreview.Controls.Add(this.klblDisabledCaption);
             this.kryptonPanelPreview.Controls.Add(this.kknobDisabled);
             this.kryptonPanelPreview.Controls.Add(this.klblMainCaption);
@@ -537,13 +543,36 @@ namespace TestForm
             this.kryptonPanelPreview.Size = new System.Drawing.Size(320, 647);
             this.kryptonPanelPreview.TabIndex = 0;
             // 
+            // klblDisabledInfo
+            // 
+            this.klblDisabledInfo.Location = new System.Drawing.Point(24, 470);
+            this.klblDisabledInfo.Name = "klblDisabledInfo";
+            this.klblDisabledInfo.Size = new System.Drawing.Size(272, 100);
+            this.klblDisabledInfo.TabIndex = 6;
+            this.klblDisabledInfo.Values.Text = "Both knobs share the same style, value and colour\r\npresets. The disabled knob (left) must use the\r\npalette \'disabled\' colours for its face, indicator\r\nand scale ticks, and mute any industrial backplate.\r\nToggle \'Enabled\' or switch theme to compare.";
+            // 
+            // klblEnabledCompareCaption
+            // 
+            this.klblEnabledCompareCaption.Location = new System.Drawing.Point(168, 318);
+            this.klblEnabledCompareCaption.Name = "klblEnabledCompareCaption";
+            this.klblEnabledCompareCaption.Size = new System.Drawing.Size(103, 20);
+            this.klblEnabledCompareCaption.TabIndex = 5;
+            this.klblEnabledCompareCaption.Values.Text = "Enabled";
+            // 
+            // kknobEnabledCompare
+            // 
+            this.kknobEnabledCompare.Location = new System.Drawing.Point(168, 344);
+            this.kknobEnabledCompare.Name = "kknobEnabledCompare";
+            this.kknobEnabledCompare.Size = new System.Drawing.Size(120, 120);
+            this.kknobEnabledCompare.TabIndex = 4;
+            // 
             // klblDisabledCaption
             // 
             this.klblDisabledCaption.Location = new System.Drawing.Point(24, 318);
             this.klblDisabledCaption.Name = "klblDisabledCaption";
             this.klblDisabledCaption.Size = new System.Drawing.Size(103, 20);
             this.klblDisabledCaption.TabIndex = 3;
-            this.klblDisabledCaption.Values.Text = "Disabled state";
+            this.klblDisabledCaption.Values.Text = "Disabled";
             // 
             // kknobDisabled
             // 
@@ -671,6 +700,9 @@ namespace TestForm
         private Krypton.Toolkit.KryptonLabel klblMainCaption;
         private Krypton.Toolkit.Utilities.KryptonKnob kknobDisabled;
         private Krypton.Toolkit.KryptonLabel klblDisabledCaption;
+        private Krypton.Toolkit.Utilities.KryptonKnob kknobEnabledCompare;
+        private Krypton.Toolkit.KryptonLabel klblEnabledCompareCaption;
+        private Krypton.Toolkit.KryptonLabel klblDisabledInfo;
         private Krypton.Toolkit.KryptonPropertyGrid kryptonPropertyGrid1;
     }
 }
