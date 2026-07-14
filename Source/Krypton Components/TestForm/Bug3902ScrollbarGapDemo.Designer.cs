@@ -29,6 +29,7 @@ namespace TestForm
             this.kryptonPanelMain = new Krypton.Toolkit.KryptonPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.kwlblInstructions = new Krypton.Toolkit.KryptonWrapLabel();
+            this.kchkThemedCorner = new Krypton.Toolkit.KryptonCheckBox();
             this.klblTextCaption = new Krypton.Toolkit.KryptonLabel();
             this.ktbxDemo = new Krypton.Toolkit.KryptonTextBox();
             this.klblRichCaption = new Krypton.Toolkit.KryptonLabel();
@@ -55,16 +56,18 @@ namespace TestForm
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.kwlblInstructions, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.klblTextCaption, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.ktbxDemo, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.klblRichCaption, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.krtbDemo, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.klblListCaption, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this.klstDemo, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.kchkThemedCorner, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.klblTextCaption, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.ktbxDemo, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.klblRichCaption, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.krtbDemo, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.klblListCaption, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.klstDemo, 0, 7);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 12);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 7;
+            this.tableLayoutPanel1.RowCount = 8;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
@@ -88,8 +91,18 @@ namespace TestForm
             this.kwlblInstructions.Text =
                 "Issue #3902: inspect the right and bottom edges where Krypton scrollbars meet the control border, and the bottom-right corner when both scrollbars are visible.\r\n" +
                 "Expected: no white strip between the scrollbar and the themed border; when both bars show, the horizontal bar spans full width and fills the corner.\r\n" +
+                "Use the checkbox below to switch to a themed corner filler (both bars shortened) instead.\r\n" +
                 "Try at 100% and 150% display scaling. Swap themes from the TestForm menu to confirm across palettes.";
             this.kwlblInstructions.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            //
+            // kchkThemedCorner
+            //
+            this.kchkThemedCorner.Location = new System.Drawing.Point(3, 81);
+            this.kchkThemedCorner.Name = "kchkThemedCorner";
+            this.kchkThemedCorner.Size = new System.Drawing.Size(340, 20);
+            this.kchkThemedCorner.TabIndex = 7;
+            this.kchkThemedCorner.Values.Text = "Use themed corner filler (CornerStyle = ThemedCorner)";
+            this.kchkThemedCorner.CheckedChanged += new System.EventHandler(this.kchkThemedCorner_CheckedChanged);
             //
             // klblTextCaption
             //
@@ -168,6 +181,7 @@ namespace TestForm
         private Krypton.Toolkit.KryptonPanel kryptonPanelMain;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private Krypton.Toolkit.KryptonWrapLabel kwlblInstructions;
+        private Krypton.Toolkit.KryptonCheckBox kchkThemedCorner;
         private Krypton.Toolkit.KryptonLabel klblTextCaption;
         private Krypton.Toolkit.KryptonTextBox ktbxDemo;
         private Krypton.Toolkit.KryptonLabel klblRichCaption;
