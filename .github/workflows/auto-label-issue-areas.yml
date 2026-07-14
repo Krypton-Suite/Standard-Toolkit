@@ -71,6 +71,13 @@ jobs:
                        !issueTitle.startsWith('[Question]: ')) {
                 titlePrefix = '[Question]: ';
               }
+              // Check for Code ToDo template or workflow-created code todo issues
+              else if ((hasLabelMatching('🗒️ todo') ||
+                       issueBody.includes('<!-- code-todo-scan:key=') ||
+                       issueBody.includes('### Source')) &&
+                       !issueTitle.startsWith('[Code ToDo]: ')) {
+                titlePrefix = '[Code ToDo]: ';
+              }
               
               if (titlePrefix) {
                 const newTitle = `${titlePrefix}${issueTitle}`;
