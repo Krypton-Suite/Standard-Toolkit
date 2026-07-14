@@ -12,6 +12,14 @@ body:
       value: |
         Thanks for taking the time to report an issue! Please fill out the template below to help us understand and address the problem. Please make sure to [search for existing issues](https://github.com/Krypton-Suite/Standard-Toolkit/issues) before filing a new one!
 
+        **Automatic tracking:** The [Scan code TODOs](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/scan-code-todos.yml) workflow can create bug issues from inline comments marked with:
+
+        ```csharp
+        // FIXME(issue): Short description of the defect
+        ```
+
+        See the [developer guide](https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Documents/scan-code-todos-developer-guide.md) for details.
+
   - type: input
     id: summary
     attributes:
