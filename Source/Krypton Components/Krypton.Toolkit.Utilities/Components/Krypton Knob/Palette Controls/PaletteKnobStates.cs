@@ -87,6 +87,7 @@ public class PaletteKnobStates : Storage
     public void PopulateFromBase(PaletteState state)
     {
         Face.PopulateFromBase(state);
+        Tick.PopulateFromBase(state);
         Indicator.PopulateFromBase(state);
     }
     #endregion
@@ -125,7 +126,7 @@ public class PaletteKnobStates : Storage
     /// </summary>
     [KryptonPersist]
     [Category(@"Visuals")]
-    [Description(@"Overrides for defining value indicator appearance.")]
+    [Description(@"Overrides for defining value indicator appearance. Defaults to the palette PanelAlternate back colour.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public PaletteElementColor Indicator { get; }
 

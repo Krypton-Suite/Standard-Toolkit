@@ -471,19 +471,33 @@ public class ViewDrawKnob : ViewDrawPanel
         var g = context.Graphics;
         g.SmoothingMode = SmoothingMode.AntiAlias;
 
-        var facePalette = GetFacePalette();
-        IPaletteElementColor tickPalette = GetTickPalette();
-        IPaletteElementColor indicatorPalette = Enabled ? StateNormal.Indicator : StateDisabled.Indicator;
+        // Resolve the enabled state from the owning control so the disabled palette is used
+        // even if the view element enabled flag has not yet been synchronised.
+        var enabled = context.Control?.Enabled ?? Enabled;
+        var paletteState = enabled ? State : PaletteState.Disabled;
 
-        var faceColor1 = facePalette.GetElementColor1(State);
-        var faceColor2 = facePalette.GetElementColor2(State);
-        var borderColor = facePalette.GetElementColor3(State);
+        var facePalette = GetFacePalette(enabled);
+        IPaletteElementColor tickPalette = GetTickPalette(enabled);
+        IPaletteElementColor indicatorPalette = GetIndicatorPalette(enabled);
+
+        var faceColor1 = facePalette.GetElementColor1(paletteState);
+        var faceColor2 = facePalette.GetElementColor2(paletteState);
+        var borderColor = facePalette.GetElementColor3(paletteState);
         if (borderColor == GlobalStaticVariables.EMPTY_COLOR)
         {
             borderColor = faceColor1;
         }
 
-        DrawBackplate(g);
+        // Many palettes return the same colour for the underlying track element regardless of
+        // state, so mute the resolved colours to guarantee a visibly disabled appearance.
+        if (!enabled)
+        {
+            faceColor1 = KnobColorUtility.GetDisabledColor(faceColor1);
+            faceColor2 = KnobColorUtility.GetDisabledColor(faceColor2);
+            borderColor = KnobColorUtility.GetDisabledColor(borderColor);
+        }
+
+        DrawBackplate(g, enabled);
 
         if (_showBackplateDropShadow && _backplateShape != KnobBackplateShape.None)
         {
@@ -497,23 +511,35 @@ public class ViewDrawKnob : ViewDrawPanel
             DrawFocusRing(g, borderColor);
         }
 
-        var indicatorBegin = indicatorPalette.GetElementColor1(State);
-        var indicatorEnd = indicatorPalette.GetElementColor2(State);
+        var indicatorBegin = indicatorPalette.GetElementColor1(paletteState);
+        var indicatorEnd = indicatorPalette.GetElementColor2(paletteState);
         if (indicatorEnd == GlobalStaticVariables.EMPTY_COLOR)
         {
             indicatorEnd = indicatorBegin;
         }
 
-        var indicatorBorder = indicatorPalette.GetElementColor3(State);
+        var indicatorBorder = indicatorPalette.GetElementColor3(paletteState);
         if (indicatorBorder == GlobalStaticVariables.EMPTY_COLOR)
         {
             indicatorBorder = borderColor;
         }
 
+        if (!enabled)
+        {
+            indicatorBegin = KnobColorUtility.GetDisabledColor(indicatorBegin);
+            indicatorEnd = KnobColorUtility.GetDisabledColor(indicatorEnd);
+            indicatorBorder = KnobColorUtility.GetDisabledColor(indicatorBorder);
+        }
+
         var arrow = GetKnobPosition();
         DrawIndicator(g, arrow, indicatorBorder, indicatorBegin, indicatorEnd);
 
-        var tickColor = tickPalette.GetElementColor1(GetTickPaletteState());
+        var tickColor = tickPalette.GetElementColor1(GetTickPaletteState(enabled));
+        if (!enabled)
+        {
+            tickColor = KnobColorUtility.GetDisabledColor(tickColor);
+        }
+
         using var tickPen = new Pen(tickColor);
 
         if (_showSmallScale && _smallChange > 0)
@@ -530,6 +556,11 @@ public class ViewDrawKnob : ViewDrawPanel
             {
                 g.DrawLine(tickPen, GetMarkerPoint(0, i), GetMarkerPoint(_sizeLargeScaleMarker, i));
             }
+        }
+
+        if (!enabled)
+        {
+            KnobColorUtility.DrawDisabledWash(g, _rectKnob);
         }
     }
     #endregion
@@ -550,9 +581,9 @@ public class ViewDrawKnob : ViewDrawPanel
     #endregion
 
     #region Implementation
-    private IPaletteElementColor GetFacePalette()
+    private IPaletteElementColor GetFacePalette(bool enabled)
     {
-        if (!Enabled)
+        if (!enabled)
         {
             return StateDisabled.Face;
         }
@@ -565,9 +596,24 @@ public class ViewDrawKnob : ViewDrawPanel
         };
     }
 
-    private IPaletteElementColor GetTickPalette() => Enabled ? StateNormal.Tick : StateDisabled.Tick;
+    private IPaletteElementColor GetIndicatorPalette(bool enabled)
+    {
+        if (!enabled)
+        {
+            return StateDisabled.Indicator;
+        }
 
-    private PaletteState GetTickPaletteState() => Enabled ? PaletteState.Normal : PaletteState.Disabled;
+        return State switch
+        {
+            PaletteState.Tracking => StateTracking.Indicator,
+            PaletteState.Pressed => StatePressed.Indicator,
+            _ => StateNormal.Indicator
+        };
+    }
+
+    private IPaletteElementColor GetTickPalette(bool enabled) => enabled ? StateNormal.Tick : StateDisabled.Tick;
+
+    private static PaletteState GetTickPaletteState(bool enabled) => enabled ? PaletteState.Normal : PaletteState.Disabled;
 
     private void UpdateKnobGeometry()
     {
@@ -805,7 +851,7 @@ public class ViewDrawKnob : ViewDrawPanel
         g.DrawEllipse(borderPen, _rectKnob);
     }
 
-    private void DrawBackplate(Graphics g)
+    private void DrawBackplate(Graphics g, bool enabled)
     {
         if (_backplateShape == KnobBackplateShape.None)
         {
@@ -815,6 +861,15 @@ public class ViewDrawKnob : ViewDrawPanel
         var color1 = _backplateColor1 == GlobalStaticVariables.EMPTY_COLOR ? Color.FromArgb(210, 210, 215) : _backplateColor1;
         var color2 = _backplateColor2 == GlobalStaticVariables.EMPTY_COLOR ? Color.FromArgb(150, 150, 158) : _backplateColor2;
         var border = _backplateBorderColor == GlobalStaticVariables.EMPTY_COLOR ? GetDarkColor(color1, 70) : _backplateBorderColor;
+
+        // The backplate colours are custom (not palette driven), so mute them toward grey
+        // to give a disabled appearance that matches the disabled palette knob face.
+        if (!enabled)
+        {
+            color1 = KnobColorUtility.GetDisabledColor(color1);
+            color2 = KnobColorUtility.GetDisabledColor(color2);
+            border = KnobColorUtility.GetDisabledColor(border);
+        }
 
         using var plateBrush = new LinearGradientBrush(_rectBackplate, color1, color2, LinearGradientMode.Vertical);
 

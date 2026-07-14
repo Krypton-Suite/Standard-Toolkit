@@ -43,12 +43,25 @@ public partial class KryptonKnobDemo : KryptonForm
         PopulateComboFromEnum(kcmbKnobStyle, typeof(KnobStyle));
         kcmbKnobStyle.SelectedItem = kknobMain.KnobStyle;
 
-        kknobDisabled.Value = 60;
-        kknobDisabled.Enabled = false;
+        // Side-by-side comparison: identical style/value/scale, only Enabled differs so the
+        // disabled palette colours (face, indicator, ticks) are obvious against the enabled knob.
+        ConfigureComparisonKnob(kknobEnabledCompare, enabled: true);
+        ConfigureComparisonKnob(kknobDisabled, enabled: false);
 
         kryptonPropertyGrid1.SelectedObject = kknobMain;
         UpdateValueLabel(kknobMain.Value);
         UpdateStatus(@"Drag the knob, use arrow keys when focused, or try different knob and indicator styles.");
+    }
+
+    private static void ConfigureComparisonKnob(KryptonKnob knob, bool enabled)
+    {
+        knob.KnobStyle = KnobStyle.Radial;
+        knob.ShowLargeScale = true;
+        knob.ShowSmallScale = true;
+        knob.IndicatorShape = KnobIndicatorShape.Needle;
+        knob.IndicatorSize = 10;
+        knob.Value = 60;
+        knob.Enabled = enabled;
     }
 
     private static void PopulateComboFromEnum(KryptonComboBox combo, Type enumType)
@@ -200,9 +213,11 @@ public partial class KryptonKnobDemo : KryptonForm
         kknobMain.StateCommon.Face.Color2 = Color.MidnightBlue;
         kknobMain.StateTracking.Face.Color1 = Color.CornflowerBlue;
         kknobMain.StatePressed.Face.Color1 = Color.RoyalBlue;
+        kknobMain.StateTracking.Indicator.Color1 = Color.LightSteelBlue;
+        kknobMain.StatePressed.Indicator.Color1 = Color.SlateBlue;
         kknobMain.StateCommon.Indicator.Color1 = Color.Gold;
         kknobMain.StateCommon.Tick.ResetColor1();
-        UpdateStatus(@"Applied custom face, tracking, pressed, and indicator colours. Scale ticks use palette text colour unless overridden via StateCommon.Tick.");
+        UpdateStatus(@"Applied custom face, tracking, pressed, and indicator colours (inner circle uses tracking/pressed indicator overrides on hover/drag). Scale ticks use palette text colour unless overridden via StateCommon.Tick.");
     }
 
     private void kbtnPopulateFromTheme_Click(object? sender, EventArgs e)
