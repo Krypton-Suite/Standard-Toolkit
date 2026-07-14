@@ -45,6 +45,8 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#3891](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3891), `KryptonContextMenu` Improvements
+   * Shared `KryptonCommand` support for `KryptonContextMenu` items — multiple menu entries can reference one command and pass a `CommandParameter` so a single `Execute` handler can branch on the originating item; includes `IKryptonContextMenuCommandItem`, `KryptonCommandContext`, and `KryptonCommandExecuteEventArgs`.
 * Resolved [#3894](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3894), `KryptonKnob` control colours
    * `KryptonKnob` and `KryptonKnobAlternate` now render a visibly greyed-out disabled appearance (face, indicator, scale ticks/labels, and industrial backplate) when the control is disabled.
 * Resolved [#1297](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1297), Context, Menu, Status and Tool Strip fonts don't follow Krypton's
