@@ -308,6 +308,7 @@ public class KryptonForm : VisualForm,
 		ButtonSpecMin = new ButtonSpecFormWindowMin(this);
 		ButtonSpecMax = new ButtonSpecFormWindowMax(this);
 		ButtonSpecClose = new ButtonSpecFormWindowClose(this);
+		ButtonSpecHelp = new ButtonSpecFormWindowHelp(this);
 		SyncFormFixedButtonSpecOrder();
 
 		// Create the palette storage
@@ -659,6 +660,7 @@ public class KryptonForm : VisualForm,
 			ButtonSpecMin.Dispose();
 			ButtonSpecMax.Dispose();
 			ButtonSpecClose.Dispose();
+			ButtonSpecHelp.Dispose();
 
 			// Detach the title bar fully (unsubscribes events, revokes view element,
 			// clears SetOwnerForm, destructs the button manager, and disposes the docker).
@@ -943,6 +945,27 @@ public class KryptonForm : VisualForm,
 			if (base.CloseBox != value)
 			{
 				base.CloseBox = value;
+				_buttonManager.PerformNeedPaint(true);
+			}
+		}
+	}
+
+	/// <summary>
+	/// Toggles display of the help button.
+	/// </summary>
+	[DefaultValue(false)]
+	[Category("Window Style")]
+	[Description("Toggles display of the help button.")]
+	[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+	public new bool HelpButton
+	{
+		get => base.HelpButton;
+
+		set
+		{
+			if (base.HelpButton != value)
+			{
+				base.HelpButton = value;
 				_buttonManager.PerformNeedPaint(true);
 			}
 		}
@@ -1304,6 +1327,14 @@ public class KryptonForm : VisualForm,
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 	public ButtonSpecFormWindowClose ButtonSpecClose { get; }
+
+	/// <summary>
+	/// Gets access to the help button spec.
+	/// </summary>
+	[Browsable(false)]
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+	public ButtonSpecFormWindowHelp ButtonSpecHelp { get; }
 
 	/// <summary>
 	/// Gets and sets a value indicating if the border should be inert to changes.
@@ -1684,7 +1715,8 @@ public class KryptonForm : VisualForm,
 		var windowPoint = ScreenToWindow(screenPoint);
 
 		// Check if the point is over any of the control buttons
-		return _buttonManager.GetButtonRectangle(ButtonSpecMin).Contains(windowPoint) ||
+		return _buttonManager.GetButtonRectangle(ButtonSpecHelp).Contains(windowPoint) ||
+			   _buttonManager.GetButtonRectangle(ButtonSpecMin).Contains(windowPoint) ||
 			   _buttonManager.GetButtonRectangle(ButtonSpecMax).Contains(windowPoint) ||
 			   _buttonManager.GetButtonRectangle(ButtonSpecClose).Contains(windowPoint);
 	}
@@ -2277,6 +2309,17 @@ public class KryptonForm : VisualForm,
 			}
 
 			return new IntPtr(PI.HT.CLOSE);
+		}
+
+		if (_buttonManager.GetButtonRectangle(ButtonSpecHelp).Contains(pt))
+		{
+			ViewBase? viewBase = ViewManager?.Root.ViewFromPoint(pt);
+			if (viewBase?.FindMouseController() is ButtonController buttonController)
+			{
+				buttonController.NonClientAsNormal = true;
+			}
+
+			return new IntPtr(PI.HT.HELP);
 		}
 
 		if (_buttonManager.GetButtonRectangle(ButtonSpecMax).Contains(pt))
@@ -3244,7 +3287,7 @@ public class KryptonForm : VisualForm,
         if (leftTrafficLights && !macCollectionOrder)
         {
             _buttonSpecsFixed.Clear();
-            _buttonSpecsFixed.AddRange([ButtonSpecMax, ButtonSpecMin, ButtonSpecClose]);
+            _buttonSpecsFixed.AddRange([ButtonSpecHelp, ButtonSpecMax, ButtonSpecMin, ButtonSpecClose]);
             _buttonManager.RecreateButtons();
         }
         else if (!leftTrafficLights && !windowsCollectionOrder)
@@ -3304,13 +3347,13 @@ public class KryptonForm : VisualForm,
 		_buttonSpecsFixed.Clear();
 		if (UsesLeftTrafficLightFormButtons())
 		{
-			// Near-edge traffic lights: collection [max, min, close] → Close → Min → Max along the bar.
-			_buttonSpecsFixed.AddRange([ButtonSpecMax, ButtonSpecMin, ButtonSpecClose]);
+			// Near-edge traffic lights: collection [help, max, min, close] → Close → Min → Max along the bar.
+			_buttonSpecsFixed.AddRange([ButtonSpecHelp, ButtonSpecMax, ButtonSpecMin, ButtonSpecClose]);
 		}
 		else
 		{
 			// Standard Office / Far-edge control box (including macOS + FormTrafficLightEdge = Far).
-			_buttonSpecsFixed.AddRange([ButtonSpecMin, ButtonSpecMax, ButtonSpecClose]);
+			_buttonSpecsFixed.AddRange([ButtonSpecHelp, ButtonSpecMin, ButtonSpecMax, ButtonSpecClose]);
 		}
 	}
 

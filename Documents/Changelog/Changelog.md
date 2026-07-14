@@ -45,6 +45,8 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#2475](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2475), 'Help' button does not show up
+   * `KryptonForm` now renders a themed title-bar help button when `HelpButton` is enabled.
 * Implemented [#3851](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3851), Rendering, DPI, and performance
    * Rendering, DPI and performance improvements for the ribbon and form chrome.
      * The ribbon Quick Access Toolbar overflow and context-arrow glyphs now scale with DPI and use per-theme geometry, so they stay aligned across themes and at 150%/200% display scaling.
