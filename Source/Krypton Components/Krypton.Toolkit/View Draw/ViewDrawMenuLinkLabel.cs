@@ -141,7 +141,8 @@ internal class ViewDrawMenuLinkLabel : ViewComposite
     /// <summary>
     /// Resolves the correct text string to use from the menu item.
     /// </summary>
-    public string ResolveText => _cachedCommand != null ? _cachedCommand.Text : KryptonContextMenuLinkLabel.Text;
+    public string ResolveText => _cachedCommand != null
+                                 && !string.IsNullOrEmpty(_cachedCommand.Text) ? _cachedCommand.Text : KryptonContextMenuLinkLabel.Text;
 
     #endregion
 
@@ -150,7 +151,10 @@ internal class ViewDrawMenuLinkLabel : ViewComposite
     /// Resolves the correct extra text string to use from the menu item.
     /// </summary>
     public string ResolveExtraText =>
-        (_cachedCommand != null ? _cachedCommand.ExtraText : KryptonContextMenuLinkLabel.ExtraText)!;
+        (_cachedCommand != null
+         && !string.IsNullOrEmpty(_cachedCommand.ExtraText)
+            ? _cachedCommand.ExtraText
+            : KryptonContextMenuLinkLabel.ExtraText)!;
 
     #endregion
 
