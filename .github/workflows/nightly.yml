@@ -15,6 +15,11 @@ on:
     # Run nightly build automatically at midnight UTC every day
     - cron: '0 0 * * *'
   workflow_dispatch:  # Allow manual triggering for testing
+    inputs:
+      skip_change_check:
+        description: Skip the last-24-hours change check and force a nightly build
+        type: boolean
+        default: false
 
 jobs:
   nightly:
@@ -117,8 +122,16 @@ jobs:
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         id: check_changes
         shell: pwsh
+        env:
+          SKIP_CHANGE_CHECK: ${{ github.event_name == 'workflow_dispatch' && inputs.skip_change_check == true && 'true' || 'false' }}
         run: |
           $ErrorActionPreference = 'Stop'
+
+          if ($env:SKIP_CHANGE_CHECK -eq 'true') {
+            Write-Host "Change check skipped via workflow_dispatch input - forcing nightly build"
+            echo "has_changes=true" >> $env:GITHUB_OUTPUT
+            exit 0
+          }
 
           # Get commits from last 24 hours on alpha branch
           $yesterday = (Get-Date).AddDays(-1).ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss")
