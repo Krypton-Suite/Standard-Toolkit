@@ -4555,6 +4555,26 @@ public enum ScrollbarManagerMode
 
 #endregion
 
+#region Enum ScrollbarCornerStyle
+
+/// <summary>
+/// Specifies how the scrollbar manager fills the bottom-right corner when both scrollbars are visible.
+/// </summary>
+public enum ScrollbarCornerStyle
+{
+    /// <summary>
+    /// The horizontal scrollbar spans the full width and fills the corner; the vertical scrollbar stops above it.
+    /// </summary>
+    ExtendHorizontal,
+
+    /// <summary>
+    /// Both scrollbars are shortened and a themed corner filler is drawn at their intersection.
+    /// </summary>
+    ThemedCorner
+}
+
+#endregion
+
 #region Enum KryptonTaskbarProgressState
 
 /// <summary>Specifies the state of the taskbar progress indicator when <see cref="KryptonProgressBar.UseTaskbarProgress"/> is enabled.</summary>

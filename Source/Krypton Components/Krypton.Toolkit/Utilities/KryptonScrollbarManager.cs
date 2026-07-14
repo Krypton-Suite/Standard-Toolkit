@@ -28,6 +28,8 @@ public class KryptonScrollbarManager : IDisposable
     private Control? _targetControl;
     private KryptonHScrollBar? _horizontalScrollBar;
     private KryptonVScrollBar? _verticalScrollBar;
+    private KryptonScrollBarCorner? _scrollBarCorner;
+    private ScrollbarCornerStyle _cornerStyle = ScrollbarCornerStyle.ExtendHorizontal;
     private ScrollbarManagerMode _mode = ScrollbarManagerMode.Container;
     private bool _enabled = true;
     private bool _isUpdating;
@@ -174,6 +176,25 @@ public class KryptonScrollbarManager : IDisposable
                     Detach();
                     Attach(_targetControl, _mode);
                 }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets how the bottom-right corner is filled when both scrollbars are visible.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Gets or sets how the bottom-right corner is filled when both scrollbars are visible (ExtendHorizontal or ThemedCorner).")]
+    [DefaultValue(ScrollbarCornerStyle.ExtendHorizontal)]
+    public ScrollbarCornerStyle CornerStyle
+    {
+        get => _cornerStyle;
+        set
+        {
+            if (_cornerStyle != value)
+            {
+                _cornerStyle = value;
+                PositionScrollbars();
             }
         }
     }
@@ -515,6 +536,7 @@ public class KryptonScrollbarManager : IDisposable
             foreach (Control child in panel.Controls)
             {
                 if (child != _horizontalScrollBar && child != _verticalScrollBar &&
+                    child != _scrollBarCorner &&
                     child is not KryptonHScrollBar and not KryptonVScrollBar)
                 {
                     // Store original location on first access
@@ -540,6 +562,7 @@ public class KryptonScrollbarManager : IDisposable
             foreach (Control child in _contentContainer.Controls)
             {
                 if (child != _horizontalScrollBar && child != _verticalScrollBar &&
+                    child != _scrollBarCorner &&
                     child is not KryptonHScrollBar and not KryptonVScrollBar)
                 {
                     // Store original location on first access
@@ -1320,6 +1343,7 @@ public class KryptonScrollbarManager : IDisposable
     {
         MoveScrollbarToHost(_horizontalScrollBar, host);
         MoveScrollbarToHost(_verticalScrollBar, host);
+        MoveScrollbarToHost(_scrollBarCorner, host);
     }
 
     private static void MoveScrollbarToHost(Control? scrollbar, Control? host)
@@ -1459,6 +1483,17 @@ public class KryptonScrollbarManager : IDisposable
             _verticalScrollBar = null;
         }
 
+        if (_scrollBarCorner != null)
+        {
+            if (_scrollBarCorner.Parent != null)
+            {
+                RemoveScrollbarFromHost(_scrollBarCorner);
+            }
+
+            _scrollBarCorner.Dispose();
+            _scrollBarCorner = null;
+        }
+
         OnScrollbarsChanged();
     }
 
@@ -1485,13 +1520,28 @@ public class KryptonScrollbarManager : IDisposable
         int hScrollX = laneRect.Left;
         int hScrollY = laneRect.Bottom - scrollbarHeight;
 
+        bool showCorner = false;
+
         if (showHorizontal && showVertical && _horizontalScrollBar != null && _verticalScrollBar != null)
         {
-            // Both visible: the horizontal bar spans the full lane width so it fills the
-            // bottom-right corner, and the vertical bar stops above it. This keeps the
-            // vertical bar's bottom arrow clear of the corner.
-            _horizontalScrollBar.SetBounds(hScrollX, hScrollY, laneRect.Width, scrollbarHeight);
-            _verticalScrollBar.SetBounds(vScrollX, vScrollY, scrollbarWidth, Math.Max(0, hScrollY - vScrollY));
+            if (_cornerStyle == ScrollbarCornerStyle.ThemedCorner)
+            {
+                // Both bars are shortened and a themed filler covers the intersection.
+                _horizontalScrollBar.SetBounds(hScrollX, hScrollY, Math.Max(0, vScrollX - hScrollX), scrollbarHeight);
+                _verticalScrollBar.SetBounds(vScrollX, vScrollY, scrollbarWidth, Math.Max(0, hScrollY - vScrollY));
+
+                EnsureScrollBarCornerCreated();
+                _scrollBarCorner!.SetBounds(vScrollX, hScrollY, scrollbarWidth, scrollbarHeight);
+                showCorner = true;
+            }
+            else
+            {
+                // ExtendHorizontal: the horizontal bar spans the full lane width so it fills
+                // the bottom-right corner, and the vertical bar stops above it. This keeps
+                // the vertical bar's bottom arrow clear of the corner.
+                _horizontalScrollBar.SetBounds(hScrollX, hScrollY, laneRect.Width, scrollbarHeight);
+                _verticalScrollBar.SetBounds(vScrollX, vScrollY, scrollbarWidth, Math.Max(0, hScrollY - vScrollY));
+            }
         }
         else if (showHorizontal && _horizontalScrollBar != null)
         {
@@ -1502,11 +1552,40 @@ public class KryptonScrollbarManager : IDisposable
             _verticalScrollBar.SetBounds(vScrollX, vScrollY, scrollbarWidth, laneRect.Height);
         }
 
+        if (_scrollBarCorner != null)
+        {
+            _scrollBarCorner.Visible = showCorner;
+        }
+
         BringScrollbarsToFront();
+    }
+
+    private void EnsureScrollBarCornerCreated()
+    {
+        if (_scrollBarCorner != null)
+        {
+            return;
+        }
+
+        _scrollBarCorner = new KryptonScrollBarCorner
+        {
+            Visible = false
+        };
+
+        Control? host = GetScrollbarHostControl();
+        if (host != null && host.IsHandleCreated)
+        {
+            AddScrollbarToHost(host, _scrollBarCorner);
+        }
     }
 
     private void BringScrollbarsToFront()
     {
+        if (_scrollBarCorner != null && _scrollBarCorner.Visible)
+        {
+            _scrollBarCorner.BringToFront();
+        }
+
         if (_horizontalScrollBar != null && _horizontalScrollBar.Visible)
         {
             _horizontalScrollBar.BringToFront();
