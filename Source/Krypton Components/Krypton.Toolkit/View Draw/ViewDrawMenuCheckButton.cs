@@ -179,7 +179,8 @@ internal class ViewDrawMenuCheckButton : ViewComposite
     /// <summary>
     /// Resolves the correct text string to use from the menu item.
     /// </summary>
-    public string ResolveText => _cachedCommand != null ? _cachedCommand.Text : KryptonContextMenuCheckButton.Text;
+    public string ResolveText => _cachedCommand != null 
+                                 && !string.IsNullOrEmpty(_cachedCommand.Text) ? _cachedCommand.Text : KryptonContextMenuCheckButton.Text;
 
     #endregion
 
@@ -187,7 +188,7 @@ internal class ViewDrawMenuCheckButton : ViewComposite
     /// <summary>
     /// Resolves the correct extra text string to use from the menu item.
     /// </summary>
-    public string ResolveExtraText => _cachedCommand != null ? _cachedCommand.ExtraText : KryptonContextMenuCheckButton.ExtraText;
+    public string ResolveExtraText => _cachedCommand != null && !string.IsNullOrEmpty(_cachedCommand.ExtraText) ? _cachedCommand.ExtraText : KryptonContextMenuCheckButton.ExtraText;
 
     #endregion
 
