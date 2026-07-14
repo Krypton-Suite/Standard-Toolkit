@@ -1,0 +1,1298 @@
+﻿# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+# Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2026 - 2026. All rights reserved.
+#
+# Scans a selected branch for inline TODO/ToDo comments and opens GitHub issues ([#3899]).
+#
+# Opt-in markers (default scan mode):
+#   ToDo(issue): / TODO(issue):  -> Code ToDo issue (code_todo.yml format)
+#   FIXME(issue):               -> Bug Report issue (bug_report.yml format)
+#   HACK(issue):                -> Code ToDo issue with has workaround label
+#
+# Deduplication before creating issues: fingerprint, matching title, or source file:line.
+#
+# Set include_all_markers=true to also pick up plain TODO/ToDo/FIXME/HACK comments.
+# Plain FIXME creates Bug Reports; plain TODO/ToDo/HACK create Code ToDo issues (HACK adds has workaround).
+#
+# KILL-SWITCH: SCAN_CODE_TODOS_DISABLED=true (repository variable)
+# TEST/FORK REPOS: Set EXPECTED_REPOSITORY=YourOrg/YourFork (repository variable) so the security check passes.
+# DISCORD: Set secret DISCORD_WEBHOOK_CODE_TODOS and enable notify_discord on workflow_dispatch (optional).
+# DEPLOYMENT: Must exist on the default branch before workflow_dispatch is available in the UI.
+# Branch input: choice list synced from .github/branch-policy.json (see sync-scan-code-todos-branches.yml).
+# Use branch_custom when branch is "other". Runtime validation uses branch-policy.json on each run.
+
+name: Scan code TODOs
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: Branch to scan (long-lived lines from branch-policy.json)
+        required: true
+        default: alpha
+        type: choice
+        options:
+          # BEGIN: long-lived-branches (synced from branch-policy.json)
+          - master
+          - main
+          - alpha
+          - canary
+          - gold
+          - prerelease
+          - V110
+          - V105-LTS
+          - V85-LTS
+          # END: long-lived-branches
+          - other
+      branch_custom:
+        description: Custom branch name (required only when branch is "other")
+        required: false
+        default: ''
+        type: string
+      dry_run:
+        description: Log actions only; do not create or close issues
+        required: true
+        default: true
+        type: boolean
+      include_all_markers:
+        description: >-
+          Include plain TODO/ToDo/FIXME/HACK comments (not only ToDo(issue)/FIXME(issue)/HACK(issue)).
+          Leave false for opt-in scanning; set true to scan legacy plain markers (can be 1000+ on alpha).
+        required: true
+        default: false
+        type: boolean
+      max_issues:
+        description: Maximum new issues to create per run
+        required: true
+        default: 25
+        type: number
+      group_duplicates:
+        description: Group identical comment text into one issue
+        required: true
+        default: true
+        type: boolean
+      close_stale:
+        description: Close open auto-created issues whose source comment no longer exists
+        required: true
+        default: false
+        type: boolean
+      notify_discord:
+        description: Post a run summary to Discord (requires secret DISCORD_WEBHOOK_CODE_TODOS)
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Scan kill switch
+        id: kill_switch
+        shell: bash
+        run: |
+          disabled="${{ vars.SCAN_CODE_TODOS_DISABLED }}"
+          if [ "$disabled" = "true" ]; then
+            echo "::warning:: Scan code TODOs is DISABLED (SCAN_CODE_TODOS_DISABLED=true)."
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Security - Verify Repository
+        if: steps.kill_switch.outputs.enabled == 'true'
+        shell: bash
+        env:
+          EXPECTED_REPOSITORY: ${{ vars.EXPECTED_REPOSITORY }}
+        run: |
+          expected_repository="${EXPECTED_REPOSITORY:-Krypton-Suite/Standard-Toolkit}"
+          if [ "$GITHUB_REPOSITORY" != "$expected_repository" ]; then
+            echo "::error::Security: Invalid repository '$GITHUB_REPOSITORY'. This workflow should only run on $expected_repository"
+            exit 1
+          fi
+          echo "✓ Repository verified: $GITHUB_REPOSITORY"
+
+      - name: Checkout branch policy
+        if: steps.kill_switch.outputs.enabled == 'true'
+        uses: actions/checkout@v7
+        with:
+          sparse-checkout: |
+            .github/branch-policy.json
+          sparse-checkout-cone-mode: true
+
+      - name: Validate branch inputs
+        if: steps.kill_switch.outputs.enabled == 'true'
+        shell: bash
+        env:
+          BRANCH_INPUT: ${{ inputs.branch }}
+          BRANCH_CUSTOM: ${{ inputs.branch_custom }}
+        run: |
+          set -euo pipefail
+          if [ "$BRANCH_INPUT" = "other" ]; then
+            branch_custom_trimmed="$(printf '%s' "$BRANCH_CUSTOM" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')"
+            if [ -z "$branch_custom_trimmed" ]; then
+              echo "::error::Provide branch_custom when branch is set to other. Pick a listed branch (master, alpha, ...) or set branch_custom to the exact branch name to scan (e.g. feature/my-branch)."
+              exit 1
+            fi
+          fi
+
+      - name: Resolve scan branch
+        if: steps.kill_switch.outputs.enabled == 'true'
+        id: scan_branch
+        shell: bash
+        env:
+          BRANCH_INPUT: ${{ inputs.branch }}
+          BRANCH_CUSTOM: ${{ inputs.branch_custom }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require('fs');
+          const https = require('https');
+
+          const policy = JSON.parse(fs.readFileSync('.github/branch-policy.json', 'utf8'));
+          const allowed = new Set((policy.longLivedHeadBranches || []).map((b) => b.toLowerCase()));
+
+          let branch = process.env.BRANCH_INPUT || '';
+          if (branch === 'other') {
+            branch = process.env.BRANCH_CUSTOM || '';
+          }
+          branch = branch.replace(/^refs\/heads\//, '').trim();
+
+          if (!branch) {
+            if ((process.env.BRANCH_INPUT || '') === 'other') {
+              console.error(
+                '::error::Provide branch_custom when branch is set to other. ' +
+                'When using workflow_dispatch, set the branch_custom input to the branch name to scan (e.g. feature/my-branch), ' +
+                'or pick a listed branch instead.'
+              );
+            } else {
+              console.error('::error::No scan branch was resolved. Set the branch workflow input to a valid branch name.');
+            }
+            process.exit(1);
+          }
+
+          const input = process.env.BRANCH_INPUT || '';
+          if (input !== 'other' && !allowed.has(branch.toLowerCase())) {
+            console.warn(`::warning:: Branch '${branch}' is not listed in branch-policy.json longLivedHeadBranches.`);
+          }
+
+          const [owner, repo] = (process.env.GITHUB_REPOSITORY || '').split('/');
+          const token = process.env.GITHUB_TOKEN || '';
+
+          function branchExists(name) {
+            return new Promise((resolve) => {
+              const options = {
+                hostname: 'api.github.com',
+                path: `/repos/${owner}/${repo}/branches/${encodeURIComponent(name)}`,
+                method: 'GET',
+                headers: {
+                  'User-Agent': 'scan-code-todos-workflow',
+                  Authorization: `Bearer ${token}`,
+                  Accept: 'application/vnd.github+json',
+                },
+              };
+
+              const req = https.request(options, (res) => {
+                let body = '';
+                res.on('data', (chunk) => {
+                  body += chunk;
+                });
+                res.on('end', () => {
+                  resolve({ exists: res.statusCode === 200, statusCode: res.statusCode, body });
+                });
+              });
+              req.on('error', (error) => resolve({ exists: false, statusCode: 0, body: error.message }));
+              req.end();
+            });
+          }
+
+          (async () => {
+            const result = await branchExists(branch);
+            if (!result.exists) {
+              if (result.statusCode === 404) {
+                console.error(`::error::Branch '${branch}' was not found on ${owner}/${repo}. Check the branch input or branch_custom value.`);
+              } else if (result.statusCode === 0) {
+                console.error(`::error::Could not verify branch '${branch}' on ${owner}/${repo}: ${result.body}`);
+              } else {
+                console.error(`::error::GitHub API returned HTTP ${result.statusCode} while verifying branch '${branch}' on ${owner}/${repo}.`);
+              }
+              process.exit(1);
+            }
+
+            const output = process.env.GITHUB_OUTPUT;
+            if (output) {
+              fs.appendFileSync(output, `ref=${branch}\n`);
+            }
+            console.log(`Scan branch resolved to: ${branch}`);
+          })().catch((error) => {
+            console.error(`::error::${error.message}`);
+            process.exit(1);
+          });
+          NODE
+
+      - name: Checkout
+        if: steps.kill_switch.outputs.enabled == 'true'
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ steps.scan_branch.outputs.ref }}
+
+      - name: Install ripgrep
+        if: steps.kill_switch.outputs.enabled == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v rg >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y ripgrep
+          fi
+          rg --version
+
+      - name: Scan for TODO/ToDo/FIXME comments
+        if: steps.kill_switch.outputs.enabled == 'true'
+        id: scan
+        shell: bash
+        env:
+          INCLUDE_ALL_MARKERS: ${{ inputs.include_all_markers }}
+        run: |
+          set -euo pipefail
+
+          SCAN_PATHS=(Source .github/workflows Documents)
+          SCAN_GLOBS=(
+            -g '!**/obj/**'
+            -g '!**/bin/**'
+            -g '!**/Bin/**'
+            -g '!.github/workflows/scan-code-todos.yml'
+          )
+          ALL_MARKERS_PATTERN='\b(TODO|ToDo|FIXME|HACK)\b(?!\s*\])(?:\s*\(\s*issue\s*\))?[:\s]*(.*)$'
+          OPT_IN_PATTERN='(?i)\b(TODO|ToDo|FIXME|HACK)\s*\(\s*issue\s*\)\s*[:\s]*(.*)$'
+
+          count_rg_lines() {
+            local pattern="$1"
+            local count
+            # ripgrep exits 1 when there are no matches; pipefail would fail the step without handling that.
+            count="$(rg -n --pcre2 "$pattern" "${SCAN_PATHS[@]}" "${SCAN_GLOBS[@]}" 2>/dev/null | wc -l | tr -d ' ')" || count=0
+            printf '%s' "$count"
+          }
+
+          for scan_path in "${SCAN_PATHS[@]}"; do
+            if [ ! -e "$scan_path" ]; then
+              echo "::warning::Scan path '$scan_path' was not found in the checkout. Marker counts may be incomplete."
+            fi
+          done
+
+          if [ "$INCLUDE_ALL_MARKERS" = "true" ]; then
+            PATTERN="$ALL_MARKERS_PATTERN"
+            rg -n --pcre2 "$PATTERN" "${SCAN_PATHS[@]}" "${SCAN_GLOBS[@]}" \
+              --json > todo-matches.jsonl || true
+            MARKER_MODE="all"
+          else
+            PATTERN="$OPT_IN_PATTERN"
+            rg -n --pcre2 "$PATTERN" "${SCAN_PATHS[@]}" "${SCAN_GLOBS[@]}" \
+              --json > todo-matches.jsonl || true
+            MARKER_MODE="opt-in"
+          fi
+
+          RG_RAW_COUNT=0
+          if [ -s todo-matches.jsonl ]; then
+            RG_RAW_COUNT="$(wc -l < todo-matches.jsonl | tr -d ' ')"
+          fi
+
+          PLAIN_MARKER_COUNT="$(count_rg_lines "$ALL_MARKERS_PATTERN")"
+          OPT_IN_MARKER_COUNT="$(count_rg_lines "$OPT_IN_PATTERN")"
+          echo "marker_mode=$MARKER_MODE" >> "$GITHUB_OUTPUT"
+          echo "plain_marker_count=$PLAIN_MARKER_COUNT" >> "$GITHUB_OUTPUT"
+          echo "opt_in_marker_count=$OPT_IN_MARKER_COUNT" >> "$GITHUB_OUTPUT"
+          echo "rg_raw_count=$RG_RAW_COUNT" >> "$GITHUB_OUTPUT"
+
+          MARKER_MODE="$MARKER_MODE" RG_RAW_COUNT="$RG_RAW_COUNT" PLAIN_MARKER_COUNT="$PLAIN_MARKER_COUNT" OPT_IN_MARKER_COUNT="$OPT_IN_MARKER_COUNT" \
+            node <<'DIAG'
+          const fs = require('fs');
+          const diagnostics = {
+            markerMode: process.env.MARKER_MODE || 'opt-in',
+            rgRawCount: Number(process.env.RG_RAW_COUNT || 0),
+            plainMarkerCount: Number(process.env.PLAIN_MARKER_COUNT || 0),
+            optInMarkerCount: Number(process.env.OPT_IN_MARKER_COUNT || 0),
+          };
+          fs.writeFileSync('scan-diagnostics.json', JSON.stringify(diagnostics, null, 2));
+          DIAG
+
+          if [ ! -s todo-matches.jsonl ]; then
+            echo "[]" > todo-matches.json
+            echo "match_count=0" >> "$GITHUB_OUTPUT"
+            if [ "$INCLUDE_ALL_MARKERS" != "true" ] && [ "$PLAIN_MARKER_COUNT" -gt 0 ]; then
+              echo "::notice title=No opt-in markers found::Found 0 ToDo(issue)/FIXME(issue)/HACK(issue) comment(s) on this branch, but approximately ${PLAIN_MARKER_COUNT} plain TODO/ToDo/FIXME/HACK comment(s) exist. Re-run with workflow input include_all_markers=true to scan those, or mark work with // ToDo(issue): description"
+            elif [ "$INCLUDE_ALL_MARKERS" != "true" ]; then
+              echo "::notice title=No opt-in markers found::Found 0 ToDo(issue)/FIXME(issue)/HACK(issue) comment(s). Add markers like // ToDo(issue): description to track work, or re-run with workflow input include_all_markers=true to scan plain TODO comments."
+            fi
+            exit 0
+          fi
+
+          node <<'NODE'
+          const fs = require('fs');
+          const crypto = require('crypto');
+
+          const includeAll = process.env.INCLUDE_ALL_MARKERS === 'true';
+          const lines = fs.readFileSync('todo-matches.jsonl', 'utf8').trim().split(/\r?\n/).filter(Boolean);
+          const matches = [];
+
+            const linkedIssuePattern = /(?:#\d{3,}|issues\/\d{3,})/i;
+
+            function resolveMarkerType(markerRaw) {
+              const marker = String(markerRaw || '').toLowerCase();
+              if (marker === 'fixme') {
+                return 'fixme';
+              }
+              if (marker === 'hack') {
+                return 'hack';
+              }
+              return 'todo';
+            }
+
+            for (const line of lines) {
+            let event;
+            try {
+              event = JSON.parse(line);
+            } catch {
+              continue;
+            }
+            if (event.type !== 'match' || !event.data) {
+              continue;
+            }
+
+            const filePath = (event.data.path?.text || '').replace(/\\/g, '/');
+            const lineNumber = event.data.line_number;
+            const lineText = event.data.lines?.text || '';
+            const captures = event.data.submatches || [];
+            const markerRaw = (captures[0]?.match?.text || '').trim();
+            let commentText = (captures[1]?.match?.text || '').trim();
+            if (!commentText) {
+              const fallback = lineText.match(/(?:TODO|ToDo|FIXME|HACK)(?:\s*\(\s*issue\s*\))?\s*[:\s]+(.+)$/i);
+              commentText = (fallback?.[1] || '').trim();
+            }
+
+            if (!filePath || !lineNumber) {
+              continue;
+            }
+
+            if (linkedIssuePattern.test(lineText)) {
+              continue;
+            }
+
+            const markerType = resolveMarkerType(markerRaw);
+
+            const normalizedText = commentText
+              .replace(/\s+/g, ' ')
+              .trim()
+              .toLowerCase();
+
+            if (!normalizedText) {
+              continue;
+            }
+
+            const locationKey = `${filePath}:${lineNumber}:${normalizedText}`;
+            const locationHash = crypto.createHash('sha256').update(locationKey).digest('hex');
+
+            matches.push({
+              filePath,
+              lineNumber,
+              lineText: lineText.trimEnd(),
+              commentText,
+              normalizedText,
+              locationKey,
+              locationHash,
+              markerType,
+              markerMode: includeAll ? 'all' : 'opt-in',
+            });
+          }
+
+          fs.writeFileSync('todo-matches.json', JSON.stringify(matches, null, 2));
+          console.log(`Parsed ${matches.length} marker(s).`);
+          NODE
+
+          MATCH_COUNT="$(node -e "console.log(JSON.parse(require('fs').readFileSync('todo-matches.json','utf8')).length)")"
+          echo "match_count=$MATCH_COUNT" >> "$GITHUB_OUTPUT"
+
+      - name: Upload scan results
+        if: steps.kill_switch.outputs.enabled == 'true'
+        uses: actions/upload-artifact@v7
+        with:
+          name: code-todo-scan-${{ steps.scan_branch.outputs.ref }}
+          path: todo-matches.json
+          if-no-files-found: ignore
+
+      - name: Create or close issues from scan results
+        if: steps.kill_switch.outputs.enabled == 'true'
+        id: issue_sync
+        uses: actions/github-script@v9
+        env:
+          BRANCH: ${{ steps.scan_branch.outputs.ref }}
+          DRY_RUN: ${{ inputs.dry_run }}
+          MAX_ISSUES: ${{ inputs.max_issues }}
+          GROUP_DUPLICATES: ${{ inputs.group_duplicates }}
+          CLOSE_STALE: ${{ inputs.close_stale }}
+          INCLUDE_ALL_MARKERS: ${{ inputs.include_all_markers }}
+        with:
+          script: |
+            const fs = require('fs');
+            const crypto = require('crypto');
+
+            const { owner, repo } = context.repo;
+            const branch = process.env.BRANCH || 'master';
+            const isDryRun = String(process.env.DRY_RUN) === 'true';
+            const maxIssues = Math.max(0, Number(process.env.MAX_ISSUES) || 0);
+            const groupDuplicates = String(process.env.GROUP_DUPLICATES) === 'true';
+            const closeStale = String(process.env.CLOSE_STALE) === 'true';
+            const includeAllMarkers = String(process.env.INCLUDE_ALL_MARKERS) === 'true';
+
+            const todoFingerprintPrefix = '<!-- code-todo-scan:key=';
+            const hackFingerprintPrefix = '<!-- code-hack-scan:key=';
+            const fixmeFingerprintPrefix = '<!-- code-fixme-scan:key=';
+            const fingerprintSuffix = ' -->';
+
+            const todoLabels = [
+              'todo :spiral_notepad:',
+              'backlog',
+              'version:all versions',
+            ];
+
+            const hackLabels = [
+              'todo :spiral_notepad:',
+              'has workaround',
+              'backlog',
+              'version:all versions',
+            ];
+
+            const fixmeLabels = [
+              'bug',
+              'backlog',
+              'version:all versions',
+            ];
+
+            const pathAreaPatterns = [
+              { pattern: /krypton\.docking/i, label: 'area:docking' },
+              { pattern: /krypton\.navigator\.utilities/i, label: 'area:navigator-utilities' },
+              { pattern: /krypton\.navigator/i, label: 'area:navigator' },
+              { pattern: /krypton\.ribbon/i, label: 'area:ribbon' },
+              { pattern: /krypton\.workspace/i, label: 'area:workspace' },
+              { pattern: /krypton\.utilities/i, label: 'area:toolkit-utilities' },
+              { pattern: /testform/i, label: 'area:test-form' },
+              { pattern: /krypton\.toolkit/i, label: 'area:toolkit' },
+              { pattern: /\.github\/workflows/i, label: 'workflows' },
+              { pattern: /(^|\/)scripts\//i, label: 'area:buildsystem' },
+            ];
+
+            function readMatches() {
+              if (!fs.existsSync('todo-matches.json')) {
+                return [];
+              }
+              const raw = fs.readFileSync('todo-matches.json', 'utf8').trim();
+              if (!raw) {
+                return [];
+              }
+              return JSON.parse(raw);
+            }
+
+            function readScanDiagnostics() {
+              if (!fs.existsSync('scan-diagnostics.json')) {
+                return null;
+              }
+              return JSON.parse(fs.readFileSync('scan-diagnostics.json', 'utf8'));
+            }
+
+            function buildTodoFingerprint(key) {
+              return `${todoFingerprintPrefix}${key}${fingerprintSuffix}`;
+            }
+
+            function buildFixmeFingerprint(key) {
+              return `${fixmeFingerprintPrefix}${key}${fingerprintSuffix}`;
+            }
+
+            function extractTodoFingerprint(body) {
+              if (!body) {
+                return null;
+              }
+              const match = body.match(/<!-- code-todo-scan:key=([a-f0-9]{64}) -->/i);
+              return match ? match[1] : null;
+            }
+
+            function extractFixmeFingerprint(body) {
+              if (!body) {
+                return null;
+              }
+              const match = body.match(/<!-- code-fixme-scan:key=([a-f0-9]{64}) -->/i);
+              return match ? match[1] : null;
+            }
+
+            function buildHackFingerprint(key) {
+              return `${hackFingerprintPrefix}${key}${fingerprintSuffix}`;
+            }
+
+            function extractHackFingerprint(body) {
+              if (!body) {
+                return null;
+              }
+              const match = body.match(/<!-- code-hack-scan:key=([a-f0-9]{64}) -->/i);
+              return match ? match[1] : null;
+            }
+
+            function extractAnyFingerprint(body) {
+              return extractTodoFingerprint(body) || extractHackFingerprint(body) || extractFixmeFingerprint(body);
+            }
+
+            function summarizeTitle(text, fallback) {
+              const cleaned = (text || '')
+                .replace(/\s+/g, ' ')
+                .trim();
+              if (!cleaned) {
+                return fallback;
+              }
+              return cleaned.length > 80 ? `${cleaned.slice(0, 77)}...` : cleaned;
+            }
+
+            function resolveAreaLabels(filePath) {
+              const normalized = (filePath || '').replace(/\\/g, '/');
+              const labels = [];
+              for (const entry of pathAreaPatterns) {
+                if (entry.pattern.test(normalized)) {
+                  labels.push(entry.label);
+                }
+              }
+              return labels;
+            }
+
+            function buildSourceUrl(filePath, lineNumber) {
+              const encodedPath = filePath.split('/').map(encodeURIComponent).join('/');
+              return `https://github.com/${owner}/${repo}/blob/${branch}/${encodedPath}#L${lineNumber}`;
+            }
+
+            function resolveBugReportArea(filePath) {
+              const normalized = (filePath || '').replace(/\\/g, '/');
+              if (/krypton\.docking/i.test(normalized)) {
+                return 'Docking';
+              }
+              if (/krypton\.navigator/i.test(normalized)) {
+                return 'Navigator';
+              }
+              if (/krypton\.ribbon/i.test(normalized)) {
+                return 'Ribbon';
+              }
+              if (/krypton\.workspace/i.test(normalized)) {
+                return 'Workspace';
+              }
+              if (/krypton\.utilities/i.test(normalized)) {
+                return 'Utilities';
+              }
+              if (/krypton\.toolkit/i.test(normalized) || /testform/i.test(normalized)) {
+                return 'Toolkit';
+              }
+              return null;
+            }
+
+            function groupKeyForMatch(match) {
+              const base = groupDuplicates ? match.normalizedText : match.locationHash;
+              return crypto.createHash('sha256').update(`${match.markerType}:${base}`).digest('hex');
+            }
+
+            function buildLocationKey(filePath, lineNumber) {
+              const normalizedPath = (filePath || '').replace(/\\/g, '/').trim().toLowerCase();
+              return `${normalizedPath}:${lineNumber}`;
+            }
+
+            function normalizeCodeTodoTitle(title) {
+              const prefix = '[Code ToDo]: ';
+              let text = (title || '').trim();
+              if (text.toLowerCase().startsWith(prefix.toLowerCase())) {
+                text = text.slice(prefix.length);
+              }
+              return text.replace(/\s+/g, ' ').trim().toLowerCase();
+            }
+
+            function normalizeBugTitle(title) {
+              const prefix = '[Bug]: ';
+              let text = (title || '').trim();
+              if (text.toLowerCase().startsWith(prefix.toLowerCase())) {
+                text = text.slice(prefix.length);
+              }
+              return text.replace(/\s+/g, ' ').trim().toLowerCase();
+            }
+
+            function getIssueMarkerType(issue) {
+              if (extractFixmeFingerprint(issue.body)) {
+                return 'fixme';
+              }
+              if (extractHackFingerprint(issue.body)) {
+                return 'hack';
+              }
+              if (extractTodoFingerprint(issue.body)) {
+                return 'todo';
+              }
+              if ((issue.body || '').includes('Marker type: hack')) {
+                return 'hack';
+              }
+              const title = (issue.title || '').trim().toLowerCase();
+              if (title.startsWith('[bug]:')) {
+                return 'fixme';
+              }
+              if (title.startsWith('[code todo]:')) {
+                return 'todo';
+              }
+              return null;
+            }
+
+            function normalizeTitleForMarkerType(title, markerType) {
+              return markerType === 'fixme'
+                ? normalizeBugTitle(title)
+                : normalizeCodeTodoTitle(title);
+            }
+
+            function buildTitle(group) {
+              const fallback = group.markerType === 'fixme'
+                ? 'Untitled FIXME'
+                : group.markerType === 'hack'
+                  ? 'Untitled HACK'
+                  : 'Untitled code ToDo';
+              const summary = summarizeTitle(group.commentText, fallback);
+              return group.markerType === 'fixme'
+                ? `[Bug]: ${summary}`
+                : `[Code ToDo]: ${summary}`;
+            }
+
+            function buildLocationLines(locations) {
+              return locations
+                .sort((a, b) => a.filePath.localeCompare(b.filePath) || a.lineNumber - b.lineNumber)
+                .map(location => {
+                  const url = buildSourceUrl(location.filePath, location.lineNumber);
+                  return `| \`${location.filePath}\` | ${location.lineNumber} | [View source](${url}) |`;
+                });
+            }
+
+            function buildCodeTodoBody(group) {
+              const markerLabel = group.markerType === 'hack' ? 'hack (workaround)' : 'code todo';
+              const fingerprint = group.markerType === 'hack'
+                ? buildHackFingerprint(group.key)
+                : buildTodoFingerprint(group.key);
+              const bodyParts = [
+                '### Summary',
+                '',
+                group.commentText || '_No comment text captured._',
+                '',
+              ];
+
+              if (group.markerType === 'hack') {
+                bodyParts.push(
+                  'This issue was filed automatically from an inline `HACK` (temporary workaround) comment in source code.',
+                  ''
+                );
+              }
+
+              bodyParts.push(
+                '### Source',
+                '',
+                '| File | Line | Link |',
+                '| --- | ---: | --- |',
+                ...buildLocationLines(group.locations),
+                '',
+                '### Scan metadata',
+                '',
+                `- Branch: \`${branch}\``,
+                `- Marker type: ${markerLabel}`,
+                `- Marker mode: ${includeAllMarkers ? 'all markers (TODO/ToDo/FIXME/HACK)' : 'opt-in marker only'}`,
+                `- Locations in this issue: ${group.locations.length}`,
+                `- Created by: [Scan code TODOs workflow](https://github.com/${owner}/${repo}/actions/workflows/scan-code-todos.yml)`,
+                '',
+                fingerprint
+              );
+
+              return bodyParts.join('\n');
+            }
+
+            function buildBugReportBody(group) {
+              const summary = summarizeTitle(group.commentText, 'Untitled FIXME');
+              const areas = new Set();
+              for (const location of group.locations) {
+                const area = resolveBugReportArea(location.filePath);
+                if (area) {
+                  areas.add(area);
+                }
+              }
+
+              const areasAffected = areas.size > 0
+                ? [...areas].map(area => `- ${area}`).join('\n')
+                : '- Toolkit';
+
+              return [
+                '### Summary',
+                '',
+                summary,
+                '',
+                '### Description',
+                '',
+                group.commentText || '_No comment text captured._',
+                '',
+                'This issue was filed automatically from an inline `FIXME` comment in source code.',
+                '',
+                '### Steps to Reproduce',
+                '',
+                '_To be documented. This issue was created from an inline FIXME comment._',
+                '',
+                '### Expected Behavior',
+                '',
+                '_To be documented._',
+                '',
+                '### Actual Behavior',
+                '',
+                '_To be documented._',
+                '',
+                '### Additional Information',
+                '',
+                '**Source locations**',
+                '',
+                '| File | Line | Link |',
+                '| --- | ---: | --- |',
+                ...buildLocationLines(group.locations),
+                '',
+                '**Scan metadata**',
+                '',
+                `- Branch: \`${branch}\``,
+                `- Marker type: fixme (bug report)`,
+                `- Marker mode: ${includeAllMarkers ? 'all markers (TODO/ToDo/FIXME/HACK)' : 'opt-in marker only'}`,
+                `- Locations in this issue: ${group.locations.length}`,
+                `- Created by: [Scan code TODOs workflow](https://github.com/${owner}/${repo}/actions/workflows/scan-code-todos.yml)`,
+                '',
+                '### Areas Affected',
+                '',
+                areasAffected,
+                '',
+                buildFixmeFingerprint(group.key),
+              ].join('\n');
+            }
+
+            function extractLocationKeysFromBody(body) {
+              const keys = new Set();
+              if (!body) {
+                return [];
+              }
+
+              const blobPattern = /\/blob\/[^/\s]+\/(.+?)#L(\d+)/gi;
+              let match;
+              while ((match = blobPattern.exec(body)) !== null) {
+                keys.add(buildLocationKey(decodeURIComponent(match[1]), Number(match[2])));
+              }
+
+              const tablePattern = /\|\s*`([^`]+)`\s*\|\s*(\d+)\s*\|/g;
+              while ((match = tablePattern.exec(body)) !== null) {
+                keys.add(buildLocationKey(match[1], Number(match[2])));
+              }
+
+              const plainPattern = /^([^\s|:]+):(\d+)\s*$/gm;
+              while ((match = plainPattern.exec(body)) !== null) {
+                keys.add(buildLocationKey(match[1], Number(match[2])));
+              }
+
+              const inlinePattern = /([A-Za-z0-9_./ -]+\.(?:cs|yml|yaml|md|ps1|cmd)):(\d+)/g;
+              while ((match = inlinePattern.exec(body)) !== null) {
+                keys.add(buildLocationKey(match[1], Number(match[2])));
+              }
+
+              return [...keys];
+            }
+
+            function toIssueInfo(issue) {
+              return {
+                number: issue.number,
+                state: issue.state,
+                title: issue.title,
+              };
+            }
+
+            async function buildDedupIndex() {
+              const byFingerprint = new Map();
+              const byTitle = new Map();
+              const byLocation = new Map();
+              const seenIssueNumbers = new Set();
+
+              function ingestIssue(issue) {
+                if (issue.pull_request || seenIssueNumbers.has(issue.number)) {
+                  return;
+                }
+
+                seenIssueNumbers.add(issue.number);
+                const issueInfo = toIssueInfo(issue);
+
+                const fingerprint = extractAnyFingerprint(issue.body);
+                if (fingerprint) {
+                  byFingerprint.set(fingerprint, issueInfo);
+                }
+
+                const markerType = getIssueMarkerType(issue);
+                if (markerType) {
+                  const normalizedTitle = normalizeTitleForMarkerType(issue.title, markerType);
+                  if (normalizedTitle) {
+                    const titleKey = `${markerType}:${normalizedTitle}`;
+                    if (!byTitle.has(titleKey)) {
+                      byTitle.set(titleKey, []);
+                    }
+                    byTitle.get(titleKey).push(issueInfo);
+                  }
+                }
+
+                for (const locationKey of extractLocationKeysFromBody(issue.body)) {
+                  if (!byLocation.has(locationKey)) {
+                    byLocation.set(locationKey, []);
+                  }
+                  byLocation.get(locationKey).push(issueInfo);
+                }
+              }
+
+              let page = 1;
+              while (true) {
+                const { data } = await github.rest.issues.listForRepo({
+                  owner,
+                  repo,
+                  labels: 'todo :spiral_notepad:',
+                  state: 'all',
+                  per_page: 100,
+                  page,
+                });
+
+                for (const issue of data) {
+                  ingestIssue(issue);
+                }
+
+                if (data.length < 100) {
+                  break;
+                }
+                page += 1;
+              }
+
+              page = 1;
+              while (true) {
+                const { data } = await github.rest.search.issuesAndPullRequests({
+                  q: `repo:${owner}/${repo} is:issue "[Code ToDo]:" in:title`,
+                  per_page: 100,
+                  page,
+                });
+
+                for (const issue of data.items || []) {
+                  try {
+                    const { data: fullIssue } = await github.rest.issues.get({
+                      owner,
+                      repo,
+                      issue_number: issue.number,
+                    });
+                    ingestIssue(fullIssue);
+                  } catch (error) {
+                    console.warn(`Could not load issue #${issue.number} for dedup index: ${error.message}`);
+                  }
+                }
+
+                if (!data.items || data.items.length < 100) {
+                  break;
+                }
+                page += 1;
+              }
+
+              page = 1;
+              while (true) {
+                const { data } = await github.rest.search.issuesAndPullRequests({
+                  q: `repo:${owner}/${repo} is:issue "[Bug]:" in:title`,
+                  per_page: 100,
+                  page,
+                });
+
+                for (const issue of data.items || []) {
+                  try {
+                    const { data: fullIssue } = await github.rest.issues.get({
+                      owner,
+                      repo,
+                      issue_number: issue.number,
+                    });
+                    ingestIssue(fullIssue);
+                  } catch (error) {
+                    console.warn(`Could not load issue #${issue.number} for dedup index: ${error.message}`);
+                  }
+                }
+
+                if (!data.items || data.items.length < 100) {
+                  break;
+                }
+                page += 1;
+              }
+
+              return { byFingerprint, byTitle, byLocation };
+            }
+
+            function findDuplicate(group, title, dedupIndex) {
+              const fingerprintMatch = dedupIndex.byFingerprint.get(group.key);
+              if (fingerprintMatch) {
+                return { reason: 'fingerprint', issue: fingerprintMatch };
+              }
+
+              const normalizedTitle = normalizeTitleForMarkerType(title, group.markerType);
+              const titleKey = `${group.markerType}:${normalizedTitle}`;
+              const titleMatches = dedupIndex.byTitle.get(titleKey) || [];
+              if (titleMatches.length > 0) {
+                return { reason: 'title', issue: titleMatches[0] };
+              }
+
+              for (const location of group.locations) {
+                const locationKey = buildLocationKey(location.filePath, location.lineNumber);
+                const locationMatches = dedupIndex.byLocation.get(locationKey) || [];
+                if (locationMatches.length > 0) {
+                  return { reason: 'source location', issue: locationMatches[0], locationKey };
+                }
+              }
+
+              return null;
+            }
+
+            async function listTrackedIssues() {
+              const tracked = new Map();
+              let page = 1;
+              while (true) {
+                const { data } = await github.rest.issues.listForRepo({
+                  owner,
+                  repo,
+                  labels: 'todo :spiral_notepad:',
+                  state: 'all',
+                  per_page: 100,
+                  page,
+                });
+
+                for (const issue of data) {
+                  if (issue.pull_request) {
+                    continue;
+                  }
+                  const fingerprint = extractTodoFingerprint(issue.body) || extractHackFingerprint(issue.body);
+                  if (fingerprint) {
+                    tracked.set(fingerprint, {
+                      number: issue.number,
+                      state: issue.state,
+                      title: issue.title,
+                      markerType: extractHackFingerprint(issue.body) ? 'hack' : 'todo',
+                    });
+                  }
+                }
+
+                if (data.length < 100) {
+                  break;
+                }
+                page += 1;
+              }
+
+              page = 1;
+              while (true) {
+                const { data } = await github.rest.issues.listForRepo({
+                  owner,
+                  repo,
+                  labels: 'bug',
+                  state: 'all',
+                  per_page: 100,
+                  page,
+                });
+
+                for (const issue of data) {
+                  if (issue.pull_request) {
+                    continue;
+                  }
+                  const fingerprint = extractFixmeFingerprint(issue.body);
+                  if (fingerprint) {
+                    tracked.set(fingerprint, {
+                      number: issue.number,
+                      state: issue.state,
+                      title: issue.title,
+                      markerType: 'fixme',
+                    });
+                  }
+                }
+
+                if (data.length < 100) {
+                  break;
+                }
+                page += 1;
+              }
+
+              return tracked;
+            }
+
+            const matches = readMatches();
+            const scanDiagnostics = readScanDiagnostics();
+            console.log(`Loaded ${matches.length} match(es) from scan (group_duplicates=${groupDuplicates}, include_all_markers=${includeAllMarkers}).`);
+            if (scanDiagnostics) {
+              console.log(
+                `Scan diagnostics: mode=${scanDiagnostics.markerMode}, ` +
+                `opt-in=${scanDiagnostics.optInMarkerCount}, plain=${scanDiagnostics.plainMarkerCount}, rg_raw=${scanDiagnostics.rgRawCount}.`
+              );
+            }
+
+            const grouped = new Map();
+            for (const match of matches) {
+              const key = groupKeyForMatch(match);
+              if (!grouped.has(key)) {
+                grouped.set(key, {
+                  key,
+                  markerType: match.markerType,
+                  commentText: match.commentText,
+                  normalizedText: match.normalizedText,
+                  locations: [],
+                });
+              }
+              grouped.get(key).locations.push(match);
+            }
+
+            const dedupIndex = await buildDedupIndex();
+            console.log(
+              `Dedup index: ${dedupIndex.byFingerprint.size} fingerprint(s), ` +
+              `${dedupIndex.byTitle.size} title(s), ${dedupIndex.byLocation.size} source location(s).`
+            );
+
+            const trackedIssues = await listTrackedIssues();
+            console.log(`Found ${trackedIssues.size} fingerprint-tracked issue(s) for stale closure.`);
+
+            const activeFingerprints = new Set(grouped.keys());
+            let createdTodoCount = 0;
+            let createdHackCount = 0;
+            let createdBugCount = 0;
+            let skippedFingerprint = 0;
+            let skippedTitle = 0;
+            let skippedLocation = 0;
+            let skippedLimit = 0;
+
+            for (const group of grouped.values()) {
+              const title = buildTitle(group);
+              const duplicate = findDuplicate(group, title, dedupIndex);
+              if (duplicate) {
+                if (duplicate.reason === 'fingerprint') {
+                  skippedFingerprint += 1;
+                } else if (duplicate.reason === 'title') {
+                  skippedTitle += 1;
+                } else {
+                  skippedLocation += 1;
+                }
+
+                const locationSuffix = duplicate.locationKey ? ` at ${duplicate.locationKey}` : '';
+                console.log(
+                  `Skipping existing issue #${duplicate.issue.number} (${duplicate.reason}${locationSuffix}) for "${title}".`
+                );
+                continue;
+              }
+
+              if ((createdTodoCount + createdHackCount + createdBugCount) >= maxIssues) {
+                skippedLimit += 1;
+                continue;
+              }
+
+              let body;
+              let labels;
+
+              if (group.markerType === 'fixme') {
+                body = buildBugReportBody(group);
+                labels = [...fixmeLabels];
+              } else if (group.markerType === 'hack') {
+                body = buildCodeTodoBody(group);
+                labels = [...new Set([
+                  ...hackLabels,
+                  ...group.locations.flatMap(location => resolveAreaLabels(location.filePath)),
+                ])];
+              } else {
+                body = buildCodeTodoBody(group);
+                labels = [...new Set([
+                  ...todoLabels,
+                  ...group.locations.flatMap(location => resolveAreaLabels(location.filePath)),
+                ])];
+              }
+
+              console.log(`${isDryRun ? '[dry-run] Would create' : 'Creating'} ${group.markerType} issue: ${title}`);
+              console.log(`Labels: ${labels.join(', ')}`);
+
+              if (!isDryRun) {
+                await github.rest.issues.create({
+                  owner,
+                  repo,
+                  title,
+                  body,
+                  labels,
+                });
+              }
+
+              if (group.markerType === 'fixme') {
+                createdBugCount += 1;
+              } else if (group.markerType === 'hack') {
+                createdHackCount += 1;
+              } else {
+                createdTodoCount += 1;
+              }
+            }
+
+            let closedCount = 0;
+            if (closeStale) {
+              for (const [fingerprint, issue] of trackedIssues.entries()) {
+                if (issue.state !== 'open') {
+                  continue;
+                }
+                if (activeFingerprints.has(fingerprint)) {
+                  continue;
+                }
+
+                console.log(`${isDryRun ? '[dry-run] Would close' : 'Closing'} stale issue #${issue.number} (${issue.title}).`);
+                if (!isDryRun) {
+                  await github.rest.issues.update({
+                    owner,
+                    repo,
+                    issue_number: issue.number,
+                    state: 'closed',
+                    state_reason: 'not_planned',
+                  });
+
+                  await github.rest.issues.createComment({
+                    owner,
+                    repo,
+                    issue_number: issue.number,
+                    body: [
+                      'Closing as stale: the inline code comment tracked by this issue was not found during the latest scan.',
+                      '',
+                      `- Branch scanned: \`${branch}\``,
+                      `- Workflow run: ${context.payload.repository.html_url}/actions/runs/${context.runId}`,
+                    ].join('\n'),
+                  });
+                }
+
+                closedCount += 1;
+              }
+            }
+
+            core.summary
+              .addHeading('Code marker scan summary')
+              .addTable([
+                [{ data: 'Metric', header: true }, { data: 'Count', header: true }],
+                [{ data: 'Marker mode' }, { data: scanDiagnostics?.markerMode || (includeAllMarkers ? 'all' : 'opt-in') }],
+                [{ data: 'Opt-in markers on branch (ToDo(issue) etc.)' }, { data: String(scanDiagnostics?.optInMarkerCount ?? 'n/a') }],
+                [{ data: 'Plain markers on branch (TODO/ToDo/FIXME/HACK)' }, { data: String(scanDiagnostics?.plainMarkerCount ?? 'n/a') }],
+                [{ data: 'Matches scanned' }, { data: String(matches.length) }],
+                [{ data: 'Grouped candidates' }, { data: String(grouped.size) }],
+                [{ data: 'Code ToDo issues created' }, { data: String(createdTodoCount) }],
+                [{ data: 'Code HACK issues created (workaround)' }, { data: String(createdHackCount) }],
+                [{ data: 'Bug Report issues created (FIXME)' }, { data: String(createdBugCount) }],
+                [{ data: 'Skipped (fingerprint)' }, { data: String(skippedFingerprint) }],
+                [{ data: 'Skipped (title)' }, { data: String(skippedTitle) }],
+                [{ data: 'Skipped (source location)' }, { data: String(skippedLocation) }],
+                [{ data: 'Skipped (max_issues limit)' }, { data: String(skippedLimit) }],
+                [{ data: 'Stale issues closed' }, { data: String(closedCount) }],
+                [{ data: 'Dry run' }, { data: String(isDryRun) }],
+              ])
+              .write();
+
+            if (!includeAllMarkers && matches.length === 0 && scanDiagnostics?.plainMarkerCount > 0) {
+              core.warning(
+                `No opt-in markers were scanned, but approximately ${scanDiagnostics.plainMarkerCount} plain TODO/ToDo/FIXME/HACK comment(s) exist on this branch. ` +
+                'Re-run this workflow with include_all_markers=true to scan those, or use // ToDo(issue): description in source.'
+              );
+            }
+
+            if (skippedLimit > 0) {
+              core.warning(`${skippedLimit} candidate(s) were not created because max_issues=${maxIssues}. Increase max_issues or run again.`);
+            }
+
+            fs.writeFileSync('scan-summary.json', JSON.stringify({
+              branch,
+              isDryRun,
+              includeAllMarkers,
+              markerMode: scanDiagnostics?.markerMode || (includeAllMarkers ? 'all' : 'opt-in'),
+              optInMarkerCount: scanDiagnostics?.optInMarkerCount ?? null,
+              plainMarkerCount: scanDiagnostics?.plainMarkerCount ?? null,
+              matchesScanned: matches.length,
+              groupedCandidates: grouped.size,
+              createdTodoCount,
+              createdHackCount,
+              createdBugCount,
+              skippedFingerprint,
+              skippedTitle,
+              skippedLocation,
+              skippedLimit,
+              closedCount,
+              workflowStatus: 'success',
+            }, null, 2));
+
+      - name: Discord notification
+        if: always() && steps.kill_switch.outputs.enabled == 'true' && inputs.notify_discord == true
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_CODE_TODOS }}
+          JOB_STATUS: ${{ job.status }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          if [ -z "$DISCORD_WEBHOOK" ]; then
+            echo "DISCORD_WEBHOOK_CODE_TODOS not set - skipping Discord notification"
+            exit 0
+          fi
+
+          if [ -f scan-summary.json ]; then
+            payload="$(jq -n \
+              --arg repo "$REPOSITORY" \
+              --arg run_url "$RUN_URL" \
+              --arg job_status "$JOB_STATUS" \
+              --argjson summary "$(cat scan-summary.json)" \
+              '
+              def n($v): if $v == null then "n/a" else ($v|tostring) end;
+              ($summary.markerMode // "opt-in") as $mode |
+              (if $summary.isDryRun then " (dry run)" else "" end) as $dry |
+              (if $job_status == "success" then 3066993 elif $job_status == "failure" then 15158332 else 16776960 end) as $color |
+              {
+                embeds: [{
+                  title: ("📝 Code TODO scan" + $dry),
+                  description: (
+                    "**Repository:** " + $repo + "\n" +
+                    "**Branch:** `" + ($summary.branch // "unknown") + "`\n" +
+                    "**Marker mode:** " + $mode + "\n" +
+                    "**Job status:** " + $job_status + "\n\n" +
+                    "**Scan**\n" +
+                    "• Matches scanned: " + n($summary.matchesScanned) + "\n" +
+                    "• Grouped candidates: " + n($summary.groupedCandidates) + "\n" +
+                    "• Opt-in markers on branch: " + n($summary.optInMarkerCount) + "\n" +
+                    "• Plain markers on branch: " + n($summary.plainMarkerCount) + "\n\n" +
+                    "**Issues**\n" +
+                    "• Code ToDo created: " + n($summary.createdTodoCount) + "\n" +
+                    "• HACK (workaround) created: " + n($summary.createdHackCount) + "\n" +
+                    "• Bug reports (FIXME) created: " + n($summary.createdBugCount) + "\n" +
+                    "• Stale closed: " + n($summary.closedCount) + "\n\n" +
+                    "**Skipped**\n" +
+                    "• Fingerprint: " + n($summary.skippedFingerprint) + "\n" +
+                    "• Title: " + n($summary.skippedTitle) + "\n" +
+                    "• Source location: " + n($summary.skippedLocation) + "\n" +
+                    "• max_issues limit: " + n($summary.skippedLimit) + "\n\n" +
+                    "[View workflow run](" + $run_url + ")"
+                  ),
+                  color: $color,
+                  timestamp: (now | todate),
+                  footer: { text: "Scan code TODOs" }
+                }]
+              }
+              ')"
+          else
+            payload="$(jq -n \
+              --arg repo "$REPOSITORY" \
+              --arg run_url "$RUN_URL" \
+              --arg job_status "$JOB_STATUS" \
+              '
+              {
+                embeds: [{
+                  title: "📝 Code TODO scan",
+                  description: (
+                    "**Repository:** " + $repo + "\n" +
+                    "**Job status:** " + $job_status + "\n\n" +
+                    "The workflow did not complete the issue sync step (no scan summary was produced).\n\n" +
+                    "[View workflow run](" + $run_url + ")"
+                  ),
+                  color: (if $job_status == "failure" then 15158332 else 16776960 end),
+                  timestamp: (now | todate),
+                  footer: { text: "Scan code TODOs" }
+                }]
+              }
+              ')"
+          fi
+
+          curl -sS -X POST "$DISCORD_WEBHOOK" -H "Content-Type: application/json" -d "$payload"
