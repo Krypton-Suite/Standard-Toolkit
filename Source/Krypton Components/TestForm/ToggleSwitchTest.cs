@@ -28,7 +28,7 @@ public partial class ToggleSwitchTest : KryptonForm
             Dock = DockStyle.Top,
             Height = 88,
             LabelStyle = LabelStyle.NormalPanel,
-            Text = "Issue #3890: compare knob styles. Nested settings: Gradient, Pulse, and Chevron expand under ToggleSwitchValues. Chevron: adjust Chevron.GlyphSize (0.2-1) and Gradient.Enable for optional knob fill gradient.",
+            Text = "Issue #3890: nested ToggleSwitchValues groups: Colors (with TintColors), Gradient, Pulse, Chevron. Enable Colors.TintColors to blend OnTint/OffTint onto OnColor/OffColor.",
             TextAlign = ContentAlignment.MiddleLeft
         };
 
@@ -118,7 +118,7 @@ public partial class ToggleSwitchTest : KryptonForm
         toggleSwitch.ToggleSwitchValues.ShowText = true;
         toggleSwitch.ToggleSwitchValues.ShowTrackIcons = orientation == ToggleSwitchOrientation.Vertical;
         toggleSwitch.ToggleSwitchValues.KnobStyle = ToggleSwitchKnobStyle.Metallic;
-        toggleSwitch.ToggleSwitchValues.OffColor = Color.FromArgb(255, 214, 88, 52);
+        toggleSwitch.ToggleSwitchValues.Colors.OffColor = Color.FromArgb(255, 214, 88, 52);
 
         samplePanel.Controls.Add(toggleSwitch);
         samplePanel.Controls.Add(captionLabel);
@@ -150,7 +150,7 @@ public partial class ToggleSwitchTest : KryptonForm
         toggleSwitch.Location = new Point(16, 52);
         toggleSwitch.Size = new Size(140, 44);
         toggleSwitch.ToggleSwitchValues.KnobStyle = style;
-        toggleSwitch.ToggleSwitchValues.OnlyShowColorOnKnob = true;
+        toggleSwitch.ToggleSwitchValues.Colors.OnlyShowColorOnKnob = true;
         toggleSwitch.ToggleSwitchValues.Gradient.Enable = style == ToggleSwitchKnobStyle.Gradient
             || style == ToggleSwitchKnobStyle.Pill
             || style == ToggleSwitchKnobStyle.Chevron;
@@ -161,7 +161,7 @@ public partial class ToggleSwitchTest : KryptonForm
         toggleSwitch.ToggleSwitchValues.ShowTrackIcons = style == ToggleSwitchKnobStyle.Metallic;
         if (style == ToggleSwitchKnobStyle.Metallic)
         {
-            toggleSwitch.ToggleSwitchValues.OffColor = Color.FromArgb(255, 214, 88, 52);
+            toggleSwitch.ToggleSwitchValues.Colors.OffColor = Color.FromArgb(255, 214, 88, 52);
         }
 
         previewContainer.Controls.Add(toggleSwitch);

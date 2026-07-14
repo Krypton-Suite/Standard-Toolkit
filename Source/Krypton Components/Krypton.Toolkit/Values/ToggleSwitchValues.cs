@@ -22,15 +22,12 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
 
     private bool _checked;
     private bool _enableEmbossEffect;
-    private bool _onlyShowColorOnKnob;
     private bool _showText;
     private bool _showTrackIcons;
-    private Color _onColor;
-    private Color _offColor;
     private int _cornerRadius;
-    private bool _useThemeColors;
     private ToggleSwitchKnobStyle _knobStyle;
     private ToggleSwitchOrientation _orientation;
+    private readonly ToggleSwitchColorValues _colors;
     private readonly ToggleSwitchGradientValues _gradient;
     private readonly ToggleSwitchPulseValues _pulse;
     private readonly ToggleSwitchChevronValues _chevron;
@@ -42,10 +39,12 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
     /// <summary>Initializes a new instance of the <see cref="ToggleSwitchValues" /> class.</summary>
     public ToggleSwitchValues()
     {
+        _colors = new ToggleSwitchColorValues();
         _gradient = new ToggleSwitchGradientValues();
         _pulse = new ToggleSwitchPulseValues();
         _chevron = new ToggleSwitchChevronValues();
 
+        _colors.PropertyChanged += OnChildPropertyChanged;
         _gradient.PropertyChanged += OnChildPropertyChanged;
         _pulse.PropertyChanged += OnChildPropertyChanged;
         _chevron.PropertyChanged += OnChildPropertyChanged;
@@ -103,6 +102,17 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
         }
     }
 
+    /// <summary>Gets access to colour settings.</summary>
+    [Category("Appearance")]
+    [Description("Storage for On/Off and theme colour settings.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public ToggleSwitchColorValues Colors => _colors;
+
+    private bool ShouldSerializeColors() => !Colors.IsDefault;
+
+    /// <summary>Resets the Colors property to its default value.</summary>
+    public void ResetColors() => Colors.Reset();
+
     /// <summary>Gets access to knob gradient settings.</summary>
     [Category("Appearance")]
     [Description("Storage for knob gradient settings.")]
@@ -135,23 +145,6 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
 
     /// <summary>Resets the Chevron property to its default value.</summary>
     public void ResetChevron() => Chevron.Reset();
-
-    /// <summary>Gets or sets a value indicating whether OnColor and OffColor apply to the knob when theme colours are enabled.</summary>
-    [Category("Appearance")]
-    [Description("When true, OnColor and OffColor are applied to the knob even if UseThemeColors is enabled.")]
-    [DefaultValue(true)]
-    public bool OnlyShowColorOnKnob
-    {
-        get => _onlyShowColorOnKnob;
-        set
-        {
-            if (_onlyShowColorOnKnob != value)
-            {
-                _onlyShowColorOnKnob = value;
-                OnPropertyChanged(nameof(OnlyShowColorOnKnob));
-            }
-        }
-    }
 
     /// <summary>Gets or sets a value indicating whether On/Off text should be shown.</summary>
     [Category("Appearance")]
@@ -187,40 +180,6 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
         }
     }
 
-    /// <summary>Gets or sets the color when on.</summary>
-    [Category("Appearance")]
-    [Description("Specifies the color when the switch is on.")]
-    [DefaultValue(typeof(Color), "Green")]
-    public Color OnColor
-    {
-        get => _onColor;
-        set
-        {
-            if (_onColor != value)
-            {
-                _onColor = value;
-                OnPropertyChanged(nameof(OnColor));
-            }
-        }
-    }
-
-    /// <summary>Gets or sets the color when off.</summary>
-    [Category("Appearance")]
-    [Description("Specifies the color when the switch is off.")]
-    [DefaultValue(typeof(Color), "Red")]
-    public Color OffColor
-    {
-        get => _offColor;
-        set
-        {
-            if (_offColor != value)
-            {
-                _offColor = value;
-                OnPropertyChanged(nameof(OffColor));
-            }
-        }
-    }
-
     /// <summary>Gets or sets the corner radius of the switch.</summary>
     [Category("Appearance")]
     [Description("Specifies the corner radius of the switch.")]
@@ -244,23 +203,6 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
             {
                 _cornerRadius = value;
                 OnPropertyChanged(nameof(CornerRadius));
-            }
-        }
-    }
-
-    /// <summary>Gets or sets a value indicating whether to use theme colors.</summary>
-    [Category("Appearance")]
-    [Description("Indicates whether to use theme colors.")]
-    [DefaultValue(true)]
-    public bool UseThemeColors
-    {
-        get => _useThemeColors;
-        set
-        {
-            if (_useThemeColors != value)
-            {
-                _useThemeColors = value;
-                OnPropertyChanged(nameof(UseThemeColors));
             }
         }
     }
@@ -302,6 +244,50 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
     #endregion
 
     #region Compatibility Wrappers
+
+    /// <summary>Gets or sets the color when on.</summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use Colors.OnColor instead.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public Color OnColor
+    {
+        get => Colors.OnColor;
+        set => Colors.OnColor = value;
+    }
+
+    /// <summary>Gets or sets the color when off.</summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use Colors.OffColor instead.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public Color OffColor
+    {
+        get => Colors.OffColor;
+        set => Colors.OffColor = value;
+    }
+
+    /// <summary>Gets or sets whether OnColor/OffColor apply to the knob when theme colours are enabled.</summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use Colors.OnlyShowColorOnKnob instead.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public bool OnlyShowColorOnKnob
+    {
+        get => Colors.OnlyShowColorOnKnob;
+        set => Colors.OnlyShowColorOnKnob = value;
+    }
+
+    /// <summary>Gets or sets whether theme palette colours are used.</summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("Use Colors.UseThemeColors instead.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public bool UseThemeColors
+    {
+        get => Colors.UseThemeColors;
+        set => Colors.UseThemeColors = value;
+    }
 
     /// <summary>Gets or sets whether the gradient effect should be animated.</summary>
     [Browsable(false)]
@@ -422,16 +408,13 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
     public bool IsDefault =>
         !_checked &&
         !_enableEmbossEffect &&
+        Colors.IsDefault &&
         Gradient.IsDefault &&
         Pulse.IsDefault &&
         Chevron.IsDefault &&
-        _onlyShowColorOnKnob &&
         _showText &&
         !_showTrackIcons &&
-        _onColor == Color.Green &&
-        _offColor == Color.Red &&
         _cornerRadius == 10 &&
-        _useThemeColors &&
         _knobStyle == ToggleSwitchKnobStyle.Classic &&
         _orientation == ToggleSwitchOrientation.Horizontal;
 
@@ -444,16 +427,13 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
     {
         Checked = false;
         EnableEmbossEffect = false;
+        ResetColors();
         ResetGradient();
         ResetPulse();
         ResetChevron();
-        OnlyShowColorOnKnob = true;
         ShowText = true;
         ShowTrackIcons = false;
-        OnColor = Color.Green;
-        OffColor = Color.Red;
         CornerRadius = 10;
-        UseThemeColors = true;
         KnobStyle = ToggleSwitchKnobStyle.Classic;
         Orientation = ToggleSwitchOrientation.Horizontal;
     }
@@ -469,7 +449,11 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
 
     private void OnChildPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (ReferenceEquals(sender, _gradient))
+        if (ReferenceEquals(sender, _colors))
+        {
+            OnPropertyChanged(nameof(Colors));
+        }
+        else if (ReferenceEquals(sender, _gradient))
         {
             OnPropertyChanged(nameof(Gradient));
         }

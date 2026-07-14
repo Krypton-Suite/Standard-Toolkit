@@ -1,8 +1,8 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2025 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avil�s (aka mcpbcs) et al. 2025 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -164,7 +164,7 @@ public class KryptonToggleSwitch : Control, IContentValues
         _animationTimer = new Timer { Interval = 15 };
         _animationTimer.Tick += OnAnimationTimerTick;
 
-        ToggleSwitchValues = new ToggleSwitchValues { OffColor = Color.Red, OnColor = Color.Green };
+        ToggleSwitchValues = new ToggleSwitchValues();
 
         Size = new Size(90, _knobSize + _padding * 2);
 
@@ -557,17 +557,17 @@ public class KryptonToggleSwitch : Control, IContentValues
     {
         if (UsesStyleColoredTrack() || UseCustomKnobColors())
         {
-            return ToggleSwitchValues.Checked ? ToggleSwitchValues.OnColor : ToggleSwitchValues.OffColor;
+            return ToggleSwitchValues.Checked ? ToggleSwitchValues.Colors.EffectiveOnColor : ToggleSwitchValues.Colors.EffectiveOffColor;
         }
 
-        if (ToggleSwitchValues.UseThemeColors && KryptonManager.CurrentGlobalPalette != null)
+        if (ToggleSwitchValues.Colors.UseThemeColors && KryptonManager.CurrentGlobalPalette != null)
         {
             return ToggleSwitchValues.Checked
                 ? state.PaletteBack.GetBackColor1(PaletteState.Pressed)
                 : state.PaletteBack.GetBackColor1(PaletteState.Normal);
         }
 
-        return ToggleSwitchValues.Checked ? ToggleSwitchValues.OnColor : ToggleSwitchValues.OffColor;
+        return ToggleSwitchValues.Checked ? ToggleSwitchValues.Colors.EffectiveOnColor : ToggleSwitchValues.Colors.EffectiveOffColor;
     }
 
     private Color ResolveDecorativeKnobColor(IPaletteTriple state, Color faceColor)
@@ -586,7 +586,7 @@ public class KryptonToggleSwitch : Control, IContentValues
     {
         if (UseCustomKnobColors())
         {
-            return ToggleSwitchValues.Checked ? DarkenColor(ToggleSwitchValues.OnColor, 50) : DarkenColor(ToggleSwitchValues.OffColor, 50);
+            return ToggleSwitchValues.Checked ? DarkenColor(ToggleSwitchValues.Colors.EffectiveOnColor, 50) : DarkenColor(ToggleSwitchValues.Colors.EffectiveOffColor, 50);
         }
 
         return DarkenColor(faceColor, 70);
@@ -965,7 +965,7 @@ public class KryptonToggleSwitch : Control, IContentValues
     }
 
     private bool UseCustomKnobColors() =>
-        !ToggleSwitchValues.UseThemeColors || ToggleSwitchValues.OnlyShowColorOnKnob;
+        !ToggleSwitchValues.Colors.UseThemeColors || ToggleSwitchValues.Colors.OnlyShowColorOnKnob;
 
     private void ResolveKnobColors(IPaletteTriple state, out Color faceColor1, out Color faceColor2, out Color borderColor, out Color trackColor)
     {
@@ -976,12 +976,12 @@ public class KryptonToggleSwitch : Control, IContentValues
         {
             if (UseCustomKnobColors())
             {
-                Color offStart = DarkenColor(ToggleSwitchValues.OffColor, 30);
-                Color onStart = DarkenColor(ToggleSwitchValues.OnColor, 30);
+                Color offStart = DarkenColor(ToggleSwitchValues.Colors.EffectiveOffColor, 30);
+                Color onStart = DarkenColor(ToggleSwitchValues.Colors.EffectiveOnColor, 30);
                 faceColor1 = InterpolateColor(offStart, onStart, progress);
-                faceColor2 = InterpolateColor(ToggleSwitchValues.OffColor, ToggleSwitchValues.OnColor, progress);
+                faceColor2 = InterpolateColor(ToggleSwitchValues.Colors.EffectiveOffColor, ToggleSwitchValues.Colors.EffectiveOnColor, progress);
             }
-            else if (ToggleSwitchValues.UseThemeColors && KryptonManager.CurrentGlobalPalette != null)
+            else if (ToggleSwitchValues.Colors.UseThemeColors && KryptonManager.CurrentGlobalPalette != null)
             {
                 Color themeStartChecked = KryptonManager.CurrentGlobalPalette.GetContentShortTextColor1(PaletteContentStyle.ButtonStandalone, PaletteState.CheckedNormal);
                 Color themeEndChecked = KryptonManager.CurrentGlobalPalette.GetContentShortTextColor2(PaletteContentStyle.ButtonStandalone, PaletteState.CheckedNormal);
@@ -993,10 +993,10 @@ public class KryptonToggleSwitch : Control, IContentValues
             }
             else
             {
-                Color offStart = DarkenColor(ToggleSwitchValues.OffColor, 30);
-                Color onStart = DarkenColor(ToggleSwitchValues.OnColor, 30);
+                Color offStart = DarkenColor(ToggleSwitchValues.Colors.EffectiveOffColor, 30);
+                Color onStart = DarkenColor(ToggleSwitchValues.Colors.EffectiveOnColor, 30);
                 faceColor1 = InterpolateColor(offStart, onStart, progress);
-                faceColor2 = InterpolateColor(ToggleSwitchValues.OffColor, ToggleSwitchValues.OnColor, progress);
+                faceColor2 = InterpolateColor(ToggleSwitchValues.Colors.EffectiveOffColor, ToggleSwitchValues.Colors.EffectiveOnColor, progress);
             }
 
             faceColor1 = ApplyGradientIntensity(faceColor1, ToggleSwitchValues.Gradient.StartIntensity);
@@ -1028,7 +1028,7 @@ public class KryptonToggleSwitch : Control, IContentValues
 
     private Color ResolveSolidKnobColor(IPaletteTriple state)
     {
-        if (!UseCustomKnobColors() && ToggleSwitchValues.UseThemeColors && KryptonManager.CurrentGlobalPalette != null)
+        if (!UseCustomKnobColors() && ToggleSwitchValues.Colors.UseThemeColors && KryptonManager.CurrentGlobalPalette != null)
         {
             return ToggleSwitchValues.Checked ? state.PaletteBack.GetBackColor1(PaletteState.Pressed)
                 : _isTracking
@@ -1036,7 +1036,7 @@ public class KryptonToggleSwitch : Control, IContentValues
                     : state.PaletteBack.GetBackColor2(PaletteState.Normal);
         }
 
-        return ToggleSwitchValues.Checked ? ToggleSwitchValues.OnColor : ToggleSwitchValues.OffColor;
+        return ToggleSwitchValues.Checked ? ToggleSwitchValues.Colors.EffectiveOnColor : ToggleSwitchValues.Colors.EffectiveOffColor;
     }
 
     private void DrawClassicKnob(Graphics graphics, Color faceColor1, Color faceColor2)
@@ -1304,7 +1304,7 @@ public class KryptonToggleSwitch : Control, IContentValues
     {
         Color knobColor = ResolveDecorativeKnobColor(state, faceColor1);
         Color ringColor = UseCustomKnobColors()
-            ? (ToggleSwitchValues.Checked ? ToggleSwitchValues.OnColor : ToggleSwitchValues.OffColor)
+            ? (ToggleSwitchValues.Checked ? ToggleSwitchValues.Colors.EffectiveOnColor : ToggleSwitchValues.Colors.EffectiveOffColor)
             : borderColor;
 
         using (SolidBrush knobBrush = new SolidBrush(knobColor))
@@ -1339,10 +1339,10 @@ public class KryptonToggleSwitch : Control, IContentValues
     {
         if (UseCustomKnobColors())
         {
-            return ToggleSwitchValues.Checked ? ToggleSwitchValues.OnColor : ToggleSwitchValues.OffColor;
+            return ToggleSwitchValues.Checked ? ToggleSwitchValues.Colors.EffectiveOnColor : ToggleSwitchValues.Colors.EffectiveOffColor;
         }
 
-        if (ToggleSwitchValues.UseThemeColors && KryptonManager.CurrentGlobalPalette != null)
+        if (ToggleSwitchValues.Colors.UseThemeColors && KryptonManager.CurrentGlobalPalette != null)
         {
             return ToggleSwitchValues.Checked
                 ? state.PaletteBack.GetBackColor1(PaletteState.Pressed)
@@ -1468,7 +1468,7 @@ public class KryptonToggleSwitch : Control, IContentValues
         {
             RectangleF iconArea = IsVerticalLayout() ? GetBottomTrackIconArea(knob) : GetRightTrackIconArea(knob);
             Color crossColor = UseCustomKnobColors()
-                ? DarkenColor(ToggleSwitchValues.OffColor, 45)
+                ? DarkenColor(ToggleSwitchValues.Colors.EffectiveOffColor, 45)
                 : DarkenColor(ResolveTrackColor(state), 45);
             DrawCrossmark(graphics, iconArea, crossColor);
         }
@@ -1572,7 +1572,7 @@ public class KryptonToggleSwitch : Control, IContentValues
     {
         // Determine the text color
         Color textColor;
-        if (ToggleSwitchValues.UseThemeColors && KryptonManager.CurrentGlobalPalette != null)
+        if (ToggleSwitchValues.Colors.UseThemeColors && KryptonManager.CurrentGlobalPalette != null)
         {
             textColor = ToggleSwitchValues.Checked
                 ? KryptonManager.CurrentGlobalPalette.GetContentShortTextColor1(PaletteContentStyle.ButtonStandalone, PaletteState.CheckedNormal)
@@ -1580,7 +1580,7 @@ public class KryptonToggleSwitch : Control, IContentValues
         }
         else
         {
-            textColor = ToggleSwitchValues.Checked ? ToggleSwitchValues.OnColor : ToggleSwitchValues.OffColor;
+            textColor = ToggleSwitchValues.Checked ? ToggleSwitchValues.Colors.EffectiveOnColor : ToggleSwitchValues.Colors.EffectiveOffColor;
         }
 
         // Determine the text content
