@@ -16,6 +16,20 @@ public partial class MenuToolBarStatusStripTest : KryptonForm
     private readonly Color _targetStatusStripColor = Color.DarkOrange;
     private int _animStep;
     private int _animDir = 1;
+    private readonly ContextMenuStrip _contextMenuStrip = new ContextMenuStrip();
+    private Font? _savedBaseFont;
+    private int _baseFontFamilyIndex;
+
+    private static readonly string[] BaseFontFamilies =
+    [
+        "Segoe UI",
+        "Tahoma",
+        "Arial",
+        "Calibri",
+        "Verdana",
+        "Times New Roman",
+        "Courier New"
+    ];
 
     public MenuToolBarStatusStripTest()
     {
@@ -23,6 +37,128 @@ public partial class MenuToolBarStatusStripTest : KryptonForm
         _statusStripTimer.Interval = 50;
         _statusStripTimer.Tick += StatusStripTimer_Tick;
         KryptonManager.GlobalPaletteChanged += KryptonManager_GlobalPaletteChanged;
+
+        InitializeBaseFontDemo();
+    }
+
+    private void InitializeBaseFontDemo()
+    {
+        Text = "Menu/Tool/Status Strip (#1297 BaseFont demo)";
+
+        _contextMenuStrip.Items.Add(new ToolStripMenuItem("Context menu item 1"));
+        _contextMenuStrip.Items.Add(new ToolStripMenuItem("Context menu item 2"));
+        kryptonPanel1.ContextMenuStrip = _contextMenuStrip;
+
+        var increaseBaseFontMenuItem = new ToolStripMenuItem("Increase Base Font (+2 pt)")
+        {
+            Name = "increaseBaseFontToolStripMenuItem"
+        };
+        increaseBaseFontMenuItem.Click += IncreaseBaseFontToolStripMenuItem_Click;
+
+        var decreaseBaseFontMenuItem = new ToolStripMenuItem("Decrease Base Font (-2 pt)")
+        {
+            Name = "decreaseBaseFontToolStripMenuItem"
+        };
+        decreaseBaseFontMenuItem.Click += DecreaseBaseFontToolStripMenuItem_Click;
+
+        var resetBaseFontMenuItem = new ToolStripMenuItem("Reset Base Font")
+        {
+            Name = "resetBaseFontToolStripMenuItem"
+        };
+        resetBaseFontMenuItem.Click += ResetBaseFontToolStripMenuItem_Click;
+
+        var toggleBoldBaseFontMenuItem = new ToolStripMenuItem("Toggle Base Font Bold")
+        {
+            Name = "toggleBoldBaseFontToolStripMenuItem"
+        };
+        toggleBoldBaseFontMenuItem.Click += ToggleBoldBaseFontToolStripMenuItem_Click;
+
+        var changeBaseFontFamilyMenuItem = new ToolStripMenuItem("Change Base Font Family")
+        {
+            Name = "changeBaseFontFamilyToolStripMenuItem"
+        };
+        changeBaseFontFamilyMenuItem.Click += ChangeBaseFontFamilyToolStripMenuItem_Click;
+
+        toolsToolStripMenuItem.DropDownItems.Add(new ToolStripSeparator());
+        toolsToolStripMenuItem.DropDownItems.Add(increaseBaseFontMenuItem);
+        toolsToolStripMenuItem.DropDownItems.Add(decreaseBaseFontMenuItem);
+        toolsToolStripMenuItem.DropDownItems.Add(changeBaseFontFamilyMenuItem);
+        toolsToolStripMenuItem.DropDownItems.Add(resetBaseFontMenuItem);
+        toolsToolStripMenuItem.DropDownItems.Add(toggleBoldBaseFontMenuItem);
+
+        _savedBaseFont = KryptonManager.CurrentGlobalPalette.BaseFont;
+        _baseFontFamilyIndex = Array.FindIndex(BaseFontFamilies, family =>
+            string.Equals(family, _savedBaseFont.Name, StringComparison.OrdinalIgnoreCase));
+        if (_baseFontFamilyIndex < 0)
+        {
+            _baseFontFamilyIndex = 0;
+        }
+
+        UpdateStripFontStatus();
+    }
+
+    private void IncreaseBaseFontToolStripMenuItem_Click(object? sender, EventArgs e) =>
+        ApplyBaseFontSizeDelta(2f);
+
+    private void DecreaseBaseFontToolStripMenuItem_Click(object? sender, EventArgs e) =>
+        ApplyBaseFontSizeDelta(-2f);
+
+    private void ToggleBoldBaseFontToolStripMenuItem_Click(object? sender, EventArgs e)
+    {
+        var currentFont = KryptonManager.CurrentGlobalPalette.BaseFont;
+        var style = currentFont.Bold ? FontStyle.Regular : FontStyle.Bold;
+        KryptonManager.CurrentGlobalPalette.BaseFont =
+            new Font(currentFont.FontFamily, currentFont.SizeInPoints, style);
+        UpdateStripFontStatus();
+    }
+
+    private void ChangeBaseFontFamilyToolStripMenuItem_Click(object? sender, EventArgs e)
+    {
+        _baseFontFamilyIndex = (_baseFontFamilyIndex + 1) % BaseFontFamilies.Length;
+        ApplyBaseFontFamily(BaseFontFamilies[_baseFontFamilyIndex]);
+    }
+
+    private void ApplyBaseFontFamily(string familyName)
+    {
+        var currentFont = KryptonManager.CurrentGlobalPalette.BaseFont;
+        KryptonManager.CurrentGlobalPalette.BaseFont =
+            new Font(familyName, currentFont.SizeInPoints, currentFont.Style);
+        UpdateStripFontStatus();
+    }
+
+    private void ResetBaseFontToolStripMenuItem_Click(object? sender, EventArgs e)
+    {
+        if (_savedBaseFont != null)
+        {
+            KryptonManager.CurrentGlobalPalette.BaseFont = _savedBaseFont;
+            _baseFontFamilyIndex = Array.FindIndex(BaseFontFamilies, family =>
+                string.Equals(family, _savedBaseFont.Name, StringComparison.OrdinalIgnoreCase));
+            if (_baseFontFamilyIndex < 0)
+            {
+                _baseFontFamilyIndex = 0;
+            }
+        }
+
+        UpdateStripFontStatus();
+    }
+
+    private void ApplyBaseFontSizeDelta(float delta)
+    {
+        var currentFont = KryptonManager.CurrentGlobalPalette.BaseFont;
+        KryptonManager.CurrentGlobalPalette.BaseFont =
+            new Font(currentFont.FontFamily, currentFont.SizeInPoints + delta, currentFont.Style);
+        UpdateStripFontStatus();
+    }
+
+    private void UpdateStripFontStatus()
+    {
+        var baseFont = KryptonManager.CurrentGlobalPalette.BaseFont;
+        var nextFamily = BaseFontFamilies[(_baseFontFamilyIndex + 1) % BaseFontFamilies.Length];
+        toolStripStatusLabel1.Text =
+            $"BaseFont: {baseFont.Name} {baseFont.SizeInPoints:0.#}pt ({baseFont.Style}) | " +
+            $"Menu: {menuStrip1.Font.Name} | ToolStrip: {toolStrip1.Font.Name} | " +
+            $"Status: {statusStrip1.Font.Name} | Context: {_contextMenuStrip.Font.Name} | " +
+            $"Next family (Tools): {nextFamily}";
     }
 
     private void animateStatusStripToolStripMenuItem_Click(object? sender, EventArgs e)
@@ -105,6 +241,8 @@ public partial class MenuToolBarStatusStripTest : KryptonForm
             kss.StateCommon.ColorAngle = -1f;
             kss.Invalidate();
         }
+
+        UpdateStripFontStatus();
     }
 
     /*

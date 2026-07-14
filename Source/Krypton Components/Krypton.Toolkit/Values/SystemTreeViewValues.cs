@@ -146,7 +146,14 @@ internal class SystemTreeViewValues : Storage
         }
     }
 
-    public override bool IsDefault => throw new NotImplementedException();
+    /// <inheritdoc />
+    [Browsable(false)]
+    public override bool IsDefault =>
+        _showFiles &&
+        !_showHiddenFiles &&
+        !_showSystemFiles &&
+        _fileFilter == "*.*" &&
+        !_useLargeIcons;
 
     /// <summary>
     /// Returns a string representation of this object.

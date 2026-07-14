@@ -17,6 +17,7 @@ public class PaletteKnobRedirect : Storage
     #region Instance Fields
     private readonly PaletteDoubleRedirect _backRedirect;
     private readonly PaletteKnobTickColorRedirect _tickRedirect;
+    private readonly PaletteKnobIndicatorColorRedirect _indicatorRedirect;
     #endregion
 
     #region Identity
@@ -36,7 +37,8 @@ public class PaletteKnobRedirect : Storage
         Face = new PaletteElementColorRedirect(redirect!, PaletteElement.TrackBarTrack, NeedPaint);
         _tickRedirect = new PaletteKnobTickColorRedirect(redirect!, NeedPaint);
         Tick = _tickRedirect;
-        Indicator = new PaletteElementColorRedirect(redirect!, PaletteElement.TrackBarPosition, NeedPaint);
+        _indicatorRedirect = new PaletteKnobIndicatorColorRedirect(redirect!, NeedPaint);
+        Indicator = _indicatorRedirect;
     }
     #endregion
 
@@ -63,7 +65,7 @@ public class PaletteKnobRedirect : Storage
         _backRedirect.SetRedirector(redirect);
         Face.SetRedirector(redirect);
         _tickRedirect.SetRedirector(redirect);
-        Indicator.SetRedirector(redirect);
+        _indicatorRedirect.SetRedirector(redirect);
     }
     #endregion
 
@@ -76,6 +78,7 @@ public class PaletteKnobRedirect : Storage
     {
         _backRedirect.PopulateFromBase(state);
         Face.PopulateFromBase(state);
+        Tick.PopulateFromBase(state);
         Indicator.PopulateFromBase(state);
     }
     #endregion
@@ -114,9 +117,9 @@ public class PaletteKnobRedirect : Storage
     /// </summary>
     [KryptonPersist]
     [Category(@"Visuals")]
-    [Description(@"Overrides for defining value indicator appearance.")]
+    [Description(@"Overrides for defining value indicator appearance. Defaults to the palette PanelAlternate back colour.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    public PaletteElementColorRedirect Indicator { get; }
+    public PaletteKnobIndicatorColorRedirect Indicator { get; }
 
     private bool ShouldSerializeIndicator() => !Indicator.IsDefault;
 
