@@ -116,7 +116,7 @@ jobs:
             Automated partial replacement of BSD license header contributor lines.
 
             - Fixed prefix: `Modifications by Peter Wagner (aka PWagner1), Simon Coghlan (aka Smurf-IV)`
-            - Canonical contributors: Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al.
+            - Canonical contributors: Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al.
             - Each file keeps its existing year range and rights suffix.
 
             **Files updated:** ${{ steps.update.outputs.files_changed }}
