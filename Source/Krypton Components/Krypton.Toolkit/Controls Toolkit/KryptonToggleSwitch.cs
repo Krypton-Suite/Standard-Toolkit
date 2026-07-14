@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. AvilÈs (aka mcpbcs) et al. 2025 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilùs (aka mcpbcs) et al. 2025 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -1210,7 +1210,8 @@ public class KryptonToggleSwitch : Control, IContentValues
     private void DrawChevronKnob(Graphics graphics, Color faceColor1, Color faceColor2, Color borderColor)
     {
         DrawSquareKnob(graphics, faceColor1, faceColor2, borderColor);
-        DrawKnobChevronGlyph(graphics, _knob, DarkenColor(faceColor1, 70), ResolveChevronGlyphDirection());
+        Color baseGlyphColor = DarkenColor(faceColor1, 70);
+        DrawKnobChevronGlyph(graphics, _knob, baseGlyphColor, ResolveChevronGlyphDirection());
     }
 
     private void DrawKnobChevronGlyph(Graphics graphics, RectangleF knob, Color glyphColor, DropDownArrowGlyphDirection direction)
@@ -1222,7 +1223,9 @@ public class KryptonToggleSwitch : Control, IContentValues
             return;
         }
 
-        Image glyph = DropDownArrowGlyphCache.GetOrCreate(size, glyphColor, glyphColor, direction);
+        Color outline = ToggleSwitchValues.Colors.TintColors.ResolveGlyphOutline(glyphColor);
+        Color fill = ToggleSwitchValues.Colors.TintColors.ResolveGlyphFill(glyphColor);
+        Image glyph = DropDownArrowGlyphCache.GetOrCreate(size, outline, fill, direction);
         int x = knobRect.X + ((knobRect.Width - size) / 2);
         int y = knobRect.Y + ((knobRect.Height - size) / 2);
         graphics.DrawImage(glyph, x, y, size, size);
@@ -1462,7 +1465,8 @@ public class KryptonToggleSwitch : Control, IContentValues
         if (ToggleSwitchValues.Checked)
         {
             RectangleF iconArea = IsVerticalLayout() ? GetTopTrackIconArea(knob) : GetLeftTrackIconArea(knob);
-            DrawCheckmark(graphics, iconArea, Color.White);
+            Color checkColor = ToggleSwitchValues.Colors.TintColors.ResolveGlyphFill(Color.White);
+            DrawCheckmark(graphics, iconArea, checkColor);
         }
         else
         {
@@ -1470,6 +1474,7 @@ public class KryptonToggleSwitch : Control, IContentValues
             Color crossColor = UseCustomKnobColors()
                 ? DarkenColor(ToggleSwitchValues.Colors.EffectiveOffColor, 45)
                 : DarkenColor(ResolveTrackColor(state), 45);
+            crossColor = ToggleSwitchValues.Colors.TintColors.ResolveGlyphOutline(crossColor);
             DrawCrossmark(graphics, iconArea, crossColor);
         }
     }

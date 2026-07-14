@@ -10,7 +10,7 @@
 namespace Krypton.Toolkit;
 
 /// <summary>
-/// Storage for optional tint colours applied over <see cref="ToggleSwitchColorValues.OnColor"/> and <see cref="ToggleSwitchColorValues.OffColor"/>.
+/// Storage for optional tint colours applied over switch colours and glyphs.
 /// </summary>
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public class ToggleSwitchTintColorValues : GlobalId, INotifyPropertyChanged
@@ -18,8 +18,11 @@ public class ToggleSwitchTintColorValues : GlobalId, INotifyPropertyChanged
     #region Instance Fields
 
     private bool _enable;
+    private bool _enableGlyphs;
     private Color _onTint;
     private Color _offTint;
+    private Color _tintColor1;
+    private Color _tintColor2;
     private float _intensity;
 
     #endregion
@@ -60,6 +63,23 @@ public class ToggleSwitchTintColorValues : GlobalId, INotifyPropertyChanged
         }
     }
 
+    /// <summary>Gets or sets whether TintColor1 and TintColor2 are applied to glyphs (chevron, check, cross).</summary>
+    [Category("Appearance")]
+    [Description("When true, TintColor1 and TintColor2 tint glyph outline and fill colours.")]
+    [DefaultValue(false)]
+    public bool EnableGlyphs
+    {
+        get => _enableGlyphs;
+        set
+        {
+            if (_enableGlyphs != value)
+            {
+                _enableGlyphs = value;
+                OnPropertyChanged(nameof(EnableGlyphs));
+            }
+        }
+    }
+
     /// <summary>Gets or sets the tint colour blended onto OnColor when enabled.</summary>
     [Category("Appearance")]
     [Description("Tint colour blended onto OnColor when Enable is true. Empty uses no tint for the on state.")]
@@ -94,9 +114,43 @@ public class ToggleSwitchTintColorValues : GlobalId, INotifyPropertyChanged
         }
     }
 
+    /// <summary>Gets or sets the first glyph tint colour (outline).</summary>
+    [Category("Appearance")]
+    [Description("Outline tint for glyphs such as the chevron arrow when EnableGlyphs is true. Empty keeps the default glyph outline colour.")]
+    [DefaultValue(typeof(Color), "")]
+    public Color TintColor1
+    {
+        get => _tintColor1;
+        set
+        {
+            if (_tintColor1 != value)
+            {
+                _tintColor1 = value;
+                OnPropertyChanged(nameof(TintColor1));
+            }
+        }
+    }
+
+    /// <summary>Gets or sets the second glyph tint colour (fill).</summary>
+    [Category("Appearance")]
+    [Description("Fill tint for glyphs such as the chevron arrow when EnableGlyphs is true. Empty falls back to TintColor1 or the default glyph colour.")]
+    [DefaultValue(typeof(Color), "")]
+    public Color TintColor2
+    {
+        get => _tintColor2;
+        set
+        {
+            if (_tintColor2 != value)
+            {
+                _tintColor2 = value;
+                OnPropertyChanged(nameof(TintColor2));
+            }
+        }
+    }
+
     /// <summary>Gets or sets how strongly tint colours are blended (0 = none, 1 = full tint).</summary>
     [Category("Appearance")]
-    [Description("Blend strength for tint colours. 0 leaves OnColor/OffColor unchanged; 1 replaces them with the tint.")]
+    [Description("Blend strength for colour and glyph tints. 0 leaves the base colour unchanged; 1 replaces it with the tint.")]
     [DefaultValue(0.35f)]
     public float Intensity
     {
@@ -120,8 +174,11 @@ public class ToggleSwitchTintColorValues : GlobalId, INotifyPropertyChanged
     [Browsable(false)]
     public bool IsDefault =>
         !_enable &&
+        !_enableGlyphs &&
         _onTint.IsEmpty &&
         _offTint.IsEmpty &&
+        _tintColor1.IsEmpty &&
+        _tintColor2.IsEmpty &&
         Math.Abs(_intensity - 0.35f) < float.Epsilon;
 
     #endregion
@@ -132,8 +189,11 @@ public class ToggleSwitchTintColorValues : GlobalId, INotifyPropertyChanged
     public void Reset()
     {
         Enable = false;
+        EnableGlyphs = false;
         OnTint = Color.Empty;
         OffTint = Color.Empty;
+        TintColor1 = Color.Empty;
+        TintColor2 = Color.Empty;
         Intensity = 0.35f;
     }
 
@@ -142,14 +202,30 @@ public class ToggleSwitchTintColorValues : GlobalId, INotifyPropertyChanged
     #region Implementation
 
     /// <summary>Applies the on-state tint to the supplied colour when enabled.</summary>
-    public Color ApplyOnTint(Color color) => ApplyTint(color, _onTint);
+    public Color ApplyOnTint(Color color) => ApplyTint(color, _onTint, _enable);
 
     /// <summary>Applies the off-state tint to the supplied colour when enabled.</summary>
-    public Color ApplyOffTint(Color color) => ApplyTint(color, _offTint);
+    public Color ApplyOffTint(Color color) => ApplyTint(color, _offTint, _enable);
 
-    private Color ApplyTint(Color color, Color tint)
+    /// <summary>Resolves the glyph outline colour using TintColor1 when glyph tinting is enabled.</summary>
+    public Color ResolveGlyphOutline(Color baseColor) =>
+        ApplyTint(baseColor, _tintColor1, _enableGlyphs);
+
+    /// <summary>Resolves the glyph fill colour using TintColor2 (or TintColor1) when glyph tinting is enabled.</summary>
+    public Color ResolveGlyphFill(Color baseColor)
     {
-        if (!_enable || tint.IsEmpty || _intensity <= float.Epsilon)
+        if (!_enableGlyphs)
+        {
+            return baseColor;
+        }
+
+        Color fillTint = !_tintColor2.IsEmpty ? _tintColor2 : _tintColor1;
+        return ApplyTint(baseColor, fillTint, true);
+    }
+
+    private Color ApplyTint(Color color, Color tint, bool enabled)
+    {
+        if (!enabled || tint.IsEmpty || _intensity <= float.Epsilon)
         {
             return color;
         }
