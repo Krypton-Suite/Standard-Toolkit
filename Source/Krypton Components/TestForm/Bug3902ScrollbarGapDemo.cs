@@ -50,20 +50,9 @@ public partial class Bug3902ScrollbarGapDemo : KryptonForm
             ? ScrollbarCornerStyle.ExtendHorizontal
             : ScrollbarCornerStyle.ThemedCorner;
 
-        if (ktbxDemo.ScrollbarManager != null)
-        {
-            ktbxDemo.ScrollbarManager.CornerStyle = style;
-        }
-
-        if (krtbDemo.ScrollbarManager != null)
-        {
-            krtbDemo.ScrollbarManager.CornerStyle = style;
-        }
-
-        if (klstDemo.ScrollbarManager != null)
-        {
-            klstDemo.ScrollbarManager.CornerStyle = style;
-        }
+        ktbxDemo.ScrollbarManager.CornerStyle = style;
+        krtbDemo.ScrollbarManager.CornerStyle = style;
+        klstDemo.ScrollbarManager.CornerStyle = style;
     }
 
     private void kchkCustomCornerColor_CheckedChanged(object? sender, EventArgs e)
@@ -72,20 +61,9 @@ public partial class Bug3902ScrollbarGapDemo : KryptonForm
         // custom color to the corner, unchecked reverts to the theme default.
         Color color1 = kchkCustomCornerColor.Checked ? Color.IndianRed : GlobalStaticVariables.EMPTY_COLOR;
 
-        if (ktbxDemo.ScrollbarManager != null)
-        {
-            ktbxDemo.ScrollbarManager.CornerStateCommon.Color1 = color1;
-        }
-
-        if (krtbDemo.ScrollbarManager != null)
-        {
-            krtbDemo.ScrollbarManager.CornerStateCommon.Color1 = color1;
-        }
-
-        if (klstDemo.ScrollbarManager != null)
-        {
-            klstDemo.ScrollbarManager.CornerStateCommon.Color1 = color1;
-        }
+        ktbxDemo.ScrollbarManager.CornerStateCommon.Color1 = color1;
+        krtbDemo.ScrollbarManager.CornerStateCommon.Color1 = color1;
+        klstDemo.ScrollbarManager.CornerStateCommon.Color1 = color1;
     }
 
     private void kchkCornerPanelStyle_CheckedChanged(object? sender, EventArgs e)
@@ -96,19 +74,8 @@ public partial class Bug3902ScrollbarGapDemo : KryptonForm
             ? PaletteBackStyle.PanelAlternate
             : null;
 
-        if (ktbxDemo.ScrollbarManager != null)
-        {
-            ktbxDemo.ScrollbarManager.CornerPanelStyle = style;
-        }
-
-        if (krtbDemo.ScrollbarManager != null)
-        {
-            krtbDemo.ScrollbarManager.CornerPanelStyle = style;
-        }
-
-        if (klstDemo.ScrollbarManager != null)
-        {
-            klstDemo.ScrollbarManager.CornerPanelStyle = style;
-        }
+        ktbxDemo.ScrollbarManager.CornerPanelStyle = style;
+        krtbDemo.ScrollbarManager.CornerPanelStyle = style;
+        klstDemo.ScrollbarManager.CornerPanelStyle = style;
     }
 }

@@ -97,7 +97,7 @@ namespace TestForm
             this.kwlblInstructions.Text =
                 "Issue #3902: inspect the right and bottom edges where Krypton scrollbars meet the control border, and the bottom-right corner when both scrollbars are visible.\r\n" +
                 "Expected: no white strip between the scrollbar and the themed border; when both bars show, a flat themed filler covers the bottom-right corner (default).\r\n" +
-                "Use the checkboxes below to switch to ExtendHorizontal, apply a custom corner color via CornerStateCommon, or draw the corner with a panel style via CornerPanelStyle.\r\n" +
+                "Use the checkboxes below to switch to ExtendHorizontal (per-manager override of the KryptonManager.ScrollbarCornerStyle global default), apply a custom corner color via CornerStateCommon, or draw the corner with a panel style via CornerPanelStyle.\r\n" +
                 "Try at 100% and 150% display scaling. Swap themes from the TestForm menu to confirm across palettes.";
             this.kwlblInstructions.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             //

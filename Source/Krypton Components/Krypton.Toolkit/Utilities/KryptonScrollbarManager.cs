@@ -21,6 +21,7 @@ namespace Krypton.Toolkit;
 /// - NativeWrapper: For controls like TextBox, RichTextBox with native scrollbars
 /// - Custom: For controls with custom scrolling logic
 /// </remarks>
+[TypeConverter(typeof(ExpandableObjectConverter))]
 public class KryptonScrollbarManager : IDisposable
 {
     #region Instance Fields
@@ -33,7 +34,7 @@ public class KryptonScrollbarManager : IDisposable
     private readonly PaletteBack _cornerStateCommon;
     private readonly PaletteBack _cornerStateNormal;
     private readonly PaletteBack _cornerStateDisabled;
-    private ScrollbarCornerStyle _cornerStyle = ScrollbarCornerStyle.ThemedCorner;
+    private ScrollbarCornerStyle? _cornerStyle;
     private ScrollbarManagerMode _mode = ScrollbarManagerMode.Container;
     private bool _enabled = true;
     private bool _isUpdating;
@@ -170,8 +171,12 @@ public class KryptonScrollbarManager : IDisposable
     /// <summary>
     /// Gets or sets the integration mode.
     /// </summary>
-    [Category(@"Behavior")]
-    [Description(@"Gets or sets the integration mode (Container, NativeWrapper, or Custom).")]
+    /// <remarks>
+    /// Hidden from the designer: the owning Krypton control selects the correct mode
+    /// when it attaches the manager.
+    /// </remarks>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [DefaultValue(ScrollbarManagerMode.Container)]
     public ScrollbarManagerMode Mode
     {
@@ -192,20 +197,32 @@ public class KryptonScrollbarManager : IDisposable
 
     /// <summary>
     /// Gets or sets how the bottom-right corner is filled when both scrollbars are visible.
+    /// If not explicitly set, uses the global value from <see cref="KryptonManager.ScrollbarCornerStyle"/>.
     /// </summary>
     [Category(@"Behavior")]
-    [Description(@"Gets or sets how the bottom-right corner is filled when both scrollbars are visible (ThemedCorner or ExtendHorizontal).")]
-    [DefaultValue(ScrollbarCornerStyle.ThemedCorner)]
+    [Description(@"Gets or sets how the bottom-right corner is filled when both scrollbars are visible. If not explicitly set, uses the global value from KryptonManager.ScrollbarCornerStyle.")]
     public ScrollbarCornerStyle CornerStyle
     {
-        get => _cornerStyle;
+        get => _cornerStyle ?? KryptonManager.ScrollbarCornerStyle;
         set
         {
-            if (_cornerStyle != value)
+            ScrollbarCornerStyle currentValue = _cornerStyle ?? KryptonManager.ScrollbarCornerStyle;
+            _cornerStyle = value;
+            if (currentValue != value)
             {
-                _cornerStyle = value;
                 PositionScrollbars();
             }
+        }
+    }
+
+    private bool ShouldSerializeCornerStyle() => _cornerStyle.HasValue;
+
+    private void ResetCornerStyle()
+    {
+        if (_cornerStyle.HasValue)
+        {
+            _cornerStyle = null;
+            PositionScrollbars();
         }
     }
 
@@ -267,6 +284,11 @@ public class KryptonScrollbarManager : IDisposable
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public Control? TargetControl => _targetControl;
+
+    /// <summary>
+    /// Keeps the expandable property grid row clean when the manager is surfaced on a control.
+    /// </summary>
+    public override string ToString() => string.Empty;
 
     #endregion
 
@@ -1586,7 +1608,7 @@ public class KryptonScrollbarManager : IDisposable
 
         if (showHorizontal && showVertical && _horizontalScrollBar != null && _verticalScrollBar != null)
         {
-            if (_cornerStyle == ScrollbarCornerStyle.ThemedCorner)
+            if (CornerStyle == ScrollbarCornerStyle.ThemedCorner)
             {
                 // Both bars are shortened and a themed filler covers the intersection.
                 _horizontalScrollBar.SetBounds(hScrollX, hScrollY, Math.Max(0, vScrollX - hScrollX), scrollbarHeight);

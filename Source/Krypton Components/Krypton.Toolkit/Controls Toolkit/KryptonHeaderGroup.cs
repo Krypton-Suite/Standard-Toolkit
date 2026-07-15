@@ -711,11 +711,12 @@ public class KryptonHeaderGroup : VisualControlContainment
     private void ResetUseKryptonScrollbars() => _useKryptonScrollbars = null;
 
     /// <summary>
-    /// Gets access to the scrollbar manager when UseKryptonScrollbars is enabled.
+    /// Gets access to the scrollbar manager settings used when UseKryptonScrollbars is enabled.
     /// </summary>
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public KryptonScrollbarManager? ScrollbarManager => _scrollbarManager;
+    [Category(@"Behavior")]
+    [Description(@"Settings for the Krypton-themed scrollbars used when UseKryptonScrollbars is enabled.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public KryptonScrollbarManager ScrollbarManager => _scrollbarManager ??= new KryptonScrollbarManager();
 
     /// <summary>
     /// Get the preferred size of the control based on a proposed size.
@@ -884,7 +885,7 @@ public class KryptonHeaderGroup : VisualControlContainment
     /// <param name="e">An EventArgs containing the event data.</param>
     protected override void OnHandleCreated(EventArgs e)
     {
-        if (KryptonManager.UseKryptonScrollbars)
+        if (UseKryptonScrollbars)
         {
             UpdateScrollbarManager();
         }
@@ -1111,23 +1112,18 @@ public class KryptonHeaderGroup : VisualControlContainment
 
     private void UpdateScrollbarManager()
     {
-        if (KryptonManager.UseKryptonScrollbars)
+        if (UseKryptonScrollbars)
         {
-            if (_scrollbarManager == null)
+            // The manager instance persists (designer settings survive); only the
+            // attachment to the group panel follows the enabled state.
+            if (ScrollbarManager.TargetControl == null)
             {
-                _scrollbarManager = new KryptonScrollbarManager(Panel, ScrollbarManagerMode.Container)
-                {
-                    Enabled = true
-                };
+                ScrollbarManager.Attach(Panel, ScrollbarManagerMode.Container);
             }
         }
         else
         {
-            if (_scrollbarManager != null)
-            {
-                _scrollbarManager.Dispose();
-                _scrollbarManager = null;
-            }
+            _scrollbarManager?.Detach();
         }
     }
 
