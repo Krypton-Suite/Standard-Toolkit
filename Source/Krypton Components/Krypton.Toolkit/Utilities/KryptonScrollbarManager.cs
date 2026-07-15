@@ -527,8 +527,8 @@ public class KryptonScrollbarManager : IDisposable
         // Check if scrollbars are needed
         int clientWidth = _contentContainer.ClientSize.Width;
         int clientHeight = _contentContainer.ClientSize.Height;
-        int scrollbarWidth = SystemInformation.VerticalScrollBarWidth;
-        int scrollbarHeight = SystemInformation.HorizontalScrollBarHeight;
+        int scrollbarWidth = ManagedScrollBarWidth;
+        int scrollbarHeight = ManagedScrollBarHeight;
 
         needsHorizontal = maxWidth > clientWidth;
         needsVertical = maxHeight > clientHeight;
@@ -1593,8 +1593,8 @@ public class KryptonScrollbarManager : IDisposable
         // host client area when the wrapper does not expose layout bounds.
         Rectangle laneRect = wrapperLayout?.LaneRect ?? GetTargetClientRectangleInHost();
 
-        int scrollbarWidth = SystemInformation.VerticalScrollBarWidth;
-        int scrollbarHeight = SystemInformation.HorizontalScrollBarHeight;
+        int scrollbarWidth = ManagedScrollBarWidth;
+        int scrollbarHeight = ManagedScrollBarHeight;
 
         bool showVertical = _verticalScrollBar?.Visible == true;
         bool showHorizontal = _horizontalScrollBar?.Visible == true;
@@ -1662,6 +1662,15 @@ public class KryptonScrollbarManager : IDisposable
             AddScrollbarToHost(host, _scrollBarCorner);
         }
     }
+
+    // The KryptonScrollBar draws its arrows and thumb with fixed 15px content plus a
+    // 2px inset on each side, so it needs a 19px lane at 96 DPI. The system metric is
+    // 17px, which clips the buttons and thumb; widen the lane by 2px to compensate.
+    private const int ScrollBarLanePadding = 2;
+
+    private static int ManagedScrollBarWidth => SystemInformation.VerticalScrollBarWidth + ScrollBarLanePadding;
+
+    private static int ManagedScrollBarHeight => SystemInformation.HorizontalScrollBarHeight + ScrollBarLanePadding;
 
     private void OnCornerNeedPaint(object? sender, NeedLayoutEventArgs e) => _scrollBarCorner?.Invalidate();
 

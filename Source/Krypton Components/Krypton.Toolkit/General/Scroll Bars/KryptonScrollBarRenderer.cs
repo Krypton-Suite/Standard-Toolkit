@@ -985,13 +985,18 @@ internal static class KryptonScrollBarRenderer
 
         PaletteState paletteState = MapArrowStateToPaletteState(state);
         (Color outline, Color fill) = DropDownArrowGlyphColors.Resolve(_palette, paletteState);
-        DropDownArrowGlyphCache.Draw(g, glyphRect, outline, fill, direction);
+
+        // The arrow buttons are fixed-size cells in physical pixels, so size the glyph
+        // straight from the cell (no DPI-scaled drop-down metrics, which produced tiny
+        // glyphs at 100% scaling). Unicode glyphs are scaled to their visible outline
+        // so the arrow fills the cell instead of shrinking to the font's em padding.
+        DropDownArrowGlyphCache.DrawFixedCell(g, glyphRect, outline, fill, direction);
     }
 
     private static Rectangle GetArrowGlyphCellRect(Rectangle buttonRect)
     {
         int size = Math.Min(buttonRect.Width, buttonRect.Height);
-        size = Math.Max(4, (size * 3) / 5);
+        size = Math.Max(5, size - 4);
 
         return new Rectangle(
             buttonRect.X + ((buttonRect.Width - size) / 2),
