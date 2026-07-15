@@ -7,6 +7,8 @@
 #
 # SKIP CHANGE CHECK: Set repository variable SKIP_NIGHTLY_24_HOUR_CHECK=true to always force a nightly
 # build (scheduled or manual), or enable the skip_change_check workflow_dispatch input for a one-off run.
+# Either override forces a build even when there are no commits, or only .github-only commits, in the
+# last 24 hours.
 
 name: Nightly Release
 
@@ -20,7 +22,7 @@ on:
   workflow_dispatch:  # Allow manual triggering for testing
     inputs:
       skip_change_check:
-        description: Skip the 24-hour change check
+        description: Skip the 24-hour change check and force a build (even for .github-only changes)
         required: false
         default: false
         type: boolean
@@ -139,11 +141,12 @@ jobs:
             exit 0
           }
 
-          # Get commits from last 24 hours on alpha branch
+          # Get commits from last 24 hours on alpha branch, ignoring commits that only touch .github
+          # (e.g. the automated .github sync from master) so CI-only changes do not trigger a release
           $yesterday = (Get-Date).AddDays(-1).ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss")
-          $commitCount = git rev-list --count --since="$yesterday" alpha
+          $commitCount = git rev-list --count --since="$yesterday" alpha -- . ':(exclude).github'
 
-          Write-Host "Commits in last 24 hours: $commitCount"
+          Write-Host "Commits in last 24 hours (excluding .github-only changes): $commitCount"
 
           if ([int]$commitCount -gt 0) {
             Write-Host "Changes detected - proceeding with nightly build"
@@ -156,7 +159,7 @@ jobs:
       - name: Skip notification
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'false'
         run: |
-          Write-Host "::notice::No commits in the last 24 hours. Skipping nightly build and publish."
+          Write-Host "::notice::No commits (other than .github-only changes) in the last 24 hours. Skipping nightly build and publish."
 
       # .NET 9 and 10; .NET 11 for net11.0-windows (DOTNET_PREVIEW_SETUP_VERSION when set, else 11.0.x).
       - name: Setup .NET (9 and 10)
