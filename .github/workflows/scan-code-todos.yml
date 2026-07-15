@@ -40,7 +40,6 @@ on:
           - prerelease
           - V110
           - V105-LTS
-          - V85-LTS
           # END: long-lived-branches
           - other
       branch_custom:
