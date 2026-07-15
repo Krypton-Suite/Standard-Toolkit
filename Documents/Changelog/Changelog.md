@@ -58,6 +58,8 @@
    * Resolved standard Krypton collection editor Cancel leaving property-grid edits and membership changes on live collection items in place; Cancel now restores the opened item order and reverts in-session property changes on existing members
    * Resolved format string designer editor missing a Decimal preset and mis-detecting `D`/`d` patterns shared with date formats
    * Resolved corrupted UTF-8 characters (`©`, accented contributor names) in several source license headers
+* Implemented [#3899](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3899), A 'ToDo' GitHub workflow
+* Implemented [#3895](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3895), Improve GitHub templates
 * Resolved [#3881](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3881), FlashWindowExListener's WH_SHELL hook is never unhooked in hosts that don't call Application.Run() (e.g. VSTO/Office add-ins) — leads to AppDomainUnloadedException / host crash on shutdown
    * `FlashWindowExListener` `WH_SHELL` hook is now removed when the last tracked `KryptonForm` closes and on `AppDomain` unload, preventing `AppDomainUnloadedException` crashes in hosts that do not call `Application.Run()` (for example VSTO/Office add-ins).
 * Implemented [#3857](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3857), Implement `IsDefault` on Values types that currently throw `NotImplementedException`
