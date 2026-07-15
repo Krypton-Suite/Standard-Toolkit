@@ -122,8 +122,12 @@ body:
       multiple: false
       options:
         - Docking
+        - Docking Utilities
         - Navigator
+        - Navigator Utilities
         - Ribbon
+        - Ribbon Utilities
         - Toolkit
-        - Utilities
+        - Toolkit Utilities
         - Workspace
+        - Workspace Utilities
