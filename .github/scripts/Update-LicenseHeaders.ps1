@@ -16,7 +16,7 @@ $ErrorActionPreference = 'Stop'
 
 $ModificationsMarker = 'Modifications by Peter Wagner (aka '
 $CanonicalPrefix = 'Modifications by Peter Wagner (aka PWagner1), Simon Coghlan (aka Smurf-IV)'
-$CanonicalContributors = ', Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs)'
+$CanonicalContributors = ', Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs)'
 
 $linePattern = [regex]::new(
     '^(?<leading>.*?)(?<prefix>Modifications by Peter Wagner \(aka (?:Wagnerp|PWagner1)\), Simon Coghlan \(aka Smurf-IV\))(?<old>,.*?)(?<suffix> et al\.\s+\d{4}\s*-\s*\d{4}\.\s*All rights reserved\.\s*)$',
