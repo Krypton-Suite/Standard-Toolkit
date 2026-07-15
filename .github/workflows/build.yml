@@ -269,12 +269,29 @@ jobs:
       - name: Restore
         run: msbuild /m "Scripts/Build/build.proj" /t:Restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true /p:TFMs=all
 
+      # Fail early if Restore did not write assets under artifacts/obj (would surface later as NETSDK1005 in Pack).
+      - name: Verify artifacts/obj exists
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $objRoot = "Source/Krypton Components/artifacts/obj"
+          if (-not (Test-Path -LiteralPath $objRoot)) {
+            Write-Error "Artifacts obj folder missing: $objRoot"
+          }
+          $assets = @(Get-ChildItem -Path $objRoot -Recurse -Filter "project.assets.json")
+          if ($assets.Count -eq 0) {
+            Write-Error "No project.assets.json found under $objRoot"
+          }
+          $assets | ForEach-Object { Write-Host "Found: $($_.FullName)" }
+
       # /m: multi-processor MSBuild (all runner CPUs). build.proj orchestrates Krypton.* in parallel where references allow.
       - name: Build Release
         run: msbuild /m "Scripts/Build/build.proj" /t:Build /restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
+      # No /restore here: the explicit Restore step already produced artifacts/obj; a second implicit restore
+      # can write project.assets.json elsewhere / with different properties and trigger NETSDK1005.
       - name: Pack Release
-        run: msbuild /m "Scripts/Build/build.proj" /t:Pack /restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true /p:TFMs=all
+        run: msbuild /m "Scripts/Build/build.proj" /t:Pack /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true /p:TFMs=all /p:Restore=false
 
       # Verify Krypton.Interop in NuGet packages (V110+ only)
       - name: Resolve Krypton toolkit major version

@@ -62,8 +62,14 @@ on:
       max_issues:
         description: Maximum new issues to create per run
         required: true
-        default: 25
-        type: number
+        default: '25'
+        type: choice
+        options:
+          - '5'
+          - '10'
+          - '25'
+          - '50'
+          - '100'
       group_duplicates:
         description: Group identical comment text into one issue
         required: true
@@ -365,10 +371,15 @@ jobs:
             const lineNumber = event.data.line_number;
             const lineText = event.data.lines?.text || '';
             const captures = event.data.submatches || [];
-            const markerRaw = (captures[0]?.match?.text || '').trim();
-            let commentText = (captures[1]?.match?.text || '').trim();
+            // ripgrep --json submatches carry the whole match (no capture groups),
+            // so the marker word and comment text are re-parsed from the match text.
+            const matchText = (captures[0]?.match?.text || '').trim();
+            const parsed = matchText.match(/^(TODO|ToDo|FIXME|HACK)\b(?:\s*\(\s*issue\s*\))?\s*[:\s]*(.*)$/i);
+            const markerRaw = (parsed?.[1] || '').trim();
+            let commentText = (parsed?.[2] || '').trim();
             if (!commentText) {
-              const fallback = lineText.match(/(?:TODO|ToDo|FIXME|HACK)(?:\s*\(\s*issue\s*\))?\s*[:\s]+(.+)$/i);
+              // lines.text keeps its trailing newline; trim it or (.+)$ can never match.
+              const fallback = lineText.trimEnd().match(/(?:TODO|ToDo|FIXME|HACK)(?:\s*\(\s*issue\s*\))?\s*[:\s]+(.+)$/i);
               commentText = (fallback?.[1] || '').trim();
             }
 
