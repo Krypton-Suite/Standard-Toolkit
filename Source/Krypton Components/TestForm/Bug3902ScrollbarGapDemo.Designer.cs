@@ -30,6 +30,8 @@ namespace TestForm
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.kwlblInstructions = new Krypton.Toolkit.KryptonWrapLabel();
             this.kchkThemedCorner = new Krypton.Toolkit.KryptonCheckBox();
+            this.kchkCustomCornerColor = new Krypton.Toolkit.KryptonCheckBox();
+            this.kchkCornerPanelStyle = new Krypton.Toolkit.KryptonCheckBox();
             this.klblTextCaption = new Krypton.Toolkit.KryptonLabel();
             this.ktbxDemo = new Krypton.Toolkit.KryptonTextBox();
             this.klblRichCaption = new Krypton.Toolkit.KryptonLabel();
@@ -57,16 +59,20 @@ namespace TestForm
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.kwlblInstructions, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.kchkThemedCorner, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.klblTextCaption, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.ktbxDemo, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.klblRichCaption, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.krtbDemo, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this.klblListCaption, 0, 6);
-            this.tableLayoutPanel1.Controls.Add(this.klstDemo, 0, 7);
+            this.tableLayoutPanel1.Controls.Add(this.kchkCustomCornerColor, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.kchkCornerPanelStyle, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.klblTextCaption, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.ktbxDemo, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.klblRichCaption, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.krtbDemo, 0, 7);
+            this.tableLayoutPanel1.Controls.Add(this.klblListCaption, 0, 8);
+            this.tableLayoutPanel1.Controls.Add(this.klstDemo, 0, 9);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 12);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 8;
+            this.tableLayoutPanel1.RowCount = 10;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
@@ -90,8 +96,8 @@ namespace TestForm
             this.kwlblInstructions.Size = new System.Drawing.Size(854, 72);
             this.kwlblInstructions.Text =
                 "Issue #3902: inspect the right and bottom edges where Krypton scrollbars meet the control border, and the bottom-right corner when both scrollbars are visible.\r\n" +
-                "Expected: no white strip between the scrollbar and the themed border; when both bars show, the horizontal bar spans full width and fills the corner.\r\n" +
-                "Use the checkbox below to switch to a themed corner filler (both bars shortened) instead.\r\n" +
+                "Expected: no white strip between the scrollbar and the themed border; when both bars show, a flat themed filler covers the bottom-right corner (default).\r\n" +
+                "Use the checkboxes below to switch to ExtendHorizontal, apply a custom corner color via CornerStateCommon, or draw the corner with a panel style via CornerPanelStyle.\r\n" +
                 "Try at 100% and 150% display scaling. Swap themes from the TestForm menu to confirm across palettes.";
             this.kwlblInstructions.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             //
@@ -101,8 +107,26 @@ namespace TestForm
             this.kchkThemedCorner.Name = "kchkThemedCorner";
             this.kchkThemedCorner.Size = new System.Drawing.Size(340, 20);
             this.kchkThemedCorner.TabIndex = 7;
-            this.kchkThemedCorner.Values.Text = "Use themed corner filler (CornerStyle = ThemedCorner)";
+            this.kchkThemedCorner.Values.Text = "Extend horizontal bar through the corner (CornerStyle = ExtendHorizontal)";
             this.kchkThemedCorner.CheckedChanged += new System.EventHandler(this.kchkThemedCorner_CheckedChanged);
+            //
+            // kchkCustomCornerColor
+            //
+            this.kchkCustomCornerColor.Location = new System.Drawing.Point(3, 107);
+            this.kchkCustomCornerColor.Name = "kchkCustomCornerColor";
+            this.kchkCustomCornerColor.Size = new System.Drawing.Size(340, 20);
+            this.kchkCustomCornerColor.TabIndex = 8;
+            this.kchkCustomCornerColor.Values.Text = "Custom corner color (CornerStateCommon.Color1 = IndianRed)";
+            this.kchkCustomCornerColor.CheckedChanged += new System.EventHandler(this.kchkCustomCornerColor_CheckedChanged);
+            //
+            // kchkCornerPanelStyle
+            //
+            this.kchkCornerPanelStyle.Location = new System.Drawing.Point(3, 133);
+            this.kchkCornerPanelStyle.Name = "kchkCornerPanelStyle";
+            this.kchkCornerPanelStyle.Size = new System.Drawing.Size(340, 20);
+            this.kchkCornerPanelStyle.TabIndex = 9;
+            this.kchkCornerPanelStyle.Values.Text = "Corner uses panel style (CornerPanelStyle = PanelAlternate)";
+            this.kchkCornerPanelStyle.CheckedChanged += new System.EventHandler(this.kchkCornerPanelStyle_CheckedChanged);
             //
             // klblTextCaption
             //
@@ -182,6 +206,8 @@ namespace TestForm
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private Krypton.Toolkit.KryptonWrapLabel kwlblInstructions;
         private Krypton.Toolkit.KryptonCheckBox kchkThemedCorner;
+        private Krypton.Toolkit.KryptonCheckBox kchkCustomCornerColor;
+        private Krypton.Toolkit.KryptonCheckBox kchkCornerPanelStyle;
         private Krypton.Toolkit.KryptonLabel klblTextCaption;
         private Krypton.Toolkit.KryptonTextBox ktbxDemo;
         private Krypton.Toolkit.KryptonLabel klblRichCaption;

@@ -4563,14 +4563,14 @@ public enum ScrollbarManagerMode
 public enum ScrollbarCornerStyle
 {
     /// <summary>
-    /// The horizontal scrollbar spans the full width and fills the corner; the vertical scrollbar stops above it.
+    /// Both scrollbars are shortened and a themed corner filler is drawn at their intersection. This is the default.
     /// </summary>
-    ExtendHorizontal,
+    ThemedCorner,
 
     /// <summary>
-    /// Both scrollbars are shortened and a themed corner filler is drawn at their intersection.
+    /// The horizontal scrollbar spans the full width and fills the corner; the vertical scrollbar stops above it.
     /// </summary>
-    ThemedCorner
+    ExtendHorizontal
 }
 
 #endregion

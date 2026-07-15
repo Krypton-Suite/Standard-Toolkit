@@ -29,7 +29,11 @@ public class KryptonScrollbarManager : IDisposable
     private KryptonHScrollBar? _horizontalScrollBar;
     private KryptonVScrollBar? _verticalScrollBar;
     private KryptonScrollBarCorner? _scrollBarCorner;
-    private ScrollbarCornerStyle _cornerStyle = ScrollbarCornerStyle.ExtendHorizontal;
+    private readonly PaletteBackScrollBarCornerInherit _cornerInherit;
+    private readonly PaletteBack _cornerStateCommon;
+    private readonly PaletteBack _cornerStateNormal;
+    private readonly PaletteBack _cornerStateDisabled;
+    private ScrollbarCornerStyle _cornerStyle = ScrollbarCornerStyle.ThemedCorner;
     private ScrollbarManagerMode _mode = ScrollbarManagerMode.Container;
     private bool _enabled = true;
     private bool _isUpdating;
@@ -78,6 +82,13 @@ public class KryptonScrollbarManager : IDisposable
     {
         _syncTimer = new Timer { Interval = 50 }; // Update every 50ms for native wrapper mode
         _syncTimer.Tick += SyncTimer_Tick;
+
+        // The corner state storage lives on the manager (not on the corner control,
+        // which is recreated on detach/reattach) so user customization is preserved.
+        _cornerInherit = new PaletteBackScrollBarCornerInherit();
+        _cornerStateCommon = new PaletteBack(_cornerInherit, OnCornerNeedPaint);
+        _cornerStateNormal = new PaletteBack(_cornerStateCommon, OnCornerNeedPaint);
+        _cornerStateDisabled = new PaletteBack(_cornerStateCommon, OnCornerNeedPaint);
     }
 
     /// <summary>
@@ -86,9 +97,8 @@ public class KryptonScrollbarManager : IDisposable
     /// <param name="targetControl">The control to attach scrollbars to.</param>
     /// <param name="mode">The integration mode to use.</param>
     public KryptonScrollbarManager(Control targetControl, ScrollbarManagerMode mode = ScrollbarManagerMode.Container)
+        : this()
     {
-        _syncTimer = new Timer { Interval = 50 }; // Update every 50ms for native wrapper mode
-        _syncTimer.Tick += SyncTimer_Tick;
         Attach(targetControl, mode);
     }
 
@@ -184,8 +194,8 @@ public class KryptonScrollbarManager : IDisposable
     /// Gets or sets how the bottom-right corner is filled when both scrollbars are visible.
     /// </summary>
     [Category(@"Behavior")]
-    [Description(@"Gets or sets how the bottom-right corner is filled when both scrollbars are visible (ExtendHorizontal or ThemedCorner).")]
-    [DefaultValue(ScrollbarCornerStyle.ExtendHorizontal)]
+    [Description(@"Gets or sets how the bottom-right corner is filled when both scrollbars are visible (ThemedCorner or ExtendHorizontal).")]
+    [DefaultValue(ScrollbarCornerStyle.ThemedCorner)]
     public ScrollbarCornerStyle CornerStyle
     {
         get => _cornerStyle;
@@ -198,6 +208,58 @@ public class KryptonScrollbarManager : IDisposable
             }
         }
     }
+
+    /// <summary>
+    /// Gets or sets the palette back style the scrollbar corner inherits its appearance from.
+    /// Null (the default) keeps the flat scrollbar background fill; set a style such as
+    /// <see cref="PaletteBackStyle.PanelClient"/> to blend the corner with panel surfaces instead.
+    /// Values set through <see cref="CornerStateCommon"/> and the other corner states override this.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Gets or sets the palette back style the scrollbar corner inherits from. Null keeps the flat scrollbar background fill.")]
+    [DefaultValue(null)]
+    public PaletteBackStyle? CornerPanelStyle
+    {
+        get => _cornerInherit.Style;
+        set
+        {
+            if (_cornerInherit.Style != value)
+            {
+                _cornerInherit.Style = value;
+                _scrollBarCorner?.Invalidate();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets access to the common scrollbar corner appearance that other corner states can override.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining the common scrollbar corner appearance that other corner states can override.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteBack CornerStateCommon => _cornerStateCommon;
+
+    private bool ShouldSerializeCornerStateCommon() => !_cornerStateCommon.IsDefault;
+
+    /// <summary>
+    /// Gets access to the scrollbar corner appearance when it is in the normal state.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining the scrollbar corner appearance when it is in the normal state.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteBack CornerStateNormal => _cornerStateNormal;
+
+    private bool ShouldSerializeCornerStateNormal() => !_cornerStateNormal.IsDefault;
+
+    /// <summary>
+    /// Gets access to the scrollbar corner appearance when it is in the disabled state.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining the scrollbar corner appearance when it is in the disabled state.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteBack CornerStateDisabled => _cornerStateDisabled;
+
+    private bool ShouldSerializeCornerStateDisabled() => !_cornerStateDisabled.IsDefault;
 
     /// <summary>
     /// Gets the target control this manager is attached to.
@@ -1567,7 +1629,7 @@ public class KryptonScrollbarManager : IDisposable
             return;
         }
 
-        _scrollBarCorner = new KryptonScrollBarCorner
+        _scrollBarCorner = new KryptonScrollBarCorner(_cornerStateNormal, _cornerStateDisabled)
         {
             Visible = false
         };
@@ -1578,6 +1640,8 @@ public class KryptonScrollbarManager : IDisposable
             AddScrollbarToHost(host, _scrollBarCorner);
         }
     }
+
+    private void OnCornerNeedPaint(object? sender, NeedLayoutEventArgs e) => _scrollBarCorner?.Invalidate();
 
     private void BringScrollbarsToFront()
     {

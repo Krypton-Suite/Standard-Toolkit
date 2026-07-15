@@ -68,6 +68,12 @@ internal static class KryptonScrollBarRenderer
         InitColors();
     }
 
+    /// <summary>
+    /// Gets the solid background fill color, used by <see cref="KryptonScrollBarCorner"/>
+    /// to paint the intersection square as a flat surface.
+    /// </summary>
+    internal static Color BackgroundFillColor => _backgroundColors[4];
+
     public static void InitColors()
     {
 
