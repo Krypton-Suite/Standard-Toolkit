@@ -133,9 +133,9 @@ jobs:
                 const title = issue.title || '';
                 let labelToAdd = null;
                 if (/^\[bug\]:?/i.test(title)) {
-                  labelToAdd = 'fixed';
+                  labelToAdd = '🛠️ fixed';
                 } else if (/^\[feature request\]:?/i.test(title)) {
-                  labelToAdd = 'completed';
+                  labelToAdd = '✅ completed';
                 }
 
                 if (labelToAdd && !currentLabels.includes(labelToAdd)) {
