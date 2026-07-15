@@ -205,14 +205,26 @@ jobs:
         if: steps.release_kill_switch.outputs.enabled == 'true'
         run: msbuild /m "Scripts/Build/build.proj" /t:Pack /restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
-      - name: Verify Krypton.Interop in NuGet packages
+      # Verify Krypton.Interop is present in NuGet packages (V110+ only)
+      - name: Resolve Krypton toolkit major version
         if: steps.release_kill_switch.outputs.enabled == 'true'
+        id: krypton_major_version
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
           $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
           . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
-          Test-KryptonInteropInPackages -Configuration Release -SkipIfInteropProjectMissing
+          $major = Get-KryptonToolkitMajorVersion -Configuration Release
+          echo "major=$major" >> $env:GITHUB_OUTPUT
+
+      - name: Verify Krypton.Interop in NuGet packages
+        if: steps.release_kill_switch.outputs.enabled == 'true' && steps.krypton_major_version.outputs.major >= 110
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
+          Test-KryptonInteropInPackages -Configuration Release -MinimumMajorVersion 110 -SkipIfInteropProjectMissing
 
       - name: Save NuGet cache
         # Kill switch check
@@ -558,14 +570,26 @@ jobs:
         if: steps.release_kill_switch.outputs.enabled == 'true'
         run: msbuild /m "Scripts/Build/build.proj" /t:Pack /restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
-      - name: Verify Krypton.Interop in NuGet packages
+      # Verify Krypton.Interop is present in NuGet packages (V110+ only)
+      - name: Resolve Krypton toolkit major version
         if: steps.release_kill_switch.outputs.enabled == 'true'
+        id: krypton_major_version
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
           $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
           . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
-          Test-KryptonInteropInPackages -Configuration Release -SkipIfInteropProjectMissing
+          $major = Get-KryptonToolkitMajorVersion -Configuration Release
+          echo "major=$major" >> $env:GITHUB_OUTPUT
+
+      - name: Verify Krypton.Interop in NuGet packages
+        if: steps.release_kill_switch.outputs.enabled == 'true' && steps.krypton_major_version.outputs.major >= 110
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
+          Test-KryptonInteropInPackages -Configuration Release -MinimumMajorVersion 110 -SkipIfInteropProjectMissing
 
       - name: Save NuGet cache
         # Kill switch check
@@ -930,14 +954,26 @@ jobs:
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         run: msbuild /m "Scripts/Build/canary.proj" /t:Pack /restore /p:Configuration=Canary /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
-      - name: Verify Krypton.Interop in NuGet packages
+      # Verify Krypton.Interop is present in NuGet packages (V110+ only)
+      - name: Resolve Krypton toolkit major version
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
+        id: krypton_major_version
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
           $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
           . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
-          Test-KryptonInteropInPackages -Configuration Canary -SkipIfInteropProjectMissing
+          $major = Get-KryptonToolkitMajorVersion -Configuration Canary
+          echo "major=$major" >> $env:GITHUB_OUTPUT
+
+      - name: Verify Krypton.Interop in NuGet packages
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && steps.krypton_major_version.outputs.major >= 110
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
+          Test-KryptonInteropInPackages -Configuration Canary -MinimumMajorVersion 110 -SkipIfInteropProjectMissing
 
       - name: Save NuGet cache
         # Kill switch check
@@ -1293,14 +1329,26 @@ jobs:
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         run: msbuild /m "Scripts/Build/nightly.proj" /t:Pack /restore /p:Configuration=Nightly /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
-      - name: Verify Krypton.Interop in NuGet packages
+      # Verify Krypton.Interop is present in NuGet packages (V110+ only)
+      - name: Resolve Krypton toolkit major version
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
+        id: krypton_major_version
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
           $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
           . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
-          Test-KryptonInteropInPackages -Configuration Nightly -SkipIfInteropProjectMissing
+          $major = Get-KryptonToolkitMajorVersion -Configuration Nightly
+          echo "major=$major" >> $env:GITHUB_OUTPUT
+
+      - name: Verify Krypton.Interop in NuGet packages
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.krypton_major_version.outputs.major >= 110
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
+          Test-KryptonInteropInPackages -Configuration Nightly -MinimumMajorVersion 110 -SkipIfInteropProjectMissing
 
       - name: Save NuGet cache
         # Kill switch check

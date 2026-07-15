@@ -8,7 +8,7 @@ public class FileSystemListViewValues : Storage
 {
     #region Instance Fields
 
-    private string _currentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+    private string _currentPath = string.Empty;
     private bool _showFiles = true;
     private bool _showHiddenFiles = false;
     private bool _showSystemFiles = false;
@@ -169,7 +169,15 @@ public class FileSystemListViewValues : Storage
         }
     }
 
-    public override bool IsDefault => throw new NotImplementedException();
+    /// <inheritdoc />
+    [Browsable(false)]
+    public override bool IsDefault =>
+        _currentPath == string.Empty &&
+        _showFiles &&
+        !_showHiddenFiles &&
+        !_showSystemFiles &&
+        _fileFilter == "*.*" &&
+        !_useLargeIcons;
 
     /// <summary>
     /// Returns a string representation of this object.
