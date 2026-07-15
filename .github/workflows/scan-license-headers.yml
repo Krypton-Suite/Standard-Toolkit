@@ -111,6 +111,17 @@ jobs:
           BRANCH: ${{ inputs.branch }}
           CREATE_PR: ${{ inputs.create_pr }}
           FILES_CHANGED: ${{ steps.update.outputs.files_changed }}
+          PR_BODY: |
+            ## Summary
+            Automated partial replacement of BSD license header contributor lines.
+
+            - Fixed prefix: `Modifications by Peter Wagner (aka PWagner1), Simon Coghlan (aka Smurf-IV)`
+            - Canonical contributors: Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al.
+            - Each file keeps its existing year range and rights suffix.
+
+            **Files updated:** ${{ steps.update.outputs.files_changed }}
+
+            *Triggered by Scan license headers workflow.*
         run: |
           set -euo pipefail
 
@@ -131,19 +142,7 @@ jobs:
               --base "$BRANCH" \
               --head "$work_branch" \
               --title "chore: normalize license header contributor lines" \
-              --body "$(cat <<EOF
-## Summary
-Automated partial replacement of BSD license header contributor lines.
-
-- Fixed prefix: \`Modifications by Peter Wagner (aka PWagner1), Simon Coghlan (aka Smurf-IV)\`
-- Canonical contributors: Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al.
-- Each file keeps its existing year range and rights suffix.
-
-**Files updated:** $FILES_CHANGED
-
-*Triggered by Scan license headers workflow.*
-EOF
-)"
+              --body "$PR_BODY"
           else
             git push origin "HEAD:$BRANCH"
           fi
