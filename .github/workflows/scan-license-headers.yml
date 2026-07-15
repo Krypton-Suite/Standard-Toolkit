@@ -18,7 +18,14 @@ on:
         description: Branch to scan and update
         required: true
         default: alpha
-        type: string
+        type: choice
+        options:
+          # BEGIN: long-lived-branches (synced from branch-policy.json)
+          - alpha
+          - prerelease
+          - V110
+          - V105-LTS
+          # END: long-lived-branches
       dry_run:
         description: Log changes only; do not modify files or open a pull request
         required: true
