@@ -25,7 +25,8 @@ namespace Krypton.Toolkit;
 [DesignerCategory(@"code")]
 [Description(@"Represents a list box control that allows single or multiple item selection.")]
 public class KryptonListBox : VisualControlBase,
-    IContainedInputControl
+    IContainedInputControl,
+    IKryptonNativeWrapperScrollbarBounds
 {
     #region Classes
     private class InternalListBox : ListBox
@@ -1226,11 +1227,12 @@ public class KryptonListBox : VisualControlBase,
     }
 
     /// <summary>
-    /// Gets access to the scrollbar manager when UseKryptonScrollbars is enabled.
+    /// Gets access to the scrollbar manager settings used when UseKryptonScrollbars is enabled.
     /// </summary>
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public KryptonScrollbarManager? ScrollbarManager => _scrollbarManager;
+    [Category(@"Behavior")]
+    [Description(@"Settings for the Krypton-themed scrollbars used when UseKryptonScrollbars is enabled.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public KryptonScrollbarManager ScrollbarManager => _scrollbarManager ??= new KryptonScrollbarManager();
 
 
     /// <summary>
@@ -1960,21 +1962,16 @@ public class KryptonListBox : VisualControlBase,
     {
         if (UseKryptonScrollbars)
         {
-            if (_scrollbarManager == null)
+            // The manager instance persists (designer settings survive); only the
+            // attachment to the inner control follows the enabled state.
+            if (ScrollbarManager.TargetControl == null)
             {
-                _scrollbarManager = new KryptonScrollbarManager(_listBox, ScrollbarManagerMode.NativeWrapper)
-                {
-                    Enabled = true
-                };
+                ScrollbarManager.Attach(_listBox, ScrollbarManagerMode.NativeWrapper);
             }
         }
         else
         {
-            if (_scrollbarManager != null)
-            {
-                _scrollbarManager.Dispose();
-                _scrollbarManager = null;
-            }
+            _scrollbarManager?.Detach();
         }
     }
 
@@ -1996,11 +1993,8 @@ public class KryptonListBox : VisualControlBase,
             return;
         }
 
-        if (_scrollbarManager != null)
-        {
-            _scrollbarManager.Dispose();
-            _scrollbarManager = null;
-        }
+        // Re-attach (rather than dispose/recreate) so user settings on the manager persist.
+        _scrollbarManager?.Detach();
 
         UpdateScrollbarManager();
         _scrollbarManager?.UpdateScrollbars();
@@ -2023,6 +2017,9 @@ public class KryptonListBox : VisualControlBase,
             }
         }));
     }
+
+    NativeWrapperScrollbarLayout IKryptonNativeWrapperScrollbarBounds.GetNativeWrapperScrollbarLayout() =>
+        KryptonNativeWrapperScrollbarBoundsHelper.GetLayout(this, _layoutFill);
 
     #endregion
 }
