@@ -48,13 +48,13 @@ jobs:
               let titlePrefix = null;
               
               // Check for Bug Report template (handles '🪲 bug' label)
-              const hasBugLabel = hasLabelMatching('🪲 bug');
+              const hasBugLabel = hasLabelMatching(':beetle: bug');
               const hasBugReportFields = issueBody.includes('### Steps to Reproduce');
               if ((hasBugLabel || hasBugReportFields) && !issueTitle.startsWith('[Bug]: ')) {
                 titlePrefix = '[Bug]: ';
               }
               // Check for Feature Request template (handles '✨ new feature', '💡 suggestion' labels)
-              else if ((hasLabelMatching('enhancement') || hasLabelMatching('✨ new feature') || hasLabelMatching('💡 suggestion') || 
+              else if ((hasLabelMatching('enhancement') || hasLabelMatching(':sparkles: new feature') || hasLabelMatching(':bulb: suggestion') || 
                        issueBody.includes('### Feature Description')) && 
                        !issueTitle.startsWith('[Feature Request]: ')) {
                 titlePrefix = '[Feature Request]: ';
@@ -66,13 +66,13 @@ jobs:
                 titlePrefix = '[Other Issues]: ';
               }
               // Check for Post a Question template (handles '❔ question' label)
-              else if ((hasLabelMatching('❔ question') || 
+              else if ((hasLabelMatching(':question: question') || 
                        issueBody.includes('### What do you want to ask?')) && 
                        !issueTitle.startsWith('[Question]: ')) {
                 titlePrefix = '[Question]: ';
               }
               // Check for Code ToDo template or workflow-created code todo issues
-              else if ((hasLabelMatching('🗒️ todo') ||
+              else if ((hasLabelMatching(':spiral_notepad: todo') ||
                        issueBody.includes('<!-- code-todo-scan:key=') ||
                        issueBody.includes('### Source')) &&
                        !issueTitle.startsWith('[Code ToDo]: ')) {
