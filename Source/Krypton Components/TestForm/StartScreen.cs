@@ -125,6 +125,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<ProgressBarTest>("ProgressBar", "Checkout if progress has been made.");
         CreateButton<ScrollBarTest>("ScrollBar", "Comprehensive demonstration of KryptonHScrollBar and KryptonVScrollBar controls with basic usage, scrolling content, synchronization, theming, programmatic control, and event logging.");
         CreateButton<ScrollbarManagerTest>("Scrollbar Manager", "Comprehensive demonstration of KryptonScrollbarManager with container mode, native wrapper mode, dynamic content, and integration examples.");
+        CreateButton<Bug3902ScrollbarGapDemo>("Bug 3902 Scrollbar Gap", "Issue #3902: Krypton scrollbars on TextBox, RichTextBox, and ListBox should sit flush against the themed border with no white 1–2px gutter. Swap themes and DPI to verify.");
         CreateButton<RibbonNavigatorWorkspaceTest>("Ribbon / Navigator / Workspace", string.Empty);
         CreateButton<RTLControlsTest>("RTL Compliance Tests", "Test the Krypton.Toolkit controls for compliance.");
         CreateButton<SplashScreenExample>("Splash Screen", string.Empty);

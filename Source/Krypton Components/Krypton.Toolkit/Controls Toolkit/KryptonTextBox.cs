@@ -24,7 +24,8 @@ namespace Krypton.Toolkit;
 [DesignerCategory(@"code")]
 [Description(@"Enables the user to enter text, and provides multiline editing and password character masking.")]
 public class KryptonTextBox : VisualControlBase,
-    IContainedInputControl
+    IContainedInputControl,
+    IKryptonNativeWrapperScrollbarBounds
 {
     #region Classes
     private class InternalTextBox : TextBox
@@ -1472,11 +1473,12 @@ public class KryptonTextBox : VisualControlBase,
     private void ResetUseKryptonScrollbars() => _useKryptonScrollbars = null;
 
     /// <summary>
-    /// Gets access to the scrollbar manager when UseKryptonScrollbars is enabled.
+    /// Gets access to the scrollbar manager settings used when UseKryptonScrollbars is enabled.
     /// </summary>
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public KryptonScrollbarManager? ScrollbarManager => _scrollbarManager;
+    [Category(@"Behavior")]
+    [Description(@"Settings for the Krypton-themed scrollbars used when UseKryptonScrollbars is enabled.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public KryptonScrollbarManager ScrollbarManager => _scrollbarManager ??= new KryptonScrollbarManager();
 
     #endregion
 
@@ -1611,7 +1613,7 @@ public class KryptonTextBox : VisualControlBase,
         // We need to recalculate the correct height
         AdjustHeight(true);
 
-        if (KryptonManager.UseKryptonScrollbars)
+        if (UseKryptonScrollbars)
         {
             UpdateScrollbarManager();
         }
@@ -2174,25 +2176,23 @@ public class KryptonTextBox : VisualControlBase,
 
     private void UpdateScrollbarManager()
     {
-        if (KryptonManager.UseKryptonScrollbars)
+        if (UseKryptonScrollbars)
         {
-            if (_scrollbarManager == null)
+            // The manager instance persists (designer settings survive); only the
+            // attachment to the inner control follows the enabled state.
+            if (ScrollbarManager.TargetControl == null)
             {
-                _scrollbarManager = new KryptonScrollbarManager(_textBox, ScrollbarManagerMode.NativeWrapper)
-                {
-                    Enabled = true
-                };
+                ScrollbarManager.Attach(_textBox, ScrollbarManagerMode.NativeWrapper);
             }
         }
         else
         {
-            if (_scrollbarManager != null)
-            {
-                _scrollbarManager.Dispose();
-                _scrollbarManager = null;
-            }
+            _scrollbarManager?.Detach();
         }
     }
+
+    NativeWrapperScrollbarLayout IKryptonNativeWrapperScrollbarBounds.GetNativeWrapperScrollbarLayout() =>
+        KryptonNativeWrapperScrollbarBoundsHelper.GetLayout(this, _layoutFill);
 
     #endregion
 }

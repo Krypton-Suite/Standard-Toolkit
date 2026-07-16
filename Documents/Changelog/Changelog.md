@@ -54,6 +54,14 @@
    * **[Breaking Change]** `ToggleSwitchValues` colour, gradient, pulse, and chevron settings are grouped under expandable `Colors`, `Gradient`, `Pulse`, and `Chevron` objects. Obsolete pass-through properties remain for migration.
 * Implemented optional vertical layout for `KryptonToggleSwitch` via `ToggleSwitchValues.Orientation`.
    * Horizontal remains the default (off left, on right). Vertical moves the knob top (off) to bottom (on) and works best with a tall, narrow control size.
+* Resolved [#3902](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3902), Scrollbars leaves white gaps in between them and the borders
+   * Krypton scrollbars are hosted on the outer wrapper and fill the layout lane flush to the inside of the themed border
+   * When both scrollbars are visible, a flat themed filler covers the bottom-right corner by default; set `KryptonScrollbarManager.CornerStyle` to `ScrollbarCornerStyle.ExtendHorizontal` to have the horizontal bar span the full width instead
+   * The application-wide default can be changed via `KryptonManager.ScrollbarCornerStyle` (designer: `GlobalScrollbarCornerStyle` on the `KryptonManager` component); managers that have not set `CornerStyle` explicitly follow it
+   * The corner filler appearance can be customized through `KryptonScrollbarManager.CornerStateCommon`, `CornerStateNormal` and `CornerStateDisabled` (standard `PaletteBack` overrides for color, gradient or image), or inherit a theme surface via `CornerPanelStyle` (e.g. `PaletteBackStyle.PanelClient`)
+   * The `ScrollbarManager` property on controls with `UseKryptonScrollbars` support is now visible in the designer as an expandable object, so corner style and appearance can be configured at design time (settings persist when Krypton scrollbars are toggled off and on)
+   * Managed Krypton scrollbars are 2px wider/taller than the system metric so the arrow buttons and thumb are no longer clipped
+   * Scrollbar arrow glyphs are sized from the arrow button, with Unicode glyphs scaled to their visible outline, fixing tiny glyphs at 100% DPI
 * Implemented [#3899](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3899), A 'ToDo' GitHub workflow
 * Implemented [#3895](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3895), Improve GitHub templates
 * Resolved [#3881](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3881), FlashWindowExListener's WH_SHELL hook is never unhooked in hosts that don't call Application.Run() (e.g. VSTO/Office add-ins) — leads to AppDomainUnloadedException / host crash on shutdown
