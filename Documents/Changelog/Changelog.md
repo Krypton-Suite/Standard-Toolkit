@@ -45,6 +45,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#3960](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3960), Ribbon app-button/tab gaps now scale with DPI (Office 2007 spacing; Office 2010+ remains flush)
 * Resolved [#3902](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3902), Scrollbars leaves white gaps in between them and the borders
    * Krypton scrollbars are hosted on the outer wrapper and fill the layout lane flush to the inside of the themed border
    * When both scrollbars are visible, a flat themed filler covers the bottom-right corner by default; set `KryptonScrollbarManager.CornerStyle` to `ScrollbarCornerStyle.ExtendHorizontal` to have the horizontal bar span the full width instead
