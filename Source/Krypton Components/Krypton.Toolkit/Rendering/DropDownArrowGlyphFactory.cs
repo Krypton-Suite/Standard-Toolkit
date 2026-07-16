@@ -67,11 +67,12 @@ internal static class DropDownArrowGlyphFactory
     /// <param name="direction">The direction of the glyph.</param>
     /// <param name="renderMode">The render mode of the glyph.</param>
     /// <param name="style">The glyph drawing style.</param>
-    internal static Image Create(int size, Color outline, Color fill, DropDownArrowGlyphDirection direction, DropDownArrowRenderMode renderMode, DropDownArrowGlyphStyle style)
+    /// <param name="fitToCell">true to scale the visible glyph outline to fill the cell.</param>
+    internal static Image Create(int size, Color outline, Color fill, DropDownArrowGlyphDirection direction, DropDownArrowRenderMode renderMode, DropDownArrowGlyphStyle style, bool fitToCell = false)
     {
         if (!HasDistinctFill(outline, fill))
         {
-            return CreateMonochrome(size, outline, direction, renderMode, DropDownArrowGlyphLayer.Fill);
+            return CreateMonochrome(size, outline, direction, renderMode, DropDownArrowGlyphLayer.Fill, fitToCell);
         }
 
         DropDownArrowGlyphStyleLayout.GetLayerOffsets(style, size, out Point fillOffset, out Point outlineOffset);
@@ -82,9 +83,9 @@ internal static class DropDownArrowGlyphFactory
         {
             g.Clear(Color.Transparent);
 
-            using Image fillGlyph = CreateMonochrome(size, fill, direction, renderMode, DropDownArrowGlyphLayer.Fill);
+            using Image fillGlyph = CreateMonochrome(size, fill, direction, renderMode, DropDownArrowGlyphLayer.Fill, fitToCell);
 
-            using Image outlineGlyph = CreateMonochrome(size, outline, direction, renderMode, DropDownArrowGlyphLayer.Outline);
+            using Image outlineGlyph = CreateMonochrome(size, outline, direction, renderMode, DropDownArrowGlyphLayer.Outline, fitToCell);
 
             g.DrawImage(fillGlyph, fillOffset);
 
@@ -103,9 +104,12 @@ internal static class DropDownArrowGlyphFactory
     /// <param name="direction">The direction of the glyph.</param>
     /// <param name="renderMode">The render mode of the glyph.</param>
     /// <param name="layer">The layer of the glyph.</param>
-    internal static Image CreateMonochrome(int size, Color color, DropDownArrowGlyphDirection direction,  DropDownArrowRenderMode renderMode, DropDownArrowGlyphLayer layer)
+    /// <param name="fitToCell">true to scale the visible glyph outline to fill the cell.</param>
+    internal static Image CreateMonochrome(int size, Color color, DropDownArrowGlyphDirection direction,  DropDownArrowRenderMode renderMode, DropDownArrowGlyphLayer layer, bool fitToCell = false)
         => renderMode == DropDownArrowRenderMode.Unicode
-            ? CreateUnicodeMonochrome(size, color, direction)
+            ? fitToCell
+                ? CreateUnicodeMonochromeFitted(size, color, direction)
+                : CreateUnicodeMonochrome(size, color, direction)
             : CreatePolygonMonochrome(size, color, direction, layer);
 
     /// <summary>
@@ -145,6 +149,90 @@ internal static class DropDownArrowGlyphFactory
         }
 
         return bmp;
+    }
+
+    /// <summary>
+    /// Creates a Unicode monochrome glyph whose visible outline is scaled to fill the
+    /// cell. The standard Unicode path fits the font by measured line height, which
+    /// leaves most of a small cell as em padding; this variant extracts the glyph
+    /// outline as a path and scales the actual ink to the cell, so fixed-size cells
+    /// (e.g. scrollbar arrow buttons) get a properly sized arrow at any DPI.
+    /// </summary>
+    /// <param name="size">The size of the glyph.</param>
+    /// <param name="color">The color of the glyph.</param>
+    /// <param name="direction">The direction of the glyph.</param>
+    private static Image CreateUnicodeMonochromeFitted(int size, Color color, DropDownArrowGlyphDirection direction)
+    {
+        char glyph = GetUnicodeCharacter(direction, size);
+
+        using var path = new System.Drawing.Drawing2D.GraphicsPath();
+
+        FontFamily? symbolFamily = TryCreateSymbolFontFamily();
+
+        try
+        {
+            FontFamily family = symbolFamily ?? (SystemFonts.MessageBoxFont?.FontFamily ?? FontFamily.GenericSansSerif);
+
+            path.AddString(glyph.ToString(), family, (int)FontStyle.Regular, size, PointF.Empty, StringFormat.GenericTypographic);
+        }
+        finally
+        {
+            symbolFamily?.Dispose();
+        }
+
+        RectangleF bounds = path.GetBounds();
+
+        if (bounds.Width < 1f || bounds.Height < 1f)
+        {
+            // Glyph outline unavailable; fall back to the crisp polygon triangle.
+            return CreatePolygonMonochrome(size, color, direction, DropDownArrowGlyphLayer.Fill);
+        }
+
+        // Leave a 1px margin so anti-aliased edges are not clipped by the cell.
+        const float Margin = 1f;
+        float available = size - (2f * Margin);
+        float scale = Math.Min(available / bounds.Width, available / bounds.Height);
+
+        using (var matrix = new System.Drawing.Drawing2D.Matrix())
+        {
+            matrix.Translate(
+                Margin + ((available - (bounds.Width * scale)) / 2f) - (bounds.X * scale),
+                Margin + ((available - (bounds.Height * scale)) / 2f) - (bounds.Y * scale));
+            matrix.Scale(scale, scale);
+            path.Transform(matrix);
+        }
+
+        var bmp = new Bitmap(size, size, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+        using (var g = Graphics.FromImage(bmp))
+        {
+            g.Clear(Color.Transparent);
+
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+            using var brush = new SolidBrush(color);
+
+            g.FillPath(brush, path);
+        }
+
+        return bmp;
+    }
+
+    private static FontFamily? TryCreateSymbolFontFamily()
+    {
+        foreach (string familyName in SymbolFontFamilies)
+        {
+            try
+            {
+                return new FontFamily(familyName);
+            }
+            catch (ArgumentException)
+            {
+
+            }
+        }
+
+        return null;
     }
 
     private static Image CreatePolygonMonochrome(int size, Color color, DropDownArrowGlyphDirection direction,  DropDownArrowGlyphLayer layer)
