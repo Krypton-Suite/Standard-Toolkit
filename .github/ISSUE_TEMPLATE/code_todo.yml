@@ -4,7 +4,7 @@
 name: "📝 Code ToDo"
 description: "Track work identified by an inline TODO/ToDo comment in source code"
 labels:
-  - todo :spiral_notepad:
+  - :spiral_notepad: todo
   - backlog
   - version:all versions
 body:

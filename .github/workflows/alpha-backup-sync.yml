@@ -190,10 +190,10 @@ jobs:
           today=$(date -u +%Y-%m-%d)
           dir_name="$prefix - $today"
           echo "dir_name=$dir_name" >> "$GITHUB_OUTPUT"
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
           git clone --depth 1 "https://x-access-token:$BACKUP_REPO_TOKEN@github.com/$repo_path.git" backup-repo
           cd backup-repo
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git checkout -b "$branch" 2>/dev/null || git checkout "$branch" 2>/dev/null || true
           mkdir -p "$dir_name"
           rsync -a --exclude='.git' --exclude='backup-repo' ../. "$dir_name/"

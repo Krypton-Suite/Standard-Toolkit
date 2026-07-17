@@ -83,7 +83,7 @@ on:
       notify_discord:
         description: Post a run summary to Discord (requires secret DISCORD_WEBHOOK_CODE_TODOS)
         required: true
-        default: false
+        default: true 
         type: boolean
 
 permissions:
@@ -463,13 +463,13 @@ jobs:
             const fingerprintSuffix = ' -->';
 
             const todoLabels = [
-              'todo :spiral_notepad:',
+              ':spiral_notepad: todo',
               'backlog',
               'version:all versions',
             ];
 
             const hackLabels = [
-              'todo :spiral_notepad:',
+              ':spiral_notepad: todo',
               'has workaround',
               'backlog',
               'version:all versions',
@@ -862,7 +862,7 @@ jobs:
                 const { data } = await github.rest.issues.listForRepo({
                   owner,
                   repo,
-                  labels: 'todo :spiral_notepad:',
+                  labels: ':spiral_notepad: todo',
                   state: 'all',
                   per_page: 100,
                   page,
@@ -966,7 +966,7 @@ jobs:
                 const { data } = await github.rest.issues.listForRepo({
                   owner,
                   repo,
-                  labels: 'todo :spiral_notepad:',
+                  labels: ':spiral_notepad: todo',
                   state: 'all',
                   per_page: 100,
                   page,
