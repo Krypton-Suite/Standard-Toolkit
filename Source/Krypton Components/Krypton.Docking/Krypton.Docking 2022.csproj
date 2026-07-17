@@ -77,6 +77,9 @@
   </ItemGroup>
 
   <ItemGroup>
+	<!-- Krypton.Interop: direct reference required (net4x nullable attribute polyfills via InternalsVisibleTo);
+	     PrivateAssets="all" keeps the unpublished package out of this package's nuspec dependencies (#3908). -->
+	<ProjectReference Include="..\Krypton.Interop\Krypton.Interop.csproj" PrivateAssets="all" />
 	<ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
 	<ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
 	<ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
