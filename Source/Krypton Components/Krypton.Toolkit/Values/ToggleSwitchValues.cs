@@ -70,7 +70,6 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
     [Category("Behavior")]
     [Description("Indicates whether the toggle switch is checked.")]
     [DefaultValue(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool Checked
     {
         get => _checked;
@@ -88,7 +87,6 @@ public class ToggleSwitchValues : GlobalId, INotifyPropertyChanged
     [Category("Appearance")]
     [Description("Indicates whether the emboss effect should be applied.")]
     [DefaultValue(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool EnableEmbossEffect
     {
         get => _enableEmbossEffect;

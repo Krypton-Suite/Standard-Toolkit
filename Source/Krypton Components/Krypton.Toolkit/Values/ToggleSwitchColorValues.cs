@@ -130,10 +130,12 @@ public class ToggleSwitchColorValues : GlobalId, INotifyPropertyChanged
 
     /// <summary>Gets the effective on colour after optional tinting.</summary>
     [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public Color EffectiveOnColor => TintColors.ApplyOnTint(OnColor);
 
     /// <summary>Gets the effective off colour after optional tinting.</summary>
     [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public Color EffectiveOffColor => TintColors.ApplyOffTint(OffColor);
 
     #endregion

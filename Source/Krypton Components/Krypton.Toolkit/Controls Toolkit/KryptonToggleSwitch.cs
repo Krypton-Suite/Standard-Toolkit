@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avils (aka mcpbcs) et al. 2025 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avil?s (aka mcpbcs) et al. 2025 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -104,36 +104,22 @@ public class KryptonToggleSwitch : Control, IContentValues
 
     private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
 
-    /// <summary>Gets or sets the toggle switch values.</summary>
-    /// <value>The toggle switch values.</value>
+    /// <summary>Gets access to the toggle switch values.</summary>
     [Category("Visuals")]
-    [Description("Indicates whether the knob should have a gradient effect.")]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public ToggleSwitchValues ToggleSwitchValues
+    [Description("Storage for toggle switch appearance and behaviour settings.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public ToggleSwitchValues ToggleSwitchValues => _toggleSwitchValues ??= CreateToggleSwitchValues();
+
+    private ToggleSwitchValues CreateToggleSwitchValues()
     {
-        get => _toggleSwitchValues ??= new ToggleSwitchValues(); // Ensure it never returns null
-        set
-        {
-            if (_toggleSwitchValues != value)
-            {
-                if (_toggleSwitchValues != null)
-                {
-                    _toggleSwitchValues.PropertyChanged -= OnToggleSwitchValuesChanged;
-                }
-
-                _toggleSwitchValues = value ?? new ToggleSwitchValues(); // Ensure it's never null
-
-                _toggleSwitchValues.PropertyChanged += OnToggleSwitchValuesChanged;
-
-                Invalidate();
-            }
-        }
+        var values = new ToggleSwitchValues();
+        values.PropertyChanged += OnToggleSwitchValuesChanged;
+        return values;
     }
-
-
 
     private bool ShouldSerializeToggleSwitchValues() => !ToggleSwitchValues.IsDefault;
 
+    /// <summary>Resets the ToggleSwitchValues property to its default value.</summary>
     public void ResetToggleSwitchValues() => ToggleSwitchValues.Reset();
 
     #endregion
@@ -164,7 +150,8 @@ public class KryptonToggleSwitch : Control, IContentValues
         _animationTimer = new Timer { Interval = 15 };
         _animationTimer.Tick += OnAnimationTimerTick;
 
-        ToggleSwitchValues = new ToggleSwitchValues();
+        // Ensure values exist and are subscribed before Size triggers layout.
+        _ = ToggleSwitchValues;
 
         Size = new Size(90, _knobSize + _padding * 2);
 
