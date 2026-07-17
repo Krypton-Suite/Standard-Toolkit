@@ -97,6 +97,39 @@ function Test-NupkgContainsKryptonInterop {
     }
 }
 
+function Test-NupkgDeclaresKryptonInteropDependency {
+    # Krypton.Interop is never published to nuget.org; a nuspec <dependency id="Krypton.Interop"> makes
+    # consumer restore fail with NU1101 (#3908), so packages must bundle the DLL instead of depending on it.
+    param(
+        [Parameter(Mandatory = $true)]
+        [System.IO.FileInfo]$Package
+    )
+
+    Add-Type -AssemblyName System.IO.Compression.FileSystem
+
+    $zip = [System.IO.Compression.ZipFile]::OpenRead($Package.FullName)
+    try {
+        $nuspecEntry = $zip.Entries | Where-Object { $_.FullName -match '(?i)^[^/]+\.nuspec$' } | Select-Object -First 1
+        if ($null -eq $nuspecEntry) {
+            return $false
+        }
+
+        $reader = New-Object System.IO.StreamReader($nuspecEntry.Open())
+        try {
+            [xml]$nuspec = $reader.ReadToEnd()
+        }
+        finally {
+            $reader.Dispose()
+        }
+
+        $dependencies = @($nuspec.GetElementsByTagName('dependency') | Where-Object { $_.id -eq 'Krypton.Interop' })
+        return $dependencies.Count -gt 0
+    }
+    finally {
+        $zip.Dispose()
+    }
+}
+
 function Test-KryptonInteropInPackages {
     param(
         [string]$Configuration = '',
@@ -171,8 +204,14 @@ function Test-KryptonInteropInPackages {
 
     $failures = [System.Collections.Generic.List[string]]::new()
     foreach ($package in $requiredPackages) {
+        if (Test-NupkgDeclaresKryptonInteropDependency -Package $package) {
+            $failures.Add($package.Name)
+            Write-Host "::error file=$($package.FullName)::$($package.Name) declares a nuspec dependency on Krypton.Interop, which is not published to nuget.org (NU1101, #3908)"
+            continue
+        }
+
         if (Test-NupkgContainsKryptonInterop -Package $package) {
-            Write-Host "OK: $($package.Name) contains lib/*/Krypton.Interop.dll"
+            Write-Host "OK: $($package.Name) contains lib/*/Krypton.Interop.dll and no Krypton.Interop dependency"
             continue
         }
 

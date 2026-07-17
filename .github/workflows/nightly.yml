@@ -141,16 +141,28 @@ jobs:
             exit 0
           }
 
-          # Get commits from last 24 hours on alpha branch, ignoring commits that only touch .github
+          # Get commits from last 24 hours on alpha branch, but skip when they only touch .github
           # (e.g. the automated .github sync from master) so CI-only changes do not trigger a release
           $yesterday = (Get-Date).AddDays(-1).ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss")
-          $commitCount = git rev-list --count --since="$yesterday" alpha -- . ':(exclude).github'
+          $recentCommits = @(git rev-list --since="$yesterday" alpha)
+          $commitCount = $recentCommits.Count
 
-          Write-Host "Commits in last 24 hours (excluding .github-only changes): $commitCount"
+          Write-Host "Commits in last 24 hours: $commitCount"
 
-          if ([int]$commitCount -gt 0) {
+          if ($commitCount -gt 0) {
+            $changedFiles = @($recentCommits | ForEach-Object { git diff-tree --no-commit-id --name-only -r $_ } | Sort-Object -Unique)
+            $nonGitHubFiles = @($changedFiles | Where-Object { $_ -and -not ($_.Replace('\', '/') -like '.github/*') })
+
+            Write-Host "Changed files in last 24 hours: $($changedFiles.Count)"
+            Write-Host "Changed files outside .github: $($nonGitHubFiles.Count)"
+          }
+
+          if ($commitCount -gt 0 -and $nonGitHubFiles.Count -gt 0) {
             Write-Host "Changes detected - proceeding with nightly build"
             echo "has_changes=true" >> $env:GITHUB_OUTPUT
+          } elseif ($commitCount -gt 0) {
+            Write-Host "Only .github changes detected - skipping nightly build"
+            echo "has_changes=false" >> $env:GITHUB_OUTPUT
           } else {
             Write-Host "No changes detected - skipping nightly build"
             echo "has_changes=false" >> $env:GITHUB_OUTPUT
