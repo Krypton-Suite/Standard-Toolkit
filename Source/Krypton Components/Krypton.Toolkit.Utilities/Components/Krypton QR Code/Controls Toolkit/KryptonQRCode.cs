@@ -201,6 +201,7 @@ public class KryptonQRCode : KryptonPanel
     [Category(@"Appearance")]
     [DefaultValue(null)]
     [Description(@"Optional image in the center of the code. Null disables. Use strong error correction for reliable scanning.")]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? CenterImage
     {
         get => _centerImage;

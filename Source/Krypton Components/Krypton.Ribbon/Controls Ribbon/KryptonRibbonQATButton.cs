@@ -89,6 +89,7 @@ public class KryptonRibbonQATButton : Component,
     [Category(@"Values")]
     [Description(@"Application button image.")]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;
@@ -277,6 +278,7 @@ public class KryptonRibbonQATButton : Component,
     [Description(@"Display image associated ToolTip.")]
     [DefaultValue(null)]
     [Localizable(true)]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? ToolTipImage { get; set; }
 
     /// <summary>
@@ -296,6 +298,7 @@ public class KryptonRibbonQATButton : Component,
     [Bindable(true)]
     [Category(@"Appearance")]
     [Description(@"Title text for use in associated ToolTip.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [DefaultValue("")]
     [Localizable(true)]
@@ -307,6 +310,7 @@ public class KryptonRibbonQATButton : Component,
     [Bindable(true)]
     [Category(@"Appearance")]
     [Description(@"Body text for use in associated ToolTip.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [DefaultValue("")]
     [Localizable(true)]

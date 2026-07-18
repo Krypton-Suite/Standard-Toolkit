@@ -105,6 +105,7 @@ public class KryptonPaletteButtonSpecTyped : KryptonPaletteButtonSpecBase
     [Category(@"Visuals")]
     [Description(@"Button image.")]
     [DefaultValue(null)]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;
@@ -150,6 +151,7 @@ public class KryptonPaletteButtonSpecTyped : KryptonPaletteButtonSpecBase
     [Localizable(true)]
     [Category(@"Visuals")]
     [Description(@"Button text.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [DefaultValue("")]
     public string Text
@@ -183,6 +185,7 @@ public class KryptonPaletteButtonSpecTyped : KryptonPaletteButtonSpecBase
     [Localizable(true)]
     [Category(@"Visuals")]
     [Description(@"Button extra text.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [DefaultValue("")]
     public string ExtraText
@@ -216,6 +219,7 @@ public class KryptonPaletteButtonSpecTyped : KryptonPaletteButtonSpecBase
     [Localizable(true)]
     [Category(@"Visuals")]
     [Description(@"Button tooltip title text.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [DefaultValue("")]
     public string ToolTipTitle

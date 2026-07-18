@@ -318,6 +318,7 @@ public class KryptonHeaderGroup : VisualControlContainment
     /// <summary>
     /// Gets or sets the text associated with this control. 
     /// </summary>
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [AllowNull]
     public override string Text
@@ -437,6 +438,7 @@ public class KryptonHeaderGroup : VisualControlContainment
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Collection of button specifications.")]
+    [Editor(typeof(KryptonDesignerButtonSpecHeaderGroupCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public HeaderGroupButtonSpecCollection ButtonSpecs { get; }
 

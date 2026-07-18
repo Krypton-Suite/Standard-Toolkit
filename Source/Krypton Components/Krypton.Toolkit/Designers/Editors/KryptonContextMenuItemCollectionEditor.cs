@@ -15,7 +15,7 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// CollectionEditor used for a KryptonContextMenuItemCollection instance.
 /// </summary>
-public class KryptonContextMenuItemCollectionEditor : CollectionEditor
+public class KryptonContextMenuItemCollectionEditor : KryptonDesignerCollectionEditor
 {
     /// <summary>
     /// Initialize a new instance of the KryptonContextMenuItemCollectionEditor class.
@@ -24,6 +24,10 @@ public class KryptonContextMenuItemCollectionEditor : CollectionEditor
         : base(typeof(KryptonContextMenuItemCollection))
     {
     }
+
+    /// <inheritdoc />
+    protected override VisualDesignerCollectionForm CreateKryptonDesignerCollectionForm() =>
+        KryptonContextMenuCollectionEditor.CreateCollectionForm(this);
 
     /// <summary>
     /// Gets the data types that this collection editor can contain. 

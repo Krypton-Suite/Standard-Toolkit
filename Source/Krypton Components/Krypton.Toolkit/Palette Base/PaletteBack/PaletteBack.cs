@@ -479,6 +479,7 @@ public class PaletteBack : Storage,
     [Description(@"Background image.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? Image
     {
         get => _storage?.BackImage;

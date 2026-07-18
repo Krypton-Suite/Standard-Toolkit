@@ -642,6 +642,7 @@ public class PaletteContentText : Storage
     [Description(@"Image for the text.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public virtual Image? Image
     {
         get => _storage?.ContentTextImage;

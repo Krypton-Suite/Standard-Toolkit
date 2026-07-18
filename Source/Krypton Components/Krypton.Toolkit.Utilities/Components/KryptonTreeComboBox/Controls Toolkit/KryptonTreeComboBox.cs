@@ -112,6 +112,7 @@ public class KryptonTreeComboBox : KryptonComboBoxUserControl
     [Category(@"Behavior")]
     [Description(@"The collection of tree nodes displayed in the drop-down.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.TreeNodeCollectionEditor).
     [Editor(@"System.Windows.Forms.Design.TreeNodeCollectionEditor", typeof(UITypeEditor))]
     public TreeNodeCollection Nodes => _dropDown.TreeView.Nodes;
 

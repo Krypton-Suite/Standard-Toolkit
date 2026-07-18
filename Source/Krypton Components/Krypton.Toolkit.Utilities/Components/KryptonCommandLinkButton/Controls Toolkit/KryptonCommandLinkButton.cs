@@ -196,6 +196,7 @@ public class KryptonCommandLinkButton : VisualSimpleBase, IButtonControl
     /// <summary>
     /// Gets or sets the text associated with this control. 
     /// </summary>
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
     [Browsable(false)]
     [Localizable(false)]

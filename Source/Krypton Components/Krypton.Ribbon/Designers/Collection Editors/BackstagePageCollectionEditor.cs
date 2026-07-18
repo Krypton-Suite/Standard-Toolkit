@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -9,7 +9,7 @@
 
 namespace Krypton.Ribbon;
 
-internal class BackstagePageCollectionEditor : CollectionEditor
+internal class BackstagePageCollectionEditor : KryptonDesignerStandardCollectionEditor
 {
     /// <summary>
     /// Initialize a new instance of the BackstagePageCollectionEditor class.

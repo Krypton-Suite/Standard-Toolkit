@@ -930,7 +930,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-	<ProjectReference Include="..\Krypton.Interop\Krypton.Interop.csproj" />
+	<!-- PrivateAssets="all": Krypton.Interop is not published as a NuGet package (IsPackable=false); without this,
+	     pack emits a nuspec dependency on the non-existent package and consumers fail restore with NU1101 (#3908).
+	     The assembly itself is bundled into lib\<tfm>\ by Krypton.Shared\Krypton.Interop.Package.targets.
+	     Because PrivateAssets="all" stops the reference flowing transitively, every sibling project that compiles
+	     against Krypton.Interop internals (net4x nullable attribute polyfills) carries its own direct reference. -->
+	<ProjectReference Include="..\Krypton.Interop\Krypton.Interop.csproj" PrivateAssets="all" />
   </ItemGroup>
 
   <!-- .NET Framework: SRE deploy, binding redirects, consumer targets; runtime hook in KryptonPreserializedResourceAssemblyResolve. -->

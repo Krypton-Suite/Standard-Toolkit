@@ -28,6 +28,7 @@ public struct KryptonAboutBoxData
 
     /// <summary>Gets or sets the header image.</summary>
     /// <value>The header image.</value>
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? HeaderImage { get; set; } //= GenericImageResources.InformationSmall;
 
     /// <summary>Gets or sets the main image.</summary>

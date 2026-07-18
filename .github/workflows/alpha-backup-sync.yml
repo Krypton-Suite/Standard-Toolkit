@@ -12,7 +12,8 @@
 # Discord: Set secret DISCORD_WEBHOOK_ALPHA_BACKUP to send notifications (optional).
 #
 # Separate repo backup: Set variable BACKUP_REPO (e.g. Krypton-Suite/Standard-Toolkit-Backup) and
-# secret BACKUP_REPO_TOKEN (PAT with push access). Backups go into dated dirs: "Standard Toolkit Backup - YYYY-MM-DD".
+# secret BACKUP_REPO_TOKEN (PAT with push access). Snapshots are zipped into Source/Nightly.
+# Legacy dated directories at the backup repo root are removed on each run.
 # Optional: BACKUP_DIR_PREFIX (default "Standard Toolkit Backup"), BACKUP_BRANCH (default "main").
 
 name: Alpha to Alpha-Backup Sync
@@ -162,7 +163,7 @@ jobs:
               console.warn('Could not enable auto-merge (repo may not have Allow auto-merge enabled):', err.message);
             }
 
-      - name: Push alpha to backup repository (dated directory)
+      - name: Push alpha snapshot to backup repository (zip)
         if: steps.kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
         id: backup_repo
         env:
@@ -187,21 +188,52 @@ jobs:
           fi
           prefix="${BACKUP_DIR_PREFIX:-Standard Toolkit Backup}"
           branch="${BACKUP_BRANCH:-main}"
+          snapshot_dir="Source/Nightly"
           today=$(date -u +%Y-%m-%d)
-          dir_name="$prefix - $today"
-          echo "dir_name=$dir_name" >> "$GITHUB_OUTPUT"
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          zip_name="$prefix - $today.zip"
+          echo "dir_name=$snapshot_dir/$zip_name" >> "$GITHUB_OUTPUT"
+          zip -r -q "$zip_name" . -x '.git/*'
           git clone --depth 1 "https://x-access-token:$BACKUP_REPO_TOKEN@github.com/$repo_path.git" backup-repo
           cd backup-repo
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git checkout -b "$branch" 2>/dev/null || git checkout "$branch" 2>/dev/null || true
-          mkdir -p "$dir_name"
-          rsync -a --exclude='.git' --exclude='backup-repo' ../. "$dir_name/"
-          git add "$dir_name"
-          git commit -m "chore: backup alpha to $dir_name (automated)"
-          git push origin "$branch"
-          echo "pushed=true" >> "$GITHUB_OUTPUT"
-          echo "Pushed alpha to $BACKUP_REPO ($dir_name)"
+          shopt -s nullglob
+          legacy_prefixes=()
+          add_legacy_prefix() {
+            local candidate="$1"
+            local existing
+            for existing in "${legacy_prefixes[@]}"; do
+              if [ "$existing" = "$candidate" ]; then
+                return
+              fi
+            done
+            legacy_prefixes+=("$candidate")
+          }
+          add_legacy_prefix "$prefix"
+          add_legacy_prefix "Standard Toolkit Backup"
+          add_legacy_prefix "Standard Toolkit Snapshot"
+          for legacy_prefix in "${legacy_prefixes[@]}"; do
+            for legacy_dir in "$legacy_prefix - "*/; do
+              legacy_dir="${legacy_dir%/}"
+              if [ -d "$legacy_dir" ]; then
+                git rm -rf "$legacy_dir"
+                echo "Removed legacy backup directory: $legacy_dir"
+              fi
+            done
+          done
+          mkdir -p "$snapshot_dir"
+          mv "../$zip_name" "$snapshot_dir/"
+          git add "$snapshot_dir/$zip_name"
+          if git diff --staged --quiet; then
+            echo "No backup repo changes to commit"
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
+          else
+            git commit -m "chore: add alpha snapshot $zip_name and remove legacy directories (automated)"
+            git push origin "$branch"
+            echo "pushed=true" >> "$GITHUB_OUTPUT"
+            echo "Pushed alpha snapshot to $BACKUP_REPO ($snapshot_dir/$zip_name)"
+          fi
 
       - name: Discord notification
         if: steps.kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
@@ -217,20 +249,11 @@ jobs:
             echo "DISCORD_WEBHOOK_ALPHA_BACKUP not set - skipping Discord notification"
             exit 0
           fi
-          pr_link=""
+          pr_url=""
+          pr_number=""
           if [ -n "$PR_RESULT" ]; then
             pr_url=$(echo "$PR_RESULT" | jq -r '.pr_url // empty')
             pr_number=$(echo "$PR_RESULT" | jq -r '.pr_number // empty')
-            if [ -n "$pr_url" ]; then
-              pr_link="\n• [PR #$pr_number]($pr_url)"
-            fi
-          fi
-          backup_line=""
-          if [ "$BACKUP_PUSHED" = "true" ] && [ -n "$BACKUP_REPO" ]; then
-            backup_line="\n• Pushed to backup repo: $BACKUP_REPO"
-            if [ -n "$BACKUP_DIR" ]; then
-              backup_line="$backup_line ($BACKUP_DIR)"
-            fi
           fi
           branch_msg="alpha-backup branch already existed"
           if [ "$BRANCH_CREATED" = "true" ]; then
@@ -238,13 +261,26 @@ jobs:
           fi
           payload=$(jq -n \
             --arg branch "$branch_msg" \
-            --arg pr_link "$pr_link" \
-            --arg backup_line "$backup_line" \
+            --arg pr_url "$pr_url" \
+            --arg pr_number "$pr_number" \
+            --arg backup_pushed "$BACKUP_PUSHED" \
+            --arg backup_repo "$BACKUP_REPO" \
+            --arg backup_dir "$BACKUP_DIR" \
             --arg run_url "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" \
             '{
               embeds: [{
                 title: "📦 Alpha → Alpha-Backup Sync",
-                description: ("Alpha had commits in the last 24 hours. Sync workflow ran.\n\n• " + $branch + $pr_link + $backup_line + "\n• [Workflow run](" + $run_url + ")"),
+                description: (
+                  "Alpha had commits in the last 24 hours. Sync workflow ran.\n\n" +
+                  ([
+                    "• " + $branch,
+                    (if $pr_url != "" then "• [PR #\($pr_number)](\($pr_url))" else empty end),
+                    (if $backup_pushed == "true" and $backup_repo != "" then
+                      "• Pushed snapshot to backup repo: " + $backup_repo + (if $backup_dir != "" then " (`" + $backup_dir + "`)" else "" end)
+                     else empty end),
+                    "• [Workflow run](\($run_url))"
+                  ] | join("\n"))
+                ),
                 color: 3447003,
                 timestamp: (now | todate),
                 footer: { text: "Alpha Backup Sync" }

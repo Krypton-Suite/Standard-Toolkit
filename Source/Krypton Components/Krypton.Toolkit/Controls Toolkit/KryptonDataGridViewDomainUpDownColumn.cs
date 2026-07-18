@@ -102,7 +102,7 @@ public class KryptonDataGridViewDomainUpDownColumn : KryptonDataGridViewIconColu
     [Category(@"Data")]
     [Description(@"The allowable items of the domain up down.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    [Editor(@"System.Windows.Forms.Design.StringCollectionEditor", typeof(UITypeEditor))]
+    [Editor(typeof(KryptonDesignerStringCollectionEditor), typeof(UITypeEditor))]
     public StringCollection Items { get; }
 
     [Category(@"Behavior")]

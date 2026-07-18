@@ -1033,6 +1033,7 @@ public class KryptonMonthCalendar : VisualSimpleBase,
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Collection of button specifications.")]
+    [Editor(typeof(KryptonDesignerButtonSpecAnyCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public MonthCalendarButtonSpecCollection ButtonSpecs => _drawMonths!.ButtonSpecs;
 
