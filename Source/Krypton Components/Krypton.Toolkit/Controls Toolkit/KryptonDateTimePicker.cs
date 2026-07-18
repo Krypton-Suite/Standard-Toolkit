@@ -1225,6 +1225,7 @@ public class KryptonDateTimePicker : VisualControlBase,
     /// </summary>
     [Category(@"Visuals - DateTimePicker")]
     [Description(@"Collection of button specifications.")]
+    [Editor(typeof(KryptonDesignerButtonSpecAnyCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public DateTimePickerButtonSpecCollection ButtonSpecs { get; }
 

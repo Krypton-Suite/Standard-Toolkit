@@ -772,6 +772,7 @@ public class KryptonTextBox : VisualControlBase,
     /// <summary>
     /// Gets and sets the text associated with the control.
     /// </summary>
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [AllowNull]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
@@ -896,6 +897,7 @@ public class KryptonTextBox : VisualControlBase,
     /// </summary>
     [Category(@"Appearance")]
     [Description(@"The lines of text in a multiline edit, as an array of String values.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerStringArrayEditor (replaces System.Windows.Forms.Design.StringArrayEditor).
     [Editor(@"System.Windows.Forms.Design.StringArrayEditor", typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [MergableProperty(false)]
@@ -1113,7 +1115,7 @@ public class KryptonTextBox : VisualControlBase,
     /// Gets or sets the StringCollection to use when the AutoCompleteSource property is set to CustomSource.
     /// </summary>
     [Description(@"The StringCollection to use when the AutoCompleteSource property is set to CustomSource.")]
-    [Editor(@"System.Windows.Forms.Design.ListControlStringCollectionEditor", typeof(UITypeEditor))]
+    [Editor(typeof(KryptonDesignerListControlStringCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     [EditorBrowsable(EditorBrowsableState.Always)]
     [Localizable(true)]
@@ -1171,6 +1173,7 @@ public class KryptonTextBox : VisualControlBase,
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Collection of button specifications.")]
+    [Editor(typeof(KryptonDesignerButtonSpecAnyCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public TextBoxButtonSpecCollection ButtonSpecs { get; }
 
@@ -2137,7 +2140,8 @@ public class KryptonTextBox : VisualControlBase,
     private bool IsMouseReallyOverControl() =>
         IsHandleCreated && ClientRectangle.Contains(PointToClient(Control.MousePosition));
 
-    private void OnEditorButtonClicked(object? sender, EventArgs e) => new MultilineStringEditor1(this).ShowEditor();
+    // ToDo V120 LTS: Replace MultilineStringEditor1 inline popup with KryptonDesignerMultilineStringEditor.
+    private void OnEditorButtonClicked(object? sender, EventArgs e) => new VisualMultilineStringEditorAlternateForm(this).ShowEditor();
 
     private void OnMouseDoubleClick(object? sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
 

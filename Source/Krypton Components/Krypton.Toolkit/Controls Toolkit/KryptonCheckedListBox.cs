@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -1559,7 +1559,7 @@ public class KryptonCheckedListBox : VisualControlBase,
     /// </summary>
     [Category(@"Data")]
     [Description(@"The items in the KryptonCheckedListBox.")]
-    [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+    [Editor(typeof(KryptonDesignerListControlStringCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     [MergableProperty(false)]
     [Localizable(true)]
@@ -1584,6 +1584,7 @@ public class KryptonCheckedListBox : VisualControlBase,
     /// Gets or sets the format specifier characters that indicate how a value is to be Displayed.
     /// </summary>
     [Description(@"The format specifier characters that indicate how a value is to be Displayed.")]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.FormatStringEditor).
     [Editor(@"System.Windows.Forms.Design.FormatStringEditor", typeof(UITypeEditor))]
     [MergableProperty(false)]
     [DefaultValue(@"")]
@@ -1994,6 +1995,7 @@ public class KryptonCheckedListBox : VisualControlBase,
     /// <value>The display member.</value>
     [Category("Data")]
     [Description("Indicates the property to display for the items in the control.")]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.DataMemberFieldEditor).
     [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, System.Design", typeof(UITypeEditor))]
     [DefaultValue("")]
     public string DisplayMember
@@ -2013,6 +2015,7 @@ public class KryptonCheckedListBox : VisualControlBase,
     /// <value>The value member.</value>
     [Category("Data")]
     [Description("Indicates the property to use as the actual value of items in the control.")]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.DataMemberFieldEditor).
     [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, System.Design", typeof(UITypeEditor))]
     [DefaultValue("")]
     public string ValueMember
