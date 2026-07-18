@@ -1088,7 +1088,7 @@ public abstract class PaletteBase : Component
     {
         switch (style)
         {
-            // TODO: Use LanguageManager for strings
+            // TODO: Use KryptonManager.Strings for strings
             case PaletteButtonSpecStyle.Close:
             case PaletteButtonSpecStyle.PendantClose:
             case PaletteButtonSpecStyle.FormClose:
