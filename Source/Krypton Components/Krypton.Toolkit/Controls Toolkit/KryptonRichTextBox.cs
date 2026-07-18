@@ -663,7 +663,7 @@ public class KryptonRichTextBox : VisualControlBase,
     /// <summary>
     /// Gets and sets the text associated with the control.
     /// </summary>
-    [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
+    [Editor(typeof(KryptonDesignerMultilineStringEditor), typeof(UITypeEditor))]
     [AllowNull]
     public override string Text
     {
@@ -1094,7 +1094,7 @@ public class KryptonRichTextBox : VisualControlBase,
     /// </summary>
     [Category(@"Appearance")]
     [Description(@"The lines of text in a multiline edit, as an array of String values.")]
-    [Editor(@"System.Windows.Forms.Design.StringArrayEditor", typeof(UITypeEditor))]
+    [Editor(typeof(KryptonDesignerStringArrayEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [MergableProperty(false)]
     [Localizable(true)]

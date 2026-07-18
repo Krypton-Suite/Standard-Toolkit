@@ -235,6 +235,7 @@ public class KryptonCheckBoxExtended : VisualSimpleBase, IContentValues
     }
 
     /// <inheritdoc />
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [AllowNull]
     public override string Text

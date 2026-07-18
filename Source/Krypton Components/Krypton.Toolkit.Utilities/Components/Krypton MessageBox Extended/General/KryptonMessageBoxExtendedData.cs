@@ -75,6 +75,7 @@ public struct KryptonMessageBoxExtendedData
 
     /// <summary>Gets or sets the application image.</summary>
     /// <value>The application image.</value>
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? ApplicationImage { get; set; }
 
     /// <summary>Gets or sets the application path.</summary>

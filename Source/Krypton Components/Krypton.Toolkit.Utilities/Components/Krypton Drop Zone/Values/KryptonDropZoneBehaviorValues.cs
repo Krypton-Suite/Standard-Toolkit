@@ -138,6 +138,7 @@ public class KryptonDropZoneBehaviorValues : Storage
     [Category(@"Validation")]
     [Description(@"A list of allowed file extensions (including the dot, e.g., '.txt').")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerCollectionForm (replaces System.ComponentModel.Design.CollectionEditor).
     [Editor("System.ComponentModel.Design.CollectionEditor, System.Design", typeof(UITypeEditor))]
     [Localizable(true)]
     public List<string> AllowedExtensions => _allowedExtensions;
