@@ -4597,3 +4597,39 @@ public enum KryptonTaskbarProgressState
 }
 
 #endregion
+
+#region Enum RichTextParagraphAlignment
+
+/// <summary>
+/// Specifies paragraph alignment for a rich text selection, including full justify.
+/// </summary>
+/// <remarks>
+/// Values match RichEdit <c>PFA_*</c> constants used by <c>EM_SETPARAFORMAT</c>.
+/// Use <see cref="KryptonRichTextBox.SelectionParagraphAlignment"/> instead of
+/// <see cref="KryptonRichTextBox.SelectionAlignment"/> when justify is required;
+/// WinForms <see cref="HorizontalAlignment"/> does not include a justify value.
+/// </remarks>
+public enum RichTextParagraphAlignment
+{
+    /// <summary>
+    /// Align text to the left margin.
+    /// </summary>
+    Left = 1,
+
+    /// <summary>
+    /// Align text to the right margin.
+    /// </summary>
+    Right = 2,
+
+    /// <summary>
+    /// Center text between the margins.
+    /// </summary>
+    Center = 3,
+
+    /// <summary>
+    /// Fully justify text between the margins (RichEdit advanced typography).
+    /// </summary>
+    Justify = 4
+}
+
+#endregion
