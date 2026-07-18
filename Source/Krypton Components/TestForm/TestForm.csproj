@@ -21,6 +21,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- Krypton.Interop: direct reference required — it no longer flows transitively from
+         Krypton.Toolkit (PrivateAssets="all", #3908) and must appear in this app's deps.json. -->
+    <ProjectReference Include="..\Krypton.Interop\Krypton.Interop.csproj" />
     <ProjectReference Include="..\Krypton.Docking\Krypton.Docking 2022.csproj" />
     <ProjectReference Include="..\Krypton.Navigator.Utilities\Krypton.Navigator.Utilities.csproj" />
     <ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
