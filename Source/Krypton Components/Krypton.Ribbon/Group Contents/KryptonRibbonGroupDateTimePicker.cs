@@ -395,6 +395,7 @@ public class KryptonRibbonGroupDateTimePicker : KryptonRibbonGroupItem
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Collection of button specifications.")]
+    [Editor(typeof(KryptonDesignerButtonSpecAnyCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public KryptonDateTimePicker.DateTimePickerButtonSpecCollection ButtonSpecs => DateTimePicker.ButtonSpecs;
 

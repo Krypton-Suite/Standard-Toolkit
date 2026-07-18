@@ -880,6 +880,7 @@ public class KryptonTreeView : VisualControlBase,
     [Description(@"The default image index for nodes.")]
     [Localizable(true)]
     [TypeConverter(typeof(NoneExcludedImageIndexConverter))]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.ImageIndexEditor).
     [Editor(@"System.Windows.Forms.Design.ImageIndexEditor", typeof(UITypeEditor))]
     [RefreshProperties(RefreshProperties.Repaint)]
     [RelatedImageList(nameof(ImageList))]
@@ -897,6 +898,7 @@ public class KryptonTreeView : VisualControlBase,
     [Description(@"The default image key for the nodes.")]
     [Localizable(true)]
     [TypeConverter(typeof(ImageKeyConverter))]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.ImageIndexEditor).
     [Editor(@"System.Windows.Forms.Design.ImageIndexEditor", typeof(UITypeEditor))]
     [RefreshProperties(RefreshProperties.Repaint)]
     [RelatedImageList(nameof(ImageList))]
@@ -963,6 +965,7 @@ public class KryptonTreeView : VisualControlBase,
     [Description(@"The default image index for selected nodes.")]
     [Localizable(true)]
     [TypeConverter(typeof(NoneExcludedImageIndexConverter))]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.ImageIndexEditor).
     [Editor(@"System.Windows.Forms.Design.ImageIndexEditor", typeof(UITypeEditor))]
     [RelatedImageList(nameof(ImageList))]
     [DefaultValue(-1)]
@@ -979,6 +982,7 @@ public class KryptonTreeView : VisualControlBase,
     [Description(@"The default image for selected nodes.")]
     [Localizable(true)]
     [TypeConverter(typeof(ImageKeyConverter))]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.ImageIndexEditor).
     [Editor(@"System.Windows.Forms.Design.ImageIndexEditor", typeof(UITypeEditor))]
     [RelatedImageList(nameof(ImageList))]
     [RefreshProperties(RefreshProperties.Repaint)]
@@ -1145,6 +1149,7 @@ public class KryptonTreeView : VisualControlBase,
     /// </summary>
     [Category(@"Behavior")]
     [Description(@"The root nodes in the KryptonTreeView control.")]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.TreeNodeCollectionEditor).
     [Editor(@"System.Windows.Forms.Design.TreeNodeCollectionEditor", typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     [MergableProperty(false)]

@@ -94,6 +94,7 @@ public class KryptonBackstageCommand
     [Category(@"Backstage")]
     [Description(@"Image used in the backstage navigation list.")]
     [DefaultValue(null)]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;

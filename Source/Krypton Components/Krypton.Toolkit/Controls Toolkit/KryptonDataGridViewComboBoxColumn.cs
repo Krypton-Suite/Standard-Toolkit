@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -144,7 +144,7 @@ public partial class KryptonDataGridViewComboBoxColumn : KryptonDataGridViewIcon
     [Category(@"Data")]
     [Description(@"The allowable items of the domain up down.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    [Editor(@"System.Windows.Forms.Design.StringCollectionEditor", typeof(UITypeEditor))]
+    [Editor(typeof(KryptonDesignerStringCollectionEditor), typeof(UITypeEditor))]
     [Localizable(true)]
     public List<object> Items { get; }
 
@@ -320,7 +320,7 @@ public partial class KryptonDataGridViewComboBoxColumn : KryptonDataGridViewIcon
     /// Gets or sets the StringCollection to use when the AutoCompleteSource property is set to CustomSource.
     /// </summary>
     [Description(@"The StringCollection to use when the AutoCompleteSource property is set to CustomSource.")]
-    [Editor(@"System.Windows.Forms.Design.ListControlStringCollectionEditor", typeof(UITypeEditor))]
+    [Editor(typeof(KryptonDesignerListControlStringCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     [EditorBrowsable(EditorBrowsableState.Always)]
     [Localizable(true)]
@@ -417,6 +417,7 @@ public partial class KryptonDataGridViewComboBoxColumn : KryptonDataGridViewIcon
     [Category(@"Data")]
     [Description(@"Indicates the property to display for the items in this control.")]
     [TypeConverter(@"System.Windows.Forms.Design.DataMemberFieldConverter")]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.DataMemberFieldEditor).
     [Editor(@"System.Windows.Forms.Design.DataMemberFieldEditor", typeof(UITypeEditor))]
     [DefaultValue(@"")]
     public string DisplayMember {
@@ -462,6 +463,7 @@ public partial class KryptonDataGridViewComboBoxColumn : KryptonDataGridViewIcon
     [Category(@"Data")]
     [Description(@"Indicates the property to display for the items in this control.")]
     [TypeConverter(@"System.Windows.Forms.Design.DataMemberFieldConverter")]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.DataMemberFieldEditor).
     [Editor(@"System.Windows.Forms.Design.DataMemberFieldEditor", typeof(UITypeEditor))]
     [DefaultValue(@"")]
     public string ValueMember {
@@ -506,6 +508,7 @@ public partial class KryptonDataGridViewComboBoxColumn : KryptonDataGridViewIcon
     [Category(@"Data")]
     [Description(@"Indicates the Datasource for the items in this control.")]
     [TypeConverter(@"System.Windows.Forms.Design.DataSourceConverter")]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.DataSourceListEditor).
     [Editor(@"System.Windows.Forms.Design.DataSourceListEditor", typeof(UITypeEditor))]
     [DefaultValue(null)]
     public object? DataSource {

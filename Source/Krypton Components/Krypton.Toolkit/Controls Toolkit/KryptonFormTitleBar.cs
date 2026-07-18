@@ -112,6 +112,7 @@ public class KryptonFormTitleBar : Component
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Collection of button specifications shown in the title bar.")]
+    [Editor(typeof(KryptonDesignerButtonSpecAnyCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public FormTitleBarButtonSpecCollection ButtonSpecs { get; }
 

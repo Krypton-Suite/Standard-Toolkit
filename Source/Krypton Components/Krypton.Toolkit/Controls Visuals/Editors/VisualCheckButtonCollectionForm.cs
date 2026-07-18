@@ -1,18 +1,15 @@
 ﻿#region BSD License
 /*
  * 
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
  *  
  */
 #endregion
 
 namespace Krypton.Toolkit;
 
-internal partial class KryptonCheckButtonCollectionForm : KryptonForm
+internal partial class VisualCheckButtonCollectionForm : KryptonForm
 {
     #region Type Definitions
     private class ListEntry
@@ -53,30 +50,57 @@ internal partial class KryptonCheckButtonCollectionForm : KryptonForm
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the KryptonCheckButtonCollectionForm class.
+    /// Initialize a new instance of the KryptonCheckButtonCollectionForm class for the WinForms designer.
     /// </summary>
-    public KryptonCheckButtonCollectionForm()
-        : this(null)
+    public VisualCheckButtonCollectionForm()
     {
         SetInheritedControlOverride();
+        InitializeComponent();
+        ConfigureDesignerChrome();
     }
 
     /// <summary>
     /// Initialize a new instance of the KryptonCheckButtonCollectionForm class.
     /// </summary>
-    public KryptonCheckButtonCollectionForm(KryptonCheckSet? checkSet)
+    public VisualCheckButtonCollectionForm(KryptonCheckSet? checkSet)
     {
         SetInheritedControlOverride();
-        // Remember the owning control
         _checkSet = checkSet;
 
         InitializeComponent();
+        ConfigureDesignerChrome();
+    }
+    #endregion
+
+    #region Protected
+    /// <inheritdoc />
+    protected override void OnLoad(EventArgs e)
+    {
+        KryptonDesignerEditorDpi.Configure(this);
+        base.OnLoad(e);
+    }
+
+    /// <inheritdoc />
+    protected override void OnShown(EventArgs e)
+    {
+        base.OnShown(e);
+        KryptonDesignerEditorDpi.ApplyOnShown(this);
     }
     #endregion
 
     #region Implementation
+    private void ConfigureDesignerChrome()
+    {
+        InternalDesignerEditorFormChrome.Apply(this, kpnlContent, kpnlButtonBar);
+        kpnlButtonBar.OkButton.Values.Text = KryptonManager.Strings.GeneralStrings.OK;
+        kpnlButtonBar.CancelButton.Values.Text = KryptonManager.Strings.GeneralStrings.Cancel;
+        kpnlButtonBar.OkButton.Click += buttonOK_Click;
+    }
+
     private void KryptonCheckButtonCollectionForm_Load(object sender, EventArgs e)
     {
+        ApplyOwnerPalette();
+
         // Get access to the container of the check set
         IContainer container = _checkSet!.Container!;
 
@@ -93,14 +117,21 @@ internal partial class KryptonCheckButtonCollectionForm : KryptonForm
 
                     // Add a new entry to the list box but only check it if 
                     // it is already present in the check buttons collection
-                    checkedListBox.Items.Add(new ListEntry(checkButton),
-                        _checkSet.CheckButtons.Contains(checkButton));
+                    var index = checkedListBox.Items.Add(new ListEntry(checkButton));
+                    checkedListBox.SetItemChecked(index, _checkSet.CheckButtons.Contains(checkButton));
                 }
             }
         }
+
+        if (checkedListBox.Items.Count > 0)
+        {
+            checkedListBox.SelectedIndex = 0;
+        }
+
+        checkedListBox.Focus();
     }
 
-    private void buttonOK_Click(object sender, EventArgs e)
+    private void buttonOK_Click(object? sender, EventArgs e)
     {
         // Create a copy of the current check set buttons
         var copy = new List<KryptonCheckButton>();
@@ -145,6 +176,32 @@ internal partial class KryptonCheckButtonCollectionForm : KryptonForm
         {
             _checkSet.CheckButtons.Remove(checkButton);
         }
+    }
+
+    private void ApplyOwnerPalette()
+    {
+        if (_checkSet?.Container is IContainer container)
+        {
+            foreach (var component in container.Components)
+            {
+                if (component is VisualControlBase visualControl)
+                {
+                    var mode = visualControl.PaletteMode;
+                    var custom = visualControl.LocalCustomPalette;
+                    if (mode == PaletteMode.Global)
+                    {
+                        mode = KryptonManager.CurrentGlobalPaletteMode;
+                        custom = KryptonManager.CurrentGlobalPalette as KryptonCustomPaletteBase;
+                    }
+
+                    KryptonDesignerEditorTheme.ApplyToForm(this, mode, custom);
+                    return;
+                }
+            }
+        }
+
+        KryptonDesignerEditorTheme.ApplyToForm(this, KryptonManager.CurrentGlobalPaletteMode,
+            KryptonManager.CurrentGlobalPalette as KryptonCustomPaletteBase);
     }
     #endregion
 }
