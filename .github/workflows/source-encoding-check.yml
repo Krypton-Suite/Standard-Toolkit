@@ -1,0 +1,152 @@
+# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+# Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, tobitege et al. 2026 - 2026. All rights reserved.
+#
+# Scans text files for UTF-8 encoding corruption (mojibake, U+FFFD replacement characters).
+#
+# KILL-SWITCH: Set repository variable SOURCE_ENCODING_CHECK_DISABLED=true to skip.
+# On pull requests, only changed files under Source/, Documents/, .github/, and Scripts/ are scanned.
+# workflow_dispatch with scan_all=true scans the full tree in those roots.
+
+name: Source encoding check
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - master
+      - alpha
+      - canary
+      - gold
+      - V105-LTS
+    paths:
+      - 'Source/**'
+      - 'Documents/**'
+      - '.github/**'
+      - 'Scripts/**'
+  workflow_dispatch:
+    inputs:
+      scan_all:
+        description: Scan all eligible files (not just the pull-request diff)
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  encoding:
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+
+    steps:
+      - name: Source encoding check kill switch
+        id: kill_switch
+        shell: bash
+        run: |
+          disabled="${{ vars.SOURCE_ENCODING_CHECK_DISABLED }}"
+          if [ "$disabled" = "true" ]; then
+            echo "::warning:: Source encoding check is DISABLED (SOURCE_ENCODING_CHECK_DISABLED=true)."
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout
+        if: steps.kill_switch.outputs.enabled == 'true'
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: List changed files (pull request)
+        if: steps.kill_switch.outputs.enabled == 'true' && github.event_name == 'pull_request'
+        id: changed_files
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const files = [];
+            for await (const response of github.paginate.iterator(
+              github.rest.pulls.listFiles,
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: context.payload.pull_request.number,
+                per_page: 100
+              }
+            )) {
+              for (const file of response.data) {
+                files.push(file.filename);
+              }
+            }
+            core.setOutput('paths', files.join('\n'));
+
+      - name: List changed files (push)
+        if: steps.kill_switch.outputs.enabled == 'true' && github.event_name == 'push'
+        id: push_changed_files
+        shell: bash
+        run: |
+          set -euo pipefail
+          before="${{ github.event.before }}"
+          after="${{ github.sha }}"
+          if [ -z "$before" ] || [ "$before" = "0000000000000000000000000000000000000000" ]; then
+            git diff-tree --no-commit-id --name-only -r "$after" > "$RUNNER_TEMP/changed_files.txt"
+          else
+            git diff --name-only "$before" "$after" > "$RUNNER_TEMP/changed_files.txt"
+          fi
+          if [ -s "$RUNNER_TEMP/changed_files.txt" ]; then
+            echo "paths<<EOF" >> "$GITHUB_OUTPUT"
+            cat "$RUNNER_TEMP/changed_files.txt" >> "$GITHUB_OUTPUT"
+            echo "EOF" >> "$GITHUB_OUTPUT"
+          else
+            echo "paths=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: List changed files (workflow dispatch, last commit)
+        if: steps.kill_switch.outputs.enabled == 'true' && github.event_name == 'workflow_dispatch' && inputs.scan_all != true
+        id: dispatch_changed_files
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff-tree --no-commit-id --name-only -r HEAD > "$RUNNER_TEMP/changed_files.txt"
+          if [ -s "$RUNNER_TEMP/changed_files.txt" ]; then
+            echo "paths<<EOF" >> "$GITHUB_OUTPUT"
+            cat "$RUNNER_TEMP/changed_files.txt" >> "$GITHUB_OUTPUT"
+            echo "EOF" >> "$GITHUB_OUTPUT"
+          else
+            echo "paths=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run source encoding check
+        if: steps.kill_switch.outputs.enabled == 'true'
+        shell: pwsh
+        env:
+          SCAN_ALL: ${{ github.event_name == 'workflow_dispatch' && inputs.scan_all == true }}
+          CHANGED_PATHS_PR: ${{ steps.changed_files.outputs.paths }}
+          CHANGED_PATHS_PUSH: ${{ steps.push_changed_files.outputs.paths }}
+          CHANGED_PATHS_DISPATCH: ${{ steps.dispatch_changed_files.outputs.paths }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/Test-SourceEncodingIntegrity.ps1')
+
+          $scanAll = $env:SCAN_ALL -ieq 'true'
+          $rawPaths = $env:CHANGED_PATHS_PR
+          if (-not $rawPaths) { $rawPaths = $env:CHANGED_PATHS_PUSH }
+          if (-not $rawPaths) { $rawPaths = $env:CHANGED_PATHS_DISPATCH }
+
+          $changedPaths = @()
+          if (-not $scanAll -and $rawPaths) {
+            $changedPaths = $rawPaths -split "`n" | ForEach-Object { $_.Trim() } | Where-Object { $_ }
+          }
+
+          if ($scanAll) {
+            Test-SourceEncodingIntegrity -RepoRoot $repoRoot -ScanAll -FailOnIssues
+          }
+          else {
+            Test-SourceEncodingIntegrity -RepoRoot $repoRoot -ChangedPaths $changedPaths -FailOnIssues
+          }
+
+      - name: No changed files to scan
+        if: steps.kill_switch.outputs.enabled == 'true' && inputs.scan_all != true && ((github.event_name == 'pull_request' && steps.changed_files.outputs.paths == '') || (github.event_name == 'push' && steps.push_changed_files.outputs.paths == '') || (github.event_name == 'workflow_dispatch' && steps.dispatch_changed_files.outputs.paths == ''))
+        run: echo "No changed files to scan in this event."

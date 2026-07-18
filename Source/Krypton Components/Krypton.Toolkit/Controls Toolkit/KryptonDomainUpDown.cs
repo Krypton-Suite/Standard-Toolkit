@@ -1098,7 +1098,7 @@ public class KryptonDomainUpDown : VisualControlBase,
     [Category(@"Data")]
     [Description(@"The allowable items of the domain up down.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+    [Editor(typeof(KryptonDesignerListControlStringCollectionEditor), typeof(UITypeEditor))]
     [Localizable(true)]
     public DomainUpDown.DomainUpDownItemCollection Items => DomainUpDown.Items;
 
@@ -1296,6 +1296,7 @@ public class KryptonDomainUpDown : VisualControlBase,
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Collection of button specifications.")]
+    [Editor(typeof(KryptonDesignerButtonSpecAnyCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public DomainUpDownButtonSpecCollection ButtonSpecs { get; }
 

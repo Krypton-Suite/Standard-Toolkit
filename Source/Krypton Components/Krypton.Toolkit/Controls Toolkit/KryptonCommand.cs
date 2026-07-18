@@ -208,6 +208,7 @@ public class KryptonCommand : Component, IKryptonCommand, INotifyPropertyChanged
     [Localizable(true)]
     [Category(@"Appearance")]
     [Description(@"Command text.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     public string Text
     {
@@ -234,6 +235,7 @@ public class KryptonCommand : Component, IKryptonCommand, INotifyPropertyChanged
     [Localizable(true)]
     [Category(@"Appearance")]
     [Description(@"Command extra text.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     public string ExtraText
     {
@@ -310,6 +312,7 @@ public class KryptonCommand : Component, IKryptonCommand, INotifyPropertyChanged
     [Localizable(true)]
     [Category(@"Appearance")]
     [Description(@"Command small image.")]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? ImageSmall
     {
         get => _imageSmall;
@@ -335,6 +338,7 @@ public class KryptonCommand : Component, IKryptonCommand, INotifyPropertyChanged
     [Localizable(true)]
     [Category(@"Appearance")]
     [Description(@"Command large image.")]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? ImageLarge
     {
         get => _imageLarge;
