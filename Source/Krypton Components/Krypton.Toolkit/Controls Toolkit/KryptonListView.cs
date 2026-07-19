@@ -1678,7 +1678,7 @@ public class KryptonListView : VisualControlBase,
         if (IsHandleCreated || _forcedLayout || (DesignMode))
         {
             Rectangle fillRect = KryptonNativeWrapperScrollbarBoundsHelper.GetNativeChildBounds(
-                _layoutFill.FillRect, _scrollbarManager, UseKryptonScrollbars);
+                _layoutFill, _scrollbarManager, UseKryptonScrollbars);
             _listView.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
         }
     }

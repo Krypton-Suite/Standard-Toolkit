@@ -1744,7 +1744,7 @@ public class KryptonTextBox : VisualControlBase,
         if (IsHandleCreated || _forcedLayout || (DesignMode && (_textBox != null)))
         {
             Rectangle fillRect = KryptonNativeWrapperScrollbarBoundsHelper.GetNativeChildBounds(
-                _layoutFill.FillRect, _scrollbarManager, UseKryptonScrollbars);
+                _layoutFill, _scrollbarManager, UseKryptonScrollbars);
             //  for centering the inner text field vertically
             var y = Height / 2 - _textBox.Height / 2;
 

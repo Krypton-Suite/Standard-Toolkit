@@ -919,7 +919,7 @@ public class KryptonPropertyGrid : VisualControlBase,
         if (IsHandleCreated || _forcedLayout || (DesignMode))
         {
             Rectangle fillRect = KryptonNativeWrapperScrollbarBoundsHelper.GetNativeChildBounds(
-                _layoutFill.FillRect, _scrollbarManager, UseKryptonScrollbars);
+                _layoutFill, _scrollbarManager, UseKryptonScrollbars);
             _propertyGrid.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
         }
     }

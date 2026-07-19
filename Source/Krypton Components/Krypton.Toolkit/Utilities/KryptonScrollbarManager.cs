@@ -1673,33 +1673,48 @@ public class KryptonScrollbarManager : IDisposable
     private static int ManagedScrollBarHeight => SystemInformation.HorizontalScrollBarHeight + ScrollBarLanePadding;
 
     /// <summary>
-    /// Returns native-child bounds inset so overlay themed scrollbars do not cover content.
+    /// Returns native-child bounds clipped so overlay themed scrollbars do not cover content.
     /// </summary>
     /// <param name="fillRect">The full fill rectangle for the native child.</param>
+    /// <param name="laneRect">
+    /// Outer lane inside the themed border (where overlay scrollbars are positioned).
+    /// </param>
     /// <returns>
-    /// <paramref name="fillRect"/> reduced on the right and/or bottom when the matching
-    /// themed scrollbar is visible. Bars stay flush to the themed border; content shrinks instead.
+    /// <paramref name="fillRect"/> with its right/bottom edges clipped to the scrollbar
+    /// edges when visible. Bars stay flush to the themed border; content ends where the bar starts.
     /// </returns>
-    public Rectangle GetInsetContentBounds(Rectangle fillRect)
+    public Rectangle GetInsetContentBounds(Rectangle fillRect, Rectangle laneRect)
     {
         if (_mode != ScrollbarManagerMode.NativeWrapper || !_enabled)
         {
             return fillRect;
         }
 
-        int width = fillRect.Width;
-        int height = fillRect.Height;
+        if (laneRect.IsEmpty)
+        {
+            laneRect = fillRect;
+        }
 
+        int right = fillRect.Right;
+        int bottom = fillRect.Bottom;
+
+        // Clip to the overlay bar edge rather than subtracting bar width from FillRect.
+        // FillRect is already inset by DisplayPadding from the lane; subtracting again
+        // left a visible gutter between wrapped text and the scrollbar.
         if (_verticalScrollBar?.Visible == true)
         {
-            width = Math.Max(0, width - ManagedScrollBarWidth);
+            int scrollbarLeft = laneRect.Right - ManagedScrollBarWidth;
+            right = Math.Min(right, scrollbarLeft);
         }
 
         if (_horizontalScrollBar?.Visible == true)
         {
-            height = Math.Max(0, height - ManagedScrollBarHeight);
+            int scrollbarTop = laneRect.Bottom - ManagedScrollBarHeight;
+            bottom = Math.Min(bottom, scrollbarTop);
         }
 
+        int width = Math.Max(0, right - fillRect.Left);
+        int height = Math.Max(0, bottom - fillRect.Top);
         return new Rectangle(fillRect.X, fillRect.Y, width, height);
     }
 

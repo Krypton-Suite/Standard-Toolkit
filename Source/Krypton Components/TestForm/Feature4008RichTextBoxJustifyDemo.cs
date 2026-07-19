@@ -29,6 +29,11 @@ public partial class Feature4008RichTextBoxJustifyDemo : KryptonForm
 
     private void Feature4008RichTextBoxJustifyDemo_Load(object? sender, EventArgs e)
     {
+        // Match fonts and force a vertical scrollbar on the native control so wrap width
+        // is comparable to Krypton (themed scrollbars reserve the same lane).
+        rtbNative.Font = krtbDemo.Font;
+        rtbNative.ScrollBars = RichTextBoxScrollBars.Vertical;
+
         krtbDemo.Text = SampleParagraph;
         rtbNative.Text = SampleParagraph;
         UpdateStatus();
