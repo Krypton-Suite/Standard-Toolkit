@@ -31,7 +31,7 @@ jobs:
 
       # .NET 9 and 10 always; .NET 11 — DOTNET_PREVIEW_SETUP_VERSION when set, else 11.0.x (stable attempt, then preview).
       - name: Setup .NET (9 and 10)
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
             9.0.x
@@ -40,13 +40,13 @@ jobs:
       - name: Setup .NET 11 (stable)
         id: setup_dotnet11_stable
         continue-on-error: true
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
 
       - name: Setup .NET 11 (preview fallback)
         if: steps.setup_dotnet11_stable.outcome == 'failure'
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
           dotnet-quality: preview
@@ -54,7 +54,7 @@ jobs:
       # Optional extra preview SDK (repo variable). USE_DOTNET_PREVIEW=false skips; global.json pins latest installed band below.
       - name: Setup .NET Preview
         if: vars.USE_DOTNET_PREVIEW != 'false'
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION }}
           dotnet-quality: preview
@@ -162,7 +162,7 @@ jobs:
 
       # .NET 9 and 10 always; .NET 11 — DOTNET_PREVIEW_SETUP_VERSION when set, else 11.0.x (same resolution as build job).
       - name: Setup .NET (9 and 10)
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
             9.0.x
@@ -171,13 +171,13 @@ jobs:
       - name: Setup .NET 11 (stable)
         id: setup_dotnet11_stable_release
         continue-on-error: true
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
 
       - name: Setup .NET 11 (preview fallback)
         if: steps.setup_dotnet11_stable_release.outcome == 'failure'
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
           dotnet-quality: preview
