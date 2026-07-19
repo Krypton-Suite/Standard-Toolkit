@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -60,6 +60,7 @@ public class KryptonFoldableDialogData
     public ExtendedKryptonMessageBoxIcon Icon { get; set; }
 
     /// <summary>Gets or sets a custom icon image used when <see cref="Icon"/> is <see cref="ExtendedKryptonMessageBoxIcon.Custom"/>.</summary>
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? CustomIcon { get; set; }
 
     /// <summary>Gets or sets the set of action buttons shown along the bottom of the dialog.</summary>

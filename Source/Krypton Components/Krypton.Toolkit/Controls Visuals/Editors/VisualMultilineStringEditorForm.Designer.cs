@@ -1,4 +1,12 @@
-﻿namespace Krypton.Toolkit
+﻿#region BSD License
+/*
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2022 - 2025. All rights reserved.
+ *
+ */
+#endregion
+
+namespace Krypton.Toolkit
 {
     partial class VisualMultilineStringEditorForm
     {
@@ -28,14 +36,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.kpnlButtons = new Krypton.Toolkit.KryptonPanel();
-            this.kbtnOk = new Krypton.Toolkit.KryptonButton();
-            this.kbtnCancel = new Krypton.Toolkit.KryptonButton();
-            this.kbEdge = new Krypton.Toolkit.KryptonBorderEdge();
+            this.components = new System.ComponentModel.Container();
+            this.kpnlButtonBar = new Krypton.Toolkit.InternalDesignerEditorButtonBarPanel();
             this.kpnlContent = new Krypton.Toolkit.KryptonPanel();
-            this.krtbContents = new Krypton.Toolkit.KryptonRichTextBox();
             this.ktxtStringCollection = new Krypton.Toolkit.KryptonTextBox();
-            this.klblHeader = new Krypton.Toolkit.KryptonLabel();
             this.kcmRichTextBoxMenu = new Krypton.Toolkit.KryptonContextMenu();
             this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuItem1 = new Krypton.Toolkit.KryptonContextMenuItem();
@@ -62,93 +66,35 @@
             this.kryptonContextMenuSeparator6 = new Krypton.Toolkit.KryptonContextMenuSeparator();
             this.kryptonContextMenuItem8 = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kcTextBoxSelectAll = new Krypton.Toolkit.KryptonCommand();
-            ((System.ComponentModel.ISupportInitialize)(this.kpnlButtons)).BeginInit();
-            this.kpnlButtons.SuspendLayout();
+            this.kryptonGroupBox1 = new Krypton.Toolkit.KryptonGroupBox();
+            this.krtbContents = new Krypton.Toolkit.KryptonRichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.kpnlContent)).BeginInit();
             this.kpnlContent.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1.Panel)).BeginInit();
+            this.kryptonGroupBox1.Panel.SuspendLayout();
+            this.kryptonGroupBox1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // kpnlButtons
-            // 
-            this.kpnlButtons.Controls.Add(this.kbtnOk);
-            this.kpnlButtons.Controls.Add(this.kbtnCancel);
-            this.kpnlButtons.Controls.Add(this.kbEdge);
-            this.kpnlButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.kpnlButtons.Location = new System.Drawing.Point(0, 311);
-            this.kpnlButtons.Name = "kpnlButtons";
-            this.kpnlButtons.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
-            this.kpnlButtons.Size = new System.Drawing.Size(584, 50);
-            this.kpnlButtons.TabIndex = 1;
-            // 
-            // kbtnOk
-            // 
-            this.kbtnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.kbtnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.kbtnOk.Location = new System.Drawing.Point(381, 13);
-            this.kbtnOk.Name = "kbtnOk";
-            this.kbtnOk.Size = new System.Drawing.Size(90, 25);
-            this.kbtnOk.TabIndex = 2;
-            this.kbtnOk.Values.Text = "O&K";
-            this.kbtnOk.Click += new System.EventHandler(this.kbtnOk_Click);
-            // 
-            // kbtnCancel
-            // 
-            this.kbtnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.kbtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.kbtnCancel.Location = new System.Drawing.Point(477, 13);
-            this.kbtnCancel.Name = "kbtnCancel";
-            this.kbtnCancel.Size = new System.Drawing.Size(90, 25);
-            this.kbtnCancel.TabIndex = 1;
-            this.kbtnCancel.Values.Text = "C&ancel";
-            // 
-            // kbEdge
-            // 
-            this.kbEdge.BorderStyle = Krypton.Toolkit.PaletteBorderStyle.HeaderPrimary;
-            this.kbEdge.Dock = System.Windows.Forms.DockStyle.Top;
-            this.kbEdge.Location = new System.Drawing.Point(0, 0);
-            this.kbEdge.Name = "kbEdge";
-            this.kbEdge.Size = new System.Drawing.Size(584, 1);
-            this.kbEdge.Text = "kryptonBorderEdge1";
             // 
             // kpnlContent
             // 
-            this.kpnlContent.Controls.Add(this.krtbContents);
-            this.kpnlContent.Controls.Add(this.ktxtStringCollection);
-            this.kpnlContent.Controls.Add(this.klblHeader);
+            this.kpnlContent.Controls.Add(this.kryptonGroupBox1);
             this.kpnlContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kpnlContent.Location = new System.Drawing.Point(0, 0);
             this.kpnlContent.Name = "kpnlContent";
-            this.kpnlContent.Size = new System.Drawing.Size(584, 311);
+            this.kpnlContent.Padding = new System.Windows.Forms.Padding(12, 9, 12, 9);
+            this.kpnlContent.Size = new System.Drawing.Size(584, 309);
             this.kpnlContent.TabIndex = 2;
-            // 
-            // krtbContents
-            // 
-            this.krtbContents.Location = new System.Drawing.Point(13, 39);
-            this.krtbContents.Name = "krtbContents";
-            this.krtbContents.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedBoth;
-            this.krtbContents.Size = new System.Drawing.Size(555, 266);
-            this.krtbContents.TabIndex = 2;
-            this.krtbContents.Text = "";
             // 
             // ktxtStringCollection
             // 
-            this.ktxtStringCollection.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ktxtStringCollection.Location = new System.Drawing.Point(13, 39);
+            this.ktxtStringCollection.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ktxtStringCollection.Location = new System.Drawing.Point(0, 0);
             this.ktxtStringCollection.Multiline = true;
             this.ktxtStringCollection.Name = "ktxtStringCollection";
             this.ktxtStringCollection.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.ktxtStringCollection.Size = new System.Drawing.Size(554, 257);
+            this.ktxtStringCollection.Size = new System.Drawing.Size(556, 267);
             this.ktxtStringCollection.TabIndex = 1;
-            // 
-            // klblHeader
-            // 
-            this.klblHeader.Location = new System.Drawing.Point(13, 13);
-            this.klblHeader.Name = "klblHeader";
-            this.klblHeader.Size = new System.Drawing.Size(268, 20);
-            this.klblHeader.TabIndex = 0;
-            this.klblHeader.Values.Text = "Enter the strings in the collection (one per line):";
             // 
             // kcmRichTextBoxMenu
             // 
@@ -270,42 +216,69 @@
             this.kcTextBoxSelectAll.Text = "kryptonCommand1";
             this.kcTextBoxSelectAll.Execute += new System.EventHandler(this.kcTextBoxSelectAll_Execute);
             // 
-            // KryptonMultilineStringEditorForm
+            // kryptonGroupBox1
             // 
-            this.AcceptButton = this.kbtnOk;
+            this.kryptonGroupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kryptonGroupBox1.Location = new System.Drawing.Point(12, 9);
+            // 
+            // kryptonGroupBox1.Panel
+            // 
+            this.kryptonGroupBox1.Panel.Controls.Add(this.krtbContents);
+            this.kryptonGroupBox1.Panel.Controls.Add(this.ktxtStringCollection);
+            this.kryptonGroupBox1.Size = new System.Drawing.Size(560, 291);
+            this.kryptonGroupBox1.TabIndex = 3;
+            this.kryptonGroupBox1.Values.Heading = "Enter the strings in the collection (one per line):";
+            // 
+            // krtbContents
+            // 
+            this.krtbContents.CueHint.CueHintText = "Insert string collection here...";
+            this.krtbContents.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.krtbContents.Location = new System.Drawing.Point(0, 0);
+            this.krtbContents.Name = "krtbContents";
+            this.krtbContents.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedBoth;
+            this.krtbContents.Size = new System.Drawing.Size(556, 267);
+            this.krtbContents.TabIndex = 2;
+            this.krtbContents.Text = "";
+            // 
+            // kpnlButtonBar
+            // 
+            this.kpnlButtonBar.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.kpnlButtonBar.Location = new System.Drawing.Point(0, 309);
+            this.kpnlButtonBar.Name = "kpnlButtonBar";
+            this.kpnlButtonBar.Size = new System.Drawing.Size(584, 52);
+            this.kpnlButtonBar.TabIndex = 1;
+            // 
+            // VisualMultilineStringEditorForm
+            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 361);
             this.Controls.Add(this.kpnlContent);
-            this.Controls.Add(this.kpnlButtons);
+            this.Controls.Add(this.kpnlButtonBar);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "KryptonMultilineStringEditorForm";
+            this.Name = "VisualMultilineStringEditorForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "String Collection Editor";
-            ((System.ComponentModel.ISupportInitialize)(this.kpnlButtons)).EndInit();
-            this.kpnlButtons.ResumeLayout(false);
-            this.kpnlButtons.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kpnlContent)).EndInit();
             this.kpnlContent.ResumeLayout(false);
-            this.kpnlContent.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1.Panel)).EndInit();
+            this.kryptonGroupBox1.Panel.ResumeLayout(false);
+            this.kryptonGroupBox1.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1)).EndInit();
+            this.kryptonGroupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private KryptonPanel kpnlButtons;
-        private KryptonButton kbtnOk;
-        private KryptonButton kbtnCancel;
-        private KryptonBorderEdge kbEdge;
+        private InternalDesignerEditorButtonBarPanel kpnlButtonBar;
         private KryptonPanel kpnlContent;
-        private KryptonRichTextBox krtbContents;
         private KryptonTextBox ktxtStringCollection;
-        private KryptonLabel klblHeader;
         private KryptonContextMenu kcmRichTextBoxMenu;
         private KryptonContextMenuItems kryptonContextMenuItems1;
         private KryptonContextMenuItem kryptonContextMenuItem1;
@@ -332,5 +305,7 @@
         private KryptonContextMenuSeparator kryptonContextMenuSeparator6;
         private KryptonContextMenuItem kryptonContextMenuItem8;
         private KryptonCommand kcTextBoxSelectAll;
+        private KryptonGroupBox kryptonGroupBox1;
+        private KryptonRichTextBox krtbContents;
     }
 }

@@ -57,6 +57,7 @@ public class CheckBoxExtendedTextValues : LabelValues
     /// </summary>
     [Category(@"Text")]
     [Description(@"Secondary descriptive text displayed below the main text.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [DefaultValue(DEFAULT_SUBTEXT)]
     public string Subtext

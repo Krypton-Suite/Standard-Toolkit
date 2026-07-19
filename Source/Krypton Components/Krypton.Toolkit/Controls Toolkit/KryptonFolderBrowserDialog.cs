@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -58,6 +58,7 @@ public class KryptonFolderBrowserDialog : ShellDialogWrapper, IDisposable
     /// </summary>
     [Browsable(true)]
     [DefaultValue("")]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.SelectedPathEditor).
     [Editor(@"System.Windows.Forms.Design.SelectedPathEditor", typeof(UITypeEditor))]
     [Localizable(true)]
     [Category(@"FolderBrowsing")]

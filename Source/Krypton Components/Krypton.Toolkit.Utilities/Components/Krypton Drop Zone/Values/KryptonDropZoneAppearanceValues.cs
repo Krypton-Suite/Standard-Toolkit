@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -157,6 +157,7 @@ public class KryptonDropZoneAppearanceValues : Storage
     [Category(@"Layout")]
     [Description(@"Custom image displayed above the drop zone text in Card layout. When null, the default UploadDocument image from DropZoneResources is used at full color. Custom images are tinted using the palette content color when UsePaletteColors is true.")]
     [DefaultValue(null)]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? UploadIcon
     {
         get => _uploadIcon;

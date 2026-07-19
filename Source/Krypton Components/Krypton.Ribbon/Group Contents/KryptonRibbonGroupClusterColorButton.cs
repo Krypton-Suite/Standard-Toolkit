@@ -351,6 +351,7 @@ public class KryptonRibbonGroupClusterColorButton : KryptonRibbonGroupItem
     [Category(@"Appearance")]
     [Description(@"Small color button image.")]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? ImageSmall
     {
         get => _imageSmall;

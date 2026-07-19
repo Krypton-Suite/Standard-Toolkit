@@ -28,18 +28,18 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
 
     public VisualMultilineStringEditorForm()
     {
-        //SetInheritedControlOverride(); // Disabled as part of issue #2296. See the issue for details.
+        SetInheritedControlOverride();
         InitializeComponent();
-
+        ConfigureDesignerChrome();
         InitialSetup();
-
         SetupControlsText();
     }
 
     public VisualMultilineStringEditorForm(string[]? contents, StringCollection? collection, bool? useRichTextBox, string? headerText, string? windowTitle)
     {
-        //SetInheritedControlOverride(); // Disabled as part of issue #2296. See the issue for details.
+        SetInheritedControlOverride();
         InitializeComponent();
+        ConfigureDesignerChrome();
 
         _contents = contents ?? [string.Empty];
 
@@ -51,24 +51,49 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
 
         _windowTitle = windowTitle ?? @"String Collection Editor";
 
-        klblHeader.Text = _headerText;
+        kryptonGroupBox1.Values.Heading = _headerText;
 
         Text = _windowTitle;
 
         SetupControlsText();
+
+        SetupInputCanvas();
 
         UpdateInput(_contents, _collection);
     }
 
     #endregion
 
+    #region Protected
+    /// <inheritdoc />
+    protected override void OnLoad(EventArgs e)
+    {
+        KryptonDesignerEditorDpi.Configure(this);
+        base.OnLoad(e);
+    }
+
+    /// <inheritdoc />
+    protected override void OnShown(EventArgs e)
+    {
+        base.OnShown(e);
+        KryptonDesignerEditorDpi.ApplyOnShown(this);
+    }
+
+    #endregion
+
     #region Implementation
+
+    private void ConfigureDesignerChrome()
+    {
+        InternalDesignerEditorFormChrome.Apply(this, kpnlContent, kpnlButtonBar);
+        kpnlButtonBar.OkButton.Click += kbtnOk_Click;
+    }
 
     private void SetupControlsText()
     {
-        kbtnCancel.Text = KryptonManager.Strings.GeneralStrings.Cancel;
+        kpnlButtonBar.OkButton.Values.Text = KryptonManager.Strings.GeneralStrings.OK;
 
-        kbtnOk.Text = KryptonManager.Strings.GeneralStrings.OK;
+        kpnlButtonBar.CancelButton.Values.Text = KryptonManager.Strings.GeneralStrings.Cancel;
 
         kcRichTextBoxCopy.Text = KryptonManager.Strings.ToolBarStrings.Copy;
 
@@ -97,7 +122,7 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
 
         _headerText = headerText ?? @"Enter the strings in the collection (one per line):";
 
-        klblHeader.Text = _headerText;
+        kryptonGroupBox1.Values.Heading = _headerText;
 
         Text = windowTitle ?? @"String Collection Editor";
     }
@@ -115,7 +140,27 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
         _collection = null;
     }
 
-    private void SetupInputCanvas()
+    internal string[] GetEditedLines() =>
+        _useRichTextBox ? [.. krtbContents.Lines] : [.. ktxtStringCollection.Lines];
+
+    internal string GetEditedText() =>
+        _useRichTextBox ? krtbContents.Text : ktxtStringCollection.Text;
+
+    internal void SetEditText(string text)
+    {
+        SetupInputCanvas();
+
+        if (_useRichTextBox)
+        {
+            krtbContents.Text = text;
+        }
+        else
+        {
+            ktxtStringCollection.Text = text;
+        }
+    }
+
+    internal void SetupInputCanvas()
     {
         if (_useRichTextBox)
         {
@@ -167,7 +212,7 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
         }
     }
 
-    private void kbtnOk_Click(object sender, EventArgs e) => _contents = _useRichTextBox ? [.. krtbContents.Lines] : [.. ktxtStringCollection.Lines];
+    private void kbtnOk_Click(object? sender, EventArgs e) => _contents = _useRichTextBox ? [.. krtbContents.Lines] : [.. ktxtStringCollection.Lines];
 
     private void kcRichTextBoxCut_Execute(object sender, EventArgs e) => krtbContents.Cut();
 
@@ -187,47 +232,31 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
 
     internal static string[]? InternalShow(IWin32Window? owner, string[] input, bool? useRichTextBox, string? headerText, string windowTitle)
     {
-        string[]? collection;
-
         IWin32Window? showOwner = owner ?? FromHandle(PI.GetActiveWindow());
 
         using var kmse = new VisualMultilineStringEditorForm(input, null, useRichTextBox, headerText, windowTitle);
 
         kmse.StartPosition = showOwner == null ? FormStartPosition.CenterParent : FormStartPosition.CenterScreen;
 
-        collection = kmse._useRichTextBox ? kmse.krtbContents.Lines : kmse.ktxtStringCollection.Lines;
-
-        return kmse.ShowDialog(showOwner) == DialogResult.OK ? collection : null;
+        return kmse.ShowDialog(showOwner) == DialogResult.OK ? kmse.GetEditedLines() : null;
     }
 
     internal static StringCollection? InternalShowStringCollection(IWin32Window? owner, StringCollection input, bool? useRichTextBox, string? headerText, string windowTitle)
     {
-        StringCollection? collection;
-
         IWin32Window? showOwner = owner ?? FromHandle(PI.GetActiveWindow());
 
         using var kmse = new VisualMultilineStringEditorForm(null, input, useRichTextBox, headerText, windowTitle);
 
         kmse.StartPosition = showOwner == null ? FormStartPosition.CenterParent : FormStartPosition.CenterScreen;
 
-        if (kmse._useRichTextBox)
+        if (kmse.ShowDialog(showOwner) != DialogResult.OK)
         {
-            collection = [];
-
-            string[] tmp = kmse.krtbContents.Lines;
-
-            collection.AddRange(tmp);
-        }
-        else
-        {
-            collection = [];
-
-            string[] tmp = kmse.ktxtStringCollection.Lines;
-
-            collection.AddRange(tmp);
+            return null;
         }
 
-        return kmse.ShowDialog(showOwner) == DialogResult.OK ? collection : null;
+        var collection = new StringCollection();
+        collection.AddRange(kmse.GetEditedLines());
+        return collection;
     }
 
     #endregion

@@ -377,6 +377,7 @@ public class KryptonRibbonGroupNumericUpDown : KryptonRibbonGroupItem
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Collection of button specifications.")]
+    [Editor(typeof(KryptonDesignerButtonSpecAnyCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public KryptonNumericUpDown.NumericUpDownButtonSpecCollection ButtonSpecs => NumericUpDown!.ButtonSpecs;
 

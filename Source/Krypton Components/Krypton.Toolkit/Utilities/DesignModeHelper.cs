@@ -18,6 +18,17 @@ internal class DesignModeHelper
     /// </summary>
     public static bool IsInDesignMode { get; }
 
+    /// <summary>
+    /// Gets whether designer-editor footers should include the local theme selector.
+    /// </summary>
+    /// <remarks>
+    /// The selector is hidden when hosted in Visual Studio 2022 (major version 17) where footer
+    /// space is constrained and the edited component palette is already resolved from context.
+    /// When the hosting Visual Studio version cannot be determined inside <c>devenv</c>, the
+    /// selector is also hidden as a conservative default.
+    /// </remarks>
+    public static bool IncludeDesignerEditorThemeSelector { get; }
+
     #endregion
 
     #region Identity
@@ -29,6 +40,40 @@ internal class DesignModeHelper
     {
         IsInDesignMode = LicenseManager.UsageMode == LicenseUsageMode.Designtime &&
                          Process.GetCurrentProcess().ProcessName == "devenv";
+        IncludeDesignerEditorThemeSelector = !IsInDesignMode
+            || (TryGetHostingVisualStudioMajorVersion(out var majorVersion) && majorVersion != 17);
+    }
+
+    #endregion
+
+    #region Implementation
+
+    private static bool TryGetHostingVisualStudioMajorVersion(out int majorVersion)
+    {
+        majorVersion = 0;
+
+        try
+        {
+            var fileName = Process.GetCurrentProcess().MainModule?.FileName;
+            if (string.IsNullOrEmpty(fileName))
+            {
+                return false;
+            }
+
+            var productVersion = FileVersionInfo.GetVersionInfo(fileName).ProductVersion;
+            if (string.IsNullOrEmpty(productVersion))
+            {
+                return false;
+            }
+
+            var separator = productVersion.IndexOf('.');
+            var majorPart = separator < 0 ? productVersion : productVersion.Substring(0, separator);
+            return int.TryParse(majorPart, out majorVersion);
+        }
+        catch
+        {
+            return false;
+        }
     }
 
     #endregion
