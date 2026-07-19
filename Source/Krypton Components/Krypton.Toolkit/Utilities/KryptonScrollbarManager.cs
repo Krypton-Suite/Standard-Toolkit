@@ -1672,6 +1672,37 @@ public class KryptonScrollbarManager : IDisposable
 
     private static int ManagedScrollBarHeight => SystemInformation.HorizontalScrollBarHeight + ScrollBarLanePadding;
 
+    /// <summary>
+    /// Returns native-child bounds inset so overlay themed scrollbars do not cover content.
+    /// </summary>
+    /// <param name="fillRect">The full fill rectangle for the native child.</param>
+    /// <returns>
+    /// <paramref name="fillRect"/> reduced on the right and/or bottom when the matching
+    /// themed scrollbar is visible. Bars stay flush to the themed border; content shrinks instead.
+    /// </returns>
+    public Rectangle GetInsetContentBounds(Rectangle fillRect)
+    {
+        if (_mode != ScrollbarManagerMode.NativeWrapper || !_enabled)
+        {
+            return fillRect;
+        }
+
+        int width = fillRect.Width;
+        int height = fillRect.Height;
+
+        if (_verticalScrollBar?.Visible == true)
+        {
+            width = Math.Max(0, width - ManagedScrollBarWidth);
+        }
+
+        if (_horizontalScrollBar?.Visible == true)
+        {
+            height = Math.Max(0, height - ManagedScrollBarHeight);
+        }
+
+        return new Rectangle(fillRect.X, fillRect.Y, width, height);
+    }
+
     private void OnCornerNeedPaint(object? sender, NeedLayoutEventArgs e) => _scrollBarCorner?.Invalidate();
 
     private void BringScrollbarsToFront()

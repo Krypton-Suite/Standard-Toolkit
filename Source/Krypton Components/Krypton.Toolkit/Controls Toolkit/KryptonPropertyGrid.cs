@@ -338,8 +338,12 @@ public class KryptonPropertyGrid : VisualControlBase,
         {
             _resetContextMenu.Close();
             _resetContextMenu.Dispose();
-            _scrollbarManager?.Dispose();
-            _scrollbarManager = null;
+            if (_scrollbarManager != null)
+            {
+                _scrollbarManager.ScrollbarsChanged -= OnManagedScrollbarsChanged;
+                _scrollbarManager.Dispose();
+                _scrollbarManager = null;
+            }
         }
 
         base.Dispose(disposing);
@@ -914,7 +918,8 @@ public class KryptonPropertyGrid : VisualControlBase,
         // to allow a relayout or if in design mode.
         if (IsHandleCreated || _forcedLayout || (DesignMode))
         {
-            Rectangle fillRect = _layoutFill.FillRect;
+            Rectangle fillRect = KryptonNativeWrapperScrollbarBoundsHelper.GetNativeChildBounds(
+                _layoutFill.FillRect, _scrollbarManager, UseKryptonScrollbars);
             _propertyGrid.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
         }
     }
@@ -1048,16 +1053,20 @@ public class KryptonPropertyGrid : VisualControlBase,
             // attachment to the inner control follows the enabled state.
             if (ScrollbarManager.TargetControl == null)
             {
+                ScrollbarManager.ScrollbarsChanged += OnManagedScrollbarsChanged;
                 ScrollbarManager.Attach(_propertyGrid, ScrollbarManagerMode.NativeWrapper);
             }
 
             ScrollbarManager.Enabled = Enabled;
         }
-        else
+        else if (_scrollbarManager != null)
         {
-            _scrollbarManager?.Detach();
+            _scrollbarManager.ScrollbarsChanged -= OnManagedScrollbarsChanged;
+            _scrollbarManager.Detach();
         }
     }
+
+    private void OnManagedScrollbarsChanged(object? sender, EventArgs e) => ForceControlLayout();
 
     NativeWrapperScrollbarLayout IKryptonNativeWrapperScrollbarBounds.GetNativeWrapperScrollbarLayout() =>
         KryptonNativeWrapperScrollbarBoundsHelper.GetLayout(this, _layoutFill);

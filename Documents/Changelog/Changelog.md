@@ -47,6 +47,7 @@
 
 * Implemented [#4008](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4008), `KryptonRichTextBox` Support for justify    
    * `KryptonRichTextBox.SelectionParagraphAlignment` adds full paragraph justify (plus Left/Center/Right) via RichEdit
+   * Resolved themed scrollbar overlay covering native-wrapper content (RichTextBox, TextBox, ListBox, ListView, TreeView, PropertyGrid) after flush-to-border scrollbars; content is inset when the bar is visible so text is not clipped
 * Implemented [#3849](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3849), Krypton-themed designer property and collection editors replace native WinForms dialogs
    * Designer collection and property editors now use Krypton controls and `KryptonForm` chrome — workspace sequence, context menu items, breadcrumb items, check-button collections, tree nodes, string/`Items` collections, multiline text/`Lines`, format string, and related binding/image/index editors inherit the owning component palette at design time
    * Migrated editor dialogs use `KryptonDesignerEditorDpi` for consistent scaling on high-DPI displays

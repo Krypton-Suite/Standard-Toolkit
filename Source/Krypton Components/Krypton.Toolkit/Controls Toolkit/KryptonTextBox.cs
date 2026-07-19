@@ -583,8 +583,12 @@ public class KryptonTextBox : VisualControlBase,
             _buttonSpecAccessibilityProxyManagerFixed?.Dispose();
             _buttonSpecAccessibilityProxyManagerFixed = null;
 
-            _scrollbarManager?.Dispose();
-            _scrollbarManager = null;
+            if (_scrollbarManager != null)
+            {
+                _scrollbarManager.ScrollbarsChanged -= OnManagedScrollbarsChanged;
+                _scrollbarManager.Dispose();
+                _scrollbarManager = null;
+            }
 
             _pulsingBorder.Dispose();
 
@@ -1739,7 +1743,8 @@ public class KryptonTextBox : VisualControlBase,
         // to allow a relayout or if in design mode.
         if (IsHandleCreated || _forcedLayout || (DesignMode && (_textBox != null)))
         {
-            Rectangle fillRect = _layoutFill.FillRect;
+            Rectangle fillRect = KryptonNativeWrapperScrollbarBoundsHelper.GetNativeChildBounds(
+                _layoutFill.FillRect, _scrollbarManager, UseKryptonScrollbars);
             //  for centering the inner text field vertically
             var y = Height / 2 - _textBox.Height / 2;
 
@@ -2186,14 +2191,18 @@ public class KryptonTextBox : VisualControlBase,
             // attachment to the inner control follows the enabled state.
             if (ScrollbarManager.TargetControl == null)
             {
+                ScrollbarManager.ScrollbarsChanged += OnManagedScrollbarsChanged;
                 ScrollbarManager.Attach(_textBox, ScrollbarManagerMode.NativeWrapper);
             }
         }
-        else
+        else if (_scrollbarManager != null)
         {
-            _scrollbarManager?.Detach();
+            _scrollbarManager.ScrollbarsChanged -= OnManagedScrollbarsChanged;
+            _scrollbarManager.Detach();
         }
     }
+
+    private void OnManagedScrollbarsChanged(object? sender, EventArgs e) => ForceControlLayout();
 
     NativeWrapperScrollbarLayout IKryptonNativeWrapperScrollbarBounds.GetNativeWrapperScrollbarLayout() =>
         KryptonNativeWrapperScrollbarBoundsHelper.GetLayout(this, _layoutFill);

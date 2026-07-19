@@ -611,8 +611,12 @@ public class KryptonRichTextBox : VisualControlBase,
             // Remove any showing tooltip
             OnCancelToolTip(this, EventArgs.Empty);
 
-            _scrollbarManager?.Dispose();
-            _scrollbarManager = null;
+            if (_scrollbarManager != null)
+            {
+                _scrollbarManager.ScrollbarsChanged -= OnManagedScrollbarsChanged;
+                _scrollbarManager.Dispose();
+                _scrollbarManager = null;
+            }
 
             _pulsingBorder.Dispose();
 
@@ -2078,7 +2082,8 @@ public class KryptonRichTextBox : VisualControlBase,
             // to allow a relayout or if in design mode.
             if (_forcedLayout || DesignMode)
             {
-                Rectangle fillRect = _layoutFill.FillRect;
+                Rectangle fillRect = KryptonNativeWrapperScrollbarBoundsHelper.GetNativeChildBounds(
+                    _layoutFill.FillRect, _scrollbarManager, UseKryptonScrollbars);
                 _richTextBox.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
             }
         }
@@ -2413,14 +2418,18 @@ public class KryptonRichTextBox : VisualControlBase,
             // attachment to the inner control follows the enabled state.
             if (ScrollbarManager.TargetControl == null)
             {
+                ScrollbarManager.ScrollbarsChanged += OnManagedScrollbarsChanged;
                 ScrollbarManager.Attach(_richTextBox, ScrollbarManagerMode.NativeWrapper);
             }
         }
-        else
+        else if (_scrollbarManager != null)
         {
-            _scrollbarManager?.Detach();
+            _scrollbarManager.ScrollbarsChanged -= OnManagedScrollbarsChanged;
+            _scrollbarManager.Detach();
         }
     }
+
+    private void OnManagedScrollbarsChanged(object? sender, EventArgs e) => ForceControlLayout();
 
     private void UpdateStateAndPalettes()
     {
