@@ -44,7 +44,7 @@ jobs:
 
       - name: Setup .NET (9 and 10)
         if: steps.canary_lts_kill_switch.outputs.enabled == 'true'
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
             9.0.x
@@ -54,13 +54,13 @@ jobs:
         id: setup_dotnet11_stable_lts
         continue-on-error: true
         if: steps.canary_lts_kill_switch.outputs.enabled == 'true'
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
 
       - name: Setup .NET 11 (preview fallback)
         if: steps.canary_lts_kill_switch.outputs.enabled == 'true' && steps.setup_dotnet11_stable_lts.outcome == 'failure'
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
           dotnet-quality: preview
@@ -68,7 +68,7 @@ jobs:
       # USE_DOTNET_PREVIEW=false skips preview SDK; global.json uses stable SDK below.
       - name: Setup .NET Preview
         if: steps.canary_lts_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION }}
           dotnet-quality: preview
