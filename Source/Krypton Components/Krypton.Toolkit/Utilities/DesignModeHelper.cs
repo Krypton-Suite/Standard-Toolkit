@@ -23,9 +23,9 @@ internal class DesignModeHelper
     /// </summary>
     /// <remarks>
     /// The selector is hidden when hosted in Visual Studio 2022 (major version 17) where footer
-    /// space is constrained and the edited component palette is already resolved from context.
-    /// When the hosting Visual Studio version cannot be determined inside <c>devenv</c>, the
-    /// selector is also hidden as a conservative default.
+    /// space is constrained; a compact <c>Theme...</c> button opens the shared settings dialog
+    /// instead. When the hosting Visual Studio version cannot be determined inside <c>devenv</c>,
+    /// the selector is also hidden as a conservative default.
     /// </remarks>
     public static bool IncludeDesignerEditorThemeSelector { get; }
 

@@ -127,9 +127,13 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
 
         kcTextBoxSelectAll.Text = KryptonManager.Strings.CustomStrings.SelectAll;
 
-        krtbContents.CueHint.CueHintText = KryptonManager.Strings.MiscellaneousStrings.StringCollectionEditorCueText;
+        krtbContents.CueHint.CueHintText = KryptonManager.Strings.CollectionEditorStrings.StringCollectionEditorPlaceholderCueText;
 
         krtbContents.Text = GlobalStaticVariables.DEFAULT_EMPTY_STRING;
+
+        Text = KryptonManager.Strings.CollectionEditorStrings.StringCollectionEditorWindowTitle;
+
+        kryptonGroupBox1.Values.Heading = KryptonManager.Strings.CollectionEditorStrings.StringCollectionEditorHeaderText;
     }
 
     private void InitialSetup()

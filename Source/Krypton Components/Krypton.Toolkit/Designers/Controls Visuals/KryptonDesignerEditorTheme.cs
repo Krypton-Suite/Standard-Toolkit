@@ -10,11 +10,12 @@
 namespace Krypton.Toolkit;
 
 /// <summary>
-/// Resolves and applies designer-editor palettes (owner → global), and builds a local theme selector.
+/// Resolves and applies designer-editor palettes (saved preference → owner → global), and builds a local theme selector.
 /// </summary>
 /// <remarks>
 /// Theme changes from the selector update only the open editor form. They do not modify the
-/// edited component or <see cref="KryptonManager.GlobalPaletteMode"/>.
+/// edited component or <see cref="KryptonManager.GlobalPaletteMode"/>. Named themes (and
+/// <see cref="PaletteMode.Global"/>) are persisted for the next editor session.
 /// </remarks>
 public static class KryptonDesignerEditorTheme
 {
@@ -23,7 +24,8 @@ public static class KryptonDesignerEditorTheme
     #region Public
     /// <summary>
     /// Resolves the initial palette for a designer editor from the designer context.
-    /// Prefers the owning control's local palette when set; otherwise uses the manager global palette.
+    /// Prefers a saved editor theme preference; otherwise the owning control's local palette
+    /// when set; otherwise the manager global palette.
     /// </summary>
     /// <param name="context">Designer type descriptor context.</param>
     /// <param name="paletteMode">Resolved palette mode.</param>
@@ -35,6 +37,22 @@ public static class KryptonDesignerEditorTheme
     {
         paletteMode = PaletteMode.Global;
         customPalette = null;
+
+        if (KryptonDesignerEditorThemePreferences.TryGetPreferredPaletteMode(out var preferredMode))
+        {
+            if (preferredMode == PaletteMode.Global)
+            {
+                paletteMode = KryptonManager.CurrentGlobalPaletteMode;
+                customPalette = KryptonManager.CurrentGlobalPalette as KryptonCustomPaletteBase;
+            }
+            else
+            {
+                paletteMode = preferredMode;
+                customPalette = null;
+            }
+
+            return;
+        }
 
         if (TryGetOwnerPalette(context?.Instance, out paletteMode, out customPalette)
             && paletteMode != PaletteMode.Global)
@@ -128,6 +146,8 @@ public static class KryptonDesignerEditorTheme
                     return;
                 }
 
+                KryptonDesignerEditorThemePreferences.SavePreferredPaletteMode(mode);
+
                 if (mode == PaletteMode.Global)
                 {
                     ApplyToForm(form, KryptonManager.CurrentGlobalPaletteMode,
@@ -164,6 +184,55 @@ public static class KryptonDesignerEditorTheme
         };
         WireThemeSelector(combo, form, initialMode, initialCustom);
         return combo;
+    }
+
+    /// <summary>
+    /// Shows the shared designer-editor settings dialog.
+    /// </summary>
+    /// <param name="owner">Optional owner window.</param>
+    /// <param name="applyToForm">
+    /// When set, the chosen preference is applied to this editor form after OK.
+    /// </param>
+    /// <returns><c>true</c> when the user confirmed changes.</returns>
+    public static bool ShowSettingsDialog(IWin32Window? owner = null, KryptonForm? applyToForm = null)
+    {
+        using var form = new VisualDesignerEditorSettingsForm();
+        if (form.ShowDialog(owner) != DialogResult.OK)
+        {
+            return false;
+        }
+
+        if (applyToForm is not null)
+        {
+            ApplyPreferredOrFallback(applyToForm);
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// Applies the saved editor theme preference to a form, or the current global palette when none is saved.
+    /// </summary>
+    /// <param name="form">Editor form to restyle.</param>
+    public static void ApplyPreferredOrFallback(KryptonForm form)
+    {
+        if (KryptonDesignerEditorThemePreferences.TryGetPreferredPaletteMode(out var preferredMode))
+        {
+            if (preferredMode == PaletteMode.Global)
+            {
+                ApplyToForm(form, KryptonManager.CurrentGlobalPaletteMode,
+                    KryptonManager.CurrentGlobalPalette as KryptonCustomPaletteBase);
+            }
+            else
+            {
+                ApplyToForm(form, preferredMode, null);
+            }
+
+            return;
+        }
+
+        ApplyToForm(form, KryptonManager.CurrentGlobalPaletteMode,
+            KryptonManager.CurrentGlobalPalette as KryptonCustomPaletteBase);
     }
     #endregion
 

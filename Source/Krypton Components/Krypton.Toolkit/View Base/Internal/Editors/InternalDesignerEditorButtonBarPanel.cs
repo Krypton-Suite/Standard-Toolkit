@@ -17,9 +17,8 @@ namespace Krypton.Toolkit;
 internal partial class InternalDesignerEditorButtonBarPanel : KryptonPanel
 {
     #region Instance Fields
-    
     private KryptonForm? _ownerForm;
-
+    private bool _themeSettingsWired;
     #endregion
 
     #region Identity
@@ -32,6 +31,7 @@ internal partial class InternalDesignerEditorButtonBarPanel : KryptonPanel
         PanelBackStyle = PaletteBackStyle.PanelAlternate;
         Dock = DockStyle.Bottom;
         Height = 52;
+        kbtnThemeSettings.Values.Text = KryptonManager.Strings.EditorSettingStrings.DesignerEditorThemeButtonText;
     }
     #endregion
 
@@ -52,6 +52,11 @@ internal partial class InternalDesignerEditorButtonBarPanel : KryptonPanel
     public KryptonThemeComboBox ThemeCombo => kcmbTheme;
 
     /// <summary>
+    /// Gets the compact theme settings button used when the combo is hidden.
+    /// </summary>
+    public KryptonButton ThemeSettingsButton => kbtnThemeSettings;
+
+    /// <summary>
     /// Gets the host for additional footer buttons (for example Delete).
     /// </summary>
     public FlowLayoutPanel ExtraButtonHost => flpExtraButtons;
@@ -59,11 +64,19 @@ internal partial class InternalDesignerEditorButtonBarPanel : KryptonPanel
     /// <summary>
     /// Gets or sets whether the local theme selector is shown.
     /// </summary>
+    /// <remarks>
+    /// When <c>false</c> (Visual Studio 2022), a compact <c>Theme...</c> button is shown instead
+    /// so users can still open the shared designer-editor settings dialog.
+    /// </remarks>
     [DefaultValue(true)]
     public bool IncludeThemeSelector
     {
         get => kcmbTheme.Visible;
-        set => kcmbTheme.Visible = value;
+        set
+        {
+            kcmbTheme.Visible = value;
+            kbtnThemeSettings.Visible = !value;
+        }
     }
 
     /// <summary>
@@ -81,6 +94,10 @@ internal partial class InternalDesignerEditorButtonBarPanel : KryptonPanel
                 owner,
                 owner.PaletteMode,
                 owner.LocalCustomPalette);
+        }
+        else
+        {
+            WireThemeSettingsButton(owner);
         }
 
         LayoutFooterButtons();
@@ -100,6 +117,11 @@ internal partial class InternalDesignerEditorButtonBarPanel : KryptonPanel
             button.Size = buttonSize;
             button.MinimumSize = buttonSize;
         }
+
+        var settingsSize = KryptonDesignerEditorDpi.Scale(owner, new Size(90, 28));
+        kbtnThemeSettings.AutoSize = false;
+        kbtnThemeSettings.Size = settingsSize;
+        kbtnThemeSettings.MinimumSize = settingsSize;
 
         Height = KryptonDesignerEditorDpi.Scale(owner, 52);
         LayoutFooterButtons();
@@ -125,6 +147,7 @@ internal partial class InternalDesignerEditorButtonBarPanel : KryptonPanel
     #region Implementation
     private int ScaleDesign(int designPixels) =>
         _ownerForm is not null ? KryptonDesignerEditorDpi.Scale(_ownerForm, designPixels) : designPixels;
+
     private IEnumerable<KryptonButton> GetFooterButtons()
     {
         yield return kbtnOk;
@@ -136,6 +159,18 @@ internal partial class InternalDesignerEditorButtonBarPanel : KryptonPanel
                 yield return button;
             }
         }
+    }
+
+    private void WireThemeSettingsButton(KryptonForm owner)
+    {
+        if (_themeSettingsWired)
+        {
+            return;
+        }
+
+        kbtnThemeSettings.Click += (_, _) =>
+            KryptonDesignerEditorTheme.ShowSettingsDialog(owner, owner);
+        _themeSettingsWired = true;
     }
 
     private void LayoutFooterButtons()
@@ -155,6 +190,10 @@ internal partial class InternalDesignerEditorButtonBarPanel : KryptonPanel
         {
             kcmbTheme.Location = new Point(padding, buttonTop);
             kcmbTheme.Size = new Size(Math.Min(themeWidth, Math.Max(buttonHeight, ClientSize.Width / 2)), buttonHeight);
+        }
+        else if (kbtnThemeSettings.Visible)
+        {
+            kbtnThemeSettings.Location = new Point(padding, buttonTop);
         }
 
         var right = padding;
