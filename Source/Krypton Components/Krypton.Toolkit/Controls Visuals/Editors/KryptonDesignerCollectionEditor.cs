@@ -28,63 +28,64 @@ public abstract class KryptonDesignerCollectionEditor : CollectionEditor
     #endregion
 
     #region Internal
-        /// <summary>
-        /// Gets the designer context for the current edit session.
-        /// </summary>
-        internal ITypeDescriptorContext? DesignerContext => Context;
 
-        /// <summary>
-        /// Extracts the items from the collection instance being edited.
-        /// </summary>
-        /// <param name="editValue">Collection instance.</param>
-        /// <returns>Items in the collection.</returns>
-        internal object[]? ExtractItems(object? editValue) => editValue is null ? null : GetItems(editValue);
+    /// <summary>
+    /// Gets the designer context for the current edit session.
+    /// </summary>
+    internal ITypeDescriptorContext? DesignerContext => Context;
 
-        /// <summary>
-        /// Creates a new collection item instance.
-        /// </summary>
-        /// <param name="itemType">Type of item to create.</param>
-        /// <returns>New item instance.</returns>
-        internal object CreateDesignerInstance(Type itemType) => CreateInstance(itemType);
+    /// <summary>
+    /// Extracts the items from the collection instance being edited.
+    /// </summary>
+    /// <param name="editValue">Collection instance.</param>
+    /// <returns>Items in the collection.</returns>
+    internal object[]? ExtractItems(object? editValue) => editValue is null ? null : GetItems(editValue);
 
-        /// <summary>
-        /// Destroys a collection item instance.
-        /// </summary>
-        /// <param name="instance">Instance to destroy.</param>
-        internal void DestroyDesignerInstance(object instance) => DestroyInstance(instance);
+    /// <summary>
+    /// Creates a new collection item instance.
+    /// </summary>
+    /// <param name="itemType">Type of item to create.</param>
+    /// <returns>New item instance.</returns>
+    internal object CreateDesignerInstance(Type itemType) => CreateInstance(itemType);
 
-        /// <summary>
-        /// Gets the requested designer service.
-        /// </summary>
-        /// <param name="serviceType">Type of service to retrieve.</param>
-        /// <returns>Service instance if available.</returns>
-        internal object? GetDesignerService(Type serviceType) => Context?.GetService(serviceType);
+    /// <summary>
+    /// Destroys a collection item instance.
+    /// </summary>
+    /// <param name="instance">Instance to destroy.</param>
+    internal void DestroyDesignerInstance(object instance) => DestroyInstance(instance);
 
-        /// <summary>
-        /// Writes the edited items into the collection instance.
-        /// </summary>
-        /// <param name="editValue">Collection instance.</param>
-        /// <param name="items">Updated items.</param>
-        /// <returns>Updated collection instance.</returns>
-        internal object? ApplyDesignerItems(object? editValue, object[] items) => SetItems(editValue, items);
+    /// <summary>
+    /// Gets the requested designer service.
+    /// </summary>
+    /// <param name="serviceType">Type of service to retrieve.</param>
+    /// <returns>Service instance if available.</returns>
+    internal object? GetDesignerService(Type serviceType) => Context?.GetService(serviceType);
 
-        /// <summary>
-        /// Gets the display text for a collection item.
-        /// </summary>
-        /// <param name="value">Collection item.</param>
-        /// <returns>Display text.</returns>
-        internal string GetDesignerDisplayText(object? value) => GetDisplayText(value!);
+    /// <summary>
+    /// Writes the edited items into the collection instance.
+    /// </summary>
+    /// <param name="editValue">Collection instance.</param>
+    /// <param name="items">Updated items.</param>
+    /// <returns>Updated collection instance.</returns>
+    internal object? ApplyDesignerItems(object? editValue, object[] items) => SetItems(editValue, items);
 
-        /// <summary>
-        /// Gets the item types that can be created in the collection editor.
-        /// </summary>
-        /// <returns>Creatable item types.</returns>
-        internal Type[] GetDesignerNewItemTypes() => CreateNewItemTypes();
+    /// <summary>
+    /// Gets the display text for a collection item.
+    /// </summary>
+    /// <param name="value">Collection item.</param>
+    /// <returns>Display text.</returns>
+    internal string GetDesignerDisplayText(object? value) => GetDisplayText(value!);
 
-        /// <summary>
-        /// Gets the collection item type edited by this editor.
-        /// </summary>
-        internal Type DesignerCollectionItemType => CollectionType;
+    /// <summary>
+    /// Gets the item types that can be created in the collection editor.
+    /// </summary>
+    /// <returns>Creatable item types.</returns>
+    internal Type[] GetDesignerNewItemTypes() => CreateNewItemTypes();
+
+    /// <summary>
+    /// Gets the collection item type edited by this editor.
+    /// </summary>
+    internal Type DesignerCollectionItemType => CollectionType;
     
         #endregion
 
