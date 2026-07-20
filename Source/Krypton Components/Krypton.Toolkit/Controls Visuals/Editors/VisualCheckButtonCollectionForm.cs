@@ -1,0 +1,207 @@
+﻿#region BSD License
+/*
+ * 
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
+ *  
+ */
+#endregion
+
+namespace Krypton.Toolkit;
+
+internal partial class VisualCheckButtonCollectionForm : KryptonForm
+{
+    #region Type Definitions
+    private class ListEntry
+    {
+        #region Identity
+        /// <summary>
+        /// Initialize a new instance of the ListEntry class.
+        /// </summary>
+        /// <param name="checkButton">CheckButton to encapsulate.</param>
+        public ListEntry([DisallowNull] KryptonCheckButton checkButton)
+        {
+            Debug.Assert(checkButton is not null);
+
+            CheckButton = checkButton ?? throw new ArgumentNullException(nameof(checkButton));
+        }
+
+        /// <summary>
+        /// Gets a string representation of the encapsulated check button.
+        /// </summary>
+        /// <returns>String instance.</returns>
+        public override string ToString() => $"{CheckButton.Site!.Name}  (Text: {CheckButton.Text})";
+
+        #endregion
+
+        #region Public
+        /// <summary>
+        /// Gets access to the encapsulated check button instance.
+        /// </summary>
+        public KryptonCheckButton CheckButton { get; }
+
+        #endregion
+    }
+    #endregion
+
+    #region Instance Fields
+    private readonly KryptonCheckSet? _checkSet;
+    #endregion
+
+    #region Identity
+    /// <summary>
+    /// Initialize a new instance of the KryptonCheckButtonCollectionForm class for the WinForms designer.
+    /// </summary>
+    public VisualCheckButtonCollectionForm()
+    {
+        SetInheritedControlOverride();
+        InitializeComponent();
+        ConfigureDesignerChrome();
+    }
+
+    /// <summary>
+    /// Initialize a new instance of the KryptonCheckButtonCollectionForm class.
+    /// </summary>
+    public VisualCheckButtonCollectionForm(KryptonCheckSet? checkSet)
+    {
+        SetInheritedControlOverride();
+        _checkSet = checkSet;
+
+        InitializeComponent();
+        ConfigureDesignerChrome();
+    }
+    #endregion
+
+    #region Protected
+    /// <inheritdoc />
+    protected override void OnLoad(EventArgs e)
+    {
+        KryptonDesignerEditorDpi.Configure(this);
+        base.OnLoad(e);
+    }
+
+    /// <inheritdoc />
+    protected override void OnShown(EventArgs e)
+    {
+        base.OnShown(e);
+        KryptonDesignerEditorDpi.ApplyOnShown(this);
+    }
+    #endregion
+
+    #region Implementation
+    private void ConfigureDesignerChrome()
+    {
+        InternalDesignerEditorFormChrome.Apply(this, kpnlContent, kpnlButtonBar);
+        kpnlButtonBar.OkButton.Values.Text = KryptonManager.Strings.GeneralStrings.OK;
+        kpnlButtonBar.CancelButton.Values.Text = KryptonManager.Strings.GeneralStrings.Cancel;
+        kpnlButtonBar.OkButton.Click += buttonOK_Click;
+    }
+
+    private void KryptonCheckButtonCollectionForm_Load(object sender, EventArgs e)
+    {
+        ApplyOwnerPalette();
+
+        // Get access to the container of the check set
+        IContainer container = _checkSet!.Container!;
+
+        // Assuming we manage to find a container
+        if (container != null)
+        {
+            // Find all the check buttons inside the container
+            foreach (var obj in container.Components)
+            {
+                // Cast to the correct type
+                // We are only interested in check buttons
+                if (obj is KryptonCheckButton checkButton)
+                {
+
+                    // Add a new entry to the list box but only check it if 
+                    // it is already present in the check buttons collection
+                    var index = checkedListBox.Items.Add(new ListEntry(checkButton));
+                    checkedListBox.SetItemChecked(index, _checkSet.CheckButtons.Contains(checkButton));
+                }
+            }
+        }
+
+        if (checkedListBox.Items.Count > 0)
+        {
+            checkedListBox.SelectedIndex = 0;
+        }
+
+        checkedListBox.Focus();
+    }
+
+    private void buttonOK_Click(object? sender, EventArgs e)
+    {
+        // Create a copy of the current check set buttons
+        var copy = new List<KryptonCheckButton>();
+        foreach (KryptonCheckButton checkButton in _checkSet!.CheckButtons)
+        {
+            copy.Add(checkButton);
+        }
+
+        // Process each of the list entries in turn
+        for(var i=0; i<checkedListBox.Items.Count; i++)
+        {
+            // Get access to the encapsulated list box entry
+            var entry = (ListEntry)checkedListBox.Items[i];
+
+            // Is this entry checked in the list box?
+            if (checkedListBox.GetItemChecked(i))
+            {
+                // Make sure the check button is in the check set
+                if (!_checkSet.CheckButtons.Contains(entry.CheckButton))
+                {
+                    _checkSet.CheckButtons.Add(entry.CheckButton);
+                }
+                else
+                {
+                    copy.Remove(entry.CheckButton);
+                }
+            }
+            else
+            {
+                // Make sure the check button is not in the check set
+                if (_checkSet.CheckButtons.Contains(entry.CheckButton))
+                {
+                    _checkSet.CheckButtons.Remove(entry.CheckButton);
+                    copy.Remove(entry.CheckButton);
+                }
+            }
+        }
+
+        // If there are any dangling references in the checkset that are
+        // not in the component list from the list box then remove them
+        foreach(KryptonCheckButton checkButton in copy)
+        {
+            _checkSet.CheckButtons.Remove(checkButton);
+        }
+    }
+
+    private void ApplyOwnerPalette()
+    {
+        if (_checkSet?.Container is IContainer container)
+        {
+            foreach (var component in container.Components)
+            {
+                if (component is VisualControlBase visualControl)
+                {
+                    var mode = visualControl.PaletteMode;
+                    var custom = visualControl.LocalCustomPalette;
+                    if (mode == PaletteMode.Global)
+                    {
+                        mode = KryptonManager.CurrentGlobalPaletteMode;
+                        custom = KryptonManager.CurrentGlobalPalette as KryptonCustomPaletteBase;
+                    }
+
+                    KryptonDesignerEditorTheme.ApplyToForm(this, mode, custom);
+                    return;
+                }
+            }
+        }
+
+        KryptonDesignerEditorTheme.ApplyToForm(this, KryptonManager.CurrentGlobalPaletteMode,
+            KryptonManager.CurrentGlobalPalette as KryptonCustomPaletteBase);
+    }
+    #endregion
+}

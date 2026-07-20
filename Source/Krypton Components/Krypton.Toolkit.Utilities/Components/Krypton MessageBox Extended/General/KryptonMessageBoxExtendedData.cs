@@ -53,6 +53,10 @@ public struct KryptonMessageBoxExtendedData
     /// <value>The show control copy.</value>
     public bool? ShowCtrlCopy { get; set; }
 
+    /// <summary>Gets or sets a value indicating whether an optional Copy button is shown that copies the message box contents to the clipboard.</summary>
+    /// <value>The show copy button.</value>
+    public bool? ShowCopyButton { get; set; }
+
     /// <summary>Gets or sets the show help button.</summary>
     /// <value>The show help button.</value>
     public bool? ShowHelpButton { get; set; }
@@ -71,6 +75,7 @@ public struct KryptonMessageBoxExtendedData
 
     /// <summary>Gets or sets the application image.</summary>
     /// <value>The application image.</value>
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? ApplicationImage { get; set; }
 
     /// <summary>Gets or sets the application path.</summary>
@@ -142,6 +147,10 @@ public struct KryptonMessageBoxExtendedData
     #region Extended
 
     public bool ShowMoreDetailsOption { get; set; }
+
+    /// <summary>Gets or sets a value indicating whether the "more details" footer starts expanded.</summary>
+    /// <value><c>true</c> to show the details region expanded on open; otherwise, <c>false</c> (collapsed).</value>
+    public bool MoreDetailsExpanded { get; set; }
 
     public PaletteRelativeAlign? RichTextBoxTextAlignment { get; set; }
 

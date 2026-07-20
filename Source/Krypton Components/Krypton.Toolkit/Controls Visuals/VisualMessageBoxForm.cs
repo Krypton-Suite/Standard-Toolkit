@@ -55,7 +55,8 @@ internal partial class VisualMessageBoxForm : KryptonForm
         KryptonMessageBoxDefaultButton defaultButton,
         HelpInfo? helpInfo, bool? showCtrlCopy,
         bool? showHelpButton,
-        bool? showCloseButton)
+        bool? showCloseButton,
+        bool? showCopyButton)
     {
         //SetInheritedControlOverride(); // Disabled as part of issue #2296. See the issue for details.
         // Store incoming values
@@ -96,6 +97,7 @@ internal partial class VisualMessageBoxForm : KryptonForm
         UpdateButtons();
         UpdateDefault();
         UpdateHelp();
+        UpdateCopyButton(showCopyButton);
         UpdateTextExtra(showCtrlCopy);
         // Finally calculate and set form sizing
         UpdateSizing(showOwner);
@@ -506,6 +508,27 @@ internal partial class VisualMessageBoxForm : KryptonForm
         }
     }
 
+    private void UpdateCopyButton(bool? showCopyButton)
+    {
+        if (showCopyButton != true)
+        {
+            return;
+        }
+
+        _copyButton.Text = KryptonManager.Strings.MessageBoxStrings.CopyToClipboard;
+        _copyButton.Visible = true;
+        _copyButton.Enabled = true;
+        // No DialogResult is assigned so clicking Copy leaves the message box open.
+        _copyButton.Click += OnCopyButtonClick;
+
+        if (!ControlBox)
+        {
+            _copyButton.IgnoreAltF4 = true;
+        }
+    }
+
+    private void OnCopyButtonClick(object? sender, EventArgs e) => CopyMessageBoxContentToClipboard();
+
     /// <summary>
     /// When the user clicks the Help button, the Help file specified in the helpFilePath parameter
     /// is opened and the Help keyword topic identified by the keyword parameter is Displayed.
@@ -608,9 +631,12 @@ internal partial class VisualMessageBoxForm : KryptonForm
     {
         var numButtons = 1;
 
+        //Maximum width "Try Again" 62px
+        var minButtonWith = 62;
+
         // Button1 is always visible
         Size button1Size = _button1.GetPreferredSize(Size.Empty);
-        var maxButtonSize = button1Size with { Width = button1Size.Width + GlobalStaticConstants.GLOBAL_BUTTON_PADDING };
+        var maxButtonSize = button1Size with { Width = Math.Max(minButtonWith, button1Size.Width) + GlobalStaticConstants.GLOBAL_BUTTON_PADDING };
 
         // If Button2 is visible
         if (_button2.Enabled)
@@ -671,11 +697,28 @@ internal partial class VisualMessageBoxForm : KryptonForm
         _button1.Location = new Point(right - maxButtonSize.Width, GlobalStaticConstants.GLOBAL_BUTTON_PADDING);
         _button1.Size = maxButtonSize;
 
-        // Size the panel for the buttons
-        _panelButtons.Size = new Size((maxButtonSize.Width * numButtons) + (GlobalStaticConstants.GLOBAL_BUTTON_PADDING * (numButtons + 1)), maxButtonSize.Height + (GlobalStaticConstants.GLOBAL_BUTTON_PADDING * 2));
-
         // Button area is the number of buttons with gaps between them and 10 pixels around all edges
-        return new Size((maxButtonSize.Width * numButtons) + (GlobalStaticConstants.GLOBAL_BUTTON_PADDING * (numButtons + 1)), maxButtonSize.Height + (GlobalStaticConstants.GLOBAL_BUTTON_PADDING * 2));
+        var buttonsAreaWidth = (maxButtonSize.Width * numButtons) + (GlobalStaticConstants.GLOBAL_BUTTON_PADDING * (numButtons + 1));
+
+        // The optional Copy button is anchored to the left edge, opposite the action buttons
+        if (_copyButton.Enabled)
+        {
+            Size copyPreferredSize = _copyButton.GetPreferredSize(Size.Empty);
+            var copyButtonSize = new Size(Math.Max(maxButtonSize.Width, copyPreferredSize.Width + GlobalStaticConstants.GLOBAL_BUTTON_PADDING), maxButtonSize.Height);
+
+            _copyButton.Location = new Point(GlobalStaticConstants.GLOBAL_BUTTON_PADDING, GlobalStaticConstants.GLOBAL_BUTTON_PADDING);
+            _copyButton.Size = copyButtonSize;
+
+            // Widen the area so the Copy button never overlaps the action buttons
+            buttonsAreaWidth += copyButtonSize.Width + (GlobalStaticConstants.GLOBAL_BUTTON_PADDING * 2);
+        }
+
+        var buttonsAreaSize = new Size(buttonsAreaWidth, maxButtonSize.Height + (GlobalStaticConstants.GLOBAL_BUTTON_PADDING * 2));
+
+        // Size the panel for the buttons
+        _panelButtons.Size = buttonsAreaSize;
+
+        return buttonsAreaSize;
     }
 
     private void OnFormClosed(object sender, FormClosedEventArgs e)
@@ -694,37 +737,46 @@ internal partial class VisualMessageBoxForm : KryptonForm
         }
         else if (e.KeyData == (Keys.Control | Keys.C))
         {
-            const string DIVIDER = @"---------------------------";
-            const string BUTTON_TEXT_SPACER = @"   ";
             // Pressing Ctrl+C should copy message text into the clipboard
-            var sb = new StringBuilder();
+            CopyMessageBoxContentToClipboard();
+        }
+    }
 
-            sb.AppendLine(DIVIDER);
-            sb.AppendLine(Text);
-            sb.AppendLine(DIVIDER);
-            sb.AppendLine(krtbMessageText.Text);
-            sb.AppendLine(DIVIDER);
-            sb.Append(_button1.Text).Append(BUTTON_TEXT_SPACER);
-            if (_button2.Enabled)
+    /// <summary>
+    /// Copies the caption, message text and button captions to the clipboard using the standard
+    /// Windows message box format. Shared by the Ctrl+C shortcut and the optional Copy button.
+    /// </summary>
+    private void CopyMessageBoxContentToClipboard()
+    {
+        const string DIVIDER = @"---------------------------";
+        const string BUTTON_TEXT_SPACER = @"   ";
+        var sb = new StringBuilder();
+
+        sb.AppendLine(DIVIDER);
+        sb.AppendLine(Text);
+        sb.AppendLine(DIVIDER);
+        sb.AppendLine(krtbMessageText.Text);
+        sb.AppendLine(DIVIDER);
+        sb.Append(_button1.Text).Append(BUTTON_TEXT_SPACER);
+        if (_button2.Enabled)
+        {
+            sb.Append(_button2.Text).Append(BUTTON_TEXT_SPACER);
+            if (_button3.Enabled)
             {
-                sb.Append(_button2.Text).Append(BUTTON_TEXT_SPACER);
-                if (_button3.Enabled)
-                {
-                    sb.Append(_button3.Text).Append(BUTTON_TEXT_SPACER);
-                }
-
-                if (_button4.Enabled)
-                {
-                    sb.Append(_button4.Text).Append(BUTTON_TEXT_SPACER);
-                }
+                sb.Append(_button3.Text).Append(BUTTON_TEXT_SPACER);
             }
 
-            sb.AppendLine(string.Empty);
-            sb.AppendLine(DIVIDER);
-
-            Clipboard.SetText(sb.ToString(), TextDataFormat.Text);
-            Clipboard.SetText(sb.ToString(), TextDataFormat.UnicodeText);
+            if (_button4.Enabled)
+            {
+                sb.Append(_button4.Text).Append(BUTTON_TEXT_SPACER);
+            }
         }
+
+        sb.AppendLine(string.Empty);
+        sb.AppendLine(DIVIDER);
+
+        Clipboard.SetText(sb.ToString(), TextDataFormat.Text);
+        Clipboard.SetText(sb.ToString(), TextDataFormat.UnicodeText);
     }
 
     private void ShowCloseButton(bool? showCloseButton) => CloseBox = showCloseButton ?? true;

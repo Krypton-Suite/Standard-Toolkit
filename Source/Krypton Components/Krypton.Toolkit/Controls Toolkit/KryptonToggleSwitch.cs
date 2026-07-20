@@ -1,9 +1,6 @@
 ﻿#region BSD License
 /*
  *
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2025 - 2026. All rights reserved.
  *
@@ -18,14 +15,13 @@ namespace Krypton.Toolkit;
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(KryptonToggleSwitch), "ToolboxBitmaps.KryptonToggleButton.bmp")]
 [DefaultEvent(nameof(CheckedChanged))]
-[DefaultProperty(nameof(Checked))]
+[DefaultProperty(nameof(ToggleSwitchValues.Checked))]
 [DesignerCategory("code")]
 [Description("A toggle switch control.")]
 public class KryptonToggleSwitch : Control, IContentValues
 {
     #region Instance Fields
 
-    private bool _checked;
     private bool _isTracking;
     private bool _isPressed;
     private bool _isDragging;
@@ -105,29 +101,6 @@ public class KryptonToggleSwitch : Control, IContentValues
 
     private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
 
-    /// <summary>Gets or sets a value indicating whether this <see cref="KryptonToggleSwitch" /> is checked.</summary>
-    /// <value><c>true</c> if checked; otherwise, <c>false</c>.</value>
-    [Category("Behavior")]
-    [Description("Indicates whether the toggle switch is checked.")]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public bool Checked
-    {
-        get => _checked;
-        set
-        {
-            if (_checked != value)
-            {
-                _checked = value;
-
-                _animationTimer.Start();
-                StartAnimation();
-                Invalidate();
-
-                CheckedChanged?.Invoke(this, EventArgs.Empty);
-            }
-        }
-    }
-
     /// <summary>Gets or sets the toggle switch values.</summary>
     /// <value>The toggle switch values.</value>
     [Category("Visuals")]
@@ -192,13 +165,23 @@ public class KryptonToggleSwitch : Control, IContentValues
 
         ToggleSwitchValues = new ToggleSwitchValues { OffColor = Color.Red, OnColor = Color.Green };
 
+        // Cache the current global palette setting
+        _palette = KryptonManager.CurrentGlobalPalette;
+
+        // Hook into palette events
+        if (_palette != null)
+        {
+            _palette.PalettePaintInternal += OnPalettePaint;
+        }
+
+        // We want to be notified whenever the global palette changes
         KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
 
-        // Initialize PaletteRedirect with a default context
-        PaletteRedirect redirector = new PaletteRedirect(KryptonManager.CurrentGlobalPalette);
+        // Create redirection object to the base palette
+        _paletteRedirect = new PaletteRedirect(_palette);
 
         // Default state configuration
-        StateCommon = new PaletteTripleRedirect(redirector, PaletteBackStyle.ButtonStandalone, PaletteBorderStyle.ButtonStandalone, PaletteContentStyle.ButtonStandalone);
+        StateCommon = new PaletteTripleRedirect(_paletteRedirect, PaletteBackStyle.ButtonStandalone, PaletteBorderStyle.ButtonStandalone, PaletteContentStyle.ButtonStandalone);
         StateDisabled = new PaletteTriple(StateCommon, OnNeedPaintHandler);
         StateNormal = new PaletteTriple(StateCommon, OnNeedPaintHandler);
         StatePressed = new PaletteTriple(StateCommon, OnNeedPaintHandler);
@@ -267,7 +250,7 @@ public class KryptonToggleSwitch : Control, IContentValues
         if (e.Button == MouseButtons.Left)
         {
             // Toggle regardless of where the user clicks
-            Checked = !Checked;
+            ToggleSwitchValues.Checked = !ToggleSwitchValues.Checked;
         }
 
         Invalidate();
@@ -303,13 +286,13 @@ public class KryptonToggleSwitch : Control, IContentValues
 
             // Determine final state based on knob's position
             float midpoint = (Width - _knobSize) / 2f;
-            Checked = _animationPosition >= midpoint;
+            ToggleSwitchValues.Checked = _animationPosition >= midpoint;
         }
         else if (_isPressed)
         {
             // Toggle state on simple click
             _isPressed = false;
-            Checked = !Checked;
+            ToggleSwitchValues.Checked = !ToggleSwitchValues.Checked;
         }
 
         Invalidate();
@@ -326,13 +309,12 @@ public class KryptonToggleSwitch : Control, IContentValues
             e.KeyCode == Keys.End || e.KeyCode == Keys.PageUp || e.KeyCode == Keys.PageDown ||
             e.KeyCode == Keys.Left || e.KeyCode == Keys.Right)
         {
-            Checked = !Checked;
+            ToggleSwitchValues.Checked = !ToggleSwitchValues.Checked;
             stateChanged = true;
         }
 
         if (stateChanged)
         {
-            StartAnimation(); // Smooth animation for keyboard changes
             Invalidate();
         }
     }
@@ -419,7 +401,7 @@ public class KryptonToggleSwitch : Control, IContentValues
     /// <summary>Starts the animation.</summary>
     private void StartAnimation()
     {
-        _animationPosition = Checked ? _padding : Width - _knobSize - _padding;
+        _animationPosition = ToggleSwitchValues.Checked ? _padding : Width - _knobSize - _padding;
         _animationTimer.Start();
     }
 
@@ -443,7 +425,7 @@ public class KryptonToggleSwitch : Control, IContentValues
         float knobDiameter = _knobSize;
 
         // Adjust x-position based on RTL
-        float x = Checked ? Width - knobDiameter - _padding : _padding;
+        float x = ToggleSwitchValues.Checked ? Width - knobDiameter - _padding : _padding;
 
         float y = (Height - knobDiameter) / 2f;
 
@@ -591,14 +573,14 @@ public class KryptonToggleSwitch : Control, IContentValues
             Color knobColor;
             if (ToggleSwitchValues.UseThemeColors && KryptonManager.CurrentGlobalPalette != null && !ToggleSwitchValues.OnlyShowColorOnKnob)
             {
-                knobColor = Checked ? state.PaletteBack.GetBackColor1(PaletteState.Pressed)
+                knobColor = ToggleSwitchValues.Checked ? state.PaletteBack.GetBackColor1(PaletteState.Pressed)
                     : _isTracking
                         ? state.PaletteBack.GetBackColor1(PaletteState.Tracking)
                         : state.PaletteBack.GetBackColor2(PaletteState.Normal);
             }
             else
             {
-                knobColor = Checked ? ToggleSwitchValues.OnColor : ToggleSwitchValues.OffColor;
+                knobColor = ToggleSwitchValues.Checked ? ToggleSwitchValues.OnColor : ToggleSwitchValues.OffColor;
             }
 
             using (SolidBrush knobBrush = new SolidBrush(knobColor))
@@ -627,17 +609,17 @@ public class KryptonToggleSwitch : Control, IContentValues
         Color textColor;
         if (ToggleSwitchValues.UseThemeColors && KryptonManager.CurrentGlobalPalette != null)
         {
-            textColor = Checked
+            textColor = ToggleSwitchValues.Checked
                 ? KryptonManager.CurrentGlobalPalette.GetContentShortTextColor1(PaletteContentStyle.ButtonStandalone, PaletteState.CheckedNormal)
                 : KryptonManager.CurrentGlobalPalette.GetContentShortTextColor1(PaletteContentStyle.ButtonStandalone, PaletteState.Normal);
         }
         else
         {
-            textColor = Checked ? ToggleSwitchValues.OnColor : ToggleSwitchValues.OffColor;
+            textColor = ToggleSwitchValues.Checked ? ToggleSwitchValues.OnColor : ToggleSwitchValues.OffColor;
         }
 
         // Determine the text content
-        string text = Checked ? KryptonManager.Strings.CustomStrings.On : KryptonManager.Strings.CustomStrings.Off;
+        string text = ToggleSwitchValues.Checked ? KryptonManager.Strings.CustomStrings.On : KryptonManager.Strings.CustomStrings.Off;
 
         // Define font and measure text size
         float fontSize = Height / 3f;
@@ -654,7 +636,7 @@ public class KryptonToggleSwitch : Control, IContentValues
                 float knobEdge = _animationPosition + _knobSize + textPadding;
 
                 // Ensure text remains within bounds
-                textX = Checked ? _padding : Math.Min(Width - textSize.Width - _padding, knobEdge);
+                textX = ToggleSwitchValues.Checked ? _padding : Math.Min(Width - textSize.Width - _padding, knobEdge);
                    
                 float textY = (Height - textSize.Height) / 2f; // Center text vertically
 
@@ -723,7 +705,7 @@ public class KryptonToggleSwitch : Control, IContentValues
     private void OnAnimationTimerTick(object? sender, EventArgs e)
     {
         // Determine the correct position for animation
-        float targetPosition = Checked ? Width - _knobSize - _padding : _padding;
+        float targetPosition = ToggleSwitchValues.Checked ? Width - _knobSize - _padding : _padding;
 
         float step = 0.1f; // Adjust for smoothness
 
@@ -740,7 +722,17 @@ public class KryptonToggleSwitch : Control, IContentValues
 
     private float Lerp(float start, float end, float amount) => start + (end - start) * amount;
 
-    private void OnToggleSwitchValuesChanged(object? sender, PropertyChangedEventArgs e) => Invalidate();
+    private void OnToggleSwitchValuesChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(ToggleSwitchValues.Checked))
+        {
+            _animationTimer.Start();
+            StartAnimation();
+            CheckedChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        Invalidate();
+    }
 
     #endregion
 

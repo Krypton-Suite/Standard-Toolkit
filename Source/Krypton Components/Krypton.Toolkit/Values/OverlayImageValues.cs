@@ -69,6 +69,7 @@ public class OverlayImageValues : Storage
     [Description(@"Overlay image to display on top of the main image.")]
     [RefreshProperties(RefreshProperties.All)]
     [DefaultValue(null)]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;

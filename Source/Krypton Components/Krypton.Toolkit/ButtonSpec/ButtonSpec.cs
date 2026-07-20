@@ -178,6 +178,7 @@ public abstract class ButtonSpec : Component,
     [Localizable(true)]
     [Category(@"Appearance")]
     [Description(@"Button image.")]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;
@@ -239,6 +240,7 @@ public abstract class ButtonSpec : Component,
     [Localizable(true)]
     [Category(@"Appearance")]
     [Description(@"Button text.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     public string Text
     {
@@ -264,6 +266,7 @@ public abstract class ButtonSpec : Component,
     [Localizable(true)]
     [Category(@"Appearance")]
     [Description(@"Button extra text.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     public string ExtraText
     {
@@ -290,6 +293,7 @@ public abstract class ButtonSpec : Component,
     [Category(@"ToolTip")]
     [Description(@"Button tooltip image.")]
     [DefaultValue(null)]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? ToolTipImage
     {
         get => _toolTipImage;
@@ -339,6 +343,7 @@ public abstract class ButtonSpec : Component,
     [Localizable(true)]
     [Category(@"ToolTip")]
     [Description(@"Button tooltip title text.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [DefaultValue(@"")]
     public string ToolTipTitle
@@ -365,6 +370,7 @@ public abstract class ButtonSpec : Component,
     [Localizable(true)]
     [Category(@"ToolTip")]
     [Description(@"Button tooltip body text.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [DefaultValue(@"")]
     public string ToolTipBody

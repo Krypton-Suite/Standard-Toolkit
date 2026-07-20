@@ -56,6 +56,9 @@ public abstract class PaletteBase : Component
     public Font? CalendarFont;
     public Font? CalendarBoldFont;
     public Font? RibbonTabContextFont;
+    public Font? MenuStripFont;
+    public Font? ToolStripFont;
+    public Font? StatusStripFont;
 
     #endregion
 
@@ -359,6 +362,15 @@ public abstract class PaletteBase : Component
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Float rounding.</returns>
     public abstract float GetBorderRounding(PaletteBorderStyle style, PaletteState state);
+
+    /// <summary>
+    /// Gets the border corner rounding for each corner.
+    /// </summary>
+    /// <param name="style">Border style.</param>
+    /// <param name="state">Palette value should be applicable to this state.</param>
+    /// <returns>Per-corner rounding radii.</returns>
+    public virtual PaletteCornerRounding GetBorderCornerRounding(PaletteBorderStyle style, PaletteState state) =>
+        PaletteCornerRounding.Uniform(GetBorderRounding(style, state));
 
     /// <summary>
     /// Gets a border image.
@@ -1924,6 +1936,9 @@ public abstract class PaletteBase : Component
         BoldFont = new Font(baseFontName, baseFontSize, FontStyle.Bold);
         ItalicFont = new Font(baseFontName, baseFontSize, FontStyle.Italic);
         RibbonTabContextFont = new Font(RibbonTabFont, FontStyle.Bold);
+        MenuStripFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
+        ToolStripFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
+        StatusStripFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
     }
 
     protected virtual void DisposeFonts()
@@ -1946,6 +1961,9 @@ public abstract class PaletteBase : Component
         BoldFont?.Dispose();
         ItalicFont?.Dispose();
         RibbonTabContextFont?.Dispose();
+        MenuStripFont?.Dispose();
+        ToolStripFont?.Dispose();
+        StatusStripFont?.Dispose();
 
         Header1ShortFont = null;
         Header2ShortFont = null;
@@ -1965,6 +1983,9 @@ public abstract class PaletteBase : Component
         BoldFont = null;
         ItalicFont = null;
         RibbonTabContextFont = null;
+        MenuStripFont = null;
+        ToolStripFont = null;
+        StatusStripFont = null;
     }
 
     #endregion

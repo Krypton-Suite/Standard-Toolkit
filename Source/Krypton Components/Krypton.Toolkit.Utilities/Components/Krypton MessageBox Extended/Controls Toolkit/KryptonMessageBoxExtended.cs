@@ -27,19 +27,22 @@ public static class KryptonMessageBoxExtended
     /// <param name="countdownButtonSeconds">The duration in seconds for the countdown button. If null, uses the timeout value if available, otherwise defaults to 60.</param>
     /// <param name="countdownButtonDialogResult">The dialog result to return when the countdown button's countdown finishes. If null, uses the button's default DialogResult.</param>
     /// <param name="showCloseButton">Whether to show the close button on the message box form.</param>
+    /// <param name="showCopyButton">Shows an optional Copy button that copies the message box contents to the clipboard.</param>
     /// <returns></returns>
     public static DialogResult Show(string message, string caption, ExtendedMessageBoxButtons buttons,
         ExtendedKryptonMessageBoxIcon icon, bool? showCtrlCopy = null,
         ExtendedKryptonMessageBoxCountdownButton countdownButton = ExtendedKryptonMessageBoxCountdownButton.None,
         int? countdownButtonSeconds = null,
-        DialogResult? countdownButtonDialogResult = null, bool showCloseButton = true)
+        DialogResult? countdownButtonDialogResult = null, bool showCloseButton = true,
+        bool? showCopyButton = null)
         => ShowCore(null, message, caption, buttons, icon, KryptonMessageBoxDefaultButton.Button1,
             0, null, showCtrlCopy, null, null, null, null, null, null, null, null, null,
             null, null, null, null, null, ExtendedKryptonMessageBoxMessageContainerType.Normal,
             null, null, null, null,
             ContentAlignment.MiddleLeft, null, null, null, null, null,
             DialogResult.OK, showCloseButton, 
-            null, false, ExtendedKryptonMessageBoxFooterContentType.Text, null, countdownButton, countdownButtonSeconds, countdownButtonDialogResult);
+            null, false, ExtendedKryptonMessageBoxFooterContentType.Text, null, countdownButton, countdownButtonSeconds, countdownButtonDialogResult,
+            showCopyButton);
 
     /// <summary>Shows a <seealso cref="KryptonMessageBoxExtended"/>.</summary>
     /// <param name="messageText">The text.</param>
@@ -57,6 +60,7 @@ public static class KryptonMessageBoxExtended
     /// <param name="countdownButtonSeconds">The duration in seconds for the countdown button. If null, uses the timeout value if available, otherwise defaults to 60.</param>
     /// <param name="countdownButtonDialogResult">The dialog result to return when the countdown button's countdown finishes. If null, uses the button's default DialogResult.</param>
     /// <param name="showCloseButton">Whether to show the close button on the message box form.</param>
+    /// <param name="showCopyButton">Shows an optional Copy button that copies the message box contents to the clipboard.</param>
     public static DialogResult Show(string messageText, string caption, ExtendedMessageBoxButtons buttons,
         ExtendedKryptonMessageBoxIcon icon, bool? showCtrlCopy = null,
         ContentAlignment? messageTextAlignment = null,
@@ -65,13 +69,15 @@ public static class KryptonMessageBoxExtended
         DialogResult? timerResult = DialogResult.None,
         ExtendedKryptonMessageBoxCountdownButton countdownButton = ExtendedKryptonMessageBoxCountdownButton.None,
         int? countdownButtonSeconds = null,
-        DialogResult? countdownButtonDialogResult = null, bool showCloseButton = true) =>
+        DialogResult? countdownButtonDialogResult = null, bool showCloseButton = true,
+        bool? showCopyButton = null) =>
         ShowCore(null, messageText, caption, buttons, icon, KryptonMessageBoxDefaultButton.Button1,
             0, null, showCtrlCopy, null, null, null, null, null, null, null, null, null,
             null, null, null, null, null, ExtendedKryptonMessageBoxMessageContainerType.Normal,
             null, null, null, null,
             messageTextAlignment, null, messageTextBoxAlignment, useTimeOut, timeOut, timeOutInterval, timerResult,
-            showCloseButton, null, false, ExtendedKryptonMessageBoxFooterContentType.Text, null, countdownButton, countdownButtonSeconds, countdownButtonDialogResult);
+            showCloseButton, null, false, ExtendedKryptonMessageBoxFooterContentType.Text, null, countdownButton, countdownButtonSeconds, countdownButtonDialogResult,
+            showCopyButton);
 
     /// <summary>Shows a <seealso cref="KryptonMessageBoxExtended"/>.</summary>
     /// <param name="messageText">The text.</param>
@@ -96,6 +102,7 @@ public static class KryptonMessageBoxExtended
     /// <param name="countdownButtonSeconds">The duration in seconds for the countdown button. If null, uses the timeout value if available, otherwise defaults to 60.</param>
     /// <param name="countdownButtonDialogResult">The dialog result to return when the countdown button's countdown finishes. If null, uses the button's default DialogResult.</param>
     /// <param name="showCloseButton">Whether to show the close button on the message box form.</param>
+    /// <param name="showCopyButton">Shows an optional Copy button that copies the message box contents to the clipboard.</param>
     public static DialogResult Show(string messageText, string caption, ExtendedMessageBoxButtons buttons,
         ExtendedKryptonMessageBoxIcon icon, bool? showCtrlCopy = null,
         string? applicationPath = null,
@@ -111,7 +118,8 @@ public static class KryptonMessageBoxExtended
         DialogResult? timerResult = DialogResult.None,
         ExtendedKryptonMessageBoxCountdownButton countdownButton = ExtendedKryptonMessageBoxCountdownButton.None,
         int? countdownButtonSeconds = null,
-        DialogResult? countdownButtonDialogResult = null, bool showCloseButton = true)
+        DialogResult? countdownButtonDialogResult = null, bool showCloseButton = true,
+        bool? showCopyButton = null)
         => ShowCore(null, messageText, caption, buttons, icon, KryptonMessageBoxDefaultButton.Button1, 0,
             null, showCtrlCopy, null, null, null, Color.Empty,
             [Color.Empty, Color.Empty, Color.Empty, Color.Empty],
@@ -119,7 +127,8 @@ public static class KryptonMessageBoxExtended
             string.Empty, string.Empty, applicationPath, messageContainerType, linkLabelCommand,
             contentLinkArea, linkLaunchArgument, openInExplorer, messageTextAlignment, richTextBoxTextAlignment, messageTextBoxAlignment,
             useTimeOut, timeOut, timeOutInterval, timerResult,
-            showCloseButton, null, false, ExtendedKryptonMessageBoxFooterContentType.Text, null, countdownButton, countdownButtonSeconds, countdownButtonDialogResult);
+            showCloseButton, null, false, ExtendedKryptonMessageBoxFooterContentType.Text, null, countdownButton, countdownButtonSeconds, countdownButtonDialogResult,
+            showCopyButton);
 
     /// <summary>Shows a <seealso cref="KryptonMessageBoxExtended"/>.</summary>
     /// <param name="messageText">The text.</param>
@@ -149,6 +158,7 @@ public static class KryptonMessageBoxExtended
     /// <param name="countdownButtonSeconds">The duration in seconds for the countdown button. If null, uses the timeout value if available, otherwise defaults to 60.</param>
     /// <param name="countdownButtonDialogResult">The dialog result to return when the countdown button's countdown finishes. If null, uses the button's default DialogResult.</param>
     /// <param name="showCloseButton">Whether to show the close button on the message box form.</param>
+    /// <param name="showCopyButton">Shows an optional Copy button that copies the message box contents to the clipboard.</param>
     public static DialogResult Show(string messageText, string caption = @"",
         ExtendedMessageBoxButtons buttons = ExtendedMessageBoxButtons.OK,
         ExtendedKryptonMessageBoxIcon icon = ExtendedKryptonMessageBoxIcon.None,
@@ -172,7 +182,8 @@ public static class KryptonMessageBoxExtended
         DialogResult? timerResult = DialogResult.None,
         ExtendedKryptonMessageBoxCountdownButton countdownButton = ExtendedKryptonMessageBoxCountdownButton.None,
         int? countdownButtonSeconds = null,
-        DialogResult? countdownButtonDialogResult = null, bool showCloseButton = true)
+        DialogResult? countdownButtonDialogResult = null, bool showCloseButton = true,
+        bool? showCopyButton = null)
         =>
             ShowCore(null, messageText, caption, buttons, icon, defaultButton, options,
                 displayHelpButton ? new HelpInfo() : null, showCtrlCopy,
@@ -183,7 +194,8 @@ public static class KryptonMessageBoxExtended
                 messageContainerType, linkLabelCommand, contentLinkArea,
                 linkLaunchArgument, openInExplorer, messageTextAlignment, richTextBoxTextAlignment, messageTextBoxAlignment,
                 useTimeOut, timeOut, timeOutInterval, timerResult,
-                showCloseButton, null, false, ExtendedKryptonMessageBoxFooterContentType.Text, null, countdownButton, countdownButtonSeconds, countdownButtonDialogResult);
+                showCloseButton, null, false, ExtendedKryptonMessageBoxFooterContentType.Text, null, countdownButton, countdownButtonSeconds, countdownButtonDialogResult,
+                showCopyButton);
 
     /// <summary>Shows a <seealso cref="KryptonMessageBoxExtended"/>.</summary>
     /// <param name="messageText">The text.</param>
@@ -207,6 +219,7 @@ public static class KryptonMessageBoxExtended
     /// <param name="timeOut">Specifies the 'time out' time, default is 60.</param>
     /// <param name="timeOutInterval">Sets the interval of the 'time out' timer. Default is 1000.</param>
     /// <param name="timerResult">Specifies the <seealso cref="DialogResult"/> action to trigger, once the <seealso cref="KryptonMessageBoxExtended"/> has timed out.</param>
+    /// <param name="showCopyButton">Shows an optional Copy button that copies the message box contents to the clipboard.</param>
     public static DialogResult Show(string messageText, string caption,
         ExtendedMessageBoxButtons buttons,
         ExtendedKryptonMessageBoxIcon icon,
@@ -223,7 +236,8 @@ public static class KryptonMessageBoxExtended
         HorizontalAlignment? messageTextBoxAlignment = null,
         bool? useTimeOut = false, int? timeOut = 60,
         int? timeOutInterval = 1000,
-        DialogResult? timerResult = DialogResult.None)
+        DialogResult? timerResult = DialogResult.None,
+        bool? showCopyButton = null)
         =>
             ShowCore(null, messageText, caption, buttons, icon, defaultButton, options,
                 displayHelpButton ? new HelpInfo() : null, showCtrlCopy,
@@ -233,7 +247,7 @@ public static class KryptonMessageBoxExtended
                 string.Empty, string.Empty, applicationPath,
                 messageContainerType, linkLabelCommand, contentLinkArea, linkLaunchArgument, openInExplorer,
                 messageTextAlignment, richTextBoxTextAlignment, messageTextBoxAlignment,
-                useTimeOut, timeOut, timeOutInterval, timerResult);
+                useTimeOut, timeOut, timeOutInterval, timerResult, showCopyButton: showCopyButton);
 
     /// <summary>Shows a <seealso cref="KryptonMessageBoxExtended"/>.</summary>
     /// <param name="owner">The owner.</param>
@@ -264,6 +278,7 @@ public static class KryptonMessageBoxExtended
     /// <param name="countdownButtonSeconds">The duration in seconds for the countdown button. If null, uses the timeout value if available, otherwise defaults to 60.</param>
     /// <param name="countdownButtonDialogResult">The dialog result to return when the countdown button's countdown finishes. If null, uses the button's default DialogResult.</param>
     /// <param name="showCloseButton">Whether to show the close button on the message box form.</param>
+    /// <param name="showCopyButton">Shows an optional Copy button that copies the message box contents to the clipboard.</param>
     public static DialogResult Show(IWin32Window owner, string messageText, string caption = @"",
         ExtendedMessageBoxButtons buttons = ExtendedMessageBoxButtons.OK,
         ExtendedKryptonMessageBoxIcon icon = ExtendedKryptonMessageBoxIcon.None,
@@ -285,7 +300,8 @@ public static class KryptonMessageBoxExtended
         DialogResult? timerResult = DialogResult.None,
         ExtendedKryptonMessageBoxCountdownButton countdownButton = ExtendedKryptonMessageBoxCountdownButton.None,
         int? countdownButtonSeconds = null,
-        DialogResult? countdownButtonDialogResult = null, bool showCloseButton = true)
+        DialogResult? countdownButtonDialogResult = null, bool showCloseButton = true,
+        bool? showCopyButton = null)
         =>
             ShowCore(owner, messageText, caption, buttons, icon, defaultButton, options,
                 displayHelpButton ? new HelpInfo() : null, showCtrlCopy,
@@ -298,11 +314,13 @@ public static class KryptonMessageBoxExtended
                 linkLaunchArgument, openInExplorer,
                 messageTextAlignment, richTextBoxTextAlignment, messageTextBoxAlignment,
                 useTimeOut, timeOut, timeOutInterval, timerResult,
-                showCloseButton, null, false, ExtendedKryptonMessageBoxFooterContentType.Text, null, countdownButton, countdownButtonSeconds, countdownButtonDialogResult);
+                showCloseButton, null, false, ExtendedKryptonMessageBoxFooterContentType.Text, null, countdownButton, countdownButtonSeconds, countdownButtonDialogResult,
+                showCopyButton);
 
     public static DialogResult Show(IWin32Window owner, string message, string caption,
         ExtendedMessageBoxButtons buttons, ExtendedKryptonMessageBoxIcon icon,
-        KryptonMessageBoxDefaultButton defaultButton, MessageBoxOptions options, bool? showCtrlCopy = false) =>
+        KryptonMessageBoxDefaultButton defaultButton, MessageBoxOptions options, bool? showCtrlCopy = false,
+        bool? showCopyButton = null) =>
         ShowCore(owner, message, caption, buttons, icon, defaultButton, options,
             null, showCtrlCopy, null, null, null,
             null, null, null,
@@ -312,9 +330,10 @@ public static class KryptonMessageBoxExtended
             null, null, null,
             null, null, null,
             null, null, null, null,
-            null);
+            null, showCopyButton: showCopyButton);
 
-    public static DialogResult Show(string message, string caption, ExtendedMessageBoxButtons buttons, ExtendedKryptonMessageBoxIcon icon, KryptonMessageBoxDefaultButton defaultButton, MessageBoxOptions options, bool? showCtrlCopy = false) =>
+    public static DialogResult Show(string message, string caption, ExtendedMessageBoxButtons buttons, ExtendedKryptonMessageBoxIcon icon, KryptonMessageBoxDefaultButton defaultButton, MessageBoxOptions options, bool? showCtrlCopy = false,
+        bool? showCopyButton = null) =>
         ShowCore(null, message, caption, buttons, icon, defaultButton, options,
             null, showCtrlCopy, null, null, null,
             null, null, null,
@@ -324,7 +343,7 @@ public static class KryptonMessageBoxExtended
             null, null, null,
             null, null, null,
             null, null, null, null,
-            null);
+            null, showCopyButton: showCopyButton);
 
     /// <summary>Shows a <seealso cref="KryptonMessageBoxExtended"/>.</summary>
     /// <param name="owner">The owner.</param>
@@ -349,6 +368,7 @@ public static class KryptonMessageBoxExtended
     /// <param name="timeOut">Specifies the 'time out' time, default is 60.</param>
     /// <param name="timeOutInterval">Sets the interval of the 'time out' timer. Default is 1000.</param>
     /// <param name="timerResult">Specifies the <seealso cref="DialogResult"/> action to trigger, once the <seealso cref="KryptonMessageBoxExtended"/> has timed out.</param>
+    /// <param name="showCopyButton">Shows an optional Copy button that copies the message box contents to the clipboard.</param>
     public static DialogResult Show(IWin32Window owner, string messageText, string caption,
         ExtendedMessageBoxButtons buttons,
         ExtendedKryptonMessageBoxIcon icon,
@@ -366,7 +386,8 @@ public static class KryptonMessageBoxExtended
         HorizontalAlignment? messageTextBoxAlignment = null,
         bool? useTimeOut = false,
         int? timeOut = 60, int? timeOutInterval = 1000,
-        DialogResult? timerResult = DialogResult.None)
+        DialogResult? timerResult = DialogResult.None,
+        bool? showCopyButton = null)
         =>
             ShowCore(owner, messageText, caption, buttons, icon, defaultButton, options,
                 displayHelpButton ? new HelpInfo() : null, showCtrlCopy,
@@ -380,7 +401,7 @@ public static class KryptonMessageBoxExtended
                 linkLaunchArgument,
                 openInExplorer, messageTextAlignment,
                 richTextBoxTextAlignment, messageTextBoxAlignment,
-                useTimeOut, timeOut, timeOutInterval, timerResult);
+                useTimeOut, timeOut, timeOutInterval, timerResult, showCopyButton: showCopyButton);
 
     /// <summary>Shows a <seealso cref="KryptonMessageBoxExtended"/>.</summary>
     /// <param name="messageText">The text.</param>
@@ -408,6 +429,7 @@ public static class KryptonMessageBoxExtended
     /// <param name="timeOut">Specifies the 'time out' time, default is 60.</param>
     /// <param name="timeOutInterval">Sets the interval of the 'time out' timer. Default is 1000.</param>
     /// <param name="timerResult">Specifies the <seealso cref="DialogResult"/> action to trigger, once the <seealso cref="KryptonMessageBoxExtended"/> has timed out.</param>
+    /// <param name="showCopyButton">Shows an optional Copy button that copies the message box contents to the clipboard.</param>
     public static DialogResult Show(string messageText, string caption = @"",
         ExtendedMessageBoxButtons buttons = ExtendedMessageBoxButtons.OK,
         ExtendedKryptonMessageBoxIcon icon = ExtendedKryptonMessageBoxIcon.None,
@@ -429,7 +451,8 @@ public static class KryptonMessageBoxExtended
         HorizontalAlignment? messageTextBoxAlignment = null,
         bool? useTimeOut = false,
         int? timeOut = 60, int? timeOutInterval = 1000,
-        DialogResult? timerResult = DialogResult.None)
+        DialogResult? timerResult = DialogResult.None,
+        bool? showCopyButton = null)
         =>
             ShowCore(null, messageText, caption, buttons, icon, defaultButton, options,
                 new HelpInfo(helpFilePath, navigator, param), showCtrlCopy,
@@ -441,7 +464,7 @@ public static class KryptonMessageBoxExtended
                 string.Empty, applicationPath,
                 messageContainerType, linkLabelCommand, contentLinkArea,
                 linkLaunchArgument, openInExplorer, messageTextAlignment, richTextBoxTextAlignment, messageTextBoxAlignment,
-                useTimeOut, timeOut, timeOutInterval, timerResult);
+                useTimeOut, timeOut, timeOutInterval, timerResult, showCopyButton: showCopyButton);
 
     /// <summary>Shows a message box.</summary>
     /// <param name="owner">The owner.</param>
@@ -486,6 +509,7 @@ public static class KryptonMessageBoxExtended
     /// <param name="countdownButtonSeconds">The duration in seconds for the countdown button. If null, uses the timeout value if available, otherwise defaults to 60.</param>
     /// <param name="countdownButtonDialogResult">The dialog result to return when the countdown button's countdown finishes. If null, uses the button's default DialogResult.</param>
     /// <param name="showCloseButton">Whether to show the close button on the message box form.</param>
+    /// <param name="showCopyButton">Shows an optional Copy button that copies the message box contents to the clipboard.</param>
     public static DialogResult Show(IWin32Window owner, string messageText, string caption = @"",
         ExtendedMessageBoxButtons buttons = ExtendedMessageBoxButtons.OK,
         ExtendedKryptonMessageBoxIcon icon = ExtendedKryptonMessageBoxIcon.None,
@@ -524,7 +548,8 @@ public static class KryptonMessageBoxExtended
         DialogResult? timerResult = DialogResult.None,
         ExtendedKryptonMessageBoxCountdownButton countdownButton = ExtendedKryptonMessageBoxCountdownButton.None,
         int? countdownButtonSeconds = null,
-        DialogResult? countdownButtonDialogResult = null, bool showCloseButton = true)
+        DialogResult? countdownButtonDialogResult = null, bool showCloseButton = true,
+        bool? showCopyButton = null)
         =>
             ShowCore(owner, messageText, caption, buttons, icon, defaultButton, options,
                 displayHelpButton ? new HelpInfo(helpFilePath, navigator, param) : null,
@@ -539,7 +564,8 @@ public static class KryptonMessageBoxExtended
                 useTimeOut, timeOut, timeOutInterval, timerResult,
                 showCloseButton, null, false, 
                 ExtendedKryptonMessageBoxFooterContentType.Text, null, 
-                countdownButton, countdownButtonSeconds, countdownButtonDialogResult);
+                countdownButton, countdownButtonSeconds, countdownButtonDialogResult,
+                showCopyButton);
 
     /// <summary>Shows a <seealso cref="KryptonMessageBoxExtended"/> with expandable footer.</summary>
     /// <param name="messageText">The message text.</param>
@@ -554,6 +580,7 @@ public static class KryptonMessageBoxExtended
     /// <param name="showCtrlCopy">The show control copy.</param>
     /// <param name="messageBoxTypeface">The message box typeface.</param>
     /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
+    /// <param name="showCopyButton">Shows an optional Copy button that copies the message box contents to the clipboard.</param>
     public static DialogResult Show(string messageText, string caption = @"",
         ExtendedMessageBoxButtons buttons = ExtendedMessageBoxButtons.OK,
         ExtendedKryptonMessageBoxIcon icon = ExtendedKryptonMessageBoxIcon.None, bool showCloseButton = true,
@@ -562,7 +589,8 @@ public static class KryptonMessageBoxExtended
         ExtendedKryptonMessageBoxFooterContentType footerContentType = ExtendedKryptonMessageBoxFooterContentType.Text,
         int? footerRichTextBoxHeight = null,
         bool? showCtrlCopy = null,
-        Font? messageBoxTypeface = null)
+        Font? messageBoxTypeface = null,
+        bool? showCopyButton = null)
         =>
             ShowCore(null, messageText, caption, buttons, icon, KryptonMessageBoxDefaultButton.Button1,
                 0, null, showCtrlCopy, messageBoxTypeface, null, null, null,
@@ -572,7 +600,7 @@ public static class KryptonMessageBoxExtended
                 ExtendedKryptonMessageBoxMessageContainerType.Normal,
                 null, null, null, null, ContentAlignment.MiddleLeft, null, null,
                 null, null, null, null,
-                showCloseButton, footerText, footerExpanded, footerContentType, footerRichTextBoxHeight);
+                showCloseButton, footerText, footerExpanded, footerContentType, footerRichTextBoxHeight, showCopyButton: showCopyButton);
 
     /// <summary>Shows a <seealso cref="KryptonMessageBoxExtended"/> with expandable footer.</summary>
     /// <param name="owner">The owner.</param>
@@ -588,6 +616,7 @@ public static class KryptonMessageBoxExtended
     /// <param name="showCtrlCopy">The show control copy.</param>
     /// <param name="messageBoxTypeface">The message box typeface.</param>
     /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
+    /// <param name="showCopyButton">Shows an optional Copy button that copies the message box contents to the clipboard.</param>
     public static DialogResult Show(IWin32Window owner, string messageText, string caption = @"",
         ExtendedMessageBoxButtons buttons = ExtendedMessageBoxButtons.OK,
         ExtendedKryptonMessageBoxIcon icon = ExtendedKryptonMessageBoxIcon.None, bool showCloseButton = true,
@@ -596,7 +625,8 @@ public static class KryptonMessageBoxExtended
         ExtendedKryptonMessageBoxFooterContentType footerContentType = ExtendedKryptonMessageBoxFooterContentType.Text,
         int? footerRichTextBoxHeight = null,
         bool? showCtrlCopy = null,
-        Font? messageBoxTypeface = null)
+        Font? messageBoxTypeface = null,
+        bool? showCopyButton = null)
         =>
             ShowCore(owner, messageText, caption, buttons, icon, KryptonMessageBoxDefaultButton.Button1,
                 0, null, showCtrlCopy, messageBoxTypeface, null, null, null,
@@ -606,7 +636,20 @@ public static class KryptonMessageBoxExtended
                 ExtendedKryptonMessageBoxMessageContainerType.Normal,
                 null, null, null, null, ContentAlignment.MiddleLeft, null, null,
                 null, null, null, null,
-                showCloseButton, footerText, footerExpanded, footerContentType, footerRichTextBoxHeight);
+                showCloseButton, footerText, footerExpanded, footerContentType, footerRichTextBoxHeight, showCopyButton: showCopyButton);
+
+    /// <summary>Shows a <seealso cref="KryptonMessageBoxExtended"/> configured from a <see cref="KryptonMessageBoxExtendedData"/> instance.</summary>
+    /// <param name="data">The data describing the message box content and behaviour. Set <see cref="KryptonMessageBoxExtendedData.ShowMoreDetailsOption"/> together with <see cref="KryptonMessageBoxExtendedData.MoreDetailsMessageText"/> (and optionally <see cref="KryptonMessageBoxExtendedData.MoreDetailsButtonText"/>) to include a collapsible ("more details") footer region.</param>
+    /// <param name="showCloseButton">Whether to show the close button on the message box form.</param>
+    /// <returns>One of the <see cref="DialogResult"/> values.</returns>
+    public static DialogResult Show(KryptonMessageBoxExtendedData data, bool showCloseButton = true)
+    {
+        using var kmbe = new VisualMessageBoxExtendedForm(data, showCloseButton);
+
+        return data.Owner != null
+            ? kmbe.ShowDialog(data.Owner)
+            : kmbe.ShowDialog();
+    }
 
     #endregion
 
@@ -651,11 +694,12 @@ public static class KryptonMessageBoxExtended
         int? footerRichTextBoxHeight = null,
         ExtendedKryptonMessageBoxCountdownButton countdownButton = ExtendedKryptonMessageBoxCountdownButton.None,
         int? countdownButtonSeconds = null,
-        DialogResult? countdownButtonDialogResult = null)
+        DialogResult? countdownButtonDialogResult = null,
+        bool? showCopyButton = null)
     {
         IWin32Window? showOwner = ValidateOptions(owner, options, helpInfo);
 
-        if (options == MessageBoxOptions.RightAlign | (options == MessageBoxOptions.RtlReading))
+        if (options is MessageBoxOptions.RightAlign or MessageBoxOptions.RtlReading)
         {
             using var kmbertl = new VisualRTLMessageBoxExtendedForm(showOwner, text,
                 caption, buttons,
@@ -684,6 +728,7 @@ public static class KryptonMessageBoxExtended
                 messageTextBoxAlignment,
                 showOptionalCheckBox,
                 initialDoNotShowAgainCheckBoxChecked,
+                initialDoNotShowAgainCheckBoxCheckState,
                 optionalCheckBoxText,
                 useOptionalCheckBoxThreeState,
                 useTimeOut,
@@ -695,9 +740,12 @@ public static class KryptonMessageBoxExtended
                 footerRichTextBoxHeight,
                 countdownButton,
                 countdownButtonSeconds,
-                countdownButtonDialogResult);
+                countdownButtonDialogResult,
+                showCopyButton);
 
-            return true;
+            kmbertl.Show();
+
+            return kmbertl.GetDoNotShowAgainChecked();
         }
         else
         {
@@ -744,7 +792,8 @@ public static class KryptonMessageBoxExtended
                 footerRichTextBoxHeight,
                 countdownButton,
                 countdownButtonSeconds,
-                countdownButtonDialogResult);
+                countdownButtonDialogResult,
+                showCopyButton);
 
             kmbe.Show();
 
@@ -804,6 +853,7 @@ public static class KryptonMessageBoxExtended
     /// <returns>
     ///   <br />
     /// </returns>
+    /// <param name="showCopyButton">Shows an optional Copy button that copies the message box contents to the clipboard.</param>
     internal static CheckState ShowCoreWithCheckStateResult(IWin32Window? owner, string text, string caption,
         ExtendedMessageBoxButtons buttons,
         ExtendedKryptonMessageBoxIcon icon,
@@ -843,11 +893,12 @@ public static class KryptonMessageBoxExtended
         int? footerRichTextBoxHeight = null,
         ExtendedKryptonMessageBoxCountdownButton countdownButton = ExtendedKryptonMessageBoxCountdownButton.None,
         int? countdownButtonSeconds = null,
-        DialogResult? countdownButtonDialogResult = null)
+        DialogResult? countdownButtonDialogResult = null,
+        bool? showCopyButton = null)
     {
         IWin32Window? showOwner = ValidateOptions(owner, options, helpInfo);
 
-        if (options == MessageBoxOptions.RightAlign | options == MessageBoxOptions.RtlReading)
+        if (options is MessageBoxOptions.RightAlign or MessageBoxOptions.RtlReading)
         {
             using var kmbertl = new VisualRTLMessageBoxExtendedForm(showOwner, text,
                 caption, buttons,
@@ -876,6 +927,7 @@ public static class KryptonMessageBoxExtended
                 messageTextBoxAlignment,
                 showOptionalCheckBox,
                 initialDoNotShowAgainCheckBoxChecked,
+                initialDoNotShowAgainCheckBoxCheckState,
                 optionalCheckBoxText,
                 useOptionalCheckBoxThreeState,
                 useTimeOut,
@@ -887,9 +939,12 @@ public static class KryptonMessageBoxExtended
                 footerRichTextBoxHeight,
                 countdownButton,
                 countdownButtonSeconds,
-                countdownButtonDialogResult);
+                countdownButtonDialogResult,
+                showCopyButton);
 
-            return CheckState.Unchecked;
+            kmbertl.Show();
+
+            return kmbertl.GetDoNotShowAgainCheckState();
         }
         else
         {
@@ -936,7 +991,8 @@ public static class KryptonMessageBoxExtended
                 footerRichTextBoxHeight,
                 countdownButton,
                 countdownButtonSeconds,
-                countdownButtonDialogResult);
+                countdownButtonDialogResult,
+                showCopyButton);
 
             kmbe.Show();
 
@@ -989,6 +1045,7 @@ public static class KryptonMessageBoxExtended
     /// <param name="countdownButtonSeconds">The duration in seconds for the countdown button. If null, uses the timeout value if available, otherwise defaults to 60.</param>
     /// <param name="countdownButtonDialogResult">The dialog result to return when the countdown button's countdown finishes. If null, uses the button's default DialogResult.</param>
     /// <returns>One of the <see cref="DialogResult"/> values.</returns>
+    /// <param name="showCopyButton">Shows an optional Copy button that copies the message box contents to the clipboard.</param>
     internal static DialogResult ShowCore(IWin32Window? owner, string text, string caption,
         ExtendedMessageBoxButtons buttons,
         ExtendedKryptonMessageBoxIcon icon,
@@ -1023,11 +1080,12 @@ public static class KryptonMessageBoxExtended
         int? footerRichTextBoxHeight = null,
         ExtendedKryptonMessageBoxCountdownButton countdownButton = ExtendedKryptonMessageBoxCountdownButton.None,
         int? countdownButtonSeconds = null,
-        DialogResult? countdownButtonDialogResult = null)
+        DialogResult? countdownButtonDialogResult = null,
+        bool? showCopyButton = null)
     {
         IWin32Window? showOwner = ValidateOptions(owner, options, helpInfo);
 
-        if (options == MessageBoxOptions.RightAlign | options == MessageBoxOptions.RtlReading)
+        if (options is MessageBoxOptions.RightAlign or MessageBoxOptions.RtlReading)
         {
             using var kmbertl = new VisualRTLMessageBoxExtendedForm(showOwner, text,
                 caption, buttons,
@@ -1058,6 +1116,7 @@ public static class KryptonMessageBoxExtended
                 null,
                 null,
                 null,
+                null,
                 useTimeOut,
                 timeOut,
                 timerResult,
@@ -1067,7 +1126,8 @@ public static class KryptonMessageBoxExtended
                 footerRichTextBoxHeight,
                 countdownButton,
                 countdownButtonSeconds,
-                countdownButtonDialogResult);
+                countdownButtonDialogResult,
+                showCopyButton);
 
             return kmbertl.ShowDialog(showOwner);
         }
@@ -1116,7 +1176,8 @@ public static class KryptonMessageBoxExtended
                 footerRichTextBoxHeight,
                 countdownButton,
                 countdownButtonSeconds,
-                countdownButtonDialogResult);
+                countdownButtonDialogResult,
+                showCopyButton);
 
             return kmbe.ShowDialog(showOwner);
         }

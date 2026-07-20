@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2022 - 2026. All rights reserved.
@@ -621,6 +621,7 @@ public class KryptonProgressBar : Control, IContentValues
     /// <summary>
     /// Gets or sets the text associated with this control.
     /// </summary>
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [RefreshProperties(RefreshProperties.Repaint)]
     [DefaultValue("")]
@@ -1889,6 +1890,35 @@ public class KryptonProgressBar : Control, IContentValues
             }
         }
     }
+
+    #endregion
+
+    #region Protected
+
+    /// <summary>
+    /// Gets the palette redirector used by the progress bar.
+    /// </summary>
+    protected PaletteRedirect ProgressPaletteRedirect => _paletteRedirect;
+
+    /// <summary>
+    /// Gets the resolved palette instance.
+    /// </summary>
+    protected PaletteBase? ResolvedPalette => _palette;
+
+    /// <summary>
+    /// Gets the palette used for the progress value fill.
+    /// </summary>
+    protected IPaletteBack ValueBackPalette => _stateBackValue;
+
+    /// <summary>
+    /// Gets the progress bar palette triple and state for the current enabled state.
+    /// </summary>
+    protected (IPaletteTriple BarPaletteState, PaletteState BarState) GetProgressBarPaletteState() => GetBarPaletteState();
+
+    /// <summary>
+    /// Updates threshold-based colours when tri-state values are enabled.
+    /// </summary>
+    protected void SyncThresholdColors() => UpdateThresholdColor();
 
     #endregion
 

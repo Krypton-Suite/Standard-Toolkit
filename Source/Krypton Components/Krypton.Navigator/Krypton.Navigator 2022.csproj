@@ -31,6 +31,11 @@
     <Description>This is the navigator module.</Description>
   </PropertyGroup>
 
+  <Import Project="..\Krypton.Shared\Krypton.SharedCompileItems.props" />
+  <PropertyGroup>
+    <IncludeKryptonGlobalSuppressionsLink>true</IncludeKryptonGlobalSuppressionsLink>
+  </PropertyGroup>
+
   <ItemGroup>
     <Reference Include="System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net4'))">
       <SpecificVersion>True</SpecificVersion>
@@ -40,11 +45,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\Krypton.Toolkit\General\GlobalSuppressions.cs" Link="General\GlobalSuppressions.cs" />
-    <Compile Include="..\Krypton.Toolkit\General\PlatformInvoke.cs">
-      <Link>General\PlatformInvoke.cs</Link>
-    </Compile>
-    <Compile Include="..\Krypton.Toolkit\Utilities\AllowNullAttribute.cs" Link="General\AllowNullAttribute.cs" />
     <Compile Update="ButtonSpecs\ButtonSpecNavigator.cs" />
     <Compile Update="ButtonSpecs\ButtonSpecNavFixed.cs" />
     <Compile Update="ButtonSpecs\ButtonSpecNavClose.cs" />
@@ -73,6 +73,9 @@
     <Compile Remove="Palette\PaletteNavigatorOtherOverride.cs" />
   </ItemGroup>
   <ItemGroup>
+    <!-- Krypton.Interop: direct reference required (net4x nullable attribute polyfills via InternalsVisibleTo);
+         PrivateAssets="all" keeps the unpublished package out of this package's nuspec dependencies (#3908). -->
+    <ProjectReference Include="..\Krypton.Interop\Krypton.Interop.csproj" PrivateAssets="all" />
     <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
   </ItemGroup>
   <ItemGroup>

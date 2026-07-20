@@ -22,7 +22,7 @@ namespace Krypton.Toolkit;
 [DesignTimeVisible(false)]
 [DefaultProperty(nameof(Text))]
 [DefaultEvent(nameof(Click))]
-public class KryptonContextMenuItem : KryptonContextMenuItemBase
+public class KryptonContextMenuItem : KryptonContextMenuItemBase, IKryptonContextMenuCommandItem
 {
     #region Nested Classes
     // Provides proper design-time reference conversion for the KryptonCommand property even when the item is not sited.
@@ -237,6 +237,7 @@ public class KryptonContextMenuItem : KryptonContextMenuItemBase
     [KryptonPersist]
     [Category(@"Appearance")]
     [Description(@"Standard menu item text.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [DefaultValue(@"MenuItem")]
     [Localizable(true)]
@@ -261,6 +262,7 @@ public class KryptonContextMenuItem : KryptonContextMenuItemBase
     [KryptonPersist]
     [Category(@"Appearance")]
     [Description(@"Standard menu item extra text.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [Localizable(true)]
     [Bindable(true)]
@@ -288,6 +290,7 @@ public class KryptonContextMenuItem : KryptonContextMenuItemBase
     [DefaultValue(null)]
     [Localizable(true)]
     [Bindable(true)]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;

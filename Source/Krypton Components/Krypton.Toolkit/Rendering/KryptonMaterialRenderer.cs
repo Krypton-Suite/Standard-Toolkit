@@ -22,13 +22,10 @@ public class KryptonMaterialRenderer : KryptonProfessionalRenderer
 
     protected override void OnRenderToolStripBackground(ToolStripRenderEventArgs e)
     {
+        SyncToolStripFont(e.ToolStrip);
+
         if (e.ToolStrip is ContextMenuStrip or ToolStripDropDownMenu)
         {
-            if (e.ToolStrip.Font != KCT.MenuStripFont)
-            {
-                e.ToolStrip.Font = KCT.MenuStripFont;
-            }
-
             using var borderPath = CreateBorderPath(e.AffectedBounds, 0f);
             using var clipPath = CreateClipBorderPath(e.AffectedBounds, 0f);
             using var clipping = new Clipping(e.Graphics, clipPath);

@@ -14,6 +14,7 @@ public abstract class KryptonColorSchemeBase
     #region Variables
 
     public abstract Color TextLabelControl                 { get; set; }
+    public abstract Color TextListItem                     { get; set; }
     public abstract Color TextButtonNormal                 { get; set; }
     public abstract Color TextButtonChecked                { get; set; }
     public abstract Color ButtonTextTracking               { get; set; }

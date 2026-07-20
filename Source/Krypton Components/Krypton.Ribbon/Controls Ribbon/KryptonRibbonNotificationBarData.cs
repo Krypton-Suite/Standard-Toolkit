@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -158,6 +158,7 @@ public class KryptonRibbonNotificationBarData : INotifyPropertyChanged
     [Category(@"Appearance")]
     [Description(@"The icon image displayed in the notification bar.")]
     [DefaultValue(null)]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? Icon
     {
         get => _icon;

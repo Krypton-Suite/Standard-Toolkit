@@ -139,6 +139,7 @@ public class NavigatorButton : Storage
     [Category(@"Visuals")]
     [Description(@"Collection of button specifications.")]
     [MergableProperty(false)]
+    [Editor(typeof(KryptonDesignerButtonSpecNavigatorCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public NavigatorButtonSpecCollection? ButtonSpecs { get; }
 

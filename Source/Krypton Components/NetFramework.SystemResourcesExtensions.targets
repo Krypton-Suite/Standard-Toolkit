@@ -37,15 +37,15 @@
 	        AfterTargets="Build"
 	        Condition="'$(GenerateResourceUsePreserializedResources)' == 'true' And '$(DesignTimeBuild)' != 'true'">
 		<ItemGroup>
-			<_KryptonResourceRuntimeDll Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Filename)' == 'System.Resources.Extensions'" />
-			<_KryptonResourceRuntimeDll Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Filename)' == 'System.Formats.Nrbf'" />
-			<_KryptonResourceRuntimeDll Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Filename)' == 'System.Memory'" />
-			<_KryptonResourceRuntimeDll Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Filename)' == 'System.Buffers'" />
-			<_KryptonResourceRuntimeDll Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Filename)' == 'System.Runtime.CompilerServices.Unsafe'" />
-			<_KryptonResourceRuntimeDll Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Filename)' == 'System.Collections.Immutable'" />
-			<_KryptonResourceRuntimeDll Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Filename)' == 'System.Reflection.Metadata'" />
-			<_KryptonResourceRuntimeDll Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Filename)' == 'System.Numerics.Vectors'" />
-			<_KryptonResourceRuntimeDll Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Filename)' == 'Microsoft.Bcl.HashCode'" />
+			<_KryptonResourceRuntimeDll Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Filename)' == 'System.Resources.Extensions' And '%(ReferenceCopyLocalPaths.Extension)' == '.dll'" />
+			<_KryptonResourceRuntimeDll Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Filename)' == 'System.Formats.Nrbf' And '%(ReferenceCopyLocalPaths.Extension)' == '.dll'" />
+			<_KryptonResourceRuntimeDll Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Filename)' == 'System.Memory' And '%(ReferenceCopyLocalPaths.Extension)' == '.dll'" />
+			<_KryptonResourceRuntimeDll Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Filename)' == 'System.Buffers' And '%(ReferenceCopyLocalPaths.Extension)' == '.dll'" />
+			<_KryptonResourceRuntimeDll Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Filename)' == 'System.Runtime.CompilerServices.Unsafe' And '%(ReferenceCopyLocalPaths.Extension)' == '.dll'" />
+			<_KryptonResourceRuntimeDll Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Filename)' == 'System.Collections.Immutable' And '%(ReferenceCopyLocalPaths.Extension)' == '.dll'" />
+			<_KryptonResourceRuntimeDll Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Filename)' == 'System.Reflection.Metadata' And '%(ReferenceCopyLocalPaths.Extension)' == '.dll'" />
+			<_KryptonResourceRuntimeDll Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Filename)' == 'System.Numerics.Vectors' And '%(ReferenceCopyLocalPaths.Extension)' == '.dll'" />
+			<_KryptonResourceRuntimeDll Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Filename)' == 'Microsoft.Bcl.HashCode' And '%(ReferenceCopyLocalPaths.Extension)' == '.dll'" />
 			<_KryptonResourceRuntimeDll Include="$(_KryptonSreDllPath)" Condition="'$(_KryptonSreDllPath)' != ''" />
 			<_KryptonResourceRuntimeDll Include="$(_KryptonNrbfDllPath)" Condition="'$(_KryptonNrbfDllPath)' != ''" />
 			<_KryptonResourceRuntimeDll Include="$(_KryptonMemoryDllPath)" Condition="'$(_KryptonMemoryDllPath)' != ''" />

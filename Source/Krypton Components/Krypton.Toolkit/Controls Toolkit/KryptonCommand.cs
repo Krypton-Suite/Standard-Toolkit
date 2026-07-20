@@ -208,6 +208,7 @@ public class KryptonCommand : Component, IKryptonCommand, INotifyPropertyChanged
     [Localizable(true)]
     [Category(@"Appearance")]
     [Description(@"Command text.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     public string Text
     {
@@ -234,6 +235,7 @@ public class KryptonCommand : Component, IKryptonCommand, INotifyPropertyChanged
     [Localizable(true)]
     [Category(@"Appearance")]
     [Description(@"Command extra text.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     public string ExtraText
     {
@@ -310,6 +312,7 @@ public class KryptonCommand : Component, IKryptonCommand, INotifyPropertyChanged
     [Localizable(true)]
     [Category(@"Appearance")]
     [Description(@"Command small image.")]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? ImageSmall
     {
         get => _imageSmall;
@@ -335,6 +338,7 @@ public class KryptonCommand : Component, IKryptonCommand, INotifyPropertyChanged
     [Localizable(true)]
     [Category(@"Appearance")]
     [Description(@"Command large image.")]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? ImageLarge
     {
         get => _imageLarge;
@@ -410,9 +414,16 @@ public class KryptonCommand : Component, IKryptonCommand, INotifyPropertyChanged
     /// </summary>
     public void PerformExecute() => OnExecute(EventArgs.Empty);
 
-    // Allow specifying the originating sender so shared commands can identify the source control
+    /// <summary>
+    /// Generates an Execute event for a command, passing the originating source as the event sender.
+    /// </summary>
+    /// <param name="sender">The object that initiated command execution.</param>
     public void PerformExecute(object? sender)
-        => Execute?.Invoke(sender ?? this, EventArgs.Empty);
+    {
+        var source = sender ?? this;
+        KryptonCommandContext.TryGetCommandParameter(source, out var parameter);
+        Execute?.Invoke(source, new KryptonCommandExecuteEventArgs(source, parameter));
+    }
 
     #endregion
 

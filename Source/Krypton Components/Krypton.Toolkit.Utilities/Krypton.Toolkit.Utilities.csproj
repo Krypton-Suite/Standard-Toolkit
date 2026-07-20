@@ -29,13 +29,13 @@
 		<NoWarn>1701;1702</NoWarn>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<Compile Include="..\Krypton.Toolkit\General\PlatformInvoke.cs" Link="General\PlatformInvoke.cs" />
-		<Compile Include="..\Krypton.Toolkit\Utilities\FileSystemIconHelper.cs" Link="Components\KryptonFileSystemTreeView\Utilities\FileSystemIconHelper.cs" />
-		<Compile Include="..\Krypton.Toolkit\Tooling\GeneralToolkitUtilities.cs" Link="Tooling\GeneralToolkitUtilities.cs" />
-	</ItemGroup>
+	<Import Project="..\Krypton.Shared\Krypton.SharedCompileItems.props" />
+	<PropertyGroup>
+		<IncludeKryptonUtilitiesSourceLinks>true</IncludeKryptonUtilitiesSourceLinks>
+	</PropertyGroup>
 
 	<ItemGroup>
+	  <Content Include="Utilities\WinFormAnimatiion\General\Icon.png" />
 	  <Content Include="Krypton.ico">
 	    <Pack>false</Pack>
 	  </Content>
@@ -84,6 +84,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <!-- Krypton.Interop: direct reference required (net4x nullable attribute polyfills via InternalsVisibleTo);
+	       no longer flows transitively from Krypton.Toolkit (PrivateAssets="all", #3908). -->
+	  <ProjectReference Include="..\Krypton.Interop\Krypton.Interop.csproj" PrivateAssets="all" />
 	  <ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
 	  <ProjectReference Include="..\Krypton.Ribbon\Krypton.Ribbon 2022.csproj" />
 	  <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
@@ -91,6 +94,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <EmbeddedResource Update="Components\Krypton Drop Zone\Resources\DropZoneResources.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <CustomToolNamespace>Krypton.Toolkit.Utilities</CustomToolNamespace>
+	    <LastGenOutput>DropZoneResources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
 	  <EmbeddedResource Update="Components\KryptonSearchBox\Resource Files\SearchBoxImageResources.resx">
 	    <Generator>ResXFileCodeGenerator</Generator>
 	    <CustomToolNamespace>Krypton.Toolkit.Utilities</CustomToolNamespace>
@@ -110,6 +118,17 @@
 	  <Folder Include="Resources\" />
 	</ItemGroup>
 
+	<!-- KryptonToast form .resx files under deep folders exceed MAX_PATH for obj intermediates.
+	     Use namespace + type name (WinForms convention) instead of path-derived manifest names. -->
+	<Target Name="ShortenKryptonToastFormResourceNames" BeforeTargets="CreateManifestResourceNames">
+		<ItemGroup>
+			<EmbeddedResource Condition="$([System.String]::Copy('%(Identity)').Contains('KryptonToast\Controls Visuals\'))">
+				<ManifestResourceName>Krypton.Toolkit.Utilities.$([System.IO.Path]::GetFileNameWithoutExtension('%(Identity)'))</ManifestResourceName>
+				<LogicalName>Krypton.Toolkit.Utilities.$([System.IO.Path]::GetFileNameWithoutExtension('%(Identity)')).resources</LogicalName>
+			</EmbeddedResource>
+		</ItemGroup>
+	</Target>
+
 	<ItemGroup>
 	  <Compile Update="Components\Krypton AboutBox\Controls Visuals\VisualAboutBoxForm.cs">
 	    <SubType>Form</SubType>
@@ -119,6 +138,11 @@
 	  </Compile>
 	  <Compile Update="Components\Krypton AboutBox\View Base\InternalAssemblyDetails.cs">
 	    <SubType>UserControl</SubType>
+	  </Compile>
+	  <Compile Update="Components\Krypton Drop Zone\Resources\DropZoneResources.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>DropZoneResources.resx</DependentUpon>
 	  </Compile>
 	  <Compile Update="Components\KryptonSearchBox\Resource Files\SearchBoxImageResources.Designer.cs">
 	    <DesignTime>True</DesignTime>

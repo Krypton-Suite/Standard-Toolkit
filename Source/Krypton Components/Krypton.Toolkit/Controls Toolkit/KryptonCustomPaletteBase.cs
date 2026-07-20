@@ -23,6 +23,7 @@ namespace Krypton.Toolkit;
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(KryptonCustomPaletteBase), "ToolboxBitmaps.KryptonPalette.bmp")]
 [DefaultEvent(nameof(PalettePaint))]
+[DefaultProperty(nameof(BasePaletteMode))]
 [DesignerCategory(@"code")]
 [Designer(typeof(KryptonCustomPaletteBaseDesigner))]
 [Description(@"A customisable palette component.")]
@@ -42,6 +43,7 @@ public class KryptonCustomPaletteBase : PaletteBase
     private IRenderer? _baseRenderer;
     private RendererMode _baseRenderMode;
     private PaletteBase? _basePalette;
+    private PaletteMode _basePaletteMode;
     private readonly PaletteRedirect _redirector;
     private readonly NeedPaintHandler _needPaintDelegate;
 
@@ -58,6 +60,7 @@ public class KryptonCustomPaletteBase : PaletteBase
 
         // Set the default palette/palette mode
         _basePalette = KryptonManager.GetPaletteForMode(ThemeManager.DefaultGlobalPalette);
+        _basePaletteMode = ThemeManager.DefaultGlobalPalette;
 
         // Set the default renderer
         _baseRenderer = null;
@@ -695,6 +698,10 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <returns>Float rounding.</returns>
     public override float GetBorderRounding(PaletteBorderStyle style, PaletteState state)
         => GetPaletteBorder(style, state).GetBorderRounding(state);
+
+    /// <inheritdoc />
+    public override PaletteCornerRounding GetBorderCornerRounding(PaletteBorderStyle style, PaletteState state)
+        => GetPaletteBorder(style, state).GetBorderCornerRounding(state);
 
     /// <summary>
     /// Gets a border image.
@@ -2077,7 +2084,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                 paletteFileName = kofd.FileName;
 
                 // Set the theme name to the file name
-                PaletteName = Path.GetFileNameWithoutExtension(paletteFileName);
+                //PaletteName = Path.GetFileNameWithoutExtension(paletteFileName);
             }
         }
         else
@@ -2096,7 +2103,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                 paletteFileName = dialog.FileName;
 
                 // Set the theme name to the file name
-                PaletteName = Path.GetFileNameWithoutExtension(paletteFileName);
+                //PaletteName = Path.GetFileNameWithoutExtension(paletteFileName);
             }
         }
         if (!string.IsNullOrWhiteSpace(paletteFileName))
@@ -2127,7 +2134,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             paletteFileName = dialog.FileName;
 
             // Set the theme name to the file name
-            PaletteName = Path.GetFileNameWithoutExtension(paletteFileName);
+            //PaletteName = Path.GetFileNameWithoutExtension(paletteFileName);
         }
 
         if (!string.IsNullOrWhiteSpace(paletteFileName))
@@ -2198,14 +2205,14 @@ public class KryptonCustomPaletteBase : PaletteBase
         ret ??= string.Empty;
 
         // Set the file path
-        SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(ret));
+        //SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(ret));
 
         // Use bundled name from file if present, otherwise fall back to filename
-        if (string.IsNullOrWhiteSpace(GetPaletteName()))
-        {
-            // Set the theme name to the file name
-            SetPaletteName(Path.GetFileName(ret));
-        }
+        //if (string.IsNullOrWhiteSpace(GetPaletteName()))
+        //{
+        //    // Set the theme name to the file name
+        //    SetPaletteName(Path.GetFileName(ret));
+        //}
 
         return ret;
     }
@@ -2703,6 +2710,7 @@ public class KryptonCustomPaletteBase : PaletteBase
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool IsDefault => !(ShouldSerializeCustomisedKryptonPaletteFilePath()
                                || ShouldSerializePaletteName()
+                               || ShouldSerializeBasePaletteMode()
                                || ShouldSerializeBasePalette()
                                || ShouldSerializeBaseRendererMode()
                                || ShouldSerializeBaseRenderer()
@@ -2715,6 +2723,7 @@ public class KryptonCustomPaletteBase : PaletteBase
     {
         ResetCustomisedKryptonPaletteFilePath();
         ResetPaletteName();
+        ResetBasePaletteMode();
         ResetBasePalette();
         ResetBaseRendererMode();
         ResetBaseRenderer();
@@ -2742,6 +2751,68 @@ public class KryptonCustomPaletteBase : PaletteBase
     private bool ShouldSerializePaletteName() => !string.IsNullOrWhiteSpace(PaletteName);
     private void ResetPaletteName() => PaletteName = string.Empty;
 
+        /// <summary>
+        /// Gets or sets the base palette used to inherit from.
+        /// </summary>
+        [KryptonPersist(false, false)]
+        [Category(@"Visuals")]
+        [Description(@"Base palette used to inherit from.")]
+        [DefaultValue(GlobalStaticConstants.GLOBAL_DEFAULT_PALETTE_MODE)]
+        public PaletteMode BasePaletteMode
+        {
+            get => _basePaletteMode;
+
+            set
+            {
+                if (_basePaletteMode != value)
+                {
+                    // Action depends on new value
+                    if (value == PaletteMode.Custom)
+                    {
+                        // Do nothing, you must assign a palette to the
+                        // 'BasePalette' property in order to get the custom mode
+                        return;
+                    }
+
+                    // Cache the original values
+                    PaletteMode tempMode = _basePaletteMode;
+                    PaletteBase? tempPalette = _basePalette;
+
+                    // Use the new value
+                    _basePaletteMode = value;
+                    _basePalette = KryptonManager.GetPaletteForMode(_basePaletteMode);
+
+                    // If the new value creates a circular reference
+                    if (HasCircularReference())
+                    {
+                        // Restore the original values
+                        _basePaletteMode = tempMode;
+                        _basePalette = tempPalette;
+
+                        throw new ArgumentOutOfRangeException(nameof(value), @"Cannot use palette that would create a circular reference");
+                    }
+
+                    // Restore the original base palette as 'SetPalette' will not
+                    // work correctly unless it still has the old value in place
+                    _basePalette = tempPalette;
+
+                    // Get a reference to the standard palette from its name
+                    SetPalette(KryptonManager.GetPaletteForMode(_basePaletteMode));
+
+                    // Fire events to indicate a change in palette values
+                    OnBasePaletteChanged(this, EventArgs.Empty);
+                    OnBaseRendererChanged(this, EventArgs.Empty);
+                    //OnAllowFormChromeChanged(this, EventArgs.Empty);
+                    OnButtonSpecChanged(this, EventArgs.Empty);
+                    OnPalettePaint(this, new PaletteLayoutEventArgs(true, true));
+                }
+            }
+        }
+
+        private bool ShouldSerializeBasePaletteMode() => BasePaletteMode != ThemeManager.DefaultGlobalPalette;
+
+        private void ResetBasePaletteMode() => BasePaletteMode = ThemeManager.DefaultGlobalPalette;
+
     /// <summary>
     /// Gets and sets the KryptonPalette used to inherit from.
     /// </summary>
@@ -2757,11 +2828,33 @@ public class KryptonCustomPaletteBase : PaletteBase
             // Only interested in changes of value
             if (_basePalette != value)
             {
+                // Store the original values
+                PaletteMode tempMode = _basePaletteMode;
+                PaletteBase? tempPalette = _basePalette;
+
+                // Find the new palette mode based on the incoming value
+                _basePaletteMode = value == null ? ThemeManager.DefaultGlobalPalette : PaletteMode.Custom;
+
+                    if (HasCircularReference())
+                    {
+                        // Put back the original palette details
+                        _basePaletteMode = tempMode;
+                        _basePalette = tempPalette;
+
+                        throw new ArgumentOutOfRangeException(nameof(value), @"Cannot use palette that would create a circular reference");
+                    }
+                    else
+                    {
+                        // Restore the original base palette as 'SetPalette' will not 
+                        // work correctly unless it still has the old value in place
+                        _basePalette = tempPalette;
+                    }
+
                 // If no custom palette is required
                 if (value == null)
                 {
                     // Get the appropriate palette for the global mode
-                    SetPalette(KryptonManager.GetPaletteForMode(ThemeManager.DefaultGlobalPalette));
+                    SetPalette(KryptonManager.GetPaletteForMode(_basePaletteMode));
                 }
                 else
                 {
@@ -2973,6 +3066,52 @@ public class KryptonCustomPaletteBase : PaletteBase
     }
     #endregion
 
+        #region Internal
+        internal bool HasCircularReference()
+        {
+            // Use a dictionary as a set to check for existence
+            var paletteSet = new Dictionary<PaletteBase, bool>();
+
+            // Start processing from ourself upwards
+            PaletteBase? palette = this;
+
+            // Keep searching until no more palettes found
+            while (palette != null)
+            {
+                // If the palette has already been encountered then it is a circular reference
+                if (paletteSet.ContainsKey(palette))
+                {
+                    return true;
+                }
+                else
+                {
+                    // Otherwise, add to the set
+                    paletteSet.Add(palette, true);
+                    // Cast to correct type
+
+                    // If this is a KryptonPalette instance
+                    if (palette is KryptonCustomPaletteBase owner)
+                    {
+                        // Get the next palette up in hierarchy
+                        palette = owner.BasePaletteMode switch
+                        {
+                            PaletteMode.Custom => owner.BasePalette,
+                            PaletteMode.Global => KryptonManager.CurrentGlobalPalette,
+                            _ => null
+                        };
+                    }
+                    else
+                    {
+                        palette = null;
+                    }
+                }
+            }
+
+            // No circular reference encountered
+            return false;
+        }
+        #endregion
+
     #region Implementation Persistence, Used by threading
     private object? ResetOperation(object? parameter)
     {
@@ -3119,10 +3258,10 @@ public class KryptonCustomPaletteBase : PaletteBase
             }
 
             // Restore bundled palette name so external themes display correctly (e.g. in KryptonManager)
-            if (root.HasAttribute("Name"))
-            {
-                SetPaletteName(root.GetAttribute("Name"));
-            }
+            //if (root.HasAttribute("Name"))
+            //{
+            //    SetPaletteName(root.GetAttribute("Name"));
+            //}
 
             // Import order: establish a full baseline from BasePalette, then apply the XML theme on top.
             //
@@ -3136,7 +3275,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             // the XML actually defines. Theme wins for anything present in the file; anything omitted keeps
             // the values we just populated from BasePalette. Doing populate after import would fight the
             // file and could reset explicit theme settings, so populate must run first.
-            PopulateFromBaseOperation(null);
+            //PopulateFromBaseOperation(null);
 
             // Grab the properties and images elements
             var props = root.SelectSingleNode(nameof(Properties)) as XmlElement;
@@ -3336,91 +3475,95 @@ public class KryptonCustomPaletteBase : PaletteBase
                 // Search each of the attributes applied to the property
                 foreach (var attrib in prop.GetCustomAttributes(false))
                 {
-                    // Is it marked with the special krypton persist marker?
-                    if (attrib is KryptonPersistAttribute persistAttribute)
+                    //The addition was suppressed, which caused CS0272
+                    if (prop.Name != "PaletteName" && prop.Name != "CustomisedKryptonPaletteFilePath")
                     {
-                        // Cast attribute to the correct type
-
-                        // Check if there is an element matching the property
-
-                        // Can only import if a matching XML element is found
-                        if (element?.SelectSingleNode(prop.Name) is XmlElement childElement)
+                        // Is it marked with the special krypton persist marker?
+                        if (attrib is KryptonPersistAttribute persistAttribute)
                         {
-                            // Should we navigate down inside the property?
-                            if (persistAttribute.Navigate)
-                            {
-                                // If we can read the property value
-                                if (prop.CanRead)
-                                {
-                                    // Grab the property object and recurse into it
-                                    var childObj = prop.GetValue(obj, null);
-                                    ImportObjectFromElement(childElement, imageCache, childObj);
-                                }
-                            }
-                            else
-                            {
-                                // The xml element must have a type and value in order to recreate it
-                                if (childElement.HasAttribute(nameof(Type)) &&
-                                    childElement.HasAttribute(@"Value"))
-                                {
-                                    // Get the type/value attributes
-                                    var valueType = childElement.GetAttribute(nameof(Type));
-                                    var valueValue = childElement.GetAttribute(@"Value");
+                            // Cast attribute to the correct type
 
-                                    // We special case the loading of images
-                                    if (prop.PropertyType == typeof(Image))
+                            // Check if there is an element matching the property
+
+                            // Can only import if a matching XML element is found
+                            if (element?.SelectSingleNode(prop.Name) is XmlElement childElement)
+                            {
+                                // Should we navigate down inside the property?
+                                if (persistAttribute.Navigate)
+                                {
+                                    // If we can read the property value
+                                    if (prop.CanRead)
                                     {
-                                        if (valueValue.Length == 0)
+                                        // Grab the property object and recurse into it
+                                        var childObj = prop.GetValue(obj, null);
+                                        ImportObjectFromElement(childElement, imageCache, childObj);
+                                    }
+                                }
+                                else
+                                {
+                                    // The xml element must have a type and value in order to recreate it
+                                    if (childElement.HasAttribute(nameof(Type)) &&
+                                        childElement.HasAttribute(@"Value"))
+                                    {
+                                        // Get the type/value attributes
+                                        var valueType = childElement.GetAttribute(nameof(Type));
+                                        var valueValue = childElement.GetAttribute(@"Value");
+
+                                        // We special case the loading of images
+                                        if (prop.PropertyType == typeof(Image))
                                         {
-                                            // An empty string represents a null image value
-                                            prop.SetValue(obj, null, null);
+                                            if (valueValue.Length == 0)
+                                            {
+                                                // An empty string represents a null image value
+                                                prop.SetValue(obj, null, null);
+                                            }
+                                            else
+                                            {
+                                                /*// Have we already encountered the image?
+                                                        if (imageCache.ContainsKey(valueValue))
+                                                        {
+                                                            // Push the image from the cache into the property
+                                                            prop.SetValue(obj, valueValue, null);
+                                                        }
+                                                        else
+                                                        {
+                                                            // Cannot find image to set to empty
+                                                            prop.SetValue(obj, null, null);
+                                                        }*/
+
+                                                // If image exists in dictionary, push the image from the cache into the property, else null.
+                                                prop.SetValue(obj, imageCache.TryGetValue(valueValue, out var imageValue) ? imageValue : null, null);
+                                            }
                                         }
                                         else
                                         {
-                                            /*// Have we already encountered the image?
-                                                    if (imageCache.ContainsKey(valueValue))
-                                                    {
-                                                        // Push the image from the cache into the property
-                                                        prop.SetValue(obj, valueValue, null);
-                                                    }
-                                                    else
-                                                    {
-                                                        // Cannot find image to set to empty
-                                                        prop.SetValue(obj, null, null);
-                                                    }*/
+                                            object? setValue = null;
 
-                                            // If image exists in dictionary, push the image from the cache into the property, else null.
-                                            prop.SetValue(obj, imageCache.TryGetValue(valueValue, out var imageValue) ? imageValue : null, null);
+                                            // Resolve the CLR type from the serialized Type attribute
+                                            Type resolvedType = StringToType(valueType);
+
+                                            // -----------------------------------------------------------------
+                                            // We intentionally skip conversion when importing a Font with
+                                            // Value="(none)".
+                                            //
+                                            // Reason:
+                                            // - "(none)" represents an explicitly unset Font (Font == null)
+                                            // - Converting "(none)" using FontConverter would return
+                                            //   a default Font instance instead of null
+                                            //
+                                            // By skipping the conversion, the property is correctly restored
+                                            // as null.
+                                            // -----------------------------------------------------------------
+                                            if (resolvedType != typeof(Font) || valueValue != "(none)")
+                                            {
+                                                var converter = TypeDescriptor.GetConverter(resolvedType);
+                                                setValue = converter.ConvertFromInvariantString(valueValue);
+                                            }
+
+                                            // Assign the restored value (null for "(none)" Font cases)
+                                            prop.SetValue(obj, setValue, null);
                                         }
                                     }
-                                    else
-                                    {
-										object? setValue = null;
-
-										// Resolve the CLR type from the serialized Type attribute
-										Type resolvedType = StringToType(valueType);
-
-										// -----------------------------------------------------------------
-										// We intentionally skip conversion when importing a Font with
-										// Value="(none)".
-										//
-										// Reason:
-										// - "(none)" represents an explicitly unset Font (Font == null)
-										// - Converting "(none)" using FontConverter would return
-										//   a default Font instance instead of null
-										//
-										// By skipping the conversion, the property is correctly restored
-										// as null.
-										// -----------------------------------------------------------------
-										if (resolvedType != typeof(Font) || valueValue != "(none)")
-										{
-											var converter = TypeDescriptor.GetConverter(resolvedType);
-											setValue = converter.ConvertFromInvariantString(valueValue);
-										}
-
-										// Assign the restored value (null for "(none)" Font cases)
-										prop.SetValue(obj, setValue, null);
-									}
                                 }
                             }
                         }
@@ -3429,7 +3572,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             }
         }
     }
-
+    
     private void ImportImagesFromElement(XmlElement element, ImageReverseDictionary imageCache)
     {
         // Get all nodes storing images
@@ -3867,6 +4010,7 @@ public class KryptonCustomPaletteBase : PaletteBase
         [typeof(PaletteButtonStyle)] = nameof(PaletteButtonStyle),
         [typeof(PaletteButtonOrientation)] = nameof(PaletteButtonOrientation),
         [typeof(PaletteRelativeEdgeAlign)] = nameof(PaletteRelativeEdgeAlign),
+        [typeof(PaletteMode)] = nameof(PaletteMode),
         [typeof(RendererMode)] = nameof(RendererMode),
         [typeof(PaletteDrawBorders)] = nameof(PaletteDrawBorders),
         [typeof(PaletteContentText)] = nameof(PaletteContentText),

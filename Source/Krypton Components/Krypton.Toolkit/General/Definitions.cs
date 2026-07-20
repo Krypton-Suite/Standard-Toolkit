@@ -545,6 +545,12 @@ public interface IKryptonCommand
     /// Generates an Execute event for a command.
     /// </summary>
     void PerformExecute();
+
+    /// <summary>
+    /// Generates an Execute event for a command, passing the originating source as the event sender.
+    /// </summary>
+    /// <param name="sender">The object that initiated command execution.</param>
+    void PerformExecute(object? sender);
 }
 #endregion
 
@@ -744,6 +750,20 @@ public interface IKryptonMonthCalendar
     /// Gets access to the override for checked pressed day.
     /// </summary>
     PaletteTripleOverride OverrideCheckedPressed { get; }
+}
+#endregion
+
+#region IKryptonLogger
+/// <summary>
+/// Receives diagnostic messages from the toolkit.
+/// </summary>
+public interface IKryptonLogger
+{
+    /// <summary>
+    /// Writes a diagnostic message.
+    /// </summary>
+    /// <param name="message">The message to write.</param>
+    void Write(string message);
 }
 #endregion
 
@@ -1595,6 +1615,47 @@ public enum InputControlStyle
     /// </summary>
     Disabled
     */
+}
+#endregion
+
+#region Enum InputPulsingBorderShowWhen
+/// <summary>
+/// Specifies when an optional input control pulsing border is shown.
+/// </summary>
+public enum InputPulsingBorderShowWhen
+{
+    /// <summary>
+    /// Show the pulsing border only when the input has keyboard focus.
+    /// </summary>
+    Focused,
+
+    /// <summary>
+    /// Show the pulsing border when the input is active (focused, mouse over, or AlwaysActive).
+    /// </summary>
+    Active,
+
+    /// <summary>
+    /// Always show the pulsing border when enabled.
+    /// </summary>
+    Always
+}
+#endregion
+
+#region Enum InputPulsingBorderStyle
+/// <summary>
+/// Specifies how an optional input control pulsing border is drawn.
+/// </summary>
+public enum InputPulsingBorderStyle
+{
+    /// <summary>
+    /// Draw the pulsing border along the bottom edge only.
+    /// </summary>
+    Bottom,
+
+    /// <summary>
+    /// Draw the pulsing border around the entire control border.
+    /// </summary>
+    All
 }
 #endregion
 
@@ -4490,6 +4551,26 @@ public enum ScrollbarManagerMode
     /// Custom mode - for controls with custom scrolling logic.
     /// </summary>
     Custom
+}
+
+#endregion
+
+#region Enum ScrollbarCornerStyle
+
+/// <summary>
+/// Specifies how the scrollbar manager fills the bottom-right corner when both scrollbars are visible.
+/// </summary>
+public enum ScrollbarCornerStyle
+{
+    /// <summary>
+    /// Both scrollbars are shortened and a themed corner filler is drawn at their intersection. This is the default.
+    /// </summary>
+    ThemedCorner,
+
+    /// <summary>
+    /// The horizontal scrollbar spans the full width and fills the corner; the vertical scrollbar stops above it.
+    /// </summary>
+    ExtendHorizontal
 }
 
 #endregion

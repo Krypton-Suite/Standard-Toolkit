@@ -11,9 +11,9 @@ namespace Krypton.Toolkit;
 
 internal static class DropDownArrowGlyphCache
 {
-    private static readonly Dictionary<(int Size, int Color, DropDownArrowGlyphDirection Direction, DropDownArrowRenderMode Mode, DropDownArrowGlyphLayer Layer), Image> _monochromeCache = new();
+    private static readonly Dictionary<(int Size, int Color, DropDownArrowGlyphDirection Direction, DropDownArrowRenderMode Mode, DropDownArrowGlyphLayer Layer, bool FitToCell), Image> _monochromeCache = new();
 
-    private static readonly Dictionary<(int Size, int Outline, int Fill, DropDownArrowGlyphDirection Direction, DropDownArrowRenderMode Mode, DropDownArrowGlyphStyle Style), Image> _compositeCache = new();
+    private static readonly Dictionary<(int Size, int Outline, int Fill, DropDownArrowGlyphDirection Direction, DropDownArrowRenderMode Mode, DropDownArrowGlyphStyle Style, bool FitToCell), Image> _compositeCache = new();
 
     private static readonly object _lock = new();
 
@@ -22,7 +22,7 @@ internal static class DropDownArrowGlyphCache
         KryptonManager.GlobalPaletteChanged += (_, _) => Clear();
     }
 
-    internal static Image GetOrCreate(int size, Color outline, Color fill, DropDownArrowGlyphDirection direction)
+    internal static Image GetOrCreate(int size, Color outline, Color fill, DropDownArrowGlyphDirection direction, bool fitToCell = false)
     {
         if (size <= 0)
         {
@@ -35,10 +35,10 @@ internal static class DropDownArrowGlyphCache
 
         if (!DropDownArrowGlyphFactory.HasDistinctFill(outline, fill))
         {
-            return GetMonochrome(size, outline, direction, mode, DropDownArrowGlyphLayer.Fill);
+            return GetMonochrome(size, outline, direction, mode, DropDownArrowGlyphLayer.Fill, fitToCell);
         }
 
-        var key = (size, outline.ToArgb(), fill.ToArgb(), direction, mode, style);
+        var key = (size, outline.ToArgb(), fill.ToArgb(), direction, mode, style, fitToCell);
 
         lock (_lock)
         {
@@ -47,7 +47,7 @@ internal static class DropDownArrowGlyphCache
                 return cached;
             }
 
-            var image = DropDownArrowGlyphFactory.Create(size, outline, fill, direction, mode, style);
+            var image = DropDownArrowGlyphFactory.Create(size, outline, fill, direction, mode, style, fitToCell);
 
             _compositeCache[key] = image;
 
@@ -55,9 +55,9 @@ internal static class DropDownArrowGlyphCache
         }
     }
 
-    private static Image GetMonochrome(int size, Color color, DropDownArrowGlyphDirection direction, DropDownArrowRenderMode mode, DropDownArrowGlyphLayer layer)
+    private static Image GetMonochrome(int size, Color color, DropDownArrowGlyphDirection direction, DropDownArrowRenderMode mode, DropDownArrowGlyphLayer layer, bool fitToCell)
     {
-        var key = (size, color.ToArgb(), direction, mode, layer);
+        var key = (size, color.ToArgb(), direction, mode, layer, fitToCell);
 
         lock (_lock)
         {
@@ -66,7 +66,7 @@ internal static class DropDownArrowGlyphCache
                 return cached;
             }
 
-            var image = DropDownArrowGlyphFactory.CreateMonochrome(size, color, direction, mode, layer);
+            var image = DropDownArrowGlyphFactory.CreateMonochrome(size, color, direction, mode, layer, fitToCell);
 
             _monochromeCache[key] = image;
 
@@ -91,6 +91,30 @@ internal static class DropDownArrowGlyphCache
 
         g.DrawImage(glyph, x, y, size, size);
 
+    }
+
+    /// <summary>
+    /// Draws a glyph that fills the supplied cell, without the DPI-scaled drop-down
+    /// metrics. Used for cells that are already expressed in physical pixels, such as
+    /// the fixed-size scrollbar arrow buttons. Unicode glyphs are scaled to their
+    /// outline so the visible ink fills the cell instead of the font's em padding.
+    /// </summary>
+    internal static void DrawFixedCell(Graphics g, Rectangle cellRect, Color outline, Color fill, DropDownArrowGlyphDirection direction)
+    {
+        int size = Math.Min(cellRect.Width, cellRect.Height);
+
+        if (size <= 0)
+        {
+            return;
+        }
+
+        Image glyph = GetOrCreate(size, outline, fill, direction, fitToCell: true);
+
+        int x = cellRect.X + ((cellRect.Width - size) / 2);
+
+        int y = cellRect.Y + ((cellRect.Height - size) / 2);
+
+        g.DrawImage(glyph, x, y, size, size);
     }
 
     internal static void Clear()

@@ -2984,7 +2984,7 @@ public abstract class PaletteOffice2007SilverDarkModeBase : PaletteBase
             PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonButtonSpec => state switch
             {
                 PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
-                    ? BaseColors!.TextLabelControl
+                    ? BaseColors!.TextListItem
                     : BaseColors!.TextLabelPanel,
                 PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => BaseColors!.TextButtonChecked,
                 _ => BaseColors!.TextButtonNormal
@@ -3060,7 +3060,7 @@ public abstract class PaletteOffice2007SilverDarkModeBase : PaletteBase
             PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonButtonSpec => state switch
             {
                 PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
-                    ? BaseColors!.TextLabelControl
+                    ? BaseColors!.TextListItem
                     : BaseColors!.TextLabelPanel,
                 PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => BaseColors!.TextButtonChecked,
                 _ => BaseColors!.TextButtonNormal
@@ -3470,7 +3470,7 @@ public abstract class PaletteOffice2007SilverDarkModeBase : PaletteBase
             PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCalendarDay => state switch
             {
                 PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
-                    ? BaseColors!.TextLabelControl
+                    ? BaseColors!.TextListItem
                     : BaseColors!.TextLabelPanel,
                 PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => BaseColors!.TextButtonChecked,
                 _ => BaseColors!.TextButtonNormal
@@ -3544,7 +3544,7 @@ public abstract class PaletteOffice2007SilverDarkModeBase : PaletteBase
             PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCalendarDay => state switch
             {
                 PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
-                    ? BaseColors!.TextLabelControl
+                    ? BaseColors!.TextListItem
                     : BaseColors!.TextLabelPanel,
                 PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => BaseColors!.TextButtonChecked,
                 _ => BaseColors!.TextButtonNormal
@@ -5451,20 +5451,9 @@ public class KryptonColorTable2007SilverDarkMode : KryptonColorTable
     private static readonly Color _buttonPressedEnd = Color.FromArgb(119, 132, 161);
     private static readonly Color _buttonCheckedBegin = Color.FromArgb(83, 99, 136);
     private static readonly Color _buttonCheckedEnd = Color.FromArgb(119, 132, 161);
-    private static Font _menuToolFont;
-    private static Font _statusFont;
     #endregion
 
     #region Identity
-    static KryptonColorTable2007SilverDarkMode()
-    {
-        // Get the font settings from the system
-        DefineFonts();
-
-        // We need to notice when system color settings change
-        SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
-    }
-
     /// <summary>
     /// Initialize a new instance of the KryptonColorTable2007SilverDarkMode class.
     /// </summary>
@@ -5936,30 +5925,6 @@ public class KryptonColorTable2007SilverDarkMode : KryptonColorTable
     public override Color StatusStripText => Colors[(int)SchemeBaseColors.StatusStripText];
 
     #endregion
-
-    #region MenuStripFont
-    /// <summary>
-    /// Gets the font used on the menu strip.
-    /// </summary>
-    public override Font MenuStripFont => _menuToolFont;
-
-    #endregion
-
-    #region ToolStripFont
-    /// <summary>
-    /// Gets the font used on the tool strip.
-    /// </summary>
-    public override Font ToolStripFont => _menuToolFont;
-
-    #endregion
-
-    #region StatusStripFont
-    /// <summary>
-    /// Gets the font used on the status strip.
-    /// </summary>
-    public override Font StatusStripFont => _statusFont;
-
-    #endregion
     #endregion
 
     #region ToolStrip
@@ -6037,18 +6002,6 @@ public class KryptonColorTable2007SilverDarkMode : KryptonColorTable
     #endregion
 
     #region Implementation
-    private static void DefineFonts()
-    {
-        // Create new font using system information
-        // TODO: Should be using base font
-        _menuToolFont = new Font(@"Segoe UI", SystemFonts.MenuFont!.SizeInPoints!, FontStyle.Regular);
-        _statusFont = new Font(@"Segoe UI", SystemFonts.StatusFont!.SizeInPoints!, FontStyle.Regular);
-    }
-
-    private static void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e) =>
-        // Update fonts to reflect any change in system settings
-        DefineFonts();
-
     #endregion
 }
 #endregion

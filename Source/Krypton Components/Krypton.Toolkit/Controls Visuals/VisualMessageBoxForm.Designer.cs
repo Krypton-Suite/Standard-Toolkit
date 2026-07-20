@@ -48,6 +48,7 @@ namespace Krypton.Toolkit
             this._button3 = new Krypton.Toolkit.MessageButton();
             this._button1 = new Krypton.Toolkit.MessageButton();
             this._button2 = new Krypton.Toolkit.MessageButton();
+            this._copyButton = new Krypton.Toolkit.MessageButton();
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.kpnlContentArea = new Krypton.Toolkit.KryptonPanel();
@@ -82,6 +83,7 @@ namespace Krypton.Toolkit
             this._panelButtons.Controls.Add(this._button3);
             this._panelButtons.Controls.Add(this._button1);
             this._panelButtons.Controls.Add(this._button2);
+            this._panelButtons.Controls.Add(this._copyButton);
             this._panelButtons.Dock = System.Windows.Forms.DockStyle.Fill;
             this._panelButtons.Location = new System.Drawing.Point(0, 43);
             this._panelButtons.Margin = new System.Windows.Forms.Padding(0);
@@ -103,7 +105,7 @@ namespace Krypton.Toolkit
             // _button4
             // 
             this._button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._button4.AutoSize = true;
+            this._button4.AutoSize = false;
             this._button4.Enabled = false;
             this._button4.IgnoreAltF4 = false;
             this._button4.Location = new System.Drawing.Point(203, 0);
@@ -119,7 +121,7 @@ namespace Krypton.Toolkit
             // _button3
             // 
             this._button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._button3.AutoSize = true;
+            this._button3.AutoSize = false;
             this._button3.Enabled = false;
             this._button3.IgnoreAltF4 = false;
             this._button3.Location = new System.Drawing.Point(166, 0);
@@ -135,7 +137,7 @@ namespace Krypton.Toolkit
             // _button1
             // 
             this._button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._button1.AutoSize = true;
+            this._button1.AutoSize = false;
             this._button1.Enabled = false;
             this._button1.IgnoreAltF4 = false;
             this._button1.Location = new System.Drawing.Point(90, 0);
@@ -151,7 +153,7 @@ namespace Krypton.Toolkit
             // _button2
             // 
             this._button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._button2.AutoSize = true;
+            this._button2.AutoSize = false;
             this._button2.Enabled = false;
             this._button2.IgnoreAltF4 = false;
             this._button2.Location = new System.Drawing.Point(128, 0);
@@ -163,6 +165,22 @@ namespace Krypton.Toolkit
             this._button2.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this._button2.Values.Text = "B2";
             this._button2.Visible = false;
+            // 
+            // _copyButton
+            // 
+            this._copyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
+            this._copyButton.AutoSize = false;
+            this._copyButton.Enabled = false;
+            this._copyButton.IgnoreAltF4 = false;
+            this._copyButton.Location = new System.Drawing.Point(10, 10);
+            this._copyButton.Margin = new System.Windows.Forms.Padding(0);
+            this._copyButton.MinimumSize = new System.Drawing.Size(38, 21);
+            this._copyButton.Name = "_copyButton";
+            this._copyButton.Size = new System.Drawing.Size(38, 26);
+            this._copyButton.TabIndex = 3;
+            this._copyButton.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this._copyButton.Values.Text = "Copy";
+            this._copyButton.Visible = false;
             // 
             // kryptonPanel1
             // 
@@ -258,6 +276,7 @@ namespace Krypton.Toolkit
         private MessageButton _button2;
         private MessageButton _button3;
         private MessageButton _button4;
+        private MessageButton _copyButton;
         private KryptonBorderEdge _borderEdge;
         private KryptonPanel kryptonPanel1;
         private TableLayoutPanel tableLayoutPanel1;
