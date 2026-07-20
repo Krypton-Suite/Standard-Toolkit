@@ -14,10 +14,6 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
 
     private bool _useRichTextBox;
 
-    private string _headerText;
-
-    private string _windowTitle;
-
     private string[]? _contents;
 
     private StringCollection? _collection;
@@ -46,14 +42,6 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
         _collection = collection ?? [];
 
         _useRichTextBox = useRichTextBox ?? true;
-
-        _headerText = headerText ?? @"Enter the strings in the collection (one per line):";
-
-        _windowTitle = windowTitle ?? @"String Collection Editor";
-
-        kryptonGroupBox1.Values.Heading = _headerText;
-
-        Text = _windowTitle;
 
         ConfigureDialogChrome();
 
@@ -133,7 +121,7 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
 
         Text = KryptonManager.Strings.CollectionEditorStrings.StringCollectionEditorWindowTitle;
 
-        kryptonGroupBox1.Values.Heading = KryptonManager.Strings.CollectionEditorStrings.StringCollectionEditorHeaderText;
+        kgrpbxContainer.Values.Heading = KryptonManager.Strings.CollectionEditorStrings.StringCollectionEditorHeaderText;
     }
 
     private void InitialSetup()
@@ -141,8 +129,6 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
         // Set default values
 
         _useRichTextBox = false;
-
-        _headerText = @"Enter the strings in the collection (one per line):";
 
         _contents = null;
 
