@@ -16,7 +16,7 @@ internal partial class InternalDesignerEditorButtonBarPanel
     private void InitializeComponent()
     {
         kbEdge = new KryptonBorderEdge();
-        kcmbTheme = new KryptonComboBox();
+        kcmbTheme = new KryptonThemeComboBox();
         flpExtraButtons = new FlowLayoutPanel();
         kbtnOk = new KryptonButton();
         kbtnCancel = new KryptonButton();
@@ -77,7 +77,7 @@ internal partial class InternalDesignerEditorButtonBarPanel
     #endregion
 
     private KryptonBorderEdge kbEdge;
-    private KryptonComboBox kcmbTheme;
+    private KryptonThemeComboBox kcmbTheme;
     private FlowLayoutPanel flpExtraButtons;
     private KryptonButton kbtnOk;
     private KryptonButton kbtnCancel;

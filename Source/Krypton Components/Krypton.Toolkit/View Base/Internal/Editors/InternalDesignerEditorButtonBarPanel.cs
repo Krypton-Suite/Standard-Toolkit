@@ -16,6 +16,12 @@ namespace Krypton.Toolkit;
 [DesignerCategory(@"code")]
 internal partial class InternalDesignerEditorButtonBarPanel : KryptonPanel
 {
+    #region Instance Fields
+    
+    private KryptonForm? _ownerForm;
+
+    #endregion
+
     #region Identity
     /// <summary>
     /// Initialize a new instance of the <see cref="InternalDesignerEditorButtonBarPanel"/> class.
@@ -43,7 +49,7 @@ internal partial class InternalDesignerEditorButtonBarPanel : KryptonPanel
     /// <summary>
     /// Gets the local theme selector combo box.
     /// </summary>
-    public KryptonComboBox ThemeCombo => kcmbTheme;
+    public KryptonThemeComboBox ThemeCombo => kcmbTheme;
 
     /// <summary>
     /// Gets the host for additional footer buttons (for example Delete).
@@ -66,16 +72,17 @@ internal partial class InternalDesignerEditorButtonBarPanel : KryptonPanel
     /// <param name="owner">Owning editor form.</param>
     public void WireThemeToForm(KryptonForm owner)
     {
-        if (!IncludeThemeSelector)
+        _ownerForm = owner;
+
+        if (IncludeThemeSelector)
         {
-            return;
+            KryptonDesignerEditorTheme.WireThemeSelector(
+                kcmbTheme,
+                owner,
+                owner.PaletteMode,
+                owner.LocalCustomPalette);
         }
 
-        KryptonDesignerEditorTheme.WireThemeSelector(
-            kcmbTheme,
-            owner,
-            owner.PaletteMode,
-            owner.LocalCustomPalette);
         LayoutFooterButtons();
     }
 
@@ -85,6 +92,7 @@ internal partial class InternalDesignerEditorButtonBarPanel : KryptonPanel
     /// <param name="owner">Owning editor form.</param>
     public void ApplyDpi(KryptonForm owner)
     {
+        _ownerForm = owner;
         var buttonSize = KryptonDesignerEditorDpi.Scale(owner, new Size(112, 28));
         foreach (var button in GetFooterButtons())
         {
@@ -105,9 +113,18 @@ internal partial class InternalDesignerEditorButtonBarPanel : KryptonPanel
         base.OnResize(e);
         LayoutFooterButtons();
     }
+
+    /// <inheritdoc />
+    protected override void OnParentChanged(EventArgs e)
+    {
+        base.OnParentChanged(e);
+        LayoutFooterButtons();
+    }
     #endregion
 
     #region Implementation
+    private int ScaleDesign(int designPixels) =>
+        _ownerForm is not null ? KryptonDesignerEditorDpi.Scale(_ownerForm, designPixels) : designPixels;
     private IEnumerable<KryptonButton> GetFooterButtons()
     {
         yield return kbtnOk;
@@ -128,13 +145,17 @@ internal partial class InternalDesignerEditorButtonBarPanel : KryptonPanel
             return;
         }
 
-        const int padding = 9;
-        const int buttonTop = 12;
-        const int buttonGap = 6;
-        const int themeWidth = 220;
+        var padding = ScaleDesign(9);
+        var buttonTop = ScaleDesign(12);
+        var buttonGap = ScaleDesign(6);
+        var themeWidth = ScaleDesign(220);
+        var buttonHeight = kbtnOk.Height > 0 ? kbtnOk.Height : ScaleDesign(28);
 
-        kcmbTheme.Location = new Point(padding, buttonTop);
-        kcmbTheme.Size = new Size(Math.Min(themeWidth, ClientSize.Width / 2), kbtnOk.Height > 0 ? kbtnOk.Height : 28);
+        if (IncludeThemeSelector)
+        {
+            kcmbTheme.Location = new Point(padding, buttonTop);
+            kcmbTheme.Size = new Size(Math.Min(themeWidth, Math.Max(buttonHeight, ClientSize.Width / 2)), buttonHeight);
+        }
 
         var right = padding;
         var buttons = new List<KryptonButton> { kbtnCancel, kbtnOk };

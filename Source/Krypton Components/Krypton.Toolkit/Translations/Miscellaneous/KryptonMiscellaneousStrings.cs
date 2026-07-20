@@ -24,6 +24,7 @@ public class KryptonMiscellaneousStrings
     private const string DEFAULT_CHANGELOG_TEXT = @"&Changelog";
     private const string DEFAULT_README_TEXT = @"&Readme";
     private const string DEFAULT_RIBBON_FLOATING_WINDOW_TEXT = @"Ribbon";
+    private const string DEFAULT_STRING_COLLECTION_EDITOR_CUE_TEXT = @"Enter the strings in the collection...";
 
     #endregion
 
@@ -118,6 +119,14 @@ public class KryptonMiscellaneousStrings
     [DefaultValue(DEFAULT_RIBBON_FLOATING_WINDOW_TEXT)]
     public string RibbonFloatingWindowText { get; set; }
 
+    /// <summary>Gets or sets the string collection editor cue text.</summary>
+    /// <value>The string collection editor cue text.</value>
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [Description(@"The string collection editor cue text.")]
+    [DefaultValue(DEFAULT_STRING_COLLECTION_EDITOR_CUE_TEXT)]
+    public string StringCollectionEditorCueText { get; set; }
+
     #endregion
 
     #region IsDefault
@@ -132,7 +141,8 @@ public class KryptonMiscellaneousStrings
                              LongTermStableText.Equals(DEFAULT_LONG_TERM_STABLE_TEXT) &&
                              ChangeLogText.Equals(DEFAULT_CHANGELOG_TEXT) &&
                              ReadmeText.Equals(DEFAULT_README_TEXT) &&
-                             RibbonFloatingWindowText.Equals(DEFAULT_RIBBON_FLOATING_WINDOW_TEXT);
+                             RibbonFloatingWindowText.Equals(DEFAULT_RIBBON_FLOATING_WINDOW_TEXT) &&
+                             StringCollectionEditorCueText.Equals(DEFAULT_STRING_COLLECTION_EDITOR_CUE_TEXT);
     #endregion
 
     #region Implementation
@@ -158,6 +168,8 @@ public class KryptonMiscellaneousStrings
         ReadmeText = DEFAULT_README_TEXT;
 
         RibbonFloatingWindowText = DEFAULT_RIBBON_FLOATING_WINDOW_TEXT;
+
+        StringCollectionEditorCueText = DEFAULT_STRING_COLLECTION_EDITOR_CUE_TEXT;
     }
 
     #endregion

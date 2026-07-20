@@ -255,7 +255,7 @@ namespace Krypton.Toolkit
             this.ClientSize = new System.Drawing.Size(584, 361);
             this.Controls.Add(this.kpnlContent);
             this.Controls.Add(this.kpnlButtonBar);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "VisualMultilineStringEditorForm";

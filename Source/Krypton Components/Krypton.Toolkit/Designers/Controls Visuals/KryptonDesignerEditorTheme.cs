@@ -105,6 +105,7 @@ public static class KryptonDesignerEditorTheme
         combo.Tag = state;
         combo.Name = ThemeSelectorName;
         combo.DropDownStyle = ComboBoxStyle.DropDownList;
+        state.CustomPalette = initialCustom;
 
         if (combo.Items.Count == 0)
         {
@@ -123,7 +124,7 @@ public static class KryptonDesignerEditorTheme
                 var mode = ThemeManager.GetThemeManagerMode(themeName);
                 if (mode == PaletteMode.Custom)
                 {
-                    ApplyToForm(form, PaletteMode.Custom, initialCustom ?? form.LocalCustomPalette);
+                    ApplyToForm(form, PaletteMode.Custom, state.CustomPalette ?? form.LocalCustomPalette);
                     return;
                 }
 
@@ -171,6 +172,7 @@ public static class KryptonDesignerEditorTheme
     {
         public bool Suppress;
         public bool Wired;
+        public KryptonCustomPaletteBase? CustomPalette;
     }
 
     private static void SyncThemeSelector(KryptonForm form, PaletteMode mode)
