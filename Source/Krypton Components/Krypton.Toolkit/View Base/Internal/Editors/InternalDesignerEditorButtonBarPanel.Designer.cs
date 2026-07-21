@@ -16,7 +16,8 @@ internal partial class InternalDesignerEditorButtonBarPanel
     private void InitializeComponent()
     {
         kbEdge = new KryptonBorderEdge();
-        kcmbTheme = new KryptonComboBox();
+        kcmbTheme = new KryptonThemeComboBox();
+        kbtnThemeSettings = new KryptonButton();
         flpExtraButtons = new FlowLayoutPanel();
         kbtnOk = new KryptonButton();
         kbtnCancel = new KryptonButton();
@@ -34,6 +35,14 @@ internal partial class InternalDesignerEditorButtonBarPanel
         kcmbTheme.DropDownStyle = ComboBoxStyle.DropDownList;
         kcmbTheme.Name = "kcmbDesignerEditorTheme";
         kcmbTheme.TabIndex = 0;
+        //
+        // kbtnThemeSettings
+        //
+        kbtnThemeSettings.Name = "kbtnThemeSettings";
+        kbtnThemeSettings.Size = new Size(90, 28);
+        kbtnThemeSettings.TabIndex = 3;
+        kbtnThemeSettings.Values.Text = "Theme...";
+        kbtnThemeSettings.Visible = false;
         //
         // flpExtraButtons
         //
@@ -65,6 +74,7 @@ internal partial class InternalDesignerEditorButtonBarPanel
         Controls.Add(kbtnCancel);
         Controls.Add(kbtnOk);
         Controls.Add(flpExtraButtons);
+        Controls.Add(kbtnThemeSettings);
         Controls.Add(kcmbTheme);
         Controls.Add(kbEdge);
         Name = "KryptonDesignerEditorButtonBarPanel";
@@ -77,7 +87,8 @@ internal partial class InternalDesignerEditorButtonBarPanel
     #endregion
 
     private KryptonBorderEdge kbEdge;
-    private KryptonComboBox kcmbTheme;
+    private KryptonThemeComboBox kcmbTheme;
+    private KryptonButton kbtnThemeSettings;
     private FlowLayoutPanel flpExtraButtons;
     private KryptonButton kbtnOk;
     private KryptonButton kbtnCancel;

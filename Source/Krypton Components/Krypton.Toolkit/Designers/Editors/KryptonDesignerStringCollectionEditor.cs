@@ -34,7 +34,7 @@ public class KryptonDesignerStringCollectionEditor : UITypeEditor
 
         ValidateEditContext(context);
 
-        var lines = ConvertToLines(value);
+        var lines = KryptonDesignerEditorPalette.NormalizeDesignerPlaceholderLines(context, ConvertToLines(value));
 
         using var form = new VisualMultilineStringEditorForm(
             lines,

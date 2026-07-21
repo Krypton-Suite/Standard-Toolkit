@@ -14,10 +14,6 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
 
     private bool _useRichTextBox;
 
-    private string _headerText;
-
-    private string _windowTitle;
-
     private string[]? _contents;
 
     private StringCollection? _collection;
@@ -41,19 +37,13 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
         InitializeComponent();
         ConfigureDesignerChrome();
 
-        _contents = contents ?? [string.Empty];
+        _contents = contents ?? Array.Empty<string>();
 
         _collection = collection ?? [];
 
         _useRichTextBox = useRichTextBox ?? true;
 
-        _headerText = headerText ?? @"Enter the strings in the collection (one per line):";
-
-        _windowTitle = windowTitle ?? @"String Collection Editor";
-
-        kryptonGroupBox1.Values.Heading = _headerText;
-
-        Text = _windowTitle;
+        ConfigureDialogChrome();
 
         SetupControlsText();
 
@@ -87,6 +77,20 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
     {
         InternalDesignerEditorFormChrome.Apply(this, kpnlContent, kpnlButtonBar);
         kpnlButtonBar.OkButton.Click += kbtnOk_Click;
+
+        // Multiline inputs must not share the form AcceptButton; otherwise Enter in a
+        // RichTextBox (and some wrapped editors) closes the dialog instead of inserting a line.
+        AcceptButton = null;
+    }
+
+    private void ConfigureDialogChrome()
+    {
+        ControlBox = false;
+        FormBorderStyle = FormBorderStyle.FixedDialog;
+        StartPosition = FormStartPosition.CenterScreen;
+        ClientSize = KryptonDesignerEditorDpi.Scale(this, new Size(584, 361));
+        MinimumSize = ClientSize;
+        MaximumSize = new Size(ClientSize.Width + 1, ClientSize.Height + 1);
     }
 
     private void SetupControlsText()
@@ -110,21 +114,14 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
         kcTextBoxPaste.Text = KryptonManager.Strings.ToolBarStrings.Paste;
 
         kcTextBoxSelectAll.Text = KryptonManager.Strings.CustomStrings.SelectAll;
-    }
 
-    private void SetupVariables(string[]? contents, StringCollection? collection, bool? useRichTextBox, string? headerText, string? windowTitle)
-    {
-        _contents = contents;
+        krtbContents.CueHint.CueHintText = KryptonManager.Strings.CollectionEditorStrings.StringCollectionEditorPlaceholderCueText;
 
-        _collection = collection;
+        krtbContents.Text = GlobalStaticVariables.DEFAULT_EMPTY_STRING;
 
-        _useRichTextBox = useRichTextBox ?? true;
+        Text = KryptonManager.Strings.CollectionEditorStrings.StringCollectionEditorWindowTitle;
 
-        _headerText = headerText ?? @"Enter the strings in the collection (one per line):";
-
-        kryptonGroupBox1.Values.Heading = _headerText;
-
-        Text = windowTitle ?? @"String Collection Editor";
+        kgrpbxContainer.Values.Heading = KryptonManager.Strings.CollectionEditorStrings.StringCollectionEditorHeaderText;
     }
 
     private void InitialSetup()
@@ -132,8 +129,6 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
         // Set default values
 
         _useRichTextBox = false;
-
-        _headerText = @"Enter the strings in the collection (one per line):";
 
         _contents = null;
 
@@ -178,38 +173,36 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
 
     private void UpdateInput(string[]? contents, StringCollection? collection)
     {
+        var lines = ResolveInputLines(contents, collection);
+
+        ktxtStringCollection.Clear();
+        krtbContents.Clear();
+
         if (_useRichTextBox)
         {
-            if (contents != null)
-            {
-                krtbContents.Lines = contents;
-            }
-            else if (collection != null)
-            {
-                string[] tmp = new string[collection.Count];
-
-                collection.CopyTo(tmp, 0);
-
-                krtbContents.Lines = tmp;
-            }
+            krtbContents.Lines = lines;
         }
         else
         {
-            if (contents != null)
-            {
-                ktxtStringCollection.Lines = contents;
-            }
-            else if (collection != null)
-            {
-                // Setup temporary string array
-                string[] tmpStrings = new string[collection.Count];
-
-                // Copy the contents of 'collection' into string array
-                collection.CopyTo(tmpStrings, 0);
-
-                ktxtStringCollection.Lines = tmpStrings;
-            }
+            ktxtStringCollection.Lines = lines;
         }
+    }
+
+    private static string[] ResolveInputLines(string[]? contents, StringCollection? collection)
+    {
+        if (contents is not null)
+        {
+            return contents;
+        }
+
+        if (collection is null || collection.Count == 0)
+        {
+            return Array.Empty<string>();
+        }
+
+        var lines = new string[collection.Count];
+        collection.CopyTo(lines, 0);
+        return lines;
     }
 
     private void kbtnOk_Click(object? sender, EventArgs e) => _contents = _useRichTextBox ? [.. krtbContents.Lines] : [.. ktxtStringCollection.Lines];
