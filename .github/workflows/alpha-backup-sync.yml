@@ -15,7 +15,7 @@
 # secret BACKUP_REPO_TOKEN (PAT with push access). Snapshots are zipped into Source/Nightly/Standard Toolkit.
 # Legacy dated directories at the backup repo root are removed on each run.
 # Optional: BACKUP_DIR_PREFIX (default "Standard Toolkit Backup"), BACKUP_BRANCH (default "main"),
-# BACKUP_SNAPSHOT_KEEP (default 14 — number of newest zip snapshots to retain).
+# BACKUP_SNAPSHOT_KEEP (default 30 — number of newest zip snapshots to retain).
 
 name: Alpha to Alpha-Backup Sync
 
@@ -141,12 +141,18 @@ jobs:
       - name: Enable auto-merge on PR
         if: steps.kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
         uses: actions/github-script@v9
-        env:
-          PR_NODE_ID: ${{ fromJson(steps.create_pr.outputs.result).pr_node_id }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const nodeId = process.env.PR_NODE_ID;
+            let result;
+            try {
+              result = JSON.parse(`${{ steps.create_pr.outputs.result }}`);
+            } catch (e) {
+              console.log('Could not parse PR result, skipping auto-merge');
+              return;
+            }
+
+            const nodeId = result.pr_node_id;
             if (!nodeId) {
               console.log('No PR to enable auto-merge on.');
               return;
