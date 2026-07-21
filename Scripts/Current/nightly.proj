@@ -1,6 +1,7 @@
 <Project>
 	<Import Project="..\..\Directory.Build.props" />
 	<Import Project="..\Build\Krypton.Orchestration.targets" />
+	<Import Project="..\Build\Krypton.Pack.targets" />
 
 	<PropertyGroup>
 		<RootFolder>$(MSBuildProjectDirectory)</RootFolder>
@@ -33,23 +34,6 @@
 			<NugetPkgs Include="..\Bin\Packages\Nightly\*.nupkg" />
 		</ItemGroup>
 		<Delete Files="@(NugetPkgs)" />
-	</Target>
-
-	<Target Name="PackAll">
-		<ItemGroup>
-			<Projects Include="..\..\Source\Krypton Components\Krypton.*\*.csproj" />
-		</ItemGroup>
-		<ItemGroup>
-			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.json" />
-			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.cache" />
-			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.g.targets" />
-			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.g.props" />
-		</ItemGroup>
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Restore" BuildInParallel="false" />
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Clean" BuildInParallel="false" />
-		<Delete Files="@(NugetAssets)" />
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Restore" BuildInParallel="false" />
-		<CallTarget Targets="KryptonPack" />
 	</Target>
 
 	<Target Name="Pack" DependsOnTargets="CleanPackages;PackAll" />
