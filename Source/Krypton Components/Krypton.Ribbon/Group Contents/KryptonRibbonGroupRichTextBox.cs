@@ -775,6 +775,18 @@ namespace Krypton.Ribbon
         }
 
         /// <summary>
+        /// Gets and sets paragraph alignment for the current selection, including full justify.
+        /// </summary>
+        [Browsable(false)]
+        [DefaultValue(typeof(RichTextParagraphAlignment), "Left")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public RichTextParagraphAlignment SelectionParagraphAlignment
+        {
+            get => RichTextBox!.SelectionParagraphAlignment;
+            set => RichTextBox!.SelectionParagraphAlignment = value;
+        }
+
+        /// <summary>
         /// Gets and sets the background color of the selected area.
         /// </summary>
         [Browsable(false)]
