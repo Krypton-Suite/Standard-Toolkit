@@ -3029,6 +3029,24 @@ No 	                    No 	                    Show text only
     internal const int PRF_CLIENT = 0x00000004;
     internal const int MA_NOACTIVATE = 0x03;
     internal const int EM_FORMATRANGE = 0x0439;
+    /// <summary>Gets the paragraph formatting of the current selection (RichEdit).</summary>
+    internal const int EM_GETPARAFORMAT = 0x043D; // WM_USER + 61
+    /// <summary>Sets the paragraph formatting of the current selection (RichEdit).</summary>
+    internal const int EM_SETPARAFORMAT = 0x0447; // WM_USER + 71
+    /// <summary>Sets RichEdit typography options (advanced line breaking / justification).</summary>
+    internal const int EM_SETTYPOGRAPHYOPTIONS = 0x04CA; // WM_USER + 202
+    /// <summary>Enables advanced typography (required for paragraph justify).</summary>
+    internal const int TO_ADVANCEDTYPOGRAPHY = 0x0001;
+    /// <summary>PARAFORMAT.dwMask: wAlignment is valid.</summary>
+    internal const uint PFM_ALIGNMENT = 0x00000008;
+    /// <summary>PARAFORMAT.wAlignment: left.</summary>
+    internal const ushort PFA_LEFT = 1;
+    /// <summary>PARAFORMAT.wAlignment: right.</summary>
+    internal const ushort PFA_RIGHT = 2;
+    /// <summary>PARAFORMAT.wAlignment: center.</summary>
+    internal const ushort PFA_CENTER = 3;
+    /// <summary>PARAFORMAT.wAlignment: justify (RichEdit 3+).</summary>
+    internal const ushort PFA_JUSTIFY = 4;
     internal const int RDW_INVALIDATE = 0x0001;
     internal const int RDW_UPDATENOW = 0x0100;
     internal const int RDW_FRAME = 0x0400;
@@ -3484,6 +3502,10 @@ No 	                    No 	                    Show text only
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     internal static extern IntPtr SendMessage(HandleRef hWnd, int msg, int wParam, ref TV_ITEM lParam);
+
+    [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static extern IntPtr SendMessage(HandleRef hWnd, int msg, int wParam, ref PARAFORMAT lParam);
 
     [DllImport(Libraries.User32, SetLastError = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
@@ -4893,6 +4915,26 @@ No 	                    No 	                    Show text only
         public RECT rc;
         public RECT rcPage;
         public CHARRANGE chrg;
+    }
+
+    /// <summary>
+    /// RichEdit paragraph format (alignment and related paragraph properties).
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct PARAFORMAT
+    {
+        public uint cbSize;
+        public uint dwMask;
+        public ushort wNumbering;
+        public ushort wEffects;
+        public int dxStartIndent;
+        public int dxRightIndent;
+        public int dxOffset;
+        public ushort wAlignment;
+        public short cTabCount;
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
+        public int[] rgxTabs;
     }
 
     [StructLayout(LayoutKind.Sequential)]

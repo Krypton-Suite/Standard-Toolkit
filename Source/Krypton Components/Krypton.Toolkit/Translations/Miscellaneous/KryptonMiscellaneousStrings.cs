@@ -24,7 +24,7 @@ public class KryptonMiscellaneousStrings
     private const string DEFAULT_CHANGELOG_TEXT = @"&Changelog";
     private const string DEFAULT_README_TEXT = @"&Readme";
     private const string DEFAULT_RIBBON_FLOATING_WINDOW_TEXT = @"Ribbon";
-
+    
     #endregion
 
     #region Identity
