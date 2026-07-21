@@ -1672,6 +1672,52 @@ public class KryptonScrollbarManager : IDisposable
 
     private static int ManagedScrollBarHeight => SystemInformation.HorizontalScrollBarHeight + ScrollBarLanePadding;
 
+    /// <summary>
+    /// Returns native-child bounds clipped so overlay themed scrollbars do not cover content.
+    /// </summary>
+    /// <param name="fillRect">The full fill rectangle for the native child.</param>
+    /// <param name="laneRect">
+    /// Outer lane inside the themed border (where overlay scrollbars are positioned).
+    /// </param>
+    /// <returns>
+    /// <paramref name="fillRect"/> with its right/bottom edges clipped to the scrollbar
+    /// edges when visible. Bars stay flush to the themed border; content ends where the bar starts.
+    /// </returns>
+    public Rectangle GetInsetContentBounds(Rectangle fillRect, Rectangle laneRect)
+    {
+        if (_mode != ScrollbarManagerMode.NativeWrapper || !_enabled)
+        {
+            return fillRect;
+        }
+
+        if (laneRect.IsEmpty)
+        {
+            laneRect = fillRect;
+        }
+
+        int right = fillRect.Right;
+        int bottom = fillRect.Bottom;
+
+        // Clip to the overlay bar edge rather than subtracting bar width from FillRect.
+        // FillRect is already inset by DisplayPadding from the lane; subtracting again
+        // left a visible gutter between wrapped text and the scrollbar.
+        if (_verticalScrollBar?.Visible == true)
+        {
+            int scrollbarLeft = laneRect.Right - ManagedScrollBarWidth;
+            right = Math.Min(right, scrollbarLeft);
+        }
+
+        if (_horizontalScrollBar?.Visible == true)
+        {
+            int scrollbarTop = laneRect.Bottom - ManagedScrollBarHeight;
+            bottom = Math.Min(bottom, scrollbarTop);
+        }
+
+        int width = Math.Max(0, right - fillRect.Left);
+        int height = Math.Max(0, bottom - fillRect.Top);
+        return new Rectangle(fillRect.X, fillRect.Y, width, height);
+    }
+
     private void OnCornerNeedPaint(object? sender, NeedLayoutEventArgs e) => _scrollBarCorner?.Invalidate();
 
     private void BringScrollbarsToFront()
