@@ -32,6 +32,7 @@ internal partial class InternalDesignerEditorButtonBarPanel : KryptonPanel
         Dock = DockStyle.Bottom;
         Height = 52;
         kbtnThemeSettings.Values.Text = KryptonManager.Strings.EditorSettingStrings.DesignerEditorThemeButtonText;
+        kbtnThemeSettings.Values.Image = GenericImageResources.Settings_16_x_16;
     }
     #endregion
 
