@@ -79,4 +79,30 @@ internal static class KryptonNativeWrapperScrollbarBoundsHelper
 
         return new NativeWrapperScrollbarLayout(laneRect, contentRect);
     }
+
+    /// <summary>
+    /// Shrinks the native child fill rectangle when themed overlay scrollbars are visible.
+    /// </summary>
+    /// <remarks>
+    /// Clips to the scrollbar edge in lane coordinates so existing
+    /// <see cref="ViewLayoutFill.DisplayPadding"/> is not subtracted twice.
+    /// </remarks>
+    internal static Rectangle GetNativeChildBounds(ViewLayoutFill layoutFill,
+        KryptonScrollbarManager? scrollbarManager,
+        bool useKryptonScrollbars)
+    {
+        Rectangle fillRect = layoutFill.FillRect;
+        if (!useKryptonScrollbars || scrollbarManager == null)
+        {
+            return fillRect;
+        }
+
+        Rectangle laneRect = layoutFill.ClientRectangle;
+        if (laneRect.IsEmpty)
+        {
+            laneRect = fillRect;
+        }
+
+        return scrollbarManager.GetInsetContentBounds(fillRect, laneRect);
+    }
 }
