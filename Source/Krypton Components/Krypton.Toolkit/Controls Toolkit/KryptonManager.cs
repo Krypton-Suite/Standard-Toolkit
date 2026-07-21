@@ -215,6 +215,9 @@ public sealed class KryptonManager : Component
         // We need to notice when system color settings change
         SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
 
+        // Align toolbar image storage with the startup theme before any change event
+        UpdatePaletteImages(CurrentGlobalPaletteMode);
+
         // Update the tool strip global renderer with the default setting
         UpdateToolStripManager();
     }
