@@ -49,6 +49,10 @@
    * Use source-generated `LibraryImport` for eligible Win32 P/Invokes on modern TFMs (Framework TFMs keep `DllImport`)
    * `GetClassName`, `GetMenuString`, and `LoadString` now use `[Out] char[]` on modern TFMs with `GetClassNameString` / `GetMenuStringString` / string-returning `LoadString` helpers
    * Native string helpers return truncated text at the 4096-character cap instead of an empty string when Win32 still fills the buffer
+* Resolved [#3960](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3960), Ribbon app-button/tab gaps now scale with DPI (Office 2007 spacing; Office 2010+ remains flush)
+* Implemented [#3959](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3959), Workspace layout save/load now persists `KryptonPage.Tag` via TypeConverter when the value is a string or round-trips to/from string (writes `TAG` plus optional `TAGT`); non-convertible tags are omitted and should use `PageSaving`/`PageLoading`
+* Implemented [#4001](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4001), Use the standard WinForms app icon
+   * `GenericImageStorage.ApplicationIcon` now defaults to the standard WinForms `SystemIcons.Application` image
 * Implemented [#3890](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3890), Different knob styles for `KryptonToggleSwitch`
    * Added selectable knob styles for `KryptonToggleSwitch`, including classic, gradient, flat, radial, ring, bevel, rounded-square, square, grip, chevron, indicator, thin-track, pill, and metallic rendering.
    * Added optional track check/cross icons via `ToggleSwitchValues.ShowTrackIcons`.
@@ -64,6 +68,8 @@
 * Implemented [#3849](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3849), Krypton-themed designer property and collection editors replace native WinForms dialogs
    * Designer collection and property editors now use Krypton controls and `KryptonForm` chrome — workspace sequence, context menu items, breadcrumb items, check-button collections, tree nodes, string/`Items` collections, multiline text/`Lines`, format string, and related binding/image/index editors inherit the owning component palette at design time
    * Migrated editor dialogs use `KryptonDesignerEditorDpi` for consistent scaling on high-DPI displays
+   * Designer-editor footer theme selection is remembered across sessions (`%LocalAppData%\Krypton-Suite\Toolkit\DesignerEditorTheme.prefs`) and applied before owner/global palette resolution; custom palettes are not persisted
+   * In Visual Studio 2022 (where the footer theme combo is hidden), a compact `Theme...` button opens a shared designer-editor settings dialog; also available from the `KryptonManager` smart-tag actions
    * Public `KryptonDesigner*` `UITypeEditor` / `CollectionEditor` APIs, shared chrome, theme/DPI/button-bar helpers, and collection bases for reuse on consumer components — apply with `[Editor(typeof(...), typeof(UITypeEditor))]` or subclass `KryptonDesignerStandardCollectionEditor`.
    * Workspace collection editor OK commits root-level item ordering and collection changes back to the designer `EditValue`
    * Resolved Krypton-themed designer editor dialogs opening with blank content when child controls were routed to the hidden internal client panel; collection editor bases and multiline string editors now call `SetInheritedControlOverride()` before layout

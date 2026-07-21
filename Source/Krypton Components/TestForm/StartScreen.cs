@@ -144,6 +144,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<Bug3343RichTextBoxEditLossDemo>("Bug 3343 RichTextBox mouse leave", "Issue #3343: type in KryptonRichTextBox, move the mouse out without changing focus; text and TextLength must not reset. Includes KryptonTextBox for comparison.");
         CreateButton<RTLFormBorderTest>("RTL Layout Test", "Test for RTL compliance");
         CreateButton<ToastNotificationTestChoice>("Toast", "For breakfast....?");
+        CreateButton<Feature3959WorkspacePageTagPersistDemo>("Feature 3959 Workspace Page.Tag", "Issue #3959: persist KryptonPage.Tag via TypeConverter (string/int) on workspace save/load; use PageSaving/PageLoading for non-convertible custom Tag objects.");
         CreateButton<WorkspaceTest>("WorkspaceTest", string.Empty);
         CreateButton<BlurExampleForm>("Blur Example", string.Empty);
         CreateButton<VisualControlsTest>("Visual Controls", string.Empty);

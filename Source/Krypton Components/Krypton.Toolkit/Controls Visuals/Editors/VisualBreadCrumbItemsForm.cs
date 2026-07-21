@@ -853,4 +853,4 @@ internal partial class VisualBreadCrumbItemsForm : VisualDesignerCollectionForm
             }
         }
         #endregion
-    }
+}
