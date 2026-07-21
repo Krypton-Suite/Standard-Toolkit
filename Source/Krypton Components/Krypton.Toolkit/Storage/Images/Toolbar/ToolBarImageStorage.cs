@@ -16,7 +16,7 @@ public class ToolBarImageStorage : Storage
 {
     #region Constants
 
-    private const int RequiredImageCount = 14;
+    private const int REQUIRED_TOOLBAR_IMAGE_COUNT = 14;
 
     #endregion
 
@@ -47,7 +47,7 @@ public class ToolBarImageStorage : Storage
     /// <summary>Initializes a new instance of the <see cref="ToolBarImageStorage" /> class.</summary>
     public ToolBarImageStorage()
     {
-        _toolBarImages = new List<Image>(RequiredImageCount);
+        _toolBarImages = new List<Image>(REQUIRED_TOOLBAR_IMAGE_COUNT);
 
         Reset();
     }
@@ -148,16 +148,16 @@ public class ToolBarImageStorage : Storage
     /// Replaces the stored toolbar images with a theme pack and updates public properties.
     /// </summary>
     /// <param name="images">Theme toolbar images in fixed slot order (14 images).</param>
-    internal void SetToolBarImages(Image[] images)
+    internal void SetToolBarImages(Image[]? images)
     {
-        if (images == null || images.Length < RequiredImageCount)
+        if (images == null || images.Length < REQUIRED_TOOLBAR_IMAGE_COUNT)
         {
             return;
         }
 
         // Replace, do not append — previous theme packs must not remain at indices 0..13.
         _toolBarImages.Clear();
-        for (int i = 0; i < RequiredImageCount; i++)
+        for (int i = 0; i < REQUIRED_TOOLBAR_IMAGE_COUNT; i++)
         {
             _toolBarImages.Add(images[i]);
         }
@@ -186,7 +186,7 @@ public class ToolBarImageStorage : Storage
 
     private void AssignImageValues(List<Image> imageCollection)
     {
-        if (imageCollection.Count < RequiredImageCount)
+        if (imageCollection.Count < REQUIRED_TOOLBAR_IMAGE_COUNT)
         {
             return;
         }
