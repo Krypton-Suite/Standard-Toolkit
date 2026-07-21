@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -242,6 +242,16 @@ public class KryptonGlobalToolkitStrings : GlobalId
     /// <value>The form title bar strings.</value>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public static FormTitleBarStrings FormTitleBarStrings { get; } = new FormTitleBarStrings();
+
+    /// <summary>Gets the editor settings strings.</summary>
+    /// <value>The editor settings strings.</value>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public static KryptonEditorSettingsStrings EditorSettingsStrings { get; } = new KryptonEditorSettingsStrings();
+
+    /// <summary>Gets the collection editor strings.</summary>
+    /// <value>The collection editor strings.</value>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public static KryptonCollectionEditorStrings KryptonCollectionEditorStrings { get; } = new KryptonCollectionEditorStrings();
 
     #endregion
 
@@ -766,6 +776,32 @@ public class KryptonGlobalToolkitStrings : GlobalId
     /// <summary>Resets the win32 system menu strings.</summary>
     public void ResetSystemMenuStrings() => Win32SystemMenuStrings.ResetValues();
 
+    /// <summary>Gets the editor settings strings.</summary>
+    [Category(@"Visuals")]
+    [Description(@"Collection of editor settings strings.")]
+    [MergableProperty(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Localizable(true)]
+    public KryptonEditorSettingsStrings EditorSettingStrings => EditorSettingsStrings;
+
+    private bool ShouldSerializeEditorSettingStrings() => !EditorSettingsStrings.IsDefault;
+
+    /// <summary>Resets the editor settings strings.</summary>
+    public void ResetEditorSettingStrings() => EditorSettingsStrings.Reset();
+
+    /// <summary>Gets the collection editor strings.</summary>
+    [Category(@"Visuals")]
+    [Description(@"Collection of collection editor strings.")]
+    [MergableProperty(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Localizable(true)]
+    public KryptonCollectionEditorStrings CollectionEditorStrings => KryptonCollectionEditorStrings;
+
+    private bool ShouldSerializeCollectionEditorStrings() => !KryptonCollectionEditorStrings.IsDefault;
+
+    /// <summary>Resets the collection editor strings.</summary>
+    public void ResetCollectionEditorStrings() => KryptonCollectionEditorStrings.Reset();
+
     #endregion
 
     #region Identity
@@ -814,7 +850,8 @@ public class KryptonGlobalToolkitStrings : GlobalId
                                ShouldSerializeToastNotificationStrings() || ShouldSerializeToolBarStrings() ||
                                ShouldSerializeSplashScreenStringsStrings() || ShouldSerializeMiscellaneousStrings() ||
                                ShouldSerializeMessageBoxStringsStrings() || ShouldSerializeSystemMenuStrings() ||
-                               ShouldSerializeTitleBarStrings());
+                               ShouldSerializeTitleBarStrings() || ShouldSerializeEditorSettingStrings() || 
+                               ShouldSerializeCollectionEditorStrings());
 
     /// <summary>Resets this instance.</summary>
     public void Reset()
@@ -863,6 +900,8 @@ public class KryptonGlobalToolkitStrings : GlobalId
         ResetSearchBoxStrings();
         ResetSystemMenuStrings();
         ResetTitleBarStrings();
+        ResetEditorSettingStrings();
+        ResetCollectionEditorStrings();
     }
 
     #endregion
