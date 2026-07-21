@@ -108,6 +108,54 @@ internal static class KryptonDesignerEditorThemePreferences
         }
     }
 
+    /// <summary>
+    /// Gets the full path of the designer-editor theme preferences file.
+    /// </summary>
+    public static string SettingsPath => GetSettingsPath();
+
+    /// <summary>
+    /// Opens the preferences file location in Windows Explorer.
+    /// </summary>
+    /// <remarks>
+    /// Selects the prefs file when it exists; otherwise opens the containing folder
+    /// (creating it if needed).
+    /// </remarks>
+    public static void OpenSettingsInExplorer()
+    {
+        try
+        {
+            var path = GetSettingsPath();
+            var directory = Path.GetDirectoryName(path);
+            if (string.IsNullOrEmpty(directory))
+            {
+                return;
+            }
+
+            Directory.CreateDirectory(directory);
+
+            if (File.Exists(path))
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = @"explorer.exe",
+                    Arguments = $"/select,\"{path}\"",
+                    UseShellExecute = true
+                });
+                return;
+            }
+
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = directory,
+                UseShellExecute = true
+            });
+        }
+        catch
+        {
+            // Opening Explorer must never break designer editors.
+        }
+    }
+
     private static bool IsPersistable(PaletteMode paletteMode) =>
         paletteMode != PaletteMode.Custom;
 

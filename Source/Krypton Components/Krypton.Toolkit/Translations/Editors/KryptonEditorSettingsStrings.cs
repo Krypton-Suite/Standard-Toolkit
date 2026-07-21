@@ -19,6 +19,7 @@ public class KryptonEditorSettingsStrings
     private const string DEFAULT_DESIGNER_EDITOR_SETTINGS_DESCRIPTION =
         @"Applies only to Krypton designer dialogs. Does not change the edited control or the application global theme.";
     private const string DEFAULT_DESIGNER_EDITOR_SETTINGS_CLEAR = @"Clear preference";
+    private const string DEFAULT_DESIGNER_EDITOR_SETTINGS_OPEN_FOLDER = @"Open folder...";
     private const string DEFAULT_DESIGNER_EDITOR_THEME_BUTTON = @"Theme...";
 
     #endregion
@@ -62,6 +63,13 @@ public class KryptonEditorSettingsStrings
     [DefaultValue(DEFAULT_DESIGNER_EDITOR_SETTINGS_CLEAR)]
     public string DesignerEditorSettingsClearPreference { get; set; }
 
+    /// <summary>Gets or sets the open preferences folder button text.</summary>
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [Description(@"The open designer editor preferences folder button text.")]
+    [DefaultValue(DEFAULT_DESIGNER_EDITOR_SETTINGS_OPEN_FOLDER)]
+    public string DesignerEditorSettingsOpenFolder { get; set; }
+
     /// <summary>Gets or sets the compact designer editor theme button text.</summary>
     [Localizable(true)]
     [Category(@"Visuals")]
@@ -78,6 +86,7 @@ public class KryptonEditorSettingsStrings
                              DesignerEditorSettingsThemeLabel.Equals(DEFAULT_DESIGNER_EDITOR_SETTINGS_THEME_LABEL) &&
                              DesignerEditorSettingsDescription.Equals(DEFAULT_DESIGNER_EDITOR_SETTINGS_DESCRIPTION) &&
                              DesignerEditorSettingsClearPreference.Equals(DEFAULT_DESIGNER_EDITOR_SETTINGS_CLEAR) &&
+                             DesignerEditorSettingsOpenFolder.Equals(DEFAULT_DESIGNER_EDITOR_SETTINGS_OPEN_FOLDER) &&
                              DesignerEditorThemeButtonText.Equals(DEFAULT_DESIGNER_EDITOR_THEME_BUTTON);
 
     #endregion
@@ -90,6 +99,7 @@ public class KryptonEditorSettingsStrings
         DesignerEditorSettingsThemeLabel = DEFAULT_DESIGNER_EDITOR_SETTINGS_THEME_LABEL;
         DesignerEditorSettingsDescription = DEFAULT_DESIGNER_EDITOR_SETTINGS_DESCRIPTION;
         DesignerEditorSettingsClearPreference = DEFAULT_DESIGNER_EDITOR_SETTINGS_CLEAR;
+        DesignerEditorSettingsOpenFolder = DEFAULT_DESIGNER_EDITOR_SETTINGS_OPEN_FOLDER;
         DesignerEditorThemeButtonText = DEFAULT_DESIGNER_EDITOR_THEME_BUTTON;
     }
 
