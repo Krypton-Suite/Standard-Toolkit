@@ -36,8 +36,10 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
 
     #region Static Fields
     private static readonly HandleRef NullHandleRef = new HandleRef(null, IntPtr.Zero);
+    // Logical (96 DPI) gaps between the app button/tab and the first ribbon tab.
+    // Office 2010+ stays flush (0); Office 2007 needs space after the large app button.
     private const int BUTTON_TAB_GAP_2007 = 5;
-    private const int BUTTON_TAB_GAP_2010 = 0;  //TODO dpi 12 ? 
+    private const int BUTTON_TAB_GAP_2010 = 0;
     private const int FAR_TAB_GAP = 1;
     private const int SCROLL_SPEED = 12;
 
@@ -247,7 +249,12 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
         LayoutAppTab.Visible = _ribbon.RibbonFileAppButton.AppButtonVisible
                                && _ribbon.RibbonShape != PaletteRibbonShape.Office2007
                                && _ribbon.RibbonShape != PaletteRibbonShape.MacOS;
-        _leftSeparator.SeparatorSize = (_ribbon.RibbonShape == PaletteRibbonShape.Office2007) ? new Size(BUTTON_TAB_GAP_2007, BUTTON_TAB_GAP_2007) : new Size(BUTTON_TAB_GAP_2010, BUTTON_TAB_GAP_2010);
+        var buttonTabGap = (_ribbon.RibbonShape == PaletteRibbonShape.Office2007)
+            ? BUTTON_TAB_GAP_2007
+            : BUTTON_TAB_GAP_2010;
+        _leftSeparator.SeparatorSize = ScaledGapSize(buttonTabGap);
+        Size appButtonSepSize = ScaledGapSize(BUTTON_TAB_GAP_2007);
+        _layoutAppButtonSep.SeparatorSize = new Size(appButtonSepSize.Width, 0);
 
         // If no app button then need separator to stop first tab being to close to the left edge
         _layoutAppButtonSep.Visible = !LayoutAppButton.Visible;
@@ -511,7 +518,8 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
         }
 
         // When the app button is not visible we need separator instead before start of first tab
-        _layoutAppButtonSep = new ViewLayoutSeparator(5, 0)
+        Size appButtonSepSize = ScaledGapSize(BUTTON_TAB_GAP_2007);
+        _layoutAppButtonSep = new ViewLayoutSeparator(appButtonSepSize.Width, 0)
         {
             Visible = false
         };
@@ -549,6 +557,12 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
         (_visualPopupToolTip != null)
             ? _visualPopupToolTip.DeviceDpi / 96F
             : 1F;
+
+    private Size ScaledGapSize(int logicalGap)
+    {
+        var scaled = Math.Max(0, (int)Math.Round(logicalGap * FactorDpiX, MidpointRounding.AwayFromZero));
+        return new Size(scaled, scaled);
+    }
 
     private void SetupParentMonitoring()
     {

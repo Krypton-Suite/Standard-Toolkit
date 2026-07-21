@@ -45,6 +45,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#3960](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3960), Ribbon app-button/tab gaps now scale with DPI (Office 2007 spacing; Office 2010+ remains flush)
 * Implemented [#3959](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3959), Workspace layout save/load now persists `KryptonPage.Tag` via TypeConverter when the value is a string or round-trips to/from string (writes `TAG` plus optional `TAGT`); non-convertible tags are omitted and should use `PageSaving`/`PageLoading`
 * Implemented [#4001](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4001), Use the standard WinForms app icon
    * `GenericImageStorage.ApplicationIcon` now defaults to the standard WinForms `SystemIcons.Application` image
