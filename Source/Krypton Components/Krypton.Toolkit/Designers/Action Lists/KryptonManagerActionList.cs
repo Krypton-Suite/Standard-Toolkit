@@ -97,6 +97,7 @@ internal class KryptonManagerActionList : DesignerActionList
             // Add the list of panel specific actions
             actions.Add(new DesignerActionHeaderItem(@"Actions"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Reset to Default Theme", OnReset), @"Actions"));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Designer Editor Settings...", OnDesignerEditorSettings), @"Actions"));
             /*actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Add language manager", OnAddLanguageManager), "Actions"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Remove language manager", OnRemoveLanguageManager), "Actions"));
             actions.Add(new DesignerActionHeaderItem(@"Data"));*/
@@ -107,5 +108,7 @@ internal class KryptonManagerActionList : DesignerActionList
         return actions;
     }
 
+    private void OnDesignerEditorSettings(object? sender, EventArgs e) =>
+        KryptonDesignerEditorTheme.ShowSettingsDialog();
     #endregion
 }

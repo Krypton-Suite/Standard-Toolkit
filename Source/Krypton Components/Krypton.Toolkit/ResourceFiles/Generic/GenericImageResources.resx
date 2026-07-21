@@ -235,6 +235,12 @@
   <data name="SelectParentControlFlipped" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\SelectParentControlFlipped.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\Settings.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Settings_16_x_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\Settings_16_x_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="SilverContextMenuSub" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\SilverContextMenuSub.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

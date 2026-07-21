@@ -46,7 +46,7 @@ public class KryptonDesignerMultilineStringEditor : UITypeEditor
             @"Enter text:",
             @"Text Editor");
 
-        form.SetEditText((string?)value ?? string.Empty);
+        form.SetEditText(KryptonDesignerEditorPalette.NormalizeDesignerPlaceholderText(context, (string?)value ?? string.Empty));
         KryptonDesignerEditorPalette.ApplyDesignerPalette(form, context);
 
         if (editorService.ShowDialog(form) == DialogResult.OK)
@@ -88,12 +88,14 @@ public class KryptonDesignerStringArrayEditor : UITypeEditor
             return value;
         }
 
-        var lines = (string[]?)value ?? Array.Empty<string>();
+        var lines = KryptonDesignerEditorPalette.NormalizeDesignerPlaceholderLines(
+            context,
+            (string[]?)value ?? Array.Empty<string>());
 
         using var form = new VisualMultilineStringEditorForm(
             lines,
             null,
-            false,
+            context.Instance is KryptonRichTextBox,
             @"Enter the strings in the collection (one per line):",
             @"String Collection Editor");
 
@@ -115,70 +117,66 @@ public class KryptonDesignerStringArrayEditor : UITypeEditor
 /// </summary>
 internal static class KryptonDesignerEditorPalette
 {
-    internal static void ApplyDesignerPalette(KryptonForm form, ITypeDescriptorContext context)
+    /// <summary>
+    /// Treats a lone line that matches the component <see cref="Control.Name"/> as empty.
+    /// Visual Studio often seeds that placeholder when a control is first dropped on a form.
+    /// </summary>
+    internal static string[] NormalizeDesignerPlaceholderLines(ITypeDescriptorContext? context, string[] lines)
     {
-        KryptonDesignerEditorTheme.ApplyFromContext(form, context);
-        EnsureMultilineButtonBarThemeSelector(form);
+        if (context?.Instance is Control control
+            && !string.IsNullOrEmpty(control.Name)
+            && lines.Length == 1
+            && lines[0] == control.Name)
+        {
+            return Array.Empty<string>();
+        }
+
+        return lines;
     }
 
     /// <summary>
-    /// Injects a local theme selector into the designed MultilineStringEditor button panel when present.
+    /// Treats text that matches the component <see cref="Control.Name"/> as empty.
     /// </summary>
-    private static void EnsureMultilineButtonBarThemeSelector(KryptonForm form)
+    internal static string NormalizeDesignerPlaceholderText(ITypeDescriptorContext? context, string text)
     {
-        if (!DesignModeHelper.IncludeDesignerEditorThemeSelector)
+        if (context?.Instance is Control control
+            && !string.IsNullOrEmpty(control.Name)
+            && text == control.Name)
         {
-            return;
+            return string.Empty;
         }
 
-        var buttonPanel = FindNamedPanel(form.Controls, @"kpnlButtons");
-        if (buttonPanel is null || FindNamedCombo(buttonPanel.Controls, @"kcmbDesignerEditorTheme") is not null)
-        {
-            return;
-        }
-
-        var themeCombo = KryptonDesignerEditorTheme.CreateThemeSelector(
-            form,
-            form.PaletteMode,
-            form.LocalCustomPalette);
-        themeCombo.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-        themeCombo.Location = new Point(
-            KryptonDesignerEditorDpi.Scale(form, 9),
-            KryptonDesignerEditorDpi.Scale(form, 13));
-        themeCombo.Size = KryptonDesignerEditorDpi.Scale(form, new Size(220, 25));
-        buttonPanel.Controls.Add(themeCombo);
-        themeCombo.BringToFront();
+        return text;
     }
 
-    private static KryptonPanel? FindNamedPanel(Control.ControlCollection controls, string name)
+    internal static void ApplyDesignerPalette(KryptonForm form, ITypeDescriptorContext context)
+    {
+        KryptonDesignerEditorTheme.ApplyFromContext(form, context);
+        RewireFooterThemeSelector(form);
+    }
+
+    private static void RewireFooterThemeSelector(KryptonForm form)
+    {
+        var buttonBar = FindButtonBar(form.Controls);
+        buttonBar?.WireThemeToForm(form);
+    }
+
+    private static InternalDesignerEditorButtonBarPanel? FindButtonBar(Control.ControlCollection controls)
     {
         foreach (Control control in controls)
         {
-            if (control is KryptonPanel panel && panel.Name == name)
+            if (control is InternalDesignerEditorButtonBarPanel buttonBar)
             {
-                return panel;
+                return buttonBar;
             }
 
             if (control.HasChildren)
             {
-                var nested = FindNamedPanel(control.Controls, name);
+                var nested = FindButtonBar(control.Controls);
                 if (nested is not null)
                 {
                     return nested;
                 }
-            }
-        }
-
-        return null;
-    }
-
-    private static KryptonComboBox? FindNamedCombo(Control.ControlCollection controls, string name)
-    {
-        foreach (Control control in controls)
-        {
-            if (control is KryptonComboBox combo && combo.Name == name)
-            {
-                return combo;
             }
         }
 
