@@ -698,8 +698,12 @@ public class KryptonListBox : VisualControlBase,
     {
         if (disposing)
         {
-            _scrollbarManager?.Dispose();
-            _scrollbarManager = null;
+            if (_scrollbarManager != null)
+            {
+                _scrollbarManager.ScrollbarsChanged -= OnManagedScrollbarsChanged;
+                _scrollbarManager.Dispose();
+                _scrollbarManager = null;
+            }
         }
 
         base.Dispose(disposing);
@@ -1635,7 +1639,8 @@ public class KryptonListBox : VisualControlBase,
         // to allow a relayout or if in design mode.
         if (IsHandleCreated || _forcedLayout || (DesignMode))
         {
-            Rectangle fillRect = _layoutFill.FillRect;
+            Rectangle fillRect = KryptonNativeWrapperScrollbarBoundsHelper.GetNativeChildBounds(
+                _layoutFill, _scrollbarManager, UseKryptonScrollbars);
             _listBox.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
         }
     }
@@ -1969,14 +1974,18 @@ public class KryptonListBox : VisualControlBase,
             // attachment to the inner control follows the enabled state.
             if (ScrollbarManager.TargetControl == null)
             {
+                ScrollbarManager.ScrollbarsChanged += OnManagedScrollbarsChanged;
                 ScrollbarManager.Attach(_listBox, ScrollbarManagerMode.NativeWrapper);
             }
         }
-        else
+        else if (_scrollbarManager != null)
         {
-            _scrollbarManager?.Detach();
+            _scrollbarManager.ScrollbarsChanged -= OnManagedScrollbarsChanged;
+            _scrollbarManager.Detach();
         }
     }
+
+    private void OnManagedScrollbarsChanged(object? sender, EventArgs e) => ForceControlLayout();
 
     private void RefreshScrollbarManager()
     {
@@ -1997,7 +2006,11 @@ public class KryptonListBox : VisualControlBase,
         }
 
         // Re-attach (rather than dispose/recreate) so user settings on the manager persist.
-        _scrollbarManager?.Detach();
+        if (_scrollbarManager != null)
+        {
+            _scrollbarManager.ScrollbarsChanged -= OnManagedScrollbarsChanged;
+            _scrollbarManager.Detach();
+        }
 
         UpdateScrollbarManager();
         _scrollbarManager?.UpdateScrollbars();

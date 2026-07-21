@@ -151,9 +151,85 @@ public class KryptonRichTextBox : VisualControlBase,
             //Return last + 1 character printer
             return (int)res.ToInt64();
         }
+
+        /// <summary>
+        /// Gets and sets paragraph alignment for the current selection, including justify.
+        /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public RichTextParagraphAlignment SelectionParagraphAlignment
+        {
+            get
+            {
+                if (!IsHandleCreated)
+                {
+                    return RichTextParagraphAlignment.Left;
+                }
+
+                var format = new PI.PARAFORMAT
+                {
+                    cbSize = (uint)Marshal.SizeOf(typeof(PI.PARAFORMAT)),
+                    rgxTabs = new int[32]
+                };
+
+                PI.SendMessage(new HandleRef(this, Handle), PI.EM_GETPARAFORMAT, 0, ref format);
+
+                if ((format.dwMask & PI.PFM_ALIGNMENT) == 0)
+                {
+                    return RichTextParagraphAlignment.Left;
+                }
+
+                switch (format.wAlignment)
+                {
+                    case PI.PFA_RIGHT:
+                        return RichTextParagraphAlignment.Right;
+                    case PI.PFA_CENTER:
+                        return RichTextParagraphAlignment.Center;
+                    case PI.PFA_JUSTIFY:
+                        return RichTextParagraphAlignment.Justify;
+                    default:
+                        return RichTextParagraphAlignment.Left;
+                }
+            }
+            set
+            {
+                // Force handle creation so RichEdit can apply paragraph format.
+                if (!IsHandleCreated)
+                {
+                    _ = Handle;
+                }
+
+                if (value == RichTextParagraphAlignment.Justify)
+                {
+                    EnableAdvancedTypography();
+                }
+
+                var format = new PI.PARAFORMAT
+                {
+                    cbSize = (uint)Marshal.SizeOf(typeof(PI.PARAFORMAT)),
+                    dwMask = PI.PFM_ALIGNMENT,
+                    wAlignment = (ushort)value,
+                    rgxTabs = new int[32]
+                };
+
+                PI.SendMessage(new HandleRef(this, Handle), PI.EM_SETPARAFORMAT, 0, ref format);
+            }
+        }
         #endregion
 
         #region Protected
+        /// <summary>
+        /// Raises the HandleCreated event.
+        /// </summary>
+        /// <param name="e">An EventArgs containing the event data.</param>
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+
+            // Justify requires advanced typography; enable once the RichEdit HWND exists.
+            EnableAdvancedTypography();
+        }
+
         protected override void OnEnabledChanged(EventArgs e)
         {
             // Do not forward, to allow the correct Background for disabled state
@@ -279,6 +355,20 @@ public class KryptonRichTextBox : VisualControlBase,
             base.OnMouseMove(e);
 
             _kryptonRichTextBox.OnMouseMove(e);
+        }
+        #endregion
+
+        #region Implementation
+        private void EnableAdvancedTypography()
+        {
+            if (!IsHandleCreated)
+            {
+                return;
+            }
+
+            PI.SendMessage(Handle, PI.EM_SETTYPOGRAPHYOPTIONS,
+                (IntPtr)PI.TO_ADVANCEDTYPOGRAPHY,
+                (IntPtr)PI.TO_ADVANCEDTYPOGRAPHY);
         }
         #endregion
     }
@@ -521,8 +611,12 @@ public class KryptonRichTextBox : VisualControlBase,
             // Remove any showing tooltip
             OnCancelToolTip(this, EventArgs.Empty);
 
-            _scrollbarManager?.Dispose();
-            _scrollbarManager = null;
+            if (_scrollbarManager != null)
+            {
+                _scrollbarManager.ScrollbarsChanged -= OnManagedScrollbarsChanged;
+                _scrollbarManager.Dispose();
+                _scrollbarManager = null;
+            }
 
             _pulsingBorder.Dispose();
 
@@ -854,6 +948,28 @@ public class KryptonRichTextBox : VisualControlBase,
         {
             PerformNeedPaint(true);
             _richTextBox.SelectionAlignment = value;
+        }
+    }
+
+    /// <summary>
+    /// Gets and sets paragraph alignment for the current selection, including full justify.
+    /// </summary>
+    /// <remarks>
+    /// Prefer this property over <see cref="SelectionAlignment"/> when justify is required.
+    /// WinForms <see cref="HorizontalAlignment"/> does not expose a justify value; justified
+    /// paragraphs report as <see cref="HorizontalAlignment.Left"/> via <see cref="SelectionAlignment"/>.
+    /// </remarks>
+    [Browsable(false)]
+    [DefaultValue(RichTextParagraphAlignment.Left)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public RichTextParagraphAlignment SelectionParagraphAlignment
+    {
+        get => _richTextBox.SelectionParagraphAlignment;
+
+        set
+        {
+            PerformNeedPaint(true);
+            _richTextBox.SelectionParagraphAlignment = value;
         }
     }
 
@@ -1966,7 +2082,8 @@ public class KryptonRichTextBox : VisualControlBase,
             // to allow a relayout or if in design mode.
             if (_forcedLayout || DesignMode)
             {
-                Rectangle fillRect = _layoutFill.FillRect;
+                Rectangle fillRect = KryptonNativeWrapperScrollbarBoundsHelper.GetNativeChildBounds(
+                    _layoutFill, _scrollbarManager, UseKryptonScrollbars);
                 _richTextBox.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
             }
         }
@@ -2301,14 +2418,18 @@ public class KryptonRichTextBox : VisualControlBase,
             // attachment to the inner control follows the enabled state.
             if (ScrollbarManager.TargetControl == null)
             {
+                ScrollbarManager.ScrollbarsChanged += OnManagedScrollbarsChanged;
                 ScrollbarManager.Attach(_richTextBox, ScrollbarManagerMode.NativeWrapper);
             }
         }
-        else
+        else if (_scrollbarManager != null)
         {
-            _scrollbarManager?.Detach();
+            _scrollbarManager.ScrollbarsChanged -= OnManagedScrollbarsChanged;
+            _scrollbarManager.Detach();
         }
     }
+
+    private void OnManagedScrollbarsChanged(object? sender, EventArgs e) => ForceControlLayout();
 
     private void UpdateStateAndPalettes()
     {

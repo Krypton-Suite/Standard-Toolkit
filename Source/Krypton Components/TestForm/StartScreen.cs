@@ -140,6 +140,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<ToggleSwitchTest>("Toggle Switch (#3890)", "Issue #3890: KryptonToggleSwitch knob styles. Compare classic, flat, radial, ring, bevel, and rounded-square thumbs; toggle each sample and edit ToggleSwitchValues in the property grid.");
         CreateButton<KryptonFormTitleBarDemo>("Title Bar Menu", "Demonstrates titlebar menu.");
         CreateButton<RichTextBoxFormattingTest>("RichTextBox Formatting Test", "Tests fix for RichTextBox formatting preservation when palette changes (Issue #2832)");
+        CreateButton<Feature4008RichTextBoxJustifyDemo>("Feature 4008 RichTextBox Justify", "Issue #4008: KryptonRichTextBox.SelectionParagraphAlignment with Left/Center/Right/Justify. Compare with native RichTextBox SelectionAlignment (no Justify). Resize the form to see justified word spacing.");
         CreateButton<Bug3343RichTextBoxEditLossDemo>("Bug 3343 RichTextBox mouse leave", "Issue #3343: type in KryptonRichTextBox, move the mouse out without changing focus; text and TextLength must not reset. Includes KryptonTextBox for comparison.");
         CreateButton<RTLFormBorderTest>("RTL Layout Test", "Test for RTL compliance");
         CreateButton<ToastNotificationTestChoice>("Toast", "For breakfast....?");
