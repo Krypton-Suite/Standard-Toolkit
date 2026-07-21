@@ -45,6 +45,15 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#3890](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3890), Different knob styles for `KryptonToggleSwitch`
+   * Added selectable knob styles for `KryptonToggleSwitch`, including classic, gradient, flat, radial, ring, bevel, rounded-square, square, grip, chevron, indicator, thin-track, pill, and metallic rendering.
+   * Added optional track check/cross icons via `ToggleSwitchValues.ShowTrackIcons`.
+   * Added optional knob pulse animation via `ToggleSwitchValues.Pulse` (`Enable`, `Speed`, `Intensity`).
+   * Chevron knob glyph size is configurable via `ToggleSwitchValues.Chevron.GlyphSize`; optional knob gradient uses `ToggleSwitchValues.Gradient`.
+   * Added optional tint colours via `ToggleSwitchValues.Colors.TintColors` (`Enable`, `OnTint`, `OffTint`, `Intensity`), plus optional glyph tints (`EnableGlyphs`, `TintColor1`, `TintColor2`).
+   * **[Breaking Change]** `ToggleSwitchValues` colour, gradient, pulse, and chevron settings are grouped under expandable `Colors`, `Gradient`, `Pulse`, and `Chevron` objects. Obsolete pass-through properties remain for migration.
+* Implemented optional vertical layout for `KryptonToggleSwitch` via `ToggleSwitchValues.Orientation`.
+   * Horizontal remains the default (off left, on right). Vertical moves the knob top (off) to bottom (on) and works best with a tall, narrow control size.
 * Implemented [#4008](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4008), `KryptonRichTextBox` Support for justify    
    * `KryptonRichTextBox.SelectionParagraphAlignment` adds full paragraph justify (plus Left/Center/Right) via RichEdit
    * Resolved themed scrollbar overlay covering native-wrapper content (RichTextBox, TextBox, ListBox, ListView, TreeView, PropertyGrid) after flush-to-border scrollbars; content is inset when the bar is visible so text is not clipped

@@ -1578,6 +1578,123 @@ public enum ButtonStyle
 }
 #endregion
 
+#region Enum ToggleSwitchKnobStyle
+/// <summary>
+/// Specifies the visual style used to render a <see cref="KryptonToggleSwitch"/> knob.
+/// </summary>
+public enum ToggleSwitchKnobStyle
+{
+    /// <summary>
+    /// Specifies a diagonal gradient ellipse with a border.
+    /// </summary>
+    Classic,
+
+    /// <summary>
+    /// Specifies a linear gradient ellipse with configurable direction and intensity.
+    /// </summary>
+    Gradient,
+
+    /// <summary>
+    /// Specifies a solid ellipse with a border.
+    /// </summary>
+    Flat,
+
+    /// <summary>
+    /// Specifies a radial gradient ellipse.
+    /// </summary>
+    Radial,
+
+    /// <summary>
+    /// Specifies a thick ring with a hollow centre.
+    /// </summary>
+    Ring,
+
+    /// <summary>
+    /// Specifies an ellipse with bevelled highlight and shadow arcs.
+    /// </summary>
+    Bevel,
+
+    /// <summary>
+    /// Specifies a rounded-square knob.
+    /// </summary>
+    RoundedSquare,
+
+    /// <summary>
+    /// Specifies a square knob with sharp corners.
+    /// </summary>
+    Square,
+
+    /// <summary>
+    /// Specifies a square knob with vertical grip lines.
+    /// </summary>
+    Grip,
+
+    /// <summary>
+    /// Specifies a square knob with stacked chevron glyphs.
+    /// </summary>
+    Chevron,
+
+    /// <summary>
+    /// Specifies a rounded-square knob with a centred indicator dot.
+    /// </summary>
+    Indicator,
+
+    /// <summary>
+    /// Specifies a thin rounded track with a large overlapping circular knob.
+    /// </summary>
+    ThinTrack,
+
+    /// <summary>
+    /// Specifies a capsule track with a soft vertical gradient and circular knob.
+    /// </summary>
+    Pill,
+
+    /// <summary>
+    /// Specifies a recessed capsule track with a brushed-metal knob, drop shadow, and optional check/cross track icons.
+    /// </summary>
+    Metallic
+}
+#endregion
+
+#region Enum ToggleSwitchChevronDirection
+/// <summary>
+/// Specifies the direction of chevron glyphs drawn on a <see cref="ToggleSwitchKnobStyle.Chevron"/> knob.
+/// </summary>
+public enum ToggleSwitchChevronDirection
+{
+    /// <summary>
+    /// Points right when unchecked and left when checked.
+    /// </summary>
+    Auto,
+
+    /// <summary>
+    /// Always points left.
+    /// </summary>
+    Left,
+
+    /// <summary>
+    /// Always points right.
+    /// </summary>
+    Right
+}
+
+/// <summary>
+/// Specifies whether a <see cref="KryptonToggleSwitch"/> lays out horizontally or vertically.
+/// </summary>
+public enum ToggleSwitchOrientation
+{
+    /// <summary>
+    /// The knob travels left (off) to right (on).
+    /// </summary>
+    Horizontal,
+
+    /// <summary>
+    /// The knob travels top (off) to bottom (on).
+    /// </summary>
+    Vertical
+}
+#endregion
+
 #region Enum InputControlStyle
 /// <summary>
 /// Specifies the input control style.
