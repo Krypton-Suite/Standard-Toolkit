@@ -45,6 +45,8 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#4001](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4001), Use the standard WinForms app icon
+   * `GenericImageStorage.ApplicationIcon` now defaults to the standard WinForms `SystemIcons.Application` image
 * Implemented [#3890](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3890), Different knob styles for `KryptonToggleSwitch`
    * Added selectable knob styles for `KryptonToggleSwitch`, including classic, gradient, flat, radial, ring, bevel, rounded-square, square, grip, chevron, indicator, thin-track, pill, and metallic rendering.
    * Added optional track check/cross icons via `ToggleSwitchValues.ShowTrackIcons`.
