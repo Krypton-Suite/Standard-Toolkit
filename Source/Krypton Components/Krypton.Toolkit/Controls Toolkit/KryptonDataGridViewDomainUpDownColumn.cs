@@ -102,7 +102,7 @@ public class KryptonDataGridViewDomainUpDownColumn : KryptonDataGridViewIconColu
     [Category(@"Data")]
     [Description(@"The allowable items of the domain up down.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    [Editor(typeof(KryptonDesignerStringCollectionEditor), typeof(UITypeEditor))]
+    [Editor(@"System.Windows.Forms.Design.StringCollectionEditor", typeof(UITypeEditor))]
     public StringCollection Items { get; }
 
     [Category(@"Behavior")]
@@ -160,7 +160,7 @@ public class KryptonDataGridViewDomainUpDownColumn : KryptonDataGridViewIconColu
     /// For internal use only.
     /// </summary>
     internal Image? CellIndicatorImage => _kryptonDataGridViewCellIndicatorImage.Image;
-    internal Image? GetIndicatorImageForSize(int size) => _kryptonDataGridViewCellIndicatorImage.GetOrCreate(size);
+    internal Image? GetIndicatorImageForSize(int size) => _kryptonDataGridViewCellIndicatorImage.GetOrCreate(size, CellTemplate);
     #endregion Internal
 
     #region Protected

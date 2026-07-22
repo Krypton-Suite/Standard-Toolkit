@@ -11,9 +11,9 @@ namespace Krypton.Toolkit;
 
 internal static class DropDownArrowGlyphStyleLayout
 {
-    internal static void GetLayerOffsets(DropDownArrowGlyphStyle style, int size, out Point fillOffset, out Point outlineOffset)
+    internal static void GetLayerOffsets(DropDownArrowGlyphStyle style, int size, out Point fillOffset, out Point outlineOffset, DropDownArrowGlyphDirection direction)
     {
-        if (size < 8 || style == DropDownArrowGlyphStyle.Flat)
+        if (size < 5 || style == DropDownArrowGlyphStyle.Flat)
         {
             fillOffset = Point.Empty;
 
@@ -22,11 +22,25 @@ internal static class DropDownArrowGlyphStyleLayout
             return;
         }
 
+        int pointX = 1;
+        int pointY = 1;
+
+        switch (direction)
+        {
+            case DropDownArrowGlyphDirection.Up:
+                pointY = -1;
+                break;
+
+            case DropDownArrowGlyphDirection.Left:
+                pointX = -1;
+                break;
+        }
+
         switch (style)
         {
             case DropDownArrowGlyphStyle.Bevel:
 
-                fillOffset = new Point(1, 1);
+                fillOffset = new Point(pointX, pointY);
 
                 outlineOffset = Point.Empty;
                 break;
@@ -34,7 +48,7 @@ internal static class DropDownArrowGlyphStyleLayout
 
                 fillOffset = Point.Empty;
 
-                outlineOffset = new Point(1, 1);
+                outlineOffset = new Point(pointX, pointY);
                 break;
             default:
                 fillOffset = Point.Empty;
