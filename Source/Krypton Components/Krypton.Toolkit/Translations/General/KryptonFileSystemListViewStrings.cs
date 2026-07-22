@@ -229,13 +229,10 @@ public class KryptonFileSystemListViewStrings : Storage
 
             if (!hModule.IsInvalid)
             {
-                // Try to load the string resource
-                StringBuilder buffer = new StringBuilder(256);
-                int length = PI.LoadString(hModule, resourceId, buffer, buffer.Capacity);
-
-                if (length > 0)
+                string loaded = PI.LoadString(hModule, resourceId);
+                if (loaded.Length > 0)
                 {
-                    cache = buffer.ToString();
+                    cache = loaded;
                     return cache;
                 }
             }
