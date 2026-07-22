@@ -1158,6 +1158,13 @@ public class KryptonDataGridView : DataGridView
 
         SyncDetachedRoundingScrollbarsFromGridIfIdle(false);
 
+        // Custom-painted cell borders + DGV ScrollWindow leave mid-cell line residue until a full repaint.
+        // Selecting a cell clears it; force a content invalidate while detached overlay scrollbars are active.
+        if (_roundingUsesDetachedScrollbars)
+        {
+            InvalidateDetachedScrollContent();
+        }
+
         // #2681 - work-around
         // Headers not correctly repainted on horizontal mouse scroll
         if (e.ScrollOrientation == ScrollOrientation.HorizontalScroll
@@ -2605,7 +2612,7 @@ public class KryptonDataGridView : DataGridView
 
         // Check if the cell is hard against the far or bottom edges, if so do not need to draw
         // border that is hard against the edge as it will then look like it has double borders
-        Rectangle outerBounds = GetOuterRoundingBounds();
+        Rectangle outerBounds = GetCellBorderOuterBounds();
 
         if (HideOuterBorders || HasCornerRounding)
         {
@@ -2728,14 +2735,42 @@ public class KryptonDataGridView : DataGridView
     /// </summary>
     private Rectangle GetOuterRoundingBounds() => ClientRectangle;
 
-    private int GetCornerRoundingInset()
+    /// <summary>
+    /// Content bounds used when suppressing cell borders against the detached scrollbar lanes.
+    /// </summary>
+    private Rectangle GetCellBorderOuterBounds()
     {
-        if (!HasCornerRounding)
+        Rectangle bounds = ClientRectangle;
+
+        if (!_roundingUsesDetachedScrollbars)
         {
-            return 0;
+            return bounds;
         }
 
-        return (int)Math.Round(GetEffectiveCornerRounding(), MidpointRounding.AwayFromZero);
+        if (_roundingVScrollBar?.Visible == true)
+        {
+            bounds.Width = Math.Max(0, GetDetachedDataRight(true));
+        }
+
+        if (_roundingHScrollBar?.Visible == true)
+        {
+            bounds.Height = Math.Max(0, GetDetachedDataBottom(true));
+        }
+
+        return bounds;
+    }
+
+    private void InvalidateDetachedScrollContent()
+    {
+        Rectangle contentBounds = GetCellBorderOuterBounds();
+        if (contentBounds.Width > 0 && contentBounds.Height > 0)
+        {
+            Invalidate(contentBounds);
+        }
+        else
+        {
+            Invalidate();
+        }
     }
 
     private void UpdateRoundingAppearance()
@@ -2924,6 +2959,15 @@ public class KryptonDataGridView : DataGridView
     private bool WantsDetachedHorizontalScrollBar() =>
         _savedScrollBarsForRounding == ScrollBars.Horizontal || _savedScrollBarsForRounding == ScrollBars.Both;
 
+    // Krypton scroll bars draw with a 2px inset; widen the overlay lane so it covers the native gutter.
+    private const int DetachedScrollBarLanePadding = 2;
+
+    private static int DetachedManagedScrollBarWidth =>
+        SystemInformation.VerticalScrollBarWidth + DetachedScrollBarLanePadding;
+
+    private static int DetachedManagedScrollBarHeight =>
+        SystemInformation.HorizontalScrollBarHeight + DetachedScrollBarLanePadding;
+
     private int GetDetachedDataRight(bool showVertical) =>
         ClientSize.Width - (showVertical ? SystemInformation.VerticalScrollBarWidth : 0);
 
@@ -2943,13 +2987,12 @@ public class KryptonDataGridView : DataGridView
             return;
         }
 
-        int scrollbarWidth = SystemInformation.VerticalScrollBarWidth;
-        int dataRight = GetDetachedDataRight(showVertical);
-        int inset = GetCornerRoundingInset();
-        int top = inset;
-        int bottomInset = showHorizontal ? 0 : inset;
-        int height = Math.Max(0, dataBottom - top - bottomInset);
-        _roundingVScrollBar.SetBounds(dataRight, top, scrollbarWidth, height);
+        int scrollbarWidth = DetachedManagedScrollBarWidth;
+        int x = ClientSize.Width - scrollbarWidth;
+        int height = showHorizontal
+            ? Math.Max(0, ClientSize.Height - DetachedManagedScrollBarHeight)
+            : Math.Max(0, dataBottom);
+        _roundingVScrollBar.SetBounds(x, 0, scrollbarWidth, height);
     }
 
     private void SetDetachedHorizontalScrollBarBounds(bool showHorizontal) =>
@@ -2965,13 +3008,9 @@ public class KryptonDataGridView : DataGridView
             return;
         }
 
-        int scrollbarHeight = SystemInformation.HorizontalScrollBarHeight;
-        int dataBottom = GetDetachedDataBottom(showHorizontal);
-        int inset = GetCornerRoundingInset();
-        int left = inset;
-        int rightInset = showVertical ? 0 : inset;
-        int width = Math.Max(0, dataRight - left - rightInset);
-        _roundingHScrollBar.SetBounds(left, dataBottom, width, scrollbarHeight);
+        int scrollbarHeight = DetachedManagedScrollBarHeight;
+        int y = ClientSize.Height - scrollbarHeight;
+        _roundingHScrollBar.SetBounds(0, y, Math.Max(0, dataRight), scrollbarHeight);
     }
 
     private void LayoutDetachedRoundingScrollbars(bool updateRoundingRegion = true)
@@ -3531,6 +3570,9 @@ public class KryptonDataGridView : DataGridView
         finally
         {
             _suppressRoundingScrollSync = false;
+
+            // Ensure themed-scrollbar scrolls also clear ScrollWindow border residue.
+            InvalidateDetachedScrollContent();
         }
     }
 
@@ -3586,15 +3628,6 @@ public class KryptonDataGridView : DataGridView
         float rounding = GetEffectiveCornerRounding();
         Rectangle outerBounds = GetOuterRoundingBounds();
         if (rounding <= 0f || outerBounds.Width <= 0 || outerBounds.Height <= 0)
-        {
-            Region?.Dispose();
-            Region = null;
-            return;
-        }
-
-        // Detached overlay scrollbars are child controls; a rounded region clips them and
-        // the grid chrome at the corners. Border and outer-cell rounding handle appearance.
-        if (_roundingUsesDetachedScrollbars)
         {
             Region?.Dispose();
             Region = null;
