@@ -79,7 +79,6 @@ internal class CommonDialogHandler
                     var childProc = new PI.WindowEnumProc(EnumerateChildWindow);
                     PI.EnumChildWindows(hWnd, childProc, GCHandle.ToIntPtr(gch));
                     // Pre-allocate 256 characters, since this is the maximum class name length.
-                    var name = new StringBuilder(256);
                     if (gch.Target is List<IntPtr> list)
                     {
                         foreach (var child in list)
@@ -90,10 +89,10 @@ internal class CommonDialogHandler
                                 DlgCtrlId = PI.GetDlgCtrlID(child)
                             };
                             PI.GetWindowInfo(child, out attributes.WinInfo);
-                            var nRet = PI.GetClassName(child, name, name.Capacity);
-                            if (nRet != 0)
+                            var className = PI.GetClassNameString(child);
+                            if (className.Length != 0)
                             {
-                                attributes.ClassName = name.ToString().ToLowerInvariant();
+                                attributes.ClassName = className.ToLowerInvariant();
                             }
 
                             _controls.Add(attributes);

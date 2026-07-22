@@ -1,34 +1,27 @@
-﻿#region BSD License
+#region BSD License
 /*
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
- *  
+ *
  */
 #endregion
 
 namespace Krypton.Toolkit;
 
-internal class ImageNativeMethods
+/// <summary>
+/// Compatibility facade over <see cref="PI"/> image/icon helpers.
+/// </summary>
+internal static class ImageNativeMethods
 {
-    private const string USER32 = Libraries.User32;
+    public static IntPtr SendMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam) =>
+        new IntPtr(unchecked((int)PI.SendMessage(hWnd, unchecked((int)msg), wParam, lParam)));
 
-    private const string SHELL32 = Libraries.Shell32;
+    public static IntPtr LoadImage(IntPtr hInt, string lpszName, uint uType, int cxDesired, int cyDesired, uint fuLoad) =>
+        PI.LoadImage(hInt, lpszName, uType, cxDesired, cyDesired, fuLoad);
 
-    [DllImport(USER32, SetLastError = true)]
-    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    public static extern IntPtr SendMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
+    public static int ExtractIconEx(string lpszFile, int nIconIndex, IntPtr[]? phiconLarge, IntPtr[]? phiconSmall, int amountIcons) =>
+        PI.ExtractIconEx(lpszFile, nIconIndex, phiconLarge, phiconSmall, amountIcons);
 
-    [DllImport(USER32, EntryPoint = "LoadImageW", CharSet = CharSet.Unicode, SetLastError = true)]
-    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    public static extern IntPtr LoadImage(IntPtr hInt, string lpszName, uint uType, int cxDesired, int cyDesired, uint fuLoad);
-
-    [DllImport(SHELL32, EntryPoint = "ExtractIconExW", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
-    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    public static extern int ExtractIconEx(string lpszFile, int nIconIndex, IntPtr[]? phiconLarge, IntPtr[]? phiconSmall, int amountIcons);
-
-    [DllImport(USER32, EntryPoint = "DestroyIcon", SetLastError = true)]
-    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    public static extern int DestroyIcon(IntPtr hIcon);
-
+    public static int DestroyIcon(IntPtr hIcon) => PI.DestroyIcon(hIcon) ? 1 : 0;
 }

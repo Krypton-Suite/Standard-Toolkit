@@ -45,6 +45,10 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#3874](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3874), Use the more optimised `LibraryImport`
+   * Use source-generated `LibraryImport` for eligible Win32 P/Invokes on modern TFMs (Framework TFMs keep `DllImport`)
+   * `GetClassName`, `GetMenuString`, and `LoadString` now use `[Out] char[]` on modern TFMs with `GetClassNameString` / `GetMenuStringString` / string-returning `LoadString` helpers
+   * Native string helpers return truncated text at the 4096-character cap instead of an empty string when Win32 still fills the buffer
 * Resolved [#4046](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4046), Unexpected scrollbar appears on DataGridView at runtime time in .NET Framework 4.8
   * Fixed `KryptonDataGridView` showing a non-functional themed scrollbar at runtime when corner rounding is not enabled; detached overlay scrollbars are now used only while external corner rounding is active, hidden native child scrollbar metrics are ignored so a ghost bar is not created, and scroll repaints no longer leave mid-cell border residue.
 * Resolved [#3960](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3960), Ribbon app-button/tab gaps now scale with DPI (Office 2007 spacing; Office 2010+ remains flush)
