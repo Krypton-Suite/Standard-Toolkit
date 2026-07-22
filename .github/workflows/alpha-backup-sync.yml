@@ -12,9 +12,10 @@
 # Discord: Set secret DISCORD_WEBHOOK_ALPHA_BACKUP to send notifications (optional).
 #
 # Separate repo backup: Set variable BACKUP_REPO (e.g. Krypton-Suite/Standard-Toolkit-Backup) and
-# secret BACKUP_REPO_TOKEN (PAT with push access). Snapshots are zipped into Source/Nightly.
+# secret BACKUP_REPO_TOKEN (PAT with push access). Snapshots are zipped into Source/Nightly/Standard Toolkit.
 # Legacy dated directories at the backup repo root are removed on each run.
-# Optional: BACKUP_DIR_PREFIX (default "Standard Toolkit Backup"), BACKUP_BRANCH (default "main").
+# Optional: BACKUP_DIR_PREFIX (default "Standard Toolkit Backup"), BACKUP_BRANCH (default "main"),
+# BACKUP_SNAPSHOT_KEEP (default 30 — number of newest zip snapshots to retain).
 
 name: Alpha to Alpha-Backup Sync
 
@@ -140,12 +141,18 @@ jobs:
       - name: Enable auto-merge on PR
         if: steps.kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
         uses: actions/github-script@v9
-        env:
-          PR_NODE_ID: ${{ fromJson(steps.create_pr.outputs.result).pr_node_id }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const nodeId = process.env.PR_NODE_ID;
+            let result;
+            try {
+              result = JSON.parse(`${{ steps.create_pr.outputs.result }}`);
+            } catch (e) {
+              console.log('Could not parse PR result, skipping auto-merge');
+              return;
+            }
+
+            const nodeId = result.pr_node_id;
             if (!nodeId) {
               console.log('No PR to enable auto-merge on.');
               return;
@@ -171,6 +178,7 @@ jobs:
           BACKUP_REPO_TOKEN: ${{ secrets.BACKUP_REPO_TOKEN }}
           BACKUP_DIR_PREFIX: ${{ vars.BACKUP_DIR_PREFIX }}
           BACKUP_BRANCH: ${{ vars.BACKUP_BRANCH }}
+          BACKUP_SNAPSHOT_KEEP: ${{ vars.BACKUP_SNAPSHOT_KEEP }}
         run: |
           if [ -z "$BACKUP_REPO_TOKEN" ] || [ -z "$BACKUP_REPO" ]; then
             echo "BACKUP_REPO (variable) or BACKUP_REPO_TOKEN (secret) not set - skipping backup repo push"
@@ -188,7 +196,12 @@ jobs:
           fi
           prefix="${BACKUP_DIR_PREFIX:-Standard Toolkit Backup}"
           branch="${BACKUP_BRANCH:-main}"
-          snapshot_dir="Source/Nightly"
+          keep="${BACKUP_SNAPSHOT_KEEP:-14}"
+          if ! [[ "$keep" =~ ^[0-9]+$ ]] || [ "$keep" -lt 1 ]; then
+            echo "::warning:: BACKUP_SNAPSHOT_KEEP='$BACKUP_SNAPSHOT_KEEP' is invalid; using 14"
+            keep=14
+          fi
+          snapshot_dir="Source/Nightly/Standard Toolkit"
           today=$(date -u +%Y-%m-%d)
           zip_name="$prefix - $today.zip"
           echo "dir_name=$snapshot_dir/$zip_name" >> "$GITHUB_OUTPUT"
@@ -225,11 +238,20 @@ jobs:
           mkdir -p "$snapshot_dir"
           mv "../$zip_name" "$snapshot_dir/"
           git add "$snapshot_dir/$zip_name"
+          # Retain only the newest N zip snapshots (name sorts by YYYY-MM-DD date suffix)
+          mapfile -t snapshot_zips < <(ls -1 "$snapshot_dir"/*.zip 2>/dev/null | sort -r)
+          if [ "${#snapshot_zips[@]}" -gt "$keep" ]; then
+            for old_zip in "${snapshot_zips[@]:$keep}"; do
+              git rm -f "$old_zip"
+              echo "Removed old snapshot: $old_zip"
+            done
+          fi
+          echo "Retaining up to $keep newest snapshot(s) in $snapshot_dir"
           if git diff --staged --quiet; then
             echo "No backup repo changes to commit"
             echo "pushed=false" >> "$GITHUB_OUTPUT"
           else
-            git commit -m "chore: add alpha snapshot $zip_name and remove legacy directories (automated)"
+            git commit -m "chore: update alpha snapshots in $snapshot_dir (automated)"
             git push origin "$branch"
             echo "pushed=true" >> "$GITHUB_OUTPUT"
             echo "Pushed alpha snapshot to $BACKUP_REPO ($snapshot_dir/$zip_name)"
