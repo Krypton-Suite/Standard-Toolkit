@@ -150,6 +150,7 @@ public sealed class KryptonManager : Component
     private static RenderMicrosoft365? _renderMicrosoft365;
     private static RenderMaterial? _renderMaterial;
     private static RenderRetro? _renderRetro;
+    private static RenderWindowsXPLuna? _renderWindowsXPLuna;
     private static RenderMacOSXAqua? _renderMacOSXAqua;
     private static RenderMacOS? _renderMacOS;
     private static RenderSparkle? _renderSparkle;
@@ -1203,6 +1204,20 @@ public sealed class KryptonManager : Component
             case PaletteMode.RetroBlue:
                 return PaletteRetroBlue;
 
+            case PaletteMode.WindowsXPLunaBlue:
+                return PaletteWindowsXPLunaBlue;
+            case PaletteMode.WindowsXPLunaOlive:
+                return PaletteWindowsXPLunaOlive;
+            case PaletteMode.WindowsXPLunaSilver:
+                return PaletteWindowsXPLunaSilver;
+
+            case PaletteMode.WindowsXPRoyale:
+                return PaletteWindowsXPRoyale;
+            case PaletteMode.WindowsXPRoyaleNoir:
+                return PaletteWindowsXPRoyaleNoir;
+            case PaletteMode.WindowsXPZune:
+                return PaletteWindowsXPZune;
+
             case PaletteMode.MacOSXAqua:
                 return PaletteMacOSXAqua;
 
@@ -1513,6 +1528,42 @@ public sealed class KryptonManager : Component
     /// </summary>
     public static PaletteRetroBlue PaletteRetroBlue => _paletteRetroBlue ??= new PaletteRetroBlue();
 
+    /// <summary>
+    /// Gets the Windows XP Luna blue palette.
+    /// </summary>
+    public static PaletteWindowsXPLunaBlue PaletteWindowsXPLunaBlue =>
+        _paletteWindowsXPLunaBlue ??= new PaletteWindowsXPLunaBlue();
+
+    /// <summary>
+    /// Gets the Windows XP Luna olive palette.
+    /// </summary>
+    public static PaletteWindowsXPLunaOlive PaletteWindowsXPLunaOlive =>
+        _paletteWindowsXPLunaOlive ??= new PaletteWindowsXPLunaOlive();
+
+    /// <summary>
+    /// Gets the Windows XP Luna silver palette.
+    /// </summary>
+    public static PaletteWindowsXPLunaSilver PaletteWindowsXPLunaSilver =>
+        _paletteWindowsXPLunaSilver ??= new PaletteWindowsXPLunaSilver();
+
+    /// <summary>
+    /// Gets the Windows XP Royale palette.
+    /// </summary>
+    public static PaletteWindowsXPRoyale PaletteWindowsXPRoyale =>
+        _paletteWindowsXPRoyale ??= new PaletteWindowsXPRoyale();
+
+    /// <summary>
+    /// Gets the Windows XP Royale Noir palette.
+    /// </summary>
+    public static PaletteWindowsXPRoyaleNoir PaletteWindowsXPRoyaleNoir =>
+        _paletteWindowsXPRoyaleNoir ??= new PaletteWindowsXPRoyaleNoir();
+
+    /// <summary>
+    /// Gets the Windows XP Zune palette.
+    /// </summary>
+    public static PaletteWindowsXPZune PaletteWindowsXPZune =>
+        _paletteWindowsXPZune ??= new PaletteWindowsXPZune();
+
     public static PaletteMacOSXAqua PaletteMacOSXAqua => _paletteMacOSXAqua ??= new PaletteMacOSXAqua();
 
     /// <summary>
@@ -1532,6 +1583,12 @@ public sealed class KryptonManager : Component
 
     private static PaletteRetroGreen? _paletteRetroGreen;
     private static PaletteRetroBlue? _paletteRetroBlue;
+    private static PaletteWindowsXPLunaBlue? _paletteWindowsXPLunaBlue;
+    private static PaletteWindowsXPLunaOlive? _paletteWindowsXPLunaOlive;
+    private static PaletteWindowsXPLunaSilver? _paletteWindowsXPLunaSilver;
+    private static PaletteWindowsXPRoyale? _paletteWindowsXPRoyale;
+    private static PaletteWindowsXPRoyaleNoir? _paletteWindowsXPRoyaleNoir;
+    private static PaletteWindowsXPZune? _paletteWindowsXPZune;
     private static PaletteMacOSXAqua? _paletteMacOSXAqua;
     private static PaletteMacOSLight? _paletteMacOSLight;
     private static PaletteMacOSDark? _paletteMacOSDark;
@@ -1575,6 +1632,8 @@ public sealed class KryptonManager : Component
                 return RenderMaterial;
             case RendererMode.Retro:
                 return RenderRetro;
+            case RendererMode.WindowsXPLuna:
+                return RenderWindowsXPLuna;
             case RendererMode.MacOS:
                 return RenderMacOS;
             case RendererMode.OSXAqua:
@@ -1622,6 +1681,11 @@ public sealed class KryptonManager : Component
     /// Gets the single instance of the Retro renderer.
     /// </summary>
     public static RenderRetro RenderRetro => _renderRetro ??= new RenderRetro();
+
+    /// <summary>
+    /// Gets the single instance of the Windows XP Luna renderer.
+    /// </summary>
+    public static RenderWindowsXPLuna RenderWindowsXPLuna => _renderWindowsXPLuna ??= new RenderWindowsXPLuna();
 
     /// <summary>
     /// Gets the single instance of the macOS-inspired renderer.
@@ -1798,8 +1862,16 @@ public sealed class KryptonManager : Component
             case PaletteMode.Office2007White:
             case PaletteMode.Office2007Black:
             case PaletteMode.Office2007BlackDarkMode:
+            case PaletteMode.WindowsXPLunaBlue:
+            case PaletteMode.WindowsXPLunaOlive:
+            case PaletteMode.WindowsXPLunaSilver:
+            case PaletteMode.WindowsXPRoyale:
             case PaletteMode.VisualStudio2010Render2007:
                 Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.Office2007ToolBarImages);
+                break;
+            case PaletteMode.WindowsXPRoyaleNoir:
+            case PaletteMode.WindowsXPZune:
+                Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.Office2010ToolBarImages);
                 break;
             case PaletteMode.Office2010Blue:
             case PaletteMode.Office2010BlueDarkMode:

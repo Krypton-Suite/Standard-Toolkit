@@ -86,6 +86,12 @@ public class PaletteModeStrings : GlobalId
     internal const string DEFAULT_PALETTE_MATERIAL_DARK_RIPPLE = @"Material - Dark (Ripple)";
     internal const string DEFAULT_PALETTE_RETRO_GREEN = @"Retro - Green";
     internal const string DEFAULT_PALETTE_RETRO_BLUE = @"Retro - Blue";
+    internal const string DEFAULT_PALETTE_WINDOWS_XP_LUNA_BLUE = @"Windows XP - Luna Blue";
+    internal const string DEFAULT_PALETTE_WINDOWS_XP_LUNA_OLIVE = @"Windows XP - Luna Olive";
+    internal const string DEFAULT_PALETTE_WINDOWS_XP_LUNA_SILVER = @"Windows XP - Luna Silver";
+    internal const string DEFAULT_PALETTE_WINDOWS_XP_ROYALE = @"Windows XP - Royale";
+    internal const string DEFAULT_PALETTE_WINDOWS_XP_ROYALE_NOIR = @"Windows XP - Royale Noir";
+    internal const string DEFAULT_PALETTE_WINDOWS_XP_ZUNE = @"Windows XP - Zune";
     internal const string DEFAULT_PALETTE_OSX_AQUA = @"Mac OS X Aqua";
     internal const string DEFAULT_PALETTE_MACOS_LIGHT = @"macOS - Light";
     internal const string DEFAULT_PALETTE_MACOS_DARK = @"macOS - Dark";
@@ -177,6 +183,12 @@ public class PaletteModeStrings : GlobalId
             { DEFAULT_PALETTE_MATERIAL_DARK_RIPPLE, PaletteMode.MaterialDarkRipple },
             { DEFAULT_PALETTE_RETRO_GREEN, PaletteMode.RetroGreen },
             { DEFAULT_PALETTE_RETRO_BLUE, PaletteMode.RetroBlue },
+            { DEFAULT_PALETTE_WINDOWS_XP_LUNA_BLUE, PaletteMode.WindowsXPLunaBlue },
+            { DEFAULT_PALETTE_WINDOWS_XP_LUNA_OLIVE, PaletteMode.WindowsXPLunaOlive },
+            { DEFAULT_PALETTE_WINDOWS_XP_LUNA_SILVER, PaletteMode.WindowsXPLunaSilver },
+            { DEFAULT_PALETTE_WINDOWS_XP_ROYALE, PaletteMode.WindowsXPRoyale },
+            { DEFAULT_PALETTE_WINDOWS_XP_ROYALE_NOIR, PaletteMode.WindowsXPRoyaleNoir },
+            { DEFAULT_PALETTE_WINDOWS_XP_ZUNE, PaletteMode.WindowsXPZune },
             { DEFAULT_PALETTE_OSX_AQUA, PaletteMode.MacOSXAqua },
             { DEFAULT_PALETTE_MACOS_LIGHT, PaletteMode.MacOSLight },
             { DEFAULT_PALETTE_MACOS_DARK, PaletteMode.MacOSDark },
