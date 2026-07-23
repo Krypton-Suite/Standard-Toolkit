@@ -44,7 +44,10 @@
 =======
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
-
+* Implemented [#4049](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4049),Implement the glyphs in `KryptonDomainUpDown` and `KryptonNumericUpDown`
+   * Updates the buttons for `KryptonDomainUpDown`, `KryptonNumericUpDown`, `KryptonDataGridViewDomainUpDownColumn`, and `KryptonDataGridViewNumericUpDownColumn`.
+   * The polygons draws in a single direction (downw) and are rotated to the correct orientation. 
+   * Adjusted the corresponding image for the `KryptonDataGridViewDomainUpDownColumn` and `KryptonDataGridViewNumericUpDownColumn` column types
 * Implemented [#3874](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3874), Use the more optimised `LibraryImport`
    * Use source-generated `LibraryImport` for eligible Win32 P/Invokes on modern TFMs (Framework TFMs keep `DllImport`)
    * `GetClassName`, `GetMenuString`, and `LoadString` now use `[Out] char[]` on modern TFMs with `GetClassNameString` / `GetMenuStringString` / string-returning `LoadString` helpers
