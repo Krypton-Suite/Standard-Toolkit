@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -64,24 +64,9 @@ public partial class VisualFloatingContainerForm : KryptonForm
 
     #endregion
 
-    #region Runtime Routines
-    [DllImport("user32.dll")]
-    static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
-
-    [DllImport("user32.dll")]
-    static extern int GetMenuItemCount(IntPtr hMenu);
-
-    [DllImport("user32.dll")]
-    static extern bool RemoveMenu(IntPtr hMenu, uint uPosition, uint uFlags);
-    #endregion
-
     #region Constants
     //private const int SC_SIZE = 0xF000;
     //private const int SC_MOVE = 0xF010;
-    private const int SC_MINIMIZE = 0xF020;
-    private const int SC_MAXIMIZE = 0xF030;
-    private const int SC_RESTORE = 0xF120;
-    private const int MF_BYCOMMAND = 0x0000;
     //private const int MF_BYPOSITION = 0x400;
 
     //private const int SC_NEXTWINDOW = 0xF040;

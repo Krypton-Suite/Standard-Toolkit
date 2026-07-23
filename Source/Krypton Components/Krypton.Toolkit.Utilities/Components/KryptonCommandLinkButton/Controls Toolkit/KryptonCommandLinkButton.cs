@@ -650,13 +650,6 @@ public class KryptonCommandLinkButton : VisualSimpleBase, IButtonControl
 
     #endregion
 
-    #region WIN32 Calls
-
-
-    [DllImport(Libraries.User32, CharSet = CharSet.Unicode)]
-    static extern int SendMessage(HandleRef hWnd, uint msg, IntPtr wParam, bool lParam);
-
-    #endregion
 
     #region Protected Virtual
 

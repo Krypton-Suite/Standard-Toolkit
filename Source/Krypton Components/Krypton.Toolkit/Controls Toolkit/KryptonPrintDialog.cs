@@ -685,6 +685,8 @@ public class KryptonPrintDialog : /*!! sealed PrintDialog !!*/ CommonDialog
         }
     }
 
+    // PrintDlg uses managed PRINTDLG_32 / PRINTDLG_64 class layouts that are not LibraryImport-friendly;
+    // keep classical DllImport here (do not dual-path until those structs are redesigned as blittable).
     [DllImport(Libraries.Comdlg32, EntryPoint = nameof(PrintDlg), CharSet = CharSet.Auto, SetLastError = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     private static extern PI.BOOL PrintDlg_32([In, Out] PRINTDLG_32 lppd);
