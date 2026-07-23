@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -75,7 +75,7 @@ internal static class DropDownArrowGlyphFactory
             return CreateMonochrome(size, outline, direction, renderMode, DropDownArrowGlyphLayer.Fill, fitToCell);
         }
 
-        DropDownArrowGlyphStyleLayout.GetLayerOffsets(style, size, out Point fillOffset, out Point outlineOffset, direction);
+        DropDownArrowGlyphStyleLayout.GetLayerOffsets(style, size, out Point fillOffset, out Point outlineOffset);
 
         var bmp = new Bitmap(size, size, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
@@ -284,7 +284,7 @@ internal static class DropDownArrowGlyphFactory
         switch (direction)
         {
             case DropDownArrowGlyphDirection.Up:
-                bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
+                bmp.RotateFlip(RotateFlipType.Rotate180FlipNone);
                 break;
 
             case DropDownArrowGlyphDirection.Left:
@@ -292,7 +292,7 @@ internal static class DropDownArrowGlyphFactory
                 break;
 
             case DropDownArrowGlyphDirection.Right:
-                bmp.RotateFlip(RotateFlipType.Rotate270FlipY);
+                bmp.RotateFlip(RotateFlipType.Rotate270FlipNone);
                 break;
         }
 
