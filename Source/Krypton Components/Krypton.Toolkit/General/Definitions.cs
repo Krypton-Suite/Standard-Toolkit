@@ -2269,8 +2269,7 @@ public enum MessageBoxContentAreaType
 #region Enum KryptonMessageBoxIcon
 
 /// <summary>Specifies the icon type for <see cref="T:KryptonMessageBox"/>.</summary>
-// ToDo: Fix converter, as it throws errors...
-//[TypeConverter(typeof(KryptonMessageBoxIconConverter))]
+[TypeConverter(typeof(KryptonMessageBoxIconConverter))]
 public enum KryptonMessageBoxIcon
 {
     /// <summary>Specify no icon.</summary>
