@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -56,7 +56,7 @@ public class KryptonAlternateCommandLinkButton : KryptonButton
         {
             _showUACShield = value;
 
-            SendMessage(new HandleRef(this, Handle), BCM_SETSHIELD, IntPtr.Zero, _showUACShield);
+            PI.SendMessageBool(Handle, BCM_SETSHIELD, IntPtr.Zero, _showUACShield);
         }
     }
 
@@ -72,21 +72,6 @@ public class KryptonAlternateCommandLinkButton : KryptonButton
     }
     #endregion
 
-    #region WIN32 Calls
-
-    [DllImport(Libraries.User32, CharSet = CharSet.Unicode)]
-    static extern int SendMessage(HandleRef hWnd, uint msg, ref int wParam, StringBuilder lParam);
-
-    [DllImport(Libraries.User32, CharSet = CharSet.Unicode)]
-    static extern int SendMessage(HandleRef hWnd, uint msg, IntPtr wParam, string lParam);
-
-    [DllImport(Libraries.User32, CharSet = CharSet.Unicode)]
-    static extern int SendMessage(HandleRef hWnd, uint msg, IntPtr wParam, bool lParam);
-
-    [DllImport(Libraries.User32, CharSet = CharSet.Unicode)]
-    static extern int SendMessage(HandleRef hWnd, uint msg, IntPtr wParam, IntPtr lParam);
-
-    #endregion
 
     #region Identity
 
@@ -122,7 +107,7 @@ public class KryptonAlternateCommandLinkButton : KryptonButton
 
     /// <summary>Sets the NoteText to the value of value.</summary>
     /// <param name="value">The desired value of NoteText.</param>
-    private void SetNoteText(string value) => SendMessage(new HandleRef(this, Handle), BCM_SETNOTE, IntPtr.Zero, value);
+    private void SetNoteText(string value) => PI.SendMessageW(Handle, BCM_SETNOTE, IntPtr.Zero, value);
 
     /// <summary>
     /// Returns the value of the NoteText.
@@ -130,11 +115,11 @@ public class KryptonAlternateCommandLinkButton : KryptonButton
     /// <returns>The value of the NoteText.</returns>
     private string GetNoteText()
     {
-        int length = SendMessage(new HandleRef(this, Handle), BCM_GETNOTELENGTH, IntPtr.Zero, IntPtr.Zero) + 1;
+        int length = unchecked((int)PI.SendMessage(Handle, unchecked((int)BCM_GETNOTELENGTH), IntPtr.Zero, IntPtr.Zero)) + 1;
 
         StringBuilder stringBuilder = new StringBuilder(length);
 
-        SendMessage(new HandleRef(this, Handle), BCM_GETNOTE, ref length, stringBuilder);
+        PI.SendMessageW(Handle, BCM_GETNOTE, ref length, stringBuilder);
 
         return stringBuilder.ToString();
     }
