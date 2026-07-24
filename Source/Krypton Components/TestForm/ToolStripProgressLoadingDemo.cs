@@ -67,7 +67,7 @@ public class ToolStripProgressLoadingDemo : KryptonForm
         };
 
         _menuLoadingCircleItem = new KryptonLoadingCircleToolStripMenuItem();
-        _menuLoadingCircleItem.LoadingCircleControl!.StylePreset = KryptonLoadingCircle.StylePresets.Firefox;
+        _menuLoadingCircleItem.LoadingCircleControl!.StylePreset = StylePresets.Firefox;
 
         strip.Items.Add(new ToolStripLabel(@"EnhancedProgressBar:"));
         strip.Items.Add(_enhancedProgressBar);
@@ -140,7 +140,7 @@ public class ToolStripProgressLoadingDemo : KryptonForm
         {
             Location = new Point(20, 20),
             Size = new Size(64, 64),
-            StylePreset = KryptonLoadingCircle.StylePresets.MacOSX,
+            StylePreset = StylePresets.MacOSX,
             Color = Color.SteelBlue
         };
         loadingCircleHost.Panel.Controls.Add(_standaloneLoadingCircle);
@@ -217,7 +217,7 @@ public class ToolStripProgressLoadingDemo : KryptonForm
 
         _cmbStylePreset.SelectedIndexChanged += (_, _) =>
         {
-            if (Enum.TryParse(_cmbStylePreset.Text, out KryptonLoadingCircle.StylePresets preset))
+            if (Enum.TryParse(_cmbStylePreset.Text, out StylePresets preset))
             {
                 _standaloneLoadingCircle.StylePreset = preset;
                 _menuLoadingCircleItem.LoadingCircleControl!.StylePreset = preset;

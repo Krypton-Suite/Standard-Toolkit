@@ -28,9 +28,9 @@ public class MostRecentlyUsedFileManager
 
     #region Events
 
-    private Action<object, EventArgs>? OnRecentFileClick;
+    private readonly Action<object, EventArgs>? OnRecentFileClick;
 
-    private Action<object, EventArgs>? OnClearRecentFilesClick;
+    private readonly Action<object, EventArgs>? OnClearRecentFilesClick;
 
     #endregion
 

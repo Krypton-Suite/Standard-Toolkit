@@ -48,7 +48,7 @@ public class ToolStripMenuExtrasDemo : KryptonForm
         clearClipboardItem.Click += (_, _) => UpdateStatus(@"KryptonClearClipboard clicked - clipboard text cleared (if any).");
 
         _loadingCircleItem = new KryptonLoadingCircleToolStripMenuItem();
-        _loadingCircleItem.LoadingCircleControl!.StylePreset = KryptonLoadingCircle.StylePresets.MacOSX;
+        _loadingCircleItem.LoadingCircleControl!.StylePreset = StylePresets.MacOSX;
 
         editMenu.DropDownItems.Add(uacItem);
         editMenu.DropDownItems.Add(clearClipboardItem);
