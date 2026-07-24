@@ -125,7 +125,7 @@ public sealed class KryptonDesignerListViewGroupCollectionEditor : KryptonDesign
 
     #region Public
     /// <inheritdoc />
-    public override object? EditValue(ITypeDescriptorContext? context, IServiceProvider provider, object? value)
+    public override object? EditValue(ITypeDescriptorContext? context, IServiceProvider? provider, object? value)
     {
         _editValue = value;
         value = base.EditValue(context, provider, value);

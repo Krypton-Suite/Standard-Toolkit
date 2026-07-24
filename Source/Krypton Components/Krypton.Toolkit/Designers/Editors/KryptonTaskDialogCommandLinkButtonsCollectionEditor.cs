@@ -26,7 +26,7 @@ public sealed class KryptonTaskDialogCommandLinkButtonsCollectionEditor : Krypto
 
     #region Public
     /// <inheritdoc />
-    public override object? EditValue(ITypeDescriptorContext? context, IServiceProvider provider, object? value)
+    public override object? EditValue(ITypeDescriptorContext? context, IServiceProvider? provider, object? value)
     {
         if (context?.Instance is not KryptonTaskDialogElementCommandLinkButtons parent)
         {
