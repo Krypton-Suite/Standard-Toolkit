@@ -133,6 +133,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<ProgressBarTest>("ProgressBar", "Checkout if progress has been made.");
         CreateButton<ScrollBarTest>("ScrollBar", "Comprehensive demonstration of KryptonHScrollBar and KryptonVScrollBar controls with basic usage, scrolling content, synchronization, theming, programmatic control, and event logging.");
         CreateButton<ScrollbarManagerTest>("Scrollbar Manager", "Comprehensive demonstration of KryptonScrollbarManager with container mode, native wrapper mode, dynamic content, and integration examples.");
+        CreateButton<Bug4000ToolbarThemeImagesDemo>("Bug 4000 Toolbar Theme Images", "Issue #4000: KryptonManager.Images.ToolbarImages must refresh when the global theme changes. Switch themes and confirm the New/Open/Save/… icons update to the matching theme pack.");
         CreateButton<Bug3902ScrollbarGapDemo>("Bug 3902 Scrollbar Gap", "Issue #3902: Krypton scrollbars on TextBox, RichTextBox, and ListBox should sit flush against the themed border with no white 1–2px gutter. Swap themes and DPI to verify.");
         CreateButton<Bug4046DataGridViewScrollbarDemo>("Bug 4046 KryptonDataGridView Scrollbar", "Issue #4046: default KryptonDataGridView must not show a non-functional themed overlay scrollbar; rounded grids with overflow should show working themed scrollbars.");
         CreateButton<RibbonNavigatorWorkspaceTest>("Ribbon / Navigator / Workspace", string.Empty);
