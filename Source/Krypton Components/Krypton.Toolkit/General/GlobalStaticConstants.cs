@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -65,4 +65,7 @@ public class GlobalStaticConstants
 
     /// <summary>The public emoji list URL</summary>
     public const string DEFAULT_PUBLIC_EMOJI_LIST_URL = @"https://unicode.org/Public/draft/emoji/emoji-test.txt";
+
+    /// <summary>The required toolbar image count</summary>
+    public const int REQUIRED_TOOLBAR_IMAGE_COUNT = 14;
 }

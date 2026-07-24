@@ -45,6 +45,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#4000](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4000), `KryptonManager.Images.ToolbarImages` now updates to the active theme pack when the global palette changes
 * Implemented [#3874](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3874), Use the more optimised `LibraryImport`
    * Use source-generated `LibraryImport` for eligible Win32 P/Invokes on modern TFMs (Framework TFMs keep `DllImport`)
    * `GetClassName`, `GetMenuString`, and `LoadString` now use `[Out] char[]` on modern TFMs with `GetClassNameString` / `GetMenuStringString` / string-returning `LoadString` helpers
