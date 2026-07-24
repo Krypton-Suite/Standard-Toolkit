@@ -48,7 +48,8 @@
 
 ## 2026-10-26 - Build 2610 (Version 105-LTS - Patch 4) - October 2026
 
-* Implemented [#4049](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4049),Implement the glyphs in `KryptonDomainUpDown` and `KryptonNumericUpDown`
+* Resolved [#4064](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4064), Fixed `KryptonMessageBoxIcon` and `KryptonToastIcon` design-time converters that threw when built against `MessageBoxIcon` alias values
+* Implemented [#4049](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4049), Implement the glyphs in `KryptonDomainUpDown` and `KryptonNumericUpDown`
    * Updates the buttons for `KryptonDomainUpDown`, `KryptonNumericUpDown`, `KryptonDataGridViewDomainUpDownColumn`, and `KryptonDataGridViewNumericUpDownColumn`.
    * The polygons draws in a single direction (downw) and are rotated to the correct orientation. 
    * Adjusted the corresponding image for the `KryptonDataGridViewDomainUpDownColumn` and `KryptonDataGridViewNumericUpDownColumn` column types
