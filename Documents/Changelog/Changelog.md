@@ -49,6 +49,10 @@
   * Implemented Krypton ToolStrip utilities suite in `Krypton.Toolkit.Utilities`: hosts (`KryptonBasicToolStrip`, `KryptonEnhancedToolStrip`, `KryptonProgressStatusStrip`), hosted editors (TextBox, BrowseBox, DateTimePicker, NumericUpDown, ColourButton, TrackBar, Theme combo), menu extras (enhanced radio/separator, marquee, expanding, UAC shield, clear clipboard), sliders, progress/loading circle controls, MRU open/manager.
   * Implemented `KryptonBlinkingToolStripStatusLabel` in `Krypton.Toolkit.Utilities`: a `ToolStripStatusLabel` with Timer-based Hard, Soft, and Visibility blink modes; options are grouped under expandable `BlinkValues` (`BlinkingStatusLabelValues` / `ExpandableObjectConverter`) with Start/Stop APIs for StatusStrip and ToolStrip hosts.
    * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
+* Implemented [#4049](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4049),Implement the glyphs in `KryptonDomainUpDown` and `KryptonNumericUpDown`
+   * Updates the buttons for `KryptonDomainUpDown`, `KryptonNumericUpDown`, `KryptonDataGridViewDomainUpDownColumn`, and `KryptonDataGridViewNumericUpDownColumn`.
+   * The polygons draws in a single direction (downw) and are rotated to the correct orientation. 
+   * Adjusted the corresponding image for the `KryptonDataGridViewDomainUpDownColumn` and `KryptonDataGridViewNumericUpDownColumn` column types
 * Resolved [#4000](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4000), `KryptonManager.Images.ToolbarImages` now updates to the active theme pack when the global palette changes
 * Implemented [#3874](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3874), Use the more optimised `LibraryImport`
    * Use source-generated `LibraryImport` for eligible Win32 P/Invokes on modern TFMs (Framework TFMs keep `DllImport`)

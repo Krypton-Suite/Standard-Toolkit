@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -248,7 +248,24 @@ internal static class DropDownArrowGlyphFactory
 
             g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.None;
 
-            Point[] triangle = GetTrianglePoints(size, direction);
+            //Point[] triangle = GetTrianglePoints(size, direction);
+            //Always draw the polygon pointing downward, and then rotate and/or flip the image to the correct orientation
+            //The result is uniform polygons in all directions.
+
+            int near = Math.Max(1, size / 4);
+
+            int far = size - near - 1;
+
+            int mid = size / 2;
+
+            Point[] triangle = new[]
+            {
+                new Point(near, near),
+
+                new Point(far, near),
+
+                new Point(mid, far)
+            };
 
             if (layer == DropDownArrowGlyphLayer.Fill)
             {
@@ -264,6 +281,21 @@ internal static class DropDownArrowGlyphFactory
             }
         }
 
+        switch (direction)
+        {
+            case DropDownArrowGlyphDirection.Up:
+                bmp.RotateFlip(RotateFlipType.Rotate180FlipNone);
+                break;
+
+            case DropDownArrowGlyphDirection.Left:
+                bmp.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                break;
+
+            case DropDownArrowGlyphDirection.Right:
+                bmp.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                break;
+        }
+
         return bmp;
     }
 
@@ -272,7 +304,7 @@ internal static class DropDownArrowGlyphFactory
 
     private static char GetUnicodeCharacter(DropDownArrowGlyphDirection direction, int size)
     {
-        bool useSmall = size <= 12;
+        bool useSmall = size <= 4;
 
         return direction switch
         {
