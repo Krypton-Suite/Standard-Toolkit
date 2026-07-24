@@ -266,14 +266,12 @@ public class DragFeedbackDocking : DragFeedback
     {
         DragTarget? matchTarget = null;
 
-        // Update each cluster so it shows/hides docking indicators based on mouse position
-        foreach (DragTarget? clusterTarget in _clusters
-                     .Select(cluster => cluster.Feedback(screenPt, _dragFeedback))
-                     .Where(clusterTarget => (clusterTarget != null) && (matchTarget == null))
-                )
+        // Update each cluster so it shows/hides docking indicators based on mouse position.
+        // Feedback must run for every cluster (side effects); keep the first hit target.
+        foreach (DockCluster cluster in _clusters)
         {
-            // TODO: Should be a better way to select the last match for this ?!?
-            matchTarget = clusterTarget;
+            DragTarget? clusterTarget = cluster.Feedback(screenPt, _dragFeedback);
+            matchTarget ??= clusterTarget;
         }
 
         // Update the solid feedback rectangle with area of the specific target
