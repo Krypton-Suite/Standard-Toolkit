@@ -452,7 +452,7 @@ public class KryptonDataGridViewNumericUpDownColumn : KryptonDataGridViewIconCol
     /// For internal use only.
     /// </summary>
     internal Image? CellIndicatorImage => _kryptonDataGridViewCellIndicatorImage.Image;
-    internal Image? GetIndicatorImageForSize(int size) => _kryptonDataGridViewCellIndicatorImage.GetOrCreate(size);
+    internal Image? GetIndicatorImageForSize(int size) => _kryptonDataGridViewCellIndicatorImage.GetOrCreate(size, CellTemplate);
     #endregion Internal
 
 }

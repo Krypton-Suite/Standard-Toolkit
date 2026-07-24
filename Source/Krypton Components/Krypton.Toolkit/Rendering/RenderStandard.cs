@@ -2634,20 +2634,9 @@ public class RenderStandard : RenderBase
 			throw new ArgumentNullException(nameof(paletteContent));
 		}
 
-		Color c1 = paletteContent.GetContentShortTextColor1(state);
-		Color c2 = paletteContent.GetContentShortTextColor2(state);
+        (Color outline, Color fill) = DropDownArrowGlyphColors.Resolve(context, paletteContent, state);
 
-		// Find the top left starting position for drawing lines
-		var xStart = cellRect.Left + ((cellRect.Right - cellRect.Left - 4) / 2);
-		var yStart = cellRect.Top + ((cellRect.Bottom - cellRect.Top - 3) / 2);
-
-		using var darkPen = new Pen(c1);
-		context.Graphics.DrawLine(darkPen, xStart, yStart + 3, xStart + 4, yStart + 3);
-		context.Graphics.DrawLine(darkPen, xStart + 1, yStart + 2, xStart + 3, yStart + 2);
-		context.Graphics.DrawLine(darkPen, xStart + 2, yStart + 2, xStart + 2, yStart + 1);
-		using var lightPen = new Pen(c2);
-		context.Graphics.DrawLine(lightPen, xStart + 2, yStart, xStart + 4, yStart + 2);
-		context.Graphics.DrawLine(lightPen, xStart + 2, yStart, xStart, yStart + 2);
+        DropDownArrowGlyphCache.Draw(context.Graphics, cellRect, outline, fill, DropDownArrowGlyphDirection.Up, context.Control);
 	}
 
 	/// <summary>
@@ -2677,21 +2666,10 @@ public class RenderStandard : RenderBase
 			throw new ArgumentNullException(nameof(paletteContent));
 		}
 
-		Color c1 = paletteContent.GetContentShortTextColor1(state);
-		Color c2 = paletteContent.GetContentShortTextColor2(state);
+        (Color outline, Color fill) = DropDownArrowGlyphColors.Resolve(context, paletteContent, state);
 
-		// Find the top left starting position for drawing lines
-		var xStart = cellRect.Left + ((cellRect.Right - cellRect.Left - 4) / 2);
-		var yStart = cellRect.Top + ((cellRect.Bottom - cellRect.Top - 3) / 2);
-
-		using var darkPen = new Pen(c1);
-		context.Graphics.DrawLine(darkPen, xStart, yStart, xStart + 4, yStart);
-		context.Graphics.DrawLine(darkPen, xStart + 1, yStart + 1, xStart + 3, yStart + 1);
-		context.Graphics.DrawLine(darkPen, xStart + 2, yStart + 2, xStart + 2, yStart + 1);
-		using var lightPen = new Pen(c2);
-		context.Graphics.DrawLine(lightPen, xStart, yStart + 1, xStart + 2, yStart + 3);
-		context.Graphics.DrawLine(lightPen, xStart + 2, yStart + 3, xStart + 4, yStart + 1);
-	}
+        DropDownArrowGlyphCache.Draw(context.Graphics, cellRect, outline, fill, DropDownArrowGlyphDirection.Down, context.Control);
+    }
 
 	/// <summary>
 	/// Draw a drop-down grid appropriate for an input control.
