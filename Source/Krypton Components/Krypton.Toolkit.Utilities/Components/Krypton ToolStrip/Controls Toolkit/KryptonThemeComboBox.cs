@@ -57,10 +57,7 @@ public class KryptonThemeToolStripComboBox : ToolStripComboBox
     {
         Items.Clear();
 
-        foreach (string themeName in ThemeManager.SupportedInternalThemeNames)
-        {
-            Items.Add(themeName);
-        }
+        Items.AddRange(ThemeManager.SupportedInternalThemeNames.Cast<object>().ToArray());
 
         string current = ThemeManager.ReturnPaletteModeAsString(_manager.GlobalPaletteMode);
         int index = Items.IndexOf(current);

@@ -50,7 +50,11 @@ public class KryptonToolStripLabelExtended : ToolStripStatusLabel
     /// </value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public bool Alert { get => _values.Alert; set => _values.Alert = value; }
+    public bool Alert
+    {
+        get => _values.Alert; 
+        set => _values.Alert = value;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether [enable blinking].
@@ -60,11 +64,19 @@ public class KryptonToolStripLabelExtended : ToolStripStatusLabel
     /// </value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public bool EnableBlinking { get => _values.EnableBlinking; set => _values.EnableBlinking = value; }
+    public bool EnableBlinking
+    {
+        get => _values.EnableBlinking;
+        set => _values.EnableBlinking = value;
+    }
 
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public bool BkClr { get => _values.BkClr; set => _values.BkClr = value; }
+    public bool BkClr
+    {
+        get => _values.BkClr;
+        set => _values.BkClr = value;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether [enable fade animation].
@@ -74,7 +86,11 @@ public class KryptonToolStripLabelExtended : ToolStripStatusLabel
     /// </value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public bool EnableFadeAnimation { get => _values.EnableFadeAnimation; set => _values.EnableFadeAnimation = value; }
+    public bool EnableFadeAnimation
+    {
+        get => _values.EnableFadeAnimation; 
+        set => _values.EnableFadeAnimation = value;
+    }
 
     /// <summary>
     /// Gets or sets the alert colour one.
@@ -84,7 +100,11 @@ public class KryptonToolStripLabelExtended : ToolStripStatusLabel
     /// </value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public Color AlertColourOne { get => _values.AlertColourOne; set => _values.AlertColourOne = value; }
+    public Color AlertColorOne
+    {
+        get => _values.AlertColorOne; 
+        set => _values.AlertColorOne = value;
+    }
 
     /// <summary>
     /// Gets or sets the alert colour two.
@@ -94,7 +114,11 @@ public class KryptonToolStripLabelExtended : ToolStripStatusLabel
     /// </value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public Color AlertColourTwo { get => _values.AlertColourTwo; set => _values.AlertColourTwo = value; }
+    public Color AlertColorTwo
+    {
+        get => _values.AlertColorTwo; 
+        set => _values.AlertColorTwo = value;
+    }
 
     /// <summary>
     /// Gets or sets the alert text colour.
@@ -104,7 +128,11 @@ public class KryptonToolStripLabelExtended : ToolStripStatusLabel
     /// </value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public Color AlertTextColour { get => _values.AlertTextColour; set => _values.AlertTextColour = value; }
+    public Color AlertTextColor
+    {
+        get => _values.AlertTextColor; 
+        set => _values.AlertTextColor = value;
+    }
 
     /// <summary>
     /// Gets or sets the gradient colour one.
@@ -114,7 +142,11 @@ public class KryptonToolStripLabelExtended : ToolStripStatusLabel
     /// </value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public Color GradientColourOne { get => _values.GradientColourOne; set => _values.GradientColourOne = value; }
+    public Color GradientColorOne
+    {
+        get => _values.GradientColorOne; 
+        set => _values.GradientColorOne = value;
+    }
 
     /// <summary>
     /// Gets or sets the gradient colour two.
@@ -124,7 +156,11 @@ public class KryptonToolStripLabelExtended : ToolStripStatusLabel
     /// </value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public Color GradientColourTwo { get => _values.GradientColourTwo; set => _values.GradientColourTwo = value; }
+    public Color GradientColorTwo
+    {
+        get => _values.GradientColorTwo; 
+        set => _values.GradientColorTwo = value;
+    }
 
     /// <summary>
     /// Gets or sets the text glow colour.
@@ -134,7 +170,11 @@ public class KryptonToolStripLabelExtended : ToolStripStatusLabel
     /// </value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public Color TextGlow { get => _values.TextGlow; set => _values.TextGlow = value; }
+    public Color TextGlow
+    {
+        get => _values.TextGlow;
+        set => _values.TextGlow = value;
+    }
 
     /// <summary>
     /// Gets or sets the gradient mode.
@@ -144,7 +184,11 @@ public class KryptonToolStripLabelExtended : ToolStripStatusLabel
     /// </value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public LinearGradientMode GradientMode { get => _values.GradientMode; set => _values.GradientMode = value; }
+    public LinearGradientMode GradientMode
+    {
+        get => _values.GradientMode; 
+        set => _values.GradientMode = value;
+    }
 
     /// <summary>
     /// Gets or sets the text glow spread.
@@ -154,7 +198,11 @@ public class KryptonToolStripLabelExtended : ToolStripStatusLabel
     /// </value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public int TextGlowSpread { get => _values.TextGlowSpread; set => _values.TextGlowSpread = value; }
+    public int TextGlowSpread
+    {
+        get => _values.TextGlowSpread; 
+        set => _values.TextGlowSpread = value;
+    }
 
     /// <summary>
     /// Gets or sets the alert blink interval.
@@ -164,7 +212,11 @@ public class KryptonToolStripLabelExtended : ToolStripStatusLabel
     /// </value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public int AlertBlinkInterval { get => _values.AlertBlinkInterval; set => _values.AlertBlinkInterval = value; }
+    public int AlertBlinkInterval
+    {
+        get => _values.AlertBlinkInterval;
+        set => _values.AlertBlinkInterval = value;
+    }
 
     /// <summary>
     /// Gets or sets the fade interval.
@@ -174,7 +226,11 @@ public class KryptonToolStripLabelExtended : ToolStripStatusLabel
     /// </value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public int FadeInterval { get => _values.FadeInterval; set => _values.FadeInterval = value; }
+    public int FadeInterval
+    {
+        get => _values.FadeInterval;
+        set => _values.FadeInterval = value;
+    }
 
     /// <summary>
     /// Gets or sets the duration of the blink.
@@ -184,15 +240,28 @@ public class KryptonToolStripLabelExtended : ToolStripStatusLabel
     /// </value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public long BlinkDuration { get => _values.BlinkDuration; set => _values.BlinkDuration = value; }
+    public long BlinkDuration
+    {
+        get => _values.BlinkDuration; 
+        set => _values.BlinkDuration = value;
+    }
 
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public BlinkState BlinkState { get => _values.BlinkState; set => _values.BlinkState = value; }
+    public BlinkState BlinkState
+    {
+        get => _values.BlinkState; 
+        set => _values.BlinkState = value;
+    }
 
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public short CycleInterval { get => _values.CycleInterval; set => _values.CycleInterval = value; }
+    public short CycleInterval
+    {
+        get => _values.CycleInterval; 
+        set => _values.CycleInterval = value;
+    }
+
     #endregion
 
     #region Constructors
@@ -225,10 +294,10 @@ public class KryptonToolStripLabelExtended : ToolStripStatusLabel
                 g.FillRectangle(solidBrush, r);
             }
         }
-        else if (GradientColourOne != Color.Empty || GradientColourTwo != Color.Empty)
+        else if (GradientColorOne != Color.Empty || GradientColorTwo != Color.Empty)
         {
             // Fill the background with a gradient colour
-            using (LinearGradientBrush lgb = new LinearGradientBrush(r, GradientColourOne, GradientColourTwo, GradientMode))
+            using (LinearGradientBrush lgb = new LinearGradientBrush(r, GradientColorOne, GradientColorTwo, GradientMode))
             {
                 g.FillRectangle(lgb, r);
             }
@@ -256,7 +325,7 @@ public class KryptonToolStripLabelExtended : ToolStripStatusLabel
                     BlinkLabel(BlinkDuration);
                     break;
                 case BlinkState.SoftBlink:
-                    SoftBlink(AlertColourOne, AlertColourTwo, AlertTextColour, CycleInterval, BkClr, BlinkDuration);
+                    SoftBlink(AlertColorOne, AlertColorTwo, AlertTextColor, CycleInterval, BkClr, BlinkDuration);
                     break;
             }
         }
@@ -306,9 +375,9 @@ public class KryptonToolStripLabelExtended : ToolStripStatusLabel
         {
             await Task.Delay(_values.AlertBlinkInterval);
 
-            base.BackColor = base.BackColor == AlertColourOne ? AlertColourTwo : AlertColourOne;
+            base.BackColor = base.BackColor == AlertColorOne ? AlertColorTwo : AlertColorOne;
 
-            base.ForeColor = AlertTextColour;
+            base.ForeColor = AlertTextColor;
 
             Invalidate();
         }

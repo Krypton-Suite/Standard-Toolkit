@@ -99,7 +99,9 @@ public enum VisibilityStyle
 /// </summary>
 public enum CheckMarkDisplayStyle
 {
+    /// <summary>Check mark is displayed as a check box.</summary>
     CheckBox = 0,
+    /// <summary>Check mark is displayed as a radio button.</summary>`
     RadioButton = 1
 }
 
@@ -107,9 +109,12 @@ public enum CheckMarkDisplayStyle
 
 #region Enum MarqueeScrollDirection
 
+/// <summary>Scroll direction/>.</summary>
 public enum MarqueeScrollDirection
 {
+    /// <summary>Scroll from right to left.</summary>
     RightToLeft,
+    /// <summary>Scroll from left to right.</summary>
     LeftToRight
 }
 
@@ -117,12 +122,30 @@ public enum MarqueeScrollDirection
 
 #region Enum StylePresets
 
+/// <summary>Style presets.</summary>
 public enum StylePresets
 {
+    /// <summary>MacOSX style preset.</summary>
     MacOSX,
+    /// <summary>Firefox style preset.</summary>
     Firefox,
+    /// <summary>IE7 style preset.</summary>
     IE7,
+    /// <summary>Custom style preset.</summary>
     Custom
+}
+
+#endregion
+
+#region Enum ButtonStyles
+
+/// <summary>Button styles.</summary>
+public enum ButtonStyles
+{
+    /// <summary>Plus button style.</summary>
+    PlusButton = 0,
+    /// <summary>Minus button style.</summary>
+    MinusButton = 1
 }
 
 #endregion

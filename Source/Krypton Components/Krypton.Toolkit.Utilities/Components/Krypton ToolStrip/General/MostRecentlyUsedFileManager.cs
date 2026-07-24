@@ -36,10 +36,31 @@ public class MostRecentlyUsedFileManager
 
     #region Public
 
+    /// <summary>
+    /// Gets or sets a value indicating whether to show a confirmation dialog when clearing the recent files list.
+    /// </summary>
+    [Category("Behavior")]
+    [Description("Determines whether to show a confirmation dialog when clearing the recent files list.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    [DefaultValue(false)]
     public bool UseConfirmClearListDialogue { get => _useConfirmClearListDialogue; set => _useConfirmClearListDialogue = value; }
 
+    /// <summary>
+    /// Gets or sets the name of the application used for the registry MRU key.
+    /// </summary>
+    [Category("Behavior")]
+    [Description("The name of the application used for the registry MRU key.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    [DefaultValue("")]
     public string? ApplicationName { get => _applicationName; set => _applicationName = value; }
 
+    /// <summary>
+    /// Gets or sets the file path for the recent files list.
+    /// </summary>
+    [Category("Behavior")]
+    [Description("The file path for the recent files list.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    [DefaultValue("")]
     public string FilePath { get => _filePath; set => _filePath = value; }
 
     #endregion
@@ -55,6 +76,7 @@ public class MostRecentlyUsedFileManager
     /// <exception cref="System.ArgumentException">Bad argument.</exception>
     public MostRecentlyUsedFileManager(KryptonMRUMenuItem parentMenuItem, string applicationName, Action<object, EventArgs> onRecentFileClick, Action<object, EventArgs>? onClearRecentFilesClick = null, bool useConfirmClearListDialogue = false)
     {
+        // Validate the application name to ensure it is not null, empty, or contains a backslash.
         if (string.IsNullOrEmpty(applicationName) || applicationName.Contains("\\"))
         {
             throw new ArgumentException("Bad argument.");
@@ -68,6 +90,7 @@ public class MostRecentlyUsedFileManager
 
         OnClearRecentFilesClick = onClearRecentFilesClick;
 
+        // Construct the registry subkey name for storing the MRU list.
         _subKeyName = $"Software\\{applicationName}\\MRU";
 
         UseConfirmClearListDialogue = useConfirmClearListDialogue;
@@ -90,9 +113,8 @@ public class MostRecentlyUsedFileManager
         {
             if (UseConfirmClearListDialogue)
             {
-                if (KryptonMessageBox.Show(
-                        "You are about to clear your recent files list. Do you want to continue?",
-                        "Clear Recent Files",
+                if (KryptonMessageBox.Show(KryptonManager.Strings.ToolStripItemStrings.MostRecentlyUsedFileClearConfirmationText,
+                        KryptonManager.Strings.ToolStripItemStrings.MostRecentlyUsedFileClearConfirmationCaption,
                         KryptonMessageBoxButtons.YesNo,
                         KryptonMessageBoxIcon.Question) == DialogResult.Yes)
                 {
@@ -106,7 +128,7 @@ public class MostRecentlyUsedFileManager
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.ToString());
+            KryptonExceptionHandler.CaptureException(ex);
         }
 
         if (obj != null)
@@ -204,7 +226,7 @@ public class MostRecentlyUsedFileManager
 
         _parentMenuItem.DropDownItems.Add("-");
 
-        tSI = _parentMenuItem.DropDownItems.Add("&Clear list");
+        tSI = _parentMenuItem.DropDownItems.Add(KryptonManager.Strings.ToolStripItemStrings.ClearRecentlyUsedListText);
 
         tSI.Click += OnClearRecentFiles_Click;
 

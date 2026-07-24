@@ -194,19 +194,32 @@ public partial class KryptonLoadingCircle : Control
         {
             e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
 
+            // Stored radii/thickness are logical (96 DPI); scale for the current monitor.
+            int innerRadius = LogicalToDeviceUnits(_values.InnerCircleRadius);
+            int outerRadius = LogicalToDeviceUnits(_values.OuterCircleRadius);
+            int spokeThickness = LogicalToDeviceUnits(_values.SpokeThickness);
+
             int intPosition = _mProgressValue;
             for (int intCounter = 0; intCounter < _values.NumberSpoke; intCounter++)
             {
                 intPosition = intPosition % _values.NumberSpoke;
                 DrawLine(e.Graphics,
-                    GetCoordinate(_mCenterPoint, _values.InnerCircleRadius, _mAngles[intPosition]),
-                    GetCoordinate(_mCenterPoint, _values.OuterCircleRadius, _mAngles[intPosition]),
-                    _mColors[intCounter], _values.SpokeThickness);
+                    GetCoordinate(_mCenterPoint, innerRadius, _mAngles[intPosition]),
+                    GetCoordinate(_mCenterPoint, outerRadius, _mAngles[intPosition]),
+                    _mColors[intCounter], spokeThickness);
                 intPosition++;
             }
         }
 
         base.OnPaint(e);
+    }
+
+    /// <inheritdoc />
+    protected override void OnDpiChangedAfterParent(EventArgs e)
+    {
+        base.OnDpiChangedAfterParent(e);
+        GetControlCenterPoint();
+        Invalidate();
     }
 
     // Overridden Methods ================================================
@@ -220,7 +233,7 @@ public partial class KryptonLoadingCircle : Control
     public override Size GetPreferredSize(Size proposedSize)
     {
         proposedSize.Width =
-            (_values.OuterCircleRadius + _values.SpokeThickness) * 2;
+            (LogicalToDeviceUnits(_values.OuterCircleRadius) + LogicalToDeviceUnits(_values.SpokeThickness)) * 2;
 
         return proposedSize;
     }

@@ -171,18 +171,11 @@ public class KryptonExpandingMenuItem : ToolStripMenuItem
 
             int itemCount = 1;
 
-            foreach (ToolStripItem item in DropDownItems)
+            foreach (KryptonExpandingMenuItem expandingMenuItem in DropDownItems.OfType<KryptonExpandingMenuItem>())
             {
-                if (item is ToolStripSeparator)
-                {
-                    continue;
-                }
-
                 itemCount += 1;
 
-                KryptonExpandingMenuItem? expandingMenuItem = item as KryptonExpandingMenuItem;
-
-                if (expandingMenuItem != null && !expandingMenuItem.IsStandardItem)
+                if (expandingMenuItem is { IsStandardItem: false })
                 {
                     hasExpandable = true;
 
@@ -222,22 +215,17 @@ public class KryptonExpandingMenuItem : ToolStripMenuItem
     private void ExpandItems()
     {
         DropDown.SuspendLayout();
-        foreach (ToolStripItem item in DropDownItems)
+        foreach (KryptonExpandingMenuItem menuItem in DropDownItems.OfType<KryptonExpandingMenuItem>())
         {
-            KryptonExpandingMenuItem? menuItem = item as KryptonExpandingMenuItem;
-            if (menuItem != null)
+            if (menuItem.Visible == false & !menuItem.AlwaysHidden)
             {
-                if (menuItem.Visible == false & !menuItem.AlwaysHidden)
-                {
-                    menuItem.Visible = true;
-                }
+                menuItem.Visible = true;
             }
+        }
 
-            ToolStripSeparator? separator = item as ToolStripSeparator;
-            if (separator != null)
-            {
-                separator.Visible = true;
-            }
+        foreach (ToolStripSeparator separator in DropDownItems.OfType<ToolStripSeparator>())
+        {
+            separator.Visible = true;
         }
 
         _inExpandedClick = true;
@@ -252,19 +240,21 @@ public class KryptonExpandingMenuItem : ToolStripMenuItem
         int cnt = 0;
         foreach (ToolStripItem item in DropDownItems)
         {
-            if (!(item is ToolStripSeparator))
+            if (item is ToolStripSeparator)
             {
-                cnt += 1;
-                if (cnt > MINIMUM_ITEM_COUNT)
-                {
-                    return false;
-                }
-                // If its not an ExpandingMenuItem, we didn't hide it
-                KryptonExpandingMenuItem? menuItem = item as KryptonExpandingMenuItem;
-                if (menuItem != null && !menuItem.AlwaysHidden)
-                {
-                    menuItem.Visible = true;
-                }
+                continue;
+            }
+
+            cnt += 1;
+            if (cnt > MINIMUM_ITEM_COUNT)
+            {
+                return false;
+            }
+            // If its not an ExpandingMenuItem, we didn't hide it
+            KryptonExpandingMenuItem? menuItem = item as KryptonExpandingMenuItem;
+            if (menuItem is { AlwaysHidden: false })
+            {
+                menuItem.Visible = true;
             }
         }
 

@@ -12,97 +12,49 @@ namespace Krypton.Toolkit.Utilities;
 [ToolboxBitmap(typeof(TrackBar)), ToolboxItem(false)]
 public partial class KryptonToolbarSlider : UserControl, IContentValues
 {
-    #region Designer Code
-    /// <summary> 
-    /// Required designer variable.
-    /// </summary>
-    private IContainer? components = null;
+    #region Instance Fields
 
+    //Colors
+    private Color _sliderLineTop = Color.FromArgb(116, 150, 194);
+    private Color _sliderLineBottom = Color.FromArgb(222, 226, 236);
 
-    #region Component Designer generated code
+    //Krypton
+    private PaletteBase? _palette;
+    private PaletteRedirect _paletteRedirect;
 
-    /// <summary> 
-    /// Required method for Designer support - do not modify 
-    /// the contents of this method with the code editor.
-    /// </summary>
-    private void InitializeComponent()
-    {
-        this.kplus = new KryptonSliderButton();
-        this.kminus = new KryptonSliderButton();
-        this.SuspendLayout();
-        // 
-        // kplus
-        // 
-        this.kplus.Anchor = System.Windows.Forms.AnchorStyles.Right;
-        this.kplus.BackColor = System.Drawing.Color.Transparent;
-        this.kplus.ButtonStyle = KryptonSliderButton.ButtonStyles.PlusButton;
-        this.kplus.EventFireRate = 200;
-        this.kplus.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        this.kplus.Location = new System.Drawing.Point(124, 0);
-        this.kplus.Name = "kplus";
-        this.kplus.Orientation = Krypton.Toolkit.VisualOrientation.Top;
-        this.kplus.SingleClick = false;
-        this.kplus.Size = new System.Drawing.Size(16, 16);
-        this.kplus.TabIndex = 1;
-        this.kplus.VisualLook = Krypton.Toolkit.PaletteBackStyle.ButtonStandalone;
-        this.kplus.SliderButtonFire += new KryptonSliderButton.SliderButtonFireEventHandler(this.kplus_SliderButtonFire);
-        // 
-        // kminus
-        // 
-        this.kminus.Anchor = System.Windows.Forms.AnchorStyles.Left;
-        this.kminus.BackColor = System.Drawing.Color.Transparent;
-        this.kminus.ButtonStyle = KryptonSliderButton.ButtonStyles.MinusButton;
-        this.kminus.EventFireRate = 200;
-        this.kminus.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        this.kminus.Location = new System.Drawing.Point(0, 0);
-        this.kminus.Name = "kminus";
-        this.kminus.Orientation = Krypton.Toolkit.VisualOrientation.Top;
-        this.kminus.SingleClick = false;
-        this.kminus.Size = new System.Drawing.Size(16, 16);
-        this.kminus.TabIndex = 0;
-        this.kminus.VisualLook = Krypton.Toolkit.PaletteBackStyle.ButtonStandalone;
-        this.kminus.SliderButtonFire += new KryptonSliderButton.SliderButtonFireEventHandler(this.kminus_SliderButtonFire);
-        // 
-        // KryptonSlider
-        // 
-        this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-        this.BackColor = System.Drawing.Color.Transparent;
-        this.Controls.Add(this.kplus);
-        this.Controls.Add(this.kminus);
-        this.DoubleBuffered = true;
-        this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        this.Name = "KryptonSlider";
-        this.Size = new System.Drawing.Size(140, 16);
-        this.MouseLeave += new System.EventHandler(this.KryptonSliderButton_MouseLeave);
-        this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.KryptonSlider_MouseMove);
-        this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.KryptonSliderButton_MouseDown);
-        this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.KryptonSliderButton_MouseUp);
-        this.MouseEnter += new System.EventHandler(this.KryptonSliderButton_MouseEnter);
-        this.ResumeLayout(false);
+    private PaletteBackInheritRedirect _mPaletteBack;
+    private PaletteBorderInheritRedirect _mPaletteBorder;
+    private PaletteContentInheritRedirect _mPaletteContent;
+    private IDisposable? _mMementoContent;
+    private IDisposable? _mMementoBack1;
+    private IDisposable? _mMementoBack2;
 
-    }
-    internal KryptonSliderButton kminus;
-    internal KryptonSliderButton kplus;
+    //Declares
+    private readonly ToolbarSliderValues _values;
+    private int _halfRange;
+    private bool _highlight;
+    private bool _sliderHighlight;
+    private bool _down;
 
+    private int _maximumValue;
+    private int _minimumValue;
 
     #endregion
-    #endregion
 
-    #region "Entry"
+    #region Identity
 
     public KryptonToolbarSlider()
     {
         _values = new ToolbarSliderValues(this);
 
         //(1) To remove flicker we use double buffering for drawing
-        SetStyle(ControlStyles.SupportsTransparentBackColor, true);
-        SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-        SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-        SetStyle(ControlStyles.ResizeRedraw, true);
-        SetStyle(ControlStyles.UserPaint, true);
-
+        SetStyle(ControlStyles.SupportsTransparentBackColor | ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw | ControlStyles.UserPaint, true);
+        
         //Initialize Component
         InitializeComponent();
+
+        _maximumValue = _values.Range / 2;
+        _minimumValue = -1 * _values.Range / 2;
 
         //(5) Create redirection object to the base palette
         // add Palette Handler
@@ -124,32 +76,25 @@ public partial class KryptonToolbarSlider : UserControl, IContentValues
         //Set Back Color
         BackColor = Color.Transparent;
 
+        // Keep host height in sync when child buttons re-scale for DPI.
+        kplus!.SizeChanged += (_, _) => Height = kplus.Height;
+        kminus!.SizeChanged += (_, _) => Height = Math.Max(Height, kminus.Height);
+    }
+
+    /// <inheritdoc />
+    protected override void OnDpiChangedAfterParent(EventArgs e)
+    {
+        base.OnDpiChangedAfterParent(e);
+        Height = Math.Max(kplus!.Height, kminus!.Height);
+        kplus.Location = new Point(Width - kplus.Width, 0);
+        Invalidate();
     }
 
     #endregion
 
     #region "Declares"
 
-    //Colors
-    private Color _mSliderlinetop = Color.FromArgb(116, 150, 194);
-    private Color _mSliderlinebottom = Color.FromArgb(222, 226, 236);
-
-    //Krypton
-    private PaletteBase? _palette;
-    private PaletteRedirect _paletteRedirect;
-
-    private PaletteBackInheritRedirect _mPaletteBack;
-    private PaletteBorderInheritRedirect _mPaletteBorder;
-    private PaletteContentInheritRedirect _mPaletteContent;
-    private IDisposable? _mMementoContent;
-    private IDisposable? _mMementoBack1;
-    private IDisposable? _mMementoBack2;
-
-    //Declares
-    private readonly ToolbarSliderValues _values;
-    private bool _mHighlight = false;
-    private bool _mSliderhighlight = false;
-    private bool _mDown = false;
+    
 
     //Events
     public event ValueChangedEventHandler ValueChanged;
@@ -271,8 +216,8 @@ public partial class KryptonToolbarSlider : UserControl, IContentValues
         gfx.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
 
         //Define Pen Colors
-        Pen topPen = new Pen(_mSliderlinetop, 1);
-        Pen bottomPen = new Pen(_mSliderlinebottom, 1);
+        Pen topPen = new Pen(_sliderLineTop, 1);
+        Pen bottomPen = new Pen(_sliderLineBottom, 1);
 
         //Draw Lines
         gfx.DrawLine(topPen, 17, Height / 2 - 1, Width - 18, Height / 2 - 1);
@@ -294,14 +239,12 @@ public partial class KryptonToolbarSlider : UserControl, IContentValues
         //Check Palette
         if (_palette != null)
         {
-
             //Get the renderer associated with this palette
             IRenderer renderer = _palette.GetRenderer();
 
             //Create the rendering context that is passed into all renderer calls
             using (RenderContext renderContext = new RenderContext(this, gfx, sliderBounds, renderer))
             {
-
                 // We want to draw the background of the entire control over the entire client area.
                 using (GraphicsPath path = GetSliderPath(GetSliderPosition()))
                 {
@@ -311,7 +254,6 @@ public partial class KryptonToolbarSlider : UserControl, IContentValues
 
                     // Ask renderer to draw the background
                     _mMementoBack1 = renderer.RenderStandardBack.DrawBack(renderContext, sliderBounds, path, _mPaletteBack, VisualOrientation.Top, Enabled ? PaletteState.Normal : PaletteState.Disabled, _mMementoBack1);
-
                 }
 
                 //We want the inner part of the control to act like a button, so 
@@ -327,7 +269,6 @@ public partial class KryptonToolbarSlider : UserControl, IContentValues
                 //Do we need to draw the background?
                 if (_mPaletteBack.GetBackDraw(buttonState) == InheritBool.True)
                 {
-
                     //BackGround Path
                     using (GraphicsPath path = GetSliderPath(GetSliderPosition()))
                     {
@@ -338,13 +279,9 @@ public partial class KryptonToolbarSlider : UserControl, IContentValues
                         gfx.DrawLine(new Pen(_mPaletteBorder.GetBorderColor2(buttonState)), sliderBounds.X + sliderBounds.Width / 2 + 1, sliderBounds.Y + 4, sliderBounds.X + sliderBounds.Width / 2 + 1, sliderBounds.Y + 8);
 
                     }
-
                 }
-
             }
-
         }
-
     }
 
     #endregion
@@ -358,7 +295,7 @@ public partial class KryptonToolbarSlider : UserControl, IContentValues
         {
             return new Point((int)Math.Round(Width / 2.0), (int)Math.Round(Height / 2.0 - 6.5));
         }
-        Point result = new Point((int)Math.Round(Width / 2.0 + (Width / 2.0 - 20.0) * (value / (_values.Range / 2.0))), (int)Math.Round(Height / 2.0 - 6.5));
+        Point result = new Point((int)Math.Round(Width / 2.0 + (Width / 2.0 - 20.0) * (value / (double)_halfRange)), (int)Math.Round(Height / 2.0 - 6.5));
         if (result.X > Width - 0x16)
         {
             result.X = Width - 0x16;
@@ -372,28 +309,32 @@ public partial class KryptonToolbarSlider : UserControl, IContentValues
     }
     private int GetValueFromPoint(Point value)
     {
-        int result = (int)Math.Round((value.X - Width / 2.0) / (Width / 2.0 - 20.0) * _values.Range / 2.0);
-        if (result > _values.Range / 2.0)
+        int result = (int)Math.Round((value.X - Width / 2.0) / (Width / 2.0 - 20.0) * _halfRange);
+        if (result > _halfRange)
         {
-            result = (int)Math.Round(_values.Range / 2.0);
+            result = _halfRange;
         }
-        if (result < _values.Range / 2.0 * -1.0)
+        if (result < -_halfRange)
         {
-            result = (int)Math.Round(_values.Range / 2.0 * -1.0);
+            result = -_halfRange;
         }
         return result;
 
     }
     private GraphicsPath GetSliderPath(Point location)
     {
+        Point topLeft = new Point(location.X + 1, location.Y);
+        Point midLeft = new Point(location.X + 1, location.Y + 9);
+        Point tip = new Point(location.X + 5, location.Y + 13);
+        Point midRight = new Point(location.X + 9, location.Y + 9);
+        Point topRight = new Point(location.X + 9, location.Y);
+
         GraphicsPath path = new GraphicsPath();
-        {
-            path.AddLine(new Point(location.X + 1, location.Y), new Point(location.X + 1, location.Y + 9));
-            path.AddLine(new Point(location.X + 1, location.Y + 9), new Point(location.X + 5, location.Y + 13));
-            path.AddLine(new Point(location.X + 5, location.Y + 13), new Point(location.X + 9, location.Y + 9));
-            path.AddLine(new Point(location.X + 9, location.Y + 9), new Point(location.X + 9, location.Y));
-            path.AddLine(new Point(location.X + 1, location.Y), new Point(location.X + 9, location.Y));
-        }
+        path.AddLine(topLeft, midLeft);
+        path.AddLine(midLeft, tip);
+        path.AddLine(tip, midRight);
+        path.AddLine(midRight, topRight);
+        path.AddLine(topLeft, topRight);
         return path;
     }
     private Rectangle GetSliderBounds(Point location)
@@ -413,15 +354,15 @@ public partial class KryptonToolbarSlider : UserControl, IContentValues
         }
         else
         {
-            if (_mDown)
+            if (_down)
             {
                 return PaletteState.Pressed;
             }
             else
             {
-                if (_mHighlight)
+                if (_highlight)
                 {
-                    if (_mSliderhighlight)
+                    if (_sliderHighlight)
                     {
                         return PaletteState.CheckedTracking;
                     }
@@ -474,14 +415,14 @@ public partial class KryptonToolbarSlider : UserControl, IContentValues
     }
     private void SliderIncrement()
     {
-        if (_values.Value + _values.Steps <= _values.Range / 2)
+        if (_values.Value + _values.Steps <= _halfRange)
         {
             ChangeValue(_values.Value + _values.Steps);
         }
     }
     private void SliderDecrement()
     {
-        if (_values.Value - _values.Steps >= _values.Range / 2 * -1)
+        if (_values.Value - _values.Steps >= -_halfRange)
         {
             ChangeValue(_values.Value - _values.Steps);
         }
@@ -496,18 +437,18 @@ public partial class KryptonToolbarSlider : UserControl, IContentValues
     {
         if (GetSliderBounds(GetSliderPosition()).Contains(e.Location))
         {
-            _mDown = true;
+            _down = true;
             Invalidate();
         }
     }
     private void KryptonSliderButton_MouseEnter(object? sender, EventArgs e)
     {
-        _mHighlight = true;
+        _highlight = true;
         Invalidate();
     }
     private void KryptonSliderButton_MouseLeave(object? sender, EventArgs e)
     {
-        _mHighlight = false;
+        _highlight = false;
         Invalidate();
     }
     private void KryptonSlider_MouseMove(object? sender, MouseEventArgs e)
@@ -519,23 +460,23 @@ public partial class KryptonToolbarSlider : UserControl, IContentValues
         //Check Mouse Location
         if (GetSliderBounds(GetSliderPosition()).Contains(e.Location))
         {
-            if (!_mSliderhighlight)
+            if (!_sliderHighlight)
             {
-                _mSliderhighlight = true;
+                _sliderHighlight = true;
                 doInvalidate = true;
             }
         }
         else
         {
-            if (_mSliderhighlight)
+            if (_sliderHighlight)
             {
-                _mSliderhighlight = false;
+                _sliderHighlight = false;
                 doInvalidate = true;
             }
         }
 
         //Check Moving Slider
-        if (_mDown)
+        if (_down)
         {
             /*
             switch (GetSliderRangeTest(e.Location))
@@ -566,14 +507,12 @@ public partial class KryptonToolbarSlider : UserControl, IContentValues
     }
     private void KryptonSliderButton_MouseUp(object? sender, MouseEventArgs e)
     {
-        _mDown = false;
+        _down = false;
         if (!GetSliderBounds(GetSliderPosition()).Contains(e.Location))
         {
             switch (GetSliderRangeTest(e.Location))
             {
                 case RangeTests.LeftDomain:
-                    ChangeValue(GetValueFromPoint(e.Location));
-                    break;
                 case RangeTests.RightDomain:
                     ChangeValue(GetValueFromPoint(e.Location));
                     break;
@@ -584,21 +523,7 @@ public partial class KryptonToolbarSlider : UserControl, IContentValues
         }
         Invalidate();
     }
-
-    //Krypton Paint Helpers
-    private void k_palette_BasePaletteChanged(object? sender, EventArgs e)
-    {
-        Invalidate();
-    }
-    private void k_palette_BaseRendererChanged(object? sender, EventArgs e)
-    {
-        Invalidate();
-    }
-    private void k_palette_PalettePaint(object? sender, PaletteLayoutEventArgs e)
-    {
-        Invalidate();
-    }
-
+    
     //Slider Buttons
     private void kminus_SliderButtonFire(KryptonSliderButton sender, EventArgs e)
     {
@@ -666,18 +591,6 @@ public partial class KryptonToolbarSlider : UserControl, IContentValues
         get => _values.Steps;
         set => _values.Steps = value;
     }
-
-    [Category("Behavior")]
-    [Description("The maximum value of the slider.")]
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public int Maximum => _values.Range / 2;
-
-    [Category("Behavior")]
-    [Description("The minimum value of the slider.")]
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public int Minimum => -1 * _values.Range / 2;
 
     #endregion
 
@@ -785,11 +698,10 @@ public partial class KryptonToolbarSlider : UserControl, IContentValues
         if (_palette is not null)
         {
             //Colors
-            _mSliderlinetop = _palette.ColorTable.GripDark;
-            _mSliderlinebottom = _palette.ColorTable.GripLight;
+            _sliderLineTop = _palette.ColorTable.GripDark;
+            _sliderLineBottom = _palette.ColorTable.GripLight;
         }
     }
     #endregion
-
 
 }

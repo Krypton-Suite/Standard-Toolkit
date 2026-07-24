@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -32,11 +32,11 @@ public class ToolStripLabelExtendedValues : Storage
     private bool _enableBlinking = true;
     private bool _bkClr;
     private bool _enableFadeAnimation;
-    private Color _alertColourOne = Color.White;
-    private Color _alertColourTwo = Color.Black;
-    private Color _alertTextColour = Color.Red;
-    private Color _gradientColourOne = Color.Empty;
-    private Color _gradientColourTwo = Color.Empty;
+    private Color _alertColorOne = Color.White;
+    private Color _alertColorTwo = Color.Black;
+    private Color _alertTextColor = Color.Red;
+    private Color _gradientColorOne = Color.Empty;
+    private Color _gradientColorTwo = Color.Empty;
     private Color _textGlow = Color.White;
     private LinearGradientMode _gradientMode = LinearGradientMode.ForwardDiagonal;
     private int _textGlowSpread = DEFAULT_TEXT_GLOW_SPREAD;
@@ -71,11 +71,11 @@ public class ToolStripLabelExtendedValues : Storage
         _enableBlinking &&
         !_bkClr &&
         !_enableFadeAnimation &&
-        _alertColourOne == Color.White &&
-        _alertColourTwo == Color.Black &&
-        _alertTextColour == Color.Red &&
-        _gradientColourOne == Color.Empty &&
-        _gradientColourTwo == Color.Empty &&
+        _alertColorOne == Color.White &&
+        _alertColorTwo == Color.Black &&
+        _alertTextColor == Color.Red &&
+        _gradientColorOne == Color.Empty &&
+        _gradientColorTwo == Color.Empty &&
         _textGlow == Color.White &&
         _gradientMode == LinearGradientMode.ForwardDiagonal &&
         _textGlowSpread == DEFAULT_TEXT_GLOW_SPREAD &&
@@ -138,71 +138,91 @@ public class ToolStripLabelExtendedValues : Storage
     }
 
     /// <summary>
-    /// Gets or sets the first alert colour.
+    /// Gets or sets the first alert color.
     /// </summary>
     [Category(@"Blinking Settings")]
     [DefaultValue(typeof(Color), "White")]
-    [Description(@"Defined alert first colour.")]
-    public Color AlertColourOne
+    [Description(@"Defined alert first color.")]
+    public Color AlertColorOne
     {
-        get => _alertColourOne;
-        set { _alertColourOne = value; _owner.Invalidate(); }
+        get => _alertColorOne;
+        set
+        {
+            _alertColorOne = value; 
+            _owner.Invalidate();
+        }
     }
 
     /// <summary>
-    /// Gets or sets the second alert colour.
+    /// Gets or sets the second alert color.
     /// </summary>
     [Category(@"Blinking Settings")]
     [DefaultValue(typeof(Color), "Black")]
-    [Description(@"Defined alert second colour.")]
-    public Color AlertColourTwo
+    [Description(@"Defined alert second color.")]
+    public Color AlertColorTwo
     {
-        get => _alertColourTwo;
-        set { _alertColourTwo = value; _owner.Invalidate(); }
+        get => _alertColorTwo;
+        set
+        {
+            _alertColorTwo = value;
+            _owner.Invalidate();
+        }
     }
 
     /// <summary>
-    /// Gets or sets the alert text colour.
+    /// Gets or sets the alert text color.
     /// </summary>
     [Category(@"Blinking Settings")]
     [DefaultValue(typeof(Color), "Red")]
-    [Description(@"Defined alert text colour.")]
-    public Color AlertTextColour
+    [Description(@"Defined alert text color.")]
+    public Color AlertTextColor
     {
-        get => _alertTextColour;
-        set { _alertTextColour = value; _owner.Invalidate(); }
+        get => _alertTextColor;
+        set
+        {
+            _alertTextColor = value;
+            _owner.Invalidate();
+        }
     }
 
     /// <summary>
-    /// Gets or sets the first gradient colour.
+    /// Gets or sets the first gradient color.
     /// </summary>
     [Category(@"Appearance")]
     [DefaultValue(typeof(Color), "")]
-    [Description(@"The first gradient colour.")]
-    public Color GradientColourOne
+    [Description(@"The first gradient color.")]
+    public Color GradientColorOne
     {
-        get => _gradientColourOne;
-        set { _gradientColourOne = value; _owner.Invalidate(); }
+        get => _gradientColorOne;
+        set
+        {
+            _gradientColorOne = value;
+            _owner.Invalidate();
+        }
     }
 
     /// <summary>
-    /// Gets or sets the second gradient colour.
+    /// Gets or sets the second gradient color.
     /// </summary>
     [Category(@"Appearance")]
     [DefaultValue(typeof(Color), "")]
-    [Description(@"The second gradient colour.")]
-    public Color GradientColourTwo
+    [Description(@"The second gradient color.")]
+    public Color GradientColorTwo
     {
-        get => _gradientColourTwo;
-        set { _gradientColourTwo = value; _owner.Invalidate(); }
+        get => _gradientColorTwo;
+        set
+        {
+            _gradientColorTwo = value;
+            _owner.Invalidate();
+        }
     }
 
     /// <summary>
-    /// Gets or sets the text glow colour.
+    /// Gets or sets the text glow color.
     /// </summary>
     [Category(@"Appearance")]
     [DefaultValue(typeof(Color), "White")]
-    [Description(@"The text glow colour.")]
+    [Description(@"The text glow color.")]
     public Color TextGlow
     {
         get => _textGlow;
@@ -218,7 +238,11 @@ public class ToolStripLabelExtendedValues : Storage
     public LinearGradientMode GradientMode
     {
         get => _gradientMode;
-        set { _gradientMode = value; _owner.Invalidate(); }
+        set
+        {
+            _gradientMode = value;
+            _owner.Invalidate();
+        }
     }
 
     /// <summary>
@@ -302,11 +326,11 @@ public class ToolStripLabelExtendedValues : Storage
         _enableBlinking = true;
         _bkClr = false;
         _enableFadeAnimation = false;
-        _alertColourOne = Color.White;
-        _alertColourTwo = Color.Black;
-        _alertTextColour = Color.Red;
-        _gradientColourOne = Color.Empty;
-        _gradientColourTwo = Color.Empty;
+        _alertColorOne = Color.White;
+        _alertColorTwo = Color.Black;
+        _alertTextColor = Color.Red;
+        _gradientColorOne = Color.Empty;
+        _gradientColorTwo = Color.Empty;
         _textGlow = Color.White;
         _gradientMode = LinearGradientMode.ForwardDiagonal;
         _textGlowSpread = DEFAULT_TEXT_GLOW_SPREAD;

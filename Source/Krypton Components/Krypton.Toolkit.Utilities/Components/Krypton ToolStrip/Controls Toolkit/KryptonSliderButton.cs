@@ -12,47 +12,9 @@ namespace Krypton.Toolkit.Utilities;
 [ToolboxBitmap(typeof(TrackBar)), ToolboxItem(false)]
 public partial class KryptonSliderButton : UserControl, IContentValues
 {
-    #region Designer Code
-    /// <summary> 
-    /// Required designer variable.
-    /// </summary>
-    private IContainer? components;
-
-    #region Component Designer generated code
-
-    /// <summary> 
-    /// Required method for Designer support - do not modify 
-    /// the contents of this method with the code editor.
-    /// </summary>
-    private void InitializeComponent()
-    {
-        this.components = new System.ComponentModel.Container();
-        this.FireTimer = new System.Windows.Forms.Timer(this.components);
-        this.SuspendLayout();
-        // 
-        // FireTimer
-        // 
-        this.FireTimer.Interval = 1000;
-        this.FireTimer.Tick += new System.EventHandler(this.FireTimer_Tick);
-        // 
-        // KryptonSliderButton
-        // 
-        this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-        this.DoubleBuffered = true;
-        this.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-        this.Name = "KryptonSliderButton";
-        this.Size = new System.Drawing.Size(16, 16);
-        this.MouseLeave += new System.EventHandler(this.KryptonSliderButton_MouseLeave);
-        this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.KryptonSliderButton_MouseDown);
-        this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.KryptonSliderButton_MouseUp);
-        this.MouseEnter += new System.EventHandler(this.KryptonSliderButton_MouseEnter);
-        this.ResumeLayout(false);
-
-    }
-
-    #endregion
-
-    internal System.Windows.Forms.Timer FireTimer;
+    #region Constants
+    private const int LogicalButtonSize = 16;
+    private const float LogicalCircleDiameter = 15.1f;
     #endregion
 
     #region ...   Enums    ...
@@ -62,6 +24,7 @@ public partial class KryptonSliderButton : UserControl, IContentValues
         MinusButton = 1
     }
     #endregion
+
     public KryptonSliderButton()
     {
         _values = new SliderButtonValues(this);
@@ -91,7 +54,7 @@ public partial class KryptonSliderButton : UserControl, IContentValues
 
         //Set Properties
         BackColor = Color.Transparent;
-        Size = new Size(16, 16);
+        ApplyDpiScaledSize();
 
         InitColors();
 
@@ -190,10 +153,10 @@ public partial class KryptonSliderButton : UserControl, IContentValues
     //ComponentFactory Palette Painting
     protected override void OnPaint(PaintEventArgs e)
     {
-
-        //Define Bounds
-        Rectangle buttonBounds = new Rectangle(0, 0, 16, 16);
-        RectangleF buttonCircleBounds = new RectangleF(0, 0, (float)15.1, (float)15.1);
+        // Bounds are logical 16×16 at 96 DPI; Size is already DPI-scaled.
+        Rectangle buttonBounds = ClientRectangle;
+        float circleDiameter = Width * (LogicalCircleDiameter / LogicalButtonSize);
+        RectangleF buttonCircleBounds = new RectangleF(0, 0, circleDiameter, circleDiameter);
 
         //Smoothing Mode
         e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
@@ -256,8 +219,12 @@ public partial class KryptonSliderButton : UserControl, IContentValues
                 switch (_values.ButtonStyle)
                 {
                     case ButtonStyles.MinusButton:
-                        Rectangle minusOuterBounds = new Rectangle(3, Height / 2 - 2, 10, 4);
-                        Rectangle minusInnerBounds = new Rectangle(4, Height / 2 - 1, 8, 2);
+                        Rectangle minusOuterBounds = new Rectangle(
+                            LogicalToDeviceUnits(3), Height / 2 - LogicalToDeviceUnits(2),
+                            LogicalToDeviceUnits(10), LogicalToDeviceUnits(4));
+                        Rectangle minusInnerBounds = new Rectangle(
+                            LogicalToDeviceUnits(4), Height / 2 - LogicalToDeviceUnits(1),
+                            LogicalToDeviceUnits(8), LogicalToDeviceUnits(2));
 
                         e.Graphics.FillRectangle(new SolidBrush(_mOuterColor), minusOuterBounds);
                         e.Graphics.FillRectangle(new SolidBrush(_mInnerColor), minusInnerBounds);
@@ -273,9 +240,17 @@ public partial class KryptonSliderButton : UserControl, IContentValues
         }
 
     }
+
+    /// <inheritdoc />
+    protected override void OnDpiChangedAfterParent(EventArgs e)
+    {
+        base.OnDpiChangedAfterParent(e);
+        ApplyDpiScaledSize();
+        Invalidate();
+    }
+
     protected override void OnLayout(LayoutEventArgs e)
     {
-
         //Active Palette
         //If m_palette IsNot Nothing Then
         if (_palette != null)
@@ -287,7 +262,7 @@ public partial class KryptonSliderButton : UserControl, IContentValues
             PaletteState buttonState = GetButtonState();
 
             // Create a rectangle inset, this is where we will draw a button
-            Rectangle buttonBounds = new Rectangle(0, 0, 16, 16);
+            Rectangle buttonBounds = ClientRectangle;
 
             // Get the renderer associated with this palette
             IRenderer renderer = _palette.GetRenderer();
@@ -407,13 +382,21 @@ public partial class KryptonSliderButton : UserControl, IContentValues
     }
     private void DrawPlusOuter(Graphics gfx, Color fill)
     {
-        gfx.FillRectangle(new SolidBrush(fill), new Rectangle(3, Height / 2 - 2, 10, 4));
-        gfx.FillRectangle(new SolidBrush(fill), new Rectangle(Width / 2 - 2, 3, 4, 10));
+        gfx.FillRectangle(new SolidBrush(fill), new Rectangle(
+            LogicalToDeviceUnits(3), Height / 2 - LogicalToDeviceUnits(2),
+            LogicalToDeviceUnits(10), LogicalToDeviceUnits(4)));
+        gfx.FillRectangle(new SolidBrush(fill), new Rectangle(
+            Width / 2 - LogicalToDeviceUnits(2), LogicalToDeviceUnits(3),
+            LogicalToDeviceUnits(4), LogicalToDeviceUnits(10)));
     }
     private void DrawPlusInner(Graphics gfx, Color fill)
     {
-        gfx.FillRectangle(new SolidBrush(fill), new Rectangle(4, Height / 2 - 1, 8, 2));
-        gfx.FillRectangle(new SolidBrush(fill), new Rectangle(Width / 2 - 1, 4, 2, 8));
+        gfx.FillRectangle(new SolidBrush(fill), new Rectangle(
+            LogicalToDeviceUnits(4), Height / 2 - LogicalToDeviceUnits(1),
+            LogicalToDeviceUnits(8), LogicalToDeviceUnits(2)));
+        gfx.FillRectangle(new SolidBrush(fill), new Rectangle(
+            Width / 2 - LogicalToDeviceUnits(1), LogicalToDeviceUnits(4),
+            LogicalToDeviceUnits(2), LogicalToDeviceUnits(8)));
     }
 
     //Key Mouse Events
@@ -468,7 +451,7 @@ public partial class KryptonSliderButton : UserControl, IContentValues
 
     public float GetOverlayImageScaleFactor(PaletteState state) => 0.5f;
 
-    public Size GetOverlayImageFixedSize(PaletteState state) => new Size(16, 16);
+    public Size GetOverlayImageFixedSize(PaletteState state) => GetDpiScaledButtonSize();
 
     //Krypton Palette
     private void k_palette_BasePaletteChanged(object? sender, EventArgs e)
@@ -525,5 +508,11 @@ public partial class KryptonSliderButton : UserControl, IContentValues
             _mOuterColor = _palette.GetRenderer() is RenderOffice2010 or RenderOffice2013 or RenderMicrosoft365 ? Color.Transparent : _palette.ColorTable.GripLight;
         }
     }
+
+    // net472 only has LogicalToDeviceUnits(int); scale each axis separately.
+    private Size GetDpiScaledButtonSize() =>
+        new Size(LogicalToDeviceUnits(LogicalButtonSize), LogicalToDeviceUnits(LogicalButtonSize));
+
+    private void ApplyDpiScaledSize() => Size = GetDpiScaledButtonSize();
 
 }

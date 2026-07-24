@@ -79,15 +79,17 @@ public class KryptonEnhancedToolStripMenuItem : ToolStripMenuItem
         {
             ToolStrip? toolStrip = GetCurrentParent();
 
-            foreach (ToolStripItem items in toolStrip!.Items)
+            if (toolStrip != null)
             {
-                if (items is KryptonEnhancedToolStripMenuItem)
+                foreach (ToolStripItem items in toolStrip.Items)
                 {
-                    KryptonEnhancedToolStripMenuItem menuItem = (KryptonEnhancedToolStripMenuItem)items;
-
-                    if (menuItem.DisplayStyle == CheckMarkDisplayStyle.RadioButton && menuItem.CheckOnClick && menuItem.RadioButtonGroupName == RadioButtonGroupName)
+                    if (items is KryptonEnhancedToolStripMenuItem menuItem)
                     {
-                        menuItem.Checked = false;
+                        if (menuItem is { DisplayStyle: CheckMarkDisplayStyle.RadioButton, CheckOnClick: true } &&
+                            menuItem.RadioButtonGroupName == RadioButtonGroupName)
+                        {
+                            menuItem.Checked = false;
+                        }
                     }
                 }
             }

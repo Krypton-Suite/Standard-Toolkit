@@ -4281,8 +4281,6 @@ No 	                    No 	                    Show text only
     [DllImport(Libraries.User32, ExactSpelling = true)]
     internal static extern bool MessageBeep(BeepType type);
     #endif
-    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    #if NET8_0_OR_GREATER
     /// <summary>
     /// Retrieves a handle to a window that has the specified relationship (Z-Order or owner) to the specified window.
     /// </summary>
@@ -4297,24 +4295,11 @@ No 	                    No 	                    Show text only
     /// If the function succeeds, the return value is a window handle. If no window exists with the specified relationship
     /// to the specified window, the return value is NULL. To get extended error information, call GetLastError.
     /// </returns>
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    #if NET8_0_OR_GREATER
     [LibraryImport(Libraries.User32, SetLastError = true)]
     internal static partial IntPtr GetWindow(IntPtr hWnd, GetWindowType uCmd);
     #else
-
-    /// <summary>
-    /// Retrieves a handle to a window that has the specified relationship (Z-Order or owner) to the specified window.
-    /// </summary>
-    /// <remarks>The EnumChildWindows function is more reliable than calling GetWindow in a loop. An application that
-    /// calls GetWindow to perform this task risks being caught in an infinite loop or referencing a handle to a window
-    /// that has been destroyed.</remarks>
-    /// <param name="hWnd">A handle to a window. The window handle retrieved is relative to this window, based on the
-    /// value of the uCmd parameter.</param>
-    /// <param name="uCmd">The relationship between the specified window and the window whose handle is to be
-    /// retrieved.</param>
-    /// <returns>
-    /// If the function succeeds, the return value is a window handle. If no window exists with the specified relationship
-    /// to the specified window, the return value is NULL. To get extended error information, call GetLastError.
-    /// </returns>
     [DllImport(Libraries.User32, SetLastError = true)]
     internal static extern IntPtr GetWindow(IntPtr hWnd, GetWindowType uCmd);
     #endif
@@ -6360,20 +6345,15 @@ No 	                    No 	                    Show text only
     #endregion
 
     #region Jump List (ICustomDestinationList)
-    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    #if NET8_0_OR_GREATER
     /// <summary>
     /// Assigns an explicit Application User Model ID to the current process.
     /// Must be called before any UI is presented or jump list manipulation occurs.
     /// </summary>
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    #if NET8_0_OR_GREATER
     [LibraryImport(Libraries.Shell32, SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
     internal static partial int SetCurrentProcessExplicitAppUserModelID( [MarshalAs(UnmanagedType.LPWStr)] string appId);
     #else
-
-    /// <summary>
-    /// Assigns an explicit Application User Model ID to the current process.
-    /// Must be called before any UI is presented or jump list manipulation occurs.
-    /// </summary>
     [DllImport(Libraries.Shell32, CharSet = CharSet.Unicode, SetLastError = true)]
     internal static extern int SetCurrentProcessExplicitAppUserModelID(
         [MarshalAs(UnmanagedType.LPWStr)] string appId);

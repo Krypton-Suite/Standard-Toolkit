@@ -123,7 +123,7 @@ public class KryptonMRUOpenFileMenuItem : ToolStripMenuItem
             }
             else
             {
-                KryptonMessageBox.Show($"Error: file '{filePath}' could not be found!");
+                KryptonMessageBox.Show($"Error: file '{filePath}' could not be found!", "File Not Found", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error);
             }
         }
         catch (IOException e)

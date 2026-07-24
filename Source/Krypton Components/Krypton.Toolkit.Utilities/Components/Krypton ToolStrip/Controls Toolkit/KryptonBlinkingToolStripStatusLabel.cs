@@ -326,14 +326,13 @@ public class KryptonBlinkingToolStripStatusLabel : ToolStripStatusLabel
         }
 
         ToolStrip? owner = Owner;
-        if (owner != null && !owner.Visible)
+        if (owner is { Visible: false })
         {
             return false;
         }
 
         // ToggleVisible intentionally hides the item; only gate on the parent strip.
-        if (_blinkValues.BlinkMode == BlinkMode.Visibility &&
-            _blinkValues.VisibilityStyle == VisibilityStyle.ToggleVisible)
+        if (_blinkValues is { BlinkMode: BlinkMode.Visibility, VisibilityStyle: VisibilityStyle.ToggleVisible })
         {
             return true;
         }

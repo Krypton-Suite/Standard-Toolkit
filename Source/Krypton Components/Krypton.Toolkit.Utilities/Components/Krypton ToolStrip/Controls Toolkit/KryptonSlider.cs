@@ -82,19 +82,10 @@ public partial class KryptonSlider : KryptonToolStripControlHostFixed
         get => _values.Steps;
         set => _values.Steps = value;
     }
-    [Category("Slider Values")]
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public int Maximum => ((Control as KryptonToolbarSlider)!).Maximum;
-
-    [Category("Slider Values")]
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public int Minimum => ((Control as KryptonToolbarSlider)!).Minimum;
 
     #endregion
 
-    #region Constructor
+    #region Identity
     public KryptonSlider() : base(new KryptonToolbarSlider())
     {
         _values = new SliderHostValues(this);

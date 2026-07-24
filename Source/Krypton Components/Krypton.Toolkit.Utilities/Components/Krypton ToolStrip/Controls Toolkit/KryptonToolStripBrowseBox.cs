@@ -182,7 +182,7 @@ public class InternalBrowseBox : KryptonTextBox
     /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
     private void Browse_Execute(object? sender, EventArgs e)
     {
-        if (_values.IsFolderPicker && !_values.UseSaveDialog)
+        if (_values is { IsFolderPicker: true, UseSaveDialog: false })
         {
             using KryptonFolderBrowserDialog folderDialog = new KryptonFolderBrowserDialog();
 

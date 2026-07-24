@@ -72,18 +72,18 @@ public class KryptonProgressStatusStrip : StatusStrip
     #region Overrides
     protected override void OnRendererChanged(EventArgs e)
     {
-        try
-        {
-            // Note: This is too buggy!!!
-            //if (ToolStripManager.Renderer is KryptonProfessionalRenderer kpr)
-            //{
-            //    ProgressBar.BackColor = kpr.KCT.StatusStripGradientEnd;
-            //}
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine(ex.ToString());
-        }
+        //try
+        //{
+        //    // Note: This is too buggy!!!
+        //    //if (ToolStripManager.Renderer is KryptonProfessionalRenderer kpr)
+        //    //{
+        //    //    ProgressBar.BackColor = kpr.KCT.StatusStripGradientEnd;
+        //    //}
+        //}
+        //catch (Exception ex)
+        //{
+        //    Debug.WriteLine(ex.ToString());
+        //}
 
         base.OnRendererChanged(e);
     }

@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -13,7 +13,7 @@ namespace TestForm;
 
 /// <summary>
 /// Demonstrates the safe subset of <see cref="KryptonToolStripLabelExtended"/> properties: gradient background
-/// (<see cref="KryptonToolStripLabelExtended.GradientColourOne"/> / <see cref="KryptonToolStripLabelExtended.GradientColourTwo"/> /
+/// (<see cref="KryptonToolStripLabelExtended.GradientColorOne"/> / <see cref="KryptonToolStripLabelExtended.GradientColourTwo"/> /
 /// <see cref="KryptonToolStripLabelExtended.GradientMode"/>), the alert colour set used while blinking, and
 /// <see cref="KryptonToolStripLabelExtended.EnableBlinking"/>, shown alongside a plain <see cref="ToolStripStatusLabel"/>.
 /// </summary>
@@ -171,8 +171,8 @@ public class ToolStripLabelsDemo : KryptonForm
         {
             // The gradient paint path only runs when BackColor is Color.Empty (see OnPaint override).
             _extendedLabel.BackColor = Color.Empty;
-            _extendedLabel.GradientColourOne = _btnGradientOne.SelectedColor;
-            _extendedLabel.GradientColourTwo = _btnGradientTwo.SelectedColor;
+            _extendedLabel.GradientColorOne = _btnGradientOne.SelectedColor;
+            _extendedLabel.GradientColorTwo = _btnGradientTwo.SelectedColor;
 
             if (_cmbGradientMode.SelectedItem is System.Drawing.Drawing2D.LinearGradientMode mode)
             {
@@ -205,9 +205,9 @@ public class ToolStripLabelsDemo : KryptonForm
         _numAlertBlinkInterval.ValueChanged += (_, _) => _extendedLabel.AlertBlinkInterval = (int)_numAlertBlinkInterval.Value;
         _numBlinkDuration.ValueChanged += (_, _) => _extendedLabel.BlinkDuration = (long)_numBlinkDuration.Value;
 
-        _btnAlertOne.SelectedColorChanged += (_, _) => _extendedLabel.AlertColourOne = _btnAlertOne.SelectedColor;
-        _btnAlertTwo.SelectedColorChanged += (_, _) => _extendedLabel.AlertColourTwo = _btnAlertTwo.SelectedColor;
-        _btnAlertText.SelectedColorChanged += (_, _) => _extendedLabel.AlertTextColour = _btnAlertText.SelectedColor;
+        _btnAlertOne.SelectedColorChanged += (_, _) => _extendedLabel.AlertColorOne = _btnAlertOne.SelectedColor;
+        _btnAlertTwo.SelectedColorChanged += (_, _) => _extendedLabel.AlertColorTwo = _btnAlertTwo.SelectedColor;
+        _btnAlertText.SelectedColorChanged += (_, _) => _extendedLabel.AlertTextColor = _btnAlertText.SelectedColor;
 
         _btnTriggerBlink.Click += (_, _) =>
         {
