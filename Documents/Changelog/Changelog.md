@@ -48,6 +48,7 @@
 
 ## 2026-10-26 - Build 2610 (Version 105-LTS - Patch 4) - October 2026
 
+* Resolved [#4000](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4000), `KryptonManager.Images.ToolbarImages` now updates to the active theme pack when the global palette changes
 * Implemented [#4008](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4008), `KryptonRichTextBox` Support for justify    
    * `KryptonRichTextBox.SelectionParagraphAlignment` adds full paragraph justify (plus Left/Center/Right) via RichEdit
 
