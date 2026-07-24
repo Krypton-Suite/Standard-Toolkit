@@ -49,6 +49,7 @@
   * Implemented Krypton ToolStrip utilities suite in `Krypton.Toolkit.Utilities`: hosts (`KryptonBasicToolStrip`, `KryptonEnhancedToolStrip`, `KryptonProgressStatusStrip`), hosted editors (TextBox, BrowseBox, DateTimePicker, NumericUpDown, ColourButton, TrackBar, Theme combo), menu extras (enhanced radio/separator, marquee, expanding, UAC shield, clear clipboard), sliders, progress/loading circle controls, MRU open/manager.
   * Implemented `KryptonBlinkingToolStripStatusLabel` in `Krypton.Toolkit.Utilities`: a `ToolStripStatusLabel` with Timer-based Hard, Soft, and Visibility blink modes; options are grouped under expandable `BlinkValues` (`BlinkingStatusLabelValues` / `ExpandableObjectConverter`) with Start/Stop APIs for StatusStrip and ToolStrip hosts.
    * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
+* Resolved [#4000](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4000), `KryptonManager.Images.ToolbarImages` now updates to the active theme pack when the global palette changes
 * Implemented [#3874](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3874), Use the more optimised `LibraryImport`
    * Use source-generated `LibraryImport` for eligible Win32 P/Invokes on modern TFMs (Framework TFMs keep `DllImport`)
    * `GetClassName`, `GetMenuString`, and `LoadString` now use `[Out] char[]` on modern TFMs with `GetClassNameString` / `GetMenuStringString` / string-returning `LoadString` helpers
