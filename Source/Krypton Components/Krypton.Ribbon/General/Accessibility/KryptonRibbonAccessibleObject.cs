@@ -86,9 +86,8 @@ internal class KryptonRibbonAccessibleObject : Control.ControlAccessibleObject
     {
         var children = new List<AccessibleObject>();
 
-        foreach (IQuickAccessToolbarButton qatButton in from IQuickAccessToolbarButton qatButton in _ribbon.QATButtons
-                                                        where qatButton.GetVisible()
-                                                        select qatButton)
+        foreach (var qatButton in _ribbon.QATButtons.OfType<IQuickAccessToolbarButton>()
+                     .Where(static qatButton => qatButton.GetVisible()))
         {
             children.Add(new RibbonQATButtonAccessibleObject(this, _ribbon, qatButton));
         }

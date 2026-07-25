@@ -2060,15 +2060,16 @@ public class KryptonRibbon : VisualSimple,
         }
 
         // Check each quick access toolbar button
-        foreach (IQuickAccessToolbarButton qatButton in from IQuickAccessToolbarButton qatButton in QATButtons
-                                                        where qatButton.GetVisible() && qatButton.GetEnabled()
-                                                        let shortcut = qatButton.GetShortcutKeys()
-                                                        where (shortcut != Keys.None) && (shortcut == keyData)
-                                                        select qatButton)
+        foreach (var qatButton in QATButtons.OfType<IQuickAccessToolbarButton>()
+                     .Where(static qatButton => qatButton.GetVisible() && qatButton.GetEnabled()))
         {
-            // Click the button and finish processing
-            qatButton.PerformClick();
-            return true;
+            var shortcut = qatButton.GetShortcutKeys();
+            if ((shortcut != Keys.None) && (shortcut == keyData))
+            {
+                // Click the button and finish processing
+                qatButton.PerformClick();
+                return true;
+            }
         }
 
         // If we want to intercept key pressed for use with key tips
@@ -2768,8 +2769,7 @@ public class KryptonRibbon : VisualSimple,
         if (QATUserChange)
         {
             // Add an entry for each quick access toolbar button
-            foreach (IQuickAccessToolbarButton qatButton in from IQuickAccessToolbarButton qatButton in QATButtons
-                                                            select qatButton)
+            foreach (var qatButton in QATButtons.OfType<IQuickAccessToolbarButton>())
             {
                 var menuItem = new KryptonContextMenuItem
                 {
@@ -3898,8 +3898,7 @@ public class KryptonRibbon : VisualSimple,
     private void OnRibbonQATButtonsClearing(object? sender, EventArgs e)
     {
         // Stop tracking changes in button properties
-        foreach (IQuickAccessToolbarButton component in from IQuickAccessToolbarButton component in QATButtons
-                                                        select component)
+        foreach (var component in QATButtons.OfType<IQuickAccessToolbarButton>())
         {
             component.PropertyChanged -= OnQATButtonPropertyChanged;
         }
