@@ -237,7 +237,9 @@ internal class ViewLayoutRibbonQATMini : ViewLayoutDocker
         Debug.Assert(context != null);
 
         // Scan to see if there are any visible quick access toolbar buttons
-        var visibleQATButtons = _ribbon.QATButtons.Cast<IQuickAccessToolbarButton>().Any(static qatButton => qatButton.GetVisible());
+        var visibleQATButtons = (from IQuickAccessToolbarButton qatButton in _ribbon.QATButtons
+                                 where qatButton.GetVisible()
+                                 select qatButton).Any();
             
         // Only show the border if there are some visible contents
         _border.Visible = visibleQATButtons;

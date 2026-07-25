@@ -2768,12 +2768,12 @@ public class KryptonRibbon : VisualSimple,
         if (QATUserChange)
         {
             // Add an entry for each quick access toolbar button
-            foreach (var component in QATButtons)
+            foreach (IQuickAccessToolbarButton qatButton in from IQuickAccessToolbarButton qatButton in QATButtons
+                                                            select qatButton)
             {
-                var qatButton = component as IQuickAccessToolbarButton;
                 var menuItem = new KryptonContextMenuItem
                 {
-                    Text = qatButton!.GetText(),
+                    Text = qatButton.GetText(),
                     Checked = qatButton.GetVisible()
                 };
                 menuItem.Click += OnQATCustomizeClick;
@@ -3898,8 +3898,8 @@ public class KryptonRibbon : VisualSimple,
     private void OnRibbonQATButtonsClearing(object? sender, EventArgs e)
     {
         // Stop tracking changes in button properties
-        // TODO: Use typed 'where' clause
-        foreach (IQuickAccessToolbarButton component in QATButtons)
+        foreach (IQuickAccessToolbarButton component in from IQuickAccessToolbarButton component in QATButtons
+                                                        select component)
         {
             component.PropertyChanged -= OnQATButtonPropertyChanged;
         }
@@ -3916,11 +3916,10 @@ public class KryptonRibbon : VisualSimple,
 
     private void OnRibbonQATButtonsInserted(object sender, TypedCollectionEventArgs<Component> e)
     {
-        var qatButton = e.Item as IQuickAccessToolbarButton;
-        Debug.Assert(qatButton != null);
+        Debug.Assert(e.Item is IQuickAccessToolbarButton);
 
         // Setup the back reference from tab to ribbon control
-        if (qatButton != null)
+        if (e.Item is IQuickAccessToolbarButton qatButton)
         {
             qatButton.SetRibbon(this);
             // Track changes in button properties
@@ -3936,11 +3935,10 @@ public class KryptonRibbon : VisualSimple,
 
     private void OnRibbonQATButtonsRemoved(object sender, TypedCollectionEventArgs<Component> e)
     {
-        var qatButton = e.Item as IQuickAccessToolbarButton;
-        Debug.Assert(qatButton != null);
+        Debug.Assert(e.Item is IQuickAccessToolbarButton);
 
         // Stop tracking changes in button properties
-        if (qatButton != null)
+        if (e.Item is IQuickAccessToolbarButton qatButton)
         {
             qatButton.PropertyChanged -= OnQATButtonPropertyChanged;
 
@@ -4052,11 +4050,9 @@ public class KryptonRibbon : VisualSimple,
         var index = (int)(menuItem.Tag ?? -1);
 
         // Double check the index is still valid
-        if ((index >= 0) && (index < QATButtons.Count))
+        if ((index >= 0) && (index < QATButtons.Count) &&
+            QATButtons[index] is IQuickAccessToolbarButton qatButton)
         {
-            // Get access to the indexed entry
-            var qatButton = (IQuickAccessToolbarButton)QATButtons[index];
-
             // Invert the visible state
             qatButton.SetVisible(!qatButton.GetVisible());
 
