@@ -15,14 +15,15 @@ namespace Krypton.Ribbon;
 /// </summary>
 [ToolboxItem(false)]
 [ToolboxBitmap(typeof(KryptonRibbonGroupThemeComboBox), "ToolboxBitmaps.KryptonRibbonGroupComboBox.bmp")]
-[Designer(typeof(KryptonRibbonGroupThemeComboBoxDesigner))]
+[Designer(typeof(KryptonRibbonGroupComboBoxDesigner))]
 [DesignerCategory(@"code")]
 [DesignTimeVisible(false)]
 [DefaultEvent("SelectedTextChanged")]
 [DefaultProperty(nameof(Text))]
 public class KryptonRibbonGroupThemeComboBox : KryptonRibbonGroupComboBox, IKryptonThemeSelectorBase
 {
-    // TODO: grouped Ribbon controls do expose designers, needs a closer look
+    // Reuses KryptonRibbonGroupComboBoxDesigner for ribbon move/delete/helpers.
+    // Theme-specific combo properties are hidden in the Removed Designer region below.
 
     #region Instance Fields
 
