@@ -46,6 +46,7 @@
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
 * Implemented [#4063](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4063), `KryptonThemeBrowserData.DefaultPalette` selects the initial theme by `PaletteMode` (takes precedence over `StartIndex`)
+* Resolved [#3999](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3999), Clarified docking indicator hit-target selection during drag feedback
 * Implemented [#4049](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4049), Implement the glyphs in `KryptonDomainUpDown` and `KryptonNumericUpDown`
    * Updates the buttons for `KryptonDomainUpDown`, `KryptonNumericUpDown`, `KryptonDataGridViewDomainUpDownColumn`, and `KryptonDataGridViewNumericUpDownColumn`.
    * The polygons draws in a single direction (downw) and are rotated to the correct orientation. 
