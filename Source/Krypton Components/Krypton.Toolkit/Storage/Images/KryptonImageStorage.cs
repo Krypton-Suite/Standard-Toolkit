@@ -61,8 +61,8 @@ public class KryptonImageStorage : Storage
     /// <value><c>true</c> if this instance is default; otherwise, <c>false</c>.</value>
     [EditorBrowsable(EditorBrowsableState.Never)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => !(ShouldSerializeGenericToolkitImages() ||
-                                        ShouldSerializeGenericToolkitImages());
+    public override bool IsDefault => !ShouldSerializeGenericToolkitImages() &&
+                                      !ShouldSerializeToolbarImages();
 
     #endregion
 

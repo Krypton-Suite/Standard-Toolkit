@@ -352,7 +352,7 @@ public class KryptonDataGridViewNumericUpDownCell : KryptonDataGridViewTextBoxCe
             var righToLeft = DataGridView.RightToLeft == RightToLeft.Yes;
 
             // Use the same button width as the editor so renderer output matches
-            int buttonWidth = SystemInformation.VerticalScrollBarWidth - 2;
+            int buttonWidth = SystemInformation.VerticalScrollBarWidth + 1;
             int reservedStrip = buttonWidth + IndicatorGap;
 
             if (righToLeft)
