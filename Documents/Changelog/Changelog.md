@@ -45,6 +45,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#3996](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3996), Navigator stack and Outlook full modes now scroll the requested page check button into view (previously ignored the page argument)
 * Resolved [#3999](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3999), Clarified docking indicator hit-target selection during drag feedback
 * Implemented [#4049](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4049), Implement the glyphs in `KryptonDomainUpDown` and `KryptonNumericUpDown`
    * Updates the buttons for `KryptonDomainUpDown`, `KryptonNumericUpDown`, `KryptonDataGridViewDomainUpDownColumn`, and `KryptonDataGridViewNumericUpDownColumn`.
