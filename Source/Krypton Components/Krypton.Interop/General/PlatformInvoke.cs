@@ -2500,6 +2500,15 @@ internal partial class PI
             // </summary>
             DWMWINDOWMAXIMIZEDCHANGE = 0x0321,
             // <summary>
+            // Sent when DWM needs an iconic thumbnail bitmap for a window that has DWMWA_HAS_ICONIC_BITMAP set.
+            // HIWORD(lParam) = height, LOWORD(lParam) = width of the requested thumbnail.
+            // </summary>
+            DWMSENDICONICTHUMBNAIL = 0x0323,
+            // <summary>
+            // Sent when DWM needs an iconic live-preview bitmap for Aero Peek.
+            // </summary>
+            DWMSENDICONICLIVEPREVIEWBITMAP = 0x0326,
+            // <summary>
             // Sent to request extended title bar information. A window receives this message through its WindowProc function.
             // </summary>
             GETTITLEBARINFOEX = 0x033F,
@@ -5003,6 +5012,43 @@ No 	                    No 	                    Show text only
         [DllImport(Libraries.DWMApi, CharSet = CharSet.Auto)]
         internal static extern int DwmDefWindowProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam,
             out IntPtr result);
+        #endif
+
+        /// <summary>
+        /// Flags for DwmSetIconicThumbnail / DwmSetIconicLivePreviewBitmap.
+        /// </summary>
+        [Flags]
+        internal enum DWM_SIT : uint
+        {
+            None = 0,
+            DisplayFrame = 1
+        }
+
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        #if NET8_0_OR_GREATER
+        [LibraryImport(Libraries.DWMApi)]
+        internal static partial int DwmSetIconicThumbnail(IntPtr hwnd, IntPtr hbmp, DWM_SIT dwSITFlags);
+        #else
+        [DllImport(Libraries.DWMApi)]
+        internal static extern int DwmSetIconicThumbnail(IntPtr hwnd, IntPtr hbmp, DWM_SIT dwSITFlags);
+        #endif
+
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        #if NET8_0_OR_GREATER
+        [LibraryImport(Libraries.DWMApi)]
+        internal static partial int DwmSetIconicLivePreviewBitmap(IntPtr hwnd, IntPtr hbmp, IntPtr pptClient, DWM_SIT dwSITFlags);
+        #else
+        [DllImport(Libraries.DWMApi)]
+        internal static extern int DwmSetIconicLivePreviewBitmap(IntPtr hwnd, IntPtr hbmp, IntPtr pptClient, DWM_SIT dwSITFlags);
+        #endif
+
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        #if NET8_0_OR_GREATER
+        [LibraryImport(Libraries.DWMApi)]
+        internal static partial int DwmInvalidateIconicBitmaps(IntPtr hwnd);
+        #else
+        [DllImport(Libraries.DWMApi)]
+        internal static extern int DwmInvalidateIconicBitmaps(IntPtr hwnd);
         #endif
 
         public enum DWMWINDOWATTRIBUTE : uint
