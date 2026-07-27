@@ -10,7 +10,7 @@
 		<ItemGroup>
 			<Projects Include="..\..\Source\Krypton Components\Krypton.*\*.csproj" />
 		</ItemGroup>
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Restore" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;Restore=true;RestoreForce=true" Targets="Restore" />
 		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Clean" />
 	</Target>	
 
@@ -18,7 +18,7 @@
 		<ItemGroup>
 			<Projects Include="..\..\Source\Krypton Components\Krypton.*\*.csproj" />
 		</ItemGroup>
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Restore" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;Restore=true;RestoreForce=true" Targets="Restore" />
 	</Target>
 	
 	<Target Name="Build" DependsOnTargets="Restore">
@@ -45,10 +45,10 @@
 			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.g.targets" />
 			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.g.props" />
 		</ItemGroup>
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Restore" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;Restore=true;RestoreForce=true" Targets="Restore" />
 		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Clean" />
 		<Delete Files="@(NugetAssets)" />
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Restore" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;Restore=true;RestoreForce=true" Targets="Restore" />
 		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Pack" />
 	</Target>
 	
