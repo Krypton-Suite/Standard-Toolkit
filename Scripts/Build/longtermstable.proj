@@ -3,6 +3,7 @@
 	<Import Project="..\..\Directory.Build.props" />
 
 	<Import Project="Krypton.Orchestration.targets" />
+	<Import Project="Krypton.Pack.targets" />
 
 
 
@@ -58,72 +59,6 @@
 		</ItemGroup>
 
 		<Delete Files="@(NugetPkgs)" />
-
-	</Target>
-
-
-
-	<Target Name="PackLite">
-
-		<ItemGroup>
-
-			<Projects Include="..\..\Source\Krypton Components\Krypton.*\*.csproj" />
-
-		</ItemGroup>
-
-		<ItemGroup>
-
-			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.json" />
-
-			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.cache" />
-
-			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.g.targets" />
-
-			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.g.props" />
-
-		</ItemGroup>
-
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Restore" BuildInParallel="false" />
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Clean" BuildInParallel="false" />
-
-		<Delete Files="@(NugetAssets)" />
-
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=lite" Targets="Restore" BuildInParallel="false" />
-
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=lite" Targets="Pack" BuildInParallel="false" />
-
-	</Target>
-
-
-
-	<Target Name="PackAll">
-
-		<ItemGroup>
-
-			<Projects Include="..\..\Source\Krypton Components\Krypton.*\*.csproj" />
-
-		</ItemGroup>
-
-		<ItemGroup>
-
-			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.json" />
-
-			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.cache" />
-
-			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.g.targets" />
-
-			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.g.props" />
-
-		</ItemGroup>
-
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Restore" BuildInParallel="false" />
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Clean" BuildInParallel="false" />
-
-		<Delete Files="@(NugetAssets)" />
-
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Restore" BuildInParallel="false" />
-
-		<CallTarget Targets="KryptonPack" />
 
 	</Target>
 
