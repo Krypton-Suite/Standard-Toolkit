@@ -1,0 +1,48 @@
+<Project>
+
+	<!--
+	  Shared PackLite / PackAll orchestration for stable, LTS, canary, nightly, and installer builds.
+	  Set KryptonPackProjectProperties before importing (e.g. ExcludeVs2022UnsupportedTargetFrameworks=true).
+	  Post-delete restore must force regeneration of project.assets.json; incremental restore skips it when TFMs are unchanged.
+	-->
+	<PropertyGroup>
+		<KryptonPackProjectProperties Condition="'$(KryptonPackProjectProperties)' == ''"></KryptonPackProjectProperties>
+		<KryptonPackRestoreSuffix Condition="'$(KryptonPackProjectProperties)' != ''">;$(KryptonPackProjectProperties)</KryptonPackRestoreSuffix>
+		<KryptonPackRestoreSuffix Condition="'$(KryptonPackProjectProperties)' == ''"></KryptonPackRestoreSuffix>
+	</PropertyGroup>
+
+	<Target Name="PackLite">
+		<ItemGroup>
+			<Projects Include="..\..\Source\Krypton Components\Krypton.*\*.csproj" />
+		</ItemGroup>
+		<ItemGroup>
+			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.json" />
+			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.cache" />
+			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.g.targets" />
+			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.g.props" />
+		</ItemGroup>
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all$(KryptonPackRestoreSuffix)" Targets="Restore" BuildInParallel="false" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all$(KryptonPackRestoreSuffix)" Targets="Clean" BuildInParallel="false" />
+		<Delete Files="@(NugetAssets)" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=lite;Restore=true;RestoreForce=true$(KryptonPackRestoreSuffix)" Targets="Restore" BuildInParallel="false" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=lite$(KryptonPackRestoreSuffix)" Targets="Pack" BuildInParallel="false" />
+	</Target>
+
+	<Target Name="PackAll">
+		<ItemGroup>
+			<Projects Include="..\..\Source\Krypton Components\Krypton.*\*.csproj" />
+		</ItemGroup>
+		<ItemGroup>
+			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.json" />
+			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.cache" />
+			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.g.targets" />
+			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.g.props" />
+		</ItemGroup>
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all$(KryptonPackRestoreSuffix)" Targets="Restore" BuildInParallel="false" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all$(KryptonPackRestoreSuffix)" Targets="Clean" BuildInParallel="false" />
+		<Delete Files="@(NugetAssets)" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;Restore=true;RestoreForce=true$(KryptonPackRestoreSuffix)" Targets="Restore" BuildInParallel="false" />
+		<CallTarget Targets="KryptonPack" />
+	</Target>
+
+</Project>

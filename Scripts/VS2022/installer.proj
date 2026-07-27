@@ -49,7 +49,7 @@
 		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeVs2022UnsupportedTargetFrameworks=true" Targets="Restore" />
 		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeVs2022UnsupportedTargetFrameworks=true" Targets="Clean" />
 		<Delete Files="@(NugetAssets)" />
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeVs2022UnsupportedTargetFrameworks=true" Targets="Restore" />
+		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeVs2022UnsupportedTargetFrameworks=true;Restore=true;RestoreForce=true" Targets="Restore" />
 		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeVs2022UnsupportedTargetFrameworks=true" Targets="Pack" />
 	</Target>
 	
