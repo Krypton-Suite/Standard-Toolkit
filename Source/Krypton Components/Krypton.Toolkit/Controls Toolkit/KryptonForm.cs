@@ -2345,6 +2345,16 @@ public class KryptonForm : VisualForm,
 			return new IntPtr(PI.HT.REDUCE);
 		}
 
+		// Interactive caption content (injected navigator tabs, custom ButtonSpecs, etc.).
+		// Must NOT return HTCAPTION — Windows opens the system menu on right-click there.
+		// HTBORDER still delivers NC mouse messages so ViewManager/ButtonController keep working.
+		ViewBase? interactiveView = ViewManager?.Root.ViewFromPoint(pt);
+		if (interactiveView?.FindMouseController() is ButtonController interactiveController)
+		{
+			interactiveController.NonClientAsNormal = true;
+			return new IntPtr(PI.HT.BORDER);
+		}
+
 		Padding borders = RealWindowBorders;
 
 		// Issue #2921: CustomCaptionArea is in form client coordinates (set by ribbon);
@@ -2494,6 +2504,47 @@ public class KryptonForm : VisualForm,
 	{
 		CheckViewLayout();
 		PerformViewPaint(g, bounds);
+	}
+
+	/// <summary>
+	/// Process the WM_NCRBUTTONDOWN message when overriding window chrome.
+	/// </summary>
+	/// <param name="m">A Windows-based message.</param>
+	/// <returns>True if the message was processed; otherwise false.</returns>
+	protected override bool OnWM_NCRBUTTONDOWN(ref Message m)
+	{
+		var screenPoint = new Point((int)m.LParam.ToInt64());
+		Point windowPoint = ScreenToWindow(screenPoint);
+
+		// Caption strip (including injected tabs): never let DefWndProc open the system menu.
+		if (IsInTitleBarArea(screenPoint) || IsOverInteractiveChromeView(windowPoint))
+		{
+			WindowChromeRightMouseDown(windowPoint);
+			m.Result = IntPtr.Zero;
+			return true;
+		}
+
+		return base.OnWM_NCRBUTTONDOWN(ref m);
+	}
+
+	/// <summary>
+	/// Process the WM_NCRBUTTONUP message when overriding window chrome.
+	/// </summary>
+	/// <param name="m">A Windows-based message.</param>
+	/// <returns>True if the message was processed; otherwise false.</returns>
+	protected override bool OnWM_NCRBUTTONUP(ref Message m)
+	{
+		var screenPoint = new Point((int)m.LParam.ToInt64());
+		Point windowPoint = ScreenToWindow(screenPoint);
+
+		if (IsInTitleBarArea(screenPoint) || IsOverInteractiveChromeView(windowPoint))
+		{
+			WindowChromeRightMouseUp(windowPoint);
+			m.Result = IntPtr.Zero;
+			return true;
+		}
+
+		return base.OnWM_NCRBUTTONUP(ref m);
 	}
 
 	/// <summary>

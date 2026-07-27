@@ -1,6 +1,5 @@
-// Global using directives
-
 global using System;
+global using System.Diagnostics;
 global using System.Diagnostics.CodeAnalysis;
 global using System.Collections.Generic;
 global using System.ComponentModel;
@@ -13,3 +12,4 @@ global using System.Windows.Forms;
 global using System.Linq;
 
 global using Krypton.Navigator;
+global using Krypton.Toolkit;
