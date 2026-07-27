@@ -278,6 +278,21 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
 
     #endregion
 
+    #region Tab Header Visibility
+    /// <summary>
+    /// Shows or hides the tab strip without removing TabsArea or CaptionArea from the ribbon docker.
+    /// </summary>
+    /// <param name="showTabHeaders">True to show tab headers; false for toolbar mode.</param>
+    public void ApplyTabHeaderVisibility(bool showTabHeaders)
+    {
+        // Hide the scroll-port so preferred size collapses (LayoutTabs alone still forces TabHeight).
+        _tabsViewport.Visible = showTabHeaders;
+        LayoutTabs.Visible = showTabHeaders;
+        _leftSeparator.Visible = showTabHeaders;
+        _rightSeparator.Visible = showTabHeaders;
+    }
+    #endregion
+
     #region LayoutAppButton
     /// <summary>
     /// Gets access to the view layout used for the application button.
@@ -345,6 +360,11 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
     /// <returns>Array of KeyTipInfo; otherwise null.</returns>
     public KeyTipInfo[] GetTabKeyTips()
     {
+        if (!_ribbon.ShowTabHeaders)
+        {
+            return Array.Empty<KeyTipInfo>();
+        }
+
         var keyTips = new KeyTipInfoList();
 
         // Grab the list of key tips for all tab headers
