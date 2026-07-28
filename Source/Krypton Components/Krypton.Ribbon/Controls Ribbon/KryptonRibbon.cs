@@ -1486,15 +1486,15 @@ public class KryptonRibbon : VisualSimple,
         }
 
         // Check each quick access toolbar button
-        foreach (IQuickAccessToolbarButton qatButton in from IQuickAccessToolbarButton qatButton in QATButtons
-                 where qatButton.GetVisible() && qatButton.GetEnabled()
-                 let shortcut = qatButton.GetShortcutKeys()
-                 where (shortcut != Keys.None) && (shortcut == keyData)
-                 select qatButton)
+        foreach (var qatButton in QATButtons.OfType<IQuickAccessToolbarButton>().Where(static qatButton => qatButton.GetVisible() && qatButton.GetEnabled()))
         {
-            // Click the button and finish processing
-            qatButton.PerformClick();
-            return true;
+            var shortcut = qatButton.GetShortcutKeys();
+            if (shortcut != Keys.None && (shortcut == keyData))
+            {
+                // Click the button and finish processing
+                qatButton.PerformClick();
+                return true;
+            }
         }
 
         // If we want to intercept key pressed for use with key tips

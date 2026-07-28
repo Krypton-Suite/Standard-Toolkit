@@ -6,6 +6,7 @@
  *  
  */
 #endregion
+
 namespace Krypton.Toolkit;
 
 #region Static
@@ -133,7 +134,7 @@ internal static class CommonHelperThemeSelectors
             // So, there's no need to change the index.
             if (KryptonManager.CurrentGlobalPaletteMode != PaletteMode.Global)
             {
-                result = CommonHelperThemeSelectors.GetPaletteIndex(items, KryptonManager.CurrentGlobalPaletteMode);
+                result = GetPaletteIndex(items, KryptonManager.CurrentGlobalPaletteMode);
             }
 
             // Back to norml
@@ -159,7 +160,7 @@ internal static class CommonHelperThemeSelectors
             ? manager.GlobalPaletteMode
             : defaultPalette;
                 
-        return CommonHelperThemeSelectors.GetPaletteIndex(items, pm);
+        return GetPaletteIndex(items, pm);
     }
 
     /// <summary>
@@ -185,11 +186,46 @@ internal static class CommonHelperThemeSelectors
             if (value != PaletteMode.Global)
             {
                 // Setting the index triggers OnSelectedIndexChanged()
-                result = CommonHelperThemeSelectors.GetPaletteIndex(items, defaultPalette);
+                result = GetPaletteIndex(items, defaultPalette);
             }
         }
 
         return result;
+    }
+
+    /// <summary>
+    /// Resolves the initial theme list index for <see cref="KryptonThemeBrowser"/>.
+    /// Prefers <see cref="KryptonThemeBrowserData.DefaultPalette"/> over
+    /// <see cref="KryptonThemeBrowserData.StartIndex"/>, then the global default theme.
+    /// </summary>
+    /// <param name="themeBrowserData">Caller-supplied theme browser options.</param>
+    /// <param name="items">Populated theme list items.</param>
+    /// <param name="manager">Manager used when <see cref="PaletteMode.Global"/> is requested.</param>
+    /// <returns>A valid index into <paramref name="items"/>, or <c>-1</c> when the list is empty.</returns>
+    internal static int GetThemeBrowserStartIndex(KryptonThemeBrowserData themeBrowserData, IList items, KryptonManager manager)
+    {
+        if (items.Count == 0)
+        {
+            return -1;
+        }
+
+        if (themeBrowserData.DefaultPalette.HasValue)
+        {
+            int paletteIndex = GetInitialSelectedIndex(themeBrowserData.DefaultPalette.Value, manager, items);
+            if (paletteIndex >= 0)
+            {
+                return paletteIndex;
+            }
+        }
+
+        if (themeBrowserData.StartIndex is >= 0
+            && themeBrowserData.StartIndex.Value < items.Count)
+        {
+            return themeBrowserData.StartIndex.Value;
+        }
+
+        int fallbackIndex = GetPaletteIndex(items, GlobalStaticValues.GLOBAL_DEFAULT_PALETTE_MODE);
+        return fallbackIndex >= 0 ? fallbackIndex : 0;
     }
 }
    
