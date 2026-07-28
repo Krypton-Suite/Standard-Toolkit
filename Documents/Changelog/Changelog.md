@@ -47,7 +47,10 @@
 
 * Implemented [#925](https://github.com/Krypton-Suite/Standard-Toolkit/issues/925), Allow `KryptonNavigator` to integrate with a `KryptonForm` (browser/Explorer-style tabbed chrome) via `KryptonNavigatorFormIntegrator`, including **CaptionIntegrated** mode that injects tabs into the form title bar
    * Optional caption `+` new-tab button on `KryptonNavigatorFormIntegrator` (`ShowNewTabButton` / `NewTabButtonClick`)
-   * Added drag tear-out / reattach between integrated windows, optional close-empty-window behavior, built-in caption-tab context menus with a customization hook, and an optional caption `+` new-tab button (`ShowNewTabButton` / `NewTabButtonClick`).
+   * Added drag tear-out / reattach between integrated windows, optional close-empty-window behavior, built-in caption-tab context menus with a customization hook, and an optional caption `+` new-tab button (`ShowNewTabButton` / `NewTabButtonClick`). 
+   * Browser-style caption tab groups (`KryptonPage.TabGroupId`, colored headers, collapse, context-menu assign/ungroup) plus IDE document-group helpers (`KryptonDocumentGroupHelper`) and multi-strip CaptionIntegrated chrome over `KryptonWorkspace`
+   * Save/load for caption tab groups and layouts (`KryptonNavigatorFormIntegrator.SaveLayout*` / `LoadLayout*`, workspace `TG` page attribute, group catalog in `GlobalSaving`)
+   * Tab-group follow-ups: whole-group drag/tear-out from headers, join-on-drop, collapsed `Title (n)` badge, workspace edge drag-to-split from caption tabs, bar-mode group accents, richer rename/recolor UI, cross-window catalog merge, DPI caption rebuild, and layout smoke harness
    * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Navigator.Utilities` assembly.
 * Implemented [#927](https://github.com/Krypton-Suite/Standard-Toolkit/issues/927), `KryptonNavigator` form minimize, maximize/restore, and close `ButtonSpec` buttons
 * Resolved [#4060](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4060), Ribbon QAT button enumeration now uses `OfType<IQuickAccessToolbarButton>()` instead of unsafe casts

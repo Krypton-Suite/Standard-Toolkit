@@ -49,6 +49,9 @@ partial class NavigatorFormIntegrationDemo
         cmbMode = new KryptonComboBox();
         klblMode = new KryptonLabel();
         btnAddPage = new KryptonButton();
+        btnGroupSelected = new KryptonButton();
+        btnSaveLayout = new KryptonButton();
+        btnLoadLayout = new KryptonButton();
         kryptonNavigator1 = new KryptonNavigator();
         kryptonNavigatorFormIntegrator1 = new KryptonNavigatorFormIntegrator(components);
         ((ISupportInitialize)kryptonPanel1).BeginInit();
@@ -149,7 +152,7 @@ partial class NavigatorFormIntegrationDemo
         klblInstructions.Name = "klblInstructions";
         klblInstructions.Size = new Size(768, 20);
         klblInstructions.TabIndex = 0;
-        klblInstructions.Values.Text = "Issue #925: CaptionIntegrated puts tabs in the form title bar. ClientChrome moves min/max/close onto the navigator. CaptionAdjacent keeps a normal caption. Use the optional '+' next to the last tab (or Add page / right-click New tab) to create tabs. Drag tabs between windows or out to tear out when enabled.";
+        klblInstructions.Values.Text = "Issue #925: CaptionIntegrated tabs in the title bar with browser-style groups (header click collapses). Right-click for group/close/tear-out. Group tab creates a new colored group for the selected page.";
         //
         // klblStatus
         //
@@ -163,6 +166,9 @@ partial class NavigatorFormIntegrationDemo
         // kryptonPanel2
         //
         kryptonPanel2.Controls.Add(btnAddPage);
+        kryptonPanel2.Controls.Add(btnGroupSelected);
+        kryptonPanel2.Controls.Add(btnSaveLayout);
+        kryptonPanel2.Controls.Add(btnLoadLayout);
         kryptonPanel2.Controls.Add(chkSyncTitle);
         kryptonPanel2.Controls.Add(chkEnabled);
         kryptonPanel2.Controls.Add(chkTearOutEnabled);
@@ -226,6 +232,33 @@ partial class NavigatorFormIntegrationDemo
         btnAddPage.TabIndex = 4;
         btnAddPage.Values.Text = "Add page";
         btnAddPage.Click += BtnAddPage_Click;
+        //
+        // btnGroupSelected
+        //
+        btnGroupSelected.Location = new Point(590, 30);
+        btnGroupSelected.Name = "btnGroupSelected";
+        btnGroupSelected.Size = new Size(100, 28);
+        btnGroupSelected.TabIndex = 8;
+        btnGroupSelected.Values.Text = "Group tab";
+        btnGroupSelected.Click += BtnGroupSelected_Click;
+        //
+        // btnSaveLayout
+        //
+        btnSaveLayout.Location = new Point(480, 2);
+        btnSaveLayout.Name = "btnSaveLayout";
+        btnSaveLayout.Size = new Size(90, 28);
+        btnSaveLayout.TabIndex = 9;
+        btnSaveLayout.Values.Text = "Save layout";
+        btnSaveLayout.Click += BtnSaveLayout_Click;
+        //
+        // btnLoadLayout
+        //
+        btnLoadLayout.Location = new Point(580, 2);
+        btnLoadLayout.Name = "btnLoadLayout";
+        btnLoadLayout.Size = new Size(90, 28);
+        btnLoadLayout.TabIndex = 10;
+        btnLoadLayout.Values.Text = "Load layout";
+        btnLoadLayout.Click += BtnLoadLayout_Click;
         //
         // chkTearOutEnabled
         //
@@ -323,6 +356,9 @@ partial class NavigatorFormIntegrationDemo
     private KryptonCheckBox chkCloseEmptySourceWindow;
     private KryptonCheckBox chkShowNewTabButton;
     private KryptonButton btnAddPage;
+    private KryptonButton btnGroupSelected;
+    private KryptonButton btnSaveLayout;
+    private KryptonButton btnLoadLayout;
     private KryptonNavigator kryptonNavigator1;
     private KryptonNavigatorFormIntegrator kryptonNavigatorFormIntegrator1;
 }

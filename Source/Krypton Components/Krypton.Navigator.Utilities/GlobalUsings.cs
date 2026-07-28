@@ -5,11 +5,14 @@ global using System.Collections.Generic;
 global using System.ComponentModel;
 global using System.ComponentModel.Design;
 global using System.Drawing;
+global using System.IO;
 global using System.Reflection;
 global using System.Runtime.InteropServices;
 global using System.Text;
 global using System.Windows.Forms;
 global using System.Linq;
+global using System.Xml;
 
 global using Krypton.Navigator;
 global using Krypton.Toolkit;
+global using Krypton.Workspace;

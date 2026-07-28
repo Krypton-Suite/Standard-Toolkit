@@ -25,12 +25,17 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
     private readonly Dictionary<ViewDrawButton, KryptonPage> _buttonToPage = new();
     private ViewDrawButton? _newTabButton;
     private bool _showNewTabButton;
+    private bool _allowTabGroups = true;
+    private NavigatorTabGroupCollection? _tabGroups;
     private KryptonPage? _draggingPage;
+    private KryptonPageCollection? _draggingPages;
     private bool _externalDragging;
     private bool _eventsHooked;
     private ToolTipManager? _newTabToolTipManager;
     private VisualPopupToolTip? _newTabToolTipPopup;
     private Rectangle _spareCaptionRect;
+    private readonly List<Rectangle> _spareCaptionRects = new();
+    private Action<IReadOnlyList<Rectangle>>? _spareCaptionAreasChanged;
 
     #endregion
 
@@ -96,6 +101,58 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
     }
 
     /// <summary>
+    /// Gets or sets whether browser-style tab groups are rendered in the caption strip.
+    /// </summary>
+    public bool AllowTabGroups
+    {
+        get => _allowTabGroups;
+        set
+        {
+            if (_allowTabGroups == value)
+            {
+                return;
+            }
+
+            _allowTabGroups = value;
+            RebuildTabs();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the group catalog used for headers, accents, and collapse.
+    /// </summary>
+    public NavigatorTabGroupCollection? TabGroups
+    {
+        get => _tabGroups;
+        set
+        {
+            if (ReferenceEquals(_tabGroups, value))
+            {
+                return;
+            }
+
+            UnhookTabGroups();
+            _tabGroups = value;
+            HookTabGroups();
+            RebuildTabs();
+        }
+    }
+
+    /// <summary>
+    /// Optional callback when spare caption drag regions are recalculated (multi-strip support).
+    /// </summary>
+    public Action<IReadOnlyList<Rectangle>>? SpareCaptionAreasChanged
+    {
+        get => _spareCaptionAreasChanged;
+        set => _spareCaptionAreasChanged = value;
+    }
+
+    /// <summary>
+    /// Gets the navigator mirrored by this strip.
+    /// </summary>
+    public KryptonNavigator Navigator => _navigator;
+
+    /// <summary>
     /// Rebuilds tab buttons from the navigator pages collection.
     /// </summary>
     public void RebuildTabs()
@@ -103,15 +160,11 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
         ClearTabs();
 
         // ViewLayoutDocker lays out Left-docked children in reverse collection order
-        // (last child becomes leftmost). Add the compact '+' first (rightmost), a small
-        // gap, then pages from last to first so visual order is Pages[0]…Pages[n], gap, +.
-        if (_showNewTabButton)
-        {
-            AddNewTabButton();
-            Add(new ViewLayoutSeparator(4), ViewDockStyle.Left);
-        }
+        // (last child becomes leftmost). Build left-to-right visual items, then add reverse.
+        var visualItems = new List<CaptionVisualItem>();
 
-        for (var i = _navigator.Pages.Count - 1; i >= 0; i--)
+        string? currentGroupId = null;
+        for (var i = 0; i < _navigator.Pages.Count; i++)
         {
             KryptonPage page = _navigator.Pages[i];
             if (!page.LastVisibleSet)
@@ -119,7 +172,66 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
                 continue;
             }
 
-            AddTab(page);
+            string groupId = page.TabGroupId ?? string.Empty;
+            NavigatorTabGroup? group = null;
+            if (_allowTabGroups && !string.IsNullOrEmpty(groupId) && _tabGroups != null)
+            {
+                group = _tabGroups[groupId];
+            }
+
+            if (group != null)
+            {
+                if (!string.Equals(currentGroupId, groupId, StringComparison.Ordinal))
+                {
+                    visualItems.Add(CaptionVisualItem.ForHeader(group));
+                    currentGroupId = groupId;
+                }
+
+                if (!group.Collapsed)
+                {
+                    visualItems.Add(CaptionVisualItem.ForTab(page, group));
+                }
+            }
+            else
+            {
+                currentGroupId = null;
+                visualItems.Add(CaptionVisualItem.ForTab(page, null));
+            }
+        }
+
+        if (_showNewTabButton)
+        {
+            visualItems.Add(CaptionVisualItem.ForNewTab());
+        }
+
+        for (var i = visualItems.Count - 1; i >= 0; i--)
+        {
+            CaptionVisualItem item = visualItems[i];
+            switch (item.Kind)
+            {
+                case CaptionVisualKind.NewTab:
+                    AddNewTabButton();
+                    Add(new ViewLayoutSeparator(4), ViewDockStyle.Left);
+                    break;
+                case CaptionVisualKind.Header:
+                    if (item.Group != null)
+                    {
+                        AddGroupHeader(item.Group);
+                        Add(new ViewLayoutSeparator(2), ViewDockStyle.Left);
+                    }
+                    break;
+                case CaptionVisualKind.Tab:
+                    if (item.Page != null)
+                    {
+                        if (item.Group != null)
+                        {
+                            AddGroupAccent(item.Group.Color);
+                        }
+
+                        AddTab(item.Page);
+                    }
+                    break;
+            }
         }
 
         SyncCheckedState();
@@ -239,7 +351,14 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
 
         context.DisplayRectangle = ClientRectangle;
         _spareCaptionRect = fillerRect;
+        _spareCaptionRects.Clear();
+        if (fillerRect.Width > 8 && fillerRect.Height > 0)
+        {
+            _spareCaptionRects.Add(fillerRect);
+        }
+
         UpdateCustomCaptionArea(context);
+        _spareCaptionAreasChanged?.Invoke(_spareCaptionRects);
     }
 
     #endregion
@@ -290,16 +409,19 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
         if (spare.Width <= 8 || spare.Height <= 0)
         {
             form.CustomCaptionArea = Rectangle.Empty;
+            form.CustomCaptionAreas = Array.Empty<Rectangle>();
             return;
         }
 
         // FillRectangle is in window/view coordinates; CustomCaptionArea is client coordinates.
         Padding borders = form.RealWindowBorders;
-        form.CustomCaptionArea = new Rectangle(
+        var clientSpare = new Rectangle(
             spare.X - borders.Left,
             spare.Y - borders.Top,
             spare.Width,
             spare.Height);
+        form.CustomCaptionArea = clientSpare;
+        form.CustomCaptionAreas = new[] { clientSpare };
     }
 
     private void HookEvents()
@@ -312,7 +434,13 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
         _navigator.Pages.Inserted += OnPagesChanged;
         _navigator.Pages.Removed += OnPagesChanged;
         _navigator.Pages.Cleared += OnPagesCleared;
+        _navigator.Pages.Reordered += OnPagesReordered;
         _navigator.SelectedPageChanged += OnSelectedPageChanged;
+        foreach (KryptonPage page in _navigator.Pages)
+        {
+            page.AppearancePropertyChanged += OnPageAppearanceChanged;
+        }
+
         _eventsHooked = true;
     }
 
@@ -326,13 +454,95 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
         _navigator.Pages.Inserted -= OnPagesChanged;
         _navigator.Pages.Removed -= OnPagesChanged;
         _navigator.Pages.Cleared -= OnPagesCleared;
+        _navigator.Pages.Reordered -= OnPagesReordered;
         _navigator.SelectedPageChanged -= OnSelectedPageChanged;
+        foreach (KryptonPage page in _navigator.Pages)
+        {
+            page.AppearancePropertyChanged -= OnPageAppearanceChanged;
+        }
+
+        UnhookTabGroups();
         _eventsHooked = false;
     }
 
-    private void OnPagesChanged(object? sender, TypedCollectionEventArgs<KryptonPage> e) => RebuildTabs();
+    private void HookTabGroups()
+    {
+        if (_tabGroups == null)
+        {
+            return;
+        }
+
+        _tabGroups.Inserted += OnTabGroupsChanged;
+        _tabGroups.Removed += OnTabGroupsChanged;
+        _tabGroups.Cleared += OnTabGroupsCleared;
+        foreach (NavigatorTabGroup group in _tabGroups)
+        {
+            group.PropertyChanged += OnTabGroupPropertyChanged;
+        }
+    }
+
+    private void UnhookTabGroups()
+    {
+        if (_tabGroups == null)
+        {
+            return;
+        }
+
+        _tabGroups.Inserted -= OnTabGroupsChanged;
+        _tabGroups.Removed -= OnTabGroupsChanged;
+        _tabGroups.Cleared -= OnTabGroupsCleared;
+        foreach (NavigatorTabGroup group in _tabGroups)
+        {
+            group.PropertyChanged -= OnTabGroupPropertyChanged;
+        }
+    }
+
+    private void OnPagesChanged(object sender, TypedCollectionEventArgs<KryptonPage> e)
+    {
+        if (e.Item != null)
+        {
+            e.Item.AppearancePropertyChanged -= OnPageAppearanceChanged;
+            if (_navigator.Pages.Contains(e.Item))
+            {
+                e.Item.AppearancePropertyChanged += OnPageAppearanceChanged;
+            }
+        }
+
+        RebuildTabs();
+    }
 
     private void OnPagesCleared(object? sender, EventArgs e) => RebuildTabs();
+
+    private void OnPagesReordered(object? sender, EventArgs e) => RebuildTabs();
+
+    private void OnPageAppearanceChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName is nameof(KryptonPage.TabGroupId)
+            or nameof(KryptonPage.Text)
+            or nameof(KryptonPage.TextTitle)
+            or nameof(KryptonPage.ImageSmall))
+        {
+            RebuildTabs();
+        }
+    }
+
+    private void OnTabGroupsChanged(object sender, TypedCollectionEventArgs<NavigatorTabGroup> e)
+    {
+        if (e.Item != null)
+        {
+            e.Item.PropertyChanged -= OnTabGroupPropertyChanged;
+            if (_tabGroups != null && _tabGroups.Contains(e.Item))
+            {
+                e.Item.PropertyChanged += OnTabGroupPropertyChanged;
+            }
+        }
+
+        RebuildTabs();
+    }
+
+    private void OnTabGroupsCleared(object? sender, EventArgs e) => RebuildTabs();
+
+    private void OnTabGroupPropertyChanged(object? sender, PropertyChangedEventArgs e) => RebuildTabs();
 
     private void OnSelectedPageChanged(object? sender, EventArgs e)
     {
@@ -363,6 +573,57 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
         }
 
         Clear();
+    }
+
+    private void AddGroupHeader(NavigatorTabGroup group)
+    {
+        var header = new ViewDrawTabGroupHeader(
+            _navigator,
+            group,
+            _needPaint,
+            ToggleGroupCollapsed,
+            ActivateGroup,
+            g => NavigatorTabGroupDragHelper.CountGroupMembers(_navigator, g.Id),
+            OnGroupDragStart,
+            OnTabDragMove,
+            OnGroupDragEnd,
+            OnTabDragQuit);
+        Add(header, ViewDockStyle.Left);
+    }
+
+    private void AddGroupAccent(Color color)
+    {
+        var accent = new ViewDrawTabGroupAccent { Color = color };
+        Add(accent, ViewDockStyle.Left);
+    }
+
+    private void ToggleGroupCollapsed(NavigatorTabGroup group) =>
+        group.Collapsed = !group.Collapsed;
+
+    private void ActivateGroup(NavigatorTabGroup group)
+    {
+        // Prefer the currently selected page when it belongs to the group; otherwise first member.
+        KryptonPage? selected = _navigator.SelectedPage;
+        if (selected != null &&
+            string.Equals(selected.TabGroupId, group.Id, StringComparison.Ordinal) &&
+            _navigator.AllowTabSelect)
+        {
+            return;
+        }
+
+        foreach (KryptonPage page in _navigator.Pages)
+        {
+            if (page.LastVisibleSet &&
+                string.Equals(page.TabGroupId, group.Id, StringComparison.Ordinal))
+            {
+                if (_navigator.AllowTabSelect)
+                {
+                    _navigator.SelectedPage = page;
+                }
+
+                break;
+            }
+        }
     }
 
     private void AddNewTabButton()
@@ -560,6 +821,7 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
     private void OnTabDragStart(KryptonPage page, DragStartEventCancelArgs e)
     {
         _draggingPage = page;
+        _draggingPages = new KryptonPageCollection();
         _externalDragging = false;
 
         if (!_navigator.AllowPageDrag || _navigator.DragPageNotify == null || !page.AreFlagsSet(KryptonPageFlags.AllowPageDrag))
@@ -567,14 +829,32 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
             return;
         }
 
-        var pages = new KryptonPageCollection
-        {
-            page
-        };
+        NavigatorTabGroupDragHelper.CollectDragPages(_navigator, page, _draggingPages, dragWholeGroup: true);
 
-        var dragArgs = new PageDragCancelEventArgs(e.Point, e.Offset, e.Control, pages);
+        var dragArgs = new PageDragCancelEventArgs(e.Point, e.Offset, e.Control, _draggingPages);
         _navigator.DragPageNotify.PageDragStart(this, _navigator, dragArgs);
         _externalDragging = !dragArgs.Cancel;
+    }
+
+    private void OnGroupDragStart(NavigatorTabGroup group, DragStartEventCancelArgs e)
+    {
+        KryptonPage? seed = null;
+        foreach (KryptonPage page in _navigator.Pages)
+        {
+            if (page.LastVisibleSet && string.Equals(page.TabGroupId, group.Id, StringComparison.Ordinal))
+            {
+                seed = page;
+                break;
+            }
+        }
+
+        if (seed == null)
+        {
+            e.Cancel = true;
+            return;
+        }
+
+        OnTabDragStart(seed, e);
     }
 
     private void OnTabDragMove(PointEventArgs e)
@@ -585,7 +865,9 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
         }
     }
 
-    private void OnTabDragEnd(PointEventArgs e)
+    private void OnTabDragEnd(PointEventArgs e) => OnGroupDragEnd(e);
+
+    private void OnGroupDragEnd(PointEventArgs e)
     {
         if (_draggingPage == null)
         {
@@ -596,9 +878,16 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
         if (_externalDragging)
         {
             dropped = _navigator.DragPageNotify?.PageDragEnd(this, e) ?? false;
-            if (dropped && _navigator.Pages.Contains(_draggingPage))
+            if (dropped && _draggingPages != null)
             {
-                _navigator.Pages.Remove(_draggingPage);
+                for (var i = _draggingPages.Count - 1; i >= 0; i--)
+                {
+                    KryptonPage page = _draggingPages[i];
+                    if (_navigator.Pages.Contains(page))
+                    {
+                        _navigator.Pages.Remove(page);
+                    }
+                }
             }
         }
 
@@ -608,6 +897,7 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
         }
 
         _draggingPage = null;
+        _draggingPages = null;
         _externalDragging = false;
     }
 
@@ -619,6 +909,7 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
         }
 
         _draggingPage = null;
+        _draggingPages = null;
         _externalDragging = false;
     }
 
@@ -663,14 +954,61 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
             insertIndex--;
         }
 
-        if (insertIndex == sourceIndex)
+        // Whole-group caption drag moves contiguous members as a block when possible.
+        var moving = new List<KryptonPage>();
+        if (_draggingPages != null && _draggingPages.Count > 1)
         {
-            return;
+            foreach (KryptonPage page in _draggingPages)
+            {
+                if (_navigator.Pages.Contains(page))
+                {
+                    moving.Add(page);
+                }
+            }
         }
 
-        _navigator.Pages.Remove(_draggingPage);
-        _navigator.Pages.Insert(insertIndex, _draggingPage);
-        _navigator.SelectedPage = _draggingPage;
+        if (moving.Count <= 1)
+        {
+            if (insertIndex != sourceIndex)
+            {
+                _navigator.Pages.Remove(_draggingPage);
+                insertIndex = Math.Max(0, Math.Min(insertIndex, _navigator.Pages.Count));
+                _navigator.Pages.Insert(insertIndex, _draggingPage);
+            }
+
+            NavigatorTabGroupDragHelper.JoinPageToTargetGroup(_draggingPage, targetPage, _tabGroups);
+        }
+        else
+        {
+            // Remove high-to-low so earlier indices stay valid, then insert as a block.
+            for (var i = moving.Count - 1; i >= 0; i--)
+            {
+                int removeIndex = _navigator.Pages.IndexOf(moving[i]);
+                if (removeIndex < 0)
+                {
+                    continue;
+                }
+
+                if (removeIndex < insertIndex)
+                {
+                    insertIndex--;
+                }
+
+                _navigator.Pages.RemoveAt(removeIndex);
+            }
+
+            insertIndex = Math.Max(0, Math.Min(insertIndex, _navigator.Pages.Count));
+            for (var i = 0; i < moving.Count; i++)
+            {
+                _navigator.Pages.Insert(insertIndex + i, moving[i]);
+                NavigatorTabGroupDragHelper.JoinPageToTargetGroup(moving[i], targetPage, _tabGroups);
+            }
+        }
+
+        if (_navigator.AllowTabSelect)
+        {
+            _navigator.SelectedPage = _draggingPage;
+        }
     }
 
     private ViewDrawButton? FindTargetButton(Point screenPoint, ViewDrawButton draggingButton)
@@ -696,6 +1034,36 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
         }
 
         return null;
+    }
+
+    private enum CaptionVisualKind
+    {
+        Tab,
+        Header,
+        NewTab
+    }
+
+    private readonly struct CaptionVisualItem
+    {
+        public CaptionVisualKind Kind { get; }
+        public KryptonPage? Page { get; }
+        public NavigatorTabGroup? Group { get; }
+
+        private CaptionVisualItem(CaptionVisualKind kind, KryptonPage? page, NavigatorTabGroup? group)
+        {
+            Kind = kind;
+            Page = page;
+            Group = group;
+        }
+
+        public static CaptionVisualItem ForTab(KryptonPage page, NavigatorTabGroup? group) =>
+            new CaptionVisualItem(CaptionVisualKind.Tab, page, group);
+
+        public static CaptionVisualItem ForHeader(NavigatorTabGroup group) =>
+            new CaptionVisualItem(CaptionVisualKind.Header, null, group);
+
+        public static CaptionVisualItem ForNewTab() =>
+            new CaptionVisualItem(CaptionVisualKind.NewTab, null, null);
     }
 
     #endregion

@@ -82,6 +82,11 @@ internal sealed class NavigatorCaptionDragPageNotify : IDragPageNotify, IDisposa
             _dragManager.DragTargetProviders.Add(target);
         }
 
+        if (_owner.Workspace is { IsDisposed: false } workspace)
+        {
+            _dragManager.DragTargetProviders.Add(workspace);
+        }
+
         _dragManager.PageDragStart(sender, navigator, e);
     }
 
@@ -106,6 +111,12 @@ internal sealed class NavigatorCaptionDragPageNotify : IDragPageNotify, IDisposa
                 overAnyNavigatorClient = true;
                 break;
             }
+        }
+
+        if (!overAnyNavigatorClient && _owner.Workspace is { IsDisposed: false } workspace)
+        {
+            Rectangle workspaceScreen = workspace.RectangleToScreen(workspace.ClientRectangle);
+            overAnyNavigatorClient = workspaceScreen.Contains(e.Point);
         }
 
         bool showTearOut = _owner.AllowTearOut && outsideSourceForm && !overAnyNavigatorClient;

@@ -61,8 +61,13 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
     private bool _useBuiltInTabContextMenu = true;
     private bool _includeFormSystemMenuInTabContextMenu = true;
     private bool _showNewTabButton;
+    private bool _allowTabGroups = true;
+    private readonly NavigatorTabGroupCollection _tabGroups = new();
     private ContextMenuStrip? _builtInTabContextMenu;
     private KryptonPage? _contextMenuPage;
+    private Krypton.Workspace.KryptonWorkspace? _workspace;
+    private ViewLayoutCaptionDocumentGroups? _captionDocumentGroups;
+    private bool _workspacePersistenceHooked;
 
     // Restored when integration is detached
     private bool _savedControlBox = true;
@@ -100,6 +105,13 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
     [Description(@"Occurs when the caption new-tab button is clicked. Host apps should create and add a page.")]
     public event EventHandler? NewTabButtonClick;
 
+    /// <summary>
+    /// Occurs when browser-style tab group membership or catalog metadata changes.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Occurs when tab groups are created, assigned, collapsed, or otherwise changed.")]
+    public event EventHandler? TabGroupChanged;
+
     #endregion
 
     #region Identity
@@ -109,6 +121,9 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
     /// </summary>
     public KryptonNavigatorFormIntegrator()
     {
+        _tabGroups.Inserted += OnTabGroupsCollectionChanged;
+        _tabGroups.Removed += OnTabGroupsCollectionChanged;
+        _tabGroups.Cleared += OnTabGroupsCollectionCleared;
     }
 
     /// <summary>
@@ -301,6 +316,7 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
         if (disposing && !_disposed)
         {
             UnhookFormChromeEvents(_form);
+            UnhookWorkspacePersistence();
             Detach();
             _captionDragNotify?.Dispose();
             _captionDragNotify = null;
@@ -432,6 +448,319 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
         }
     }
 
+    /// <summary>
+    /// Gets or sets whether browser-style colored tab groups are enabled for CaptionIntegrated.
+    /// </summary>
+    [Category(@"Behavior")]
+    [DefaultValue(true)]
+    [Description(@"When true, CaptionIntegrated renders group headers, accents, and collapse for pages with TabGroupId.")]
+    public bool AllowTabGroups
+    {
+        get => _allowTabGroups;
+        set
+        {
+            if (_allowTabGroups == value)
+            {
+                return;
+            }
+
+            _allowTabGroups = value;
+            if (_captionTabs != null)
+            {
+                _captionTabs.AllowTabGroups = value;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets the catalog of browser-style tab groups (title, color, collapsed).
+    /// </summary>
+    [Category(@"Data")]
+    [Description(@"Catalog of browser-style tab groups referenced by KryptonPage.TabGroupId.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public NavigatorTabGroupCollection TabGroups => _tabGroups;
+
+    /// <summary>
+    /// Gets or sets an optional workspace used for multi-strip caption document groups (Phase 3).
+    /// </summary>
+    /// <remarks>
+    /// When set in CaptionIntegrated mode, the caption hosts one tab strip per workspace cell
+    /// instead of a single navigator strip. <see cref="Navigator"/> should typically be null
+    /// or unused in that configuration.
+    /// </remarks>
+    [Category(@"Behavior")]
+    [DefaultValue(null)]
+    [Description(@"Optional KryptonWorkspace for multi-strip caption document groups.")]
+    public Krypton.Workspace.KryptonWorkspace? Workspace
+    {
+        get => _workspace;
+        set
+        {
+            if (ReferenceEquals(_workspace, value))
+            {
+                return;
+            }
+
+            Detach();
+            UnhookWorkspacePersistence();
+            _workspace = value;
+            HookWorkspacePersistence();
+            TryApply();
+        }
+    }
+
+    /// <summary>
+    /// Saves browser-style tab groups and (when a navigator is bound) page order/membership.
+    /// </summary>
+    /// <remarks>
+    /// When <see cref="Workspace"/> is set, prefer workspace layout save/load APIs —
+    /// the integrator embeds the group catalog in workspace <c>GlobalSaving</c>, and page
+    /// <c>TabGroupId</c> is persisted as the <c>TG</c> attribute.
+    /// </remarks>
+    public void SaveLayoutToFile(string filename) => SaveLayoutToFile(filename, Encoding.Unicode);
+
+    /// <summary>
+    /// Saves layout information to a file with the specified encoding.
+    /// </summary>
+    public void SaveLayoutToFile(string filename, Encoding encoding)
+    {
+        using var stream = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.None);
+        SaveLayoutToStream(stream, encoding);
+    }
+
+    /// <summary>
+    /// Saves layout information to a stream.
+    /// </summary>
+    public void SaveLayoutToStream(Stream stream, Encoding encoding)
+    {
+        var settings = new XmlWriterSettings
+        {
+            Encoding = encoding,
+            Indent = true,
+            CloseOutput = false
+        };
+        using XmlWriter xmlWriter = XmlWriter.Create(stream, settings);
+        xmlWriter.WriteStartDocument();
+        SaveLayoutToXml(xmlWriter);
+        xmlWriter.WriteEndDocument();
+        xmlWriter.Flush();
+    }
+
+    /// <summary>
+    /// Saves layout information using the provided XML writer.
+    /// </summary>
+    public void SaveLayoutToXml(XmlWriter xmlWriter)
+    {
+        if (_workspace != null)
+        {
+            _workspace.SaveLayoutToXml(xmlWriter);
+            return;
+        }
+
+        if (_navigator == null)
+        {
+            throw new InvalidOperationException(@"SaveLayout requires Navigator or Workspace to be assigned.");
+        }
+
+        NavigatorTabGroupLayoutSerializer.SaveNavigatorLayout(xmlWriter, _navigator, _tabGroups);
+    }
+
+    /// <summary>
+    /// Saves layout information to a byte array.
+    /// </summary>
+    public byte[] SaveLayoutToArray() => SaveLayoutToArray(Encoding.Unicode);
+
+    /// <summary>
+    /// Saves layout information to a byte array with the specified encoding.
+    /// </summary>
+    public byte[] SaveLayoutToArray(Encoding encoding)
+    {
+        using var ms = new MemoryStream();
+        SaveLayoutToStream(ms, encoding);
+        return ms.ToArray();
+    }
+
+    /// <summary>
+    /// Loads browser-style tab groups and (when a navigator is bound) page order/membership.
+    /// </summary>
+    public void LoadLayoutFromFile(string filename)
+    {
+        using var stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
+        LoadLayoutFromStream(stream);
+    }
+
+    /// <summary>
+    /// Loads layout information from a stream.
+    /// </summary>
+    public void LoadLayoutFromStream(Stream stream)
+    {
+        using var xmlReader = new XmlTextReader(stream)
+        {
+            WhitespaceHandling = WhitespaceHandling.None
+        };
+        xmlReader.MoveToContent();
+        LoadLayoutFromXml(xmlReader);
+    }
+
+    /// <summary>
+    /// Loads layout information from a byte array.
+    /// </summary>
+    public void LoadLayoutFromArray(byte[] buffer)
+    {
+        using var ms = new MemoryStream(buffer);
+        LoadLayoutFromStream(ms);
+    }
+
+    /// <summary>
+    /// Loads layout information using the provided XML reader.
+    /// </summary>
+    public void LoadLayoutFromXml(XmlReader xmlReader)
+    {
+        if (_workspace != null)
+        {
+            _workspace.LoadLayoutFromXml(xmlReader);
+            _captionDocumentGroups?.RebuildStrips();
+            OnTabGroupChanged(EventArgs.Empty);
+            return;
+        }
+
+        if (_navigator == null)
+        {
+            throw new InvalidOperationException(@"LoadLayout requires Navigator or Workspace to be assigned.");
+        }
+
+        NavigatorTabGroupLayoutSerializer.LoadNavigatorLayout(xmlReader, _navigator, _tabGroups);
+        _captionTabs?.RebuildTabs();
+        OnTabGroupChanged(EventArgs.Empty);
+    }
+
+    /// <summary>
+    /// Creates a new tab group and optionally assigns a page to it.
+    /// </summary>
+    public NavigatorTabGroup CreateGroup(string? title = null, Color? color = null, KryptonPage? assignPage = null)
+    {
+        var group = new NavigatorTabGroup(
+            Guid.NewGuid().ToString("N"),
+            string.IsNullOrEmpty(title) ? $"Group {_tabGroups.Count + 1}" : title!,
+            color ?? PickNextGroupColor());
+        _tabGroups.Add(group);
+
+        if (assignPage != null)
+        {
+            AssignPageToGroup(assignPage, group.Id);
+        }
+
+        OnTabGroupChanged(EventArgs.Empty);
+        return group;
+    }
+
+    /// <summary>
+    /// Assigns a page to a group id and clusters it with sibling members.
+    /// </summary>
+    public void AssignPageToGroup(KryptonPage page, string groupId)
+    {
+        if (page == null)
+        {
+            throw new ArgumentNullException(nameof(page));
+        }
+
+        if (string.IsNullOrEmpty(groupId))
+        {
+            UngroupPage(page);
+            return;
+        }
+
+        if (_tabGroups[groupId] == null)
+        {
+            throw new ArgumentException(@"Group id was not found in TabGroups.", nameof(groupId));
+        }
+
+        page.TabGroupId = groupId;
+        ClusterPageWithGroup(page, groupId);
+        NavigatorTabGroup? group = _tabGroups[groupId];
+        NavigatorTabGroupBarAccent.Apply(page, group);
+        if (_navigator != null)
+        {
+            NavigatorTabGroupBarAccent.SyncNavigator(_navigator, _tabGroups);
+        }
+
+        OnTabGroupChanged(EventArgs.Empty);
+    }
+
+    /// <summary>
+    /// Removes a page from any tab group.
+    /// </summary>
+    public void UngroupPage(KryptonPage page)
+    {
+        if (page == null)
+        {
+            throw new ArgumentNullException(nameof(page));
+        }
+
+        if (string.IsNullOrEmpty(page.TabGroupId))
+        {
+            return;
+        }
+
+        page.TabGroupId = string.Empty;
+        NavigatorTabGroupBarAccent.Clear(page);
+        OnTabGroupChanged(EventArgs.Empty);
+    }
+
+    /// <summary>
+    /// Merges group catalog entries from another integrator (cross-window catalog sync).
+    /// </summary>
+    public void MergeTabGroupsFrom(NavigatorTabGroupCollection source)
+    {
+        if (source == null)
+        {
+            throw new ArgumentNullException(nameof(source));
+        }
+
+        _tabGroups.CopyFrom(source);
+        if (_navigator != null)
+        {
+            NavigatorTabGroupBarAccent.SyncNavigator(_navigator, _tabGroups);
+        }
+
+        OnTabGroupChanged(EventArgs.Empty);
+    }
+
+    /// <summary>
+    /// Toggles the collapsed state of a tab group.
+    /// </summary>
+    public void ToggleGroupCollapsed(string groupId)
+    {
+        NavigatorTabGroup? group = _tabGroups[groupId];
+        if (group == null)
+        {
+            return;
+        }
+
+        group.Collapsed = !group.Collapsed;
+        OnTabGroupChanged(EventArgs.Empty);
+    }
+
+    /// <summary>
+    /// Raises <see cref="TabGroupChanged"/>.
+    /// </summary>
+    protected virtual void OnTabGroupChanged(EventArgs e)
+    {
+        if (_navigator != null)
+        {
+            NavigatorTabGroupBarAccent.SyncNavigator(_navigator, _tabGroups);
+        }
+
+        if (_workspace != null)
+        {
+            NavigatorTabGroupBarAccent.SyncWorkspace(_workspace, _tabGroups);
+        }
+
+        // Single-strip caption rebuild; multi-strip strips already listen to TabGroups PropertyChanged.
+        _captionTabs?.RebuildTabs();
+        TabGroupChanged?.Invoke(this, e);
+    }
+
     private void TryApply(bool force = false)
     {
         if (_disposed || (!_enabled && !force))
@@ -439,7 +768,8 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
             return;
         }
 
-        if (_form == null || _navigator == null)
+        // Multi-strip caption uses Workspace; classic modes require Navigator.
+        if (_form == null || (_workspace == null && _navigator == null))
         {
             return;
         }
@@ -467,24 +797,39 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
 
     private void SaveState()
     {
-        Debug.Assert(_form != null && _navigator != null);
+        Debug.Assert(_form != null);
 
         _savedControlBox = _form!.ControlBox;
         _savedFormText = _form.Text;
         _savedAllowIconDisplay = _form.AllowIconDisplay;
-        _savedOwner = _navigator!.Owner;
-        _savedControlKryptonFormFeatures = _navigator.ControlKryptonFormFeatures;
-        _savedNavigatorMode = _navigator.NavigatorMode;
-        _savedDragPageNotify = _navigator.DragPageNotify;
-        _savedAllowPageDrag = _navigator.AllowPageDrag;
+        if (_navigator != null)
+        {
+            _savedOwner = _navigator.Owner;
+            _savedControlKryptonFormFeatures = _navigator.ControlKryptonFormFeatures;
+            _savedNavigatorMode = _navigator.NavigatorMode;
+            _savedDragPageNotify = _navigator.DragPageNotify;
+            _savedAllowPageDrag = _navigator.AllowPageDrag;
+        }
+
         _haveSavedState = true;
     }
 
     private void ApplyCore()
     {
-        Debug.Assert(_form != null && _navigator != null);
+        Debug.Assert(_form != null);
 
-        _navigator!.Owner = _form;
+        if (_mode == NavigatorFormIntegrationMode.CaptionIntegrated && _workspace != null)
+        {
+            ApplyCaptionDocumentGroups();
+            return;
+        }
+
+        if (_navigator == null)
+        {
+            return;
+        }
+
+        _navigator.Owner = _form;
         _navigator.SelectedPageChanged += OnNavigatorSelectedPageChanged;
 
         switch (_mode)
@@ -530,6 +875,17 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
         InjectCaptionTabs();
     }
 
+    private void ApplyCaptionDocumentGroups()
+    {
+        Debug.Assert(_form != null && _workspace != null);
+
+        _form!.ControlBox = _savedControlBox;
+        _form.Text = string.Empty;
+        _form.AllowIconDisplay = false;
+        _registeredIntegrators.Add(this);
+        InjectCaptionDocumentGroups();
+    }
+
     private void InjectCaptionTabs()
     {
         if (_form == null || _navigator == null || _captionInjected)
@@ -537,9 +893,34 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
             return;
         }
 
-        _captionTabs = new ViewLayoutNavigatorCaptionTabs(_navigator, OnCaptionNeedPaint, ShowTabContextMenu, OnNewTabButtonClick);
-        _captionTabs.ShowNewTabButton = _showNewTabButton;
+        _captionTabs = new ViewLayoutNavigatorCaptionTabs(_navigator, OnCaptionNeedPaint, ShowTabContextMenu, OnNewTabButtonClick)
+        {
+            ShowNewTabButton = _showNewTabButton,
+            AllowTabGroups = _allowTabGroups,
+            TabGroups = _tabGroups
+        };
         _form.InjectViewElement(_captionTabs, ViewDockStyle.Left);
+        _captionInjected = true;
+        _form.PerformNeedPaint(true);
+        _form.InvalidateNonClient();
+    }
+
+    private void InjectCaptionDocumentGroups()
+    {
+        if (_form == null || _workspace == null || _captionInjected)
+        {
+            return;
+        }
+
+        _captionDocumentGroups = new ViewLayoutCaptionDocumentGroups(
+            _workspace,
+            OnCaptionNeedPaint,
+            ShowTabContextMenu,
+            _tabGroups,
+            _allowTabGroups,
+            _showNewTabButton,
+            OnNewTabButtonClick);
+        _form.InjectViewElement(_captionDocumentGroups, ViewDockStyle.Left);
         _captionInjected = true;
         _form.PerformNeedPaint(true);
         _form.InvalidateNonClient();
@@ -549,16 +930,28 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
 
     private void RevokeCaptionTabs()
     {
-        if (_form == null || !_captionInjected || _captionTabs == null)
+        if (_form == null || !_captionInjected)
         {
             return;
         }
 
-        _form.RevokeViewElement(_captionTabs, ViewDockStyle.Left);
-        _captionTabs.Dispose();
-        _captionTabs = null;
+        if (_captionDocumentGroups != null)
+        {
+            _form.RevokeViewElement(_captionDocumentGroups, ViewDockStyle.Left);
+            _captionDocumentGroups.Dispose();
+            _captionDocumentGroups = null;
+        }
+
+        if (_captionTabs != null)
+        {
+            _form.RevokeViewElement(_captionTabs, ViewDockStyle.Left);
+            _captionTabs.Dispose();
+            _captionTabs = null;
+        }
+
         _captionInjected = false;
         _form.CustomCaptionArea = Rectangle.Empty;
+        _form.CustomCaptionAreas = Array.Empty<Rectangle>();
         _form.PerformNeedPaint(true);
         _form.InvalidateNonClient();
     }
@@ -582,7 +975,7 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
         RevokeCaptionTabs();
         _registeredIntegrators.Remove(this);
 
-        if (_haveSavedState && _form != null && _navigator != null)
+        if (_haveSavedState && _form != null)
         {
             _form.ControlBox = _savedControlBox;
             _form.AllowIconDisplay = _savedAllowIconDisplay;
@@ -591,15 +984,18 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
                 _form.Text = _savedFormText;
             }
 
-            _navigator.Owner = _savedOwner;
-            _navigator.ControlKryptonFormFeatures = _savedControlKryptonFormFeatures;
-            _navigator.NavigatorMode = _savedNavigatorMode;
-            _navigator.DragPageNotify = _savedDragPageNotify;
-            _navigator.AllowPageDrag = _savedAllowPageDrag;
+            if (_navigator != null)
+            {
+                _navigator.Owner = _savedOwner;
+                _navigator.ControlKryptonFormFeatures = _savedControlKryptonFormFeatures;
+                _navigator.NavigatorMode = _savedNavigatorMode;
+                _navigator.DragPageNotify = _savedDragPageNotify;
+                _navigator.AllowPageDrag = _savedAllowPageDrag;
+            }
         }
 
-        _haveSavedState = false;
         _applied = false;
+        _haveSavedState = false;
 
         if (raiseEvent)
         {
@@ -654,6 +1050,7 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
 
         form.HandleCreated += OnFormChromeReady;
         form.ApplyUseThemeFormChromeBorderWidthChanged += OnFormChromeReady;
+        form.DpiChanged += OnFormDpiChanged;
     }
 
     private void UnhookFormChromeEvents(KryptonForm? form)
@@ -665,6 +1062,75 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
 
         form.HandleCreated -= OnFormChromeReady;
         form.ApplyUseThemeFormChromeBorderWidthChanged -= OnFormChromeReady;
+        form.DpiChanged -= OnFormDpiChanged;
+    }
+
+    private void OnFormDpiChanged(object? sender, DpiChangedEventArgs e)
+    {
+        if (!_applied || _mode != NavigatorFormIntegrationMode.CaptionIntegrated)
+        {
+            return;
+        }
+
+        _captionTabs?.RebuildTabs();
+        _captionDocumentGroups?.RebuildStrips();
+        if (_form is { IsDisposed: false })
+        {
+            _form.PerformNeedPaint(true);
+            _form.InvalidateNonClient();
+        }
+    }
+
+    private void HookWorkspacePersistence()
+    {
+        if (_workspace == null || _workspacePersistenceHooked)
+        {
+            return;
+        }
+
+        _workspace.GlobalSaving += OnWorkspaceGlobalSaving;
+        _workspace.GlobalLoading += OnWorkspaceGlobalLoading;
+        _workspacePersistenceHooked = true;
+    }
+
+    private void UnhookWorkspacePersistence()
+    {
+        if (_workspace == null || !_workspacePersistenceHooked)
+        {
+            return;
+        }
+
+        _workspace.GlobalSaving -= OnWorkspaceGlobalSaving;
+        _workspace.GlobalLoading -= OnWorkspaceGlobalLoading;
+        _workspacePersistenceHooked = false;
+    }
+
+    private void OnWorkspaceGlobalSaving(object? sender, XmlSavingEventArgs e) =>
+        NavigatorTabGroupLayoutSerializer.WriteGroups(e.XmlWriter, _tabGroups);
+
+    private void OnWorkspaceGlobalLoading(object? sender, XmlLoadingEventArgs e)
+    {
+        // Reader is positioned on CGD; scan for optional NTG child.
+        if (e.XmlReader.IsEmptyElement)
+        {
+            return;
+        }
+
+        while (e.XmlReader.Read())
+        {
+            if (e.XmlReader.NodeType == XmlNodeType.EndElement && e.XmlReader.Name == @"CGD")
+            {
+                // Workspace loader also consumes until CGD end — avoid double-consuming by
+                // only reading while still inside custom data. Break before the EndElement
+                // so the workspace loop can finish cleanly.
+                break;
+            }
+
+            if (e.XmlReader.NodeType == XmlNodeType.Element && e.XmlReader.Name == @"NTG")
+            {
+                NavigatorTabGroupLayoutSerializer.ReadGroups(e.XmlReader, _tabGroups);
+            }
+        }
     }
 
     private void OnFormChromeReady(object? sender, EventArgs e)
@@ -674,14 +1140,23 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
             return;
         }
 
-        InjectCaptionTabs();
+        if (_workspace != null)
+        {
+            InjectCaptionDocumentGroups();
+        }
+        else
+        {
+            InjectCaptionTabs();
+        }
     }
 
     internal void ShowTabContextMenu(KryptonPage page, Point screenPoint)
     {
+        KryptonNavigator? hostNavigator = ResolveNavigatorForPage(page);
+
         if (CommonHelper.ValidKryptonContextMenu(page.KryptonContextMenu))
         {
-            page.KryptonContextMenu!.Show(_navigator!, screenPoint);
+            page.KryptonContextMenu!.Show((Control?)hostNavigator ?? _form!, screenPoint);
             return;
         }
 
@@ -691,14 +1166,14 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
             return;
         }
 
-        if (!_useBuiltInTabContextMenu || _navigator == null)
+        if (!_useBuiltInTabContextMenu || hostNavigator == null)
         {
             return;
         }
 
         EnsureBuiltInTabContextMenu();
         _contextMenuPage = page;
-        UpdateBuiltInTabContextMenuState(page);
+        UpdateBuiltInTabContextMenuState(page, hostNavigator);
 
         var args = new NavigatorTabContextMenuEventArgs(page, _builtInTabContextMenu!)
         {
@@ -730,6 +1205,42 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
         {
             Name = "TearOutSeparator"
         });
+
+        _builtInTabContextMenu.Items.Add(new ToolStripMenuItem(strings.AddToGroup)
+        {
+            Name = "AddToGroup"
+        });
+        _builtInTabContextMenu.Items.Add(new ToolStripMenuItem(strings.NewGroup, null, (_, _) => CreateGroupForContextPage())
+        {
+            Name = "NewGroup"
+        });
+        _builtInTabContextMenu.Items.Add(new ToolStripMenuItem(strings.Ungroup, null, (_, _) =>
+        {
+            if (_contextMenuPage != null)
+            {
+                UngroupPage(_contextMenuPage);
+            }
+        })
+        {
+            Name = "Ungroup"
+        });
+        _builtInTabContextMenu.Items.Add(new ToolStripMenuItem(strings.RenameGroup, null, (_, _) => RenameContextGroup())
+        {
+            Name = "RenameGroup"
+        });
+        _builtInTabContextMenu.Items.Add(new ToolStripMenuItem(strings.RecolorGroup, null, (_, _) => RecolorContextGroup())
+        {
+            Name = "RecolorGroup"
+        });
+        _builtInTabContextMenu.Items.Add(new ToolStripMenuItem(strings.CollapseGroup, null, (_, _) => ToggleContextGroupCollapsed())
+        {
+            Name = "CollapseExpandGroup"
+        });
+        _builtInTabContextMenu.Items.Add(new ToolStripSeparator
+        {
+            Name = "GroupSeparator"
+        });
+
         _builtInTabContextMenu.Items.Add(new ToolStripMenuItem(strings.CloseTab, null, (_, _) => ClosePage(_contextMenuPage))
         {
             Name = "CloseTab",
@@ -779,16 +1290,21 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
         });
     }
 
-    private void UpdateBuiltInTabContextMenuState(KryptonPage page)
+    private void UpdateBuiltInTabContextMenuState(KryptonPage page) =>
+        UpdateBuiltInTabContextMenuState(page, ResolveNavigatorForPage(page));
+
+    private void UpdateBuiltInTabContextMenuState(KryptonPage page, KryptonNavigator? navigator)
     {
-        if (_builtInTabContextMenu == null || _navigator == null)
+        if (_builtInTabContextMenu == null || navigator == null)
         {
             return;
         }
 
-        var hasPage = _navigator.Pages.Contains(page);
-        var pageCount = _navigator.Pages.Count;
-        var pageIndex = _navigator.Pages.IndexOf(page);
+        var hasPage = navigator.Pages.Contains(page);
+        var pageCount = navigator.Pages.Count;
+        var pageIndex = navigator.Pages.IndexOf(page);
+        NavigatorTabGroup? pageGroup = string.IsNullOrEmpty(page.TabGroupId) ? null : _tabGroups[page.TabGroupId];
+        NavigatorFormIntegrationStrings strings = KryptonManager.Strings.NavigatorIntegrationStrings;
 
         if (_builtInTabContextMenu.Items["MoveToNewWindow"] is ToolStripMenuItem move)
         {
@@ -799,6 +1315,8 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
         {
             sep.Visible = _allowTearOut;
         }
+
+        UpdateGroupMenuItems(page, pageGroup, strings);
 
         if (_builtInTabContextMenu.Items["CloseTab"] is ToolStripMenuItem close)
         {
@@ -816,6 +1334,87 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
         }
 
         UpdateBuiltInSystemMenuState();
+    }
+
+    private KryptonNavigator? ResolveNavigatorForPage(KryptonPage page)
+    {
+        if (_navigator != null && _navigator.Pages.Contains(page))
+        {
+            return _navigator;
+        }
+
+        if (page.KryptonParentContainer is KryptonNavigator host)
+        {
+            return host;
+        }
+
+        return _navigator;
+    }
+
+    private void UpdateGroupMenuItems(KryptonPage page, NavigatorTabGroup? pageGroup, NavigatorFormIntegrationStrings strings)
+    {
+        if (_builtInTabContextMenu == null)
+        {
+            return;
+        }
+
+        bool showGroups = _allowTabGroups && _mode == NavigatorFormIntegrationMode.CaptionIntegrated;
+        string[] groupNames =
+        {
+            "AddToGroup", "NewGroup", "Ungroup", "RenameGroup", "RecolorGroup", "CollapseExpandGroup", "GroupSeparator"
+        };
+
+        foreach (string name in groupNames)
+        {
+            if (_builtInTabContextMenu.Items[name] is ToolStripItem item)
+            {
+                item.Visible = showGroups;
+            }
+        }
+
+        if (!showGroups)
+        {
+            return;
+        }
+
+        if (_builtInTabContextMenu.Items["AddToGroup"] is ToolStripMenuItem addToGroup)
+        {
+            addToGroup.DropDownItems.Clear();
+            foreach (NavigatorTabGroup group in _tabGroups)
+            {
+                NavigatorTabGroup localGroup = group;
+                var item = new ToolStripMenuItem(string.IsNullOrEmpty(localGroup.Title) ? localGroup.Id : localGroup.Title)
+                {
+                    Checked = pageGroup != null && string.Equals(pageGroup.Id, localGroup.Id, StringComparison.Ordinal),
+                    Tag = localGroup.Id
+                };
+                item.Click += (_, _) => AssignPageToGroup(page, localGroup.Id);
+                addToGroup.DropDownItems.Add(item);
+            }
+
+            addToGroup.Enabled = _tabGroups.Count > 0;
+        }
+
+        if (_builtInTabContextMenu.Items["Ungroup"] is ToolStripMenuItem ungroup)
+        {
+            ungroup.Enabled = pageGroup != null;
+        }
+
+        if (_builtInTabContextMenu.Items["RenameGroup"] is ToolStripMenuItem rename)
+        {
+            rename.Enabled = pageGroup != null;
+        }
+
+        if (_builtInTabContextMenu.Items["RecolorGroup"] is ToolStripMenuItem recolor)
+        {
+            recolor.Enabled = pageGroup != null;
+        }
+
+        if (_builtInTabContextMenu.Items["CollapseExpandGroup"] is ToolStripMenuItem collapseExpand)
+        {
+            collapseExpand.Enabled = pageGroup != null;
+            collapseExpand.Text = pageGroup is { Collapsed: true } ? strings.ExpandGroup : strings.CollapseGroup;
+        }
     }
 
     private void UpdateBuiltInSystemMenuState()
@@ -942,7 +1541,8 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
 
     private void MovePageToNewWindow(KryptonPage? page)
     {
-        if (_navigator == null || page == null || !_navigator.Pages.Contains(page))
+        KryptonNavigator? navigator = page == null ? null : ResolveNavigatorForPage(page);
+        if (navigator == null || page == null || !navigator.Pages.Contains(page))
         {
             return;
         }
@@ -951,80 +1551,92 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
         {
             page
         };
-        if (TryTearOutPages(_navigator, pages, Cursor.Position))
+        if (TryTearOutPages(navigator, pages, Cursor.Position))
         {
-            _navigator.Pages.Remove(page);
+            navigator.Pages.Remove(page);
         }
     }
 
     private void ClosePage(KryptonPage? page)
     {
-        if (_navigator == null || page == null || !_navigator.Pages.Contains(page) || _navigator.Pages.Count <= 1)
+        KryptonNavigator? navigator = page == null ? null : ResolveNavigatorForPage(page);
+        if (navigator == null || page == null || !navigator.Pages.Contains(page) || navigator.Pages.Count <= 1)
         {
             return;
         }
 
-        _navigator.Pages.Remove(page);
+        navigator.Pages.Remove(page);
     }
 
     private void CloseOtherPages(KryptonPage? page)
     {
-        if (_navigator == null || page == null || !_navigator.Pages.Contains(page))
+        KryptonNavigator? navigator = page == null ? null : ResolveNavigatorForPage(page);
+        if (navigator == null || page == null || !navigator.Pages.Contains(page))
         {
             return;
         }
 
-        for (var i = _navigator.Pages.Count - 1; i >= 0; i--)
+        for (var i = navigator.Pages.Count - 1; i >= 0; i--)
         {
-            KryptonPage current = _navigator.Pages[i];
+            KryptonPage current = navigator.Pages[i];
             if (!ReferenceEquals(current, page))
             {
-                _navigator.Pages.Remove(current);
+                navigator.Pages.Remove(current);
             }
         }
 
-        _navigator.SelectedPage = page;
+        navigator.SelectedPage = page;
     }
 
     private void ClosePagesToRight(KryptonPage? page)
     {
-        if (_navigator == null || page == null)
+        KryptonNavigator? navigator = page == null ? null : ResolveNavigatorForPage(page);
+        if (navigator == null || page == null)
         {
             return;
         }
 
-        var startIndex = _navigator.Pages.IndexOf(page);
+        var startIndex = navigator.Pages.IndexOf(page);
         if (startIndex < 0)
         {
             return;
         }
 
-        for (var i = _navigator.Pages.Count - 1; i > startIndex; i--)
+        for (var i = navigator.Pages.Count - 1; i > startIndex; i--)
         {
-            _navigator.Pages.RemoveAt(i);
+            navigator.Pages.RemoveAt(i);
         }
 
-        _navigator.SelectedPage = page;
+        navigator.SelectedPage = page;
     }
 
     public DragTargetList GenerateDragTargets(PageDragEndData? dragEndData)
     {
         var targets = new DragTargetList();
-        if (!IsIntegrated || _navigator is not { IsDisposed: false })
+        if (!IsIntegrated)
         {
             return targets;
         }
 
-        if (_mode != NavigatorFormIntegrationMode.CaptionIntegrated)
+        if (_workspace is { IsDisposed: false })
         {
-            targets.AddRange(_navigator.GenerateDragTargets(dragEndData));
-            return targets;
+            targets.AddRange(_workspace.GenerateDragTargets(dragEndData));
         }
 
-        Rectangle screenRect = GetNavigatorDropScreenRectangle();
-        if (!screenRect.IsEmpty)
+        if (_navigator is { IsDisposed: false })
         {
-            targets.Add(new DragTargetNavigatorTransfer(screenRect, _navigator, KryptonPageFlags.All));
+            if (_mode != NavigatorFormIntegrationMode.CaptionIntegrated)
+            {
+                targets.AddRange(_navigator.GenerateDragTargets(dragEndData));
+            }
+            else
+            {
+                Rectangle screenRect = GetNavigatorDropScreenRectangle();
+                if (!screenRect.IsEmpty)
+                {
+                    targets.Add(new DragTargetNavigatorTransfer(screenRect, _navigator, KryptonPageFlags.All));
+                }
+            }
         }
 
         return targets;
@@ -1103,12 +1715,18 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
             Mode = Mode,
             SyncFormTitle = SyncFormTitle,
             SuppressFormTitleWhenClientChrome = SuppressFormTitleWhenClientChrome,
+            AllowTabGroups = AllowTabGroups,
             Enabled = true
         };
+        CopyReferencedGroups(integrator, pages);
+        // Cross-window catalog sync: also push our groups into the new window and keep local catalog.
+        integrator.MergeTabGroupsFrom(_tabGroups);
 
         foreach (KryptonPage page in pages)
         {
             targetNavigator.Pages.Add(page);
+            NavigatorTabGroup? group = string.IsNullOrEmpty(page.TabGroupId) ? null : integrator.TabGroups[page.TabGroupId];
+            NavigatorTabGroupBarAccent.Apply(page, group);
         }
 
         if (targetNavigator.AllowTabSelect && targetNavigator.Pages.Count > 0)
@@ -1120,6 +1738,174 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
         _ = integrator;
         return true;
     }
+
+    private void CopyReferencedGroups(KryptonNavigatorFormIntegrator target, KryptonPageCollection pages)
+    {
+        foreach (KryptonPage page in pages)
+        {
+            if (string.IsNullOrEmpty(page.TabGroupId))
+            {
+                continue;
+            }
+
+            NavigatorTabGroup? sourceGroup = _tabGroups[page.TabGroupId];
+            if (sourceGroup == null)
+            {
+                continue;
+            }
+
+            if (target.TabGroups[sourceGroup.Id] == null)
+            {
+                target.TabGroups.Add(sourceGroup.Clone());
+            }
+        }
+    }
+
+    private void ClusterPageWithGroup(KryptonPage page, string groupId)
+    {
+        KryptonNavigator? navigator = page.KryptonParentContainer as KryptonNavigator ?? _navigator;
+        if (navigator == null || !navigator.Pages.Contains(page))
+        {
+            return;
+        }
+
+        int insertIndex = -1;
+        for (var i = 0; i < navigator.Pages.Count; i++)
+        {
+            KryptonPage candidate = navigator.Pages[i];
+            if (!ReferenceEquals(candidate, page) &&
+                string.Equals(candidate.TabGroupId, groupId, StringComparison.Ordinal))
+            {
+                insertIndex = i + 1;
+            }
+        }
+
+        if (insertIndex < 0)
+        {
+            return;
+        }
+
+        int currentIndex = navigator.Pages.IndexOf(page);
+        if (currentIndex < 0 || currentIndex == insertIndex || currentIndex + 1 == insertIndex)
+        {
+            return;
+        }
+
+        navigator.Pages.Remove(page);
+        if (insertIndex > currentIndex)
+        {
+            insertIndex--;
+        }
+
+        insertIndex = Math.Max(0, Math.Min(insertIndex, navigator.Pages.Count));
+        navigator.Pages.Insert(insertIndex, page);
+    }
+
+    private static Color PickNextGroupColor()
+    {
+        Color[] palette =
+        {
+            Color.DodgerBlue,
+            Color.MediumSeaGreen,
+            Color.Orange,
+            Color.MediumOrchid,
+            Color.Tomato,
+            Color.CadetBlue,
+            Color.Goldenrod
+        };
+        return palette[Environment.TickCount % palette.Length];
+    }
+
+    private void CreateGroupForContextPage()
+    {
+        if (_contextMenuPage == null)
+        {
+            return;
+        }
+
+        CreateGroup(assignPage: _contextMenuPage);
+    }
+
+    private void RenameContextGroup()
+    {
+        if (_contextMenuPage == null || string.IsNullOrEmpty(_contextMenuPage.TabGroupId))
+        {
+            return;
+        }
+
+        NavigatorTabGroup? group = _tabGroups[_contextMenuPage.TabGroupId];
+        if (group == null || _form == null)
+        {
+            return;
+        }
+
+        string caption = KryptonManager.Strings.NavigatorIntegrationStrings.RenameGroup;
+        string title = KryptonInputBox.Show(new KryptonInputBoxData
+        {
+            Owner = _form,
+            Caption = caption,
+            Prompt = caption,
+            DefaultResponse = group.Title,
+            CueText = @"Group name"
+        });
+
+        if (!string.IsNullOrWhiteSpace(title) && !string.Equals(title, group.Title, StringComparison.Ordinal))
+        {
+            group.Title = title.Trim();
+            OnTabGroupChanged(EventArgs.Empty);
+        }
+    }
+
+    private void RecolorContextGroup()
+    {
+        if (_contextMenuPage == null || string.IsNullOrEmpty(_contextMenuPage.TabGroupId))
+        {
+            return;
+        }
+
+        NavigatorTabGroup? group = _tabGroups[_contextMenuPage.TabGroupId];
+        if (group == null)
+        {
+            return;
+        }
+
+        using var dialog = new KryptonColorDialog
+        {
+            Color = group.Color,
+            FullOpen = true
+        };
+        if (dialog.ShowDialog(_form) == DialogResult.OK)
+        {
+            group.Color = dialog.Color;
+            if (_navigator != null)
+            {
+                NavigatorTabGroupBarAccent.SyncNavigator(_navigator, _tabGroups);
+            }
+
+            if (_workspace != null)
+            {
+                NavigatorTabGroupBarAccent.SyncWorkspace(_workspace, _tabGroups);
+            }
+
+            OnTabGroupChanged(EventArgs.Empty);
+        }
+    }
+
+    private void ToggleContextGroupCollapsed()
+    {
+        if (_contextMenuPage == null || string.IsNullOrEmpty(_contextMenuPage.TabGroupId))
+        {
+            return;
+        }
+
+        ToggleGroupCollapsed(_contextMenuPage.TabGroupId);
+    }
+
+    private void OnTabGroupsCollectionChanged(object sender, TypedCollectionEventArgs<NavigatorTabGroup> e) =>
+        OnTabGroupChanged(EventArgs.Empty);
+
+    private void OnTabGroupsCollectionCleared(object? sender, EventArgs e) =>
+        OnTabGroupChanged(EventArgs.Empty);
 
     private static class NativeMethods
     {

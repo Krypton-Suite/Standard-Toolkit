@@ -1,0 +1,156 @@
+#region BSD License
+/*
+ *
+ * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ * Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
+ *
+ */
+#endregion
+
+namespace Krypton.Navigator.Utilities;
+
+/// <summary>
+/// Narrow colored accent drawn before a grouped caption tab.
+/// </summary>
+internal sealed class ViewDrawTabGroupAccent : ViewLeaf
+{
+    private Color _color = Color.DodgerBlue;
+
+    public Color Color
+    {
+        get => _color;
+        set => _color = value.IsEmpty ? Color.DodgerBlue : value;
+    }
+
+    public override string ToString() => nameof(ViewDrawTabGroupAccent);
+
+    public override Size GetPreferredSize(ViewLayoutContext context) => new Size(3, 18);
+
+    public override void Layout(ViewLayoutContext context)
+    {
+        Debug.Assert(context != null);
+        ClientRectangle = context!.DisplayRectangle;
+    }
+
+    public override void Render(RenderContext context)
+    {
+        if (ClientRectangle.Width <= 0 || ClientRectangle.Height <= 0)
+        {
+            return;
+        }
+
+        using var brush = new SolidBrush(_color);
+        context.Graphics.FillRectangle(brush, ClientRectangle);
+    }
+}
+
+/// <summary>
+/// Clickable/draggable group header chip shown before a contiguous run of grouped caption tabs.
+/// </summary>
+internal sealed class ViewDrawTabGroupHeader : ViewDrawButton
+{
+    private readonly NavigatorTabGroup _group;
+    private readonly Action<NavigatorTabGroup> _toggleCollapsed;
+    private readonly Action<NavigatorTabGroup>? _activateGroup;
+    private readonly Action<NavigatorTabGroup, DragStartEventCancelArgs>? _dragStart;
+    private readonly Action<PointEventArgs>? _dragMove;
+    private readonly Action<PointEventArgs>? _dragEnd;
+    private readonly Action? _dragQuit;
+    private readonly Func<NavigatorTabGroup, int>? _memberCount;
+
+    public ViewDrawTabGroupHeader(
+        KryptonNavigator navigator,
+        NavigatorTabGroup group,
+        NeedPaintHandler needPaint,
+        Action<NavigatorTabGroup> toggleCollapsed,
+        Action<NavigatorTabGroup>? activateGroup,
+        Func<NavigatorTabGroup, int>? memberCount = null,
+        Action<NavigatorTabGroup, DragStartEventCancelArgs>? dragStart = null,
+        Action<PointEventArgs>? dragMove = null,
+        Action<PointEventArgs>? dragEnd = null,
+        Action? dragQuit = null)
+        : base(
+            navigator.StateDisabled.MiniButton,
+            navigator.StateNormal.MiniButton,
+            navigator.StateTracking.MiniButton,
+            navigator.StatePressed.MiniButton,
+            navigator.StateNormal.MiniButton,
+            navigator.StateNormal.MiniButton,
+            navigator.StateNormal.MiniButton,
+            null,
+            new FixedContentValue(ResolveTitle(group, memberCount), string.Empty, null, Color.Empty),
+            VisualOrientation.Top,
+            false)
+    {
+        _group = group ?? throw new ArgumentNullException(nameof(group));
+        _toggleCollapsed = toggleCollapsed ?? throw new ArgumentNullException(nameof(toggleCollapsed));
+        _activateGroup = activateGroup;
+        _memberCount = memberCount;
+        _dragStart = dragStart;
+        _dragMove = dragMove;
+        _dragEnd = dragEnd;
+        _dragQuit = dragQuit;
+
+        var controller = new ButtonController(this, needPaint)
+        {
+            AllowDragging = dragStart != null
+        };
+        controller.Click += (_, _) => OnHeaderClick();
+        if (dragStart != null)
+        {
+            controller.DragStart += (_, e) => _dragStart?.Invoke(_group, e);
+            controller.DragMove += (_, e) => _dragMove?.Invoke(e);
+            controller.DragEnd += (_, e) => _dragEnd?.Invoke(e);
+            controller.DragQuit += (_, _) => _dragQuit?.Invoke();
+        }
+
+        MouseController = controller;
+        KeyController = controller;
+        SourceController = controller;
+    }
+
+    public NavigatorTabGroup Group => _group;
+
+    public override void Render(RenderContext context)
+    {
+        base.Render(context);
+
+        if (ClientRectangle.Width <= 0 || ClientRectangle.Height <= 0)
+        {
+            return;
+        }
+
+        // Bottom accent bar using the group color (does not replace palette theming).
+        var accent = new Rectangle(ClientRectangle.X, ClientRectangle.Bottom - 3, ClientRectangle.Width, 3);
+        using var brush = new SolidBrush(_group.Color);
+        context.Graphics.FillRectangle(brush, accent);
+    }
+
+    private void OnHeaderClick()
+    {
+        if (_group.Collapsed)
+        {
+            _activateGroup?.Invoke(_group);
+        }
+
+        _toggleCollapsed(_group);
+    }
+
+    private static string ResolveTitle(NavigatorTabGroup group, Func<NavigatorTabGroup, int>? memberCount)
+    {
+        string title = !string.IsNullOrEmpty(group.Title)
+            ? group.Title
+            : (string.IsNullOrEmpty(group.Id) ? "Group" : group.Id);
+
+        if (group.Collapsed && memberCount != null)
+        {
+            int count = memberCount(group);
+            if (count > 0)
+            {
+                return $"{title} ({count})";
+            }
+        }
+
+        return title;
+    }
+}

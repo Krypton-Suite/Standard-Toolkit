@@ -19,6 +19,7 @@ namespace TestForm;
 public partial class NavigatorFormIntegrationDemo : KryptonForm
 {
     private int _pageCounter = 3;
+    private byte[]? _savedLayout;
 
     public NavigatorFormIntegrationDemo()
     {
@@ -34,6 +35,16 @@ public partial class NavigatorFormIntegrationDemo : KryptonForm
         kryptonNavigatorFormIntegrator1.ShowNewTabButton = chkShowNewTabButton.Checked;
         kryptonNavigatorFormIntegrator1.NewTabButtonClick += (_, _) => BtnAddPage_Click(this, EventArgs.Empty);
         kryptonNavigatorFormIntegrator1.TabContextMenuOpening += OnTabContextMenuOpening;
+        kryptonNavigatorFormIntegrator1.TabGroupChanged += (_, _) => UpdateStatus();
+        _savedLayout = null;
+
+        // Seed a sample browser-style group so caption headers are visible immediately.
+        NavigatorTabGroup sample = kryptonNavigatorFormIntegrator1.CreateGroup("Work", Color.DodgerBlue);
+        if (kryptonNavigator1.Pages.Count >= 2)
+        {
+            kryptonNavigatorFormIntegrator1.AssignPageToGroup(kryptonNavigator1.Pages[0], sample.Id);
+            kryptonNavigatorFormIntegrator1.AssignPageToGroup(kryptonNavigator1.Pages[1], sample.Id);
+        }
 
         cmbMode.SelectedIndex = 0; // CaptionIntegrated
         chkSyncTitle.Checked = false;
@@ -83,6 +94,102 @@ public partial class NavigatorFormIntegrationDemo : KryptonForm
         UpdateStatus();
     }
 
+    private void BtnGroupSelected_Click(object? sender, EventArgs e)
+    {
+        KryptonPage? page = kryptonNavigator1.SelectedPage;
+        if (page == null)
+        {
+            return;
+        }
+
+        kryptonNavigatorFormIntegrator1.CreateGroup(assignPage: page);
+        UpdateStatus();
+    }
+
+    private void BtnSaveLayout_Click(object? sender, EventArgs e)
+    {
+        using var dialog = new SaveFileDialog
+        {
+            Filter = @"Navigator layout (*.xml)|*.xml|All files (*.*)|*.*",
+            DefaultExt = "xml",
+            FileName = @"navigator-tab-groups.xml",
+            Title = @"Save tab/group layout"
+        };
+        if (dialog.ShowDialog(this) != DialogResult.OK)
+        {
+            return;
+        }
+
+        kryptonNavigatorFormIntegrator1.SaveLayoutToFile(dialog.FileName);
+        _savedLayout = kryptonNavigatorFormIntegrator1.SaveLayoutToArray();
+        UpdateStatus();
+    }
+
+    private void BtnLoadLayout_Click(object? sender, EventArgs e)
+    {
+        using var dialog = new OpenFileDialog
+        {
+            Filter = @"Navigator layout (*.xml)|*.xml|All files (*.*)|*.*",
+            DefaultExt = "xml",
+            Title = @"Load tab/group layout"
+        };
+        if (dialog.ShowDialog(this) == DialogResult.OK)
+        {
+            kryptonNavigatorFormIntegrator1.LoadLayoutFromFile(dialog.FileName);
+            _savedLayout = kryptonNavigatorFormIntegrator1.SaveLayoutToArray();
+            UpdateStatus();
+            return;
+        }
+
+        if (_savedLayout == null || _savedLayout.Length == 0)
+        {
+            UpdateStatus();
+            return;
+        }
+
+        kryptonNavigatorFormIntegrator1.LoadLayoutFromArray(_savedLayout);
+        UpdateStatus();
+    }
+
+    protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+    {
+        if (keyData == (Keys.Control | Keys.T))
+        {
+            BtnAddPage_Click(this, EventArgs.Empty);
+            return true;
+        }
+
+        if (keyData == (Keys.Control | Keys.W))
+        {
+            KryptonPage? page = kryptonNavigator1.SelectedPage;
+            if (page != null && kryptonNavigator1.Pages.Count > 1)
+            {
+                kryptonNavigator1.Pages.Remove(page);
+                UpdateStatus();
+                return true;
+            }
+        }
+
+        if (keyData == (Keys.Control | Keys.G))
+        {
+            BtnGroupSelected_Click(this, EventArgs.Empty);
+            return true;
+        }
+
+        if (keyData == (Keys.Control | Keys.Shift | Keys.G))
+        {
+            KryptonPage? page = kryptonNavigator1.SelectedPage;
+            if (page != null && !string.IsNullOrEmpty(page.TabGroupId))
+            {
+                kryptonNavigatorFormIntegrator1.ToggleGroupCollapsed(page.TabGroupId);
+                UpdateStatus();
+                return true;
+            }
+        }
+
+        return base.ProcessCmdKey(ref msg, keyData);
+    }
+
     private void BtnAddPage_Click(object? sender, EventArgs e)
     {
         _pageCounter++;
@@ -129,6 +236,9 @@ public partial class NavigatorFormIntegrationDemo : KryptonForm
             $"Form.ControlBox={ControlBox}  " +
             $"Selected={(kryptonNavigator1.SelectedPage?.Text ?? "(none)")}  " +
             $"TearOut={kryptonNavigatorFormIntegrator1.AllowTearOut}  " +
-            $"CloseEmpty={kryptonNavigatorFormIntegrator1.CloseEmptySourceWindowAfterLastTabMoved}";
+            $"CloseEmpty={kryptonNavigatorFormIntegrator1.CloseEmptySourceWindowAfterLastTabMoved}  " +
+            $"Groups={kryptonNavigatorFormIntegrator1.TabGroups.Count}  " +
+            $"PageGroup={(kryptonNavigator1.SelectedPage?.TabGroupId ?? "(none)")}  " +
+            $"SavedLayout={(_savedLayout == null ? "none" : $"{_savedLayout.Length} bytes")}";
     }
 }

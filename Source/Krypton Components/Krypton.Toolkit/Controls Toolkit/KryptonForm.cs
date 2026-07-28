@@ -1560,6 +1560,17 @@ public class KryptonForm : VisualForm,
 	[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 	public Rectangle CustomCaptionArea { get; set; } = Rectangle.Empty;
 
+	/// <summary>
+	/// Gets or sets additional client-coordinate rectangles that act as caption drag regions.
+	/// </summary>
+	/// <remarks>
+	/// Used when multiple caption injections leave more than one spare drag band
+	/// (e.g. multi-strip document groups). When empty, only <see cref="CustomCaptionArea"/> is used.
+	/// </remarks>
+	[Browsable(false)]
+	[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+	public Rectangle[] CustomCaptionAreas { get; set; } = Array.Empty<Rectangle>();
+
 	#endregion
 
 	#region Public IContentValues
@@ -2359,13 +2370,20 @@ public class KryptonForm : VisualForm,
 
 		// Issue #2921: CustomCaptionArea is in form client coordinates (set by ribbon);
 		// hit-test pt is in window coordinates — convert for correct caption/drag detection.
-		if (!CustomCaptionArea.IsEmpty)
+		var clientPt = new Point(pt.X - borders.Left, pt.Y - borders.Top);
+		if (CustomCaptionAreas is { Length: > 0 })
 		{
-			var clientPt = new Point(pt.X - borders.Left, pt.Y - borders.Top);
-			if (CustomCaptionArea.Contains(clientPt))
+			foreach (Rectangle area in CustomCaptionAreas)
 			{
-				return new IntPtr(PI.HT.CAPTION);
+				if (!area.IsEmpty && area.Contains(clientPt))
+				{
+					return new IntPtr(PI.HT.CAPTION);
+				}
 			}
+		}
+		else if (!CustomCaptionArea.IsEmpty && CustomCaptionArea.Contains(clientPt))
+		{
+			return new IntPtr(PI.HT.CAPTION);
 		}
 
 		// Do not allow the caption to be moved or the border resized
