@@ -44,8 +44,6 @@ internal partial class VisualThemeBrowserForm : KryptonForm
 
         StartPosition = _themeBrowserData.StartPosition ?? FormStartPosition.CenterScreen;
 
-        //klbThemeList.SelectedIndex = _startIndex;
-
         klblDescription.Text = KryptonManager.Strings.MiscellaneousThemeStrings.ThemeBrowserDescription;
 
         kbtnImport.Text = KryptonManager.Strings.MiscellaneousThemeStrings.Import;
@@ -69,7 +67,14 @@ internal partial class VisualThemeBrowserForm : KryptonForm
             }
         }
 
-        klbThemeList.SelectedItem = _themeBrowserData.StartIndex;
+        int startIndex =
+            CommonHelperThemeSelectors.GetThemeBrowserStartIndex(_themeBrowserData, klbThemeList.Items,
+                new KryptonManager());
+
+        if (startIndex >= 0)
+        {
+            klbThemeList.SelectedIndex = startIndex;
+        }
     }
 
     private void kbtnOK_Click(object sender, EventArgs e) => DialogResult = DialogResult.OK;
