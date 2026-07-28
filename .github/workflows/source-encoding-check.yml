@@ -141,9 +141,15 @@ jobs:
           }
 
           if ($scanAll) {
+            Write-Host 'Scan mode: all eligible files under Source/, Documents/, .github/, and Scripts/.'
             Test-SourceEncodingIntegrity -RepoRoot $repoRoot -ScanAll -FailOnIssues
           }
           else {
+            Write-Host "Scan mode: changed paths only ($($changedPaths.Count) path(s) supplied)."
+            foreach ($changedPath in $changedPaths) {
+              Write-Host "  - $changedPath"
+            }
+
             Test-SourceEncodingIntegrity -RepoRoot $repoRoot -ChangedPaths $changedPaths -FailOnIssues
           }
 
