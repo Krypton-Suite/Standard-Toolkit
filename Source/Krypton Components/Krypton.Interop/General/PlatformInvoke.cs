@@ -4300,9 +4300,11 @@ No 	                    No 	                    Show text only
     [LibraryImport(Libraries.User32, SetLastError = true)]
     internal static partial IntPtr GetWindow(IntPtr hWnd, GetWindowType uCmd);
     #else
+
     [DllImport(Libraries.User32, SetLastError = true)]
     internal static extern IntPtr GetWindow(IntPtr hWnd, GetWindowType uCmd);
     #endif
+    
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     #if NET8_0_OR_GREATER
     [LibraryImport(Libraries.User32)]
@@ -6354,6 +6356,7 @@ No 	                    No 	                    Show text only
     [LibraryImport(Libraries.Shell32, SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
     internal static partial int SetCurrentProcessExplicitAppUserModelID( [MarshalAs(UnmanagedType.LPWStr)] string appId);
     #else
+
     [DllImport(Libraries.Shell32, CharSet = CharSet.Unicode, SetLastError = true)]
     internal static extern int SetCurrentProcessExplicitAppUserModelID(
         [MarshalAs(UnmanagedType.LPWStr)] string appId);
