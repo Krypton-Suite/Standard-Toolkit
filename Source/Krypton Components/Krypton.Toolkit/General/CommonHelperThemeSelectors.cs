@@ -225,6 +225,42 @@ internal static class CommonHelperThemeSelectors
 
         return result;
     }
+
+    /// <summary>
+    /// Resolves the initial theme list index for <see cref="KryptonThemeBrowser"/>.
+    /// Prefers <see cref="KryptonThemeBrowserData.DefaultPalette"/> over
+    /// <see cref="KryptonThemeBrowserData.StartIndex"/>, then the global default theme.
+    /// </summary>
+    /// <param name="themeBrowserData">Caller-supplied theme browser options.</param>
+    /// <param name="items">Populated theme list items.</param>
+    /// <param name="manager">Manager used when <see cref="PaletteMode.Global"/> is requested.</param>
+    /// <returns>A valid index into <paramref name="items"/>, or <c>-1</c> when the list is empty.</returns>
+    internal static int GetThemeBrowserStartIndex(KryptonThemeBrowserData themeBrowserData, IList items, KryptonManager manager)
+    {
+        if (items.Count == 0)
+        {
+            return -1;
+        }
+
+        if (themeBrowserData.DefaultPalette.HasValue)
+        {
+            int paletteIndex = GetInitialSelectedIndex(themeBrowserData.DefaultPalette.Value, manager, items);
+            if (paletteIndex >= 0)
+            {
+                return paletteIndex;
+            }
+        }
+
+        if (themeBrowserData.StartIndex.HasValue
+            && themeBrowserData.StartIndex.Value >= 0
+            && themeBrowserData.StartIndex.Value < items.Count)
+        {
+            return themeBrowserData.StartIndex.Value;
+        }
+
+        int fallbackIndex = GetPaletteIndex(items, GlobalStaticConstants.GLOBAL_DEFAULT_PALETTE_MODE);
+        return fallbackIndex >= 0 ? fallbackIndex : 0;
+    }
 }
 
 #endregion
