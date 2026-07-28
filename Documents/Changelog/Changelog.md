@@ -48,6 +48,7 @@
 
 ## 2026-10-26 - Build 2610 (Version 105-LTS - Patch 4) - October 2026
 
+* Resolved [#4060](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4060), Ribbon QAT button enumeration now uses `OfType<IQuickAccessToolbarButton>()` instead of unsafe casts
 * Implemented [#4063](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4063), `KryptonThemeBrowserData.DefaultPalette` selects the initial theme by `PaletteMode` (takes precedence over `StartIndex`)
 * Resolved [#4064](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4064), Fixed `KryptonMessageBoxIcon` and `KryptonToastIcon` design-time converters that threw when built against `MessageBoxIcon` alias values
 * Implemented [#4049](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4049), Implement the glyphs in `KryptonDomainUpDown` and `KryptonNumericUpDown`
