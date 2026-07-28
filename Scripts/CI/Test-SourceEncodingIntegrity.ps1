@@ -269,10 +269,22 @@ function Test-SourceEncodingIntegrity {
     }
 
     Write-Host "Source encoding check found $issueCount issue(s) in $fileCount file(s)."
+    Write-Host ""
+    Write-Host "Affected file(s):"
+    $affectedFiles = @($allIssues | Select-Object -ExpandProperty RelativePath -Unique | Sort-Object)
+    foreach ($affectedFile in $affectedFiles) {
+        $perFileCount = @($allIssues | Where-Object { $_.RelativePath -eq $affectedFile }).Count
+        Write-Host "  - $affectedFile ($perFileCount issue(s))"
+    }
 
+    Write-Host ""
+    Write-Host "Issue details:"
     foreach ($issue in $allIssues) {
-        $message = "$($issue.Description) :: $($issue.Preview)"
-        Write-Host "::error file=$($issue.RelativePath),line=$($issue.LineNumber),title=$($issue.IssueId):: $message"
+        # Include path:line in the message body. GitHub Actions annotations put file=/line=
+        # in metadata that is easy to miss in the raw job log.
+        $message = "$($issue.RelativePath):$($issue.LineNumber): $($issue.Description) :: $($issue.Preview)"
+        Write-Host $message
+        Write-Host "::error file=$($issue.RelativePath),line=$($issue.LineNumber),title=$($issue.IssueId)::$message"
     }
 
     if ($env:GITHUB_STEP_SUMMARY) {
@@ -280,6 +292,17 @@ function Test-SourceEncodingIntegrity {
             "## Source encoding check failed",
             "",
             "Found **$issueCount** corruption marker(s) in **$fileCount** file(s).",
+            "",
+            "### Affected file(s)",
+            ""
+        )
+
+        foreach ($affectedFile in $affectedFiles) {
+            $perFileCount = @($allIssues | Where-Object { $_.RelativePath -eq $affectedFile }).Count
+            $summary += "- ``$affectedFile`` ($perFileCount issue(s))"
+        }
+
+        $summary += @(
             "",
             "| File | Line | Issue | Preview |",
             "| --- | ---: | --- | --- |"

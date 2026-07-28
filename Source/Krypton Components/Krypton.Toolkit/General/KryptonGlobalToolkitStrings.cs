@@ -213,6 +213,11 @@ public class KryptonGlobalToolkitStrings : GlobalId
     public static KryptonToastNotificationStrings KryptonToastNotificationStrings { get; } =
         new KryptonToastNotificationStrings();
 
+    /// <summary>Gets the krypton tool strip item strings.</summary>
+    /// <value>The krypton tool strip item strings.</value>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public static KryptonToolStripItemStrings KryptonToolStripItemStrings { get; } = new KryptonToolStripItemStrings();
+
     /// <summary>Gets the krypton splash screen strings.</summary>
     /// <value>The krypton splash screen strings.</value>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -708,6 +713,20 @@ public class KryptonGlobalToolkitStrings : GlobalId
     /// <summary>Resets the krypton toast notification strings.</summary>
     public void ResetToastNotificationStrings() => KryptonToastNotificationStrings.Reset();
 
+    /// <summary>Gets the krypton tool strip item strings.</summary>
+    /// <value>The krypton tool strip item strings.</value>
+    [Category(@"Visuals")]
+    [Description(@"Collection of tool strip item strings.")]
+    [MergableProperty(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Localizable(true)]
+    public KryptonToolStripItemStrings ToolStripItemStrings => KryptonToolStripItemStrings;
+
+    private bool ShouldSerializeToolStripItemStrings() => !KryptonToolStripItemStrings.IsDefault;
+
+    /// <summary>Resets the krypton tool strip item strings.</summary>
+    public void ResetToolStripItemStrings() => KryptonToolStripItemStrings.Reset();
+
     /// <summary>Gets the krypton splash screen strings.</summary>
     /// <value>The krypton splash screen strings.</value>
     [Category(@"Visuals")]
@@ -847,7 +866,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
                                ShouldSerializeSeparatorStyleStrings() ||
                                ShouldSerializeToastNotificationIconStrings() ||
                                ShouldSerializeTabBorderStyleStrings() || ShouldSerializeTabStyleStrings() ||
-                               ShouldSerializeToastNotificationStrings() || ShouldSerializeToolBarStrings() ||
+                               ShouldSerializeToastNotificationStrings() || ShouldSerializeToolStripItemStrings() || ShouldSerializeToolBarStrings() ||
                                ShouldSerializeSplashScreenStringsStrings() || ShouldSerializeMiscellaneousStrings() ||
                                ShouldSerializeMessageBoxStringsStrings() || ShouldSerializeSystemMenuStrings() ||
                                ShouldSerializeTitleBarStrings() || ShouldSerializeEditorSettingStrings() || 
@@ -892,6 +911,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
         ResetTabBorderStyleStrings();
         ResetTabStyleStrings();
         ResetToastNotificationIconStrings();
+        ResetToolStripItemStrings();
         ResetToastNotificationStrings();
         ResetToolBarStrings();
         ResetSplashScreenStringsStrings();
