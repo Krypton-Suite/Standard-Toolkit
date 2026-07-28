@@ -3532,7 +3532,16 @@ public class KryptonRibbon : VisualSimple,
     /// <summary>
     /// Shows or hides the tab strip inside TabsArea without disturbing caption chrome.
     /// </summary>
-    private void ApplyTabHeaderVisibility() => TabsArea?.ApplyTabHeaderVisibility(_showTabHeaders);
+    private void ApplyTabHeaderVisibility()
+    {
+        TabsArea?.ApplyTabHeaderVisibility(_showTabHeaders);
+
+        // CaptionArea may show solely because contexts exist; keep that tied to tab headers.
+        CaptionArea?.UpdateVisible();
+
+        // Context titles are often injected into KryptonForm chrome — force that surface to refresh.
+        CaptionArea?.RedrawCustomChrome(true);
+    }
 
     private void OnNotificationBarDataPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {

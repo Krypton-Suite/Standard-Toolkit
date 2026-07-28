@@ -290,6 +290,14 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
         LayoutTabs.Visible = showTabHeaders;
         _leftSeparator.Visible = showTabHeaders;
         _rightSeparator.Visible = showTabHeaders;
+
+        // Context titles position themselves from tab geometry. Keep them in sync with the strip
+        // so they do not linger after a ShowTabHeaders toggle (#331).
+        _layoutContexts.Visible = showTabHeaders;
+        if (!showTabHeaders)
+        {
+            _layoutContexts.ClearContextTitles();
+        }
     }
     #endregion
 
@@ -393,10 +401,14 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
 
         // Ask the context titles to layout again to take into account any
         // change in the positions and sizes of the actual tabs that it mimics
-        Rectangle temp = context.DisplayRectangle;
-        context.DisplayRectangle = _layoutContexts.ClientRectangle;
-        _layoutContexts.Layout(context);
-        context.DisplayRectangle = temp;
+        // (skip when headers are hidden — titles are not shown in toolbar mode).
+        if (_ribbon.ShowTabHeaders)
+        {
+            Rectangle temp = context.DisplayRectangle;
+            context.DisplayRectangle = _layoutContexts.ClientRectangle;
+            _layoutContexts.Layout(context);
+            context.DisplayRectangle = temp;
+        }
 
         // If using custom chrome 
         if (_captionArea is { UsingCustomChrome: true })

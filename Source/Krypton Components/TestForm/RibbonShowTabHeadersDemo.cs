@@ -40,7 +40,7 @@ public partial class RibbonShowTabHeadersDemo : KryptonForm
         var instructions = CreateLabel(
             "Issue #331 — Compare a normal KryptonRibbon (toggle ShowTabHeaders) with KryptonRibbonToolbar " +
             "(headers off by default). Selected tab groups stay visible when headers are hidden. " +
-            "App button/QAT remain independent. Prefer a single tab for toolbar mode.",
+            "Standard ribbon includes a Tools context: context titles must show only with headers, and must not linger after headers are hidden.",
             LabelStyle.NormalControl,
             56);
 
@@ -164,6 +164,28 @@ public partial class RibbonShowTabHeadersDemo : KryptonForm
             viewGroup.Items.Add(viewTriple);
             viewTab.Groups.Add(viewGroup);
             ribbon.RibbonTabs.Add(viewTab);
+
+            // Contextual tab so ShowTabHeaders toggles can be checked against context titles.
+            var toolsContext = new KryptonRibbonContext
+            {
+                ContextName = @"Tools",
+                ContextTitle = @"Tools",
+                ContextColor = Color.Orange
+            };
+            ribbon.RibbonContexts.Add(toolsContext);
+
+            var toolsTab = new KryptonRibbonTab
+            {
+                Text = @"Drawing",
+                ContextName = @"Tools"
+            };
+            var toolsGroup = new KryptonRibbonGroup { TextLine1 = @"Draw" };
+            var toolsTriple = new KryptonRibbonGroupTriple();
+            toolsTriple.Items?.Add(new KryptonRibbonGroupButton { TextLine1 = @"Pen" });
+            toolsGroup.Items.Add(toolsTriple);
+            toolsTab.Groups.Add(toolsGroup);
+            ribbon.RibbonTabs.Add(toolsTab);
+            ribbon.SelectedContext = @"Tools";
         }
 
         ribbon.SelectedTab = homeTab;
