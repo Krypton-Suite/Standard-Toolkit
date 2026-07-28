@@ -4304,6 +4304,7 @@ No 	                    No 	                    Show text only
     [DllImport(Libraries.User32, SetLastError = true)]
     internal static extern IntPtr GetWindow(IntPtr hWnd, GetWindowType uCmd);
     #endif
+    
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     #if NET8_0_OR_GREATER
     [LibraryImport(Libraries.User32)]
