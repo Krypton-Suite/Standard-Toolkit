@@ -47,10 +47,6 @@ public sealed class KryptonManager : Component
     // Must run before any other static field that touches embedded resources (e.g. KryptonImageStorage / KryptonManager.Strings).
     private static readonly int _resourceAssemblyResolveHook = KryptonPreserializedResourceAssemblyResolve.Register();
 
-    // Conventional file names probed during auto-discovery, in priority order.
-    private static readonly string[] _autoDiscoveryFileNames =
-        new[] { @"Translations.xml", @"Translations.json" };
-
     // Initialize the default modes
 
     // Initialize instances to match the default modes
@@ -577,14 +573,17 @@ public sealed class KryptonManager : Component
 
     /// <summary>
     /// Gets or sets whether <see cref="KryptonManager"/> automatically probes the application's base
-    /// directory for a <c>Translations.xml</c> or <c>Translations.json</c> file at type-initialisation
-    /// time and loads it if found.  Defaults to <c>true</c>.
+    /// directory for culture-specific and default translation files at type-initialisation time and
+    /// loads the best match if found.  Defaults to <c>true</c>.
     /// </summary>
     /// <remarks>
     /// Set to <c>false</c> before the first use of any Krypton type to suppress auto-discovery,
     /// for example in unit-test hosts or apps that manage translations entirely in code.
     /// Auto-discovery is silent — any I/O or parse errors are swallowed and traced to
     /// <see cref="System.Diagnostics.Debug"/>.
+    /// Probe order: exact culture, neutral culture, then default basename; XML is preferred over JSON
+    /// at each level (for example <c>Translations.en-GB.xml</c> → <c>Translations.en.xml</c> →
+    /// <c>Translations.xml</c>, then the same sequence for <c>.json</c>).
     /// </remarks>
     public static bool AutoDiscoverTranslations { get; set; } = true;
 
@@ -594,23 +593,36 @@ public sealed class KryptonManager : Component
     public static event EventHandler? TranslationsImported;
 
     /// <summary>
-    /// Loads toolkit strings from the specified Translations.xml file, replacing current values.
+    /// Loads toolkit strings from the specified Translations.xml or Translations.json file, replacing current values.
     /// Call this at application startup, before any Krypton controls are shown.
     /// </summary>
-    /// <param name="path">Path to the Translations.xml file to load.</param>
+    /// <param name="path">Path to the translations file to load.</param>
     /// <param name="refreshOpenForms">When <c>true</c>, invalidates and refreshes all open forms after import.</param>
     /// <exception cref="System.IO.FileNotFoundException">Thrown when the specified file does not exist.</exception>
     public static void LoadTranslationsFromFile(string path, bool refreshOpenForms = false)
     {
-        Strings.ImportFromXmlFile(path, resetFirst: true, refreshOpenForms: refreshOpenForms);
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            throw new System.ArgumentNullException(nameof(path));
+        }
+
+        if (System.IO.Path.GetExtension(path).Equals(@".json", System.StringComparison.OrdinalIgnoreCase))
+        {
+            Strings.ImportFromJsonFile(path, resetFirst: true, refreshOpenForms: refreshOpenForms);
+        }
+        else
+        {
+            Strings.ImportFromXmlFile(path, resetFirst: true, refreshOpenForms: refreshOpenForms);
+        }
+
         OnTranslationsImported();
     }
 
     /// <summary>
-    /// Attempts to load toolkit strings from the specified Translations.xml file.
+    /// Attempts to load toolkit strings from the specified Translations.xml or Translations.json file.
     /// Returns <c>false</c> (and writes a debug trace) if the file does not exist or cannot be parsed, without throwing.
     /// </summary>
-    /// <param name="path">Path to the Translations.xml file to load.</param>
+    /// <param name="path">Path to the translations file to load.</param>
     /// <param name="refreshOpenForms">When <c>true</c>, invalidates and refreshes all open forms after import.</param>
     /// <returns><c>true</c> if translations were loaded successfully; <c>false</c> otherwise.</returns>
     public static bool TryLoadTranslationsFromFile(string path, bool refreshOpenForms = false)
@@ -633,6 +645,143 @@ public sealed class KryptonManager : Component
     }
 
     /// <summary>
+    /// Gets the culture last applied by <see cref="TrySwitchTranslationsCulture(CultureInfo, string?, string, bool)"/>
+    /// or a successful culture-specific load. May be <c>null</c> before any switch has occurred.
+    /// </summary>
+    public static CultureInfo? ActiveTranslationsCulture { get; private set; }
+
+    /// <summary>
+    /// Attempts to load the best matching culture-specific translations file from a directory.
+    /// Probe order is exact culture, neutral culture, then default basename, preferring XML over JSON
+    /// at each level. Failures are swallowed gracefully and the next candidate is tried.
+    /// </summary>
+    /// <param name="directory">Directory containing the translation files. When null/empty, uses the application base directory.</param>
+    /// <param name="culture">Culture to resolve. When null, uses <see cref="CultureInfo.CurrentUICulture"/>.</param>
+    /// <param name="baseName">Base file name without culture suffix or extension. Defaults to <c>Translations</c>.</param>
+    /// <param name="refreshOpenForms">When <c>true</c>, invalidates and refreshes all open forms after import.</param>
+    /// <returns><c>true</c> if a file was found and loaded successfully; otherwise, <c>false</c>.</returns>
+    public static bool TryLoadCultureSpecificTranslations(
+        string? directory = null,
+        CultureInfo? culture = null,
+        string baseName = @"Translations",
+        bool refreshOpenForms = false)
+    {
+        if (string.IsNullOrWhiteSpace(baseName))
+        {
+            return false;
+        }
+
+        var baseDir = string.IsNullOrWhiteSpace(directory)
+            ? System.AppDomain.CurrentDomain.BaseDirectory
+            : directory;
+
+        if (string.IsNullOrWhiteSpace(baseDir))
+        {
+            baseDir = System.IO.Directory.GetCurrentDirectory();
+        }
+
+        var resolvedCulture = culture ?? CultureInfo.CurrentUICulture;
+        foreach (var candidate in BuildCultureSpecificCandidates(baseDir!, baseName, resolvedCulture))
+        {
+            if (TryLoadTranslationsFromFile(candidate, refreshOpenForms))
+            {
+                ActiveTranslationsCulture = resolvedCulture;
+                System.Diagnostics.Debug.WriteLine($@"[Krypton] Loaded culture-specific translations from '{candidate}'.");
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Switches the current UI culture and reloads the best matching translations file for that culture.
+    /// When no matching file is found, toolkit strings are reset to built-in defaults so a previous
+    /// culture's translations are not left applied.
+    /// </summary>
+    /// <param name="culture">The culture to switch to.</param>
+    /// <param name="directory">Directory containing the translation files. When null/empty, uses the application base directory.</param>
+    /// <param name="baseName">Base file name without culture suffix or extension. Defaults to <c>Translations</c>.</param>
+    /// <param name="refreshOpenForms">When <c>true</c>, invalidates and refreshes all open forms after the switch.</param>
+    /// <returns>
+    /// <c>true</c> when a culture-specific or fallback translations file was loaded;
+    /// <c>false</c> when no file was found and built-in defaults were restored.
+    /// The UI culture is updated in both cases.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="culture"/> is <c>null</c>.</exception>
+    public static bool TrySwitchTranslationsCulture(
+        CultureInfo culture,
+        string? directory = null,
+        string baseName = @"Translations",
+        bool refreshOpenForms = true)
+    {
+        if (culture == null)
+        {
+            throw new ArgumentNullException(nameof(culture));
+        }
+
+        ApplyUiCulture(culture);
+
+        if (TryLoadCultureSpecificTranslations(directory, culture, baseName, refreshOpenForms))
+        {
+            return true;
+        }
+
+        // No matching file — clear any previously loaded translations for the prior culture.
+        Strings.Reset();
+        ActiveTranslationsCulture = culture;
+        if (refreshOpenForms)
+        {
+            ToolkitStringsXmlPersistence.RefreshOpenFormsBestEffort();
+        }
+
+        OnTranslationsImported();
+        System.Diagnostics.Debug.WriteLine(
+            $@"[Krypton] Switched UI culture to '{culture.Name}' with no matching translations file; restored built-in defaults.");
+        return false;
+    }
+
+    /// <summary>
+    /// Switches the current UI culture using a culture name (for example <c>fr-FR</c>) and reloads
+    /// the best matching translations file.
+    /// </summary>
+    /// <param name="cultureName">Culture name recognised by <see cref="CultureInfo"/>.</param>
+    /// <param name="directory">Directory containing the translation files. When null/empty, uses the application base directory.</param>
+    /// <param name="baseName">Base file name without culture suffix or extension. Defaults to <c>Translations</c>.</param>
+    /// <param name="refreshOpenForms">When <c>true</c>, invalidates and refreshes all open forms after the switch.</param>
+    /// <returns>
+    /// <c>true</c> when a translations file was loaded; <c>false</c> when the culture name is invalid
+    /// or no matching file was found (built-in defaults restored after a valid culture switch).
+    /// </returns>
+    public static bool TrySwitchTranslationsCulture(
+        string cultureName,
+        string? directory = null,
+        string baseName = @"Translations",
+        bool refreshOpenForms = true)
+    {
+        if (string.IsNullOrWhiteSpace(cultureName))
+        {
+            return false;
+        }
+
+        try
+        {
+            return TrySwitchTranslationsCulture(new CultureInfo(cultureName), directory, baseName, refreshOpenForms);
+        }
+        catch (CultureNotFoundException ex)
+        {
+            System.Diagnostics.Debug.WriteLine($@"[Krypton] TrySwitchTranslationsCulture failed for '{cultureName}': {ex.Message}");
+            return false;
+        }
+    }
+
+    private static void ApplyUiCulture(CultureInfo culture)
+    {
+        Thread.CurrentThread.CurrentUICulture = culture;
+        CultureInfo.DefaultThreadCurrentUICulture = culture;
+    }
+
+    /// <summary>
     /// Raises the <see cref="TranslationsImported"/> event.
     /// </summary>
     internal static void OnTranslationsImported() =>
@@ -645,42 +794,58 @@ public sealed class KryptonManager : Component
             return;
         }
 
-        // Prefer the executable's own directory; fall back to the current directory in edge cases.
-        var baseDir = System.AppDomain.CurrentDomain.BaseDirectory;
-        if (string.IsNullOrWhiteSpace(baseDir))
+        // Culture-aware probe with graceful fallback: exact → neutral → default; XML before JSON.
+        TryLoadCultureSpecificTranslations(refreshOpenForms: false);
+    }
+
+    private static System.Collections.Generic.IEnumerable<string> BuildCultureSpecificCandidates(
+        string directory,
+        string baseName,
+        CultureInfo culture)
+    {
+        var cultureName = culture?.Name ?? string.Empty;
+        var neutralName = string.Empty;
+
+        if (!string.IsNullOrEmpty(cultureName))
         {
-            baseDir = System.IO.Directory.GetCurrentDirectory();
+            // Prefer Parent when available (en-GB → en); fall back to a two-letter prefix.
+            if (culture != null && culture.Parent != null && !string.IsNullOrEmpty(culture.Parent.Name))
+            {
+                neutralName = culture.Parent.Name;
+            }
+            else if (cultureName.Length >= 2)
+            {
+                neutralName = cultureName.Substring(0, 2);
+            }
         }
 
-        foreach (var fileName in _autoDiscoveryFileNames)
+        var names = new System.Collections.Generic.List<string>();
+
+        void AddUnique(string name)
         {
-            var fullPath = System.IO.Path.Combine(baseDir, fileName);
-            if (!System.IO.File.Exists(fullPath))
+            if (!string.IsNullOrWhiteSpace(name) &&
+                !names.Exists(existing => string.Equals(existing, name, System.StringComparison.OrdinalIgnoreCase)))
             {
-                continue;
+                names.Add(name);
             }
+        }
 
-            try
-            {
-                if (System.IO.Path.GetExtension(fullPath).Equals(@".json", System.StringComparison.OrdinalIgnoreCase))
-                {
-                    Strings.ImportFromJsonFile(fullPath, resetFirst: true, refreshOpenForms: false);
-                }
-                else
-                {
-                    Strings.ImportFromXmlFile(fullPath, resetFirst: true, refreshOpenForms: false);
-                }
+        // Exact culture first, then neutral, then unadorned default.
+        AddUnique(cultureName);
+        AddUnique(neutralName);
+        names.Add(string.Empty);
 
-                System.Diagnostics.Debug.WriteLine($@"[Krypton] Auto-discovered and loaded translations from '{fullPath}'.");
-                OnTranslationsImported();
-            }
-            catch (System.Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($@"[Krypton] Auto-discovery failed for '{fullPath}': {ex.Message}");
-            }
+        // Prefer XML over JSON at each culture level.
+        foreach (var name in names)
+        {
+            var fileStem = string.IsNullOrEmpty(name) ? baseName : $@"{baseName}.{name}";
+            yield return System.IO.Path.Combine(directory, $@"{fileStem}.xml");
+        }
 
-            // Stop after the first file found (XML takes priority over JSON).
-            break;
+        foreach (var name in names)
+        {
+            var fileStem = string.IsNullOrEmpty(name) ? baseName : $@"{baseName}.{name}";
+            yield return System.IO.Path.Combine(directory, $@"{fileStem}.json");
         }
     }
 

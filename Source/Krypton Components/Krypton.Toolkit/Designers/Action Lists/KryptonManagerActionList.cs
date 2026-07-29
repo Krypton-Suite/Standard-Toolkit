@@ -53,6 +53,32 @@ internal class KryptonManagerActionList : DesignerActionList
         }
     }
 
+    /// <summary>
+    /// Gets and sets the designer UI culture used for toolkit translations preview.
+    /// </summary>
+    [TypeConverter(typeof(KryptonTranslationsCultureNameConverter))]
+    public string TranslationsCulture
+    {
+        get => KryptonManager.ActiveTranslationsCulture?.Name
+               ?? CultureInfo.CurrentUICulture.Name;
+
+        set
+        {
+            if (_manager == null || string.IsNullOrWhiteSpace(value))
+            {
+                return;
+            }
+
+            if (string.Equals(TranslationsCulture, value, StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+
+            KryptonManager.TrySwitchTranslationsCulture(value, refreshOpenForms: false);
+            _service?.OnComponentChanged(_manager, null, null, null);
+        }
+    }
+
     #endregion
 
     #region Implementation
@@ -103,9 +129,13 @@ internal class KryptonManagerActionList : DesignerActionList
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Import Translations from Json file...", OnImportTranslationsJson), @"Actions"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Export Translations to Json file...", OnExportTranslationsJson), @"Actions"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Generate Translation Template...", OnGenerateTemplate), @"Actions"));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Switch Translations Culture...", OnSwitchTranslationsCulture), @"Actions"));
             /*actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Add language manager", OnAddLanguageManager), "Actions"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Remove language manager", OnRemoveLanguageManager), "Actions"));
             actions.Add(new DesignerActionHeaderItem(@"Data"));*/
+            actions.Add(new DesignerActionHeaderItem(@"Translations"));
+            actions.Add(new DesignerActionPropertyItem(nameof(TranslationsCulture), @"UI Culture", @"Translations",
+                @"Switch the designer UI culture and load matching Translations.{culture}.* files with graceful fallback."));
             actions.Add(new DesignerActionHeaderItem(@"Visuals"));
             actions.Add(new DesignerActionPropertyItem(nameof(GlobalPaletteMode), @"Global Palette", @"Visuals", @"Global palette setting"));
         }
@@ -268,6 +298,158 @@ internal class KryptonManagerActionList : DesignerActionList
         {
             KryptonExceptionHandler.CaptureException(exc, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
+    }
+
+    private void OnSwitchTranslationsCulture(object? sender, EventArgs e)
+    {
+        if (_manager == null)
+        {
+            return;
+        }
+
+        try
+        {
+            using var dialog = CreateSwitchCultureDialog();
+            if (dialog.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            var result = dialog.Tag as SwitchCultureDialogResult;
+            if (result == null || string.IsNullOrWhiteSpace(result.CultureName))
+            {
+                return;
+            }
+
+            var loaded = KryptonManager.TrySwitchTranslationsCulture(
+                result.CultureName,
+                string.IsNullOrWhiteSpace(result.Directory) ? null : result.Directory,
+                refreshOpenForms: false);
+
+            _service?.OnComponentChanged(_manager, null, null, null);
+
+            KryptonMessageBox.Show(
+                loaded
+                    ? $@"Switched designer culture to '{result.CultureName}' and loaded matching translations."
+                    : $@"Switched designer culture to '{result.CultureName}'. No matching translations file was found; built-in defaults were restored.",
+                @"Switch Translations Culture",
+                KryptonMessageBoxButtons.OK,
+                loaded ? KryptonMessageBoxIcon.Information : KryptonMessageBoxIcon.Warning);
+        }
+        catch (Exception exc)
+        {
+            KryptonExceptionHandler.CaptureException(exc, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
+        }
+    }
+
+    private static Form CreateSwitchCultureDialog()
+    {
+        var form = new Form
+        {
+            Text = @"Switch Translations Culture",
+            FormBorderStyle = FormBorderStyle.FixedDialog,
+            StartPosition = FormStartPosition.CenterParent,
+            MinimizeBox = false,
+            MaximizeBox = false,
+            ShowInTaskbar = false,
+            ClientSize = new Size(460, 150)
+        };
+
+        var cultureLabel = new Label
+        {
+            AutoSize = true,
+            Text = @"Culture:",
+            Location = new Point(12, 18)
+        };
+
+        var cultureCombo = new ComboBox
+        {
+            DropDownStyle = ComboBoxStyle.DropDown,
+            Location = new Point(120, 14),
+            Width = 320
+        };
+        cultureCombo.Items.AddRange(new object[]
+        {
+            @"en-US", @"en-GB", @"de-DE", @"fr-FR", @"es-ES",
+            @"it-IT", @"pt-BR", @"ja-JP", @"zh-CN", @"ko-KR"
+        });
+        cultureCombo.Text = KryptonManager.ActiveTranslationsCulture?.Name
+                            ?? CultureInfo.CurrentUICulture.Name;
+
+        var directoryLabel = new Label
+        {
+            AutoSize = true,
+            Text = @"Directory:",
+            Location = new Point(12, 52)
+        };
+
+        var directoryBox = new TextBox
+        {
+            Location = new Point(120, 48),
+            Width = 250,
+            Text = AppDomain.CurrentDomain.BaseDirectory ?? string.Empty
+        };
+
+        var browseButton = new Button
+        {
+            Text = @"Browse...",
+            Location = new Point(376, 46),
+            Width = 64
+        };
+        browseButton.Click += (_, _) =>
+        {
+            using var folderDialog = new FolderBrowserDialog
+            {
+                Description = @"Select the folder containing Translations.{culture}.* files",
+                SelectedPath = directoryBox.Text
+            };
+
+            if (folderDialog.ShowDialog(form) == DialogResult.OK)
+            {
+                directoryBox.Text = folderDialog.SelectedPath;
+            }
+        };
+
+        var okButton = new Button
+        {
+            Text = @"OK",
+            DialogResult = DialogResult.OK,
+            Location = new Point(284, 100),
+            Width = 75
+        };
+        okButton.Click += (_, _) =>
+        {
+            form.Tag = new SwitchCultureDialogResult
+            {
+                CultureName = cultureCombo.Text?.Trim() ?? string.Empty,
+                Directory = directoryBox.Text?.Trim()
+            };
+        };
+
+        var cancelButton = new Button
+        {
+            Text = @"Cancel",
+            DialogResult = DialogResult.Cancel,
+            Location = new Point(365, 100),
+            Width = 75
+        };
+
+        form.Controls.Add(cultureLabel);
+        form.Controls.Add(cultureCombo);
+        form.Controls.Add(directoryLabel);
+        form.Controls.Add(directoryBox);
+        form.Controls.Add(browseButton);
+        form.Controls.Add(okButton);
+        form.Controls.Add(cancelButton);
+        form.AcceptButton = okButton;
+        form.CancelButton = cancelButton;
+        return form;
+    }
+
+    private sealed class SwitchCultureDialogResult
+    {
+        public string CultureName { get; set; } = string.Empty;
+        public string? Directory { get; set; }
     }
     #endregion
 }

@@ -381,6 +381,43 @@ public class DockingManagerStrings : Storage
         ImportFromXmlDocument(doc, resetFirst);
     }
 
+    /// <summary>
+    /// Exports the docking manager strings to JSON.
+    /// </summary>
+    /// <param name="includeDefaults">When <c>true</c>, emits every string even if it matches the default value.</param>
+    public string ExportToJson(bool includeDefaults = false) =>
+        ToolkitStringsJsonPersistence.Export(this, includeDefaults);
+
+    /// <summary>
+    /// Exports the docking manager strings to a JSON file.
+    /// </summary>
+    /// <param name="filename">Path to the destination file.</param>
+    /// <param name="includeDefaults">When <c>true</c>, emits every string even if it matches the default value.</param>
+    public void ExportToJsonFile(string filename, bool includeDefaults = false) =>
+        ToolkitStringsJsonPersistence.ExportToFile(this, filename, includeDefaults);
+
+    /// <summary>
+    /// Imports docking manager strings from a JSON file.
+    /// </summary>
+    /// <param name="filename">Path to the source JSON file.</param>
+    /// <param name="resetFirst">When <c>true</c>, resets all strings to defaults before applying the imported values.</param>
+    public void ImportFromJsonFile(string filename, bool resetFirst = true)
+    {
+        if (resetFirst)
+        {
+            ResetTextAutoHide();
+            ResetTextClose();
+            ResetTextCloseAllButThis();
+            ResetTextDock();
+            ResetTextFloat();
+            ResetTextHide();
+            ResetTextTabbedDocument();
+            ResetTextWindowLocation();
+        }
+
+        ToolkitStringsJsonPersistence.ImportFromFile(this, filename, resetFirst: false, refreshOpenForms: false);
+    }
+
     #endregion
 
     #region Protected

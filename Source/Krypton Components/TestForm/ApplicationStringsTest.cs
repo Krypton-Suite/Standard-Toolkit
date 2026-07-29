@@ -167,7 +167,7 @@ public partial class ApplicationStringsTest : KryptonForm
         KryptonCustomStrings.ImportFromXmlFile(ofd.FileName, resetFirst: true);
         ApplyDictionaryDemoString();
         ApplyTypedDemoString();
-        _lblStatus.Text = $@"Imported custom strings from XML: {ofd.FileName}";
+        _lblStatus.Text = ValidateCurrentCustomStrings(ofd.FileName, isJson: false);
     }
 
     private void kbtnExportJson_Click(object? sender, EventArgs e)
@@ -210,6 +210,129 @@ public partial class ApplicationStringsTest : KryptonForm
         KryptonCustomStrings.ImportFromJsonFile(ofd.FileName, resetFirst: true);
         ApplyDictionaryDemoString();
         ApplyTypedDemoString();
-        _lblStatus.Text = $@"Imported custom strings from JSON: {ofd.FileName}";
+        _lblStatus.Text = ValidateCurrentCustomStrings(ofd.FileName, isJson: true);
+    }
+
+    private string ValidateCurrentCustomStrings(string fileName, bool isJson)
+    {
+        try
+        {
+            var fromDisk = isJson
+                ? BuildExpectedSnapshotFromJson(fileName)
+                : BuildExpectedSnapshotFromXml(fileName);
+            var live = BuildLiveSnapshot();
+
+            var mismatches = new List<string>();
+            foreach (var pair in fromDisk)
+            {
+                if (!live.TryGetValue(pair.Key, out var liveValue) ||
+                    !string.Equals(liveValue, pair.Value, StringComparison.Ordinal))
+                {
+                    mismatches.Add(pair.Key);
+                }
+            }
+
+            return mismatches.Count == 0
+                ? $@"Imported and validated {System.IO.Path.GetFileName(fileName)} successfully."
+                : $@"Imported {System.IO.Path.GetFileName(fileName)} but validation failed for: {string.Join(@", ", mismatches)}";
+        }
+        catch (Exception ex)
+        {
+            return $@"Imported file but validation failed to run: {ex.Message}";
+        }
+    }
+
+    private static Dictionary<string, string> BuildExpectedSnapshotFromXml(string fileName)
+    {
+        var doc = new System.Xml.XmlDocument();
+        doc.Load(fileName);
+        var result = new Dictionary<string, string>(StringComparer.Ordinal);
+
+        var values = doc.SelectSingleNode(@"KryptonCustomTranslations/Values") as System.Xml.XmlElement;
+        if (values != null)
+        {
+            foreach (System.Xml.XmlNode node in values.ChildNodes)
+            {
+                if (node is System.Xml.XmlElement el && el.Name == @"String")
+                {
+                    result[$@"Values.{el.GetAttribute(@"Key")}"] = el.GetAttribute(@"Value");
+                }
+            }
+        }
+
+        var sets = doc.SelectSingleNode(@"KryptonCustomTranslations/StringSets") as System.Xml.XmlElement;
+        if (sets != null)
+        {
+            foreach (System.Xml.XmlNode setNode in sets.ChildNodes)
+            {
+                if (setNode is not System.Xml.XmlElement setEl || setEl.Name != @"StringSet")
+                {
+                    continue;
+                }
+
+                var name = setEl.GetAttribute(@"Name");
+                foreach (System.Xml.XmlNode propNode in setEl.ChildNodes)
+                {
+                    if (propNode is System.Xml.XmlElement propEl && propEl.HasAttribute(@"Value"))
+                    {
+                        result[$@"StringSets.{name}.{propEl.Name}"] = propEl.GetAttribute(@"Value");
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
+    private static Dictionary<string, string> BuildExpectedSnapshotFromJson(string fileName)
+    {
+        var result = new Dictionary<string, string>(StringComparer.Ordinal);
+        var json = System.IO.File.ReadAllText(fileName);
+
+        var valuesMatch = System.Text.RegularExpressions.Regex.Match(json, @"""Values""\s*:\s*\{(?<body>.*?)\}\s*,", System.Text.RegularExpressions.RegexOptions.Singleline);
+        if (valuesMatch.Success)
+        {
+            foreach (System.Text.RegularExpressions.Match pair in System.Text.RegularExpressions.Regex.Matches(valuesMatch.Groups[@"body"].Value, @"""(?<key>[^""]+)""\s*:\s*""(?<value>([^""\\]|\\.)*)"""))
+            {
+                result[$@"Values.{UnescapeJson(pair.Groups[@"key"].Value)}"] = UnescapeJson(pair.Groups[@"value"].Value);
+            }
+        }
+
+        var setsMatch = System.Text.RegularExpressions.Regex.Match(json, @"""StringSets""\s*:\s*\{(?<body>.*)\}\s*\}\s*$", System.Text.RegularExpressions.RegexOptions.Singleline);
+        if (setsMatch.Success)
+        {
+            foreach (System.Text.RegularExpressions.Match setMatch in System.Text.RegularExpressions.Regex.Matches(setsMatch.Groups[@"body"].Value, @"""(?<name>[^""]+)""\s*:\s*\{(?<props>.*?)\}", System.Text.RegularExpressions.RegexOptions.Singleline))
+            {
+                var setName = UnescapeJson(setMatch.Groups[@"name"].Value);
+                foreach (System.Text.RegularExpressions.Match pair in System.Text.RegularExpressions.Regex.Matches(setMatch.Groups[@"props"].Value, @"""(?<key>[^""]+)""\s*:\s*""(?<value>([^""\\]|\\.)*)"""))
+                {
+                    result[$@"StringSets.{setName}.{UnescapeJson(pair.Groups[@"key"].Value)}"] = UnescapeJson(pair.Groups[@"value"].Value);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    private static Dictionary<string, string> BuildLiveSnapshot()
+    {
+        var result = new Dictionary<string, string>(StringComparer.Ordinal)
+        {
+            [$@"Values.{DemoKey}"] = KryptonCustomStrings.Get(DemoKey),
+            [$@"StringSets.{DemoStringSetName}.SaveDraft"] = KryptonCustomStrings.GetStringSet<DemoAppStrings>(DemoStringSetName)?.SaveDraft ?? string.Empty,
+            [$@"StringSets.{DemoStringSetName}.DiscardChanges"] = KryptonCustomStrings.GetStringSet<DemoAppStrings>(DemoStringSetName)?.DiscardChanges ?? string.Empty
+        };
+
+        return result;
+    }
+
+    private static string UnescapeJson(string value)
+    {
+        return value
+            .Replace(@"\r", "\r")
+            .Replace(@"\n", "\n")
+            .Replace(@"\t", "\t")
+            .Replace(@"\""", @"""")
+            .Replace(@"\\", @"\");
     }
 }

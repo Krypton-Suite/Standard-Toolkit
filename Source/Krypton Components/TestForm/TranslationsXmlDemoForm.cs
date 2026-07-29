@@ -338,19 +338,15 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
     private void OnCultureChanged(object? sender, EventArgs e)
     {
         var selected = _cmbCulture.SelectedItem?.ToString();
-        if (!string.IsNullOrEmpty(selected))
+        if (string.IsNullOrEmpty(selected))
         {
-            try
-            {
-                var ci = new System.Globalization.CultureInfo(selected!);
-                System.Threading.Thread.CurrentThread.CurrentUICulture = ci;
-                _lblStatus.Text = $@"CurrentUICulture set to '{ci.Name}'. Import a file to test culture mismatch warnings.";
-            }
-            catch (System.Globalization.CultureNotFoundException)
-            {
-                _lblStatus.Text = $@"Unknown culture: {selected}";
-            }
+            return;
         }
+
+        var loaded = KryptonManager.TrySwitchTranslationsCulture(selected!, refreshOpenForms: true);
+        _lblStatus.Text = loaded
+            ? $@"Switched to '{selected}' and loaded matching translations."
+            : $@"Switched UI culture to '{selected}' (no matching translations file; restored built-in defaults).";
     }
 
     private static void CollectValues(System.Xml.XmlElement element, string prefix, System.Collections.Generic.Dictionary<string, string?> result)

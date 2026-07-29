@@ -490,5 +490,43 @@ public class WorkspaceMenus : Storage
         ImportFromXmlDocument(doc, resetFirst);
     }
 
+    /// <summary>
+    /// Exports the workspace page-menu strings to JSON.
+    /// </summary>
+    /// <param name="includeDefaults">When <c>true</c>, emits every string even if it matches the default value.</param>
+    public string ExportToJson(bool includeDefaults = false) =>
+        ToolkitStringsJsonPersistence.Export(this, includeDefaults);
+
+    /// <summary>
+    /// Exports the workspace page-menu strings to a JSON file.
+    /// </summary>
+    /// <param name="filename">Path to the destination file.</param>
+    /// <param name="includeDefaults">When <c>true</c>, emits every string even if it matches the default value.</param>
+    public void ExportToJsonFile(string filename, bool includeDefaults = false) =>
+        ToolkitStringsJsonPersistence.ExportToFile(this, filename, includeDefaults);
+
+    /// <summary>
+    /// Imports workspace page-menu strings from a JSON file.
+    /// </summary>
+    /// <param name="filename">Path to the source JSON file.</param>
+    /// <param name="resetFirst">When <c>true</c>, resets all strings to defaults before applying the imported values.</param>
+    public void ImportFromJsonFile(string filename, bool resetFirst = true)
+    {
+        if (resetFirst)
+        {
+            ResetTextClose();
+            ResetTextCloseAllButThis();
+            ResetTextMoveNext();
+            ResetTextMovePrevious();
+            ResetTextSplitVertical();
+            ResetTextSplitHorizontal();
+            ResetTextRebalance();
+            ResetTextMaximize();
+            ResetTextRestore();
+        }
+
+        ToolkitStringsJsonPersistence.ImportFromFile(this, filename, resetFirst: false, refreshOpenForms: false);
+    }
+
     #endregion
 }

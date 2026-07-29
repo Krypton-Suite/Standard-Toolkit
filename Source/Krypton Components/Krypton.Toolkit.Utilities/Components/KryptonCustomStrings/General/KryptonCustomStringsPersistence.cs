@@ -52,6 +52,16 @@ internal static class KryptonCustomStringsPersistence
         ExportToXmlDocument(includeDefaults).Save(filename);
     }
 
+    public static void ExportToXmlStream(Stream stream, bool includeDefaults)
+    {
+        if (stream == null)
+        {
+            throw new ArgumentNullException(nameof(stream));
+        }
+
+        ExportToXmlDocument(includeDefaults).Save(stream);
+    }
+
     public static void ImportFromXmlFile(string filename, bool resetFirst)
     {
         if (string.IsNullOrWhiteSpace(filename))
@@ -61,6 +71,18 @@ internal static class KryptonCustomStringsPersistence
 
         var doc = new XmlDocument();
         doc.Load(filename);
+        ImportFromXmlDocument(doc, resetFirst);
+    }
+
+    public static void ImportFromXmlStream(Stream stream, bool resetFirst)
+    {
+        if (stream == null)
+        {
+            throw new ArgumentNullException(nameof(stream));
+        }
+
+        var doc = new XmlDocument();
+        doc.Load(stream);
         ImportFromXmlDocument(doc, resetFirst);
     }
 
@@ -92,6 +114,7 @@ internal static class KryptonCustomStringsPersistence
 
         ImportValues(root);
         ImportStringSets(root);
+        KryptonCustomStrings.OnCustomStringsImported();
     }
 
     public static string ExportToJson(bool includeDefaults)
@@ -118,6 +141,17 @@ internal static class KryptonCustomStringsPersistence
         File.WriteAllText(filename, ExportToJson(includeDefaults), Encoding.UTF8);
     }
 
+    public static void ExportToJsonStream(Stream stream, bool includeDefaults)
+    {
+        if (stream == null)
+        {
+            throw new ArgumentNullException(nameof(stream));
+        }
+
+        var bytes = Encoding.UTF8.GetBytes(ExportToJson(includeDefaults));
+        stream.Write(bytes, 0, bytes.Length);
+    }
+
     public static void ImportFromJsonFile(string filename, bool resetFirst)
     {
         if (string.IsNullOrWhiteSpace(filename))
@@ -127,6 +161,17 @@ internal static class KryptonCustomStringsPersistence
 
         var json = File.ReadAllText(filename, Encoding.UTF8);
         ImportFromJson(json, resetFirst);
+    }
+
+    public static void ImportFromJsonStream(Stream stream, bool resetFirst)
+    {
+        if (stream == null)
+        {
+            throw new ArgumentNullException(nameof(stream));
+        }
+
+        using var reader = new StreamReader(stream, Encoding.UTF8);
+        ImportFromJson(reader.ReadToEnd(), resetFirst);
     }
 
     public static void ImportFromJson(string json, bool resetFirst)
@@ -167,6 +212,8 @@ internal static class KryptonCustomStringsPersistence
                 }
             }
         }
+
+        KryptonCustomStrings.OnCustomStringsImported();
     }
 
     private static void ExportValues(XmlDocument doc, XmlElement root)

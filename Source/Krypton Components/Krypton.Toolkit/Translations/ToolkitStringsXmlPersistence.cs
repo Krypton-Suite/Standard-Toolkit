@@ -131,7 +131,7 @@ internal static class ToolkitStringsXmlPersistence
         Import(toolkitStrings, doc, resetFirst, refreshOpenForms, warnOnCultureMismatch);
     }
 
-    private static void RefreshOpenFormsBestEffort()
+    internal static void RefreshOpenFormsBestEffort()
     {
         foreach (Form? form in Application.OpenForms)
         {
