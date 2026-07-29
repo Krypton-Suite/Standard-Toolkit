@@ -194,7 +194,7 @@ internal class ViewDrawRibbonCaptionArea : ViewDrawDocker
 	/// Fix:3203 Ribbon: QATLocation=Hidden does not hide QAT
 	public void UpdateVisible() => Visible = !_integrated &&
 											 ((_ribbon.QATLocation == QATLocation.Above) ||
-											  (_ribbon.RibbonContexts.Count > 0));
+											  (_ribbon.ShowTabHeaders && _ribbon.RibbonContexts.Count > 0));
 	#endregion
 
 	#region VisibleQAT

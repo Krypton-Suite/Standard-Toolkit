@@ -88,6 +88,7 @@
     <EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroup.bmp" />
     <EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonTab.bmp" />
     <EmbeddedResource Include="ToolboxBitmaps\KryptonRibbon.bmp" />
+    <EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonToolbar.bmp" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Controls Ribbon Install\KryptonGalleryLicence.cs" />
