@@ -334,6 +334,26 @@ public class KryptonGlobalToolkitStrings : GlobalId
     private bool ShouldSerializeGeneralStrings() => !GeneralToolkitStrings.IsDefault;
     private void ResetGeneralStrings() => GeneralToolkitStrings.Reset();
 
+    /// <summary>
+    /// Gets or sets whether matching toolkit strings prefer text from the installed Windows language pack (MUI).
+    /// </summary>
+    /// <remarks>
+    /// When enabled, general dialog buttons load from <c>user32.dll</c>.
+    /// Custom XML/JSON translations still apply when this is <c>false</c>.
+    /// Default is <c>false</c>.
+    /// </remarks>
+    [Category(@"Visuals")]
+    [Description(@"When true, matching dialog strings use the installed Windows language pack.")]
+    [DefaultValue(false)]
+    public bool UseWindowsLanguagePackStrings
+    {
+        get => GeneralToolkitStrings.UseOSStrings;
+        set => GeneralToolkitStrings.UseOSStrings = value;
+    }
+
+    private bool ShouldSerializeUseWindowsLanguagePackStrings() => UseWindowsLanguagePackStrings;
+    private void ResetUseWindowsLanguagePackStrings() => UseWindowsLanguagePackStrings = false;
+
     /// <summary>Gets the integrated toolbar button strings.</summary>
     /// <value>The integrated toolbar button strings.</value>
     [Category(@"Visuals")]
@@ -712,6 +732,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
                                ShouldSerializeButtonSpecStyleStrings() || ShouldSerializeButtonStyleStrings() ||
                                ShouldSerializeColorStrings() || ShouldSerializeCustomStrings() ||
                                ShouldSerializeGeneralRibbonStrings() || ShouldSerializeGeneralStrings() ||
+                               ShouldSerializeUseWindowsLanguagePackStrings() ||
                                ShouldSerializeGridStyleStrings() || ShouldSerializeGridViewStyleStrings() ||
                                ShouldSerializeHeaderGroupCollapsedTargetStrings() ||
                                ShouldSerializeHeaderStyleStrings() || ShouldSerializeInputControlStyleStrings() ||
@@ -744,6 +765,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
         ResetColorStrings();
         ResetCustomStrings();
         ResetGeneralRibbonStrings();
+        ResetUseWindowsLanguagePackStrings();
         ResetGeneralStrings();
         ResetGridStyleStrings();
         ResetGridViewStyleStrings();
@@ -774,6 +796,100 @@ public class KryptonGlobalToolkitStrings : GlobalId
         ResetSearchBoxStrings();
         ResetSystemMenuStrings();
     }
+
+    #endregion
+
+    #region Translations Persistence
+
+    /// <summary>
+    /// Exports the current Krypton toolkit string set to a versioned XML document.
+    /// </summary>
+    public XmlDocument ExportToXmlDocument(bool includeDefaults = false) => ToolkitStringsXmlPersistence.Export(this, includeDefaults);
+
+    /// <summary>
+    /// Exports the current Krypton toolkit string set to a versioned XML file.
+    /// </summary>
+    public void ExportToXmlFile(string filename, bool includeDefaults = false)
+    {
+        if (string.IsNullOrWhiteSpace(filename))
+        {
+            throw new ArgumentNullException(nameof(filename));
+        }
+
+        var doc = ExportToXmlDocument(includeDefaults);
+        doc.Save(filename);
+    }
+
+    /// <summary>
+    /// Imports toolkit strings from the specified versioned XML document.
+    /// </summary>
+    /// <param name="doc">The XML document to import from.</param>
+    /// <param name="resetFirst">When <c>true</c>, resets all strings to their defaults before applying the file values.</param>
+    /// <param name="refreshOpenForms">When <c>true</c>, invalidates and refreshes all open forms after import.</param>
+    /// <param name="warnOnCultureMismatch">When <c>true</c>, writes a debug warning if the file culture differs from the current UI culture.</param>
+    public void ImportFromXmlDocument(XmlDocument doc, bool resetFirst = true, bool refreshOpenForms = true, bool warnOnCultureMismatch = true) =>
+        ToolkitStringsXmlPersistence.Import(this, doc, resetFirst, refreshOpenForms, warnOnCultureMismatch);
+
+    /// <summary>
+    /// Imports toolkit strings from a versioned XML file.
+    /// </summary>
+    /// <param name="filename">Path to the Translations.xml file.</param>
+    /// <param name="resetFirst">When <c>true</c>, resets all strings to their defaults before applying the file values.</param>
+    /// <param name="refreshOpenForms">When <c>true</c>, invalidates and refreshes all open forms after import.</param>
+    /// <param name="warnOnCultureMismatch">When <c>true</c>, writes a debug warning if the file culture differs from the current UI culture.</param>
+    public void ImportFromXmlFile(string filename, bool resetFirst = true, bool refreshOpenForms = true, bool warnOnCultureMismatch = true)
+    {
+        if (string.IsNullOrWhiteSpace(filename))
+        {
+            throw new ArgumentNullException(nameof(filename));
+        }
+
+        var doc = new XmlDocument();
+        doc.Load(filename);
+        ImportFromXmlDocument(doc, resetFirst, refreshOpenForms, warnOnCultureMismatch);
+    }
+
+    /// <summary>
+    /// Exports the current toolkit string set to the specified stream.
+    /// </summary>
+    /// <param name="stream">The stream to write the XML to.</param>
+    /// <param name="includeDefaults">When <c>true</c>, writes every string even if it matches the default value.</param>
+    public void ExportToStream(Stream stream, bool includeDefaults = false) =>
+        ToolkitStringsXmlPersistence.ExportToStream(this, stream, includeDefaults);
+
+    /// <summary>
+    /// Imports toolkit strings from the specified stream containing a versioned Translations.xml document.
+    /// </summary>
+    /// <param name="stream">The stream to read the XML from.</param>
+    /// <param name="resetFirst">When <c>true</c>, resets all strings to their defaults before applying the file values.</param>
+    /// <param name="refreshOpenForms">When <c>true</c>, invalidates and refreshes all open forms after import.</param>
+    /// <param name="warnOnCultureMismatch">When <c>true</c>, writes a debug warning if the file culture differs from the current UI culture.</param>
+    public void ImportFromStream(Stream stream, bool resetFirst = true, bool refreshOpenForms = true, bool warnOnCultureMismatch = true) =>
+        ToolkitStringsXmlPersistence.ImportFromStream(this, stream, resetFirst, refreshOpenForms, warnOnCultureMismatch);
+
+    /// <summary>
+    /// Exports the current toolkit string set to a JSON string.
+    /// </summary>
+    /// <param name="includeDefaults">When <c>true</c>, writes every string even if it matches the default value.</param>
+    public string ExportToJson(bool includeDefaults = false) =>
+        ToolkitStringsJsonPersistence.Export(this, includeDefaults);
+
+    /// <summary>
+    /// Exports the current toolkit string set to a JSON file.
+    /// </summary>
+    /// <param name="filename">Path to the destination file.</param>
+    /// <param name="includeDefaults">When <c>true</c>, writes every string even if it matches the default value.</param>
+    public void ExportToJsonFile(string filename, bool includeDefaults = false) =>
+        ToolkitStringsJsonPersistence.ExportToFile(this, filename, includeDefaults);
+
+    /// <summary>
+    /// Imports toolkit strings from a JSON file.
+    /// </summary>
+    /// <param name="filename">Path to the JSON file.</param>
+    /// <param name="resetFirst">When <c>true</c>, resets all strings to their defaults before applying the file values.</param>
+    /// <param name="refreshOpenForms">When <c>true</c>, invalidates and refreshes all open forms after import.</param>
+    public void ImportFromJsonFile(string filename, bool resetFirst = true, bool refreshOpenForms = true) =>
+        ToolkitStringsJsonPersistence.ImportFromFile(this, filename, resetFirst, refreshOpenForms);
 
     #endregion
 }

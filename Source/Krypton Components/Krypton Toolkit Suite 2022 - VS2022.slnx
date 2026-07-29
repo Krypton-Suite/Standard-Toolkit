@@ -7,6 +7,9 @@
     <BuildType Name="Release" />
   </Configurations>
   <Folder Name="/Solution Items/" />
+  <Folder Name="/Solution Items/Assets/">
+    <File Path="../../Documents/Assets/Translations.xsd" />
+  </Folder>
   <Folder Name="/Solution Items/Build System/">
     <File Path="../.editorconfig" />
     <Project Path="../../Scripts/ModernBuild/ModernBuild.csproj">
