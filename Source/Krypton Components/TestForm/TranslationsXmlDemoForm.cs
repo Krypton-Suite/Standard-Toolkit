@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -110,7 +110,7 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
         {
             KryptonManager.Strings.UseWindowsLanguagePackStrings = _chkUseWindowsLanguagePack.Checked;
             UpdateDisplayedStrings();
-            _lblStatus.Text = _chkUseWindowsLanguagePack.Checked
+            _lblStatus?.Text = _chkUseWindowsLanguagePack.Checked
                 ? @"Using Windows language-pack strings for matching dialog / Explorer labels."
                 : @"Using toolkit / custom translation strings.";
         };

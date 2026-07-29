@@ -1663,12 +1663,12 @@ public sealed class KryptonManager : Component
     public static PaletteMicrosoft365Black PaletteMicrosoft365Black => _paletteMicrosoft365Black ??= new PaletteMicrosoft365Black();
 
     /// <summary>
-    /// Gets the palette Microsft 365 black dark mode.
+    /// Gets the palette Microsoft 365 black dark mode.
     /// </summary>
     public static PaletteMicrosoft365BlackDarkMode PaletteMicrosoft365BlackDarkMode => _paletteMicrosoft365BlackDarkMode ??= new PaletteMicrosoft365BlackDarkMode();
 
     /// <summary>
-    /// Gets the palette Microsft 365 black dark mode alternate.
+    /// Gets the palette Microsoft 365 black dark mode alternate.
     /// </summary>
     public static PaletteMicrosoft365BlackDarkModeAlternate PaletteMicrosoft365BlackDarkModeAlternate => _paletteMicrosoft365BlackDarkModeAlternate ??= new PaletteMicrosoft365BlackDarkModeAlternate();
 

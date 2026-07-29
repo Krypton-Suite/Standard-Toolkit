@@ -411,7 +411,7 @@ internal class KryptonManagerActionList : DesignerActionList
         {
             Location = new Point(120, 48),
             Width = 250,
-            Text = AppDomain.CurrentDomain.BaseDirectory ?? string.Empty
+            Text = AppDomain.CurrentDomain.BaseDirectory
         };
 
         var browseButton = new KryptonButton
@@ -445,8 +445,8 @@ internal class KryptonManagerActionList : DesignerActionList
         {
             form.Tag = new SwitchCultureDialogResult
             {
-                CultureName = cultureCombo.Text?.Trim() ?? string.Empty,
-                Directory = directoryBox.Text?.Trim()
+                CultureName = cultureCombo.Text.Trim(),
+                Directory = directoryBox.Text.Trim()
             };
         };
 

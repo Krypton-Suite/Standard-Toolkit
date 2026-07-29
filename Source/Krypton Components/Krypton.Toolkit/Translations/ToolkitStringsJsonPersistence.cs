@@ -19,7 +19,7 @@ internal static class ToolkitStringsJsonPersistence
     /// <summary>
     /// Exports toolkit strings to a JSON string.
     /// </summary>
-    public static string Export(Object toolkitStrings, bool includeDefaults)
+    public static string Export(object toolkitStrings, bool includeDefaults)
     {
         if (toolkitStrings == null)
         {
@@ -32,7 +32,7 @@ internal static class ToolkitStringsJsonPersistence
         sb.AppendLine($@"  ""{CultureKey}"": ""{EscapeJsonString(Thread.CurrentThread.CurrentUICulture.Name)}"",");
         sb.AppendLine($@"  ""{GeneratedKey}"": ""{EscapeJsonString(DateTime.Now.ToString(CultureInfo.InvariantCulture))}"",");
 
-        ExportObject(sb, toolkitStrings, includeDefaults, indent: 1, trailingComma: false);
+        ExportObject(sb, toolkitStrings, includeDefaults, indent: 1, trailingCommand: false);
 
         sb.AppendLine(@"}");
         return sb.ToString();
@@ -41,7 +41,7 @@ internal static class ToolkitStringsJsonPersistence
     /// <summary>
     /// Exports toolkit strings to a JSON file.
     /// </summary>
-    public static void ExportToFile(Object toolkitStrings, string filename, bool includeDefaults = false)
+    public static void ExportToFile(object toolkitStrings, string filename, bool includeDefaults = false)
     {
         if (string.IsNullOrWhiteSpace(filename))
         {
@@ -55,7 +55,7 @@ internal static class ToolkitStringsJsonPersistence
     /// <summary>
     /// Exports toolkit strings to a stream as JSON.
     /// </summary>
-    public static void ExportToStream(Object toolkitStrings, Stream stream, bool includeDefaults = false)
+    public static void ExportToStream(object toolkitStrings, Stream stream, bool includeDefaults = false)
     {
         if (stream == null)
         {
@@ -70,7 +70,7 @@ internal static class ToolkitStringsJsonPersistence
     /// <summary>
     /// Imports toolkit strings from a JSON file.
     /// </summary>
-    public static void ImportFromFile(Object toolkitStrings, string filename, bool resetFirst = true, bool refreshOpenForms = true)
+    public static void ImportFromFile(object toolkitStrings, string filename, bool resetFirst = true, bool refreshOpenForms = true)
     {
         if (string.IsNullOrWhiteSpace(filename))
         {
@@ -84,7 +84,7 @@ internal static class ToolkitStringsJsonPersistence
     /// <summary>
     /// Imports toolkit strings from a JSON stream.
     /// </summary>
-    public static void ImportFromStream(Object toolkitStrings, Stream stream, bool resetFirst = true, bool refreshOpenForms = true)
+    public static void ImportFromStream(object toolkitStrings, Stream stream, bool resetFirst = true, bool refreshOpenForms = true)
     {
         if (stream == null)
         {
@@ -101,7 +101,7 @@ internal static class ToolkitStringsJsonPersistence
     /// Uses the XML persistence helper by converting the JSON to an in-memory XmlDocument,
     /// keeping the import logic (reset, refresh, culture) centralised.
     /// </summary>
-    public static void ImportFromJson(Object toolkitStrings, string json, bool resetFirst = true, bool refreshOpenForms = true)
+    public static void ImportFromJson(object toolkitStrings, string json, bool resetFirst = true, bool refreshOpenForms = true)
     {
         if (toolkitStrings == null)
         {
@@ -121,7 +121,7 @@ internal static class ToolkitStringsJsonPersistence
 
     #region Export helpers
 
-    private static void ExportObject(StringBuilder sb, Object obj, bool includeDefaults, int indent, bool trailingComma)
+    private static void ExportObject(StringBuilder sb, object obj, bool includeDefaults, int indent, bool trailingCommand)
     {
         var objType = obj.GetType();
         var props = objType.GetProperties(BindingFlags.Instance | BindingFlags.Public);
@@ -178,7 +178,7 @@ internal static class ToolkitStringsJsonPersistence
                 {
                     var pad = new string(' ', (indent + 1) * 2);
                     sb.AppendLine($@"{pad}""{EscapeJsonString(capturedName)}"": {{");
-                    ExportObject(sb, capturedNested, includeDefaults, indent + 1, trailingComma: false);
+                    ExportObject(sb, capturedNested, includeDefaults, indent + 1, trailingCommand: false);
                     sb.Append($@"{pad}}}");
                 });
             }
@@ -199,7 +199,7 @@ internal static class ToolkitStringsJsonPersistence
             return value == null && defaultAttr != null;
         }
 
-        return String.Equals(value, defaultAttr.Value as string, StringComparison.Ordinal);
+        return string.Equals(value, defaultAttr.Value as string, StringComparison.Ordinal);
     }
 
     private static string EscapeJsonString(string s)

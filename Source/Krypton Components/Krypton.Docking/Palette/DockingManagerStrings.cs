@@ -324,7 +324,7 @@ public class DockingManagerStrings : Storage
     /// Exports the docking manager strings to a versioned XML document.
     /// </summary>
     /// <param name="includeDefaults">When <c>true</c>, emits every string even if it matches the default value.</param>
-    public System.Xml.XmlDocument ExportToXmlDocument(bool includeDefaults = false) =>
+    public XmlDocument ExportToXmlDocument(bool includeDefaults = false) =>
         ToolkitStringsXmlPersistence.Export(this, includeDefaults);
 
     /// <summary>
@@ -336,7 +336,7 @@ public class DockingManagerStrings : Storage
     {
         if (string.IsNullOrWhiteSpace(filename))
         {
-            throw new System.ArgumentNullException(nameof(filename));
+            throw new ArgumentNullException(nameof(filename));
         }
 
         ExportToXmlDocument(includeDefaults).Save(filename);
@@ -347,7 +347,7 @@ public class DockingManagerStrings : Storage
     /// </summary>
     /// <param name="doc">The XML document to import from.</param>
     /// <param name="resetFirst">When <c>true</c>, resets all strings to defaults before applying the imported values.</param>
-    public void ImportFromXmlDocument(System.Xml.XmlDocument doc, bool resetFirst = true)
+    public void ImportFromXmlDocument(XmlDocument doc, bool resetFirst = true)
     {
         if (resetFirst)
         {
@@ -373,10 +373,10 @@ public class DockingManagerStrings : Storage
     {
         if (string.IsNullOrWhiteSpace(filename))
         {
-            throw new System.ArgumentNullException(nameof(filename));
+            throw new ArgumentNullException(nameof(filename));
         }
 
-        var doc = new System.Xml.XmlDocument();
+        var doc = new XmlDocument();
         doc.Load(filename);
         ImportFromXmlDocument(doc, resetFirst);
     }

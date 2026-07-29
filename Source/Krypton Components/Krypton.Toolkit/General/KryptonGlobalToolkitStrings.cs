@@ -1005,7 +1005,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
     /// </summary>
     /// <param name="stream">The stream to write the XML to.</param>
     /// <param name="includeDefaults">When <c>true</c>, writes every string even if it matches the default value.</param>
-    public void ExportToStream(System.IO.Stream stream, bool includeDefaults = false) =>
+    public void ExportToStream(Stream stream, bool includeDefaults = false) =>
         ToolkitStringsXmlPersistence.ExportToStream(this, stream, includeDefaults);
 
     /// <summary>
@@ -1015,7 +1015,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
     /// <param name="resetFirst">When <c>true</c>, resets all strings to their defaults before applying the file values.</param>
     /// <param name="refreshOpenForms">When <c>true</c>, invalidates and refreshes all open forms after import.</param>
     /// <param name="warnOnCultureMismatch">When <c>true</c>, writes a debug warning if the file culture differs from the current UI culture.</param>
-    public void ImportFromStream(System.IO.Stream stream, bool resetFirst = true, bool refreshOpenForms = true, bool warnOnCultureMismatch = true) =>
+    public void ImportFromStream(Stream stream, bool resetFirst = true, bool refreshOpenForms = true, bool warnOnCultureMismatch = true) =>
         ToolkitStringsXmlPersistence.ImportFromStream(this, stream, resetFirst, refreshOpenForms, warnOnCultureMismatch);
 
     /// <summary>

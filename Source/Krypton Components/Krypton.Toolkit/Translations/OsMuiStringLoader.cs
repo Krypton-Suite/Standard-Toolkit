@@ -31,7 +31,7 @@ internal static class OsMuiStringLoader
 
         try
         {
-            using SafeModuleHandle? hModule = PI.LoadLibraryEx(
+            using SafeModuleHandle hModule = PI.LoadLibraryEx(
                 moduleFileName,
                 IntPtr.Zero,
                 PI.LoadLibraryExFlags.LoadLibraryAsDatafile | PI.LoadLibraryExFlags.LoadLibrarySearchSystem32);
