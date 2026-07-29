@@ -26,6 +26,7 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
     private readonly KryptonButton _btnReset;
     private readonly KryptonButton _btnValidate;
     private readonly KryptonCheckBox _chkIncludeDefaults;
+    private readonly KryptonCheckBox _chkUseWindowsLanguagePack;
     private readonly KryptonComboBox _cmbCulture;
 
     // Path of the most recently imported/exported file, used for round-trip validation.
@@ -46,8 +47,9 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
             Height = 90,
             Text =
                 @"1) Edit the OK/Cancel strings and click Apply." + Environment.NewLine +
-                @"2) Check 'Include defaults' to export all strings (useful for exploring the full string set)." + Environment.NewLine +
-                @"3) Click Export to save, then Import to reload. Click Validate to verify the round-trip."
+                @"2) Optionally enable 'Use Windows language pack' to load OK/Cancel from the OS MUI (overrides edits while checked)." + Environment.NewLine +
+                @"3) Check 'Include defaults' to export all strings (useful for exploring the full string set)." + Environment.NewLine +
+                @"4) Click Export to save, then Import to reload. Click Validate to verify the round-trip."
         };
 
         var editsPanel = new KryptonPanel
@@ -89,7 +91,7 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
         var optionsPanel = new KryptonPanel
         {
             Dock = DockStyle.Top,
-            Height = 36,
+            Height = 64,
             Padding = new Padding(12, 4, 12, 4)
         };
         _chkIncludeDefaults = new KryptonCheckBox
@@ -97,6 +99,20 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
             LabelStyle = LabelStyle.NormalPanel,
             Values = { Text = @"Include defaults in export (shows all overridable strings)" },
             Checked = false
+        };
+        _chkUseWindowsLanguagePack = new KryptonCheckBox
+        {
+            LabelStyle = LabelStyle.NormalPanel,
+            Values = { Text = @"Use Windows language pack strings" },
+            Checked = KryptonManager.Strings.UseWindowsLanguagePackStrings
+        };
+        _chkUseWindowsLanguagePack.CheckedChanged += (_, _) =>
+        {
+            KryptonManager.Strings.UseWindowsLanguagePackStrings = _chkUseWindowsLanguagePack.Checked;
+            UpdateDisplayedStrings();
+            _lblStatus.Text = _chkUseWindowsLanguagePack.Checked
+                ? @"Using Windows language-pack strings for matching dialog / Explorer labels."
+                : @"Using toolkit / custom translation strings.";
         };
 
         var cultureLabel = new KryptonWrapLabel
@@ -128,10 +144,11 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
         {
             Dock = DockStyle.Fill,
             FlowDirection = FlowDirection.LeftToRight,
-            WrapContents = false,
+            WrapContents = true,
             AutoSize = true
         };
         optionsFlow.Controls.Add(_chkIncludeDefaults);
+        optionsFlow.Controls.Add(_chkUseWindowsLanguagePack);
         optionsFlow.Controls.Add(cultureLabel);
         optionsFlow.Controls.Add(_cmbCulture);
         optionsPanel.Controls.Add(optionsFlow);
@@ -254,6 +271,7 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
         _btnReset.Click += (_, _) =>
         {
             KryptonManager.Strings.Reset();
+            _chkUseWindowsLanguagePack.Checked = KryptonManager.Strings.UseWindowsLanguagePackStrings;
             UpdateDisplayedStrings();
             _lblStatus.Text = @"Reset to default translations.";
         };

@@ -211,41 +211,8 @@ public class KryptonFileSystemListViewStrings : Storage
     /// <param name="defaultValue">The default value to use if OS string cannot be loaded.</param>
     /// <param name="cache">Reference to the cached value.</param>
     /// <returns>The OS string if available, otherwise the default value.</returns>
-    private static string GetOSString(uint resourceId, string defaultValue, ref string? cache)
-    {
-        // Return cached value if available
-        if (cache != null)
-        {
-            return cache;
-        }
-
-        try
-        {
-            // Load shell32.dll as a data file (read-only, no code execution)
-            using SafeModuleHandle? hModule = PI.LoadLibraryEx(
-                Libraries.Shell32,
-                IntPtr.Zero,
-                PI.LoadLibraryExFlags.LoadLibraryAsDatafile | PI.LoadLibraryExFlags.LoadLibrarySearchSystem32);
-
-            if (!hModule.IsInvalid)
-            {
-                string loaded = PI.LoadString(hModule, resourceId);
-                if (loaded.Length > 0)
-                {
-                    cache = loaded;
-                    return cache;
-                }
-            }
-        }
-        catch
-        {
-            // If anything fails, fall through to default value
-        }
-
-        // Fallback to default value and cache it
-        cache = defaultValue;
-        return defaultValue;
-    }
+    private static string GetOSString(uint resourceId, string defaultValue, ref string? cache) =>
+        OsMuiStringLoader.Load(Libraries.Shell32, resourceId, defaultValue, ref cache);
 
     #endregion
 

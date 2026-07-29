@@ -372,6 +372,30 @@ public class KryptonGlobalToolkitStrings : GlobalId
     private bool ShouldSerializeGeneralStrings() => !GeneralToolkitStrings.IsDefault;
     private void ResetGeneralStrings() => GeneralToolkitStrings.Reset();
 
+    /// <summary>
+    /// Gets or sets whether matching toolkit strings prefer text from the installed Windows language pack (MUI).
+    /// </summary>
+    /// <remarks>
+    /// When enabled, general dialog buttons load from <c>user32.dll</c> and file-system list column headers
+    /// load from <c>shell32.dll</c>. Custom XML/JSON translations still apply when this is <c>false</c>.
+    /// Default is <c>false</c>.
+    /// </remarks>
+    [Category(@"Visuals")]
+    [Description(@"When true, matching dialog and Explorer-style strings use the installed Windows language pack.")]
+    [DefaultValue(false)]
+    public bool UseWindowsLanguagePackStrings
+    {
+        get => GeneralToolkitStrings.UseOSStrings && KryptonFileSystemListViewStrings.UseOSStrings;
+        set
+        {
+            GeneralToolkitStrings.UseOSStrings = value;
+            KryptonFileSystemListViewStrings.UseOSStrings = value;
+        }
+    }
+
+    private bool ShouldSerializeUseWindowsLanguagePackStrings() => UseWindowsLanguagePackStrings;
+    private void ResetUseWindowsLanguagePackStrings() => UseWindowsLanguagePackStrings = false;
+
     [Category(@"Visuals")]
     [Description(@"Collection of file system list view strings.")]
     [MergableProperty(false)]
@@ -852,6 +876,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
                                ShouldSerializeColorStrings() || ShouldSerializeCustomStrings() ||
                                ShouldSerializeFileSystemListViewStrings() ||
                                ShouldSerializeGeneralRibbonStrings() || ShouldSerializeGeneralStrings() ||
+                               ShouldSerializeUseWindowsLanguagePackStrings() ||
                                ShouldSerializeGridStyleStrings() || ShouldSerializeGridViewStyleStrings() ||
                                ShouldSerializeHeaderGroupCollapsedTargetStrings() ||
                                ShouldSerializeHeaderStyleStrings() || ShouldSerializeInputControlStyleStrings() ||
@@ -887,6 +912,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
         ResetColorStrings();
         ResetCustomStrings();
         ResetFileSystemListViewStrings();
+        ResetUseWindowsLanguagePackStrings();
         ResetMiscellaneousPrintPreviewDialogStrings();
         ResetGeneralRibbonStrings();
         ResetGeneralStrings();

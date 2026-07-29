@@ -79,6 +79,28 @@ internal class KryptonManagerActionList : DesignerActionList
         }
     }
 
+    /// <summary>
+    /// Gets and sets whether matching toolkit strings prefer text from the installed Windows language pack.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"When true, matching dialog and Explorer-style strings use the installed Windows language pack.")]
+    [DefaultValue(false)]
+    public bool UseWindowsLanguagePackStrings
+    {
+        get => _manager?.ToolkitStrings.UseWindowsLanguagePackStrings ?? false;
+
+        set
+        {
+            if (_manager == null || _manager.ToolkitStrings.UseWindowsLanguagePackStrings == value)
+            {
+                return;
+            }
+
+            _service?.OnComponentChanged(_manager, null, _manager.ToolkitStrings.UseWindowsLanguagePackStrings, value);
+            _manager.ToolkitStrings.UseWindowsLanguagePackStrings = value;
+        }
+    }
+
     #endregion
 
     #region Implementation
@@ -136,6 +158,8 @@ internal class KryptonManagerActionList : DesignerActionList
             actions.Add(new DesignerActionHeaderItem(@"Translations"));
             actions.Add(new DesignerActionPropertyItem(nameof(TranslationsCulture), @"UI Culture", @"Translations",
                 @"Switch the designer UI culture and load matching Translations.{culture}.* files with graceful fallback."));
+            actions.Add(new DesignerActionPropertyItem(nameof(UseWindowsLanguagePackStrings), @"Use Windows Language Pack", @"Translations",
+                @"When enabled, matching dialog buttons and Explorer column headers use strings from the installed Windows language pack."));
             actions.Add(new DesignerActionHeaderItem(@"Visuals"));
             actions.Add(new DesignerActionPropertyItem(nameof(GlobalPaletteMode), @"Global Palette", @"Visuals", @"Global palette setting"));
         }
