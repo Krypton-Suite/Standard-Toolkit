@@ -45,6 +45,8 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#1231](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1231), The `KryptonOpenFileDialog` can have poor performance on some OS hardware
+   * Added a provider-based custom dialog mode for `KryptonOpenFileDialog`, `KryptonSaveFileDialog`, and `KryptonFolderBrowserDialog` so applications can avoid the native shell wrapper path on machines where it performs poorly.
 * Resolved [#4060](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4060), Ribbon QAT button enumeration now uses `OfType<IQuickAccessToolbarButton>()` instead of unsafe casts
 * Implemented [#4063](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4063), `KryptonThemeBrowserData.DefaultPalette` selects the initial theme by `PaletteMode` (takes precedence over `StartIndex`)
 * Implemented [#4048](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4048), Time to bring over menu/tool/status strip enhancements

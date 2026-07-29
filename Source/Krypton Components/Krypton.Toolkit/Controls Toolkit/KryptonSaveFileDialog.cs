@@ -23,6 +23,11 @@ public class KryptonSaveFileDialog : FileSaveDialogWrapper, IDisposable
 {
     private readonly SaveFileDialog _internalSaveFileDialog = new SaveFileDialog();// { AutoUpgradeEnabled = true };
 
+    public KryptonSaveFileDialog()
+    {
+        _internalSaveFileDialog.FileOk += OnInternalFileOk;
+    }
+
     /// <inheritdoc />
     protected override DialogResult ShowActualDialog(IWin32Window? owner) => _internalSaveFileDialog.ShowDialog(owner);
 
@@ -194,12 +199,6 @@ public class KryptonSaveFileDialog : FileSaveDialogWrapper, IDisposable
     }
 
     /// <inheritdoc />
-    public override event CancelEventHandler? FileOk
-    {
-        add => _internalSaveFileDialog.FileOk += value;
-        remove => _internalSaveFileDialog.FileOk -= value;
-    }
-
     /// <summary>Resets all properties to their default values.</summary>
     public override void Reset() => _internalSaveFileDialog.Reset();
 
@@ -211,5 +210,20 @@ public class KryptonSaveFileDialog : FileSaveDialogWrapper, IDisposable
 
     /// <inheritdoc />
     public void Dispose() => _internalSaveFileDialog.Dispose();
+
+    internal override void PopulateDialogOptions(KryptonDialogOptions options)
+    {
+        options.Kind = KryptonDialogKind.SaveFile;
+        options.CreatePrompt = CreatePrompt;
+        options.OverwritePrompt = OverwritePrompt;
+    }
+
+    private void OnInternalFileOk(object? sender, CancelEventArgs e)
+    {
+        if (!RaiseFileOk())
+        {
+            e.Cancel = true;
+        }
+    }
 
 }

@@ -120,4 +120,39 @@ public class KryptonFolderBrowserDialog : ShellDialogWrapper, IDisposable
     /// <inheritdoc />
     public void Dispose() => _internalOpenFileDialog.Dispose();
 
+    internal override KryptonDialogOptions CreateDialogOptions() => new KryptonDialogOptions
+    {
+        Kind = KryptonDialogKind.SelectFolder,
+        Title = Title,
+        Icon = Icon,
+        InitialDirectory =
+#if NET8_0_OR_GREATER
+            InitialDirectory ?? string.Empty,
+#else
+            SelectedPath ?? string.Empty,
+#endif
+        CurrentPath = SelectedPath ?? string.Empty,
+        FileName = string.Empty,
+        RootFolder = RootFolder
+    };
+
+    internal override KryptonDialogResult CaptureDialogResult()
+    {
+        var selectedPath = SelectedPath ?? string.Empty;
+        return new KryptonDialogResult
+        {
+            SelectedPath = selectedPath,
+            FileName = selectedPath,
+            FileNames = string.IsNullOrWhiteSpace(selectedPath) ? Array.Empty<string>() : new[] { selectedPath }
+        };
+    }
+
+    internal override void ApplyDialogResult(KryptonDialogResult result)
+    {
+        SelectedPath = result.SelectedPath;
+#if NET8_0_OR_GREATER
+        InitialDirectory = result.SelectedPath;
+#endif
+    }
+
 }
