@@ -21,7 +21,7 @@ namespace Krypton.Toolkit;
 [ToolboxItem(true)]
 public class KryptonSaveFileDialog : FileSaveDialogWrapper, IDisposable
 {
-    private readonly SaveFileDialog _internalSaveFileDialog = new SaveFileDialog();// { AutoUpgradeEnabled = true };
+    private readonly SaveFileDialog _internalSaveFileDialog = new SaveFileDialog();
 
     public KryptonSaveFileDialog()
     {

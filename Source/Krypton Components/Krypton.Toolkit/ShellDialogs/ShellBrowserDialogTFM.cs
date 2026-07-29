@@ -16,7 +16,13 @@ namespace Krypton.Toolkit;
 
 internal class ShellBrowserDialogTFM : ShellDialogWrapper, IDisposable
 {
-    private readonly OpenFileDialog _internalOpenFileDialog = new OpenFileDialog();// { AutoUpgradeEnabled = true };
+    private readonly OpenFileDialog _internalOpenFileDialog = new OpenFileDialog();
+
+    /// <summary>
+    /// Shows the underlying folder-picker OpenFileDialog without installing another CBT/embed pass.
+    /// Used by <see cref="KryptonFolderBrowserDialog"/> which already owns the shell wrapper.
+    /// </summary>
+    internal DialogResult ShowFolderDialogCore(IWin32Window? owner) => ShowActualDialog(owner);
     private static readonly Type _ofd = typeof(OpenFileDialog);
 
     [Flags]
@@ -72,6 +78,12 @@ internal class ShellBrowserDialogTFM : ShellDialogWrapper, IDisposable
     private protected override void WndMessage(object sender, CWPRETSTRUCT e, out bool actioned)
     {
         base.WndMessage(sender, e, out actioned);
+
+        // Chrome-only hosting leaves native controls in place; do not rewrite button captions.
+        if (_commonDialogHandler == null || !_commonDialogHandler.ReplaceNativeControls)
+        {
+            return;
+        }
 
         if (e.message == PI.WM_.INITDIALOG)
         {

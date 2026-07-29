@@ -56,15 +56,21 @@ public abstract class ShellDialogWrapper
 
     private protected virtual void WndMessage(object sender, CWPRETSTRUCT e, out bool actioned)
     {
+        if (_commonDialogHandler == null)
+        {
+            actioned = false;
+            return;
+        }
+
         (var handled, var retValue) = _commonDialogHandler.HookProc(e.hWnd, e.message, e.wParam, e.lParam);
         e.retValue = retValue;
         actioned = handled;
 
-        if (e.message == PI.WM_.INITDIALOG)
+        if (e.message == PI.WM_.INITDIALOG && _commonDialogHandler._wrapperForm != null)
         {
-            _scaleFactor = _commonDialogHandler._wrapperForm!.DeviceDpi / 96.0f;
+            _scaleFactor = _commonDialogHandler._wrapperForm.DeviceDpi / 96.0f;
             _commonDialogHandler._wrapperForm.Resize += FormResize;
-            _commonDialogHandler._wrapperForm.MinimumSize = new SizeF(440 * _scaleFactor, 345 * _scaleFactor).ToSize();
+            _commonDialogHandler._wrapperForm.MinimumSize = new SizeF(720 * _scaleFactor, 480 * _scaleFactor).ToSize();
         }
     }
 
@@ -147,25 +153,29 @@ public abstract class ShellDialogWrapper
         }
         Console.WriteLine(@"Shell Dialog activated");
 
-        // Modify the Shell Dialog window
-        PI.SetWindowLong(_handle, PI.GWL_.EXSTYLE,
-            PI.GetWindowLong(_handle, PI.GWL_.EXSTYLE) | PI.WS_EX_.TRANSPARENT);
+        // Keep the native Explorer dialog opaque; WS_EX_TRANSPARENT blanks/clips modern file dialogs.
         return true;
     }
 
     #endregion Do_CBT
 
     /// <summary>
-    ///  Runs a common dialog box, parented to the given IWin32Window.
+    ///  Hosts the Windows shell dialog inside a <see cref="KryptonForm"/> for chrome only.
+    ///  Native Explorer controls are left intact (no button replacement / transparency hacks).
     /// </summary>
     internal DialogResult ShowNativeDialogCore(IWin32Window? owner)
     {
         try
         {
-            // Set up CBT
             _cbt.Install();
             _cwp.Install();
-            _commonDialogHandler = new CommonDialogHandler(true);
+            _commonDialogHandler = new CommonDialogHandler(true)
+            {
+                // Do not swallow WM_INITDIALOG — modern IFileDialog needs default processing.
+                ReturnHandledOnInitDialog = false,
+                // Keep Explorer UI; only reparent into KryptonForm chrome.
+                ReplaceNativeControls = false
+            };
             if (!string.IsNullOrWhiteSpace(Title))
             {
                 _commonDialogHandler.Title = Title;
@@ -182,7 +192,6 @@ public abstract class ShellDialogWrapper
         }
         finally
         {
-            // Destroy CBT
             _cwp.Uninstall();
             _cbt.Uninstall();
             if (owner != null)

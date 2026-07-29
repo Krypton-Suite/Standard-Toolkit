@@ -52,7 +52,7 @@ public class KryptonFileDialogProviderDemo : KryptonForm
             Dock = DockStyle.Top,
             AutoSize = true,
             MaximumSize = new Size(920, 0),
-            Text = @"Issue #1231 demo. Compare the existing native wrapper with the new custom provider for open, save, and folder selection. Try changing the initial directory, filter, and owner options, then verify that the custom dialogs stay responsive and return the expected paths."
+            Text = @"Issue #1231 demo. Native buttons host the standard Windows Explorer dialog inside a KryptonForm (chrome only). Custom buttons show the fully managed Krypton dialog."
         };
         layout.Controls.Add(instructions, 0, 0);
 

@@ -21,7 +21,7 @@ namespace Krypton.Toolkit;
 [ToolboxItem(true)]
 public class KryptonOpenFileDialog : FileDialogWrapper, IDisposable
 {
-    private readonly OpenFileDialog _internalOpenFileDialog = new OpenFileDialog();// { AutoUpgradeEnabled = true };
+    private readonly OpenFileDialog _internalOpenFileDialog = new OpenFileDialog();
 
     public KryptonOpenFileDialog()
     {
