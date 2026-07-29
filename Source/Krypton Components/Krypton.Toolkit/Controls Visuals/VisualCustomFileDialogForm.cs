@@ -649,9 +649,12 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
             {
                 case ShellIconKind.Drive:
                 case ShellIconKind.Place:
-                    return string.IsNullOrWhiteSpace(path)
-                        ? FileSystemIconHelper.GetFolderIcon(largeIcon)
-                        : FileSystemIconHelper.GetFileSystemIcon(path, largeIcon);
+                    if (string.IsNullOrWhiteSpace(path))
+                    {
+                        return FileSystemIconHelper.GetFolderIcon(largeIcon);
+                    }
+
+                    return FileSystemIconHelper.GetFileSystemIcon(path!, largeIcon);
                 case ShellIconKind.Folder:
                     return FileSystemIconHelper.GetFolderIcon(largeIcon);
                 case ShellIconKind.File:
