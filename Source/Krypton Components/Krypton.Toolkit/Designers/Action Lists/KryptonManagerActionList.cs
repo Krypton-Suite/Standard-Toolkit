@@ -146,8 +146,8 @@ internal class KryptonManagerActionList : DesignerActionList
             actions.Add(new DesignerActionHeaderItem(@"Actions"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Reset to Default Theme", OnReset), @"Actions"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Designer Editor Settings...", OnDesignerEditorSettings), @"Actions"));
-            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Import Translations from Xml file...", OnImportTranslations), @"Actions"));
-            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Export Translations to Xml file...", OnExportTranslations), @"Actions"));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Import Translations from Xml file...", OnImportTranslationsXml), @"Actions"));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Export Translations to Xml file...", OnExportTranslationsXml), @"Actions"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Import Translations from Json file...", OnImportTranslationsJson), @"Actions"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Export Translations to Json file...", OnExportTranslationsJson), @"Actions"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Generate Translation Template...", OnGenerateTemplate), @"Actions"));
@@ -170,7 +170,7 @@ internal class KryptonManagerActionList : DesignerActionList
     private void OnDesignerEditorSettings(object? sender, EventArgs e) =>
         KryptonDesignerEditorTheme.ShowSettingsDialog();
 
-    private void OnImportTranslations(object? sender, EventArgs e)
+    private void OnImportTranslationsXml(object? sender, EventArgs e)
     {
         if (_manager == null)
         {
@@ -202,7 +202,7 @@ internal class KryptonManagerActionList : DesignerActionList
         }
     }
 
-    private void OnExportTranslations(object? sender, EventArgs e)
+    private void OnExportTranslationsXml(object? sender, EventArgs e)
     {
         if (_manager == null)
         {
