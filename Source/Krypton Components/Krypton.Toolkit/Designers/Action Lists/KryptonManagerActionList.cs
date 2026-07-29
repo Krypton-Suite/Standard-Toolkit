@@ -342,9 +342,9 @@ internal class KryptonManagerActionList : DesignerActionList
         }
     }
 
-    private static Form CreateSwitchCultureDialog()
+    private static KryptonForm CreateSwitchCultureDialog()
     {
-        var form = new Form
+        var form = new KryptonForm
         {
             Text = @"Switch Translations Culture",
             FormBorderStyle = FormBorderStyle.FixedDialog,
@@ -355,14 +355,14 @@ internal class KryptonManagerActionList : DesignerActionList
             ClientSize = new Size(460, 150)
         };
 
-        var cultureLabel = new Label
+        var cultureLabel = new KryptonLabel
         {
             AutoSize = true,
-            Text = @"Culture:",
-            Location = new Point(12, 18)
+            Location = new Point(12, 18),
+            Values = { Text = @"Culture:" }
         };
 
-        var cultureCombo = new ComboBox
+        var cultureCombo = new KryptonComboBox
         {
             DropDownStyle = ComboBoxStyle.DropDown,
             Location = new Point(120, 14),
@@ -376,31 +376,31 @@ internal class KryptonManagerActionList : DesignerActionList
         cultureCombo.Text = KryptonManager.ActiveTranslationsCulture?.Name
                             ?? CultureInfo.CurrentUICulture.Name;
 
-        var directoryLabel = new Label
+        var directoryLabel = new KryptonLabel
         {
             AutoSize = true,
-            Text = @"Directory:",
-            Location = new Point(12, 52)
+            Location = new Point(12, 52),
+            Values = { Text = @"Directory:" }
         };
 
-        var directoryBox = new TextBox
+        var directoryBox = new KryptonTextBox
         {
             Location = new Point(120, 48),
             Width = 250,
             Text = AppDomain.CurrentDomain.BaseDirectory ?? string.Empty
         };
 
-        var browseButton = new Button
+        var browseButton = new KryptonButton
         {
-            Text = @"Browse...",
             Location = new Point(376, 46),
-            Width = 64
+            Width = 64,
+            Values = { Text = @"Browse..." }
         };
         browseButton.Click += (_, _) =>
         {
-            using var folderDialog = new FolderBrowserDialog
+            using var folderDialog = new KryptonFolderBrowserDialog
             {
-                Description = @"Select the folder containing Translations.{culture}.* files",
+                Title = @"Select the folder containing Translations.{culture}.* files",
                 SelectedPath = directoryBox.Text
             };
 
@@ -410,12 +410,12 @@ internal class KryptonManagerActionList : DesignerActionList
             }
         };
 
-        var okButton = new Button
+        var okButton = new KryptonButton
         {
-            Text = @"OK",
             DialogResult = DialogResult.OK,
             Location = new Point(284, 100),
-            Width = 75
+            Width = 75,
+            Values = { Text = KryptonManager.Strings.GeneralStrings.OK }
         };
         okButton.Click += (_, _) =>
         {
@@ -426,12 +426,12 @@ internal class KryptonManagerActionList : DesignerActionList
             };
         };
 
-        var cancelButton = new Button
+        var cancelButton = new KryptonButton
         {
-            Text = @"Cancel",
             DialogResult = DialogResult.Cancel,
             Location = new Point(365, 100),
-            Width = 75
+            Width = 75,
+            Values = { Text = KryptonManager.Strings.GeneralStrings.Cancel }
         };
 
         form.Controls.Add(cultureLabel);
