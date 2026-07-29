@@ -114,6 +114,9 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
     private int _historyIndex;
     private bool _navigatingHistory;
     private bool _updatingBreadcrumbs;
+    private bool _suppressAddressEdit;
+    private bool _committingAddressEdit;
+    private bool _updatingNavigationSelection;
 
     public VisualCustomFileDialogForm(KryptonDialogProviderContext context)
     {
@@ -137,6 +140,7 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
         InitializeShellIcons();
         InitializeViewModes();
         ApplyNavigationButtonGlyphs();
+        ApplyDialogLayout();
         ApplyDialogOptions();
         Shown += OnDialogShown;
     }
@@ -154,9 +158,115 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
             ImageSize = SystemInformation.IconSize
         };
 
-        _navigationTree.ImageList = _shellSmallImageList;
+        // Seed a default folder icon before the tree is populated.
+        GetShellIconIndex(null, ShellIconKind.Folder);
         _fileList.SmallImageList = _shellSmallImageList;
         _fileList.LargeImageList = _shellLargeImageList;
+    }
+
+    private void ApplyDialogLayout()
+    {
+        ClientSize = new Size(980, 680);
+        MinimumSize = new Size(900, 600);
+
+        _rootPanel.Padding = new Padding(10);
+
+        _chromeLayout.RowStyles.Clear();
+        _chromeLayout.RowCount = 3;
+        _chromeLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 36F));
+        _chromeLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        _chromeLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+
+        _navigationLayout.AutoSize = false;
+        _navigationLayout.Dock = DockStyle.Fill;
+        _navigationLayout.Margin = new Padding(0, 0, 0, 0);
+        _navigationLayout.ColumnStyles.Clear();
+        _navigationLayout.ColumnCount = 8;
+        _navigationLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 34F));
+        _navigationLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 34F));
+        _navigationLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 34F));
+        _navigationLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 78F));
+        _navigationLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+        _navigationLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 126F));
+        _navigationLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 58F));
+        _navigationLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 180F));
+
+        ConfigureToolbarButton(_backButton, new Size(30, 28));
+        ConfigureToolbarButton(_forwardButton, new Size(30, 28));
+        ConfigureToolbarButton(_upButton, new Size(30, 28));
+        ConfigureToolbarButton(_refreshButton, new Size(74, 28));
+        _refreshButton.Values.Text = @"Refresh";
+
+        _addressHost.Dock = DockStyle.Fill;
+        _addressHost.Margin = new Padding(4, 2, 4, 2);
+        _addressHost.Padding = Padding.Empty;
+        _addressHost.BackColor = Color.Transparent;
+        _addressHost.MinimumSize = new Size(160, 28);
+        _addressBar.Dock = DockStyle.Fill;
+        _addressBar.AutoSize = false;
+        _addressEditBox.Dock = DockStyle.Fill;
+
+        ConfigureToolbarButton(_viewButton, new Size(120, 28));
+        _viewButton.ShowSplitOption = true;
+        _viewButton.Values.ShowSplitOption = true;
+
+        _searchLabel.Anchor = AnchorStyles.Left;
+        _searchLabel.Margin = new Padding(4, 0, 2, 0);
+        _searchTextBox.Dock = DockStyle.Fill;
+        _searchTextBox.Margin = new Padding(0, 2, 0, 2);
+
+        _splitContainer.Margin = new Padding(0, 0, 0, 8);
+        _splitContainer.Panel1MinSize = 180;
+        _splitContainer.Panel2MinSize = 280;
+        _splitContainer.SplitterDistance = 240;
+        _navigationTree.Dock = DockStyle.Fill;
+        _navigationTree.Margin = Padding.Empty;
+        _fileList.Dock = DockStyle.Fill;
+        _fileList.Margin = Padding.Empty;
+
+        _bottomLayout.AutoSize = true;
+        _bottomLayout.Margin = Padding.Empty;
+        _bottomLayout.Padding = new Padding(0, 4, 0, 0);
+        _bottomLayout.ColumnStyles.Clear();
+        _bottomLayout.ColumnCount = 4;
+        _bottomLayout.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+        _bottomLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+        _bottomLayout.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+        _bottomLayout.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+        _bottomLayout.RowStyles.Clear();
+        _bottomLayout.RowCount = 3;
+        _bottomLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+        _bottomLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+        _bottomLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 24F));
+
+        _fileNameLabel.Anchor = AnchorStyles.Left;
+        _fileNameLabel.Margin = new Padding(0, 4, 8, 4);
+        _fileNameTextBox.Dock = DockStyle.Fill;
+        _fileNameTextBox.Margin = new Padding(0, 2, 0, 2);
+        _filterLabel.Anchor = AnchorStyles.Left;
+        _filterLabel.Margin = new Padding(0, 4, 8, 4);
+        _filterComboBox.Dock = DockStyle.Fill;
+        _filterComboBox.Margin = new Padding(0, 2, 8, 2);
+
+        ConfigureToolbarButton(_acceptButton, new Size(110, 28));
+        ConfigureToolbarButton(_cancelButton, new Size(90, 28));
+        _acceptButton.Margin = new Padding(8, 2, 4, 2);
+        _cancelButton.Margin = new Padding(0, 2, 0, 2);
+
+        _statusLabel.Dock = DockStyle.Fill;
+        _statusLabel.Margin = new Padding(0, 4, 0, 0);
+        _statusLabel.AutoSize = false;
+    }
+
+    private static void ConfigureToolbarButton(KryptonButton button, Size size)
+    {
+        button.Anchor = AnchorStyles.None;
+        button.AutoSize = false;
+        button.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        button.Size = size;
+        button.MinimumSize = size;
+        button.Margin = new Padding(1);
+        button.Dock = DockStyle.None;
     }
 
     private void InitializeViewModes()
@@ -262,9 +372,6 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
         button.Values.Text = string.Empty;
         button.Values.Image = image;
         button.Values.ImageTransparentColor = imageTransparentColor;
-        button.AutoSize = true;
-        button.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-        button.MinimumSize = new Size(28, 28);
         button.ToolTipValues.EnableToolTips = true;
         button.ToolTipValues.Heading = toolTip;
         button.AccessibleName = toolTip;
@@ -274,7 +381,7 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
     {
         Text = string.IsNullOrWhiteSpace(_options.Title) ? GetDefaultCaption() : _options.Title;
         Icon = _options.Icon;
-        _pathTextBox.Text = _currentPath;
+        _addressEditBox.Text = _currentPath;
         _fileNameTextBox.Text = ResolveInitialFileName();
         _fileNameLabel.Values.Text = _options.Kind == KryptonDialogKind.SelectFolder ? @"Folder:" : @"File name:";
         _acceptButton.Values.Text = GetAcceptCaption();
@@ -425,50 +532,59 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
 
     private void BuildNavigationTree()
     {
+        // Detach the ImageList while nodes/icons are built to avoid per-icon tree redraws.
+        _navigationTree.ImageList = null;
         _navigationTree.BeginUpdate();
-        _navigationTree.Nodes.Clear();
-
-        var placesIcon = GetShellIconIndex(null, ShellIconKind.PlacesRoot);
-        var placesNode = new TreeNode(@"Common Places", placesIcon, placesIcon);
-        AddPlaceNode(placesNode, @"Desktop", Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
-        AddPlaceNode(placesNode, @"Documents", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
-        AddPlaceNode(placesNode, @"Pictures", Environment.GetFolderPath(Environment.SpecialFolder.MyPictures));
-        AddPlaceNode(placesNode, @"Music", Environment.GetFolderPath(Environment.SpecialFolder.MyMusic));
-        AddPlaceNode(placesNode, @"Downloads", System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @"Downloads"));
-        AddPlaceNode(placesNode, @"Root Folder", Environment.GetFolderPath(_options.RootFolder));
-
-        if (_options.CustomPlaces.Count > 0)
+        try
         {
-            var customPlacesIcon = GetShellIconIndex(null, ShellIconKind.Folder);
-            var customPlacesNode = new TreeNode(@"Custom Places", customPlacesIcon, customPlacesIcon);
-            foreach (var customPlace in _options.CustomPlaces)
+            _navigationTree.Nodes.Clear();
+
+            var placesIcon = GetShellIconIndex(null, ShellIconKind.PlacesRoot);
+            var placesNode = new TreeNode(@"Common Places", placesIcon, placesIcon);
+            AddPlaceNode(placesNode, @"Desktop", Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
+            AddPlaceNode(placesNode, @"Documents", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+            AddPlaceNode(placesNode, @"Pictures", Environment.GetFolderPath(Environment.SpecialFolder.MyPictures));
+            AddPlaceNode(placesNode, @"Music", Environment.GetFolderPath(Environment.SpecialFolder.MyMusic));
+            AddPlaceNode(placesNode, @"Downloads", System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @"Downloads"));
+            AddPlaceNode(placesNode, @"Root Folder", Environment.GetFolderPath(_options.RootFolder));
+
+            if (_options.CustomPlaces.Count > 0)
             {
-                if (Directory.Exists(customPlace))
+                var customPlacesIcon = GetShellIconIndex(null, ShellIconKind.Folder);
+                var customPlacesNode = new TreeNode(@"Custom Places", customPlacesIcon, customPlacesIcon);
+                foreach (var customPlace in _options.CustomPlaces)
                 {
-                    AddPlaceNode(customPlacesNode, customPlace, customPlace);
+                    if (Directory.Exists(customPlace))
+                    {
+                        AddPlaceNode(customPlacesNode, customPlace, customPlace);
+                    }
+                }
+
+                if (customPlacesNode.Nodes.Count > 0)
+                {
+                    customPlacesNode.Expand();
+                    _navigationTree.Nodes.Add(customPlacesNode);
                 }
             }
 
-            if (customPlacesNode.Nodes.Count > 0)
+            placesNode.Expand();
+            _navigationTree.Nodes.Add(placesNode);
+
+            var drivesIcon = GetShellIconIndex(null, ShellIconKind.DrivesRoot);
+            var drivesNode = new TreeNode(@"Drives", drivesIcon, drivesIcon);
+            foreach (var drive in DriveInfo.GetDrives().Where(static drive => drive.IsReady))
             {
-                customPlacesNode.Expand();
-                _navigationTree.Nodes.Add(customPlacesNode);
+                AddPlaceNode(drivesNode, drive.Name, drive.RootDirectory.FullName, isDrive: true);
             }
+
+            drivesNode.Expand();
+            _navigationTree.Nodes.Add(drivesNode);
         }
-
-        placesNode.Expand();
-        _navigationTree.Nodes.Add(placesNode);
-
-        var drivesIcon = GetShellIconIndex(null, ShellIconKind.DrivesRoot);
-        var drivesNode = new TreeNode(@"Drives", drivesIcon, drivesIcon);
-        foreach (var drive in DriveInfo.GetDrives().Where(static drive => drive.IsReady))
+        finally
         {
-            AddPlaceNode(drivesNode, drive.Name, drive.RootDirectory.FullName, isDrive: true);
+            _navigationTree.ImageList = _shellSmallImageList;
+            _navigationTree.EndUpdate();
         }
-
-        drivesNode.Expand();
-        _navigationTree.Nodes.Add(drivesNode);
-        _navigationTree.EndUpdate();
     }
 
     private void AddPlaceNode(TreeNode parent, string text, string path, bool isDrive = false)
@@ -489,7 +605,7 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
     {
         if (_shellSmallImageList == null || _shellLargeImageList == null)
         {
-            return 0;
+            return -1;
         }
 
         var cacheKey = kind switch
@@ -512,7 +628,7 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
         using var largeIcon = ResolveShellIcon(path, kind, largeIcon: true) ?? ResolveShellIcon(path, kind, largeIcon: false);
         if (smallIcon == null && largeIcon == null)
         {
-            return 0;
+            return -1;
         }
 
         var index = AddShellIcon(smallIcon ?? largeIcon!, largeIcon ?? smallIcon!);
@@ -522,7 +638,7 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
             return index;
         }
 
-        return 0;
+        return -1;
     }
 
     private static Icon? ResolveShellIcon(string? path, ShellIconKind kind, bool largeIcon)
@@ -613,6 +729,11 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
         }
 
         _initialLoadQueued = true;
+        if (_splitContainer.Width > 500)
+        {
+            _splitContainer.SplitterDistance = Math.Max(200, Math.Min(280, _splitContainer.Width / 3));
+        }
+
         BuildNavigationTree();
         NavigateToPath(_currentPath, updatePathText: true, selectTreeNode: true);
     }
@@ -672,10 +793,26 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
                 return;
             }
 
+            // Selecting a tree node re-enters here; skip duplicate work for the current folder.
+            if (string.Equals(_currentPath, normalizedPath, StringComparison.OrdinalIgnoreCase))
+            {
+                if (updatePathText)
+                {
+                    _addressEditBox.Text = normalizedPath;
+                }
+
+                if (selectTreeNode)
+                {
+                    SelectNavigationNode(normalizedPath);
+                }
+
+                return;
+            }
+
             _currentPath = normalizedPath;
             if (updatePathText)
             {
-                _pathTextBox.Text = normalizedPath;
+                _addressEditBox.Text = normalizedPath;
             }
 
             UpdateBreadcrumbs(normalizedPath);
@@ -707,7 +844,6 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
         var generation = _loadGeneration;
         var patterns = GetSelectedFilterPatterns();
         _loadedEntries = [];
-        _fileList.Enabled = false;
         ShowStatus($@"Loading {path}...");
 
         Task.Run(() => LoadEntriesCore(path, patterns))
@@ -719,8 +855,6 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
                 }
 
                 _fileList.BeginUpdate();
-                _fileList.Items.Clear();
-
                 try
                 {
                     var result = task.Status == TaskStatus.RanToCompletion
@@ -729,17 +863,17 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
 
                     if (!string.IsNullOrWhiteSpace(result.ErrorMessage))
                     {
+                        _fileList.Items.Clear();
                         ShowStatus(result.ErrorMessage ?? @"Unable to load directory.");
                         return;
                     }
 
                     _loadedEntries = result.Entries;
-                    ApplyEntryFilter();
+                    ApplyEntryFilter(suspendUpdates: false);
                 }
                 finally
                 {
                     _fileList.EndUpdate();
-                    _fileList.Enabled = true;
                 }
             }, TaskScheduler.FromCurrentSynchronizationContext());
     }
@@ -788,7 +922,7 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
         _fileList.Items.Add(item);
     }
 
-    private void ApplyEntryFilter()
+    private void ApplyEntryFilter(bool suspendUpdates = true)
     {
         if (_fileList.IsDisposed)
         {
@@ -803,7 +937,11 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
                 entry.Name.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0);
         }
 
-        _fileList.BeginUpdate();
+        if (suspendUpdates)
+        {
+            _fileList.BeginUpdate();
+        }
+
         try
         {
             _fileList.Items.Clear();
@@ -814,7 +952,10 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
         }
         finally
         {
-            _fileList.EndUpdate();
+            if (suspendUpdates)
+            {
+                _fileList.EndUpdate();
+            }
         }
 
         ShowStatus(string.IsNullOrWhiteSpace(searchText)
@@ -866,8 +1007,15 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
             var rootItem = _addressBar.RootItem;
             _addressBar.SelectedItem = rootItem;
             rootItem.Items.Clear();
-            rootItem.ShortText = rootPath;
-            rootItem.LongText = rootPath;
+            // ShortText is the visible step; LongText is also drawn by the crumb button, so keep it empty.
+            // Full path for navigation lives in Tag only.
+            rootItem.ShortText = rootPath.TrimEnd(System.IO.Path.DirectorySeparatorChar, System.IO.Path.AltDirectorySeparatorChar);
+            if (string.IsNullOrEmpty(rootItem.ShortText))
+            {
+                rootItem.ShortText = rootPath;
+            }
+
+            rootItem.LongText = string.Empty;
             rootItem.Tag = rootPath;
 
             var currentItem = rootItem;
@@ -880,7 +1028,7 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
                 currentPath = System.IO.Path.Combine(currentPath, segment);
                 var child = new KryptonBreadCrumbItem(segment)
                 {
-                    LongText = currentPath,
+                    LongText = string.Empty,
                     Tag = currentPath
                 };
                 currentItem.Items.Add(child);
@@ -888,6 +1036,10 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
             }
 
             _addressBar.SelectedItem = currentItem;
+            _addressBar.Visible = true;
+            _addressEditBox.Visible = false;
+            _addressBar.Invalidate(true);
+            _addressBar.Update();
         }
         finally
         {
@@ -902,12 +1054,140 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
             return;
         }
 
+        _suppressAddressEdit = true;
         if (_addressBar.SelectedItem?.Tag is string selectedPath
             && !string.IsNullOrWhiteSpace(selectedPath)
             && !string.Equals(selectedPath, _currentPath, StringComparison.OrdinalIgnoreCase))
         {
             NavigateToPath(selectedPath, updatePathText: true, selectTreeNode: true);
         }
+    }
+
+    private void OnAddressBarMouseUp(object? sender, MouseEventArgs e)
+    {
+        if (e.Button != MouseButtons.Left)
+        {
+            return;
+        }
+
+        if (_suppressAddressEdit)
+        {
+            _suppressAddressEdit = false;
+            return;
+        }
+
+        BeginAddressEdit();
+    }
+
+    private void OnFormKeyDown(object? sender, KeyEventArgs e)
+    {
+        if (e.KeyCode == Keys.L && e.Control && !e.Alt && !e.Shift)
+        {
+            BeginAddressEdit();
+            e.Handled = true;
+            e.SuppressKeyPress = true;
+            return;
+        }
+
+        if (e.KeyCode == Keys.F4 && !e.Alt && !e.Control && !e.Shift)
+        {
+            BeginAddressEdit();
+            e.Handled = true;
+            e.SuppressKeyPress = true;
+        }
+    }
+
+    private void OnAddressEditBoxKeyDown(object? sender, KeyEventArgs e)
+    {
+        if (e.KeyCode == Keys.Enter)
+        {
+            CommitAddressEdit();
+            e.Handled = true;
+            e.SuppressKeyPress = true;
+            return;
+        }
+
+        if (e.KeyCode == Keys.Escape)
+        {
+            CancelAddressEdit();
+            e.Handled = true;
+            e.SuppressKeyPress = true;
+        }
+    }
+
+    private void OnAddressEditBoxLostFocus(object? sender, EventArgs e)
+    {
+        if (_committingAddressEdit || !_addressEditBox.Visible)
+        {
+            return;
+        }
+
+        // Defer so context-menu / focus transitions can complete first.
+        BeginInvoke(new Action(() =>
+        {
+            if (!_addressEditBox.Focused && _addressEditBox.Visible && !_committingAddressEdit)
+            {
+                CancelAddressEdit();
+            }
+        }));
+    }
+
+    private void BeginAddressEdit()
+    {
+        if (_addressEditBox.Visible)
+        {
+            _addressEditBox.Focus();
+            _addressEditBox.SelectAll();
+            return;
+        }
+
+        _addressEditBox.Text = _currentPath;
+        _addressBar.Visible = false;
+        _addressEditBox.Visible = true;
+        _addressEditBox.BringToFront();
+        _addressEditBox.Focus();
+        _addressEditBox.SelectAll();
+    }
+
+    private void CommitAddressEdit()
+    {
+        if (!_addressEditBox.Visible)
+        {
+            return;
+        }
+
+        _committingAddressEdit = true;
+        try
+        {
+            var typedPath = (_addressEditBox.Text ?? string.Empty).Trim().Trim('"');
+            EndAddressEdit();
+            if (!string.IsNullOrWhiteSpace(typedPath))
+            {
+                NavigateToPath(typedPath, updatePathText: true, selectTreeNode: true);
+            }
+        }
+        finally
+        {
+            _committingAddressEdit = false;
+        }
+    }
+
+    private void CancelAddressEdit()
+    {
+        if (!_addressEditBox.Visible)
+        {
+            return;
+        }
+
+        _addressEditBox.Text = _currentPath;
+        EndAddressEdit();
+    }
+
+    private void EndAddressEdit()
+    {
+        _addressEditBox.Visible = false;
+        _addressBar.Visible = true;
+        _addressBar.Focus();
     }
 
     private string[] GetSelectedFilterPatterns()
@@ -969,14 +1249,32 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
 
     private void SelectNavigationNode(string path)
     {
+        TreeNode? match = null;
         foreach (TreeNode rootNode in _navigationTree.Nodes)
         {
-            var match = FindNodeByPath(rootNode, path);
+            match = FindNodeByPath(rootNode, path);
             if (match != null)
             {
-                _navigationTree.SelectedNode = match;
-                return;
+                break;
             }
+        }
+
+        if (match == null || ReferenceEquals(_navigationTree.SelectedNode, match))
+        {
+            return;
+        }
+
+        _updatingNavigationSelection = true;
+        _navigationTree.BeginUpdate();
+        try
+        {
+            _navigationTree.SelectedNode = match;
+            match.EnsureVisible();
+        }
+        finally
+        {
+            _navigationTree.EndUpdate();
+            _updatingNavigationSelection = false;
         }
     }
 
@@ -1002,6 +1300,11 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
 
     private void OnNavigationAfterSelect(object? sender, TreeViewEventArgs e)
     {
+        if (_updatingNavigationSelection)
+        {
+            return;
+        }
+
         if (e.Node?.Tag is NavigationTarget navigationTarget)
         {
             NavigateToPath(navigationTarget.Path, updatePathText: true, selectTreeNode: false);
@@ -1057,15 +1360,6 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
         if (_options.Kind != KryptonDialogKind.SelectFolder)
         {
             TryAcceptSelection();
-        }
-    }
-
-    private void OnPathTextBoxKeyDown(object? sender, KeyEventArgs e)
-    {
-        if (e.KeyCode == Keys.Enter)
-        {
-            NavigateToPath(_pathTextBox.Text, updatePathText: true, selectTreeNode: true);
-            e.Handled = true;
         }
     }
 

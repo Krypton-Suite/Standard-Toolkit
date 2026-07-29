@@ -117,8 +117,35 @@ internal class ShellBrowserDialogTFM : ShellDialogWrapper, IDisposable
 
     public string SelectedPath
     {
-        get => Path.GetDirectoryName(_internalOpenFileDialog.FileName)!;
-        set => _internalOpenFileDialog.InitialDirectory = value;
+        get
+        {
+            var fileName = _internalOpenFileDialog.FileName;
+            if (!string.IsNullOrWhiteSpace(fileName))
+            {
+                try
+                {
+                    // Folder-picker mode may return the folder path directly.
+                    if (Directory.Exists(fileName))
+                    {
+                        return fileName;
+                    }
+
+                    // Otherwise FileName is typically "<folder>\Folder Selection.".
+                    var directoryName = Path.GetDirectoryName(fileName);
+                    if (!string.IsNullOrEmpty(directoryName))
+                    {
+                        return directoryName;
+                    }
+                }
+                catch (ArgumentException)
+                {
+                    // Illegal path form — fall through to InitialDirectory.
+                }
+            }
+
+            return _internalOpenFileDialog.InitialDirectory ?? string.Empty;
+        }
+        set => _internalOpenFileDialog.InitialDirectory = value ?? string.Empty;
     }
 
     private Environment.SpecialFolder _rootFolder;

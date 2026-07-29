@@ -35,13 +35,12 @@
             this._forwardButton = new Krypton.Toolkit.KryptonButton();
             this._upButton = new Krypton.Toolkit.KryptonButton();
             this._refreshButton = new Krypton.Toolkit.KryptonButton();
+            this._addressHost = new System.Windows.Forms.Panel();
             this._addressBar = new Krypton.Toolkit.KryptonBreadCrumb();
+            this._addressEditBox = new Krypton.Toolkit.KryptonTextBox();
+            this._viewButton = new Krypton.Toolkit.KryptonButton();
             this._searchLabel = new Krypton.Toolkit.KryptonLabel();
             this._searchTextBox = new Krypton.Toolkit.KryptonTextBox();
-            this._pathLayout = new System.Windows.Forms.TableLayoutPanel();
-            this._pathLabel = new Krypton.Toolkit.KryptonLabel();
-            this._pathTextBox = new Krypton.Toolkit.KryptonTextBox();
-            this._viewButton = new Krypton.Toolkit.KryptonButton();
             this._splitContainer = new Krypton.Toolkit.KryptonSplitContainer();
             this._navigationTree = new Krypton.Toolkit.KryptonTreeView();
             this._fileList = new Krypton.Toolkit.KryptonListView();
@@ -61,8 +60,8 @@
             this._rootPanel.SuspendLayout();
             this._chromeLayout.SuspendLayout();
             this._navigationLayout.SuspendLayout();
+            this._addressHost.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._addressBar)).BeginInit();
-            this._pathLayout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._splitContainer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._splitContainer.Panel1)).BeginInit();
             this._splitContainer.Panel1.SuspendLayout();
@@ -90,15 +89,13 @@
             this._chromeLayout.ColumnCount = 1;
             this._chromeLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this._chromeLayout.Controls.Add(this._navigationLayout, 0, 0);
-            this._chromeLayout.Controls.Add(this._pathLayout, 0, 1);
-            this._chromeLayout.Controls.Add(this._splitContainer, 0, 2);
-            this._chromeLayout.Controls.Add(this._bottomLayout, 0, 3);
+            this._chromeLayout.Controls.Add(this._splitContainer, 0, 1);
+            this._chromeLayout.Controls.Add(this._bottomLayout, 0, 2);
             this._chromeLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this._chromeLayout.Location = new System.Drawing.Point(9, 10);
             this._chromeLayout.Margin = new System.Windows.Forms.Padding(0);
             this._chromeLayout.Name = "_chromeLayout";
-            this._chromeLayout.RowCount = 4;
-            this._chromeLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this._chromeLayout.RowCount = 3;
             this._chromeLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this._chromeLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this._chromeLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -108,21 +105,23 @@
             // _navigationLayout
             // 
             this._navigationLayout.AutoSize = true;
-            this._navigationLayout.ColumnCount = 7;
+            this._navigationLayout.ColumnCount = 8;
             this._navigationLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this._navigationLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this._navigationLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this._navigationLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this._navigationLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this._navigationLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this._navigationLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this._navigationLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 165F));
             this._navigationLayout.Controls.Add(this._backButton, 0, 0);
             this._navigationLayout.Controls.Add(this._forwardButton, 1, 0);
             this._navigationLayout.Controls.Add(this._upButton, 2, 0);
             this._navigationLayout.Controls.Add(this._refreshButton, 3, 0);
-            this._navigationLayout.Controls.Add(this._addressBar, 4, 0);
-            this._navigationLayout.Controls.Add(this._searchLabel, 5, 0);
-            this._navigationLayout.Controls.Add(this._searchTextBox, 6, 0);
+            this._navigationLayout.Controls.Add(this._addressHost, 4, 0);
+            this._navigationLayout.Controls.Add(this._viewButton, 5, 0);
+            this._navigationLayout.Controls.Add(this._searchLabel, 6, 0);
+            this._navigationLayout.Controls.Add(this._searchTextBox, 7, 0);
             this._navigationLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this._navigationLayout.Location = new System.Drawing.Point(0, 0);
             this._navigationLayout.Margin = new System.Windows.Forms.Padding(0, 0, 0, 6);
@@ -192,31 +191,75 @@
             this._refreshButton.Values.Text = "Refresh";
             this._refreshButton.Click += new System.EventHandler(this.OnRefreshButtonClick);
             // 
+            // _addressHost
+            // 
+            this._addressHost.Controls.Add(this._addressEditBox);
+            this._addressHost.Controls.Add(this._addressBar);
+            this._addressHost.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._addressHost.Location = new System.Drawing.Point(77, 0);
+            this._addressHost.Margin = new System.Windows.Forms.Padding(0);
+            this._addressHost.MinimumSize = new System.Drawing.Size(120, 27);
+            this._addressHost.Name = "_addressHost";
+            this._addressHost.Size = new System.Drawing.Size(300, 27);
+            this._addressHost.TabIndex = 4;
+            // 
             // _addressBar
             // 
             this._addressBar.AutoSize = false;
             this._addressBar.Dock = System.Windows.Forms.DockStyle.Fill;
             this._addressBar.DropDownNavigation = false;
-            this._addressBar.Location = new System.Drawing.Point(77, 0);
+            this._addressBar.Location = new System.Drawing.Point(0, 0);
             this._addressBar.Margin = new System.Windows.Forms.Padding(0);
             this._addressBar.Name = "_addressBar";
-            // 
-            // 
-            // 
             this._addressBar.RootItem.ShortText = "Root";
             this._addressBar.SelectedItem = this._addressBar.RootItem;
-            this._addressBar.Size = new System.Drawing.Size(417, 27);
-            this._addressBar.TabIndex = 4;
+            this._addressBar.Size = new System.Drawing.Size(300, 27);
+            this._addressBar.TabIndex = 0;
+            this._addressBar.ToolTipValues.Description = "Click empty space, press Ctrl+L, or F4 to type a path.";
+            this._addressBar.ToolTipValues.EnableToolTips = true;
+            this._addressBar.ToolTipValues.Heading = "Address";
             this._addressBar.SelectedItemChanged += new System.EventHandler(this.OnAddressBarSelectedItemChanged);
+            this._addressBar.MouseUp += new System.Windows.Forms.MouseEventHandler(this.OnAddressBarMouseUp);
+            // 
+            // _addressEditBox
+            // 
+            this._addressEditBox.CueHint.CueHintText = "Type, paste, or edit a folder path";
+            this._addressEditBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._addressEditBox.Location = new System.Drawing.Point(0, 0);
+            this._addressEditBox.Margin = new System.Windows.Forms.Padding(0);
+            this._addressEditBox.Name = "_addressEditBox";
+            this._addressEditBox.Size = new System.Drawing.Size(300, 23);
+            this._addressEditBox.TabIndex = 1;
+            this._addressEditBox.Visible = false;
+            this._addressEditBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnAddressEditBoxKeyDown);
+            this._addressEditBox.LostFocus += new System.EventHandler(this.OnAddressEditBoxLostFocus);
+            // 
+            // _viewButton
+            // 
+            this._viewButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this._viewButton.AutoSize = true;
+            this._viewButton.Location = new System.Drawing.Point(383, 1);
+            this._viewButton.Margin = new System.Windows.Forms.Padding(4, 1, 2, 1);
+            this._viewButton.MinimumSize = new System.Drawing.Size(110, 25);
+            this._viewButton.Name = "_viewButton";
+            this._viewButton.ShowSplitOption = true;
+            this._viewButton.Size = new System.Drawing.Size(120, 25);
+            this._viewButton.TabIndex = 5;
+            this._viewButton.ToolTipValues.EnableToolTips = true;
+            this._viewButton.ToolTipValues.Heading = "Change view";
+            this._viewButton.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this._viewButton.Values.ShowSplitOption = true;
+            this._viewButton.Values.Text = "Details";
+            this._viewButton.Click += new System.EventHandler(this.OnViewButtonClick);
             // 
             // _searchLabel
             // 
             this._searchLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this._searchLabel.Location = new System.Drawing.Point(500, 3);
+            this._searchLabel.Location = new System.Drawing.Point(511, 3);
             this._searchLabel.Margin = new System.Windows.Forms.Padding(6, 0, 3, 0);
             this._searchLabel.Name = "_searchLabel";
             this._searchLabel.Size = new System.Drawing.Size(49, 20);
-            this._searchLabel.TabIndex = 5;
+            this._searchLabel.TabIndex = 6;
             this._searchLabel.Values.Text = "Search:";
             // 
             // _searchTextBox
@@ -227,72 +270,15 @@
             this._searchTextBox.Margin = new System.Windows.Forms.Padding(2);
             this._searchTextBox.Name = "_searchTextBox";
             this._searchTextBox.Size = new System.Drawing.Size(161, 23);
-            this._searchTextBox.TabIndex = 6;
+            this._searchTextBox.TabIndex = 7;
             this._searchTextBox.TextChanged += new System.EventHandler(this.OnSearchTextChanged);
-            // 
-            // _pathLayout
-            // 
-            this._pathLayout.AutoSize = true;
-            this._pathLayout.ColumnCount = 3;
-            this._pathLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this._pathLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this._pathLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this._pathLayout.Controls.Add(this._pathLabel, 0, 0);
-            this._pathLayout.Controls.Add(this._pathTextBox, 1, 0);
-            this._pathLayout.Controls.Add(this._viewButton, 2, 0);
-            this._pathLayout.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._pathLayout.Location = new System.Drawing.Point(0, 33);
-            this._pathLayout.Margin = new System.Windows.Forms.Padding(0, 0, 0, 6);
-            this._pathLayout.Name = "_pathLayout";
-            this._pathLayout.RowCount = 1;
-            this._pathLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this._pathLayout.Size = new System.Drawing.Size(717, 27);
-            this._pathLayout.TabIndex = 1;
-            // 
-            // _pathLabel
-            // 
-            this._pathLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this._pathLabel.Location = new System.Drawing.Point(2, 3);
-            this._pathLabel.Margin = new System.Windows.Forms.Padding(2);
-            this._pathLabel.Name = "_pathLabel";
-            this._pathLabel.Size = new System.Drawing.Size(38, 20);
-            this._pathLabel.TabIndex = 0;
-            this._pathLabel.Values.Text = "Path:";
-            // 
-            // _pathTextBox
-            // 
-            this._pathTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._pathTextBox.Location = new System.Drawing.Point(44, 2);
-            this._pathTextBox.Margin = new System.Windows.Forms.Padding(2);
-            this._pathTextBox.Name = "_pathTextBox";
-            this._pathTextBox.Size = new System.Drawing.Size(545, 23);
-            this._pathTextBox.TabIndex = 1;
-            this._pathTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnPathTextBoxKeyDown);
-            // 
-            // _viewButton
-            // 
-            this._viewButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this._viewButton.AutoSize = true;
-            this._viewButton.Location = new System.Drawing.Point(595, 1);
-            this._viewButton.Margin = new System.Windows.Forms.Padding(4, 1, 2, 1);
-            this._viewButton.MinimumSize = new System.Drawing.Size(110, 25);
-            this._viewButton.Name = "_viewButton";
-            this._viewButton.ShowSplitOption = true;
-            this._viewButton.Size = new System.Drawing.Size(120, 25);
-            this._viewButton.TabIndex = 2;
-            this._viewButton.ToolTipValues.EnableToolTips = true;
-            this._viewButton.ToolTipValues.Heading = "Change view";
-            this._viewButton.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this._viewButton.Values.ShowSplitOption = true;
-            this._viewButton.Values.Text = "Details";
-            this._viewButton.Click += new System.EventHandler(this.OnViewButtonClick);
             // 
             // _splitContainer
             // 
             this._splitContainer.Cursor = System.Windows.Forms.Cursors.Default;
             this._splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this._splitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this._splitContainer.Location = new System.Drawing.Point(0, 66);
+            this._splitContainer.Location = new System.Drawing.Point(0, 33);
             this._splitContainer.Margin = new System.Windows.Forms.Padding(0, 0, 0, 6);
             // 
             // _splitContainer.Panel1
@@ -479,15 +465,17 @@
             this.Name = "VisualCustomFileDialogForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.KeyPreview = true;
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnFormKeyDown);
             ((System.ComponentModel.ISupportInitialize)(this._rootPanel)).EndInit();
             this._rootPanel.ResumeLayout(false);
             this._chromeLayout.ResumeLayout(false);
             this._chromeLayout.PerformLayout();
             this._navigationLayout.ResumeLayout(false);
             this._navigationLayout.PerformLayout();
+            this._addressHost.ResumeLayout(false);
+            this._addressHost.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this._addressBar)).EndInit();
-            this._pathLayout.ResumeLayout(false);
-            this._pathLayout.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this._splitContainer.Panel1)).EndInit();
             this._splitContainer.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this._splitContainer.Panel2)).EndInit();
@@ -510,13 +498,12 @@
         private KryptonButton _forwardButton;
         private KryptonButton _upButton;
         private KryptonButton _refreshButton;
+        private Panel _addressHost;
         private KryptonBreadCrumb _addressBar;
+        private KryptonTextBox _addressEditBox;
+        private KryptonButton _viewButton;
         private KryptonLabel _searchLabel;
         private KryptonTextBox _searchTextBox;
-        private TableLayoutPanel _pathLayout;
-        private KryptonLabel _pathLabel;
-        private KryptonTextBox _pathTextBox;
-        private KryptonButton _viewButton;
         private KryptonSplitContainer _splitContainer;
         private KryptonTreeView _navigationTree;
         private KryptonListView _fileList;
