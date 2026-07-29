@@ -278,6 +278,29 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
 
     #endregion
 
+    #region Tab Header Visibility
+    /// <summary>
+    /// Shows or hides the tab strip without removing TabsArea or CaptionArea from the ribbon docker.
+    /// </summary>
+    /// <param name="showTabHeaders">True to show tab headers; false for toolbar mode.</param>
+    public void ApplyTabHeaderVisibility(bool showTabHeaders)
+    {
+        // Hide the scroll-port so preferred size collapses (LayoutTabs alone still forces TabHeight).
+        _tabsViewport.Visible = showTabHeaders;
+        LayoutTabs.Visible = showTabHeaders;
+        _leftSeparator.Visible = showTabHeaders;
+        _rightSeparator.Visible = showTabHeaders;
+
+        // Context titles position themselves from tab geometry. Keep them in sync with the strip
+        // so they do not linger after a ShowTabHeaders toggle (#331).
+        _layoutContexts.Visible = showTabHeaders;
+        if (!showTabHeaders)
+        {
+            _layoutContexts.ClearContextTitles();
+        }
+    }
+    #endregion
+
     #region LayoutAppButton
     /// <summary>
     /// Gets access to the view layout used for the application button.
@@ -345,6 +368,11 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
     /// <returns>Array of KeyTipInfo; otherwise null.</returns>
     public KeyTipInfo[] GetTabKeyTips()
     {
+        if (!_ribbon.ShowTabHeaders)
+        {
+            return Array.Empty<KeyTipInfo>();
+        }
+
         var keyTips = new KeyTipInfoList();
 
         // Grab the list of key tips for all tab headers
@@ -373,10 +401,14 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
 
         // Ask the context titles to layout again to take into account any
         // change in the positions and sizes of the actual tabs that it mimics
-        Rectangle temp = context.DisplayRectangle;
-        context.DisplayRectangle = _layoutContexts.ClientRectangle;
-        _layoutContexts.Layout(context);
-        context.DisplayRectangle = temp;
+        // (skip when headers are hidden — titles are not shown in toolbar mode).
+        if (_ribbon.ShowTabHeaders)
+        {
+            Rectangle temp = context.DisplayRectangle;
+            context.DisplayRectangle = _layoutContexts.ClientRectangle;
+            _layoutContexts.Layout(context);
+            context.DisplayRectangle = temp;
+        }
 
         // If using custom chrome 
         if (_captionArea is { UsingCustomChrome: true })
