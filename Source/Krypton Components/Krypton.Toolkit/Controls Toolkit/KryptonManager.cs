@@ -47,6 +47,10 @@ public sealed class KryptonManager : Component
     // Must run before any other static field that touches embedded resources (e.g. KryptonImageStorage / KryptonManager.Strings).
     private static readonly int _resourceAssemblyResolveHook = KryptonPreserializedResourceAssemblyResolve.Register();
 
+    // Conventional file names probed during auto-discovery, in priority order.
+    private static readonly string[] _autoDiscoveryFileNames =
+        new[] { @"Translations.xml", @"Translations.json" };
+
     // Initialize the default modes
 
     // Initialize instances to match the default modes
@@ -220,6 +224,9 @@ public sealed class KryptonManager : Component
 
         // Update the tool strip global renderer with the default setting
         UpdateToolStripManager();
+
+        // Probe the application base directory for a Translations file and load it if found.
+        RunAutoDiscovery();
     }
 
     /// <summary>
@@ -567,6 +574,115 @@ public sealed class KryptonManager : Component
     /// <summary>Gets the strings.</summary>
     /// <value>The strings.</value>
     public static KryptonGlobalToolkitStrings Strings { get; } = new KryptonGlobalToolkitStrings();
+
+    /// <summary>
+    /// Gets or sets whether <see cref="KryptonManager"/> automatically probes the application's base
+    /// directory for a <c>Translations.xml</c> or <c>Translations.json</c> file at type-initialisation
+    /// time and loads it if found.  Defaults to <c>true</c>.
+    /// </summary>
+    /// <remarks>
+    /// Set to <c>false</c> before the first use of any Krypton type to suppress auto-discovery,
+    /// for example in unit-test hosts or apps that manage translations entirely in code.
+    /// Auto-discovery is silent — any I/O or parse errors are swallowed and traced to
+    /// <see cref="System.Diagnostics.Debug"/>.
+    /// </remarks>
+    public static bool AutoDiscoverTranslations { get; set; } = true;
+
+    /// <summary>
+    /// Occurs after toolkit translations have been successfully imported via any of the load/import methods.
+    /// </summary>
+    public static event EventHandler? TranslationsImported;
+
+    /// <summary>
+    /// Loads toolkit strings from the specified Translations.xml file, replacing current values.
+    /// Call this at application startup, before any Krypton controls are shown.
+    /// </summary>
+    /// <param name="path">Path to the Translations.xml file to load.</param>
+    /// <param name="refreshOpenForms">When <c>true</c>, invalidates and refreshes all open forms after import.</param>
+    /// <exception cref="System.IO.FileNotFoundException">Thrown when the specified file does not exist.</exception>
+    public static void LoadTranslationsFromFile(string path, bool refreshOpenForms = false)
+    {
+        Strings.ImportFromXmlFile(path, resetFirst: true, refreshOpenForms: refreshOpenForms);
+        OnTranslationsImported();
+    }
+
+    /// <summary>
+    /// Attempts to load toolkit strings from the specified Translations.xml file.
+    /// Returns <c>false</c> (and writes a debug trace) if the file does not exist or cannot be parsed, without throwing.
+    /// </summary>
+    /// <param name="path">Path to the Translations.xml file to load.</param>
+    /// <param name="refreshOpenForms">When <c>true</c>, invalidates and refreshes all open forms after import.</param>
+    /// <returns><c>true</c> if translations were loaded successfully; <c>false</c> otherwise.</returns>
+    public static bool TryLoadTranslationsFromFile(string path, bool refreshOpenForms = false)
+    {
+        if (string.IsNullOrWhiteSpace(path) || !System.IO.File.Exists(path))
+        {
+            return false;
+        }
+
+        try
+        {
+            LoadTranslationsFromFile(path, refreshOpenForms);
+            return true;
+        }
+        catch (System.Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($@"[Krypton] TryLoadTranslationsFromFile failed for '{path}': {ex.Message}");
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Raises the <see cref="TranslationsImported"/> event.
+    /// </summary>
+    internal static void OnTranslationsImported() =>
+        TranslationsImported?.Invoke(null, EventArgs.Empty);
+
+    private static void RunAutoDiscovery()
+    {
+        if (!AutoDiscoverTranslations)
+        {
+            return;
+        }
+
+        // Prefer the executable's own directory; fall back to the current directory in edge cases.
+        var baseDir = System.AppDomain.CurrentDomain.BaseDirectory;
+        if (string.IsNullOrWhiteSpace(baseDir))
+        {
+            baseDir = System.IO.Directory.GetCurrentDirectory();
+        }
+
+        foreach (var fileName in _autoDiscoveryFileNames)
+        {
+            var fullPath = System.IO.Path.Combine(baseDir, fileName);
+            if (!System.IO.File.Exists(fullPath))
+            {
+                continue;
+            }
+
+            try
+            {
+                if (System.IO.Path.GetExtension(fullPath).Equals(@".json", System.StringComparison.OrdinalIgnoreCase))
+                {
+                    Strings.ImportFromJsonFile(fullPath, resetFirst: true, refreshOpenForms: false);
+                }
+                else
+                {
+                    Strings.ImportFromXmlFile(fullPath, resetFirst: true, refreshOpenForms: false);
+                }
+
+                System.Diagnostics.Debug.WriteLine($@"[Krypton] Auto-discovered and loaded translations from '{fullPath}'.");
+                OnTranslationsImported();
+            }
+            catch (System.Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($@"[Krypton] Auto-discovery failed for '{fullPath}': {ex.Message}");
+            }
+
+            // Stop after the first file found (XML takes priority over JSON).
+            break;
+        }
+    }
 
     /// <summary>Gets the images.</summary>
     /// <value>The images.</value>

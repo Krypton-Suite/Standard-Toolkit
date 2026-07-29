@@ -425,4 +425,70 @@ public class WorkspaceMenus : Storage
     public bool ShowContextMenu { get; set; }
 
     #endregion
+
+    #region Translations Persistence
+
+    /// <summary>
+    /// Exports the workspace page-menu strings to a versioned XML document.
+    /// </summary>
+    /// <param name="includeDefaults">When <c>true</c>, emits every string even if it matches the default value.</param>
+    public System.Xml.XmlDocument ExportToXmlDocument(bool includeDefaults = false) =>
+        ToolkitStringsXmlPersistence.Export(this, includeDefaults);
+
+    /// <summary>
+    /// Exports the workspace page-menu strings to a versioned XML file.
+    /// </summary>
+    /// <param name="filename">Path to the destination file.</param>
+    /// <param name="includeDefaults">When <c>true</c>, emits every string even if it matches the default value.</param>
+    public void ExportToXmlFile(string filename, bool includeDefaults = false)
+    {
+        if (string.IsNullOrWhiteSpace(filename))
+        {
+            throw new System.ArgumentNullException(nameof(filename));
+        }
+
+        ExportToXmlDocument(includeDefaults).Save(filename);
+    }
+
+    /// <summary>
+    /// Imports workspace page-menu strings from a versioned XML document produced by <see cref="ExportToXmlDocument"/>.
+    /// </summary>
+    /// <param name="doc">The XML document to import from.</param>
+    /// <param name="resetFirst">When <c>true</c>, resets all strings to defaults before applying the imported values.</param>
+    public void ImportFromXmlDocument(System.Xml.XmlDocument doc, bool resetFirst = true)
+    {
+        if (resetFirst)
+        {
+            ResetTextClose();
+            ResetTextCloseAllButThis();
+            ResetTextMoveNext();
+            ResetTextMovePrevious();
+            ResetTextSplitVertical();
+            ResetTextSplitHorizontal();
+            ResetTextRebalance();
+            ResetTextMaximize();
+            ResetTextRestore();
+        }
+
+        ToolkitStringsXmlPersistence.Import(this, doc, resetFirst: false, refreshOpenForms: false);
+    }
+
+    /// <summary>
+    /// Imports workspace page-menu strings from a versioned XML file.
+    /// </summary>
+    /// <param name="filename">Path to the Translations.xml file.</param>
+    /// <param name="resetFirst">When <c>true</c>, resets all strings to defaults before applying the imported values.</param>
+    public void ImportFromXmlFile(string filename, bool resetFirst = true)
+    {
+        if (string.IsNullOrWhiteSpace(filename))
+        {
+            throw new System.ArgumentNullException(nameof(filename));
+        }
+
+        var doc = new System.Xml.XmlDocument();
+        doc.Load(filename);
+        ImportFromXmlDocument(doc, resetFirst);
+    }
+
+    #endregion
 }
