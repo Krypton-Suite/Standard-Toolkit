@@ -153,56 +153,30 @@ public abstract class ShellDialogWrapper
         }
         Console.WriteLine(@"Shell Dialog activated");
 
-        // Keep the native Explorer dialog opaque; WS_EX_TRANSPARENT blanks/clips modern file dialogs.
+        // Chrome-only: embed after activation so Explorer has finished laying out.
+        if (_commonDialogHandler != null
+            && !_commonDialogHandler.ReplaceNativeControls
+            && !_commonDialogHandler.EmbeddingDone)
+        {
+            _commonDialogHandler.TryEmbedChrome(_handle);
+            if (_commonDialogHandler._wrapperForm != null)
+            {
+                _scaleFactor = _commonDialogHandler._wrapperForm.DeviceDpi / 96.0f;
+                _commonDialogHandler._wrapperForm.MinimumSize = new SizeF(720 * _scaleFactor, 480 * _scaleFactor).ToSize();
+            }
+        }
+
         return true;
     }
 
     #endregion Do_CBT
 
     /// <summary>
-    ///  Hosts the Windows shell dialog inside a <see cref="KryptonForm"/> for chrome only.
-    ///  Native Explorer controls are left intact (no button replacement / transparency hacks).
+    ///  Runs the standard Windows shell dialog.
+    ///  Modern Explorer file dialogs cannot be reliably reparented into a <see cref="KryptonForm"/>;
+    ///  use <see cref="KryptonDialogProviderMode.Custom"/> for a managed KryptonForm UI.
     /// </summary>
-    internal DialogResult ShowNativeDialogCore(IWin32Window? owner)
-    {
-        try
-        {
-            _cbt.Install();
-            _cwp.Install();
-            _commonDialogHandler = new CommonDialogHandler(true)
-            {
-                // Do not swallow WM_INITDIALOG — modern IFileDialog needs default processing.
-                ReturnHandledOnInitDialog = false,
-                // Keep Explorer UI; only reparent into KryptonForm chrome.
-                ReplaceNativeControls = false
-            };
-            if (!string.IsNullOrWhiteSpace(Title))
-            {
-                _commonDialogHandler.Title = Title;
-            }
-
-            _commonDialogHandler.SetResizable(true);
-            if (Icon != null)
-            {
-                _commonDialogHandler.Icon = Icon;
-                _commonDialogHandler.ShowIcon = true;
-            }
-
-            return ShowActualDialog(owner);
-        }
-        finally
-        {
-            _cwp.Uninstall();
-            _cbt.Uninstall();
-            if (owner != null)
-            {
-                PI.SetWindowPos(owner.Handle, PI.HWND_TOP, 0, 0, 0, 0,
-                    PI.SWP_.NOACTIVATE | PI.SWP_.NOMOVE |
-                    PI.SWP_.NOSIZE |
-                    PI.SWP_.ASYNCWINDOWPOS);
-            }
-        }
-    }
+    internal DialogResult ShowNativeDialogCore(IWin32Window? owner) => ShowActualDialog(owner);
 
     protected abstract DialogResult ShowActualDialog(IWin32Window? owner);
 

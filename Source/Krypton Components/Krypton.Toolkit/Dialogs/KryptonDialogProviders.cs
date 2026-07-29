@@ -15,12 +15,12 @@ namespace Krypton.Toolkit;
 public enum KryptonDialogProviderMode
 {
     /// <summary>
-    ///  Host the standard Windows Explorer dialog inside a KryptonForm (chrome only).
+    ///  Use the standard Windows Explorer dialog (not reparented into a KryptonForm).
     /// </summary>
     Native = 0,
 
     /// <summary>
-    ///  Use the managed Krypton dialog implementation.
+    ///  Use the managed KryptonForm dialog implementation.
     /// </summary>
     Custom = 1
 }

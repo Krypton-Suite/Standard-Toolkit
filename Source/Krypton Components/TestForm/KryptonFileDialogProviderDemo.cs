@@ -52,7 +52,7 @@ public class KryptonFileDialogProviderDemo : KryptonForm
             Dock = DockStyle.Top,
             AutoSize = true,
             MaximumSize = new Size(920, 0),
-            Text = @"Issue #1231 demo. Native buttons host the standard Windows Explorer dialog inside a KryptonForm (chrome only). Custom buttons show the fully managed Krypton dialog."
+            Text = @"Issue #1231 demo. Native = standard Windows Explorer dialog (Win11 cannot host that HWND inside another form without clipping). Custom = managed dialog on a KryptonForm."
         };
         layout.Controls.Add(instructions, 0, 0);
 

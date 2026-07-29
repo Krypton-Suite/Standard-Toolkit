@@ -293,7 +293,9 @@ internal class CommonDialogHandler
                 }
                 } // ReplaceNativeControls
 
-                if (_embed && !_embeddingDone)
+                // Legacy control-replacement embeds immediately. Chrome-only hosting waits until
+                // the dialog is activated — modern Explorer UI is not laid out yet during WM_INITDIALOG.
+                if (_embed && !_embeddingDone && ReplaceNativeControls)
                 {
                     PerformEmbedding(hWnd);
                     if (ReturnHandledOnInitDialog)
@@ -529,6 +531,22 @@ internal class CommonDialogHandler
 
     private KryptonPanel? _hostPanel;
 
+    internal bool EmbeddingDone => _embeddingDone;
+
+    /// <summary>
+    /// Chrome-only path: host the shell dialog after it has been activated and laid out.
+    /// </summary>
+    internal bool TryEmbedChrome(IntPtr hWnd)
+    {
+        if (!_embed || _embeddingDone || ReplaceNativeControls || hWnd == IntPtr.Zero)
+        {
+            return false;
+        }
+
+        PerformEmbedding(hWnd);
+        return _embeddingDone;
+    }
+
     private void FitShellDialogToHost()
     {
         if (_resizeHandle == IntPtr.Zero || _wrapperForm == null)
@@ -542,7 +560,38 @@ internal class CommonDialogHandler
             size = _wrapperForm.ClientSize;
         }
 
-        PI.MoveWindow(_resizeHandle, 0, 0, size.Width, size.Height, true);
+        // Root dialog frame.
+        PI.SetWindowPos(_resizeHandle, IntPtr.Zero, 0, 0, size.Width, size.Height,
+            PI.SWP_.NOZORDER | PI.SWP_.NOACTIVATE | PI.SWP_.SHOWWINDOW | PI.SWP_.FRAMECHANGED);
+
+        // Modern Explorer hosts DirectUI in a child that does not always follow the parent size.
+        var largestChild = IntPtr.Zero;
+        var largestArea = 0;
+        for (var child = PI.GetWindow(_resizeHandle, PI.GetWindowType.GW_CHILD);
+             child != IntPtr.Zero;
+             child = PI.GetWindow(child, PI.GetWindowType.GW_HWNDNEXT))
+        {
+            var rect = new PI.RECT();
+            if (!PI.GetWindowRect(child, ref rect))
+            {
+                continue;
+            }
+
+            var area = Math.Max(0, rect.right - rect.left) * Math.Max(0, rect.bottom - rect.top);
+            if (area > largestArea)
+            {
+                largestArea = area;
+                largestChild = child;
+            }
+        }
+
+        if (largestChild != IntPtr.Zero)
+        {
+            PI.SetWindowPos(largestChild, IntPtr.Zero, 0, 0, size.Width, size.Height,
+                PI.SWP_.NOZORDER | PI.SWP_.NOACTIVATE | PI.SWP_.SHOWWINDOW);
+        }
+
+        PI.InvalidateRect(_resizeHandle, IntPtr.Zero, true);
     }
 
     private void OnWrapperShown(object? sender, EventArgs e) => FitShellDialogToHost();
@@ -566,8 +615,6 @@ internal class CommonDialogHandler
     }
 
     private void FormResize(object? sender, EventArgs e) => FitShellDialogToHost();
-
-    internal bool EmbeddingDone => _embeddingDone;
 
     private static bool EnumerateChildWindow(IntPtr hWnd, IntPtr lParam)
     {
