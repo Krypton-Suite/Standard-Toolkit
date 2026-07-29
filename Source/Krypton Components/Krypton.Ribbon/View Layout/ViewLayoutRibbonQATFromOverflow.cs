@@ -59,7 +59,7 @@ internal class ViewLayoutRibbonQATFromOverflow : ViewLayoutRibbonQATContents
             var qatOverflow = new List<IQuickAccessToolbarButton>();
 
             // Scan all the defined buttons for ones to show as overflowing
-            foreach (IQuickAccessToolbarButton qatButton in Ribbon.QATButtons)
+            foreach (var qatButton in Ribbon.QATButtons.OfType<IQuickAccessToolbarButton>())
             {
                 // If the button requests to be shown...
                 if (qatButton.GetVisible())
