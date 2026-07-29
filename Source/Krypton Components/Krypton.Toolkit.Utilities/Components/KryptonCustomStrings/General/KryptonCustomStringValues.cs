@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -88,7 +88,7 @@ public class KryptonCustomStringValues : GlobalId
     /// </summary>
     /// <param name="key">The string key.</param>
     /// <param name="value">The localizable value.</param>
-    public void Set(string key, string value)
+    public void Set(string key, string? value)
     {
         if (string.IsNullOrEmpty(key))
         {

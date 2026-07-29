@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -16,7 +16,7 @@ internal class KryptonCustomStringsManagerActionList : DesignerActionList
 {
     #region Instance Fields
 
-    private readonly KryptonCustomStringsManager _manager;
+    private readonly KryptonCustomStringsManager? _manager;
     private readonly IComponentChangeService? _service;
 
     #endregion
@@ -41,7 +41,7 @@ internal class KryptonCustomStringsManagerActionList : DesignerActionList
     /// <summary>
     /// Gets the custom string values exposed by the manager.
     /// </summary>
-    public KryptonCustomStringValues CustomStrings => _manager.CustomStrings;
+    public KryptonCustomStringValues? CustomStrings => _manager?.CustomStrings;
 
     #endregion
 

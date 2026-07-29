@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -22,22 +22,22 @@ internal static class ToolkitStringsXmlPersistence
     private const string ValueAttribute = @"Value";
     private const string IsNullAttribute = @"IsNull";
 
-    public static System.Xml.XmlDocument Export(System.Object toolkitStrings, bool includeDefaults)
+    public static XmlDocument Export(Object toolkitStrings, bool includeDefaults)
     {
         if (toolkitStrings == null)
         {
-            throw new System.ArgumentNullException(nameof(toolkitStrings));
+            throw new ArgumentNullException(nameof(toolkitStrings));
         }
 
-        var doc = new System.Xml.XmlDocument();
+        var doc = new XmlDocument();
 
         // Create processing instruction like existing Krypton XML persistence.
         doc.AppendChild(doc.CreateProcessingInstruction(@"xml", @"version=""1.0"""));
 
         var root = doc.CreateElement(RootElementName);
-        root.SetAttribute(VersionAttribute, CurrentSupportedVersion.ToString(System.Globalization.CultureInfo.InvariantCulture));
-        root.SetAttribute(CultureAttribute, System.Threading.Thread.CurrentThread.CurrentUICulture.Name);
-        root.SetAttribute(GeneratedAttribute, System.DateTime.Now.ToString(System.Globalization.CultureInfo.InvariantCulture));
+        root.SetAttribute(VersionAttribute, CurrentSupportedVersion.ToString(CultureInfo.InvariantCulture));
+        root.SetAttribute(CultureAttribute, Thread.CurrentThread.CurrentUICulture.Name);
+        root.SetAttribute(GeneratedAttribute, DateTime.Now.ToString(CultureInfo.InvariantCulture));
         doc.AppendChild(root);
 
         ExportGlobalIdToElement(doc, root, toolkitStrings, includeDefaults);
@@ -45,16 +45,16 @@ internal static class ToolkitStringsXmlPersistence
         return doc;
     }
 
-    public static void Import(System.Object toolkitStrings, System.Xml.XmlDocument doc, bool resetFirst, bool refreshOpenForms, bool warnOnCultureMismatch = true)
+    public static void Import(Object toolkitStrings, XmlDocument doc, bool resetFirst, bool refreshOpenForms, bool warnOnCultureMismatch = true)
     {
         if (toolkitStrings == null)
         {
-            throw new System.ArgumentNullException(nameof(toolkitStrings));
+            throw new ArgumentNullException(nameof(toolkitStrings));
         }
 
         if (doc == null)
         {
-            throw new System.ArgumentNullException(nameof(doc));
+            throw new ArgumentNullException(nameof(doc));
         }
 
         if (resetFirst && toolkitStrings is KryptonGlobalToolkitStrings strings)
@@ -65,22 +65,22 @@ internal static class ToolkitStringsXmlPersistence
         // Validate document content.
         if (!doc.HasChildNodes)
         {
-            throw new System.ArgumentException(@"Xml document does not have a root element.");
+            throw new ArgumentException(@"Xml document does not have a root element.");
         }
 
-        var root = doc.SelectSingleNode(RootElementName) as System.Xml.XmlElement;
+        var root = doc.SelectSingleNode(RootElementName) as XmlElement;
         if (root == null)
         {
-            throw new System.ArgumentException($@"Root element must be called '{RootElementName}'.");
+            throw new ArgumentException($@"Root element must be called '{RootElementName}'.");
         }
 
         // Attempt to validate version compatibility.
-        if (int.TryParse(root.GetAttribute(VersionAttribute), System.Globalization.NumberStyles.Integer,
-                System.Globalization.CultureInfo.InvariantCulture, out var fileVersion)
+        if (int.TryParse(root.GetAttribute(VersionAttribute), NumberStyles.Integer,
+                CultureInfo.InvariantCulture, out var fileVersion)
             && fileVersion < CurrentSupportedVersion)
         {
             // We can still attempt best-effort import for unknown properties, but old formats may not match.
-            throw new System.ArgumentException(
+            throw new ArgumentException(
                 $@"Translations.xml format version '{fileVersion}' is incompatible. Supported version is {CurrentSupportedVersion} or above.");
         }
 
@@ -88,11 +88,11 @@ internal static class ToolkitStringsXmlPersistence
         if (warnOnCultureMismatch)
         {
             var fileCulture = root.GetAttribute(CultureAttribute);
-            var currentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name;
+            var currentCulture = Thread.CurrentThread.CurrentUICulture.Name;
             if (!string.IsNullOrEmpty(fileCulture)
-                && !System.String.Equals(fileCulture, currentCulture, System.StringComparison.OrdinalIgnoreCase))
+                && !String.Equals(fileCulture, currentCulture, StringComparison.OrdinalIgnoreCase))
             {
-                System.Diagnostics.Debug.WriteLine(
+                Debug.WriteLine(
                     $@"[Krypton] Translations.xml was created for culture '{fileCulture}' but the current UI culture is '{currentCulture}'. Strings may not display correctly.");
             }
         }
@@ -105,35 +105,35 @@ internal static class ToolkitStringsXmlPersistence
         }
     }
 
-    public static System.Xml.XmlDocument ExportToXmlDocument(System.Object toolkitStrings, bool includeDefaults) =>
+    public static XmlDocument ExportToXmlDocument(Object toolkitStrings, bool includeDefaults) =>
         Export(toolkitStrings, includeDefaults);
 
-    public static void ExportToStream(System.Object toolkitStrings, System.IO.Stream stream, bool includeDefaults = false)
+    public static void ExportToStream(Object toolkitStrings, Stream stream, bool includeDefaults = false)
     {
         if (stream == null)
         {
-            throw new System.ArgumentNullException(nameof(stream));
+            throw new ArgumentNullException(nameof(stream));
         }
 
         var doc = Export(toolkitStrings, includeDefaults);
         doc.Save(stream);
     }
 
-    public static void ImportFromStream(System.Object toolkitStrings, System.IO.Stream stream, bool resetFirst = true, bool refreshOpenForms = true, bool warnOnCultureMismatch = true)
+    public static void ImportFromStream(Object toolkitStrings, Stream stream, bool resetFirst = true, bool refreshOpenForms = true, bool warnOnCultureMismatch = true)
     {
         if (stream == null)
         {
-            throw new System.ArgumentNullException(nameof(stream));
+            throw new ArgumentNullException(nameof(stream));
         }
 
-        var doc = new System.Xml.XmlDocument();
+        var doc = new XmlDocument();
         doc.Load(stream);
         Import(toolkitStrings, doc, resetFirst, refreshOpenForms, warnOnCultureMismatch);
     }
 
     private static void RefreshOpenFormsBestEffort()
     {
-        foreach (System.Windows.Forms.Form? form in System.Windows.Forms.Application.OpenForms)
+        foreach (Form? form in Application.OpenForms)
         {
             if (form == null)
             {
@@ -152,9 +152,9 @@ internal static class ToolkitStringsXmlPersistence
     }
 
     private static void ExportGlobalIdToElement(
-        System.Xml.XmlDocument doc,
-        System.Xml.XmlElement parent,
-        System.Object obj,
+        XmlDocument doc,
+        XmlElement parent,
+        Object obj,
         bool includeDefaults)
     {
         // Root export always writes children (even when empty); nested exports may be elided.
@@ -162,16 +162,16 @@ internal static class ToolkitStringsXmlPersistence
     }
 
     private static bool ExportGlobalIdToElementInternal(
-        System.Xml.XmlDocument doc,
-        System.Xml.XmlElement parent,
-        System.Object obj,
+        XmlDocument doc,
+        XmlElement parent,
+        Object obj,
         bool includeDefaults,
         bool forceWriteContainer)
     {
         var anyWritten = false;
 
         var objType = obj.GetType();
-        foreach (var prop in objType.GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public))
+        foreach (var prop in objType.GetProperties(BindingFlags.Instance | BindingFlags.Public))
         {
             if (!prop.CanRead)
             {
@@ -187,7 +187,7 @@ internal static class ToolkitStringsXmlPersistence
             // Persist string values only when explicitly localizable.
             if (prop.PropertyType == typeof(string))
             {
-                var localizable = prop.GetCustomAttribute<System.ComponentModel.LocalizableAttribute>(inherit: false);
+                var localizable = prop.GetCustomAttribute<LocalizableAttribute>(inherit: false);
                 if (localizable?.IsLocalizable != true)
                 {
                     continue;
@@ -202,13 +202,13 @@ internal static class ToolkitStringsXmlPersistence
 
                 // Emit a human-readable XML comment when available.
                 // This makes the exported file easier to edit/maintain in external tooling.
-                var descriptionAttr = prop.GetCustomAttribute<System.ComponentModel.DescriptionAttribute>(inherit: false);
+                var descriptionAttr = prop.GetCustomAttribute<DescriptionAttribute>(inherit: false);
 
                 var child = doc.CreateElement(prop.Name);
                 if (value == null)
                 {
                     child.SetAttribute(IsNullAttribute, @"true");
-                    child.SetAttribute(ValueAttribute, System.String.Empty);
+                    child.SetAttribute(ValueAttribute, String.Empty);
                 }
                 else
                 {
@@ -250,9 +250,9 @@ internal static class ToolkitStringsXmlPersistence
         return anyWritten;
     }
 
-    private static bool IsDefaultStringProperty(System.Reflection.PropertyInfo prop, string? value)
+    private static bool IsDefaultStringProperty(PropertyInfo prop, string? value)
     {
-        var defaultAttr = prop.GetCustomAttribute<System.ComponentModel.DefaultValueAttribute>(inherit: false);
+        var defaultAttr = prop.GetCustomAttribute<DefaultValueAttribute>(inherit: false);
         if (defaultAttr == null)
         {
             return false;
@@ -270,14 +270,14 @@ internal static class ToolkitStringsXmlPersistence
             return false;
         }
 
-        return System.String.Equals(value, defaultString, System.StringComparison.Ordinal);
+        return String.Equals(value, defaultString, StringComparison.Ordinal);
     }
 
-    private static void ImportGlobalIdFromElement(System.Xml.XmlElement parentElement, System.Object obj)
+    private static void ImportGlobalIdFromElement(XmlElement parentElement, Object obj)
     {
         var objType = obj.GetType();
 
-        foreach (var prop in objType.GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public))
+        foreach (var prop in objType.GetProperties(BindingFlags.Instance | BindingFlags.Public))
         {
             if (!prop.CanWrite)
             {
@@ -292,19 +292,19 @@ internal static class ToolkitStringsXmlPersistence
             // String properties: locate element by name.
             if (prop.PropertyType == typeof(string))
             {
-                var localizable = prop.GetCustomAttribute<System.ComponentModel.LocalizableAttribute>(inherit: false);
+                var localizable = prop.GetCustomAttribute<LocalizableAttribute>(inherit: false);
                 if (localizable?.IsLocalizable != true)
                 {
                     continue;
                 }
 
-                var child = parentElement.SelectSingleNode(prop.Name) as System.Xml.XmlElement;
+                var child = parentElement.SelectSingleNode(prop.Name) as XmlElement;
                 if (child == null)
                 {
                     continue;
                 }
 
-                var isNull = System.String.Equals(child.GetAttribute(IsNullAttribute), @"true", System.StringComparison.OrdinalIgnoreCase);
+                var isNull = String.Equals(child.GetAttribute(IsNullAttribute), @"true", StringComparison.OrdinalIgnoreCase);
                 if (isNull)
                 {
                     prop.SetValue(obj, null, null);
@@ -319,7 +319,7 @@ internal static class ToolkitStringsXmlPersistence
             // Nested string sets (GlobalId derived): recurse.
             if (typeof(GlobalId).IsAssignableFrom(prop.PropertyType))
             {
-                var container = parentElement.SelectSingleNode(prop.Name) as System.Xml.XmlElement;
+                var container = parentElement.SelectSingleNode(prop.Name) as XmlElement;
                 if (container == null)
                 {
                     continue;

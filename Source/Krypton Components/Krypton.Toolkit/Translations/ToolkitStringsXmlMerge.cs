@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -28,23 +28,23 @@ public static class ToolkitStringsXmlMerge
     {
         if (string.IsNullOrWhiteSpace(baselinePath))
         {
-            throw new System.ArgumentNullException(nameof(baselinePath));
+            throw new ArgumentNullException(nameof(baselinePath));
         }
 
         if (string.IsNullOrWhiteSpace(overlayPath))
         {
-            throw new System.ArgumentNullException(nameof(overlayPath));
+            throw new ArgumentNullException(nameof(overlayPath));
         }
 
         if (string.IsNullOrWhiteSpace(outputPath))
         {
-            throw new System.ArgumentNullException(nameof(outputPath));
+            throw new ArgumentNullException(nameof(outputPath));
         }
 
-        var baseline = new System.Xml.XmlDocument();
+        var baseline = new XmlDocument();
         baseline.Load(baselinePath);
 
-        var overlay = new System.Xml.XmlDocument();
+        var overlay = new XmlDocument();
         overlay.Load(overlayPath);
 
         var merged = Merge(baseline, overlay);
@@ -58,23 +58,23 @@ public static class ToolkitStringsXmlMerge
     /// <param name="baseline">The baseline document.</param>
     /// <param name="overlay">The overlay document whose values take precedence.</param>
     /// <returns>A new <see cref="System.Xml.XmlDocument"/> containing the merged result.</returns>
-    public static System.Xml.XmlDocument Merge(System.Xml.XmlDocument baseline, System.Xml.XmlDocument overlay)
+    public static XmlDocument Merge(XmlDocument baseline, XmlDocument overlay)
     {
         if (baseline == null)
         {
-            throw new System.ArgumentNullException(nameof(baseline));
+            throw new ArgumentNullException(nameof(baseline));
         }
 
         if (overlay == null)
         {
-            throw new System.ArgumentNullException(nameof(overlay));
+            throw new ArgumentNullException(nameof(overlay));
         }
 
         // Deep-clone the baseline so the caller's document is not modified.
-        var result = (System.Xml.XmlDocument)baseline.CloneNode(deep: true);
+        var result = (XmlDocument)baseline.CloneNode(deep: true);
 
-        var resultRoot = result.SelectSingleNode(@"KryptonTranslations") as System.Xml.XmlElement;
-        var overlayRoot = overlay.SelectSingleNode(@"KryptonTranslations") as System.Xml.XmlElement;
+        var resultRoot = result.SelectSingleNode(@"KryptonTranslations") as XmlElement;
+        var overlayRoot = overlay.SelectSingleNode(@"KryptonTranslations") as XmlElement;
 
         if (resultRoot == null || overlayRoot == null)
         {
@@ -85,16 +85,16 @@ public static class ToolkitStringsXmlMerge
         return result;
     }
 
-    private static void MergeElements(System.Xml.XmlDocument doc, System.Xml.XmlElement target, System.Xml.XmlElement source)
+    private static void MergeElements(XmlDocument doc, XmlElement target, XmlElement source)
     {
-        foreach (System.Xml.XmlNode sourceChild in source.ChildNodes)
+        foreach (XmlNode sourceChild in source.ChildNodes)
         {
-            if (sourceChild is not System.Xml.XmlElement sourceEl)
+            if (sourceChild is not XmlElement sourceEl)
             {
                 continue;
             }
 
-            var targetEl = target.SelectSingleNode(sourceEl.Name) as System.Xml.XmlElement;
+            var targetEl = target.SelectSingleNode(sourceEl.Name) as XmlElement;
             if (targetEl == null)
             {
                 // New element — import it.

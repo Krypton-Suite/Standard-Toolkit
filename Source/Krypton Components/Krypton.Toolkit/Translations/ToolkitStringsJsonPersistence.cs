@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -19,18 +19,18 @@ internal static class ToolkitStringsJsonPersistence
     /// <summary>
     /// Exports toolkit strings to a JSON string.
     /// </summary>
-    public static string Export(System.Object toolkitStrings, bool includeDefaults)
+    public static string Export(Object toolkitStrings, bool includeDefaults)
     {
         if (toolkitStrings == null)
         {
-            throw new System.ArgumentNullException(nameof(toolkitStrings));
+            throw new ArgumentNullException(nameof(toolkitStrings));
         }
 
-        var sb = new System.Text.StringBuilder(4096);
+        var sb = new StringBuilder(4096);
         sb.AppendLine(@"{");
         sb.AppendLine($@"  ""{VersionKey}"": {CurrentSupportedVersion},");
-        sb.AppendLine($@"  ""{CultureKey}"": ""{EscapeJsonString(System.Threading.Thread.CurrentThread.CurrentUICulture.Name)}"",");
-        sb.AppendLine($@"  ""{GeneratedKey}"": ""{EscapeJsonString(System.DateTime.Now.ToString(System.Globalization.CultureInfo.InvariantCulture))}"",");
+        sb.AppendLine($@"  ""{CultureKey}"": ""{EscapeJsonString(Thread.CurrentThread.CurrentUICulture.Name)}"",");
+        sb.AppendLine($@"  ""{GeneratedKey}"": ""{EscapeJsonString(DateTime.Now.ToString(CultureInfo.InvariantCulture))}"",");
 
         ExportObject(sb, toolkitStrings, includeDefaults, indent: 1, trailingComma: false);
 
@@ -41,57 +41,57 @@ internal static class ToolkitStringsJsonPersistence
     /// <summary>
     /// Exports toolkit strings to a JSON file.
     /// </summary>
-    public static void ExportToFile(System.Object toolkitStrings, string filename, bool includeDefaults = false)
+    public static void ExportToFile(Object toolkitStrings, string filename, bool includeDefaults = false)
     {
         if (string.IsNullOrWhiteSpace(filename))
         {
-            throw new System.ArgumentNullException(nameof(filename));
+            throw new ArgumentNullException(nameof(filename));
         }
 
         var json = Export(toolkitStrings, includeDefaults);
-        System.IO.File.WriteAllText(filename, json, System.Text.Encoding.UTF8);
+        File.WriteAllText(filename, json, Encoding.UTF8);
     }
 
     /// <summary>
     /// Exports toolkit strings to a stream as JSON.
     /// </summary>
-    public static void ExportToStream(System.Object toolkitStrings, System.IO.Stream stream, bool includeDefaults = false)
+    public static void ExportToStream(Object toolkitStrings, Stream stream, bool includeDefaults = false)
     {
         if (stream == null)
         {
-            throw new System.ArgumentNullException(nameof(stream));
+            throw new ArgumentNullException(nameof(stream));
         }
 
         var json = Export(toolkitStrings, includeDefaults);
-        var bytes = System.Text.Encoding.UTF8.GetBytes(json);
+        var bytes = Encoding.UTF8.GetBytes(json);
         stream.Write(bytes, 0, bytes.Length);
     }
 
     /// <summary>
     /// Imports toolkit strings from a JSON file.
     /// </summary>
-    public static void ImportFromFile(System.Object toolkitStrings, string filename, bool resetFirst = true, bool refreshOpenForms = true)
+    public static void ImportFromFile(Object toolkitStrings, string filename, bool resetFirst = true, bool refreshOpenForms = true)
     {
         if (string.IsNullOrWhiteSpace(filename))
         {
-            throw new System.ArgumentNullException(nameof(filename));
+            throw new ArgumentNullException(nameof(filename));
         }
 
-        var json = System.IO.File.ReadAllText(filename, System.Text.Encoding.UTF8);
+        var json = File.ReadAllText(filename, Encoding.UTF8);
         ImportFromJson(toolkitStrings, json, resetFirst, refreshOpenForms);
     }
 
     /// <summary>
     /// Imports toolkit strings from a JSON stream.
     /// </summary>
-    public static void ImportFromStream(System.Object toolkitStrings, System.IO.Stream stream, bool resetFirst = true, bool refreshOpenForms = true)
+    public static void ImportFromStream(Object toolkitStrings, Stream stream, bool resetFirst = true, bool refreshOpenForms = true)
     {
         if (stream == null)
         {
-            throw new System.ArgumentNullException(nameof(stream));
+            throw new ArgumentNullException(nameof(stream));
         }
 
-        using var reader = new System.IO.StreamReader(stream, System.Text.Encoding.UTF8);
+        using var reader = new StreamReader(stream, Encoding.UTF8);
         var json = reader.ReadToEnd();
         ImportFromJson(toolkitStrings, json, resetFirst, refreshOpenForms);
     }
@@ -101,16 +101,16 @@ internal static class ToolkitStringsJsonPersistence
     /// Uses the XML persistence helper by converting the JSON to an in-memory XmlDocument,
     /// keeping the import logic (reset, refresh, culture) centralised.
     /// </summary>
-    public static void ImportFromJson(System.Object toolkitStrings, string json, bool resetFirst = true, bool refreshOpenForms = true)
+    public static void ImportFromJson(Object toolkitStrings, string json, bool resetFirst = true, bool refreshOpenForms = true)
     {
         if (toolkitStrings == null)
         {
-            throw new System.ArgumentNullException(nameof(toolkitStrings));
+            throw new ArgumentNullException(nameof(toolkitStrings));
         }
 
         if (string.IsNullOrWhiteSpace(json))
         {
-            throw new System.ArgumentException(@"JSON content is empty.", nameof(json));
+            throw new ArgumentException(@"JSON content is empty.", nameof(json));
         }
 
         // Parse minimally and build an XmlDocument matching the canonical XML format,
@@ -121,11 +121,11 @@ internal static class ToolkitStringsJsonPersistence
 
     #region Export helpers
 
-    private static void ExportObject(System.Text.StringBuilder sb, System.Object obj, bool includeDefaults, int indent, bool trailingComma)
+    private static void ExportObject(StringBuilder sb, Object obj, bool includeDefaults, int indent, bool trailingComma)
     {
         var objType = obj.GetType();
-        var props = objType.GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
-        var written = new System.Collections.Generic.List<System.Action>();
+        var props = objType.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+        var written = new List<Action>();
 
         foreach (var prop in props)
         {
@@ -136,7 +136,7 @@ internal static class ToolkitStringsJsonPersistence
 
             if (prop.PropertyType == typeof(string))
             {
-                var localizable = prop.GetCustomAttribute<System.ComponentModel.LocalizableAttribute>(inherit: false);
+                var localizable = prop.GetCustomAttribute<LocalizableAttribute>(inherit: false);
                 if (localizable?.IsLocalizable != true)
                 {
                     continue;
@@ -191,15 +191,15 @@ internal static class ToolkitStringsJsonPersistence
         }
     }
 
-    private static bool IsDefaultStringProperty(System.Reflection.PropertyInfo prop, string? value)
+    private static bool IsDefaultStringProperty(PropertyInfo prop, string? value)
     {
-        var defaultAttr = prop.GetCustomAttribute<System.ComponentModel.DefaultValueAttribute>(inherit: false);
+        var defaultAttr = prop.GetCustomAttribute<DefaultValueAttribute>(inherit: false);
         if (defaultAttr?.Value == null)
         {
             return value == null && defaultAttr != null;
         }
 
-        return System.String.Equals(value, defaultAttr.Value as string, System.StringComparison.Ordinal);
+        return String.Equals(value, defaultAttr.Value as string, StringComparison.Ordinal);
     }
 
     private static string EscapeJsonString(string s)
@@ -216,9 +216,9 @@ internal static class ToolkitStringsJsonPersistence
 
     #region Import helpers (JSON → XML bridge)
 
-    private static System.Xml.XmlDocument JsonToXmlDocument(string json)
+    private static XmlDocument JsonToXmlDocument(string json)
     {
-        var doc = new System.Xml.XmlDocument();
+        var doc = new XmlDocument();
         doc.AppendChild(doc.CreateProcessingInstruction(@"xml", @"version=""1.0"""));
 
         var root = doc.CreateElement(@"KryptonTranslations");
@@ -236,9 +236,9 @@ internal static class ToolkitStringsJsonPersistence
         return doc;
     }
 
-    private static void PromoteToAttribute(System.Xml.XmlElement root, string name)
+    private static void PromoteToAttribute(XmlElement root, string name)
     {
-        var child = root.SelectSingleNode(name) as System.Xml.XmlElement;
+        var child = root.SelectSingleNode(name) as XmlElement;
         if (child != null)
         {
             root.SetAttribute(name, child.GetAttribute(@"Value"));
@@ -246,7 +246,7 @@ internal static class ToolkitStringsJsonPersistence
         }
     }
 
-    private static void ParseObject(System.Collections.Generic.List<string> tokens, ref int pos, System.Xml.XmlDocument doc, System.Xml.XmlElement parent)
+    private static void ParseObject(List<string> tokens, ref int pos, XmlDocument doc, XmlElement parent)
     {
         if (pos < tokens.Count && tokens[pos] == @"{")
         {
@@ -312,9 +312,9 @@ internal static class ToolkitStringsJsonPersistence
             .Replace(@"\t", "\t");
     }
 
-    private static System.Collections.Generic.List<string> Tokenize(string json)
+    private static List<string> Tokenize(string json)
     {
-        var tokens = new System.Collections.Generic.List<string>();
+        var tokens = new List<string>();
         var i = 0;
         while (i < json.Length)
         {
@@ -334,7 +334,7 @@ internal static class ToolkitStringsJsonPersistence
 
             if (c == '"')
             {
-                var sb = new System.Text.StringBuilder();
+                var sb = new StringBuilder();
                 sb.Append('"');
                 i++;
                 while (i < json.Length)

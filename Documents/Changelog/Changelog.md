@@ -52,6 +52,7 @@
    * Stream overloads (`ExportToStream` / `ImportFromStream`) for embedded resources and database BLOBs.
    * Extended to `DockingManagerStrings` and `WorkspaceMenus` string sets.
    * `TranslationsImported` event, culture-mismatch warnings, diff/merge utility, XSD schema, and JSON export/import included.
+   * `KryptonCustomStrings` in `Krypton.Toolkit.Utilities` can now export/import application-defined key/value strings and registered typed string sets through matching XML/JSON persistence APIs.
 * Implemented [#331](https://github.com/Krypton-Suite/Standard-Toolkit/issues/331), Make the "No Tab in a ribbon Solution" An Actual Designer Tool
    * `KryptonRibbon.ShowTabHeaders` hides the tab strip for toolbar-style ribbons while keeping the selected tab's groups; designer verbs/smart-tag toggle and `KryptonRibbonToolbar` toolbox control included.
    * Context titles (`RibbonContexts`) stay hidden with the tab strip and no longer linger after toggling `ShowTabHeaders` at runtime.

@@ -99,5 +99,59 @@ public static class KryptonCustomStrings
     public static void ResetStringSets()
         => KryptonCustomStringSetRegistry.ResetAll();
 
+    /// <summary>
+    /// Exports the current custom strings to a versioned XML document.
+    /// </summary>
+    /// <param name="includeDefaults">When <c>true</c>, includes default values from registered typed string sets.</param>
+    public static XmlDocument ExportToXmlDocument(bool includeDefaults = false)
+        => KryptonCustomStringsPersistence.ExportToXmlDocument(includeDefaults);
+
+    /// <summary>
+    /// Exports the current custom strings to a versioned XML file.
+    /// </summary>
+    /// <param name="filename">Destination file path.</param>
+    /// <param name="includeDefaults">When <c>true</c>, includes default values from registered typed string sets.</param>
+    public static void ExportToXmlFile(string filename, bool includeDefaults = false)
+        => KryptonCustomStringsPersistence.ExportToXmlFile(filename, includeDefaults);
+
+    /// <summary>
+    /// Imports custom strings from a versioned XML document.
+    /// </summary>
+    /// <param name="doc">The XML document to import.</param>
+    /// <param name="resetFirst">When <c>true</c>, resets key/value strings and registered typed sets before import.</param>
+    public static void ImportFromXmlDocument(XmlDocument doc, bool resetFirst = true)
+        => KryptonCustomStringsPersistence.ImportFromXmlDocument(doc, resetFirst);
+
+    /// <summary>
+    /// Imports custom strings from a versioned XML file.
+    /// </summary>
+    /// <param name="filename">Source file path.</param>
+    /// <param name="resetFirst">When <c>true</c>, resets key/value strings and registered typed sets before import.</param>
+    public static void ImportFromXmlFile(string filename, bool resetFirst = true)
+        => KryptonCustomStringsPersistence.ImportFromXmlFile(filename, resetFirst);
+
+    /// <summary>
+    /// Exports the current custom strings to JSON.
+    /// </summary>
+    /// <param name="includeDefaults">When <c>true</c>, includes default values from registered typed string sets.</param>
+    public static string ExportToJson(bool includeDefaults = false)
+        => KryptonCustomStringsPersistence.ExportToJson(includeDefaults);
+
+    /// <summary>
+    /// Exports the current custom strings to a JSON file.
+    /// </summary>
+    /// <param name="filename">Destination file path.</param>
+    /// <param name="includeDefaults">When <c>true</c>, includes default values from registered typed string sets.</param>
+    public static void ExportToJsonFile(string filename, bool includeDefaults = false)
+        => KryptonCustomStringsPersistence.ExportToJsonFile(filename, includeDefaults);
+
+    /// <summary>
+    /// Imports custom strings from a JSON file.
+    /// </summary>
+    /// <param name="filename">Source file path.</param>
+    /// <param name="resetFirst">When <c>true</c>, resets key/value strings and registered typed sets before import.</param>
+    public static void ImportFromJsonFile(string filename, bool resetFirst = true)
+        => KryptonCustomStringsPersistence.ImportFromJsonFile(filename, resetFirst);
+
     #endregion
 }
