@@ -49,6 +49,23 @@ internal class KryptonRibbonActionList : DesignerActionList
     }
 
     /// <summary>
+    /// Gets and sets whether ribbon tab headers are visible.
+    /// </summary>
+    public bool ShowTabHeaders
+    {
+        get => _ribbon.ShowTabHeaders;
+
+        set
+        {
+            if (_ribbon.ShowTabHeaders != value)
+            {
+                _service?.OnComponentChanged(_ribbon, null, _ribbon.ShowTabHeaders, value);
+                _ribbon.ShowTabHeaders = value;
+            }
+        }
+    }
+
+    /// <summary>
     /// Gets and sets the palette mode.
     /// </summary>
     public PaletteMode PaletteMode
@@ -83,6 +100,7 @@ internal class KryptonRibbonActionList : DesignerActionList
             actions.Add(new DesignerActionHeaderItem("Design"));
             actions.Add(new DesignerActionPropertyItem(nameof(InDesignHelperMode), "Design Helpers", "Design", "Show design time helpers for creating items."));
             actions.Add(new DesignerActionHeaderItem("Visuals"));
+            actions.Add(new DesignerActionPropertyItem(nameof(ShowTabHeaders), "Show Tab Headers", "Visuals", "Shows or hides the ribbon tab headers (toolbar mode when false)."));
             actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), "Palette", "Visuals", "Palette applied to drawing"));
         }
 

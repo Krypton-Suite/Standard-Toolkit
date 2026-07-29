@@ -23,6 +23,8 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
     private DesignerVerb _addTabVerb;
     private DesignerVerb _clearTabsVerb;
     private DesignerVerb _insertStandardQATVerb;
+    private DesignerVerb _hideTabHeadersVerb;
+    private DesignerVerb _showTabHeadersVerb;
     private bool _lastHitTest;
 
     #endregion
@@ -141,7 +143,9 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
                 _addTabVerb = new DesignerVerb(@"Add Tab", OnAddTab);
                 _clearTabsVerb = new DesignerVerb(@"Clear Tabs", OnClearTabs);
                 _insertStandardQATVerb = new DesignerVerb(@"Insert Standard Quick Access Toolbar Items", OnInsertStandardQATItems);
-                _verbs.AddRange([_toggleHelpersVerb, _addTabVerb, _clearTabsVerb, _insertStandardQATVerb]);
+                _hideTabHeadersVerb = new DesignerVerb(@"Hide Tab Headers", OnHideTabHeaders);
+                _showTabHeadersVerb = new DesignerVerb(@"Show Tab Headers", OnShowTabHeaders);
+                _verbs.AddRange([_toggleHelpersVerb, _addTabVerb, _clearTabsVerb, _insertStandardQATVerb, _hideTabHeadersVerb, _showTabHeadersVerb]);
             }
 
             UpdateVerbStatus();
@@ -250,6 +254,8 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
         if (_verbs.Count != 0 && _ribbon is not null)
         {
             _clearTabsVerb.Enabled = _ribbon.RibbonTabs.Count > 0;
+            _hideTabHeadersVerb.Enabled = _ribbon.ShowTabHeaders;
+            _showTabHeadersVerb.Enabled = !_ribbon.ShowTabHeaders;
         }
     }
 
@@ -380,6 +386,41 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
         finally
         {
             transaction?.Commit();
+        }
+    }
+
+    private void OnHideTabHeaders(object? sender, EventArgs e) => SetShowTabHeaders(false);
+
+    private void OnShowTabHeaders(object? sender, EventArgs e) => SetShowTabHeaders(true);
+
+    private void SetShowTabHeaders(bool showTabHeaders)
+    {
+        if (_designerHost is null)
+        {
+            throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
+        }
+
+        if (_ribbon is null)
+        {
+            throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_ribbon)));
+        }
+
+        DesignerTransaction transaction = _designerHost.CreateTransaction(showTabHeaders
+            ? @"KryptonRibbon ShowTabHeaders"
+            : @"KryptonRibbon HideTabHeaders");
+
+        try
+        {
+            MemberDescriptor? propertyShowTabHeaders = TypeDescriptor.GetProperties(_ribbon)[nameof(KryptonRibbon.ShowTabHeaders)];
+
+            RaiseComponentChanging(propertyShowTabHeaders);
+            _ribbon.ShowTabHeaders = showTabHeaders;
+            RaiseComponentChanged(propertyShowTabHeaders, !showTabHeaders, showTabHeaders);
+        }
+        finally
+        {
+            transaction?.Commit();
+            UpdateVerbStatus();
         }
     }
 
