@@ -135,6 +135,14 @@ internal class ViewLayoutRibbonGroupsArea : ViewDrawPanel
         // Find the correct padding to use
         Padding padding = _ribbon.RealMinimizedMode ? _layoutMinimizedPadding : _layoutNormalPadding;
 
+        // Normal mode uses Top=-1 so the groups top border overlaps the bottom of the tab strip.
+        // When the tab/pendant band has collapsed (e.g. ShowTabHeaders and ShowMinimizeButton both
+        // false under an integrated caption), that overlap clips the top border out of the ribbon (#331).
+        if (!_ribbon.RealMinimizedMode && (ClientLocation.Y <= 0))
+        {
+            padding = new Padding(padding.Left, 0, padding.Right, padding.Bottom);
+        }
+
         // Reduce display rect by our border size
         context.DisplayRectangle = new Rectangle(ClientLocation.X + padding.Left,
             ClientLocation.Y + padding.Top,

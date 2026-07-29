@@ -188,6 +188,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<OverlayImageTest>("Overlay Image Test", "Comprehensive demonstration of overlay images on KryptonButton and KryptonLabel with configurable positions and scaling modes.");
         CreateButton<PropertyGridTest>("PropertyGridTest", string.Empty);
         CreateButton<RibbonTest>("Ribbon", string.Empty);
+        CreateButton<RibbonShowTabHeadersDemo>("Ribbon ShowTabHeaders / Toolbar (#331)", "Issue #331: ShowTabHeaders property and KryptonRibbonToolbar. Compare a normal ribbon (toggle headers) with the toolbar subclass; groups stay visible when the tab strip is hidden.");
         CreateButton<RibbonNotificationBarDemo>("Ribbon Notification Bar", "Comprehensive demonstration of the Krypton Ribbon Notification Bar feature with all customization options.");
         CreateButton<RibbonMergerDemo>("Ribbon Merger Demo", "Demonstrates UserControl hosting and ribbon merging for plugin architectures");
         CreateButton<RibbonDetachableTest>("Detachable Ribbons", "Demonstrates detachable ribbons feature - allows ribbon to be moved to a floating window (Issue #595)");
