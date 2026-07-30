@@ -4539,6 +4539,69 @@ No 	                    No 	                    Show text only
     internal static extern int GetGuiResources(IntPtr hProcess, int uiFlags);
     #endif
 
+    /// <summary>
+    /// DrawText / DrawTextEx format flags (subset used by native GDI text rendering).
+    /// </summary>
+    [Flags]
+    internal enum DT_ : int
+    {
+        TOP = 0x00000000,
+        LEFT = 0x00000000,
+        CENTER = 0x00000001,
+        RIGHT = 0x00000002,
+        VCENTER = 0x00000004,
+        BOTTOM = 0x00000008,
+        WORDBREAK = 0x00000010,
+        SINGLELINE = 0x00000020,
+        EXPANDTABS = 0x00000040,
+        TABSTOP = 0x00000080,
+        NOCLIP = 0x00000100,
+        EXTERNALLEADING = 0x00000200,
+        CALCRECT = 0x00000400,
+        NOPREFIX = 0x00000800,
+        INTERNAL = 0x00001000,
+        EDITCONTROL = 0x00002000,
+        PATH_ELLIPSIS = 0x00004000,
+        END_ELLIPSIS = 0x00008000,
+        MODIFYSTRING = 0x00010000,
+        RTLREADING = 0x00020000,
+        WORD_ELLIPSIS = 0x00040000,
+        NOFULLWIDTHCHARBREAK = 0x00080000,
+        HIDEPREFIX = 0x00100000,
+        PREFIXONLY = 0x00200000
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct DRAWTEXTPARAMS
+    {
+        public uint cbSize;
+        public int iTabLength;
+        public int iLeftMargin;
+        public int iRightMargin;
+        public uint uiLengthDrawn;
+
+        public static DRAWTEXTPARAMS Create() =>
+            new DRAWTEXTPARAMS { cbSize = (uint)Marshal.SizeOf(typeof(DRAWTEXTPARAMS)) };
+    }
+
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, EntryPoint = "DrawTextW", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+    internal static partial int DrawTextW(IntPtr hDC, string lpchText, int cchText, ref RECT lprc, DT_ format);
+    #else
+    [DllImport(Libraries.User32, EntryPoint = "DrawTextW", CharSet = CharSet.Unicode, SetLastError = true)]
+    internal static extern int DrawTextW(IntPtr hDC, string lpchText, int cchText, ref RECT lprc, DT_ format);
+    #endif
+
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, EntryPoint = "DrawTextExW", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+    internal static partial int DrawTextExW(IntPtr hdc, string lpchText, int cchText, ref RECT lprc, DT_ format, ref DRAWTEXTPARAMS lpdtp);
+    #else
+    [DllImport(Libraries.User32, EntryPoint = "DrawTextExW", CharSet = CharSet.Unicode, SetLastError = true)]
+    internal static extern int DrawTextExW(IntPtr hdc, string lpchText, int cchText, ref RECT lprc, DT_ format, ref DRAWTEXTPARAMS lpdtp);
+    #endif
+
     #endregion
 
     #region Static Gdi32
@@ -4888,6 +4951,47 @@ No 	                    No 	                    Show text only
 
     [DllImport(Libraries.Gdi32)]
     internal static extern bool Rectangle(IntPtr hdc, int nLeftRect, int nTopRect, int nRightRect, int nBottomRect);
+    #endif
+
+    /// <summary>Background mode for <see cref="SetBkMode"/> — leave background untouched.</summary>
+    internal const int BKMODE_TRANSPARENT = 1;
+
+    /// <summary>Background mode for <see cref="SetBkMode"/> — fill with background color.</summary>
+    internal const int BKMODE_OPAQUE = 2;
+
+    [Flags]
+    internal enum ETO_ : uint
+    {
+        OPAQUE = 0x0002,
+        CLIPPED = 0x0004,
+        GLYPH_INDEX = 0x0010,
+        RTLREADING = 0x0080,
+        NUMERICSLOCAL = 0x0400,
+        NUMERICSLATIN = 0x0800,
+        IGNORELANGUAGE = 0x1000,
+        PDY = 0x2000
+    }
+
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32, EntryPoint = "GetTextExtentPoint32W", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool GetTextExtentPoint32W(IntPtr hdc, string lpString, int c, out SIZE psizl);
+    #else
+    [DllImport(Libraries.Gdi32, EntryPoint = "GetTextExtentPoint32W", CharSet = CharSet.Unicode, SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static extern bool GetTextExtentPoint32W(IntPtr hdc, string lpString, int c, out SIZE psizl);
+    #endif
+
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32, EntryPoint = "ExtTextOutW", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool ExtTextOutW(IntPtr hdc, int x, int y, ETO_ options, ref RECT lprect, string lpString, uint c, IntPtr lpDx);
+    #else
+    [DllImport(Libraries.Gdi32, EntryPoint = "ExtTextOutW", CharSet = CharSet.Unicode, SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static extern bool ExtTextOutW(IntPtr hdc, int x, int y, ETO_ options, ref RECT lprect, string lpString, uint c, IntPtr lpDx);
     #endif
 
     #endregion

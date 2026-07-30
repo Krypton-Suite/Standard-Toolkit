@@ -45,6 +45,8 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#1103](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1103), Investigate use of PInvoked GDI text functionality for performance [and compare with TextRenderer.DrawText (Mode off)]
+   * Opt-in native GDI text path for `AccurateText` (`PreferNativeGdiText` / `GdiNativeText`) with TestForm benchmark
 * Implemented [#1231](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1231), The `KryptonOpenFileDialog` can have poor performance on some OS hardware
    * Added a provider-based custom dialog mode for `KryptonOpenFileDialog`, `KryptonSaveFileDialog`, and `KryptonFolderBrowserDialog` so applications can avoid the native shell wrapper path on machines where it performs poorly.
    * Native provider mode uses the standard Windows Explorer dialog directly. Hosting that HWND inside a `KryptonForm` is not reliable on modern Windows (clipped/blank UI); use `ProviderMode = Custom` for the managed KryptonForm dialog.
