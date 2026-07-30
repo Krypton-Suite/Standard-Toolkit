@@ -20,6 +20,12 @@ internal class CommonDialogHandler
     private readonly bool _embed;
     internal bool ReturnHandledOnInitDialog { get; set; } = true;
 
+    /// <summary>
+    /// When false, reparent into a <see cref="KryptonForm"/> for window chrome only and leave native controls untouched.
+    /// Required for Vista+ Explorer file dialogs.
+    /// </summary>
+    internal bool ReplaceNativeControls { get; set; } = true;
+
     internal class Attributes
     {
         public IntPtr hWnd;
@@ -72,6 +78,8 @@ internal class CommonDialogHandler
                     PI.SetWindowText(hWnd, Title);
                 }
 
+                if (ReplaceNativeControls)
+                {
                 var childHandles = new List<IntPtr>();
                 GCHandle gch = GCHandle.Alloc(childHandles);
                 try
@@ -283,7 +291,11 @@ internal class CommonDialogHandler
                             break;
                     }
                 }
-                if (_embed && !_embeddingDone)
+                } // ReplaceNativeControls
+
+                // Legacy control-replacement embeds immediately. Chrome-only hosting waits until
+                // the dialog is activated — modern Explorer UI is not laid out yet during WM_INITDIALOG.
+                if (_embed && !_embeddingDone && ReplaceNativeControls)
                 {
                     PerformEmbedding(hWnd);
                     if (ReturnHandledOnInitDialog)
@@ -302,7 +314,7 @@ internal class CommonDialogHandler
                 break;
 
             case PI.WM_.PAINT:
-                if (_embed)
+                if (_embed && ReplaceNativeControls)
                 {
                     foreach (Attributes control in _controls)
                     {
@@ -341,12 +353,20 @@ internal class CommonDialogHandler
             //    return (true, new IntPtr(1));
 
             case PI.WM_.CTLCOLORDLG:
+                if (!ReplaceNativeControls)
+                {
+                    break;
+                }
                 PI.SetDCBrushColor(wParam, ColorTranslator.ToWin32(_backColour));
                 PI.SetBkMode(wParam, ColorTranslator.ToWin32(Color.Transparent));
                 PI.SetBkColor(wParam, ColorTranslator.ToWin32(_backColour));
                 return (true, PI.GetStockObject(PI.StockObjects.DC_BRUSH));
 
             case PI.WM_.CTLCOLORSTATIC:
+                if (!ReplaceNativeControls)
+                {
+                    break;
+                }
                 // WM_CTLCOLORSTATIC was the correct way to control the color of the group box title.
                 // However, it no longer works: If your application uses a manifest to include the version 6 comctl library,
                 // the Groupbox control no longer sends the WM_CTLCOLORSTATIC to its parent to get a brush
@@ -359,6 +379,10 @@ internal class CommonDialogHandler
 
             case PI.WM_.CTLCOLORBTN:
             {
+                if (!ReplaceNativeControls)
+                {
+                    break;
+                }
                 // By default, the DefWindowProc function selects the default system colors for the button.
                 // Buttons with the BS_PUSHBUTTON, BS_DEFPUSHBUTTON, or BS_PUSHLIKE styles do not use the returned brush.
                 // Buttons with these styles are always drawn with the default system colors.
@@ -373,6 +397,10 @@ internal class CommonDialogHandler
             }
 
             case PI.WM_.CTLCOLORLISTBOX:
+                if (!ReplaceNativeControls)
+                {
+                    break;
+                }
                 PI.SetTextColor(wParam, ColorTranslator.ToWin32(_defaultFontColour));
                 PI.SetDCBrushColor(wParam, ColorTranslator.ToWin32(_backColour));
                 PI.SetBkColor(wParam, ColorTranslator.ToWin32(_backColour));
@@ -380,12 +408,20 @@ internal class CommonDialogHandler
                 return (true, PI.GetStockObject(PI.StockObjects.DC_BRUSH));
 
             case PI.WM_.CTLCOLOREDIT:
+                if (!ReplaceNativeControls)
+                {
+                    break;
+                }
                 PI.SetTextColor(wParam, ColorTranslator.ToWin32(_inputFontColour));
                 PI.SetDCBrushColor(wParam, ColorTranslator.ToWin32(_backColour));
                 PI.SetBkMode(wParam, ColorTranslator.ToWin32(Color.Transparent));
                 return (true, PI.GetStockObject(PI.StockObjects.DC_BRUSH));
 
             case PI.WM_.CTLCOLORSCROLLBAR:
+                if (!ReplaceNativeControls)
+                {
+                    break;
+                }
                 PI.SetTextColor(wParam, ColorTranslator.ToWin32(_inputFontColour));
                 PI.SetDCBrushColor(wParam, ColorTranslator.ToWin32(_inputFontColour));
                 PI.SetBkColor(wParam, ColorTranslator.ToWin32(_inputFontColour));
@@ -402,112 +438,183 @@ internal class CommonDialogHandler
 
     private void PerformEmbedding(IntPtr hWnd)
     {
+        // Capture size/position before stripping the non-client frame.
+        PI.GetWindowInfo(hWnd, out var winInfo);
+        var measuredWidth = winInfo.rcClient.right - winInfo.rcClient.left;
+        var measuredHeight = winInfo.rcClient.bottom - winInfo.rcClient.top;
+        // Modern IFileDialog often reports a tiny client size during WM_INITDIALOG.
+        var clientWidth = measuredWidth >= 400 ? measuredWidth : 900;
+        var clientHeight = measuredHeight >= 300 ? measuredHeight : 600;
+        var windowLeft = winInfo.rcWindow.left;
+        var windowTop = winInfo.rcWindow.top;
+
         var controlType = PI.GetWindowLong(hWnd, PI.GWL_.STYLE);
-        controlType &= ~(PI.WS_.POPUPWINDOW | PI.WS_.CAPTION | PI.WS_.DLGFRAME | PI.WS_.OVERLAPPEDWINDOW);
-        controlType |= PI.WS_.CHILD | PI.WS_.VISIBLE | PI.WS_.GROUP;
+        controlType &= ~(PI.WS_.POPUPWINDOW | PI.WS_.CAPTION | PI.WS_.DLGFRAME | PI.WS_.OVERLAPPEDWINDOW | PI.WS_.SYSMENU);
+        controlType |= PI.WS_.CHILD | PI.WS_.VISIBLE | PI.WS_.CLIPCHILDREN | PI.WS_.CLIPSIBLINGS;
         PI.SetWindowLong(hWnd, PI.GWL_.STYLE, controlType);
 
         var lExStyle = PI.GetWindowLong(hWnd, PI.GWL_.EXSTYLE);
-        lExStyle &= ~(PI.WS_EX_.DLGMODALFRAME | PI.WS_EX_.CLIENTEDGE | PI.WS_EX_.STATICEDGE);
+        lExStyle &= ~(PI.WS_EX_.DLGMODALFRAME | PI.WS_EX_.CLIENTEDGE | PI.WS_EX_.STATICEDGE | PI.WS_EX_.TRANSPARENT);
         PI.SetWindowLong(hWnd, PI.GWL_.EXSTYLE, lExStyle);
-        PI.GetWindowInfo(hWnd, out var winInfo);
+        PI.SetWindowPos(hWnd, IntPtr.Zero, 0, 0, 0, 0,
+            PI.SWP_.NOMOVE | PI.SWP_.NOSIZE | PI.SWP_.NOZORDER | PI.SWP_.FRAMECHANGED);
+
         var text = new StringBuilder(256);
         PI.GetWindowText(hWnd, text, 256);
+
+        // Chrome-only hosting uses a normal KryptonForm frame; legacy control-replacement keeps tool-window chrome.
+        var useKryptonFrame = !ReplaceNativeControls;
         _wrapperForm = new KryptonForm
         {
             AutoScaleMode = AutoScaleMode.None,
-            ClientSize = new Size(winInfo.rcClient.right - winInfo.rcClient.left, winInfo.rcClient.bottom - winInfo.rcClient.top),
-            FormBorderStyle = _isResizable ? FormBorderStyle.SizableToolWindow : FormBorderStyle.FixedToolWindow,
+            ClientSize = new Size(clientWidth, clientHeight),
+            FormBorderStyle = useKryptonFrame
+                ? (_isResizable ? FormBorderStyle.Sizable : FormBorderStyle.FixedDialog)
+                : (_isResizable ? FormBorderStyle.SizableToolWindow : FormBorderStyle.FixedToolWindow),
             StartPosition = FormStartPosition.Manual,
             Name = text.ToString(),
-            Text = text.ToString(),
-            Location = new Point(winInfo.rcWindow.left, winInfo.rcWindow.top),
+            Text = string.IsNullOrWhiteSpace(Title) ? text.ToString() : Title,
+            Location = new Point(windowLeft, windowTop),
             Padding = new Padding(0),
-            TopMost = true,
+            MinimizeBox = false,
+            MaximizeBox = useKryptonFrame && _isResizable,
+            ShowIcon = ShowIcon,
             SizeGripStyle = SizeGripStyle.Hide
         };
 
-        if (ShowIcon)
+        if (ShowIcon && Icon != null)
         {
-            _wrapperForm.FormBorderStyle = _isResizable ? FormBorderStyle.Sizable : FormBorderStyle.Fixed3D;
-            _wrapperForm.MaximizeBox = false;
-            _wrapperForm.MinimizeBox = false;
             _wrapperForm.Icon = Icon;
         }
 
-        Size toolBoxClientSize = _wrapperForm.ClientSize;
-        var kryptonPanel1 = new KryptonPanel
+        if (!useKryptonFrame && ShowIcon)
+        {
+            _wrapperForm.FormBorderStyle = _isResizable ? FormBorderStyle.Sizable : FormBorderStyle.Fixed3D;
+        }
+
+        var hostPanel = new KryptonPanel
         {
             Dock = DockStyle.Fill,
             Location = new Point(0, 0),
             Name = "kryptonPanel1",
-            ClientSize = toolBoxClientSize,
             TabIndex = 0,
             Margin = new Padding(0),
             Padding = new Padding(0)
         };
-        _wrapperForm.Controls.Add(kryptonPanel1);
+        _wrapperForm.Controls.Add(hostPanel);
 
-        if (!_isResizable)
-        {
-            PI.MoveWindow(hWnd, 0, 0, toolBoxClientSize.Width, toolBoxClientSize.Height, false);
-        }
-        else
-        {
-            _resizeHandle = hWnd;
-            _wrapperForm.Resize += FormResize;
-        }
+        _resizeHandle = hWnd;
+        _hostPanel = hostPanel;
+        _wrapperForm.Resize += FormResize;
+        _wrapperForm.Shown += OnWrapperShown;
 
+        // SetParent first, then force client-relative bounds. Moving before reparent leaves screen coords
+        // and clips the Explorer UI into a corner of the KryptonForm.
         var wrapperParent = PI.GetParent(hWnd);
-        PI.SetParent(hWnd, kryptonPanel1.Handle);
+        PI.SetParent(hWnd, hostPanel.Handle);
+        FitShellDialogToHost();
+
         var nativeWindow = new NativeWindow();
         nativeWindow.AssignHandle(wrapperParent);
         _wrapperForm.Show(nativeWindow);
         _embeddingDone = true;
-        if (_isResizable)
+        FitShellDialogToHost();
+
+        // DWM / Explorer may finish layout after first show — re-fit shortly after.
+        _resizeTimer = new System.Timers.Timer(150)
         {
-            // Delay Send a WM_SIZE; Maybe due to the caching in the "Desktop Window Manager"
-            _resizeTimer = new System.Timers.Timer(200)
-            {
-                AutoReset = false,
-                Enabled = true
-            };
-            // Hook up the Elapsed event for the timer.
-            _resizeTimer.Elapsed += OnResizeTimedEvent;
-        }
+            AutoReset = false,
+            Enabled = true
+        };
+        _resizeTimer.Elapsed += OnResizeTimedEvent;
     }
+
+    private KryptonPanel? _hostPanel;
+
+    internal bool EmbeddingDone => _embeddingDone;
+
+    /// <summary>
+    /// Chrome-only path: host the shell dialog after it has been activated and laid out.
+    /// </summary>
+    internal bool TryEmbedChrome(IntPtr hWnd)
+    {
+        if (!_embed || _embeddingDone || ReplaceNativeControls || hWnd == IntPtr.Zero)
+        {
+            return false;
+        }
+
+        PerformEmbedding(hWnd);
+        return _embeddingDone;
+    }
+
+    private void FitShellDialogToHost()
+    {
+        if (_resizeHandle == IntPtr.Zero || _wrapperForm == null)
+        {
+            return;
+        }
+
+        var size = _hostPanel?.ClientSize ?? _wrapperForm.ClientSize;
+        if (size.Width <= 0 || size.Height <= 0)
+        {
+            size = _wrapperForm.ClientSize;
+        }
+
+        // Root dialog frame.
+        PI.SetWindowPos(_resizeHandle, IntPtr.Zero, 0, 0, size.Width, size.Height,
+            PI.SWP_.NOZORDER | PI.SWP_.NOACTIVATE | PI.SWP_.SHOWWINDOW | PI.SWP_.FRAMECHANGED);
+
+        // Modern Explorer hosts DirectUI in a child that does not always follow the parent size.
+        var largestChild = IntPtr.Zero;
+        var largestArea = 0;
+        for (var child = PI.GetWindow(_resizeHandle, PI.GetWindowType.GW_CHILD);
+             child != IntPtr.Zero;
+             child = PI.GetWindow(child, PI.GetWindowType.GW_HWNDNEXT))
+        {
+            var rect = new PI.RECT();
+            if (!PI.GetWindowRect(child, ref rect))
+            {
+                continue;
+            }
+
+            var area = Math.Max(0, rect.right - rect.left) * Math.Max(0, rect.bottom - rect.top);
+            if (area > largestArea)
+            {
+                largestArea = area;
+                largestChild = child;
+            }
+        }
+
+        if (largestChild != IntPtr.Zero)
+        {
+            PI.SetWindowPos(largestChild, IntPtr.Zero, 0, 0, size.Width, size.Height,
+                PI.SWP_.NOZORDER | PI.SWP_.NOACTIVATE | PI.SWP_.SHOWWINDOW);
+        }
+
+        PI.InvalidateRect(_resizeHandle, IntPtr.Zero, true);
+    }
+
+    private void OnWrapperShown(object? sender, EventArgs e) => FitShellDialogToHost();
 
     private void OnResizeTimedEvent(object? sender, ElapsedEventArgs e)
     {
         _resizeTimer.Dispose();
-        if (_wrapperForm != null)
+        if (_wrapperForm == null || _wrapperForm.IsDisposed)
         {
-            var clientSize = _wrapperForm.Size;
-            // Delay Send a WM_SIZE; Maybe due to the caching in the "Desktop Window Manager"
-            _wrapperForm.BeginInvoke((MethodInvoker)(() =>
-                    PI.SetWindowPos(_wrapperForm.Handle, IntPtr.Zero, 0, 0, clientSize.Width + 1, clientSize.Height,
-                        PI.SWP_.NOACTIVATE | PI.SWP_.NOMOVE |
-                        PI.SWP_.NOZORDER | PI.SWP_.NOCOPYBITS |
-                        PI.SWP_.NOOWNERZORDER | PI.SWP_.ASYNCWINDOWPOS)
-                ));
+            return;
+        }
+
+        try
+        {
+            _wrapperForm.BeginInvoke((MethodInvoker)FitShellDialogToHost);
+        }
+        catch (InvalidOperationException)
+        {
+            // Wrapper already closing.
         }
     }
 
-    private void FormResize(object? sender, EventArgs e)
-    {
-        if (_resizeHandle != IntPtr.Zero)
-        {
-            if (_wrapperForm != null)
-            {
-                var clientSize = _wrapperForm.ClientSize;
-                _wrapperForm.SuspendLayout();
-                PI.MoveWindow(_resizeHandle, 0, 0, clientSize.Width, clientSize.Height, true);
-                _wrapperForm.ResumeLayout(false);
-            }
-        }
-    }
-
-    internal bool EmbeddingDone => _embeddingDone;
+    private void FormResize(object? sender, EventArgs e) => FitShellDialogToHost();
 
     private static bool EnumerateChildWindow(IntPtr hWnd, IntPtr lParam)
     {
