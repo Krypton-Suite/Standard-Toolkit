@@ -146,12 +146,7 @@ internal class KryptonManagerActionList : DesignerActionList
             actions.Add(new DesignerActionHeaderItem(@"Actions"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Reset to Default Theme", OnReset), @"Actions"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Designer Editor Settings...", OnDesignerEditorSettings), @"Actions"));
-            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Import Translations from Xml file...", OnImportTranslationsXml), @"Actions"));
-            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Export Translations to Xml file...", OnExportTranslationsXml), @"Actions"));
-            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Import Translations from Json file...", OnImportTranslationsJson), @"Actions"));
-            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Export Translations to Json file...", OnExportTranslationsJson), @"Actions"));
-            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Generate Translation Template...", OnGenerateTemplate), @"Actions"));
-            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Switch Translations Culture...", OnSwitchTranslationsCulture), @"Actions"));
+            
             /*actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Add language manager", OnAddLanguageManager), "Actions"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Remove language manager", OnRemoveLanguageManager), "Actions"));
             actions.Add(new DesignerActionHeaderItem(@"Data"));*/
@@ -160,6 +155,13 @@ internal class KryptonManagerActionList : DesignerActionList
                 @"Switch the designer UI culture and load matching Translations.{culture}.* files with graceful fallback."));
             actions.Add(new DesignerActionPropertyItem(nameof(UseWindowsLanguagePackStrings), @"Use Windows Language Pack", @"Translations",
                 @"When enabled, matching dialog buttons and Explorer column headers use strings from the installed Windows language pack."));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Import Translations from Xml file...", OnImportTranslationsXml), @"Translations"));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Export Translations to Xml file...", OnExportTranslationsXml), @"Translations"));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Import Translations from Json file...", OnImportTranslationsJson), @"Translations"));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Export Translations to Json file...", OnExportTranslationsJson), @"Translations"));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Generate Translation Template (XML)...", OnGenerateTemplateXml), @"Translations"));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Generate Translation Template (JSON)...", OnGenerateTemplateJson), @"Translations"));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Switch Translations Culture...", OnSwitchTranslationsCulture), @"Translations"));
             actions.Add(new DesignerActionHeaderItem(@"Visuals"));
             actions.Add(new DesignerActionPropertyItem(nameof(GlobalPaletteMode), @"Global Palette", @"Visuals", @"Global palette setting"));
         }
@@ -294,7 +296,7 @@ internal class KryptonManagerActionList : DesignerActionList
         }
     }
 
-    private void OnGenerateTemplate(object? sender, EventArgs e)
+    private void OnGenerateTemplateXml(object? sender, EventArgs e)
     {
         if (_manager == null)
         {
@@ -308,7 +310,7 @@ internal class KryptonManagerActionList : DesignerActionList
             sfd.DefaultExt = @"xml";
             sfd.FileName = @"Translations-Template.xml";
             sfd.Filter = @"Translations files (*.xml)|*.xml|All files (*.*)|(*.*)";
-            sfd.Title = @"Generate Translation Template (all strings included)";
+            sfd.Title = @"Generate Translation Template (XML — all strings included)";
 
             var fileName = (sfd.ShowDialog() == DialogResult.OK) ? sfd.FileName : string.Empty;
             if (string.IsNullOrWhiteSpace(fileName))
@@ -317,6 +319,36 @@ internal class KryptonManagerActionList : DesignerActionList
             }
 
             _manager.ToolkitStrings.ExportToXmlFile(fileName, includeDefaults: true);
+        }
+        catch (Exception exc)
+        {
+            KryptonExceptionHandler.CaptureException(exc, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
+        }
+    }
+
+    private void OnGenerateTemplateJson(object? sender, EventArgs e)
+    {
+        if (_manager == null)
+        {
+            return;
+        }
+
+        try
+        {
+            using var sfd = new SaveFileDialog();
+            sfd.OverwritePrompt = true;
+            sfd.DefaultExt = @"json";
+            sfd.FileName = @"Translations-Template.json";
+            sfd.Filter = @"JSON Translations files (*.json)|*.json|All files (*.*)|(*.*)";
+            sfd.Title = @"Generate Translation Template (JSON — all strings included)";
+
+            var fileName = (sfd.ShowDialog() == DialogResult.OK) ? sfd.FileName : string.Empty;
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                return;
+            }
+
+            _manager.ToolkitStrings.ExportToJsonFile(fileName, includeDefaults: true);
         }
         catch (Exception exc)
         {
