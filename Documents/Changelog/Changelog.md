@@ -55,6 +55,8 @@
    * `KryptonCustomStrings` in `Krypton.Toolkit.Utilities` can now export/import application-defined key/value strings and registered typed string sets through matching XML/JSON/stream persistence APIs.
    * Added `KryptonCombinedTranslations` for a single combined toolkit + custom XML artifact, plus opt-in custom-string auto-discovery, culture-specific probing, merge support, designer verbs, import event, validation demo coverage, and custom XML/JSON schema files.
    * Optional Windows language-pack strings: set `KryptonManager.Strings.UseWindowsLanguagePackStrings` (or `GeneralStrings.UseOSStrings` / `FileSystemListViewStrings.UseOSStrings`) to load matching dialog buttons from `user32.dll` and Explorer column headers from `shell32.dll` for the current UI language; default remains toolkit/custom strings.
+* Resolved [#4086](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4086), Redundant parentheses when `ShowAdministratorSuffix` is set to false
+   * Elevated `KryptonForm` titles no longer show empty `()` when `ShowAdministratorSuffix` is disabled or the Administrator string is blank
 * Implemented [#331](https://github.com/Krypton-Suite/Standard-Toolkit/issues/331), Make the "No Tab in a ribbon Solution" An Actual Designer Tool
    * `KryptonRibbon.ShowTabHeaders` hides the tab strip for toolbar-style ribbons while keeping the selected tab's groups; designer verbs/smart-tag toggle and `KryptonRibbonToolbar` toolbox control included.
    * Context titles (`RibbonContexts`) stay hidden with the tab strip and no longer linger after toggling `ShowTabHeaders` at runtime.
