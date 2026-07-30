@@ -31,41 +31,16 @@ public abstract class ShellDialogWrapper
     /// </summary>
     public DialogResult ShowDialog(IWin32Window? owner)
     {
-        try
+        var options = CreateDialogOptions();
+        options.ProviderMode = ProviderMode;
+        var provider = KryptonDialogProviderFactory.Create(ProviderMode);
+        var result = provider.ShowDialog(new KryptonDialogProviderContext(this, owner, options));
+        if (result.DialogResult == DialogResult.OK)
         {
-            // Set up CBT
-            _cbt.Install();
-            _cwp.Install();
-            _commonDialogHandler = new CommonDialogHandler(true);
-            if (!string.IsNullOrWhiteSpace(Title))
-            {
-                _commonDialogHandler.Title = Title;
-            }
-
-            _commonDialogHandler.SetResizable(true);
-            if (Icon != null)
-            {
-                _commonDialogHandler.Icon = Icon;
-                _commonDialogHandler.ShowIcon = true;
-            }
-
-            return ShowActualDialog(owner);
+            ApplyDialogResult(result);
         }
-        finally
-        {
-            // Destroy CBT
-            _cwp.Uninstall();
-            _cbt.Uninstall();
-            if (owner != null)
-            {
-                PI.SetWindowPos(owner.Handle, PI.HWND_TOP, 0, 0, 0, 0,
-                    PI.SWP_.NOACTIVATE | PI.SWP_.NOMOVE |
-                    PI.SWP_.NOSIZE |
-                    PI.SWP_.ASYNCWINDOWPOS);
 
-                //PI.SetForegroundWindow(owner.Handle);
-            }
-        }
+        return result.DialogResult;
     }
 
     #region Do_CBT
@@ -81,15 +56,21 @@ public abstract class ShellDialogWrapper
 
     private protected virtual void WndMessage(object sender, CWPRETSTRUCT e, out bool actioned)
     {
+        if (_commonDialogHandler == null)
+        {
+            actioned = false;
+            return;
+        }
+
         (var handled, var retValue) = _commonDialogHandler.HookProc(e.hWnd, e.message, e.wParam, e.lParam);
         e.retValue = retValue;
         actioned = handled;
 
-        if (e.message == PI.WM_.INITDIALOG)
+        if (e.message == PI.WM_.INITDIALOG && _commonDialogHandler._wrapperForm != null)
         {
-            _scaleFactor = _commonDialogHandler._wrapperForm!.DeviceDpi / 96.0f;
+            _scaleFactor = _commonDialogHandler._wrapperForm.DeviceDpi / 96.0f;
             _commonDialogHandler._wrapperForm.Resize += FormResize;
-            _commonDialogHandler._wrapperForm.MinimumSize = new SizeF(440 * _scaleFactor, 345 * _scaleFactor).ToSize();
+            _commonDialogHandler._wrapperForm.MinimumSize = new SizeF(720 * _scaleFactor, 480 * _scaleFactor).ToSize();
         }
     }
 
@@ -172,18 +153,38 @@ public abstract class ShellDialogWrapper
         }
         Console.WriteLine(@"Shell Dialog activated");
 
-        // Modify the Shell Dialog window
-        PI.SetWindowLong(_handle, PI.GWL_.EXSTYLE,
-            PI.GetWindowLong(_handle, PI.GWL_.EXSTYLE) | PI.WS_EX_.TRANSPARENT);
+        // Chrome-only: embed after activation so Explorer has finished laying out.
+        if (_commonDialogHandler != null
+            && !_commonDialogHandler.ReplaceNativeControls
+            && !_commonDialogHandler.EmbeddingDone)
+        {
+            _commonDialogHandler.TryEmbedChrome(_handle);
+            if (_commonDialogHandler._wrapperForm != null)
+            {
+                _scaleFactor = _commonDialogHandler._wrapperForm.DeviceDpi / 96.0f;
+                _commonDialogHandler._wrapperForm.MinimumSize = new SizeF(720 * _scaleFactor, 480 * _scaleFactor).ToSize();
+            }
+        }
+
         return true;
     }
 
     #endregion Do_CBT
 
     /// <summary>
-    ///  Runs a common dialog box, parented to the given IWin32Window.
+    ///  Runs the standard Windows shell dialog.
+    ///  Modern Explorer file dialogs cannot be reliably reparented into a <see cref="KryptonForm"/>;
+    ///  use <see cref="KryptonDialogProviderMode.Custom"/> for a managed KryptonForm UI.
     /// </summary>
+    internal DialogResult ShowNativeDialogCore(IWin32Window? owner) => ShowActualDialog(owner);
+
     protected abstract DialogResult ShowActualDialog(IWin32Window? owner);
+
+    internal abstract KryptonDialogOptions CreateDialogOptions();
+
+    internal abstract KryptonDialogResult CaptureDialogResult();
+
+    internal abstract void ApplyDialogResult(KryptonDialogResult result);
 
     /// <summary>Get or Sets the file dialog box Icon.</summary>
     /// <returns>The file dialog box Icon.</returns>
@@ -191,6 +192,14 @@ public abstract class ShellDialogWrapper
     [DefaultValue(null)]
     [Description("Gets or sets the file dialog box Icon")]
     public Icon? Icon { get; set; }
+
+    /// <summary>
+    ///  Gets or sets which implementation backs this dialog wrapper.
+    /// </summary>
+    [Category("Behavior")]
+    [DefaultValue(KryptonDialogProviderMode.Native)]
+    [Description("Gets or sets which implementation backs this dialog wrapper.")]
+    public KryptonDialogProviderMode ProviderMode { get; set; } = KryptonDialogProviderMode.Native;
 
 #if NET8_0_OR_GREATER
         /// <summary>
