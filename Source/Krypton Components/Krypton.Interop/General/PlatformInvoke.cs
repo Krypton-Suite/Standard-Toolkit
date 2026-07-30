@@ -4139,11 +4139,11 @@ No 	                    No 	                    Show text only
     #endif
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     #if NET8_0_OR_GREATER
-    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [LibraryImport(Libraries.User32, EntryPoint = "RegisterWindowMessageW", StringMarshalling = StringMarshalling.Utf16)]
     internal static partial uint RegisterWindowMessage(string lpString);
     #else
 
-    [DllImport(Libraries.User32, CharSet = CharSet.Unicode)]
+    [DllImport(Libraries.User32, EntryPoint = "RegisterWindowMessageW", CharSet = CharSet.Unicode)]
     internal static extern uint RegisterWindowMessage(string lpString);
     #endif
 
