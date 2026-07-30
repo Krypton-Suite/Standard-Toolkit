@@ -4062,7 +4062,7 @@ No 	                    No 	                    Show text only
     #region nt.dll
 
     [DllImport(Libraries.NtDll, SetLastError = true)]
-    internal static extern int RtlGetVersion(ref PI.OSVERSIONINFOEX lpVersionInformation);
+    internal static extern int RtlGetVersion(ref OSVERSIONINFOEX lpVersionInformation);
 
     #endregion
 
