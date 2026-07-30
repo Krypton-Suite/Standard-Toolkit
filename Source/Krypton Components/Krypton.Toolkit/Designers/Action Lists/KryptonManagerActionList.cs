@@ -365,29 +365,28 @@ internal class KryptonManagerActionList : DesignerActionList
 
         try
         {
-            using var dialog = CreateSwitchCultureDialog();
+            using var dialog = new VisualSwitchTranslationsCultureForm();
             if (dialog.ShowDialog() != DialogResult.OK)
             {
                 return;
             }
 
-            var result = dialog.Tag as SwitchCultureDialogResult;
-            if (result == null || string.IsNullOrWhiteSpace(result.CultureName))
+            if (string.IsNullOrWhiteSpace(dialog.SelectedCultureName))
             {
                 return;
             }
 
             var loaded = KryptonManager.TrySwitchTranslationsCulture(
-                result.CultureName,
-                string.IsNullOrWhiteSpace(result.Directory) ? null : result.Directory,
+                dialog.SelectedCultureName,
+                dialog.SelectedDirectory,
                 refreshOpenForms: false);
 
             _service?.OnComponentChanged(_manager, null, null, null);
 
             KryptonMessageBox.Show(
                 loaded
-                    ? $@"Switched designer culture to '{result.CultureName}' and loaded matching translations."
-                    : $@"Switched designer culture to '{result.CultureName}'. No matching translations file was found; built-in defaults were restored.",
+                    ? $@"Switched designer culture to '{dialog.SelectedCultureName}' and loaded matching translations."
+                    : $@"Switched designer culture to '{dialog.SelectedCultureName}'. No matching translations file was found; built-in defaults were restored.",
                 @"Switch Translations Culture",
                 KryptonMessageBoxButtons.OK,
                 loaded ? KryptonMessageBoxIcon.Information : KryptonMessageBoxIcon.Warning);
@@ -396,116 +395,6 @@ internal class KryptonManagerActionList : DesignerActionList
         {
             KryptonExceptionHandler.CaptureException(exc, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
-    }
-
-    private static KryptonForm CreateSwitchCultureDialog()
-    {
-        var form = new KryptonForm
-        {
-            Text = @"Switch Translations Culture",
-            FormBorderStyle = FormBorderStyle.FixedDialog,
-            StartPosition = FormStartPosition.CenterParent,
-            MinimizeBox = false,
-            MaximizeBox = false,
-            ShowInTaskbar = false,
-            ClientSize = new Size(460, 150)
-        };
-
-        var cultureLabel = new KryptonLabel
-        {
-            AutoSize = true,
-            Location = new Point(12, 18),
-            Values = { Text = @"Culture:" }
-        };
-
-        var cultureCombo = new KryptonComboBox
-        {
-            DropDownStyle = ComboBoxStyle.DropDown,
-            Location = new Point(120, 14),
-            Width = 320
-        };
-        cultureCombo.Items.AddRange(new object[]
-        {
-            @"en-US", @"en-GB", @"de-DE", @"fr-FR", @"es-ES",
-            @"it-IT", @"pt-BR", @"ja-JP", @"zh-CN", @"ko-KR"
-        });
-        cultureCombo.Text = KryptonManager.ActiveTranslationsCulture?.Name
-                            ?? CultureInfo.CurrentUICulture.Name;
-
-        var directoryLabel = new KryptonLabel
-        {
-            AutoSize = true,
-            Location = new Point(12, 52),
-            Values = { Text = @"Directory:" }
-        };
-
-        var directoryBox = new KryptonTextBox
-        {
-            Location = new Point(120, 48),
-            Width = 250,
-            Text = AppDomain.CurrentDomain.BaseDirectory
-        };
-
-        var browseButton = new KryptonButton
-        {
-            Location = new Point(376, 46),
-            Width = 64,
-            Values = { Text = @"Browse..." }
-        };
-        browseButton.Click += (_, _) =>
-        {
-            using var folderDialog = new KryptonFolderBrowserDialog
-            {
-                Title = @"Select the folder containing Translations.{culture}.* files",
-                SelectedPath = directoryBox.Text
-            };
-
-            if (folderDialog.ShowDialog(form) == DialogResult.OK)
-            {
-                directoryBox.Text = folderDialog.SelectedPath;
-            }
-        };
-
-        var okButton = new KryptonButton
-        {
-            DialogResult = DialogResult.OK,
-            Location = new Point(284, 100),
-            Width = 75,
-            Values = { Text = KryptonManager.Strings.GeneralStrings.OK }
-        };
-        okButton.Click += (_, _) =>
-        {
-            form.Tag = new SwitchCultureDialogResult
-            {
-                CultureName = cultureCombo.Text.Trim(),
-                Directory = directoryBox.Text.Trim()
-            };
-        };
-
-        var cancelButton = new KryptonButton
-        {
-            DialogResult = DialogResult.Cancel,
-            Location = new Point(365, 100),
-            Width = 75,
-            Values = { Text = KryptonManager.Strings.GeneralStrings.Cancel }
-        };
-
-        form.Controls.Add(cultureLabel);
-        form.Controls.Add(cultureCombo);
-        form.Controls.Add(directoryLabel);
-        form.Controls.Add(directoryBox);
-        form.Controls.Add(browseButton);
-        form.Controls.Add(okButton);
-        form.Controls.Add(cancelButton);
-        form.AcceptButton = okButton;
-        form.CancelButton = cancelButton;
-        return form;
-    }
-
-    private sealed class SwitchCultureDialogResult
-    {
-        public string CultureName { get; set; } = string.Empty;
-        public string? Directory { get; set; }
     }
     #endregion
 }
