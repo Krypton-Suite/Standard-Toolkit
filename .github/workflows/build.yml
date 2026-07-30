@@ -265,12 +265,12 @@ jobs:
           path: ${{ runner.temp }}/webview2
           key: ${{ steps.webview2_cache_restore_release.outputs.cache-primary-key }}
 
-      # UseArtifactsOutput must match Build/Pack so project.assets.json lands under artifacts/obj (avoids NETSDK1005).
+      # Match build job: same dotnet restore + properties so project.assets.json lands under artifacts/obj (avoids NETSDK1005).
       - name: Restore
-        run: msbuild /m "Scripts/Build/build.proj" /t:Restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true /p:TFMs=all
+        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx" -p:Configuration=Release -p:TFMs=all -p:UseArtifactsOutput=true
 
       # Fail early if Restore did not write assets under artifacts/obj (would surface later as NETSDK1005 in Pack).
-      - name: Verify artifacts/obj exists
+      - name: Debug: list artifacts/obj
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
@@ -278,15 +278,16 @@ jobs:
           if (-not (Test-Path -LiteralPath $objRoot)) {
             Write-Error "Artifacts obj folder missing: $objRoot"
           }
-          $assets = @(Get-ChildItem -Path $objRoot -Recurse -Filter "project.assets.json")
+          $assets = @(Get-ChildItem -Path $objRoot -Recurse -Filter "project.assets.json" -ErrorAction SilentlyContinue)
           if ($assets.Count -eq 0) {
             Write-Error "No project.assets.json found under $objRoot"
           }
           $assets | ForEach-Object { Write-Host "Found: $($_.FullName)" }
 
       # /m: multi-processor MSBuild (all runner CPUs). build.proj orchestrates Krypton.* in parallel where references allow.
+      # TFMs=all must match Restore; avoid a second restore that can rewrite assets to a different layout.
       - name: Build Release
-        run: msbuild /m "Scripts/Build/build.proj" /t:Build /restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
+        run: msbuild /m "Scripts/Build/build.proj" /t:Build /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true /p:TFMs=all /p:Restore=false
 
       # No /restore here: the explicit Restore step already produced artifacts/obj; a second implicit restore
       # can write project.assets.json elsewhere / with different properties and trigger NETSDK1005.
