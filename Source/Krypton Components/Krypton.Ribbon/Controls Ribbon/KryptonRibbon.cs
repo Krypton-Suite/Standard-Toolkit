@@ -84,6 +84,8 @@ public class KryptonRibbon : VisualSimple,
     // Properties
     private bool _minimizedMode;
     private bool _showMinimizeButton;
+    // Field default must be true so CreateViewManager never builds a tabless ribbon by accident (#331 / #2501).
+    private bool _showTabHeaders = true;
     private bool _scrollTabGroupArea;
     private string _selectedContext;
     private Size _hideRibbonSize;
@@ -1144,6 +1146,39 @@ public class KryptonRibbon : VisualSimple,
     }
 
     /// <summary>
+    /// Gets and sets a value indicating whether ribbon tab headers are visible.
+    /// </summary>
+    /// <remarks>
+    /// When <c>false</c>, the ribbon keeps the selected tab's groups (toolbar style) but hides the
+    /// tab strip so users cannot switch tabs via the headers. Caption chrome, the application
+    /// button/tab, QAT, and button specs are unchanged. Prefer a single tab for this mode.
+    /// </remarks>
+    [Category(@"Values")]
+    [Description(@"Shows or hides the ribbon tab headers. When false, the ribbon acts as a toolbar for the selected tab.")]
+    [DefaultValue(true)]
+    public bool ShowTabHeaders
+    {
+        get => _showTabHeaders;
+
+        set
+        {
+            if (_showTabHeaders != value)
+            {
+                _showTabHeaders = value;
+                ApplyTabHeaderVisibility();
+
+                // Toolbar mode still needs a valid SelectedTab so GroupsArea has content.
+                if (!_showTabHeaders)
+                {
+                    ValidateSelectedTab();
+                }
+
+                PerformNeedPaint(true);
+            }
+        }
+    }
+
+    /// <summary>
     /// Gets and sets a value indicating whether scrolling over the RibbonGroupArea changes the ribbon tab.
     /// </summary>
     [Category(@"Values")]
@@ -1166,6 +1201,11 @@ public class KryptonRibbon : VisualSimple,
     /// Resets the ShowMinimizeButton property to its default value.
     /// </summary>
     public void ResetShowMinimizeButton() => ShowMinimizeButton = true;
+
+    /// <summary>
+    /// Resets the ShowTabHeaders property to its default value.
+    /// </summary>
+    public void ResetShowTabHeaders() => ShowTabHeaders = true;
 
     /// <summary>
     /// Detaches the ribbon into a floating window.
@@ -1695,8 +1735,9 @@ public class KryptonRibbon : VisualSimple,
                     break;
 
                 case PI.WM_.MOUSEWHEEL:
-                    // Only interested if we are usable and not a control on the tab has focus and not in minimized mode or keyboard mode
-                    if (Visible && Enabled && !RealMinimizedMode && !KeyboardMode && !InDesignMode)
+                    // Only interested if we are usable and not a control on the tab has focus and not in minimized mode or keyboard mode.
+                    // Tab-header scrolling is disabled when ShowTabHeaders is false (toolbar mode).
+                    if (Visible && Enabled && !RealMinimizedMode && !KeyboardMode && !InDesignMode && ShowTabHeaders)
                     {
                         // Only interested is the owning form is usable and has the focus
                         if (TabsArea is not null
@@ -2175,11 +2216,11 @@ public class KryptonRibbon : VisualSimple,
     {
         ViewBase? newFocus = null;
 
-        if (SelectedTab != null)
+        if (ShowTabHeaders && SelectedTab != null)
         {
             newFocus = TabsArea?.LayoutTabs.GetViewForRibbonTab(SelectedTab);
         }
-        else if (!RealMinimizedMode)
+        else if (ShowTabHeaders && !RealMinimizedMode)
         {
             newFocus = TabsArea?.LayoutTabs.GetViewForFirstRibbonTab();
         }
@@ -2196,6 +2237,12 @@ public class KryptonRibbon : VisualSimple,
             {
                 newFocus = TabsArea.LayoutAppTab.AppTab;
             }
+        }
+
+        // Toolbar mode: fall through to first focusable group item when chrome has no tab/app target.
+        if (newFocus == null && !ShowTabHeaders && !RealMinimizedMode && SelectedTab != null)
+        {
+            newFocus = GroupsArea.ViewGroups.GetFirstFocusItem();
         }
 
         // Give focus to the target view
@@ -3188,8 +3235,11 @@ public class KryptonRibbon : VisualSimple,
             ? CaptionArea!.VisibleQAT.GetQATKeyTips()
             : _qatBelowContents.GetQATKeyTips(this.FindKryptonForm()!));
 
-        // Add the tab headers
-        keyTipList.AddRange(TabsArea.GetTabKeyTips());
+        // Add the tab headers (toolbar mode has no selectable tab strip)
+        if (ShowTabHeaders)
+        {
+            keyTipList.AddRange(TabsArea.GetTabKeyTips());
+        }
 
         return keyTipList;
     }
@@ -3337,6 +3387,7 @@ public class KryptonRibbon : VisualSimple,
         MinimizedMode = false;
         ScrollerStyle = ButtonStyle.Standalone;
         ShowMinimizeButton = true;
+        ShowTabHeaders = true;
         ScrollTabGroupArea = true;
         QATLocation = QATLocation.Above;
         QATUserChange = true;
@@ -3485,8 +3536,25 @@ public class KryptonRibbon : VisualSimple,
         CaptionArea.HookToolTipHandling();
         TabsArea.HookToolTipHandling();
 
+        // Honor ShowTabHeaders without removing CaptionArea/TabsArea from the docker (#331).
+        ApplyTabHeaderVisibility();
+
         // Create the view manager instance
         ViewManager = new ViewRibbonManager(this, GroupsArea.ViewGroups, _rootDocker, false, NeedPaintDelegate);
+    }
+
+    /// <summary>
+    /// Shows or hides the tab strip inside TabsArea without disturbing caption chrome.
+    /// </summary>
+    private void ApplyTabHeaderVisibility()
+    {
+        TabsArea?.ApplyTabHeaderVisibility(_showTabHeaders);
+
+        // CaptionArea may show solely because contexts exist; keep that tied to tab headers.
+        CaptionArea?.UpdateVisible();
+
+        // Context titles are often injected into KryptonForm chrome — force that surface to refresh.
+        CaptionArea?.RedrawCustomChrome(true);
     }
 
     private void OnNotificationBarDataPropertyChanged(object? sender, PropertyChangedEventArgs e)
