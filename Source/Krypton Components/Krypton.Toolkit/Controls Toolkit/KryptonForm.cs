@@ -1649,10 +1649,15 @@ public class KryptonForm : VisualForm,
 		// Get the base form text
 		string titleText = Text;
 
-		// Append administrator suffix if enabled and running with elevated privileges
+		// Append administrator suffix if enabled and running with elevated privileges.
+		// Skip when the localised Administrator string is empty so we do not leave bare "()".
 		if (KryptonManager.UseAdministratorSuffix && IsInAdministratorMode)
 		{
-			titleText += $" ({KryptonManager.Strings.GeneralStrings.Administrator})";
+			string administrator = KryptonManager.Strings.GeneralStrings.Administrator;
+			if (!string.IsNullOrWhiteSpace(administrator))
+			{
+				titleText += $" ({administrator})";
+			}
 		}
 
 		return titleText;
