@@ -49,6 +49,7 @@ internal static class ToolkitStringsJsonPersistence
         }
 
         var json = Export(toolkitStrings, includeDefaults);
+        // UTF-8 is a Unicode encoding (full code-point range); standard for portable JSON.
         File.WriteAllText(filename, json, Encoding.UTF8);
     }
 
@@ -63,6 +64,7 @@ internal static class ToolkitStringsJsonPersistence
         }
 
         var json = Export(toolkitStrings, includeDefaults);
+        // UTF-8 is a Unicode encoding (full code-point range); standard for portable JSON.
         var bytes = Encoding.UTF8.GetBytes(json);
         stream.Write(bytes, 0, bytes.Length);
     }
@@ -77,6 +79,7 @@ internal static class ToolkitStringsJsonPersistence
             throw new ArgumentNullException(nameof(filename));
         }
 
+        // Match export: UTF-8 preserves the full Unicode repertoire used in translations.
         var json = File.ReadAllText(filename, Encoding.UTF8);
         ImportFromJson(toolkitStrings, json, resetFirst, refreshOpenForms);
     }
@@ -91,6 +94,7 @@ internal static class ToolkitStringsJsonPersistence
             throw new ArgumentNullException(nameof(stream));
         }
 
+        // Match export: UTF-8 preserves the full Unicode repertoire used in translations.
         using var reader = new StreamReader(stream, Encoding.UTF8);
         var json = reader.ReadToEnd();
         ImportFromJson(toolkitStrings, json, resetFirst, refreshOpenForms);
@@ -202,6 +206,8 @@ internal static class ToolkitStringsJsonPersistence
         return string.Equals(value, defaultAttr.Value as string, StringComparison.Ordinal);
     }
 
+    // Escape only characters that would break a JSON string literal.
+    // Structural tokens ({ } [ ] : ,) are left as-is; inside quotes they are ordinary text.
     private static string EscapeJsonString(string s)
     {
         return s
@@ -297,6 +303,8 @@ internal static class ToolkitStringsJsonPersistence
         }
     }
 
+    // Strip surrounding quotes and reverse EscapeJsonString. Content may still contain
+    // braces, colons, commas, etc. — those were never special inside the string token.
     private static string UnquoteJsonString(string token)
     {
         if (token.Length >= 2 && token[0] == '"' && token[token.Length - 1] == '"')
@@ -312,6 +320,9 @@ internal static class ToolkitStringsJsonPersistence
             .Replace(@"\t", "\t");
     }
 
+    // Minimal JSON lexer: structural characters are only recognised outside string literals.
+    // Translated text inside "..." is consumed as a single token, so { } [ ] : , and escaped
+    // quotes in values never split the token stream.
     private static List<string> Tokenize(string json)
     {
         var tokens = new List<string>();
@@ -325,6 +336,7 @@ internal static class ToolkitStringsJsonPersistence
                 continue;
             }
 
+            // Structure only — not matched when scanning inside a quoted string below.
             if (c == '{' || c == '}' || c == '[' || c == ']' || c == ':' || c == ',')
             {
                 tokens.Add(c.ToString());
@@ -332,6 +344,7 @@ internal static class ToolkitStringsJsonPersistence
                 continue;
             }
 
+            // Quoted string: take everything until the closing unescaped quote as one token.
             if (c == '"')
             {
                 var sb = new StringBuilder();
@@ -339,6 +352,7 @@ internal static class ToolkitStringsJsonPersistence
                 i++;
                 while (i < json.Length)
                 {
+                    // Keep \" (and other escapes) intact so the quote does not end the string early.
                     if (json[i] == '\\' && i + 1 < json.Length)
                     {
                         sb.Append(json[i]);
