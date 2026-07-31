@@ -54,6 +54,7 @@
    * Right-clicking a caption tab now shows the tab context menu; the themed `KryptonForm` system menu no longer intercepts right-clicks over interactive caption content (it still opens over empty caption space)
    * Dragging a caption tab back onto the tab strip now reorders it, or joins the group of the tab or group header it is dropped on, instead of always tearing it out into a new window; tear-out and cross-window drops also now track the mouse position accurately
    * Caption-tab context menu strings (and rename-group dialog cue/prompt) are fully localizable via `KryptonManager.Strings.NavigatorIntegrationStrings`; form system commands use `SystemMenuStrings`, and menu text is refreshed from those values each time the menu opens
+   * Caption tab groups now read as a distinct coloured cluster: the group header is washed in the group colour with a solid accent bar, and every member tab keeps a group-colour underline in all states (including selected), making differently-coloured groups easy to tell apart
    * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Navigator.Utilities` assembly.
 * Implemented [#927](https://github.com/Krypton-Suite/Standard-Toolkit/issues/927), `KryptonNavigator` form minimize, maximize/restore, and close `ButtonSpec` buttons
 * Resolved [#4059](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4059), Grouped Ribbon controls do expose designers, needs a closer look

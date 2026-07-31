@@ -21,6 +21,7 @@ dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f 
 | `Invoke-CaptionTabDrag.ps1` | Drags from one caption-relative point to another; captures before/during/after screenshots. |
 | `Test-NavigatorCaptionTabRemerge.ps1` | Tears out `Settings`, then drags it back onto the main window and asserts a single remaining window. |
 | `Get-NavigatorCaptionTabProbe.ps1` | Prints form borders, caption-strip owner, and strip rectangle (debug aid). |
+| `Get-NavigatorTabGroupColourShot.ps1` | Seeds two differently-coloured groups and captures the tab strip (plus a 3x zoom crop) so the group-colour treatment can be eyeballed. |
 
 ## Typical usage (#925 caption tabs)
 
