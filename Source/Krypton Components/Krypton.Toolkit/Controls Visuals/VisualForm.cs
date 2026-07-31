@@ -1058,6 +1058,15 @@ public abstract class VisualForm : Form,
 	/// <returns>True if the point is over control buttons; otherwise false.</returns>
 	internal virtual bool IsOnControlButtons(Point screenPoint) => false;
 
+	/// <summary>
+	/// Determines if the specified screen point is over chrome content that handles its own
+	/// mouse input, such as injected caption views (navigator tabs) or ButtonSpecs.
+	/// </summary>
+	/// <param name="screenPoint">The screen coordinates to test.</param>
+	/// <returns>True if interactive chrome content is under the point; otherwise false.</returns>
+	internal bool IsOverInteractiveChromeContent(Point screenPoint) =>
+		IsOverInteractiveChromeView(PointToWindow(screenPoint));
+
 	// ReSharper disable VirtualMemberNeverOverridden.Global
 	/// <summary>
 	/// Suspend processing of non-client painting.
