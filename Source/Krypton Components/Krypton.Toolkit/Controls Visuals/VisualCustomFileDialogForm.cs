@@ -160,6 +160,8 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
     private bool _committingAddressEdit;
     private bool _updatingNavigationSelection;
     private int _addressSuggestionGeneration;
+    private float _dpiFactorX = 1f;
+    private float _dpiFactorY = 1f;
 
     public VisualCustomFileDialogForm(KryptonDialogProviderContext context)
     {
@@ -190,6 +192,7 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
         InitializeBreadcrumbContextMenu();
         InitializeDateModifiedFilter();
         ApplyNavigationButtonGlyphs();
+        RefreshDpiFactors();
         ApplyDialogLayout(applyClientSize: true);
         ApplyDialogOptions();
         Shown += OnDialogShown;
@@ -382,13 +385,56 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
         _columnSize.Width = ScaleX(120);
     }
 
-    private int ScaleX(int value) => (int)Math.Round(value * Math.Max(FactorDpiX, 0.1f));
+    private int ScaleX(int value) => (int)Math.Round(value * _dpiFactorX);
 
-    private int ScaleY(int value) => (int)Math.Round(value * Math.Max(FactorDpiY, 0.1f));
+    private int ScaleY(int value) => (int)Math.Round(value * _dpiFactorY);
 
-    private float ScaleX(float value) => value * Math.Max(FactorDpiX, 0.1f);
+    private float ScaleX(float value) => value * _dpiFactorX;
 
-    private float ScaleY(float value) => value * Math.Max(FactorDpiY, 0.1f);
+    private float ScaleY(float value) => value * _dpiFactorY;
+
+    /// <summary>
+    /// Caches the DPI factors for the monitor hosting the dialog. Returns <c>true</c> when they changed,
+    /// so scaled layout is only re-applied when it would actually differ.
+    /// </summary>
+    private bool RefreshDpiFactors()
+    {
+        var factorX = Math.Max(FactorDpiX, 0.1f);
+        var factorY = Math.Max(FactorDpiY, 0.1f);
+
+        if (IsHandleCreated)
+        {
+            // FactorDpi* is seeded from the primary monitor before the handle exists.
+            factorX = Math.Max(KryptonManager.GetDpiFactorX(Handle), 0.1f);
+            factorY = Math.Max(KryptonManager.GetDpiFactorY(Handle), 0.1f);
+        }
+
+        if (Math.Abs(factorX - _dpiFactorX) < 0.01f && Math.Abs(factorY - _dpiFactorY) < 0.01f)
+        {
+            return false;
+        }
+
+        _dpiFactorX = factorX;
+        _dpiFactorY = factorY;
+        return true;
+    }
+
+    /// <summary>
+    /// Raises the HandleCreated event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing the event data.</param>
+    protected override void OnHandleCreated(EventArgs e)
+    {
+        base.OnHandleCreated(e);
+
+        // Re-scale before the window is shown when it lands on a monitor with a different DPI
+        // than the one used while constructing; doing it later would resize a visible dialog.
+        if (RefreshDpiFactors())
+        {
+            ApplyDialogLayout(applyClientSize: true);
+            InitializeShellIcons();
+        }
+    }
 
     private Size ScaleSize(int width, int height) => new Size(ScaleX(width), ScaleY(height));
 
@@ -400,10 +446,13 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
 #if !NET462
     private void OnDialogDpiChanged(object? sender, DpiChangedEventArgs e)
     {
-        // VisualForm already refreshed FactorDpi*; WinForms has already scaled ClientSize.
-        // Re-apply absolute layout metrics and rebuild shell icons for the new DPI.
-        ApplyDialogLayout(applyClientSize: false);
-        RebuildShellIconsForDpi();
+        // VisualForm already refreshed FactorDpi* and WinForms has scaled the window itself.
+        // Re-apply the absolute layout metrics and rebuild shell icons for the new DPI.
+        if (RefreshDpiFactors())
+        {
+            ApplyDialogLayout(applyClientSize: false);
+            RebuildShellIconsForDpi();
+        }
     }
 #endif
 
@@ -808,11 +857,13 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
 
     private void BuildNavigationTree()
     {
-        // Detach the ImageList while nodes/icons are built to avoid per-icon tree redraws.
-        _navigationTree.ImageList = null;
+        // Suspend redraw before detaching the ImageList; detaching changes the node height and
+        // would otherwise repaint the tree once without icons before the nodes are rebuilt.
         _navigationTree.BeginUpdate();
         try
         {
+            // Icons are added to the list while it is detached, so the tree is not invalidated per icon.
+            _navigationTree.ImageList = null;
             _navigationTree.Nodes.Clear();
 
             var strings = DialogStrings;
@@ -924,6 +975,8 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
         _navigationTree.BeginUpdate();
         try
         {
+            // Adding shell icons to an attached ImageList invalidates the tree for every image.
+            _navigationTree.ImageList = null;
             node.Nodes.Clear();
             foreach (var directory in EnumerateSubDirectories(navigationTarget.Path))
             {
@@ -939,6 +992,7 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
         }
         finally
         {
+            _navigationTree.ImageList = _shellSmallImageList;
             _navigationTree.EndUpdate();
         }
     }
@@ -1088,16 +1142,11 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
         }
 
         _initialLoadQueued = true;
-
-        // Handle may now be on a different monitor than the primary-screen DPI used in the constructor.
-        ApplyDialogLayout(applyClientSize: true);
         if (_splitContainer.Width > ScaleX(500))
         {
             _splitContainer.SplitterDistance = Math.Max(ScaleX(200), Math.Min(ScaleX(280), _splitContainer.Width / 3));
         }
 
-        // Rebuild shell icons after the window handle exists so SystemInformation icon sizes match this DPI.
-        RebuildShellIconsForDpi();
         BuildNavigationTree();
         NavigateToPath(_currentPath, updatePathText: true, selectTreeNode: true);
     }
@@ -1970,24 +2019,32 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
 
     private void SelectNavigationNode(string path)
     {
-        var match = FindNodeForPath(path);
-
-        if (match == null || ReferenceEquals(_navigationTree.SelectedNode, match))
-        {
-            return;
-        }
-
-        _updatingNavigationSelection = true;
+        // Locating a deep path can populate several lazily loaded levels, so keep the whole
+        // search and selection inside one update block instead of repainting per level.
         _navigationTree.BeginUpdate();
         try
         {
-            _navigationTree.SelectedNode = match;
-            match.EnsureVisible();
+            var match = FindNodeForPath(path);
+
+            if (match == null || ReferenceEquals(_navigationTree.SelectedNode, match))
+            {
+                return;
+            }
+
+            _updatingNavigationSelection = true;
+            try
+            {
+                _navigationTree.SelectedNode = match;
+                match.EnsureVisible();
+            }
+            finally
+            {
+                _updatingNavigationSelection = false;
+            }
         }
         finally
         {
             _navigationTree.EndUpdate();
-            _updatingNavigationSelection = false;
         }
     }
 
