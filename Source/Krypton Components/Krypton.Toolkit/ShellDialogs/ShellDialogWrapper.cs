@@ -33,6 +33,7 @@ public abstract class ShellDialogWrapper
     {
         var options = CreateDialogOptions();
         options.ProviderMode = ProviderMode;
+        options.ShowDateModifiedFilter = ShowDateModifiedFilter;
         var provider = KryptonDialogProviderFactory.Create(ProviderMode);
         var result = provider.ShowDialog(new KryptonDialogProviderContext(this, owner, options));
         if (result.DialogResult == DialogResult.OK)
@@ -200,6 +201,15 @@ public abstract class ShellDialogWrapper
     [DefaultValue(KryptonDialogProviderMode.Native)]
     [Description("Gets or sets which implementation backs this dialog wrapper.")]
     public KryptonDialogProviderMode ProviderMode { get; set; } = KryptonDialogProviderMode.Native;
+
+    /// <summary>
+    ///  Gets or sets whether the custom dialog shows a Date modified filter beside the search box.
+    ///  Applies only when <see cref="ProviderMode"/> is <see cref="KryptonDialogProviderMode.Custom"/>.
+    /// </summary>
+    [Category("Behavior")]
+    [DefaultValue(false)]
+    [Description("Gets or sets whether the custom dialog shows a Date modified filter beside the search box.")]
+    public bool ShowDateModifiedFilter { get; set; }
 
 #if NET8_0_OR_GREATER
         /// <summary>
