@@ -55,6 +55,8 @@
    * Added a localizable Krypton breadcrumb context menu for copying the address (quoted or plain text), switching to address editing, and clearing back/forward navigation history.
    * Added a localizable Date modified filter next to the search box (Any time / Today / Yesterday / This week / Last week / This month / Last month / This year / Last year) that works with the text search. Enable with `ShowDateModifiedFilter = true` on the dialog (Custom provider only; default is off).
    * Custom dialog UI strings (chrome, places, columns, view modes, status and validation) are fully localizable via `KryptonManager.Strings.CustomFileDialogStrings`; Cancel reuses `GeneralToolkitStrings.Cancel`.
+* Resolved [#4086](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4086), Redundant parentheses when `ShowAdministratorSuffix` is set to false
+   * Elevated `KryptonForm` titles no longer show empty `()` when `ShowAdministratorSuffix` is disabled or the Administrator string is blank
 * Implemented [#331](https://github.com/Krypton-Suite/Standard-Toolkit/issues/331), Make the "No Tab in a ribbon Solution" An Actual Designer Tool
    * `KryptonRibbon.ShowTabHeaders` hides the tab strip for toolbar-style ribbons while keeping the selected tab's groups; designer verbs/smart-tag toggle and `KryptonRibbonToolbar` toolbox control included.
    * Context titles (`RibbonContexts`) stay hidden with the tab strip and no longer linger after toggling `ShowTabHeaders` at runtime.
