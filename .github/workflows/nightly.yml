@@ -17,8 +17,8 @@ permissions:
 
 on:
   schedule:
-    # Run nightly build automatically at midnight UTC every day
-    - cron: '0 0 * * *'
+    # Run nightly build at 23:17 UTC (off-hour to avoid GitHub schedule queue delays)
+    - cron: '17 23 * * *'
   workflow_dispatch:  # Allow manual triggering for testing
     inputs:
       skip_change_check:
