@@ -20,7 +20,8 @@ on:
   pull_request:
     branches: [ "master", "V105-LTS", "V85-LTS", "alpha", "canary", "gold" ]
   schedule:
-    - cron: '0 0 * * 1'
+    # Mondays at 00:41 UTC (off-hour to avoid GitHub schedule queue delays)
+    - cron: '41 0 * * 1'
 
 jobs:
   analyze:
