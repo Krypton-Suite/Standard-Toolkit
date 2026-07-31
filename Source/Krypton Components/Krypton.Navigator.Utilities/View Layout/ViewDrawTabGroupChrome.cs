@@ -80,7 +80,7 @@ internal sealed class ViewDrawTabGroupHeader : ViewDrawButton
     {
         base.Render(context);
 
-        if (ClientRectangle.Width <= 0 || ClientRectangle.Height <= 0)
+        if (_group.Color.IsEmpty || ClientRectangle.Width <= 0 || ClientRectangle.Height <= 0)
         {
             return;
         }
@@ -91,7 +91,7 @@ internal sealed class ViewDrawTabGroupHeader : ViewDrawButton
         // distinct colored cluster without hiding the themed button base or its text.
         // Collapsed headers stand alone (no member tabs follow), so tint them a little
         // more strongly to keep the color identity.
-        var washAlpha = _group.Collapsed ? 96 : 64;
+        var washAlpha = _group.Collapsed ? 110 : 80;
         using (var wash = new SolidBrush(Color.FromArgb(washAlpha, groupColor)))
         {
             context.Graphics.FillRectangle(wash, ClientRectangle);
