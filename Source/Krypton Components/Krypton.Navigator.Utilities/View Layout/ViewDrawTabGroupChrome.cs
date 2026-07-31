@@ -10,41 +10,6 @@
 namespace Krypton.Navigator.Utilities;
 
 /// <summary>
-/// Narrow colored accent drawn before a grouped caption tab.
-/// </summary>
-internal sealed class ViewDrawTabGroupAccent : ViewLeaf
-{
-    private Color _color = Color.DodgerBlue;
-
-    public Color Color
-    {
-        get => _color;
-        set => _color = value.IsEmpty ? Color.DodgerBlue : value;
-    }
-
-    public override string ToString() => nameof(ViewDrawTabGroupAccent);
-
-    public override Size GetPreferredSize(ViewLayoutContext context) => new Size(3, 18);
-
-    public override void Layout(ViewLayoutContext context)
-    {
-        Debug.Assert(context != null);
-        ClientRectangle = context!.DisplayRectangle;
-    }
-
-    public override void Render(RenderContext context)
-    {
-        if (ClientRectangle.Width <= 0 || ClientRectangle.Height <= 0)
-        {
-            return;
-        }
-
-        using var brush = new SolidBrush(_color);
-        context.Graphics.FillRectangle(brush, ClientRectangle);
-    }
-}
-
-/// <summary>
 /// Clickable/draggable group header chip shown before a contiguous run of grouped caption tabs.
 /// </summary>
 internal sealed class ViewDrawTabGroupHeader : ViewDrawButton
@@ -120,10 +85,24 @@ internal sealed class ViewDrawTabGroupHeader : ViewDrawButton
             return;
         }
 
-        // Bottom accent bar using the group color (does not replace palette theming).
+        Color groupColor = _group.Color;
+
+        // Soft wash of the group color across the whole chip so each group reads as a
+        // distinct colored cluster without hiding the themed button base or its text.
+        // Collapsed headers stand alone (no member tabs follow), so tint them a little
+        // more strongly to keep the color identity.
+        var washAlpha = _group.Collapsed ? 96 : 64;
+        using (var wash = new SolidBrush(Color.FromArgb(washAlpha, groupColor)))
+        {
+            context.Graphics.FillRectangle(wash, ClientRectangle);
+        }
+
+        // Solid bottom accent bar using the group color (does not replace palette theming).
         var accent = new Rectangle(ClientRectangle.X, ClientRectangle.Bottom - 3, ClientRectangle.Width, 3);
-        using var brush = new SolidBrush(_group.Color);
-        context.Graphics.FillRectangle(brush, accent);
+        using (var brush = new SolidBrush(groupColor))
+        {
+            context.Graphics.FillRectangle(brush, accent);
+        }
     }
 
     private void OnHeaderClick()

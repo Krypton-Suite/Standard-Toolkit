@@ -224,12 +224,7 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
                 case CaptionVisualKind.Tab:
                     if (item.Page != null)
                     {
-                        if (item.Group != null)
-                        {
-                            AddGroupAccent(item.Group.Color);
-                        }
-
-                        AddTab(item.Page);
+                        AddTab(item.Page, item.Group?.Color);
                     }
                     break;
             }
@@ -594,12 +589,6 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
         Add(header, ViewDockStyle.Left);
     }
 
-    private void AddGroupAccent(Color color)
-    {
-        var accent = new ViewDrawTabGroupAccent { Color = color };
-        Add(accent, ViewDockStyle.Left);
-    }
-
     private void ToggleGroupCollapsed(NavigatorTabGroup group) =>
         group.Collapsed = !group.Collapsed;
 
@@ -732,24 +721,38 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
         _newTabToolTipPopup = null;
     }
 
-    private void AddTab(KryptonPage page)
+    private void AddTab(KryptonPage page, Color? groupColor = null)
     {
         var content = new FixedContentValue(page.Text, string.Empty, page.ImageSmall, Color.Empty);
-        var button = new ViewDrawButton(
-            page.StateDisabled.Tab,
-            page.StateNormal.Tab,
-            page.StateTracking.Tab,
-            page.StatePressed.Tab,
-            page.StateSelected.Tab,
-            page.StateSelected.Tab,
-            page.StateSelected.Tab,
-            null,
-            content,
-            VisualOrientation.Top,
-            true)
-        {
-            Checked = ReferenceEquals(page, _navigator.SelectedPage)
-        };
+        var button = groupColor is { IsEmpty: false } accent
+            ? new ViewDrawCaptionGroupTab(
+                page.StateDisabled.Tab,
+                page.StateNormal.Tab,
+                page.StateTracking.Tab,
+                page.StatePressed.Tab,
+                page.StateSelected.Tab,
+                page.StateSelected.Tab,
+                page.StateSelected.Tab,
+                content,
+                accent)
+            {
+                Checked = ReferenceEquals(page, _navigator.SelectedPage)
+            }
+            : new ViewDrawButton(
+                page.StateDisabled.Tab,
+                page.StateNormal.Tab,
+                page.StateTracking.Tab,
+                page.StatePressed.Tab,
+                page.StateSelected.Tab,
+                page.StateSelected.Tab,
+                page.StateSelected.Tab,
+                null,
+                content,
+                VisualOrientation.Top,
+                true)
+            {
+                Checked = ReferenceEquals(page, _navigator.SelectedPage)
+            };
 
         var controller = new ButtonController(button, _needPaint)
         {
@@ -1229,6 +1232,47 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
             preferred.Width = Math.Max(side, Math.Min(preferred.Width, side + 6));
             preferred.Height = side;
             return preferred;
+        }
+    }
+
+    /// <summary>
+    /// Caption tab that belongs to a group. Draws a solid group-color underline that stays
+    /// visible in every state (including selected), so grouped members read as one colored
+    /// cluster joined to the washed group header.
+    /// </summary>
+    private sealed class ViewDrawCaptionGroupTab : ViewDrawButton
+    {
+        private const int AccentHeight = 3;
+        private readonly Color _accentColor;
+
+        public ViewDrawCaptionGroupTab(
+            IPaletteTriple paletteDisabled,
+            IPaletteTriple paletteNormal,
+            IPaletteTriple paletteTracking,
+            IPaletteTriple palettePressed,
+            IPaletteTriple paletteCheckedNormal,
+            IPaletteTriple paletteCheckedTracking,
+            IPaletteTriple paletteCheckedPressed,
+            IContentValues content,
+            Color accentColor)
+            : base(paletteDisabled, paletteNormal, paletteTracking, palettePressed,
+                paletteCheckedNormal, paletteCheckedTracking, paletteCheckedPressed,
+                null, content, VisualOrientation.Top, true) =>
+            _accentColor = accentColor;
+
+        public override void Render(RenderContext context)
+        {
+            base.Render(context);
+
+            if (_accentColor.IsEmpty || ClientRectangle.Width <= 0 || ClientRectangle.Height <= 0)
+            {
+                return;
+            }
+
+            var accent = new Rectangle(ClientRectangle.X, ClientRectangle.Bottom - AccentHeight,
+                ClientRectangle.Width, AccentHeight);
+            using var brush = new SolidBrush(_accentColor);
+            context.Graphics.FillRectangle(brush, accent);
         }
     }
 
