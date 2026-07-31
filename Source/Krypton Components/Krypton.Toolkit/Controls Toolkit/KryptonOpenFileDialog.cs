@@ -21,7 +21,12 @@ namespace Krypton.Toolkit;
 [ToolboxItem(true)]
 public class KryptonOpenFileDialog : FileDialogWrapper, IDisposable
 {
-    private readonly OpenFileDialog _internalOpenFileDialog = new OpenFileDialog();// { AutoUpgradeEnabled = true };
+    private readonly OpenFileDialog _internalOpenFileDialog = new OpenFileDialog();
+
+    public KryptonOpenFileDialog()
+    {
+        _internalOpenFileDialog.FileOk += OnInternalFileOk;
+    }
 
     /// <inheritdoc />
     protected override DialogResult ShowActualDialog(IWin32Window? owner) => _internalOpenFileDialog.ShowDialog(owner);
@@ -176,12 +181,6 @@ public class KryptonOpenFileDialog : FileDialogWrapper, IDisposable
     }
 
     /// <inheritdoc />
-    public override event CancelEventHandler? FileOk
-    {
-        add => _internalOpenFileDialog.FileOk += value;
-        remove => _internalOpenFileDialog.FileOk -= value;
-    }
-
     /// <summary>Resets all properties to their default values.</summary>
     public override void Reset() => _internalOpenFileDialog.Reset();
 
@@ -205,5 +204,33 @@ public class KryptonOpenFileDialog : FileDialogWrapper, IDisposable
 
     /// <inheritdoc />
     public void Dispose() => _internalOpenFileDialog.Dispose();
+
+    internal override void PopulateDialogOptions(KryptonDialogOptions options)
+    {
+        options.Kind = KryptonDialogKind.OpenFile;
+        options.Multiselect = Multiselect;
+        options.ReadOnlyChecked = ReadOnlyChecked;
+    }
+
+    protected override bool GetReadOnlyChecked() => ReadOnlyChecked;
+
+    protected override void ApplyReadOnlyChecked(bool readOnlyChecked) => ReadOnlyChecked = readOnlyChecked;
+
+    internal override void ApplyDialogResult(KryptonDialogResult result)
+    {
+        base.ApplyDialogResult(result);
+        if (result.FileNames.Length > 0)
+        {
+            FileName = result.FileNames[0];
+        }
+    }
+
+    private void OnInternalFileOk(object? sender, CancelEventArgs e)
+    {
+        if (!RaiseFileOk())
+        {
+            e.Cancel = true;
+        }
+    }
 
 }

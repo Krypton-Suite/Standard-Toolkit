@@ -19,6 +19,8 @@ namespace Krypton.Toolkit;
 [DefaultProperty(nameof(FileName))]
 public abstract class FileDialogWrapper : ShellDialogWrapper
 {
+    private event CancelEventHandler? _fileOk;
+
     /// <summary>Gets or sets a value indicating whether the dialog box automatically adds an extension to a file name if the user omits the extension.</summary>
     /// <returns>
     /// <see langword="true" /> if the dialog box adds an extension to a file name if the user omits the extension; otherwise, <see langword="false" />. The default value is <see langword="true" />.</returns>
@@ -125,11 +127,101 @@ public abstract class FileDialogWrapper : ShellDialogWrapper
 
     /// <summary>Occurs when the user clicks on the Open or Save button on a file dialog box.</summary>
     [Description("Occurs when the user clicks on the Open or Save button on a file dialog box.")]
-    public abstract event CancelEventHandler? FileOk;
+    public event CancelEventHandler? FileOk
+    {
+        add => _fileOk += value;
+        remove => _fileOk -= value;
+    }
 
     /// <summary>Gets the custom places collection for this <see cref="T:System.Windows.Forms.FileDialog" /> instance.</summary>
     /// <returns>The custom places collection for this <see cref="T:System.Windows.Forms.FileDialog" /> instance.</returns>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public abstract FileDialogCustomPlacesCollection CustomPlaces { get; }
+
+    internal override KryptonDialogOptions CreateDialogOptions()
+    {
+        var options = new KryptonDialogOptions
+        {
+            Title = Title,
+            Icon = Icon,
+            InitialDirectory = InitialDirectory ?? string.Empty,
+            FileName = FileName ?? string.Empty,
+            DefaultExt = DefaultExt ?? string.Empty,
+            Filter = Filter ?? string.Empty,
+            FilterIndex = FilterIndex,
+            AddExtension = AddExtension,
+            CheckFileExists = CheckFileExists,
+            CheckPathExists = CheckPathExists,
+            ValidateNames = ValidateNames,
+            Multiselect = false,
+            SupportMultiDottedExtensions = SupportMultiDottedExtensions,
+            ReadOnlyChecked = GetReadOnlyChecked(),
+            CurrentPath = ResolveCurrentPath()
+        };
+
+        foreach (FileDialogCustomPlace customPlace in CustomPlaces)
+        {
+            var place = !string.IsNullOrWhiteSpace(customPlace.Path)
+                ? customPlace.Path
+                : customPlace.KnownFolderGuid.ToString();
+            if (!string.IsNullOrWhiteSpace(place))
+            {
+                options.CustomPlaces.Add(place);
+            }
+        }
+
+        PopulateDialogOptions(options);
+        return options;
+    }
+
+    internal override KryptonDialogResult CaptureDialogResult() => new KryptonDialogResult
+    {
+        FileName = FileName ?? string.Empty,
+        FileNames = FileNames ?? Array.Empty<string>(),
+        SelectedPath = Path.GetDirectoryName(FileName ?? string.Empty) ?? string.Empty,
+        ReadOnlyChecked = GetReadOnlyChecked()
+    };
+
+    internal override void ApplyDialogResult(KryptonDialogResult result)
+    {
+        FileName = result.FileName;
+        ApplyReadOnlyChecked(result.ReadOnlyChecked);
+    }
+
+    internal virtual void PopulateDialogOptions(KryptonDialogOptions options)
+    {
+    }
+
+    protected virtual bool GetReadOnlyChecked() => false;
+
+    protected virtual void ApplyReadOnlyChecked(bool readOnlyChecked)
+    {
+    }
+
+    internal bool RaiseFileOk()
+    {
+        var args = new CancelEventArgs(false);
+        _fileOk?.Invoke(this, args);
+        return !args.Cancel;
+    }
+
+    private string ResolveCurrentPath()
+    {
+        if (!string.IsNullOrWhiteSpace(FileName))
+        {
+            var directoryName = Path.GetDirectoryName(FileName);
+            if (!string.IsNullOrWhiteSpace(directoryName))
+            {
+                return directoryName;
+            }
+        }
+
+        if (!string.IsNullOrWhiteSpace(InitialDirectory))
+        {
+            return InitialDirectory;
+        }
+
+        return string.Empty;
+    }
 }
