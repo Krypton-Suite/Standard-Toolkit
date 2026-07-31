@@ -140,7 +140,9 @@ internal sealed class ViewDrawTabGroupHeader : ViewDrawButton
     {
         string title = !string.IsNullOrEmpty(group.Title)
             ? group.Title
-            : (string.IsNullOrEmpty(group.Id) ? "Group" : group.Id);
+            : (string.IsNullOrEmpty(group.Id)
+                ? KryptonManager.Strings.NavigatorIntegrationStrings.DefaultGroupTitle
+                : group.Id);
 
         if (group.Collapsed && memberCount != null)
         {

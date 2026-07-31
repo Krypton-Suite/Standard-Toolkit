@@ -28,6 +28,9 @@ public class NavigatorFormIntegrationStrings : GlobalId
     private const string DEFAULT_NEW_GROUP = @"New group";
     private const string DEFAULT_UNGROUP = @"Remove from group";
     private const string DEFAULT_RENAME_GROUP = @"Rename group";
+    private const string DEFAULT_RENAME_GROUP_PROMPT = @"Enter a new name for this group:";
+    private const string DEFAULT_GROUP_NAME_CUE = @"Group name";
+    private const string DEFAULT_DEFAULT_GROUP_TITLE = @"Group";
     private const string DEFAULT_RECOLOR_GROUP = @"Change group color";
     private const string DEFAULT_COLLAPSE_GROUP = @"Collapse group";
     private const string DEFAULT_EXPAND_GROUP = @"Expand group";
@@ -68,6 +71,9 @@ public class NavigatorFormIntegrationStrings : GlobalId
         NewGroup.Equals(DEFAULT_NEW_GROUP) &&
         Ungroup.Equals(DEFAULT_UNGROUP) &&
         RenameGroup.Equals(DEFAULT_RENAME_GROUP) &&
+        RenameGroupPrompt.Equals(DEFAULT_RENAME_GROUP_PROMPT) &&
+        GroupNameCue.Equals(DEFAULT_GROUP_NAME_CUE) &&
+        DefaultGroupTitle.Equals(DEFAULT_DEFAULT_GROUP_TITLE) &&
         RecolorGroup.Equals(DEFAULT_RECOLOR_GROUP) &&
         CollapseGroup.Equals(DEFAULT_COLLAPSE_GROUP) &&
         ExpandGroup.Equals(DEFAULT_EXPAND_GROUP);
@@ -90,6 +96,9 @@ public class NavigatorFormIntegrationStrings : GlobalId
         NewGroup = DEFAULT_NEW_GROUP;
         Ungroup = DEFAULT_UNGROUP;
         RenameGroup = DEFAULT_RENAME_GROUP;
+        RenameGroupPrompt = DEFAULT_RENAME_GROUP_PROMPT;
+        GroupNameCue = DEFAULT_GROUP_NAME_CUE;
+        DefaultGroupTitle = DEFAULT_DEFAULT_GROUP_TITLE;
         RecolorGroup = DEFAULT_RECOLOR_GROUP;
         CollapseGroup = DEFAULT_COLLAPSE_GROUP;
         ExpandGroup = DEFAULT_EXPAND_GROUP;
@@ -164,6 +173,24 @@ public class NavigatorFormIntegrationStrings : GlobalId
     [Description(@"Caption-tab context menu command for renaming a tab group.")]
     [DefaultValue(DEFAULT_RENAME_GROUP)]
     public string RenameGroup { get; set; }
+
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [Description(@"Prompt text for the rename-group input dialog opened from the caption-tab context menu.")]
+    [DefaultValue(DEFAULT_RENAME_GROUP_PROMPT)]
+    public string RenameGroupPrompt { get; set; }
+
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [Description(@"Cue / watermark text for the rename-group input dialog.")]
+    [DefaultValue(DEFAULT_GROUP_NAME_CUE)]
+    public string GroupNameCue { get; set; }
+
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [Description(@"Fallback title used when creating a group without a name, or when a group has no title (shown as 'Group 1', 'Group 2', …).")]
+    [DefaultValue(DEFAULT_DEFAULT_GROUP_TITLE)]
+    public string DefaultGroupTitle { get; set; }
 
     [Localizable(true)]
     [Category(@"Visuals")]

@@ -641,7 +641,9 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
     {
         var group = new NavigatorTabGroup(
             Guid.NewGuid().ToString("N"),
-            string.IsNullOrEmpty(title) ? $"Group {_tabGroups.Count + 1}" : title!,
+            string.IsNullOrEmpty(title)
+                ? $"{KryptonManager.Strings.NavigatorIntegrationStrings.DefaultGroupTitle} {_tabGroups.Count + 1}"
+                : title!,
             color ?? PickNextGroupColor());
         _tabGroups.Add(group);
 
@@ -1305,9 +1307,11 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
         var pageIndex = navigator.Pages.IndexOf(page);
         NavigatorTabGroup? pageGroup = string.IsNullOrEmpty(page.TabGroupId) ? null : _tabGroups[page.TabGroupId];
         NavigatorFormIntegrationStrings strings = KryptonManager.Strings.NavigatorIntegrationStrings;
+        SystemMenuStrings systemStrings = KryptonManager.Strings.SystemMenuStrings;
 
         if (_builtInTabContextMenu.Items["MoveToNewWindow"] is ToolStripMenuItem move)
         {
+            move.Text = strings.MoveToNewWindow;
             move.Enabled = _allowTearOut && hasPage;
         }
 
@@ -1320,20 +1324,23 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
 
         if (_builtInTabContextMenu.Items["CloseTab"] is ToolStripMenuItem close)
         {
+            close.Text = strings.CloseTab;
             close.Enabled = hasPage && pageCount > 1;
         }
 
         if (_builtInTabContextMenu.Items["CloseOtherTabs"] is ToolStripMenuItem closeOther)
         {
+            closeOther.Text = strings.CloseOtherTabs;
             closeOther.Enabled = hasPage && pageCount > 1;
         }
 
         if (_builtInTabContextMenu.Items["CloseTabsToTheRight"] is ToolStripMenuItem closeRight)
         {
+            closeRight.Text = strings.CloseTabsToTheRight;
             closeRight.Enabled = hasPage && pageIndex >= 0 && pageIndex < pageCount - 1;
         }
 
-        UpdateBuiltInSystemMenuState();
+        UpdateBuiltInSystemMenuState(systemStrings);
     }
 
     private KryptonNavigator? ResolveNavigatorForPage(KryptonPage page)
@@ -1379,11 +1386,15 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
 
         if (_builtInTabContextMenu.Items["AddToGroup"] is ToolStripMenuItem addToGroup)
         {
+            addToGroup.Text = strings.AddToGroup;
             addToGroup.DropDownItems.Clear();
             foreach (NavigatorTabGroup group in _tabGroups)
             {
                 NavigatorTabGroup localGroup = group;
-                var item = new ToolStripMenuItem(string.IsNullOrEmpty(localGroup.Title) ? localGroup.Id : localGroup.Title)
+                string title = string.IsNullOrEmpty(localGroup.Title)
+                    ? (string.IsNullOrEmpty(localGroup.Id) ? strings.DefaultGroupTitle : localGroup.Id)
+                    : localGroup.Title;
+                var item = new ToolStripMenuItem(title)
                 {
                     Checked = pageGroup != null && string.Equals(pageGroup.Id, localGroup.Id, StringComparison.Ordinal),
                     Tag = localGroup.Id
@@ -1395,18 +1406,26 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
             addToGroup.Enabled = _tabGroups.Count > 0;
         }
 
+        if (_builtInTabContextMenu.Items["NewGroup"] is ToolStripMenuItem newGroup)
+        {
+            newGroup.Text = strings.NewGroup;
+        }
+
         if (_builtInTabContextMenu.Items["Ungroup"] is ToolStripMenuItem ungroup)
         {
+            ungroup.Text = strings.Ungroup;
             ungroup.Enabled = pageGroup != null;
         }
 
         if (_builtInTabContextMenu.Items["RenameGroup"] is ToolStripMenuItem rename)
         {
+            rename.Text = strings.RenameGroup;
             rename.Enabled = pageGroup != null;
         }
 
         if (_builtInTabContextMenu.Items["RecolorGroup"] is ToolStripMenuItem recolor)
         {
+            recolor.Text = strings.RecolorGroup;
             recolor.Enabled = pageGroup != null;
         }
 
@@ -1417,7 +1436,7 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
         }
     }
 
-    private void UpdateBuiltInSystemMenuState()
+    private void UpdateBuiltInSystemMenuState(SystemMenuStrings systemStrings)
     {
         if (_builtInTabContextMenu == null)
         {
@@ -1454,32 +1473,38 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
 
         if (_builtInTabContextMenu.Items["SystemRestore"] is ToolStripMenuItem restore)
         {
+            restore.Text = systemStrings.Restore;
             restore.Enabled = windowState != FormWindowState.Normal;
         }
 
         if (_builtInTabContextMenu.Items["SystemMove"] is ToolStripMenuItem systemMove)
         {
+            systemMove.Text = systemStrings.Move;
             systemMove.Enabled = windowState is FormWindowState.Normal or FormWindowState.Minimized;
         }
 
         if (_builtInTabContextMenu.Items["SystemSize"] is ToolStripMenuItem systemSize)
         {
+            systemSize.Text = systemStrings.Size;
             systemSize.Enabled = windowState == FormWindowState.Normal
                 && _form.FormBorderStyle is FormBorderStyle.Sizable or FormBorderStyle.SizableToolWindow;
         }
 
         if (_builtInTabContextMenu.Items["SystemMinimize"] is ToolStripMenuItem minimize)
         {
+            minimize.Text = systemStrings.Minimize;
             minimize.Enabled = _form.MinimizeBox && windowState != FormWindowState.Minimized;
         }
 
         if (_builtInTabContextMenu.Items["SystemMaximize"] is ToolStripMenuItem maximize)
         {
+            maximize.Text = systemStrings.Maximize;
             maximize.Enabled = _form.MaximizeBox && windowState != FormWindowState.Maximized;
         }
 
         if (_builtInTabContextMenu.Items["SystemClose"] is ToolStripMenuItem systemClose)
         {
+            systemClose.Text = systemStrings.Close;
             systemClose.Enabled = true;
         }
     }
@@ -1844,14 +1869,14 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
             return;
         }
 
-        string caption = KryptonManager.Strings.NavigatorIntegrationStrings.RenameGroup;
+        NavigatorFormIntegrationStrings strings = KryptonManager.Strings.NavigatorIntegrationStrings;
         string title = KryptonInputBox.Show(new KryptonInputBoxData
         {
             Owner = _form,
-            Caption = caption,
-            Prompt = caption,
+            Caption = strings.RenameGroup,
+            Prompt = strings.RenameGroupPrompt,
             DefaultResponse = group.Title,
-            CueText = @"Group name"
+            CueText = strings.GroupNameCue
         });
 
         if (!string.IsNullOrWhiteSpace(title) && !string.Equals(title, group.Title, StringComparison.Ordinal))
