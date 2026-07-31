@@ -21,8 +21,8 @@ name: Alpha to Alpha-Backup Sync
 
 on:
   schedule:
-    # Run at midnight UTC daily
-    - cron: '0 0 * * *'
+    # Run at 23:27 UTC daily (off-hour to avoid GitHub schedule queue delays)
+    - cron: '27 23 * * *'
   workflow_dispatch:
 
 permissions:
