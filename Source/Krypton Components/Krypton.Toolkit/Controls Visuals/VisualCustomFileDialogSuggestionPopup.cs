@@ -82,7 +82,8 @@ internal sealed class VisualCustomFileDialogSuggestionPopup : VisualPopup
 
         var itemHeight = _listBox.GetItemHeight(0);
         var visibleItems = Math.Min(_listBox.Items.Count, _maximumVisibleItems);
-        var popupSize = new Size(Math.Max(textBox.Width, 280), (visibleItems * itemHeight) + 4);
+        var minWidth = ScaleLogicalWidth(textBox, 280);
+        var popupSize = new Size(Math.Max(textBox.Width, minWidth), (visibleItems * itemHeight) + 4);
         var location = textBox.PointToScreen(new Point(0, textBox.Height));
         var screen = Screen.FromControl(textBox).WorkingArea;
 
@@ -184,5 +185,22 @@ internal sealed class VisualCustomFileDialogSuggestionPopup : VisualPopup
         {
             _acceptSuggestion(suggestion);
         }
+    }
+
+    private static int ScaleLogicalWidth(Control control, int logicalPixels)
+    {
+        float factor;
+        try
+        {
+            factor = control.IsHandleCreated
+                ? KryptonManager.GetDpiFactor(control.Handle)
+                : KryptonManager.GetDpiFactor();
+        }
+        catch
+        {
+            factor = 1f;
+        }
+
+        return (int)Math.Round(logicalPixels * Math.Max(factor, 0.1f));
     }
 }

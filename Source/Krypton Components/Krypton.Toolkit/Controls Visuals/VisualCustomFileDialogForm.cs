@@ -190,14 +190,19 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
         InitializeBreadcrumbContextMenu();
         InitializeDateModifiedFilter();
         ApplyNavigationButtonGlyphs();
-        ApplyDialogLayout();
+        ApplyDialogLayout(applyClientSize: true);
         ApplyDialogOptions();
         Shown += OnDialogShown;
         FormClosed += OnDialogFormClosed;
+#if !NET462
+        DpiChanged += OnDialogDpiChanged;
+#endif
     }
 
     private void InitializeShellIcons()
     {
+        DisposeShellIcons();
+
         _shellSmallImageList = new ImageList
         {
             ColorDepth = ColorDepth.Depth32Bit,
@@ -209,63 +214,86 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
             ImageSize = SystemInformation.IconSize
         };
 
+        _shellIconCache.Clear();
+
         // Seed a default folder icon before the tree is populated.
         GetShellIconIndex(null, ShellIconKind.Folder);
         _fileList.SmallImageList = _shellSmallImageList;
         _fileList.LargeImageList = _shellLargeImageList;
+        _navigationTree.ImageList = _shellSmallImageList;
     }
 
-    private void ApplyDialogLayout()
+    private void DisposeShellIcons()
     {
-        ClientSize = new Size(980, 680);
-        MinimumSize = new Size(900, 600);
+        if (_navigationTree.ImageList != null)
+        {
+            _navigationTree.ImageList = null;
+        }
 
-        _rootPanel.Padding = new Padding(10);
+        _fileList.SmallImageList = null;
+        _fileList.LargeImageList = null;
+
+        _shellSmallImageList?.Dispose();
+        _shellLargeImageList?.Dispose();
+        _shellSmallImageList = null;
+        _shellLargeImageList = null;
+    }
+
+    private void ApplyDialogLayout(bool applyClientSize)
+    {
+        if (applyClientSize)
+        {
+            ClientSize = ScaleSize(946, 533);
+        }
+
+        MinimumSize = ScaleSize(679, 495);
+
+        _rootPanel.Padding = ScalePadding(10);
 
         _chromeLayout.RowStyles.Clear();
         _chromeLayout.RowCount = 3;
-        _chromeLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 36F));
+        _chromeLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, ScaleY(36F)));
         _chromeLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
         _chromeLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
 
         _navigationLayout.AutoSize = false;
         _navigationLayout.Dock = DockStyle.Fill;
-        _navigationLayout.Margin = new Padding(0, 0, 0, 0);
+        _navigationLayout.Margin = Padding.Empty;
         _navigationLayout.ColumnStyles.Clear();
         _navigationLayout.ColumnCount = 8;
-        _navigationLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 34F));
-        _navigationLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 34F));
-        _navigationLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 34F));
-        _navigationLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 78F));
+        _navigationLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, ScaleX(34F)));
+        _navigationLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, ScaleX(34F)));
+        _navigationLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, ScaleX(34F)));
+        _navigationLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, ScaleX(78F)));
         _navigationLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-        _navigationLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 126F));
+        _navigationLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, ScaleX(126F)));
         if (_options.ShowDateModifiedFilter)
         {
-            _navigationLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150F));
-            _navigationLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 180F));
+            _navigationLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, ScaleX(150F)));
+            _navigationLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, ScaleX(180F)));
         }
         else
         {
-            _navigationLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 58F));
-            _navigationLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 180F));
+            _navigationLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, ScaleX(58F)));
+            _navigationLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, ScaleX(180F)));
         }
 
-        ConfigureToolbarButton(_backButton, new Size(30, 28));
-        ConfigureToolbarButton(_forwardButton, new Size(30, 28));
-        ConfigureToolbarButton(_upButton, new Size(30, 28));
-        ConfigureToolbarButton(_refreshButton, new Size(74, 28));
+        ConfigureToolbarButton(_backButton, ScaleSize(30, 28));
+        ConfigureToolbarButton(_forwardButton, ScaleSize(30, 28));
+        ConfigureToolbarButton(_upButton, ScaleSize(30, 28));
+        ConfigureToolbarButton(_refreshButton, ScaleSize(74, 28));
         _refreshButton.Values.Text = DialogStrings.Refresh;
 
         _addressHost.Dock = DockStyle.Fill;
-        _addressHost.Margin = new Padding(4, 2, 4, 2);
+        _addressHost.Margin = ScalePadding(4, 2, 4, 2);
         _addressHost.Padding = Padding.Empty;
         _addressHost.BackColor = Color.Transparent;
-        _addressHost.MinimumSize = new Size(160, 28);
+        _addressHost.MinimumSize = ScaleSize(160, 28);
         _addressBar.Dock = DockStyle.Fill;
         _addressBar.AutoSize = false;
         _addressEditBox.Dock = DockStyle.Fill;
 
-        ConfigureToolbarButton(_viewButton, new Size(120, 28));
+        ConfigureToolbarButton(_viewButton, ScaleSize(120, 28));
         _viewButton.ShowSplitOption = true;
         _viewButton.Values.ShowSplitOption = true;
 
@@ -274,24 +302,32 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
             // Search cue is enough; the former Search label column hosts the date-modified filter.
             _searchLabel.Visible = false;
             _dateModifiedComboBox.Dock = DockStyle.Fill;
-            _dateModifiedComboBox.Margin = new Padding(4, 2, 2, 2);
-            _dateModifiedComboBox.MinimumSize = new Size(140, 28);
+            _dateModifiedComboBox.Margin = ScalePadding(4, 2, 2, 2);
+            _dateModifiedComboBox.MinimumSize = ScaleSize(140, 28);
         }
         else
         {
             _searchLabel.Visible = true;
             _searchLabel.Anchor = AnchorStyles.Left;
-            _searchLabel.Margin = new Padding(4, 0, 2, 0);
+            _searchLabel.Margin = ScalePadding(4, 0, 2, 0);
             _searchLabel.Values.Text = DialogStrings.SearchLabel;
         }
 
         _searchTextBox.Dock = DockStyle.Fill;
-        _searchTextBox.Margin = new Padding(0, 2, 0, 2);
+        _searchTextBox.Margin = ScalePadding(0, 2, 0, 2);
 
-        _splitContainer.Margin = new Padding(0, 0, 0, 8);
-        _splitContainer.Panel1MinSize = 180;
-        _splitContainer.Panel2MinSize = 280;
-        _splitContainer.SplitterDistance = 240;
+        _splitContainer.Margin = ScalePadding(0, 0, 0, 8);
+        _splitContainer.Panel1MinSize = ScaleX(180);
+        _splitContainer.Panel2MinSize = ScaleX(280);
+        if (_splitContainer.Width > ScaleX(500))
+        {
+            _splitContainer.SplitterDistance = Math.Max(ScaleX(180), Math.Min(ScaleX(280), _splitContainer.Width / 3));
+        }
+        else
+        {
+            _splitContainer.SplitterDistance = ScaleX(240);
+        }
+
         _navigationTree.Dock = DockStyle.Fill;
         _navigationTree.Margin = Padding.Empty;
         _fileList.Dock = DockStyle.Fill;
@@ -299,7 +335,7 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
 
         _bottomLayout.AutoSize = true;
         _bottomLayout.Margin = Padding.Empty;
-        _bottomLayout.Padding = new Padding(0, 4, 0, 0);
+        _bottomLayout.Padding = ScalePadding(0, 4, 0, 0);
         _bottomLayout.ColumnStyles.Clear();
         _bottomLayout.ColumnCount = 4;
         _bottomLayout.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
@@ -310,25 +346,77 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
         _bottomLayout.RowCount = 3;
         _bottomLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
         _bottomLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-        _bottomLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 24F));
+        _bottomLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, ScaleY(24F)));
 
         _fileNameLabel.Anchor = AnchorStyles.Left;
-        _fileNameLabel.Margin = new Padding(0, 4, 8, 4);
+        _fileNameLabel.Margin = ScalePadding(0, 4, 8, 4);
         _fileNameTextBox.Dock = DockStyle.Fill;
-        _fileNameTextBox.Margin = new Padding(0, 2, 0, 2);
+        _fileNameTextBox.Margin = ScalePadding(0, 2, 0, 2);
         _filterLabel.Anchor = AnchorStyles.Left;
-        _filterLabel.Margin = new Padding(0, 4, 8, 4);
+        _filterLabel.Margin = ScalePadding(0, 4, 8, 4);
         _filterComboBox.Dock = DockStyle.Fill;
-        _filterComboBox.Margin = new Padding(0, 2, 8, 2);
+        _filterComboBox.Margin = ScalePadding(0, 2, 8, 2);
 
-        ConfigureToolbarButton(_acceptButton, new Size(110, 28));
-        ConfigureToolbarButton(_cancelButton, new Size(90, 28));
-        _acceptButton.Margin = new Padding(8, 2, 4, 2);
-        _cancelButton.Margin = new Padding(0, 2, 0, 2);
+        ConfigureToolbarButton(_acceptButton, ScaleSize(110, 28));
+        ConfigureToolbarButton(_cancelButton, ScaleSize(90, 28));
+        _acceptButton.Margin = ScalePadding(8, 2, 4, 2);
+        _cancelButton.Margin = ScalePadding(0, 2, 0, 2);
 
         _statusLabel.Dock = DockStyle.Fill;
-        _statusLabel.Margin = new Padding(0, 4, 0, 0);
+        _statusLabel.Margin = ScalePadding(0, 4, 0, 0);
         _statusLabel.AutoSize = false;
+
+        if (_fileList.View == View.Tile)
+        {
+            _fileList.TileSize = ScaleSize(216, 48);
+        }
+
+        ApplyScaledColumnWidths();
+    }
+
+    private void ApplyScaledColumnWidths()
+    {
+        _columnName.Width = ScaleX(280);
+        _columnType.Width = ScaleX(120);
+        _columnModified.Width = ScaleX(180);
+        _columnSize.Width = ScaleX(120);
+    }
+
+    private int ScaleX(int value) => (int)Math.Round(value * Math.Max(FactorDpiX, 0.1f));
+
+    private int ScaleY(int value) => (int)Math.Round(value * Math.Max(FactorDpiY, 0.1f));
+
+    private float ScaleX(float value) => value * Math.Max(FactorDpiX, 0.1f);
+
+    private float ScaleY(float value) => value * Math.Max(FactorDpiY, 0.1f);
+
+    private Size ScaleSize(int width, int height) => new Size(ScaleX(width), ScaleY(height));
+
+    private Padding ScalePadding(int all) => new Padding(ScaleX(all), ScaleY(all), ScaleX(all), ScaleY(all));
+
+    private Padding ScalePadding(int left, int top, int right, int bottom) =>
+        new Padding(ScaleX(left), ScaleY(top), ScaleX(right), ScaleY(bottom));
+
+#if !NET462
+    private void OnDialogDpiChanged(object? sender, DpiChangedEventArgs e)
+    {
+        // VisualForm already refreshed FactorDpi*; WinForms has already scaled ClientSize.
+        // Re-apply absolute layout metrics and rebuild shell icons for the new DPI.
+        ApplyDialogLayout(applyClientSize: false);
+        RebuildShellIconsForDpi();
+    }
+#endif
+
+    private void RebuildShellIconsForDpi()
+    {
+        var hadTree = _navigationTree.Nodes.Count > 0;
+        InitializeShellIcons();
+        if (hadTree)
+        {
+            BuildNavigationTree();
+            SelectNavigationNode(_currentPath);
+            ApplyEntryFilter(suspendUpdates: false);
+        }
     }
 
     private static void ConfigureToolbarButton(KryptonButton button, Size size)
@@ -460,7 +548,7 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
         _fileList.FullRowSelect = view == View.Details;
         if (view == View.Tile)
         {
-            _fileList.TileSize = new Size(216, 48);
+            _fileList.TileSize = ScaleSize(216, 48);
         }
 
         var modes = GetViewModes();
@@ -535,6 +623,7 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
         _columnType.Text = strings.ColumnType;
         _columnModified.Text = strings.ColumnModified;
         _columnSize.Text = strings.ColumnSize;
+        ApplyScaledColumnWidths();
 
         var showFilter = _options.Kind != KryptonDialogKind.SelectFolder;
         _filterLabel.Visible = showFilter;
@@ -999,11 +1088,16 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
         }
 
         _initialLoadQueued = true;
-        if (_splitContainer.Width > 500)
+
+        // Handle may now be on a different monitor than the primary-screen DPI used in the constructor.
+        ApplyDialogLayout(applyClientSize: true);
+        if (_splitContainer.Width > ScaleX(500))
         {
-            _splitContainer.SplitterDistance = Math.Max(200, Math.Min(280, _splitContainer.Width / 3));
+            _splitContainer.SplitterDistance = Math.Max(ScaleX(200), Math.Min(ScaleX(280), _splitContainer.Width / 3));
         }
 
+        // Rebuild shell icons after the window handle exists so SystemInformation icon sizes match this DPI.
+        RebuildShellIconsForDpi();
         BuildNavigationTree();
         NavigateToPath(_currentPath, updatePathText: true, selectTreeNode: true);
     }
@@ -1752,6 +1846,7 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
         _addressSuggestionPopup?.Dispose();
         _searchSuggestionPopup?.Dispose();
         _breadcrumbContextMenu?.Dispose();
+        DisposeShellIcons();
     }
 
     private void BeginAddressEdit()

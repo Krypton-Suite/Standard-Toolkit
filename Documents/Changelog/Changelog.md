@@ -45,6 +45,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#4104](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4104), Preserve git history in mirror backup
 * Implemented [#1231](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1231), The `KryptonOpenFileDialog` can have poor performance on some OS hardware
    * Added a provider-based custom dialog mode for `KryptonOpenFileDialog`, `KryptonSaveFileDialog`, and `KryptonFolderBrowserDialog` so applications can avoid the native shell wrapper path on machines where it performs poorly.
    * Native provider mode uses the standard Windows Explorer dialog directly. Hosting that HWND inside a `KryptonForm` is not reliable on modern Windows (clipped/blank UI); use `ProviderMode = Custom` for the managed KryptonForm dialog.
@@ -55,6 +56,7 @@
    * Added a localizable Krypton breadcrumb context menu for copying the address (quoted or plain text), switching to address editing, and clearing back/forward navigation history.
    * Added a localizable Date modified filter next to the search box (Any time / Today / Yesterday / This week / Last week / This month / Last month / This year / Last year) that works with the text search. Enable with `ShowDateModifiedFilter = true` on the dialog (Custom provider only; default is off).
    * Custom dialog UI strings (chrome, places, columns, view modes, status and validation) are fully localizable via `KryptonManager.Strings.CustomFileDialogStrings`; Cancel reuses `GeneralToolkitStrings.Cancel`.
+   * Custom dialog layout, list columns, tile size, suggestion popup minimum width and shell icon lists scale with per-monitor DPI (including `DpiChanged` while open).
 * Resolved [#4086](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4086), Redundant parentheses when `ShowAdministratorSuffix` is set to false
    * Elevated `KryptonForm` titles no longer show empty `()` when `ShowAdministratorSuffix` is disabled or the Administrator string is blank
 * Implemented [#331](https://github.com/Krypton-Suite/Standard-Toolkit/issues/331), Make the "No Tab in a ribbon Solution" An Actual Designer Tool
