@@ -102,24 +102,7 @@ internal sealed class NavigatorCaptionDragPageNotify : IDragPageNotify, IDisposa
         // Provide tear-in/out feedback when the drag leaves the source window and is
         // not over any registered navigator client area.
         bool outsideSourceForm = _sourceForm != null && !_sourceForm.Bounds.Contains(e.Point);
-        bool overAnyNavigatorClient = false;
-
-        foreach (KryptonNavigatorFormIntegrator target in _owner.GetRegisteredIntegrators())
-        {
-            if (target.ContainsDropTarget(e.Point))
-            {
-                overAnyNavigatorClient = true;
-                break;
-            }
-        }
-
-        if (!overAnyNavigatorClient && _owner.Workspace is { IsDisposed: false } workspace)
-        {
-            Rectangle workspaceScreen = workspace.RectangleToScreen(workspace.ClientRectangle);
-            overAnyNavigatorClient = workspaceScreen.Contains(e.Point);
-        }
-
-        bool showTearOut = _owner.AllowTearOut && outsideSourceForm && !overAnyNavigatorClient;
+        bool showTearOut = _owner.AllowTearOut && outsideSourceForm && !IsOverAnyDropTarget(e.Point);
 
         if (showTearOut)
         {
@@ -142,7 +125,22 @@ internal sealed class NavigatorCaptionDragPageNotify : IDragPageNotify, IDisposa
         _tearOutFeedback?.HideFeedback();
 
         var dropped = _dragManager.IsDragging && _dragManager.PageDragEnd(sender, e);
-        if (!dropped && _owner.AllowTearOut && _sourceNavigator != null && _draggingPages != null)
+
+        // Docking-indicator feedback only accepts a drop when the mouse is over the centre
+        // Transfer glyph. Browser-style remerge must succeed anywhere over a registered
+        // integrated window, so fall back to a direct transfer when DragManager missed.
+        if (!dropped)
+        {
+            dropped = TryRemergeAtPoint(e.Point);
+        }
+
+        // Never tear out when the pointer is over a window that can accept the pages —
+        // that path previously spawned a duplicate host instead of remerging.
+        if (!dropped
+            && _owner.AllowTearOut
+            && !IsOverAnyDropTarget(e.Point)
+            && _sourceNavigator != null
+            && _draggingPages != null)
         {
             dropped = _owner.TryTearOutPages(_sourceNavigator, _draggingPages, e.Point);
         }
@@ -220,6 +218,67 @@ internal sealed class NavigatorCaptionDragPageNotify : IDragPageNotify, IDisposa
         _draggingPages = null;
         _sourceNavigator = null;
         _sourceForm = null;
+    }
+
+    #endregion
+
+    #region Implementation
+
+    private bool IsOverAnyDropTarget(Point screenPoint)
+    {
+        foreach (KryptonNavigatorFormIntegrator target in _owner.GetRegisteredIntegrators())
+        {
+            if (target.ContainsDropTarget(screenPoint))
+            {
+                return true;
+            }
+        }
+
+        if (_owner.Workspace is { IsDisposed: false } workspace)
+        {
+            Rectangle workspaceScreen = workspace.RectangleToScreen(workspace.ClientRectangle);
+            if (workspaceScreen.Contains(screenPoint))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private bool TryRemergeAtPoint(Point screenPoint)
+    {
+        if (_sourceNavigator == null || _draggingPages == null || _draggingPages.Count == 0)
+        {
+            return false;
+        }
+
+        foreach (KryptonNavigatorFormIntegrator target in _owner.GetRegisteredIntegrators())
+        {
+            if (!target.ContainsDropTarget(screenPoint))
+            {
+                continue;
+            }
+
+            KryptonNavigator? navigator = target.Navigator;
+            if (navigator == null || navigator.IsDisposed || ReferenceEquals(navigator, _sourceNavigator))
+            {
+                continue;
+            }
+
+            // Bring any group catalog entries referenced by the dragged pages into the target.
+            target.MergeTabGroupsFrom(_owner.TabGroups);
+
+            Rectangle screenRect = navigator.RectangleToScreen(navigator.ClientRectangle);
+            using var dropTarget = new DragTargetNavigatorTransfer(screenRect, navigator, KryptonPageFlags.All);
+            var data = new PageDragEndData(this, _sourceNavigator, _draggingPages);
+            if (dropTarget.PerformDrop(screenPoint, data))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     #endregion

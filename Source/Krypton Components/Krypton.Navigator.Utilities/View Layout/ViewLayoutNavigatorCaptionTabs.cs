@@ -23,6 +23,7 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
     private readonly Action? _newTabClick;
     private readonly Dictionary<KryptonPage, ViewDrawButton> _pageToButton = new();
     private readonly Dictionary<ViewDrawButton, KryptonPage> _buttonToPage = new();
+    private readonly Dictionary<ViewBase, NavigatorTabGroup> _headerToGroup = new();
     private ViewDrawButton? _newTabButton;
     private bool _showNewTabButton;
     private bool _allowTabGroups = true;
@@ -562,6 +563,7 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
 
         _pageToButton.Clear();
         _buttonToPage.Clear();
+        _headerToGroup.Clear();
 
         if (_newTabButton != null)
         {
@@ -588,6 +590,7 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
             OnTabDragMove,
             OnGroupDragEnd,
             OnTabDragQuit);
+        _headerToGroup[header] = group;
         Add(header, ViewDockStyle.Left);
     }
 
@@ -831,7 +834,7 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
 
         NavigatorTabGroupDragHelper.CollectDragPages(_navigator, page, _draggingPages, dragWholeGroup: true);
 
-        var dragArgs = new PageDragCancelEventArgs(e.Point, e.Offset, e.Control, _draggingPages);
+        var dragArgs = new PageDragCancelEventArgs(ControllerPointToScreen(e.Point), e.Offset, e.Control, _draggingPages);
         _navigator.DragPageNotify.PageDragStart(this, _navigator, dragArgs);
         _externalDragging = !dragArgs.Cancel;
     }
@@ -861,7 +864,7 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
     {
         if (_externalDragging)
         {
-            _navigator.DragPageNotify?.PageDragMove(this, e);
+            _navigator.DragPageNotify?.PageDragMove(this, new PointEventArgs(ControllerPointToScreen(e.Point)));
         }
     }
 
@@ -875,9 +878,19 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
         }
 
         var dropped = false;
+        Point screenPoint = ControllerPointToScreen(e.Point);
+
+        // Dropping back onto our own caption strip is a reorder / group join, so the tear-out
+        // machinery must be cancelled instead of being allowed to spawn a new window.
+        if (_externalDragging && IsOverCaptionStrip(screenPoint))
+        {
+            _navigator.DragPageNotify?.PageDragQuit(this);
+            _externalDragging = false;
+        }
+
         if (_externalDragging)
         {
-            dropped = _navigator.DragPageNotify?.PageDragEnd(this, e) ?? false;
+            dropped = _navigator.DragPageNotify?.PageDragEnd(this, new PointEventArgs(screenPoint)) ?? false;
             if (dropped && _draggingPages != null)
             {
                 for (var i = _draggingPages.Count - 1; i >= 0; i--)
@@ -893,7 +906,7 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
 
         if (!dropped)
         {
-            ReorderWithinCaption(e.Point);
+            ReorderWithinCaption(screenPoint);
         }
 
         _draggingPage = null;
@@ -925,21 +938,35 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
             return;
         }
 
-        var targetButton = FindTargetButton(screenPoint, dragButton);
-        if (targetButton == null || !_buttonToPage.TryGetValue(targetButton, out KryptonPage? targetPage))
-        {
-            return;
-        }
-
-        var ownerControl = dragButton.OwningControl;
+        Control? ownerControl = dragButton.OwningControl;
         if (ownerControl == null)
         {
             return;
         }
 
-        var clientPoint = ownerControl.PointToClient(screenPoint);
+        Point captionPoint = ScreenToCaptionPoint(ownerControl, screenPoint);
+
+        // Dropping on a group header joins that group; it is the only available gesture when the
+        // group is collapsed and therefore shows no member tabs to drop onto.
+        if (_draggingPages is not { Count: > 1 })
+        {
+            NavigatorTabGroup? headerGroup = FindTargetGroupHeader(captionPoint);
+            if (headerGroup != null)
+            {
+                MovePageIntoGroup(_draggingPage, headerGroup);
+                SelectDraggedPage();
+                return;
+            }
+        }
+
+        ViewDrawButton? targetButton = FindTargetButton(captionPoint, dragButton);
+        if (targetButton == null || !_buttonToPage.TryGetValue(targetButton, out KryptonPage? targetPage))
+        {
+            return;
+        }
+
         var targetMid = targetButton.ClientRectangle.Left + (targetButton.ClientRectangle.Width / 2);
-        var movingBefore = clientPoint.X < targetMid;
+        var movingBefore = captionPoint.X < targetMid;
 
         var sourceIndex = _navigator.Pages.IndexOf(_draggingPage);
         var targetIndex = _navigator.Pages.IndexOf(targetPage);
@@ -1005,13 +1032,107 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
             }
         }
 
-        if (_navigator.AllowTabSelect)
+        SelectDraggedPage();
+    }
+
+    private void SelectDraggedPage()
+    {
+        if (_draggingPage != null && _navigator.AllowTabSelect)
         {
             _navigator.SelectedPage = _draggingPage;
         }
     }
 
-    private ViewDrawButton? FindTargetButton(Point screenPoint, ViewDrawButton draggingButton)
+    /// <summary>
+    /// Moves a page next to the existing members of a group and applies the group membership.
+    /// </summary>
+    private void MovePageIntoGroup(KryptonPage page, NavigatorTabGroup group)
+    {
+        var lastMember = -1;
+        for (var i = 0; i < _navigator.Pages.Count; i++)
+        {
+            if (!ReferenceEquals(_navigator.Pages[i], page)
+                && string.Equals(_navigator.Pages[i].TabGroupId, group.Id, StringComparison.Ordinal))
+            {
+                lastMember = i;
+            }
+        }
+
+        var sourceIndex = _navigator.Pages.IndexOf(page);
+        if (lastMember >= 0 && sourceIndex >= 0)
+        {
+            var insertIndex = lastMember + 1;
+            if (sourceIndex < insertIndex)
+            {
+                insertIndex--;
+            }
+
+            if (insertIndex != sourceIndex)
+            {
+                _navigator.Pages.Remove(page);
+                _navigator.Pages.Insert(Math.Max(0, Math.Min(insertIndex, _navigator.Pages.Count)), page);
+            }
+        }
+
+        page.TabGroupId = group.Id;
+        NavigatorTabGroupBarAccent.Apply(page, group);
+    }
+
+    /// <summary>
+    /// Converts a drag point reported by a view controller into a true screen point.
+    /// </summary>
+    private Point ControllerPointToScreen(Point controllerPoint)
+    {
+        // Caption views live in the non-client area, so the controller converted window
+        // coordinates as if they were client coordinates; undo the resulting border offset.
+        if (OwningControl is KryptonForm form)
+        {
+            Padding borders = form.RealWindowBorders;
+            controllerPoint.Offset(-borders.Left, -borders.Top);
+        }
+
+        return controllerPoint;
+    }
+
+    /// <summary>
+    /// Converts a screen point into the window coordinates used by the caption view rectangles.
+    /// </summary>
+    private Point ScreenToCaptionPoint(Control owner, Point screenPoint)
+    {
+        Point point = owner.PointToClient(screenPoint);
+
+        // Injected caption views live in the non-client area, so their rectangles are relative to
+        // the window rather than the client area.
+        if (owner is KryptonForm form)
+        {
+            Padding borders = form.RealWindowBorders;
+            point.Offset(borders.Left, borders.Top);
+        }
+
+        return point;
+    }
+
+    private bool IsOverCaptionStrip(Point screenPoint)
+    {
+        Control? owner = OwningControl;
+
+        return owner != null && ClientRectangle.Contains(ScreenToCaptionPoint(owner, screenPoint));
+    }
+
+    private NavigatorTabGroup? FindTargetGroupHeader(Point captionPoint)
+    {
+        foreach (KeyValuePair<ViewBase, NavigatorTabGroup> pair in _headerToGroup)
+        {
+            if (pair.Key.ClientRectangle.Contains(captionPoint))
+            {
+                return pair.Value;
+            }
+        }
+
+        return null;
+    }
+
+    private ViewDrawButton? FindTargetButton(Point captionPoint, ViewDrawButton draggingButton)
     {
         foreach (KeyValuePair<KryptonPage, ViewDrawButton> pair in _pageToButton)
         {
@@ -1021,13 +1142,7 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
                 continue;
             }
 
-            if (button.OwningControl == null)
-            {
-                continue;
-            }
-
-            Rectangle screenRect = button.OwningControl.RectangleToScreen(button.ClientRectangle);
-            if (screenRect.Contains(screenPoint))
+            if (button.ClientRectangle.Contains(captionPoint))
             {
                 return button;
             }

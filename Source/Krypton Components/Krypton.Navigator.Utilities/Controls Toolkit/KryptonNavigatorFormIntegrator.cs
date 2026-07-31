@@ -1672,9 +1672,14 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
         Rectangle screenRect = _navigator.RectangleToScreen(_navigator.ClientRectangle);
 
         if (_mode == NavigatorFormIntegrationMode.CaptionIntegrated
-            && _captionTabs?.OwningControl != null)
+            && _captionTabs?.OwningControl is KryptonForm captionForm)
         {
-            Rectangle captionRect = _captionTabs.OwningControl.RectangleToScreen(_captionTabs.ClientRectangle);
+            // Caption view rectangles are relative to the window rather than the client area.
+            Padding borders = captionForm.RealWindowBorders;
+            Point clientOrigin = captionForm.PointToScreen(Point.Empty);
+            Rectangle captionRect = _captionTabs.ClientRectangle;
+            captionRect.Offset(clientOrigin.X - borders.Left, clientOrigin.Y - borders.Top);
+
             if (!captionRect.IsEmpty)
             {
                 screenRect = Rectangle.Union(screenRect, captionRect);
