@@ -42,6 +42,7 @@ public static class WindowsMuiStrings
     /// <param name="resourceId">Undocumented string resource ID.</param>
     /// <param name="value">Receives the loaded string when this method returns <c>true</c>.</param>
     /// <returns><c>true</c> when a non-empty OS string was loaded; otherwise <c>false</c>.</returns>
+    [CLSCompliant(false)]
     public static bool TryLoad(string moduleFileName, uint resourceId, out string value)
     {
         value = OsMuiStringLoader.Load(moduleFileName, resourceId, string.Empty);
@@ -51,6 +52,7 @@ public static class WindowsMuiStrings
     /// <summary>
     /// Loads a string resource from an allowed System32 module, returning <paramref name="fallback"/> on failure.
     /// </summary>
+    [CLSCompliant(false)]
     public static string Load(string moduleFileName, uint resourceId, string fallback) =>
         OsMuiStringLoader.Load(moduleFileName, resourceId, fallback ?? string.Empty);
 

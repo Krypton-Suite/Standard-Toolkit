@@ -113,13 +113,15 @@ internal static class OsMuiStringLoader
             return false;
         }
 
+        var candidate = moduleFileName!;
+
         // Reject paths / traversal — basename only.
-        if (moduleFileName.IndexOfAny(new[] { '/', '\\', ':' }) >= 0)
+        if (candidate.IndexOfAny(new[] { '/', '\\', ':' }) >= 0)
         {
             return false;
         }
 
-        return AllowedModules.Contains(moduleFileName);
+        return AllowedModules.Contains(candidate);
     }
 
     private static string TryLoadFromSystem32(string moduleFileName, uint resourceId)
