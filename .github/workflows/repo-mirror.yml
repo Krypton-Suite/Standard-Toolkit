@@ -34,8 +34,8 @@ name: Repository Mirror
 
 on:
   schedule:
-    # Daily safety-net sync at 02:00 UTC (runs only when this file exists on default branch: master)
-    - cron: '0 2 * * *'
+    # Daily safety-net sync at 02:12 UTC (off-hour; runs only when this file exists on default branch: master)
+    - cron: '12 2 * * *'
   pull_request:
     # PR close events targeting these base branches are considered for merge-triggered syncs
     types:
