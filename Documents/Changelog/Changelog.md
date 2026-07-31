@@ -48,6 +48,8 @@
 * Implemented [#882](https://github.com/Krypton-Suite/Standard-Toolkit/issues/882), `KryptonNavigator` individual taskbar 'thumbnail' views
    * Opt-in Windows taskbar tabbed thumbnails for `KryptonNavigator` pages via `KryptonNavigatorTaskbarThumbnails` (`KryptonPageFlags.AllowTaskbarThumbnail` to exclude pages).
    * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Navigator.Utilities` assembly.
+* Resolved [#4059](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4059), Grouped Ribbon controls do expose designers, needs a closer look
+   * `KryptonRibbonGroupThemeComboBox` now reuses the base ribbon combo box designer instead of a near-duplicate Theme-specific designer
 * Implemented [#1231](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1231), The `KryptonOpenFileDialog` can have poor performance on some OS hardware
    * Added a provider-based custom dialog mode for `KryptonOpenFileDialog`, `KryptonSaveFileDialog`, and `KryptonFolderBrowserDialog` so applications can avoid the native shell wrapper path on machines where it performs poorly.
    * Native provider mode uses the standard Windows Explorer dialog directly. Hosting that HWND inside a `KryptonForm` is not reliable on modern Windows (clipped/blank UI); use `ProviderMode = Custom` for the managed KryptonForm dialog.
