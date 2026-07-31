@@ -19,6 +19,9 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
     private readonly KryptonWrapLabel _lblOkValue;
     private readonly KryptonWrapLabel _lblCancelValue;
     private readonly KryptonWrapLabel _lblMoreDetailsValue;
+    private readonly KryptonWrapLabel _lblCommonValue;
+    private readonly KryptonWrapLabel _lblControlBoxValue;
+    private readonly KryptonWrapLabel _lblRawLoaderValue;
     private readonly KryptonWrapLabel _lblStatus;
     private readonly KryptonButton _btnApply;
     private readonly KryptonButton _btnExport;
@@ -46,10 +49,10 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
             Dock = DockStyle.Top,
             Height = 90,
             Text =
-                @"1) Edit the OK/Cancel strings and click Apply." + Environment.NewLine +
-                @"2) Optionally enable 'Use Windows language pack' to load OK/Cancel from the OS MUI (overrides edits while checked)." + Environment.NewLine +
-                @"3) Check 'Include defaults' to export all strings (useful for exploring the full string set)." + Environment.NewLine +
-                @"4) Click Export to save, then Import to reload. Click Validate to verify the round-trip."
+                @"1) Edit the OK/Cancel strings and click Apply (writes CommonStrings.General via GeneralStrings aliases)." + Environment.NewLine +
+                @"2) Optionally enable 'Use Windows language pack' for dialog / control-box / Explorer MUI text." + Environment.NewLine +
+                @"3) Check 'Include defaults' to export the canonical CommonStrings tree (aliases are omitted)." + Environment.NewLine +
+                @"4) Export/Import/Validate round-trips. Raw loader samples use WindowsSystemStringLoader (Utilities)."
         };
 
         var editsPanel = new KryptonPanel
@@ -183,7 +186,7 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
         var valuesPanel = new KryptonPanel
         {
             Dock = DockStyle.Top,
-            Height = 165,
+            Height = 220,
             Padding = new Padding(12)
         };
         var valuesFlow = new FlowLayoutPanel
@@ -197,10 +200,16 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
         _lblOkValue         = new KryptonWrapLabel { AutoSize = true, Text = @"OK: " };
         _lblCancelValue     = new KryptonWrapLabel { AutoSize = true, Text = @"Cancel: " };
         _lblMoreDetailsValue = new KryptonWrapLabel { AutoSize = true, Text = @"MessageBoxStrings.MoreDetails: " };
+        _lblCommonValue = new KryptonWrapLabel { AutoSize = true, Text = @"CommonStrings: " };
+        _lblControlBoxValue = new KryptonWrapLabel { AutoSize = true, Text = @"ControlBox: " };
+        _lblRawLoaderValue = new KryptonWrapLabel { AutoSize = true, Text = @"Raw loader: " };
 
         valuesFlow.Controls.Add(_lblOkValue);
         valuesFlow.Controls.Add(_lblCancelValue);
         valuesFlow.Controls.Add(_lblMoreDetailsValue);
+        valuesFlow.Controls.Add(_lblCommonValue);
+        valuesFlow.Controls.Add(_lblControlBoxValue);
+        valuesFlow.Controls.Add(_lblRawLoaderValue);
         valuesPanel.Controls.Add(valuesFlow);
 
         _lblStatus = new KryptonWrapLabel
@@ -284,6 +293,7 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
     private void UpdateDisplayedStrings()
     {
         var strings = KryptonManager.Strings;
+        var common = strings.CommonStrings;
 
         var ok          = strings.GeneralStrings.OK;
         var cancel      = strings.GeneralStrings.Cancel;
@@ -292,9 +302,21 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
         _txtOk.Text     = ok;
         _txtCancel.Text = cancel;
 
-        _lblOkValue.Text          = $@"GeneralStrings.OK: {ok}";
+        _lblOkValue.Text          = $@"GeneralStrings.OK (= CommonStrings.General.OK): {ok}";
         _lblCancelValue.Text      = $@"GeneralStrings.Cancel: {cancel}";
         _lblMoreDetailsValue.Text = $@"MessageBoxStrings.MoreDetails: {moreDetails}";
+        _lblCommonValue.Text =
+            $@"CommonStrings.Commands.Apply / Next: {common.Commands.Apply} / {common.Commands.Next}; FileSystem.Name: {common.FileSystem.ColumnNameName}";
+        _lblControlBoxValue.Text =
+            $@"ControlBox Minimize/Maximize/Restore/Close: {common.ControlBox.Minimize} / {common.ControlBox.Maximize} / {common.ControlBox.Restore} / {common.ControlBox.Close}";
+
+        var rawOk = Krypton.Toolkit.Utilities.WindowsSystemStringLoader.TryLoad(@"user32.dll", 800, out var rawOkValue)
+            ? rawOkValue
+            : @"(unavailable)";
+        var rawRejected = Krypton.Toolkit.Utilities.WindowsSystemStringLoader.TryLoad(@"..\evil.dll", 800, out _)
+            ? @"accepted (unexpected)"
+            : @"rejected";
+        _lblRawLoaderValue.Text = $@"Raw loader user32:800 => {rawOk}; path traversal => {rawRejected}";
     }
 
     private void RunRoundTripValidation()

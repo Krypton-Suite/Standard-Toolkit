@@ -22,19 +22,11 @@ public class KryptonFileSystemListViewStrings : Storage
     private const string DEFAULT_COLUMN_ATTRIBUTES_NAME = @"Attributes";
     private const string DEFAULT_DIRECTORY_NOT_FOUND_MESSAGE = @"Directory not found";
 
-    // Windows Explorer column header resource IDs in shell32.dll
-    private const uint SHELL32_RESOURCE_ID_NAME = 12769;
-    private const uint SHELL32_RESOURCE_ID_TYPE = 12770;
-    private const uint SHELL32_RESOURCE_ID_SIZE = 12771;
-    private const uint SHELL32_RESOURCE_ID_DATE_MODIFIED = 12772;
-    private const uint SHELL32_RESOURCE_ID_DATE_CREATED = 12773;
-    private const uint SHELL32_RESOURCE_ID_ATTRIBUTES = 12774;
-
     #endregion
 
     #region Instance Fields
 
-    private bool _useOSStrings = false;
+    private bool _useOSStrings;
     private string? _cachedColumnNameName;
     private string? _cachedColumnTypeName;
     private string? _cachedColumnSizeName;
@@ -56,7 +48,6 @@ public class KryptonFileSystemListViewStrings : Storage
     #region Properties
 
     /// <summary>Gets or sets a value indicating whether to use OS-defined strings from shell32.dll.</summary>
-    /// <value><c>true</c> to use OS-defined strings; otherwise, <c>false</c> to use custom strings.</value>
     [Category("Visuals")]
     [Description("Gets or sets a value indicating whether to use OS-defined strings from shell32.dll.")]
     [DefaultValue(false)]
@@ -68,97 +59,96 @@ public class KryptonFileSystemListViewStrings : Storage
             if (_useOSStrings != value)
             {
                 _useOSStrings = value;
-                // Clear cache when switching modes
-                _cachedColumnNameName = null;
-                _cachedColumnTypeName = null;
-                _cachedColumnSizeName = null;
-                _cachedColumnDateModifiedName = null;
-                _cachedColumnDateCreatedName = null;
-                _cachedColumnAttributesName = null;
+                ClearOsStringCache();
             }
         }
     }
 
     /// <summary>Gets or sets the default name for the 'Name' column.</summary>
-    /// <value>The default name for the 'Name' column.</value>
     [Category("Visuals")]
     [Description("Gets or sets the default name for the 'Name' column.")]
     [DefaultValue(DEFAULT_COLUMN_NAME_NAME)]
     [Localizable(true)]
     public string ColumnNameName
     {
-        get => _useOSStrings ? GetOSString(SHELL32_RESOURCE_ID_NAME, DEFAULT_COLUMN_NAME_NAME, ref _cachedColumnNameName) : _columnNameName;
+        get => _useOSStrings
+            ? OsMuiStringLoader.Load(WindowsMuiStringId.ColumnName, DEFAULT_COLUMN_NAME_NAME, ref _cachedColumnNameName)
+            : _columnNameName;
         set => _columnNameName = value;
     }
     private string _columnNameName = DEFAULT_COLUMN_NAME_NAME;
 
     /// <summary>Gets or sets the default name for the 'Type' column.</summary>
-    /// <value>The default name for the 'Type' column.</value>
     [Category("Visuals")]
     [Description("Gets or sets the default name for the 'Type' column.")]
     [DefaultValue(DEFAULT_COLUMN_TYPE_NAME)]
     [Localizable(true)]
     public string ColumnTypeName
     {
-        get => _useOSStrings ? GetOSString(SHELL32_RESOURCE_ID_TYPE, DEFAULT_COLUMN_TYPE_NAME, ref _cachedColumnTypeName) : _columnTypeName;
+        get => _useOSStrings
+            ? OsMuiStringLoader.Load(WindowsMuiStringId.ColumnType, DEFAULT_COLUMN_TYPE_NAME, ref _cachedColumnTypeName)
+            : _columnTypeName;
         set => _columnTypeName = value;
     }
     private string _columnTypeName = DEFAULT_COLUMN_TYPE_NAME;
 
     /// <summary>Gets or sets the default name for the 'Size' column.</summary>
-    /// <value>The default name for the 'Size' column.</value>
     [Category("Visuals")]
     [Description("Gets or sets the default name for the 'Size' column.")]
     [DefaultValue(DEFAULT_COLUMN_SIZE_NAME)]
     [Localizable(true)]
     public string ColumnSizeName
     {
-        get => _useOSStrings ? GetOSString(SHELL32_RESOURCE_ID_SIZE, DEFAULT_COLUMN_SIZE_NAME, ref _cachedColumnSizeName) : _columnSizeName;
+        get => _useOSStrings
+            ? OsMuiStringLoader.Load(WindowsMuiStringId.ColumnSize, DEFAULT_COLUMN_SIZE_NAME, ref _cachedColumnSizeName)
+            : _columnSizeName;
         set => _columnSizeName = value;
     }
     private string _columnSizeName = DEFAULT_COLUMN_SIZE_NAME;
 
     /// <summary>Gets or sets the default name for the 'Date Modified' column.</summary>
-    /// <value>The default name for the 'Date Modified' column.</value>
     [Category("Visuals")]
     [Description("Gets or sets the default name for the 'Date Modified' column.")]
     [DefaultValue(DEFAULT_COLUMN_DATE_MODIFIED_NAME)]
     [Localizable(true)]
     public string ColumnDateModifiedName
     {
-        get => _useOSStrings ? GetOSString(SHELL32_RESOURCE_ID_DATE_MODIFIED, DEFAULT_COLUMN_DATE_MODIFIED_NAME, ref _cachedColumnDateModifiedName) : _columnDateModifiedName;
+        get => _useOSStrings
+            ? OsMuiStringLoader.Load(WindowsMuiStringId.ColumnDateModified, DEFAULT_COLUMN_DATE_MODIFIED_NAME, ref _cachedColumnDateModifiedName)
+            : _columnDateModifiedName;
         set => _columnDateModifiedName = value;
     }
     private string _columnDateModifiedName = DEFAULT_COLUMN_DATE_MODIFIED_NAME;
 
     /// <summary>Gets or sets the default name for the 'Date Created' column.</summary>
-    /// <value>The default name for the 'Date Created' column.</value>
     [Category("Visuals")]
     [Description("Gets or sets the default name for the 'Date Created' column.")]
     [DefaultValue(DEFAULT_COLUMN_DATE_CREATED_NAME)]
     [Localizable(true)]
     public string ColumnDateCreatedName
     {
-        get => _useOSStrings ? GetOSString(SHELL32_RESOURCE_ID_DATE_CREATED, DEFAULT_COLUMN_DATE_CREATED_NAME, ref _cachedColumnDateCreatedName) : _columnDateCreatedName;
+        get => _useOSStrings
+            ? OsMuiStringLoader.Load(WindowsMuiStringId.ColumnDateCreated, DEFAULT_COLUMN_DATE_CREATED_NAME, ref _cachedColumnDateCreatedName)
+            : _columnDateCreatedName;
         set => _columnDateCreatedName = value;
     }
     private string _columnDateCreatedName = DEFAULT_COLUMN_DATE_CREATED_NAME;
 
     /// <summary>Gets or sets the default name for the 'Attributes' column.</summary>
-    /// <value>The default name for the 'Attributes' column.</value>
     [Category("Visuals")]
     [Description("Gets or sets the default name for the 'Attributes' column.")]
     [DefaultValue(DEFAULT_COLUMN_ATTRIBUTES_NAME)]
     [Localizable(true)]
     public string ColumnAttributesName
     {
-        get => _useOSStrings ? GetOSString(SHELL32_RESOURCE_ID_ATTRIBUTES, DEFAULT_COLUMN_ATTRIBUTES_NAME, ref _cachedColumnAttributesName) : _columnAttributesName;
+        get => _useOSStrings
+            ? OsMuiStringLoader.Load(WindowsMuiStringId.ColumnAttributes, DEFAULT_COLUMN_ATTRIBUTES_NAME, ref _cachedColumnAttributesName)
+            : _columnAttributesName;
         set => _columnAttributesName = value;
     }
     private string _columnAttributesName = DEFAULT_COLUMN_ATTRIBUTES_NAME;
 
     /// <summary>Gets or sets the message displayed when a directory is not found.</summary>
-    /// <value>The message displayed when a directory is not found.</value>
     [Category("Messages")]
     [Description("Gets or sets the message displayed when a directory is not found.")]
     [DefaultValue(DEFAULT_DIRECTORY_NOT_FOUND_MESSAGE)]
@@ -195,24 +185,19 @@ public class KryptonFileSystemListViewStrings : Storage
         _columnDateCreatedName = DEFAULT_COLUMN_DATE_CREATED_NAME;
         _columnAttributesName = DEFAULT_COLUMN_ATTRIBUTES_NAME;
         DirectoryNotFoundMessage = DEFAULT_DIRECTORY_NOT_FOUND_MESSAGE;
-        // Clear cache
+        ClearOsStringCache();
+    }
+
+    private void ClearOsStringCache()
+    {
         _cachedColumnNameName = null;
         _cachedColumnTypeName = null;
         _cachedColumnSizeName = null;
         _cachedColumnDateModifiedName = null;
         _cachedColumnDateCreatedName = null;
         _cachedColumnAttributesName = null;
+        OsMuiStringLoader.ClearCache();
     }
-
-    /// <summary>
-    /// Gets an OS-defined string from shell32.dll, with caching and fallback to default value.
-    /// </summary>
-    /// <param name="resourceId">The resource ID in shell32.dll.</param>
-    /// <param name="defaultValue">The default value to use if OS string cannot be loaded.</param>
-    /// <param name="cache">Reference to the cached value.</param>
-    /// <returns>The OS string if available, otherwise the default value.</returns>
-    private static string GetOSString(uint resourceId, string defaultValue, ref string? cache) =>
-        OsMuiStringLoader.Load(Libraries.Shell32, resourceId, defaultValue, ref cache);
 
     #endregion
 

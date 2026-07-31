@@ -99,6 +99,16 @@ internal static class ToolkitStringsXmlPersistence
 
         ImportGlobalIdFromElement(root, toolkitStrings);
 
+        // Canonical CommonStrings wins when both legacy alias paths and CommonStrings are present.
+        if (toolkitStrings is KryptonGlobalToolkitStrings globalStrings)
+        {
+            var commonElement = root.SelectSingleNode(nameof(KryptonGlobalToolkitStrings.CommonStrings)) as XmlElement;
+            if (commonElement != null)
+            {
+                ImportGlobalIdFromElement(commonElement, globalStrings.CommonStrings);
+            }
+        }
+
         if (refreshOpenForms)
         {
             RefreshOpenFormsBestEffort();
@@ -181,6 +191,12 @@ internal static class ToolkitStringsXmlPersistence
             if (prop.GetIndexParameters().Length != 0)
             {
                 // Skip indexers.
+                continue;
+            }
+
+            // Compatibility aliases are still imported, but canonical CommonStrings is exported once.
+            if (prop.GetCustomAttribute<ToolkitStringsCanonicalAliasAttribute>(inherit: false) != null)
+            {
                 continue;
             }
 
@@ -276,15 +292,17 @@ internal static class ToolkitStringsXmlPersistence
     private static void ImportGlobalIdFromElement(XmlElement parentElement, Object obj)
     {
         var objType = obj.GetType();
+        var deferCommonStrings = obj is KryptonGlobalToolkitStrings;
 
         foreach (var prop in objType.GetProperties(BindingFlags.Instance | BindingFlags.Public))
         {
-            if (!prop.CanWrite)
+            if (prop.GetIndexParameters().Length != 0)
             {
                 continue;
             }
 
-            if (prop.GetIndexParameters().Length != 0)
+            // First pass: skip CommonStrings so legacy alias paths apply first.
+            if (deferCommonStrings && prop.Name == nameof(KryptonGlobalToolkitStrings.CommonStrings))
             {
                 continue;
             }
@@ -292,6 +310,11 @@ internal static class ToolkitStringsXmlPersistence
             // String properties: locate element by name.
             if (prop.PropertyType == typeof(string))
             {
+                if (!prop.CanWrite)
+                {
+                    continue;
+                }
+
                 var localizable = prop.GetCustomAttribute<LocalizableAttribute>(inherit: false);
                 if (localizable?.IsLocalizable != true)
                 {
@@ -316,9 +339,14 @@ internal static class ToolkitStringsXmlPersistence
                 continue;
             }
 
-            // Nested string sets (GlobalId derived): recurse.
+            // Nested string sets (GlobalId derived): recurse into existing instance (get-only Content properties).
             if (typeof(GlobalId).IsAssignableFrom(prop.PropertyType))
             {
+                if (!prop.CanRead)
+                {
+                    continue;
+                }
+
                 var container = parentElement.SelectSingleNode(prop.Name) as XmlElement;
                 if (container == null)
                 {

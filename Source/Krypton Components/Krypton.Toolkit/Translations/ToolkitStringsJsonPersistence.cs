@@ -138,6 +138,11 @@ internal static class ToolkitStringsJsonPersistence
                 continue;
             }
 
+            if (prop.GetCustomAttribute<ToolkitStringsCanonicalAliasAttribute>(inherit: false) != null)
+            {
+                continue;
+            }
+
             if (prop.PropertyType == typeof(string))
             {
                 var localizable = prop.GetCustomAttribute<LocalizableAttribute>(inherit: false);

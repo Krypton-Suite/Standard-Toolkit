@@ -2,6 +2,9 @@
 <!--
   XML Schema for Krypton Translations.xml files.
   Validates the structure used by ToolkitStringsXmlPersistence.
+  Canonical exports use CommonStrings (General, ControlBox, SystemMenu, Commands, FileSystem).
+  Legacy root groups (GeneralStrings, ControlBoxButtonStrings, SystemMenuStrings,
+  FileSystemListViewStrings, and aliased CustomStrings command properties) remain valid on import.
   Place alongside your Translations.xml and reference with:
     <KryptonTranslations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                          xsi:noNamespaceSchemaLocation="Translations.xsd" ...>

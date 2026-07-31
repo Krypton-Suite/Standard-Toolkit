@@ -15,6 +15,10 @@ public class KryptonGlobalToolkitStrings : GlobalId
 {
     #region Static Strings
 
+    /// <summary>Gets the canonical common string collections (owns general, control-box, system-menu, commands, and file-system strings).</summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public static CommonStrings CommonToolkitStrings { get; } = new CommonStrings();
+
     /// <summary>Gets the color strings.</summary>
     /// <value>The color strings.</value>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -38,8 +42,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
     /// <summary>Gets the strings.</summary>
     /// <value>The strings.</value>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public static GeneralToolkitStrings GeneralToolkitStrings
-    { get; } = new GeneralToolkitStrings();
+    public static GeneralToolkitStrings GeneralToolkitStrings => CommonToolkitStrings.General;
 
     /// <summary>Gets the grid view style strings.</summary>
     /// <value>The grid view style strings.</value>
@@ -49,7 +52,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
     /// <summary>Gets the file system list view strings.</summary>
     /// <value>The file system list view strings.</value>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public static KryptonFileSystemListViewStrings KryptonFileSystemListViewStrings { get; } = new KryptonFileSystemListViewStrings();
+    public static KryptonFileSystemListViewStrings KryptonFileSystemListViewStrings => CommonToolkitStrings.FileSystem;
 
     /// <summary>Gets the style strings.</summary>
     /// <value>The style strings.</value>
@@ -241,7 +244,12 @@ public class KryptonGlobalToolkitStrings : GlobalId
     /// <summary>Gets the win32 system menu strings.</summary>
     /// <value>The win32 system menu strings.</value>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public static SystemMenuStrings Win32SystemMenuStrings { get; } = new SystemMenuStrings();
+    public static SystemMenuStrings Win32SystemMenuStrings => CommonToolkitStrings.SystemMenu;
+
+    /// <summary>Gets the form control-box (caption button) tooltip strings.</summary>
+    /// <value>The control-box strings.</value>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public static ControlBoxStrings ControlBoxStrings => CommonToolkitStrings.ControlBox;
 
     /// <summary>Gets the form title bar strings.</summary>
     /// <value>The form title bar strings.</value>
@@ -368,6 +376,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
     [MergableProperty(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     [Localizable(true)]
+    [ToolkitStringsCanonicalAlias]
     public GeneralToolkitStrings GeneralStrings => GeneralToolkitStrings;
     private bool ShouldSerializeGeneralStrings() => !GeneralToolkitStrings.IsDefault;
     private void ResetGeneralStrings() => GeneralToolkitStrings.Reset();
@@ -376,31 +385,40 @@ public class KryptonGlobalToolkitStrings : GlobalId
     /// Gets or sets whether matching toolkit strings prefer text from the installed Windows language pack (MUI).
     /// </summary>
     /// <remarks>
-    /// When enabled, general dialog buttons load from <c>user32.dll</c> and file-system list column headers
-    /// load from <c>shell32.dll</c>. Custom XML/JSON translations still apply when this is <c>false</c>.
-    /// Default is <c>false</c>.
+    /// When enabled, general dialog buttons and form control-box tooltips load from <c>user32.dll</c>,
+    /// and file-system list column headers load from <c>shell32.dll</c>.
+    /// Custom XML/JSON translations still apply when this is <c>false</c>. Default is <c>false</c>.
     /// </remarks>
     [Category(@"Visuals")]
-    [Description(@"When true, matching dialog and Explorer-style strings use the installed Windows language pack.")]
+    [Description(@"When true, matching dialog, control-box, and Explorer-style strings use the installed Windows language pack.")]
     [DefaultValue(false)]
     public bool UseWindowsLanguagePackStrings
     {
-        get => GeneralToolkitStrings.UseOSStrings && KryptonFileSystemListViewStrings.UseOSStrings;
-        set
-        {
-            GeneralToolkitStrings.UseOSStrings = value;
-            KryptonFileSystemListViewStrings.UseOSStrings = value;
-        }
+        get => CommonToolkitStrings.UseOSStrings;
+        set => CommonToolkitStrings.UseOSStrings = value;
     }
 
     private bool ShouldSerializeUseWindowsLanguagePackStrings() => UseWindowsLanguagePackStrings;
     private void ResetUseWindowsLanguagePackStrings() => UseWindowsLanguagePackStrings = false;
+
+    /// <summary>Gets the canonical common string collections.</summary>
+    [Category(@"Visuals")]
+    [Description(@"Canonical collection of shared dialog, control-box, system-menu, command, and file-system strings.")]
+    [MergableProperty(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Localizable(true)]
+    public CommonStrings CommonStrings => CommonToolkitStrings;
+
+    private bool ShouldSerializeCommonStrings() => !CommonToolkitStrings.IsDefault;
+
+    private void ResetCommonStrings() => CommonToolkitStrings.Reset();
 
     [Category(@"Visuals")]
     [Description(@"Collection of file system list view strings.")]
     [MergableProperty(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     [Localizable(true)]
+    [ToolkitStringsCanonicalAlias]
     public KryptonFileSystemListViewStrings FileSystemListViewStrings => KryptonFileSystemListViewStrings;
 
     private bool ShouldSerializeFileSystemListViewStrings() => !KryptonFileSystemListViewStrings.IsDefault;
@@ -812,12 +830,27 @@ public class KryptonGlobalToolkitStrings : GlobalId
     [MergableProperty(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     [Localizable(true)]
+    [ToolkitStringsCanonicalAlias]
     public SystemMenuStrings SystemMenuStrings => Win32SystemMenuStrings;
 
     private bool ShouldSerializeSystemMenuStrings() => !Win32SystemMenuStrings.IsDefault;
 
     /// <summary>Resets the win32 system menu strings.</summary>
     public void ResetSystemMenuStrings() => Win32SystemMenuStrings.ResetValues();
+
+    /// <summary>Gets the form control-box (caption button) tooltip strings.</summary>
+    [Category(@"Visuals")]
+    [Description(@"Collection of Minimize/Maximize/Restore/Close/Help control-box tooltip strings.")]
+    [MergableProperty(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Localizable(true)]
+    [ToolkitStringsCanonicalAlias]
+    public ControlBoxStrings ControlBoxButtonStrings => ControlBoxStrings;
+
+    private bool ShouldSerializeControlBoxButtonStrings() => !ControlBoxStrings.IsDefault;
+
+    /// <summary>Resets the control-box tooltip strings.</summary>
+    public void ResetControlBoxButtonStrings() => ControlBoxStrings.Reset();
 
     /// <summary>Gets the editor settings strings.</summary>
     [Category(@"Visuals")]
@@ -876,6 +909,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
                                ShouldSerializeColorStrings() || ShouldSerializeCustomStrings() ||
                                ShouldSerializeFileSystemListViewStrings() ||
                                ShouldSerializeGeneralRibbonStrings() || ShouldSerializeGeneralStrings() ||
+                               ShouldSerializeCommonStrings() ||
                                ShouldSerializeUseWindowsLanguagePackStrings() ||
                                ShouldSerializeGridStyleStrings() || ShouldSerializeGridViewStyleStrings() ||
                                ShouldSerializeHeaderGroupCollapsedTargetStrings() ||
@@ -894,6 +928,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
                                ShouldSerializeToastNotificationStrings() || ShouldSerializeToolStripItemStrings() || ShouldSerializeToolBarStrings() ||
                                ShouldSerializeSplashScreenStringsStrings() || ShouldSerializeMiscellaneousStrings() ||
                                ShouldSerializeMessageBoxStringsStrings() || ShouldSerializeSystemMenuStrings() ||
+                               ShouldSerializeControlBoxButtonStrings() ||
                                ShouldSerializeTitleBarStrings() || ShouldSerializeEditorSettingStrings() || 
                                ShouldSerializeCollectionEditorStrings());
 
@@ -913,6 +948,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
         ResetCustomStrings();
         ResetFileSystemListViewStrings();
         ResetUseWindowsLanguagePackStrings();
+        ResetCommonStrings();
         ResetMiscellaneousPrintPreviewDialogStrings();
         ResetGeneralRibbonStrings();
         ResetGeneralStrings();
@@ -945,6 +981,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
         ResetMessageBoxStrings();
         ResetSearchBoxStrings();
         ResetSystemMenuStrings();
+        ResetControlBoxButtonStrings();
         ResetTitleBarStrings();
         ResetEditorSettingStrings();
         ResetCollectionEditorStrings();

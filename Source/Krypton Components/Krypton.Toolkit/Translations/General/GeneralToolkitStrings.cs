@@ -37,19 +37,6 @@ public class GeneralToolkitStrings : GlobalId
     private const string DEFAULT_CONTINUE = @"Co&ntinue"; // Accelerator key - N
     private const string DEFAULT_TRY_AGAIN = @"Try Aga&in"; // Accelerator key - I
 
-    // user32.dll MessageBox / common dialog button string IDs (MUI language packs).
-    private const uint USER32_RESOURCE_ID_OK = 800;
-    private const uint USER32_RESOURCE_ID_CANCEL = 801;
-    private const uint USER32_RESOURCE_ID_ABORT = 802;
-    private const uint USER32_RESOURCE_ID_RETRY = 803;
-    private const uint USER32_RESOURCE_ID_IGNORE = 804;
-    private const uint USER32_RESOURCE_ID_YES = 805;
-    private const uint USER32_RESOURCE_ID_NO = 806;
-    private const uint USER32_RESOURCE_ID_CLOSE = 807;
-    private const uint USER32_RESOURCE_ID_HELP = 808;
-    private const uint USER32_RESOURCE_ID_TRY_AGAIN = 809;
-    private const uint USER32_RESOURCE_ID_CONTINUE = 810;
-
     #endregion
 
     #region Instance Fields
@@ -190,7 +177,7 @@ public class GeneralToolkitStrings : GlobalId
     public string OK
     {
         get => _useOSStrings
-            ? OsMuiStringLoader.Load(Libraries.User32, USER32_RESOURCE_ID_OK, DEFAULT_OK, ref _cachedOk)
+            ? OsMuiStringLoader.Load(WindowsMuiStringId.Ok, DEFAULT_OK, ref _cachedOk)
             : _ok;
         set => _ok = value;
     }
@@ -206,7 +193,7 @@ public class GeneralToolkitStrings : GlobalId
     public string Cancel
     {
         get => _useOSStrings
-            ? OsMuiStringLoader.Load(Libraries.User32, USER32_RESOURCE_ID_CANCEL, DEFAULT_CANCEL, ref _cachedCancel)
+            ? OsMuiStringLoader.Load(WindowsMuiStringId.Cancel, DEFAULT_CANCEL, ref _cachedCancel)
             : _cancel;
         set => _cancel = value;
     }
@@ -222,7 +209,7 @@ public class GeneralToolkitStrings : GlobalId
     public string Yes
     {
         get => _useOSStrings
-            ? OsMuiStringLoader.Load(Libraries.User32, USER32_RESOURCE_ID_YES, DEFAULT_YES, ref _cachedYes)
+            ? OsMuiStringLoader.Load(WindowsMuiStringId.Yes, DEFAULT_YES, ref _cachedYes)
             : _yes;
         set => _yes = value;
     }
@@ -238,7 +225,7 @@ public class GeneralToolkitStrings : GlobalId
     public string No
     {
         get => _useOSStrings
-            ? OsMuiStringLoader.Load(Libraries.User32, USER32_RESOURCE_ID_NO, DEFAULT_NO, ref _cachedNo)
+            ? OsMuiStringLoader.Load(WindowsMuiStringId.No, DEFAULT_NO, ref _cachedNo)
             : _no;
         set => _no = value;
     }
@@ -254,7 +241,7 @@ public class GeneralToolkitStrings : GlobalId
     public string Abort
     {
         get => _useOSStrings
-            ? OsMuiStringLoader.Load(Libraries.User32, USER32_RESOURCE_ID_ABORT, DEFAULT_ABORT, ref _cachedAbort)
+            ? OsMuiStringLoader.Load(WindowsMuiStringId.Abort, DEFAULT_ABORT, ref _cachedAbort)
             : _abort;
         set => _abort = value;
     }
@@ -270,7 +257,7 @@ public class GeneralToolkitStrings : GlobalId
     public string Retry
     {
         get => _useOSStrings
-            ? OsMuiStringLoader.Load(Libraries.User32, USER32_RESOURCE_ID_RETRY, DEFAULT_RETRY, ref _cachedRetry)
+            ? OsMuiStringLoader.Load(WindowsMuiStringId.Retry, DEFAULT_RETRY, ref _cachedRetry)
             : _retry;
         set => _retry = value;
     }
@@ -286,7 +273,7 @@ public class GeneralToolkitStrings : GlobalId
     public string Ignore
     {
         get => _useOSStrings
-            ? OsMuiStringLoader.Load(Libraries.User32, USER32_RESOURCE_ID_IGNORE, DEFAULT_IGNORE, ref _cachedIgnore)
+            ? OsMuiStringLoader.Load(WindowsMuiStringId.Ignore, DEFAULT_IGNORE, ref _cachedIgnore)
             : _ignore;
         set => _ignore = value;
     }
@@ -302,7 +289,7 @@ public class GeneralToolkitStrings : GlobalId
     public string Close
     {
         get => _useOSStrings
-            ? OsMuiStringLoader.Load(Libraries.User32, USER32_RESOURCE_ID_CLOSE, DEFAULT_CLOSE, ref _cachedClose)
+            ? OsMuiStringLoader.Load(WindowsMuiStringId.Close, DEFAULT_CLOSE, ref _cachedClose)
             : _close;
         set => _close = value;
     }
@@ -328,7 +315,7 @@ public class GeneralToolkitStrings : GlobalId
     public string Help
     {
         get => _useOSStrings
-            ? OsMuiStringLoader.Load(Libraries.User32, USER32_RESOURCE_ID_HELP, DEFAULT_HELP, ref _cachedHelp)
+            ? OsMuiStringLoader.Load(WindowsMuiStringId.Help, DEFAULT_HELP, ref _cachedHelp)
             : _help;
         set => _help = value;
     }
@@ -343,7 +330,7 @@ public class GeneralToolkitStrings : GlobalId
     public string Continue
     {
         get => _useOSStrings
-            ? OsMuiStringLoader.Load(Libraries.User32, USER32_RESOURCE_ID_CONTINUE, DEFAULT_CONTINUE, ref _cachedContinue)
+            ? OsMuiStringLoader.Load(WindowsMuiStringId.Continue, DEFAULT_CONTINUE, ref _cachedContinue)
             : _continue;
         set => _continue = value;
     }
@@ -358,7 +345,7 @@ public class GeneralToolkitStrings : GlobalId
     public string TryAgain
     {
         get => _useOSStrings
-            ? OsMuiStringLoader.Load(Libraries.User32, USER32_RESOURCE_ID_TRY_AGAIN, DEFAULT_TRY_AGAIN, ref _cachedTryAgain)
+            ? OsMuiStringLoader.Load(WindowsMuiStringId.TryAgain, DEFAULT_TRY_AGAIN, ref _cachedTryAgain)
             : _tryAgain;
         set => _tryAgain = value;
     }
@@ -416,6 +403,7 @@ public class GeneralToolkitStrings : GlobalId
         _cachedHelp = null;
         _cachedContinue = null;
         _cachedTryAgain = null;
+        OsMuiStringLoader.ClearCache();
     }
 
     #endregion

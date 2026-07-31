@@ -721,6 +721,7 @@ public sealed class KryptonManager : Component
         }
 
         ApplyUiCulture(culture);
+        OsMuiStringLoader.ClearCache();
 
         if (TryLoadCultureSpecificTranslations(directory, culture, baseName, refreshOpenForms))
         {
