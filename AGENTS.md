@@ -43,7 +43,7 @@ Before considering a task complete:
 - `Source/Krypton Components/TestForm`: WinForms sample app used to validate changes; add or extend demos here when features or bugs are completed (see **TestForm Demos**)
 - `Source/TestHarnesses`: Small repro/test harnesses (e.g., `ThemeSwapRepro`)
 - `Scripts/`: Build and packaging scripts; `run.cmd` (root) launches an interactive menu; scripts live under `Scripts/VS2022/`, `Scripts/Current/`, `Scripts/Build/` (e.g., `build-stable.cmd`, `build-canary.cmd`, `build-nightly.cmd`, `build.proj`)
-`Scripts/Unit Tests/`: Reusable PowerShell UI-automation helpers for interactive validation of `TestForm` scenarios (see **Unit Test Scripts**)
+`Scripts/UnitTest/`: Reusable PowerShell UI-automation helpers for interactive validation of `TestForm` scenarios (see **Unit Test Scripts**)
 - `Bin/`: Build outputs by configuration (e.g., `Bin/Debug`)
 - `Documents/`, `Assets/`, `Logs/`: Docs, images, and build logs
 - `Documents/Changelog/Changelog.md`: User-facing release notes for completed bugs and features
@@ -303,18 +303,18 @@ Skip the comparison when there is no meaningful WinForms equivalent (e.g. ribbon
 
 ##  Unit Test Scripts
 
-Use `Scripts/Unit Test/` for PowerShell scripts that drive or inspect a Debug `TestForm` build (host a demo form, synthesise mouse input, capture screenshots, probe non-client geometry). These complement manual `TestForm` checks; they are not a substitute for a demo and are not run by CI unless explicitly wired later.
+Use `Scripts/UnitTest/` for PowerShell scripts that drive or inspect a Debug `TestForm` build (host a demo form, synthesise mouse input, capture screenshots, probe non-client geometry). These complement manual `TestForm` checks; they are not a substitute for a demo and are not run by CI unless explicitly wired later.
 
 ### When to create or update
 
-- Creating throwaway `.ps1` files under `Bin/` during a bug investigation is fine for the session, but **before the work is finished**, move or rewrite the keepers into `Scripts/Unit Test/` with clear names and brief `.SYNOPSIS` / `.DESCRIPTION` help.
+- Creating throwaway `.ps1` files under `Bin/` during a bug investigation is fine for the session, but **before the work is finished**, move or rewrite the keepers into `Scripts/UnitTest/` with clear names and brief `.SYNOPSIS` / `.DESCRIPTION` help.
 - Prefer extending an existing verification script over adding a near-duplicate.
-- Document new scripts in `Scripts/Unit Test/README.md` (purpose and a short usage example).
+- Document new scripts in `Scripts/UnitTest/README.md` (purpose and a short usage example).
 - Do not check in screenshots or `Bin/` output produced by these scripts.
 
 ### Conventions
 
-- Resolve the repo root and `Bin\<Configuration>\<TFM>` via `Scripts/Unit Test/UnitTestCommon.ps1` rather than hard-coding machine paths.
+- Resolve the repo root and `Bin\<Configuration>\<TFM>` via `Scripts/UnitTest/UnitTestCommon.ps1` rather than hard-coding machine paths.
 - Host WinForms demos with `-STA` when the script calls `Application.Run`.
 - Keep scripts focused on one scenario (host, drag, remerge, probe, …).
 - Existing #925 helpers: `Start-NavigatorFormIntegrationHost.ps1`, `Invoke-CaptionTabDrag.ps1`, `Test-NavigatorCaptionTabRemerge.ps1`, `Get-NavigatorCaptionTabProbe.ps1`.
