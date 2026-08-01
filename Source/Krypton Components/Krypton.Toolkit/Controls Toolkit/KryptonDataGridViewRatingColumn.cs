@@ -107,6 +107,7 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
     [EditorBrowsable(EditorBrowsableState.Always)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Description("The image to be used that indicates the rating when the DataGridView is enabled.")]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? Image 
     {
         get => _image;
@@ -130,6 +131,7 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
     [EditorBrowsable(EditorBrowsableState.Always)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Description("The image to be used that indicates the rating when the DataGridView is disabled.")]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? ImageDisabled 
     {
         get => _imageDisabled;

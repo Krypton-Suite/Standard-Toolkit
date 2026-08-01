@@ -15,7 +15,7 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// Designer for a collection of context menu items.
 /// </summary>
-public partial class KryptonContextMenuCollectionEditor : CollectionEditor
+public partial class KryptonContextMenuCollectionEditor : KryptonDesignerCollectionEditor
 {
     #region Identity
     /// <summary>
@@ -27,12 +27,23 @@ public partial class KryptonContextMenuCollectionEditor : CollectionEditor
     }
     #endregion
 
+    #region Internal
+    /// <summary>
+    /// Creates the shared Krypton context-menu collection editor form.
+    /// </summary>
+    /// <param name="editor">Owning collection editor.</param>
+    /// <returns>Editor form instance.</returns>
+    internal static VisualDesignerCollectionForm CreateCollectionForm(KryptonDesignerCollectionEditor editor) =>
+        new VisualContextMenuCollectionForm(editor);
+    #endregion
+
     #region Protected Overrides
     /// <summary>
-    /// Creates a new form to display and edit the current collection.
+    /// Creates the Krypton-themed collection editor form.
     /// </summary>
-    /// <returns>A CollectionForm to provide as the user interface for editing the collection.</returns>
-    protected override CollectionForm CreateCollectionForm() => new KryptonContextMenuCollectionForm(this);
+    /// <returns>Editor form instance.</returns>
+    protected override VisualDesignerCollectionForm CreateKryptonDesignerCollectionForm() =>
+        CreateCollectionForm(this);
 
     /// <summary>
     /// Gets the data types that this collection editor can contain. 

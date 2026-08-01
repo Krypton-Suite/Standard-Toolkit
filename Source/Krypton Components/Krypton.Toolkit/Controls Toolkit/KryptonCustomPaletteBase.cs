@@ -699,6 +699,10 @@ public class KryptonCustomPaletteBase : PaletteBase
     public override float GetBorderRounding(PaletteBorderStyle style, PaletteState state)
         => GetPaletteBorder(style, state).GetBorderRounding(state);
 
+    /// <inheritdoc />
+    public override PaletteCornerRounding GetBorderCornerRounding(PaletteBorderStyle style, PaletteState state)
+        => GetPaletteBorder(style, state).GetBorderCornerRounding(state);
+
     /// <summary>
     /// Gets a border image.
     /// </summary>

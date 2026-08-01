@@ -114,6 +114,7 @@ public class KryptonRibbonRecentDoc : Component
     [Description(@"Image for the recent document entry.")]
     [RefreshProperties(RefreshProperties.All)]
     [DefaultValue(null)]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;

@@ -2151,7 +2151,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeAlternateBase : PaletteBas
                 PaletteState.Tracking => !BaseColors.ButtonTextTracking.IsEmpty ? BaseColors.ButtonTextTracking : _buttonTextTracking,
                 PaletteState.CheckedTracking => !BaseColors.ButtonTextTracking.IsEmpty ? BaseColors.ButtonTextTracking : BaseColors.TextButtonChecked,
                 PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
-                    ? BaseColors.TextLabelControl
+                    ? BaseColors.TextListItem
                     : BaseColors.TextLabelPanel,
                 PaletteState.CheckedNormal or PaletteState.CheckedPressed => BaseColors.TextButtonChecked,
                 _ => BaseColors.TextButtonNormal
@@ -2235,7 +2235,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeAlternateBase : PaletteBas
                 PaletteState.Tracking => !BaseColors.ButtonTextTracking.IsEmpty ? BaseColors.ButtonTextTracking : _buttonTextTracking,
                 PaletteState.CheckedTracking => !BaseColors.ButtonTextTracking.IsEmpty ? BaseColors.ButtonTextTracking : BaseColors.TextButtonChecked,
                 PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
-                    ? BaseColors.TextLabelControl
+                    ? BaseColors.TextListItem
                     : BaseColors.TextLabelPanel,
                 PaletteState.CheckedNormal or PaletteState.CheckedPressed => BaseColors.TextButtonChecked,
                 _ => BaseColors.TextButtonNormal
@@ -2634,7 +2634,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeAlternateBase : PaletteBas
             PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec => state switch
             {
                 PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
-                    ? BaseColors.TextLabelControl
+                    ? BaseColors.TextListItem
                     : BaseColors.TextLabelPanel,
                 PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => BaseColors.TextButtonChecked,
                 _ => BaseColors.TextButtonNormal
@@ -2715,7 +2715,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeAlternateBase : PaletteBas
             PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec => state switch
             {
                 PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
-                    ? BaseColors.TextLabelControl
+                    ? BaseColors.TextListItem
                     : BaseColors.TextLabelPanel,
                 PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => BaseColors.TextButtonChecked,
                 _ => BaseColors.TextButtonNormal

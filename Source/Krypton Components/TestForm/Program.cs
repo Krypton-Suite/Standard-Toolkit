@@ -6,7 +6,7 @@
  *
  */
 #endregion
-using System.Runtime.InteropServices;
+
 using System.Threading;
 
 namespace TestForm;
@@ -14,16 +14,6 @@ namespace TestForm;
 internal static class Program
 {
     private const string JumpListAppId = "KryptonToolkit.JumpListTest";
-
-#if NETFRAMEWORK
-    [DllImport("user32.dll")]
-    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    private static extern bool SetProcessDPIAware();
-#endif
-
-    [DllImport("shell32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    private static extern int SetCurrentProcessExplicitAppUserModelID(string appId);
 
     /// <summary>
     /// The main entry point for the application.
@@ -34,7 +24,7 @@ internal static class Program
         // Set AppUserModelID before any UI - required for taskbar jump list to attach to this process
         try
         {
-            SetCurrentProcessExplicitAppUserModelID(JumpListAppId);
+            PI.SetCurrentProcessExplicitAppUserModelID(JumpListAppId);
         }
         catch
         {
@@ -45,10 +35,10 @@ internal static class Program
 #if NETFRAMEWORK
         if (Environment.OSVersion.Version.Major >= 6)
         {
-            SetProcessDPIAware();
+            PI.SetProcessDPIAware();
         }
 #else
-            Application.SetHighDpiMode(HighDpiMode.SystemAware);
+        Application.SetHighDpiMode(HighDpiMode.SystemAware);
 #endif
 
         // To customize application configuration such as set high DPI settings or default font,
@@ -59,7 +49,7 @@ internal static class Program
         // Initialize WPF Application for JumpList (required for System.Windows.Shell.JumpList)
         _ = new global::System.Windows.Application();
 #if NET8_0_OR_GREATER
-            Application.SetHighDpiMode(HighDpiMode.SystemAware);
+        Application.SetHighDpiMode(HighDpiMode.SystemAware);
 #endif
         Application.Run(new StartScreen());
     }

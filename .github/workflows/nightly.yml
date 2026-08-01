@@ -4,6 +4,11 @@
 # KILL-SWITCH: To disable this workflow, set repository variable NIGHTLY_DISABLED=true
 # Location: Repository Settings → Secrets and variables → Actions → Variables tab
 # To re-enable: Set NIGHTLY_DISABLED=false or delete the variable
+#
+# SKIP CHANGE CHECK: Set repository variable SKIP_NIGHTLY_24_HOUR_CHECK=true to always force a nightly
+# build (scheduled or manual), or enable the skip_change_check workflow_dispatch input for a one-off run.
+# Either override forces a build even when there are no commits, or only .github-only commits, in the
+# last 24 hours.
 
 name: Nightly Release
 
@@ -12,9 +17,15 @@ permissions:
 
 on:
   schedule:
-    # Run nightly build automatically at midnight UTC every day
-    - cron: '0 0 * * *'
+    # Run at 23:42 UTC (~18 min before midnight; off-hour to reduce schedule queue delays)
+    - cron: '42 23 * * *'
   workflow_dispatch:  # Allow manual triggering for testing
+    inputs:
+      skip_change_check:
+        description: Skip the 24-hour change check and force a build (even for .github-only changes)
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   nightly:
@@ -47,10 +58,16 @@ jobs:
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         shell: pwsh
+        env:
+          EXPECTED_REPOSITORY: ${{ vars.EXPECTED_REPOSITORY }}
         run: |
           $ErrorActionPreference = 'Stop'
-          if ($env:GITHUB_REPOSITORY -ne 'Krypton-Suite/Standard-Toolkit') {
-            Write-Error "Security: Invalid repository '$env:GITHUB_REPOSITORY'. This workflow should only run on Krypton-Suite/Standard-Toolkit"
+          $expectedRepository = $env:EXPECTED_REPOSITORY
+          if ([string]::IsNullOrWhiteSpace($expectedRepository)) {
+            $expectedRepository = 'Krypton-Suite/Standard-Toolkit'
+          }
+          if ($env:GITHUB_REPOSITORY -ne $expectedRepository) {
+            Write-Error "Security: Invalid repository '$env:GITHUB_REPOSITORY'. This workflow should only run on $expectedRepository"
             exit 1
           }
           Write-Host "✓ Repository verified: $env:GITHUB_REPOSITORY"
@@ -111,33 +128,46 @@ jobs:
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         id: check_changes
         shell: pwsh
+        env:
+          SKIP_CHANGE_CHECK_INPUT: ${{ github.event_name == 'workflow_dispatch' && inputs.skip_change_check == true && 'true' || 'false' }}
+          SKIP_NIGHTLY_24_HOUR_CHECK: ${{ vars.SKIP_NIGHTLY_24_HOUR_CHECK }}
         run: |
           $ErrorActionPreference = 'Stop'
 
-          # Get commits from last 24 hours on alpha branch
+          if ($env:SKIP_CHANGE_CHECK_INPUT -eq 'true' -or $env:SKIP_NIGHTLY_24_HOUR_CHECK -eq 'true') {
+            $reason = if ($env:SKIP_CHANGE_CHECK_INPUT -eq 'true') { 'workflow_dispatch input' } else { 'SKIP_NIGHTLY_24_HOUR_CHECK=true' }
+            Write-Host "Change check skipped via $reason - forcing nightly build"
+            echo "has_changes=true" >> $env:GITHUB_OUTPUT
+            exit 0
+          }
+
+          # Get commits from last 24 hours on alpha that touch paths outside .github.
+          # Use rev-list pathspec (merge-aware). Per-commit git diff-tree without -m misses
+          # merge/PR commits, so Source-only merges were incorrectly treated as .github-only
+          # and skipped. Exclude .github so automated CI syncs do not trigger a release.
           $yesterday = (Get-Date).AddDays(-1).ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss")
-          $commitCount = git rev-list --count --since="$yesterday" alpha
+          $commitCount = [int](git rev-list --count --since="$yesterday" alpha -- . ':(exclude).github')
 
-          Write-Host "Commits in last 24 hours: $commitCount"
+          Write-Host "Commits in last 24 hours (excluding .github-only changes): $commitCount"
 
-          if ([int]$commitCount -gt 0) {
+          if ($commitCount -gt 0) {
             Write-Host "Changes detected - proceeding with nightly build"
             echo "has_changes=true" >> $env:GITHUB_OUTPUT
           } else {
-            Write-Host "No changes detected - skipping nightly build"
+            Write-Host "No changes detected (or only .github-only changes) - skipping nightly build"
             echo "has_changes=false" >> $env:GITHUB_OUTPUT
           }
 
       - name: Skip notification
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'false'
         run: |
-          Write-Host "::notice::No commits in the last 24 hours. Skipping nightly build and publish."
+          Write-Host "::notice::No commits (other than .github-only changes) in the last 24 hours. Skipping nightly build and publish."
 
       # .NET 9 and 10; .NET 11 for net11.0-windows (DOTNET_PREVIEW_SETUP_VERSION when set, else 11.0.x).
       - name: Setup .NET (9 and 10)
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
             9.0.x
@@ -148,14 +178,14 @@ jobs:
         continue-on-error: true
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
 
       - name: Setup .NET 11 (preview fallback)
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.setup_dotnet11_stable_nightly.outcome == 'failure'
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
           dotnet-quality: preview
@@ -164,7 +194,7 @@ jobs:
       - name: Setup .NET Preview
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION }}
           dotnet-quality: preview
@@ -228,7 +258,7 @@ jobs:
 
       - name: Cache NuGet
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
@@ -248,7 +278,7 @@ jobs:
       - name: Restore WebView2 cache
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
         id: webview2_cache_restore
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         continue-on-error: true
         with:
           path: ${{ runner.temp }}/webview2
@@ -268,7 +298,7 @@ jobs:
 
       - name: Save WebView2 cache
         if: success() && steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         continue-on-error: true
         with:
           path: ${{ runner.temp }}/webview2
@@ -286,6 +316,27 @@ jobs:
       - name: Pack Nightly
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
         run: msbuild /m "Scripts/Build/nightly.proj" /t:Pack /restore /p:Configuration=Nightly /p:Platform="Any CPU" /p:UseArtifactsOutput=true
+
+      # Verify Krypton.Interop is present in NuGet packages (V110+ only)
+      - name: Resolve Krypton toolkit major version
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
+        id: krypton_major_version
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
+          $major = Get-KryptonToolkitMajorVersion -Configuration Nightly
+          echo "major=$major" >> $env:GITHUB_OUTPUT
+
+      - name: Verify Krypton.Interop in NuGet packages
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true' && steps.krypton_major_version.outputs.major >= 110
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
+          Test-KryptonInteropInPackages -Configuration Nightly -MinimumMajorVersion 110 -SkipIfInteropProjectMissing
 
       - name: Push NuGet Packages to nuget.org
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'

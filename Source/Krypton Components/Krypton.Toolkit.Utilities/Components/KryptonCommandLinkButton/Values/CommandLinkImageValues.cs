@@ -74,6 +74,7 @@ public class CommandLinkImageValues : Storage, IContentValues
     [Category("Visuals")]
     [Description("The image.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;

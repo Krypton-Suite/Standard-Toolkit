@@ -19,10 +19,10 @@ namespace Krypton.Ribbon;
 /// </summary>
 internal class ViewDrawRibbonQATExtraButton : ViewLeaf
 {
-    // TODO: Needs to be scaled
-    private static readonly Size _contentSize = new Size(-2, -5);
-
     #region Instance Fields
+    // Inflate amount applied to the button rectangle to obtain the glyph content area.
+    // DPI scaled in the constructor so the overflow/context arrow stays aligned on high-DPI displays.
+    private readonly Size _contentSize; // = new(-2, -5);
     private readonly Size _viewSize; // = new(13, 22);
     private readonly KryptonRibbon _ribbon;
     private IDisposable? _mementoBack;
@@ -61,6 +61,7 @@ internal class ViewDrawRibbonQATExtraButton : ViewLeaf
         SourceController = controller;
         KeyController = controller;
         _viewSize = new Size((int)(13 * FactorDpiX), (int)(22 * FactorDpiY));
+        _contentSize = new Size(-(int)(2 * FactorDpiX), -(int)(5 * FactorDpiY));
     }
 
     /// <summary>

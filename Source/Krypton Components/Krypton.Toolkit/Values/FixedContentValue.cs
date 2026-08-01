@@ -80,6 +80,7 @@ public class FixedContentValue : IContentValues
     [Category(@"Appearance")]
     [Description(@"Image associated with item.")]
     [Localizable(true)]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? Image { get; set; }
 
     private bool ShouldSerializeImage() => Image != null;

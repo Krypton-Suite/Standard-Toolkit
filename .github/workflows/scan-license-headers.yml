@@ -1,0 +1,162 @@
+# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+# Modifications by Peter Wagner (aka PWagner1), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
+#
+# Scans BSD license header contributor lines and partially replaces the list after the
+# fixed "Modifications by Peter Wagner (aka PWagner1), Simon Coghlan (aka Smurf-IV)" prefix.
+# Each file keeps its own year range and "All rights reserved." suffix.
+#
+# KILL-SWITCH: SCAN_LICENSE_HEADERS_DISABLED=true (repository variable)
+# TEST/FORK REPOS: Set EXPECTED_REPOSITORY=YourOrg/YourFork (repository variable)
+# DEPLOYMENT: Must exist on the default branch before workflow_dispatch is available in the UI.
+
+name: Scan license headers
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: Branch to scan and update
+        required: true
+        default: alpha
+        type: choice
+        options:
+          # BEGIN: long-lived-branches (synced from branch-policy.json)
+          - alpha
+          - prerelease
+          - V110
+          - V105-LTS
+          # END: long-lived-branches
+      dry_run:
+        description: Log changes only; do not modify files or open a pull request
+        required: true
+        default: true
+        type: boolean
+      create_pr:
+        description: When dry_run is false, commit changes and open a pull request
+        required: true
+        default: true
+        type: boolean
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Scan kill switch
+        id: kill_switch
+        shell: bash
+        run: |
+          disabled="${{ vars.SCAN_LICENSE_HEADERS_DISABLED }}"
+          if [ "$disabled" = "true" ]; then
+            echo "::warning:: Scan license headers is DISABLED (SCAN_LICENSE_HEADERS_DISABLED=true)."
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Security - Verify Repository
+        if: steps.kill_switch.outputs.enabled == 'true'
+        shell: bash
+        env:
+          EXPECTED_REPOSITORY: ${{ vars.EXPECTED_REPOSITORY }}
+        run: |
+          expected_repository="${EXPECTED_REPOSITORY:-Krypton-Suite/Standard-Toolkit}"
+          if [ "$GITHUB_REPOSITORY" != "$expected_repository" ]; then
+            echo "::error::Security: Invalid repository '$GITHUB_REPOSITORY'. This workflow should only run on $expected_repository"
+            exit 1
+          fi
+          echo "✓ Repository verified: $GITHUB_REPOSITORY"
+
+      - name: Checkout branch
+        if: steps.kill_switch.outputs.enabled == 'true'
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.branch }}
+          fetch-depth: 1
+
+      - name: Update license headers
+        if: steps.kill_switch.outputs.enabled == 'true'
+        id: update
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $dryRun = [System.Convert]::ToBoolean('${{ inputs.dry_run }}')
+          $args = @('-RepositoryRoot', $env:GITHUB_WORKSPACE)
+          if ($dryRun) {
+            $args += '-DryRun'
+          }
+
+          & "$env:GITHUB_WORKSPACE/.github/scripts/Update-LicenseHeaders.ps1" @args
+
+          $summaryPath = Join-Path $env:RUNNER_TEMP 'license-header-scan-summary.txt'
+          if (-not (Test-Path -LiteralPath $summaryPath)) {
+            "files_changed=0" | Out-File -LiteralPath $summaryPath -Encoding utf8NoBOM
+          }
+
+          $summary = Get-Content -LiteralPath $summaryPath
+          $filesChanged = 0
+          foreach ($line in $summary) {
+            if ($line -match '^files_changed=(\d+)$') {
+              $filesChanged = [int]$Matches[1]
+              break
+            }
+          }
+
+          Add-Content -Path $env:GITHUB_OUTPUT -Value "files_changed=$filesChanged"
+          Write-Host "files_changed=$filesChanged"
+
+      - name: Commit, push, and open pull request
+        if: >-
+          steps.kill_switch.outputs.enabled == 'true'
+          && inputs.dry_run == false
+          && steps.update.outputs.files_changed != '0'
+        shell: bash
+        env:
+          BRANCH: ${{ inputs.branch }}
+          CREATE_PR: ${{ inputs.create_pr }}
+          FILES_CHANGED: ${{ steps.update.outputs.files_changed }}
+          PR_BODY: |
+            ## Summary
+            Automated partial replacement of BSD license header contributor lines.
+
+            - Fixed prefix: `Modifications by Peter Wagner (aka PWagner1), Simon Coghlan (aka Smurf-IV)`
+            - Canonical contributors: Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al.
+            - Each file keeps its existing year range and rights suffix.
+
+            **Files updated:** ${{ steps.update.outputs.files_changed }}
+
+            *Triggered by Scan license headers workflow.*
+        run: |
+          set -euo pipefail
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          if [ "$CREATE_PR" = "true" ]; then
+            work_branch="chore/license-header-contributors-$(date -u +%Y%m%d-%H%M%S)"
+            git checkout -b "$work_branch"
+          fi
+
+          git add -A
+          git commit -m "chore: normalize license header contributor lines ($FILES_CHANGED files)"
+
+          if [ "$CREATE_PR" = "true" ]; then
+            git push -u origin "$work_branch"
+            gh pr create \
+              --base "$BRANCH" \
+              --head "$work_branch" \
+              --title "chore: normalize license header contributor lines" \
+              --body "$PR_BODY"
+          else
+            git push origin "HEAD:$BRANCH"
+          fi
+
+      - name: No changes required
+        if: >-
+          steps.kill_switch.outputs.enabled == 'true'
+          && steps.update.outputs.files_changed == '0'
+        shell: bash
+        run: echo "All matching license header contributor lines are already up to date."

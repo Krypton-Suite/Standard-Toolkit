@@ -169,6 +169,19 @@ internal class ViewDrawMenuRadioButton: ViewComposite
 
     #endregion
 
+    #region ResolveText
+    private string ResolveText => _cachedCommand != null
+        && !string.IsNullOrEmpty(_cachedCommand.Text)
+            ? _cachedCommand.Text
+            : KryptonContextMenuRadioButton.Text;
+
+    private string ResolveExtraText => _cachedCommand != null
+        && !string.IsNullOrEmpty(_cachedCommand.ExtraText)
+            ? _cachedCommand.ExtraText
+            : KryptonContextMenuRadioButton.ExtraText ?? string.Empty;
+
+    #endregion
+
     #region CanCloseMenu
     /// <summary>
     /// Gets a value indicating if the menu is capable of being closed.
@@ -238,6 +251,10 @@ internal class ViewDrawMenuRadioButton: ViewComposite
         {
             case @"Text":
             case @"ExtraText":
+                _contentValues.ShortText = ResolveText;
+                _contentValues.LongText = ResolveExtraText;
+                _provider.ProviderNeedPaintDelegate(this, new NeedLayoutEventArgs(true));
+                break;
             case @"ImageSmall":
             case @"ImageLarge":
             case @"ImageTransparentColor":

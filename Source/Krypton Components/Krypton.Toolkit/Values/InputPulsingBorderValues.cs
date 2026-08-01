@@ -35,7 +35,12 @@ public class InputPulsingBorderValues : Storage
     {
         NeedPaint = needPaint;
         Colors = new InputPulsingBorderColorValues(needPaint);
+
+        Reset();
     }
+
+    /// <inheritdoc />
+    public override string ToString() => !IsDefault ? @"Modified" : string.Empty;
 
     #endregion
 
@@ -218,6 +223,19 @@ public class InputPulsingBorderValues : Storage
     public InputPulsingBorderColorValues Colors { get; }
 
     private bool ShouldSerializeColors() => !Colors.IsDefault;
+
+    #endregion
+
+    #region Reset
+
+    public void Reset()
+    {
+        ResetAnimate();
+        ResetAnimationSpeed();
+        ResetShowWhen();
+        ResetStyle();
+        Colors.Reset();
+    }
 
     #endregion
 }

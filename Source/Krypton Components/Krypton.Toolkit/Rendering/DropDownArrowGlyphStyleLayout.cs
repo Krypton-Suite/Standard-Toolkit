@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -13,7 +13,7 @@ internal static class DropDownArrowGlyphStyleLayout
 {
     internal static void GetLayerOffsets(DropDownArrowGlyphStyle style, int size, out Point fillOffset, out Point outlineOffset)
     {
-        if (size < 8 || style == DropDownArrowGlyphStyle.Flat)
+        if (size <= 9 || style == DropDownArrowGlyphStyle.Flat)
         {
             fillOffset = Point.Empty;
 

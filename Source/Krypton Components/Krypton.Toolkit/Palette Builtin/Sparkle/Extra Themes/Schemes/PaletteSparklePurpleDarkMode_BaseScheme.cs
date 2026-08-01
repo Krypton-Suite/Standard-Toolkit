@@ -12,6 +12,7 @@ namespace Krypton.Toolkit;
 public sealed class PaletteSparklePurpleDarkMode_BaseScheme : KryptonColorSchemeBase
 {
     public override Color TextLabelControl                 { get; set; } = Color.FromArgb( 76, 83, 92);
+    public override Color TextListItem                     { get; set; } = Color.FromArgb( 76, 83, 92);
     public override Color TextButtonNormal                 { get; set; } = Color.FromArgb( 70, 70, 70);
     public override Color TextButtonChecked                { get; set; } = Color.Black;
     public override Color ButtonNormalBorder               { get; set; } = Color.FromArgb(137, 135, 133);

@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -206,6 +206,7 @@ internal class InternalKryptonButton : VisualSimpleBase, IButtonControl, IConten
     /// <summary>
     /// Gets or sets the text associated with this control. 
     /// </summary>
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
     [AllowNull]
     public override string Text

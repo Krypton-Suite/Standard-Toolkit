@@ -62,7 +62,7 @@ public partial class KryptonTaskDialogElementCommandLinkButtons : KryptonTaskDia
     /// <summary>
     /// Krypton CommandLink Buttons collection.
     /// </summary>
-    [Editor(typeof(KryptonTaskDialogElementCommandLinkButtons.ButtonsCollectionEditor), typeof(UITypeEditor))]
+    [Editor(typeof(KryptonTaskDialogCommandLinkButtonsCollectionEditor), typeof(UITypeEditor))]
     public ObservableCollection<InternalKryptonCommandLinkButton> Buttons => _buttons;
 
     /// <summary>

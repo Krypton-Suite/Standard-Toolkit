@@ -122,6 +122,7 @@ public class ProgressBarTriStateCommonBaseValues : Storage
     [Category(@"Visuals")]
     [Description(@"Background image. Null uses default.")]
     [DefaultValue(null)]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? BackImage
     {
         get => _backImage;

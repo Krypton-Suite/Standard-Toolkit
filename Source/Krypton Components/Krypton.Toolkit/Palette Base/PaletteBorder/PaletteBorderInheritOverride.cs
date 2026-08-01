@@ -309,6 +309,10 @@ public class PaletteBorderInheritOverride : PaletteBorderInherit
     /// <returns>Border rounding.</returns>
     public override float GetBorderRounding(PaletteState state) => MergeBorderRoundingForFocusOverride(state);
 
+    /// <inheritdoc />
+    public override PaletteCornerRounding GetBorderCornerRounding(PaletteState state) =>
+        MergeBorderCornerRoundingForFocusOverride(state);
+
     /// <summary>
     /// Gets a border image.
     /// </summary>
@@ -434,6 +438,52 @@ public class PaletteBorderInheritOverride : PaletteBorderInherit
             if (ret == -1f)
             {
                 ret = _backup.GetBorderRounding(state);
+            }
+
+            return ret;
+        }
+    }
+
+    private PaletteCornerRounding MergeBorderCornerRoundingForFocusOverride(PaletteState state)
+    {
+        if (!Apply)
+        {
+            return _backup.GetBorderCornerRounding(state);
+        }
+
+        if (!Override)
+        {
+            var ret = _primary.GetBorderCornerRounding(state);
+            if (_primary.GetBorderRounding(state) == -1f)
+            {
+                ret = _backup.GetBorderCornerRounding(state);
+            }
+
+            return ret;
+        }
+
+        if (OverrideState == PaletteState.FocusOverride && PreferBackupBorderRoundingForFocusMerge(state))
+        {
+            var ret = _backup.GetBorderCornerRounding(state);
+            if (_backup.GetBorderRounding(state) != -1f)
+            {
+                return ret;
+            }
+
+            ret = _primary.GetBorderCornerRounding(OverrideState);
+            if (_primary.GetBorderRounding(OverrideState) != -1f)
+            {
+                return ret;
+            }
+
+            return _primary.GetBorderCornerRounding(state);
+        }
+        else
+        {
+            var ret = _primary.GetBorderCornerRounding(OverrideState);
+            if (_primary.GetBorderRounding(OverrideState) == -1f)
+            {
+                ret = _backup.GetBorderCornerRounding(state);
             }
 
             return ret;

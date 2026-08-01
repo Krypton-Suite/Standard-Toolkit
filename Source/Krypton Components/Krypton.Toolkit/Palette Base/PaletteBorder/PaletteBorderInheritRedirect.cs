@@ -151,6 +151,10 @@ public class PaletteBorderInheritRedirect : PaletteBorderInherit
     /// <returns>Border rounding.</returns>
     public override float GetBorderRounding(PaletteState state) => _redirect?.GetBorderRounding(Style, state) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_redirect)));
 
+    /// <inheritdoc />
+    public override PaletteCornerRounding GetBorderCornerRounding(PaletteState state) =>
+        _redirect?.GetBorderCornerRounding(Style, state) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_redirect)));
+
     /// <summary>
     /// Gets a border image from the redirector.
     /// </summary>

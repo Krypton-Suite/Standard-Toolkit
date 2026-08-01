@@ -195,6 +195,10 @@ public class PaletteRedirectBorderEdge : PaletteRedirect
     /// <returns>Float rounding.</returns>
     public override float GetBorderRounding(PaletteBorderStyle style, PaletteState state) => Target?.GetBorderRounding(style, state) ?? 0.0f;
 
+    /// <inheritdoc />
+    public override PaletteCornerRounding GetBorderCornerRounding(PaletteBorderStyle style, PaletteState state) =>
+        Target?.GetBorderCornerRounding(style, state) ?? PaletteCornerRounding.Uniform(0.0f);
+
     /// <summary>
     /// Gets a border image.
     /// </summary>

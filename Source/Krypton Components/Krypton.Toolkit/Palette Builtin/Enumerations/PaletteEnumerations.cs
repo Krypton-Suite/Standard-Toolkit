@@ -742,7 +742,10 @@ public enum SchemeBaseColors
     RibbonGroupTextTracking = 239,
 
     /// <summary>Text color for buttons in tracking (hover) state.</summary>
-    ButtonTextTracking = 240
+    ButtonTextTracking = 240,
+
+    /// <summary>Text color for tree view and list box items in normal state.</summary>
+    TextListItem = 241
 }
 
 #endregion

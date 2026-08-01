@@ -44,10 +44,11 @@ public partial class ButtonsTest : KryptonForm
     private void kryptonCommand1_Execute(object sender, EventArgs e)
     {
         var typeName = sender.GetType().FullName;
-        var item = sender as KryptonContextMenuItem;
-        var paramText = item?.CommandParameter is string s ? s : "<no param>";
+        var parameter = e is KryptonCommandExecuteEventArgs executeArgs
+            ? executeArgs.Parameter?.ToString() ?? "<no param>"
+            : KryptonCommandContext.GetCommandParameter(sender)?.ToString() ?? "<no param>";
 
-        KryptonMessageBox.Show($"Command executed by:\nType: {typeName}\nParam: {paramText}", "Context Item Called");
+        KryptonMessageBox.Show($"Command executed by:\nType: {typeName}\nParam: {parameter}", "Context Item Called");
     }
 
     private void kcbSortMode_SelectedIndexChanged(object sender, EventArgs e)

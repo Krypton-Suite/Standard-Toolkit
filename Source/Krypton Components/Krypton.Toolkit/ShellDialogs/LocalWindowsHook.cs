@@ -1,4 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
+// Decompiled with JetBrains decompiler
 // Type: MsdnMag.LocalWindowsHook
 // Assembly: WindowsHook, Version=1.0.921.18849, Culture=neutral, PublicKeyToken=null
 // Original from http://msdn.microsoft.com/msdnmag/issues/02/10/cuttingedge
@@ -38,6 +38,7 @@ internal class LocalWindowsHook
     protected IntPtr m_hHook = IntPtr.Zero;
     protected HookProc m_filterFunc;
     protected readonly HookType m_hookType;
+    private PI.HookProc? _nativeFilter;
 
     public event HookEventHandler? HookInvoked;
 
@@ -72,21 +73,16 @@ internal class LocalWindowsHook
     }
 
     // Use native windows threadID // https://github.com/Krypton-Suite/Standard-Toolkit/issues/992
-    public void Install() => m_hHook = SetWindowsHookEx(m_hookType, m_filterFunc, IntPtr.Zero, PI.GetCurrentThreadId());
+    public void Install()
+    {
+        _nativeFilter ??= (code, wParam, lParam) => new IntPtr(m_filterFunc(code, wParam, lParam));
+        m_hHook = PI.SetWindowsHookEx((PI.WH_)(int)m_hookType, _nativeFilter, IntPtr.Zero, PI.GetCurrentThreadId());
+    }
 
-    public void Uninstall() => UnhookWindowsHookEx(m_hHook);
+    public void Uninstall() => PI.UnhookWindowsHookEx(m_hHook);
 
-    [DllImport(Libraries.User32)]
-    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    private static extern IntPtr SetWindowsHookEx( HookType code, HookProc func, IntPtr hInstance, int threadID);
-
-    [DllImport(Libraries.User32)]
-    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    private static extern int UnhookWindowsHookEx(IntPtr hHook);
-
-    [DllImport(Libraries.User32)]
-    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    protected static extern int CallNextHookEx( IntPtr hHook, int code, IntPtr wParam, IntPtr lParam);
+    protected static int CallNextHookEx(IntPtr hHook, int code, IntPtr wParam, IntPtr lParam) =>
+        unchecked((int)PI.CallNextHookEx(hHook, code, wParam, lParam).ToInt64());
 
     public delegate int HookProc(int code, IntPtr wParam, IntPtr lParam);
 

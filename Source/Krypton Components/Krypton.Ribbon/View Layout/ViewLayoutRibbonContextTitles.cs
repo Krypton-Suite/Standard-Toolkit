@@ -177,8 +177,39 @@ internal class ViewLayoutRibbonContextTitles : ViewLayoutDocker
     #endregion
 
     #region Implementation
+    /// <summary>
+    /// Removes drawn context title children so they cannot linger when tab headers are hidden.
+    /// </summary>
+    public void ClearContextTitles()
+    {
+        // Preserve any filler child used for form icon / QAT gap positioning.
+        ViewBase? filler = null;
+        foreach (ViewBase child in this)
+        {
+            if (GetDock(child) == ViewDockStyle.Fill)
+            {
+                filler = child;
+                break;
+            }
+        }
+
+        Clear();
+
+        if (filler != null)
+        {
+            Add(filler, ViewDockStyle.Fill);
+        }
+    }
+
     private void SyncChildrenToContexts()
     {
+        // Context titles mimic tab strip geometry — nothing to show in toolbar mode.
+        if (!_ribbon.ShowTabHeaders)
+        {
+            ClearContextTitles();
+            return;
+        }
+
         // Find any filler child
         ViewBase? filler = null;
 

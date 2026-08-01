@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -94,6 +94,7 @@ public partial class KryptonTaskDialogElementContent
 
         /// <inheritdoc/>
         [DefaultValue(null)]
+        [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
         public Image? Image
         {
             get => field;
@@ -120,4 +121,3 @@ public partial class KryptonTaskDialogElementContent
         #endregion
     }
 }
-

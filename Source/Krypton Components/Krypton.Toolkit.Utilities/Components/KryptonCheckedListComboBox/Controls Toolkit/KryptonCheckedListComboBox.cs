@@ -141,6 +141,7 @@ public class KryptonCheckedListComboBox : KryptonComboBoxUserControl
     /// </summary>
     [Category(@"Data")]
     [Description(@"Indicates the property to display for the items when a data source is set.")]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.DataMemberFieldEditor).
     [Editor(@"System.Windows.Forms.Design.DataMemberFieldEditor, System.Design", typeof(UITypeEditor))]
     [DefaultValue("")]
     public string? DisplayMember
@@ -158,6 +159,7 @@ public class KryptonCheckedListComboBox : KryptonComboBoxUserControl
     /// </summary>
     [Category(@"Data")]
     [Description(@"Indicates the property to use as the actual value when a data source is set.")]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.DataMemberFieldEditor).
     [Editor(@"System.Windows.Forms.Design.DataMemberFieldEditor, System.Design", typeof(UITypeEditor))]
     [DefaultValue("")]
     public string? ValueMember
@@ -172,6 +174,7 @@ public class KryptonCheckedListComboBox : KryptonComboBoxUserControl
     /// </summary>
     [Category(@"Data")]
     [Description(@"Formatting applied to displayed text when formatting is enabled.")]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.FormatStringEditor).
     [Editor(@"System.Windows.Forms.Design.FormatStringEditor, System.Design", typeof(UITypeEditor))]
     [DefaultValue("")]
     public string? FormatString
@@ -207,7 +210,7 @@ public class KryptonCheckedListComboBox : KryptonComboBoxUserControl
     [Category(@"Data")]
     [Description(@"The collection of items in the drop-down list.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    [Editor(@"System.Windows.Forms.Design.ListControlStringCollectionEditor", typeof(UITypeEditor))]
+    [Editor(typeof(KryptonDesignerListControlStringCollectionEditor), typeof(UITypeEditor))]
     public ListBox.ObjectCollection Items => _dropDown.Items;
 
     /// <summary>

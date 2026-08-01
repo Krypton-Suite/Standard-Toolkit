@@ -289,6 +289,8 @@ public class AccurateText : GlobalId
 
                 try
                 {
+                    using var graphicsHint = new GraphicsTextHint(g, memento.TextRenderingHint);
+
                     // Support for unicode surrogates is only available when drawing horizontally.
                     if (orientation == VisualOrientation.Top)
                     {

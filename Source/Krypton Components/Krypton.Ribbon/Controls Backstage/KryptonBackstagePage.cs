@@ -55,6 +55,7 @@ public class KryptonBackstagePage : KryptonPanel
     [Category(@"Backstage")]
     [Description(@"Image used in the backstage navigation list.")]
     [DefaultValue(null)]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;
@@ -118,4 +119,3 @@ public class KryptonBackstagePage : KryptonPanel
     private void OnNavigationPropertyChanged(EventArgs e) => NavigationPropertyChanged?.Invoke(this, e);
     #endregion
 }
-

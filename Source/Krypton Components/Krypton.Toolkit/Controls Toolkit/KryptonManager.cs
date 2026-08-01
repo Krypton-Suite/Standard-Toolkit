@@ -29,6 +29,7 @@ public sealed class KryptonManager : Component
     private static bool _globalShowAdministratorSuffix = true;
     internal static bool _globalUseKryptonFileDialogs = true;
     private static bool _globalUseKryptonScrollbars = false;
+    private static ScrollbarCornerStyle _globalScrollbarCornerStyle = ScrollbarCornerStyle.ThemedCorner;
     private static DropDownArrowRenderMode _globalDropDownArrowRenderMode = DropDownArrowRenderMode.Unicode;
     private static DropDownArrowGlyphStyle _globalDropDownArrowGlyphStyle = DropDownArrowGlyphStyle.Bevel;
     private static bool _globalTouchscreenMode = false;
@@ -215,6 +216,9 @@ public sealed class KryptonManager : Component
         // We need to notice when system color settings change
         SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
 
+        // Align toolbar image storage with the startup theme before any change event
+        UpdatePaletteImages(CurrentGlobalPaletteMode);
+
         // Update the tool strip global renderer with the default setting
         UpdateToolStripManager();
     }
@@ -275,6 +279,7 @@ public sealed class KryptonManager : Component
                                ShouldSerializeToolkitStrings() ||
                                ShouldSerializeUseKryptonFileDialogs() ||
                                ShouldSerializeGlobalUseKryptonScrollbars() ||
+                               ShouldSerializeGlobalScrollbarCornerStyle() ||
                                ShouldSerializeGlobalDropDownArrowRenderMode() ||
                                ShouldSerializeGlobalDropDownArrowGlyphStyle() ||
                                ShouldSerializeBaseFont() ||
@@ -294,6 +299,7 @@ public sealed class KryptonManager : Component
         ResetToolkitStrings();
         ResetUseKryptonFileDialogs();
         ResetGlobalUseKryptonScrollbars();
+        ResetGlobalScrollbarCornerStyle();
         ResetGlobalDropDownArrowRenderMode();
         ResetGlobalDropDownArrowGlyphStyle();
         ResetBaseFont();
@@ -398,6 +404,8 @@ public sealed class KryptonManager : Component
             {
                 ResetBaseFont();
             }
+
+            OnGlobalPaletteChanged(EventArgs.Empty);
         }
     }
 
@@ -448,6 +456,20 @@ public sealed class KryptonManager : Component
     }
     private bool ShouldSerializeGlobalUseKryptonScrollbars() => GlobalUseKryptonScrollbars;
     private void ResetGlobalUseKryptonScrollbars() => GlobalUseKryptonScrollbars = false;
+
+    /// <summary>
+    /// Gets or sets the global default for how Krypton scrollbar managers fill the bottom-right corner when both scrollbars are visible.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Global default for how Krypton scrollbar managers fill the bottom-right corner when both scrollbars are visible (ThemedCorner or ExtendHorizontal).")]
+    [DefaultValue(ScrollbarCornerStyle.ThemedCorner)]
+    public ScrollbarCornerStyle GlobalScrollbarCornerStyle
+    {
+        get => ScrollbarCornerStyle;
+        set => ScrollbarCornerStyle = value;
+    }
+    private bool ShouldSerializeGlobalScrollbarCornerStyle() => GlobalScrollbarCornerStyle != ScrollbarCornerStyle.ThemedCorner;
+    private void ResetGlobalScrollbarCornerStyle() => GlobalScrollbarCornerStyle = ScrollbarCornerStyle.ThemedCorner;
 
     /// <summary>
     /// Gets or sets how drop-down arrow glyphs are rendered across Krypton controls.
@@ -653,6 +675,29 @@ public sealed class KryptonManager : Component
             {
                 // Use new value
                 _globalUseKryptonScrollbars = value;
+            }
+        }
+    }
+    #endregion
+
+    #region Static ScrollbarCornerStyle
+    /// <summary>
+    /// Gets and sets the global default for how Krypton scrollbar managers fill the bottom-right
+    /// corner when both scrollbars are visible. Individual managers can override this via
+    /// <see cref="KryptonScrollbarManager.CornerStyle"/>.
+    /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public static ScrollbarCornerStyle ScrollbarCornerStyle
+    {
+        get => _globalScrollbarCornerStyle;
+
+        set
+        {
+            // Only interested if the value changes
+            if (_globalScrollbarCornerStyle != value)
+            {
+                // Use new value
+                _globalScrollbarCornerStyle = value;
             }
         }
     }
@@ -1752,6 +1797,11 @@ public sealed class KryptonManager : Component
         {
             UpdateToolStripManager();
         }
+
+        if (e.NeedLayout)
+        {
+            ToolStripFontSync.RefreshAllOpenForms();
+        }
     }
 
     private static void SetPalette(PaletteBase globalPalette)
@@ -1786,6 +1836,8 @@ public sealed class KryptonManager : Component
         UpdateToolStripManager();
 
         UpdatePaletteImages(CurrentGlobalPaletteMode);
+
+        ToolStripFontSync.RefreshAllOpenForms();
 
         GlobalPaletteChanged?.Invoke(null, e);
     }

@@ -7,6 +7,8 @@
  */
 #endregion
 
+// Compiled into Krypton.Toolkit.Utilities via MSBuild link. See Documents/Development/Cross-Project-Source-Linking.md
+
 namespace Krypton.Toolkit;
 
 /// <summary>

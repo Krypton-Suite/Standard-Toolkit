@@ -85,6 +85,7 @@ public class KryptonPaletteImagesTreeView : Storage
     [Description(@"Image for use when a node is collapsed.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? Plus
     {
         get => _plus;
@@ -114,6 +115,7 @@ public class KryptonPaletteImagesTreeView : Storage
     [Description(@"Image for use when a node is expanded.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? Minus
     {
         get => _minus;

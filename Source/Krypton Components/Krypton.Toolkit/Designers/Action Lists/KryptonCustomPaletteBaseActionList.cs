@@ -59,8 +59,6 @@ internal class KryptonCustomPaletteBaseActionList : DesignerActionList
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Import from Xml file...", OnImportClick), "Actions"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Export to Xml file...", OnExportClick), "Actions"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Upgrade Palette", OnUpgradePalette), "Actions"));
-            // TODO: Uncomment when binary serialisation is implemented
-            //actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Export theme to binary", OnExportToBinaryClick), "Actions"));
         }
 
         return actions;

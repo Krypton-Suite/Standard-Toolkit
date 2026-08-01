@@ -141,6 +141,7 @@ internal class KryptonRadioButtonActionList : DesignerActionList
     /// <summary>
     /// Gets and sets the radio button image.
     /// </summary>
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? Image
     {
         get => _radioButton.Values.Image;

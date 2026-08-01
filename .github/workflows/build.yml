@@ -31,7 +31,7 @@ jobs:
 
       # .NET 9 and 10 always; .NET 11 — DOTNET_PREVIEW_SETUP_VERSION when set, else 11.0.x (stable attempt, then preview).
       - name: Setup .NET (9 and 10)
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
             9.0.x
@@ -40,13 +40,13 @@ jobs:
       - name: Setup .NET 11 (stable)
         id: setup_dotnet11_stable
         continue-on-error: true
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
 
       - name: Setup .NET 11 (preview fallback)
         if: steps.setup_dotnet11_stable.outcome == 'failure'
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
           dotnet-quality: preview
@@ -54,7 +54,7 @@ jobs:
       # Optional extra preview SDK (repo variable). USE_DOTNET_PREVIEW=false skips; global.json pins latest installed band below.
       - name: Setup .NET Preview
         if: vars.USE_DOTNET_PREVIEW != 'false'
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION }}
           dotnet-quality: preview
@@ -95,7 +95,7 @@ jobs:
         uses: NuGet/setup-nuget@v4
 
       - name: Cache NuGet
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
@@ -116,7 +116,7 @@ jobs:
       - name: Restore WebView2 cache
         if: github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary'
         id: webview2_cache_restore
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         continue-on-error: true
         with:
           path: ${{ runner.temp }}/webview2
@@ -136,7 +136,7 @@ jobs:
 
       - name: Save WebView2 cache
         if: success() && (github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary')
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         continue-on-error: true
         with:
           path: ${{ runner.temp }}/webview2
@@ -162,7 +162,7 @@ jobs:
 
       # .NET 9 and 10 always; .NET 11 — DOTNET_PREVIEW_SETUP_VERSION when set, else 11.0.x (same resolution as build job).
       - name: Setup .NET (9 and 10)
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
             9.0.x
@@ -171,13 +171,13 @@ jobs:
       - name: Setup .NET 11 (stable)
         id: setup_dotnet11_stable_release
         continue-on-error: true
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
 
       - name: Setup .NET 11 (preview fallback)
         if: steps.setup_dotnet11_stable_release.outcome == 'failure'
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
           dotnet-quality: preview
@@ -218,7 +218,7 @@ jobs:
         uses: NuGet/setup-nuget@v4
 
       - name: Cache NuGet
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
@@ -239,7 +239,7 @@ jobs:
       - name: Restore WebView2 cache
         if: github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary'
         id: webview2_cache_restore_release
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         continue-on-error: true
         with:
           path: ${{ runner.temp }}/webview2
@@ -259,22 +259,60 @@ jobs:
 
       - name: Save WebView2 cache
         if: success() && (github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary')
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         continue-on-error: true
         with:
           path: ${{ runner.temp }}/webview2
           key: ${{ steps.webview2_cache_restore_release.outputs.cache-primary-key }}
 
-      # UseArtifactsOutput must match Build/Pack so project.assets.json lands under artifacts/obj (avoids NETSDK1005).
+      # Match build job: same dotnet restore + properties so project.assets.json lands under artifacts/obj (avoids NETSDK1005).
       - name: Restore
-        run: msbuild /m "Scripts/Build/build.proj" /t:Restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true /p:TFMs=all
+        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx" -p:Configuration=Release -p:TFMs=all -p:UseArtifactsOutput=true
+
+      # Fail early if Restore did not write assets under artifacts/obj (would surface later as NETSDK1005 in Pack).
+      - name: Debug: list artifacts/obj
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $objRoot = "Source/Krypton Components/artifacts/obj"
+          if (-not (Test-Path -LiteralPath $objRoot)) {
+            Write-Error "Artifacts obj folder missing: $objRoot"
+          }
+          $assets = @(Get-ChildItem -Path $objRoot -Recurse -Filter "project.assets.json" -ErrorAction SilentlyContinue)
+          if ($assets.Count -eq 0) {
+            Write-Error "No project.assets.json found under $objRoot"
+          }
+          $assets | ForEach-Object { Write-Host "Found: $($_.FullName)" }
 
       # /m: multi-processor MSBuild (all runner CPUs). build.proj orchestrates Krypton.* in parallel where references allow.
+      # TFMs=all must match Restore; avoid a second restore that can rewrite assets to a different layout.
       - name: Build Release
-        run: msbuild /m "Scripts/Build/build.proj" /t:Build /restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
+        run: msbuild /m "Scripts/Build/build.proj" /t:Build /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true /p:TFMs=all /p:Restore=false
 
+      # No /restore here: the explicit Restore step already produced artifacts/obj; a second implicit restore
+      # can write project.assets.json elsewhere / with different properties and trigger NETSDK1005.
       - name: Pack Release
-        run: msbuild /m "Scripts/Build/build.proj" /t:Pack /restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true /p:TFMs=all
+        run: msbuild /m "Scripts/Build/build.proj" /t:Pack /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true /p:TFMs=all /p:Restore=false
+
+      # Verify Krypton.Interop in NuGet packages (V110+ only)
+      - name: Resolve Krypton toolkit major version
+        id: krypton_major_version
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
+          $major = Get-KryptonToolkitMajorVersion -Configuration Release
+          echo "major=$major" >> $env:GITHUB_OUTPUT
+
+      - name: Verify Krypton.Interop in NuGet packages
+        if: steps.krypton_major_version.outputs.major >= 110
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
+          Test-KryptonInteropInPackages -Configuration Release -MinimumMajorVersion 110 -SkipIfInteropProjectMissing
 
       - name: Get Version
         id: get_version

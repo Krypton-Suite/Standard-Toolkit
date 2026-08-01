@@ -21,12 +21,14 @@ public partial class MessageBoxTest : KryptonForm
     private void kbtnTestMessagebox_Click(object sender, EventArgs e)
     {
         KryptonMessageBox.Show(this, @"This is a test!", @"Testing", KryptonMessageBoxButtons.OK,
-            KryptonMessageBoxIcon.Error, showCloseButton: kryptonCheckBox1.Checked);
+            KryptonMessageBoxIcon.Error, showCloseButton: kryptonCheckBox1.Checked,
+            showCopyButton: kchkShowCopyButton.Checked);
 
         KryptonMessageBox.Show(this, @"This is a test!", @"Testing", KryptonMessageBoxButtons.OK,
             KryptonMessageBoxIcon.Error, KryptonMessageBoxDefaultButton.Button1,
             options: MessageBoxOptions.RtlReading,
-            showCloseButton: kryptonCheckBox1.Checked);
+            showCloseButton: kryptonCheckBox1.Checked,
+            showCopyButton: kchkShowCopyButton.Checked);
     }
 
     private void kryptonButton11_Click(object sender, EventArgs e)

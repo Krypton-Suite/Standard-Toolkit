@@ -747,6 +747,32 @@ public static class CommonHelper
     }
 
     /// <summary>
+    /// Adjust corner rounding values to match the required orientation.
+    /// </summary>
+    /// <param name="corners">Corner rounding to orientate.</param>
+    /// <param name="orientation">How to adjust the corner rounding.</param>
+    /// <returns>Corner rounding adjusted for orientation.</returns>
+    public static PaletteCornerRounding OrientateCornerRounding(PaletteCornerRounding corners,
+        VisualOrientation orientation)
+    {
+        switch (orientation)
+        {
+            case VisualOrientation.Top:
+                return corners;
+            case VisualOrientation.Bottom:
+                return new PaletteCornerRounding(corners.BottomRight, corners.BottomLeft, corners.TopLeft, corners.TopRight);
+            case VisualOrientation.Left:
+                return new PaletteCornerRounding(corners.BottomLeft, corners.TopLeft, corners.TopRight, corners.BottomRight);
+            case VisualOrientation.Right:
+                return new PaletteCornerRounding(corners.TopRight, corners.BottomRight, corners.BottomLeft, corners.TopLeft);
+            default:
+                Debug.Assert(false);
+                DebugTools.NotImplemented(orientation.ToString());
+                return corners;
+        }
+    }
+
+    /// <summary>
     /// Apply a reversed orientation so that when orientated again it comes out with the original value.
     /// </summary>
     /// <param name="borders">Border edges to be drawn.</param>
@@ -1522,20 +1548,10 @@ public static class CommonHelper
     }
 
     /// <summary>
-    /// Output some debug data to a log file that exists in same directory as the application.
+    /// Writes a diagnostic message through <see cref="KryptonLogger"/>.
     /// </summary>
     /// <param name="str">String to output.</param>
-    public static void LogOutput(string str)
-    {
-        // TODO: Make this thread aware !
-        // TODO: DO NOT WRITE to the application path, as that might / will be UAC protected !!
-        //var fi = new FileInfo(Application.ExecutablePath);
-        //using var writer = new StreamWriter($@"{fi.DirectoryName}LogOutput.txt", true, Encoding.ASCII);
-        //writer.Write($@"{DateTime.Now.ToLongTimeString()} :  ");
-        //writer.WriteLine(str);
-        //writer.Flush();
-        Debug.WriteLine(str);
-    }
+    public static void LogOutput(string str) => KryptonLogger.Write(str);
 
     /// <summary>
     /// Checks if we are inside the Visual Studio IDE.
@@ -1703,6 +1719,50 @@ public static class CommonHelper
         Cursor cur = Cursor.Current ?? Cursors.Default;
 
         return cur.HotSpot;
+    }
+
+    /// <summary>
+    /// Gets the screen-space bounds of the active cursor image for a screen hotspot position.
+    /// </summary>
+    /// <param name="screenHotSpot">Screen coordinates of the cursor hotspot (for example from <c>GetCursorPos</c>).</param>
+    /// <returns>Rectangle covering the full cursor bitmap in screen coordinates.</returns>
+    public static Rectangle GetCursorScreenBounds(Point screenHotSpot)
+    {
+        Cursor cursor = Cursor.Current ?? Cursors.Default;
+        Point hotSpot = cursor.HotSpot;
+        Size size = cursor.Size;
+
+        if (PI.GetIconInfo(cursor.Handle, out PI.ICONINFO iconInfo))
+        {
+            hotSpot = new Point(iconInfo.xHotspot, iconInfo.yHotspot);
+
+            IntPtr hBitmap = iconInfo.hbmColor != IntPtr.Zero ? iconInfo.hbmColor : iconInfo.hbmMask;
+            if (hBitmap != IntPtr.Zero)
+            {
+                var bitmap = new PI.BITMAP();
+                if (PI.GetObject(hBitmap, Marshal.SizeOf<PI.BITMAP>(), ref bitmap) != 0)
+                {
+                    int height = iconInfo.hbmColor != IntPtr.Zero ? bitmap.bmHeight : bitmap.bmHeight / 2;
+                    size = new Size(bitmap.bmWidth, Math.Max(1, height));
+                }
+            }
+
+            if (iconInfo.hbmMask != IntPtr.Zero)
+            {
+                PI.DeleteObject(iconInfo.hbmMask);
+            }
+
+            if (iconInfo.hbmColor != IntPtr.Zero)
+            {
+                PI.DeleteObject(iconInfo.hbmColor);
+            }
+        }
+
+        return new Rectangle(
+            screenHotSpot.X - hotSpot.X,
+            screenHotSpot.Y - hotSpot.Y,
+            Math.Max(1, size.Width),
+            Math.Max(1, size.Height));
     }
 
     /// <summary>

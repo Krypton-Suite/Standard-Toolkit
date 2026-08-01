@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
@@ -107,6 +107,7 @@ public class RibbonFileAppButton : Storage
     [Category(@"Values")]
     [Description(@"Application button image.")]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? AppButtonImage
     {
         get => _appButtonImage;
@@ -179,6 +180,7 @@ public class RibbonFileAppButton : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Collection of button specifications for the app button context menu.")]
+    [Editor(typeof(KryptonDesignerButtonSpecAppMenuCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public AppMenuButtonSpecCollection AppButtonSpecs { get; }
 
@@ -230,6 +232,7 @@ public class RibbonFileAppButton : Storage
     [Description(@"Display image associated ToolTip.")]
     [DefaultValue(null)]
     [Localizable(true)]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? AppButtonToolTipImage { get; set; }
 
     #endregion
@@ -254,6 +257,7 @@ public class RibbonFileAppButton : Storage
     [Bindable(true)]
     [Category(@"Appearance")]
     [Description(@"Title text for use in associated ToolTip.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [DefaultValue("")]
     [Localizable(true)]
@@ -268,6 +272,7 @@ public class RibbonFileAppButton : Storage
     [Bindable(true)]
     [Category(@"Appearance")]
     [Description(@"Body text for use in associated ToolTip.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [DefaultValue("")]
     [Localizable(true)]

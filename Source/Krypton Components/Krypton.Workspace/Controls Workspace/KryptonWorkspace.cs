@@ -2139,11 +2139,7 @@ public class KryptonWorkspace : VisualContainerControl,
         XmlHelper.TextToXmlAttribute(xmlWriter, @"MAXS", CommonHelper.SizeToString(page.MaximumSize), "0, 0");
         XmlHelper.TextToXmlAttribute(xmlWriter, @"AHSS", CommonHelper.SizeToString(page.AutoHiddenSlideSize), "150, 150");
         XmlHelper.TextToXmlAttribute(xmlWriter, @"F", page.Flags.ToString());
-
-        //Seb
-        //TODO store object instead of strings
-        XmlHelper.TextToXmlAttribute(xmlWriter, @"TAG", page.Tag?.ToString()!);
-        //End Seb
+        XmlHelper.ObjectToXmlAttributes(xmlWriter, @"TAG", @"TAGT", page.Tag);
 
         // Write out images as child elements
         XmlHelper.ImageToXmlCData(xmlWriter, @"IS", page.ImageSmall);
@@ -2205,9 +2201,11 @@ public class KryptonWorkspace : VisualContainerControl,
             page.AutoHiddenSlideSize = CommonHelper.StringToSize(XmlHelper.XmlAttributeToText(xmlReader, @"AHSS", @"150, 150"));
             page.Flags = int.Parse(XmlHelper.XmlAttributeToText(xmlReader, @"F", page.Flags.ToString()));
 
-            //Seb
-            page.Tag = XmlHelper.XmlAttributeToText(xmlReader, @"TAG");
-            //End Seb
+            object? tag = XmlHelper.XmlAttributesToObject(xmlReader, @"TAG", @"TAGT", out bool tagPresent);
+            if (tagPresent)
+            {
+                page.Tag = tag;
+            }
         }
 
         // Read the next Element

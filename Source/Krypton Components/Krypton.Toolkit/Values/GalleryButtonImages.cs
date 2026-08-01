@@ -67,6 +67,7 @@ public class GalleryButtonImages : Storage
     [Description(@"Common image that other gallery button images inherit from.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? Common
     {
         get => _common;
@@ -96,6 +97,7 @@ public class GalleryButtonImages : Storage
     [Description(@"Image for use when the gallery button is disabled.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? Disabled
     {
         get => _disabled;
@@ -125,6 +127,7 @@ public class GalleryButtonImages : Storage
     [Description(@"Image for use when the gallery button is normal.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? Normal
     {
         get => _normal;
@@ -154,6 +157,7 @@ public class GalleryButtonImages : Storage
     [Description(@"Image for use when the gallery button is hot tracking.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? Tracking
     {
         get => _tracking;
@@ -183,6 +187,7 @@ public class GalleryButtonImages : Storage
     [Description(@"Image for use when the gallery button is pressed.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? Pressed
     {
         get => _pressed;

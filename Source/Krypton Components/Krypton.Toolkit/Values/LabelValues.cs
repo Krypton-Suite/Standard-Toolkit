@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -81,6 +81,7 @@ public class LabelValues : Storage,
     [Category(@"Visuals")]
     [Description(@"Label image.")]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;
@@ -158,6 +159,7 @@ public class LabelValues : Storage,
     [Category(@"Visuals")]
     [Description(@"Label text.")]
     [RefreshProperties(RefreshProperties.All)]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [AllowNull]
     public string Text
@@ -197,6 +199,7 @@ public class LabelValues : Storage,
     [Category(@"Visuals")]
     [Description(@"Label extra text.")]
     [RefreshProperties(RefreshProperties.All)]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [DefaultValue("")]
     public string ExtraText

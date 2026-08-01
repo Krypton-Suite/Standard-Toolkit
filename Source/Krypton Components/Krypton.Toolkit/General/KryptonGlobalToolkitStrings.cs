@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -183,6 +183,11 @@ public class KryptonGlobalToolkitStrings : GlobalId
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public static KryptonExceptionDialogStrings KryptonExceptionDialogStrings { get; } = new KryptonExceptionDialogStrings();
 
+    /// <summary>Gets the foldable dialog strings.</summary>
+    /// <value>The foldable dialog strings.</value>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public static KryptonFoldableDialogStrings KryptonFoldableDialogStrings { get; } = new KryptonFoldableDialogStrings();
+
     /// <summary>Gets the miscellaneous theme strings.</summary>
     /// <value>The miscellaneous theme strings.</value>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -207,6 +212,11 @@ public class KryptonGlobalToolkitStrings : GlobalId
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public static KryptonToastNotificationStrings KryptonToastNotificationStrings { get; } =
         new KryptonToastNotificationStrings();
+
+    /// <summary>Gets the krypton tool strip item strings.</summary>
+    /// <value>The krypton tool strip item strings.</value>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public static KryptonToolStripItemStrings KryptonToolStripItemStrings { get; } = new KryptonToolStripItemStrings();
 
     /// <summary>Gets the krypton splash screen strings.</summary>
     /// <value>The krypton splash screen strings.</value>
@@ -237,6 +247,16 @@ public class KryptonGlobalToolkitStrings : GlobalId
     /// <value>The form title bar strings.</value>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public static FormTitleBarStrings FormTitleBarStrings { get; } = new FormTitleBarStrings();
+
+    /// <summary>Gets the editor settings strings.</summary>
+    /// <value>The editor settings strings.</value>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public static KryptonEditorSettingsStrings EditorSettingsStrings { get; } = new KryptonEditorSettingsStrings();
+
+    /// <summary>Gets the collection editor strings.</summary>
+    /// <value>The collection editor strings.</value>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public static KryptonCollectionEditorStrings KryptonCollectionEditorStrings { get; } = new KryptonCollectionEditorStrings();
 
     #endregion
 
@@ -569,6 +589,17 @@ public class KryptonGlobalToolkitStrings : GlobalId
     private bool ShouldSerializeExceptionDialogStrings() => !KryptonExceptionDialogStrings.IsDefault;
     private void ResetExceptionDialogStrings() => KryptonExceptionDialogStrings.Reset();
 
+    /// <summary>Gets the krypton foldable dialog strings.</summary>
+    /// <value>The krypton foldable dialog strings.</value>
+    [Category(@"Visuals")]
+    [Description(@"Collection of foldable dialog strings.")]
+    [MergableProperty(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Localizable(true)]
+    public KryptonFoldableDialogStrings FoldableDialogStrings => KryptonFoldableDialogStrings;
+    private bool ShouldSerializeFoldableDialogStrings() => !KryptonFoldableDialogStrings.IsDefault;
+    private void ResetFoldableDialogStrings() => KryptonFoldableDialogStrings.Reset();
+
     /// <summary>Gets the krypton print preview dialog strings.</summary>
     /// <value>The krypton print preview dialog strings.</value>
     [Category(@"Visuals")]
@@ -682,6 +713,20 @@ public class KryptonGlobalToolkitStrings : GlobalId
     /// <summary>Resets the krypton toast notification strings.</summary>
     public void ResetToastNotificationStrings() => KryptonToastNotificationStrings.Reset();
 
+    /// <summary>Gets the krypton tool strip item strings.</summary>
+    /// <value>The krypton tool strip item strings.</value>
+    [Category(@"Visuals")]
+    [Description(@"Collection of tool strip item strings.")]
+    [MergableProperty(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Localizable(true)]
+    public KryptonToolStripItemStrings ToolStripItemStrings => KryptonToolStripItemStrings;
+
+    private bool ShouldSerializeToolStripItemStrings() => !KryptonToolStripItemStrings.IsDefault;
+
+    /// <summary>Resets the krypton tool strip item strings.</summary>
+    public void ResetToolStripItemStrings() => KryptonToolStripItemStrings.Reset();
+
     /// <summary>Gets the krypton splash screen strings.</summary>
     /// <value>The krypton splash screen strings.</value>
     [Category(@"Visuals")]
@@ -750,6 +795,32 @@ public class KryptonGlobalToolkitStrings : GlobalId
     /// <summary>Resets the win32 system menu strings.</summary>
     public void ResetSystemMenuStrings() => Win32SystemMenuStrings.ResetValues();
 
+    /// <summary>Gets the editor settings strings.</summary>
+    [Category(@"Visuals")]
+    [Description(@"Collection of editor settings strings.")]
+    [MergableProperty(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Localizable(true)]
+    public KryptonEditorSettingsStrings EditorSettingStrings => EditorSettingsStrings;
+
+    private bool ShouldSerializeEditorSettingStrings() => !EditorSettingsStrings.IsDefault;
+
+    /// <summary>Resets the editor settings strings.</summary>
+    public void ResetEditorSettingStrings() => EditorSettingsStrings.Reset();
+
+    /// <summary>Gets the collection editor strings.</summary>
+    [Category(@"Visuals")]
+    [Description(@"Collection of collection editor strings.")]
+    [MergableProperty(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Localizable(true)]
+    public KryptonCollectionEditorStrings CollectionEditorStrings => KryptonCollectionEditorStrings;
+
+    private bool ShouldSerializeCollectionEditorStrings() => !KryptonCollectionEditorStrings.IsDefault;
+
+    /// <summary>Resets the collection editor strings.</summary>
+    public void ResetCollectionEditorStrings() => KryptonCollectionEditorStrings.Reset();
+
     #endregion
 
     #region Identity
@@ -795,10 +866,11 @@ public class KryptonGlobalToolkitStrings : GlobalId
                                ShouldSerializeSeparatorStyleStrings() ||
                                ShouldSerializeToastNotificationIconStrings() ||
                                ShouldSerializeTabBorderStyleStrings() || ShouldSerializeTabStyleStrings() ||
-                               ShouldSerializeToastNotificationStrings() || ShouldSerializeToolBarStrings() ||
+                               ShouldSerializeToastNotificationStrings() || ShouldSerializeToolStripItemStrings() || ShouldSerializeToolBarStrings() ||
                                ShouldSerializeSplashScreenStringsStrings() || ShouldSerializeMiscellaneousStrings() ||
                                ShouldSerializeMessageBoxStringsStrings() || ShouldSerializeSystemMenuStrings() ||
-                               ShouldSerializeTitleBarStrings());
+                               ShouldSerializeTitleBarStrings() || ShouldSerializeEditorSettingStrings() || 
+                               ShouldSerializeCollectionEditorStrings());
 
     /// <summary>Resets this instance.</summary>
     public void Reset()
@@ -839,6 +911,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
         ResetTabBorderStyleStrings();
         ResetTabStyleStrings();
         ResetToastNotificationIconStrings();
+        ResetToolStripItemStrings();
         ResetToastNotificationStrings();
         ResetToolBarStrings();
         ResetSplashScreenStringsStrings();
@@ -847,6 +920,8 @@ public class KryptonGlobalToolkitStrings : GlobalId
         ResetSearchBoxStrings();
         ResetSystemMenuStrings();
         ResetTitleBarStrings();
+        ResetEditorSettingStrings();
+        ResetCollectionEditorStrings();
     }
 
     #endregion

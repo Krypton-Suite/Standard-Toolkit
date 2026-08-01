@@ -37,7 +37,15 @@ public class InputPulsingBorderColorValues : Storage
     /// Initialize a new instance of the InputGlowingBorderColorValues class.
     /// </summary>
     /// <param name="needPaint">Delegate for notifying paint requests.</param>
-    public InputPulsingBorderColorValues(NeedPaintHandler? needPaint) => NeedPaint = needPaint;
+    public InputPulsingBorderColorValues(NeedPaintHandler? needPaint) 
+    {
+        NeedPaint = needPaint;
+
+        Reset();
+    }
+
+    /// <inheritdoc />
+    public override string ToString() => !IsDefault ? @"Modified" : string.Empty;
 
     #endregion
 
@@ -140,6 +148,17 @@ public class InputPulsingBorderColorValues : Storage
     /// Resets the HighlightColor property to its default value.
     /// </summary>
     public void ResetHighlightColor() => HighlightColor = DefaultHighlightColor;
+
+    #endregion
+
+    #region Reset
+
+    public void Reset()
+    {
+        ResetColor1();
+        ResetColor2();
+        ResetHighlightColor();
+    }
 
     #endregion
 }

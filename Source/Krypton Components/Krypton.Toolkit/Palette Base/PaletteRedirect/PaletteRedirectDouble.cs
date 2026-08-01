@@ -452,6 +452,16 @@ public class PaletteRedirectDouble : PaletteRedirect
         return inherit is not null ? inherit.PaletteBorder!.GetBorderRounding(state) : Target!.GetBorderRounding(style, state);
     }
 
+    /// <inheritdoc />
+    public override PaletteCornerRounding GetBorderCornerRounding(PaletteBorderStyle style, PaletteState state)
+    {
+        IPaletteDouble? inherit = GetInherit(state);
+
+        return inherit is not null
+            ? inherit.PaletteBorder!.GetBorderCornerRounding(state)
+            : Target!.GetBorderCornerRounding(style, state);
+    }
+
     /// <summary>
     /// Gets a border image.
     /// </summary>

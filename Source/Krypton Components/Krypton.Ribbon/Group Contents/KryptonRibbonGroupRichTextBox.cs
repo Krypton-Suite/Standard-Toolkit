@@ -391,7 +391,7 @@ public class KryptonRibbonGroupRichTextBox : KryptonRibbonGroupItem
     /// </summary>
     [Category(@"Appearance")]
     [Description(@"Text associated with the control.")]
-    [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
+    [Editor(typeof(KryptonDesignerMultilineStringEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public string Text
     {
@@ -435,7 +435,7 @@ public class KryptonRibbonGroupRichTextBox : KryptonRibbonGroupItem
     /// </summary>
     [Category(@"Appearance")]
     [Description(@"The lines of text in a multiline edit, as an array of String values.")]
-    [Editor(@"System.Windows.Forms.Design.StringArrayEditor", typeof(UITypeEditor))]
+    [Editor(typeof(KryptonDesignerStringArrayEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [MergableProperty(false)]
     [Localizable(true)]
@@ -743,6 +743,18 @@ public class KryptonRibbonGroupRichTextBox : KryptonRibbonGroupItem
     {
         get => RichTextBox!.SelectionAlignment;
         set => RichTextBox!.SelectionAlignment = value;
+    }
+
+    /// <summary>
+    /// Gets and sets paragraph alignment for the current selection, including full justify.
+    /// </summary>
+    [Browsable(false)]
+    [DefaultValue(typeof(RichTextParagraphAlignment), "Left")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public RichTextParagraphAlignment SelectionParagraphAlignment
+    {
+        get => RichTextBox!.SelectionParagraphAlignment;
+        set => RichTextBox!.SelectionParagraphAlignment = value;
     }
 
     /// <summary>

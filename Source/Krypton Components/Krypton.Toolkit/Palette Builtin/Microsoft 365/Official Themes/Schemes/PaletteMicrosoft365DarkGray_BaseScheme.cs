@@ -12,6 +12,7 @@ namespace Krypton.Toolkit;
 public sealed class PaletteMicrosoft365DarkGray_BaseScheme : KryptonColorSchemeBase
 {
     public override Color TextLabelControl                 { get; set; } = Color.FromArgb(139, 136, 134);
+    public override Color TextListItem                     { get; set; } = Color.FromArgb(139, 136, 134);
     public override Color TextButtonNormal                 { get; set; } = Color.FromArgb(139, 136, 134);
     public override Color TextButtonChecked                { get; set; } = Color.Black;
     public override Color ButtonNormalBorder               { get; set; } = Color.FromArgb(141, 148, 157);

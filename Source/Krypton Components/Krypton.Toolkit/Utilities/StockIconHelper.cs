@@ -1,7 +1,7 @@
 ﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV) & Giduac, et al. 2024 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV) & Giduac, et al. 2024 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -51,52 +51,27 @@ public class StockIconHelper
         RecycleBinFull = 32,
     }
 
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-    private struct SHSTOCKICONINFO
-    {
-        public uint cbSize;
-        public IntPtr hIcon;
-        public int iSysImageIndex;
-        public int iIcon;
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
-        public string szPath;
-    }
-
-    [DllImport("shell32.dll", SetLastError = false)]
-    private static extern int SHGetStockIconInfo(
-        StockIconId siid,
-        uint uFlags,
-        ref SHSTOCKICONINFO psii);
-
-    private const uint SHGSI_ICON = 0x000000100;
-
     /// <summary>Gets the stock icon.</summary>
     /// <param name="stockIconId">The stock icon identifier.</param>
     /// <returns>The selected icon.</returns>
     /// <exception cref="InvalidOperationException">Failed to retrieve icon</exception>
     public static Icon GetStockIcon(StockIconId stockIconId)
     {
-        SHSTOCKICONINFO info = new SHSTOCKICONINFO();
-        info.cbSize = (uint)Marshal.SizeOf(typeof(SHSTOCKICONINFO));
+        PI.SHSTOCKICONINFO info = new PI.SHSTOCKICONINFO();
+        unsafe
+        {
+            info.cbSize = (uint)sizeof(PI.SHSTOCKICONINFO);
+        }
 
-        int result = SHGetStockIconInfo(stockIconId, SHGSI_ICON, ref info);
+        int result = PI.SHGetStockIconInfo((uint)stockIconId, PI.SHGSI_ICON, ref info);
 
         if (result == 0)
         {
             Icon icon = Icon.FromHandle(info.hIcon);
-
-            DestroyIcon(info.hIcon);
-
+            PI.DestroyIcon(info.hIcon);
             return icon;
         }
-        else
-        {
-            throw new InvalidOperationException("Failed to retrieve icon");
-        }
-    }
 
-    /// <summary>Destroys the icon.</summary>
-    /// <param name="handle">The handle.</param>
-    [DllImport("user32.dll", CharSet = CharSet.Auto)]
-    private static extern bool DestroyIcon(IntPtr handle);
+        throw new InvalidOperationException("Failed to retrieve icon");
+    }
 }

@@ -161,6 +161,7 @@ public class KryptonListItem : Component,
     [Category(@"Appearance")]
     [Description(@"Image associated with item.")]
     [Localizable(true)]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;

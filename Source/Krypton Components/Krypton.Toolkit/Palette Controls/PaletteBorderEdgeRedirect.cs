@@ -257,6 +257,9 @@ public class PaletteBorderEdgeRedirect : PaletteBack,
     /// <returns>Border rounding.</returns>
     public float GetBorderRounding(PaletteState state) => _inherit.GetBorderRounding(state);
 
+    /// <inheritdoc />
+    public PaletteCornerRounding GetBorderCornerRounding(PaletteState state) => _inherit.GetBorderCornerRounding(state);
+
     /// <summary>
     /// Gets a border image.
     /// </summary>

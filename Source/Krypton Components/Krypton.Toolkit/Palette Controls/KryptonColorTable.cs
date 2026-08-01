@@ -141,7 +141,7 @@ public class KryptonColorTable : ProfessionalColorTable
     /// <summary>
     /// Gets the font used on the menu strip.
     /// </summary>
-    public virtual Font MenuStripFont => SystemInformation.MenuFont;
+    public virtual Font MenuStripFont => Palette.MenuStripFont ?? Palette.BaseFont;
 
     #endregion
 
@@ -149,7 +149,7 @@ public class KryptonColorTable : ProfessionalColorTable
     /// <summary>
     /// Gets the font used on the tool strip.
     /// </summary>
-    public virtual Font ToolStripFont => SystemInformation.MenuFont;
+    public virtual Font ToolStripFont => Palette.ToolStripFont ?? Palette.BaseFont;
 
     #endregion
 
@@ -157,7 +157,7 @@ public class KryptonColorTable : ProfessionalColorTable
     /// <summary>
     /// Gets the font used on the status strip.
     /// </summary>
-    public virtual Font StatusStripFont => SystemInformation.MenuFont;
+    public virtual Font StatusStripFont => Palette.StatusStripFont ?? Palette.BaseFont;
 
     #endregion
 

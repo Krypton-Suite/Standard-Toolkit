@@ -1,9 +1,6 @@
 ﻿#region BSD License
 /*
  *
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
@@ -67,6 +64,12 @@ internal static class KryptonScrollBarRenderer
     {
         InitColors();
     }
+
+    /// <summary>
+    /// Gets the solid background fill color, used by <see cref="KryptonScrollBarCorner"/>
+    /// to paint the intersection square as a flat surface.
+    /// </summary>
+    internal static Color BackgroundFillColor => _backgroundColors[4];
 
     public static void InitColors()
     {
@@ -979,13 +982,20 @@ internal static class KryptonScrollBarRenderer
 
         PaletteState paletteState = MapArrowStateToPaletteState(state);
         (Color outline, Color fill) = DropDownArrowGlyphColors.Resolve(_palette, paletteState);
-        DropDownArrowGlyphCache.Draw(g, glyphRect, outline, fill, direction);
+
+        // The arrow buttons are fixed-size cells in physical pixels, so size the glyph
+        // straight from the cell (no DPI-scaled drop-down metrics, which produced tiny
+        // glyphs at 100% scaling). Unicode glyphs are scaled to their visible outline
+        // so the arrow fills the cell instead of shrinking to the font's em padding.
+        DropDownArrowGlyphCache.DrawFixedCell(g, glyphRect, outline, fill, direction);
     }
 
     private static Rectangle GetArrowGlyphCellRect(Rectangle buttonRect)
     {
         int size = Math.Min(buttonRect.Width, buttonRect.Height);
-        size = Math.Max(4, (size * 3) / 5);
+       
+        // -6 keeps the arrow visually uniform with other glyph consumers (e.g. KryptonComboBox).
+        size = Math.Max(5, size - 6);
 
         return new Rectangle(
             buttonRect.X + ((buttonRect.Width - size) / 2),

@@ -11,32 +11,28 @@
 namespace Krypton.Toolkit;
 
 /// <summary>Access to the integrated and quick access toolbar images.</summary>
-/// ToDo: Get images from theme, when changed
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public class ToolBarImageStorage : Storage
 {
-    #region Static Fields
-
-    private readonly Image _new = GenericToolbarImageResources.GenericNewDocument;
-    private readonly Image _open = GenericToolbarImageResources.GenericOpenFolder;
-    private readonly Image _save = GenericToolbarImageResources.GenericSave;
-    private readonly Image _saveAs = GenericToolbarImageResources.GenericSaveAs;
-    private readonly Image _saveAll = GenericToolbarImageResources.GenericSaveAll;
-    private readonly Image _cut = GenericToolbarImageResources.GenericCut;
-    private readonly Image _copy = GenericToolbarImageResources.GenericCopy;
-    private readonly Image _paste = GenericToolbarImageResources.GenericPaste;
-    private readonly Image _undo = GenericToolbarImageResources.GenericUndo;
-    private readonly Image _redo = GenericToolbarImageResources.GenericRedo;
-    private readonly Image _pageSetup = GenericToolbarImageResources.GenericPrintSetup;
-    private readonly Image _printPreview = GenericToolbarImageResources.GenericPrintPreview;
-    private readonly Image _print = GenericToolbarImageResources.GenericPrint;
-    private readonly Image _quickPrint = GenericToolbarImageResources.GenericQuickPrint;
-
-    #endregion
-
     #region Instance Fields
 
-    private List<Image> _toolBarImages;
+    // Theme baselines; updated when KryptonManager pushes a new toolbar image pack.
+    private Image _new = GenericToolbarImageResources.GenericNewDocument;
+    private Image _open = GenericToolbarImageResources.GenericOpenFolder;
+    private Image _save = GenericToolbarImageResources.GenericSave;
+    private Image _saveAs = GenericToolbarImageResources.GenericSaveAs;
+    private Image _saveAll = GenericToolbarImageResources.GenericSaveAll;
+    private Image _cut = GenericToolbarImageResources.GenericCut;
+    private Image _copy = GenericToolbarImageResources.GenericCopy;
+    private Image _paste = GenericToolbarImageResources.GenericPaste;
+    private Image _undo = GenericToolbarImageResources.GenericUndo;
+    private Image _redo = GenericToolbarImageResources.GenericRedo;
+    private Image _pageSetup = GenericToolbarImageResources.GenericPrintSetup;
+    private Image _printPreview = GenericToolbarImageResources.GenericPrintPreview;
+    private Image _print = GenericToolbarImageResources.GenericPrint;
+    private Image _quickPrint = GenericToolbarImageResources.GenericQuickPrint;
+
+    private readonly List<Image> _toolBarImages;
 
     #endregion
 
@@ -45,7 +41,7 @@ public class ToolBarImageStorage : Storage
     /// <summary>Initializes a new instance of the <see cref="ToolBarImageStorage" /> class.</summary>
     public ToolBarImageStorage()
     {
-        _toolBarImages = new List<Image>();
+        _toolBarImages = new List<Image>(GlobalStaticConstants.REQUIRED_TOOLBAR_IMAGE_COUNT);
 
         Reset();
     }
@@ -87,7 +83,7 @@ public class ToolBarImageStorage : Storage
     #region IsDefault
 
     /// <summary>
-    /// Gets a value indicating if all the strings are default values.
+    /// Gets a value indicating if all the images are default values for the current theme pack.
     /// </summary>
     /// <returns>True if all values are defaulted; otherwise false.</returns>
     [Browsable(false)]
@@ -96,6 +92,9 @@ public class ToolBarImageStorage : Storage
                                       Save.Equals(_save) &&
                                       SaveAs.Equals(_saveAs) &&
                                       SaveAll.Equals(_saveAll) &&
+                                      Cut.Equals(_cut) &&
+                                      Copy.Equals(_copy) &&
+                                      Paste.Equals(_paste) &&
                                       Undo.Equals(_undo) &&
                                       Redo.Equals(_redo) &&
                                       PageSetup.Equals(_pageSetup) &&
@@ -127,7 +126,7 @@ public class ToolBarImageStorage : Storage
 
     /// <summary>Adds the palette toolbar images to an array.</summary>
     /// <param name="paletteToolBarImages">The palette toolbar images.</param>
-    public /*static*/ void AddImagesToArray(Image[] paletteToolBarImages)
+    public void AddImagesToArray(Image[] paletteToolBarImages)
     {
         foreach (var image in paletteToolBarImages)
         {
@@ -139,34 +138,67 @@ public class ToolBarImageStorage : Storage
     /// <returns>A collection of toolbar images.</returns>
     public List<Image> ReturnToolBarImages() => _toolBarImages;
 
-    internal void SetToolBarImages(Image[] images)
+    /// <summary>
+    /// Replaces the stored toolbar images with a theme pack and updates public properties.
+    /// </summary>
+    /// <param name="images">Theme toolbar images in fixed slot order (14 images).</param>
+    internal void SetToolBarImages(Image[]? images)
     {
-        AddImagesToArray(images);
+        if (images == null || images.Length < GlobalStaticConstants.REQUIRED_TOOLBAR_IMAGE_COUNT)
+        {
+            return;
+        }
 
-        AssignImageValues(ReturnToolBarImages());
+        // Replace, do not append — previous theme packs must not remain at indices 0..13.
+        _toolBarImages.Clear();
+        for (int i = 0; i < GlobalStaticConstants.REQUIRED_TOOLBAR_IMAGE_COUNT; i++)
+        {
+            _toolBarImages.Add(images[i]);
+        }
+
+        UpdateThemeBaselines(images);
+        AssignImageValues(_toolBarImages);
+    }
+
+    private void UpdateThemeBaselines(Image[] images)
+    {
+        _new = images[0];
+        _open = images[1];
+        _save = images[2];
+        _saveAs = images[3];
+        _saveAll = images[4];
+        _cut = images[5];
+        _copy = images[6];
+        _paste = images[7];
+        _undo = images[8];
+        _redo = images[9];
+        _pageSetup = images[10];
+        _printPreview = images[11];
+        _print = images[12];
+        _quickPrint = images[13];
     }
 
     private void AssignImageValues(List<Image> imageCollection)
     {
-        if (imageCollection.Count > 0)
+        if (imageCollection.Count < GlobalStaticConstants.REQUIRED_TOOLBAR_IMAGE_COUNT)
         {
-            Image[] toolBarImages = imageCollection.ToArray();
-
-            New = toolBarImages[0];
-            Open = toolBarImages[1];
-            Save = toolBarImages[2];
-            SaveAs = toolBarImages[3];
-            SaveAll = toolBarImages[4];
-            Cut = toolBarImages[5];
-            Copy = toolBarImages[6];
-            Paste = toolBarImages[7];
-            Undo = toolBarImages[8];
-            Redo = toolBarImages[9];
-            PageSetup = toolBarImages[10];
-            PrintPreview = toolBarImages[11];
-            Print = toolBarImages[12];
-            QuickPrint = toolBarImages[13];
+            return;
         }
+
+        New = imageCollection[0];
+        Open = imageCollection[1];
+        Save = imageCollection[2];
+        SaveAs = imageCollection[3];
+        SaveAll = imageCollection[4];
+        Cut = imageCollection[5];
+        Copy = imageCollection[6];
+        Paste = imageCollection[7];
+        Undo = imageCollection[8];
+        Redo = imageCollection[9];
+        PageSetup = imageCollection[10];
+        PrintPreview = imageCollection[11];
+        Print = imageCollection[12];
+        QuickPrint = imageCollection[13];
     }
 
     #endregion

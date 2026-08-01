@@ -38,6 +38,15 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
 
     #endregion
 
+    #region Protected
+    /// <summary>
+    /// Ensures the ToolStrip uses the current palette strip font.
+    /// </summary>
+    /// <param name="toolStrip">The ToolStrip being rendered.</param>
+    protected void SyncToolStripFont(ToolStrip toolStrip) => ToolStripFontSync.ApplyFromColorTable(toolStrip, KCT);
+
+    #endregion
+
     #region OnRenderItemText
     /// <summary>
     /// Raises the RenderItemText event.
@@ -70,6 +79,8 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
         {
             return;
         }
+
+        SyncToolStripFont(e.ToolStrip);
 
         if (IsContextMenuToolStrip(e.ToolStrip))
         {

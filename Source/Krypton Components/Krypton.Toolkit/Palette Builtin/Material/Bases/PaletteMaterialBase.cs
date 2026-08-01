@@ -19,10 +19,10 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
 
     protected abstract bool IsDarkSurface();
 
-    private Color TokenSurface => BaseColors != null ? BaseColors.PanelClient : SystemColors.Control;
-    private Color TokenOnSurface => BaseColors != null ? BaseColors.TextLabelControl : SystemColors.ControlText;
-    private Color TokenOutline => BaseColors != null ? BaseColors.ControlBorder : SystemColors.ControlDark;
-    private Color TokenPrimary => BaseColors != null ? BaseColors.TextButtonNormal : SystemColors.HotTrack;
+    private Color TokenSurface => BaseColors?.PanelClient ?? SystemColors.Control;
+    private Color TokenOnSurface => BaseColors?.TextLabelControl ?? SystemColors.ControlText;
+    private Color TokenOutline => BaseColors?.ControlBorder ?? SystemColors.ControlDark;
+    private Color TokenPrimary => BaseColors?.TextButtonNormal ?? SystemColors.HotTrack;
 
     private Color GetMaterialButtonBackColor(PaletteState state)
     {
@@ -501,9 +501,11 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
     {
         return style switch
         {
-            // Ensure KryptonDataGridView header text follows scheme header text
-            // ToolStrip/Context menu item text should follow header text (white in Material Dark)
-            PaletteContentStyle.ButtonListItem or PaletteContentStyle.HeaderForm
+            // Tree/list items use dedicated scheme text color; headers and menus follow header text.
+            PaletteContentStyle.ButtonListItem => BaseColors?.TextListItem
+                ?? BaseColors?.HeaderText
+                ?? base.GetContentShortTextColor1(style, state),
+            PaletteContentStyle.HeaderForm
                 or PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet
                 or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2
                 or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList
@@ -526,6 +528,9 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
     {
         return style switch
         {
+            PaletteContentStyle.ButtonListItem => BaseColors?.TextListItem
+                ?? BaseColors?.HeaderText
+                ?? base.GetContentShortTextColor2(style, state),
             PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet
                 or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2
                 or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList

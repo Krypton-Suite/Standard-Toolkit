@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -221,6 +221,7 @@ public class KryptonRibbonGroupDomainUpDown : KryptonRibbonGroupItem
     /// </summary>
     [Category(@"Appearance")]
     [Description(@"Text associated with the control.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public string Text
@@ -250,7 +251,7 @@ public class KryptonRibbonGroupDomainUpDown : KryptonRibbonGroupItem
     [Category(@"Data")]
     [Description(@"The allowable items of the domain up down.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    [Editor(@"System.Windows.Forms.Design.StringCollectionEditor", typeof(UITypeEditor))]
+    [Editor(typeof(KryptonDesignerStringCollectionEditor), typeof(UITypeEditor))]
     [Localizable(true)]
     public DomainUpDown.DomainUpDownItemCollection Items => DomainUpDown!.Items;
 
@@ -355,6 +356,7 @@ public class KryptonRibbonGroupDomainUpDown : KryptonRibbonGroupItem
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Collection of button specifications.")]
+    [Editor(typeof(KryptonDesignerButtonSpecAnyCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public KryptonDomainUpDown.DomainUpDownButtonSpecCollection ButtonSpecs => DomainUpDown!.ButtonSpecs;
 

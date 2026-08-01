@@ -22,6 +22,7 @@ public class KryptonStatusStrip : StatusStrip,
     private readonly PaletteBack _stateCommon;
     private readonly PaletteBack _stateDisabled;
     private readonly PaletteBack _stateNormal;
+    private ToolStripFontSyncHelper? _fontSync;
     private bool _disposed;
     #endregion
 
@@ -43,6 +44,8 @@ public class KryptonStatusStrip : StatusStrip,
         _stateCommon = new PaletteBack(inherit, OnNeedPaint);
         _stateDisabled = new PaletteBack(_stateCommon, OnNeedPaint);
         _stateNormal = new PaletteBack(_stateCommon, OnNeedPaint);
+
+        _fontSync = new ToolStripFontSyncHelper(this, ToolStripFontKind.StatusStrip);
 
         // Register with the FocusLostMenuHelper
         Register(this);
@@ -72,6 +75,9 @@ public class KryptonStatusStrip : StatusStrip,
     {
         if (!_disposed && disposing)
         {
+            _fontSync?.Dispose();
+            _fontSync = null;
+
             // Deregister from the FocusLostMenuHelper
             Deregister(this);
 

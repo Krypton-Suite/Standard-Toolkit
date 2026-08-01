@@ -222,15 +222,14 @@ public class VisualPopup : ContainerControl
             // Assuming we got back a valid window handle
             if (hWnd != IntPtr.Zero)
             {
-                var className = new StringBuilder(256);
-                var length = PI.GetClassName(hWnd, className, className.Capacity);
+                var className = PI.GetClassNameString(hWnd);
 
                 // If we got back a valid name
-                if (length > 0)
+                if (className.Length > 0)
                 {
                     // If let the message occur as it is being pressed on a combo box 
                     // drop-down list and so it will process the message appropriately
-                    if (className.ToString() == "ComboLBox")
+                    if (className == "ComboLBox")
                     {
                         endTracking = false;
                     }

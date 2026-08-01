@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -14,7 +14,7 @@
 
 namespace Krypton.Ribbon;
 
-internal class KryptonRibbonGroupLinesCollectionEditor : CollectionEditor
+internal class KryptonRibbonGroupLinesCollectionEditor : KryptonDesignerStandardCollectionEditor
 {
     /// <summary>
     /// Initialize a new instance of the KryptonRibbonGroupLineCollectionEditor class.

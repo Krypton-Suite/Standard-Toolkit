@@ -2242,7 +2242,7 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
             PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonButtonSpec => state switch
             {
                 PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
-                    ? _ribbonColors[(int)SchemeBaseColors.TextLabelControl]
+                    ? _ribbonColors[(int)SchemeBaseColors.TextListItem]
                     : _ribbonColors[(int)SchemeBaseColors.TextLabelPanel],
                 PaletteState.Tracking => GetEffectiveButtonTextTracking(_ribbonColors[(int)SchemeBaseColors.TextButtonNormal]),
                 PaletteState.CheckedTracking => GetEffectiveButtonTextTracking(_ribbonColors[(int)SchemeBaseColors.TextButtonChecked]),
@@ -2326,7 +2326,7 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
             PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonButtonSpec => state switch
             {
                 PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
-                    ? _ribbonColors[(int)SchemeBaseColors.TextLabelControl]
+                    ? _ribbonColors[(int)SchemeBaseColors.TextListItem]
                     : _ribbonColors[(int)SchemeBaseColors.TextLabelPanel],
                 PaletteState.Tracking => GetEffectiveButtonTextTracking(_ribbonColors[(int)SchemeBaseColors.TextButtonNormal]),
                 PaletteState.CheckedTracking => GetEffectiveButtonTextTracking(_ribbonColors[(int)SchemeBaseColors.TextButtonChecked]),
@@ -2729,7 +2729,7 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
             PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCalendarDay => state switch
             {
                 PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
-                    ? _ribbonColors[(int)SchemeBaseColors.TextLabelControl]
+                    ? _ribbonColors[(int)SchemeBaseColors.TextListItem]
                     : _ribbonColors[(int)SchemeBaseColors.TextLabelPanel],
                 PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeBaseColors.TextButtonChecked],
                 _ => _ribbonColors[(int)SchemeBaseColors.TextButtonNormal]
@@ -2805,7 +2805,7 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
             PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCalendarDay => state switch
             {
                 PaletteState.Normal => style == PaletteContentStyle.ButtonListItem
-                    ? _ribbonColors[(int)SchemeBaseColors.TextLabelControl]
+                    ? _ribbonColors[(int)SchemeBaseColors.TextListItem]
                     : _ribbonColors[(int)SchemeBaseColors.TextLabelPanel],
                 PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeBaseColors.TextButtonChecked],
                 _ => _ribbonColors[(int)SchemeBaseColors.TextButtonNormal]

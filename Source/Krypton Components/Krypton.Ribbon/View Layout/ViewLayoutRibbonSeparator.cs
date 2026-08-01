@@ -45,8 +45,9 @@ internal class ViewLayoutRibbonSeparator : ViewLeaf
         int height,
         bool ignoreMouse)
     {
-        _width = Math.Max(1, (int)Math.Round(width * FactorDpiX, MidpointRounding.AwayFromZero));
-        _height = Math.Max(1, (int)Math.Round(height * FactorDpiY, MidpointRounding.AwayFromZero));
+        // Allow zero so Office 2010+ tab gaps can be flush; only clamp negatives.
+        _width = Math.Max(0, (int)Math.Round(width * FactorDpiX, MidpointRounding.AwayFromZero));
+        _height = Math.Max(0, (int)Math.Round(height * FactorDpiY, MidpointRounding.AwayFromZero));
 
         if (ignoreMouse)
         {

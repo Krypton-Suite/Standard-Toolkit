@@ -330,6 +330,7 @@ public class KryptonRibbonGroupColorButton : KryptonRibbonGroupItem
     [Category(@"Appearance")]
     [Description(@"Small color button image.")]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? ImageSmall
     {
         get => _imageSmall;
@@ -354,6 +355,7 @@ public class KryptonRibbonGroupColorButton : KryptonRibbonGroupItem
     [Category(@"Appearance")]
     [Description(@"Large color button image.")]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
     public Image? ImageLarge
     {
         get => _imageLarge;

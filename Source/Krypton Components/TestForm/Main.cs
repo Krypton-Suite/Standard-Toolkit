@@ -112,7 +112,7 @@ public partial class Main : KryptonForm
         {
             ShowImportButton = true,
             ShowSilentOption = true,
-            StartIndex = GlobalStaticConstants.GLOBAL_DEFAULT_THEME_INDEX,
+            DefaultPalette = GlobalStaticConstants.GLOBAL_DEFAULT_PALETTE_MODE,
             StartPosition = FormStartPosition.CenterScreen,
             WindowTitle = KryptonManager.Strings.MiscellaneousThemeStrings.ThemeBrowserWindowTitle
         };
@@ -363,6 +363,11 @@ public partial class Main : KryptonForm
     private void kryptonButton13_Click(object sender, EventArgs e)
     {
         new CheckBoxStyleExamples().Show();
+    }
+
+    private void kbtnCheckBoxExtendedDemo_Click(object sender, EventArgs e)
+    {
+        new CheckBoxExtendedDemo().ShowDialog(this);
     }
 
     private void kryptonButton14_Click(object sender, EventArgs e)
