@@ -7,7 +7,7 @@
     drag. Captures before / during / after screenshots into the bin folder (or -OutputDir).
 
 .EXAMPLE
-    powershell -NoProfile -ExecutionPolicy Bypass -File .\Scripts\Verification\Invoke-CaptionTabDrag.ps1 `
+    powershell -NoProfile -ExecutionPolicy Bypass -File .\Scripts\UnitTest\Invoke-CaptionTabDrag.ps1 `
         -HostPid 12345 -FromX 200 -FromY 14 -ToX 80 -ToY 14 -Tag join
 #>
 [CmdletBinding()]
@@ -35,10 +35,10 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-. (Join-Path $PSScriptRoot 'VerificationCommon.ps1')
+. (Join-Path $PSScriptRoot 'UnitTestCommon.ps1')
 
-$repoRoot = Get-VerificationRepoRoot
-$bin = Get-VerificationBinDir -RepoRoot $repoRoot -Configuration $Configuration -TargetFramework $TargetFramework -BinDir $BinDir
+$repoRoot = Get-UnitTestRepoRoot
+$bin = Get-UnitTestBinDir -RepoRoot $repoRoot -Configuration $Configuration -TargetFramework $TargetFramework -BinDir $BinDir
 if (-not $OutputDir) {
     $OutputDir = $bin
 }
@@ -50,7 +50,7 @@ Add-Type -AssemblyName UIAutomationClient
 Add-Type -AssemblyName UIAutomationTypes
 Add-Type -AssemblyName System.Drawing
 Add-Type -AssemblyName System.Windows.Forms
-Initialize-VerificationNativeInput
+Initialize-UnitTestNativeInput
 
 $root = [System.Windows.Automation.AutomationElement]::RootElement
 $cond = New-Object System.Windows.Automation.PropertyCondition(
@@ -67,7 +67,7 @@ if (-not $demo) {
 }
 
 $dr = $demo.Current.BoundingRectangle
-[void][VerificationNative]::SetForegroundWindow([IntPtr]$demo.Current.NativeWindowHandle)
+[void][UnitTestNative]::SetForegroundWindow([IntPtr]$demo.Current.NativeWindowHandle)
 Start-Sleep -Milliseconds 500
 
 function Save-Shot {
@@ -103,7 +103,7 @@ $sx = [int]($dr.X + $FromX)
 $sy = [int]($dr.Y + $FromY)
 $ex = [int]($dr.X + $ToX)
 $ey = [int]($dr.Y + $ToY)
-Invoke-VerificationDrag -FromX $sx -FromY $sy -ToX $ex -ToY $ey
+Invoke-UnitTestDrag -FromX $sx -FromY $sy -ToX $ex -ToY $ey
 
 # Mid-drag shot is approximate; capture after for the authoritative state.
 Save-Shot -Name "shot-$Tag-after.png" -Height 460

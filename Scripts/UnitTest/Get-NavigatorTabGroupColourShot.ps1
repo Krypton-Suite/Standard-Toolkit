@@ -13,7 +13,7 @@
     Where to write the PNGs. Defaults to the resolved Bin\Debug\net472 directory.
 
 .EXAMPLE
-    powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\Verification\Get-NavigatorTabGroupColourShot.ps1
+    powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTest\Get-NavigatorTabGroupColourShot.ps1
 #>
 [CmdletBinding()]
 param(
@@ -23,12 +23,12 @@ param(
     [string]$OutputDir
 )
 
-. (Join-Path $PSScriptRoot 'VerificationCommon.ps1')
+. (Join-Path $PSScriptRoot 'UnitTestCommon.ps1')
 
-$repoRoot = Get-VerificationRepoRoot
-$bin = Get-VerificationBinDir -RepoRoot $repoRoot -Configuration $Configuration -TargetFramework $TargetFramework -BinDir $BinDir
+$repoRoot = Get-UnitTestRepoRoot
+$bin = Get-UnitTestBinDir -RepoRoot $repoRoot -Configuration $Configuration -TargetFramework $TargetFramework -BinDir $BinDir
 if (-not $OutputDir) { $OutputDir = $bin }
-Register-VerificationAssemblyResolver -BinDir $bin
+Register-UnitTestAssemblyResolver -BinDir $bin
 
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing

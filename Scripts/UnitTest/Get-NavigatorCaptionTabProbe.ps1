@@ -7,7 +7,7 @@
     debugging non-client coordinate conversion for caption tabs.
 
 .EXAMPLE
-    powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\Verification\Get-NavigatorCaptionTabProbe.ps1
+    powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTest\Get-NavigatorCaptionTabProbe.ps1
 #>
 [CmdletBinding()]
 param(
@@ -17,11 +17,11 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-. (Join-Path $PSScriptRoot 'VerificationCommon.ps1')
+. (Join-Path $PSScriptRoot 'UnitTestCommon.ps1')
 
-$repoRoot = Get-VerificationRepoRoot
-$bin = Get-VerificationBinDir -RepoRoot $repoRoot -Configuration $Configuration -TargetFramework $TargetFramework -BinDir $BinDir
-Register-VerificationAssemblyResolver -BinDir $bin
+$repoRoot = Get-UnitTestRepoRoot
+$bin = Get-UnitTestBinDir -RepoRoot $repoRoot -Configuration $Configuration -TargetFramework $TargetFramework -BinDir $BinDir
+Register-UnitTestAssemblyResolver -BinDir $bin
 
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing

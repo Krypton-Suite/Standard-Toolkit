@@ -8,7 +8,7 @@
     "Close empty window" enabled, a successful remerge leaves a single window.
 
 .EXAMPLE
-    powershell -NoProfile -ExecutionPolicy Bypass -File .\Scripts\Verification\Test-NavigatorCaptionTabRemerge.ps1 -HostPid 12345
+    powershell -NoProfile -ExecutionPolicy Bypass -File .\Scripts\UnitTest\Test-NavigatorCaptionTabRemerge.ps1 -HostPid 12345
 #>
 [CmdletBinding()]
 param(
@@ -22,10 +22,10 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-. (Join-Path $PSScriptRoot 'VerificationCommon.ps1')
+. (Join-Path $PSScriptRoot 'UnitTestCommon.ps1')
 
-$repoRoot = Get-VerificationRepoRoot
-$bin = Get-VerificationBinDir -RepoRoot $repoRoot -Configuration $Configuration -TargetFramework $TargetFramework -BinDir $BinDir
+$repoRoot = Get-UnitTestRepoRoot
+$bin = Get-UnitTestBinDir -RepoRoot $repoRoot -Configuration $Configuration -TargetFramework $TargetFramework -BinDir $BinDir
 if (-not $OutputDir) {
     $OutputDir = $bin
 }
@@ -37,7 +37,7 @@ Add-Type -AssemblyName UIAutomationClient
 Add-Type -AssemblyName UIAutomationTypes
 Add-Type -AssemblyName System.Drawing
 Add-Type -AssemblyName System.Windows.Forms
-Initialize-VerificationNativeInput
+Initialize-UnitTestNativeInput
 
 $root = [System.Windows.Automation.AutomationElement]::RootElement
 $cond = New-Object System.Windows.Automation.PropertyCondition(
@@ -79,7 +79,7 @@ if ($wins.Count -lt 1) {
 
 $main = $wins[0]
 $mr = $main.Current.BoundingRectangle
-[void][VerificationNative]::SetForegroundWindow([IntPtr]$main.Current.NativeWindowHandle)
+[void][UnitTestNative]::SetForegroundWindow([IntPtr]$main.Current.NativeWindowHandle)
 Start-Sleep -Milliseconds 500
 
 Write-Host '=== BEFORE TEAR-OUT ==='
@@ -87,7 +87,7 @@ Write-Host "windows: $($wins.Count) main=$mr"
 Save-Shot -Win $main -Name 'shot-remerge-1-before.png' -Height 140
 
 # Tear out Settings (rightmost tab ~ x=200 relative to caption)
-Invoke-VerificationDrag `
+Invoke-UnitTestDrag `
     -FromX ([int]($mr.X + 200)) -FromY ([int]($mr.Y + 14)) `
     -ToX ([int]($mr.X + 950)) -ToY ([int]($mr.Y + 400))
 
@@ -128,10 +128,10 @@ $m2 = $main2.Current.BoundingRectangle
 Write-Host "floated=$fr"
 Write-Host "main2=$m2"
 
-[void][VerificationNative]::SetForegroundWindow([IntPtr]$floated.Current.NativeWindowHandle)
+[void][UnitTestNative]::SetForegroundWindow([IntPtr]$floated.Current.NativeWindowHandle)
 Start-Sleep -Milliseconds 400
 
-Invoke-VerificationDrag `
+Invoke-UnitTestDrag `
     -FromX ([int]($fr.X + 60)) -FromY ([int]($fr.Y + 14)) `
     -ToX ([int]($m2.X + 90)) -ToY ([int]($m2.Y + 14))
 

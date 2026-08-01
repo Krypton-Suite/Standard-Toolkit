@@ -1,7 +1,7 @@
-# Shared helpers for Scripts/Verification/*.ps1
-# Dot-source from a verification script after setting $script:RepoRoot if needed.
+# Shared helpers for Scripts/UnitTest/*.ps1
+# Dot-source from a unit-test script after setting $script:RepoRoot if needed.
 
-function Get-VerificationRepoRoot {
+function Get-UnitTestRepoRoot {
     param([string]$StartPath = $PSScriptRoot)
     $dir = Resolve-Path -LiteralPath $StartPath
     while ($dir) {
@@ -17,7 +17,7 @@ function Get-VerificationRepoRoot {
     throw "Could not locate repository root from '$StartPath'."
 }
 
-function Get-VerificationBinDir {
+function Get-UnitTestBinDir {
     param(
         [string]$RepoRoot,
         [string]$Configuration = 'Debug',
@@ -36,11 +36,11 @@ function Get-VerificationBinDir {
     return (Resolve-Path -LiteralPath $path).Path
 }
 
-function Register-VerificationAssemblyResolver {
+function Register-UnitTestAssemblyResolver {
     param([string]$BinDir)
 
-    $script:VerificationBinDir = $BinDir
-    $script:VerificationResolving = @{}
+    $script:UnitTestBinDir = $BinDir
+    $script:UnitTestResolving = @{}
 
     [System.AppDomain]::CurrentDomain.add_AssemblyResolve({
         param($sender, $e)
@@ -50,12 +50,12 @@ function Register-VerificationAssemblyResolver {
                 return $a
             }
         }
-        if ($script:VerificationResolving.ContainsKey($name)) {
+        if ($script:UnitTestResolving.ContainsKey($name)) {
             return $null
         }
-        $script:VerificationResolving[$name] = $true
+        $script:UnitTestResolving[$name] = $true
         foreach ($ext in '.dll', '.exe') {
-            $candidate = Join-Path $script:VerificationBinDir ($name + $ext)
+            $candidate = Join-Path $script:UnitTestBinDir ($name + $ext)
             if (Test-Path -LiteralPath $candidate) {
                 return [System.Reflection.Assembly]::LoadFile($candidate)
             }
@@ -64,11 +64,11 @@ function Register-VerificationAssemblyResolver {
     })
 }
 
-function Initialize-VerificationNativeInput {
+function Initialize-UnitTestNativeInput {
     Add-Type @"
 using System;
 using System.Runtime.InteropServices;
-public static class VerificationNative
+public static class UnitTestNative
 {
     [DllImport("user32.dll")] public static extern bool SetProcessDPIAware();
     [DllImport("user32.dll")] public static extern bool SetCursorPos(int x, int y);
@@ -80,10 +80,10 @@ public static class VerificationNative
     public const uint RIGHTUP = 0x0010;
 }
 "@
-    [void][VerificationNative]::SetProcessDPIAware()
+    [void][UnitTestNative]::SetProcessDPIAware()
 }
 
-function Invoke-VerificationDrag {
+function Invoke-UnitTestDrag {
     param(
         [int]$FromX,
         [int]$FromY,
@@ -94,17 +94,17 @@ function Invoke-VerificationDrag {
     )
 
     Write-Host "drag from $FromX,$FromY to $ToX,$ToY"
-    [VerificationNative]::SetCursorPos($FromX, $FromY)
+    [UnitTestNative]::SetCursorPos($FromX, $FromY)
     Start-Sleep -Milliseconds 300
-    [VerificationNative]::mouse_event([VerificationNative]::LEFTDOWN, 0, 0, 0, [IntPtr]::Zero)
+    [UnitTestNative]::mouse_event([UnitTestNative]::LEFTDOWN, 0, 0, 0, [IntPtr]::Zero)
     Start-Sleep -Milliseconds 250
     for ($i = 1; $i -le $Steps; $i++) {
         $x = [int]($FromX + ($ToX - $FromX) * $i / $Steps)
         $y = [int]($FromY + ($ToY - $FromY) * $i / $Steps)
-        [VerificationNative]::SetCursorPos($x, $y)
+        [UnitTestNative]::SetCursorPos($x, $y)
         Start-Sleep -Milliseconds $StepDelayMs
     }
     Start-Sleep -Milliseconds 400
-    [VerificationNative]::mouse_event([VerificationNative]::LEFTUP, 0, 0, 0, [IntPtr]::Zero)
+    [UnitTestNative]::mouse_event([UnitTestNative]::LEFTUP, 0, 0, 0, [IntPtr]::Zero)
     Start-Sleep -Milliseconds 1200
 }
