@@ -593,6 +593,12 @@ public sealed class KryptonManager : Component
     public static event EventHandler? TranslationsImported;
 
     /// <summary>
+    /// Occurs after a translations file has been analyzed for catalog coverage (missing/extra keys),
+    /// including automatically during tolerant import.
+    /// </summary>
+    public static event EventHandler<ToolkitStringsCoverageEventArgs>? TranslationsCoverageReported;
+
+    /// <summary>
     /// Loads toolkit strings from the specified Translations.xml or Translations.json file, replacing current values.
     /// Call this at application startup, before any Krypton controls are shown.
     /// </summary>
@@ -787,6 +793,44 @@ public sealed class KryptonManager : Component
     /// </summary>
     internal static void OnTranslationsImported() =>
         TranslationsImported?.Invoke(null, EventArgs.Empty);
+
+    /// <summary>
+    /// Raises the <see cref="TranslationsCoverageReported"/> event.
+    /// </summary>
+    internal static void OnTranslationsCoverageReported(ToolkitStringsCoverage coverage) =>
+        TranslationsCoverageReported?.Invoke(null, new ToolkitStringsCoverageEventArgs(coverage));
+
+    /// <summary>
+    /// Analyzes a translations XML or JSON file against the live toolkit string catalog without applying it.
+    /// </summary>
+    /// <param name="path">Path to the translations file.</param>
+    /// <returns>Coverage describing missing, extra, and applied keys.</returns>
+    public static ToolkitStringsCoverage AnalyzeTranslationsFromFile(string path)
+    {
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            throw new ArgumentNullException(nameof(path));
+        }
+
+        return Strings.AnalyzeTranslationsFromFile(path);
+    }
+
+    /// <summary>
+    /// Imports an existing translations file and rewrites it with any newly added toolkit keys filled from defaults.
+    /// Already-translated values are preserved.
+    /// </summary>
+    /// <param name="path">Path to the XML or JSON translations file to upgrade.</param>
+    /// <param name="includeDefaults">When <c>true</c>, the rewritten file contains the full catalog (recommended for translators).</param>
+    /// <returns>Post-merge coverage for the rewritten file.</returns>
+    public static ToolkitStringsCoverage MergeMissingTranslationsToFile(string path, bool includeDefaults = true)
+    {
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            throw new ArgumentNullException(nameof(path));
+        }
+
+        return Strings.MergeMissingTranslationsToFile(path, includeDefaults);
+    }
 
     private static void RunAutoDiscovery()
     {

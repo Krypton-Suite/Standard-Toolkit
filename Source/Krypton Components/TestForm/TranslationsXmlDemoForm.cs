@@ -28,6 +28,8 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
     private readonly KryptonButton _btnImport;
     private readonly KryptonButton _btnReset;
     private readonly KryptonButton _btnValidate;
+    private readonly KryptonButton _btnAnalyze;
+    private readonly KryptonButton _btnMerge;
     private readonly KryptonCheckBox _chkIncludeDefaults;
     private readonly KryptonCheckBox _chkUseWindowsLanguagePack;
     private readonly KryptonComboBox _cmbCulture;
@@ -49,10 +51,9 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
             Dock = DockStyle.Top,
             Height = 90,
             Text =
-                @"1) Edit the OK/Cancel strings and click Apply (writes CommonStrings.General via GeneralStrings aliases)." + Environment.NewLine +
-                @"2) Optionally enable 'Use Windows language pack' for dialog / control-box / Explorer MUI text." + Environment.NewLine +
-                @"3) Check 'Include defaults' to export the canonical CommonStrings tree (aliases are omitted)." + Environment.NewLine +
-                @"4) Export/Import/Validate round-trips. Raw loader samples use WindowsSystemStringLoader (Utilities)."
+                @"1) Edit OK/Cancel and Apply. 2) Use Windows language pack as needed." + Environment.NewLine +
+                @"3) Export/Import/Validate round-trips. Analyze reports missing/extra keys vs the live catalog." + Environment.NewLine +
+                @"4) Merge Missing upgrades an older file with new English placeholders while preserving translations."
         };
 
         var editsPanel = new KryptonPanel
@@ -159,14 +160,14 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
         var buttonsPanel = new KryptonPanel
         {
             Dock = DockStyle.Top,
-            Height = 48,
+            Height = 84,
             Padding = new Padding(12, 6, 12, 6)
         };
         var buttonsFlow = new FlowLayoutPanel
         {
             Dock = DockStyle.Fill,
             FlowDirection = FlowDirection.LeftToRight,
-            WrapContents = false,
+            WrapContents = true,
             AutoSize = true
         };
 
@@ -175,12 +176,16 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
         _btnImport   = new KryptonButton { Values = { Text = @"Import..." } };
         _btnReset    = new KryptonButton { Values = { Text = @"Reset to Default" } };
         _btnValidate = new KryptonButton { Values = { Text = @"Validate Round-trip" }, Enabled = false };
+        _btnAnalyze  = new KryptonButton { Values = { Text = @"Analyze..." } };
+        _btnMerge    = new KryptonButton { Values = { Text = @"Merge Missing..." } };
 
         buttonsFlow.Controls.Add(_btnApply);
         buttonsFlow.Controls.Add(_btnExport);
         buttonsFlow.Controls.Add(_btnImport);
         buttonsFlow.Controls.Add(_btnReset);
         buttonsFlow.Controls.Add(_btnValidate);
+        buttonsFlow.Controls.Add(_btnAnalyze);
+        buttonsFlow.Controls.Add(_btnMerge);
         buttonsPanel.Controls.Add(buttonsFlow);
 
         var valuesPanel = new KryptonPanel
@@ -286,8 +291,79 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
         };
 
         _btnValidate.Click += (_, _) => RunRoundTripValidation();
+        _btnAnalyze.Click += (_, _) => RunAnalyze();
+        _btnMerge.Click += (_, _) => RunMergeMissing();
 
         UpdateDisplayedStrings();
+    }
+
+    private void RunAnalyze()
+    {
+        using var ofd = new OpenFileDialog
+        {
+            CheckFileExists = true,
+            CheckPathExists = true,
+            Filter = @"Translations files (*.xml;*.json)|*.xml;*.json|XML (*.xml)|*.xml|JSON (*.json)|*.json|All files (*.*)|(*.*)",
+            Title = @"Analyze Translations Coverage"
+        };
+
+        if (ofd.ShowDialog(this) != DialogResult.OK || string.IsNullOrWhiteSpace(ofd.FileName))
+        {
+            return;
+        }
+
+        try
+        {
+            var coverage = KryptonManager.AnalyzeTranslationsFromFile(ofd.FileName);
+            _lastFilePath = ofd.FileName;
+            _btnValidate.Enabled = true;
+
+            var missingSample = coverage.MissingInFile.Count == 0
+                ? @"none"
+                : string.Join(@", ", coverage.MissingInFile.Take(8))
+                  + (coverage.MissingInFile.Count > 8 ? @"…" : string.Empty);
+
+            _lblStatus.Text =
+                $@"Analyze '{ofd.FileName}': {coverage}. ToolkitVersion={coverage.ToolkitVersion ?? @"n/a"}.{Environment.NewLine}" +
+                $@"Missing sample: {missingSample}";
+        }
+        catch (Exception ex)
+        {
+            _lblStatus.Text = $@"Analyze: ERROR — {ex.Message}";
+        }
+    }
+
+    private void RunMergeMissing()
+    {
+        using var ofd = new OpenFileDialog
+        {
+            CheckFileExists = true,
+            CheckPathExists = true,
+            Filter = @"Translations files (*.xml;*.json)|*.xml;*.json|XML (*.xml)|*.xml|JSON (*.json)|*.json|All files (*.*)|(*.*)",
+            Title = @"Merge Missing Translations into File"
+        };
+
+        if (ofd.ShowDialog(this) != DialogResult.OK || string.IsNullOrWhiteSpace(ofd.FileName))
+        {
+            return;
+        }
+
+        try
+        {
+            var before = KryptonManager.AnalyzeTranslationsFromFile(ofd.FileName);
+            var after = KryptonManager.MergeMissingTranslationsToFile(ofd.FileName, includeDefaults: true);
+            _lastFilePath = ofd.FileName;
+            _btnValidate.Enabled = true;
+            UpdateDisplayedStrings();
+
+            _lblStatus.Text =
+                $@"Merge '{ofd.FileName}': was missing {before.MissingInFile.Count}, extra {before.ExtraInFile.Count}; " +
+                $@"now missing {after.MissingInFile.Count}. File rewritten with English placeholders for new keys.";
+        }
+        catch (Exception ex)
+        {
+            _lblStatus.Text = $@"Merge: ERROR — {ex.Message}";
+        }
     }
 
     private void UpdateDisplayedStrings()

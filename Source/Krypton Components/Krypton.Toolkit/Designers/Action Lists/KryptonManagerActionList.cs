@@ -161,6 +161,7 @@ internal class KryptonManagerActionList : DesignerActionList
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Export Translations to Json file...", OnExportTranslationsJson), @"Translations"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Generate Translation Template (XML)...", OnGenerateTemplateXml), @"Translations"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Generate Translation Template (JSON)...", OnGenerateTemplateJson), @"Translations"));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Merge Missing Translations...", OnMergeMissingTranslations), @"Translations"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Switch Translations Culture...", OnSwitchTranslationsCulture), @"Translations"));
             actions.Add(new DesignerActionHeaderItem(@"Visuals"));
             actions.Add(new DesignerActionPropertyItem(nameof(GlobalPaletteMode), @"Global Palette", @"Visuals", @"Global palette setting"));
@@ -349,6 +350,47 @@ internal class KryptonManagerActionList : DesignerActionList
             }
 
             _manager.ToolkitStrings.ExportToJsonFile(fileName, includeDefaults: true);
+        }
+        catch (Exception exc)
+        {
+            KryptonExceptionHandler.CaptureException(exc, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
+        }
+    }
+
+    private void OnMergeMissingTranslations(object? sender, EventArgs e)
+    {
+        if (_manager == null)
+        {
+            return;
+        }
+
+        try
+        {
+            using var ofd = new OpenFileDialog();
+            ofd.CheckFileExists = true;
+            ofd.CheckPathExists = true;
+            ofd.FileName = @"Translations";
+            ofd.Filter = @"Translations files (*.xml;*.json)|*.xml;*.json|XML (*.xml)|*.xml|JSON (*.json)|*.json|All files (*.*)|(*.*)";
+            ofd.Title = @"Merge Missing Translations into File";
+
+            var fileName = (ofd.ShowDialog() == DialogResult.OK) ? ofd.FileName : string.Empty;
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                return;
+            }
+
+            var before = _manager.ToolkitStrings.AnalyzeTranslationsFromFile(fileName);
+            var after = _manager.ToolkitStrings.MergeMissingTranslationsToFile(fileName, includeDefaults: true);
+            _service?.OnComponentChanged(_manager, null, null, null);
+
+            KryptonMessageBox.Show(
+                $@"Merged '{fileName}'.{Environment.NewLine}" +
+                $@"Previously missing: {before.MissingInFile.Count}{Environment.NewLine}" +
+                $@"Extra (ignored): {before.ExtraInFile.Count}{Environment.NewLine}" +
+                $@"After merge missing: {after.MissingInFile.Count}",
+                @"Merge Missing Translations",
+                KryptonMessageBoxButtons.OK,
+                KryptonMessageBoxIcon.Information);
         }
         catch (Exception exc)
         {

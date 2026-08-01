@@ -5,6 +5,8 @@
   Canonical exports use CommonStrings (General, ControlBox, SystemMenu, Commands, FileSystem).
   Legacy root groups (GeneralStrings, ControlBoxButtonStrings, SystemMenuStrings,
   FileSystemListViewStrings, and aliased CustomStrings command properties) remain valid on import.
+  Optional ToolkitVersion attribute stamps the producing toolkit; Version is structural only.
+  Unknown leaf keys are ignored on import; missing toolkit keys keep built-in defaults.
   Place alongside your Translations.xml and reference with:
     <KryptonTranslations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                          xsi:noNamespaceSchemaLocation="Translations.xsd" ...>
