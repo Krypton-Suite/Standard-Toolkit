@@ -94,6 +94,33 @@ public partial class NavigatorFormIntegrationDemo : KryptonForm
         UpdateStatus();
     }
 
+    private void NudWash_ValueChanged(object? sender, EventArgs e)
+    {
+        NavigatorTabGroupAppearance appearance = kryptonNavigatorFormIntegrator1.TabGroupAppearance;
+        int wash = (int)nudWash.Value;
+        appearance.HeaderWashAlpha = wash;
+        appearance.CollapsedHeaderWashAlpha = Math.Min(255, wash + 30);
+        UpdateStatus();
+    }
+
+    private void ChkMemberBorder_CheckedChanged(object? sender, EventArgs e)
+    {
+        kryptonNavigatorFormIntegrator1.TabGroupAppearance.ShowMemberBorder = chkMemberBorder.Checked;
+        UpdateStatus();
+    }
+
+    private void ChkMemberUnderline_CheckedChanged(object? sender, EventArgs e)
+    {
+        kryptonNavigatorFormIntegrator1.TabGroupAppearance.ShowMemberUnderline = chkMemberUnderline.Checked;
+        UpdateStatus();
+    }
+
+    private void ChkHeaderAccent_CheckedChanged(object? sender, EventArgs e)
+    {
+        kryptonNavigatorFormIntegrator1.TabGroupAppearance.ShowHeaderAccent = chkHeaderAccent.Checked;
+        UpdateStatus();
+    }
+
     private void BtnGroupSelected_Click(object? sender, EventArgs e)
     {
         KryptonPage? page = kryptonNavigator1.SelectedPage;

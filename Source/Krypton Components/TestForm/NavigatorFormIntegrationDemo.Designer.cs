@@ -46,6 +46,11 @@ partial class NavigatorFormIntegrationDemo
         chkTearOutEnabled = new KryptonCheckBox();
         chkCloseEmptySourceWindow = new KryptonCheckBox();
         chkShowNewTabButton = new KryptonCheckBox();
+        chkMemberBorder = new KryptonCheckBox();
+        chkMemberUnderline = new KryptonCheckBox();
+        chkHeaderAccent = new KryptonCheckBox();
+        nudWash = new NumericUpDown();
+        klblWash = new KryptonLabel();
         cmbMode = new KryptonComboBox();
         klblMode = new KryptonLabel();
         btnAddPage = new KryptonButton();
@@ -59,6 +64,7 @@ partial class NavigatorFormIntegrationDemo
         ((ISupportInitialize)kryptonPanel2).BeginInit();
         kryptonPanel2.SuspendLayout();
         ((ISupportInitialize)cmbMode).BeginInit();
+        ((ISupportInitialize)nudWash).BeginInit();
         ((ISupportInitialize)kryptonNavigator1).BeginInit();
         ((ISupportInitialize)page1).BeginInit();
         page1.SuspendLayout();
@@ -174,13 +180,18 @@ partial class NavigatorFormIntegrationDemo
         kryptonPanel2.Controls.Add(chkTearOutEnabled);
         kryptonPanel2.Controls.Add(chkCloseEmptySourceWindow);
         kryptonPanel2.Controls.Add(chkShowNewTabButton);
+        kryptonPanel2.Controls.Add(chkMemberBorder);
+        kryptonPanel2.Controls.Add(chkMemberUnderline);
+        kryptonPanel2.Controls.Add(chkHeaderAccent);
+        kryptonPanel2.Controls.Add(nudWash);
+        kryptonPanel2.Controls.Add(klblWash);
         kryptonPanel2.Controls.Add(cmbMode);
         kryptonPanel2.Controls.Add(klblMode);
         kryptonPanel2.Dock = DockStyle.Top;
         kryptonPanel2.Location = new Point(0, 0);
         kryptonPanel2.Name = "kryptonPanel2";
         kryptonPanel2.Padding = new Padding(8);
-        kryptonPanel2.Size = new Size(784, 68);
+        kryptonPanel2.Size = new Size(784, 96);
         kryptonPanel2.TabIndex = 0;
         //
         // klblMode
@@ -293,16 +304,67 @@ partial class NavigatorFormIntegrationDemo
         chkShowNewTabButton.Values.Text = "New-tab '+' button";
         chkShowNewTabButton.CheckedChanged += ChkShowNewTabButton_CheckedChanged;
         //
+        // klblWash
+        //
+        klblWash.Location = new Point(11, 66);
+        klblWash.Name = "klblWash";
+        klblWash.Size = new Size(38, 20);
+        klblWash.TabIndex = 11;
+        klblWash.Values.Text = "Wash";
+        //
+        // nudWash
+        //
+        nudWash.Location = new Point(56, 64);
+        nudWash.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
+        nudWash.Name = "nudWash";
+        nudWash.Size = new Size(56, 23);
+        nudWash.TabIndex = 12;
+        nudWash.Value = new decimal(new int[] { 80, 0, 0, 0 });
+        nudWash.ValueChanged += NudWash_ValueChanged;
+        //
+        // chkMemberBorder
+        //
+        chkMemberBorder.Checked = true;
+        chkMemberBorder.CheckState = CheckState.Checked;
+        chkMemberBorder.Location = new Point(130, 66);
+        chkMemberBorder.Name = "chkMemberBorder";
+        chkMemberBorder.Size = new Size(110, 20);
+        chkMemberBorder.TabIndex = 13;
+        chkMemberBorder.Values.Text = "Member border";
+        chkMemberBorder.CheckedChanged += ChkMemberBorder_CheckedChanged;
+        //
+        // chkMemberUnderline
+        //
+        chkMemberUnderline.Checked = true;
+        chkMemberUnderline.CheckState = CheckState.Checked;
+        chkMemberUnderline.Location = new Point(250, 66);
+        chkMemberUnderline.Name = "chkMemberUnderline";
+        chkMemberUnderline.Size = new Size(130, 20);
+        chkMemberUnderline.TabIndex = 14;
+        chkMemberUnderline.Values.Text = "Member underline";
+        chkMemberUnderline.CheckedChanged += ChkMemberUnderline_CheckedChanged;
+        //
+        // chkHeaderAccent
+        //
+        chkHeaderAccent.Checked = true;
+        chkHeaderAccent.CheckState = CheckState.Checked;
+        chkHeaderAccent.Location = new Point(390, 66);
+        chkHeaderAccent.Name = "chkHeaderAccent";
+        chkHeaderAccent.Size = new Size(110, 20);
+        chkHeaderAccent.TabIndex = 15;
+        chkHeaderAccent.Values.Text = "Header accent";
+        chkHeaderAccent.CheckedChanged += ChkHeaderAccent_CheckedChanged;
+        //
         // kryptonNavigator1
         //
         kryptonNavigator1.Button.CloseButtonDisplay = ButtonDisplay.Hide;
         kryptonNavigator1.Dock = DockStyle.Fill;
-        kryptonNavigator1.Location = new Point(0, 68);
+        kryptonNavigator1.Location = new Point(0, 96);
         kryptonNavigator1.Name = "kryptonNavigator1";
         kryptonNavigator1.NavigatorMode = NavigatorMode.BarTabOnly;
         kryptonNavigator1.Pages.AddRange(new[] { page1, page2, page3 });
         kryptonNavigator1.SelectedIndex = 0;
-        kryptonNavigator1.Size = new Size(784, 383);
+        kryptonNavigator1.Size = new Size(784, 355);
         kryptonNavigator1.TabIndex = 1;
         kryptonNavigator1.Text = "kryptonNavigator1";
         //
@@ -329,6 +391,7 @@ partial class NavigatorFormIntegrationDemo
         kryptonPanel2.ResumeLayout(false);
         kryptonPanel2.PerformLayout();
         ((ISupportInitialize)cmbMode).EndInit();
+        ((ISupportInitialize)nudWash).EndInit();
         ((ISupportInitialize)page1).EndInit();
         page1.ResumeLayout(false);
         page1.PerformLayout();
@@ -355,6 +418,11 @@ partial class NavigatorFormIntegrationDemo
     private KryptonCheckBox chkTearOutEnabled;
     private KryptonCheckBox chkCloseEmptySourceWindow;
     private KryptonCheckBox chkShowNewTabButton;
+    private KryptonCheckBox chkMemberBorder;
+    private KryptonCheckBox chkMemberUnderline;
+    private KryptonCheckBox chkHeaderAccent;
+    private NumericUpDown nudWash;
+    private KryptonLabel klblWash;
     private KryptonButton btnAddPage;
     private KryptonButton btnGroupSelected;
     private KryptonButton btnSaveLayout;

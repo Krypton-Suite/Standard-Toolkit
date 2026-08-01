@@ -63,6 +63,7 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
     private bool _showNewTabButton;
     private bool _allowTabGroups = true;
     private readonly NavigatorTabGroupCollection _tabGroups = new();
+    private readonly NavigatorTabGroupAppearance _tabGroupAppearance = new();
     private ContextMenuStrip? _builtInTabContextMenu;
     private KryptonPage? _contextMenuPage;
     private Krypton.Workspace.KryptonWorkspace? _workspace;
@@ -124,6 +125,7 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
         _tabGroups.Inserted += OnTabGroupsCollectionChanged;
         _tabGroups.Removed += OnTabGroupsCollectionChanged;
         _tabGroups.Cleared += OnTabGroupsCollectionCleared;
+        _tabGroupAppearance.PropertyChanged += OnTabGroupAppearanceChanged;
     }
 
     /// <summary>
@@ -322,6 +324,7 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
             _captionDragNotify = null;
             _builtInTabContextMenu?.Dispose();
             _builtInTabContextMenu = null;
+            _tabGroupAppearance.PropertyChanged -= OnTabGroupAppearanceChanged;
             _disposed = true;
         }
 
@@ -479,6 +482,19 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
     [Description(@"Catalog of browser-style tab groups referenced by KryptonPage.TabGroupId.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public NavigatorTabGroupCollection TabGroups => _tabGroups;
+
+    /// <summary>
+    /// Gets wash / underline / border options applied to every caption tab group.
+    /// </summary>
+    [Category(@"Appearance")]
+    [Description(@"Wash strength, accent bar, member underline, and border options for caption tab groups.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [TypeConverter(typeof(ExpandableObjectConverter))]
+    public NavigatorTabGroupAppearance TabGroupAppearance => _tabGroupAppearance;
+
+    private bool ShouldSerializeTabGroupAppearance() => !_tabGroupAppearance.IsDefault;
+
+    private void ResetTabGroupAppearance() => _tabGroupAppearance.Reset();
 
     /// <summary>
     /// Gets or sets an optional workspace used for multi-strip caption document groups (Phase 3).
@@ -680,10 +696,10 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
         page.TabGroupId = groupId;
         ClusterPageWithGroup(page, groupId);
         NavigatorTabGroup? group = _tabGroups[groupId];
-        NavigatorTabGroupBarAccent.Apply(page, group);
+        NavigatorTabGroupBarAccent.Apply(page, group, _tabGroupAppearance);
         if (_navigator != null)
         {
-            NavigatorTabGroupBarAccent.SyncNavigator(_navigator, _tabGroups);
+            NavigatorTabGroupBarAccent.SyncNavigator(_navigator, _tabGroups, _tabGroupAppearance);
         }
 
         OnTabGroupChanged(EventArgs.Empty);
@@ -722,7 +738,7 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
         _tabGroups.CopyFrom(source);
         if (_navigator != null)
         {
-            NavigatorTabGroupBarAccent.SyncNavigator(_navigator, _tabGroups);
+            NavigatorTabGroupBarAccent.SyncNavigator(_navigator, _tabGroups, _tabGroupAppearance);
         }
 
         OnTabGroupChanged(EventArgs.Empty);
@@ -750,17 +766,35 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
     {
         if (_navigator != null)
         {
-            NavigatorTabGroupBarAccent.SyncNavigator(_navigator, _tabGroups);
+            NavigatorTabGroupBarAccent.SyncNavigator(_navigator, _tabGroups, _tabGroupAppearance);
         }
 
         if (_workspace != null)
         {
-            NavigatorTabGroupBarAccent.SyncWorkspace(_workspace, _tabGroups);
+            NavigatorTabGroupBarAccent.SyncWorkspace(_workspace, _tabGroups, _tabGroupAppearance);
         }
 
         // Single-strip caption rebuild; multi-strip strips already listen to TabGroups PropertyChanged.
         _captionTabs?.RebuildTabs();
         TabGroupChanged?.Invoke(this, e);
+    }
+
+    private void OnTabGroupAppearanceChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (_navigator != null)
+        {
+            NavigatorTabGroupBarAccent.SyncNavigator(_navigator, _tabGroups, _tabGroupAppearance);
+        }
+
+        if (_workspace != null)
+        {
+            NavigatorTabGroupBarAccent.SyncWorkspace(_workspace, _tabGroups, _tabGroupAppearance);
+        }
+
+        _captionTabs?.RebuildTabs();
+        _captionDocumentGroups?.RebuildStrips();
+        _form?.PerformNeedPaint(true);
+        _form?.InvalidateNonClient();
     }
 
     private void TryApply(bool force = false)
@@ -899,7 +933,8 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
         {
             ShowNewTabButton = _showNewTabButton,
             AllowTabGroups = _allowTabGroups,
-            TabGroups = _tabGroups
+            TabGroups = _tabGroups,
+            TabGroupAppearance = _tabGroupAppearance
         };
         _form.InjectViewElement(_captionTabs, ViewDockStyle.Left);
         _captionInjected = true;
@@ -919,6 +954,7 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
             OnCaptionNeedPaint,
             ShowTabContextMenu,
             _tabGroups,
+            _tabGroupAppearance,
             _allowTabGroups,
             _showNewTabButton,
             OnNewTabButtonClick);
@@ -1756,7 +1792,7 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
         {
             targetNavigator.Pages.Add(page);
             NavigatorTabGroup? group = string.IsNullOrEmpty(page.TabGroupId) ? null : integrator.TabGroups[page.TabGroupId];
-            NavigatorTabGroupBarAccent.Apply(page, group);
+            NavigatorTabGroupBarAccent.Apply(page, group, _tabGroupAppearance);
         }
 
         if (targetNavigator.AllowTabSelect && targetNavigator.Pages.Count > 0)
@@ -1909,12 +1945,12 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
             group.Color = dialog.Color;
             if (_navigator != null)
             {
-                NavigatorTabGroupBarAccent.SyncNavigator(_navigator, _tabGroups);
+                NavigatorTabGroupBarAccent.SyncNavigator(_navigator, _tabGroups, _tabGroupAppearance);
             }
 
             if (_workspace != null)
             {
-                NavigatorTabGroupBarAccent.SyncWorkspace(_workspace, _tabGroups);
+                NavigatorTabGroupBarAccent.SyncWorkspace(_workspace, _tabGroups, _tabGroupAppearance);
             }
 
             OnTabGroupChanged(EventArgs.Empty);

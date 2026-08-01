@@ -28,6 +28,7 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
     private bool _showNewTabButton;
     private bool _allowTabGroups = true;
     private NavigatorTabGroupCollection? _tabGroups;
+    private NavigatorTabGroupAppearance _tabGroupAppearance = new();
     private KryptonPage? _draggingPage;
     private KryptonPageCollection? _draggingPages;
     private bool _externalDragging;
@@ -135,6 +136,25 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
             UnhookTabGroups();
             _tabGroups = value;
             HookTabGroups();
+            RebuildTabs();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets wash / underline / border options for caption tab groups.
+    /// </summary>
+    public NavigatorTabGroupAppearance TabGroupAppearance
+    {
+        get => _tabGroupAppearance;
+        set
+        {
+            value ??= new NavigatorTabGroupAppearance();
+            if (ReferenceEquals(_tabGroupAppearance, value))
+            {
+                return;
+            }
+
+            _tabGroupAppearance = value;
             RebuildTabs();
         }
     }
@@ -577,6 +597,7 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
         var header = new ViewDrawTabGroupHeader(
             _navigator,
             group,
+            _tabGroupAppearance,
             _needPaint,
             ToggleGroupCollapsed,
             ActivateGroup,
@@ -734,7 +755,8 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
                 page.StateSelected.Tab,
                 page.StateSelected.Tab,
                 content,
-                accent)
+                accent,
+                _tabGroupAppearance)
             {
                 Checked = ReferenceEquals(page, _navigator.SelectedPage)
             }
@@ -1078,7 +1100,7 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
         }
 
         page.TabGroupId = group.Id;
-        NavigatorTabGroupBarAccent.Apply(page, group);
+        NavigatorTabGroupBarAccent.Apply(page, group, _tabGroupAppearance);
     }
 
     /// <summary>
@@ -1242,8 +1264,8 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
     /// </summary>
     private sealed class ViewDrawCaptionGroupTab : ViewDrawButton
     {
-        private const int AccentHeight = 3;
         private readonly Color _accentColor;
+        private readonly NavigatorTabGroupAppearance _appearance;
 
         public ViewDrawCaptionGroupTab(
             IPaletteTriple paletteDisabled,
@@ -1254,23 +1276,32 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
             IPaletteTriple paletteCheckedTracking,
             IPaletteTriple paletteCheckedPressed,
             IContentValues content,
-            Color accentColor)
+            Color accentColor,
+            NavigatorTabGroupAppearance appearance)
             : base(paletteDisabled, paletteNormal, paletteTracking, palettePressed,
                 paletteCheckedNormal, paletteCheckedTracking, paletteCheckedPressed,
-                null, content, VisualOrientation.Top, true) =>
+                null, content, VisualOrientation.Top, true)
+        {
             _accentColor = accentColor;
+            _appearance = appearance ?? throw new ArgumentNullException(nameof(appearance));
+        }
 
         public override void Render(RenderContext context)
         {
             base.Render(context);
 
-            if (_accentColor.IsEmpty || ClientRectangle.Width <= 0 || ClientRectangle.Height <= 0)
+            if (_accentColor.IsEmpty ||
+                !_appearance.ShowMemberUnderline ||
+                _appearance.MemberUnderlineHeight <= 0 ||
+                ClientRectangle.Width <= 0 ||
+                ClientRectangle.Height <= 0)
             {
                 return;
             }
 
-            var accent = new Rectangle(ClientRectangle.X, ClientRectangle.Bottom - AccentHeight,
-                ClientRectangle.Width, AccentHeight);
+            int height = Math.Min(_appearance.MemberUnderlineHeight, ClientRectangle.Height);
+            var accent = new Rectangle(ClientRectangle.X, ClientRectangle.Bottom - height,
+                ClientRectangle.Width, height);
             using var brush = new SolidBrush(_accentColor);
             context.Graphics.FillRectangle(brush, accent);
         }

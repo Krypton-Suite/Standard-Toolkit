@@ -19,6 +19,7 @@ internal sealed class ViewLayoutCaptionDocumentGroups : ViewLayoutDocker
     private readonly NeedPaintHandler _needPaint;
     private readonly Action<KryptonPage, Point>? _showContextMenu;
     private readonly NavigatorTabGroupCollection _tabGroups;
+    private readonly NavigatorTabGroupAppearance _tabGroupAppearance;
     private readonly bool _allowTabGroups;
     private readonly bool _showNewTabButton;
     private readonly Action? _newTabClick;
@@ -31,6 +32,7 @@ internal sealed class ViewLayoutCaptionDocumentGroups : ViewLayoutDocker
         NeedPaintHandler needPaint,
         Action<KryptonPage, Point>? showContextMenu,
         NavigatorTabGroupCollection tabGroups,
+        NavigatorTabGroupAppearance tabGroupAppearance,
         bool allowTabGroups,
         bool showNewTabButton,
         Action? newTabClick)
@@ -39,6 +41,7 @@ internal sealed class ViewLayoutCaptionDocumentGroups : ViewLayoutDocker
         _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
         _showContextMenu = showContextMenu;
         _tabGroups = tabGroups ?? throw new ArgumentNullException(nameof(tabGroups));
+        _tabGroupAppearance = tabGroupAppearance ?? throw new ArgumentNullException(nameof(tabGroupAppearance));
         _allowTabGroups = allowTabGroups;
         _showNewTabButton = showNewTabButton;
         _newTabClick = newTabClick;
@@ -84,6 +87,7 @@ internal sealed class ViewLayoutCaptionDocumentGroups : ViewLayoutDocker
                 ShowNewTabButton = _showNewTabButton && ReferenceEquals(cell, _workspace.ActiveCell),
                 AllowTabGroups = _allowTabGroups,
                 TabGroups = _tabGroups,
+                TabGroupAppearance = _tabGroupAppearance,
                 SpareCaptionAreasChanged = OnChildSpareAreasChanged
             };
             _cellStrips[cell] = strip;

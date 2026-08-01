@@ -15,6 +15,7 @@ namespace Krypton.Navigator.Utilities;
 internal sealed class ViewDrawTabGroupHeader : ViewDrawButton
 {
     private readonly NavigatorTabGroup _group;
+    private readonly NavigatorTabGroupAppearance _appearance;
     private readonly Action<NavigatorTabGroup> _toggleCollapsed;
     private readonly Action<NavigatorTabGroup>? _activateGroup;
     private readonly Action<NavigatorTabGroup, DragStartEventCancelArgs>? _dragStart;
@@ -26,6 +27,7 @@ internal sealed class ViewDrawTabGroupHeader : ViewDrawButton
     public ViewDrawTabGroupHeader(
         KryptonNavigator navigator,
         NavigatorTabGroup group,
+        NavigatorTabGroupAppearance appearance,
         NeedPaintHandler needPaint,
         Action<NavigatorTabGroup> toggleCollapsed,
         Action<NavigatorTabGroup>? activateGroup,
@@ -48,6 +50,7 @@ internal sealed class ViewDrawTabGroupHeader : ViewDrawButton
             false)
     {
         _group = group ?? throw new ArgumentNullException(nameof(group));
+        _appearance = appearance ?? throw new ArgumentNullException(nameof(appearance));
         _toggleCollapsed = toggleCollapsed ?? throw new ArgumentNullException(nameof(toggleCollapsed));
         _activateGroup = activateGroup;
         _memberCount = memberCount;
@@ -90,18 +93,28 @@ internal sealed class ViewDrawTabGroupHeader : ViewDrawButton
         // Soft wash of the group color across the whole chip so each group reads as a
         // distinct colored cluster without hiding the themed button base or its text.
         // Collapsed headers stand alone (no member tabs follow), so tint them a little
-        // more strongly to keep the color identity.
-        var washAlpha = _group.Collapsed ? 110 : 80;
-        using (var wash = new SolidBrush(Color.FromArgb(washAlpha, groupColor)))
+        // more strongly by default to keep the color identity.
+        int washAlpha = _group.Collapsed
+            ? _appearance.CollapsedHeaderWashAlpha
+            : _appearance.HeaderWashAlpha;
+        if (washAlpha > 0)
         {
-            context.Graphics.FillRectangle(wash, ClientRectangle);
+            using (var wash = new SolidBrush(Color.FromArgb(washAlpha, groupColor)))
+            {
+                context.Graphics.FillRectangle(wash, ClientRectangle);
+            }
         }
 
         // Solid bottom accent bar using the group color (does not replace palette theming).
-        var accent = new Rectangle(ClientRectangle.X, ClientRectangle.Bottom - 3, ClientRectangle.Width, 3);
-        using (var brush = new SolidBrush(groupColor))
+        if (_appearance.ShowHeaderAccent && _appearance.HeaderAccentHeight > 0)
         {
-            context.Graphics.FillRectangle(brush, accent);
+            int height = Math.Min(_appearance.HeaderAccentHeight, ClientRectangle.Height);
+            var accent = new Rectangle(ClientRectangle.X, ClientRectangle.Bottom - height,
+                ClientRectangle.Width, height);
+            using (var brush = new SolidBrush(groupColor))
+            {
+                context.Graphics.FillRectangle(brush, accent);
+            }
         }
     }
 

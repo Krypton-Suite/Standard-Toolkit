@@ -14,10 +14,12 @@ namespace Krypton.Navigator.Utilities;
 /// </summary>
 public static class NavigatorTabGroupBarAccent
 {
+    private const int DefaultBorderWidth = 2;
+
     /// <summary>
-    /// Tints the page tab border colors to match the group accent, or clears when ungrouped.
+    /// Tints the page tab border colors to match the group accent, or clears when ungrouped / disabled.
     /// </summary>
-    public static void Apply(KryptonPage page, NavigatorTabGroup? group)
+    public static void Apply(KryptonPage page, NavigatorTabGroup? group, NavigatorTabGroupAppearance? appearance = null)
     {
         if (page == null)
         {
@@ -30,12 +32,19 @@ public static class NavigatorTabGroupBarAccent
             return;
         }
 
+        if (appearance != null && (!appearance.ShowMemberBorder || appearance.MemberBorderWidth <= 0))
+        {
+            Clear(page);
+            return;
+        }
+
         Color accent = group.Color;
-        SetBorder(page.StateNormal.Tab, accent);
-        SetBorder(page.StateTracking.Tab, ControlPaint.Light(accent));
-        SetBorder(page.StatePressed.Tab, ControlPaint.Dark(accent));
-        SetBorder(page.StateSelected.Tab, accent);
-        SetBorder(page.StateDisabled.Tab, ControlPaint.Light(accent, 0.5f));
+        int width = appearance?.MemberBorderWidth ?? DefaultBorderWidth;
+        SetBorder(page.StateNormal.Tab, accent, width);
+        SetBorder(page.StateTracking.Tab, ControlPaint.Light(accent), width);
+        SetBorder(page.StatePressed.Tab, ControlPaint.Dark(accent), width);
+        SetBorder(page.StateSelected.Tab, accent, width);
+        SetBorder(page.StateDisabled.Tab, ControlPaint.Light(accent, 0.5f), width);
     }
 
     /// <summary>
@@ -58,7 +67,8 @@ public static class NavigatorTabGroupBarAccent
     /// <summary>
     /// Re-applies accents for every page in the navigator using the group catalog.
     /// </summary>
-    public static void SyncNavigator(KryptonNavigator navigator, NavigatorTabGroupCollection groups)
+    public static void SyncNavigator(KryptonNavigator navigator, NavigatorTabGroupCollection groups,
+        NavigatorTabGroupAppearance? appearance = null)
     {
         if (navigator == null)
         {
@@ -73,14 +83,15 @@ public static class NavigatorTabGroupBarAccent
         foreach (KryptonPage page in navigator.Pages)
         {
             NavigatorTabGroup? group = string.IsNullOrEmpty(page.TabGroupId) ? null : groups[page.TabGroupId];
-            Apply(page, group);
+            Apply(page, group, appearance);
         }
     }
 
     /// <summary>
     /// Re-applies accents for every page in every workspace cell using the group catalog.
     /// </summary>
-    public static void SyncWorkspace(Krypton.Workspace.KryptonWorkspace workspace, NavigatorTabGroupCollection groups)
+    public static void SyncWorkspace(Krypton.Workspace.KryptonWorkspace workspace, NavigatorTabGroupCollection groups,
+        NavigatorTabGroupAppearance? appearance = null)
     {
         if (workspace == null)
         {
@@ -96,15 +107,15 @@ public static class NavigatorTabGroupBarAccent
              cell != null;
              cell = workspace.NextCell(cell))
         {
-            SyncNavigator(cell, groups);
+            SyncNavigator(cell, groups, appearance);
         }
     }
 
-    private static void SetBorder(PaletteTabTriple tab, Color color)
+    private static void SetBorder(PaletteTabTriple tab, Color color, int width)
     {
         tab.Border.Color1 = color;
         tab.Border.Color2 = color;
-        tab.Border.Width = 2;
+        tab.Border.Width = width;
     }
 
     private static void ResetBorder(PaletteTabTriple tab)
