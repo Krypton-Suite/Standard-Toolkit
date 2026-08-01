@@ -58,6 +58,10 @@
    * Canonical `KryptonManager.Strings.CommonStrings` owns shared General, ControlBox, SystemMenu, Commands, and FileSystem string sets. Legacy `GeneralStrings` / `ControlBoxButtonStrings` / `SystemMenuStrings` / `FileSystemListViewStrings` / selected `CustomStrings` command properties remain as compatibility aliases. New XML/JSON exports write `CommonStrings` once; legacy paths still import (CommonStrings wins when both are present).
    * Verified `WindowsMuiStringId` catalog plus `WindowsMuiStrings` / Utilities `WindowsSystemStringLoader` for advanced System32-only raw resource lookups (undocumented IDs, best-effort with fallbacks).
    * Catalog-drift resilience: tolerant import ignores unknown keys and keeps defaults for missing ones; `AnalyzeTranslationsFromFile` / `MergeMissingTranslationsToFile`, `TranslationsCoverageReported`, `ToolkitVersion` export stamp, and designer **Merge Missing Translations…** verb help upgrade older culture files when the toolkit adds strings.
+* Resolved [#4131](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4131), `KryptonForm` no longer throws `EntryPointNotFoundException` on `net8.0`/`net9.0`/`net10.0-windows`.
+   * `GetWindowLong` and `SetWindowLong` now route through the `GetWindowLongPtr`/`SetWindowLongPtr` APIs, which are the only variants available on 64-bit Windows.
+   * Corrected the native entry point names for a further 15 interop declarations (including `SendMessage`, `PostMessage`, `FindWindow`, `LoadImage`, `SetWindowsHookEx`, `GetMenuItemInfo`, and `GetObject`) that silently failed to bind on .NET 8 and later.
+   * Jump list item titles are applied again, as the underlying property-system calls now bind correctly.
 * Resolved [#4059](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4059), Grouped Ribbon controls do expose designers, needs a closer look
    * `KryptonRibbonGroupThemeComboBox` now reuses the base ribbon combo box designer instead of a near-duplicate Theme-specific designer
 * Implemented [#1231](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1231), The `KryptonOpenFileDialog` can have poor performance on some OS hardware
