@@ -62,6 +62,7 @@ Before considering a task complete:
 ## Editing Philosophy
 
 - Make the smallest change that correctly solves the task.
+- Keep code clean, simple, and maintainable.
 - Preserve existing formatting and coding style.
 - Do not refactor unrelated code.
 - Do not rename identifiers unless requested.
