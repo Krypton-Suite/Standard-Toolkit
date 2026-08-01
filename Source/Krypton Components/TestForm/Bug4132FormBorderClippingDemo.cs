@@ -25,9 +25,17 @@ namespace TestForm;
 /// <see cref="PaletteMetricInt.HeaderButtonEdgeInsetFormRight"/>, so the control box ran flush into
 /// the column the form border paints. Since the form border is drawn after its children, the
 /// button's own right border was overwritten and only three of its four edges survived. Those
-/// themes now read <see cref="GlobalStaticConstants.HEADER_BUTTON_EDGE_INSET_FORM_RIGHT"/>
-/// (still defaults to <c>0</c>); raise it toward
-/// <see cref="CommonHelper.GetFormHeaderButtonEdgeInsetRight"/> when tuning the gap.
+/// themes now read <see cref="GlobalStaticConstants.HEADER_BUTTON_EDGE_INSET_FORM_RIGHT"/>, which
+/// defaults to the form border width (<c>1</c>) so the button stays flush against the border while
+/// keeping its own edge. Raise it toward
+/// <see cref="CommonHelper.GetFormHeaderButtonEdgeInsetRight"/> to float the control box further in.
+/// </para>
+/// <para>
+/// The gap above the button came from a different place: <see cref="ViewLayoutCenter"/> centred the
+/// button in the caption band, which left three pixels of caption above it while the right edge had
+/// none. <see cref="GlobalStaticConstants.HEADER_BUTTON_EDGE_INSET_FORM_TOP"/> now drives that gap
+/// instead, defaulting to <c>0</c> so the top matches the right. Set it negative to restore
+/// centring.
 /// </para>
 /// <para>
 /// The diagnostics below probe the live region rather than the view tree, so they report exactly
@@ -60,7 +68,8 @@ public sealed class Bug4132FormBorderClippingDemo : KryptonForm
             Text =
                 @"How to test issue #4132:" + Environment.NewLine +
                 @"1) Look at this window and any sample window: all four borders must be visible. Before the fix the right and bottom edges were missing." + Environment.NewLine +
-                @"2) Hover the Close button in the caption. With HEADER_BUTTON_EDGE_INSET_FORM_RIGHT left at 0 the right edge can still collide with the form border; raise that constant when tuning the gap." + Environment.NewLine +
+                @"2) Hover the Close button in the caption: all four of its borders must show, sitting immediately inside the form border on both the top and the right." + Environment.NewLine +
+                @"   Tune HEADER_BUTTON_EDGE_INSET_FORM_RIGHT and HEADER_BUTTON_EDGE_INSET_FORM_TOP to change those two gaps (a negative top value restores caption centring)." + Environment.NewLine +
                 @"3) Switch themes below (square-cornered themes such as Microsoft 365 and Office 2013 showed the bug; rounded themes were unaffected)." + Environment.NewLine +
                 @"4) Resize and maximise/restore the windows - the borders must survive every layout pass." + Environment.NewLine +
                 @"5) The readouts below probe the live window region; every edge should report PASS."

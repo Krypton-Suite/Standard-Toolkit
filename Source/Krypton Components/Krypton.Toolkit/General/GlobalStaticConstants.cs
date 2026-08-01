@@ -39,11 +39,21 @@ public class GlobalStaticConstants
 
     /// <summary>
     /// Right-hand inset (pixels) for form caption control-box buttons when a built-in palette
-    /// does not compute one from the window border. Default <c>0</c> keeps the historical flush
-    /// layout (Close can collide with the form border; see #4132). Raise toward
-    /// <see cref="CommonHelper.GetFormHeaderButtonEdgeInsetRight"/> when tuning the gap.
+    /// does not compute one from the window border. The default <c>1</c> is the form border width,
+    /// which keeps the buttons flush against the border while leaving their own right border
+    /// visible; at <c>0</c> the button overlaps the column the form border paints last and loses
+    /// that edge (see #4132). Larger values float the control box away from the edge, matching
+    /// <see cref="CommonHelper.GetFormHeaderButtonEdgeInsetRight"/> at higher settings.
     /// </summary>
-    public static int HEADER_BUTTON_EDGE_INSET_FORM_RIGHT = 0;
+    public static int HEADER_BUTTON_EDGE_INSET_FORM_RIGHT = 1;
+
+    /// <summary>
+    /// Top inset (pixels) between the caption band and form caption control-box buttons. The
+    /// default <c>0</c> puts the button's top border flush inside the form's top border, matching
+    /// <see cref="HEADER_BUTTON_EDGE_INSET_FORM_RIGHT"/>. Larger values push the buttons down; any
+    /// negative value restores the original behaviour of centring them in the caption.
+    /// </summary>
+    public static int HEADER_BUTTON_EDGE_INSET_FORM_TOP = 1;
 
     /// <summary>The default countdown interval</summary>
     internal const int DEFAULT_COUNTDOWN_INTERVAL = 1000;

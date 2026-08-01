@@ -47,7 +47,8 @@
 
 * Resolved [#4132](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4132), ControlBox item borders do not paint correctly
    * The right and bottom borders of a `KryptonForm` are no longer clipped away by the window region.
-   * Themes that previously hardcoded a zero right-hand control-box inset now read `GlobalStaticConstants.HEADER_BUTTON_EDGE_INSET_FORM_RIGHT` (still defaults to `0`). Raise that value toward the near-edge inset when tuning the Close button gap against the form border.
+   * The Close button keeps its own right border instead of losing it under the form border, and the caption control box now sits the same distance from the top border as it does from the right.
+   * Two tunables drive that spacing: `GlobalStaticConstants.HEADER_BUTTON_EDGE_INSET_FORM_RIGHT` (defaults to the form border width, `1`) and `GlobalStaticConstants.HEADER_BUTTON_EDGE_INSET_FORM_TOP` (defaults to `0`; set it negative to restore the previous centring of the buttons within the caption).
 * Resolved [#4059](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4059), Grouped Ribbon controls do expose designers, needs a closer look
    * `KryptonRibbonGroupThemeComboBox` now reuses the base ribbon combo box designer instead of a near-duplicate Theme-specific designer
 * Implemented [#1231](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1231), The `KryptonOpenFileDialog` can have poor performance on some OS hardware
