@@ -158,12 +158,34 @@ When asked to review or document code — or when adding/changing public API —
 - **Event Args**, **Resources**, **Designer** / **`.Designer.cs`**, and other thin property-bag or generated files unless logic is non-trivial (then document only that logic).
 - Large blocks of unchanged legacy code unrelated to the task — do not “document the world” in a feature or bug PR unless the user explicitly requests a documentation pass.
 
-### Style
+### Comment Style
 
+- Use `///` XML documentation for public and protected types and members.
+- Use `//` comments for implementation notes, algorithms, and non-obvious decisions.
+- Do not use C-style block comments (`/* ... */`) or banner comments (`/** ... */` / `/*** ... ***/`) for documentation unless matching existing surrounding code.
+- Keep comments close to the code they describe.
+- Prefer several short `//` comments over large comment blocks.
+- Comments should explain *why* code exists or *why* an approach was chosen, not simply restate what the code does.
 - Keep comments **clear and concise** — one or two sentences for inline notes; XML may be slightly longer when describing contracts or edge cases. Prefer plain language over jargon.
 - Preserve existing comments and XML docs; extend or clarify them surgically rather than replacing wholesale unless they are wrong or empty.
-- Use `///` XML summaries for types and public/protected API; use `//` for inline implementation notes.
 - Match surrounding voice (this codebase often uses short `//` notes inside `switch` arms and multi-step flows).
+
+Prefer:
+
+```csharp
+// Restore orphaned pages before rebuilding the hierarchy.
+// This ensures page references remain valid during layout reconstruction.
+```
+
+Avoid:
+
+```csharp
+/******************************************************************************
+ * This method walks the docking tree and restores orphaned pages.
+ ******************************************************************************/
+```
+
+And avoid restating the obvious (`// Increment the index.` before `index++;`). Prefer intent (`// Iterate in reverse because removing children invalidates forward indices.`).
 
 ### Prioritization (large modules)
 
