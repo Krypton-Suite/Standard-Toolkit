@@ -48,6 +48,10 @@
 * Resolved [#4132](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4132), ControlBox item borders do not paint correctly
    * The right and bottom borders of a `KryptonForm` are no longer clipped away by the window region.
    * Themes that previously hardcoded a zero right-hand control-box inset now read `GlobalStaticConstants.HEADER_BUTTON_EDGE_INSET_FORM_RIGHT` (still defaults to `0`). Raise that value toward the near-edge inset when tuning the Close button gap against the form border.
+* Resolved [#4131](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4131), `KryptonForm` no longer throws `EntryPointNotFoundException` on `net8.0`/`net9.0`/`net10.0-windows`.
+   * `GetWindowLong` and `SetWindowLong` now route through the `GetWindowLongPtr`/`SetWindowLongPtr` APIs, which are the only variants available on 64-bit Windows.
+   * Corrected the native entry point names for a further 15 interop declarations (including `SendMessage`, `PostMessage`, `FindWindow`, `LoadImage`, `SetWindowsHookEx`, `GetMenuItemInfo`, and `GetObject`) that silently failed to bind on .NET 8 and later.
+   * Jump list item titles are applied again, as the underlying property-system calls now bind correctly.
 * Resolved [#4059](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4059), Grouped Ribbon controls do expose designers, needs a closer look
    * `KryptonRibbonGroupThemeComboBox` now reuses the base ribbon combo box designer instead of a near-duplicate Theme-specific designer
 * Implemented [#1231](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1231), The `KryptonOpenFileDialog` can have poor performance on some OS hardware

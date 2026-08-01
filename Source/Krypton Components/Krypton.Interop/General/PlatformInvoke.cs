@@ -3335,7 +3335,7 @@ No 	                    No 	                    Show text only
     #endif
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     #if NET8_0_OR_GREATER
-    [LibraryImport(Libraries.User32, SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+    [LibraryImport(Libraries.User32, EntryPoint = "LoadImageW", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
     internal static partial IntPtr LoadImage(IntPtr hinst, string lpszName, uint uType, int cxDesired, int cyDesired, uint fuLoad);
     #else
 
@@ -3362,7 +3362,7 @@ No 	                    No 	                    Show text only
     public delegate void TimerProc(IntPtr hWnd, uint uMsg, UIntPtr nIDEvent, uint dwTime);
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     #if NET8_0_OR_GREATER
-    [LibraryImport(Libraries.User32)]
+    [LibraryImport(Libraries.User32, EntryPoint = "SetWindowsHookExW")]
     internal static partial IntPtr SetWindowsHookEx(WH_ idHook, HookProc lpfn, IntPtr hInstance, int threadId);
     #else
 
@@ -3400,7 +3400,7 @@ No 	                    No 	                    Show text only
     #endif
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     #if NET8_0_OR_GREATER
-    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [LibraryImport(Libraries.User32, EntryPoint = "VkKeyScanW", StringMarshalling = StringMarshalling.Utf16)]
     internal static partial short VkKeyScan(char ch);
     #else
 
@@ -3453,15 +3453,17 @@ No 	                    No 	                    Show text only
         pwi = new WINDOWINFO();
         return GetWindowInfoInt(hwnd, ref pwi);
     }
-    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    #if NET8_0_OR_GREATER
-    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
-    internal static partial uint GetWindowLong(IntPtr hWnd, GWL_ nIndex);
-    #else
-
-    [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
-    internal static extern uint GetWindowLong(IntPtr hWnd, GWL_ nIndex);
-    #endif
+    /// <summary>
+    /// Reads a window value. On 64-bit Windows, <c>GetWindowLong</c> is not exported from
+    /// user32.dll, so this routes through the 32/64-bit <c>GetWindowLongPtr</c> entry points.
+    /// </summary>
+    internal static uint GetWindowLong(IntPtr hWnd, GWL_ nIndex)
+    {
+        IntPtr ret = IntPtr.Size > 4
+            ? GetWindowLongPtr64(hWnd, nIndex)
+            : new IntPtr(GetWindowLongPtr32(hWnd, nIndex));
+        return unchecked((uint)ret.ToInt64());
+    }
 
     // This is aliased as a macro in 32bit Windows.
     internal static IntPtr GetWindowLongPtr(IntPtr hwnd, GWL_ nIndex)
@@ -3478,20 +3480,20 @@ No 	                    No 	                    Show text only
     }
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     #if NET8_0_OR_GREATER
-    [LibraryImport(Libraries.User32, EntryPoint = "GetWindowLong", SetLastError = true)]
+    [LibraryImport(Libraries.User32, EntryPoint = "GetWindowLongW", SetLastError = true)]
     private static partial int GetWindowLongPtr32(IntPtr hWnd, GWL_ nIndex);
     #else
 
-    [DllImport(Libraries.User32, EntryPoint = "GetWindowLong", SetLastError = true)]
+    [DllImport(Libraries.User32, EntryPoint = "GetWindowLongW", SetLastError = true)]
     private static extern int GetWindowLongPtr32(IntPtr hWnd, GWL_ nIndex);
     #endif
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     #if NET8_0_OR_GREATER
-    [LibraryImport(Libraries.User32, EntryPoint = "GetWindowLongPtr", SetLastError = true)]
+    [LibraryImport(Libraries.User32, EntryPoint = "GetWindowLongPtrW", SetLastError = true)]
     private static partial IntPtr GetWindowLongPtr64(IntPtr hWnd, GWL_ nIndex);
     #else
 
-    [DllImport(Libraries.User32, EntryPoint = "GetWindowLongPtr", SetLastError = true)]
+    [DllImport(Libraries.User32, EntryPoint = "GetWindowLongPtrW", SetLastError = true)]
     private static extern IntPtr GetWindowLongPtr64(IntPtr hWnd, GWL_ nIndex);
     #endif
 
@@ -3532,38 +3534,38 @@ No 	                    No 	                    Show text only
     }
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     #if NET8_0_OR_GREATER
-    [LibraryImport(Libraries.User32, EntryPoint = @"GetClassLong", SetLastError = true)]
+    [LibraryImport(Libraries.User32, EntryPoint = @"GetClassLongW", SetLastError = true)]
     private static partial uint GetClassLongPtr32(IntPtr hWnd, int nIndex);
     #else
 
-    [DllImport(Libraries.User32, EntryPoint = @"GetClassLong", SetLastError = true)]
+    [DllImport(Libraries.User32, EntryPoint = @"GetClassLongW", SetLastError = true)]
     private static extern uint GetClassLongPtr32(IntPtr hWnd, int nIndex);
     #endif
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     #if NET8_0_OR_GREATER
-    [LibraryImport(Libraries.User32, EntryPoint = @"GetClassLongPtr", SetLastError = true)]
+    [LibraryImport(Libraries.User32, EntryPoint = @"GetClassLongPtrW", SetLastError = true)]
     private static partial IntPtr GetClassLongPtr64(IntPtr hWnd, int nIndex);
     #else
 
-    [DllImport(Libraries.User32, EntryPoint = @"GetClassLongPtr", SetLastError = true)]
+    [DllImport(Libraries.User32, EntryPoint = @"GetClassLongPtrW", SetLastError = true)]
     private static extern IntPtr GetClassLongPtr64(IntPtr hWnd, int nIndex);
     #endif
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     #if NET8_0_OR_GREATER
-    [LibraryImport(Libraries.User32, EntryPoint = "SetClassLong")]
+    [LibraryImport(Libraries.User32, EntryPoint = "SetClassLongW")]
     internal static partial uint SetClassLongPtr32(IntPtr hWnd, int nIndex, uint dwNewLong);
     #else
 
-    [DllImport(Libraries.User32, EntryPoint = "SetClassLong")]
+    [DllImport(Libraries.User32, EntryPoint = "SetClassLongW")]
     internal static extern uint SetClassLongPtr32(IntPtr hWnd, int nIndex, uint dwNewLong);
     #endif
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     #if NET8_0_OR_GREATER
-    [LibraryImport(Libraries.User32, EntryPoint = "SetClassLongPtr")]
+    [LibraryImport(Libraries.User32, EntryPoint = "SetClassLongPtrW")]
     internal static partial IntPtr SetClassLongPtr64(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
     #else
 
-    [DllImport(Libraries.User32, EntryPoint = "SetClassLongPtr")]
+    [DllImport(Libraries.User32, EntryPoint = "SetClassLongPtrW")]
     internal static extern IntPtr SetClassLongPtr64(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
     #endif
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
@@ -3704,15 +3706,15 @@ No 	                    No 	                    Show text only
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static extern bool ScreenToClient(IntPtr hWnd, ref POINT lpPoint);
     #endif
-    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    #if NET8_0_OR_GREATER
-    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
-    internal static partial uint SetWindowLong(IntPtr hwnd, GWL_ nIndex, uint nLong);
-    #else
-
-    [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
-    internal static extern uint SetWindowLong(IntPtr hwnd, GWL_ nIndex, uint nLong);
-    #endif
+    /// <summary>
+    /// Writes a window value. On 64-bit Windows, <c>SetWindowLong</c> is not exported from
+    /// user32.dll, so this routes through <see cref="SetWindowLongPtr"/>.
+    /// </summary>
+    internal static uint SetWindowLong(IntPtr hwnd, GWL_ nIndex, uint nLong)
+    {
+        IntPtr ret = SetWindowLongPtr(hwnd, nIndex, new IntPtr(unchecked((int)nLong)));
+        return unchecked((uint)ret.ToInt64());
+    }
 
     // This is aliased as a macro in 32bit Windows.
     [SuppressMessage("Microsoft.Performance", @"CA1811:AvoidUncalledPrivateCode")]
@@ -3724,26 +3726,26 @@ No 	                    No 	                    Show text only
     #if NET8_0_OR_GREATER
     [SuppressMessage("Microsoft.Interoperability", @"CA1400:PInvokeEntryPointsShouldExist")]
     [SuppressMessage("Microsoft.Performance", @"CA1811:AvoidUncalledPrivateCode")]
-    [LibraryImport(Libraries.User32, EntryPoint = "SetWindowLong", SetLastError = true)]
+    [LibraryImport(Libraries.User32, EntryPoint = "SetWindowLongW", SetLastError = true)]
     private static partial int SetWindowLongPtr32(IntPtr hWnd, GWL_ nIndex, int dwNewLong);
     #else
 
     [SuppressMessage("Microsoft.Interoperability", @"CA1400:PInvokeEntryPointsShouldExist")]
     [SuppressMessage("Microsoft.Performance", @"CA1811:AvoidUncalledPrivateCode")]
-    [DllImport(Libraries.User32, EntryPoint = "SetWindowLong", SetLastError = true)]
+    [DllImport(Libraries.User32, EntryPoint = "SetWindowLongW", SetLastError = true)]
     private static extern int SetWindowLongPtr32(IntPtr hWnd, GWL_ nIndex, int dwNewLong);
     #endif
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     #if NET8_0_OR_GREATER
     [SuppressMessage("Microsoft.Interoperability", @"CA1400:PInvokeEntryPointsShouldExist")]
     [SuppressMessage("Microsoft.Performance", @"CA1811:AvoidUncalledPrivateCode")]
-    [LibraryImport(Libraries.User32, EntryPoint = "SetWindowLongPtr", SetLastError = true)]
+    [LibraryImport(Libraries.User32, EntryPoint = "SetWindowLongPtrW", SetLastError = true)]
     private static partial IntPtr SetWindowLongPtr64(IntPtr hWnd, GWL_ nIndex, IntPtr dwNewLong);
     #else
 
     [SuppressMessage("Microsoft.Interoperability", @"CA1400:PInvokeEntryPointsShouldExist")]
     [SuppressMessage("Microsoft.Performance", @"CA1811:AvoidUncalledPrivateCode")]
-    [DllImport(Libraries.User32, EntryPoint = "SetWindowLongPtr", SetLastError = true)]
+    [DllImport(Libraries.User32, EntryPoint = "SetWindowLongPtrW", SetLastError = true)]
     private static extern IntPtr SetWindowLongPtr64(IntPtr hWnd, GWL_ nIndex, IntPtr dwNewLong);
     #endif
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
@@ -3823,7 +3825,7 @@ No 	                    No 	                    Show text only
     #endif
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     #if NET8_0_OR_GREATER
-    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [LibraryImport(Libraries.User32, EntryPoint = "SendDlgItemMessageW", StringMarshalling = StringMarshalling.Utf16)]
     internal static partial IntPtr SendDlgItemMessage(IntPtr hDlg, int nIDDlgItem, int Msg, IntPtr wParam, IntPtr lParam);
     #else
 
@@ -3833,7 +3835,7 @@ No 	                    No 	                    Show text only
     #endif
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     #if NET8_0_OR_GREATER
-    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [LibraryImport(Libraries.User32, EntryPoint = "SendMessageW", StringMarshalling = StringMarshalling.Utf16)]
     internal static partial uint SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
     #else
 
@@ -3856,7 +3858,7 @@ No 	                    No 	                    Show text only
     static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, [Out] StringBuilder lParam);
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     #if NET8_0_OR_GREATER
-    [LibraryImport(Libraries.User32, StringMarshalling = StringMarshalling.Utf16)]
+    [LibraryImport(Libraries.User32, EntryPoint = "SendMessageW", StringMarshalling = StringMarshalling.Utf16)]
     internal static partial uint SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, ref TITLEBARINFOEX lParam);
     #else
 
@@ -3873,7 +3875,7 @@ No 	                    No 	                    Show text only
     internal static extern IntPtr SendMessage(HandleRef hWnd, int msg, int wParam, ref PARAFORMAT lParam);
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     #if NET8_0_OR_GREATER
-    [LibraryImport(Libraries.User32, SetLastError = true)]
+    [LibraryImport(Libraries.User32, EntryPoint = "PostMessageW", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static partial bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
     #else
@@ -4231,7 +4233,7 @@ No 	                    No 	                    Show text only
             maxCount);
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     #if NET8_0_OR_GREATER
-    [LibraryImport(Libraries.User32)]
+    [LibraryImport(Libraries.User32, EntryPoint = "GetMenuItemInfoW")]
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static partial bool GetMenuItemInfo(IntPtr hMenu, uint uItem, [MarshalAs(UnmanagedType.Bool)] bool fByPosition, ref MENUITEMINFO lpmii);
     #else
@@ -4427,7 +4429,7 @@ No 	                    No 	                    Show text only
 
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     #if NET8_0_OR_GREATER
-    [LibraryImport(Libraries.User32, SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+    [LibraryImport(Libraries.User32, EntryPoint = "FindWindowW", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
     internal static partial IntPtr FindWindow([MarshalAs(UnmanagedType.LPWStr)] string? lpClassName, [MarshalAs(UnmanagedType.LPWStr)] string? lpWindowName);
     #else
     [DllImport(Libraries.User32, CharSet = CharSet.Unicode, SetLastError = true)]
@@ -4458,7 +4460,7 @@ No 	                    No 	                    Show text only
 
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     #if NET8_0_OR_GREATER
-    [LibraryImport(Libraries.User32)]
+    [LibraryImport(Libraries.User32, EntryPoint = "GetWindowTextLengthW")]
     internal static partial int GetWindowTextLength(IntPtr hWnd);
     #else
     [DllImport(Libraries.User32)]
@@ -4659,7 +4661,7 @@ No 	                    No 	                    Show text only
     #endif
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     #if NET8_0_OR_GREATER
-    [LibraryImport(Libraries.Gdi32)]
+    [LibraryImport(Libraries.Gdi32, EntryPoint = "GetObjectW")]
     internal static partial int GetObject(IntPtr hgdiobj, int cbBuffer, ref BITMAP lpvObject);
     #else
 
@@ -6535,22 +6537,36 @@ No 	                    No 	                    Show text only
         fmtid = new Guid("F29F85E0-4FF9-1068-AB91-08002B27B3D9"),
         pid = 2
     };
-    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    #if NET8_0_OR_GREATER
-    [LibraryImport(Libraries.Propsys, StringMarshalling = StringMarshalling.Utf16)]
-    private static partial int InitPropVariantFromString([MarshalAs(UnmanagedType.LPWStr)] string psz, out PROPVARIANT ppropvar);
-    #else
+    /// <summary>PROPVARIANT variant type for a task-allocator owned Unicode string.</summary>
+    private const ushort VT_LPWSTR = 31;
 
-    [DllImport(Libraries.Propsys, CharSet = CharSet.Unicode)]
-    private static extern int InitPropVariantFromString([MarshalAs(UnmanagedType.LPWStr)] string psz, out PROPVARIANT ppropvar);
-    #endif
+    /// <summary>
+    /// Managed equivalent of the <c>InitPropVariantFromString</c> helper from propvarutil.h. The Windows
+    /// SDK only supplies that helper as a header inline, so there is no export to bind against. The string
+    /// is allocated with the COM task allocator so that <see cref="PropVariantClear"/> can release it.
+    /// </summary>
+    private static int InitPropVariantFromString(string psz, out PROPVARIANT ppropvar)
+    {
+        ppropvar = new PROPVARIANT
+        {
+            p = StringToCoTaskMemUni(psz)
+        };
+
+        if (ppropvar.p == IntPtr.Zero)
+        {
+            return unchecked((int)0x8007000E); // E_OUTOFMEMORY
+        }
+
+        ppropvar.vt = VT_LPWSTR;
+        return 0;
+    }
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     #if NET8_0_OR_GREATER
-    [LibraryImport(Libraries.Propsys)]
+    [LibraryImport(Libraries.Ole32)]
     private static partial int PropVariantClear(ref PROPVARIANT pvar);
     #else
 
-    [DllImport(Libraries.Propsys)]
+    [DllImport(Libraries.Ole32)]
     private static extern int PropVariantClear(ref PROPVARIANT pvar);
     #endif
 
