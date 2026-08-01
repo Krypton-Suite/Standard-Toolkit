@@ -37,6 +37,14 @@ public class GlobalStaticConstants
     /// <summary>The global button padding</summary>
     public const int GLOBAL_BUTTON_PADDING = 10;
 
+    /// <summary>
+    /// Right-hand inset (pixels) for form caption control-box buttons when a built-in palette
+    /// does not compute one from the window border. Default <c>0</c> keeps the historical flush
+    /// layout (Close can collide with the form border; see #4132). Raise toward
+    /// <see cref="CommonHelper.GetFormHeaderButtonEdgeInsetRight"/> when tuning the gap.
+    /// </summary>
+    public static int HEADER_BUTTON_EDGE_INSET_FORM_RIGHT = 0;
+
     /// <summary>The default countdown interval</summary>
     internal const int DEFAULT_COUNTDOWN_INTERVAL = 1000;
 

@@ -45,6 +45,9 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#4132](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4132), ControlBox item borders do not paint correctly
+   * The right and bottom borders of a `KryptonForm` are no longer clipped away by the window region.
+   * Themes that previously hardcoded a zero right-hand control-box inset now read `GlobalStaticConstants.HEADER_BUTTON_EDGE_INSET_FORM_RIGHT` (still defaults to `0`). Raise that value toward the near-edge inset when tuning the Close button gap against the form border.
 * Resolved [#4059](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4059), Grouped Ribbon controls do expose designers, needs a closer look
    * `KryptonRibbonGroupThemeComboBox` now reuses the base ribbon combo box designer instead of a near-duplicate Theme-specific designer
 * Implemented [#1231](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1231), The `KryptonOpenFileDialog` can have poor performance on some OS hardware
