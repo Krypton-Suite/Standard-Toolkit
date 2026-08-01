@@ -10,19 +10,19 @@
 namespace Krypton.Navigator.Utilities;
 
 /// <summary>
-/// Hidden top-level proxy window registered with ITaskbarList3 as a tab thumbnail for a <see cref="KryptonPage"/>.
+/// Hidden top-level proxy window registered with ITaskbarList as a tab thumbnail for a <see cref="KryptonPage"/>.
 /// Must remain WS_VISIBLE (off-screen) so thumbnail clicks deliver WM_ACTIVATE to this window.
 /// </summary>
 internal sealed class NavigatorTaskbarThumbnailProxy : Form
 {
-    private readonly NavigatorTaskbarThumbnailManager _manager;
+    private readonly NavigatorTaskbarHostCoordinator _coordinator;
     private readonly KryptonPage _page;
     private bool _iconicConfigured;
     private bool _shown;
 
-    public NavigatorTaskbarThumbnailProxy(NavigatorTaskbarThumbnailManager manager, KryptonPage page)
+    public NavigatorTaskbarThumbnailProxy(NavigatorTaskbarHostCoordinator coordinator, KryptonPage page)
     {
-        _manager = manager;
+        _coordinator = coordinator;
         _page = page;
 
         FormBorderStyle = FormBorderStyle.None;
@@ -67,7 +67,6 @@ internal sealed class NavigatorTaskbarThumbnailProxy : Form
             Owner = owner;
         }
 
-        // Show() with ShowWithoutActivation keeps the window visible but off-screen.
         Show();
         _shown = true;
         EnsureIconicAttributes();
@@ -114,8 +113,7 @@ internal sealed class NavigatorTaskbarThumbnailProxy : Form
     protected override void OnActivated(EventArgs e)
     {
         base.OnActivated(e);
-        // Thumbnail click activates this proxy; switch the real navigator page on the UI thread after activation settles.
-        _manager.OnProxyActivated(_page);
+        _coordinator.OnProxyActivated(_page);
     }
 
     protected override void WndProc(ref Message m)
@@ -123,9 +121,14 @@ internal sealed class NavigatorTaskbarThumbnailProxy : Form
         switch (m.Msg)
         {
             case PI.WM_.CLOSE:
-                if (_manager.OnProxyCloseRequested(_page))
+                // Always swallow WM_CLOSE so Shell close-deny / CloseButtonAction.None cannot destroy the proxy.
+                _coordinator.OnProxyCloseRequested(_page);
+                return;
+
+            case PI.WM_.ACTIVATE:
+                if (LowWord(m.WParam) != 0)
                 {
-                    return;
+                    _coordinator.OnProxyActivated(_page);
                 }
                 break;
 
@@ -136,33 +139,17 @@ internal sealed class NavigatorTaskbarThumbnailProxy : Form
                 var maxHeight = LowWord(m.LParam);
                 if (maxWidth > 0 && maxHeight > 0)
                 {
-                    _manager.ProvideIconicThumbnail(this, new Size(maxWidth, maxHeight), false);
+                    _coordinator.ProvideIconicThumbnail(this, new Size(maxWidth, maxHeight), false);
                 }
                 return;
             }
 
             case PI.WM_.DWMSENDICONICLIVEPREVIEWBITMAP:
-                _manager.ProvideIconicThumbnail(this, GetLivePreviewSize(), true);
+                _coordinator.ProvideIconicThumbnail(this, _coordinator.GetLivePreviewSize(_page), true);
                 return;
         }
 
         base.WndProc(ref m);
-    }
-
-    private Size GetLivePreviewSize()
-    {
-        if (_page.IsHandleCreated && _page.Width > 0 && _page.Height > 0)
-        {
-            return _page.Size;
-        }
-
-        Form? form = _manager.HostForm;
-        if (form != null && form.ClientSize.Width > 0 && form.ClientSize.Height > 0)
-        {
-            return form.ClientSize;
-        }
-
-        return new Size(200, 150);
     }
 
     private static string GetPageCaption(KryptonPage page)

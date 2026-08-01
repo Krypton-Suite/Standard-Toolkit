@@ -13,10 +13,12 @@ namespace Krypton.Navigator.Utilities;
 /// Registers <see cref="KryptonNavigator"/> pages as individual Windows taskbar thumbnails (IE-style flyout).
 /// Drop this component on a form, set <see cref="Navigator"/>, and leave <see cref="Enabled"/> true.
 /// Clear <see cref="KryptonPageFlags.AllowTaskbarThumbnail"/> on wizard steps that should not appear.
+/// Multiple components on the same taskbar-visible host merge into one thumbnail group.
 /// </summary>
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(KryptonNavigator))]
 [DefaultProperty(nameof(Navigator))]
+[Designer(typeof(KryptonNavigatorTaskbarThumbnailsDesigner))]
 [Description(@"Registers KryptonNavigator pages as individual Windows taskbar thumbnails.")]
 public class KryptonNavigatorTaskbarThumbnails : Component
 {
@@ -26,6 +28,10 @@ public class KryptonNavigatorTaskbarThumbnails : Component
     private bool _enabled = true;
     private bool _includeHiddenPages;
     private bool _allowCloseFromThumbnail = true;
+    private bool _activeTabUsesAppPreview = true;
+    private bool _useSelectedPageOverlay;
+    private bool _useSelectedPageProgress;
+    private bool _useSelectedPageThumbnailButtons;
     private int _maxThumbnails;
     private NavigatorTaskbarThumbnailManager? _manager;
     private bool _disposed;
@@ -40,6 +46,27 @@ public class KryptonNavigatorTaskbarThumbnails : Component
     [Category(@"Navigator")]
     [Description(@"Occurs when a custom taskbar thumbnail or live-preview bitmap is requested for a page.")]
     public event EventHandler<QueryTaskbarThumbnailEventArgs>? QueryThumbnail;
+
+    /// <summary>
+    /// Occurs when the selected page should supply a host taskbar overlay icon.
+    /// </summary>
+    [Category(@"Navigator")]
+    [Description(@"Occurs when the selected page should supply a host taskbar overlay icon.")]
+    public event EventHandler<QueryTaskbarOverlayEventArgs>? QueryOverlay;
+
+    /// <summary>
+    /// Occurs when the selected page should supply host taskbar progress.
+    /// </summary>
+    [Category(@"Navigator")]
+    [Description(@"Occurs when the selected page should supply host taskbar progress.")]
+    public event EventHandler<QueryTaskbarProgressEventArgs>? QueryProgress;
+
+    /// <summary>
+    /// Occurs when the selected page should supply host taskbar thumbnail toolbar buttons.
+    /// </summary>
+    [Category(@"Navigator")]
+    [Description(@"Occurs when the selected page should supply host taskbar thumbnail toolbar buttons.")]
+    public event EventHandler<QueryTaskbarThumbnailButtonsEventArgs>? QueryThumbnailButtons;
 
     #endregion
 
@@ -157,10 +184,86 @@ public class KryptonNavigatorTaskbarThumbnails : Component
     }
 
     /// <summary>
-    /// Gets and sets the maximum number of page thumbnails to register. Zero means unlimited.
+    /// Gets and sets whether the active tab uses the host window for thumbnail and Peek when active.
     /// </summary>
     [Category(@"Behavior")]
-    [Description(@"Maximum number of page thumbnails to register. Zero means unlimited.")]
+    [Description(@"When true, the active tab uses the application window for thumbnail and Peek previews.")]
+    [DefaultValue(true)]
+    public bool ActiveTabUsesAppPreview
+    {
+        get => _activeTabUsesAppPreview;
+        set
+        {
+            if (_activeTabUsesAppPreview != value)
+            {
+                _activeTabUsesAppPreview = value;
+                Sync();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets and sets whether the host taskbar overlay icon is driven by the selected page via <see cref="QueryOverlay"/>.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Apply a host taskbar overlay icon from the selected page.")]
+    [DefaultValue(false)]
+    public bool UseSelectedPageOverlay
+    {
+        get => _useSelectedPageOverlay;
+        set
+        {
+            if (_useSelectedPageOverlay != value)
+            {
+                _useSelectedPageOverlay = value;
+                Sync();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets and sets whether host taskbar progress is driven by the selected page via <see cref="QueryProgress"/>.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Apply host taskbar progress from the selected page.")]
+    [DefaultValue(false)]
+    public bool UseSelectedPageProgress
+    {
+        get => _useSelectedPageProgress;
+        set
+        {
+            if (_useSelectedPageProgress != value)
+            {
+                _useSelectedPageProgress = value;
+                Sync();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets and sets whether host thumbnail toolbar buttons are driven by the selected page via <see cref="QueryThumbnailButtons"/>.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Apply host taskbar thumbnail toolbar buttons from the selected page.")]
+    [DefaultValue(false)]
+    public bool UseSelectedPageThumbnailButtons
+    {
+        get => _useSelectedPageThumbnailButtons;
+        set
+        {
+            if (_useSelectedPageThumbnailButtons != value)
+            {
+                _useSelectedPageThumbnailButtons = value;
+                Sync();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets and sets the maximum number of page thumbnails to register from this component. Zero means unlimited.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Maximum number of page thumbnails to register from this component. Zero means unlimited.")]
     [DefaultValue(0)]
     public int MaxThumbnails
     {
@@ -186,6 +289,13 @@ public class KryptonNavigatorTaskbarThumbnails : Component
     #region Internal
 
     internal void RaiseQueryThumbnail(QueryTaskbarThumbnailEventArgs e) => QueryThumbnail?.Invoke(this, e);
+
+    internal void RaiseQueryOverlay(QueryTaskbarOverlayEventArgs e) => QueryOverlay?.Invoke(this, e);
+
+    internal void RaiseQueryProgress(QueryTaskbarProgressEventArgs e) => QueryProgress?.Invoke(this, e);
+
+    internal void RaiseQueryThumbnailButtons(QueryTaskbarThumbnailButtonsEventArgs e) =>
+        QueryThumbnailButtons?.Invoke(this, e);
 
     internal void Sync()
     {

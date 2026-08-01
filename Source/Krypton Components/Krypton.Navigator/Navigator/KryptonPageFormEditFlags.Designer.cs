@@ -53,6 +53,7 @@ namespace Krypton.Navigator
             this.checkBoxDockingAllowDropDown = new Krypton.Toolkit.KryptonCheckBox();
             this.checkBoxAllowPageReorder = new Krypton.Toolkit.KryptonCheckBox();
             this.checkBoxAllowConfigSave = new Krypton.Toolkit.KryptonCheckBox();
+            this.checkBoxAllowTaskbarThumbnail = new Krypton.Toolkit.KryptonCheckBox();
             this.kpnlButtons = new Krypton.Toolkit.KryptonPanel();
             this.kryptonBorderEdge1 = new Krypton.Toolkit.KryptonBorderEdge();
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
@@ -171,13 +172,21 @@ namespace Krypton.Navigator
             this.checkBoxAllowConfigSave.TabIndex = 3;
             this.checkBoxAllowConfigSave.Values.Text = "Allow Config Save";
             // 
+            // checkBoxAllowTaskbarThumbnail
+            // 
+            this.checkBoxAllowTaskbarThumbnail.Location = new System.Drawing.Point(12, 104);
+            this.checkBoxAllowTaskbarThumbnail.Name = "checkBoxAllowTaskbarThumbnail";
+            this.checkBoxAllowTaskbarThumbnail.Size = new System.Drawing.Size(160, 20);
+            this.checkBoxAllowTaskbarThumbnail.TabIndex = 4;
+            this.checkBoxAllowTaskbarThumbnail.Values.Text = "Allow Taskbar Thumbnail";
+            // 
             // kpnlButtons
             // 
             this.kpnlButtons.Controls.Add(this.kryptonBorderEdge1);
             this.kpnlButtons.Controls.Add(this.buttonOK);
             this.kpnlButtons.Controls.Add(this.buttonCancel);
             this.kpnlButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.kpnlButtons.Location = new System.Drawing.Point(0, 188);
+            this.kpnlButtons.Location = new System.Drawing.Point(0, 211);
             this.kpnlButtons.Name = "kpnlButtons";
             this.kpnlButtons.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
             this.kpnlButtons.Size = new System.Drawing.Size(429, 50);
@@ -197,6 +206,7 @@ namespace Krypton.Navigator
             this.kryptonPanel1.Controls.Add(this.checkBoxPageInOverflowBarForOutlookMode);
             this.kryptonPanel1.Controls.Add(this.checkBoxAllowPageDrag);
             this.kryptonPanel1.Controls.Add(this.checkBoxAllowConfigSave);
+            this.kryptonPanel1.Controls.Add(this.checkBoxAllowTaskbarThumbnail);
             this.kryptonPanel1.Controls.Add(this.checkBoxDockingAllowClose);
             this.kryptonPanel1.Controls.Add(this.checkBoxAllowPageReorder);
             this.kryptonPanel1.Controls.Add(this.checkBoxDockingAllowAutoHidden);
@@ -208,7 +218,7 @@ namespace Krypton.Navigator
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(429, 188);
+            this.kryptonPanel1.Size = new System.Drawing.Size(429, 211);
             this.kryptonPanel1.TabIndex = 14;
             // 
             // KryptonPageFormEditFlags
@@ -217,7 +227,7 @@ namespace Krypton.Navigator
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(429, 238);
+            this.ClientSize = new System.Drawing.Size(429, 261);
             this.ControlBox = false;
             this.Controls.Add(this.kryptonPanel1);
             this.Controls.Add(this.kpnlButtons);
@@ -253,6 +263,7 @@ namespace Krypton.Navigator
         private Krypton.Toolkit.KryptonCheckBox checkBoxDockingAllowDropDown;
         private Krypton.Toolkit.KryptonCheckBox checkBoxAllowPageReorder;
         private Krypton.Toolkit.KryptonCheckBox checkBoxAllowConfigSave;
+        private Krypton.Toolkit.KryptonCheckBox checkBoxAllowTaskbarThumbnail;
         private KryptonPanel kpnlButtons;
         private KryptonBorderEdge kryptonBorderEdge1;
         private KryptonPanel kryptonPanel1;

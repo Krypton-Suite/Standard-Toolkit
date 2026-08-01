@@ -2501,7 +2501,7 @@ internal partial class PI
             DWMWINDOWMAXIMIZEDCHANGE = 0x0321,
             // <summary>
             // Sent when DWM needs an iconic thumbnail bitmap for a window that has DWMWA_HAS_ICONIC_BITMAP set.
-            // HIWORD(lParam) = height, LOWORD(lParam) = width of the requested thumbnail.
+            // HIWORD(lParam) = width, LOWORD(lParam) = height of the requested thumbnail.
             // </summary>
             DWMSENDICONICTHUMBNAIL = 0x0323,
             // <summary>
@@ -6366,6 +6366,55 @@ No 	                    No 	                    Show text only
         void SetOverlayIcon(IntPtr hwnd, IntPtr hIcon, [MarshalAs(UnmanagedType.LPWStr)] string pszDescription);
         void SetThumbnailTooltip(IntPtr hwnd, [MarshalAs(UnmanagedType.LPWStr)] string pszTip);
         void SetThumbnailClip(IntPtr hwnd, IntPtr prcClip);
+    }
+
+    /// <summary>
+    /// Flags for <see cref="ITaskbarList4.SetTabProperties"/> controlling thumbnail and Peek behaviour.
+    /// </summary>
+    [Flags]
+    internal enum STPFLAG
+    {
+        STPF_NONE = 0,
+        STPF_USEAPPTHUMBNAILALWAYS = 0x1,
+        STPF_USEAPPTHUMBNAILWHENACTIVE = 0x2,
+        STPF_USEAPPPEEKALWAYS = 0x4,
+        STPF_USEAPPPEEKWHENACTIVE = 0x8
+    }
+
+    /// <summary>
+    /// COM interface extending <see cref="ITaskbarList3"/> with tab property control (Windows 7+).
+    /// </summary>
+    [ComImport]
+    [Guid("c43dc798-95d1-4bea-9030-bb99e2983a1a")]
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    internal interface ITaskbarList4
+    {
+        // ITaskbarList methods
+        void HrInit();
+        void AddTab(IntPtr hwnd);
+        void DeleteTab(IntPtr hwnd);
+        void ActivateTab(IntPtr hwnd);
+        void SetActiveAlt(IntPtr hwnd);
+
+        // ITaskbarList2 methods
+        void MarkFullscreenWindow(IntPtr hwnd, [MarshalAs(UnmanagedType.Bool)] bool fFullscreen);
+
+        // ITaskbarList3 methods
+        void SetProgressValue(IntPtr hwnd, ulong ullCompleted, ulong ullTotal);
+        void SetProgressState(IntPtr hwnd, TBPFLAG tbpFlags);
+        void RegisterTab(IntPtr hwndTab, IntPtr hwndMDI);
+        void UnregisterTab(IntPtr hwndTab);
+        void SetTabOrder(IntPtr hwndTab, IntPtr hwndInsertBefore);
+        void SetTabActive(IntPtr hwndTab, IntPtr hwndMDI, uint dwReserved);
+        void ThumbBarAddButtons(IntPtr hwnd, uint cButtons, IntPtr pButtons);
+        void ThumbBarUpdateButtons(IntPtr hwnd, uint cButtons, IntPtr pButtons);
+        void ThumbBarSetImageList(IntPtr hwnd, IntPtr himl);
+        void SetOverlayIcon(IntPtr hwnd, IntPtr hIcon, [MarshalAs(UnmanagedType.LPWStr)] string pszDescription);
+        void SetThumbnailTooltip(IntPtr hwnd, [MarshalAs(UnmanagedType.LPWStr)] string pszTip);
+        void SetThumbnailClip(IntPtr hwnd, IntPtr prcClip);
+
+        // ITaskbarList4 methods
+        void SetTabProperties(IntPtr hwndTab, STPFLAG stpFlags);
     }
 
     /// <summary>

@@ -43,7 +43,7 @@ public class QueryTaskbarThumbnailEventArgs : EventArgs
     public bool LivePreview { get; }
 
     /// <summary>
-    /// Gets or sets an optional custom bitmap. When null, the component captures the page via DrawToBitmap.
+    /// Gets or sets an optional custom bitmap. When null, the component captures the page via PrintWindow/DrawToBitmap.
     /// Ownership of the bitmap remains with the event handler; the component clones it before use.
     /// </summary>
     public Bitmap? Thumbnail { get; set; }
