@@ -58,6 +58,10 @@
    * Canonical `KryptonManager.Strings.CommonStrings` owns shared General, ControlBox, SystemMenu, Commands, and FileSystem string sets. Legacy `GeneralStrings` / `ControlBoxButtonStrings` / `SystemMenuStrings` / `FileSystemListViewStrings` / selected `CustomStrings` command properties remain as compatibility aliases. New XML/JSON exports write `CommonStrings` once; legacy paths still import (CommonStrings wins when both are present).
    * Verified `WindowsMuiStringId` catalog plus `WindowsMuiStrings` / Utilities `WindowsSystemStringLoader` for advanced System32-only raw resource lookups (undocumented IDs, best-effort with fallbacks).
    * Catalog-drift resilience: tolerant import ignores unknown keys and keeps defaults for missing ones; `AnalyzeTranslationsFromFile` / `MergeMissingTranslationsToFile`, `TranslationsCoverageReported`, `ToolkitVersion` export stamp, and designer **Merge Missing Translations…** verb help upgrade older culture files when the toolkit adds strings.
+* Resolved [#3996](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3996), Navigator stack and Outlook full modes now scroll the requested page check button into view (previously ignored the page argument)
+* Implemented [#1103](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1103), Investigate use of PInvoked GDI text functionality for performance [and compare with TextRenderer.DrawText (Mode off)]
+   * Opt-in native GDI text path for `AccurateText` (`PreferNativeGdiText` / `GdiNativeText`) with TestForm benchmark
+* Resolved [#4061](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4061), Ribbon caption form icon and QAT refresh when the palette/theme changes (no resize required)
 * Implemented [#882](https://github.com/Krypton-Suite/Standard-Toolkit/issues/882), `KryptonNavigator` individual taskbar 'thumbnail' views
    * Opt-in Windows taskbar tabbed thumbnails for `KryptonNavigator` pages via `KryptonNavigatorTaskbarThumbnails` (`KryptonPageFlags.AllowTaskbarThumbnail` to exclude pages).
    * Multi-navigator merge on one taskbar host, docking float detach/reattach, Win11 Peek via `ITaskbarList4`, and designer/Flags UI included.

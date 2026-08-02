@@ -79,6 +79,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<KryptonTreeComboBoxDemo>("KryptonTreeComboBox", "Demo for Issue #3444: ComboBox-style control with a grouped tree drop-down (leaf/full path, breadcrumb, and parent-node selection).");
         CreateButton<KryptonCheckedListComboBoxDemo>("KryptonCheckedListComboBox", "Multi-select combo (#3445) with KryptonCheckedListBox drop-down: items + DataSource/DisplayMember/ValueMember demo and live summary.");
         CreateButton<BorderlessFormDemo>("Borderless Form Demo", "Demo for Issue #2922: Borderless KryptonForm without system title bar flicker on startup. Form should appear directly in borderless state.");
+        CreateButton<Bug1103GdiTextPerfDemo>("Bug 1103 Native GDI Text", "Issue #1103: benchmark Graphics.DrawString vs TextRenderer vs P/Invoke DrawText/ExtTextOut (cached HFONT), visual parity panel, and toggle AccurateText.PreferNativeGdiText on live Krypton button/label. Requires SetCompatibleTextRenderingDefault(false).");
         CreateButton<Bug2914Test>("Bug 2914 Test", "Tests the fix for 2914.");
         CreateButton<Bug2984SeparatorTest>("Bug 2984 Separator Test", "Demo for Issue #2984: NullReferenceException in ViewDrawSeparator.RenderBefore. Exercises KryptonNavigator (Outlook), KryptonSplitContainer, and KryptonSeparator. Swap themes to verify no crash.");
         CreateButton<Bug3025KryptonLabelAutoSizeDemo>("Bug 3025 KryptonLabel AutoSize Demo", "Demo for Issue #3025: KryptonLabel with AutoSize now resizes to fit text when placed in the Designer (click-drag). Shows AutoSize on/off, LabelStyles, short/long text, and text + image.");
@@ -213,6 +214,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<DocumentGroupsDemo>("Document Groups (Workspace)", "IDE-style document groups via KryptonWorkspace cells + KryptonDocumentGroupHelper, with multi-strip CaptionIntegrated chrome (one strip per cell).");
         CreateButton<RibbonMdiDemo>("Ribbon MDI Demo (Issue #2921)", "Comprehensive demo for Issue #2921: Ribbon + MDI. Verifies no double ribbon tabs when opening/closing maximized MDI children; close/minimize/maximize and QAT click areas aligned with visuals.");
         CreateButton<Bug3203QATLocationHiddenFormTest>("Ribbon QATLocation=Hidden does not hide QAT when FormBorderStyle=None (Issue #3203)", string.Empty);
+        CreateButton<Bug4061RibbonCaptionIconThemeDemo>("Bug 4061 Ribbon caption icon on theme change", "Issue #4061: Switch themes without resizing. Office 2007 hides the form icon when the File app button is visible; Office 2010+/macOS/Aqua show it. Status line reports RibbonShape and AllowIconDisplay; QAT Above should hide under macOS shapes.");
         CreateButton<Bug3183SmallSquareRenderedNextToClose>("Small Square Rendered Next to Close Button (Issue #3183)", string.Empty);
         CreateButton<GlyphColors>("Glyph Colors", "Customization of glyph colors using kryptonCustomPalette");
     }
