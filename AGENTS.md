@@ -2,6 +2,8 @@
 
 ## Recent Tooling Mistakes To Avoid
 
+These are recurring issues observed when using AI coding agents and shell wrappers. Follow these guidelines even if the commands appear syntactically correct.
+
 - Do not combine `cmd.exe` variable assignment and use in the same command line. `%VAR%` is expanded before `set` takes effect, which created a stash named `"%STASH_MSG%"`. Correct example: `git stash push -m "3493-followup" -- .`
 - Do not pass complex PowerShell through `cmd.exe` with unescaped `$variables`; `cmd.exe` can strip or alter the command before PowerShell sees it. Correct example: run PowerShell directly with `$path = Join-Path (Get-Location) 'AGENTS.md'; Get-Content -LiteralPath $path -Raw`.
 - Do not build long `git commit -m` commands when the body contains tokens such as `--check`; argument parsing can treat body text as options. Correct example: write the message to a temp file and run `git commit -F <message-file>`.
@@ -15,7 +17,7 @@
 Before considering a task complete:
 
 - Build the affected project if instructed.
-- Treat new analyzer warnings as part of the build unless they already existed.
+- Fix any compiler or analyzer warnings introduced by the change; treat new warnings as part of the build (do not leave them for later). Prefer fixing pre-existing warnings in files you already touch when the fix is small and local; do not expand into a repo-wide warning cleanup unless asked.
 - Update TestForm when adding a feature.
 - Update Changelog.md for completed features and bug fixes.
 - Add developer documentation for substantial new features.
@@ -41,6 +43,7 @@ Before considering a task complete:
 - `Source/Krypton Components/TestForm`: WinForms sample app used to validate changes; add or extend demos here when features or bugs are completed (see **TestForm Demos**)
 - `Source/TestHarnesses`: Small repro/test harnesses (e.g., `ThemeSwapRepro`)
 - `Scripts/`: Build and packaging scripts; `run.cmd` (root) launches an interactive menu; scripts live under `Scripts/VS2022/`, `Scripts/Current/`, `Scripts/Build/` (e.g., `build-stable.cmd`, `build-canary.cmd`, `build-nightly.cmd`, `build.proj`)
+`Scripts/UnitTest/`: Reusable PowerShell UI-automation helpers for interactive validation of `TestForm` scenarios (see **Unit Test Scripts**)
 - `Bin/`: Build outputs by configuration (e.g., `Bin/Debug`)
 - `Documents/`, `Assets/`, `Logs/`: Docs, images, and build logs
 - `Documents/Changelog/Changelog.md`: User-facing release notes for completed bugs and features
@@ -59,9 +62,12 @@ Before considering a task complete:
 ## Editing Philosophy
 
 - Make the smallest change that correctly solves the task.
+- Keep code clean, simple, and maintainable.
 - Preserve existing formatting and coding style.
 - Do not refactor unrelated code.
 - Do not rename identifiers unless requested.
+- When adding or changing public/protected API, include scoped documentation per **Code Documentation Guidelines**; do not turn a feature or bug fix into a repo-wide documentation pass unless asked.
+- Keep accompanying artefacts (changelog, developer guide, PR description, TestForm demo) consistent with the implementation; do not leave placeholder text from templates.
 
 ## Public API
 
@@ -115,19 +121,26 @@ Before considering a task complete:
 - Do not enable or disable nullable in individual files unless requested.
 - No unneeded `try/catch` blocks if there's no catch handling
 - Idioms: use null-propagation and object/collection initializers where consistent
-- Prefer switch expressions for simple value/type dispatch that only returns a value; keep switch statements for complex control flow or side effects
+- Prefer [switch expressions](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/switch-expression) for simple value/type dispatch that only returns (or assigns) a value. Keep `switch` statements for complex control flow, multiple statements per arm, or side effects. Prefer a discard arm (`_ => ...`) when exhaustiveness matters. Use only pattern forms already common in this codebase (constant, type, discard, simple property/`when` guards as elsewhere); do not introduce newer pattern syntax that would fight **Public API → Compatibility**. Apply to new and changed code; do not mass-convert unrelated existing code unless asked.
+- Prefer the conditional (ternary) operator (`condition ? whenTrue : whenFalse`) for simple value selection in place of an `if`/`else` that only assigns or returns. Keep `if`/`else` when either branch has multiple statements, side effects beyond the assigned value, or when nesting ternaries would hurt readability (prefer a local, `if`/`else`, or a [switch expression](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/switch-expression) instead of deep nesting). Apply to new and changed code; do not mass-convert unrelated existing code unless asked.
+- Prefer [expression-bodied members](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/statements-expressions-operators/expression-bodied-members) (`member => expression;`) when the body is a single expression — methods, properties/`get`/`set`, constructors, finalizers, and indexers. Stay within the C# 7.3 ceiling in **Public API → Compatibility** (do not pull in newer syntax from examples such as primary constructors, `required`, or collection expressions). Keep a block body when the member needs multiple statements, local variables, early returns with nontrivial branching, or when expression form would hurt readability. Apply this to new and changed members; do not mass-convert unrelated existing code unless asked.
 - WinForms: `UseWindowsForms=true`; prefer designer-friendly patterns and keep partial classes tidy
+- New WinForms forms, controls, and components should follow the standard Visual Studio partial-class pattern with separate `.cs`, `.Designer.cs`, and `.resx` files where appropriate. Prefer designer-backed types over single-file implementations unless explicitly requested otherwise.
+- Do not place designer-generated initialization code in the main source file. Keep UI initialization in `InitializeComponent()` within the corresponding `.Designer.cs` file.
 - WinForms designer: keep object declarations at file bottom; initialize in `*.Designer.cs` `InitializeComponent()`
 - Do not manually edit generated `*.Designer.cs` files unless the task specifically requires it.
 - Constraint: do not use `yield return` inside `catch` blocks
 
 ## Code Documentation Guidelines
 
-When asked to review or document code, add comments only where they help a maintainer understand **non-obvious** behavior. Do not narrate what the code already says.
+Prefer **scoped meticulous documentation**: thorough XML and maintainer notes on the public/protected surface and on non-obvious implementation, without narrating boilerplate or rewriting unrelated files.
 
-### What to comment
+When asked to review or document code — or when adding/changing public API — document to this standard for the types and members in scope. Do not expand into large blocks of unchanged legacy code unrelated to the task (see **Editing Philosophy**).
 
-- **Class-level summaries** for types that participate in a larger model (composite trees, state machines, store/restore flows, drag hosts). Name sibling types and the role of the class in the hierarchy.
+### What to document
+
+- **Public and protected API** — full `///` XML on types and members you add or change: `<summary>`, and `<param>` / `<returns>` / `<exception>` / `<remarks>` when they add real information (behavior, constraints, nullability contracts, thread affinity, designer impact). Prefer `<see cref="..."/>` and `<c>...</c>` for related types and values.
+- **Class-level summaries** for every non-trivial type in scope, especially those in a larger model (composite trees, state machines, store/restore flows, drag hosts). Name sibling types and the role of the class in the hierarchy. Thin subclasses and adapters may use a one-line summary that points at the base or owning type.
 - **Inline comments** at decision points for:
   - Multi-step algorithms (store-then-restore, orphan handling, greedy layout shrink)
   - Propagation (`PropogateAction`, `StartUpdate`/`EndUpdate`, reverse child iteration)
@@ -136,25 +149,50 @@ When asked to review or document code, add comments only where they help a maint
   - XML persistence quirks (element order, attribute meaning, misnamed APIs, buffer length)
   - Geometry or ordering that is not obvious from property names (z-order, hot vs draw rects, remainder path parsing)
 - **Brief region comments** above enum groups that act as a catalog for a subsystem (e.g. propagation actions).
+- **Internal / private helpers** — document with `///` or a short `//` only when the name alone does not convey contracts, ordering requirements, or side effects.
 
-### What not to comment
+### What not to document
 
-- Obvious boilerplate (`// This constructor creates an instance of X`, `// Return the result`, restating parameter names).
-- Every public member when XML documentation already describes intent adequately.
-- **Event Args**, **Resources**, **Designer** / **`.Designer.cs`**, and other thin property-bag or generated files unless logic is non-trivial.
-- Large blocks of unchanged legacy code unrelated to the task.
+- Obvious boilerplate (`// This constructor creates an instance of X`, `// Return the result`, restating parameter names or type names).
+- Members whose existing XML already accurately describes intent; extend or correct rather than rewrite wholesale (see **Comment Style**).
+- **Event Args**, **Resources**, **Designer** / **`.Designer.cs`**, and other thin property-bag or generated files unless logic is non-trivial (then document only that logic).
+- Large blocks of unchanged legacy code unrelated to the task — do not “document the world” in a feature or bug PR unless the user explicitly requests a documentation pass.
 
-### Style
+### Comment Style
 
-- Keep comments **clear and concise** — one or two sentences; prefer plain language over jargon.
-- Preserve existing comments and XML docs; extend or clarify them surgically rather than replacing wholesale.
-- Use `///` XML summaries for types and public API; use `//` for inline implementation notes.
-- In XML, use `<see cref="..."/>` and `<c>...</c>` to link related types and enum values.
+- Use `///` XML documentation for public and protected types and members.
+- Use `//` comments for implementation notes, algorithms, and non-obvious decisions.
+- Do not use C-style block comments (`/* ... */`) or banner comments (`/** ... */` / `/*** ... ***/`) for documentation unless matching existing surrounding code.
+- Keep comments close to the code they describe.
+- Prefer several short `//` comments over large comment blocks.
+- Comments should explain *why* code exists or *why* an approach was chosen, not simply restate what the code does.
+- Keep comments **clear and concise** — one or two sentences for inline notes; XML may be slightly longer when describing contracts or edge cases. Prefer plain language over jargon.
+- Preserve existing comments and XML documentation whenever they remain accurate and useful. Extend, clarify, or correct them surgically rather than replacing them wholesale. Remove or rewrite comments only when they are inaccurate, misleading, obsolete, or substantially incomplete — never rewrite solely for style. Historical and architectural notes in this codebase are often valuable; do not erase them casually.
+- When updating comments or XML documentation, ensure they remain consistent with the implementation after every change. Documentation should be treated as part of the code, not an afterthought.
+- Remove or correct comments that are inaccurate, outdated, or misleading; do not leave documentation that contradicts the implementation.
+- Documentation passes should converge towards higher quality. Each pass should preserve good existing documentation, improve weak documentation, and avoid introducing regressions in clarity or accuracy — leave documentation as good as or better than before, never worse.
 - Match surrounding voice (this codebase often uses short `//` notes inside `switch` arms and multi-step flows).
+
+Prefer:
+
+```csharp
+// Restore orphaned pages before rebuilding the hierarchy.
+// This ensures page references remain valid during layout reconstruction.
+```
+
+Avoid:
+
+```csharp
+/******************************************************************************
+ * This method walks the docking tree and restores orphaned pages.
+ ******************************************************************************/
+```
+
+And avoid restating the obvious (`// Increment the index.` before `index++;`). Prefer intent (`// Iterate in reverse because removing children invalidates forward indices.`).
 
 ### Prioritization (large modules)
 
-For substantial packages (e.g. `Krypton.Docking`), work in this order:
+For substantial packages (e.g. `Krypton.Docking`) or an explicit documentation pass, work in this order:
 
 1. Root orchestrator and base abstractions (manager, element base, definitions/enums).
 2. Core implementation layers (space/edge/group elements, primary controls).
@@ -290,6 +328,24 @@ Skip the comparison when there is no meaningful WinForms equivalent (e.g. ribbon
 - When fixing a bug, add/adjust a minimal repro in `TestForm` or a harness and describe manual steps in the PR
 - When completing a **feature**, add or update a comprehensive demo in `TestForm` per **TestForm Demos** (include Krypton vs WinForms comparison where appropriate)
 - When completing a bug fix or feature, update `Documents/Changelog/Changelog.md` per **Changelog** in this file
+
+##  Unit Test Scripts
+
+Use `Scripts/UnitTest/` for PowerShell scripts that drive or inspect a Debug `TestForm` build (host a demo form, synthesise mouse input, capture screenshots, probe non-client geometry). These complement manual `TestForm` checks; they are not a substitute for a demo and are not run by CI unless explicitly wired later.
+
+### When to create or update
+
+- Creating throwaway `.ps1` files under `Bin/` during a bug investigation is fine for the session, but **before the work is finished**, move or rewrite the keepers into `Scripts/UnitTest/` with clear names and brief `.SYNOPSIS` / `.DESCRIPTION` help.
+- Prefer extending an existing verification script over adding a near-duplicate.
+- Document new scripts in `Scripts/UnitTest/README.md` (purpose and a short usage example).
+- Do not check in screenshots or `Bin/` output produced by these scripts.
+
+### Conventions
+
+- Resolve the repo root and `Bin\<Configuration>\<TFM>` via `Scripts/UnitTest/UnitTestCommon.ps1` rather than hard-coding machine paths.
+- Host WinForms demos with `-STA` when the script calls `Application.Run`.
+- Keep scripts focused on one scenario (host, drag, remerge, probe, …).
+- Existing #925 helpers: `Start-NavigatorFormIntegrationHost.ps1`, `Invoke-CaptionTabDrag.ps1`, `Test-NavigatorCaptionTabRemerge.ps1`, `Get-NavigatorCaptionTabProbe.ps1`.
 
 ## Commit & Pull Request Guidelines
 
