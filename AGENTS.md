@@ -1,4 +1,4 @@
-# Repository Guidelines
+﻿# Repository Guidelines
 
 ## Recent Tooling Mistakes To Avoid
 
@@ -18,6 +18,7 @@ Before considering a task complete:
 
 - Build the affected project if instructed.
 - Fix any compiler or analyzer warnings introduced by the change; treat new warnings as part of the build (do not leave them for later). Prefer fixing pre-existing warnings in files you already touch when the fix is small and local; do not expand into a repo-wide warning cleanup unless asked.
+- Check files you create or edit for UTF-8 BOM encoding issues and fix them (see **Coding Style & Naming Conventions**). Do not leave UTF-8-without-BOM or wrong-encoding files when the repo expects UTF-8 with BOM; do not expand into a repo-wide encoding cleanup unless asked.
 - Update TestForm when adding a feature.
 - Update Changelog.md for completed features and bug fixes.
 - Add developer documentation for substantial new features.
@@ -109,6 +110,7 @@ Before considering a task complete:
 ## Coding Style & Naming Conventions
 
 - Line endings/encoding: CRLF, UTF-8 with BOM
+- Always verify and fix UTF-8 BOM on files you create or edit. Source and text files in this repo use UTF-8 **with** BOM; if a tool or edit strips the BOM (or writes UTF-8 without BOM), restore it before finishing. Prefer fixing encoding on files already in scope; do not expand into a repo-wide BOM pass unless asked. In PowerShell, rewrite with BOM when needed, e.g. `$utf8Bom = New-Object System.Text.UTF8Encoding $true; [System.IO.File]::WriteAllText($path, $content, $utf8Bom)`.
 - Follow `Source/.editorconfig` and project analyzers (`EnableNETAnalyzers=true`)
 - Indentation: 4 spaces; line endings: CRLF
 - Projects use `global using` like in GlobalDeclarations.cs, do not add new usings in other files
@@ -232,7 +234,7 @@ When the feature warrants user-visible validation, add or update a demo per **Te
 - Location: `Documents/Development/`
 - Name: descriptive kebab or Pascal-style title, e.g. `Krypton-Docking-Developer-Guide.md` or `Visual-Studio-Templates-Developer-Guide.md`.
 - One feature (or cohesive subsystem) per file; cross-link related guides when helpful.
-- CRLF, UTF-8; match tone and structure of existing repo docs.
+- CRLF, UTF-8 with BOM; match tone and structure of existing repo docs.
 
 ### Do not list in these files
 
@@ -370,7 +372,7 @@ When a **bug fix** or **feature** is completed, create a **PR description** as a
 - Location: `Documents/PR/`
 - Copy `Documents/PR/TEMPLATE.md` to `Documents/PR/<issue-or-branch>-<short-title>.md`, e.g. `Documents/PR/3720-foldable-dialog.md` or `Documents/PR/2444-agents-md.md`. Use the issue number when one exists.
 - One file per bug fix or feature (or the cohesive set of changes going into a single PR).
-- CRLF, UTF-8; match the tone and structure of existing repo docs.
+- CRLF, UTF-8 with BOM; match the tone and structure of existing repo docs.
 
 ### What to include
 

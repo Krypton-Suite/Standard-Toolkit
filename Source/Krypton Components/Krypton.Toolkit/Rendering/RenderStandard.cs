@@ -3899,9 +3899,13 @@ public class RenderStandard : RenderBase
 	{
 		var borderPath = new GraphicsPath();
 		if (borderCornerRounding.MaxRadius < 0.1f
+			&& middle
 			&& CommonHelper.HasABorder(borders)
 		   )
 		{   // Deal with issues arrising within https://github.com/Krypton-Suite/Standard-Toolkit/issues/1871
+			// Only nudge the pen-centred path; the outside path is used as a window region
+			// (see KryptonForm.CheckViewLayout) and must enclose the whole rectangle, otherwise
+			// the right and bottom borders are clipped away (issue #4132).
 			borderCornerRounding = PaletteCornerRounding.Uniform(0.1f);
 		}
 

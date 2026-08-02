@@ -2959,7 +2959,7 @@ public abstract class PaletteOffice2013Base : PaletteBase
                 }
                 return Math.Max(2, owningForm!.RealWindowBorders.Right);
             case PaletteMetricInt.HeaderButtonEdgeInsetFormRight:
-                return 0;
+                return GlobalStaticConstants.HEADER_BUTTON_EDGE_INSET_FORM_RIGHT;
             case PaletteMetricInt.HeaderButtonEdgeInsetInputControl:
                 return 1;
             case PaletteMetricInt.HeaderButtonEdgeInsetPrimary:

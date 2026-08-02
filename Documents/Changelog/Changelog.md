@@ -58,6 +58,10 @@
    * Group colour treatment is adjustable via `KryptonNavigatorFormIntegrator.TabGroupAppearance` (header wash strength, header accent bar, member underline, and member border)
    * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Navigator.Utilities` assembly.
 * Implemented [#927](https://github.com/Krypton-Suite/Standard-Toolkit/issues/927), `KryptonNavigator` form minimize, maximize/restore, and close `ButtonSpec` buttons
+* Resolved [#4132](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4132), ControlBox item borders do not paint correctly
+   * The right and bottom borders of a `KryptonForm` are no longer clipped away by the window region.
+   * Caption control-box / ButtonSpec spacing is driven by `GlobalStaticConstants.HEADER_BUTTON_EDGE_INSET_FORM_RIGHT` (default `1`) and `HEADER_BUTTON_EDGE_INSET_FORM_TOP` (default `1`; negative restores caption centring).
+   * When maximized, any WinForms/DWM top overhang (often `Top = -8`) is added to the top inset so ButtonSpecs stay fully on-screen, and the Close/Max/Min hit targets expand to the top (Close also to the right edge) so the extreme corner still lights and activates the button.
 * Implemented [#4104](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4104), Preserve git history in mirror backup
 * Resolved [#4131](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4131), `KryptonForm` no longer throws `EntryPointNotFoundException` on `net8.0`/`net9.0`/`net10.0-windows`.
    * `GetWindowLong` and `SetWindowLong` now route through the `GetWindowLongPtr`/`SetWindowLongPtr` APIs, which are the only variants available on 64-bit Windows.
