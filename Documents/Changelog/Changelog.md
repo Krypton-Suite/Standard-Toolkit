@@ -47,6 +47,7 @@
 
 * Implemented [#1103](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1103), Investigate use of PInvoked GDI text functionality for performance [and compare with TextRenderer.DrawText (Mode off)]
    * Opt-in native GDI text path for `AccurateText` (`PreferNativeGdiText` / `GdiNativeText`) with TestForm benchmark
+* Resolved [#4061](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4061), Ribbon caption form icon and QAT refresh when the palette/theme changes (no resize required)
 * Implemented [#882](https://github.com/Krypton-Suite/Standard-Toolkit/issues/882), `KryptonNavigator` individual taskbar 'thumbnail' views
    * Opt-in Windows taskbar tabbed thumbnails for `KryptonNavigator` pages via `KryptonNavigatorTaskbarThumbnails` (`KryptonPageFlags.AllowTaskbarThumbnail` to exclude pages).
    * Multi-navigator merge on one taskbar host, docking float detach/reattach, Win11 Peek via `ITaskbarList4`, and designer/Flags UI included.
