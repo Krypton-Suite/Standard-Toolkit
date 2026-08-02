@@ -238,6 +238,11 @@ public class KryptonGlobalToolkitStrings : GlobalId
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public static KryptonSearchBoxStrings KryptonSearchBoxStrings { get; } = new KryptonSearchBoxStrings();
 
+    /// <summary>Gets the custom file dialog strings.</summary>
+    /// <value>The custom file dialog strings.</value>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public static KryptonCustomFileDialogStrings KryptonCustomFileDialogStrings { get; } = new KryptonCustomFileDialogStrings();
+
     /// <summary>Gets the win32 system menu strings.</summary>
     /// <value>The win32 system menu strings.</value>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -782,6 +787,20 @@ public class KryptonGlobalToolkitStrings : GlobalId
     /// <summary>Resets the krypton search box strings.</summary>
     public void ResetSearchBoxStrings() => KryptonSearchBoxStrings.Reset();
 
+    /// <summary>Gets the custom file dialog strings.</summary>
+    /// <value>Cue and related strings for the managed custom file/folder dialogs.</value>
+    [Category(@"Visuals")]
+    [Description(@"Collection of custom file dialog strings.")]
+    [MergableProperty(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Localizable(true)]
+    public KryptonCustomFileDialogStrings CustomFileDialogStrings => KryptonCustomFileDialogStrings;
+
+    private bool ShouldSerializeCustomFileDialogStrings() => !KryptonCustomFileDialogStrings.IsDefault;
+
+    /// <summary>Resets the custom file dialog strings.</summary>
+    public void ResetCustomFileDialogStrings() => KryptonCustomFileDialogStrings.Reset();
+
     /// <summary>Gets the win32 system menu strings.</summary>
     [Category(@"Visuals")]
     [Description(@"Collection of win32 system menu strings.")]
@@ -870,7 +889,9 @@ public class KryptonGlobalToolkitStrings : GlobalId
                                ShouldSerializeSplashScreenStringsStrings() || ShouldSerializeMiscellaneousStrings() ||
                                ShouldSerializeMessageBoxStringsStrings() || ShouldSerializeSystemMenuStrings() ||
                                ShouldSerializeTitleBarStrings() || ShouldSerializeEditorSettingStrings() || 
-                               ShouldSerializeCollectionEditorStrings());
+                               ShouldSerializeCollectionEditorStrings() ||
+                               ShouldSerializeSearchBoxStrings() ||
+                               ShouldSerializeCustomFileDialogStrings());
 
     /// <summary>Resets this instance.</summary>
     public void Reset()
@@ -918,6 +939,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
         ResetMiscellaneousStrings();
         ResetMessageBoxStrings();
         ResetSearchBoxStrings();
+        ResetCustomFileDialogStrings();
         ResetSystemMenuStrings();
         ResetTitleBarStrings();
         ResetEditorSettingStrings();
