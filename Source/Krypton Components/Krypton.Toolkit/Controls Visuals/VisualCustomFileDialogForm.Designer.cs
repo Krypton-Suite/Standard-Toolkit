@@ -223,7 +223,6 @@
             // 
             // _addressEditBox
             // 
-            this._addressEditBox.CueHint.CueHintText = "Type, paste, or edit a folder path";
             this._addressEditBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this._addressEditBox.Location = new System.Drawing.Point(0, 0);
             this._addressEditBox.Margin = new System.Windows.Forms.Padding(0);
@@ -231,6 +230,7 @@
             this._addressEditBox.Size = new System.Drawing.Size(300, 23);
             this._addressEditBox.TabIndex = 1;
             this._addressEditBox.Visible = false;
+            this._addressEditBox.TextChanged += new System.EventHandler(this.OnAddressEditBoxTextChanged);
             this._addressEditBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnAddressEditBoxKeyDown);
             this._addressEditBox.LostFocus += new System.EventHandler(this.OnAddressEditBoxLostFocus);
             // 
@@ -264,7 +264,6 @@
             // 
             // _searchTextBox
             // 
-            this._searchTextBox.CueHint.CueHintText = "Search current folder";
             this._searchTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this._searchTextBox.Location = new System.Drawing.Point(554, 2);
             this._searchTextBox.Margin = new System.Windows.Forms.Padding(2);
@@ -272,6 +271,7 @@
             this._searchTextBox.Size = new System.Drawing.Size(161, 23);
             this._searchTextBox.TabIndex = 7;
             this._searchTextBox.TextChanged += new System.EventHandler(this.OnSearchTextChanged);
+            this._searchTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnSearchKeyDown);
             // 
             // _splitContainer
             // 
@@ -302,6 +302,7 @@
             this._navigationTree.Name = "_navigationTree";
             this._navigationTree.Size = new System.Drawing.Size(240, 401);
             this._navigationTree.TabIndex = 0;
+            this._navigationTree.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.OnNavigationBeforeExpand);
             this._navigationTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.OnNavigationAfterSelect);
             // 
             // _fileList
@@ -458,7 +459,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(735, 552);
+            this.ClientSize = new System.Drawing.Size(946, 533);
             this.Controls.Add(this._rootPanel);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MinimumSize = new System.Drawing.Size(679, 495);
