@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -16,7 +16,7 @@ internal class KryptonCustomStringsManagerActionList : DesignerActionList
 {
     #region Instance Fields
 
-    private readonly KryptonCustomStringsManager _manager;
+    private readonly KryptonCustomStringsManager? _manager;
     private readonly IComponentChangeService? _service;
 
     #endregion
@@ -41,7 +41,7 @@ internal class KryptonCustomStringsManagerActionList : DesignerActionList
     /// <summary>
     /// Gets the custom string values exposed by the manager.
     /// </summary>
-    public KryptonCustomStringValues CustomStrings => _manager.CustomStrings;
+    public KryptonCustomStringValues? CustomStrings => _manager?.CustomStrings;
 
     #endregion
 
@@ -57,6 +57,18 @@ internal class KryptonCustomStringsManagerActionList : DesignerActionList
             actions.Add(new DesignerActionHeaderItem(@"Actions"));
             actions.Add(new KryptonDesignerActionItem(
                 new DesignerVerb(@"Reset Custom Strings", OnResetCustomStrings),
+                @"Actions"));
+            actions.Add(new KryptonDesignerActionItem(
+                new DesignerVerb(@"Import Custom Strings from Xml file...", OnImportCustomStringsXml),
+                @"Actions"));
+            actions.Add(new KryptonDesignerActionItem(
+                new DesignerVerb(@"Export Custom Strings to Xml file...", OnExportCustomStringsXml),
+                @"Actions"));
+            actions.Add(new KryptonDesignerActionItem(
+                new DesignerVerb(@"Import Custom Strings from Json file...", OnImportCustomStringsJson),
+                @"Actions"));
+            actions.Add(new KryptonDesignerActionItem(
+                new DesignerVerb(@"Export Custom Strings to Json file...", OnExportCustomStringsJson),
                 @"Actions"));
             actions.Add(new DesignerActionHeaderItem(@"Data"));
             actions.Add(new DesignerActionPropertyItem(
@@ -90,6 +102,126 @@ internal class KryptonCustomStringsManagerActionList : DesignerActionList
         {
             KryptonCustomStrings.ResetValues();
             _service?.OnComponentChanged(_manager, null, _manager.CustomStrings, _manager.CustomStrings);
+        }
+    }
+
+    private void OnImportCustomStringsXml(object? sender, EventArgs e)
+    {
+        if (_manager == null)
+        {
+            return;
+        }
+
+        try
+        {
+            using var ofd = new OpenFileDialog
+            {
+                CheckFileExists = true,
+                CheckPathExists = true,
+                FileName = @"CustomTranslations",
+                DefaultExt = @"xml",
+                Filter = @"Custom translations files (*.xml)|*.xml|All files (*.*)|(*.*)",
+                Title = @"Load Custom Strings (XML)"
+            };
+
+            if (ofd.ShowDialog() == DialogResult.OK && !string.IsNullOrWhiteSpace(ofd.FileName))
+            {
+                KryptonCustomStrings.ImportFromXmlFile(ofd.FileName, resetFirst: true);
+                _service?.OnComponentChanged(_manager, null, _manager.CustomStrings, _manager.CustomStrings);
+            }
+        }
+        catch (Exception exc)
+        {
+            KryptonExceptionHandler.CaptureException(exc, showStackTrace: false);
+        }
+    }
+
+    private void OnExportCustomStringsXml(object? sender, EventArgs e)
+    {
+        if (_manager == null)
+        {
+            return;
+        }
+
+        try
+        {
+            using var sfd = new SaveFileDialog
+            {
+                OverwritePrompt = true,
+                FileName = @"CustomTranslations",
+                DefaultExt = @"xml",
+                Filter = @"Custom translations files (*.xml)|*.xml|All files (*.*)|(*.*)",
+                Title = @"Save Custom Strings (XML)"
+            };
+
+            if (sfd.ShowDialog() == DialogResult.OK && !string.IsNullOrWhiteSpace(sfd.FileName))
+            {
+                KryptonCustomStrings.ExportToXmlFile(sfd.FileName, includeDefaults: true);
+            }
+        }
+        catch (Exception exc)
+        {
+            KryptonExceptionHandler.CaptureException(exc, showStackTrace: false);
+        }
+    }
+
+    private void OnImportCustomStringsJson(object? sender, EventArgs e)
+    {
+        if (_manager == null)
+        {
+            return;
+        }
+
+        try
+        {
+            using var ofd = new OpenFileDialog
+            {
+                CheckFileExists = true,
+                CheckPathExists = true,
+                FileName = @"CustomTranslations",
+                DefaultExt = @"json",
+                Filter = @"Custom translations files (*.json)|*.json|All files (*.*)|(*.*)",
+                Title = @"Load Custom Strings (JSON)"
+            };
+
+            if (ofd.ShowDialog() == DialogResult.OK && !string.IsNullOrWhiteSpace(ofd.FileName))
+            {
+                KryptonCustomStrings.ImportFromJsonFile(ofd.FileName, resetFirst: true);
+                _service?.OnComponentChanged(_manager, null, _manager.CustomStrings, _manager.CustomStrings);
+            }
+        }
+        catch (Exception exc)
+        {
+            KryptonExceptionHandler.CaptureException(exc, showStackTrace: false);
+        }
+    }
+
+    private void OnExportCustomStringsJson(object? sender, EventArgs e)
+    {
+        if (_manager == null)
+        {
+            return;
+        }
+
+        try
+        {
+            using var sfd = new SaveFileDialog
+            {
+                OverwritePrompt = true,
+                FileName = @"CustomTranslations",
+                DefaultExt = @"json",
+                Filter = @"Custom translations files (*.json)|*.json|All files (*.*)|(*.*)",
+                Title = @"Save Custom Strings (JSON)"
+            };
+
+            if (sfd.ShowDialog() == DialogResult.OK && !string.IsNullOrWhiteSpace(sfd.FileName))
+            {
+                KryptonCustomStrings.ExportToJsonFile(sfd.FileName, includeDefaults: true);
+            }
+        }
+        catch (Exception exc)
+        {
+            KryptonExceptionHandler.CaptureException(exc, showStackTrace: false);
         }
     }
 

@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -35,7 +35,7 @@ public sealed class KryptonCustomStringsManager : Component
     public KryptonCustomStringsManager(IContainer container)
         : this()
     {
-        container?.Add(this);
+        container.Add(this);
     }
 
     #endregion

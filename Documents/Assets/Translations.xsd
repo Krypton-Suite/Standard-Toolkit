@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  XML Schema for Krypton Translations.xml files.
+  Validates the structure used by ToolkitStringsXmlPersistence.
+  Canonical exports use CommonStrings (General, ControlBox, SystemMenu, Commands, FileSystem).
+  Legacy root groups (GeneralStrings, ControlBoxButtonStrings, SystemMenuStrings,
+  FileSystemListViewStrings, and aliased CustomStrings command properties) remain valid on import.
+  Optional ToolkitVersion attribute stamps the producing toolkit; Version is structural only.
+  Unknown leaf keys are ignored on import; missing toolkit keys keep built-in defaults.
+  Place alongside your Translations.xml and reference with:
+    <KryptonTranslations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                         xsi:noNamespaceSchemaLocation="Translations.xsd" ...>
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!-- Root element -->
+  <xs:element name="KryptonTranslations">
+    <xs:complexType>
+      <xs:sequence>
+        <!-- Each child is either a string group container or a leaf string entry. -->
+        <xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" />
+      </xs:sequence>
+      <xs:attribute name="Version" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="Culture" type="xs:string" use="optional" />
+      <xs:attribute name="Generated" type="xs:string" use="optional" />
+    </xs:complexType>
+  </xs:element>
+
+  <!--
+    Leaf string entry (used by any element with a Value attribute).
+    Because property names vary, this is defined as a named type that
+    editors can match via the Value/IsNull attribute pattern.
+  -->
+  <xs:complexType name="StringEntryType">
+    <xs:attribute name="Value" type="xs:string" use="required" />
+    <xs:attribute name="IsNull" type="xs:boolean" use="optional" default="false" />
+  </xs:complexType>
+
+</xs:schema>

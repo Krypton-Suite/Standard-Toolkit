@@ -15,6 +15,10 @@ public class KryptonGlobalToolkitStrings : GlobalId
 {
     #region Static Strings
 
+    /// <summary>Gets the canonical common string collections (owns general, control-box, system-menu, commands, and file-system strings).</summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public static CommonStrings CommonToolkitStrings { get; } = new CommonStrings();
+
     /// <summary>Gets the color strings.</summary>
     /// <value>The color strings.</value>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -38,8 +42,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
     /// <summary>Gets the strings.</summary>
     /// <value>The strings.</value>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public static GeneralToolkitStrings GeneralToolkitStrings
-    { get; } = new GeneralToolkitStrings();
+    public static GeneralToolkitStrings GeneralToolkitStrings => CommonToolkitStrings.General;
 
     /// <summary>Gets the grid view style strings.</summary>
     /// <value>The grid view style strings.</value>
@@ -49,7 +52,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
     /// <summary>Gets the file system list view strings.</summary>
     /// <value>The file system list view strings.</value>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public static KryptonFileSystemListViewStrings KryptonFileSystemListViewStrings { get; } = new KryptonFileSystemListViewStrings();
+    public static KryptonFileSystemListViewStrings KryptonFileSystemListViewStrings => CommonToolkitStrings.FileSystem;
 
     /// <summary>Gets the style strings.</summary>
     /// <value>The style strings.</value>
@@ -246,7 +249,12 @@ public class KryptonGlobalToolkitStrings : GlobalId
     /// <summary>Gets the win32 system menu strings.</summary>
     /// <value>The win32 system menu strings.</value>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public static SystemMenuStrings Win32SystemMenuStrings { get; } = new SystemMenuStrings();
+    public static SystemMenuStrings Win32SystemMenuStrings => CommonToolkitStrings.SystemMenu;
+
+    /// <summary>Gets the form control-box (caption button) tooltip strings.</summary>
+    /// <value>The control-box strings.</value>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public static ControlBoxStrings ControlBoxStrings => CommonToolkitStrings.ControlBox;
 
     /// <summary>Gets the form title bar strings.</summary>
     /// <value>The form title bar strings.</value>
@@ -378,15 +386,49 @@ public class KryptonGlobalToolkitStrings : GlobalId
     [MergableProperty(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     [Localizable(true)]
+    [ToolkitStringsCanonicalAlias]
     public GeneralToolkitStrings GeneralStrings => GeneralToolkitStrings;
     private bool ShouldSerializeGeneralStrings() => !GeneralToolkitStrings.IsDefault;
     private void ResetGeneralStrings() => GeneralToolkitStrings.Reset();
+
+    /// <summary>
+    /// Gets or sets whether matching toolkit strings prefer text from the installed Windows language pack (MUI).
+    /// </summary>
+    /// <remarks>
+    /// When enabled, general dialog buttons and form control-box tooltips load from <c>user32.dll</c>,
+    /// and file-system list column headers load from <c>shell32.dll</c>.
+    /// Custom XML/JSON translations still apply when this is <c>false</c>. Default is <c>false</c>.
+    /// </remarks>
+    [Category(@"Visuals")]
+    [Description(@"When true, matching dialog, control-box, and Explorer-style strings use the installed Windows language pack.")]
+    [DefaultValue(false)]
+    public bool UseWindowsLanguagePackStrings
+    {
+        get => CommonToolkitStrings.UseOSStrings;
+        set => CommonToolkitStrings.UseOSStrings = value;
+    }
+
+    private bool ShouldSerializeUseWindowsLanguagePackStrings() => UseWindowsLanguagePackStrings;
+    private void ResetUseWindowsLanguagePackStrings() => UseWindowsLanguagePackStrings = false;
+
+    /// <summary>Gets the canonical common string collections.</summary>
+    [Category(@"Visuals")]
+    [Description(@"Canonical collection of shared dialog, control-box, system-menu, command, and file-system strings.")]
+    [MergableProperty(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Localizable(true)]
+    public CommonStrings CommonStrings => CommonToolkitStrings;
+
+    private bool ShouldSerializeCommonStrings() => !CommonToolkitStrings.IsDefault;
+
+    private void ResetCommonStrings() => CommonToolkitStrings.Reset();
 
     [Category(@"Visuals")]
     [Description(@"Collection of file system list view strings.")]
     [MergableProperty(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     [Localizable(true)]
+    [ToolkitStringsCanonicalAlias]
     public KryptonFileSystemListViewStrings FileSystemListViewStrings => KryptonFileSystemListViewStrings;
 
     private bool ShouldSerializeFileSystemListViewStrings() => !KryptonFileSystemListViewStrings.IsDefault;
@@ -825,12 +867,27 @@ public class KryptonGlobalToolkitStrings : GlobalId
     [MergableProperty(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     [Localizable(true)]
+    [ToolkitStringsCanonicalAlias]
     public SystemMenuStrings SystemMenuStrings => Win32SystemMenuStrings;
 
     private bool ShouldSerializeSystemMenuStrings() => !Win32SystemMenuStrings.IsDefault;
 
     /// <summary>Resets the win32 system menu strings.</summary>
     public void ResetSystemMenuStrings() => Win32SystemMenuStrings.ResetValues();
+
+    /// <summary>Gets the form control-box (caption button) tooltip strings.</summary>
+    [Category(@"Visuals")]
+    [Description(@"Collection of Minimize/Maximize/Restore/Close/Help control-box tooltip strings.")]
+    [MergableProperty(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Localizable(true)]
+    [ToolkitStringsCanonicalAlias]
+    public ControlBoxStrings ControlBoxButtonStrings => ControlBoxStrings;
+
+    private bool ShouldSerializeControlBoxButtonStrings() => !ControlBoxStrings.IsDefault;
+
+    /// <summary>Resets the control-box tooltip strings.</summary>
+    public void ResetControlBoxButtonStrings() => ControlBoxStrings.Reset();
 
     /// <summary>Gets the editor settings strings.</summary>
     [Category(@"Visuals")]
@@ -889,6 +946,8 @@ public class KryptonGlobalToolkitStrings : GlobalId
                                ShouldSerializeColorStrings() || ShouldSerializeCustomStrings() ||
                                ShouldSerializeFileSystemListViewStrings() ||
                                ShouldSerializeGeneralRibbonStrings() || ShouldSerializeGeneralStrings() ||
+                               ShouldSerializeCommonStrings() ||
+                               ShouldSerializeUseWindowsLanguagePackStrings() ||
                                ShouldSerializeGridStyleStrings() || ShouldSerializeGridViewStyleStrings() ||
                                ShouldSerializeHeaderGroupCollapsedTargetStrings() ||
                                ShouldSerializeHeaderStyleStrings() || ShouldSerializeInputControlStyleStrings() ||
@@ -906,9 +965,11 @@ public class KryptonGlobalToolkitStrings : GlobalId
                                ShouldSerializeToastNotificationStrings() || ShouldSerializeToolStripItemStrings() || ShouldSerializeToolBarStrings() ||
                                ShouldSerializeSplashScreenStringsStrings() || ShouldSerializeMiscellaneousStrings() ||
                                ShouldSerializeMessageBoxStringsStrings() || ShouldSerializeSystemMenuStrings() ||
-                               ShouldSerializeTitleBarStrings() || ShouldSerializeNavigatorIntegrationStrings() ||
-                               ShouldSerializeEditorSettingStrings() || 
-                               ShouldSerializeCollectionEditorStrings());
+                               ShouldSerializeControlBoxButtonStrings() ||
+                               ShouldSerializeTitleBarStrings() || ShouldSerializeEditorSettingStrings() || 
+                               ShouldSerializeCollectionEditorStrings() ||
+                               ShouldSerializeSearchBoxStrings() ||
+                               ShouldSerializeCustomFileDialogStrings() || ShouldSerializeNavigatorIntegrationStrings());
 
     /// <summary>Resets this instance.</summary>
     public void Reset()
@@ -925,6 +986,8 @@ public class KryptonGlobalToolkitStrings : GlobalId
         ResetColorStrings();
         ResetCustomStrings();
         ResetFileSystemListViewStrings();
+        ResetUseWindowsLanguagePackStrings();
+        ResetCommonStrings();
         ResetMiscellaneousPrintPreviewDialogStrings();
         ResetGeneralRibbonStrings();
         ResetGeneralStrings();
@@ -958,11 +1021,161 @@ public class KryptonGlobalToolkitStrings : GlobalId
         ResetSearchBoxStrings();
         ResetCustomFileDialogStrings();
         ResetSystemMenuStrings();
+        ResetControlBoxButtonStrings();
         ResetTitleBarStrings();
         ResetNavigatorIntegrationStrings();
         ResetEditorSettingStrings();
         ResetCollectionEditorStrings();
     }
+
+    #region Translations Persistence
+
+    /// <summary>
+    /// Exports the current Krypton toolkit string set to a versioned XML document.
+    /// </summary>
+    public XmlDocument ExportToXmlDocument(bool includeDefaults = false) => ToolkitStringsXmlPersistence.Export(this, includeDefaults);
+
+    /// <summary>
+    /// Exports the current Krypton toolkit string set to a versioned XML file.
+    /// </summary>
+    public void ExportToXmlFile(string filename, bool includeDefaults = false)
+    {
+        if (string.IsNullOrWhiteSpace(filename))
+        {
+            throw new ArgumentNullException(nameof(filename));
+        }
+
+        var doc = ExportToXmlDocument(includeDefaults);
+        doc.Save(filename);
+    }
+
+    /// <summary>
+    /// Imports toolkit strings from the specified versioned XML document.
+    /// </summary>
+    /// <param name="doc">The XML document to import from.</param>
+    /// <param name="resetFirst">When <c>true</c>, resets all strings to their defaults before applying the file values.</param>
+    /// <param name="refreshOpenForms">When <c>true</c>, invalidates and refreshes all open forms after import.</param>
+    /// <param name="warnOnCultureMismatch">When <c>true</c>, writes a debug warning if the file culture differs from the current UI culture.</param>
+    public void ImportFromXmlDocument(XmlDocument doc, bool resetFirst = true, bool refreshOpenForms = true, bool warnOnCultureMismatch = true) =>
+        ToolkitStringsXmlPersistence.Import(this, doc, resetFirst, refreshOpenForms, warnOnCultureMismatch);
+
+    /// <summary>
+    /// Imports toolkit strings from a versioned XML file.
+    /// </summary>
+    /// <param name="filename">Path to the Translations.xml file.</param>
+    /// <param name="resetFirst">When <c>true</c>, resets all strings to their defaults before applying the file values.</param>
+    /// <param name="refreshOpenForms">When <c>true</c>, invalidates and refreshes all open forms after import.</param>
+    /// <param name="warnOnCultureMismatch">When <c>true</c>, writes a debug warning if the file culture differs from the current UI culture.</param>
+    public void ImportFromXmlFile(string filename, bool resetFirst = true, bool refreshOpenForms = true, bool warnOnCultureMismatch = true)
+    {
+        if (string.IsNullOrWhiteSpace(filename))
+        {
+            throw new ArgumentNullException(nameof(filename));
+        }
+
+        var doc = new XmlDocument();
+        doc.Load(filename);
+        ImportFromXmlDocument(doc, resetFirst, refreshOpenForms, warnOnCultureMismatch);
+    }
+
+    /// <summary>
+    /// Exports the current toolkit string set to the specified stream.
+    /// </summary>
+    /// <param name="stream">The stream to write the XML to.</param>
+    /// <param name="includeDefaults">When <c>true</c>, writes every string even if it matches the default value.</param>
+    public void ExportToStream(Stream stream, bool includeDefaults = false) =>
+        ToolkitStringsXmlPersistence.ExportToStream(this, stream, includeDefaults);
+
+    /// <summary>
+    /// Imports toolkit strings from the specified stream containing a versioned Translations.xml document.
+    /// </summary>
+    /// <param name="stream">The stream to read the XML from.</param>
+    /// <param name="resetFirst">When <c>true</c>, resets all strings to their defaults before applying the file values.</param>
+    /// <param name="refreshOpenForms">When <c>true</c>, invalidates and refreshes all open forms after import.</param>
+    /// <param name="warnOnCultureMismatch">When <c>true</c>, writes a debug warning if the file culture differs from the current UI culture.</param>
+    public void ImportFromStream(Stream stream, bool resetFirst = true, bool refreshOpenForms = true, bool warnOnCultureMismatch = true) =>
+        ToolkitStringsXmlPersistence.ImportFromStream(this, stream, resetFirst, refreshOpenForms, warnOnCultureMismatch);
+
+    /// <summary>
+    /// Exports the current toolkit string set to a JSON string.
+    /// </summary>
+    /// <param name="includeDefaults">When <c>true</c>, writes every string even if it matches the default value.</param>
+    public string ExportToJson(bool includeDefaults = false) =>
+        ToolkitStringsJsonPersistence.Export(this, includeDefaults);
+
+    /// <summary>
+    /// Exports the current toolkit string set to a JSON file.
+    /// </summary>
+    /// <param name="filename">Path to the destination file.</param>
+    /// <param name="includeDefaults">When <c>true</c>, writes every string even if it matches the default value.</param>
+    public void ExportToJsonFile(string filename, bool includeDefaults = false) =>
+        ToolkitStringsJsonPersistence.ExportToFile(this, filename, includeDefaults);
+
+    /// <summary>
+    /// Imports toolkit strings from a JSON file.
+    /// </summary>
+    /// <param name="filename">Path to the JSON file.</param>
+    /// <param name="resetFirst">When <c>true</c>, resets all strings to their defaults before applying the file values.</param>
+    /// <param name="refreshOpenForms">When <c>true</c>, invalidates and refreshes all open forms after import.</param>
+    public void ImportFromJsonFile(string filename, bool resetFirst = true, bool refreshOpenForms = true) =>
+        ToolkitStringsJsonPersistence.ImportFromFile(this, filename, resetFirst, refreshOpenForms);
+
+    /// <summary>
+    /// Analyzes catalog coverage for a translations XML document without mutating live strings.
+    /// </summary>
+    public ToolkitStringsCoverage AnalyzeTranslationsFromXml(XmlDocument doc) =>
+        ToolkitStringsXmlPersistence.Analyze(this, doc);
+
+    /// <summary>
+    /// Analyzes catalog coverage for a translations JSON string without mutating live strings.
+    /// </summary>
+    public ToolkitStringsCoverage AnalyzeTranslationsFromJson(string json) =>
+        ToolkitStringsJsonPersistence.Analyze(this, json);
+
+    /// <summary>
+    /// Analyzes a translations XML or JSON file against this string catalog without applying it.
+    /// </summary>
+    public ToolkitStringsCoverage AnalyzeTranslationsFromFile(string filename)
+    {
+        if (string.IsNullOrWhiteSpace(filename))
+        {
+            throw new ArgumentNullException(nameof(filename));
+        }
+
+        if (Path.GetExtension(filename).Equals(@".json", StringComparison.OrdinalIgnoreCase))
+        {
+            var json = File.ReadAllText(filename, Encoding.UTF8);
+            return ToolkitStringsJsonPersistence.Analyze(this, json, filename);
+        }
+
+        var doc = new XmlDocument();
+        doc.Load(filename);
+        return ToolkitStringsXmlPersistence.Analyze(this, doc, filename);
+    }
+
+    /// <summary>
+    /// Imports an existing translations file into this catalog, then rewrites the file so newly
+    /// added toolkit keys appear with English defaults while preserving already-translated values.
+    /// </summary>
+    /// <param name="filename">Path to the XML or JSON file to upgrade.</param>
+    /// <param name="includeDefaults">When <c>true</c>, writes the full catalog (recommended).</param>
+    /// <returns>Coverage for the rewritten file.</returns>
+    public ToolkitStringsCoverage MergeMissingTranslationsToFile(string filename, bool includeDefaults = true)
+    {
+        if (string.IsNullOrWhiteSpace(filename))
+        {
+            throw new ArgumentNullException(nameof(filename));
+        }
+
+        if (Path.GetExtension(filename).Equals(@".json", StringComparison.OrdinalIgnoreCase))
+        {
+            return ToolkitStringsJsonPersistence.MergeMissingToFile(this, filename, includeDefaults);
+        }
+
+        return ToolkitStringsXmlPersistence.MergeMissingToFile(this, filename, includeDefaults);
+    }
+
+    #endregion
 
     #endregion
 }

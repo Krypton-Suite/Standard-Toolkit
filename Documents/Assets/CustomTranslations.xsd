@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="KryptonCustomTranslations">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Values" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="String" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:attribute name="Key" type="xs:string" use="required" />
+                  <xs:attribute name="Value" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="StringSets" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="Version" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="Culture" type="xs:string" use="optional" />
+      <xs:attribute name="Generated" type="xs:string" use="optional" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

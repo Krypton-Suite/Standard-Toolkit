@@ -154,5 +154,17 @@ public static class KryptonCustomStringSetRegistry
         }
     }
 
+    /// <summary>
+    /// Gets a stable snapshot of all registered string sets keyed by registration name.
+    /// </summary>
+    /// <returns>A copy of the current registry contents.</returns>
+    public static IReadOnlyDictionary<string, GlobalId> Snapshot()
+    {
+        lock (_sync)
+        {
+            return new Dictionary<string, GlobalId>(_stringSets, StringComparer.Ordinal);
+        }
+    }
+
     #endregion
 }

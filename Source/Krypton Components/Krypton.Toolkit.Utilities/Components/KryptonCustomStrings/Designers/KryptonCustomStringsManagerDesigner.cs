@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -71,13 +71,7 @@ internal class KryptonCustomStringsManagerDesigner : ComponentDesigner
 
     #region Implementation
 
-    private void UpdateVerbStatus()
-    {
-        if (_resetVerb != null)
-        {
-            _resetVerb.Enabled = _manager != null && !KryptonCustomStrings.Values.IsDefault;
-        }
-    }
+    private void UpdateVerbStatus() => _resetVerb?.Enabled = _manager != null && !KryptonCustomStrings.Values.IsDefault;
 
     private void OnComponentChanged(object? sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
 

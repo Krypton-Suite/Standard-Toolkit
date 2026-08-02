@@ -45,6 +45,19 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#4088](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4088), A way to store `KryptonManager` strings into a database
+   * Save/load `KryptonManager` toolkit strings via versioned `Translations.xml` (designer verbs + `KryptonManager.Strings` import/export APIs).
+   * Auto-discovery: place culture-specific or default `Translations.{culture}.xml` / `.json` files in the app's output directory and the toolkit loads the best match automatically (exact → neutral → default, XML before JSON, with graceful fallback). Opt-out via `KryptonManager.AutoDiscoverTranslations = false`.
+   * Static `KryptonManager.LoadTranslationsFromFile` / `TryLoadTranslationsFromFile` / `TryLoadCultureSpecificTranslations` / `TrySwitchTranslationsCulture` for explicit startup loading and runtime culture switching (with graceful fallback to built-in defaults), plus designer Smart Tag UI Culture dropdown, Switch Translations Culture verb, and Generate Translation Template verbs for both XML and JSON.
+   * Stream overloads (`ExportToStream` / `ImportFromStream`) for embedded resources and database BLOBs.
+   * Extended to `DockingManagerStrings` and `WorkspaceMenus` string sets, including JSON import/export parity.
+   * `TranslationsImported` event, culture-mismatch warnings, diff/merge utility, XSD schema, and JSON export/import included.
+   * `KryptonCustomStrings` in `Krypton.Toolkit.Utilities` can now export/import application-defined key/value strings and registered typed string sets through matching XML/JSON/stream persistence APIs.
+   * Added `KryptonCombinedTranslations` for a single combined toolkit + custom XML artifact, plus opt-in custom-string auto-discovery, culture-specific probing, merge support, designer verbs, import event, validation demo coverage, and custom XML/JSON schema files.
+   * Optional Windows language-pack strings: set `KryptonManager.Strings.UseWindowsLanguagePackStrings` (or `CommonStrings.UseOSStrings` / nested `UseOSStrings`) to load matching dialog buttons and form control-box tooltips (Minimize/Maximize/Restore/Close/Help) from `user32.dll`, and Explorer column headers from `shell32.dll`, for the current UI language; default remains toolkit/custom strings.
+   * Canonical `KryptonManager.Strings.CommonStrings` owns shared General, ControlBox, SystemMenu, Commands, and FileSystem string sets. Legacy `GeneralStrings` / `ControlBoxButtonStrings` / `SystemMenuStrings` / `FileSystemListViewStrings` / selected `CustomStrings` command properties remain as compatibility aliases. New XML/JSON exports write `CommonStrings` once; legacy paths still import (CommonStrings wins when both are present).
+   * Verified `WindowsMuiStringId` catalog plus `WindowsMuiStrings` / Utilities `WindowsSystemStringLoader` for advanced System32-only raw resource lookups (undocumented IDs, best-effort with fallbacks).
+   * Catalog-drift resilience: tolerant import ignores unknown keys and keeps defaults for missing ones; `AnalyzeTranslationsFromFile` / `MergeMissingTranslationsToFile`, `TranslationsCoverageReported`, `ToolkitVersion` export stamp, and designer **Merge Missing Translations…** verb help upgrade older culture files when the toolkit adds strings.
 * Resolved [#3996](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3996), Navigator stack and Outlook full modes now scroll the requested page check button into view (previously ignored the page argument)
 * Implemented [#1103](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1103), Investigate use of PInvoked GDI text functionality for performance [and compare with TextRenderer.DrawText (Mode off)]
    * Opt-in native GDI text path for `AccurateText` (`PreferNativeGdiText` / `GdiNativeText`) with TestForm benchmark
