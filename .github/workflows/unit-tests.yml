@@ -123,6 +123,21 @@ jobs:
             9.0.x
             10.0.x
 
+      # TestForm / toolkit graphs include net11.0-windows; restore needs an 11.x SDK (NETSDK1045 otherwise).
+      - name: Setup .NET 11
+        id: setup_dotnet11
+        continue-on-error: true
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+
+      - name: Setup .NET 11 (preview fallback)
+        if: steps.setup_dotnet11.outcome == 'failure'
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+          dotnet-quality: preview
+
       - name: Restore TestForm
         run: >
           dotnet restore "Source/Krypton Components/TestForm/TestForm.csproj"
