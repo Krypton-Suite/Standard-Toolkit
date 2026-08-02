@@ -211,6 +211,27 @@ internal class KryptonPageActionList : DesignerActionList
             }
         }
     }
+    /// <summary>
+    /// Gets and sets whether the page appears as an individual Windows taskbar thumbnail.
+    /// </summary>
+    public bool AllowTaskbarThumbnail
+    {
+        get => _page.AreFlagsSet(KryptonPageFlags.AllowTaskbarThumbnail);
+
+        set
+        {
+            _serviceComponentChange?.OnComponentChanged(_page, null, _page.AreFlagsSet(KryptonPageFlags.AllowTaskbarThumbnail), value);
+
+            if (value)
+            {
+                _page.SetFlags(KryptonPageFlags.AllowTaskbarThumbnail);
+            }
+            else
+            {
+                _page.ClearFlags(KryptonPageFlags.AllowTaskbarThumbnail);
+            }
+        }
+    }
     #endregion
 
     #region Public Override
@@ -234,7 +255,8 @@ internal class KryptonPageActionList : DesignerActionList
             new DesignerActionPropertyItem(nameof(ToolTipBody), "Tooltip Body", nameof(Appearance), "The tooltip body text for the page."),
             new DesignerActionPropertyItem(nameof(ToolTipImage), "Tooltip Image", nameof(Appearance), "The tooltip image that represents the page."),
             new DesignerActionHeaderItem("Flags"),
-            new DesignerActionPropertyItem(nameof(PageInOverflowBarForOutlookMode), "Page in Overflow Bar for Outlook mode", "Flags", "Should the page be shown on the overflow bar for the Outlook mode.")
+            new DesignerActionPropertyItem(nameof(PageInOverflowBarForOutlookMode), "Page in Overflow Bar for Outlook mode", "Flags", "Should the page be shown on the overflow bar for the Outlook mode."),
+            new DesignerActionPropertyItem(nameof(AllowTaskbarThumbnail), "Allow Taskbar Thumbnail", "Flags", "Should the page appear as an individual Windows taskbar thumbnail.")
         };
 
         return _actions;

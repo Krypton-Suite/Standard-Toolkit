@@ -449,6 +449,8 @@ internal class ViewBuilderHeaderBarTabGroup : ViewBuilderBarTabBase
             case @"ContextButtonDisplay":
             case @"CloseButtonDisplay":
             case nameof(ButtonDisplayLogic):
+            case nameof(KryptonNavigator.Owner):
+            case nameof(KryptonNavigator.ControlKryptonFormFeatures):
                 _buttonManager?.RecreateButtons();
                 break;
         }
