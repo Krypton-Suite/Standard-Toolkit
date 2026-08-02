@@ -48,6 +48,8 @@
 
 ## 2026-10-26 - Build 2610 (Version 105-LTS - Patch 4) - October 2026
 
+* Implemented [#1103](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1103), Investigate use of PInvoked GDI text functionality for performance [and compare with TextRenderer.DrawText (Mode off)]
+   * Opt-in native GDI text path for `AccurateText` (`PreferNativeGdiText` / `GdiNativeText`) with TestForm benchmark
 * Resolved [#4059](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4059), Grouped Ribbon controls do expose designers, needs a closer look
    * `KryptonRibbonGroupThemeComboBox` now reuses the base ribbon combo box designer instead of a near-duplicate Theme-specific designer
 * Implemented [#4049](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4049),Implement the glyphs in `KryptonDomainUpDown` and `KryptonNumericUpDown`
