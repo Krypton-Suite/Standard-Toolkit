@@ -2,6 +2,8 @@
 <!--
   XML Schema for Krypton Translations.xml files.
   Validates the structure used by ToolkitStringsXmlPersistence.
+  Optional ToolkitVersion attribute stamps the producing toolkit; Version is structural only.
+  Unknown leaf keys are ignored on import; missing toolkit keys keep built-in defaults.
   Place alongside your Translations.xml and reference with:
     <KryptonTranslations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                          xsi:noNamespaceSchemaLocation="Translations.xsd" ...>

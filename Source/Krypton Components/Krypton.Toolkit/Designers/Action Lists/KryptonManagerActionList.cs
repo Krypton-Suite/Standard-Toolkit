@@ -281,6 +281,47 @@ internal class KryptonManagerActionList : DesignerActionList
         }
     }
 
+    private void OnMergeMissingTranslations(object? sender, EventArgs e)
+    {
+        if (_manager == null)
+        {
+            return;
+        }
+
+        try
+        {
+            using var ofd = new OpenFileDialog();
+            ofd.CheckFileExists = true;
+            ofd.CheckPathExists = true;
+            ofd.FileName = @"Translations";
+            ofd.Filter = @"Translations files (*.xml;*.json)|*.xml;*.json|XML (*.xml)|*.xml|JSON (*.json)|*.json|All files (*.*)|(*.*)";
+            ofd.Title = @"Merge Missing Translations into File";
+
+            var fileName = (ofd.ShowDialog() == DialogResult.OK) ? ofd.FileName : string.Empty;
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                return;
+            }
+
+            var before = _manager.ToolkitStrings.AnalyzeTranslationsFromFile(fileName);
+            var after = _manager.ToolkitStrings.MergeMissingTranslationsToFile(fileName, includeDefaults: true);
+            _service?.OnComponentChanged(_manager, null, null, null);
+
+            KryptonMessageBox.Show(
+                $@"Merged '{fileName}'.{Environment.NewLine}" +
+                $@"Previously missing: {before.MissingInFile.Count}{Environment.NewLine}" +
+                $@"Extra (ignored): {before.ExtraInFile.Count}{Environment.NewLine}" +
+                $@"After merge missing: {after.MissingInFile.Count}",
+                @"Merge Missing Translations",
+                KryptonMessageBoxButtons.OK,
+                KryptonMessageBoxIcon.Information);
+        }
+        catch (Exception exc)
+        {
+            KryptonExceptionHandler.CaptureException(exc, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+        }
+    }
+
     private void OnSwitchTranslationsCulture(object? sender, EventArgs e)
     {
         if (_manager == null)
@@ -456,6 +497,7 @@ internal class KryptonManagerActionList : DesignerActionList
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Import Translations from Json file...", OnImportTranslationsJson), @"Actions"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Export Translations to Json file...", OnExportTranslationsJson), @"Actions"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Generate Translation Template...", OnGenerateTemplate), @"Actions"));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Merge Missing Translations...", OnMergeMissingTranslations), @"Actions"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Switch Translations Culture...", OnSwitchTranslationsCulture), @"Actions"));
             /*actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Add language manager", OnAddLanguageManager), "Actions"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Remove language manager", OnRemoveLanguageManager), "Actions"));

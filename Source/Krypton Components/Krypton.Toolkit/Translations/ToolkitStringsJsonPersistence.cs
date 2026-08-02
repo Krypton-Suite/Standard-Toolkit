@@ -14,6 +14,7 @@ internal static class ToolkitStringsJsonPersistence
     private const string VersionKey = @"Version";
     private const string CultureKey = @"Culture";
     private const string GeneratedKey = @"Generated";
+    private const string ToolkitVersionKey = @"ToolkitVersion";
     private const int CurrentSupportedVersion = 1;
 
     /// <summary>
@@ -31,6 +32,7 @@ internal static class ToolkitStringsJsonPersistence
         sb.AppendLine($@"  ""{VersionKey}"": {CurrentSupportedVersion},");
         sb.AppendLine($@"  ""{CultureKey}"": ""{EscapeJsonString(Thread.CurrentThread.CurrentUICulture.Name)}"",");
         sb.AppendLine($@"  ""{GeneratedKey}"": ""{EscapeJsonString(DateTime.Now.ToString(CultureInfo.InvariantCulture))}"",");
+        sb.AppendLine($@"  ""{ToolkitVersionKey}"": ""{EscapeJsonString(ToolkitStringsXmlPersistence.GetToolkitVersionStamp())}"",");
 
         ExportObject(sb, toolkitStrings, includeDefaults, indent: 1, trailingComma: false);
 
@@ -228,12 +230,39 @@ internal static class ToolkitStringsJsonPersistence
         var pos = 0;
         ParseObject(tokens, ref pos, doc, root);
 
-        // Promote Version/Culture/Generated from child elements to root attributes.
+        // Promote Version/Culture/Generated/ToolkitVersion from child elements to root attributes.
         PromoteToAttribute(root, @"Version");
         PromoteToAttribute(root, @"Culture");
         PromoteToAttribute(root, @"Generated");
+        PromoteToAttribute(root, ToolkitVersionKey);
 
         return doc;
+    }
+
+    /// <summary>
+    /// Analyzes catalog coverage for a JSON translations document.
+    /// </summary>
+    public static ToolkitStringsCoverage Analyze(object toolkitStrings, string json, string? filePath = null)
+    {
+        var doc = JsonToXmlDocument(json);
+        return ToolkitStringsXmlPersistence.Analyze(toolkitStrings, doc, filePath);
+    }
+
+    /// <summary>
+    /// Imports a JSON translations file, then re-exports with defaults included to fill missing keys.
+    /// </summary>
+    public static ToolkitStringsCoverage MergeMissingToFile(object toolkitStrings, string filename, bool includeDefaults = true)
+    {
+        if (string.IsNullOrWhiteSpace(filename))
+        {
+            throw new ArgumentNullException(nameof(filename));
+        }
+
+        var json = File.ReadAllText(filename, Encoding.UTF8);
+        ImportFromJson(toolkitStrings, json, resetFirst: true, refreshOpenForms: false);
+        ExportToFile(toolkitStrings, filename, includeDefaults);
+        var mergedJson = File.ReadAllText(filename, Encoding.UTF8);
+        return Analyze(toolkitStrings, mergedJson, filename);
     }
 
     private static void PromoteToAttribute(XmlElement root, string name)

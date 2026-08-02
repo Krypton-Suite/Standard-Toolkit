@@ -891,5 +891,60 @@ public class KryptonGlobalToolkitStrings : GlobalId
     public void ImportFromJsonFile(string filename, bool resetFirst = true, bool refreshOpenForms = true) =>
         ToolkitStringsJsonPersistence.ImportFromFile(this, filename, resetFirst, refreshOpenForms);
 
+    /// <summary>
+    /// Analyzes catalog coverage for a translations XML document without mutating live strings.
+    /// </summary>
+    public ToolkitStringsCoverage AnalyzeTranslationsFromXml(XmlDocument doc) =>
+        ToolkitStringsXmlPersistence.Analyze(this, doc);
+
+    /// <summary>
+    /// Analyzes catalog coverage for a translations JSON string without mutating live strings.
+    /// </summary>
+    public ToolkitStringsCoverage AnalyzeTranslationsFromJson(string json) =>
+        ToolkitStringsJsonPersistence.Analyze(this, json);
+
+    /// <summary>
+    /// Analyzes a translations XML or JSON file against this string catalog without applying it.
+    /// </summary>
+    public ToolkitStringsCoverage AnalyzeTranslationsFromFile(string filename)
+    {
+        if (string.IsNullOrWhiteSpace(filename))
+        {
+            throw new ArgumentNullException(nameof(filename));
+        }
+
+        if (Path.GetExtension(filename).Equals(@".json", StringComparison.OrdinalIgnoreCase))
+        {
+            var json = File.ReadAllText(filename, Encoding.UTF8);
+            return ToolkitStringsJsonPersistence.Analyze(this, json, filename);
+        }
+
+        var doc = new XmlDocument();
+        doc.Load(filename);
+        return ToolkitStringsXmlPersistence.Analyze(this, doc, filename);
+    }
+
+    /// <summary>
+    /// Imports an existing translations file into this catalog, then rewrites the file so newly
+    /// added toolkit keys appear with English defaults while preserving already-translated values.
+    /// </summary>
+    /// <param name="filename">Path to the XML or JSON file to upgrade.</param>
+    /// <param name="includeDefaults">When <c>true</c>, writes the full catalog (recommended).</param>
+    /// <returns>Coverage for the rewritten file.</returns>
+    public ToolkitStringsCoverage MergeMissingTranslationsToFile(string filename, bool includeDefaults = true)
+    {
+        if (string.IsNullOrWhiteSpace(filename))
+        {
+            throw new ArgumentNullException(nameof(filename));
+        }
+
+        if (Path.GetExtension(filename).Equals(@".json", StringComparison.OrdinalIgnoreCase))
+        {
+            return ToolkitStringsJsonPersistence.MergeMissingToFile(this, filename, includeDefaults);
+        }
+
+        return ToolkitStringsXmlPersistence.MergeMissingToFile(this, filename, includeDefaults);
+    }
+
     #endregion
 }
