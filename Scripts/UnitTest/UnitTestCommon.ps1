@@ -1,4 +1,4 @@
-# Shared helpers for Scripts/UnitTest/*.ps1
+﻿# Shared helpers for Scripts/UnitTest/*.ps1
 # Dot-source from a unit-test script after setting $script:RepoRoot if needed.
 
 function Get-UnitTestRepoRoot {
@@ -81,6 +81,192 @@ public static class UnitTestNative
 }
 "@
     [void][UnitTestNative]::SetProcessDPIAware()
+}
+
+function Get-UnitTestCiMarker {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Path
+    )
+
+    # Read a prefix only — markers must appear near the top of the script.
+    $lines = Get-Content -LiteralPath $Path -TotalCount 80 -ErrorAction Stop
+    foreach ($line in $lines) {
+        if ($line -match '^\s*#\s*UnitTest-CI\s*:\s*(include|exclude)\s*$') {
+            return $Matches[1].ToLowerInvariant()
+        }
+    }
+
+    return $null
+}
+
+function Get-UnitTestScriptClassification {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Root
+    )
+
+    $files = @(Get-ChildItem -LiteralPath $Root -Filter 'Test-*.ps1' -File -Recurse |
+        Where-Object { $_.Name -ne 'Invoke-AllUnitTests.ps1' })
+
+    $included = New-Object System.Collections.Generic.List[System.IO.FileInfo]
+    $excluded = New-Object System.Collections.Generic.List[System.IO.FileInfo]
+    $undeclared = New-Object System.Collections.Generic.List[System.IO.FileInfo]
+
+    foreach ($file in $files) {
+        $marker = Get-UnitTestCiMarker -Path $file.FullName
+        switch ($marker) {
+            'include' { $included.Add($file) }
+            'exclude' { $excluded.Add($file) }
+            default { $undeclared.Add($file) }
+        }
+    }
+
+    return [pscustomobject]@{
+        Included   = $included.ToArray()
+        Excluded   = $excluded.ToArray()
+        Undeclared = $undeclared.ToArray()
+    }
+}
+
+function Write-GitHubError {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Message,
+        [string]$File
+    )
+
+    if ($env:GITHUB_ACTIONS -ne 'true') {
+        return
+    }
+
+    if ($File) {
+        Write-Host "::error file=$File::$Message"
+    }
+    else {
+        Write-Host "::error::$Message"
+    }
+}
+
+function Write-GitHubNotice {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Message,
+        [string]$File
+    )
+
+    if ($env:GITHUB_ACTIONS -ne 'true') {
+        return
+    }
+
+    if ($File) {
+        Write-Host "::notice file=$File::$Message"
+    }
+    else {
+        Write-Host "::notice::$Message"
+    }
+}
+
+function Write-GitHubWarning {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Message,
+        [string]$File
+    )
+
+    if ($env:GITHUB_ACTIONS -ne 'true') {
+        return
+    }
+
+    if ($File) {
+        Write-Host "::warning file=$File::$Message"
+    }
+    else {
+        Write-Host "::warning::$Message"
+    }
+}
+
+function Write-UnitTestBanner {
+    param(
+        [Parameter(Mandatory = $true)]
+        [ValidateSet('PASS', 'FAIL', 'SKIP', 'INFO')]
+        [string]$Status,
+        [Parameter(Mandatory = $true)]
+        [string]$Message
+    )
+
+    $color = switch ($Status) {
+        'PASS' { 'Green' }
+        'FAIL' { 'Red' }
+        'SKIP' { 'Yellow' }
+        default { 'Cyan' }
+    }
+
+    $prefix = switch ($Status) {
+        'PASS' { 'PASS' }
+        'FAIL' { 'FAIL' }
+        'SKIP' { 'SKIP' }
+        default { 'INFO' }
+    }
+
+    Write-Host "[$prefix] $Message" -ForegroundColor $color
+}
+
+function Write-UnitTestJobSummary {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Title,
+        [Parameter(Mandatory = $true)]
+        [string]$Overall,
+        [Parameter(Mandatory = $true)]
+        [AllowEmptyCollection()]
+        [string[]]$Passed,
+        [Parameter(Mandatory = $true)]
+        [AllowEmptyCollection()]
+        [string[]]$Failed,
+        [Parameter(Mandatory = $true)]
+        [AllowEmptyCollection()]
+        [string[]]$Skipped,
+        [int]$UndeclaredCount = 0,
+        [string]$BinPath = ''
+    )
+
+    $lines = New-Object System.Collections.Generic.List[string]
+    [void]$lines.Add("## $Title")
+    [void]$lines.Add('')
+    [void]$lines.Add("**Result:** $Overall")
+    if ($BinPath) {
+        [void]$lines.Add("")
+        [void]$lines.Add("- Bin: ``$BinPath``")
+    }
+    [void]$lines.Add('')
+    [void]$lines.Add('| Script | Status |')
+    [void]$lines.Add('| --- | --- |')
+    foreach ($item in ($Passed | Sort-Object)) {
+        [void]$lines.Add("| ``$item`` | PASS |")
+    }
+    foreach ($item in ($Failed | Sort-Object)) {
+        [void]$lines.Add("| ``$item`` | FAIL |")
+    }
+    foreach ($item in ($Skipped | Sort-Object)) {
+        [void]$lines.Add("| ``$item`` | SKIP (exclude) |")
+    }
+    [void]$lines.Add('')
+    [void]$lines.Add("- Passed: **$($Passed.Count)**")
+    [void]$lines.Add("- Failed: **$($Failed.Count)**")
+    [void]$lines.Add("- Skipped (exclude): **$($Skipped.Count)**")
+    [void]$lines.Add("- Undeclared markers: **$UndeclaredCount**")
+
+    $markdown = ($lines -join "`n") + "`n"
+
+    if ($env:GITHUB_STEP_SUMMARY) {
+        Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY -Value $markdown -Encoding utf8
+    }
+
+    Write-Host ""
+    Write-Host "----- Unit test summary -----" -ForegroundColor Cyan
+    Write-Host $markdown.TrimEnd()
+    Write-Host "-----------------------------" -ForegroundColor Cyan
 }
 
 function Invoke-UnitTestDrag {

@@ -1,15 +1,16 @@
-<#
+﻿<#
 .SYNOPSIS
     Tears out a caption tab and drags it back to verify remerge into the source window.
 
 .DESCRIPTION
     Expects Start-NavigatorFormIntegrationHost.ps1 to already be running. Tears out the
     rightmost demo tab (Settings), then drags it onto the main caption strip. With
-    "Close empty window" enabled, a successful remerge leaves a single window.
+    "Close empty window" enabled, a successful remerge leaves a single remaining window.
 
 .EXAMPLE
     powershell -NoProfile -ExecutionPolicy Bypass -File .\Scripts\UnitTest\Test-NavigatorCaptionTabRemerge.ps1 -HostPid 12345
 #>
+# UnitTest-CI: exclude
 [CmdletBinding()]
 param(
     [Parameter(Mandatory = $true)]

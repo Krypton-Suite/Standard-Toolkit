@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -14,6 +14,8 @@ namespace Krypton.Navigator.Utilities;
 /// Drop this component on a form, set <see cref="Navigator"/>, and leave <see cref="Enabled"/> true.
 /// Clear <see cref="KryptonPageFlags.AllowTaskbarThumbnail"/> on wizard steps that should not appear.
 /// Multiple components on the same taskbar-visible host merge into one thumbnail group.
+/// Optionally set <see cref="FormIntegrator"/> and <see cref="ShowTabGroupThumbnails"/> to insert
+/// Explorer-like composite <c>Group | …</c> previews ahead of each catalog tab group's members.
 /// </summary>
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(KryptonNavigator))]
@@ -25,6 +27,7 @@ public class KryptonNavigatorTaskbarThumbnails : Component
     #region Instance Fields
 
     private KryptonNavigator? _navigator;
+    private KryptonNavigatorFormIntegrator? _formIntegrator;
     private bool _enabled = true;
     private bool _includeHiddenPages;
     private bool _allowCloseFromThumbnail = true;
@@ -32,6 +35,7 @@ public class KryptonNavigatorTaskbarThumbnails : Component
     private bool _useSelectedPageOverlay;
     private bool _useSelectedPageProgress;
     private bool _useSelectedPageThumbnailButtons;
+    private bool _showTabGroupThumbnails;
     private int _maxThumbnails;
     private NavigatorTaskbarThumbnailManager? _manager;
     private bool _disposed;
@@ -46,6 +50,13 @@ public class KryptonNavigatorTaskbarThumbnails : Component
     [Category(@"Navigator")]
     [Description(@"Occurs when a custom taskbar thumbnail or live-preview bitmap is requested for a page.")]
     public event EventHandler<QueryTaskbarThumbnailEventArgs>? QueryThumbnail;
+
+    /// <summary>
+    /// Occurs when a custom taskbar thumbnail or live-preview bitmap is requested for a tab group.
+    /// </summary>
+    [Category(@"Navigator")]
+    [Description(@"Occurs when a custom taskbar thumbnail or live-preview bitmap is requested for a tab group.")]
+    public event EventHandler<QueryTaskbarTabGroupThumbnailEventArgs>? QueryTabGroupThumbnail;
 
     /// <summary>
     /// Occurs when the selected page should supply a host taskbar overlay icon.
@@ -95,6 +106,7 @@ public class KryptonNavigatorTaskbarThumbnails : Component
         if (!_disposed && disposing)
         {
             DetachNavigator();
+            DetachFormIntegrator();
             if (_manager != null)
             {
                 _manager.Dispose();
@@ -130,6 +142,49 @@ public class KryptonNavigatorTaskbarThumbnails : Component
             _navigator = value;
             AttachNavigator();
             Sync();
+        }
+    }
+
+    /// <summary>
+    /// Gets and sets the form integrator that supplies the caption tab-group catalog for composite thumbnails.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Form integrator whose TabGroups catalog drives composite Group | … taskbar thumbnails.")]
+    [DefaultValue(null)]
+    public KryptonNavigatorFormIntegrator? FormIntegrator
+    {
+        get => _formIntegrator;
+        set
+        {
+            if (ReferenceEquals(_formIntegrator, value))
+            {
+                return;
+            }
+
+            DetachFormIntegrator();
+            _formIntegrator = value;
+            AttachFormIntegrator();
+            Sync();
+        }
+    }
+
+    /// <summary>
+    /// Gets and sets whether catalog tab groups appear as composite <c>Group | …</c> thumbnails ahead of their members.
+    /// Requires <see cref="FormIntegrator"/> with <see cref="KryptonNavigatorFormIntegrator.AllowTabGroups"/>.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Insert composite Group | … taskbar thumbnails for FormIntegrator tab groups.")]
+    [DefaultValue(false)]
+    public bool ShowTabGroupThumbnails
+    {
+        get => _showTabGroupThumbnails;
+        set
+        {
+            if (_showTabGroupThumbnails != value)
+            {
+                _showTabGroupThumbnails = value;
+                Sync();
+            }
         }
     }
 
@@ -260,10 +315,11 @@ public class KryptonNavigatorTaskbarThumbnails : Component
     }
 
     /// <summary>
-    /// Gets and sets the maximum number of page thumbnails to register from this component. Zero means unlimited.
+    /// Gets and sets the maximum number of registered taskbar tabs from this component (group slots plus page slots).
+    /// Zero means unlimited.
     /// </summary>
     [Category(@"Behavior")]
-    [Description(@"Maximum number of page thumbnails to register from this component. Zero means unlimited.")]
+    [Description(@"Maximum registered taskbar tabs from this component (groups + pages). Zero means unlimited.")]
     [DefaultValue(0)]
     public int MaxThumbnails
     {
@@ -290,12 +346,30 @@ public class KryptonNavigatorTaskbarThumbnails : Component
 
     internal void RaiseQueryThumbnail(QueryTaskbarThumbnailEventArgs e) => QueryThumbnail?.Invoke(this, e);
 
+    internal void RaiseQueryTabGroupThumbnail(QueryTaskbarTabGroupThumbnailEventArgs e) =>
+        QueryTabGroupThumbnail?.Invoke(this, e);
+
     internal void RaiseQueryOverlay(QueryTaskbarOverlayEventArgs e) => QueryOverlay?.Invoke(this, e);
 
     internal void RaiseQueryProgress(QueryTaskbarProgressEventArgs e) => QueryProgress?.Invoke(this, e);
 
     internal void RaiseQueryThumbnailButtons(QueryTaskbarThumbnailButtonsEventArgs e) =>
         QueryThumbnailButtons?.Invoke(this, e);
+
+    /// <summary>
+    /// Resolves whether composite tab-group thumbnails are active for the current wiring.
+    /// </summary>
+    internal bool AreTabGroupThumbnailsActive()
+    {
+        if (!_showTabGroupThumbnails || _formIntegrator == null || !_formIntegrator.AllowTabGroups)
+        {
+            return false;
+        }
+
+        return _navigator != null &&
+               !_navigator.IsDisposed &&
+               ReferenceEquals(_formIntegrator.Navigator, _navigator);
+    }
 
     internal void Sync()
     {
@@ -351,6 +425,26 @@ public class KryptonNavigatorTaskbarThumbnails : Component
         _navigator.VisibleChanged -= OnNavigatorVisibleChanged;
     }
 
+    private void AttachFormIntegrator()
+    {
+        if (_formIntegrator == null)
+        {
+            return;
+        }
+
+        _formIntegrator.TabGroupChanged += OnFormIntegratorTabGroupChanged;
+    }
+
+    private void DetachFormIntegrator()
+    {
+        if (_formIntegrator == null)
+        {
+            return;
+        }
+
+        _formIntegrator.TabGroupChanged -= OnFormIntegratorTabGroupChanged;
+    }
+
     private void OnNavigatorSelectedPageChanged(object? sender, EventArgs e) =>
         _manager?.UpdateActiveTab();
 
@@ -370,6 +464,8 @@ public class KryptonNavigatorTaskbarThumbnails : Component
             Sync();
         }
     }
+
+    private void OnFormIntegratorTabGroupChanged(object? sender, EventArgs e) => Sync();
 
     #endregion
 }

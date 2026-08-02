@@ -1,0 +1,174 @@
+﻿# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+# Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2026 - 2026. All rights reserved.
+#
+# Builds TestForm and runs Scripts/UnitTest assert suites via Invoke-AllUnitTests.ps1 -Strict.
+# Contract: every Test-*.ps1 declares "# UnitTest-CI: include" or "# UnitTest-CI: exclude".
+# See Scripts/UnitTest/README.md. Reusable via workflow_call.
+
+name: Unit Tests
+
+permissions:
+  contents: read
+
+concurrency:
+  group: unit-tests-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    branches: ['**']
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'Scripts/UnitTest/**'
+      - 'Source/Krypton Components/**'
+      - '.github/workflows/unit-tests.yml'
+  push:
+    branches:
+      - master
+      - alpha
+      - canary
+      - gold
+      - V105-LTS
+    paths:
+      - 'Scripts/UnitTest/**'
+      - 'Source/Krypton Components/**'
+      - '.github/workflows/unit-tests.yml'
+  workflow_dispatch:
+    inputs:
+      configuration:
+        description: Build configuration
+        required: true
+        default: Debug
+        type: choice
+        options:
+          - Debug
+          - Release
+      target_framework:
+        description: Target framework for TestForm / unit tests
+        required: true
+        default: net472
+        type: choice
+        options:
+          - net472
+          - net48
+          - net481
+          - net8.0-windows
+          - net9.0-windows
+      timeout_seconds:
+        description: Per-script timeout in seconds (0 = none)
+        required: true
+        default: '600'
+        type: string
+  workflow_call:
+    inputs:
+      configuration:
+        description: Build configuration
+        required: false
+        default: Debug
+        type: string
+      target_framework:
+        description: Target framework for TestForm / unit tests
+        required: false
+        default: net472
+        type: string
+      timeout_seconds:
+        description: Per-script timeout in seconds (0 = none)
+        required: false
+        default: '600'
+        type: string
+
+jobs:
+  unit-tests:
+    name: Scripts/UnitTest
+    runs-on: windows-2025-vs2026
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'workflow_dispatch' || github.event_name == 'workflow_call' }}
+
+    env:
+      UNITTEST_CONFIGURATION: ${{ inputs.configuration || 'Debug' }}
+      UNITTEST_TFM: ${{ inputs.target_framework || 'net472' }}
+      UNITTEST_TIMEOUT_SECONDS: ${{ inputs.timeout_seconds || '600' }}
+      UNITTEST_CI: '1'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: |
+            8.0.x
+            9.0.x
+            10.0.x
+
+      - name: Restore TestForm
+        run: >
+          dotnet restore "Source/Krypton Components/TestForm/TestForm.csproj"
+          -p:Configuration=${{ env.UNITTEST_CONFIGURATION }}
+
+      - name: Build TestForm
+        run: >
+          dotnet build "Source/Krypton Components/TestForm/TestForm.csproj"
+          -c ${{ env.UNITTEST_CONFIGURATION }}
+          -f ${{ env.UNITTEST_TFM }}
+          --no-restore
+          -m:1
+          -p:BuildInParallel=false
+
+      - name: Verify bin output
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $bin = Join-Path $env:GITHUB_WORKSPACE "Bin\$env:UNITTEST_CONFIGURATION\$env:UNITTEST_TFM"
+          if (-not (Test-Path -LiteralPath (Join-Path $bin 'TestForm.exe'))) {
+            throw "Expected TestForm.exe under $bin after build."
+          }
+          Write-Host "[PASS] TestForm.exe found under $bin"
+
+      - name: Run unit tests
+        id: run_tests
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $timeout = 0
+          if (-not [int]::TryParse($env:UNITTEST_TIMEOUT_SECONDS, [ref]$timeout)) {
+            $timeout = 600
+          }
+
+          Write-Host "[INFO] On-demand/CI unit test run"
+          Write-Host "[INFO] Configuration=$env:UNITTEST_CONFIGURATION TFM=$env:UNITTEST_TFM TimeoutSeconds=$timeout"
+
+          & powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\Scripts\UnitTest\Invoke-AllUnitTests.ps1 `
+            -Configuration $env:UNITTEST_CONFIGURATION `
+            -TargetFramework $env:UNITTEST_TFM `
+            -Strict `
+            -TimeoutSeconds $timeout
+
+          if ($LASTEXITCODE -ne 0) {
+            Write-Host "[FAIL] Invoke-AllUnitTests.ps1 exited $LASTEXITCODE"
+            exit $LASTEXITCODE
+          }
+
+          Write-Host "[PASS] Invoke-AllUnitTests.ps1 completed successfully"
+
+      - name: Report result
+        if: always()
+        shell: pwsh
+        run: |
+          $outcome = '${{ steps.run_tests.outcome }}'
+          if ($outcome -eq 'success') {
+            Write-Host "[PASS] Unit Tests workflow finished successfully"
+            if ($env:GITHUB_STEP_SUMMARY) {
+              Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY -Value "`n### Workflow`n`n**PASS** — unit tests completed successfully.`n"
+            }
+          }
+          elseif ($outcome -eq 'skipped') {
+            Write-Host "[SKIP] Unit test step was skipped"
+          }
+          else {
+            Write-Host "[FAIL] Unit Tests workflow finished with failures (step outcome=$outcome)"
+            if ($env:GITHUB_STEP_SUMMARY) {
+              Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY -Value "`n### Workflow`n`n**FAIL** — unit tests did not complete successfully (outcome=$outcome).`n"
+            }
+            exit 1
+          }
