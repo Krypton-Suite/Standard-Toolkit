@@ -48,10 +48,12 @@ public class GlobalStaticConstants
     public static int HEADER_BUTTON_EDGE_INSET_FORM_RIGHT = 1;
 
     /// <summary>
-    /// Top inset (pixels) between the caption band and form caption control-box buttons. The
-    /// default <c>0</c> puts the button's top border flush inside the form's top border, matching
-    /// <see cref="HEADER_BUTTON_EDGE_INSET_FORM_RIGHT"/>. Larger values push the buttons down; any
-    /// negative value restores the original behaviour of centring them in the caption.
+    /// Top inset (pixels) between the caption band and form caption control-box buttons when the
+    /// form is restored. The default <c>1</c> keeps a one-pixel gap under the form's top border.
+    /// Larger values push the buttons down; any negative value restores the original behaviour of
+    /// centring them in the caption. When the form is maximized, any WinForms/DWM screen overhang
+    /// (often 8px with <c>Top = -8</c>) is added on top of this value so ButtonSpecs stay fully
+    /// on-screen.
     /// </summary>
     public static int HEADER_BUTTON_EDGE_INSET_FORM_TOP = 1;
 

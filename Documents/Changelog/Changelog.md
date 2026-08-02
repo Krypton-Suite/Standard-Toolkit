@@ -47,9 +47,8 @@
 
 * Resolved [#4132](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4132), ControlBox item borders do not paint correctly
    * The right and bottom borders of a `KryptonForm` are no longer clipped away by the window region.
-   * The Close button keeps its own right border instead of losing it under the form border, and the caption control box now sits the same distance from the top border as it does from the right.
-   * Two tunables drive that spacing: `GlobalStaticConstants.HEADER_BUTTON_EDGE_INSET_FORM_RIGHT` (defaults to the form border width, `1`) and `GlobalStaticConstants.HEADER_BUTTON_EDGE_INSET_FORM_TOP` (defaults to `0`; set it negative to restore the previous centring of the buttons within the caption).
-   * Themes that previously hardcoded a zero right-hand control-box inset now read `GlobalStaticConstants.HEADER_BUTTON_EDGE_INSET_FORM_RIGHT` (still defaults to `0`). Raise that value toward the near-edge inset when tuning the Close button gap against the form border.
+   * Caption control-box / ButtonSpec spacing is driven by `GlobalStaticConstants.HEADER_BUTTON_EDGE_INSET_FORM_RIGHT` (default `1`) and `HEADER_BUTTON_EDGE_INSET_FORM_TOP` (default `1`; negative restores caption centring).
+   * When maximized, any WinForms/DWM top overhang (often `Top = -8`) is added to the top inset so ButtonSpecs stay fully on-screen, and the Close/Max/Min hit targets expand to the top (Close also to the right edge) so the extreme corner still lights and activates the button.
 * Implemented [#4104](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4104), Preserve git history in mirror backup
 * Resolved [#4131](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4131), `KryptonForm` no longer throws `EntryPointNotFoundException` on `net8.0`/`net9.0`/`net10.0-windows`.
    * `GetWindowLong` and `SetWindowLong` now route through the `GetWindowLongPtr`/`SetWindowLongPtr` APIs, which are the only variants available on 64-bit Windows.
