@@ -3,7 +3,12 @@
 #
 # Builds TestForm and runs Scripts/UnitTest assert suites via Invoke-AllUnitTests.ps1 -Strict.
 # Contract: every Test-*.ps1 declares "# UnitTest-CI: include" or "# UnitTest-CI: exclude".
-# See Scripts/UnitTest/README.md. Reusable via workflow_call.
+# See Scripts/UnitTest/README.md.
+#
+# Triggers:
+#   - workflow_dispatch (on-demand from Actions UI or `gh workflow run`)
+#   - pull_request / push (path-filtered)
+#   - workflow_call (reusable from other workflows)
 
 name: Unit Tests
 
@@ -15,24 +20,6 @@ concurrency:
   cancel-in-progress: true
 
 on:
-  pull_request:
-    branches: ['**']
-    types: [opened, synchronize, reopened]
-    paths:
-      - 'Scripts/UnitTest/**'
-      - 'Source/Krypton Components/**'
-      - '.github/workflows/unit-tests.yml'
-  push:
-    branches:
-      - master
-      - alpha
-      - canary
-      - gold
-      - V105-LTS
-    paths:
-      - 'Scripts/UnitTest/**'
-      - 'Source/Krypton Components/**'
-      - '.github/workflows/unit-tests.yml'
   workflow_dispatch:
     inputs:
       configuration:
@@ -59,6 +46,24 @@ on:
         required: true
         default: '600'
         type: string
+  pull_request:
+    branches: ['**']
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'Scripts/UnitTest/**'
+      - 'Source/Krypton Components/**'
+      - '.github/workflows/unit-tests.yml'
+  push:
+    branches:
+      - master
+      - alpha
+      - canary
+      - gold
+      - V115
+    paths:
+      - 'Scripts/UnitTest/**'
+      - 'Source/Krypton Components/**'
+      - '.github/workflows/unit-tests.yml'
   workflow_call:
     inputs:
       configuration:
@@ -81,15 +86,32 @@ jobs:
   unit-tests:
     name: Scripts/UnitTest
     runs-on: windows-2025-vs2026
-    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'workflow_dispatch' || github.event_name == 'workflow_call' }}
+    # Always allow workflow_dispatch / workflow_call; block only fork pull_request runs.
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.event_name == 'workflow_call' ||
+      github.event_name == 'push' ||
+      (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository)
 
     env:
-      UNITTEST_CONFIGURATION: ${{ inputs.configuration || 'Debug' }}
-      UNITTEST_TFM: ${{ inputs.target_framework || 'net472' }}
-      UNITTEST_TIMEOUT_SECONDS: ${{ inputs.timeout_seconds || '600' }}
+      # inputs.* works for workflow_dispatch and workflow_call; fall back for push/PR.
+      UNITTEST_CONFIGURATION: ${{ inputs.configuration || github.event.inputs.configuration || 'Debug' }}
+      UNITTEST_TFM: ${{ inputs.target_framework || github.event.inputs.target_framework || 'net472' }}
+      UNITTEST_TIMEOUT_SECONDS: ${{ inputs.timeout_seconds || github.event.inputs.timeout_seconds || '600' }}
       UNITTEST_CI: '1'
 
     steps:
+      - name: Announce trigger
+        shell: pwsh
+        run: |
+          Write-Host "[INFO] event=$env:GITHUB_EVENT_NAME ref=$env:GITHUB_REF"
+          if ($env:GITHUB_EVENT_NAME -eq 'workflow_dispatch') {
+            Write-Host "[INFO] On-demand run via workflow_dispatch"
+            Write-Host "[INFO] configuration=$env:UNITTEST_CONFIGURATION"
+            Write-Host "[INFO] target_framework=$env:UNITTEST_TFM"
+            Write-Host "[INFO] timeout_seconds=$env:UNITTEST_TIMEOUT_SECONDS"
+          }
+
       - name: Checkout
         uses: actions/checkout@v7
 
@@ -135,7 +157,7 @@ jobs:
             $timeout = 600
           }
 
-          Write-Host "[INFO] On-demand/CI unit test run"
+          Write-Host "[INFO] Unit test run starting"
           Write-Host "[INFO] Configuration=$env:UNITTEST_CONFIGURATION TFM=$env:UNITTEST_TFM TimeoutSeconds=$timeout"
 
           & powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\Scripts\UnitTest\Invoke-AllUnitTests.ps1 `
