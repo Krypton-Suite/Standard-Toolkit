@@ -45,6 +45,10 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#882](https://github.com/Krypton-Suite/Standard-Toolkit/issues/882), `KryptonNavigator` individual taskbar 'thumbnail' views
+   * Opt-in Windows taskbar tabbed thumbnails for `KryptonNavigator` pages via `KryptonNavigatorTaskbarThumbnails` (`KryptonPageFlags.AllowTaskbarThumbnail` to exclude pages).
+   * Multi-navigator merge on one taskbar host, docking float detach/reattach, Win11 Peek via `ITaskbarList4`, and designer/Flags UI included.
+   * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Navigator.Utilities` assembly.
 * Implemented [#925](https://github.com/Krypton-Suite/Standard-Toolkit/issues/925), Allow `KryptonNavigator` to integrate with a `KryptonForm` (browser/Explorer-style tabbed chrome) via `KryptonNavigatorFormIntegrator`, including **CaptionIntegrated** mode that injects tabs into the form title bar
    * Optional caption `+` new-tab button on `KryptonNavigatorFormIntegrator` (`ShowNewTabButton` / `NewTabButtonClick`)
    * Added drag tear-out / reattach between integrated windows, optional close-empty-window behavior, built-in caption-tab context menus with a customization hook, and an optional caption `+` new-tab button (`ShowNewTabButton` / `NewTabButtonClick`). 
