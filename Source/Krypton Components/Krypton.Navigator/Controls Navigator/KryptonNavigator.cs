@@ -516,23 +516,56 @@ public class KryptonNavigator : VisualSimple,
     }
 
     /// <summary>
-    /// 
+    /// Gets or sets the <see cref="KryptonForm"/> that this navigator can control via form chrome button specs.
     /// </summary>
+    /// <remarks>
+    /// When set and <see cref="ControlKryptonFormFeatures"/> is <c>false</c>, the navigator shows
+    /// minimize, maximize/restore, and close button specs that send system commands to this form.
+    /// Use <c>KryptonNavigatorFormIntegrator</c> in Krypton.Navigator.Utilities for a turnkey
+    /// browser/Explorer-style layout.
+    /// </remarks>
+    [Category(@"Behavior")]
+    [DefaultValue(null)]
+    [Description(@"KryptonForm controlled by the navigator form chrome button specs.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public KryptonForm? Owner
     {
         get => _owner;
-        set => _owner = value ?? null;
+        set
+        {
+            if (!ReferenceEquals(_owner, value))
+            {
+                _owner = value;
+                OnViewBuilderPropertyChanged(nameof(Owner));
+                PerformNeedPaint(true);
+            }
+        }
     }
 
     /// <summary>
-    /// 
+    /// Gets or sets whether the associated <see cref="Owner"/> form retains exclusive control of its caption buttons.
     /// </summary>
+    /// <remarks>
+    /// When <c>false</c> (default) and <see cref="Owner"/> is set, the navigator displays form
+    /// minimize/maximize/close button specs. When <c>true</c>, those specs stay hidden so the form
+    /// chrome control box remains the sole owner of caption buttons.
+    /// </remarks>
+    [Category(@"Behavior")]
+    [DefaultValue(false)]
+    [Description(@"When true, the Owner form keeps exclusive control of caption buttons; when false, the navigator can host form min/max/close specs.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public bool ControlKryptonFormFeatures
     {
         get => _controlKryptonFormFeatures;
-        set => _controlKryptonFormFeatures = value;
+        set
+        {
+            if (_controlKryptonFormFeatures != value)
+            {
+                _controlKryptonFormFeatures = value;
+                OnViewBuilderPropertyChanged(nameof(ControlKryptonFormFeatures));
+                PerformNeedPaint(true);
+            }
+        }
     }
 
     /// <summary>

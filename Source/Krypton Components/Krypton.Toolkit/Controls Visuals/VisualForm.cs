@@ -1058,6 +1058,15 @@ public abstract class VisualForm : Form,
 	/// <returns>True if the point is over control buttons; otherwise false.</returns>
 	internal virtual bool IsOnControlButtons(Point screenPoint) => false;
 
+	/// <summary>
+	/// Determines if the specified screen point is over chrome content that handles its own
+	/// mouse input, such as injected caption views (navigator tabs) or ButtonSpecs.
+	/// </summary>
+	/// <param name="screenPoint">The screen coordinates to test.</param>
+	/// <returns>True if interactive chrome content is under the point; otherwise false.</returns>
+	internal bool IsOverInteractiveChromeContent(Point screenPoint) =>
+		IsOverInteractiveChromeView(PointToWindow(screenPoint));
+
 	// ReSharper disable VirtualMemberNeverOverridden.Global
 	/// <summary>
 	/// Suspend processing of non-client painting.
@@ -1252,6 +1261,14 @@ public abstract class VisualForm : Form,
 					processed = OnWM_NCLBUTTONUP(ref m);
 					break;
 
+				case PI.WM_.NCRBUTTONDOWN:
+					processed = OnWM_NCRBUTTONDOWN(ref m);
+					break;
+
+				case PI.WM_.NCRBUTTONUP:
+					processed = OnWM_NCRBUTTONUP(ref m);
+					break;
+
 				case PI.WM_.MOUSEMOVE:
 					if (_captured)
 					{
@@ -1279,7 +1296,7 @@ public abstract class VisualForm : Form,
 
 				case PI.WM_.SYSCOMMAND:
 					{
-						var sc = (PI.SC_)m.WParam.ToInt64();
+						var sc = (PI.SC_)(m.WParam.ToInt64() & 0xFFF0);
 						// Is this the command for closing the form?
 						if (sc == PI.SC_.CLOSE)
 						{
@@ -1290,6 +1307,19 @@ public abstract class VisualForm : Form,
 
 							// Update form with the reason for the close
 							pi?.SetValue(this, CloseReason.UserClosing, null);
+						}
+
+						// Right-click on themed caption must not open the system menu when over
+						// interactive chrome, or anywhere in the title-bar strip we own.
+						if (sc == PI.SC_.MOUSEMENU)
+						{
+							Point screenPt = Control.MousePosition;
+							if (IsOverInteractiveChromeView(PointToWindow(screenPt)) || IsInTitleBarArea(screenPt))
+							{
+								processed = true;
+								m.Result = IntPtr.Zero;
+								break;
+							}
 						}
 
 						if (sc != PI.SC_.KEYMENU)
@@ -1590,6 +1620,52 @@ public abstract class VisualForm : Form,
 	}
 
 	/// <summary>
+	/// Process the WM_NCRBUTTONDOWN message when overriding window chrome.
+	/// </summary>
+	/// <param name="m">A Windows-based message.</param>
+	/// <returns>True if the message was processed; otherwise false.</returns>
+	protected virtual bool OnWM_NCRBUTTONDOWN(ref Message m)
+	{
+		var screenPoint = new Point((int)m.LParam.ToInt64());
+		Point windowPoint = ScreenToWindow(screenPoint);
+
+		// Always route through the view first so caption tabs / button specs can handle RightClick.
+		WindowChromeRightMouseDown(windowPoint);
+
+		// Swallow when over interactive chrome so DefWndProc cannot open the system menu
+		// (HTCAPTION right-clicks otherwise show Restore/Move/Size/…).
+		if (IsOverInteractiveChromeView(windowPoint))
+		{
+			m.Result = IntPtr.Zero;
+			return true;
+		}
+
+		return false;
+	}
+
+	/// <summary>
+	/// Process the WM_NCRBUTTONUP message when overriding window chrome.
+	/// </summary>
+	/// <param name="m">A Windows-based message.</param>
+	/// <returns>True if the message was processed; otherwise false.</returns>
+	protected virtual bool OnWM_NCRBUTTONUP(ref Message m)
+	{
+		var screenPoint = new Point((int)m.LParam.ToInt64());
+		Point windowPoint = ScreenToWindow(screenPoint);
+
+		WindowChromeRightMouseUp(windowPoint);
+
+		// Must swallow UP as well — Windows often opens the system menu from NCRBUTTONUP.
+		if (IsOverInteractiveChromeView(windowPoint))
+		{
+			m.Result = IntPtr.Zero;
+			return true;
+		}
+
+		return false;
+	}
+
+	/// <summary>
 	/// Process the WM_NCMOUSELEAVE message when overriding window chrome.
 	/// </summary>
 	/// <param name="m">A Windows-based message.</param>
@@ -1859,6 +1935,52 @@ public abstract class VisualForm : Form,
 		// By default, we have not handled the mouse up event
 		return false;
 	}
+
+	/// <summary>
+	/// Process the right mouse down event.
+	/// </summary>
+	/// <param name="windowPoint">Window coordinate of the mouse down.</param>
+	/// <returns>True if event is processed; otherwise false.</returns>
+	protected virtual bool WindowChromeRightMouseDown(Point windowPoint)
+	{
+		ViewManager?.MouseDown(new MouseEventArgs(MouseButtons.Right, 1, windowPoint.X, windowPoint.Y, 0), windowPoint);
+		return IsOverInteractiveChromeView(windowPoint);
+	}
+
+	/// <summary>
+	/// Process the right mouse up event.
+	/// </summary>
+	/// <param name="pt">Window coordinate of the mouse up.</param>
+	/// <returns>True if event is processed; otherwise false.</returns>
+	protected virtual bool WindowChromeRightMouseUp(Point pt)
+	{
+		ViewManager?.MouseUp(new MouseEventArgs(MouseButtons.Right, 0, pt.X, pt.Y, 0), pt);
+		return IsOverInteractiveChromeView(pt);
+	}
+
+	/// <summary>
+	/// Gets whether the window point is over chrome content that owns a mouse controller
+	/// (caption tabs, button specs, etc.).
+	/// </summary>
+	/// <param name="windowPoint">Point in window coordinates.</param>
+	/// <returns>True when an interactive chrome view is under the point.</returns>
+	protected virtual bool IsOverInteractiveChromeView(Point windowPoint)
+	{
+		if (ViewManager?.Root == null)
+		{
+			return false;
+		}
+
+		ViewBase? view = ViewManager.Root.ViewFromPoint(windowPoint);
+		return view?.FindMouseController() != null;
+	}
+
+	/// <summary>
+	/// Converts a screen point into window coordinates.
+	/// </summary>
+	/// <param name="screenPoint">Point in screen coordinates.</param>
+	/// <returns>Point in window coordinates.</returns>
+	protected Point PointToWindow(Point screenPoint) => ScreenToWindow(screenPoint);
 
 	/// <summary>
 	/// Perform mouse leave processing.

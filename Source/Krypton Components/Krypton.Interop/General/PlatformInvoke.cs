@@ -2500,6 +2500,15 @@ internal partial class PI
             // </summary>
             DWMWINDOWMAXIMIZEDCHANGE = 0x0321,
             // <summary>
+            // Sent when DWM needs an iconic thumbnail bitmap for a window that has DWMWA_HAS_ICONIC_BITMAP set.
+            // HIWORD(lParam) = width, LOWORD(lParam) = height of the requested thumbnail.
+            // </summary>
+            DWMSENDICONICTHUMBNAIL = 0x0323,
+            // <summary>
+            // Sent when DWM needs an iconic live-preview bitmap for Aero Peek.
+            // </summary>
+            DWMSENDICONICLIVEPREVIEWBITMAP = 0x0326,
+            // <summary>
             // Sent to request extended title bar information. A window receives this message through its WindowProc function.
             // </summary>
             GETTITLEBARINFOEX = 0x033F,
@@ -5098,6 +5107,43 @@ No 	                    No 	                    Show text only
             out IntPtr result);
         #endif
 
+        /// <summary>
+        /// Flags for DwmSetIconicThumbnail / DwmSetIconicLivePreviewBitmap.
+        /// </summary>
+        [Flags]
+        internal enum DWM_SIT : uint
+        {
+            None = 0,
+            DisplayFrame = 1
+        }
+
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        #if NET8_0_OR_GREATER
+        [LibraryImport(Libraries.DWMApi)]
+        internal static partial int DwmSetIconicThumbnail(IntPtr hwnd, IntPtr hbmp, DWM_SIT dwSITFlags);
+        #else
+        [DllImport(Libraries.DWMApi)]
+        internal static extern int DwmSetIconicThumbnail(IntPtr hwnd, IntPtr hbmp, DWM_SIT dwSITFlags);
+        #endif
+
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        #if NET8_0_OR_GREATER
+        [LibraryImport(Libraries.DWMApi)]
+        internal static partial int DwmSetIconicLivePreviewBitmap(IntPtr hwnd, IntPtr hbmp, IntPtr pptClient, DWM_SIT dwSITFlags);
+        #else
+        [DllImport(Libraries.DWMApi)]
+        internal static extern int DwmSetIconicLivePreviewBitmap(IntPtr hwnd, IntPtr hbmp, IntPtr pptClient, DWM_SIT dwSITFlags);
+        #endif
+
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        #if NET8_0_OR_GREATER
+        [LibraryImport(Libraries.DWMApi)]
+        internal static partial int DwmInvalidateIconicBitmaps(IntPtr hwnd);
+        #else
+        [DllImport(Libraries.DWMApi)]
+        internal static extern int DwmInvalidateIconicBitmaps(IntPtr hwnd);
+        #endif
+
         public enum DWMWINDOWATTRIBUTE : uint
         {
             NCRenderingEnabled = 1, // Get only attribute
@@ -6426,6 +6472,55 @@ No 	                    No 	                    Show text only
         void SetOverlayIcon(IntPtr hwnd, IntPtr hIcon, [MarshalAs(UnmanagedType.LPWStr)] string pszDescription);
         void SetThumbnailTooltip(IntPtr hwnd, [MarshalAs(UnmanagedType.LPWStr)] string pszTip);
         void SetThumbnailClip(IntPtr hwnd, IntPtr prcClip);
+    }
+
+    /// <summary>
+    /// Flags for <see cref="ITaskbarList4.SetTabProperties"/> controlling thumbnail and Peek behaviour.
+    /// </summary>
+    [Flags]
+    internal enum STPFLAG
+    {
+        STPF_NONE = 0,
+        STPF_USEAPPTHUMBNAILALWAYS = 0x1,
+        STPF_USEAPPTHUMBNAILWHENACTIVE = 0x2,
+        STPF_USEAPPPEEKALWAYS = 0x4,
+        STPF_USEAPPPEEKWHENACTIVE = 0x8
+    }
+
+    /// <summary>
+    /// COM interface extending <see cref="ITaskbarList3"/> with tab property control (Windows 7+).
+    /// </summary>
+    [ComImport]
+    [Guid("c43dc798-95d1-4bea-9030-bb99e2983a1a")]
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    internal interface ITaskbarList4
+    {
+        // ITaskbarList methods
+        void HrInit();
+        void AddTab(IntPtr hwnd);
+        void DeleteTab(IntPtr hwnd);
+        void ActivateTab(IntPtr hwnd);
+        void SetActiveAlt(IntPtr hwnd);
+
+        // ITaskbarList2 methods
+        void MarkFullscreenWindow(IntPtr hwnd, [MarshalAs(UnmanagedType.Bool)] bool fFullscreen);
+
+        // ITaskbarList3 methods
+        void SetProgressValue(IntPtr hwnd, ulong ullCompleted, ulong ullTotal);
+        void SetProgressState(IntPtr hwnd, TBPFLAG tbpFlags);
+        void RegisterTab(IntPtr hwndTab, IntPtr hwndMDI);
+        void UnregisterTab(IntPtr hwndTab);
+        void SetTabOrder(IntPtr hwndTab, IntPtr hwndInsertBefore);
+        void SetTabActive(IntPtr hwndTab, IntPtr hwndMDI, uint dwReserved);
+        void ThumbBarAddButtons(IntPtr hwnd, uint cButtons, IntPtr pButtons);
+        void ThumbBarUpdateButtons(IntPtr hwnd, uint cButtons, IntPtr pButtons);
+        void ThumbBarSetImageList(IntPtr hwnd, IntPtr himl);
+        void SetOverlayIcon(IntPtr hwnd, IntPtr hIcon, [MarshalAs(UnmanagedType.LPWStr)] string pszDescription);
+        void SetThumbnailTooltip(IntPtr hwnd, [MarshalAs(UnmanagedType.LPWStr)] string pszTip);
+        void SetThumbnailClip(IntPtr hwnd, IntPtr prcClip);
+
+        // ITaskbarList4 methods
+        void SetTabProperties(IntPtr hwndTab, STPFLAG stpFlags);
     }
 
     /// <summary>
