@@ -48,6 +48,8 @@
 
 ## 2026-10-26 - Build 2610 (Version 105-LTS - Patch 4) - October 2026
 
+* Resolved [#3996](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3996), Navigator stack and Outlook full modes now scroll the requested page check button into view (previously ignored the page argument)
+* Implemented [#4049](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4049),Implement the glyphs in `KryptonDomainUpDown` and `KryptonNumericUpDown`
 * Implemented [#1103](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1103), Investigate use of PInvoked GDI text functionality for performance [and compare with TextRenderer.DrawText (Mode off)]
    * Opt-in native GDI text path for `AccurateText` (`PreferNativeGdiText` / `GdiNativeText`) with TestForm benchmark
 * Resolved [#4059](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4059), Grouped Ribbon controls do expose designers, needs a closer look
