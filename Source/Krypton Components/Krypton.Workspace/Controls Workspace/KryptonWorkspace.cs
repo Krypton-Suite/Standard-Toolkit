@@ -2139,6 +2139,7 @@ public class KryptonWorkspace : VisualContainerControl,
         XmlHelper.TextToXmlAttribute(xmlWriter, @"MAXS", CommonHelper.SizeToString(page.MaximumSize), "0, 0");
         XmlHelper.TextToXmlAttribute(xmlWriter, @"AHSS", CommonHelper.SizeToString(page.AutoHiddenSlideSize), "150, 150");
         XmlHelper.TextToXmlAttribute(xmlWriter, @"F", page.Flags.ToString());
+        XmlHelper.TextToXmlAttribute(xmlWriter, @"TG", page.TabGroupId, string.Empty);
         XmlHelper.ObjectToXmlAttributes(xmlWriter, @"TAG", @"TAGT", page.Tag);
 
         // Write out images as child elements
@@ -2200,6 +2201,7 @@ public class KryptonWorkspace : VisualContainerControl,
             page.MaximumSize = CommonHelper.StringToSize(XmlHelper.XmlAttributeToText(xmlReader, @"MAXS", @"0, 0"));
             page.AutoHiddenSlideSize = CommonHelper.StringToSize(XmlHelper.XmlAttributeToText(xmlReader, @"AHSS", @"150, 150"));
             page.Flags = int.Parse(XmlHelper.XmlAttributeToText(xmlReader, @"F", page.Flags.ToString()));
+            page.TabGroupId = XmlHelper.XmlAttributeToText(xmlReader, @"TG", string.Empty);
 
             object? tag = XmlHelper.XmlAttributesToObject(xmlReader, @"TAG", @"TAGT", out bool tagPresent);
             if (tagPresent)

@@ -1560,6 +1560,17 @@ public class KryptonForm : VisualForm,
 	[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 	public Rectangle CustomCaptionArea { get; set; } = Rectangle.Empty;
 
+	/// <summary>
+	/// Gets or sets additional client-coordinate rectangles that act as caption drag regions.
+	/// </summary>
+	/// <remarks>
+	/// Used when multiple caption injections leave more than one spare drag band
+	/// (e.g. multi-strip document groups). When empty, only <see cref="CustomCaptionArea"/> is used.
+	/// </remarks>
+	[Browsable(false)]
+	[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+	public Rectangle[] CustomCaptionAreas { get; set; } = Array.Empty<Rectangle>();
+
 	#endregion
 
 	#region Public IContentValues
@@ -2412,17 +2423,34 @@ public class KryptonForm : VisualForm,
 			return new IntPtr(PI.HT.REDUCE);
 		}
 
+		// Interactive caption content (injected navigator tabs, custom ButtonSpecs, etc.).
+		// Must NOT return HTCAPTION — Windows opens the system menu on right-click there.
+		// HTBORDER still delivers NC mouse messages so ViewManager/ButtonController keep working.
+		ViewBase? interactiveView = ViewManager?.Root.ViewFromPoint(pt);
+		if (interactiveView?.FindMouseController() is ButtonController interactiveController)
+		{
+			interactiveController.NonClientAsNormal = true;
+			return new IntPtr(PI.HT.BORDER);
+		}
+
 		Padding borders = RealWindowBorders;
 
 		// Issue #2921: CustomCaptionArea is in form client coordinates (set by ribbon);
 		// hit-test pt is in window coordinates — convert for correct caption/drag detection.
-		if (!CustomCaptionArea.IsEmpty)
+		var clientPt = new Point(pt.X - borders.Left, pt.Y - borders.Top);
+		if (CustomCaptionAreas is { Length: > 0 })
 		{
-			var clientPt = new Point(pt.X - borders.Left, pt.Y - borders.Top);
-			if (CustomCaptionArea.Contains(clientPt))
+			foreach (Rectangle area in CustomCaptionAreas)
 			{
-				return new IntPtr(PI.HT.CAPTION);
+				if (!area.IsEmpty && area.Contains(clientPt))
+				{
+					return new IntPtr(PI.HT.CAPTION);
+				}
 			}
+		}
+		else if (!CustomCaptionArea.IsEmpty && CustomCaptionArea.Contains(clientPt))
+		{
+			return new IntPtr(PI.HT.CAPTION);
 		}
 
 		// Do not allow the caption to be moved or the border resized
@@ -2561,6 +2589,47 @@ public class KryptonForm : VisualForm,
 	{
 		CheckViewLayout();
 		PerformViewPaint(g, bounds);
+	}
+
+	/// <summary>
+	/// Process the WM_NCRBUTTONDOWN message when overriding window chrome.
+	/// </summary>
+	/// <param name="m">A Windows-based message.</param>
+	/// <returns>True if the message was processed; otherwise false.</returns>
+	protected override bool OnWM_NCRBUTTONDOWN(ref Message m)
+	{
+		var screenPoint = new Point((int)m.LParam.ToInt64());
+		Point windowPoint = ScreenToWindow(screenPoint);
+
+		// Caption strip (including injected tabs): never let DefWndProc open the system menu.
+		if (IsInTitleBarArea(screenPoint) || IsOverInteractiveChromeView(windowPoint))
+		{
+			WindowChromeRightMouseDown(windowPoint);
+			m.Result = IntPtr.Zero;
+			return true;
+		}
+
+		return base.OnWM_NCRBUTTONDOWN(ref m);
+	}
+
+	/// <summary>
+	/// Process the WM_NCRBUTTONUP message when overriding window chrome.
+	/// </summary>
+	/// <param name="m">A Windows-based message.</param>
+	/// <returns>True if the message was processed; otherwise false.</returns>
+	protected override bool OnWM_NCRBUTTONUP(ref Message m)
+	{
+		var screenPoint = new Point((int)m.LParam.ToInt64());
+		Point windowPoint = ScreenToWindow(screenPoint);
+
+		if (IsInTitleBarArea(screenPoint) || IsOverInteractiveChromeView(windowPoint))
+		{
+			WindowChromeRightMouseUp(windowPoint);
+			m.Result = IntPtr.Zero;
+			return true;
+		}
+
+		return base.OnWM_NCRBUTTONUP(ref m);
 	}
 
 	/// <summary>
