@@ -19,6 +19,7 @@ public class KryptonFileDialogProviderDemo : KryptonForm
     private readonly KryptonTextBox _fileNameTextBox;
     private readonly KryptonTextBox _filterTextBox;
     private readonly KryptonCheckBox _ownerCheckBox;
+    private readonly KryptonCheckBox _dateModifiedFilterCheckBox;
     private readonly KryptonTextBox _resultTextBox;
 
     public KryptonFileDialogProviderDemo()
@@ -69,7 +70,7 @@ public class KryptonFileDialogProviderDemo : KryptonForm
         _fileNameTextBox = new KryptonTextBox
         {
             Dock = DockStyle.Fill,
-            Text = @"sample.txt"
+            Text = string.Empty
         };
         _filterTextBox = new KryptonTextBox
         {
@@ -80,6 +81,12 @@ public class KryptonFileDialogProviderDemo : KryptonForm
         {
             Text = @"Show with owner",
             Checked = true,
+            AutoSize = true
+        };
+        _dateModifiedFilterCheckBox = new KryptonCheckBox
+        {
+            Text = @"Show Date modified filter (Custom only)",
+            Checked = false,
             AutoSize = true
         };
 
@@ -96,6 +103,7 @@ public class KryptonFileDialogProviderDemo : KryptonForm
         AddLabeledRow(settingsLayout, 2, @"Initial file name:", _fileNameTextBox);
         AddLabeledRow(settingsLayout, 3, @"Filter:", _filterTextBox);
         settingsLayout.Controls.Add(_ownerCheckBox, 1, 4);
+        settingsLayout.Controls.Add(_dateModifiedFilterCheckBox, 1, 5);
         layout.Controls.Add(settingsLayout, 0, 1);
 
         var buttonsLayout = new TableLayoutPanel
@@ -164,7 +172,8 @@ public class KryptonFileDialogProviderDemo : KryptonForm
             Filter = _filterTextBox.Text,
             FilterIndex = 1,
             CheckFileExists = true,
-            CheckPathExists = true
+            CheckPathExists = true,
+            ShowDateModifiedFilter = _dateModifiedFilterCheckBox.Checked
         };
 
         var result = ShowDialog(dialog);
@@ -184,7 +193,8 @@ public class KryptonFileDialogProviderDemo : KryptonForm
             CheckPathExists = true,
             OverwritePrompt = true,
             AddExtension = true,
-            DefaultExt = @"txt"
+            DefaultExt = @"txt",
+            ShowDateModifiedFilter = _dateModifiedFilterCheckBox.Checked
         };
 
         var result = ShowDialog(dialog);
@@ -198,7 +208,8 @@ public class KryptonFileDialogProviderDemo : KryptonForm
             ProviderMode = providerMode,
             Title = _titleTextBox.Text,
             SelectedPath = _initialDirectoryTextBox.Text,
-            RootFolder = Environment.SpecialFolder.Desktop
+            RootFolder = Environment.SpecialFolder.Desktop,
+            ShowDateModifiedFilter = _dateModifiedFilterCheckBox.Checked
         };
 
 #if NET8_0_OR_GREATER
