@@ -1086,13 +1086,14 @@ public abstract class PaletteBase : Component
     /// <returns>String value.</returns>
     public virtual string GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style)
     {
+        var controlBox = KryptonManager.Strings.ControlBoxButtonStrings;
+
         switch (style)
         {
-            // TODO: Use KryptonManager.Strings for strings
             case PaletteButtonSpecStyle.Close:
             case PaletteButtonSpecStyle.PendantClose:
             case PaletteButtonSpecStyle.FormClose:
-                return "Close";
+                return controlBox.Close;
             case PaletteButtonSpecStyle.Context:
                 return "Select";
             case PaletteButtonSpecStyle.Next:
@@ -1101,16 +1102,18 @@ public abstract class PaletteBase : Component
                 return "Previous";
             case PaletteButtonSpecStyle.FormMin:
             case PaletteButtonSpecStyle.PendantMin:
-                return "Minimize";
-            case PaletteButtonSpecStyle.FormMax:
-                return "Maximize";
-            case PaletteButtonSpecStyle.PendantRestore:
-            case PaletteButtonSpecStyle.FormRestore:
-                return "Restore";
-            case PaletteButtonSpecStyle.FormHelp:
-                return nameof(Help);
             case PaletteButtonSpecStyle.RibbonMinimize:
-                return "Minimize";
+                return controlBox.Minimize;
+            case PaletteButtonSpecStyle.FormMax:
+                return controlBox.Maximize;
+            case PaletteButtonSpecStyle.FormRestore:
+                // Maximize button toggled to restore (Windows MUI: Restore Down).
+                return controlBox.Restore;
+            case PaletteButtonSpecStyle.PendantRestore:
+                // Minimize-side restore (Windows MUI: Restore Up), e.g. maximized MDI child.
+                return controlBox.RestoreUp;
+            case PaletteButtonSpecStyle.FormHelp:
+                return controlBox.Help;
             case PaletteButtonSpecStyle.RibbonExpand:
                 return "Expand";
             case PaletteButtonSpecStyle.PinVertical:
