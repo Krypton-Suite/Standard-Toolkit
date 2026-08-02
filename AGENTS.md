@@ -1,4 +1,4 @@
-# Repository Guidelines
+﻿# Repository Guidelines
 
 ## Recent Tooling Mistakes To Avoid
 
@@ -18,10 +18,12 @@ Before considering a task complete:
 
 - Build the affected project if instructed.
 - Fix any compiler or analyzer warnings introduced by the change; treat new warnings as part of the build (do not leave them for later). Prefer fixing pre-existing warnings in files you already touch when the fix is small and local; do not expand into a repo-wide warning cleanup unless asked.
+- Check files you create or edit for UTF-8 BOM encoding issues and fix them (see **Coding Style & Naming Conventions**). Do not leave UTF-8-without-BOM or wrong-encoding files when the repo expects UTF-8 with BOM; do not expand into a repo-wide encoding cleanup unless asked.
 - Update TestForm when adding a feature.
 - Update Changelog.md for completed features and bug fixes.
 - Add developer documentation for substantial new features.
 - Write a PR description in `Documents/PR/` for completed features and bug fixes (see **Pull Request Descriptions**).
+- When UI behaviour is verified with ad-hoc PowerShell / UI Automation (mouse synthesise, screenshots, hosted `TestForm` demos), **keep those scripts under `Scripts/UnitTest/`** instead of leaving them only under `Bin/` or deleting them after the session. Prefer reusable, named scripts with a short note in `Scripts/UnitTest/README.md` (see **Unit Test Scripts**).
 
 ## Shell Guidelines
 
@@ -43,7 +45,7 @@ Before considering a task complete:
 - `Source/Krypton Components/TestForm`: WinForms sample app used to validate changes; add or extend demos here when features or bugs are completed (see **TestForm Demos**)
 - `Source/TestHarnesses`: Small repro/test harnesses (e.g., `ThemeSwapRepro`)
 - `Scripts/`: Build and packaging scripts; `run.cmd` (root) launches an interactive menu; scripts live under `Scripts/VS2022/`, `Scripts/Current/`, `Scripts/Build/` (e.g., `build-stable.cmd`, `build-canary.cmd`, `build-nightly.cmd`, `build.proj`)
-`Scripts/UnitTest/`: Reusable PowerShell UI-automation helpers for interactive validation of `TestForm` scenarios (see **Unit Test Scripts**)
+- `Scripts/UnitTest/`: Reusable PowerShell UI-automation helpers for interactive validation of `TestForm` scenarios (see **Unit Test Scripts**)
 - `Bin/`: Build outputs by configuration (e.g., `Bin/Debug`)
 - `Documents/`, `Assets/`, `Logs/`: Docs, images, and build logs
 - `Documents/Changelog/Changelog.md`: User-facing release notes for completed bugs and features
@@ -108,6 +110,7 @@ Before considering a task complete:
 ## Coding Style & Naming Conventions
 
 - Line endings/encoding: CRLF, UTF-8 with BOM
+- Always verify and fix UTF-8 BOM on files you create or edit. Source and text files in this repo use UTF-8 **with** BOM; if a tool or edit strips the BOM (or writes UTF-8 without BOM), restore it before finishing. Prefer fixing encoding on files already in scope; do not expand into a repo-wide BOM pass unless asked. In PowerShell, rewrite with BOM when needed, e.g. `$utf8Bom = New-Object System.Text.UTF8Encoding $true; [System.IO.File]::WriteAllText($path, $content, $utf8Bom)`.
 - Follow `Source/.editorconfig` and project analyzers (`EnableNETAnalyzers=true`)
 - Indentation: 4 spaces; line endings: CRLF
 - Projects use `global using` like in GlobalDeclarations.cs, do not add new usings in other files
@@ -231,7 +234,7 @@ When the feature warrants user-visible validation, add or update a demo per **Te
 - Location: `Documents/Development/`
 - Name: descriptive kebab or Pascal-style title, e.g. `Krypton-Docking-Developer-Guide.md` or `Visual-Studio-Templates-Developer-Guide.md`.
 - One feature (or cohesive subsystem) per file; cross-link related guides when helpful.
-- CRLF, UTF-8; match tone and structure of existing repo docs.
+- CRLF, UTF-8 with BOM; match tone and structure of existing repo docs.
 
 ### Do not list in these files
 
@@ -324,19 +327,19 @@ Skip the comparison when there is no meaningful WinForms equivalent (e.g. ribbon
 
 ## Testing Guidelines
 
-- No formal unit test suite. Validate changes via `TestForm` scenarios and harnesses under `Source/TestHarnesses`
+- No formal xUnit/NUnit suite. Validate changes via `TestForm` scenarios, harnesses under `Source/TestHarnesses`, and PowerShell helpers under `Scripts/UnitTest/` (see **Unit Test Scripts**)
 - When fixing a bug, add/adjust a minimal repro in `TestForm` or a harness and describe manual steps in the PR
 - When completing a **feature**, add or update a comprehensive demo in `TestForm` per **TestForm Demos** (include Krypton vs WinForms comparison where appropriate)
 - When completing a bug fix or feature, update `Documents/Changelog/Changelog.md` per **Changelog** in this file
 
-##  Unit Test Scripts
+## Unit Test Scripts
 
 Use `Scripts/UnitTest/` for PowerShell scripts that drive or inspect a Debug `TestForm` build (host a demo form, synthesise mouse input, capture screenshots, probe non-client geometry). These complement manual `TestForm` checks; they are not a substitute for a demo and are not run by CI unless explicitly wired later.
 
 ### When to create or update
 
 - Creating throwaway `.ps1` files under `Bin/` during a bug investigation is fine for the session, but **before the work is finished**, move or rewrite the keepers into `Scripts/UnitTest/` with clear names and brief `.SYNOPSIS` / `.DESCRIPTION` help.
-- Prefer extending an existing verification script over adding a near-duplicate.
+- Prefer extending an existing unit-test script over adding a near-duplicate.
 - Document new scripts in `Scripts/UnitTest/README.md` (purpose and a short usage example).
 - Do not check in screenshots or `Bin/` output produced by these scripts.
 
@@ -369,7 +372,7 @@ When a **bug fix** or **feature** is completed, create a **PR description** as a
 - Location: `Documents/PR/`
 - Copy `Documents/PR/TEMPLATE.md` to `Documents/PR/<issue-or-branch>-<short-title>.md`, e.g. `Documents/PR/3720-foldable-dialog.md` or `Documents/PR/2444-agents-md.md`. Use the issue number when one exists.
 - One file per bug fix or feature (or the cohesive set of changes going into a single PR).
-- CRLF, UTF-8; match the tone and structure of existing repo docs.
+- CRLF, UTF-8 with BOM; match the tone and structure of existing repo docs.
 
 ### What to include
 

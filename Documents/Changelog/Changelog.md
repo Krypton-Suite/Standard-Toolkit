@@ -46,6 +46,27 @@
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
 * Resolved [#3996](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3996), Navigator stack and Outlook full modes now scroll the requested page check button into view (previously ignored the page argument)
+* Implemented [#882](https://github.com/Krypton-Suite/Standard-Toolkit/issues/882), `KryptonNavigator` individual taskbar 'thumbnail' views
+   * Opt-in Windows taskbar tabbed thumbnails for `KryptonNavigator` pages via `KryptonNavigatorTaskbarThumbnails` (`KryptonPageFlags.AllowTaskbarThumbnail` to exclude pages).
+   * Multi-navigator merge on one taskbar host, docking float detach/reattach, Win11 Peek via `ITaskbarList4`, and designer/Flags UI included.
+   * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Navigator.Utilities` assembly.
+* Implemented [#925](https://github.com/Krypton-Suite/Standard-Toolkit/issues/925), Allow `KryptonNavigator` to integrate with a `KryptonForm` (browser/Explorer-style tabbed chrome) via `KryptonNavigatorFormIntegrator`, including **CaptionIntegrated** mode that injects tabs into the form title bar
+   * Optional caption `+` new-tab button on `KryptonNavigatorFormIntegrator` (`ShowNewTabButton` / `NewTabButtonClick`)
+   * Added drag tear-out / reattach between integrated windows, optional close-empty-window behavior, built-in caption-tab context menus with a customization hook, and an optional caption `+` new-tab button (`ShowNewTabButton` / `NewTabButtonClick`). 
+   * Browser-style caption tab groups (`KryptonPage.TabGroupId`, colored headers, collapse, context-menu assign/ungroup) plus IDE document-group helpers (`KryptonDocumentGroupHelper`) and multi-strip CaptionIntegrated chrome over `KryptonWorkspace`
+   * Save/load for caption tab groups and layouts (`KryptonNavigatorFormIntegrator.SaveLayout*` / `LoadLayout*`, workspace `TG` page attribute, group catalog in `GlobalSaving`)
+   * Tab-group follow-ups: whole-group drag/tear-out from headers, join-on-drop, collapsed `Title (n)` badge, workspace edge drag-to-split from caption tabs, bar-mode group accents, richer rename/recolor UI, cross-window catalog merge, DPI caption rebuild, and layout smoke harness
+   * Right-clicking a caption tab now shows the tab context menu; the themed `KryptonForm` system menu no longer intercepts right-clicks over interactive caption content (it still opens over empty caption space)
+   * Dragging a caption tab back onto the tab strip now reorders it, or joins the group of the tab or group header it is dropped on, instead of always tearing it out into a new window; tear-out and cross-window drops also now track the mouse position accurately
+   * Caption-tab context menu strings (and rename-group dialog cue/prompt) are fully localizable via `KryptonManager.Strings.NavigatorIntegrationStrings`; form system commands use `SystemMenuStrings`, and menu text is refreshed from those values each time the menu opens
+   * Caption tab groups now read as a distinct coloured cluster: the group header is washed in the group colour with a solid accent bar, and every member tab keeps a group-colour underline in all states (including selected), making differently-coloured groups easy to tell apart
+   * Group colour treatment is adjustable via `KryptonNavigatorFormIntegrator.TabGroupAppearance` (header wash strength, header accent bar, member underline, and member border)
+   * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Navigator.Utilities` assembly.
+* Implemented [#927](https://github.com/Krypton-Suite/Standard-Toolkit/issues/927), `KryptonNavigator` form minimize, maximize/restore, and close `ButtonSpec` buttons
+* Resolved [#4132](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4132), ControlBox item borders do not paint correctly
+   * The right and bottom borders of a `KryptonForm` are no longer clipped away by the window region.
+   * Caption control-box / ButtonSpec spacing is driven by `GlobalStaticConstants.HEADER_BUTTON_EDGE_INSET_FORM_RIGHT` (default `1`) and `HEADER_BUTTON_EDGE_INSET_FORM_TOP` (default `1`; negative restores caption centring).
+   * When maximized, any WinForms/DWM top overhang (often `Top = -8`) is added to the top inset so ButtonSpecs stay fully on-screen, and the Close/Max/Min hit targets expand to the top (Close also to the right edge) so the extreme corner still lights and activates the button.
 * Implemented [#4104](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4104), Preserve git history in mirror backup
 * Resolved [#4131](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4131), `KryptonForm` no longer throws `EntryPointNotFoundException` on `net8.0`/`net9.0`/`net10.0-windows`.
    * `GetWindowLong` and `SetWindowLong` now route through the `GetWindowLongPtr`/`SetWindowLongPtr` APIs, which are the only variants available on 64-bit Windows.
