@@ -21,6 +21,15 @@
 #   Variable  REPO_MIRROR_ON_PR_MERGE  Set to "true" to enable syncs on merged pull requests
 #   Secret    DISCORD_WEBHOOK_MIRROR  Discord webhook for mirror notifications
 #
+# Offline snapshots (optional — same BACKUP_REPO / BACKUP_REPO_TOKEN as alpha-backup-sync):
+#   After a successful non-dry-run mirror, stores a git bundle under
+#   Source/Nightly/Standard Toolkit Mirror in BACKUP_REPO:
+#   - *.bundle — git bundle of all refs in the bare source clone (full history DR)
+#   Restore from bundle:
+#     git clone "Standard Toolkit Mirror Backup - YYYY-MM-DD.bundle" restored-repo
+#   Optional: BACKUP_DIR_PREFIX (default "Standard Toolkit Mirror Backup"),
+#   BACKUP_BRANCH (default "main"), BACKUP_SNAPSHOT_KEEP (default 30).
+#
 # Testing: Actions → Repository Mirror → Run workflow → enable "Dry run" to validate
 # configuration, clone the source, and list refs without force-pushing. Use a dedicated
 # test mirror repository before pointing MIRROR_REPO at production backup storage.
@@ -34,8 +43,8 @@ name: Repository Mirror
 
 on:
   schedule:
-    # Daily safety-net sync at 02:12 UTC (off-hour; runs only when this file exists on default branch: master)
-    - cron: '12 2 * * *'
+    # Daily safety-net sync at 02:00 UTC (runs only when this file exists on default branch: master)
+    - cron: '0 2 * * *'
   pull_request:
     # PR close events targeting these base branches are considered for merge-triggered syncs
     types:
@@ -383,6 +392,98 @@ jobs:
           echo "  Tags failed: $tags_failed"
           echo "  Tag prune failed: $tags_prune_failed"
 
+      - name: Push offline mirror snapshot (bundle)
+        if: steps.kill_switch.outputs.enabled == 'true' && steps.mirror.outcome == 'success'
+        id: mirror_artifacts
+        env:
+          BACKUP_REPO: ${{ vars.BACKUP_REPO }}
+          BACKUP_REPO_TOKEN: ${{ secrets.BACKUP_REPO_TOKEN }}
+          BACKUP_DIR_PREFIX: ${{ vars.BACKUP_DIR_PREFIX }}
+          BACKUP_BRANCH: ${{ vars.BACKUP_BRANCH }}
+          BACKUP_SNAPSHOT_KEEP: ${{ vars.BACKUP_SNAPSHOT_KEEP }}
+          DRY_RUN: ${{ steps.mirror.outputs.dry_run }}
+        run: |
+          set -euo pipefail
+
+          echo "pushed=false" >> "$GITHUB_OUTPUT"
+
+          if [ "${DRY_RUN:-false}" = "true" ]; then
+            echo "Dry run — skipping offline bundle snapshot."
+            exit 0
+          fi
+
+          if [ -z "${BACKUP_REPO_TOKEN:-}" ] || [ -z "${BACKUP_REPO:-}" ]; then
+            echo "BACKUP_REPO (variable) or BACKUP_REPO_TOKEN (secret) not set - skipping offline mirror snapshot"
+            exit 0
+          fi
+
+          if [ ! -d source.git ]; then
+            echo "::error::Bare clone source.git is missing; cannot create offline mirror snapshot."
+            exit 1
+          fi
+
+          repo_path="$BACKUP_REPO"
+          if [[ "$repo_path" == https://github.com/* ]] || [[ "$repo_path" == http://github.com/* ]]; then
+            repo_path="${repo_path#*github.com/}"
+            repo_path="${repo_path%.git}"
+            repo_path="${repo_path%/}"
+            echo "Normalized BACKUP_REPO from full URL to: $repo_path"
+          fi
+
+          # Prefer a mirror-specific default so alpha-backup artifacts are not overwritten
+          # when BACKUP_DIR_PREFIX is unset. If the operator sets BACKUP_DIR_PREFIX explicitly,
+          # honor it (artifacts still live in a distinct snapshot directory).
+          if [ -n "${BACKUP_DIR_PREFIX:-}" ]; then
+            prefix="$BACKUP_DIR_PREFIX"
+          else
+            prefix="Standard Toolkit Mirror Backup"
+          fi
+          branch="${BACKUP_BRANCH:-main}"
+          keep="${BACKUP_SNAPSHOT_KEEP:-14}"
+          if ! [[ "$keep" =~ ^[0-9]+$ ]] || [ "$keep" -lt 1 ]; then
+            echo "::warning:: BACKUP_SNAPSHOT_KEEP='$BACKUP_SNAPSHOT_KEEP' is invalid; using 14"
+            keep=14
+          fi
+
+          snapshot_dir="Source/Nightly/Standard Toolkit Mirror"
+          today=$(date -u +%Y-%m-%d)
+          bundle_name="$prefix - $today.bundle"
+          echo "bundle_path=$snapshot_dir/$bundle_name" >> "$GITHUB_OUTPUT"
+          echo "dir_name=$snapshot_dir" >> "$GITHUB_OUTPUT"
+
+          workspace="$PWD"
+          echo "Creating full-history bundle from bare clone (--all)..."
+          git -C source.git bundle create "${workspace}/${bundle_name}" --all
+          git -C source.git bundle verify "${workspace}/${bundle_name}"
+
+          git clone --depth 1 "https://x-access-token:$BACKUP_REPO_TOKEN@github.com/$repo_path.git" backup-repo
+          cd backup-repo
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$branch" 2>/dev/null || git checkout "$branch" 2>/dev/null || true
+
+          mkdir -p "$snapshot_dir"
+          mv "${workspace}/${bundle_name}" "$snapshot_dir/"
+          git add "$snapshot_dir/$bundle_name"
+
+          mapfile -t snapshot_bundles < <(ls -1 "$snapshot_dir"/*.bundle 2>/dev/null | sort -r)
+          if [ "${#snapshot_bundles[@]}" -gt "$keep" ]; then
+            for old_bundle in "${snapshot_bundles[@]:$keep}"; do
+              git rm -f "$old_bundle"
+              echo "Removed old bundle: $old_bundle"
+            done
+          fi
+          echo "Retaining up to $keep newest bundle(s) in $snapshot_dir"
+
+          if git diff --staged --quiet; then
+            echo "No backup repo changes to commit"
+          else
+            git commit -m "chore: update mirror bundle snapshot in $snapshot_dir (automated)"
+            git push origin "$branch"
+            echo "pushed=true" >> "$GITHUB_OUTPUT"
+            echo "Pushed mirror bundle to $BACKUP_REPO ($snapshot_dir/$bundle_name)"
+          fi
+
       - name: Discord notification
         if: steps.kill_switch.outputs.enabled == 'true' && always() && steps.mirror.outcome != 'skipped'
         env:
@@ -402,6 +503,10 @@ jobs:
           SOURCE_TAG_COUNT: ${{ steps.mirror.outputs.source_tag_count }}
           DRY_RUN: ${{ steps.mirror.outputs.dry_run }}
           MIRROR_REPO: ${{ steps.mirror.outputs.mirror_repo || vars.MIRROR_REPO }}
+          ARTIFACTS_PUSHED: ${{ steps.mirror_artifacts.outputs.pushed }}
+          ARTIFACT_BUNDLE: ${{ steps.mirror_artifacts.outputs.bundle_path }}
+          ARTIFACT_DIR: ${{ steps.mirror_artifacts.outputs.dir_name }}
+          BACKUP_REPO: ${{ vars.BACKUP_REPO }}
           SOURCE_REPO: ${{ github.repository }}
           EVENT_NAME: ${{ github.event_name }}
           REF_NAME: ${{ github.ref_name }}
@@ -534,6 +639,20 @@ jobs:
           fi
           if [ -n "${FAILED_BRANCHES:-}" ]; then
             add_field "❌ Failed" "$(format_ref_list "$FAILED_BRANCHES")" false
+          fi
+
+          if [ "${ARTIFACTS_PUSHED:-false}" = "true" ]; then
+            artifacts_value="_none_"
+            if [ -n "${BACKUP_REPO:-}" ]; then
+              artifacts_value="Repo: \`${BACKUP_REPO}\`"
+              if [ -n "${ARTIFACT_DIR:-}" ]; then
+                artifacts_value="${artifacts_value}"$'\n'"Dir: \`${ARTIFACT_DIR}\`"
+              fi
+              if [ -n "${ARTIFACT_BUNDLE:-}" ]; then
+                artifacts_value="${artifacts_value}"$'\n'"• bundle: \`${ARTIFACT_BUNDLE}\`"
+              fi
+            fi
+            add_field "💾 Offline bundle" "$artifacts_value" false
           fi
 
           run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
