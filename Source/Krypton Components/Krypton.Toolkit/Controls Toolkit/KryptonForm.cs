@@ -1535,21 +1535,21 @@ public class KryptonForm : VisualForm,
 	/// </summary>
 	/// <param name="pt">Window relative point to test.</param>
 	/// <returns>True if inside the button; otherwise false.</returns>
-	public bool HitTestMinButton(Point pt) => _buttonManager.GetButtonRectangle(ButtonSpecMin).Contains(pt);
+	public bool HitTestMinButton(Point pt) => GetControlBoxHitRectangle(ButtonSpecMin).Contains(pt);
 
 	/// <summary>
 	/// Gets a value indicating if the provided point is inside the maximize button.
 	/// </summary>
 	/// <param name="pt">Window relative point to test.</param>
 	/// <returns>True if inside the button; otherwise false.</returns>
-	public bool HitTestMaxButton(Point pt) => _buttonManager.GetButtonRectangle(ButtonSpecMax).Contains(pt);
+	public bool HitTestMaxButton(Point pt) => GetControlBoxHitRectangle(ButtonSpecMax).Contains(pt);
 
 	/// <summary>
 	/// Gets a value indicating if the provided point is inside the close button.
 	/// </summary>
 	/// <param name="pt">Window relative point to test.</param>
 	/// <returns>True if inside the button; otherwise false.</returns>
-	public bool HitTestCloseButton(Point pt) => _buttonManager.GetButtonRectangle(ButtonSpecClose).Contains(pt);
+	public bool HitTestCloseButton(Point pt) => GetControlBoxHitRectangle(ButtonSpecClose).Contains(pt);
 
 	/// <summary>
 	/// Gets and sets a rectangle to treat as a custom caption area.
@@ -1559,6 +1559,17 @@ public class KryptonForm : VisualForm,
 	[DisallowNull]
 	[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 	public Rectangle CustomCaptionArea { get; set; } = Rectangle.Empty;
+
+	/// <summary>
+	/// Gets or sets additional client-coordinate rectangles that act as caption drag regions.
+	/// </summary>
+	/// <remarks>
+	/// Used when multiple caption injections leave more than one spare drag band
+	/// (e.g. multi-strip document groups). When empty, only <see cref="CustomCaptionArea"/> is used.
+	/// </remarks>
+	[Browsable(false)]
+	[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+	public Rectangle[] CustomCaptionAreas { get; set; } = Array.Empty<Rectangle>();
 
 	#endregion
 
@@ -1721,10 +1732,10 @@ public class KryptonForm : VisualForm,
 		var windowPoint = ScreenToWindow(screenPoint);
 
 		// Check if the point is over any of the control buttons
-		return _buttonManager.GetButtonRectangle(ButtonSpecHelp).Contains(windowPoint) ||
-			   _buttonManager.GetButtonRectangle(ButtonSpecMin).Contains(windowPoint) ||
-			   _buttonManager.GetButtonRectangle(ButtonSpecMax).Contains(windowPoint) ||
-			   _buttonManager.GetButtonRectangle(ButtonSpecClose).Contains(windowPoint);
+		return GetControlBoxHitRectangle(ButtonSpecHelp).Contains(windowPoint) ||
+			   GetControlBoxHitRectangle(ButtonSpecMin).Contains(windowPoint) ||
+			   GetControlBoxHitRectangle(ButtonSpecMax).Contains(windowPoint) ||
+			   GetControlBoxHitRectangle(ButtonSpecClose).Contains(windowPoint);
 	}
 
 	/// <inheritdoc/>
@@ -2286,6 +2297,62 @@ public class KryptonForm : VisualForm,
 	}
 
 	/// <summary>
+	/// Perform non-client mouse movement processing.
+	/// </summary>
+	/// <param name="pt">Point in window coordinates.</param>
+	protected override void WindowChromeNonClientMouseMove(Point pt) =>
+		base.WindowChromeNonClientMouseMove(MapMaximizedControlBoxMousePoint(pt));
+
+	/// <summary>
+	/// Control-box hit rectangle, expanded to the top (and Close to the right) when maximized
+	/// so the extreme corner still belongs to the button rather than CAPTION.
+	/// </summary>
+	private Rectangle GetControlBoxHitRectangle(ButtonSpecFormFixed buttonSpec)
+	{
+		Rectangle rect = _buttonManager.GetButtonRectangle(buttonSpec);
+		if (rect.IsEmpty || GetWindowState() != FormWindowState.Maximized)
+		{
+			return rect;
+		}
+
+		// Close owns the top-right corner; min/max only grow upward into their own column.
+		return ReferenceEquals(buttonSpec, ButtonSpecClose)
+			? Rectangle.FromLTRB(rect.Left, 0, Width, rect.Bottom)
+			: Rectangle.FromLTRB(rect.Left, 0, rect.Right, rect.Bottom);
+	}
+
+	/// <summary>
+	/// When the mouse is in the maximized control-box fudge zone outside the painted button,
+	/// snap the point into the button so hover/tracking still lights it.
+	/// </summary>
+	private Point MapMaximizedControlBoxMousePoint(Point pt)
+	{
+		if (GetWindowState() != FormWindowState.Maximized)
+		{
+			return pt;
+		}
+
+		ButtonSpecFormFixed[] specs =
+		{
+			ButtonSpecClose,
+			ButtonSpecMax,
+			ButtonSpecMin,
+			ButtonSpecHelp
+		};
+		foreach (ButtonSpecFormFixed spec in specs)
+		{
+			Rectangle painted = _buttonManager.GetButtonRectangle(spec);
+			Rectangle hit = GetControlBoxHitRectangle(spec);
+			if (!painted.IsEmpty && hit.Contains(pt) && !painted.Contains(pt))
+			{
+				return new Point(painted.Left + painted.Width / 2, painted.Top + painted.Height / 2);
+			}
+		}
+
+		return pt;
+	}
+
+	/// <summary>
 	/// Perform hit testing to determine what part of the window the mouse is over.
 	/// Uses standard hit testing in design mode to prevent designer interference.
 	/// </summary>
@@ -2306,9 +2373,13 @@ public class KryptonForm : VisualForm,
 		// Check min/max/close buttons first so they take precedence over CustomCaptionArea.
 		// Issue #2921: When the ribbon injects into the caption, CustomCaptionArea can overlap
 		// the form buttons; hitting CAPTION instead of CLOSE prevented closing the window.
-		if (_buttonManager.GetButtonRectangle(ButtonSpecClose).Contains(pt))
+		//
+		// When maximized, hit targets expand to the top edge (and Close to the right edge) so the
+		// extreme corner still lights and activates the button, matching native chrome.
+		if (GetControlBoxHitRectangle(ButtonSpecClose).Contains(pt))
 		{
-			ViewBase? viewBase = ViewManager?.Root.ViewFromPoint(pt);
+			Point trackPt = MapMaximizedControlBoxMousePoint(pt);
+			ViewBase? viewBase = ViewManager?.Root.ViewFromPoint(trackPt);
 			if (viewBase?.FindMouseController() is ButtonController buttonController)
 			{
 				buttonController.NonClientAsNormal = true;
@@ -2317,7 +2388,7 @@ public class KryptonForm : VisualForm,
 			return new IntPtr(PI.HT.CLOSE);
 		}
 
-		if (_buttonManager.GetButtonRectangle(ButtonSpecHelp).Contains(pt))
+		if (GetControlBoxHitRectangle(ButtonSpecHelp).Contains(pt))
 		{
 			ViewBase? viewBase = ViewManager?.Root.ViewFromPoint(pt);
 			if (viewBase?.FindMouseController() is ButtonController buttonController)
@@ -2328,9 +2399,10 @@ public class KryptonForm : VisualForm,
 			return new IntPtr(PI.HT.HELP);
 		}
 
-		if (_buttonManager.GetButtonRectangle(ButtonSpecMax).Contains(pt))
+		if (GetControlBoxHitRectangle(ButtonSpecMax).Contains(pt))
 		{
-			ViewBase? viewBase = ViewManager?.Root.ViewFromPoint(pt);
+			Point trackPt = MapMaximizedControlBoxMousePoint(pt);
+			ViewBase? viewBase = ViewManager?.Root.ViewFromPoint(trackPt);
 			if (viewBase?.FindMouseController() is ButtonController buttonController)
 			{
 				buttonController.NonClientAsNormal = true;
@@ -2339,9 +2411,10 @@ public class KryptonForm : VisualForm,
 			return new IntPtr(OSUtilities.IsAtLeastWindowsEleven ? PI.HT.MAXBUTTON : PI.HT.ZOOM);
 		}
 
-		if (_buttonManager.GetButtonRectangle(ButtonSpecMin).Contains(pt))
+		if (GetControlBoxHitRectangle(ButtonSpecMin).Contains(pt))
 		{
-			ViewBase? viewBase = ViewManager?.Root.ViewFromPoint(pt);
+			Point trackPt = MapMaximizedControlBoxMousePoint(pt);
+			ViewBase? viewBase = ViewManager?.Root.ViewFromPoint(trackPt);
 			if (viewBase?.FindMouseController() is ButtonController buttonController)
 			{
 				buttonController.NonClientAsNormal = true;
@@ -2350,17 +2423,34 @@ public class KryptonForm : VisualForm,
 			return new IntPtr(PI.HT.REDUCE);
 		}
 
+		// Interactive caption content (injected navigator tabs, custom ButtonSpecs, etc.).
+		// Must NOT return HTCAPTION — Windows opens the system menu on right-click there.
+		// HTBORDER still delivers NC mouse messages so ViewManager/ButtonController keep working.
+		ViewBase? interactiveView = ViewManager?.Root.ViewFromPoint(pt);
+		if (interactiveView?.FindMouseController() is ButtonController interactiveController)
+		{
+			interactiveController.NonClientAsNormal = true;
+			return new IntPtr(PI.HT.BORDER);
+		}
+
 		Padding borders = RealWindowBorders;
 
 		// Issue #2921: CustomCaptionArea is in form client coordinates (set by ribbon);
 		// hit-test pt is in window coordinates — convert for correct caption/drag detection.
-		if (!CustomCaptionArea.IsEmpty)
+		var clientPt = new Point(pt.X - borders.Left, pt.Y - borders.Top);
+		if (CustomCaptionAreas is { Length: > 0 })
 		{
-			var clientPt = new Point(pt.X - borders.Left, pt.Y - borders.Top);
-			if (CustomCaptionArea.Contains(clientPt))
+			foreach (Rectangle area in CustomCaptionAreas)
 			{
-				return new IntPtr(PI.HT.CAPTION);
+				if (!area.IsEmpty && area.Contains(clientPt))
+				{
+					return new IntPtr(PI.HT.CAPTION);
+				}
 			}
+		}
+		else if (!CustomCaptionArea.IsEmpty && CustomCaptionArea.Contains(clientPt))
+		{
+			return new IntPtr(PI.HT.CAPTION);
 		}
 
 		// Do not allow the caption to be moved or the border resized
@@ -2499,6 +2589,47 @@ public class KryptonForm : VisualForm,
 	{
 		CheckViewLayout();
 		PerformViewPaint(g, bounds);
+	}
+
+	/// <summary>
+	/// Process the WM_NCRBUTTONDOWN message when overriding window chrome.
+	/// </summary>
+	/// <param name="m">A Windows-based message.</param>
+	/// <returns>True if the message was processed; otherwise false.</returns>
+	protected override bool OnWM_NCRBUTTONDOWN(ref Message m)
+	{
+		var screenPoint = new Point((int)m.LParam.ToInt64());
+		Point windowPoint = ScreenToWindow(screenPoint);
+
+		// Caption strip (including injected tabs): never let DefWndProc open the system menu.
+		if (IsInTitleBarArea(screenPoint) || IsOverInteractiveChromeView(windowPoint))
+		{
+			WindowChromeRightMouseDown(windowPoint);
+			m.Result = IntPtr.Zero;
+			return true;
+		}
+
+		return base.OnWM_NCRBUTTONDOWN(ref m);
+	}
+
+	/// <summary>
+	/// Process the WM_NCRBUTTONUP message when overriding window chrome.
+	/// </summary>
+	/// <param name="m">A Windows-based message.</param>
+	/// <returns>True if the message was processed; otherwise false.</returns>
+	protected override bool OnWM_NCRBUTTONUP(ref Message m)
+	{
+		var screenPoint = new Point((int)m.LParam.ToInt64());
+		Point windowPoint = ScreenToWindow(screenPoint);
+
+		if (IsInTitleBarArea(screenPoint) || IsOverInteractiveChromeView(windowPoint))
+		{
+			WindowChromeRightMouseUp(windowPoint);
+			m.Result = IntPtr.Zero;
+			return true;
+		}
+
+		return base.OnWM_NCRBUTTONUP(ref m);
 	}
 
 	/// <summary>

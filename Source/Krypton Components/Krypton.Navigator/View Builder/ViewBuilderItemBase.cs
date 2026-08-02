@@ -927,6 +927,8 @@ internal abstract class ViewBuilderItemBase : ViewBuilderBase
             case @"ContextButtonDisplay":
             case @"CloseButtonDisplay":
             case nameof(ButtonDisplayLogic):
+            case nameof(KryptonNavigator.Owner):
+            case nameof(KryptonNavigator.ControlKryptonFormFeatures):
                 _buttonManager?.RecreateButtons();
                 Navigator.PerformNeedPaint(true);
                 break;

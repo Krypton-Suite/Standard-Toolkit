@@ -261,6 +261,11 @@ public class KryptonGlobalToolkitStrings : GlobalId
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public static FormTitleBarStrings FormTitleBarStrings { get; } = new FormTitleBarStrings();
 
+    /// <summary>Gets the navigator form integration strings.</summary>
+    /// <value>The navigator form integration strings.</value>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public static NavigatorFormIntegrationStrings NavigatorFormIntegrationStrings { get; } = new NavigatorFormIntegrationStrings();
+
     /// <summary>Gets the editor settings strings.</summary>
     /// <value>The editor settings strings.</value>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -453,6 +458,19 @@ public class KryptonGlobalToolkitStrings : GlobalId
     private bool ShouldSerializeTitleBarStrings() => !FormTitleBarStrings.IsDefault;
 
     private void ResetTitleBarStrings() => FormTitleBarStrings.Reset();
+
+    /// <summary>Gets the navigator form integration strings.</summary>
+    /// <value>The navigator form integration strings.</value>
+    [Category(@"Visuals")]
+    [Description(@"Collection of navigator form integration strings.")]
+    [MergableProperty(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Localizable(true)]
+    public NavigatorFormIntegrationStrings NavigatorIntegrationStrings => NavigatorFormIntegrationStrings;
+
+    private bool ShouldSerializeNavigatorIntegrationStrings() => !NavigatorFormIntegrationStrings.IsDefault;
+
+    private void ResetNavigatorIntegrationStrings() => NavigatorFormIntegrationStrings.Reset();
 
     /// <summary>Gets the link behavior style strings.</summary>
     /// <value>The link behavior style strings.</value>
@@ -951,7 +969,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
                                ShouldSerializeTitleBarStrings() || ShouldSerializeEditorSettingStrings() || 
                                ShouldSerializeCollectionEditorStrings() ||
                                ShouldSerializeSearchBoxStrings() ||
-                               ShouldSerializeCustomFileDialogStrings());
+                               ShouldSerializeCustomFileDialogStrings() || ShouldSerializeNavigatorIntegrationStrings());
 
     /// <summary>Resets this instance.</summary>
     public void Reset()
@@ -1005,6 +1023,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
         ResetSystemMenuStrings();
         ResetControlBoxButtonStrings();
         ResetTitleBarStrings();
+        ResetNavigatorIntegrationStrings();
         ResetEditorSettingStrings();
         ResetCollectionEditorStrings();
     }
