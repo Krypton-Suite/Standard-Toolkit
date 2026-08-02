@@ -279,6 +279,21 @@ public class ViewLayoutCenter : ViewComposite
                     var xOffset = (ClientWidth - childPreferred.Width) / 2;
                     var yOffset = (ClientHeight - childPreferred.Height) / 2;
 
+                    // Form caption ButtonSpecs take a fixed inset from the top of the caption rather
+                    // than centring, so their top border can sit flush inside the form border (#4132).
+                    // A negative inset opts back into centring.
+                    if (MetricPadding == PaletteMetricPadding.HeaderButtonPaddingForm
+                        && child is ViewDrawButton
+                        && GlobalStaticConstants.HEADER_BUTTON_EDGE_INSET_FORM_TOP >= 0)
+                    {
+                        // Maximized WinForms windows often sit with a negative screen overhang
+                        // (typically Top/Left = -8). Push the buttons below that clip so they stay
+                        // fully visible; restored windows keep the configured flush inset.
+                        var topInset = GlobalStaticConstants.HEADER_BUTTON_EDGE_INSET_FORM_TOP
+                                       + GetMaximizedTopOverhang(context.Control);
+                        yOffset = Math.Min(topInset, Math.Max(0, ClientHeight - childPreferred.Height));
+                    }
+
                     // Create the rectangle that centers the child in our space
                     context.DisplayRectangle = new Rectangle(ClientRectangle.X + xOffset,
                         ClientRectangle.Y + yOffset,
@@ -293,6 +308,22 @@ public class ViewLayoutCenter : ViewComposite
 
         // Put back the original display value now we have finished
         context.DisplayRectangle = original;
+    }
+
+    /// <summary>
+    /// How many pixels of a maximized form sit above the monitor work area (often 8 on DWM).
+    /// </summary>
+    private static int GetMaximizedTopOverhang(Control? control)
+    {
+        if (control is not Form form
+            || form.WindowState != FormWindowState.Maximized
+            || !form.IsHandleCreated)
+        {
+            return 0;
+        }
+
+        Rectangle workingArea = Screen.FromControl(form).WorkingArea;
+        return Math.Max(0, workingArea.Top - form.Bounds.Top);
     }
     #endregion
 }

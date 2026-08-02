@@ -75,19 +75,15 @@ public class NavigatorButton : Storage
         NextButton.Click += OnNextClick;
         ContextButton.Click += OnContextClick;
         CloseButton.Click += OnCloseClick;
-        FormCloseButton.Click += OnCloseButtonClick;
-        FormMinimizeButton.Click += OnMinimizeButtonClick;
-        FormMaximizeButton.Click += OnMaximizeButtonClick;
+        // Form min/max/close clicks are handled inside ButtonSpecNavForm* (SendSysCommand).
 
-        // Add fixed buttons into the display collection
-        if (_navigator is { Owner: not null, ControlKryptonFormFeatures: false })
+        // Always include form chrome button specs; GetVisible hides them until Owner is set
+        // and ControlKryptonFormFeatures is false (navigator owns caption buttons).
+        FixedSpecs.AddRange(new ButtonSpecNavFixed[]
         {
-            FixedSpecs.AddRange(new ButtonSpecNavFixed[] { PreviousButton, NextButton, ContextButton, CloseButton, FormMinimizeButton, FormMaximizeButton, FormCloseButton });
-        }
-        else
-        {
-            FixedSpecs.AddRange(new ButtonSpecNavFixed[] { PreviousButton, NextButton, ContextButton, CloseButton });
-        }
+            PreviousButton, NextButton, ContextButton, CloseButton,
+            FormMinimizeButton, FormMaximizeButton, FormCloseButton
+        });
 
         // Default fields
         _displayLogic = ButtonDisplayLogic.Context;
@@ -549,11 +545,5 @@ public class NavigatorButton : Storage
     private void OnContextClick(object? sender, EventArgs e) => _navigator.PerformContextAction();
 
     private void OnCloseClick(object? sender, EventArgs e) => _navigator.PerformCloseAction();
-
-    private void OnMaximizeButtonClick(object? sender, EventArgs e) => throw new NotImplementedException();
-
-    private void OnMinimizeButtonClick(object? sender, EventArgs e) => throw new NotImplementedException();
-
-    private void OnCloseButtonClick(object? sender, EventArgs e) => throw new NotImplementedException();
     #endregion
 }
