@@ -48,6 +48,8 @@
 
 ## 2026-10-26 - Build 2610 (Version 105-LTS - Patch 4) - October 2026
 
+* Resolved [#4061](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4061), Ribbon caption form icon and QAT refresh when the palette/theme changes (no resize required)
+* Implemented [#4049](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4049),Implement the glyphs in `KryptonDomainUpDown` and `KryptonNumericUpDown`
 * Resolved [#3996](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3996), Navigator stack and Outlook full modes now scroll the requested page check button into view (previously ignored the page argument)
 * Implemented [#4049](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4049),Implement the glyphs in `KryptonDomainUpDown` and `KryptonNumericUpDown`
 * Implemented [#1103](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1103), Investigate use of PInvoked GDI text functionality for performance [and compare with TextRenderer.DrawText (Mode off)]
