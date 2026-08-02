@@ -50,6 +50,7 @@
    * The Close button keeps its own right border instead of losing it under the form border, and the caption control box now sits the same distance from the top border as it does from the right.
    * Two tunables drive that spacing: `GlobalStaticConstants.HEADER_BUTTON_EDGE_INSET_FORM_RIGHT` (defaults to the form border width, `1`) and `GlobalStaticConstants.HEADER_BUTTON_EDGE_INSET_FORM_TOP` (defaults to `0`; set it negative to restore the previous centring of the buttons within the caption).
    * Themes that previously hardcoded a zero right-hand control-box inset now read `GlobalStaticConstants.HEADER_BUTTON_EDGE_INSET_FORM_RIGHT` (still defaults to `0`). Raise that value toward the near-edge inset when tuning the Close button gap against the form border.
+* Implemented [#4104](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4104), Preserve git history in mirror backup
 * Resolved [#4131](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4131), `KryptonForm` no longer throws `EntryPointNotFoundException` on `net8.0`/`net9.0`/`net10.0-windows`.
    * `GetWindowLong` and `SetWindowLong` now route through the `GetWindowLongPtr`/`SetWindowLongPtr` APIs, which are the only variants available on 64-bit Windows.
    * Corrected the native entry point names for a further 15 interop declarations (including `SendMessage`, `PostMessage`, `FindWindow`, `LoadImage`, `SetWindowsHookEx`, `GetMenuItemInfo`, and `GetObject`) that silently failed to bind on .NET 8 and later.
@@ -59,6 +60,16 @@
 * Implemented [#1231](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1231), The `KryptonOpenFileDialog` can have poor performance on some OS hardware
    * Added a provider-based custom dialog mode for `KryptonOpenFileDialog`, `KryptonSaveFileDialog`, and `KryptonFolderBrowserDialog` so applications can avoid the native shell wrapper path on machines where it performs poorly.
    * Native provider mode uses the standard Windows Explorer dialog directly. Hosting that HWND inside a `KryptonForm` is not reliable on modern Windows (clipped/blank UI); use `ProviderMode = Custom` for the managed KryptonForm dialog.
+   * The custom dialog navigation tree can now be expanded into drives, places and their sub folders (folders are loaded on demand), and it follows navigation made from the file list, the up button and the address bar.
+   * Fixed the custom dialog opening stuck on the breadcrumb default caption "Root" with an empty list: the first navigate no longer early-returns when the constructor has already set the starting path. Removed the misleading Common Places "Root Folder" node (`RootFolder` remains a starting/fallback path only).
+   * Custom dialog file name box starts empty unless `FileName` is set, and shows an optional localizable cue (`KryptonManager.Strings.CustomFileDialogStrings.FileNameCueText`; clear the string to hide it). Search cue is also localizable via the same strings object.
+   * Added Krypton-themed autocomplete popups to the editable address path and search boxes. Address suggestions enumerate matching folders asynchronously; search suggestions combine current-folder entries with recent search terms.
+   * Added a localizable Krypton breadcrumb context menu for copying the address (quoted or plain text), switching to address editing, and clearing back/forward navigation history.
+   * Added a localizable Date modified filter next to the search box (Any time / Today / Yesterday / This week / Last week / This month / Last month / This year / Last year) that works with the text search. Enable with `ShowDateModifiedFilter = true` on the dialog (Custom provider only; default is off).
+   * Custom dialog UI strings (chrome, places, columns, view modes, status and validation) are fully localizable via `KryptonManager.Strings.CustomFileDialogStrings`; Cancel reuses `GeneralToolkitStrings.Cancel`.
+   * Custom dialog layout, list columns, tile size, suggestion popup minimum width and shell icon lists scale with per-monitor DPI (including `DpiChanged` while open).
+   * Fixed navigation tree flicker when the custom dialog opens, expands a folder or selects a deep path.
+   * Fixed continuous flicker in controls using Krypton scrollbars (`UseKryptonScrollbars`): the scrollbar manager re-hid already hidden native scrollbars twenty times a second, and each pass forced a window frame change and full repaint of the hosting control.
 * Resolved [#4086](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4086), Redundant parentheses when `ShowAdministratorSuffix` is set to false
    * Elevated `KryptonForm` titles no longer show empty `()` when `ShowAdministratorSuffix` is disabled or the Administrator string is blank
 * Implemented [#331](https://github.com/Krypton-Suite/Standard-Toolkit/issues/331), Make the "No Tab in a ribbon Solution" An Actual Designer Tool
