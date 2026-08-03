@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -25,7 +25,7 @@ namespace TestForm;
 /// <see cref="PaletteMetricInt.HeaderButtonEdgeInsetFormRight"/>, so the control box ran flush into
 /// the column the form border paints. Since the form border is drawn after its children, the
 /// button's own right border was overwritten and only three of its four edges survived. Those
-/// themes now read <see cref="GlobalStaticConstants.HEADER_BUTTON_EDGE_INSET_FORM_RIGHT"/>, which
+/// themes now read <see cref="ToolkitStaticConstants.HEADER_BUTTON_EDGE_INSET_FORM_RIGHT"/>, which
 /// defaults to the form border width (<c>1</c>) so the button stays flush against the border while
 /// keeping its own edge. Raise it toward
 /// <see cref="CommonHelper.GetFormHeaderButtonEdgeInsetRight"/> to float the control box further in.
@@ -33,7 +33,7 @@ namespace TestForm;
 /// <para>
 /// The gap above the button came from a different place: <see cref="ViewLayoutCenter"/> centred the
 /// button in the caption band, which left three pixels of caption above it while the right edge had
-/// none. <see cref="GlobalStaticConstants.HEADER_BUTTON_EDGE_INSET_FORM_TOP"/> now drives that gap
+/// none. <see cref="ToolkitStaticConstants.HEADER_BUTTON_EDGE_INSET_FORM_TOP"/> now drives that gap
 /// instead, defaulting to <c>0</c> so the top matches the right. Set it negative to restore
 /// centring.
 /// </para>

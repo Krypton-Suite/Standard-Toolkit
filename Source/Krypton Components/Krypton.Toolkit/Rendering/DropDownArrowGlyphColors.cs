@@ -37,7 +37,7 @@ internal static class DropDownArrowGlyphColors
         {
             outline = palette.GetContentShortTextColor1(PaletteContentStyle.ButtonInputControl, PaletteState.Disabled);
             fill = palette.GetContentShortTextColor2(PaletteContentStyle.ButtonInputControl, PaletteState.Disabled);
-            if (outline == Color.Empty || outline == GlobalStaticVariables.EMPTY_COLOR)
+            if (outline == Color.Empty || outline == SharedStaticVariables.EMPTY_COLOR)
             {
                 outline = palette.GetContentShortTextColor1(PaletteContentStyle.ButtonStandalone, PaletteState.Disabled);
             }
@@ -46,7 +46,7 @@ internal static class DropDownArrowGlyphColors
         {
             outline = palette.GetContentShortTextColor1(PaletteContentStyle.ButtonStandalone, PaletteState.Normal);
             fill = palette.GetContentShortTextColor2(PaletteContentStyle.ButtonInputControl, PaletteState.Normal);
-            if (outline == Color.Empty || outline == GlobalStaticVariables.EMPTY_COLOR)
+            if (outline == Color.Empty || outline == SharedStaticVariables.EMPTY_COLOR)
             {
                 outline = palette.GetContentShortTextColor1(PaletteContentStyle.ButtonStandalone, state);
             }
@@ -98,7 +98,7 @@ internal static class DropDownArrowGlyphColors
         {
             Color? arrowColor = dropButton.Values.DropDownArrowColor;
 
-            if (arrowColor.HasValue && arrowColor.Value != GlobalStaticVariables.EMPTY_COLOR)
+            if (arrowColor.HasValue && arrowColor.Value != SharedStaticVariables.EMPTY_COLOR)
             {
 
                 color = arrowColor.Value;

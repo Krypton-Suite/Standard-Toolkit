@@ -80,7 +80,7 @@ public class GeneralToolkitStrings : GlobalId
     /// Returns a string that represents the current defaulted state.
     /// </summary>
     /// <returns>A string that represents the current defaulted state.</returns>
-    public override string ToString() => !IsDefault ? "Modified" : GlobalStaticVariables.DEFAULT_EMPTY_STRING;
+    public override string ToString() => !IsDefault ? "Modified" : SharedStaticVariables.DEFAULT_EMPTY_STRING;
 
     #endregion
 

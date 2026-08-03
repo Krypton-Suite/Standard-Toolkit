@@ -38,8 +38,8 @@ internal sealed class TearOutFeedbackWindow : KryptonForm
         TopMost = true;
 
         // Transparent background so the overlay does not affect hit-testing.
-        BackColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
-        TransparencyKey = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
+        BackColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
+        TransparencyKey = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
 
         Opacity = 0.65;
         Width = FeedbackWidth;

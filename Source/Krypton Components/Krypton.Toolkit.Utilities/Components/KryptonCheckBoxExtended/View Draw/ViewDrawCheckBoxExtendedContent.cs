@@ -38,7 +38,7 @@ internal class ViewDrawCheckBoxExtendedContent : ViewDrawContent
         VisualOrientation orientation)
         : base(paletteContent, values, orientation)
     {
-        _subtextForeColor = GlobalStaticVariables.EMPTY_COLOR;
+        _subtextForeColor = SharedStaticVariables.EMPTY_COLOR;
     }
 
     #endregion

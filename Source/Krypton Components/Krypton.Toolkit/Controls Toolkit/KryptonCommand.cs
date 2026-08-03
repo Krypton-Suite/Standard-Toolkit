@@ -73,7 +73,7 @@ public class KryptonCommand : Component, IKryptonCommand, INotifyPropertyChanged
         _textLine2 = string.Empty;
         _imageSmall = null;
         _imageLarge = null;
-        _imageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
+        _imageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
         _commandType = KryptonCommandType.General;
         _assignedButtonSpec = null;
 
@@ -475,7 +475,7 @@ public class KryptonCommand : Component, IKryptonCommand, INotifyPropertyChanged
         }
 
         palette ??= KryptonManager.CurrentGlobalPalette;
-        return palette?.GetButtonSpecImageTransparentColor(style) ?? GlobalStaticVariables.EMPTY_COLOR;
+        return palette?.GetButtonSpecImageTransparentColor(style) ?? SharedStaticVariables.EMPTY_COLOR;
     }
 
     private void RegisterPaletteHandler()
@@ -539,7 +539,7 @@ public class KryptonCommand : Component, IKryptonCommand, INotifyPropertyChanged
             ImageSmall = normalImage;
         }
 
-        ImageTransparentColor = palette?.GetButtonSpecImageTransparentColor(style) ?? GlobalStaticVariables.EMPTY_COLOR;
+        ImageTransparentColor = palette?.GetButtonSpecImageTransparentColor(style) ?? SharedStaticVariables.EMPTY_COLOR;
 
         SyncAssignedButtonSpec(style, palette);
     }

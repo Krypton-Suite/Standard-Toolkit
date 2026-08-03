@@ -41,8 +41,8 @@ public class DropSolidWindow : KryptonForm
         MaximizeBox = false;
         MinimizeBox = false;
         ShowInTaskbar = false;
-        BackColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
-        TransparencyKey = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
+        BackColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
+        TransparencyKey = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
         Opacity = _paletteDragDrop.GetDragDropSolidOpacity();
     }
 
@@ -85,7 +85,7 @@ public class DropSolidWindow : KryptonForm
                 if (value.IsEmpty)
                 {
                     // Move off-screen to avoid a visible artifact at (0,0) when no target is matched
-                    bounds = new Rectangle(GlobalStaticConstants.OFF_SCREEN_POSITION, GlobalStaticConstants.OFF_SCREEN_POSITION, 0, 0);
+                    bounds = new Rectangle(SharedStaticConstants.OFF_SCREEN_POSITION, SharedStaticConstants.OFF_SCREEN_POSITION, 0, 0);
                 }
                 else
                 {

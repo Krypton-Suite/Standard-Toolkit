@@ -24,7 +24,7 @@ public class PaletteMacOSXAqua : PaletteMacOSXAquaBase
 
     private static readonly Color _ribbonAppButtonTextColor = Color.White;
 
-    private readonly float _gradientRafting = GlobalStaticConstants.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT;
+    private readonly float _gradientRafting = SharedStaticConstants.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT;
 
     private static readonly ImageList _checkBoxList;
     private static readonly ImageList _galleryButtonList;
@@ -47,7 +47,7 @@ public class PaletteMacOSXAqua : PaletteMacOSXAquaBase
         {
             ImageSize = new Size(13, 7),
             ColorDepth = ColorDepth.Depth24Bit,
-            TransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR
+            TransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR
         };
         _galleryButtonList.Images.AddStrip(GalleryImageResources.Gallery2010);
         _radioButtonArray =
@@ -80,7 +80,7 @@ public class PaletteMacOSXAqua : PaletteMacOSXAquaBase
     #region Tab Row Background
 
     public override Color GetRibbonTabRowGradientColor1(PaletteState state) =>
-        GlobalStaticVariables.TAB_ROW_GRADIENT_FIRST_COLOR;
+        SharedStaticVariables.TAB_ROW_GRADIENT_FIRST_COLOR;
 
     public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) =>
         _tabRowBackgroundGradientRaftingDarkColor;
@@ -88,7 +88,7 @@ public class PaletteMacOSXAqua : PaletteMacOSXAquaBase
     public override Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state) =>
         _tabRowBackgroundGradientRaftingLightColor;
 
-    public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => _gradientRafting;
 

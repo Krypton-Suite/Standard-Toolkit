@@ -85,7 +85,7 @@ public class KryptonContextMenuCheckBox : KryptonContextMenuItemBase, IKryptonCo
         _text = initialText;
         _extraText = string.Empty;
         _image = null;
-        _imageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
+        _imageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
         _checkState = CheckState.Unchecked;
         _checked = false;
         _threeState = false;
@@ -269,7 +269,7 @@ public class KryptonContextMenuCheckBox : KryptonContextMenuItemBase, IKryptonCo
         }
     }
 
-    private bool ShouldSerializeImageTransparentColor() => !_imageTransparentColor.Equals(GlobalStaticVariables.EMPTY_COLOR);
+    private bool ShouldSerializeImageTransparentColor() => !_imageTransparentColor.Equals(SharedStaticVariables.EMPTY_COLOR);
 
     /// <summary>
     /// Gets and sets the check box label style.

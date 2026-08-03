@@ -175,7 +175,7 @@ public class KryptonColorTable : ProfessionalColorTable
         ResolveColor(Palette.GetContentShortTextColor1(style, state), fallback);
 
     private static Color ResolveColor(Color color, Color fallback) =>
-        (color == GlobalStaticVariables.EMPTY_COLOR) || color.IsEmpty ? fallback : color;
+        (color == SharedStaticVariables.EMPTY_COLOR) || color.IsEmpty ? fallback : color;
 
     #endregion
 }

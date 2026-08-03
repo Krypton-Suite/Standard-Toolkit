@@ -65,9 +65,9 @@ internal static class KnobIndustrialDrawing
             return;
         }
 
-        var color1 = settings.Color1 == GlobalStaticVariables.EMPTY_COLOR ? Color.FromArgb(210, 210, 215) : settings.Color1;
-        var color2 = settings.Color2 == GlobalStaticVariables.EMPTY_COLOR ? Color.FromArgb(150, 150, 158) : settings.Color2;
-        var border = settings.BorderColor == GlobalStaticVariables.EMPTY_COLOR ? GetDarkColor(color1, 70) : settings.BorderColor;
+        var color1 = settings.Color1 == SharedStaticVariables.EMPTY_COLOR ? Color.FromArgb(210, 210, 215) : settings.Color1;
+        var color2 = settings.Color2 == SharedStaticVariables.EMPTY_COLOR ? Color.FromArgb(150, 150, 158) : settings.Color2;
+        var border = settings.BorderColor == SharedStaticVariables.EMPTY_COLOR ? GetDarkColor(color1, 70) : settings.BorderColor;
 
         using var plateBrush = new LinearGradientBrush(backplateRect, color1, color2, LinearGradientMode.Vertical);
 
@@ -151,7 +151,7 @@ internal static class KnobIndustrialDrawing
         Color borderColor,
         Color? ringInnerColor)
     {
-        if (faceColor2 == GlobalStaticVariables.EMPTY_COLOR)
+        if (faceColor2 == SharedStaticVariables.EMPTY_COLOR)
         {
             faceColor2 = faceColor1;
         }
@@ -275,7 +275,7 @@ internal static class KnobIndustrialDrawing
         using var brush = new PathGradientBrush(path)
         {
             CenterColor = GetLightColor(faceColor1, 45),
-            SurroundColors = new[] { faceColor2 == GlobalStaticVariables.EMPTY_COLOR ? GetDarkColor(faceColor1, 55) : faceColor2 },
+            SurroundColors = new[] { faceColor2 == SharedStaticVariables.EMPTY_COLOR ? GetDarkColor(faceColor1, 55) : faceColor2 },
             CenterPoint = new PointF(knobCenter.X, knobCenter.Y)
         };
         g.FillPath(brush, path);
@@ -325,7 +325,7 @@ internal static class KnobIndustrialDrawing
             var barThickness = Math.Max(4f, knobRect.Width * 0.1f);
             var barRect = new RectangleF(-barLength, -barThickness / 2f, barLength * 2f, barThickness);
 
-            var baseColor = barColor == GlobalStaticVariables.EMPTY_COLOR ? Color.FromArgb(40, 40, 40) : GetDarkColor(barColor, 30);
+            var baseColor = barColor == SharedStaticVariables.EMPTY_COLOR ? Color.FromArgb(40, 40, 40) : GetDarkColor(barColor, 30);
             using (var baseBrush = new LinearGradientBrush(barRect, GetLightColor(baseColor, 25), GetDarkColor(baseColor, 25), LinearGradientMode.Vertical))
             {
                 g.FillRectangle(baseBrush, barRect);
@@ -368,7 +368,7 @@ internal static class KnobIndustrialDrawing
             var x = plateCenter.X + radius * Math.Cos(angleRadians);
             var y = plateCenter.Y + radius * Math.Sin(angleRadians);
 
-            var color = label.Color == GlobalStaticVariables.EMPTY_COLOR ? Color.Black : label.Color;
+            var color = label.Color == SharedStaticVariables.EMPTY_COLOR ? Color.Black : label.Color;
             using var brush = new SolidBrush(color);
             var size = g.MeasureString(label.Text, font);
             g.DrawString(label.Text, font, brush, (float)(x - size.Width / 2), (float)(y - size.Height / 2));

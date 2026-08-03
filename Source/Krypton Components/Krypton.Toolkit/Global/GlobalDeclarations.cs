@@ -92,6 +92,8 @@ global using Krypton.Toolkit.ResourceFiles.WindowsLogos;
 global using Microsoft.Win32;
 global using Microsoft.Win32.SafeHandles;
 
+global using Krypton.Interop;
+
 
 [assembly: CLSCompliant(true)]
 [assembly: ComVisible(false)]

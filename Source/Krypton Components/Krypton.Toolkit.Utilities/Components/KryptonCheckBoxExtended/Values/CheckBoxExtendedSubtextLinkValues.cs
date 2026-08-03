@@ -33,7 +33,7 @@ public class CheckBoxExtendedSubtextLinkValues : Storage
     {
         NeedPaint = needPaint;
         _linkArea = new LinkArea(0, 0);
-        _linkColor = GlobalStaticVariables.EMPTY_COLOR;
+        _linkColor = SharedStaticVariables.EMPTY_COLOR;
     }
 
     #endregion
@@ -95,7 +95,7 @@ public class CheckBoxExtendedSubtextLinkValues : Storage
     /// <summary>
     /// Resets the <see cref="LinkColor"/> property to its default value.
     /// </summary>
-    public void ResetLinkColor() => LinkColor = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetLinkColor() => LinkColor = SharedStaticVariables.EMPTY_COLOR;
 
     private bool ShouldSerializeLinkColor() => !LinkColor.IsEmpty;
 

@@ -34,7 +34,7 @@ internal partial class KryptonWorkspaceCollectionEditor : KryptonDesignerCollect
     {
         get
         {
-            var sequence = Context!.Instance as KryptonWorkspaceSequence ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(Context.Instance)));
+            var sequence = Context!.Instance as KryptonWorkspaceSequence ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(Context.Instance)));
             return sequence.WorkspaceControl;
         }
     }
