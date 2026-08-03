@@ -393,7 +393,7 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
             return true;
         }
 
-        color = GlobalStaticVariables.EMPTY_COLOR;
+        color = SharedStaticVariables.EMPTY_COLOR;
         return false;
     }
 
@@ -405,7 +405,7 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
             return true;
         }
 
-        color = GlobalStaticVariables.EMPTY_COLOR;
+        color = SharedStaticVariables.EMPTY_COLOR;
         return false;
     }
 
@@ -417,7 +417,7 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
             return true;
         }
 
-        color = GlobalStaticVariables.EMPTY_COLOR;
+        color = SharedStaticVariables.EMPTY_COLOR;
         return false;
     }
     #endregion

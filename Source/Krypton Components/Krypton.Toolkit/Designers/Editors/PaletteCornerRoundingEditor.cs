@@ -21,7 +21,7 @@ internal class PaletteCornerRoundingEditor : UITypeEditor
     {
         if (provider is null)
         {
-            throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(provider)));
+            throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(provider)));
         }
 
         if (context is not null && value is PaletteCornerRounding cornerRounding)

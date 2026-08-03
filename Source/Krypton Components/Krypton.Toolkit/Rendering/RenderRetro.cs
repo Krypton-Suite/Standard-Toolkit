@@ -326,7 +326,7 @@ internal static class RetroRenderHelper
 
     internal static bool IsRetroProgressValueBack(IPaletteBack palette, PaletteState state, out Color valueColor)
     {
-        valueColor = GlobalStaticVariables.EMPTY_COLOR;
+        valueColor = SharedStaticVariables.EMPTY_COLOR;
 
         if (CommonHelper.IsOverrideState(state)
             || palette.GetBackColorStyle(state) != PaletteColorStyle.GlassNormalFull)

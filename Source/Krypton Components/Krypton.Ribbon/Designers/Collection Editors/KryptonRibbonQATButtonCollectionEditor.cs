@@ -39,7 +39,7 @@ internal class KryptonRibbonQATButtonCollectionEditor : KryptonDesignerStandardC
     protected override object? SetItems(object? editValue, object[]? value)
     {
         // Cast the context into the expected control type
-        var ribbon = Context?.Instance as KryptonRibbon ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("ribbon"));
+        var ribbon = Context?.Instance as KryptonRibbon ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("ribbon"));
 
         // Suspend changes until collection has been updated
         ribbon.SuspendLayout();

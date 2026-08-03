@@ -1044,7 +1044,7 @@ internal partial class KryptonWorkspaceCollectionForm : VisualDesignerCollection
                     if (isNodePage)
                     {
                         // Remove page from parent cell
-                        var parentNode = node.Parent as MenuTreeNode ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(node.Parent)));
+                        var parentNode = node.Parent as MenuTreeNode ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(node.Parent)));
 
                         parentNode.CellItem!.Pages.Remove(node.PageItem!);
                         parentNode.Nodes.Remove(node);
@@ -1358,7 +1358,7 @@ internal partial class KryptonWorkspaceCollectionForm : VisualDesignerCollection
         private void buttonAddSequence_Click(object? sender, EventArgs e)
         {
             // Create new sequence and menu node for the sequence
-            var sequence = CreateInstance(typeof(KryptonWorkspaceSequence)) as KryptonWorkspaceSequence ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("sequence"));
+            var sequence = CreateInstance(typeof(KryptonWorkspaceSequence)) as KryptonWorkspaceSequence ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("sequence"));
             TreeNode newNode = new MenuTreeNode(sequence);
 
             var selectedNode = _treeView.SelectedNode as MenuTreeNode;
@@ -1377,7 +1377,7 @@ internal partial class KryptonWorkspaceCollectionForm : VisualDesignerCollection
                 else
                 {
                     // Selected node is a cell, so insert after this cell
-                    var selectedParentNode = selectedNode.Parent as MenuTreeNode ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(selectedNode.Parent)));
+                    var selectedParentNode = selectedNode.Parent as MenuTreeNode ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(selectedNode.Parent)));
                     var selectedIndex = selectedParentNode.Nodes.IndexOf(selectedNode);
                     selectedParentNode.SequenceItem!.Children!.Insert(selectedIndex + 1, sequence);
                     selectedParentNode.Nodes.Insert(selectedIndex + 1, newNode);
@@ -1596,7 +1596,7 @@ internal partial class KryptonWorkspaceCollectionForm : VisualDesignerCollection
             after = separator.WorkspaceItem;
 
             // Workspace item before the separator (to the left or above)
-            var beforeSequence = after.WorkspaceParent as KryptonWorkspaceSequence ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(after.WorkspaceParent)));
+            var beforeSequence = after.WorkspaceParent as KryptonWorkspaceSequence ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(after.WorkspaceParent)));
 
             // Previous items might be invisible and so search till we find the visible one we expect
             before = null;

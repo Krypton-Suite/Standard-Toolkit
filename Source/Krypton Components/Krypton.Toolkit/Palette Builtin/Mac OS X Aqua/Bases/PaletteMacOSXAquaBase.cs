@@ -94,7 +94,7 @@ public abstract class PaletteMacOSXAquaBase : PaletteOffice2010Base
     {
         if (CommonHelper.IsOverrideState(state))
         {
-            return GlobalStaticConstants.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE;
+            return SharedStaticConstants.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         if (style is PaletteBorderStyle.FormMain or PaletteBorderStyle.HeaderForm)

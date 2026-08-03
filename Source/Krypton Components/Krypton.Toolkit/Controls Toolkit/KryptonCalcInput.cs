@@ -1428,7 +1428,7 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
         {
             // Use a palette-derived text color that contrasts with context menu surfaces
             var c = palette.GetContentShortTextColor1(PaletteContentStyle.ContextMenuItemTextStandard, PaletteState.Normal);
-            if (c != GlobalStaticVariables.EMPTY_COLOR && !c.IsEmpty)
+            if (c != SharedStaticVariables.EMPTY_COLOR && !c.IsEmpty)
             {
                 displayItem.StateDisabled.ItemTextStandard.ShortText.Color1 = c;
                 displayItem.StateDisabled.ItemTextStandard.ShortText.Color2 = c;

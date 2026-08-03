@@ -120,7 +120,7 @@ public class KryptonSearchBoxStrings : GlobalId
 
     #region Overrides
 
-    public override string ToString() => !IsDefault ? "Modified" : GlobalStaticVariables.DEFAULT_EMPTY_STRING;
+    public override string ToString() => !IsDefault ? "Modified" : SharedStaticVariables.DEFAULT_EMPTY_STRING;
 
     #endregion
 }

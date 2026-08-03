@@ -71,7 +71,7 @@ public class KryptonContextMenuLinkLabel : KryptonContextMenuItemBase, IKryptonC
         _text = initialText;
         _extraText = string.Empty;
         _image = null;
-        _imageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
+        _imageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
         _style = LabelStyle.NormalPanel;
         _autoClose = true;
 
@@ -323,7 +323,7 @@ public class KryptonContextMenuLinkLabel : KryptonContextMenuItemBase, IKryptonC
         }
     }
 
-    private bool ShouldSerializeImageTransparentColor() => !_imageTransparentColor.Equals(GlobalStaticVariables.EMPTY_COLOR);
+    private bool ShouldSerializeImageTransparentColor() => !_imageTransparentColor.Equals(SharedStaticVariables.EMPTY_COLOR);
 
     /// <summary>
     /// Gets access to the link label normal instance specific appearance values.

@@ -88,7 +88,7 @@ public abstract class PaletteRetroBase : PaletteVisualStudioBase
     protected virtual Color HeaderTextColor => Color.Black;
 
     /// <summary>Gets the text color for the inherited form header, when overridden by a Retro variant.</summary>
-    protected virtual Color FormHeaderTextColor => GlobalStaticVariables.EMPTY_COLOR;
+    protected virtual Color FormHeaderTextColor => SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>Gets the line color for retro separator edges.</summary>
     protected virtual Color SeparatorLineColor => Color.White;
@@ -704,7 +704,7 @@ public abstract class PaletteRetroBase : PaletteVisualStudioBase
             return true;
         }
 
-        color = GlobalStaticVariables.EMPTY_COLOR;
+        color = SharedStaticVariables.EMPTY_COLOR;
 
         if (CommonHelper.IsOverrideStateExclude(state, PaletteState.NormalDefaultOverride))
         {
@@ -757,7 +757,7 @@ public abstract class PaletteRetroBase : PaletteVisualStudioBase
 
     private bool TryGetRetroGroupBoxBackColor(PaletteBackStyle style, out Color color)
     {
-        color = GlobalStaticVariables.EMPTY_COLOR;
+        color = SharedStaticVariables.EMPTY_COLOR;
 
         if (style != PaletteBackStyle.ControlGroupBox)
         {
@@ -770,7 +770,7 @@ public abstract class PaletteRetroBase : PaletteVisualStudioBase
 
     private bool TryGetRetroGridBackColor(PaletteBackStyle style, PaletteState state, out Color color)
     {
-        color = GlobalStaticVariables.EMPTY_COLOR;
+        color = SharedStaticVariables.EMPTY_COLOR;
 
         if (CommonHelper.IsOverrideStateExclude(state, PaletteState.NormalDefaultOverride))
         {
@@ -806,7 +806,7 @@ public abstract class PaletteRetroBase : PaletteVisualStudioBase
 
     private bool TryGetRetroListItemBackColor(PaletteBackStyle style, PaletteState state, out Color color)
     {
-        color = GlobalStaticVariables.EMPTY_COLOR;
+        color = SharedStaticVariables.EMPTY_COLOR;
 
         if (style != PaletteBackStyle.ButtonListItem
             || CommonHelper.IsOverrideStateExclude(state, PaletteState.NormalDefaultOverride))
@@ -826,7 +826,7 @@ public abstract class PaletteRetroBase : PaletteVisualStudioBase
 
     private bool TryGetRetroListItemTextColor(PaletteContentStyle style, PaletteState state, out Color color)
     {
-        color = GlobalStaticVariables.EMPTY_COLOR;
+        color = SharedStaticVariables.EMPTY_COLOR;
 
         if (style != PaletteContentStyle.ButtonListItem
             || CommonHelper.IsOverrideStateExclude(state, PaletteState.NormalDefaultOverride))
@@ -846,7 +846,7 @@ public abstract class PaletteRetroBase : PaletteVisualStudioBase
 
     private bool TryGetRetroCommandButtonTextColor(PaletteContentStyle style, PaletteState state, out Color color)
     {
-        color = GlobalStaticVariables.EMPTY_COLOR;
+        color = SharedStaticVariables.EMPTY_COLOR;
 
         if (style != PaletteContentStyle.ButtonCommand
             || CommonHelper.IsOverrideStateExclude(state, PaletteState.NormalDefaultOverride))
@@ -860,7 +860,7 @@ public abstract class PaletteRetroBase : PaletteVisualStudioBase
 
     private bool TryGetRetroInputControlButtonTextColor(PaletteContentStyle style, PaletteState state, out Color color)
     {
-        color = GlobalStaticVariables.EMPTY_COLOR;
+        color = SharedStaticVariables.EMPTY_COLOR;
 
         if (!IsRetroInputControlButtonContent(style)
             || CommonHelper.IsOverrideStateExclude(state, PaletteState.NormalDefaultOverride))
@@ -874,11 +874,11 @@ public abstract class PaletteRetroBase : PaletteVisualStudioBase
 
     private bool TryGetRetroFormHeaderTextColor(PaletteContentStyle style, PaletteState state, out Color color)
     {
-        color = GlobalStaticVariables.EMPTY_COLOR;
+        color = SharedStaticVariables.EMPTY_COLOR;
 
         if (style != PaletteContentStyle.HeaderForm
             || CommonHelper.IsOverrideStateExclude(state, PaletteState.NormalDefaultOverride)
-            || FormHeaderTextColor == GlobalStaticVariables.EMPTY_COLOR)
+            || FormHeaderTextColor == SharedStaticVariables.EMPTY_COLOR)
         {
             return false;
         }
@@ -889,7 +889,7 @@ public abstract class PaletteRetroBase : PaletteVisualStudioBase
 
     private static bool TryGetRetroDockTabTextColor(PaletteContentStyle style, PaletteState state, out Color color)
     {
-        color = GlobalStaticVariables.EMPTY_COLOR;
+        color = SharedStaticVariables.EMPTY_COLOR;
 
         if (style is not (PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile
                 or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote
@@ -913,7 +913,7 @@ public abstract class PaletteRetroBase : PaletteVisualStudioBase
 
     private bool TryGetRetroWorkspaceTextColor(PaletteContentStyle style, PaletteState state, out Color color)
     {
-        color = GlobalStaticVariables.EMPTY_COLOR;
+        color = SharedStaticVariables.EMPTY_COLOR;
 
         if (CommonHelper.IsOverrideStateExclude(state, PaletteState.NormalDefaultOverride))
         {
@@ -966,7 +966,7 @@ public abstract class PaletteRetroBase : PaletteVisualStudioBase
 
     private Color EnsureReadableOnWorkspace(Color color, PaletteState state)
     {
-        if (state == PaletteState.Disabled || color.IsEmpty || color == GlobalStaticVariables.EMPTY_COLOR)
+        if (state == PaletteState.Disabled || color.IsEmpty || color == SharedStaticVariables.EMPTY_COLOR)
         {
             return color;
         }
@@ -978,7 +978,7 @@ public abstract class PaletteRetroBase : PaletteVisualStudioBase
 
     protected virtual Color GetRetroListItemNormalTextColor()
     {
-        var color = BaseColors?.TextListItem ?? GlobalStaticVariables.EMPTY_COLOR;
+        var color = BaseColors?.TextListItem ?? SharedStaticVariables.EMPTY_COLOR;
         return color.IsEmpty ? Color.Black : color;
     }
 

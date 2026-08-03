@@ -28,7 +28,7 @@ public class ToggleSwitchChevronValues : GlobalId, INotifyPropertyChanged
     public ToggleSwitchChevronValues() => Reset();
 
     /// <inheritdoc />
-    public override string ToString() => !IsDefault ? "Modified" : GlobalStaticVariables.DEFAULT_EMPTY_STRING;
+    public override string ToString() => !IsDefault ? "Modified" : SharedStaticVariables.DEFAULT_EMPTY_STRING;
 
     #endregion
 

@@ -76,7 +76,7 @@ public class KryptonContextMenuRadioButton : KryptonContextMenuItemBase, IKrypto
         _text = initialText;
         _extraText = string.Empty;
         _image = null;
-        _imageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
+        _imageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
         _checked = false;
         _autoCheck = true;
         _style = LabelStyle.NormalPanel;
@@ -255,7 +255,7 @@ public class KryptonContextMenuRadioButton : KryptonContextMenuItemBase, IKrypto
         }
     }
 
-    private bool ShouldSerializeImageTransparentColor() => !_imageTransparentColor.Equals(GlobalStaticVariables.EMPTY_COLOR);
+    private bool ShouldSerializeImageTransparentColor() => !_imageTransparentColor.Equals(SharedStaticVariables.EMPTY_COLOR);
 
     /// <summary>
     /// Gets and sets the radio button label style.

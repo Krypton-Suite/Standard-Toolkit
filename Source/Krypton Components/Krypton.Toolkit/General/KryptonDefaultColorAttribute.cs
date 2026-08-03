@@ -22,7 +22,7 @@ public sealed class KryptonDefaultColorAttribute : DefaultValueAttribute
     /// Initialize a new instance of the KryptonDefaultColorAttribute class.
     /// </summary>
     public KryptonDefaultColorAttribute()
-        : base(GlobalStaticVariables.EMPTY_COLOR)
+        : base(SharedStaticVariables.EMPTY_COLOR)
     {
     }
     #endregion
