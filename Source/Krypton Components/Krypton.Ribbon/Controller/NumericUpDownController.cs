@@ -43,9 +43,9 @@ internal class NumericUpDownController : GlobalId,
         Debug.Assert(numericUpDown is not null);
         Debug.Assert(target is not null);
 
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        _numericUpDown = numericUpDown ?? throw new ArgumentNullException(nameof(numericUpDown));
-        _target = target ?? throw new ArgumentNullException(nameof(target));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
+        _numericUpDown = numericUpDown ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupNumericUpDown>(nameof(numericUpDown));
+        _target = target ?? ThrowHelper.ThrowArgumentNullException<ViewDrawRibbonGroupNumericUpDown>(nameof(target));
     }
     #endregion
 
@@ -157,12 +157,12 @@ internal class NumericUpDownController : GlobalId,
 
         if (ribbon is null)
         {
-            throw new NullReferenceException(SharedStaticFunctions.ParameterCannotBeNull(nameof(ribbon)));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.ParameterCannotBeNull(nameof(ribbon)));
         }
 
         if (ribbon.TabsArea is null)
         {
-            throw new NullReferenceException(SharedStaticFunctions.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
         }
 
         switch (e.KeyData)
