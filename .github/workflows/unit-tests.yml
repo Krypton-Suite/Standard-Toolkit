@@ -1,4 +1,4 @@
-# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+﻿# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
 # Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2026 - 2026. All rights reserved.
 #
 # Builds TestForm and runs Scripts/UnitTest assert suites via Invoke-AllUnitTests.ps1 -Strict.
@@ -9,6 +9,10 @@
 #   - workflow_dispatch (on-demand from Actions UI or `gh workflow run`)
 #   - pull_request / push (path-filtered)
 #   - workflow_call (reusable from other workflows)
+#
+# Discord: Set secret DISCORD_WEBHOOK_UNIT_TESTS (optional).
+#   - Always posts on failure when the secret is set.
+#   - Also posts on success for workflow_dispatch / workflow_call when notify_discord is true.
 
 name: Unit Tests
 
@@ -46,6 +50,11 @@ on:
         required: true
         default: '600'
         type: string
+      notify_discord:
+        description: Post a run summary to Discord (requires secret DISCORD_WEBHOOK_UNIT_TESTS)
+        required: true
+        default: true
+        type: boolean
   pull_request:
     branches: ['**']
     types: [opened, synchronize, reopened]
@@ -81,6 +90,15 @@ on:
         required: false
         default: '600'
         type: string
+      notify_discord:
+        description: Post a run summary to Discord (requires secret DISCORD_WEBHOOK_UNIT_TESTS)
+        required: false
+        default: false
+        type: boolean
+    secrets:
+      DISCORD_WEBHOOK_UNIT_TESTS:
+        description: Discord webhook URL for unit-test run notifications
+        required: false
 
 jobs:
   unit-tests:
@@ -224,7 +242,7 @@ jobs:
           if ($outcome -eq 'success') {
             Write-Host "[PASS] Unit Tests workflow finished successfully"
             if ($env:GITHUB_STEP_SUMMARY) {
-              Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY -Value "`n### Workflow`n`n**PASS** — unit tests completed successfully.`n"
+              Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY -Value "`n### Workflow`n`n**PASS** - unit tests completed successfully.`n"
             }
           }
           elseif ($outcome -eq 'skipped') {
@@ -233,7 +251,61 @@ jobs:
           else {
             Write-Host "[FAIL] Unit Tests workflow finished with failures (step outcome=$outcome)"
             if ($env:GITHUB_STEP_SUMMARY) {
-              Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY -Value "`n### Workflow`n`n**FAIL** — unit tests did not complete successfully (outcome=$outcome).`n"
+              Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY -Value "`n### Workflow`n`n**FAIL** - unit tests did not complete successfully (outcome=$outcome).`n"
             }
             exit 1
           }
+
+      - name: Discord notification
+        if: >
+          always() && (
+            job.status == 'failure' ||
+            (github.event_name == 'workflow_dispatch' && inputs.notify_discord) ||
+            (github.event_name == 'workflow_call' && inputs.notify_discord)
+          )
+        shell: pwsh
+        env:
+          DISCORD_WEBHOOK_UNIT_TESTS: ${{ secrets.DISCORD_WEBHOOK_UNIT_TESTS }}
+          JOB_STATUS: ${{ job.status }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          EVENT_NAME: ${{ github.event_name }}
+          REF_NAME: ${{ github.ref_name }}
+          SHA_SHORT: ${{ github.sha }}
+          UNITTEST_CONFIGURATION: ${{ env.UNITTEST_CONFIGURATION }}
+          UNITTEST_TFM: ${{ env.UNITTEST_TFM }}
+          ACTOR: ${{ github.actor }}
+        run: |
+          if (-not $env:DISCORD_WEBHOOK_UNIT_TESTS) {
+            Write-Warning "DISCORD_WEBHOOK_UNIT_TESTS not set - skipping Discord notification"
+            exit 0
+          }
+
+          $status = $env:JOB_STATUS
+          $passed = $status -eq 'success'
+          $color = if ($passed) { 3066993 } elseif ($status -eq 'failure') { 15158332 } else { 16776960 }
+          $emoji = if ($passed) { 'PASS' } elseif ($status -eq 'failure') { 'FAIL' } else { $status.ToUpperInvariant() }
+          $sha = if ($env:SHA_SHORT.Length -ge 7) { $env:SHA_SHORT.Substring(0, 7) } else { $env:SHA_SHORT }
+
+          $payload = @{
+            embeds = @(
+              @{
+                title = "Unit Tests - $emoji"
+                description = @(
+                  "**Repository:** $($env:GITHUB_REPOSITORY)"
+                  "**Event:** ``$($env:EVENT_NAME)``"
+                  "**Ref:** ``$($env:REF_NAME)``"
+                  "**Commit:** ``$sha``"
+                  "**Configuration:** ``$($env:UNITTEST_CONFIGURATION)`` / ``$($env:UNITTEST_TFM)``"
+                  "**Actor:** $($env:ACTOR)"
+                  ""
+                  "[View workflow run]($($env:RUN_URL))"
+                ) -join "`n"
+                color = $color
+                footer = @{ text = "Unit Tests" }
+                timestamp = (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ss.fffZ')
+              }
+            )
+          } | ConvertTo-Json -Depth 10
+
+          Invoke-RestMethod -Uri $env:DISCORD_WEBHOOK_UNIT_TESTS -Method Post -Body $payload -ContentType 'application/json'
+          Write-Host "[PASS] Discord notification sent ($status)"

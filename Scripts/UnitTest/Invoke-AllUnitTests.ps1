@@ -111,22 +111,33 @@ foreach ($test in $ciTests) {
         '-BinDir', $(if ($BinDir) { $BinDir } else { $bin })
     )
 
-    $outFile = Join-Path ([System.IO.Path]::GetTempPath()) ('krypton-unittest-{0}.out.log' -f [Guid]::NewGuid().ToString('N'))
-    $errFile = Join-Path ([System.IO.Path]::GetTempPath()) ('krypton-unittest-{0}.err.log' -f [Guid]::NewGuid().ToString('N'))
-
+    $proc = $null
     try {
-        $proc = Start-Process -FilePath 'powershell.exe' `
-            -ArgumentList $argList `
-            -PassThru `
-            -NoNewWindow `
-            -RedirectStandardOutput $outFile `
-            -RedirectStandardError $errFile
+        # Prefer ProcessStartInfo over Start-Process: Windows PowerShell leaves
+        # Start-Process.ExitCode null after WaitForExit when streams are redirected
+        # unless -Wait was also passed (which cannot express a soft timeout cleanly).
+        $startInfo = New-Object System.Diagnostics.ProcessStartInfo
+        $startInfo.FileName = 'powershell.exe'
+        $startInfo.Arguments = ($argList | ForEach-Object {
+            if ($_ -match '[\s"]') { '"{0}"' -f ($_ -replace '\\', '\\' -replace '"', '\"') } else { $_ }
+        }) -join ' '
+        $startInfo.UseShellExecute = $false
+        $startInfo.RedirectStandardOutput = $true
+        $startInfo.RedirectStandardError = $true
+        $startInfo.CreateNoWindow = $true
+
+        $proc = New-Object System.Diagnostics.Process
+        $proc.StartInfo = $startInfo
+        [void]$proc.Start()
+
+        $stdoutTask = $proc.StandardOutput.ReadToEndAsync()
+        $stderrTask = $proc.StandardError.ReadToEndAsync()
 
         $timedOut = $false
         if ($TimeoutSeconds -gt 0) {
             if (-not $proc.WaitForExit($TimeoutSeconds * 1000)) {
                 $timedOut = $true
-                try { Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue } catch { }
+                try { $proc.Kill() } catch { }
                 [void]$proc.WaitForExit()
             }
         }
@@ -134,11 +145,17 @@ foreach ($test in $ciTests) {
             $proc.WaitForExit()
         }
 
-        if (Test-Path -LiteralPath $outFile) {
-            Get-Content -LiteralPath $outFile | ForEach-Object { Write-Host $_ }
+        $stdout = $stdoutTask.GetAwaiter().GetResult()
+        $stderr = $stderrTask.GetAwaiter().GetResult()
+        if (-not [string]::IsNullOrEmpty($stdout)) {
+            foreach ($line in ($stdout -split "`r?`n")) {
+                Write-Host $line
+            }
         }
-        if (Test-Path -LiteralPath $errFile) {
-            Get-Content -LiteralPath $errFile | ForEach-Object { Write-Host $_ }
+        if (-not [string]::IsNullOrEmpty($stderr)) {
+            foreach ($line in ($stderr -split "`r?`n")) {
+                Write-Host $line
+            }
         }
 
         if ($timedOut) {
@@ -149,10 +166,7 @@ foreach ($test in $ciTests) {
             continue
         }
 
-        $code = 0
-        if ($null -ne $proc.ExitCode) {
-            $code = [int]$proc.ExitCode
-        }
+        $code = $proc.ExitCode
 
         if ($code -ne 0) {
             $failedNames.Add("$relative (exit $code)")
@@ -166,7 +180,12 @@ foreach ($test in $ciTests) {
         }
     }
     finally {
-        Remove-Item -LiteralPath $outFile, $errFile -Force -ErrorAction SilentlyContinue
+        if ($proc) {
+            if (-not $proc.HasExited) {
+                try { $proc.Kill() } catch { }
+            }
+            $proc.Dispose()
+        }
     }
 
     Write-Host ""

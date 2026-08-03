@@ -1,4 +1,4 @@
-# Unit Test Scripts
+﻿# Unit Test Scripts
 
 PowerShell helpers for interactive / UI-automation checks against Debug `TestForm` builds,
 plus CI assert scripts named `Test-*.ps1`.
@@ -33,6 +33,11 @@ Exit `0` on success; non-zero on failure. Prefer STA-safe WinForms work; the inv
 
 Workflow: [`.github/workflows/unit-tests.yml`](../../.github/workflows/unit-tests.yml) (also `workflow_call`-reusable).
 
+Optional Discord notifications use repository secret `DISCORD_WEBHOOK_UNIT_TESTS`:
+
+- Failures always post when the secret is set.
+- Successful on-demand runs post when `notify_discord` is enabled (`workflow_dispatch` default `true`).
+
 ## Prerequisites
 
 ```powershell
@@ -46,7 +51,8 @@ Default output folder: `Bin\Debug\net472`.
 | Script | Purpose | Marker |
 |--------|---------|--------|
 | `Invoke-AllUnitTests.ps1` | Discovers markers, runs every `include` script in STA children | (entry point) |
-| `Test-NavigatorTaskbarTabGroups.ps1` | #4129 TabGroup taskbar composites + float taskbar opt-in | `include` |
+| `Test-UnitTestInfrastructure.ps1` | Shared helpers + CI marker discovery smoke assert | `include` |
+| `Test-NavigatorTaskbarTabGroups.ps1` | #4129 TabGroup taskbar composites + float taskbar opt-in (needs feature binaries) | `exclude` |
 | `Test-NavigatorCaptionTabRemerge.ps1` | Tear-out / remerge (needs `-HostPid`) | `exclude` |
 | `Start-NavigatorFormIntegrationHost.ps1` | Hosts `NavigatorFormIntegrationDemo` | n/a |
 | `Invoke-CaptionTabDrag.ps1` | Caption drag + screenshots | n/a |
@@ -65,16 +71,16 @@ The invoker prints `[PASS]` / `[FAIL]` / `[SKIP]` banners and a summary table. O
 **GitHub (on demand):** Actions → **Unit Tests** → **Run workflow**, or:
 
 ```powershell
-gh workflow run "Unit Tests" -f configuration=Debug -f target_framework=net472 -f timeout_seconds=600
+gh workflow run "Unit Tests" -f configuration=Debug -f target_framework=net472 -f timeout_seconds=600 -f notify_discord=true
 ```
 
 ## Typical usage (#925 caption tabs)
 
 ```powershell
-# Terminal 1 — host the demo
+# Terminal 1 - host the demo
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTest\Start-NavigatorFormIntegrationHost.ps1
 
-# Terminal 2 — note the host PID, then drag or remerge
+# Terminal 2 - note the host PID, then drag or remerge
 $hp = (Get-CimInstance Win32_Process -Filter "Name='powershell.exe'" |
     Where-Object { $_.CommandLine -like '*Start-NavigatorFormIntegrationHost*' }).ProcessId
 
