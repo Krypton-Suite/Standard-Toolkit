@@ -37,7 +37,8 @@ internal class RibbonRecentDocsTitleToContent : RibbonToContent
     {
         Debug.Assert(ribbonRecentTitleText is not null);
 
-        _ribbonRecentTitleText = ribbonRecentTitleText ?? throw new ArgumentNullException(nameof(ribbonRecentTitleText));
+        ThrowHelper.ThrowIfNull(ribbonRecentTitleText);
+        _ribbonRecentTitleText = ribbonRecentTitleText;
     }
 
     /// <summary>

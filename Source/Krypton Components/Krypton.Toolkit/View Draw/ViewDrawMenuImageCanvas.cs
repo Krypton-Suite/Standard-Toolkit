@@ -112,7 +112,7 @@ internal class ViewDrawMenuImageCanvas : ViewDrawCanvas, IContextMenuItemColumn
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         base.Layout(context);
@@ -133,7 +133,7 @@ internal class ViewDrawMenuImageCanvas : ViewDrawCanvas, IContextMenuItemColumn
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         base.RenderBefore(context);

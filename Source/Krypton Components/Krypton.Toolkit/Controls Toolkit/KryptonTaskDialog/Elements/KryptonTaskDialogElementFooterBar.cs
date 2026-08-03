@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -256,7 +256,7 @@ public partial class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElemen
         }
         else
         {
-            throw new ArgumentOutOfRangeException($"Unknown FooterBarProperties member: {property}");
+            ThrowHelper.ThrowArgumentOutOfRangeException($"Unknown FooterBarProperties member: {property}");
         }
 
         LayoutDirty = true;
@@ -271,7 +271,7 @@ public partial class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElemen
         }
         else
         {
-            throw new ArgumentOutOfRangeException($"Unknown CommonButtonsProperties member: {property}");
+            ThrowHelper.ThrowArgumentOutOfRangeException($"Unknown CommonButtonsProperties member: {property}");
         }
 
         LayoutDirty = true;

@@ -45,9 +45,12 @@ internal class RecentDocController : GlobalId,
         Debug.Assert(menuItem is not null);
         Debug.Assert(needPaint is not null);
 
-        ViewManager = viewManager ?? throw new ArgumentNullException(nameof(viewManager));
-        _menuItem = menuItem ?? throw new ArgumentNullException(nameof(menuItem));
-        NeedPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        ThrowHelper.ThrowIfNull(viewManager);
+        ViewManager = viewManager;
+        ThrowHelper.ThrowIfNull(menuItem);
+        _menuItem = menuItem;
+        ThrowHelper.ThrowIfNull(needPaint);
+        NeedPaint = needPaint;
     }
     #endregion
 
@@ -197,11 +200,11 @@ internal class RecentDocController : GlobalId,
         // Validate incoming references
         if (c == null)
         {
-            throw new ArgumentNullException(nameof(c));
+            ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         switch (e.KeyCode)
@@ -247,11 +250,11 @@ internal class RecentDocController : GlobalId,
         // Validate incoming references
         if (c == null)
         {
-            throw new ArgumentNullException(nameof(c));
+            ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         ViewManager.KeyMnemonic(e.KeyChar);
@@ -271,11 +274,11 @@ internal class RecentDocController : GlobalId,
         // Validate incoming references
         if (c == null)
         {
-            throw new ArgumentNullException(nameof(c));
+            ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         return false;

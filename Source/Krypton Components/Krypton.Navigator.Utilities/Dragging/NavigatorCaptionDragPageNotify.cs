@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -33,7 +33,8 @@ internal sealed class NavigatorCaptionDragPageNotify : IDragPageNotify, IDisposa
     /// <param name="owner">The owner of the drag and drop operation.</param>
     public NavigatorCaptionDragPageNotify(KryptonNavigatorFormIntegrator owner)
     {
-        _owner = owner ?? throw new ArgumentNullException(nameof(owner));
+        ThrowHelper.ThrowIfNull(owner);
+        _owner = owner;
         _dragManager = new DragManager
         {
             DocumentCursor = true

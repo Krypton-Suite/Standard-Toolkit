@@ -47,8 +47,10 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
         Debug.Assert(needPaintDelegate is not null);
 
         // Remember incoming references
-        Ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        NeedPaintDelegate = needPaintDelegate ?? throw new ArgumentNullException(nameof(needPaintDelegate));
+        ThrowHelper.ThrowIfNull(ribbon);
+        Ribbon = ribbon;
+        ThrowHelper.ThrowIfNull(needPaintDelegate);
+        NeedPaintDelegate = needPaintDelegate;
         _borderOutside = borderOutside;
         _borderPadding2007 = new Padding((int)(3 * FactorDpiX), (int)(3 * FactorDpiY), (int)(3 * FactorDpiX), (int)(2 * FactorDpiY));
         _borderPadding2010 = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), (int)(3 * FactorDpiY));
@@ -171,7 +173,7 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // If there is a selected tab and it is a context tab use the context specific palette

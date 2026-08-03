@@ -122,7 +122,7 @@ internal class ViewDrawRibbonQATOverflow : ViewComposite
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         _memento = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape,

@@ -652,7 +652,7 @@ public abstract class VisualPanel : Panel,
         // Validate incoming reference
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         // Change in setting means we need to evaluate transparent painting
@@ -771,7 +771,7 @@ public abstract class VisualPanel : Panel,
         // Validate incoming reference
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
     }
 

@@ -322,7 +322,7 @@ public class HScrollSkin : Panel
 
     private void HorizontalScrollBar_VisibleChanged(object? sender, EventArgs e)
     {
-        var hscroll = sender as HScrollBar ?? throw new ArgumentNullException(nameof(sender));
+        var hscroll =sender as HScrollBar ?? ThrowHelper.ThrowArgumentNullException<HScrollBar>(nameof(sender));
         if (hscroll.Visible)
         {
             _HScrollBar1.Visible = true;
@@ -335,7 +335,7 @@ public class HScrollSkin : Panel
 
     private void VerticalScrollBar_VisibleChanged(object? sender, EventArgs e)
     {
-        var vscroll = sender as VScrollBar ?? throw new ArgumentNullException(nameof(sender));
+        var vscroll =sender as VScrollBar ?? ThrowHelper.ThrowArgumentNullException<VScrollBar>(nameof(sender));
         if (vscroll.Visible)
         {
             _VScrollBar1.Visible = true;
@@ -352,7 +352,7 @@ public class HScrollSkin : Panel
 
     private void dgv_Scroll(object? sender, ScrollEventArgs e)
     {
-        var dgv = sender as DataGridView ?? throw new ArgumentNullException(nameof(sender));
+        var dgv =sender as DataGridView ?? ThrowHelper.ThrowArgumentNullException<DataGridView>(nameof(sender));
         if (GetDGVScrollbar(ref dgv, out HSB))
         {
             if (HSB.Visible)

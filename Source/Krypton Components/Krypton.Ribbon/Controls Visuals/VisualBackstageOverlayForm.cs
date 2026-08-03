@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -70,7 +70,8 @@ internal sealed class VisualBackstageOverlayForm : KryptonForm
     /// <param name="ribbon">Reference to the ribbon for below-ribbon mode calculations.</param>
     internal VisualBackstageOverlayForm(Form ownerForm, BackstageOverlayMode overlayMode = BackstageOverlayMode.FullClient, KryptonRibbon? ribbon = null)
     {
-        _ownerForm = ownerForm ?? throw new ArgumentNullException(nameof(ownerForm));
+        ThrowHelper.ThrowIfNull(ownerForm);
+        _ownerForm = ownerForm;
 
         _overlayMode = overlayMode;
 

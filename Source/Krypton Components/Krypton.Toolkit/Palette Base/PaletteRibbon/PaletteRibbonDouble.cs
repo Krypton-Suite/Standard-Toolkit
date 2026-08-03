@@ -45,8 +45,10 @@ public class PaletteRibbonDouble : Storage,
         Debug.Assert(inheritText is not null);
 
         // Remember inheritance
-        _inheritBack = inheritBack ?? throw new ArgumentNullException(nameof(inheritBack));
-        _inheritText = inheritText ?? throw new ArgumentNullException(nameof(inheritText));
+        ThrowHelper.ThrowIfNull(inheritBack);
+        _inheritBack = inheritBack;
+        ThrowHelper.ThrowIfNull(inheritText);
+        _inheritText = inheritText;
 
         // Store the provided paint notification delegate
         NeedPaint = needPaint;

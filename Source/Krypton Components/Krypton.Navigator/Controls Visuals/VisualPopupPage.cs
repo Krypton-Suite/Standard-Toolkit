@@ -47,8 +47,10 @@ internal class VisualPopupPage : VisualPopup
         Debug.Assert(page != null);
 
         // Remember references needed later
-        _navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
-        _page = page ?? throw new ArgumentNullException(nameof(page));
+        ThrowHelper.ThrowIfNull(navigator);
+        _navigator = navigator;
+        ThrowHelper.ThrowIfNull(page);
+        _page = page;
 
         // Always var the layout that positions the actual page
         var layoutPage = new ViewLayoutPopupPage(_navigator, _page!);

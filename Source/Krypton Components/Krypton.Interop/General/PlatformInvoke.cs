@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -3482,7 +3482,7 @@ No 	                    No 	                    Show text only
             : new IntPtr(GetWindowLongPtr32(hwnd, nIndex));
         if (IntPtr.Zero == ret)
         {
-            throw new Win32Exception();
+            Krypton.Interop.ThrowHelper.ThrowWin32Exception();
         }
 
         return ret;
@@ -3517,7 +3517,7 @@ No 	                    No 	                    Show text only
             var error = GetLastWin32Error();
             if (error != 0)
             {
-                throw new Win32Exception(error);
+                Krypton.Interop.ThrowHelper.ThrowWin32Exception(error);
             }
         }
 
@@ -3535,7 +3535,7 @@ No 	                    No 	                    Show text only
             var error = GetLastWin32Error();
             if (error != 0)
             {
-                throw new Win32Exception(error);
+                Krypton.Interop.ThrowHelper.ThrowWin32Exception(error);
             }
         }
 
@@ -3898,7 +3898,7 @@ No 	                    No 	                    Show text only
         if (!PostMessage(hWnd, msg, wParam, lParam))
         {
             // An error occurred
-            throw new Win32Exception(GetLastWin32Error());
+            Krypton.Interop.ThrowHelper.ThrowWin32Exception(GetLastWin32Error());
         }
     }
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
@@ -4160,7 +4160,7 @@ No 	                    No 	                    Show text only
         var mi = new MONITORINFO();
         if (!_GetMonitorInfo(hMonitor, mi))
         {
-            throw new Win32Exception();
+            Krypton.Interop.ThrowHelper.ThrowWin32Exception();
         }
 
         return mi;

@@ -27,7 +27,7 @@ public static class RibbonExtensions
     {
         if (button == null)
         {
-            throw new ArgumentNullException(nameof(button));
+            ThrowHelper.ThrowArgumentNullException(nameof(button));
         }
 
         smallSize = smallSize > 0 ? smallSize : FontAwesomeHelper.DefaultSize;
@@ -76,7 +76,7 @@ public static class RibbonExtensions
     {
         if (button == null)
         {
-            throw new ArgumentNullException(nameof(button));
+            ThrowHelper.ThrowArgumentNullException(nameof(button));
         }
 
         smallSize = smallSize > 0 ? smallSize : FontAwesomeHelper.DefaultSize;

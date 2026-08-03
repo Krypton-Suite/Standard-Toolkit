@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -29,8 +29,11 @@ public class ProgressBarValueTextValues : Storage
     /// Initialize a new instance of the <see cref="ProgressBarValueTextValues"/> class.
     /// </summary>
     /// <param name="owner">Owning progress bar.</param>
-    public ProgressBarValueTextValues(KryptonToolStripProgressBarWithValueText owner) =>
-        _owner = owner ?? throw new ArgumentNullException(nameof(owner));
+    public ProgressBarValueTextValues(KryptonToolStripProgressBarWithValueText owner)
+    {
+        ThrowHelper.ThrowIfNull(owner);
+        _owner = owner;
+    }
 
     /// <inheritdoc />
     public override string ToString() => !IsDefault ? @"Modified" : string.Empty;

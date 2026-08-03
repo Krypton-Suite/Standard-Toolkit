@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -30,8 +30,11 @@ public class EnhancedMenuItemValues : Storage
     /// Initialize a new instance of the <see cref="EnhancedMenuItemValues"/> class.
     /// </summary>
     /// <param name="owner">Owning enhanced menu item.</param>
-    public EnhancedMenuItemValues(KryptonEnhancedToolStripMenuItem owner) =>
-        _owner = owner ?? throw new ArgumentNullException(nameof(owner));
+    public EnhancedMenuItemValues(KryptonEnhancedToolStripMenuItem owner)
+    {
+        ThrowHelper.ThrowIfNull(owner);
+        _owner = owner;
+    }
 
     /// <inheritdoc />
     public override string ToString() => !IsDefault ? @"Modified" : string.Empty;

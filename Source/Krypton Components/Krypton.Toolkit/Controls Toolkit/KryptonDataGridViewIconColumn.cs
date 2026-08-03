@@ -150,7 +150,7 @@ public abstract class KryptonDataGridViewIconColumn : DataGridViewColumn, IIconC
     /// <returns></returns>
     public override object Clone()
     {
-        var cloned = base.Clone() as KryptonDataGridViewIconColumn ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("cloned"));
+        var cloned =base.Clone() as KryptonDataGridViewIconColumn ?? ThrowHelper.ThrowNullReferenceException<KryptonDataGridViewIconColumn>(SharedStaticFunctions.VariableCannotBeNull("cloned"));
 
         foreach (IconSpec sp in IconSpecs)
         {

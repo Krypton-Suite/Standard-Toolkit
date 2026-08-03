@@ -427,18 +427,18 @@ public class KryptonPrintDialog : /*!! sealed PrintDialog !!*/ CommonDialog
                 if (PrinterSettings.FromPage < PrinterSettings.MinimumPage
                     || PrinterSettings.FromPage > PrinterSettings.MaximumPage)
                 {
-                    throw new ArgumentException($@"PageOutOfRange [{PrinterSettings.FromPage}]");
+                    ThrowHelper.ThrowArgumentException($@"PageOutOfRange [{PrinterSettings.FromPage}]");
                 }
 
                 if (PrinterSettings.ToPage < PrinterSettings.MinimumPage
                     || PrinterSettings.ToPage > PrinterSettings.MaximumPage)
                 {
-                    throw new ArgumentException($@"PageOutOfRange [{PrinterSettings.ToPage}]");
+                    ThrowHelper.ThrowArgumentException($@"PageOutOfRange [{PrinterSettings.ToPage}]");
                 }
 
                 if (PrinterSettings.ToPage < PrinterSettings.FromPage)
                 {
-                    throw new ArgumentException($@"PageOutOfRange [{PrinterSettings.FromPage}]");
+                    ThrowHelper.ThrowArgumentException($@"PageOutOfRange [{PrinterSettings.FromPage}]");
                 }
 
                 data.nFromPage = (short)PrinterSettings.FromPage;
@@ -579,18 +579,18 @@ public class KryptonPrintDialog : /*!! sealed PrintDialog !!*/ CommonDialog
     //            if (PrinterSettings.FromPage < PrinterSettings.MinimumPage
     //                || PrinterSettings.FromPage > PrinterSettings.MaximumPage)
     //            {
-    //                throw new ArgumentException($@"PageOutOfRange [{PrinterSettings.FromPage}]");
+    //                ThrowHelper.ThrowArgumentException($@"PageOutOfRange [{PrinterSettings.FromPage}]");
     //            }
 
     //            if (PrinterSettings.ToPage < PrinterSettings.MinimumPage
     //                || PrinterSettings.ToPage > PrinterSettings.MaximumPage)
     //            {
-    //                throw new ArgumentException($@"PageOutOfRange [{PrinterSettings.ToPage}]");
+    //                ThrowHelper.ThrowArgumentException($@"PageOutOfRange [{PrinterSettings.ToPage}]");
     //            }
 
     //            if (PrinterSettings.ToPage < PrinterSettings.FromPage)
     //            {
-    //                throw new ArgumentException($@"PageOutOfRange[{PrinterSettings.FromPage}]");
+    //                ThrowHelper.ThrowArgumentException($@"PageOutOfRange[{PrinterSettings.FromPage}]");
     //            }
 
     //            // PAGENUMS Allways set !
@@ -704,7 +704,7 @@ public class KryptonPrintDialog : /*!! sealed PrintDialog !!*/ CommonDialog
                 return PrintDlg_32(lppd32);
             }
 
-            throw new InvalidOperationException($"Expected {nameof(PRINTDLG_32)} data struct");
+            return ThrowHelper.ThrowInvalidOperationException<PI.BOOL>($"Expected {nameof(PRINTDLG_32)} data struct");
         }
 
         if (lppd is PRINTDLG_64 lppd64)
@@ -712,7 +712,7 @@ public class KryptonPrintDialog : /*!! sealed PrintDialog !!*/ CommonDialog
             return PrintDlg_64(lppd64);
         }
 
-        throw new InvalidOperationException($"Expected {nameof(PRINTDLG_64)} data struct");
+        return ThrowHelper.ThrowInvalidOperationException<PI.BOOL>($"Expected {nameof(PRINTDLG_64)} data struct");
     }
 
     //[DllImport(Libraries.Comdlg32, CharSet = CharSet.Auto, SetLastError = true)]

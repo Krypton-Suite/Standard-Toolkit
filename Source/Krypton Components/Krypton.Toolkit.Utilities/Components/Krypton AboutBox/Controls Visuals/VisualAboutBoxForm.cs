@@ -164,7 +164,8 @@ internal partial class VisualAboutBoxForm : KryptonForm
                 kpnlAssemblyDetails.Visible = true;
                 break;
             default:
-                throw new ArgumentOutOfRangeException(nameof(page), page, null);
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(page), page, null);
+                return;
         }
     }
 
@@ -278,7 +279,8 @@ internal partial class VisualAboutBoxForm : KryptonForm
                 kpnlToolkitInformation.Visible = true;
                 break;
             default:
-                throw new ArgumentOutOfRangeException(nameof(page), page, null);
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(page), page, null);
+                return;
         }
     }
 
@@ -444,7 +446,7 @@ internal partial class VisualAboutBoxForm : KryptonForm
             ToolkitSupportType.Nightly => Resources.Krypton_Nightly,
             ToolkitSupportType.Stable => Resources.Krypton_Stable,
             ToolkitSupportType.LongTermSupport => Resources.Krypton_LTS,
-            _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
+            _ => ThrowHelper.ThrowArgumentOutOfRangeException<Image>(nameof(value), value, null),
         };
     }
 
@@ -572,7 +574,8 @@ internal partial class VisualAboutBoxForm : KryptonForm
                 tsbtnVersions.Checked = true;
                 break;
             default:
-                throw new ArgumentOutOfRangeException(nameof(page), page, null);
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(page), page, null);
+                return;
         }
     }
 

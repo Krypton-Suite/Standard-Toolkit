@@ -77,7 +77,8 @@ public class DragViewController : GlobalId,
         MousePoint = CommonHelper.NullPoint;
         AllowDragging = true;
         _dragging = false;
-        Target = target ?? throw new ArgumentNullException(nameof(target));
+        ThrowHelper.ThrowIfNull(target);
+        Target = target;
         _lastClick = DateTime.Now.AddDays(-1);
     }
     #endregion
@@ -276,11 +277,11 @@ public class DragViewController : GlobalId,
         // Validate incoming references
         if (c == null)
         {
-            throw new ArgumentNullException(nameof(c));
+            ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         // If the user pressed the escape key
@@ -329,7 +330,7 @@ public class DragViewController : GlobalId,
         // Validate incoming references
         if (c == null)
         {
-            throw new ArgumentNullException(nameof(c));
+            ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
 
         // If we are capturing mouse input

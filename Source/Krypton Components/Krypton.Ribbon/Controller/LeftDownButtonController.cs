@@ -51,9 +51,12 @@ internal class LeftDownButtonController : GlobalId,
         Debug.Assert(target is not null);
         Debug.Assert(needPaint is not null);
 
-        Ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        Target = target ?? throw new ArgumentNullException(nameof(target));
-        _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        ThrowHelper.ThrowIfNull(ribbon);
+        Ribbon = ribbon;
+        ThrowHelper.ThrowIfNull(target);
+        Target = target;
+        ThrowHelper.ThrowIfNull(needPaint);
+        _needPaint = needPaint;
 
         _updateTimer = new Timer
         {

@@ -52,7 +52,8 @@ public class NavigatorButton : Storage
         Debug.Assert(navigator is not null);
 
         // Remember back reference
-        _navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
+        ThrowHelper.ThrowIfNull(navigator);
+        _navigator = navigator;
 
         // Store the provided paint notification delegate
         NeedPaint = needPaint;

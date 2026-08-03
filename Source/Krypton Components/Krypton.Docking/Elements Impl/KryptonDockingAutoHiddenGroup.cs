@@ -514,7 +514,7 @@ public class KryptonDockingAutoHiddenGroup : DockingElementClosedCollection
         // Is it the expected xml element name?
         if (xmlReader.Name != @"KP")
         {
-            throw new ArgumentException($@"Element name 'KP' was expected but found '{xmlReader.Name}' instead.", nameof(xmlReader));
+            ThrowHelper.ThrowArgumentException($@"Element name 'KP' was expected but found '{xmlReader.Name}' instead.", nameof(xmlReader));
         }
 
         // Get the unique name of the page
@@ -565,12 +565,12 @@ public class KryptonDockingAutoHiddenGroup : DockingElementClosedCollection
 
         if (!xmlReader.Read())
         {
-            throw new ArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
+            ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
         }
 
         if (xmlReader.Name != @"CPD")
         {
-            throw new ArgumentException(@"Expected 'CPD' element was not found", nameof(xmlReader));
+            ThrowHelper.ThrowArgumentException(@"Expected 'CPD' element was not found", nameof(xmlReader));
         }
 
         var finished = xmlReader.IsEmptyElement;
@@ -592,14 +592,14 @@ public class KryptonDockingAutoHiddenGroup : DockingElementClosedCollection
             {
                 if (!xmlReader.Read())
                 {
-                    throw new ArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
+                    ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
                 }
             }
         }
 
         if (!xmlReader.Read())
         {
-            throw new ArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
+            ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
         }
     }
     #endregion

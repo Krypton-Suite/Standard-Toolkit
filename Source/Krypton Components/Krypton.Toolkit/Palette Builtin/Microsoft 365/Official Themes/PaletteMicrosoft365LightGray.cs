@@ -47,7 +47,7 @@ public class PaletteMicrosoft365LightGray : PaletteMicrosoft365Base
 
     #region Images
 
-    public override Image? GetContextMenuSubMenuImage() => throw new NotImplementedException();
+    public override Image? GetContextMenuSubMenuImage() => ThrowHelper.ThrowNotImplementedException<Image>();
 
     #endregion
 

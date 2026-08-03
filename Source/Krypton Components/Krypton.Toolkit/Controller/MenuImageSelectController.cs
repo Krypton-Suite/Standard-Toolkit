@@ -321,12 +321,12 @@ internal class MenuImageSelectController : GlobalId,
         // Validate incoming references
         if (c == null)
         {
-            throw new ArgumentNullException(nameof(c));
+            ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
 
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         switch (e.KeyCode)
@@ -378,12 +378,12 @@ internal class MenuImageSelectController : GlobalId,
         // Validate incoming references
         if (c == null)
         {
-            throw new ArgumentNullException(nameof(c));
+            ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
 
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         _viewManager.KeyMnemonic(e.KeyChar);
@@ -404,10 +404,10 @@ internal class MenuImageSelectController : GlobalId,
         // Validate incoming references
         if (c == null)
         {
-            throw new ArgumentNullException(nameof(c));
+            ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
 
-        return e == null ? throw new ArgumentNullException(nameof(e)) : false;
+        return e == null ? ThrowHelper.ThrowArgumentNullException<bool>(nameof(e)): false;
     }
     #endregion
 

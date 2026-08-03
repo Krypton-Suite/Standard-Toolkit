@@ -55,12 +55,18 @@ public class PaletteRibbonTabContentInheritOverride : PaletteRibbonDoubleInherit
         Debug.Assert(backupContent != null);
 
         // Remember values
-        _primaryBack = primaryBack ?? throw new ArgumentNullException(nameof(primaryBack));
-        _primaryText = primaryText ?? throw new ArgumentNullException(nameof(primaryText));
-        _primaryContent = primaryContent ?? throw new ArgumentNullException(nameof(primaryContent));
-        _backupBack = backupBack ?? throw new ArgumentNullException(nameof(backupBack));
-        _backupText = backupText ?? throw new ArgumentNullException(nameof(backupText));
-        _backupContent = backupContent ?? throw new ArgumentNullException(nameof(backupContent));
+        ThrowHelper.ThrowIfNull(primaryBack);
+        _primaryBack = primaryBack;
+        ThrowHelper.ThrowIfNull(primaryText);
+        _primaryText = primaryText;
+        ThrowHelper.ThrowIfNull(primaryContent);
+        _primaryContent = primaryContent;
+        ThrowHelper.ThrowIfNull(backupBack);
+        _backupBack = backupBack;
+        ThrowHelper.ThrowIfNull(backupText);
+        _backupText = backupText;
+        ThrowHelper.ThrowIfNull(backupContent);
+        _backupContent = backupContent;
 
         // Default state
         Apply = false;
@@ -444,13 +450,13 @@ public class PaletteRibbonTabContentInheritOverride : PaletteRibbonDoubleInherit
         if (Apply)
         {
             Font ret = _primaryContent.GetContentShortTextFont(Override ? OverrideState : state) ?? _backupContent.GetContentShortTextFont(state) 
-                ?? throw new NullReferenceException("The result of GetContentShortTextFont() cannot be null.");
+ ?? ThrowHelper.ThrowNullReferenceException<Font>("The result of GetContentShortTextFont() cannot be null.");
 
             return ret;
         }
         else
         {
-            return _backupContent.GetContentShortTextFont(state) ?? throw new NullReferenceException("The result of GetContentShortTextFont() cannot be null.");
+return _backupContent.GetContentShortTextFont(state) ?? ThrowHelper.ThrowNullReferenceException<Font>("The result of GetContentShortTextFont() cannot be null.");
         }
     }
 
@@ -464,13 +470,13 @@ public class PaletteRibbonTabContentInheritOverride : PaletteRibbonDoubleInherit
         if (Apply)
         {
             Font ret = _primaryContent.GetContentShortTextNewFont(Override ? OverrideState : state) ?? _backupContent.GetContentShortTextNewFont(state)
-                ?? throw new NullReferenceException("The result of GetContentShortTextNewFont() cannot be null.");
+ ?? ThrowHelper.ThrowNullReferenceException<Font>("The result of GetContentShortTextNewFont() cannot be null.");
 
             return ret;
         }
         else
         {
-            return _backupContent.GetContentShortTextNewFont(state) ?? throw new NullReferenceException("The result of GetContentShortTextNewFont() cannot be null.");
+return _backupContent.GetContentShortTextNewFont(state) ?? ThrowHelper.ThrowNullReferenceException<Font>("The result of GetContentShortTextNewFont() cannot be null.");
         }
     }
 
@@ -839,14 +845,14 @@ public class PaletteRibbonTabContentInheritOverride : PaletteRibbonDoubleInherit
         if (Apply)
         {
             Font ret = _primaryContent.GetContentLongTextFont(Override ? OverrideState : state) ?? _backupContent.GetContentLongTextFont(state)
-                ?? throw new NullReferenceException("The result of GetContentLongTextFont() cannot be null.");
+ ?? ThrowHelper.ThrowNullReferenceException<Font>("The result of GetContentLongTextFont() cannot be null.");
 
             return ret;
         }
         else
         {
             return _backupContent.GetContentLongTextFont(state)
-                   ?? throw new NullReferenceException("The result of GetContentLongTextFont() cannot be null.");
+ ?? ThrowHelper.ThrowNullReferenceException<Font>("The result of GetContentLongTextFont() cannot be null.");
         }
     }
 
@@ -860,13 +866,13 @@ public class PaletteRibbonTabContentInheritOverride : PaletteRibbonDoubleInherit
         if (Apply)
         {
             Font ret = _primaryContent.GetContentLongTextNewFont(Override ? OverrideState : state) ?? _backupContent.GetContentLongTextNewFont(state)
-                ?? throw new NullReferenceException("The result of GetContentLongTextNewFont() cannot be null.");
+ ?? ThrowHelper.ThrowNullReferenceException<Font>("The result of GetContentLongTextNewFont() cannot be null.");
 
             return ret;
         }
         else
         {
-            return _backupContent.GetContentLongTextNewFont(state) ?? throw new NullReferenceException("The result of GetContentLongTextNewFont() cannot be null.");
+return _backupContent.GetContentLongTextNewFont(state) ?? ThrowHelper.ThrowNullReferenceException<Font>("The result of GetContentLongTextNewFont() cannot be null.");
 
         }
     }

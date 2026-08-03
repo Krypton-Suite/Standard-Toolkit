@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -60,7 +60,7 @@ public static class KryptonCombinedTranslations
     {
         if (string.IsNullOrWhiteSpace(filename))
         {
-            throw new ArgumentNullException(nameof(filename));
+            ThrowHelper.ThrowArgumentNullException(nameof(filename));
         }
 
         ExportToXmlDocument(includeDefaults).Save(filename);
@@ -73,7 +73,7 @@ public static class KryptonCombinedTranslations
     {
         if (string.IsNullOrWhiteSpace(filename))
         {
-            throw new ArgumentNullException(nameof(filename));
+            ThrowHelper.ThrowArgumentNullException(nameof(filename));
         }
 
         var doc = new XmlDocument();
@@ -88,13 +88,13 @@ public static class KryptonCombinedTranslations
     {
         if (doc == null)
         {
-            throw new ArgumentNullException(nameof(doc));
+            ThrowHelper.ThrowArgumentNullException(nameof(doc));
         }
 
         var root = doc.SelectSingleNode(RootElementName) as XmlElement;
         if (root == null)
         {
-            throw new ArgumentException($@"Root element must be called '{RootElementName}'.");
+            ThrowHelper.ThrowArgumentException($@"Root element must be called '{RootElementName}'.");
         }
 
         var toolkitRoot = root.SelectSingleNode($@"{ToolkitElementName}/KryptonTranslations") as XmlElement;

@@ -1040,7 +1040,7 @@ public class KryptonDataGridView : DataGridView
         // Validate incoming reference
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         // Change in setting means we need to evaluate transparent painting
@@ -1145,7 +1145,7 @@ public class KryptonDataGridView : DataGridView
         // Validate incoming reference
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
     }
     #endregion
@@ -1411,7 +1411,7 @@ public class KryptonDataGridView : DataGridView
     {
         if (e is null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         // Get the palette and state values for this cell
@@ -3783,7 +3783,7 @@ public class KryptonDataGridView : DataGridView
     private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
     {
         // Unhook events from the specific instance that generated event
-        var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
+        var popupToolTip =sender as VisualPopupToolTip ?? ThrowHelper.ThrowArgumentNullException<VisualPopupToolTip>(nameof(sender));
         popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
         // Not showing a popup page any more
@@ -3897,7 +3897,7 @@ public class KryptonDataGridView : DataGridView
     {
         if (cell is null)
         {
-            throw new ArgumentNullException(nameof(cell));
+            ThrowHelper.ThrowArgumentNullException(nameof(cell));
         }
 
         // Only need to cache reflection info the first time around
@@ -3916,7 +3916,7 @@ public class KryptonDataGridView : DataGridView
     {
         if (cell is null)
         {
-            throw new ArgumentNullException(nameof(cell));
+            ThrowHelper.ThrowArgumentNullException(nameof(cell));
         }
 
         // Only need to cache reflection info the first time around

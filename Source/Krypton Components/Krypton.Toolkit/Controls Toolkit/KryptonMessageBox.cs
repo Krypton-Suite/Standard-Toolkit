@@ -450,21 +450,21 @@ public static class KryptonMessageBox
         if (!SystemInformation.UserInteractive &&
             ((options & (MessageBoxOptions.ServiceNotification | MessageBoxOptions.DefaultDesktopOnly)) == 0))
         {
-            throw new InvalidOperationException("Cannot show modal dialog when non-interactive");
+            ThrowHelper.ThrowInvalidOperationException("Cannot show modal dialog when non-interactive");
         }
 
         // Check if trying to show a message box from a service and the owner has been specified, this is not possible
         if ((owner != null) &&
             ((options & (MessageBoxOptions.ServiceNotification | MessageBoxOptions.DefaultDesktopOnly)) != 0))
         {
-            throw new ArgumentException(@"Cannot show message box from a service with an owner specified", nameof(options));
+            ThrowHelper.ThrowArgumentException(@"Cannot show message box from a service with an owner specified", nameof(options));
         }
 
         // Check if trying to show a message box from a service and help information is specified, this is not possible
         if ((helpInfo != null) &&
             ((options & (MessageBoxOptions.ServiceNotification | MessageBoxOptions.DefaultDesktopOnly)) != 0))
         {
-            throw new ArgumentException(@"Cannot show message box from a service with help specified", nameof(options));
+            ThrowHelper.ThrowArgumentException(@"Cannot show message box from a service with help specified", nameof(options));
         }
 
         IWin32Window? showOwner = null;

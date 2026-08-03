@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -16,8 +16,10 @@ public sealed class NavigatorTabContextMenuEventArgs : CancelEventArgs
 {
     public NavigatorTabContextMenuEventArgs(KryptonPage page, ContextMenuStrip contextMenuStrip)
     {
-        Page = page ?? throw new ArgumentNullException(nameof(page));
-        ContextMenuStrip = contextMenuStrip ?? throw new ArgumentNullException(nameof(contextMenuStrip));
+        ThrowHelper.ThrowIfNull(page);
+        Page = page;
+        ThrowHelper.ThrowIfNull(contextMenuStrip);
+        ContextMenuStrip = contextMenuStrip;
     }
 
     /// <summary>

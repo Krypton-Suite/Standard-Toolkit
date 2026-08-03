@@ -496,7 +496,7 @@ internal partial class VisualMessageBoxForm : KryptonForm
             KryptonMessageBoxButtons.OK => _button2,
             KryptonMessageBoxButtons.OKCancel or KryptonMessageBoxButtons.YesNo or KryptonMessageBoxButtons.RetryCancel => _button3,
             KryptonMessageBoxButtons.AbortRetryIgnore or KryptonMessageBoxButtons.YesNoCancel or KryptonMessageBoxButtons.CancelTryContinue => _button4,
-            _ => throw new ArgumentOutOfRangeException()
+            _ => ThrowHelper.ThrowArgumentOutOfRangeException<MessageButton>()
         };
         if (helpButton != null)
         {
@@ -588,7 +588,7 @@ internal partial class VisualMessageBoxForm : KryptonForm
             // Find size of the label, with a max of 2/3 screen width
             Screen screen = showOwner is IWin32Window window
                 ? Screen.FromHandle(window.Handle)
-                : Screen.PrimaryScreen ?? throw new NullReferenceException("Screen.PrimaryScreen returned null");
+: Screen.PrimaryScreen ?? ThrowHelper.ThrowNullReferenceException<Screen>("Screen.PrimaryScreen returned null");
 
             Size scaledMonitorSize = screen.WorkingArea.Size;
             scaledMonitorSize.Width = (int)(scaledMonitorSize.Width * 2 / 3.0f);

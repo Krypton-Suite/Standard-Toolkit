@@ -35,8 +35,10 @@ public class KryptonDesignerActionItem : DesignerActionMethodItem
         Debug.Assert(category != null);
 
         // Remember details
-        _verb = verb ?? throw new ArgumentNullException(nameof(verb));
-        Category = category ?? throw new ArgumentNullException(nameof(category));
+        ThrowHelper.ThrowIfNull(verb);
+        _verb = verb;
+        ThrowHelper.ThrowIfNull(category);
+        Category = category;
     }
     #endregion
 

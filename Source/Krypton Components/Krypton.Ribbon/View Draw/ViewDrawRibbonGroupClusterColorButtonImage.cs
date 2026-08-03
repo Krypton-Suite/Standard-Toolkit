@@ -40,7 +40,8 @@ internal class ViewDrawRibbonGroupClusterColorButtonImage : ViewDrawRibbonGroupI
         : base(ribbon)
     {
         Debug.Assert(ribbonColorButton is not null);
-        _ribbonColorButton = ribbonColorButton ?? throw new ArgumentNullException(nameof(ribbonColorButton));
+        ThrowHelper.ThrowIfNull(ribbonColorButton);
+        _ribbonColorButton = ribbonColorButton;
         _selectedColor = ribbonColorButton.SelectedColor;
         _emptyBorderColor = ribbonColorButton.EmptyBorderColor;
         _selectedRect = ribbonColorButton.SelectedRect;

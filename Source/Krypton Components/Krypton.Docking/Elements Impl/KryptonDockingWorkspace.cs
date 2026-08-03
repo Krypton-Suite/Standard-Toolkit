@@ -44,7 +44,8 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
         [DisallowNull] KryptonDockableWorkspace workspace)
         : base(name, storeName)
     {
-        SpaceControl = workspace ?? throw new ArgumentNullException(nameof(workspace));
+        ThrowHelper.ThrowIfNull(workspace);
+        SpaceControl = workspace;
 
         if (DockableWorkspaceControl != null)
         {
@@ -90,7 +91,7 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
         // Cannot show a null reference
         if (page == null)
         {
-            throw new ArgumentNullException(nameof(page));
+            ThrowHelper.ThrowArgumentNullException(nameof(page));
         }
 
         ShowPages(new[] { page.UniqueName });
@@ -105,7 +106,7 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
         // Cannot show a null reference
         if (uniqueName == null)
         {
-            throw new ArgumentNullException(nameof(uniqueName));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueName));
         }
 
         ShowPages(new[] { uniqueName });
@@ -120,7 +121,7 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
         // Cannot show a null reference
         if (pages == null)
         {
-            throw new ArgumentNullException(nameof(pages));
+            ThrowHelper.ThrowArgumentNullException(nameof(pages));
         }
 
         if (pages.Length > 0)
@@ -131,7 +132,7 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
                 // Cannot show a null page reference
                 if (pages[i] == null)
                 {
-                    throw new ArgumentException(@"pages array contains a null page reference", nameof(pages));
+                    ThrowHelper.ThrowArgumentException(@"pages array contains a null page reference", nameof(pages));
                 }
 
                 uniqueNames[i] = pages[i].UniqueName;
@@ -150,7 +151,7 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
         // Cannot show a null reference
         if (uniqueNames == null)
         {
-            throw new ArgumentNullException(nameof(uniqueNames));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames));
         }
 
         if (uniqueNames.Length > 0)
@@ -160,12 +161,12 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
             {
                 if (uniqueName == null)
                 {
-                    throw new ArgumentNullException(nameof(uniqueNames), @"uniqueNames array contains a null string reference");
+                    ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames), @"uniqueNames array contains a null string reference");
                 }
 
                 if (uniqueName.Length == 0)
                 {
-                    throw new ArgumentException(@"uniqueNames array contains a zero length string", nameof(uniqueNames));
+                    ThrowHelper.ThrowArgumentException(@"uniqueNames array contains a zero length string", nameof(uniqueNames));
                 }
             }
 
@@ -192,7 +193,7 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
         // Cannot hide a null reference
         if (page == null)
         {
-            throw new ArgumentNullException(nameof(page));
+            ThrowHelper.ThrowArgumentNullException(nameof(page));
         }
 
         HidePages(new[] { page.UniqueName });
@@ -207,7 +208,7 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
         // Cannot hide a null reference
         if (uniqueName == null)
         {
-            throw new ArgumentNullException(nameof(uniqueName));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueName));
         }
 
         if (uniqueName.Length > 0)
@@ -225,7 +226,7 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
         // Cannot hide a null reference
         if (pages == null)
         {
-            throw new ArgumentNullException(nameof(pages));
+            ThrowHelper.ThrowArgumentNullException(nameof(pages));
         }
 
         if (pages.Length > 0)
@@ -237,7 +238,7 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
                 // Cannot show a null page reference
                 if (pages[i] == null)
                 {
-                    throw new ArgumentException(@"pages array contains a null page reference", nameof(pages));
+                    ThrowHelper.ThrowArgumentException(@"pages array contains a null page reference", nameof(pages));
                 }
 
                 uniqueNames[i] = pages[i].UniqueName;
@@ -256,7 +257,7 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
         // Cannot hide a null reference
         if (uniqueNames == null)
         {
-            throw new ArgumentNullException(nameof(uniqueNames));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames));
         }
 
         if (uniqueNames.Length > 0)
@@ -266,12 +267,12 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
             {
                 if (uniqueName == null)
                 {
-                    throw new ArgumentNullException(nameof(uniqueNames), @"uniqueNames array contains a null string reference");
+                    ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames), @"uniqueNames array contains a null string reference");
                 }
 
                 if (uniqueName.Length == 0)
                 {
-                    throw new ArgumentException(@"uniqueNames array contains a zero length string", nameof(uniqueNames));
+                    ThrowHelper.ThrowArgumentException(@"uniqueNames array contains a zero length string", nameof(uniqueNames));
                 }
             }
 
@@ -299,13 +300,13 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
         // Cannot remove a null reference
         if (uniqueName == null)
         {
-            throw new ArgumentNullException(nameof(uniqueName));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueName));
         }
 
         // Unique names cannot be zero length
         if (uniqueName.Length == 0)
         {
-            throw new ArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
+            ThrowHelper.ThrowArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
         }
 
         RemovePages(new[] { uniqueName }, disposePage);
@@ -321,7 +322,7 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
         // Cannot remove a null reference
         if (pages == null)
         {
-            throw new ArgumentNullException(nameof(pages));
+            ThrowHelper.ThrowArgumentNullException(nameof(pages));
         }
 
         if (pages.Length > 0)
@@ -333,7 +334,7 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
                 // Cannot show a null page reference
                 if (pages[i] == null)
                 {
-                    throw new ArgumentException(@"pages array contains a null page reference", nameof(pages));
+                    ThrowHelper.ThrowArgumentException(@"pages array contains a null page reference", nameof(pages));
                 }
 
                 uniqueNames[i] = pages[i].UniqueName;
@@ -353,7 +354,7 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
         // Cannot remove a null reference
         if (uniqueNames == null)
         {
-            throw new ArgumentNullException(nameof(uniqueNames));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames));
         }
 
         if (uniqueNames.Length > 0)
@@ -363,12 +364,12 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
             {
                 if (uniqueName == null)
                 {
-                    throw new ArgumentNullException(nameof(uniqueNames), @"uniqueNames array contains a null string reference");
+                    ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames), @"uniqueNames array contains a null string reference");
                 }
 
                 if (uniqueName.Length == 0)
                 {
-                    throw new ArgumentException(@"uniqueNames array contains a zero length string", nameof(uniqueNames));
+                    ThrowHelper.ThrowArgumentException(@"uniqueNames array contains a zero length string", nameof(uniqueNames));
                 }
             }
 

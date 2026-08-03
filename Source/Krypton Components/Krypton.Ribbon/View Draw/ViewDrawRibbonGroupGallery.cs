@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -55,9 +55,12 @@ internal class ViewDrawRibbonGroupGallery : ViewComposite,
         Debug.Assert(needPaint is not null);
 
         // Remember incoming references
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        GroupGallery = ribbonGallery ?? throw new ArgumentNullException(nameof(ribbonGallery));
-        _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        ThrowHelper.ThrowIfNull(ribbon);
+        _ribbon = ribbon;
+        ThrowHelper.ThrowIfNull(ribbonGallery);
+        GroupGallery = ribbonGallery;
+        ThrowHelper.ThrowIfNull(needPaint);
+        _needPaint = needPaint;
         _currentSize = GroupGallery.ItemSizeCurrent;
 
         // Create the button view used in small setting

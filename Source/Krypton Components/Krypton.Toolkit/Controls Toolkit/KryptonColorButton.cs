@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -1445,7 +1445,7 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
 
     private void OnKryptonContextMenuClosed(object? sender, EventArgs e)
     {
-        var kcm = sender as KryptonContextMenu ?? throw new ArgumentNullException(nameof(sender));
+        var kcm =sender as KryptonContextMenu ?? ThrowHelper.ThrowArgumentNullException<KryptonContextMenu>(nameof(sender));
         kcm.Closed -= OnKryptonContextMenuClosed;
         ContextMenuClosed();
 

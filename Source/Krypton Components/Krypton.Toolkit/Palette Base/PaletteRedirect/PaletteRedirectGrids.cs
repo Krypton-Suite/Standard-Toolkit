@@ -32,7 +32,8 @@ public class PaletteRedirectGrids : PaletteRedirect
     {
         Debug.Assert(grid is not null);
 
-        _grid = grid ?? throw new ArgumentNullException(nameof(grid));
+        ThrowHelper.ThrowIfNull(grid);
+        _grid = grid;
     }
     #endregion
 

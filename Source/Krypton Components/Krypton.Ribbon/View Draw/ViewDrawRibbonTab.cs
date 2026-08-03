@@ -405,7 +405,7 @@ internal class ViewDrawRibbonTab : ViewComposite,
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // Ensure that child elements have correct palette state

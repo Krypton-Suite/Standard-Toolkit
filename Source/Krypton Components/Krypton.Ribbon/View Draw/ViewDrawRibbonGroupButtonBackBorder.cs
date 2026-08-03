@@ -71,9 +71,12 @@ internal class ViewDrawRibbonGroupButtonBackBorder : ViewComposite
         Debug.Assert(paletteBorder != null);
 
         // Remember incoming references
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        GroupItem = groupItem ?? throw new ArgumentNullException(nameof(groupItem));
-        _paletteBack = paletteBack ?? throw new ArgumentNullException(nameof(paletteBack));
+        ThrowHelper.ThrowIfNull(ribbon);
+        _ribbon = ribbon;
+        ThrowHelper.ThrowIfNull(groupItem);
+        GroupItem = groupItem;
+        ThrowHelper.ThrowIfNull(paletteBack);
+        _paletteBack = paletteBack;
             
         _paletteBackDraw = new PaletteBackInheritForced(paletteBack)
         {
@@ -84,7 +87,8 @@ internal class ViewDrawRibbonGroupButtonBackBorder : ViewComposite
         _paletteBorderAll = new PaletteBorderInheritForced(paletteBorder);
         _paletteBorderAll.ForceBorderEdges(PaletteDrawBorders.All);
 
-        _paletteBorder = paletteBorder ?? throw new ArgumentNullException(nameof(paletteBorder));
+        ThrowHelper.ThrowIfNull(paletteBorder);
+        _paletteBorder = paletteBorder;
         ConstantBorder = constantBorder;
 
         // Default other fields
@@ -686,7 +690,7 @@ internal class ViewDrawRibbonGroupButtonBackBorder : ViewComposite
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // Do we need to draw the background?
@@ -714,7 +718,7 @@ internal class ViewDrawRibbonGroupButtonBackBorder : ViewComposite
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // Do we need to draw the border?

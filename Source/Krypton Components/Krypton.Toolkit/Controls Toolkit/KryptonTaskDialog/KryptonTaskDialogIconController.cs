@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -122,7 +122,7 @@ public class KryptonTaskDialogIconController : IDisposable
             KryptonTaskDialogIconType.ShieldWarning     => TaskDialogImageResources.shield_exclamation_warning_multi_icon,
 
             // KryptonTaskDialogIconType.None is not an image type and will also thrown an exception.
-            _ => throw new ArgumentOutOfRangeException($"IconType {imageItem.IconType} is unknown or not an image type.")
+            _ => ThrowHelper.ThrowArgumentOutOfRangeException<Icon>($"IconType {imageItem.IconType} is unknown or not an image type.")
         };
 
         return new Icon(icon, imageItem.Size, imageItem.Size).ToBitmap();

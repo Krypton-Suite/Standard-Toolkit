@@ -202,7 +202,8 @@ public class SeparatorController : ButtonController,
     {
         Debug.Assert(source is not null);
 
-        _source = source ?? throw new ArgumentNullException(nameof(source));
+        ThrowHelper.ThrowIfNull(source);
+        _source = source;
         _splitCursors = splitCursors;
         _drawIndicator = drawIndicator;
         
@@ -402,7 +403,7 @@ public class SeparatorController : ButtonController,
         // Validate reference parameter
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         // If the user pressed the escape key
@@ -700,7 +701,8 @@ internal class SeparatorMessageFilter : IMessageFilter
     {
         Debug.Assert(controller is not null);
 
-        _controller = controller ?? throw new ArgumentNullException(nameof(controller));
+        ThrowHelper.ThrowIfNull(controller);
+        _controller = controller;
     }
     #endregion
 

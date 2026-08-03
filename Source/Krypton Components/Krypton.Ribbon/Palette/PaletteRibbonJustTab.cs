@@ -36,11 +36,12 @@ public class PaletteRibbonJustTab : Storage
 
         if (inherit is null)
         {
-            throw new ArgumentNullException(nameof(inherit));
+            ThrowHelper.ThrowArgumentNullException(nameof(inherit));
         }
 
         // Store the provided paint notification delegate
-        NeedPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        ThrowHelper.ThrowIfNull(needPaint);
+        NeedPaint = needPaint;
 
         // Create storage that maps onto the inherit instances
         _ribbonTab = new PaletteRibbonDouble(inherit.RibbonTab, inherit.RibbonTab, needPaint);

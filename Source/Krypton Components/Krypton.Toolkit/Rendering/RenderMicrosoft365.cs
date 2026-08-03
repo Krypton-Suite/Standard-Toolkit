@@ -68,7 +68,7 @@ public class RenderMicrosoft365 : RenderOffice2010
         // Validate passed parameter
         if (colourPalette == null)
         {
-            throw new ArgumentNullException(nameof(colourPalette));
+            ThrowHelper.ThrowArgumentNullException(nameof(colourPalette));
         }
 
         var renderer = new KryptonMicrosoft365Renderer(colourPalette.ColorTable)

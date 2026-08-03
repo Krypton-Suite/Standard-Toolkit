@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -42,7 +42,8 @@ public class MruSaveFileMenuItemValues : Storage
     /// <param name="owner">Owning MRU save-file menu item.</param>
     public MruSaveFileMenuItemValues(KryptonMRUSaveFileMenuItem owner)
     {
-        _ = owner ?? throw new ArgumentNullException(nameof(owner));
+        ThrowHelper.ThrowIfNull(owner);
+        _ = owner;
     }
 
     /// <inheritdoc />

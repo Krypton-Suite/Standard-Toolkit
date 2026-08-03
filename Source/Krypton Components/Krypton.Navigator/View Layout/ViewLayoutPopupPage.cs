@@ -34,8 +34,10 @@ internal class ViewLayoutPopupPage : ViewLayoutNull
         Debug.Assert(navigator is not null);
         Debug.Assert(page is not null);
 
-        _navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
-        _page = page ?? throw new ArgumentNullException(nameof(page));
+        ThrowHelper.ThrowIfNull(navigator);
+        _navigator = navigator;
+        ThrowHelper.ThrowIfNull(page);
+        _page = page;
     }
 
     /// <summary>
@@ -59,7 +61,7 @@ internal class ViewLayoutPopupPage : ViewLayoutNull
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         return _page.GetPreferredSize(context.DisplayRectangle.Size);
@@ -75,7 +77,7 @@ internal class ViewLayoutPopupPage : ViewLayoutNull
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
             
         // We take on all the available display area

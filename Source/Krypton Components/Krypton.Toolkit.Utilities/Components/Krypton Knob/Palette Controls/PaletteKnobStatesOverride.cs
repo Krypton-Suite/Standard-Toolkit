@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -31,12 +31,12 @@ public class PaletteKnobStatesOverride : GlobalId
 
         if (normalStates == null)
         {
-            throw new ArgumentNullException(nameof(normalStates));
+            ThrowHelper.ThrowArgumentNullException(nameof(normalStates));
         }
 
         if (overrideStates == null)
         {
-            throw new ArgumentNullException(nameof(overrideStates));
+            ThrowHelper.ThrowArgumentNullException(nameof(overrideStates));
         }
 
         Back = normalStates.Back;

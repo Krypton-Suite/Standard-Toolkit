@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -1655,7 +1655,7 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
     private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
     {
         // Unhook events from the specific instance that generated event
-        var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
+        var popupToolTip =sender as VisualPopupToolTip ?? ThrowHelper.ThrowArgumentNullException<VisualPopupToolTip>(nameof(sender));
         popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
         // Not showing a popup page anymore

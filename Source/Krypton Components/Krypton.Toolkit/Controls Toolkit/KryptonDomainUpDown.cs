@@ -2172,7 +2172,7 @@ public class KryptonDomainUpDown : VisualControlBase,
     private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
     {
         // Unhook events from the specific instance that generated event
-        var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
+        var popupToolTip =sender as VisualPopupToolTip ?? ThrowHelper.ThrowArgumentNullException<VisualPopupToolTip>(nameof(sender));
         popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
         // Not showing a popup page any more

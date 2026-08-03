@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -575,7 +575,7 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
 
         if (_navigator == null)
         {
-            throw new InvalidOperationException(@"SaveLayout requires Navigator or Workspace to be assigned.");
+            ThrowHelper.ThrowInvalidOperationException(@"SaveLayout requires Navigator or Workspace to be assigned.");
         }
 
         NavigatorTabGroupLayoutSerializer.SaveNavigatorLayout(xmlWriter, _navigator, _tabGroups);
@@ -642,7 +642,7 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
 
         if (_navigator == null)
         {
-            throw new InvalidOperationException(@"LoadLayout requires Navigator or Workspace to be assigned.");
+            ThrowHelper.ThrowInvalidOperationException(@"LoadLayout requires Navigator or Workspace to be assigned.");
         }
 
         NavigatorTabGroupLayoutSerializer.LoadNavigatorLayout(xmlReader, _navigator, _tabGroups);
@@ -679,7 +679,7 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
     {
         if (page == null)
         {
-            throw new ArgumentNullException(nameof(page));
+            ThrowHelper.ThrowArgumentNullException(nameof(page));
         }
 
         if (string.IsNullOrEmpty(groupId))
@@ -690,7 +690,7 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
 
         if (_tabGroups[groupId] == null)
         {
-            throw new ArgumentException(@"Group id was not found in TabGroups.", nameof(groupId));
+            ThrowHelper.ThrowArgumentException(@"Group id was not found in TabGroups.", nameof(groupId));
         }
 
         page.TabGroupId = groupId;
@@ -712,7 +712,7 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
     {
         if (page == null)
         {
-            throw new ArgumentNullException(nameof(page));
+            ThrowHelper.ThrowArgumentNullException(nameof(page));
         }
 
         if (string.IsNullOrEmpty(page.TabGroupId))
@@ -732,7 +732,7 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
     {
         if (source == null)
         {
-            throw new ArgumentNullException(nameof(source));
+            ThrowHelper.ThrowArgumentNullException(nameof(source));
         }
 
         _tabGroups.CopyFrom(source);

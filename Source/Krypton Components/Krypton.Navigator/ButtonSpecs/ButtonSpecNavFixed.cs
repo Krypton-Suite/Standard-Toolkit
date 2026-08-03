@@ -35,7 +35,8 @@ public abstract class ButtonSpecNavFixed : ButtonSpec
         Debug.Assert(navigator != null);
 
         // Remember back reference to owning navigator.
-        Navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
+        ThrowHelper.ThrowIfNull(navigator);
+        Navigator = navigator;
 
         // Fix the type
         ProtectedType = fixedStyle;

@@ -79,9 +79,12 @@ internal class ViewDrawRibbonGroup : ViewComposite,
         Debug.Assert(needPaint is not null);
 
         // Cache source of state specific settings
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        _ribbonGroup = ribbonGroup ?? throw new ArgumentNullException(nameof(ribbonGroup));
-        _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        ThrowHelper.ThrowIfNull(ribbon);
+        _ribbon = ribbon;
+        ThrowHelper.ThrowIfNull(ribbonGroup);
+        _ribbonGroup = ribbonGroup;
+        ThrowHelper.ThrowIfNull(needPaint);
+        _needPaint = needPaint;
 
         // Associate this view with the source component (required for design time selection)
         Component = _ribbonGroup;
@@ -255,7 +258,7 @@ internal class ViewDrawRibbonGroup : ViewComposite,
 
         if (current is null)
         {
-            throw new ArgumentNullException(nameof(current));
+            ThrowHelper.ThrowArgumentNullException(nameof(current));
         }
 
         if (Collapsed)
@@ -291,7 +294,7 @@ internal class ViewDrawRibbonGroup : ViewComposite,
 
         if (current is null)
         {
-            throw new ArgumentNullException(nameof(current));
+            ThrowHelper.ThrowArgumentNullException(nameof(current));
         }
 
         if (Collapsed)
@@ -704,7 +707,7 @@ internal class ViewDrawRibbonGroup : ViewComposite,
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         Rectangle drawRect = ClientRectangle;
@@ -793,7 +796,7 @@ internal class ViewDrawRibbonGroup : ViewComposite,
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         Rectangle drawRect = ClientRectangle;
@@ -856,7 +859,7 @@ internal class ViewDrawRibbonGroup : ViewComposite,
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         switch (_lastRibbonShape)

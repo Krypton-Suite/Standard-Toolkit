@@ -433,13 +433,13 @@ public class VScrollSkin : Panel
 
     private void VerticalScrollBar_VisibleChanged(object? sender, EventArgs e)
     {
-        var vscroll = sender as VScrollBar ?? throw new ArgumentNullException(nameof(sender));
+        var vscroll =sender as VScrollBar ?? ThrowHelper.ThrowArgumentNullException<VScrollBar>(nameof(sender));
         _vScrollBar1.Visible = vscroll.Visible;
     }
 
     private void HorizontalScrollBar_VisibleChanged(object? sender, EventArgs e)
     {
-        var hscroll = sender as HScrollBar ?? throw new ArgumentNullException(nameof(sender));
+        var hscroll =sender as HScrollBar ?? ThrowHelper.ThrowArgumentNullException<HScrollBar>(nameof(sender));
         _hScrollBar1.Visible = hscroll.Visible;
     }
 

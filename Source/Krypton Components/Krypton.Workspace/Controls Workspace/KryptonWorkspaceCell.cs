@@ -461,7 +461,7 @@ public class KryptonWorkspaceCell : KryptonNavigator,
                 // Read the next Element
                 if (!xmlReader.Read())
                 {
-                    throw new ArgumentException(@"An element was expected but could not be read in.");
+                    ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.");
                 }
 
                 // Is this the end of the cell
@@ -478,7 +478,7 @@ public class KryptonWorkspaceCell : KryptonNavigator,
 
                     if (xmlReader.Name != @"CPD")
                     {
-                        throw new ArgumentException(@"Expected 'CPD' element was not found");
+                        ThrowHelper.ThrowArgumentException(@"Expected 'CPD' element was not found");
                     }
 
                     var finished = xmlReader.IsEmptyElement;
@@ -501,7 +501,7 @@ public class KryptonWorkspaceCell : KryptonNavigator,
                         {
                             if (!xmlReader.Read())
                             {
-                                throw new ArgumentException(@"An element was expected but could not be read in.");
+                                ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.");
                             }
                         }
                     }
@@ -509,13 +509,13 @@ public class KryptonWorkspaceCell : KryptonNavigator,
                     // Read past the end of page element                    
                     if (!xmlReader.Read())
                     {
-                        throw new ArgumentException(@"An element was expected but could not be read in.");
+                        ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.");
                     }
 
                     // Check it has the expected name
                     if (xmlReader.NodeType != XmlNodeType.EndElement)
                     {
-                        throw new ArgumentException(@"End of 'KP' element expected but missing.");
+                        ThrowHelper.ThrowArgumentException(@"End of 'KP' element expected but missing.");
                     }
 
                     // PageLoading event might have nulled the page value to prevent it being added
@@ -536,7 +536,7 @@ public class KryptonWorkspaceCell : KryptonNavigator,
                 }
                 else
                 {
-                    throw new ArgumentException(@"Unknown element was encountered.");
+                    ThrowHelper.ThrowArgumentException(@"Unknown element was encountered.");
                 }
             }
             while (true);

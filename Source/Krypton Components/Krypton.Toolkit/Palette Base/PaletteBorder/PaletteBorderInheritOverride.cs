@@ -36,8 +36,8 @@ public class PaletteBorderInheritOverride : PaletteBorderInherit
         Debug.Assert(backup != null);
 
         // Store incoming alternatives
-        _primary = primary ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(primary)));
-        _backup = backup ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(backup)));
+        _primary =primary ?? ThrowHelper.ThrowNullReferenceException<IPaletteBorder>(SharedStaticFunctions.VariableCannotBeNull(nameof(primary)));
+        _backup =backup ?? ThrowHelper.ThrowNullReferenceException<IPaletteBorder>(SharedStaticFunctions.VariableCannotBeNull(nameof(backup)));
 
         // Default other state
         Apply = true;

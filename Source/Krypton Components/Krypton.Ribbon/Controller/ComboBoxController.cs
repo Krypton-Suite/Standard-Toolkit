@@ -153,12 +153,12 @@ internal class ComboBoxController : GlobalId,
 
         if (ribbon is null)
         {
-            throw new ArgumentNullException(nameof(ribbon));
+            ThrowHelper.ThrowArgumentNullException(nameof(ribbon));
         }
 
         if (ribbon.TabsArea is null)
         {
-            throw new NullReferenceException(SharedStaticFunctions.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
         }
 
         switch (e.KeyData)

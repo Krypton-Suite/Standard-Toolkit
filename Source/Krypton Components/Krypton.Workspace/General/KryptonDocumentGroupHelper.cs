@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -28,7 +28,7 @@ public static class KryptonDocumentGroupHelper
     {
         if (workspace == null)
         {
-            throw new ArgumentNullException(nameof(workspace));
+            ThrowHelper.ThrowArgumentNullException(nameof(workspace));
         }
 
         KryptonWorkspaceCell? active = workspace.ActiveCell;
@@ -55,12 +55,12 @@ public static class KryptonDocumentGroupHelper
     {
         if (workspace == null)
         {
-            throw new ArgumentNullException(nameof(workspace));
+            ThrowHelper.ThrowArgumentNullException(nameof(workspace));
         }
 
         if (page == null)
         {
-            throw new ArgumentNullException(nameof(page));
+            ThrowHelper.ThrowArgumentNullException(nameof(page));
         }
 
         KryptonWorkspaceCell? source = FindCellContainingPage(workspace, page);
@@ -79,7 +79,7 @@ public static class KryptonDocumentGroupHelper
     {
         if (workspace == null)
         {
-            throw new ArgumentNullException(nameof(workspace));
+            ThrowHelper.ThrowArgumentNullException(nameof(workspace));
         }
 
         var cells = new List<KryptonWorkspaceCell>();

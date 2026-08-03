@@ -76,9 +76,12 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
         Debug.Assert(needPaint is not null);
 
         // Cache references
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        _ribbonLines = ribbonLines ?? throw new ArgumentNullException(nameof(ribbonLines));
-        _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        ThrowHelper.ThrowIfNull(ribbon);
+        _ribbon = ribbon;
+        ThrowHelper.ThrowIfNull(ribbonLines);
+        _ribbonLines = ribbonLines;
+        ThrowHelper.ThrowIfNull(needPaint);
+        _needPaint = needPaint;
 
         // Associate the component with this view element for design time selection
         Component = _ribbonLines;

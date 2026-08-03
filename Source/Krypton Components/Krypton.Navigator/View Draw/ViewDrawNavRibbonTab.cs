@@ -71,8 +71,10 @@ internal class ViewDrawNavRibbonTab : ViewComposite,
         Debug.Assert(navigator is not null);
         Debug.Assert(page is not null);
 
-        Navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
-        Page = page ?? throw new ArgumentNullException(nameof(page));
+        ThrowHelper.ThrowIfNull(navigator);
+        Navigator = navigator;
+        ThrowHelper.ThrowIfNull(page);
+        Page = page;
         _lastClick = DateTime.Now.AddDays(-1);
 
         // Associate the page component with this view element
@@ -340,7 +342,7 @@ internal class ViewDrawNavRibbonTab : ViewComposite,
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // Ensure we are using the correct palette

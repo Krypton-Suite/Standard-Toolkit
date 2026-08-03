@@ -717,7 +717,7 @@ public partial class VisualRTLMessageBoxExtendedForm : KryptonForm
             ExtendedMessageBoxButtons.OK => _button2,
             ExtendedMessageBoxButtons.OKCancel or ExtendedMessageBoxButtons.YesNo or ExtendedMessageBoxButtons.RetryCancel => _button3,
             ExtendedMessageBoxButtons.AbortRetryIgnore or ExtendedMessageBoxButtons.YesNoCancel => _button4,
-            _ => throw new ArgumentOutOfRangeException()
+            _ => ThrowHelper.ThrowArgumentOutOfRangeException<MessageButton>()
         };
         if (helpButton != null)
         {
@@ -1106,7 +1106,7 @@ public partial class VisualRTLMessageBoxExtendedForm : KryptonForm
     {
         if (_hHook != IntPtr.Zero)
         {
-            throw new NotSupportedException("multiple calls are not supported");
+            ThrowHelper.ThrowNotSupportedException("multiple calls are not supported");
         }
 
         if (_showOwner != null)

@@ -34,13 +34,13 @@ namespace System.Diagnostics.CodeAnalysis;
 
     /// <summary>Applied to a method that will never return under any circumstance.</summary>
     [AttributeUsage(AttributeTargets.Method, Inherited = false)]
-    internal sealed class DoesNotReturnAttribute : Attribute
+    public sealed class DoesNotReturnAttribute : Attribute
     {
     }
 
     /// <summary>Specifies that the method will not return if the associated Boolean parameter has the specified value.</summary>
     [AttributeUsage(AttributeTargets.Parameter, Inherited = false)]
-    internal sealed class DoesNotReturnIfAttribute : Attribute
+    public sealed class DoesNotReturnIfAttribute : Attribute
     {
         /// <summary>Initializes a new instance of the <see cref="DoesNotReturnIfAttribute"/> class.</summary>
         /// <param name="parameterValue">The condition parameter value that triggers an early exit / no return.</param>

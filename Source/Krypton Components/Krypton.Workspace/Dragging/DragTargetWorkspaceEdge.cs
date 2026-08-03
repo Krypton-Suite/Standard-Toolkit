@@ -53,7 +53,8 @@ public class DragTargetWorkspaceEdge : DragTargetWorkspace
                 break;
             default:
                 Debug.Assert(false);
-                throw new ArgumentOutOfRangeException(nameof(hint), @"Hint must be an edge value.");
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(hint), @"Hint must be an edge value.");
+                return;
         }
     }
     #endregion
@@ -74,7 +75,7 @@ public class DragTargetWorkspaceEdge : DragTargetWorkspace
     {
         if (Workspace is null)
         {
-            throw new ArgumentNullException(nameof(Workspace));
+            ThrowHelper.ThrowArgumentNullException(nameof(Workspace));
         }
 
         // Transfer the dragged pages into a new cell

@@ -26,7 +26,7 @@ public class BiDictionary<TFirst, TSecond> where TFirst : notnull where TSecond 
     {
         if (dictionary == null)
         {
-            throw new ArgumentNullException(nameof(dictionary));
+            ThrowHelper.ThrowArgumentNullException(nameof(dictionary));
         }
 
         foreach (KeyValuePair<TFirst, TSecond> keyValuePair in dictionary)

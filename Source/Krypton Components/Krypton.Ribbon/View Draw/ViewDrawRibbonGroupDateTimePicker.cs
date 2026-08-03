@@ -45,9 +45,11 @@ internal class ViewDrawRibbonGroupDateTimePicker : ViewComposite,
         Debug.Assert(needPaint is not null);
 
         // Remember incoming references
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+        ThrowHelper.ThrowIfNull(ribbon);
+        _ribbon = ribbon;
         GroupDateTimePicker = ribbonDateTimePicker ?? throw new (nameof(ribbonDateTimePicker));
-        _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        ThrowHelper.ThrowIfNull(needPaint);
+        _needPaint = needPaint;
         _currentSize = GroupDateTimePicker.ItemSizeCurrent;
 
         // Hook into the date time picker events

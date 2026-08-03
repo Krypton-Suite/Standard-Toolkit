@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -34,8 +34,11 @@ public class SliderHostValues : Storage
     /// Initialize a new instance of the <see cref="SliderHostValues"/> class.
     /// </summary>
     /// <param name="owner">Owning slider host.</param>
-    public SliderHostValues(KryptonSlider owner) =>
-        _owner = owner ?? throw new ArgumentNullException(nameof(owner));
+    public SliderHostValues(KryptonSlider owner)
+    {
+        ThrowHelper.ThrowIfNull(owner);
+        _owner = owner;
+    }
 
     /// <inheritdoc />
     public override string ToString() => !IsDefault ? @"Modified" : string.Empty;

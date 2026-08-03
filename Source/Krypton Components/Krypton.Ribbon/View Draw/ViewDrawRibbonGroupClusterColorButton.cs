@@ -52,9 +52,12 @@ internal class ViewDrawRibbonGroupClusterColorButton : ViewComposite,
         Debug.Assert(needPaint is not null);
 
         // Remember incoming references
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon ));
-        GroupClusterColorButton = ribbonButton ?? throw new ArgumentNullException(nameof(ribbonButton));
-        _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        ThrowHelper.ThrowIfNull(ribbon);
+        _ribbon = ribbon;
+        ThrowHelper.ThrowIfNull(ribbonButton);
+        GroupClusterColorButton = ribbonButton;
+        ThrowHelper.ThrowIfNull(needPaint);
+        _needPaint = needPaint;
         _currentSize = GroupClusterColorButton.ItemSizeCurrent;
 
         // Associate this view with the source component (required for design time selection)

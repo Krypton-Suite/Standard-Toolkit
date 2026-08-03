@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -41,8 +41,11 @@ public class SliderButtonValues : Storage
     /// Initialize a new instance of the <see cref="SliderButtonValues"/> class.
     /// </summary>
     /// <param name="owner">Owning slider button.</param>
-    public SliderButtonValues(KryptonSliderButton owner) =>
-        _owner = owner ?? throw new ArgumentNullException(nameof(owner));
+    public SliderButtonValues(KryptonSliderButton owner)
+    {
+        ThrowHelper.ThrowIfNull(owner);
+        _owner = owner;
+    }
 
     /// <inheritdoc />
     public override string ToString() => !IsDefault ? @"Modified" : string.Empty;

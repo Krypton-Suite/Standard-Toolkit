@@ -38,8 +38,10 @@ internal class QATButtonToolTipToContent : IContentValues
         Debug.Assert(qatButton is not null);
         Debug.Assert(ribbon is not null);
 
-        _qatButton = qatButton ?? throw new ArgumentNullException(nameof(qatButton));
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+        ThrowHelper.ThrowIfNull(qatButton);
+        _qatButton = qatButton;
+        ThrowHelper.ThrowIfNull(ribbon);
+        _ribbon = ribbon;
     }
     #endregion
 

@@ -89,9 +89,12 @@ internal abstract class ViewBuilderBase
         Debug.Assert(_constructed == false);
 
         // Save provided references
-        Navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
-        ViewManager = manager ?? throw new ArgumentNullException(nameof(manager));
-        Redirector = redirector ?? throw new ArgumentNullException(nameof(redirector));
+        ThrowHelper.ThrowIfNull(navigator);
+        Navigator = navigator;
+        ThrowHelper.ThrowIfNull(manager);
+        ViewManager = manager;
+        ThrowHelper.ThrowIfNull(redirector);
+        Redirector = redirector;
         _constructed = true;
 
         // Hook into the navigator events

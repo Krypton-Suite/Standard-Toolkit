@@ -46,8 +46,10 @@ internal class ViewDrawRibbonGroupClusterColorButtonText : ViewLeaf,
         Debug.Assert(ribbon != null);
         Debug.Assert(ribbonColorButton != null);
 
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        _ribbonColorButton = ribbonColorButton ?? throw new ArgumentNullException(nameof(ribbonColorButton));
+        ThrowHelper.ThrowIfNull(ribbon);
+        _ribbon = ribbon;
+        ThrowHelper.ThrowIfNull(ribbonColorButton);
+        _ribbonColorButton = ribbonColorButton;
 
         // Use a class to convert from ribbon group to content interface
         _contentProvider = new RibbonGroupNormalDisabledTextToContent(ribbon.StateCommon.RibbonGeneral,
@@ -107,7 +109,7 @@ internal class ViewDrawRibbonGroupClusterColorButtonText : ViewLeaf,
         // Validate incoming reference
         if (context!.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // A change in state always causes a size and layout calculation
@@ -152,12 +154,12 @@ internal class ViewDrawRibbonGroupClusterColorButtonText : ViewLeaf,
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // We take on all the available display area
@@ -209,7 +211,7 @@ internal class ViewDrawRibbonGroupClusterColorButtonText : ViewLeaf,
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         Rectangle drawRect = ClientRectangle;

@@ -163,9 +163,9 @@ public abstract class ViewLeaf : ViewBase
     /// <returns>ViewBase at specified index.</returns>
     public override ViewBase this[int index]
     {
-        get => throw new ArgumentOutOfRangeException(nameof(index));
+        get => ThrowHelper.ThrowArgumentOutOfRangeException<ViewBase>(nameof(index));
 
-        set => throw new ArgumentOutOfRangeException(nameof(index));
+        set => ThrowHelper.ThrowArgumentOutOfRangeException<ViewBase>(nameof(index));
     }
 
     /// <summary>

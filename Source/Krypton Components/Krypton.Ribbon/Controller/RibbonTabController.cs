@@ -58,11 +58,14 @@ internal class RibbonTabController : GlobalId,
         Debug.Assert(target is not null);
 
         // Remember incoming references
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        _target = target ?? throw new ArgumentNullException(nameof(target));
+        ThrowHelper.ThrowIfNull(ribbon);
+        _ribbon = ribbon;
+        ThrowHelper.ThrowIfNull(target);
+        _target = target;
 
         // Store the provided paint notification delegate
-        NeedPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        ThrowHelper.ThrowIfNull(needPaint);
+        NeedPaint = needPaint;
     }
     #endregion
 
@@ -229,7 +232,7 @@ internal class RibbonTabController : GlobalId,
 
         if (_ribbon.TabsArea is null)
         {
-            throw new NullReferenceException(SharedStaticFunctions.PropertyCannotBeNull(nameof(_ribbon.TabsArea)));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.PropertyCannotBeNull(nameof(_ribbon.TabsArea)));
         }
 
         // When there is no selected tab then tab and shift+tab become right and left

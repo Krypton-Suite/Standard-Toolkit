@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -23,7 +23,7 @@ public static class NavigatorTabGroupBarAccent
     {
         if (page == null)
         {
-            throw new ArgumentNullException(nameof(page));
+            ThrowHelper.ThrowArgumentNullException(nameof(page));
         }
 
         if (group == null || group.Color.IsEmpty)
@@ -54,7 +54,7 @@ public static class NavigatorTabGroupBarAccent
     {
         if (page == null)
         {
-            throw new ArgumentNullException(nameof(page));
+            ThrowHelper.ThrowArgumentNullException(nameof(page));
         }
 
         ResetBorder(page.StateNormal.Tab);
@@ -72,12 +72,12 @@ public static class NavigatorTabGroupBarAccent
     {
         if (navigator == null)
         {
-            throw new ArgumentNullException(nameof(navigator));
+            ThrowHelper.ThrowArgumentNullException(nameof(navigator));
         }
 
         if (groups == null)
         {
-            throw new ArgumentNullException(nameof(groups));
+            ThrowHelper.ThrowArgumentNullException(nameof(groups));
         }
 
         foreach (KryptonPage page in navigator.Pages)
@@ -95,12 +95,12 @@ public static class NavigatorTabGroupBarAccent
     {
         if (workspace == null)
         {
-            throw new ArgumentNullException(nameof(workspace));
+            ThrowHelper.ThrowArgumentNullException(nameof(workspace));
         }
 
         if (groups == null)
         {
-            throw new ArgumentNullException(nameof(groups));
+            ThrowHelper.ThrowArgumentNullException(nameof(groups));
         }
 
         for (Krypton.Workspace.KryptonWorkspaceCell? cell = workspace.FirstCell();

@@ -54,8 +54,11 @@ public class ToolStripLabelExtendedValues : Storage
     /// Initialize a new instance of the <see cref="ToolStripLabelExtendedValues"/> class.
     /// </summary>
     /// <param name="owner">Owning extended label.</param>
-    public ToolStripLabelExtendedValues(KryptonToolStripLabelExtended owner) =>
-        _owner = owner ?? throw new ArgumentNullException(nameof(owner));
+    public ToolStripLabelExtendedValues(KryptonToolStripLabelExtended owner)
+    {
+        ThrowHelper.ThrowIfNull(owner);
+        _owner = owner;
+    }
 
     /// <inheritdoc />
     public override string ToString() => !IsDefault ? @"Modified" : string.Empty;

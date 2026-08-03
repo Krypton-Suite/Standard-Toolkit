@@ -36,7 +36,8 @@ internal class ViewLayoutPageHide : ViewLayoutNull
         Debug.Assert(navigator is not null);
 
         // Remember back reference
-        _navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
+        ThrowHelper.ThrowIfNull(navigator);
+        _navigator = navigator;
     }
 
     /// <summary>
@@ -70,7 +71,7 @@ internal class ViewLayoutPageHide : ViewLayoutNull
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // We take on all the available display area

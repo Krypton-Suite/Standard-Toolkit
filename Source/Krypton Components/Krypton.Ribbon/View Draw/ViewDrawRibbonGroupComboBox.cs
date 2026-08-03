@@ -45,9 +45,12 @@ internal class ViewDrawRibbonGroupComboBox : ViewComposite,
         Debug.Assert(needPaint is not null);
 
         // Remember incoming references
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        GroupComboBox = ribbonComboBox ?? throw new ArgumentNullException(nameof(ribbonComboBox));
-        _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        ThrowHelper.ThrowIfNull(ribbon);
+        _ribbon = ribbon;
+        ThrowHelper.ThrowIfNull(ribbonComboBox);
+        GroupComboBox = ribbonComboBox;
+        ThrowHelper.ThrowIfNull(needPaint);
+        _needPaint = needPaint;
         _currentSize = GroupComboBox.ItemSizeCurrent;
 
         // Hook into the combobox events

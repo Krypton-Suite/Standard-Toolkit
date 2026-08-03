@@ -43,12 +43,12 @@ public class PaletteGalleryRedirect : PaletteMetricRedirect
 
         if (redirect is null)
         {
-            throw new ArgumentNullException(nameof(redirect));
+            ThrowHelper.ThrowArgumentNullException(nameof(redirect));
         }
 
         if (needPaint is null)
         {
-            throw new ArgumentNullException(nameof(needPaint));
+            ThrowHelper.ThrowArgumentNullException(nameof(needPaint));
         }
 
         // Store the provided paint notification delegate

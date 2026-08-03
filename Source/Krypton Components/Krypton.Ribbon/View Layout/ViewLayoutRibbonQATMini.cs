@@ -41,11 +41,12 @@ internal class ViewLayoutRibbonQATMini : ViewLayoutDocker
     {
         Debug.Assert(ribbon is not null);
             
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+        ThrowHelper.ThrowIfNull(ribbon);
+        _ribbon = ribbon;
 
         if (needPaintDelegate is null)
         {
-            throw new ArgumentNullException(nameof(needPaintDelegate));
+            ThrowHelper.ThrowArgumentNullException(nameof(needPaintDelegate));
         }
 
         SEP_GAP = (int)(2 * FactorDpiX);

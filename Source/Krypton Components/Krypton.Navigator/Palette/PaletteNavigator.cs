@@ -68,7 +68,7 @@ public class PaletteNavigator : PaletteDoubleMetric
     {
         if ( inheritNavigator is null)
         {
-            throw new ArgumentNullException(nameof(inheritNavigator));
+            ThrowHelper.ThrowArgumentNullException(nameof(inheritNavigator));
         }
         // Setup inheritance references for storage objects
         base.SetInherit(inheritNavigator);

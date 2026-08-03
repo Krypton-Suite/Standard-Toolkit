@@ -43,9 +43,12 @@ internal class RichTextBoxController : GlobalId,
         Debug.Assert(richTextBox is not null);
         Debug.Assert(target is not null);
 
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        _richTextBox = richTextBox ?? throw new ArgumentNullException(nameof(richTextBox));
-        _target = target ?? throw new ArgumentNullException(nameof(target));
+        ThrowHelper.ThrowIfNull(ribbon);
+        _ribbon = ribbon;
+        ThrowHelper.ThrowIfNull(richTextBox);
+        _richTextBox = richTextBox;
+        ThrowHelper.ThrowIfNull(target);
+        _target = target;
     }
     #endregion
 
@@ -157,12 +160,12 @@ internal class RichTextBoxController : GlobalId,
 
         if (ribbon is null)
         {
-            throw new NullReferenceException(SharedStaticFunctions.ParameterCannotBeNull(nameof(ribbon)));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.ParameterCannotBeNull(nameof(ribbon)));
         }
 
         if (ribbon.TabsArea is null)
         {
-            throw new NullReferenceException(SharedStaticFunctions.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
         }
 
         switch (e.KeyData)

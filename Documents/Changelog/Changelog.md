@@ -46,7 +46,8 @@
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
 * Implemented [#4142](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4142), Use `ThrowHelper`
-   * Shared `ThrowHelper` in `Krypton.Interop` for cold-path argument and null throws (`[DoesNotReturn]`).
+   * Shared `ThrowHelper` in `Krypton.Interop` for cold-path throws (`[DoesNotReturn]`), including Argument*, NRE, NotSupported, NotImplemented, ObjectDisposed, InvalidCast, and Win32.
+   * Rolled out across Toolkit, Ribbon, Navigator, Workspace, Docking, Utilities, Interop, and TestForm.
 * Implemented [#4135](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4135), **[Breaking Change]** Move all `Global*` classes into `Krypton.Interop`
    * Toolkit specific constant values and variables are now stored in `ToolkitStaticConstants` and `ToolkitGlobalVariables` in the `Krypton.Toolkit` namespace
    * Libary wide constant values, functions and variables are now stored in `SharedStaticConstants`, `SharedStaticFunctions` and `SharedGlobalVariables` in the `Krypton.Interop` namespace

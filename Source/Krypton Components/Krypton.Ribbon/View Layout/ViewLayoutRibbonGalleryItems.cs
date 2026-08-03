@@ -72,14 +72,19 @@ internal class ViewLayoutRibbonGalleryItems : ViewComposite
 
         if (palette is null)
         {
-            throw new ArgumentNullException(nameof(palette));
+            ThrowHelper.ThrowArgumentNullException(nameof(palette));
         }
 
-        _gallery = gallery ?? throw new ArgumentNullException(nameof(gallery));
-        _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
-        _buttonUp = buttonUp ?? throw new ArgumentNullException(nameof(buttonUp));
-        _buttonDown = buttonDown ?? throw new ArgumentNullException(nameof(buttonDown));
-        _buttonContext = buttonContext ?? throw new ArgumentNullException(nameof(buttonContext));
+        ThrowHelper.ThrowIfNull(gallery);
+        _gallery = gallery;
+        ThrowHelper.ThrowIfNull(needPaint);
+        _needPaint = needPaint;
+        ThrowHelper.ThrowIfNull(buttonUp);
+        _buttonUp = buttonUp;
+        ThrowHelper.ThrowIfNull(buttonDown);
+        _buttonDown = buttonDown;
+        ThrowHelper.ThrowIfNull(buttonContext);
+        _buttonContext = buttonContext;
         _bringIntoView = -1;
         ScrollIntoView = true;
 
@@ -401,7 +406,7 @@ internal class ViewLayoutRibbonGalleryItems : ViewComposite
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // We take on all the available display area

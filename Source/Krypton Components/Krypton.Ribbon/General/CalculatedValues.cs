@@ -52,7 +52,8 @@ internal class CalculatedValues
     public CalculatedValues([DisallowNull] KryptonRibbon? ribbon)
     {
         Debug.Assert(ribbon is not null);
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+        ThrowHelper.ThrowIfNull(ribbon);
+        _ribbon = ribbon;
 
         _lastShape = PaletteRibbonShape.Inherit;
     }

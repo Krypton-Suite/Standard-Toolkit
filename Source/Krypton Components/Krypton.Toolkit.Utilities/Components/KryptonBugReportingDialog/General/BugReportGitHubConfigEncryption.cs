@@ -73,7 +73,7 @@ public static class BugReportGitHubConfigEncryption
     {
         if (config == null)
         {
-            throw new ArgumentNullException(nameof(config));
+            ThrowHelper.ThrowArgumentNullException(nameof(config));
         }
 
         var toolkitConfig = new Krypton.Toolkit.BugReportGitHubConfig

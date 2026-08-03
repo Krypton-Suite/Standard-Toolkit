@@ -45,10 +45,14 @@ internal class RibbonGroupLabelTextToContent : RibbonToContent
         Debug.Assert(ribbonLabelTextNormal is not null);
         Debug.Assert(ribbonLabelTextDisabled is not null);
 
-        _ribbonGroupTextNormal = ribbonGroupTextNormal ?? throw new ArgumentNullException(nameof(ribbonGroupTextNormal));
-        _ribbonGroupTextDisabled = ribbonGroupTextDisabled ?? throw new ArgumentNullException(nameof(ribbonGroupTextDisabled));
-        _ribbonLabelTextNormal = ribbonLabelTextNormal ?? throw new ArgumentNullException(nameof(ribbonLabelTextNormal));
-        _ribbonLabelTextDisabled = ribbonLabelTextDisabled ?? throw new ArgumentNullException(nameof(ribbonLabelTextDisabled));
+        ThrowHelper.ThrowIfNull(ribbonGroupTextNormal);
+        _ribbonGroupTextNormal = ribbonGroupTextNormal;
+        ThrowHelper.ThrowIfNull(ribbonGroupTextDisabled);
+        _ribbonGroupTextDisabled = ribbonGroupTextDisabled;
+        ThrowHelper.ThrowIfNull(ribbonLabelTextNormal);
+        _ribbonLabelTextNormal = ribbonLabelTextNormal;
+        ThrowHelper.ThrowIfNull(ribbonLabelTextDisabled);
+        _ribbonLabelTextDisabled = ribbonLabelTextDisabled;
     }
     #endregion
 

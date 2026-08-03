@@ -478,12 +478,12 @@ internal abstract class ViewBuilderOutlookBase : ViewBuilderBase,
 
         if (page is null)
         {
-            throw new ArgumentNullException(nameof(page));
+            ThrowHelper.ThrowArgumentNullException(nameof(page));
         }
 
         if (property is null)
         {
-            throw new ArgumentNullException(nameof(property));
+            ThrowHelper.ThrowArgumentNullException(nameof(property));
         }
 
         // We are only interested if the page is visible
@@ -2249,7 +2249,7 @@ internal abstract class ViewBuilderOutlookBase : ViewBuilderBase,
     private void OnCheckButtonDragRect(object? sender, ButtonDragRectangleEventArgs e)
     {
         // Cast incoming reference to the actual check button view
-        var reorderItem = sender as ViewDrawNavOutlookStack ?? throw new ArgumentNullException(nameof(sender));
+        var reorderItem =sender as ViewDrawNavOutlookStack ?? ThrowHelper.ThrowArgumentNullException<ViewDrawNavOutlookStack>(nameof(sender));
 
         e.PreDragOffset = (Navigator.AllowPageReorder && reorderItem.Page!.AreFlagsSet(KryptonPageFlags.AllowPageReorder));
         Rectangle dragRect = Rectangle.Union(e.DragRect, _viewLayout.ClientRectangle);

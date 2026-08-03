@@ -28,17 +28,17 @@ public static class ToolkitStringsXmlMerge
     {
         if (string.IsNullOrWhiteSpace(baselinePath))
         {
-            throw new ArgumentNullException(nameof(baselinePath));
+            ThrowHelper.ThrowArgumentNullException(nameof(baselinePath));
         }
 
         if (string.IsNullOrWhiteSpace(overlayPath))
         {
-            throw new ArgumentNullException(nameof(overlayPath));
+            ThrowHelper.ThrowArgumentNullException(nameof(overlayPath));
         }
 
         if (string.IsNullOrWhiteSpace(outputPath))
         {
-            throw new ArgumentNullException(nameof(outputPath));
+            ThrowHelper.ThrowArgumentNullException(nameof(outputPath));
         }
 
         var baseline = new XmlDocument();
@@ -62,12 +62,12 @@ public static class ToolkitStringsXmlMerge
     {
         if (baseline == null)
         {
-            throw new ArgumentNullException(nameof(baseline));
+            ThrowHelper.ThrowArgumentNullException(nameof(baseline));
         }
 
         if (overlay == null)
         {
-            throw new ArgumentNullException(nameof(overlay));
+            ThrowHelper.ThrowArgumentNullException(nameof(overlay));
         }
 
         // Deep-clone the baseline so the caller's document is not modified.

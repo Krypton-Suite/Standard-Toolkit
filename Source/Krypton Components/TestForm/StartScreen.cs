@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -278,7 +278,7 @@ public partial class StartScreen : KryptonForm
 
         if (!typeof(Form).IsAssignableFrom(formType))
         {
-            throw new InvalidCastException("Parameter formType is not of type Form or derived from Form.");
+            ThrowHelper.ThrowInvalidCastException("Parameter formType is not of type Form or derived from Form.");
         }
 
         button.CommandLinkTextValues.Heading = heading;
@@ -370,7 +370,7 @@ public partial class StartScreen : KryptonForm
         }
         else
         {
-            throw new NullReferenceException(nameof(propertyInfo));
+            ThrowHelper.ThrowNullReferenceException(nameof(propertyInfo));
         }
     }
 
@@ -437,7 +437,8 @@ public partial class StartScreen : KryptonForm
             }
             else
             {
-                throw new NullReferenceException($"ButtonHeadingComparer: make sure that parameter x and y both are valid references to a KryptonCommandLinkButton instance.");
+                ThrowHelper.ThrowNullReferenceException($"ButtonHeadingComparer: make sure that parameter x and y both are valid references to a KryptonCommandLinkButton instance.");
+                return 0;
             }
         }
     }

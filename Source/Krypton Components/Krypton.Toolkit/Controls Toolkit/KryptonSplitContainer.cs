@@ -321,7 +321,7 @@ public class KryptonSplitContainer : VisualControlContainment,
                 // Cannot assign a value of less than zero
                 if (value < 0)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(Panel1MinSize), @"Value cannot be less than zero");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(Panel1MinSize), @"Value cannot be less than zero");
                 }
 
                 // Use the new minimum size
@@ -425,7 +425,7 @@ public class KryptonSplitContainer : VisualControlContainment,
                 // Cannot assign a value of less than zero
                 if (value < 0)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(Panel2MinSize), @"Value cannot be less than zero");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(Panel2MinSize), @"Value cannot be less than zero");
                 }
 
                 // Use the new minimum size
@@ -665,7 +665,7 @@ public class KryptonSplitContainer : VisualControlContainment,
                 // Cannot assign a value of less than zero
                 if (value < 0)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(SplitterWidth), @"Value cannot be less than zero");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(SplitterWidth), @"Value cannot be less than zero");
                 }
 
                 // Use new width of the splitter area
@@ -705,7 +705,7 @@ public class KryptonSplitContainer : VisualControlContainment,
                 // Cannot assign a value of less than zero
                 if (value < 1)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(SplitterIncrement), @"Value cannot be less than one");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(SplitterIncrement), @"Value cannot be less than one");
                 }
 
                 // Remember new value for use when moving the splitter

@@ -43,8 +43,10 @@ internal class ViewLayoutRibbonQATFromOverflow : ViewLayoutRibbonQATContents
         Debug.Assert(parentControl is not null);
         Debug.Assert(contents is not null);
             
-        _contents = contents ?? throw new ArgumentNullException(nameof(contents));
-        ParentControl = parentControl ?? throw new ArgumentNullException(nameof(parentControl));
+        ThrowHelper.ThrowIfNull(contents);
+        _contents = contents;
+        ThrowHelper.ThrowIfNull(parentControl);
+        ParentControl = parentControl;
     }
     #endregion
 

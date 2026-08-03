@@ -61,12 +61,12 @@ public class KryptonCheckSet : Component,
 
             if (checkButton == null)
             {
-                throw new ArgumentNullException(nameof(checkButton));
+                ThrowHelper.ThrowArgumentNullException(nameof(checkButton));
             }
 
             if (Contains(checkButton))
             {
-                throw new ArgumentException(@"Reference already exists in the collection", nameof(checkButton));
+                ThrowHelper.ThrowArgumentException(@"Reference already exists in the collection", nameof(checkButton));
             }
 
             // ReSharper disable RedundantBaseQualifier
@@ -109,17 +109,17 @@ public class KryptonCheckSet : Component,
 
             if (checkButton == null)
             {
-                throw new ArgumentNullException(nameof(checkButton));
+                ThrowHelper.ThrowArgumentNullException(nameof(checkButton));
             }
 
             if ((index < 0) || (index > Count))
             {
-                throw new ArgumentOutOfRangeException(nameof(index));
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(index));
             }
 
             if (Contains(checkButton))
             {
-                throw new ArgumentException(@"Reference already in collection", nameof(checkButton));
+                ThrowHelper.ThrowArgumentException(@"Reference already in collection", nameof(checkButton));
             }
 
             // ReSharper disable RedundantBaseQualifier
@@ -139,12 +139,12 @@ public class KryptonCheckSet : Component,
 
             if (checkButton == null)
             {
-                throw new ArgumentNullException(nameof(checkButton));
+                ThrowHelper.ThrowArgumentNullException(nameof(checkButton));
             }
 
             if (!Contains(checkButton))
             {
-                throw new ArgumentException(@"No matching reference to remove", nameof(checkButton));
+                ThrowHelper.ThrowArgumentException(@"No matching reference to remove", nameof(checkButton));
             }
 
             // ReSharper disable RedundantBaseQualifier
@@ -163,7 +163,7 @@ public class KryptonCheckSet : Component,
             {
                 if ((index < 0) || (index > Count))
                 {
-                    throw new ArgumentOutOfRangeException(nameof(index));
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(index));
                 }
 
                 // ReSharper disable RedundantBaseQualifier
@@ -263,7 +263,7 @@ public class KryptonCheckSet : Component,
         // Validate reference parameter
         if (container == null)
         {
-            throw new ArgumentNullException(nameof(container));
+            ThrowHelper.ThrowArgumentNullException(nameof(container));
         }
 
         container.Add(this);
@@ -334,7 +334,7 @@ public class KryptonCheckSet : Component,
                 // Check the new target is associated with us already
                 if ((value != null) && !CheckButtons.Contains(value))
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value),
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value),
                         @"Provided value is not a KryptonCheckButton associated with this set.");
                 }
 
@@ -379,7 +379,7 @@ public class KryptonCheckSet : Component,
             // Check for a value outside of limits
             if ((value < -1) || (value >= CheckButtons.Count))
             {
-                throw new ArgumentOutOfRangeException(nameof(value));
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value));
             }
 
             // Special case the value of -1 as requesting nothing checked
@@ -475,7 +475,7 @@ public class KryptonCheckSet : Component,
         if (!_ignoreEvents)
         {
             // Cast to the correct type
-            var checkedButton = sender as KryptonCheckButton ?? throw new ArgumentNullException(nameof(sender));
+            var checkedButton =sender as KryptonCheckButton ?? ThrowHelper.ThrowArgumentNullException<KryptonCheckButton>(nameof(sender));
 
             // Prevent the checked button becoming unchecked unless AllowUncheck is defined
             e.Cancel = checkedButton.Checked && !AllowUncheck;
@@ -488,7 +488,7 @@ public class KryptonCheckSet : Component,
         if (!_ignoreEvents)
         {
             // Cast to the correct type
-            var checkedButton = sender as KryptonCheckButton ?? throw new ArgumentNullException(nameof(sender));
+            var checkedButton =sender as KryptonCheckButton ?? ThrowHelper.ThrowArgumentNullException<KryptonCheckButton>(nameof(sender));
 
             if (checkedButton.Checked)
             {

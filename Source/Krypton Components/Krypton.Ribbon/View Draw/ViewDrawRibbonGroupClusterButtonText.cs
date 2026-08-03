@@ -46,8 +46,10 @@ internal class ViewDrawRibbonGroupClusterButtonText : ViewLeaf,
         Debug.Assert(ribbon is not null);
         Debug.Assert(ribbonButton is not null);
 
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        _ribbonButton = ribbonButton ?? throw new ArgumentNullException(nameof(ribbonButton));
+        ThrowHelper.ThrowIfNull(ribbon);
+        _ribbon = ribbon;
+        ThrowHelper.ThrowIfNull(ribbonButton);
+        _ribbonButton = ribbonButton;
 
         // Use a class to convert from ribbon group to content interface
         _contentProvider = new RibbonGroupNormalDisabledTextToContent(ribbon.StateCommon.RibbonGeneral,
@@ -104,18 +106,18 @@ internal class ViewDrawRibbonGroupClusterButtonText : ViewLeaf,
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // A change in state always causes a size and layout calculation
@@ -160,12 +162,12 @@ internal class ViewDrawRibbonGroupClusterButtonText : ViewLeaf,
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // We take on all the available display area
@@ -217,7 +219,7 @@ internal class ViewDrawRibbonGroupClusterButtonText : ViewLeaf,
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         Rectangle drawRect = ClientRectangle;

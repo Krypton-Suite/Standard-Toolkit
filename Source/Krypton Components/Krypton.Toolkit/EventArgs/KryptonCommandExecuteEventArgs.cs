@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -22,7 +22,8 @@ public class KryptonCommandExecuteEventArgs : EventArgs
     /// <param name="parameter">Optional parameter from a shared command context menu item.</param>
     public KryptonCommandExecuteEventArgs(object source, object? parameter)
     {
-        Source = source ?? throw new ArgumentNullException(nameof(source));
+        ThrowHelper.ThrowIfNull(source);
+        Source = source;
         Parameter = parameter;
     }
     #endregion

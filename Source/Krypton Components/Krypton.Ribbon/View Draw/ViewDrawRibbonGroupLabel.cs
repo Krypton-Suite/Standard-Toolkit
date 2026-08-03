@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -55,9 +55,12 @@ internal class ViewDrawRibbonGroupLabel : ViewComposite,
         Debug.Assert(needPaint is not null);
 
         // Remember incoming references
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        GroupLabel = ribbonLabel ?? throw new ArgumentNullException(nameof(ribbonLabel));
-        _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        ThrowHelper.ThrowIfNull(ribbon);
+        _ribbon = ribbon;
+        ThrowHelper.ThrowIfNull(ribbonLabel);
+        GroupLabel = ribbonLabel;
+        ThrowHelper.ThrowIfNull(needPaint);
+        _needPaint = needPaint;
 
         // Associate this view with the source component (required for design time selection)
         Component = GroupLabel;

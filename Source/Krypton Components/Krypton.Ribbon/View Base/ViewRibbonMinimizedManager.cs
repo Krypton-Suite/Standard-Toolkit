@@ -47,9 +47,12 @@ internal class ViewRibbonMinimizedManager : ViewManager
         Debug.Assert(root is not null);
         Debug.Assert(needPaintDelegate is not null);
 
-        _ribbon = control ?? throw new ArgumentNullException(nameof(_ribbon));
-        _viewGroups = viewGroups ?? throw new ArgumentNullException(nameof(_viewGroups));
-        _needPaintDelegate = needPaintDelegate ?? throw new ArgumentNullException(nameof(needPaintDelegate));
+        ThrowHelper.ThrowIfNull(control);
+        _ribbon = control;
+        ThrowHelper.ThrowIfNull(viewGroups);
+        _viewGroups = viewGroups;
+        ThrowHelper.ThrowIfNull(needPaintDelegate);
+        _needPaintDelegate = needPaintDelegate;
         _active = true;
         _minimizedMode = minimizedMode;
     }
@@ -151,7 +154,7 @@ internal class ViewRibbonMinimizedManager : ViewManager
         // Validate incoming reference
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         // Only interested if the application window we are inside is active
@@ -198,7 +201,7 @@ internal class ViewRibbonMinimizedManager : ViewManager
         // Validate incoming reference
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         // Only interested if the application window we are inside is active

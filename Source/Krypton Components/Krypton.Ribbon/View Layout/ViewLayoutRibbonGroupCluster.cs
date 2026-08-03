@@ -61,9 +61,12 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
         Debug.Assert(needPaint is not null);
 
         // Cache references
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        _ribbonCluster = ribbonCluster ?? throw new ArgumentNullException(nameof(ribbonCluster));
-        _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        ThrowHelper.ThrowIfNull(ribbon);
+        _ribbon = ribbon;
+        ThrowHelper.ThrowIfNull(ribbonCluster);
+        _ribbonCluster = ribbonCluster;
+        ThrowHelper.ThrowIfNull(needPaint);
+        _needPaint = needPaint;
         _currentSize = GroupItemSize.Medium;
 
         // Associate the component with this view element for design time selection

@@ -409,7 +409,7 @@ public class KryptonIntegratedToolBarManager : Component
             }
             else
             {
-                throw new ArgumentNullException();
+                ThrowHelper.ThrowArgumentNullException();
             }
         }
         catch (Exception e)
@@ -436,7 +436,7 @@ public class KryptonIntegratedToolBarManager : Component
             }
             else
             {
-                throw new ArgumentNullException();
+                ThrowHelper.ThrowArgumentNullException();
             }
         }
         catch (Exception e)
@@ -493,7 +493,8 @@ public class KryptonIntegratedToolBarManager : Component
                         }
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException(nameof(buttonOrientation), buttonOrientation, null);
+                        ThrowHelper.ThrowArgumentOutOfRangeException(nameof(buttonOrientation), buttonOrientation, null);
+                        return;
                 }
             }
         }
@@ -533,7 +534,8 @@ public class KryptonIntegratedToolBarManager : Component
                         }
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException(nameof(buttonAlignment), buttonAlignment, null);
+                        ThrowHelper.ThrowArgumentOutOfRangeException(nameof(buttonAlignment), buttonAlignment, null);
+                        return;
                 }
             }
         }

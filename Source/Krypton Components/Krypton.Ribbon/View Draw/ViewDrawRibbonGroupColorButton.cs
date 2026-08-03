@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -60,9 +60,12 @@ internal class ViewDrawRibbonGroupColorButton : ViewComposite,
         Debug.Assert(needPaint != null);
 
         // Remember incoming references
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon ));
-        GroupColorButton = ribbonColorButton ?? throw new ArgumentNullException(nameof(ribbonColorButton));
-        _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        ThrowHelper.ThrowIfNull(ribbon);
+        _ribbon = ribbon;
+        ThrowHelper.ThrowIfNull(ribbonColorButton);
+        GroupColorButton = ribbonColorButton;
+        ThrowHelper.ThrowIfNull(needPaint);
+        _needPaint = needPaint;
         _currentSize = GroupColorButton.ItemSizeCurrent;
 
         // Associate this view with the source component (required for design time selection)

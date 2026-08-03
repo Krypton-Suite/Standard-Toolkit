@@ -171,12 +171,12 @@ public class TrackBarController : GlobalId,
         // Validate incoming references
         if (c == null)
         {
-            throw new ArgumentNullException(nameof(c));
+            ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
 
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         _drawTB.ViewDrawTrackBar.ScrollValue = e.KeyCode switch
@@ -239,10 +239,10 @@ public class TrackBarController : GlobalId,
         // Validate incoming references
         if (c == null)
         {
-            throw new ArgumentNullException(nameof(c));
+            ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
 
-        return e == null ? throw new ArgumentNullException(nameof(e)) : _captured;
+        return e == null ? ThrowHelper.ThrowArgumentNullException<bool>(nameof(e)): _captured;
     }
     #endregion
 
@@ -267,7 +267,7 @@ public class TrackBarController : GlobalId,
         // Validate incoming references
         if (c == null)
         {
-            throw new ArgumentNullException(nameof(c));
+            ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
 
         // If we are capturing mouse input

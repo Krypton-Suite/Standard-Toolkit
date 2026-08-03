@@ -1,4 +1,4 @@
-# Unit Test Scripts
+﻿# Unit Test Scripts
 
 PowerShell helpers for interactive / UI-automation checks against Debug `TestForm` builds.
 They are not part of CI; use them when validating WinForms behaviour that is hard to cover with a conventional unit test (caption chrome, drag/tear-out, context menus, and similar).
@@ -17,6 +17,8 @@ dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f 
 
 | Script | Purpose |
 |--------|---------|
+| `Convert-ThrowHelpers.ps1` | Pass 1: statement-form `throw new` → `ThrowHelper` (Argument*, NRE, InvalidOperation, NotSupported, NotImplemented, ObjectDisposed, InvalidCast, Win32). Review ternary / expression-bodied constructors after running. |
+| `Convert-ThrowHelpers-Pass2.ps1` | Pass 2: expression forms (`??` / `=>`) with typed helpers; large-switch lookback. Prefer hand-fixes over blind re-runs. |
 | `Start-NavigatorFormIntegrationHost.ps1` | Hosts `NavigatorFormIntegrationDemo` from the Debug bin (STA). |
 | `Invoke-CaptionTabDrag.ps1` | Drags from one caption-relative point to another; captures before/during/after screenshots. |
 | `Test-NavigatorCaptionTabRemerge.ps1` | Tears out `Settings`, then drags it back onto the main window and asserts a single remaining window. |

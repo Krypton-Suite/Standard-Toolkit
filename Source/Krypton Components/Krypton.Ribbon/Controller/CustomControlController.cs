@@ -43,9 +43,12 @@ internal class CustomControlController : GlobalId,
         Debug.Assert(customControl is not null);
         Debug.Assert(customControl is not null);
 
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        _customControl = customControl ?? throw new ArgumentNullException(nameof(customControl));
-        _target = target ?? throw new ArgumentNullException(nameof(target));
+        ThrowHelper.ThrowIfNull(ribbon);
+        _ribbon = ribbon;
+        ThrowHelper.ThrowIfNull(customControl);
+        _customControl = customControl;
+        ThrowHelper.ThrowIfNull(target);
+        _target = target;
     }
     #endregion
 
@@ -157,12 +160,12 @@ internal class CustomControlController : GlobalId,
 
         if (ribbon is null)
         {
-            throw new ArgumentNullException(SharedStaticFunctions.ParameterCannotBeNull(nameof(ribbon)));
+            ThrowHelper.ThrowArgumentNullException(SharedStaticFunctions.ParameterCannotBeNull(nameof(ribbon)));
         }
 
         if (ribbon.TabsArea is null)
         {
-            throw new NullReferenceException(SharedStaticFunctions.ParameterCannotBeNull(nameof(ribbon.TabsArea)));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.ParameterCannotBeNull(nameof(ribbon.TabsArea)));
         }
 
         switch (e.KeyData)

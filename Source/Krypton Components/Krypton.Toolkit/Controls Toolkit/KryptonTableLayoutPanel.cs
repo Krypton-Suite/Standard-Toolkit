@@ -67,8 +67,7 @@ public class KryptonTableLayoutPanel : TableLayoutPanel
         {
             if (value == Color.Transparent)
             {
-                throw new NotSupportedException(
-                    @"If you want a transparent background then use the normal TableLayoutPanel");
+                ThrowHelper.ThrowNotSupportedException(@"If you want a transparent background then use the normal TableLayoutPanel");
             }
 
             _backGroundPanel.BackColor = value;
