@@ -162,6 +162,34 @@ jobs:
           }
           Write-Host "[PASS] TestForm.exe found under $bin"
 
+      - name: Validate Invoke-AllUnitTests.ps1 syntax
+        shell: pwsh
+        run: |
+          # Validate with powershell.exe (same host that runs the suite). pwsh alone can
+          # miss UTF-8-without-BOM / non-ASCII issues that break Windows PowerShell 5.1.
+          $script = Join-Path $PWD 'Scripts\UnitTest\Invoke-AllUnitTests.ps1'
+          $probe = @'
+          $errors = $null
+          $tokens = $null
+          [void][System.Management.Automation.Language.Parser]::ParseFile($env:UNITTEST_PARSE_TARGET, [ref]$tokens, [ref]$errors)
+          if ($errors) {
+            Write-Host '[ERROR] Parsing errors found in Invoke-AllUnitTests.ps1'
+            foreach ($err in $errors) {
+              Write-Host ("Message: {0}" -f $err.Message)
+              Write-Host ("Location: {0}:{1} - {2}:{3}" -f `
+                $err.Extent.StartLineNumber, $err.Extent.StartColumnNumber, `
+                $err.Extent.EndLineNumber, $err.Extent.EndColumnNumber)
+            }
+            exit 1
+          }
+          Write-Host '[PASS] Invoke-AllUnitTests.ps1 syntax OK (powershell.exe)'
+          '@
+          $env:UNITTEST_PARSE_TARGET = $script
+          & powershell.exe -NoProfile -ExecutionPolicy Bypass -Command $probe
+          if ($LASTEXITCODE -ne 0) {
+            exit $LASTEXITCODE
+          }
+
       - name: Run unit tests
         id: run_tests
         shell: pwsh

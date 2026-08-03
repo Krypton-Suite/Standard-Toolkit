@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Discovers and runs all CI-oriented Scripts/UnitTest assert scripts (Test-*.ps1).
 
@@ -7,8 +7,8 @@
 
     * Discover every Test-*.ps1 under Scripts/UnitTest (recursive).
     * Each Test-*.ps1 MUST declare a comment marker near the top:
-        # UnitTest-CI: include   — run in CI / Invoke-AllUnitTests
-        # UnitTest-CI: exclude   — interactive; never auto-run
+        # UnitTest-CI: include   - run in CI / Invoke-AllUnitTests
+        # UnitTest-CI: exclude   - interactive; never auto-run
     * -Strict (or env UNITTEST_CI=1) fails when any Test-*.ps1 lacks a marker,
       or when zero include scripts are discovered.
     * Each include script runs in a fresh STA powershell child with
@@ -72,7 +72,7 @@ if ($classification.Undeclared.Count -gt 0) {
 }
 
 if ($skippedNames.Count -gt 0) {
-    Write-UnitTestBanner -Status SKIP -Message ("UnitTest-CI:exclude — " + ($skippedNames -join ', '))
+    Write-UnitTestBanner -Status SKIP -Message ("UnitTest-CI:exclude - " + ($skippedNames -join ', '))
 }
 
 $ciTests = @($classification.Included | Sort-Object FullName)
@@ -143,7 +143,7 @@ foreach ($test in $ciTests) {
 
         if ($timedOut) {
             $failedNames.Add("$relative (timeout after ${TimeoutSeconds}s)")
-            Write-UnitTestBanner -Status FAIL -Message "$relative — FAIL (timeout after ${TimeoutSeconds}s)"
+            Write-UnitTestBanner -Status FAIL -Message "$relative - FAIL (timeout after ${TimeoutSeconds}s)"
             Write-GitHubError -Message "Unit test timed out after ${TimeoutSeconds}s" -File $relative
             Write-Host ""
             continue
@@ -156,12 +156,12 @@ foreach ($test in $ciTests) {
 
         if ($code -ne 0) {
             $failedNames.Add("$relative (exit $code)")
-            Write-UnitTestBanner -Status FAIL -Message "$relative — FAIL (exit $code)"
+            Write-UnitTestBanner -Status FAIL -Message "$relative - FAIL (exit $code)"
             Write-GitHubError -Message "Unit test failed with exit code $code" -File $relative
         }
         else {
             $passedNames.Add($relative)
-            Write-UnitTestBanner -Status PASS -Message "$relative — PASS"
+            Write-UnitTestBanner -Status PASS -Message "$relative - PASS"
             Write-GitHubNotice -Message "Unit test passed" -File $relative
         }
     }
@@ -181,9 +181,9 @@ Write-UnitTestJobSummary -Title 'Krypton Unit Tests' -Overall $overall `
     -BinPath $bin
 
 if ($failedNames.Count -gt 0) {
-    Write-UnitTestBanner -Status FAIL -Message "Unit tests FAILED — $($passedNames.Count) passed, $($failedNames.Count) failed"
+    Write-UnitTestBanner -Status FAIL -Message "Unit tests FAILED - $($passedNames.Count) passed, $($failedNames.Count) failed"
     exit $failedNames.Count
 }
 
-Write-UnitTestBanner -Status PASS -Message "Unit tests PASSED — $($passedNames.Count) passed, 0 failed"
+Write-UnitTestBanner -Status PASS -Message "Unit tests PASSED - $($passedNames.Count) passed, 0 failed"
 exit 0
