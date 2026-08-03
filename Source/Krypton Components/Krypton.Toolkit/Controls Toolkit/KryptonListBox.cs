@@ -1831,7 +1831,7 @@ public class KryptonListBox : VisualControlBase,
             _contentValues!.ShortText = _listBox.GetItemText(Items[index]);
             _contentValues.LongText = null;
             _contentValues.Image = null;
-            _contentValues.ImageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
+            _contentValues.ImageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
         }
     }
 

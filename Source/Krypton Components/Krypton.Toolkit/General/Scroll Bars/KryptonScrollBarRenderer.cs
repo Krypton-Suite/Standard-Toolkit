@@ -209,7 +209,7 @@ internal static class KryptonScrollBarRenderer
     private static void InitColorsForRetroPalette(PaletteBase palette)
     {
         Color face = palette.GetBackColor1(PaletteBackStyle.PanelAlternate, PaletteState.Normal);
-        if (face.IsEmpty || face == GlobalStaticVariables.EMPTY_COLOR)
+        if (face.IsEmpty || face == SharedStaticVariables.EMPTY_COLOR)
         {
             face = palette is PaletteRetroBase retro
                 ? retro.ButtonDisabledColor
@@ -220,7 +220,7 @@ internal static class KryptonScrollBarRenderer
         Color faceMid = face;
         Color faceDark = Color.FromArgb(160, 160, 160);
         Color border = palette.GetBorderColor1(PaletteBorderStyle.InputControlStandalone, PaletteState.Normal);
-        if (border.IsEmpty || border == GlobalStaticVariables.EMPTY_COLOR)
+        if (border.IsEmpty || border == SharedStaticVariables.EMPTY_COLOR)
         {
             border = Color.Black;
         }

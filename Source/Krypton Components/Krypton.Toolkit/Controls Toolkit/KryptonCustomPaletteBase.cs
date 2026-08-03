@@ -539,7 +539,7 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <returns>Color value.</returns>
     public override Color GetBackColor1(PaletteBackStyle style, PaletteState state) =>
         // Find the correct destination in the palette and pass on request
-        GetPaletteBack(style, state)?.GetBackColor1(state) ?? GlobalStaticVariables.EMPTY_COLOR;
+        GetPaletteBack(style, state)?.GetBackColor1(state) ?? SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the second back color.
@@ -549,7 +549,7 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <returns>Color value.</returns>
     public override Color GetBackColor2(PaletteBackStyle style, PaletteState state) =>
         // Find the correct destination in the palette and pass on request
-        GetPaletteBack(style, state)?.GetBackColor2(state) ?? GlobalStaticVariables.EMPTY_COLOR;
+        GetPaletteBack(style, state)?.GetBackColor2(state) ?? SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the color background drawing style.
@@ -2324,7 +2324,7 @@ public class KryptonCustomPaletteBase : PaletteBase
         }
         catch (Exception e)
         {
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(e, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 
@@ -2757,7 +2757,7 @@ public class KryptonCustomPaletteBase : PaletteBase
         [KryptonPersist(false, false)]
         [Category(@"Visuals")]
         [Description(@"Base palette used to inherit from.")]
-        [DefaultValue(GlobalStaticConstants.GLOBAL_DEFAULT_PALETTE_MODE)]
+        [DefaultValue(ToolkitStaticConstants.GLOBAL_DEFAULT_PALETTE_MODE)]
         public PaletteMode BasePaletteMode
         {
             get => _basePaletteMode;
@@ -3251,10 +3251,10 @@ public class KryptonCustomPaletteBase : PaletteBase
             // Grab the version number of the format being loaded
             var version = int.Parse(root.GetAttribute(nameof(Version)));
 
-            if (version < GlobalStaticConstants.CURRENT_SUPPORTED_PALETTE_VERSION)
+            if (version < SharedStaticConstants.CURRENT_SUPPORTED_PALETTE_VERSION)
             {
                 throw new ArgumentException(
-                    $"Version '{version}' number is incompatible, only version {GlobalStaticConstants.CURRENT_SUPPORTED_PALETTE_VERSION} or above can be imported.\nUse the PaletteUpgradeTool from the Application tab of the KryptonExplorer to upgrade.");
+                    $"Version '{version}' number is incompatible, only version {SharedStaticConstants.CURRENT_SUPPORTED_PALETTE_VERSION} or above can be imported.\nUse the PaletteUpgradeTool from the Application tab of the KryptonExplorer to upgrade.");
             }
 
             // Restore bundled palette name so external themes display correctly (e.g. in KryptonManager)
@@ -3301,7 +3301,7 @@ public class KryptonCustomPaletteBase : PaletteBase
         }
         catch (Exception e)
         {
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(e, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
         finally
         {
@@ -3419,7 +3419,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             // Create a root node with version and the date information, by
             // having a version number the loading of older version is easier
             var root = doc.CreateElement("KryptonPalette");
-            root.SetAttribute(nameof(Version), GlobalStaticConstants.CURRENT_SUPPORTED_PALETTE_VERSION.ToString());
+            root.SetAttribute(nameof(Version), SharedStaticConstants.CURRENT_SUPPORTED_PALETTE_VERSION.ToString());
             root.SetAttribute("Generated",
                 $"{DateTime.Now.ToLongDateString()}, @{DateTime.Now.ToShortTimeString()}");
 
@@ -3448,7 +3448,7 @@ public class KryptonCustomPaletteBase : PaletteBase
         }
         catch (Exception e)
         {
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(e, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
 
             return new XmlDocument();
         }

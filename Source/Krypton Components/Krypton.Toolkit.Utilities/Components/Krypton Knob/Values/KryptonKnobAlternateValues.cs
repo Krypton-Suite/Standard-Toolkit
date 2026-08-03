@@ -55,9 +55,9 @@ public class KryptonKnobAlternateValues : Storage
         SmallChange == 1 &&
         Value == 0 &&
         BackStyle == PaletteBackStyle.PanelClient &&
-        _owner.StateCommon.Face.Color1 == GlobalStaticVariables.EMPTY_COLOR &&
-        _owner.StateCommon.Indicator.Color1 == GlobalStaticVariables.EMPTY_COLOR &&
-        _owner.StateCommon.Tick.Color1 == GlobalStaticVariables.EMPTY_COLOR &&
+        _owner.StateCommon.Face.Color1 == SharedStaticVariables.EMPTY_COLOR &&
+        _owner.StateCommon.Indicator.Color1 == SharedStaticVariables.EMPTY_COLOR &&
+        _owner.StateCommon.Tick.Color1 == SharedStaticVariables.EMPTY_COLOR &&
         _owner.ScaleTypefaceMatchesControlFont();
     #endregion
 
@@ -362,10 +362,10 @@ public class KryptonKnobAlternateValues : Storage
         SmallChange = 1;
         Value = 0;
         BackStyle = PaletteBackStyle.PanelClient;
-        _owner.StateCommon.Face.Color1 = GlobalStaticVariables.EMPTY_COLOR;
-        _owner.StateCommon.Face.Color2 = GlobalStaticVariables.EMPTY_COLOR;
-        _owner.StateCommon.Indicator.Color1 = GlobalStaticVariables.EMPTY_COLOR;
-        _owner.StateCommon.Tick.Color1 = GlobalStaticVariables.EMPTY_COLOR;
+        _owner.StateCommon.Face.Color1 = SharedStaticVariables.EMPTY_COLOR;
+        _owner.StateCommon.Face.Color2 = SharedStaticVariables.EMPTY_COLOR;
+        _owner.StateCommon.Indicator.Color1 = SharedStaticVariables.EMPTY_COLOR;
+        _owner.StateCommon.Tick.Color1 = SharedStaticVariables.EMPTY_COLOR;
         _owner.SetScaleTypeface(_owner.Font);
     }
     #endregion

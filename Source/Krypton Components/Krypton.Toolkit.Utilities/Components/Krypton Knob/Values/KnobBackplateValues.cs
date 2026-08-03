@@ -34,9 +34,9 @@ public class KnobBackplateValues : Storage
     {
         _owner = owner;
         _shape = KnobBackplateShape.None;
-        _color1 = GlobalStaticVariables.EMPTY_COLOR;
-        _color2 = GlobalStaticVariables.EMPTY_COLOR;
-        _borderColor = GlobalStaticVariables.EMPTY_COLOR;
+        _color1 = SharedStaticVariables.EMPTY_COLOR;
+        _color2 = SharedStaticVariables.EMPTY_COLOR;
+        _borderColor = SharedStaticVariables.EMPTY_COLOR;
         _showInsetWell = true;
         _showDropShadow = true;
     }
@@ -46,9 +46,9 @@ public class KnobBackplateValues : Storage
     /// <inheritdoc />
     public override bool IsDefault =>
         _shape == KnobBackplateShape.None &&
-        _color1 == GlobalStaticVariables.EMPTY_COLOR &&
-        _color2 == GlobalStaticVariables.EMPTY_COLOR &&
-        _borderColor == GlobalStaticVariables.EMPTY_COLOR &&
+        _color1 == SharedStaticVariables.EMPTY_COLOR &&
+        _color2 == SharedStaticVariables.EMPTY_COLOR &&
+        _borderColor == SharedStaticVariables.EMPTY_COLOR &&
         _showInsetWell &&
         _showDropShadow;
     #endregion
@@ -91,9 +91,9 @@ public class KnobBackplateValues : Storage
         }
     }
 
-    private bool ShouldSerializeColor1() => _color1 != GlobalStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeColor1() => _color1 != SharedStaticVariables.EMPTY_COLOR;
 
-    private void ResetColor1() => Color1 = GlobalStaticVariables.EMPTY_COLOR;
+    private void ResetColor1() => Color1 = SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets or sets the secondary backplate colour (gradient end).
@@ -113,9 +113,9 @@ public class KnobBackplateValues : Storage
         }
     }
 
-    private bool ShouldSerializeColor2() => _color2 != GlobalStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeColor2() => _color2 != SharedStaticVariables.EMPTY_COLOR;
 
-    private void ResetColor2() => Color2 = GlobalStaticVariables.EMPTY_COLOR;
+    private void ResetColor2() => Color2 = SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets or sets the backplate border colour.
@@ -135,9 +135,9 @@ public class KnobBackplateValues : Storage
         }
     }
 
-    private bool ShouldSerializeBorderColor() => _borderColor != GlobalStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeBorderColor() => _borderColor != SharedStaticVariables.EMPTY_COLOR;
 
-    private void ResetBorderColor() => BorderColor = GlobalStaticVariables.EMPTY_COLOR;
+    private void ResetBorderColor() => BorderColor = SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets or sets whether an inset well is drawn where the knob sits on the plate.

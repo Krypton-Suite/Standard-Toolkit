@@ -71,7 +71,7 @@ public class KryptonDataGridViewImageColumn : DataGridViewImageColumn, IIconCell
     /// <returns>The cloned object.</returns>
     public override object Clone()
     {
-        var cloned = base.Clone() as KryptonDataGridViewImageColumn ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("cloned"));
+        var cloned = base.Clone() as KryptonDataGridViewImageColumn ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("cloned"));
 
         foreach (IconSpec sp in IconSpecs)
         {

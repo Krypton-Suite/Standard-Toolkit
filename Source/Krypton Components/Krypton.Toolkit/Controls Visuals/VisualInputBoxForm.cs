@@ -83,7 +83,7 @@ public partial class VisualInputBoxForm : KryptonForm
     {
         _textBoxResponse.CueHint.CueHintText = _inputBoxData.CueText;
 
-        if (_inputBoxData.CueColor != null || _inputBoxData.CueColor != Color.Transparent || _inputBoxData.CueColor != GlobalStaticVariables.EMPTY_COLOR)
+        if (_inputBoxData.CueColor != null || _inputBoxData.CueColor != Color.Transparent || _inputBoxData.CueColor != SharedStaticVariables.EMPTY_COLOR)
         {
             _textBoxResponse.CueHint.Color1 = _inputBoxData.CueColor ?? Color.Gray;
         }

@@ -120,8 +120,8 @@ internal class KryptonRibbonGroupTripleDesigner : ComponentDesigner
         }
 
         // Get access to the services
-        _designerHost = GetService(typeof(IDesignerHost)) as IDesignerHost ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
-        _changeService = GetService(typeof(IComponentChangeService)) as IComponentChangeService ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
+        _designerHost = GetService(typeof(IDesignerHost)) as IDesignerHost ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
+        _changeService = GetService(typeof(IComponentChangeService)) as IComponentChangeService ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
 
         // We need to know when we are being removed/changed
         _changeService.ComponentRemoving += OnComponentRemoving;
@@ -861,7 +861,7 @@ internal class KryptonRibbonGroupTripleDesigner : ComponentDesigner
                     RaiseComponentChanging(propertyItems);
 
                     // Need access to host in order to delete a component
-                    var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("host"));
+                    var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("host"));
 
                     // We need to remove all the items from the triple group
                     for (var i = _ribbonTriple.Items.Count - 1 ; i >= 0 ; i--)
@@ -986,7 +986,7 @@ internal class KryptonRibbonGroupTripleDesigner : ComponentDesigner
         if (e.Component == _ribbonTriple && _ribbonTriple.Items is not null)
         {
             // Need access to host in order to delete a component
-            var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("host"));
+            var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("host"));
 
             // We need to remove all items from the triple group
             for (var j = _ribbonTriple.Items.Count - 1; j >= 0; j--)
@@ -1067,21 +1067,21 @@ internal class KryptonRibbonGroupTripleDesigner : ComponentDesigner
                 });
 
                 // Ensure add images have correct transparent background
-                _addButtonMenu.ImageTransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
-                _addColorButtonMenu.ImageTransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
-                _addCheckBoxMenu.ImageTransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
-                _addRadioButtonMenu.ImageTransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
-                _addLabelMenu.ImageTransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
-                _addCustomControlMenu.ImageTransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
-                _addTextBoxMenu.ImageTransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
-                _addMaskedTextBoxMenu.ImageTransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
-                _addRichTextBoxMenu.ImageTransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
-                _addComboBoxMenu.ImageTransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
-                _addNumericUpDownMenu.ImageTransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
-                _addDomainUpDownMenu.ImageTransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
-                _addDateTimePickerMenu.ImageTransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
-                _addTrackBarMenu.ImageTransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
-                _addThemeComboBoxMenu.ImageTransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
+                _addButtonMenu.ImageTransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
+                _addColorButtonMenu.ImageTransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
+                _addCheckBoxMenu.ImageTransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
+                _addRadioButtonMenu.ImageTransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
+                _addLabelMenu.ImageTransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
+                _addCustomControlMenu.ImageTransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
+                _addTextBoxMenu.ImageTransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
+                _addMaskedTextBoxMenu.ImageTransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
+                _addRichTextBoxMenu.ImageTransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
+                _addComboBoxMenu.ImageTransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
+                _addNumericUpDownMenu.ImageTransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
+                _addDomainUpDownMenu.ImageTransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
+                _addDateTimePickerMenu.ImageTransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
+                _addTrackBarMenu.ImageTransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
+                _addThemeComboBoxMenu.ImageTransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
             }
 
             // Update verbs to work out correct enable states
@@ -1168,7 +1168,7 @@ internal class KryptonRibbonGroupTripleDesigner : ComponentDesigner
             var groupMenuItem = sender as ToolStripMenuItem ?? throw new ArgumentNullException(nameof(sender));
 
             // Get access to the destination tab
-            var destination = groupMenuItem.Tag as KryptonRibbonGroup ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("destination"));
+            var destination = groupMenuItem.Tag as KryptonRibbonGroup ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("destination"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple MoveTripleToGroup");

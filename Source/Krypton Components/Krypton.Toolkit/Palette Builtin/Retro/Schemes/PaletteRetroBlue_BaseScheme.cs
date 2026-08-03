@@ -69,13 +69,13 @@ public sealed class PaletteRetroBlue_BaseScheme : PaletteRetroGreen_BaseScheme
         RibbonQATMini1 = DosBlue;
         RibbonQATMini2 = DosBlue;
         RibbonQATMini3 = Color.Black;
-        RibbonQATMini4 = GlobalStaticVariables.EMPTY_COLOR;
-        RibbonQATMini5 = GlobalStaticVariables.EMPTY_COLOR;
+        RibbonQATMini4 = SharedStaticVariables.EMPTY_COLOR;
+        RibbonQATMini5 = SharedStaticVariables.EMPTY_COLOR;
         RibbonQATMini1I = DosBlueDark;
         RibbonQATMini2I = DosBlueDark;
         RibbonQATMini3I = Color.Black;
-        RibbonQATMini4I = GlobalStaticVariables.EMPTY_COLOR;
-        RibbonQATMini5I = GlobalStaticVariables.EMPTY_COLOR;
+        RibbonQATMini4I = SharedStaticVariables.EMPTY_COLOR;
+        RibbonQATMini5I = SharedStaticVariables.EMPTY_COLOR;
         RibbonQATFullbar1 = DosBlue;
         RibbonQATFullbar2 = DosBlue;
         RibbonQATFullbar3 = Color.Black;

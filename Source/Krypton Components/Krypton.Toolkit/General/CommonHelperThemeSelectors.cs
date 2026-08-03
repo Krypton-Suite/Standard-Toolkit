@@ -258,7 +258,7 @@ internal static class CommonHelperThemeSelectors
             return themeBrowserData.StartIndex.Value;
         }
 
-        int fallbackIndex = GetPaletteIndex(items, GlobalStaticConstants.GLOBAL_DEFAULT_PALETTE_MODE);
+        int fallbackIndex = GetPaletteIndex(items, ToolkitStaticConstants.GLOBAL_DEFAULT_PALETTE_MODE);
         return fallbackIndex >= 0 ? fallbackIndex : 0;
     }
 }

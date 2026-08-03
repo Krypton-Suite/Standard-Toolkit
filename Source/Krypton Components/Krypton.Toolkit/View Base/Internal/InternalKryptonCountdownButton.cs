@@ -92,18 +92,18 @@ internal class InternalKryptonCountdownButton : KryptonButton
     /// <summary>Initializes a new instance of the <see cref="InternalKryptonCountdownButton" /> class.</summary>
     public InternalKryptonCountdownButton()
     {
-        _initialCountdownSeconds = GlobalStaticConstants.DEFAULT_COUNTDOWN_VALUE;
+        _initialCountdownSeconds = SharedStaticConstants.DEFAULT_COUNTDOWN_VALUE;
 
         _countdownTimer = new Timer
         {
-            Interval = GlobalStaticConstants.DEFAULT_COUNTDOWN_INTERVAL
+            Interval = SharedStaticConstants.DEFAULT_COUNTDOWN_INTERVAL
         };
 
         _countdownTimer.Tick += OnCountdownTimer_Tick;
 
-        CountdownDuration = GlobalStaticConstants.DEFAULT_COUNTDOWN_VALUE;
+        CountdownDuration = SharedStaticConstants.DEFAULT_COUNTDOWN_VALUE;
 
-        CountdownInterval = GlobalStaticConstants.DEFAULT_COUNTDOWN_INTERVAL;
+        CountdownInterval = SharedStaticConstants.DEFAULT_COUNTDOWN_INTERVAL;
     }
 
     #endregion

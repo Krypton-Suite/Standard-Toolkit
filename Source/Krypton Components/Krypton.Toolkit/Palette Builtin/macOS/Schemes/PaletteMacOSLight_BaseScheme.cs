@@ -1,11 +1,11 @@
-#region BSD License
+ï»¿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ *  Â© Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. AvilÃ©s (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -142,9 +142,9 @@ public sealed class PaletteMacOSLight_BaseScheme : KryptonColorSchemeBase
     public override Color RibbonGroupFrameInside3 { get; set; } = Color.FromArgb(214, 228, 246);
     public override Color RibbonGroupFrameInside4 { get; set; } = Color.FromArgb(227, 236, 248);
     public override Color RibbonGroupCollapsedText { get; set; } = Color.FromArgb(29, 29, 31);
-    public override Color RibbonGroupTextTracking { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
-    public override Color ButtonTextTracking { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
-    public override Color RibbonGroupButtonText { get; set; } = GlobalStaticVariables.EMPTY_COLOR; // missing value
+    public override Color RibbonGroupTextTracking { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color ButtonTextTracking { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color RibbonGroupButtonText { get; set; } = SharedStaticVariables.EMPTY_COLOR; // missing value
     public override Color AlternatePressedBack1 { get; set; } = Color.FromArgb(118, 153, 200);
     public override Color AlternatePressedBack2 { get; set; } = Color.FromArgb(184, 215, 253);
     public override Color AlternatePressedBorder1 { get; set; } = Color.FromArgb(135, 156, 175);
@@ -225,14 +225,14 @@ public sealed class PaletteMacOSLight_BaseScheme : KryptonColorSchemeBase
     public override Color RibbonGalleryBackTracking { get; set; } = Color.FromArgb(236, 243, 251);
     public override Color RibbonGalleryBack1 { get; set; } = Color.FromArgb(193, 213, 241);
     public override Color RibbonGalleryBack2 { get; set; } = Color.FromArgb(215, 233, 251);
-    public override Color RibbonTabTracking3 { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
-    public override Color RibbonTabTracking4 { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
-    public override Color RibbonGroupBorder3 { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
-    public override Color RibbonGroupBorder4 { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
-    public override Color RibbonGroupBorder5 { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color RibbonTabTracking3 { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color RibbonTabTracking4 { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color RibbonGroupBorder3 { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color RibbonGroupBorder4 { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color RibbonGroupBorder5 { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color RibbonGroupTitleText { get; set; } = Color.FromArgb(29, 29, 31);
-    public override Color RibbonDropArrowLight { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
-    public override Color RibbonDropArrowDark { get; set; } = GlobalStaticVariables.EMPTY_COLOR;
+    public override Color RibbonDropArrowLight { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color RibbonDropArrowDark { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color HeaderDockInactiveBack1 { get; set; } = Color.FromArgb(208, 226, 248);
     public override Color HeaderDockInactiveBack2 { get; set; } = Color.FromArgb(178, 196, 218);
     public override Color ButtonNavigatorBorder { get; set; } = Color.FromArgb(133, 158, 191);

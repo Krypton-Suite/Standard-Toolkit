@@ -143,7 +143,7 @@ public class PaletteMicrosoft365DarkGray : PaletteMicrosoft365Base
         {
             ImageSize = new Size(13, 7),
             ColorDepth = ColorDepth.Depth24Bit,
-            TransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR
+            TransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR
         };
         _galleryButtonList.Images.AddStrip(GalleryImageResources.Gallery2010);
         _radioButtonArray =
@@ -319,15 +319,15 @@ public class PaletteMicrosoft365DarkGray : PaletteMicrosoft365Base
     #region Tab Row Background
 
     /// <inheritdoc />
-    public override Color GetRibbonTabRowGradientColor1(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public override Color GetRibbonTabRowGradientColor1(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <inheritdoc />
     public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) =>
-        GlobalStaticVariables.EMPTY_COLOR;
+        SharedStaticVariables.EMPTY_COLOR;
 
     /// <inheritdoc />
     public override Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state) =>
-        GlobalStaticVariables.EMPTY_COLOR;
+        SharedStaticVariables.EMPTY_COLOR;
 
     /// <inheritdoc />
     public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => _tabRowBackgroundColor;

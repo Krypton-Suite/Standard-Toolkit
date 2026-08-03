@@ -1658,7 +1658,7 @@ public class KryptonProgressBar : Control, IContentValues
         }
         catch (Exception ex)
         {
-            KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(ex, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 

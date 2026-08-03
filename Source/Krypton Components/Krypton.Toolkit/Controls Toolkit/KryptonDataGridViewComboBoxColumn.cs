@@ -62,7 +62,7 @@ public partial class KryptonDataGridViewComboBoxColumn : KryptonDataGridViewIcon
     /// <returns></returns>
     public override object Clone()
     {
-        var cloned = base.Clone() as KryptonDataGridViewComboBoxColumn ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("clone"));
+        var cloned = base.Clone() as KryptonDataGridViewComboBoxColumn ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("clone"));
 
         cloned.Items.AddRange(Items);
 

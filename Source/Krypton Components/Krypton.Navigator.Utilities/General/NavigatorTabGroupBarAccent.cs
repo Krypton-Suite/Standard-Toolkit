@@ -120,8 +120,8 @@ public static class NavigatorTabGroupBarAccent
 
     private static void ResetBorder(PaletteTabTriple tab)
     {
-        tab.Border.Color1 = GlobalStaticVariables.EMPTY_COLOR;
-        tab.Border.Color2 = GlobalStaticVariables.EMPTY_COLOR;
+        tab.Border.Color1 = SharedStaticVariables.EMPTY_COLOR;
+        tab.Border.Color2 = SharedStaticVariables.EMPTY_COLOR;
         tab.Border.Width = -1;
     }
 }

@@ -44,7 +44,7 @@ internal class ViewDrawMenuScrollButton : ViewDrawCanvas
         _contentPalette.ShortText.TextH = PaletteRelativeAlign.Center;
 
         _drawContent = new ViewDrawContent(_contentPalette,
-            new FixedContentValue(text, string.Empty, null, GlobalStaticVariables.EMPTY_COLOR),
+            new FixedContentValue(text, string.Empty, null, SharedStaticVariables.EMPTY_COLOR),
             VisualOrientation.Top);
 
         var docker = new ViewLayoutDocker();

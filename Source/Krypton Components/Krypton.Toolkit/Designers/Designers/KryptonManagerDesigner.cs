@@ -176,7 +176,7 @@ internal class KryptonManagerDesigner : ComponentDesigner
         }
         catch (Exception exc)
         {
-            KryptonExceptionHandler.CaptureException(exc, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(exc, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 
@@ -206,7 +206,7 @@ internal class KryptonManagerDesigner : ComponentDesigner
         }
         catch (Exception exc)
         {
-            KryptonExceptionHandler.CaptureException(exc, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(exc, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 
@@ -238,7 +238,7 @@ internal class KryptonManagerDesigner : ComponentDesigner
         }
         catch (Exception exc)
         {
-            KryptonExceptionHandler.CaptureException(exc, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(exc, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 
@@ -268,7 +268,7 @@ internal class KryptonManagerDesigner : ComponentDesigner
         }
         catch (Exception exc)
         {
-            KryptonExceptionHandler.CaptureException(exc, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(exc, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 
@@ -298,7 +298,7 @@ internal class KryptonManagerDesigner : ComponentDesigner
         }
         catch (Exception exc)
         {
-            KryptonExceptionHandler.CaptureException(exc, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(exc, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 

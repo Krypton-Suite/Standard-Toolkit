@@ -351,7 +351,7 @@ internal abstract class ViewDrawNavCheckButtonBase : ViewDrawButton,
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Color value.</returns>
-    public virtual Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public virtual Color GetOverlayImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the position of the overlay image relative to the main image.

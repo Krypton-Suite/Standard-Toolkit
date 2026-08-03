@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -284,12 +284,12 @@ public class ViewLayoutCenter : ViewComposite
                     // A negative inset opts back into centring.
                     if (MetricPadding == PaletteMetricPadding.HeaderButtonPaddingForm
                         && child is ViewDrawButton
-                        && GlobalStaticConstants.HEADER_BUTTON_EDGE_INSET_FORM_TOP >= 0)
+                        && ToolkitStaticConstants.HEADER_BUTTON_EDGE_INSET_FORM_TOP >= 0)
                     {
                         // Maximized WinForms windows often sit with a negative screen overhang
                         // (typically Top/Left = -8). Push the buttons below that clip so they stay
                         // fully visible; restored windows keep the configured flush inset.
-                        var topInset = GlobalStaticConstants.HEADER_BUTTON_EDGE_INSET_FORM_TOP
+                        var topInset = ToolkitStaticConstants.HEADER_BUTTON_EDGE_INSET_FORM_TOP
                                        + GetMaximizedTopOverhang(context.Control);
                         yOffset = Math.Min(topInset, Math.Max(0, ClientHeight - childPreferred.Height));
                     }

@@ -82,13 +82,13 @@ public class PaletteRetroGreen : PaletteRetroBase
         _ => base.GetButtonSpecImage(style, state)
     };
 
-    public override Color GetRibbonTabRowGradientColor1(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public override Color GetRibbonTabRowGradientColor1(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) =>
-        GlobalStaticVariables.EMPTY_COLOR;
+        SharedStaticVariables.EMPTY_COLOR;
 
     public override Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state) =>
-        GlobalStaticVariables.EMPTY_COLOR;
+        SharedStaticVariables.EMPTY_COLOR;
 
     public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => _tabRowBackgroundColor;
 

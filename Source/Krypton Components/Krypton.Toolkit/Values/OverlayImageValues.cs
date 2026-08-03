@@ -50,7 +50,7 @@ public class OverlayImageValues : Storage
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override bool IsDefault => (Image == null) &&
-                                      (ImageTransparentColor == GlobalStaticVariables.EMPTY_COLOR) &&
+                                      (ImageTransparentColor == SharedStaticVariables.EMPTY_COLOR) &&
                                       (Position == OverlayImagePosition.TopRight) &&
                                       (ScaleMode == OverlayImageScaleMode.None) &&
                                       (ScaleFactor == 0.5f) &&
@@ -117,12 +117,12 @@ public class OverlayImageValues : Storage
         }
     }
 
-    private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != GlobalStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Resets the ImageTransparentColor property to its default value.
     /// </summary>
-    public void ResetImageTransparentColor() => ImageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetImageTransparentColor() => ImageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
     
     #endregion
 
@@ -264,7 +264,7 @@ public class OverlayImageValues : Storage
     {
         // Set initial values
         _image = null;
-        _transparent = GlobalStaticVariables.EMPTY_COLOR;
+        _transparent = SharedStaticVariables.EMPTY_COLOR;
         _position = OverlayImagePosition.TopRight;
         _scaleMode = OverlayImageScaleMode.None;
         _scaleFactor = 0.5f; // Default to 50% of main image
@@ -291,5 +291,5 @@ public class OverlayImageValues : Storage
 
     #endregion
 
-    public override string ToString() => !IsDefault ? @"Modified" : GlobalStaticVariables.DEFAULT_EMPTY_STRING;
+    public override string ToString() => !IsDefault ? @"Modified" : SharedStaticVariables.DEFAULT_EMPTY_STRING;
 }

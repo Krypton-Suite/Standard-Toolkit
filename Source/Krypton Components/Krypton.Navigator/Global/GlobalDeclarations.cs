@@ -26,6 +26,7 @@ global using System.Text;
 global using System.Windows.Forms;
 global using System.Windows.Forms.Design;
 
+global using Krypton.Interop;
 global using Krypton.Toolkit;
 
 global using System.Runtime.CompilerServices;

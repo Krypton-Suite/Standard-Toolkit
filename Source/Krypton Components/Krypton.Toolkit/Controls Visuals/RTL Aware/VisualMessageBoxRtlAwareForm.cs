@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -82,7 +82,7 @@ internal partial class VisualMessageBoxRtlAwareForm : KryptonForm
 
         // #1692 text font colour for input controls does not work correct on KMBees when using dark themes.
         // Set the text colour to the one a control uses.
-        krtbMessageText.StateCommon.Content.Color1 = GlobalStaticVariables.KryptonMessageBoxRichTextBoxTextColor;
+        krtbMessageText.StateCommon.Content.Color1 = ToolkitStaticVariables.KryptonMessageBoxRichTextBoxTextColor;
 
         // Update contents to match requirements
         UpdateText();
@@ -675,14 +675,14 @@ internal partial class VisualMessageBoxRtlAwareForm : KryptonForm
 
         // Button1 is always visible
         Size button1Size = _button1.GetPreferredSize(Size.Empty);
-        var maxButtonSize = button1Size with { Width = button1Size.Width + GlobalStaticConstants.GLOBAL_BUTTON_PADDING };
+        var maxButtonSize = button1Size with { Width = button1Size.Width + SharedStaticConstants.GLOBAL_BUTTON_PADDING };
 
         // If Button2 is visible
         if (_button2.Enabled)
         {
             numButtons++;
             Size button2Size = _button2.GetPreferredSize(Size.Empty);
-            maxButtonSize.Width = Math.Max(maxButtonSize.Width, button2Size.Width + GlobalStaticConstants.GLOBAL_BUTTON_PADDING);
+            maxButtonSize.Width = Math.Max(maxButtonSize.Width, button2Size.Width + SharedStaticConstants.GLOBAL_BUTTON_PADDING);
             maxButtonSize.Height = Math.Max(maxButtonSize.Height, button2Size.Height);
         }
 
@@ -691,7 +691,7 @@ internal partial class VisualMessageBoxRtlAwareForm : KryptonForm
         {
             numButtons++;
             Size button3Size = _button3.GetPreferredSize(Size.Empty);
-            maxButtonSize.Width = Math.Max(maxButtonSize.Width, button3Size.Width + GlobalStaticConstants.GLOBAL_BUTTON_PADDING);
+            maxButtonSize.Width = Math.Max(maxButtonSize.Width, button3Size.Width + SharedStaticConstants.GLOBAL_BUTTON_PADDING);
             maxButtonSize.Height = Math.Max(maxButtonSize.Height, button3Size.Height);
         }
         // If Button4 is visible
@@ -699,60 +699,60 @@ internal partial class VisualMessageBoxRtlAwareForm : KryptonForm
         {
             numButtons++;
             Size button4Size = _button4.GetPreferredSize(Size.Empty);
-            maxButtonSize.Width = Math.Max(maxButtonSize.Width, button4Size.Width + GlobalStaticConstants.GLOBAL_BUTTON_PADDING);
+            maxButtonSize.Width = Math.Max(maxButtonSize.Width, button4Size.Width + SharedStaticConstants.GLOBAL_BUTTON_PADDING);
             maxButtonSize.Height = Math.Max(maxButtonSize.Height, button4Size.Height);
         }
 
         // Start positioning buttons 10 pixels from right edge
-        var right = _panelButtons.Right - GlobalStaticConstants.GLOBAL_BUTTON_PADDING;
+        var right = _panelButtons.Right - SharedStaticConstants.GLOBAL_BUTTON_PADDING;
 
         //var left = _panelButtons.Left - GlobalStaticValues.GLOBAL_BUTTON_PADDING;
 
         // If Button4 is visible
         if (_button4.Enabled)
         {
-            _button4.Location = new Point(right - maxButtonSize.Width, GlobalStaticConstants.GLOBAL_BUTTON_PADDING);
+            _button4.Location = new Point(right - maxButtonSize.Width, SharedStaticConstants.GLOBAL_BUTTON_PADDING);
             _button4.Size = maxButtonSize;
-            right -= maxButtonSize.Width + GlobalStaticConstants.GLOBAL_BUTTON_PADDING;
+            right -= maxButtonSize.Width + SharedStaticConstants.GLOBAL_BUTTON_PADDING;
         }
 
         // If Button3 is visible
         if (_button3.Enabled)
         {
-            _button3.Location = new Point(right - maxButtonSize.Width, GlobalStaticConstants.GLOBAL_BUTTON_PADDING);
+            _button3.Location = new Point(right - maxButtonSize.Width, SharedStaticConstants.GLOBAL_BUTTON_PADDING);
             _button3.Size = maxButtonSize;
-            right -= maxButtonSize.Width + GlobalStaticConstants.GLOBAL_BUTTON_PADDING;
+            right -= maxButtonSize.Width + SharedStaticConstants.GLOBAL_BUTTON_PADDING;
         }
 
         // If Button2 is visible
         if (_button2.Enabled)
         {
-            _button2.Location = new Point(right - maxButtonSize.Width, GlobalStaticConstants.GLOBAL_BUTTON_PADDING);
+            _button2.Location = new Point(right - maxButtonSize.Width, SharedStaticConstants.GLOBAL_BUTTON_PADDING);
             _button2.Size = maxButtonSize;
-            right -= maxButtonSize.Width + GlobalStaticConstants.GLOBAL_BUTTON_PADDING;
+            right -= maxButtonSize.Width + SharedStaticConstants.GLOBAL_BUTTON_PADDING;
         }
 
         // Button1 is always visible
-        _button1.Location = new Point(right - maxButtonSize.Width, GlobalStaticConstants.GLOBAL_BUTTON_PADDING);
+        _button1.Location = new Point(right - maxButtonSize.Width, SharedStaticConstants.GLOBAL_BUTTON_PADDING);
         _button1.Size = maxButtonSize;
 
         // Button area is the number of buttons with gaps between them and 10 pixels around all edges
-        var buttonsAreaWidth = (maxButtonSize.Width * numButtons) + (GlobalStaticConstants.GLOBAL_BUTTON_PADDING * (numButtons + 1));
+        var buttonsAreaWidth = (maxButtonSize.Width * numButtons) + (SharedStaticConstants.GLOBAL_BUTTON_PADDING * (numButtons + 1));
 
         // The optional Copy button is anchored to the left edge, opposite the action buttons
         if (_copyButton.Enabled)
         {
             Size copyPreferredSize = _copyButton.GetPreferredSize(Size.Empty);
-            var copyButtonSize = new Size(Math.Max(maxButtonSize.Width, copyPreferredSize.Width + GlobalStaticConstants.GLOBAL_BUTTON_PADDING), maxButtonSize.Height);
+            var copyButtonSize = new Size(Math.Max(maxButtonSize.Width, copyPreferredSize.Width + SharedStaticConstants.GLOBAL_BUTTON_PADDING), maxButtonSize.Height);
 
-            _copyButton.Location = new Point(GlobalStaticConstants.GLOBAL_BUTTON_PADDING, GlobalStaticConstants.GLOBAL_BUTTON_PADDING);
+            _copyButton.Location = new Point(SharedStaticConstants.GLOBAL_BUTTON_PADDING, SharedStaticConstants.GLOBAL_BUTTON_PADDING);
             _copyButton.Size = copyButtonSize;
 
             // Widen the area so the Copy button never overlaps the action buttons
-            buttonsAreaWidth += copyButtonSize.Width + (GlobalStaticConstants.GLOBAL_BUTTON_PADDING * 2);
+            buttonsAreaWidth += copyButtonSize.Width + (SharedStaticConstants.GLOBAL_BUTTON_PADDING * 2);
         }
 
-        var buttonsAreaSize = new Size(buttonsAreaWidth, maxButtonSize.Height + (GlobalStaticConstants.GLOBAL_BUTTON_PADDING * 2));
+        var buttonsAreaSize = new Size(buttonsAreaWidth, maxButtonSize.Height + (SharedStaticConstants.GLOBAL_BUTTON_PADDING * 2));
 
         // Size the panel for the buttons
         _panelButtons.Size = buttonsAreaSize;
