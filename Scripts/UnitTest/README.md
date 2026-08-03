@@ -1,27 +1,72 @@
 # Unit Test Scripts
 
-PowerShell helpers for interactive / UI-automation checks against Debug `TestForm` builds.
-They are not part of CI; use them when validating WinForms behaviour that is hard to cover with a conventional unit test (caption chrome, drag/tear-out, context menus, and similar).
+PowerShell helpers for interactive / UI-automation checks against Debug `TestForm` builds,
+plus CI assert scripts named `Test-*.ps1`.
+
+## CI contract (future-proof)
+
+Every `Test-*.ps1` under `Scripts/UnitTest/` (including subfolders) **must** declare one marker
+in the first ~80 lines:
+
+```powershell
+# UnitTest-CI: include   # discovered and run by Invoke-AllUnitTests / GitHub Actions
+# UnitTest-CI: exclude   # interactive or host-dependent; never auto-run
+```
+
+Rules:
+
+| Rule | Behaviour |
+|------|-----------|
+| `include` | Run in CI via `Invoke-AllUnitTests.ps1 -Strict` |
+| `exclude` | Skipped; keep for local interactive use |
+| Missing marker | **Fails** under `-Strict` / `UNITTEST_CI=1` (forces authors to opt in or out) |
+| Zero `include` scripts | **Fails** under `-Strict` |
+| Non-`Test-*` helpers | Never auto-run (`Start-*`, `Invoke-*` drag, `Get-*`, `UnitTestCommon.ps1`) |
+
+Shared optional parameters for `include` scripts (forwarded by the invoker):
+
+- `-Configuration` (default `Debug`)
+- `-TargetFramework` (default `net472`)
+- `-BinDir` (optional override)
+
+Exit `0` on success; non-zero on failure. Prefer STA-safe WinForms work; the invoker launches each include script with `powershell -STA`.
+
+Workflow: [`.github/workflows/unit-tests.yml`](../../.github/workflows/unit-tests.yml) (also `workflow_call`-reusable).
 
 ## Prerequisites
-
-- Build the relevant projects first, for example:
 
 ```powershell
 dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
 ```
 
-- Default output folder: `Bin\Debug\net472` (override with `-BinDir` / `-Configuration` / `-TargetFramework` where supported).
+Default output folder: `Bin\Debug\net472`.
 
 ## Scripts
 
-| Script | Purpose |
-|--------|---------|
-| `Start-NavigatorFormIntegrationHost.ps1` | Hosts `NavigatorFormIntegrationDemo` from the Debug bin (STA). |
-| `Invoke-CaptionTabDrag.ps1` | Drags from one caption-relative point to another; captures before/during/after screenshots. |
-| `Test-NavigatorCaptionTabRemerge.ps1` | Tears out `Settings`, then drags it back onto the main window and asserts a single remaining window. |
-| `Get-NavigatorCaptionTabProbe.ps1` | Prints form borders, caption-strip owner, and strip rectangle (debug aid). |
-| `Get-NavigatorTabGroupColourShot.ps1` | Seeds two differently-coloured groups and captures the tab strip (plus a 3x zoom crop) so the group-colour treatment can be eyeballed. |
+| Script | Purpose | Marker |
+|--------|---------|--------|
+| `Invoke-AllUnitTests.ps1` | Discovers markers, runs every `include` script in STA children | (entry point) |
+| `Test-NavigatorTaskbarTabGroups.ps1` | #4129 TabGroup taskbar composites + float taskbar opt-in | `include` |
+| `Test-NavigatorCaptionTabRemerge.ps1` | Tear-out / remerge (needs `-HostPid`) | `exclude` |
+| `Start-NavigatorFormIntegrationHost.ps1` | Hosts `NavigatorFormIntegrationDemo` | n/a |
+| `Invoke-CaptionTabDrag.ps1` | Caption drag + screenshots | n/a |
+| `Get-NavigatorCaptionTabProbe.ps1` | Caption geometry probe | n/a |
+| `Get-NavigatorTabGroupColourShot.ps1` | Tab-group colour screenshot | n/a |
+
+## Run all CI assert tests (on demand)
+
+```powershell
+dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -File .\Scripts\UnitTest\Invoke-AllUnitTests.ps1 -Strict
+```
+
+The invoker prints `[PASS]` / `[FAIL]` / `[SKIP]` banners and a summary table. On GitHub Actions it also writes the Actions job summary and `::notice` / `::error` annotations.
+
+**GitHub (on demand):** Actions → **Unit Tests** → **Run workflow**, or:
+
+```powershell
+gh workflow run "Unit Tests" -f configuration=Debug -f target_framework=net472 -f timeout_seconds=600
+```
 
 ## Typical usage (#925 caption tabs)
 
@@ -40,4 +85,11 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\Scripts\UnitTest\Test-Navi
     -HostPid $hp
 ```
 
-Screenshots are written next to the script output directory you pass (default: `Bin\Debug\net472`).
+## Typical usage (#4129 taskbar tab groups)
+
+```powershell
+dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTest\Test-NavigatorTaskbarTabGroups.ps1
+```
+
+Screenshots from interactive helpers are written under the bin/output directory and are not checked in.
