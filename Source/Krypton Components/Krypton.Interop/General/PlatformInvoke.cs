@@ -2500,6 +2500,15 @@ internal partial class PI
             // </summary>
             DWMWINDOWMAXIMIZEDCHANGE = 0x0321,
             // <summary>
+            // Sent when DWM needs an iconic thumbnail bitmap for a window that has DWMWA_HAS_ICONIC_BITMAP set.
+            // HIWORD(lParam) = width, LOWORD(lParam) = height of the requested thumbnail.
+            // </summary>
+            DWMSENDICONICTHUMBNAIL = 0x0323,
+            // <summary>
+            // Sent when DWM needs an iconic live-preview bitmap for Aero Peek.
+            // </summary>
+            DWMSENDICONICLIVEPREVIEWBITMAP = 0x0326,
+            // <summary>
             // Sent to request extended title bar information. A window receives this message through its WindowProc function.
             // </summary>
             GETTITLEBARINFOEX = 0x033F,
@@ -4541,6 +4550,69 @@ No 	                    No 	                    Show text only
     internal static extern int GetGuiResources(IntPtr hProcess, int uiFlags);
     #endif
 
+    /// <summary>
+    /// DrawText / DrawTextEx format flags (subset used by native GDI text rendering).
+    /// </summary>
+    [Flags]
+    internal enum DT_ : int
+    {
+        TOP = 0x00000000,
+        LEFT = 0x00000000,
+        CENTER = 0x00000001,
+        RIGHT = 0x00000002,
+        VCENTER = 0x00000004,
+        BOTTOM = 0x00000008,
+        WORDBREAK = 0x00000010,
+        SINGLELINE = 0x00000020,
+        EXPANDTABS = 0x00000040,
+        TABSTOP = 0x00000080,
+        NOCLIP = 0x00000100,
+        EXTERNALLEADING = 0x00000200,
+        CALCRECT = 0x00000400,
+        NOPREFIX = 0x00000800,
+        INTERNAL = 0x00001000,
+        EDITCONTROL = 0x00002000,
+        PATH_ELLIPSIS = 0x00004000,
+        END_ELLIPSIS = 0x00008000,
+        MODIFYSTRING = 0x00010000,
+        RTLREADING = 0x00020000,
+        WORD_ELLIPSIS = 0x00040000,
+        NOFULLWIDTHCHARBREAK = 0x00080000,
+        HIDEPREFIX = 0x00100000,
+        PREFIXONLY = 0x00200000
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct DRAWTEXTPARAMS
+    {
+        public uint cbSize;
+        public int iTabLength;
+        public int iLeftMargin;
+        public int iRightMargin;
+        public uint uiLengthDrawn;
+
+        public static DRAWTEXTPARAMS Create() =>
+            new DRAWTEXTPARAMS { cbSize = (uint)Marshal.SizeOf(typeof(DRAWTEXTPARAMS)) };
+    }
+
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, EntryPoint = "DrawTextW", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+    internal static partial int DrawTextW(IntPtr hDC, string lpchText, int cchText, ref RECT lprc, DT_ format);
+    #else
+    [DllImport(Libraries.User32, EntryPoint = "DrawTextW", CharSet = CharSet.Unicode, SetLastError = true)]
+    internal static extern int DrawTextW(IntPtr hDC, string lpchText, int cchText, ref RECT lprc, DT_ format);
+    #endif
+
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.User32, EntryPoint = "DrawTextExW", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+    internal static partial int DrawTextExW(IntPtr hdc, string lpchText, int cchText, ref RECT lprc, DT_ format, ref DRAWTEXTPARAMS lpdtp);
+    #else
+    [DllImport(Libraries.User32, EntryPoint = "DrawTextExW", CharSet = CharSet.Unicode, SetLastError = true)]
+    internal static extern int DrawTextExW(IntPtr hdc, string lpchText, int cchText, ref RECT lprc, DT_ format, ref DRAWTEXTPARAMS lpdtp);
+    #endif
+
     #endregion
 
     #region Static Gdi32
@@ -4892,6 +4964,47 @@ No 	                    No 	                    Show text only
     internal static extern bool Rectangle(IntPtr hdc, int nLeftRect, int nTopRect, int nRightRect, int nBottomRect);
     #endif
 
+    /// <summary>Background mode for <see cref="SetBkMode"/> — leave background untouched.</summary>
+    internal const int BKMODE_TRANSPARENT = 1;
+
+    /// <summary>Background mode for <see cref="SetBkMode"/> — fill with background color.</summary>
+    internal const int BKMODE_OPAQUE = 2;
+
+    [Flags]
+    internal enum ETO_ : uint
+    {
+        OPAQUE = 0x0002,
+        CLIPPED = 0x0004,
+        GLYPH_INDEX = 0x0010,
+        RTLREADING = 0x0080,
+        NUMERICSLOCAL = 0x0400,
+        NUMERICSLATIN = 0x0800,
+        IGNORELANGUAGE = 0x1000,
+        PDY = 0x2000
+    }
+
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32, EntryPoint = "GetTextExtentPoint32W", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool GetTextExtentPoint32W(IntPtr hdc, string lpString, int c, out SIZE psizl);
+    #else
+    [DllImport(Libraries.Gdi32, EntryPoint = "GetTextExtentPoint32W", CharSet = CharSet.Unicode, SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static extern bool GetTextExtentPoint32W(IntPtr hdc, string lpString, int c, out SIZE psizl);
+    #endif
+
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32, EntryPoint = "ExtTextOutW", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static partial bool ExtTextOutW(IntPtr hdc, int x, int y, ETO_ options, ref RECT lprect, string lpString, uint c, IntPtr lpDx);
+    #else
+    [DllImport(Libraries.Gdi32, EntryPoint = "ExtTextOutW", CharSet = CharSet.Unicode, SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static extern bool ExtTextOutW(IntPtr hdc, int x, int y, ETO_ options, ref RECT lprect, string lpString, uint c, IntPtr lpDx);
+    #endif
+
     #endregion
 
     #region nt.dll
@@ -4992,6 +5105,43 @@ No 	                    No 	                    Show text only
         [DllImport(Libraries.DWMApi, CharSet = CharSet.Auto)]
         internal static extern int DwmDefWindowProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam,
             out IntPtr result);
+        #endif
+
+        /// <summary>
+        /// Flags for DwmSetIconicThumbnail / DwmSetIconicLivePreviewBitmap.
+        /// </summary>
+        [Flags]
+        internal enum DWM_SIT : uint
+        {
+            None = 0,
+            DisplayFrame = 1
+        }
+
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        #if NET8_0_OR_GREATER
+        [LibraryImport(Libraries.DWMApi)]
+        internal static partial int DwmSetIconicThumbnail(IntPtr hwnd, IntPtr hbmp, DWM_SIT dwSITFlags);
+        #else
+        [DllImport(Libraries.DWMApi)]
+        internal static extern int DwmSetIconicThumbnail(IntPtr hwnd, IntPtr hbmp, DWM_SIT dwSITFlags);
+        #endif
+
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        #if NET8_0_OR_GREATER
+        [LibraryImport(Libraries.DWMApi)]
+        internal static partial int DwmSetIconicLivePreviewBitmap(IntPtr hwnd, IntPtr hbmp, IntPtr pptClient, DWM_SIT dwSITFlags);
+        #else
+        [DllImport(Libraries.DWMApi)]
+        internal static extern int DwmSetIconicLivePreviewBitmap(IntPtr hwnd, IntPtr hbmp, IntPtr pptClient, DWM_SIT dwSITFlags);
+        #endif
+
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        #if NET8_0_OR_GREATER
+        [LibraryImport(Libraries.DWMApi)]
+        internal static partial int DwmInvalidateIconicBitmaps(IntPtr hwnd);
+        #else
+        [DllImport(Libraries.DWMApi)]
+        internal static extern int DwmInvalidateIconicBitmaps(IntPtr hwnd);
         #endif
 
         public enum DWMWINDOWATTRIBUTE : uint
@@ -6322,6 +6472,55 @@ No 	                    No 	                    Show text only
         void SetOverlayIcon(IntPtr hwnd, IntPtr hIcon, [MarshalAs(UnmanagedType.LPWStr)] string pszDescription);
         void SetThumbnailTooltip(IntPtr hwnd, [MarshalAs(UnmanagedType.LPWStr)] string pszTip);
         void SetThumbnailClip(IntPtr hwnd, IntPtr prcClip);
+    }
+
+    /// <summary>
+    /// Flags for <see cref="ITaskbarList4.SetTabProperties"/> controlling thumbnail and Peek behaviour.
+    /// </summary>
+    [Flags]
+    internal enum STPFLAG
+    {
+        STPF_NONE = 0,
+        STPF_USEAPPTHUMBNAILALWAYS = 0x1,
+        STPF_USEAPPTHUMBNAILWHENACTIVE = 0x2,
+        STPF_USEAPPPEEKALWAYS = 0x4,
+        STPF_USEAPPPEEKWHENACTIVE = 0x8
+    }
+
+    /// <summary>
+    /// COM interface extending <see cref="ITaskbarList3"/> with tab property control (Windows 7+).
+    /// </summary>
+    [ComImport]
+    [Guid("c43dc798-95d1-4bea-9030-bb99e2983a1a")]
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    internal interface ITaskbarList4
+    {
+        // ITaskbarList methods
+        void HrInit();
+        void AddTab(IntPtr hwnd);
+        void DeleteTab(IntPtr hwnd);
+        void ActivateTab(IntPtr hwnd);
+        void SetActiveAlt(IntPtr hwnd);
+
+        // ITaskbarList2 methods
+        void MarkFullscreenWindow(IntPtr hwnd, [MarshalAs(UnmanagedType.Bool)] bool fFullscreen);
+
+        // ITaskbarList3 methods
+        void SetProgressValue(IntPtr hwnd, ulong ullCompleted, ulong ullTotal);
+        void SetProgressState(IntPtr hwnd, TBPFLAG tbpFlags);
+        void RegisterTab(IntPtr hwndTab, IntPtr hwndMDI);
+        void UnregisterTab(IntPtr hwndTab);
+        void SetTabOrder(IntPtr hwndTab, IntPtr hwndInsertBefore);
+        void SetTabActive(IntPtr hwndTab, IntPtr hwndMDI, uint dwReserved);
+        void ThumbBarAddButtons(IntPtr hwnd, uint cButtons, IntPtr pButtons);
+        void ThumbBarUpdateButtons(IntPtr hwnd, uint cButtons, IntPtr pButtons);
+        void ThumbBarSetImageList(IntPtr hwnd, IntPtr himl);
+        void SetOverlayIcon(IntPtr hwnd, IntPtr hIcon, [MarshalAs(UnmanagedType.LPWStr)] string pszDescription);
+        void SetThumbnailTooltip(IntPtr hwnd, [MarshalAs(UnmanagedType.LPWStr)] string pszTip);
+        void SetThumbnailClip(IntPtr hwnd, IntPtr prcClip);
+
+        // ITaskbarList4 methods
+        void SetTabProperties(IntPtr hwndTab, STPFLAG stpFlags);
     }
 
     /// <summary>

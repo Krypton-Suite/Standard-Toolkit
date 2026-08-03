@@ -500,6 +500,33 @@ internal class ViewDrawRibbonCaptionArea : ViewDrawDocker
 		}
 	}
 
+	/// <summary>
+	/// Updates <see cref="KryptonForm.AllowIconDisplay"/> from integration, app-button, and ribbon shape.
+	/// Office 2007 hides the form icon when the integrated app button is visible; later shapes show it.
+	/// Called from chrome checks and whenever the ribbon palette (shape) changes.
+	/// </summary>
+	private void UpdateFormAllowIconDisplay(ref bool needLayout)
+	{
+		if (_kryptonForm == null)
+		{
+			return;
+		}
+
+		var newAllowIconDisplay = !_integrated
+								  || !_ribbon.RibbonFileAppButton.AppButtonVisible
+								  || (_ribbon.RibbonFileAppButton.AppButtonVisible
+									  && _ribbon.RibbonShape is PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS
+										  or PaletteRibbonShape.Office2010 or PaletteRibbonShape.VisualStudio2010
+										  or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365
+										  or PaletteRibbonShape.VisualStudio);
+
+		if (_kryptonForm.AllowIconDisplay != newAllowIconDisplay)
+		{
+			_kryptonForm.AllowIconDisplay = newAllowIconDisplay;
+			needLayout = true;
+		}
+	}
+
 	private void OnFormChromeCheck(object? sender, EventArgs e)
 	{
 		var needLayout = false;
@@ -580,20 +607,7 @@ internal class ViewDrawRibbonCaptionArea : ViewDrawDocker
 				needLayout = true;
 			}
 
-			//TODO: call this function when palette is changing
-			var newAllowIconDisplay = !_integrated
-									  || !_ribbon.RibbonFileAppButton.AppButtonVisible
-									  || (_ribbon.RibbonFileAppButton.AppButtonVisible
-										  && _ribbon.RibbonShape is PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS 
-											  or PaletteRibbonShape.Office2010 or PaletteRibbonShape.VisualStudio2010 
-											  or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365 
-											  or PaletteRibbonShape.VisualStudio)
-				;
-			if (_kryptonForm.AllowIconDisplay != newAllowIconDisplay)
-			{
-				_kryptonForm.AllowIconDisplay = newAllowIconDisplay;
-				needLayout = true;
-			}
+			UpdateFormAllowIconDisplay(ref needLayout);
 		}
 
 		// If not integrated

@@ -50,6 +50,7 @@ internal partial class KryptonPageFormEditFlags : KryptonForm
             checkBoxAllowPageDrag.Checked = _page.AreFlagsSet(KryptonPageFlags.AllowPageDrag);
             checkBoxAllowPageReorder.Checked = _page.AreFlagsSet(KryptonPageFlags.AllowPageReorder);
             checkBoxAllowConfigSave.Checked = _page.AreFlagsSet(KryptonPageFlags.AllowConfigSave);
+            checkBoxAllowTaskbarThumbnail.Checked = _page.AreFlagsSet(KryptonPageFlags.AllowTaskbarThumbnail);
             checkBoxDockingAllowClose.Checked = _page.AreFlagsSet(KryptonPageFlags.DockingAllowClose);
             checkBoxDockingAllowDropDown.Checked = _page.AreFlagsSet(KryptonPageFlags.DockingAllowDropDown);
             checkBoxDockingAllowAutoHidden.Checked = _page.AreFlagsSet(KryptonPageFlags.DockingAllowAutoHidden);
@@ -96,6 +97,15 @@ internal partial class KryptonPageFormEditFlags : KryptonForm
         else
         {
             _page?.ClearFlags(KryptonPageFlags.AllowConfigSave);
+        }
+
+        if (checkBoxAllowTaskbarThumbnail.Checked)
+        {
+            _page?.SetFlags(KryptonPageFlags.AllowTaskbarThumbnail);
+        }
+        else
+        {
+            _page?.ClearFlags(KryptonPageFlags.AllowTaskbarThumbnail);
         }
 
         if (checkBoxDockingAllowClose.Checked)

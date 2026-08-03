@@ -58,6 +58,7 @@ public partial class StartScreen : KryptonForm
     private void AddButtons()
     {
         CreateButton<ApplicationStringsTest>("Custom Strings", "Issue #3757: store and localise custom strings via KryptonCustomStrings in Krypton.Toolkit.Utilities.");
+        CreateButton<TranslationsXmlDemoForm>("Translations XML (Import/Export)", "Export/import KryptonManager toolkit strings via Translations.xml (designer/runtime validation).");
         CreateButton<AboutBoxTest>("AboutBox", "Try this About Box for a change");
         CreateButton<AccessibilityTest>("Accessibility Test (UIA Providers)", "Comprehensive demo and test for UIA Provider implementation (Issue #762). Tests all 10 controls with accessibility support, organized by category with detailed results.");
         CreateButton<ButtonBadgeTest>("Badge Test", "Comprehensive badge functionality demonstration for KryptonButton and KryptonCheckButton.");
@@ -78,15 +79,18 @@ public partial class StartScreen : KryptonForm
         CreateButton<KryptonTreeComboBoxDemo>("KryptonTreeComboBox", "Demo for Issue #3444: ComboBox-style control with a grouped tree drop-down (leaf/full path, breadcrumb, and parent-node selection).");
         CreateButton<KryptonCheckedListComboBoxDemo>("KryptonCheckedListComboBox", "Multi-select combo (#3445) with KryptonCheckedListBox drop-down: items + DataSource/DisplayMember/ValueMember demo and live summary.");
         CreateButton<BorderlessFormDemo>("Borderless Form Demo", "Demo for Issue #2922: Borderless KryptonForm without system title bar flicker on startup. Form should appear directly in borderless state.");
+        CreateButton<Bug1103GdiTextPerfDemo>("Bug 1103 Native GDI Text", "Issue #1103: benchmark Graphics.DrawString vs TextRenderer vs P/Invoke DrawText/ExtTextOut (cached HFONT), visual parity panel, and toggle AccurateText.PreferNativeGdiText on live Krypton button/label. Requires SetCompatibleTextRenderingDefault(false).");
         CreateButton<Bug2914Test>("Bug 2914 Test", "Tests the fix for 2914.");
         CreateButton<Bug2984SeparatorTest>("Bug 2984 Separator Test", "Demo for Issue #2984: NullReferenceException in ViewDrawSeparator.RenderBefore. Exercises KryptonNavigator (Outlook), KryptonSplitContainer, and KryptonSeparator. Swap themes to verify no crash.");
         CreateButton<Bug3025KryptonLabelAutoSizeDemo>("Bug 3025 KryptonLabel AutoSize Demo", "Demo for Issue #3025: KryptonLabel with AutoSize now resizes to fit text when placed in the Designer (click-drag). Shows AutoSize on/off, LabelStyles, short/long text, and text + image.");
+        CreateButton<Feature882NavigatorTaskbarThumbnailsDemo>("Feature 882 Navigator Taskbar Thumbnails", "Issue #882: KryptonNavigatorTaskbarThumbnails in Krypton.Navigator.Utilities — opt-in Windows taskbar tabbed thumbnails. Hover the taskbar button for one preview per page; clear AllowTaskbarThumbnail on wizard steps.");
         CreateButton<Feature3784PulsingTextBoxBorderDemo>("Feature 3784 Glowing Borders", "Comprehensive demo for issue #3784: glowing border on all supported input controls, cue shimmer, live settings panel, and KryptonForm chrome glow.");
         CreateButton<Feature3851RenderingDpiDemo>("Feature 3851 Rendering & DPI", "Issue #3851: ribbon QAT overflow/context-arrow glyph across themes and DPI (points 4.1/4.2) plus the multiline editor button now living in an internal fixed collection so it never shows in the public ButtonSpecs (point 4.4). Switch themes, note the DPI/scale readout, and toggle MultilineStringEditor.");
         CreateButton<Bug3342KryptonTextBoxResizeFlickerDemo>("Bug 3342 Multiline TextBox Flicker", "Demo for issue #3342: multiline KryptonTextBox text flicker while resizing. Includes manual resize steps and an automated stress-resize toggle.");
         CreateButton<Bug3786ControlBoxOrderDemo>("Bug 3786 Control Box Order", "Issue #3786: comprehensive demo for KryptonForm control box order (LTR/RTL), macOS traffic lights (red-yellow-green), RTL left-side placement, FormTrafficLightEdge, and live PASS/FAIL diagnostics.");
         CreateButton<Bug2475KryptonFormHelpButtonDemo>("Bug 2475 Form Help Button", "Issue #2475: KryptonForm HelpButton shows a themed ? in the title bar. Toggle HelpButton/min/max, click ? to fire HelpRequested, open a sample child form.");
         CreateButton<Bug4086AdministratorSuffixDemo>("Bug 4086 Administrator Suffix", "Issue #4086: elevated KryptonForm title must not show bare () when ShowAdministratorSuffix is false or Administrator is empty; toggle suffix and clear/localise the string.");
+        CreateButton<Bug4132FormBorderClippingDemo>("Bug 4132 Form Border Clipping", "Issue #4132: the right and bottom KryptonForm borders were clipped by the window region, which also cut the flush Close button edge. Open the samples, switch themes, hover Close, and confirm every edge reports PASS.");
         CreateButton<Bug3367KryptonTextBoxButtonSpecHoverDemo>("Bug 3367 TextBox ButtonSpec Hover", "Demo for issue #3367: ButtonSpec hover flicker on KryptonTextBox/KryptonMaskedTextBox, including ImageStates.ImageNormal without the Image property.");
         CreateButton<Bug3382CueHintLinesDemo>("Bug 3382 CueHint line artifacts", "Demo for issue #3382: KryptonTextBox CueHint with TextH Near and mixed cue/content fonts - verify no stray top/left lines; cue remains vertically centered.");
         CreateButton<Bug3383KryptonButtonStateTrackingRoundingDemo>("Bug 3383 KryptonButton hover rounding vs OverrideFocus", "Demo for issue #3383: large StateCommon rounding with different StateTracking rounding and OverrideFocus rounding - Tab to focus, then hover (left repro vs right matched control). Corner fill and stroke should align after the palette merge fix.");
@@ -206,8 +210,11 @@ public partial class StartScreen : KryptonForm
         CreateButton<KryptonTaskDialogDemoForm>("Krypton Task Dialog Demo", string.Empty);
         CreateButton<MdiWindow>("Krypton MDI Window", "KryptonForm MDI Container with both KForm and WForm children");
         CreateButton<TabbedMdiDemo>("Tabbed MDI Demo (Issue #1746)", "KryptonTabbedMdiManager: MDI child windows displayed as tab pages instead of overlapping windows.");
+        CreateButton<NavigatorFormIntegrationDemo>("Navigator Form Integration (#925)", "Issue #925/#927: CaptionIntegrated (tabs in title bar) with browser-style tab groups, ClientChrome, CaptionAdjacent, tear-out, and new-tab '+'.");
+        CreateButton<DocumentGroupsDemo>("Document Groups (Workspace)", "IDE-style document groups via KryptonWorkspace cells + KryptonDocumentGroupHelper, with multi-strip CaptionIntegrated chrome (one strip per cell).");
         CreateButton<RibbonMdiDemo>("Ribbon MDI Demo (Issue #2921)", "Comprehensive demo for Issue #2921: Ribbon + MDI. Verifies no double ribbon tabs when opening/closing maximized MDI children; close/minimize/maximize and QAT click areas aligned with visuals.");
         CreateButton<Bug3203QATLocationHiddenFormTest>("Ribbon QATLocation=Hidden does not hide QAT when FormBorderStyle=None (Issue #3203)", string.Empty);
+        CreateButton<Bug4061RibbonCaptionIconThemeDemo>("Bug 4061 Ribbon caption icon on theme change", "Issue #4061: Switch themes without resizing. Office 2007 hides the form icon when the File app button is visible; Office 2010+/macOS/Aqua show it. Status line reports RibbonShape and AllowIconDisplay; QAT Above should hide under macOS shapes.");
         CreateButton<Bug3183SmallSquareRenderedNextToClose>("Small Square Rendered Next to Close Button (Issue #3183)", string.Empty);
         CreateButton<GlyphColors>("Glyph Colors", "Customization of glyph colors using kryptonCustomPalette");
     }
