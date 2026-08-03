@@ -1,0 +1,11 @@
+﻿# CodeQL configuration for Standard-Toolkit
+# https://docs.github.com/en/code-security/code-scanning/creating-an-advanced-setup-for-code-scanning/customizing-your-advanced-setup-for-code-scanning#specifying-directories-to-scan
+
+name: "Krypton Standard-Toolkit CodeQL"
+
+paths-ignore:
+  # Local repro / stress harnesses — not shipped; diagnostic logging trips cleartext-storage rules.
+  - "Source/TestHarnesses/**"
+  # Generated Doxygen output (not product code).
+  - "**/Doxygen/**"
+  - "**/html/**"
