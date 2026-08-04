@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -233,7 +233,7 @@ public class LabelValues : Storage,
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Overlay image value, or null if no overlay image is set.</returns>
-    public Image? GetOverlayImage(PaletteState state) => _overlayImage.Image;
+    public Image? GetOverlayImage(PaletteState state) => _overlayImage.GetImage(state);
 
     /// <summary>
     /// Gets the overlay image color that should be transparent.
