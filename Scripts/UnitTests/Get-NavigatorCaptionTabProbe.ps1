@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Prints RealWindowBorders and caption-strip geometry for NavigatorFormIntegrationDemo.
 
@@ -7,7 +7,7 @@
     debugging non-client coordinate conversion for caption tabs.
 
 .EXAMPLE
-    powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTest\Get-NavigatorCaptionTabProbe.ps1
+    powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Get-NavigatorCaptionTabProbe.ps1
 #>
 [CmdletBinding()]
 param(

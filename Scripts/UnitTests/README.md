@@ -21,7 +21,7 @@ Rules:
 | `exclude` | Skipped; keep for local interactive use |
 | Missing marker | **Fails** under `-Strict` / `UNITTEST_CI=1` (forces authors to opt in or out) |
 | Zero `include` scripts | **Fails** under `-Strict` |
-| Non-`Test-*` helpers | Never auto-run (`Start-*`, `Invoke-*` drag, `Get-*`, `UnitTestCommon.ps1`) |
+| Non-`UnitTest-*` helpers | Never auto-run (`Start-*`, `Invoke-*` drag, `Get-*`, `UnitTestCommon.ps1`) |
 
 Shared optional parameters for `include` scripts (forwarded by the invoker):
 
@@ -63,7 +63,7 @@ Default output folder: `Bin\Debug\net472`.
 
 ```powershell
 dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
-powershell -NoProfile -ExecutionPolicy Bypass -File .\Scripts\UnitTest\Invoke-AllUnitTests.ps1 -Strict
+powershell -NoProfile -ExecutionPolicy Bypass -File .\Scripts\UnitTests\Invoke-AllUnitTests.ps1 -Strict
 ```
 
 The invoker prints `[PASS]` / `[FAIL]` / `[SKIP]` banners and a summary table. On GitHub Actions it also writes the Actions job summary and `::notice` / `::error` annotations.
@@ -95,7 +95,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\Scripts\UnitTests\UnitTest
 
 ```powershell
 dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
-powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTest\Test-NavigatorTaskbarTabGroups.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-NavigatorTaskbarTabGroups.ps1
 ```
 
 Screenshots from interactive helpers are written under the bin/output directory and are not checked in.
