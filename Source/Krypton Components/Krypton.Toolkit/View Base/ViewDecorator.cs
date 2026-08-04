@@ -277,6 +277,12 @@ public abstract class ViewDecorator : ViewBase
     /// <summary>
     /// Gets and sets the associated key controller.
     /// </summary>
+    /// <remarks>
+    /// Forwarded from the child. Do not override key/focus event methods to Parent-only
+    /// bubble: when this decorator is the ViewManager root and ActiveView is null (mouse
+    /// not over the control), ViewBase must route Space/Enter through this controller
+    /// (see issue #4147).
+    /// </remarks>
     public override IKeyController? KeyController
     {
         get => _child?.KeyController;
@@ -335,53 +341,6 @@ public abstract class ViewDecorator : ViewBase
     public override void MouseLeave(ViewBase? next) =>
         // Bubble event up to the parent
         Parent?.MouseLeave(next);
-
-    #endregion
-
-    #region Key Events
-    /// <summary>
-    /// Key has been pressed down.
-    /// </summary>
-    /// <param name="e">A KeyEventArgs that contains the event data.</param>
-    public override void KeyDown(KeyEventArgs e) =>
-        // Bubble event up to the parent
-        Parent?.KeyDown(e);
-
-    /// <summary>
-    /// Key has been pressed.
-    /// </summary>
-    /// <param name="e">A KeyPressEventArgs that contains the event data.</param>
-    public override void KeyPress(KeyPressEventArgs e) =>
-        // Bubble event up to the parent
-        Parent?.KeyPress(e);
-
-    /// <summary>
-    /// Key has been released.
-    /// </summary>
-    /// <param name="e">A KeyEventArgs that contains the event data.</param>
-    /// <returns>True if capturing input; otherwise false.</returns>
-    public override bool KeyUp(KeyEventArgs e) =>
-        // Bubble event up to the parent
-        Parent?.KeyUp(e) ?? false;
-
-    #endregion
-
-    #region Source Events
-    /// <summary>
-    /// Source control has got the focus.
-    /// </summary>
-    /// <param name="c">Reference to the source control instance.</param>
-    public override void GotFocus(Control c) =>
-        // Bubble event up to the parent
-        Parent?.GotFocus(c);
-
-    /// <summary>
-    /// Source control has lost the focus.
-    /// </summary>
-    /// <param name="c">Reference to the source control instance.</param>
-    public override void LostFocus(Control c) =>
-        // Bubble event up to the parent
-        Parent?.LostFocus(c);
 
     #endregion
 
