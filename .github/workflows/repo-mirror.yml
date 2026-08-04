@@ -43,8 +43,8 @@ name: Repository Mirror
 
 on:
   schedule:
-    # Daily safety-net sync at 02:12 UTC (off-hour; runs only when this file exists on default branch: master)
-    - cron: '12 2 * * *'
+    # Daily safety-net sync at 02:00 UTC (runs only when this file exists on default branch: master)
+    - cron: '0 2 * * *'
   pull_request:
     # PR close events targeting these base branches are considered for merge-triggered syncs
     types:
@@ -454,7 +454,7 @@ jobs:
           workspace="$PWD"
           echo "Creating full-history bundle from bare clone (--all)..."
           git -C source.git bundle create "${workspace}/${bundle_name}" --all
-          git bundle verify "${workspace}/${bundle_name}"
+          git -C source.git bundle verify "${workspace}/${bundle_name}"
 
           git clone --depth 1 "https://x-access-token:$BACKUP_REPO_TOKEN@github.com/$repo_path.git" backup-repo
           cd backup-repo
