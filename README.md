@@ -71,6 +71,7 @@ View [package version details and supported frameworks](https://krypton-suite.gi
 | Release | [![Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml) |
 | Repository Mirror | [![Repository Mirror](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/repo-mirror.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/repo-mirror.yml) |
 | Visual Studio Templates Release | [![Visual Studio Templates Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/templates-release.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/templates-release.yml) |
+| Unit Tests (Alpha) | [![Unit Tests](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/unit-tests.yml) |
 
 =======
 

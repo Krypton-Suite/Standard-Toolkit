@@ -1,4 +1,4 @@
-<#
+﻿﻿<#
 .SYNOPSIS
     Tears out a caption tab and drags it back to verify remerge into the source window.
 
@@ -10,6 +10,7 @@
 .EXAMPLE
     powershell -NoProfile -ExecutionPolicy Bypass -File .\Scripts\UnitTest\Test-NavigatorCaptionTabRemerge.ps1 -HostPid 12345
 #>
+# UnitTest-CI: exclude
 [CmdletBinding()]
 param(
     [Parameter(Mandatory = $true)]
