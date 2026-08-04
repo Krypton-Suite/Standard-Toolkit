@@ -89,7 +89,7 @@ function Get-UnitTestCiMarker {
         [string]$Path
     )
 
-    # Read a prefix only — markers must appear near the top of the script.
+    # Read a prefix only - markers must appear near the top of the script.
     $lines = Get-Content -LiteralPath $Path -TotalCount 80 -ErrorAction Stop
     foreach ($line in $lines) {
         if ($line -match '^\s*#\s*UnitTest-CI\s*:\s*(include|exclude)\s*$') {

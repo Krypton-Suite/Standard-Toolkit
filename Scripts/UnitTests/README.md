@@ -33,6 +33,11 @@ Exit `0` on success; non-zero on failure. Prefer STA-safe WinForms work; the inv
 
 Workflow: [`.github/workflows/unit-tests.yml`](../../.github/workflows/unit-tests.yml) (also `workflow_call`-reusable).
 
+Optional Discord notifications use repository secret `DISCORD_WEBHOOK_UNIT_TESTS`:
+
+- Failures always post when the secret is set.
+- Successful on-demand runs post when `notify_discord` is enabled (`workflow_dispatch` default `true`).
+
 ## Prerequisites
 
 ```powershell
@@ -46,8 +51,9 @@ Default output folder: `Bin\Debug\net472`.
 | Script | Purpose | Marker |
 |--------|---------|--------|
 | `Invoke-AllUnitTests.ps1` | Discovers markers, runs every `include` script in STA children | (entry point) |
-| `Test-NavigatorTaskbarTabGroups.ps1` | #4129 TabGroup taskbar composites + float taskbar opt-in | `include` |
-| `Test-NavigatorCaptionTabRemerge.ps1` | Tear-out / remerge (needs `-HostPid`) | `exclude` |
+| `UnitTest-UnitTestInfrastructure.ps1` | Shared helpers + CI marker discovery smoke assert | `include` |
+| `UnitTest-NavigatorTaskbarTabGroups.ps1` | #4129 TabGroup taskbar composites + float taskbar opt-in (needs feature binaries) | `exclude` |
+| `UnitTest-NavigatorCaptionTabRemerge.ps1` | Tear-out / remerge (needs `-HostPid`) | `exclude` |
 | `Start-NavigatorFormIntegrationHost.ps1` | Hosts `NavigatorFormIntegrationDemo` | n/a |
 | `Invoke-CaptionTabDrag.ps1` | Caption drag + screenshots | n/a |
 | `Get-NavigatorCaptionTabProbe.ps1` | Caption geometry probe | n/a |
@@ -65,7 +71,7 @@ The invoker prints `[PASS]` / `[FAIL]` / `[SKIP]` banners and a summary table. O
 **GitHub (on demand):** Actions → **Unit Tests** → **Run workflow**, or:
 
 ```powershell
-gh workflow run "Unit Tests" -f configuration=Debug -f target_framework=net472 -f timeout_seconds=600
+gh workflow run "Unit Tests" -f configuration=Debug -f target_framework=net472 -f timeout_seconds=600 -f notify_discord=true
 ```
 
 ## Typical usage (#925 caption tabs)

@@ -17,7 +17,7 @@
 .EXAMPLE
     powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTest\Test-NavigatorTaskbarTabGroups.ps1
 #>
-# UnitTest-CI: include
+# UnitTest-CI: exclude
 [CmdletBinding()]
 param(
     [string]$Configuration = 'Debug',
