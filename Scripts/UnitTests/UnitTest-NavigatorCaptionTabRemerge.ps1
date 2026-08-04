@@ -10,6 +10,7 @@
 .EXAMPLE
     powershell -NoProfile -ExecutionPolicy Bypass -File .\Scripts\UnitTest\Test-NavigatorCaptionTabRemerge.ps1 -HostPid 12345
 #>
+# UnitTest-CI: exclude
 [CmdletBinding()]
 param(
     [Parameter(Mandatory = $true)]
