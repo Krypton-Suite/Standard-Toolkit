@@ -74,9 +74,9 @@ public abstract class ButtonSpec : Component,
     {
         _image = null;
         _toolTipImage = null;
-        _colorMap = GlobalStaticVariables.EMPTY_COLOR;
-        _imageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
-        _toolTipImageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
+        _colorMap = SharedStaticVariables.EMPTY_COLOR;
+        _imageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
+        _toolTipImageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
         _text = string.Empty;
         _extraText = string.Empty;
         UniqueName = CommonHelper.UniqueString;
@@ -218,8 +218,8 @@ public abstract class ButtonSpec : Component,
             }
         }
     }
-    private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != GlobalStaticVariables.EMPTY_COLOR;
-    private void ResetImageTransparentColor() => ImageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != SharedStaticVariables.EMPTY_COLOR;
+    private void ResetImageTransparentColor() => ImageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ImageStates
@@ -332,8 +332,8 @@ public abstract class ButtonSpec : Component,
             }
         }
     }
-    private bool ShouldSerializeToolTipImageTransparentColor() => ToolTipImageTransparentColor != GlobalStaticVariables.EMPTY_COLOR;
-    private void ResetToolTipImageTransparentColor() => ToolTipImageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeToolTipImageTransparentColor() => ToolTipImageTransparentColor != SharedStaticVariables.EMPTY_COLOR;
+    private void ResetToolTipImageTransparentColor() => ToolTipImageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ToolTipTitle
@@ -551,8 +551,8 @@ public abstract class ButtonSpec : Component,
             }
         }
     }
-    private bool ShouldSerializeColorMap() => ColorMap != GlobalStaticVariables.EMPTY_COLOR;
-    private void ResetColorMap() => ColorMap = GlobalStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeColorMap() => ColorMap != SharedStaticVariables.EMPTY_COLOR;
+    private void ResetColorMap() => ColorMap = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region Style
@@ -784,9 +784,9 @@ public abstract class ButtonSpec : Component,
             return KryptonCommand.GetButtonSpecImageTransparentColor(palette);
         }
 
-        return ImageTransparentColor != GlobalStaticVariables.EMPTY_COLOR
+        return ImageTransparentColor != SharedStaticVariables.EMPTY_COLOR
             ? ImageTransparentColor
-            : palette?.GetButtonSpecImageTransparentColor(ProtectedType) ?? GlobalStaticVariables.EMPTY_COLOR;
+            : palette?.GetButtonSpecImageTransparentColor(ProtectedType) ?? SharedStaticVariables.EMPTY_COLOR;
     }
 
     /// <summary>
@@ -839,7 +839,7 @@ public abstract class ButtonSpec : Component,
     /// </summary>
     /// <param name="palette">Palette to use for inheriting values.</param>
     /// <returns>Color value.</returns>
-    public virtual Color GetColorMap(PaletteBase? palette) => ColorMap != GlobalStaticVariables.EMPTY_COLOR
+    public virtual Color GetColorMap(PaletteBase? palette) => ColorMap != SharedStaticVariables.EMPTY_COLOR
         ? ColorMap
         : palette!.GetButtonSpecColorMap(ProtectedType);
 

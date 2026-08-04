@@ -117,7 +117,7 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
 
         krtbContents.CueHint.CueHintText = KryptonManager.Strings.CollectionEditorStrings.StringCollectionEditorPlaceholderCueText;
 
-        krtbContents.Text = GlobalStaticVariables.DEFAULT_EMPTY_STRING;
+        krtbContents.Text = SharedStaticVariables.DEFAULT_EMPTY_STRING;
 
         Text = KryptonManager.Strings.CollectionEditorStrings.StringCollectionEditorWindowTitle;
 

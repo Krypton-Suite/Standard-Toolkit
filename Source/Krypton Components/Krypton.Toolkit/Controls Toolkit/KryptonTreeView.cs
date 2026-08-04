@@ -2049,7 +2049,7 @@ public class KryptonTreeView : VisualControlBase,
                 _contentValues.ShortText = node.Text;
                 _contentValues.LongText = string.Empty;
                 _contentValues.Image = null;
-                _contentValues.ImageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
+                _contentValues.ImageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
 
                 if (node is KryptonTreeNode kryptonNode)
                 {
@@ -2063,7 +2063,7 @@ public class KryptonTreeView : VisualControlBase,
                 _contentValues.ShortText = @"A";
                 _contentValues.LongText = string.Empty;
                 _contentValues.Image = null;
-                _contentValues.ImageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
+                _contentValues.ImageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
             }
         }
     }

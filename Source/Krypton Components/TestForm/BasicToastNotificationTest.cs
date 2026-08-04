@@ -224,7 +224,7 @@ public partial class BasicToastNotificationTest : KryptonForm
 
     private void kbtnSampleText_Click(object sender, EventArgs e)
     {
-        ktxtToastContent.Text = GlobalStaticVariables.DEFAULT_LONG_SEED_TEXT;
+        ktxtToastContent.Text = SharedStaticVariables.DEFAULT_LONG_SEED_TEXT;
     }
 
     private void kcmbToastTitleAlignmentV_SelectedIndexChanged(object sender, EventArgs e)

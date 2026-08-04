@@ -3804,12 +3804,12 @@ public class KryptonWorkspace : VisualContainerControl,
 
             if (_menuPage is null)
             {
-                throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_menuPage)));
+                throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_menuPage)));
             }
 
             if (_menuCell is null)
             {
-                throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_menuCell)));
+                throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_menuCell)));
             }
 
             // Update the individual menu options

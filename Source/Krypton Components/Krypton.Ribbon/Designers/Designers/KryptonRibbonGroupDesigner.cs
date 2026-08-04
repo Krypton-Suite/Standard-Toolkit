@@ -81,8 +81,8 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
         }
 
         // Get access to the services
-        _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
-        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
+        _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
+        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
 
         // We need to know when we are being removed/changed
         _changeService.ComponentRemoving += OnComponentRemoving;
@@ -391,7 +391,7 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
                 RaiseComponentChanging(propertyItems);
 
                 // Get designer to create the new lines component
-                var lines = (KryptonRibbonGroupLines)_designerHost.CreateComponent(typeof(KryptonRibbonGroupLines)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("lines"));
+                var lines = (KryptonRibbonGroupLines)_designerHost.CreateComponent(typeof(KryptonRibbonGroupLines)) ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("lines"));
                 _ribbonGroup.Items.Add(lines);
 
                 // Get access to the Lines.Items property
@@ -496,7 +496,7 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
                 RaiseComponentChanging(propertyItems);
 
                 // Need access to host in order to delete a component
-                var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("host"));
+                var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("host"));
 
                 // We need to remove all the items from the tab
                 for (var i = _ribbonGroup.Items.Count - 1; i >= 0; i--)
@@ -592,7 +592,7 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
         if (e.Component == _ribbonGroup)
         {
             // Need access to host in order to delete a component
-            var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("host"));
+            var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("host"));
 
             // We need to remove all containers from the group
             for (var j = _ribbonGroup.Items.Count - 1; j >= 0; j--)
@@ -637,10 +637,10 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
                     _clearItemsMenu, new ToolStripSeparator(),
                     _deleteGroupMenu });
 
-                _addTripleMenu.ImageTransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
-                _addLinesMenu.ImageTransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
-                _addSeparatorMenu.ImageTransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
-                _addGalleryMenu.ImageTransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
+                _addTripleMenu.ImageTransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
+                _addLinesMenu.ImageTransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
+                _addSeparatorMenu.ImageTransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
+                _addGalleryMenu.ImageTransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
             }
 
             // Update verbs to work out correct enable states
@@ -710,7 +710,7 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
             var tabMenuItem = sender as ToolStripMenuItem ?? throw new ArgumentNullException(nameof(sender));
 
             // Get access to the destination tab
-            var destination = tabMenuItem.Tag as KryptonRibbonTab ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(tabMenuItem.Tag)));
+            var destination = tabMenuItem.Tag as KryptonRibbonTab ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(tabMenuItem.Tag)));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroup MoveTabTo");

@@ -40,7 +40,7 @@ public class CheckBoxExtendedTextValues : LabelValues
     {
         Text = DEFAULT_TEXT;
         ExtraText = DEFAULT_SUBTEXT;
-        _subtextForeColor = GlobalStaticVariables.EMPTY_COLOR;
+        _subtextForeColor = SharedStaticVariables.EMPTY_COLOR;
     }
 
     #endregion
@@ -121,9 +121,9 @@ public class CheckBoxExtendedTextValues : LabelValues
     /// <summary>
     /// Resets the <see cref="SubtextForeColor"/> property to its default value.
     /// </summary>
-    public void ResetSubtextForeColor() => SubtextForeColor = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetSubtextForeColor() => SubtextForeColor = SharedStaticVariables.EMPTY_COLOR;
 
-    internal bool ShouldSerializeSubtextForeColor() => SubtextForeColor != GlobalStaticVariables.EMPTY_COLOR;
+    internal bool ShouldSerializeSubtextForeColor() => SubtextForeColor != SharedStaticVariables.EMPTY_COLOR;
 
     /// <inheritdoc />
     public new void ResetText()

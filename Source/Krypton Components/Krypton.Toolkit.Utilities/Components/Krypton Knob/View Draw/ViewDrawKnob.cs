@@ -88,9 +88,9 @@ public class ViewDrawKnob : ViewDrawPanel
         _indicatorCustomPath = null;
         _knobStyle = KnobStyle.Classic;
         _backplateShape = KnobBackplateShape.None;
-        _backplateColor1 = GlobalStaticVariables.EMPTY_COLOR;
-        _backplateColor2 = GlobalStaticVariables.EMPTY_COLOR;
-        _backplateBorderColor = GlobalStaticVariables.EMPTY_COLOR;
+        _backplateColor1 = SharedStaticVariables.EMPTY_COLOR;
+        _backplateColor2 = SharedStaticVariables.EMPTY_COLOR;
+        _backplateBorderColor = SharedStaticVariables.EMPTY_COLOR;
         _showBackplateInsetWell = true;
         _showBackplateDropShadow = true;
 
@@ -483,7 +483,7 @@ public class ViewDrawKnob : ViewDrawPanel
         var faceColor1 = facePalette.GetElementColor1(paletteState);
         var faceColor2 = facePalette.GetElementColor2(paletteState);
         var borderColor = facePalette.GetElementColor3(paletteState);
-        if (borderColor == GlobalStaticVariables.EMPTY_COLOR)
+        if (borderColor == SharedStaticVariables.EMPTY_COLOR)
         {
             borderColor = faceColor1;
         }
@@ -513,13 +513,13 @@ public class ViewDrawKnob : ViewDrawPanel
 
         var indicatorBegin = indicatorPalette.GetElementColor1(paletteState);
         var indicatorEnd = indicatorPalette.GetElementColor2(paletteState);
-        if (indicatorEnd == GlobalStaticVariables.EMPTY_COLOR)
+        if (indicatorEnd == SharedStaticVariables.EMPTY_COLOR)
         {
             indicatorEnd = indicatorBegin;
         }
 
         var indicatorBorder = indicatorPalette.GetElementColor3(paletteState);
-        if (indicatorBorder == GlobalStaticVariables.EMPTY_COLOR)
+        if (indicatorBorder == SharedStaticVariables.EMPTY_COLOR)
         {
             indicatorBorder = borderColor;
         }
@@ -833,7 +833,7 @@ public class ViewDrawKnob : ViewDrawPanel
         using var brush = new PathGradientBrush(path)
         {
             CenterColor = GetLightColor(faceColor1, 45),
-            SurroundColors = new[] { faceColor2 == GlobalStaticVariables.EMPTY_COLOR ? GetDarkColor(faceColor1, 55) : faceColor2 },
+            SurroundColors = new[] { faceColor2 == SharedStaticVariables.EMPTY_COLOR ? GetDarkColor(faceColor1, 55) : faceColor2 },
             CenterPoint = new PointF(_knobCenter.X, _knobCenter.Y)
         };
         g.FillPath(brush, path);
@@ -858,9 +858,9 @@ public class ViewDrawKnob : ViewDrawPanel
             return;
         }
 
-        var color1 = _backplateColor1 == GlobalStaticVariables.EMPTY_COLOR ? Color.FromArgb(210, 210, 215) : _backplateColor1;
-        var color2 = _backplateColor2 == GlobalStaticVariables.EMPTY_COLOR ? Color.FromArgb(150, 150, 158) : _backplateColor2;
-        var border = _backplateBorderColor == GlobalStaticVariables.EMPTY_COLOR ? GetDarkColor(color1, 70) : _backplateBorderColor;
+        var color1 = _backplateColor1 == SharedStaticVariables.EMPTY_COLOR ? Color.FromArgb(210, 210, 215) : _backplateColor1;
+        var color2 = _backplateColor2 == SharedStaticVariables.EMPTY_COLOR ? Color.FromArgb(150, 150, 158) : _backplateColor2;
+        var border = _backplateBorderColor == SharedStaticVariables.EMPTY_COLOR ? GetDarkColor(color1, 70) : _backplateBorderColor;
 
         // The backplate colours are custom (not palette driven), so mute them toward grey
         // to give a disabled appearance that matches the disabled palette knob face.
@@ -1134,7 +1134,7 @@ public class ViewDrawKnob : ViewDrawPanel
         using var fillBrush = new SolidBrush(fillColor);
         g.FillEllipse(fillBrush, rect);
 
-        if (borderColor != GlobalStaticVariables.EMPTY_COLOR)
+        if (borderColor != SharedStaticVariables.EMPTY_COLOR)
         {
             using var borderPen = new Pen(borderColor);
             g.DrawEllipse(borderPen, rect);
@@ -1169,7 +1169,7 @@ public class ViewDrawKnob : ViewDrawPanel
             var barThickness = Math.Max(4f, _rectKnob.Width * 0.1f);
             var barRect = new RectangleF(-barLength, -barThickness / 2f, barLength * 2f, barThickness);
 
-            var baseColor = barColor == GlobalStaticVariables.EMPTY_COLOR ? Color.FromArgb(40, 40, 40) : GetDarkColor(barColor, 30);
+            var baseColor = barColor == SharedStaticVariables.EMPTY_COLOR ? Color.FromArgb(40, 40, 40) : GetDarkColor(barColor, 30);
             using (var baseBrush = new LinearGradientBrush(barRect, GetLightColor(baseColor, 25), GetDarkColor(baseColor, 25), LinearGradientMode.Vertical))
             {
                 g.FillRectangle(baseBrush, barRect);

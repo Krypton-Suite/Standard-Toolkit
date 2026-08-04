@@ -157,7 +157,7 @@ When asked to review or document code — or when adding/changing public API —
 ### What not to document
 
 - Obvious boilerplate (`// This constructor creates an instance of X`, `// Return the result`, restating parameter names or type names).
-- Members whose existing XML already accurately describes intent; extend or correct rather than rewrite wholesale (see **Comment Style**).
+- Members whose existing XML already accurately describes intent; extend or correct rather than rewrite wholesale (see **Comment Style** and **Documentation Stability**).
 - **Event Args**, **Resources**, **Designer** / **`.Designer.cs`**, and other thin property-bag or generated files unless logic is non-trivial (then document only that logic).
 - Large blocks of unchanged legacy code unrelated to the task — do not “document the world” in a feature or bug PR unless the user explicitly requests a documentation pass.
 
@@ -170,11 +170,8 @@ When asked to review or document code — or when adding/changing public API —
 - Prefer several short `//` comments over large comment blocks.
 - Comments should explain *why* code exists or *why* an approach was chosen, not simply restate what the code does.
 - Keep comments **clear and concise** — one or two sentences for inline notes; XML may be slightly longer when describing contracts or edge cases. Prefer plain language over jargon.
-- Preserve existing comments and XML documentation whenever they remain accurate and useful. Extend, clarify, or correct them surgically rather than replacing them wholesale. Remove or rewrite comments only when they are inaccurate, misleading, obsolete, or substantially incomplete — never rewrite solely for style. Historical and architectural notes in this codebase are often valuable; do not erase them casually.
-- When updating comments or XML documentation, ensure they remain consistent with the implementation after every change. Documentation should be treated as part of the code, not an afterthought.
-- Remove or correct comments that are inaccurate, outdated, or misleading; do not leave documentation that contradicts the implementation.
-- Documentation passes should converge towards higher quality. Each pass should preserve good existing documentation, improve weak documentation, and avoid introducing regressions in clarity or accuracy — leave documentation as good as or better than before, never worse.
 - Match surrounding voice (this codebase often uses short `//` notes inside `switch` arms and multi-step flows).
+- For preservation, idempotence, and when to stop editing, follow **Documentation Stability**.
 
 Prefer:
 
@@ -192,6 +189,46 @@ Avoid:
 ```
 
 And avoid restating the obvious (`// Increment the index.` before `index++;`). Prefer intent (`// Iterate in reverse because removing children invalidates forward indices.`).
+
+### Documentation Stability
+
+Documentation should be **deterministic** and converge toward a stable, maintainable state. Identical wording across every agent is not guaranteed; the objective is **substantively equivalent**, convergent documentation — stability over novelty.
+
+For equivalent code, repeated documentation passes should produce the same or substantively equivalent documentation. Documentation passes should:
+
+- Preserve accurate existing comments and XML documentation.
+- Correct inaccurate or obsolete documentation.
+- Improve incomplete documentation.
+- Never reduce the accuracy or usefulness of existing documentation.
+- Avoid stylistic rewrites when the existing documentation already satisfies these guidelines.
+
+Documentation updates should be **idempotent**: running another documentation pass over already-compliant code should result in little or no change.
+
+Do not rewrite documentation solely to change wording, sentence structure, or writing style. Only modify documentation when doing one or more of the following:
+
+- Correcting inaccuracies
+- Improving clarity where the existing text is unclear or ambiguous
+- Documenting new behavior
+- Removing obsolete information
+- Completing missing contracts (`<param>`, `<returns>`, `<exception>`, nullability, threading, designer impact, and similar)
+
+Preserve existing comments and XML documentation whenever they remain accurate and useful. Extend, clarify, or correct them surgically rather than replacing them wholesale. Remove or rewrite comments only when they are inaccurate, misleading, obsolete, or substantially incomplete — never rewrite solely for style. Historical and architectural notes in this codebase are often valuable; do not erase them casually.
+
+When updating comments or XML documentation, ensure they remain consistent with the implementation after every change. Documentation is part of the code, not an afterthought. Remove or correct comments that are inaccurate, outdated, or misleading; do not leave documentation that contradicts the implementation.
+
+Prefer improving existing documentation over inventing entirely new wording for the same facts.
+
+Each documentation pass should converge toward a stable result. Once documentation satisfies these guidelines, future passes should make few or no changes unless the code changes.
+
+Documentation is considered **complete** when it:
+
+- Accurately describes current behavior
+- Explains non-obvious design decisions
+- Matches the implementation
+- Follows repository conventions in this file
+- Contains no redundant or contradictory information
+
+Stop editing documentation that already meets this bar.
 
 ### Prioritization (large modules)
 

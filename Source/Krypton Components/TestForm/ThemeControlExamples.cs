@@ -22,7 +22,7 @@ public partial class ThemeControlExamples : KryptonForm
         {
             ShowImportButton = true,
             ShowSilentOption = true,
-            DefaultPalette = GlobalStaticConstants.GLOBAL_DEFAULT_PALETTE_MODE,
+            DefaultPalette = ToolkitStaticConstants.GLOBAL_DEFAULT_PALETTE_MODE,
             StartPosition = FormStartPosition.CenterScreen,
             WindowTitle = KryptonManager.Strings.MiscellaneousThemeStrings.ThemeBrowserWindowTitle
         };

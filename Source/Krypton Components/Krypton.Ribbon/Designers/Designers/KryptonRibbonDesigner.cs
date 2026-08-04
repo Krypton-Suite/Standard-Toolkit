@@ -66,9 +66,9 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
         }
 
         // Get access to the services
-        _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
-        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
-        _selectionService = (ISelectionService?)GetService(typeof(ISelectionService)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_selectionService)));
+        _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
+        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
+        _selectionService = (ISelectionService?)GetService(typeof(ISelectionService)) ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_selectionService)));
 
         // We need to know when we are being removed
         _changeService.ComponentRemoving += OnComponentRemoving;
@@ -267,12 +267,12 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
     {
         if (_designerHost is null)
         {
-            throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
+            throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
         }
 
         if (_ribbon is null)
         {
-            throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_ribbon)));
+            throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_ribbon)));
         }
 
         // Use a transaction to support undo/redo actions
@@ -304,12 +304,12 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
     {
         if (_designerHost is null)
         {
-            throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
+            throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
         }
 
         if (_ribbon is null)
         {
-            throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_ribbon)));
+            throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_ribbon)));
         }
 
         // Use a transaction to support undo/redo actions
@@ -323,7 +323,7 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
             RaiseComponentChanging(propertyPages);
 
             // Need access to host in order to delete a component
-            var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("host"));
+            var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("host"));
 
             // We need to remove all the tabs from the ribbon
             for (var i = _ribbon.RibbonTabs.Count - 1; i >= 0; i--)
@@ -348,12 +348,12 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
     {
         if (_designerHost is null)
         {
-            throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
+            throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
         }
 
         if (_ribbon is null)
         {
-            throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_ribbon)));
+            throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_ribbon)));
         }
 
         DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbon InsertStandardQATItems");
@@ -397,12 +397,12 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
     {
         if (_designerHost is null)
         {
-            throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
+            throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
         }
 
         if (_ribbon is null)
         {
-            throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_ribbon)));
+            throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_ribbon)));
         }
 
         DesignerTransaction transaction = _designerHost.CreateTransaction(showTabHeaders
@@ -463,7 +463,7 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
         if (Equals(e.Component, _ribbon))
         {
             // Need access to host in order to delete a component
-            var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("host"));
+            var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("host"));
 
             // We need to remove all the button spec instances
             for (var i = _ribbon!.ButtonSpecs.Count - 1; i >= 0; i--)

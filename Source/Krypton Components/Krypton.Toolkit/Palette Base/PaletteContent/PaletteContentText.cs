@@ -48,8 +48,8 @@ public class PaletteContentText : Storage
             ContentTextV = PaletteRelativeAlign.Inherit;
             ContentTextMultiLineH = PaletteRelativeAlign.Inherit;
             ContentTextMultiLine = InheritBool.Inherit;
-            ContentTextColor1 = GlobalStaticVariables.EMPTY_COLOR;
-            ContentTextColor2 = GlobalStaticVariables.EMPTY_COLOR;
+            ContentTextColor1 = SharedStaticVariables.EMPTY_COLOR;
+            ContentTextColor2 = SharedStaticVariables.EMPTY_COLOR;
             ContentTextColorStyle = PaletteColorStyle.Inherit;
             ContentTextColorAlign = PaletteRectangleAlign.Inherit;
             ContentTextColorAngle = -1;
@@ -68,8 +68,8 @@ public class PaletteContentText : Storage
                                  (ContentTextV == PaletteRelativeAlign.Inherit) &&
                                  (ContentTextMultiLineH == PaletteRelativeAlign.Inherit) &&
                                  (ContentTextMultiLine == InheritBool.Inherit) &&
-                                 (ContentTextColor1 == GlobalStaticVariables.EMPTY_COLOR) &&
-                                 (ContentTextColor2 == GlobalStaticVariables.EMPTY_COLOR) &&
+                                 (ContentTextColor1 == SharedStaticVariables.EMPTY_COLOR) &&
+                                 (ContentTextColor2 == SharedStaticVariables.EMPTY_COLOR) &&
                                  (ContentTextColorStyle == PaletteColorStyle.Inherit) &&
                                  (ContentTextColorAlign == PaletteRectangleAlign.Inherit) &&
                                  (ContentTextColorAngle == -1) &&
@@ -444,7 +444,7 @@ public class PaletteContentText : Storage
     [RefreshProperties(RefreshProperties.All)]
     public virtual Color Color1
     {
-        get => _storage?.ContentTextColor1 ?? GlobalStaticVariables.EMPTY_COLOR;
+        get => _storage?.ContentTextColor1 ?? SharedStaticVariables.EMPTY_COLOR;
 
         set
         {
@@ -459,7 +459,7 @@ public class PaletteContentText : Storage
             }
             else
             {
-                if (value != GlobalStaticVariables.EMPTY_COLOR)
+                if (value != SharedStaticVariables.EMPTY_COLOR)
                 {
                     _storage = new InternalStorage
                     {
@@ -484,7 +484,7 @@ public class PaletteContentText : Storage
     [RefreshProperties(RefreshProperties.All)]
     public virtual Color Color2
     {
-        get => _storage?.ContentTextColor2 ?? GlobalStaticVariables.EMPTY_COLOR;
+        get => _storage?.ContentTextColor2 ?? SharedStaticVariables.EMPTY_COLOR;
 
         set
         {
@@ -499,7 +499,7 @@ public class PaletteContentText : Storage
             }
             else
             {
-                if (value != GlobalStaticVariables.EMPTY_COLOR)
+                if (value != SharedStaticVariables.EMPTY_COLOR)
                 {
                     _storage = new InternalStorage
                     {

@@ -35,7 +35,7 @@ public class KnobPlateLabel : Storage
         _onChanged = onChanged;
         _text = string.Empty;
         _angle = 0f;
-        _color = GlobalStaticVariables.EMPTY_COLOR;
+        _color = SharedStaticVariables.EMPTY_COLOR;
         _visible = false;
         _radiusFactor = 0.88f;
     }
@@ -46,7 +46,7 @@ public class KnobPlateLabel : Storage
     public override bool IsDefault =>
         string.IsNullOrEmpty(_text) &&
         _angle.Equals(0f) &&
-        _color == GlobalStaticVariables.EMPTY_COLOR &&
+        _color == SharedStaticVariables.EMPTY_COLOR &&
         !_visible &&
         _radiusFactor.Equals(0.88f) &&
         _font == null;
@@ -109,9 +109,9 @@ public class KnobPlateLabel : Storage
         }
     }
 
-    private bool ShouldSerializeColor() => _color != GlobalStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeColor() => _color != SharedStaticVariables.EMPTY_COLOR;
 
-    private void ResetColor() => Color = GlobalStaticVariables.EMPTY_COLOR;
+    private void ResetColor() => Color = SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets or sets whether the label is visible.

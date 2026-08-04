@@ -57,7 +57,7 @@ public class KryptonDataGridViewNumericUpDownColumn : KryptonDataGridViewIconCol
     /// <returns></returns>
     public override object Clone()
     {
-        var cloned = base.Clone() as KryptonDataGridViewNumericUpDownColumn ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("cloned"));
+        var cloned = base.Clone() as KryptonDataGridViewNumericUpDownColumn ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("cloned"));
         cloned.SyncEditorOnButtonSpecClick = SyncEditorOnButtonSpecClick;
         return cloned;
     }

@@ -42,7 +42,7 @@ public class KryptonPaletteButtonSpecTyped : KryptonPaletteButtonSpecBase
         _text = string.Empty;
         _extraText = string.Empty;
         _toolTipTitle = string.Empty;
-        _colorMap = GlobalStaticVariables.EMPTY_COLOR;
+        _colorMap = SharedStaticVariables.EMPTY_COLOR;
         _allowInheritImage = true;
         _allowInheritText = true;
         _allowInheritExtraText = true;
@@ -66,7 +66,7 @@ public class KryptonPaletteButtonSpecTyped : KryptonPaletteButtonSpecBase
                                       (Text == string.Empty) &&
                                       (ExtraText == string.Empty) &&
                                       (ToolTipTitle == string.Empty) &&
-                                      (ColorMap == GlobalStaticVariables.EMPTY_COLOR) &&
+                                      (ColorMap == SharedStaticVariables.EMPTY_COLOR) &&
                                       AllowInheritImage &&
                                       AllowInheritText &&
                                       AllowInheritExtraText &&
@@ -268,12 +268,12 @@ public class KryptonPaletteButtonSpecTyped : KryptonPaletteButtonSpecBase
         }
     }
 
-    private bool ShouldSerializeColorMap() => ColorMap != GlobalStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeColorMap() => ColorMap != SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Resets the ColorMap property to its default value.
     /// </summary>
-    public void ResetColorMap() => ColorMap = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetColorMap() => ColorMap = SharedStaticVariables.EMPTY_COLOR;
 
     #endregion
 
@@ -455,7 +455,7 @@ public class KryptonPaletteButtonSpecTyped : KryptonPaletteButtonSpecBase
     /// <param name="style">Style of button spec.</param>
     /// <returns>Color value.</returns>
     public override Color GetButtonSpecColorMap(PaletteButtonSpecStyle style) =>
-        ColorMap != GlobalStaticVariables.EMPTY_COLOR ? ColorMap : base.GetButtonSpecColorMap(style);
+        ColorMap != SharedStaticVariables.EMPTY_COLOR ? ColorMap : base.GetButtonSpecColorMap(style);
 
     #endregion
 

@@ -1121,7 +1121,7 @@ public static class CommonHelper
     public static Color MergeColors(Color color1, float percent1,
         Color color2, float percent2) =>
         // Use existing three color merge
-        MergeColors(color1, percent1, color2, percent2, GlobalStaticVariables.EMPTY_COLOR, 0f);
+        MergeColors(color1, percent1, color2, percent2, SharedStaticVariables.EMPTY_COLOR, 0f);
 
     /// <summary>
     /// Merge three colors together using relative percentages.

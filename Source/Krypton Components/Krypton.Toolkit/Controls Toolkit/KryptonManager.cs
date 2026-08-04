@@ -2110,13 +2110,13 @@ public sealed class KryptonManager : Component
         {
             case PaletteMode.Global:
             case PaletteMode.Custom:
-                Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.GenericToolBarImages);
+                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.GenericToolBarImages);
                 break;
             case PaletteMode.ProfessionalSystem:
-                Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.SystemToolBarImages);
+                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.SystemToolBarImages);
                 break;
             case PaletteMode.ProfessionalOffice2003:
-                Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.Office2003ToolBarImages);
+                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Office2003ToolBarImages);
                 break;
             case PaletteMode.Office2007Blue:
             case PaletteMode.Office2007BlueDarkMode:
@@ -2128,7 +2128,7 @@ public sealed class KryptonManager : Component
             case PaletteMode.Office2007Black:
             case PaletteMode.Office2007BlackDarkMode:
             case PaletteMode.VisualStudio2010Render2007:
-                Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.Office2007ToolBarImages);
+                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Office2007ToolBarImages);
                 break;
             case PaletteMode.Office2010Blue:
             case PaletteMode.Office2010BlueDarkMode:
@@ -2149,13 +2149,13 @@ public sealed class KryptonManager : Component
             case PaletteMode.SparklePurpleDarkMode:
             case PaletteMode.SparklePurpleLightMode:
             case PaletteMode.VisualStudio2010Render2010:
-                Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.Office2010ToolBarImages);
+                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Office2010ToolBarImages);
                 break;
             case PaletteMode.Office2013DarkGray:
             case PaletteMode.Office2013LightGray:
             case PaletteMode.Office2013White:
             case PaletteMode.VisualStudio2010Render2013:
-                Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.Office2013ToolBarImages);
+                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Office2013ToolBarImages);
                 break;
             case PaletteMode.Microsoft365Black:
             case PaletteMode.Microsoft365BlackDarkMode:
@@ -2168,26 +2168,26 @@ public sealed class KryptonManager : Component
             case PaletteMode.Microsoft365SilverLightMode:
             case PaletteMode.Microsoft365White:
             case PaletteMode.VisualStudio2010Render365:
-                Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.Microsoft365ToolBarImages);
+                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Microsoft365ToolBarImages);
                 break;
             case PaletteMode.VisualStudio2022Dark:
-                Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.VisualStudioToolBarImages);
+                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.VisualStudioToolBarImages);
                 break;
             case PaletteMode.MaterialLight:
             case PaletteMode.MaterialDark:
             case PaletteMode.MaterialLightRipple:
             case PaletteMode.MaterialDarkRipple:
                 // TODO create our own Material images
-                Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.Microsoft365ToolBarImages);
+                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Microsoft365ToolBarImages);
                 break;
             case PaletteMode.RetroGreen:
             case PaletteMode.RetroBlue:
-                Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.Office2010ToolBarImages);
+                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Office2010ToolBarImages);
                 break;
             case PaletteMode.MacOSXAqua:
             case PaletteMode.MacOSLight:
             case PaletteMode.MacOSDark:
-                Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.Microsoft365ToolBarImages);
+                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Microsoft365ToolBarImages);
                 break;
             default:
                 // Should not happen!

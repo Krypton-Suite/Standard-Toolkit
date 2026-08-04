@@ -59,7 +59,7 @@ public class KryptonContextMenuHeading : KryptonContextMenuItemBase
         // Default fields
         _extraText = string.Empty;
         _image = null;
-        _imageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
+        _imageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
 
         // Create the redirector that can get values from the krypton context menu
         _redirectHeading = new PaletteRedirectTriple();
@@ -227,7 +227,7 @@ public class KryptonContextMenuHeading : KryptonContextMenuItemBase
         }
     }
 
-    private bool ShouldSerializeImageTransparentColor() => !_imageTransparentColor.Equals(GlobalStaticVariables.EMPTY_COLOR);
+    private bool ShouldSerializeImageTransparentColor() => !_imageTransparentColor.Equals(SharedStaticVariables.EMPTY_COLOR);
 
     /// <summary>
     /// Gets access to the header instance specific appearance values.

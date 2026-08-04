@@ -157,12 +157,12 @@ internal class CustomControlController : GlobalId,
 
         if (ribbon is null)
         {
-            throw new ArgumentNullException(GlobalStaticFunctions.ParameterCannotBeNull(nameof(ribbon)));
+            throw new ArgumentNullException(SharedStaticFunctions.ParameterCannotBeNull(nameof(ribbon)));
         }
 
         if (ribbon.TabsArea is null)
         {
-            throw new NullReferenceException(GlobalStaticFunctions.ParameterCannotBeNull(nameof(ribbon.TabsArea)));
+            throw new NullReferenceException(SharedStaticFunctions.ParameterCannotBeNull(nameof(ribbon.TabsArea)));
         }
 
         switch (e.KeyData)

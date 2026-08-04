@@ -21,7 +21,7 @@ internal static class KnobColorUtility
     /// <returns>Desaturated light-grey equivalent.</returns>
     public static Color GetDisabledColor(Color color)
     {
-        if (color == GlobalStaticVariables.EMPTY_COLOR)
+        if (color == SharedStaticVariables.EMPTY_COLOR)
         {
             return color;
         }

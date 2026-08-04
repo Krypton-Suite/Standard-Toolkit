@@ -42,7 +42,7 @@ public class PaletteMacOSDark : PaletteMacOSBase
         {
             ImageSize = new Size(13, 7),
             ColorDepth = ColorDepth.Depth24Bit,
-            TransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR
+            TransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR
         };
         _galleryButtonList.Images.AddStrip(GalleryImageResources.Gallery2010);
 

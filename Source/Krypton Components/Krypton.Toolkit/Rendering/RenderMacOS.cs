@@ -60,7 +60,7 @@ public class RenderMacOS : RenderMaterial
             // Tab face is painted in DrawBack (RenderBefore). DrawBorderLast calls us after content,
             // so do not fill the tab rectangle, or we paint over the page title text.
             var accent = palette.GetBorderColor1(state);
-            if (accent == GlobalStaticVariables.EMPTY_COLOR || accent.IsEmpty)
+            if (accent == SharedStaticVariables.EMPTY_COLOR || accent.IsEmpty)
             {
                 accent = palette.GetBorderColor2(state);
             }

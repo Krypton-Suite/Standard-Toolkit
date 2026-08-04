@@ -599,7 +599,7 @@ public partial class KryptonToolbarSlider : UserControl, IContentValues
     //Implements IContentValues
     public Image? GetImage(PaletteState state) => null;
 
-    public Color GetImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public Color GetImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     public string GetLongText() => string.Empty;
 
@@ -607,7 +607,7 @@ public partial class KryptonToolbarSlider : UserControl, IContentValues
 
     public Image? GetOverlayImage(PaletteState state) => null;
 
-    public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public Color GetOverlayImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     public OverlayImagePosition GetOverlayImagePosition(PaletteState state) => OverlayImagePosition.TopRight;
 

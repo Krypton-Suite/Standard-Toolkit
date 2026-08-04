@@ -16,15 +16,15 @@ public class PaletteMicrosoft365LightGray : PaletteMicrosoft365Base
 {
     #region Instance Fields
 
-    private readonly Color _tabRowBackgroundColor = GlobalStaticVariables.EMPTY_COLOR;
+    private readonly Color _tabRowBackgroundColor = SharedStaticVariables.EMPTY_COLOR;
 
     #region Ribbon Specific Colors
 
-    private static readonly Color _ribbonAppButtonDarkColor = GlobalStaticVariables.EMPTY_COLOR;
+    private static readonly Color _ribbonAppButtonDarkColor = SharedStaticVariables.EMPTY_COLOR;
 
-    private static readonly Color _ribbonAppButtonLightColor = GlobalStaticVariables.EMPTY_COLOR;
+    private static readonly Color _ribbonAppButtonLightColor = SharedStaticVariables.EMPTY_COLOR;
 
-    private static readonly Color _ribbonAppButtonTextColor = GlobalStaticVariables.EMPTY_COLOR;
+    private static readonly Color _ribbonAppButtonTextColor = SharedStaticVariables.EMPTY_COLOR;
 
     #endregion
 
@@ -54,15 +54,15 @@ public class PaletteMicrosoft365LightGray : PaletteMicrosoft365Base
     #region Tab Row Background
 
     /// <inheritdoc />
-    public override Color GetRibbonTabRowGradientColor1(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public override Color GetRibbonTabRowGradientColor1(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <inheritdoc />
     public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) =>
-        GlobalStaticVariables.EMPTY_COLOR;
+        SharedStaticVariables.EMPTY_COLOR;
 
     /// <inheritdoc />
     public override Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state) =>
-        GlobalStaticVariables.EMPTY_COLOR;
+        SharedStaticVariables.EMPTY_COLOR;
 
     /// <inheritdoc />
     public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => _tabRowBackgroundColor;

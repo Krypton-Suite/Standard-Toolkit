@@ -349,21 +349,21 @@ public class RenderStandard : RenderBase
 
 		_gridSortOrder = new ImageList
 		{
-			TransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR,
+			TransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR,
 			ImageSize = new Size(17, 11)
 		};
 		_gridSortOrder.Images.AddStrip(GridImageResources.GridSortOrder);
 
 		_gridRowIndicators = new ImageList
 		{
-			TransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR,
+			TransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR,
 			ImageSize = new Size(19, 13)
 		};
 		_gridRowIndicators.Images.AddStrip(GridImageResources.GridRowIndicators);
 
 		_gridErrorIcon = new ImageList
 		{
-			TransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR,
+			TransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR,
 			ImageSize = new Size(18, 17)
 		};
 		_gridErrorIcon.Images.AddStrip(GenericImageResources.GridErrorIcon);
@@ -3290,7 +3290,7 @@ public class RenderStandard : RenderBase
 
 			if (state == PaletteState.Disabled)
 			{
-				ControlPaint.DrawImageDisabled(context!.Graphics, errorImage, x, y, GlobalStaticVariables.EMPTY_COLOR);
+				ControlPaint.DrawImageDisabled(context!.Graphics, errorImage, x, y, SharedStaticVariables.EMPTY_COLOR);
 			}
 			else
 			{
@@ -5824,7 +5824,7 @@ public class RenderStandard : RenderBase
 					float ratio = Math.Min(displayRect.Width / (float)memento.Image.Width,
 						displayRect.Height / (float)memento.Image.Height);
 
-					bool avoidPurple = memento.ImageTransparentColor != GlobalStaticVariables.EMPTY_COLOR;
+					bool avoidPurple = memento.ImageTransparentColor != SharedStaticVariables.EMPTY_COLOR;
 
 					// Resize image to fit display area
 					memento.Image = CommonHelper.ScaleImageForSizedDisplay(memento.Image, memento.Image.Width * ratio,
@@ -8199,7 +8199,7 @@ public class RenderStandard : RenderBase
 				cache.Dispose();
 
 				// If c5 has a colour then use that to highlight the tab
-				if (c5 != GlobalStaticVariables.EMPTY_COLOR)
+				if (c5 != SharedStaticVariables.EMPTY_COLOR)
 				{
 					if (!standard)
 					{
@@ -8476,7 +8476,7 @@ public class RenderStandard : RenderBase
 				cache.Dispose();
 
 				// If c5 has a colour then use that to highlight the tab
-				if (c5 != GlobalStaticVariables.EMPTY_COLOR)
+				if (c5 != SharedStaticVariables.EMPTY_COLOR)
 				{
 					c1 = c5;
 					c2 = CommonHelper.MergeColors(c2, 0.8f, ControlPaint.Light(c5), 0.2f);
@@ -9403,7 +9403,7 @@ public class RenderStandard : RenderBase
 				cache.Dispose();
 
 				// If we have a context color to use then modify the drawing colors
-				if (c5 != GlobalStaticVariables.EMPTY_COLOR)
+				if (c5 != SharedStaticVariables.EMPTY_COLOR)
 				{
 					if (!standard)
 					{
@@ -9435,7 +9435,7 @@ public class RenderStandard : RenderBase
 
 			context.Graphics.FillPath(cache.CenterBrush!, cache.OutsidePath!);
 
-			if (c5 != GlobalStaticVariables.EMPTY_COLOR)
+			if (c5 != SharedStaticVariables.EMPTY_COLOR)
 			{
 				context.Graphics.FillPath(cache.InsideBrush!, cache.InsidePath!);
 			}
@@ -10456,7 +10456,7 @@ public class RenderStandard : RenderBase
 			Color topDark = palette.GetRibbonBackColor3(state);
 			Color bottomLight = palette.GetRibbonBackColor4(state);
 			Color bottomMedium = palette.GetRibbonBackColor5(state);
-			Color bottomDark = CommonHelper.MergeColors(topDark, 0.78f, GlobalStaticVariables.EMPTY_COLOR, 0.22f);
+			Color bottomDark = CommonHelper.MergeColors(topDark, 0.78f, SharedStaticVariables.EMPTY_COLOR, 0.22f);
 
 			var generate = true;
 			MementoRibbonAppButton cache;
@@ -10953,7 +10953,7 @@ public class RenderStandard : RenderBase
 					90f);
 
 				cache.PressedFillBrush = new LinearGradientBrush(new RectangleF(rect.X - 1, rect.Y - 1, rect.Width + 2, rect.Height + 2),
-					Color.FromArgb((dark ? GlobalStaticVariables.EMPTY_COLOR : _whiten10).A, cache.C4),
+					Color.FromArgb((dark ? SharedStaticVariables.EMPTY_COLOR : _whiten10).A, cache.C4),
 					Color.FromArgb((dark ? _darken38 : _darken16).A, cache.C5),
 					90f);
 				cache.TrackFillBrush.Blend = _linear50Blend;

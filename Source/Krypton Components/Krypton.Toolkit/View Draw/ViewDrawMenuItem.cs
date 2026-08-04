@@ -81,18 +81,18 @@ internal class ViewDrawMenuItem : ViewDrawCanvas
             if (_imageColumn)
             {
                 itemColumnImage = _empty16x16;
-                itemImageTransparent = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
+                itemImageTransparent = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
             }
 
             switch (ResolveCheckState)
             {
                 case CheckState.Checked:
                     itemColumnImage = provider.ProviderImages.GetContextMenuCheckedImage();
-                    itemImageTransparent = GlobalStaticVariables.EMPTY_COLOR;
+                    itemImageTransparent = SharedStaticVariables.EMPTY_COLOR;
                     break;
                 case CheckState.Indeterminate:
                     itemColumnImage = provider.ProviderImages.GetContextMenuIndeterminateImage();
-                    itemImageTransparent = GlobalStaticVariables.EMPTY_COLOR;
+                    itemImageTransparent = SharedStaticVariables.EMPTY_COLOR;
                     break;
             }
         }
@@ -110,7 +110,7 @@ internal class ViewDrawMenuItem : ViewDrawCanvas
 
         // Text/Extra Text
         PaletteContentJustText menuItemStyle = standardStyle ? menuItemState.ItemTextStandard : menuItemState.ItemTextAlternate;
-        _fixedTextExtraText = new FixedContentValue(ResolveText, ResolveExtraText, null, GlobalStaticVariables.EMPTY_COLOR);
+        _fixedTextExtraText = new FixedContentValue(ResolveText, ResolveExtraText, null, SharedStaticVariables.EMPTY_COLOR);
         _textContent = new ViewDrawMenuItemContent(menuItemStyle, _fixedTextExtraText, 1);
         docker.Add(_textContent, ViewDockStyle.Fill);
         _textContent.Enabled = ItemEnabled;
@@ -128,7 +128,7 @@ internal class ViewDrawMenuItem : ViewDrawCanvas
 
             if (shortcutString.Length > 0)
             {
-                _shortcutContent = new ViewDrawMenuItemContent(menuItemState.ItemShortcutText, new FixedContentValue(shortcutString, null, null, GlobalStaticVariables.EMPTY_COLOR), 2);
+                _shortcutContent = new ViewDrawMenuItemContent(menuItemState.ItemShortcutText, new FixedContentValue(shortcutString, null, null, SharedStaticVariables.EMPTY_COLOR), 2);
                 docker.Add(_shortcutContent, ViewDockStyle.Right);
                 _shortcutContent.Enabled = ItemEnabled;
             }
@@ -147,8 +147,8 @@ internal class ViewDrawMenuItem : ViewDrawCanvas
                     ? _empty16x16
                     : provider.ProviderImages.GetContextMenuSubMenuImage(),
                 KryptonContextMenuItem.Items.Count == 0
-                    ? GlobalStaticVariables.TRANSPARENCY_KEY_COLOR
-                    : GlobalStaticVariables.EMPTY_COLOR),
+                    ? SharedStaticVariables.TRANSPARENCY_KEY_COLOR
+                    : SharedStaticVariables.EMPTY_COLOR),
             3);
         docker.Add(new ViewLayoutCenter(_subMenuContent), ViewDockStyle.Right);
         _subMenuContent.Enabled = ItemEnabled;
@@ -528,18 +528,18 @@ internal class ViewDrawMenuItem : ViewDrawCanvas
                 if (_imageColumn)
                 {
                     itemColumnImage = _empty16x16;
-                    itemImageTransparent = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
+                    itemImageTransparent = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
                 }
 
                 switch (ResolveCheckState)
                 {
                     case CheckState.Checked:
                         itemColumnImage = _provider.ProviderImages.GetContextMenuCheckedImage();
-                        itemImageTransparent = GlobalStaticVariables.EMPTY_COLOR;
+                        itemImageTransparent = SharedStaticVariables.EMPTY_COLOR;
                         break;
                     case CheckState.Indeterminate:
                         itemColumnImage = _provider.ProviderImages.GetContextMenuIndeterminateImage();
-                        itemImageTransparent = GlobalStaticVariables.EMPTY_COLOR;
+                        itemImageTransparent = SharedStaticVariables.EMPTY_COLOR;
                         break;
                 }
             }

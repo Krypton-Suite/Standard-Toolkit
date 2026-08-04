@@ -7,9 +7,9 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Interop;
 
-public class GlobalStaticFunctions
+public class SharedStaticFunctions
 {
     #region Methods
     /// <summary>

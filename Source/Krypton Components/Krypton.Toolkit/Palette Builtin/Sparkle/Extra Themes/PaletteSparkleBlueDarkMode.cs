@@ -146,18 +146,18 @@ public class PaletteSparkleBlueDarkMode : PaletteSparkleBlueDarkModeBase
     #region Tab Row Background
 
     /// <inheritdoc />
-    public override Color GetRibbonTabRowGradientColor1(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public override Color GetRibbonTabRowGradientColor1(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <inheritdoc />
     public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) =>
-        GlobalStaticVariables.EMPTY_COLOR;
+        SharedStaticVariables.EMPTY_COLOR;
 
     /// <inheritdoc />
     public override Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state) =>
-        GlobalStaticVariables.EMPTY_COLOR;
+        SharedStaticVariables.EMPTY_COLOR;
 
     /// <inheritdoc />
-    public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <inheritdoc />
     public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => -1;
@@ -167,13 +167,13 @@ public class PaletteSparkleBlueDarkMode : PaletteSparkleBlueDarkModeBase
     #region AppButton Colors
 
     /// <inheritdoc />
-    public override Color GetRibbonFileAppTabBottomColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public override Color GetRibbonFileAppTabBottomColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <inheritdoc />
-    public override Color GetRibbonFileAppTabTopColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public override Color GetRibbonFileAppTabTopColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <inheritdoc />
-    public override Color GetRibbonFileAppTabTextColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public override Color GetRibbonFileAppTabTextColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     #endregion AppButton Colors
 }

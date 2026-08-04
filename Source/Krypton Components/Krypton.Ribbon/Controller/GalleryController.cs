@@ -147,7 +147,7 @@ internal class GalleryController : GlobalId,
 
         if (ribbon.TabsArea is null)
         {
-            throw new NullReferenceException(GlobalStaticFunctions.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
+            throw new NullReferenceException(SharedStaticFunctions.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
         }
 
         switch (e.KeyData)
