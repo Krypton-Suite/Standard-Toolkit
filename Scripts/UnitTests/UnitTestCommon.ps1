@@ -1,4 +1,4 @@
-﻿# Shared helpers for Scripts/UnitTest/*.ps1
+﻿# Shared helpers for Scripts/UnitTests/*.ps1
 # Dot-source from a unit-test script after setting $script:RepoRoot if needed.
 
 function Get-UnitTestRepoRoot {
@@ -106,7 +106,7 @@ function Get-UnitTestScriptClassification {
         [string]$Root
     )
 
-    $files = @(Get-ChildItem -LiteralPath $Root -Filter 'Test-*.ps1' -File -Recurse |
+    $files = @(Get-ChildItem -LiteralPath $Root -Filter 'UnitTest-*.ps1' -File -Recurse |
         Where-Object { $_.Name -ne 'Invoke-AllUnitTests.ps1' })
 
     $included = New-Object System.Collections.Generic.List[System.IO.FileInfo]

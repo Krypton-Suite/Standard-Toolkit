@@ -15,7 +15,7 @@
     Requires an STA apartment (use powershell -STA).
 
 .EXAMPLE
-    powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTest\Test-NavigatorTaskbarTabGroups.ps1
+    powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-NavigatorTaskbarTabGroups.ps1
 #>
 # UnitTest-CI: exclude
 [CmdletBinding()]
