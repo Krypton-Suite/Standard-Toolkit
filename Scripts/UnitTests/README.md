@@ -1,11 +1,11 @@
 ﻿# Unit Test Scripts
 
 PowerShell helpers for interactive / UI-automation checks against Debug `TestForm` builds,
-plus CI assert scripts named `Test-*.ps1`.
+plus CI assert scripts named `UnitTest-*.ps1`.
 
 ## CI contract (future-proof)
 
-Every `Test-*.ps1` under `Scripts/UnitTest/` (including subfolders) **must** declare one marker
+Every `UnitTest-*.ps1` under `Scripts/UnitTests/` (including subfolders) **must** declare one marker
 in the first ~80 lines:
 
 ```powershell
@@ -51,9 +51,9 @@ Default output folder: `Bin\Debug\net472`.
 | Script | Purpose | Marker |
 |--------|---------|--------|
 | `Invoke-AllUnitTests.ps1` | Discovers markers, runs every `include` script in STA children | (entry point) |
-| `Test-UnitTestInfrastructure.ps1` | Shared helpers + CI marker discovery smoke assert | `include` |
-| `Test-NavigatorTaskbarTabGroups.ps1` | #4129 TabGroup taskbar composites + float taskbar opt-in (needs feature binaries) | `exclude` |
-| `Test-NavigatorCaptionTabRemerge.ps1` | Tear-out / remerge (needs `-HostPid`) | `exclude` |
+| `UnitTest-UnitTestInfrastructure.ps1` | Shared helpers + CI marker discovery smoke assert | `include` |
+| `UnitTest-NavigatorTaskbarTabGroups.ps1` | #4129 TabGroup taskbar composites + float taskbar opt-in (needs feature binaries) | `exclude` |
+| `UnitTest-NavigatorCaptionTabRemerge.ps1` | Tear-out / remerge (needs `-HostPid`) | `exclude` |
 | `Start-NavigatorFormIntegrationHost.ps1` | Hosts `NavigatorFormIntegrationDemo` | n/a |
 | `Invoke-CaptionTabDrag.ps1` | Caption drag + screenshots | n/a |
 | `Get-NavigatorCaptionTabProbe.ps1` | Caption geometry probe | n/a |
