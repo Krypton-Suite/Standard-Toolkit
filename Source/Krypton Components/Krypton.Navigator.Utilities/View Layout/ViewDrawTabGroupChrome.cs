@@ -49,12 +49,9 @@ internal sealed class ViewDrawTabGroupHeader : ViewDrawButton
             VisualOrientation.Top,
             false)
     {
-        ThrowHelper.ThrowIfNull(group);
-        _group = group;
-        ThrowHelper.ThrowIfNull(appearance);
-        _appearance = appearance;
-        ThrowHelper.ThrowIfNull(toggleCollapsed);
-        _toggleCollapsed = toggleCollapsed;
+        _group = group ?? ThrowHelper.ThrowArgumentNullException<NavigatorTabGroup>(nameof(group));
+        _appearance = appearance ?? ThrowHelper.ThrowArgumentNullException<NavigatorTabGroupAppearance>(nameof(appearance));
+        _toggleCollapsed = toggleCollapsed ?? ThrowHelper.ThrowArgumentNullException<Action<NavigatorTabGroup>>(nameof(toggleCollapsed));
         _activateGroup = activateGroup;
         _memberCount = memberCount;
         _dragStart = dragStart;

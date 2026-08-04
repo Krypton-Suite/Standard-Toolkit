@@ -14,13 +14,16 @@ namespace Krypton.Interop;
 /// </summary>
 /// <remarks>
 /// Methods marked with <see cref="DoesNotReturnAttribute"/> only throw, which keeps calling methods
-/// smaller and more likely to be inlined. Prefer <see cref="ThrowArgumentNullException(string?)"/> /
+/// smaller and more likely to be inlined. Throw helpers also use <see cref="MethodImplOptions.NoInlining"/>
+/// and <see cref="StackTraceHiddenAttribute"/> so the cold path stays out of the hot method and stack traces.
+/// Prefer <see cref="ThrowArgumentNullException(string?)"/> /
 /// <see cref="ThrowIfNull"/> for new validation. Use <see cref="ThrowNullReferenceException(string?)"/>
 /// only when preserving an existing <see cref="NullReferenceException"/> contract
 /// (for example with <see cref="SharedStaticFunctions"/> messages).
 /// Generic <c>T</c> overloads exist for expression contexts (<c>??</c>, switch expression arms).
 /// Visible to sibling assemblies via <c>InternalsVisibleTo</c>; not part of the public API surface.
 /// </remarks>
+[StackTraceHidden]
 internal static class ThrowHelper
 {
     #region Null checks
@@ -29,6 +32,7 @@ internal static class ThrowHelper
     /// </summary>
     /// <param name="argument">The argument to validate.</param>
     /// <param name="paramName">The parameter name; captured from the call site when omitted.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ThrowIfNull(
         [NotNull] object? argument,
         [CallerArgumentExpression(nameof(argument))] string? paramName = null)
@@ -43,6 +47,7 @@ internal static class ThrowHelper
     /// Throws <see cref="ArgumentNullException"/> with no parameter name.
     /// </summary>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static void ThrowArgumentNullException() =>
         throw new ArgumentNullException();
 
@@ -51,6 +56,7 @@ internal static class ThrowHelper
     /// </summary>
     /// <param name="paramName">The name of the parameter that was <see langword="null"/>.</param>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static void ThrowArgumentNullException(string? paramName) =>
         throw new ArgumentNullException(paramName);
 
@@ -60,6 +66,7 @@ internal static class ThrowHelper
     /// <param name="paramName">The name of the parameter that was <see langword="null"/>.</param>
     /// <param name="message">The error message.</param>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static void ThrowArgumentNullException(string? paramName, string? message) =>
         throw new ArgumentNullException(paramName, message);
 
@@ -69,6 +76,7 @@ internal static class ThrowHelper
     /// <typeparam name="T">The expected type of the expression.</typeparam>
     /// <returns>Never returns; the return type exists only for use in expressions.</returns>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static T ThrowArgumentNullException<T>() =>
         throw new ArgumentNullException();
 
@@ -80,6 +88,7 @@ internal static class ThrowHelper
     /// <param name="paramName">The name of the parameter that was <see langword="null"/>.</param>
     /// <returns>Never returns; the return type exists only for use in expressions.</returns>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static T ThrowArgumentNullException<T>(string? paramName) =>
         throw new ArgumentNullException(paramName);
 
@@ -91,6 +100,7 @@ internal static class ThrowHelper
     /// <param name="message">The error message.</param>
     /// <returns>Never returns; the return type exists only for use in expressions.</returns>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static T ThrowArgumentNullException<T>(string? paramName, string? message) =>
         throw new ArgumentNullException(paramName, message);
     #endregion
@@ -102,6 +112,7 @@ internal static class ThrowHelper
     /// <param name="message">The error message.</param>
     /// <param name="paramName">The name of the parameter that caused the exception.</param>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static void ThrowArgumentException(string? message, string? paramName) =>
         throw new ArgumentException(message, paramName);
 
@@ -110,6 +121,7 @@ internal static class ThrowHelper
     /// </summary>
     /// <param name="message">The error message.</param>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static void ThrowArgumentException(string? message) =>
         throw new ArgumentException(message);
 
@@ -121,6 +133,7 @@ internal static class ThrowHelper
     /// <param name="paramName">The name of the parameter that caused the exception.</param>
     /// <returns>Never returns; the return type exists only for use in expressions.</returns>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static T ThrowArgumentException<T>(string? message, string? paramName) =>
         throw new ArgumentException(message, paramName);
 
@@ -131,6 +144,7 @@ internal static class ThrowHelper
     /// <param name="message">The error message.</param>
     /// <returns>Never returns; the return type exists only for use in expressions.</returns>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static T ThrowArgumentException<T>(string? message) =>
         throw new ArgumentException(message);
     #endregion
@@ -140,6 +154,7 @@ internal static class ThrowHelper
     /// Throws <see cref="ArgumentOutOfRangeException"/> with no parameter name.
     /// </summary>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static void ThrowArgumentOutOfRangeException() =>
         throw new ArgumentOutOfRangeException();
 
@@ -148,6 +163,7 @@ internal static class ThrowHelper
     /// </summary>
     /// <param name="paramName">The name of the parameter that was out of range.</param>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static void ThrowArgumentOutOfRangeException(string? paramName) =>
         throw new ArgumentOutOfRangeException(paramName);
 
@@ -157,6 +173,7 @@ internal static class ThrowHelper
     /// <param name="paramName">The name of the parameter that was out of range.</param>
     /// <param name="message">The error message.</param>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static void ThrowArgumentOutOfRangeException(string? paramName, string? message) =>
         throw new ArgumentOutOfRangeException(paramName, message);
 
@@ -167,6 +184,7 @@ internal static class ThrowHelper
     /// <param name="actualValue">The value of the argument that caused the exception.</param>
     /// <param name="message">The error message.</param>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static void ThrowArgumentOutOfRangeException(string? paramName, object? actualValue, string? message) =>
         throw new ArgumentOutOfRangeException(paramName, actualValue, message);
 
@@ -176,6 +194,7 @@ internal static class ThrowHelper
     /// <typeparam name="T">The expected type of the expression.</typeparam>
     /// <returns>Never returns; the return type exists only for use in expressions.</returns>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static T ThrowArgumentOutOfRangeException<T>() =>
         throw new ArgumentOutOfRangeException();
 
@@ -186,6 +205,7 @@ internal static class ThrowHelper
     /// <param name="paramName">The name of the parameter that was out of range.</param>
     /// <returns>Never returns; the return type exists only for use in expressions.</returns>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static T ThrowArgumentOutOfRangeException<T>(string? paramName) =>
         throw new ArgumentOutOfRangeException(paramName);
 
@@ -197,6 +217,7 @@ internal static class ThrowHelper
     /// <param name="message">The error message.</param>
     /// <returns>Never returns; the return type exists only for use in expressions.</returns>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static T ThrowArgumentOutOfRangeException<T>(string? paramName, string? message) =>
         throw new ArgumentOutOfRangeException(paramName, message);
 
@@ -209,6 +230,7 @@ internal static class ThrowHelper
     /// <param name="message">The error message.</param>
     /// <returns>Never returns; the return type exists only for use in expressions.</returns>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static T ThrowArgumentOutOfRangeException<T>(string? paramName, object? actualValue, string? message) =>
         throw new ArgumentOutOfRangeException(paramName, actualValue, message);
     #endregion
@@ -219,6 +241,7 @@ internal static class ThrowHelper
     /// </summary>
     /// <param name="message">The error message.</param>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static void ThrowInvalidOperationException(string? message) =>
         throw new InvalidOperationException(message);
 
@@ -229,6 +252,7 @@ internal static class ThrowHelper
     /// <param name="message">The error message.</param>
     /// <returns>Never returns; the return type exists only for use in expressions.</returns>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static T ThrowInvalidOperationException<T>(string? message) =>
         throw new InvalidOperationException(message);
     #endregion
@@ -243,6 +267,7 @@ internal static class ThrowHelper
     /// Use this only to preserve existing NRE behaviour at legacy call sites.
     /// </remarks>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static void ThrowNullReferenceException(string? message) =>
         throw new NullReferenceException(message);
 
@@ -253,6 +278,7 @@ internal static class ThrowHelper
     /// <param name="message">The error message (often from <see cref="SharedStaticFunctions"/>).</param>
     /// <returns>Never returns; the return type exists only for use in expressions.</returns>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static T ThrowNullReferenceException<T>(string? message) =>
         throw new NullReferenceException(message);
     #endregion
@@ -262,6 +288,7 @@ internal static class ThrowHelper
     /// Throws <see cref="NotSupportedException"/> with no message.
     /// </summary>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static void ThrowNotSupportedException() =>
         throw new NotSupportedException();
 
@@ -270,6 +297,7 @@ internal static class ThrowHelper
     /// </summary>
     /// <param name="message">The error message.</param>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static void ThrowNotSupportedException(string? message) =>
         throw new NotSupportedException(message);
 
@@ -279,6 +307,7 @@ internal static class ThrowHelper
     /// <typeparam name="T">The expected type of the expression.</typeparam>
     /// <returns>Never returns; the return type exists only for use in expressions.</returns>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static T ThrowNotSupportedException<T>() =>
         throw new NotSupportedException();
 
@@ -289,6 +318,7 @@ internal static class ThrowHelper
     /// <param name="message">The error message.</param>
     /// <returns>Never returns; the return type exists only for use in expressions.</returns>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static T ThrowNotSupportedException<T>(string? message) =>
         throw new NotSupportedException(message);
     #endregion
@@ -298,6 +328,7 @@ internal static class ThrowHelper
     /// Throws <see cref="NotImplementedException"/> with no message.
     /// </summary>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static void ThrowNotImplementedException() =>
         throw new NotImplementedException();
 
@@ -306,6 +337,7 @@ internal static class ThrowHelper
     /// </summary>
     /// <param name="message">The error message.</param>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static void ThrowNotImplementedException(string? message) =>
         throw new NotImplementedException(message);
 
@@ -315,6 +347,7 @@ internal static class ThrowHelper
     /// <typeparam name="T">The expected type of the expression.</typeparam>
     /// <returns>Never returns; the return type exists only for use in expressions.</returns>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static T ThrowNotImplementedException<T>() =>
         throw new NotImplementedException();
 
@@ -325,6 +358,7 @@ internal static class ThrowHelper
     /// <param name="message">The error message.</param>
     /// <returns>Never returns; the return type exists only for use in expressions.</returns>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static T ThrowNotImplementedException<T>(string? message) =>
         throw new NotImplementedException(message);
     #endregion
@@ -335,6 +369,7 @@ internal static class ThrowHelper
     /// </summary>
     /// <param name="objectName">The name of the disposed object.</param>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static void ThrowObjectDisposedException(string? objectName) =>
         throw new ObjectDisposedException(objectName);
 
@@ -345,6 +380,7 @@ internal static class ThrowHelper
     /// <param name="objectName">The name of the disposed object.</param>
     /// <returns>Never returns; the return type exists only for use in expressions.</returns>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static T ThrowObjectDisposedException<T>(string? objectName) =>
         throw new ObjectDisposedException(objectName);
     #endregion
@@ -354,6 +390,7 @@ internal static class ThrowHelper
     /// Throws <see cref="InvalidCastException"/> with no message.
     /// </summary>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static void ThrowInvalidCastException() =>
         throw new InvalidCastException();
 
@@ -362,6 +399,7 @@ internal static class ThrowHelper
     /// </summary>
     /// <param name="message">The error message.</param>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static void ThrowInvalidCastException(string? message) =>
         throw new InvalidCastException(message);
 
@@ -371,6 +409,7 @@ internal static class ThrowHelper
     /// <typeparam name="T">The expected type of the expression.</typeparam>
     /// <returns>Never returns; the return type exists only for use in expressions.</returns>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static T ThrowInvalidCastException<T>() =>
         throw new InvalidCastException();
 
@@ -381,6 +420,7 @@ internal static class ThrowHelper
     /// <param name="message">The error message.</param>
     /// <returns>Never returns; the return type exists only for use in expressions.</returns>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static T ThrowInvalidCastException<T>(string? message) =>
         throw new InvalidCastException(message);
     #endregion
@@ -390,6 +430,7 @@ internal static class ThrowHelper
     /// Throws <see cref="Win32Exception"/> using the last Win32 error.
     /// </summary>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static void ThrowWin32Exception() =>
         throw new Win32Exception();
 
@@ -398,6 +439,7 @@ internal static class ThrowHelper
     /// </summary>
     /// <param name="error">The Win32 error code.</param>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static void ThrowWin32Exception(int error) =>
         throw new Win32Exception(error);
 
@@ -406,6 +448,7 @@ internal static class ThrowHelper
     /// </summary>
     /// <param name="message">The error message.</param>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static void ThrowWin32Exception(string? message) =>
         throw new Win32Exception(message);
 
@@ -415,6 +458,7 @@ internal static class ThrowHelper
     /// <typeparam name="T">The expected type of the expression.</typeparam>
     /// <returns>Never returns; the return type exists only for use in expressions.</returns>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static T ThrowWin32Exception<T>() =>
         throw new Win32Exception();
 
@@ -425,6 +469,7 @@ internal static class ThrowHelper
     /// <param name="error">The Win32 error code.</param>
     /// <returns>Never returns; the return type exists only for use in expressions.</returns>
     [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static T ThrowWin32Exception<T>(int error) =>
         throw new Win32Exception(error);
     #endregion
