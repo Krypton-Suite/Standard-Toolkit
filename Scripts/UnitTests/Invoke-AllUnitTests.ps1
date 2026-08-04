@@ -1,15 +1,15 @@
 ﻿<#
 .SYNOPSIS
-    Discovers and runs all CI-oriented Scripts/UnitTest assert scripts (Test-*.ps1).
+    Discovers and runs all CI-oriented Scripts/UnitTests assert scripts (UnitTest-*.ps1).
 
 .DESCRIPTION
-    Future-proof contract (see Scripts/UnitTest/README.md):
+    Future-proof contract (see Scripts/UnitTests/README.md):
 
-    * Discover every Test-*.ps1 under Scripts/UnitTest (recursive).
-    * Each Test-*.ps1 MUST declare a comment marker near the top:
+    * Discover every UnitTest-*.ps1 under Scripts/UnitTests (recursive).
+    * Each UnitTest-*.ps1 MUST declare a comment marker near the top:
         # UnitTest-CI: include   - run in CI / Invoke-AllUnitTests
         # UnitTest-CI: exclude   - interactive; never auto-run
-    * -Strict (or env UNITTEST_CI=1) fails when any Test-*.ps1 lacks a marker,
+    * -Strict (or env UNITTEST_CI=1) fails when any UnitTest-*.ps1 lacks a marker,
       or when zero include scripts are discovered.
     * Each include script runs in a fresh STA powershell child with
       -Configuration / -TargetFramework / -BinDir forwarded when present.
@@ -18,7 +18,7 @@
     Exit code is the number of failing scripts (0 = all passed).
 
 .EXAMPLE
-    powershell -NoProfile -ExecutionPolicy Bypass -File .\Scripts\UnitTest\Invoke-AllUnitTests.ps1 -Strict
+    powershell -NoProfile -ExecutionPolicy Bypass -File .\Scripts\UnitTests\Invoke-AllUnitTests.ps1 -Strict
 #>
 [CmdletBinding()]
 param(
@@ -57,7 +57,7 @@ foreach ($item in $classification.Excluded) {
 
 if ($classification.Undeclared.Count -gt 0) {
     $list = ($classification.Undeclared | ForEach-Object { $_.Name }) -join ', '
-    $message = "Test-*.ps1 scripts missing '# UnitTest-CI: include|exclude' marker: $list"
+    $message = "UnitTest-*.ps1 scripts missing '# UnitTest-CI: include|exclude' marker: $list"
     if ($Strict) {
         Write-UnitTestBanner -Status FAIL -Message $message
         Write-GitHubError -Message $message
@@ -77,7 +77,7 @@ if ($skippedNames.Count -gt 0) {
 
 $ciTests = @($classification.Included | Sort-Object FullName)
 if ($ciTests.Count -eq 0) {
-    $message = "No UnitTest-CI:include Test-*.ps1 scripts found under $PSScriptRoot"
+    $message = "No UnitTest-CI:include UnitTest-*.ps1 scripts found under $PSScriptRoot"
     if ($Strict) {
         Write-UnitTestBanner -Status FAIL -Message $message
         Write-GitHubError -Message $message

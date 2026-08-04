@@ -1,14 +1,14 @@
-<#
+﻿<#
 .SYNOPSIS
     Hosts TestForm.NavigatorFormIntegrationDemo from a Debug bin folder (STA).
 
 .DESCRIPTION
     Loads Krypton + TestForm assemblies from Bin\<Configuration>\<TFM> and runs the
     Navigator Form Integration (#925) demo. Use as the UI host for the other
-    Scripts/UnitTest helpers.
+    Scripts/UnitTests helpers.
 
 .EXAMPLE
-    powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTest\Start-NavigatorFormIntegrationHost.ps1
+    powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Start-NavigatorFormIntegrationHost.ps1
 #>
 [CmdletBinding()]
 param(

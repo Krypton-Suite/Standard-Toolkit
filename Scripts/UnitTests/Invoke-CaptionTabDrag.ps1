@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Drags between two caption-relative points on the hosted NavigatorFormIntegrationDemo.
 
@@ -7,7 +7,7 @@
     drag. Captures before / during / after screenshots into the bin folder (or -OutputDir).
 
 .EXAMPLE
-    powershell -NoProfile -ExecutionPolicy Bypass -File .\Scripts\UnitTest\Invoke-CaptionTabDrag.ps1 `
+    powershell -NoProfile -ExecutionPolicy Bypass -File .\Scripts\UnitTests\Invoke-CaptionTabDrag.ps1 `
         -HostPid 12345 -FromX 200 -FromY 14 -ToX 80 -ToY 14 -Tag join
 #>
 [CmdletBinding()]
