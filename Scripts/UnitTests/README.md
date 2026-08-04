@@ -1,11 +1,11 @@
 ﻿# Unit Test Scripts
 
 PowerShell helpers for interactive / UI-automation checks against Debug `TestForm` builds,
-plus CI assert scripts named `Test-*.ps1`.
+plus CI assert scripts named `UnitTest-*.ps1`.
 
 ## CI contract (future-proof)
 
-Every `Test-*.ps1` under `Scripts/UnitTest/` (including subfolders) **must** declare one marker
+Every `UnitTest-*.ps1` under `Scripts/UnitTests/` (including subfolders) **must** declare one marker
 in the first ~80 lines:
 
 ```powershell
@@ -72,16 +72,16 @@ gh workflow run "Unit Tests" -f configuration=Debug -f target_framework=net472 -
 
 ```powershell
 # Terminal 1 — host the demo
-powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTest\Start-NavigatorFormIntegrationHost.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Start-NavigatorFormIntegrationHost.ps1
 
 # Terminal 2 — note the host PID, then drag or remerge
 $hp = (Get-CimInstance Win32_Process -Filter "Name='powershell.exe'" |
     Where-Object { $_.CommandLine -like '*Start-NavigatorFormIntegrationHost*' }).ProcessId
 
-powershell -NoProfile -ExecutionPolicy Bypass -File .\Scripts\UnitTest\Invoke-CaptionTabDrag.ps1 `
+powershell -NoProfile -ExecutionPolicy Bypass -File .\Scripts\UnitTests\Invoke-CaptionTabDrag.ps1 `
     -HostPid $hp -FromX 200 -FromY 14 -ToX 80 -ToY 14 -Tag join
 
-powershell -NoProfile -ExecutionPolicy Bypass -File .\Scripts\UnitTest\Test-NavigatorCaptionTabRemerge.ps1 `
+powershell -NoProfile -ExecutionPolicy Bypass -File .\Scripts\UnitTests\UnitTest-NavigatorCaptionTabRemerge.ps1 `
     -HostPid $hp
 ```
 
