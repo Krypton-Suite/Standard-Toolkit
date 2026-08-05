@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -42,6 +42,19 @@ internal class KryptonNavigatorTaskbarThumbnailsActionList : DesignerActionList
         }
     }
 
+    public KryptonNavigatorFormIntegrator? FormIntegrator
+    {
+        get => _component.FormIntegrator;
+        set
+        {
+            if (!ReferenceEquals(_component.FormIntegrator, value))
+            {
+                _service?.OnComponentChanged(_component, null, _component.FormIntegrator, value);
+                _component.FormIntegrator = value;
+            }
+        }
+    }
+
     public bool Enabled
     {
         get => _component.Enabled;
@@ -51,6 +64,19 @@ internal class KryptonNavigatorTaskbarThumbnailsActionList : DesignerActionList
             {
                 _service?.OnComponentChanged(_component, null, _component.Enabled, value);
                 _component.Enabled = value;
+            }
+        }
+    }
+
+    public bool ShowTabGroupThumbnails
+    {
+        get => _component.ShowTabGroupThumbnails;
+        set
+        {
+            if (_component.ShowTabGroupThumbnails != value)
+            {
+                _service?.OnComponentChanged(_component, null, _component.ShowTabGroupThumbnails, value);
+                _component.ShowTabGroupThumbnails = value;
             }
         }
     }
@@ -115,14 +141,18 @@ internal class KryptonNavigatorTaskbarThumbnailsActionList : DesignerActionList
             new DesignerActionHeaderItem("Behavior"),
             new DesignerActionPropertyItem(nameof(Navigator), "Navigator", "Behavior",
                 "Navigator whose pages are registered as taskbar thumbnails."),
+            new DesignerActionPropertyItem(nameof(FormIntegrator), "Form Integrator", "Behavior",
+                "Form integrator whose TabGroups catalog drives composite Group | … thumbnails."),
             new DesignerActionPropertyItem(nameof(Enabled), "Enabled", "Behavior",
                 "Register each eligible page as an individual Windows taskbar thumbnail."),
+            new DesignerActionPropertyItem(nameof(ShowTabGroupThumbnails), "Show Tab Group Thumbnails", "Behavior",
+                "Insert composite Group | … taskbar thumbnails for FormIntegrator tab groups."),
             new DesignerActionPropertyItem(nameof(AllowCloseFromThumbnail), "Allow Close From Thumbnail", "Behavior",
                 "Closing a taskbar thumbnail closes the related navigator page."),
             new DesignerActionPropertyItem(nameof(IncludeHiddenPages), "Include Hidden Pages", "Behavior",
                 "Include hidden pages in the taskbar thumbnail flyout."),
             new DesignerActionPropertyItem(nameof(MaxThumbnails), "Max Thumbnails", "Behavior",
-                "Maximum number of page thumbnails to register. Zero means unlimited."),
+                "Maximum registered taskbar tabs (groups + pages). Zero means unlimited."),
             new DesignerActionPropertyItem(nameof(ActiveTabUsesAppPreview), "Active Tab Uses App Preview", "Behavior",
                 "When true, the active tab uses the application window for thumbnail and Peek previews.")
         };
