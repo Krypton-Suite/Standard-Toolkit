@@ -35,6 +35,12 @@ public struct KryptonAboutBoxData
     /// <value>The main image.</value>
     public Image? MainImage { get; set; }
 
+    /// <summary>
+    /// Gets or sets an optional overlay (badge) drawn on top of <see cref="MainImage"/>.
+    /// When <see cref="KryptonOverlayImage.Image"/> is null, no overlay is applied.
+    /// </summary>
+    public KryptonOverlayImage MainImageOverlay { get; set; }
+
     /// <summary>Gets or sets the name of the application.</summary>
     /// <value>The name of the application.</value>
     public string ApplicationName { get; set; }

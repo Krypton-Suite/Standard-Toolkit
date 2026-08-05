@@ -25,6 +25,8 @@ internal partial class VisualMessageBoxRtlAwareForm : KryptonForm
     private readonly IWin32Window? _showOwner;
     private readonly HelpInfo? _helpInfo;
     private readonly KryptonMessageBoxNativeWindow _krtbNativeWindow;
+    private readonly KryptonOverlayImage _overlayImage;
+    private Image? _ownedComposedIcon;
     #endregion
 
     #region Public
@@ -49,7 +51,8 @@ internal partial class VisualMessageBoxRtlAwareForm : KryptonForm
         HelpInfo? helpInfo, bool? showCtrlCopy,
         bool? showHelpButton,
         bool? showCloseButton,
-        bool? showCopyButton)
+        bool? showCopyButton,
+        KryptonOverlayImage overlayImage = default)
     {
         //SetInheritedControlOverride(); // Disabled as part of issue #2296. See the issue for details.
         // Store incoming values
@@ -61,6 +64,7 @@ internal partial class VisualMessageBoxRtlAwareForm : KryptonForm
         _helpInfo = helpInfo;
         _showOwner = showOwner;
         _showHelpButton = showHelpButton ?? (helpInfo != null);
+        _overlayImage = overlayImage;
         _krtbNativeWindow = new();
 
         // Create the form contents
@@ -339,6 +343,39 @@ internal partial class VisualMessageBoxRtlAwareForm : KryptonForm
             }
         }
         _messageIcon.Visible = (_kryptonMessageBoxIcon != KryptonMessageBoxIcon.None);
+        ApplyOverlayImageIfNeeded(rightToLeft: true);
+    }
+
+    private void ApplyOverlayImageIfNeeded(bool rightToLeft)
+    {
+        if (_overlayImage.IsEmpty || _messageIcon.Image == null)
+        {
+            return;
+        }
+
+        DisposeOwnedComposedIcon();
+        Bitmap? composed = GraphicsExtensions.TryComposeOverlay(_messageIcon.Image, _overlayImage, rightToLeft);
+        if (composed != null)
+        {
+            _ownedComposedIcon = composed;
+            _messageIcon.Image = composed;
+        }
+    }
+
+    private void DisposeOwnedComposedIcon()
+    {
+        if (_ownedComposedIcon == null)
+        {
+            return;
+        }
+
+        if (ReferenceEquals(_messageIcon.Image, _ownedComposedIcon))
+        {
+            _messageIcon.Image = null;
+        }
+
+        _ownedComposedIcon.Dispose();
+        _ownedComposedIcon = null;
     }
 
     private void UpdateButtons()
@@ -764,6 +801,7 @@ internal partial class VisualMessageBoxRtlAwareForm : KryptonForm
 
     private void OnFormClosed(object sender, FormClosedEventArgs e)
     {
+        DisposeOwnedComposedIcon();
         _krtbNativeWindow.ReleaseHandle();
     }
     #endregion
