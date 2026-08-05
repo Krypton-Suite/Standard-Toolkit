@@ -92,6 +92,14 @@ public class KryptonDockingFloating : DockingElementClosedCollection
     /// </summary>
     [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden)]
     public bool UseMinimiseBox { get; set; }
+
+    /// <summary>
+    /// Gets and sets whether newly created floating windows appear on the Windows taskbar.
+    /// When true, floats can participate in Windows 11 Snap Groups; default remains false.
+    /// </summary>
+    [DefaultValue(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public bool ShowFloatingWindowsInTaskbar { get; set; }
     #endregion
 
     #region Protected
@@ -128,7 +136,7 @@ public class KryptonDockingFloating : DockingElementClosedCollection
     {
         // Create a floatspace and floating window for hosting the floatspace
         var floatSpaceElement = new KryptonDockingFloatspace(@"Floatspace");
-        var floatingWindowElement = new KryptonDockingFloatingWindow(name, OwnerForm, floatSpaceElement, UseMinimiseBox);
+        var floatingWindowElement = new KryptonDockingFloatingWindow(name, OwnerForm, floatSpaceElement, UseMinimiseBox, ShowFloatingWindowsInTaskbar);
         floatingWindowElement.Disposed += OnDockingFloatingWindowDisposed;
         InternalAdd(floatingWindowElement);
 

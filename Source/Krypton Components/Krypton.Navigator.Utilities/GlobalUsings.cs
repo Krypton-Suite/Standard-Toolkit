@@ -9,6 +9,7 @@ global using System.Drawing.Drawing2D;
 global using System.Drawing.Imaging;
 global using System.IO;
 global using System.Reflection;
+global using System.Runtime.CompilerServices;
 global using System.Runtime.InteropServices;
 global using System.Text;
 global using System.Windows.Forms;

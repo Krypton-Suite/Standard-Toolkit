@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -27,9 +27,11 @@ public partial class Feature882NavigatorTaskbarThumbnailsDemo : KryptonForm
     private KryptonCheckBox? _kchkHostShell;
     private KryptonCheckBox? _kchkCustomThumbnail;
     private KryptonCheckBox? _kchkSecondNavigator;
+    private KryptonCheckBox? _kchkTabGroupThumbnails;
     private KryptonNumericUpDown? _knudMaxThumbnails;
     private KryptonComboBox? _kcmbCloseAction;
     private KryptonButton? _kbtnTheme;
+    private KryptonNavigatorFormIntegrator? _formIntegrator;
     private bool _cancelNextClose;
 
     public Feature882NavigatorTaskbarThumbnailsDemo()
@@ -103,6 +105,12 @@ public partial class Feature882NavigatorTaskbarThumbnailsDemo : KryptonForm
         };
         _kchkSecondNavigator.CheckedChanged += (_, _) => ToggleSecondNavigator(_kchkSecondNavigator.Checked);
 
+        _kchkTabGroupThumbnails = new KryptonCheckBox
+        {
+            Values = { Text = "Tab group composites (#4129)" }
+        };
+        _kchkTabGroupThumbnails.CheckedChanged += (_, _) => ToggleTabGroupThumbnails(_kchkTabGroupThumbnails.Checked);
+
         _knudMaxThumbnails = new KryptonNumericUpDown
         {
             Minimum = 0,
@@ -151,6 +159,7 @@ public partial class Feature882NavigatorTaskbarThumbnailsDemo : KryptonForm
         flowToolbar.Controls.Add(_kchkHostShell);
         flowToolbar.Controls.Add(_kchkCustomThumbnail);
         flowToolbar.Controls.Add(_kchkSecondNavigator);
+        flowToolbar.Controls.Add(_kchkTabGroupThumbnails);
         flowToolbar.Controls.Add(maxLabel);
         flowToolbar.Controls.Add(_knudMaxThumbnails);
         flowToolbar.Controls.Add(_kcmbCloseAction);
@@ -160,10 +169,47 @@ public partial class Feature882NavigatorTaskbarThumbnailsDemo : KryptonForm
     private void UpdateInstructions()
     {
         kwlblInstructions.Text =
-            "Issue #882 — KryptonNavigatorTaskbarThumbnails (Krypton.Navigator.Utilities).\r\n" +
+            "Issue #882 / #4129 — KryptonNavigatorTaskbarThumbnails (Krypton.Navigator.Utilities).\r\n" +
             "Win11 checklist: hover taskbar for per-page thumbnails; click to select; Peek active tab; " +
+            "enable Tab group composites for Explorer-like Group | … entries ahead of grouped pages; " +
             "thumbnail X respects close mode; enable Second navigator to merge two navigators; " +
             "wizard page starts with AllowTaskbarThumbnail cleared.";
+    }
+
+    private void ToggleTabGroupThumbnails(bool enabled)
+    {
+        if (enabled)
+        {
+            if (_formIntegrator == null)
+            {
+                _formIntegrator = new KryptonNavigatorFormIntegrator(components)
+                {
+                    Form = this,
+                    Navigator = kryptonNavigator,
+                    Mode = NavigatorFormIntegrationMode.ClientChrome,
+                    Enabled = false,
+                    AllowTabGroups = true
+                };
+
+                NavigatorTabGroup work = _formIntegrator.CreateGroup("Work", Color.DodgerBlue);
+                if (kryptonNavigator.Pages.Count >= 2)
+                {
+                    _formIntegrator.AssignPageToGroup(kryptonNavigator.Pages[0], work.Id);
+                    _formIntegrator.AssignPageToGroup(kryptonNavigator.Pages[1], work.Id);
+                }
+            }
+
+            taskbarThumbnails.FormIntegrator = _formIntegrator;
+            taskbarThumbnails.ShowTabGroupThumbnails = true;
+        }
+        else
+        {
+            taskbarThumbnails.ShowTabGroupThumbnails = false;
+            taskbarThumbnails.FormIntegrator = null;
+        }
+
+        taskbarThumbnails.RefreshThumbnails();
+        UpdateStatus();
     }
 
     private void ToggleSecondNavigator(bool enabled)
@@ -393,6 +439,7 @@ public partial class Feature882NavigatorTaskbarThumbnailsDemo : KryptonForm
         klblStatus.Text =
             $"TaskbarThumbnails: {(kchkEnabled.Checked ? "ON" : "OFF")} | " +
             $"Eligible: {included} | Max: {taskbarThumbnails.MaxThumbnails} | " +
+            $"TabGroups: {taskbarThumbnails.ShowTabGroupThumbnails} | " +
             $"Selected: {kryptonNavigator.SelectedPage?.Text ?? "(none)"} | " +
             $"Wizard flag: {(wizardIncluded ? "set" : "cleared")} | " +
             $"Merge: {(_kchkSecondNavigator?.Checked == true ? "2 navs" : "1 nav")}";
