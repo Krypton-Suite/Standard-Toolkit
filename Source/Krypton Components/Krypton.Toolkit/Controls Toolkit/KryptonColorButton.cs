@@ -969,42 +969,42 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Overlay image value, or null if no overlay image is set.</returns>
-    public Image? GetOverlayImage(PaletteState state) => null;
+    public Image? GetOverlayImage(PaletteState state) => Values.GetOverlayImage(state);
 
     /// <summary>
     /// Gets the overlay image color that should be transparent.
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Color value.</returns>
-    public Color GetOverlayImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
+    public Color GetOverlayImageTransparentColor(PaletteState state) => Values.GetOverlayImageTransparentColor(state);
 
     /// <summary>
     /// Gets the position of the overlay image relative to the main image.
     /// </summary>
     /// <param name="state">The state for which the overlay position is needed.</param>
     /// <returns>Overlay image position.</returns>
-    public OverlayImagePosition GetOverlayImagePosition(PaletteState state) => OverlayImagePosition.TopRight;
+    public OverlayImagePosition GetOverlayImagePosition(PaletteState state) => Values.GetOverlayImagePosition(state);
 
     /// <summary>
     /// Gets the scaling mode for the overlay image.
     /// </summary>
     /// <param name="state">The state for which the overlay scale mode is needed.</param>
     /// <returns>Overlay image scale mode.</returns>
-    public OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) => OverlayImageScaleMode.None;
+    public OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) => Values.GetOverlayImageScaleMode(state);
 
     /// <summary>
     /// Gets the scale factor for the overlay image (used when scale mode is Percentage or ProportionalToMain).
     /// </summary>
     /// <param name="state">The state for which the overlay scale factor is needed.</param>
     /// <returns>Scale factor (0.0 to 2.0).</returns>
-    public float GetOverlayImageScaleFactor(PaletteState state) => 0.5f;
+    public float GetOverlayImageScaleFactor(PaletteState state) => Values.GetOverlayImageScaleFactor(state);
 
     /// <summary>
     /// Gets the fixed size for the overlay image (used when scale mode is FixedSize).
     /// </summary>
     /// <param name="state">The state for which the overlay fixed size is needed.</param>
     /// <returns>Fixed size.</returns>
-    public Size GetOverlayImageFixedSize(PaletteState state) => new Size(16, 16);
+    public Size GetOverlayImageFixedSize(PaletteState state) => Values.GetOverlayImageFixedSize(state);
 
     #endregion
 

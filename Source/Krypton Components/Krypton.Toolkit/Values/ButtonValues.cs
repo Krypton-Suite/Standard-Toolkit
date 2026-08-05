@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -70,7 +70,7 @@ public class ButtonValues : Storage,
         _iconSelectionStrategy = IconSelectionStrategy.OSBased; // Default to OS based strategy
         ImageStates = CreateImageStates();
         ImageStates.NeedPaint = needPaint;
-        _overlayImage = new OverlayImageValues(needPaint);
+        _overlayImage = CreateOverlayImageValues(needPaint);
     }
     #endregion
 
@@ -414,6 +414,17 @@ public class ButtonValues : Storage,
 
     #endregion
 
+    #region CreateOverlayImageValues
+    /// <summary>
+    /// Create the storage for the overlay image values.
+    /// </summary>
+    /// <param name="needPaint">Delegate for notifying paint requests.</param>
+    /// <returns>Storage object.</returns>
+    protected virtual OverlayImageValues CreateOverlayImageValues(NeedPaintHandler needPaint) =>
+        new OverlayImageValues(needPaint);
+
+    #endregion
+
     #region OverlayImage
     /// <summary>
     /// Gets access to the overlay image values.
@@ -464,7 +475,7 @@ public class ButtonValues : Storage,
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Overlay image value, or null if no overlay image is set.</returns>
-    public virtual Image? GetOverlayImage(PaletteState state) => _overlayImage.Image;
+    public virtual Image? GetOverlayImage(PaletteState state) => _overlayImage.GetImage(state);
 
     /// <summary>
     /// Gets the overlay image color that should be transparent.
