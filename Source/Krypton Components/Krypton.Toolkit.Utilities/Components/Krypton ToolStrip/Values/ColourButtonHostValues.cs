@@ -31,8 +31,7 @@ public class ColourButtonHostValues : Storage
     /// <param name="owner">Owning colour button host.</param>
     public ColourButtonHostValues(KryptonColorButtonToolStripMenuItem owner)
     {
-        ThrowHelper.ThrowIfNull(owner);
-        _owner = owner;
+        _owner = owner ?? ThrowHelper.ThrowArgumentNullException<KryptonColorButtonToolStripMenuItem>(nameof(owner));
     }
 
     /// <inheritdoc />

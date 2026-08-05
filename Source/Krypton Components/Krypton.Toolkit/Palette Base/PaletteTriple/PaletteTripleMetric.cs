@@ -35,8 +35,7 @@ public class PaletteTripleMetric : PaletteTriple,
         Debug.Assert(inherit is not null);
             
         // Remember inheritance for metric values
-        ThrowHelper.ThrowIfNull(inherit);
-        _inherit = inherit;
+        _inherit = inherit ?? ThrowHelper.ThrowArgumentNullException<PaletteTripleMetricRedirect>(nameof(inherit));
     }
     #endregion
 

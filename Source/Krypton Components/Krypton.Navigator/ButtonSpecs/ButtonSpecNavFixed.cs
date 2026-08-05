@@ -35,8 +35,7 @@ public abstract class ButtonSpecNavFixed : ButtonSpec
         Debug.Assert(navigator != null);
 
         // Remember back reference to owning navigator.
-        ThrowHelper.ThrowIfNull(navigator);
-        Navigator = navigator;
+        Navigator = navigator ?? ThrowHelper.ThrowArgumentNullException<KryptonNavigator>(nameof(navigator));
 
         // Fix the type
         ProtectedType = fixedStyle;

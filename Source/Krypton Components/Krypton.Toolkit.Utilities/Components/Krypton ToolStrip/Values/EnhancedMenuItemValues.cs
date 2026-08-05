@@ -32,8 +32,7 @@ public class EnhancedMenuItemValues : Storage
     /// <param name="owner">Owning enhanced menu item.</param>
     public EnhancedMenuItemValues(KryptonEnhancedToolStripMenuItem owner)
     {
-        ThrowHelper.ThrowIfNull(owner);
-        _owner = owner;
+        _owner = owner ?? ThrowHelper.ThrowArgumentNullException<KryptonEnhancedToolStripMenuItem>(nameof(owner));
     }
 
     /// <inheritdoc />

@@ -38,8 +38,7 @@ public class MruMenuItemValues : Storage
     /// <param name="owner">Owning MRU menu item.</param>
     public MruMenuItemValues(KryptonMRUMenuItem owner)
     {
-        ThrowHelper.ThrowIfNull(owner);
-        _owner = owner;
+        _owner = owner ?? ThrowHelper.ThrowArgumentNullException<KryptonMRUMenuItem>(nameof(owner));
     }
 
     /// <inheritdoc />

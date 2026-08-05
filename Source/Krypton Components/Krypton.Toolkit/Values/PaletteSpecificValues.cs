@@ -21,8 +21,7 @@ public class PaletteSpecificValues : Storage
 
     public PaletteSpecificValues(VisualForm owner)
     {
-        ThrowHelper.ThrowIfNull(owner);
-        _owner = owner;
+        _owner = owner ?? ThrowHelper.ThrowArgumentNullException<VisualForm>(nameof(owner));
 
         Reset();
     }

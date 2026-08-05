@@ -57,8 +57,7 @@ public class KryptonDockingFloatingWindow : DockingElementClosedCollection
             ThrowHelper.ThrowArgumentNullException(nameof(owner));
         }
 
-        ThrowHelper.ThrowIfNull(floatspace);
-        FloatspaceElement = floatspace;
+        FloatspaceElement = floatspace ?? ThrowHelper.ThrowArgumentNullException<KryptonDockingFloatspace>(nameof(floatspace));
         FloatspaceElement.Disposed += OnDockingFloatspaceDisposed;
 
         // Create the actual window control and hook into events

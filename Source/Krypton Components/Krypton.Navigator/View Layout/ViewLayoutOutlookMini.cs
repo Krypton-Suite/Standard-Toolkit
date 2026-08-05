@@ -25,8 +25,7 @@ internal class ViewLayoutOutlookMini : ViewLayoutDocker
     public ViewLayoutOutlookMini([DisallowNull] ViewBuilderOutlookBase viewBuilder)
     {
         Debug.Assert(viewBuilder is not null);
-        ThrowHelper.ThrowIfNull(viewBuilder);
-        ViewBuilder = viewBuilder;
+        ViewBuilder = viewBuilder ?? ThrowHelper.ThrowArgumentNullException<ViewBuilderOutlookBase>(nameof(viewBuilder));
     }
 
     /// <summary>

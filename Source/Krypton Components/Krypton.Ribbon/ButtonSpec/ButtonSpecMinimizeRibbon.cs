@@ -31,8 +31,7 @@ public class ButtonSpecMinimizeRibbon : ButtonSpec
     public ButtonSpecMinimizeRibbon([DisallowNull] KryptonRibbon ribbon)
     {
         Debug.Assert(ribbon is not null);
-        ThrowHelper.ThrowIfNull(ribbon);
-        _ribbon = ribbon;
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
 
         // Fix the type
         ProtectedType = PaletteButtonSpecStyle.RibbonMinimize;

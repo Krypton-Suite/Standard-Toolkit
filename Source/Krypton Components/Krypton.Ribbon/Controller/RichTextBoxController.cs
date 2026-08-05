@@ -43,12 +43,9 @@ internal class RichTextBoxController : GlobalId,
         Debug.Assert(richTextBox is not null);
         Debug.Assert(target is not null);
 
-        ThrowHelper.ThrowIfNull(ribbon);
-        _ribbon = ribbon;
-        ThrowHelper.ThrowIfNull(richTextBox);
-        _richTextBox = richTextBox;
-        ThrowHelper.ThrowIfNull(target);
-        _target = target;
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
+        _richTextBox = richTextBox ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupRichTextBox>(nameof(richTextBox));
+        _target = target ?? ThrowHelper.ThrowArgumentNullException<ViewDrawRibbonGroupRichTextBox>(nameof(target));
     }
     #endregion
 

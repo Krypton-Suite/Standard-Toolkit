@@ -39,8 +39,7 @@ public class VisualRibbonFloatingWindow : KryptonForm
     /// <param name="ribbon">Reference to the ribbon control to host.</param>
     public VisualRibbonFloatingWindow(Form owner, KryptonRibbon ribbon)
     {
-        ThrowHelper.ThrowIfNull(ribbon);
-        _ribbon = ribbon;
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
 
         // IMPORTANT: Set inherited control override for proper control handling
         // This is required for KryptonForm to properly manage controls

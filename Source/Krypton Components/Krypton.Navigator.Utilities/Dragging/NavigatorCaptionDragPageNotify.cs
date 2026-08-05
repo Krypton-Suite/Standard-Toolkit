@@ -33,8 +33,7 @@ internal sealed class NavigatorCaptionDragPageNotify : IDragPageNotify, IDisposa
     /// <param name="owner">The owner of the drag and drop operation.</param>
     public NavigatorCaptionDragPageNotify(KryptonNavigatorFormIntegrator owner)
     {
-        ThrowHelper.ThrowIfNull(owner);
-        _owner = owner;
+        _owner = owner ?? ThrowHelper.ThrowArgumentNullException<KryptonNavigatorFormIntegrator>(nameof(owner));
         _dragManager = new DragManager
         {
             DocumentCursor = true

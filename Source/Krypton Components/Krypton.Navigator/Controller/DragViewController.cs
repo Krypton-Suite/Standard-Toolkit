@@ -77,8 +77,7 @@ public class DragViewController : GlobalId,
         MousePoint = CommonHelper.NullPoint;
         AllowDragging = true;
         _dragging = false;
-        ThrowHelper.ThrowIfNull(target);
-        Target = target;
+        Target = target ?? ThrowHelper.ThrowArgumentNullException<ViewBase>(nameof(target));
         _lastClick = DateTime.Now.AddDays(-1);
     }
     #endregion

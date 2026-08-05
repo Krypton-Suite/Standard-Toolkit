@@ -45,12 +45,9 @@ internal class ViewDrawRibbonGroupDomainUpDown : ViewComposite,
         Debug.Assert(needPaint is not null);
 
         // Remember incoming references
-        ThrowHelper.ThrowIfNull(ribbon);
-        _ribbon = ribbon;
-        ThrowHelper.ThrowIfNull(ribbonDomainUpDown);
-        GroupDomainUpDown = ribbonDomainUpDown;
-        ThrowHelper.ThrowIfNull(needPaint);
-        _needPaint = needPaint;
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
+        GroupDomainUpDown = ribbonDomainUpDown ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupDomainUpDown>(nameof(ribbonDomainUpDown));
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException<NeedPaintHandler>(nameof(needPaint));
         _currentSize = GroupDomainUpDown.ItemSizeCurrent;
 
         // Hook into the domain up-down events

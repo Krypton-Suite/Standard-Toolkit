@@ -37,8 +37,7 @@ internal class ViewDrawRibbonGroupClusterButtonImage : ViewDrawRibbonGroupImageB
     {
         Debug.Assert(ribbonButton is not null);
 
-        ThrowHelper.ThrowIfNull(ribbonButton);
-        _ribbonButton = ribbonButton;
+        _ribbonButton = ribbonButton ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupClusterButton>(nameof(ribbonButton));
         _smallSize = new Size((int)(16 * FactorDpiX), (int)(16 * FactorDpiY));
     }
 

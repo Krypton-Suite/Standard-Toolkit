@@ -43,10 +43,8 @@ internal class ViewLayoutRibbonContextTitles : ViewLayoutDocker
         Debug.Assert(captionArea is not null);
         Debug.Assert(ribbon is not null);
             
-        ThrowHelper.ThrowIfNull(ribbon);
-        _ribbon = ribbon;
-        ThrowHelper.ThrowIfNull(captionArea);
-        _captionArea = captionArea;
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
+        _captionArea = captionArea ?? ThrowHelper.ThrowArgumentNullException<ViewDrawRibbonCaptionArea>(nameof(captionArea));
 
         // Create cache of draw elements
         _contextTitlesCache = [];

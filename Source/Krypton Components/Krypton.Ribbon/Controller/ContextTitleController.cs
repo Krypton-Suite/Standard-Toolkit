@@ -33,8 +33,7 @@ internal class ContextTitleController : GlobalId,
     public ContextTitleController([DisallowNull] KryptonRibbon? ribbon)
     {
         Debug.Assert(ribbon != null);
-        ThrowHelper.ThrowIfNull(ribbon);
-        _ribbon = ribbon;
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
     }
     #endregion
 

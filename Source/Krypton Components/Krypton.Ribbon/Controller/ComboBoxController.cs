@@ -39,9 +39,9 @@ internal class ComboBoxController : GlobalId,
         [DisallowNull] KryptonRibbonGroupComboBox comboBox,
         [DisallowNull] ViewDrawRibbonGroupComboBox target)
     {
-        _ribbon = ribbon ?? throw new Exception( SharedStaticFunctions.VariableCannotBeNull(nameof(_ribbon)));
-        _comboBox = comboBox ?? throw new Exception(SharedStaticFunctions.VariableCannotBeNull(nameof(_comboBox)));
-        _target = target ?? throw new Exception(SharedStaticFunctions.VariableCannotBeNull(nameof(_target)));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
+        _comboBox = comboBox ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupComboBox>(nameof(comboBox));
+        _target = target ?? ThrowHelper.ThrowArgumentNullException<ViewDrawRibbonGroupComboBox>(nameof(target));
     }
     #endregion
 

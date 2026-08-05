@@ -55,12 +55,9 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
         Debug.Assert(needPaint is not null);
 
         // Cache references
-        ThrowHelper.ThrowIfNull(ribbon);
-        _ribbon = ribbon;
-        ThrowHelper.ThrowIfNull(ribbonTriple);
-        _ribbonTriple = ribbonTriple;
-        ThrowHelper.ThrowIfNull(needPaint);
-        _needPaint = needPaint;
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
+        _ribbonTriple = ribbonTriple ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupTriple>(nameof(ribbonTriple));
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException<NeedPaintHandler>(nameof(needPaint));
 
         // Associate the component with this view element for design time selection
         Component = _ribbonTriple;

@@ -43,8 +43,7 @@ public class MarqueeMenuItemValues : Storage
     /// <param name="owner">Owning marquee menu item.</param>
     public MarqueeMenuItemValues(KryptonToolStripMarqueeMenuItem owner)
     {
-        ThrowHelper.ThrowIfNull(owner);
-        _owner = owner;
+        _owner = owner ?? ThrowHelper.ThrowArgumentNullException<KryptonToolStripMarqueeMenuItem>(nameof(owner));
     }
 
     /// <inheritdoc />

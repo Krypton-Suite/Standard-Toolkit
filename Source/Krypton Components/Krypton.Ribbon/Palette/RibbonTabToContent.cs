@@ -28,8 +28,7 @@ internal class RibbonTabToContent : RibbonToContent
     {
         Debug.Assert(ribbonTabText is not null);
 
-        ThrowHelper.ThrowIfNull(ribbonTabText);
-        PaletteRibbonText = ribbonTabText;
+        PaletteRibbonText = ribbonTabText ?? ThrowHelper.ThrowArgumentNullException<IPaletteRibbonText>(nameof(ribbonTabText));
     }
     #endregion
         

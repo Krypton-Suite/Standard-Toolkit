@@ -47,8 +47,7 @@ internal class ViewLayoutRibbonGroupsArea : ViewDrawPanel
         Debug.Assert(needPaintDelegate is not null);
 
         // Remember the incoming reference
-        ThrowHelper.ThrowIfNull(ribbon);
-        _ribbon = ribbon;
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
 
         if (redirect is null)
         {

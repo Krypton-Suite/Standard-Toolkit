@@ -20,8 +20,7 @@ public sealed class ToolkitStringsCoverageEventArgs : EventArgs
     /// <param name="coverage">The coverage report.</param>
     public ToolkitStringsCoverageEventArgs(ToolkitStringsCoverage coverage)
     {
-        ThrowHelper.ThrowIfNull(coverage);
-        Coverage = coverage;
+        Coverage = coverage ?? ThrowHelper.ThrowArgumentNullException<ToolkitStringsCoverage>(nameof(coverage));
     }
 
     /// <summary>Gets the coverage report produced during analysis or import.</summary>

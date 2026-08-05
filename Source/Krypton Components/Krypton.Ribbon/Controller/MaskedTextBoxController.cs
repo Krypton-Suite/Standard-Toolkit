@@ -43,12 +43,9 @@ internal class MaskedTextBoxController : GlobalId,
         Debug.Assert(maskedTextBox is not null);
         Debug.Assert(target is not null);
 
-        ThrowHelper.ThrowIfNull(ribbon);
-        _ribbon = ribbon;
-        ThrowHelper.ThrowIfNull(maskedTextBox);
-        _maskedTextBox = maskedTextBox;
-        ThrowHelper.ThrowIfNull(target);
-        _target = target;
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
+        _maskedTextBox = maskedTextBox ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupMaskedTextBox>(nameof(maskedTextBox));
+        _target = target ?? ThrowHelper.ThrowArgumentNullException<ViewDrawRibbonGroupMaskedTextBox>(nameof(target));
     }
     #endregion
 

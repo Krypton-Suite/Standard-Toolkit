@@ -45,10 +45,8 @@ internal abstract class ViewLayoutRibbonQATContents : ViewComposite
         Debug.Assert(ribbon is not null);
         Debug.Assert(needPaint is not null);
 
-        ThrowHelper.ThrowIfNull(ribbon);
-        Ribbon = ribbon;
-        ThrowHelper.ThrowIfNull(needPaint);
-        _needPaint = needPaint;
+        Ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException<NeedPaintHandler>(nameof(needPaint));
 
         // Create initial lookup table
         _qatButtonToView = new QATButtonToView();

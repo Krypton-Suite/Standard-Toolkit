@@ -51,12 +51,9 @@ internal class GalleryItemController : GlobalId,
         Debug.Assert(layout is not null);
 
         MousePoint = CommonHelper.NullPoint;
-        ThrowHelper.ThrowIfNull(target);
-        _target = target;
-        ThrowHelper.ThrowIfNull(layout);
-        _layout = layout;
-        ThrowHelper.ThrowIfNull(needPaint);
-        NeedPaint = needPaint;
+        _target = target ?? ThrowHelper.ThrowArgumentNullException<ViewDrawRibbonGalleryItem>(nameof(target));
+        _layout = layout ?? ThrowHelper.ThrowArgumentNullException<ViewLayoutRibbonGalleryItems>(nameof(layout));
+        NeedPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException<NeedPaintHandler>(nameof(needPaint));
     }
     #endregion
 

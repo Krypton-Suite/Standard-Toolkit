@@ -46,8 +46,7 @@ public class KryptonDockingEdgeDocked : DockingElementClosedCollection
     public KryptonDockingEdgeDocked(string name, Control control, DockingEdge edge)
         : base(name)
     {
-        ThrowHelper.ThrowIfNull(control);
-        Control = control;
+        Control = control ?? ThrowHelper.ThrowArgumentNullException<Control>(nameof(control));
         Edge = edge;
         _lookupSeparator = new SeparatorToDockspace();
         _lookupDockspace = new DockspaceToSeparator();

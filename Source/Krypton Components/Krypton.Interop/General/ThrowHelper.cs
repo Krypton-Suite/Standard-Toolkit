@@ -39,9 +39,14 @@ internal static class ThrowHelper
     {
         if (argument is null)
         {
-            ThrowArgumentNullException(paramName);
+            ThrowArgumentNull(paramName);
         }
     }
+
+    [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static void ThrowArgumentNull(string? paramName) =>
+        throw new ArgumentNullException(paramName);
 
     /// <summary>
     /// Throws <see cref="ArgumentNullException"/> with no parameter name.
@@ -58,7 +63,7 @@ internal static class ThrowHelper
     [DoesNotReturn]
     [MethodImpl(MethodImplOptions.NoInlining)]
     public static void ThrowArgumentNullException(string? paramName) =>
-        throw new ArgumentNullException(paramName);
+        ThrowArgumentNull(paramName);
 
     /// <summary>
     /// Throws <see cref="ArgumentNullException"/> with a parameter name and message.

@@ -66,8 +66,7 @@ internal class Timer
     /// </param>
     public Timer(Action<ulong> callback, int fpsLimit)
     {
-        ThrowHelper.ThrowIfNull(callback);
-        _callback = callback;
+        _callback = callback ?? ThrowHelper.ThrowArgumentNullException<Action<ulong>>(nameof(callback));
         FrameLimiter = fpsLimit;
         lock (LockHandle)
         {

@@ -61,12 +61,9 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
         Debug.Assert(needPaint is not null);
 
         // Cache references
-        ThrowHelper.ThrowIfNull(ribbon);
-        _ribbon = ribbon;
-        ThrowHelper.ThrowIfNull(ribbonCluster);
-        _ribbonCluster = ribbonCluster;
-        ThrowHelper.ThrowIfNull(needPaint);
-        _needPaint = needPaint;
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
+        _ribbonCluster = ribbonCluster ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupCluster>(nameof(ribbonCluster));
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException<NeedPaintHandler>(nameof(needPaint));
         _currentSize = GroupItemSize.Medium;
 
         // Associate the component with this view element for design time selection

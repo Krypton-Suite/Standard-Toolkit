@@ -35,8 +35,7 @@ public class PaletteRibbonContextDouble : IPaletteRibbonBack,
     {
         Debug.Assert(ribbon is not null);
 
-        ThrowHelper.ThrowIfNull(ribbon);
-        _ribbon = ribbon;
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
         LightBackground = false;
     }
     #endregion

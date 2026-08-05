@@ -55,12 +55,9 @@ internal class ViewDrawRibbonGroupGallery : ViewComposite,
         Debug.Assert(needPaint is not null);
 
         // Remember incoming references
-        ThrowHelper.ThrowIfNull(ribbon);
-        _ribbon = ribbon;
-        ThrowHelper.ThrowIfNull(ribbonGallery);
-        GroupGallery = ribbonGallery;
-        ThrowHelper.ThrowIfNull(needPaint);
-        _needPaint = needPaint;
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
+        GroupGallery = ribbonGallery ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupGallery>(nameof(ribbonGallery));
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException<NeedPaintHandler>(nameof(needPaint));
         _currentSize = GroupGallery.ItemSizeCurrent;
 
         // Create the button view used in small setting

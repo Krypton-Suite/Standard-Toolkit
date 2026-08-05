@@ -43,12 +43,9 @@ internal class CustomControlController : GlobalId,
         Debug.Assert(customControl is not null);
         Debug.Assert(customControl is not null);
 
-        ThrowHelper.ThrowIfNull(ribbon);
-        _ribbon = ribbon;
-        ThrowHelper.ThrowIfNull(customControl);
-        _customControl = customControl;
-        ThrowHelper.ThrowIfNull(target);
-        _target = target;
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
+        _customControl = customControl ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupCustomControl>(nameof(customControl));
+        _target = target ?? ThrowHelper.ThrowArgumentNullException<ViewDrawRibbonGroupCustomControl>(nameof(target));
     }
     #endregion
 

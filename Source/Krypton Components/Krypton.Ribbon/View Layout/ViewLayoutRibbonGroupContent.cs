@@ -56,12 +56,9 @@ internal class ViewLayoutRibbonGroupContent : ViewComposite,
         Debug.Assert(needPaint is not null);
 
         // Cache references
-        ThrowHelper.ThrowIfNull(ribbon);
-        _ribbon = ribbon;
-        ThrowHelper.ThrowIfNull(ribbonGroup);
-        _ribbonGroup = ribbonGroup;
-        ThrowHelper.ThrowIfNull(needPaint);
-        _needPaint = needPaint;
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
+        _ribbonGroup = ribbonGroup ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroup>(nameof(ribbonGroup));
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException<NeedPaintHandler>(nameof(needPaint));
 
         // Use hashtable to store relationships
         _containerToView = new ContainerToView();

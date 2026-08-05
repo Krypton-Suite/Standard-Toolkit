@@ -23,8 +23,7 @@ internal partial class VisualCheckButtonCollectionForm : KryptonForm
         {
             Debug.Assert(checkButton is not null);
 
-            ThrowHelper.ThrowIfNull(checkButton);
-            CheckButton = checkButton;
+            CheckButton = checkButton ?? ThrowHelper.ThrowArgumentNullException<KryptonCheckButton>(nameof(checkButton));
         }
 
         /// <summary>

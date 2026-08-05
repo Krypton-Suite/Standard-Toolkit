@@ -45,8 +45,7 @@ public class TrackBarHostValues : Storage
     /// <param name="owner">Owning track bar host.</param>
     public TrackBarHostValues(KryptonTrackBarToolStripMenuItem owner)
     {
-        ThrowHelper.ThrowIfNull(owner);
-        _owner = owner;
+        _owner = owner ?? ThrowHelper.ThrowArgumentNullException<KryptonTrackBarToolStripMenuItem>(nameof(owner));
     }
 
     /// <inheritdoc />

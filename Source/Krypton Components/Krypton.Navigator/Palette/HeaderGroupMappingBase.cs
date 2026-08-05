@@ -40,8 +40,7 @@ public abstract class HeaderGroupMappingBase : HeaderValuesBase
         Debug.Assert(navigator is not null);
 
         // Remember back reference to owning control
-        ThrowHelper.ThrowIfNull(navigator);
-        _navigator = navigator;
+        _navigator = navigator ?? ThrowHelper.ThrowArgumentNullException<KryptonNavigator>(nameof(navigator));
 
         // Set initial values to the default
         _mapImage = GetMapImageDefault();

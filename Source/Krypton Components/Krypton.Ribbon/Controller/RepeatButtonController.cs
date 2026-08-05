@@ -51,14 +51,11 @@ internal class RepeatButtonController : GlobalId,
         Debug.Assert(target is not null);
 
         // Remember incoming references
-        ThrowHelper.ThrowIfNull(ribbon);
-        _ribbon = ribbon;
-        ThrowHelper.ThrowIfNull(target);
-        _target = target;
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
+        _target = target ?? ThrowHelper.ThrowArgumentNullException<ViewBase>(nameof(target));
 
         // Store the provided paint notification delegate
-        ThrowHelper.ThrowIfNull(needPaint);
-        NeedPaint = needPaint;
+        NeedPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException<NeedPaintHandler>(nameof(needPaint));
 
         _repeatTimer = new Timer
         {

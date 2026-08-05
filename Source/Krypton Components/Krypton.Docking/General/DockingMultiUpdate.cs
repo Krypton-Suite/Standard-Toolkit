@@ -30,8 +30,7 @@ public class DockingMultiUpdate : IDisposable
     {
 
         // Inform docking elements that a multi-part update is starting
-        ThrowHelper.ThrowIfNull(dockingElement);
-        _dockingElement = dockingElement;
+        _dockingElement = dockingElement ?? ThrowHelper.ThrowArgumentNullException<IDockingElement>(nameof(dockingElement));
         _dockingElement.PropogateAction(DockingPropogateAction.StartUpdate, null as string[]);
     }
 

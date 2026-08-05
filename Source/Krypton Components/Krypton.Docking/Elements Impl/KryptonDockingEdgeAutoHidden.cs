@@ -43,8 +43,7 @@ public class KryptonDockingEdgeAutoHidden : DockingElementClosedCollection
     public KryptonDockingEdgeAutoHidden(string name, Control control, DockingEdge edge)
         : base(name)
     {
-        ThrowHelper.ThrowIfNull(control);
-        Control = control;
+        Control = control ?? ThrowHelper.ThrowArgumentNullException<Control>(nameof(control));
         Edge = edge;
         _panelEventFired = false;
 

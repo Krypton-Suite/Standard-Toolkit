@@ -29,8 +29,7 @@ public class KryptonDockingFloating : DockingElementClosedCollection
     public KryptonDockingFloating(string name, Form ownerForm)
         : base(name)
     {
-        ThrowHelper.ThrowIfNull(ownerForm);
-        OwnerForm = ownerForm;
+        OwnerForm = ownerForm ?? ThrowHelper.ThrowArgumentNullException<Form>(nameof(ownerForm));
     }
 
     #endregion

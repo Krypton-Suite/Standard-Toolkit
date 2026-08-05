@@ -31,8 +31,7 @@ internal class ViewLayoutPageShow : ViewLayoutNull
         Debug.Assert(navigator is not null);
 
         // Remember back reference
-        ThrowHelper.ThrowIfNull(navigator);
-        _navigator = navigator;
+        _navigator = navigator ?? ThrowHelper.ThrowArgumentNullException<KryptonNavigator>(nameof(navigator));
         _minimumAsPreferred = false;
     }
 

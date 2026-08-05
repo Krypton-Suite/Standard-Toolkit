@@ -41,8 +41,7 @@ internal class ViewDrawRibbonGroupLabelImage : ViewDrawRibbonGroupImageBase
     {
         Debug.Assert(ribbonLabel is not null);
 
-        ThrowHelper.ThrowIfNull(ribbonLabel);
-        _ribbonLabel = ribbonLabel;
+        _ribbonLabel = ribbonLabel ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupLabel>(nameof(ribbonLabel));
         _large = large;
         _smallSize = new Size((int)(16 * FactorDpiX), (int)(16 * FactorDpiY));
         _largeSize = new Size((int)(32 * FactorDpiX), (int)(32 * FactorDpiY));

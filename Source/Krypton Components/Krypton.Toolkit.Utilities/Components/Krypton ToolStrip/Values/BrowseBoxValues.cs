@@ -47,8 +47,7 @@ public class BrowseBoxValues : Storage
     /// <param name="owner">Owning internal browse box.</param>
     public BrowseBoxValues(InternalBrowseBox owner)
     {
-        ThrowHelper.ThrowIfNull(owner);
-        _owner = owner;
+        _owner = owner ?? ThrowHelper.ThrowArgumentNullException<InternalBrowseBox>(nameof(owner));
     }
 
     /// <inheritdoc />

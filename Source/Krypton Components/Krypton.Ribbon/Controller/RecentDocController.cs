@@ -45,12 +45,9 @@ internal class RecentDocController : GlobalId,
         Debug.Assert(menuItem is not null);
         Debug.Assert(needPaint is not null);
 
-        ThrowHelper.ThrowIfNull(viewManager);
-        ViewManager = viewManager;
-        ThrowHelper.ThrowIfNull(menuItem);
-        _menuItem = menuItem;
-        ThrowHelper.ThrowIfNull(needPaint);
-        NeedPaint = needPaint;
+        ViewManager = viewManager ?? ThrowHelper.ThrowArgumentNullException<ViewContextMenuManager>(nameof(viewManager));
+        _menuItem = menuItem ?? ThrowHelper.ThrowArgumentNullException<ViewDrawRibbonAppMenuRecentDoc>(nameof(menuItem));
+        NeedPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException<NeedPaintHandler>(nameof(needPaint));
     }
     #endregion
 

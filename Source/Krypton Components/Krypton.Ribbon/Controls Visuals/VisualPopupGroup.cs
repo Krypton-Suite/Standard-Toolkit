@@ -45,10 +45,8 @@ internal class VisualPopupGroup : VisualPopup
         Debug.Assert(ribbonGroup is not null);
 
         // Remember references needed later
-        ThrowHelper.ThrowIfNull(ribbon);
-        _ribbon = ribbon;
-        ThrowHelper.ThrowIfNull(ribbonGroup);
-        _ribbonGroup = ribbonGroup;
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
+        _ribbonGroup = ribbonGroup ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroup>(nameof(ribbonGroup));
 
         // Create a view element for drawing the group
         ViewGroup = new ViewDrawRibbonGroup(ribbon, ribbonGroup, NeedPaintDelegate)

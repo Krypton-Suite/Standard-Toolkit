@@ -30,8 +30,7 @@ public class EnhancedSeparatorValues : Storage
     /// <param name="owner">Owning enhanced separator.</param>
     public EnhancedSeparatorValues(KryptonEnhancedToolStripSeparator owner)
     {
-        ThrowHelper.ThrowIfNull(owner);
-        _owner = owner;
+        _owner = owner ?? ThrowHelper.ThrowArgumentNullException<KryptonEnhancedToolStripSeparator>(nameof(owner));
     }
 
     /// <inheritdoc />

@@ -36,8 +36,7 @@ public class SliderHostValues : Storage
     /// <param name="owner">Owning slider host.</param>
     public SliderHostValues(KryptonSlider owner)
     {
-        ThrowHelper.ThrowIfNull(owner);
-        _owner = owner;
+        _owner = owner ?? ThrowHelper.ThrowArgumentNullException<KryptonSlider>(nameof(owner));
     }
 
     /// <inheritdoc />

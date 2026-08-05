@@ -25,8 +25,7 @@ internal class RibbonToContent : IPaletteContent
     {
         Debug.Assert(ribbonGeneral is not null);
 
-        ThrowHelper.ThrowIfNull(ribbonGeneral);
-        RibbonGeneral = ribbonGeneral;
+        RibbonGeneral = ribbonGeneral ?? ThrowHelper.ThrowArgumentNullException<PaletteRibbonGeneral>(nameof(ribbonGeneral));
     }
     #endregion
 

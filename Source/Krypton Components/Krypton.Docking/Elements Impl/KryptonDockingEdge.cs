@@ -30,8 +30,7 @@ public class KryptonDockingEdge : DockingElementClosedCollection
     public KryptonDockingEdge(string name, Control control, DockingEdge edge)
         : base(name)
     {
-        ThrowHelper.ThrowIfNull(control);
-        Control = control;
+        Control = control ?? ThrowHelper.ThrowArgumentNullException<Control>(nameof(control));
         Edge = edge;
 
         // Auto create elements for handling standard docked content and auto hidden content

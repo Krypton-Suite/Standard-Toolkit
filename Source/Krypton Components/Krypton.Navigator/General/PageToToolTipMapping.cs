@@ -39,8 +39,7 @@ internal class PageToToolTipMapping : IContentValues
     {
         Debug.Assert(page != null);
 
-        ThrowHelper.ThrowIfNull(page);
-        _page = page;
+        _page = page ?? ThrowHelper.ThrowArgumentNullException<KryptonPage>(nameof(page));
         _mapImage = mapImage;
         _mapText = mapText;
         _mapExtraText = mapExtraText;

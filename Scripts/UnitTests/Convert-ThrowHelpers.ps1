@@ -212,26 +212,16 @@ function Convert-File([string]$path) {
 
             if ($leftExpr -match '^[A-Za-z_][A-Za-z0-9_]*$' -and $exc -eq 'ArgumentNullException') {
                 $before = $text.Substring(0, $leftStart)
-                $am = [regex]::Match($before, '(^|\r?\n)([ \t]*)(' + [regex]::Escape($leftExpr) + '\s*=\s*)$', 'RightToLeft')
-                # Actually target is left of =, leftExpr is RHS. Pattern: target = leftExpr ?? throw
-                $am = [regex]::Match($before, '(^|\r?\n)([ \t]*)([A-Za-z_][A-Za-z0-9_]*)\s*=\s*$')
-                # Get last match manually
                 $all = [regex]::Matches($before, '(^|\r?\n)([ \t]*)([A-Za-z_][A-Za-z0-9_]*)\s*=\s*$')
                 if ($all.Count -gt 0) {
-                    $am = $all[$all.Count - 1]
-                    $lineBegin = $am.Index
-                    if ($before[$lineBegin] -eq "`n" -or ($lineBegin -lt $before.Length -and $am.Groups[1].Length -gt 0)) {
-                        $lineBegin = $am.Index + $am.Groups[1].Length
+                    $target = $all[$all.Count - 1].Groups[3].Value
+                    $t = Find-FieldType $text $target
+                    if ($t) {
+                        $replacement = "$leftExpr ?? ThrowHelper.$helper<$t>($args)"
+                        $text = $text.Substring(0, $leftStart) + $replacement + $text.Substring($end)
+                        $changes++
+                        continue
                     }
-                    $indent = $am.Groups[2].Value
-                    $target = $am.Groups[3].Value
-                    $semi = $end
-                    while ($semi -lt $text.Length -and ($text[$semi] -eq ' ' -or $text[$semi] -eq "`t")) { $semi++ }
-                    if ($semi -lt $text.Length -and $text[$semi] -eq ';') { $semi++ }
-                    $replacement = "${indent}ThrowHelper.ThrowIfNull($leftExpr);`r`n${indent}$target = $leftExpr;"
-                    $text = $text.Substring(0, $lineBegin) + $replacement + $text.Substring($semi)
-                    $changes++
-                    continue
                 }
             }
 

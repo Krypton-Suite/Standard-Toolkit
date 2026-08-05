@@ -32,8 +32,7 @@ public class DateTimePickerHostValues : Storage
     /// <param name="owner">Owning date/time picker host.</param>
     public DateTimePickerHostValues(KryptonDateTimePickerToolStripItem owner)
     {
-        ThrowHelper.ThrowIfNull(owner);
-        _owner = owner;
+        _owner = owner ?? ThrowHelper.ThrowArgumentNullException<KryptonDateTimePickerToolStripItem>(nameof(owner));
     }
 
     /// <inheritdoc />

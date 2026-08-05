@@ -37,12 +37,10 @@ internal class ContextTabSet
         Debug.Assert(tab is not null);
         Debug.Assert(context is not null);
 
-        ThrowHelper.ThrowIfNull(tab);
-        FirstTab = tab;
+        FirstTab = tab ?? ThrowHelper.ThrowArgumentNullException<ViewDrawRibbonTab>(nameof(tab));
         _lastTab = tab;
 
-        ThrowHelper.ThrowIfNull(context);
-        Context = context;
+        Context = context ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonContext>(nameof(context));
     }
     #endregion
 
@@ -80,8 +78,7 @@ internal class ContextTabSet
     public void UpdateLastTab([DisallowNull] ViewDrawRibbonTab tab)
     {
         Debug.Assert(tab is not null);
-        ThrowHelper.ThrowIfNull(tab);
-        _lastTab = tab;
+        _lastTab = tab ?? ThrowHelper.ThrowArgumentNullException<ViewDrawRibbonTab>(nameof(tab));
     }
 
     /// <summary>

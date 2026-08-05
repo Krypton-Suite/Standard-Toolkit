@@ -32,8 +32,7 @@ internal class ViewLayoutRibbonAppTab : ViewLayoutDocker
     public ViewLayoutRibbonAppTab([DisallowNull] KryptonRibbon ribbon)
     {
         Debug.Assert(ribbon is not null);
-        ThrowHelper.ThrowIfNull(ribbon);
-        _ribbon = ribbon;
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
 
         AppTab = new ViewDrawRibbonFileAppTab(ribbon);
 

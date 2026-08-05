@@ -39,12 +39,9 @@ internal class ViewLayoutDockerOverlap : ViewLayoutDocker
         Debug.Assert(layoutTabs is not null);
 
         // Remember provided references
-        ThrowHelper.ThrowIfNull(drawCanvas);
-        _drawCanvas = drawCanvas;
-        ThrowHelper.ThrowIfNull(layoutOverlap);
-        _layoutOverlap = layoutOverlap;
-        ThrowHelper.ThrowIfNull(layoutTabs);
-        _layoutTabs = layoutTabs;
+        _drawCanvas = drawCanvas ?? ThrowHelper.ThrowArgumentNullException<ViewDrawCanvas>(nameof(drawCanvas));
+        _layoutOverlap = layoutOverlap ?? ThrowHelper.ThrowArgumentNullException<ViewLayoutInsetOverlap>(nameof(layoutOverlap));
+        _layoutTabs = layoutTabs ?? ThrowHelper.ThrowArgumentNullException<ViewLayoutBarForTabs>(nameof(layoutTabs));
     }
 
     /// <summary>

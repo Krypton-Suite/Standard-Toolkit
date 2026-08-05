@@ -44,8 +44,7 @@ public class ToolbarSliderValues : Storage
     /// <param name="owner">Owning toolbar slider.</param>
     public ToolbarSliderValues(KryptonToolbarSlider owner)
     {
-        ThrowHelper.ThrowIfNull(owner);
-        _owner = owner;
+        _owner = owner ?? ThrowHelper.ThrowArgumentNullException<KryptonToolbarSlider>(nameof(owner));
     }
 
     /// <inheritdoc />

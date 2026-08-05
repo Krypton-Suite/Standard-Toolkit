@@ -48,10 +48,8 @@ internal class ViewDrawRibbonGroupText : ViewLeaf,
         Debug.Assert(ribbon is not null);
         Debug.Assert(ribbonGroup is not null);
 
-        ThrowHelper.ThrowIfNull(ribbon);
-        _ribbon = ribbon;
-        ThrowHelper.ThrowIfNull(ribbonGroup);
-        _ribbonGroup = ribbonGroup;
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
+        _ribbonGroup = ribbonGroup ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroup>(nameof(ribbonGroup));
         _firstText = firstText;
 
         // Use a class to convert from ribbon group to content interface

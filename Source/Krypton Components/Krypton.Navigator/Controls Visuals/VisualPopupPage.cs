@@ -47,10 +47,8 @@ internal class VisualPopupPage : VisualPopup
         Debug.Assert(page != null);
 
         // Remember references needed later
-        ThrowHelper.ThrowIfNull(navigator);
-        _navigator = navigator;
-        ThrowHelper.ThrowIfNull(page);
-        _page = page;
+        _navigator = navigator ?? ThrowHelper.ThrowArgumentNullException<KryptonNavigator>(nameof(navigator));
+        _page = page ?? ThrowHelper.ThrowArgumentNullException<KryptonPage>(nameof(page));
 
         // Always var the layout that positions the actual page
         var layoutPage = new ViewLayoutPopupPage(_navigator, _page!);

@@ -57,12 +57,9 @@ internal class ViewLayoutRibbonGroups : ViewComposite
         Debug.Assert(needPaint is not null);
 
         // Cache references
-        ThrowHelper.ThrowIfNull(ribbon);
-        _ribbon = ribbon;
-        ThrowHelper.ThrowIfNull(ribbonTab);
-        _ribbonTab = ribbonTab;
-        ThrowHelper.ThrowIfNull(needPaint);
-        _needPaint = needPaint;
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
+        _ribbonTab = ribbonTab ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonTab>(nameof(ribbonTab));
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException<NeedPaintHandler>(nameof(needPaint));
 
         // Create initial lookup table
         _groupToView = new GroupToView();

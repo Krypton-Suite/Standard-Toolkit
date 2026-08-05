@@ -48,10 +48,8 @@ internal class ViewDrawRibbonGroupRadioButtonText : ViewLeaf,
         Debug.Assert(ribbon is not null);
         Debug.Assert(ribbonRadioButton is not null);
 
-        ThrowHelper.ThrowIfNull(ribbon);
-        _ribbon = ribbon;
-        ThrowHelper.ThrowIfNull(ribbonRadioButton);
-        _ribbonRadioButton = ribbonRadioButton;
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
+        _ribbonRadioButton = ribbonRadioButton ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupRadioButton>(nameof(ribbonRadioButton));
         _firstText = firstText;
 
         // Use a class to convert from ribbon group to content interface

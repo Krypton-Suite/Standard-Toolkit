@@ -87,14 +87,10 @@ public abstract class DragFeedback : IDisposable
         Debug.Assert(pageDragEndData is not null);
         Debug.Assert(dragTargets is not null);
 
-        ThrowHelper.ThrowIfNull(paletteDragDrop);
-        PaletteDragDrop = paletteDragDrop;
-        ThrowHelper.ThrowIfNull(renderer);
-        Renderer = renderer;
-        ThrowHelper.ThrowIfNull(pageDragEndData);
-        PageDragEndData = pageDragEndData;
-        ThrowHelper.ThrowIfNull(dragTargets);
-        DragTargets = dragTargets;
+        PaletteDragDrop = paletteDragDrop ?? ThrowHelper.ThrowArgumentNullException<IPaletteDragDrop>(nameof(paletteDragDrop));
+        Renderer = renderer ?? ThrowHelper.ThrowArgumentNullException<IRenderer>(nameof(renderer));
+        PageDragEndData = pageDragEndData ?? ThrowHelper.ThrowArgumentNullException<PageDragEndData>(nameof(pageDragEndData));
+        DragTargets = dragTargets ?? ThrowHelper.ThrowArgumentNullException<DragTargetList>(nameof(dragTargets));
     }
 
     /// <summary>

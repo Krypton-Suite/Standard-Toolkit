@@ -41,8 +41,7 @@ internal class ViewLayoutRibbonQATMini : ViewLayoutDocker
     {
         Debug.Assert(ribbon is not null);
             
-        ThrowHelper.ThrowIfNull(ribbon);
-        _ribbon = ribbon;
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
 
         if (needPaintDelegate is null)
         {

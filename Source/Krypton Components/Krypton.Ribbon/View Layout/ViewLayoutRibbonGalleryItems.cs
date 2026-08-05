@@ -75,16 +75,11 @@ internal class ViewLayoutRibbonGalleryItems : ViewComposite
             ThrowHelper.ThrowArgumentNullException(nameof(palette));
         }
 
-        ThrowHelper.ThrowIfNull(gallery);
-        _gallery = gallery;
-        ThrowHelper.ThrowIfNull(needPaint);
-        _needPaint = needPaint;
-        ThrowHelper.ThrowIfNull(buttonUp);
-        _buttonUp = buttonUp;
-        ThrowHelper.ThrowIfNull(buttonDown);
-        _buttonDown = buttonDown;
-        ThrowHelper.ThrowIfNull(buttonContext);
-        _buttonContext = buttonContext;
+        _gallery = gallery ?? ThrowHelper.ThrowArgumentNullException<KryptonGallery>(nameof(gallery));
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException<NeedPaintHandler>(nameof(needPaint));
+        _buttonUp = buttonUp ?? ThrowHelper.ThrowArgumentNullException<ViewDrawRibbonGalleryButton>(nameof(buttonUp));
+        _buttonDown = buttonDown ?? ThrowHelper.ThrowArgumentNullException<ViewDrawRibbonGalleryButton>(nameof(buttonDown));
+        _buttonContext = buttonContext ?? ThrowHelper.ThrowArgumentNullException<ViewDrawRibbonGalleryButton>(nameof(buttonContext));
         _bringIntoView = -1;
         ScrollIntoView = true;
 

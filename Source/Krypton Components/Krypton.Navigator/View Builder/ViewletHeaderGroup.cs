@@ -44,12 +44,9 @@ internal class ViewletHeaderGroup
         Debug.Assert(needPaintDelegate != null);
 
         // Remember references
-        ThrowHelper.ThrowIfNull(navigator);
-        Navigator = navigator;
-        ThrowHelper.ThrowIfNull(redirector);
-        Redirector = redirector;
-        ThrowHelper.ThrowIfNull(needPaintDelegate);
-        _needPaintDelegate = needPaintDelegate;
+        Navigator = navigator ?? ThrowHelper.ThrowArgumentNullException<KryptonNavigator>(nameof(navigator));
+        Redirector = redirector ?? ThrowHelper.ThrowArgumentNullException<PaletteRedirect>(nameof(redirector));
+        _needPaintDelegate = needPaintDelegate ?? ThrowHelper.ThrowArgumentNullException<NeedPaintHandler>(nameof(needPaintDelegate));
     }
     #endregion
 

@@ -70,8 +70,7 @@ internal sealed class VisualBackstageOverlayForm : KryptonForm
     /// <param name="ribbon">Reference to the ribbon for below-ribbon mode calculations.</param>
     internal VisualBackstageOverlayForm(Form ownerForm, BackstageOverlayMode overlayMode = BackstageOverlayMode.FullClient, KryptonRibbon? ribbon = null)
     {
-        ThrowHelper.ThrowIfNull(ownerForm);
-        _ownerForm = ownerForm;
+        _ownerForm = ownerForm ?? ThrowHelper.ThrowArgumentNullException<Form>(nameof(ownerForm));
 
         _overlayMode = overlayMode;
 

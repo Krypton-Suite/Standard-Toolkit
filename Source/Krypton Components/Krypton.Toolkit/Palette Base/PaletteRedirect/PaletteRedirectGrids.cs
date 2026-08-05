@@ -32,8 +32,7 @@ public class PaletteRedirectGrids : PaletteRedirect
     {
         Debug.Assert(grid is not null);
 
-        ThrowHelper.ThrowIfNull(grid);
-        _grid = grid;
+        _grid = grid ?? ThrowHelper.ThrowArgumentNullException<KryptonPaletteGrid>(nameof(grid));
     }
     #endregion
 

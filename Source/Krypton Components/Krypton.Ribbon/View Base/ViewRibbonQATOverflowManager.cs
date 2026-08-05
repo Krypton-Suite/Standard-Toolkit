@@ -39,10 +39,8 @@ internal class ViewRibbonQATOverflowManager : ViewManager
         Debug.Assert(ribbon is not null);
         Debug.Assert(qatContents is not null);
             
-        ThrowHelper.ThrowIfNull(ribbon);
-        _ribbon = ribbon;
-        ThrowHelper.ThrowIfNull(qatContents);
-        QATContents = qatContents;
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
+        QATContents = qatContents ?? ThrowHelper.ThrowArgumentNullException<ViewLayoutRibbonQATContents>(nameof(qatContents));
     }
 
     /// <summary>

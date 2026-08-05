@@ -42,8 +42,7 @@ public class NavigatorStack : Storage
         Debug.Assert(navigator is not null);
 
         // Remember back reference
-        ThrowHelper.ThrowIfNull(navigator);
-        _navigator = navigator;
+        _navigator = navigator ?? ThrowHelper.ThrowArgumentNullException<KryptonNavigator>(nameof(navigator));
 
         // Store the provided paint notification delegate
         NeedPaint = needPaint;

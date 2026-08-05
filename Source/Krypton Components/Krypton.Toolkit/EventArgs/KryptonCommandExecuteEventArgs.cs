@@ -22,8 +22,7 @@ public class KryptonCommandExecuteEventArgs : EventArgs
     /// <param name="parameter">Optional parameter from a shared command context menu item.</param>
     public KryptonCommandExecuteEventArgs(object source, object? parameter)
     {
-        ThrowHelper.ThrowIfNull(source);
-        Source = source;
+        Source = source ?? ThrowHelper.ThrowArgumentNullException<object>(nameof(source));
         Parameter = parameter;
     }
     #endregion

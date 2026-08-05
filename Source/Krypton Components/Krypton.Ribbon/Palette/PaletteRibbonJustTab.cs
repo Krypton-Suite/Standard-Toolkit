@@ -40,8 +40,7 @@ public class PaletteRibbonJustTab : Storage
         }
 
         // Store the provided paint notification delegate
-        ThrowHelper.ThrowIfNull(needPaint);
-        NeedPaint = needPaint;
+        NeedPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException<NeedPaintHandler>(nameof(needPaint));
 
         // Create storage that maps onto the inherit instances
         _ribbonTab = new PaletteRibbonDouble(inherit.RibbonTab, inherit.RibbonTab, needPaint);

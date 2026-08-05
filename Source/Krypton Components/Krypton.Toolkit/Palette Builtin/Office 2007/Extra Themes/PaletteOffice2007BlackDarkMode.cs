@@ -5709,8 +5709,7 @@ public class KryptonColorTable2007BlackDarkMode : KryptonColorTable
     {
         Debug.Assert(colors is not null);
 
-        ThrowHelper.ThrowIfNull(colors);
-        Colors = colors;
+        Colors = colors ?? ThrowHelper.ThrowArgumentNullException<Color[]>(nameof(colors));
         UseRoundedEdges = roundedEdges;
     }
     #endregion

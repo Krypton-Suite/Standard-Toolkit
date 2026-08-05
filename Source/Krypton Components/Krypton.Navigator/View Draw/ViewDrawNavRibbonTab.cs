@@ -71,10 +71,8 @@ internal class ViewDrawNavRibbonTab : ViewComposite,
         Debug.Assert(navigator is not null);
         Debug.Assert(page is not null);
 
-        ThrowHelper.ThrowIfNull(navigator);
-        Navigator = navigator;
-        ThrowHelper.ThrowIfNull(page);
-        Page = page;
+        Navigator = navigator ?? ThrowHelper.ThrowArgumentNullException<KryptonNavigator>(nameof(navigator));
+        Page = page ?? ThrowHelper.ThrowArgumentNullException<KryptonPage>(nameof(page));
         _lastClick = DateTime.Now.AddDays(-1);
 
         // Associate the page component with this view element

@@ -37,8 +37,7 @@ internal class VisualPopupQATOverflow : VisualPopup
         Debug.Assert(ribbon is not null);
 
         // Remember references needed later
-        ThrowHelper.ThrowIfNull(ribbon);
-        _ribbon = ribbon;
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
 
         // Create a view element for drawing the group
         _viewQAT = new ViewDrawRibbonQATOverflow(ribbon, NeedPaintDelegate);

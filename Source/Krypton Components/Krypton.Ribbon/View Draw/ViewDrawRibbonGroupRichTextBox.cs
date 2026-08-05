@@ -45,12 +45,9 @@ internal class ViewDrawRibbonGroupRichTextBox : ViewComposite,
         Debug.Assert(needPaint is not null);
 
         // Remember incoming references
-        ThrowHelper.ThrowIfNull(ribbon);
-        _ribbon = ribbon;
-        ThrowHelper.ThrowIfNull(ribbonRichTextBox);
-        GroupRichTextBox = ribbonRichTextBox;
-        ThrowHelper.ThrowIfNull(needPaint);
-        _needPaint = needPaint;
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
+        GroupRichTextBox = ribbonRichTextBox ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupRichTextBox>(nameof(ribbonRichTextBox));
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException<NeedPaintHandler>(nameof(needPaint));
         _currentSize = GroupRichTextBox.ItemSizeCurrent;
 
         // Hook into the richtextbox events

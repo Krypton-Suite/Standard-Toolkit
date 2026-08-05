@@ -26,8 +26,7 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
         : base(kct)
     {
         Debug.Assert(kct is not null);
-        ThrowHelper.ThrowIfNull(kct);
-        KCT = kct;
+        KCT = kct ?? ThrowHelper.ThrowArgumentNullException<KryptonColorTable>(nameof(kct));
     }
     #endregion
 

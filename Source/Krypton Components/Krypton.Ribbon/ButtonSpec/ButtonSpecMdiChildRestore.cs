@@ -32,8 +32,7 @@ public class ButtonSpecMdiChildRestore : ButtonSpecMdiChildFixed
         : base(PaletteButtonSpecStyle.PendantRestore)
     {
         Debug.Assert(ribbon is not null);
-        ThrowHelper.ThrowIfNull(ribbon);
-        _ribbon = ribbon;
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
     }
     #endregion
 

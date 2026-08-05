@@ -46,8 +46,7 @@ public class LoadingCircleValues : Storage
     /// <param name="owner">Owning loading circle.</param>
     public LoadingCircleValues(KryptonLoadingCircle owner)
     {
-        ThrowHelper.ThrowIfNull(owner);
-        _owner = owner;
+        _owner = owner ?? ThrowHelper.ThrowArgumentNullException<KryptonLoadingCircle>(nameof(owner));
         _color = DEFAULT_COLOR;
     }
 

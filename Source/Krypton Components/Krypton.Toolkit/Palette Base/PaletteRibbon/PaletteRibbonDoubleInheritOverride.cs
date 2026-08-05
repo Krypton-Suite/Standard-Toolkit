@@ -46,14 +46,10 @@ public class PaletteRibbonDoubleInheritOverride : PaletteRibbonDoubleInherit
         Debug.Assert(backupText is not null);
 
         // Remember values
-        ThrowHelper.ThrowIfNull(primaryBack);
-        _primaryBack = primaryBack;
-        ThrowHelper.ThrowIfNull(primaryText);
-        _primaryText = primaryText;
-        ThrowHelper.ThrowIfNull(backupBack);
-        _backupBack = backupBack;
-        ThrowHelper.ThrowIfNull(backupText);
-        _backupText = backupText;
+        _primaryBack = primaryBack ?? ThrowHelper.ThrowArgumentNullException<IPaletteRibbonBack>(nameof(primaryBack));
+        _primaryText = primaryText ?? ThrowHelper.ThrowArgumentNullException<IPaletteRibbonText>(nameof(primaryText));
+        _backupBack = backupBack ?? ThrowHelper.ThrowArgumentNullException<IPaletteRibbonBack>(nameof(backupBack));
+        _backupText = backupText ?? ThrowHelper.ThrowArgumentNullException<IPaletteRibbonText>(nameof(backupText));
 
         // Default state
         Apply = false;

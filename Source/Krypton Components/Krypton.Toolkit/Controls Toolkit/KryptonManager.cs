@@ -609,7 +609,7 @@ public sealed class KryptonManager : Component
     {
         if (string.IsNullOrWhiteSpace(path))
         {
-            throw new System.ArgumentNullException(nameof(path));
+            ThrowHelper.ThrowArgumentNullException(nameof(path));
         }
 
         if (System.IO.Path.GetExtension(path).Equals(@".json", System.StringComparison.OrdinalIgnoreCase))

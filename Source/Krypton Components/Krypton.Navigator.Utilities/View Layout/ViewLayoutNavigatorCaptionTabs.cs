@@ -55,10 +55,8 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
         Action<KryptonPage, Point>? showContextMenu = null,
         Action? newTabClick = null)
     {
-        ThrowHelper.ThrowIfNull(navigator);
-        _navigator = navigator;
-        ThrowHelper.ThrowIfNull(needPaint);
-        _needPaint = needPaint;
+        _navigator = navigator ?? ThrowHelper.ThrowArgumentNullException<KryptonNavigator>(nameof(navigator));
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException<NeedPaintHandler>(nameof(needPaint));
         _showContextMenu = showContextMenu;
         _newTabClick = newTabClick;
 
@@ -1285,8 +1283,7 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
                 null, content, VisualOrientation.Top, true)
         {
             _accentColor = accentColor;
-            ThrowHelper.ThrowIfNull(appearance);
-            _appearance = appearance;
+            _appearance = appearance ?? ThrowHelper.ThrowArgumentNullException<NavigatorTabGroupAppearance>(nameof(appearance));
         }
 
         public override void Render(RenderContext context)

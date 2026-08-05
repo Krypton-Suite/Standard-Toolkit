@@ -89,12 +89,9 @@ internal abstract class ViewBuilderBase
         Debug.Assert(_constructed == false);
 
         // Save provided references
-        ThrowHelper.ThrowIfNull(navigator);
-        Navigator = navigator;
-        ThrowHelper.ThrowIfNull(manager);
-        ViewManager = manager;
-        ThrowHelper.ThrowIfNull(redirector);
-        Redirector = redirector;
+        Navigator = navigator ?? ThrowHelper.ThrowArgumentNullException<KryptonNavigator>(nameof(navigator));
+        ViewManager = manager ?? ThrowHelper.ThrowArgumentNullException<ViewManager>(nameof(manager));
+        Redirector = redirector ?? ThrowHelper.ThrowArgumentNullException<PaletteRedirect>(nameof(redirector));
         _constructed = true;
 
         // Hook into the navigator events

@@ -42,8 +42,7 @@ internal class ViewLayoutRibbonAppButton : ViewLayoutDocker
         bool bottomHalf)
     {
         Debug.Assert(ribbon is not null);
-        ThrowHelper.ThrowIfNull(ribbon);
-        _ribbon = ribbon;
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
 
         AppButton = new ViewDrawRibbonAppButton(ribbon, bottomHalf);
         _separator = new ViewLayoutRibbonSeparator(APPBUTTON_GAP, true);

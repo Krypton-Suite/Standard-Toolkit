@@ -42,8 +42,7 @@ public class MruOpenFileMenuItemValues : Storage
     /// <param name="owner">Owning MRU open-file menu item.</param>
     public MruOpenFileMenuItemValues(KryptonMRUOpenFileMenuItem owner)
     {
-        ThrowHelper.ThrowIfNull(owner);
-        _ = owner;
+        _ = owner ?? ThrowHelper.ThrowArgumentNullException<KryptonMRUOpenFileMenuItem>(nameof(owner));
         _startingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
     }
 

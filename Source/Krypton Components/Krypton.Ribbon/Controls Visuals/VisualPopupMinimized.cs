@@ -46,10 +46,8 @@ internal class VisualPopupMinimized : VisualPopup
         Debug.Assert(captionArea is not null);
 
         // Remember incoming references
-        ThrowHelper.ThrowIfNull(ribbon);
-        _ribbon = ribbon;
-        ThrowHelper.ThrowIfNull(captionArea);
-        _captionArea = captionArea;
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
+        _captionArea = captionArea ?? ThrowHelper.ThrowArgumentNullException<ViewDrawRibbonCaptionArea>(nameof(captionArea));
     }
 
     /// <summary>

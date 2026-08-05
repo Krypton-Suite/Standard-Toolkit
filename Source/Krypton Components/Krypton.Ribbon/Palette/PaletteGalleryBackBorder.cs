@@ -29,8 +29,7 @@ internal class PaletteGalleryBackBorder : IPaletteBack,
     public PaletteGalleryBackBorder([DisallowNull] PaletteGalleryState? state)
     {
         Debug.Assert(state is not null);
-        ThrowHelper.ThrowIfNull(state);
-        _state = state;
+        _state = state ?? ThrowHelper.ThrowArgumentNullException<PaletteGalleryState>(nameof(state));
     }
     #endregion
 
@@ -42,8 +41,7 @@ internal class PaletteGalleryBackBorder : IPaletteBack,
     public void SetState([DisallowNull] PaletteGalleryState state)
     {
         Debug.Assert(state != null);
-        ThrowHelper.ThrowIfNull(state);
-        _state = state;
+        _state = state ?? ThrowHelper.ThrowArgumentNullException<PaletteGalleryState>(nameof(state));
     }
     #endregion
 

@@ -42,8 +42,7 @@ public class PaletteRibbonFocus : PaletteMetricRedirect
         }
 
         // Store the provided paint notification delegate
-        ThrowHelper.ThrowIfNull(needPaint);
-        NeedPaint = needPaint;
+        NeedPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException<NeedPaintHandler>(nameof(needPaint));
 
         // Create the redirection instances
         _ribbonTabInherit = new PaletteRibbonDoubleInheritRedirect(redirect, PaletteRibbonBackStyle.RibbonTab, PaletteRibbonTextStyle.RibbonTab);

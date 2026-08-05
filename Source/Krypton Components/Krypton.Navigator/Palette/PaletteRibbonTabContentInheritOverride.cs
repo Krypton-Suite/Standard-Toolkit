@@ -55,18 +55,12 @@ public class PaletteRibbonTabContentInheritOverride : PaletteRibbonDoubleInherit
         Debug.Assert(backupContent != null);
 
         // Remember values
-        ThrowHelper.ThrowIfNull(primaryBack);
-        _primaryBack = primaryBack;
-        ThrowHelper.ThrowIfNull(primaryText);
-        _primaryText = primaryText;
-        ThrowHelper.ThrowIfNull(primaryContent);
-        _primaryContent = primaryContent;
-        ThrowHelper.ThrowIfNull(backupBack);
-        _backupBack = backupBack;
-        ThrowHelper.ThrowIfNull(backupText);
-        _backupText = backupText;
-        ThrowHelper.ThrowIfNull(backupContent);
-        _backupContent = backupContent;
+        _primaryBack = primaryBack ?? ThrowHelper.ThrowArgumentNullException<IPaletteRibbonBack>(nameof(primaryBack));
+        _primaryText = primaryText ?? ThrowHelper.ThrowArgumentNullException<IPaletteRibbonText>(nameof(primaryText));
+        _primaryContent = primaryContent ?? ThrowHelper.ThrowArgumentNullException<IPaletteContent>(nameof(primaryContent));
+        _backupBack = backupBack ?? ThrowHelper.ThrowArgumentNullException<IPaletteRibbonBack>(nameof(backupBack));
+        _backupText = backupText ?? ThrowHelper.ThrowArgumentNullException<IPaletteRibbonText>(nameof(backupText));
+        _backupContent = backupContent ?? ThrowHelper.ThrowArgumentNullException<IPaletteContent>(nameof(backupContent));
 
         // Default state
         Apply = false;

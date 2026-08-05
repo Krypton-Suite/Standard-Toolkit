@@ -41,8 +41,7 @@ internal class ViewDrawRibbonGroupRadioButtonImage : ViewComposite
         Debug.Assert(ribbonRadioButton is not null);
 
         // Remember incoming parameters
-        ThrowHelper.ThrowIfNull(ribbonRadioButton);
-        _ribbonRadioButton = ribbonRadioButton;
+        _ribbonRadioButton = ribbonRadioButton ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupRadioButton>(nameof(ribbonRadioButton));
         _large = large;
 
         // Use redirector to get the radio button images and redirect to parent palette
