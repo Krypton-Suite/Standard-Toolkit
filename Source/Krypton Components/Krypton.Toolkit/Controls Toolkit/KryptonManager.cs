@@ -1540,6 +1540,19 @@ public sealed class KryptonManager : Component
             case PaletteMode.MacOSDark:
                 return PaletteMacOSDark;
 
+            case PaletteMode.Office2007LimeGreen:
+                return PaletteOffice2007LimeGreen;
+            case PaletteMode.Office2007LimeGreenDark:
+                return PaletteOffice2007LimeGreenDark;
+            case PaletteMode.Office2010LimeGreen:
+                return PaletteOffice2010LimeGreen;
+            case PaletteMode.Office2010LimeGreenDark:
+                return PaletteOffice2010LimeGreenDark;
+            case PaletteMode.Microsoft365LimeGreen:
+                return PaletteMicrosoft365LimeGreen;
+            case PaletteMode.Microsoft365LimeGreenDark:
+                return PaletteMicrosoft365LimeGreenDark;
+
             case PaletteMode.Custom:
             case PaletteMode.Global:
                 return CurrentGlobalPalette;
@@ -1854,6 +1867,36 @@ public sealed class KryptonManager : Component
     /// </summary>
     public static PaletteMacOSDark PaletteMacOSDark => _paletteMacOSDark ??= new PaletteMacOSDark();
 
+    /// <summary>
+    /// Gets the single instance of the light Lime Green variant Office 2007 palette.
+    /// </summary>
+    public static PaletteOffice2007LimeGreen PaletteOffice2007LimeGreen => _paletteOffice2007LimeGreen ??= new PaletteOffice2007LimeGreen();
+
+    /// <summary>
+    /// Gets the single instance of the dark Lime Green variant Office 2007 palette.
+    /// </summary>
+    public static PaletteOffice2007LimeGreenDark PaletteOffice2007LimeGreenDark => _paletteOffice2007LimeGreenDark ??= new PaletteOffice2007LimeGreenDark();
+
+    /// <summary>
+    /// Gets the single instance of the light Lime Green variant Office 2010 palette.
+    /// </summary>
+    public static PaletteOffice2010LimeGreen PaletteOffice2010LimeGreen => _paletteOffice2010LimeGreen ??= new PaletteOffice2010LimeGreen();
+
+    /// <summary>
+    /// Gets the single instance of the dark Lime Green variant Office 2010 palette.
+    /// </summary>
+    public static PaletteOffice2010LimeGreenDark PaletteOffice2010LimeGreenDark => _paletteOffice2010LimeGreenDark ??= new PaletteOffice2010LimeGreenDark();
+
+    /// <summary>
+    /// Gets the single instance of the light Lime Green variant Microsoft 365 palette.
+    /// </summary>
+    public static PaletteMicrosoft365LimeGreen PaletteMicrosoft365LimeGreen => _paletteMicrosoft365LimeGreen ??= new PaletteMicrosoft365LimeGreen();
+
+    /// <summary>
+    /// Gets the single instance of the dark Lime Green variant Microsoft 365 palette.
+    /// </summary>
+    public static PaletteMicrosoft365LimeGreenDark PaletteMicrosoft365LimeGreenDark => _paletteMicrosoft365LimeGreenDark ??= new PaletteMicrosoft365LimeGreenDark();
+
     private static PaletteMaterialLight? _paletteMaterialLight;
     private static PaletteMaterialDark? _paletteMaterialDark;
     private static PaletteMaterialLightRipple? _paletteMaterialLightRipple;
@@ -1864,6 +1907,13 @@ public sealed class KryptonManager : Component
     private static PaletteMacOSXAqua? _paletteMacOSXAqua;
     private static PaletteMacOSLight? _paletteMacOSLight;
     private static PaletteMacOSDark? _paletteMacOSDark;
+
+    private static PaletteOffice2007LimeGreen? _paletteOffice2007LimeGreen;
+    private static PaletteOffice2007LimeGreenDark? _paletteOffice2007LimeGreenDark;
+    private static PaletteOffice2010LimeGreen? _paletteOffice2010LimeGreen;
+    private static PaletteOffice2010LimeGreenDark? _paletteOffice2010LimeGreenDark;
+    private static PaletteMicrosoft365LimeGreen? _paletteMicrosoft365LimeGreen;
+    private static PaletteMicrosoft365LimeGreenDark? _paletteMicrosoft365LimeGreenDark;
 
     //public static PaletteBase CustomPaletteBase => _customPalette ??= new PaletteBase ();
 
@@ -2127,6 +2177,8 @@ public sealed class KryptonManager : Component
             case PaletteMode.Office2007White:
             case PaletteMode.Office2007Black:
             case PaletteMode.Office2007BlackDarkMode:
+            case PaletteMode.Office2007LimeGreen:
+            case PaletteMode.Office2007LimeGreenDark:
             case PaletteMode.VisualStudio2010Render2007:
                 Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Office2007ToolBarImages);
                 break;
@@ -2148,6 +2200,8 @@ public sealed class KryptonManager : Component
             case PaletteMode.SparklePurple:
             case PaletteMode.SparklePurpleDarkMode:
             case PaletteMode.SparklePurpleLightMode:
+            case PaletteMode.Office2010LimeGreen:
+            case PaletteMode.Office2010LimeGreenDark:
             case PaletteMode.VisualStudio2010Render2010:
                 Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Office2010ToolBarImages);
                 break;
@@ -2167,6 +2221,8 @@ public sealed class KryptonManager : Component
             case PaletteMode.Microsoft365SilverDarkMode:
             case PaletteMode.Microsoft365SilverLightMode:
             case PaletteMode.Microsoft365White:
+            case PaletteMode.Microsoft365LimeGreen:
+            case PaletteMode.Microsoft365LimeGreenDark:
             case PaletteMode.VisualStudio2010Render365:
                 Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Microsoft365ToolBarImages);
                 break;

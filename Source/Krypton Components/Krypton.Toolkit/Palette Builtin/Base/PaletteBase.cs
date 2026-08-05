@@ -2214,15 +2214,17 @@ public abstract class PaletteBase : Component
     /// <summary>
     /// Called once from a family base static constructor to seed default colours for a particular enum slot.
     /// </summary>
-    protected static void RegisterColor<TEnum>(TEnum slot, Color value) where TEnum : struct, Enum
+    protected internal static void RegisterColor<TEnum>(TEnum slot, Color value) where TEnum : struct, Enum
     {
         RegisterColor<PaletteBase, TEnum>(slot, value);
     }
 
     /// <summary>
-    /// Called once from a family base static constructor to seed default colours for a particular enum slot.
+    /// Called once from a family base static constructor (or same-assembly helpers) to seed default colours
+    /// for a particular enum slot, keyed by <typeparamref name="TOwner"/> so derived palettes can override
+    /// shared family defaults without mutating the <see cref="PaletteBase"/> fallback entries.
     /// </summary>
-    protected static void RegisterColor<TOwner, TEnum>(TEnum slot, Color value)
+    protected internal static void RegisterColor<TOwner, TEnum>(TEnum slot, Color value)
         where TOwner : PaletteBase
         where TEnum : struct, Enum
     {
