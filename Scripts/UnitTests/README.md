@@ -82,7 +82,7 @@ gh workflow run "Unit Tests" -f configuration=Debug -f target_framework=net472 -
 # Terminal 1 - host the demo
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Start-NavigatorFormIntegrationHost.ps1
 
-# Terminal 2 - note the host PID, then drag or remerge
+# Terminal 2 — note the host PID, then drag or remerge
 $hp = (Get-CimInstance Win32_Process -Filter "Name='powershell.exe'" |
     Where-Object { $_.CommandLine -like '*Start-NavigatorFormIntegrationHost*' }).ProcessId
 

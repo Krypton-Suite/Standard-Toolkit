@@ -47,6 +47,10 @@
 
 * Resolved [#3858](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3858), Fix drag-target heuristics in `DragFeedbackDocking` / `DragViewController`
    * Clarified docking drag-target priority (first hit / control edges before nested cells) and cleaned up `DragViewController` cancel path.
+* Implemented [#4129](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4129), Show grouped tabs as previews in taskbar
+   * Explorer-like composite `Group | …` taskbar thumbnails for navigator caption tab groups via `KryptonNavigatorTaskbarThumbnails.ShowTabGroupThumbnails` + `FormIntegrator`.
+   * Opt-in `KryptonDockingFloating.ShowFloatingWindowsInTaskbar` so docking floats can join Windows 11 Snap Groups; peer `KryptonForm` guidance uses shared process AUMID.
+   * To use the navigator thumbnails, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Navigator.Utilities` assembly.
 * Resolved [#4147](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4147), Space Key not working on Button
    * Space key activates a focused `KryptonButton` when the mouse is not hovering over it.
 * Implemented [#4135](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4135), **[Breaking Change]** Move all `Global*` classes into `Krypton.Interop`

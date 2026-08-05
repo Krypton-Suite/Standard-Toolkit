@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -24,6 +24,8 @@ internal sealed class NavigatorTaskbarHostCoordinator : IDisposable
         new List<KryptonNavigatorTaskbarThumbnails>();
     private readonly Dictionary<KryptonPage, PageEntry> _entries =
         new Dictionary<KryptonPage, PageEntry>();
+    private readonly Dictionary<GroupKey, GroupEntry> _groupEntries =
+        new Dictionary<GroupKey, GroupEntry>();
     private readonly Dictionary<KryptonPage, Bitmap> _snapshots =
         new Dictionary<KryptonPage, Bitmap>();
     private readonly HashSet<KryptonPage> _dirtyPages = new HashSet<KryptonPage>();
@@ -45,6 +47,7 @@ internal sealed class NavigatorTaskbarHostCoordinator : IDisposable
 
     private const uint PW_RENDERFULLCONTENT = 0x00000002;
     private const int DebounceMs = 200;
+    private const int MaxGroupCollageTiles = 4;
 
     private NavigatorTaskbarHostCoordinator(Form hostForm)
     {
@@ -104,18 +107,32 @@ internal sealed class NavigatorTaskbarHostCoordinator : IDisposable
             return;
         }
 
-        var remove = new List<KryptonPage>();
+        var removePages = new List<KryptonPage>();
         foreach (KeyValuePair<KryptonPage, PageEntry> pair in _entries)
         {
             if (ReferenceEquals(pair.Value.Component, component))
             {
-                remove.Add(pair.Key);
+                removePages.Add(pair.Key);
             }
         }
 
-        foreach (KryptonPage page in remove)
+        foreach (KryptonPage page in removePages)
         {
             UnregisterProxy(page);
+        }
+
+        var removeGroups = new List<GroupKey>();
+        foreach (KeyValuePair<GroupKey, GroupEntry> pair in _groupEntries)
+        {
+            if (ReferenceEquals(pair.Value.Component, component))
+            {
+                removeGroups.Add(pair.Key);
+            }
+        }
+
+        foreach (GroupKey key in removeGroups)
+        {
+            UnregisterGroupProxy(key);
         }
 
         if (_components.Count == 0)
@@ -156,67 +173,135 @@ internal sealed class NavigatorTaskbarHostCoordinator : IDisposable
                 return;
             }
 
-            var eligible = CollectEligiblePages();
-            var keep = new HashSet<KryptonPage>();
-            foreach (EligiblePage item in eligible)
+            var eligible = CollectEligibleSlots();
+            var keepPages = new HashSet<KryptonPage>();
+            var keepGroups = new HashSet<GroupKey>();
+            foreach (EligibleSlot slot in eligible)
             {
-                keep.Add(item.Page);
-            }
-
-            var remove = new List<KryptonPage>();
-            foreach (KeyValuePair<KryptonPage, PageEntry> pair in _entries)
-            {
-                if (!keep.Contains(pair.Key))
+                if (slot.Kind == SlotKind.Page && slot.Page != null)
                 {
-                    remove.Add(pair.Key);
+                    keepPages.Add(slot.Page);
+                }
+                else if (slot.Kind == SlotKind.Group && slot.GroupKey != null)
+                {
+                    keepGroups.Add(slot.GroupKey);
                 }
             }
 
-            foreach (KryptonPage page in remove)
+            var removePages = new List<KryptonPage>();
+            foreach (KeyValuePair<KryptonPage, PageEntry> pair in _entries)
+            {
+                if (!keepPages.Contains(pair.Key))
+                {
+                    removePages.Add(pair.Key);
+                }
+            }
+
+            foreach (KryptonPage page in removePages)
             {
                 UnregisterProxy(page);
             }
 
-            foreach (EligiblePage item in eligible)
+            var removeGroups = new List<GroupKey>();
+            foreach (KeyValuePair<GroupKey, GroupEntry> pair in _groupEntries)
             {
-                if (!_entries.TryGetValue(item.Page, out PageEntry? entry))
+                if (!keepGroups.Contains(pair.Key))
                 {
-                    CreateAndRegisterProxy(item);
+                    removeGroups.Add(pair.Key);
                 }
-                else
-                {
-                    entry.Component = item.Component;
-                    entry.Navigator = item.Navigator;
-                    entry.Proxy.UpdateCaption();
-                    ApplyTabProperties(entry);
-                    try
-                    {
-                        _taskbar.SetThumbnailTooltip(entry.Proxy.Handle, entry.Proxy.Text);
-                    }
-                    catch (Exception ex)
-                    {
-                        KryptonExceptionHandler.CaptureException(ex);
-                    }
+            }
 
-                    EnqueueIdleCapture(item.Page);
+            foreach (GroupKey key in removeGroups)
+            {
+                UnregisterGroupProxy(key);
+            }
+
+            foreach (EligibleSlot slot in eligible)
+            {
+                if (slot.Kind == SlotKind.Page && slot.Page != null)
+                {
+                    var item = new EligiblePage(slot.Component!, slot.Navigator!, slot.Page);
+                    if (!_entries.TryGetValue(slot.Page, out PageEntry? entry))
+                    {
+                        CreateAndRegisterProxy(item);
+                    }
+                    else
+                    {
+                        entry.Component = item.Component;
+                        entry.Navigator = item.Navigator;
+                        entry.Proxy.UpdateCaption();
+                        ApplyTabProperties(entry);
+                        try
+                        {
+                            _taskbar.SetThumbnailTooltip(entry.Proxy.Handle, entry.Proxy.Text);
+                        }
+                        catch (Exception ex)
+                        {
+                            KryptonExceptionHandler.CaptureException(ex);
+                        }
+
+                        EnqueueIdleCapture(item.Page);
+                    }
+                }
+                else if (slot.Kind == SlotKind.Group && slot.GroupKey != null && slot.Group != null)
+                {
+                    if (!_groupEntries.TryGetValue(slot.GroupKey, out GroupEntry? groupEntry))
+                    {
+                        CreateAndRegisterGroupProxy(slot);
+                    }
+                    else
+                    {
+                        groupEntry.Component = slot.Component!;
+                        groupEntry.Navigator = slot.Navigator!;
+                        groupEntry.Group = slot.Group;
+                        groupEntry.Members = slot.Members ?? Array.Empty<KryptonPage>();
+                        string caption = FormatGroupCaption(slot.Group);
+                        groupEntry.Proxy.UpdateCaption(caption);
+                        try
+                        {
+                            _taskbar.SetThumbnailTooltip(groupEntry.Proxy.Handle, caption);
+                        }
+                        catch (Exception ex)
+                        {
+                            KryptonExceptionHandler.CaptureException(ex);
+                        }
+
+                        groupEntry.Proxy.InvalidateIconicBitmaps();
+                    }
                 }
             }
 
             IntPtr insertBefore = IntPtr.Zero;
             for (var i = eligible.Count - 1; i >= 0; i--)
             {
-                if (_entries.TryGetValue(eligible[i].Page, out PageEntry? entry) &&
-                    entry.Proxy.IsHandleCreated)
+                EligibleSlot slot = eligible[i];
+                IntPtr handle = IntPtr.Zero;
+                if (slot.Kind == SlotKind.Page && slot.Page != null &&
+                    _entries.TryGetValue(slot.Page, out PageEntry? pageEntry) &&
+                    pageEntry.Proxy.IsHandleCreated)
                 {
-                    try
-                    {
-                        _taskbar.SetTabOrder(entry.Proxy.Handle, insertBefore);
-                        insertBefore = entry.Proxy.Handle;
-                    }
-                    catch (Exception ex)
-                    {
-                        KryptonExceptionHandler.CaptureException(ex);
-                    }
+                    handle = pageEntry.Proxy.Handle;
+                }
+                else if (slot.Kind == SlotKind.Group && slot.GroupKey != null &&
+                         _groupEntries.TryGetValue(slot.GroupKey, out GroupEntry? groupEntry) &&
+                         groupEntry.Proxy.IsHandleCreated)
+                {
+                    handle = groupEntry.Proxy.Handle;
+                }
+
+                if (handle == IntPtr.Zero)
+                {
+                    continue;
+                }
+
+                try
+                {
+                    _taskbar.SetTabOrder(handle, insertBefore);
+                    insertBefore = handle;
+                }
+                catch (Exception ex)
+                {
+                    KryptonExceptionHandler.CaptureException(ex);
                 }
             }
 
@@ -292,6 +377,8 @@ internal sealed class NavigatorTaskbarHostCoordinator : IDisposable
             entry.Proxy.UpdateCaption();
             entry.Proxy.InvalidateIconicBitmaps();
         }
+
+        InvalidateGroupsContaining(page);
     }
 
     public void OnProxyActivated(KryptonPage page)
@@ -315,6 +402,34 @@ internal sealed class NavigatorTaskbarHostCoordinator : IDisposable
         else
         {
             ApplyProxyActivation(page);
+        }
+    }
+
+    public void OnGroupProxyActivated(NavigatorTaskbarGroupThumbnailProxy proxy)
+    {
+        if (_disposed)
+        {
+            return;
+        }
+
+        GroupEntry? entry = FindGroupEntry(proxy);
+        if (entry == null)
+        {
+            return;
+        }
+
+        Control marshal = entry.Navigator.IsHandleCreated
+            ? (Control)entry.Navigator
+            : _hostForm;
+
+        GroupEntry captured = entry;
+        if (marshal.IsHandleCreated)
+        {
+            marshal.BeginInvoke(new Action(() => ApplyGroupProxyActivation(captured)));
+        }
+        else
+        {
+            ApplyGroupProxyActivation(captured);
         }
     }
 
@@ -359,32 +474,24 @@ internal sealed class NavigatorTaskbarHostCoordinator : IDisposable
         }
 
         using Bitmap bitmap = CreatePageBitmap(entry, maxSize, livePreview);
-        IntPtr hBitmap = bitmap.GetHbitmap();
-        IntPtr pptClient = IntPtr.Zero;
-        try
-        {
-            if (livePreview)
-            {
-                // Offset of the live-preview bitmap within the proxy client area (top-left).
-                var point = new PI.POINT(0, 0);
-                pptClient = Marshal.AllocHGlobal(Marshal.SizeOf(point));
-                Marshal.StructureToPtr(point, pptClient, false);
-                PI.Dwm.DwmSetIconicLivePreviewBitmap(proxy.Handle, hBitmap, pptClient, PI.Dwm.DWM_SIT.DisplayFrame);
-            }
-            else
-            {
-                PI.Dwm.DwmSetIconicThumbnail(proxy.Handle, hBitmap, PI.Dwm.DWM_SIT.None);
-            }
-        }
-        finally
-        {
-            if (pptClient != IntPtr.Zero)
-            {
-                Marshal.FreeHGlobal(pptClient);
-            }
+        ApplyIconicBitmap(proxy.Handle, bitmap, livePreview);
+    }
 
-            PI.DeleteObject(hBitmap);
+    public void ProvideGroupIconicThumbnail(NavigatorTaskbarGroupThumbnailProxy proxy, Size maxSize, bool livePreview)
+    {
+        if (!proxy.IsHandleCreated || maxSize.Width <= 0 || maxSize.Height <= 0)
+        {
+            return;
         }
+
+        GroupEntry? entry = FindGroupEntry(proxy);
+        if (entry == null)
+        {
+            return;
+        }
+
+        using Bitmap bitmap = CreateGroupBitmap(entry, maxSize, livePreview);
+        ApplyIconicBitmap(proxy.Handle, bitmap, livePreview);
     }
 
     public Size GetLivePreviewSize(KryptonPage page)
@@ -400,6 +507,16 @@ internal sealed class NavigatorTaskbarHostCoordinator : IDisposable
         }
 
         return new Size(200, 150);
+    }
+
+    public Size GetGroupLivePreviewSize()
+    {
+        if (_hostForm.ClientSize.Width > 0 && _hostForm.ClientSize.Height > 0)
+        {
+            return _hostForm.ClientSize;
+        }
+
+        return new Size(320, 200);
     }
 
     public void Dispose()
@@ -450,23 +567,59 @@ internal sealed class NavigatorTaskbarHostCoordinator : IDisposable
             entry.Navigator.SelectedPage = page;
         }
 
-        if (_hostForm.IsHandleCreated)
-        {
-            if (_hostForm.WindowState == FormWindowState.Minimized)
-            {
-                _hostForm.WindowState = FormWindowState.Normal;
-            }
-
-            _hostForm.Activate();
-            _hostForm.BringToFront();
-        }
-
+        ActivateHostForm();
         UpdateActiveTab();
     }
 
-    private List<EligiblePage> CollectEligiblePages()
+    private void ApplyGroupProxyActivation(GroupEntry entry)
     {
-        var result = new List<EligiblePage>();
+        if (_disposed || entry.Navigator.IsDisposed)
+        {
+            return;
+        }
+
+        KryptonPage? selected = entry.Navigator.SelectedPage;
+        bool alreadyInGroup = selected != null &&
+                              string.Equals(selected.TabGroupId, entry.Group.Id, StringComparison.Ordinal);
+
+        if (!alreadyInGroup && entry.Navigator.AllowTabSelect)
+        {
+            foreach (KryptonPage page in entry.Navigator.Pages)
+            {
+                if (!page.LastVisibleSet ||
+                    !string.Equals(page.TabGroupId, entry.Group.Id, StringComparison.Ordinal))
+                {
+                    continue;
+                }
+
+                entry.Navigator.SelectedPage = page;
+                break;
+            }
+        }
+
+        ActivateHostForm();
+        UpdateActiveTab();
+    }
+
+    private void ActivateHostForm()
+    {
+        if (!_hostForm.IsHandleCreated)
+        {
+            return;
+        }
+
+        if (_hostForm.WindowState == FormWindowState.Minimized)
+        {
+            _hostForm.WindowState = FormWindowState.Normal;
+        }
+
+        _hostForm.Activate();
+        _hostForm.BringToFront();
+    }
+
+    private List<EligibleSlot> CollectEligibleSlots()
+    {
+        var result = new List<EligibleSlot>();
         foreach (KryptonNavigatorTaskbarThumbnails component in _components)
         {
             if (!component.Enabled || component.Navigator == null || component.Navigator.IsDisposed)
@@ -484,6 +637,9 @@ internal sealed class NavigatorTaskbarHostCoordinator : IDisposable
             int max = component.MaxThumbnails;
             int added = 0;
             bool includeHidden = component.IncludeHiddenPages;
+            bool showGroups = component.AreTabGroupThumbnailsActive();
+            NavigatorTabGroupCollection? catalog = showGroups ? component.FormIntegrator?.TabGroups : null;
+            var emittedGroups = new HashSet<string>(StringComparer.Ordinal);
 
             foreach (KryptonPage page in navigator.Pages)
             {
@@ -505,7 +661,37 @@ internal sealed class NavigatorTaskbarHostCoordinator : IDisposable
                     continue;
                 }
 
-                result.Add(new EligiblePage(component, navigator, page));
+                if (showGroups && catalog != null)
+                {
+                    string groupId = page.TabGroupId ?? string.Empty;
+                    if (!string.IsNullOrEmpty(groupId) && !emittedGroups.Contains(groupId))
+                    {
+                        NavigatorTabGroup? group = catalog[groupId];
+                        if (group != null)
+                        {
+                            if (max > 0 && added >= max)
+                            {
+                                break;
+                            }
+
+                            var members = CollectGroupMembers(navigator, groupId, includeHidden);
+                            if (members.Count > 0)
+                            {
+                                var key = new GroupKey(component, groupId);
+                                result.Add(EligibleSlot.ForGroup(component, navigator, key, group, members));
+                                emittedGroups.Add(groupId);
+                                added++;
+                            }
+                        }
+                    }
+                }
+
+                if (max > 0 && added >= max)
+                {
+                    break;
+                }
+
+                result.Add(EligibleSlot.ForPage(component, navigator, page));
                 added++;
                 if (max > 0 && added >= max)
                 {
@@ -515,6 +701,38 @@ internal sealed class NavigatorTaskbarHostCoordinator : IDisposable
         }
 
         return result;
+    }
+
+    private List<KryptonPage> CollectGroupMembers(KryptonNavigator navigator, string groupId, bool includeHidden)
+    {
+        var members = new List<KryptonPage>();
+        foreach (KryptonPage page in navigator.Pages)
+        {
+            if (!page.AreFlagsSet(KryptonPageFlags.AllowTaskbarThumbnail))
+            {
+                continue;
+            }
+
+            if (!includeHidden && !page.LastVisibleSet)
+            {
+                continue;
+            }
+
+            if (!string.Equals(page.TabGroupId, groupId, StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            Form? owningHost = ResolveTaskbarHost(page.FindForm());
+            if (!ReferenceEquals(owningHost, _hostForm))
+            {
+                continue;
+            }
+
+            members.Add(page);
+        }
+
+        return members;
     }
 
     private EligiblePage? FindSelectedEligiblePage()
@@ -592,6 +810,48 @@ internal sealed class NavigatorTaskbarHostCoordinator : IDisposable
         }
     }
 
+    private void CreateAndRegisterGroupProxy(EligibleSlot slot)
+    {
+        if (_taskbar == null || !_hostForm.IsHandleCreated || slot.GroupKey == null || slot.Group == null)
+        {
+            return;
+        }
+
+        string caption = FormatGroupCaption(slot.Group);
+        var proxy = new NavigatorTaskbarGroupThumbnailProxy(this, slot.Group.Id, caption);
+        try
+        {
+            proxy.ShowProxy(_hostForm);
+            proxy.EnsureIconicAttributes();
+            proxy.UpdateCaption(caption);
+
+            _taskbar.RegisterTab(proxy.Handle, _hostForm.Handle);
+            _taskbar.SetTabOrder(proxy.Handle, IntPtr.Zero);
+            try
+            {
+                _taskbar.SetThumbnailTooltip(proxy.Handle, caption);
+            }
+            catch (Exception ex)
+            {
+                KryptonExceptionHandler.CaptureException(ex);
+            }
+
+            var entry = new GroupEntry(
+                slot.Component!,
+                slot.Navigator!,
+                slot.Group,
+                slot.Members ?? Array.Empty<KryptonPage>(),
+                proxy);
+            _groupEntries[slot.GroupKey] = entry;
+            proxy.InvalidateIconicBitmaps();
+        }
+        catch (Exception ex)
+        {
+            KryptonExceptionHandler.CaptureException(ex);
+            proxy.Dispose();
+        }
+    }
+
     private void UnregisterProxy(KryptonPage page)
     {
         if (!_entries.TryGetValue(page, out PageEntry? entry))
@@ -624,12 +884,42 @@ internal sealed class NavigatorTaskbarHostCoordinator : IDisposable
         entry.Proxy.Dispose();
     }
 
+    private void UnregisterGroupProxy(GroupKey key)
+    {
+        if (!_groupEntries.TryGetValue(key, out GroupEntry? entry))
+        {
+            return;
+        }
+
+        _groupEntries.Remove(key);
+
+        try
+        {
+            if (_taskbar != null && entry.Proxy.IsHandleCreated)
+            {
+                _taskbar.UnregisterTab(entry.Proxy.Handle);
+            }
+        }
+        catch (Exception ex)
+        {
+            KryptonExceptionHandler.CaptureException(ex);
+        }
+
+        entry.Proxy.Dispose();
+    }
+
     private void TearDownAll()
     {
         var pages = new List<KryptonPage>(_entries.Keys);
         foreach (KryptonPage page in pages)
         {
             UnregisterProxy(page);
+        }
+
+        var groups = new List<GroupKey>(_groupEntries.Keys);
+        foreach (GroupKey key in groups)
+        {
+            UnregisterGroupProxy(key);
         }
     }
 
@@ -951,6 +1241,8 @@ internal sealed class NavigatorTaskbarHostCoordinator : IDisposable
             {
                 entry.Proxy.InvalidateIconicBitmaps();
             }
+
+            InvalidateGroupsContaining(page);
         }
 
         if (_idleCaptureQueue.Count > 0)
@@ -1129,10 +1421,19 @@ internal sealed class NavigatorTaskbarHostCoordinator : IDisposable
 
     private void OnPageAppearancePropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (sender is KryptonPage page)
+        if (sender is not KryptonPage page)
         {
-            InvalidatePage(page);
+            return;
         }
+
+        // TabGroupId changes reorder slots (group header insertion), not only captions.
+        if (string.Equals(e.PropertyName, nameof(KryptonPage.TabGroupId), StringComparison.Ordinal))
+        {
+            Sync();
+            return;
+        }
+
+        InvalidatePage(page);
     }
 
     private void OnPageDisposed(object? sender, EventArgs e)
@@ -1169,6 +1470,212 @@ internal sealed class NavigatorTaskbarHostCoordinator : IDisposable
     }
 
     private void OnPageParentChanged(object? sender, EventArgs e) => Sync();
+
+    private void ApplyIconicBitmap(IntPtr hwnd, Bitmap bitmap, bool livePreview)
+    {
+        IntPtr hBitmap = bitmap.GetHbitmap();
+        IntPtr pptClient = IntPtr.Zero;
+        try
+        {
+            if (livePreview)
+            {
+                // Offset of the live-preview bitmap within the proxy client area (top-left).
+                var point = new PI.POINT(0, 0);
+                pptClient = Marshal.AllocHGlobal(Marshal.SizeOf(point));
+                Marshal.StructureToPtr(point, pptClient, false);
+                PI.Dwm.DwmSetIconicLivePreviewBitmap(hwnd, hBitmap, pptClient, PI.Dwm.DWM_SIT.DisplayFrame);
+            }
+            else
+            {
+                PI.Dwm.DwmSetIconicThumbnail(hwnd, hBitmap, PI.Dwm.DWM_SIT.None);
+            }
+        }
+        finally
+        {
+            if (pptClient != IntPtr.Zero)
+            {
+                Marshal.FreeHGlobal(pptClient);
+            }
+
+            PI.DeleteObject(hBitmap);
+        }
+    }
+
+    private Bitmap CreateGroupBitmap(GroupEntry entry, Size maxSize, bool livePreview)
+    {
+        IReadOnlyList<KryptonPage> members = entry.Members;
+        var args = new QueryTaskbarTabGroupThumbnailEventArgs(entry.Group, members, maxSize, livePreview);
+        entry.Component.RaiseQueryTabGroupThumbnail(args);
+
+        if (args.Thumbnail != null)
+        {
+            return FitBitmap(args.Thumbnail, maxSize);
+        }
+
+        // Peek prefers selected member / host when that member is active.
+        if (livePreview)
+        {
+            KryptonPage? selected = entry.Navigator.SelectedPage;
+            if (selected != null &&
+                string.Equals(selected.TabGroupId, entry.Group.Id, StringComparison.Ordinal) &&
+                entry.Component.ActiveTabUsesAppPreview)
+            {
+                Bitmap? hostCapture = TryCaptureControl(_hostForm);
+                if (hostCapture != null)
+                {
+                    using (hostCapture)
+                    {
+                        return FitBitmap(hostCapture, maxSize);
+                    }
+                }
+            }
+        }
+
+        return CreateGroupCollageBitmap(entry, maxSize);
+    }
+
+    private Bitmap CreateGroupCollageBitmap(GroupEntry entry, Size maxSize)
+    {
+        Size size = FitSize(new Size(320, 200), maxSize);
+        var result = new Bitmap(size.Width, size.Height, PixelFormat.Format32bppArgb);
+        using (Graphics g = Graphics.FromImage(result))
+        {
+            g.Clear(Color.FromArgb(32, 32, 32));
+            Color accent = entry.Group.Color.IsEmpty ? Color.DodgerBlue : entry.Group.Color;
+            using (var accentBrush = new SolidBrush(accent))
+            {
+                g.FillRectangle(accentBrush, 0, 0, 4, size.Height);
+            }
+
+            var tiles = new List<KryptonPage>(MaxGroupCollageTiles);
+            KryptonPage? selected = entry.Navigator.SelectedPage;
+            if (selected != null)
+            {
+                foreach (KryptonPage member in entry.Members)
+                {
+                    if (ReferenceEquals(member, selected))
+                    {
+                        tiles.Add(member);
+                        break;
+                    }
+                }
+            }
+
+            foreach (KryptonPage member in entry.Members)
+            {
+                if (tiles.Count >= MaxGroupCollageTiles)
+                {
+                    break;
+                }
+
+                if (!tiles.Contains(member))
+                {
+                    tiles.Add(member);
+                }
+            }
+
+            int count = tiles.Count;
+            if (count == 0)
+            {
+                using (var font = new Font(SystemFonts.DefaultFont, FontStyle.Bold))
+                {
+                    TextRenderer.DrawText(g, FormatGroupCaption(entry.Group), font,
+                        new Rectangle(10, 8, size.Width - 16, size.Height - 16),
+                        Color.White,
+                        TextFormatFlags.WordBreak | TextFormatFlags.EndEllipsis);
+                }
+
+                return result;
+            }
+
+            int cols = count == 1 ? 1 : 2;
+            int rows = (count + cols - 1) / cols;
+            int gap = 4;
+            int left = 8;
+            int top = 8;
+            int cellW = Math.Max(1, (size.Width - left - gap * (cols + 1)) / cols);
+            int cellH = Math.Max(1, (size.Height - top - gap * (rows + 1)) / rows);
+
+            for (var i = 0; i < count; i++)
+            {
+                int col = i % cols;
+                int row = i / cols;
+                var dest = new Rectangle(
+                    left + gap + col * (cellW + gap),
+                    top + gap + row * (cellH + gap),
+                    cellW,
+                    cellH);
+
+                CaptureSnapshot(tiles[i], force: false);
+                if (_snapshots.TryGetValue(tiles[i], out Bitmap? snapshot) && snapshot != null)
+                {
+                    g.DrawImage(snapshot, dest);
+                }
+                else
+                {
+                    using (var brush = new SolidBrush(Color.FromArgb(64, 64, 64)))
+                    {
+                        g.FillRectangle(brush, dest);
+                    }
+
+                    TextRenderer.DrawText(g, GetPageCaption(tiles[i]), SystemFonts.DefaultFont, dest,
+                        Color.White,
+                        TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter |
+                        TextFormatFlags.EndEllipsis);
+                }
+
+                using (var border = new Pen(accent))
+                {
+                    g.DrawRectangle(border, dest);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    private void InvalidateGroupsContaining(KryptonPage page)
+    {
+        string groupId = page.TabGroupId ?? string.Empty;
+        if (string.IsNullOrEmpty(groupId))
+        {
+            return;
+        }
+
+        foreach (GroupEntry entry in _groupEntries.Values)
+        {
+            if (!string.Equals(entry.Group.Id, groupId, StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            entry.Proxy.InvalidateIconicBitmaps();
+        }
+    }
+
+    private GroupEntry? FindGroupEntry(NavigatorTaskbarGroupThumbnailProxy proxy)
+    {
+        foreach (GroupEntry entry in _groupEntries.Values)
+        {
+            if (ReferenceEquals(entry.Proxy, proxy))
+            {
+                return entry;
+            }
+        }
+
+        return null;
+    }
+
+    private static string FormatGroupCaption(NavigatorTabGroup group)
+    {
+        string title = string.IsNullOrEmpty(group.Title) ? group.Id : group.Title;
+        if (string.IsNullOrEmpty(title))
+        {
+            title = @"Group";
+        }
+
+        return @"Group | " + title;
+    }
 
     private static Bitmap? TryCaptureControl(Control control)
     {
@@ -1347,6 +1854,100 @@ internal sealed class NavigatorTaskbarHostCoordinator : IDisposable
         public KryptonNavigatorTaskbarThumbnails Component { get; set; }
         public KryptonNavigator Navigator { get; set; }
         public NavigatorTaskbarThumbnailProxy Proxy { get; }
+    }
+
+    private sealed class GroupEntry
+    {
+        public GroupEntry(
+            KryptonNavigatorTaskbarThumbnails component,
+            KryptonNavigator navigator,
+            NavigatorTabGroup group,
+            IReadOnlyList<KryptonPage> members,
+            NavigatorTaskbarGroupThumbnailProxy proxy)
+        {
+            Component = component;
+            Navigator = navigator;
+            Group = group;
+            Members = members;
+            Proxy = proxy;
+        }
+
+        public KryptonNavigatorTaskbarThumbnails Component { get; set; }
+        public KryptonNavigator Navigator { get; set; }
+        public NavigatorTabGroup Group { get; set; }
+        public IReadOnlyList<KryptonPage> Members { get; set; }
+        public NavigatorTaskbarGroupThumbnailProxy Proxy { get; }
+    }
+
+    private sealed class GroupKey : IEquatable<GroupKey>
+    {
+        public GroupKey(KryptonNavigatorTaskbarThumbnails component, string groupId)
+        {
+            Component = component;
+            GroupId = groupId ?? string.Empty;
+        }
+
+        public KryptonNavigatorTaskbarThumbnails Component { get; }
+        public string GroupId { get; }
+
+        public bool Equals(GroupKey? other) =>
+            other != null &&
+            ReferenceEquals(Component, other.Component) &&
+            string.Equals(GroupId, other.GroupId, StringComparison.Ordinal);
+
+        public override bool Equals(object? obj) => Equals(obj as GroupKey);
+
+        public override int GetHashCode() =>
+            (RuntimeHelpers.GetHashCode(Component) * 397) ^ StringComparer.Ordinal.GetHashCode(GroupId);
+    }
+
+    private enum SlotKind
+    {
+        Page,
+        Group
+    }
+
+    private sealed class EligibleSlot
+    {
+        private EligibleSlot()
+        {
+        }
+
+        public SlotKind Kind { get; private set; }
+        public KryptonNavigatorTaskbarThumbnails? Component { get; private set; }
+        public KryptonNavigator? Navigator { get; private set; }
+        public KryptonPage? Page { get; private set; }
+        public GroupKey? GroupKey { get; private set; }
+        public NavigatorTabGroup? Group { get; private set; }
+        public IReadOnlyList<KryptonPage>? Members { get; private set; }
+
+        public static EligibleSlot ForPage(
+            KryptonNavigatorTaskbarThumbnails component,
+            KryptonNavigator navigator,
+            KryptonPage page) =>
+            new EligibleSlot
+            {
+                Kind = SlotKind.Page,
+                Component = component,
+                Navigator = navigator,
+                Page = page
+            };
+
+        public static EligibleSlot ForGroup(
+            KryptonNavigatorTaskbarThumbnails component,
+            KryptonNavigator navigator,
+            GroupKey key,
+            NavigatorTabGroup group,
+            IReadOnlyList<KryptonPage> members) =>
+            new EligibleSlot
+            {
+                Kind = SlotKind.Group,
+                Component = component,
+                Navigator = navigator,
+                GroupKey = key,
+                Group = group,
+                Members = members
+            };
     }
 
     private readonly struct EligiblePage
