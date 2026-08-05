@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Captures the CaptionIntegrated tab strip with two differently-coloured groups so the
     group-colour treatment (header wash + accent bar, member underline) can be eyeballed.
@@ -13,7 +13,7 @@
     Where to write the PNGs. Defaults to the resolved Bin\Debug\net472 directory.
 
 .EXAMPLE
-    powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTest\Get-NavigatorTabGroupColourShot.ps1
+    powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Get-NavigatorTabGroupColourShot.ps1
 #>
 [CmdletBinding()]
 param(
