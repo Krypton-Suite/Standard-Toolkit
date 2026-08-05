@@ -299,9 +299,8 @@ public class DragViewController : GlobalId,
                     OnDragQuit();
                 }
 
-                // Recalculate if the mouse is over the button area
-                // TODO: What is this doing ? i.e. should the return value be used ?
-                return Target.ClientRectangle.Contains(c.PointToClient(Control.MousePosition));
+                // Capture was released; KeyUp reports whether input is still captured.
+                return Captured;
             }
         }
 
@@ -347,10 +346,6 @@ public class DragViewController : GlobalId,
                 c.Capture = false;
                 Captured = false;
             }
-
-            // Recalculate if the mouse is over the button area
-            // TODO: What is this doing ? i.e. should the return value be used ?
-            Target.ClientRectangle.Contains(c.PointToClient(Control.MousePosition));
         }
     }
     #endregion
