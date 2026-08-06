@@ -83,7 +83,8 @@ public partial class StartScreen : KryptonForm
         CreateButton<Bug2914Test>("Bug 2914 Test", "Tests the fix for 2914.");
         CreateButton<Bug2984SeparatorTest>("Bug 2984 Separator Test", "Demo for Issue #2984: NullReferenceException in ViewDrawSeparator.RenderBefore. Exercises KryptonNavigator (Outlook), KryptonSplitContainer, and KryptonSeparator. Swap themes to verify no crash.");
         CreateButton<Bug3025KryptonLabelAutoSizeDemo>("Bug 3025 KryptonLabel AutoSize Demo", "Demo for Issue #3025: KryptonLabel with AutoSize now resizes to fit text when placed in the Designer (click-drag). Shows AutoSize on/off, LabelStyles, short/long text, and text + image.");
-        CreateButton<Feature882NavigatorTaskbarThumbnailsDemo>("Feature 882 Navigator Taskbar Thumbnails", "Issue #882: KryptonNavigatorTaskbarThumbnails in Krypton.Navigator.Utilities — opt-in Windows taskbar tabbed thumbnails. Hover the taskbar button for one preview per page; clear AllowTaskbarThumbnail on wizard steps.");
+        CreateButton<Feature882NavigatorTaskbarThumbnailsDemo>("Feature 882 Navigator Taskbar Thumbnails", "Issue #882/#4129: KryptonNavigatorTaskbarThumbnails — per-page taskbar thumbnails; enable Tab group composites for Explorer-like Group | … entries.");
+        CreateButton<Feature4129SnapGroupsDemo>("Feature 4129 Snap Groups", "Issue #4129: Windows 11 Snap Group eligibility — open an unowned peer KryptonForm, snap both, hover taskbar; optional docking floats on the taskbar.");
         CreateButton<Feature3784PulsingTextBoxBorderDemo>("Feature 3784 Glowing Borders", "Comprehensive demo for issue #3784: glowing border on all supported input controls, cue shimmer, live settings panel, and KryptonForm chrome glow.");
         CreateButton<Feature3851RenderingDpiDemo>("Feature 3851 Rendering & DPI", "Issue #3851: ribbon QAT overflow/context-arrow glyph across themes and DPI (points 4.1/4.2) plus the multiline editor button now living in an internal fixed collection so it never shows in the public ButtonSpecs (point 4.4). Switch themes, note the DPI/scale readout, and toggle MultilineStringEditor.");
         CreateButton<Bug3342KryptonTextBoxResizeFlickerDemo>("Bug 3342 Multiline TextBox Flicker", "Demo for issue #3342: multiline KryptonTextBox text flicker while resizing. Includes manual resize steps and an automated stress-resize toggle.");
@@ -192,7 +193,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<Bug3842MessageBoxExtendedRtlRoutingDemo>("3842 MessageBox Extended RTL routing", "Issue #3842: verifies the bool- and CheckState-returning ShowCore paths display the RTL extended message box and return the optional checkbox state. Compare LTR vs RTL for both return types.");
         CreateButton<Main>("Old Style Main: Fullscreen", string.Empty);
         CreateButton<ProgressBarTriStateTest>("ProgressBar Tri-State", string.Empty);
-        CreateButton<OverlayImageTest>("Overlay Image Test", "Comprehensive demonstration of overlay images on KryptonButton and KryptonLabel with configurable positions and scaling modes.");
+        CreateButton<OverlayImageTest>("Overlay Image Test", "Overlay images on KryptonButton, KryptonLabel, KryptonColorButton, and ButtonSpec — positions, scaling, per-state overlays, and RTL-aware corners (#1205 / #4157).");
         CreateButton<PropertyGridTest>("PropertyGridTest", string.Empty);
         CreateButton<RibbonTest>("Ribbon", string.Empty);
         CreateButton<RibbonShowTabHeadersDemo>("Ribbon ShowTabHeaders / Toolbar (#331)", "Issue #331: ShowTabHeaders property and KryptonRibbonToolbar. Compare a normal ribbon (toggle headers) with the toolbar subclass; groups stay visible when the tab strip is hidden.");

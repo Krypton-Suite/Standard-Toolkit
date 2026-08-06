@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
@@ -5872,6 +5872,7 @@ public class RenderStandard : RenderBase
 			memento.OverlayImageScaleMode = contentValues.GetOverlayImageScaleMode(state);
 			memento.OverlayImageScaleFactor = contentValues.GetOverlayImageScaleFactor(state);
 			memento.OverlayImageFixedSize = contentValues.GetOverlayImageFixedSize(state);
+			memento.OverlayImageRightToLeft = rtl;
 
 			if (memento.OverlayImage != null)
 			{
@@ -12231,6 +12232,7 @@ public class RenderStandard : RenderBase
 		public OverlayImageScaleMode OverlayImageScaleMode;
 		public float OverlayImageScaleFactor;
 		public Size OverlayImageFixedSize;
+		public RightToLeft OverlayImageRightToLeft;
 		public PaletteTextTrim ShortTextTrimming;
 		public AccurateTextMemento? ShortTextMemento;
 		public Rectangle ShortTextRect;
@@ -12253,6 +12255,7 @@ public class RenderStandard : RenderBase
 			OverlayImageScaleMode = OverlayImageScaleMode.None;
 			OverlayImageScaleFactor = 0.5f;
 			OverlayImageFixedSize = new Size(16, 16);
+			OverlayImageRightToLeft = RightToLeft.No;
 		}
 
 		/// <summary>
@@ -12461,11 +12464,25 @@ public class RenderStandard : RenderBase
 			// Ensure minimum size of 1x1
 			overlaySize = new Size(Math.Max(1, overlaySize.Width), Math.Max(1, overlaySize.Height));
 
+			// Mirror Left/Right corners when the host control is right-to-left.
+			OverlayImagePosition position = OverlayImagePosition;
+			if (OverlayImageRightToLeft == RightToLeft.Yes)
+			{
+				position = position switch
+				{
+					OverlayImagePosition.TopLeft => OverlayImagePosition.TopRight,
+					OverlayImagePosition.TopRight => OverlayImagePosition.TopLeft,
+					OverlayImagePosition.BottomLeft => OverlayImagePosition.BottomRight,
+					OverlayImagePosition.BottomRight => OverlayImagePosition.BottomLeft,
+					_ => position
+				};
+			}
+
 			// Calculate position based on main image rectangle and overlay position
 			int overlayX = 0;
 			int overlayY = 0;
 
-			switch (OverlayImagePosition)
+			switch (position)
 			{
 				case OverlayImagePosition.TopLeft:
 					overlayX = mainImageRect.Left;
