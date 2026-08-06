@@ -385,42 +385,72 @@ public class ButtonSpecView : GlobalId,
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Overlay image value, or null if no overlay image is set.</returns>
-    public Image? GetOverlayImage(PaletteState state) => null;
+    public Image? GetOverlayImage(PaletteState state)
+    {
+        Image? baseImage = ButtonSpec.GetOverlayImage(state);
+
+        if (baseImage == null)
+        {
+            return null;
+        }
+
+        // Match main-image DPI / touchscreen scaling so the overlay tracks the glyph size.
+        float dpiFactor = _controller?.Target.FactorDpiX ?? 1f;
+
+        if (ButtonSpec.GetStyle(_redirector) == ButtonStyle.InputControl)
+        {
+            float target = 16f * dpiFactor;
+            float scale = Math.Min(target / baseImage.Width, target / baseImage.Height);
+            float targetW = Math.Max(1f, baseImage.Width * scale);
+            float targetH = Math.Max(1f, baseImage.Height * scale);
+
+            return CommonHelper.ScaleImageForSizedDisplay(baseImage, targetW, targetH, true);
+        }
+
+        float imageScaleFactor = dpiFactor;
+        if (KryptonManager.UseTouchscreenSupport)
+        {
+            imageScaleFactor *= KryptonManager.TouchscreenScaleFactor;
+        }
+
+        return CommonHelper.ScaleImageForSizedDisplay(baseImage, baseImage.Width * imageScaleFactor,
+            baseImage.Height * imageScaleFactor, true);
+    }
 
     /// <summary>
     /// Gets the overlay image color that should be transparent.
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Color value.</returns>
-    public Color GetOverlayImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
+    public Color GetOverlayImageTransparentColor(PaletteState state) => ButtonSpec.GetOverlayImageTransparentColor();
 
     /// <summary>
     /// Gets the position of the overlay image relative to the main image.
     /// </summary>
     /// <param name="state">The state for which the overlay position is needed.</param>
     /// <returns>Overlay image position.</returns>
-    public OverlayImagePosition GetOverlayImagePosition(PaletteState state) => OverlayImagePosition.TopRight;
+    public OverlayImagePosition GetOverlayImagePosition(PaletteState state) => ButtonSpec.GetOverlayImagePosition();
 
     /// <summary>
     /// Gets the scaling mode for the overlay image.
     /// </summary>
     /// <param name="state">The state for which the overlay scale mode is needed.</param>
     /// <returns>Overlay image scale mode.</returns>
-    public OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) => OverlayImageScaleMode.None;
+    public OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) => ButtonSpec.GetOverlayImageScaleMode();
 
     /// <summary>
     /// Gets the scale factor for the overlay image (used when scale mode is Percentage or ProportionalToMain).
     /// </summary>
     /// <param name="state">The state for which the overlay scale factor is needed.</param>
     /// <returns>Scale factor (0.0 to 2.0).</returns>
-    public float GetOverlayImageScaleFactor(PaletteState state) => 0.5f;
+    public float GetOverlayImageScaleFactor(PaletteState state) => ButtonSpec.GetOverlayImageScaleFactor();
 
     /// <summary>
     /// Gets the fixed size for the overlay image (used when scale mode is FixedSize).
     /// </summary>
     /// <param name="state">The state for which the overlay fixed size is needed.</param>
     /// <returns>Fixed size.</returns>
-    public Size GetOverlayImageFixedSize(PaletteState state) => new Size(16, 16);
+    public Size GetOverlayImageFixedSize(PaletteState state) => ButtonSpec.GetOverlayImageFixedSize();
 
     #endregion
 

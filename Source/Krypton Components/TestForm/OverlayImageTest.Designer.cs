@@ -411,7 +411,7 @@
             this.MinimizeBox = false;
             this.Name = "OverlayImageTest";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Overlay Image Test - Issue #1205";
+            this.Text = "Overlay Image Test - Issues #1205 / #4157";
             ((System.ComponentModel.ISupportInitialize)(this.grpPositionExamples.Panel)).EndInit();
             this.grpPositionExamples.Panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grpPositionExamples)).EndInit();
