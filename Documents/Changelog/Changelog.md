@@ -48,6 +48,8 @@
 * Implemented [#4142](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4142), Use `ThrowHelper`
    * Shared `ThrowHelper` in `Krypton.Interop` for cold-path throws (`[DoesNotReturn]`), including Argument*, NRE, NotSupported, NotImplemented, ObjectDisposed, InvalidCast, and Win32.
    * Rolled out across Toolkit, Ribbon, Navigator, Workspace, Docking, Utilities, Interop, and TestForm.
+* Resolved [#3858](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3858), Fix drag-target heuristics in `DragFeedbackDocking` / `DragViewController`
+   * Clarified docking drag-target priority (first hit / control edges before nested cells) and cleaned up `DragViewController` cancel path.
 * Implemented [#4162](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4162), Optional overlay (badge) image for dialog icons (`KryptonMessageBoxExtended`, `KryptonMessageBox`, TaskDialog heading, AboutBox main image) via shared `KryptonOverlayImage` / `ComposeOverlayImage`.
  * To use Extended / AboutBox APIs, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as those types are part of the `Krypton.Toolkit.Utilities` assembly.
 * Implemented [#4157](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4157), Overlay image extras for buttons  
