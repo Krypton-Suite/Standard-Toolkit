@@ -58,9 +58,9 @@ internal class ViewDrawRibbonGroupRadioButton : ViewComposite,
         Debug.Assert(needPaint is not null);
 
         // Remember incoming references
-        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
-        GroupRadioButton = ribbonRadioButton ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupRadioButton>(nameof(ribbonRadioButton));
-        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException<NeedPaintHandler>(nameof(needPaint));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        GroupRadioButton = ribbonRadioButton ?? ThrowHelper.ThrowArgumentNullException(ribbonRadioButton);
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
         _currentSize = GroupRadioButton.ItemSizeCurrent;
 
         // Create delegate used to process end of click action

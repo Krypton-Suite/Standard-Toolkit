@@ -28,7 +28,7 @@ internal abstract class ViewDrawRibbonGroupImageBase : ViewLeaf
     public ViewDrawRibbonGroupImageBase([DisallowNull] KryptonRibbon? ribbon)
     {
         Debug.Assert(ribbon is not null);
-        Ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
+        Ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
     }        
 
     /// <summary>

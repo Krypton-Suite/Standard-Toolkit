@@ -71,9 +71,9 @@ internal class ViewDrawRibbonGroupButtonBackBorder : ViewComposite
         Debug.Assert(paletteBorder != null);
 
         // Remember incoming references
-        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
-        GroupItem = groupItem ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupItem>(nameof(groupItem));
-        _paletteBack = paletteBack ?? ThrowHelper.ThrowArgumentNullException<IPaletteBack>(nameof(paletteBack));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        GroupItem = groupItem ?? ThrowHelper.ThrowArgumentNullException(groupItem);
+        _paletteBack = paletteBack ?? ThrowHelper.ThrowArgumentNullException(paletteBack);
             
         _paletteBackDraw = new PaletteBackInheritForced(paletteBack)
         {
@@ -84,7 +84,7 @@ internal class ViewDrawRibbonGroupButtonBackBorder : ViewComposite
         _paletteBorderAll = new PaletteBorderInheritForced(paletteBorder);
         _paletteBorderAll.ForceBorderEdges(PaletteDrawBorders.All);
 
-        _paletteBorder = paletteBorder ?? ThrowHelper.ThrowArgumentNullException<IPaletteBorder>(nameof(paletteBorder));
+        _paletteBorder = paletteBorder ?? ThrowHelper.ThrowArgumentNullException(paletteBorder);
         ConstantBorder = constantBorder;
 
         // Default other fields

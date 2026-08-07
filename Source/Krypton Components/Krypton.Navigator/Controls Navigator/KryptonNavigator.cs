@@ -2819,7 +2819,7 @@ public class KryptonNavigator : VisualSimple,
             else
             {
                 // Get access to the menu items for selecting a page
-                var contextMenu =sender as KryptonContextMenu ?? ThrowHelper.ThrowArgumentNullException<KryptonContextMenu>(nameof(sender));
+                var contextMenu =sender as KryptonContextMenu ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenu, nameof(sender));
 
                 // Kill any existing contents and add a items collection for the page entries
                 contextMenu.Items.Clear();
@@ -3031,7 +3031,7 @@ public class KryptonNavigator : VisualSimple,
     private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
     {
         // Unhook events from the specific instance that generated event
-        var popupToolTip =sender as VisualPopupToolTip ?? ThrowHelper.ThrowArgumentNullException<VisualPopupToolTip>(nameof(sender));
+        var popupToolTip =sender as VisualPopupToolTip ?? ThrowHelper.ThrowArgumentNullException(sender as VisualPopupToolTip, nameof(sender));
         popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
         // Not showing a popup page any more
@@ -3041,7 +3041,7 @@ public class KryptonNavigator : VisualSimple,
     private void OnVisualPopupPageDisposed(object? sender, EventArgs e)
     {
         // Unhook events from the specific instance that generated event
-        var popupPage =sender as VisualPopupPage ?? ThrowHelper.ThrowArgumentNullException<VisualPopupPage>(nameof(sender));
+        var popupPage =sender as VisualPopupPage ?? ThrowHelper.ThrowArgumentNullException(sender as VisualPopupPage, nameof(sender));
         popupPage.Disposed -= OnVisualPopupPageDisposed;
 
         // Not showing a popup page any more

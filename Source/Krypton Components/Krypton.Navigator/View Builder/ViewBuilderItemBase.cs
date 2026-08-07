@@ -1212,7 +1212,7 @@ internal abstract class ViewBuilderItemBase : ViewBuilderBase
     private void OnCheckButtonDragOffset(object? sender, ButtonDragOffsetEventArgs e)
     {
         // Cast incoming reference to the actual button view
-        var reorderItem =sender as INavCheckItem ?? ThrowHelper.ThrowArgumentNullException<INavCheckItem>(nameof(sender));
+        var reorderItem =sender as INavCheckItem ?? ThrowHelper.ThrowArgumentNullException(sender as INavCheckItem, nameof(sender));
         var reorderView = reorderItem.View;
 
         // Scan the collection of children

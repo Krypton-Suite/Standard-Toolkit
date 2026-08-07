@@ -56,7 +56,7 @@ public class ToolStripLabelExtendedValues : Storage
     /// <param name="owner">Owning extended label.</param>
     public ToolStripLabelExtendedValues(KryptonToolStripLabelExtended owner)
     {
-        _owner = owner ?? ThrowHelper.ThrowArgumentNullException<KryptonToolStripLabelExtended>(nameof(owner));
+        _owner = owner ?? ThrowHelper.ThrowArgumentNullException(owner);
     }
 
     /// <inheritdoc />

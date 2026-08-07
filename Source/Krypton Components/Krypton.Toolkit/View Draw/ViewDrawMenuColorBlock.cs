@@ -132,7 +132,8 @@ public class ViewDrawMenuColorBlock : ViewLeaf
         Debug.Assert(context != null);
 
         // Validate incoming reference
-        return context == null ? ThrowHelper.ThrowArgumentNullException<Size>(nameof(context)): _blockSize;
+        ThrowHelper.ThrowIfNull(context);
+        return _blockSize;
     }
 
     /// <summary>

@@ -44,8 +44,8 @@ internal class ViewDrawRibbonGroupDialogButton : ViewLeaf
         Debug.Assert(ribbonGroup is not null);
 
         // Remember incoming references
-        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
-        _ribbonGroup = ribbonGroup ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroup>(nameof(ribbonGroup));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _ribbonGroup = ribbonGroup ?? ThrowHelper.ThrowArgumentNullException(ribbonGroup);
 
         // Attach a controller to this element for the pressing of the button
         var controller = new DialogLauncherButtonController(ribbon, this, needPaint!);

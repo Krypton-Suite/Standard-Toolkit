@@ -28,7 +28,7 @@ internal class RibbonGroupTextToContent : RibbonToContent
     {
         Debug.Assert(ribbonGroupText is not null);
 
-        PaletteRibbonGroup = ribbonGroupText ?? ThrowHelper.ThrowArgumentNullException<IPaletteRibbonText>(nameof(ribbonGroupText));
+        PaletteRibbonGroup = ribbonGroupText ?? ThrowHelper.ThrowArgumentNullException(ribbonGroupText);
     }
     #endregion
 

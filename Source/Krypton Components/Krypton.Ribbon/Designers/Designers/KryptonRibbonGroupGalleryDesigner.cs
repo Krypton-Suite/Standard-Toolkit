@@ -69,7 +69,7 @@ internal class KryptonRibbonGroupGalleryDesigner : ComponentDesigner, IKryptonDe
         Debug.Assert(component != null);
 
         // Cast to correct type
-        _ribbonGallery =component as KryptonRibbonGroupGallery ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupGallery>(nameof(component));
+        _ribbonGallery =component as KryptonRibbonGroupGallery ?? ThrowHelper.ThrowArgumentNullException(component as KryptonRibbonGroupGallery, nameof(component));
 
         if (_ribbonGallery != null)
         {

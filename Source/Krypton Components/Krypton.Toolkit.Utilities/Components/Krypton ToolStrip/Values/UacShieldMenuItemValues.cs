@@ -30,7 +30,7 @@ public class UacShieldMenuItemValues : Storage
     /// <param name="owner">Owning UAC shield menu item.</param>
     public UacShieldMenuItemValues(KryptonToolStripMenuItemUACShield owner)
     {
-        _ = owner ?? ThrowHelper.ThrowArgumentNullException<KryptonToolStripMenuItemUACShield>(nameof(owner));
+        _ = owner ?? ThrowHelper.ThrowArgumentNullException(owner);
     }
 
     /// <inheritdoc />

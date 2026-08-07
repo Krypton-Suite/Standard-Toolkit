@@ -79,9 +79,9 @@ internal class ViewDrawRibbonGroup : ViewComposite,
         Debug.Assert(needPaint is not null);
 
         // Cache source of state specific settings
-        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
-        _ribbonGroup = ribbonGroup ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroup>(nameof(ribbonGroup));
-        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException<NeedPaintHandler>(nameof(needPaint));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _ribbonGroup = ribbonGroup ?? ThrowHelper.ThrowArgumentNullException(ribbonGroup);
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
 
         // Associate this view with the source component (required for design time selection)
         Component = _ribbonGroup;

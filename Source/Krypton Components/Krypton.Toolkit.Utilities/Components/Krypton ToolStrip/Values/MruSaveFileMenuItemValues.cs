@@ -42,7 +42,7 @@ public class MruSaveFileMenuItemValues : Storage
     /// <param name="owner">Owning MRU save-file menu item.</param>
     public MruSaveFileMenuItemValues(KryptonMRUSaveFileMenuItem owner)
     {
-        _ = owner ?? ThrowHelper.ThrowArgumentNullException<KryptonMRUSaveFileMenuItem>(nameof(owner));
+        _ = owner ?? ThrowHelper.ThrowArgumentNullException(owner);
     }
 
     /// <inheritdoc />

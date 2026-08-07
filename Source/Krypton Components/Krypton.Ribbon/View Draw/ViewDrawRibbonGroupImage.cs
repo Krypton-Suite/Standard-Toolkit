@@ -51,9 +51,9 @@ internal class ViewDrawRibbonGroupImage : ViewLeaf
         Debug.Assert(ribbonGroup != null);
         Debug.Assert(viewGroup != null);
 
-        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
-        _ribbonGroup = ribbonGroup ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroup>(nameof(ribbonGroup));
-        _viewGroup = viewGroup ?? ThrowHelper.ThrowArgumentNullException<ViewDrawRibbonGroup>(nameof(viewGroup));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _ribbonGroup = ribbonGroup ?? ThrowHelper.ThrowArgumentNullException(ribbonGroup);
+        _viewGroup = viewGroup ?? ThrowHelper.ThrowArgumentNullException(viewGroup);
         _viewSize2007 = new Size((int)(30 * FactorDpiX), (int)(31 * FactorDpiY));
         _viewSize2010 = new Size((int)(31 * FactorDpiX), (int)(31 * FactorDpiY));
         _imageSize = new Size((int)(16 * FactorDpiX), (int)(16 * FactorDpiY));

@@ -28,7 +28,7 @@ public sealed class OAuth2WebView2RedirectHandler : IOAuth2RedirectHandler
     /// <param name="coreWebView">The WebView2 core to observe. Must not be null.</param>
     public OAuth2WebView2RedirectHandler(CoreWebView2 coreWebView)
     {
-        _coreWebView = coreWebView ?? ThrowHelper.ThrowArgumentNullException<CoreWebView2>(nameof(coreWebView));
+        _coreWebView = coreWebView ?? ThrowHelper.ThrowArgumentNullException(coreWebView);
     }
 
     /// <inheritdoc />

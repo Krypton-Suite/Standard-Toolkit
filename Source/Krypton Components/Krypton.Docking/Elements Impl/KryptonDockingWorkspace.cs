@@ -44,7 +44,7 @@ public class KryptonDockingWorkspace : KryptonDockingSpace
         [DisallowNull] KryptonDockableWorkspace workspace)
         : base(name, storeName)
     {
-        SpaceControl = workspace ?? ThrowHelper.ThrowArgumentNullException<KryptonDockableWorkspace>(nameof(workspace));
+        SpaceControl = workspace ?? ThrowHelper.ThrowArgumentNullException(workspace);
 
         if (DockableWorkspaceControl != null)
         {

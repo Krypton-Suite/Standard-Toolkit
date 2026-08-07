@@ -43,9 +43,9 @@ internal class DateTimePickerController : GlobalId,
         Debug.Assert(dateTimePicker is not null);
         Debug.Assert(target is not null);
 
-        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
-        _dateTimePicker = dateTimePicker ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupDateTimePicker>(nameof(dateTimePicker));
-        _target = target ?? ThrowHelper.ThrowArgumentNullException<ViewDrawRibbonGroupDateTimePicker>(nameof(target));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _dateTimePicker = dateTimePicker ?? ThrowHelper.ThrowArgumentNullException(dateTimePicker);
+        _target = target ?? ThrowHelper.ThrowArgumentNullException(target);
     }
     #endregion
 

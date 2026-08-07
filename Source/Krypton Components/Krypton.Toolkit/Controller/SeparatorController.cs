@@ -202,7 +202,7 @@ public class SeparatorController : ButtonController,
     {
         Debug.Assert(source is not null);
 
-        _source = source ?? ThrowHelper.ThrowArgumentNullException<ISeparatorSource>(nameof(source));
+        _source = source ?? ThrowHelper.ThrowArgumentNullException(source);
         _splitCursors = splitCursors;
         _drawIndicator = drawIndicator;
         
@@ -700,7 +700,7 @@ internal class SeparatorMessageFilter : IMessageFilter
     {
         Debug.Assert(controller is not null);
 
-        _controller = controller ?? ThrowHelper.ThrowArgumentNullException<SeparatorController>(nameof(controller));
+        _controller = controller ?? ThrowHelper.ThrowArgumentNullException(controller);
     }
     #endregion
 

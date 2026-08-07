@@ -214,15 +214,33 @@ function Convert-File([string]$path) {
                 $before = $text.Substring(0, $leftStart)
                 $all = [regex]::Matches($before, '(^|\r?\n)([ \t]*)([A-Za-z_][A-Za-z0-9_]*)\s*=\s*$')
                 if ($all.Count -gt 0) {
-                    $target = $all[$all.Count - 1].Groups[3].Value
-                    $t = Find-FieldType $text $target
-                    if ($t) {
-                        $replacement = "$leftExpr ?? ThrowHelper.$helper<$t>($args)"
-                        $text = $text.Substring(0, $leftStart) + $replacement + $text.Substring($end)
-                        $changes++
-                        continue
+                    # Prefer argument + CallerArgumentExpression form (no type arg / nameof).
+                    if ($leftExpr -eq 'string' -or (Find-FieldType $text $all[$all.Count - 1].Groups[3].Value) -eq 'string') {
+                        $replacement = "$leftExpr ?? ThrowHelper.$helper<string>($leftExpr)"
+                    } else {
+                        $replacement = "$leftExpr ?? ThrowHelper.$helper($leftExpr)"
                     }
+                    $text = $text.Substring(0, $leftStart) + $replacement + $text.Substring($end)
+                    $changes++
+                    continue
                 }
+            }
+
+            if ($exc -eq 'ArgumentNullException' -and $leftExpr -match '\bas\b') {
+                $nameArg = if ($args -match 'nameof\(([A-Za-z_][A-Za-z0-9_]*)\)') { $Matches[1] } else { $null }
+                if ($nameArg) {
+                    $replacement = "$leftExpr ?? ThrowHelper.$helper($leftExpr, nameof($nameArg))"
+                    $text = $text.Substring(0, $leftStart) + $replacement + $text.Substring($end)
+                    $changes++
+                    continue
+                }
+            }
+
+            if ($exc -eq 'ArgumentNullException' -and $leftExpr -match '^[A-Za-z_][A-Za-z0-9_]*$') {
+                $replacement = "$leftExpr ?? ThrowHelper.$helper($leftExpr)"
+                $text = $text.Substring(0, $leftStart) + $replacement + $text.Substring($end)
+                $changes++
+                continue
             }
 
             $t = $null

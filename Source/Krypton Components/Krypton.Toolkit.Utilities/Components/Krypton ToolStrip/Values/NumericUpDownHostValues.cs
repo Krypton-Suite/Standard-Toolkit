@@ -30,7 +30,7 @@ public class NumericUpDownHostValues : Storage
     /// <param name="owner">Owning numeric up-down host.</param>
     public NumericUpDownHostValues(KryptonNumericUpDownToolStripItem owner)
     {
-        _owner = owner ?? ThrowHelper.ThrowArgumentNullException<KryptonNumericUpDownToolStripItem>(nameof(owner));
+        _owner = owner ?? ThrowHelper.ThrowArgumentNullException(owner);
     }
 
     /// <inheritdoc />

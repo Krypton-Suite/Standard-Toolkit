@@ -44,9 +44,9 @@ internal class ViewRibbonPopupGroupManager : ViewManager
         Debug.Assert(viewGroup is not null);
         Debug.Assert(needPaintDelegate is not null);
 
-        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
-        _viewGroup = viewGroup ?? ThrowHelper.ThrowArgumentNullException<ViewDrawRibbonGroup>(nameof(viewGroup));
-        _needPaintDelegate = needPaintDelegate ?? ThrowHelper.ThrowArgumentNullException<NeedPaintHandler>(nameof(needPaintDelegate));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _viewGroup = viewGroup ?? ThrowHelper.ThrowArgumentNullException(viewGroup);
+        _needPaintDelegate = needPaintDelegate ?? ThrowHelper.ThrowArgumentNullException(needPaintDelegate);
     }
 
     /// <summary>

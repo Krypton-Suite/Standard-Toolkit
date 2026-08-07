@@ -67,9 +67,9 @@ internal class GroupButtonController : GlobalId,
         Debug.Assert(target is not null);
         Debug.Assert(needPaint is not null);
 
-        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
-        _target = target ?? ThrowHelper.ThrowArgumentNullException<ViewDrawRibbonGroupButtonBackBorder>(nameof(target));
-        NeedPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException<NeedPaintHandler>(nameof(needPaint));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _target = target ?? ThrowHelper.ThrowArgumentNullException(target);
+        NeedPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
 
         // Default other fields
         ButtonType = GroupButtonType.Push;

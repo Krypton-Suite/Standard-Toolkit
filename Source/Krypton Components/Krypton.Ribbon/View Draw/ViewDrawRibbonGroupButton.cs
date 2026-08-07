@@ -60,9 +60,9 @@ internal class ViewDrawRibbonGroupButton : ViewComposite,
         Debug.Assert(needPaint is not null);
 
         // Remember incoming references
-        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
-        GroupButton = ribbonButton ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupButton>(nameof(ribbonButton));
-        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException<NeedPaintHandler>(nameof(needPaint));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        GroupButton = ribbonButton ?? ThrowHelper.ThrowArgumentNullException(ribbonButton);
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
         _currentSize = GroupButton.ItemSizeCurrent;
 
         _largeImagePadding = new Padding((int)(3 * FactorDpiX), (int)(2 * FactorDpiY), (int)(3 * FactorDpiX), (int)(3 * FactorDpiY));

@@ -1445,7 +1445,7 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
 
     private void OnKryptonContextMenuClosed(object? sender, EventArgs e)
     {
-        var kcm =sender as KryptonContextMenu ?? ThrowHelper.ThrowArgumentNullException<KryptonContextMenu>(nameof(sender));
+        var kcm =sender as KryptonContextMenu ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenu, nameof(sender));
         kcm.Closed -= OnKryptonContextMenuClosed;
         ContextMenuClosed();
 

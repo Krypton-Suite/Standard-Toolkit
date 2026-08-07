@@ -55,7 +55,7 @@ public class BlinkingStatusLabelValues : Storage
     /// <param name="owner">Owning blinking status label.</param>
     public BlinkingStatusLabelValues(KryptonBlinkingToolStripStatusLabel owner)
     {
-        _owner = owner ?? ThrowHelper.ThrowArgumentNullException<KryptonBlinkingToolStripStatusLabel>(nameof(owner));
+        _owner = owner ?? ThrowHelper.ThrowArgumentNullException(owner);
     }
 
     /// <inheritdoc />

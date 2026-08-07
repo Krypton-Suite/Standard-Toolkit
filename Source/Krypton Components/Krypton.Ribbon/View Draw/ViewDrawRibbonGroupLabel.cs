@@ -55,9 +55,9 @@ internal class ViewDrawRibbonGroupLabel : ViewComposite,
         Debug.Assert(needPaint is not null);
 
         // Remember incoming references
-        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
-        GroupLabel = ribbonLabel ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupLabel>(nameof(ribbonLabel));
-        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException<NeedPaintHandler>(nameof(needPaint));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        GroupLabel = ribbonLabel ?? ThrowHelper.ThrowArgumentNullException(ribbonLabel);
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
 
         // Associate this view with the source component (required for design time selection)
         Component = GroupLabel;

@@ -50,8 +50,8 @@ internal class ViewHightlightController : GlobalId,
         Debug.Assert(target != null);
         Debug.Assert(needPaint != null);
 
-        Target = target ?? ThrowHelper.ThrowArgumentNullException<ViewBase>(nameof(target));
-        NeedPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException<NeedPaintHandler>(nameof(needPaint));
+        Target = target ?? ThrowHelper.ThrowArgumentNullException(target);
+        NeedPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
     }
     #endregion
 

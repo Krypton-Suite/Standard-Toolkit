@@ -32,7 +32,7 @@ public class EnhancedProgressBarValues : Storage
     /// <param name="owner">Owning enhanced progress bar.</param>
     public EnhancedProgressBarValues(KryptonEnhancedToolStripProgressBar owner)
     {
-        _owner = owner ?? ThrowHelper.ThrowArgumentNullException<KryptonEnhancedToolStripProgressBar>(nameof(owner));
+        _owner = owner ?? ThrowHelper.ThrowArgumentNullException(owner);
         _displayTextColour = Color.Black;
     }
 

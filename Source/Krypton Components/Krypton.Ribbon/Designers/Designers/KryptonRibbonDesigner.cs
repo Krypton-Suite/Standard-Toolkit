@@ -54,7 +54,7 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
         Debug.Assert(component is not null);
 
         // Cast to correct type
-        _ribbon =component as KryptonRibbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(_ribbon));
+        _ribbon =component as KryptonRibbon ?? ThrowHelper.ThrowArgumentNullException(component as KryptonRibbon, nameof(_ribbon));
 
         if (_ribbon.GetViewManager() is ViewManager viewManager)
         {

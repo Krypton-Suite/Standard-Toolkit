@@ -60,7 +60,7 @@ internal class KryptonRibbonGroupDomainUpDownDesigner : ComponentDesigner, IKryp
         Debug.Assert(component is not null);
 
         // Cast to correct type
-        _ribbonDomainUpDown =component as KryptonRibbonGroupDomainUpDown ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupDomainUpDown>(nameof(component));
+        _ribbonDomainUpDown =component as KryptonRibbonGroupDomainUpDown ?? ThrowHelper.ThrowArgumentNullException(component as KryptonRibbonGroupDomainUpDown, nameof(component));
 
         if (_ribbonDomainUpDown is not null)
         {

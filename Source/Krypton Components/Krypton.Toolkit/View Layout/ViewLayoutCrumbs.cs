@@ -525,7 +525,7 @@ public class ViewLayoutCrumbs : ViewComposite, IContentValues
     private void OnKryptonContextMenuClosed(object? sender, EventArgs e)
     {
         // Cast to correct type
-        var kcm =sender as KryptonContextMenu ?? ThrowHelper.ThrowArgumentNullException<KryptonContextMenu>(nameof(sender));
+        var kcm =sender as KryptonContextMenu ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenu, nameof(sender));
 
         // Unhook from context menu and dispose of it, we only use each menu instance once
         kcm.Closed -= OnKryptonContextMenuClosed;

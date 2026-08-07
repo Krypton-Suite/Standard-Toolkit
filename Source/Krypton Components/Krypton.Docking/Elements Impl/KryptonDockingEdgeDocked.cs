@@ -46,7 +46,7 @@ public class KryptonDockingEdgeDocked : DockingElementClosedCollection
     public KryptonDockingEdgeDocked(string name, Control control, DockingEdge edge)
         : base(name)
     {
-        Control = control ?? ThrowHelper.ThrowArgumentNullException<Control>(nameof(control));
+        Control = control ?? ThrowHelper.ThrowArgumentNullException(control);
         Edge = edge;
         _lookupSeparator = new SeparatorToDockspace();
         _lookupDockspace = new DockspaceToSeparator();
@@ -217,7 +217,7 @@ public class KryptonDockingEdgeDocked : DockingElementClosedCollection
     private void OnDockingDockspaceHasNoVisibleCells(object? sender, EventArgs e)
     {
         // Cast to correct type and grab associated separator control
-        var dockspaceElement =sender as KryptonDockingDockspace ?? ThrowHelper.ThrowArgumentNullException<KryptonDockingDockspace>(nameof(sender));
+        var dockspaceElement =sender as KryptonDockingDockspace ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonDockingDockspace, nameof(sender));
         KryptonDockspaceSeparator separatorControl = _lookupDockspace[dockspaceElement];
 
         // No more visible cells so we hide the controls
@@ -228,7 +228,7 @@ public class KryptonDockingEdgeDocked : DockingElementClosedCollection
     private void OnDockspaceSeparatorMoveRect(object? sender, SplitterMoveRectMenuArgs e)
     {
         // Cast to correct type and grab associated dockspace element
-        var separatorControl =sender as KryptonDockspaceSeparator ?? ThrowHelper.ThrowArgumentNullException<KryptonDockspaceSeparator>(nameof(sender));
+        var separatorControl =sender as KryptonDockspaceSeparator ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonDockspaceSeparator, nameof(sender));
         KryptonDockingDockspace dockspaceElement = _lookupSeparator[separatorControl];
 
         // Events are generated from the parent docking manager
@@ -253,7 +253,7 @@ public class KryptonDockingEdgeDocked : DockingElementClosedCollection
     private void OnDockspaceSeparatorMoved(object? sender, SplitterEventArgs e)
     {
         // Cast to correct type and grab associated dockspace element
-        var separatorControl =sender as KryptonDockspaceSeparator ?? ThrowHelper.ThrowArgumentNullException<KryptonDockspaceSeparator>(nameof(sender));
+        var separatorControl =sender as KryptonDockspaceSeparator ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonDockspaceSeparator, nameof(sender));
         KryptonDockingDockspace dockspaceElement = _lookupSeparator[separatorControl];
 
         // Update with delta change
@@ -296,7 +296,7 @@ public class KryptonDockingEdgeDocked : DockingElementClosedCollection
     private void OnDockingDockspaceHasVisibleCells(object? sender, EventArgs e)
     {
         // Cast to correct type and grab associated separator control
-        var dockspaceElement =sender as KryptonDockingDockspace ?? ThrowHelper.ThrowArgumentNullException<KryptonDockingDockspace>(nameof(sender));
+        var dockspaceElement =sender as KryptonDockingDockspace ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonDockingDockspace, nameof(sender));
         KryptonDockspaceSeparator separatorControl = _lookupDockspace[dockspaceElement];
 
         // Now have a visible cell so we show the controls
@@ -307,7 +307,7 @@ public class KryptonDockingEdgeDocked : DockingElementClosedCollection
     private void OnDockingDockspaceDisposed(object? sender, EventArgs e)
     {
         // Cast to correct type and unhook event handlers so garbage collection can occur
-        var dockspaceElement =sender as KryptonDockingDockspace ?? ThrowHelper.ThrowArgumentNullException<KryptonDockingDockspace>(nameof(sender));
+        var dockspaceElement =sender as KryptonDockingDockspace ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonDockingDockspace, nameof(sender));
         dockspaceElement.HasVisibleCells -= OnDockingDockspaceHasVisibleCells;
         dockspaceElement.HasNoVisibleCells -= OnDockingDockspaceHasNoVisibleCells;
         dockspaceElement.Disposed -= OnDockingDockspaceDisposed;
@@ -329,7 +329,7 @@ public class KryptonDockingEdgeDocked : DockingElementClosedCollection
     private void OnDockspaceSeparatorDisposed(object? sender, EventArgs e)
     {
         // Unhook from events so the control can be garbage collected
-        var separatorControl =sender as KryptonDockspaceSeparator ?? ThrowHelper.ThrowArgumentNullException<KryptonDockspaceSeparator>(nameof(sender));
+        var separatorControl =sender as KryptonDockspaceSeparator ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonDockspaceSeparator, nameof(sender));
         separatorControl.SplitterMoveRect -= OnDockspaceSeparatorMoveRect;
         separatorControl.SplitterMoved -= OnDockspaceSeparatorMoved;
         separatorControl.SplitterNotMoved -= OnDockspaceSeparatorNotMoved;

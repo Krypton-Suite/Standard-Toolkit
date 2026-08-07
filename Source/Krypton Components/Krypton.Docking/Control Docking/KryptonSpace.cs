@@ -943,7 +943,7 @@ public abstract class KryptonSpace : KryptonWorkspace
         if (ApplyDockingCloseAction)
         {
             // Find the page associated with the cell that fired this button spec
-            var buttonSpec =sender as ButtonSpec ?? ThrowHelper.ThrowArgumentNullException<ButtonSpec>(nameof(sender));
+            var buttonSpec =sender as ButtonSpec ?? ThrowHelper.ThrowArgumentNullException(sender as ButtonSpec, nameof(sender));
 
             foreach (CachedCellState cellState in _lookupCellState.Values.Where(cellState => cellState.CloseButtonSpec == buttonSpec))
             {
@@ -962,7 +962,7 @@ public abstract class KryptonSpace : KryptonWorkspace
         if (ApplyDockingPinAction)
         {
             // Find the page associated with the cell that fired this button spec
-            var buttonSpec =sender as ButtonSpec ?? ThrowHelper.ThrowArgumentNullException<ButtonSpec>(nameof(sender));
+            var buttonSpec =sender as ButtonSpec ?? ThrowHelper.ThrowArgumentNullException(sender as ButtonSpec, nameof(sender));
 
             foreach (CachedCellState cellState in _lookupCellState.Values.Where(cellState => cellState.PinButtonSpec == buttonSpec))
             {
@@ -981,7 +981,7 @@ public abstract class KryptonSpace : KryptonWorkspace
         if (ApplyDockingDropDownAction)
         {
             // Search for the cell that contains the button spec that has this context menu
-            var kcm =sender as KryptonContextMenu ?? ThrowHelper.ThrowArgumentNullException<KryptonContextMenu>(nameof(sender));
+            var kcm =sender as KryptonContextMenu ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenu, nameof(sender));
             foreach (CachedCellState cellState in _lookupCellState.Values.Where(cellState => (cellState.DropDownButtonSpec != null)
                          && (cellState.DropDownButtonSpec.KryptonContextMenu == kcm))
                     )

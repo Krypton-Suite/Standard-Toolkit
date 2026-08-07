@@ -16,8 +16,8 @@ public sealed class NavigatorTabContextMenuEventArgs : CancelEventArgs
 {
     public NavigatorTabContextMenuEventArgs(KryptonPage page, ContextMenuStrip contextMenuStrip)
     {
-        Page = page ?? ThrowHelper.ThrowArgumentNullException<KryptonPage>(nameof(page));
-        ContextMenuStrip = contextMenuStrip ?? ThrowHelper.ThrowArgumentNullException<ContextMenuStrip>(nameof(contextMenuStrip));
+        Page = page ?? ThrowHelper.ThrowArgumentNullException(page);
+        ContextMenuStrip = contextMenuStrip ?? ThrowHelper.ThrowArgumentNullException(contextMenuStrip);
     }
 
     /// <summary>

@@ -70,7 +70,7 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
         Debug.Assert(component != null);
 
         // Cast to correct type
-        _ribbonGroup =component as KryptonRibbonGroup ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroup>(nameof(component));
+        _ribbonGroup =component as KryptonRibbonGroup ?? ThrowHelper.ThrowArgumentNullException(component as KryptonRibbonGroup, nameof(component));
         if (_ribbonGroup is not null)
         {
             _ribbonGroup.DesignTimeAddTriple += OnAddTriple;
@@ -707,7 +707,7 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
             && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
         {
             // Cast to correct type
-            var tabMenuItem =sender as ToolStripMenuItem ?? ThrowHelper.ThrowArgumentNullException<ToolStripMenuItem>(nameof(sender));
+            var tabMenuItem =sender as ToolStripMenuItem ?? ThrowHelper.ThrowArgumentNullException(sender as ToolStripMenuItem, nameof(sender));
 
             // Get access to the destination tab
             var destination =tabMenuItem.Tag as KryptonRibbonTab ?? ThrowHelper.ThrowNullReferenceException<KryptonRibbonTab>(SharedStaticFunctions.VariableCannotBeNull(nameof(tabMenuItem.Tag)));

@@ -37,8 +37,8 @@ internal class ViewDrawRibbonGroupClusterEdge : ViewDrawBorderEdge
         Debug.Assert(ribbon != null);
         Debug.Assert(palette != null);
 
-        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
-        _palette = palette ?? ThrowHelper.ThrowArgumentNullException<PaletteBorderEdge>(nameof(palette));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _palette = palette ?? ThrowHelper.ThrowArgumentNullException(palette);
     }
     #endregion
 

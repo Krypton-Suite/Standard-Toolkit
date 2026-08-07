@@ -1181,9 +1181,8 @@ public class KryptonDockingManager : DockingElementOpenCollection
     public DockingLocation FindPageLocation([DisallowNull] KryptonPage? page)
     {
         // Cannot find a null reference
-        return page == null
-            ? ThrowHelper.ThrowArgumentNullException<DockingLocation>(nameof(page))
-            : FindPageLocation(page.UniqueName);
+        ThrowHelper.ThrowIfNull(page);
+        return FindPageLocation(page.UniqueName);
     }
 
     /// <summary>
@@ -1219,9 +1218,8 @@ public class KryptonDockingManager : DockingElementOpenCollection
     public IDockingElement? FindPageElement([DisallowNull] KryptonPage page)
     {
         // Cannot find a null reference
-        return page == null
-            ? ThrowHelper.ThrowArgumentNullException<IDockingElement>(nameof(page))
-            : FindPageElement(page.UniqueName);
+        ThrowHelper.ThrowIfNull(page);
+        return FindPageElement(page.UniqueName);
     }
 
     /// <summary>
@@ -1258,9 +1256,8 @@ public class KryptonDockingManager : DockingElementOpenCollection
     public IDockingElement? FindStorePageElement(DockingLocation location, [DisallowNull] KryptonPage page)
     {
         // Cannot find a null reference
-        return page == null
-            ? ThrowHelper.ThrowArgumentNullException<IDockingElement>(nameof(page))
-            : FindStorePageElement(location, page.UniqueName);
+        ThrowHelper.ThrowIfNull(page);
+        return FindStorePageElement(location, page.UniqueName);
     }
 
     /// <summary>
@@ -4240,7 +4237,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
 
     private void OnDropDownWorkspaceClicked(object? sender, EventArgs e)
     {
-        var workspaceItem =sender as KryptonContextMenuItem ?? ThrowHelper.ThrowArgumentNullException<KryptonContextMenuItem>(nameof(sender));
+        var workspaceItem =sender as KryptonContextMenuItem ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenuItem, nameof(sender));
 
         // Action depends on the current location
         if (workspaceItem.Tag is string uniqueName)
@@ -4263,7 +4260,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
 
     private void OnDropDownNavigatorClicked(object? sender, EventArgs e)
     {
-        var workspaceItem =sender as KryptonContextMenuItem ?? ThrowHelper.ThrowArgumentNullException<KryptonContextMenuItem>(nameof(sender));
+        var workspaceItem =sender as KryptonContextMenuItem ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenuItem, nameof(sender));
 
         if (workspaceItem.Tag is string uniqueName)
         {
@@ -4286,7 +4283,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
 
     private void OnDropDownAutoHiddenClicked(object? sender, EventArgs e)
     {
-        var autoHiddenItem =sender as KryptonContextMenuItem ?? ThrowHelper.ThrowArgumentNullException<KryptonContextMenuItem>(nameof(sender));
+        var autoHiddenItem =sender as KryptonContextMenuItem ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenuItem, nameof(sender));
 
         if (autoHiddenItem.Tag is string uniqueName)
         {
@@ -4309,7 +4306,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
 
     private void OnDropDownDockedClicked(object? sender, EventArgs e)
     {
-        var dockedItem =sender as KryptonContextMenuItem ?? ThrowHelper.ThrowArgumentNullException<KryptonContextMenuItem>(nameof(sender));
+        var dockedItem =sender as KryptonContextMenuItem ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenuItem, nameof(sender));
 
         if (dockedItem.Tag is string uniqueName)
         {
@@ -4333,7 +4330,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
     private void OnDropDownFloatingClicked(object? sender, EventArgs e)
     {
         // Get the unique name of the page that needs to be converted to floating
-        var floatingItem =sender as KryptonContextMenuItem ?? ThrowHelper.ThrowArgumentNullException<KryptonContextMenuItem>(nameof(sender));
+        var floatingItem =sender as KryptonContextMenuItem ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenuItem, nameof(sender));
 
         if (floatingItem.Tag is string uniqueName)
         {
@@ -4356,7 +4353,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
 
     private void OnDropDownCloseClicked(object? sender, EventArgs e)
     {
-        var closeItem =sender as KryptonContextMenuItem ?? ThrowHelper.ThrowArgumentNullException<KryptonContextMenuItem>(nameof(sender));
+        var closeItem =sender as KryptonContextMenuItem ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenuItem, nameof(sender));
         CloseRequest(new[] { (closeItem.Tag as string) ?? string.Empty });
     }
 

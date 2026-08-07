@@ -43,9 +43,9 @@ internal class GalleryController : GlobalId,
         Debug.Assert(gallery is not null);
         Debug.Assert(target is not null);
 
-        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
-        _gallery = gallery ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupGallery>(nameof(gallery));
-        _target = target ?? ThrowHelper.ThrowArgumentNullException<ViewDrawRibbonGroupGallery>(nameof(target));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _gallery = gallery ?? ThrowHelper.ThrowArgumentNullException(gallery);
+        _target = target ?? ThrowHelper.ThrowArgumentNullException(target);
     }
     #endregion
 

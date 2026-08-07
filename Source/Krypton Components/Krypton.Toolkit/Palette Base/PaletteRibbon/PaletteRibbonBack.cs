@@ -40,7 +40,7 @@ public class PaletteRibbonBack : Storage,
         Debug.Assert(inheritBack != null);
 
         // Remember inheritance
-        _inheritBack = inheritBack ?? ThrowHelper.ThrowArgumentNullException<IPaletteRibbonBack>(nameof(inheritBack));
+        _inheritBack = inheritBack ?? ThrowHelper.ThrowArgumentNullException(inheritBack);
 
         // Store the provided paint notification delegate
         NeedPaint = needPaint;

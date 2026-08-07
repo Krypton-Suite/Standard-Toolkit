@@ -47,9 +47,9 @@ internal class ViewRibbonMinimizedManager : ViewManager
         Debug.Assert(root is not null);
         Debug.Assert(needPaintDelegate is not null);
 
-        _ribbon = control ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(control));
-        _viewGroups = viewGroups ?? ThrowHelper.ThrowArgumentNullException<ViewDrawRibbonGroupsBorderSynch>(nameof(viewGroups));
-        _needPaintDelegate = needPaintDelegate ?? ThrowHelper.ThrowArgumentNullException<NeedPaintHandler>(nameof(needPaintDelegate));
+        _ribbon = control ?? ThrowHelper.ThrowArgumentNullException(control);
+        _viewGroups = viewGroups ?? ThrowHelper.ThrowArgumentNullException(viewGroups);
+        _needPaintDelegate = needPaintDelegate ?? ThrowHelper.ThrowArgumentNullException(needPaintDelegate);
         _active = true;
         _minimizedMode = minimizedMode;
     }

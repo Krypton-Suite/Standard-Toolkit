@@ -475,7 +475,7 @@ public class KryptonCheckSet : Component,
         if (!_ignoreEvents)
         {
             // Cast to the correct type
-            var checkedButton =sender as KryptonCheckButton ?? ThrowHelper.ThrowArgumentNullException<KryptonCheckButton>(nameof(sender));
+            var checkedButton =sender as KryptonCheckButton ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonCheckButton, nameof(sender));
 
             // Prevent the checked button becoming unchecked unless AllowUncheck is defined
             e.Cancel = checkedButton.Checked && !AllowUncheck;
@@ -488,7 +488,7 @@ public class KryptonCheckSet : Component,
         if (!_ignoreEvents)
         {
             // Cast to the correct type
-            var checkedButton =sender as KryptonCheckButton ?? ThrowHelper.ThrowArgumentNullException<KryptonCheckButton>(nameof(sender));
+            var checkedButton =sender as KryptonCheckButton ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonCheckButton, nameof(sender));
 
             if (checkedButton.Checked)
             {

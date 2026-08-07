@@ -43,9 +43,9 @@ internal class DomainUpDownController : GlobalId,
         Debug.Assert(domainUpDown is not null);
         Debug.Assert(target is not null);
 
-        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
-        _domainUpDown = domainUpDown ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupDomainUpDown>(nameof(domainUpDown));
-        _target = target ?? ThrowHelper.ThrowArgumentNullException<ViewDrawRibbonGroupDomainUpDown>(nameof(target));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _domainUpDown = domainUpDown ?? ThrowHelper.ThrowArgumentNullException(domainUpDown);
+        _target = target ?? ThrowHelper.ThrowArgumentNullException(target);
     }
     #endregion
 

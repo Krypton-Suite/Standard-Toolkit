@@ -1012,7 +1012,7 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
 
     private void OnKryptonContextMenuClosed(object? sender, EventArgs e)
     {
-        var kcm =sender as KryptonContextMenu ?? ThrowHelper.ThrowArgumentNullException<KryptonContextMenu>(nameof(sender));
+        var kcm =sender as KryptonContextMenu ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenu, nameof(sender));
         kcm.Closed -= OnKryptonContextMenuClosed;
         ContextMenuClosed();
     }

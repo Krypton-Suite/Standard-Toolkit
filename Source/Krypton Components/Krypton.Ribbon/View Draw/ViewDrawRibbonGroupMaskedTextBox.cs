@@ -45,9 +45,9 @@ internal class ViewDrawRibbonGroupMaskedTextBox : ViewComposite,
         Debug.Assert(needPaint is not null);
 
         // Remember incoming references
-        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
-        GroupMaskedTextBox = ribbonMaskedTextBox ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupMaskedTextBox>(nameof(ribbonMaskedTextBox));
-        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException<NeedPaintHandler>(nameof(needPaint));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        GroupMaskedTextBox = ribbonMaskedTextBox ?? ThrowHelper.ThrowArgumentNullException(ribbonMaskedTextBox);
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
         _currentSize = GroupMaskedTextBox.ItemSizeCurrent;
 
         // Hook into the masked textbox events

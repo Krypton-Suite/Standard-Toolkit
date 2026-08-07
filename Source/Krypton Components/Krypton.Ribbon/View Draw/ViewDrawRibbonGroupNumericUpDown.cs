@@ -45,9 +45,9 @@ internal class ViewDrawRibbonGroupNumericUpDown : ViewComposite,
         Debug.Assert(needPaint is not null);
 
         // Remember incoming references
-        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
-        GroupNumericUpDown = ribbonNumericUpDown ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupNumericUpDown>(nameof(ribbonNumericUpDown));
-        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException<NeedPaintHandler>(nameof(needPaint));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        GroupNumericUpDown = ribbonNumericUpDown ?? ThrowHelper.ThrowArgumentNullException(ribbonNumericUpDown);
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
         _currentSize = GroupNumericUpDown.ItemSizeCurrent;
 
         // Hook into the numeric up-down events

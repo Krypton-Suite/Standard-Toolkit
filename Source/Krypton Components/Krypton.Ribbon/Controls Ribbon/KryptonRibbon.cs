@@ -4125,7 +4125,7 @@ public class KryptonRibbon : VisualSimple,
         KillKeyboardMode();
 
         // Cast to correct type
-        var menuItem =sender as KryptonContextMenuItem ?? ThrowHelper.ThrowArgumentNullException<KryptonContextMenuItem>(nameof(sender));
+        var menuItem =sender as KryptonContextMenuItem ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenuItem, nameof(sender));
 
         // Find index of the item to toggle
         var index = (int)(menuItem.Tag ?? -1);

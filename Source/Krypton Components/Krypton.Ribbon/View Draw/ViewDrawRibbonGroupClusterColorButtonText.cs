@@ -46,8 +46,8 @@ internal class ViewDrawRibbonGroupClusterColorButtonText : ViewLeaf,
         Debug.Assert(ribbon != null);
         Debug.Assert(ribbonColorButton != null);
 
-        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
-        _ribbonColorButton = ribbonColorButton ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupClusterColorButton>(nameof(ribbonColorButton));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _ribbonColorButton = ribbonColorButton ?? ThrowHelper.ThrowArgumentNullException(ribbonColorButton);
 
         // Use a class to convert from ribbon group to content interface
         _contentProvider = new RibbonGroupNormalDisabledTextToContent(ribbon.StateCommon.RibbonGeneral,

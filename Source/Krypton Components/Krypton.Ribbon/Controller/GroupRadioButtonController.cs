@@ -63,10 +63,10 @@ internal class GroupRadioButtonController : GlobalId,
         Debug.Assert(targetImage is not null);
         Debug.Assert(needPaint is not null);
 
-        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
-        TargetMain = targetMain ?? ThrowHelper.ThrowArgumentNullException<ViewBase>(nameof(targetMain));
-        _targetImage = targetImage ?? ThrowHelper.ThrowArgumentNullException<ViewDrawRibbonGroupRadioButtonImage>(nameof(targetImage));
-        NeedPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException<NeedPaintHandler>(nameof(needPaint));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        TargetMain = targetMain ?? ThrowHelper.ThrowArgumentNullException(targetMain);
+        _targetImage = targetImage ?? ThrowHelper.ThrowArgumentNullException(targetImage);
+        NeedPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
     }
     #endregion
 

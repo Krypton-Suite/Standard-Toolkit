@@ -32,7 +32,7 @@ internal class RibbonRecentDocsEntryToContent : RibbonToContent
     {
         Debug.Assert(ribbonRecentDocEntryText is not null);
             
-        _ribbonRecentDocEntryText = ribbonRecentDocEntryText ?? ThrowHelper.ThrowArgumentNullException<IPaletteRibbonText>(nameof(ribbonRecentDocEntryText));
+        _ribbonRecentDocEntryText = ribbonRecentDocEntryText ?? ThrowHelper.ThrowArgumentNullException(ribbonRecentDocEntryText);
     }
     #endregion
 

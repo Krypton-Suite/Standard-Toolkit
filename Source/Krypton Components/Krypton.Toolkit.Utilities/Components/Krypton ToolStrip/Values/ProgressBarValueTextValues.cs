@@ -31,7 +31,7 @@ public class ProgressBarValueTextValues : Storage
     /// <param name="owner">Owning progress bar.</param>
     public ProgressBarValueTextValues(KryptonToolStripProgressBarWithValueText owner)
     {
-        _owner = owner ?? ThrowHelper.ThrowArgumentNullException<KryptonToolStripProgressBarWithValueText>(nameof(owner));
+        _owner = owner ?? ThrowHelper.ThrowArgumentNullException(owner);
     }
 
     /// <inheritdoc />

@@ -36,8 +36,8 @@ public class PaletteElementColorInheritOverride : PaletteElementColorInherit
         Debug.Assert(backup != null);
 
         // Store incoming alternatives
-        _primary = primary ?? ThrowHelper.ThrowArgumentNullException<IPaletteElementColor>(nameof(primary));
-        _backup = backup ?? ThrowHelper.ThrowArgumentNullException<IPaletteElementColor>(nameof(backup));
+        _primary = primary ?? ThrowHelper.ThrowArgumentNullException(primary);
+        _backup = backup ?? ThrowHelper.ThrowArgumentNullException(backup);
 
         // Default other state
         Apply = true;

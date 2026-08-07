@@ -48,7 +48,7 @@ public class ProgressStatusStripValues : Storage
     /// <param name="owner">Owning progress status strip.</param>
     public ProgressStatusStripValues(KryptonProgressStatusStrip owner)
     {
-        _owner = owner ?? ThrowHelper.ThrowArgumentNullException<KryptonProgressStatusStrip>(nameof(owner));
+        _owner = owner ?? ThrowHelper.ThrowArgumentNullException(owner);
     }
 
     /// <inheritdoc />

@@ -3849,7 +3849,7 @@ public class KryptonWorkspace : VisualContainerControl,
     private void OnCellClosedContextMenu(object? sender, ToolStripDropDownClosedEventArgs e)
     {
         // Unhook from context menu
-        var contextMenu =sender as KryptonContextMenu ?? ThrowHelper.ThrowArgumentNullException<KryptonContextMenu>(nameof(sender));
+        var contextMenu =sender as KryptonContextMenu ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenu, nameof(sender));
 
         // Remove our menu items as we only want them to be inside the currently showing context menu
         contextMenu.Closed -= OnCellClosedContextMenu;

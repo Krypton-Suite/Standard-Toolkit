@@ -43,7 +43,7 @@ public class SliderButtonValues : Storage
     /// <param name="owner">Owning slider button.</param>
     public SliderButtonValues(KryptonSliderButton owner)
     {
-        _owner = owner ?? ThrowHelper.ThrowArgumentNullException<KryptonSliderButton>(nameof(owner));
+        _owner = owner ?? ThrowHelper.ThrowArgumentNullException(owner);
     }
 
     /// <inheritdoc />

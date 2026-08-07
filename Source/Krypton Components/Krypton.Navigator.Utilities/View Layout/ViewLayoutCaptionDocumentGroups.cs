@@ -37,11 +37,11 @@ internal sealed class ViewLayoutCaptionDocumentGroups : ViewLayoutDocker
         bool showNewTabButton,
         Action? newTabClick)
     {
-        _workspace = workspace ?? ThrowHelper.ThrowArgumentNullException<Krypton.Workspace.KryptonWorkspace>(nameof(workspace));
-        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException<NeedPaintHandler>(nameof(needPaint));
+        _workspace = workspace ?? ThrowHelper.ThrowArgumentNullException(workspace);
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
         _showContextMenu = showContextMenu;
-        _tabGroups = tabGroups ?? ThrowHelper.ThrowArgumentNullException<NavigatorTabGroupCollection>(nameof(tabGroups));
-        _tabGroupAppearance = tabGroupAppearance ?? ThrowHelper.ThrowArgumentNullException<NavigatorTabGroupAppearance>(nameof(tabGroupAppearance));
+        _tabGroups = tabGroups ?? ThrowHelper.ThrowArgumentNullException(tabGroups);
+        _tabGroupAppearance = tabGroupAppearance ?? ThrowHelper.ThrowArgumentNullException(tabGroupAppearance);
         _allowTabGroups = allowTabGroups;
         _showNewTabButton = showNewTabButton;
         _newTabClick = newTabClick;

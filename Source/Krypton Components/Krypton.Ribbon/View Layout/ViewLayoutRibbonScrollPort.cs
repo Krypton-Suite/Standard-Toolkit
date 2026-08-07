@@ -37,7 +37,7 @@ internal class ViewLayoutRibbonScrollPort : ViewComposite
         {
             Debug.Assert(ribbon is not null);
                 
-            _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
+            _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
 
             // Create and add a hidden button to act as the focus target
             _hiddenFocusTarget = new Button
@@ -161,10 +161,10 @@ internal class ViewLayoutRibbonScrollPort : ViewComposite
         Debug.Assert(needPaintDelegate != null);
 
         // Remember initial settings
-        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
         _orientation = orientation;
-        _viewFiller = viewFiller ?? ThrowHelper.ThrowArgumentNullException<ViewBase>(nameof(viewFiller));
-        _needPaintDelegate = needPaintDelegate ?? ThrowHelper.ThrowArgumentNullException<NeedPaintHandler>(nameof(needPaintDelegate));
+        _viewFiller = viewFiller ?? ThrowHelper.ThrowArgumentNullException(viewFiller);
+        _needPaintDelegate = needPaintDelegate ?? ThrowHelper.ThrowArgumentNullException(needPaintDelegate);
         _scrollSpeed = scrollSpeed;
         _ribbonTabs = viewFiller as ViewLayoutRibbonTabs;
 

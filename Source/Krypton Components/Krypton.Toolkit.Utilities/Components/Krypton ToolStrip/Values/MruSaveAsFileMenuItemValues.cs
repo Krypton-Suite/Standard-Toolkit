@@ -45,7 +45,7 @@ public class MruSaveAsFileMenuItemValues : Storage
     /// <param name="owner">Owning MRU save-as-file menu item.</param>
     public MruSaveAsFileMenuItemValues(KryptonMRUSaveAsFileMenuItem owner)
     {
-        _ = owner ?? ThrowHelper.ThrowArgumentNullException<KryptonMRUSaveAsFileMenuItem>(nameof(owner));
+        _ = owner ?? ThrowHelper.ThrowArgumentNullException(owner);
     }
 
     /// <inheritdoc />

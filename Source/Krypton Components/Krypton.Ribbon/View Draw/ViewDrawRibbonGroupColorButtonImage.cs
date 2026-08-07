@@ -46,7 +46,7 @@ internal class ViewDrawRibbonGroupColorButtonImage : ViewDrawRibbonGroupImageBas
     {
         Debug.Assert(ribbonColorButton is not null);
 
-        _ribbonColorButton = ribbonColorButton ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupColorButton>(nameof(ribbonColorButton));
+        _ribbonColorButton = ribbonColorButton ?? ThrowHelper.ThrowArgumentNullException(ribbonColorButton);
         _selectedColor = ribbonColorButton.SelectedColor;
         _emptyBorderColor = ribbonColorButton.EmptyBorderColor;
         _selectedRectSmall = ribbonColorButton.SelectedRectSmall;

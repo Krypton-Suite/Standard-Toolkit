@@ -43,9 +43,9 @@ internal class TextBoxController : GlobalId,
         Debug.Assert(textBox is not null);
         Debug.Assert(target is not null);
 
-        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
-        _textBox = textBox ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupTextBox>(nameof(textBox));
-        _target = target ?? ThrowHelper.ThrowArgumentNullException<ViewDrawRibbonGroupTextBox>(nameof(target));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _textBox = textBox ?? ThrowHelper.ThrowArgumentNullException(textBox);
+        _target = target ?? ThrowHelper.ThrowArgumentNullException(target);
     }
     #endregion
 

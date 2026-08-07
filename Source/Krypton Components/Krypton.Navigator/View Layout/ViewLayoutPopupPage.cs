@@ -34,8 +34,8 @@ internal class ViewLayoutPopupPage : ViewLayoutNull
         Debug.Assert(navigator is not null);
         Debug.Assert(page is not null);
 
-        _navigator = navigator ?? ThrowHelper.ThrowArgumentNullException<KryptonNavigator>(nameof(navigator));
-        _page = page ?? ThrowHelper.ThrowArgumentNullException<KryptonPage>(nameof(page));
+        _navigator = navigator ?? ThrowHelper.ThrowArgumentNullException(navigator);
+        _page = page ?? ThrowHelper.ThrowArgumentNullException(page);
     }
 
     /// <summary>

@@ -60,7 +60,7 @@ internal class KryptonRibbonGroupNumericUpDownDesigner : ComponentDesigner, IKry
         Debug.Assert(component != null);
 
         // Cast to correct type
-        _ribbonNumericUpDown =component as KryptonRibbonGroupNumericUpDown ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupNumericUpDown>(nameof(component));
+        _ribbonNumericUpDown =component as KryptonRibbonGroupNumericUpDown ?? ThrowHelper.ThrowArgumentNullException(component as KryptonRibbonGroupNumericUpDown, nameof(component));
 
         if (_ribbonNumericUpDown != null)
         {

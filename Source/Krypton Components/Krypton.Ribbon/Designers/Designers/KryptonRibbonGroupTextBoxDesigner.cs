@@ -60,7 +60,7 @@ internal class KryptonRibbonGroupTextBoxDesigner : ComponentDesigner, IKryptonDe
         Debug.Assert(component != null);
 
         // Cast to correct type
-        _ribbonTextBox =component as KryptonRibbonGroupTextBox ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupTextBox>(nameof(component));
+        _ribbonTextBox =component as KryptonRibbonGroupTextBox ?? ThrowHelper.ThrowArgumentNullException(component as KryptonRibbonGroupTextBox, nameof(component));
 
         if (_ribbonTextBox != null)
         {

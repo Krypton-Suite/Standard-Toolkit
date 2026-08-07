@@ -32,7 +32,7 @@ public class ButtonSpecExpandRibbon : ButtonSpec
     {
         Debug.Assert(ribbon is not null);
             
-        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
 
         // Fix the type
         ProtectedType = PaletteButtonSpecStyle.RibbonExpand;

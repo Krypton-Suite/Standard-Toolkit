@@ -60,7 +60,7 @@ internal class KryptonRibbonGroupTrackBarDesigner : ComponentDesigner, IKryptonD
         Debug.Assert(component != null);
 
         // Cast to correct type
-        _ribbonTrackBar =component as KryptonRibbonGroupTrackBar ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupTrackBar>(nameof(component));
+        _ribbonTrackBar =component as KryptonRibbonGroupTrackBar ?? ThrowHelper.ThrowArgumentNullException(component as KryptonRibbonGroupTrackBar, nameof(component));
 
         if (_ribbonTrackBar?.TrackBar != null)
         {

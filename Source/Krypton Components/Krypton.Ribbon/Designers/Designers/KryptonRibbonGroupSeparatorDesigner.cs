@@ -59,7 +59,7 @@ internal class KryptonRibbonGroupSeparatorDesigner : ComponentDesigner
         Debug.Assert(component != null);
 
         // Cast to correct type
-        _ribbonSeparator =component as KryptonRibbonGroupSeparator ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupSeparator>(nameof(component));
+        _ribbonSeparator =component as KryptonRibbonGroupSeparator ?? ThrowHelper.ThrowArgumentNullException(component as KryptonRibbonGroupSeparator, nameof(component));
 
         if (_ribbonSeparator != null)
         {
@@ -421,7 +421,7 @@ internal class KryptonRibbonGroupSeparatorDesigner : ComponentDesigner
             && _ribbonSeparator.RibbonGroup.Items.Contains(_ribbonSeparator))
         {
             // Cast to correct type
-            var groupMenuItem =sender as ToolStripMenuItem ?? ThrowHelper.ThrowArgumentNullException<ToolStripMenuItem>(nameof(sender));
+            var groupMenuItem =sender as ToolStripMenuItem ?? ThrowHelper.ThrowArgumentNullException(sender as ToolStripMenuItem, nameof(sender));
 
             // Get access to the destination tab
             var destination =groupMenuItem.Tag as KryptonRibbonGroup ?? ThrowHelper.ThrowNullReferenceException<KryptonRibbonGroup>(SharedStaticFunctions.VariableCannotBeNull("destination"));

@@ -50,7 +50,7 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
         : base(name)
     {
         _storeName = storeName;
-        DockableNavigatorControl = navigator ?? ThrowHelper.ThrowArgumentNullException<KryptonDockableNavigator>(nameof(navigator));
+        DockableNavigatorControl = navigator ?? ThrowHelper.ThrowArgumentNullException(navigator);
 
         DockableNavigatorControl.Disposed += OnDockableNavigatorDisposed;
         DockableNavigatorControl.CellPageInserting += OnDockableNavigatorPageInserting;

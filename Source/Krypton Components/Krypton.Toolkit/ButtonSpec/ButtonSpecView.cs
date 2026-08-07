@@ -522,7 +522,7 @@ public class ButtonSpecView : GlobalId,
     private void OnKryptonContextMenuClosed(object? sender, ToolStripDropDownClosedEventArgs e)
     {
         // Unhook from context menu event, so that it can garbage collected in the future
-        var kcm =sender as KryptonContextMenu ?? ThrowHelper.ThrowArgumentNullException<KryptonContextMenu>(nameof(sender));
+        var kcm =sender as KryptonContextMenu ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenu, nameof(sender));
         kcm.Closed -= OnKryptonContextMenuClosed;
 
         // Remove the fixed button appearance

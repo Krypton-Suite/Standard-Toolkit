@@ -28,7 +28,7 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
     {
 
         // We are a proxy for this cached page reference
-        Page = page ?? ThrowHelper.ThrowArgumentNullException<KryptonPage>(nameof(page));
+        Page = page ?? ThrowHelper.ThrowArgumentNullException(page);
 
         // Text property was updated by the base class constructor, so now we update the actual referenced class
         Page.Text = Text;

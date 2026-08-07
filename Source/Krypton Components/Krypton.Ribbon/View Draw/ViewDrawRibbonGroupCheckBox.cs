@@ -58,9 +58,9 @@ internal class ViewDrawRibbonGroupCheckBox : ViewComposite,
         Debug.Assert(needPaint is not null);
 
         // Remember incoming references
-        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
-        GroupCheckBox = ribbonCheckBox ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupCheckBox>(nameof(ribbonCheckBox));
-        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException<NeedPaintHandler>(nameof(needPaint));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        GroupCheckBox = ribbonCheckBox ?? ThrowHelper.ThrowArgumentNullException(ribbonCheckBox);
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
         _currentSize = GroupCheckBox.ItemSizeCurrent;
 
         // Create delegate used to process end of click action

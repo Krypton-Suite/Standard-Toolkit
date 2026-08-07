@@ -46,7 +46,7 @@ internal class ViewDrawRibbonGroupCheckBoxImage : ViewComposite
         }
 
         // Remember incoming parameters
-        _ribbonCheckBox = ribbonCheckBox ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupCheckBox>(nameof(ribbonCheckBox));
+        _ribbonCheckBox = ribbonCheckBox ?? ThrowHelper.ThrowArgumentNullException(ribbonCheckBox);
         _large = large;
 
         // Use redirector to get the check box images and redirect to parent palette

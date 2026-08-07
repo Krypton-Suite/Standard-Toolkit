@@ -2577,7 +2577,7 @@ public class KryptonRichTextBox : VisualControlBase,
     private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
     {
         // Unhook events from the specific instance that generated event
-        VisualPopupToolTip popupToolTip =sender as VisualPopupToolTip ?? ThrowHelper.ThrowArgumentNullException<VisualPopupToolTip>(nameof(sender));
+        VisualPopupToolTip popupToolTip =sender as VisualPopupToolTip ?? ThrowHelper.ThrowArgumentNullException(sender as VisualPopupToolTip, nameof(sender));
         popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
         // Not showing a popup page anymore

@@ -62,8 +62,8 @@ internal class ViewLayoutRibbonTabs : ViewComposite
         Debug.Assert(needPaint is not null);
 
         // Cache references
-        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
-        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException<NeedPaintHandler>(nameof(needPaint));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
 
         // Create cache of draw elements
         _tabCache = [];

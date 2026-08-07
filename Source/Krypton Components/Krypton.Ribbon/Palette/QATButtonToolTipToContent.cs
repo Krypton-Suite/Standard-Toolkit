@@ -38,8 +38,8 @@ internal class QATButtonToolTipToContent : IContentValues
         Debug.Assert(qatButton is not null);
         Debug.Assert(ribbon is not null);
 
-        _qatButton = qatButton ?? ThrowHelper.ThrowArgumentNullException<IQuickAccessToolbarButton>(nameof(qatButton));
-        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
+        _qatButton = qatButton ?? ThrowHelper.ThrowArgumentNullException(qatButton);
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
     }
     #endregion
 

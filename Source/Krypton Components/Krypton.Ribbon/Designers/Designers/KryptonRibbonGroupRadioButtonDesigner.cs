@@ -61,7 +61,7 @@ internal class KryptonRibbonGroupRadioButtonDesigner : ComponentDesigner
         Debug.Assert(component != null);
 
         // Cast to correct type
-        _ribbonRadioButton =component as KryptonRibbonGroupRadioButton ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupRadioButton>(nameof(component));
+        _ribbonRadioButton =component as KryptonRibbonGroupRadioButton ?? ThrowHelper.ThrowArgumentNullException(component as KryptonRibbonGroupRadioButton, nameof(component));
         if (_ribbonRadioButton != null)
         {
             _ribbonRadioButton.DesignTimeContextMenu += OnContextMenu;

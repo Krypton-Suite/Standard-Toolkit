@@ -40,7 +40,7 @@ internal class RibbonTabsController : GlobalId,
     public RibbonTabsController([DisallowNull] KryptonRibbon? ribbon)
     {
         Debug.Assert(ribbon is not null);
-        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
     }
     #endregion
 

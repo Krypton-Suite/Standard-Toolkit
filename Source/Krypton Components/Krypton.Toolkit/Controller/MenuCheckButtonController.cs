@@ -336,7 +336,8 @@ internal class MenuCheckButtonController : GlobalId,
             ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
 
-        return e == null ? ThrowHelper.ThrowArgumentNullException<bool>(nameof(e)): false;
+        ThrowHelper.ThrowIfNull(e);
+        return false;
     }
     #endregion
 

@@ -35,7 +35,7 @@ internal class ViewDrawRibbonGroupClusterSeparator : ViewLeaf
     {
         Debug.Assert(ribbon is not null);
 
-        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
         _start = start;
         _preferredSize = new Size((int)(1 * FactorDpiX), (int)(4 * FactorDpiY));
     }

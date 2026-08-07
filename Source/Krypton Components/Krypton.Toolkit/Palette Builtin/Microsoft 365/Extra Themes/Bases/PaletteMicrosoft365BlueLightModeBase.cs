@@ -4484,7 +4484,7 @@ public class KryptonColorTable365BlueLightMode : KryptonColorTable
     {
         Debug.Assert(colors is not null);
 
-        _colors = colors ?? ThrowHelper.ThrowArgumentNullException<Color[]>(nameof(colors));
+        _colors = colors ?? ThrowHelper.ThrowArgumentNullException(colors);
         _roundedEdges = roundedEdges;
     }
     #endregion

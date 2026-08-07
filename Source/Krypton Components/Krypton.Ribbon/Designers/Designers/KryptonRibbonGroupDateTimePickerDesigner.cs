@@ -60,7 +60,7 @@ internal class KryptonRibbonGroupDateTimePickerDesigner : ComponentDesigner, IKr
         Debug.Assert(component is not null);
 
         // Cast to correct type
-        _ribbonDateTimePicker =component as KryptonRibbonGroupDateTimePicker ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupDateTimePicker>(nameof(component));
+        _ribbonDateTimePicker =component as KryptonRibbonGroupDateTimePicker ?? ThrowHelper.ThrowArgumentNullException(component as KryptonRibbonGroupDateTimePicker, nameof(component));
 
         if (_ribbonDateTimePicker?.DateTimePicker != null)
         {

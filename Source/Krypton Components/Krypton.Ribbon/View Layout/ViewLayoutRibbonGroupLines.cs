@@ -76,9 +76,9 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
         Debug.Assert(needPaint is not null);
 
         // Cache references
-        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
-        _ribbonLines = ribbonLines ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupLines>(nameof(ribbonLines));
-        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException<NeedPaintHandler>(nameof(needPaint));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _ribbonLines = ribbonLines ?? ThrowHelper.ThrowArgumentNullException(ribbonLines);
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
 
         // Associate the component with this view element for design time selection
         Component = _ribbonLines;

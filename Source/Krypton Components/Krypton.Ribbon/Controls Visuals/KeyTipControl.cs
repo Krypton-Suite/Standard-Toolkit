@@ -277,7 +277,7 @@ internal class KeyTipControl : KryptonForm
 
     private void OnRedrawTick(object? sender, EventArgs e)
     {
-        _redrawTimer =sender as Timer ?? ThrowHelper.ThrowArgumentNullException<Timer>(nameof(sender));
+        _redrawTimer =sender as Timer ?? ThrowHelper.ThrowArgumentNullException(sender as Timer, nameof(sender));
         _redrawTimer.Stop();
         _redrawTimer.Dispose();
 

@@ -928,7 +928,7 @@ public class ButtonController : GlobalId,
     private void OnRepeatTimer(object? sender, EventArgs e)
     {
         // Modify subsequent repeat timing
-        _t =sender as System.Windows.Forms.Timer ?? ThrowHelper.ThrowArgumentNullException<System.Windows.Forms.Timer>(nameof(sender));
+        _t =sender as System.Windows.Forms.Timer ?? ThrowHelper.ThrowArgumentNullException(sender as System.Windows.Forms.Timer, nameof(sender));
         _t.Interval = Math.Max(SystemInformation.DoubleClickTime / 4, 100);
         OnClick(new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0));
     }

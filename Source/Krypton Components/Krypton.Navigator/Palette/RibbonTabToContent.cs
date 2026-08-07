@@ -34,9 +34,9 @@ internal class RibbonTabToContent : IPaletteContent
         Debug.Assert(ribbonTabText != null);
         Debug.Assert(content != null);
 
-        _ribbonGeneral = ribbonGeneral ?? ThrowHelper.ThrowArgumentNullException<IPaletteRibbonGeneral>(nameof(ribbonGeneral));
-        PaletteRibbonText = ribbonTabText ?? ThrowHelper.ThrowArgumentNullException<IPaletteRibbonText>(nameof(ribbonTabText));
-        PaletteContent = content ?? ThrowHelper.ThrowArgumentNullException<IPaletteContent>(nameof(content));
+        _ribbonGeneral = ribbonGeneral ?? ThrowHelper.ThrowArgumentNullException(ribbonGeneral);
+        PaletteRibbonText = ribbonTabText ?? ThrowHelper.ThrowArgumentNullException(ribbonTabText);
+        PaletteContent = content ?? ThrowHelper.ThrowArgumentNullException(content);
     }
     #endregion
 

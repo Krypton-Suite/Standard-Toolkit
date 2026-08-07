@@ -43,7 +43,7 @@ public class KryptonDockingEdgeAutoHidden : DockingElementClosedCollection
     public KryptonDockingEdgeAutoHidden(string name, Control control, DockingEdge edge)
         : base(name)
     {
-        Control = control ?? ThrowHelper.ThrowArgumentNullException<Control>(nameof(control));
+        Control = control ?? ThrowHelper.ThrowArgumentNullException(control);
         Edge = edge;
         _panelEventFired = false;
 
@@ -300,7 +300,7 @@ public class KryptonDockingEdgeAutoHidden : DockingElementClosedCollection
     private void OnDockingAutoHiddenGroupDisposed(object? sender, EventArgs e)
     {
         // Cast to correct type and unhook event handlers so garbage collection can occur
-        var groupElement =sender as KryptonDockingAutoHiddenGroup ?? ThrowHelper.ThrowArgumentNullException<KryptonDockingAutoHiddenGroup>(nameof(sender));
+        var groupElement =sender as KryptonDockingAutoHiddenGroup ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonDockingAutoHiddenGroup, nameof(sender));
         groupElement.PageClicked -= OnDockingAutoHiddenGroupClicked;
         groupElement.PageHoverStart -= OnDockingAutoHiddenGroupHoverStart;
         groupElement.PageHoverEnd -= OnDockingAutoHiddenGroupHoverEnd;
@@ -369,14 +369,14 @@ public class KryptonDockingEdgeAutoHidden : DockingElementClosedCollection
     private void OnDockingAutoHiddenGroupClicked(object? sender, KryptonPageEventArgs e)
     {
         // Request the sliding panel slide itself into view with the provided page
-        var dockingGroup =sender as KryptonDockingAutoHiddenGroup ?? ThrowHelper.ThrowArgumentNullException<KryptonDockingAutoHiddenGroup>(nameof(sender));
+        var dockingGroup =sender as KryptonDockingAutoHiddenGroup ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonDockingAutoHiddenGroup, nameof(sender));
         _slidePanel.SlideOut(e.Item, dockingGroup.AutoHiddenGroupControl, true);
     }
 
     private void OnDockingAutoHiddenGroupHoverStart(object? sender, KryptonPageEventArgs e)
     {
         // Request the sliding panel slide itself into view with the provided page
-        var dockingGroup =sender as KryptonDockingAutoHiddenGroup ?? ThrowHelper.ThrowArgumentNullException<KryptonDockingAutoHiddenGroup>(nameof(sender));
+        var dockingGroup =sender as KryptonDockingAutoHiddenGroup ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonDockingAutoHiddenGroup, nameof(sender));
         _slidePanel.SlideOut(e.Item, dockingGroup.AutoHiddenGroupControl, false);
     }
 
@@ -395,7 +395,7 @@ public class KryptonDockingEdgeAutoHidden : DockingElementClosedCollection
     private void OnSlidePanelSeparatorMoveRect(object? sender, SplitterMoveRectMenuArgs e)
     {
         // Cast to correct type and grab associated dockspace control
-        var separatorControl =sender as KryptonDockspaceSeparator ?? ThrowHelper.ThrowArgumentNullException<KryptonDockspaceSeparator>(nameof(sender));
+        var separatorControl =sender as KryptonDockspaceSeparator ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonDockspaceSeparator, nameof(sender));
         KryptonDockspace dockspaceControl = _slidePanel.DockspaceControl;
         KryptonPage? page = _slidePanel.Page;
 

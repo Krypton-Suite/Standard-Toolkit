@@ -43,9 +43,9 @@ internal class NumericUpDownController : GlobalId,
         Debug.Assert(numericUpDown is not null);
         Debug.Assert(target is not null);
 
-        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
-        _numericUpDown = numericUpDown ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupNumericUpDown>(nameof(numericUpDown));
-        _target = target ?? ThrowHelper.ThrowArgumentNullException<ViewDrawRibbonGroupNumericUpDown>(nameof(target));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _numericUpDown = numericUpDown ?? ThrowHelper.ThrowArgumentNullException(numericUpDown);
+        _target = target ?? ThrowHelper.ThrowArgumentNullException(target);
     }
     #endregion
 

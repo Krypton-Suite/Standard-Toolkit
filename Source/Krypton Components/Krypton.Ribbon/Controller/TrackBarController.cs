@@ -43,9 +43,9 @@ internal class TrackBarController : GlobalId,
         Debug.Assert(trackBar is not null);
         Debug.Assert(target is not null);
 
-        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
-        _trackBar = trackBar ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupTrackBar>(nameof(trackBar));
-        _target = target ?? ThrowHelper.ThrowArgumentNullException<ViewDrawRibbonGroupTrackBar>(nameof(target));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _trackBar = trackBar ?? ThrowHelper.ThrowArgumentNullException(trackBar);
+        _target = target ?? ThrowHelper.ThrowArgumentNullException(target);
     }
     #endregion
 

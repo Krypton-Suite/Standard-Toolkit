@@ -952,7 +952,7 @@ internal abstract class ViewBuilderStackCheckButtonBase : ViewBuilderBase
     private void OnCheckButtonDragRect(object? sender, ButtonDragRectangleEventArgs e)
     {
         // Cast incoming reference to the actual check button view
-        var reorderItem =sender as ViewDrawNavCheckButtonStack ?? ThrowHelper.ThrowArgumentNullException<ViewDrawNavCheckButtonStack>(nameof(sender));
+        var reorderItem =sender as ViewDrawNavCheckButtonStack ?? ThrowHelper.ThrowArgumentNullException(sender as ViewDrawNavCheckButtonStack, nameof(sender));
 
         e.PreDragOffset = (Navigator.AllowPageReorder && reorderItem.Page!.AreFlagsSet(KryptonPageFlags.AllowPageReorder));
         Rectangle dragRect = Rectangle.Union(e.DragRect, _viewScrollViewport.ClientRectangle);
@@ -963,7 +963,7 @@ internal abstract class ViewBuilderStackCheckButtonBase : ViewBuilderBase
     private void OnCheckButtonDragOffset(object? sender, ButtonDragOffsetEventArgs e)
     {
         // Cast incoming reference to the actual check button view
-        var reorderView =sender as ViewDrawNavCheckButtonStack ?? ThrowHelper.ThrowArgumentNullException<ViewDrawNavCheckButtonStack>(nameof(sender));
+        var reorderView =sender as ViewDrawNavCheckButtonStack ?? ThrowHelper.ThrowArgumentNullException(sender as ViewDrawNavCheckButtonStack, nameof(sender));
 
         // Scan the collection of children
         var foundReorderView = false;

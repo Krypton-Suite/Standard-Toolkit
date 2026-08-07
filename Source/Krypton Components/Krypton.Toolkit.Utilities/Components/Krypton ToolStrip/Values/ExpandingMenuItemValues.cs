@@ -30,7 +30,7 @@ public class ExpandingMenuItemValues : Storage
     /// <param name="owner">Owning expanding menu item.</param>
     public ExpandingMenuItemValues(KryptonExpandingMenuItem owner)
     {
-        _ = owner ?? ThrowHelper.ThrowArgumentNullException<KryptonExpandingMenuItem>(nameof(owner));
+        _ = owner ?? ThrowHelper.ThrowArgumentNullException(owner);
     }
 
     /// <inheritdoc />

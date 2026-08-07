@@ -45,9 +45,9 @@ internal class ViewDrawRibbonGroupSeparator : ViewLeaf,
         Debug.Assert(ribbonSeparator is not null);
         Debug.Assert(needPaint is not null);
 
-        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
-        _ribbonSeparator = ribbonSeparator ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupSeparator>(nameof(ribbonSeparator));
-        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException<NeedPaintHandler>(nameof(needPaint));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _ribbonSeparator = ribbonSeparator ?? ThrowHelper.ThrowArgumentNullException(ribbonSeparator);
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
 
         // Associate this view with the source component (required for design time selection)
         Component = _ribbonSeparator;

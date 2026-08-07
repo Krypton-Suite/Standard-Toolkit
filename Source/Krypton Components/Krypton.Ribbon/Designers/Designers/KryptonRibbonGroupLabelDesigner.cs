@@ -60,7 +60,7 @@ internal class KryptonRibbonGroupLabelDesigner : ComponentDesigner
         Debug.Assert(component != null);
 
         // Cast to correct type
-        _ribbonLabel =component as KryptonRibbonGroupLabel ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupLabel>(nameof(component));
+        _ribbonLabel =component as KryptonRibbonGroupLabel ?? ThrowHelper.ThrowArgumentNullException(component as KryptonRibbonGroupLabel, nameof(component));
 
         if (_ribbonLabel != null)
         {

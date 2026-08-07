@@ -16,10 +16,11 @@ namespace Krypton.Interop;
 /// Methods marked with <see cref="DoesNotReturnAttribute"/> only throw, which keeps calling methods
 /// smaller and more likely to be inlined. Throw helpers also use <see cref="MethodImplOptions.NoInlining"/>
 /// and <see cref="StackTraceHiddenAttribute"/> so the cold path stays out of the hot method and stack traces.
-/// Prefer <see cref="ThrowArgumentNullException(string?)"/> /
-/// <see cref="ThrowIfNull"/> for new validation. Use <see cref="ThrowNullReferenceException(string?)"/>
-/// only when preserving an existing <see cref="NullReferenceException"/> contract
-/// (for example with <see cref="SharedStaticFunctions"/> messages).
+/// Prefer <see cref="ThrowIfNull"/> for statements and
+/// <c>value ?? ThrowHelper.ThrowArgumentNullException(value)</c> for assignments
+/// (<see cref="CallerArgumentExpressionAttribute"/> supplies the parameter name).
+/// Use <see cref="ThrowNullReferenceException(string?)"/> only when preserving an existing
+/// <see cref="NullReferenceException"/> contract (for example with <see cref="SharedStaticFunctions"/> messages).
 /// Generic <c>T</c> overloads exist for expression contexts (<c>??</c>, switch expression arms).
 /// Visible to sibling assemblies via <c>InternalsVisibleTo</c>; not part of the public API surface.
 /// </remarks>
@@ -87,14 +88,24 @@ internal static class ThrowHelper
 
     /// <summary>
     /// Throws <see cref="ArgumentNullException"/> and satisfies expression forms such as
-    /// <c>value ?? ThrowHelper.ThrowArgumentNullException&lt;T&gt;(nameof(value))</c>.
+    /// <c>value ?? ThrowHelper.ThrowArgumentNullException(value)</c>.
     /// </summary>
     /// <typeparam name="T">The expected non-null type of the expression.</typeparam>
-    /// <param name="paramName">The name of the parameter that was <see langword="null"/>.</param>
+    /// <param name="argument">The null argument; used for type inference and parameter-name capture.</param>
+    /// <param name="paramName">The parameter name; captured from the call site when omitted.</param>
     /// <returns>Never returns; the return type exists only for use in expressions.</returns>
+    /// <remarks>
+    /// For <see cref="string"/> operands, call with an explicit type argument
+    /// (<c>ThrowArgumentNullException&lt;string&gt;(value)</c>) so overload resolution does not
+    /// pick the void <see cref="ThrowArgumentNullException(string?)"/> helper.
+    /// Pass <paramref name="paramName"/> explicitly when the argument expression is not the
+    /// parameter name (for example <c>sender as T</c>).
+    /// </remarks>
     [DoesNotReturn]
     [MethodImpl(MethodImplOptions.NoInlining)]
-    public static T ThrowArgumentNullException<T>(string? paramName) =>
+    public static T ThrowArgumentNullException<T>(
+        T? argument,
+        [CallerArgumentExpression(nameof(argument))] string? paramName = null) =>
         throw new ArgumentNullException(paramName);
 
     /// <summary>

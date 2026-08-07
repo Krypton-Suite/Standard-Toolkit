@@ -60,7 +60,7 @@ internal class KryptonRibbonGroupMaskedTextBoxDesigner : ComponentDesigner, IKry
         Debug.Assert(component != null);
 
         // Cast to correct type
-        _ribbonMaskedTextBox =component as KryptonRibbonGroupMaskedTextBox ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupMaskedTextBox>(nameof(component));
+        _ribbonMaskedTextBox =component as KryptonRibbonGroupMaskedTextBox ?? ThrowHelper.ThrowArgumentNullException(component as KryptonRibbonGroupMaskedTextBox, nameof(component));
             
         if (_ribbonMaskedTextBox is not null)
         {

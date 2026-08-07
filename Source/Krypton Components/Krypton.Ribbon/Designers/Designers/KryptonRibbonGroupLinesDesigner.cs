@@ -102,7 +102,7 @@ internal class KryptonRibbonGroupLinesDesigner : ComponentDesigner
         Debug.Assert(component is not null);
 
         // Cast to correct type
-        _ribbonLines =component as KryptonRibbonGroupLines ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupLines>(nameof(component));
+        _ribbonLines =component as KryptonRibbonGroupLines ?? ThrowHelper.ThrowArgumentNullException(component as KryptonRibbonGroupLines, nameof(component));
         if (_ribbonLines != null)
         {
             _ribbonLines.DesignTimeAddButton += OnAddButton;
@@ -1269,7 +1269,7 @@ internal class KryptonRibbonGroupLinesDesigner : ComponentDesigner
             && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
         {
             // Cast to correct type
-            var groupMenuItem =sender as ToolStripMenuItem ?? ThrowHelper.ThrowArgumentNullException<ToolStripMenuItem>(nameof(sender));
+            var groupMenuItem =sender as ToolStripMenuItem ?? ThrowHelper.ThrowArgumentNullException(sender as ToolStripMenuItem, nameof(sender));
 
             // Get access to the destination tab
             var destination =groupMenuItem.Tag as KryptonRibbonGroup ?? ThrowHelper.ThrowNullReferenceException<KryptonRibbonGroup>(SharedStaticFunctions.VariableCannotBeNull("destination"));

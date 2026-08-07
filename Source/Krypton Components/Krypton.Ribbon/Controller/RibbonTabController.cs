@@ -58,11 +58,11 @@ internal class RibbonTabController : GlobalId,
         Debug.Assert(target is not null);
 
         // Remember incoming references
-        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
-        _target = target ?? ThrowHelper.ThrowArgumentNullException<ViewDrawRibbonTab>(nameof(target));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _target = target ?? ThrowHelper.ThrowArgumentNullException(target);
 
         // Store the provided paint notification delegate
-        NeedPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException<NeedPaintHandler>(nameof(needPaint));
+        NeedPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
     }
     #endregion
 

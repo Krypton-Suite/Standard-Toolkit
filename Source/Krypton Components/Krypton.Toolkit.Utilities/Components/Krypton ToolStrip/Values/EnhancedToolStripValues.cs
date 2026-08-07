@@ -30,7 +30,7 @@ public class EnhancedToolStripValues : Storage
     /// <param name="owner">Owning enhanced tool strip.</param>
     public EnhancedToolStripValues(KryptonEnhancedToolStrip owner)
     {
-        _owner = owner ?? ThrowHelper.ThrowArgumentNullException<KryptonEnhancedToolStrip>(nameof(owner));
+        _owner = owner ?? ThrowHelper.ThrowArgumentNullException(owner);
     }
 
     /// <inheritdoc />

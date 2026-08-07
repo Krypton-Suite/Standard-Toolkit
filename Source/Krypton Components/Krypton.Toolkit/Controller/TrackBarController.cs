@@ -242,7 +242,8 @@ public class TrackBarController : GlobalId,
             ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
 
-        return e == null ? ThrowHelper.ThrowArgumentNullException<bool>(nameof(e)): _captured;
+        ThrowHelper.ThrowIfNull(e);
+        return _captured;
     }
     #endregion
 

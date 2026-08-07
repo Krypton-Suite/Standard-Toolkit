@@ -48,8 +48,8 @@ internal class ViewDrawRibbonGroupCheckBoxText : ViewLeaf,
         Debug.Assert(ribbon is not null);
         Debug.Assert(ribbonCheckBox is not null);
 
-        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbon>(nameof(ribbon));
-        _ribbonCheckBox = ribbonCheckBox ?? ThrowHelper.ThrowArgumentNullException<KryptonRibbonGroupCheckBox>(nameof(ribbonCheckBox));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _ribbonCheckBox = ribbonCheckBox ?? ThrowHelper.ThrowArgumentNullException(ribbonCheckBox);
         _firstText = firstText;
 
         // Use a class to convert from ribbon group to content interface
