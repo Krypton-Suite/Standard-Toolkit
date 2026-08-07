@@ -80,6 +80,10 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
 
     private readonly Image? _customKryptonMessageBoxIcon;
 
+    private readonly KryptonOverlayImage _overlayImage;
+
+    private Image? _ownedComposedIcon;
+
     private readonly string _buttonOneCustomText;
 
     private readonly string _buttonTwoCustomText;
@@ -185,7 +189,8 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         ExtendedKryptonMessageBoxCountdownButton countdownButton = ExtendedKryptonMessageBoxCountdownButton.None,
         int? countdownButtonSeconds = null,
         DialogResult? countdownButtonDialogResult = null,
-        bool? showCopyButton = null)
+        bool? showCopyButton = null,
+        KryptonOverlayImage overlayImage = default)
     {
         // Normalize line endings so a lone "\n" is rendered as a line break by the multiline content controls
         text = text.Replace("\r\n", "\n").Replace("\r", "\n").Replace("\n", "\r\n");
@@ -206,6 +211,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         // Extended values
         _messageBoxTypeface = messageBoxTypeface ?? KryptonManager.CurrentGlobalPalette.BaseFont;
         _customKryptonMessageBoxIcon = customKryptonMessageBoxIcon;
+        _overlayImage = overlayImage;
         _showHelpButton = showHelpButton ?? false;
         _messageTextColour = messageTextColour ?? Color.Empty;
         _buttonTextColours = buttonTextColours;
@@ -284,6 +290,8 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
     public VisualMessageBoxExtendedForm(KryptonMessageBoxExtendedData messageBoxExtendedData, bool showCloseButton)
     {
         _messageBoxExtendedData = messageBoxExtendedData;
+        _overlayImage = messageBoxExtendedData.OverlayImage;
+        _kryptonMessageBoxIcon = messageBoxExtendedData.Icon;
 
         // Create the form contents
         InitializeComponent();
@@ -665,6 +673,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         }
 
         _messageIcon.Visible = _kryptonMessageBoxIcon != ExtendedKryptonMessageBoxIcon.None;
+        ApplyOverlayImageIfNeeded(rightToLeft: false);
     }
 
     private void UpdateIcon()
@@ -787,7 +796,45 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         }
 
         _messageIcon.Visible = _kryptonMessageBoxIcon != ExtendedKryptonMessageBoxIcon.None;
+        ApplyOverlayImageIfNeeded(rightToLeft: false);
+    }
 
+    /// <summary>
+    /// Composites the optional overlay badge onto the resolved main icon when configured.
+    /// </summary>
+    /// <param name="rightToLeft">Whether Left/Right overlay corners should be mirrored.</param>
+    private void ApplyOverlayImageIfNeeded(bool rightToLeft)
+    {
+        if (_overlayImage.IsEmpty || _messageIcon.Image == null)
+        {
+            return;
+        }
+
+        DisposeOwnedComposedIcon();
+
+        Bitmap? composed = GraphicsExtensions.TryComposeOverlay(_messageIcon.Image, _overlayImage, rightToLeft);
+
+        if (composed != null)
+        {
+            _ownedComposedIcon = composed;
+            _messageIcon.Image = composed;
+        }
+    }
+
+    private void DisposeOwnedComposedIcon()
+    {
+        if (_ownedComposedIcon == null)
+        {
+            return;
+        }
+
+        if (ReferenceEquals(_messageIcon.Image, _ownedComposedIcon))
+        {
+            _messageIcon.Image = null;
+        }
+
+        _ownedComposedIcon.Dispose();
+        _ownedComposedIcon = null;
     }
 
     private void UpdateButtons(ExtendedMessageBoxButtons buttons)
@@ -1844,6 +1891,13 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         {
             Close();
         }
+    }
+
+    /// <inheritdoc />
+    protected override void OnFormClosed(FormClosedEventArgs e)
+    {
+        DisposeOwnedComposedIcon();
+        base.OnFormClosed(e);
     }
 
     #endregion

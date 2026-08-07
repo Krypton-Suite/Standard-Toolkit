@@ -48,6 +48,10 @@
 * Implemented [#4142](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4142), Use `ThrowHelper`
    * Shared `ThrowHelper` in `Krypton.Interop` for cold-path throws (`[DoesNotReturn]`), including Argument*, NRE, NotSupported, NotImplemented, ObjectDisposed, InvalidCast, and Win32.
    * Rolled out across Toolkit, Ribbon, Navigator, Workspace, Docking, Utilities, Interop, and TestForm.
+* Implemented [#4162](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4162), Optional overlay (badge) image for dialog icons (`KryptonMessageBoxExtended`, `KryptonMessageBox`, TaskDialog heading, AboutBox main image) via shared `KryptonOverlayImage` / `ComposeOverlayImage`.
+ * To use Extended / AboutBox APIs, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as those types are part of the `Krypton.Toolkit.Utilities` assembly.
+* Implemented [#4157](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4157), Overlay image extras for buttons  
+   * Per-state (and checked) overlays, `ButtonSpec` / `KryptonColorButton` support, and RTL-aware Left/Right corner mirroring.
 * Implemented [#4129](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4129), Show grouped tabs as previews in taskbar
    * Explorer-like composite `Group | …` taskbar thumbnails for navigator caption tab groups via `KryptonNavigatorTaskbarThumbnails.ShowTabGroupThumbnails` + `FormIntegrator`.
    * Opt-in `KryptonDockingFloating.ShowFloatingWindowsInTaskbar` so docking floats can join Windows 11 Snap Groups; peer `KryptonForm` guidance uses shared process AUMID.
