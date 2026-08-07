@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -106,11 +106,15 @@ public class DragFeedbackSolid : DragFeedback
 
     #region Implementation
     /// <summary>
-    /// Find the target the first matches the provided screen point.
+    /// Find the first target that matches the provided screen point.
     /// </summary>
     /// <param name="screenPt">Point in screen coordinates.</param>
     /// <param name="dragEndData">Data to be dropped at destination.</param>
     /// <returns>First target that matches; otherwise null.</returns>
+    /// <remarks>
+    /// List order is generation order: control-edge targets are added before cell targets
+    /// and therefore take priority when hot rectangles overlap.
+    /// </remarks>
     protected virtual DragTarget? FindTarget(Point screenPt, PageDragEndData? dragEndData) =>
         // Ask each target in turn if they are a match for the given screen point
         DragTargets?.FirstOrDefault(target => target.IsMatch(screenPt, dragEndData));
