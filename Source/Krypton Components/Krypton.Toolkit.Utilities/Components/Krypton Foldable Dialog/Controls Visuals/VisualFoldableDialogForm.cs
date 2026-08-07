@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -192,6 +192,15 @@ internal partial class VisualFoldableDialogForm : KryptonForm
 
         // Escape / close maps to the most cancel-like button so the dialog can always be dismissed.
         CancelButton = FindCancelButton(buttons, definitions);
+
+        foreach (var button in buttons)
+        {
+            // Prefer DialogResult over Control.Visible (false while the host form is unshown).
+            if (button.DialogResult != DialogResult.None)
+            {
+                KryptonDialogButtonAppearance.Apply(button, button.DialogResult, _data.ButtonColors);
+            }
+        }
     }
 
     private static IButtonControl FindCancelButton(KryptonButton[] buttons, List<(string Text, DialogResult Result)> definitions)
