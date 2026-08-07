@@ -190,6 +190,8 @@ public static class KryptonMessageBox
     /// <param name="showCtrlCopy">Show extraText in title. If null (default) then only when Warning or Error icon is used.</param>
     /// <param name="showCloseButton">Displays the close button. If null (default), then the close button will be displayed.</param>
     /// <param name="showCopyButton">Displays a 'Copy' button that copies the message box contents to the clipboard. If null (default), the button is not shown.</param>
+    /// <param name="overlayImage">Optional badge image drawn on top of the message icon.</param>
+    /// <param name="overlayImagePosition">Corner placement for <paramref name="overlayImage"/>; defaults to bottom-right.</param>
     /// <param name="defaultButton">One of the KryptonMessageBoxDefaultButton values that specifies the default button for the message box.</param>
     /// <param name="options">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
     /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
@@ -197,12 +199,15 @@ public static class KryptonMessageBox
         KryptonMessageBoxIcon icon, KryptonMessageBoxDefaultButton defaultButton, MessageBoxOptions options,
         bool? showCtrlCopy = null,
         bool? showCloseButton = null,
-        bool? showCopyButton = null) =>
+        bool? showCopyButton = null,
+        Image? overlayImage = null,
+        OverlayImagePosition overlayImagePosition = OverlayImagePosition.BottomRight) =>
         ShowCore(null, text, caption, buttons, icon, defaultButton, options,
             showCtrlCopy: showCtrlCopy,
             showHelpButton: displayHelpButton,
             showCloseButton: showCloseButton,
-            showCopyButton: showCopyButton);
+            showCopyButton: showCopyButton,
+            overlayImage: KryptonOverlayImage.FromImage(overlayImage, overlayImagePosition));
 
     /// <summary>
     /// Displays a message box in front+center of the application and with the specified text, caption and buttons.
@@ -373,6 +378,8 @@ public static class KryptonMessageBox
     /// <param name="showCtrlCopy">Show extraText in title. If null (default) then only when Warning or Error icon is used.</param>
     /// <param name="showCloseButton">Displays the close button. If null (default), then the close button will be displayed.</param>
     /// <param name="showCopyButton">Displays a 'Copy' button that copies the message box contents to the clipboard. If null (default), the button is not shown.</param>
+    /// <param name="overlayImage">Optional badge image drawn on top of the message icon.</param>
+    /// <param name="overlayImagePosition">Corner placement for <paramref name="overlayImage"/>; defaults to bottom-right.</param>
     /// <param name="defaultButton">One of the KryptonMessageBoxDefaultButton values that specifies the default button for the message box.</param>
     /// <param name="options">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
     /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
@@ -380,12 +387,15 @@ public static class KryptonMessageBox
         KryptonMessageBoxIcon icon, KryptonMessageBoxDefaultButton defaultButton, MessageBoxOptions options, 
         bool? showCtrlCopy = null,
         bool? showCloseButton = null,
-        bool? showCopyButton = null) =>
+        bool? showCopyButton = null,
+        Image? overlayImage = null,
+        OverlayImagePosition overlayImagePosition = OverlayImagePosition.BottomRight) =>
         ShowCore(owner, text, caption, buttons, icon, defaultButton, options,
             showCtrlCopy: showCtrlCopy,
             showHelpButton: displayHelpButton,
             showCloseButton: showCloseButton,
-            showCopyButton: showCopyButton);
+            showCopyButton: showCopyButton,
+            overlayImage: KryptonOverlayImage.FromImage(overlayImage, overlayImagePosition));
     #endregion
 
     #region Implementation
@@ -404,6 +414,7 @@ public static class KryptonMessageBox
     /// <param name="showHelpButton">Displays a 'Help' button, as seen in .NET 6 and higher.</param>
     /// <param name="showCloseButton">Displays the close button. If null (default), then the close button will be displayed.</param>
     /// <param name="showCopyButton">Displays a 'Copy' button that copies the message box contents to the clipboard. If null (default), the button is not shown.</param>
+    /// <param name="overlayImage">Optional badge drawn on top of the message icon.</param>
     /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
     private static DialogResult ShowCore(IWin32Window? owner,
         string? text, string? caption,
@@ -415,7 +426,8 @@ public static class KryptonMessageBox
         bool? showCtrlCopy = null,
         bool? showHelpButton = null,
         bool? showCloseButton = null,
-        bool? showCopyButton = null)
+        bool? showCopyButton = null,
+        KryptonOverlayImage overlayImage = default)
     {
         caption = string.IsNullOrEmpty(caption) ? @" " : caption;
 
@@ -426,7 +438,7 @@ public static class KryptonMessageBox
         if (options is MessageBoxOptions.RightAlign or MessageBoxOptions.RtlReading)
         {
             using var kmbRtl = new VisualMessageBoxRtlAwareForm(showOwner, text, caption, buttons, icon,
-                defaultButton, helpInfo, showCtrlCopy, showHelpButton, showCloseButton, showCopyButton);
+                defaultButton, helpInfo, showCtrlCopy, showHelpButton, showCloseButton, showCopyButton, overlayImage);
 
             kmbRtl.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 
@@ -435,7 +447,7 @@ public static class KryptonMessageBox
         else
         {
             using var kmb = new VisualMessageBoxForm(showOwner, text, caption, buttons, icon,
-                defaultButton, helpInfo, showCtrlCopy, showHelpButton, showCloseButton, showCopyButton);
+                defaultButton, helpInfo, showCtrlCopy, showHelpButton, showCloseButton, showCopyButton, overlayImage);
 
             kmb.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 

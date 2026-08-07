@@ -47,6 +47,8 @@
 
 * Resolved [#3858](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3858), Fix drag-target heuristics in `DragFeedbackDocking` / `DragViewController`
    * Clarified docking drag-target priority (first hit / control edges before nested cells) and cleaned up `DragViewController` cancel path.
+* Implemented [#4162](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4162), Optional overlay (badge) image for dialog icons (`KryptonMessageBoxExtended`, `KryptonMessageBox`, TaskDialog heading, AboutBox main image) via shared `KryptonOverlayImage` / `ComposeOverlayImage`.
+ * To use Extended / AboutBox APIs, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as those types are part of the `Krypton.Toolkit.Utilities` assembly.
 * Implemented [#4157](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4157), Overlay image extras for buttons  
    * Per-state (and checked) overlays, `ButtonSpec` / `KryptonColorButton` support, and RTL-aware Left/Right corner mirroring.
 * Implemented [#4129](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4129), Show grouped tabs as previews in taskbar
