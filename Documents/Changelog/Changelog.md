@@ -47,6 +47,8 @@
 
 * Implemented, `ThemeManager.RegisterCustomTheme` so named custom themes appear in theme selectors.
 * Implemented, Builtin Lime Green palette theme (`Palette Builtin/Lime Green`): `Office2007LimeGreen(Dark)`, `Office2010LimeGreen(Dark)`, and `Microsoft365LimeGreen(Dark)` `PaletteMode` entries, wired into `KryptonManager`, `PaletteModeStrings.SupportedThemes`, and theme selectors alongside every other builtin theme; TestForm's Lime Green Theme demo now applies these via `ThemeManager.ApplyTheme(PaletteMode, KryptonManager)` instead of a runtime-built custom palette.
+* Resolved [#3858](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3858), Fix drag-target heuristics in `DragFeedbackDocking` / `DragViewController`
+   * Clarified docking drag-target priority (first hit / control edges before nested cells) and cleaned up `DragViewController` cancel path.
 * Implemented [#4162](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4162), Optional overlay (badge) image for dialog icons (`KryptonMessageBoxExtended`, `KryptonMessageBox`, TaskDialog heading, AboutBox main image) via shared `KryptonOverlayImage` / `ComposeOverlayImage`.
  * To use Extended / AboutBox APIs, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as those types are part of the `Krypton.Toolkit.Utilities` assembly.
 * Implemented [#4157](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4157), Overlay image extras for buttons  
