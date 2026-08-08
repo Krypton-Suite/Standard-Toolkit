@@ -43,6 +43,7 @@ public sealed class KryptonManager : Component
     private static Font? _baseFont;
     private static float _cachedDpiX = 0f;
     private static float _cachedDpiY = 0f;
+    private static KryptonDialogButtonColorOptions? _globalDialogButtonColors;
 
     // Must run before any other static field that touches embedded resources (e.g. KryptonImageStorage / KryptonManager.Strings).
     private static readonly int _resourceAssemblyResolveHook = KryptonPreserializedResourceAssemblyResolve.Register();
@@ -901,6 +902,21 @@ public sealed class KryptonManager : Component
     /// <summary>Gets the colors.</summary>
     /// <value>The colors.</value>
     public static KryptonColorStorage Colors { get; } = new KryptonColorStorage();
+
+    /// <summary>
+    /// Gets or sets the optional application-wide default for semantic dialog button colours.
+    /// </summary>
+    /// <remarks>
+    /// Used by <see cref="KryptonMessageBox"/>, <see cref="KryptonTaskDialog"/>, and related dialogs
+    /// when the call site does not supply <see cref="KryptonDialogButtonColorOptions"/>.
+    /// Null (the default) leaves themed Standalone button chrome unchanged.
+    /// </remarks>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public static KryptonDialogButtonColorOptions? DialogButtonColors
+    {
+        get => _globalDialogButtonColors;
+        set => _globalDialogButtonColors = value;
+    }
 
     /// <summary>Gets the touchscreen support settings.</summary>
     /// <value>The touchscreen support settings.</value>

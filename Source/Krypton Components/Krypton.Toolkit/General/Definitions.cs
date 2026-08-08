@@ -4551,6 +4551,30 @@ public enum SchemeExtraColors
 
     /// <summary>Text color used in tooltips.</summary>
     ToolTipText = 35,
+#region Enum KryptonDialogButtonColorScheme
+
+/// <summary>
+/// Named color schemes for optional semantic (accept / cancel / neutral) dialog button colors.
+/// </summary>
+public enum KryptonDialogButtonColorScheme
+{
+    /// <summary>Do not apply semantic colors; keep themed Standalone chrome.</summary>
+    None = 0,
+
+    /// <summary>macOS-inspired green accept and red cancel colors.</summary>
+    Standard = 1,
+
+    /// <summary>Blue / orange pairing for deuteranopia (red–green) friendliness.</summary>
+    Deuteranopia = 2,
+
+    /// <summary>Blue / brown pairing for protanopia friendliness.</summary>
+    Protanopia = 3,
+
+    /// <summary>High-contrast fills and borders suitable for HC themes.</summary>
+    HighContrast = 4,
+
+    /// <summary>Use only the color overrides supplied on <see cref="KryptonDialogButtonColorOptions"/>.</summary>
+    Custom = 5
 }
 
 #endregion
@@ -4836,5 +4860,30 @@ public enum RibbonGroupCollapsedBorderT
 }
 
 #endregion
+
+#endregion
+#region Enum KryptonDialogButtonRole
+
+/// <summary>
+/// Semantic role of a dialog action button.
+/// </summary>
+/// <remarks>
+/// Most roles are derived from <see cref="DialogResult"/>. Help is applied explicitly because
+/// Help buttons do not assign a <see cref="DialogResult"/> (they leave the dialog open).
+/// </remarks>
+public enum KryptonDialogButtonRole
+{
+    /// <summary>Positive / accept action (OK, Yes, Continue).</summary>
+    Accept = 0,
+
+    /// <summary>Negative / cancel / reject action (Cancel, No, Abort).</summary>
+    Cancel = 1,
+
+    /// <summary>Neutral action (Retry, Ignore, Copy, and similar).</summary>
+    Neutral = 2,
+
+    /// <summary>Help action (Help button that launches help without closing the dialog).</summary>
+    Help = 3
+}
 
 #endregion

@@ -89,5 +89,14 @@ public class KryptonFoldableDialogData
     /// </remarks>
     public FormStartPosition StartPosition { get; set; }
 
+    /// <summary>
+    /// Gets or sets optional semantic colours for the dialog action buttons.
+    /// </summary>
+    /// <remarks>
+    /// When null, <see cref="KryptonManager.DialogButtonColors"/> is used. When both are null,
+    /// buttons keep themed Standalone chrome.
+    /// </remarks>
+    public KryptonDialogButtonColorOptions? ButtonColors { get; set; }
+
     #endregion
 }
