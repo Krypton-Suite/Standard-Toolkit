@@ -487,6 +487,8 @@ public enum PaletteMode
     /// Sparkle renderer with protanopia-friendly colours.
     /// </summary>
     SparkleProtanopia,
+
+    /// <summary>
     /// Specifies the light Lime Green color scheme variant of the Office 2007 appearance.
     /// </summary>
     Office2007LimeGreen,

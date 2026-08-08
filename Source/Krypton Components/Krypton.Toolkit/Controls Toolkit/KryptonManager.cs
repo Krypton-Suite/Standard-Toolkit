@@ -1963,6 +1963,8 @@ public sealed class KryptonManager : Component
 
     /// <summary>Gets the Sparkle protanopia accessibility palette.</summary>
     public static PaletteSparkleProtanopia PaletteSparkleProtanopia => _paletteSparkleProtanopia ??= new PaletteSparkleProtanopia();
+
+    /// <summary>
     /// Gets the single instance of the light Lime Green variant Office 2007 palette.
     /// </summary>
     public static PaletteOffice2007LimeGreen PaletteOffice2007LimeGreen => _paletteOffice2007LimeGreen ??= new PaletteOffice2007LimeGreen();
