@@ -56,6 +56,7 @@ public class KryptonRibbonGroupThemeComboBox : KryptonRibbonGroupComboBox, IKryp
 
         // React to theme changes from outside this control.
         KryptonManager.GlobalPaletteChanged += KryptonManagerGlobalPaletteChanged;
+        ThemeManager.RegisteredThemesChanged += ThemeManagerRegisteredThemesChanged;
     }
     #endregion
 
@@ -91,6 +92,29 @@ public class KryptonRibbonGroupThemeComboBox : KryptonRibbonGroupComboBox, IKryp
         }
 
         return Text ?? string.Empty;
+    }
+
+    private void ThemeManagerRegisteredThemesChanged(object? sender, EventArgs e)
+    {
+        int previous = SelectedIndex;
+        Items.Clear();
+        Items.AddRange(CommonHelperThemeSelectors.GetThemesArray());
+        if (previous >= 0 && previous < Items.Count)
+        {
+            _isExternalUpdate = true;
+            try
+            {
+                SelectedIndex = previous;
+            }
+            finally
+            {
+                _isExternalUpdate = false;
+            }
+        }
+        else
+        {
+            SelectedIndex = CommonHelperThemeSelectors.GetPaletteIndex(Items, KryptonManager.CurrentGlobalPaletteMode);
+        }
     }
 
     /// <summary>

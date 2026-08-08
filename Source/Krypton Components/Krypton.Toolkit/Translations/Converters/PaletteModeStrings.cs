@@ -104,6 +104,12 @@ public class PaletteModeStrings : GlobalId
     internal const string DEFAULT_PALETTE_OFFICE_2013_HIGH_CONTRAST = @"Office 2013 - High Contrast";
     internal const string DEFAULT_PALETTE_OFFICE_2013_DEUTERANOPIA = @"Office 2013 - Deuteranopia";
     internal const string DEFAULT_PALETTE_OFFICE_2013_PROTANOPIA = @"Office 2013 - Protanopia";
+    internal const string DEFAULT_PALETTE_OFFICE_2007_LIME_GREEN = @"Office 2007 - Lime Green";
+    internal const string DEFAULT_PALETTE_OFFICE_2007_LIME_GREEN_DARK = @"Office 2007 - Lime Green - Dark Mode";
+    internal const string DEFAULT_PALETTE_OFFICE_2010_LIME_GREEN = @"Office 2010 - Lime Green";
+    internal const string DEFAULT_PALETTE_OFFICE_2010_LIME_GREEN_DARK = @"Office 2010 - Lime Green - Dark Mode";
+    internal const string DEFAULT_PALETTE_MICROSOFT_365_LIME_GREEN = @"Microsoft 365 - Lime Green";
+    internal const string DEFAULT_PALETTE_MICROSOFT_365_LIME_GREEN_DARK = @"Microsoft 365 - Lime Green - Dark Mode";
     internal const string DEFAULT_PALETTE_CUSTOM = @"Custom";
 
     #endregion
@@ -136,6 +142,8 @@ public class PaletteModeStrings : GlobalId
             { DEFAULT_PALETTE_OFFICE_2007_HIGH_CONTRAST, PaletteMode.Office2007HighContrast },
             { DEFAULT_PALETTE_OFFICE_2007_DEUTERANOPIA, PaletteMode.Office2007Deuteranopia },
             { DEFAULT_PALETTE_OFFICE_2007_PROTANOPIA, PaletteMode.Office2007Protanopia },
+            { DEFAULT_PALETTE_OFFICE_2007_LIME_GREEN, PaletteMode.Office2007LimeGreen },
+            { DEFAULT_PALETTE_OFFICE_2007_LIME_GREEN_DARK, PaletteMode.Office2007LimeGreenDark },
             //{ DEFAULT_PALETTE_OFFICE_2007_DARK_GRAY, PaletteMode.Office2007DarkGray },
             //{ PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2007_LIGHT_GRAY, PaletteMode.Office2007LightGray },
             { DEFAULT_PALETTE_OFFICE_2010_BLUE, PaletteMode.Office2010Blue },
@@ -150,6 +158,8 @@ public class PaletteModeStrings : GlobalId
             { DEFAULT_PALETTE_OFFICE_2010_HIGH_CONTRAST, PaletteMode.Office2010HighContrast },
             { DEFAULT_PALETTE_OFFICE_2010_DEUTERANOPIA, PaletteMode.Office2010Deuteranopia },
             { DEFAULT_PALETTE_OFFICE_2010_PROTANOPIA, PaletteMode.Office2010Protanopia },
+            { DEFAULT_PALETTE_OFFICE_2010_LIME_GREEN, PaletteMode.Office2010LimeGreen },
+            { DEFAULT_PALETTE_OFFICE_2010_LIME_GREEN_DARK, PaletteMode.Office2010LimeGreenDark },
             //{ DEFAULT_PALETTE_OFFICE_2010_DARK_GRAY, PaletteMode.Office2010DarkGray },
             //{ PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2010_LIGHT_GRAY, PaletteMode.Office2010LightGray },
             { DEFAULT_PALETTE_OFFICE_2013_DARK_GRAY, PaletteMode.Office2013DarkGray },
@@ -180,6 +190,8 @@ public class PaletteModeStrings : GlobalId
             { DEFAULT_PALETTE_MICROSOFT_365_BLACK, PaletteMode.Microsoft365Black },
             { DEFAULT_PALETTE_MICROSOFT_365_BLACK_DARK_MODE, PaletteMode.Microsoft365BlackDarkMode },
             { DEFAULT_PALETTE_MICROSOFT_365_BLACK_DARK_MODE_ALTERNATE, PaletteMode.Microsoft365BlackDarkModeAlternate},
+            { DEFAULT_PALETTE_MICROSOFT_365_LIME_GREEN, PaletteMode.Microsoft365LimeGreen },
+            { DEFAULT_PALETTE_MICROSOFT_365_LIME_GREEN_DARK, PaletteMode.Microsoft365LimeGreenDark },
             //{ DEFAULT_PALETTE_MICROSOFT_365_DARK_GRAY, PaletteMode.Microsoft365DarkGray },
             //{ PaletteModeStrings.DEFAULT_PALETTE_MICROSOFT_365_LIGHT_GRAY, PaletteMode.Microsoft365LightGray },
             { DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2007, PaletteMode.VisualStudio2010Render2007 },

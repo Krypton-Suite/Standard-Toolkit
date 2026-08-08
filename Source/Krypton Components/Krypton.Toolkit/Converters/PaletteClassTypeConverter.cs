@@ -93,6 +93,12 @@ internal class PaletteClassTypeConverter : EnumConverter
             {PaletteMode.SparkleHighContrast, typeof(PaletteSparkleHighContrast)},
             {PaletteMode.SparkleDeuteranopia, typeof(PaletteSparkleDeuteranopia)},
             {PaletteMode.SparkleProtanopia, typeof(PaletteSparkleProtanopia)}
+            {PaletteMode.Office2007LimeGreen, typeof(PaletteOffice2007LimeGreen)},
+            {PaletteMode.Office2007LimeGreenDark, typeof(PaletteOffice2007LimeGreenDark)},
+            {PaletteMode.Office2010LimeGreen, typeof(PaletteOffice2010LimeGreen)},
+            {PaletteMode.Office2010LimeGreenDark, typeof(PaletteOffice2010LimeGreenDark)},
+            {PaletteMode.Microsoft365LimeGreen, typeof(PaletteMicrosoft365LimeGreen)},
+            {PaletteMode.Microsoft365LimeGreenDark, typeof(PaletteMicrosoft365LimeGreenDark)}
             //{PaletteMode.Custom, typeof(KryptonCustomPaletteBase)}
         });
 

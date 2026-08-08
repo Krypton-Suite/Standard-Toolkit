@@ -292,6 +292,8 @@ public static class GraphicsExtensionUtilities
             PaletteMode.Office2007White => true,
             PaletteMode.Office2007Black => true,
             PaletteMode.Office2007BlackDarkMode => true,
+            PaletteMode.Office2007LimeGreen => true,
+            PaletteMode.Office2007LimeGreenDark => true,
             PaletteMode.SparkleBlue => true,
             PaletteMode.SparkleBlueDarkMode => true,
             PaletteMode.SparkleBlueLightMode => true,
@@ -321,6 +323,8 @@ public static class GraphicsExtensionUtilities
             PaletteMode.Office2010White => true,
             PaletteMode.Office2010Black => true,
             PaletteMode.Office2010BlackDarkMode => true,
+            PaletteMode.Office2010LimeGreen => true,
+            PaletteMode.Office2010LimeGreenDark => true,
             PaletteMode.Office2013White => true,
             PaletteMode.VisualStudio2010Render2007 => true,
             PaletteMode.VisualStudio2010Render2010 => true,
@@ -353,6 +357,8 @@ public static class GraphicsExtensionUtilities
             PaletteMode.MaterialDarkRipple => true,
             PaletteMode.MacOSDark => true,
             PaletteMode.MacOSLight => true,
+            PaletteMode.Microsoft365LimeGreen => true,
+            PaletteMode.Microsoft365LimeGreenDark => true,
             _ => false
         };
     }

@@ -487,6 +487,34 @@ public enum PaletteMode
     /// Sparkle renderer with protanopia-friendly colours.
     /// </summary>
     SparkleProtanopia,
+    /// Specifies the light Lime Green color scheme variant of the Office 2007 appearance.
+    /// </summary>
+    Office2007LimeGreen,
+
+    /// <summary>
+    /// Specifies the dark Lime Green color scheme variant of the Office 2007 appearance.
+    /// </summary>
+    Office2007LimeGreenDark,
+
+    /// <summary>
+    /// Specifies the light Lime Green color scheme variant of the Office 2010 appearance.
+    /// </summary>
+    Office2010LimeGreen,
+
+    /// <summary>
+    /// Specifies the dark Lime Green color scheme variant of the Office 2010 appearance.
+    /// </summary>
+    Office2010LimeGreenDark,
+
+    /// <summary>
+    /// Specifies the light Lime Green color scheme variant of the Microsoft 365 appearance.
+    /// </summary>
+    Microsoft365LimeGreen,
+
+    /// <summary>
+    /// Specifies the dark Lime Green color scheme variant of the Microsoft 365 appearance.
+    /// </summary>
+    Microsoft365LimeGreenDark,
 
     /// <summary>
     /// Specifies a custom palette be used.
