@@ -311,10 +311,6 @@ public class DragFeedbackDocking : DragFeedback
     }
 
     private DockCluster? FindTargetCluster(DragTarget target) => _clusters.FirstOrDefault(cluster => !cluster.ExcludeCluster && cluster != null && cluster.ScreenRect.Equals(target.ScreenRect));
-
-    private DragTarget? FindTarget(Point screenPt, PageDragEndData dragEndData) =>
-        // Nothing matches
-        null;
-
+    
     #endregion
 }
