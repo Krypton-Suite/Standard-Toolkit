@@ -414,6 +414,81 @@ public enum PaletteMode
     MacOSDark,
 
     /// <summary>
+    /// Fixed high-contrast palette (black/white surfaces with neon accents).
+    /// </summary>
+    HighContrast,
+
+    /// <summary>
+    /// Colour-blind friendly palette tuned for deuteranopia (blue/orange/purple accents).
+    /// </summary>
+    Deuteranopia,
+
+    /// <summary>
+    /// Colour-blind friendly palette tuned for protanopia (blue/brown/magenta accents).
+    /// </summary>
+    Protanopia,
+
+    /// <summary>
+    /// Office 2007 renderer with fixed high-contrast colours.
+    /// </summary>
+    Office2007HighContrast,
+
+    /// <summary>
+    /// Office 2007 renderer with deuteranopia-friendly colours.
+    /// </summary>
+    Office2007Deuteranopia,
+
+    /// <summary>
+    /// Office 2007 renderer with protanopia-friendly colours.
+    /// </summary>
+    Office2007Protanopia,
+
+    /// <summary>
+    /// Office 2010 renderer with fixed high-contrast colours.
+    /// </summary>
+    Office2010HighContrast,
+
+    /// <summary>
+    /// Office 2010 renderer with deuteranopia-friendly colours.
+    /// </summary>
+    Office2010Deuteranopia,
+
+    /// <summary>
+    /// Office 2010 renderer with protanopia-friendly colours.
+    /// </summary>
+    Office2010Protanopia,
+
+    /// <summary>
+    /// Office 2013 renderer with fixed high-contrast colours.
+    /// </summary>
+    Office2013HighContrast,
+
+    /// <summary>
+    /// Office 2013 renderer with deuteranopia-friendly colours.
+    /// </summary>
+    Office2013Deuteranopia,
+
+    /// <summary>
+    /// Office 2013 renderer with protanopia-friendly colours.
+    /// </summary>
+    Office2013Protanopia,
+
+    /// <summary>
+    /// Sparkle renderer with fixed high-contrast colours.
+    /// </summary>
+    SparkleHighContrast,
+
+    /// <summary>
+    /// Sparkle renderer with deuteranopia-friendly colours.
+    /// </summary>
+    SparkleDeuteranopia,
+
+    /// <summary>
+    /// Sparkle renderer with protanopia-friendly colours.
+    /// </summary>
+    SparkleProtanopia,
+
+    /// <summary>
     /// Specifies a custom palette be used.
     /// </summary>
     Custom

@@ -45,6 +45,12 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#4168](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4168), High contrast themes
+   * Added builtin `PaletteMode` themes `HighContrast`, `Deuteranopia`, and `Protanopia` (fixed designed palettes) plus Office 2007 / 2010 / 2013 and Sparkle renderer variants, selectable via ThemeComboBox / `KryptonManager.GlobalPaletteMode`.
+   * High Contrast themes paint combo / context-menu client backs black (not `SystemColors.Window`).
+   * Deuteranopia / Protanopia fix secondary-header and default-button text contrast.
+   * Protanopia: stronger magenta link contrast and dark hover text on pale brown tracking.
+   * Deuteranopia / Protanopia AcceptButton default text is white (family bases return empty content colours for `NormalDefaultOverride`).
 * Implemented [#4165](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4165), Red/Green accept/cancel dialog buttons
    * Optional red/green (and colour-blind-safe) accept/cancel colours for dialog buttons via `KryptonDialogButtonColorOptions` / `KryptonDialogButtonAppearance`, with presets and per-role overrides on `KryptonMessageBox`, `KryptonTaskDialog`, `KryptonMessageBoxExtended`, and `KryptonFoldableDialog`.
    * To use Extended / Foldable APIs, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as those types are part of the `Krypton.Toolkit.Utilities` assembly.

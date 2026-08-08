@@ -77,7 +77,22 @@ internal class PaletteClassTypeConverter : EnumConverter
             {PaletteMode.RetroGreen, typeof(PaletteRetroGreen)},
             {PaletteMode.RetroBlue, typeof(PaletteRetroBlue)},
             {PaletteMode.MacOSLight, typeof(PaletteMacOSLight)},
-            {PaletteMode.MacOSDark, typeof(PaletteMacOSDark)}
+            {PaletteMode.MacOSDark, typeof(PaletteMacOSDark)},
+            {PaletteMode.HighContrast, typeof(PaletteHighContrast)},
+            {PaletteMode.Deuteranopia, typeof(PaletteDeuteranopia)},
+            {PaletteMode.Protanopia, typeof(PaletteProtanopia)},
+            {PaletteMode.Office2007HighContrast, typeof(PaletteOffice2007HighContrast)},
+            {PaletteMode.Office2007Deuteranopia, typeof(PaletteOffice2007Deuteranopia)},
+            {PaletteMode.Office2007Protanopia, typeof(PaletteOffice2007Protanopia)},
+            {PaletteMode.Office2010HighContrast, typeof(PaletteOffice2010HighContrast)},
+            {PaletteMode.Office2010Deuteranopia, typeof(PaletteOffice2010Deuteranopia)},
+            {PaletteMode.Office2010Protanopia, typeof(PaletteOffice2010Protanopia)},
+            {PaletteMode.Office2013HighContrast, typeof(PaletteOffice2013HighContrast)},
+            {PaletteMode.Office2013Deuteranopia, typeof(PaletteOffice2013Deuteranopia)},
+            {PaletteMode.Office2013Protanopia, typeof(PaletteOffice2013Protanopia)},
+            {PaletteMode.SparkleHighContrast, typeof(PaletteSparkleHighContrast)},
+            {PaletteMode.SparkleDeuteranopia, typeof(PaletteSparkleDeuteranopia)},
+            {PaletteMode.SparkleProtanopia, typeof(PaletteSparkleProtanopia)}
             //{PaletteMode.Custom, typeof(KryptonCustomPaletteBase)}
         });
 
