@@ -43,9 +43,9 @@ internal class MaskedTextBoxController : GlobalId,
         Debug.Assert(maskedTextBox is not null);
         Debug.Assert(target is not null);
 
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        _maskedTextBox = maskedTextBox ?? throw new ArgumentNullException(nameof(maskedTextBox));
-        _target = target ?? throw new ArgumentNullException(nameof(target));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _maskedTextBox = maskedTextBox ?? ThrowHelper.ThrowArgumentNullException(maskedTextBox);
+        _target = target ?? ThrowHelper.ThrowArgumentNullException(target);
     }
     #endregion
 
@@ -157,12 +157,12 @@ internal class MaskedTextBoxController : GlobalId,
 
         if (ribbon is null)
         {
-            throw new NullReferenceException(SharedStaticFunctions.ParameterCannotBeNull(nameof(ribbon)));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.ParameterCannotBeNull(nameof(ribbon)));
         }
 
         if (ribbon.TabsArea is null)
         {
-            throw new NullReferenceException(SharedStaticFunctions.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
         }
 
         switch (e.KeyData)

@@ -47,7 +47,7 @@ public class KryptonDataGridViewButtonCell : DataGridViewButtonCell
     /// <returns>New object instance.</returns>
     public override object Clone()
     {
-        var dataGridViewCell = base.Clone() as KryptonDataGridViewButtonCell ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("dataGridViewCell"));
+        var dataGridViewCell =base.Clone() as KryptonDataGridViewButtonCell ?? ThrowHelper.ThrowNullReferenceException<KryptonDataGridViewButtonCell>(SharedStaticFunctions.VariableCannotBeNull("dataGridViewCell"));
 
         dataGridViewCell._styleSet = _styleSet;
         dataGridViewCell._shortTextValue = _shortTextValue;

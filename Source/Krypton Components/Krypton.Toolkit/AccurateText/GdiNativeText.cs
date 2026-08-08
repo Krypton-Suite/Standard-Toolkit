@@ -49,17 +49,17 @@ public static class GdiNativeText
     {
         if (g == null)
         {
-            throw new ArgumentNullException(nameof(g));
+            ThrowHelper.ThrowArgumentNullException(nameof(g));
         }
 
         if (text == null)
         {
-            throw new ArgumentNullException(nameof(text));
+            ThrowHelper.ThrowArgumentNullException(nameof(text));
         }
 
         if (font == null)
         {
-            throw new ArgumentNullException(nameof(font));
+            ThrowHelper.ThrowArgumentNullException(nameof(font));
         }
 
         if (text.Length == 0)
@@ -114,17 +114,17 @@ public static class GdiNativeText
     {
         if (g == null)
         {
-            throw new ArgumentNullException(nameof(g));
+            ThrowHelper.ThrowArgumentNullException(nameof(g));
         }
 
         if (text == null)
         {
-            throw new ArgumentNullException(nameof(text));
+            ThrowHelper.ThrowArgumentNullException(nameof(text));
         }
 
         if (font == null)
         {
-            throw new ArgumentNullException(nameof(font));
+            ThrowHelper.ThrowArgumentNullException(nameof(font));
         }
 
         if (text.Length == 0 || bounds.Width <= 0 || bounds.Height <= 0)
@@ -173,17 +173,17 @@ public static class GdiNativeText
     {
         if (g == null)
         {
-            throw new ArgumentNullException(nameof(g));
+            ThrowHelper.ThrowArgumentNullException(nameof(g));
         }
 
         if (text == null)
         {
-            throw new ArgumentNullException(nameof(text));
+            ThrowHelper.ThrowArgumentNullException(nameof(text));
         }
 
         if (font == null)
         {
-            throw new ArgumentNullException(nameof(font));
+            ThrowHelper.ThrowArgumentNullException(nameof(font));
         }
 
         if (text.Length == 0)

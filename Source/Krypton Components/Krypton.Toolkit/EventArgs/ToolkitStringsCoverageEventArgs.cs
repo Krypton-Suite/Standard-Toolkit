@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -20,7 +20,7 @@ public sealed class ToolkitStringsCoverageEventArgs : EventArgs
     /// <param name="coverage">The coverage report.</param>
     public ToolkitStringsCoverageEventArgs(ToolkitStringsCoverage coverage)
     {
-        Coverage = coverage ?? throw new ArgumentNullException(nameof(coverage));
+        Coverage = coverage ?? ThrowHelper.ThrowArgumentNullException(coverage);
     }
 
     /// <summary>Gets the coverage report produced during analysis or import.</summary>

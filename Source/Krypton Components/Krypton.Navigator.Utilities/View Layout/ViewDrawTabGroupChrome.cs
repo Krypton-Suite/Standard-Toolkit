@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -49,9 +49,9 @@ internal sealed class ViewDrawTabGroupHeader : ViewDrawButton
             VisualOrientation.Top,
             false)
     {
-        _group = group ?? throw new ArgumentNullException(nameof(group));
-        _appearance = appearance ?? throw new ArgumentNullException(nameof(appearance));
-        _toggleCollapsed = toggleCollapsed ?? throw new ArgumentNullException(nameof(toggleCollapsed));
+        _group = group ?? ThrowHelper.ThrowArgumentNullException(group);
+        _appearance = appearance ?? ThrowHelper.ThrowArgumentNullException(appearance);
+        _toggleCollapsed = toggleCollapsed ?? ThrowHelper.ThrowArgumentNullException(toggleCollapsed);
         _activateGroup = activateGroup;
         _memberCount = memberCount;
         _dragStart = dragStart;

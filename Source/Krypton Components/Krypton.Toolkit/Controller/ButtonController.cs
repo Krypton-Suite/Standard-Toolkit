@@ -520,12 +520,12 @@ public class ButtonController : GlobalId,
         // Validate incoming references
         if (c == null)
         {
-            throw new ArgumentNullException(nameof(c));
+            ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
 
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         if (e.KeyCode == Keys.Space)
@@ -572,12 +572,12 @@ public class ButtonController : GlobalId,
         // Validate incoming references
         if (c == null)
         {
-            throw new ArgumentNullException(nameof(c));
+            ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
 
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         // If the user pressed the escape key
@@ -639,7 +639,7 @@ public class ButtonController : GlobalId,
         // Validate incoming references
         if (c == null)
         {
-            throw new ArgumentNullException(nameof(c));
+            ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
 
         // If we are capturing mouse input
@@ -928,7 +928,7 @@ public class ButtonController : GlobalId,
     private void OnRepeatTimer(object? sender, EventArgs e)
     {
         // Modify subsequent repeat timing
-        _t = sender as System.Windows.Forms.Timer ?? throw new ArgumentNullException(nameof(sender));
+        _t =sender as System.Windows.Forms.Timer ?? ThrowHelper.ThrowArgumentNullException(sender as System.Windows.Forms.Timer, nameof(sender));
         _t.Interval = Math.Max(SystemInformation.DoubleClickTime / 4, 100);
         OnClick(new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0));
     }

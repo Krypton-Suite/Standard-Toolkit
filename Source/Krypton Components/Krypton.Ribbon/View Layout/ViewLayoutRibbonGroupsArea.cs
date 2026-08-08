@@ -47,16 +47,16 @@ internal class ViewLayoutRibbonGroupsArea : ViewDrawPanel
         Debug.Assert(needPaintDelegate is not null);
 
         // Remember the incoming reference
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
 
         if (redirect is null)
         {
-            throw new ArgumentNullException(nameof(redirect));
+            ThrowHelper.ThrowArgumentNullException(nameof(redirect));
         }
 
         if (needPaintDelegate is null)
         {
-            throw new ArgumentNullException(nameof(needPaintDelegate));
+            ThrowHelper.ThrowArgumentNullException(nameof(needPaintDelegate));
         }
 
 

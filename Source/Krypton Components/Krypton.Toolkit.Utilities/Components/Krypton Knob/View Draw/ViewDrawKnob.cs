@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -165,7 +165,7 @@ public class ViewDrawKnob : ViewDrawPanel
             {
                 if (value < _minimum || value > _maximum)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value),
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value),
                         @"Provided value is out of the Minimum to Maximum range of values.");
                 }
 
@@ -186,7 +186,7 @@ public class ViewDrawKnob : ViewDrawPanel
             {
                 if (value < _minimum || value > _maximum)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value),
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value),
                         @"Provided value is out of the Minimum to Maximum range of values.");
                 }
 
@@ -443,7 +443,7 @@ public class ViewDrawKnob : ViewDrawPanel
 
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         ClientRectangle = context.DisplayRectangle;
@@ -460,12 +460,12 @@ public class ViewDrawKnob : ViewDrawPanel
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Graphics is null)
         {
-            throw new ArgumentNullException(nameof(context.Graphics));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Graphics));
         }
 
         var g = context.Graphics;

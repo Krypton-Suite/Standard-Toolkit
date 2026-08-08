@@ -52,9 +52,9 @@ internal class CollapsedGroupController : GlobalId,
         Debug.Assert(target is not null);
         Debug.Assert(needPaint is not null);
 
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        _target = target ?? throw new ArgumentNullException(nameof(target));
-        _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _target = target ?? ThrowHelper.ThrowArgumentNullException(target);
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
     }
     #endregion
 
@@ -248,12 +248,12 @@ internal class CollapsedGroupController : GlobalId,
 
         if (ribbon is null)
         {
-            throw new ArgumentNullException(nameof(ribbon));
+            ThrowHelper.ThrowArgumentNullException(nameof(ribbon));
         }
 
         if (ribbon.TabsArea is null)
         {
-            throw new NullReferenceException(SharedStaticFunctions.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
         }
 
         switch (e.KeyData)

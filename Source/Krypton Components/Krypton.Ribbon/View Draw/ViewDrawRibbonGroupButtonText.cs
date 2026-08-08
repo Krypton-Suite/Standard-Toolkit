@@ -48,8 +48,8 @@ internal class ViewDrawRibbonGroupButtonText : ViewLeaf,
         Debug.Assert(ribbon != null);
         Debug.Assert(ribbonButton != null);
 
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        _ribbonButton = ribbonButton ?? throw new ArgumentNullException(nameof(ribbonButton));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _ribbonButton = ribbonButton ?? ThrowHelper.ThrowArgumentNullException(ribbonButton);
         _firstText = firstText;
 
         // Use a class to convert from ribbon group to content interface
@@ -108,12 +108,12 @@ internal class ViewDrawRibbonGroupButtonText : ViewLeaf,
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // A change in state always causes a size and layout calculation
@@ -161,12 +161,12 @@ internal class ViewDrawRibbonGroupButtonText : ViewLeaf,
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // We take on all the available display area
@@ -221,7 +221,7 @@ internal class ViewDrawRibbonGroupButtonText : ViewLeaf,
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         Rectangle drawRect = ClientRectangle;

@@ -264,7 +264,7 @@ public class ViewLayoutControl : ViewLeaf
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // During disposal the view control will not longer exist
@@ -296,7 +296,7 @@ public class ViewLayoutControl : ViewLeaf
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // During disposal the view control will not longer exist

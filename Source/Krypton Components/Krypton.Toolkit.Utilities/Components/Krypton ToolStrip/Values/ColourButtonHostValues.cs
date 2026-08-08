@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -29,8 +29,10 @@ public class ColourButtonHostValues : Storage
     /// Initialize a new instance of the <see cref="ColourButtonHostValues"/> class.
     /// </summary>
     /// <param name="owner">Owning colour button host.</param>
-    public ColourButtonHostValues(KryptonColorButtonToolStripMenuItem owner) =>
-        _owner = owner ?? throw new ArgumentNullException(nameof(owner));
+    public ColourButtonHostValues(KryptonColorButtonToolStripMenuItem owner)
+    {
+        _owner = owner ?? ThrowHelper.ThrowArgumentNullException(owner);
+    }
 
     /// <inheritdoc />
     public override string ToString() => !IsDefault ? @"Modified" : string.Empty;

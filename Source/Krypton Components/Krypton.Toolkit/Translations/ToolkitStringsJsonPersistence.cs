@@ -24,7 +24,7 @@ internal static class ToolkitStringsJsonPersistence
     {
         if (toolkitStrings == null)
         {
-            throw new ArgumentNullException(nameof(toolkitStrings));
+            ThrowHelper.ThrowArgumentNullException(nameof(toolkitStrings));
         }
 
         var sb = new StringBuilder(4096);
@@ -47,7 +47,7 @@ internal static class ToolkitStringsJsonPersistence
     {
         if (string.IsNullOrWhiteSpace(filename))
         {
-            throw new ArgumentNullException(nameof(filename));
+            ThrowHelper.ThrowArgumentNullException(nameof(filename));
         }
 
         var json = Export(toolkitStrings, includeDefaults);
@@ -62,7 +62,7 @@ internal static class ToolkitStringsJsonPersistence
     {
         if (stream == null)
         {
-            throw new ArgumentNullException(nameof(stream));
+            ThrowHelper.ThrowArgumentNullException(nameof(stream));
         }
 
         var json = Export(toolkitStrings, includeDefaults);
@@ -78,7 +78,7 @@ internal static class ToolkitStringsJsonPersistence
     {
         if (string.IsNullOrWhiteSpace(filename))
         {
-            throw new ArgumentNullException(nameof(filename));
+            ThrowHelper.ThrowArgumentNullException(nameof(filename));
         }
 
         // Match export: UTF-8 preserves the full Unicode repertoire used in translations.
@@ -93,7 +93,7 @@ internal static class ToolkitStringsJsonPersistence
     {
         if (stream == null)
         {
-            throw new ArgumentNullException(nameof(stream));
+            ThrowHelper.ThrowArgumentNullException(nameof(stream));
         }
 
         // Match export: UTF-8 preserves the full Unicode repertoire used in translations.
@@ -111,12 +111,12 @@ internal static class ToolkitStringsJsonPersistence
     {
         if (toolkitStrings == null)
         {
-            throw new ArgumentNullException(nameof(toolkitStrings));
+            ThrowHelper.ThrowArgumentNullException(nameof(toolkitStrings));
         }
 
         if (string.IsNullOrWhiteSpace(json))
         {
-            throw new ArgumentException(@"JSON content is empty.", nameof(json));
+            ThrowHelper.ThrowArgumentException(@"JSON content is empty.", nameof(json));
         }
 
         // Parse minimally and build an XmlDocument matching the canonical XML format,
@@ -266,7 +266,7 @@ internal static class ToolkitStringsJsonPersistence
     {
         if (string.IsNullOrWhiteSpace(filename))
         {
-            throw new ArgumentNullException(nameof(filename));
+            ThrowHelper.ThrowArgumentNullException(nameof(filename));
         }
 
         var json = File.ReadAllText(filename, Encoding.UTF8);

@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -130,7 +130,7 @@ public class KryptonMultiSelectTreeView : KryptonTreeView
     {
         if (nodes is null)
         {
-            throw new ArgumentNullException(nameof(nodes));
+            ThrowHelper.ThrowArgumentNullException(nameof(nodes));
         }
 
         ApplySelection(nodes, extend: false, focusNode: null);

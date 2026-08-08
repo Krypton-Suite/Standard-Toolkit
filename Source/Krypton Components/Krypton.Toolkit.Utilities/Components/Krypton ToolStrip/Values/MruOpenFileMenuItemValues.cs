@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -42,7 +42,7 @@ public class MruOpenFileMenuItemValues : Storage
     /// <param name="owner">Owning MRU open-file menu item.</param>
     public MruOpenFileMenuItemValues(KryptonMRUOpenFileMenuItem owner)
     {
-        _ = owner ?? throw new ArgumentNullException(nameof(owner));
+        _ = owner ?? ThrowHelper.ThrowArgumentNullException(owner);
         _startingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
     }
 

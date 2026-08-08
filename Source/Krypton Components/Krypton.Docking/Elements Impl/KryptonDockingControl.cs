@@ -45,7 +45,7 @@ public class KryptonDockingControl : DockingElementOpenCollection
     {
         if (control == null)
         {
-            throw new ArgumentNullException(nameof(control));
+            ThrowHelper.ThrowArgumentNullException(nameof(control));
         }
 
         Construct(control, null);
@@ -62,12 +62,12 @@ public class KryptonDockingControl : DockingElementOpenCollection
     {
         if (control == null)
         {
-            throw new ArgumentNullException(nameof(control));
+            ThrowHelper.ThrowArgumentNullException(nameof(control));
         }
 
         if (navigator == null)
         {
-            throw new ArgumentNullException(nameof(navigator));
+            ThrowHelper.ThrowArgumentNullException(nameof(navigator));
         }
 
         Construct(control, navigator);
@@ -84,12 +84,12 @@ public class KryptonDockingControl : DockingElementOpenCollection
     {
         if (control == null)
         {
-            throw new ArgumentNullException(nameof(control));
+            ThrowHelper.ThrowArgumentNullException(nameof(control));
         }
 
         if (workspace == null)
         {
-            throw new ArgumentNullException(nameof(workspace));
+            ThrowHelper.ThrowArgumentNullException(nameof(workspace));
         }
 
         Construct(control, workspace);

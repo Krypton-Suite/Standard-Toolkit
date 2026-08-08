@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -51,7 +51,7 @@ public class NavigatorTabGroupCollection : TypedCollection<NavigatorTabGroup>
     {
         if (source == null)
         {
-            throw new ArgumentNullException(nameof(source));
+            ThrowHelper.ThrowArgumentNullException(nameof(source));
         }
 
         foreach (NavigatorTabGroup group in source)

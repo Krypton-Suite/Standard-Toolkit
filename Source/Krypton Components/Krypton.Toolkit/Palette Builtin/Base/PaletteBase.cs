@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
@@ -2355,7 +2355,7 @@ public abstract class PaletteBase : Component
     {
         if (source == null)
         {
-            throw new ArgumentNullException(nameof(source));
+            ThrowHelper.ThrowArgumentNullException(nameof(source));
         }
 
         lock (_colorLock)
@@ -2399,7 +2399,7 @@ public abstract class PaletteBase : Component
     {
         if (colorUpdates is null)
         {
-            throw new ArgumentNullException(nameof(colorUpdates));
+            ThrowHelper.ThrowArgumentNullException(nameof(colorUpdates));
         }
 
         foreach (var kv in colorUpdates)
@@ -2451,7 +2451,7 @@ public abstract class PaletteBase : Component
     {
         if (colorUpdates is null)
         {
-            throw new ArgumentNullException(nameof(colorUpdates));
+            ThrowHelper.ThrowArgumentNullException(nameof(colorUpdates));
         }
 
         foreach (var kv in colorUpdates)
@@ -2463,7 +2463,7 @@ public abstract class PaletteBase : Component
     {
         if (newScheme is null)
         {
-            throw new ArgumentNullException(nameof(newScheme));
+            ThrowHelper.ThrowArgumentNullException(nameof(newScheme));
         }
 
         lock (_colorLock)

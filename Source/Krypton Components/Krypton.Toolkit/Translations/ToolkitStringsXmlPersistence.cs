@@ -46,7 +46,7 @@ internal static class ToolkitStringsXmlPersistence
     {
         if (toolkitStrings == null)
         {
-            throw new ArgumentNullException(nameof(toolkitStrings));
+            ThrowHelper.ThrowArgumentNullException(nameof(toolkitStrings));
         }
 
         var doc = new XmlDocument();
@@ -70,12 +70,12 @@ internal static class ToolkitStringsXmlPersistence
     {
         if (toolkitStrings == null)
         {
-            throw new ArgumentNullException(nameof(toolkitStrings));
+            ThrowHelper.ThrowArgumentNullException(nameof(toolkitStrings));
         }
 
         if (doc == null)
         {
-            throw new ArgumentNullException(nameof(doc));
+            ThrowHelper.ThrowArgumentNullException(nameof(doc));
         }
 
         if (resetFirst && toolkitStrings is KryptonGlobalToolkitStrings strings)
@@ -86,13 +86,13 @@ internal static class ToolkitStringsXmlPersistence
         // Validate document content.
         if (!doc.HasChildNodes)
         {
-            throw new ArgumentException(@"Xml document does not have a root element.");
+            ThrowHelper.ThrowArgumentException(@"Xml document does not have a root element.");
         }
 
         var root = doc.SelectSingleNode(RootElementName) as XmlElement;
         if (root == null)
         {
-            throw new ArgumentException($@"Root element must be called '{RootElementName}'.");
+            ThrowHelper.ThrowArgumentException($@"Root element must be called '{RootElementName}'.");
         }
 
         // Format Version is structural only. Older/newer additive files remain loadable;
@@ -156,12 +156,12 @@ internal static class ToolkitStringsXmlPersistence
     {
         if (toolkitStrings == null)
         {
-            throw new ArgumentNullException(nameof(toolkitStrings));
+            ThrowHelper.ThrowArgumentNullException(nameof(toolkitStrings));
         }
 
         if (doc == null)
         {
-            throw new ArgumentNullException(nameof(doc));
+            ThrowHelper.ThrowArgumentNullException(nameof(doc));
         }
 
         var coverage = new ToolkitStringsCoverage
@@ -235,12 +235,12 @@ internal static class ToolkitStringsXmlPersistence
     {
         if (toolkitStrings == null)
         {
-            throw new ArgumentNullException(nameof(toolkitStrings));
+            ThrowHelper.ThrowArgumentNullException(nameof(toolkitStrings));
         }
 
         if (string.IsNullOrWhiteSpace(filename))
         {
-            throw new ArgumentNullException(nameof(filename));
+            ThrowHelper.ThrowArgumentNullException(nameof(filename));
         }
 
         var doc = new XmlDocument();
@@ -262,7 +262,7 @@ internal static class ToolkitStringsXmlPersistence
     {
         if (stream == null)
         {
-            throw new ArgumentNullException(nameof(stream));
+            ThrowHelper.ThrowArgumentNullException(nameof(stream));
         }
 
         var doc = Export(toolkitStrings, includeDefaults);
@@ -273,7 +273,7 @@ internal static class ToolkitStringsXmlPersistence
     {
         if (stream == null)
         {
-            throw new ArgumentNullException(nameof(stream));
+            ThrowHelper.ThrowArgumentNullException(nameof(stream));
         }
 
         var doc = new XmlDocument();

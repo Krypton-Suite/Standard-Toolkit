@@ -60,7 +60,7 @@ public class ViewDrawEmptyContent : ViewDrawContent,
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // ReSharper disable RedundantBaseQualifier
@@ -82,7 +82,7 @@ public class ViewDrawEmptyContent : ViewDrawContent,
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // ReSharper disable RedundantBaseQualifier
@@ -107,7 +107,7 @@ public class ViewDrawEmptyContent : ViewDrawContent,
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // ReSharper disable RedundantBaseQualifier

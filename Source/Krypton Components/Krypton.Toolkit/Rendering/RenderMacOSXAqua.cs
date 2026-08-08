@@ -25,12 +25,12 @@ public class RenderMacOSXAqua : RenderOffice2010
     {
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (palette == null)
         {
-            throw new ArgumentNullException(nameof(palette));
+            ThrowHelper.ThrowArgumentNullException(nameof(palette));
         }
 
         if (rect.Width <= 0 || rect.Height <= 0)
@@ -70,12 +70,12 @@ public class RenderMacOSXAqua : RenderOffice2010
     {
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (palette == null)
         {
-            throw new ArgumentNullException(nameof(palette));
+            ThrowHelper.ThrowArgumentNullException(nameof(palette));
         }
 
         if (rect.Width > 0 && rect.Height > 0)
@@ -103,12 +103,12 @@ public class RenderMacOSXAqua : RenderOffice2010
     {
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (palette == null)
         {
-            throw new ArgumentNullException(nameof(palette));
+            ThrowHelper.ThrowArgumentNullException(nameof(palette));
         }
 
         if (rect.Width > 0 && rect.Height > 0)

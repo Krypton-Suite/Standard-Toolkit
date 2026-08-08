@@ -83,7 +83,7 @@ public class RenderVisualStudio2010With2013 : RenderOffice2010
         // Validate incoming parameter
         if (colorPalette == null)
         {
-            throw new ArgumentNullException(nameof(colorPalette));
+            ThrowHelper.ThrowArgumentNullException(nameof(colorPalette));
         }
 
         // Use the professional renderer but pull colors from the palette

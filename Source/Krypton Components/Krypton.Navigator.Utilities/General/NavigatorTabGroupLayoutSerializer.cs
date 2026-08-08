@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -28,12 +28,12 @@ public static class NavigatorTabGroupLayoutSerializer
     {
         if (xmlWriter == null)
         {
-            throw new ArgumentNullException(nameof(xmlWriter));
+            ThrowHelper.ThrowArgumentNullException(nameof(xmlWriter));
         }
 
         if (groups == null)
         {
-            throw new ArgumentNullException(nameof(groups));
+            ThrowHelper.ThrowArgumentNullException(nameof(groups));
         }
 
         xmlWriter.WriteStartElement(GroupsElement);
@@ -60,17 +60,17 @@ public static class NavigatorTabGroupLayoutSerializer
     {
         if (xmlReader == null)
         {
-            throw new ArgumentNullException(nameof(xmlReader));
+            ThrowHelper.ThrowArgumentNullException(nameof(xmlReader));
         }
 
         if (groups == null)
         {
-            throw new ArgumentNullException(nameof(groups));
+            ThrowHelper.ThrowArgumentNullException(nameof(groups));
         }
 
         if (xmlReader.Name != GroupsElement)
         {
-            throw new ArgumentException(@"Expected 'NTG' element was not found.", nameof(xmlReader));
+            ThrowHelper.ThrowArgumentException(@"Expected 'NTG' element was not found.", nameof(xmlReader));
         }
 
         groups.Clear();
@@ -106,17 +106,17 @@ public static class NavigatorTabGroupLayoutSerializer
     {
         if (xmlWriter == null)
         {
-            throw new ArgumentNullException(nameof(xmlWriter));
+            ThrowHelper.ThrowArgumentNullException(nameof(xmlWriter));
         }
 
         if (navigator == null)
         {
-            throw new ArgumentNullException(nameof(navigator));
+            ThrowHelper.ThrowArgumentNullException(nameof(navigator));
         }
 
         if (groups == null)
         {
-            throw new ArgumentNullException(nameof(groups));
+            ThrowHelper.ThrowArgumentNullException(nameof(groups));
         }
 
         xmlWriter.WriteStartElement(RootElement);
@@ -153,44 +153,44 @@ public static class NavigatorTabGroupLayoutSerializer
     {
         if (xmlReader == null)
         {
-            throw new ArgumentNullException(nameof(xmlReader));
+            ThrowHelper.ThrowArgumentNullException(nameof(xmlReader));
         }
 
         if (navigator == null)
         {
-            throw new ArgumentNullException(nameof(navigator));
+            ThrowHelper.ThrowArgumentNullException(nameof(navigator));
         }
 
         if (groups == null)
         {
-            throw new ArgumentNullException(nameof(groups));
+            ThrowHelper.ThrowArgumentNullException(nameof(groups));
         }
 
         if (xmlReader.Name != RootElement)
         {
-            throw new ArgumentException(@"Expected 'KNFI' element was not found.", nameof(xmlReader));
+            ThrowHelper.ThrowArgumentException(@"Expected 'KNFI' element was not found.", nameof(xmlReader));
         }
 
         if (!xmlReader.Read())
         {
-            throw new ArgumentException(@"An element was expected but could not be read in.");
+            ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.");
         }
 
         if (xmlReader.Name != GroupsElement)
         {
-            throw new ArgumentException(@"Expected 'NTG' element was not found.");
+            ThrowHelper.ThrowArgumentException(@"Expected 'NTG' element was not found.");
         }
 
         ReadGroups(xmlReader, groups);
 
         if (!xmlReader.Read())
         {
-            throw new ArgumentException(@"An element was expected but could not be read in.");
+            ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.");
         }
 
         if (xmlReader.Name != PagesElement)
         {
-            throw new ArgumentException(@"Expected 'Pages' element was not found.");
+            ThrowHelper.ThrowArgumentException(@"Expected 'Pages' element was not found.");
         }
 
         var ordered = new List<(string UniqueName, string TabGroupId)>();

@@ -49,11 +49,11 @@ internal class LeftUpButtonController : GlobalId,
         Debug.Assert(target is not null);
 
         // Remember target for state changes
-        Ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        Target = target ?? throw new ArgumentNullException(nameof(target));
+        Ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        Target = target ?? ThrowHelper.ThrowArgumentNullException(target);
 
         // Store the provided paint notification delegate
-        NeedPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        NeedPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
     }
     #endregion
 

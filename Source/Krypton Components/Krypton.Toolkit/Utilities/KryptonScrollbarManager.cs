@@ -332,7 +332,7 @@ public class KryptonScrollbarManager : IDisposable
     {
         if (targetControl == null)
         {
-            throw new ArgumentNullException(nameof(targetControl));
+            ThrowHelper.ThrowArgumentNullException(nameof(targetControl));
         }
 
         if (_targetControl != null)

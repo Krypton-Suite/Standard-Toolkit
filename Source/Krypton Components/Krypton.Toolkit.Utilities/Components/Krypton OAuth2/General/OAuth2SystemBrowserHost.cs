@@ -29,7 +29,7 @@ public sealed class OAuth2SystemBrowserHost : IOAuth2BrowserHost
     /// <param name="redirectHandler">Handler that waits for and parses the OAuth2 redirect.</param>
     public OAuth2SystemBrowserHost(IOAuth2RedirectHandler redirectHandler)
     {
-        _redirectHandler = redirectHandler ?? throw new ArgumentNullException(nameof(redirectHandler));
+        _redirectHandler = redirectHandler ?? ThrowHelper.ThrowArgumentNullException(redirectHandler);
     }
 
     /// <inheritdoc />

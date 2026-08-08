@@ -21,7 +21,7 @@ Rules:
 | `exclude` | Skipped; keep for local interactive use |
 | Missing marker | **Fails** under `-Strict` / `UNITTEST_CI=1` (forces authors to opt in or out) |
 | Zero `include` scripts | **Fails** under `-Strict` |
-| Non-`UnitTest-*` helpers | Never auto-run (`Start-*`, `Invoke-*` drag, `Get-*`, `UnitTestCommon.ps1`) |
+| Non-`UnitTest-*` helpers | Never auto-run (`Start-*`, `Invoke-*` drag, `Get-*`, `Convert-*`, `UnitTestCommon.ps1`) |
 
 Shared optional parameters for `include` scripts (forwarded by the invoker):
 
@@ -99,5 +99,4 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\Scripts\UnitTests\UnitTest
 dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-NavigatorTaskbarTabGroups.ps1
 ```
-
 Screenshots from interactive helpers are written under the bin/output directory and are not checked in.

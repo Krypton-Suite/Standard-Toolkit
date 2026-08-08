@@ -51,9 +51,9 @@ internal class GalleryItemController : GlobalId,
         Debug.Assert(layout is not null);
 
         MousePoint = CommonHelper.NullPoint;
-        _target = target ?? throw new ArgumentNullException(nameof(target));
-        _layout = layout ?? throw new ArgumentNullException(nameof(layout));
-        NeedPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        _target = target ?? ThrowHelper.ThrowArgumentNullException(target);
+        _layout = layout ?? ThrowHelper.ThrowArgumentNullException(layout);
+        NeedPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
     }
     #endregion
 
@@ -249,11 +249,11 @@ internal class GalleryItemController : GlobalId,
         // Validate incoming references
         if (c == null)
         {
-            throw new ArgumentNullException(nameof(c));
+            ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         switch (e.KeyCode)
@@ -317,11 +317,11 @@ internal class GalleryItemController : GlobalId,
         // Validate incoming references
         if (c == null)
         {
-            throw new ArgumentNullException(nameof(c));
+            ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         return false;

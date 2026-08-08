@@ -45,6 +45,9 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#4142](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4142), Use `ThrowHelper`
+   * Shared `ThrowHelper` in `Krypton.Interop` for cold-path throws (`[DoesNotReturn]`), including Argument*, NRE, NotSupported, NotImplemented, ObjectDisposed, InvalidCast, and Win32.
+   * Rolled out across Toolkit, Ribbon, Navigator, Workspace, Docking, Utilities, Interop, and TestForm.
 * Implemented [#4165](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4165), Red/Green accept/cancel dialog buttons
    * Optional red/green (and colour-blind-safe) accept/cancel colours for dialog buttons via `KryptonDialogButtonColorOptions` / `KryptonDialogButtonAppearance`, with presets and per-role overrides on `KryptonMessageBox`, `KryptonTaskDialog`, `KryptonMessageBoxExtended`, and `KryptonFoldableDialog`.
    * To use Extended / Foldable APIs, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as those types are part of the `Krypton.Toolkit.Utilities` assembly.

@@ -104,7 +104,7 @@ public class KryptonRibbonQATButton : Component,
                     // quick access toolbar. So we reject anything bigger than 16x16.
                     if ((value.Width > 16) || (value.Height > 16))
                     {
-                        throw new ArgumentOutOfRangeException(nameof(Image), @"Image must be 16x16 or smaller.");
+                        ThrowHelper.ThrowArgumentOutOfRangeException(nameof(Image), @"Image must be 16x16 or smaller.");
                     }
                 }
 

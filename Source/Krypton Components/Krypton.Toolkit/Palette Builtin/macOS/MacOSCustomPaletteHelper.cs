@@ -24,7 +24,7 @@ public static class MacOSCustomPaletteHelper
     {
         PaletteMode.MacOSLight => @"macOS - Light",
         PaletteMode.MacOSDark => @"macOS - Dark",
-        _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, @"Expected MacOSLight or MacOSDark.")
+        _ => ThrowHelper.ThrowArgumentOutOfRangeException<string>(nameof(mode), mode, @"Expected MacOSLight or MacOSDark.")
     };
 
     /// <summary>
@@ -36,7 +36,7 @@ public static class MacOSCustomPaletteHelper
     {
         if (mode != PaletteMode.MacOSLight && mode != PaletteMode.MacOSDark)
         {
-            throw new ArgumentOutOfRangeException(nameof(mode), mode, @"Expected MacOSLight or MacOSDark.");
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(mode), mode, @"Expected MacOSLight or MacOSDark.");
         }
 
         var custom = new KryptonCustomPaletteBase
@@ -59,7 +59,7 @@ public static class MacOSCustomPaletteHelper
     {
         if (string.IsNullOrWhiteSpace(filePath))
         {
-            throw new ArgumentException(@"A file path is required.", nameof(filePath));
+            ThrowHelper.ThrowArgumentException(@"A file path is required.", nameof(filePath));
         }
 
         var custom = CreateCustomPalette(mode);
