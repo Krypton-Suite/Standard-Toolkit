@@ -4550,7 +4550,11 @@ public enum SchemeExtraColors
     ToolTipBorder = 34,
 
     /// <summary>Text color used in tooltips.</summary>
-    ToolTipText = 35,
+    ToolTipText = 35
+}
+
+#endregion
+
 #region Enum KryptonDialogButtonColorScheme
 
 /// <summary>
@@ -4862,6 +4866,7 @@ public enum RibbonGroupCollapsedBorderT
 #endregion
 
 #endregion
+
 #region Enum KryptonDialogButtonRole
 
 /// <summary>
