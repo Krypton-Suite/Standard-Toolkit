@@ -77,7 +77,13 @@ internal class PaletteClassTypeConverter : EnumConverter
             {PaletteMode.RetroGreen, typeof(PaletteRetroGreen)},
             {PaletteMode.RetroBlue, typeof(PaletteRetroBlue)},
             {PaletteMode.MacOSLight, typeof(PaletteMacOSLight)},
-            {PaletteMode.MacOSDark, typeof(PaletteMacOSDark)}
+            {PaletteMode.MacOSDark, typeof(PaletteMacOSDark)},
+            {PaletteMode.Office2007LimeGreen, typeof(PaletteOffice2007LimeGreen)},
+            {PaletteMode.Office2007LimeGreenDark, typeof(PaletteOffice2007LimeGreenDark)},
+            {PaletteMode.Office2010LimeGreen, typeof(PaletteOffice2010LimeGreen)},
+            {PaletteMode.Office2010LimeGreenDark, typeof(PaletteOffice2010LimeGreenDark)},
+            {PaletteMode.Microsoft365LimeGreen, typeof(PaletteMicrosoft365LimeGreen)},
+            {PaletteMode.Microsoft365LimeGreenDark, typeof(PaletteMicrosoft365LimeGreenDark)}
             //{PaletteMode.Custom, typeof(KryptonCustomPaletteBase)}
         });
 
