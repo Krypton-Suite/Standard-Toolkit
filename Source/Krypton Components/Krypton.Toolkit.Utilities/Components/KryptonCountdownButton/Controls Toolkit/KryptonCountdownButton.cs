@@ -110,7 +110,7 @@ public class KryptonCountdownButton : KryptonButton
     {
         if (_countdownSeconds > 0)
         {
-            throw new InvalidOperationException("Countdown is already running.");
+            ThrowHelper.ThrowInvalidOperationException("Countdown is already running.");
         }
 
         _countdownSeconds = _countdownButtonValues.CountdownDuration;

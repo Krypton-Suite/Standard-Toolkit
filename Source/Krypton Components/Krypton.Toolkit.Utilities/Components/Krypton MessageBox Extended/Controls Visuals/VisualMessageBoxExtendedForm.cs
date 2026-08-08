@@ -378,7 +378,8 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
                     options.HasFlag(MessageBoxOptions.RtlReading) ? RightToLeft.Inherit : RightToLeft.No;
                 break;
             default:
-                throw new ArgumentOutOfRangeException(nameof(contentAreaType), contentAreaType, null);
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(contentAreaType), contentAreaType, null);
+                return;
         }
     }
 
@@ -1190,7 +1191,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
             ExtendedMessageBoxButtons.OK => _button2,
             ExtendedMessageBoxButtons.OKCancel or ExtendedMessageBoxButtons.YesNo or ExtendedMessageBoxButtons.RetryCancel => _button3,
             ExtendedMessageBoxButtons.AbortRetryIgnore or ExtendedMessageBoxButtons.YesNoCancel => _button4,
-            _ => throw new ArgumentOutOfRangeException()
+            _ => ThrowHelper.ThrowArgumentOutOfRangeException<MessageButton>()
         };
         if (helpButton != null)
         {
@@ -1257,7 +1258,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
             ExtendedMessageBoxButtons.OK => _button2,
             ExtendedMessageBoxButtons.OKCancel or ExtendedMessageBoxButtons.YesNo or ExtendedMessageBoxButtons.RetryCancel => _button3,
             ExtendedMessageBoxButtons.AbortRetryIgnore or ExtendedMessageBoxButtons.YesNoCancel => _button4,
-            _ => throw new ArgumentOutOfRangeException()
+            _ => ThrowHelper.ThrowArgumentOutOfRangeException<MessageButton>()
         };
         if (helpButton != null)
         {
@@ -1647,7 +1648,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
     {
         if (_hHook != IntPtr.Zero)
         {
-            throw new NotSupportedException("multiple calls are not supported");
+            ThrowHelper.ThrowNotSupportedException("multiple calls are not supported");
         }
 
         if (_showOwner != null)

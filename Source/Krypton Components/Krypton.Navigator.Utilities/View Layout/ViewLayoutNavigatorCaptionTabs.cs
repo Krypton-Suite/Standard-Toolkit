@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -55,8 +55,8 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
         Action<KryptonPage, Point>? showContextMenu = null,
         Action? newTabClick = null)
     {
-        _navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
-        _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        _navigator = navigator ?? ThrowHelper.ThrowArgumentNullException(navigator);
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
         _showContextMenu = showContextMenu;
         _newTabClick = newTabClick;
 
@@ -1283,7 +1283,7 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
                 null, content, VisualOrientation.Top, true)
         {
             _accentColor = accentColor;
-            _appearance = appearance ?? throw new ArgumentNullException(nameof(appearance));
+            _appearance = appearance ?? ThrowHelper.ThrowArgumentNullException(appearance);
         }
 
         public override void Render(RenderContext context)

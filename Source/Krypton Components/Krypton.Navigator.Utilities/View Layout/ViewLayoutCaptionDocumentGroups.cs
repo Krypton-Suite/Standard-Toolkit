@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -37,11 +37,11 @@ internal sealed class ViewLayoutCaptionDocumentGroups : ViewLayoutDocker
         bool showNewTabButton,
         Action? newTabClick)
     {
-        _workspace = workspace ?? throw new ArgumentNullException(nameof(workspace));
-        _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        _workspace = workspace ?? ThrowHelper.ThrowArgumentNullException(workspace);
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
         _showContextMenu = showContextMenu;
-        _tabGroups = tabGroups ?? throw new ArgumentNullException(nameof(tabGroups));
-        _tabGroupAppearance = tabGroupAppearance ?? throw new ArgumentNullException(nameof(tabGroupAppearance));
+        _tabGroups = tabGroups ?? ThrowHelper.ThrowArgumentNullException(tabGroups);
+        _tabGroupAppearance = tabGroupAppearance ?? ThrowHelper.ThrowArgumentNullException(tabGroupAppearance);
         _allowTabGroups = allowTabGroups;
         _showNewTabButton = showNewTabButton;
         _newTabClick = newTabClick;

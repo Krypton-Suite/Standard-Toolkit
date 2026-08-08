@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -36,8 +36,10 @@ public class MruMenuItemValues : Storage
     /// Initialize a new instance of the <see cref="MruMenuItemValues"/> class.
     /// </summary>
     /// <param name="owner">Owning MRU menu item.</param>
-    public MruMenuItemValues(KryptonMRUMenuItem owner) =>
-        _owner = owner ?? throw new ArgumentNullException(nameof(owner));
+    public MruMenuItemValues(KryptonMRUMenuItem owner)
+    {
+        _owner = owner ?? ThrowHelper.ThrowArgumentNullException(owner);
+    }
 
     /// <inheritdoc />
     public override string ToString() => !IsDefault ? @"Modified" : string.Empty;

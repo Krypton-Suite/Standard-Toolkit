@@ -72,6 +72,6 @@ public class StockIconHelper
             return icon;
         }
 
-        throw new InvalidOperationException("Failed to retrieve icon");
+        return ThrowHelper.ThrowInvalidOperationException<Icon>("Failed to retrieve icon");
     }
 }

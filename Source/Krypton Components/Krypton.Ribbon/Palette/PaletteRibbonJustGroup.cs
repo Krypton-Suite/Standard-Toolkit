@@ -43,11 +43,11 @@ public class PaletteRibbonJustGroup : Storage
 
         if (inherit is null)
         {
-            throw new ArgumentNullException(nameof(inherit));
+            ThrowHelper.ThrowArgumentNullException(nameof(inherit));
         }
 
         // Store the provided paint notification delegate
-        NeedPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        NeedPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
 
         // Create storage that maps onto the inherit instances
         _ribbonGroupArea = new PaletteRibbonBack(inherit.RibbonGroupBackArea, needPaint);

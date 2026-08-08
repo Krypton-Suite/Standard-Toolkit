@@ -252,12 +252,12 @@ public class KryptonMonthCalendar : VisualSimpleBase,
     {
         if (date.Ticks < _minDate.Ticks)
         {
-            throw new ArgumentOutOfRangeException(nameof(date), date, string.Format(@"Value of '{1}' is not valid for '{0}'. '{0}' must be greater than or equal to {2}.", nameof(date), FormatDate(date), nameof(MinDate)));
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(date), date, string.Format(@"Value of '{1}' is not valid for '{0}'. '{0}' must be greater than or equal to {2}.", nameof(date), FormatDate(date), nameof(MinDate)));
         }
 
         if (date.Ticks > _maxDate.Ticks)
         {
-            throw new ArgumentOutOfRangeException(nameof(date), date, string.Format(@"Value of '{1}' is not valid for '{0}'. '{0}' must be less than or equal to {2}.", nameof(date), FormatDate(date), nameof(MaxDate)));
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(date), date, string.Format(@"Value of '{1}' is not valid for '{0}'. '{0}' must be less than or equal to {2}.", nameof(date), FormatDate(date), nameof(MaxDate)));
         }
 
         SetSelectionRange(date, date);
@@ -331,12 +331,12 @@ public class KryptonMonthCalendar : VisualSimpleBase,
             {
                 if (value > EffectiveMaxDate(_maxDate))
                 {
-                    throw new ArgumentOutOfRangeException(nameof(MinDate), @"Date provided is greater than the maximum supported date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(MinDate), @"Date provided is greater than the maximum supported date.");
                 }
 
                 if (value < DateTimePicker.MinimumDateTime)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(MinDate), @"Date provided is less than the minimum supported date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(MinDate), @"Date provided is less than the minimum supported date.");
                 }
 
                 _minDate = value;
@@ -525,12 +525,12 @@ public class KryptonMonthCalendar : VisualSimpleBase,
             {
                 if (value < EffectiveMinDate(_minDate))
                 {
-                    throw new ArgumentOutOfRangeException(nameof(MaxDate), @"Date provided is less than the minimum supported date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(MaxDate), @"Date provided is less than the minimum supported date.");
                 }
 
                 if (value > DateTimePicker.MaximumDateTime)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(MaxDate), @"Date provided is greater than the maximum supported date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(MaxDate), @"Date provided is greater than the maximum supported date.");
                 }
 
                 _maxDate = value;
@@ -560,7 +560,7 @@ public class KryptonMonthCalendar : VisualSimpleBase,
         {
             if (value < 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(MaxSelectionCount), @"MaxSelectionCount cannot be less than zero.");
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(MaxSelectionCount), @"MaxSelectionCount cannot be less than zero.");
             }
 
             if (value != _maxSelectionCount)
@@ -589,12 +589,12 @@ public class KryptonMonthCalendar : VisualSimpleBase,
             {
                 if (value > _maxDate)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(SelectionStart), @"Date provided is greater than the maximum date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(SelectionStart), @"Date provided is greater than the maximum date.");
                 }
 
                 if (value < _minDate)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(SelectionStart), @"Date provided is less than the minimum date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(SelectionStart), @"Date provided is less than the minimum date.");
                 }
 
                 DateTime endDate = _selectionEnd;
@@ -639,12 +639,12 @@ public class KryptonMonthCalendar : VisualSimpleBase,
             {
                 if (value > _maxDate)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(SelectionEnd), @"Date provided is greater than the maximum date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(SelectionEnd), @"Date provided is greater than the maximum date.");
                 }
 
                 if (value < _minDate)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(SelectionEnd), @"Date provided is less than the minimum date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(SelectionEnd), @"Date provided is less than the minimum date.");
                 }
 
                 DateTime startDate = _selectionStart;
@@ -711,12 +711,12 @@ public class KryptonMonthCalendar : VisualSimpleBase,
             {
                 if (value.Width < 1)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(CalendarDimensions), @"CalendarDimension Width must be greater than 0");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(CalendarDimensions), @"CalendarDimension Width must be greater than 0");
                 }
 
                 if (value.Height < 1)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(CalendarDimensions), @"CalendarDimension Height must be greater than 0");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(CalendarDimensions), @"CalendarDimension Height must be greater than 0");
                 }
 
                 _dimensions = value;
@@ -1224,22 +1224,22 @@ public class KryptonMonthCalendar : VisualSimpleBase,
     {
         if (start.Ticks > _maxDate.Ticks)
         {
-            throw new ArgumentOutOfRangeException(nameof(start), @"Start date provided is greater than the maximum date.");
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(start), @"Start date provided is greater than the maximum date.");
         }
 
         if (start.Ticks < _minDate.Ticks)
         {
-            throw new ArgumentOutOfRangeException(nameof(start), @"Start date provided is less than the minimum date.");
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(start), @"Start date provided is less than the minimum date.");
         }
 
         if (end.Ticks > _maxDate.Ticks)
         {
-            throw new ArgumentOutOfRangeException(nameof(end), @"End date provided is greater than the maximum date.");
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(end), @"End date provided is greater than the maximum date.");
         }
 
         if (end.Ticks < _minDate.Ticks)
         {
-            throw new ArgumentOutOfRangeException(nameof(end), @"End date provided is less than the minimum date.");
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(end), @"End date provided is less than the minimum date.");
         }
 
         if (start > end)

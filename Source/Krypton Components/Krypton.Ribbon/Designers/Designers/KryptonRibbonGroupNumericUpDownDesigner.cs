@@ -60,7 +60,7 @@ internal class KryptonRibbonGroupNumericUpDownDesigner : ComponentDesigner, IKry
         Debug.Assert(component != null);
 
         // Cast to correct type
-        _ribbonNumericUpDown = component as KryptonRibbonGroupNumericUpDown ?? throw new ArgumentNullException(nameof(component));
+        _ribbonNumericUpDown =component as KryptonRibbonGroupNumericUpDown ?? ThrowHelper.ThrowArgumentNullException(component as KryptonRibbonGroupNumericUpDown, nameof(component));
 
         if (_ribbonNumericUpDown != null)
         {
@@ -82,8 +82,8 @@ internal class KryptonRibbonGroupNumericUpDownDesigner : ComponentDesigner, IKry
         }
 
         // Get access to the services
-        _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("_designerHost"));
-        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("_changeService"));
+        _designerHost =(IDesignerHost?)GetService(typeof(IDesignerHost)) ?? ThrowHelper.ThrowNullReferenceException<IDesignerHost>(SharedStaticFunctions.VariableCannotBeNull("_designerHost"));
+        _changeService =(IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? ThrowHelper.ThrowNullReferenceException<IComponentChangeService>(SharedStaticFunctions.VariableCannotBeNull("_changeService"));
 
         // We need to know when we are being removed/changed
         _changeService.ComponentChanged += OnComponentChanged;
@@ -205,7 +205,7 @@ internal class KryptonRibbonGroupNumericUpDownDesigner : ComponentDesigner, IKry
 
         if (_ribbonNumericUpDown.Ribbon != null)
         {
-            var items = ParentItems ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("items"));
+            var items = ParentItems ?? ThrowHelper.ThrowNullReferenceException<TypedRestrictCollection<KryptonRibbonGroupItem>>(SharedStaticFunctions.VariableCannotBeNull("items"));
             moveFirst = items.IndexOf(_ribbonNumericUpDown) > 0;
             movePrev = items.IndexOf(_ribbonNumericUpDown) > 0;
             moveNext = items.IndexOf(_ribbonNumericUpDown) < (items.Count - 1);
@@ -232,7 +232,7 @@ internal class KryptonRibbonGroupNumericUpDownDesigner : ComponentDesigner, IKry
         if (_ribbonNumericUpDown.Ribbon is not null)
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("items"));
+            var items = ParentItems ?? ThrowHelper.ThrowNullReferenceException<TypedRestrictCollection<KryptonRibbonGroupItem>>(SharedStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupNumericUpDown MoveFirst");
@@ -267,7 +267,7 @@ internal class KryptonRibbonGroupNumericUpDownDesigner : ComponentDesigner, IKry
         if (_ribbonNumericUpDown.Ribbon is not null)
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("items"));
+            var items = ParentItems ?? ThrowHelper.ThrowNullReferenceException<TypedRestrictCollection<KryptonRibbonGroupItem>>(SharedStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupNumericUpDown MovePrevious");
@@ -303,7 +303,7 @@ internal class KryptonRibbonGroupNumericUpDownDesigner : ComponentDesigner, IKry
         if (_ribbonNumericUpDown.Ribbon is not null)
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("items"));
+            var items = ParentItems ?? ThrowHelper.ThrowNullReferenceException<TypedRestrictCollection<KryptonRibbonGroupItem>>(SharedStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupNumericUpDown MoveNext");
@@ -340,7 +340,7 @@ internal class KryptonRibbonGroupNumericUpDownDesigner : ComponentDesigner, IKry
         if (_ribbonNumericUpDown.Ribbon is not null)
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("items"));
+            var items = ParentItems ?? ThrowHelper.ThrowNullReferenceException<TypedRestrictCollection<KryptonRibbonGroupItem>>(SharedStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupNumericUpDown MoveLast");
@@ -375,7 +375,7 @@ internal class KryptonRibbonGroupNumericUpDownDesigner : ComponentDesigner, IKry
         if (_ribbonNumericUpDown.Ribbon != null)
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("items"));
+            var items = ParentItems ?? ThrowHelper.ThrowNullReferenceException<TypedRestrictCollection<KryptonRibbonGroupItem>>(SharedStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupNumericUpDown DeleteNumericUpDown");
@@ -412,7 +412,7 @@ internal class KryptonRibbonGroupNumericUpDownDesigner : ComponentDesigner, IKry
     {
         if (_ribbonNumericUpDown.Ribbon != null)
         {
-            PropertyDescriptor? propertyEnabled = TypeDescriptor.GetProperties(_ribbonNumericUpDown)[nameof(Enabled)] ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("propertyEnabled"));
+            PropertyDescriptor? propertyEnabled =TypeDescriptor.GetProperties(_ribbonNumericUpDown)[nameof(Enabled)] ?? ThrowHelper.ThrowNullReferenceException<PropertyDescriptor>(SharedStaticFunctions.VariableCannotBeNull("propertyEnabled"));
             var oldValue = (bool?)propertyEnabled.GetValue(_ribbonNumericUpDown);
             var newValue = !oldValue;
             _changeService.OnComponentChanged(_ribbonNumericUpDown, null, oldValue, newValue);
@@ -424,7 +424,7 @@ internal class KryptonRibbonGroupNumericUpDownDesigner : ComponentDesigner, IKry
     {
         if (_ribbonNumericUpDown.Ribbon != null)
         {
-            PropertyDescriptor? propertyVisible = TypeDescriptor.GetProperties(_ribbonNumericUpDown)[nameof(Visible)] ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("propertyVisible"));
+            PropertyDescriptor? propertyVisible =TypeDescriptor.GetProperties(_ribbonNumericUpDown)[nameof(Visible)] ?? ThrowHelper.ThrowNullReferenceException<PropertyDescriptor>(SharedStaticFunctions.VariableCannotBeNull("propertyVisible"));
             var oldValue = (bool?)propertyVisible.GetValue(_ribbonNumericUpDown);
             var newValue = !oldValue;
             _changeService.OnComponentChanged(_ribbonNumericUpDown, null, oldValue, newValue);

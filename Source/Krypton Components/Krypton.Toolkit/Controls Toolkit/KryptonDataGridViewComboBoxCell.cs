@@ -92,7 +92,7 @@ public class KryptonDataGridViewComboBoxCell : DataGridViewTextBoxCell
     /// </summary>
     public override object Clone()
     {
-        var dataGridViewCell = base.Clone() as KryptonDataGridViewComboBoxCell ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("dataGridViewCell"));
+        var dataGridViewCell =base.Clone() as KryptonDataGridViewComboBoxCell ?? ThrowHelper.ThrowNullReferenceException<KryptonDataGridViewComboBoxCell>(SharedStaticFunctions.VariableCannotBeNull("dataGridViewCell"));
 
         dataGridViewCell.DropDownStyle = DropDownStyle;
         dataGridViewCell.DropDownHeight = DropDownHeight;
@@ -117,7 +117,7 @@ public class KryptonDataGridViewComboBoxCell : DataGridViewTextBoxCell
         {
             if (value == ComboBoxStyle.Simple)
             {
-                throw new ArgumentOutOfRangeException(nameof(DropDownStyle), ComboBoxStyle.Simple, @"The DropDownStyle property does not support the Simple style.");
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(DropDownStyle), ComboBoxStyle.Simple, @"The DropDownStyle property does not support the Simple style.");
             }
 
             if (_dropDownStyle != value)
@@ -277,7 +277,8 @@ public class KryptonDataGridViewComboBoxCell : DataGridViewTextBoxCell
         switch (dataGridView?.EditingControl)
         {
             case null:
-                throw new InvalidOperationException(@"Cell is detached or its grid has no editing control.");
+                ThrowHelper.ThrowInvalidOperationException(@"Cell is detached or its grid has no editing control.");
+                return;
         }
 
         if (dataGridView.EditingControl is KryptonComboBox comboBox)
@@ -719,19 +720,19 @@ public class KryptonDataGridViewComboBoxCell : DataGridViewTextBoxCell
                         catch
                         {
                             // Member is an unknow column
-                            throw new ArgumentException($"The field '{displayMember}' specified as '{(DisplayMember.Length > 0 ? "DisplayMember" : "ValueMember")}' has not been found in the data source.");
+                            ThrowHelper.ThrowArgumentException($"The field '{displayMember}' specified as '{(DisplayMember.Length > 0 ? "DisplayMember" : "ValueMember")}' has not been found in the data source.");
                         }
                     }
                     else
                     {
                         // The row containing the given value was not found.
                         // Meaning there's a value mismatch between the combobox datasource and the cell value.
-                        throw new ArgumentException($"The property descriptor '{propertyDescriptor.DisplayName}' having value '{value}' was not found in the data source.");
+                        ThrowHelper.ThrowArgumentException($"The property descriptor '{propertyDescriptor.DisplayName}' having value '{value}' was not found in the data source.");
                     }
                 }
                 else
                 {
-                    throw new ArgumentException($"The field '{ValueMember}' specified as ValueMember has not been found in the data source.");
+                    ThrowHelper.ThrowArgumentException($"The field '{ValueMember}' specified as ValueMember has not been found in the data source.");
                 }
             }
             else
@@ -750,7 +751,7 @@ public class KryptonDataGridViewComboBoxCell : DataGridViewTextBoxCell
                 && KryptonOwningColumn.Items.IndexOf(valueStr) == -1)
             {
                 // The value was not found in the list
-                throw new ArgumentException($"The cell value {valueStr} was not found in the list with drop-down items.");
+                ThrowHelper.ThrowArgumentException($"The cell value {valueStr} was not found in the list with drop-down items.");
             }
 
             _selectedItemText = valueStr ?? string.Empty;

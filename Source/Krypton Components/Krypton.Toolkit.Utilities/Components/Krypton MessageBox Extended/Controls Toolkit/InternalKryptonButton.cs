@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -545,15 +545,11 @@ internal class InternalKryptonButton : VisualSimpleBase, IButtonControl, IConten
     /// <returns>Image value.</returns>
     public Image? GetOverlayImage(PaletteState state) => null;
 
-    public Color GetOverlayImageTransparentColor(PaletteState state)
-    {
-        throw new NotImplementedException();
-    }
+    public Color GetOverlayImageTransparentColor(PaletteState state) =>
+        ThrowHelper.ThrowNotImplementedException<Color>();
 
-    public OverlayImagePosition GetOverlayImagePosition(PaletteState state)
-    {
-        throw new NotImplementedException();
-    }
+    public OverlayImagePosition GetOverlayImagePosition(PaletteState state) =>
+        ThrowHelper.ThrowNotImplementedException<OverlayImagePosition>();
 
     /// <summary>
     /// Gets the overlay image scale mode.
@@ -562,15 +558,11 @@ internal class InternalKryptonButton : VisualSimpleBase, IButtonControl, IConten
     /// <returns>Scale mode value.</returns>
     public OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) => OverlayImageScaleMode.None;
 
-    public float GetOverlayImageScaleFactor(PaletteState state)
-    {
-        throw new NotImplementedException();
-    }
+    public float GetOverlayImageScaleFactor(PaletteState state) =>
+        ThrowHelper.ThrowNotImplementedException<float>();
 
-    public Size GetOverlayImageFixedSize(PaletteState state)
-    {
-        throw new NotImplementedException();
-    }
+    public Size GetOverlayImageFixedSize(PaletteState state) =>
+        ThrowHelper.ThrowNotImplementedException<Size>();
 
     #endregion
 
@@ -902,7 +894,7 @@ internal class InternalKryptonButton : VisualSimpleBase, IButtonControl, IConten
     {
         if (_countdownSeconds > 0)
         {
-            throw new InvalidOperationException("Countdown is already running.");
+            ThrowHelper.ThrowInvalidOperationException("Countdown is already running.");
         }
 
         // Initialize countdown timer if not already created

@@ -41,14 +41,14 @@ internal class KryptonSplitContainerGlyph : Glyph
         Debug.Assert(relatedDesigner is not null);
 
         // Remember incoming references
-        _selectionService = selectionService ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(selectionService)));
-        _behaviorService = behaviorService ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(behaviorService)));
-        _adorner = adorner ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(adorner)));
+        _selectionService =selectionService ?? ThrowHelper.ThrowNullReferenceException<ISelectionService>(SharedStaticFunctions.VariableCannotBeNull(nameof(selectionService)));
+        _behaviorService =behaviorService ?? ThrowHelper.ThrowNullReferenceException<BehaviorService>(SharedStaticFunctions.VariableCannotBeNull(nameof(behaviorService)));
+        _adorner =adorner ?? ThrowHelper.ThrowNullReferenceException<Adorner>(SharedStaticFunctions.VariableCannotBeNull(nameof(adorner)));
 
         // Find the related control
         if ( relatedDesigner is null)
         {
-            throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(relatedDesigner)));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(relatedDesigner)));
         }
 
         _splitContainer = relatedDesigner.Component as KryptonSplitContainer;

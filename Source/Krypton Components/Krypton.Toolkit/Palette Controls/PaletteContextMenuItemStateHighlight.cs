@@ -46,7 +46,7 @@ public class PaletteContextMenuItemStateHighlight : Storage
     {
         if (redirectItemHighlight is null)
         {
-            throw new ArgumentNullException(nameof(redirectItemHighlight));
+            ThrowHelper.ThrowArgumentNullException(nameof(redirectItemHighlight));
         }
 
         ItemHighlight = new PaletteDoubleMetric(redirectItemHighlight);

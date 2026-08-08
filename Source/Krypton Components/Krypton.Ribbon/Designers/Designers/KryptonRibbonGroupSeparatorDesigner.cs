@@ -59,7 +59,7 @@ internal class KryptonRibbonGroupSeparatorDesigner : ComponentDesigner
         Debug.Assert(component != null);
 
         // Cast to correct type
-        _ribbonSeparator = component as KryptonRibbonGroupSeparator ?? throw new ArgumentNullException(nameof(component));
+        _ribbonSeparator =component as KryptonRibbonGroupSeparator ?? ThrowHelper.ThrowArgumentNullException(component as KryptonRibbonGroupSeparator, nameof(component));
 
         if (_ribbonSeparator != null)
         {
@@ -67,8 +67,8 @@ internal class KryptonRibbonGroupSeparatorDesigner : ComponentDesigner
         }
 
         // Get access to the services
-        _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
-        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
+        _designerHost =(IDesignerHost?)GetService(typeof(IDesignerHost)) ?? ThrowHelper.ThrowNullReferenceException<IDesignerHost>(SharedStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
+        _changeService =(IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? ThrowHelper.ThrowNullReferenceException<IComponentChangeService>(SharedStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
 
         // We need to know when we are being removed/changed
         _changeService.ComponentChanged += OnComponentChanged;
@@ -85,7 +85,7 @@ internal class KryptonRibbonGroupSeparatorDesigner : ComponentDesigner
 
             if (_verbs is null)
             {
-                throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_verbs)));
+                ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_verbs)));
             }
 
             return _verbs;
@@ -421,10 +421,10 @@ internal class KryptonRibbonGroupSeparatorDesigner : ComponentDesigner
             && _ribbonSeparator.RibbonGroup.Items.Contains(_ribbonSeparator))
         {
             // Cast to correct type
-            var groupMenuItem = sender as ToolStripMenuItem ?? throw new ArgumentNullException(nameof(sender));
+            var groupMenuItem =sender as ToolStripMenuItem ?? ThrowHelper.ThrowArgumentNullException(sender as ToolStripMenuItem, nameof(sender));
 
             // Get access to the destination tab
-            var destination = groupMenuItem.Tag as KryptonRibbonGroup ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("destination"));
+            var destination =groupMenuItem.Tag as KryptonRibbonGroup ?? ThrowHelper.ThrowNullReferenceException<KryptonRibbonGroup>(SharedStaticFunctions.VariableCannotBeNull("destination"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupSeparator MoveSeparatorToGroup");

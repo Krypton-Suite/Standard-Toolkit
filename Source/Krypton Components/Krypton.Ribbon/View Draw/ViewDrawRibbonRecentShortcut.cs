@@ -53,7 +53,7 @@ internal class ViewDrawRibbonRecentShortcut : ViewDrawContent
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // Only draw the shortcut text if there is some defined

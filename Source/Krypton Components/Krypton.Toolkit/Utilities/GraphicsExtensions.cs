@@ -137,7 +137,7 @@ public static class GraphicsExtensions
     {
         if (string.IsNullOrEmpty(filePath))
         {
-            throw new ArgumentNullException(nameof(filePath));
+            ThrowHelper.ThrowArgumentNullException(nameof(filePath));
         }
 
         var hIconEx = new IntPtr[] { IntPtr.Zero };
@@ -252,7 +252,7 @@ public static class GraphicsExtensions
                 return ScaleImage(SystemIcons.Application.ToBitmap(), newSize);
             default:
                 DebugTools.NotImplemented(iconType.ToString());
-                throw new ArgumentOutOfRangeException(nameof(iconType), iconType, null);
+                return ThrowHelper.ThrowArgumentOutOfRangeException<Image?>(nameof(iconType), iconType, null);
         }
     }
 

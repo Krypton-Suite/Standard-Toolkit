@@ -47,7 +47,7 @@ public abstract class VisualDesignerCollectionForm : KryptonForm
     /// Gets the owning collection editor.
     /// </summary>
     protected KryptonDesignerCollectionEditor Editor =>
-        _editor ?? throw new InvalidOperationException(@"Collection editor is not available outside a design-time session.");
+_editor ?? ThrowHelper.ThrowInvalidOperationException<KryptonDesignerCollectionEditor>(@"Collection editor is not available outside a design-time session.");
 
     /// <summary>
     /// Gets the designer context from the owning editor.
@@ -91,7 +91,7 @@ public abstract class VisualDesignerCollectionForm : KryptonForm
     /// <returns>New item instance.</returns>
     protected object CreateInstance(Type itemType) =>
         _editor?.CreateDesignerInstance(itemType)
-        ?? throw new InvalidOperationException(@"Collection editor is not available outside a design-time session.");
+ ?? ThrowHelper.ThrowInvalidOperationException<object>(@"Collection editor is not available outside a design-time session.");
 
     /// <summary>
     /// Destroys a collection item instance.

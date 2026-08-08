@@ -246,7 +246,7 @@ public sealed class KryptonManager : Component
         // Validate reference parameter
         if (container == null)
         {
-            throw new ArgumentNullException(nameof(container));
+            ThrowHelper.ThrowArgumentNullException(nameof(container));
         }
 
         container.Add(this);
@@ -610,7 +610,7 @@ public sealed class KryptonManager : Component
     {
         if (string.IsNullOrWhiteSpace(path))
         {
-            throw new System.ArgumentNullException(nameof(path));
+            ThrowHelper.ThrowArgumentNullException(nameof(path));
         }
 
         if (System.IO.Path.GetExtension(path).Equals(@".json", System.StringComparison.OrdinalIgnoreCase))
@@ -724,7 +724,7 @@ public sealed class KryptonManager : Component
     {
         if (culture == null)
         {
-            throw new ArgumentNullException(nameof(culture));
+            ThrowHelper.ThrowArgumentNullException(nameof(culture));
         }
 
         ApplyUiCulture(culture);
@@ -810,7 +810,7 @@ public sealed class KryptonManager : Component
     {
         if (string.IsNullOrWhiteSpace(path))
         {
-            throw new ArgumentNullException(nameof(path));
+            ThrowHelper.ThrowArgumentNullException(nameof(path));
         }
 
         return Strings.AnalyzeTranslationsFromFile(path);
@@ -827,7 +827,7 @@ public sealed class KryptonManager : Component
     {
         if (string.IsNullOrWhiteSpace(path))
         {
-            throw new ArgumentNullException(nameof(path));
+            ThrowHelper.ThrowArgumentNullException(nameof(path));
         }
 
         return Strings.MergeMissingTranslationsToFile(path, includeDefaults);
@@ -1124,7 +1124,7 @@ public sealed class KryptonManager : Component
         {
             if (value <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(value), value, @"Scale factor must be greater than 0.");
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), value, @"Scale factor must be greater than 0.");
             }
 
             // Only interested if the value changes
@@ -1187,7 +1187,7 @@ public sealed class KryptonManager : Component
         {
             if (value <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(value), value, @"Font scale factor must be greater than 0.");
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), value, @"Font scale factor must be greater than 0.");
             }
 
             // Only interested if the value changes
@@ -1258,7 +1258,7 @@ public sealed class KryptonManager : Component
         {
             if (value < 500)
             {
-                throw new ArgumentOutOfRangeException(nameof(value), value, @"Detection interval must be at least 500 milliseconds.");
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), value, @"Detection interval must be at least 500 milliseconds.");
             }
 
             if (_globalTouchscreenDetectionInterval != value)
@@ -1574,7 +1574,7 @@ public sealed class KryptonManager : Component
                 return CurrentGlobalPalette;
             default:
                 Debug.Assert(false);
-                throw new ArgumentOutOfRangeException(nameof(mode), @"mode must be PaletteMode value.");
+                return ThrowHelper.ThrowArgumentOutOfRangeException<PaletteBase>(nameof(mode), @"mode must be PaletteMode value.");
         }
     }
 
@@ -1979,7 +1979,7 @@ public sealed class KryptonManager : Component
             default:
                 // Should never be passed
                 Debug.Assert(false);
-                throw new ArgumentOutOfRangeException(nameof(mode), @"mode must be RendererMode value.");
+                return ThrowHelper.ThrowArgumentOutOfRangeException<IRenderer>(nameof(mode), @"mode must be RendererMode value.");
         }
     }
 

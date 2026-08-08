@@ -383,7 +383,7 @@ public class VisualPopup : ContainerControl
         // Validate incoming reference
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         // If required, layout the control

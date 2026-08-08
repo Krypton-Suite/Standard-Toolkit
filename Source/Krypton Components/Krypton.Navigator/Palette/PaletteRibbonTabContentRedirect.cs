@@ -36,7 +36,7 @@ public class PaletteRibbonTabContentRedirect : Storage
 
         if (redirect is null)
         {
-            throw new ArgumentNullException(nameof(redirect));
+            ThrowHelper.ThrowArgumentNullException(nameof(redirect));
         }
         // Store the provided paint notification delegate
         NeedPaint = needPaint;

@@ -221,7 +221,7 @@ public class ViewManager : GlobalId,
         // Validate incoming reference
         if (renderer == null)
         {
-            throw new ArgumentNullException(nameof(renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(renderer));
         }
 
         // Create a layout context for calculating size and positioning
@@ -331,7 +331,7 @@ public class ViewManager : GlobalId,
             // Validate incoming references
             if (context.Renderer == null)
             {
-                throw new ArgumentNullException(nameof(context.Renderer));
+                ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
             }
 
             // If someone is interested, tell them the layout cycle to beginning
@@ -379,12 +379,12 @@ public class ViewManager : GlobalId,
         // Validate incoming references
         if (renderer == null)
         {
-            throw new ArgumentNullException(nameof(renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(renderer));
         }
 
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         // Do nothing if the control is disposed or inside a layout call
@@ -410,7 +410,7 @@ public class ViewManager : GlobalId,
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // Do nothing if the control is disposed or inside a layout call
@@ -457,7 +457,7 @@ public class ViewManager : GlobalId,
         // Validate incoming reference
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         var pt = new Point(e.X, e.Y);
@@ -482,7 +482,7 @@ public class ViewManager : GlobalId,
         // Validate incoming reference
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         var pt = new Point(e.X, e.Y);
@@ -513,7 +513,7 @@ public class ViewManager : GlobalId,
         // Validate incoming reference
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         var pt = new Point(e.X, e.Y);
@@ -544,7 +544,7 @@ public class ViewManager : GlobalId,
         // Validate incoming reference
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         // If there is an active element

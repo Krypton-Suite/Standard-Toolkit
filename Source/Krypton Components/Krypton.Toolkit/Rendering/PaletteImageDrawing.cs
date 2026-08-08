@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -85,12 +85,12 @@ public static class PaletteImageDrawing
     {
         if (graphics == null)
         {
-            throw new ArgumentNullException(nameof(graphics));
+            ThrowHelper.ThrowArgumentNullException(nameof(graphics));
         }
 
         if (image == null)
         {
-            throw new ArgumentNullException(nameof(image));
+            ThrowHelper.ThrowArgumentNullException(nameof(image));
         }
 
         lock (_threadLock)

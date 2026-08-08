@@ -61,12 +61,12 @@ internal class ViewDrawRibbonAppMenu : ViewDrawDocker
     {
         if (renderContext.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(renderContext.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(renderContext.Renderer));
         }
 
         if (renderContext.TopControl is null)
         {
-            throw new ArgumentNullException(nameof(renderContext.TopControl));
+            ThrowHelper.ThrowArgumentNullException(nameof(renderContext.TopControl));
         }
 
         base.RenderAfter(renderContext);

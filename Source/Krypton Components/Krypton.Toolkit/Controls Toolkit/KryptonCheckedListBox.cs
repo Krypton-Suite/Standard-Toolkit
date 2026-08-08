@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -127,20 +127,20 @@ public class KryptonCheckedListBox : VisualControlBase,
                 return InnerArrayIndexOfIdentifier(entryObject, 0);
             }
 
-            set => throw new NotSupportedException(@"Read Only Collection");
+            set => ThrowHelper.ThrowNotSupportedException<int>(@"Read Only Collection");
         }
         #endregion
 
         #region Private
-        int IList.Add(object? value) => throw new NotSupportedException(@"Read Only Collection");
+        int IList.Add(object? value) => ThrowHelper.ThrowNotSupportedException<int>(@"Read Only Collection");
 
-        void IList.Clear() => throw new NotSupportedException(@"Read Only Collection");
+        void IList.Clear() => ThrowHelper.ThrowNotSupportedException<int>(@"Read Only Collection");
 
-        void IList.Insert(int index, object? value) => throw new NotSupportedException(@"Read Only Collection");
+        void IList.Insert(int index, object? value) => ThrowHelper.ThrowNotSupportedException<int>(@"Read Only Collection");
 
-        void IList.Remove(object? value) => throw new NotSupportedException(@"Read Only Collection");
+        void IList.Remove(object? value) => ThrowHelper.ThrowNotSupportedException<int>(@"Read Only Collection");
 
-        void IList.RemoveAt(int index) => throw new NotSupportedException(@"Read Only Collection");
+        void IList.RemoveAt(int index) => ThrowHelper.ThrowNotSupportedException<int>(@"Read Only Collection");
 
         bool ICollection.IsSynchronized => false;
 
@@ -255,7 +255,7 @@ public class KryptonCheckedListBox : VisualControlBase,
         public object? this[int index]
         {
             get => InnerArrayGetItem(index, _anyItemMask);
-            set => throw new NotSupportedException(@"Read Only Collection");
+            set => ThrowHelper.ThrowNotSupportedException<int>(@"Read Only Collection");
         }
         #endregion
 
@@ -295,15 +295,15 @@ public class KryptonCheckedListBox : VisualControlBase,
         #endregion
 
         #region Private
-        int IList.Add(object? value) => throw new NotSupportedException(@"Read Only Collection");
+        int IList.Add(object? value) => ThrowHelper.ThrowNotSupportedException<int>(@"Read Only Collection");
 
-        void IList.Clear() => throw new NotSupportedException(@"Read Only Collection");
+        void IList.Clear() => ThrowHelper.ThrowNotSupportedException<object>(@"Read Only Collection");
 
-        void IList.Insert(int index, object? value) => throw new NotSupportedException(@"Read Only Collection");
+        void IList.Insert(int index, object? value) => ThrowHelper.ThrowNotSupportedException<object>(@"Read Only Collection");
 
-        void IList.Remove(object? value) => throw new NotSupportedException(@"Read Only Collection");
+        void IList.Remove(object? value) => ThrowHelper.ThrowNotSupportedException<object>(@"Read Only Collection");
 
-        void IList.RemoveAt(int index) => throw new NotSupportedException(@"Read Only Collection");
+        void IList.RemoveAt(int index) => ThrowHelper.ThrowNotSupportedException<object>(@"Read Only Collection");
 
         bool ICollection.IsSynchronized => false;
 
@@ -1815,7 +1815,7 @@ public class KryptonCheckedListBox : VisualControlBase,
     public CheckState GetItemCheckState(int index) =>
         // Check index actually exists
         (index < 0) || (index >= Items.Count)
-            ? throw new ArgumentOutOfRangeException(nameof(index), @"index out of range")
+            ? ThrowHelper.ThrowArgumentOutOfRangeException<CheckState>(nameof(index), @"index out of range")
             : CheckedItems.GetCheckedState(index);
 
     /// <summary>
@@ -1836,7 +1836,7 @@ public class KryptonCheckedListBox : VisualControlBase,
         // Check index actually exists
         if ((index < 0) || (index >= Items.Count))
         {
-            throw new ArgumentOutOfRangeException(nameof(index), @"index out of range");
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(index), @"index out of range");
         }
 
         // Is the new state different from the current checked state?

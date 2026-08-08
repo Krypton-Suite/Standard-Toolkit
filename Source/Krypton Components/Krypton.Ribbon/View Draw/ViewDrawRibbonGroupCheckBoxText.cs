@@ -48,8 +48,8 @@ internal class ViewDrawRibbonGroupCheckBoxText : ViewLeaf,
         Debug.Assert(ribbon is not null);
         Debug.Assert(ribbonCheckBox is not null);
 
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        _ribbonCheckBox = ribbonCheckBox ?? throw new ArgumentNullException(nameof(ribbonCheckBox ));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _ribbonCheckBox = ribbonCheckBox ?? ThrowHelper.ThrowArgumentNullException(ribbonCheckBox);
         _firstText = firstText;
 
         // Use a class to convert from ribbon group to content interface
@@ -108,12 +108,12 @@ internal class ViewDrawRibbonGroupCheckBoxText : ViewLeaf,
         // Validate incoming reference
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // A change in state always causes a size and layout calculation
@@ -158,12 +158,12 @@ internal class ViewDrawRibbonGroupCheckBoxText : ViewLeaf,
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // We take on all the available display area
@@ -215,7 +215,7 @@ internal class ViewDrawRibbonGroupCheckBoxText : ViewLeaf,
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         Rectangle drawRect = ClientRectangle;

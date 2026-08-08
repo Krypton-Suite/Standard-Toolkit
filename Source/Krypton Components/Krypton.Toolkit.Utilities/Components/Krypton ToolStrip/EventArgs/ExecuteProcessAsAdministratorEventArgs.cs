@@ -38,7 +38,7 @@ public class ExecuteProcessAsAdministratorEventArgs : EventArgs
 
         if (string.IsNullOrEmpty(processName))
         {
-            throw new ArgumentNullException();
+            ThrowHelper.ThrowArgumentNullException();
         }
 
         if (!hasAdministrativeRights)

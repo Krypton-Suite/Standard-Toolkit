@@ -1508,7 +1508,7 @@ public partial class KryptonKnobAlternate : UserControl
         }
         else
         {
-            throw new ArgumentOutOfRangeException(nameof(value), @"MouseWheelBarPartitions has to be greater than zero");
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), @"MouseWheelBarPartitions has to be greater than zero");
         }
     }
 

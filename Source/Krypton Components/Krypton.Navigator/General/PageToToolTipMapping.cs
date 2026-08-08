@@ -39,7 +39,7 @@ internal class PageToToolTipMapping : IContentValues
     {
         Debug.Assert(page != null);
 
-        _page = page ?? throw new ArgumentNullException(nameof(page));
+        _page = page ?? ThrowHelper.ThrowArgumentNullException(page);
         _mapImage = mapImage;
         _mapText = mapText;
         _mapExtraText = mapExtraText;

@@ -334,7 +334,7 @@ public class KryptonDataGridViewProgressColumn : KryptonDataGridViewIconColumn
     /// <inheritdoc/>
     public override object Clone()
     {
-        var cloned = base.Clone() as KryptonDataGridViewProgressColumn ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("cloned"));
+        var cloned =base.Clone() as KryptonDataGridViewProgressColumn ?? ThrowHelper.ThrowNullReferenceException<KryptonDataGridViewProgressColumn>(SharedStaticFunctions.VariableCannotBeNull("cloned"));
 
         cloned._progressBarSettings = _progressBarSettings;
         cloned._dataGridView = _dataGridView;
@@ -360,7 +360,7 @@ public class KryptonDataGridViewProgressColumn : KryptonDataGridViewIconColumn
             // Ensure that the cell used for the template is a DataGridViewProgressCell.
             if (value != null && !value.GetType().IsAssignableFrom(typeof(KryptonDataGridViewProgressCell)))
             {
-                throw new InvalidCastException("Must be a KryptonDataGridViewProgressCell");
+                ThrowHelper.ThrowInvalidCastException("Must be a KryptonDataGridViewProgressCell");
             }
 
             base.CellTemplate = value;

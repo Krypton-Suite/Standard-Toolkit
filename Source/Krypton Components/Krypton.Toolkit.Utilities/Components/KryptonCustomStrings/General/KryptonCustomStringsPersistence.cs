@@ -46,7 +46,7 @@ internal static class KryptonCustomStringsPersistence
     {
         if (string.IsNullOrWhiteSpace(filename))
         {
-            throw new ArgumentNullException(nameof(filename));
+            ThrowHelper.ThrowArgumentNullException(nameof(filename));
         }
 
         ExportToXmlDocument(includeDefaults).Save(filename);
@@ -56,7 +56,7 @@ internal static class KryptonCustomStringsPersistence
     {
         if (stream == null)
         {
-            throw new ArgumentNullException(nameof(stream));
+            ThrowHelper.ThrowArgumentNullException(nameof(stream));
         }
 
         ExportToXmlDocument(includeDefaults).Save(stream);
@@ -66,7 +66,7 @@ internal static class KryptonCustomStringsPersistence
     {
         if (string.IsNullOrWhiteSpace(filename))
         {
-            throw new ArgumentNullException(nameof(filename));
+            ThrowHelper.ThrowArgumentNullException(nameof(filename));
         }
 
         var doc = new XmlDocument();
@@ -78,7 +78,7 @@ internal static class KryptonCustomStringsPersistence
     {
         if (stream == null)
         {
-            throw new ArgumentNullException(nameof(stream));
+            ThrowHelper.ThrowArgumentNullException(nameof(stream));
         }
 
         var doc = new XmlDocument();
@@ -90,20 +90,19 @@ internal static class KryptonCustomStringsPersistence
     {
         if (doc == null)
         {
-            throw new ArgumentNullException(nameof(doc));
+            ThrowHelper.ThrowArgumentNullException(nameof(doc));
         }
 
         var root = doc.SelectSingleNode(RootElementName) as XmlElement;
         if (root == null)
         {
-            throw new ArgumentException($@"Root element must be called '{RootElementName}'.");
+            ThrowHelper.ThrowArgumentException($@"Root element must be called '{RootElementName}'.");
         }
 
         if (int.TryParse(root.GetAttribute(VersionAttribute), NumberStyles.Integer, CultureInfo.InvariantCulture, out var fileVersion)
             && fileVersion < CurrentSupportedVersion)
         {
-            throw new ArgumentException(
-                $@"Custom translations format version '{fileVersion}' is incompatible. Supported version is {CurrentSupportedVersion} or above.");
+            ThrowHelper.ThrowArgumentException($@"Custom translations format version '{fileVersion}' is incompatible. Supported version is {CurrentSupportedVersion} or above.");
         }
 
         if (resetFirst)
@@ -135,7 +134,7 @@ internal static class KryptonCustomStringsPersistence
     {
         if (string.IsNullOrWhiteSpace(filename))
         {
-            throw new ArgumentNullException(nameof(filename));
+            ThrowHelper.ThrowArgumentNullException(nameof(filename));
         }
 
         File.WriteAllText(filename, ExportToJson(includeDefaults), Encoding.UTF8);
@@ -145,7 +144,7 @@ internal static class KryptonCustomStringsPersistence
     {
         if (stream == null)
         {
-            throw new ArgumentNullException(nameof(stream));
+            ThrowHelper.ThrowArgumentNullException(nameof(stream));
         }
 
         var bytes = Encoding.UTF8.GetBytes(ExportToJson(includeDefaults));
@@ -156,7 +155,7 @@ internal static class KryptonCustomStringsPersistence
     {
         if (string.IsNullOrWhiteSpace(filename))
         {
-            throw new ArgumentNullException(nameof(filename));
+            ThrowHelper.ThrowArgumentNullException(nameof(filename));
         }
 
         var json = File.ReadAllText(filename, Encoding.UTF8);
@@ -167,7 +166,7 @@ internal static class KryptonCustomStringsPersistence
     {
         if (stream == null)
         {
-            throw new ArgumentNullException(nameof(stream));
+            ThrowHelper.ThrowArgumentNullException(nameof(stream));
         }
 
         using var reader = new StreamReader(stream, Encoding.UTF8);
@@ -178,7 +177,7 @@ internal static class KryptonCustomStringsPersistence
     {
         if (string.IsNullOrWhiteSpace(json))
         {
-            throw new ArgumentException(@"JSON content is empty.", nameof(json));
+            ThrowHelper.ThrowArgumentException(@"JSON content is empty.", nameof(json));
         }
 
         var root = ParseJsonObject(json);
@@ -569,7 +568,7 @@ internal static class KryptonCustomStringsPersistence
     {
         if (index >= tokens.Count || !string.Equals(tokens[index], expected, StringComparison.Ordinal))
         {
-            throw new ArgumentException($@"JSON content is invalid. Expected token '{expected}'.");
+            ThrowHelper.ThrowArgumentException($@"JSON content is invalid. Expected token '{expected}'.");
         }
 
         index++;

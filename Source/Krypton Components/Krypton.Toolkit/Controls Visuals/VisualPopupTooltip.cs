@@ -66,7 +66,7 @@ public class VisualPopupToolTip : VisualPopup
         Debug.Assert(contentValues is not null);
 
         // Remember references needed later
-        _contentValues = contentValues ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(contentValues)));
+        _contentValues =contentValues ?? ThrowHelper.ThrowNullReferenceException<IContentValues>(SharedStaticFunctions.VariableCannotBeNull(nameof(contentValues)));
 
         // Create the triple redirector needed by view elements
         _palette = new PaletteTripleMetricRedirect(redirector, backStyle, borderStyle, contentStyle, NeedPaintDelegate);
@@ -232,7 +232,8 @@ public class VisualPopupToolTip : VisualPopup
                 popupLocation = new Point(positionPlacementRectangle.Left, positionPlacementRectangle.Top - popupSize.Height);
                 break;
             default:
-                throw new ArgumentOutOfRangeException(nameof(position.PlacementMode));
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(position.PlacementMode));
+                return;
         }
         // Show it now!
         Show(popupLocation, popupSize);

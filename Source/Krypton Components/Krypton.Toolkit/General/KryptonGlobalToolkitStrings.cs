@@ -922,7 +922,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
     /// <summary>Initializes a new instance of the <see cref="KryptonGlobalToolkitStrings" /> class.</summary>
     public KryptonGlobalToolkitStrings()
     {
-        //throw new NotImplementedException();
+        //ThrowHelper.ThrowNotImplementedException();
     }
 
     /// <inheritdoc />
@@ -1042,7 +1042,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
     {
         if (string.IsNullOrWhiteSpace(filename))
         {
-            throw new ArgumentNullException(nameof(filename));
+            ThrowHelper.ThrowArgumentNullException(nameof(filename));
         }
 
         var doc = ExportToXmlDocument(includeDefaults);
@@ -1070,7 +1070,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
     {
         if (string.IsNullOrWhiteSpace(filename))
         {
-            throw new ArgumentNullException(nameof(filename));
+            ThrowHelper.ThrowArgumentNullException(nameof(filename));
         }
 
         var doc = new XmlDocument();
@@ -1139,7 +1139,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
     {
         if (string.IsNullOrWhiteSpace(filename))
         {
-            throw new ArgumentNullException(nameof(filename));
+            ThrowHelper.ThrowArgumentNullException(nameof(filename));
         }
 
         if (Path.GetExtension(filename).Equals(@".json", StringComparison.OrdinalIgnoreCase))
@@ -1164,7 +1164,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
     {
         if (string.IsNullOrWhiteSpace(filename))
         {
-            throw new ArgumentNullException(nameof(filename));
+            ThrowHelper.ThrowArgumentNullException(nameof(filename));
         }
 
         if (Path.GetExtension(filename).Equals(@".json", StringComparison.OrdinalIgnoreCase))
