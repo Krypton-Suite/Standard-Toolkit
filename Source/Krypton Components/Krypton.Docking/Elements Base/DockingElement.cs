@@ -84,13 +84,13 @@ public abstract class DockingElement : Component,
         // Cannot resolve a null reference
         if (path == null)
         {
-            throw new ArgumentNullException(nameof(path));
+            ThrowHelper.ThrowArgumentNullException(nameof(path));
         }
 
         // Path names cannot be zero length
         if (path.Length == 0)
         {
-            throw new ArgumentException(@"Needs Comma separated list of names to resolve.", nameof(path));
+            ThrowHelper.ThrowArgumentException(@"Needs Comma separated list of names to resolve.", nameof(path));
         }
 
         // Extract the first name in the path
@@ -132,7 +132,7 @@ public abstract class DockingElement : Component,
             // We do not allow the same name to occur twice in a collection (so check new parent collection)
             if (value?[Name] != null)
             {
-                throw new ArgumentNullException(nameof(Parent), @"Parent provided already has our Name in its collection.");
+                ThrowHelper.ThrowArgumentNullException(nameof(Parent), @"Parent provided already has our Name in its collection.");
             }
 
             _parent = value;
@@ -510,7 +510,7 @@ public abstract class DockingElement : Component,
         // Is it the expected xml element name?
         if (xmlReader.Name != XmlElementName)
         {
-            throw new ArgumentException($@"Element name '{XmlElementName}' was expected but found '{xmlReader.Name}' instead.", nameof(xmlReader));
+            ThrowHelper.ThrowArgumentException($@"Element name '{XmlElementName}' was expected but found '{xmlReader.Name}' instead.", nameof(xmlReader));
         }
 
         // Grab the element attributes
@@ -520,7 +520,7 @@ public abstract class DockingElement : Component,
         // Check the name matches up
         if (elementName != Name)
         {
-            throw new ArgumentException($@"Attribute 'N' value '{Name}' was expected but found '{elementName}' instead.", nameof(xmlReader));
+            ThrowHelper.ThrowArgumentException($@"Attribute 'N' value '{Name}' was expected but found '{elementName}' instead.", nameof(xmlReader));
         }
 
         // Let derived class perform element specific persistence
@@ -535,7 +535,7 @@ public abstract class DockingElement : Component,
                 // Read to the next element
                 if (!xmlReader.Read())
                 {
-                    throw new ArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
+                    ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
                 }
 
                 // Find a child docking element with the matching name
@@ -549,7 +549,7 @@ public abstract class DockingElement : Component,
         // Read past this element to the end element
         if (!xmlReader.Read())
         {
-            throw new ArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
+            ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
         }
     }
 
@@ -567,7 +567,7 @@ public abstract class DockingElement : Component,
             && DockingManager != null
             && pages.Any(page => page is not KryptonStorePage && DockingManager.ContainsPage(page)))
         {
-            throw new ArgumentOutOfRangeException(nameof(pages), @"Cannot perform operation with a page that is already present inside docking hierarchy");
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(pages), @"Cannot perform operation with a page that is already present inside docking hierarchy");
         }
     }
 
@@ -716,7 +716,7 @@ public abstract class DockingElement : Component,
                 // Read past this element
                 if (!xmlReader.Read())
                 {
-                    throw new ArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
+                    ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
                 }
 
                 // Finished when we hit the end element matching the incoming one

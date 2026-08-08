@@ -444,7 +444,7 @@ public class WorkspaceMenus : Storage
     {
         if (string.IsNullOrWhiteSpace(filename))
         {
-            throw new ArgumentNullException(nameof(filename));
+            ThrowHelper.ThrowArgumentNullException(nameof(filename));
         }
 
         ExportToXmlDocument(includeDefaults).Save(filename);
@@ -482,7 +482,7 @@ public class WorkspaceMenus : Storage
     {
         if (string.IsNullOrWhiteSpace(filename))
         {
-            throw new ArgumentNullException(nameof(filename));
+            ThrowHelper.ThrowArgumentNullException(nameof(filename));
         }
 
         var doc = new XmlDocument();

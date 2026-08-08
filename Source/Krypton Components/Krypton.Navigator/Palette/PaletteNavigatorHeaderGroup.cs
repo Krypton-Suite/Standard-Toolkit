@@ -40,7 +40,7 @@ public class PaletteNavigatorHeaderGroup : PaletteHeaderGroup
 
         if (inheritHeaderBar is null)
         {
-            throw new ArgumentNullException(nameof(inheritHeaderBar));
+            ThrowHelper.ThrowArgumentNullException(nameof(inheritHeaderBar));
         }
             
         // Create the palette storage

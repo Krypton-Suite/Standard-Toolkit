@@ -79,7 +79,7 @@ public static class GraphicsExtensionUtilities
                 return customImage != null ? ScaleImage(customImage, newSize) : null;
             default:
                 DebugTools.NotImplemented(notificationIconType.ToString());
-                throw new ArgumentOutOfRangeException(nameof(notificationIconType), notificationIconType, null);
+                return ThrowHelper.ThrowArgumentOutOfRangeException<Image?>(nameof(notificationIconType), notificationIconType, null);
         }
     }
 

@@ -175,7 +175,7 @@ internal class ViewDrawRibbonQATButton : ViewComposite,
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // Make sure we reflect the current enabled state

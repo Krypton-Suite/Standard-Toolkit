@@ -32,4 +32,22 @@ namespace System.Diagnostics.CodeAnalysis;
     {
     }
 
+    /// <summary>Applied to a method that will never return under any circumstance.</summary>
+    [AttributeUsage(AttributeTargets.Method, Inherited = false)]
+    public sealed class DoesNotReturnAttribute : Attribute
+    {
+    }
+
+    /// <summary>Specifies that the method will not return if the associated Boolean parameter has the specified value.</summary>
+    [AttributeUsage(AttributeTargets.Parameter, Inherited = false)]
+    public sealed class DoesNotReturnIfAttribute : Attribute
+    {
+        /// <summary>Initializes a new instance of the <see cref="DoesNotReturnIfAttribute"/> class.</summary>
+        /// <param name="parameterValue">The condition parameter value that triggers an early exit / no return.</param>
+        public DoesNotReturnIfAttribute(bool parameterValue) => ParameterValue = parameterValue;
+
+        /// <summary>Gets the condition parameter value that causes the method not to return.</summary>
+        public bool ParameterValue { get; }
+    }
+
 #endif

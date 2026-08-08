@@ -51,8 +51,8 @@ public class PaletteContentInheritOverride : PaletteContentInherit
         Debug.Assert(backup != null);
 
         // Store incoming values
-        _primary = primary ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(primary)));
-        _backup = backup ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(backup)));
+        _primary =primary ?? ThrowHelper.ThrowNullReferenceException<IPaletteContent>(SharedStaticFunctions.VariableCannotBeNull(nameof(primary)));
+        _backup =backup ?? ThrowHelper.ThrowNullReferenceException<IPaletteContent>(SharedStaticFunctions.VariableCannotBeNull(nameof(backup)));
         Apply = apply;
         OverrideState = overrideState;
 

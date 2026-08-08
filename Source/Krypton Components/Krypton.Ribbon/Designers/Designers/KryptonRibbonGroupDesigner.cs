@@ -70,7 +70,7 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
         Debug.Assert(component != null);
 
         // Cast to correct type
-        _ribbonGroup = component as KryptonRibbonGroup ?? throw new ArgumentNullException(nameof(component));
+        _ribbonGroup =component as KryptonRibbonGroup ?? ThrowHelper.ThrowArgumentNullException(component as KryptonRibbonGroup, nameof(component));
         if (_ribbonGroup is not null)
         {
             _ribbonGroup.DesignTimeAddTriple += OnAddTriple;
@@ -81,8 +81,8 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
         }
 
         // Get access to the services
-        _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
-        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
+        _designerHost =(IDesignerHost?)GetService(typeof(IDesignerHost)) ?? ThrowHelper.ThrowNullReferenceException<IDesignerHost>(SharedStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
+        _changeService =(IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? ThrowHelper.ThrowNullReferenceException<IComponentChangeService>(SharedStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
 
         // We need to know when we are being removed/changed
         _changeService.ComponentRemoving += OnComponentRemoving;
@@ -391,7 +391,7 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
                 RaiseComponentChanging(propertyItems);
 
                 // Get designer to create the new lines component
-                var lines = (KryptonRibbonGroupLines)_designerHost.CreateComponent(typeof(KryptonRibbonGroupLines)) ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("lines"));
+                var lines =(KryptonRibbonGroupLines)_designerHost.CreateComponent(typeof(KryptonRibbonGroupLines)) ?? ThrowHelper.ThrowNullReferenceException<KryptonRibbonGroupLines>(SharedStaticFunctions.VariableCannotBeNull("lines"));
                 _ribbonGroup.Items.Add(lines);
 
                 // Get access to the Lines.Items property
@@ -496,7 +496,7 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
                 RaiseComponentChanging(propertyItems);
 
                 // Need access to host in order to delete a component
-                var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("host"));
+                var host =(IDesignerHost?)GetService(typeof(IDesignerHost)) ?? ThrowHelper.ThrowNullReferenceException<IDesignerHost>(SharedStaticFunctions.VariableCannotBeNull("host"));
 
                 // We need to remove all the items from the tab
                 for (var i = _ribbonGroup.Items.Count - 1; i >= 0; i--)
@@ -592,7 +592,7 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
         if (e.Component == _ribbonGroup)
         {
             // Need access to host in order to delete a component
-            var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("host"));
+            var host =(IDesignerHost?)GetService(typeof(IDesignerHost)) ?? ThrowHelper.ThrowNullReferenceException<IDesignerHost>(SharedStaticFunctions.VariableCannotBeNull("host"));
 
             // We need to remove all containers from the group
             for (var j = _ribbonGroup.Items.Count - 1; j >= 0; j--)
@@ -707,10 +707,10 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
             && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
         {
             // Cast to correct type
-            var tabMenuItem = sender as ToolStripMenuItem ?? throw new ArgumentNullException(nameof(sender));
+            var tabMenuItem =sender as ToolStripMenuItem ?? ThrowHelper.ThrowArgumentNullException(sender as ToolStripMenuItem, nameof(sender));
 
             // Get access to the destination tab
-            var destination = tabMenuItem.Tag as KryptonRibbonTab ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(tabMenuItem.Tag)));
+            var destination =tabMenuItem.Tag as KryptonRibbonTab ?? ThrowHelper.ThrowNullReferenceException<KryptonRibbonTab>(SharedStaticFunctions.VariableCannotBeNull(nameof(tabMenuItem.Tag)));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroup MoveTabTo");

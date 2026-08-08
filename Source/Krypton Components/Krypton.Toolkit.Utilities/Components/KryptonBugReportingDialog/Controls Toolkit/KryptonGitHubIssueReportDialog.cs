@@ -59,7 +59,7 @@ public static class KryptonGitHubIssueReportDialog
     {
         if (secretKey == null || secretKey.Length == 0)
         {
-            throw new ArgumentNullException(nameof(secretKey));
+            ThrowHelper.ThrowArgumentNullException(nameof(secretKey));
         }
 
         var filePath = configFilePath ?? BugReportGitHubConfigEncryption.GetDefaultConfigFilePath();
@@ -102,12 +102,12 @@ public static class KryptonGitHubIssueReportDialog
     {
         if (config == null)
         {
-            throw new ArgumentNullException(nameof(config));
+            ThrowHelper.ThrowArgumentNullException(nameof(config));
         }
 
         if (!config.IsValid)
         {
-            throw new InvalidOperationException("Config must have Owner, RepositoryName, and PersonalAccessToken set.");
+            ThrowHelper.ThrowInvalidOperationException("Config must have Owner, RepositoryName, and PersonalAccessToken set.");
         }
 
         using var dialog = new VisualGitHubIssueReportForm(config, initialDescription);

@@ -346,7 +346,7 @@ public class KryptonToolStripLabelExtended : ToolStripStatusLabel
     #region Events
     private void FadeAnimationTimer_Tick(object? sender, EventArgs e)
     {
-        throw new NotImplementedException();
+        ThrowHelper.ThrowNotImplementedException();
     }
     #endregion
 

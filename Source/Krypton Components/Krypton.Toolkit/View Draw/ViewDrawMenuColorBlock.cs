@@ -132,7 +132,8 @@ public class ViewDrawMenuColorBlock : ViewLeaf
         Debug.Assert(context != null);
 
         // Validate incoming reference
-        return context == null ? throw new ArgumentNullException(nameof(context)) : _blockSize;
+        ThrowHelper.ThrowIfNull(context);
+        return _blockSize;
     }
 
     /// <summary>
@@ -147,7 +148,7 @@ public class ViewDrawMenuColorBlock : ViewLeaf
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // We take on all the available display area
@@ -169,7 +170,7 @@ public class ViewDrawMenuColorBlock : ViewLeaf
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // Start with the full client rectangle
@@ -209,7 +210,7 @@ public class ViewDrawMenuColorBlock : ViewLeaf
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // If not in normal state, then need to adorn display

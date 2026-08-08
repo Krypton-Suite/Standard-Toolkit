@@ -45,9 +45,9 @@ internal class ViewDrawRibbonGroupCustomControl : ViewComposite,
         Debug.Assert(needPaint is not null);
 
         // Remember incoming references
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        GroupCustomControl = ribbonCustom ?? throw new ArgumentNullException(nameof(ribbonCustom));
-        _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        GroupCustomControl = ribbonCustom ?? ThrowHelper.ThrowArgumentNullException(ribbonCustom);
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
         _currentSize = GroupCustomControl.ItemSizeCurrent;
 
         // Hook into the custom control events

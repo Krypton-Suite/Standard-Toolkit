@@ -57,7 +57,7 @@ public class KryptonEmojiParser
         {
             KryptonEmojiListType.Latest => SharedStaticConstants.DEFAULT_LATEST_EMOJI_LIST_URL,
             KryptonEmojiListType.Public => SharedStaticConstants.DEFAULT_PUBLIC_EMOJI_LIST_URL,
-            _ => throw new ArgumentException("Invalid emoji list type specified.")
+            _ => ThrowHelper.ThrowArgumentException<string>("Invalid emoji list type specified.")
         };
 
         // Fetch the emoji list content from the specified URL

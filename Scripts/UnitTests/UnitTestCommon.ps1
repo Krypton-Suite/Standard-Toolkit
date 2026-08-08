@@ -106,6 +106,7 @@ function Get-UnitTestScriptClassification {
         [string]$Root
     )
 
+    # CI assert scripts use the UnitTest-*.ps1 prefix (helpers are Start-/Invoke-/Get-/Convert-*).
     $files = @(Get-ChildItem -LiteralPath $Root -Filter 'UnitTest-*.ps1' -File -Recurse |
         Where-Object { $_.Name -ne 'Invoke-AllUnitTests.ps1' })
 

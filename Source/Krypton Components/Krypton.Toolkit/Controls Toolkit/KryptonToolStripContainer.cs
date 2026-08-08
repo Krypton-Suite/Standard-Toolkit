@@ -207,7 +207,7 @@ public class KryptonToolStripContainer : ToolStripContainer
     [Category(@"Visuals")]
     [Description(@"Overrides for defining common container appearance that other states can override.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    public PaletteBack StateCommon => _stateCommon?.Back ?? throw new ObjectDisposedException(nameof(KryptonToolStripContainer));
+    public PaletteBack StateCommon => _stateCommon?.Back ?? ThrowHelper.ThrowObjectDisposedException<PaletteBack>(nameof(KryptonToolStripContainer));
 
     private bool ShouldSerializeStateCommon() => _stateCommon != null && !_stateCommon.Back.IsDefault;
 
@@ -217,7 +217,7 @@ public class KryptonToolStripContainer : ToolStripContainer
     [Category(@"Visuals")]
     [Description(@"Overrides for defining disabled container appearance.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    public PaletteBack StateDisabled => _stateDisabled?.Back ?? throw new ObjectDisposedException(nameof(KryptonToolStripContainer));
+public PaletteBack StateDisabled => _stateDisabled?.Back ?? ThrowHelper.ThrowObjectDisposedException<PaletteBack>(nameof(KryptonToolStripContainer));
 
     private bool ShouldSerializeStateDisabled() => _stateDisabled != null && !_stateDisabled.Back.IsDefault;
 
@@ -227,7 +227,7 @@ public class KryptonToolStripContainer : ToolStripContainer
     [Category(@"Visuals")]
     [Description(@"Overrides for defining normal container appearance.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    public PaletteBack StateNormal => _stateNormal?.Back ?? throw new ObjectDisposedException(nameof(KryptonToolStripContainer));
+public PaletteBack StateNormal => _stateNormal?.Back ?? ThrowHelper.ThrowObjectDisposedException<PaletteBack>(nameof(KryptonToolStripContainer));
 
     private bool ShouldSerializeStateNormal() => _stateNormal != null && !_stateNormal.Back.IsDefault;
 

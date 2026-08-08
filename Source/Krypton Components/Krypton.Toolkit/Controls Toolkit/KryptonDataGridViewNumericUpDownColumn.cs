@@ -57,7 +57,7 @@ public class KryptonDataGridViewNumericUpDownColumn : KryptonDataGridViewIconCol
     /// <returns></returns>
     public override object Clone()
     {
-        var cloned = base.Clone() as KryptonDataGridViewNumericUpDownColumn ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("cloned"));
+        var cloned =base.Clone() as KryptonDataGridViewNumericUpDownColumn ?? ThrowHelper.ThrowNullReferenceException<KryptonDataGridViewNumericUpDownColumn>(SharedStaticFunctions.VariableCannotBeNull("cloned"));
         cloned.SyncEditorOnButtonSpecClick = SyncEditorOnButtonSpecClick;
         return cloned;
     }
@@ -76,7 +76,7 @@ public class KryptonDataGridViewNumericUpDownColumn : KryptonDataGridViewIconCol
         {
             if ((value != null) && (value is not KryptonDataGridViewNumericUpDownCell))
             {
-                throw new InvalidCastException("Value provided for CellTemplate must be of type KryptonDataGridViewNumericUpDownCell or derive from it.");
+                ThrowHelper.ThrowInvalidCastException("Value provided for CellTemplate must be of type KryptonDataGridViewNumericUpDownCell or derive from it.");
             }
 
             base.CellTemplate = value;
@@ -127,12 +127,12 @@ public class KryptonDataGridViewNumericUpDownColumn : KryptonDataGridViewIconCol
     public bool AllowDecimals
     {
         get =>
-            NumericUpDownCellTemplate?.AllowDecimals ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+NumericUpDownCellTemplate?.AllowDecimals ?? ThrowHelper.ThrowInvalidOperationException<bool>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (NumericUpDownCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -168,12 +168,12 @@ public class KryptonDataGridViewNumericUpDownColumn : KryptonDataGridViewIconCol
     public bool TrailingZeroes
     {
         get =>
-            NumericUpDownCellTemplate?.TrailingZeroes ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+NumericUpDownCellTemplate?.TrailingZeroes ?? ThrowHelper.ThrowInvalidOperationException<bool>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (NumericUpDownCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -208,12 +208,12 @@ public class KryptonDataGridViewNumericUpDownColumn : KryptonDataGridViewIconCol
     public int DecimalPlaces
     {
         get =>
-            NumericUpDownCellTemplate?.DecimalPlaces ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+NumericUpDownCellTemplate?.DecimalPlaces ?? ThrowHelper.ThrowInvalidOperationException<int>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (NumericUpDownCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -248,12 +248,12 @@ public class KryptonDataGridViewNumericUpDownColumn : KryptonDataGridViewIconCol
     public bool Hexadecimal
     {
         get =>
-            NumericUpDownCellTemplate?.Hexadecimal ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+NumericUpDownCellTemplate?.Hexadecimal ?? ThrowHelper.ThrowInvalidOperationException<bool>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (NumericUpDownCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -287,12 +287,12 @@ public class KryptonDataGridViewNumericUpDownColumn : KryptonDataGridViewIconCol
     public decimal Increment
     {
         get =>
-            NumericUpDownCellTemplate?.Increment ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+NumericUpDownCellTemplate?.Increment ?? ThrowHelper.ThrowInvalidOperationException<decimal>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (NumericUpDownCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             NumericUpDownCellTemplate.Increment = value;
@@ -324,12 +324,12 @@ public class KryptonDataGridViewNumericUpDownColumn : KryptonDataGridViewIconCol
     public decimal Maximum
     {
         get =>
-            NumericUpDownCellTemplate?.Maximum ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+NumericUpDownCellTemplate?.Maximum ?? ThrowHelper.ThrowInvalidOperationException<decimal>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (NumericUpDownCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             NumericUpDownCellTemplate.Maximum = value;
@@ -363,12 +363,12 @@ public class KryptonDataGridViewNumericUpDownColumn : KryptonDataGridViewIconCol
     public decimal Minimum
     {
         get =>
-            NumericUpDownCellTemplate?.Minimum ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+NumericUpDownCellTemplate?.Minimum ?? ThrowHelper.ThrowInvalidOperationException<decimal>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (NumericUpDownCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             NumericUpDownCellTemplate.Minimum = value;
@@ -402,12 +402,12 @@ public class KryptonDataGridViewNumericUpDownColumn : KryptonDataGridViewIconCol
     public bool ThousandsSeparator
     {
         get =>
-            NumericUpDownCellTemplate?.ThousandsSeparator ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+NumericUpDownCellTemplate?.ThousandsSeparator ?? ThrowHelper.ThrowInvalidOperationException<bool>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (NumericUpDownCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             NumericUpDownCellTemplate.ThousandsSeparator = value;

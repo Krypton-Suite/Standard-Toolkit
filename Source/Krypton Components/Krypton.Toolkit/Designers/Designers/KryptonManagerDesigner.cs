@@ -124,7 +124,7 @@ internal class KryptonManagerDesigner : ComponentDesigner
 
     private void OnComponentRemoving(object sender, ComponentEventArgs e)
     {
-        throw new NotImplementedException();
+        ThrowHelper.ThrowNotImplementedException();
     }
 
     private void OnReset(object? sender, EventArgs e)

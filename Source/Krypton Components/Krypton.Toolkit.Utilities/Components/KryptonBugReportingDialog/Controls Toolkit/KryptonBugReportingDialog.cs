@@ -26,7 +26,7 @@ public static class KryptonBugReportingDialog
     {
         if (emailConfig == null)
         {
-            throw new ArgumentNullException(nameof(emailConfig));
+            ThrowHelper.ThrowArgumentNullException(nameof(emailConfig));
         }
 
         using var dialog = new VisualBugReportingDialogForm(exception, emailConfig);

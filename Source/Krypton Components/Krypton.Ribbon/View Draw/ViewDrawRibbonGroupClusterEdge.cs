@@ -37,8 +37,8 @@ internal class ViewDrawRibbonGroupClusterEdge : ViewDrawBorderEdge
         Debug.Assert(ribbon != null);
         Debug.Assert(palette != null);
 
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon ));
-        _palette = palette ?? throw new ArgumentNullException(nameof(palette));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _palette = palette ?? ThrowHelper.ThrowArgumentNullException(palette);
     }
     #endregion
 
@@ -51,7 +51,7 @@ internal class ViewDrawRibbonGroupClusterEdge : ViewDrawBorderEdge
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // Let base class perform standard drawing first

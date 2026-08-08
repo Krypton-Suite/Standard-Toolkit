@@ -136,7 +136,7 @@ public partial class BugReportingDialogTest : KryptonForm
 
         try
         {
-            throw new InvalidOperationException("This is a test exception for bug reporting.");
+            ThrowHelper.ThrowInvalidOperationException("This is a test exception for bug reporting.");
         }
         catch (Exception ex)
         {
@@ -160,7 +160,7 @@ public partial class BugReportingDialogTest : KryptonForm
 
         try
         {
-            throw new ArgumentOutOfRangeException("testParameter", 100, 
+            ThrowHelper.ThrowArgumentOutOfRangeException("testParameter", 100, 
                 "This is a test exception to demonstrate integrated bug reporting.");
         }
         catch (Exception ex)

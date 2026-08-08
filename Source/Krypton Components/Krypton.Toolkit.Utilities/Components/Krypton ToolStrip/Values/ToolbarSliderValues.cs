@@ -42,8 +42,10 @@ public class ToolbarSliderValues : Storage
     /// Initialize a new instance of the <see cref="ToolbarSliderValues"/> class.
     /// </summary>
     /// <param name="owner">Owning toolbar slider.</param>
-    public ToolbarSliderValues(KryptonToolbarSlider owner) =>
-        _owner = owner ?? throw new ArgumentNullException(nameof(owner));
+    public ToolbarSliderValues(KryptonToolbarSlider owner)
+    {
+        _owner = owner ?? ThrowHelper.ThrowArgumentNullException(owner);
+    }
 
     /// <inheritdoc />
     public override string ToString() => !IsDefault ? @"Modified" : string.Empty;

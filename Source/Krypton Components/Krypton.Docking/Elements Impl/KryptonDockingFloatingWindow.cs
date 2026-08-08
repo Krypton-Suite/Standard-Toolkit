@@ -54,10 +54,10 @@ public class KryptonDockingFloatingWindow : DockingElementClosedCollection
     {
         if (owner == null)
         {
-            throw new ArgumentNullException(nameof(owner));
+            ThrowHelper.ThrowArgumentNullException(nameof(owner));
         }
 
-        FloatspaceElement = floatspace ?? throw new ArgumentNullException(nameof(floatspace));
+        FloatspaceElement = floatspace ?? ThrowHelper.ThrowArgumentNullException(floatspace);
         FloatspaceElement.Disposed += OnDockingFloatspaceDisposed;
 
         // Create the actual window control and hook into events
@@ -291,7 +291,7 @@ public class KryptonDockingFloatingWindow : DockingElementClosedCollection
     private void OnDockingFloatspaceDisposed(object? sender, EventArgs e)
     {
         // Cast to correct type and unhook event handlers so garbage collection can occur
-        var floatspaceElement = sender as KryptonDockingFloatspace ?? throw new ArgumentNullException(nameof(sender));
+        var floatspaceElement =sender as KryptonDockingFloatspace ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonDockingFloatspace, nameof(sender));
         floatspaceElement.Disposed -= OnDockingFloatspaceDisposed;
 
         // Kill the floatspace window

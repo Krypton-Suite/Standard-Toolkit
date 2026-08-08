@@ -859,7 +859,7 @@ public abstract class RenderBase : Component,
         // Validate reference parameter
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // Finally, just draw the icon and let the transforms do the rest
@@ -894,7 +894,7 @@ public abstract class RenderBase : Component,
 
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (image == null)

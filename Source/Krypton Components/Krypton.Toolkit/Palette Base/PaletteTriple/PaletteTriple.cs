@@ -44,7 +44,7 @@ public class PaletteTriple : Storage,
 
         if (inherit is null)
         {
-            throw new ArgumentNullException(nameof(inherit));
+            ThrowHelper.ThrowArgumentNullException(nameof(inherit));
         }
         // Create storage that maps onto the inherit instances
         Back = new PaletteBack(inherit.PaletteBack, needPaint);

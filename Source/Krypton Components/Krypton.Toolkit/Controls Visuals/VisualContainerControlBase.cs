@@ -623,7 +623,7 @@ public abstract class VisualContainerControlBase : ContainerControl,
         // Validate incoming reference
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
     }
 
@@ -673,7 +673,7 @@ public abstract class VisualContainerControlBase : ContainerControl,
         // Validate incoming reference
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         // Never try and redraw or layout when disposed are trying to dispose

@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -674,7 +674,7 @@ public abstract class VisualForm : Form,
 			set
 			{
 				base.MdiChildrenMinimizedAnchorBottom = value;
-				throw new NotSupportedException(@"Please use .NET 6 or newer to use this feature.");
+				ThrowHelper.ThrowNotSupportedException(@"Please use .NET 6 or newer to use this feature.");
 			}
 		}
 #endif
@@ -843,11 +843,8 @@ public abstract class VisualForm : Form,
 	/// <exception cref="NotSupportedException">
 	/// Thrown when the method is not overridden in a derived class.
 	/// </exception>
-	protected virtual bool HasCaptionContent()
-	{
-		throw new NotSupportedException(
-			$"{GetType().Name} must override HasCaptionContent() to provide a valid implementation.");
-	}
+	protected virtual bool HasCaptionContent() =>
+		ThrowHelper.ThrowNotSupportedException<bool>($"{GetType().Name} must override HasCaptionContent() to provide a valid implementation.");
 
 	/// <summary>
 	/// Gets rectangle that is the real window rectangle based on Win32 API call.
@@ -1136,7 +1133,7 @@ public abstract class VisualForm : Form,
 		// Validate incoming reference
 		if (e == null)
 		{
-			throw new ArgumentNullException(nameof(e));
+			ThrowHelper.ThrowArgumentNullException(nameof(e));
 		}
 
 		// Do we need to recalc the border size as well as invalidate?

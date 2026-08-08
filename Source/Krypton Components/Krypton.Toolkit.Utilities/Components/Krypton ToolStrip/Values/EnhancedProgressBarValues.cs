@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -32,7 +32,7 @@ public class EnhancedProgressBarValues : Storage
     /// <param name="owner">Owning enhanced progress bar.</param>
     public EnhancedProgressBarValues(KryptonEnhancedToolStripProgressBar owner)
     {
-        _owner = owner ?? throw new ArgumentNullException(nameof(owner));
+        _owner = owner ?? ThrowHelper.ThrowArgumentNullException(owner);
         _displayTextColour = Color.Black;
     }
 

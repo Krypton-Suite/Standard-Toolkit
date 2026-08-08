@@ -67,7 +67,7 @@ internal class ViewDrawRibbonAppMenuDocs : ViewLayoutDocker
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // Draw the application menu outer background

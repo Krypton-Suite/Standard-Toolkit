@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -46,8 +46,10 @@ public class ProgressStatusStripValues : Storage
     /// Initialize a new instance of the <see cref="ProgressStatusStripValues"/> class.
     /// </summary>
     /// <param name="owner">Owning progress status strip.</param>
-    public ProgressStatusStripValues(KryptonProgressStatusStrip owner) =>
-        _owner = owner ?? throw new ArgumentNullException(nameof(owner));
+    public ProgressStatusStripValues(KryptonProgressStatusStrip owner)
+    {
+        _owner = owner ?? ThrowHelper.ThrowArgumentNullException(owner);
+    }
 
     /// <inheritdoc />
     public override string ToString() => !IsDefault ? @"Modified" : string.Empty;
