@@ -44,6 +44,8 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
 
     private readonly bool _showHelpButton;
 
+    private MessageButton? _helpButton;
+
     private readonly bool _openInExplorer;
 
     private readonly bool _useTimeOut;
@@ -264,6 +266,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         UpdateHelp();
         UpdateTextExtra(showCtrlCopy);
         UpdateCopyButton(showCopyButton);
+        ApplySemanticButtonColors(null);
         
         // Apply countdown to selected button if specified
         ApplyCountdownToButton();
@@ -306,6 +309,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         UpdateHelp(_messageBoxExtendedData.ShowHelpButton);
         UpdateTextExtra(_messageBoxExtendedData.ShowCtrlCopy);
         UpdateCopyButton(_messageBoxExtendedData.ShowCopyButton);
+        ApplySemanticButtonColors(_messageBoxExtendedData.ButtonColors);
 
         UpdateContentAreaType(_messageBoxExtendedData.MessageContentAreaType, _messageBoxExtendedData.MessageTextAlignment, _messageBoxExtendedData.MessageTextBoxAlignment, _messageBoxExtendedData.RichTextBoxTextAlignment);
 
@@ -947,6 +951,34 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         }
     }
 
+    private void ApplySemanticButtonColors(KryptonDialogButtonColorOptions? buttonColors)
+    {
+        if (!ReferenceEquals(_button1, _helpButton))
+        {
+            DialogButtonAppearanceUtilities.Apply(_button1, _button1.DialogResult, buttonColors);
+        }
+
+        if (!ReferenceEquals(_button2, _helpButton))
+        {
+            DialogButtonAppearanceUtilities.Apply(_button2, _button2.DialogResult, buttonColors);
+        }
+
+        if (!ReferenceEquals(_button3, _helpButton))
+        {
+            DialogButtonAppearanceUtilities.Apply(_button3, _button3.DialogResult, buttonColors);
+        }
+
+        if (!ReferenceEquals(_button4, _helpButton))
+        {
+            DialogButtonAppearanceUtilities.Apply(_button4, _button4.DialogResult, buttonColors);
+        }
+
+        if (_helpButton != null)
+        {
+            DialogButtonAppearanceUtilities.Apply(_helpButton, KryptonDialogButtonRole.Help, buttonColors);
+        }
+    }
+
     /// <summary>Applies countdown functionality to the selected button.</summary>
     private void ApplyCountdownToButton()
     {
@@ -1149,7 +1181,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
 
     private void UpdateHelp(bool? showHelpButton)
     {
-        if (showHelpButton != null)
+        if (showHelpButton != true)
         {
             return;
         }
@@ -1170,6 +1202,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
             helpButton.KeyPress += (_, _) => LaunchHelp(_messageBoxExtendedData.Owner);
 
             helpButton.Click += (_, _) => LaunchHelp(_messageBoxExtendedData.Owner);
+            _helpButton = helpButton;
         }
     }
 
@@ -1234,6 +1267,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
             helpButton.Text = KryptonManager.Strings.GeneralStrings.Help;
             helpButton.KeyPress += (_, _) => LaunchHelp();
             helpButton.Click += (_, _) => LaunchHelp();
+            _helpButton = helpButton;
         }
     }
 

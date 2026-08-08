@@ -232,6 +232,13 @@ public partial class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElemen
         {
             _form.CancelButton = button;
         }
+
+        // Prefer DialogResult over Control.Visible: Visible is false while the host form
+        // is still constructing / not shown, which would skip semantic colours.
+        if ((CommonButtons.Buttons & buttonType) == buttonType)
+        {
+            KryptonDialogButtonAppearance.Apply(button, button.DialogResult, CommonButtons.ButtonColors);
+        }
     }
     #endregion
 
@@ -265,7 +272,7 @@ public partial class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElemen
 
     private void OnCommonButtonsPropertyChanged(CommonButtonsProperties property)
     {
-        if (property is CommonButtonsProperties.Buttons or CommonButtonsProperties.AcceptButton or CommonButtonsProperties.CancelButton)
+        if (property is CommonButtonsProperties.Buttons or CommonButtonsProperties.AcceptButton or CommonButtonsProperties.CancelButton or CommonButtonsProperties.ButtonColors)
         {
             OnCommonButtonsChanged();
         }
