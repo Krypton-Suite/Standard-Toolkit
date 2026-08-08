@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -296,7 +296,7 @@ public static class KryptonCustomStrings
     {
         if (culture == null)
         {
-            throw new ArgumentNullException(nameof(culture));
+            ThrowHelper.ThrowArgumentNullException(nameof(culture));
         }
 
         Thread.CurrentThread.CurrentUICulture = culture;

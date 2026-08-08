@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -28,8 +28,10 @@ public class NumericUpDownHostValues : Storage
     /// Initialize a new instance of the <see cref="NumericUpDownHostValues"/> class.
     /// </summary>
     /// <param name="owner">Owning numeric up-down host.</param>
-    public NumericUpDownHostValues(KryptonNumericUpDownToolStripItem owner) =>
-        _owner = owner ?? throw new ArgumentNullException(nameof(owner));
+    public NumericUpDownHostValues(KryptonNumericUpDownToolStripItem owner)
+    {
+        _owner = owner ?? ThrowHelper.ThrowArgumentNullException(owner);
+    }
 
     /// <inheritdoc />
     public override string ToString() => !IsDefault ? @"Modified" : string.Empty;

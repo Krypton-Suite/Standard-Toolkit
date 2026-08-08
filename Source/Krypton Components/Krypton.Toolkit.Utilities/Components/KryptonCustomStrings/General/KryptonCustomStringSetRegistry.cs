@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -36,22 +36,22 @@ public static class KryptonCustomStringSetRegistry
     {
         if (name == null)
         {
-            throw new ArgumentNullException(nameof(name));
+            ThrowHelper.ThrowArgumentNullException(nameof(name));
         }
 
         if (stringSet == null)
         {
-            throw new ArgumentNullException(nameof(stringSet));
+            ThrowHelper.ThrowArgumentNullException(nameof(stringSet));
         }
 
         if (name.Length == 0)
         {
-            throw new ArgumentException(@"Registration name cannot be empty.", nameof(name));
+            ThrowHelper.ThrowArgumentException(@"Registration name cannot be empty.", nameof(name));
         }
 
         if (!(stringSet is IKryptonCustomStringSet))
         {
-            throw new ArgumentException(@"String set must implement IKryptonCustomStringSet.", nameof(stringSet));
+            ThrowHelper.ThrowArgumentException(@"String set must implement IKryptonCustomStringSet.", nameof(stringSet));
         }
 
         lock (_sync)

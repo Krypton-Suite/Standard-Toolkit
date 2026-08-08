@@ -110,7 +110,7 @@ internal static class WindowsMuiStringCatalog
             return englishFallback;
         }
 
-        throw new ArgumentOutOfRangeException(nameof(id), id, @"Unknown Windows MUI string catalog entry.");
+        return ThrowHelper.ThrowArgumentOutOfRangeException<string>(nameof(id), id, @"Unknown Windows MUI string catalog entry.");
     }
 
     #endregion

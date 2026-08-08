@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
     Tears out a caption tab and drags it back to verify remerge into the source window.
 

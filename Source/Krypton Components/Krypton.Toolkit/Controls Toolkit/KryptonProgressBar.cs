@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2022 - 2026. All rights reserved.
@@ -323,7 +323,7 @@ public class KryptonProgressBar : Control, IContentValues
         {
             if (value < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(BlockCount));
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(BlockCount));
             }
             if (_blockCount == value)
             {
@@ -450,7 +450,7 @@ public class KryptonProgressBar : Control, IContentValues
         {
             _marqueeSpeed = value >= 0
                 ? value
-                : throw new ArgumentOutOfRangeException($@"{nameof(MarqueeAnimationSpeed)} must be non-negative");
+                : ThrowHelper.ThrowArgumentOutOfRangeException<int>(nameof(MarqueeAnimationSpeed), $@"{nameof(MarqueeAnimationSpeed)} must be non-negative");
             if (DesignMode)
             {
                 return;
@@ -479,7 +479,7 @@ public class KryptonProgressBar : Control, IContentValues
 
             if (value < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(Maximum), value.ToString(CultureInfo.CurrentCulture));
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(Maximum), value.ToString(CultureInfo.CurrentCulture));
             }
 
             if (_minimum > value)
@@ -535,7 +535,7 @@ public class KryptonProgressBar : Control, IContentValues
 
             if (value < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(Minimum), value.ToString(CultureInfo.CurrentCulture));
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(Minimum), value.ToString(CultureInfo.CurrentCulture));
             }
 
             if (_maximum < value)
@@ -594,7 +594,7 @@ public class KryptonProgressBar : Control, IContentValues
 
             if (value < _minimum || value > _maximum)
             {
-                throw new ArgumentOutOfRangeException(nameof(Value), value.ToString(CultureInfo.CurrentCulture));
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(Value), value.ToString(CultureInfo.CurrentCulture));
             }
 
             _value = value;
@@ -653,7 +653,7 @@ public class KryptonProgressBar : Control, IContentValues
     {
         if (Style == ProgressBarStyle.Marquee)
         {
-            throw new InvalidOperationException(@"The `Style` property is set to `ProgressBarStyle.Marquee`");
+            ThrowHelper.ThrowInvalidOperationException(@"The `Style` property is set to `ProgressBarStyle.Marquee`");
         }
 
         _value += value;

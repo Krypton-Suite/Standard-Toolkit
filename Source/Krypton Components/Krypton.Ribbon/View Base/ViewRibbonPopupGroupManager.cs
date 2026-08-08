@@ -44,9 +44,9 @@ internal class ViewRibbonPopupGroupManager : ViewManager
         Debug.Assert(viewGroup is not null);
         Debug.Assert(needPaintDelegate is not null);
 
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        _viewGroup = viewGroup ?? throw new ArgumentNullException(nameof(viewGroup));
-        _needPaintDelegate = needPaintDelegate ?? throw new ArgumentNullException(nameof(needPaintDelegate));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _viewGroup = viewGroup ?? ThrowHelper.ThrowArgumentNullException(viewGroup);
+        _needPaintDelegate = needPaintDelegate ?? ThrowHelper.ThrowArgumentNullException(needPaintDelegate);
     }
 
     /// <summary>
@@ -114,7 +114,7 @@ internal class ViewRibbonPopupGroupManager : ViewManager
         // Validate incoming reference
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         // Should the group be active
@@ -142,7 +142,7 @@ internal class ViewRibbonPopupGroupManager : ViewManager
         // Validate incoming reference
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         // Do we need to remove tracking

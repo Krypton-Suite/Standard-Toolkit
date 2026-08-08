@@ -79,14 +79,14 @@ public class MostRecentlyUsedFileManager
         // Validate the application name to ensure it is not null, empty, or contains a backslash.
         if (string.IsNullOrEmpty(applicationName) || applicationName.Contains("\\"))
         {
-            throw new ArgumentException("Bad argument.");
+            ThrowHelper.ThrowArgumentException("Bad argument.");
         }
 
-        _parentMenuItem = parentMenuItem ?? throw new ArgumentException("Bad argument.");
+        _parentMenuItem = parentMenuItem ?? ThrowHelper.ThrowArgumentException<KryptonMRUMenuItem>("Bad argument.");
 
         _applicationName = applicationName;
 
-        OnRecentFileClick = onRecentFileClick ?? throw new ArgumentException("Bad argument.");
+        OnRecentFileClick = onRecentFileClick ?? ThrowHelper.ThrowArgumentException<Action<object, EventArgs>>("Bad argument.");
 
         OnClearRecentFilesClick = onClearRecentFilesClick;
 

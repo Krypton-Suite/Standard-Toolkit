@@ -382,7 +382,7 @@ public class RenderStandard : RenderBase
 		// Validate incoming parameter
 		if (colorPalette == null)
 		{
-			throw new ArgumentNullException(nameof(colorPalette));
+			ThrowHelper.ThrowArgumentNullException(nameof(colorPalette));
 		}
 
 		// Use the professional renderer but pull colors from the palette
@@ -415,7 +415,7 @@ public class RenderStandard : RenderBase
 		// Validate parameter reference
 		if (palette == null)
 		{
-			throw new ArgumentNullException(nameof(palette));
+			ThrowHelper.ThrowArgumentNullException(nameof(palette));
 		}
 
 		PaletteDrawBorders borders = palette.GetBorderDrawBorders(state);
@@ -488,7 +488,7 @@ public class RenderStandard : RenderBase
 		// Validate parameter reference
 		if (palette == null)
 		{
-			throw new ArgumentNullException(nameof(palette));
+			ThrowHelper.ThrowArgumentNullException(nameof(palette));
 		}
 
 		PaletteDrawBorders borders = palette.GetBorderDrawBorders(state);
@@ -610,12 +610,12 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (palette == null)
 		{
-			throw new ArgumentNullException(nameof(palette));
+			ThrowHelper.ThrowArgumentNullException(nameof(palette));
 		}
 
 		Debug.Assert(context.Control != null);
@@ -651,12 +651,12 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (palette == null)
 		{
-			throw new ArgumentNullException(nameof(palette));
+			ThrowHelper.ThrowArgumentNullException(nameof(palette));
 		}
 
 		Debug.Assert(context.Control != null);
@@ -700,12 +700,12 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (palette == null)
 		{
-			throw new ArgumentNullException(nameof(palette));
+			ThrowHelper.ThrowArgumentNullException(nameof(palette));
 		}
 
 		Debug.Assert(context.Control != null);
@@ -750,12 +750,12 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (paletteBorder == null)
 		{
-			throw new ArgumentNullException(nameof(paletteBorder));
+			ThrowHelper.ThrowArgumentNullException(nameof(paletteBorder));
 		}
 
 		Debug.Assert(context.Control != null);
@@ -875,15 +875,15 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 		if (path == null)
 		{
-			throw new ArgumentNullException(nameof(path));
+			ThrowHelper.ThrowArgumentNullException(nameof(path));
 		}
 		if (palette == null)
 		{
-			throw new ArgumentNullException(nameof(palette));
+			ThrowHelper.ThrowArgumentNullException(nameof(palette));
 		}
 
 		Debug.Assert(context.Control != null);
@@ -1083,17 +1083,17 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context is null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (palette is null)
 		{
-			throw new ArgumentNullException(nameof(palette));
+			ThrowHelper.ThrowArgumentNullException(nameof(palette));
 		}
 
 		if (values is null)
 		{
-			throw new ArgumentNullException(nameof(values));
+			ThrowHelper.ThrowArgumentNullException(nameof(values));
 		}
 
 		Debug.Assert(context.Control != null);
@@ -1187,17 +1187,17 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (palette == null)
 		{
-			throw new ArgumentNullException(nameof(palette));
+			ThrowHelper.ThrowArgumentNullException(nameof(palette));
 		}
 
 		if (values == null)
 		{
-			throw new ArgumentNullException(nameof(values));
+			ThrowHelper.ThrowArgumentNullException(nameof(values));
 		}
 
 		Debug.Assert(context.Control != null);
@@ -1358,12 +1358,12 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (palette == null)
 		{
-			throw new ArgumentNullException(nameof(palette));
+			ThrowHelper.ThrowArgumentNullException(nameof(palette));
 		}
 
 		Debug.Assert(context.Control != null);
@@ -1762,7 +1762,7 @@ public class RenderStandard : RenderBase
 		// Validate parameter reference
 		if (palette == null)
 		{
-			throw new ArgumentNullException(nameof(palette));
+			ThrowHelper.ThrowArgumentNullException(nameof(palette));
 		}
 
 		// Get the width of the border
@@ -1915,12 +1915,12 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (palette == null)
 		{
-			throw new ArgumentNullException(nameof(palette));
+			ThrowHelper.ThrowArgumentNullException(nameof(palette));
 		}
 
 		Debug.Assert(context.Control != null);
@@ -1955,12 +1955,12 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (palette == null)
 		{
-			throw new ArgumentNullException(nameof(palette));
+			ThrowHelper.ThrowArgumentNullException(nameof(palette));
 		}
 
 		Debug.Assert(context.Control != null);
@@ -1994,12 +1994,12 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (palette == null)
 		{
-			throw new ArgumentNullException(nameof(palette));
+			ThrowHelper.ThrowArgumentNullException(nameof(palette));
 		}
 
 		Debug.Assert(context.Control != null);
@@ -2299,17 +2299,17 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (paletteBack == null)
 		{
-			throw new ArgumentNullException(nameof(paletteBack));
+			ThrowHelper.ThrowArgumentNullException(nameof(paletteBack));
 		}
 
 		if (paletteBorder == null)
 		{
-			throw new ArgumentNullException(nameof(paletteBorder));
+			ThrowHelper.ThrowArgumentNullException(nameof(paletteBorder));
 		}
 
 		Debug.Assert(context.Control != null);
@@ -2372,12 +2372,12 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (palette == null)
 		{
-			throw new ArgumentNullException(nameof(palette));
+			ThrowHelper.ThrowArgumentNullException(nameof(palette));
 		}
 
 		// Grab an image appropriate to the state
@@ -2425,12 +2425,12 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (palette == null)
 		{
-			throw new ArgumentNullException(nameof(palette));
+			ThrowHelper.ThrowArgumentNullException(nameof(palette));
 		}
 
 		// Grab an image appropriate to the state
@@ -2521,12 +2521,12 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (palette == null)
 		{
-			throw new ArgumentNullException(nameof(palette));
+			ThrowHelper.ThrowArgumentNullException(nameof(palette));
 		}
 
 		// Grab an image appropriate to the state
@@ -2599,12 +2599,12 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (palette == null)
 		{
-			throw new ArgumentNullException(nameof(palette));
+			ThrowHelper.ThrowArgumentNullException(nameof(palette));
 		}
 
 		var direction = orientation switch
@@ -2637,12 +2637,12 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (paletteContent == null)
 		{
-			throw new ArgumentNullException(nameof(paletteContent));
+			ThrowHelper.ThrowArgumentNullException(nameof(paletteContent));
 		}
 
         (Color outline, Color fill) = DropDownArrowGlyphColors.Resolve(context, paletteContent, state);
@@ -2669,12 +2669,12 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (paletteContent == null)
 		{
-			throw new ArgumentNullException(nameof(paletteContent));
+			ThrowHelper.ThrowArgumentNullException(nameof(paletteContent));
 		}
 
         (Color outline, Color fill) = DropDownArrowGlyphColors.Resolve(context, paletteContent, state);
@@ -2708,12 +2708,12 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (paletteContent == null)
 		{
-			throw new ArgumentNullException(nameof(paletteContent));
+			ThrowHelper.ThrowArgumentNullException(nameof(paletteContent));
 		}
 
 		(Color outline, Color fill) = DropDownArrowGlyphColors.Resolve(context, paletteContent, state);
@@ -2742,12 +2742,12 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (paletteGeneral == null)
 		{
-			throw new ArgumentNullException(nameof(paletteGeneral));
+			ThrowHelper.ThrowArgumentNullException(nameof(paletteGeneral));
 		}
 
 		switch (shape)
@@ -2833,12 +2833,12 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (paletteGeneral == null)
 		{
-			throw new ArgumentNullException(nameof(paletteGeneral));
+			ThrowHelper.ThrowArgumentNullException(nameof(paletteGeneral));
 		}
 
 		Color darkColor = state == PaletteState.Disabled ? paletteGeneral.GetRibbonDisabledDark(state) :
@@ -2944,12 +2944,12 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (paletteGeneral == null)
 		{
-			throw new ArgumentNullException(nameof(paletteGeneral));
+			ThrowHelper.ThrowArgumentNullException(nameof(paletteGeneral));
 		}
 
 		Color c1 = paletteGeneral.GetRibbonQATButtonDark(state);
@@ -3012,12 +3012,12 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (paletteGeneral == null)
 		{
-			throw new ArgumentNullException(nameof(paletteGeneral));
+			ThrowHelper.ThrowArgumentNullException(nameof(paletteGeneral));
 		}
 
 		Color c1 = paletteGeneral.GetRibbonQATButtonDark(state);
@@ -3083,12 +3083,12 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (paletteGeneral == null)
 		{
-			throw new ArgumentNullException(nameof(paletteGeneral));
+			ThrowHelper.ThrowArgumentNullException(nameof(paletteGeneral));
 		}
 
 		var x = displayRect.X + ((displayRect.Width - 2) / 2);
@@ -5416,7 +5416,7 @@ public class RenderStandard : RenderBase
 			default:
 				// Should never happen!
 				Debug.Assert(false);
-				throw new ArgumentOutOfRangeException(nameof(imageStyle));
+				return ThrowHelper.ThrowArgumentOutOfRangeException<Brush>(nameof(imageStyle));
 		}
 
 		return brush;
@@ -6067,7 +6067,7 @@ public class RenderStandard : RenderBase
 			default:
 				// Should never happen!
 				Debug.Assert(false);
-				throw new ArgumentOutOfRangeException(nameof(align));
+				return ThrowHelper.ThrowArgumentOutOfRangeException<int>(nameof(align));
 		}
 	}
 
@@ -6837,12 +6837,12 @@ public class RenderStandard : RenderBase
 	{
 		if (g == null)
 		{
-			throw new ArgumentNullException(nameof(g));
+			ThrowHelper.ThrowArgumentNullException(nameof(g));
 		}
 
 		if (dragData == null)
 		{
-			throw new ArgumentNullException(nameof(dragData));
+			ThrowHelper.ThrowArgumentNullException(nameof(dragData));
 		}
 
 		Color start = Color.FromArgb(190, 190, 190);
@@ -6989,7 +6989,7 @@ public class RenderStandard : RenderBase
 	{
 		if (g == null)
 		{
-			throw new ArgumentNullException(nameof(g));
+			ThrowHelper.ThrowArgumentNullException(nameof(g));
 		}
 
 		Color borderColour = ControlPaint.Dark(activeColor);

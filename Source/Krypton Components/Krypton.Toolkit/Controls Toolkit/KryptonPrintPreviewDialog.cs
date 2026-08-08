@@ -151,7 +151,7 @@ public class KryptonPrintPreviewDialog : Component, IDisposable
     {
         if (_document == null)
         {
-            throw new ArgumentNullException(nameof(Document), @"Document must be set before showing the dialog.");
+            ThrowHelper.ThrowArgumentNullException(nameof(Document), @"Document must be set before showing the dialog.");
         }
 
         _previewForm?.Dispose();

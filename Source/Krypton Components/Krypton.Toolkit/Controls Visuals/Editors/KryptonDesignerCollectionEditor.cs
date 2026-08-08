@@ -98,7 +98,7 @@ public abstract class KryptonDesignerCollectionEditor : CollectionEditor
 
         /// <inheritdoc />
         protected override CollectionForm CreateCollectionForm() =>
-            throw new NotSupportedException($"{GetType().Name} uses {nameof(VisualDesignerCollectionForm)}.");
+            ThrowHelper.ThrowNotSupportedException<CollectionForm>($"{GetType().Name} uses {nameof(VisualDesignerCollectionForm)}.");
 
         /// <inheritdoc />
         public override object? EditValue(ITypeDescriptorContext? context, IServiceProvider? provider, object? value)

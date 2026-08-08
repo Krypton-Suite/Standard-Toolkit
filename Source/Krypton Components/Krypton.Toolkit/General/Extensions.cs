@@ -40,7 +40,7 @@ internal static class Extensions
         }
         else
         {
-            throw new NullReferenceException(nameof(propertyInfo));
+            ThrowHelper.ThrowNullReferenceException(nameof(propertyInfo));
         }
     }
 
@@ -62,7 +62,7 @@ internal static class Extensions
         }
         else
         {
-            throw new NullReferenceException(nameof(propertyInfo));
+            return ThrowHelper.ThrowNullReferenceException<bool>(nameof(propertyInfo));
         }
     }
     #endregion

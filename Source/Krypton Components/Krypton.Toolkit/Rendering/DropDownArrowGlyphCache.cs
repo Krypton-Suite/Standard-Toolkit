@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -26,7 +26,7 @@ internal static class DropDownArrowGlyphCache
     {
         if (size <= 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(size));
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(size));
         }
 
         var mode = KryptonManager.DropDownArrowRenderMode;

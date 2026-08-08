@@ -64,7 +64,7 @@ public class RenderVisualStudio : RenderMicrosoft365
         // Validate passed parameter
         if (colourPalette == null)
         {
-            throw new ArgumentNullException(nameof(colourPalette));
+            ThrowHelper.ThrowArgumentNullException(nameof(colourPalette));
         }
 
         var renderer = new KryptonVisualStudio365Renderer(colourPalette.ColorTable)

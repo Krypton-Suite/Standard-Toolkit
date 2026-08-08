@@ -102,7 +102,7 @@ internal class KryptonRibbonGroupLinesDesigner : ComponentDesigner
         Debug.Assert(component is not null);
 
         // Cast to correct type
-        _ribbonLines = component as KryptonRibbonGroupLines ?? throw new ArgumentNullException(nameof(component));
+        _ribbonLines =component as KryptonRibbonGroupLines ?? ThrowHelper.ThrowArgumentNullException(component as KryptonRibbonGroupLines, nameof(component));
         if (_ribbonLines != null)
         {
             _ribbonLines.DesignTimeAddButton += OnAddButton;
@@ -125,8 +125,8 @@ internal class KryptonRibbonGroupLinesDesigner : ComponentDesigner
         }
 
         // Get access to the services
-        _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
-        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
+        _designerHost =(IDesignerHost?)GetService(typeof(IDesignerHost)) ?? ThrowHelper.ThrowNullReferenceException<IDesignerHost>(SharedStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
+        _changeService =(IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? ThrowHelper.ThrowNullReferenceException<IComponentChangeService>(SharedStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
 
         // We need to know when we are being removed/changed
         _changeService.ComponentRemoving += OnComponentRemoving;
@@ -950,7 +950,7 @@ internal class KryptonRibbonGroupLinesDesigner : ComponentDesigner
                 RaiseComponentChanging(propertyItems);
 
                 // Need access to host in order to delete a component
-                var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("host"));
+                var host =(IDesignerHost?)GetService(typeof(IDesignerHost)) ?? ThrowHelper.ThrowNullReferenceException<IDesignerHost>(SharedStaticFunctions.VariableCannotBeNull("host"));
 
                 // We need to remove all the items from the lines group
                 for (var i = _ribbonLines.Items.Count - 1; i >= 0; i--)
@@ -1090,7 +1090,7 @@ internal class KryptonRibbonGroupLinesDesigner : ComponentDesigner
         if (e.Component == _ribbonLines)
         {
             // Need access to host in order to delete a component
-            var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("host"));
+            var host =(IDesignerHost?)GetService(typeof(IDesignerHost)) ?? ThrowHelper.ThrowNullReferenceException<IDesignerHost>(SharedStaticFunctions.VariableCannotBeNull("host"));
 
             // We need to remove all items from the lines groups
             if (_ribbonLines.Items is not null)
@@ -1269,10 +1269,10 @@ internal class KryptonRibbonGroupLinesDesigner : ComponentDesigner
             && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
         {
             // Cast to correct type
-            var groupMenuItem = sender as ToolStripMenuItem ?? throw new ArgumentNullException(nameof(sender));
+            var groupMenuItem =sender as ToolStripMenuItem ?? ThrowHelper.ThrowArgumentNullException(sender as ToolStripMenuItem, nameof(sender));
 
             // Get access to the destination tab
-            var destination = groupMenuItem.Tag as KryptonRibbonGroup ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("destination"));
+            var destination =groupMenuItem.Tag as KryptonRibbonGroup ?? ThrowHelper.ThrowNullReferenceException<KryptonRibbonGroup>(SharedStaticFunctions.VariableCannotBeNull("destination"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupLines MoveLinesToGroup");

@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -25,7 +25,7 @@ public class PaletteOffice2007LightGray : PaletteOffice2007Base
     {
     }
 
-    public override Image? GetContextMenuSubMenuImage() => throw new NotImplementedException();
+    public override Image? GetContextMenuSubMenuImage() => ThrowHelper.ThrowNotImplementedException<Image>();
 
     #region Tab Row Background
 

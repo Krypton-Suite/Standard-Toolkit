@@ -71,7 +71,7 @@ public class TouchscreenSettingValues : GlobalId
         {
             if (value <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(value), value, @"Scale factor must be greater than 0.");
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), value, @"Scale factor must be greater than 0.");
             }
             KryptonManager.TouchscreenScaleFactorValue = value;
         }
@@ -110,7 +110,7 @@ public class TouchscreenSettingValues : GlobalId
         {
             if (value <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(value), value, @"Font scale factor must be greater than 0.");
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), value, @"Font scale factor must be greater than 0.");
             }
             KryptonManager.TouchscreenFontScaleFactorValue = value;
         }

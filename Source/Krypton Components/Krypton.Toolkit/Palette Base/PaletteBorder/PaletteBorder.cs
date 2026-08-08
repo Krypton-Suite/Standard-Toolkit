@@ -112,7 +112,7 @@ public class PaletteBorder : Storage,
         Debug.Assert(inherit != null);
 
         // Remember inheritance
-        _inherit = inherit ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(inherit)));
+        _inherit =inherit ?? ThrowHelper.ThrowNullReferenceException<IPaletteBorder>(SharedStaticFunctions.VariableCannotBeNull(nameof(inherit)));
 
         // Store the provided paint notification delegate
         NeedPaint = needPaint;

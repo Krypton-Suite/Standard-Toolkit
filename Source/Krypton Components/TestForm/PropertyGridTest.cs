@@ -106,7 +106,7 @@ public partial class PropertyGridTest : KryptonForm
                     IntPtr hBitmap = PI.CreateCompatibleBitmap(memDc, 10, 10);
                     if (hBitmap == IntPtr.Zero)
                     {
-                        throw new InvalidOperationException($"Failed to create bitmap at iteration {i}.");
+                        ThrowHelper.ThrowInvalidOperationException($"Failed to create bitmap at iteration {i}.");
                     }
 
                     PI.SelectObject(memDc, hBitmap);

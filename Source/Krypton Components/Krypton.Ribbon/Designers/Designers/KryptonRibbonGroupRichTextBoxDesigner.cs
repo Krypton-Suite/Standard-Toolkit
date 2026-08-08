@@ -60,7 +60,7 @@ internal class KryptonRibbonGroupRichTextBoxDesigner : ComponentDesigner, IKrypt
         Debug.Assert(component is not null);
 
         // Cast to correct type
-        _ribbonRichTextBox = component as KryptonRibbonGroupRichTextBox ?? throw new ArgumentNullException(nameof(component));
+        _ribbonRichTextBox =component as KryptonRibbonGroupRichTextBox ?? ThrowHelper.ThrowArgumentNullException(component as KryptonRibbonGroupRichTextBox, nameof(component));
             
         if (_ribbonRichTextBox is not null)
         {
@@ -82,8 +82,8 @@ internal class KryptonRibbonGroupRichTextBoxDesigner : ComponentDesigner, IKrypt
         }
 
         // Get access to the services
-        _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
-        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
+        _designerHost =(IDesignerHost?)GetService(typeof(IDesignerHost)) ?? ThrowHelper.ThrowNullReferenceException<IDesignerHost>(SharedStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
+        _changeService =(IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? ThrowHelper.ThrowNullReferenceException<IComponentChangeService>(SharedStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
 
         // We need to know when we are being removed/changed
         _changeService.ComponentChanged += OnComponentChanged;
@@ -206,7 +206,7 @@ internal class KryptonRibbonGroupRichTextBoxDesigner : ComponentDesigner, IKrypt
 
         if (_ribbonRichTextBox.Ribbon != null)
         {
-            var items = ParentItems ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("items"));
+            var items = ParentItems ?? ThrowHelper.ThrowNullReferenceException<TypedRestrictCollection<KryptonRibbonGroupItem>>(SharedStaticFunctions.VariableCannotBeNull("items"));
             moveFirst = items.IndexOf(_ribbonRichTextBox) > 0;
             movePrev = items.IndexOf(_ribbonRichTextBox) > 0;
             moveNext = items.IndexOf(_ribbonRichTextBox) < (items.Count - 1);
@@ -233,7 +233,7 @@ internal class KryptonRibbonGroupRichTextBoxDesigner : ComponentDesigner, IKrypt
         if (_ribbonRichTextBox.Ribbon != null)
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("items"));
+            var items = ParentItems ?? ThrowHelper.ThrowNullReferenceException<TypedRestrictCollection<KryptonRibbonGroupItem>>(SharedStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupRichTextBox MoveFirst");
@@ -268,7 +268,7 @@ internal class KryptonRibbonGroupRichTextBoxDesigner : ComponentDesigner, IKrypt
         if (_ribbonRichTextBox.Ribbon != null)
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("items"));
+            var items = ParentItems ?? ThrowHelper.ThrowNullReferenceException<TypedRestrictCollection<KryptonRibbonGroupItem>>(SharedStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupRichTextBox MovePrevious");
@@ -305,7 +305,7 @@ internal class KryptonRibbonGroupRichTextBoxDesigner : ComponentDesigner, IKrypt
         if (_ribbonRichTextBox.Ribbon != null)
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("items"));
+            var items = ParentItems ?? ThrowHelper.ThrowNullReferenceException<TypedRestrictCollection<KryptonRibbonGroupItem>>(SharedStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupRichTextBox MoveNext");
@@ -342,7 +342,7 @@ internal class KryptonRibbonGroupRichTextBoxDesigner : ComponentDesigner, IKrypt
         if (_ribbonRichTextBox.Ribbon != null)
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("items"));
+            var items = ParentItems ?? ThrowHelper.ThrowNullReferenceException<TypedRestrictCollection<KryptonRibbonGroupItem>>(SharedStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupRichTextBox MoveLast");
@@ -377,7 +377,7 @@ internal class KryptonRibbonGroupRichTextBoxDesigner : ComponentDesigner, IKrypt
         if (_ribbonRichTextBox.Ribbon != null)
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("items"));
+            var items = ParentItems ?? ThrowHelper.ThrowNullReferenceException<TypedRestrictCollection<KryptonRibbonGroupItem>>(SharedStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupRichTextBox DeleteRichTextBox");
@@ -414,7 +414,7 @@ internal class KryptonRibbonGroupRichTextBoxDesigner : ComponentDesigner, IKrypt
     {
         if (_ribbonRichTextBox.Ribbon is not null)
         {
-            PropertyDescriptor? propertyEnabled = TypeDescriptor.GetProperties(_ribbonRichTextBox)[nameof(Enabled)] ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("propertyEnabled"));
+            PropertyDescriptor? propertyEnabled =TypeDescriptor.GetProperties(_ribbonRichTextBox)[nameof(Enabled)] ?? ThrowHelper.ThrowNullReferenceException<PropertyDescriptor>(SharedStaticFunctions.VariableCannotBeNull("propertyEnabled"));
             var oldValue = (bool?)propertyEnabled.GetValue(_ribbonRichTextBox);
             var newValue = !oldValue;
             _changeService.OnComponentChanged(_ribbonRichTextBox, null, oldValue, newValue);
@@ -426,7 +426,7 @@ internal class KryptonRibbonGroupRichTextBoxDesigner : ComponentDesigner, IKrypt
     {
         if (_ribbonRichTextBox.Ribbon is not null)
         {
-            PropertyDescriptor? propertyVisible = TypeDescriptor.GetProperties(_ribbonRichTextBox)[nameof(Visible)] ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("propertyVisible"));
+            PropertyDescriptor? propertyVisible =TypeDescriptor.GetProperties(_ribbonRichTextBox)[nameof(Visible)] ?? ThrowHelper.ThrowNullReferenceException<PropertyDescriptor>(SharedStaticFunctions.VariableCannotBeNull("propertyVisible"));
             var oldValue = (bool?)propertyVisible.GetValue(_ribbonRichTextBox);
             var newValue = !oldValue;
             _changeService.OnComponentChanged(_ribbonRichTextBox, null, oldValue, newValue);

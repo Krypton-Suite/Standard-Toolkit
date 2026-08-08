@@ -164,7 +164,7 @@ internal class ViewDrawRibbonGalleryItem : ViewDrawButton,
 
         if ( context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // If this item is being tracked, then show as tracking

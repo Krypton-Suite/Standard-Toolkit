@@ -53,7 +53,7 @@ public class KryptonReadOnlyControls : KryptonControlCollection
         }
         else
         {
-            throw new NotSupportedException("ReadOnly controls collection");
+            ThrowHelper.ThrowNotSupportedException("ReadOnly controls collection");
         }
     }
 
@@ -70,7 +70,7 @@ public class KryptonReadOnlyControls : KryptonControlCollection
         }
         else
         {
-            throw new NotSupportedException("ReadOnly controls collection");
+            ThrowHelper.ThrowNotSupportedException("ReadOnly controls collection");
         }
     }
 
@@ -89,7 +89,7 @@ public class KryptonReadOnlyControls : KryptonControlCollection
         {
             if (Contains(value))
             {
-                throw new NotSupportedException("ReadOnly controls collection");
+                ThrowHelper.ThrowNotSupportedException("ReadOnly controls collection");
             }
         }
     }
@@ -109,7 +109,7 @@ public class KryptonReadOnlyControls : KryptonControlCollection
         {
             if (ContainsKey(key))
             {
-                throw new NotSupportedException("ReadOnly controls collection");
+                ThrowHelper.ThrowNotSupportedException("ReadOnly controls collection");
             }
         }
     }
@@ -128,7 +128,7 @@ public class KryptonReadOnlyControls : KryptonControlCollection
         {
             if (Count > 0)
             {
-                throw new NotSupportedException("ReadOnly controls collection");
+                ThrowHelper.ThrowNotSupportedException("ReadOnly controls collection");
             }
         }
     }

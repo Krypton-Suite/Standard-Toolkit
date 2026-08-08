@@ -73,17 +73,17 @@ public class AccurateText : GlobalId
 
         if (g == null)
         {
-            throw new ArgumentNullException(nameof(g));
+            ThrowHelper.ThrowArgumentNullException(nameof(g));
         }
 
         if (text == null)
         {
-            throw new ArgumentNullException(nameof(text));
+            ThrowHelper.ThrowArgumentNullException(nameof(text));
         }
 
         if (font == null)
         {
-            throw new ArgumentNullException(nameof(font));
+            ThrowHelper.ThrowArgumentNullException(nameof(font));
         }
 
         // An empty string cannot be drawn, so uses the empty memento
@@ -245,13 +245,13 @@ public class AccurateText : GlobalId
         // Cannot draw with a null graphics instance
         if (g == null)
         {
-            throw new ArgumentNullException(nameof(g));
+            ThrowHelper.ThrowArgumentNullException(nameof(g));
         }
 
         // Cannot draw with a null memento instance
         if (memento == null)
         {
-            throw new ArgumentNullException(nameof(memento));
+            ThrowHelper.ThrowArgumentNullException(nameof(memento));
         }
 
         var ret = true;

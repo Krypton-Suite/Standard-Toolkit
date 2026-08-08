@@ -205,7 +205,7 @@ public class IntegratedToolBarValues : GlobalId
 
     //private void SetupIntegratedToolBar(bool value, KryptonForm? owner)
     //{
-    //    throw new NotImplementedException();
+    //    ThrowHelper.ThrowNotImplementedException();
     //}
 
     #endregion

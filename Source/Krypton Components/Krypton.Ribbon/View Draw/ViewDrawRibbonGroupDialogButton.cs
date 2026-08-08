@@ -44,8 +44,8 @@ internal class ViewDrawRibbonGroupDialogButton : ViewLeaf
         Debug.Assert(ribbonGroup is not null);
 
         // Remember incoming references
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        _ribbonGroup = ribbonGroup ?? throw new ArgumentNullException(nameof(ribbonGroup));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _ribbonGroup = ribbonGroup ?? ThrowHelper.ThrowArgumentNullException(ribbonGroup);
 
         // Attach a controller to this element for the pressing of the button
         var controller = new DialogLauncherButtonController(ribbon, this, needPaint!);
@@ -123,7 +123,7 @@ internal class ViewDrawRibbonGroupDialogButton : ViewLeaf
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         IPaletteBack paletteBack = _ribbon.StateCommon.RibbonGroupDialogButton.PaletteBack;

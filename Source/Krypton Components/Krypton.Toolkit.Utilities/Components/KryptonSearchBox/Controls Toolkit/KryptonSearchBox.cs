@@ -250,7 +250,7 @@ public partial class KryptonSearchBox : KryptonTextBox
     {
         if (columns == null)
         {
-            throw new ArgumentNullException(nameof(columns));
+            ThrowHelper.ThrowArgumentNullException(nameof(columns));
         }
 
         _dataGridViewColumns.Clear();
@@ -316,7 +316,7 @@ public partial class KryptonSearchBox : KryptonTextBox
     {
         if (suggestions == null)
         {
-            throw new ArgumentNullException(nameof(suggestions));
+            ThrowHelper.ThrowArgumentNullException(nameof(suggestions));
         }
 
         _suggestions.Clear();
@@ -363,7 +363,7 @@ public partial class KryptonSearchBox : KryptonTextBox
     {
         if (suggestions == null)
         {
-            throw new ArgumentNullException(nameof(suggestions));
+            ThrowHelper.ThrowArgumentNullException(nameof(suggestions));
         }
 
         _richSuggestions.Clear();

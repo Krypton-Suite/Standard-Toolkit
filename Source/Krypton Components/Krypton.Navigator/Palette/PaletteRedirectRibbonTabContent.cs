@@ -359,7 +359,7 @@ public class PaletteRedirectRibbonTabContent : PaletteRedirect
 
         return inherit?.GetContentShortTextFont(state) 
                ?? Target?.GetContentShortTextFont(style, state) 
-               ?? throw new NullReferenceException("The result of GetContentShortTextFont() cannot be null.");
+ ?? ThrowHelper.ThrowNullReferenceException<Font>("The result of GetContentShortTextFont() cannot be null.");
     }
 
     /// <summary>
@@ -584,7 +584,7 @@ public class PaletteRedirectRibbonTabContent : PaletteRedirect
 
         return inherit?.GetContentLongTextFont(state) 
                ?? Target?.GetContentLongTextFont(style, state) 
-               ?? throw new NullReferenceException("The result of GetContentLongTextFont() cannot be null.");
+ ?? ThrowHelper.ThrowNullReferenceException<Font>("The result of GetContentLongTextFont() cannot be null.");
     }
 
     /// <summary>

@@ -110,7 +110,7 @@ internal class ViewDrawRibbonGalleryButton : ViewLeaf, IContentValues
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // Grab the required size for the content images
@@ -129,12 +129,12 @@ internal class ViewDrawRibbonGalleryButton : ViewLeaf, IContentValues
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
 
@@ -165,7 +165,7 @@ internal class ViewDrawRibbonGalleryButton : ViewLeaf, IContentValues
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // Reduce background to fit inside the border

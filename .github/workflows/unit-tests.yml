@@ -1,4 +1,4 @@
-﻿# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
 # Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2026 - 2026. All rights reserved.
 #
 # Builds TestForm and runs Scripts/UnitTests assert suites via Invoke-AllUnitTests.ps1 -Strict.
@@ -186,6 +186,20 @@ jobs:
           # Validate with powershell.exe (same host that runs the suite). pwsh alone can
           # miss UTF-8-without-BOM / non-ASCII issues that break Windows PowerShell 5.1.
           $script = Join-Path $env:GITHUB_WORKSPACE 'Scripts\UnitTests\Invoke-AllUnitTests.ps1'
+          if (-not (Test-Path -LiteralPath $script)) {
+            Write-Host "[ERROR] Invoke-AllUnitTests.ps1 not found at: $script"
+            Write-Host '[DEBUG] Listing Scripts folder contents:'
+            $scriptsRoot = Join-Path $env:GITHUB_WORKSPACE 'Scripts'
+            if (Test-Path -LiteralPath $scriptsRoot) {
+              Get-ChildItem -LiteralPath $scriptsRoot -Recurse -Force |
+                ForEach-Object { Write-Host $_.FullName }
+            }
+            else {
+              Write-Host "[DEBUG] Scripts folder missing under $env:GITHUB_WORKSPACE"
+            }
+            exit 1
+          }
+
           $probe = @'
           $errors = $null
           $tokens = $null
@@ -221,7 +235,8 @@ jobs:
           Write-Host "[INFO] Unit test run starting"
           Write-Host "[INFO] Configuration=$env:UNITTEST_CONFIGURATION TFM=$env:UNITTEST_TFM TimeoutSeconds=$timeout"
 
-          & powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\Scripts\UnitTests\Invoke-AllUnitTests.ps1 `
+          $invokeAll = Join-Path $env:GITHUB_WORKSPACE 'Scripts\UnitTests\Invoke-AllUnitTests.ps1'
+          & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $invokeAll `
             -Configuration $env:UNITTEST_CONFIGURATION `
             -TargetFramework $env:UNITTEST_TFM `
             -Strict `

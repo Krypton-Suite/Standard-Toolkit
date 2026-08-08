@@ -65,7 +65,7 @@ public class KryptonDataGridViewButtonColumn : KryptonDataGridViewIconColumn
     public override object Clone()
     {
         // Create a new instance
-        var clone = base.Clone() as KryptonDataGridViewButtonColumn ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("clone"));
+        var clone =base.Clone() as KryptonDataGridViewButtonColumn ?? ThrowHelper.ThrowNullReferenceException<KryptonDataGridViewButtonColumn>(SharedStaticFunctions.VariableCannotBeNull("clone"));
         clone.Text = Text;
 
         return clone;
@@ -97,7 +97,7 @@ public class KryptonDataGridViewButtonColumn : KryptonDataGridViewIconColumn
         {
             if ((value != null) && value is not KryptonDataGridViewButtonCell)
             {
-                throw new InvalidCastException(@"Can only assign a object of type KryptonDataGridViewButtonCell");
+                ThrowHelper.ThrowInvalidCastException(@"Can only assign a object of type KryptonDataGridViewButtonCell");
             }
 
             base.CellTemplate = value;
@@ -168,7 +168,7 @@ public class KryptonDataGridViewButtonColumn : KryptonDataGridViewIconColumn
     public bool UseColumnTextForButtonValue
     {
         get =>
-            (CellTemplate as KryptonDataGridViewButtonCell)?.UseColumnTextForButtonValue ?? throw new InvalidOperationException(@"KryptonDataGridViewButtonColumn cell template required");
+(CellTemplate as KryptonDataGridViewButtonCell)?.UseColumnTextForButtonValue ?? ThrowHelper.ThrowInvalidOperationException<bool>(@"KryptonDataGridViewButtonColumn cell template required");
 
         set
         {
@@ -201,7 +201,7 @@ public class KryptonDataGridViewButtonColumn : KryptonDataGridViewIconColumn
     public ButtonStyle ButtonStyle
     {
         get =>
-            (CellTemplate as KryptonDataGridViewButtonCell)?.ButtonStyle ?? throw new InvalidOperationException(@"KryptonDataGridViewButtonColumn cell template required");
+(CellTemplate as KryptonDataGridViewButtonCell)?.ButtonStyle ?? ThrowHelper.ThrowInvalidOperationException<ButtonStyle>(@"KryptonDataGridViewButtonColumn cell template required");
 
         set
         {

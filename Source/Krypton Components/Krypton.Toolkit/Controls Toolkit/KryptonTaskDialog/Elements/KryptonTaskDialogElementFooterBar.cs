@@ -263,7 +263,7 @@ public partial class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElemen
         }
         else
         {
-            throw new ArgumentOutOfRangeException($"Unknown FooterBarProperties member: {property}");
+            ThrowHelper.ThrowArgumentOutOfRangeException($"Unknown FooterBarProperties member: {property}");
         }
 
         LayoutDirty = true;
@@ -278,7 +278,7 @@ public partial class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElemen
         }
         else
         {
-            throw new ArgumentOutOfRangeException($"Unknown CommonButtonsProperties member: {property}");
+            ThrowHelper.ThrowArgumentOutOfRangeException($"Unknown CommonButtonsProperties member: {property}");
         }
 
         LayoutDirty = true;

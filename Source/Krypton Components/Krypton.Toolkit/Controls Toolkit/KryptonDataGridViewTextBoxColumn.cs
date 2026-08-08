@@ -55,7 +55,7 @@ public class KryptonDataGridViewTextBoxColumn : KryptonDataGridViewIconColumn
     /// <returns></returns>
     public override object Clone()
     {
-        var cloned = base.Clone() as KryptonDataGridViewTextBoxColumn ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull("coned"));
+        var cloned =base.Clone() as KryptonDataGridViewTextBoxColumn ?? ThrowHelper.ThrowNullReferenceException<KryptonDataGridViewTextBoxColumn>(SharedStaticFunctions.VariableCannotBeNull("coned"));
 
         cloned.Multiline = Multiline;
         cloned.MultilineStringEditor = MultilineStringEditor;
@@ -123,7 +123,7 @@ public class KryptonDataGridViewTextBoxColumn : KryptonDataGridViewIconColumn
     public int MaxInputLength
     {
         get =>
-            TextBoxCellTemplate?.MaxInputLength ?? throw new InvalidOperationException("KryptonDataGridViewTextBoxColumn cell template required");
+TextBoxCellTemplate?.MaxInputLength ?? ThrowHelper.ThrowInvalidOperationException<int>("KryptonDataGridViewTextBoxColumn cell template required");
 
         set
         {
@@ -172,7 +172,7 @@ public class KryptonDataGridViewTextBoxColumn : KryptonDataGridViewIconColumn
         {
             if ((value is not null) && value is not KryptonDataGridViewTextBoxCell)
             {
-                throw new InvalidCastException("Can only assign a object of type KryptonDataGridViewTextBoxCell");
+                ThrowHelper.ThrowInvalidCastException("Can only assign a object of type KryptonDataGridViewTextBoxCell");
             }
 
             base.CellTemplate = (KryptonDataGridViewTextBoxCell)value!;
@@ -235,12 +235,12 @@ public class KryptonDataGridViewTextBoxColumn : KryptonDataGridViewIconColumn
     public bool Multiline
     {
         get =>
-            TextBoxCellTemplate?.Multiline ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+TextBoxCellTemplate?.Multiline ?? ThrowHelper.ThrowInvalidOperationException<bool>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (TextBoxCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             TextBoxCellTemplate.Multiline = value;
@@ -271,12 +271,12 @@ public class KryptonDataGridViewTextBoxColumn : KryptonDataGridViewIconColumn
     public bool MultilineStringEditor
     {
         get =>
-            TextBoxCellTemplate?.MultilineStringEditor ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+TextBoxCellTemplate?.MultilineStringEditor ?? ThrowHelper.ThrowInvalidOperationException<bool>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (TextBoxCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             TextBoxCellTemplate.MultilineStringEditor = value;

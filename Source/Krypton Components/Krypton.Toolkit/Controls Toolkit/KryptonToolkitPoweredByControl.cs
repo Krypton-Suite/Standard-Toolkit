@@ -102,7 +102,7 @@ public partial class KryptonToolkitPoweredByControl : UserControl
             ToolkitSupportType.Canary => ToolkitLogoImageResources.Krypton_Canary,
             ToolkitSupportType.Nightly => ToolkitLogoImageResources.Krypton_Nightly,
             ToolkitSupportType.Stable => ToolkitLogoImageResources.Krypton_Stable,
-            _ => throw new ArgumentOutOfRangeException(nameof(ToolkitSupportType), ToolkitSupportType, null)
+            _ => ThrowHelper.ThrowArgumentOutOfRangeException<Image>(nameof(ToolkitSupportType), ToolkitSupportType, null)
         };
     }
 

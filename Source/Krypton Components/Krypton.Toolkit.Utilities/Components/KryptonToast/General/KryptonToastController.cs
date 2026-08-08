@@ -171,7 +171,7 @@ internal class KryptonToastController
             case KryptonToastInputAreaType.NumericUpDown:
                 return ReturnDecimalInputWithProgressBar(data);
             case null:
-                throw new ArgumentNullException();
+                return ThrowHelper.ThrowArgumentNullException<object>();
             default:
                 DebugTools.NotImplemented(data.ToString());
                 break;

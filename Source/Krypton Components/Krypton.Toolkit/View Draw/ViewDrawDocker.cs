@@ -218,7 +218,7 @@ public class ViewDrawDocker : ViewDrawCanvas
 
         if (child is null)
         {
-            throw new ArgumentNullException(nameof(child));
+            ThrowHelper.ThrowArgumentNullException(nameof(child));
         }
 
         // If the lookup is not already defined
@@ -263,7 +263,7 @@ public class ViewDrawDocker : ViewDrawCanvas
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // Check with the base canvas first
@@ -313,12 +313,12 @@ public class ViewDrawDocker : ViewDrawCanvas
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // Remember the original display rectangle provided
@@ -382,12 +382,12 @@ public class ViewDrawDocker : ViewDrawCanvas
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // Remember the original display rectangle provided
@@ -544,12 +544,12 @@ public class ViewDrawDocker : ViewDrawCanvas
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // We take on all the available display area
