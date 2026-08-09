@@ -505,6 +505,9 @@ public static class GraphicsExtensions
             PaletteMode.SparklePurple => true,
             PaletteMode.SparklePurpleDarkMode => true,
             PaletteMode.SparklePurpleLightMode => true,
+            PaletteMode.SparkleHighContrast => true,
+            PaletteMode.SparkleDeuteranopia => true,
+            PaletteMode.SparkleProtanopia => true,
             _ => false
         };
     }
@@ -563,6 +566,10 @@ public static class GraphicsExtensions
             PaletteMode.VisualStudio2022Dark => true,
             PaletteMode.RetroGreen or PaletteMode.RetroBlue => true,
             PaletteMode.MacOSXAqua or PaletteMode.MacOSDark or PaletteMode.MacOSLight => true,
+            PaletteMode.HighContrast or PaletteMode.Deuteranopia or PaletteMode.Protanopia => true,
+            PaletteMode.Office2007HighContrast or PaletteMode.Office2007Deuteranopia or PaletteMode.Office2007Protanopia => true,
+            PaletteMode.Office2010HighContrast or PaletteMode.Office2010Deuteranopia or PaletteMode.Office2010Protanopia => true,
+            PaletteMode.Office2013HighContrast or PaletteMode.Office2013Deuteranopia or PaletteMode.Office2013Protanopia => true,
             _ => false
         };
     }

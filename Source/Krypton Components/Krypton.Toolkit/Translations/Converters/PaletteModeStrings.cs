@@ -64,6 +64,9 @@ public class PaletteModeStrings : GlobalId
     internal const string DEFAULT_PALETTE_SPARKLE_BLUE_LIGHT_MODE = @"Sparkle - Blue (Light Mode)";
     internal const string DEFAULT_PALETTE_SPARKLE_ORANGE_LIGHT_MODE = @"Sparkle - Orange (Light Mode)";
     internal const string DEFAULT_PALETTE_SPARKLE_PURPLE_LIGHT_MODE = @"Sparkle - Purple (Light Mode)";
+    internal const string DEFAULT_PALETTE_SPARKLE_HIGH_CONTRAST = @"Sparkle - High Contrast";
+    internal const string DEFAULT_PALETTE_SPARKLE_DEUTERANOPIA = @"Sparkle - Deuteranopia";
+    internal const string DEFAULT_PALETTE_SPARKLE_PROTANOPIA = @"Sparkle - Protanopia";
     internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2007 = @"Visual Studio 2010 (2007 Variation)";
     internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2010 = @"Visual Studio 2010 (2010 Variation)";
     internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2013 = @"Visual Studio 2010 (2013 Variation)";
@@ -89,6 +92,18 @@ public class PaletteModeStrings : GlobalId
     internal const string DEFAULT_PALETTE_OSX_AQUA = @"Mac OS X Aqua";
     internal const string DEFAULT_PALETTE_MACOS_LIGHT = @"macOS - Light";
     internal const string DEFAULT_PALETTE_MACOS_DARK = @"macOS - Dark";
+    internal const string DEFAULT_PALETTE_HIGH_CONTRAST = @"High Contrast";
+    internal const string DEFAULT_PALETTE_DEUTERANOPIA = @"Deuteranopia";
+    internal const string DEFAULT_PALETTE_PROTANOPIA = @"Protanopia";
+    internal const string DEFAULT_PALETTE_OFFICE_2007_HIGH_CONTRAST = @"Office 2007 - High Contrast";
+    internal const string DEFAULT_PALETTE_OFFICE_2007_DEUTERANOPIA = @"Office 2007 - Deuteranopia";
+    internal const string DEFAULT_PALETTE_OFFICE_2007_PROTANOPIA = @"Office 2007 - Protanopia";
+    internal const string DEFAULT_PALETTE_OFFICE_2010_HIGH_CONTRAST = @"Office 2010 - High Contrast";
+    internal const string DEFAULT_PALETTE_OFFICE_2010_DEUTERANOPIA = @"Office 2010 - Deuteranopia";
+    internal const string DEFAULT_PALETTE_OFFICE_2010_PROTANOPIA = @"Office 2010 - Protanopia";
+    internal const string DEFAULT_PALETTE_OFFICE_2013_HIGH_CONTRAST = @"Office 2013 - High Contrast";
+    internal const string DEFAULT_PALETTE_OFFICE_2013_DEUTERANOPIA = @"Office 2013 - Deuteranopia";
+    internal const string DEFAULT_PALETTE_OFFICE_2013_PROTANOPIA = @"Office 2013 - Protanopia";
     internal const string DEFAULT_PALETTE_OFFICE_2007_LIME_GREEN = @"Office 2007 - Lime Green";
     internal const string DEFAULT_PALETTE_OFFICE_2007_LIME_GREEN_DARK = @"Office 2007 - Lime Green - Dark Mode";
     internal const string DEFAULT_PALETTE_OFFICE_2010_LIME_GREEN = @"Office 2010 - Lime Green";
@@ -124,6 +139,9 @@ public class PaletteModeStrings : GlobalId
             { DEFAULT_PALETTE_OFFICE_2007_WHITE, PaletteMode.Office2007White },
             { DEFAULT_PALETTE_OFFICE_2007_BLACK, PaletteMode.Office2007Black },
             { DEFAULT_PALETTE_OFFICE_2007_BLACK_DARK_MODE, PaletteMode.Office2007BlackDarkMode },
+            { DEFAULT_PALETTE_OFFICE_2007_HIGH_CONTRAST, PaletteMode.Office2007HighContrast },
+            { DEFAULT_PALETTE_OFFICE_2007_DEUTERANOPIA, PaletteMode.Office2007Deuteranopia },
+            { DEFAULT_PALETTE_OFFICE_2007_PROTANOPIA, PaletteMode.Office2007Protanopia },
             { DEFAULT_PALETTE_OFFICE_2007_LIME_GREEN, PaletteMode.Office2007LimeGreen },
             { DEFAULT_PALETTE_OFFICE_2007_LIME_GREEN_DARK, PaletteMode.Office2007LimeGreenDark },
             //{ DEFAULT_PALETTE_OFFICE_2007_DARK_GRAY, PaletteMode.Office2007DarkGray },
@@ -137,6 +155,9 @@ public class PaletteModeStrings : GlobalId
             { DEFAULT_PALETTE_OFFICE_2010_WHITE, PaletteMode.Office2010White },
             { DEFAULT_PALETTE_OFFICE_2010_BLACK, PaletteMode.Office2010Black },
             { DEFAULT_PALETTE_OFFICE_2010_BLACK_DARK_MODE, PaletteMode.Office2010BlackDarkMode },
+            { DEFAULT_PALETTE_OFFICE_2010_HIGH_CONTRAST, PaletteMode.Office2010HighContrast },
+            { DEFAULT_PALETTE_OFFICE_2010_DEUTERANOPIA, PaletteMode.Office2010Deuteranopia },
+            { DEFAULT_PALETTE_OFFICE_2010_PROTANOPIA, PaletteMode.Office2010Protanopia },
             { DEFAULT_PALETTE_OFFICE_2010_LIME_GREEN, PaletteMode.Office2010LimeGreen },
             { DEFAULT_PALETTE_OFFICE_2010_LIME_GREEN_DARK, PaletteMode.Office2010LimeGreenDark },
             //{ DEFAULT_PALETTE_OFFICE_2010_DARK_GRAY, PaletteMode.Office2010DarkGray },
@@ -144,6 +165,9 @@ public class PaletteModeStrings : GlobalId
             { DEFAULT_PALETTE_OFFICE_2013_DARK_GRAY, PaletteMode.Office2013DarkGray },
             { DEFAULT_PALETTE_OFFICE_2013_LIGHT_GRAY, PaletteMode.Office2013LightGray },
             { DEFAULT_PALETTE_OFFICE_2013_WHITE, PaletteMode.Office2013White },
+            { DEFAULT_PALETTE_OFFICE_2013_HIGH_CONTRAST, PaletteMode.Office2013HighContrast },
+            { DEFAULT_PALETTE_OFFICE_2013_DEUTERANOPIA, PaletteMode.Office2013Deuteranopia },
+            { DEFAULT_PALETTE_OFFICE_2013_PROTANOPIA, PaletteMode.Office2013Protanopia },
             { DEFAULT_PALETTE_SPARKLE_BLUE, PaletteMode.SparkleBlue },
             { DEFAULT_PALETTE_SPARKLE_BLUE_DARK_MODE, PaletteMode.SparkleBlueDarkMode },
             { DEFAULT_PALETTE_SPARKLE_BLUE_LIGHT_MODE, PaletteMode.SparkleBlueLightMode },
@@ -153,6 +177,9 @@ public class PaletteModeStrings : GlobalId
             { DEFAULT_PALETTE_SPARKLE_PURPLE, PaletteMode.SparklePurple },
             { DEFAULT_PALETTE_SPARKLE_PURPLE_DARK_MODE, PaletteMode.SparklePurpleDarkMode },
             { DEFAULT_PALETTE_SPARKLE_PURPLE_LIGHT_MODE, PaletteMode.SparklePurpleLightMode },
+            { DEFAULT_PALETTE_SPARKLE_HIGH_CONTRAST, PaletteMode.SparkleHighContrast },
+            { DEFAULT_PALETTE_SPARKLE_DEUTERANOPIA, PaletteMode.SparkleDeuteranopia },
+            { DEFAULT_PALETTE_SPARKLE_PROTANOPIA, PaletteMode.SparkleProtanopia },
             { DEFAULT_PALETTE_MICROSOFT_365_BLUE, PaletteMode.Microsoft365Blue },
             { DEFAULT_PALETTE_MICROSOFT_365_BLUE_DARK_MODE, PaletteMode.Microsoft365BlueDarkMode },
             { DEFAULT_PALETTE_MICROSOFT_365_BLUE_LIGHT_MODE, PaletteMode.Microsoft365BlueLightMode },
@@ -192,6 +219,9 @@ public class PaletteModeStrings : GlobalId
             { DEFAULT_PALETTE_OSX_AQUA, PaletteMode.MacOSXAqua },
             { DEFAULT_PALETTE_MACOS_LIGHT, PaletteMode.MacOSLight },
             { DEFAULT_PALETTE_MACOS_DARK, PaletteMode.MacOSDark },
+            { DEFAULT_PALETTE_HIGH_CONTRAST, PaletteMode.HighContrast },
+            { DEFAULT_PALETTE_DEUTERANOPIA, PaletteMode.Deuteranopia },
+            { DEFAULT_PALETTE_PROTANOPIA, PaletteMode.Protanopia },
             { DEFAULT_PALETTE_CUSTOM, PaletteMode.Custom }
         });
 

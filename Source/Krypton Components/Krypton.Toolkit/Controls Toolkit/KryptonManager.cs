@@ -1556,6 +1556,36 @@ public sealed class KryptonManager : Component
             case PaletteMode.MacOSDark:
                 return PaletteMacOSDark;
 
+            case PaletteMode.HighContrast:
+                return PaletteHighContrast;
+            case PaletteMode.Deuteranopia:
+                return PaletteDeuteranopia;
+            case PaletteMode.Protanopia:
+                return PaletteProtanopia;
+            case PaletteMode.Office2007HighContrast:
+                return PaletteOffice2007HighContrast;
+            case PaletteMode.Office2007Deuteranopia:
+                return PaletteOffice2007Deuteranopia;
+            case PaletteMode.Office2007Protanopia:
+                return PaletteOffice2007Protanopia;
+            case PaletteMode.Office2010HighContrast:
+                return PaletteOffice2010HighContrast;
+            case PaletteMode.Office2010Deuteranopia:
+                return PaletteOffice2010Deuteranopia;
+            case PaletteMode.Office2010Protanopia:
+                return PaletteOffice2010Protanopia;
+            case PaletteMode.Office2013HighContrast:
+                return PaletteOffice2013HighContrast;
+            case PaletteMode.Office2013Deuteranopia:
+                return PaletteOffice2013Deuteranopia;
+            case PaletteMode.Office2013Protanopia:
+                return PaletteOffice2013Protanopia;
+            case PaletteMode.SparkleHighContrast:
+                return PaletteSparkleHighContrast;
+            case PaletteMode.SparkleDeuteranopia:
+                return PaletteSparkleDeuteranopia;
+            case PaletteMode.SparkleProtanopia:
+                return PaletteSparkleProtanopia;
             case PaletteMode.Office2007LimeGreen:
                 return PaletteOffice2007LimeGreen;
             case PaletteMode.Office2007LimeGreenDark:
@@ -1884,6 +1914,57 @@ public sealed class KryptonManager : Component
     public static PaletteMacOSDark PaletteMacOSDark => _paletteMacOSDark ??= new PaletteMacOSDark();
 
     /// <summary>
+    /// Gets the fixed high-contrast accessibility palette.
+    /// </summary>
+    public static PaletteHighContrast PaletteHighContrast => _paletteHighContrast ??= new PaletteHighContrast();
+
+    /// <summary>
+    /// Gets the deuteranopia-friendly accessibility palette.
+    /// </summary>
+    public static PaletteDeuteranopia PaletteDeuteranopia => _paletteDeuteranopia ??= new PaletteDeuteranopia();
+
+    /// <summary>
+    /// Gets the protanopia-friendly accessibility palette.
+    /// </summary>
+    public static PaletteProtanopia PaletteProtanopia => _paletteProtanopia ??= new PaletteProtanopia();
+
+    /// <summary>Gets the Office 2007 high-contrast accessibility palette.</summary>
+    public static PaletteOffice2007HighContrast PaletteOffice2007HighContrast => _paletteOffice2007HighContrast ??= new PaletteOffice2007HighContrast();
+
+    /// <summary>Gets the Office 2007 deuteranopia accessibility palette.</summary>
+    public static PaletteOffice2007Deuteranopia PaletteOffice2007Deuteranopia => _paletteOffice2007Deuteranopia ??= new PaletteOffice2007Deuteranopia();
+
+    /// <summary>Gets the Office 2007 protanopia accessibility palette.</summary>
+    public static PaletteOffice2007Protanopia PaletteOffice2007Protanopia => _paletteOffice2007Protanopia ??= new PaletteOffice2007Protanopia();
+
+    /// <summary>Gets the Office 2010 high-contrast accessibility palette.</summary>
+    public static PaletteOffice2010HighContrast PaletteOffice2010HighContrast => _paletteOffice2010HighContrast ??= new PaletteOffice2010HighContrast();
+
+    /// <summary>Gets the Office 2010 deuteranopia accessibility palette.</summary>
+    public static PaletteOffice2010Deuteranopia PaletteOffice2010Deuteranopia => _paletteOffice2010Deuteranopia ??= new PaletteOffice2010Deuteranopia();
+
+    /// <summary>Gets the Office 2010 protanopia accessibility palette.</summary>
+    public static PaletteOffice2010Protanopia PaletteOffice2010Protanopia => _paletteOffice2010Protanopia ??= new PaletteOffice2010Protanopia();
+
+    /// <summary>Gets the Office 2013 high-contrast accessibility palette.</summary>
+    public static PaletteOffice2013HighContrast PaletteOffice2013HighContrast => _paletteOffice2013HighContrast ??= new PaletteOffice2013HighContrast();
+
+    /// <summary>Gets the Office 2013 deuteranopia accessibility palette.</summary>
+    public static PaletteOffice2013Deuteranopia PaletteOffice2013Deuteranopia => _paletteOffice2013Deuteranopia ??= new PaletteOffice2013Deuteranopia();
+
+    /// <summary>Gets the Office 2013 protanopia accessibility palette.</summary>
+    public static PaletteOffice2013Protanopia PaletteOffice2013Protanopia => _paletteOffice2013Protanopia ??= new PaletteOffice2013Protanopia();
+
+    /// <summary>Gets the Sparkle high-contrast accessibility palette.</summary>
+    public static PaletteSparkleHighContrast PaletteSparkleHighContrast => _paletteSparkleHighContrast ??= new PaletteSparkleHighContrast();
+
+    /// <summary>Gets the Sparkle deuteranopia accessibility palette.</summary>
+    public static PaletteSparkleDeuteranopia PaletteSparkleDeuteranopia => _paletteSparkleDeuteranopia ??= new PaletteSparkleDeuteranopia();
+
+    /// <summary>Gets the Sparkle protanopia accessibility palette.</summary>
+    public static PaletteSparkleProtanopia PaletteSparkleProtanopia => _paletteSparkleProtanopia ??= new PaletteSparkleProtanopia();
+
+    /// <summary>
     /// Gets the single instance of the light Lime Green variant Office 2007 palette.
     /// </summary>
     public static PaletteOffice2007LimeGreen PaletteOffice2007LimeGreen => _paletteOffice2007LimeGreen ??= new PaletteOffice2007LimeGreen();
@@ -1923,6 +2004,21 @@ public sealed class KryptonManager : Component
     private static PaletteMacOSXAqua? _paletteMacOSXAqua;
     private static PaletteMacOSLight? _paletteMacOSLight;
     private static PaletteMacOSDark? _paletteMacOSDark;
+    private static PaletteHighContrast? _paletteHighContrast;
+    private static PaletteDeuteranopia? _paletteDeuteranopia;
+    private static PaletteProtanopia? _paletteProtanopia;
+    private static PaletteOffice2007HighContrast? _paletteOffice2007HighContrast;
+    private static PaletteOffice2007Deuteranopia? _paletteOffice2007Deuteranopia;
+    private static PaletteOffice2007Protanopia? _paletteOffice2007Protanopia;
+    private static PaletteOffice2010HighContrast? _paletteOffice2010HighContrast;
+    private static PaletteOffice2010Deuteranopia? _paletteOffice2010Deuteranopia;
+    private static PaletteOffice2010Protanopia? _paletteOffice2010Protanopia;
+    private static PaletteOffice2013HighContrast? _paletteOffice2013HighContrast;
+    private static PaletteOffice2013Deuteranopia? _paletteOffice2013Deuteranopia;
+    private static PaletteOffice2013Protanopia? _paletteOffice2013Protanopia;
+    private static PaletteSparkleHighContrast? _paletteSparkleHighContrast;
+    private static PaletteSparkleDeuteranopia? _paletteSparkleDeuteranopia;
+    private static PaletteSparkleProtanopia? _paletteSparkleProtanopia;
 
     private static PaletteOffice2007LimeGreen? _paletteOffice2007LimeGreen;
     private static PaletteOffice2007LimeGreenDark? _paletteOffice2007LimeGreenDark;
@@ -2196,6 +2292,9 @@ public sealed class KryptonManager : Component
             case PaletteMode.Office2007LimeGreen:
             case PaletteMode.Office2007LimeGreenDark:
             case PaletteMode.VisualStudio2010Render2007:
+            case PaletteMode.Office2007HighContrast:
+            case PaletteMode.Office2007Deuteranopia:
+            case PaletteMode.Office2007Protanopia:
                 Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Office2007ToolBarImages);
                 break;
             case PaletteMode.Office2010Blue:
@@ -2216,15 +2315,24 @@ public sealed class KryptonManager : Component
             case PaletteMode.SparklePurple:
             case PaletteMode.SparklePurpleDarkMode:
             case PaletteMode.SparklePurpleLightMode:
+            case PaletteMode.SparkleHighContrast:
+            case PaletteMode.SparkleDeuteranopia:
+            case PaletteMode.SparkleProtanopia:
             case PaletteMode.Office2010LimeGreen:
             case PaletteMode.Office2010LimeGreenDark:
             case PaletteMode.VisualStudio2010Render2010:
+            case PaletteMode.Office2010HighContrast:
+            case PaletteMode.Office2010Deuteranopia:
+            case PaletteMode.Office2010Protanopia:
                 Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Office2010ToolBarImages);
                 break;
             case PaletteMode.Office2013DarkGray:
             case PaletteMode.Office2013LightGray:
             case PaletteMode.Office2013White:
             case PaletteMode.VisualStudio2010Render2013:
+            case PaletteMode.Office2013HighContrast:
+            case PaletteMode.Office2013Deuteranopia:
+            case PaletteMode.Office2013Protanopia:
                 Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Office2013ToolBarImages);
                 break;
             case PaletteMode.Microsoft365Black:
@@ -2240,6 +2348,9 @@ public sealed class KryptonManager : Component
             case PaletteMode.Microsoft365LimeGreen:
             case PaletteMode.Microsoft365LimeGreenDark:
             case PaletteMode.VisualStudio2010Render365:
+            case PaletteMode.HighContrast:
+            case PaletteMode.Deuteranopia:
+            case PaletteMode.Protanopia:
                 Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Microsoft365ToolBarImages);
                 break;
             case PaletteMode.VisualStudio2022Dark:
