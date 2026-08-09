@@ -34,6 +34,7 @@ Adds a OneNote-style radial popup menu (`KryptonRadialMenu`) to `Krypton.Toolkit
   4. Switch to imported mode — confirm expanded bridge mapping and skipped separators.
   5. PreferRadialContextMenus via presenter.
 - Build: `dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472`
+- Unit tests: `powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-RadialMenu.ps1`
 
 ## Screenshots / GIFs
 

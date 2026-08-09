@@ -130,7 +130,7 @@ Manual steps:
 5. Switch to **Imported from KryptonContextMenu** — confirm Open/Save/More, LinkLabel, TextBox/Combo/Progress/Calendar, colour import; separators absent.
 6. Enable **PreferRadialContextMenus** and right-click again to exercise `KryptonRadialMenuPresenter`.
 
-Unit-test helpers: `Scripts/UnitTests/Start-RadialMenuDemoHost.ps1`, `Scripts/UnitTests/Invoke-RadialMenuScreenshot.ps1`.
+Unit-test helpers: `Scripts/UnitTests/Start-RadialMenuDemoHost.ps1`, `Scripts/UnitTests/Invoke-RadialMenuScreenshot.ps1`, CI assert `Scripts/UnitTests/UnitTest-RadialMenu.ps1`.
 
 ## Edge cases
 

@@ -54,6 +54,7 @@ Default output folder: `Bin\Debug\net472`.
 | `UnitTest-UnitTestInfrastructure.ps1` | Shared helpers + CI marker discovery smoke assert | `include` |
 | `UnitTest-ButtonSpaceKey.ps1` | #4147 Space activates focused `KryptonButton` when `ActiveView` is null (no hover) | `include` |
 | `UnitTest-DockingDragTargetHeuristics.ps1` | #3858 Escape cancel + solid first-match priority + docking `FindTarget` removal | `include` |
+| `UnitTest-RadialMenu.ps1` | #4172 radial menu API: defaults, items, bridge, live sync, show/close, presenter | `include` |
 | `UnitTest-NavigatorTaskbarTabGroups.ps1` | #4129 TabGroup taskbar composites + float taskbar opt-in (needs feature binaries) | `exclude` |
 | `UnitTest-NavigatorCaptionTabRemerge.ps1` | Tear-out / remerge (needs `-HostPid`) | `exclude` |
 | `Start-NavigatorFormIntegrationHost.ps1` | Hosts `NavigatorFormIntegrationDemo` | n/a |
