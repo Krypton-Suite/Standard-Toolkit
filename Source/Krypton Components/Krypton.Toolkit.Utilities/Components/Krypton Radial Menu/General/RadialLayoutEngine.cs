@@ -20,8 +20,9 @@ internal static class RadialLayoutEngine
     /// <param name="itemCount">Number of visible items.</param>
     /// <param name="outerRadius">Outer radius.</param>
     /// <param name="innerRadius">Inner radius.</param>
+    /// <param name="startAngle">Start angle of the first sector in degrees.</param>
     /// <returns>Sector descriptors.</returns>
-    public static RadialSectorInfo[] BuildSectors(int itemCount, float outerRadius, float innerRadius)
+    public static RadialSectorInfo[] BuildSectors(int itemCount, float outerRadius, float innerRadius, float startAngle = -90f)
     {
         if (itemCount <= 0)
         {
@@ -32,9 +33,8 @@ internal static class RadialLayoutEngine
         var sectors = new RadialSectorInfo[itemCount];
         for (var i = 0; i < itemCount; i++)
         {
-            // Start at top (-90°) and sweep clockwise in GDI+ (positive angles are clockwise when using DrawPie with standard transforms).
             // GDI+ angles: 0 = right, positive = clockwise.
-            var start = -90f + (i * sweep);
+            var start = startAngle + (i * sweep);
             sectors[i] = new RadialSectorInfo(i, start, sweep, outerRadius, innerRadius);
         }
 
@@ -44,14 +44,6 @@ internal static class RadialLayoutEngine
     /// <summary>
     /// Hit-tests a client point against the radial layout.
     /// </summary>
-    /// <param name="clientPoint">Point in client coordinates.</param>
-    /// <param name="center">Menu centre.</param>
-    /// <param name="outerRadius">Outer radius.</param>
-    /// <param name="innerRadius">Inner radius.</param>
-    /// <param name="sectors">Sector descriptors.</param>
-    /// <param name="editorMode">True when an editor ring is active.</param>
-    /// <param name="editorCount">Number of editor elements.</param>
-    /// <returns>Hit result.</returns>
     public static RadialHitResult HitTest(
         Point clientPoint,
         PointF center,
@@ -59,36 +51,43 @@ internal static class RadialLayoutEngine
         float innerRadius,
         RadialSectorInfo[] sectors,
         bool editorMode,
-        int editorCount)
+        int editorCount,
+        float startAngle = -90f,
+        float hitPadding = 0f)
     {
         var dx = clientPoint.X - center.X;
         var dy = clientPoint.Y - center.Y;
         var distance = (float)Math.Sqrt((dx * dx) + (dy * dy));
+        var outer = outerRadius + hitPadding;
+        var inner = Math.Max(0f, innerRadius - hitPadding);
 
-        if (distance > outerRadius)
+        if (distance > outer)
         {
             return RadialHitResult.None;
         }
 
-        if (distance <= innerRadius)
+        if (distance <= inner)
         {
             return new RadialHitResult(RadialHitKind.Center, -1, -1);
         }
 
         var angle = (float)(Math.Atan2(dy, dx) * (180.0 / Math.PI));
-        // Convert atan2 (-180..180, 0 = right, CCW positive) to GDI+ style (0 = right, CW positive from -90 start).
         if (angle < 0f)
         {
             angle += 360f;
         }
 
-        // Map to start-at-top degrees: 0 at top, clockwise.
-        var fromTop = (angle + 90f) % 360f;
+        // Degrees clockwise from startAngle.
+        var fromStart = (angle - startAngle) % 360f;
+        if (fromStart < 0f)
+        {
+            fromStart += 360f;
+        }
 
         if (editorMode && editorCount > 0)
         {
             var sweep = 360f / editorCount;
-            var index = (int)(fromTop / sweep);
+            var index = (int)(fromStart / sweep);
             if (index < 0)
             {
                 index = 0;
@@ -104,7 +103,7 @@ internal static class RadialLayoutEngine
 
         for (var i = 0; i < sectors.Length; i++)
         {
-            var local = fromTop - (i * sectors[i].SweepAngle);
+            var local = fromStart - (i * sectors[i].SweepAngle);
             if (local < 0f)
             {
                 local += 360f;
@@ -122,9 +121,6 @@ internal static class RadialLayoutEngine
     /// <summary>
     /// Gets the centroid of a sector mid-ring for content placement.
     /// </summary>
-    /// <param name="center">Menu centre.</param>
-    /// <param name="sector">Sector info.</param>
-    /// <returns>Content point.</returns>
     public static PointF GetSectorContentPoint(PointF center, RadialSectorInfo sector)
     {
         var midAngle = sector.StartAngle + (sector.SweepAngle / 2f);
@@ -136,12 +132,9 @@ internal static class RadialLayoutEngine
     }
 
     /// <summary>
-    /// Converts a pointer angle (from top, clockwise) into a 0..1 slider fraction.
+    /// Converts a pointer angle into a 0..1 slider fraction relative to <paramref name="startAngle"/>.
     /// </summary>
-    /// <param name="clientPoint">Client point.</param>
-    /// <param name="center">Menu centre.</param>
-    /// <returns>Normalised value.</returns>
-    public static float AngleToNormalized(Point clientPoint, PointF center)
+    public static float AngleToNormalized(Point clientPoint, PointF center, float startAngle = -90f)
     {
         var dx = clientPoint.X - center.X;
         var dy = clientPoint.Y - center.Y;
@@ -151,8 +144,13 @@ internal static class RadialLayoutEngine
             angle += 360f;
         }
 
-        var fromTop = (angle + 90f) % 360f;
-        return fromTop / 360f;
+        var fromStart = (angle - startAngle) % 360f;
+        if (fromStart < 0f)
+        {
+            fromStart += 360f;
+        }
+
+        return fromStart / 360f;
     }
 }
 

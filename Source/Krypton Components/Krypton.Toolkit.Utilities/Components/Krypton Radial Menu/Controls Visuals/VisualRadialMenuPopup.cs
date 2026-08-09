@@ -22,12 +22,16 @@ internal class VisualRadialMenuPopup : VisualPopup
     private KryptonRadialMenuItemBase? _activeEditor;
     private RadialSectorInfo[] _sectors = Array.Empty<RadialSectorInfo>();
     private List<KryptonRadialMenuItemBase> _visibleItems = [];
+    private List<KryptonRadialMenuItemBase> _allVisibleItems = [];
     private int _trackingIndex = -1;
     private int _pressedIndex = -1;
     private int _trackingEditorIndex = -1;
+    private int _pageOffset;
+    private float _dpiScale = 1f;
     private bool _draggingSlider;
     private bool _movePending;
     private bool _moving;
+    private bool _closing;
     private Point _moveScreenStart;
     private Point _moveLocationStart;
     private double _animationProgress = 1.0;
@@ -35,6 +39,7 @@ internal class VisualRadialMenuPopup : VisualPopup
     private readonly RadialMenuToolTipHost _toolTipHost;
 
     private const int MoveDragThreshold = 8;
+    private const int EditorPageSize = 8;
 
     #endregion
 
@@ -80,6 +85,8 @@ internal class VisualRadialMenuPopup : VisualPopup
         _trackingIndex = -1;
         _pressedIndex = -1;
         _trackingEditorIndex = -1;
+        _pageOffset = 0;
+        _closing = false;
         RebuildLayout();
 
         var diameter = (_owner.Values.MenuRadius * 2) + 8;
@@ -110,6 +117,10 @@ internal class VisualRadialMenuPopup : VisualPopup
     #endregion
 
     #region Protected
+
+    /// <inheritdoc />
+    protected override AccessibleObject CreateAccessibilityInstance() =>
+        new VisualRadialMenuPopupAccessibleObject(this);
 
     /// <inheritdoc />
     protected override void OnPaintBackground(PaintEventArgs pevent)
@@ -156,7 +167,7 @@ internal class VisualRadialMenuPopup : VisualPopup
     /// <inheritdoc />
     protected override void OnMouseMove(MouseEventArgs e)
     {
-        if (IsDisposed)
+        if (IsDisposed || _closing)
         {
             return;
         }
@@ -164,7 +175,7 @@ internal class VisualRadialMenuPopup : VisualPopup
         if (_draggingSlider && _activeEditor is KryptonRadialMenuSliderItem slider)
         {
             var center = new PointF(ClientSize.Width / 2f, ClientSize.Height / 2f);
-            slider.SetNormalizedValue(RadialLayoutEngine.AngleToNormalized(e.Location, center));
+            slider.SetNormalizedValue(RadialLayoutEngine.AngleToNormalized(e.Location, center, _owner.Values.StartAngle));
             Invalidate();
             return;
         }
@@ -205,6 +216,7 @@ internal class VisualRadialMenuPopup : VisualPopup
         {
             _trackingIndex = hit.Kind == RadialHitKind.Sector ? hit.SectorIndex : -1;
             changed = true;
+            UpdateAccessibleName();
         }
 
         if (changed)
@@ -218,7 +230,7 @@ internal class VisualRadialMenuPopup : VisualPopup
     /// <inheritdoc />
     protected override void OnMouseDown(MouseEventArgs e)
     {
-        if (IsDisposed || e.Button != MouseButtons.Left)
+        if (IsDisposed || _closing || e.Button != MouseButtons.Left)
         {
             base.OnMouseDown(e);
             return;
@@ -239,7 +251,8 @@ internal class VisualRadialMenuPopup : VisualPopup
         {
             _draggingSlider = true;
             var center = new PointF(ClientSize.Width / 2f, ClientSize.Height / 2f);
-            ((KryptonRadialMenuSliderItem)_activeEditor).SetNormalizedValue(RadialLayoutEngine.AngleToNormalized(e.Location, center));
+            ((KryptonRadialMenuSliderItem)_activeEditor).SetNormalizedValue(
+                RadialLayoutEngine.AngleToNormalized(e.Location, center, _owner.Values.StartAngle));
             Invalidate();
         }
         else if (hit.Kind == RadialHitKind.Sector)
@@ -254,7 +267,7 @@ internal class VisualRadialMenuPopup : VisualPopup
     /// <inheritdoc />
     protected override void OnMouseUp(MouseEventArgs e)
     {
-        if (IsDisposed)
+        if (IsDisposed || _closing)
         {
             base.OnMouseUp(e);
             return;
@@ -320,6 +333,12 @@ internal class VisualRadialMenuPopup : VisualPopup
     /// <inheritdoc />
     protected override void OnMouseWheel(MouseEventArgs e)
     {
+        if (IsDisposed || _closing)
+        {
+            base.OnMouseWheel(e);
+            return;
+        }
+
         if (_activeEditor is KryptonRadialMenuFontListItem fonts)
         {
             fonts.ScrollOffset += e.Delta > 0 ? -1 : 1;
@@ -330,14 +349,52 @@ internal class VisualRadialMenuPopup : VisualPopup
             slider.Value += e.Delta > 0 ? slider.SmallChange : -slider.SmallChange;
             Invalidate();
         }
+        else if (_activeEditor is KryptonRadialMenuCalendarItem calendar)
+        {
+            calendar.ShiftMonth(e.Delta > 0 ? -1 : 1);
+            Invalidate();
+        }
+        else if (_activeEditor == null)
+        {
+            var maxVisible = _owner.Values.MaxVisibleItems;
+            if (maxVisible > 0 && _allVisibleItems.Count > maxVisible)
+            {
+                var maxOffset = _allVisibleItems.Count - maxVisible;
+                var next = _pageOffset + (e.Delta > 0 ? -1 : 1);
+                next = Math.Max(0, Math.Min(maxOffset, next));
+                if (next != _pageOffset)
+                {
+                    _pageOffset = next;
+                    RebuildLayout();
+                    Invalidate();
+                }
+            }
+        }
 
         base.OnMouseWheel(e);
     }
 
     /// <inheritdoc />
+    protected override void OnKeyPress(KeyPressEventArgs e)
+    {
+        if (!IsDisposed && !_closing && _activeEditor is KryptonRadialMenuTextItem textItem)
+        {
+            if (!char.IsControl(e.KeyChar))
+            {
+                textItem.DraftText += e.KeyChar;
+                Invalidate();
+                e.Handled = true;
+                return;
+            }
+        }
+
+        base.OnKeyPress(e);
+    }
+
+    /// <inheritdoc />
     protected override bool ProcessDialogKey(Keys keyData)
     {
-        if (IsDisposed)
+        if (IsDisposed || _closing)
         {
             return base.ProcessDialogKey(keyData);
         }
@@ -353,7 +410,7 @@ internal class VisualRadialMenuPopup : VisualPopup
     /// <inheritdoc />
     protected override void OnKeyDown(KeyEventArgs e)
     {
-        if (!IsDisposed && TryProcessKeyboard(e.KeyData))
+        if (!IsDisposed && !_closing && TryProcessKeyboard(e.KeyData))
         {
             e.Handled = true;
             return;
@@ -365,6 +422,11 @@ internal class VisualRadialMenuPopup : VisualPopup
     /// <inheritdoc />
     public override bool DoesCurrentMouseDownEndAllTracking(Message m, Point pt)
     {
+        if (_closing)
+        {
+            return false;
+        }
+
         // Dismiss when outside the circular menu (corners of the bounding box or outside client).
         if (!ClientRectangle.Contains(pt))
         {
@@ -385,6 +447,107 @@ internal class VisualRadialMenuPopup : VisualPopup
 
         base.Dispose(disposing);
     }
+
+    #endregion
+
+    #region Internal
+
+    /// <summary>
+    /// Rebuilds sector layout for the current navigation level (e.g. after a live import refresh).
+    /// </summary>
+    internal void RefreshCurrentLevel()
+    {
+        if (IsDisposed)
+        {
+            return;
+        }
+
+        _navigation.Clear();
+        _currentItems = _owner.Items;
+        _activeEditor = null;
+        _pageOffset = 0;
+        RebuildLayout();
+        Invalidate();
+    }
+
+    /// <summary>
+    /// Rebuilds sectors for the current navigation level without resetting the stack.
+    /// </summary>
+    internal void RefreshLayout()
+    {
+        if (IsDisposed)
+        {
+            return;
+        }
+
+        RebuildLayout();
+        Invalidate();
+    }
+
+    /// <summary>
+    /// Plays the close animation (reverse of open), then invokes <paramref name="completed"/>.
+    /// </summary>
+    /// <param name="completed">Callback invoked after the animation finishes (typically ends popup tracking).</param>
+    internal void BeginCloseAnimation(Action? completed)
+    {
+        if (IsDisposed)
+        {
+            completed?.Invoke();
+            return;
+        }
+
+        if (_closing)
+        {
+            return;
+        }
+
+        _closing = true;
+        _toolTipHost.Cancel();
+        StopAnimationTimer();
+
+        var style = _owner.Values.AnimationStyle;
+        var duration = _owner.Values.AnimationDuration;
+        if (style == KryptonRadialMenuAnimationStyle.None || duration <= 0 || _animationProgress <= 0.0)
+        {
+            completed?.Invoke();
+            return;
+        }
+
+        var startProgress = Math.Max(0.0, Math.Min(1.0, _animationProgress));
+        var started = Environment.TickCount;
+        _animationTimer = new System.Windows.Forms.Timer { Interval = 16 };
+        _animationTimer.Tick += (_, _) =>
+        {
+            if (IsDisposed)
+            {
+                StopAnimationTimer();
+                completed?.Invoke();
+                return;
+            }
+
+            var elapsed = Environment.TickCount - started;
+            var linear = Math.Min(1.0, elapsed / (double)duration);
+            _animationProgress = startProgress * (1.0 - EaseOutCubic(linear));
+            Invalidate();
+            if (linear >= 1.0)
+            {
+                _animationProgress = 0.0;
+                StopAnimationTimer();
+                completed?.Invoke();
+            }
+        };
+        _animationTimer.Start();
+    }
+
+    /// <summary>
+    /// Gets the visible sector items for accessibility.
+    /// </summary>
+    internal IReadOnlyList<KryptonRadialMenuItemBase> AccessibleSectorItems => _visibleItems;
+
+    /// <summary>
+    /// Gets the current tracking sector index for accessibility.
+    /// </summary>
+    internal int AccessibleTrackingIndex => _trackingIndex;
 
     #endregion
 
@@ -533,28 +696,20 @@ internal class VisualRadialMenuPopup : VisualPopup
         DefineShadowPaths(CreateEllipse(0), CreateEllipse(1), CreateEllipse(2));
     }
 
-    /// <summary>
-    /// Rebuilds sector layout for the current navigation level (e.g. after a live import refresh).
-    /// </summary>
-    internal void RefreshCurrentLevel()
-    {
-        if (IsDisposed)
-        {
-            return;
-        }
-
-        _navigation.Clear();
-        _currentItems = _owner.Items;
-        _activeEditor = null;
-        RebuildLayout();
-        Invalidate();
-    }
-
     private bool TryProcessKeyboard(Keys keyData)
     {
         switch (keyData)
         {
             case Keys.Escape:
+                if (_activeEditor is KryptonRadialMenuTextItem textEsc)
+                {
+                    textEsc.CancelEdit();
+                    _activeEditor = null;
+                    _trackingEditorIndex = -1;
+                    Invalidate();
+                    return true;
+                }
+
                 if (_activeEditor != null || _navigation.Count > 0)
                 {
                     HandleCenterClick();
@@ -565,6 +720,17 @@ internal class VisualRadialMenuPopup : VisualPopup
                 return false;
 
             case Keys.Back:
+                if (_activeEditor is KryptonRadialMenuTextItem textBack)
+                {
+                    if (textBack.DraftText.Length > 0)
+                    {
+                        textBack.DraftText = textBack.DraftText.Substring(0, textBack.DraftText.Length - 1);
+                        Invalidate();
+                    }
+
+                    return true;
+                }
+
                 HandleCenterClick();
                 return true;
 
@@ -584,18 +750,20 @@ internal class VisualRadialMenuPopup : VisualPopup
                 return true;
 
             case Keys.Home:
-                if (_visibleItems.Count > 0)
+                if (_activeEditor == null && _visibleItems.Count > 0)
                 {
                     _trackingIndex = 0;
+                    UpdateAccessibleName();
                     Invalidate();
                 }
 
                 return true;
 
             case Keys.End:
-                if (_visibleItems.Count > 0)
+                if (_activeEditor == null && _visibleItems.Count > 0)
                 {
                     _trackingIndex = _visibleItems.Count - 1;
+                    UpdateAccessibleName();
                     Invalidate();
                 }
 
@@ -629,27 +797,26 @@ internal class VisualRadialMenuPopup : VisualPopup
         }
 
         UpdateToolTipHover(new RadialHitResult(RadialHitKind.Sector, _trackingIndex, -1));
+        UpdateAccessibleName();
         Invalidate();
     }
 
     private void MoveEditorTracking(int delta)
     {
-        var count = 0;
-        if (_activeEditor is KryptonRadialMenuColorPaletteItem colors)
+        if (_activeEditor is KryptonRadialMenuCalendarItem calendar)
         {
-            count = colors.Colors.Length;
+            MoveCalendarTracking(calendar, delta);
+            return;
         }
-        else if (_activeEditor is KryptonRadialMenuFontListItem fonts)
-        {
-            count = Math.Min(8, fonts.FontFamilies.Length);
-        }
-        else if (_activeEditor is KryptonRadialMenuSliderItem slider)
+
+        if (_activeEditor is KryptonRadialMenuSliderItem slider)
         {
             slider.Value += delta > 0 ? slider.SmallChange : -slider.SmallChange;
             Invalidate();
             return;
         }
 
+        var count = GetEditorSectorCount(_activeEditor);
         if (count <= 0)
         {
             return;
@@ -667,6 +834,61 @@ internal class VisualRadialMenuPopup : VisualPopup
         Invalidate();
     }
 
+    private void MoveCalendarTracking(KryptonRadialMenuCalendarItem calendar, int delta)
+    {
+        var days = calendar.GetMonthDays();
+        if (days.Length == 0)
+        {
+            return;
+        }
+
+        var offset = Math.Min(calendar.ScrollOffset, Math.Max(0, days.Length - 1));
+        var count = Math.Min(EditorPageSize, days.Length - offset);
+        if (count <= 0)
+        {
+            return;
+        }
+
+        if (_trackingEditorIndex < 0)
+        {
+            _trackingEditorIndex = delta > 0 ? 0 : count - 1;
+            Invalidate();
+            return;
+        }
+
+        var next = _trackingEditorIndex + delta;
+        if (next >= count)
+        {
+            if (offset + count < days.Length)
+            {
+                calendar.ScrollOffset = offset + 1;
+                _trackingEditorIndex = count - 1;
+            }
+            else
+            {
+                _trackingEditorIndex = 0;
+            }
+        }
+        else if (next < 0)
+        {
+            if (offset > 0)
+            {
+                calendar.ScrollOffset = offset - 1;
+                _trackingEditorIndex = 0;
+            }
+            else
+            {
+                _trackingEditorIndex = count - 1;
+            }
+        }
+        else
+        {
+            _trackingEditorIndex = next;
+        }
+
+        Invalidate();
+    }
+
     private void ActivateKeyboardSelection()
     {
         if (_activeEditor != null)
@@ -678,6 +900,13 @@ internal class VisualRadialMenuPopup : VisualPopup
             else if (_activeEditor is KryptonRadialMenuSliderItem)
             {
                 // Keep slider open until Esc / centre.
+            }
+            else if (_activeEditor is KryptonRadialMenuTextItem textItem)
+            {
+                textItem.CommitEdit();
+                _activeEditor = null;
+                _trackingEditorIndex = -1;
+                Invalidate();
             }
             else
             {
@@ -699,18 +928,66 @@ internal class VisualRadialMenuPopup : VisualPopup
 
     private void RebuildLayout()
     {
-        _visibleItems = _currentItems.GetVisibleItems().ToList();
+        _allVisibleItems = _currentItems.GetVisibleItems().ToList();
+        if (RightToLeft == RightToLeft.Yes)
+        {
+            _allVisibleItems.Reverse();
+        }
+
+        var maxVisible = _owner.Values.MaxVisibleItems;
+        if (maxVisible > 0 && _allVisibleItems.Count > maxVisible)
+        {
+            var maxOffset = Math.Max(0, _allVisibleItems.Count - maxVisible);
+            if (_pageOffset > maxOffset)
+            {
+                _pageOffset = maxOffset;
+            }
+
+            if (_pageOffset < 0)
+            {
+                _pageOffset = 0;
+            }
+
+            _visibleItems = _allVisibleItems.Skip(_pageOffset).Take(maxVisible).ToList();
+        }
+        else
+        {
+            _pageOffset = 0;
+            _visibleItems = _allVisibleItems;
+        }
+
+        _dpiScale = 1f;
+        if (IsHandleCreated)
+        {
+            try
+            {
+                _dpiScale = DeviceDpi / 96f;
+            }
+            catch
+            {
+                _dpiScale = 1f;
+            }
+        }
+
+        if (_dpiScale < 0.25f)
+        {
+            _dpiScale = 1f;
+        }
+
         _sectors = RadialLayoutEngine.BuildSectors(
             _visibleItems.Count,
             _owner.Values.MenuRadius,
-            _owner.Values.InnerRadius);
+            _owner.Values.InnerRadius,
+            _owner.Values.StartAngle);
         _trackingIndex = -1;
         _pressedIndex = -1;
         _trackingEditorIndex = -1;
         _toolTipHost.Cancel();
+        UpdateAccessibleName();
 
         // Re-run the open animation when navigating rings (submenu / back / editor exit).
-        if (_owner.Values.AnimationStyle != KryptonRadialMenuAnimationStyle.None
+        if (!_closing
+            && _owner.Values.AnimationStyle != KryptonRadialMenuAnimationStyle.None
             && _owner.Values.AnimationDuration > 0
             && IsHandleCreated)
         {
@@ -718,9 +995,33 @@ internal class VisualRadialMenuPopup : VisualPopup
         }
     }
 
+    private void UpdateAccessibleName()
+    {
+        if (_trackingIndex >= 0 && _trackingIndex < _visibleItems.Count)
+        {
+            AccessibleName = GetItemAccessibleName(_visibleItems[_trackingIndex]);
+        }
+        else
+        {
+            AccessibleName = @"Radial menu";
+        }
+    }
+
+    private static string GetItemAccessibleName(KryptonRadialMenuItemBase item) =>
+        item switch
+        {
+            KryptonRadialMenuItem command => string.IsNullOrEmpty(command.ResolveText) ? command.ToString() : command.ResolveText,
+            KryptonRadialMenuSliderItem slider => string.IsNullOrEmpty(slider.Text) ? slider.ToString() : slider.Text,
+            KryptonRadialMenuColorPaletteItem colors => string.IsNullOrEmpty(colors.Text) ? colors.ToString() : colors.Text,
+            KryptonRadialMenuFontListItem fonts => string.IsNullOrEmpty(fonts.Text) ? fonts.ToString() : fonts.Text,
+            KryptonRadialMenuTextItem textItem => string.IsNullOrEmpty(textItem.Label) ? textItem.ToString() : textItem.Label,
+            KryptonRadialMenuCalendarItem calendar => string.IsNullOrEmpty(calendar.Text) ? calendar.ToString() : calendar.Text,
+            _ => item.ToString()
+        };
+
     private void UpdateToolTipHover(RadialHitResult hit)
     {
-        if (_moving || _movePending || _draggingSlider || _activeEditor != null)
+        if (_moving || _movePending || _draggingSlider || _activeEditor != null || _closing)
         {
             _toolTipHost.Cancel();
             return;
@@ -740,27 +1041,23 @@ internal class VisualRadialMenuPopup : VisualPopup
     private RadialHitResult HitTest(Point clientPoint)
     {
         var center = new PointF(ClientSize.Width / 2f, ClientSize.Height / 2f);
-        var editorCount = 0;
-        if (_activeEditor is KryptonRadialMenuColorPaletteItem colors)
-        {
-            editorCount = colors.Colors.Length;
-        }
-        else if (_activeEditor is KryptonRadialMenuFontListItem fonts)
-        {
-            editorCount = Math.Min(8, fonts.FontFamilies.Length);
-        }
-        else if (_activeEditor is KryptonRadialMenuSliderItem)
+        var startAngle = _owner.Values.StartAngle;
+        var hitPadding = _owner.Values.HitPadding * _dpiScale;
+        var editorCount = GetEditorSectorCount(_activeEditor);
+        if (_activeEditor is KryptonRadialMenuSliderItem)
         {
             // Slider uses drag anywhere in the ring; treat non-center as editor.
             var dx = clientPoint.X - center.X;
             var dy = clientPoint.Y - center.Y;
             var distance = Math.Sqrt((dx * dx) + (dy * dy));
-            if (distance <= _owner.Values.InnerRadius)
+            var inner = Math.Max(0f, _owner.Values.InnerRadius - hitPadding);
+            var outer = _owner.Values.MenuRadius + hitPadding;
+            if (distance <= inner)
             {
                 return new RadialHitResult(RadialHitKind.Center, -1, -1);
             }
 
-            if (distance <= _owner.Values.MenuRadius)
+            if (distance <= outer)
             {
                 return new RadialHitResult(RadialHitKind.Editor, -1, 0);
             }
@@ -775,7 +1072,32 @@ internal class VisualRadialMenuPopup : VisualPopup
             _owner.Values.InnerRadius,
             _sectors,
             _activeEditor != null,
-            editorCount);
+            editorCount,
+            startAngle,
+            hitPadding);
+    }
+
+    private static int GetEditorSectorCount(KryptonRadialMenuItemBase? editor)
+    {
+        switch (editor)
+        {
+            case KryptonRadialMenuColorPaletteItem colors:
+                return colors.Colors.Length;
+            case KryptonRadialMenuFontListItem fonts:
+                return Math.Min(EditorPageSize, fonts.FontFamilies.Length);
+            case KryptonRadialMenuTextItem:
+                return 2;
+            case KryptonRadialMenuCalendarItem calendar:
+            {
+                var days = calendar.GetMonthDays();
+                var offset = Math.Min(calendar.ScrollOffset, Math.Max(0, days.Length - 1));
+                return Math.Min(EditorPageSize, Math.Max(0, days.Length - offset));
+            }
+            case KryptonRadialMenuSliderItem:
+                return 1;
+            default:
+                return 0;
+        }
     }
 
     private double DistanceFromCenter(Point clientPoint)
@@ -792,8 +1114,14 @@ internal class VisualRadialMenuPopup : VisualPopup
         _toolTipHost.Cancel();
         if (_activeEditor != null)
         {
+            if (_activeEditor is KryptonRadialMenuTextItem textItem)
+            {
+                textItem.CancelEdit();
+            }
+
             _activeEditor = null;
             _draggingSlider = false;
+            _trackingEditorIndex = -1;
             Invalidate();
             return;
         }
@@ -801,6 +1129,7 @@ internal class VisualRadialMenuPopup : VisualPopup
         if (_navigation.Count > 0)
         {
             _currentItems = _navigation.Pop();
+            _pageOffset = 0;
             RebuildLayout();
             Invalidate();
             return;
@@ -831,6 +1160,7 @@ internal class VisualRadialMenuPopup : VisualPopup
             case KryptonRadialMenuItem commandItem when commandItem.HasChildren:
                 _navigation.Push(_currentItems);
                 _currentItems = commandItem.Items;
+                _pageOffset = 0;
                 RebuildLayout();
                 break;
             case KryptonRadialMenuItem commandItem:
@@ -844,6 +1174,15 @@ internal class VisualRadialMenuPopup : VisualPopup
             case KryptonRadialMenuColorPaletteItem:
             case KryptonRadialMenuFontListItem:
                 _activeEditor = item;
+                _trackingEditorIndex = -1;
+                break;
+            case KryptonRadialMenuTextItem textItem:
+                textItem.BeginEdit();
+                _activeEditor = textItem;
+                _trackingEditorIndex = -1;
+                break;
+            case KryptonRadialMenuCalendarItem calendarItem:
+                _activeEditor = calendarItem;
                 _trackingEditorIndex = -1;
                 break;
         }
@@ -868,7 +1207,7 @@ internal class VisualRadialMenuPopup : VisualPopup
                     break;
                 }
 
-                var visible = Math.Min(8, families.Length);
+                var visible = Math.Min(EditorPageSize, families.Length);
                 if (editorIndex >= 0 && editorIndex < visible)
                 {
                     var familyIndex = (fonts.ScrollOffset + editorIndex) % families.Length;
@@ -877,7 +1216,123 @@ internal class VisualRadialMenuPopup : VisualPopup
                     _owner.Close(ToolStripDropDownCloseReason.ItemClicked);
                 }
                 break;
+            case KryptonRadialMenuTextItem textItem:
+                if (editorIndex == 0)
+                {
+                    textItem.CancelEdit();
+                    _activeEditor = null;
+                    _trackingEditorIndex = -1;
+                }
+                else if (editorIndex == 1)
+                {
+                    textItem.CommitEdit();
+                    _activeEditor = null;
+                    _trackingEditorIndex = -1;
+                }
+                break;
+            case KryptonRadialMenuCalendarItem calendarItem:
+            {
+                var days = calendarItem.GetMonthDays();
+                var offset = Math.Min(calendarItem.ScrollOffset, Math.Max(0, days.Length - 1));
+                var count = Math.Min(EditorPageSize, days.Length - offset);
+                if (editorIndex >= 0 && editorIndex < count)
+                {
+                    calendarItem.SelectedDate = days[offset + editorIndex];
+                    _activeEditor = null;
+                    _trackingEditorIndex = -1;
+                    _owner.Close(ToolStripDropDownCloseReason.ItemClicked);
+                }
+                break;
+            }
         }
+    }
+
+    #endregion
+
+    #region Accessibility
+
+    private sealed class VisualRadialMenuPopupAccessibleObject : Control.ControlAccessibleObject
+    {
+        private readonly VisualRadialMenuPopup _owner;
+
+        public VisualRadialMenuPopupAccessibleObject(VisualRadialMenuPopup owner)
+            : base(owner) =>
+            _owner = owner;
+
+        public override AccessibleRole Role => AccessibleRole.MenuPopup;
+
+        public override string? Name
+        {
+            get => _owner.AccessibleName;
+            set => _owner.AccessibleName = value;
+        }
+
+        public override AccessibleObject? GetChild(int index)
+        {
+            var items = _owner.AccessibleSectorItems;
+            if (index < 0 || index >= items.Count)
+            {
+                return null;
+            }
+
+            return new RadialSectorAccessibleObject(_owner, items[index], index);
+        }
+
+        public override int GetChildCount() => _owner.AccessibleSectorItems.Count;
+
+        public override AccessibleObject? GetFocused()
+        {
+            var index = _owner.AccessibleTrackingIndex;
+            return index >= 0 ? GetChild(index) : null;
+        }
+
+        public override AccessibleObject? GetSelected() => GetFocused();
+    }
+
+    private sealed class RadialSectorAccessibleObject : AccessibleObject
+    {
+        private readonly VisualRadialMenuPopup _popup;
+        private readonly KryptonRadialMenuItemBase _item;
+        private readonly int _index;
+
+        public RadialSectorAccessibleObject(VisualRadialMenuPopup popup, KryptonRadialMenuItemBase item, int index)
+        {
+            _popup = popup;
+            _item = item;
+            _index = index;
+        }
+
+        public override AccessibleRole Role => AccessibleRole.MenuItem;
+
+        public override string? Name => GetItemAccessibleName(_item);
+
+        public override AccessibleStates State
+        {
+            get
+            {
+                var state = AccessibleStates.Focusable;
+                if (!_item.Enabled)
+                {
+                    state |= AccessibleStates.Unavailable;
+                }
+
+                if (_popup.AccessibleTrackingIndex == _index)
+                {
+                    state |= AccessibleStates.Focused | AccessibleStates.Selected;
+                }
+
+                if (_item is KryptonRadialMenuItem { Checked: true })
+                {
+                    state |= AccessibleStates.Checked;
+                }
+
+                return state;
+            }
+        }
+
+        public override AccessibleObject? Parent => _popup.AccessibilityObject;
+
+        public override int GetChildCount() => 0;
     }
 
     #endregion

@@ -22,7 +22,9 @@ public class KryptonRadialMenuItemCollection : TypedRestrictCollection<KryptonRa
         typeof(KryptonRadialMenuItem),
         typeof(KryptonRadialMenuSliderItem),
         typeof(KryptonRadialMenuColorPaletteItem),
-        typeof(KryptonRadialMenuFontListItem)
+        typeof(KryptonRadialMenuFontListItem),
+        typeof(KryptonRadialMenuTextItem),
+        typeof(KryptonRadialMenuCalendarItem)
     ];
 
     #endregion

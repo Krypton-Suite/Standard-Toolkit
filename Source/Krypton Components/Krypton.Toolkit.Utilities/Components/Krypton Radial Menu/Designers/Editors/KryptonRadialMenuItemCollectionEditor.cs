@@ -28,7 +28,9 @@ public class KryptonRadialMenuItemCollectionEditor : KryptonDesignerStandardColl
         typeof(KryptonRadialMenuItem),
         typeof(KryptonRadialMenuSliderItem),
         typeof(KryptonRadialMenuColorPaletteItem),
-        typeof(KryptonRadialMenuFontListItem)
+        typeof(KryptonRadialMenuFontListItem),
+        typeof(KryptonRadialMenuTextItem),
+        typeof(KryptonRadialMenuCalendarItem)
     ];
 
     /// <inheritdoc />

@@ -35,6 +35,7 @@ public class KryptonRadialMenu : Component
     private TypedHandler<KryptonContextMenuItemBase>? _boundRemovedHandler;
     private EventHandler? _boundClearedHandler;
     private EventHandler? _boundReorderedHandler;
+    private readonly List<(INotifyPropertyChanged Source, PropertyChangedEventHandler Handler)> _propertySyncHandlers = [];
 
     #endregion
 
@@ -329,6 +330,42 @@ public class KryptonRadialMenu : Component
     }
 
     /// <summary>
+    /// Gets or sets the first-sector start angle. Proxy for <see cref="KryptonRadialMenuValues.StartAngle"/>.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Start angle in degrees for the first sector (-90 is top).")]
+    [DefaultValue(-90f)]
+    public float StartAngle
+    {
+        get => Values.StartAngle;
+        set => Values.StartAngle = value;
+    }
+
+    /// <summary>
+    /// Gets or sets max visible sectors per page. Proxy for <see cref="KryptonRadialMenuValues.MaxVisibleItems"/>.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Maximum visible sectors per page. Zero means show all items.")]
+    [DefaultValue(0)]
+    public int MaxVisibleItems
+    {
+        get => Values.MaxVisibleItems;
+        set => Values.MaxVisibleItems = value;
+    }
+
+    /// <summary>
+    /// Gets or sets hit-test padding. Proxy for <see cref="KryptonRadialMenuValues.HitPadding"/>.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Extra hit-test padding in pixels around the annular hit region.")]
+    [DefaultValue(4f)]
+    public float HitPadding
+    {
+        get => Values.HitPadding;
+        set => Values.HitPadding = value;
+    }
+
+    /// <summary>
     /// Show the radial menu at the current mouse location.
     /// </summary>
     /// <param name="caller">Reference to the object causing the menu to be shown.</param>
@@ -423,6 +460,21 @@ public class KryptonRadialMenu : Component
         }
 
         _closeReason = reason;
+        if (Values.AnimationStyle != KryptonRadialMenuAnimationStyle.None
+            && Values.AnimationDuration > 0
+            && !_popup.IsDisposed)
+        {
+            var popup = _popup;
+            popup.BeginCloseAnimation(() =>
+            {
+                if (!popup.IsDisposed)
+                {
+                    VisualPopupManager.Singleton.EndPopupTracking(popup);
+                }
+            });
+            return;
+        }
+
         VisualPopupManager.Singleton.EndPopupTracking(_popup);
     }
 
@@ -566,10 +618,16 @@ public class KryptonRadialMenu : Component
                 Close(ToolStripDropDownCloseReason.CloseCalled);
             }
 
+            DetachPropertySync();
             Items.Clear();
             foreach (var item in KryptonRadialMenuContextMenuBridge.ConvertItems(menu.Items))
             {
                 Items.Add(item);
+            }
+
+            if (_boundContextMenu != null)
+            {
+                AttachPropertySync();
             }
         }
         finally
@@ -589,10 +647,12 @@ public class KryptonRadialMenu : Component
         menu.Items.Removed += _boundRemovedHandler;
         menu.Items.Cleared += _boundClearedHandler;
         menu.Items.Reordered += _boundReorderedHandler;
+        AttachPropertySync();
     }
 
     private void DetachContextMenuSync()
     {
+        DetachPropertySync();
         if (_boundContextMenu == null)
         {
             return;
@@ -623,6 +683,222 @@ public class KryptonRadialMenu : Component
         _boundRemovedHandler = null;
         _boundClearedHandler = null;
         _boundReorderedHandler = null;
+    }
+
+    private void AttachPropertySync()
+    {
+        DetachPropertySync();
+        foreach (KryptonRadialMenuItemBase radial in Items)
+        {
+            AttachPropertySyncRecursive(radial);
+        }
+    }
+
+    private void AttachPropertySyncRecursive(KryptonRadialMenuItemBase radial)
+    {
+        if (radial.Tag is INotifyPropertyChanged source)
+        {
+            PropertyChangedEventHandler handler = (_, e) => OnBoundItemPropertyChanged(radial, source, e);
+            source.PropertyChanged += handler;
+            _propertySyncHandlers.Add((source, handler));
+        }
+
+        if (radial is KryptonRadialMenuItem commandItem)
+        {
+            foreach (KryptonRadialMenuItemBase child in commandItem.Items)
+            {
+                AttachPropertySyncRecursive(child);
+            }
+        }
+    }
+
+    private void DetachPropertySync()
+    {
+        foreach (var pair in _propertySyncHandlers)
+        {
+            pair.Source.PropertyChanged -= pair.Handler;
+        }
+
+        _propertySyncHandlers.Clear();
+    }
+
+    private void OnBoundItemPropertyChanged(KryptonRadialMenuItemBase radial, object source, PropertyChangedEventArgs e)
+    {
+        if (_importSyncing)
+        {
+            return;
+        }
+
+        var name = e.PropertyName ?? string.Empty;
+        var needsLayout = false;
+        switch (source)
+        {
+            case KryptonContextMenuItem menuItem:
+                needsLayout = ApplyCommandItemProps(radial, menuItem, name);
+                break;
+            case KryptonContextMenuLinkLabel link:
+                if (radial is KryptonRadialMenuItem linkRadial)
+                {
+                    if (name is nameof(KryptonContextMenuLinkLabel.Text) or "")
+                    {
+                        linkRadial.Text = string.IsNullOrEmpty(link.Text) ? @"Link" : link.Text;
+                    }
+
+                    if (name is nameof(KryptonContextMenuLinkLabel.Image) or "")
+                    {
+                        linkRadial.Image = link.Image;
+                    }
+
+                    if (name is nameof(KryptonContextMenuItemBase.Visible) or "")
+                    {
+                        linkRadial.Visible = link.Visible;
+                        needsLayout = true;
+                    }
+                }
+
+                break;
+            case KryptonContextMenuTextBox textBox:
+                if (radial is KryptonRadialMenuTextItem textItem)
+                {
+                    if (name is nameof(KryptonContextMenuTextBox.Text) or "")
+                    {
+                        textItem.Text = textBox.Text;
+                    }
+
+                    if (name is nameof(KryptonContextMenuTextBox.Enabled) or "")
+                    {
+                        textItem.Enabled = textBox.Enabled;
+                    }
+
+                    if (name is nameof(KryptonContextMenuItemBase.Visible) or "")
+                    {
+                        textItem.Visible = textBox.Visible;
+                        needsLayout = true;
+                    }
+                }
+
+                break;
+            case KryptonContextMenuMonthCalendar calendar:
+                if (radial is KryptonRadialMenuCalendarItem calendarItem)
+                {
+                    if (name is nameof(KryptonContextMenuMonthCalendar.SelectionStart) or "")
+                    {
+                        calendarItem.SelectedDate = calendar.SelectionStart.Date;
+                    }
+
+                    if (name is nameof(KryptonContextMenuMonthCalendar.Enabled) or "")
+                    {
+                        calendarItem.Enabled = calendar.Enabled;
+                    }
+
+                    if (name is nameof(KryptonContextMenuItemBase.Visible) or "")
+                    {
+                        calendarItem.Visible = calendar.Visible;
+                        needsLayout = true;
+                    }
+                }
+
+                break;
+            case KryptonContextMenuCheckBox checkBox:
+                needsLayout = ApplyCheckStyleProps(radial, checkBox.Text, checkBox.Checked, checkBox.Enabled, checkBox.Visible, name);
+                break;
+            case KryptonContextMenuCheckButton checkButton:
+                needsLayout = ApplyCheckStyleProps(radial, checkButton.Text, checkButton.Checked, checkButton.Enabled, checkButton.Visible, name);
+                break;
+            case KryptonContextMenuRadioButton radioButton:
+                needsLayout = ApplyCheckStyleProps(radial, radioButton.Text, radioButton.Checked, radioButton.Enabled, radioButton.Visible, name);
+                break;
+            case KryptonContextMenuItemBase itemBase:
+                if (name is nameof(KryptonContextMenuItemBase.Visible) or "")
+                {
+                    radial.Visible = itemBase.Visible;
+                    needsLayout = true;
+                }
+
+                break;
+        }
+
+        if (needsLayout)
+        {
+            _popup?.RefreshLayout();
+        }
+        else
+        {
+            _popup?.Invalidate();
+        }
+    }
+
+    private static bool ApplyCommandItemProps(KryptonRadialMenuItemBase radial, KryptonContextMenuItem menuItem, string name)
+    {
+        if (radial is not KryptonRadialMenuItem commandRadial)
+        {
+            return false;
+        }
+
+        if (name is nameof(KryptonContextMenuItem.Text) or "")
+        {
+            commandRadial.Text = menuItem.Text;
+        }
+
+        if (name is nameof(KryptonContextMenuItem.Image) or "")
+        {
+            commandRadial.Image = menuItem.Image;
+        }
+
+        if (name is nameof(KryptonContextMenuItem.Enabled) or "")
+        {
+            commandRadial.Enabled = menuItem.Enabled;
+        }
+
+        if (name is nameof(KryptonContextMenuItem.Checked) or "")
+        {
+            commandRadial.Checked = menuItem.Checked;
+        }
+
+        if (name is nameof(KryptonContextMenuItemBase.Visible) or "")
+        {
+            commandRadial.Visible = menuItem.Visible;
+            return true;
+        }
+
+        return false;
+    }
+
+    private static bool ApplyCheckStyleProps(
+        KryptonRadialMenuItemBase radial,
+        string text,
+        bool isChecked,
+        bool enabled,
+        bool visible,
+        string name)
+    {
+        if (radial is not KryptonRadialMenuItem commandRadial)
+        {
+            return false;
+        }
+
+        if (name is nameof(KryptonContextMenuItem.Text) or "")
+        {
+            commandRadial.Text = text;
+        }
+
+        if (name is nameof(KryptonContextMenuItem.Checked) or "")
+        {
+            commandRadial.Checked = isChecked;
+        }
+
+        if (name is nameof(KryptonContextMenuItem.Enabled) or "")
+        {
+            commandRadial.Enabled = enabled;
+        }
+
+        if (name is nameof(KryptonContextMenuItemBase.Visible) or "")
+        {
+            commandRadial.Visible = visible;
+            return true;
+        }
+
+        return false;
     }
 
     private void OnBoundContextMenuCollectionChanged(object? sender, EventArgs e)

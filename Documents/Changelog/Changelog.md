@@ -45,6 +45,11 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#4172](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4172), Radial menu
+   * `KryptonRadialMenu` circular popup menu in `Krypton.Toolkit.Utilities`
+   * Native command sectors with nested submenus, optional `KryptonCommand`, slider / colour / font / text / calendar editor rings, animations, sector images, and paging via `MaxVisibleItems`.
+   * `ImportFrom` / `FromContextMenu` bridge with collection + property-level live sync; optional `KryptonRadialMenuPresenter.PreferRadialContextMenus` soft-hooks `KryptonContextMenu.Show` without a Toolkit→Utilities reference.
+   * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Implemented [#4168](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4168), High contrast themes
    * Added builtin `PaletteMode` themes `HighContrast`, `Deuteranopia`, and `Protanopia` (fixed designed palettes) plus Office 2007 / 2010 / 2013 and Sparkle renderer variants, selectable via ThemeComboBox / `KryptonManager.GlobalPaletteMode`.
    * High Contrast themes paint combo / context-menu client backs black (not `SystemColors.Window`).

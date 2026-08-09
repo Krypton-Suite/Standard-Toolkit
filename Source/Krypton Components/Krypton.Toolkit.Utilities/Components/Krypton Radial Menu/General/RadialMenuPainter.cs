@@ -46,6 +46,7 @@ internal static class RadialMenuPainter
             g.FillPath(backBrush, outerPath);
         }
 
+        string? centerText = null;
         if (!editorMode)
         {
             for (var i = 0; i < sectors.Length && i < items.Count; i++)
@@ -55,11 +56,13 @@ internal static class RadialMenuPainter
         }
         else if (activeEditorItem != null)
         {
-            PaintEditor(g, center, outer, inner, activeEditorItem, trackingEditorIndex, colors);
+            PaintEditor(g, center, outer, inner, activeEditorItem, trackingEditorIndex, colors, values.StartAngle);
+            centerText = ResolveEditorCenterText(activeEditorItem);
         }
 
         PaintOuterRing(g, center, outer, colors, values.OuterRingThickness);
-        PaintCenter(g, center, inner, colors, values.Glyph, canGoBack);
+        // Text/calendar editors own the centre caption; other editors keep the back chevron.
+        PaintCenter(g, center, inner, colors, values.Glyph, canGoBack && centerText == null, centerText);
     }
 
     private static void PaintOuterRing(
@@ -202,6 +205,18 @@ internal static class RadialMenuPainter
                 image = fonts.Image;
                 imageTransparent = fonts.ImageTransparentColor;
                 break;
+            case KryptonRadialMenuTextItem textItem:
+                text = string.IsNullOrEmpty(textItem.Text)
+                    ? textItem.Label
+                    : $@"{textItem.Label}{Environment.NewLine}{textItem.Text}";
+                image = textItem.Image;
+                imageTransparent = textItem.ImageTransparentColor;
+                break;
+            case KryptonRadialMenuCalendarItem calendarItem:
+                text = $@"{calendarItem.Text}{Environment.NewLine}{calendarItem.SelectedDate:d}";
+                image = calendarItem.Image;
+                imageTransparent = calendarItem.ImageTransparentColor;
+                break;
             default:
                 image = item.Image;
                 imageTransparent = item.ImageTransparentColor;
@@ -209,7 +224,13 @@ internal static class RadialMenuPainter
         }
 
         var displayStyle = values.DisplayStyle;
-        var imageSize = values.ItemImageSize;
+        var dpiScale = g.DpiX > 0f ? g.DpiX / 96f : 1f;
+        if (dpiScale < 0.25f)
+        {
+            dpiScale = 1f;
+        }
+
+        var imageSize = Math.Max(1, (int)Math.Round(values.ItemImageSize * dpiScale));
         var textColor = enabled ? colors.Text : colors.TextDisabled;
         var showText = displayStyle != KryptonRadialMenuDisplayStyle.Image && !string.IsNullOrEmpty(text);
         var showImage = displayStyle != KryptonRadialMenuDisplayStyle.Text && image != null;
@@ -308,6 +329,12 @@ internal static class RadialMenuPainter
         };
         g.DrawString(@"✓", font, brush, content.X + 22f, content.Y - 18f, format);
         format.Dispose();
+
+        // Small filled marker near the content for radio/check parity.
+        var dotSize = 5.5f;
+        var dotRect = new RectangleF(content.X - 24f - (dotSize / 2f), content.Y - 16f - (dotSize / 2f), dotSize, dotSize);
+        using var dotBrush = new SolidBrush(colors.CenterGlyph);
+        g.FillEllipse(dotBrush, dotRect);
     }
 
     private static void PaintSubMenuGlyph(
@@ -348,7 +375,8 @@ internal static class RadialMenuPainter
         float innerRadius,
         RadialMenuColorSet colors,
         Image? glyph,
-        bool canGoBack)
+        bool canGoBack,
+        string? centerText = null)
     {
         var rect = new RectangleF(center.X - innerRadius, center.Y - innerRadius, innerRadius * 2f, innerRadius * 2f);
         using (var brush = new SolidBrush(colors.Center))
@@ -361,12 +389,25 @@ internal static class RadialMenuPainter
             g.DrawEllipse(pen, rect);
         }
 
-        if (canGoBack)
+        if (!string.IsNullOrEmpty(centerText))
+        {
+            using var font = new Font("Segoe UI", centerText!.Length > 12 ? 8f : 9.5f, FontStyle.Bold);
+            using var brush = new SolidBrush(colors.CenterGlyph);
+            var format = new StringFormat
+            {
+                Alignment = StringAlignment.Center,
+                LineAlignment = StringAlignment.Center,
+                Trimming = StringTrimming.EllipsisCharacter
+            };
+            g.DrawString(centerText, font, brush, rect, format);
+            format.Dispose();
+        }
+        else if (canGoBack)
         {
             using var font = new Font("Segoe UI", 14f, FontStyle.Bold);
             using var brush = new SolidBrush(colors.CenterGlyph);
             var format = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
-            g.DrawString("←", font, brush, rect, format);
+            g.DrawString("«", font, brush, rect, format);
             format.Dispose();
         }
         else if (glyph != null)
@@ -385,6 +426,14 @@ internal static class RadialMenuPainter
         }
     }
 
+    private static string? ResolveEditorCenterText(KryptonRadialMenuItemBase activeEditorItem) =>
+        activeEditorItem switch
+        {
+            KryptonRadialMenuTextItem textItem => textItem.DraftText ?? string.Empty,
+            KryptonRadialMenuCalendarItem calendarItem => calendarItem.ViewMonth.ToString(@"MMM yyyy"),
+            _ => null
+        };
+
     private static void PaintEditor(
         Graphics g,
         PointF center,
@@ -392,18 +441,25 @@ internal static class RadialMenuPainter
         float inner,
         KryptonRadialMenuItemBase activeEditorItem,
         int trackingEditorIndex,
-        RadialMenuColorSet colors)
+        RadialMenuColorSet colors,
+        float startAngle)
     {
         switch (activeEditorItem)
         {
             case KryptonRadialMenuSliderItem slider:
-                PaintSliderEditor(g, center, outer, inner, slider, colors);
+                PaintSliderEditor(g, center, outer, inner, slider, colors, startAngle);
                 break;
             case KryptonRadialMenuColorPaletteItem colorItem:
-                PaintColorEditor(g, center, outer, inner, colorItem, trackingEditorIndex, colors);
+                PaintColorEditor(g, center, outer, inner, colorItem, trackingEditorIndex, colors, startAngle);
                 break;
             case KryptonRadialMenuFontListItem fonts:
-                PaintFontEditor(g, center, outer, inner, fonts, trackingEditorIndex, colors);
+                PaintFontEditor(g, center, outer, inner, fonts, trackingEditorIndex, colors, startAngle);
+                break;
+            case KryptonRadialMenuTextItem textItem:
+                PaintTextEditor(g, center, outer, inner, textItem, trackingEditorIndex, colors, startAngle);
+                break;
+            case KryptonRadialMenuCalendarItem calendarItem:
+                PaintCalendarEditor(g, center, outer, inner, calendarItem, trackingEditorIndex, colors, startAngle);
                 break;
         }
     }
@@ -414,14 +470,15 @@ internal static class RadialMenuPainter
         float outer,
         float inner,
         KryptonRadialMenuSliderItem slider,
-        RadialMenuColorSet colors)
+        RadialMenuColorSet colors,
+        float startAngle)
     {
         var trackRect = new RectangleF(center.X - outer + 8, center.Y - outer + 8, (outer * 2) - 16, (outer * 2) - 16);
         using (var trackPen = new Pen(colors.Border, 10f))
         {
             trackPen.StartCap = LineCap.Round;
             trackPen.EndCap = LineCap.Round;
-            g.DrawArc(trackPen, trackRect, -90, 360);
+            g.DrawArc(trackPen, trackRect, startAngle, 360);
         }
 
         var sweep = slider.GetNormalizedValue() * 360f;
@@ -429,7 +486,7 @@ internal static class RadialMenuPainter
         {
             valuePen.StartCap = LineCap.Round;
             valuePen.EndCap = LineCap.Round;
-            g.DrawArc(valuePen, trackRect, -90, sweep);
+            g.DrawArc(valuePen, trackRect, startAngle, sweep);
         }
 
         using var font = new Font("Segoe UI", 11f, FontStyle.Bold);
@@ -447,7 +504,8 @@ internal static class RadialMenuPainter
         float inner,
         KryptonRadialMenuColorPaletteItem colorItem,
         int trackingEditorIndex,
-        RadialMenuColorSet colors)
+        RadialMenuColorSet colors,
+        float startAngle)
     {
         var swatches = colorItem.Colors;
         if (swatches.Length == 0)
@@ -455,7 +513,7 @@ internal static class RadialMenuPainter
             return;
         }
 
-        var sectors = RadialLayoutEngine.BuildSectors(swatches.Length, outer, inner);
+        var sectors = RadialLayoutEngine.BuildSectors(swatches.Length, outer, inner, startAngle);
         for (var i = 0; i < sectors.Length; i++)
         {
             using var path = CreateSectorPath(center, sectors[i]);
@@ -477,7 +535,8 @@ internal static class RadialMenuPainter
         float inner,
         KryptonRadialMenuFontListItem fonts,
         int trackingEditorIndex,
-        RadialMenuColorSet colors)
+        RadialMenuColorSet colors,
+        float startAngle)
     {
         const int visible = 8;
         var families = fonts.FontFamilies;
@@ -487,7 +546,7 @@ internal static class RadialMenuPainter
         }
 
         var count = Math.Min(visible, families.Length);
-        var sectors = RadialLayoutEngine.BuildSectors(count, outer, inner);
+        var sectors = RadialLayoutEngine.BuildSectors(count, outer, inner, startAngle);
         for (var i = 0; i < count; i++)
         {
             var familyIndex = (fonts.ScrollOffset + i) % families.Length;
@@ -521,6 +580,101 @@ internal static class RadialMenuPainter
                 g.DrawString(name, font, textBrush, new RectangleF(content.X - 36, content.Y - 10, 72, 20), format);
                 format.Dispose();
             }
+        }
+    }
+
+    private static void PaintTextEditor(
+        Graphics g,
+        PointF center,
+        float outer,
+        float inner,
+        KryptonRadialMenuTextItem textItem,
+        int trackingEditorIndex,
+        RadialMenuColorSet colors,
+        float startAngle)
+    {
+        // Draft text is rendered in the centre button; sectors are confirm/cancel only.
+        if (textItem == null)
+        {
+            return;
+        }
+
+        var labels = new[] { @"Cancel", @"OK" };
+        var sectors = RadialLayoutEngine.BuildSectors(labels.Length, outer, inner, startAngle);
+        for (var i = 0; i < sectors.Length; i++)
+        {
+            using var path = CreateSectorPath(center, sectors[i]);
+            var fill = i == trackingEditorIndex ? colors.SectorTracking : colors.SectorNormal;
+            using (var brush = new SolidBrush(fill))
+            {
+                g.FillPath(brush, path);
+            }
+
+            using (var pen = new Pen(i == trackingEditorIndex ? colors.BorderTracking : colors.Border, i == trackingEditorIndex ? 2.5f : 1f))
+            {
+                g.DrawPath(pen, path);
+            }
+
+            var content = RadialLayoutEngine.GetSectorContentPoint(center, sectors[i]);
+            using var font = new Font("Segoe UI", 9f, FontStyle.Bold);
+            using var textBrush = new SolidBrush(colors.Text);
+            var format = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
+            g.DrawString(labels[i], font, textBrush, new RectangleF(content.X - 36, content.Y - 10, 72, 20), format);
+            format.Dispose();
+        }
+    }
+
+    private static void PaintCalendarEditor(
+        Graphics g,
+        PointF center,
+        float outer,
+        float inner,
+        KryptonRadialMenuCalendarItem calendarItem,
+        int trackingEditorIndex,
+        RadialMenuColorSet colors,
+        float startAngle)
+    {
+        var days = calendarItem.GetMonthDays();
+        if (days.Length == 0)
+        {
+            return;
+        }
+
+        const int visible = 8;
+        var offset = Math.Min(calendarItem.ScrollOffset, Math.Max(0, days.Length - 1));
+        var count = Math.Min(visible, days.Length - offset);
+        if (count <= 0)
+        {
+            return;
+        }
+
+        var sectors = RadialLayoutEngine.BuildSectors(count, outer, inner, startAngle);
+        for (var i = 0; i < count; i++)
+        {
+            var day = days[offset + i];
+            using var path = CreateSectorPath(center, sectors[i]);
+            var selected = day.Date == calendarItem.SelectedDate.Date;
+            var fill = i == trackingEditorIndex
+                ? colors.SectorTracking
+                : selected
+                    ? colors.SectorChecked
+                    : colors.SectorNormal;
+            using (var brush = new SolidBrush(fill))
+            {
+                g.FillPath(brush, path);
+            }
+
+            using (var pen = new Pen(colors.Border, i == trackingEditorIndex ? 2.5f : 1f))
+            {
+                g.DrawPath(pen, path);
+            }
+
+            var content = RadialLayoutEngine.GetSectorContentPoint(center, sectors[i]);
+            using var font = new Font("Segoe UI", 9f, FontStyle.Bold);
+            using var textBrush = new SolidBrush(colors.Text);
+            var format = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
+            g.DrawString(day.Day.ToString(), font, textBrush, new RectangleF(content.X - 20, content.Y - 10, 40, 20), format);
+            format.Dispose();
         }
     }
 

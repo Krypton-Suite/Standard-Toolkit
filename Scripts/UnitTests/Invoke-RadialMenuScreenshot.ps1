@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Opens RadialMenuDemo, shows the native radial menu, and captures a PNG.
 

@@ -28,6 +28,9 @@ public class KryptonRadialMenuValues : Storage
     private int _itemImageSize;
     private bool _showShadow;
     private bool _showCheckedGlyph;
+    private float _startAngle;
+    private int _maxVisibleItems;
+    private float _hitPadding;
     private KryptonRadialMenuAnimationStyle _animationStyle;
     private int _animationDuration;
 
@@ -52,6 +55,9 @@ public class KryptonRadialMenuValues : Storage
         _itemImageSize = 24;
         _showShadow = true;
         _showCheckedGlyph = true;
+        _startAngle = -90f;
+        _maxVisibleItems = 0;
+        _hitPadding = 4f;
         _animationStyle = KryptonRadialMenuAnimationStyle.Sweep;
         _animationDuration = 220;
     }
@@ -69,6 +75,9 @@ public class KryptonRadialMenuValues : Storage
         && _itemImageSize == 24
         && _showShadow
         && _showCheckedGlyph
+        && Math.Abs(_startAngle + 90f) < 0.01f
+        && _maxVisibleItems == 0
+        && Math.Abs(_hitPadding - 4f) < 0.01f
         && _animationStyle == KryptonRadialMenuAnimationStyle.Sweep
         && _animationDuration == 220;
 
@@ -295,6 +304,64 @@ public class KryptonRadialMenuValues : Storage
             {
                 _showCheckedGlyph = value;
                 PerformNeedPaint(false);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the start angle in degrees for the first sector (GDI+: 0 = east, -90 = north).
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Start angle in degrees for the first sector (-90 is top).")]
+    [DefaultValue(-90f)]
+    public float StartAngle
+    {
+        get => _startAngle;
+        set
+        {
+            if (Math.Abs(_startAngle - value) > 0.01f)
+            {
+                _startAngle = value;
+                PerformNeedPaint(true);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the maximum number of sectors shown per page. Zero means unlimited.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Maximum visible sectors per page. Zero means show all items.")]
+    [DefaultValue(0)]
+    public int MaxVisibleItems
+    {
+        get => _maxVisibleItems;
+        set
+        {
+            value = Math.Max(0, Math.Min(64, value));
+            if (_maxVisibleItems != value)
+            {
+                _maxVisibleItems = value;
+                PerformNeedPaint(true);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets extra hit-test padding in pixels for touch-friendly sectors.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Extra hit-test padding in pixels around the annular hit region.")]
+    [DefaultValue(4f)]
+    public float HitPadding
+    {
+        get => _hitPadding;
+        set
+        {
+            value = Math.Max(0f, Math.Min(24f, value));
+            if (Math.Abs(_hitPadding - value) > 0.01f)
+            {
+                _hitPadding = value;
             }
         }
     }

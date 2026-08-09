@@ -165,11 +165,28 @@ public partial class RadialMenuDemo : KryptonForm
             Image = CreateSliceIcon(Color.FromArgb(52, 152, 219), @"A"),
             ToolTipText = @"Open the font list ring"
         });
+        _radialMenu.Items.Add(new KryptonRadialMenuTextItem
+        {
+            Label = @"Note",
+            Text = @"Hello",
+            Image = CreateSliceIcon(Color.FromArgb(155, 89, 182), @"T"),
+            ToolTipText = @"Open the text editor ring"
+        });
+        _radialMenu.Items.Add(new KryptonRadialMenuCalendarItem
+        {
+            Text = @"Date",
+            SelectedDate = DateTime.Today,
+            Image = CreateSliceIcon(Color.FromArgb(22, 160, 133), @"D"),
+            ToolTipText = @"Open the calendar editor ring"
+        });
         _radialMenu.Items.Add(new KryptonRadialMenuItem(@"Disabled")
         {
             Image = CreateSliceIcon(Color.FromArgb(127, 140, 141), @"∅"),
             Enabled = false
         });
+
+        // Demonstrate overflow paging when more than six sectors are present.
+        _radialMenu.MaxVisibleItems = 6;
 
         edit.ToolTipValues.EnableToolTips = true;
         edit.ToolTipValues.Heading = @"Edit";
@@ -223,6 +240,16 @@ public partial class RadialMenuDemo : KryptonForm
         if (_radialMenu.Items[4] is KryptonRadialMenuFontListItem fonts)
         {
             fonts.SelectedFontChanged += (_, _) => AppendLog($@"Font: {fonts.SelectedFont?.Name}");
+        }
+
+        if (_radialMenu.Items[5] is KryptonRadialMenuTextItem note)
+        {
+            note.TextChanged += (_, _) => AppendLog($@"Text: {note.Text}");
+        }
+
+        if (_radialMenu.Items[6] is KryptonRadialMenuCalendarItem date)
+        {
+            date.SelectedDateChanged += (_, _) => AppendLog($@"Date: {date.SelectedDate:d}");
         }
     }
 

@@ -13,27 +13,45 @@ namespace Krypton.Toolkit.Utilities;
 /// Application-level helper that can present a <see cref="KryptonContextMenu"/> as a radial menu.
 /// </summary>
 /// <remarks>
-/// This is an opt-in DX-style preference for call sites that use <see cref="Show"/> instead of
-/// <see cref="KryptonContextMenu.Show(object)"/>. It does not rewrite every toolkit context-menu host.
-/// Live dual-hosting of the same item instance in linear and radial UIs is not supported; imports are projections.
+/// When <see cref="PreferRadialContextMenus"/> is <c>true</c>, registers a soft hook on
+/// <see cref="KryptonContextMenu.AlternativeShow"/> so normal <c>Show</c> call sites present a radial projection.
+/// Imports are projections (not shared item instances).
 /// </remarks>
 public static class KryptonRadialMenuPresenter
 {
     private static readonly ConditionalWeakTable<KryptonContextMenu, KryptonRadialMenu> Cache = new ConditionalWeakTable<KryptonContextMenu, KryptonRadialMenu>();
+    private static bool _preferRadialContextMenus;
+    private static readonly Func<KryptonContextMenu, object?, Rectangle, KryptonContextMenuPositionH, KryptonContextMenuPositionV, bool, bool, bool> Hook = TryShowRadial;
 
     /// <summary>
-    /// Gets or sets whether <see cref="Show"/> should display a radial projection instead of the linear context menu.
+    /// Gets or sets whether context menus should display as radial projections when shown via <see cref="KryptonContextMenu.Show(object)"/>.
     /// </summary>
-    public static bool PreferRadialContextMenus { get; set; }
+    public static bool PreferRadialContextMenus
+    {
+        get => _preferRadialContextMenus;
+        set
+        {
+            if (_preferRadialContextMenus == value)
+            {
+                return;
+            }
+
+            _preferRadialContextMenus = value;
+            if (value)
+            {
+                KryptonContextMenu.AlternativeShow = Hook;
+            }
+            else if (ReferenceEquals(KryptonContextMenu.AlternativeShow, Hook))
+            {
+                KryptonContextMenu.AlternativeShow = null;
+            }
+        }
+    }
 
     /// <summary>
     /// Shows <paramref name="menu"/> either as a linear context menu or as a live-synced radial projection,
     /// depending on <see cref="PreferRadialContextMenus"/>.
     /// </summary>
-    /// <param name="menu">Source context menu.</param>
-    /// <param name="caller">Caller reference passed to the menu.</param>
-    /// <param name="screenPt">Screen location for the menu.</param>
-    /// <returns>True when the menu became displayed.</returns>
     public static bool Show(KryptonContextMenu menu, object caller, Point screenPt)
     {
         if (menu == null)
@@ -52,10 +70,6 @@ public static class KryptonRadialMenuPresenter
     /// <summary>
     /// Shows <paramref name="menu"/> relative to a control client point.
     /// </summary>
-    /// <param name="menu">Source context menu.</param>
-    /// <param name="control">Control providing client coordinates.</param>
-    /// <param name="clientPt">Client point inside <paramref name="control"/>.</param>
-    /// <returns>True when the menu became displayed.</returns>
     public static bool Show(KryptonContextMenu menu, Control control, Point clientPt)
     {
         if (control == null)
@@ -69,8 +83,6 @@ public static class KryptonRadialMenuPresenter
     /// <summary>
     /// Gets a cached live-synced radial projection for <paramref name="menu"/>, creating one when needed.
     /// </summary>
-    /// <param name="menu">Source context menu.</param>
-    /// <returns>Radial menu projection.</returns>
     public static KryptonRadialMenu GetOrCreateProjection(KryptonContextMenu menu)
     {
         if (menu == null)
@@ -86,5 +98,29 @@ public static class KryptonRadialMenuPresenter
         var radial = KryptonRadialMenu.FromContextMenu(menu, liveSync: true);
         Cache.Add(menu, radial);
         return radial;
+    }
+
+    private static bool TryShowRadial(
+        KryptonContextMenu menu,
+        object? caller,
+        Rectangle screenRect,
+        KryptonContextMenuPositionH horz,
+        KryptonContextMenuPositionV vert,
+        bool keyboardActivated,
+        bool constrain)
+    {
+        if (!_preferRadialContextMenus || menu == null)
+        {
+            return false;
+        }
+
+        // Opening already raised by KryptonContextMenu.Show; show the radial projection at the rect centre.
+        var screenPt = new Point(screenRect.X + (screenRect.Width / 2), screenRect.Y + (screenRect.Height / 2));
+        if (screenRect.Width == 0 && screenRect.Height == 0)
+        {
+            screenPt = screenRect.Location;
+        }
+
+        return GetOrCreateProjection(menu).ShowPopup(caller, screenPt, animated: true);
     }
 }

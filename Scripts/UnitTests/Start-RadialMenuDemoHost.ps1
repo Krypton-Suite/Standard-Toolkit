@@ -1,4 +1,4 @@
-<##
+﻿<##
 .SYNOPSIS
     Hosts TestForm.RadialMenuDemo from a Debug bin folder (STA).
 

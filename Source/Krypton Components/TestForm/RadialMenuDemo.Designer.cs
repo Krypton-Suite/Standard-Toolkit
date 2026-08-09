@@ -230,7 +230,7 @@ partial class RadialMenuDemo
         this.kwlblHint.Location = new System.Drawing.Point(16, 16);
         this.kwlblHint.Name = "kwlblHint";
         this.kwlblHint.Size = new System.Drawing.Size(864, 148);
-        this.kwlblHint.Text = "Issue #4172 — KryptonRadialMenu\r\n\r\nRight-click this surface (or use Show at cursor).\r\n• Native / imported modes, animation, DisplayStyle, ItemImageSize, shadow, checked glyph.\r\n• Keys: arrows focus sectors, Enter/Space activate, Esc/Back backs out, Esc at root dismisses.\r\n• Imported mode + PreferRadial uses KryptonRadialMenuPresenter.";
+        this.kwlblHint.Text = "Issue #4172 — KryptonRadialMenu\r\n\r\nRight-click this surface (or use Show at cursor).\r\n• Native: nested Edit, Bold, slider, colour, font, text editor, calendar, disabled; MaxVisibleItems=6 pages overflow.\r\n• Keys: arrows focus sectors, Enter/Space activate, Esc/Back backs out (close animation), Esc at root dismisses.\r\n• Imported mode + PreferRadial hooks KryptonContextMenu.Show via AlternativeShow / Presenter.";
         //
         // ktxtLog
         //

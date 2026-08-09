@@ -218,16 +218,27 @@ internal static class KryptonRadialMenuContextMenuBridge
         return item;
     }
 
-    private static KryptonRadialMenuItem ConvertTextBox(KryptonContextMenuTextBox source)
+    private static KryptonRadialMenuTextItem ConvertTextBox(KryptonContextMenuTextBox source)
     {
-        var text = string.IsNullOrEmpty(source.Text) ? @"Text" : Truncate(source.Text, 18);
-        var item = new KryptonRadialMenuItem(text)
+        var item = new KryptonRadialMenuTextItem
         {
+            Label = @"Text",
+            Text = source.Text ?? string.Empty,
             Enabled = source.Enabled,
             Visible = source.Visible,
             Tag = source,
-            AutoClose = false,
-            ToolTipText = source.Text
+            ToolTipText = source.Text ?? string.Empty
+        };
+        item.TextChanged += (_, _) =>
+        {
+            try
+            {
+                source.Text = item.Text;
+            }
+            catch
+            {
+                // Ignore disposed source.
+            }
         };
         CopyToolTips(source, item);
         return item;
@@ -285,18 +296,28 @@ internal static class KryptonRadialMenuContextMenuBridge
         return item;
     }
 
-    private static KryptonRadialMenuItem ConvertMonthCalendar(KryptonContextMenuMonthCalendar source)
+    private static KryptonRadialMenuCalendarItem ConvertMonthCalendar(KryptonContextMenuMonthCalendar source)
     {
-        var start = source.SelectionStart.ToShortDateString();
-        var end = source.SelectionEnd.ToShortDateString();
-        var label = start == end ? start : $@"{start}…";
-        var item = new KryptonRadialMenuItem(label)
+        var item = new KryptonRadialMenuCalendarItem
         {
+            Text = @"Date",
+            SelectedDate = source.SelectionStart.Date,
             Enabled = source.Enabled,
             Visible = source.Visible,
             Tag = source,
-            AutoClose = false,
-            ToolTipText = $@"Selected {start} – {end}"
+            ToolTipText = source.SelectionStart.ToShortDateString()
+        };
+        item.SelectedDateChanged += (_, _) =>
+        {
+            try
+            {
+                source.SelectionStart = item.SelectedDate;
+                source.SelectionEnd = item.SelectedDate;
+            }
+            catch
+            {
+                // Ignore disposed source.
+            }
         };
         CopyToolTips(source, item);
         return item;
