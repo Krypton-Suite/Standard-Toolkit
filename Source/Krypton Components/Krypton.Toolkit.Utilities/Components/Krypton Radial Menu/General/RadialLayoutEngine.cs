@@ -26,7 +26,7 @@ internal static class RadialLayoutEngine
     {
         if (itemCount <= 0)
         {
-            return Array.Empty<RadialSectorInfo>();
+            return [];
         }
 
         var sweep = 360f / itemCount;

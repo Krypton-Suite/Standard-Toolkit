@@ -101,7 +101,7 @@ public static class KryptonRadialMenuPresenter
     }
 
     private static bool TryShowRadial(
-        KryptonContextMenu menu,
+        KryptonContextMenu? menu,
         object? caller,
         Rectangle screenRect,
         KryptonContextMenuPositionH horz,
@@ -116,7 +116,7 @@ public static class KryptonRadialMenuPresenter
 
         // Opening already raised by KryptonContextMenu.Show; show the radial projection at the rect centre.
         var screenPt = new Point(screenRect.X + (screenRect.Width / 2), screenRect.Y + (screenRect.Height / 2));
-        if (screenRect.Width == 0 && screenRect.Height == 0)
+        if (screenRect is { Width: 0, Height: 0 })
         {
             screenPt = screenRect.Location;
         }

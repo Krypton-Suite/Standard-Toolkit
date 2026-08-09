@@ -212,8 +212,7 @@ internal class VisualRadialMenuPopup : VisualPopup
 
         var hit = HitTest(e.Location);
         _hovering = hit.Kind != RadialHitKind.None;
-        if (hit.Kind == RadialHitKind.OuterRing
-            && hit.SectorIndex >= 0
+        if (hit is { Kind: RadialHitKind.OuterRing, SectorIndex: >= 0 }
             && hit.SectorIndex < _visibleItems.Count
             && _visibleItems[hit.SectorIndex].HasChildren
             && _visibleItems[hit.SectorIndex].Enabled)
@@ -277,11 +276,11 @@ internal class VisualRadialMenuPopup : VisualPopup
             Cursor = Cursors.SizeAll;
             Capture = true;
         }
-        else if (_activeEditor is KryptonRadialMenuSliderItem && hit.Kind != RadialHitKind.Center)
+        else if (_activeEditor is KryptonRadialMenuSliderItem item && hit.Kind != RadialHitKind.Center)
         {
             _draggingSlider = true;
             var center = new PointF(ClientSize.Width / 2f, ClientSize.Height / 2f);
-            ((KryptonRadialMenuSliderItem)_activeEditor).SetNormalizedValue(
+            item.SetNormalizedValue(
                 RadialLayoutEngine.AngleToNormalized(e.Location, center, _owner.Values.StartAngle));
             Invalidate();
         }
@@ -1014,7 +1013,12 @@ internal class VisualRadialMenuPopup : VisualPopup
 
     private void RebuildLayout()
     {
-        _allVisibleItems = _currentItems.GetVisibleItems().ToList();
+        List<KryptonRadialMenuItemBase> list = new List<KryptonRadialMenuItemBase>();
+        foreach (var item in _currentItems.GetVisibleItems())
+        {
+            list.Add(item);
+        }
+        _allVisibleItems = list;
         if (RightToLeft == RightToLeft.Yes)
         {
             _allVisibleItems.Reverse();
@@ -1034,7 +1038,12 @@ internal class VisualRadialMenuPopup : VisualPopup
                 _pageOffset = 0;
             }
 
-            _visibleItems = _allVisibleItems.Skip(_pageOffset).Take(maxVisible).ToList();
+            List<KryptonRadialMenuItemBase> list1 = new List<KryptonRadialMenuItemBase>();
+            foreach (var @base in _allVisibleItems.Skip(_pageOffset).Take(maxVisible))
+            {
+                list1.Add(@base);
+            }
+            _visibleItems = list1;
         }
         else
         {
@@ -1284,7 +1293,7 @@ internal class VisualRadialMenuPopup : VisualPopup
 
         switch (item)
         {
-            case KryptonRadialMenuItem commandItem when commandItem.HasChildren:
+            case KryptonRadialMenuItem { HasChildren: true } commandItem:
                 _navigation.Push(_currentItems);
                 _currentItems = commandItem.Items;
                 _pageOffset = 0;
@@ -1378,77 +1387,65 @@ internal class VisualRadialMenuPopup : VisualPopup
 
     #region Accessibility
 
-    private sealed class VisualRadialMenuPopupAccessibleObject : Control.ControlAccessibleObject
+    private sealed class VisualRadialMenuPopupAccessibleObject(VisualRadialMenuPopup owner)
+        : ControlAccessibleObject(owner)
     {
-        private readonly VisualRadialMenuPopup _owner;
-
-        public VisualRadialMenuPopupAccessibleObject(VisualRadialMenuPopup owner)
-            : base(owner) =>
-            _owner = owner;
-
         public override AccessibleRole Role => AccessibleRole.MenuPopup;
 
         public override string? Name
         {
-            get => _owner.AccessibleName;
-            set => _owner.AccessibleName = value;
+            get => owner.AccessibleName;
+            set => owner.AccessibleName = value;
         }
 
         public override AccessibleObject? GetChild(int index)
         {
-            var items = _owner.AccessibleSectorItems;
+            var items = owner.AccessibleSectorItems;
             if (index < 0 || index >= items.Count)
             {
                 return null;
             }
 
-            return new RadialSectorAccessibleObject(_owner, items[index], index);
+            return new RadialSectorAccessibleObject(owner, items[index], index);
         }
 
-        public override int GetChildCount() => _owner.AccessibleSectorItems.Count;
+        public override int GetChildCount() => owner.AccessibleSectorItems.Count;
 
         public override AccessibleObject? GetFocused()
         {
-            var index = _owner.AccessibleTrackingIndex;
+            var index = owner.AccessibleTrackingIndex;
             return index >= 0 ? GetChild(index) : null;
         }
 
         public override AccessibleObject? GetSelected() => GetFocused();
     }
 
-    private sealed class RadialSectorAccessibleObject : AccessibleObject
+    private sealed class RadialSectorAccessibleObject(
+        VisualRadialMenuPopup popup,
+        KryptonRadialMenuItemBase item,
+        int index)
+        : AccessibleObject
     {
-        private readonly VisualRadialMenuPopup _popup;
-        private readonly KryptonRadialMenuItemBase _item;
-        private readonly int _index;
-
-        public RadialSectorAccessibleObject(VisualRadialMenuPopup popup, KryptonRadialMenuItemBase item, int index)
-        {
-            _popup = popup;
-            _item = item;
-            _index = index;
-        }
-
         public override AccessibleRole Role => AccessibleRole.MenuItem;
 
-        public override string? Name => GetItemAccessibleName(_item);
+        public override string? Name => GetItemAccessibleName(item);
 
         public override AccessibleStates State
         {
             get
             {
                 var state = AccessibleStates.Focusable;
-                if (!_item.Enabled)
+                if (!item.Enabled)
                 {
                     state |= AccessibleStates.Unavailable;
                 }
 
-                if (_popup.AccessibleTrackingIndex == _index)
+                if (popup.AccessibleTrackingIndex == index)
                 {
                     state |= AccessibleStates.Focused | AccessibleStates.Selected;
                 }
 
-                if (_item is KryptonRadialMenuItem { Checked: true })
+                if (item is KryptonRadialMenuItem { Checked: true })
                 {
                     state |= AccessibleStates.Checked;
                 }
@@ -1457,7 +1454,7 @@ internal class VisualRadialMenuPopup : VisualPopup
             }
         }
 
-        public override AccessibleObject? Parent => _popup.AccessibilityObject;
+        public override AccessibleObject? Parent => popup.AccessibilityObject;
 
         public override int GetChildCount() => 0;
     }

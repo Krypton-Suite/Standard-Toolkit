@@ -24,7 +24,7 @@ internal class KryptonRadialMenuDesigner : ComponentDesigner
     #region Public Overrides
 
     /// <inheritdoc />
-    public override void Initialize([DisallowNull] IComponent component)
+    public override void Initialize(IComponent component)
     {
         base.Initialize(component);
         _menu = component as KryptonRadialMenu;

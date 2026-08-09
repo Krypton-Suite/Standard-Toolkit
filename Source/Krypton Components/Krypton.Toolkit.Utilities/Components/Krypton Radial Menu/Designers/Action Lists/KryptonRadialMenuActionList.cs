@@ -114,16 +114,12 @@ internal class KryptonRadialMenuActionList : DesignerActionList
 
     #region Nested
 
-    private sealed class RadialMenuItemsContext : ITypeDescriptorContext
+    private sealed class RadialMenuItemsContext(KryptonRadialMenu menu) : ITypeDescriptorContext
     {
-        private readonly KryptonRadialMenu _menu;
-
-        public RadialMenuItemsContext(KryptonRadialMenu menu) => _menu = menu;
-
-        public IContainer? Container => _menu.Container;
-        public object Instance => _menu.Items;
-        public PropertyDescriptor? PropertyDescriptor => TypeDescriptor.GetProperties(_menu)[nameof(KryptonRadialMenu.Items)];
-        public object? GetService(Type serviceType) => (_menu.Site as IServiceProvider)?.GetService(serviceType);
+        public IContainer? Container => menu.Container;
+        public object Instance => menu.Items;
+        public PropertyDescriptor? PropertyDescriptor => TypeDescriptor.GetProperties(menu)[nameof(KryptonRadialMenu.Items)];
+        public object? GetService(Type serviceType) => menu.Site?.GetService(serviceType);
         public void OnComponentChanged() { }
         public bool OnComponentChanging() => true;
     }

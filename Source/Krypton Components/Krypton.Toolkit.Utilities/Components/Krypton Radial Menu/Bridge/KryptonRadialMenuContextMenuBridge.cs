@@ -186,7 +186,7 @@ internal static class KryptonRadialMenuContextMenuBridge
         };
 
         var list = source.ImageList;
-        if (list != null && list.Images.Count > 0)
+        if (list is { Images.Count: > 0 })
         {
             var start = Math.Max(0, source.ImageIndexStart);
             var end = source.ImageIndexEnd < 0 ? list.Images.Count - 1 : Math.Min(source.ImageIndexEnd, list.Images.Count - 1);
@@ -223,11 +223,11 @@ internal static class KryptonRadialMenuContextMenuBridge
         var item = new KryptonRadialMenuTextItem
         {
             Label = @"Text",
-            Text = source.Text ?? string.Empty,
+            Text = source.Text,
             Enabled = source.Enabled,
             Visible = source.Visible,
             Tag = source,
-            ToolTipText = source.Text ?? string.Empty
+            ToolTipText = source.Text
         };
         item.TextChanged += (_, _) =>
         {
@@ -378,7 +378,7 @@ internal static class KryptonRadialMenuContextMenuBridge
     private static void CopyToolTips(KryptonContextMenuItemBase source, KryptonRadialMenuItemBase target)
     {
         var from = source.ToolTipValues;
-        if (!from.EnableToolTips && from.IsDefault)
+        if (from is { EnableToolTips: false, IsDefault: true })
         {
             return;
         }
@@ -424,7 +424,7 @@ internal static class KryptonRadialMenuContextMenuBridge
     {
         if (string.IsNullOrEmpty(value) || value.Length <= maxLength)
         {
-            return value ?? string.Empty;
+            return value;
         }
 
         return value.Substring(0, maxLength - 1) + @"…";

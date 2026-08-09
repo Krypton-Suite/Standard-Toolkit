@@ -282,7 +282,7 @@ internal static class RadialMenuPainter
         RadialMenuColorSet colors)
     {
         string? text = null;
-        Image? image = null;
+        Image? image;
         var imageTransparent = Color.Empty;
 
         switch (item)
@@ -541,7 +541,7 @@ internal static class RadialMenuPainter
     private static string? ResolveEditorCenterText(KryptonRadialMenuItemBase activeEditorItem) =>
         activeEditorItem switch
         {
-            KryptonRadialMenuTextItem textItem => textItem.DraftText ?? string.Empty,
+            KryptonRadialMenuTextItem textItem => textItem.DraftText,
             KryptonRadialMenuCalendarItem calendarItem => calendarItem.ViewMonth.ToString(@"MMM yyyy"),
             _ => null
         };
@@ -700,7 +700,7 @@ internal static class RadialMenuPainter
         PointF center,
         float outer,
         float inner,
-        KryptonRadialMenuTextItem textItem,
+        KryptonRadialMenuTextItem? textItem,
         int trackingEditorIndex,
         RadialMenuColorSet colors,
         float startAngle)
