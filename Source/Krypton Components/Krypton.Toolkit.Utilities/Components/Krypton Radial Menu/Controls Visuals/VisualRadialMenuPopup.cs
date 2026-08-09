@@ -1,0 +1,884 @@
+﻿#region BSD License
+/*
+ *
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), et al. 2026 - 2026. All rights reserved.
+ *
+ */
+#endregion
+
+namespace Krypton.Toolkit.Utilities;
+
+/// <summary>
+/// Popup host that renders and interacts with a <see cref="KryptonRadialMenu"/>.
+/// </summary>
+internal class VisualRadialMenuPopup : VisualPopup
+{
+    #region Instance Fields
+
+    private readonly KryptonRadialMenu _owner;
+    private readonly Stack<KryptonRadialMenuItemCollection> _navigation = new Stack<KryptonRadialMenuItemCollection>();
+    private KryptonRadialMenuItemCollection _currentItems;
+    private KryptonRadialMenuItemBase? _activeEditor;
+    private RadialSectorInfo[] _sectors = Array.Empty<RadialSectorInfo>();
+    private List<KryptonRadialMenuItemBase> _visibleItems = [];
+    private int _trackingIndex = -1;
+    private int _pressedIndex = -1;
+    private int _trackingEditorIndex = -1;
+    private bool _draggingSlider;
+    private bool _movePending;
+    private bool _moving;
+    private Point _moveScreenStart;
+    private Point _moveLocationStart;
+    private double _animationProgress = 1.0;
+    private System.Windows.Forms.Timer? _animationTimer;
+    private readonly RadialMenuToolTipHost _toolTipHost;
+
+    private const int MoveDragThreshold = 8;
+
+    #endregion
+
+    #region Identity
+
+    /// <summary>
+    /// Initialize a new instance of the <see cref="VisualRadialMenuPopup"/> class.
+    /// </summary>
+    /// <param name="owner">Owning radial menu component.</param>
+    /// <param name="renderer">Renderer used by the base popup infrastructure.</param>
+    public VisualRadialMenuPopup(KryptonRadialMenu owner, IRenderer? renderer)
+        : base(new ViewManager(), renderer, owner.Values.ShowShadow)
+    {
+        _owner = owner ?? throw new ArgumentNullException(nameof(owner));
+        _currentItems = owner.Items;
+        ViewManager!.Control = this;
+        ViewManager.AlignControl = this;
+        ViewManager.Root = new ViewLayoutNull();
+
+        // Outside the circular Region must not paint an opaque system colour.
+        SetStyle(ControlStyles.Opaque, false);
+        SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+        BackColor = Color.Transparent;
+        AccessibleRole = AccessibleRole.MenuPopup;
+        AccessibleName = @"Radial menu";
+        _toolTipHost = new RadialMenuToolTipHost(this, owner.ResolvePalette);
+    }
+
+    #endregion
+
+    #region Public
+
+    /// <summary>
+    /// Shows the popup centred on the provided screen point.
+    /// </summary>
+    /// <param name="screenCenter">Screen centre point.</param>
+    /// <param name="animated">Whether to run a short open animation.</param>
+    public void ShowCentered(Point screenCenter, bool animated)
+    {
+        _navigation.Clear();
+        _currentItems = _owner.Items;
+        _activeEditor = null;
+        _trackingIndex = -1;
+        _pressedIndex = -1;
+        _trackingEditorIndex = -1;
+        RebuildLayout();
+
+        var diameter = (_owner.Values.MenuRadius * 2) + 8;
+        var size = new Size(diameter, diameter);
+        var location = new Point(screenCenter.X - (size.Width / 2), screenCenter.Y - (size.Height / 2));
+        ApplyCircularRegion(size);
+
+        var style = _owner.Values.AnimationStyle;
+        var shouldAnimate = animated
+            && style != KryptonRadialMenuAnimationStyle.None
+            && _owner.Values.AnimationDuration > 0;
+
+        if (shouldAnimate)
+        {
+            _animationProgress = 0.0;
+            Show(new Rectangle(location, size));
+            ApplyCircularRegion(size);
+            BeginAnimation();
+        }
+        else
+        {
+            _animationProgress = 1.0;
+            Show(new Rectangle(location, size));
+            ApplyCircularRegion(size);
+        }
+    }
+
+    #endregion
+
+    #region Protected
+
+    /// <inheritdoc />
+    protected override void OnPaintBackground(PaintEventArgs pevent)
+    {
+        // Suppress default opaque background fill outside the radial artwork.
+    }
+
+    /// <inheritdoc />
+    protected override void OnPaint(PaintEventArgs? e)
+    {
+        if (IsDisposed || e == null)
+        {
+            return;
+        }
+
+        var g = e.Graphics;
+        var state = g.Save();
+        try
+        {
+            ApplyAnimationTransform(g);
+            g.CompositingMode = CompositingMode.SourceOver;
+
+            var colors = RadialMenuColorSet.FromPalette(_owner.ResolvePalette(), _owner.Values);
+            RadialMenuPainter.Paint(
+                g,
+                ClientRectangle,
+                _owner.Values,
+                colors,
+                _visibleItems,
+                _sectors,
+                _trackingIndex,
+                _pressedIndex,
+                _navigation.Count > 0 || _activeEditor != null,
+                _activeEditor != null,
+                _activeEditor,
+                _trackingEditorIndex);
+        }
+        finally
+        {
+            g.Restore(state);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override void OnMouseMove(MouseEventArgs e)
+    {
+        if (IsDisposed)
+        {
+            return;
+        }
+
+        if (_draggingSlider && _activeEditor is KryptonRadialMenuSliderItem slider)
+        {
+            var center = new PointF(ClientSize.Width / 2f, ClientSize.Height / 2f);
+            slider.SetNormalizedValue(RadialLayoutEngine.AngleToNormalized(e.Location, center));
+            Invalidate();
+            return;
+        }
+
+        if (_movePending || _moving)
+        {
+            var screen = PointToScreen(e.Location);
+            var dx = screen.X - _moveScreenStart.X;
+            var dy = screen.Y - _moveScreenStart.Y;
+            if (!_moving && ((Math.Abs(dx) >= MoveDragThreshold) || (Math.Abs(dy) >= MoveDragThreshold)))
+            {
+                _moving = true;
+                _movePending = false;
+                Cursor = Cursors.SizeAll;
+            }
+
+            if (_moving)
+            {
+                Location = new Point(_moveLocationStart.X + dx, _moveLocationStart.Y + dy);
+                _toolTipHost.Cancel();
+                return;
+            }
+        }
+
+        var hit = HitTest(e.Location);
+        Cursor = (_owner.AllowMove && hit.Kind == RadialHitKind.Center) ? Cursors.SizeAll : Cursors.Default;
+        UpdateToolTipHover(hit);
+        var changed = false;
+        if (_activeEditor != null)
+        {
+            if (_trackingEditorIndex != hit.EditorIndex)
+            {
+                _trackingEditorIndex = hit.Kind == RadialHitKind.Editor ? hit.EditorIndex : -1;
+                changed = true;
+            }
+        }
+        else if (_trackingIndex != hit.SectorIndex)
+        {
+            _trackingIndex = hit.Kind == RadialHitKind.Sector ? hit.SectorIndex : -1;
+            changed = true;
+        }
+
+        if (changed)
+        {
+            Invalidate();
+        }
+
+        base.OnMouseMove(e);
+    }
+
+    /// <inheritdoc />
+    protected override void OnMouseDown(MouseEventArgs e)
+    {
+        if (IsDisposed || e.Button != MouseButtons.Left)
+        {
+            base.OnMouseDown(e);
+            return;
+        }
+
+        var hit = HitTest(e.Location);
+        if (_owner.AllowMove && hit.Kind == RadialHitKind.Center)
+        {
+            // Defer centre click until mouse-up; start a move if the pointer travels far enough.
+            _movePending = true;
+            _moving = false;
+            _moveScreenStart = PointToScreen(e.Location);
+            _moveLocationStart = Location;
+            Cursor = Cursors.SizeAll;
+            Capture = true;
+        }
+        else if (_activeEditor is KryptonRadialMenuSliderItem && hit.Kind != RadialHitKind.Center)
+        {
+            _draggingSlider = true;
+            var center = new PointF(ClientSize.Width / 2f, ClientSize.Height / 2f);
+            ((KryptonRadialMenuSliderItem)_activeEditor).SetNormalizedValue(RadialLayoutEngine.AngleToNormalized(e.Location, center));
+            Invalidate();
+        }
+        else if (hit.Kind == RadialHitKind.Sector)
+        {
+            _pressedIndex = hit.SectorIndex;
+            Invalidate();
+        }
+
+        base.OnMouseDown(e);
+    }
+
+    /// <inheritdoc />
+    protected override void OnMouseUp(MouseEventArgs e)
+    {
+        if (IsDisposed)
+        {
+            base.OnMouseUp(e);
+            return;
+        }
+
+        if (e.Button == MouseButtons.Left)
+        {
+            if (_draggingSlider)
+            {
+                _draggingSlider = false;
+                Invalidate();
+                base.OnMouseUp(e);
+                return;
+            }
+
+            if (_movePending || _moving)
+            {
+                var moved = _moving;
+                _movePending = false;
+                _moving = false;
+                Cursor = Cursors.Default;
+                if (Capture)
+                {
+                    Capture = false;
+                }
+
+                if (moved)
+                {
+                    // Reposition only — do not treat as a centre click.
+                    base.OnMouseUp(e);
+                    return;
+                }
+
+                // Pressed the centre without dragging: always honour the centre action.
+                HandleCenterClick();
+                Invalidate();
+                base.OnMouseUp(e);
+                return;
+            }
+
+            var hit = HitTest(e.Location);
+            _pressedIndex = -1;
+
+            switch (hit.Kind)
+            {
+                case RadialHitKind.Center:
+                    HandleCenterClick();
+                    break;
+                case RadialHitKind.Sector:
+                    HandleSectorClick(hit.SectorIndex);
+                    break;
+                case RadialHitKind.Editor:
+                    HandleEditorClick(hit.EditorIndex);
+                    break;
+            }
+
+            Invalidate();
+        }
+
+        base.OnMouseUp(e);
+    }
+
+    /// <inheritdoc />
+    protected override void OnMouseWheel(MouseEventArgs e)
+    {
+        if (_activeEditor is KryptonRadialMenuFontListItem fonts)
+        {
+            fonts.ScrollOffset += e.Delta > 0 ? -1 : 1;
+            Invalidate();
+        }
+        else if (_activeEditor is KryptonRadialMenuSliderItem slider)
+        {
+            slider.Value += e.Delta > 0 ? slider.SmallChange : -slider.SmallChange;
+            Invalidate();
+        }
+
+        base.OnMouseWheel(e);
+    }
+
+    /// <inheritdoc />
+    protected override bool ProcessDialogKey(Keys keyData)
+    {
+        if (IsDisposed)
+        {
+            return base.ProcessDialogKey(keyData);
+        }
+
+        if (TryProcessKeyboard(keyData))
+        {
+            return true;
+        }
+
+        return base.ProcessDialogKey(keyData);
+    }
+
+    /// <inheritdoc />
+    protected override void OnKeyDown(KeyEventArgs e)
+    {
+        if (!IsDisposed && TryProcessKeyboard(e.KeyData))
+        {
+            e.Handled = true;
+            return;
+        }
+
+        base.OnKeyDown(e);
+    }
+
+    /// <inheritdoc />
+    public override bool DoesCurrentMouseDownEndAllTracking(Message m, Point pt)
+    {
+        // Dismiss when outside the circular menu (corners of the bounding box or outside client).
+        if (!ClientRectangle.Contains(pt))
+        {
+            return true;
+        }
+
+        return DistanceFromCenter(pt) > _owner.Values.MenuRadius;
+    }
+
+    /// <inheritdoc />
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            StopAnimationTimer();
+            _toolTipHost.Dispose();
+        }
+
+        base.Dispose(disposing);
+    }
+
+    #endregion
+
+    #region Implementation
+
+    private void BeginAnimation()
+    {
+        StopAnimationTimer();
+
+        var style = _owner.Values.AnimationStyle;
+        var duration = _owner.Values.AnimationDuration;
+        if (style == KryptonRadialMenuAnimationStyle.None || duration <= 0)
+        {
+            _animationProgress = 1.0;
+            Invalidate();
+            return;
+        }
+
+        _animationProgress = 0.0;
+        var started = Environment.TickCount;
+        _animationTimer = new System.Windows.Forms.Timer { Interval = 16 };
+        _animationTimer.Tick += (_, _) =>
+        {
+            var elapsed = Environment.TickCount - started;
+            var linear = Math.Min(1.0, elapsed / (double)duration);
+            _animationProgress = EaseOutCubic(linear);
+            Invalidate();
+            if (linear >= 1.0)
+            {
+                _animationProgress = 1.0;
+                StopAnimationTimer();
+                Invalidate();
+            }
+        };
+        _animationTimer.Start();
+    }
+
+    private void StopAnimationTimer()
+    {
+        if (_animationTimer == null)
+        {
+            return;
+        }
+
+        _animationTimer.Stop();
+        _animationTimer.Dispose();
+        _animationTimer = null;
+    }
+
+    private void ApplyAnimationTransform(Graphics g)
+    {
+        var progress = (float)_animationProgress;
+        if (progress >= 0.999f)
+        {
+            return;
+        }
+
+        var style = _owner.Values.AnimationStyle;
+        if (style == KryptonRadialMenuAnimationStyle.None)
+        {
+            return;
+        }
+
+        var cx = ClientSize.Width / 2f;
+        var cy = ClientSize.Height / 2f;
+        g.TranslateTransform(cx, cy);
+
+        switch (style)
+        {
+            case KryptonRadialMenuAnimationStyle.FadeScale:
+            {
+                var scale = 0.75f + (0.25f * progress);
+                g.ScaleTransform(scale, scale);
+                break;
+            }
+            case KryptonRadialMenuAnimationStyle.Spiral:
+            {
+                var scale = 0.55f + (0.45f * progress);
+                g.RotateTransform(360f * (1f - progress));
+                g.ScaleTransform(scale, scale);
+                break;
+            }
+            case KryptonRadialMenuAnimationStyle.Pop:
+            {
+                var scale = EaseOutBack(progress);
+                g.ScaleTransform(scale, scale);
+                break;
+            }
+            case KryptonRadialMenuAnimationStyle.Sweep:
+            default:
+            {
+                // Sweep uses a clip rather than a transform; scale slightly for polish.
+                var scale = 0.92f + (0.08f * progress);
+                g.ScaleTransform(scale, scale);
+                break;
+            }
+        }
+
+        g.TranslateTransform(-cx, -cy);
+
+        if (style == KryptonRadialMenuAnimationStyle.Sweep)
+        {
+            using var clip = new GraphicsPath();
+            var diameter = Math.Max(ClientSize.Width, ClientSize.Height) * 1.2f;
+            var rect = Rectangle.Round(new RectangleF(cx - (diameter / 2f), cy - (diameter / 2f), diameter, diameter));
+            var sweep = Math.Max(1f, 360f * progress);
+            clip.AddPie(rect, -90f, sweep);
+            g.SetClip(clip);
+        }
+    }
+
+    private static double EaseOutCubic(double t) => 1.0 - Math.Pow(1.0 - t, 3);
+
+    private static float EaseOutBack(float t)
+    {
+        const float c1 = 1.70158f;
+        const float c3 = c1 + 1f;
+        var p = t - 1f;
+        return 1f + (c3 * p * p * p) + (c1 * p * p);
+    }
+
+    private void ApplyCircularRegion(Size size)
+    {
+        using var path = new GraphicsPath();
+        path.AddEllipse(0, 0, size.Width - 1, size.Height - 1);
+        Region?.Dispose();
+        Region = new Region(path);
+        DefineCircularShadowPaths(size);
+    }
+
+    private void DefineCircularShadowPaths(Size size)
+    {
+        if (!_owner.Values.ShowShadow)
+        {
+            return;
+        }
+
+        GraphicsPath CreateEllipse(int inflate)
+        {
+            var path = new GraphicsPath();
+            path.AddEllipse(-inflate, -inflate, size.Width - 1 + (inflate * 2), size.Height - 1 + (inflate * 2));
+            return path;
+        }
+
+        // Three concentric ellipses match VisualPopupShadow's three-layer draw.
+        DefineShadowPaths(CreateEllipse(0), CreateEllipse(1), CreateEllipse(2));
+    }
+
+    /// <summary>
+    /// Rebuilds sector layout for the current navigation level (e.g. after a live import refresh).
+    /// </summary>
+    internal void RefreshCurrentLevel()
+    {
+        if (IsDisposed)
+        {
+            return;
+        }
+
+        _navigation.Clear();
+        _currentItems = _owner.Items;
+        _activeEditor = null;
+        RebuildLayout();
+        Invalidate();
+    }
+
+    private bool TryProcessKeyboard(Keys keyData)
+    {
+        switch (keyData)
+        {
+            case Keys.Escape:
+                if (_activeEditor != null || _navigation.Count > 0)
+                {
+                    HandleCenterClick();
+                    return true;
+                }
+
+                // Root: let base dispose / dismiss.
+                return false;
+
+            case Keys.Back:
+                HandleCenterClick();
+                return true;
+
+            case Keys.Enter:
+            case Keys.Space:
+                ActivateKeyboardSelection();
+                return true;
+
+            case Keys.Left:
+            case Keys.Up:
+                MoveTracking(-1);
+                return true;
+
+            case Keys.Right:
+            case Keys.Down:
+                MoveTracking(1);
+                return true;
+
+            case Keys.Home:
+                if (_visibleItems.Count > 0)
+                {
+                    _trackingIndex = 0;
+                    Invalidate();
+                }
+
+                return true;
+
+            case Keys.End:
+                if (_visibleItems.Count > 0)
+                {
+                    _trackingIndex = _visibleItems.Count - 1;
+                    Invalidate();
+                }
+
+                return true;
+
+            default:
+                return false;
+        }
+    }
+
+    private void MoveTracking(int delta)
+    {
+        if (_activeEditor != null)
+        {
+            MoveEditorTracking(delta);
+            return;
+        }
+
+        if (_visibleItems.Count == 0)
+        {
+            return;
+        }
+
+        if (_trackingIndex < 0)
+        {
+            _trackingIndex = delta > 0 ? 0 : _visibleItems.Count - 1;
+        }
+        else
+        {
+            _trackingIndex = (_trackingIndex + delta + _visibleItems.Count) % _visibleItems.Count;
+        }
+
+        UpdateToolTipHover(new RadialHitResult(RadialHitKind.Sector, _trackingIndex, -1));
+        Invalidate();
+    }
+
+    private void MoveEditorTracking(int delta)
+    {
+        var count = 0;
+        if (_activeEditor is KryptonRadialMenuColorPaletteItem colors)
+        {
+            count = colors.Colors.Length;
+        }
+        else if (_activeEditor is KryptonRadialMenuFontListItem fonts)
+        {
+            count = Math.Min(8, fonts.FontFamilies.Length);
+        }
+        else if (_activeEditor is KryptonRadialMenuSliderItem slider)
+        {
+            slider.Value += delta > 0 ? slider.SmallChange : -slider.SmallChange;
+            Invalidate();
+            return;
+        }
+
+        if (count <= 0)
+        {
+            return;
+        }
+
+        if (_trackingEditorIndex < 0)
+        {
+            _trackingEditorIndex = delta > 0 ? 0 : count - 1;
+        }
+        else
+        {
+            _trackingEditorIndex = (_trackingEditorIndex + delta + count) % count;
+        }
+
+        Invalidate();
+    }
+
+    private void ActivateKeyboardSelection()
+    {
+        if (_activeEditor != null)
+        {
+            if (_trackingEditorIndex >= 0)
+            {
+                HandleEditorClick(_trackingEditorIndex);
+            }
+            else if (_activeEditor is KryptonRadialMenuSliderItem)
+            {
+                // Keep slider open until Esc / centre.
+            }
+            else
+            {
+                HandleCenterClick();
+            }
+
+            return;
+        }
+
+        if (_trackingIndex >= 0)
+        {
+            HandleSectorClick(_trackingIndex);
+            Invalidate();
+            return;
+        }
+
+        HandleCenterClick();
+    }
+
+    private void RebuildLayout()
+    {
+        _visibleItems = _currentItems.GetVisibleItems().ToList();
+        _sectors = RadialLayoutEngine.BuildSectors(
+            _visibleItems.Count,
+            _owner.Values.MenuRadius,
+            _owner.Values.InnerRadius);
+        _trackingIndex = -1;
+        _pressedIndex = -1;
+        _trackingEditorIndex = -1;
+        _toolTipHost.Cancel();
+
+        // Re-run the open animation when navigating rings (submenu / back / editor exit).
+        if (_owner.Values.AnimationStyle != KryptonRadialMenuAnimationStyle.None
+            && _owner.Values.AnimationDuration > 0
+            && IsHandleCreated)
+        {
+            BeginAnimation();
+        }
+    }
+
+    private void UpdateToolTipHover(RadialHitResult hit)
+    {
+        if (_moving || _movePending || _draggingSlider || _activeEditor != null)
+        {
+            _toolTipHost.Cancel();
+            return;
+        }
+
+        if (hit.Kind == RadialHitKind.Sector
+            && hit.SectorIndex >= 0
+            && hit.SectorIndex < _visibleItems.Count)
+        {
+            _toolTipHost.UpdateHover(_visibleItems[hit.SectorIndex]);
+            return;
+        }
+
+        _toolTipHost.Cancel();
+    }
+
+    private RadialHitResult HitTest(Point clientPoint)
+    {
+        var center = new PointF(ClientSize.Width / 2f, ClientSize.Height / 2f);
+        var editorCount = 0;
+        if (_activeEditor is KryptonRadialMenuColorPaletteItem colors)
+        {
+            editorCount = colors.Colors.Length;
+        }
+        else if (_activeEditor is KryptonRadialMenuFontListItem fonts)
+        {
+            editorCount = Math.Min(8, fonts.FontFamilies.Length);
+        }
+        else if (_activeEditor is KryptonRadialMenuSliderItem)
+        {
+            // Slider uses drag anywhere in the ring; treat non-center as editor.
+            var dx = clientPoint.X - center.X;
+            var dy = clientPoint.Y - center.Y;
+            var distance = Math.Sqrt((dx * dx) + (dy * dy));
+            if (distance <= _owner.Values.InnerRadius)
+            {
+                return new RadialHitResult(RadialHitKind.Center, -1, -1);
+            }
+
+            if (distance <= _owner.Values.MenuRadius)
+            {
+                return new RadialHitResult(RadialHitKind.Editor, -1, 0);
+            }
+
+            return RadialHitResult.None;
+        }
+
+        return RadialLayoutEngine.HitTest(
+            clientPoint,
+            center,
+            _owner.Values.MenuRadius,
+            _owner.Values.InnerRadius,
+            _sectors,
+            _activeEditor != null,
+            editorCount);
+    }
+
+    private double DistanceFromCenter(Point clientPoint)
+    {
+        var cx = ClientSize.Width / 2.0;
+        var cy = ClientSize.Height / 2.0;
+        var dx = clientPoint.X - cx;
+        var dy = clientPoint.Y - cy;
+        return Math.Sqrt((dx * dx) + (dy * dy));
+    }
+
+    private void HandleCenterClick()
+    {
+        _toolTipHost.Cancel();
+        if (_activeEditor != null)
+        {
+            _activeEditor = null;
+            _draggingSlider = false;
+            Invalidate();
+            return;
+        }
+
+        if (_navigation.Count > 0)
+        {
+            _currentItems = _navigation.Pop();
+            RebuildLayout();
+            Invalidate();
+            return;
+        }
+
+        _owner.OnCenterButtonClick();
+        _owner.Close(ToolStripDropDownCloseReason.CloseCalled);
+    }
+
+    private void HandleSectorClick(int sectorIndex)
+    {
+        _toolTipHost.Cancel();
+        if (sectorIndex < 0 || sectorIndex >= _visibleItems.Count)
+        {
+            return;
+        }
+
+        var item = _visibleItems[sectorIndex];
+        if (!item.Enabled)
+        {
+            return;
+        }
+
+        _owner.RaiseItemClick(item);
+
+        switch (item)
+        {
+            case KryptonRadialMenuItem commandItem when commandItem.HasChildren:
+                _navigation.Push(_currentItems);
+                _currentItems = commandItem.Items;
+                RebuildLayout();
+                break;
+            case KryptonRadialMenuItem commandItem:
+                commandItem.PerformClick();
+                if (commandItem.AutoClose)
+                {
+                    _owner.Close(ToolStripDropDownCloseReason.ItemClicked);
+                }
+                break;
+            case KryptonRadialMenuSliderItem:
+            case KryptonRadialMenuColorPaletteItem:
+            case KryptonRadialMenuFontListItem:
+                _activeEditor = item;
+                _trackingEditorIndex = -1;
+                break;
+        }
+    }
+
+    private void HandleEditorClick(int editorIndex)
+    {
+        switch (_activeEditor)
+        {
+            case KryptonRadialMenuColorPaletteItem colors:
+                if (editorIndex >= 0 && editorIndex < colors.Colors.Length)
+                {
+                    colors.SelectedColor = colors.Colors[editorIndex];
+                    _activeEditor = null;
+                    _owner.Close(ToolStripDropDownCloseReason.ItemClicked);
+                }
+                break;
+            case KryptonRadialMenuFontListItem fonts:
+                var families = fonts.FontFamilies;
+                if (families.Length == 0)
+                {
+                    break;
+                }
+
+                var visible = Math.Min(8, families.Length);
+                if (editorIndex >= 0 && editorIndex < visible)
+                {
+                    var familyIndex = (fonts.ScrollOffset + editorIndex) % families.Length;
+                    fonts.SelectFamily(families[familyIndex]);
+                    _activeEditor = null;
+                    _owner.Close(ToolStripDropDownCloseReason.ItemClicked);
+                }
+                break;
+        }
+    }
+
+    #endregion
+}

@@ -45,6 +45,9 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#4172](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4172), Radial menu
+   * `KryptonRadialMenu` OneNote-style radial popup menu with nested levels, command binding, slider/colour/font editors, animations, sector images, circular shadow, keyboard navigation, checked glyphs, and context-menu import (including live sync and `KryptonRadialMenuPresenter`).
+   * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Implemented, `ThemeManager.RegisterCustomTheme` so named custom themes appear in theme selectors.
 * Implemented, Builtin Lime Green palette theme (`Palette Builtin/Lime Green`): `Office2007LimeGreen(Dark)`, `Office2010LimeGreen(Dark)`, and `Microsoft365LimeGreen(Dark)` `PaletteMode` entries, wired into `KryptonManager`, `PaletteModeStrings.SupportedThemes`, and theme selectors alongside every other builtin theme; TestForm's Lime Green Theme demo now applies these via `ThemeManager.ApplyTheme(PaletteMode, KryptonManager)` instead of a runtime-built custom palette.
 * Implemented [#4142](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4142), Use `ThrowHelper`

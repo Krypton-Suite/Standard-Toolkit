@@ -78,9 +78,12 @@
 		<DefineConstants>$(DefineConstants);WEBVIEW2_AVAILABLE</DefineConstants>
 	</PropertyGroup>
 
-	<!-- WebView2 Toolbox Bitmap -->
+	<!-- Toolbox Bitmaps -->
 	<ItemGroup>
 		<EmbeddedResource Include="Components\KryptonWebView2\ToolboxBitmaps\WebView2.bmp" />
+		<EmbeddedResource Include="Components\Krypton Radial Menu\ToolboxBitmaps\KryptonRadialMenu.bmp">
+			<LogicalName>Krypton.Toolkit.Utilities.ToolboxBitmaps.KryptonRadialMenu.bmp</LogicalName>
+		</EmbeddedResource>
 	</ItemGroup>
 
 	<ItemGroup>
