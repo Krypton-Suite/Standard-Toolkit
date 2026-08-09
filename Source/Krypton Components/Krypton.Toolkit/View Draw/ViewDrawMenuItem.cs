@@ -512,7 +512,7 @@ internal class ViewDrawMenuItem : ViewDrawCanvas
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // If we have image display

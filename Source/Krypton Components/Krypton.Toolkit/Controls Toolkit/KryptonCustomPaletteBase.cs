@@ -122,7 +122,7 @@ public class KryptonCustomPaletteBase : PaletteBase
         // Validate reference parameter
         if (container == null)
         {
-            throw new ArgumentNullException(nameof(container));
+            ThrowHelper.ThrowArgumentNullException(nameof(container));
         }
 
         container.Add(this);
@@ -796,7 +796,7 @@ public class KryptonCustomPaletteBase : PaletteBase
         => GetPaletteContent(style, state).GetContentImageColorTo(state);
 
     /// <inheritdoc />
-    public override Color GetContentImageColorTransparent(PaletteContentStyle style, PaletteState state) => throw new NotImplementedException();
+    public override Color GetContentImageColorTransparent(PaletteContentStyle style, PaletteState state) => ThrowHelper.ThrowNotImplementedException<Color>();
 
     /// <summary>
     /// Gets the font for the short text.
@@ -1571,7 +1571,7 @@ public class KryptonCustomPaletteBase : PaletteBase
         => GetPaletteButtonSpec(style).GetButtonSpecColorMap(style);
 
     /// <inheritdoc />
-    public override Color GetButtonSpecColorTransparent(PaletteButtonSpecStyle style) => throw new NotImplementedException();
+    public override Color GetButtonSpecColorTransparent(PaletteButtonSpecStyle style) => ThrowHelper.ThrowNotImplementedException<Color>();
 
     /// <summary>
     /// Gets the button style used for drawing the button.
@@ -2242,7 +2242,7 @@ public class KryptonCustomPaletteBase : PaletteBase
         catch (ArgumentException aex)
         {
             // Probably due to a version conflict:
-            // throw new ArgumentException($"Version '{version}' number is incompatible, only version {CURRENT_PALETTE_VERSION} or above can be imported.\nUse the PaletteUpgradeTool from the Application tab of the KryptonExplorer to upgrade.");
+            // ThrowHelper.ThrowArgumentException($"Version '{version}' number is incompatible, only version {CURRENT_PALETTE_VERSION} or above can be imported.\nUse the PaletteUpgradeTool from the Application tab of the KryptonExplorer to upgrade.");
             CommonHelper.LogOutput(aex.Message);
             if (!aex.Message.Contains(@"number is incompatible"))
             {
@@ -2789,7 +2789,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                         _basePaletteMode = tempMode;
                         _basePalette = tempPalette;
 
-                        throw new ArgumentOutOfRangeException(nameof(value), @"Cannot use palette that would create a circular reference");
+                        ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), @"Cannot use palette that would create a circular reference");
                     }
 
                     // Restore the original base palette as 'SetPalette' will not
@@ -2841,7 +2841,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                         _basePaletteMode = tempMode;
                         _basePalette = tempPalette;
 
-                        throw new ArgumentOutOfRangeException(nameof(value), @"Cannot use palette that would create a circular reference");
+                        ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), @"Cannot use palette that would create a circular reference");
                     }
                     else
                     {
@@ -3162,7 +3162,7 @@ public class KryptonCustomPaletteBase : PaletteBase
         // Check the target file actually exists
         if (!File.Exists(filename))
         {
-            throw new ArgumentException(@"Provided file does not exist.", nameof(parameter));
+            ThrowHelper.ThrowArgumentException(@"Provided file does not exist.", nameof(parameter));
         }
 
         // Create a new xml document for storing the palette settings
@@ -3230,7 +3230,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             // We insist on a root element
             if (!doc.HasChildNodes)
             {
-                throw new ArgumentException("Xml document does not have a root element.");
+                ThrowHelper.ThrowArgumentException("Xml document does not have a root element.");
             }
 
             // Try and grab the root element
@@ -3239,13 +3239,13 @@ public class KryptonCustomPaletteBase : PaletteBase
             // We insist the root is always present
             if (root == null)
             {
-                throw new ArgumentException("Root element must be called 'KryptonPalette'.");
+                ThrowHelper.ThrowArgumentException("Root element must be called 'KryptonPalette'.");
             }
 
             // We insist the version number is always present
             if (!root.HasAttribute(nameof(Version)))
             {
-                throw new ArgumentException("Root element must have an attribute called 'Version'.");
+                ThrowHelper.ThrowArgumentException("Root element must have an attribute called 'Version'.");
             }
 
             // Grab the version number of the format being loaded
@@ -3253,8 +3253,7 @@ public class KryptonCustomPaletteBase : PaletteBase
 
             if (version < SharedStaticConstants.CURRENT_SUPPORTED_PALETTE_VERSION)
             {
-                throw new ArgumentException(
-                    $"Version '{version}' number is incompatible, only version {SharedStaticConstants.CURRENT_SUPPORTED_PALETTE_VERSION} or above can be imported.\nUse the PaletteUpgradeTool from the Application tab of the KryptonExplorer to upgrade.");
+                ThrowHelper.ThrowArgumentException($"Version '{version}' number is incompatible, only version {SharedStaticConstants.CURRENT_SUPPORTED_PALETTE_VERSION} or above can be imported.\nUse the PaletteUpgradeTool from the Application tab of the KryptonExplorer to upgrade.");
             }
 
             // Restore bundled palette name so external themes display correctly (e.g. in KryptonManager)
@@ -3284,12 +3283,12 @@ public class KryptonCustomPaletteBase : PaletteBase
             // There must be both properties and images elements present
             if (props == null)
             {
-                throw new ArgumentException("Element 'Properties' missing from the 'KryptonPalette'.");
+                ThrowHelper.ThrowArgumentException("Element 'Properties' missing from the 'KryptonPalette'.");
             }
 
             if (images == null)
             {
-                throw new ArgumentException("Element 'Images' missing from the 'KryptonPalette'.");
+                ThrowHelper.ThrowArgumentException("Element 'Images' missing from the 'KryptonPalette'.");
             }
 
             // Cache the images from the images element
@@ -3327,7 +3326,7 @@ public class KryptonCustomPaletteBase : PaletteBase
         // Check the target directory actually exists
         if (info.Directory is { Exists: false })
         {
-            throw new ArgumentException("Provided directory does not exist.");
+            ThrowHelper.ThrowArgumentException("Provided directory does not exist.");
         }
 
         // Create an XmlDocument containing the saved palette details
@@ -6039,7 +6038,7 @@ public class KryptonCustomPaletteBase : PaletteBase
     {
         if (colors == null)
         {
-            throw new ArgumentNullException(nameof(colors));
+            ThrowHelper.ThrowArgumentNullException(nameof(colors));
         }
 
         if (_basePalette == null)

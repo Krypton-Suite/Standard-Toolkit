@@ -1,4 +1,4 @@
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace TestForm;
 
@@ -13,7 +13,7 @@ internal static class PaletteSchemeColorExtensions
     {
         if (palette == null)
         {
-            throw new ArgumentNullException(nameof(palette));
+            ThrowHelper.ThrowArgumentNullException(nameof(palette));
         }
 
         // Prefer native method if present
@@ -48,7 +48,7 @@ internal static class PaletteSchemeColorExtensions
     {
         if (palette == null)
         {
-            throw new ArgumentNullException(nameof(palette));
+            ThrowHelper.ThrowArgumentNullException(nameof(palette));
         }
 
         // Prefer native method if present

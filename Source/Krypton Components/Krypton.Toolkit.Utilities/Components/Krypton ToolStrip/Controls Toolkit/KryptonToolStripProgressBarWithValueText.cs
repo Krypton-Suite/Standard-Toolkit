@@ -49,7 +49,7 @@ public class KryptonToolStripProgressBarWithValueText : ToolStripProgressBar
     #region Identity
 
     public KryptonToolStripProgressBarWithValueText()
-        : this(KryptonManager.CurrentGlobalPalette ?? throw new InvalidOperationException("No current global palette is available."))
+        : this(KryptonManager.CurrentGlobalPalette ?? ThrowHelper.ThrowInvalidOperationException<PaletteBase>("No current global palette is available."))
     {
     }
 

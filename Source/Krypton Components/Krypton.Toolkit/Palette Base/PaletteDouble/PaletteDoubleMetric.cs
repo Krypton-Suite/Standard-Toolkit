@@ -44,7 +44,7 @@ public class PaletteDoubleMetric : PaletteDouble,
         Debug.Assert(inherit != null);
             
         // Remember inheritance for metric values
-        _inherit = inherit ?? throw new NullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(inherit)));
+        _inherit =inherit ?? ThrowHelper.ThrowNullReferenceException<PaletteDoubleMetricRedirect>(SharedStaticFunctions.VariableCannotBeNull(nameof(inherit)));
     }
     #endregion
 

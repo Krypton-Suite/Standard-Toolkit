@@ -16,6 +16,6 @@ public class KryptonColorStorage : Storage
 
     public void Reset()
     {
-        throw new NotImplementedException();
+        ThrowHelper.ThrowNotImplementedException();
     }
 }

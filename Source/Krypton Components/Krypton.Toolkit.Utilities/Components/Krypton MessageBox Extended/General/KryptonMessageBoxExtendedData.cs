@@ -165,6 +165,15 @@ public struct KryptonMessageBoxExtendedData
 
     public string? MoreDetailsMessageText { get; set; }
 
+    /// <summary>
+    /// Gets or sets optional semantic colours for the message-box action buttons.
+    /// </summary>
+    /// <remarks>
+    /// When null, <see cref="KryptonManager.DialogButtonColors"/> is used. When both are null,
+    /// buttons keep themed Standalone chrome.
+    /// </remarks>
+    public KryptonDialogButtonColorOptions? ButtonColors { get; set; }
+
     #endregion
 
     #endregion

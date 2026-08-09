@@ -504,7 +504,7 @@ internal static class FlashWindowExListener
     {
         if (f.IsDisposed)
         {
-            throw new ArgumentException("Cannot use disposed form.");
+            ThrowHelper.ThrowArgumentException("Cannot use disposed form.");
         }
 
         void OnHandleKnown()

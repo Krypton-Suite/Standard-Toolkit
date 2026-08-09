@@ -65,6 +65,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<ButtonTextTrackingExample>("Button Text Tracking", "Demonstrates alternate text color for tracking (hover) state on KryptonButton, KryptonCheckButton, KryptonColorButton and other controls (Issue #1326). Improves readability in dark themes.");
         CreateButton<TextListItemExample>("Text List Item", "Demonstrates independent list and tree item text color via SchemeBaseColors.TextListItem (Issue #880). TextLabelControl, TextListItem, and TextButtonNormal each drive labels, tree/list controls, and buttons separately. Contrast preset, per-slot color pickers, live scheme readout, and theme switching.");
         CreateButton<ButtonsTest>("Buttons Test", "All the buttons you want to test.");
+        CreateButton<LimeGreenButtonThemeDemo>("Lime Green Theme", "Builtin Lime Green PaletteMode themes (Office 2007 / 2010 / Microsoft 365, light + dark), available in theme selectors like any other builtin theme. Demo: family switch, apply/reset/export.");
         CreateButton<BlinkingStatusStripLabelDemo>("Blinking Status Strip Label", "KryptonBlinkingToolStripStatusLabel in Krypton.Toolkit.Utilities: Hard/Soft/Visibility blink modes, timing, colours, PauseOnMouseOver, and side-by-side comparison with a normal ToolStripStatusLabel.");
         CreateButton<ToolStripHostsDemo>("ToolStrip Hosts", "Krypton.Toolkit.Utilities hosts: KryptonBasicToolStrip, KryptonEnhancedToolStrip (ClickThrough), and KryptonProgressStatusStrip (UseAsProgressBar), side-by-side with native ToolStrip/StatusStrip.");
         CreateButton<ToolStripHostedItemsDemo>("ToolStrip Hosted Items", "Hosted editors: KryptonToolStripTextBox, BrowseBox (open/save/folder/reset), DateTimePicker, NumericUpDown, ColourButton, TrackBar, and ThemeToolStripComboBox with live value readout.");
@@ -192,6 +193,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<MessageBoxCopyButtonDemo>("MessageBox Copy Button", "Issue #3836: comprehensive demo of the optional 'Copy' button on KryptonMessageBox. Configure buttons, icon, default button, RTL and the opt-in flags (Copy/Close/Ctrl+C/Help), then preview what the Copy button or Ctrl+C places on the clipboard. Includes quick presets (Error, Yes/No/Cancel + Help, RTL).");
         CreateButton<MessageBoxExtendedCopyButtonDemo>("MessageBox Extended Copy Button", "Issue #3836 parity: comprehensive demo of the optional 'Copy' button on KryptonMessageBoxExtended. Configure buttons, icon, default button, content type (Normal/RichTextBox/HyperLink), RTL and the opt-in flags (Copy/Close/Ctrl+C/Help), then preview the clipboard. Includes presets (Error, RichTextBox, HyperLink, struct-based path) and verifies Ctrl+C copies all content types.");
         CreateButton<MessageBoxExtendedOverlayImageDemo>("4162 Dialog Overlay Image", "Issue #4162: optional macOS-style badge overlay on dialog icons. Extended MessageBox (stock/app/custom), core KryptonMessageBox, position + RTL, live ComposeOverlayImage preview. Also covers shared KryptonOverlayImage used by TaskDialog heading and AboutBox MainImageOverlay.");
+        CreateButton<DialogButtonColorsDemo>("4165 Dialog Button Colours", "Issue #4165: optional semantic accept/cancel dialog button colours with Standard, Deuteranopia, Protanopia, HighContrast presets and per-role overrides. Exercise MessageBox, TaskDialog, MessageBoxExtended, FoldableDialog, and KryptonManager.DialogButtonColors.");
         CreateButton<Bug3842MessageBoxExtendedRtlRoutingDemo>("3842 MessageBox Extended RTL routing", "Issue #3842: verifies the bool- and CheckState-returning ShowCore paths display the RTL extended message box and return the optional checkbox state. Compare LTR vs RTL for both return types.");
         CreateButton<Main>("Old Style Main: Fullscreen", string.Empty);
         CreateButton<ProgressBarTriStateTest>("ProgressBar Tri-State", string.Empty);
@@ -283,7 +285,7 @@ public partial class StartScreen : KryptonForm
 
         if (!typeof(Form).IsAssignableFrom(formType))
         {
-            throw new InvalidCastException("Parameter formType is not of type Form or derived from Form.");
+            ThrowHelper.ThrowInvalidCastException("Parameter formType is not of type Form or derived from Form.");
         }
 
         button.CommandLinkTextValues.Heading = heading;
@@ -375,7 +377,7 @@ public partial class StartScreen : KryptonForm
         }
         else
         {
-            throw new NullReferenceException(nameof(propertyInfo));
+            ThrowHelper.ThrowNullReferenceException(nameof(propertyInfo));
         }
     }
 
@@ -442,7 +444,8 @@ public partial class StartScreen : KryptonForm
             }
             else
             {
-                throw new NullReferenceException($"ButtonHeadingComparer: make sure that parameter x and y both are valid references to a KryptonCommandLinkButton instance.");
+                ThrowHelper.ThrowNullReferenceException($"ButtonHeadingComparer: make sure that parameter x and y both are valid references to a KryptonCommandLinkButton instance.");
+                return 0;
             }
         }
     }

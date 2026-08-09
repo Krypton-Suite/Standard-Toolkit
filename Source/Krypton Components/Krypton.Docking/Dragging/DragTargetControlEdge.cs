@@ -63,7 +63,8 @@ public class DragTargetControlEdge : DragTarget
                 break;
             default:
                 Debug.Assert(false);
-                throw new ArgumentOutOfRangeException(nameof(hint), @"Hint must be an edge value.");
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(hint), @"Hint must be an edge value.");
+                return;
         }
     }
 

@@ -51,17 +51,17 @@ public class BugReportGitHubService
     {
         if (config == null)
         {
-            throw new ArgumentNullException(nameof(config));
+            ThrowHelper.ThrowArgumentNullException(nameof(config));
         }
 
         if (content == null)
         {
-            throw new ArgumentNullException(nameof(content));
+            ThrowHelper.ThrowArgumentNullException(nameof(content));
         }
 
         if (!config.IsValid)
         {
-            throw new InvalidOperationException("GitHub configuration is incomplete. Set Owner, RepositoryName, and PersonalAccessToken.");
+            ThrowHelper.ThrowInvalidOperationException("GitHub configuration is incomplete. Set Owner, RepositoryName, and PersonalAccessToken.");
         }
 
         if (string.IsNullOrWhiteSpace(content.Summary))
@@ -131,17 +131,17 @@ public class BugReportGitHubService
     {
         if (config == null)
         {
-            throw new ArgumentNullException(nameof(config));
+            ThrowHelper.ThrowArgumentNullException(nameof(config));
         }
 
         if (content == null)
         {
-            throw new ArgumentNullException(nameof(content));
+            ThrowHelper.ThrowArgumentNullException(nameof(content));
         }
 
         if (!config.IsValid)
         {
-            throw new InvalidOperationException("GitHub configuration is incomplete. Set Owner, RepositoryName, and PersonalAccessToken.");
+            ThrowHelper.ThrowInvalidOperationException("GitHub configuration is incomplete. Set Owner, RepositoryName, and PersonalAccessToken.");
         }
 
         if (string.IsNullOrWhiteSpace(content.Summary))
@@ -212,12 +212,12 @@ public class BugReportGitHubService
     {
         if (config == null)
         {
-            throw new ArgumentNullException(nameof(config));
+            ThrowHelper.ThrowArgumentNullException(nameof(config));
         }
 
         if (!config.IsValid)
         {
-            throw new InvalidOperationException("GitHub configuration is incomplete. Set Owner, RepositoryName, and PersonalAccessToken.");
+            ThrowHelper.ThrowInvalidOperationException("GitHub configuration is incomplete. Set Owner, RepositoryName, and PersonalAccessToken.");
         }
 
         if (string.IsNullOrWhiteSpace(title))
@@ -289,12 +289,12 @@ public class BugReportGitHubService
     {
         if (config == null)
         {
-            throw new ArgumentNullException(nameof(config));
+            ThrowHelper.ThrowArgumentNullException(nameof(config));
         }
 
         if (!config.IsValid)
         {
-            throw new InvalidOperationException("GitHub configuration is incomplete. Set Owner, RepositoryName, and PersonalAccessToken.");
+            ThrowHelper.ThrowInvalidOperationException("GitHub configuration is incomplete. Set Owner, RepositoryName, and PersonalAccessToken.");
         }
 
         if (string.IsNullOrWhiteSpace(title))

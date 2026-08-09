@@ -636,7 +636,7 @@ public class KryptonDateTimePicker : VisualControlBase,
             }
             else
             {
-                throw new ArgumentException(@"Value can only accept 'null', 'DBNull' or 'DateTime' values.");
+                ThrowHelper.ThrowArgumentException(@"Value can only accept 'null', 'DBNull' or 'DateTime' values.");
             }
         }
     }
@@ -851,12 +851,12 @@ public class KryptonDateTimePicker : VisualControlBase,
             {
                 if (value < EffectiveMinDate(_minDateTime))
                 {
-                    throw new ArgumentOutOfRangeException(nameof(MaxDate), @"Date provided is less than the minimum supported date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(MaxDate), @"Date provided is less than the minimum supported date.");
                 }
 
                 if (value > DateTimePicker.MaximumDateTime)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(MaxDate), @"Date provided is greater than the maximum supported date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(MaxDate), @"Date provided is greater than the maximum supported date.");
                 }
 
                 _maxDateTime = value;
@@ -901,12 +901,12 @@ public class KryptonDateTimePicker : VisualControlBase,
             {
                 if (value > EffectiveMaxDate(_maxDateTime))
                 {
-                    throw new ArgumentOutOfRangeException(nameof(MinDate), @"Date provided is greater than the maximum supported date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(MinDate), @"Date provided is greater than the maximum supported date.");
                 }
 
                 if (value < DateTimePicker.MinimumDateTime)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(MinDate), @"Date provided is less than the minimum supported date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(MinDate), @"Date provided is less than the minimum supported date.");
                 }
 
                 _minDateTime = value;
@@ -2364,7 +2364,7 @@ public class KryptonDateTimePicker : VisualControlBase,
     private void OnKryptonContextMenuClosed(object? sender, EventArgs e)
     {
         // Must unhook from menu so it can be garbage collected
-        var kcm = sender as KryptonContextMenu ?? throw new ArgumentNullException(nameof(sender));
+        var kcm =sender as KryptonContextMenu ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenu, nameof(sender));
         kcm.Closed -= OnKryptonContextMenuClosed;
 
         // Unhook from month calendar events
@@ -2420,7 +2420,7 @@ public class KryptonDateTimePicker : VisualControlBase,
     private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
     {
         // Unhook events from the specific instance that generated event
-        var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
+        var popupToolTip =sender as VisualPopupToolTip ?? ThrowHelper.ThrowArgumentNullException(sender as VisualPopupToolTip, nameof(sender));
         popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
         // Not showing a popup page any more

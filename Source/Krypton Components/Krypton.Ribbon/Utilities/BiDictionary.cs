@@ -29,7 +29,7 @@ internal class BiDictionary<TFirst, TSecond>
     {
         if (dictionary == null)
         {
-            throw new ArgumentNullException(nameof(dictionary));
+            ThrowHelper.ThrowArgumentNullException(nameof(dictionary));
         }
 
         foreach (KeyValuePair<TFirst, TSecond> keyValuePair in dictionary)

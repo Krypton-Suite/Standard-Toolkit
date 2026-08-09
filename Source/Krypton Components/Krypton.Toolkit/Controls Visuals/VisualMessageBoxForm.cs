@@ -32,6 +32,8 @@ internal partial class VisualMessageBoxForm : KryptonForm
     private readonly HelpInfo? _helpInfo;
     private readonly KryptonMessageBoxNativeWindow _krtbNativeWindow;
     private readonly KryptonOverlayImage _overlayImage;
+    private readonly KryptonDialogButtonColorOptions? _buttonColors;
+    private MessageButton? _helpButton;
     private Image? _ownedComposedIcon;
 
     #endregion
@@ -59,7 +61,8 @@ internal partial class VisualMessageBoxForm : KryptonForm
         bool? showHelpButton,
         bool? showCloseButton,
         bool? showCopyButton,
-        KryptonOverlayImage overlayImage = default)
+        KryptonOverlayImage overlayImage = default,
+        KryptonDialogButtonColorOptions? buttonColors = null)
     {
         //SetInheritedControlOverride(); // Disabled as part of issue #2296. See the issue for details.
         // Store incoming values
@@ -72,6 +75,7 @@ internal partial class VisualMessageBoxForm : KryptonForm
         _showOwner = showOwner;
         _showHelpButton = showHelpButton ?? (helpInfo != null);
         _overlayImage = overlayImage;
+        _buttonColors = buttonColors;
         _krtbNativeWindow = new();
 
         // Create the form contents
@@ -102,6 +106,7 @@ internal partial class VisualMessageBoxForm : KryptonForm
         UpdateDefault();
         UpdateHelp();
         UpdateCopyButton(showCopyButton);
+        ApplySemanticButtonColors();
         UpdateTextExtra(showCtrlCopy);
         // Finally calculate and set form sizing
         UpdateSizing(showOwner);
@@ -494,6 +499,30 @@ internal partial class VisualMessageBoxForm : KryptonForm
         }
     }
 
+    private void ApplySemanticButtonColors()
+    {
+        ApplySemanticButtonColor(_button1);
+        ApplySemanticButtonColor(_button2);
+        ApplySemanticButtonColor(_button3);
+        ApplySemanticButtonColor(_button4);
+
+        if (_helpButton != null)
+        {
+            KryptonDialogButtonAppearance.Apply(_helpButton, KryptonDialogButtonRole.Help, _buttonColors);
+        }
+    }
+
+    private void ApplySemanticButtonColor(MessageButton button)
+    {
+        // Do not use Control.Visible here: before ShowDialog it is false whenever any
+        // ancestor is hidden, so colours would never apply during construction.
+        // Help is applied separately — Help buttons keep DialogResult.None.
+        if (button.DialogResult != DialogResult.None && !ReferenceEquals(button, _helpButton))
+        {
+            KryptonDialogButtonAppearance.Apply(button, button.DialogResult, _buttonColors);
+        }
+    }
+
     private void UpdateDefault()
     {
         switch (_defaultButton)
@@ -533,7 +562,7 @@ internal partial class VisualMessageBoxForm : KryptonForm
             KryptonMessageBoxButtons.OK => _button2,
             KryptonMessageBoxButtons.OKCancel or KryptonMessageBoxButtons.YesNo or KryptonMessageBoxButtons.RetryCancel => _button3,
             KryptonMessageBoxButtons.AbortRetryIgnore or KryptonMessageBoxButtons.YesNoCancel or KryptonMessageBoxButtons.CancelTryContinue => _button4,
-            _ => throw new ArgumentOutOfRangeException()
+            _ => ThrowHelper.ThrowArgumentOutOfRangeException<MessageButton>()
         };
         if (helpButton != null)
         {
@@ -542,6 +571,7 @@ internal partial class VisualMessageBoxForm : KryptonForm
             helpButton.Text = KryptonManager.Strings.GeneralStrings.Help;
             helpButton.KeyPress += (_, _) => LaunchHelp();
             helpButton.Click += (_, _) => LaunchHelp();
+            _helpButton = helpButton;
         }
     }
 
@@ -625,7 +655,7 @@ internal partial class VisualMessageBoxForm : KryptonForm
             // Find size of the label, with a max of 2/3 screen width
             Screen screen = showOwner is IWin32Window window
                 ? Screen.FromHandle(window.Handle)
-                : Screen.PrimaryScreen ?? throw new NullReferenceException("Screen.PrimaryScreen returned null");
+: Screen.PrimaryScreen ?? ThrowHelper.ThrowNullReferenceException<Screen>("Screen.PrimaryScreen returned null");
 
             Size scaledMonitorSize = screen.WorkingArea.Size;
             scaledMonitorSize.Width = (int)(scaledMonitorSize.Width * 2 / 3.0f);

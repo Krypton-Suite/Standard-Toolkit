@@ -75,7 +75,7 @@ internal class ViewDrawRibbonDropArrow : ViewLeaf
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
 

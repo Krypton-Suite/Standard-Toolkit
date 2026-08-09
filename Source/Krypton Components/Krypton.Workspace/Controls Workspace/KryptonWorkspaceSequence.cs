@@ -539,7 +539,7 @@ public class KryptonWorkspaceSequence : Component,
                 // Read the next Element
                 if (!xmlReader.Read())
                 {
-                    throw new ArgumentException("An element was expected but could not be read in.");
+                    ThrowHelper.ThrowArgumentException("An element was expected but could not be read in.");
                 }
 
                 // Is this the end of the sequence
@@ -567,7 +567,8 @@ public class KryptonWorkspaceSequence : Component,
                     }
                         break;
                     default:
-                        throw new ArgumentException("Unknown element was encountered.");
+                        ThrowHelper.ThrowArgumentException("Unknown element was encountered.");
+                        return;
                 }
             }
             while (true);

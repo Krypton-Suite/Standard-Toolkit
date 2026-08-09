@@ -39,8 +39,8 @@ internal class ViewRibbonQATOverflowManager : ViewManager
         Debug.Assert(ribbon is not null);
         Debug.Assert(qatContents is not null);
             
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        QATContents = qatContents ?? throw new ArgumentNullException(nameof(qatContents));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        QATContents = qatContents ?? ThrowHelper.ThrowArgumentNullException(qatContents);
     }
 
     /// <summary>

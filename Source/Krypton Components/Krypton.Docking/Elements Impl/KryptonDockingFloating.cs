@@ -27,8 +27,10 @@ public class KryptonDockingFloating : DockingElementClosedCollection
     /// <param name="name">Initial name of the element.</param>
     /// <param name="ownerForm">Reference to form that will own all the floating windows.</param>
     public KryptonDockingFloating(string name, Form ownerForm)
-        : base(name) =>
-        OwnerForm = ownerForm ?? throw new ArgumentNullException(nameof(ownerForm));
+        : base(name)
+    {
+        OwnerForm = ownerForm ?? ThrowHelper.ThrowArgumentNullException(ownerForm);
+    }
 
     #endregion
 
@@ -154,7 +156,7 @@ public class KryptonDockingFloating : DockingElementClosedCollection
     private void OnDockingFloatingWindowDisposed(object? sender, EventArgs e)
     {
         // Cast to correct type and unhook event handlers so garbage collection can occur
-        var floatingWindowElement = sender as KryptonDockingFloatingWindow ?? throw new ArgumentNullException(nameof(sender));
+        var floatingWindowElement =sender as KryptonDockingFloatingWindow ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonDockingFloatingWindow, nameof(sender));
         floatingWindowElement.Disposed -= OnDockingFloatingWindowDisposed;
 
         // Remove the element from our child collection as it is no longer valid

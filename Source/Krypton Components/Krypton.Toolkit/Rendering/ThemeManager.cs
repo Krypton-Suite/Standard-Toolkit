@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
- *  
+ *
  */
 #endregion
 
@@ -24,20 +24,210 @@ public class ThemeManager
     /// <summary>Prefix used when the theme array displays a custom palette with a name, e.g. "Custom - [My Theme Name]".</summary>
     internal const string CustomThemeNamePrefix = @"Custom - ";
 
+    private static readonly object _registeredThemesSync = new object();
+    private static readonly Dictionary<string, Func<KryptonCustomPaletteBase>> _registeredCustomThemes =
+        new Dictionary<string, Func<KryptonCustomPaletteBase>>(StringComparer.Ordinal);
+
+    #endregion
+
+    #region Events
+
+    /// <summary>
+    /// Occurs when the registered custom theme list changes (register / unregister).
+    /// Theme selectors should rebuild their item lists when this fires.
+    /// </summary>
+    public static event EventHandler? RegisteredThemesChanged;
+
     #endregion
 
     #region Properties
 
-    /// <summary>Gets the supported theme array.</summary>
+    /// <summary>Gets the supported theme array (builtin names plus any registered custom themes).</summary>
     /// <value>The supported theme array.</value>
-    public static ICollection<string> SupportedInternalThemeNames => PaletteModeStrings.SupportedInternalThemeNames;
+    public static ICollection<string> SupportedInternalThemeNames => GetThemesArray();
 
     /// <summary>Returns the Default Global Palette.</summary>
     public static PaletteMode DefaultGlobalPalette => ToolkitStaticConstants.GLOBAL_DEFAULT_PALETTE_MODE;
 
+    /// <summary>
+    /// Gets the display names of custom themes registered via <see cref="RegisterCustomTheme"/>.
+    /// </summary>
+    public static IReadOnlyCollection<string> RegisteredCustomThemeNames
+    {
+        get
+        {
+            lock (_registeredThemesSync)
+            {
+                return _registeredCustomThemes.Keys.ToArray();
+            }
+        }
+    }
+
     #endregion
 
     #region Implementation
+
+    /// <summary>
+    /// Registers a named custom theme so it appears in theme selectors (before the built-in Custom entry).
+    /// Selecting it applies a fresh palette from <paramref name="factory"/> via <see cref="ApplyTheme(KryptonCustomPaletteBase, KryptonManager)"/>.
+    /// </summary>
+    /// <param name="displayName">Unique display name (must not collide with a builtin theme name).</param>
+    /// <param name="factory">Factory that creates a named <see cref="KryptonCustomPaletteBase"/>.</param>
+    /// <exception cref="ArgumentException">Name is empty or matches a builtin theme.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="factory"/> is null.</exception>
+    public static void RegisterCustomTheme(string displayName, Func<KryptonCustomPaletteBase> factory)
+    {
+        if (string.IsNullOrWhiteSpace(displayName))
+        {
+            throw new ArgumentException(@"A theme display name is required.", nameof(displayName));
+        }
+
+        if (factory is null)
+        {
+            throw new ArgumentNullException(nameof(factory));
+        }
+
+        if (PaletteModeStrings.SupportedThemesMap.ContainsKey(displayName)
+            || displayName.Equals(PaletteModeStrings.DEFAULT_PALETTE_CUSTOM, StringComparison.Ordinal)
+            || displayName.StartsWith(CustomThemeNamePrefix, StringComparison.Ordinal))
+        {
+            throw new ArgumentException(
+                @"Display name collides with a builtin theme or the Custom entry.",
+                nameof(displayName));
+        }
+
+        lock (_registeredThemesSync)
+        {
+            _registeredCustomThemes[displayName] = factory;
+        }
+
+        OnRegisteredThemesChanged();
+    }
+
+    /// <summary>
+    /// Removes a previously registered custom theme from theme selectors.
+    /// </summary>
+    /// <param name="displayName">Name passed to <see cref="RegisterCustomTheme"/>.</param>
+    /// <returns><c>true</c> if the theme was removed; otherwise <c>false</c>.</returns>
+    public static bool UnregisterCustomTheme(string displayName)
+    {
+        if (string.IsNullOrWhiteSpace(displayName))
+        {
+            return false;
+        }
+
+        bool removed;
+        lock (_registeredThemesSync)
+        {
+            removed = _registeredCustomThemes.Remove(displayName);
+        }
+
+        if (removed)
+        {
+            OnRegisteredThemesChanged();
+        }
+
+        return removed;
+    }
+
+    /// <summary>
+    /// Returns whether <paramref name="themeName"/> is a registered custom theme.
+    /// </summary>
+    /// <param name="themeName">Theme display name.</param>
+    /// <returns><c>true</c> when registered.</returns>
+    public static bool IsRegisteredCustomTheme(string themeName)
+    {
+        if (string.IsNullOrEmpty(themeName))
+        {
+            return false;
+        }
+
+        lock (_registeredThemesSync)
+        {
+            return _registeredCustomThemes.ContainsKey(themeName);
+        }
+    }
+
+    /// <summary>
+    /// Builds the theme name list for selectors: builtin names, then registered custom themes, with Custom last.
+    /// When the active global palette is an unregistered named custom, the Custom entry is shown as
+    /// <c>Custom - [name]</c> (issue #1031).
+    /// </summary>
+    /// <returns>Theme display names.</returns>
+    public static string[] GetThemesArray()
+    {
+        var builtins = PaletteModeStrings.SupportedThemesMap.Keys.ToList();
+        int customIndex = builtins.IndexOf(PaletteModeStrings.DEFAULT_PALETTE_CUSTOM);
+        if (customIndex < 0)
+        {
+            customIndex = builtins.Count;
+        }
+
+        string[] registered;
+        lock (_registeredThemesSync)
+        {
+            registered = _registeredCustomThemes.Keys.OrderBy(n => n, StringComparer.OrdinalIgnoreCase).ToArray();
+        }
+
+        for (int i = 0; i < registered.Length; i++)
+        {
+            builtins.Insert(customIndex + i, registered[i]);
+        }
+
+        if (KryptonManager.CurrentGlobalPalette is KryptonCustomPaletteBase custom
+            && !string.IsNullOrWhiteSpace(custom.GetPaletteName()))
+        {
+            string name = custom.GetPaletteName()!;
+            // Registered themes already have their own row; only rewrite the bare Custom entry for ad-hoc customs.
+            if (!IsRegisteredCustomTheme(name))
+            {
+                for (int i = 0; i < builtins.Count; i++)
+                {
+                    if (builtins[i] == PaletteModeStrings.DEFAULT_PALETTE_CUSTOM)
+                    {
+                        builtins[i] = CustomThemeNamePrefix + name;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return builtins.ToArray();
+    }
+
+    /// <summary>
+    /// Applies a registered custom theme by display name.
+    /// </summary>
+    /// <param name="themeName">Registered display name.</param>
+    /// <param name="manager">Target manager.</param>
+    /// <returns><c>true</c> if applied; <c>false</c> if not registered.</returns>
+    public static bool TryApplyRegisteredTheme(string themeName, KryptonManager manager)
+    {
+        if (manager is null || string.IsNullOrEmpty(themeName))
+        {
+            return false;
+        }
+
+        Func<KryptonCustomPaletteBase>? factory;
+        lock (_registeredThemesSync)
+        {
+            if (!_registeredCustomThemes.TryGetValue(themeName, out factory))
+            {
+                return false;
+            }
+        }
+
+        KryptonCustomPaletteBase palette = factory();
+        if (string.IsNullOrWhiteSpace(palette.GetPaletteName()))
+        {
+            palette.SetPaletteName(themeName);
+        }
+
+        ApplyTheme(palette, manager);
+        return true;
+    }
+
+    private static void OnRegisteredThemesChanged() => RegisteredThemesChanged?.Invoke(null, EventArgs.Empty);
 
     /// <summary>Returns the palette mode from the Krypton Manager instance.</summary>
     /// <param name="manager">The manager instance.</param>
@@ -52,11 +242,19 @@ public class ThemeManager
     public static void ApplyTheme(PaletteMode mode, KryptonManager manager) => ApplyGlobalTheme(manager, mode);
 
     /// <summary>
-    /// Applies the theme using the theme's name.
+    /// Applies the theme using the theme's name (builtin or registered custom).
     /// </summary>
     /// <param name="themeName">Valid name of the theme.</param>
     /// <param name="manager">The manager.</param>
-    public static void ApplyTheme(string themeName, KryptonManager manager) => ApplyGlobalTheme(manager, GetThemeManagerMode(themeName));
+    public static void ApplyTheme(string themeName, KryptonManager manager)
+    {
+        if (TryApplyRegisteredTheme(themeName, manager))
+        {
+            return;
+        }
+
+        ApplyGlobalTheme(manager, GetThemeManagerMode(themeName));
+    }
 
     /// <summary>
     /// Applies the provided custom palette object.
@@ -94,7 +292,7 @@ public class ThemeManager
         else
         {
             KryptonMessageBox.Show(
-                $"The parameter 'themeFile' points to a file that does not exist.\n" + 
+                $"The parameter 'themeFile' points to a file that does not exist.\n" +
                 $"Filename: {themeFile}\n\n" +
                 $"ApplyTheme aborted.",
                 _msgBoxCaption,
@@ -156,7 +354,7 @@ public class ThemeManager
 
     /// <summary>
     /// Returns the themes PaletteMode from the theme's name.
-    /// Accepts the static "Custom" or the dynamic "Custom - [Theme Name]" form so theme selectors resolve correctly.
+    /// Accepts builtin names, registered custom theme names, static "Custom", or "Custom - [Theme Name]".
     /// </summary>
     /// <param name="themeName">Name of the theme.</param>
     /// <returns>The respective PaletteMode if the theme name is valid. Otherwise PaletteMode.Global.</returns>
@@ -167,8 +365,8 @@ public class ThemeManager
             return PaletteMode.Global;
         }
 
-        // Dynamic theme array may show "Custom - [My Theme Name]" when a custom palette has a bundled name
-        if (themeName == PaletteModeStrings.DEFAULT_PALETTE_CUSTOM
+        if (IsRegisteredCustomTheme(themeName)
+            || themeName == PaletteModeStrings.DEFAULT_PALETTE_CUSTOM
             || themeName.StartsWith(CustomThemeNamePrefix, StringComparison.Ordinal))
         {
             return PaletteMode.Custom;

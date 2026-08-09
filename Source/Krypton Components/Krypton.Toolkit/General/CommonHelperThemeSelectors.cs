@@ -21,29 +21,12 @@ namespace Krypton.Toolkit;
 internal static class CommonHelperThemeSelectors
 {
     /// <summary>
-    /// Returns a list with theme names. When the current global palette is a custom palette with a bundled name,
-    /// the "Custom" entry is shown as "Custom - [Theme Name]" so the theme array displays it correctly (see issue #1031).
+    /// Returns a list with theme names (builtin + registered custom themes).
+    /// When the current global palette is an unregistered named custom, the "Custom" entry is shown as
+    /// "Custom - [Theme Name]" (see issue #1031).
     /// </summary>
     /// <returns>String array of theme names.</returns>
-    internal static string[] GetThemesArray()
-    {
-        var arr = PaletteModeStrings.SupportedThemesMap.Keys.ToArray();
-
-        if (KryptonManager.CurrentGlobalPalette is KryptonCustomPaletteBase custom
-            && !string.IsNullOrWhiteSpace(custom.GetPaletteName()))
-        {
-            for (int i = 0; i < arr.Length; i++)
-            {
-                if (arr[i] == PaletteModeStrings.DEFAULT_PALETTE_CUSTOM)
-                {
-                    arr[i] = ThemeManager.CustomThemeNamePrefix + custom.GetPaletteName();
-                    break;
-                }
-            }
-        }
-
-        return arr;
-    }
+    internal static string[] GetThemesArray() => ThemeManager.GetThemesArray();
 
     /// <summary>
     /// Performs a theme change when the control's SelectedIndex is changed.
@@ -64,35 +47,42 @@ internal static class CommonHelperThemeSelectors
         {
             isLocalUpdate = true;
 
-            // Get palette from theme name. If themeName is not valid default to Global
-            PaletteMode mode = string.IsNullOrEmpty(themeName)
-                ? PaletteMode.Global
-                : ThemeManager.GetThemeManagerMode(themeName);
-
-            if (mode == PaletteMode.Custom)
+            if (ThemeManager.TryApplyRegisteredTheme(themeName, manager))
             {
-                if (kryptonCustomPalette is not null)
-                {
-                    manager.GlobalCustomPalette = kryptonCustomPalette;
-                    defaultPalette = mode;
-                }
-                else
-                {
-                    // Custom has been selected but there's no custom theme assigned
-                    // to the ThemeSelector or in the KManager.
-                    // Leave defaultPalette as it is.
-                    result = false;
-                }
-            }
-            else if (mode == PaletteMode.Global)
-            {
-                // If mode is set to Global, a theme change is not necessary.
-                result = false;
+                defaultPalette = PaletteMode.Custom;
             }
             else
             {
-                ThemeManager.ApplyTheme(themeName, manager);
-                defaultPalette = mode;
+                // Get palette from theme name. If themeName is not valid default to Global
+                PaletteMode mode = string.IsNullOrEmpty(themeName)
+                    ? PaletteMode.Global
+                    : ThemeManager.GetThemeManagerMode(themeName);
+
+                if (mode == PaletteMode.Custom)
+                {
+                    if (kryptonCustomPalette is not null)
+                    {
+                        manager.GlobalCustomPalette = kryptonCustomPalette;
+                        defaultPalette = mode;
+                    }
+                    else
+                    {
+                        // Custom has been selected but there's no custom theme assigned
+                        // to the ThemeSelector or in the KManager.
+                        // Leave defaultPalette as it is.
+                        result = false;
+                    }
+                }
+                else if (mode == PaletteMode.Global)
+                {
+                    // If mode is set to Global, a theme change is not necessary.
+                    result = false;
+                }
+                else
+                {
+                    ThemeManager.ApplyTheme(themeName, manager);
+                    defaultPalette = mode;
+                }
             }
 
             isLocalUpdate = false;
@@ -103,7 +93,8 @@ internal static class CommonHelperThemeSelectors
 
     /// <summary>
     /// Return the index in the list of the requested PaletteMode parameter.
-    /// For Custom mode, finds the entry that is "Custom" or "Custom - [Theme Name]" so dynamic labels work.
+    /// For Custom mode, prefers a registered theme name matching the active custom palette, then
+    /// "Custom" / "Custom - [Theme Name]".
     /// </summary>
     /// <param name="items">The control's list of themes (usually Items).</param>
     /// <param name="mode">The PaletteMode for which to locate the index in items.</param>
@@ -122,13 +113,29 @@ internal static class CommonHelperThemeSelectors
         {
             if (mode == PaletteMode.Custom)
             {
-                // Theme array may show "Custom" or "Custom - [Theme Name]"
-                for (int i = 0; i < items.Count; i++)
+                string? paletteName = null;
+                if (KryptonManager.CurrentGlobalPalette is KryptonCustomPaletteBase custom)
                 {
-                    if (items[i] is string s && (s == PaletteModeStrings.DEFAULT_PALETTE_CUSTOM || s.StartsWith(ThemeManager.CustomThemeNamePrefix, StringComparison.Ordinal)))
+                    paletteName = custom.GetPaletteName();
+                }
+
+                if (!string.IsNullOrWhiteSpace(paletteName))
+                {
+                    newIdx = items.IndexOf(paletteName);
+                }
+
+                if (newIdx < 0)
+                {
+                    // Theme array may show "Custom" or "Custom - [Theme Name]"
+                    for (int i = 0; i < items.Count; i++)
                     {
-                        newIdx = i;
-                        break;
+                        if (items[i] is string s
+                            && (s == PaletteModeStrings.DEFAULT_PALETTE_CUSTOM
+                                || s.StartsWith(ThemeManager.CustomThemeNamePrefix, StringComparison.Ordinal)))
+                        {
+                            newIdx = i;
+                            break;
+                        }
                     }
                 }
             }
@@ -139,7 +146,7 @@ internal static class CommonHelperThemeSelectors
             }
         }
 
-        return (newIdx >= 0 && newIdx < PaletteModeStrings.SupportedThemesMap.Count)
+        return (newIdx >= 0 && newIdx < items.Count)
             ? newIdx
             : -1;
     }

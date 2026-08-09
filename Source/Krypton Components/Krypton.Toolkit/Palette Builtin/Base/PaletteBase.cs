@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
@@ -2214,15 +2214,17 @@ public abstract class PaletteBase : Component
     /// <summary>
     /// Called once from a family base static constructor to seed default colours for a particular enum slot.
     /// </summary>
-    protected static void RegisterColor<TEnum>(TEnum slot, Color value) where TEnum : struct, Enum
+    protected internal static void RegisterColor<TEnum>(TEnum slot, Color value) where TEnum : struct, Enum
     {
         RegisterColor<PaletteBase, TEnum>(slot, value);
     }
 
     /// <summary>
-    /// Called once from a family base static constructor to seed default colours for a particular enum slot.
+    /// Called once from a family base static constructor (or same-assembly helpers) to seed default colours
+    /// for a particular enum slot, keyed by <typeparamref name="TOwner"/> so derived palettes can override
+    /// shared family defaults without mutating the <see cref="PaletteBase"/> fallback entries.
     /// </summary>
-    protected static void RegisterColor<TOwner, TEnum>(TEnum slot, Color value)
+    protected internal static void RegisterColor<TOwner, TEnum>(TEnum slot, Color value)
         where TOwner : PaletteBase
         where TEnum : struct, Enum
     {
@@ -2355,7 +2357,7 @@ public abstract class PaletteBase : Component
     {
         if (source == null)
         {
-            throw new ArgumentNullException(nameof(source));
+            ThrowHelper.ThrowArgumentNullException(nameof(source));
         }
 
         lock (_colorLock)
@@ -2399,7 +2401,7 @@ public abstract class PaletteBase : Component
     {
         if (colorUpdates is null)
         {
-            throw new ArgumentNullException(nameof(colorUpdates));
+            ThrowHelper.ThrowArgumentNullException(nameof(colorUpdates));
         }
 
         foreach (var kv in colorUpdates)
@@ -2451,7 +2453,7 @@ public abstract class PaletteBase : Component
     {
         if (colorUpdates is null)
         {
-            throw new ArgumentNullException(nameof(colorUpdates));
+            ThrowHelper.ThrowArgumentNullException(nameof(colorUpdates));
         }
 
         foreach (var kv in colorUpdates)
@@ -2463,7 +2465,7 @@ public abstract class PaletteBase : Component
     {
         if (newScheme is null)
         {
-            throw new ArgumentNullException(nameof(newScheme));
+            ThrowHelper.ThrowArgumentNullException(nameof(newScheme));
         }
 
         lock (_colorLock)

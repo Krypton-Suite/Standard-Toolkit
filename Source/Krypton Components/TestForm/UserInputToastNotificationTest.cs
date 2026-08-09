@@ -141,7 +141,8 @@ public partial class UserInputToastNotificationTest : KryptonForm
                     KryptonMessageBox.Show($"Result = {_stringResult}");
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    ThrowHelper.ThrowArgumentOutOfRangeException();
+                    return;
             }
         }
     }

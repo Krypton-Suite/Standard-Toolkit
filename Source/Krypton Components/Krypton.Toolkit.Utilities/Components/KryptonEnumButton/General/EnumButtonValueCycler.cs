@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -86,7 +86,7 @@ internal sealed class EnumButtonValueCycler
     {
         if (value is not null && !value.IsEnum)
         {
-            throw new ArgumentException($@"The type '{value.FullName}' is not an enumeration type.", nameof(value));
+            ThrowHelper.ThrowArgumentException($@"The type '{value.FullName}' is not an enumeration type.", nameof(value));
         }
 
         if (ReferenceEquals(_enumType, value))

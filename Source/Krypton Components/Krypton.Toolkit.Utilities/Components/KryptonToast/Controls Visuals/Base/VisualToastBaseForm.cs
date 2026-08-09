@@ -95,7 +95,8 @@ internal partial class VisualToastBaseForm : KryptonForm
             case KryptonToastResult.DoNotShowAgain:
                 break;
             default:
-                throw new ArgumentOutOfRangeException();
+                ThrowHelper.ThrowArgumentOutOfRangeException();
+                return result;
         }
 
         return result;

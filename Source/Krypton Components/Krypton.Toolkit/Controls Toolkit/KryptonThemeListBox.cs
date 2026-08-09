@@ -74,7 +74,44 @@ public class KryptonThemeListBox : KryptonListBox, IKryptonThemeSelectorBase
     {
         // React to theme changes from outside this control.
         KryptonManager.GlobalPaletteChanged += KryptonManagerGlobalPaletteChanged;
+        ThemeManager.RegisteredThemesChanged += ThemeManagerRegisteredThemesChanged;
         base.OnHandleCreated(e);
+    }
+
+    /// <inheritdoc />
+    protected override void OnHandleDestroyed(EventArgs e)
+    {
+        KryptonManager.GlobalPaletteChanged -= KryptonManagerGlobalPaletteChanged;
+        ThemeManager.RegisteredThemesChanged -= ThemeManagerRegisteredThemesChanged;
+        base.OnHandleDestroyed(e);
+    }
+
+    private void ThemeManagerRegisteredThemesChanged(object? sender, EventArgs e)
+    {
+        if (IsDisposed)
+        {
+            return;
+        }
+
+        int previous = SelectedIndex;
+        Items.Clear();
+        Items.AddRange(CommonHelperThemeSelectors.GetThemesArray());
+        if (previous >= 0 && previous < Items.Count)
+        {
+            _isExternalUpdate = true;
+            try
+            {
+                SelectedIndex = previous;
+            }
+            finally
+            {
+                _isExternalUpdate = false;
+            }
+        }
+        else
+        {
+            SelectedIndex = CommonHelperThemeSelectors.GetPaletteIndex(Items, KryptonManager.CurrentGlobalPaletteMode);
+        }
     }
 
     /// <summary>

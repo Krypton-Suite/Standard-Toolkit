@@ -42,17 +42,17 @@ public class BugReportEmailService
     {
         if (config == null)
         {
-            throw new ArgumentNullException(nameof(config));
+            ThrowHelper.ThrowArgumentNullException(nameof(config));
         }
 
         if (string.IsNullOrWhiteSpace(config.SmtpServer))
         {
-            throw new InvalidOperationException("SMTP server is not configured.");
+            ThrowHelper.ThrowInvalidOperationException("SMTP server is not configured.");
         }
 
         if (string.IsNullOrWhiteSpace(config.ToEmail))
         {
-            throw new InvalidOperationException("Recipient email address is not configured.");
+            ThrowHelper.ThrowInvalidOperationException("Recipient email address is not configured.");
         }
 
         try

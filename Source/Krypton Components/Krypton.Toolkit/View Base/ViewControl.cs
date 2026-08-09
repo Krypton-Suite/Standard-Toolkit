@@ -397,7 +397,7 @@ public class ViewControl : Control
         // Validate incoming reference
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         if (IsHandleCreated)

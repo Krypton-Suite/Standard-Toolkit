@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -19,17 +19,17 @@ public static class KryptonCustomStringsXmlMerge
     {
         if (string.IsNullOrWhiteSpace(baselinePath))
         {
-            throw new ArgumentNullException(nameof(baselinePath));
+            ThrowHelper.ThrowArgumentNullException(nameof(baselinePath));
         }
 
         if (string.IsNullOrWhiteSpace(overlayPath))
         {
-            throw new ArgumentNullException(nameof(overlayPath));
+            ThrowHelper.ThrowArgumentNullException(nameof(overlayPath));
         }
 
         if (string.IsNullOrWhiteSpace(outputPath))
         {
-            throw new ArgumentNullException(nameof(outputPath));
+            ThrowHelper.ThrowArgumentNullException(nameof(outputPath));
         }
 
         var baseline = new XmlDocument();
@@ -45,12 +45,12 @@ public static class KryptonCustomStringsXmlMerge
     {
         if (baseline == null)
         {
-            throw new ArgumentNullException(nameof(baseline));
+            ThrowHelper.ThrowArgumentNullException(nameof(baseline));
         }
 
         if (overlay == null)
         {
-            throw new ArgumentNullException(nameof(overlay));
+            ThrowHelper.ThrowArgumentNullException(nameof(overlay));
         }
 
         var result = (XmlDocument)baseline.CloneNode(deep: true);

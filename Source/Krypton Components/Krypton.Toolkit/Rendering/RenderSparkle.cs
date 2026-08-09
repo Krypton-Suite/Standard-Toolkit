@@ -137,12 +137,12 @@ public class RenderSparkle : RenderProfessional
         // Validate parameter references
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (paletteGeneral == null)
         {
-            throw new ArgumentNullException(nameof(paletteGeneral));
+            ThrowHelper.ThrowArgumentNullException(nameof(paletteGeneral));
         }
 
         Color darkColor = state == PaletteState.Disabled ? paletteGeneral.GetRibbonDisabledDark(state) :
@@ -183,12 +183,12 @@ public class RenderSparkle : RenderProfessional
         // Validate parameter references
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (paletteContent == null)
         {
-            throw new ArgumentNullException(nameof(paletteContent));
+            ThrowHelper.ThrowArgumentNullException(nameof(paletteContent));
         }
 
         Color c1 = paletteContent.GetContentShortTextColor1(state);
@@ -222,12 +222,12 @@ public class RenderSparkle : RenderProfessional
         // Validate parameter references
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (paletteContent is null)
         {
-            throw new ArgumentNullException(nameof(paletteContent));
+            ThrowHelper.ThrowArgumentNullException(nameof(paletteContent));
         }
 
         Color c1 = paletteContent.GetContentShortTextColor1(state);
@@ -257,7 +257,7 @@ public class RenderSparkle : RenderProfessional
         // Validate incoming parameter
         if (colorPalette == null)
         {
-            throw new ArgumentNullException(nameof(colorPalette));
+            ThrowHelper.ThrowArgumentNullException(nameof(colorPalette));
         }
 
         // Use the professional renderer but pull colors from the palette

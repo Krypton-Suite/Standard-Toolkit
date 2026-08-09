@@ -116,7 +116,7 @@ internal abstract class ViewDrawNavCheckButtonBase : ViewDrawButton,
     {
         Debug.Assert(navigator is not null);
 
-        Navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
+        Navigator = navigator ?? ThrowHelper.ThrowArgumentNullException(navigator);
         _page = page;
         _lastClick = DateTime.Now.AddDays(-1);
 

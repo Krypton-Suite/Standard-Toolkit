@@ -55,7 +55,7 @@ public class ViewLayoutMenuSepGap : ViewLayoutSeparator
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // Grab the padding used for the text/extra content of a menu item

@@ -73,7 +73,7 @@ public class CountdownButtonValues : Storage
         {
             if (value <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(value), @"Countdown duration must be greater than zero.");
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), @"Countdown duration must be greater than zero.");
             }
             _countdownDuration = value;
         }
@@ -91,7 +91,7 @@ public class CountdownButtonValues : Storage
         {
             if (value <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(value), @"Interval must be greater than zero.");
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), @"Interval must be greater than zero.");
             }
             if (_countdownInterval != value)
             {
