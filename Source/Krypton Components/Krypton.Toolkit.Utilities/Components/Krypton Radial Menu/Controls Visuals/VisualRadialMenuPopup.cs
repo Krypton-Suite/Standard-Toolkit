@@ -25,6 +25,8 @@ internal class VisualRadialMenuPopup : VisualPopup
     private List<KryptonRadialMenuItemBase> _allVisibleItems = [];
     private int _trackingIndex = -1;
     private int _pressedIndex = -1;
+    private bool _trackingOuterRing;
+    private bool _pressedOuterRing;
     private int _trackingEditorIndex = -1;
     private int _pageOffset;
     private float _dpiScale = 1f;
@@ -32,6 +34,7 @@ internal class VisualRadialMenuPopup : VisualPopup
     private bool _movePending;
     private bool _moving;
     private bool _closing;
+    private bool _hovering;
     private Point _moveScreenStart;
     private Point _moveLocationStart;
     private double _animationProgress = 1.0;
@@ -84,6 +87,8 @@ internal class VisualRadialMenuPopup : VisualPopup
         _activeEditor = null;
         _trackingIndex = -1;
         _pressedIndex = -1;
+        _trackingOuterRing = false;
+        _pressedOuterRing = false;
         _trackingEditorIndex = -1;
         _pageOffset = 0;
         _closing = false;
@@ -112,6 +117,8 @@ internal class VisualRadialMenuPopup : VisualPopup
             Show(new Rectangle(location, size));
             ApplyCircularRegion(size);
         }
+
+        SyncShadowAppearance();
     }
 
     #endregion
@@ -152,11 +159,14 @@ internal class VisualRadialMenuPopup : VisualPopup
                 _visibleItems,
                 _sectors,
                 _trackingIndex,
+                _trackingOuterRing,
                 _pressedIndex,
+                _pressedOuterRing,
                 _navigation.Count > 0 || _activeEditor != null,
                 _activeEditor != null,
                 _activeEditor,
-                _trackingEditorIndex);
+                _trackingEditorIndex,
+                _owner);
         }
         finally
         {
@@ -201,7 +211,20 @@ internal class VisualRadialMenuPopup : VisualPopup
         }
 
         var hit = HitTest(e.Location);
-        Cursor = (_owner.AllowMove && hit.Kind == RadialHitKind.Center) ? Cursors.SizeAll : Cursors.Default;
+        _hovering = hit.Kind != RadialHitKind.None;
+        if (hit.Kind == RadialHitKind.OuterRing
+            && hit.SectorIndex >= 0
+            && hit.SectorIndex < _visibleItems.Count
+            && _visibleItems[hit.SectorIndex].HasChildren
+            && _visibleItems[hit.SectorIndex].Enabled)
+        {
+            Cursor = Cursors.Hand;
+        }
+        else
+        {
+            Cursor = (_owner.AllowMove && hit.Kind == RadialHitKind.Center) ? Cursors.SizeAll : Cursors.Default;
+        }
+
         UpdateToolTipHover(hit);
         var changed = false;
         if (_activeEditor != null)
@@ -212,11 +235,17 @@ internal class VisualRadialMenuPopup : VisualPopup
                 changed = true;
             }
         }
-        else if (_trackingIndex != hit.SectorIndex)
+        else
         {
-            _trackingIndex = hit.Kind == RadialHitKind.Sector ? hit.SectorIndex : -1;
-            changed = true;
-            UpdateAccessibleName();
+            var nextIndex = hit.Kind is RadialHitKind.Sector or RadialHitKind.OuterRing ? hit.SectorIndex : -1;
+            var nextOuter = hit.Kind == RadialHitKind.OuterRing;
+            if (_trackingIndex != nextIndex || _trackingOuterRing != nextOuter)
+            {
+                _trackingIndex = nextIndex;
+                _trackingOuterRing = nextOuter;
+                changed = true;
+                UpdateAccessibleName();
+            }
         }
 
         if (changed)
@@ -224,6 +253,7 @@ internal class VisualRadialMenuPopup : VisualPopup
             Invalidate();
         }
 
+        SyncShadowAppearance();
         base.OnMouseMove(e);
     }
 
@@ -255,10 +285,12 @@ internal class VisualRadialMenuPopup : VisualPopup
                 RadialLayoutEngine.AngleToNormalized(e.Location, center, _owner.Values.StartAngle));
             Invalidate();
         }
-        else if (hit.Kind == RadialHitKind.Sector)
+        else if (hit.Kind == RadialHitKind.Sector || hit.Kind == RadialHitKind.OuterRing)
         {
             _pressedIndex = hit.SectorIndex;
+            _pressedOuterRing = hit.Kind == RadialHitKind.OuterRing;
             Invalidate();
+            SyncShadowAppearance();
         }
 
         base.OnMouseDown(e);
@@ -310,14 +342,18 @@ internal class VisualRadialMenuPopup : VisualPopup
 
             var hit = HitTest(e.Location);
             _pressedIndex = -1;
+            _pressedOuterRing = false;
 
             switch (hit.Kind)
             {
                 case RadialHitKind.Center:
                     HandleCenterClick();
                     break;
+                case RadialHitKind.OuterRing:
+                    HandleOuterRingClick(hit.SectorIndex);
+                    break;
                 case RadialHitKind.Sector:
-                    HandleSectorClick(hit.SectorIndex);
+                    HandleSectorBodyClick(hit.SectorIndex);
                     break;
                 case RadialHitKind.Editor:
                     HandleEditorClick(hit.EditorIndex);
@@ -327,7 +363,24 @@ internal class VisualRadialMenuPopup : VisualPopup
             Invalidate();
         }
 
+        SyncShadowAppearance();
         base.OnMouseUp(e);
+    }
+
+    /// <inheritdoc />
+    protected override void OnMouseLeave(EventArgs e)
+    {
+        _hovering = false;
+        if (_trackingIndex != -1 || _trackingOuterRing || _trackingEditorIndex != -1)
+        {
+            _trackingIndex = -1;
+            _trackingOuterRing = false;
+            _trackingEditorIndex = -1;
+            Invalidate();
+        }
+
+        SyncShadowAppearance();
+        base.OnMouseLeave(e);
     }
 
     /// <inheritdoc />
@@ -618,32 +671,21 @@ internal class VisualRadialMenuPopup : VisualPopup
         switch (style)
         {
             case KryptonRadialMenuAnimationStyle.FadeScale:
-            {
-                var scale = 0.75f + (0.25f * progress);
-                g.ScaleTransform(scale, scale);
+                SafeScaleTransform(g, 0.75f + (0.25f * progress));
                 break;
-            }
             case KryptonRadialMenuAnimationStyle.Spiral:
-            {
-                var scale = 0.55f + (0.45f * progress);
                 g.RotateTransform(360f * (1f - progress));
-                g.ScaleTransform(scale, scale);
+                SafeScaleTransform(g, 0.55f + (0.45f * progress));
                 break;
-            }
             case KryptonRadialMenuAnimationStyle.Pop:
-            {
-                var scale = EaseOutBack(progress);
-                g.ScaleTransform(scale, scale);
+                // EaseOutBack(0) is 0; GDI+ rejects ScaleTransform(0, 0).
+                SafeScaleTransform(g, EaseOutBack(progress));
                 break;
-            }
             case KryptonRadialMenuAnimationStyle.Sweep:
             default:
-            {
                 // Sweep uses a clip rather than a transform; scale slightly for polish.
-                var scale = 0.92f + (0.08f * progress);
-                g.ScaleTransform(scale, scale);
+                SafeScaleTransform(g, 0.92f + (0.08f * progress));
                 break;
-            }
         }
 
         g.TranslateTransform(-cx, -cy);
@@ -669,6 +711,21 @@ internal class VisualRadialMenuPopup : VisualPopup
         return 1f + (c3 * p * p * p) + (c1 * p * p);
     }
 
+    /// <summary>
+    /// Applies a scale transform, clamping to a positive finite range GDI+ accepts.
+    /// </summary>
+    private static void SafeScaleTransform(Graphics g, float scale)
+    {
+        if (float.IsNaN(scale) || float.IsInfinity(scale))
+        {
+            return;
+        }
+
+        // ScaleTransform throws ArgumentException for zero / non-positive factors.
+        scale = Math.Max(0.01f, Math.Min(scale, 8f));
+        g.ScaleTransform(scale, scale);
+    }
+
     private void ApplyCircularRegion(Size size)
     {
         using var path = new GraphicsPath();
@@ -676,6 +733,34 @@ internal class VisualRadialMenuPopup : VisualPopup
         Region?.Dispose();
         Region = new Region(path);
         DefineCircularShadowPaths(size);
+    }
+
+    internal void SyncShadowAppearance()
+    {
+        if (IsDisposed || !_owner.Values.ShowShadow)
+        {
+            return;
+        }
+
+        PaletteState state;
+        if (!_owner.Enabled)
+        {
+            state = PaletteState.Disabled;
+        }
+        else if (_pressedIndex >= 0 || _moving)
+        {
+            state = PaletteState.Pressed;
+        }
+        else if (_hovering || _trackingIndex >= 0 || _trackingEditorIndex >= 0)
+        {
+            state = PaletteState.Tracking;
+        }
+        else
+        {
+            state = PaletteState.Normal;
+        }
+
+        UpdateShadowAppearance(_owner.ResolveShadowColor(state), _owner.Values.ShadowOpacity);
     }
 
     private void DefineCircularShadowPaths(Size size)
@@ -918,7 +1003,8 @@ internal class VisualRadialMenuPopup : VisualPopup
 
         if (_trackingIndex >= 0)
         {
-            HandleSectorClick(_trackingIndex);
+            // Keyboard Enter still opens children/editors (ring is the pointer affordance).
+            OpenChildOrEditor(_trackingIndex);
             Invalidate();
             return;
         }
@@ -981,6 +1067,8 @@ internal class VisualRadialMenuPopup : VisualPopup
             _owner.Values.StartAngle);
         _trackingIndex = -1;
         _pressedIndex = -1;
+        _trackingOuterRing = false;
+        _pressedOuterRing = false;
         _trackingEditorIndex = -1;
         _toolTipHost.Cancel();
         UpdateAccessibleName();
@@ -1027,7 +1115,7 @@ internal class VisualRadialMenuPopup : VisualPopup
             return;
         }
 
-        if (hit.Kind == RadialHitKind.Sector
+        if ((hit.Kind is RadialHitKind.Sector or RadialHitKind.OuterRing)
             && hit.SectorIndex >= 0
             && hit.SectorIndex < _visibleItems.Count)
         {
@@ -1074,7 +1162,8 @@ internal class VisualRadialMenuPopup : VisualPopup
             _activeEditor != null,
             editorCount,
             startAngle,
-            hitPadding);
+            hitPadding,
+            _owner.Values.OuterRingThickness * _dpiScale);
     }
 
     private static int GetEditorSectorCount(KryptonRadialMenuItemBase? editor)
@@ -1139,7 +1228,45 @@ internal class VisualRadialMenuPopup : VisualPopup
         _owner.Close(ToolStripDropDownCloseReason.CloseCalled);
     }
 
-    private void HandleSectorClick(int sectorIndex)
+    private void HandleOuterRingClick(int sectorIndex)
+    {
+        // Outer-ring band is the only pointer path that opens a child ring / editor.
+        OpenChildOrEditor(sectorIndex);
+    }
+
+    private void HandleSectorBodyClick(int sectorIndex)
+    {
+        _toolTipHost.Cancel();
+        if (sectorIndex < 0 || sectorIndex >= _visibleItems.Count)
+        {
+            return;
+        }
+
+        var item = _visibleItems[sectorIndex];
+        if (!item.Enabled)
+        {
+            return;
+        }
+
+        // Parents / editors: body click raises ItemClick but does not drill in.
+        if (item.HasChildren)
+        {
+            _owner.RaiseItemClick(item);
+            return;
+        }
+
+        _owner.RaiseItemClick(item);
+        if (item is KryptonRadialMenuItem commandItem)
+        {
+            commandItem.PerformClick();
+            if (commandItem.AutoClose)
+            {
+                _owner.Close(ToolStripDropDownCloseReason.ItemClicked);
+            }
+        }
+    }
+
+    private void OpenChildOrEditor(int sectorIndex)
     {
         _toolTipHost.Cancel();
         if (sectorIndex < 0 || sectorIndex >= _visibleItems.Count)

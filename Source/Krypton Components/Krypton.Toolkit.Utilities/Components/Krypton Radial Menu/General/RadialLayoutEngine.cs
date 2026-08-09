@@ -42,7 +42,7 @@ internal static class RadialLayoutEngine
     }
 
     /// <summary>
-    /// Hit-tests a client point against the radial layout.
+    /// Hit-tests a client point against the radial layout, distinguishing centre, sector body, and outer-ring band.
     /// </summary>
     public static RadialHitResult HitTest(
         Point clientPoint,
@@ -53,7 +53,8 @@ internal static class RadialLayoutEngine
         bool editorMode,
         int editorCount,
         float startAngle = -90f,
-        float hitPadding = 0f)
+        float hitPadding = 0f,
+        float outerRingThickness = 4f)
     {
         var dx = clientPoint.X - center.X;
         var dy = clientPoint.Y - center.Y;
@@ -101,6 +102,25 @@ internal static class RadialLayoutEngine
             return new RadialHitResult(RadialHitKind.Editor, -1, index);
         }
 
+        var sectorIndex = FindSectorIndex(fromStart, sectors);
+        if (sectorIndex < 0)
+        {
+            return RadialHitResult.None;
+        }
+
+        // Outer-ring band: thickness floor, with a touch-friendly minimum using hit padding.
+        var band = Math.Max(Math.Max(0f, outerRingThickness), hitPadding + 2f);
+        var ringInner = Math.Max(inner, outerRadius - band);
+        if (distance >= ringInner)
+        {
+            return new RadialHitResult(RadialHitKind.OuterRing, sectorIndex, -1);
+        }
+
+        return new RadialHitResult(RadialHitKind.Sector, sectorIndex, -1);
+    }
+
+    private static int FindSectorIndex(float fromStart, RadialSectorInfo[] sectors)
+    {
         for (var i = 0; i < sectors.Length; i++)
         {
             var local = fromStart - (i * sectors[i].SweepAngle);
@@ -111,11 +131,11 @@ internal static class RadialLayoutEngine
 
             if (local >= 0f && local < sectors[i].SweepAngle)
             {
-                return new RadialHitResult(RadialHitKind.Sector, i, -1);
+                return i;
             }
         }
 
-        return RadialHitResult.None;
+        return -1;
     }
 
     /// <summary>

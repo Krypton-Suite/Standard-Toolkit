@@ -435,6 +435,25 @@ public class VisualPopup : ContainerControl
     }
 
     /// <summary>
+    /// Raises the LocationChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected override void OnLocationChanged(EventArgs e)
+    {
+        // Keep the shadow window aligned when the popup is moved (e.g. radial AllowMove drag).
+        _shadow?.UpdatePopupLocation(Location);
+        base.OnLocationChanged(e);
+    }
+
+    /// <summary>
+    /// Updates the popup shadow colour and opacity when a shadow window is present.
+    /// </summary>
+    /// <param name="color">Base RGB colour for the shadow layers.</param>
+    /// <param name="opacity">Form opacity in the range 0..1.</param>
+    protected void UpdateShadowAppearance(Color color, float opacity) =>
+        _shadow?.ApplyAppearance(color, opacity);
+
+    /// <summary>
     /// Raises the Layout event.
     /// </summary>
     /// <param name="lEvent">A LayoutEventArgs that contains the event data.</param>

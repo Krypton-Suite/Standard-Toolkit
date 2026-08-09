@@ -25,11 +25,14 @@ internal static class RadialMenuPainter
         IReadOnlyList<KryptonRadialMenuItemBase> items,
         RadialSectorInfo[] sectors,
         int trackingIndex,
+        bool trackingOuterRing,
         int pressedIndex,
+        bool pressedOuterRing,
         bool canGoBack,
         bool editorMode,
         KryptonRadialMenuItemBase? activeEditorItem,
-        int trackingEditorIndex)
+        int trackingEditorIndex,
+        KryptonRadialMenu owner)
     {
         g.SmoothingMode = SmoothingMode.AntiAlias;
         g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
@@ -51,7 +54,9 @@ internal static class RadialMenuPainter
         {
             for (var i = 0; i < sectors.Length && i < items.Count; i++)
             {
-                PaintSector(g, center, sectors[i], items[i], i == trackingIndex, i == pressedIndex, colors, values);
+                var sectorTracking = i == trackingIndex && !trackingOuterRing;
+                var sectorPressed = i == pressedIndex && !pressedOuterRing;
+                PaintSector(g, center, sectors[i], items[i], sectorTracking, sectorPressed, colors, values);
             }
         }
         else if (activeEditorItem != null)
@@ -60,31 +65,133 @@ internal static class RadialMenuPainter
             centerText = ResolveEditorCenterText(activeEditorItem);
         }
 
-        PaintOuterRing(g, center, outer, colors, values.OuterRingThickness);
+        // Per-sector outer-ring arcs (State### colours); glyphs sit on the arc midline.
+        if (!editorMode)
+        {
+            PaintOuterRingArcs(
+                g,
+                center,
+                sectors,
+                items,
+                values,
+                owner,
+                trackingIndex,
+                trackingOuterRing,
+                pressedIndex,
+                pressedOuterRing);
+            PaintSubMenuGlyphs(
+                g,
+                center,
+                sectors,
+                items,
+                values,
+                owner,
+                trackingIndex,
+                trackingOuterRing,
+                pressedIndex,
+                pressedOuterRing);
+        }
+
         // Text/calendar editors own the centre caption; other editors keep the back chevron.
         PaintCenter(g, center, inner, colors, values.Glyph, canGoBack && centerText == null, centerText);
     }
 
-    private static void PaintOuterRing(
+    private static void PaintOuterRingArcs(
         Graphics g,
         PointF center,
-        float outerRadius,
-        RadialMenuColorSet colors,
-        float thickness)
+        RadialSectorInfo[] sectors,
+        IReadOnlyList<KryptonRadialMenuItemBase> items,
+        KryptonRadialMenuValues values,
+        KryptonRadialMenu owner,
+        int trackingIndex,
+        bool trackingOuterRing,
+        int pressedIndex,
+        bool pressedOuterRing)
     {
-        thickness = Math.Max(1f, thickness);
-        var rect = new RectangleF(
-            center.X - outerRadius,
-            center.Y - outerRadius,
-            outerRadius * 2f,
-            outerRadius * 2f);
-        using var pen = new Pen(colors.OuterRing, thickness)
+        var thickness = values.OuterRingThickness;
+        if (thickness <= 0f)
         {
-            Alignment = PenAlignment.Inset
-        };
-        g.DrawEllipse(pen, rect);
+            return;
+        }
+
+        thickness = Math.Min(16f, thickness);
+        var radius = Math.Max(1f, values.MenuRadius - (thickness * 0.5f));
+        var rect = new RectangleF(center.X - radius, center.Y - radius, radius * 2f, radius * 2f);
+
+        for (var i = 0; i < sectors.Length && i < items.Count; i++)
+        {
+            var color = ResolveRingColor(
+                owner,
+                items[i],
+                i == trackingIndex && trackingOuterRing,
+                i == pressedIndex && pressedOuterRing);
+            using var pen = new Pen(color, thickness)
+            {
+                Alignment = PenAlignment.Center,
+                StartCap = LineCap.Round,
+                EndCap = LineCap.Round
+            };
+            g.DrawArc(pen, rect, sectors[i].StartAngle, sectors[i].SweepAngle);
+        }
     }
 
+    private static Color ResolveRingColor(
+        KryptonRadialMenu owner,
+        KryptonRadialMenuItemBase item,
+        bool trackingOuterRing,
+        bool pressedOuterRing)
+    {
+        if (!item.Enabled)
+        {
+            return owner.ResolveOuterRingColor(PaletteState.Disabled);
+        }
+
+        if (pressedOuterRing)
+        {
+            return owner.ResolveOuterRingColor(PaletteState.Pressed);
+        }
+
+        if (trackingOuterRing)
+        {
+            return owner.ResolveOuterRingColor(PaletteState.Tracking);
+        }
+
+        return owner.ResolveOuterRingColor(PaletteState.Normal);
+    }
+
+    private static void PaintSubMenuGlyphs(
+        Graphics g,
+        PointF center,
+        RadialSectorInfo[] sectors,
+        IReadOnlyList<KryptonRadialMenuItemBase> items,
+        KryptonRadialMenuValues values,
+        KryptonRadialMenu owner,
+        int trackingIndex,
+        bool trackingOuterRing,
+        int pressedIndex,
+        bool pressedOuterRing)
+    {
+        if (string.IsNullOrEmpty(values.SubMenuGlyph))
+        {
+            return;
+        }
+
+        var ringThickness = Math.Max(0f, values.OuterRingThickness);
+        for (var i = 0; i < sectors.Length && i < items.Count; i++)
+        {
+            if (!items[i].HasChildren || !items[i].Enabled)
+            {
+                continue;
+            }
+
+            var color = ResolveRingColor(
+                owner,
+                items[i],
+                i == trackingIndex && trackingOuterRing,
+                i == pressedIndex && pressedOuterRing);
+            PaintSubMenuGlyph(g, center, sectors[i], values.SubMenuGlyph, color, ringThickness);
+        }
+    }
     private static void PaintSector(
         Graphics g,
         PointF center,
@@ -119,11 +226,6 @@ internal static class RadialMenuPainter
         if (values.ShowCheckedGlyph && item is KryptonRadialMenuItem { Checked: true })
         {
             PaintCheckedGlyph(g, content, colors);
-        }
-
-        if (item.HasChildren && !string.IsNullOrEmpty(values.SubMenuGlyph))
-        {
-            PaintSubMenuGlyph(g, center, sector, values.SubMenuGlyph, colors);
         }
     }
 
@@ -231,19 +333,22 @@ internal static class RadialMenuPainter
         }
 
         var imageSize = Math.Max(1, (int)Math.Round(values.ItemImageSize * dpiScale));
+        // Keep a clear gap between icon and label so stacked layouts do not look cramped.
+        var imageTextSpacing = Math.Max(8f, 12f * dpiScale);
         var textColor = enabled ? colors.Text : colors.TextDisabled;
         var showText = displayStyle != KryptonRadialMenuDisplayStyle.Image && !string.IsNullOrEmpty(text);
         var showImage = displayStyle != KryptonRadialMenuDisplayStyle.Text && image != null;
 
         if (showImage && image != null)
         {
+            var halfImage = imageSize / 2f;
             var imageY = showText && displayStyle == KryptonRadialMenuDisplayStyle.ImageAboveText
-                ? content.Y - (imageSize / 2f) - 6f
+                ? content.Y - halfImage - imageTextSpacing
                 : showText && displayStyle == KryptonRadialMenuDisplayStyle.TextAboveImage
-                    ? content.Y + 4f
-                    : content.Y - (imageSize / 2f);
+                    ? content.Y + imageTextSpacing
+                    : content.Y - halfImage;
             var dest = new Rectangle(
-                (int)Math.Round(content.X - (imageSize / 2f)),
+                (int)Math.Round(content.X - halfImage),
                 (int)Math.Round(imageY),
                 imageSize,
                 imageSize);
@@ -257,15 +362,16 @@ internal static class RadialMenuPainter
             var format = new StringFormat
             {
                 Alignment = StringAlignment.Center,
-                LineAlignment = StringAlignment.Center,
+                LineAlignment = StringAlignment.Near,
                 Trimming = StringTrimming.EllipsisCharacter
             };
+            var halfImage = imageSize / 2f;
             var textY = showImage && displayStyle == KryptonRadialMenuDisplayStyle.ImageAboveText
-                ? content.Y + (imageSize / 2f) - 2f
+                ? content.Y + halfImage + imageTextSpacing
                 : showImage && displayStyle == KryptonRadialMenuDisplayStyle.TextAboveImage
-                    ? content.Y - (imageSize / 2f) - 4f
-                    : content.Y;
-            var rect = new RectangleF(content.X - 36, textY - 12, 72, 28);
+                    ? content.Y - halfImage - imageTextSpacing - 14f
+                    : content.Y - 12f;
+            var rect = new RectangleF(content.X - 36, textY, 72, 32);
             g.DrawString(text, font, brush, rect, format);
             format.Dispose();
         }
@@ -342,10 +448,14 @@ internal static class RadialMenuPainter
         PointF center,
         RadialSectorInfo sector,
         string glyph,
-        RadialMenuColorSet colors)
+        Color glyphColor,
+        float ringThickness)
     {
         var midAngle = sector.StartAngle + (sector.SweepAngle / 2f);
-        var radius = sector.OuterRadius - 11f;
+        // Seat the glyph on the outer-ring stroke midline (or just inside the rim when the ring is hidden).
+        var radius = ringThickness > 0f
+            ? sector.OuterRadius - (ringThickness * 0.5f)
+            : sector.OuterRadius - 10f;
         var point = AngleToPoint(center, radius, midAngle);
         var state = g.Save();
         try
@@ -353,8 +463,10 @@ internal static class RadialMenuPainter
             g.TranslateTransform(point.X, point.Y);
             // Point the glyph radially outward (GDI+ 0° = east).
             g.RotateTransform(midAngle);
-            using var font = new Font(@"Segoe UI Symbol", 11f, FontStyle.Bold);
-            using var brush = new SolidBrush(colors.SubmenuMarker);
+            // Scale with ring thickness so the chevron reads clearly on the stroke (default ~16–18pt).
+            var fontSize = Math.Max(14f, Math.Min(22f, 12f + (Math.Max(4f, ringThickness) * 1.25f)));
+            using var font = new Font(@"Segoe UI Symbol", fontSize, FontStyle.Bold);
+            using var brush = new SolidBrush(glyphColor);
             var format = new StringFormat
             {
                 Alignment = StringAlignment.Center,

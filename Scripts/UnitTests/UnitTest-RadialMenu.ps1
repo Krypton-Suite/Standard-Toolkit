@@ -122,6 +122,35 @@ Assert-Equal ([Krypton.Toolkit.Utilities.KryptonRadialMenuDisplayStyle]::ImageAb
 Assert-Equal (-90) ([float]$menu.StartAngle) 'Default StartAngle is -90'
 Assert-Equal 0 $menu.MaxVisibleItems 'Default MaxVisibleItems is 0 (unlimited)'
 Assert-Equal 4 ([float]$menu.HitPadding) 'Default HitPadding is 4'
+Assert-True ($null -ne $menu.StateCommon) 'StateCommon outer-ring border is available'
+Assert-True ($null -ne $menu.StateNormal) 'StateNormal outer-ring border is available'
+Assert-True ($null -ne $menu.StateTracking) 'StateTracking outer-ring border is available'
+Assert-True ($null -ne $menu.StatePressed) 'StatePressed outer-ring border is available'
+Assert-True ($null -ne $menu.StateDisabled) 'StateDisabled outer-ring border is available'
+Assert-True ($null -ne $menu.StateShadowCommon) 'StateShadowCommon is available'
+Assert-True ($null -ne $menu.StateShadowNormal) 'StateShadowNormal is available'
+Assert-True ($null -ne $menu.StateShadowTracking) 'StateShadowTracking is available'
+Assert-True ($null -ne $menu.StateShadowPressed) 'StateShadowPressed is available'
+Assert-True ($null -ne $menu.StateShadowDisabled) 'StateShadowDisabled is available'
+Assert-Equal 0.18 ([float]$menu.ShadowOpacity) 'Default ShadowOpacity is 0.18'
+
+# ----- Outer-ring vs sector HitTest -----
+# RadialLayoutEngine is internal — invoke via reflection.
+$engineType = [Krypton.Toolkit.Utilities.KryptonRadialMenu].Assembly.GetType('Krypton.Toolkit.Utilities.RadialLayoutEngine')
+$hitMethod = $engineType.GetMethod('HitTest', [System.Reflection.BindingFlags]'Static,NonPublic,Public')
+$sectorType = [Krypton.Toolkit.Utilities.KryptonRadialMenu].Assembly.GetType('Krypton.Toolkit.Utilities.RadialSectorInfo')
+$sectors = [System.Array]::CreateInstance($sectorType, 2)
+$ctor = $sectorType.GetConstructors([System.Reflection.BindingFlags]'Instance,NonPublic,Public')[0]
+$sectors.SetValue($ctor.Invoke(@([int]0, [float]-90, [float]180, [float]140, [float]42)), 0)
+$sectors.SetValue($ctor.Invoke(@([int]1, [float]90, [float]180, [float]140, [float]42)), 1)
+$center = New-Object System.Drawing.PointF 150, 150
+# Point near top of first sector, on the outer ring band (radius ~138).
+$ringPt = New-Object System.Drawing.Point 150, (150 - 138)
+$bodyPt = New-Object System.Drawing.Point 150, (150 - 90)
+$hitRing = $hitMethod.Invoke($null, @($ringPt, $center, [float]140, [float]42, $sectors, $false, [int]0, [float]-90, [float]4, [float]4))
+$hitBody = $hitMethod.Invoke($null, @($bodyPt, $center, [float]140, [float]42, $sectors, $false, [int]0, [float]-90, [float]4, [float]4))
+Assert-Equal 'OuterRing' $hitRing.Kind.ToString() 'HitTest near rim returns OuterRing'
+Assert-equal 'Sector' $hitBody.Kind.ToString() 'HitTest mid-annulus returns Sector'
 
 # ----- Item click / check / ResolveImage -----
 $script:itemClickCount = 0
@@ -356,6 +385,31 @@ if ($animCloseOk) {
 }
 Assert-True (-not [bool]$animMenu.Visible) 'Menu is not Visible after animated Close'
 
+# Pop uses EaseOutBack(0) == 0; ScaleTransform must not throw on first paint.
+$popMenu = Get-NetObject ([System.Activator]::CreateInstance([Krypton.Toolkit.Utilities.KryptonRadialMenu]))
+$popMenu.AnimationStyle = [Krypton.Toolkit.Utilities.KryptonRadialMenuAnimationStyle]::Pop
+$popMenu.AnimationDuration = 120
+[void]$popMenu.Items.Add((Get-NetObject ([System.Activator]::CreateInstance([Krypton.Toolkit.Utilities.KryptonRadialMenuItem], [object[]]@('PopLeaf')))))
+$popOk = $true
+try {
+    Assert-True ([bool]$popMenu.ShowPopup($form, $screenPt, $true)) 'Pop ShowPopup returns true'
+    [System.Windows.Forms.Application]::DoEvents()
+    Start-Sleep -Milliseconds 50
+    [System.Windows.Forms.Application]::DoEvents()
+    $popMenu.Close()
+    [System.Windows.Forms.Application]::DoEvents()
+    Start-Sleep -Milliseconds 200
+    [System.Windows.Forms.Application]::DoEvents()
+}
+catch {
+    $popOk = $false
+    $failed.Add("Pop animation threw: $($_.Exception.Message)")
+    Write-Host "FAIL: Pop animation threw: $($_.Exception.Message)" -ForegroundColor Red
+}
+if ($popOk) {
+    Write-Host 'PASS: Pop animation paints/closes without throw' -ForegroundColor Green
+}
+
 # Cleanup
 $menu.remove_ItemClick($itemClickHandler)
 $leaf.remove_Click($leafClickHandler)
@@ -365,6 +419,7 @@ $imported.Dispose()
 $live.Dispose()
 $popupMenu.Dispose()
 $animMenu.Dispose()
+$popMenu.Dispose()
 $ctx.Dispose()
 $liveCtx.Dispose()
 $form.Close()

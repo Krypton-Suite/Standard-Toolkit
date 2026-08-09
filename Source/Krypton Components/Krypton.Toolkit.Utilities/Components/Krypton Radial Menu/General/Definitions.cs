@@ -66,6 +66,8 @@ internal enum RadialHitKind
     None,
     Center,
     Sector,
+    /// <summary>Outer-ring band of a sector (submenu / editor affordance).</summary>
+    OuterRing,
     Editor
 }
 

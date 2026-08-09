@@ -20,25 +20,19 @@ public class VisualPopupShadow : Form
     #region Static Fields
 
     private const int SHADOW_SIZE = 3;
-    private static readonly Brush[] _brushes;
+    private const float DefaultOpacity = 0.18f;
+
     #endregion
 
     #region Instance Fields
     private GraphicsPath? _path1;
     private GraphicsPath? _path2;
     private GraphicsPath? _path3;
+    private readonly SolidBrush[] _brushes;
+    private Color _baseColor;
     #endregion
 
     #region Identity
-    static VisualPopupShadow()
-    {
-        _brushes = new Brush[SHADOW_SIZE];
-        for (var i = 0; i < SHADOW_SIZE; i++)
-        {
-            var shade = i * 70;
-            _brushes[i] = new SolidBrush(Color.FromArgb(shade, shade, shade));
-        }
-    }
 
     /// <summary>
     /// Initialize a new instance of the VisualPopupShadow class. 
@@ -52,7 +46,11 @@ public class VisualPopupShadow : Form
         FormBorderStyle = FormBorderStyle.None;
         ShowInTaskbar = false;
         TransparencyKey = Color.Magenta;
-        Opacity = 0.18f;
+        Opacity = DefaultOpacity;
+
+        _brushes = new SolidBrush[SHADOW_SIZE];
+        _baseColor = Color.Black;
+        RebuildBrushes(_baseColor);
     }
 
     /// <summary>
@@ -64,6 +62,7 @@ public class VisualPopupShadow : Form
         if (disposing)
         {
             ClearPaths();
+            DisposeBrushes();
         }
 
         base.Dispose(disposing);
@@ -87,6 +86,44 @@ public class VisualPopupShadow : Form
 
         // Show the window without activating it (i.e. do not take focus)
         PI.ShowWindow(Handle, PI.ShowWindowCommands.SW_SHOWNOACTIVATE);
+    }
+
+    /// <summary>
+    /// Moves the shadow to track a popup that has changed screen location.
+    /// </summary>
+    /// <param name="popupScreenLocation">Top-left screen location of the owning popup.</param>
+    public void UpdatePopupLocation(Point popupScreenLocation) =>
+        Location = new Point(popupScreenLocation.X + SHADOW_SIZE, popupScreenLocation.Y + SHADOW_SIZE);
+
+    /// <summary>
+    /// Applies shadow colour and window opacity.
+    /// </summary>
+    /// <param name="color">Base RGB colour for the three-layer shade ramp.</param>
+    /// <param name="opacity">Form opacity in the range 0..1.</param>
+    public void ApplyAppearance(Color color, float opacity)
+    {
+        if (opacity < 0f)
+        {
+            opacity = 0f;
+        }
+        else if (opacity > 1f)
+        {
+            opacity = 1f;
+        }
+
+        if (Math.Abs(Opacity - opacity) > 0.001)
+        {
+            Opacity = opacity;
+        }
+
+        var baseColor = color.IsEmpty ? Color.Black : Color.FromArgb(255, color);
+        if (_baseColor != baseColor)
+        {
+            _baseColor = baseColor;
+            RebuildBrushes(baseColor);
+        }
+
+        Invalidate();
     }
 
     /// <summary>
@@ -154,6 +191,29 @@ public class VisualPopupShadow : Form
     #endregion
 
     #region Implementation
+    private void RebuildBrushes(Color baseColor)
+    {
+        DisposeBrushes();
+        for (var i = 0; i < SHADOW_SIZE; i++)
+        {
+            // Preserve the historical shade ramp (0, 70, 140) as alpha over the base RGB.
+            var shade = i * 70;
+            _brushes[i] = new SolidBrush(Color.FromArgb(shade, baseColor.R, baseColor.G, baseColor.B));
+        }
+    }
+
+    private void DisposeBrushes()
+    {
+        for (var i = 0; i < _brushes.Length; i++)
+        {
+            if (_brushes[i] != null)
+            {
+                _brushes[i].Dispose();
+                _brushes[i] = null!;
+            }
+        }
+    }
+
     private void ClearPaths()
     {
         if (_path1 != null)

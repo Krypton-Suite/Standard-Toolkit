@@ -36,6 +36,9 @@ public class KryptonRadialMenu : Component
     private EventHandler? _boundClearedHandler;
     private EventHandler? _boundReorderedHandler;
     private readonly List<(INotifyPropertyChanged Source, PropertyChangedEventHandler Handler)> _propertySyncHandlers = [];
+    private readonly PaletteRedirect _paletteRedirect;
+    private readonly PaletteBorderInheritRedirect _stateCommonRedirect;
+    private readonly PaletteBackInheritRedirect _stateShadowRedirect;
 
     #endregion
 
@@ -96,6 +99,23 @@ public class KryptonRadialMenu : Component
         Items = [];
         Values = new KryptonRadialMenuValues(OnNeedPaint);
         Enabled = true;
+
+        // Outer-ring State### borders redirect to ControlClient, then inherit through StateCommon.
+        _paletteRedirect = new PaletteRedirect(ResolvePalette());
+        _stateCommonRedirect = new PaletteBorderInheritRedirect(_paletteRedirect, PaletteBorderStyle.ControlClient);
+        StateCommon = new PaletteBorder(_stateCommonRedirect, OnNeedPaint);
+        StateDisabled = new PaletteBorder(StateCommon, OnNeedPaint);
+        StateNormal = new PaletteBorder(StateCommon, OnNeedPaint);
+        StateTracking = new PaletteBorder(StateCommon, OnNeedPaint);
+        StatePressed = new PaletteBorder(StateCommon, OnNeedPaint);
+
+        // Prefixed StateShadow### backs; default common colour is black (historical shadow ramp).
+        _stateShadowRedirect = new PaletteBackInheritRedirect(_paletteRedirect, PaletteBackStyle.ControlClient);
+        StateShadowCommon = new PaletteBack(_stateShadowRedirect, OnNeedPaint) { Color1 = Color.Black };
+        StateShadowDisabled = new PaletteBack(StateShadowCommon, OnNeedPaint);
+        StateShadowNormal = new PaletteBack(StateShadowCommon, OnNeedPaint);
+        StateShadowTracking = new PaletteBack(StateShadowCommon, OnNeedPaint);
+        StateShadowPressed = new PaletteBack(StateShadowCommon, OnNeedPaint);
     }
 
     /// <summary>
@@ -189,7 +209,14 @@ public class KryptonRadialMenu : Component
     public PaletteMode PaletteMode
     {
         get => _paletteMode;
-        set => _paletteMode = value;
+        set
+        {
+            if (_paletteMode != value)
+            {
+                _paletteMode = value;
+                SyncPaletteRedirect();
+            }
+        }
     }
 
     /// <summary>
@@ -201,8 +228,115 @@ public class KryptonRadialMenu : Component
     public KryptonCustomPaletteBase? LocalCustomPalette
     {
         get => _localCustomPalette;
-        set => _localCustomPalette = value;
+        set
+        {
+            if (!ReferenceEquals(_localCustomPalette, value))
+            {
+                _localCustomPalette = value;
+                SyncPaletteRedirect();
+            }
+        }
     }
+
+    /// <summary>
+    /// Gets access to the common outer-ring border appearance.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining common outer-ring border appearance.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteBorder StateCommon { get; }
+
+    private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
+
+    /// <summary>
+    /// Gets access to the disabled outer-ring border appearance.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining disabled outer-ring border appearance.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteBorder StateDisabled { get; }
+
+    private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
+
+    /// <summary>
+    /// Gets access to the normal outer-ring border appearance.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining normal outer-ring border appearance.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteBorder StateNormal { get; }
+
+    private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
+
+    /// <summary>
+    /// Gets access to the tracking (hot) outer-ring border appearance.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining hot tracking outer-ring border appearance.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteBorder StateTracking { get; }
+
+    private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
+
+    /// <summary>
+    /// Gets access to the pressed outer-ring border appearance.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining pressed outer-ring border appearance.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteBorder StatePressed { get; }
+
+    private bool ShouldSerializeStatePressed() => !StatePressed.IsDefault;
+
+    /// <summary>
+    /// Gets access to the common popup-shadow appearance.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining common popup-shadow appearance.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteBack StateShadowCommon { get; }
+
+    private bool ShouldSerializeStateShadowCommon() => !StateShadowCommon.IsDefault;
+
+    /// <summary>
+    /// Gets access to the disabled popup-shadow appearance.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining disabled popup-shadow appearance.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteBack StateShadowDisabled { get; }
+
+    private bool ShouldSerializeStateShadowDisabled() => !StateShadowDisabled.IsDefault;
+
+    /// <summary>
+    /// Gets access to the normal popup-shadow appearance.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining normal popup-shadow appearance.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteBack StateShadowNormal { get; }
+
+    private bool ShouldSerializeStateShadowNormal() => !StateShadowNormal.IsDefault;
+
+    /// <summary>
+    /// Gets access to the tracking (hot) popup-shadow appearance.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining hot tracking popup-shadow appearance.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteBack StateShadowTracking { get; }
+
+    private bool ShouldSerializeStateShadowTracking() => !StateShadowTracking.IsDefault;
+
+    /// <summary>
+    /// Gets access to the pressed popup-shadow appearance.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining pressed popup-shadow appearance.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteBack StateShadowPressed { get; }
+
+    private bool ShouldSerializeStateShadowPressed() => !StateShadowPressed.IsDefault;
 
     /// <summary>
     /// Gets whether the radial menu is currently visible.
@@ -318,6 +452,18 @@ public class KryptonRadialMenu : Component
     }
 
     /// <summary>
+    /// Gets or sets the popup shadow opacity (0..1). Proxy for <see cref="KryptonRadialMenuValues.ShadowOpacity"/>.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Opacity of the circular popup shadow when ShowShadow is enabled.")]
+    [DefaultValue(0.18f)]
+    public float ShadowOpacity
+    {
+        get => Values.ShadowOpacity;
+        set => Values.ShadowOpacity = value;
+    }
+
+    /// <summary>
     /// Gets or sets whether checked sectors draw a checkmark. Proxy for <see cref="KryptonRadialMenuValues.ShowCheckedGlyph"/>.
     /// </summary>
     [Category(@"Visuals")]
@@ -426,6 +572,7 @@ public class KryptonRadialMenu : Component
 
         _closeReason = ToolStripDropDownCloseReason.AppFocusChange;
 
+        SyncPaletteRedirect();
         var palette = ResolvePalette();
         var renderer = palette.GetRenderer();
         _popup = new VisualRadialMenuPopup(this, renderer);
@@ -576,6 +723,46 @@ public class KryptonRadialMenu : Component
         };
     }
 
+    /// <summary>
+    /// Resolves the outer-ring stroke colour for the given palette state.
+    /// </summary>
+    /// <param name="state">Palette state.</param>
+    /// <returns>Border colour.</returns>
+    internal Color ResolveOuterRingColor(PaletteState state)
+    {
+        SyncPaletteRedirect();
+        var border = state switch
+        {
+            PaletteState.Disabled => StateDisabled,
+            PaletteState.Tracking => StateTracking,
+            PaletteState.Pressed => StatePressed,
+            _ => StateNormal
+        };
+
+        var color = border.GetBorderColor1(state);
+        return color.IsEmpty ? SystemColors.ControlDark : color;
+    }
+
+    /// <summary>
+    /// Resolves the popup-shadow fill colour for the given palette state.
+    /// </summary>
+    /// <param name="state">Palette state.</param>
+    /// <returns>Shadow base colour.</returns>
+    internal Color ResolveShadowColor(PaletteState state)
+    {
+        SyncPaletteRedirect();
+        var back = state switch
+        {
+            PaletteState.Disabled => StateShadowDisabled,
+            PaletteState.Tracking => StateShadowTracking,
+            PaletteState.Pressed => StateShadowPressed,
+            _ => StateShadowNormal
+        };
+
+        var color = back.GetBackColor1(state);
+        return color.IsEmpty ? Color.Black : Color.FromArgb(255, color);
+    }
+
     #endregion
 
     #region Protected
@@ -607,6 +794,11 @@ public class KryptonRadialMenu : Component
     #endregion
 
     #region Implementation
+
+    private void SyncPaletteRedirect()
+    {
+        _paletteRedirect.Target = ResolvePalette();
+    }
 
     private void PopulateFromContextMenu(KryptonContextMenu menu)
     {
@@ -929,6 +1121,7 @@ public class KryptonRadialMenu : Component
     {
         if (_popup is { IsDisposed: false })
         {
+            _popup.SyncShadowAppearance();
             _popup.Invalidate();
         }
     }

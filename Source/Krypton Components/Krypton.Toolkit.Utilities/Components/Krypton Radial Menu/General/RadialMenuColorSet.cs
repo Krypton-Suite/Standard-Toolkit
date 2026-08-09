@@ -74,16 +74,16 @@ internal readonly struct RadialMenuColorSet
     {
         palette ??= KryptonManager.CurrentGlobalPalette;
 
-        // Slices use PanelClient; the outer ring uses PanelAlternate.
+        // Slices use PanelClient. Outer ring stroke uses the control border (PanelAlternate fills read too dark as a rim).
         var sectorNormal = SafeBack(palette, PaletteBackStyle.PanelClient, PaletteState.Normal, SystemColors.Window);
-        var outerRing = SafeBack(palette, PaletteBackStyle.PanelAlternate, PaletteState.Normal, SystemColors.ControlDark);
-        var surface = outerRing;
+        var border = SafeBorder(palette, PaletteBorderStyle.ControlClient, PaletteState.Normal, SystemColors.ControlDark);
+        var outerRing = border;
+        var surface = SafeBack(palette, PaletteBackStyle.PanelAlternate, PaletteState.Normal, SystemColors.ControlDark);
         var sectorTracking = SafeBack(palette, PaletteBackStyle.ContextMenuItemHighlight, PaletteState.Tracking, ControlPaint.Light(sectorNormal));
         var sectorPressed = SafeBack(palette, PaletteBackStyle.ContextMenuItemHighlight, PaletteState.Pressed, ControlPaint.Dark(sectorTracking));
         var sectorChecked = SafeBack(palette, PaletteBackStyle.ContextMenuItemHighlight, PaletteState.CheckedNormal, sectorTracking);
         var sectorDisabled = SafeBack(palette, PaletteBackStyle.PanelClient, PaletteState.Disabled, SystemColors.ControlLight);
 
-        var border = SafeBorder(palette, PaletteBorderStyle.ControlClient, PaletteState.Normal, SystemColors.ControlDark);
         var borderTracking = values.SubMenuHoverColor.IsEmpty
             ? SafeBorder(palette, PaletteBorderStyle.ContextMenuItemHighlight, PaletteState.Tracking, border)
             : values.SubMenuHoverColor;

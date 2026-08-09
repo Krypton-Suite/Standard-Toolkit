@@ -27,6 +27,7 @@ public class KryptonRadialMenuValues : Storage
     private float _outerRingThickness;
     private int _itemImageSize;
     private bool _showShadow;
+    private float _shadowOpacity;
     private bool _showCheckedGlyph;
     private float _startAngle;
     private int _maxVisibleItems;
@@ -54,6 +55,7 @@ public class KryptonRadialMenuValues : Storage
         _outerRingThickness = 4f;
         _itemImageSize = 24;
         _showShadow = true;
+        _shadowOpacity = 0.18f;
         _showCheckedGlyph = true;
         _startAngle = -90f;
         _maxVisibleItems = 0;
@@ -74,6 +76,7 @@ public class KryptonRadialMenuValues : Storage
         && Math.Abs(_outerRingThickness - 4f) < 0.01f
         && _itemImageSize == 24
         && _showShadow
+        && Math.Abs(_shadowOpacity - 0.18f) < 0.001f
         && _showCheckedGlyph
         && Math.Abs(_startAngle + 90f) < 0.01f
         && _maxVisibleItems == 0
@@ -232,17 +235,17 @@ public class KryptonRadialMenuValues : Storage
     }
 
     /// <summary>
-    /// Gets or sets the thickness of the outer ring stroke (PanelAlternate).
+    /// Gets or sets the thickness of the outer ring stroke (PanelAlternate). Zero hides the stroke.
     /// </summary>
     [Category(@"Visuals")]
-    [Description(@"Thickness of the outer ring stroke in pixels.")]
+    [Description(@"Thickness of the outer ring stroke in pixels. Zero hides the stroke.")]
     [DefaultValue(4f)]
     public float OuterRingThickness
     {
         get => _outerRingThickness;
         set
         {
-            value = Math.Max(1f, Math.Min(16f, value));
+            value = Math.Max(0f, Math.Min(16f, value));
             if (Math.Abs(_outerRingThickness - value) > 0.01f)
             {
                 _outerRingThickness = value;
@@ -285,6 +288,26 @@ public class KryptonRadialMenuValues : Storage
             if (_showShadow != value)
             {
                 _showShadow = value;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the opacity of the circular popup shadow (0..1).
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Opacity of the circular popup shadow when ShowShadow is enabled.")]
+    [DefaultValue(0.18f)]
+    public float ShadowOpacity
+    {
+        get => _shadowOpacity;
+        set
+        {
+            value = Math.Max(0f, Math.Min(1f, value));
+            if (Math.Abs(_shadowOpacity - value) > 0.001f)
+            {
+                _shadowOpacity = value;
+                PerformNeedPaint(false);
             }
         }
     }
