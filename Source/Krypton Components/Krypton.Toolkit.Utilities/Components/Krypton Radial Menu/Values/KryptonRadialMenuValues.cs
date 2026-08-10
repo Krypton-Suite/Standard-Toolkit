@@ -220,7 +220,7 @@ public class KryptonRadialMenuValues : Storage
     [Description(@"Unicode glyph drawn on the outer ring for submenu / editor items.")]
     [DefaultValue(@"›")]
     [Localizable(true)]
-    public string SubMenuGlyph
+    public string? SubMenuGlyph
     {
         get => _subMenuGlyph;
         set
@@ -283,13 +283,7 @@ public class KryptonRadialMenuValues : Storage
     public bool ShowShadow
     {
         get => _showShadow;
-        set
-        {
-            if (_showShadow != value)
-            {
-                _showShadow = value;
-            }
-        }
+        set => _showShadow = value;
     }
 
     /// <summary>
@@ -398,13 +392,7 @@ public class KryptonRadialMenuValues : Storage
     public KryptonRadialMenuAnimationStyle AnimationStyle
     {
         get => _animationStyle;
-        set
-        {
-            if (_animationStyle != value)
-            {
-                _animationStyle = value;
-            }
-        }
+        set => _animationStyle = value;
     }
 
     /// <summary>
@@ -419,10 +407,8 @@ public class KryptonRadialMenuValues : Storage
         set
         {
             value = Math.Max(0, Math.Min(2000, value));
-            if (_animationDuration != value)
-            {
-                _animationDuration = value;
-            }
+            
+            _animationDuration = value;
         }
     }
 

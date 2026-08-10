@@ -39,8 +39,8 @@ namespace Krypton.Toolkit.Utilities {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.Utilities.Components.KryptonSearchBox.Resource_Files.SearchBoxIma" +
-                            "geResources", typeof(SearchBoxImageResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.Utilities.Components.Krypton_Search_Box.Resource_Files.SearchBoxI" +
+                            "mageResources", typeof(SearchBoxImageResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

@@ -96,7 +96,7 @@ public class KryptonRadialMenuItem : KryptonRadialMenuItemBase
     }
 
     /// <inheritdoc />
-    public override string ToString() => (string.IsNullOrEmpty(Text) ? "(Radial Menu Item)" : Text)!;
+    public override string ToString() => (string.IsNullOrEmpty(Text) ? "Modified" : Text)!;
 
     #endregion
 

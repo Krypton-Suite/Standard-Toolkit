@@ -80,7 +80,7 @@
 
 	<!-- WebView2 Toolbox Bitmap -->
 	<ItemGroup>
-		<EmbeddedResource Include="Components\KryptonWebView2\ToolboxBitmaps\WebView2.bmp" />
+		<EmbeddedResource Include="Components\Krypton WebView2\ToolboxBitmaps\WebView2.bmp" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -99,12 +99,12 @@
 	    <CustomToolNamespace>Krypton.Toolkit.Utilities</CustomToolNamespace>
 	    <LastGenOutput>DropZoneResources.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>
-	  <EmbeddedResource Update="Components\KryptonSearchBox\Resource Files\SearchBoxImageResources.resx">
+	  <EmbeddedResource Update="Components\Krypton Search Box\Resource Files\SearchBoxImageResources.resx">
 	    <Generator>ResXFileCodeGenerator</Generator>
 	    <CustomToolNamespace>Krypton.Toolkit.Utilities</CustomToolNamespace>
 	    <LastGenOutput>SearchBoxImageResources.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>
-	  <EmbeddedResource Update="Components\KryptonToast\Resources\ToastImageResources.resx">
+	  <EmbeddedResource Update="Components\Krypton Toast\Resources\ToastImageResources.resx">
 	    <Generator>ResXFileCodeGenerator</Generator>
 	    <LastGenOutput>ToastImageResources.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>
@@ -144,12 +144,12 @@
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>DropZoneResources.resx</DependentUpon>
 	  </Compile>
-	  <Compile Update="Components\KryptonSearchBox\Resource Files\SearchBoxImageResources.Designer.cs">
+	  <Compile Update="Components\Krypton Search Box\Resource Files\SearchBoxImageResources.Designer.cs">
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>SearchBoxImageResources.resx</DependentUpon>
 	  </Compile>
-	  <Compile Update="Components\KryptonToast\Resources\ToastImageResources.Designer.cs">
+	  <Compile Update="Components\Krypton Toast\Resources\ToastImageResources.Designer.cs">
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>ToastImageResources.resx</DependentUpon>
@@ -159,6 +159,7 @@
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>Resources.resx</DependentUpon>
 	  </Compile>
+	  <Compile Update="Z:\Development\Krypton\Standard-Toolkit\Source\Krypton Components\Krypton.Shared\..\Krypton.Toolkit\Utilities\FileSystemIconHelper.cs" Link="Components\Krypton File System Tree View\Utilities\FileSystemIconHelper.cs" />
 	</ItemGroup>
 
 </Project>
