@@ -51,7 +51,7 @@ public class KryptonRadialMenuTextItem : KryptonRadialMenuItemBase
     }
 
     /// <inheritdoc />
-    public override string ToString() => string.IsNullOrEmpty(Label) ? "(Radial Text)" : Label;
+    public override string ToString() => (string.IsNullOrEmpty(Label) ? "(Radial Text)" : Label)!;
 
     #endregion
 
@@ -64,7 +64,7 @@ public class KryptonRadialMenuTextItem : KryptonRadialMenuItemBase
     [Description(@"Label displayed on the text item sector.")]
     [DefaultValue(@"Text")]
     [Localizable(true)]
-    public string Label
+    public string? Label
     {
         get => _label;
         set
@@ -85,7 +85,7 @@ public class KryptonRadialMenuTextItem : KryptonRadialMenuItemBase
     [Description(@"Editable text value.")]
     [DefaultValue("")]
     [Localizable(true)]
-    public string Text
+    public string? Text
     {
         get => _text;
         set
@@ -106,7 +106,7 @@ public class KryptonRadialMenuTextItem : KryptonRadialMenuItemBase
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public string DraftText
+    public string? DraftText
     {
         get => _draftText;
         set => _draftText = value ?? string.Empty;
@@ -119,17 +119,17 @@ public class KryptonRadialMenuTextItem : KryptonRadialMenuItemBase
     /// <summary>
     /// Begins an edit session by copying <see cref="Text"/> into <see cref="DraftText"/>.
     /// </summary>
-    public void BeginEdit() => _draftText = _text ?? string.Empty;
+    public void BeginEdit() => _draftText = _text;
 
     /// <summary>
     /// Commits <see cref="DraftText"/> into <see cref="Text"/>.
     /// </summary>
-    public void CommitEdit() => Text = _draftText ?? string.Empty;
+    public void CommitEdit() => Text = _draftText;
 
     /// <summary>
     /// Cancels the draft and restores <see cref="DraftText"/> from <see cref="Text"/>.
     /// </summary>
-    public void CancelEdit() => _draftText = _text ?? string.Empty;
+    public void CancelEdit() => _draftText = _text;
 
     #endregion
 }

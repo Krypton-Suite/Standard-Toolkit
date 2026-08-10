@@ -234,7 +234,7 @@ public abstract class KryptonRadialMenuItemBase : Component, INotifyPropertyChan
     [Description(@"Simple tooltip description. Prefer ToolTipValues for full Krypton tooltip content.")]
     [DefaultValue("")]
     [Localizable(true)]
-    public string ToolTipText
+    public string? ToolTipText
     {
         get => _toolTipValues.Description == @"Description" ? string.Empty : _toolTipValues.Description;
         set

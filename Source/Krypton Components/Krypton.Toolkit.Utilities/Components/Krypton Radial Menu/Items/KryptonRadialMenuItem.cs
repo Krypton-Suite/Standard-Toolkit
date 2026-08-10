@@ -84,7 +84,7 @@ public class KryptonRadialMenuItem : KryptonRadialMenuItemBase
     /// </summary>
     /// <param name="text">Initial text.</param>
     /// <param name="clickHandler">Optional click handler.</param>
-    public KryptonRadialMenuItem(string text, EventHandler? clickHandler)
+    public KryptonRadialMenuItem(string? text, EventHandler? clickHandler)
     {
         _text = text ?? string.Empty;
         _autoClose = true;
@@ -96,7 +96,7 @@ public class KryptonRadialMenuItem : KryptonRadialMenuItemBase
     }
 
     /// <inheritdoc />
-    public override string ToString() => string.IsNullOrEmpty(Text) ? "(Radial Menu Item)" : Text;
+    public override string ToString() => (string.IsNullOrEmpty(Text) ? "(Radial Menu Item)" : Text)!;
 
     #endregion
 
@@ -109,7 +109,7 @@ public class KryptonRadialMenuItem : KryptonRadialMenuItemBase
     [Description(@"Text displayed on the item sector.")]
     [DefaultValue(@"MenuItem")]
     [Localizable(true)]
-    public string Text
+    public string? Text
     {
         get => _text;
         set

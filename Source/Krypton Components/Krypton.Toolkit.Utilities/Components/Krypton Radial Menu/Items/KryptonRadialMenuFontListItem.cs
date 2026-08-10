@@ -52,7 +52,7 @@ public class KryptonRadialMenuFontListItem : KryptonRadialMenuItemBase
     }
 
     /// <inheritdoc />
-    public override string ToString() => string.IsNullOrEmpty(Text) ? "(Radial Font List)" : Text;
+    public override string ToString() => (string.IsNullOrEmpty(Text) ? "(Radial Font List)" : Text)!;
 
     #endregion
 
@@ -65,7 +65,7 @@ public class KryptonRadialMenuFontListItem : KryptonRadialMenuItemBase
     [Description(@"Text displayed on the font list sector.")]
     [DefaultValue(@"Font")]
     [Localizable(true)]
-    public string Text
+    public string? Text
     {
         get => _text;
         set
@@ -112,7 +112,7 @@ public class KryptonRadialMenuFontListItem : KryptonRadialMenuItemBase
     [Category(@"Appearance")]
     [Description(@"Custom font family names. When set, replaces the installed-font list.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public string[] CustomFontFamilies
+    public string[]? CustomFontFamilies
     {
         get => _fontFamilies;
         set

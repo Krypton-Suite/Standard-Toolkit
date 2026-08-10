@@ -19,7 +19,7 @@ internal static class KryptonRadialMenuContextMenuBridge
     /// </summary>
     /// <param name="source">Source collection.</param>
     /// <returns>Converted radial items.</returns>
-    public static IEnumerable<KryptonRadialMenuItemBase> ConvertItems(KryptonContextMenuCollection source)
+    public static IEnumerable<KryptonRadialMenuItemBase> ConvertItems(KryptonContextMenuCollection? source)
     {
         if (source == null)
         {

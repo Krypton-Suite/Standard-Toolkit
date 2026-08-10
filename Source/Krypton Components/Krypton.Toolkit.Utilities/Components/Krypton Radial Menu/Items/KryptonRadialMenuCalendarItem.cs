@@ -53,7 +53,7 @@ public class KryptonRadialMenuCalendarItem : KryptonRadialMenuItemBase
     }
 
     /// <inheritdoc />
-    public override string ToString() => string.IsNullOrEmpty(Text) ? "(Radial Calendar)" : Text;
+    public override string ToString() => (string.IsNullOrEmpty(Text) ? "(Radial Calendar)" : Text)!;
 
     #endregion
 
@@ -66,7 +66,7 @@ public class KryptonRadialMenuCalendarItem : KryptonRadialMenuItemBase
     [Description(@"Text displayed on the calendar sector.")]
     [DefaultValue(@"Date")]
     [Localizable(true)]
-    public string Text
+    public string? Text
     {
         get => _text;
         set

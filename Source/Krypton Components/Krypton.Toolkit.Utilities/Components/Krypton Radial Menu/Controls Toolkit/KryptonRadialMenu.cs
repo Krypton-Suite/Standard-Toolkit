@@ -532,14 +532,18 @@ public class KryptonRadialMenu : Component
     /// <param name="control">Control providing coordinate space.</param>
     /// <param name="clientPt">Client point inside <paramref name="control"/>.</param>
     /// <returns>True if the menu became displayed.</returns>
-    public bool Show(Control control, Point clientPt)
+    public bool Show(Control? control, Point clientPt)
     {
-        if (control == null)
+        while (true)
         {
-            throw new ArgumentNullException(nameof(control));
-        }
+            if (control == null)
+            {
+                throw new ArgumentNullException(nameof(control));
+            }
 
-        return Show(control, control.PointToScreen(clientPt));
+            var control1 = control;
+            clientPt = control1.PointToScreen(clientPt);
+        }
     }
 
     /// <summary>
@@ -639,7 +643,7 @@ public class KryptonRadialMenu : Component
     /// When <c>true</c>, re-imports whenever the source <see cref="KryptonContextMenu.Items"/> collection changes.
     /// Does not dual-host the same item instance in both UIs.
     /// </param>
-    public void ImportFrom(KryptonContextMenu menu, bool liveSync)
+    public void ImportFrom(KryptonContextMenu? menu, bool liveSync)
     {
         if (menu == null)
         {

@@ -62,7 +62,7 @@ public class KryptonRadialMenuColorPaletteItem : KryptonRadialMenuItemBase
     }
 
     /// <inheritdoc />
-    public override string ToString() => string.IsNullOrEmpty(Text) ? "(Radial Color Palette)" : Text;
+    public override string ToString() => (string.IsNullOrEmpty(Text) ? "(Radial Color Palette)" : Text)!;
 
     #endregion
 
@@ -75,7 +75,7 @@ public class KryptonRadialMenuColorPaletteItem : KryptonRadialMenuItemBase
     [Description(@"Text displayed on the color palette sector.")]
     [DefaultValue(@"Colors")]
     [Localizable(true)]
-    public string Text
+    public string? Text
     {
         get => _text;
         set
