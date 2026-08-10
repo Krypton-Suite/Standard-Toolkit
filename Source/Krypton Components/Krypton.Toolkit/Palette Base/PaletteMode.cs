@@ -308,65 +308,105 @@ public enum PaletteMode
     /// </summary>
     VisualStudio2010Render365,
 
-    ///// <summary>
-    ///// Specifies the visual studio 2012 dark palette theme.
-    ///// </summary>
-    //VisualStudio2012Dark,
+    /// <summary>
+    /// Specifies the visual studio 2012 dark palette theme.
+    /// </summary>
+    VisualStudio2012Dark,
 
-    ///// <summary>
-    ///// Specifies the visual studio 2012 light palette theme.
-    ///// </summary>
-    //VisualStudio2012Light,
+    /// <summary>
+    /// Specifies the visual studio 2012 light palette theme.
+    /// </summary>
+    VisualStudio2012Light,
 
-    ///// <summary>
-    ///// Specifies the visual studio 2013 dark palette theme.
-    ///// </summary>
-    //VisualStudio2013Dark,
+    /// <summary>
+    /// Specifies the visual studio 2012 blue palette theme.
+    /// </summary>
+    VisualStudio2012Blue,
 
-    ///// <summary>
-    ///// Specifies the visual studio 2013 light palette theme.
-    ///// </summary>
-    //VisualStudio2013Light,
+    /// <summary>
+    /// Specifies the visual studio 2013 dark palette theme.
+    /// </summary>
+    VisualStudio2013Dark,
 
-    ///// <summary>
-    ///// Specifies the visual studio 2015 dark palette theme.
-    ///// </summary>
-    //VisualStudio2015Dark,
+    /// <summary>
+    /// Specifies the visual studio 2013 light palette theme.
+    /// </summary>
+    VisualStudio2013Light,
 
-    ///// <summary>
-    ///// Specifies the visual studio 2015 light palette theme.
-    ///// </summary>
-    //VisualStudio2015Light,
+    /// <summary>
+    /// Specifies the visual studio 2013 blue palette theme.
+    /// </summary>
+    VisualStudio2013Blue,
 
-    ///// <summary>
-    ///// Specifies the visual studio 2017 dark palette theme.
-    ///// </summary>
-    //VisualStudio2017Dark,
+    /// <summary>
+    /// Specifies the visual studio 2015 dark palette theme.
+    /// </summary>
+    VisualStudio2015Dark,
 
-    ///// <summary>
-    ///// Specifies the visual studio 2017 light palette theme.
-    ///// </summary>
-    //VisualStudio2017Light,
+    /// <summary>
+    /// Specifies the visual studio 2015 light palette theme.
+    /// </summary>
+    VisualStudio2015Light,
 
-    ///// <summary>
-    ///// Specifies the visual studio 2019 dark palette theme.
-    ///// </summary>
-    //VisualStudio2019Dark,
+    /// <summary>
+    /// Specifies the visual studio 2015 blue palette theme.
+    /// </summary>
+    VisualStudio2015Blue,
 
-    ///// <summary>
-    ///// Specifies the visual studio 2019 light palette theme.
-    ///// </summary>
-    //VisualStudio2019Light,
+    /// <summary>
+    /// Specifies the visual studio 2017 dark palette theme.
+    /// </summary>
+    VisualStudio2017Dark,
+
+    /// <summary>
+    /// Specifies the visual studio 2017 light palette theme.
+    /// </summary>
+    VisualStudio2017Light,
+
+    /// <summary>
+    /// Specifies the visual studio 2017 blue palette theme.
+    /// </summary>
+    VisualStudio2017Blue,
+
+    /// <summary>
+    /// Specifies the visual studio 2019 dark palette theme.
+    /// </summary>
+    VisualStudio2019Dark,
+
+    /// <summary>
+    /// Specifies the visual studio 2019 light palette theme.
+    /// </summary>
+    VisualStudio2019Light,
+
+    /// <summary>
+    /// Specifies the visual studio 2019 blue palette theme.
+    /// </summary>
+    VisualStudio2019Blue,
 
     /// <summary>
     /// Specifies the visual studio 2022 dark palette theme.
     /// </summary>
     VisualStudio2022Dark,
 
-    ///// <summary>
-    ///// Specifies the visual studio 2022 light palette theme.
-    ///// </summary>
-    //VisualStudio2022Light,
+    /// <summary>
+    /// Specifies the visual studio 2022 light palette theme.
+    /// </summary>
+    VisualStudio2022Light,
+
+    /// <summary>
+    /// Specifies the visual studio 2022 blue palette theme.
+    /// </summary>
+    VisualStudio2022Blue,
+
+    /// <summary>
+    /// Specifies the visual studio 2026 dark palette theme (Fluent tokens).
+    /// </summary>
+    VisualStudio2026Dark,
+
+    /// <summary>
+    /// Specifies the visual studio 2026 light palette theme (Fluent tokens).
+    /// </summary>
+    VisualStudio2026Light,
 
     /// <summary>
     /// Material Light palette.
