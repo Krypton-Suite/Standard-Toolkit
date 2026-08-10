@@ -1600,6 +1600,14 @@ public sealed class KryptonManager : Component
                 return PaletteMaterialLightRipple;
             case PaletteMode.MaterialDarkRipple:
                 return PaletteMaterialDarkRipple;
+            case PaletteMode.MaterialLimeGreen:
+                return PaletteMaterialLimeGreen;
+            case PaletteMode.MaterialLimeGreenDark:
+                return PaletteMaterialLimeGreenDark;
+            case PaletteMode.MaterialLimeGreenRipple:
+                return PaletteMaterialLimeGreenRipple;
+            case PaletteMode.MaterialLimeGreenDarkRipple:
+                return PaletteMaterialLimeGreenDarkRipple;
             case PaletteMode.RetroGreen:
                 return PaletteRetroGreen;
             case PaletteMode.RetroBlue:
@@ -1643,6 +1651,18 @@ public sealed class KryptonManager : Component
                 return PaletteSparkleDeuteranopia;
             case PaletteMode.SparkleProtanopia:
                 return PaletteSparkleProtanopia;
+            case PaletteMode.MaterialHighContrast:
+                return PaletteMaterialHighContrast;
+            case PaletteMode.MaterialDeuteranopia:
+                return PaletteMaterialDeuteranopia;
+            case PaletteMode.MaterialProtanopia:
+                return PaletteMaterialProtanopia;
+            case PaletteMode.MaterialHighContrastRipple:
+                return PaletteMaterialHighContrastRipple;
+            case PaletteMode.MaterialDeuteranopiaRipple:
+                return PaletteMaterialDeuteranopiaRipple;
+            case PaletteMode.MaterialProtanopiaRipple:
+                return PaletteMaterialProtanopiaRipple;
             case PaletteMode.Office2007LimeGreen:
                 return PaletteOffice2007LimeGreen;
             case PaletteMode.Office2007LimeGreenDark:
@@ -2042,6 +2062,10 @@ public sealed class KryptonManager : Component
     public static PaletteMaterialDark PaletteMaterialDark => _paletteMaterialDark ??= new PaletteMaterialDark();
     public static PaletteMaterialLightRipple PaletteMaterialLightRipple => _paletteMaterialLightRipple ??= new PaletteMaterialLightRipple();
     public static PaletteMaterialDarkRipple PaletteMaterialDarkRipple => _paletteMaterialDarkRipple ??= new PaletteMaterialDarkRipple();
+    public static PaletteMaterialLimeGreen PaletteMaterialLimeGreen => _paletteMaterialLimeGreen ??= new PaletteMaterialLimeGreen();
+    public static PaletteMaterialLimeGreenDark PaletteMaterialLimeGreenDark => _paletteMaterialLimeGreenDark ??= new PaletteMaterialLimeGreenDark();
+    public static PaletteMaterialLimeGreenRipple PaletteMaterialLimeGreenRipple => _paletteMaterialLimeGreenRipple ??= new PaletteMaterialLimeGreenRipple();
+    public static PaletteMaterialLimeGreenDarkRipple PaletteMaterialLimeGreenDarkRipple => _paletteMaterialLimeGreenDarkRipple ??= new PaletteMaterialLimeGreenDarkRipple();
 
     /// <summary>
     /// Gets the DOS teal/green RetroUI palette.
@@ -2116,6 +2140,24 @@ public sealed class KryptonManager : Component
     /// <summary>Gets the Sparkle protanopia accessibility palette.</summary>
     public static PaletteSparkleProtanopia PaletteSparkleProtanopia => _paletteSparkleProtanopia ??= new PaletteSparkleProtanopia();
 
+    /// <summary>Gets the Material high-contrast accessibility palette.</summary>
+    public static PaletteMaterialHighContrast PaletteMaterialHighContrast => _paletteMaterialHighContrast ??= new PaletteMaterialHighContrast();
+
+    /// <summary>Gets the Material deuteranopia accessibility palette.</summary>
+    public static PaletteMaterialDeuteranopia PaletteMaterialDeuteranopia => _paletteMaterialDeuteranopia ??= new PaletteMaterialDeuteranopia();
+
+    /// <summary>Gets the Material protanopia accessibility palette.</summary>
+    public static PaletteMaterialProtanopia PaletteMaterialProtanopia => _paletteMaterialProtanopia ??= new PaletteMaterialProtanopia();
+
+    /// <summary>Gets the Material high-contrast accessibility palette with Ripple effect.</summary>
+    public static PaletteMaterialHighContrastRipple PaletteMaterialHighContrastRipple => _paletteMaterialHighContrastRipple ??= new PaletteMaterialHighContrastRipple();
+
+    /// <summary>Gets the Material deuteranopia accessibility palette with Ripple effect.</summary>
+    public static PaletteMaterialDeuteranopiaRipple PaletteMaterialDeuteranopiaRipple => _paletteMaterialDeuteranopiaRipple ??= new PaletteMaterialDeuteranopiaRipple();
+
+    /// <summary>Gets the Material protanopia accessibility palette with Ripple effect.</summary>
+    public static PaletteMaterialProtanopiaRipple PaletteMaterialProtanopiaRipple => _paletteMaterialProtanopiaRipple ??= new PaletteMaterialProtanopiaRipple();
+
     /// <summary>
     /// Gets the single instance of the light Lime Green variant Office 2007 palette.
     /// </summary>
@@ -2150,6 +2192,10 @@ public sealed class KryptonManager : Component
     private static PaletteMaterialDark? _paletteMaterialDark;
     private static PaletteMaterialLightRipple? _paletteMaterialLightRipple;
     private static PaletteMaterialDarkRipple? _paletteMaterialDarkRipple;
+    private static PaletteMaterialLimeGreen? _paletteMaterialLimeGreen;
+    private static PaletteMaterialLimeGreenDark? _paletteMaterialLimeGreenDark;
+    private static PaletteMaterialLimeGreenRipple? _paletteMaterialLimeGreenRipple;
+    private static PaletteMaterialLimeGreenDarkRipple? _paletteMaterialLimeGreenDarkRipple;
 
     private static PaletteRetroGreen? _paletteRetroGreen;
     private static PaletteRetroBlue? _paletteRetroBlue;
@@ -2171,6 +2217,12 @@ public sealed class KryptonManager : Component
     private static PaletteSparkleHighContrast? _paletteSparkleHighContrast;
     private static PaletteSparkleDeuteranopia? _paletteSparkleDeuteranopia;
     private static PaletteSparkleProtanopia? _paletteSparkleProtanopia;
+    private static PaletteMaterialHighContrast? _paletteMaterialHighContrast;
+    private static PaletteMaterialDeuteranopia? _paletteMaterialDeuteranopia;
+    private static PaletteMaterialProtanopia? _paletteMaterialProtanopia;
+    private static PaletteMaterialHighContrastRipple? _paletteMaterialHighContrastRipple;
+    private static PaletteMaterialDeuteranopiaRipple? _paletteMaterialDeuteranopiaRipple;
+    private static PaletteMaterialProtanopiaRipple? _paletteMaterialProtanopiaRipple;
 
     private static PaletteOffice2007LimeGreen? _paletteOffice2007LimeGreen;
     private static PaletteOffice2007LimeGreenDark? _paletteOffice2007LimeGreenDark;
@@ -2531,6 +2583,16 @@ public sealed class KryptonManager : Component
             case PaletteMode.MaterialDark:
             case PaletteMode.MaterialLightRipple:
             case PaletteMode.MaterialDarkRipple:
+            case PaletteMode.MaterialLimeGreen:
+            case PaletteMode.MaterialLimeGreenDark:
+            case PaletteMode.MaterialLimeGreenRipple:
+            case PaletteMode.MaterialLimeGreenDarkRipple:
+            case PaletteMode.MaterialHighContrast:
+            case PaletteMode.MaterialDeuteranopia:
+            case PaletteMode.MaterialProtanopia:
+            case PaletteMode.MaterialHighContrastRipple:
+            case PaletteMode.MaterialDeuteranopiaRipple:
+            case PaletteMode.MaterialProtanopiaRipple:
                 // TODO create our own Material images
                 Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Microsoft365ToolBarImages);
                 break;

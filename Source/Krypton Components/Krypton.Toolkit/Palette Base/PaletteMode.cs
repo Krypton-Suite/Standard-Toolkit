@@ -429,6 +429,26 @@ public enum PaletteMode
     MaterialDarkRipple,
 
     /// <summary>
+    /// Material Light Lime Green palette.
+    /// </summary>
+    MaterialLimeGreen,
+
+    /// <summary>
+    /// Material Dark Lime Green palette.
+    /// </summary>
+    MaterialLimeGreenDark,
+
+    /// <summary>
+    /// Material Light Lime Green palette with Ripple effect.
+    /// </summary>
+    MaterialLimeGreenRipple,
+
+    /// <summary>
+    /// Material Dark Lime Green palette with Ripple effect.
+    /// </summary>
+    MaterialLimeGreenDarkRipple,
+
+    /// <summary>
     /// DOS teal/green RetroUI palette.
     /// </summary>
     RetroGreen,
@@ -527,6 +547,36 @@ public enum PaletteMode
     /// Sparkle renderer with protanopia-friendly colours.
     /// </summary>
     SparkleProtanopia,
+
+    /// <summary>
+    /// Material renderer with fixed high-contrast colours.
+    /// </summary>
+    MaterialHighContrast,
+
+    /// <summary>
+    /// Material renderer with deuteranopia-friendly colours.
+    /// </summary>
+    MaterialDeuteranopia,
+
+    /// <summary>
+    /// Material renderer with protanopia-friendly colours.
+    /// </summary>
+    MaterialProtanopia,
+
+    /// <summary>
+    /// Material High Contrast accessibility palette with Ripple effect.
+    /// </summary>
+    MaterialHighContrastRipple,
+
+    /// <summary>
+    /// Material Deuteranopia accessibility palette with Ripple effect.
+    /// </summary>
+    MaterialDeuteranopiaRipple,
+
+    /// <summary>
+    /// Material Protanopia accessibility palette with Ripple effect.
+    /// </summary>
+    MaterialProtanopiaRipple,
 
     /// <summary>
     /// Specifies the light Lime Green color scheme variant of the Office 2007 appearance.
