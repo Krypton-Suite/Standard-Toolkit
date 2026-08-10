@@ -45,6 +45,12 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#4168](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4168), High contrast themes
+   * Added builtin `PaletteMode` themes `HighContrast`, `Deuteranopia`, and `Protanopia` (fixed designed palettes) plus Office 2007 / 2010 / 2013 and Sparkle renderer variants, selectable via ThemeComboBox / `KryptonManager.GlobalPaletteMode`.
+   * High Contrast themes paint combo / context-menu client backs black (not `SystemColors.Window`).
+   * Deuteranopia / Protanopia fix secondary-header and default-button text contrast.
+   * Protanopia: stronger magenta link contrast and dark hover text on pale brown tracking.
+   * Deuteranopia / Protanopia AcceptButton default text is white (family bases return empty content colours for `NormalDefaultOverride`).
 * Implemented, `ThemeManager.RegisterCustomTheme` so named custom themes appear in theme selectors.
 * Implemented, Builtin Lime Green palette theme (`Palette Builtin/Lime Green`): `Office2007LimeGreen(Dark)`, `Office2010LimeGreen(Dark)`, and `Microsoft365LimeGreen(Dark)` `PaletteMode` entries, wired into `KryptonManager`, `PaletteModeStrings.SupportedThemes`, and theme selectors alongside every other builtin theme; TestForm's Lime Green Theme demo now applies these via `ThemeManager.ApplyTheme(PaletteMode, KryptonManager)` instead of a runtime-built custom palette.
 * Implemented [#4142](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4142), Use `ThrowHelper`
