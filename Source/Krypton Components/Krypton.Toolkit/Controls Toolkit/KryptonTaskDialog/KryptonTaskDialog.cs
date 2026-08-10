@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -273,6 +273,67 @@ public class KryptonTaskDialog : IDisposable
 
         return Dialog.DialogResult;
     }
+
+#if NET9_0_OR_GREATER
+    /// <summary>
+    /// Shows the dialog modeless asynchronously.<br/>
+    /// The returned task completes when the form is closed or disposed.
+    /// </summary>
+    /// <param name="owner">The parent window that launched this dialog.</param>
+    /// <returns>A task that completes when the form is closed or disposed.</returns>
+    public Task ShowAsync(IWin32Window? owner = null)
+    {
+        if (!Dialog.Visible)
+        {
+            UpdateFormSizing();
+            UpdateFormPosition(owner);
+            ResetFormDialogResult();
+
+            return owner is not null
+                ? _form.ShowAsync(owner)
+                : _form.ShowAsync();
+        }
+
+        KryptonMessageBox.Show(
+            "The form is already visible and ShowAsync() cannot be called again.",
+            "KryptonTaskDialog",
+            KryptonMessageBoxButtons.OK,
+            KryptonMessageBoxIcon.Exclamation);
+
+        if (!_form.TopMost)
+        {
+            _form.BringToFront();
+        }
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Shows as a modal dialog asynchronously.<br/>
+    /// The returned task completes when the dialog has been dismissed.
+    /// </summary>
+    /// <param name="owner">The parent window that launched this dialog.</param>
+    /// <returns>A task that produces the dialog result when the form is closed or disposed.</returns>
+    public async Task<DialogResult> ShowDialogAsync(IWin32Window? owner = null)
+    {
+        UpdateFormSizing();
+        UpdateFormPosition(owner);
+        ResetFormDialogResult();
+
+        // The standard form's DialogResult property always returns Cancel when e.Cancel is set to true.<br/>
+        // Before that happens the DialogResult is stored in DialogResultInternal.
+        if (owner is not null)
+        {
+            await _form.ShowDialogAsync(owner).ConfigureAwait(true);
+        }
+        else
+        {
+            await _form.ShowDialogAsync().ConfigureAwait(true);
+        }
+
+        return Dialog.DialogResult;
+    }
+#endif
 
     /// <summary>
     /// Will close the dialog window.<br/>

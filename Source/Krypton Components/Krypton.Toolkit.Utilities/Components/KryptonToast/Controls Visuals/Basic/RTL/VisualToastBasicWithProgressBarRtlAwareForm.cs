@@ -312,5 +312,23 @@ internal partial class VisualToastBasicWithProgressBarRtlAwareForm : VisualToast
         kt.Show();
     }
 
+#if NET9_0_OR_GREATER
+    internal static async Task<bool> InternalShowWithBooleanReturnValueAsync(KryptonBasicToastData toastNotificationData)
+    {
+        using var toast = new VisualToastBasicWithProgressBarRtlAwareForm(toastNotificationData);
+
+        return await toast.ShowDialogAsync().ConfigureAwait(true) == DialogResult.OK && toast.ReturnValue;
+    }
+
+    internal static async Task<CheckState> InternalShowWithCheckStateReturnValueAsync(KryptonBasicToastData toastNotificationData)
+    {
+        using var toast = new VisualToastBasicWithProgressBarRtlAwareForm(toastNotificationData);
+
+        return await toast.ShowDialogAsync().ConfigureAwait(true) == DialogResult.OK
+            ? toast.ReturnCheckBoxStateValue
+            : CheckState.Unchecked;
+    }
+#endif
+
     #endregion
 }

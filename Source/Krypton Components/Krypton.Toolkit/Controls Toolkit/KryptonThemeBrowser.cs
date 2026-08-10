@@ -15,6 +15,15 @@ public class KryptonThemeBrowser
 
     public static void Show(KryptonThemeBrowserData themeBrowserData, RightToLeftLayout? rightToLeftLayout = RightToLeftLayout.LeftToRight) => ShowCore(themeBrowserData, rightToLeftLayout);
 
+#if NET9_0_OR_GREATER
+    /// <summary>Displays the theme browser asynchronously.</summary>
+    /// <param name="themeBrowserData">The theme browser data.</param>
+    /// <param name="rightToLeftLayout">Optional RTL layout mode.</param>
+    /// <returns>A task that completes when the browser is closed.</returns>
+    public static Task ShowAsync(KryptonThemeBrowserData themeBrowserData, RightToLeftLayout? rightToLeftLayout = RightToLeftLayout.LeftToRight) =>
+        ShowCoreAsync(themeBrowserData, rightToLeftLayout);
+#endif
+
     #endregion
 
     #region Implementation
@@ -35,6 +44,25 @@ public class KryptonThemeBrowser
             ktbRTL.ShowDialog();
         }
     }
+
+#if NET9_0_OR_GREATER
+    private static async Task ShowCoreAsync(KryptonThemeBrowserData themeBrowserData,
+        RightToLeftLayout? layout)
+    {
+        if (layout == RightToLeftLayout.LeftToRight)
+        {
+            using var ktb = new VisualThemeBrowserForm(themeBrowserData);
+
+            await ktb.ShowDialogAsync().ConfigureAwait(true);
+        }
+        else
+        {
+            using var ktbRTL = new VisualThemeBrowserFormRtlAware(themeBrowserData);
+
+            await ktbRTL.ShowDialogAsync().ConfigureAwait(true);
+        }
+    }
+#endif
 
     #endregion
 }

@@ -1,208 +1,196 @@
 ﻿#region BSD License
 /*
- * 
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
- *  
+ *
  */
 #endregion
 
-// ReSharper disable ClassNeverInstantiated.Global
-// ReSharper disable UnusedMethodReturnValue.Global
+#if NET9_0_OR_GREATER
 
 namespace Krypton.Toolkit;
 
 /// <summary>
-/// Displays a message box that can contain text, buttons, and symbols that inform and instruct the user.
-/// The API's mimic the "legacy ones" from WinForms, with the addition of optional params to
-/// - force ShowCtrl
-/// - Hide the close button
-/// - "displayHelpButton" has been moved in order to not collide with the above options
-/// "HelpInfo" is used instead of passing individual elements to the help location(s)
+/// Asynchronous dialog helpers for <see cref="KryptonMessageBox"/> (.NET 9+ / Windows Forms async forms).
 /// </summary>
-[ToolboxItem(false)]
-[DesignerCategory(@"code")]
 public static partial class KryptonMessageBox
 {
     #region Public
 
     /// <summary>
-    /// Displays a message box in front+center of the application and with the specified text, caption and buttons.
+    /// Displays a message box asynchronously with the specified text.
     /// </summary>
     /// <param name="text">The text to display in the message box.</param>
     /// <param name="showCtrlCopy">Show extraText in title. If null (default) then only when Warning or Error icon is used.</param>
     /// <param name="showCloseButton">Displays the close button. If null (default), then the close button will be displayed.</param>
     /// <param name="showCopyButton">Displays a 'Copy' button that copies the message box contents to the clipboard. If null (default), the button is not shown.</param>
-    /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-    public static DialogResult Show(string text, 
+    /// <returns>A task that produces one of the <see cref="DialogResult"/> values when the message box is closed.</returns>
+    public static Task<DialogResult> ShowAsync(string text,
         bool? showCtrlCopy = null,
         bool? showCloseButton = null,
         bool? showCopyButton = null) =>
-        ShowCore(null, text, string.Empty,
+        ShowCoreAsync(null, text, string.Empty,
             showCtrlCopy: showCtrlCopy,
             showHelpButton: false,
             showCloseButton: showCloseButton,
             showCopyButton: showCopyButton);
 
     /// <summary>
-    /// Displays a message box in front+center of the application and with the specified text, caption and buttons.
+    /// Displays a message box asynchronously with the specified text and caption.
     /// </summary>
     /// <param name="text">The text to display in the message box.</param>
-    /// <param name="caption" default="string.Empty">The text to display in the title bar of the message box. default="string.Empty"</param>
+    /// <param name="caption">The text to display in the title bar of the message box.</param>
     /// <param name="showCtrlCopy">Show extraText in title. If null (default) then only when Warning or Error icon is used.</param>
     /// <param name="showCloseButton">Displays the close button. If null (default), then the close button will be displayed.</param>
     /// <param name="showCopyButton">Displays a 'Copy' button that copies the message box contents to the clipboard. If null (default), the button is not shown.</param>
-    /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-    public static DialogResult Show(string text, string caption, bool? showCtrlCopy = null,
+    /// <returns>A task that produces one of the <see cref="DialogResult"/> values when the message box is closed.</returns>
+    public static Task<DialogResult> ShowAsync(string text, string caption, bool? showCtrlCopy = null,
         bool? showCloseButton = null,
         bool? showCopyButton = null) =>
-        ShowCore(null, text, caption,
+        ShowCoreAsync(null, text, caption,
             showCtrlCopy: showCtrlCopy,
             showHelpButton: false,
             showCloseButton: showCloseButton,
             showCopyButton: showCopyButton);
 
-
     /// <summary>
-    /// Displays a message box in front+center of the application and with the specified text, caption and buttons.
+    /// Displays a message box asynchronously with the specified text, caption and buttons.
     /// </summary>
     /// <param name="text">The text to display in the message box.</param>
-    /// <param name="caption" default="string.Empty">The text to display in the title bar of the message box. default="string.Empty"</param>
-    /// <param name="buttons">One of the System.Windows.Forms.KryptonMessageBoxButtons values that specifies which buttons to display in the message box.</param>
+    /// <param name="caption">The text to display in the title bar of the message box.</param>
+    /// <param name="buttons">Which buttons to display in the message box.</param>
     /// <param name="showCtrlCopy">Show extraText in title. If null (default) then only when Warning or Error icon is used.</param>
     /// <param name="showCloseButton">Displays the close button. If null (default), then the close button will be displayed.</param>
     /// <param name="showCopyButton">Displays a 'Copy' button that copies the message box contents to the clipboard. If null (default), the button is not shown.</param>
-    /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-    public static DialogResult Show(string text, string caption, KryptonMessageBoxButtons buttons,
+    /// <returns>A task that produces one of the <see cref="DialogResult"/> values when the message box is closed.</returns>
+    public static Task<DialogResult> ShowAsync(string text, string caption, KryptonMessageBoxButtons buttons,
         bool? showCtrlCopy = null,
         bool? showCloseButton = null,
         bool? showCopyButton = null) =>
-        ShowCore(null, text, caption, buttons,
+        ShowCoreAsync(null, text, caption, buttons,
             showCtrlCopy: showCtrlCopy,
             showHelpButton: false,
             showCloseButton: showCloseButton,
             showCopyButton: showCopyButton);
 
     /// <summary>
-    /// Displays a message box in front+center of the application and with the specified text, caption and buttons.
+    /// Displays a message box asynchronously with the specified text, caption, buttons and icon.
     /// </summary>
     /// <param name="text">The text to display in the message box.</param>
-    /// <param name="caption" default="string.Empty">The text to display in the title bar of the message box. default="string.Empty"</param>
-    /// <param name="buttons">One of the System.Windows.Forms.KryptonMessageBoxButtons values that specifies which buttons to display in the message box.</param>
-    /// <param name="icon">One of the KryptonMessageBoxIcon values that specifies which icon to display in the message box.</param>
+    /// <param name="caption">The text to display in the title bar of the message box.</param>
+    /// <param name="buttons">Which buttons to display in the message box.</param>
+    /// <param name="icon">Which icon to display in the message box.</param>
     /// <param name="showCtrlCopy">Show extraText in title. If null (default) then only when Warning or Error icon is used.</param>
     /// <param name="showCloseButton">Displays the close button. If null (default), then the close button will be displayed.</param>
     /// <param name="showCopyButton">Displays a 'Copy' button that copies the message box contents to the clipboard. If null (default), the button is not shown.</param>
-    /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-    public static DialogResult Show(string text, string caption, KryptonMessageBoxButtons buttons, KryptonMessageBoxIcon icon,
+    /// <returns>A task that produces one of the <see cref="DialogResult"/> values when the message box is closed.</returns>
+    public static Task<DialogResult> ShowAsync(string text, string caption, KryptonMessageBoxButtons buttons, KryptonMessageBoxIcon icon,
         bool? showCtrlCopy = null,
         bool? showCloseButton = null,
         bool? showCopyButton = null) =>
-        ShowCore(null, text, caption, buttons, icon,
+        ShowCoreAsync(null, text, caption, buttons, icon,
             showCtrlCopy: showCtrlCopy,
             showHelpButton: false,
             showCloseButton: showCloseButton,
             showCopyButton: showCopyButton);
 
     /// <summary>
-    /// Displays a message box in front+center of the application and with the specified text, caption and buttons.
+    /// Displays a message box asynchronously with the specified text, caption, buttons, icon and default button.
     /// </summary>
     /// <param name="text">The text to display in the message box.</param>
-    /// <param name="caption" default="string.Empty">The text to display in the title bar of the message box. default="string.Empty"</param>
-    /// <param name="buttons">One of the System.Windows.Forms.KryptonMessageBoxButtons values that specifies which buttons to display in the message box.</param>
-    /// <param name="icon">One of the KryptonMessageBoxIcon values that specifies which icon to display in the message box.</param>
+    /// <param name="caption">The text to display in the title bar of the message box.</param>
+    /// <param name="buttons">Which buttons to display in the message box.</param>
+    /// <param name="icon">Which icon to display in the message box.</param>
+    /// <param name="defaultButton">The default button for the message box.</param>
     /// <param name="showCtrlCopy">Show extraText in title. If null (default) then only when Warning or Error icon is used.</param>
     /// <param name="showCloseButton">Displays the close button. If null (default), then the close button will be displayed.</param>
     /// <param name="showCopyButton">Displays a 'Copy' button that copies the message box contents to the clipboard. If null (default), the button is not shown.</param>
-    /// <param name="defaultButton">One of the KryptonMessageBoxDefaultButton values that specifies the default button for the message box.</param>
-    /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-    public static DialogResult Show(string text, string caption, KryptonMessageBoxButtons buttons, 
+    /// <returns>A task that produces one of the <see cref="DialogResult"/> values when the message box is closed.</returns>
+    public static Task<DialogResult> ShowAsync(string text, string caption, KryptonMessageBoxButtons buttons,
         KryptonMessageBoxIcon icon, KryptonMessageBoxDefaultButton defaultButton,
         bool? showCtrlCopy = null,
         bool? showCloseButton = null,
         bool? showCopyButton = null) =>
-        ShowCore(null, text, caption, buttons, icon, defaultButton,
+        ShowCoreAsync(null, text, caption, buttons, icon, defaultButton,
             showCtrlCopy: showCtrlCopy,
             showHelpButton: false,
             showCloseButton: showCloseButton,
             showCopyButton: showCopyButton);
 
     /// <summary>
-    /// Displays a message box in front+center of the application and with the specified text, caption and buttons.
+    /// Displays a message box asynchronously with the specified text, caption, buttons, icon, default button and options.
     /// </summary>
     /// <param name="text">The text to display in the message box.</param>
-    /// <param name="caption" default="string.Empty">The text to display in the title bar of the message box. default="string.Empty"</param>
-    /// <param name="buttons">One of the System.Windows.Forms.KryptonMessageBoxButtons values that specifies which buttons to display in the message box.</param>
-    /// <param name="icon">One of the KryptonMessageBoxIcon values that specifies which icon to display in the message box.</param>
+    /// <param name="caption">The text to display in the title bar of the message box.</param>
+    /// <param name="buttons">Which buttons to display in the message box.</param>
+    /// <param name="icon">Which icon to display in the message box.</param>
+    /// <param name="defaultButton">The default button for the message box.</param>
+    /// <param name="options">Display and association options for the message box.</param>
     /// <param name="showCtrlCopy">Show extraText in title. If null (default) then only when Warning or Error icon is used.</param>
     /// <param name="showCloseButton">Displays the close button. If null (default), then the close button will be displayed.</param>
     /// <param name="showCopyButton">Displays a 'Copy' button that copies the message box contents to the clipboard. If null (default), the button is not shown.</param>
-    /// <param name="defaultButton">One of the KryptonMessageBoxDefaultButton values that specifies the default button for the message box.</param>
-    /// <param name="options">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
-    /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-    public static DialogResult Show(string text, string caption, KryptonMessageBoxButtons buttons,
+    /// <returns>A task that produces one of the <see cref="DialogResult"/> values when the message box is closed.</returns>
+    public static Task<DialogResult> ShowAsync(string text, string caption, KryptonMessageBoxButtons buttons,
         KryptonMessageBoxIcon icon, KryptonMessageBoxDefaultButton defaultButton, MessageBoxOptions options,
         bool? showCtrlCopy = null,
         bool? showCloseButton = null,
         bool? showCopyButton = null) =>
-        ShowCore(null, text, caption, buttons, icon, defaultButton, options,
+        ShowCoreAsync(null, text, caption, buttons, icon, defaultButton, options,
             showCtrlCopy: showCtrlCopy,
             showHelpButton: false,
             showCloseButton: showCloseButton,
             showCopyButton: showCopyButton);
 
     /// <summary>
-    /// Displays a message box in front+center of the application and with the specified text, caption and buttons.
+    /// Displays a message box asynchronously with the specified text, caption, buttons, icon, default button, options and help info.
     /// </summary>
     /// <param name="text">The text to display in the message box.</param>
-    /// <param name="caption" default="string.Empty">The text to display in the title bar of the message box. default="string.Empty"</param>
-    /// <param name="buttons">One of the System.Windows.Forms.KryptonMessageBoxButtons values that specifies which buttons to display in the message box.</param>
-    /// <param name="icon">One of the KryptonMessageBoxIcon values that specifies which icon to display in the message box.</param>
+    /// <param name="caption">The text to display in the title bar of the message box.</param>
+    /// <param name="buttons">Which buttons to display in the message box.</param>
+    /// <param name="icon">Which icon to display in the message box.</param>
+    /// <param name="defaultButton">The default button for the message box.</param>
+    /// <param name="options">Display and association options for the message box.</param>
+    /// <param name="helpInfo">Contains the help data of the <see cref="KryptonMessageBox"/>.</param>
     /// <param name="showCtrlCopy">Show extraText in title. If null (default) then only when Warning or Error icon is used.</param>
     /// <param name="showCloseButton">Displays the close button. If null (default), then the close button will be displayed.</param>
     /// <param name="showCopyButton">Displays a 'Copy' button that copies the message box contents to the clipboard. If null (default), the button is not shown.</param>
-    /// <param name="defaultButton">One of the KryptonMessageBoxDefaultButton values that specifies the default button for the message box.</param>
-    /// <param name="options">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
-    /// <param name="helpInfo">Contains the help data of the <see cref="KryptonMessageBox"/>.</param>
-    /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-    public static DialogResult Show(string text, string caption, KryptonMessageBoxButtons buttons,
+    /// <returns>A task that produces one of the <see cref="DialogResult"/> values when the message box is closed.</returns>
+    public static Task<DialogResult> ShowAsync(string text, string caption, KryptonMessageBoxButtons buttons,
         KryptonMessageBoxIcon icon, KryptonMessageBoxDefaultButton defaultButton, MessageBoxOptions options, HelpInfo helpInfo,
         bool? showCtrlCopy = null,
         bool? showCloseButton = null,
         bool? showCopyButton = null) =>
-        ShowCore(null, text, caption, buttons, icon, defaultButton, options, helpInfo,
+        ShowCoreAsync(null, text, caption, buttons, icon, defaultButton, options, helpInfo,
             showCtrlCopy: showCtrlCopy,
             showHelpButton: false,
             showCloseButton: showCloseButton,
             showCopyButton: showCopyButton);
 
     /// <summary>
-    /// Displays a message box in front+center of the application and with the specified text, caption and buttons.
+    /// Displays a message box asynchronously with an optional Help button and icon overlay.
     /// </summary>
     /// <param name="text">The text to display in the message box.</param>
-    /// <param name="caption" default="string.Empty">The text to display in the title bar of the message box. default="string.Empty"</param>
-    /// <param name="buttons">One of the System.Windows.Forms.KryptonMessageBoxButtons values that specifies which buttons to display in the message box.</param>
-    /// <param name="displayHelpButton">Displays a 'Help' button, as seen in .NET 6 and higher.</param>
-    /// <param name="icon">One of the KryptonMessageBoxIcon values that specifies which icon to display in the message box.</param>
+    /// <param name="caption">The text to display in the title bar of the message box.</param>
+    /// <param name="buttons">Which buttons to display in the message box.</param>
+    /// <param name="displayHelpButton">Displays a Help button.</param>
+    /// <param name="icon">Which icon to display in the message box.</param>
+    /// <param name="defaultButton">The default button for the message box.</param>
+    /// <param name="options">Display and association options for the message box.</param>
     /// <param name="showCtrlCopy">Show extraText in title. If null (default) then only when Warning or Error icon is used.</param>
     /// <param name="showCloseButton">Displays the close button. If null (default), then the close button will be displayed.</param>
     /// <param name="showCopyButton">Displays a 'Copy' button that copies the message box contents to the clipboard. If null (default), the button is not shown.</param>
     /// <param name="overlayImage">Optional badge image drawn on top of the message icon.</param>
     /// <param name="overlayImagePosition">Corner placement for <paramref name="overlayImage"/>; defaults to bottom-right.</param>
-    /// <param name="defaultButton">One of the KryptonMessageBoxDefaultButton values that specifies the default button for the message box.</param>
-    /// <param name="options">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
-    /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-    public static DialogResult Show(string text, string caption, KryptonMessageBoxButtons buttons, bool displayHelpButton,
+    /// <returns>A task that produces one of the <see cref="DialogResult"/> values when the message box is closed.</returns>
+    public static Task<DialogResult> ShowAsync(string text, string caption, KryptonMessageBoxButtons buttons, bool displayHelpButton,
         KryptonMessageBoxIcon icon, KryptonMessageBoxDefaultButton defaultButton, MessageBoxOptions options,
         bool? showCtrlCopy = null,
         bool? showCloseButton = null,
         bool? showCopyButton = null,
         Image? overlayImage = null,
         OverlayImagePosition overlayImagePosition = OverlayImagePosition.BottomRight) =>
-        ShowCore(null, text, caption, buttons, icon, defaultButton, options,
+        ShowCoreAsync(null, text, caption, buttons, icon, defaultButton, options,
             showCtrlCopy: showCtrlCopy,
             showHelpButton: displayHelpButton,
             showCloseButton: showCloseButton,
@@ -210,194 +198,194 @@ public static partial class KryptonMessageBox
             overlayImage: KryptonOverlayImage.FromImage(overlayImage, overlayImagePosition));
 
     /// <summary>
-    /// Displays a message box in front+center of the application and with the specified text, caption and buttons.
+    /// Displays a message box asynchronously in front of the specified owner with the specified text.
     /// </summary>
     /// <param name="owner">Owner of the modal dialog box.</param>
     /// <param name="text">The text to display in the message box.</param>
     /// <param name="showCtrlCopy">Show extraText in title. If null (default) then only when Warning or Error icon is used.</param>
     /// <param name="showCloseButton">Displays the close button. If null (default), then the close button will be displayed.</param>
     /// <param name="showCopyButton">Displays a 'Copy' button that copies the message box contents to the clipboard. If null (default), the button is not shown.</param>
-    /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-    public static DialogResult Show(IWin32Window owner, string text,
+    /// <returns>A task that produces one of the <see cref="DialogResult"/> values when the message box is closed.</returns>
+    public static Task<DialogResult> ShowAsync(IWin32Window owner, string text,
         bool? showCtrlCopy = null,
         bool? showCloseButton = null,
         bool? showCopyButton = null) =>
-        ShowCore(owner, text, string.Empty,
+        ShowCoreAsync(owner, text, string.Empty,
             showCtrlCopy: showCtrlCopy,
             showHelpButton: false,
             showCloseButton: showCloseButton,
             showCopyButton: showCopyButton);
 
     /// <summary>
-    /// Displays a message box in front+center of the application and with the specified text, caption and buttons.
+    /// Displays a message box asynchronously in front of the specified owner with the specified text and caption.
     /// </summary>
     /// <param name="owner">Owner of the modal dialog box.</param>
     /// <param name="text">The text to display in the message box.</param>
-    /// <param name="caption" default="string.Empty">The text to display in the title bar of the message box. default="string.Empty"</param>
+    /// <param name="caption">The text to display in the title bar of the message box.</param>
     /// <param name="showCtrlCopy">Show extraText in title. If null (default) then only when Warning or Error icon is used.</param>
     /// <param name="showCloseButton">Displays the close button. If null (default), then the close button will be displayed.</param>
     /// <param name="showCopyButton">Displays a 'Copy' button that copies the message box contents to the clipboard. If null (default), the button is not shown.</param>
-    /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-    public static DialogResult Show(IWin32Window owner, string? text, string? caption, bool? showCtrlCopy = null,
+    /// <returns>A task that produces one of the <see cref="DialogResult"/> values when the message box is closed.</returns>
+    public static Task<DialogResult> ShowAsync(IWin32Window owner, string? text, string? caption, bool? showCtrlCopy = null,
         bool? showCloseButton = null,
         bool? showCopyButton = null) =>
-        ShowCore(owner, text, caption,
+        ShowCoreAsync(owner, text, caption,
             showCtrlCopy: showCtrlCopy,
             showHelpButton: false,
             showCloseButton: showCloseButton,
             showCopyButton: showCopyButton);
 
-
     /// <summary>
-    /// Displays a message box in front+center of the application and with the specified text, caption and buttons.
+    /// Displays a message box asynchronously in front of the specified owner with the specified text, caption and buttons.
     /// </summary>
     /// <param name="owner">Owner of the modal dialog box.</param>
     /// <param name="text">The text to display in the message box.</param>
-    /// <param name="caption" default="string.Empty">The text to display in the title bar of the message box. default="string.Empty"</param>
-    /// <param name="buttons">One of the System.Windows.Forms.KryptonMessageBoxButtons values that specifies which buttons to display in the message box.</param>
+    /// <param name="caption">The text to display in the title bar of the message box.</param>
+    /// <param name="buttons">Which buttons to display in the message box.</param>
     /// <param name="showCtrlCopy">Show extraText in title. If null (default) then only when Warning or Error icon is used.</param>
     /// <param name="showCloseButton">Displays the close button. If null (default), then the close button will be displayed.</param>
     /// <param name="showCopyButton">Displays a 'Copy' button that copies the message box contents to the clipboard. If null (default), the button is not shown.</param>
-    /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-    public static DialogResult Show(IWin32Window owner, string? text, string? caption, KryptonMessageBoxButtons buttons,
+    /// <returns>A task that produces one of the <see cref="DialogResult"/> values when the message box is closed.</returns>
+    public static Task<DialogResult> ShowAsync(IWin32Window owner, string? text, string? caption, KryptonMessageBoxButtons buttons,
         bool? showCtrlCopy = null,
         bool? showCloseButton = null,
         bool? showCopyButton = null) =>
-        ShowCore(owner, text, caption, buttons,
+        ShowCoreAsync(owner, text, caption, buttons,
             showCtrlCopy: showCtrlCopy,
             showHelpButton: false,
             showCloseButton: showCloseButton,
             showCopyButton: showCopyButton);
 
     /// <summary>
-    /// Displays a message box in front+center of the application and with the specified text, caption and buttons.
+    /// Displays a message box asynchronously in front of the specified owner with the specified text, caption, buttons and icon.
     /// </summary>
     /// <param name="owner">Owner of the modal dialog box.</param>
     /// <param name="text">The text to display in the message box.</param>
-    /// <param name="caption" default="string.Empty">The text to display in the title bar of the message box. default="string.Empty"</param>
-    /// <param name="buttons">One of the System.Windows.Forms.KryptonMessageBoxButtons values that specifies which buttons to display in the message box.</param>
-    /// <param name="icon">One of the KryptonMessageBoxIcon values that specifies which icon to display in the message box.</param>
+    /// <param name="caption">The text to display in the title bar of the message box.</param>
+    /// <param name="buttons">Which buttons to display in the message box.</param>
+    /// <param name="icon">Which icon to display in the message box.</param>
     /// <param name="showCtrlCopy">Show extraText in title. If null (default) then only when Warning or Error icon is used.</param>
     /// <param name="showCloseButton">Displays the close button. If null (default), then the close button will be displayed.</param>
     /// <param name="showCopyButton">Displays a 'Copy' button that copies the message box contents to the clipboard. If null (default), the button is not shown.</param>
-    /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-    public static DialogResult Show(IWin32Window owner, string? text, string? caption, KryptonMessageBoxButtons buttons, KryptonMessageBoxIcon icon,
+    /// <returns>A task that produces one of the <see cref="DialogResult"/> values when the message box is closed.</returns>
+    public static Task<DialogResult> ShowAsync(IWin32Window owner, string? text, string? caption, KryptonMessageBoxButtons buttons, KryptonMessageBoxIcon icon,
         bool? showCtrlCopy = null,
         bool? showCloseButton = null,
         bool? showCopyButton = null) =>
-        ShowCore(owner, text, caption, buttons, icon,
+        ShowCoreAsync(owner, text, caption, buttons, icon,
             showCtrlCopy: showCtrlCopy,
             showHelpButton: false,
             showCloseButton: showCloseButton,
             showCopyButton: showCopyButton);
 
     /// <summary>
-    /// Displays a message box in front+center of the application and with the specified text, caption and buttons.
+    /// Displays a message box asynchronously in front of the specified owner with the specified text, caption, buttons, icon and default button.
     /// </summary>
     /// <param name="owner">Owner of the modal dialog box.</param>
     /// <param name="text">The text to display in the message box.</param>
-    /// <param name="caption" default="string.Empty">The text to display in the title bar of the message box. default="string.Empty"</param>
-    /// <param name="buttons">One of the System.Windows.Forms.KryptonMessageBoxButtons values that specifies which buttons to display in the message box.</param>
-    /// <param name="icon">One of the KryptonMessageBoxIcon values that specifies which icon to display in the message box.</param>
+    /// <param name="caption">The text to display in the title bar of the message box.</param>
+    /// <param name="buttons">Which buttons to display in the message box.</param>
+    /// <param name="icon">Which icon to display in the message box.</param>
+    /// <param name="defaultButton">The default button for the message box.</param>
     /// <param name="showCtrlCopy">Show extraText in title. If null (default) then only when Warning or Error icon is used.</param>
     /// <param name="showCloseButton">Displays the close button. If null (default), then the close button will be displayed.</param>
     /// <param name="showCopyButton">Displays a 'Copy' button that copies the message box contents to the clipboard. If null (default), the button is not shown.</param>
-    /// <param name="defaultButton">One of the KryptonMessageBoxDefaultButton values that specifies the default button for the message box.</param>
-    /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-    public static DialogResult Show(IWin32Window owner, string? text, string? caption, KryptonMessageBoxButtons buttons,
+    /// <returns>A task that produces one of the <see cref="DialogResult"/> values when the message box is closed.</returns>
+    public static Task<DialogResult> ShowAsync(IWin32Window owner, string? text, string? caption, KryptonMessageBoxButtons buttons,
         KryptonMessageBoxIcon icon, KryptonMessageBoxDefaultButton defaultButton,
         bool? showCtrlCopy = null,
         bool? showCloseButton = null,
         bool? showCopyButton = null) =>
-        ShowCore(owner, text, caption, buttons, icon, defaultButton,
+        ShowCoreAsync(owner, text, caption, buttons, icon, defaultButton,
             showCtrlCopy: showCtrlCopy,
             showHelpButton: false,
             showCloseButton: showCloseButton,
             showCopyButton: showCopyButton);
 
     /// <summary>
-    /// Displays a message box in front+center of the application and with the specified text, caption and buttons.
+    /// Displays a message box asynchronously in front of the specified owner with the specified text, caption, buttons, icon, default button and options.
     /// </summary>
     /// <param name="owner">Owner of the modal dialog box.</param>
     /// <param name="text">The text to display in the message box.</param>
-    /// <param name="caption" default="string.Empty">The text to display in the title bar of the message box. default="string.Empty"</param>
-    /// <param name="buttons">One of the System.Windows.Forms.KryptonMessageBoxButtons values that specifies which buttons to display in the message box.</param>
-    /// <param name="icon">One of the KryptonMessageBoxIcon values that specifies which icon to display in the message box.</param>
+    /// <param name="caption">The text to display in the title bar of the message box.</param>
+    /// <param name="buttons">Which buttons to display in the message box.</param>
+    /// <param name="icon">Which icon to display in the message box.</param>
+    /// <param name="defaultButton">The default button for the message box.</param>
+    /// <param name="options">Display and association options for the message box.</param>
     /// <param name="showCtrlCopy">Show extraText in title. If null (default) then only when Warning or Error icon is used.</param>
     /// <param name="showCloseButton">Displays the close button. If null (default), then the close button will be displayed.</param>
     /// <param name="showCopyButton">Displays a 'Copy' button that copies the message box contents to the clipboard. If null (default), the button is not shown.</param>
-    /// <param name="defaultButton">One of the KryptonMessageBoxDefaultButton values that specifies the default button for the message box.</param>
-    /// <param name="options">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
-    /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-    public static DialogResult Show(IWin32Window owner, string? text, string? caption, KryptonMessageBoxButtons buttons,
+    /// <returns>A task that produces one of the <see cref="DialogResult"/> values when the message box is closed.</returns>
+    public static Task<DialogResult> ShowAsync(IWin32Window owner, string? text, string? caption, KryptonMessageBoxButtons buttons,
         KryptonMessageBoxIcon icon, KryptonMessageBoxDefaultButton defaultButton, MessageBoxOptions options,
         bool? showCtrlCopy = null,
         bool? showCloseButton = null,
         bool? showCopyButton = null) =>
-        ShowCore(owner, text, caption, buttons, icon, defaultButton, options,
+        ShowCoreAsync(owner, text, caption, buttons, icon, defaultButton, options,
             showCtrlCopy: showCtrlCopy,
             showHelpButton: false,
             showCloseButton: showCloseButton,
             showCopyButton: showCopyButton);
 
     /// <summary>
-    /// Displays a message box in front+center of the application and with the specified text, caption and buttons.
+    /// Displays a message box asynchronously in front of the specified owner with the specified text, caption, buttons, icon, default button, options and help info.
     /// </summary>
     /// <param name="owner">Owner of the modal dialog box.</param>
     /// <param name="text">The text to display in the message box.</param>
-    /// <param name="caption" default="string.Empty">The text to display in the title bar of the message box. default="string.Empty"</param>
-    /// <param name="buttons">One of the System.Windows.Forms.KryptonMessageBoxButtons values that specifies which buttons to display in the message box.</param>
-    /// <param name="icon">One of the KryptonMessageBoxIcon values that specifies which icon to display in the message box.</param>
+    /// <param name="caption">The text to display in the title bar of the message box.</param>
+    /// <param name="buttons">Which buttons to display in the message box.</param>
+    /// <param name="icon">Which icon to display in the message box.</param>
+    /// <param name="defaultButton">The default button for the message box.</param>
+    /// <param name="options">Display and association options for the message box.</param>
+    /// <param name="helpInfo">Contains the help data of the <see cref="KryptonMessageBox"/>.</param>
     /// <param name="showCtrlCopy">Show extraText in title. If null (default) then only when Warning or Error icon is used.</param>
     /// <param name="showCloseButton">Displays the close button. If null (default), then the close button will be displayed.</param>
     /// <param name="showCopyButton">Displays a 'Copy' button that copies the message box contents to the clipboard. If null (default), the button is not shown.</param>
-    /// <param name="defaultButton">One of the KryptonMessageBoxDefaultButton values that specifies the default button for the message box.</param>
-    /// <param name="options">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
-    /// <param name="helpInfo">Contains the help data of the <see cref="KryptonMessageBox"/>.</param>
-    /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-    public static DialogResult Show(IWin32Window owner, string? text, string? caption, KryptonMessageBoxButtons buttons,
+    /// <returns>A task that produces one of the <see cref="DialogResult"/> values when the message box is closed.</returns>
+    public static Task<DialogResult> ShowAsync(IWin32Window owner, string? text, string? caption, KryptonMessageBoxButtons buttons,
         KryptonMessageBoxIcon icon, KryptonMessageBoxDefaultButton defaultButton, MessageBoxOptions options, HelpInfo helpInfo,
         bool? showCtrlCopy = null,
         bool? showCloseButton = null,
         bool? showCopyButton = null) =>
-        ShowCore(owner, text, caption, buttons, icon, defaultButton, options,
+        ShowCoreAsync(owner, text, caption, buttons, icon, defaultButton, options,
             showCtrlCopy: showCtrlCopy,
             helpInfo: helpInfo,
             showCloseButton: showCloseButton,
             showCopyButton: showCopyButton);
 
     /// <summary>
-    /// Displays a message box in front+center of the application and with the specified text, caption and buttons.
+    /// Displays a message box asynchronously in front of the specified owner with an optional Help button and icon overlay.
     /// </summary>
     /// <param name="owner">Owner of the modal dialog box.</param>
     /// <param name="text">The text to display in the message box.</param>
-    /// <param name="caption" default="string.Empty">The text to display in the title bar of the message box. default="string.Empty"</param>
-    /// <param name="buttons">One of the System.Windows.Forms.KryptonMessageBoxButtons values that specifies which buttons to display in the message box.</param>
-    /// <param name="displayHelpButton">Displays a 'Help' button, as seen in .NET 6 and higher.</param>
-    /// <param name="icon">One of the KryptonMessageBoxIcon values that specifies which icon to display in the message box.</param>
+    /// <param name="caption">The text to display in the title bar of the message box.</param>
+    /// <param name="buttons">Which buttons to display in the message box.</param>
+    /// <param name="displayHelpButton">Displays a Help button.</param>
+    /// <param name="icon">Which icon to display in the message box.</param>
+    /// <param name="defaultButton">The default button for the message box.</param>
+    /// <param name="options">Display and association options for the message box.</param>
     /// <param name="showCtrlCopy">Show extraText in title. If null (default) then only when Warning or Error icon is used.</param>
     /// <param name="showCloseButton">Displays the close button. If null (default), then the close button will be displayed.</param>
     /// <param name="showCopyButton">Displays a 'Copy' button that copies the message box contents to the clipboard. If null (default), the button is not shown.</param>
     /// <param name="overlayImage">Optional badge image drawn on top of the message icon.</param>
     /// <param name="overlayImagePosition">Corner placement for <paramref name="overlayImage"/>; defaults to bottom-right.</param>
-    /// <param name="defaultButton">One of the KryptonMessageBoxDefaultButton values that specifies the default button for the message box.</param>
-    /// <param name="options">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
-    /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-    public static DialogResult Show(IWin32Window owner, string? text, string? caption, KryptonMessageBoxButtons buttons, bool displayHelpButton,
-        KryptonMessageBoxIcon icon, KryptonMessageBoxDefaultButton defaultButton, MessageBoxOptions options, 
+    /// <returns>A task that produces one of the <see cref="DialogResult"/> values when the message box is closed.</returns>
+    public static Task<DialogResult> ShowAsync(IWin32Window owner, string? text, string? caption, KryptonMessageBoxButtons buttons, bool displayHelpButton,
+        KryptonMessageBoxIcon icon, KryptonMessageBoxDefaultButton defaultButton, MessageBoxOptions options,
         bool? showCtrlCopy = null,
         bool? showCloseButton = null,
         bool? showCopyButton = null,
         Image? overlayImage = null,
         OverlayImagePosition overlayImagePosition = OverlayImagePosition.BottomRight) =>
-        ShowCore(owner, text, caption, buttons, icon, defaultButton, options,
+        ShowCoreAsync(owner, text, caption, buttons, icon, defaultButton, options,
             showCtrlCopy: showCtrlCopy,
             showHelpButton: displayHelpButton,
             showCloseButton: showCloseButton,
             showCopyButton: showCopyButton,
             overlayImage: KryptonOverlayImage.FromImage(overlayImage, overlayImagePosition));
+
     /// <summary>
-    /// Displays a message box in front+center of the application with optional semantic button colours.
+    /// Displays a message box asynchronously with optional semantic button colours.
     /// </summary>
     /// <param name="text">The text to display in the message box.</param>
     /// <param name="caption">The text to display in the title bar of the message box.</param>
@@ -410,8 +398,8 @@ public static partial class KryptonMessageBox
     /// <param name="showCtrlCopy">Show extraText in title. If null (default) then only when Warning or Error icon is used.</param>
     /// <param name="showCloseButton">Displays the close button. If null (default), then the close button will be displayed.</param>
     /// <param name="showCopyButton">Displays a 'Copy' button that copies the message box contents to the clipboard.</param>
-    /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-    public static DialogResult Show(string text, string caption, KryptonMessageBoxButtons buttons,
+    /// <returns>A task that produces one of the <see cref="DialogResult"/> values when the message box is closed.</returns>
+    public static Task<DialogResult> ShowAsync(string text, string caption, KryptonMessageBoxButtons buttons,
         KryptonMessageBoxIcon icon, KryptonDialogButtonColorOptions? buttonColors,
         KryptonMessageBoxDefaultButton defaultButton = KryptonMessageBoxDefaultButton.Button1,
         MessageBoxOptions options = 0,
@@ -419,7 +407,7 @@ public static partial class KryptonMessageBox
         bool? showCtrlCopy = null,
         bool? showCloseButton = null,
         bool? showCopyButton = null) =>
-        ShowCore(null, text, caption, buttons, icon, defaultButton, options,
+        ShowCoreAsync(null, text, caption, buttons, icon, defaultButton, options,
             showCtrlCopy: showCtrlCopy,
             showHelpButton: displayHelpButton,
             showCloseButton: showCloseButton,
@@ -427,7 +415,7 @@ public static partial class KryptonMessageBox
             buttonColors: buttonColors);
 
     /// <summary>
-    /// Displays a message box in front of the specified object with optional semantic button colours.
+    /// Displays a message box asynchronously in front of the specified owner with optional semantic button colours.
     /// </summary>
     /// <param name="owner">Owner of the modal dialog box.</param>
     /// <param name="text">The text to display in the message box.</param>
@@ -441,8 +429,8 @@ public static partial class KryptonMessageBox
     /// <param name="showCtrlCopy">Show extraText in title. If null (default) then only when Warning or Error icon is used.</param>
     /// <param name="showCloseButton">Displays the close button. If null (default), then the close button will be displayed.</param>
     /// <param name="showCopyButton">Displays a 'Copy' button that copies the message box contents to the clipboard.</param>
-    /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-    public static DialogResult Show(IWin32Window? owner, string? text, string? caption, KryptonMessageBoxButtons buttons,
+    /// <returns>A task that produces one of the <see cref="DialogResult"/> values when the message box is closed.</returns>
+    public static Task<DialogResult> ShowAsync(IWin32Window? owner, string? text, string? caption, KryptonMessageBoxButtons buttons,
         KryptonMessageBoxIcon icon, KryptonDialogButtonColorOptions? buttonColors,
         KryptonMessageBoxDefaultButton defaultButton = KryptonMessageBoxDefaultButton.Button1,
         MessageBoxOptions options = 0,
@@ -450,7 +438,7 @@ public static partial class KryptonMessageBox
         bool? showCtrlCopy = null,
         bool? showCloseButton = null,
         bool? showCopyButton = null) =>
-        ShowCore(owner, text, caption, buttons, icon, defaultButton, options,
+        ShowCoreAsync(owner, text, caption, buttons, icon, defaultButton, options,
             showCtrlCopy: showCtrlCopy,
             showHelpButton: displayHelpButton,
             showCloseButton: showCloseButton,
@@ -460,31 +448,17 @@ public static partial class KryptonMessageBox
     #endregion
 
     #region Implementation
+
     /// <summary>
-    /// Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button, using the specified Help file, HelpNavigator, and Help topic.
+    /// Displays a message box asynchronously and disposes the underlying form when the dialog completes.
     /// </summary>
-    /// <param name="owner">Owner of the modal dialog box.</param>
-    /// <param name="text">The text to display in the message box.</param>
-    /// <param name="caption">The text to display in the title bar of the message box.</param>
-    /// <param name="buttons">One of the System.Windows.Forms.KryptonMessageBoxButtons values that specifies which buttons to display in the message box.</param>
-    /// <param name="icon">One of the KryptonMessageBoxIcon values that specifies which icon to display in the message box.</param>
-    /// <param name="defaultButton">One of the KryptonMessageBoxDefaultButton values that specifies the default button for the message box.</param>
-    /// <param name="options">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
-    /// <param name="helpInfo">Contains the help data of the <see cref="KryptonMessageBox"/>.</param>
-    /// <param name="showCtrlCopy">Show extraText in title. If null (default) then only when Warning or Error icon is used.</param>
-    /// <param name="showHelpButton">Displays a 'Help' button, as seen in .NET 6 and higher.</param>
-    /// <param name="showCloseButton">Displays the close button. If null (default), then the close button will be displayed.</param>
-    /// <param name="showCopyButton">Displays a 'Copy' button that copies the message box contents to the clipboard. If null (default), the button is not shown.</param>
-    /// <param name="overlayImage">Optional badge drawn on top of the message icon.</param>
-    /// <param name="buttonColors">Optional semantic accept/cancel button colours; null uses <see cref="KryptonManager.DialogButtonColors"/>.</param>
-    /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-    private static DialogResult ShowCore(IWin32Window? owner,
+    private static async Task<DialogResult> ShowCoreAsync(IWin32Window? owner,
         string? text, string? caption,
         KryptonMessageBoxButtons buttons = KryptonMessageBoxButtons.OK,
         KryptonMessageBoxIcon icon = KryptonMessageBoxIcon.None,
         KryptonMessageBoxDefaultButton defaultButton = KryptonMessageBoxDefaultButton.Button1,
         MessageBoxOptions options = 0,
-        HelpInfo? helpInfo = null, 
+        HelpInfo? helpInfo = null,
         bool? showCtrlCopy = null,
         bool? showHelpButton = null,
         bool? showCloseButton = null,
@@ -496,8 +470,6 @@ public static partial class KryptonMessageBox
 
         IWin32Window? showOwner = ValidateOptions(owner, options, helpInfo);
 
-        // Show message box window as a modal dialog and then dispose of it after-wards
-
         if (options is MessageBoxOptions.RightAlign or MessageBoxOptions.RtlReading)
         {
             using var kmbRtl = new VisualMessageBoxRtlAwareForm(showOwner, text, caption, buttons, icon,
@@ -506,54 +478,23 @@ public static partial class KryptonMessageBox
 
             kmbRtl.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 
-            return kmbRtl.ShowDialog(showOwner);
+            return showOwner is null
+                ? await kmbRtl.ShowDialogAsync().ConfigureAwait(true)
+                : await kmbRtl.ShowDialogAsync(showOwner).ConfigureAwait(true);
         }
-        else
-        {
-            using var kmb = new VisualMessageBoxForm(showOwner, text, caption, buttons, icon,
-                defaultButton, helpInfo, showCtrlCopy, showHelpButton, showCloseButton, showCopyButton, overlayImage,
-                buttonColors);
 
-            kmb.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
+        using var kmb = new VisualMessageBoxForm(showOwner, text, caption, buttons, icon,
+            defaultButton, helpInfo, showCtrlCopy, showHelpButton, showCloseButton, showCopyButton, overlayImage,
+            buttonColors);
 
-            return kmb.ShowDialog(showOwner);
-        }
+        kmb.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
+
+        return showOwner is null
+            ? await kmb.ShowDialogAsync().ConfigureAwait(true)
+            : await kmb.ShowDialogAsync(showOwner).ConfigureAwait(true);
     }
 
-    #region WinForm Compatibility
-    private static IWin32Window? ValidateOptions(IWin32Window? owner, MessageBoxOptions options, HelpInfo? helpInfo)
-    {
-        // Check if trying to show a message box from a non-interactive process, this is not possible
-        if (!SystemInformation.UserInteractive &&
-            ((options & (MessageBoxOptions.ServiceNotification | MessageBoxOptions.DefaultDesktopOnly)) == 0))
-        {
-            ThrowHelper.ThrowInvalidOperationException("Cannot show modal dialog when non-interactive");
-        }
-
-        // Check if trying to show a message box from a service and the owner has been specified, this is not possible
-        if ((owner != null) &&
-            ((options & (MessageBoxOptions.ServiceNotification | MessageBoxOptions.DefaultDesktopOnly)) != 0))
-        {
-            ThrowHelper.ThrowArgumentException(@"Cannot show message box from a service with an owner specified", nameof(options));
-        }
-
-        // Check if trying to show a message box from a service and help information is specified, this is not possible
-        if ((helpInfo != null) &&
-            ((options & (MessageBoxOptions.ServiceNotification | MessageBoxOptions.DefaultDesktopOnly)) != 0))
-        {
-            ThrowHelper.ThrowArgumentException(@"Cannot show message box from a service with help specified", nameof(options));
-        }
-
-        IWin32Window? showOwner = null;
-        if ((helpInfo != null) ||
-            ((options & (MessageBoxOptions.ServiceNotification | MessageBoxOptions.DefaultDesktopOnly)) == 0))
-        {
-            // If this does not have an owner passed in? then get the active window and use that instead
-            showOwner = owner ?? Control.FromHandle(PI.GetActiveWindow());
-        }
-
-        return showOwner;
-    }
-    #endregion
     #endregion
 }
+
+#endif

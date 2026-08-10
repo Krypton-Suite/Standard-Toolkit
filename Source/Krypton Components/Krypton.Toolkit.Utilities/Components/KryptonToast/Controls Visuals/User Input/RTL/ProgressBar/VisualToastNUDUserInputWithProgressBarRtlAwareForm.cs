@@ -235,5 +235,22 @@ internal partial class VisualToastNUDUserInputWithProgressBarRtlAwareForm : Visu
         }
     }
 
-    #endregion
+    
+#if NET9_0_OR_GREATER
+    public static async Task<decimal> ShowToastNotificationAsync(KryptonUserInputToastData data)
+    {
+        var owner = data.ToastHost ?? FromHandle(PI.GetActiveWindow());
+
+        using var toast = new VisualToastNUDUserInputWithProgressBarRtlAwareForm(data);
+
+        toast.StartPosition = owner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
+
+        DialogResult result = owner is null
+            ? await toast.ShowDialogAsync().ConfigureAwait(true)
+            : await toast.ShowDialogAsync(owner).ConfigureAwait(true);
+
+        return result == DialogResult.OK ? toast.UserResponse : 0;
+    }
+#endif
+#endregion
 }

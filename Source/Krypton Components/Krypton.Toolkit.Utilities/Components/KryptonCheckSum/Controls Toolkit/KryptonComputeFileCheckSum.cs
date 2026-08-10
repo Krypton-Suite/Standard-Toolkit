@@ -47,6 +47,17 @@ public static class KryptonComputeFileCheckSum
     /// <returns>A DialogResult value indicating the user's response to the dialog.</returns>
     public static DialogResult Show(IWin32Window? owner, string? filePath, SafeNETAndNewerSupportedHashAlgorithms hashAlgorithm) => ShowCore(owner, filePath, null, hashAlgorithm);
 
+#if NET9_0_OR_GREATER
+    /// <summary>Displays the compute file checksum dialog asynchronously.</summary>
+    public static Task<DialogResult> ShowAsync(IWin32Window? owner = null, string? filePath = null) => ShowCoreAsync(owner, filePath, null, null);
+
+    /// <summary>Displays the compute file checksum dialog asynchronously.</summary>
+    public static Task<DialogResult> ShowAsync(IWin32Window? owner, string? filePath, SupportedHashAlgorithims algorithim) => ShowCoreAsync(owner, filePath, algorithim, null);
+
+    /// <summary>Displays the compute file checksum dialog asynchronously.</summary>
+    public static Task<DialogResult> ShowAsync(IWin32Window? owner, string? filePath, SafeNETAndNewerSupportedHashAlgorithms hashAlgorithm) => ShowCoreAsync(owner, filePath, null, hashAlgorithm);
+#endif
+
     /// <summary>
     /// Displays the compute file checksum form as a modal dialog.
     /// </summary>
@@ -63,4 +74,17 @@ public static class KryptonComputeFileCheckSum
         
         return form.ShowDialog(owner);
     }
+
+#if NET9_0_OR_GREATER
+    internal static async Task<DialogResult> ShowCoreAsync(IWin32Window? owner = null, string? filePath = null, SupportedHashAlgorithims? algorithim = null, SafeNETAndNewerSupportedHashAlgorithms? hashAlgorithm = null)
+    {
+        using var form = new VisualComputeFileCheckSumForm(filePath, algorithim, hashAlgorithm);
+
+        form.StartPosition = owner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
+
+        return owner is null
+            ? await form.ShowDialogAsync().ConfigureAwait(true)
+            : await form.ShowDialogAsync(owner).ConfigureAwait(true);
+    }
+#endif
 }

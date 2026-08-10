@@ -109,4 +109,65 @@ public static class KryptonGitHubIssueReportDialog
         using var dialog = new VisualGitHubIssueReportForm(config, additionalInfo);
         return dialog.ShowDialog(owner);
     }
+
+#if NET9_0_OR_GREATER
+    /// <summary>Displays the GitHub issue report dialog asynchronously using the default encrypted config file.</summary>
+    public static Task<DialogResult> ShowAsync(IWin32Window? owner, SecureString? secretKey) =>
+        ShowAsync(owner, secretKey, null, null);
+
+    /// <summary>Displays the GitHub issue report dialog asynchronously using the specified encrypted config file.</summary>
+    public static Task<DialogResult> ShowAsync(IWin32Window? owner, SecureString? secretKey, string? configFilePath) =>
+        ShowAsync(owner, secretKey, configFilePath, null);
+
+    /// <summary>Displays the GitHub issue report dialog asynchronously with optional pre-filled additional information.</summary>
+    public static async Task<DialogResult> ShowAsync(IWin32Window? owner, SecureString? secretKey, string? configFilePath, string? additionalInfo)
+    {
+        if (secretKey == null || secretKey.Length == 0)
+        {
+            ThrowHelper.ThrowArgumentNullException(nameof(secretKey));
+        }
+
+        var filePath = configFilePath ?? BugReportGitHubConfigEncryption.GetDefaultConfigFilePath();
+
+        if (!BugReportGitHubConfigEncryption.TryLoadEncryptedConfig(filePath, secretKey!, out var config) || config == null)
+        {
+            await KryptonMessageBox.ShowAsync(
+                "Failed to load GitHub configuration. The encrypted config file may be missing, corrupted, or the secret key is incorrect.",
+                "Configuration Error",
+                KryptonMessageBoxButtons.OK,
+                KryptonMessageBoxIcon.Error).ConfigureAwait(true);
+
+            return DialogResult.Cancel;
+        }
+
+        using var dialog = new VisualGitHubIssueReportForm(config, additionalInfo);
+        return owner is null
+            ? await dialog.ShowDialogAsync().ConfigureAwait(true)
+            : await dialog.ShowDialogAsync(owner).ConfigureAwait(true);
+    }
+
+    /// <summary>Displays the GitHub issue report dialog asynchronously with an explicitly provided configuration.</summary>
+    public static Task<DialogResult> ShowAsync(IWin32Window? owner, BugReportGitHubConfig? config, string? additionalInfo = null)
+    {
+        if (config == null)
+        {
+            ThrowHelper.ThrowArgumentNullException(nameof(config));
+        }
+
+        if (!config.IsValid)
+        {
+            ThrowHelper.ThrowInvalidOperationException("Config must have Owner, RepositoryName, and PersonalAccessToken set.");
+        }
+
+        return ShowConfiguredAsync(owner, config, additionalInfo);
+    }
+
+    private static async Task<DialogResult> ShowConfiguredAsync(IWin32Window? owner, BugReportGitHubConfig config, string? additionalInfo)
+    {
+        using var dialog = new VisualGitHubIssueReportForm(config, additionalInfo);
+        return owner is null
+            ? await dialog.ShowDialogAsync().ConfigureAwait(true)
+            : await dialog.ShowDialogAsync(owner).ConfigureAwait(true);
+    }
+#endif
 }

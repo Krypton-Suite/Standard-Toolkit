@@ -26,11 +26,28 @@ public static class KryptonInputBox
     public static string Show(KryptonInputBoxData inputBoxData)
         =>  InternalShow(inputBoxData);
 
+#if NET9_0_OR_GREATER
+    /// <summary>
+    /// Displays an input box asynchronously with provided prompt and caption and defaulted response string.
+    /// </summary>
+    /// <param name="inputBoxData">The data to feed through to <see cref="VisualInputBoxForm"/>.</param>
+    /// <returns>A task that produces the input string when the dialog is closed.</returns>
+    public static Task<string> ShowAsync(KryptonInputBoxData inputBoxData)
+        => InternalShowAsync(inputBoxData);
+#endif
+
     #endregion
 
     #region Implementation
 
     internal static string InternalShow(KryptonInputBoxData inputBoxData) => inputBoxData.UseRTLLayout == KryptonUseRTLLayout.Yes ? VisualInputBoxRtlAwareForm.InternalShow(inputBoxData) : VisualInputBoxForm.InternalShow(inputBoxData);
+
+#if NET9_0_OR_GREATER
+    internal static Task<string> InternalShowAsync(KryptonInputBoxData inputBoxData) =>
+        inputBoxData.UseRTLLayout == KryptonUseRTLLayout.Yes
+            ? VisualInputBoxRtlAwareForm.InternalShowAsync(inputBoxData)
+            : VisualInputBoxForm.InternalShowAsync(inputBoxData);
+#endif
 
     #endregion
 }

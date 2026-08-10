@@ -753,6 +753,22 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
         return _providerResult;
     }
 
+#if NET9_0_OR_GREATER
+    public async Task<KryptonDialogResult> ShowProviderDialogAsync()
+    {
+        var owner = _context.Owner;
+        var dialogResult = owner is null
+            ? await ShowDialogAsync().ConfigureAwait(true)
+            : await ShowDialogAsync(owner).ConfigureAwait(true);
+        if (_providerResult.DialogResult == DialogResult.None)
+        {
+            _providerResult.DialogResult = dialogResult;
+        }
+
+        return _providerResult;
+    }
+#endif
+
     private string GetDefaultCaption() => _options.Kind switch
     {
         KryptonDialogKind.SaveFile => DialogStrings.Save,
