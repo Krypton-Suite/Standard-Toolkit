@@ -391,12 +391,13 @@ Use `Scripts/UnitTests/` for PowerShell scripts that drive or inspect a Debug `T
 
 - Commits: short, imperative subject; reference issues/PRs (e.g., `Fix autosizing (#2433)` or `2439 V100 datecell autosizing`)
 - PRs: clear description, linked issues, screenshots/gifs for UI changes, notes on breaking changes/TFM impact
+- If a pull request is opened or created, it must be compared with `alpha`, not `master`, `gold`, or `canary`. When using `gh pr create`, set the base branch to `alpha` (for example `--base alpha`).
 - Completed bugs and features: update `Documents/Changelog/Changelog.md` (see **Changelog** above); add or update a `TestForm` demo for features (see **TestForm Demos**); add a `Documents/Development/` guide when the feature warrants in-depth maintainer docs; write a PR description in `Documents/PR/` (see **Pull Request Descriptions** below).
 - Do not add routine validation noise to commit messages or PR descriptions. Mention checks only when they are essential context, unusual, failed, or specifically requested.
 
 ## Pull Request Descriptions
 
-When a **bug fix** or **feature** is completed, create a **PR description** as a Markdown file in the `Documents/PR/` folder in the same change set (before the pull request is opened). The file is the reviewer-facing record that can be pasted directly into the GitHub PR body.
+When a **bug fix** or **feature** is completed, create a **PR description** as a Markdown file in the `Documents/PR/` folder in the same change set (before the pull request is opened). The file is the reviewer-facing record that can be pasted directly into the GitHub PR body. When the pull request is opened or created, compare it with `alpha`, not `master`, `gold`, or `canary` (see **Commit & Pull Request Guidelines**).
 
 ### When to add
 
