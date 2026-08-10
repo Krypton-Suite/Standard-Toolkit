@@ -87,6 +87,16 @@ public class PaletteModeStrings : GlobalId
     internal const string DEFAULT_PALETTE_MATERIAL_DARK = @"Material - Dark";
     internal const string DEFAULT_PALETTE_MATERIAL_LIGHT_RIPPLE = @"Material - Light (Ripple)";
     internal const string DEFAULT_PALETTE_MATERIAL_DARK_RIPPLE = @"Material - Dark (Ripple)";
+    internal const string DEFAULT_PALETTE_MATERIAL_LIME_GREEN = @"Material - Lime Green";
+    internal const string DEFAULT_PALETTE_MATERIAL_LIME_GREEN_DARK = @"Material - Lime Green - Dark Mode";
+    internal const string DEFAULT_PALETTE_MATERIAL_LIME_GREEN_RIPPLE = @"Material - Lime Green (Ripple)";
+    internal const string DEFAULT_PALETTE_MATERIAL_LIME_GREEN_DARK_RIPPLE = @"Material - Lime Green - Dark Mode (Ripple)";
+    internal const string DEFAULT_PALETTE_MATERIAL_HIGH_CONTRAST = @"Material - High Contrast";
+    internal const string DEFAULT_PALETTE_MATERIAL_DEUTERANOPIA = @"Material - Deuteranopia";
+    internal const string DEFAULT_PALETTE_MATERIAL_PROTANOPIA = @"Material - Protanopia";
+    internal const string DEFAULT_PALETTE_MATERIAL_HIGH_CONTRAST_RIPPLE = @"Material - High Contrast (Ripple)";
+    internal const string DEFAULT_PALETTE_MATERIAL_DEUTERANOPIA_RIPPLE = @"Material - Deuteranopia (Ripple)";
+    internal const string DEFAULT_PALETTE_MATERIAL_PROTANOPIA_RIPPLE = @"Material - Protanopia (Ripple)";
     internal const string DEFAULT_PALETTE_RETRO_GREEN = @"Retro - Green";
     internal const string DEFAULT_PALETTE_RETRO_BLUE = @"Retro - Blue";
     internal const string DEFAULT_PALETTE_OSX_AQUA = @"Mac OS X Aqua";
@@ -214,6 +224,16 @@ public class PaletteModeStrings : GlobalId
             { DEFAULT_PALETTE_MATERIAL_DARK, PaletteMode.MaterialDark },
             { DEFAULT_PALETTE_MATERIAL_LIGHT_RIPPLE, PaletteMode.MaterialLightRipple },
             { DEFAULT_PALETTE_MATERIAL_DARK_RIPPLE, PaletteMode.MaterialDarkRipple },
+            { DEFAULT_PALETTE_MATERIAL_LIME_GREEN, PaletteMode.MaterialLimeGreen },
+            { DEFAULT_PALETTE_MATERIAL_LIME_GREEN_DARK, PaletteMode.MaterialLimeGreenDark },
+            { DEFAULT_PALETTE_MATERIAL_LIME_GREEN_RIPPLE, PaletteMode.MaterialLimeGreenRipple },
+            { DEFAULT_PALETTE_MATERIAL_LIME_GREEN_DARK_RIPPLE, PaletteMode.MaterialLimeGreenDarkRipple },
+            { DEFAULT_PALETTE_MATERIAL_HIGH_CONTRAST, PaletteMode.MaterialHighContrast },
+            { DEFAULT_PALETTE_MATERIAL_DEUTERANOPIA, PaletteMode.MaterialDeuteranopia },
+            { DEFAULT_PALETTE_MATERIAL_PROTANOPIA, PaletteMode.MaterialProtanopia },
+            { DEFAULT_PALETTE_MATERIAL_HIGH_CONTRAST_RIPPLE, PaletteMode.MaterialHighContrastRipple },
+            { DEFAULT_PALETTE_MATERIAL_DEUTERANOPIA_RIPPLE, PaletteMode.MaterialDeuteranopiaRipple },
+            { DEFAULT_PALETTE_MATERIAL_PROTANOPIA_RIPPLE, PaletteMode.MaterialProtanopiaRipple },
             { DEFAULT_PALETTE_RETRO_GREEN, PaletteMode.RetroGreen },
             { DEFAULT_PALETTE_RETRO_BLUE, PaletteMode.RetroBlue },
             { DEFAULT_PALETTE_OSX_AQUA, PaletteMode.MacOSXAqua },

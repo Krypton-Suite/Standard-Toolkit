@@ -45,7 +45,7 @@ public sealed class AccessibilityThemesDemo : KryptonForm
             Padding = new Padding(12),
             Text =
                 "Issue #4168: full PaletteMode themes for High Contrast, Deuteranopia, and Protanopia.\r\n" +
-                "Unprefixed names use Microsoft 365 chrome; also try Office 2007 / 2010 / 2013 and Sparkle variants (same colours, family-specific renderer).\r\n" +
+                "Unprefixed names use Microsoft 365 chrome; also try Office 2007 / 2010 / 2013, Sparkle, and Material variants (same colours, family-specific renderer).\r\n" +
                 "Look for: Primary header, checked button (orange / brown / green), link accent, AcceptButton default fill.\r\n" +
                 "Dialog button colours remain independent — use the MessageBox button to compare #4165 presets."
         };
@@ -71,7 +71,13 @@ public sealed class AccessibilityThemesDemo : KryptonForm
             PaletteMode.Office2013Protanopia,
             PaletteMode.SparkleHighContrast,
             PaletteMode.SparkleDeuteranopia,
-            PaletteMode.SparkleProtanopia
+            PaletteMode.SparkleProtanopia,
+            PaletteMode.MaterialHighContrast,
+            PaletteMode.MaterialDeuteranopia,
+            PaletteMode.MaterialProtanopia,
+            PaletteMode.MaterialHighContrastRipple,
+            PaletteMode.MaterialDeuteranopiaRipple,
+            PaletteMode.MaterialProtanopiaRipple
         });
         _cmbTheme.SelectedIndexChanged += (_, _) => ApplySelectedTheme();
         toolbarFlow.Controls.Add(_cmbTheme);
@@ -194,11 +200,11 @@ public sealed class AccessibilityThemesDemo : KryptonForm
     {
         _lblAccentGuide.Text = mode switch
         {
-            PaletteMode.HighContrast or PaletteMode.Office2007HighContrast or PaletteMode.Office2010HighContrast or PaletteMode.Office2013HighContrast or PaletteMode.SparkleHighContrast =>
+            PaletteMode.HighContrast or PaletteMode.Office2007HighContrast or PaletteMode.Office2010HighContrast or PaletteMode.Office2013HighContrast or PaletteMode.SparkleHighContrast or PaletteMode.MaterialHighContrast or PaletteMode.MaterialHighContrastRipple =>
                 @"High Contrast: black/white surfaces · primary neon green · secondary yellow · accent cyan",
-            PaletteMode.Deuteranopia or PaletteMode.Office2007Deuteranopia or PaletteMode.Office2010Deuteranopia or PaletteMode.Office2013Deuteranopia or PaletteMode.SparkleDeuteranopia =>
+            PaletteMode.Deuteranopia or PaletteMode.Office2007Deuteranopia or PaletteMode.Office2010Deuteranopia or PaletteMode.Office2013Deuteranopia or PaletteMode.SparkleDeuteranopia or PaletteMode.MaterialDeuteranopia or PaletteMode.MaterialDeuteranopiaRipple =>
                 @"Deuteranopia: cool neutrals · primary blue · secondary orange (checked) · accent purple (link)",
-            PaletteMode.Protanopia or PaletteMode.Office2007Protanopia or PaletteMode.Office2010Protanopia or PaletteMode.Office2013Protanopia or PaletteMode.SparkleProtanopia =>
+            PaletteMode.Protanopia or PaletteMode.Office2007Protanopia or PaletteMode.Office2010Protanopia or PaletteMode.Office2013Protanopia or PaletteMode.SparkleProtanopia or PaletteMode.MaterialProtanopia or PaletteMode.MaterialProtanopiaRipple =>
                 @"Protanopia: warm neutrals · primary blue · secondary brown (checked) · accent magenta (link)",
             _ => @"Select an accessibility theme."
         };
@@ -213,11 +219,11 @@ public sealed class AccessibilityThemesDemo : KryptonForm
 
         var scheme = mode switch
         {
-            PaletteMode.HighContrast or PaletteMode.Office2007HighContrast or PaletteMode.Office2010HighContrast or PaletteMode.Office2013HighContrast or PaletteMode.SparkleHighContrast =>
+            PaletteMode.HighContrast or PaletteMode.Office2007HighContrast or PaletteMode.Office2010HighContrast or PaletteMode.Office2013HighContrast or PaletteMode.SparkleHighContrast or PaletteMode.MaterialHighContrast or PaletteMode.MaterialHighContrastRipple =>
                 KryptonDialogButtonColorScheme.HighContrast,
-            PaletteMode.Deuteranopia or PaletteMode.Office2007Deuteranopia or PaletteMode.Office2010Deuteranopia or PaletteMode.Office2013Deuteranopia or PaletteMode.SparkleDeuteranopia =>
+            PaletteMode.Deuteranopia or PaletteMode.Office2007Deuteranopia or PaletteMode.Office2010Deuteranopia or PaletteMode.Office2013Deuteranopia or PaletteMode.SparkleDeuteranopia or PaletteMode.MaterialDeuteranopia or PaletteMode.MaterialDeuteranopiaRipple =>
                 KryptonDialogButtonColorScheme.Deuteranopia,
-            PaletteMode.Protanopia or PaletteMode.Office2007Protanopia or PaletteMode.Office2010Protanopia or PaletteMode.Office2013Protanopia or PaletteMode.SparkleProtanopia =>
+            PaletteMode.Protanopia or PaletteMode.Office2007Protanopia or PaletteMode.Office2010Protanopia or PaletteMode.Office2013Protanopia or PaletteMode.SparkleProtanopia or PaletteMode.MaterialProtanopia or PaletteMode.MaterialProtanopiaRipple =>
                 KryptonDialogButtonColorScheme.Protanopia,
             _ => KryptonDialogButtonColorScheme.None
         };

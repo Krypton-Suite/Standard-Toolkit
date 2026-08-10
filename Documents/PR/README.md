@@ -18,7 +18,7 @@ Skip for comment-only work and internal refactors with no user-visible effect (m
 1. Copy [`TEMPLATE.md`](TEMPLATE.md) to a new file in this folder.
 2. Name it `<issue-or-branch>-<short-title>.md`, e.g. `3720-foldable-dialog.md` or `2444-agents-md.md`. Use the issue number when one exists.
 3. Fill in every applicable section; delete sections that do not apply.
-4. When the PR is opened, paste the file contents into the GitHub PR description.
+4. When the PR is opened, paste the file contents into the GitHub PR description. Compare the pull request with `alpha`, not `master`, `gold`, or `canary` (for `gh pr create`, use `--base alpha`).
 
 ## Conventions
 
