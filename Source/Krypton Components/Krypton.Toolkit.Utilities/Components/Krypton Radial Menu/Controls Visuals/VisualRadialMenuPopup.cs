@@ -1104,8 +1104,9 @@ internal class VisualRadialMenuPopup : VisualPopup
         }
     }
 
-    private static string GetItemAccessibleName(KryptonRadialMenuItemBase item) =>
-        item switch
+    private static string GetItemAccessibleName(KryptonRadialMenuItemBase item)
+    {
+        var name = item switch
         {
             KryptonRadialMenuItem command => string.IsNullOrEmpty(command.ResolveText) ? command.ToString() : command.ResolveText,
             KryptonRadialMenuSliderItem slider => string.IsNullOrEmpty(slider.Text) ? slider.ToString() : slider.Text,
@@ -1115,6 +1116,9 @@ internal class VisualRadialMenuPopup : VisualPopup
             KryptonRadialMenuCalendarItem calendar => string.IsNullOrEmpty(calendar.Text) ? calendar.ToString() : calendar.Text,
             _ => item.ToString()
         };
+
+        return string.IsNullOrEmpty(name) ? @"Radial menu item" : name;
+    }
 
     private void UpdateToolTipHover(RadialHitResult hit)
     {
