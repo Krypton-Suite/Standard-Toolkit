@@ -220,7 +220,7 @@ public class KryptonRadialMenuValues : Storage
     [Description(@"Unicode glyph drawn on the outer ring for submenu / editor items.")]
     [DefaultValue(@"›")]
     [Localizable(true)]
-    public string? SubMenuGlyph
+    public string SubMenuGlyph
     {
         get => _subMenuGlyph;
         set

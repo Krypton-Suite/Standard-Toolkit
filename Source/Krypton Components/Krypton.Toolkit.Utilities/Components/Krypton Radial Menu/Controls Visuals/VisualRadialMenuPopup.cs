@@ -1117,7 +1117,7 @@ internal class VisualRadialMenuPopup : VisualPopup
             _ => item.ToString()
         };
 
-        return string.IsNullOrEmpty(name) ? @"Radial menu item" : name;
+        return string.IsNullOrEmpty(name) ? @"Radial menu item" : name!;
     }
 
     private void UpdateToolTipHover(RadialHitResult hit)

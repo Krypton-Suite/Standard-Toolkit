@@ -106,7 +106,7 @@ public class KryptonRadialMenuTextItem : KryptonRadialMenuItemBase
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public string? DraftText
+    public string DraftText
     {
         get => _draftText;
         set => _draftText = value ?? string.Empty;
