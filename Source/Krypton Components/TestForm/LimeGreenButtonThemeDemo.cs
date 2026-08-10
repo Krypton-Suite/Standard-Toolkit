@@ -10,8 +10,9 @@
 namespace TestForm;
 
 /// <summary>
-/// Demo: builtin Lime Green palette variants (Office 2007 / 2010 / Microsoft 365 light and dark bases)
-/// via <see cref="LimeGreenButtonThemeHelper"/>, <see cref="PaletteMode"/> and <see cref="ThemeManager"/>.
+/// Demo: builtin Lime Green palette variants (Office 2007 / 2010 / Microsoft 365 / Material light and dark,
+/// including Material Ripple) via <see cref="LimeGreenButtonThemeHelper"/>, <see cref="PaletteMode"/> and
+/// <see cref="ThemeManager"/>.
 /// </summary>
 public partial class LimeGreenButtonThemeDemo : KryptonForm
 {
@@ -22,7 +23,11 @@ public partial class LimeGreenButtonThemeDemo : KryptonForm
         LimeGreenThemeFamily.Office2010,
         LimeGreenThemeFamily.Office2010Dark,
         LimeGreenThemeFamily.Microsoft365,
-        LimeGreenThemeFamily.Microsoft365Dark
+        LimeGreenThemeFamily.Microsoft365Dark,
+        LimeGreenThemeFamily.Material,
+        LimeGreenThemeFamily.MaterialDark,
+        LimeGreenThemeFamily.MaterialRipple,
+        LimeGreenThemeFamily.MaterialDarkRipple
     };
 
     private KryptonCustomPaletteBase? _exportPalette;
@@ -115,7 +120,7 @@ public partial class LimeGreenButtonThemeDemo : KryptonForm
         var name = LimeGreenButtonThemeHelper.GetPaletteName(family);
         klblStatus.Values.Text =
             $@"Applied builtin ""{name}"" ({mode}). " +
-            @"Compare light / dark across 2007 · 2010 · 365.";
+            @"Compare light / dark across 2007 · 2010 · 365 · Material (+ Ripple).";
         statusLabel.Text = @"Theme: " + name;
     }
 
@@ -138,6 +143,10 @@ public partial class LimeGreenButtonThemeDemo : KryptonForm
         LimeGreenThemeFamily.Office2010Dark => @"Office 2010 Dark",
         LimeGreenThemeFamily.Microsoft365 => @"Microsoft 365",
         LimeGreenThemeFamily.Microsoft365Dark => @"Microsoft 365 Dark",
+        LimeGreenThemeFamily.Material => @"Material",
+        LimeGreenThemeFamily.MaterialDark => @"Material Dark",
+        LimeGreenThemeFamily.MaterialRipple => @"Material (Ripple)",
+        LimeGreenThemeFamily.MaterialDarkRipple => @"Material Dark (Ripple)",
         _ => family.ToString()
     };
 
@@ -149,6 +158,10 @@ public partial class LimeGreenButtonThemeDemo : KryptonForm
         LimeGreenThemeFamily.Office2010Dark => @"Office 2010 Blue Dark Mode",
         LimeGreenThemeFamily.Microsoft365 => @"Microsoft 365 White",
         LimeGreenThemeFamily.Microsoft365Dark => @"Microsoft 365 Black Dark Mode",
+        LimeGreenThemeFamily.Material => @"Material Light",
+        LimeGreenThemeFamily.MaterialDark => @"Material Dark",
+        LimeGreenThemeFamily.MaterialRipple => @"Material Light (Ripple)",
+        LimeGreenThemeFamily.MaterialDarkRipple => @"Material Dark (Ripple)",
         _ => family.ToString()
     };
 }
