@@ -52,6 +52,7 @@
    * Outer-ring `StateCommon` / `StateNormal` / `StateTracking` / `StatePressed` / `StateDisabled` border colours; pointer opens child/editor rings only via the outer-ring band (sector body on parents does not drill; keyboard Enter still opens).
    * Prefixed `StateShadow###` (`PaletteBack`) plus `ShadowOpacity` style the circular popup shadow by interaction state when `ShowShadow` is enabled.
    * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
+* Improved directory names in `Krypton.Toolkit.Utilities` project
 * Implemented [#4168](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4168), High contrast themes
    * Added builtin `PaletteMode` themes `HighContrast`, `Deuteranopia`, and `Protanopia` (fixed designed palettes) plus Office 2007 / 2010 / 2013, Sparkle, and Material renderer variants (including Material Ripple), selectable via ThemeComboBox / `KryptonManager.GlobalPaletteMode`.
    * High Contrast themes paint combo / context-menu client backs black (not `SystemColors.Window`).
