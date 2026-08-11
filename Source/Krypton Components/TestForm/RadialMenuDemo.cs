@@ -19,6 +19,7 @@ public partial class RadialMenuDemo : KryptonForm
 {
     private readonly KryptonRadialMenu _radialMenu = new();
     private readonly KryptonRadialMenu _importedMenu = new();
+    private readonly KryptonRadialMenuControl _hostedControl = new();
     private readonly KryptonContextMenu _sourceContextMenu = new();
     private readonly KryptonCommand _cutCommand = new();
     private readonly KryptonCommand _copyCommand = new();
@@ -27,12 +28,71 @@ public partial class RadialMenuDemo : KryptonForm
     public RadialMenuDemo()
     {
         InitializeComponent();
+        ConfigureHostedControl();
         BuildMenus();
         PopulateAnimationCombo();
         PopulateDisplayStyleCombo();
         PopulateImageSizeCombo();
         kchkShowShadow.Checked = true;
         kchkShowCheckedGlyph.Checked = true;
+    }
+
+    private void ConfigureHostedControl()
+    {
+        _hostedControl.Name = @"kryptonRadialMenuControl";
+        _hostedControl.MenuRadius = 110;
+        _hostedControl.InnerRadius = 34;
+        var diameter = (_hostedControl.MenuRadius * 2) + 8;
+        _hostedControl.Dock = DockStyle.None;
+        _hostedControl.Size = new Size(diameter, diameter);
+        _hostedControl.TabIndex = 0;
+        _hostedControl.UseHub = kchkUseHub.Checked;
+        _hostedControl.AllowMove = kchkAllowMove.Checked;
+        _hostedControl.ItemClick += (_, e) => AppendLog($@"Hosted ItemClick: {e.Item}");
+        _hostedControl.CenterButtonClick += (_, _) => AppendLog(@"Hosted centre button");
+        _hostedControl.ExpandedChanged += (_, _) =>
+            AppendLog(_hostedControl.Expanded ? @"Hosted expanded" : @"Hosted collapsed to hub");
+        _hostedControl.FloatingChanged += (_, _) =>
+        {
+            kbtnDockHosted.Enabled = _hostedControl.IsFloating;
+            AppendLog(_hostedControl.IsFloating ? @"Hosted floating outside host" : @"Hosted docked back");
+            if (!_hostedControl.IsFloating)
+            {
+                CenterHostedControl();
+            }
+        };
+        kpnlHosted.Controls.Add(_hostedControl);
+        _hostedControl.BringToFront();
+        CenterHostedControl();
+    }
+
+    private void CenterHostedControl()
+    {
+        if (_hostedControl.IsFloating || _hostedControl.Parent != kpnlHosted)
+        {
+            return;
+        }
+
+        var top = kwlblHosted.Bottom + 8;
+        var bottom = kbtnDockHosted.Top - 8;
+        var available = new Rectangle(
+            kpnlHosted.Padding.Left,
+            top,
+            kpnlHosted.ClientSize.Width - kpnlHosted.Padding.Horizontal,
+            Math.Max(0, bottom - top));
+        _hostedControl.Location = new Point(
+            available.Left + Math.Max(0, (available.Width - _hostedControl.Width) / 2),
+            available.Top + Math.Max(0, (available.Height - _hostedControl.Height) / 2));
+    }
+
+    private void kpnlHosted_Resize(object? sender, EventArgs e) => CenterHostedControl();
+
+    private void kbtnDockHosted_Click(object? sender, EventArgs e)
+    {
+        if (_hostedControl.DockBack())
+        {
+            CenterHostedControl();
+        }
     }
 
     protected override void OnFormClosed(FormClosedEventArgs e)
@@ -251,6 +311,43 @@ public partial class RadialMenuDemo : KryptonForm
         {
             date.SelectedDateChanged += (_, _) => AppendLog($@"Date: {date.SelectedDate:d}");
         }
+
+        // Mirror a compact native set onto the always-visible hosted control.
+        PopulateHostedControlItems();
+    }
+
+    private void PopulateHostedControlItems()
+    {
+        _hostedControl.Items.Clear();
+        _hostedControl.Items.Add(new KryptonRadialMenuItem(@"Edit")
+        {
+            Image = CreateSliceIcon(Color.FromArgb(52, 73, 94), @"✎"),
+            Items =
+            {
+                new KryptonRadialMenuItem(@"Cut", (_, _) => AppendLog(@"Hosted: Cut")),
+                new KryptonRadialMenuItem(@"Copy", (_, _) => AppendLog(@"Hosted: Copy"))
+            }
+        });
+        _hostedControl.Items.Add(new KryptonRadialMenuItem(@"Bold", (_, _) => AppendLog(@"Hosted: Bold"))
+        {
+            Image = CreateSliceIcon(Color.FromArgb(142, 68, 173), @"B"),
+            CheckOnClick = true,
+            Checked = true
+        });
+        _hostedControl.Items.Add(new KryptonRadialMenuSliderItem
+        {
+            Text = @"Opacity",
+            Image = CreateSliceIcon(Color.FromArgb(230, 126, 34), @"◐"),
+            Minimum = 0,
+            Maximum = 100,
+            Value = 60
+        });
+        _hostedControl.Items.Add(new KryptonRadialMenuColorPaletteItem(ColorScheme.Basic16)
+        {
+            Text = @"Fill",
+            Image = CreateSliceIcon(Color.FromArgb(26, 188, 156), @"■")
+        });
+        _hostedControl.ResetNavigation();
     }
 
     private void kpnlSurface_MouseUp(object? sender, MouseEventArgs e)
@@ -288,6 +385,7 @@ public partial class RadialMenuDemo : KryptonForm
     {
         _radialMenu.AllowMove = kchkAllowMove.Checked;
         _importedMenu.AllowMove = kchkAllowMove.Checked;
+        _hostedControl.AllowMove = kchkAllowMove.Checked;
     }
 
     private void kcmbAnimation_SelectedIndexChanged(object? sender, EventArgs e)
@@ -304,6 +402,7 @@ public partial class RadialMenuDemo : KryptonForm
         {
             _radialMenu.DisplayStyle = style;
             _importedMenu.DisplayStyle = style;
+            _hostedControl.DisplayStyle = style;
         }
     }
 
@@ -313,6 +412,7 @@ public partial class RadialMenuDemo : KryptonForm
         {
             _radialMenu.ItemImageSize = size;
             _importedMenu.ItemImageSize = size;
+            _hostedControl.ItemImageSize = size;
         }
     }
 
@@ -331,6 +431,11 @@ public partial class RadialMenuDemo : KryptonForm
     private void kchkPreferRadial_CheckedChanged(object? sender, EventArgs e)
     {
         KryptonRadialMenuPresenter.PreferRadialContextMenus = kchkPreferRadial.Checked;
+    }
+
+    private void kchkUseHub_CheckedChanged(object? sender, EventArgs e)
+    {
+        _hostedControl.UseHub = kchkUseHub.Checked;
     }
 
     private void AppendLog(string message)

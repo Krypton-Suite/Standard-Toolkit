@@ -1,19 +1,20 @@
 ﻿<#
 .SYNOPSIS
-    Asserts #4172 KryptonRadialMenu public API: items, bridge, live sync, PreferRadial, show/close.
+    Asserts #4172 KryptonRadialMenu public API: items, bridge, live sync, PreferRadial, show/close, hosted Control.
 
 .DESCRIPTION
     Loads Debug Krypton.Toolkit / Krypton.Toolkit.Utilities binaries and runs in-process STA checks:
 
     1. Default appearance values (Sweep, shadow, StartAngle, MaxVisibleItems, HitPadding, image size).
-    2. Item PerformClick / CheckOnClick / ItemClick; ResolveImage from Image and KryptonCommand.
-    3. Slider SetNormalizedValue raises ValueChanged; TextItem / CalendarItem construct.
-    4. ImportFrom maps Item, LinkLabel, TextBox→TextItem, ComboBox, ProgressBar, MonthCalendar→CalendarItem,
+    2. Hosted KryptonRadialMenuControl constructs with Items / State### and ResetNavigation.
+    3. Item PerformClick / CheckOnClick / ItemClick; ResolveImage from Image and KryptonCommand.
+    4. Slider SetNormalizedValue raises ValueChanged; TextItem / CalendarItem construct.
+    5. ImportFrom maps Item, LinkLabel, TextBox→TextItem, ComboBox, ProgressBar, MonthCalendar→CalendarItem,
        ColorColumns; skips Separator / Heading.
-    5. Live sync re-projects when the root Items collection changes; property sync updates Text on Tag sources.
-    6. PreferRadialContextMenus registers / clears KryptonContextMenu.AlternativeShow.
-    7. ShowPopup / Close (including animated close) without crash on an off-screen form.
-    8. KryptonRadialMenuPresenter.GetOrCreateProjection caches live-synced projections.
+    6. Live sync re-projects when the root Items collection changes; property sync updates Text on Tag sources.
+    7. PreferRadialContextMenus registers / clears KryptonContextMenu.AlternativeShow.
+    8. ShowPopup / Close (including animated close) without crash on an off-screen form.
+    9. KryptonRadialMenuPresenter.GetOrCreateProjection caches live-synced projections.
 
     Exit code 0 on success; non-zero on failure.
     Requires an STA apartment (use powershell -STA). Invoke-AllUnitTests launches include scripts with -STA.
@@ -133,6 +134,38 @@ Assert-True ($null -ne $menu.StateShadowTracking) 'StateShadowTracking is availa
 Assert-True ($null -ne $menu.StateShadowPressed) 'StateShadowPressed is available'
 Assert-True ($null -ne $menu.StateShadowDisabled) 'StateShadowDisabled is available'
 Assert-Equal 0.18 ([float]$menu.ShadowOpacity) 'Default ShadowOpacity is 0.18'
+
+# ----- Hosted KryptonRadialMenuControl -----
+$hosted = Get-NetObject ([System.Activator]::CreateInstance([Krypton.Toolkit.Utilities.KryptonRadialMenuControl]))
+Assert-Equal 140 $hosted.MenuRadius 'Hosted default MenuRadius is 140'
+Assert-Equal 42 $hosted.InnerRadius 'Hosted default InnerRadius is 42'
+Assert-Equal ([Krypton.Toolkit.Utilities.KryptonRadialMenuDisplayStyle]::ImageAboveText) $hosted.DisplayStyle 'Hosted default DisplayStyle is ImageAboveText'
+Assert-True ($null -ne $hosted.StateCommon) 'Hosted StateCommon is available'
+Assert-True ($null -ne $hosted.Items) 'Hosted Items collection is available'
+Assert-True (-not [bool]$hosted.AllowMove) 'Hosted default AllowMove is false'
+Assert-True (-not [bool]$hosted.IsFloating) 'Hosted default IsFloating is false'
+$hosted.AllowMove = $true
+Assert-True ([bool]$hosted.AllowMove) 'Hosted AllowMove can be enabled'
+Assert-True (-not [bool]$hosted.Float()) 'Hosted Float() without parent stays unfloated'
+Assert-True (-not [bool]$hosted.UseHub) 'Hosted default UseHub is false'
+Assert-True ([bool]$hosted.Expanded) 'Hosted Expanded is true when UseHub is false'
+$hosted.UseHub = $true
+Assert-True (-not [bool]$hosted.Expanded) 'Enabling UseHub collapses to hub'
+$hosted.Expand()
+Assert-True ([bool]$hosted.Expanded) 'Expand() opens the radial menu'
+$hosted.Collapse()
+Assert-True (-not [bool]$hosted.Expanded) 'Collapse() returns to hub'
+$hosted.UseHub = $false
+Assert-True ([bool]$hosted.Expanded) 'Disabling UseHub keeps menu expanded'
+[void]$hosted.Items.Add((Get-NetObject ([System.Activator]::CreateInstance([Krypton.Toolkit.Utilities.KryptonRadialMenuItem], [object[]]@('HostedLeaf')))))
+Assert-Equal 1 $hosted.Items.Count 'Hosted Items accepts KryptonRadialMenuItem'
+$hosted.ResetNavigation()
+$form.Controls.Add($hosted)
+[System.Windows.Forms.Application]::DoEvents()
+Assert-True ($hosted.Width -gt 0) 'Hosted control has non-zero width after parented'
+$form.Controls.Remove($hosted)
+$hosted.Dispose()
+Write-Host 'PASS: KryptonRadialMenuControl constructs and accepts items' -ForegroundColor Green
 
 # ----- Outer-ring vs sector HitTest -----
 # RadialLayoutEngine is internal — invoke via reflection.

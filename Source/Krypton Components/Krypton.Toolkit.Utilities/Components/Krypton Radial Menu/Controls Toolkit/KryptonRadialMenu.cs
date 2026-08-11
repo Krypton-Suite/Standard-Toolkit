@@ -20,7 +20,7 @@ namespace Krypton.Toolkit.Utilities;
 [DesignerCategory(@"code")]
 [Designer(typeof(KryptonRadialMenuDesigner))]
 [Description(@"Displays a radial shortcut menu in a popup window.")]
-public class KryptonRadialMenu : Component
+public class KryptonRadialMenu : Component, IRadialMenuAppearance
 {
     #region Instance Fields
 
@@ -737,6 +737,8 @@ public class KryptonRadialMenu : Component
         var color = border.GetBorderColor1(state);
         return color.IsEmpty ? SystemColors.ControlDark : color;
     }
+
+    Color IRadialMenuAppearance.ResolveOuterRingColor(PaletteState state) => ResolveOuterRingColor(state);
 
     /// <summary>
     /// Resolves the popup-shadow fill colour for the given palette state.

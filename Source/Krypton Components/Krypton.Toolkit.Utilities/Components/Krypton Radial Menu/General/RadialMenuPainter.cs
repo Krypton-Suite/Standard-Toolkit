@@ -32,15 +32,17 @@ internal static class RadialMenuPainter
         bool editorMode,
         KryptonRadialMenuItemBase? activeEditorItem,
         int trackingEditorIndex,
-        KryptonRadialMenu owner)
+        IRadialMenuAppearance appearance,
+        int? outerRadiusOverride = null,
+        int? innerRadiusOverride = null)
     {
         g.SmoothingMode = SmoothingMode.AntiAlias;
         g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
         g.PixelOffsetMode = PixelOffsetMode.HighQuality;
 
         var center = new PointF(bounds.Width / 2f, bounds.Height / 2f);
-        var outer = values.MenuRadius;
-        var inner = values.InnerRadius;
+        var outer = outerRadiusOverride ?? values.MenuRadius;
+        var inner = innerRadiusOverride ?? values.InnerRadius;
 
         using (var outerPath = CreateAnnulusPath(center, outer, inner))
         using (var backBrush = new SolidBrush(colors.SectorNormal))
@@ -74,7 +76,8 @@ internal static class RadialMenuPainter
                 sectors,
                 items,
                 values,
-                owner,
+                appearance,
+                outer,
                 trackingIndex,
                 trackingOuterRing,
                 pressedIndex,
@@ -85,7 +88,7 @@ internal static class RadialMenuPainter
                 sectors,
                 items,
                 values,
-                owner,
+                appearance,
                 trackingIndex,
                 trackingOuterRing,
                 pressedIndex,
@@ -102,7 +105,8 @@ internal static class RadialMenuPainter
         RadialSectorInfo[] sectors,
         IReadOnlyList<KryptonRadialMenuItemBase> items,
         KryptonRadialMenuValues values,
-        KryptonRadialMenu owner,
+        IRadialMenuAppearance appearance,
+        float menuRadius,
         int trackingIndex,
         bool trackingOuterRing,
         int pressedIndex,
@@ -115,13 +119,13 @@ internal static class RadialMenuPainter
         }
 
         thickness = Math.Min(16f, thickness);
-        var radius = Math.Max(1f, values.MenuRadius - (thickness * 0.5f));
+        var radius = Math.Max(1f, menuRadius - (thickness * 0.5f));
         var rect = new RectangleF(center.X - radius, center.Y - radius, radius * 2f, radius * 2f);
 
         for (var i = 0; i < sectors.Length && i < items.Count; i++)
         {
             var color = ResolveRingColor(
-                owner,
+                appearance,
                 items[i],
                 i == trackingIndex && trackingOuterRing,
                 i == pressedIndex && pressedOuterRing);
@@ -136,27 +140,27 @@ internal static class RadialMenuPainter
     }
 
     private static Color ResolveRingColor(
-        KryptonRadialMenu owner,
+        IRadialMenuAppearance appearance,
         KryptonRadialMenuItemBase item,
         bool trackingOuterRing,
         bool pressedOuterRing)
     {
         if (!item.Enabled)
         {
-            return owner.ResolveOuterRingColor(PaletteState.Disabled);
+            return appearance.ResolveOuterRingColor(PaletteState.Disabled);
         }
 
         if (pressedOuterRing)
         {
-            return owner.ResolveOuterRingColor(PaletteState.Pressed);
+            return appearance.ResolveOuterRingColor(PaletteState.Pressed);
         }
 
         if (trackingOuterRing)
         {
-            return owner.ResolveOuterRingColor(PaletteState.Tracking);
+            return appearance.ResolveOuterRingColor(PaletteState.Tracking);
         }
 
-        return owner.ResolveOuterRingColor(PaletteState.Normal);
+        return appearance.ResolveOuterRingColor(PaletteState.Normal);
     }
 
     private static void PaintSubMenuGlyphs(
@@ -165,7 +169,7 @@ internal static class RadialMenuPainter
         RadialSectorInfo[] sectors,
         IReadOnlyList<KryptonRadialMenuItemBase> items,
         KryptonRadialMenuValues values,
-        KryptonRadialMenu owner,
+        IRadialMenuAppearance appearance,
         int trackingIndex,
         bool trackingOuterRing,
         int pressedIndex,
@@ -185,7 +189,7 @@ internal static class RadialMenuPainter
             }
 
             var color = ResolveRingColor(
-                owner,
+                appearance,
                 items[i],
                 i == trackingIndex && trackingOuterRing,
                 i == pressedIndex && pressedOuterRing);
@@ -536,6 +540,57 @@ internal static class RadialMenuPainter
             g.DrawString("×", font, brush, rect, format);
             format.Dispose();
         }
+    }
+
+    /// <summary>
+    /// Paints a collapsed hub button (centre disc only) used by <see cref="KryptonRadialMenuControl"/> hub mode.
+    /// </summary>
+    /// <param name="g">Graphics.</param>
+    /// <param name="bounds">Client bounds.</param>
+    /// <param name="values">Menu values.</param>
+    /// <param name="colors">Resolved colours.</param>
+    /// <param name="innerRadius">Hub disc radius.</param>
+    /// <param name="tracking">Whether the pointer is over the hub.</param>
+    public static void PaintHub(
+        Graphics g,
+        Rectangle bounds,
+        KryptonRadialMenuValues values,
+        RadialMenuColorSet colors,
+        float innerRadius,
+        bool tracking)
+    {
+        g.SmoothingMode = SmoothingMode.AntiAlias;
+        g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+        g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+        var center = new PointF(bounds.Width / 2f, bounds.Height / 2f);
+        var radius = Math.Max(12f, innerRadius);
+        var fill = tracking ? colors.SectorTracking : colors.Center;
+        var rect = new RectangleF(center.X - radius, center.Y - radius, radius * 2f, radius * 2f);
+        using (var brush = new SolidBrush(fill))
+        {
+            g.FillEllipse(brush, rect);
+        }
+
+        using (var pen = new Pen(ControlPaint.Dark(fill), 2f))
+        {
+            g.DrawEllipse(pen, rect);
+        }
+
+        if (values.Glyph != null)
+        {
+            var size = Math.Min(24f, radius);
+            var dest = new RectangleF(center.X - (size / 2f), center.Y - (size / 2f), size, size);
+            g.DrawImage(values.Glyph, dest);
+            return;
+        }
+
+        using var font = new Font("Segoe UI", Math.Max(10f, radius * 0.45f), FontStyle.Bold);
+        using var textBrush = new SolidBrush(colors.CenterGlyph);
+        var format = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
+        // Plus affordance: press to open the radial menu.
+        g.DrawString("+", font, textBrush, rect, format);
+        format.Dispose();
     }
 
     private static string? ResolveEditorCenterText(KryptonRadialMenuItemBase activeEditorItem) =>
