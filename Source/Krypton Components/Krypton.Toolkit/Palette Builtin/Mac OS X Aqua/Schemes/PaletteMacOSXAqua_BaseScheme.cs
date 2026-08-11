@@ -193,11 +193,11 @@ public sealed class PaletteMacOSXAqua_BaseScheme : KryptonColorSchemeBase
     public override Color GridDataCellSelected { get; set; } = Color.FromArgb(183, 219, 255);
     public override Color InputControlTextNormal { get; set; } = Color.Black;
     public override Color InputControlTextDisabled { get; set; } = Color.FromArgb(168, 168, 168);
-    public override Color InputControlBorderNormal { get; set; } = Color.FromArgb(177, 192, 214);
+    public override Color InputControlBorderNormal { get; set; } = Color.FromArgb(150, 168, 190);
     public override Color InputControlBorderDisabled { get; set; } = Color.FromArgb(177, 187, 198);
-    public override Color InputControlBackNormal { get; set; } = Color.FromArgb(74, 141, 244);
+    public override Color InputControlBackNormal { get; set; } = Color.White;
     public override Color InputControlBackDisabled { get; set; } = Color.FromArgb(240, 240, 240);
-    public override Color InputControlBackInactive { get; set; } = Color.FromArgb(237, 245, 253);
+    public override Color InputControlBackInactive { get; set; } = Color.FromArgb(250, 252, 255);
     public override Color InputDropDownNormal1 { get; set; } = Color.Black;
     public override Color InputDropDownNormal2 { get; set; } = Color.Transparent;
     public override Color InputDropDownDisabled1 { get; set; } = Color.FromArgb(172, 168, 153);
