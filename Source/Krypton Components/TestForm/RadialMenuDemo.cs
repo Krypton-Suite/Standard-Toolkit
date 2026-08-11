@@ -431,6 +431,20 @@ public partial class RadialMenuDemo : KryptonForm
         _importedMenu.ShowShadow = kchkShowShadow.Checked;
     }
 
+    private void knudShadowBlur_ValueChanged(object? sender, EventArgs e)
+    {
+        var blur = (int)knudShadowBlur.Value;
+        _radialMenu.ShadowBlur = blur;
+        _importedMenu.ShadowBlur = blur;
+    }
+
+    private void knudShadowOffset_ValueChanged(object? sender, EventArgs e)
+    {
+        var offset = (int)knudShadowOffset.Value;
+        _radialMenu.ShadowOffset = offset;
+        _importedMenu.ShadowOffset = offset;
+    }
+
     private void kchkShowCheckedGlyph_CheckedChanged(object? sender, EventArgs e)
     {
         _radialMenu.ShowCheckedGlyph = kchkShowCheckedGlyph.Checked;

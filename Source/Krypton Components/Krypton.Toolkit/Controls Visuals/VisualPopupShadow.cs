@@ -31,6 +31,7 @@ public class VisualPopupShadow : Form
     private readonly SolidBrush[] _brushes;
     private Color _baseColor;
     private int _padding;
+    private int _offset = SHADOW_SIZE;
     #endregion
 
     #region Identity
@@ -75,20 +76,30 @@ public class VisualPopupShadow : Form
     /// Show the popup using the provided rectangle as the screen rect.
     /// </summary>
     /// <param name="screenRect">Screen rectangle for showing the popup.</param>
-    public virtual void Show(Rectangle screenRect) => Show(screenRect, padding: 0);
+    public virtual void Show(Rectangle screenRect) => Show(screenRect, padding: 0, offset: SHADOW_SIZE);
 
     /// <summary>
     /// Show the shadow for a popup, optionally expanding the window so outer halo paths are not clipped.
     /// </summary>
     /// <param name="screenRect">Screen rectangle of the owning popup.</param>
     /// <param name="padding">Extra pixels around the popup reserved for soft shadow rings.</param>
-    public virtual void Show(Rectangle screenRect, int padding)
+    public virtual void Show(Rectangle screenRect, int padding) =>
+        Show(screenRect, padding, offset: SHADOW_SIZE);
+
+    /// <summary>
+    /// Show the shadow for a popup with padding and drop offset.
+    /// </summary>
+    /// <param name="screenRect">Screen rectangle of the owning popup.</param>
+    /// <param name="padding">Extra pixels around the popup reserved for soft shadow rings.</param>
+    /// <param name="offset">Drop offset in pixels (down and right).</param>
+    public virtual void Show(Rectangle screenRect, int padding, int offset)
     {
         _padding = Math.Max(0, padding);
+        _offset = Math.Max(0, offset);
 
-        // Offset by the width/height of the shadow, then expand for halo padding.
-        screenRect.X += SHADOW_SIZE - _padding;
-        screenRect.Y += SHADOW_SIZE - _padding;
+        // Offset by the drop amount, then expand for halo padding.
+        screenRect.X += _offset - _padding;
+        screenRect.Y += _offset - _padding;
         screenRect.Width += _padding * 2;
         screenRect.Height += _padding * 2;
 
@@ -105,7 +116,7 @@ public class VisualPopupShadow : Form
     /// </summary>
     /// <param name="popupScreenLocation">Top-left screen location of the owning popup.</param>
     public void UpdatePopupLocation(Point popupScreenLocation) =>
-        Location = new Point(popupScreenLocation.X + SHADOW_SIZE - _padding, popupScreenLocation.Y + SHADOW_SIZE - _padding);
+        Location = new Point(popupScreenLocation.X + _offset - _padding, popupScreenLocation.Y + _offset - _padding);
 
     /// <summary>
     /// Applies shadow colour and window opacity.
@@ -249,7 +260,9 @@ public class VisualPopupShadow : Form
 
     private void DrawPaths(Graphics g)
     {
-        g.SmoothingMode = SmoothingMode.AntiAlias;
+        // Aliased fills: AntiAlias against TransparencyKey Magenta creates a pink fringe.
+        g.SmoothingMode = SmoothingMode.None;
+        g.PixelOffsetMode = PixelOffsetMode.None;
         g.FillPath(_brushes[2], _path1!);
         g.FillPath(_brushes[1], _path2!);
         g.FillPath(_brushes[0], _path3!);

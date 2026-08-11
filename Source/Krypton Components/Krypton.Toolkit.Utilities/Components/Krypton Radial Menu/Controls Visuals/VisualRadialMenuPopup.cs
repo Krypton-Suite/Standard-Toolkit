@@ -30,7 +30,8 @@ internal class VisualRadialMenuPopup : VisualPopup, IRadialMenuInteractionHost
     private System.Windows.Forms.Timer? _animationTimer;
 
     private const int MoveDragThreshold = 8;
-    private const int ShadowPadding = 16;
+    // Hole inset keeps Magenta colour-key fringe of the shadow punch under the opaque popup.
+    private const int ShadowHoleInset = 3;
 
     #endregion
 
@@ -156,7 +157,9 @@ internal class VisualRadialMenuPopup : VisualPopup, IRadialMenuInteractionHost
         // Use padded shadow so outer halo rings are not clipped to the menu rectangle.
         SetBounds(screenRect.X, screenRect.Y, screenRect.Width, screenRect.Height);
         DefineCircularShadowPaths(screenRect.Size);
-        ShowShadow(screenRect, ShadowPadding);
+        var blur = Math.Max(0, _owner.Values.ShadowBlur);
+        var padding = blur + ShadowHoleInset + 2;
+        ShowShadow(screenRect, padding, _owner.Values.ShadowOffset);
         PI.ShowWindow(Handle, PI.ShowWindowCommands.SW_SHOWNOACTIVATE);
         VisualPopupManager.Singleton.StartTracking(this);
     }
@@ -700,6 +703,22 @@ internal class VisualRadialMenuPopup : VisualPopup, IRadialMenuInteractionHost
         UpdateShadowAppearance(_owner.ResolveShadowColor(state), _owner.Values.ShadowOpacity);
     }
 
+    /// <summary>
+    /// Rebuilds shadow halo geometry from current <see cref="KryptonRadialMenuValues.ShadowBlur"/> / Offset.
+    /// </summary>
+    internal void RefreshShadowGeometry()
+    {
+        if (IsDisposed || !IsHandleCreated || !Visible || !_owner.Values.ShowShadow)
+        {
+            return;
+        }
+
+        DefineCircularShadowPaths(ClientSize);
+        var blur = Math.Max(0, _owner.Values.ShadowBlur);
+        var padding = blur + ShadowHoleInset + 2;
+        ShowShadow(new Rectangle(Location, Size), padding, _owner.Values.ShadowOffset);
+    }
+
     private void DefineCircularShadowPaths(Size menuSize)
     {
         if (!_owner.Values.ShowShadow)
@@ -707,21 +726,33 @@ internal class VisualRadialMenuPopup : VisualPopup, IRadialMenuInteractionHost
             return;
         }
 
-        // Paths are in the padded shadow client: menu disc is at (ShadowPadding, ShadowPadding).
-        var pad = ShadowPadding;
+        var blur = Math.Max(0, _owner.Values.ShadowBlur);
+        var pad = blur + ShadowHoleInset + 2;
+        // Paths are in the padded shadow client: menu disc is at (pad, pad).
         GraphicsPath CreateOuterHalo(int outerExtra)
         {
+            outerExtra = Math.Max(1, outerExtra);
             var path = new GraphicsPath { FillMode = FillMode.Alternate };
             var ox = pad - outerExtra;
             var oy = pad - outerExtra;
             path.AddEllipse(ox, oy, menuSize.Width - 1 + (outerExtra * 2), menuSize.Height - 1 + (outerExtra * 2));
-            // Punch the menu disc so the halo sits outside the radial artwork.
-            path.AddEllipse(pad, pad, menuSize.Width - 1, menuSize.Height - 1);
+            // Punch a hole slightly smaller than the menu so Magenta fringe sits under the opaque popup.
+            var inset = ShadowHoleInset;
+            path.AddEllipse(
+                pad + inset,
+                pad + inset,
+                Math.Max(1, menuSize.Width - 1 - (inset * 2)),
+                Math.Max(1, menuSize.Height - 1 - (inset * 2)));
             return path;
         }
 
+        var mid = Math.Max(1, (blur * 2) / 3);
+        var inner = Math.Max(1, blur / 3);
         // Soft falloff: largest ring first (strongest brush in VisualPopupShadow.DrawPaths).
-        DefineShadowPaths(CreateOuterHalo(14), CreateOuterHalo(9), CreateOuterHalo(5));
+        DefineShadowPaths(
+            CreateOuterHalo(Math.Max(1, blur)),
+            CreateOuterHalo(mid),
+            CreateOuterHalo(inner));
     }
 
     private double DistanceFromCenter(Point clientPoint)

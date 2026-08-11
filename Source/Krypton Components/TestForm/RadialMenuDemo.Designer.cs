@@ -55,6 +55,10 @@ partial class RadialMenuDemo
         this.kchkHubImage = new Krypton.Toolkit.KryptonCheckBox();
         this.kchkShowCheckedGlyph = new Krypton.Toolkit.KryptonCheckBox();
         this.kchkShowShadow = new Krypton.Toolkit.KryptonCheckBox();
+        this.knudShadowBlur = new Krypton.Toolkit.KryptonNumericUpDown();
+        this.kwlblShadowBlur = new Krypton.Toolkit.KryptonWrapLabel();
+        this.knudShadowOffset = new Krypton.Toolkit.KryptonNumericUpDown();
+        this.kwlblShadowOffset = new Krypton.Toolkit.KryptonWrapLabel();
         this.kcmbImageSize = new Krypton.Toolkit.KryptonComboBox();
         this.kwlblImageSize = new Krypton.Toolkit.KryptonWrapLabel();
         this.knudOuterRing = new Krypton.Toolkit.KryptonNumericUpDown();
@@ -101,6 +105,10 @@ partial class RadialMenuDemo
         this.kpnlToolbar.Controls.Add(this.kchkHubImage);
         this.kpnlToolbar.Controls.Add(this.kchkShowCheckedGlyph);
         this.kpnlToolbar.Controls.Add(this.kchkShowShadow);
+        this.kpnlToolbar.Controls.Add(this.kwlblShadowBlur);
+        this.kpnlToolbar.Controls.Add(this.knudShadowBlur);
+        this.kpnlToolbar.Controls.Add(this.kwlblShadowOffset);
+        this.kpnlToolbar.Controls.Add(this.knudShadowOffset);
         this.kpnlToolbar.Controls.Add(this.kcmbImageSize);
         this.kpnlToolbar.Controls.Add(this.kwlblImageSize);
         this.kpnlToolbar.Controls.Add(this.knudOuterRing);
@@ -234,17 +242,55 @@ partial class RadialMenuDemo
         //
         this.kchkShowShadow.Location = new System.Drawing.Point(614, 40);
         this.kchkShowShadow.Name = "kchkShowShadow";
-        this.kchkShowShadow.Size = new System.Drawing.Size(110, 24);
+        this.kchkShowShadow.Size = new System.Drawing.Size(100, 24);
         this.kchkShowShadow.TabIndex = 9;
         this.kchkShowShadow.Values.Text = "Show shadow";
         this.kchkShowShadow.CheckedChanged += new System.EventHandler(this.kchkShowShadow_CheckedChanged);
         //
+        // kwlblShadowBlur
+        //
+        this.kwlblShadowBlur.Location = new System.Drawing.Point(720, 44);
+        this.kwlblShadowBlur.Name = "kwlblShadowBlur";
+        this.kwlblShadowBlur.Size = new System.Drawing.Size(32, 20);
+        this.kwlblShadowBlur.Text = "Blur:";
+        //
+        // knudShadowBlur
+        //
+        this.knudShadowBlur.DecimalPlaces = 0;
+        this.knudShadowBlur.Location = new System.Drawing.Point(756, 40);
+        this.knudShadowBlur.Maximum = new decimal(new int[] { 48, 0, 0, 0 });
+        this.knudShadowBlur.Minimum = new decimal(new int[] { 0, 0, 0, 0 });
+        this.knudShadowBlur.Name = "knudShadowBlur";
+        this.knudShadowBlur.Size = new System.Drawing.Size(48, 25);
+        this.knudShadowBlur.TabIndex = 10;
+        this.knudShadowBlur.Value = new decimal(new int[] { 14, 0, 0, 0 });
+        this.knudShadowBlur.ValueChanged += new System.EventHandler(this.knudShadowBlur_ValueChanged);
+        //
+        // kwlblShadowOffset
+        //
+        this.kwlblShadowOffset.Location = new System.Drawing.Point(812, 44);
+        this.kwlblShadowOffset.Name = "kwlblShadowOffset";
+        this.kwlblShadowOffset.Size = new System.Drawing.Size(44, 20);
+        this.kwlblShadowOffset.Text = "Drop:";
+        //
+        // knudShadowOffset
+        //
+        this.knudShadowOffset.DecimalPlaces = 0;
+        this.knudShadowOffset.Location = new System.Drawing.Point(856, 40);
+        this.knudShadowOffset.Maximum = new decimal(new int[] { 32, 0, 0, 0 });
+        this.knudShadowOffset.Minimum = new decimal(new int[] { 0, 0, 0, 0 });
+        this.knudShadowOffset.Name = "knudShadowOffset";
+        this.knudShadowOffset.Size = new System.Drawing.Size(48, 25);
+        this.knudShadowOffset.TabIndex = 11;
+        this.knudShadowOffset.Value = new decimal(new int[] { 4, 0, 0, 0 });
+        this.knudShadowOffset.ValueChanged += new System.EventHandler(this.knudShadowOffset_ValueChanged);
+        //
         // kchkShowCheckedGlyph
         //
-        this.kchkShowCheckedGlyph.Location = new System.Drawing.Point(730, 40);
+        this.kchkShowCheckedGlyph.Location = new System.Drawing.Point(770, 70);
         this.kchkShowCheckedGlyph.Name = "kchkShowCheckedGlyph";
         this.kchkShowCheckedGlyph.Size = new System.Drawing.Size(120, 24);
-        this.kchkShowCheckedGlyph.TabIndex = 10;
+        this.kchkShowCheckedGlyph.TabIndex = 14;
         this.kchkShowCheckedGlyph.Values.Text = "Checked glyph";
         this.kchkShowCheckedGlyph.CheckedChanged += new System.EventHandler(this.kchkShowCheckedGlyph_CheckedChanged);
         //
@@ -412,6 +458,10 @@ partial class RadialMenuDemo
     private Krypton.Toolkit.KryptonCheckBox kchkHubImage;
     private Krypton.Toolkit.KryptonCheckBox kchkShowCheckedGlyph;
     private Krypton.Toolkit.KryptonCheckBox kchkShowShadow;
+    private Krypton.Toolkit.KryptonWrapLabel kwlblShadowBlur;
+    private Krypton.Toolkit.KryptonNumericUpDown knudShadowBlur;
+    private Krypton.Toolkit.KryptonWrapLabel kwlblShadowOffset;
+    private Krypton.Toolkit.KryptonNumericUpDown knudShadowOffset;
     private Krypton.Toolkit.KryptonComboBox kcmbImageSize;
     private Krypton.Toolkit.KryptonWrapLabel kwlblImageSize;
     private Krypton.Toolkit.KryptonNumericUpDown knudOuterRing;

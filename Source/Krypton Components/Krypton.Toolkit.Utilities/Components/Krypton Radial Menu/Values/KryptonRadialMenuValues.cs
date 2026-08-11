@@ -29,6 +29,8 @@ public class KryptonRadialMenuValues : Storage
     private int _itemImageSize;
     private bool _showShadow;
     private float _shadowOpacity;
+    private int _shadowBlur;
+    private int _shadowOffset;
     private bool _showCheckedGlyph;
     private float _startAngle;
     private int _maxVisibleItems;
@@ -58,6 +60,8 @@ public class KryptonRadialMenuValues : Storage
         _itemImageSize = 24;
         _showShadow = true;
         _shadowOpacity = 0.18f;
+        _shadowBlur = 14;
+        _shadowOffset = 4;
         _showCheckedGlyph = true;
         _startAngle = -90f;
         _maxVisibleItems = 0;
@@ -80,6 +84,8 @@ public class KryptonRadialMenuValues : Storage
         && _itemImageSize == 24
         && _showShadow
         && Math.Abs(_shadowOpacity - 0.18f) < 0.001f
+        && _shadowBlur == 14
+        && _shadowOffset == 4
         && _showCheckedGlyph
         && Math.Abs(_startAngle + 90f) < 0.01f
         && _maxVisibleItems == 0
@@ -328,6 +334,46 @@ public class KryptonRadialMenuValues : Storage
             if (Math.Abs(_shadowOpacity - value) > 0.001f)
             {
                 _shadowOpacity = value;
+                PerformNeedPaint(false);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets how far the soft shadow halo extends beyond the menu edge, in pixels.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Soft shadow halo radius in pixels outside the menu edge.")]
+    [DefaultValue(14)]
+    public int ShadowBlur
+    {
+        get => _shadowBlur;
+        set
+        {
+            value = Math.Max(0, Math.Min(48, value));
+            if (_shadowBlur != value)
+            {
+                _shadowBlur = value;
+                PerformNeedPaint(false);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the shadow drop offset in pixels (down and right).
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Shadow drop offset in pixels (down and right).")]
+    [DefaultValue(4)]
+    public int ShadowOffset
+    {
+        get => _shadowOffset;
+        set
+        {
+            value = Math.Max(0, Math.Min(32, value));
+            if (_shadowOffset != value)
+            {
+                _shadowOffset = value;
                 PerformNeedPaint(false);
             }
         }

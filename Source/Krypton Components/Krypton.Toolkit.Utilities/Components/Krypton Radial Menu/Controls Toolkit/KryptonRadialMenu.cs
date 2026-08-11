@@ -492,6 +492,30 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     }
 
     /// <summary>
+    /// Gets or sets the soft shadow halo radius. Proxy for <see cref="KryptonRadialMenuValues.ShadowBlur"/>.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Soft shadow halo radius in pixels outside the menu edge.")]
+    [DefaultValue(14)]
+    public int ShadowBlur
+    {
+        get => Values.ShadowBlur;
+        set => Values.ShadowBlur = value;
+    }
+
+    /// <summary>
+    /// Gets or sets the shadow drop offset. Proxy for <see cref="KryptonRadialMenuValues.ShadowOffset"/>.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Shadow drop offset in pixels (down and right).")]
+    [DefaultValue(4)]
+    public int ShadowOffset
+    {
+        get => Values.ShadowOffset;
+        set => Values.ShadowOffset = value;
+    }
+
+    /// <summary>
     /// Gets or sets whether checked sectors draw a checkmark. Proxy for <see cref="KryptonRadialMenuValues.ShowCheckedGlyph"/>.
     /// </summary>
     [Category(@"Visuals")]
@@ -1147,6 +1171,7 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
         if (_popup is { IsDisposed: false })
         {
             _popup.SyncShadowAppearance();
+            _popup.RefreshShadowGeometry();
             _popup.Invalidate();
         }
     }

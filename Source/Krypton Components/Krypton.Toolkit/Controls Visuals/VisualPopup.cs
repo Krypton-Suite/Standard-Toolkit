@@ -175,6 +175,15 @@ public class VisualPopup : ContainerControl
         _shadow?.Show(popupScreenRect, padding);
 
     /// <summary>
+    /// Shows the shadow window for the popup rectangle with padding and drop offset.
+    /// </summary>
+    /// <param name="popupScreenRect">Screen bounds of this popup.</param>
+    /// <param name="padding">Extra pixels around the popup for soft shadow rings.</param>
+    /// <param name="offset">Drop offset in pixels (down and right).</param>
+    protected void ShowShadow(Rectangle popupScreenRect, int padding, int offset) =>
+        _shadow?.Show(popupScreenRect, padding, offset);
+
+    /// <summary>
     /// Show the popup with the given size but relative to the provided top left point.
     /// </summary>
     /// <param name="popupLocation">Intended top left of parent area.</param>
