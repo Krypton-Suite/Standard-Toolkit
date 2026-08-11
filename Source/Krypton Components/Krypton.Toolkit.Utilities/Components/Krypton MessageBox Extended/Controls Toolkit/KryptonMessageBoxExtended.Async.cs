@@ -7,14 +7,12 @@
  */
 #endregion
 
-#if NET9_0_OR_GREATER
-
 using ContentAlignment = System.Drawing.ContentAlignment;
 
 namespace Krypton.Toolkit.Utilities;
 
 /// <summary>
-/// Asynchronous dialog helpers for <see cref="KryptonMessageBoxExtended"/> (.NET 9+).
+/// Asynchronous dialog helpers for <see cref="KryptonMessageBoxExtended"/>.
 /// Prefer <see cref="ShowAsync(KryptonMessageBoxExtendedData, bool)"/> when optional-parameter overloads would be ambiguous.
 /// </summary>
 public static partial class KryptonMessageBoxExtended
@@ -670,9 +668,7 @@ public static partial class KryptonMessageBoxExtended
     {
         using var kmbe = new VisualMessageBoxExtendedForm(data, showCloseButton);
 
-        return data.Owner != null
-            ? await kmbe.ShowDialogAsync(data.Owner).ConfigureAwait(true)
-            : await kmbe.ShowDialogAsync().ConfigureAwait(true);
+        return await KryptonFormAsync.ShowDialogAsync(kmbe, data.Owner).ConfigureAwait(false);
     }
 
     #endregion
@@ -767,9 +763,7 @@ public static partial class KryptonMessageBoxExtended
                 showCopyButton,
                 overlayImage);
 
-            return showOwner is null
-                ? await kmbertl.ShowDialogAsync().ConfigureAwait(true)
-                : await kmbertl.ShowDialogAsync(showOwner).ConfigureAwait(true);
+            return await KryptonFormAsync.ShowDialogAsync(kmbertl, showOwner).ConfigureAwait(false);
         }
 
         using var kmbe = new VisualMessageBoxExtendedForm(
@@ -819,12 +813,8 @@ public static partial class KryptonMessageBoxExtended
             showCopyButton,
             overlayImage);
 
-        return showOwner is null
-            ? await kmbe.ShowDialogAsync().ConfigureAwait(true)
-            : await kmbe.ShowDialogAsync(showOwner).ConfigureAwait(true);
+        return await KryptonFormAsync.ShowDialogAsync(kmbe, showOwner).ConfigureAwait(false);
     }
 
     #endregion
 }
-
-#endif

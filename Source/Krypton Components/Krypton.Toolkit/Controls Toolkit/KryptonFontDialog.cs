@@ -219,7 +219,6 @@ public class KryptonFontDialog : FontDialog
     }
 
 
-#if NET9_0_OR_GREATER
     /// <summary>
     /// Displays the dialog asynchronously.
     /// </summary>
@@ -241,5 +240,4 @@ public class KryptonFontDialog : FontDialog
     /// <returns>A task that completes with the dialog result.</returns>
     public Task<DialogResult> ShowDialogAsync(IWin32Window? owner) =>
         Task.FromResult(owner is null ? ShowDialog() : ShowDialog(owner));
-#endif
 }

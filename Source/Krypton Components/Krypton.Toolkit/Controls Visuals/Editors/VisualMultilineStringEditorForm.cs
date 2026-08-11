@@ -252,7 +252,6 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
         return collection;
     }
 
-#if NET9_0_OR_GREATER
     internal static async Task<string[]?> InternalShowAsync(IWin32Window? owner, string[] input, bool? useRichTextBox, string? headerText, string windowTitle)
     {
         IWin32Window? showOwner = owner ?? FromHandle(PI.GetActiveWindow());
@@ -261,9 +260,7 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
 
         kmse.StartPosition = showOwner == null ? FormStartPosition.CenterParent : FormStartPosition.CenterScreen;
 
-        DialogResult result = showOwner is null
-            ? await kmse.ShowDialogAsync().ConfigureAwait(true)
-            : await kmse.ShowDialogAsync(showOwner).ConfigureAwait(true);
+        DialogResult result = await KryptonFormAsync.ShowDialogAsync(kmse, showOwner).ConfigureAwait(false);
 
         return result == DialogResult.OK ? kmse.GetEditedLines() : null;
     }
@@ -276,9 +273,7 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
 
         kmse.StartPosition = showOwner == null ? FormStartPosition.CenterParent : FormStartPosition.CenterScreen;
 
-        DialogResult result = showOwner is null
-            ? await kmse.ShowDialogAsync().ConfigureAwait(true)
-            : await kmse.ShowDialogAsync(showOwner).ConfigureAwait(true);
+        DialogResult result = await KryptonFormAsync.ShowDialogAsync(kmse, showOwner).ConfigureAwait(false);
 
         if (result != DialogResult.OK)
         {
@@ -289,7 +284,6 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
         collection.AddRange(kmse.GetEditedLines());
         return collection;
     }
-#endif
 
     #endregion
 }

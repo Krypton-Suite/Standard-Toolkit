@@ -44,13 +44,12 @@ public abstract class ShellDialogWrapper
         return result.DialogResult;
     }
 
-#if NET9_0_OR_GREATER
     /// <summary>
     ///  Runs a common dialog box asynchronously.
     /// </summary>
     /// <remarks>
-    /// Custom (<see cref="KryptonDialogProviderMode.Custom"/>) providers use
-    /// <see cref="Form.ShowDialogAsync(IWin32Window)"/>. Native Explorer dialogs remain nested-modal:
+    /// Custom (<see cref="KryptonDialogProviderMode.Custom"/>) providers use cross-TFM form async helpers.
+    /// Native Explorer dialogs remain nested-modal:
     /// the returned task completes when the dialog closes, but the UI thread is still blocked during ShowDialog.
     /// </remarks>
     public Task<DialogResult> ShowDialogAsync() => ShowDialogAsync(owner: null);
@@ -68,7 +67,7 @@ public abstract class ShellDialogWrapper
         options.ProviderMode = ProviderMode;
         options.ShowDateModifiedFilter = ShowDateModifiedFilter;
         var provider = KryptonDialogProviderFactory.Create(ProviderMode);
-        var result = await provider.ShowDialogAsync(new KryptonDialogProviderContext(this, owner, options)).ConfigureAwait(true);
+        var result = await provider.ShowDialogAsync(new KryptonDialogProviderContext(this, owner, options)).ConfigureAwait(false);
         if (result.DialogResult == DialogResult.OK)
         {
             ApplyDialogResult(result);
@@ -76,7 +75,6 @@ public abstract class ShellDialogWrapper
 
         return result.DialogResult;
     }
-#endif
 
     #region Do_CBT
     internal ShellDialogWrapper()

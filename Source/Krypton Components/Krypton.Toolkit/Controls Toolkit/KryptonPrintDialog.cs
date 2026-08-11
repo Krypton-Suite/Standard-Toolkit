@@ -721,7 +721,6 @@ public class KryptonPrintDialog : /*!! sealed PrintDialog !!*/ CommonDialog
 
     //private const int START_PAGE_GENERAL = -1;
 
-#if NET9_0_OR_GREATER
     /// <summary>
     /// Displays the dialog asynchronously.
     /// </summary>
@@ -743,7 +742,6 @@ public class KryptonPrintDialog : /*!! sealed PrintDialog !!*/ CommonDialog
     /// <returns>A task that completes with the dialog result.</returns>
     public Task<DialogResult> ShowDialogAsync(IWin32Window? owner) =>
         Task.FromResult(owner is null ? ShowDialog() : ShowDialog(owner));
-#endif
 
 }
 

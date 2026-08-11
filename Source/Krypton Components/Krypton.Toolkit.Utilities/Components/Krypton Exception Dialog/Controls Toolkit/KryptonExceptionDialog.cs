@@ -86,7 +86,6 @@ public static class KryptonExceptionDialog
     public static void Show(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSearchBox, Action<Exception>? bugReportCallback, SecureString? githubSecretKey, string? githubConfigPath = null) =>
         ShowCore(exception, highlightColor, showCopyButton, showSearchBox, bugReportCallback, githubSecretKey, githubConfigPath);
 
-#if NET9_0_OR_GREATER
     /// <summary>Displays the specified exception asynchronously using the default error dialog.</summary>
     public static Task ShowAsync(Exception exception) =>
         ShowCoreAsync(exception, null, null, null, null, null, null);
@@ -110,7 +109,7 @@ public static class KryptonExceptionDialog
     /// <summary>Displays the specified exception asynchronously with optional GitHub bug reporting integration.</summary>
     public static Task ShowAsync(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSearchBox, Action<Exception>? bugReportCallback, SecureString? githubSecretKey, string? githubConfigPath = null) =>
         ShowCoreAsync(exception, highlightColor, showCopyButton, showSearchBox, bugReportCallback, githubSecretKey, githubConfigPath);
-#endif
+
 
     #endregion
 
@@ -129,10 +128,9 @@ public static class KryptonExceptionDialog
     private static void ShowCore(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSearchBox, Action<Exception>? bugReportCallback, SecureString? gitHubSecretKey, string? gitHubConfigFilePath) =>
         VisualExceptionDialogForm.Show(exception, highlightColor, showCopyButton, null, showSearchBox, bugReportCallback, null, gitHubSecretKey, gitHubConfigFilePath);
 
-#if NET9_0_OR_GREATER
     private static Task ShowCoreAsync(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSearchBox, Action<Exception>? bugReportCallback, SecureString? gitHubSecretKey, string? gitHubConfigFilePath) =>
         VisualExceptionDialogForm.ShowAsync(exception, highlightColor, showCopyButton, null, showSearchBox, bugReportCallback, null, gitHubSecretKey, gitHubConfigFilePath);
-#endif
+
 
     #endregion
 }

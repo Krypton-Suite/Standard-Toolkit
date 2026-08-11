@@ -176,9 +176,8 @@ internal class KryptonFormFadeController
         return Task.FromResult(result);
     }
 
-#if NET9_0_OR_GREATER
     /// <summary>
-    /// Fade the owner in while awaiting <see cref="Form.ShowDialogAsync(IWin32Window)"/>.
+    /// Fade the owner in while awaiting modal show (async on .NET 9+, sync ShowDialog fallback earlier).
     /// </summary>
     private async Task<DialogResult> ShowDialogAsyncCore(float fadeSpeed, FadeCompleted? finished)
     {
@@ -190,14 +189,13 @@ internal class KryptonFormFadeController
 
         try
         {
-            return await _owner.ShowDialogAsync(_parentForm!).ConfigureAwait(true);
+            return await KryptonFormAsync.ShowDialogAsync(_owner, _parentForm!).ConfigureAwait(false);
         }
         finally
         {
             StopFadeTimer();
         }
     }
-#endif
 
     private void FadeIn(float fadeSpeed, FadeCompleted? finished)
     {
@@ -276,9 +274,8 @@ internal class KryptonFormFadeController
         return fader.ShowDialog(fadeSpeed, finished);
     }
 
-#if NET9_0_OR_GREATER
     /// <summary>
-    /// Fades a dialog in using <see cref="Form.ShowDialogAsync(IWin32Window)"/> so the UI thread remains responsive.
+    /// Fades a dialog in asynchronously so the UI thread can remain responsive on .NET 9+ (sync ShowDialog fallback earlier).
     /// </summary>
     public static Task<DialogResult> ShowDialogAsync(VisualForm owner, VisualForm parent, float fadeSpeed)
     {
@@ -287,14 +284,13 @@ internal class KryptonFormFadeController
     }
 
     /// <summary>
-    /// Fades a dialog in using <see cref="Form.ShowDialogAsync(IWin32Window)"/> and invokes <paramref name="finished"/> when fade-in completes.
+    /// Fades a dialog in asynchronously and invokes <paramref name="finished"/> when fade-in completes.
     /// </summary>
     public static Task<DialogResult> ShowDialogAsync(VisualForm owner, VisualForm parent, float fadeSpeed, FadeCompleted finished)
     {
         var fader = new KryptonFormFadeController(owner, parent);
         return fader.ShowDialogAsyncCore(fadeSpeed, finished);
     }
-#endif
 
     public static void FadeIn(VisualForm owner, float fadeSpeed, FadeCompleted finished)
     {

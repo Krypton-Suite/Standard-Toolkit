@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using ToastImageResources = Krypton.Toolkit.Utilities.Components.KryptonToast.Resources.ToastImageResources;
+using ToastImageResources = Krypton.Toolkit.Utilities.Components.Krypton_Toast.Resources.ToastImageResources;
 
 namespace Krypton.Toolkit.Utilities;
 

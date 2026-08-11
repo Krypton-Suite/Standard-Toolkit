@@ -29,7 +29,6 @@ public static class KryptonAboutBox
     public static DialogResult Show(KryptonAboutBoxData aboutBoxData, KryptonAboutToolkitData aboutToolkitData) =>
         ShowCore(aboutBoxData, aboutToolkitData);
 
-#if NET9_0_OR_GREATER
     /// <summary>Shows a new <see cref="VisualAboutBoxForm"/> asynchronously.</summary>
     /// <param name="aboutBoxData">The data to pass through.</param>
     /// <returns>A task that produces the dialog result when the about box is closed.</returns>
@@ -42,7 +41,7 @@ public static class KryptonAboutBox
     /// <returns>A task that produces the dialog result when the about box is closed.</returns>
     public static Task<DialogResult> ShowAsync(KryptonAboutBoxData aboutBoxData, KryptonAboutToolkitData aboutToolkitData) =>
         ShowCoreAsync(aboutBoxData, aboutToolkitData);
-#endif
+
 
     #endregion
 
@@ -62,21 +61,20 @@ public static class KryptonAboutBox
         return kab.ShowDialog();
     }
 
-#if NET9_0_OR_GREATER
     private static async Task<DialogResult> ShowCoreAsync(KryptonAboutBoxData aboutBoxData)
     {
         using var kab = new VisualAboutBoxForm(aboutBoxData);
 
-        return await kab.ShowDialogAsync().ConfigureAwait(true);
+        return await KryptonFormAsync.ShowDialogAsync(kab).ConfigureAwait(false);
     }
 
     private static async Task<DialogResult> ShowCoreAsync(KryptonAboutBoxData aboutBoxData, KryptonAboutToolkitData aboutToolkitData)
     {
         using var kab = new VisualAboutBoxForm(aboutBoxData, aboutToolkitData);
 
-        return await kab.ShowDialogAsync().ConfigureAwait(true);
+        return await KryptonFormAsync.ShowDialogAsync(kab).ConfigureAwait(false);
     }
-#endif
+
 
     #endregion
 }

@@ -167,7 +167,6 @@ public class KryptonPrintPreviewDialog : Component, IDisposable
         return _previewForm.ShowDialog(owner);
     }
 
-#if NET9_0_OR_GREATER
     /// <summary>
     /// Runs a print preview dialog box asynchronously.
     /// </summary>
@@ -196,11 +195,8 @@ public class KryptonPrintPreviewDialog : Component, IDisposable
             WindowState = WindowState
         };
 
-        return owner is null
-            ? await _previewForm.ShowDialogAsync().ConfigureAwait(true)
-            : await _previewForm.ShowDialogAsync(owner).ConfigureAwait(true);
+        return await KryptonFormAsync.ShowDialogAsync(_previewForm, owner).ConfigureAwait(false);
     }
-#endif
 
     #endregion
 

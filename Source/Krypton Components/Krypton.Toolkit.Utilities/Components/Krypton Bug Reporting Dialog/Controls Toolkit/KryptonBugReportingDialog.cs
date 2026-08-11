@@ -40,7 +40,6 @@ public static class KryptonBugReportingDialog
     /// <returns>DialogResult.OK if the bug report was sent successfully; otherwise, DialogResult.Cancel.</returns>
     public static DialogResult Show(BugReportEmailConfig emailConfig) => Show(null, emailConfig);
 
-#if NET9_0_OR_GREATER
     /// <summary>Displays the bug reporting dialog asynchronously.</summary>
     public static Task<DialogResult> ShowAsync(Exception? exception, BugReportEmailConfig emailConfig)
     {
@@ -58,9 +57,9 @@ public static class KryptonBugReportingDialog
     private static async Task<DialogResult> ShowCoreAsync(Exception? exception, BugReportEmailConfig emailConfig)
     {
         using var dialog = new VisualBugReportingDialogForm(exception, emailConfig);
-        return await dialog.ShowDialogAsync().ConfigureAwait(true);
+        return await KryptonFormAsync.ShowDialogAsync(dialog).ConfigureAwait(false);
     }
-#endif
+
 
     #endregion
 }

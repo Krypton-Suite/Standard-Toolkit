@@ -103,7 +103,6 @@ public class KryptonPoweredByButton : KryptonButton
         form.ShowDialog();
     }
 
-#if NET9_0_OR_GREATER
     /// <summary>Shows the toolkit binary information dialog asynchronously.</summary>
     /// <param name="toolkitType">Type of the toolkit.</param>
     /// <param name="showChangeLogButton">Whether to show the change log button.</param>
@@ -113,9 +112,8 @@ public class KryptonPoweredByButton : KryptonButton
     {
         using var form = new VisualToolkitBinaryInformationForm(toolkitType, showChangeLogButton, showReadmeButton);
 
-        await form.ShowDialogAsync().ConfigureAwait(true);
+        await KryptonFormAsync.ShowDialogAsync(form).ConfigureAwait(false);
     }
-#endif
 
     #endregion
 

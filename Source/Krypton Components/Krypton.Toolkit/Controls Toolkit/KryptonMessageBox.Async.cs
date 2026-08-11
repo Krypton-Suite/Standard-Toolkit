@@ -7,12 +7,10 @@
  */
 #endregion
 
-#if NET9_0_OR_GREATER
-
 namespace Krypton.Toolkit;
 
 /// <summary>
-/// Asynchronous dialog helpers for <see cref="KryptonMessageBox"/> (.NET 9+ / Windows Forms async forms).
+/// Asynchronous dialog helpers for <see cref="KryptonMessageBox"/>.
 /// </summary>
 public static partial class KryptonMessageBox
 {
@@ -478,9 +476,7 @@ public static partial class KryptonMessageBox
 
             kmbRtl.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 
-            return showOwner is null
-                ? await kmbRtl.ShowDialogAsync().ConfigureAwait(true)
-                : await kmbRtl.ShowDialogAsync(showOwner).ConfigureAwait(true);
+            return await KryptonFormAsync.ShowDialogAsync(kmbRtl, showOwner).ConfigureAwait(false);
         }
 
         using var kmb = new VisualMessageBoxForm(showOwner, text, caption, buttons, icon,
@@ -489,12 +485,8 @@ public static partial class KryptonMessageBox
 
         kmb.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 
-        return showOwner is null
-            ? await kmb.ShowDialogAsync().ConfigureAwait(true)
-            : await kmb.ShowDialogAsync(showOwner).ConfigureAwait(true);
+        return await KryptonFormAsync.ShowDialogAsync(kmb, showOwner).ConfigureAwait(false);
     }
 
     #endregion
 }
-
-#endif

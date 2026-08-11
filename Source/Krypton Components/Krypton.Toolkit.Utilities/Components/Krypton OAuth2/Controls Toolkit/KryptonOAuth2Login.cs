@@ -79,33 +79,20 @@ public static class KryptonOAuth2Login
         using var form = new VisualOAuth2LoginForm(authorizationUrl, redirectUri, title);
         var resultTask = form.RunAsync(owner);
 
-#if NET9_0_OR_GREATER
         if (owner is Form ownerForm)
         {
             // Do not await ShowDialogAsync here: RunAsync closes the form when auth completes,
             // and awaiting both can race. Start the dialog and await the authorization result.
-            var dialogTask = form.ShowDialogAsync(ownerForm);
-            OAuth2AuthorizationResult result = await resultTask.ConfigureAwait(true);
-            await dialogTask.ConfigureAwait(true);
+            var dialogTask = KryptonFormAsync.ShowDialogAsync(form, ownerForm);
+            OAuth2AuthorizationResult result = await resultTask.ConfigureAwait(false);
+            await dialogTask.ConfigureAwait(false);
             return result;
         }
 
-        var showTask = form.ShowAsync();
-        OAuth2AuthorizationResult modelessResult = await resultTask.ConfigureAwait(true);
-        await showTask.ConfigureAwait(true);
+        var showTask = KryptonFormAsync.ShowAsync(form);
+        OAuth2AuthorizationResult modelessResult = await resultTask.ConfigureAwait(false);
+        await showTask.ConfigureAwait(false);
         return modelessResult;
-#else
-        if (owner is Form ownerForm)
-        {
-            form.ShowDialog(ownerForm);
-        }
-        else
-        {
-            form.Show();
-        }
-
-        return await resultTask.ConfigureAwait(true);
-#endif
     }
 #else
     private static Task<OAuth2AuthorizationResult> ShowCore(IWin32Window? owner, string authorizationUrl, string redirectUri, string title)

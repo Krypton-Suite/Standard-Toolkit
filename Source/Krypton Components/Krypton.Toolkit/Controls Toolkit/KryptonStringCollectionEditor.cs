@@ -65,7 +65,6 @@ public static class KryptonStringCollectionEditor
         string windowText = @"String Collection Editor")
         => InternalShowStringCollection(owner, null, useRichTextBox, headerText, windowText);
 
-#if NET9_0_OR_GREATER
     /// <summary>Shows the string collection editor asynchronously.</summary>
     /// <param name="inputStrings">The input strings.</param>
     /// <param name="useRichTextBox">if set to <c>true</c> [use rich text box].</param>
@@ -118,7 +117,6 @@ public static class KryptonStringCollectionEditor
         string? headerText = @"Enter the strings in the collection (one per line):",
         string windowText = @"String Collection Editor")
         => InternalShowStringCollectionAsync(owner, null, useRichTextBox, headerText, windowText);
-#endif
 
     #endregion
 
@@ -144,13 +142,11 @@ public static class KryptonStringCollectionEditor
     private static StringCollection InternalShowStringCollection(IWin32Window? owner, StringCollection? input, bool useRichTextBox, string? headerText, string windowTitle)
         => VisualMultilineStringEditorForm.InternalShowStringCollection(owner, input!, useRichTextBox, headerText, windowTitle)!;
 
-#if NET9_0_OR_GREATER
     private static async Task<string[]> InternalShowAsync(IWin32Window? owner, string[]? input, bool? useRichTextBox, string? headerText, string windowTitle)
-        => (await VisualMultilineStringEditorForm.InternalShowAsync(owner, input!, useRichTextBox, headerText, windowTitle).ConfigureAwait(true))!;
+        => (await VisualMultilineStringEditorForm.InternalShowAsync(owner, input!, useRichTextBox, headerText, windowTitle).ConfigureAwait(false))!;
 
     private static async Task<StringCollection> InternalShowStringCollectionAsync(IWin32Window? owner, StringCollection? input, bool useRichTextBox, string? headerText, string windowTitle)
-        => (await VisualMultilineStringEditorForm.InternalShowStringCollectionAsync(owner, input!, useRichTextBox, headerText, windowTitle).ConfigureAwait(true))!;
-#endif
+        => (await VisualMultilineStringEditorForm.InternalShowStringCollectionAsync(owner, input!, useRichTextBox, headerText, windowTitle).ConfigureAwait(false))!;
 
     #endregion
 }

@@ -13,7 +13,7 @@ using Krypton.Toolkit.Utilities;
 namespace TestForm;
 
 /// <summary>
-/// Demo for Issue #4177: WinForms async form / dialog APIs wrapped by Krypton (.NET 9+).
+/// Demo for Issue #4177: WinForms async form / dialog APIs wrapped by Krypton (all TFMs; Form async on .NET 9+).
 /// </summary>
 public sealed class Feature4177AsyncFormsDemo : KryptonForm
 {
@@ -32,9 +32,9 @@ public sealed class Feature4177AsyncFormsDemo : KryptonForm
             Height = 108,
             Padding = new Padding(12),
             Text =
-                "Issue #4177: await Krypton dialog helpers that wrap Form.ShowAsync / ShowDialogAsync (.NET 9+; stable on .NET 10).\r\n" +
-                "Prefer await on the UI thread (default ConfigureAwait). For Extended overloads that collide, use KryptonMessageBoxExtendedData.\r\n" +
-                "Chrome smoke: ShowDialogAsync with owner, then dispose while awaiting ShowAsync on a modeless peer."
+                "Issue #4177: await Krypton dialog helpers on all TFMs (real Form async on .NET 9+; sync ShowDialog degrade earlier).\r\n" +
+                "Library wrappers use ConfigureAwait(false). For Extended overloads that collide, use KryptonMessageBoxExtendedData.\r\n" +
+                "Chrome smoke (net9+ only): Form.ShowDialogAsync with owner, then dispose while awaiting ShowAsync on a modeless peer."
         };
 
         _status = new KryptonWrapLabel
@@ -54,7 +54,6 @@ public sealed class Feature4177AsyncFormsDemo : KryptonForm
             AutoScroll = true
         };
 
-#if NET9_0_OR_GREATER
         buttons.Controls.Add(CreateButton("MessageBox.ShowAsync", async (_, _) =>
         {
             DialogResult result = await KryptonMessageBox.ShowAsync(this,
@@ -78,6 +77,7 @@ public sealed class Feature4177AsyncFormsDemo : KryptonForm
             SetStatus($"TaskDialog result: {result}");
         }));
 
+#if NET9_0_OR_GREATER
         buttons.Controls.Add(CreateButton("KryptonForm chrome smoke", async (_, _) =>
         {
             using var modal = new KryptonForm
@@ -117,6 +117,7 @@ public sealed class Feature4177AsyncFormsDemo : KryptonForm
             await showTask;
             SetStatus($"Chrome smoke: modal={modalResult}, ShowAsync completed after dispose.");
         }));
+#endif
 
         buttons.Controls.Add(CreateButton("InputBox.ShowAsync", async (_, _) =>
         {
@@ -269,21 +270,12 @@ public sealed class Feature4177AsyncFormsDemo : KryptonForm
             DialogResult result = await dialog.ShowDialogAsync(this);
             SetStatus($"FontDialog result: {result}");
         }));
-#else
-        buttons.Controls.Add(new KryptonWrapLabel
-        {
-            AutoSize = true,
-            MaximumSize = new Size(640, 0),
-            Text = "This demo requires a net9.0-windows (or newer) build. Rebuild TestForm targeting net9+ / net10+ to exercise ShowAsync APIs."
-        });
-#endif
 
         Controls.Add(buttons);
         Controls.Add(_status);
         Controls.Add(instructions);
     }
 
-#if NET9_0_OR_GREATER
     private static KryptonButton CreateButton(string text, Func<object?, EventArgs, Task> onClick)
     {
         var button = new KryptonButton
@@ -307,5 +299,4 @@ public sealed class Feature4177AsyncFormsDemo : KryptonForm
     }
 
     private void SetStatus(string text) => _status.Text = text;
-#endif
 }

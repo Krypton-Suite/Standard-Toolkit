@@ -1,15 +1,14 @@
 ﻿<#
 .SYNOPSIS
-    Asserts #4177 async dialog API surface gating across TFMs.
+    Asserts #4177 async dialog API surface is present on all supported TFMs.
 
 .DESCRIPTION
     Reflection smoke check:
 
-    - On net472 / net8 (Windows PowerShell-compatible bins): assert ShowAsync / ShowDialogAsync
-      methods are absent (compiled out of those TFMs).
+    - On all TFMs (including net472): assert ShowAsync / ShowDialogAsync methods are present.
+      Pre-.NET 9 builds degrade to sync ShowDialog inside the library helpers.
     - On net9.0-windows or newer: requires PowerShell 7+ (`pwsh`) to load the managed
-      assemblies; asserts the async methods are present and optionally runs a timed
-      MessageBox.ShowAsync close.
+      assemblies.
 
     Exit code 0 on success; non-zero on failure.
     Requires STA when run via Invoke-AllUnitTests.
@@ -59,10 +58,10 @@ function Assert-True {
     }
 }
 
-$expectsAsync = $TargetFramework -match '^net(9|1[0-9])'
-Write-Host "TargetFramework=$TargetFramework expectsAsync=$expectsAsync PSEdition=$($PSVersionTable.PSEdition)"
+$needsPwsh = $TargetFramework -match '^net(9|1[0-9])'
+Write-Host "TargetFramework=$TargetFramework PSEdition=$($PSVersionTable.PSEdition)"
 
-if ($expectsAsync -and $PSVersionTable.PSEdition -eq 'Desktop') {
+if ($needsPwsh -and $PSVersionTable.PSEdition -eq 'Desktop') {
     Write-Host "SKIP: net9+ async API reflection requires PowerShell 7+ (pwsh) to load System.Runtime 9+." -ForegroundColor Yellow
     Write-Host "Re-run: pwsh -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-AsyncFormApis.ps1 -TargetFramework $TargetFramework"
     exit 0
@@ -131,20 +130,13 @@ $checks += @(
 
 foreach ($c in $checks) {
     $has = Test-HasMethod -Assembly $c.Asm -TypeName $c.Type -MethodName $c.Method
-    if ($expectsAsync) {
-        Assert-True $has "$($c.Type).$($c.Method) present on $TargetFramework"
-    }
-    else {
-        Assert-True (-not $has) "$($c.Type).$($c.Method) absent on $TargetFramework"
-    }
+    Assert-True $has "$($c.Type).$($c.Method) present on $TargetFramework"
 }
 
-if ($expectsAsync) {
-    $mbType = Resolve-Type -Assembly $toolkit -TypeName 'Krypton.Toolkit.KryptonMessageBox'
-    $tdType = Resolve-Type -Assembly $toolkit -TypeName 'Krypton.Toolkit.KryptonTaskDialog'
-    Assert-True ($null -ne $mbType) 'Resolved KryptonMessageBox type'
-    Assert-True ($null -ne $tdType) 'Resolved KryptonTaskDialog type'
-}
+$mbType = Resolve-Type -Assembly $toolkit -TypeName 'Krypton.Toolkit.KryptonMessageBox'
+$tdType = Resolve-Type -Assembly $toolkit -TypeName 'Krypton.Toolkit.KryptonTaskDialog'
+Assert-True ($null -ne $mbType) 'Resolved KryptonMessageBox type'
+Assert-True ($null -ne $tdType) 'Resolved KryptonTaskDialog type'
 
 if ($failed.Count -gt 0) {
     Write-Host ("`n{0} assertion(s) failed." -f $failed.Count) -ForegroundColor Red

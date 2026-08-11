@@ -46,10 +46,10 @@
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
 * Implemented [#4177](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4177), When will the Async Form Methods from .net10 (Started in .net9) actually be implemented
-   * Async form / dialog methods (`ShowAsync` / `ShowDialogAsync`) for Krypton dialogs on .NET 9+ (stable on .NET 10).
-   * `KryptonForm` inherits WinForms async form APIs; wrappers for message box, task dialog, input box, print preview, splash, multiline string editor, theme browser, string collection editor, binary information, Toolkit GitHub issue report, shell wrappers, and Color/Font/Print `ShowDialogAsync` (nested-modal ComDlg convenience).
-   * `KryptonFormFadeController` redesigned onto a WinForms `Timer` (no `Thread.Sleep`); adds `ShowDialogAsync` on net9+ while sync `ShowDialog` remains on all TFMs.
-   * Utilities: Extended / Foldable / AboutBox / ExceptionDialog / Checksum / GitHub / BugReporting / OAuth2 Form async / full toast matrix (`ShowNotificationAsync`, progress-bar variants, LTR/RTL). Prefer Extended **`ShowAsync(KryptonMessageBoxExtendedData)`** to avoid overload ambiguity. Toolkit `KryptonExceptionDialog` stays internal; public consumers use Utilities.
+   * Async form / dialog methods (`ShowAsync` / `ShowDialogAsync`) for Krypton dialogs on **all TFMs**. On .NET 9+ they use WinForms Form async; on earlier TFMs they degrade to sync `ShowDialog` / `Show` under the same awaitable API (`KryptonFormAsync`).
+   * Library wrappers use `ConfigureAwait(false)`.
+   * Coverage includes message box, task dialog, input box, print preview, splash, editors, theme browser, string collection, binary information, GitHub issue report, shell wrappers, Color/Font/Print nested-modal convenience, and Timer-based `KryptonFormFadeController` (`ShowDialogAsync` on all TFMs).
+   * Utilities: Extended / Foldable / AboutBox / ExceptionDialog / Checksum / GitHub / BugReporting / OAuth2 / full toast matrix. Prefer Extended **`ShowAsync(KryptonMessageBoxExtendedData)`**. Toolkit `KryptonExceptionDialog` stays internal; public consumers use Utilities.
    * To use those Utilities APIs, download the `Krypton.Standard.Toolkit` NuGet package (`Krypton.Toolkit.Utilities`).
 * Implemented [#4168](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4168), High contrast themes
    * Added builtin `PaletteMode` themes `HighContrast`, `Deuteranopia`, and `Protanopia` (fixed designed palettes) plus Office 2007 / 2010 / 2013, Sparkle, and Material renderer variants (including Material Ripple), selectable via ThemeComboBox / `KryptonManager.GlobalPaletteMode`.

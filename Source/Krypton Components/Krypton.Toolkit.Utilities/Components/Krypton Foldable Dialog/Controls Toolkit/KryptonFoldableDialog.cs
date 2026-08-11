@@ -74,7 +74,6 @@ public static class KryptonFoldableDialog
             Icon = icon
         });
 
-#if NET9_0_OR_GREATER
     /// <summary>Displays a foldable dialog asynchronously described by the supplied <paramref name="data"/>.</summary>
     /// <param name="data">The data describing the dialog content and behaviour. Cannot be null.</param>
     /// <returns>A task that produces the <see cref="DialogResult"/> when the dialog is closed.</returns>
@@ -123,7 +122,7 @@ public static class KryptonFoldableDialog
             Buttons = buttons,
             Icon = icon
         });
-#endif
+
 
     #endregion
 
@@ -139,7 +138,6 @@ public static class KryptonFoldableDialog
         return VisualFoldableDialogForm.Show(data);
     }
 
-#if NET9_0_OR_GREATER
     private static Task<DialogResult> ShowCoreAsync(KryptonFoldableDialogData data)
     {
         if (data == null)
@@ -149,7 +147,7 @@ public static class KryptonFoldableDialog
 
         return VisualFoldableDialogForm.ShowAsync(data);
     }
-#endif
+
 
     #endregion
 }

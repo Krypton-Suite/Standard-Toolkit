@@ -110,7 +110,6 @@ public static class KryptonGitHubIssueReportDialog
         return dialog.ShowDialog(owner);
     }
 
-#if NET9_0_OR_GREATER
     /// <summary>Displays the GitHub issue report dialog asynchronously using the default encrypted config file.</summary>
     public static Task<DialogResult> ShowAsync(IWin32Window? owner, SecureString? secretKey) =>
         ShowAsync(owner, secretKey, null, null);
@@ -135,15 +134,13 @@ public static class KryptonGitHubIssueReportDialog
                 "Failed to load GitHub configuration. The encrypted config file may be missing, corrupted, or the secret key is incorrect.",
                 "Configuration Error",
                 KryptonMessageBoxButtons.OK,
-                KryptonMessageBoxIcon.Error).ConfigureAwait(true);
+                KryptonMessageBoxIcon.Error).ConfigureAwait(false);
 
             return DialogResult.Cancel;
         }
 
         using var dialog = new VisualGitHubIssueReportForm(config, additionalInfo);
-        return owner is null
-            ? await dialog.ShowDialogAsync().ConfigureAwait(true)
-            : await dialog.ShowDialogAsync(owner).ConfigureAwait(true);
+        return await KryptonFormAsync.ShowDialogAsync(dialog, owner).ConfigureAwait(false);
     }
 
     /// <summary>Displays the GitHub issue report dialog asynchronously with an explicitly provided configuration.</summary>
@@ -165,9 +162,6 @@ public static class KryptonGitHubIssueReportDialog
     private static async Task<DialogResult> ShowConfiguredAsync(IWin32Window? owner, BugReportGitHubConfig config, string? additionalInfo)
     {
         using var dialog = new VisualGitHubIssueReportForm(config, additionalInfo);
-        return owner is null
-            ? await dialog.ShowDialogAsync().ConfigureAwait(true)
-            : await dialog.ShowDialogAsync(owner).ConfigureAwait(true);
+        return await KryptonFormAsync.ShowDialogAsync(dialog, owner).ConfigureAwait(false);
     }
-#endif
 }

@@ -75,7 +75,6 @@ internal static class KryptonExceptionDialog
     public static void Show(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSearchBox, Action<Exception>? bugReportCallback) =>
         ShowCore(exception, highlightColor, showCopyButton, showSearchBox, bugReportCallback);
 
-#if NET9_0_OR_GREATER
     /// <summary>Displays the specified exception asynchronously using the default error dialog.</summary>
     /// <param name="exception">The exception to display. Cannot be null.</param>
     /// <returns>A task that completes when the dialog is closed.</returns>
@@ -97,7 +96,6 @@ internal static class KryptonExceptionDialog
     /// <summary>Displays the specified exception asynchronously with optional UI features and bug reporting.</summary>
     public static Task ShowAsync(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSearchBox, Action<Exception>? bugReportCallback) =>
         ShowCoreAsync(exception, highlightColor, showCopyButton, showSearchBox, bugReportCallback);
-#endif
 
     #endregion
 
@@ -114,10 +112,8 @@ internal static class KryptonExceptionDialog
     private static void ShowCore(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSearchBox, Action<Exception>? bugReportCallback) =>
         VisualExceptionDialogForm.Show(exception, highlightColor, showCopyButton, showSearchBox, bugReportCallback);
 
-#if NET9_0_OR_GREATER
     private static Task ShowCoreAsync(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSearchBox, Action<Exception>? bugReportCallback) =>
         VisualExceptionDialogForm.ShowAsync(exception, highlightColor, showCopyButton, showSearchBox, bugReportCallback);
-#endif
 
     #endregion
 }

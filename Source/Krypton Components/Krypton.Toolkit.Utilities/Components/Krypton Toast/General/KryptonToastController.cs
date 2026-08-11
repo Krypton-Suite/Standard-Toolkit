@@ -34,7 +34,6 @@ internal class KryptonToastController
         }
     }
 
-#if NET9_0_OR_GREATER
     internal static Task<bool> ShowNotificationWithBooleanDoNotShowAgainReturnValueAsync(KryptonBasicToastData toastNotificationData) =>
         toastNotificationData.UseRtlReading
             ? VisualToastBasicRtlAwareForm.InternalShowWithBooleanReturnValueAsync(toastNotificationData)
@@ -54,8 +53,6 @@ internal class KryptonToastController
         toastNotificationData.UseRtlReading
             ? VisualToastBasicWithProgressBarRtlAwareForm.InternalShowWithCheckStateReturnValueAsync(toastNotificationData)
             : VisualToastBasicWithProgressBarForm.InternalShowWithCheckStateReturnValueAsync(toastNotificationData);
-#endif
-
     #endregion
 
     #region With Progress Bars
@@ -262,7 +259,6 @@ internal class KryptonToastController
     }
 
 
-#if NET9_0_OR_GREATER
     internal static async Task<object> ShowToastAsync(KryptonUserInputToastData data)
     {
         switch (data.NotificationInputAreaType)
@@ -272,11 +268,11 @@ internal class KryptonToastController
             case KryptonToastInputAreaType.MaskedTextBox:
             case KryptonToastInputAreaType.TextBox:
             case null:
-                return await ReturnStringInputAsync(data).ConfigureAwait(true);
+                return await ReturnStringInputAsync(data).ConfigureAwait(false);
             case KryptonToastInputAreaType.DateTime:
-                return await ReturnDateTimeInputAsync(data).ConfigureAwait(true);
+                return await ReturnDateTimeInputAsync(data).ConfigureAwait(false);
             case KryptonToastInputAreaType.NumericUpDown:
-                return await ReturnDecimalInputAsync(data).ConfigureAwait(true);
+                return await ReturnDecimalInputAsync(data).ConfigureAwait(false);
             default:
                 DebugTools.NotImplemented(data.ToString());
                 break;
@@ -311,13 +307,13 @@ internal class KryptonToastController
             switch (data.NotificationInputAreaType)
             {
                 case KryptonToastInputAreaType.ComboBox:
-                    return await VisualToastComboBoxUserInputRtlAwareForm.ShowNotificationAsync(data).ConfigureAwait(true);
+                    return await VisualToastComboBoxUserInputRtlAwareForm.ShowNotificationAsync(data).ConfigureAwait(false);
                 case KryptonToastInputAreaType.DomainUpDown:
-                    return await VisualToastDomainUpDownUserInputRtlAwareForm.ShowNotificationAsync(data).ConfigureAwait(true);
+                    return await VisualToastDomainUpDownUserInputRtlAwareForm.ShowNotificationAsync(data).ConfigureAwait(false);
                 case KryptonToastInputAreaType.MaskedTextBox:
-                    return await VisualToastMaskedTextBoxUserInputRtlAwareForm.ShowNotificationAsync(data).ConfigureAwait(true);
+                    return await VisualToastMaskedTextBoxUserInputRtlAwareForm.ShowNotificationAsync(data).ConfigureAwait(false);
                 case KryptonToastInputAreaType.TextBox:
-                    return await VisualToastTextBoxUserInputRtlAwareForm.ShowNotificationAsync(data).ConfigureAwait(true);
+                    return await VisualToastTextBoxUserInputRtlAwareForm.ShowNotificationAsync(data).ConfigureAwait(false);
             }
         }
         else
@@ -325,13 +321,13 @@ internal class KryptonToastController
             switch (data.NotificationInputAreaType)
             {
                 case KryptonToastInputAreaType.ComboBox:
-                    return await VisualToastComboBoxUserInputForm.ShowNotificationAsync(data).ConfigureAwait(true);
+                    return await VisualToastComboBoxUserInputForm.ShowNotificationAsync(data).ConfigureAwait(false);
                 case KryptonToastInputAreaType.DomainUpDown:
-                    return await VisualToastDomainUpDownUserInputForm.ShowNotificationAsync(data).ConfigureAwait(true);
+                    return await VisualToastDomainUpDownUserInputForm.ShowNotificationAsync(data).ConfigureAwait(false);
                 case KryptonToastInputAreaType.MaskedTextBox:
-                    return await VisualToastMaskedTextBoxUserInputForm.ShowNotificationAsync(data).ConfigureAwait(true);
+                    return await VisualToastMaskedTextBoxUserInputForm.ShowNotificationAsync(data).ConfigureAwait(false);
                 case KryptonToastInputAreaType.TextBox:
-                    return await VisualToastTextBoxUserInputForm.ShowNotificationAsync(data).ConfigureAwait(true);
+                    return await VisualToastTextBoxUserInputForm.ShowNotificationAsync(data).ConfigureAwait(false);
             }
         }
 
@@ -346,11 +342,11 @@ internal class KryptonToastController
             case KryptonToastInputAreaType.DomainUpDown:
             case KryptonToastInputAreaType.MaskedTextBox:
             case KryptonToastInputAreaType.TextBox:
-                return await ReturnStringInputWithProgressBarAsync(data).ConfigureAwait(true);
+                return await ReturnStringInputWithProgressBarAsync(data).ConfigureAwait(false);
             case KryptonToastInputAreaType.DateTime:
-                return await ReturnDateTimeInputWithProgressBarAsync(data).ConfigureAwait(true);
+                return await ReturnDateTimeInputWithProgressBarAsync(data).ConfigureAwait(false);
             case KryptonToastInputAreaType.NumericUpDown:
-                return await ReturnDecimalInputWithProgressBarAsync(data).ConfigureAwait(true);
+                return await ReturnDecimalInputWithProgressBarAsync(data).ConfigureAwait(false);
             case null:
                 return ThrowHelper.ThrowArgumentNullException<object>();
             default:
@@ -387,13 +383,13 @@ internal class KryptonToastController
             switch (data.NotificationInputAreaType)
             {
                 case KryptonToastInputAreaType.ComboBox:
-                    return await VisualToastComboBoxUserInputWithProgressBarRtlAwareForm.ShowNotificationAsync(data).ConfigureAwait(true);
+                    return await VisualToastComboBoxUserInputWithProgressBarRtlAwareForm.ShowNotificationAsync(data).ConfigureAwait(false);
                 case KryptonToastInputAreaType.DomainUpDown:
-                    return await VisualToastDomainUpDownInputWithProgressBarRtlAwareForm.ShowNotificationAsync(data).ConfigureAwait(true);
+                    return await VisualToastDomainUpDownInputWithProgressBarRtlAwareForm.ShowNotificationAsync(data).ConfigureAwait(false);
                 case KryptonToastInputAreaType.MaskedTextBox:
-                    return await VisualToastMaskedTextBoxInputWithProgressBarRtlAwareForm.ShowNotificationAsync(data).ConfigureAwait(true);
+                    return await VisualToastMaskedTextBoxInputWithProgressBarRtlAwareForm.ShowNotificationAsync(data).ConfigureAwait(false);
                 case KryptonToastInputAreaType.TextBox:
-                    return await VisualToastTextBoxUserInputWithProgressBarRtlAwareForm.ShowNotificationAsync(data).ConfigureAwait(true);
+                    return await VisualToastTextBoxUserInputWithProgressBarRtlAwareForm.ShowNotificationAsync(data).ConfigureAwait(false);
             }
         }
         else
@@ -401,20 +397,18 @@ internal class KryptonToastController
             switch (data.NotificationInputAreaType)
             {
                 case KryptonToastInputAreaType.ComboBox:
-                    return await VisualToastComboBoxUserInputWithProgressBarForm.ShowNotificationAsync(data).ConfigureAwait(true);
+                    return await VisualToastComboBoxUserInputWithProgressBarForm.ShowNotificationAsync(data).ConfigureAwait(false);
                 case KryptonToastInputAreaType.DomainUpDown:
-                    return await VisualToastDomianUpDownInputWithProgressBarForm.ShowNotificationAsync(data).ConfigureAwait(true);
+                    return await VisualToastDomianUpDownInputWithProgressBarForm.ShowNotificationAsync(data).ConfigureAwait(false);
                 case KryptonToastInputAreaType.MaskedTextBox:
-                    return await VisualToastMaskedTextBoxInputWithProgressBarForm.ShowNotificationAsync(data).ConfigureAwait(true);
+                    return await VisualToastMaskedTextBoxInputWithProgressBarForm.ShowNotificationAsync(data).ConfigureAwait(false);
                 case KryptonToastInputAreaType.TextBox:
-                    return await VisualToastTextBoxUserInputWithProgressBarForm.ShowNotificationAsync(data).ConfigureAwait(true);
+                    return await VisualToastTextBoxUserInputWithProgressBarForm.ShowNotificationAsync(data).ConfigureAwait(false);
             }
         }
 
         return string.Empty;
     }
-#endif
-
     #endregion
 
     #endregion

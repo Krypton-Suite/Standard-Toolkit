@@ -274,7 +274,6 @@ public class KryptonTaskDialog : IDisposable
         return Dialog.DialogResult;
     }
 
-#if NET9_0_OR_GREATER
     /// <summary>
     /// Shows the dialog modeless asynchronously.<br/>
     /// The returned task completes when the form is closed or disposed.
@@ -289,9 +288,7 @@ public class KryptonTaskDialog : IDisposable
             UpdateFormPosition(owner);
             ResetFormDialogResult();
 
-            return owner is not null
-                ? _form.ShowAsync(owner)
-                : _form.ShowAsync();
+            return KryptonFormAsync.ShowAsync(_form, owner);
         }
 
         KryptonMessageBox.Show(
@@ -322,18 +319,10 @@ public class KryptonTaskDialog : IDisposable
 
         // The standard form's DialogResult property always returns Cancel when e.Cancel is set to true.<br/>
         // Before that happens the DialogResult is stored in DialogResultInternal.
-        if (owner is not null)
-        {
-            await _form.ShowDialogAsync(owner).ConfigureAwait(true);
-        }
-        else
-        {
-            await _form.ShowDialogAsync().ConfigureAwait(true);
-        }
+        await KryptonFormAsync.ShowDialogAsync(_form, owner).ConfigureAwait(false);
 
         return Dialog.DialogResult;
     }
-#endif
 
     /// <summary>
     /// Will close the dialog window.<br/>

@@ -248,14 +248,13 @@ internal partial class VisualExceptionDialogForm : KryptonForm
         ved.ShowDialog();
     }
 
-#if NET9_0_OR_GREATER
     internal static async Task ShowAsync(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSubmitBugReportButton, bool? showSearchBox, Action<Exception>? bugReportCallback = null, bool? showReportBugToGitHubButton = null, SecureString? gitHubSecretKey = null, string? gitHubConfigFilePath = null)
     {
         using var ved = new VisualExceptionDialogForm(showCopyButton, showSearchBox, showSubmitBugReportButton, highlightColor, exception, bugReportCallback, showReportBugToGitHubButton, gitHubSecretKey, gitHubConfigFilePath);
 
-        await ved.ShowDialogAsync().ConfigureAwait(true);
+        await KryptonFormAsync.ShowDialogAsync(ved).ConfigureAwait(false);
     }
-#endif
+
 
     #endregion
 }
