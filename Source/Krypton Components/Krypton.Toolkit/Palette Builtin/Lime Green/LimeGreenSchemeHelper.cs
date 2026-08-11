@@ -218,7 +218,70 @@ public static class LimeGreenSchemeHelper
         scheme.ButtonNavigatorPressed2 = Color.FromArgb(0xC4, 0xDC, 0x43);
         scheme.ButtonNavigatorChecked1 = Color.FromArgb(0xD9, 0xEC, 0x77);
         scheme.ButtonNavigatorChecked2 = Color.FromArgb(0xBD, 0xD6, 0x49);
+
+        // Labels / input / lists — Material (and other) light donors keep blue text/fills; force lime-friendly values.
+        scheme.TextLabelControl = Color.Black;
+        scheme.TextLabelPanel = Color.Black;
+        scheme.TextListItem = Color.Black;
+        scheme.ButtonTextTracking = Color.Black;
+        scheme.InputControlTextNormal = Color.Black;
+        scheme.InputControlTextDisabled = Color.FromArgb(0x80, 0x80, 0x80);
+        scheme.InputControlBorderNormal = buttonBorder;
+        scheme.InputControlBorderDisabled = Color.FromArgb(0xC0, 0xC4, 0xA0);
+        scheme.InputControlBackNormal = Color.FromArgb(0xF7, 0xFB, 0xEA);
+        scheme.InputControlBackDisabled = Color.FromArgb(0xE8, 0xEC, 0xD0);
+        scheme.InputControlBackInactive = Color.FromArgb(0xEA, 0xF5, 0xC8);
+        scheme.InputDropDownNormal1 = Color.Black;
+        scheme.InputDropDownNormal2 = Color.FromArgb(0xA8, 0xBC, 0x4D);
+        scheme.InputDropDownDisabled1 = Color.FromArgb(0x80, 0x80, 0x80);
+        scheme.InputDropDownDisabled2 = Color.Transparent;
+        scheme.LinkNotVisitedOverrideControl = Color.FromArgb(0x5A, 0x6E, 0x18);
+        scheme.LinkVisitedOverrideControl = Color.FromArgb(0x7A, 0x8C, 0x3A);
+        scheme.LinkPressedOverrideControl = Color.FromArgb(0xA4, 0xB8, 0x3D);
+        scheme.LinkNotVisitedOverridePanel = Color.FromArgb(0x5A, 0x6E, 0x18);
+        scheme.LinkVisitedOverridePanel = Color.FromArgb(0x7A, 0x8C, 0x3A);
+        scheme.LinkPressedOverridePanel = Color.FromArgb(0xA4, 0xB8, 0x3D);
+        scheme.ToolStripBack = Color.FromArgb(0xEA, 0xF5, 0xC8);
+        scheme.ImageMargin = Color.FromArgb(0xEA, 0xF5, 0xC8);
+        scheme.ToolStripBorder = buttonBorder;
+        scheme.GridListNormal1 = Color.FromArgb(0xF7, 0xFB, 0xEA);
+        scheme.GridListNormal2 = Color.FromArgb(0xEA, 0xF5, 0xC8);
+        scheme.GridListSelected = Color.FromArgb(0xD9, 0xEC, 0x77);
+        scheme.ContextMenuHeadingBack = Color.FromArgb(0xD9, 0xEC, 0x77);
+        scheme.ContextMenuHeadingText = Color.Black;
+        scheme.ContextMenuImageColumn = Color.FromArgb(0xEA, 0xF5, 0xC8);
+        scheme.MenuItemText = Color.Black;
+        scheme.MenuStripText = Color.Black;
     }
+
+    /// <summary>
+    /// Resolves the filled Lime Green button back colour for Material palettes, which otherwise use a
+    /// neutral surface + overlay model that would hide the lime brand fills.
+    /// </summary>
+    /// <param name="state">Button palette state.</param>
+    /// <returns>Solid lime fill appropriate for <paramref name="state"/>.</returns>
+    public static Color GetMaterialButtonBack(PaletteState state) => state switch
+    {
+        PaletteState.Disabled => Color.FromArgb(0xE8, 0xEC, 0xD0),
+        PaletteState.Tracking or PaletteState.CheckedTracking => Color.FromArgb(0xD7, 0xEB, 0x6E),
+        PaletteState.Pressed or PaletteState.CheckedPressed => Color.FromArgb(0xC5, 0xDC, 0x54),
+        PaletteState.CheckedNormal => Color.FromArgb(0xD9, 0xEC, 0x77),
+        _ => Color.FromArgb(0xE2, 0xFB, 0xAF)
+    };
+
+    /// <summary>
+    /// Resolves the Lime Green button border colour for Material interactive states.
+    /// </summary>
+    /// <param name="state">Button palette state.</param>
+    /// <returns>Border colour for <paramref name="state"/>.</returns>
+    public static Color GetMaterialButtonBorder(PaletteState state) => state switch
+    {
+        PaletteState.Disabled => Color.FromArgb(0xC0, 0xC4, 0xA0),
+        PaletteState.Tracking or PaletteState.CheckedTracking => Color.FromArgb(0xB3, 0xCA, 0x59),
+        PaletteState.Pressed or PaletteState.CheckedPressed => Color.FromArgb(0xA4, 0xB8, 0x3D),
+        PaletteState.CheckedNormal => Color.FromArgb(0xB4, 0xCA, 0x5B),
+        _ => Color.FromArgb(0xA8, 0xBC, 0x4D)
+    };
 
     /// <summary>
     /// Applies the dark-mode Lime Green accents. Buttons keep the same bright lime accent colours as the
