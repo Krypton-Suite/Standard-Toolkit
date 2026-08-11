@@ -50,10 +50,15 @@ partial class RadialMenuDemo
         this.kbtnShowAtCursor = new Krypton.Toolkit.KryptonButton();
         this.kchkPreferRadial = new Krypton.Toolkit.KryptonCheckBox();
         this.kchkUseHub = new Krypton.Toolkit.KryptonCheckBox();
+        this.ktxtHubText = new Krypton.Toolkit.KryptonTextBox();
+        this.kwlblHubText = new Krypton.Toolkit.KryptonWrapLabel();
+        this.kchkHubImage = new Krypton.Toolkit.KryptonCheckBox();
         this.kchkShowCheckedGlyph = new Krypton.Toolkit.KryptonCheckBox();
         this.kchkShowShadow = new Krypton.Toolkit.KryptonCheckBox();
         this.kcmbImageSize = new Krypton.Toolkit.KryptonComboBox();
         this.kwlblImageSize = new Krypton.Toolkit.KryptonWrapLabel();
+        this.knudOuterRing = new Krypton.Toolkit.KryptonNumericUpDown();
+        this.kwlblOuterRing = new Krypton.Toolkit.KryptonWrapLabel();
         this.kcmbDisplayStyle = new Krypton.Toolkit.KryptonComboBox();
         this.kwlblDisplayStyle = new Krypton.Toolkit.KryptonWrapLabel();
         this.kchkAllowMove = new Krypton.Toolkit.KryptonCheckBox();
@@ -91,10 +96,15 @@ partial class RadialMenuDemo
         this.kpnlToolbar.Controls.Add(this.kbtnShowAtCursor);
         this.kpnlToolbar.Controls.Add(this.kchkPreferRadial);
         this.kpnlToolbar.Controls.Add(this.kchkUseHub);
+        this.kpnlToolbar.Controls.Add(this.kwlblHubText);
+        this.kpnlToolbar.Controls.Add(this.ktxtHubText);
+        this.kpnlToolbar.Controls.Add(this.kchkHubImage);
         this.kpnlToolbar.Controls.Add(this.kchkShowCheckedGlyph);
         this.kpnlToolbar.Controls.Add(this.kchkShowShadow);
         this.kpnlToolbar.Controls.Add(this.kcmbImageSize);
         this.kpnlToolbar.Controls.Add(this.kwlblImageSize);
+        this.kpnlToolbar.Controls.Add(this.knudOuterRing);
+        this.kpnlToolbar.Controls.Add(this.kwlblOuterRing);
         this.kpnlToolbar.Controls.Add(this.kcmbDisplayStyle);
         this.kpnlToolbar.Controls.Add(this.kwlblDisplayStyle);
         this.kpnlToolbar.Controls.Add(this.kcmbAnimation);
@@ -106,7 +116,7 @@ partial class RadialMenuDemo
         this.kpnlToolbar.Dock = System.Windows.Forms.DockStyle.Top;
         this.kpnlToolbar.Location = new System.Drawing.Point(12, 12);
         this.kpnlToolbar.Name = "kpnlToolbar";
-        this.kpnlToolbar.Size = new System.Drawing.Size(976, 96);
+        this.kpnlToolbar.Size = new System.Drawing.Size(976, 120);
         this.kpnlToolbar.TabIndex = 0;
         //
         // kwlblMode
@@ -200,21 +210,41 @@ partial class RadialMenuDemo
         this.kcmbImageSize.TabIndex = 7;
         this.kcmbImageSize.SelectedIndexChanged += new System.EventHandler(this.kcmbImageSize_SelectedIndexChanged);
         //
+        // kwlblOuterRing
+        //
+        this.kwlblOuterRing.Location = new System.Drawing.Point(510, 44);
+        this.kwlblOuterRing.Name = "kwlblOuterRing";
+        this.kwlblOuterRing.Size = new System.Drawing.Size(36, 20);
+        this.kwlblOuterRing.Text = "Ring:";
+        //
+        // knudOuterRing
+        //
+        this.knudOuterRing.DecimalPlaces = 0;
+        this.knudOuterRing.Increment = new decimal(new int[] { 1, 0, 0, 0 });
+        this.knudOuterRing.Location = new System.Drawing.Point(550, 40);
+        this.knudOuterRing.Maximum = new decimal(new int[] { 16, 0, 0, 0 });
+        this.knudOuterRing.Minimum = new decimal(new int[] { 0, 0, 0, 0 });
+        this.knudOuterRing.Name = "knudOuterRing";
+        this.knudOuterRing.Size = new System.Drawing.Size(52, 25);
+        this.knudOuterRing.TabIndex = 8;
+        this.knudOuterRing.Value = new decimal(new int[] { 10, 0, 0, 0 });
+        this.knudOuterRing.ValueChanged += new System.EventHandler(this.knudOuterRing_ValueChanged);
+        //
         // kchkShowShadow
         //
-        this.kchkShowShadow.Location = new System.Drawing.Point(516, 40);
+        this.kchkShowShadow.Location = new System.Drawing.Point(614, 40);
         this.kchkShowShadow.Name = "kchkShowShadow";
         this.kchkShowShadow.Size = new System.Drawing.Size(110, 24);
-        this.kchkShowShadow.TabIndex = 8;
+        this.kchkShowShadow.TabIndex = 9;
         this.kchkShowShadow.Values.Text = "Show shadow";
         this.kchkShowShadow.CheckedChanged += new System.EventHandler(this.kchkShowShadow_CheckedChanged);
         //
         // kchkShowCheckedGlyph
         //
-        this.kchkShowCheckedGlyph.Location = new System.Drawing.Point(636, 40);
+        this.kchkShowCheckedGlyph.Location = new System.Drawing.Point(730, 40);
         this.kchkShowCheckedGlyph.Name = "kchkShowCheckedGlyph";
         this.kchkShowCheckedGlyph.Size = new System.Drawing.Size(120, 24);
-        this.kchkShowCheckedGlyph.TabIndex = 9;
+        this.kchkShowCheckedGlyph.TabIndex = 10;
         this.kchkShowCheckedGlyph.Values.Text = "Checked glyph";
         this.kchkShowCheckedGlyph.CheckedChanged += new System.EventHandler(this.kchkShowCheckedGlyph_CheckedChanged);
         //
@@ -232,10 +262,35 @@ partial class RadialMenuDemo
         this.kchkUseHub.Checked = true;
         this.kchkUseHub.Location = new System.Drawing.Point(356, 70);
         this.kchkUseHub.Name = "kchkUseHub";
-        this.kchkUseHub.Size = new System.Drawing.Size(160, 24);
+        this.kchkUseHub.Size = new System.Drawing.Size(120, 24);
         this.kchkUseHub.TabIndex = 11;
         this.kchkUseHub.Values.Text = "Hosted UseHub";
         this.kchkUseHub.CheckedChanged += new System.EventHandler(this.kchkUseHub_CheckedChanged);
+        //
+        // kwlblHubText
+        //
+        this.kwlblHubText.Location = new System.Drawing.Point(488, 74);
+        this.kwlblHubText.Name = "kwlblHubText";
+        this.kwlblHubText.Size = new System.Drawing.Size(60, 20);
+        this.kwlblHubText.Text = "Hub text:";
+        //
+        // ktxtHubText
+        //
+        this.ktxtHubText.Location = new System.Drawing.Point(552, 70);
+        this.ktxtHubText.Name = "ktxtHubText";
+        this.ktxtHubText.Size = new System.Drawing.Size(80, 26);
+        this.ktxtHubText.TabIndex = 12;
+        this.ktxtHubText.Text = "+";
+        this.ktxtHubText.TextChanged += new System.EventHandler(this.ktxtHubText_TextChanged);
+        //
+        // kchkHubImage
+        //
+        this.kchkHubImage.Location = new System.Drawing.Point(644, 70);
+        this.kchkHubImage.Name = "kchkHubImage";
+        this.kchkHubImage.Size = new System.Drawing.Size(120, 24);
+        this.kchkHubImage.TabIndex = 13;
+        this.kchkHubImage.Values.Text = "Hub image";
+        this.kchkHubImage.CheckedChanged += new System.EventHandler(this.kchkHubImage_CheckedChanged);
         //
         // ktxtLog
         //
@@ -253,9 +308,9 @@ partial class RadialMenuDemo
         this.kpnlContent.Controls.Add(this.kpnlSurface);
         this.kpnlContent.Controls.Add(this.kpnlHosted);
         this.kpnlContent.Dock = System.Windows.Forms.DockStyle.Fill;
-        this.kpnlContent.Location = new System.Drawing.Point(12, 108);
+        this.kpnlContent.Location = new System.Drawing.Point(12, 132);
         this.kpnlContent.Name = "kpnlContent";
-        this.kpnlContent.Size = new System.Drawing.Size(976, 400);
+        this.kpnlContent.Size = new System.Drawing.Size(976, 376);
         this.kpnlContent.TabIndex = 1;
         //
         // kpnlHosted
@@ -352,10 +407,15 @@ partial class RadialMenuDemo
     private Krypton.Toolkit.KryptonButton kbtnShowAtCursor;
     private Krypton.Toolkit.KryptonCheckBox kchkPreferRadial;
     private Krypton.Toolkit.KryptonCheckBox kchkUseHub;
+    private Krypton.Toolkit.KryptonWrapLabel kwlblHubText;
+    private Krypton.Toolkit.KryptonTextBox ktxtHubText;
+    private Krypton.Toolkit.KryptonCheckBox kchkHubImage;
     private Krypton.Toolkit.KryptonCheckBox kchkShowCheckedGlyph;
     private Krypton.Toolkit.KryptonCheckBox kchkShowShadow;
     private Krypton.Toolkit.KryptonComboBox kcmbImageSize;
     private Krypton.Toolkit.KryptonWrapLabel kwlblImageSize;
+    private Krypton.Toolkit.KryptonNumericUpDown knudOuterRing;
+    private Krypton.Toolkit.KryptonWrapLabel kwlblOuterRing;
     private Krypton.Toolkit.KryptonComboBox kcmbDisplayStyle;
     private Krypton.Toolkit.KryptonWrapLabel kwlblDisplayStyle;
     private Krypton.Toolkit.KryptonCheckBox kchkAllowMove;

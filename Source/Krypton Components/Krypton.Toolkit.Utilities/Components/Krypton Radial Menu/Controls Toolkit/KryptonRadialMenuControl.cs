@@ -258,6 +258,27 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
         set => Values.InnerRadius = value;
     }
 
+    /// <summary>Gets or sets the centre / hub image. Proxy for <see cref="KryptonRadialMenuValues.Glyph"/>.</summary>
+    [Category(@"Visuals")]
+    [Description(@"Image on the centre button and collapsed hub. When set, HubText is not drawn.")]
+    [DefaultValue(null)]
+    public Image? Glyph
+    {
+        get => Values.Glyph;
+        set => Values.Glyph = value;
+    }
+
+    /// <summary>Gets or sets collapsed-hub caption text. Proxy for <see cref="KryptonRadialMenuValues.HubText"/>.</summary>
+    [Category(@"Visuals")]
+    [Description(@"Text on the collapsed hub when Glyph is null. Default is +.")]
+    [DefaultValue("+")]
+    [Localizable(true)]
+    public string HubText
+    {
+        get => Values.HubText;
+        set => Values.HubText = value;
+    }
+
     /// <summary>Gets or sets the display style. Proxy for <see cref="KryptonRadialMenuValues.DisplayStyle"/>.</summary>
     [Category(@"Visuals")]
     [Description(@"How text and images are arranged on sectors.")]
@@ -281,7 +302,7 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
     /// <summary>Gets or sets outer ring thickness. Proxy for <see cref="KryptonRadialMenuValues.OuterRingThickness"/>.</summary>
     [Category(@"Visuals")]
     [Description(@"Thickness of the outer ring stroke in pixels. Zero hides the stroke.")]
-    [DefaultValue(4f)]
+    [DefaultValue(10f)]
     public float OuterRingThickness
     {
         get => Values.OuterRingThickness;

@@ -138,10 +138,15 @@ Assert-Equal 0.18 ([float]$menu.ShadowOpacity) 'Default ShadowOpacity is 0.18'
 # ----- Hosted KryptonRadialMenuControl -----
 $hosted = Get-NetObject ([System.Activator]::CreateInstance([Krypton.Toolkit.Utilities.KryptonRadialMenuControl]))
 Assert-Equal 140 $hosted.MenuRadius 'Hosted default MenuRadius is 140'
-Assert-Equal 42 $hosted.InnerRadius 'Hosted default InnerRadius is 42'
+Assert-equal 42 $hosted.InnerRadius 'Hosted default InnerRadius is 42'
+Assert-Equal 10 $hosted.OuterRingThickness 'Hosted default OuterRingThickness is 10'
 Assert-Equal ([Krypton.Toolkit.Utilities.KryptonRadialMenuDisplayStyle]::ImageAboveText) $hosted.DisplayStyle 'Hosted default DisplayStyle is ImageAboveText'
 Assert-True ($null -ne $hosted.StateCommon) 'Hosted StateCommon is available'
 Assert-True ($null -ne $hosted.Items) 'Hosted Items collection is available'
+Assert-Equal '+' $hosted.HubText 'Hosted default HubText is +'
+$hosted.HubText = 'Menu'
+Assert-Equal 'Menu' $hosted.HubText 'Hosted HubText can be set'
+Assert-True ($null -eq $hosted.Glyph) 'Hosted default Glyph is null'
 Assert-True (-not [bool]$hosted.AllowMove) 'Hosted default AllowMove is false'
 Assert-True (-not [bool]$hosted.IsFloating) 'Hosted default IsFloating is false'
 $hosted.AllowMove = $true

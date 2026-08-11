@@ -379,12 +379,28 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     /// Gets or sets the centre button image. Proxy for <see cref="KryptonRadialMenuValues.Glyph"/>.
     /// </summary>
     [Category(@"Visuals")]
-    [Description(@"Image displayed on the centre button.")]
+    [Description(@"Image displayed on the centre button (and collapsed hub on KryptonRadialMenuControl).")]
     [DefaultValue(null)]
     public Image? Glyph
     {
         get => Values.Glyph;
         set => Values.Glyph = value;
+    }
+
+    /// <summary>
+    /// Gets or sets collapsed-hub caption text. Proxy for <see cref="KryptonRadialMenuValues.HubText"/>.
+    /// </summary>
+    /// <remarks>
+    /// Meaningful for <see cref="KryptonRadialMenuControl"/> hub mode; ignored by the popup Component.
+    /// </remarks>
+    [Category(@"Visuals")]
+    [Description(@"Text on the collapsed hub when Glyph is null. Default is +.")]
+    [DefaultValue("+")]
+    [Localizable(true)]
+    public string HubText
+    {
+        get => Values.HubText;
+        set => Values.HubText = value;
     }
 
     /// <summary>
@@ -437,6 +453,18 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     {
         get => Values.ItemImageSize;
         set => Values.ItemImageSize = value;
+    }
+
+    /// <summary>
+    /// Gets or sets the outer ring stroke thickness. Proxy for <see cref="KryptonRadialMenuValues.OuterRingThickness"/>.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Thickness of the outer ring stroke in pixels. Zero hides the stroke.")]
+    [DefaultValue(10f)]
+    public float OuterRingThickness
+    {
+        get => Values.OuterRingThickness;
+        set => Values.OuterRingThickness = value;
     }
 
     /// <summary>

@@ -54,7 +54,7 @@ internal static class RadialLayoutEngine
         int editorCount,
         float startAngle = -90f,
         float hitPadding = 0f,
-        float outerRingThickness = 4f)
+        float outerRingThickness = 10f)
     {
         var dx = clientPoint.X - center.X;
         var dy = clientPoint.Y - center.Y;

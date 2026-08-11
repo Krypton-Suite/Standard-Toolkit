@@ -54,11 +54,20 @@ internal static class RadialMenuPainter
         string? centerText = null;
         if (!editorMode)
         {
+            // Keep slice fills inside the outer-ring band so thick rings do not cover sector content.
+            var ringThickness = Math.Max(0f, Math.Min(16f, values.OuterRingThickness));
+            var bodyOuter = Math.Max(inner + 8f, outer - ringThickness);
             for (var i = 0; i < sectors.Length && i < items.Count; i++)
             {
                 var sectorTracking = i == trackingIndex && !trackingOuterRing;
                 var sectorPressed = i == pressedIndex && !pressedOuterRing;
-                PaintSector(g, center, sectors[i], items[i], sectorTracking, sectorPressed, colors, values);
+                var bodySector = new RadialSectorInfo(
+                    sectors[i].Index,
+                    sectors[i].StartAngle,
+                    sectors[i].SweepAngle,
+                    bodyOuter,
+                    sectors[i].InnerRadius);
+                PaintSector(g, center, bodySector, items[i], sectorTracking, sectorPressed, colors, values);
             }
         }
         else if (activeEditorItem != null)
@@ -77,6 +86,7 @@ internal static class RadialMenuPainter
                 items,
                 values,
                 appearance,
+                colors,
                 outer,
                 trackingIndex,
                 trackingOuterRing,
@@ -89,6 +99,7 @@ internal static class RadialMenuPainter
                 items,
                 values,
                 appearance,
+                colors,
                 trackingIndex,
                 trackingOuterRing,
                 pressedIndex,
@@ -106,6 +117,7 @@ internal static class RadialMenuPainter
         IReadOnlyList<KryptonRadialMenuItemBase> items,
         KryptonRadialMenuValues values,
         IRadialMenuAppearance appearance,
+        RadialMenuColorSet colors,
         float menuRadius,
         int trackingIndex,
         bool trackingOuterRing,
@@ -126,21 +138,27 @@ internal static class RadialMenuPainter
         {
             var color = ResolveRingColor(
                 appearance,
+                colors,
                 items[i],
                 i == trackingIndex && trackingOuterRing,
                 i == pressedIndex && pressedOuterRing);
+            // Flat caps + small gap keep per-sector tracking visible on thick rings.
+            var gap = Math.Min(2.5f, Math.Max(0.8f, sectors[i].SweepAngle * 0.04f));
+            var sweep = Math.Max(0.5f, sectors[i].SweepAngle - gap);
+            var start = sectors[i].StartAngle + (gap * 0.5f);
             using var pen = new Pen(color, thickness)
             {
                 Alignment = PenAlignment.Center,
-                StartCap = LineCap.Round,
-                EndCap = LineCap.Round
+                StartCap = LineCap.Flat,
+                EndCap = LineCap.Flat
             };
-            g.DrawArc(pen, rect, sectors[i].StartAngle, sectors[i].SweepAngle);
+            g.DrawArc(pen, rect, start, sweep);
         }
     }
 
     private static Color ResolveRingColor(
         IRadialMenuAppearance appearance,
+        RadialMenuColorSet colors,
         KryptonRadialMenuItemBase item,
         bool trackingOuterRing,
         bool pressedOuterRing)
@@ -150,17 +168,57 @@ internal static class RadialMenuPainter
             return appearance.ResolveOuterRingColor(PaletteState.Disabled);
         }
 
+        var normal = appearance.ResolveOuterRingColor(PaletteState.Normal);
         if (pressedOuterRing)
         {
-            return appearance.ResolveOuterRingColor(PaletteState.Pressed);
+            return DistinctRingAccent(
+                appearance.ResolveOuterRingColor(PaletteState.Pressed),
+                normal,
+                colors.SectorPressed);
         }
 
         if (trackingOuterRing)
         {
-            return appearance.ResolveOuterRingColor(PaletteState.Tracking);
+            return DistinctRingAccent(
+                appearance.ResolveOuterRingColor(PaletteState.Tracking),
+                normal,
+                colors.SectorTracking);
         }
 
-        return appearance.ResolveOuterRingColor(PaletteState.Normal);
+        return normal;
+    }
+
+    /// <summary>
+    /// Prefers the palette ring colour when it visibly differs from normal; otherwise uses a sector accent.
+    /// </summary>
+    private static Color DistinctRingAccent(Color candidate, Color normal, Color fallback)
+    {
+        if (!ColorsTooSimilar(candidate, normal))
+        {
+            return candidate;
+        }
+
+        if (!ColorsTooSimilar(fallback, normal))
+        {
+            return fallback;
+        }
+
+        return ControlPaint.Light(normal);
+    }
+
+    private static bool ColorsTooSimilar(Color a, Color b)
+    {
+        var dr = a.R - b.R;
+        var dg = a.G - b.G;
+        var db = a.B - b.B;
+        return ((dr * dr) + (dg * dg) + (db * db)) < (48 * 48);
+    }
+
+    private static Color ContrastingInk(Color background)
+    {
+        // Relative luminance — light rings get dark ink, dark rings get white glyphs.
+        var luminance = ((0.299 * background.R) + (0.587 * background.G) + (0.114 * background.B)) / 255.0;
+        return luminance > 0.55 ? Color.FromArgb(32, 32, 32) : Color.White;
     }
 
     private static void PaintSubMenuGlyphs(
@@ -170,6 +228,7 @@ internal static class RadialMenuPainter
         IReadOnlyList<KryptonRadialMenuItemBase> items,
         KryptonRadialMenuValues values,
         IRadialMenuAppearance appearance,
+        RadialMenuColorSet colors,
         int trackingIndex,
         bool trackingOuterRing,
         int pressedIndex,
@@ -188,12 +247,13 @@ internal static class RadialMenuPainter
                 continue;
             }
 
-            var color = ResolveRingColor(
+            var ringColor = ResolveRingColor(
                 appearance,
+                colors,
                 items[i],
                 i == trackingIndex && trackingOuterRing,
                 i == pressedIndex && pressedOuterRing);
-            PaintSubMenuGlyph(g, center, sectors[i], values.SubMenuGlyph, color, ringThickness);
+            PaintSubMenuGlyph(g, center, sectors[i], values.SubMenuGlyph, ContrastingInk(ringColor), ringThickness);
         }
     }
     private static void PaintSector(
@@ -585,11 +645,15 @@ internal static class RadialMenuPainter
             return;
         }
 
+        if (string.IsNullOrEmpty(values.HubText))
+        {
+            return;
+        }
+
         using var font = new Font("Segoe UI", Math.Max(10f, radius * 0.45f), FontStyle.Bold);
         using var textBrush = new SolidBrush(colors.CenterGlyph);
         var format = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
-        // Plus affordance: press to open the radial menu.
-        g.DrawString("+", font, textBrush, rect, format);
+        g.DrawString(values.HubText, font, textBrush, rect, format);
         format.Dispose();
     }
 

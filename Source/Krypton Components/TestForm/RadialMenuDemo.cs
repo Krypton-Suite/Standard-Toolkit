@@ -48,6 +48,7 @@ public partial class RadialMenuDemo : KryptonForm
         _hostedControl.TabIndex = 0;
         _hostedControl.UseHub = kchkUseHub.Checked;
         _hostedControl.AllowMove = kchkAllowMove.Checked;
+        _hostedControl.HubText = ktxtHubText.Text;
         _hostedControl.ItemClick += (_, e) => AppendLog($@"Hosted ItemClick: {e.Item}");
         _hostedControl.CenterButtonClick += (_, _) => AppendLog(@"Hosted centre button");
         _hostedControl.ExpandedChanged += (_, _) =>
@@ -416,6 +417,14 @@ public partial class RadialMenuDemo : KryptonForm
         }
     }
 
+    private void knudOuterRing_ValueChanged(object? sender, EventArgs e)
+    {
+        var thickness = (float)knudOuterRing.Value;
+        _radialMenu.OuterRingThickness = thickness;
+        _importedMenu.OuterRingThickness = thickness;
+        _hostedControl.OuterRingThickness = thickness;
+    }
+
     private void kchkShowShadow_CheckedChanged(object? sender, EventArgs e)
     {
         _radialMenu.ShowShadow = kchkShowShadow.Checked;
@@ -436,6 +445,23 @@ public partial class RadialMenuDemo : KryptonForm
     private void kchkUseHub_CheckedChanged(object? sender, EventArgs e)
     {
         _hostedControl.UseHub = kchkUseHub.Checked;
+    }
+
+    private void ktxtHubText_TextChanged(object? sender, EventArgs e)
+    {
+        _hostedControl.HubText = ktxtHubText.Text;
+    }
+
+    private void kchkHubImage_CheckedChanged(object? sender, EventArgs e)
+    {
+        if (kchkHubImage.Checked)
+        {
+            _hostedControl.Glyph = CreateSliceIcon(Color.FromArgb(52, 152, 219), @"☰");
+        }
+        else
+        {
+            _hostedControl.Glyph = null;
+        }
     }
 
     private void AppendLog(string message)

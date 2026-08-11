@@ -20,6 +20,7 @@ public class KryptonRadialMenuValues : Storage
     private int _menuRadius;
     private int _innerRadius;
     private Image? _glyph;
+    private string _hubText;
     private Color _menuColor;
     private Color _subMenuHoverColor;
     private KryptonRadialMenuDisplayStyle _displayStyle;
@@ -48,11 +49,12 @@ public class KryptonRadialMenuValues : Storage
         NeedPaint = needPaint;
         _menuRadius = 140;
         _innerRadius = 42;
+        _hubText = @"+";
         _menuColor = Color.Empty;
         _subMenuHoverColor = Color.Empty;
         _displayStyle = KryptonRadialMenuDisplayStyle.ImageAboveText;
         _subMenuGlyph = @"›";
-        _outerRingThickness = 4f;
+        _outerRingThickness = 10f;
         _itemImageSize = 24;
         _showShadow = true;
         _shadowOpacity = 0.18f;
@@ -69,11 +71,12 @@ public class KryptonRadialMenuValues : Storage
         _menuRadius == 140
         && _innerRadius == 42
         && _glyph == null
+        && _hubText == @"+"
         && _menuColor.IsEmpty
         && _subMenuHoverColor.IsEmpty
         && _displayStyle == KryptonRadialMenuDisplayStyle.ImageAboveText
         && _subMenuGlyph == @"›"
-        && Math.Abs(_outerRingThickness - 4f) < 0.01f
+        && Math.Abs(_outerRingThickness - 10f) < 0.01f
         && _itemImageSize == 24
         && _showShadow
         && Math.Abs(_shadowOpacity - 0.18f) < 0.001f
@@ -134,10 +137,10 @@ public class KryptonRadialMenuValues : Storage
     }
 
     /// <summary>
-    /// Gets or sets the image shown on the center button at the root level.
+    /// Gets or sets the image shown on the centre button (and on the collapsed hub when set).
     /// </summary>
     [Category(@"Visuals")]
-    [Description(@"Image displayed on the center button.")]
+    [Description(@"Image displayed on the centre button and collapsed hub.")]
     [DefaultValue(null)]
     public Image? Glyph
     {
@@ -147,6 +150,30 @@ public class KryptonRadialMenuValues : Storage
             if (!ReferenceEquals(_glyph, value))
             {
                 _glyph = value;
+                PerformNeedPaint(false);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the text drawn on the collapsed hub when <see cref="Glyph"/> is null.
+    /// </summary>
+    /// <remarks>
+    /// Used by <see cref="KryptonRadialMenuControl"/> hub mode. Default is <c>+</c>. Empty draws no caption.
+    /// </remarks>
+    [Category(@"Visuals")]
+    [Description(@"Text on the collapsed hub when no Glyph image is set. Default is +.")]
+    [DefaultValue("+")]
+    [Localizable(true)]
+    public string HubText
+    {
+        get => _hubText;
+        set
+        {
+            var text = value ?? string.Empty;
+            if (_hubText != text)
+            {
+                _hubText = text;
                 PerformNeedPaint(false);
             }
         }
@@ -239,7 +266,7 @@ public class KryptonRadialMenuValues : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Thickness of the outer ring stroke in pixels. Zero hides the stroke.")]
-    [DefaultValue(4f)]
+    [DefaultValue(10f)]
     public float OuterRingThickness
     {
         get => _outerRingThickness;
