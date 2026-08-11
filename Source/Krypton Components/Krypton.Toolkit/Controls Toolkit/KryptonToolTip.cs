@@ -257,7 +257,7 @@ public class KryptonToolTip : Component, IExtenderProvider
 
         _associations[control] =
             new ToolTipAssociation(title ?? string.Empty, description ?? string.Empty, image,
-                imageTransparentColor == default ? GlobalStaticVariables.EMPTY_COLOR : imageTransparentColor);
+                imageTransparentColor == default ? SharedStaticVariables.EMPTY_COLOR : imageTransparentColor);
         SyncHooksFor(control);
     }
 
@@ -448,7 +448,7 @@ public class KryptonToolTip : Component, IExtenderProvider
         public Image? GetOverlayImage(PaletteState state) => null;
 
         /// <inheritdoc />
-        public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+        public Color GetOverlayImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
         /// <inheritdoc />
         public OverlayImagePosition GetOverlayImagePosition(PaletteState state) => OverlayImagePosition.TopRight;
@@ -524,7 +524,7 @@ public class KryptonToolTip : Component, IExtenderProvider
             return existing;
         }
 
-        var created = new ToolTipAssociation(string.Empty, string.Empty, null, GlobalStaticVariables.EMPTY_COLOR);
+        var created = new ToolTipAssociation(string.Empty, string.Empty, null, SharedStaticVariables.EMPTY_COLOR);
         _associations[control] = created;
         return created;
     }

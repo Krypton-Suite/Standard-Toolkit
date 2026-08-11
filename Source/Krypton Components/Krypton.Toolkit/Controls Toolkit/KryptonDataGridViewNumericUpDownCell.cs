@@ -127,7 +127,7 @@ public class KryptonDataGridViewNumericUpDownCell : KryptonDataGridViewTextBoxCe
         {
             if (value is < 0 or > 99)
             {
-                throw new ArgumentOutOfRangeException(nameof(DecimalPlaces), @"The DecimalPlaces property cannot be smaller than 0 or larger than 99.");
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(DecimalPlaces), @"The DecimalPlaces property cannot be smaller than 0 or larger than 99.");
             }
 
             if (_decimalPlaces != value)
@@ -166,7 +166,7 @@ public class KryptonDataGridViewNumericUpDownCell : KryptonDataGridViewTextBoxCe
         {
             if (value < (decimal)0.0)
             {
-                throw new ArgumentOutOfRangeException(nameof(Increment), @"The Increment property cannot be smaller than 0.");
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(Increment), @"The Increment property cannot be smaller than 0.");
             }
 
             SetIncrement(RowIndex, value);
@@ -261,7 +261,7 @@ public class KryptonDataGridViewNumericUpDownCell : KryptonDataGridViewTextBoxCe
 
         if (dataGridView?.EditingControl is null)
         {
-            throw new InvalidOperationException("Cell is detached or its grid has no editing control.");
+            ThrowHelper.ThrowInvalidOperationException("Cell is detached or its grid has no editing control.");
         }
 
         if (dataGridView.EditingControl is KryptonNumericUpDown numericUpDown)

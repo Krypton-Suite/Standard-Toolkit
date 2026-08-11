@@ -323,7 +323,7 @@ public class ViewLayoutCrumbs : ViewComposite, IContentValues
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Color value.</returns>
-    public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public Color GetOverlayImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the position of the overlay image relative to the main image.
@@ -525,7 +525,7 @@ public class ViewLayoutCrumbs : ViewComposite, IContentValues
     private void OnKryptonContextMenuClosed(object? sender, EventArgs e)
     {
         // Cast to correct type
-        var kcm = sender as KryptonContextMenu ?? throw new ArgumentNullException(nameof(sender));
+        var kcm =sender as KryptonContextMenu ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenu, nameof(sender));
 
         // Unhook from context menu and dispose of it, we only use each menu instance once
         kcm.Closed -= OnKryptonContextMenuClosed;

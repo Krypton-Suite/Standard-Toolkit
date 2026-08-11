@@ -42,6 +42,18 @@ public class KryptonFloatingWindow : KryptonForm
     /// <param name="floatspace">Reference to owning floatspace instance.</param>
     /// <param name="useMinimiseBox">Allow window to be minimised.</param>
     public KryptonFloatingWindow(Form owner, KryptonFloatspace? floatspace, bool useMinimiseBox = false)
+        : this(owner, floatspace, useMinimiseBox, showInTaskbar: false)
+    {
+    }
+
+    /// <summary>
+    /// Initialize a new instance of the KryptonFloatingWindow class.
+    /// </summary>
+    /// <param name="owner">Reference to form that will own all the floating window.</param>
+    /// <param name="floatspace">Reference to owning floatspace instance.</param>
+    /// <param name="useMinimiseBox">Allow window to be minimised.</param>
+    /// <param name="showInTaskbar">When true, the floating window appears on the Windows taskbar (Snap Group eligible).</param>
+    public KryptonFloatingWindow(Form owner, KryptonFloatspace? floatspace, bool useMinimiseBox, bool showInTaskbar)
     {
         SetInheritedControlOverride();
         // Set the owner of the window so that minimizing the owner will do the same to this
@@ -50,7 +62,7 @@ public class KryptonFloatingWindow : KryptonForm
         // Set correct form settings for a floating window
         TopLevel = true;
         ShowIcon = false;
-        ShowInTaskbar = false;
+        ShowInTaskbar = showInTaskbar;
         MinimizeBox = useMinimiseBox;
         StartPosition = FormStartPosition.Manual;
         ButtonSpecMin.ImageStates.ImageDisabled = EMPTY_IMAGE;

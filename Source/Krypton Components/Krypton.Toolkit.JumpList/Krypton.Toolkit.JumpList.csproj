@@ -28,6 +28,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<!-- Direct Interop ref required because Krypton.Toolkit uses PrivateAssets="all" (#3908). -->
+		<ProjectReference Include="..\Krypton.Interop\Krypton.Interop.csproj" PrivateAssets="all" />
 		<ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
 	</ItemGroup>
 

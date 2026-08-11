@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
@@ -2340,6 +2340,20 @@ public class KryptonRibbon : VisualSimple,
     }
 
     /// <summary>
+    /// Raises the PaletteChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing the event data.</param>
+    protected override void OnPaletteChanged(EventArgs e)
+    {
+        base.OnPaletteChanged(e);
+
+        // RibbonShape (and related caption chrome) come from the palette; refresh QAT and
+        // form icon integration immediately rather than waiting for a resize/chrome event.
+        CaptionArea?.UpdateQAT();
+        CaptionArea?.PerformFormChromeCheck();
+    }
+
+    /// <summary>
     /// Raises the Enabled event.
     /// </summary>
     /// <param name="e">An EventArgs containing event data.</param>
@@ -4111,7 +4125,7 @@ public class KryptonRibbon : VisualSimple,
         KillKeyboardMode();
 
         // Cast to correct type
-        var menuItem = sender as KryptonContextMenuItem ?? throw new ArgumentNullException(nameof(sender));
+        var menuItem =sender as KryptonContextMenuItem ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenuItem, nameof(sender));
 
         // Find index of the item to toggle
         var index = (int)(menuItem.Tag ?? -1);

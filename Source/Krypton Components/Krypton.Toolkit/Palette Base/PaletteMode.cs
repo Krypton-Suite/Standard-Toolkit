@@ -389,6 +389,26 @@ public enum PaletteMode
     MaterialDarkRipple,
 
     /// <summary>
+    /// Material Light Lime Green palette.
+    /// </summary>
+    MaterialLimeGreen,
+
+    /// <summary>
+    /// Material Dark Lime Green palette.
+    /// </summary>
+    MaterialLimeGreenDark,
+
+    /// <summary>
+    /// Material Light Lime Green palette with Ripple effect.
+    /// </summary>
+    MaterialLimeGreenRipple,
+
+    /// <summary>
+    /// Material Dark Lime Green palette with Ripple effect.
+    /// </summary>
+    MaterialLimeGreenDarkRipple,
+
+    /// <summary>
     /// DOS teal/green RetroUI palette.
     /// </summary>
     RetroGreen,
@@ -442,6 +462,141 @@ public enum PaletteMode
     /// macOS-inspired dark palette (Material renderer, Apple HIG colors).
     /// </summary>
     MacOSDark,
+
+    /// <summary>
+    /// Fixed high-contrast palette (black/white surfaces with neon accents).
+    /// </summary>
+    HighContrast,
+
+    /// <summary>
+    /// Colour-blind friendly palette tuned for deuteranopia (blue/orange/purple accents).
+    /// </summary>
+    Deuteranopia,
+
+    /// <summary>
+    /// Colour-blind friendly palette tuned for protanopia (blue/brown/magenta accents).
+    /// </summary>
+    Protanopia,
+
+    /// <summary>
+    /// Office 2007 renderer with fixed high-contrast colours.
+    /// </summary>
+    Office2007HighContrast,
+
+    /// <summary>
+    /// Office 2007 renderer with deuteranopia-friendly colours.
+    /// </summary>
+    Office2007Deuteranopia,
+
+    /// <summary>
+    /// Office 2007 renderer with protanopia-friendly colours.
+    /// </summary>
+    Office2007Protanopia,
+
+    /// <summary>
+    /// Office 2010 renderer with fixed high-contrast colours.
+    /// </summary>
+    Office2010HighContrast,
+
+    /// <summary>
+    /// Office 2010 renderer with deuteranopia-friendly colours.
+    /// </summary>
+    Office2010Deuteranopia,
+
+    /// <summary>
+    /// Office 2010 renderer with protanopia-friendly colours.
+    /// </summary>
+    Office2010Protanopia,
+
+    /// <summary>
+    /// Office 2013 renderer with fixed high-contrast colours.
+    /// </summary>
+    Office2013HighContrast,
+
+    /// <summary>
+    /// Office 2013 renderer with deuteranopia-friendly colours.
+    /// </summary>
+    Office2013Deuteranopia,
+
+    /// <summary>
+    /// Office 2013 renderer with protanopia-friendly colours.
+    /// </summary>
+    Office2013Protanopia,
+
+    /// <summary>
+    /// Sparkle renderer with fixed high-contrast colours.
+    /// </summary>
+    SparkleHighContrast,
+
+    /// <summary>
+    /// Sparkle renderer with deuteranopia-friendly colours.
+    /// </summary>
+    SparkleDeuteranopia,
+
+    /// <summary>
+    /// Sparkle renderer with protanopia-friendly colours.
+    /// </summary>
+    SparkleProtanopia,
+
+    /// <summary>
+    /// Material renderer with fixed high-contrast colours.
+    /// </summary>
+    MaterialHighContrast,
+
+    /// <summary>
+    /// Material renderer with deuteranopia-friendly colours.
+    /// </summary>
+    MaterialDeuteranopia,
+
+    /// <summary>
+    /// Material renderer with protanopia-friendly colours.
+    /// </summary>
+    MaterialProtanopia,
+
+    /// <summary>
+    /// Material High Contrast accessibility palette with Ripple effect.
+    /// </summary>
+    MaterialHighContrastRipple,
+
+    /// <summary>
+    /// Material Deuteranopia accessibility palette with Ripple effect.
+    /// </summary>
+    MaterialDeuteranopiaRipple,
+
+    /// <summary>
+    /// Material Protanopia accessibility palette with Ripple effect.
+    /// </summary>
+    MaterialProtanopiaRipple,
+
+    /// <summary>
+    /// Specifies the light Lime Green color scheme variant of the Office 2007 appearance.
+    /// </summary>
+    Office2007LimeGreen,
+
+    /// <summary>
+    /// Specifies the dark Lime Green color scheme variant of the Office 2007 appearance.
+    /// </summary>
+    Office2007LimeGreenDark,
+
+    /// <summary>
+    /// Specifies the light Lime Green color scheme variant of the Office 2010 appearance.
+    /// </summary>
+    Office2010LimeGreen,
+
+    /// <summary>
+    /// Specifies the dark Lime Green color scheme variant of the Office 2010 appearance.
+    /// </summary>
+    Office2010LimeGreenDark,
+
+    /// <summary>
+    /// Specifies the light Lime Green color scheme variant of the Microsoft 365 appearance.
+    /// </summary>
+    Microsoft365LimeGreen,
+
+    /// <summary>
+    /// Specifies the dark Lime Green color scheme variant of the Microsoft 365 appearance.
+    /// </summary>
+    Microsoft365LimeGreenDark,
 
     /// <summary>
     /// Specifies a custom palette be used.

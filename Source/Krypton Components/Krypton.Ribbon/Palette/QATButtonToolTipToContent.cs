@@ -38,8 +38,8 @@ internal class QATButtonToolTipToContent : IContentValues
         Debug.Assert(qatButton is not null);
         Debug.Assert(ribbon is not null);
 
-        _qatButton = qatButton ?? throw new ArgumentNullException(nameof(qatButton));
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+        _qatButton = qatButton ?? ThrowHelper.ThrowArgumentNullException(qatButton);
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
     }
     #endregion
 
@@ -101,7 +101,7 @@ internal class QATButtonToolTipToContent : IContentValues
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Color value.</returns>
-    public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public Color GetOverlayImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the position of the overlay image relative to the main image.

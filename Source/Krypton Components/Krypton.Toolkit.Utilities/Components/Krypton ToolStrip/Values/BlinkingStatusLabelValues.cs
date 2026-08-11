@@ -53,8 +53,10 @@ public class BlinkingStatusLabelValues : Storage
     /// Initialize a new instance of the <see cref="BlinkingStatusLabelValues"/> class.
     /// </summary>
     /// <param name="owner">Owning blinking status label.</param>
-    public BlinkingStatusLabelValues(KryptonBlinkingToolStripStatusLabel owner) =>
-        _owner = owner ?? throw new ArgumentNullException(nameof(owner));
+    public BlinkingStatusLabelValues(KryptonBlinkingToolStripStatusLabel owner)
+    {
+        _owner = owner ?? ThrowHelper.ThrowArgumentNullException(owner);
+    }
 
     /// <inheritdoc />
     public override string ToString() => !IsDefault ? @"Modified" : string.Empty;

@@ -51,7 +51,7 @@ public class KryptonDataGridViewMaskedTextBoxColumn : KryptonDataGridViewIconCol
     /// <returns></returns>
     public override object Clone()
     {
-        var cloned = base.Clone() as KryptonDataGridViewMaskedTextBoxColumn ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("cloned"));
+        var cloned =base.Clone() as KryptonDataGridViewMaskedTextBoxColumn ?? ThrowHelper.ThrowNullReferenceException<KryptonDataGridViewMaskedTextBoxColumn>(SharedStaticFunctions.VariableCannotBeNull("cloned"));
         cloned.SyncEditorOnButtonSpecClick = SyncEditorOnButtonSpecClick;
         return cloned;
     }
@@ -70,7 +70,7 @@ public class KryptonDataGridViewMaskedTextBoxColumn : KryptonDataGridViewIconCol
         {
             if ((value != null) && (value is not KryptonDataGridViewMaskedTextBoxCell cell))
             {
-                throw new InvalidCastException("Value provided for CellTemplate must be of type KryptonDataGridViewMaskedTextBoxCell or derive from it.");
+                ThrowHelper.ThrowInvalidCastException("Value provided for CellTemplate must be of type KryptonDataGridViewMaskedTextBoxCell or derive from it.");
             }
 
             base.CellTemplate = value;
@@ -121,12 +121,12 @@ public class KryptonDataGridViewMaskedTextBoxColumn : KryptonDataGridViewIconCol
     public char PromptChar
     {
         get =>
-            MaskedTextBoxCellTemplate?.PromptChar ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+MaskedTextBoxCellTemplate?.PromptChar ?? ThrowHelper.ThrowInvalidOperationException<char>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (MaskedTextBoxCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -161,12 +161,12 @@ public class KryptonDataGridViewMaskedTextBoxColumn : KryptonDataGridViewIconCol
     public bool AllowPromptAsInput
     {
         get =>
-            MaskedTextBoxCellTemplate?.AllowPromptAsInput ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+MaskedTextBoxCellTemplate?.AllowPromptAsInput ?? ThrowHelper.ThrowInvalidOperationException<bool>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (MaskedTextBoxCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -201,12 +201,12 @@ public class KryptonDataGridViewMaskedTextBoxColumn : KryptonDataGridViewIconCol
     public bool AsciiOnly
     {
         get =>
-            MaskedTextBoxCellTemplate?.AsciiOnly ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+MaskedTextBoxCellTemplate?.AsciiOnly ?? ThrowHelper.ThrowInvalidOperationException<bool>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (MaskedTextBoxCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -241,12 +241,12 @@ public class KryptonDataGridViewMaskedTextBoxColumn : KryptonDataGridViewIconCol
     public bool BeepOnError
     {
         get =>
-            MaskedTextBoxCellTemplate?.BeepOnError ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+MaskedTextBoxCellTemplate?.BeepOnError ?? ThrowHelper.ThrowInvalidOperationException<bool>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (MaskedTextBoxCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -281,12 +281,12 @@ public class KryptonDataGridViewMaskedTextBoxColumn : KryptonDataGridViewIconCol
     public MaskFormat CutCopyMaskFormat
     {
         get =>
-            MaskedTextBoxCellTemplate?.CutCopyMaskFormat ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+MaskedTextBoxCellTemplate?.CutCopyMaskFormat ?? ThrowHelper.ThrowInvalidOperationException<MaskFormat>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (MaskedTextBoxCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -321,12 +321,12 @@ public class KryptonDataGridViewMaskedTextBoxColumn : KryptonDataGridViewIconCol
     public bool HidePromptOnLeave
     {
         get =>
-            MaskedTextBoxCellTemplate?.HidePromptOnLeave ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+MaskedTextBoxCellTemplate?.HidePromptOnLeave ?? ThrowHelper.ThrowInvalidOperationException<bool>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (MaskedTextBoxCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -361,12 +361,12 @@ public class KryptonDataGridViewMaskedTextBoxColumn : KryptonDataGridViewIconCol
     public bool HideSelection
     {
         get =>
-            MaskedTextBoxCellTemplate?.HideSelection ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+MaskedTextBoxCellTemplate?.HideSelection ?? ThrowHelper.ThrowInvalidOperationException<bool>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (MaskedTextBoxCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -401,12 +401,12 @@ public class KryptonDataGridViewMaskedTextBoxColumn : KryptonDataGridViewIconCol
     public InsertKeyMode InsertKeyMode
     {
         get =>
-            MaskedTextBoxCellTemplate?.InsertKeyMode ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+MaskedTextBoxCellTemplate?.InsertKeyMode ?? ThrowHelper.ThrowInvalidOperationException<InsertKeyMode>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (MaskedTextBoxCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -442,13 +442,13 @@ public class KryptonDataGridViewMaskedTextBoxColumn : KryptonDataGridViewIconCol
     {
         get =>
             MaskedTextBoxCellTemplate == null
-                ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
+                ? ThrowHelper.ThrowInvalidOperationException<string>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
                 : MaskedTextBoxCellTemplate.Mask;
         set
         {
             if (MaskedTextBoxCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -483,12 +483,12 @@ public class KryptonDataGridViewMaskedTextBoxColumn : KryptonDataGridViewIconCol
     public char PasswordChar
     {
         get =>
-            MaskedTextBoxCellTemplate?.PasswordChar ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+MaskedTextBoxCellTemplate?.PasswordChar ?? ThrowHelper.ThrowInvalidOperationException<char>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (MaskedTextBoxCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -523,12 +523,12 @@ public class KryptonDataGridViewMaskedTextBoxColumn : KryptonDataGridViewIconCol
     public bool RejectInputOnFirstFailure
     {
         get =>
-            MaskedTextBoxCellTemplate?.RejectInputOnFirstFailure ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+MaskedTextBoxCellTemplate?.RejectInputOnFirstFailure ?? ThrowHelper.ThrowInvalidOperationException<bool>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (MaskedTextBoxCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -563,12 +563,12 @@ public class KryptonDataGridViewMaskedTextBoxColumn : KryptonDataGridViewIconCol
     public bool ResetOnPrompt
     {
         get =>
-            MaskedTextBoxCellTemplate?.ResetOnPrompt ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+MaskedTextBoxCellTemplate?.ResetOnPrompt ?? ThrowHelper.ThrowInvalidOperationException<bool>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (MaskedTextBoxCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -603,12 +603,12 @@ public class KryptonDataGridViewMaskedTextBoxColumn : KryptonDataGridViewIconCol
     public bool ResetOnSpace
     {
         get =>
-            MaskedTextBoxCellTemplate?.ResetOnSpace ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+MaskedTextBoxCellTemplate?.ResetOnSpace ?? ThrowHelper.ThrowInvalidOperationException<bool>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (MaskedTextBoxCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -643,12 +643,12 @@ public class KryptonDataGridViewMaskedTextBoxColumn : KryptonDataGridViewIconCol
     public bool SkipLiterals
     {
         get =>
-            MaskedTextBoxCellTemplate?.SkipLiterals ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+MaskedTextBoxCellTemplate?.SkipLiterals ?? ThrowHelper.ThrowInvalidOperationException<bool>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (MaskedTextBoxCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -683,12 +683,12 @@ public class KryptonDataGridViewMaskedTextBoxColumn : KryptonDataGridViewIconCol
     public MaskFormat TextMaskFormat
     {
         get =>
-            MaskedTextBoxCellTemplate?.TextMaskFormat ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+MaskedTextBoxCellTemplate?.TextMaskFormat ?? ThrowHelper.ThrowInvalidOperationException<MaskFormat>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (MaskedTextBoxCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -723,12 +723,12 @@ public class KryptonDataGridViewMaskedTextBoxColumn : KryptonDataGridViewIconCol
     public bool UseSystemPasswordChar
     {
         get =>
-            MaskedTextBoxCellTemplate?.UseSystemPasswordChar ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+MaskedTextBoxCellTemplate?.UseSystemPasswordChar ?? ThrowHelper.ThrowInvalidOperationException<bool>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (MaskedTextBoxCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.

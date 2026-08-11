@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -20,7 +20,7 @@ public class ButtonValues : Storage,
 {
     #region Static Fields
     private const string DEFAULT_TEXT = nameof(Button);
-    private static readonly string _defaultExtraText = GlobalStaticVariables.DEFAULT_EMPTY_STRING;
+    private static readonly string _defaultExtraText = SharedStaticVariables.DEFAULT_EMPTY_STRING;
     #endregion
 
     #region Instance Fields
@@ -59,8 +59,8 @@ public class ButtonValues : Storage,
 
         // Set initial values
         _image = null;
-        _transparent = GlobalStaticVariables.EMPTY_COLOR;
-        _dropDownArrowColor = GlobalStaticVariables.EMPTY_COLOR;
+        _transparent = SharedStaticVariables.EMPTY_COLOR;
+        _dropDownArrowColor = SharedStaticVariables.EMPTY_COLOR;
         _text = DEFAULT_TEXT;
         _extraText = _defaultExtraText;
         _useAsDialogButton = false;
@@ -70,7 +70,7 @@ public class ButtonValues : Storage,
         _iconSelectionStrategy = IconSelectionStrategy.OSBased; // Default to OS based strategy
         ImageStates = CreateImageStates();
         ImageStates.NeedPaint = needPaint;
-        _overlayImage = new OverlayImageValues(needPaint);
+        _overlayImage = CreateOverlayImageValues(needPaint);
     }
     #endregion
 
@@ -85,9 +85,9 @@ public class ButtonValues : Storage,
                                       (UseAsADialogButton == false) &&
                                       (UseAsUACElevationButton == false) &&
                                       (ShowSplitOption == false) &&
-                                      (DropDownArrowColor == GlobalStaticVariables.EMPTY_COLOR) &&
+                                      (DropDownArrowColor == SharedStaticVariables.EMPTY_COLOR) &&
                                       //(UACShieldIconSize == UACShieldIconSize.ExtraSmall)
-                                      (ImageTransparentColor == GlobalStaticVariables.EMPTY_COLOR) &&
+                                      (ImageTransparentColor == SharedStaticVariables.EMPTY_COLOR) &&
                                       (Text == DEFAULT_TEXT) &&
                                       (ExtraText == _defaultExtraText) &&
                                       _overlayImage.IsDefault;
@@ -148,12 +148,12 @@ public class ButtonValues : Storage,
         }
     }
 
-    private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != GlobalStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Resets the ImageTransparentColor property to its default value.
     /// </summary>
-    public void ResetImageTransparentColor() => ImageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetImageTransparentColor() => ImageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the content image transparent color.
@@ -190,7 +190,7 @@ public class ButtonValues : Storage,
     [AllowNull]
     public string Text
     {
-        get => _text ?? GlobalStaticVariables.DEFAULT_EMPTY_STRING;
+        get => _text ?? SharedStaticVariables.DEFAULT_EMPTY_STRING;
 
         set
         {
@@ -395,14 +395,14 @@ public class ButtonValues : Storage,
         {
             if (_dropDownArrowColor != value)
             {
-                _dropDownArrowColor = value ?? GlobalStaticVariables.EMPTY_COLOR;
+                _dropDownArrowColor = value ?? SharedStaticVariables.EMPTY_COLOR;
 
                 PerformNeedPaint(true);
             }
         }
     }
-    private void ResetDropDownArrowColor() => _dropDownArrowColor = GlobalStaticVariables.EMPTY_COLOR;
-    private bool ShouldSerializeDropDownArrowColor() => _dropDownArrowColor != GlobalStaticVariables.EMPTY_COLOR;
+    private void ResetDropDownArrowColor() => _dropDownArrowColor = SharedStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeDropDownArrowColor() => _dropDownArrowColor != SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region CreateImageStates
@@ -411,6 +411,17 @@ public class ButtonValues : Storage,
     /// </summary>
     /// <returns>Storage object.</returns>
     protected virtual ButtonImageStates CreateImageStates() => new ButtonImageStates();
+
+    #endregion
+
+    #region CreateOverlayImageValues
+    /// <summary>
+    /// Create the storage for the overlay image values.
+    /// </summary>
+    /// <param name="needPaint">Delegate for notifying paint requests.</param>
+    /// <returns>Storage object.</returns>
+    protected virtual OverlayImageValues CreateOverlayImageValues(NeedPaintHandler needPaint) =>
+        new OverlayImageValues(needPaint);
 
     #endregion
 
@@ -464,7 +475,7 @@ public class ButtonValues : Storage,
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Overlay image value, or null if no overlay image is set.</returns>
-    public virtual Image? GetOverlayImage(PaletteState state) => _overlayImage.Image;
+    public virtual Image? GetOverlayImage(PaletteState state) => _overlayImage.GetImage(state);
 
     /// <summary>
     /// Gets the overlay image color that should be transparent.

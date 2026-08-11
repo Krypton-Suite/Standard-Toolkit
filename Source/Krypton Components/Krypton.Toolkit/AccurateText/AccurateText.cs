@@ -29,6 +29,18 @@ public class AccurateText : GlobalId
 
     #endregion
 
+    #region Public Static Properties
+
+    /// <summary>
+    /// Gets or sets whether horizontal measure/draw uses P/Invoke GDI (<see cref="GdiNativeText"/>)
+    /// instead of GDI+ measure and <see cref="TextRenderer"/>.
+    /// Default is <c>false</c>. Rotated orientations always use GDI+.
+    /// When enabling, measure and draw stay paired on the native path so layout stays consistent.
+    /// </summary>
+    public static bool PreferNativeGdiText { get; set; }
+
+    #endregion
+
     #region Public Static Methods
 
     /// <summary>
@@ -61,17 +73,17 @@ public class AccurateText : GlobalId
 
         if (g == null)
         {
-            throw new ArgumentNullException(nameof(g));
+            ThrowHelper.ThrowArgumentNullException(nameof(g));
         }
 
         if (text == null)
         {
-            throw new ArgumentNullException(nameof(text));
+            ThrowHelper.ThrowArgumentNullException(nameof(text));
         }
 
         if (font == null)
         {
-            throw new ArgumentNullException(nameof(font));
+            ThrowHelper.ThrowArgumentNullException(nameof(font));
         }
 
         // An empty string cannot be drawn, so uses the empty memento
@@ -184,7 +196,16 @@ public class AccurateText : GlobalId
                 {
                     // Declare a proposed size with dimensions set to the maximum integer value.
                     var proposedSize = new Size(int.MaxValue, int.MaxValue);
-                    textSize = g.MeasureString(text, font, proposedSize, format);
+                    if (PreferNativeGdiText)
+                    {
+                        // Pair measure with the native DrawText path used for VisualOrientation.Top.
+                        var tff = StringFormatToFlags(format);
+                        textSize = GdiNativeText.Measure(g, text, font, tff, proposedSize);
+                    }
+                    else
+                    {
+                        textSize = g.MeasureString(text, font, proposedSize, format);
+                    }
                 }
                 catch
                 {
@@ -224,13 +245,13 @@ public class AccurateText : GlobalId
         // Cannot draw with a null graphics instance
         if (g == null)
         {
-            throw new ArgumentNullException(nameof(g));
+            ThrowHelper.ThrowArgumentNullException(nameof(g));
         }
 
         // Cannot draw with a null memento instance
         if (memento == null)
         {
-            throw new ArgumentNullException(nameof(memento));
+            ThrowHelper.ThrowArgumentNullException(nameof(memento));
         }
 
         var ret = true;
@@ -347,7 +368,14 @@ public class AccurateText : GlobalId
                             }
                         }
 
-                        TextRenderer.DrawText(g, memento.Text, memento.Font!, rect, color, tff);
+                        if (PreferNativeGdiText)
+                        {
+                            GdiNativeText.Draw(g, memento.Text, memento.Font!, rect, color, tff);
+                        }
+                        else
+                        {
+                            TextRenderer.DrawText(g, memento.Text, memento.Font!, rect, color, tff);
+                        }
                     }
                     else
                     {

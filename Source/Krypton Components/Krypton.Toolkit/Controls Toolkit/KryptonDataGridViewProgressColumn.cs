@@ -52,8 +52,8 @@ public class KryptonDataGridViewProgressColumn : KryptonDataGridViewIconColumn
         #region Identity
         public ProgressColors()
         {
-            _color1 = GlobalStaticVariables.EMPTY_COLOR;
-            _color2 = GlobalStaticVariables.EMPTY_COLOR;
+            _color1 = SharedStaticVariables.EMPTY_COLOR;
+            _color2 = SharedStaticVariables.EMPTY_COLOR;
         }
         #endregion
 
@@ -82,8 +82,8 @@ public class KryptonDataGridViewProgressColumn : KryptonDataGridViewIconColumn
             }
 
         }
-        private bool ShouldSerializeColor1() => _color1 != GlobalStaticVariables.EMPTY_COLOR;
-        private void ResetColor1() => _color1 = GlobalStaticVariables.EMPTY_COLOR;
+        private bool ShouldSerializeColor1() => _color1 != SharedStaticVariables.EMPTY_COLOR;
+        private void ResetColor1() => _color1 = SharedStaticVariables.EMPTY_COLOR;
 
 
         [Description("Color 2. Second color for the gradient.")]
@@ -102,8 +102,8 @@ public class KryptonDataGridViewProgressColumn : KryptonDataGridViewIconColumn
             }
 
         }
-        private bool ShouldSerializeColor2() => _color2 != GlobalStaticVariables.EMPTY_COLOR;
-        private void ResetColor2() => _color2 = GlobalStaticVariables.EMPTY_COLOR;
+        private bool ShouldSerializeColor2() => _color2 != SharedStaticVariables.EMPTY_COLOR;
+        private void ResetColor2() => _color2 = SharedStaticVariables.EMPTY_COLOR;
         #endregion
 
         #region Public Overrides
@@ -145,8 +145,8 @@ public class KryptonDataGridViewProgressColumn : KryptonDataGridViewIconColumn
             _showProgressBar = true;
             _showProgressBarBorder = true;
 
-            _borderColor = GlobalStaticVariables.EMPTY_COLOR;
-            _textColor = GlobalStaticVariables.EMPTY_COLOR;
+            _borderColor = SharedStaticVariables.EMPTY_COLOR;
+            _textColor = SharedStaticVariables.EMPTY_COLOR;
 
             _linearGradientMode = LinearGradientMode.Vertical;
 
@@ -241,8 +241,8 @@ public class KryptonDataGridViewProgressColumn : KryptonDataGridViewIconColumn
                 }
             }
         }
-        private bool ShouldSerializeBorderColor() => _borderColor != GlobalStaticVariables.EMPTY_COLOR;
-        private void ResetBorderColor() => _borderColor = GlobalStaticVariables.EMPTY_COLOR;
+        private bool ShouldSerializeBorderColor() => _borderColor != SharedStaticVariables.EMPTY_COLOR;
+        private void ResetBorderColor() => _borderColor = SharedStaticVariables.EMPTY_COLOR;
 
 
         [Category("Appearance")]
@@ -262,8 +262,8 @@ public class KryptonDataGridViewProgressColumn : KryptonDataGridViewIconColumn
             }
 
         }
-        private bool ShouldSerializeTextColor() => _textColor != GlobalStaticVariables.EMPTY_COLOR;
-        private void ResetTextColor() => _textColor = GlobalStaticVariables.EMPTY_COLOR;
+        private bool ShouldSerializeTextColor() => _textColor != SharedStaticVariables.EMPTY_COLOR;
+        private void ResetTextColor() => _textColor = SharedStaticVariables.EMPTY_COLOR;
 
 
         [Category("Appearance")]
@@ -334,7 +334,7 @@ public class KryptonDataGridViewProgressColumn : KryptonDataGridViewIconColumn
     /// <inheritdoc/>
     public override object Clone()
     {
-        var cloned = base.Clone() as KryptonDataGridViewProgressColumn ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("cloned"));
+        var cloned =base.Clone() as KryptonDataGridViewProgressColumn ?? ThrowHelper.ThrowNullReferenceException<KryptonDataGridViewProgressColumn>(SharedStaticFunctions.VariableCannotBeNull("cloned"));
 
         cloned._progressBarSettings = _progressBarSettings;
         cloned._dataGridView = _dataGridView;
@@ -360,7 +360,7 @@ public class KryptonDataGridViewProgressColumn : KryptonDataGridViewIconColumn
             // Ensure that the cell used for the template is a DataGridViewProgressCell.
             if (value != null && !value.GetType().IsAssignableFrom(typeof(KryptonDataGridViewProgressCell)))
             {
-                throw new InvalidCastException("Must be a KryptonDataGridViewProgressCell");
+                ThrowHelper.ThrowInvalidCastException("Must be a KryptonDataGridViewProgressCell");
             }
 
             base.CellTemplate = value;
@@ -496,23 +496,23 @@ public class KryptonDataGridViewProgressColumn : KryptonDataGridViewIconColumn
     private void OnInvalidateColumn()
     {
         //check colours
-        CompletedColor1 = ProgressBar.ProgressCompleted.Color1 == GlobalStaticVariables.EMPTY_COLOR
+        CompletedColor1 = ProgressBar.ProgressCompleted.Color1 == SharedStaticVariables.EMPTY_COLOR
             ? Palette.GetBackColor1(PaletteBackStyle.GridHeaderColumnList, PaletteState.Normal)
             : ProgressBar.ProgressCompleted.Color1;
 
-        CompletedColor2 = ProgressBar.ProgressCompleted.Color2 == GlobalStaticVariables.EMPTY_COLOR
+        CompletedColor2 = ProgressBar.ProgressCompleted.Color2 == SharedStaticVariables.EMPTY_COLOR
             ? Palette.GetBackColor2(PaletteBackStyle.GridHeaderColumnList, PaletteState.Normal)
             : ProgressBar.ProgressCompleted.Color2;
 
-        RemainingColor1 = ProgressBar.ProgressRemaining.Color1 == GlobalStaticVariables.EMPTY_COLOR
+        RemainingColor1 = ProgressBar.ProgressRemaining.Color1 == SharedStaticVariables.EMPTY_COLOR
             ? Palette.GetBackColor2(PaletteBackStyle.GridHeaderColumnList, PaletteState.Normal)
             : ProgressBar.ProgressRemaining.Color1;
 
-        RemainingColor2 = ProgressBar.ProgressRemaining.Color2 == GlobalStaticVariables.EMPTY_COLOR
+        RemainingColor2 = ProgressBar.ProgressRemaining.Color2 == SharedStaticVariables.EMPTY_COLOR
             ? Palette.GetBackColor1(PaletteBackStyle.GridHeaderColumnList, PaletteState.BoldedOverride)
             : ProgressBar.ProgressRemaining.Color2;
 
-        BorderColor = ProgressBar.BorderColor == GlobalStaticVariables.EMPTY_COLOR
+        BorderColor = ProgressBar.BorderColor == SharedStaticVariables.EMPTY_COLOR
             ? Palette.GetBorderColor1(PaletteBorderStyle.GridHeaderColumnList, PaletteState.Normal)
             : ProgressBar.BorderColor;
 

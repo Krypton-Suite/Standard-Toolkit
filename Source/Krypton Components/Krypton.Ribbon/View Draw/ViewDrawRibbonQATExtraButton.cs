@@ -147,7 +147,7 @@ internal class ViewDrawRibbonQATExtraButton : ViewLeaf
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // Update the enabled state of the button

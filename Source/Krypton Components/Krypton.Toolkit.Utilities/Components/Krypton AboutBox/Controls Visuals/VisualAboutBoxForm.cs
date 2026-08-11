@@ -21,6 +21,8 @@ internal partial class VisualAboutBoxForm : KryptonForm
 
     private readonly KryptonAboutToolkitData _aboutToolkitData;
 
+    private Image? _ownedComposedMainImage;
+
     #endregion
 
     #region Identity
@@ -72,6 +74,7 @@ internal partial class VisualAboutBoxForm : KryptonForm
             $@"{KryptonManager.Strings.AboutBoxStrings.About} {aboutBoxData.ApplicationName}";
 
         pbxImage.Image = aboutBoxData.MainImage ?? Resources.InformationMedium;
+        ApplyMainImageOverlay(aboutBoxData.MainImageOverlay);
 
         kwlCurrentTheme.Text = $@"{KryptonManager.Strings.CustomStrings.CurrentTheme}:";
 
@@ -92,6 +95,39 @@ internal partial class VisualAboutBoxForm : KryptonForm
         UpdateDescription(KryptonAboutBoxUtilities.GetFileVersionInfo(Assembly.GetEntryAssembly()!.Location!).FileDescription!);
 
         kryptonWrapLabel5.Text = null;
+    }
+
+    private void ApplyMainImageOverlay(KryptonOverlayImage overlay)
+    {
+        DisposeOwnedComposedMainImage();
+
+        if (overlay.IsEmpty || pbxImage.Image == null)
+        {
+            return;
+        }
+
+        Bitmap? composed = GraphicsExtensions.TryComposeOverlay(pbxImage.Image, overlay, rightToLeft: false);
+        if (composed != null)
+        {
+            _ownedComposedMainImage = composed;
+            pbxImage.Image = composed;
+        }
+    }
+
+    private void DisposeOwnedComposedMainImage()
+    {
+        if (_ownedComposedMainImage == null)
+        {
+            return;
+        }
+
+        if (ReferenceEquals(pbxImage.Image, _ownedComposedMainImage))
+        {
+            pbxImage.Image = null;
+        }
+
+        _ownedComposedMainImage.Dispose();
+        _ownedComposedMainImage = null;
     }
 
     private void UpdateDescription(string fileDescription) => krtbDescription.Text = fileDescription;
@@ -164,7 +200,8 @@ internal partial class VisualAboutBoxForm : KryptonForm
                 kpnlAssemblyDetails.Visible = true;
                 break;
             default:
-                throw new ArgumentOutOfRangeException(nameof(page), page, null);
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(page), page, null);
+                return;
         }
     }
 
@@ -278,7 +315,8 @@ internal partial class VisualAboutBoxForm : KryptonForm
                 kpnlToolkitInformation.Visible = true;
                 break;
             default:
-                throw new ArgumentOutOfRangeException(nameof(page), page, null);
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(page), page, null);
+                return;
         }
     }
 
@@ -300,6 +338,7 @@ internal partial class VisualAboutBoxForm : KryptonForm
             $@"{KryptonManager.Strings.AboutBoxStrings.About} {aboutBoxData.ApplicationName}";
 
         pbxImage.Image = aboutBoxData.MainImage ?? Resources.InformationMedium;
+        ApplyMainImageOverlay(aboutBoxData.MainImageOverlay);
 
         kwlCurrentTheme.Text = $@"{KryptonManager.Strings.CustomStrings.CurrentTheme}:";
 
@@ -444,7 +483,7 @@ internal partial class VisualAboutBoxForm : KryptonForm
             ToolkitSupportType.Nightly => Resources.Krypton_Nightly,
             ToolkitSupportType.Stable => Resources.Krypton_Stable,
             ToolkitSupportType.LongTermSupport => Resources.Krypton_LTS,
-            _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
+            _ => ThrowHelper.ThrowArgumentOutOfRangeException<Image>(nameof(value), value, null),
         };
     }
 
@@ -572,7 +611,8 @@ internal partial class VisualAboutBoxForm : KryptonForm
                 tsbtnVersions.Checked = true;
                 break;
             default:
-                throw new ArgumentOutOfRangeException(nameof(page), page, null);
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(page), page, null);
+                return;
         }
     }
 
@@ -615,6 +655,13 @@ internal partial class VisualAboutBoxForm : KryptonForm
     private void klwlblDocumentation_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => GlobalToolkitUtilities.LaunchProcess(@"https://github.com/Krypton-Suite/Help-Files/releases");
 
     private void klwlblDemos_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => GlobalToolkitUtilities.LaunchProcess(@"https://github.com/Krypton-Suite/Standard-Toolkit-Demos/releases");
+
+    /// <inheritdoc />
+    protected override void OnFormClosed(FormClosedEventArgs e)
+    {
+        DisposeOwnedComposedMainImage();
+        base.OnFormClosed(e);
+    }
 
     #endregion
 

@@ -499,7 +499,7 @@ public class KryptonDomainUpDown : VisualControlBase,
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Color value.</returns>
-        public virtual Color GetImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+        public virtual Color GetImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the content long text.
@@ -519,7 +519,7 @@ public class KryptonDomainUpDown : VisualControlBase,
         /// </summary>
         /// <param name="state">The state for which the overlay image is needed.</param>
         /// <returns>Color value.</returns>
-        public virtual Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+        public virtual Color GetOverlayImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the position of the overlay image relative to the main image.
@@ -2172,7 +2172,7 @@ public class KryptonDomainUpDown : VisualControlBase,
     private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
     {
         // Unhook events from the specific instance that generated event
-        var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
+        var popupToolTip =sender as VisualPopupToolTip ?? ThrowHelper.ThrowArgumentNullException(sender as VisualPopupToolTip, nameof(sender));
         popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
         // Not showing a popup page any more

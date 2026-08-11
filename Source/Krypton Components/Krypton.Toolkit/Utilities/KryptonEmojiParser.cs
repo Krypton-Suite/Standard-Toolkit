@@ -55,9 +55,9 @@ public class KryptonEmojiParser
         // Determine the URL to fetch based on the specified emoji list type
         var emojiListUrl = emojiListType switch
         {
-            KryptonEmojiListType.Latest => GlobalStaticConstants.DEFAULT_LATEST_EMOJI_LIST_URL,
-            KryptonEmojiListType.Public => GlobalStaticConstants.DEFAULT_PUBLIC_EMOJI_LIST_URL,
-            _ => throw new ArgumentException("Invalid emoji list type specified.")
+            KryptonEmojiListType.Latest => SharedStaticConstants.DEFAULT_LATEST_EMOJI_LIST_URL,
+            KryptonEmojiListType.Public => SharedStaticConstants.DEFAULT_PUBLIC_EMOJI_LIST_URL,
+            _ => ThrowHelper.ThrowArgumentException<string>("Invalid emoji list type specified.")
         };
 
         // Fetch the emoji list content from the specified URL

@@ -425,4 +425,108 @@ public class WorkspaceMenus : Storage
     public bool ShowContextMenu { get; set; }
 
     #endregion
+
+    #region Translations Persistence
+
+    /// <summary>
+    /// Exports the workspace page-menu strings to a versioned XML document.
+    /// </summary>
+    /// <param name="includeDefaults">When <c>true</c>, emits every string even if it matches the default value.</param>
+    public XmlDocument ExportToXmlDocument(bool includeDefaults = false) =>
+        ToolkitStringsXmlPersistence.Export(this, includeDefaults);
+
+    /// <summary>
+    /// Exports the workspace page-menu strings to a versioned XML file.
+    /// </summary>
+    /// <param name="filename">Path to the destination file.</param>
+    /// <param name="includeDefaults">When <c>true</c>, emits every string even if it matches the default value.</param>
+    public void ExportToXmlFile(string filename, bool includeDefaults = false)
+    {
+        if (string.IsNullOrWhiteSpace(filename))
+        {
+            ThrowHelper.ThrowArgumentNullException(nameof(filename));
+        }
+
+        ExportToXmlDocument(includeDefaults).Save(filename);
+    }
+
+    /// <summary>
+    /// Imports workspace page-menu strings from a versioned XML document produced by <see cref="ExportToXmlDocument"/>.
+    /// </summary>
+    /// <param name="doc">The XML document to import from.</param>
+    /// <param name="resetFirst">When <c>true</c>, resets all strings to defaults before applying the imported values.</param>
+    public void ImportFromXmlDocument(XmlDocument doc, bool resetFirst = true)
+    {
+        if (resetFirst)
+        {
+            ResetTextClose();
+            ResetTextCloseAllButThis();
+            ResetTextMoveNext();
+            ResetTextMovePrevious();
+            ResetTextSplitVertical();
+            ResetTextSplitHorizontal();
+            ResetTextRebalance();
+            ResetTextMaximize();
+            ResetTextRestore();
+        }
+
+        ToolkitStringsXmlPersistence.Import(this, doc, resetFirst: false, refreshOpenForms: false);
+    }
+
+    /// <summary>
+    /// Imports workspace page-menu strings from a versioned XML file.
+    /// </summary>
+    /// <param name="filename">Path to the Translations.xml file.</param>
+    /// <param name="resetFirst">When <c>true</c>, resets all strings to defaults before applying the imported values.</param>
+    public void ImportFromXmlFile(string filename, bool resetFirst = true)
+    {
+        if (string.IsNullOrWhiteSpace(filename))
+        {
+            ThrowHelper.ThrowArgumentNullException(nameof(filename));
+        }
+
+        var doc = new XmlDocument();
+        doc.Load(filename);
+        ImportFromXmlDocument(doc, resetFirst);
+    }
+
+    /// <summary>
+    /// Exports the workspace page-menu strings to JSON.
+    /// </summary>
+    /// <param name="includeDefaults">When <c>true</c>, emits every string even if it matches the default value.</param>
+    public string ExportToJson(bool includeDefaults = false) =>
+        ToolkitStringsJsonPersistence.Export(this, includeDefaults);
+
+    /// <summary>
+    /// Exports the workspace page-menu strings to a JSON file.
+    /// </summary>
+    /// <param name="filename">Path to the destination file.</param>
+    /// <param name="includeDefaults">When <c>true</c>, emits every string even if it matches the default value.</param>
+    public void ExportToJsonFile(string filename, bool includeDefaults = false) =>
+        ToolkitStringsJsonPersistence.ExportToFile(this, filename, includeDefaults);
+
+    /// <summary>
+    /// Imports workspace page-menu strings from a JSON file.
+    /// </summary>
+    /// <param name="filename">Path to the source JSON file.</param>
+    /// <param name="resetFirst">When <c>true</c>, resets all strings to defaults before applying the imported values.</param>
+    public void ImportFromJsonFile(string filename, bool resetFirst = true)
+    {
+        if (resetFirst)
+        {
+            ResetTextClose();
+            ResetTextCloseAllButThis();
+            ResetTextMoveNext();
+            ResetTextMovePrevious();
+            ResetTextSplitVertical();
+            ResetTextSplitHorizontal();
+            ResetTextRebalance();
+            ResetTextMaximize();
+            ResetTextRestore();
+        }
+
+        ToolkitStringsJsonPersistence.ImportFromFile(this, filename, resetFirst: false, refreshOpenForms: false);
+    }
+
+    #endregion
 }

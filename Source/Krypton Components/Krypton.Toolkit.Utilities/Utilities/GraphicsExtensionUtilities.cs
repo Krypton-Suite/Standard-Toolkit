@@ -1,10 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿#region BSD License
+/*
+ *
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
+ *
+ */
+#endregion
 
-using ToastImageResources = Krypton.Toolkit.Utilities.Components.KryptonToast.Resources.ToastImageResources;
+using ToastImageResources = Krypton.Toolkit.Utilities.Components.Krypton_Toast.Resources.ToastImageResources;
 
 namespace Krypton.Toolkit.Utilities;
 
@@ -79,7 +82,7 @@ public static class GraphicsExtensionUtilities
                 return customImage != null ? ScaleImage(customImage, newSize) : null;
             default:
                 DebugTools.NotImplemented(notificationIconType.ToString());
-                throw new ArgumentOutOfRangeException(nameof(notificationIconType), notificationIconType, null);
+                return ThrowHelper.ThrowArgumentOutOfRangeException<Image?>(nameof(notificationIconType), notificationIconType, null);
         }
     }
 
@@ -292,6 +295,8 @@ public static class GraphicsExtensionUtilities
             PaletteMode.Office2007White => true,
             PaletteMode.Office2007Black => true,
             PaletteMode.Office2007BlackDarkMode => true,
+            PaletteMode.Office2007LimeGreen => true,
+            PaletteMode.Office2007LimeGreenDark => true,
             PaletteMode.SparkleBlue => true,
             PaletteMode.SparkleBlueDarkMode => true,
             PaletteMode.SparkleBlueLightMode => true,
@@ -321,6 +326,8 @@ public static class GraphicsExtensionUtilities
             PaletteMode.Office2010White => true,
             PaletteMode.Office2010Black => true,
             PaletteMode.Office2010BlackDarkMode => true,
+            PaletteMode.Office2010LimeGreen => true,
+            PaletteMode.Office2010LimeGreenDark => true,
             PaletteMode.Office2013White => true,
             PaletteMode.VisualStudio2010Render2007 => true,
             PaletteMode.VisualStudio2010Render2010 => true,
@@ -351,8 +358,14 @@ public static class GraphicsExtensionUtilities
             PaletteMode.MaterialDark => true,
             PaletteMode.MaterialLightRipple => true,
             PaletteMode.MaterialDarkRipple => true,
+            PaletteMode.MaterialLimeGreen => true,
+            PaletteMode.MaterialLimeGreenDark => true,
+            PaletteMode.MaterialLimeGreenRipple => true,
+            PaletteMode.MaterialLimeGreenDarkRipple => true,
             PaletteMode.MacOSDark => true,
             PaletteMode.MacOSLight => true,
+            PaletteMode.Microsoft365LimeGreen => true,
+            PaletteMode.Microsoft365LimeGreenDark => true,
             _ => false
         };
     }

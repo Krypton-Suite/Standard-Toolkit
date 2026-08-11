@@ -45,8 +45,8 @@ internal abstract class ViewLayoutRibbonQATContents : ViewComposite
         Debug.Assert(ribbon is not null);
         Debug.Assert(needPaint is not null);
 
-        Ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        Ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
 
         // Create initial lookup table
         _qatButtonToView = new QATButtonToView();
@@ -114,7 +114,7 @@ internal abstract class ViewLayoutRibbonQATContents : ViewComposite
         // ownerForm cannot be null
         if (ownerForm is null)
         {
-            throw new ArgumentNullException(nameof(ownerForm));
+            ThrowHelper.ThrowArgumentNullException(nameof(ownerForm));
         }
 
         // Create all the list of all possible QAT key tip strings

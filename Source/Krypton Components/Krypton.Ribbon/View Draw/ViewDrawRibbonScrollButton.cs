@@ -101,7 +101,7 @@ internal class ViewDrawRibbonScrollButton : ViewLeaf
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // Create a border offset down and right for drawing a shadow

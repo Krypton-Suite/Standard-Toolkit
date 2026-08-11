@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -41,8 +41,10 @@ public class MarqueeMenuItemValues : Storage
     /// Initialize a new instance of the <see cref="MarqueeMenuItemValues"/> class.
     /// </summary>
     /// <param name="owner">Owning marquee menu item.</param>
-    public MarqueeMenuItemValues(KryptonToolStripMarqueeMenuItem owner) =>
-        _owner = owner ?? throw new ArgumentNullException(nameof(owner));
+    public MarqueeMenuItemValues(KryptonToolStripMarqueeMenuItem owner)
+    {
+        _owner = owner ?? ThrowHelper.ThrowArgumentNullException(owner);
+    }
 
     /// <inheritdoc />
     public override string ToString() => !IsDefault ? @"Modified" : string.Empty;

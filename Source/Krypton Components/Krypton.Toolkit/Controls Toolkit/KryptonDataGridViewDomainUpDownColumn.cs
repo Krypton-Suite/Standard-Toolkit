@@ -59,7 +59,7 @@ public class KryptonDataGridViewDomainUpDownColumn : KryptonDataGridViewIconColu
     /// <returns></returns>
     public override object Clone()
     {
-        var cloned = base.Clone() as KryptonDataGridViewDomainUpDownColumn ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("cloned"));
+        var cloned =base.Clone() as KryptonDataGridViewDomainUpDownColumn ?? ThrowHelper.ThrowNullReferenceException<KryptonDataGridViewDomainUpDownColumn>(SharedStaticFunctions.VariableCannotBeNull("cloned"));
 
         // Convert collection of strings to an array
         var strings = new string[Items.Count];
@@ -89,7 +89,7 @@ public class KryptonDataGridViewDomainUpDownColumn : KryptonDataGridViewIconColu
         {
             if ((value != null) && (value is not KryptonDataGridViewDomainUpDownCell cell))
             {
-                throw new InvalidCastException(@"Value provided for CellTemplate must be of type KryptonDataGridViewDomainUpDownCell or derive from it.");
+                ThrowHelper.ThrowInvalidCastException(@"Value provided for CellTemplate must be of type KryptonDataGridViewDomainUpDownCell or derive from it.");
             }
 
             base.CellTemplate = value;
@@ -151,7 +151,7 @@ public class KryptonDataGridViewDomainUpDownColumn : KryptonDataGridViewIconColu
     /// <summary>
     /// Small utility function that returns the template cell as a KryptonDataGridViewDomainUpDownCell
     /// </summary>
-    private KryptonDataGridViewDomainUpDownCell DomainUpDownCellTemplate => CellTemplate as KryptonDataGridViewDomainUpDownCell ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(CellTemplate)));
+private KryptonDataGridViewDomainUpDownCell DomainUpDownCellTemplate => CellTemplate as KryptonDataGridViewDomainUpDownCell ?? ThrowHelper.ThrowNullReferenceException<KryptonDataGridViewDomainUpDownCell>(SharedStaticFunctions.VariableCannotBeNull(nameof(CellTemplate)));
     #endregion
 
     #region Internal

@@ -66,7 +66,7 @@ public class ViewDrawTrackTicks : ViewLeaf
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // We take on all the available display area
@@ -83,7 +83,7 @@ public class ViewDrawTrackTicks : ViewLeaf
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         IPaletteElementColor elementColors;

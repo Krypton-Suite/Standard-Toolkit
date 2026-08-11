@@ -190,6 +190,8 @@ public static class KryptonMessageBox
     /// <param name="showCtrlCopy">Show extraText in title. If null (default) then only when Warning or Error icon is used.</param>
     /// <param name="showCloseButton">Displays the close button. If null (default), then the close button will be displayed.</param>
     /// <param name="showCopyButton">Displays a 'Copy' button that copies the message box contents to the clipboard. If null (default), the button is not shown.</param>
+    /// <param name="overlayImage">Optional badge image drawn on top of the message icon.</param>
+    /// <param name="overlayImagePosition">Corner placement for <paramref name="overlayImage"/>; defaults to bottom-right.</param>
     /// <param name="defaultButton">One of the KryptonMessageBoxDefaultButton values that specifies the default button for the message box.</param>
     /// <param name="options">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
     /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
@@ -197,12 +199,15 @@ public static class KryptonMessageBox
         KryptonMessageBoxIcon icon, KryptonMessageBoxDefaultButton defaultButton, MessageBoxOptions options,
         bool? showCtrlCopy = null,
         bool? showCloseButton = null,
-        bool? showCopyButton = null) =>
+        bool? showCopyButton = null,
+        Image? overlayImage = null,
+        OverlayImagePosition overlayImagePosition = OverlayImagePosition.BottomRight) =>
         ShowCore(null, text, caption, buttons, icon, defaultButton, options,
             showCtrlCopy: showCtrlCopy,
             showHelpButton: displayHelpButton,
             showCloseButton: showCloseButton,
-            showCopyButton: showCopyButton);
+            showCopyButton: showCopyButton,
+            overlayImage: KryptonOverlayImage.FromImage(overlayImage, overlayImagePosition));
 
     /// <summary>
     /// Displays a message box in front+center of the application and with the specified text, caption and buttons.
@@ -373,6 +378,8 @@ public static class KryptonMessageBox
     /// <param name="showCtrlCopy">Show extraText in title. If null (default) then only when Warning or Error icon is used.</param>
     /// <param name="showCloseButton">Displays the close button. If null (default), then the close button will be displayed.</param>
     /// <param name="showCopyButton">Displays a 'Copy' button that copies the message box contents to the clipboard. If null (default), the button is not shown.</param>
+    /// <param name="overlayImage">Optional badge image drawn on top of the message icon.</param>
+    /// <param name="overlayImagePosition">Corner placement for <paramref name="overlayImage"/>; defaults to bottom-right.</param>
     /// <param name="defaultButton">One of the KryptonMessageBoxDefaultButton values that specifies the default button for the message box.</param>
     /// <param name="options">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
     /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
@@ -380,12 +387,76 @@ public static class KryptonMessageBox
         KryptonMessageBoxIcon icon, KryptonMessageBoxDefaultButton defaultButton, MessageBoxOptions options, 
         bool? showCtrlCopy = null,
         bool? showCloseButton = null,
+        bool? showCopyButton = null,
+        Image? overlayImage = null,
+        OverlayImagePosition overlayImagePosition = OverlayImagePosition.BottomRight) =>
+        ShowCore(owner, text, caption, buttons, icon, defaultButton, options,
+            showCtrlCopy: showCtrlCopy,
+            showHelpButton: displayHelpButton,
+            showCloseButton: showCloseButton,
+            showCopyButton: showCopyButton,
+            overlayImage: KryptonOverlayImage.FromImage(overlayImage, overlayImagePosition));
+    /// <summary>
+    /// Displays a message box in front+center of the application with optional semantic button colours.
+    /// </summary>
+    /// <param name="text">The text to display in the message box.</param>
+    /// <param name="caption">The text to display in the title bar of the message box.</param>
+    /// <param name="buttons">Which buttons to display in the message box.</param>
+    /// <param name="icon">Which icon to display in the message box.</param>
+    /// <param name="buttonColors">Optional semantic accept/cancel/help button colours; null uses <see cref="KryptonManager.DialogButtonColors"/>.</param>
+    /// <param name="defaultButton">The default button for the message box.</param>
+    /// <param name="options">Display and association options for the message box.</param>
+    /// <param name="displayHelpButton">Displays a Help button.</param>
+    /// <param name="showCtrlCopy">Show extraText in title. If null (default) then only when Warning or Error icon is used.</param>
+    /// <param name="showCloseButton">Displays the close button. If null (default), then the close button will be displayed.</param>
+    /// <param name="showCopyButton">Displays a 'Copy' button that copies the message box contents to the clipboard.</param>
+    /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
+    public static DialogResult Show(string text, string caption, KryptonMessageBoxButtons buttons,
+        KryptonMessageBoxIcon icon, KryptonDialogButtonColorOptions? buttonColors,
+        KryptonMessageBoxDefaultButton defaultButton = KryptonMessageBoxDefaultButton.Button1,
+        MessageBoxOptions options = 0,
+        bool displayHelpButton = false,
+        bool? showCtrlCopy = null,
+        bool? showCloseButton = null,
+        bool? showCopyButton = null) =>
+        ShowCore(null, text, caption, buttons, icon, defaultButton, options,
+            showCtrlCopy: showCtrlCopy,
+            showHelpButton: displayHelpButton,
+            showCloseButton: showCloseButton,
+            showCopyButton: showCopyButton,
+            buttonColors: buttonColors);
+
+    /// <summary>
+    /// Displays a message box in front of the specified object with optional semantic button colours.
+    /// </summary>
+    /// <param name="owner">Owner of the modal dialog box.</param>
+    /// <param name="text">The text to display in the message box.</param>
+    /// <param name="caption">The text to display in the title bar of the message box.</param>
+    /// <param name="buttons">Which buttons to display in the message box.</param>
+    /// <param name="icon">Which icon to display in the message box.</param>
+    /// <param name="buttonColors">Optional semantic accept/cancel/help button colours; null uses <see cref="KryptonManager.DialogButtonColors"/>.</param>
+    /// <param name="defaultButton">The default button for the message box.</param>
+    /// <param name="options">Display and association options for the message box.</param>
+    /// <param name="displayHelpButton">Displays a Help button.</param>
+    /// <param name="showCtrlCopy">Show extraText in title. If null (default) then only when Warning or Error icon is used.</param>
+    /// <param name="showCloseButton">Displays the close button. If null (default), then the close button will be displayed.</param>
+    /// <param name="showCopyButton">Displays a 'Copy' button that copies the message box contents to the clipboard.</param>
+    /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
+    public static DialogResult Show(IWin32Window? owner, string? text, string? caption, KryptonMessageBoxButtons buttons,
+        KryptonMessageBoxIcon icon, KryptonDialogButtonColorOptions? buttonColors,
+        KryptonMessageBoxDefaultButton defaultButton = KryptonMessageBoxDefaultButton.Button1,
+        MessageBoxOptions options = 0,
+        bool displayHelpButton = false,
+        bool? showCtrlCopy = null,
+        bool? showCloseButton = null,
         bool? showCopyButton = null) =>
         ShowCore(owner, text, caption, buttons, icon, defaultButton, options,
             showCtrlCopy: showCtrlCopy,
             showHelpButton: displayHelpButton,
             showCloseButton: showCloseButton,
-            showCopyButton: showCopyButton);
+            showCopyButton: showCopyButton,
+            buttonColors: buttonColors);
+
     #endregion
 
     #region Implementation
@@ -404,6 +475,8 @@ public static class KryptonMessageBox
     /// <param name="showHelpButton">Displays a 'Help' button, as seen in .NET 6 and higher.</param>
     /// <param name="showCloseButton">Displays the close button. If null (default), then the close button will be displayed.</param>
     /// <param name="showCopyButton">Displays a 'Copy' button that copies the message box contents to the clipboard. If null (default), the button is not shown.</param>
+    /// <param name="overlayImage">Optional badge drawn on top of the message icon.</param>
+    /// <param name="buttonColors">Optional semantic accept/cancel button colours; null uses <see cref="KryptonManager.DialogButtonColors"/>.</param>
     /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
     private static DialogResult ShowCore(IWin32Window? owner,
         string? text, string? caption,
@@ -415,7 +488,9 @@ public static class KryptonMessageBox
         bool? showCtrlCopy = null,
         bool? showHelpButton = null,
         bool? showCloseButton = null,
-        bool? showCopyButton = null)
+        bool? showCopyButton = null,
+        KryptonOverlayImage overlayImage = default,
+        KryptonDialogButtonColorOptions? buttonColors = null)
     {
         caption = string.IsNullOrEmpty(caption) ? @" " : caption;
 
@@ -426,7 +501,8 @@ public static class KryptonMessageBox
         if (options is MessageBoxOptions.RightAlign or MessageBoxOptions.RtlReading)
         {
             using var kmbRtl = new VisualMessageBoxRtlAwareForm(showOwner, text, caption, buttons, icon,
-                defaultButton, helpInfo, showCtrlCopy, showHelpButton, showCloseButton, showCopyButton);
+                defaultButton, helpInfo, showCtrlCopy, showHelpButton, showCloseButton, showCopyButton, overlayImage,
+                buttonColors);
 
             kmbRtl.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 
@@ -435,7 +511,8 @@ public static class KryptonMessageBox
         else
         {
             using var kmb = new VisualMessageBoxForm(showOwner, text, caption, buttons, icon,
-                defaultButton, helpInfo, showCtrlCopy, showHelpButton, showCloseButton, showCopyButton);
+                defaultButton, helpInfo, showCtrlCopy, showHelpButton, showCloseButton, showCopyButton, overlayImage,
+                buttonColors);
 
             kmb.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 
@@ -450,21 +527,21 @@ public static class KryptonMessageBox
         if (!SystemInformation.UserInteractive &&
             ((options & (MessageBoxOptions.ServiceNotification | MessageBoxOptions.DefaultDesktopOnly)) == 0))
         {
-            throw new InvalidOperationException("Cannot show modal dialog when non-interactive");
+            ThrowHelper.ThrowInvalidOperationException("Cannot show modal dialog when non-interactive");
         }
 
         // Check if trying to show a message box from a service and the owner has been specified, this is not possible
         if ((owner != null) &&
             ((options & (MessageBoxOptions.ServiceNotification | MessageBoxOptions.DefaultDesktopOnly)) != 0))
         {
-            throw new ArgumentException(@"Cannot show message box from a service with an owner specified", nameof(options));
+            ThrowHelper.ThrowArgumentException(@"Cannot show message box from a service with an owner specified", nameof(options));
         }
 
         // Check if trying to show a message box from a service and help information is specified, this is not possible
         if ((helpInfo != null) &&
             ((options & (MessageBoxOptions.ServiceNotification | MessageBoxOptions.DefaultDesktopOnly)) != 0))
         {
-            throw new ArgumentException(@"Cannot show message box from a service with help specified", nameof(options));
+            ThrowHelper.ThrowArgumentException(@"Cannot show message box from a service with help specified", nameof(options));
         }
 
         IWin32Window? showOwner = null;

@@ -1,0 +1,326 @@
+# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+# Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2026 - 2026. All rights reserved.
+#
+# Builds TestForm and runs Scripts/UnitTests assert suites via Invoke-AllUnitTests.ps1 -Strict.
+# Contract: every UnitTest-*.ps1 declares "# UnitTest-CI: include" or "# UnitTest-CI: exclude".
+# See Scripts/UnitTests/README.md.
+#
+# Triggers:
+#   - workflow_dispatch (on-demand from Actions UI or `gh workflow run`)
+#   - pull_request / push (path-filtered)
+#   - workflow_call (reusable from other workflows)
+#
+# Discord: Set secret DISCORD_WEBHOOK_UNIT_TESTS (optional).
+#   - Always posts on failure when the secret is set.
+#   - Also posts on success for workflow_dispatch / workflow_call when notify_discord is true.
+
+name: Unit Tests
+
+permissions:
+  contents: read
+
+concurrency:
+  group: unit-tests-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+on:
+  workflow_dispatch:
+    inputs:
+      configuration:
+        description: Build configuration
+        required: true
+        default: Debug
+        type: choice
+        options:
+          - Debug
+          - Release
+      target_framework:
+        description: Target framework for TestForm / unit tests
+        required: true
+        default: net472
+        type: choice
+        options:
+          - net472
+          - net48
+          - net481
+          - net8.0-windows
+          - net9.0-windows
+      timeout_seconds:
+        description: Per-script timeout in seconds (0 = none)
+        required: true
+        default: '600'
+        type: string
+      notify_discord:
+        description: Post a run summary to Discord (requires secret DISCORD_WEBHOOK_UNIT_TESTS)
+        required: true
+        default: true
+        type: boolean
+  pull_request:
+    branches: ['**']
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'Scripts/UnitTests/**'
+      - 'Source/Krypton Components/**'
+      - '.github/workflows/unit-tests.yml'
+  push:
+    branches:
+      - master
+      - alpha
+      - canary
+      - gold
+      - V115
+    paths:
+      - 'Scripts/UnitTests/**'
+      - 'Source/Krypton Components/**'
+      - '.github/workflows/unit-tests.yml'
+  workflow_call:
+    inputs:
+      configuration:
+        description: Build configuration
+        required: false
+        default: Debug
+        type: string
+      target_framework:
+        description: Target framework for TestForm / unit tests
+        required: false
+        default: net472
+        type: string
+      timeout_seconds:
+        description: Per-script timeout in seconds (0 = none)
+        required: false
+        default: '600'
+        type: string
+      notify_discord:
+        description: Post a run summary to Discord (requires secret DISCORD_WEBHOOK_UNIT_TESTS)
+        required: false
+        default: false
+        type: boolean
+    secrets:
+      DISCORD_WEBHOOK_UNIT_TESTS:
+        description: Discord webhook URL for unit-test run notifications
+        required: false
+
+jobs:
+  unit-tests:
+    name: Scripts/UnitTests
+    runs-on: windows-2025-vs2026
+    # Always allow workflow_dispatch / workflow_call; block only fork pull_request runs.
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.event_name == 'workflow_call' ||
+      github.event_name == 'push' ||
+      (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository)
+
+    env:
+      # inputs.* works for workflow_dispatch and workflow_call; fall back for push/PR.
+      UNITTEST_CONFIGURATION: ${{ inputs.configuration || github.event.inputs.configuration || 'Debug' }}
+      UNITTEST_TFM: ${{ inputs.target_framework || github.event.inputs.target_framework || 'net472' }}
+      UNITTEST_TIMEOUT_SECONDS: ${{ inputs.timeout_seconds || github.event.inputs.timeout_seconds || '600' }}
+      UNITTEST_CI: '1'
+
+    steps:
+      - name: Announce trigger
+        shell: pwsh
+        run: |
+          Write-Host "[INFO] event=$env:GITHUB_EVENT_NAME ref=$env:GITHUB_REF"
+          if ($env:GITHUB_EVENT_NAME -eq 'workflow_dispatch') {
+            Write-Host "[INFO] On-demand run via workflow_dispatch"
+            Write-Host "[INFO] configuration=$env:UNITTEST_CONFIGURATION"
+            Write-Host "[INFO] target_framework=$env:UNITTEST_TFM"
+            Write-Host "[INFO] timeout_seconds=$env:UNITTEST_TIMEOUT_SECONDS"
+          }
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: |
+            8.0.x
+            9.0.x
+            10.0.x
+
+      # TestForm / toolkit graphs include net11.0-windows; restore needs an 11.x SDK (NETSDK1045 otherwise).
+      - name: Setup .NET 11
+        id: setup_dotnet11
+        continue-on-error: true
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+
+      - name: Setup .NET 11 (preview fallback)
+        if: steps.setup_dotnet11.outcome == 'failure'
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+          dotnet-quality: preview
+
+      - name: Restore TestForm
+        run: >
+          dotnet restore "Source/Krypton Components/TestForm/TestForm.csproj"
+          -p:Configuration=${{ env.UNITTEST_CONFIGURATION }}
+
+      - name: Build TestForm
+        run: >
+          dotnet build "Source/Krypton Components/TestForm/TestForm.csproj"
+          -c ${{ env.UNITTEST_CONFIGURATION }}
+          -f ${{ env.UNITTEST_TFM }}
+          --no-restore
+          -m:1
+          -p:BuildInParallel=false
+
+      - name: Verify bin output
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $bin = Join-Path $env:GITHUB_WORKSPACE "Bin\$env:UNITTEST_CONFIGURATION\$env:UNITTEST_TFM"
+          if (-not (Test-Path -LiteralPath (Join-Path $bin 'TestForm.exe'))) {
+            throw "Expected TestForm.exe under $bin after build."
+          }
+          Write-Host "[PASS] TestForm.exe found under $bin"
+
+      - name: Validate Invoke-AllUnitTests.ps1 syntax
+        shell: pwsh
+        run: |
+          # Validate with powershell.exe (same host that runs the suite). pwsh alone can
+          # miss UTF-8-without-BOM / non-ASCII issues that break Windows PowerShell 5.1.
+          $script = Join-Path $env:GITHUB_WORKSPACE 'Scripts\UnitTests\Invoke-AllUnitTests.ps1'
+          if (-not (Test-Path -LiteralPath $script)) {
+            Write-Host "[ERROR] Invoke-AllUnitTests.ps1 not found at: $script"
+            Write-Host '[DEBUG] Listing Scripts folder contents:'
+            $scriptsRoot = Join-Path $env:GITHUB_WORKSPACE 'Scripts'
+            if (Test-Path -LiteralPath $scriptsRoot) {
+              Get-ChildItem -LiteralPath $scriptsRoot -Recurse -Force |
+                ForEach-Object { Write-Host $_.FullName }
+            }
+            else {
+              Write-Host "[DEBUG] Scripts folder missing under $env:GITHUB_WORKSPACE"
+            }
+            exit 1
+          }
+
+          $probe = @'
+          $errors = $null
+          $tokens = $null
+          [void][System.Management.Automation.Language.Parser]::ParseFile($env:UNITTEST_PARSE_TARGET, [ref]$tokens, [ref]$errors)
+          if ($errors) {
+            Write-Host '[ERROR] Parsing errors found in Invoke-AllUnitTests.ps1'
+            foreach ($err in $errors) {
+              Write-Host ("Message: {0}" -f $err.Message)
+              Write-Host ("Location: {0}:{1} - {2}:{3}" -f `
+                $err.Extent.StartLineNumber, $err.Extent.StartColumnNumber, `
+                $err.Extent.EndLineNumber, $err.Extent.EndColumnNumber)
+            }
+            exit 1
+          }
+          Write-Host '[PASS] Invoke-AllUnitTests.ps1 syntax OK (powershell.exe)'
+          '@
+          $env:UNITTEST_PARSE_TARGET = $script
+          & powershell.exe -NoProfile -ExecutionPolicy Bypass -Command $probe
+          if ($LASTEXITCODE -ne 0) {
+            exit $LASTEXITCODE
+          }
+
+      - name: Run unit tests
+        id: run_tests
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $timeout = 0
+          if (-not [int]::TryParse($env:UNITTEST_TIMEOUT_SECONDS, [ref]$timeout)) {
+            $timeout = 600
+          }
+
+          Write-Host "[INFO] Unit test run starting"
+          Write-Host "[INFO] Configuration=$env:UNITTEST_CONFIGURATION TFM=$env:UNITTEST_TFM TimeoutSeconds=$timeout"
+
+          $invokeAll = Join-Path $env:GITHUB_WORKSPACE 'Scripts\UnitTests\Invoke-AllUnitTests.ps1'
+          & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $invokeAll `
+            -Configuration $env:UNITTEST_CONFIGURATION `
+            -TargetFramework $env:UNITTEST_TFM `
+            -Strict `
+            -TimeoutSeconds $timeout
+
+          if ($LASTEXITCODE -ne 0) {
+            Write-Host "[FAIL] Invoke-AllUnitTests.ps1 exited $LASTEXITCODE"
+            exit $LASTEXITCODE
+          }
+
+          Write-Host "[PASS] Invoke-AllUnitTests.ps1 completed successfully"
+
+      - name: Report result
+        if: always()
+        shell: pwsh
+        run: |
+          $outcome = '${{ steps.run_tests.outcome }}'
+          if ($outcome -eq 'success') {
+            Write-Host "[PASS] Unit Tests workflow finished successfully"
+            if ($env:GITHUB_STEP_SUMMARY) {
+              Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY -Value "`n### Workflow`n`n**PASS** - unit tests completed successfully.`n"
+            }
+          }
+          elseif ($outcome -eq 'skipped') {
+            Write-Host "[SKIP] Unit test step was skipped"
+          }
+          else {
+            Write-Host "[FAIL] Unit Tests workflow finished with failures (step outcome=$outcome)"
+            if ($env:GITHUB_STEP_SUMMARY) {
+              Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY -Value "`n### Workflow`n`n**FAIL** - unit tests did not complete successfully (outcome=$outcome).`n"
+            }
+            exit 1
+          }
+
+      - name: Discord notification
+        if: >
+          always() && (
+            job.status == 'failure' ||
+            (github.event_name == 'workflow_dispatch' && inputs.notify_discord) ||
+            (github.event_name == 'workflow_call' && inputs.notify_discord)
+          )
+        shell: pwsh
+        env:
+          DISCORD_WEBHOOK_UNIT_TESTS: ${{ secrets.DISCORD_WEBHOOK_UNIT_TESTS }}
+          JOB_STATUS: ${{ job.status }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          EVENT_NAME: ${{ github.event_name }}
+          REF_NAME: ${{ github.ref_name }}
+          SHA_SHORT: ${{ github.sha }}
+          UNITTEST_CONFIGURATION: ${{ env.UNITTEST_CONFIGURATION }}
+          UNITTEST_TFM: ${{ env.UNITTEST_TFM }}
+          ACTOR: ${{ github.actor }}
+        run: |
+          if (-not $env:DISCORD_WEBHOOK_UNIT_TESTS) {
+            Write-Warning "DISCORD_WEBHOOK_UNIT_TESTS not set - skipping Discord notification"
+            exit 0
+          }
+
+          $status = $env:JOB_STATUS
+          $passed = $status -eq 'success'
+          $color = if ($passed) { 3066993 } elseif ($status -eq 'failure') { 15158332 } else { 16776960 }
+          $emoji = if ($passed) { 'PASS' } elseif ($status -eq 'failure') { 'FAIL' } else { $status.ToUpperInvariant() }
+          $sha = if ($env:SHA_SHORT.Length -ge 7) { $env:SHA_SHORT.Substring(0, 7) } else { $env:SHA_SHORT }
+
+          $payload = @{
+            embeds = @(
+              @{
+                title = "Unit Tests - $emoji"
+                description = @(
+                  "**Repository:** $($env:GITHUB_REPOSITORY)"
+                  "**Event:** ``$($env:EVENT_NAME)``"
+                  "**Ref:** ``$($env:REF_NAME)``"
+                  "**Commit:** ``$sha``"
+                  "**Configuration:** ``$($env:UNITTEST_CONFIGURATION)`` / ``$($env:UNITTEST_TFM)``"
+                  "**Actor:** $($env:ACTOR)"
+                  ""
+                  "[View workflow run]($($env:RUN_URL))"
+                ) -join "`n"
+                color = $color
+                footer = @{ text = "Unit Tests" }
+                timestamp = (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ss.fffZ')
+              }
+            )
+          } | ConvertTo-Json -Depth 10
+
+          Invoke-RestMethod -Uri $env:DISCORD_WEBHOOK_UNIT_TESTS -Method Post -Body $payload -ContentType 'application/json'
+          Write-Host "[PASS] Discord notification sent ($status)"

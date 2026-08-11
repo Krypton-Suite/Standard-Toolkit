@@ -95,7 +95,7 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
     /// </summary>
     public override object Clone()
     {
-        var dateTimeCell = base.Clone() as KryptonDataGridViewDateTimePickerCell ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("dateTimeCell"));
+        var dateTimeCell =base.Clone() as KryptonDataGridViewDateTimePickerCell ?? ThrowHelper.ThrowNullReferenceException<KryptonDataGridViewDateTimePickerCell>(SharedStaticFunctions.VariableCannotBeNull("dateTimeCell"));
 
         dateTimeCell.AutoShift = AutoShift;
         dateTimeCell.Checked = Checked;
@@ -453,7 +453,7 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
         DataGridView? dataGridView = DataGridView;
         if (dataGridView?.EditingControl == null)
         {
-            throw new InvalidOperationException("Cell is detached or its grid has no editing control.");
+            ThrowHelper.ThrowInvalidOperationException("Cell is detached or its grid has no editing control.");
         }
 
         base.DetachEditingControl();
@@ -839,7 +839,7 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
     #region Private
 
     private KryptonDataGridViewDateTimePickerEditingControl EditingDateTimePicker =>
-        DataGridView!.EditingControl as KryptonDataGridViewDateTimePickerEditingControl ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(DataGridView.EditingControl)));
+DataGridView!.EditingControl as KryptonDataGridViewDateTimePickerEditingControl ?? ThrowHelper.ThrowNullReferenceException<KryptonDataGridViewDateTimePickerEditingControl>(SharedStaticFunctions.VariableCannotBeNull(nameof(DataGridView.EditingControl)));
 
     private void OnCommonChange()
     {

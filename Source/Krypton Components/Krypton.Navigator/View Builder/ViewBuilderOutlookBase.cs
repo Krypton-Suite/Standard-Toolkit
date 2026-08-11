@@ -478,12 +478,12 @@ internal abstract class ViewBuilderOutlookBase : ViewBuilderBase,
 
         if (page is null)
         {
-            throw new ArgumentNullException(nameof(page));
+            ThrowHelper.ThrowArgumentNullException(nameof(page));
         }
 
         if (property is null)
         {
-            throw new ArgumentNullException(nameof(property));
+            ThrowHelper.ThrowArgumentNullException(nameof(property));
         }
 
         // We are only interested if the page is visible
@@ -2121,8 +2121,8 @@ internal abstract class ViewBuilderOutlookBase : ViewBuilderBase,
             addRemoveButtons.Items.Add(addRemoveButtonItems);
 
             // Setup the transparent color for the images
-            moreButtons.ImageTransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
-            fewerButtons.ImageTransparentColor = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
+            moreButtons.ImageTransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
+            fewerButtons.ImageTransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
 
             // Decide if the more/fewer buttons should be enabled/disabled
             moreButtons.Enabled = AreMoreButtons();
@@ -2249,7 +2249,7 @@ internal abstract class ViewBuilderOutlookBase : ViewBuilderBase,
     private void OnCheckButtonDragRect(object? sender, ButtonDragRectangleEventArgs e)
     {
         // Cast incoming reference to the actual check button view
-        var reorderItem = sender as ViewDrawNavOutlookStack ?? throw new ArgumentNullException(nameof(sender));
+        var reorderItem =sender as ViewDrawNavOutlookStack ?? ThrowHelper.ThrowArgumentNullException(sender as ViewDrawNavOutlookStack, nameof(sender));
 
         e.PreDragOffset = (Navigator.AllowPageReorder && reorderItem.Page!.AreFlagsSet(KryptonPageFlags.AllowPageReorder));
         Rectangle dragRect = Rectangle.Union(e.DragRect, _viewLayout.ClientRectangle);

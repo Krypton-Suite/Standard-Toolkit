@@ -61,7 +61,7 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
     /// <returns></returns>
     public override object Clone()
     {
-        var cloned = base.Clone() as KryptonDataGridViewDateTimePickerColumn ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("cloned"));
+        var cloned =base.Clone() as KryptonDataGridViewDateTimePickerColumn ?? ThrowHelper.ThrowNullReferenceException<KryptonDataGridViewDateTimePickerColumn>(SharedStaticFunctions.VariableCannotBeNull("cloned"));
 
 
         cloned.CalendarAnnuallyBoldedDates = CalendarAnnuallyBoldedDates;
@@ -87,7 +87,7 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
         {
             if ((value != null) && (value is not KryptonDataGridViewDateTimePickerCell ))
             {
-                throw new InvalidCastException("Value provided for CellTemplate must be of type KryptonDataGridViewDateTimePickerCell or derive from it.");
+                ThrowHelper.ThrowInvalidCastException("Value provided for CellTemplate must be of type KryptonDataGridViewDateTimePickerCell or derive from it.");
             }
 
             base.CellTemplate = value;
@@ -138,12 +138,12 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
     public bool ShowCheckBox
     {
         get =>
-            DateTimePickerCellTemplate?.ShowCheckBox ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+DateTimePickerCellTemplate?.ShowCheckBox ?? ThrowHelper.ThrowInvalidOperationException<bool>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (DateTimePickerCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -178,12 +178,12 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
     public bool ShowUpDown
     {
         get =>
-            DateTimePickerCellTemplate?.ShowUpDown ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+DateTimePickerCellTemplate?.ShowUpDown ?? ThrowHelper.ThrowInvalidOperationException<bool>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (DateTimePickerCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -219,12 +219,12 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
     public DateTimePickerFormat Format
     {
         get =>
-            DateTimePickerCellTemplate?.Format ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+DateTimePickerCellTemplate?.Format ?? ThrowHelper.ThrowInvalidOperationException<DateTimePickerFormat>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (DateTimePickerCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -259,12 +259,12 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
     public bool AutoShift
     {
         get =>
-            DateTimePickerCellTemplate?.AutoShift ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+DateTimePickerCellTemplate?.AutoShift ?? ThrowHelper.ThrowInvalidOperationException<bool>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (DateTimePickerCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -299,12 +299,12 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
     public bool Checked
     {
         get =>
-            DateTimePickerCellTemplate?.Checked ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+DateTimePickerCellTemplate?.Checked ?? ThrowHelper.ThrowInvalidOperationException<bool>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (DateTimePickerCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -340,13 +340,13 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
     {
         get =>
             DateTimePickerCellTemplate == null
-                ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
+                ? ThrowHelper.ThrowInvalidOperationException<string>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
                 : DateTimePickerCellTemplate.CustomFormat;
         set
         {
             if (DateTimePickerCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -382,13 +382,13 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
     {
         get =>
             DateTimePickerCellTemplate == null
-                ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
+                ? ThrowHelper.ThrowInvalidOperationException<string>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
                 : DateTimePickerCellTemplate.CustomNullText;
         set
         {
             if (DateTimePickerCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -422,12 +422,12 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
     public DateTime MaxDate
     {
         get =>
-            DateTimePickerCellTemplate?.MaxDate ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+DateTimePickerCellTemplate?.MaxDate ?? ThrowHelper.ThrowInvalidOperationException<DateTime>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (DateTimePickerCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -470,12 +470,12 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
     public DateTime MinDate
     {
         get =>
-            DateTimePickerCellTemplate?.MinDate ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+DateTimePickerCellTemplate?.MinDate ?? ThrowHelper.ThrowInvalidOperationException<DateTime>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (DateTimePickerCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -519,12 +519,12 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
     public Size CalendarDimensions
     {
         get =>
-            DateTimePickerCellTemplate?.CalendarDimensions ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+DateTimePickerCellTemplate?.CalendarDimensions ?? ThrowHelper.ThrowInvalidOperationException<Size>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (DateTimePickerCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -560,13 +560,13 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
     {
         get =>
             DateTimePickerCellTemplate == null
-                ? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
+                ? ThrowHelper.ThrowInvalidOperationException<string>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
                 : DateTimePickerCellTemplate.CalendarTodayText;
         set
         {
             if (DateTimePickerCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -606,12 +606,12 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
     public Day CalendarFirstDayOfWeek
     {
         get =>
-            DateTimePickerCellTemplate?.CalendarFirstDayOfWeek ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+DateTimePickerCellTemplate?.CalendarFirstDayOfWeek ?? ThrowHelper.ThrowInvalidOperationException<Day>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (DateTimePickerCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -646,12 +646,12 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
     public bool CalendarShowToday
     {
         get =>
-            DateTimePickerCellTemplate?.CalendarShowToday ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+DateTimePickerCellTemplate?.CalendarShowToday ?? ThrowHelper.ThrowInvalidOperationException<bool>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (DateTimePickerCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -686,12 +686,12 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
     public bool CalendarCloseOnTodayClick
     {
         get =>
-            DateTimePickerCellTemplate?.CalendarCloseOnTodayClick ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+DateTimePickerCellTemplate?.CalendarCloseOnTodayClick ?? ThrowHelper.ThrowInvalidOperationException<bool>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (DateTimePickerCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -726,12 +726,12 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
     public bool CalendarShowTodayCircle
     {
         get =>
-            DateTimePickerCellTemplate?.CalendarShowTodayCircle ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+DateTimePickerCellTemplate?.CalendarShowTodayCircle ?? ThrowHelper.ThrowInvalidOperationException<bool>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (DateTimePickerCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -766,12 +766,12 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
     public bool CalendarShowWeekNumbers
     {
         get =>
-            DateTimePickerCellTemplate?.CalendarShowWeekNumbers ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+DateTimePickerCellTemplate?.CalendarShowWeekNumbers ?? ThrowHelper.ThrowInvalidOperationException<bool>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (DateTimePickerCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -805,12 +805,12 @@ public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconCo
     public DateTime CalendarTodayDate
     {
         get =>
-            DateTimePickerCellTemplate?.CalendarTodayDate ?? throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+DateTimePickerCellTemplate?.CalendarTodayDate ?? ThrowHelper.ThrowInvalidOperationException<DateTime>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
         set
         {
             if (DateTimePickerCellTemplate == null)
             {
-                throw new InvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.

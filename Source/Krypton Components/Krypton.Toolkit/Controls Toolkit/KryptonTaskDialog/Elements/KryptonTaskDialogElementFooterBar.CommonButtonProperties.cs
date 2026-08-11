@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -71,6 +71,27 @@ public class KryptonTaskDialogElementFooterBarCommonButtonProperties :
             {
                 field = value;
                 OnPropertyChanged(KryptonTaskDialogElementFooterBar.CommonButtonsProperties.CancelButton);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets optional semantic colours for the footer common buttons.
+    /// </summary>
+    /// <remarks>
+    /// When null, <see cref="KryptonManager.DialogButtonColors"/> is used. When both are null,
+    /// buttons keep themed Standalone chrome.
+    /// </remarks>
+    public KryptonDialogButtonColorOptions? ButtonColors
+    {
+        get => field;
+
+        set
+        {
+            if (!ReferenceEquals(field, value))
+            {
+                field = value;
+                OnPropertyChanged(KryptonTaskDialogElementFooterBar.CommonButtonsProperties.ButtonColors);
             }
         }
     }

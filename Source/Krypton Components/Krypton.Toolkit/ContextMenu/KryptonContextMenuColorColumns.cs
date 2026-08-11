@@ -137,7 +137,7 @@ public class KryptonContextMenuColorColumns : KryptonContextMenuItemBase
     {
         // Default fields
         _autoClose = true;
-        _selectedColor = GlobalStaticVariables.EMPTY_COLOR;
+        _selectedColor = SharedStaticVariables.EMPTY_COLOR;
         _groupNonFirstRows = true;
         _blockSize = new Size(13, 13);
         SetColorScheme(scheme);
@@ -317,7 +317,7 @@ public class KryptonContextMenuColorColumns : KryptonContextMenuItemBase
             // Each element must contain a valid reference
             if (colors[i] == null)
             {
-                throw new ArgumentOutOfRangeException(nameof(colors), @"Child array cannot be null.");
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(colors), @"Child array cannot be null.");
             }
             else
             {
@@ -331,7 +331,7 @@ public class KryptonContextMenuColorColumns : KryptonContextMenuItemBase
                     // All other child arrays must be the same length
                     if (colors[i]!.Length != rows)
                     {
-                        throw new ArgumentOutOfRangeException(nameof(colors), @"Each child color array must be the same length.");
+                        ThrowHelper.ThrowArgumentOutOfRangeException(nameof(colors), @"Each child color array must be the same length.");
                     }
                 }
             }

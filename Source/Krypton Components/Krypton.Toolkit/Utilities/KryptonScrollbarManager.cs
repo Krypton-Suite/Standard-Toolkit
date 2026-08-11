@@ -332,7 +332,7 @@ public class KryptonScrollbarManager : IDisposable
     {
         if (targetControl == null)
         {
-            throw new ArgumentNullException(nameof(targetControl));
+            ThrowHelper.ThrowArgumentNullException(nameof(targetControl));
         }
 
         if (_targetControl != null)
@@ -1184,22 +1184,30 @@ public class KryptonScrollbarManager : IDisposable
                 return;
             }
 
-            // For other controls (ListBox, ListView, TreeView, PropertyGrid, etc.), hide native
-            // scrollbars via ShowScrollBar so only Krypton scrollbars are visible.
-            _ = PI.ShowScrollBar(_targetControl.Handle, (int)PI.SB_.BOTH, false);
-
             if (_targetControl is ListBox)
             {
+                // ListBox keeps its scrollbar styles; visibility is driven by ShowScrollBar alone.
+                _ = PI.ShowScrollBar(_targetControl.Handle, (int)PI.SB_.BOTH, false);
                 _targetControl.Invalidate();
                 return;
             }
 
-            // Also remove scrollbar window styles so they stay hidden; frame change is required
-            // for style changes to take effect (see SetWindowLong / SetWindowPos docs).
+            // For other controls (ListView, TreeView, PropertyGrid, etc.) the scrollbar window
+            // styles are removed so they stay hidden. Skip the work when they are already clear:
+            // the frame change below raises a layout for the target control, which asks for
+            // another hide, so repeating it unconditionally repaints the control indefinitely.
             uint style = PI.GetWindowLong(_targetControl.Handle, PI.GWL_.STYLE);
-            style &= ~(uint)PI.WS_.HSCROLL;
-            style &= ~(uint)PI.WS_.VSCROLL;
-            PI.SetWindowLong(_targetControl.Handle, PI.GWL_.STYLE, style);
+            uint hiddenStyle = style & ~((uint)PI.WS_.HSCROLL | (uint)PI.WS_.VSCROLL);
+            if (hiddenStyle == style)
+            {
+                return;
+            }
+
+            _ = PI.ShowScrollBar(_targetControl.Handle, (int)PI.SB_.BOTH, false);
+
+            // A frame change is required for style changes to take effect
+            // (see SetWindowLong / SetWindowPos docs).
+            PI.SetWindowLong(_targetControl.Handle, PI.GWL_.STYLE, hiddenStyle);
             PI.SetWindowPos(_targetControl.Handle, IntPtr.Zero, 0, 0, 0, 0,
                 PI.SWP_.NOMOVE | PI.SWP_.NOSIZE | PI.SWP_.NOZORDER | PI.SWP_.FRAMECHANGED);
 

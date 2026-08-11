@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -21,7 +21,7 @@ internal class PaletteCornerRoundingEditor : UITypeEditor
     {
         if (provider is null)
         {
-            throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(provider)));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(provider)));
         }
 
         if (context is not null && value is PaletteCornerRounding cornerRounding)

@@ -98,12 +98,12 @@ public class ViewDrawMonthDayNames : ViewLeaf,
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
         // We take on all the available display area
         ClientRectangle = context!.DisplayRectangle;
@@ -156,12 +156,12 @@ public class ViewDrawMonthDayNames : ViewLeaf,
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // Check if RTL layout is enabled (from control context)
@@ -229,7 +229,7 @@ public class ViewDrawMonthDayNames : ViewLeaf,
     /// </summary>
     /// <param name="state">The state for which the image is needed.</param>
     /// <returns>Color value.</returns>
-    public Color GetImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public Color GetImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the content short text.
@@ -255,7 +255,7 @@ public class ViewDrawMonthDayNames : ViewLeaf,
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Color value.</returns>
-    public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public Color GetOverlayImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the position of the overlay image relative to the main image.

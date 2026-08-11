@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -25,23 +25,23 @@ public class PaletteOffice2007LightGray : PaletteOffice2007Base
     {
     }
 
-    public override Image? GetContextMenuSubMenuImage() => throw new NotImplementedException();
+    public override Image? GetContextMenuSubMenuImage() => ThrowHelper.ThrowNotImplementedException<Image>();
 
     #region Tab Row Background
 
     /// <inheritdoc />
-    public override Color GetRibbonTabRowGradientColor1(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public override Color GetRibbonTabRowGradientColor1(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <inheritdoc />
     public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) =>
-        GlobalStaticVariables.EMPTY_COLOR;
+        SharedStaticVariables.EMPTY_COLOR;
 
     /// <inheritdoc />
     public override Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state) =>
-        GlobalStaticVariables.EMPTY_COLOR;
+        SharedStaticVariables.EMPTY_COLOR;
 
     /// <inheritdoc />
-    public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <inheritdoc />
     public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => -1;
@@ -51,13 +51,13 @@ public class PaletteOffice2007LightGray : PaletteOffice2007Base
     #region AppButton Colors
 
     /// <inheritdoc />
-    public override Color GetRibbonFileAppTabBottomColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public override Color GetRibbonFileAppTabBottomColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <inheritdoc />
-    public override Color GetRibbonFileAppTabTopColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public override Color GetRibbonFileAppTabTopColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <inheritdoc />
-    public override Color GetRibbonFileAppTabTextColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public override Color GetRibbonFileAppTabTextColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     #endregion
 }

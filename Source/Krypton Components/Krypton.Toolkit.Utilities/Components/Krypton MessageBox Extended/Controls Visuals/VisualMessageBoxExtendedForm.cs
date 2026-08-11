@@ -44,6 +44,8 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
 
     private readonly bool _showHelpButton;
 
+    private MessageButton? _helpButton;
+
     private readonly bool _openInExplorer;
 
     private readonly bool _useTimeOut;
@@ -79,6 +81,10 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
     private readonly ExtendedKryptonMessageBoxIcon _kryptonMessageBoxIcon;
 
     private readonly Image? _customKryptonMessageBoxIcon;
+
+    private readonly KryptonOverlayImage _overlayImage;
+
+    private Image? _ownedComposedIcon;
 
     private readonly string _buttonOneCustomText;
 
@@ -185,7 +191,8 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         ExtendedKryptonMessageBoxCountdownButton countdownButton = ExtendedKryptonMessageBoxCountdownButton.None,
         int? countdownButtonSeconds = null,
         DialogResult? countdownButtonDialogResult = null,
-        bool? showCopyButton = null)
+        bool? showCopyButton = null,
+        KryptonOverlayImage overlayImage = default)
     {
         // Normalize line endings so a lone "\n" is rendered as a line break by the multiline content controls
         text = text.Replace("\r\n", "\n").Replace("\r", "\n").Replace("\n", "\r\n");
@@ -206,6 +213,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         // Extended values
         _messageBoxTypeface = messageBoxTypeface ?? KryptonManager.CurrentGlobalPalette.BaseFont;
         _customKryptonMessageBoxIcon = customKryptonMessageBoxIcon;
+        _overlayImage = overlayImage;
         _showHelpButton = showHelpButton ?? false;
         _messageTextColour = messageTextColour ?? Color.Empty;
         _buttonTextColours = buttonTextColours;
@@ -258,6 +266,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         UpdateHelp();
         UpdateTextExtra(showCtrlCopy);
         UpdateCopyButton(showCopyButton);
+        ApplySemanticButtonColors(null);
         
         // Apply countdown to selected button if specified
         ApplyCountdownToButton();
@@ -284,6 +293,8 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
     public VisualMessageBoxExtendedForm(KryptonMessageBoxExtendedData messageBoxExtendedData, bool showCloseButton)
     {
         _messageBoxExtendedData = messageBoxExtendedData;
+        _overlayImage = messageBoxExtendedData.OverlayImage;
+        _kryptonMessageBoxIcon = messageBoxExtendedData.Icon;
 
         // Create the form contents
         InitializeComponent();
@@ -298,6 +309,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         UpdateHelp(_messageBoxExtendedData.ShowHelpButton);
         UpdateTextExtra(_messageBoxExtendedData.ShowCtrlCopy);
         UpdateCopyButton(_messageBoxExtendedData.ShowCopyButton);
+        ApplySemanticButtonColors(_messageBoxExtendedData.ButtonColors);
 
         UpdateContentAreaType(_messageBoxExtendedData.MessageContentAreaType, _messageBoxExtendedData.MessageTextAlignment, _messageBoxExtendedData.MessageTextBoxAlignment, _messageBoxExtendedData.RichTextBoxTextAlignment);
 
@@ -366,7 +378,8 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
                     options.HasFlag(MessageBoxOptions.RtlReading) ? RightToLeft.Inherit : RightToLeft.No;
                 break;
             default:
-                throw new ArgumentOutOfRangeException(nameof(contentAreaType), contentAreaType, null);
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(contentAreaType), contentAreaType, null);
+                return;
         }
     }
 
@@ -664,6 +677,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         }
 
         _messageIcon.Visible = _kryptonMessageBoxIcon != ExtendedKryptonMessageBoxIcon.None;
+        ApplyOverlayImageIfNeeded(rightToLeft: false);
     }
 
     private void UpdateIcon()
@@ -786,7 +800,45 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         }
 
         _messageIcon.Visible = _kryptonMessageBoxIcon != ExtendedKryptonMessageBoxIcon.None;
+        ApplyOverlayImageIfNeeded(rightToLeft: false);
+    }
 
+    /// <summary>
+    /// Composites the optional overlay badge onto the resolved main icon when configured.
+    /// </summary>
+    /// <param name="rightToLeft">Whether Left/Right overlay corners should be mirrored.</param>
+    private void ApplyOverlayImageIfNeeded(bool rightToLeft)
+    {
+        if (_overlayImage.IsEmpty || _messageIcon.Image == null)
+        {
+            return;
+        }
+
+        DisposeOwnedComposedIcon();
+
+        Bitmap? composed = GraphicsExtensions.TryComposeOverlay(_messageIcon.Image, _overlayImage, rightToLeft);
+
+        if (composed != null)
+        {
+            _ownedComposedIcon = composed;
+            _messageIcon.Image = composed;
+        }
+    }
+
+    private void DisposeOwnedComposedIcon()
+    {
+        if (_ownedComposedIcon == null)
+        {
+            return;
+        }
+
+        if (ReferenceEquals(_messageIcon.Image, _ownedComposedIcon))
+        {
+            _messageIcon.Image = null;
+        }
+
+        _ownedComposedIcon.Dispose();
+        _ownedComposedIcon = null;
     }
 
     private void UpdateButtons(ExtendedMessageBoxButtons buttons)
@@ -896,6 +948,34 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
             _button3.IgnoreAltF4 = true;
             _button4.IgnoreAltF4 = true;
             //_button5.IgnoreAltF4 = true;
+        }
+    }
+
+    private void ApplySemanticButtonColors(KryptonDialogButtonColorOptions? buttonColors)
+    {
+        if (!ReferenceEquals(_button1, _helpButton))
+        {
+            DialogButtonAppearanceUtilities.Apply(_button1, _button1.DialogResult, buttonColors);
+        }
+
+        if (!ReferenceEquals(_button2, _helpButton))
+        {
+            DialogButtonAppearanceUtilities.Apply(_button2, _button2.DialogResult, buttonColors);
+        }
+
+        if (!ReferenceEquals(_button3, _helpButton))
+        {
+            DialogButtonAppearanceUtilities.Apply(_button3, _button3.DialogResult, buttonColors);
+        }
+
+        if (!ReferenceEquals(_button4, _helpButton))
+        {
+            DialogButtonAppearanceUtilities.Apply(_button4, _button4.DialogResult, buttonColors);
+        }
+
+        if (_helpButton != null)
+        {
+            DialogButtonAppearanceUtilities.Apply(_helpButton, KryptonDialogButtonRole.Help, buttonColors);
         }
     }
 
@@ -1101,7 +1181,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
 
     private void UpdateHelp(bool? showHelpButton)
     {
-        if (showHelpButton != null)
+        if (showHelpButton != true)
         {
             return;
         }
@@ -1111,7 +1191,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
             ExtendedMessageBoxButtons.OK => _button2,
             ExtendedMessageBoxButtons.OKCancel or ExtendedMessageBoxButtons.YesNo or ExtendedMessageBoxButtons.RetryCancel => _button3,
             ExtendedMessageBoxButtons.AbortRetryIgnore or ExtendedMessageBoxButtons.YesNoCancel => _button4,
-            _ => throw new ArgumentOutOfRangeException()
+            _ => ThrowHelper.ThrowArgumentOutOfRangeException<MessageButton>()
         };
         if (helpButton != null)
         {
@@ -1122,6 +1202,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
             helpButton.KeyPress += (_, _) => LaunchHelp(_messageBoxExtendedData.Owner);
 
             helpButton.Click += (_, _) => LaunchHelp(_messageBoxExtendedData.Owner);
+            _helpButton = helpButton;
         }
     }
 
@@ -1177,7 +1258,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
             ExtendedMessageBoxButtons.OK => _button2,
             ExtendedMessageBoxButtons.OKCancel or ExtendedMessageBoxButtons.YesNo or ExtendedMessageBoxButtons.RetryCancel => _button3,
             ExtendedMessageBoxButtons.AbortRetryIgnore or ExtendedMessageBoxButtons.YesNoCancel => _button4,
-            _ => throw new ArgumentOutOfRangeException()
+            _ => ThrowHelper.ThrowArgumentOutOfRangeException<MessageButton>()
         };
         if (helpButton != null)
         {
@@ -1186,6 +1267,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
             helpButton.Text = KryptonManager.Strings.GeneralStrings.Help;
             helpButton.KeyPress += (_, _) => LaunchHelp();
             helpButton.Click += (_, _) => LaunchHelp();
+            _helpButton = helpButton;
         }
     }
 
@@ -1566,7 +1648,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
     {
         if (_hHook != IntPtr.Zero)
         {
-            throw new NotSupportedException("multiple calls are not supported");
+            ThrowHelper.ThrowNotSupportedException("multiple calls are not supported");
         }
 
         if (_showOwner != null)
@@ -1843,6 +1925,13 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         {
             Close();
         }
+    }
+
+    /// <inheritdoc />
+    protected override void OnFormClosed(FormClosedEventArgs e)
+    {
+        DisposeOwnedComposedIcon();
+        base.OnFormClosed(e);
     }
 
     #endregion

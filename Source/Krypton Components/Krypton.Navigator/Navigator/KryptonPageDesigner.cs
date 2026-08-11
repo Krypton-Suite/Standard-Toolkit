@@ -50,8 +50,8 @@ internal class KryptonPageDesigner : ScrollableControlDesigner,
         }
 
         // Acquire service interfaces
-        _selectionService = (ISelectionService?)GetService(typeof(ISelectionService)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_selectionService)));
-        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
+        _selectionService =(ISelectionService?)GetService(typeof(ISelectionService)) ?? ThrowHelper.ThrowNullReferenceException<ISelectionService>(SharedStaticFunctions.VariableCannotBeNull(nameof(_selectionService)));
+        _changeService =(IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? ThrowHelper.ThrowNullReferenceException<IComponentChangeService>(SharedStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
 
         // We need to know when we are being removed
         _changeService.ComponentRemoving += OnComponentRemoving;

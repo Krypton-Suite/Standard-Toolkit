@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -1840,35 +1840,27 @@ public class KryptonToggleSwitch : Control, IContentValues
     /// <param name="state">The state for which the image is needed.</param>
     /// <returns>Image value.</returns>
     /// <exception cref="System.NotImplementedException"></exception>
-    public Image? GetImage(PaletteState state)
-    {
-        throw new NotImplementedException();
-    }
+    public Image? GetImage(PaletteState state) =>
+        ThrowHelper.ThrowNotImplementedException<Image?>();
 
     /// <summary>Gets the image color that should be transparent.</summary>
     /// <param name="state">The state for which the image is needed.</param>
     /// <returns>Color value.</returns>
     /// <exception cref="System.NotImplementedException"></exception>
-    public Color GetImageTransparentColor(PaletteState state)
-    {
-        throw new NotImplementedException();
-    }
+    public Color GetImageTransparentColor(PaletteState state) =>
+        ThrowHelper.ThrowNotImplementedException<Color>();
 
     /// <summary>Gets the content short text.</summary>
     /// <returns>String value.</returns>
     /// <exception cref="System.NotImplementedException"></exception>
-    public string GetShortText()
-    {
-        throw new NotImplementedException();
-    }
+    public string GetShortText() =>
+        ThrowHelper.ThrowNotImplementedException<string>();
 
     /// <summary>Gets the content long text.</summary>
     /// <returns>String value.</returns>
     /// <exception cref="System.NotImplementedException"></exception>
-    public string GetLongText()
-    {
-        throw new NotImplementedException();
-    }
+    public string GetLongText() =>
+        ThrowHelper.ThrowNotImplementedException<string>();
 
     /// <summary>
     /// Gets the overlay image.
@@ -1882,7 +1874,7 @@ public class KryptonToggleSwitch : Control, IContentValues
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Color value.</returns>
-    public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public Color GetOverlayImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the position of the overlay image relative to the main image.

@@ -51,7 +51,7 @@ public class HeaderGroupValuesSecondary : HeaderValuesBase
     /// Gets the default description value.
     /// </summary>
     /// <returns>String reference.</returns>
-    protected override string GetDescriptionDefault() => GlobalStaticVariables.DEFAULT_EMPTY_STRING;
+    protected override string GetDescriptionDefault() => SharedStaticVariables.DEFAULT_EMPTY_STRING;
 
     #endregion
 

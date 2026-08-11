@@ -78,12 +78,12 @@ public class ViewDrawRadioButton : ViewLeaf
             
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // Ask the renderer for the required size of the check box
@@ -104,7 +104,7 @@ public class ViewDrawRadioButton : ViewLeaf
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // We take on all the available display area
@@ -121,7 +121,7 @@ public class ViewDrawRadioButton : ViewLeaf
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         context.Renderer.RenderGlyph.DrawRadioButton(context, ClientRectangle,

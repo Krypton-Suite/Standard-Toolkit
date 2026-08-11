@@ -54,7 +54,7 @@ internal class InternalKryptonCountdownButton : KryptonButton
         {
             if (value <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(value), @"Countdown duration must be greater than zero.");
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), @"Countdown duration must be greater than zero.");
             }
             _initialCountdownSeconds = value;
         }
@@ -72,7 +72,7 @@ internal class InternalKryptonCountdownButton : KryptonButton
         {
             if (value <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(value), @"Interval must be greater than zero.");
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), @"Interval must be greater than zero.");
             }
             _countdownTimer.Interval = value;
         }
@@ -92,18 +92,18 @@ internal class InternalKryptonCountdownButton : KryptonButton
     /// <summary>Initializes a new instance of the <see cref="InternalKryptonCountdownButton" /> class.</summary>
     public InternalKryptonCountdownButton()
     {
-        _initialCountdownSeconds = GlobalStaticConstants.DEFAULT_COUNTDOWN_VALUE;
+        _initialCountdownSeconds = SharedStaticConstants.DEFAULT_COUNTDOWN_VALUE;
 
         _countdownTimer = new Timer
         {
-            Interval = GlobalStaticConstants.DEFAULT_COUNTDOWN_INTERVAL
+            Interval = SharedStaticConstants.DEFAULT_COUNTDOWN_INTERVAL
         };
 
         _countdownTimer.Tick += OnCountdownTimer_Tick;
 
-        CountdownDuration = GlobalStaticConstants.DEFAULT_COUNTDOWN_VALUE;
+        CountdownDuration = SharedStaticConstants.DEFAULT_COUNTDOWN_VALUE;
 
-        CountdownInterval = GlobalStaticConstants.DEFAULT_COUNTDOWN_INTERVAL;
+        CountdownInterval = SharedStaticConstants.DEFAULT_COUNTDOWN_INTERVAL;
     }
 
     #endregion
@@ -115,7 +115,7 @@ internal class InternalKryptonCountdownButton : KryptonButton
     {
         if (_countdownSeconds > 0)
         {
-            throw new InvalidOperationException("Countdown is already running.");
+            ThrowHelper.ThrowInvalidOperationException("Countdown is already running.");
         }
 
         _countdownSeconds = _initialCountdownSeconds;

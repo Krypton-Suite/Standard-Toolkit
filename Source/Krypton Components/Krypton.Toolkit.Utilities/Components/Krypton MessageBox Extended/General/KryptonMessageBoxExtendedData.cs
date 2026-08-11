@@ -82,6 +82,13 @@ public struct KryptonMessageBoxExtendedData
     /// <value>The application path.</value>
     public string? ApplicationPath { get; set; }
 
+    /// <summary>
+    /// Gets or sets an optional overlay (badge) image drawn on top of the main message icon.
+    /// When <see cref="KryptonOverlayImage.Image"/> is null, no overlay is applied.
+    /// </summary>
+    /// <value>The overlay image settings.</value>
+    public KryptonOverlayImage OverlayImage { get; set; }
+
     /// <summary>Gets or sets the type of the message content area.</summary>
     /// <value>The type of the message content area.</value>
     public ExtendedKryptonMessageBoxMessageContainerType? MessageContentAreaType { get; set; }
@@ -157,6 +164,15 @@ public struct KryptonMessageBoxExtendedData
     public string? MoreDetailsButtonText { get; set; }
 
     public string? MoreDetailsMessageText { get; set; }
+
+    /// <summary>
+    /// Gets or sets optional semantic colours for the message-box action buttons.
+    /// </summary>
+    /// <remarks>
+    /// When null, <see cref="KryptonManager.DialogButtonColors"/> is used. When both are null,
+    /// buttons keep themed Standalone chrome.
+    /// </remarks>
+    public KryptonDialogButtonColorOptions? ButtonColors { get; set; }
 
     #endregion
 

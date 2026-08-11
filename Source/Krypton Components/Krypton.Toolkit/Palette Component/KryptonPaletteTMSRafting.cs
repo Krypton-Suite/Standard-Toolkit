@@ -36,8 +36,8 @@ public class KryptonPaletteTMSRafting : KryptonPaletteTMSBase
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => (InternalKCT.InternalRaftingContainerGradientBegin == GlobalStaticVariables.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalRaftingContainerGradientEnd == GlobalStaticVariables.EMPTY_COLOR);
+    public override bool IsDefault => (InternalKCT.InternalRaftingContainerGradientBegin == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalRaftingContainerGradientEnd == SharedStaticVariables.EMPTY_COLOR);
 
     #endregion
 
@@ -74,7 +74,7 @@ public class KryptonPaletteTMSRafting : KryptonPaletteTMSBase
     /// <summary>
     /// esets the RaftingContainerGradientBegin property to its default value.
     /// </summary>
-    public void ResetRaftingContainerGradientBegin() => RaftingContainerGradientBegin = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetRaftingContainerGradientBegin() => RaftingContainerGradientBegin = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region RaftingContainerGradientEnd
@@ -99,6 +99,6 @@ public class KryptonPaletteTMSRafting : KryptonPaletteTMSBase
     /// <summary>
     /// esets the RaftingContainerGradientEnd property to its default value.
     /// </summary>
-    public void ResetRaftingContainerGradientEnd() => RaftingContainerGradientEnd = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetRaftingContainerGradientEnd() => RaftingContainerGradientEnd = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 }

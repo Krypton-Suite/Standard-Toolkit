@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -39,7 +39,7 @@ internal class KryptonRibbonQATButtonCollectionEditor : KryptonDesignerStandardC
     protected override object? SetItems(object? editValue, object[]? value)
     {
         // Cast the context into the expected control type
-        var ribbon = Context?.Instance as KryptonRibbon ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("ribbon"));
+        var ribbon =Context?.Instance as KryptonRibbon ?? ThrowHelper.ThrowNullReferenceException<KryptonRibbon>(SharedStaticFunctions.VariableCannotBeNull("ribbon"));
 
         // Suspend changes until collection has been updated
         ribbon.SuspendLayout();

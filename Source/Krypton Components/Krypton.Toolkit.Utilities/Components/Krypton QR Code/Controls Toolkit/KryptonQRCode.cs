@@ -302,7 +302,7 @@ public class KryptonQRCode : KryptonPanel
     /// <see cref="CenterImageColorTo"/>, and <see cref="CenterImageTransparentColor"/> use
     /// <see cref="Color.Empty"/> / <see cref="PaletteImageEffect.Inherit"/> to inherit from
     /// <see cref="CenterImagePaletteStyle"/> on the current palette. Template glyphs that use the
-    /// Krypton transparency key (<see cref="GlobalStaticVariables.TRANSPARENCY_KEY_COLOR"/>) are
+    /// Krypton transparency key (<see cref="SharedStaticVariables.TRANSPARENCY_KEY_COLOR"/>) are
     /// remapped to the effective dark module color when the palette does not specify a map color.
     /// </remarks>
     [Category(@"Appearance")]
@@ -664,7 +664,7 @@ public class KryptonQRCode : KryptonPanel
             : palette.GetContentImageColorMap(style, state);
         if (colorMap.IsEmpty)
         {
-            colorMap = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
+            colorMap = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
         }
 
         Color colorTo = !_centerImageColorTo.IsEmpty

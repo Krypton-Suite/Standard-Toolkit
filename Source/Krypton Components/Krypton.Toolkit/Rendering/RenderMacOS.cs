@@ -25,7 +25,7 @@ public class RenderMacOS : RenderMaterial
     {
         if (colorPalette == null)
         {
-            throw new ArgumentNullException(nameof(colorPalette));
+            ThrowHelper.ThrowArgumentNullException(nameof(colorPalette));
         }
 
         return new KryptonMacOSRenderer(colorPalette.ColorTable);
@@ -41,12 +41,12 @@ public class RenderMacOS : RenderMaterial
     {
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (palette == null)
         {
-            throw new ArgumentNullException(nameof(palette));
+            ThrowHelper.ThrowArgumentNullException(nameof(palette));
         }
 
         if (rect.Width <= 0 || rect.Height <= 0)
@@ -60,7 +60,7 @@ public class RenderMacOS : RenderMaterial
             // Tab face is painted in DrawBack (RenderBefore). DrawBorderLast calls us after content,
             // so do not fill the tab rectangle, or we paint over the page title text.
             var accent = palette.GetBorderColor1(state);
-            if (accent == GlobalStaticVariables.EMPTY_COLOR || accent.IsEmpty)
+            if (accent == SharedStaticVariables.EMPTY_COLOR || accent.IsEmpty)
             {
                 accent = palette.GetBorderColor2(state);
             }
@@ -111,12 +111,12 @@ public class RenderMacOS : RenderMaterial
     {
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (palette == null)
         {
-            throw new ArgumentNullException(nameof(palette));
+            ThrowHelper.ThrowArgumentNullException(nameof(palette));
         }
 
         if (rect is { Width: > 0, Height: > 0 })
@@ -141,12 +141,12 @@ public class RenderMacOS : RenderMaterial
     {
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (palette == null)
         {
-            throw new ArgumentNullException(nameof(palette));
+            ThrowHelper.ThrowArgumentNullException(nameof(palette));
         }
 
         if (rect is { Width: > 0, Height: > 0 })
@@ -169,12 +169,12 @@ public class RenderMacOS : RenderMaterial
     {
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (paletteBack == null)
         {
-            throw new ArgumentNullException(nameof(paletteBack));
+            ThrowHelper.ThrowArgumentNullException(nameof(paletteBack));
         }
 
         using var drawBrush = new SolidBrush(paletteBack.GetBackColor1(state));

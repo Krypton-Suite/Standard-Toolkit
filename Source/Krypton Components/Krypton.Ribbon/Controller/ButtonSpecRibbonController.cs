@@ -49,23 +49,23 @@ internal class ButtonSpecRibbonController : ButtonController
 
         if (ribbon is null)
         {
-            throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(ribbon)));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(ribbon)));
         }
 
         if (ribbon.TabsArea is null)
         {
-            throw new NullReferenceException(GlobalStaticFunctions.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
         }
 
         if (ribbon.TabsArea.ButtonSpecManager is null)
         {
-            throw new NullReferenceException(GlobalStaticFunctions.PropertyCannotBeNull(nameof(ribbon.TabsArea.ButtonSpecManager)));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.PropertyCannotBeNull(nameof(ribbon.TabsArea.ButtonSpecManager)));
         }
 
         // Get the button spec associated with this controller
-        ViewDrawButton? viewButton = Target as ViewDrawButton ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(Target)));
+        ViewDrawButton? viewButton =Target as ViewDrawButton ?? ThrowHelper.ThrowNullReferenceException<ViewDrawButton>(SharedStaticFunctions.VariableCannotBeNull(nameof(Target)));
             
-        ButtonSpec? buttonSpec = ribbon.TabsArea.ButtonSpecManager.GetButtonSpecFromView(viewButton) ?? throw new NullReferenceException( "ribbon.TabsArea.ButtonSpecManager.GetButtonSpecFromView(viewButton) returned null.");
+        ButtonSpec? buttonSpec =ribbon.TabsArea.ButtonSpecManager.GetButtonSpecFromView(viewButton) ?? ThrowHelper.ThrowNullReferenceException<ButtonSpec>("ribbon.TabsArea.ButtonSpecManager.GetButtonSpecFromView(viewButton) returned null.");
 
         // Note If we are on the near edge
         var isNear = buttonSpec.Edge is PaletteRelativeEdgeAlign.Near;

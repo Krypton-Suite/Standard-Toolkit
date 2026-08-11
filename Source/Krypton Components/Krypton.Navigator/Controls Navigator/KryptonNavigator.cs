@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -411,13 +411,13 @@ public class KryptonNavigator : VisualSimple,
                 // Range check the index
                 if ((value < 0) || (value >= Pages.Count))
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value), @"Index out of range");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), @"Index out of range");
                 }
 
                 // Can only select a page that is visible
                 if (!Pages[value].LastVisibleSet)
                 {
-                    throw new ArgumentNullException(nameof(value), @"Cannot select a page that is not visible");
+                    ThrowHelper.ThrowArgumentNullException(nameof(value), @"Cannot select a page that is not visible");
                 }
 
                 // Request the change by changing the SelectedPage
@@ -450,7 +450,7 @@ public class KryptonNavigator : VisualSimple,
                 // You cannot remove the selection entirely by using null
                 if (value == null)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value), @"Value cannot be null");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), @"Value cannot be null");
                 }
 
                 // Check the page is in the pages collection
@@ -459,7 +459,7 @@ public class KryptonNavigator : VisualSimple,
                     // Can only select a page that is visible
                     if (!value.LastVisibleSet)
                     {
-                        throw new ArgumentNullException(nameof(value), @"Cannot select a page that is not visible");
+                        ThrowHelper.ThrowArgumentNullException(nameof(value), @"Cannot select a page that is not visible");
                     }
 
                     // Change of selected page means we get rid of any showing popup page
@@ -516,23 +516,56 @@ public class KryptonNavigator : VisualSimple,
     }
 
     /// <summary>
-    /// 
+    /// Gets or sets the <see cref="KryptonForm"/> that this navigator can control via form chrome button specs.
     /// </summary>
+    /// <remarks>
+    /// When set and <see cref="ControlKryptonFormFeatures"/> is <c>false</c>, the navigator shows
+    /// minimize, maximize/restore, and close button specs that send system commands to this form.
+    /// Use <c>KryptonNavigatorFormIntegrator</c> in Krypton.Navigator.Utilities for a turnkey
+    /// browser/Explorer-style layout.
+    /// </remarks>
+    [Category(@"Behavior")]
+    [DefaultValue(null)]
+    [Description(@"KryptonForm controlled by the navigator form chrome button specs.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public KryptonForm? Owner
     {
         get => _owner;
-        set => _owner = value ?? null;
+        set
+        {
+            if (!ReferenceEquals(_owner, value))
+            {
+                _owner = value;
+                OnViewBuilderPropertyChanged(nameof(Owner));
+                PerformNeedPaint(true);
+            }
+        }
     }
 
     /// <summary>
-    /// 
+    /// Gets or sets whether the associated <see cref="Owner"/> form retains exclusive control of its caption buttons.
     /// </summary>
+    /// <remarks>
+    /// When <c>false</c> (default) and <see cref="Owner"/> is set, the navigator displays form
+    /// minimize/maximize/close button specs. When <c>true</c>, those specs stay hidden so the form
+    /// chrome control box remains the sole owner of caption buttons.
+    /// </remarks>
+    [Category(@"Behavior")]
+    [DefaultValue(false)]
+    [Description(@"When true, the Owner form keeps exclusive control of caption buttons; when false, the navigator can host form min/max/close specs.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public bool ControlKryptonFormFeatures
     {
         get => _controlKryptonFormFeatures;
-        set => _controlKryptonFormFeatures = value;
+        set
+        {
+            if (_controlKryptonFormFeatures != value)
+            {
+                _controlKryptonFormFeatures = value;
+                OnViewBuilderPropertyChanged(nameof(ControlKryptonFormFeatures));
+                PerformNeedPaint(true);
+            }
+        }
     }
 
     /// <summary>
@@ -2786,7 +2819,7 @@ public class KryptonNavigator : VisualSimple,
             else
             {
                 // Get access to the menu items for selecting a page
-                var contextMenu = sender as KryptonContextMenu ?? throw new ArgumentNullException(nameof(sender));
+                var contextMenu =sender as KryptonContextMenu ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenu, nameof(sender));
 
                 // Kill any existing contents and add a items collection for the page entries
                 contextMenu.Items.Clear();
@@ -2998,7 +3031,7 @@ public class KryptonNavigator : VisualSimple,
     private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
     {
         // Unhook events from the specific instance that generated event
-        var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
+        var popupToolTip =sender as VisualPopupToolTip ?? ThrowHelper.ThrowArgumentNullException(sender as VisualPopupToolTip, nameof(sender));
         popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
         // Not showing a popup page any more
@@ -3008,7 +3041,7 @@ public class KryptonNavigator : VisualSimple,
     private void OnVisualPopupPageDisposed(object? sender, EventArgs e)
     {
         // Unhook events from the specific instance that generated event
-        var popupPage = sender as VisualPopupPage ?? throw new ArgumentNullException(nameof(sender));
+        var popupPage =sender as VisualPopupPage ?? ThrowHelper.ThrowArgumentNullException(sender as VisualPopupPage, nameof(sender));
         popupPage.Disposed -= OnVisualPopupPageDisposed;
 
         // Not showing a popup page any more

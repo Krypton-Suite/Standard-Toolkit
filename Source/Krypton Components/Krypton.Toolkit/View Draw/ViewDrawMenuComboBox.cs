@@ -107,7 +107,7 @@ internal class ViewDrawMenuComboBox : ViewComposite
 
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         ClientRectangle = context.DisplayRectangle;

@@ -37,18 +37,31 @@ public class KryptonDockingFloatingWindow : DockingElementClosedCollection
     /// <param name="floatspace">Reference to form that will own all the floating window.</param>
     /// <param name="useMinimiseBox">Allow window to be minimised.</param>
     public KryptonDockingFloatingWindow(string? name, [DisallowNull] Form owner, [DisallowNull] KryptonDockingFloatspace floatspace, bool useMinimiseBox)
+        : this(name, owner, floatspace, useMinimiseBox, showInTaskbar: false)
+    {
+    }
+
+    /// <summary>
+    /// Initialize a new instance of the KryptonDockingFloatingWindow class.
+    /// </summary>
+    /// <param name="name">Initial name of the element.</param>
+    /// <param name="owner">Reference to form that owns the floating windows.</param>
+    /// <param name="floatspace">Reference to form that will own all the floating window.</param>
+    /// <param name="useMinimiseBox">Allow window to be minimised.</param>
+    /// <param name="showInTaskbar">When true, the floating window appears on the Windows taskbar (Snap Group eligible).</param>
+    public KryptonDockingFloatingWindow(string? name, [DisallowNull] Form owner, [DisallowNull] KryptonDockingFloatspace floatspace, bool useMinimiseBox, bool showInTaskbar)
         : base(name)
     {
         if (owner == null)
         {
-            throw new ArgumentNullException(nameof(owner));
+            ThrowHelper.ThrowArgumentNullException(nameof(owner));
         }
 
-        FloatspaceElement = floatspace ?? throw new ArgumentNullException(nameof(floatspace));
+        FloatspaceElement = floatspace ?? ThrowHelper.ThrowArgumentNullException(floatspace);
         FloatspaceElement.Disposed += OnDockingFloatspaceDisposed;
 
         // Create the actual window control and hook into events
-        FloatingWindow = new KryptonFloatingWindow(owner, floatspace.FloatspaceControl, useMinimiseBox);
+        FloatingWindow = new KryptonFloatingWindow(owner, floatspace.FloatspaceControl, useMinimiseBox, showInTaskbar);
         FloatingWindow.WindowCloseClicked += OnFloatingWindowCloseClicked;
         FloatingWindow.WindowCaptionDragging += OnFloatingWindowCaptionDragging;
         FloatingWindow.Disposed += OnFloatingWindowDisposed;
@@ -278,7 +291,7 @@ public class KryptonDockingFloatingWindow : DockingElementClosedCollection
     private void OnDockingFloatspaceDisposed(object? sender, EventArgs e)
     {
         // Cast to correct type and unhook event handlers so garbage collection can occur
-        var floatspaceElement = sender as KryptonDockingFloatspace ?? throw new ArgumentNullException(nameof(sender));
+        var floatspaceElement =sender as KryptonDockingFloatspace ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonDockingFloatspace, nameof(sender));
         floatspaceElement.Disposed -= OnDockingFloatspaceDisposed;
 
         // Kill the floatspace window

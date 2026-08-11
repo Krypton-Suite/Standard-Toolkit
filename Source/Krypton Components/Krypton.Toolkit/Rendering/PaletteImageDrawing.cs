@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -85,12 +85,12 @@ public static class PaletteImageDrawing
     {
         if (graphics == null)
         {
-            throw new ArgumentNullException(nameof(graphics));
+            ThrowHelper.ThrowArgumentNullException(nameof(graphics));
         }
 
         if (image == null)
         {
-            throw new ArgumentNullException(nameof(image));
+            ThrowHelper.ThrowArgumentNullException(nameof(image));
         }
 
         lock (_threadLock)
@@ -131,12 +131,12 @@ public static class PaletteImageDrawing
                     break;
             }
 
-            if ((remapTransparent != GlobalStaticVariables.EMPTY_COLOR) ||
-                ((remapColor != GlobalStaticVariables.EMPTY_COLOR) && (remapNew != GlobalStaticVariables.EMPTY_COLOR)))
+            if ((remapTransparent != SharedStaticVariables.EMPTY_COLOR) ||
+                ((remapColor != SharedStaticVariables.EMPTY_COLOR) && (remapNew != SharedStaticVariables.EMPTY_COLOR)))
             {
                 var colorMaps = new List<ColorMap>();
 
-                if (remapTransparent != GlobalStaticVariables.EMPTY_COLOR)
+                if (remapTransparent != SharedStaticVariables.EMPTY_COLOR)
                 {
                     colorMaps.Add(new ColorMap
                     {
@@ -145,7 +145,7 @@ public static class PaletteImageDrawing
                     });
                 }
 
-                if ((remapColor != GlobalStaticVariables.EMPTY_COLOR) && (remapNew != GlobalStaticVariables.EMPTY_COLOR))
+                if ((remapColor != SharedStaticVariables.EMPTY_COLOR) && (remapNew != SharedStaticVariables.EMPTY_COLOR))
                 {
                     colorMaps.Add(new ColorMap
                     {

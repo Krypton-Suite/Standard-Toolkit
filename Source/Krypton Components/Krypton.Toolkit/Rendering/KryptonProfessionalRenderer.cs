@@ -26,7 +26,7 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
         : base(kct)
     {
         Debug.Assert(kct is not null);
-        KCT = kct ?? throw new ArgumentNullException(nameof(kct));
+        KCT = kct ?? ThrowHelper.ThrowArgumentNullException(kct);
     }
     #endregion
 
@@ -287,7 +287,7 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
         // Default style when the user provides one color only: Solid
         if (effectiveStyle == PaletteColorStyle.Inherit)
         {
-            effectiveStyle = (color2 == GlobalStaticVariables.EMPTY_COLOR || color2.IsEmpty)
+            effectiveStyle = (color2 == SharedStaticVariables.EMPTY_COLOR || color2.IsEmpty)
                 ? PaletteColorStyle.Solid
                 : PaletteColorStyle.Linear;
         }
@@ -304,15 +304,15 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
         {
             case PaletteColorStyle.Solid:
             {
-                using var brush = new SolidBrush((color1 == GlobalStaticVariables.EMPTY_COLOR || color1.IsEmpty)
+                using var brush = new SolidBrush((color1 == SharedStaticVariables.EMPTY_COLOR || color1.IsEmpty)
                     ? KCT.StatusStripGradientEnd : color1);
                 graphics.FillRectangle(brush, rect);
                 break;
             }
             default:
             {
-                Color a = (color1 == GlobalStaticVariables.EMPTY_COLOR || color1.IsEmpty) ? KCT.StatusStripGradientBegin : color1;
-                Color b = (color2 == GlobalStaticVariables.EMPTY_COLOR || color2.IsEmpty) ? KCT.StatusStripGradientEnd : color2;
+                Color a = (color1 == SharedStaticVariables.EMPTY_COLOR || color1.IsEmpty) ? KCT.StatusStripGradientBegin : color1;
+                Color b = (color2 == SharedStaticVariables.EMPTY_COLOR || color2.IsEmpty) ? KCT.StatusStripGradientEnd : color2;
                 using var brush = new LinearGradientBrush(rect, a, b, angle);
                 graphics.FillRectangle(brush, rect);
                 break;
@@ -448,7 +448,7 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
             color2 = useSelectedSolid
                 ? color1
                 : ResolveMenuItemOverrideColor(internalKCT.InternalMenuItemSelectedGradientEnd, KCT.MenuItemSelectedGradientEnd);
-            colorMiddle = GlobalStaticVariables.EMPTY_COLOR;
+            colorMiddle = SharedStaticVariables.EMPTY_COLOR;
             useMiddle = false;
         }
 
@@ -477,7 +477,7 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
         return true;
     }
 
-    private static bool HasMenuItemOverrideColor(Color color) => color != GlobalStaticVariables.EMPTY_COLOR && !color.IsEmpty;
+    private static bool HasMenuItemOverrideColor(Color color) => color != SharedStaticVariables.EMPTY_COLOR && !color.IsEmpty;
 
     private static Color ResolveMenuItemOverrideColor(Color color, Color fallback) => HasMenuItemOverrideColor(color) ? color : fallback;
 

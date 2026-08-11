@@ -44,7 +44,7 @@ public static class GraphicsExtensions
         {
             //Console.WriteLine("Unable to extract the icon from the binary");
 
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(e, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
 
         return result;
@@ -109,7 +109,7 @@ public static class GraphicsExtensions
         }
         catch (Exception e)
         {
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(e, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
 
             return null;
         }
@@ -137,7 +137,7 @@ public static class GraphicsExtensions
     {
         if (string.IsNullOrEmpty(filePath))
         {
-            throw new ArgumentNullException(nameof(filePath));
+            ThrowHelper.ThrowArgumentNullException(nameof(filePath));
         }
 
         var hIconEx = new IntPtr[] { IntPtr.Zero };
@@ -161,7 +161,7 @@ public static class GraphicsExtensions
         }
         catch (Exception ex)
         {
-            KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(ex, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
 
             // /* EXTRACT ICON ERROR */
             //// BUBBLE UP
@@ -252,7 +252,7 @@ public static class GraphicsExtensions
                 return ScaleImage(SystemIcons.Application.ToBitmap(), newSize);
             default:
                 DebugTools.NotImplemented(iconType.ToString());
-                throw new ArgumentOutOfRangeException(nameof(iconType), iconType, null);
+                return ThrowHelper.ThrowArgumentOutOfRangeException<Image?>(nameof(iconType), iconType, null);
         }
     }
 
@@ -494,6 +494,8 @@ public static class GraphicsExtensions
             PaletteMode.Office2007White => true,
             PaletteMode.Office2007Black => true,
             PaletteMode.Office2007BlackDarkMode => true,
+            PaletteMode.Office2007LimeGreen => true,
+            PaletteMode.Office2007LimeGreenDark => true,
             PaletteMode.SparkleBlue => true,
             PaletteMode.SparkleBlueDarkMode => true,
             PaletteMode.SparkleBlueLightMode => true,
@@ -503,6 +505,9 @@ public static class GraphicsExtensions
             PaletteMode.SparklePurple => true,
             PaletteMode.SparklePurpleDarkMode => true,
             PaletteMode.SparklePurpleLightMode => true,
+            PaletteMode.SparkleHighContrast => true,
+            PaletteMode.SparkleDeuteranopia => true,
+            PaletteMode.SparkleProtanopia => true,
             _ => false
         };
     }
@@ -523,6 +528,8 @@ public static class GraphicsExtensions
             PaletteMode.Office2010White => true,
             PaletteMode.Office2010Black => true,
             PaletteMode.Office2010BlackDarkMode => true,
+            PaletteMode.Office2010LimeGreen => true,
+            PaletteMode.Office2010LimeGreenDark => true,
             PaletteMode.Office2013White => true,
             PaletteMode.VisualStudio2010Render2007 => true,
             PaletteMode.VisualStudio2010Render2010 => true,
@@ -550,13 +557,29 @@ public static class GraphicsExtensions
             PaletteMode.Microsoft365Black => true,
             PaletteMode.Microsoft365BlackDarkMode => true,
             PaletteMode.Microsoft365BlackDarkModeAlternate => true,
+            PaletteMode.Microsoft365LimeGreen => true,
+            PaletteMode.Microsoft365LimeGreenDark => true,
             PaletteMode.MaterialLight => true,
             PaletteMode.MaterialDark => true,
             PaletteMode.MaterialLightRipple => true,
             PaletteMode.MaterialDarkRipple => true,
+            PaletteMode.MaterialLimeGreen => true,
+            PaletteMode.MaterialLimeGreenDark => true,
+            PaletteMode.MaterialLimeGreenRipple => true,
+            PaletteMode.MaterialLimeGreenDarkRipple => true,
+            PaletteMode.MaterialHighContrast => true,
+            PaletteMode.MaterialDeuteranopia => true,
+            PaletteMode.MaterialProtanopia => true,
+            PaletteMode.MaterialHighContrastRipple => true,
+            PaletteMode.MaterialDeuteranopiaRipple => true,
+            PaletteMode.MaterialProtanopiaRipple => true,
             PaletteMode.VisualStudio2022Dark => true,
             PaletteMode.RetroGreen or PaletteMode.RetroBlue => true,
             PaletteMode.MacOSXAqua or PaletteMode.MacOSDark or PaletteMode.MacOSLight => true,
+            PaletteMode.HighContrast or PaletteMode.Deuteranopia or PaletteMode.Protanopia => true,
+            PaletteMode.Office2007HighContrast or PaletteMode.Office2007Deuteranopia or PaletteMode.Office2007Protanopia => true,
+            PaletteMode.Office2010HighContrast or PaletteMode.Office2010Deuteranopia or PaletteMode.Office2010Protanopia => true,
+            PaletteMode.Office2013HighContrast or PaletteMode.Office2013Deuteranopia or PaletteMode.Office2013Protanopia => true,
             _ => false
         };
     }
@@ -582,6 +605,195 @@ public static class GraphicsExtensions
         };
     }
 
+    /// <summary>
+    /// Composites an optional overlay (badge) image onto a main image.
+    /// Position and scale behaviour match content overlay rendering in <see cref="RenderStandard"/>.
+    /// The caller owns the returned <see cref="Bitmap"/> and must dispose it.
+    /// </summary>
+    /// <param name="main">The base image. Must not be null.</param>
+    /// <param name="overlay">The overlay image. When null, a clone of <paramref name="main"/> is returned.</param>
+    /// <param name="position">Corner placement of the overlay relative to <paramref name="main"/>.</param>
+    /// <param name="scaleMode">How the overlay is sized relative to <paramref name="main"/>.</param>
+    /// <param name="scaleFactor">Scale factor used by <see cref="OverlayImageScaleMode.Percentage"/> and <see cref="OverlayImageScaleMode.ProportionalToMain"/>.</param>
+    /// <param name="fixedSize">Size used when <paramref name="scaleMode"/> is <see cref="OverlayImageScaleMode.FixedSize"/>.</param>
+    /// <param name="transparentColor">Colour treated as transparent when drawing the overlay; use <see cref="Color.Empty"/> for none.</param>
+    /// <param name="rightToLeft">When true, Left/Right corners are mirrored for RTL layouts.</param>
+    /// <returns>A new bitmap the size of <paramref name="main"/>, or null if composition fails.</returns>
+    public static Bitmap? ComposeOverlayImage(Image main,
+        Image? overlay,
+        OverlayImagePosition position,
+        OverlayImageScaleMode scaleMode,
+        float scaleFactor,
+        Size fixedSize,
+        Color transparentColor,
+        bool rightToLeft)
+    {
+        if (main == null)
+        {
+            throw new ArgumentNullException(nameof(main));
+        }
+
+        try
+        {
+            var result = new Bitmap(main.Width, main.Height);
+            result.SetResolution(main.HorizontalResolution, main.VerticalResolution);
+
+            using (var graphics = Graphics.FromImage(result))
+            {
+                graphics.CompositingMode = CompositingMode.SourceOver;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+
+                graphics.DrawImage(main, new Rectangle(0, 0, main.Width, main.Height));
+
+                if (overlay == null)
+                {
+                    return result;
+                }
+
+                Size overlaySize = CalculateOverlaySize(main.Size, overlay.Size, scaleMode, scaleFactor, fixedSize);
+                OverlayImagePosition drawPosition = MirrorOverlayPosition(position, rightToLeft);
+                Point location = CalculateOverlayLocation(main.Size, overlaySize, drawPosition);
+
+                var destRect = new Rectangle(location, overlaySize);
+                if (transparentColor.IsEmpty)
+                {
+                    graphics.DrawImage(overlay, destRect);
+                }
+                else
+                {
+                    using var attributes = new ImageAttributes();
+                    attributes.SetColorKey(transparentColor, transparentColor);
+                    graphics.DrawImage(overlay, destRect, 0, 0, overlay.Width, overlay.Height, GraphicsUnit.Pixel, attributes);
+                }
+            }
+
+            return result;
+        }
+        catch (Exception e)
+        {
+            KryptonExceptionHandler.CaptureException(e, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Composites <paramref name="overlay"/> onto <paramref name="main"/> when the overlay is non-empty.
+    /// Applies dialog-friendly defaults for zero scale factor / empty fixed size.
+    /// </summary>
+    /// <param name="main">The base image.</param>
+    /// <param name="overlay">Overlay settings; ignored when <see cref="KryptonOverlayImage.IsEmpty"/>.</param>
+    /// <param name="rightToLeft">Whether Left/Right corners should be mirrored.</param>
+    /// <returns>A new composed bitmap, or null when no overlay applies or composition fails.</returns>
+    public static Bitmap? TryComposeOverlay(Image? main, KryptonOverlayImage overlay, bool rightToLeft)
+    {
+        if (main == null || overlay.IsEmpty)
+        {
+            return null;
+        }
+
+        float scaleFactor = overlay.ScaleFactor > 0f
+            ? overlay.ScaleFactor
+            : KryptonOverlayImage.DefaultScaleFactor;
+        Size fixedSize = overlay.FixedSize.IsEmpty
+            ? KryptonOverlayImage.DefaultFixedSize
+            : overlay.FixedSize;
+        OverlayImageScaleMode scaleMode = overlay.ScaleMode == OverlayImageScaleMode.None
+            && overlay.ScaleFactor <= 0f
+            ? OverlayImageScaleMode.Percentage
+            : overlay.ScaleMode;
+
+        return ComposeOverlayImage(main, overlay.Image, overlay.Position, scaleMode, scaleFactor, fixedSize,
+            overlay.ImageTransparentColor, rightToLeft);
+    }
+
+    private static Size CalculateOverlaySize(Size mainSize, Size originalOverlaySize, OverlayImageScaleMode scaleMode,
+        float scaleFactor, Size fixedSize)
+    {
+        Size overlaySize = originalOverlaySize;
+
+        switch (scaleMode)
+        {
+            case OverlayImageScaleMode.None:
+                overlaySize = originalOverlaySize;
+                break;
+
+            case OverlayImageScaleMode.Percentage:
+            {
+                float mainImageMinDim = Math.Min(mainSize.Width, mainSize.Height);
+                float targetSize = mainImageMinDim * scaleFactor;
+                if (targetSize > 0 && originalOverlaySize.Width > 0 && originalOverlaySize.Height > 0)
+                {
+                    float scale = Math.Min(
+                        targetSize / originalOverlaySize.Width,
+                        targetSize / originalOverlaySize.Height);
+                    overlaySize = new Size(
+                        (int)(originalOverlaySize.Width * scale),
+                        (int)(originalOverlaySize.Height * scale));
+                }
+
+                break;
+            }
+
+            case OverlayImageScaleMode.FixedSize:
+                overlaySize = fixedSize;
+                break;
+
+            case OverlayImageScaleMode.ProportionalToMain:
+            {
+                float propMainImageMinDim = Math.Min(mainSize.Width, mainSize.Height);
+                float propTargetSize = propMainImageMinDim * scaleFactor;
+                if (propTargetSize > 0 && originalOverlaySize.Width > 0 && originalOverlaySize.Height > 0)
+                {
+                    float propScale = Math.Min(
+                        propTargetSize / originalOverlaySize.Width,
+                        propTargetSize / originalOverlaySize.Height);
+                    overlaySize = new Size(
+                        (int)(originalOverlaySize.Width * propScale),
+                        (int)(originalOverlaySize.Height * propScale));
+                }
+
+                break;
+            }
+        }
+
+        return new Size(Math.Max(1, overlaySize.Width), Math.Max(1, overlaySize.Height));
+    }
+
+    private static OverlayImagePosition MirrorOverlayPosition(OverlayImagePosition position, bool rightToLeft)
+    {
+        if (!rightToLeft)
+        {
+            return position;
+        }
+
+        return position switch
+        {
+            OverlayImagePosition.TopLeft => OverlayImagePosition.TopRight,
+            OverlayImagePosition.TopRight => OverlayImagePosition.TopLeft,
+            OverlayImagePosition.BottomLeft => OverlayImagePosition.BottomRight,
+            OverlayImagePosition.BottomRight => OverlayImagePosition.BottomLeft,
+            _ => position
+        };
+    }
+
+    private static Point CalculateOverlayLocation(Size mainSize, Size overlaySize, OverlayImagePosition position)
+    {
+        switch (position)
+        {
+            case OverlayImagePosition.TopLeft:
+                return new Point(0, 0);
+            case OverlayImagePosition.TopRight:
+                return new Point(mainSize.Width - overlaySize.Width, 0);
+            case OverlayImagePosition.BottomLeft:
+                return new Point(0, mainSize.Height - overlaySize.Height);
+            case OverlayImagePosition.BottomRight:
+            default:
+                return new Point(mainSize.Width - overlaySize.Width, mainSize.Height - overlaySize.Height);
+        }
+    }
 
     #endregion
 }

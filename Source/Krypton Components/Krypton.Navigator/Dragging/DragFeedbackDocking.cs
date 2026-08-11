@@ -15,6 +15,20 @@ namespace Krypton.Navigator;
 /// <summary>
 /// Provides drag feedback as a set of docking indicators.
 /// </summary>
+/// <remarks>
+/// <para>
+/// Targets are grouped into <see cref="DockCluster"/> instances by matching
+/// <see cref="DragTarget.ScreenRect"/>, unless a target has
+/// <see cref="DragTargetHint.ExcludeCluster"/> (typically outer control edges).
+/// </para>
+/// <para>
+/// Target-selection priority matches solid feedback and docking generation order:
+/// control-edge targets are generated first and win over later cell/workspace targets
+/// when more than one cluster reports an indicator hit for the same mouse point.
+/// Every cluster still receives <c>Feedback</c> each move so indicators show or hide
+/// correctly; only the first non-null hit is returned as the active drop target.
+/// </para>
+/// </remarks>
 public class DragFeedbackDocking : DragFeedback
 {
     #region Classes
@@ -225,7 +239,7 @@ public class DragFeedbackDocking : DragFeedback
                 // Create and show a solid feedback window without it taking focus.
                 // Position off-screen initially to avoid a visible 1x1 artifact at top-left (0,0).
                 _solid = new DropSolidWindow(PaletteDragDrop, Renderer);
-                _solid.SetBounds(GlobalStaticConstants.OFF_SCREEN_POSITION, GlobalStaticConstants.OFF_SCREEN_POSITION, 1, 1, BoundsSpecified.All);
+                _solid.SetBounds(SharedStaticConstants.OFF_SCREEN_POSITION, SharedStaticConstants.OFF_SCREEN_POSITION, 1, 1, BoundsSpecified.All);
                 _solid.ShowWithoutActivate();
                 _solid.Refresh();
             }
@@ -260,14 +274,14 @@ public class DragFeedbackDocking : DragFeedback
     /// Called to request feedback be shown for the specified target.
     /// </summary>
     /// <param name="screenPt">Current screen point of mouse.</param>
-    /// <param name="target">Target that needs feedback.</param>
-    /// <returns>Updated drag target.</returns>
+    /// <param name="target">Previous target from the drag manager; unused because indicator hit-testing always selects the active target.</param>
+    /// <returns>First cluster indicator hit in generation order; otherwise <c>null</c>.</returns>
     public override DragTarget? Feedback(Point screenPt, DragTarget? target)
     {
+        // Visit every cluster so indicators update. Prefer the first hit so control-edge
+        // clusters (generated first, often ExcludeCluster) win over nested cell targets —
+        // same priority as DragFeedbackSolid.FindTarget / FirstOrDefault.
         DragTarget? matchTarget = null;
-
-        // Update each cluster so it shows/hides docking indicators based on mouse position.
-        // Feedback must run for every cluster (side effects); keep the first hit target.
         foreach (DockCluster cluster in _clusters)
         {
             DragTarget? clusterTarget = cluster.Feedback(screenPt, _dragFeedback);
@@ -310,10 +324,6 @@ public class DragFeedbackDocking : DragFeedback
     }
 
     private DockCluster? FindTargetCluster(DragTarget target) => _clusters.FirstOrDefault(cluster => !cluster.ExcludeCluster && cluster != null && cluster.ScreenRect.Equals(target.ScreenRect));
-
-    private DragTarget? FindTarget(Point screenPt, PageDragEndData dragEndData) =>
-        // Nothing matches
-        null;
 
     #endregion
 }

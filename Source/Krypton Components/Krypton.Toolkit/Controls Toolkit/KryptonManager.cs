@@ -43,6 +43,7 @@ public sealed class KryptonManager : Component
     private static Font? _baseFont;
     private static float _cachedDpiX = 0f;
     private static float _cachedDpiY = 0f;
+    private static KryptonDialogButtonColorOptions? _globalDialogButtonColors;
 
     // Must run before any other static field that touches embedded resources (e.g. KryptonImageStorage / KryptonManager.Strings).
     private static readonly int _resourceAssemblyResolveHook = KryptonPreserializedResourceAssemblyResolve.Register();
@@ -221,6 +222,9 @@ public sealed class KryptonManager : Component
 
         // Update the tool strip global renderer with the default setting
         UpdateToolStripManager();
+
+        // Probe the application base directory for a Translations file and load it if found.
+        RunAutoDiscovery();
     }
 
     /// <summary>
@@ -243,7 +247,7 @@ public sealed class KryptonManager : Component
         // Validate reference parameter
         if (container == null)
         {
-            throw new ArgumentNullException(nameof(container));
+            ThrowHelper.ThrowArgumentNullException(nameof(container));
         }
 
         container.Add(this);
@@ -569,6 +573,329 @@ public sealed class KryptonManager : Component
     /// <value>The strings.</value>
     public static KryptonGlobalToolkitStrings Strings { get; } = new KryptonGlobalToolkitStrings();
 
+    /// <summary>
+    /// Gets or sets whether <see cref="KryptonManager"/> automatically probes the application's base
+    /// directory for culture-specific and default translation files at type-initialisation time and
+    /// loads the best match if found.  Defaults to <c>true</c>.
+    /// </summary>
+    /// <remarks>
+    /// Set to <c>false</c> before the first use of any Krypton type to suppress auto-discovery,
+    /// for example in unit-test hosts or apps that manage translations entirely in code.
+    /// Auto-discovery is silent — any I/O or parse errors are swallowed and traced to
+    /// <see cref="System.Diagnostics.Debug"/>.
+    /// Probe order: exact culture, neutral culture, then default basename; XML is preferred over JSON
+    /// at each level (for example <c>Translations.en-GB.xml</c> → <c>Translations.en.xml</c> →
+    /// <c>Translations.xml</c>, then the same sequence for <c>.json</c>).
+    /// </remarks>
+    public static bool AutoDiscoverTranslations { get; set; } = true;
+
+    /// <summary>
+    /// Occurs after toolkit translations have been successfully imported via any of the load/import methods.
+    /// </summary>
+    public static event EventHandler? TranslationsImported;
+
+    /// <summary>
+    /// Occurs after a translations file has been analyzed for catalog coverage (missing/extra keys),
+    /// including automatically during tolerant import.
+    /// </summary>
+    public static event EventHandler<ToolkitStringsCoverageEventArgs>? TranslationsCoverageReported;
+
+    /// <summary>
+    /// Loads toolkit strings from the specified Translations.xml or Translations.json file, replacing current values.
+    /// Call this at application startup, before any Krypton controls are shown.
+    /// </summary>
+    /// <param name="path">Path to the translations file to load.</param>
+    /// <param name="refreshOpenForms">When <c>true</c>, invalidates and refreshes all open forms after import.</param>
+    /// <exception cref="System.IO.FileNotFoundException">Thrown when the specified file does not exist.</exception>
+    public static void LoadTranslationsFromFile(string path, bool refreshOpenForms = false)
+    {
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            ThrowHelper.ThrowArgumentNullException(nameof(path));
+        }
+
+        if (System.IO.Path.GetExtension(path).Equals(@".json", System.StringComparison.OrdinalIgnoreCase))
+        {
+            Strings.ImportFromJsonFile(path, resetFirst: true, refreshOpenForms: refreshOpenForms);
+        }
+        else
+        {
+            Strings.ImportFromXmlFile(path, resetFirst: true, refreshOpenForms: refreshOpenForms);
+        }
+
+        OnTranslationsImported();
+    }
+
+    /// <summary>
+    /// Attempts to load toolkit strings from the specified Translations.xml or Translations.json file.
+    /// Returns <c>false</c> (and writes a debug trace) if the file does not exist or cannot be parsed, without throwing.
+    /// </summary>
+    /// <param name="path">Path to the translations file to load.</param>
+    /// <param name="refreshOpenForms">When <c>true</c>, invalidates and refreshes all open forms after import.</param>
+    /// <returns><c>true</c> if translations were loaded successfully; <c>false</c> otherwise.</returns>
+    public static bool TryLoadTranslationsFromFile(string path, bool refreshOpenForms = false)
+    {
+        if (string.IsNullOrWhiteSpace(path) || !System.IO.File.Exists(path))
+        {
+            return false;
+        }
+
+        try
+        {
+            LoadTranslationsFromFile(path, refreshOpenForms);
+            return true;
+        }
+        catch (System.Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($@"[Krypton] TryLoadTranslationsFromFile failed for '{path}': {ex.Message}");
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Gets the culture last applied by <see cref="TrySwitchTranslationsCulture(CultureInfo, string?, string, bool)"/>
+    /// or a successful culture-specific load. May be <c>null</c> before any switch has occurred.
+    /// </summary>
+    public static CultureInfo? ActiveTranslationsCulture { get; private set; }
+
+    /// <summary>
+    /// Attempts to load the best matching culture-specific translations file from a directory.
+    /// Probe order is exact culture, neutral culture, then default basename, preferring XML over JSON
+    /// at each level. Failures are swallowed gracefully and the next candidate is tried.
+    /// </summary>
+    /// <param name="directory">Directory containing the translation files. When null/empty, uses the application base directory.</param>
+    /// <param name="culture">Culture to resolve. When null, uses <see cref="CultureInfo.CurrentUICulture"/>.</param>
+    /// <param name="baseName">Base file name without culture suffix or extension. Defaults to <c>Translations</c>.</param>
+    /// <param name="refreshOpenForms">When <c>true</c>, invalidates and refreshes all open forms after import.</param>
+    /// <returns><c>true</c> if a file was found and loaded successfully; otherwise, <c>false</c>.</returns>
+    public static bool TryLoadCultureSpecificTranslations(
+        string? directory = null,
+        CultureInfo? culture = null,
+        string baseName = @"Translations",
+        bool refreshOpenForms = false)
+    {
+        if (string.IsNullOrWhiteSpace(baseName))
+        {
+            return false;
+        }
+
+        var baseDir = string.IsNullOrWhiteSpace(directory)
+            ? System.AppDomain.CurrentDomain.BaseDirectory
+            : directory;
+
+        if (string.IsNullOrWhiteSpace(baseDir))
+        {
+            baseDir = System.IO.Directory.GetCurrentDirectory();
+        }
+
+        var resolvedCulture = culture ?? CultureInfo.CurrentUICulture;
+        foreach (var candidate in BuildCultureSpecificCandidates(baseDir!, baseName, resolvedCulture))
+        {
+            if (TryLoadTranslationsFromFile(candidate, refreshOpenForms))
+            {
+                ActiveTranslationsCulture = resolvedCulture;
+                System.Diagnostics.Debug.WriteLine($@"[Krypton] Loaded culture-specific translations from '{candidate}'.");
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Switches the current UI culture and reloads the best matching translations file for that culture.
+    /// When no matching file is found, toolkit strings are reset to built-in defaults so a previous
+    /// culture's translations are not left applied.
+    /// </summary>
+    /// <param name="culture">The culture to switch to.</param>
+    /// <param name="directory">Directory containing the translation files. When null/empty, uses the application base directory.</param>
+    /// <param name="baseName">Base file name without culture suffix or extension. Defaults to <c>Translations</c>.</param>
+    /// <param name="refreshOpenForms">When <c>true</c>, invalidates and refreshes all open forms after the switch.</param>
+    /// <returns>
+    /// <c>true</c> when a culture-specific or fallback translations file was loaded;
+    /// <c>false</c> when no file was found and built-in defaults were restored.
+    /// The UI culture is updated in both cases.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="culture"/> is <c>null</c>.</exception>
+    public static bool TrySwitchTranslationsCulture(
+        CultureInfo culture,
+        string? directory = null,
+        string baseName = @"Translations",
+        bool refreshOpenForms = true)
+    {
+        if (culture == null)
+        {
+            ThrowHelper.ThrowArgumentNullException(nameof(culture));
+        }
+
+        ApplyUiCulture(culture);
+        OsMuiStringLoader.ClearCache();
+
+        if (TryLoadCultureSpecificTranslations(directory, culture, baseName, refreshOpenForms))
+        {
+            return true;
+        }
+
+        // No matching file — clear any previously loaded translations for the prior culture.
+        Strings.Reset();
+        ActiveTranslationsCulture = culture;
+        if (refreshOpenForms)
+        {
+            ToolkitStringsXmlPersistence.RefreshOpenFormsBestEffort();
+        }
+
+        OnTranslationsImported();
+        System.Diagnostics.Debug.WriteLine(
+            $@"[Krypton] Switched UI culture to '{culture.Name}' with no matching translations file; restored built-in defaults.");
+        return false;
+    }
+
+    /// <summary>
+    /// Switches the current UI culture using a culture name (for example <c>fr-FR</c>) and reloads
+    /// the best matching translations file.
+    /// </summary>
+    /// <param name="cultureName">Culture name recognised by <see cref="CultureInfo"/>.</param>
+    /// <param name="directory">Directory containing the translation files. When null/empty, uses the application base directory.</param>
+    /// <param name="baseName">Base file name without culture suffix or extension. Defaults to <c>Translations</c>.</param>
+    /// <param name="refreshOpenForms">When <c>true</c>, invalidates and refreshes all open forms after the switch.</param>
+    /// <returns>
+    /// <c>true</c> when a translations file was loaded; <c>false</c> when the culture name is invalid
+    /// or no matching file was found (built-in defaults restored after a valid culture switch).
+    /// </returns>
+    public static bool TrySwitchTranslationsCulture(
+        string cultureName,
+        string? directory = null,
+        string baseName = @"Translations",
+        bool refreshOpenForms = true)
+    {
+        if (string.IsNullOrWhiteSpace(cultureName))
+        {
+            return false;
+        }
+
+        try
+        {
+            return TrySwitchTranslationsCulture(new CultureInfo(cultureName), directory, baseName, refreshOpenForms);
+        }
+        catch (CultureNotFoundException ex)
+        {
+            System.Diagnostics.Debug.WriteLine($@"[Krypton] TrySwitchTranslationsCulture failed for '{cultureName}': {ex.Message}");
+            return false;
+        }
+    }
+
+    private static void ApplyUiCulture(CultureInfo culture)
+    {
+        Thread.CurrentThread.CurrentUICulture = culture;
+        CultureInfo.DefaultThreadCurrentUICulture = culture;
+    }
+
+    /// <summary>
+    /// Raises the <see cref="TranslationsImported"/> event.
+    /// </summary>
+    internal static void OnTranslationsImported() =>
+        TranslationsImported?.Invoke(null, EventArgs.Empty);
+
+    /// <summary>
+    /// Raises the <see cref="TranslationsCoverageReported"/> event.
+    /// </summary>
+    internal static void OnTranslationsCoverageReported(ToolkitStringsCoverage coverage) =>
+        TranslationsCoverageReported?.Invoke(null, new ToolkitStringsCoverageEventArgs(coverage));
+
+    /// <summary>
+    /// Analyzes a translations XML or JSON file against the live toolkit string catalog without applying it.
+    /// </summary>
+    /// <param name="path">Path to the translations file.</param>
+    /// <returns>Coverage describing missing, extra, and applied keys.</returns>
+    public static ToolkitStringsCoverage AnalyzeTranslationsFromFile(string path)
+    {
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            ThrowHelper.ThrowArgumentNullException(nameof(path));
+        }
+
+        return Strings.AnalyzeTranslationsFromFile(path);
+    }
+
+    /// <summary>
+    /// Imports an existing translations file and rewrites it with any newly added toolkit keys filled from defaults.
+    /// Already-translated values are preserved.
+    /// </summary>
+    /// <param name="path">Path to the XML or JSON translations file to upgrade.</param>
+    /// <param name="includeDefaults">When <c>true</c>, the rewritten file contains the full catalog (recommended for translators).</param>
+    /// <returns>Post-merge coverage for the rewritten file.</returns>
+    public static ToolkitStringsCoverage MergeMissingTranslationsToFile(string path, bool includeDefaults = true)
+    {
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            ThrowHelper.ThrowArgumentNullException(nameof(path));
+        }
+
+        return Strings.MergeMissingTranslationsToFile(path, includeDefaults);
+    }
+
+    private static void RunAutoDiscovery()
+    {
+        if (!AutoDiscoverTranslations)
+        {
+            return;
+        }
+
+        // Culture-aware probe with graceful fallback: exact → neutral → default; XML before JSON.
+        TryLoadCultureSpecificTranslations(refreshOpenForms: false);
+    }
+
+    private static System.Collections.Generic.IEnumerable<string> BuildCultureSpecificCandidates(
+        string directory,
+        string baseName,
+        CultureInfo culture)
+    {
+        var cultureName = culture?.Name ?? string.Empty;
+        var neutralName = string.Empty;
+
+        if (!string.IsNullOrEmpty(cultureName))
+        {
+            // Prefer Parent when available (en-GB → en); fall back to a two-letter prefix.
+            if (culture != null && culture.Parent != null && !string.IsNullOrEmpty(culture.Parent.Name))
+            {
+                neutralName = culture.Parent.Name;
+            }
+            else if (cultureName.Length >= 2)
+            {
+                neutralName = cultureName.Substring(0, 2);
+            }
+        }
+
+        var names = new System.Collections.Generic.List<string>();
+
+        void AddUnique(string name)
+        {
+            if (!string.IsNullOrWhiteSpace(name) &&
+                !names.Exists(existing => string.Equals(existing, name, System.StringComparison.OrdinalIgnoreCase)))
+            {
+                names.Add(name);
+            }
+        }
+
+        // Exact culture first, then neutral, then unadorned default.
+        AddUnique(cultureName);
+        AddUnique(neutralName);
+        names.Add(string.Empty);
+
+        // Prefer XML over JSON at each culture level.
+        foreach (var name in names)
+        {
+            var fileStem = string.IsNullOrEmpty(name) ? baseName : $@"{baseName}.{name}";
+            yield return System.IO.Path.Combine(directory, $@"{fileStem}.xml");
+        }
+
+        foreach (var name in names)
+        {
+            var fileStem = string.IsNullOrEmpty(name) ? baseName : $@"{baseName}.{name}";
+            yield return System.IO.Path.Combine(directory, $@"{fileStem}.json");
+        }
+    }
+
     /// <summary>Gets the images.</summary>
     /// <value>The images.</value>
     public static KryptonImageStorage Images { get; } = new KryptonImageStorage();
@@ -576,6 +903,21 @@ public sealed class KryptonManager : Component
     /// <summary>Gets the colors.</summary>
     /// <value>The colors.</value>
     public static KryptonColorStorage Colors { get; } = new KryptonColorStorage();
+
+    /// <summary>
+    /// Gets or sets the optional application-wide default for semantic dialog button colours.
+    /// </summary>
+    /// <remarks>
+    /// Used by <see cref="KryptonMessageBox"/>, <see cref="KryptonTaskDialog"/>, and related dialogs
+    /// when the call site does not supply <see cref="KryptonDialogButtonColorOptions"/>.
+    /// Null (the default) leaves themed Standalone button chrome unchanged.
+    /// </remarks>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public static KryptonDialogButtonColorOptions? DialogButtonColors
+    {
+        get => _globalDialogButtonColors;
+        set => _globalDialogButtonColors = value;
+    }
 
     /// <summary>Gets the touchscreen support settings.</summary>
     /// <value>The touchscreen support settings.</value>
@@ -783,7 +1125,7 @@ public sealed class KryptonManager : Component
         {
             if (value <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(value), value, @"Scale factor must be greater than 0.");
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), value, @"Scale factor must be greater than 0.");
             }
 
             // Only interested if the value changes
@@ -846,7 +1188,7 @@ public sealed class KryptonManager : Component
         {
             if (value <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(value), value, @"Font scale factor must be greater than 0.");
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), value, @"Font scale factor must be greater than 0.");
             }
 
             // Only interested if the value changes
@@ -917,7 +1259,7 @@ public sealed class KryptonManager : Component
         {
             if (value < 500)
             {
-                throw new ArgumentOutOfRangeException(nameof(value), value, @"Detection interval must be at least 500 milliseconds.");
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), value, @"Detection interval must be at least 500 milliseconds.");
             }
 
             if (_globalTouchscreenDetectionInterval != value)
@@ -1202,6 +1544,14 @@ public sealed class KryptonManager : Component
                 return PaletteMaterialLightRipple;
             case PaletteMode.MaterialDarkRipple:
                 return PaletteMaterialDarkRipple;
+            case PaletteMode.MaterialLimeGreen:
+                return PaletteMaterialLimeGreen;
+            case PaletteMode.MaterialLimeGreenDark:
+                return PaletteMaterialLimeGreenDark;
+            case PaletteMode.MaterialLimeGreenRipple:
+                return PaletteMaterialLimeGreenRipple;
+            case PaletteMode.MaterialLimeGreenDarkRipple:
+                return PaletteMaterialLimeGreenDarkRipple;
             case PaletteMode.RetroGreen:
                 return PaletteRetroGreen;
             case PaletteMode.RetroBlue:
@@ -1229,12 +1579,67 @@ public sealed class KryptonManager : Component
             case PaletteMode.MacOSDark:
                 return PaletteMacOSDark;
 
+            case PaletteMode.HighContrast:
+                return PaletteHighContrast;
+            case PaletteMode.Deuteranopia:
+                return PaletteDeuteranopia;
+            case PaletteMode.Protanopia:
+                return PaletteProtanopia;
+            case PaletteMode.Office2007HighContrast:
+                return PaletteOffice2007HighContrast;
+            case PaletteMode.Office2007Deuteranopia:
+                return PaletteOffice2007Deuteranopia;
+            case PaletteMode.Office2007Protanopia:
+                return PaletteOffice2007Protanopia;
+            case PaletteMode.Office2010HighContrast:
+                return PaletteOffice2010HighContrast;
+            case PaletteMode.Office2010Deuteranopia:
+                return PaletteOffice2010Deuteranopia;
+            case PaletteMode.Office2010Protanopia:
+                return PaletteOffice2010Protanopia;
+            case PaletteMode.Office2013HighContrast:
+                return PaletteOffice2013HighContrast;
+            case PaletteMode.Office2013Deuteranopia:
+                return PaletteOffice2013Deuteranopia;
+            case PaletteMode.Office2013Protanopia:
+                return PaletteOffice2013Protanopia;
+            case PaletteMode.SparkleHighContrast:
+                return PaletteSparkleHighContrast;
+            case PaletteMode.SparkleDeuteranopia:
+                return PaletteSparkleDeuteranopia;
+            case PaletteMode.SparkleProtanopia:
+                return PaletteSparkleProtanopia;
+            case PaletteMode.MaterialHighContrast:
+                return PaletteMaterialHighContrast;
+            case PaletteMode.MaterialDeuteranopia:
+                return PaletteMaterialDeuteranopia;
+            case PaletteMode.MaterialProtanopia:
+                return PaletteMaterialProtanopia;
+            case PaletteMode.MaterialHighContrastRipple:
+                return PaletteMaterialHighContrastRipple;
+            case PaletteMode.MaterialDeuteranopiaRipple:
+                return PaletteMaterialDeuteranopiaRipple;
+            case PaletteMode.MaterialProtanopiaRipple:
+                return PaletteMaterialProtanopiaRipple;
+            case PaletteMode.Office2007LimeGreen:
+                return PaletteOffice2007LimeGreen;
+            case PaletteMode.Office2007LimeGreenDark:
+                return PaletteOffice2007LimeGreenDark;
+            case PaletteMode.Office2010LimeGreen:
+                return PaletteOffice2010LimeGreen;
+            case PaletteMode.Office2010LimeGreenDark:
+                return PaletteOffice2010LimeGreenDark;
+            case PaletteMode.Microsoft365LimeGreen:
+                return PaletteMicrosoft365LimeGreen;
+            case PaletteMode.Microsoft365LimeGreenDark:
+                return PaletteMicrosoft365LimeGreenDark;
+
             case PaletteMode.Custom:
             case PaletteMode.Global:
                 return CurrentGlobalPalette;
             default:
                 Debug.Assert(false);
-                throw new ArgumentOutOfRangeException(nameof(mode), @"mode must be PaletteMode value.");
+                return ThrowHelper.ThrowArgumentOutOfRangeException<PaletteBase>(nameof(mode), @"mode must be PaletteMode value.");
         }
     }
 
@@ -1397,12 +1802,12 @@ public sealed class KryptonManager : Component
     public static PaletteMicrosoft365Black PaletteMicrosoft365Black => _paletteMicrosoft365Black ??= new PaletteMicrosoft365Black();
 
     /// <summary>
-    /// Gets the palette Microsft 365 black dark mode.
+    /// Gets the palette Microsoft 365 black dark mode.
     /// </summary>
     public static PaletteMicrosoft365BlackDarkMode PaletteMicrosoft365BlackDarkMode => _paletteMicrosoft365BlackDarkMode ??= new PaletteMicrosoft365BlackDarkMode();
 
     /// <summary>
-    /// Gets the palette Microsft 365 black dark mode alternate.
+    /// Gets the palette Microsoft 365 black dark mode alternate.
     /// </summary>
     public static PaletteMicrosoft365BlackDarkModeAlternate PaletteMicrosoft365BlackDarkModeAlternate => _paletteMicrosoft365BlackDarkModeAlternate ??= new PaletteMicrosoft365BlackDarkModeAlternate();
 
@@ -1520,6 +1925,10 @@ public sealed class KryptonManager : Component
     public static PaletteMaterialDark PaletteMaterialDark => _paletteMaterialDark ??= new PaletteMaterialDark();
     public static PaletteMaterialLightRipple PaletteMaterialLightRipple => _paletteMaterialLightRipple ??= new PaletteMaterialLightRipple();
     public static PaletteMaterialDarkRipple PaletteMaterialDarkRipple => _paletteMaterialDarkRipple ??= new PaletteMaterialDarkRipple();
+    public static PaletteMaterialLimeGreen PaletteMaterialLimeGreen => _paletteMaterialLimeGreen ??= new PaletteMaterialLimeGreen();
+    public static PaletteMaterialLimeGreenDark PaletteMaterialLimeGreenDark => _paletteMaterialLimeGreenDark ??= new PaletteMaterialLimeGreenDark();
+    public static PaletteMaterialLimeGreenRipple PaletteMaterialLimeGreenRipple => _paletteMaterialLimeGreenRipple ??= new PaletteMaterialLimeGreenRipple();
+    public static PaletteMaterialLimeGreenDarkRipple PaletteMaterialLimeGreenDarkRipple => _paletteMaterialLimeGreenDarkRipple ??= new PaletteMaterialLimeGreenDarkRipple();
 
     /// <summary>
     /// Gets the DOS teal/green RetroUI palette.
@@ -1579,10 +1988,113 @@ public sealed class KryptonManager : Component
     /// </summary>
     public static PaletteMacOSDark PaletteMacOSDark => _paletteMacOSDark ??= new PaletteMacOSDark();
 
+    /// <summary>
+    /// Gets the fixed high-contrast accessibility palette.
+    /// </summary>
+    public static PaletteHighContrast PaletteHighContrast => _paletteHighContrast ??= new PaletteHighContrast();
+
+    /// <summary>
+    /// Gets the deuteranopia-friendly accessibility palette.
+    /// </summary>
+    public static PaletteDeuteranopia PaletteDeuteranopia => _paletteDeuteranopia ??= new PaletteDeuteranopia();
+
+    /// <summary>
+    /// Gets the protanopia-friendly accessibility palette.
+    /// </summary>
+    public static PaletteProtanopia PaletteProtanopia => _paletteProtanopia ??= new PaletteProtanopia();
+
+    /// <summary>Gets the Office 2007 high-contrast accessibility palette.</summary>
+    public static PaletteOffice2007HighContrast PaletteOffice2007HighContrast => _paletteOffice2007HighContrast ??= new PaletteOffice2007HighContrast();
+
+    /// <summary>Gets the Office 2007 deuteranopia accessibility palette.</summary>
+    public static PaletteOffice2007Deuteranopia PaletteOffice2007Deuteranopia => _paletteOffice2007Deuteranopia ??= new PaletteOffice2007Deuteranopia();
+
+    /// <summary>Gets the Office 2007 protanopia accessibility palette.</summary>
+    public static PaletteOffice2007Protanopia PaletteOffice2007Protanopia => _paletteOffice2007Protanopia ??= new PaletteOffice2007Protanopia();
+
+    /// <summary>Gets the Office 2010 high-contrast accessibility palette.</summary>
+    public static PaletteOffice2010HighContrast PaletteOffice2010HighContrast => _paletteOffice2010HighContrast ??= new PaletteOffice2010HighContrast();
+
+    /// <summary>Gets the Office 2010 deuteranopia accessibility palette.</summary>
+    public static PaletteOffice2010Deuteranopia PaletteOffice2010Deuteranopia => _paletteOffice2010Deuteranopia ??= new PaletteOffice2010Deuteranopia();
+
+    /// <summary>Gets the Office 2010 protanopia accessibility palette.</summary>
+    public static PaletteOffice2010Protanopia PaletteOffice2010Protanopia => _paletteOffice2010Protanopia ??= new PaletteOffice2010Protanopia();
+
+    /// <summary>Gets the Office 2013 high-contrast accessibility palette.</summary>
+    public static PaletteOffice2013HighContrast PaletteOffice2013HighContrast => _paletteOffice2013HighContrast ??= new PaletteOffice2013HighContrast();
+
+    /// <summary>Gets the Office 2013 deuteranopia accessibility palette.</summary>
+    public static PaletteOffice2013Deuteranopia PaletteOffice2013Deuteranopia => _paletteOffice2013Deuteranopia ??= new PaletteOffice2013Deuteranopia();
+
+    /// <summary>Gets the Office 2013 protanopia accessibility palette.</summary>
+    public static PaletteOffice2013Protanopia PaletteOffice2013Protanopia => _paletteOffice2013Protanopia ??= new PaletteOffice2013Protanopia();
+
+    /// <summary>Gets the Sparkle high-contrast accessibility palette.</summary>
+    public static PaletteSparkleHighContrast PaletteSparkleHighContrast => _paletteSparkleHighContrast ??= new PaletteSparkleHighContrast();
+
+    /// <summary>Gets the Sparkle deuteranopia accessibility palette.</summary>
+    public static PaletteSparkleDeuteranopia PaletteSparkleDeuteranopia => _paletteSparkleDeuteranopia ??= new PaletteSparkleDeuteranopia();
+
+    /// <summary>Gets the Sparkle protanopia accessibility palette.</summary>
+    public static PaletteSparkleProtanopia PaletteSparkleProtanopia => _paletteSparkleProtanopia ??= new PaletteSparkleProtanopia();
+
+    /// <summary>Gets the Material high-contrast accessibility palette.</summary>
+    public static PaletteMaterialHighContrast PaletteMaterialHighContrast => _paletteMaterialHighContrast ??= new PaletteMaterialHighContrast();
+
+    /// <summary>Gets the Material deuteranopia accessibility palette.</summary>
+    public static PaletteMaterialDeuteranopia PaletteMaterialDeuteranopia => _paletteMaterialDeuteranopia ??= new PaletteMaterialDeuteranopia();
+
+    /// <summary>Gets the Material protanopia accessibility palette.</summary>
+    public static PaletteMaterialProtanopia PaletteMaterialProtanopia => _paletteMaterialProtanopia ??= new PaletteMaterialProtanopia();
+
+    /// <summary>Gets the Material high-contrast accessibility palette with Ripple effect.</summary>
+    public static PaletteMaterialHighContrastRipple PaletteMaterialHighContrastRipple => _paletteMaterialHighContrastRipple ??= new PaletteMaterialHighContrastRipple();
+
+    /// <summary>Gets the Material deuteranopia accessibility palette with Ripple effect.</summary>
+    public static PaletteMaterialDeuteranopiaRipple PaletteMaterialDeuteranopiaRipple => _paletteMaterialDeuteranopiaRipple ??= new PaletteMaterialDeuteranopiaRipple();
+
+    /// <summary>Gets the Material protanopia accessibility palette with Ripple effect.</summary>
+    public static PaletteMaterialProtanopiaRipple PaletteMaterialProtanopiaRipple => _paletteMaterialProtanopiaRipple ??= new PaletteMaterialProtanopiaRipple();
+
+    /// <summary>
+    /// Gets the single instance of the light Lime Green variant Office 2007 palette.
+    /// </summary>
+    public static PaletteOffice2007LimeGreen PaletteOffice2007LimeGreen => _paletteOffice2007LimeGreen ??= new PaletteOffice2007LimeGreen();
+
+    /// <summary>
+    /// Gets the single instance of the dark Lime Green variant Office 2007 palette.
+    /// </summary>
+    public static PaletteOffice2007LimeGreenDark PaletteOffice2007LimeGreenDark => _paletteOffice2007LimeGreenDark ??= new PaletteOffice2007LimeGreenDark();
+
+    /// <summary>
+    /// Gets the single instance of the light Lime Green variant Office 2010 palette.
+    /// </summary>
+    public static PaletteOffice2010LimeGreen PaletteOffice2010LimeGreen => _paletteOffice2010LimeGreen ??= new PaletteOffice2010LimeGreen();
+
+    /// <summary>
+    /// Gets the single instance of the dark Lime Green variant Office 2010 palette.
+    /// </summary>
+    public static PaletteOffice2010LimeGreenDark PaletteOffice2010LimeGreenDark => _paletteOffice2010LimeGreenDark ??= new PaletteOffice2010LimeGreenDark();
+
+    /// <summary>
+    /// Gets the single instance of the light Lime Green variant Microsoft 365 palette.
+    /// </summary>
+    public static PaletteMicrosoft365LimeGreen PaletteMicrosoft365LimeGreen => _paletteMicrosoft365LimeGreen ??= new PaletteMicrosoft365LimeGreen();
+
+    /// <summary>
+    /// Gets the single instance of the dark Lime Green variant Microsoft 365 palette.
+    /// </summary>
+    public static PaletteMicrosoft365LimeGreenDark PaletteMicrosoft365LimeGreenDark => _paletteMicrosoft365LimeGreenDark ??= new PaletteMicrosoft365LimeGreenDark();
+
     private static PaletteMaterialLight? _paletteMaterialLight;
     private static PaletteMaterialDark? _paletteMaterialDark;
     private static PaletteMaterialLightRipple? _paletteMaterialLightRipple;
     private static PaletteMaterialDarkRipple? _paletteMaterialDarkRipple;
+    private static PaletteMaterialLimeGreen? _paletteMaterialLimeGreen;
+    private static PaletteMaterialLimeGreenDark? _paletteMaterialLimeGreenDark;
+    private static PaletteMaterialLimeGreenRipple? _paletteMaterialLimeGreenRipple;
+    private static PaletteMaterialLimeGreenDarkRipple? _paletteMaterialLimeGreenDarkRipple;
 
     private static PaletteRetroGreen? _paletteRetroGreen;
     private static PaletteRetroBlue? _paletteRetroBlue;
@@ -1595,6 +2107,34 @@ public sealed class KryptonManager : Component
     private static PaletteMacOSXAqua? _paletteMacOSXAqua;
     private static PaletteMacOSLight? _paletteMacOSLight;
     private static PaletteMacOSDark? _paletteMacOSDark;
+    private static PaletteHighContrast? _paletteHighContrast;
+    private static PaletteDeuteranopia? _paletteDeuteranopia;
+    private static PaletteProtanopia? _paletteProtanopia;
+    private static PaletteOffice2007HighContrast? _paletteOffice2007HighContrast;
+    private static PaletteOffice2007Deuteranopia? _paletteOffice2007Deuteranopia;
+    private static PaletteOffice2007Protanopia? _paletteOffice2007Protanopia;
+    private static PaletteOffice2010HighContrast? _paletteOffice2010HighContrast;
+    private static PaletteOffice2010Deuteranopia? _paletteOffice2010Deuteranopia;
+    private static PaletteOffice2010Protanopia? _paletteOffice2010Protanopia;
+    private static PaletteOffice2013HighContrast? _paletteOffice2013HighContrast;
+    private static PaletteOffice2013Deuteranopia? _paletteOffice2013Deuteranopia;
+    private static PaletteOffice2013Protanopia? _paletteOffice2013Protanopia;
+    private static PaletteSparkleHighContrast? _paletteSparkleHighContrast;
+    private static PaletteSparkleDeuteranopia? _paletteSparkleDeuteranopia;
+    private static PaletteSparkleProtanopia? _paletteSparkleProtanopia;
+    private static PaletteMaterialHighContrast? _paletteMaterialHighContrast;
+    private static PaletteMaterialDeuteranopia? _paletteMaterialDeuteranopia;
+    private static PaletteMaterialProtanopia? _paletteMaterialProtanopia;
+    private static PaletteMaterialHighContrastRipple? _paletteMaterialHighContrastRipple;
+    private static PaletteMaterialDeuteranopiaRipple? _paletteMaterialDeuteranopiaRipple;
+    private static PaletteMaterialProtanopiaRipple? _paletteMaterialProtanopiaRipple;
+
+    private static PaletteOffice2007LimeGreen? _paletteOffice2007LimeGreen;
+    private static PaletteOffice2007LimeGreenDark? _paletteOffice2007LimeGreenDark;
+    private static PaletteOffice2010LimeGreen? _paletteOffice2010LimeGreen;
+    private static PaletteOffice2010LimeGreenDark? _paletteOffice2010LimeGreenDark;
+    private static PaletteMicrosoft365LimeGreen? _paletteMicrosoft365LimeGreen;
+    private static PaletteMicrosoft365LimeGreenDark? _paletteMicrosoft365LimeGreenDark;
 
     //public static PaletteBase CustomPaletteBase => _customPalette ??= new PaletteBase ();
 
@@ -1646,7 +2186,7 @@ public sealed class KryptonManager : Component
             default:
                 // Should never be passed
                 Debug.Assert(false);
-                throw new ArgumentOutOfRangeException(nameof(mode), @"mode must be RendererMode value.");
+                return ThrowHelper.ThrowArgumentOutOfRangeException<IRenderer>(nameof(mode), @"mode must be RendererMode value.");
         }
     }
 
@@ -1848,13 +2388,13 @@ public sealed class KryptonManager : Component
         {
             case PaletteMode.Global:
             case PaletteMode.Custom:
-                Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.GenericToolBarImages);
+                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.GenericToolBarImages);
                 break;
             case PaletteMode.ProfessionalSystem:
-                Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.SystemToolBarImages);
+                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.SystemToolBarImages);
                 break;
             case PaletteMode.ProfessionalOffice2003:
-                Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.Office2003ToolBarImages);
+                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Office2003ToolBarImages);
                 break;
             case PaletteMode.Office2007Blue:
             case PaletteMode.Office2007BlueDarkMode:
@@ -1869,8 +2409,13 @@ public sealed class KryptonManager : Component
             case PaletteMode.WindowsXPLunaOlive:
             case PaletteMode.WindowsXPLunaSilver:
             case PaletteMode.WindowsXPRoyale:
+            case PaletteMode.Office2007LimeGreen:
+            case PaletteMode.Office2007LimeGreenDark:
             case PaletteMode.VisualStudio2010Render2007:
-                Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.Office2007ToolBarImages);
+            case PaletteMode.Office2007HighContrast:
+            case PaletteMode.Office2007Deuteranopia:
+            case PaletteMode.Office2007Protanopia:
+                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Office2007ToolBarImages);
                 break;
             case PaletteMode.WindowsXPRoyaleNoir:
             case PaletteMode.WindowsXPZune:
@@ -1894,14 +2439,25 @@ public sealed class KryptonManager : Component
             case PaletteMode.SparklePurple:
             case PaletteMode.SparklePurpleDarkMode:
             case PaletteMode.SparklePurpleLightMode:
+            case PaletteMode.SparkleHighContrast:
+            case PaletteMode.SparkleDeuteranopia:
+            case PaletteMode.SparkleProtanopia:
+            case PaletteMode.Office2010LimeGreen:
+            case PaletteMode.Office2010LimeGreenDark:
             case PaletteMode.VisualStudio2010Render2010:
-                Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.Office2010ToolBarImages);
+            case PaletteMode.Office2010HighContrast:
+            case PaletteMode.Office2010Deuteranopia:
+            case PaletteMode.Office2010Protanopia:
+                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Office2010ToolBarImages);
                 break;
             case PaletteMode.Office2013DarkGray:
             case PaletteMode.Office2013LightGray:
             case PaletteMode.Office2013White:
             case PaletteMode.VisualStudio2010Render2013:
-                Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.Office2013ToolBarImages);
+            case PaletteMode.Office2013HighContrast:
+            case PaletteMode.Office2013Deuteranopia:
+            case PaletteMode.Office2013Protanopia:
+                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Office2013ToolBarImages);
                 break;
             case PaletteMode.Microsoft365Black:
             case PaletteMode.Microsoft365BlackDarkMode:
@@ -1913,27 +2469,42 @@ public sealed class KryptonManager : Component
             case PaletteMode.Microsoft365SilverDarkMode:
             case PaletteMode.Microsoft365SilverLightMode:
             case PaletteMode.Microsoft365White:
+            case PaletteMode.Microsoft365LimeGreen:
+            case PaletteMode.Microsoft365LimeGreenDark:
             case PaletteMode.VisualStudio2010Render365:
-                Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.Microsoft365ToolBarImages);
+            case PaletteMode.HighContrast:
+            case PaletteMode.Deuteranopia:
+            case PaletteMode.Protanopia:
+                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Microsoft365ToolBarImages);
                 break;
             case PaletteMode.VisualStudio2022Dark:
-                Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.VisualStudioToolBarImages);
+                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.VisualStudioToolBarImages);
                 break;
             case PaletteMode.MaterialLight:
             case PaletteMode.MaterialDark:
             case PaletteMode.MaterialLightRipple:
             case PaletteMode.MaterialDarkRipple:
+            case PaletteMode.MaterialLimeGreen:
+            case PaletteMode.MaterialLimeGreenDark:
+            case PaletteMode.MaterialLimeGreenRipple:
+            case PaletteMode.MaterialLimeGreenDarkRipple:
+            case PaletteMode.MaterialHighContrast:
+            case PaletteMode.MaterialDeuteranopia:
+            case PaletteMode.MaterialProtanopia:
+            case PaletteMode.MaterialHighContrastRipple:
+            case PaletteMode.MaterialDeuteranopiaRipple:
+            case PaletteMode.MaterialProtanopiaRipple:
                 // TODO create our own Material images
-                Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.Microsoft365ToolBarImages);
+                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Microsoft365ToolBarImages);
                 break;
             case PaletteMode.RetroGreen:
             case PaletteMode.RetroBlue:
-                Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.Office2010ToolBarImages);
+                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Office2010ToolBarImages);
                 break;
             case PaletteMode.MacOSXAqua:
             case PaletteMode.MacOSLight:
             case PaletteMode.MacOSDark:
-                Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.Microsoft365ToolBarImages);
+                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Microsoft365ToolBarImages);
                 break;
             default:
                 // Should not happen!

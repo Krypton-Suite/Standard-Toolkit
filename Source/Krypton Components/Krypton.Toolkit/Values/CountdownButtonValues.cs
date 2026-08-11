@@ -34,8 +34,8 @@ public class CountdownButtonValues : Storage
 
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => CountdownDuration.Equals(GlobalStaticConstants.DEFAULT_COUNTDOWN_VALUE) &&
-                                      CountdownInterval.Equals(GlobalStaticConstants.DEFAULT_COUNTDOWN_INTERVAL) &&
+    public override bool IsDefault => CountdownDuration.Equals(SharedStaticConstants.DEFAULT_COUNTDOWN_VALUE) &&
+                                      CountdownInterval.Equals(SharedStaticConstants.DEFAULT_COUNTDOWN_INTERVAL) &&
                                       CountdownTextFormat.Equals("{0} ({1})");
 
     #endregion
@@ -54,7 +54,7 @@ public class CountdownButtonValues : Storage
         {
             if (value <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(value), @"Countdown duration must be greater than zero.");
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), @"Countdown duration must be greater than zero.");
             }
             _initialCountdownSeconds = value;
         }
@@ -72,7 +72,7 @@ public class CountdownButtonValues : Storage
         {
             if (value <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(value), @"Interval must be greater than zero.");
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), @"Interval must be greater than zero.");
             }
             _countdownTimer.Interval = value;
         }
@@ -95,8 +95,8 @@ public class CountdownButtonValues : Storage
 
     public void Reset()
     {
-        CountdownInterval = GlobalStaticConstants.DEFAULT_COUNTDOWN_INTERVAL;
-        CountdownDuration = GlobalStaticConstants.DEFAULT_COUNTDOWN_VALUE;
+        CountdownInterval = SharedStaticConstants.DEFAULT_COUNTDOWN_INTERVAL;
+        CountdownDuration = SharedStaticConstants.DEFAULT_COUNTDOWN_VALUE;
         CountdownTextFormat = "{0} ({1})";
     }
 

@@ -112,7 +112,7 @@ public partial class Main : KryptonForm
         {
             ShowImportButton = true,
             ShowSilentOption = true,
-            DefaultPalette = GlobalStaticConstants.GLOBAL_DEFAULT_PALETTE_MODE,
+            DefaultPalette = ToolkitStaticConstants.GLOBAL_DEFAULT_PALETTE_MODE,
             StartPosition = FormStartPosition.CenterScreen,
             WindowTitle = KryptonManager.Strings.MiscellaneousThemeStrings.ThemeBrowserWindowTitle
         };
@@ -309,7 +309,8 @@ public partial class Main : KryptonForm
                 kcbtnSizableToolWindow.Checked = true;
                 break;
             default:
-                throw new ArgumentOutOfRangeException(nameof(borderStyle), borderStyle, null);
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(borderStyle), borderStyle, null);
+                return;
         }
     }
 
@@ -390,7 +391,7 @@ public partial class Main : KryptonForm
     {
         try
         {
-            throw new ArgumentOutOfRangeException();
+            ThrowHelper.ThrowArgumentOutOfRangeException();
         }
         catch (Exception ex)
         {

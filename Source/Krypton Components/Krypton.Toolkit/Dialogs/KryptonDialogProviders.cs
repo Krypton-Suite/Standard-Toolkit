@@ -74,6 +74,11 @@ internal sealed class KryptonDialogOptions
 
     public Environment.SpecialFolder RootFolder { get; set; } = Environment.SpecialFolder.Desktop;
 
+    /// <summary>
+    /// When true, the custom dialog shows a Date modified filter beside the search box.
+    /// </summary>
+    public bool ShowDateModifiedFilter { get; set; }
+
     public List<string> CustomPlaces { get; } = [];
 }
 

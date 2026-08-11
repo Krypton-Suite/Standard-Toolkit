@@ -77,7 +77,7 @@ public class DragViewController : GlobalId,
         MousePoint = CommonHelper.NullPoint;
         AllowDragging = true;
         _dragging = false;
-        Target = target ?? throw new ArgumentNullException(nameof(target));
+        Target = target ?? ThrowHelper.ThrowArgumentNullException(target);
         _lastClick = DateTime.Now.AddDays(-1);
     }
     #endregion
@@ -276,11 +276,11 @@ public class DragViewController : GlobalId,
         // Validate incoming references
         if (c == null)
         {
-            throw new ArgumentNullException(nameof(c));
+            ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         // If the user pressed the escape key
@@ -299,9 +299,8 @@ public class DragViewController : GlobalId,
                     OnDragQuit();
                 }
 
-                // Recalculate if the mouse is over the button area
-                // TODO: What is this doing ? i.e. should the return value be used ?
-                return Target.ClientRectangle.Contains(c.PointToClient(Control.MousePosition));
+                // Capture was released; KeyUp reports whether input is still captured.
+                return Captured;
             }
         }
 
@@ -329,7 +328,7 @@ public class DragViewController : GlobalId,
         // Validate incoming references
         if (c == null)
         {
-            throw new ArgumentNullException(nameof(c));
+            ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
 
         // If we are capturing mouse input
@@ -347,10 +346,6 @@ public class DragViewController : GlobalId,
                 c.Capture = false;
                 Captured = false;
             }
-
-            // Recalculate if the mouse is over the button area
-            // TODO: What is this doing ? i.e. should the return value be used ?
-            Target.ClientRectangle.Contains(c.PointToClient(Control.MousePosition));
         }
     }
     #endregion

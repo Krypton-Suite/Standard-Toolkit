@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -969,42 +969,42 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Overlay image value, or null if no overlay image is set.</returns>
-    public Image? GetOverlayImage(PaletteState state) => null;
+    public Image? GetOverlayImage(PaletteState state) => Values.GetOverlayImage(state);
 
     /// <summary>
     /// Gets the overlay image color that should be transparent.
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Color value.</returns>
-    public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public Color GetOverlayImageTransparentColor(PaletteState state) => Values.GetOverlayImageTransparentColor(state);
 
     /// <summary>
     /// Gets the position of the overlay image relative to the main image.
     /// </summary>
     /// <param name="state">The state for which the overlay position is needed.</param>
     /// <returns>Overlay image position.</returns>
-    public OverlayImagePosition GetOverlayImagePosition(PaletteState state) => OverlayImagePosition.TopRight;
+    public OverlayImagePosition GetOverlayImagePosition(PaletteState state) => Values.GetOverlayImagePosition(state);
 
     /// <summary>
     /// Gets the scaling mode for the overlay image.
     /// </summary>
     /// <param name="state">The state for which the overlay scale mode is needed.</param>
     /// <returns>Overlay image scale mode.</returns>
-    public OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) => OverlayImageScaleMode.None;
+    public OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) => Values.GetOverlayImageScaleMode(state);
 
     /// <summary>
     /// Gets the scale factor for the overlay image (used when scale mode is Percentage or ProportionalToMain).
     /// </summary>
     /// <param name="state">The state for which the overlay scale factor is needed.</param>
     /// <returns>Scale factor (0.0 to 2.0).</returns>
-    public float GetOverlayImageScaleFactor(PaletteState state) => 0.5f;
+    public float GetOverlayImageScaleFactor(PaletteState state) => Values.GetOverlayImageScaleFactor(state);
 
     /// <summary>
     /// Gets the fixed size for the overlay image (used when scale mode is FixedSize).
     /// </summary>
     /// <param name="state">The state for which the overlay fixed size is needed.</param>
     /// <returns>Fixed size.</returns>
-    public Size GetOverlayImageFixedSize(PaletteState state) => new Size(16, 16);
+    public Size GetOverlayImageFixedSize(PaletteState state) => Values.GetOverlayImageFixedSize(state);
 
     #endregion
 
@@ -1445,7 +1445,7 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
 
     private void OnKryptonContextMenuClosed(object? sender, EventArgs e)
     {
-        var kcm = sender as KryptonContextMenu ?? throw new ArgumentNullException(nameof(sender));
+        var kcm =sender as KryptonContextMenu ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenu, nameof(sender));
         kcm.Closed -= OnKryptonContextMenuClosed;
         ContextMenuClosed();
 
@@ -1496,7 +1496,7 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
     public void AddUpdateRecentColors(IList<Color> colors)
     {
         foreach (Color color in colors
-                     .Where(static color => (color != null) && !color.Equals(GlobalStaticVariables.EMPTY_COLOR))
+                     .Where(static color => (color != null) && !color.Equals(SharedStaticVariables.EMPTY_COLOR))
                      .Where(color => !Enumerable.Contains(_recentColors, color)))
         {
             // Add to start of the list
@@ -1539,7 +1539,7 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
             }
 
             // If this color valid and so possible to become a recent color
-            if ((color != null) && !color.Equals(GlobalStaticVariables.EMPTY_COLOR))
+            if ((color != null) && !color.Equals(SharedStaticVariables.EMPTY_COLOR))
             {
                 var found = false;
                 foreach (Color recentColor in _recentColors)
@@ -1642,7 +1642,7 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
         }
 
         // Should the no color entry be checked?
-        _itemNoColor.Checked = _selectedColor.Equals(GlobalStaticVariables.EMPTY_COLOR);
+        _itemNoColor.Checked = _selectedColor.Equals(SharedStaticVariables.EMPTY_COLOR);
     }
 
     private void DecideOnVisible(KryptonContextMenuItemBase visible, KryptonContextMenuItemBase target)
@@ -1681,7 +1681,7 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
 
     private void OnColumnsSelectedColorChanged(object? sender, ColorEventArgs e) => SelectedColor = e.Color;
 
-    private void OnClickNoColor(object? sender, EventArgs e) => SelectedColor = GlobalStaticVariables.EMPTY_COLOR;
+    private void OnClickNoColor(object? sender, EventArgs e) => SelectedColor = SharedStaticVariables.EMPTY_COLOR;
 
     private void OnClickMoreColors(object? sender, EventArgs e)
     {

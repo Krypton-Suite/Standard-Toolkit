@@ -239,12 +239,12 @@ internal abstract class ViewBuilderItemBase : ViewBuilderBase
 
         if (page is null)
         {
-            throw new ArgumentNullException(nameof(page));
+            ThrowHelper.ThrowArgumentNullException(nameof(page));
         }
 
         if (property is null)
         {
-            throw new ArgumentNullException(nameof(property));
+            ThrowHelper.ThrowArgumentNullException(nameof(property));
         }
 
         switch (property)
@@ -927,6 +927,8 @@ internal abstract class ViewBuilderItemBase : ViewBuilderBase
             case @"ContextButtonDisplay":
             case @"CloseButtonDisplay":
             case nameof(ButtonDisplayLogic):
+            case nameof(KryptonNavigator.Owner):
+            case nameof(KryptonNavigator.ControlKryptonFormFeatures):
                 _buttonManager?.RecreateButtons();
                 Navigator.PerformNeedPaint(true);
                 break;
@@ -1210,7 +1212,7 @@ internal abstract class ViewBuilderItemBase : ViewBuilderBase
     private void OnCheckButtonDragOffset(object? sender, ButtonDragOffsetEventArgs e)
     {
         // Cast incoming reference to the actual button view
-        var reorderItem = sender as INavCheckItem ?? throw new ArgumentNullException(nameof(sender));
+        var reorderItem =sender as INavCheckItem ?? ThrowHelper.ThrowArgumentNullException(sender as INavCheckItem, nameof(sender));
         var reorderView = reorderItem.View;
 
         // Scan the collection of children

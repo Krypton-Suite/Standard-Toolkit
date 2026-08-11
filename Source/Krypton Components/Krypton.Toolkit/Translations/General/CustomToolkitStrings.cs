@@ -16,32 +16,13 @@ public class CustomToolkitStrings : GlobalId
 {
     #region Static Strings
 
-    private const string DEFAULT_APPLY = @"A&pply"; // Accelerator key - P
-    private const string DEFAULT_BACK = @"Bac&k"; // Accelerator key - K
     private const string DEFAULT_COLLAPSE = @"C&ollapse"; // Accelerator key - O
     private const string DEFAULT_EXPAND = @"Ex&pand"; // Accelerator key - P
-    private const string DEFAULT_EXIT = @"E&xit"; // Accelerator key - X
-    private const string DEFAULT_FINISH = @"&Finish"; // Accelerator key - F
-    private const string DEFAULT_NEXT = @"&Next"; // Accelerator key - N
-    private const string DEFAULT_PREVIOUS = "Pre&vious"; // Accelerator key - V
-    private const string DEFAULT_CUT = @"C&ut"; // Accelerator key - U
-    private const string DEFAULT_COPY = @"&Copy"; // Accelerator key - C
-    private const string DEFAULT_PASTE = @"Pas&te"; // Accelerator key - T
-    private const string DEFAULT_SELECT_ALL = @"Sel&ect All"; // Accelerator key - E
-    private const string DEFAULT_CLEAR_CLIPBOARD = @"Clear Clipboa&rd"; // Accelerator key - R
-    private const string DEFAULT_YES_TO_ALL = @"Yes &to All"; // Accelerator key - T
-    private const string DEFAULT_NO_TO_ALL = @"No t&o All"; // Accelerator key - O
-    private const string DEFAULT_OK_TO_ALL = @"O&k to All"; // Accelerator key - K
-    private const string DEFAULT_RESET = @"&Reset"; // Accelerator key - R
     private const string DEFAULT_SYSTEM_INFORMATION = "S&ystem Information";
     private const string DEFAULT_CURRENT_THEME = @"Current Theme";
     private const string DEFAULT_DO_NOT_SHOW_AGAIN = @"&Do not show again";
     private const string DEFAULT_TOGGLE_SWITCH_ON = @"On";
     private const string DEFAULT_TOGGLE_SWITCH_OFF = @"Off";
-
-    // Note: The following may not be needed...
-    /*private const string DEFAULT_MORE_DETAILS = "M&ore Details...";
-    private const string DEFAULT_LESS_DETAILS = "Les&s Details...";*/
 
     #endregion
 
@@ -61,30 +42,16 @@ public class CustomToolkitStrings : GlobalId
 
     #region Public
 
+    private static CommonCommandStrings Commands => KryptonGlobalToolkitStrings.CommonToolkitStrings.Commands;
+
     /// <summary>
     /// Gets a value indicating if all the strings are default values.
     /// </summary>
-    /// <returns>True if all values are defaulted; otherwise false.</returns>
     [Browsable(false)]
-    public bool IsDefault => Apply.Equals(DEFAULT_APPLY) &&
+    public bool IsDefault => Commands.IsDefault &&
                              Collapse.Equals(DEFAULT_COLLAPSE) &&
                              Expand.Equals(DEFAULT_EXPAND) &&
-                             Apply.Equals(DEFAULT_APPLY) &&
-                             Back.Equals(DEFAULT_BACK) &&
-                             Exit.Equals(DEFAULT_EXIT) &&
                              DoNotShowAgain.Equals(DEFAULT_DO_NOT_SHOW_AGAIN) &&
-                             Finish.Equals(DEFAULT_FINISH) &&
-                             Next.Equals(DEFAULT_NEXT) &&
-                             Previous.Equals(DEFAULT_PREVIOUS) &&
-                             Cut.Equals(DEFAULT_CUT) &&
-                             Copy.Equals(DEFAULT_COPY) &&
-                             Paste.Equals(DEFAULT_PASTE) &&
-                             SelectAll.Equals(DEFAULT_SELECT_ALL) &&
-                             ClearClipboard.Equals(DEFAULT_CLEAR_CLIPBOARD) &&
-                             YesToAll.Equals(DEFAULT_YES_TO_ALL) &&
-                             NoToAll.Equals(DEFAULT_NO_TO_ALL) &&
-                             OkToAll.Equals(DEFAULT_OK_TO_ALL) &&
-                             Reset.Equals(DEFAULT_RESET) &&
                              SystemInformation.Equals(DEFAULT_SYSTEM_INFORMATION) &&
                              CurrentTheme.Equals(DEFAULT_CURRENT_THEME) &&
                              On.Equals(DEFAULT_TOGGLE_SWITCH_ON) &&
@@ -93,25 +60,10 @@ public class CustomToolkitStrings : GlobalId
     /// <summary>Resets the values.</summary>
     public void ResetValues()
     {
-        Apply = DEFAULT_APPLY;
+        Commands.ResetValues();
         Collapse = DEFAULT_COLLAPSE;
         Expand = DEFAULT_EXPAND;
-        Apply = DEFAULT_APPLY;
-        Back = DEFAULT_BACK;
         DoNotShowAgain = DEFAULT_DO_NOT_SHOW_AGAIN;
-        Exit = DEFAULT_EXIT;
-        Finish = DEFAULT_FINISH;
-        Next = DEFAULT_NEXT;
-        Previous = DEFAULT_PREVIOUS;
-        Cut = DEFAULT_CUT;
-        Copy = DEFAULT_COPY;
-        Paste = DEFAULT_PASTE;
-        SelectAll = DEFAULT_SELECT_ALL;
-        ClearClipboard = DEFAULT_CLEAR_CLIPBOARD;
-        YesToAll = DEFAULT_YES_TO_ALL;
-        NoToAll = DEFAULT_NO_TO_ALL;
-        OkToAll = DEFAULT_OK_TO_ALL;
-        Reset = DEFAULT_RESET;
         SystemInformation = DEFAULT_SYSTEM_INFORMATION;
         CurrentTheme = DEFAULT_CURRENT_THEME;
         On = DEFAULT_TOGGLE_SWITCH_ON;
@@ -134,21 +86,33 @@ public class CustomToolkitStrings : GlobalId
 
     /// <summary>
     /// Gets and sets the Apply string used in property dialogs.
+    /// Compatibility alias for <see cref="CommonCommandStrings.Apply"/>.
     /// </summary>
     [Localizable(true)]
     [Category(@"Visuals")]
     [Description(@"Apply string used for property dialogs.")]
-    [DefaultValue(DEFAULT_APPLY)]
-    public string Apply { get; set; }
+    [DefaultValue(@"A&pply")]
+    [ToolkitStringsCanonicalAlias]
+    public string Apply
+    {
+        get => Commands.Apply;
+        set => Commands.Apply = value;
+    }
 
     /// <summary>
     /// Gets and sets the Back string used in custom situations.
+    /// Compatibility alias for <see cref="CommonCommandStrings.Back"/>.
     /// </summary>
     [Localizable(true)]
     [Category(@"Visuals")]
     [Description(@"Back string used for custom situations.")]
-    [DefaultValue(DEFAULT_BACK)]
-    public string Back { get; set; }
+    [DefaultValue(@"Bac&k")]
+    [ToolkitStringsCanonicalAlias]
+    public string Back
+    {
+        get => Commands.Back;
+        set => Commands.Back = value;
+    }
 
     /// <summary>
     /// Gets and sets the do not show again string used in custom situations.
@@ -161,118 +125,195 @@ public class CustomToolkitStrings : GlobalId
 
     /// <summary>
     /// Gets and sets the Exit string used in custom situations.
+    /// Compatibility alias for <see cref="CommonCommandStrings.Exit"/>.
     /// </summary>
     [Localizable(true)]
     [Category(@"Visuals")]
     [Description(@"Exit string used for custom situations.")]
-    [DefaultValue(DEFAULT_EXIT)]
-    public string Exit { get; set; }
+    [DefaultValue(@"E&xit")]
+    [ToolkitStringsCanonicalAlias]
+    public string Exit
+    {
+        get => Commands.Exit;
+        set => Commands.Exit = value;
+    }
 
     /// <summary>
     /// Gets and sets the Finish string used in custom situations.
+    /// Compatibility alias for <see cref="CommonCommandStrings.Finish"/>.
     /// </summary>
     [Localizable(true)]
     [Category(@"Visuals")]
     [Description(@"Finish string used for custom situations.")]
-    [DefaultValue(DEFAULT_FINISH)]
-    public string Finish { get; set; }
+    [DefaultValue(@"&Finish")]
+    [ToolkitStringsCanonicalAlias]
+    public string Finish
+    {
+        get => Commands.Finish;
+        set => Commands.Finish = value;
+    }
 
     /// <summary>
     /// Gets and sets the Next string used in custom situations.
+    /// Compatibility alias for <see cref="CommonCommandStrings.Next"/>.
     /// </summary>
     [Localizable(true)]
     [Category(@"Visuals")]
     [Description(@"Next string used for custom situations.")]
-    [DefaultValue(DEFAULT_NEXT)]
-    public string Next { get; set; }
+    [DefaultValue(@"&Next")]
+    [ToolkitStringsCanonicalAlias]
+    public string Next
+    {
+        get => Commands.Next;
+        set => Commands.Next = value;
+    }
 
     /// <summary>
     /// Gets and sets the Previous string used in custom situations.
+    /// Compatibility alias for <see cref="CommonCommandStrings.Previous"/>.
     /// </summary>
     [Localizable(true)]
     [Category(@"Visuals")]
     [Description(@"Previous string used for custom situations.")]
-    [DefaultValue(DEFAULT_PREVIOUS)]
-    public string Previous { get; set; }
+    [DefaultValue(@"Pre&vious")]
+    [ToolkitStringsCanonicalAlias]
+    public string Previous
+    {
+        get => Commands.Previous;
+        set => Commands.Previous = value;
+    }
 
     /// <summary>
     /// Gets and sets the Cut string used in custom situations.
+    /// Compatibility alias for <see cref="CommonCommandStrings.Cut"/>.
     /// </summary>
     [Localizable(true)]
     [Category(@"Visuals")]
     [Description(@"Cut string used for custom situations.")]
-    [DefaultValue(DEFAULT_CUT)]
-    public string Cut { get; set; }
+    [DefaultValue(@"C&ut")]
+    [ToolkitStringsCanonicalAlias]
+    public string Cut
+    {
+        get => Commands.Cut;
+        set => Commands.Cut = value;
+    }
 
     /// <summary>
     /// Gets and sets the Copy string used in custom situations.
+    /// Compatibility alias for <see cref="CommonCommandStrings.Copy"/>.
     /// </summary>
     [Localizable(true)]
     [Category(@"Visuals")]
     [Description(@"Copy string used for custom situations.")]
-    [DefaultValue(DEFAULT_COPY)]
-    public string Copy { get; set; }
+    [DefaultValue(@"&Copy")]
+    [ToolkitStringsCanonicalAlias]
+    public string Copy
+    {
+        get => Commands.Copy;
+        set => Commands.Copy = value;
+    }
 
     /// <summary>
     /// Gets and sets the Paste string used in custom situations.
+    /// Compatibility alias for <see cref="CommonCommandStrings.Paste"/>.
     /// </summary>
     [Localizable(true)]
     [Category(@"Visuals")]
     [Description(@"Paste string used for custom situations.")]
-    [DefaultValue(DEFAULT_PASTE)]
-    public string Paste { get; set; }
+    [DefaultValue(@"Pas&te")]
+    [ToolkitStringsCanonicalAlias]
+    public string Paste
+    {
+        get => Commands.Paste;
+        set => Commands.Paste = value;
+    }
 
     /// <summary>
     /// Gets and sets the Select All string used in custom situations.
+    /// Compatibility alias for <see cref="CommonCommandStrings.SelectAll"/>.
     /// </summary>
     [Localizable(true)]
     [Category(@"Visuals")]
     [Description(@"Select All string used for custom situations.")]
-    [DefaultValue(DEFAULT_SELECT_ALL)]
-    public string SelectAll { get; set; }
+    [DefaultValue(@"Sel&ect All")]
+    [ToolkitStringsCanonicalAlias]
+    public string SelectAll
+    {
+        get => Commands.SelectAll;
+        set => Commands.SelectAll = value;
+    }
 
     /// <summary>
     /// Gets and sets the Clear Clipboard string used in custom situations.
+    /// Compatibility alias for <see cref="CommonCommandStrings.ClearClipboard"/>.
     /// </summary>
     [Localizable(true)]
     [Category(@"Visuals")]
     [Description(@"Clear Clipboard string used for custom situations.")]
-    [DefaultValue(DEFAULT_CLEAR_CLIPBOARD)]
-    public string ClearClipboard { get; set; }
+    [DefaultValue(@"Clear Clipboa&rd")]
+    [ToolkitStringsCanonicalAlias]
+    public string ClearClipboard
+    {
+        get => Commands.ClearClipboard;
+        set => Commands.ClearClipboard = value;
+    }
 
     /// <summary>
     /// Gets and sets the Yes to All string used in custom situations.
+    /// Compatibility alias for <see cref="CommonCommandStrings.YesToAll"/>.
     /// </summary>
     [Localizable(true)]
     [Category(@"Visuals")]
     [Description(@"Yes to All string used for custom situations.")]
-    [DefaultValue(DEFAULT_YES_TO_ALL)]
-    public string YesToAll { get; set; }
+    [DefaultValue(@"Yes &to All")]
+    [ToolkitStringsCanonicalAlias]
+    public string YesToAll
+    {
+        get => Commands.YesToAll;
+        set => Commands.YesToAll = value;
+    }
 
     /// <summary>
     /// Gets and sets the No to All string used in custom situations.
+    /// Compatibility alias for <see cref="CommonCommandStrings.NoToAll"/>.
     /// </summary>
     [Localizable(true)]
     [Category(@"Visuals")]
     [Description(@"No to All string used for custom situations.")]
-    [DefaultValue(DEFAULT_NO_TO_ALL)]
-    public string NoToAll { get; set; }
+    [DefaultValue(@"No t&o All")]
+    [ToolkitStringsCanonicalAlias]
+    public string NoToAll
+    {
+        get => Commands.NoToAll;
+        set => Commands.NoToAll = value;
+    }
 
     /// <summary>
     /// Gets and sets the Ok to All string used in custom situations.
+    /// Compatibility alias for <see cref="CommonCommandStrings.OkToAll"/>.
     /// </summary>
     [Localizable(true)]
     [Category(@"Visuals")]
     [Description(@"Ok to All string used for custom situations.")]
-    [DefaultValue(DEFAULT_OK_TO_ALL)]
-    public string OkToAll { get; set; }
+    [DefaultValue(@"O&k to All")]
+    [ToolkitStringsCanonicalAlias]
+    public string OkToAll
+    {
+        get => Commands.OkToAll;
+        set => Commands.OkToAll = value;
+    }
 
     /// <summary>Gets or sets the reset string used for custom situations.</summary>
     [Localizable(true)]
     [Category(@"Visuals")]
     [Description(@"Reset string used for custom situations.")]
-    [DefaultValue(DEFAULT_RESET)]
-    public string Reset { get; set; }
+    [DefaultValue(@"&Reset")]
+    [ToolkitStringsCanonicalAlias]
+    public string Reset
+    {
+        get => Commands.Reset;
+        set => Commands.Reset = value;
+    }
 
     /// <summary>Gets or sets the system information string used for custom situations.</summary>
     [Localizable(true)]
@@ -289,7 +330,6 @@ public class CustomToolkitStrings : GlobalId
     public string CurrentTheme { get; set; }
 
     /// <summary>Gets or sets the on.</summary>
-    /// <value>The on.</value>
     [Localizable(true)]
     [Category(@"Visuals")]
     [Description(@"'On' string used for custom situations.")]
@@ -297,7 +337,6 @@ public class CustomToolkitStrings : GlobalId
     public string On { get; set; }
 
     /// <summary>Gets or sets the off.</summary>
-    /// <value>The off.</value>
     [Localizable(true)]
     [Category(@"Visuals")]
     [Description(@"'Off' string used for custom situations.")]

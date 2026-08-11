@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -26,17 +26,17 @@ public class PaletteOffice2010LightGray : PaletteOffice2010Base
 
     #region Ribbon Specific Colors
 
-    private static readonly Color _ribbonAppButtonDarkColor = GlobalStaticVariables.EMPTY_COLOR;
+    private static readonly Color _ribbonAppButtonDarkColor = SharedStaticVariables.EMPTY_COLOR;
 
-    private static readonly Color _ribbonAppButtonLightColor = GlobalStaticVariables.EMPTY_COLOR;
+    private static readonly Color _ribbonAppButtonLightColor = SharedStaticVariables.EMPTY_COLOR;
 
-    private static readonly Color _ribbonAppButtonTextColor = GlobalStaticVariables.EMPTY_COLOR;
+    private static readonly Color _ribbonAppButtonTextColor = SharedStaticVariables.EMPTY_COLOR;
 
     #endregion
 
     #region Rafting
 
-    private readonly float _gradientRafting = GlobalStaticConstants.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT;
+    private readonly float _gradientRafting = SharedStaticConstants.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT;
 
     #endregion
 
@@ -50,13 +50,13 @@ public class PaletteOffice2010LightGray : PaletteOffice2010Base
     {
     }
 
-    public override Image? GetContextMenuSubMenuImage() => throw new NotImplementedException();
+    public override Image? GetContextMenuSubMenuImage() => ThrowHelper.ThrowNotImplementedException<Image>();
 
     #region Tab Row Background
 
     /// <inheritdoc />
     public override Color GetRibbonTabRowGradientColor1(PaletteState state) =>
-        GlobalStaticVariables.TAB_ROW_GRADIENT_FIRST_COLOR;
+        SharedStaticVariables.TAB_ROW_GRADIENT_FIRST_COLOR;
 
     /// <inheritdoc />
     public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) =>
@@ -67,7 +67,7 @@ public class PaletteOffice2010LightGray : PaletteOffice2010Base
         _tabRowBackgroundGradientRaftingLightColor;
 
     /// <inheritdoc />
-    public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <inheritdoc />
     public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => _gradientRafting;

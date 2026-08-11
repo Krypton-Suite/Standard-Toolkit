@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -30,7 +30,7 @@ public class ExpandingMenuItemValues : Storage
     /// <param name="owner">Owning expanding menu item.</param>
     public ExpandingMenuItemValues(KryptonExpandingMenuItem owner)
     {
-        _ = owner ?? throw new ArgumentNullException(nameof(owner));
+        _ = owner ?? ThrowHelper.ThrowArgumentNullException(owner);
     }
 
     /// <inheritdoc />

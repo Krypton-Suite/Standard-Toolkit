@@ -31,7 +31,7 @@ internal class ViewLayoutPageShow : ViewLayoutNull
         Debug.Assert(navigator is not null);
 
         // Remember back reference
-        _navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
+        _navigator = navigator ?? ThrowHelper.ThrowArgumentNullException(navigator);
         _minimumAsPreferred = false;
     }
 
@@ -97,7 +97,7 @@ internal class ViewLayoutPageShow : ViewLayoutNull
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // We take on all the available display area

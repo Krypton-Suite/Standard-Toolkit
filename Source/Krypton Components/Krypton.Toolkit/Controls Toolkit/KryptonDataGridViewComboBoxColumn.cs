@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -62,7 +62,7 @@ public partial class KryptonDataGridViewComboBoxColumn : KryptonDataGridViewIcon
     /// <returns></returns>
     public override object Clone()
     {
-        var cloned = base.Clone() as KryptonDataGridViewComboBoxColumn ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("clone"));
+        var cloned =base.Clone() as KryptonDataGridViewComboBoxColumn ?? ThrowHelper.ThrowNullReferenceException<KryptonDataGridViewComboBoxColumn>(SharedStaticFunctions.VariableCannotBeNull("clone"));
 
         cloned.Items.AddRange(Items);
 
@@ -96,7 +96,7 @@ public partial class KryptonDataGridViewComboBoxColumn : KryptonDataGridViewIcon
                 && value is not KryptonDataGridViewComboBoxCell
                )
             {
-                throw new InvalidCastException(@"Value provided for CellTemplate must be of type KryptonDataGridViewComboBoxCell or derive from it.");
+                ThrowHelper.ThrowInvalidCastException(@"Value provided for CellTemplate must be of type KryptonDataGridViewComboBoxCell or derive from it.");
             }
 
             base.CellTemplate = value;
@@ -159,13 +159,13 @@ public partial class KryptonDataGridViewComboBoxColumn : KryptonDataGridViewIcon
     [RefreshProperties(RefreshProperties.Repaint)]
     public ComboBoxStyle DropDownStyle {
         get =>
-            ComboBoxCellTemplate?.DropDownStyle ?? throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+ComboBoxCellTemplate?.DropDownStyle ?? ThrowHelper.ThrowInvalidOperationException<ComboBoxStyle>(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
 
         set
         {
             if (ComboBoxCellTemplate == null)
             {
-                throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -200,13 +200,13 @@ public partial class KryptonDataGridViewComboBoxColumn : KryptonDataGridViewIcon
     [DefaultValue(8)]
     public int MaxDropDownItems {
         get =>
-            ComboBoxCellTemplate?.MaxDropDownItems ?? throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+ComboBoxCellTemplate?.MaxDropDownItems ?? ThrowHelper.ThrowInvalidOperationException<int>(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
 
         set
         {
             if (ComboBoxCellTemplate == null)
             {
-                throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -242,13 +242,13 @@ public partial class KryptonDataGridViewComboBoxColumn : KryptonDataGridViewIcon
     [Browsable(true)]
     public int DropDownHeight {
         get =>
-            ComboBoxCellTemplate?.DropDownHeight ?? throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+ComboBoxCellTemplate?.DropDownHeight ?? ThrowHelper.ThrowInvalidOperationException<int>(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
 
         set
         {
             if (ComboBoxCellTemplate == null)
             {
-                throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -284,13 +284,13 @@ public partial class KryptonDataGridViewComboBoxColumn : KryptonDataGridViewIcon
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public int DropDownWidth {
         get =>
-            ComboBoxCellTemplate?.DropDownWidth ?? throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+ComboBoxCellTemplate?.DropDownWidth ?? ThrowHelper.ThrowInvalidOperationException<int>(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
 
         set
         {
             if (ComboBoxCellTemplate == null)
             {
-                throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -338,13 +338,13 @@ public partial class KryptonDataGridViewComboBoxColumn : KryptonDataGridViewIcon
     [Browsable(true)]
     public AutoCompleteMode AutoCompleteMode {
         get =>
-            ComboBoxCellTemplate?.AutoCompleteMode ?? throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+ComboBoxCellTemplate?.AutoCompleteMode ?? ThrowHelper.ThrowInvalidOperationException<AutoCompleteMode>(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
 
         set
         {
             if (ComboBoxCellTemplate == null)
             {
-                throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -379,13 +379,13 @@ public partial class KryptonDataGridViewComboBoxColumn : KryptonDataGridViewIcon
     [Browsable(true)]
     public AutoCompleteSource AutoCompleteSource {
         get =>
-            ComboBoxCellTemplate?.AutoCompleteSource ?? throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+ComboBoxCellTemplate?.AutoCompleteSource ?? ThrowHelper.ThrowInvalidOperationException<AutoCompleteSource>(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
 
         set
         {
             if (ComboBoxCellTemplate == null)
             {
-                throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -423,14 +423,14 @@ public partial class KryptonDataGridViewComboBoxColumn : KryptonDataGridViewIcon
     public string DisplayMember {
         get =>
             ComboBoxCellTemplate == null
-                ? throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
+                ? ThrowHelper.ThrowInvalidOperationException<string>(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
                 : ComboBoxCellTemplate.DisplayMember;
 
         set
         {
             if (ComboBoxCellTemplate == null)
             {
-                throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -469,14 +469,14 @@ public partial class KryptonDataGridViewComboBoxColumn : KryptonDataGridViewIcon
     public string ValueMember {
         get =>
             ComboBoxCellTemplate == null
-                ? throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
+                ? ThrowHelper.ThrowInvalidOperationException<string>(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
                 : ComboBoxCellTemplate.ValueMember;
 
         set
         {
             if (ComboBoxCellTemplate == null)
             {
-                throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.
@@ -515,14 +515,14 @@ public partial class KryptonDataGridViewComboBoxColumn : KryptonDataGridViewIcon
 
         get =>
             ComboBoxCellTemplate == null
-                ? throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
+                ? ThrowHelper.ThrowInvalidOperationException<object>(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.")
                 : ComboBoxCellTemplate.DataSource;
 
         set
         {
             if (ComboBoxCellTemplate == null)
             {
-                throw new InvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+                ThrowHelper.ThrowInvalidOperationException(@"Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
             }
 
             // Update the template cell so that subsequent cloned cells use the new value.

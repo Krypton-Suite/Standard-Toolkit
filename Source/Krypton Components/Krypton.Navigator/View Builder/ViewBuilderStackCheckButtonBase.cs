@@ -46,7 +46,7 @@ internal abstract class ViewBuilderStackCheckButtonBase : ViewBuilderBase
         base.Construct(navigator, manager, redirector);
 
         // Get the current root element
-        _oldRoot = ViewManager!.Root as ViewLayoutPageShow ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(ViewManager.Root)));
+        _oldRoot =ViewManager!.Root as ViewLayoutPageShow ?? ThrowHelper.ThrowNullReferenceException<ViewLayoutPageShow>(SharedStaticFunctions.VariableCannotBeNull(nameof(ViewManager.Root)));
 
         // Create and initialize all objects
         ViewManager.Root = CreateStackCheckButtonView()!;
@@ -193,12 +193,12 @@ internal abstract class ViewBuilderStackCheckButtonBase : ViewBuilderBase
 
         if (page is null)
         {
-            throw new ArgumentNullException(nameof(page));
+            ThrowHelper.ThrowArgumentNullException(nameof(page));
         }
 
         if (property is null)
         {
-            throw new ArgumentNullException(nameof(property));
+            ThrowHelper.ThrowArgumentNullException(nameof(property));
         }
 
         // We are only interested if the page is visible
@@ -752,27 +752,12 @@ internal abstract class ViewBuilderStackCheckButtonBase : ViewBuilderBase
         }
     }
 
-    // ToDo: What does 'page' do?
     private void BringPageIntoView(KryptonPage page)
     {
-        // Remember the view for the requested page
-        ViewDrawNavCheckButtonBase? viewPage = null;
-
-        // Make sure only the selected page is checked
-        foreach (ViewDrawNavCheckButtonBase child in _pageLookup!.Values)
+        // Scroll the check button that represents the requested page into view
+        if (_pageLookup != null &&
+            _pageLookup.TryGetValue(page, out ViewDrawNavCheckButtonBase? viewPage))
         {
-            // Should this check button be selected
-            if (Navigator.SelectedPage == child.Page)
-            {
-                viewPage = child;
-                break;
-            }
-        }
-
-        // If we found a matching view
-        if (viewPage != null)
-        {
-            // Ask the viewport to bring this rectangle of the view
             _viewScrollViewport.BringIntoView(viewPage.ClientRectangle);
         }
     }
@@ -967,7 +952,7 @@ internal abstract class ViewBuilderStackCheckButtonBase : ViewBuilderBase
     private void OnCheckButtonDragRect(object? sender, ButtonDragRectangleEventArgs e)
     {
         // Cast incoming reference to the actual check button view
-        var reorderItem = sender as ViewDrawNavCheckButtonStack ?? throw new ArgumentNullException(nameof(sender));
+        var reorderItem =sender as ViewDrawNavCheckButtonStack ?? ThrowHelper.ThrowArgumentNullException(sender as ViewDrawNavCheckButtonStack, nameof(sender));
 
         e.PreDragOffset = (Navigator.AllowPageReorder && reorderItem.Page!.AreFlagsSet(KryptonPageFlags.AllowPageReorder));
         Rectangle dragRect = Rectangle.Union(e.DragRect, _viewScrollViewport.ClientRectangle);
@@ -978,7 +963,7 @@ internal abstract class ViewBuilderStackCheckButtonBase : ViewBuilderBase
     private void OnCheckButtonDragOffset(object? sender, ButtonDragOffsetEventArgs e)
     {
         // Cast incoming reference to the actual check button view
-        var reorderView = sender as ViewDrawNavCheckButtonStack ?? throw new ArgumentNullException(nameof(sender));
+        var reorderView =sender as ViewDrawNavCheckButtonStack ?? ThrowHelper.ThrowArgumentNullException(sender as ViewDrawNavCheckButtonStack, nameof(sender));
 
         // Scan the collection of children
         var foundReorderView = false;

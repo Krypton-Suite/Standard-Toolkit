@@ -59,7 +59,7 @@ public partial class Bug3902ScrollbarGapDemo : KryptonForm
     {
         // Demonstrates the CornerState### palette overrides: checked applies a solid
         // custom color to the corner, unchecked reverts to the theme default.
-        Color color1 = kchkCustomCornerColor.Checked ? Color.IndianRed : GlobalStaticVariables.EMPTY_COLOR;
+        Color color1 = kchkCustomCornerColor.Checked ? Color.IndianRed : SharedStaticVariables.EMPTY_COLOR;
 
         ktbxDemo.ScrollbarManager.CornerStateCommon.Color1 = color1;
         krtbDemo.ScrollbarManager.CornerStateCommon.Color1 = color1;
