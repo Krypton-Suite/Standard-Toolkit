@@ -56,7 +56,7 @@ internal class VisualRadialMenuPopup : VisualPopup
     public VisualRadialMenuPopup(KryptonRadialMenu owner, IRenderer? renderer)
         : base(new ViewManager(), renderer, owner.Values.ShowShadow)
     {
-        _owner = owner ?? throw new ArgumentNullException(nameof(owner));
+        _owner = owner ?? ThrowHelper.ThrowArgumentNullException(owner);
         _currentItems = owner.Items;
         ViewManager!.Control = this;
         ViewManager.AlignControl = this;

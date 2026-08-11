@@ -54,10 +54,7 @@ public static class KryptonRadialMenuPresenter
     /// </summary>
     public static bool Show(KryptonContextMenu menu, object caller, Point screenPt)
     {
-        if (menu == null)
-        {
-            throw new ArgumentNullException(nameof(menu));
-        }
+        ThrowHelper.ThrowIfNull(menu);
 
         if (!PreferRadialContextMenus)
         {
@@ -72,10 +69,7 @@ public static class KryptonRadialMenuPresenter
     /// </summary>
     public static bool Show(KryptonContextMenu menu, Control control, Point clientPt)
     {
-        if (control == null)
-        {
-            throw new ArgumentNullException(nameof(control));
-        }
+        ThrowHelper.ThrowIfNull(control);
 
         return Show(menu, control, control.PointToScreen(clientPt));
     }
@@ -85,10 +79,7 @@ public static class KryptonRadialMenuPresenter
     /// </summary>
     public static KryptonRadialMenu GetOrCreateProjection(KryptonContextMenu menu)
     {
-        if (menu == null)
-        {
-            throw new ArgumentNullException(nameof(menu));
-        }
+        ThrowHelper.ThrowIfNull(menu);
 
         if (Cache.TryGetValue(menu, out var existing))
         {

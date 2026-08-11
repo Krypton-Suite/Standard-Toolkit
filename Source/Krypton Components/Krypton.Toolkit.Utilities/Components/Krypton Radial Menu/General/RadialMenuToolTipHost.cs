@@ -36,8 +36,8 @@ internal sealed class RadialMenuToolTipHost : IDisposable
     /// <param name="resolvePalette">Delegate that returns the active palette.</param>
     public RadialMenuToolTipHost(Control placementControl, Func<PaletteBase> resolvePalette)
     {
-        _placementControl = placementControl ?? throw new ArgumentNullException(nameof(placementControl));
-        _resolvePalette = resolvePalette ?? throw new ArgumentNullException(nameof(resolvePalette));
+        _placementControl = placementControl ?? ThrowHelper.ThrowArgumentNullException(placementControl);
+        _resolvePalette = resolvePalette ?? ThrowHelper.ThrowArgumentNullException(resolvePalette);
         _showTimer = new System.Windows.Forms.Timer();
         _showTimer.Tick += OnShowTimerTick;
     }

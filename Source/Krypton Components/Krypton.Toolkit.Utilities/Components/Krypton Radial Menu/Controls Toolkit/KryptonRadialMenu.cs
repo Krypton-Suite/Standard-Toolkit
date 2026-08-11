@@ -534,16 +534,10 @@ public class KryptonRadialMenu : Component
     /// <returns>True if the menu became displayed.</returns>
     public bool Show(Control? control, Point clientPt)
     {
-        while (true)
-        {
-            if (control == null)
-            {
-                throw new ArgumentNullException(nameof(control));
-            }
+        ThrowHelper.ThrowIfNull(control);
 
-            var control1 = control;
-            clientPt = control1.PointToScreen(clientPt);
-        }
+        // Cast to object so overload resolution uses Show(object?, Point), not this method.
+        return Show((object?)control, control.PointToScreen(clientPt));
     }
 
     /// <summary>
@@ -645,10 +639,7 @@ public class KryptonRadialMenu : Component
     /// </param>
     public void ImportFrom(KryptonContextMenu? menu, bool liveSync)
     {
-        if (menu == null)
-        {
-            throw new ArgumentNullException(nameof(menu));
-        }
+        ThrowHelper.ThrowIfNull(menu);
 
         DetachContextMenuSync();
         PopulateFromContextMenu(menu);
