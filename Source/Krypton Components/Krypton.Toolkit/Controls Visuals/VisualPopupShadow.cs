@@ -30,6 +30,7 @@ public class VisualPopupShadow : Form
     private GraphicsPath? _path3;
     private readonly SolidBrush[] _brushes;
     private Color _baseColor;
+    private int _padding;
     #endregion
 
     #region Identity
@@ -74,11 +75,22 @@ public class VisualPopupShadow : Form
     /// Show the popup using the provided rectangle as the screen rect.
     /// </summary>
     /// <param name="screenRect">Screen rectangle for showing the popup.</param>
-    public virtual void Show(Rectangle screenRect)
+    public virtual void Show(Rectangle screenRect) => Show(screenRect, padding: 0);
+
+    /// <summary>
+    /// Show the shadow for a popup, optionally expanding the window so outer halo paths are not clipped.
+    /// </summary>
+    /// <param name="screenRect">Screen rectangle of the owning popup.</param>
+    /// <param name="padding">Extra pixels around the popup reserved for soft shadow rings.</param>
+    public virtual void Show(Rectangle screenRect, int padding)
     {
-        // Offset by the width/height of the shadow
-        screenRect.X += SHADOW_SIZE;
-        screenRect.Y += SHADOW_SIZE;
+        _padding = Math.Max(0, padding);
+
+        // Offset by the width/height of the shadow, then expand for halo padding.
+        screenRect.X += SHADOW_SIZE - _padding;
+        screenRect.Y += SHADOW_SIZE - _padding;
+        screenRect.Width += _padding * 2;
+        screenRect.Height += _padding * 2;
 
         // Update the screen position
         Location = screenRect.Location;
@@ -93,7 +105,7 @@ public class VisualPopupShadow : Form
     /// </summary>
     /// <param name="popupScreenLocation">Top-left screen location of the owning popup.</param>
     public void UpdatePopupLocation(Point popupScreenLocation) =>
-        Location = new Point(popupScreenLocation.X + SHADOW_SIZE, popupScreenLocation.Y + SHADOW_SIZE);
+        Location = new Point(popupScreenLocation.X + SHADOW_SIZE - _padding, popupScreenLocation.Y + SHADOW_SIZE - _padding);
 
     /// <summary>
     /// Applies shadow colour and window opacity.
@@ -237,6 +249,7 @@ public class VisualPopupShadow : Form
 
     private void DrawPaths(Graphics g)
     {
+        g.SmoothingMode = SmoothingMode.AntiAlias;
         g.FillPath(_brushes[2], _path1!);
         g.FillPath(_brushes[1], _path2!);
         g.FillPath(_brushes[0], _path3!);

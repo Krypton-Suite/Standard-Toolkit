@@ -167,6 +167,14 @@ public class VisualPopup : ContainerControl
     }
 
     /// <summary>
+    /// Shows the shadow window for the popup rectangle, with optional padding for outer halo paths.
+    /// </summary>
+    /// <param name="popupScreenRect">Screen bounds of this popup.</param>
+    /// <param name="padding">Extra pixels around the popup for soft shadow rings.</param>
+    protected void ShowShadow(Rectangle popupScreenRect, int padding) =>
+        _shadow?.Show(popupScreenRect, padding);
+
+    /// <summary>
     /// Show the popup with the given size but relative to the provided top left point.
     /// </summary>
     /// <param name="popupLocation">Intended top left of parent area.</param>

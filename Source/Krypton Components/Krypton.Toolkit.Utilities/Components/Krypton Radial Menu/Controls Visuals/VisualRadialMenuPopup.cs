@@ -30,6 +30,7 @@ internal class VisualRadialMenuPopup : VisualPopup, IRadialMenuInteractionHost
     private System.Windows.Forms.Timer? _animationTimer;
 
     private const int MoveDragThreshold = 8;
+    private const int ShadowPadding = 16;
 
     #endregion
 
@@ -48,6 +49,7 @@ internal class VisualRadialMenuPopup : VisualPopup, IRadialMenuInteractionHost
         ViewManager.AlignControl = this;
         ViewManager.Root = new ViewLayoutNull();
 
+        // Circular Region clips the HWND; avoid Magenta colour-key (AA edges become a pink fringe).
         SetStyle(ControlStyles.Opaque, false);
         SetStyle(ControlStyles.SupportsTransparentBackColor, true);
         BackColor = Color.Transparent;
@@ -148,6 +150,17 @@ internal class VisualRadialMenuPopup : VisualPopup, IRadialMenuInteractionHost
         SyncShadowAppearance();
     }
 
+    /// <inheritdoc />
+    public override void Show(Rectangle screenRect)
+    {
+        // Use padded shadow so outer halo rings are not clipped to the menu rectangle.
+        SetBounds(screenRect.X, screenRect.Y, screenRect.Width, screenRect.Height);
+        DefineCircularShadowPaths(screenRect.Size);
+        ShowShadow(screenRect, ShadowPadding);
+        PI.ShowWindow(Handle, PI.ShowWindowCommands.SW_SHOWNOACTIVATE);
+        VisualPopupManager.Singleton.StartTracking(this);
+    }
+
     #endregion
 
     #region Protected
@@ -159,7 +172,8 @@ internal class VisualRadialMenuPopup : VisualPopup, IRadialMenuInteractionHost
     /// <inheritdoc />
     protected override void OnPaintBackground(PaintEventArgs pevent)
     {
-        // Suppress default opaque background fill outside the radial artwork.
+        // Circular Region already clips the HWND; fill the disc so the double-buffer is not black.
+        FillPopupSurface(pevent.Graphics);
     }
 
     /// <inheritdoc />
@@ -171,6 +185,7 @@ internal class VisualRadialMenuPopup : VisualPopup, IRadialMenuInteractionHost
         }
 
         var g = e.Graphics;
+        FillPopupSurface(g);
         var state = g.Save();
         try
         {
@@ -632,6 +647,22 @@ internal class VisualRadialMenuPopup : VisualPopup, IRadialMenuInteractionHost
         g.ScaleTransform(scale, scale);
     }
 
+    private void FillPopupSurface(Graphics g)
+    {
+        if (ClientSize.Width <= 0 || ClientSize.Height <= 0)
+        {
+            return;
+        }
+
+        var colors = RadialMenuColorSet.FromPalette(_owner.ResolvePalette(), _owner.Values);
+        using var brush = new SolidBrush(colors.SectorNormal);
+        var old = g.SmoothingMode;
+        // Aliased fill avoids fringe pixels against the clipped Region edge.
+        g.SmoothingMode = SmoothingMode.None;
+        g.FillEllipse(brush, 0, 0, ClientSize.Width - 1, ClientSize.Height - 1);
+        g.SmoothingMode = old;
+    }
+
     private void ApplyCircularRegion(Size size)
     {
         using var path = new GraphicsPath();
@@ -669,21 +700,28 @@ internal class VisualRadialMenuPopup : VisualPopup, IRadialMenuInteractionHost
         UpdateShadowAppearance(_owner.ResolveShadowColor(state), _owner.Values.ShadowOpacity);
     }
 
-    private void DefineCircularShadowPaths(Size size)
+    private void DefineCircularShadowPaths(Size menuSize)
     {
         if (!_owner.Values.ShowShadow)
         {
             return;
         }
 
-        GraphicsPath CreateEllipse(int inflate)
+        // Paths are in the padded shadow client: menu disc is at (ShadowPadding, ShadowPadding).
+        var pad = ShadowPadding;
+        GraphicsPath CreateOuterHalo(int outerExtra)
         {
-            var path = new GraphicsPath();
-            path.AddEllipse(-inflate, -inflate, size.Width - 1 + (inflate * 2), size.Height - 1 + (inflate * 2));
+            var path = new GraphicsPath { FillMode = FillMode.Alternate };
+            var ox = pad - outerExtra;
+            var oy = pad - outerExtra;
+            path.AddEllipse(ox, oy, menuSize.Width - 1 + (outerExtra * 2), menuSize.Height - 1 + (outerExtra * 2));
+            // Punch the menu disc so the halo sits outside the radial artwork.
+            path.AddEllipse(pad, pad, menuSize.Width - 1, menuSize.Height - 1);
             return path;
         }
 
-        DefineShadowPaths(CreateEllipse(0), CreateEllipse(1), CreateEllipse(2));
+        // Soft falloff: largest ring first (strongest brush in VisualPopupShadow.DrawPaths).
+        DefineShadowPaths(CreateOuterHalo(14), CreateOuterHalo(9), CreateOuterHalo(5));
     }
 
     private double DistanceFromCenter(Point clientPoint)

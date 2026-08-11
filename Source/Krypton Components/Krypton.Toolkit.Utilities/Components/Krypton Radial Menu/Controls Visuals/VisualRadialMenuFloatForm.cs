@@ -14,6 +14,8 @@ namespace Krypton.Toolkit.Utilities;
 /// </summary>
 internal sealed class VisualRadialMenuFloatForm : Form
 {
+    private static readonly Color TransparencyKeyColor = Color.Magenta;
+
     /// <summary>
     /// Initialize a new instance of the <see cref="VisualRadialMenuFloatForm"/> class.
     /// </summary>
@@ -28,11 +30,20 @@ internal sealed class VisualRadialMenuFloatForm : Form
         AutoScaleMode = AutoScaleMode.None;
         KeyPreview = true;
         Text = @"Radial Menu";
-        BackColor = SystemColors.Control;
+        // Match Magenta fills from the hosted control so corners outside the radial artwork are see-through.
+        BackColor = TransparencyKeyColor;
+        TransparencyKey = TransparencyKeyColor;
     }
 
     /// <inheritdoc />
     protected override bool ShowWithoutActivation => true;
+
+    /// <inheritdoc />
+    protected override void OnPaintBackground(PaintEventArgs e)
+    {
+        using var brush = new SolidBrush(TransparencyKeyColor);
+        e.Graphics.FillRectangle(brush, e.ClipRectangle);
+    }
 
     /// <inheritdoc />
     protected override CreateParams CreateParams
@@ -41,7 +52,7 @@ internal sealed class VisualRadialMenuFloatForm : Form
         {
             var cp = base.CreateParams;
             // Tool window: no taskbar button, stays with the owner without a caption chrome.
-            cp.ExStyle |= 0x00000080; // WS_EX_TOOLWINDOW
+            cp.ExStyle |= unchecked((int)PI.WS_EX_.TOOLWINDOW);
             return cp;
         }
     }

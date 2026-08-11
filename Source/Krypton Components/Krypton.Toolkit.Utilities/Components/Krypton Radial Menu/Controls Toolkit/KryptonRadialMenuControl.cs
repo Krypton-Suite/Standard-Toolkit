@@ -45,8 +45,10 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
     private Size _dockSize;
     private Point _dockLocation;
     private VisualRadialMenuFloatForm? _floatForm;
+    private MethodInfo? _paintTransparentBackground;
 
     private const int MoveDragThreshold = 8;
+    private static readonly Color TransparencyKeyColor = Color.Magenta;
 
     #endregion
 
@@ -520,11 +522,14 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
     /// <inheritdoc />
     protected override void OnPaintBackground(PaintEventArgs pevent)
     {
-        // Transparent + OptimizedDoubleBuffer leaves an uninitialised (black) buffer in the
-        // corners outside the annulus. Fill with the parent/panel client colour instead.
-        var back = ResolveSurfaceBackColor();
-        using var brush = new SolidBrush(back);
-        pevent.Graphics.FillRectangle(brush, ClientRectangle);
+        // Copy the parent surface into the double-buffer so corners outside the radial
+        // artwork are see-through. When floating, Magenta matches the float form colour key.
+        if (!PaintParentBackground(pevent))
+        {
+            var back = _isFloating ? TransparencyKeyColor : ResolveSurfaceBackColor();
+            using var brush = new SolidBrush(back);
+            pevent.Graphics.FillRectangle(brush, ClientRectangle);
+        }
     }
 
     /// <inheritdoc />
@@ -969,8 +974,7 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
         _floatForm = new VisualRadialMenuFloatForm
         {
             Size = floatSize,
-            Location = floatLocation,
-            BackColor = ResolveSurfaceBackColor()
+            Location = floatLocation
         };
         _floatForm.FormClosing += OnFloatFormClosing;
 
@@ -1111,9 +1115,44 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
         return (dx * dx) + (dy * dy) <= (radius * radius);
     }
 
+    private bool PaintParentBackground(PaintEventArgs e)
+    {
+        if (Parent == null)
+        {
+            return false;
+        }
+
+        try
+        {
+            if (_paintTransparentBackground == null)
+            {
+                // Same WinForms internal helper used by VisualControlBase / KryptonWrapLabel.
+                _paintTransparentBackground = typeof(Control).GetMethod(
+                    @"PaintTransparentBackground",
+                    BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
+                    null,
+                    CallingConventions.HasThis,
+                    [typeof(PaintEventArgs), typeof(Rectangle), typeof(Region)],
+                    null);
+            }
+
+            if (_paintTransparentBackground == null)
+            {
+                return false;
+            }
+
+            _paintTransparentBackground.Invoke(this, [e, ClientRectangle, null!]);
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
     private Color ResolveSurfaceBackColor()
     {
-        if (BackColor.A == 255 && BackColor != Color.Transparent)
+        if (BackColor.A == 255 && BackColor != Color.Transparent && BackColor != TransparencyKeyColor)
         {
             return BackColor;
         }
@@ -1126,7 +1165,7 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
             return color;
         }
 
-        if (Parent != null && Parent.BackColor.A == 255)
+        if (Parent != null && Parent.BackColor.A == 255 && Parent.BackColor != TransparencyKeyColor)
         {
             return Parent.BackColor;
         }
