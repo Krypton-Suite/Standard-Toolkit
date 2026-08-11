@@ -45,6 +45,16 @@ public static class KryptonVerifyFileCheckSum
     /// <returns>A DialogResult value indicating the user's action in the dialog.</returns>
     public static DialogResult Show(IWin32Window? owner, string? filePath, string? expectedHash) => ShowCore(owner, filePath, expectedHash);
 
+    /// <summary>Displays the verify file checksum dialog asynchronously.</summary>
+    public static Task<DialogResult> ShowAsync(IWin32Window? owner = null) => ShowCoreAsync(owner);
+
+    /// <summary>Displays the verify file checksum dialog asynchronously.</summary>
+    public static Task<DialogResult> ShowAsync(IWin32Window? owner, string filePath) => ShowCoreAsync(owner, filePath);
+
+    /// <summary>Displays the verify file checksum dialog asynchronously.</summary>
+    public static Task<DialogResult> ShowAsync(IWin32Window? owner, string? filePath, string? expectedHash) => ShowCoreAsync(owner, filePath, expectedHash);
+
+
     /// <summary>
     /// Displays the verify file checksum form as a modal dialog.
     /// </summary>
@@ -61,5 +71,17 @@ public static class KryptonVerifyFileCheckSum
         };
         form.StartPosition = owner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
         return form.ShowDialog(owner);
+    }
+
+    internal static async Task<DialogResult> ShowCoreAsync(IWin32Window? owner = null, string? filePath = null, string? expectedHash = null)
+    {
+        using var form = new VisualVerifyFileCheckSumForm
+        {
+            InitialFilePath = filePath,
+            InitialExpectedHash = expectedHash
+        };
+        form.StartPosition = owner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
+
+        return await KryptonFormAsync.ShowDialogAsync(form, owner).ConfigureAwait(false);
     }
 }

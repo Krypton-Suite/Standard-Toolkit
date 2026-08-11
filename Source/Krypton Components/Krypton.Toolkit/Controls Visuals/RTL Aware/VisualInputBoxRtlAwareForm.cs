@@ -58,6 +58,21 @@ internal partial class VisualInputBoxRtlAwareForm : KryptonForm
             : string.Empty;
     }
 
+    internal static async Task<string> InternalShowAsync(KryptonInputBoxData inputBoxData)
+    {
+        // If do not have an owner passed in then get the active window and use that instead
+        IWin32Window? showOwner = inputBoxData.Owner ?? FromHandle(PI.GetActiveWindow());
+
+        using var ib = new VisualInputBoxRtlAwareForm(inputBoxData);
+        ib.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
+
+        DialogResult result = await KryptonFormAsync.ShowDialogAsync(ib, showOwner).ConfigureAwait(false);
+
+        return result == DialogResult.OK
+            ? ib.InputResponse
+            : string.Empty;
+    }
+
     internal string InputResponse => ktxtUserResponse.Text;
 
     private void UpdateText()

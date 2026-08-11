@@ -87,9 +87,32 @@ public class KryptonPoweredByButton : KryptonButton
     /// <inheritdoc />
     protected override void OnClick(EventArgs e)
     {
-        new VisualToolkitBinaryInformationForm(ButtonValues.ToolkitSupportType, ButtonValues.ShowChangeLogButton, ButtonValues.ShowReadmeButton).ShowDialog();
+        ShowBinaryInformation(ButtonValues.ToolkitSupportType, ButtonValues.ShowChangeLogButton, ButtonValues.ShowReadmeButton);
 
         base.OnClick(e);
+    }
+
+    /// <summary>Shows the toolkit binary information dialog.</summary>
+    /// <param name="toolkitType">Type of the toolkit.</param>
+    /// <param name="showChangeLogButton">Whether to show the change log button.</param>
+    /// <param name="showReadmeButton">Whether to show the readme button.</param>
+    public static void ShowBinaryInformation(ToolkitSupportType toolkitType, bool? showChangeLogButton = null, bool? showReadmeButton = null)
+    {
+        using var form = new VisualToolkitBinaryInformationForm(toolkitType, showChangeLogButton, showReadmeButton);
+
+        form.ShowDialog();
+    }
+
+    /// <summary>Shows the toolkit binary information dialog asynchronously.</summary>
+    /// <param name="toolkitType">Type of the toolkit.</param>
+    /// <param name="showChangeLogButton">Whether to show the change log button.</param>
+    /// <param name="showReadmeButton">Whether to show the readme button.</param>
+    /// <returns>A task that completes when the dialog is closed.</returns>
+    public static async Task ShowBinaryInformationAsync(ToolkitSupportType toolkitType, bool? showChangeLogButton = null, bool? showReadmeButton = null)
+    {
+        using var form = new VisualToolkitBinaryInformationForm(toolkitType, showChangeLogButton, showReadmeButton);
+
+        await KryptonFormAsync.ShowDialogAsync(form).ConfigureAwait(false);
     }
 
     #endregion

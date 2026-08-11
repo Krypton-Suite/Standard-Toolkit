@@ -167,6 +167,37 @@ public class KryptonPrintPreviewDialog : Component, IDisposable
         return _previewForm.ShowDialog(owner);
     }
 
+    /// <summary>
+    /// Runs a print preview dialog box asynchronously.
+    /// </summary>
+    /// <returns>A task that produces one of the <see cref="DialogResult"/> values when the dialog is closed.</returns>
+    public Task<DialogResult> ShowDialogAsync() => ShowDialogAsync(null);
+
+    /// <summary>
+    /// Runs a print preview dialog box asynchronously with the specified owner.
+    /// </summary>
+    /// <param name="owner">Any object that implements <see cref="IWin32Window"/> that represents the top-level window that will own the modal dialog box.</param>
+    /// <returns>A task that produces one of the <see cref="DialogResult"/> values when the dialog is closed.</returns>
+    public async Task<DialogResult> ShowDialogAsync(IWin32Window? owner)
+    {
+        if (_document == null)
+        {
+            ThrowHelper.ThrowArgumentNullException(nameof(Document), @"Document must be set before showing the dialog.");
+        }
+
+        _previewForm?.Dispose();
+        _previewForm = new VisualPrintPreviewForm
+        {
+            Document = _document,
+            UseAntiAlias = _useAntiAlias,
+            Icon = _icon,
+            Text = _text,
+            WindowState = WindowState
+        };
+
+        return await KryptonFormAsync.ShowDialogAsync(_previewForm, owner).ConfigureAwait(false);
+    }
+
     #endregion
 
     #region Disposal

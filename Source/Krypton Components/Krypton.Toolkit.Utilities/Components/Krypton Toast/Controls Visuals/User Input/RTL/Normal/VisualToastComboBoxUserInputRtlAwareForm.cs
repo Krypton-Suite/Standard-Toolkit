@@ -250,5 +250,18 @@ internal partial class VisualToastComboBoxUserInputRtlAwareForm : VisualToastBas
         }
     }
 
-    #endregion
+    
+    internal static async Task<string> ShowNotificationAsync(KryptonUserInputToastData data)
+    {
+        var owner = data.ToastHost ?? FromHandle(PI.GetActiveWindow());
+
+        using var toast = new VisualToastComboBoxUserInputRtlAwareForm(data);
+
+        toast.StartPosition = owner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
+
+        DialogResult result = await KryptonFormAsync.ShowDialogAsync(toast, owner).ConfigureAwait(false);
+
+        return result == DialogResult.OK ? toast.UserResponse : string.Empty;
+    }
+#endregion
 }

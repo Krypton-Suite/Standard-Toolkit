@@ -252,5 +252,38 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
         return collection;
     }
 
+    internal static async Task<string[]?> InternalShowAsync(IWin32Window? owner, string[] input, bool? useRichTextBox, string? headerText, string windowTitle)
+    {
+        IWin32Window? showOwner = owner ?? FromHandle(PI.GetActiveWindow());
+
+        using var kmse = new VisualMultilineStringEditorForm(input, null, useRichTextBox, headerText, windowTitle);
+
+        kmse.StartPosition = showOwner == null ? FormStartPosition.CenterParent : FormStartPosition.CenterScreen;
+
+        DialogResult result = await KryptonFormAsync.ShowDialogAsync(kmse, showOwner).ConfigureAwait(false);
+
+        return result == DialogResult.OK ? kmse.GetEditedLines() : null;
+    }
+
+    internal static async Task<StringCollection?> InternalShowStringCollectionAsync(IWin32Window? owner, StringCollection input, bool? useRichTextBox, string? headerText, string windowTitle)
+    {
+        IWin32Window? showOwner = owner ?? FromHandle(PI.GetActiveWindow());
+
+        using var kmse = new VisualMultilineStringEditorForm(null, input, useRichTextBox, headerText, windowTitle);
+
+        kmse.StartPosition = showOwner == null ? FormStartPosition.CenterParent : FormStartPosition.CenterScreen;
+
+        DialogResult result = await KryptonFormAsync.ShowDialogAsync(kmse, showOwner).ConfigureAwait(false);
+
+        if (result != DialogResult.OK)
+        {
+            return null;
+        }
+
+        var collection = new StringCollection();
+        collection.AddRange(kmse.GetEditedLines());
+        return collection;
+    }
+
     #endregion
 }

@@ -224,5 +224,18 @@ internal partial class VisualToastMaskedTextBoxInputWithProgressBarForm : Visual
         }
     }
 
-    #endregion
+    
+    internal static async Task<string> ShowNotificationAsync(KryptonUserInputToastData data)
+    {
+        var owner = data.ToastHost ?? FromHandle(PI.GetActiveWindow());
+
+        using var toast = new VisualToastMaskedTextBoxInputWithProgressBarForm(data);
+
+        toast.StartPosition = owner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
+
+        DialogResult result = await KryptonFormAsync.ShowDialogAsync(toast, owner).ConfigureAwait(false);
+
+        return result == DialogResult.OK ? toast.UserResponse : GlobalStaticValues.DEFAULT_EMPTY_STRING;
+    }
+#endregion
 }

@@ -228,6 +228,18 @@ internal partial class VisualToastNUDUserInputWithProgressBarForm : VisualToastB
             return toast.ShowDialog() == DialogResult.OK ? toast.UserResponse : 0;
         }
     }
+    public static async Task<decimal> ShowToastNotificationAsync(KryptonUserInputToastData data)
+    {
+        var owner = data.ToastHost ?? FromHandle(PI.GetActiveWindow());
+
+        using var toast = new VisualToastNUDUserInputWithProgressBarForm(data);
+
+        toast.StartPosition = owner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
+
+        DialogResult result = await KryptonFormAsync.ShowDialogAsync(toast, owner).ConfigureAwait(false);
+
+        return result == DialogResult.OK ? toast.UserResponse : 0;
+    }
 }
 
 #endregion
