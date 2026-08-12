@@ -66,6 +66,7 @@ internal partial class VisualInputBoxRtlAwareForm : KryptonForm
         using var ib = new VisualInputBoxRtlAwareForm(inputBoxData);
         ib.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 
+        // Await required so using does not dispose the form before the dialog completes.
         DialogResult result = await KryptonFormAsync.ShowDialogAsync(ib, showOwner).ConfigureAwait(false);
 
         return result == DialogResult.OK

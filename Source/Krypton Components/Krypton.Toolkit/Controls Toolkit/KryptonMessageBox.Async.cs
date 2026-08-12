@@ -476,6 +476,7 @@ public static partial class KryptonMessageBox
 
             kmbRtl.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 
+            // Await required so using does not dispose the form before the dialog completes.
             return await KryptonFormAsync.ShowDialogAsync(kmbRtl, showOwner).ConfigureAwait(false);
         }
 
@@ -485,6 +486,7 @@ public static partial class KryptonMessageBox
 
         kmb.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 
+        // Await required so using does not dispose the form before the dialog completes.
         return await KryptonFormAsync.ShowDialogAsync(kmb, showOwner).ConfigureAwait(false);
     }
 

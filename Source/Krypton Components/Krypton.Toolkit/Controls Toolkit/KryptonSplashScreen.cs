@@ -46,6 +46,7 @@ public static class KryptonSplashScreen
     {
         using var kssf = new VisualSplashScreenForm(splashScreenData);
 
+        // Await required so using does not dispose the form before the dialog completes.
         return await KryptonFormAsync.ShowDialogAsync(kssf).ConfigureAwait(false);
     }
 

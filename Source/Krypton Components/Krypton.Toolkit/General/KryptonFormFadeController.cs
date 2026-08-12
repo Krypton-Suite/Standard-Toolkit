@@ -189,6 +189,7 @@ internal class KryptonFormFadeController
 
         try
         {
+            // Await required so finally can stop the fade timer after the dialog completes.
             return await KryptonFormAsync.ShowDialogAsync(_owner, _parentForm!).ConfigureAwait(false);
         }
         finally

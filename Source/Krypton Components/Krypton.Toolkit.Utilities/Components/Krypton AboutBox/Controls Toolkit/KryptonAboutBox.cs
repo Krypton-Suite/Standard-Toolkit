@@ -65,6 +65,7 @@ public static class KryptonAboutBox
     {
         using var kab = new VisualAboutBoxForm(aboutBoxData);
 
+        // Await required so using does not dispose the form before the dialog completes.
         return await KryptonFormAsync.ShowDialogAsync(kab).ConfigureAwait(false);
     }
 
@@ -72,6 +73,7 @@ public static class KryptonAboutBox
     {
         using var kab = new VisualAboutBoxForm(aboutBoxData, aboutToolkitData);
 
+        // Await required so using does not dispose the form before the dialog completes.
         return await KryptonFormAsync.ShowDialogAsync(kab).ConfigureAwait(false);
     }
 

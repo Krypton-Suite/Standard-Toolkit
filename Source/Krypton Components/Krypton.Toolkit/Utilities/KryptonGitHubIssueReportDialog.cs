@@ -140,6 +140,7 @@ public static class KryptonGitHubIssueReportDialog
         }
 
         using var dialog = new VisualGitHubIssueReportForm(config, additionalInfo);
+        // Await required so using does not dispose the form before the dialog completes.
         return await KryptonFormAsync.ShowDialogAsync(dialog, owner).ConfigureAwait(false);
     }
 
@@ -162,6 +163,7 @@ public static class KryptonGitHubIssueReportDialog
     private static async Task<DialogResult> ShowConfiguredAsync(IWin32Window? owner, BugReportGitHubConfig config, string? additionalInfo)
     {
         using var dialog = new VisualGitHubIssueReportForm(config, additionalInfo);
+        // Await required so using does not dispose the form before the dialog completes.
         return await KryptonFormAsync.ShowDialogAsync(dialog, owner).ConfigureAwait(false);
     }
 }

@@ -50,12 +50,14 @@ public class KryptonThemeBrowser
         {
             using var ktb = new VisualThemeBrowserForm(themeBrowserData);
 
+            // Await required so using does not dispose the form before the dialog completes.
             await KryptonFormAsync.ShowDialogAsync(ktb).ConfigureAwait(false);
         }
         else
         {
             using var ktbRTL = new VisualThemeBrowserFormRtlAware(themeBrowserData);
 
+            // Await required so using does not dispose the form before the dialog completes.
             await KryptonFormAsync.ShowDialogAsync(ktbRTL).ConfigureAwait(false);
         }
     }

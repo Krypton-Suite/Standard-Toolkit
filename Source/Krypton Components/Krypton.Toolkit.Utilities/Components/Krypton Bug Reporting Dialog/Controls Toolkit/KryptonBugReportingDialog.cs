@@ -57,6 +57,7 @@ public static class KryptonBugReportingDialog
     private static async Task<DialogResult> ShowCoreAsync(Exception? exception, BugReportEmailConfig emailConfig)
     {
         using var dialog = new VisualBugReportingDialogForm(exception, emailConfig);
+        // Await required so using does not dispose the form before the dialog completes.
         return await KryptonFormAsync.ShowDialogAsync(dialog).ConfigureAwait(false);
     }
 

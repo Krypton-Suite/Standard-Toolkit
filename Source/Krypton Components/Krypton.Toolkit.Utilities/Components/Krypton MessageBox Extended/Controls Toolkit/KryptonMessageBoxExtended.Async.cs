@@ -668,6 +668,7 @@ public static partial class KryptonMessageBoxExtended
     {
         using var kmbe = new VisualMessageBoxExtendedForm(data, showCloseButton);
 
+        // Await required so using does not dispose the form before the dialog completes.
         return await KryptonFormAsync.ShowDialogAsync(kmbe, data.Owner).ConfigureAwait(false);
     }
 
@@ -763,6 +764,7 @@ public static partial class KryptonMessageBoxExtended
                 showCopyButton,
                 overlayImage);
 
+            // Await required so using does not dispose the form before the dialog completes.
             return await KryptonFormAsync.ShowDialogAsync(kmbertl, showOwner).ConfigureAwait(false);
         }
 
@@ -813,6 +815,7 @@ public static partial class KryptonMessageBoxExtended
             showCopyButton,
             overlayImage);
 
+        // Await required so using does not dispose the form before the dialog completes.
         return await KryptonFormAsync.ShowDialogAsync(kmbe, showOwner).ConfigureAwait(false);
     }
 

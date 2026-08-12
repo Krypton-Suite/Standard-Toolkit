@@ -436,6 +436,7 @@ internal partial class VisualFoldableDialogForm : KryptonForm
     {
         using var form = new VisualFoldableDialogForm(data);
 
+        // Await required so using does not dispose the form before the dialog completes.
         return await KryptonFormAsync.ShowDialogAsync(form, data.Owner).ConfigureAwait(false);
     }
 

@@ -112,6 +112,7 @@ public class KryptonPoweredByButton : KryptonButton
     {
         using var form = new VisualToolkitBinaryInformationForm(toolkitType, showChangeLogButton, showReadmeButton);
 
+        // Await required so using does not dispose the form before the dialog completes.
         await KryptonFormAsync.ShowDialogAsync(form).ConfigureAwait(false);
     }
 

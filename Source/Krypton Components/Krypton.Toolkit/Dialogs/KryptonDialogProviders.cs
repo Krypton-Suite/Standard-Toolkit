@@ -172,6 +172,7 @@ internal sealed class CustomKryptonDialogProvider : IKryptonDialogProvider
     private static async Task<KryptonDialogResult> ShowProviderDialogAsync(KryptonDialogProviderContext context)
     {
         using var dialog = new VisualCustomFileDialogForm(context);
+        // Await required so using does not dispose the dialog before it completes.
         return await dialog.ShowProviderDialogAsync().ConfigureAwait(false);
     }
 }

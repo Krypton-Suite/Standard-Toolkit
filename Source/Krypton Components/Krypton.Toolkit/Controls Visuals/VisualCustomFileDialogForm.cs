@@ -756,6 +756,7 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
     public async Task<KryptonDialogResult> ShowProviderDialogAsync()
     {
         var owner = _context.Owner;
+        // Await required: provider result is finalized after the dialog closes.
         var dialogResult = await KryptonFormAsync.ShowDialogAsync(this, owner).ConfigureAwait(false);
         if (_providerResult.DialogResult == DialogResult.None)
         {

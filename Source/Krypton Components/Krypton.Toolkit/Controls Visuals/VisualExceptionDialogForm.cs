@@ -157,6 +157,7 @@ internal partial class VisualExceptionDialogForm : KryptonForm
     {
         using var ved = new VisualExceptionDialogForm(showCopyButton, showSearchBox, highlightColor, exception, bugReportCallback);
 
+        // Await required so using does not dispose the form before the dialog completes.
         await KryptonFormAsync.ShowDialogAsync(ved).ConfigureAwait(false);
     }
 

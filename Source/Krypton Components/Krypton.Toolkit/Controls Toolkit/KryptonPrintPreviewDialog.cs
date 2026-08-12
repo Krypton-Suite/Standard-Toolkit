@@ -178,7 +178,7 @@ public class KryptonPrintPreviewDialog : Component, IDisposable
     /// </summary>
     /// <param name="owner">Any object that implements <see cref="IWin32Window"/> that represents the top-level window that will own the modal dialog box.</param>
     /// <returns>A task that produces one of the <see cref="DialogResult"/> values when the dialog is closed.</returns>
-    public async Task<DialogResult> ShowDialogAsync(IWin32Window? owner)
+    public Task<DialogResult> ShowDialogAsync(IWin32Window? owner)
     {
         if (_document == null)
         {
@@ -195,7 +195,7 @@ public class KryptonPrintPreviewDialog : Component, IDisposable
             WindowState = WindowState
         };
 
-        return await KryptonFormAsync.ShowDialogAsync(_previewForm, owner).ConfigureAwait(false);
+        return KryptonFormAsync.ShowDialogAsync(_previewForm, owner);
     }
 
     #endregion

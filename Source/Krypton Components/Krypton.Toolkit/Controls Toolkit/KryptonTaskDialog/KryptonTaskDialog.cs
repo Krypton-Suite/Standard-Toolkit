@@ -319,6 +319,7 @@ public class KryptonTaskDialog : IDisposable
 
         // The standard form's DialogResult property always returns Cancel when e.Cancel is set to true.<br/>
         // Before that happens the DialogResult is stored in DialogResultInternal.
+        // Await required: Dialog.DialogResult is read after the dialog closes.
         await KryptonFormAsync.ShowDialogAsync(_form, owner).ConfigureAwait(false);
 
         return Dialog.DialogResult;

@@ -114,6 +114,7 @@ public class KryptonMultilineStringEditor
     {
         using var kmse = new VisualMultilineStringEditorForm(contents, collection, useRichTextBox, headerText, windowTitle);
 
+        // Await required so using does not dispose the form before the dialog completes.
         return await KryptonFormAsync.ShowDialogAsync(kmse).ConfigureAwait(false);
     }
 

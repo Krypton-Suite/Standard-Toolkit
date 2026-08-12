@@ -238,6 +238,7 @@ internal partial class VisualToastNUDUserInputRtlAwareForm : VisualToastBaseForm
 
         toast.StartPosition = owner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 
+        // Await required so using does not dispose the form before the dialog completes.
         DialogResult result = await KryptonFormAsync.ShowDialogAsync(toast, owner).ConfigureAwait(false);
 
         return result == DialogResult.OK ? toast.UserResponse : 0;

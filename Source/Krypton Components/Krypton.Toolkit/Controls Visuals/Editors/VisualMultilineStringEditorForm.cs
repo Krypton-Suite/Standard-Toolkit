@@ -260,6 +260,7 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
 
         kmse.StartPosition = showOwner == null ? FormStartPosition.CenterParent : FormStartPosition.CenterScreen;
 
+        // Await required so using does not dispose the form before the dialog completes.
         DialogResult result = await KryptonFormAsync.ShowDialogAsync(kmse, showOwner).ConfigureAwait(false);
 
         return result == DialogResult.OK ? kmse.GetEditedLines() : null;
@@ -273,6 +274,7 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
 
         kmse.StartPosition = showOwner == null ? FormStartPosition.CenterParent : FormStartPosition.CenterScreen;
 
+        // Await required so using does not dispose the form before the dialog completes.
         DialogResult result = await KryptonFormAsync.ShowDialogAsync(kmse, showOwner).ConfigureAwait(false);
 
         if (result != DialogResult.OK)

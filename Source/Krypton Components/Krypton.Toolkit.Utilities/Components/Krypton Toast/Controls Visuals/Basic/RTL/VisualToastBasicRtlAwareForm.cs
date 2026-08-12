@@ -254,6 +254,7 @@ internal partial class VisualToastBasicRtlAwareForm : VisualToastBaseForm
     {
         using var toast = new VisualToastBasicRtlAwareForm(toastNotificationData);
 
+        // Await required so using does not dispose the form before the dialog completes.
         return await KryptonFormAsync.ShowDialogAsync(toast).ConfigureAwait(false) == DialogResult.OK && toast.ReturnValue;
     }
 
@@ -261,6 +262,7 @@ internal partial class VisualToastBasicRtlAwareForm : VisualToastBaseForm
     {
         using var toast = new VisualToastBasicRtlAwareForm(toastNotificationData);
 
+        // Await required so using does not dispose the form before the dialog completes.
         return await KryptonFormAsync.ShowDialogAsync(toast).ConfigureAwait(false) == DialogResult.OK
             ? toast.ReturnCheckBoxStateValue
             : CheckState.Unchecked;
