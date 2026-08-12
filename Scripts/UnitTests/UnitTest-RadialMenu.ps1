@@ -134,12 +134,28 @@ Assert-True ($null -ne $menu.StateShadowTracking) 'StateShadowTracking is availa
 Assert-True ($null -ne $menu.StateShadowPressed) 'StateShadowPressed is available'
 Assert-True ($null -ne $menu.StateShadowDisabled) 'StateShadowDisabled is available'
 Assert-Equal 0.18 ([float]$menu.ShadowOpacity) 'Default ShadowOpacity is 0.18'
+Assert-Equal 1 ([float]$menu.Scale) 'Default Scale is 1'
+
+# ----- RadialMenuMetrics (internal) -----
+$metricsType = [Krypton.Toolkit.Utilities.KryptonRadialMenu].Assembly.GetType('Krypton.Toolkit.Utilities.RadialMenuMetrics')
+Assert-True ($null -ne $metricsType) 'RadialMenuMetrics type is available'
+$diameterMethod = $metricsType.GetMethod('DiameterFromRadius', [System.Reflection.BindingFlags]'Public,Static')
+Assert-Equal 288 ($diameterMethod.Invoke($null, [object[]]@(140))) 'DiameterFromRadius(140) is 288'
+$fromMethod = $metricsType.GetMethod('From', [System.Reflection.BindingFlags]'Public,Static')
+$values = Get-NetObject $menu.Values
+$metricsFit = $fromMethod.Invoke($null, [object[]]@($values, [float]4.0, [System.Drawing.Size]::new(400, 400)))
+$fitOuter = [int]$metricsFit.MenuRadius
+Assert-True ($fitOuter -le 196) "High DPI metrics clamp to available client (got $fitOuter)"
+$metricsRoomy = $fromMethod.Invoke($null, [object[]]@($values, [float]1.0, [System.Drawing.Size]::new(2000, 2000)))
+Assert-Equal 140 ([int]$metricsRoomy.MenuRadius) 'Unclamped metrics keep default MenuRadius 140'
+Write-Host 'PASS: RadialMenuMetrics diameter and viewport clamp' -ForegroundColor Green
 
 # ----- Hosted KryptonRadialMenuControl -----
 $hosted = Get-NetObject ([System.Activator]::CreateInstance([Krypton.Toolkit.Utilities.KryptonRadialMenuControl]))
 Assert-Equal 140 $hosted.MenuRadius 'Hosted default MenuRadius is 140'
 Assert-equal 42 $hosted.InnerRadius 'Hosted default InnerRadius is 42'
 Assert-Equal 10 $hosted.OuterRingThickness 'Hosted default OuterRingThickness is 10'
+Assert-Equal 1 ([float]$hosted.Scale) 'Hosted default Scale is 1'
 Assert-Equal ([Krypton.Toolkit.Utilities.KryptonRadialMenuDisplayStyle]::ImageAboveText) $hosted.DisplayStyle 'Hosted default DisplayStyle is ImageAboveText'
 Assert-True ($null -ne $hosted.StateCommon) 'Hosted StateCommon is available'
 Assert-True ($null -ne $hosted.Items) 'Hosted Items collection is available'

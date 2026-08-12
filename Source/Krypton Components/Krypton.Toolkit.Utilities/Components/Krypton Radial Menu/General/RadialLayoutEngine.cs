@@ -22,7 +22,7 @@ internal static class RadialLayoutEngine
     /// <param name="innerRadius">Inner radius.</param>
     /// <param name="startAngle">Start angle of the first sector in degrees.</param>
     /// <returns>Sector descriptors.</returns>
-    public static RadialSectorInfo[] BuildSectors(int itemCount, float outerRadius, float innerRadius, float startAngle = -90f)
+    public static RadialSectorInfo[] BuildSectors(int itemCount, float outerRadius, float innerRadius, float startAngle = RadialMenuMetrics.DefaultStartAngle)
     {
         if (itemCount <= 0)
         {
@@ -52,9 +52,9 @@ internal static class RadialLayoutEngine
         RadialSectorInfo[] sectors,
         bool editorMode,
         int editorCount,
-        float startAngle = -90f,
+        float startAngle = RadialMenuMetrics.DefaultStartAngle,
         float hitPadding = 0f,
-        float outerRingThickness = 10f)
+        float outerRingThickness = RadialMenuMetrics.DefaultOuterRingThickness)
     {
         var dx = clientPoint.X - center.X;
         var dy = clientPoint.Y - center.Y;
@@ -109,7 +109,7 @@ internal static class RadialLayoutEngine
         }
 
         // Outer-ring band: thickness floor, with a touch-friendly minimum using hit padding.
-        var band = Math.Max(Math.Max(0f, outerRingThickness), hitPadding + 2f);
+        var band = Math.Max(Math.Max(0f, outerRingThickness), hitPadding + RadialMenuMetrics.ShadowPadExtra);
         var ringInner = Math.Max(inner, outerRadius - band);
         if (distance >= ringInner)
         {

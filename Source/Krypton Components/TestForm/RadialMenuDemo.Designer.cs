@@ -61,6 +61,8 @@ partial class RadialMenuDemo
         this.kwlblShadowOffset = new Krypton.Toolkit.KryptonWrapLabel();
         this.kcmbImageSize = new Krypton.Toolkit.KryptonComboBox();
         this.kwlblImageSize = new Krypton.Toolkit.KryptonWrapLabel();
+        this.knudScale = new Krypton.Toolkit.KryptonNumericUpDown();
+        this.kwlblScale = new Krypton.Toolkit.KryptonWrapLabel();
         this.knudOuterRing = new Krypton.Toolkit.KryptonNumericUpDown();
         this.kwlblOuterRing = new Krypton.Toolkit.KryptonWrapLabel();
         this.kcmbDisplayStyle = new Krypton.Toolkit.KryptonComboBox();
@@ -111,6 +113,8 @@ partial class RadialMenuDemo
         this.kpnlToolbar.Controls.Add(this.knudShadowOffset);
         this.kpnlToolbar.Controls.Add(this.kcmbImageSize);
         this.kpnlToolbar.Controls.Add(this.kwlblImageSize);
+        this.kpnlToolbar.Controls.Add(this.knudScale);
+        this.kpnlToolbar.Controls.Add(this.kwlblScale);
         this.kpnlToolbar.Controls.Add(this.knudOuterRing);
         this.kpnlToolbar.Controls.Add(this.kwlblOuterRing);
         this.kpnlToolbar.Controls.Add(this.kcmbDisplayStyle);
@@ -285,9 +289,29 @@ partial class RadialMenuDemo
         this.knudShadowOffset.Value = new decimal(new int[] { 4, 0, 0, 0 });
         this.knudShadowOffset.ValueChanged += new System.EventHandler(this.knudShadowOffset_ValueChanged);
         //
+        // kwlblScale
+        //
+        this.kwlblScale.Location = new System.Drawing.Point(770, 74);
+        this.kwlblScale.Name = "kwlblScale";
+        this.kwlblScale.Size = new System.Drawing.Size(40, 20);
+        this.kwlblScale.Text = "Scale:";
+        //
+        // knudScale
+        //
+        this.knudScale.DecimalPlaces = 2;
+        this.knudScale.Increment = new decimal(new int[] { 25, 0, 0, 65536 });
+        this.knudScale.Location = new System.Drawing.Point(814, 70);
+        this.knudScale.Maximum = new decimal(new int[] { 3, 0, 0, 0 });
+        this.knudScale.Minimum = new decimal(new int[] { 5, 0, 0, 65536 });
+        this.knudScale.Name = "knudScale";
+        this.knudScale.Size = new System.Drawing.Size(56, 25);
+        this.knudScale.TabIndex = 15;
+        this.knudScale.Value = new decimal(new int[] { 1, 0, 0, 0 });
+        this.knudScale.ValueChanged += new System.EventHandler(this.knudScale_ValueChanged);
+        //
         // kchkShowCheckedGlyph
         //
-        this.kchkShowCheckedGlyph.Location = new System.Drawing.Point(770, 70);
+        this.kchkShowCheckedGlyph.Location = new System.Drawing.Point(880, 70);
         this.kchkShowCheckedGlyph.Name = "kchkShowCheckedGlyph";
         this.kchkShowCheckedGlyph.Size = new System.Drawing.Size(120, 24);
         this.kchkShowCheckedGlyph.TabIndex = 14;
@@ -466,6 +490,8 @@ partial class RadialMenuDemo
     private Krypton.Toolkit.KryptonWrapLabel kwlblImageSize;
     private Krypton.Toolkit.KryptonNumericUpDown knudOuterRing;
     private Krypton.Toolkit.KryptonWrapLabel kwlblOuterRing;
+    private Krypton.Toolkit.KryptonNumericUpDown knudScale;
+    private Krypton.Toolkit.KryptonWrapLabel kwlblScale;
     private Krypton.Toolkit.KryptonComboBox kcmbDisplayStyle;
     private Krypton.Toolkit.KryptonWrapLabel kwlblDisplayStyle;
     private Krypton.Toolkit.KryptonCheckBox kchkAllowMove;

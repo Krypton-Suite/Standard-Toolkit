@@ -33,16 +33,16 @@ internal static class RadialMenuPainter
         KryptonRadialMenuItemBase? activeEditorItem,
         int trackingEditorIndex,
         IRadialMenuAppearance appearance,
-        int? outerRadiusOverride = null,
-        int? innerRadiusOverride = null)
+        RadialMenuMetrics metrics)
     {
         g.SmoothingMode = SmoothingMode.AntiAlias;
         g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
         g.PixelOffsetMode = PixelOffsetMode.HighQuality;
 
         var center = new PointF(bounds.Width / 2f, bounds.Height / 2f);
-        var outer = outerRadiusOverride ?? values.MenuRadius;
-        var inner = innerRadiusOverride ?? values.InnerRadius;
+        var outer = metrics.MenuRadius;
+        var inner = metrics.InnerRadius;
+        var ringThickness = metrics.OuterRingThickness;
 
         using (var outerPath = CreateAnnulusPath(center, outer, inner))
         using (var backBrush = new SolidBrush(colors.SectorNormal))
@@ -55,8 +55,7 @@ internal static class RadialMenuPainter
         if (!editorMode)
         {
             // Keep slice fills inside the outer-ring band so thick rings do not cover sector content.
-            var ringThickness = Math.Max(0f, Math.Min(16f, values.OuterRingThickness));
-            var bodyOuter = Math.Max(inner + 8f, outer - ringThickness);
+            var bodyOuter = metrics.SectorBodyOuterRadius(outer, inner);
             for (var i = 0; i < sectors.Length && i < items.Count; i++)
             {
                 var sectorTracking = i == trackingIndex && !trackingOuterRing;
@@ -67,12 +66,12 @@ internal static class RadialMenuPainter
                     sectors[i].SweepAngle,
                     bodyOuter,
                     sectors[i].InnerRadius);
-                PaintSector(g, center, bodySector, items[i], sectorTracking, sectorPressed, colors, values);
+                PaintSector(g, center, bodySector, items[i], sectorTracking, sectorPressed, colors, values, metrics);
             }
         }
         else if (activeEditorItem != null)
         {
-            PaintEditor(g, center, outer, inner, activeEditorItem, trackingEditorIndex, colors, values.StartAngle);
+            PaintEditor(g, center, outer, inner, activeEditorItem, trackingEditorIndex, colors, values.StartAngle, metrics);
             centerText = ResolveEditorCenterText(activeEditorItem);
         }
 
@@ -88,6 +87,7 @@ internal static class RadialMenuPainter
                 appearance,
                 colors,
                 outer,
+                metrics,
                 trackingIndex,
                 trackingOuterRing,
                 pressedIndex,
@@ -100,6 +100,7 @@ internal static class RadialMenuPainter
                 values,
                 appearance,
                 colors,
+                metrics,
                 trackingIndex,
                 trackingOuterRing,
                 pressedIndex,
@@ -107,7 +108,7 @@ internal static class RadialMenuPainter
         }
 
         // Text/calendar editors own the centre caption; other editors keep the back chevron.
-        PaintCenter(g, center, inner, colors, values.Glyph, canGoBack && centerText == null, centerText);
+        PaintCenter(g, center, inner, colors, values.Glyph, canGoBack && centerText == null, centerText, metrics);
     }
 
     private static void PaintOuterRingArcs(
@@ -119,19 +120,19 @@ internal static class RadialMenuPainter
         IRadialMenuAppearance appearance,
         RadialMenuColorSet colors,
         float menuRadius,
+        RadialMenuMetrics metrics,
         int trackingIndex,
         bool trackingOuterRing,
         int pressedIndex,
         bool pressedOuterRing)
     {
-        var thickness = values.OuterRingThickness;
-        if (thickness <= 0f)
+        var ringThickness = metrics.OuterRingThickness;
+        if (ringThickness <= 0f)
         {
             return;
         }
 
-        thickness = Math.Min(16f, thickness);
-        var radius = Math.Max(1f, menuRadius - (thickness * 0.5f));
+        var radius = Math.Max(1f, menuRadius - (ringThickness * 0.5f));
         var rect = new RectangleF(center.X - radius, center.Y - radius, radius * 2f, radius * 2f);
 
         for (var i = 0; i < sectors.Length && i < items.Count; i++)
@@ -143,10 +144,12 @@ internal static class RadialMenuPainter
                 i == trackingIndex && trackingOuterRing,
                 i == pressedIndex && pressedOuterRing);
             // Flat caps + small gap keep per-sector tracking visible on thick rings.
-            var gap = Math.Min(2.5f, Math.Max(0.8f, sectors[i].SweepAngle * 0.04f));
-            var sweep = Math.Max(0.5f, sectors[i].SweepAngle - gap);
+            var gap = Math.Min(
+                RadialMenuMetrics.RingArcGapMaxDeg,
+                Math.Max(RadialMenuMetrics.RingArcGapMinDeg, sectors[i].SweepAngle * RadialMenuMetrics.RingArcGapFrac));
+            var sweep = Math.Max(RadialMenuMetrics.MinRingArcSweepDeg, sectors[i].SweepAngle - gap);
             var start = sectors[i].StartAngle + (gap * 0.5f);
-            using var pen = new Pen(color, thickness)
+            using var pen = new Pen(color, ringThickness)
             {
                 Alignment = PenAlignment.Center,
                 StartCap = LineCap.Flat,
@@ -229,6 +232,7 @@ internal static class RadialMenuPainter
         KryptonRadialMenuValues values,
         IRadialMenuAppearance appearance,
         RadialMenuColorSet colors,
+        RadialMenuMetrics metrics,
         int trackingIndex,
         bool trackingOuterRing,
         int pressedIndex,
@@ -239,7 +243,6 @@ internal static class RadialMenuPainter
             return;
         }
 
-        var ringThickness = Math.Max(0f, values.OuterRingThickness);
         for (var i = 0; i < sectors.Length && i < items.Count; i++)
         {
             if (!items[i].HasChildren || !items[i].Enabled)
@@ -253,9 +256,10 @@ internal static class RadialMenuPainter
                 items[i],
                 i == trackingIndex && trackingOuterRing,
                 i == pressedIndex && pressedOuterRing);
-            PaintSubMenuGlyph(g, center, sectors[i], values.SubMenuGlyph, ContrastingInk(ringColor), ringThickness);
+            PaintSubMenuGlyph(g, center, sectors[i], values.SubMenuGlyph, ContrastingInk(ringColor), metrics);
         }
     }
+
     private static void PaintSector(
         Graphics g,
         PointF center,
@@ -264,7 +268,8 @@ internal static class RadialMenuPainter
         bool tracking,
         bool pressed,
         RadialMenuColorSet colors,
-        KryptonRadialMenuValues values)
+        KryptonRadialMenuValues values,
+        RadialMenuMetrics metrics)
     {
         using var path = CreateSectorPath(center, sector);
         var fill = ResolveSectorFill(item, tracking, pressed, colors);
@@ -279,17 +284,17 @@ internal static class RadialMenuPainter
             border = colors.BorderTracking;
         }
 
-        using (var pen = new Pen(border, tracking || pressed ? 2.5f : 1f))
+        using (var pen = new Pen(border, tracking || pressed ? metrics.SectorBorderTracking : metrics.SectorBorderNormal))
         {
             g.DrawPath(pen, path);
         }
 
         var content = RadialLayoutEngine.GetSectorContentPoint(center, sector);
-        PaintSectorContent(g, content, item, values, item.Enabled, colors);
+        PaintSectorContent(g, content, item, values, item.Enabled, colors, metrics);
 
         if (values.ShowCheckedGlyph && item is KryptonRadialMenuItem { Checked: true })
         {
-            PaintCheckedGlyph(g, content, colors);
+            PaintCheckedGlyph(g, content, colors, metrics);
         }
     }
 
@@ -343,7 +348,8 @@ internal static class RadialMenuPainter
         KryptonRadialMenuItemBase item,
         KryptonRadialMenuValues values,
         bool enabled,
-        RadialMenuColorSet colors)
+        RadialMenuColorSet colors,
+        RadialMenuMetrics metrics)
     {
         string? text = null;
         Image? image;
@@ -390,15 +396,9 @@ internal static class RadialMenuPainter
         }
 
         var displayStyle = values.DisplayStyle;
-        var dpiScale = g.DpiX > 0f ? g.DpiX / 96f : 1f;
-        if (dpiScale < 0.25f)
-        {
-            dpiScale = 1f;
-        }
-
-        var imageSize = Math.Max(1, (int)Math.Round(values.ItemImageSize * dpiScale));
+        var imageSize = metrics.ItemImageSize;
         // Keep a clear gap between icon and label so stacked layouts do not look cramped.
-        var imageTextSpacing = Math.Max(8f, 12f * dpiScale);
+        var imageTextSpacing = metrics.ImageTextSpacing;
         var textColor = enabled ? colors.Text : colors.TextDisabled;
         var showText = displayStyle != KryptonRadialMenuDisplayStyle.Image && !string.IsNullOrEmpty(text);
         var showImage = displayStyle != KryptonRadialMenuDisplayStyle.Text && image != null;
@@ -421,7 +421,7 @@ internal static class RadialMenuPainter
 
         if (showText)
         {
-            using var font = new Font("Segoe UI", 8f, FontStyle.Regular);
+            using var font = new Font("Segoe UI", metrics.SectorCaptionFontPt, FontStyle.Regular);
             using var brush = new SolidBrush(textColor);
             var format = new StringFormat
             {
@@ -433,9 +433,9 @@ internal static class RadialMenuPainter
             var textY = showImage && displayStyle == KryptonRadialMenuDisplayStyle.ImageAboveText
                 ? content.Y + halfImage + imageTextSpacing
                 : showImage && displayStyle == KryptonRadialMenuDisplayStyle.TextAboveImage
-                    ? content.Y - halfImage - imageTextSpacing - 14f
-                    : content.Y - 12f;
-            var rect = new RectangleF(content.X - 36, textY, 72, 32);
+                    ? content.Y - halfImage - imageTextSpacing - metrics.SectorTextOffsetStacked
+                    : content.Y - metrics.SectorTextOffsetPlain;
+            var rect = metrics.SectorContentTextRect(content, textY);
             g.DrawString(text, font, brush, rect, format);
             format.Dispose();
         }
@@ -488,21 +488,25 @@ internal static class RadialMenuPainter
         g.DrawImage(image, dest, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, attributes);
     }
 
-    private static void PaintCheckedGlyph(Graphics g, PointF content, RadialMenuColorSet colors)
+    private static void PaintCheckedGlyph(Graphics g, PointF content, RadialMenuColorSet colors, RadialMenuMetrics metrics)
     {
-        using var font = new Font(@"Segoe UI", 10f, FontStyle.Bold);
+        using var font = new Font(@"Segoe UI", metrics.CheckedGlyphFontPt, FontStyle.Bold);
         using var brush = new SolidBrush(colors.CenterGlyph);
         var format = new StringFormat
         {
             Alignment = StringAlignment.Center,
             LineAlignment = StringAlignment.Center
         };
-        g.DrawString(@"✓", font, brush, content.X + 22f, content.Y - 18f, format);
+        g.DrawString(@"✓", font, brush, content.X + metrics.CheckedGlyphOffsetX, content.Y - metrics.CheckedGlyphOffsetY, format);
         format.Dispose();
 
         // Small filled marker near the content for radio/check parity.
-        var dotSize = 5.5f;
-        var dotRect = new RectangleF(content.X - 24f - (dotSize / 2f), content.Y - 16f - (dotSize / 2f), dotSize, dotSize);
+        var dotSize = metrics.CheckedDotDiameter;
+        var dotRect = new RectangleF(
+            content.X - metrics.CheckedDotOffsetX - (dotSize / 2f),
+            content.Y - metrics.CheckedDotOffsetY - (dotSize / 2f),
+            dotSize,
+            dotSize);
         using var dotBrush = new SolidBrush(colors.CenterGlyph);
         g.FillEllipse(dotBrush, dotRect);
     }
@@ -513,13 +517,14 @@ internal static class RadialMenuPainter
         RadialSectorInfo sector,
         string glyph,
         Color glyphColor,
-        float ringThickness)
+        RadialMenuMetrics metrics)
     {
         var midAngle = sector.StartAngle + (sector.SweepAngle / 2f);
+        var ringThickness = metrics.OuterRingThickness;
         // Seat the glyph on the outer-ring stroke midline (or just inside the rim when the ring is hidden).
         var radius = ringThickness > 0f
             ? sector.OuterRadius - (ringThickness * 0.5f)
-            : sector.OuterRadius - 10f;
+            : sector.OuterRadius - metrics.SubMenuGlyphInsetWhenRingHidden;
         var point = AngleToPoint(center, radius, midAngle);
         var state = g.Save();
         try
@@ -527,9 +532,7 @@ internal static class RadialMenuPainter
             g.TranslateTransform(point.X, point.Y);
             // Point the glyph radially outward (GDI+ 0° = east).
             g.RotateTransform(midAngle);
-            // Scale with ring thickness so the chevron reads clearly on the stroke (default ~16–18pt).
-            var fontSize = Math.Max(14f, Math.Min(22f, 12f + (Math.Max(4f, ringThickness) * 1.25f)));
-            using var font = new Font(@"Segoe UI Symbol", fontSize, FontStyle.Bold);
+            using var font = new Font(@"Segoe UI Symbol", metrics.SubMenuGlyphFontPt, FontStyle.Bold);
             using var brush = new SolidBrush(glyphColor);
             var format = new StringFormat
             {
@@ -552,7 +555,8 @@ internal static class RadialMenuPainter
         RadialMenuColorSet colors,
         Image? glyph,
         bool canGoBack,
-        string? centerText = null)
+        string? centerText,
+        RadialMenuMetrics metrics)
     {
         var rect = new RectangleF(center.X - innerRadius, center.Y - innerRadius, innerRadius * 2f, innerRadius * 2f);
         using (var brush = new SolidBrush(colors.Center))
@@ -560,14 +564,17 @@ internal static class RadialMenuPainter
             g.FillEllipse(brush, rect);
         }
 
-        using (var pen = new Pen(ControlPaint.Dark(colors.Center), 2f))
+        using (var pen = new Pen(ControlPaint.Dark(colors.Center), metrics.CenterBorder))
         {
             g.DrawEllipse(pen, rect);
         }
 
         if (!string.IsNullOrEmpty(centerText))
         {
-            using var font = new Font("Segoe UI", centerText!.Length > 12 ? 8f : 9.5f, FontStyle.Bold);
+            var pointSize = centerText!.Length > RadialMenuMetrics.CenterCaptionLongThreshold
+                ? metrics.CenterCaptionLongFontPt
+                : metrics.CenterCaptionShortFontPt;
+            using var font = new Font("Segoe UI", pointSize, FontStyle.Bold);
             using var brush = new SolidBrush(colors.CenterGlyph);
             var format = new StringFormat
             {
@@ -580,7 +587,7 @@ internal static class RadialMenuPainter
         }
         else if (canGoBack)
         {
-            using var font = new Font("Segoe UI", 14f, FontStyle.Bold);
+            using var font = new Font("Segoe UI", metrics.BackChevronFontPt, FontStyle.Bold);
             using var brush = new SolidBrush(colors.CenterGlyph);
             var format = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
             g.DrawString("«", font, brush, rect, format);
@@ -588,13 +595,13 @@ internal static class RadialMenuPainter
         }
         else if (glyph != null)
         {
-            var size = Math.Min(24, innerRadius);
+            var size = metrics.CenterGlyphSize;
             var dest = new RectangleF(center.X - (size / 2f), center.Y - (size / 2f), size, size);
             g.DrawImage(glyph, dest);
         }
         else
         {
-            using var font = new Font("Segoe UI", 10f, FontStyle.Bold);
+            using var font = new Font("Segoe UI", metrics.HubCloseFontPt, FontStyle.Bold);
             using var brush = new SolidBrush(colors.CenterGlyph);
             var format = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
             g.DrawString("×", font, brush, rect, format);
@@ -609,14 +616,14 @@ internal static class RadialMenuPainter
     /// <param name="bounds">Client bounds.</param>
     /// <param name="values">Menu values.</param>
     /// <param name="colors">Resolved colours.</param>
-    /// <param name="innerRadius">Hub disc radius.</param>
+    /// <param name="metrics">Scaled layout metrics.</param>
     /// <param name="tracking">Whether the pointer is over the hub.</param>
     public static void PaintHub(
         Graphics g,
         Rectangle bounds,
         KryptonRadialMenuValues values,
         RadialMenuColorSet colors,
-        float innerRadius,
+        RadialMenuMetrics metrics,
         bool tracking)
     {
         g.SmoothingMode = SmoothingMode.AntiAlias;
@@ -624,7 +631,7 @@ internal static class RadialMenuPainter
         g.PixelOffsetMode = PixelOffsetMode.HighQuality;
 
         var center = new PointF(bounds.Width / 2f, bounds.Height / 2f);
-        var radius = Math.Max(12f, innerRadius);
+        var radius = Math.Max(RadialMenuMetrics.MinHubRadiusLogical * metrics.LayoutScale, metrics.InnerRadius);
         var fill = tracking ? colors.SectorTracking : colors.Center;
         var rect = new RectangleF(center.X - radius, center.Y - radius, radius * 2f, radius * 2f);
         using (var brush = new SolidBrush(fill))
@@ -632,14 +639,14 @@ internal static class RadialMenuPainter
             g.FillEllipse(brush, rect);
         }
 
-        using (var pen = new Pen(ControlPaint.Dark(fill), 2f))
+        using (var pen = new Pen(ControlPaint.Dark(fill), metrics.CenterBorder))
         {
             g.DrawEllipse(pen, rect);
         }
 
         if (values.Glyph != null)
         {
-            var size = Math.Min(24f, radius);
+            var size = Math.Min(metrics.CenterGlyphSize, radius);
             var dest = new RectangleF(center.X - (size / 2f), center.Y - (size / 2f), size, size);
             g.DrawImage(values.Glyph, dest);
             return;
@@ -650,7 +657,7 @@ internal static class RadialMenuPainter
             return;
         }
 
-        using var font = new Font("Segoe UI", Math.Max(10f, radius * 0.45f), FontStyle.Bold);
+        using var font = new Font("Segoe UI", Math.Max(metrics.HubCloseFontPt, radius * RadialMenuMetrics.HubTextFontFraction), FontStyle.Bold);
         using var textBrush = new SolidBrush(colors.CenterGlyph);
         var format = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
         g.DrawString(values.HubText, font, textBrush, rect, format);
@@ -673,24 +680,25 @@ internal static class RadialMenuPainter
         KryptonRadialMenuItemBase activeEditorItem,
         int trackingEditorIndex,
         RadialMenuColorSet colors,
-        float startAngle)
+        float startAngle,
+        RadialMenuMetrics metrics)
     {
         switch (activeEditorItem)
         {
             case KryptonRadialMenuSliderItem slider:
-                PaintSliderEditor(g, center, outer, inner, slider, colors, startAngle);
+                PaintSliderEditor(g, center, outer, inner, slider, colors, startAngle, metrics);
                 break;
             case KryptonRadialMenuColorPaletteItem colorItem:
-                PaintColorEditor(g, center, outer, inner, colorItem, trackingEditorIndex, colors, startAngle);
+                PaintColorEditor(g, center, outer, inner, colorItem, trackingEditorIndex, colors, startAngle, metrics);
                 break;
             case KryptonRadialMenuFontListItem fonts:
-                PaintFontEditor(g, center, outer, inner, fonts, trackingEditorIndex, colors, startAngle);
+                PaintFontEditor(g, center, outer, inner, fonts, trackingEditorIndex, colors, startAngle, metrics);
                 break;
             case KryptonRadialMenuTextItem textItem:
-                PaintTextEditor(g, center, outer, inner, textItem, trackingEditorIndex, colors, startAngle);
+                PaintTextEditor(g, center, outer, inner, textItem, trackingEditorIndex, colors, startAngle, metrics);
                 break;
             case KryptonRadialMenuCalendarItem calendarItem:
-                PaintCalendarEditor(g, center, outer, inner, calendarItem, trackingEditorIndex, colors, startAngle);
+                PaintCalendarEditor(g, center, outer, inner, calendarItem, trackingEditorIndex, colors, startAngle, metrics);
                 break;
         }
     }
@@ -702,10 +710,16 @@ internal static class RadialMenuPainter
         float inner,
         KryptonRadialMenuSliderItem slider,
         RadialMenuColorSet colors,
-        float startAngle)
+        float startAngle,
+        RadialMenuMetrics metrics)
     {
-        var trackRect = new RectangleF(center.X - outer + 8, center.Y - outer + 8, (outer * 2) - 16, (outer * 2) - 16);
-        using (var trackPen = new Pen(colors.Border, 10f))
+        var inset = metrics.SliderTrackInset;
+        var trackRect = new RectangleF(
+            center.X - outer + inset,
+            center.Y - outer + inset,
+            (outer * 2) - (inset * 2),
+            (outer * 2) - (inset * 2));
+        using (var trackPen = new Pen(colors.Border, metrics.OuterRingThickness))
         {
             trackPen.StartCap = LineCap.Round;
             trackPen.EndCap = LineCap.Round;
@@ -713,17 +727,17 @@ internal static class RadialMenuPainter
         }
 
         var sweep = slider.GetNormalizedValue() * 360f;
-        using (var valuePen = new Pen(colors.Center, 10f))
+        using (var valuePen = new Pen(colors.Center, metrics.OuterRingThickness))
         {
             valuePen.StartCap = LineCap.Round;
             valuePen.EndCap = LineCap.Round;
             g.DrawArc(valuePen, trackRect, startAngle, sweep);
         }
 
-        using var font = new Font("Segoe UI", 11f, FontStyle.Bold);
+        using var font = new Font("Segoe UI", metrics.SliderValueFontPt, FontStyle.Bold);
         using var brush = new SolidBrush(colors.Text);
         var format = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
-        var labelRect = new RectangleF(center.X - 40, center.Y - inner - 8, 80, 20);
+        var labelRect = metrics.EditorLabelRect(new PointF(center.X, center.Y - inner));
         g.DrawString(slider.Value.ToString("0.##"), font, brush, labelRect, format);
         format.Dispose();
     }
@@ -736,7 +750,8 @@ internal static class RadialMenuPainter
         KryptonRadialMenuColorPaletteItem colorItem,
         int trackingEditorIndex,
         RadialMenuColorSet colors,
-        float startAngle)
+        float startAngle,
+        RadialMenuMetrics metrics)
     {
         var swatches = colorItem.Colors;
         if (swatches.Length == 0)
@@ -754,7 +769,7 @@ internal static class RadialMenuPainter
             }
 
             var border = i == trackingEditorIndex ? colors.CenterGlyph : colors.Border;
-            using var pen = new Pen(border, i == trackingEditorIndex ? 2.5f : 1f);
+            using var pen = new Pen(border, i == trackingEditorIndex ? metrics.SectorBorderTracking : metrics.SectorBorderNormal);
             g.DrawPath(pen, path);
         }
     }
@@ -767,16 +782,16 @@ internal static class RadialMenuPainter
         KryptonRadialMenuFontListItem fonts,
         int trackingEditorIndex,
         RadialMenuColorSet colors,
-        float startAngle)
+        float startAngle,
+        RadialMenuMetrics metrics)
     {
-        const int visible = 8;
         var families = fonts.FontFamilies;
         if (families.Length == 0)
         {
             return;
         }
 
-        var count = Math.Min(visible, families.Length);
+        var count = Math.Min(RadialMenuMetrics.EditorPageSize, families.Length);
         var sectors = RadialLayoutEngine.BuildSectors(count, outer, inner, startAngle);
         for (var i = 0; i < count; i++)
         {
@@ -789,26 +804,27 @@ internal static class RadialMenuPainter
                 g.FillPath(brush, path);
             }
 
-            using (var pen = new Pen(colors.Border))
+            using (var pen = new Pen(colors.Border, metrics.SectorBorderNormal))
             {
                 g.DrawPath(pen, path);
             }
 
             var content = RadialLayoutEngine.GetSectorContentPoint(center, sectors[i]);
+            var labelRect = metrics.EditorLabelRect(content);
             try
             {
-                using var font = new Font(name, 8f);
+                using var font = new Font(name, metrics.EditorLabelFontPt);
                 using var textBrush = new SolidBrush(colors.Text);
                 var format = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
-                g.DrawString(name, font, textBrush, new RectangleF(content.X - 36, content.Y - 10, 72, 20), format);
+                g.DrawString(name, font, textBrush, labelRect, format);
                 format.Dispose();
             }
             catch
             {
-                using var font = new Font("Segoe UI", 8f);
+                using var font = new Font("Segoe UI", metrics.EditorLabelFontPt);
                 using var textBrush = new SolidBrush(colors.Text);
                 var format = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
-                g.DrawString(name, font, textBrush, new RectangleF(content.X - 36, content.Y - 10, 72, 20), format);
+                g.DrawString(name, font, textBrush, labelRect, format);
                 format.Dispose();
             }
         }
@@ -822,7 +838,8 @@ internal static class RadialMenuPainter
         KryptonRadialMenuTextItem? textItem,
         int trackingEditorIndex,
         RadialMenuColorSet colors,
-        float startAngle)
+        float startAngle,
+        RadialMenuMetrics metrics)
     {
         // Draft text is rendered in the centre button; sectors are confirm/cancel only.
         if (textItem == null)
@@ -841,16 +858,18 @@ internal static class RadialMenuPainter
                 g.FillPath(brush, path);
             }
 
-            using (var pen = new Pen(i == trackingEditorIndex ? colors.BorderTracking : colors.Border, i == trackingEditorIndex ? 2.5f : 1f))
+            using (var pen = new Pen(
+                i == trackingEditorIndex ? colors.BorderTracking : colors.Border,
+                i == trackingEditorIndex ? metrics.SectorBorderTracking : metrics.SectorBorderNormal))
             {
                 g.DrawPath(pen, path);
             }
 
             var content = RadialLayoutEngine.GetSectorContentPoint(center, sectors[i]);
-            using var font = new Font("Segoe UI", 9f, FontStyle.Bold);
+            using var font = new Font("Segoe UI", metrics.EditorLabelFontPt, FontStyle.Bold);
             using var textBrush = new SolidBrush(colors.Text);
             var format = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
-            g.DrawString(labels[i], font, textBrush, new RectangleF(content.X - 36, content.Y - 10, 72, 20), format);
+            g.DrawString(labels[i], font, textBrush, metrics.EditorLabelRect(content), format);
             format.Dispose();
         }
     }
@@ -863,7 +882,8 @@ internal static class RadialMenuPainter
         KryptonRadialMenuCalendarItem calendarItem,
         int trackingEditorIndex,
         RadialMenuColorSet colors,
-        float startAngle)
+        float startAngle,
+        RadialMenuMetrics metrics)
     {
         var days = calendarItem.GetMonthDays();
         if (days.Length == 0)
@@ -871,9 +891,8 @@ internal static class RadialMenuPainter
             return;
         }
 
-        const int visible = 8;
         var offset = Math.Min(calendarItem.ScrollOffset, Math.Max(0, days.Length - 1));
-        var count = Math.Min(visible, days.Length - offset);
+        var count = Math.Min(RadialMenuMetrics.EditorPageSize, days.Length - offset);
         if (count <= 0)
         {
             return;
@@ -895,16 +914,16 @@ internal static class RadialMenuPainter
                 g.FillPath(brush, path);
             }
 
-            using (var pen = new Pen(colors.Border, i == trackingEditorIndex ? 2.5f : 1f))
+            using (var pen = new Pen(colors.Border, i == trackingEditorIndex ? metrics.SectorBorderTracking : metrics.SectorBorderNormal))
             {
                 g.DrawPath(pen, path);
             }
 
             var content = RadialLayoutEngine.GetSectorContentPoint(center, sectors[i]);
-            using var font = new Font("Segoe UI", 9f, FontStyle.Bold);
+            using var font = new Font("Segoe UI", metrics.EditorLabelFontPt, FontStyle.Bold);
             using var textBrush = new SolidBrush(colors.Text);
             var format = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
-            g.DrawString(day.Day.ToString(), font, textBrush, new RectangleF(content.X - 20, content.Y - 10, 40, 20), format);
+            g.DrawString(day.Day.ToString(), font, textBrush, metrics.EditorLabelRect(content), format);
             format.Dispose();
         }
     }

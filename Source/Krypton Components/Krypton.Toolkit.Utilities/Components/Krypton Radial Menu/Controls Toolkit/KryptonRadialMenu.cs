@@ -193,7 +193,7 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     /// </summary>
     [Category(@"Behavior")]
     [Description(@"Duration of the open / navigation animation in milliseconds.")]
-    [DefaultValue(220)]
+    [DefaultValue(RadialMenuMetrics.DefaultAnimationDurationMs)]
     public int AnimationDuration
     {
         get => Values.AnimationDuration;
@@ -356,7 +356,7 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Outer radius of the radial menu in pixels.")]
-    [DefaultValue(140)]
+    [DefaultValue(RadialMenuMetrics.DefaultMenuRadius)]
     public int MenuRadius
     {
         get => Values.MenuRadius;
@@ -368,7 +368,7 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Inner radius of the centre button in pixels.")]
-    [DefaultValue(42)]
+    [DefaultValue(RadialMenuMetrics.DefaultInnerRadius)]
     public int InnerRadius
     {
         get => Values.InnerRadius;
@@ -448,7 +448,7 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Size in pixels of images drawn in item sectors.")]
-    [DefaultValue(24)]
+    [DefaultValue(RadialMenuMetrics.DefaultItemImageSize)]
     public int ItemImageSize
     {
         get => Values.ItemImageSize;
@@ -458,13 +458,28 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     /// <summary>
     /// Gets or sets the outer ring stroke thickness. Proxy for <see cref="KryptonRadialMenuValues.OuterRingThickness"/>.
     /// </summary>
+    /// <remarks>
+    /// Value is in 96-DPI logical pixels (default 10). Draw and hit-test paths multiply by device DPI and <see cref="Scale"/>.
+    /// </remarks>
     [Category(@"Visuals")]
-    [Description(@"Thickness of the outer ring stroke in pixels. Zero hides the stroke.")]
-    [DefaultValue(10f)]
+    [Description(@"Thickness of the outer ring stroke in 96-DPI logical pixels. Zero hides the stroke.")]
+    [DefaultValue(RadialMenuMetrics.DefaultOuterRingThickness)]
     public float OuterRingThickness
     {
         get => Values.OuterRingThickness;
         set => Values.OuterRingThickness = value;
+    }
+
+    /// <summary>
+    /// Gets or sets the uniform scale factor. Proxy for <see cref="KryptonRadialMenuValues.Scale"/>.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Uniform scale factor (0.5–3). Multiplied with device DPI for layout and painting.")]
+    [DefaultValue(RadialMenuMetrics.DefaultScale)]
+    public float Scale
+    {
+        get => Values.Scale;
+        set => Values.Scale = value;
     }
 
     /// <summary>
@@ -484,7 +499,7 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Opacity of the circular popup shadow when ShowShadow is enabled.")]
-    [DefaultValue(0.18f)]
+    [DefaultValue(RadialMenuMetrics.DefaultShadowOpacity)]
     public float ShadowOpacity
     {
         get => Values.ShadowOpacity;
@@ -496,7 +511,7 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Soft shadow halo radius in pixels outside the menu edge.")]
-    [DefaultValue(14)]
+    [DefaultValue(RadialMenuMetrics.DefaultShadowBlur)]
     public int ShadowBlur
     {
         get => Values.ShadowBlur;
@@ -508,7 +523,7 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Shadow drop offset in pixels (down and right).")]
-    [DefaultValue(4)]
+    [DefaultValue(RadialMenuMetrics.DefaultShadowOffset)]
     public int ShadowOffset
     {
         get => Values.ShadowOffset;
@@ -532,7 +547,7 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Start angle in degrees for the first sector (-90 is top).")]
-    [DefaultValue(-90f)]
+    [DefaultValue(RadialMenuMetrics.DefaultStartAngle)]
     public float StartAngle
     {
         get => Values.StartAngle;
@@ -556,7 +571,7 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     /// </summary>
     [Category(@"Behavior")]
     [Description(@"Extra hit-test padding in pixels around the annular hit region.")]
-    [DefaultValue(4f)]
+    [DefaultValue(RadialMenuMetrics.DefaultHitPadding)]
     public float HitPadding
     {
         get => Values.HitPadding;

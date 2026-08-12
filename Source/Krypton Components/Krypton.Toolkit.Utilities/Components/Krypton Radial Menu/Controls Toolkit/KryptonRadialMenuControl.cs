@@ -47,7 +47,6 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
     private VisualRadialMenuFloatForm? _floatForm;
     private MethodInfo? _paintTransparentBackground;
 
-    private const int MoveDragThreshold = 8;
     private static readonly Color TransparencyKeyColor = Color.Magenta;
 
     #endregion
@@ -117,9 +116,9 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
         _toolTipHost = new RadialMenuToolTipHost(this, ResolvePalette);
         _core = new RadialMenuInteractionCore(this);
 
-        var diameter = (Values.MenuRadius * 2) + 8;
+        var diameter = RadialMenuMetrics.DiameterFromRadius(Values.MenuRadius);
         Size = new Size(diameter, diameter);
-        MinimumSize = new Size(128, 128);
+        MinimumSize = RadialMenuMetrics.MinControlSize;
     }
 
     /// <inheritdoc />
@@ -239,7 +238,7 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
     /// <summary>Gets or sets the outer menu radius. Proxy for <see cref="KryptonRadialMenuValues.MenuRadius"/>.</summary>
     [Category(@"Visuals")]
     [Description(@"Outer radius of the radial menu in pixels.")]
-    [DefaultValue(140)]
+    [DefaultValue(RadialMenuMetrics.DefaultMenuRadius)]
     public int MenuRadius
     {
         get => Values.MenuRadius;
@@ -253,7 +252,7 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
     /// <summary>Gets or sets the inner radius. Proxy for <see cref="KryptonRadialMenuValues.InnerRadius"/>.</summary>
     [Category(@"Visuals")]
     [Description(@"Centre button radius in pixels.")]
-    [DefaultValue(42)]
+    [DefaultValue(RadialMenuMetrics.DefaultInnerRadius)]
     public int InnerRadius
     {
         get => Values.InnerRadius;
@@ -294,7 +293,7 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
     /// <summary>Gets or sets the sector image size. Proxy for <see cref="KryptonRadialMenuValues.ItemImageSize"/>.</summary>
     [Category(@"Visuals")]
     [Description(@"Sector image size in pixels.")]
-    [DefaultValue(24)]
+    [DefaultValue(RadialMenuMetrics.DefaultItemImageSize)]
     public int ItemImageSize
     {
         get => Values.ItemImageSize;
@@ -303,18 +302,32 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
 
     /// <summary>Gets or sets outer ring thickness. Proxy for <see cref="KryptonRadialMenuValues.OuterRingThickness"/>.</summary>
     [Category(@"Visuals")]
-    [Description(@"Thickness of the outer ring stroke in pixels. Zero hides the stroke.")]
-    [DefaultValue(10f)]
+    [Description(@"Thickness of the outer ring stroke in 96-DPI logical pixels. Zero hides the stroke.")]
+    [DefaultValue(RadialMenuMetrics.DefaultOuterRingThickness)]
     public float OuterRingThickness
     {
         get => Values.OuterRingThickness;
         set => Values.OuterRingThickness = value;
     }
 
+    /// <summary>Gets or sets the uniform scale factor. Proxy for <see cref="KryptonRadialMenuValues.Scale"/>.</summary>
+    [Category(@"Visuals")]
+    [Description(@"Uniform scale factor (0.5–3). Multiplied with device DPI for layout and painting.")]
+    [DefaultValue(RadialMenuMetrics.DefaultScale)]
+    public new float Scale
+    {
+        get => Values.Scale;
+        set
+        {
+            Values.Scale = value;
+            UpdatePreferredSizeFromRadius();
+        }
+    }
+
     /// <summary>Gets or sets the start angle. Proxy for <see cref="KryptonRadialMenuValues.StartAngle"/>.</summary>
     [Category(@"Visuals")]
     [Description(@"First sector angle in degrees.")]
-    [DefaultValue(-90f)]
+    [DefaultValue(RadialMenuMetrics.DefaultStartAngle)]
     public float StartAngle
     {
         get => Values.StartAngle;
@@ -464,11 +477,13 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
 
     bool IRadialMenuInteractionHost.IsRightToLeft => RightToLeft == RightToLeft.Yes;
 
-    float IRadialMenuInteractionHost.DpiScale => _dpiScale;
+    float IRadialMenuInteractionHost.LayoutScale => CurrentMetrics().LayoutScale;
 
-    int IRadialMenuInteractionHost.EffectiveMenuRadius => GetEffectiveMenuRadius();
+    RadialMenuMetrics IRadialMenuInteractionHost.Metrics => CurrentMetrics();
 
-    int IRadialMenuInteractionHost.EffectiveInnerRadius => GetEffectiveInnerRadius();
+    int IRadialMenuInteractionHost.EffectiveMenuRadius => CurrentMetrics().MenuRadius;
+
+    int IRadialMenuInteractionHost.EffectiveInnerRadius => CurrentMetrics().InnerRadius;
 
     RadialMenuToolTipHost? IRadialMenuInteractionHost.ToolTipHost => _toolTipHost;
 
@@ -549,7 +564,7 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
                 ClientRectangle,
                 Values,
                 colors,
-                GetEffectiveInnerRadius(),
+                CurrentMetrics(),
                 _hubTracking);
         }
         else
@@ -574,7 +589,7 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
             var screen = PointToScreen(e.Location);
             var dx = screen.X - _moveScreenStart.X;
             var dy = screen.Y - _moveScreenStart.Y;
-            if (!_moving && ((Math.Abs(dx) >= MoveDragThreshold) || (Math.Abs(dy) >= MoveDragThreshold)))
+            if (!_moving && ((Math.Abs(dx) >= CurrentMetrics().MoveDragThreshold) || (Math.Abs(dy) >= CurrentMetrics().MoveDragThreshold)))
             {
                 _moving = true;
                 _movePending = false;
@@ -853,11 +868,13 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
 
     private void UpdatePreferredSizeFromRadius()
     {
-        var diameter = (Values.MenuRadius * 2) + 8;
-        if (Width < diameter || Height < diameter)
-        {
-            Size = new Size(Math.Max(Width, diameter), Math.Max(Height, diameter));
-        }
+        UpdateDpiScale();
+        var metrics = RadialMenuMetrics.From(
+            Values,
+            IsHandleCreated ? _dpiScale : Values.Scale,
+            new Size(int.MaxValue / 4, int.MaxValue / 4));
+        var diameter = RadialMenuMetrics.DiameterFromRadius(metrics.PreferredMenuRadius);
+        Size = new Size(Math.Max(MinimumSize.Width, diameter), Math.Max(MinimumSize.Height, diameter));
 
         if (IsHandleCreated)
         {
@@ -866,23 +883,25 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
         }
     }
 
-    private int GetEffectiveMenuRadius()
+    private RadialMenuMetrics CurrentMetrics()
     {
-        var available = (Math.Min(ClientSize.Width, ClientSize.Height) - 8) / 2;
-        available = Math.Max(40, available);
-        return Math.Min(Values.MenuRadius, available);
+        UpdateDpiScale();
+        var available = ClientSize.Width > 0 && ClientSize.Height > 0
+            ? ClientSize
+            : new Size(
+                RadialMenuMetrics.DiameterFromRadius(Values.MenuRadius),
+                RadialMenuMetrics.DiameterFromRadius(Values.MenuRadius));
+        return RadialMenuMetrics.From(Values, _dpiScale, available);
     }
 
-    private int GetEffectiveInnerRadius()
+    private Size GetPreferredFloatSize()
     {
-        var outer = GetEffectiveMenuRadius();
-        if (outer >= Values.MenuRadius || Values.MenuRadius <= 0)
-        {
-            return Math.Min(Values.InnerRadius, Math.Max(8, outer - 16));
-        }
-
-        var scale = outer / (float)Values.MenuRadius;
-        return Math.Max(8, (int)Math.Round(Values.InnerRadius * scale));
+        UpdateDpiScale();
+        var metrics = RadialMenuMetrics.From(Values, _dpiScale, new Size(int.MaxValue / 4, int.MaxValue / 4));
+        var diameter = RadialMenuMetrics.DiameterFromRadius(metrics.PreferredMenuRadius);
+        return new Size(
+            Math.Max(MinimumSize.Width, diameter),
+            Math.Max(MinimumSize.Height, diameter));
     }
 
     private void PrepareForMove()
@@ -1065,14 +1084,6 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
         }
     }
 
-    private Size GetPreferredFloatSize()
-    {
-        var diameter = (Values.MenuRadius * 2) + 8;
-        return new Size(
-            Math.Max(MinimumSize.Width, diameter),
-            Math.Max(MinimumSize.Height, diameter));
-    }
-
     private void SetExpanded(bool value, bool raiseEvent)
     {
         if (!_useHub)
@@ -1111,7 +1122,7 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
         var cy = ClientSize.Height / 2.0;
         var dx = clientPoint.X - cx;
         var dy = clientPoint.Y - cy;
-        var radius = GetEffectiveInnerRadius();
+        var radius = CurrentMetrics().InnerRadius;
         return (dx * dx) + (dy * dy) <= (radius * radius);
     }
 
@@ -1188,7 +1199,7 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
             }
         }
 
-        if (_dpiScale < 0.25f)
+        if (_dpiScale < RadialMenuMetrics.MinLayoutScale)
         {
             _dpiScale = 1f;
         }

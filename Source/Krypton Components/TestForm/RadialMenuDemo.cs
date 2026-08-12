@@ -425,6 +425,15 @@ public partial class RadialMenuDemo : KryptonForm
         _hostedControl.OuterRingThickness = thickness;
     }
 
+    private void knudScale_ValueChanged(object? sender, EventArgs e)
+    {
+        var scale = (float)knudScale.Value;
+        _radialMenu.Scale = scale;
+        _importedMenu.Scale = scale;
+        _hostedControl.Scale = scale;
+        CenterHostedControl();
+    }
+
     private void kchkShowShadow_CheckedChanged(object? sender, EventArgs e)
     {
         _radialMenu.ShowShadow = kchkShowShadow.Checked;

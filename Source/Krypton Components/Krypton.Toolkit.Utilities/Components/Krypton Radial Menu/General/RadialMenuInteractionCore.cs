@@ -16,7 +16,7 @@ internal sealed class RadialMenuInteractionCore
 {
     #region Constants
 
-    internal const int EditorPageSize = 8;
+    internal const int EditorPageSize = RadialMenuMetrics.EditorPageSize;
 
     #endregion
 
@@ -135,8 +135,7 @@ internal sealed class RadialMenuInteractionCore
             _activeEditor,
             _trackingEditorIndex,
             _host.Appearance,
-            _host.EffectiveMenuRadius,
-            _host.EffectiveInnerRadius);
+            _host.Metrics);
     }
 
     /// <summary>
@@ -147,16 +146,17 @@ internal sealed class RadialMenuInteractionCore
     public RadialHitResult HitTest(Point clientPoint)
     {
         var center = new PointF(_host.ClientSize.Width / 2f, _host.ClientSize.Height / 2f);
+        var metrics = _host.Metrics;
         var startAngle = _host.Values.StartAngle;
-        var hitPadding = _host.Values.HitPadding * _host.DpiScale;
+        var hitPadding = metrics.HitPadding;
         var editorCount = GetEditorSectorCount(_activeEditor);
         if (_activeEditor is KryptonRadialMenuSliderItem)
         {
             var dx = clientPoint.X - center.X;
             var dy = clientPoint.Y - center.Y;
             var distance = Math.Sqrt((dx * dx) + (dy * dy));
-            var inner = Math.Max(0f, _host.EffectiveInnerRadius - hitPadding);
-            var outer = _host.EffectiveMenuRadius + hitPadding;
+            var inner = Math.Max(0f, metrics.InnerRadius - hitPadding);
+            var outer = metrics.MenuRadius + hitPadding;
             if (distance <= inner)
             {
                 return new RadialHitResult(RadialHitKind.Center, -1, -1);
@@ -173,14 +173,14 @@ internal sealed class RadialMenuInteractionCore
         return RadialLayoutEngine.HitTest(
             clientPoint,
             center,
-            _host.EffectiveMenuRadius,
-            _host.EffectiveInnerRadius,
+            metrics.MenuRadius,
+            metrics.InnerRadius,
             _sectors,
             _activeEditor != null,
             editorCount,
             startAngle,
             hitPadding,
-            _host.Values.OuterRingThickness * _host.DpiScale);
+            metrics.OuterRingThickness);
     }
 
     /// <summary>

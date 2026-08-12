@@ -26,6 +26,7 @@ public class KryptonRadialMenuValues : Storage
     private KryptonRadialMenuDisplayStyle _displayStyle;
     private string _subMenuGlyph;
     private float _outerRingThickness;
+    private float _scale;
     private int _itemImageSize;
     private bool _showShadow;
     private float _shadowOpacity;
@@ -49,72 +50,76 @@ public class KryptonRadialMenuValues : Storage
     public KryptonRadialMenuValues(NeedPaintHandler? needPaint)
     {
         NeedPaint = needPaint;
-        _menuRadius = 140;
-        _innerRadius = 42;
-        _hubText = @"+";
+        _menuRadius = RadialMenuMetrics.DefaultMenuRadius;
+        _innerRadius = RadialMenuMetrics.DefaultInnerRadius;
+        _hubText = RadialMenuMetrics.DefaultHubText;
         _menuColor = Color.Empty;
         _subMenuHoverColor = Color.Empty;
         _displayStyle = KryptonRadialMenuDisplayStyle.ImageAboveText;
-        _subMenuGlyph = @"›";
-        _outerRingThickness = 10f;
-        _itemImageSize = 24;
+        _subMenuGlyph = RadialMenuMetrics.DefaultSubMenuGlyph;
+        _outerRingThickness = RadialMenuMetrics.DefaultOuterRingThickness;
+        _scale = RadialMenuMetrics.DefaultScale;
+        _itemImageSize = RadialMenuMetrics.DefaultItemImageSize;
         _showShadow = true;
-        _shadowOpacity = 0.18f;
-        _shadowBlur = 14;
-        _shadowOffset = 4;
+        _shadowOpacity = RadialMenuMetrics.DefaultShadowOpacity;
+        _shadowBlur = RadialMenuMetrics.DefaultShadowBlur;
+        _shadowOffset = RadialMenuMetrics.DefaultShadowOffset;
         _showCheckedGlyph = true;
-        _startAngle = -90f;
+        _startAngle = RadialMenuMetrics.DefaultStartAngle;
         _maxVisibleItems = 0;
-        _hitPadding = 4f;
+        _hitPadding = RadialMenuMetrics.DefaultHitPadding;
         _animationStyle = KryptonRadialMenuAnimationStyle.Sweep;
-        _animationDuration = 220;
+        _animationDuration = RadialMenuMetrics.DefaultAnimationDurationMs;
     }
 
     /// <inheritdoc />
     public override bool IsDefault =>
-        _menuRadius == 140
-        && _innerRadius == 42
+        _menuRadius == RadialMenuMetrics.DefaultMenuRadius
+        && _innerRadius == RadialMenuMetrics.DefaultInnerRadius
         && _glyph == null
-        && _hubText == @"+"
+        && _hubText == RadialMenuMetrics.DefaultHubText
         && _menuColor.IsEmpty
         && _subMenuHoverColor.IsEmpty
         && _displayStyle == KryptonRadialMenuDisplayStyle.ImageAboveText
-        && _subMenuGlyph == @"›"
-        && Math.Abs(_outerRingThickness - 10f) < 0.01f
-        && _itemImageSize == 24
+        && _subMenuGlyph == RadialMenuMetrics.DefaultSubMenuGlyph
+        && Math.Abs(_outerRingThickness - RadialMenuMetrics.DefaultOuterRingThickness) < 0.01f
+        && Math.Abs(_scale - RadialMenuMetrics.DefaultScale) < 0.01f
+        && _itemImageSize == RadialMenuMetrics.DefaultItemImageSize
         && _showShadow
-        && Math.Abs(_shadowOpacity - 0.18f) < 0.001f
-        && _shadowBlur == 14
-        && _shadowOffset == 4
+        && Math.Abs(_shadowOpacity - RadialMenuMetrics.DefaultShadowOpacity) < 0.001f
+        && _shadowBlur == RadialMenuMetrics.DefaultShadowBlur
+        && _shadowOffset == RadialMenuMetrics.DefaultShadowOffset
         && _showCheckedGlyph
-        && Math.Abs(_startAngle + 90f) < 0.01f
+        && Math.Abs(_startAngle - RadialMenuMetrics.DefaultStartAngle) < 0.01f
         && _maxVisibleItems == 0
-        && Math.Abs(_hitPadding - 4f) < 0.01f
+        && Math.Abs(_hitPadding - RadialMenuMetrics.DefaultHitPadding) < 0.01f
         && _animationStyle == KryptonRadialMenuAnimationStyle.Sweep
-        && _animationDuration == 220;
+        && _animationDuration == RadialMenuMetrics.DefaultAnimationDurationMs;
 
     #endregion
 
     #region Public
 
     /// <summary>
-    /// Gets or sets the outer menu radius in pixels.
+    /// Gets or sets the outer menu radius in 96-DPI logical pixels.
     /// </summary>
     [Category(@"Visuals")]
-    [Description(@"Outer radius of the radial menu in pixels.")]
-    [DefaultValue(140)]
+    [Description(@"Outer radius of the radial menu in 96-DPI logical pixels.")]
+    [DefaultValue(RadialMenuMetrics.DefaultMenuRadius)]
     public int MenuRadius
     {
         get => _menuRadius;
         set
         {
-            value = Math.Max(60, value);
+            value = Math.Max(RadialMenuMetrics.MinMenuRadius, value);
             if (_menuRadius != value)
             {
                 _menuRadius = value;
-                if (_innerRadius >= _menuRadius - 20)
+                if (_innerRadius >= _menuRadius - RadialMenuMetrics.InnerAutoAdjustOuterGap)
                 {
-                    _innerRadius = Math.Max(20, _menuRadius / 3);
+                    _innerRadius = Math.Max(
+                        RadialMenuMetrics.MinInnerWhenAutoAdjust,
+                        _menuRadius / RadialMenuMetrics.DefaultInnerRadiusDivisor);
                 }
 
                 PerformNeedPaint(true);
@@ -123,17 +128,19 @@ public class KryptonRadialMenuValues : Storage
     }
 
     /// <summary>
-    /// Gets or sets the inner (center button) radius in pixels.
+    /// Gets or sets the inner (center button) radius in 96-DPI logical pixels.
     /// </summary>
     [Category(@"Visuals")]
-    [Description(@"Inner radius of the center button in pixels.")]
-    [DefaultValue(42)]
+    [Description(@"Inner radius of the center button in 96-DPI logical pixels.")]
+    [DefaultValue(RadialMenuMetrics.DefaultInnerRadius)]
     public int InnerRadius
     {
         get => _innerRadius;
         set
         {
-            value = Math.Max(16, Math.Min(_menuRadius - 24, value));
+            value = Math.Max(
+                RadialMenuMetrics.MinInnerRadius,
+                Math.Min(_menuRadius - RadialMenuMetrics.MinInnerOuterGap, value));
             if (_innerRadius != value)
             {
                 _innerRadius = value;
@@ -169,7 +176,7 @@ public class KryptonRadialMenuValues : Storage
     /// </remarks>
     [Category(@"Visuals")]
     [Description(@"Text on the collapsed hub when no Glyph image is set. Default is +.")]
-    [DefaultValue("+")]
+    [DefaultValue(RadialMenuMetrics.DefaultHubText)]
     [Localizable(true)]
     public string HubText
     {
@@ -204,10 +211,10 @@ public class KryptonRadialMenuValues : Storage
     }
 
     private bool ShouldSerializeMenuColor() => !_menuColor.IsEmpty;
-    private void ResetMenuColor() => MenuColor = Color.Empty;
+    private void ResetMenuColor() => _menuColor = Color.Empty;
 
     /// <summary>
-    /// Gets or sets the hover accent for sectors that open a submenu. Empty uses the palette.
+    /// Gets or sets the submenu hover accent colour. Empty uses the palette.
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Hover accent colour for submenu sectors.")]
@@ -225,13 +232,13 @@ public class KryptonRadialMenuValues : Storage
     }
 
     private bool ShouldSerializeSubMenuHoverColor() => !_subMenuHoverColor.IsEmpty;
-    private void ResetSubMenuHoverColor() => SubMenuHoverColor = Color.Empty;
+    private void ResetSubMenuHoverColor() => _subMenuHoverColor = Color.Empty;
 
     /// <summary>
-    /// Gets or sets how sector content is arranged.
+    /// Gets or sets how sector text and images are arranged.
     /// </summary>
     [Category(@"Visuals")]
-    [Description(@"How text and images are arranged in sectors.")]
+    [Description(@"How sector text and images are arranged.")]
     [DefaultValue(KryptonRadialMenuDisplayStyle.ImageAboveText)]
     public KryptonRadialMenuDisplayStyle DisplayStyle
     {
@@ -251,7 +258,7 @@ public class KryptonRadialMenuValues : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Unicode glyph drawn on the outer ring for submenu / editor items.")]
-    [DefaultValue(@"›")]
+    [DefaultValue(RadialMenuMetrics.DefaultSubMenuGlyph)]
     [Localizable(true)]
     public string SubMenuGlyph
     {
@@ -270,15 +277,18 @@ public class KryptonRadialMenuValues : Storage
     /// <summary>
     /// Gets or sets the thickness of the outer ring stroke (PanelAlternate). Zero hides the stroke.
     /// </summary>
+    /// <remarks>
+    /// Stored in 96-DPI logical pixels; painting and hit-testing multiply by device DPI and <see cref="Scale"/>.
+    /// </remarks>
     [Category(@"Visuals")]
-    [Description(@"Thickness of the outer ring stroke in pixels. Zero hides the stroke.")]
-    [DefaultValue(10f)]
+    [Description(@"Thickness of the outer ring stroke in 96-DPI logical pixels. Zero hides the stroke.")]
+    [DefaultValue(RadialMenuMetrics.DefaultOuterRingThickness)]
     public float OuterRingThickness
     {
         get => _outerRingThickness;
         set
         {
-            value = Math.Max(0f, Math.Min(16f, value));
+            value = Math.Max(0f, Math.Min(RadialMenuMetrics.MaxOuterRingThickness, value));
             if (Math.Abs(_outerRingThickness - value) > 0.01f)
             {
                 _outerRingThickness = value;
@@ -288,17 +298,41 @@ public class KryptonRadialMenuValues : Storage
     }
 
     /// <summary>
-    /// Gets or sets the size of images drawn in item sectors.
+    /// Gets or sets a uniform scale factor applied on top of device DPI (1 = 100%).
+    /// </summary>
+    /// <remarks>
+    /// Affects radii, ring thickness, item images, hit padding, and related metrics.
+    /// <see cref="MenuRadius"/> and other size properties remain 96-DPI logical values.
+    /// </remarks>
+    [Category(@"Visuals")]
+    [Description(@"Uniform scale factor (0.5–3). Multiplied with device DPI for layout and painting.")]
+    [DefaultValue(RadialMenuMetrics.DefaultScale)]
+    public float Scale
+    {
+        get => _scale;
+        set
+        {
+            value = Math.Max(RadialMenuMetrics.MinScale, Math.Min(RadialMenuMetrics.MaxScale, value));
+            if (Math.Abs(_scale - value) > 0.01f)
+            {
+                _scale = value;
+                PerformNeedPaint(true);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the size of images drawn in item sectors (96-DPI logical pixels).
     /// </summary>
     [Category(@"Visuals")]
-    [Description(@"Size in pixels of images drawn in item sectors.")]
-    [DefaultValue(24)]
+    [Description(@"Size in 96-DPI logical pixels of images drawn in item sectors.")]
+    [DefaultValue(RadialMenuMetrics.DefaultItemImageSize)]
     public int ItemImageSize
     {
         get => _itemImageSize;
         set
         {
-            value = Math.Max(8, Math.Min(64, value));
+            value = Math.Max(RadialMenuMetrics.MinItemImageSize, Math.Min(RadialMenuMetrics.MaxItemImageSize, value));
             if (_itemImageSize != value)
             {
                 _itemImageSize = value;
@@ -324,7 +358,7 @@ public class KryptonRadialMenuValues : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Opacity of the circular popup shadow when ShowShadow is enabled.")]
-    [DefaultValue(0.18f)]
+    [DefaultValue(RadialMenuMetrics.DefaultShadowOpacity)]
     public float ShadowOpacity
     {
         get => _shadowOpacity;
@@ -340,17 +374,17 @@ public class KryptonRadialMenuValues : Storage
     }
 
     /// <summary>
-    /// Gets or sets how far the soft shadow halo extends beyond the menu edge, in pixels.
+    /// Gets or sets how far the soft shadow halo extends beyond the menu edge, in 96-DPI logical pixels.
     /// </summary>
     [Category(@"Visuals")]
-    [Description(@"Soft shadow halo radius in pixels outside the menu edge.")]
-    [DefaultValue(14)]
+    [Description(@"Soft shadow halo radius in 96-DPI logical pixels outside the menu edge.")]
+    [DefaultValue(RadialMenuMetrics.DefaultShadowBlur)]
     public int ShadowBlur
     {
         get => _shadowBlur;
         set
         {
-            value = Math.Max(0, Math.Min(48, value));
+            value = Math.Max(0, Math.Min(RadialMenuMetrics.MaxShadowBlur, value));
             if (_shadowBlur != value)
             {
                 _shadowBlur = value;
@@ -360,17 +394,17 @@ public class KryptonRadialMenuValues : Storage
     }
 
     /// <summary>
-    /// Gets or sets the shadow drop offset in pixels (down and right).
+    /// Gets or sets the shadow drop offset in 96-DPI logical pixels (down and right).
     /// </summary>
     [Category(@"Visuals")]
-    [Description(@"Shadow drop offset in pixels (down and right).")]
-    [DefaultValue(4)]
+    [Description(@"Shadow drop offset in 96-DPI logical pixels (down and right).")]
+    [DefaultValue(RadialMenuMetrics.DefaultShadowOffset)]
     public int ShadowOffset
     {
         get => _shadowOffset;
         set
         {
-            value = Math.Max(0, Math.Min(32, value));
+            value = Math.Max(0, Math.Min(RadialMenuMetrics.MaxShadowOffset, value));
             if (_shadowOffset != value)
             {
                 _shadowOffset = value;
@@ -403,7 +437,7 @@ public class KryptonRadialMenuValues : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Start angle in degrees for the first sector (-90 is top).")]
-    [DefaultValue(-90f)]
+    [DefaultValue(RadialMenuMetrics.DefaultStartAngle)]
     public float StartAngle
     {
         get => _startAngle;
@@ -428,7 +462,7 @@ public class KryptonRadialMenuValues : Storage
         get => _maxVisibleItems;
         set
         {
-            value = Math.Max(0, Math.Min(64, value));
+            value = Math.Max(0, Math.Min(RadialMenuMetrics.MaxVisibleItemsCap, value));
             if (_maxVisibleItems != value)
             {
                 _maxVisibleItems = value;
@@ -438,17 +472,17 @@ public class KryptonRadialMenuValues : Storage
     }
 
     /// <summary>
-    /// Gets or sets extra hit-test padding in pixels for touch-friendly sectors.
+    /// Gets or sets extra hit-test padding in 96-DPI logical pixels for touch-friendly sectors.
     /// </summary>
     [Category(@"Behavior")]
-    [Description(@"Extra hit-test padding in pixels around the annular hit region.")]
-    [DefaultValue(4f)]
+    [Description(@"Extra hit-test padding in 96-DPI logical pixels around the annular hit region.")]
+    [DefaultValue(RadialMenuMetrics.DefaultHitPadding)]
     public float HitPadding
     {
         get => _hitPadding;
         set
         {
-            value = Math.Max(0f, Math.Min(24f, value));
+            value = Math.Max(0f, Math.Min(RadialMenuMetrics.MaxHitPadding, value));
             if (Math.Abs(_hitPadding - value) > 0.01f)
             {
                 _hitPadding = value;
@@ -473,16 +507,11 @@ public class KryptonRadialMenuValues : Storage
     /// </summary>
     [Category(@"Behavior")]
     [Description(@"Duration of the open / navigation animation in milliseconds.")]
-    [DefaultValue(220)]
+    [DefaultValue(RadialMenuMetrics.DefaultAnimationDurationMs)]
     public int AnimationDuration
     {
         get => _animationDuration;
-        set
-        {
-            value = Math.Max(0, Math.Min(2000, value));
-            
-            _animationDuration = value;
-        }
+        set => _animationDuration = Math.Max(0, Math.Min(RadialMenuMetrics.MaxAnimationDurationMs, value));
     }
 
     #endregion

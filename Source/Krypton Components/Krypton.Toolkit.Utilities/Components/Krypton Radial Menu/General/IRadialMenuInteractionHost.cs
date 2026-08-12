@@ -35,8 +35,13 @@ internal interface IRadialMenuInteractionHost
     /// <summary>Gets whether layout should mirror for RTL.</summary>
     bool IsRightToLeft { get; }
 
-    /// <summary>Gets the DPI scale factor (1 = 96 DPI).</summary>
-    float DpiScale { get; }
+    /// <summary>
+    /// Gets the combined layout scale (device DPI / 96 × <see cref="KryptonRadialMenuValues.Scale"/>).
+    /// </summary>
+    float LayoutScale { get; }
+
+    /// <summary>Gets the scaled, viewport-clamped layout metrics for the current surface.</summary>
+    RadialMenuMetrics Metrics { get; }
 
     /// <summary>Gets the outer radius used for layout and painting.</summary>
     int EffectiveMenuRadius { get; }

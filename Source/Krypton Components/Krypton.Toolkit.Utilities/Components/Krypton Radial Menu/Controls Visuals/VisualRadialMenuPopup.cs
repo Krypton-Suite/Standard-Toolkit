@@ -29,10 +29,6 @@ internal class VisualRadialMenuPopup : VisualPopup, IRadialMenuInteractionHost
     private double _animationProgress = 1.0;
     private System.Windows.Forms.Timer? _animationTimer;
 
-    private const int MoveDragThreshold = 8;
-    // Hole inset keeps Magenta colour-key fringe of the shadow punch under the opaque popup.
-    private const int ShadowHoleInset = 3;
-
     #endregion
 
     #region Identity
@@ -78,11 +74,25 @@ internal class VisualRadialMenuPopup : VisualPopup, IRadialMenuInteractionHost
 
     bool IRadialMenuInteractionHost.IsRightToLeft => RightToLeft == RightToLeft.Yes;
 
-    float IRadialMenuInteractionHost.DpiScale => _dpiScale;
+    float IRadialMenuInteractionHost.LayoutScale => CurrentMetrics().LayoutScale;
 
-    int IRadialMenuInteractionHost.EffectiveMenuRadius => _owner.Values.MenuRadius;
+    RadialMenuMetrics IRadialMenuInteractionHost.Metrics => CurrentMetrics();
 
-    int IRadialMenuInteractionHost.EffectiveInnerRadius => _owner.Values.InnerRadius;
+    int IRadialMenuInteractionHost.EffectiveMenuRadius => CurrentMetrics().MenuRadius;
+
+    int IRadialMenuInteractionHost.EffectiveInnerRadius => CurrentMetrics().InnerRadius;
+
+    private RadialMenuMetrics CurrentMetrics()
+    {
+        UpdateDpiScale();
+        return RadialMenuMetrics.From(_owner.Values, _dpiScale, ClientSize.Width > 0 ? ClientSize : PreferredWorkingAreaSize(Location));
+    }
+
+    private static Size PreferredWorkingAreaSize(Point screenPoint)
+    {
+        var area = Screen.FromPoint(screenPoint).WorkingArea;
+        return area.Size;
+    }
 
     RadialMenuToolTipHost? IRadialMenuInteractionHost.ToolTipHost => _toolTipHost;
 
@@ -124,7 +134,8 @@ internal class VisualRadialMenuPopup : VisualPopup, IRadialMenuInteractionHost
         UpdateDpiScale();
         _core.ResetToRoot();
 
-        var diameter = (_owner.Values.MenuRadius * 2) + 8;
+        var metrics = RadialMenuMetrics.From(_owner.Values, _dpiScale, PreferredWorkingAreaSize(screenCenter));
+        var diameter = RadialMenuMetrics.DiameterFromRadius(metrics.MenuRadius);
         var size = new Size(diameter, diameter);
         var location = new Point(screenCenter.X - (size.Width / 2), screenCenter.Y - (size.Height / 2));
         ApplyCircularRegion(size);
@@ -157,9 +168,8 @@ internal class VisualRadialMenuPopup : VisualPopup, IRadialMenuInteractionHost
         // Use padded shadow so outer halo rings are not clipped to the menu rectangle.
         SetBounds(screenRect.X, screenRect.Y, screenRect.Width, screenRect.Height);
         DefineCircularShadowPaths(screenRect.Size);
-        var blur = Math.Max(0, _owner.Values.ShadowBlur);
-        var padding = blur + ShadowHoleInset + 2;
-        ShowShadow(screenRect, padding, _owner.Values.ShadowOffset);
+        var metrics = CurrentMetrics();
+        ShowShadow(screenRect, metrics.ShadowPadding, metrics.ShadowOffset);
         PI.ShowWindow(Handle, PI.ShowWindowCommands.SW_SHOWNOACTIVATE);
         VisualPopupManager.Singleton.StartTracking(this);
     }
@@ -215,7 +225,7 @@ internal class VisualRadialMenuPopup : VisualPopup, IRadialMenuInteractionHost
             var screen = PointToScreen(e.Location);
             var dx = screen.X - _moveScreenStart.X;
             var dy = screen.Y - _moveScreenStart.Y;
-            if (!_moving && ((Math.Abs(dx) >= MoveDragThreshold) || (Math.Abs(dy) >= MoveDragThreshold)))
+            if (!_moving && ((Math.Abs(dx) >= CurrentMetrics().MoveDragThreshold) || (Math.Abs(dy) >= CurrentMetrics().MoveDragThreshold)))
             {
                 _moving = true;
                 _movePending = false;
@@ -397,7 +407,7 @@ internal class VisualRadialMenuPopup : VisualPopup, IRadialMenuInteractionHost
             return true;
         }
 
-        return DistanceFromCenter(pt) > _owner.Values.MenuRadius;
+        return DistanceFromCenter(pt) > CurrentMetrics().MenuRadius;
     }
 
     /// <inheritdoc />
@@ -477,7 +487,7 @@ internal class VisualRadialMenuPopup : VisualPopup, IRadialMenuInteractionHost
 
         var startProgress = Math.Max(0.0, Math.Min(1.0, _animationProgress));
         var started = Environment.TickCount;
-        _animationTimer = new System.Windows.Forms.Timer { Interval = 16 };
+        _animationTimer = new System.Windows.Forms.Timer { Interval = RadialMenuMetrics.AnimationFrameIntervalMs };
         _animationTimer.Tick += (_, _) =>
         {
             if (IsDisposed)
@@ -530,7 +540,7 @@ internal class VisualRadialMenuPopup : VisualPopup, IRadialMenuInteractionHost
             }
         }
 
-        if (_dpiScale < 0.25f)
+        if (_dpiScale < RadialMenuMetrics.MinLayoutScale)
         {
             _dpiScale = 1f;
         }
@@ -551,7 +561,7 @@ internal class VisualRadialMenuPopup : VisualPopup, IRadialMenuInteractionHost
 
         _animationProgress = 0.0;
         var started = Environment.TickCount;
-        _animationTimer = new System.Windows.Forms.Timer { Interval = 16 };
+        _animationTimer = new System.Windows.Forms.Timer { Interval = RadialMenuMetrics.AnimationFrameIntervalMs };
         _animationTimer.Tick += (_, _) =>
         {
             var elapsed = Environment.TickCount - started;
@@ -659,11 +669,11 @@ internal class VisualRadialMenuPopup : VisualPopup, IRadialMenuInteractionHost
 
         var colors = RadialMenuColorSet.FromPalette(_owner.ResolvePalette(), _owner.Values);
         using var brush = new SolidBrush(colors.SectorNormal);
-        var old = g.SmoothingMode;
         // Aliased fill avoids fringe pixels against the clipped Region edge.
-        g.SmoothingMode = SmoothingMode.None;
-        g.FillEllipse(brush, 0, 0, ClientSize.Width - 1, ClientSize.Height - 1);
-        g.SmoothingMode = old;
+        using (new GraphicsHint(g, PaletteGraphicsHint.None))
+        {
+            g.FillEllipse(brush, 0, 0, ClientSize.Width - 1, ClientSize.Height - 1);
+        }
     }
 
     private void ApplyCircularRegion(Size size)
@@ -714,9 +724,8 @@ internal class VisualRadialMenuPopup : VisualPopup, IRadialMenuInteractionHost
         }
 
         DefineCircularShadowPaths(ClientSize);
-        var blur = Math.Max(0, _owner.Values.ShadowBlur);
-        var padding = blur + ShadowHoleInset + 2;
-        ShowShadow(new Rectangle(Location, Size), padding, _owner.Values.ShadowOffset);
+        var metrics = CurrentMetrics();
+        ShowShadow(new Rectangle(Location, Size), metrics.ShadowPadding, metrics.ShadowOffset);
     }
 
     private void DefineCircularShadowPaths(Size menuSize)
@@ -726,8 +735,9 @@ internal class VisualRadialMenuPopup : VisualPopup, IRadialMenuInteractionHost
             return;
         }
 
-        var blur = Math.Max(0, _owner.Values.ShadowBlur);
-        var pad = blur + ShadowHoleInset + 2;
+        var metrics = CurrentMetrics();
+        var blur = metrics.ShadowBlur;
+        var pad = metrics.ShadowPadding;
         // Paths are in the padded shadow client: menu disc is at (pad, pad).
         GraphicsPath CreateOuterHalo(int outerExtra)
         {
@@ -737,7 +747,7 @@ internal class VisualRadialMenuPopup : VisualPopup, IRadialMenuInteractionHost
             var oy = pad - outerExtra;
             path.AddEllipse(ox, oy, menuSize.Width - 1 + (outerExtra * 2), menuSize.Height - 1 + (outerExtra * 2));
             // Punch a hole slightly smaller than the menu so Magenta fringe sits under the opaque popup.
-            var inset = ShadowHoleInset;
+            var inset = RadialMenuMetrics.ShadowHoleInset;
             path.AddEllipse(
                 pad + inset,
                 pad + inset,

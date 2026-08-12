@@ -67,6 +67,20 @@ internal class KryptonRadialMenuControlActionList : DesignerActionList
     }
 
     /// <summary>
+    /// Gets or sets the uniform scale factor.
+    /// </summary>
+    public float Scale
+    {
+        get => _control.Scale;
+        set
+        {
+            _changeService?.OnComponentChanging(_control, null);
+            _control.Scale = value;
+            _changeService?.OnComponentChanged(_control, null, null, null);
+        }
+    }
+
+    /// <summary>
     /// Gets or sets the display style.
     /// </summary>
     public KryptonRadialMenuDisplayStyle DisplayStyle
@@ -88,6 +102,7 @@ internal class KryptonRadialMenuControlActionList : DesignerActionList
             new DesignerActionHeaderItem(@"Appearance"),
             new DesignerActionPropertyItem(nameof(MenuRadius), @"Menu Radius", @"Appearance", @"Outer radius of the radial menu."),
             new DesignerActionPropertyItem(nameof(InnerRadius), @"Inner Radius", @"Appearance", @"Centre button radius."),
+            new DesignerActionPropertyItem(nameof(Scale), @"Scale", @"Appearance", @"Uniform scale factor (0.5–3)."),
             new DesignerActionPropertyItem(nameof(DisplayStyle), @"Display Style", @"Appearance", @"How text and images are arranged."),
             new DesignerActionHeaderItem(@"Data"),
             new DesignerActionMethodItem(this, nameof(EditItems), @"Edit Items...", @"Data", @"Edit the radial menu items.", true)
