@@ -179,7 +179,9 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     /// <summary>
     /// Gets or sets the open / navigation animation style. Proxy for <see cref="KryptonRadialMenuValues.AnimationStyle"/>.
     /// </summary>
-    [Category(@"Behavior")]
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Description(@"Animation used when the menu opens or navigates to another ring.")]
     [DefaultValue(KryptonRadialMenuAnimationStyle.Sweep)]
     public KryptonRadialMenuAnimationStyle AnimationStyle
@@ -191,7 +193,9 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     /// <summary>
     /// Gets or sets the animation duration in milliseconds. Proxy for <see cref="KryptonRadialMenuValues.AnimationDuration"/>.
     /// </summary>
-    [Category(@"Behavior")]
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Description(@"Duration of the open / navigation animation in milliseconds.")]
     [DefaultValue(RadialMenuMetrics.DefaultAnimationDurationMs)]
     public int AnimationDuration
@@ -354,7 +358,9 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     /// <summary>
     /// Gets the outer menu radius. Proxy for <see cref="KryptonRadialMenuValues.MenuRadius"/>.
     /// </summary>
-    [Category(@"Visuals")]
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Description(@"Outer radius of the radial menu in pixels.")]
     [DefaultValue(RadialMenuMetrics.DefaultMenuRadius)]
     public int MenuRadius
@@ -366,7 +372,9 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     /// <summary>
     /// Gets the inner centre radius. Proxy for <see cref="KryptonRadialMenuValues.InnerRadius"/>.
     /// </summary>
-    [Category(@"Visuals")]
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Description(@"Inner radius of the centre button in pixels.")]
     [DefaultValue(RadialMenuMetrics.DefaultInnerRadius)]
     public int InnerRadius
@@ -378,7 +386,9 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     /// <summary>
     /// Gets or sets the centre button image. Proxy for <see cref="KryptonRadialMenuValues.Glyph"/>.
     /// </summary>
-    [Category(@"Visuals")]
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Description(@"Image displayed on the centre button (and collapsed hub on KryptonRadialMenuControl).")]
     [DefaultValue(null)]
     public Image? Glyph
@@ -393,7 +403,9 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     /// <remarks>
     /// Meaningful for <see cref="KryptonRadialMenuControl"/> hub mode; ignored by the popup Component.
     /// </remarks>
-    [Category(@"Visuals")]
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Description(@"Text on the collapsed hub when Glyph is null. Default is +.")]
     [DefaultValue("+")]
     [Localizable(true)]
@@ -406,7 +418,9 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     /// <summary>
     /// Gets or sets the accent colour. Proxy for <see cref="KryptonRadialMenuValues.MenuColor"/>.
     /// </summary>
-    [Category(@"Visuals")]
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Description(@"Accent colour for the centre button and highlights.")]
     public Color MenuColor
     {
@@ -420,7 +434,9 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     /// <summary>
     /// Gets or sets the submenu hover accent. Proxy for <see cref="KryptonRadialMenuValues.SubMenuHoverColor"/>.
     /// </summary>
-    [Category(@"Visuals")]
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Description(@"Hover accent colour for submenu sectors.")]
     public Color SubMenuHoverColor
     {
@@ -434,7 +450,9 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     /// <summary>
     /// Gets or sets sector content arrangement. Proxy for <see cref="KryptonRadialMenuValues.DisplayStyle"/>.
     /// </summary>
-    [Category(@"Visuals")]
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Description(@"How text and images are arranged in sectors.")]
     [DefaultValue(KryptonRadialMenuDisplayStyle.ImageAboveText)]
     public KryptonRadialMenuDisplayStyle DisplayStyle
@@ -446,7 +464,9 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     /// <summary>
     /// Gets or sets sector image size. Proxy for <see cref="KryptonRadialMenuValues.ItemImageSize"/>.
     /// </summary>
-    [Category(@"Visuals")]
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Description(@"Size in pixels of images drawn in item sectors.")]
     [DefaultValue(RadialMenuMetrics.DefaultItemImageSize)]
     public int ItemImageSize
@@ -461,7 +481,9 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     /// <remarks>
     /// Value is in 96-DPI logical pixels (default 10). Draw and hit-test paths multiply by device DPI and <see cref="Scale"/>.
     /// </remarks>
-    [Category(@"Visuals")]
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Description(@"Thickness of the outer ring stroke in 96-DPI logical pixels. Zero hides the stroke.")]
     [DefaultValue(RadialMenuMetrics.DefaultOuterRingThickness)]
     public float OuterRingThickness
@@ -471,9 +493,25 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     }
 
     /// <summary>
+    /// Gets or sets whether leaf sectors draw an outer-ring arc. Proxy for <see cref="KryptonRadialMenuValues.ShowOuterRingOnLeaves"/>.
+    /// </summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [Description(@"When false, hides the outer ring arc on slices that have no sub-level.")]
+    [DefaultValue(true)]
+    public bool ShowOuterRingOnLeaves
+    {
+        get => Values.ShowOuterRingOnLeaves;
+        set => Values.ShowOuterRingOnLeaves = value;
+    }
+
+    /// <summary>
     /// Gets or sets the uniform scale factor. Proxy for <see cref="KryptonRadialMenuValues.Scale"/>.
     /// </summary>
-    [Category(@"Visuals")]
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Description(@"Uniform scale factor (0.5–3). Multiplied with device DPI for layout and painting.")]
     [DefaultValue(RadialMenuMetrics.DefaultScale)]
     public float Scale
@@ -485,7 +523,9 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     /// <summary>
     /// Gets or sets whether a circular popup shadow is shown. Proxy for <see cref="KryptonRadialMenuValues.ShowShadow"/>.
     /// </summary>
-    [Category(@"Visuals")]
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Description(@"Shows a circular shadow behind the radial popup.")]
     [DefaultValue(true)]
     public bool ShowShadow
@@ -497,7 +537,9 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     /// <summary>
     /// Gets or sets the popup shadow opacity (0..1). Proxy for <see cref="KryptonRadialMenuValues.ShadowOpacity"/>.
     /// </summary>
-    [Category(@"Visuals")]
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Description(@"Opacity of the circular popup shadow when ShowShadow is enabled.")]
     [DefaultValue(RadialMenuMetrics.DefaultShadowOpacity)]
     public float ShadowOpacity
@@ -509,7 +551,9 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     /// <summary>
     /// Gets or sets the soft shadow halo radius. Proxy for <see cref="KryptonRadialMenuValues.ShadowBlur"/>.
     /// </summary>
-    [Category(@"Visuals")]
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Description(@"Soft shadow halo radius in pixels outside the menu edge.")]
     [DefaultValue(RadialMenuMetrics.DefaultShadowBlur)]
     public int ShadowBlur
@@ -521,7 +565,9 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     /// <summary>
     /// Gets or sets the shadow drop offset. Proxy for <see cref="KryptonRadialMenuValues.ShadowOffset"/>.
     /// </summary>
-    [Category(@"Visuals")]
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Description(@"Shadow drop offset in pixels (down and right).")]
     [DefaultValue(RadialMenuMetrics.DefaultShadowOffset)]
     public int ShadowOffset
@@ -533,7 +579,9 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     /// <summary>
     /// Gets or sets whether checked sectors draw a checkmark. Proxy for <see cref="KryptonRadialMenuValues.ShowCheckedGlyph"/>.
     /// </summary>
-    [Category(@"Visuals")]
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Description(@"Draws a checkmark glyph on checked sectors.")]
     [DefaultValue(true)]
     public bool ShowCheckedGlyph
@@ -545,7 +593,9 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     /// <summary>
     /// Gets or sets the first-sector start angle. Proxy for <see cref="KryptonRadialMenuValues.StartAngle"/>.
     /// </summary>
-    [Category(@"Visuals")]
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Description(@"Start angle in degrees for the first sector (-90 is top).")]
     [DefaultValue(RadialMenuMetrics.DefaultStartAngle)]
     public float StartAngle
@@ -557,7 +607,9 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     /// <summary>
     /// Gets or sets max visible sectors per page. Proxy for <see cref="KryptonRadialMenuValues.MaxVisibleItems"/>.
     /// </summary>
-    [Category(@"Behavior")]
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Description(@"Maximum visible sectors per page. Zero means show all items.")]
     [DefaultValue(0)]
     public int MaxVisibleItems
@@ -569,7 +621,9 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     /// <summary>
     /// Gets or sets hit-test padding. Proxy for <see cref="KryptonRadialMenuValues.HitPadding"/>.
     /// </summary>
-    [Category(@"Behavior")]
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Description(@"Extra hit-test padding in pixels around the annular hit region.")]
     [DefaultValue(RadialMenuMetrics.DefaultHitPadding)]
     public float HitPadding

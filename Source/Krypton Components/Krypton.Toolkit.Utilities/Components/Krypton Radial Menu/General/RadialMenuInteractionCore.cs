@@ -170,7 +170,7 @@ internal sealed class RadialMenuInteractionCore
             return RadialHitResult.None;
         }
 
-        return RadialLayoutEngine.HitTest(
+        var hit = RadialLayoutEngine.HitTest(
             clientPoint,
             center,
             metrics.MenuRadius,
@@ -181,6 +181,18 @@ internal sealed class RadialMenuInteractionCore
             startAngle,
             hitPadding,
             metrics.OuterRingThickness);
+
+        // When leaf arcs are hidden, the outer band on leaves is just more sector body.
+        if (hit.Kind == RadialHitKind.OuterRing
+            && !_host.Values.ShowOuterRingOnLeaves
+            && hit.SectorIndex >= 0
+            && hit.SectorIndex < _visibleItems.Count
+            && !_visibleItems[hit.SectorIndex].HasChildren)
+        {
+            return new RadialHitResult(RadialHitKind.Sector, hit.SectorIndex, -1);
+        }
+
+        return hit;
     }
 
     /// <summary>

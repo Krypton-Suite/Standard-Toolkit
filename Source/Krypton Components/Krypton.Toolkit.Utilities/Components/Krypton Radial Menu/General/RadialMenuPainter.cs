@@ -135,8 +135,15 @@ internal static class RadialMenuPainter
         var radius = Math.Max(1f, menuRadius - (ringThickness * 0.5f));
         var rect = new RectangleF(center.X - radius, center.Y - radius, radius * 2f, radius * 2f);
 
+        var showOnLeaves = values.ShowOuterRingOnLeaves;
         for (var i = 0; i < sectors.Length && i < items.Count; i++)
         {
+            // Optional: skip leaf arcs so only sub-level slices show the outer ring affordance.
+            if (!showOnLeaves && !items[i].HasChildren)
+            {
+                continue;
+            }
+
             var color = ResolveRingColor(
                 appearance,
                 colors,

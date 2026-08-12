@@ -17,7 +17,7 @@ namespace TestForm;
 /// </summary>
 public partial class RadialMenuDemo : KryptonForm
 {
-    private readonly KryptonRadialMenu _radialMenu = new();
+    private readonly KryptonRadialMenu _radialMenu = new KryptonRadialMenu();
     private readonly KryptonRadialMenu _importedMenu = new();
     private readonly KryptonRadialMenuControl _hostedControl = new();
     private readonly KryptonContextMenu _sourceContextMenu = new();
@@ -34,6 +34,7 @@ public partial class RadialMenuDemo : KryptonForm
         PopulateDisplayStyleCombo();
         PopulateImageSizeCombo();
         kchkShowShadow.Checked = true;
+        kchkShowOuterRingOnLeaves.Checked = true;
         kchkShowCheckedGlyph.Checked = true;
     }
 
@@ -64,12 +65,15 @@ public partial class RadialMenuDemo : KryptonForm
         };
         kpnlHosted.Controls.Add(_hostedControl);
         _hostedControl.BringToFront();
+        kryptonPropertyGrid1.SelectedObject = _hostedControl;
         CenterHostedControl();
     }
 
     private void CenterHostedControl()
     {
-        if (_hostedControl.IsFloating || _hostedControl.Parent != kpnlHosted)
+        if (_hostedControl.IsFloating
+            || _hostedControl.Parent != kpnlHosted
+            || _hostedControl.Capture)
         {
             return;
         }
@@ -438,6 +442,14 @@ public partial class RadialMenuDemo : KryptonForm
     {
         _radialMenu.ShowShadow = kchkShowShadow.Checked;
         _importedMenu.ShowShadow = kchkShowShadow.Checked;
+    }
+
+    private void kchkShowOuterRingOnLeaves_CheckedChanged(object? sender, EventArgs e)
+    {
+        var show = kchkShowOuterRingOnLeaves.Checked;
+        _radialMenu.ShowOuterRingOnLeaves = show;
+        _importedMenu.ShowOuterRingOnLeaves = show;
+        _hostedControl.ShowOuterRingOnLeaves = show;
     }
 
     private void knudShadowBlur_ValueChanged(object? sender, EventArgs e)

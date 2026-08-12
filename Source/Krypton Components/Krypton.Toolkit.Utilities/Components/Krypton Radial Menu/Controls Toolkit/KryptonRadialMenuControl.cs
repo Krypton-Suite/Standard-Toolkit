@@ -46,6 +46,7 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
     private Point _dockLocation;
     private VisualRadialMenuFloatForm? _floatForm;
     private MethodInfo? _paintTransparentBackground;
+    private RadialMenuMoveMessageFilter? _moveFilter;
 
     private static readonly Color TransparencyKeyColor = Color.Magenta;
 
@@ -118,7 +119,11 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
 
         var diameter = RadialMenuMetrics.DiameterFromRadius(Values.MenuRadius);
         Size = new Size(diameter, diameter);
-        MinimumSize = RadialMenuMetrics.MinControlSize;
+        // Allow collapsed hub to shrink below the full-menu minimum.
+        MinimumSize = new Size(
+            RadialMenuMetrics.DiameterFromRadius(RadialMenuMetrics.MinInnerRadius),
+            RadialMenuMetrics.DiameterFromRadius(RadialMenuMetrics.MinInnerRadius));
+        SyncSurfaceSize(keepCentre: false);
     }
 
     /// <inheritdoc />
@@ -126,6 +131,7 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
     {
         if (disposing)
         {
+            StopMoveMessageFilter();
             _toolTipHost.Dispose();
             DestroyFloatForm(dockBack: false);
         }
@@ -236,7 +242,9 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
     private bool ShouldSerializeStatePressed() => !StatePressed.IsDefault;
 
     /// <summary>Gets or sets the outer menu radius. Proxy for <see cref="KryptonRadialMenuValues.MenuRadius"/>.</summary>
-    [Category(@"Visuals")]
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Description(@"Outer radius of the radial menu in pixels.")]
     [DefaultValue(RadialMenuMetrics.DefaultMenuRadius)]
     public int MenuRadius
@@ -250,7 +258,9 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
     }
 
     /// <summary>Gets or sets the inner radius. Proxy for <see cref="KryptonRadialMenuValues.InnerRadius"/>.</summary>
-    [Category(@"Visuals")]
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Description(@"Centre button radius in pixels.")]
     [DefaultValue(RadialMenuMetrics.DefaultInnerRadius)]
     public int InnerRadius
@@ -260,7 +270,9 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
     }
 
     /// <summary>Gets or sets the centre / hub image. Proxy for <see cref="KryptonRadialMenuValues.Glyph"/>.</summary>
-    [Category(@"Visuals")]
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Description(@"Image on the centre button and collapsed hub. When set, HubText is not drawn.")]
     [DefaultValue(null)]
     public Image? Glyph
@@ -270,7 +282,9 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
     }
 
     /// <summary>Gets or sets collapsed-hub caption text. Proxy for <see cref="KryptonRadialMenuValues.HubText"/>.</summary>
-    [Category(@"Visuals")]
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Description(@"Text on the collapsed hub when Glyph is null. Default is +.")]
     [DefaultValue("+")]
     [Localizable(true)]
@@ -281,7 +295,9 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
     }
 
     /// <summary>Gets or sets the display style. Proxy for <see cref="KryptonRadialMenuValues.DisplayStyle"/>.</summary>
-    [Category(@"Visuals")]
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Description(@"How text and images are arranged on sectors.")]
     [DefaultValue(KryptonRadialMenuDisplayStyle.ImageAboveText)]
     public KryptonRadialMenuDisplayStyle DisplayStyle
@@ -291,7 +307,9 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
     }
 
     /// <summary>Gets or sets the sector image size. Proxy for <see cref="KryptonRadialMenuValues.ItemImageSize"/>.</summary>
-    [Category(@"Visuals")]
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Description(@"Sector image size in pixels.")]
     [DefaultValue(RadialMenuMetrics.DefaultItemImageSize)]
     public int ItemImageSize
@@ -301,7 +319,9 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
     }
 
     /// <summary>Gets or sets outer ring thickness. Proxy for <see cref="KryptonRadialMenuValues.OuterRingThickness"/>.</summary>
-    [Category(@"Visuals")]
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Description(@"Thickness of the outer ring stroke in 96-DPI logical pixels. Zero hides the stroke.")]
     [DefaultValue(RadialMenuMetrics.DefaultOuterRingThickness)]
     public float OuterRingThickness
@@ -310,8 +330,22 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
         set => Values.OuterRingThickness = value;
     }
 
+    /// <summary>Gets or sets whether leaf sectors draw an outer ring. Proxy for <see cref="KryptonRadialMenuValues.ShowOuterRingOnLeaves"/>.</summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [Description(@"When false, hides the outer ring arc on slices that have no sub-level.")]
+    [DefaultValue(true)]
+    public bool ShowOuterRingOnLeaves
+    {
+        get => Values.ShowOuterRingOnLeaves;
+        set => Values.ShowOuterRingOnLeaves = value;
+    }
+
     /// <summary>Gets or sets the uniform scale factor. Proxy for <see cref="KryptonRadialMenuValues.Scale"/>.</summary>
-    [Category(@"Visuals")]
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Description(@"Uniform scale factor (0.5–3). Multiplied with device DPI for layout and painting.")]
     [DefaultValue(RadialMenuMetrics.DefaultScale)]
     public new float Scale
@@ -325,7 +359,9 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
     }
 
     /// <summary>Gets or sets the start angle. Proxy for <see cref="KryptonRadialMenuValues.StartAngle"/>.</summary>
-    [Category(@"Visuals")]
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Description(@"First sector angle in degrees.")]
     [DefaultValue(RadialMenuMetrics.DefaultStartAngle)]
     public float StartAngle
@@ -385,6 +421,7 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
                 _core.ResetToRoot();
             }
 
+            SyncSurfaceSize(keepCentre: true);
             Invalidate();
         }
     }
@@ -522,6 +559,7 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
     {
         base.OnHandleCreated(e);
         UpdateDpiScale();
+        SyncSurfaceSize(keepCentre: true);
         _core.ResetToRoot();
     }
 
@@ -537,12 +575,24 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
     /// <inheritdoc />
     protected override void OnPaintBackground(PaintEventArgs pevent)
     {
-        // Copy the parent surface into the double-buffer so corners outside the radial
-        // artwork are see-through. When floating, Magenta matches the float form colour key.
+        // Floating uses a layered per-pixel alpha host — the control itself is hidden.
+        if (_isFloating)
+        {
+            return;
+        }
+
+        // Collapsed hub in-parent: solid fill (surface is sized to the disc).
+        if (_useHub && !_expanded)
+        {
+            using var brush = new SolidBrush(ResolveSurfaceBackColor());
+            pevent.Graphics.FillRectangle(brush, ClientRectangle);
+            return;
+        }
+
+        // Expanded in-parent: copy parent surface so corners outside the disc stay see-through.
         if (!PaintParentBackground(pevent))
         {
-            var back = _isFloating ? TransparencyKeyColor : ResolveSurfaceBackColor();
-            using var brush = new SolidBrush(back);
+            using var brush = new SolidBrush(ResolveSurfaceBackColor());
             pevent.Graphics.FillRectangle(brush, ClientRectangle);
         }
     }
@@ -550,29 +600,76 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
     /// <inheritdoc />
     protected override void OnPaint(PaintEventArgs e)
     {
-        if (!IsHandleCreated)
+        if (!IsHandleCreated || _isFloating)
         {
             return;
         }
 
         UpdateDpiScale();
+        PaintMenuSurface(e.Graphics, ClientRectangle);
+        base.OnPaint(e);
+    }
+
+    /// <inheritdoc />
+    protected override void OnInvalidated(InvalidateEventArgs e)
+    {
+        base.OnInvalidated(e);
+        if (_isFloating && _floatForm != null && !_floatForm.IsDisposed)
+        {
+            _floatForm.RequestPublishFrame();
+        }
+    }
+
+    /// <summary>
+    /// Paints the radial surface into a layered float bitmap (transparent outside the disc).
+    /// </summary>
+    /// <param name="g">Target graphics (typically a 32bpp ARGB bitmap).</param>
+    /// <param name="bounds">Client bounds matching the float host size.</param>
+    internal void PaintFloatingSurface(Graphics g, Rectangle bounds)
+    {
+        UpdateDpiScale();
+        PaintMenuSurface(g, bounds);
+    }
+
+    /// <summary>Forwards mouse down from the layered float host.</summary>
+    internal void ForwardFloatMouseDown(MouseEventArgs e) => OnMouseDown(e);
+
+    /// <summary>Forwards mouse move from the layered float host.</summary>
+    internal void ForwardFloatMouseMove(MouseEventArgs e)
+    {
+        OnMouseMove(e);
+        if (_floatForm != null)
+        {
+            _floatForm.Cursor = Cursor;
+        }
+    }
+
+    /// <summary>Forwards mouse up from the layered float host.</summary>
+    internal void ForwardFloatMouseUp(MouseEventArgs e) => OnMouseUp(e);
+
+    /// <summary>Forwards mouse leave from the layered float host.</summary>
+    internal void ForwardFloatMouseLeave(EventArgs e) => OnMouseLeave(e);
+
+    /// <summary>Forwards mouse wheel from the layered float host.</summary>
+    internal void ForwardFloatMouseWheel(MouseEventArgs e) => OnMouseWheel(e);
+
+    /// <summary>Forwards key down from the layered float host.</summary>
+    internal void ForwardFloatKeyDown(KeyEventArgs e) => OnKeyDown(e);
+
+    /// <summary>Forwards key press from the layered float host.</summary>
+    internal void ForwardFloatKeyPress(KeyPressEventArgs e) => OnKeyPress(e);
+
+    private void PaintMenuSurface(Graphics g, Rectangle bounds)
+    {
         if (_useHub && !_expanded)
         {
             var colors = RadialMenuColorSet.FromPalette(ResolvePalette(), Values);
-            RadialMenuPainter.PaintHub(
-                e.Graphics,
-                ClientRectangle,
-                Values,
-                colors,
-                CurrentMetrics(),
-                _hubTracking);
+            RadialMenuPainter.PaintHub(g, bounds, Values, colors, CurrentMetrics(), _hubTracking);
         }
         else
         {
-            _core.Paint(e.Graphics, ClientRectangle);
+            _core.Paint(g, bounds);
         }
-
-        base.OnPaint(e);
     }
 
     /// <inheritdoc />
@@ -586,27 +683,9 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
 
         if (_movePending || _moving)
         {
-            var screen = PointToScreen(e.Location);
-            var dx = screen.X - _moveScreenStart.X;
-            var dy = screen.Y - _moveScreenStart.Y;
-            if (!_moving && ((Math.Abs(dx) >= CurrentMetrics().MoveDragThreshold) || (Math.Abs(dy) >= CurrentMetrics().MoveDragThreshold)))
-            {
-                _moving = true;
-                _movePending = false;
-                PrepareForMove();
-                Cursor = Cursors.SizeAll;
-            }
-
-            if (_moving)
-            {
-                ApplyMoveDelta(dx, dy);
-                if (!_isFloating && ShouldFloatOut())
-                {
-                    BeginFloat(screen, rebaseMove: true);
-                }
-
-                return;
-            }
+            // Use screen cursor only — PointToScreen(e.Location) races after the float host moves.
+            ProcessMoveScreenPoint(Control.MousePosition);
+            return;
         }
 
         if (_useHub && !_expanded)
@@ -615,6 +694,7 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
             if (_hubTracking != overHub)
             {
                 _hubTracking = overHub;
+                // Hub surface is sized to the disc — invalidate only for hover chrome, no parent blit.
                 Invalidate();
             }
 
@@ -670,7 +750,15 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
                     ? _floatForm.Location
                     : Location;
                 Cursor = Cursors.SizeAll;
-                Capture = true;
+                // Capture delivers moves outside the control without a global message filter.
+                if (_isFloating && _floatForm != null)
+                {
+                    _floatForm.Capture = true;
+                }
+                else
+                {
+                    Capture = true;
+                }
             }
             else if (!(_useHub && !_expanded))
             {
@@ -688,42 +776,7 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
         {
             if (_movePending || _moving)
             {
-                var moved = _moving;
-                _movePending = false;
-                _moving = false;
-                Cursor = Cursors.Default;
-                if (Capture)
-                {
-                    Capture = false;
-                }
-
-                if (moved)
-                {
-                    // Drop over the original parent docks the floating surface back.
-                    if (_isFloating && ShouldDockBackAtCursor())
-                    {
-                        DockBack();
-                    }
-
-                    // Reposition only — do not expand / activate.
-                    base.OnMouseUp(e);
-                    return;
-                }
-
-                // Pressed without dragging: honour hub expand or centre action.
-                if (_useHub && !_expanded)
-                {
-                    if (IsOverHub(e.Location))
-                    {
-                        Expand();
-                    }
-                }
-                else
-                {
-                    _core.HandleCenterClick();
-                    Invalidate();
-                }
-
+                EndMoveGesture(PointToScreen(e.Location));
                 base.OnMouseUp(e);
                 return;
             }
@@ -868,19 +921,75 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
 
     private void UpdatePreferredSizeFromRadius()
     {
-        UpdateDpiScale();
-        var metrics = RadialMenuMetrics.From(
-            Values,
-            IsHandleCreated ? _dpiScale : Values.Scale,
-            new Size(int.MaxValue / 4, int.MaxValue / 4));
-        var diameter = RadialMenuMetrics.DiameterFromRadius(metrics.PreferredMenuRadius);
-        Size = new Size(Math.Max(MinimumSize.Width, diameter), Math.Max(MinimumSize.Height, diameter));
-
+        SyncSurfaceSize(keepCentre: true);
         if (IsHandleCreated)
         {
             _core.RefreshLayout();
             Invalidate();
         }
+    }
+
+    private void SyncSurfaceSize(bool keepCentre)
+    {
+        UpdateDpiScale();
+        var target = GetPreferredSurfaceSize();
+        if (_isFloating && _floatForm != null)
+        {
+            if (_floatForm.Size == target)
+            {
+                return;
+            }
+
+            if (keepCentre && _floatForm.IsHandleCreated)
+            {
+                var centre = new Point(
+                    _floatForm.Left + (_floatForm.Width / 2),
+                    _floatForm.Top + (_floatForm.Height / 2));
+                _floatForm.Size = target;
+                _floatForm.Location = new Point(centre.X - (_floatForm.Width / 2), centre.Y - (_floatForm.Height / 2));
+            }
+            else
+            {
+                _floatForm.Size = target;
+            }
+
+            Size = target;
+            _floatForm.PublishFrame();
+            return;
+        }
+
+        if (Size == target)
+        {
+            return;
+        }
+
+        if (keepCentre && IsHandleCreated)
+        {
+            var centre = new Point(Left + (Width / 2), Top + (Height / 2));
+            Size = target;
+            Location = new Point(centre.X - (Width / 2), centre.Y - (Height / 2));
+        }
+        else
+        {
+            Size = target;
+        }
+    }
+
+    private Size GetPreferredSurfaceSize()
+    {
+        UpdateDpiScale();
+        var roomy = new Size(int.MaxValue / 4, int.MaxValue / 4);
+        var metrics = RadialMenuMetrics.From(
+            Values,
+            IsHandleCreated ? _dpiScale : Math.Max(RadialMenuMetrics.MinLayoutScale, Values.Scale),
+            roomy);
+        var radius = _useHub && !_expanded
+            ? Math.Max(RadialMenuMetrics.MinInnerRadius, metrics.PreferredInnerRadius)
+            : metrics.PreferredMenuRadius;
+        var diameter = RadialMenuMetrics.DiameterFromRadius(radius);
+        return new Size(
+            Math.Max(MinimumSize.Width, diameter),
+            Math.Max(MinimumSize.Height, diameter));
     }
 
     private RadialMenuMetrics CurrentMetrics()
@@ -894,15 +1003,7 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
         return RadialMenuMetrics.From(Values, _dpiScale, available);
     }
 
-    private Size GetPreferredFloatSize()
-    {
-        UpdateDpiScale();
-        var metrics = RadialMenuMetrics.From(Values, _dpiScale, new Size(int.MaxValue / 4, int.MaxValue / 4));
-        var diameter = RadialMenuMetrics.DiameterFromRadius(metrics.PreferredMenuRadius);
-        return new Size(
-            Math.Max(MinimumSize.Width, diameter),
-            Math.Max(MinimumSize.Height, diameter));
-    }
+    private Size GetPreferredFloatSize() => GetPreferredSurfaceSize();
 
     private void PrepareForMove()
     {
@@ -916,6 +1017,124 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
         Dock = DockStyle.None;
         Bounds = bounds;
         _moveLocationStart = Location;
+    }
+
+    private void ProcessMoveScreenPoint(Point screen)
+    {
+        var dx = screen.X - _moveScreenStart.X;
+        var dy = screen.Y - _moveScreenStart.Y;
+        if (!_moving && ((Math.Abs(dx) >= CurrentMetrics().MoveDragThreshold) || (Math.Abs(dy) >= CurrentMetrics().MoveDragThreshold)))
+        {
+            _moving = true;
+            _movePending = false;
+            PrepareForMove();
+            Cursor = Cursors.SizeAll;
+            // Only after a real drag: track across reparent / outside the owner window.
+            StartMoveMessageFilter();
+        }
+
+        if (!_moving)
+        {
+            return;
+        }
+
+        ApplyMoveDelta(dx, dy);
+        if (!_isFloating && ShouldFloatOut())
+        {
+            BeginFloat(screen, rebaseMove: true);
+        }
+    }
+
+    private void EndMoveGesture(Point screenPoint)
+    {
+        if (!_movePending && !_moving)
+        {
+            return;
+        }
+
+        var moved = _moving;
+        _movePending = false;
+        _moving = false;
+        StopMoveMessageFilter();
+        Cursor = Cursors.Default;
+        if (Capture)
+        {
+            Capture = false;
+        }
+
+        if (_floatForm is { Capture: true })
+        {
+            _floatForm.Capture = false;
+        }
+
+        if (_floatForm != null)
+        {
+            _floatForm.TopMost = false;
+        }
+
+        if (moved)
+        {
+            if (_isFloating && ShouldDockBackAtCursor())
+            {
+                DockBack();
+            }
+
+            return;
+        }
+
+        // Click without drag: expand hub or activate centre.
+        var client = _isFloating && _floatForm != null
+            ? _floatForm.PointToClient(screenPoint)
+            : PointToClient(screenPoint);
+        if (_useHub && !_expanded)
+        {
+            if (IsOverHub(client))
+            {
+                Expand();
+            }
+
+            return;
+        }
+
+        _core.HandleCenterClick();
+        Invalidate();
+    }
+
+    private void StartMoveMessageFilter()
+    {
+        if (_moveFilter != null)
+        {
+            return;
+        }
+
+        _moveFilter = new RadialMenuMoveMessageFilter(this);
+        Application.AddMessageFilter(_moveFilter);
+    }
+
+    private bool HasMoveCapture() =>
+        Capture || (_floatForm != null && _floatForm.Capture);
+
+    private bool IsMouseOverMoveSurface()
+    {
+        var target = _isFloating && _floatForm != null ? (Control)_floatForm : this;
+        if (!target.IsHandleCreated)
+        {
+            return false;
+        }
+
+        var screen = target.RectangleToScreen(target.ClientRectangle);
+        return screen.Contains(Control.MousePosition);
+    }
+
+    private void StopMoveMessageFilter()
+    {
+        if (_moveFilter == null)
+        {
+            return;
+        }
+
+        Application.RemoveMessageFilter(_moveFilter);
+        _moveFilter = null;
     }
 
     private void CaptureDockSnapshot()
@@ -937,9 +1156,27 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
         var location = new Point(_moveLocationStart.X + dx, _moveLocationStart.Y + dy);
         if (_isFloating && _floatForm != null)
         {
-            _floatForm.Location = location;
+            if (_floatForm.Location != location)
+            {
+                // SetWindowPos avoids Activate/layout thrash that jitters Region-clipped float hosts.
+                if (_floatForm.IsHandleCreated)
+                {
+                    PI.SetWindowPos(
+                        _floatForm.Handle,
+                        IntPtr.Zero,
+                        location.X,
+                        location.Y,
+                        0,
+                        0,
+                        PI.SWP_.NOSIZE | PI.SWP_.NOZORDER | PI.SWP_.NOACTIVATE | PI.SWP_.NOOWNERZORDER);
+                }
+                else
+                {
+                    _floatForm.Location = location;
+                }
+            }
         }
-        else
+        else if (Location != location)
         {
             Location = location;
         }
@@ -952,6 +1189,21 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
             return false;
         }
 
+        // Cursor left the immediate parent (or the owning form) — promote to a top-level float host.
+        var boundsHost = Parent;
+        var form = FindForm();
+        if (form != null && form.IsHandleCreated)
+        {
+            boundsHost = form;
+        }
+
+        var hostScreen = boundsHost.RectangleToScreen(boundsHost.ClientRectangle);
+        if (!hostScreen.Contains(Control.MousePosition))
+        {
+            return true;
+        }
+
+        // Also float when the disc centre leaves the immediate parent (clipped containers).
         var centre = PointToScreen(new Point(Width / 2, Height / 2));
         var parentScreen = Parent.RectangleToScreen(Parent.ClientRectangle);
         return !parentScreen.Contains(centre);
@@ -993,7 +1245,8 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
         _floatForm = new VisualRadialMenuFloatForm
         {
             Size = floatSize,
-            Location = floatLocation
+            Location = floatLocation,
+            TopMost = true
         };
         _floatForm.FormClosing += OnFloatFormClosing;
 
@@ -1002,8 +1255,12 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
         Dock = DockStyle.Fill;
         Size = floatSize;
         _floatForm.Controls.Add(this);
+        // Hidden child: layered host paints via UpdateLayeredWindow; child keeps input/capture.
+        Visible = false;
         _isFloating = true;
+        _floatForm.BindSurface(this);
 
+        // Activate so mouse capture survives reparenting across the owner window edge.
         if (owner != null)
         {
             _floatForm.Show(owner);
@@ -1013,15 +1270,20 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
             _floatForm.Show();
         }
 
+        _floatForm.Activate();
+        _floatForm.PublishFrame();
+        _floatForm.Focus();
+
         if (rebaseMove)
         {
             _moveScreenStart = screenAnchor;
             _moveLocationStart = _floatForm.Location;
         }
 
-        if (wasCapture)
+        if (wasCapture || _moving)
         {
-            Capture = true;
+            // Capture on the visible float host — hidden children do not receive mouse reliably.
+            _floatForm.Capture = true;
         }
 
         FloatingChanged?.Invoke(this, EventArgs.Empty);
@@ -1038,6 +1300,7 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
         floatForm.FormClosing -= OnFloatFormClosing;
 
         floatForm.Controls.Remove(this);
+        Visible = true;
         Dock = DockStyle.None;
 
         if (dockBack && _dockParent != null && !_dockParent.IsDisposed)
@@ -1109,6 +1372,7 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
             _core.RefreshLayout();
         }
 
+        SyncSurfaceSize(keepCentre: true);
         Invalidate();
         if (raiseEvent)
         {
@@ -1234,6 +1498,49 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
 
         var color = border.GetBorderColor1(state);
         return color.IsEmpty ? SystemColors.ControlDark : color;
+    }
+
+    #endregion
+
+    #region Move message filter
+
+    /// <summary>
+    /// Continues drag tracking while the pointer leaves the control / owner window (capture + reparent).
+    /// </summary>
+    private sealed class RadialMenuMoveMessageFilter : IMessageFilter
+    {
+        private readonly KryptonRadialMenuControl _owner;
+
+        public RadialMenuMoveMessageFilter(KryptonRadialMenuControl owner) => _owner = owner;
+
+        public bool PreFilterMessage(ref Message m)
+        {
+            // Only while an active drag is in progress (not during click-pending).
+            if (!_owner._moving)
+            {
+                return false;
+            }
+
+            switch (m.Msg)
+            {
+                case PI.WM_.MOUSEMOVE:
+                case PI.WM_.NCMOUSEMOVE:
+                    // Capture already routes moves (including outside the owner) to OnMouseMove.
+                    // Filter only covers the case where capture was lost after reparent / float.
+                    if (!_owner.HasMoveCapture() && !_owner.IsMouseOverMoveSurface())
+                    {
+                        _owner.ProcessMoveScreenPoint(Control.MousePosition);
+                    }
+                    break;
+
+                case PI.WM_.LBUTTONUP:
+                case PI.WM_.NCLBUTTONUP:
+                    _owner.EndMoveGesture(Control.MousePosition);
+                    break;
+            }
+
+            return false;
+        }
     }
 
     #endregion

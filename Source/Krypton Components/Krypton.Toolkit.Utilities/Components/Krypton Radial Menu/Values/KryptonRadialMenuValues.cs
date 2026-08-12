@@ -26,6 +26,7 @@ public class KryptonRadialMenuValues : Storage
     private KryptonRadialMenuDisplayStyle _displayStyle;
     private string _subMenuGlyph;
     private float _outerRingThickness;
+    private bool _showOuterRingOnLeaves;
     private float _scale;
     private int _itemImageSize;
     private bool _showShadow;
@@ -58,6 +59,7 @@ public class KryptonRadialMenuValues : Storage
         _displayStyle = KryptonRadialMenuDisplayStyle.ImageAboveText;
         _subMenuGlyph = RadialMenuMetrics.DefaultSubMenuGlyph;
         _outerRingThickness = RadialMenuMetrics.DefaultOuterRingThickness;
+        _showOuterRingOnLeaves = true;
         _scale = RadialMenuMetrics.DefaultScale;
         _itemImageSize = RadialMenuMetrics.DefaultItemImageSize;
         _showShadow = true;
@@ -83,6 +85,7 @@ public class KryptonRadialMenuValues : Storage
         && _displayStyle == KryptonRadialMenuDisplayStyle.ImageAboveText
         && _subMenuGlyph == RadialMenuMetrics.DefaultSubMenuGlyph
         && Math.Abs(_outerRingThickness - RadialMenuMetrics.DefaultOuterRingThickness) < 0.01f
+        && _showOuterRingOnLeaves
         && Math.Abs(_scale - RadialMenuMetrics.DefaultScale) < 0.01f
         && _itemImageSize == RadialMenuMetrics.DefaultItemImageSize
         && _showShadow
@@ -292,6 +295,29 @@ public class KryptonRadialMenuValues : Storage
             if (Math.Abs(_outerRingThickness - value) > 0.01f)
             {
                 _outerRingThickness = value;
+                PerformNeedPaint(false);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets whether leaf sectors (no children / editor) draw an outer-ring arc.
+    /// </summary>
+    /// <remarks>
+    /// When <c>false</c>, only sectors with a sub-level paint the outer arc; chevrons remain children-only.
+    /// Leaf outer-band hits are treated as sector body clicks. Default is <c>true</c> (full ring).
+    /// </remarks>
+    [Category(@"Visuals")]
+    [Description(@"When false, hides the outer ring arc on slices that have no sub-level.")]
+    [DefaultValue(true)]
+    public bool ShowOuterRingOnLeaves
+    {
+        get => _showOuterRingOnLeaves;
+        set
+        {
+            if (_showOuterRingOnLeaves != value)
+            {
+                _showOuterRingOnLeaves = value;
                 PerformNeedPaint(false);
             }
         }

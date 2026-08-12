@@ -118,6 +118,7 @@ Assert-Equal ([Krypton.Toolkit.Utilities.KryptonRadialMenuAnimationStyle]::Sweep
 Assert-Equal 220 $menu.AnimationDuration 'Default AnimationDuration is 220'
 Assert-equal 24 $menu.ItemImageSize 'Default ItemImageSize is 24'
 Assert-True ([bool]$menu.ShowShadow) 'Default ShowShadow is true'
+Assert-True ([bool]$menu.ShowOuterRingOnLeaves) 'Default ShowOuterRingOnLeaves is true'
 Assert-True ([bool]$menu.ShowCheckedGlyph) 'Default ShowCheckedGlyph is true'
 Assert-Equal ([Krypton.Toolkit.Utilities.KryptonRadialMenuDisplayStyle]::ImageAboveText) $menu.DisplayStyle 'Default DisplayStyle is ImageAboveText'
 Assert-Equal (-90) ([float]$menu.StartAngle) 'Default StartAngle is -90'
