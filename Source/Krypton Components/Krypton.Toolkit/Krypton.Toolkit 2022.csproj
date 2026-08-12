@@ -36,7 +36,7 @@
 	<EnableNETAnalyzers>true</EnableNETAnalyzers>
 	<NeutralLanguage>en</NeutralLanguage>
 	<DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
-	<NoWarn>1701;1702</NoWarn>
+	<NoWarn>1701;1702;WFO5002</NoWarn>
 	<Configurations>Debug;Release;Installer;Nightly;Canary</Configurations>
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>

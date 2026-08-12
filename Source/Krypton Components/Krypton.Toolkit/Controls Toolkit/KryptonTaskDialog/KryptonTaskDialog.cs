@@ -274,6 +274,34 @@ public class KryptonTaskDialog : IDisposable
         return Dialog.DialogResult;
     }
 
+#if NET9_0_OR_GREATER
+    /// <summary>
+    /// Show as a modal dialog asynchronously.<br/>
+    /// The returned task completes when the dialog has been dismissed.
+    /// </summary>
+    /// <param name="owner">The parent window that launched this dialog.</param>
+    /// <returns>A task that yields the DialogResult when the dialog closes.</returns>
+    public async Task<DialogResult> ShowDialogAsync(IWin32Window? owner = null)
+    {
+        UpdateFormSizing();
+        UpdateFormPosition(owner);
+        ResetFormDialogResult();
+
+        // The standard form's DialogResult property always returns Cancel when e.Cancel is set to true.<br/>
+        // Before that happens the DialogResult is stored in DialogResultInternal.
+        if (owner is not null)
+        {
+            await _form.ShowDialogAsync(owner).ConfigureAwait(true);
+        }
+        else
+        {
+            await _form.ShowDialogAsync().ConfigureAwait(true);
+        }
+
+        return Dialog.DialogResult;
+    }
+#endif
+
     /// <summary>
     /// Will close the dialog window.<br/>
     /// Can be use with a modeless dialog that is controlled and updated from code.
