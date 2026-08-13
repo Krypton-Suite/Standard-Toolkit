@@ -15,7 +15,8 @@
 	<EnableNETAnalyzers>true</EnableNETAnalyzers>
 	<NeutralLanguage>en</NeutralLanguage>
 	<DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
-	<NoWarn>1701;1702</NoWarn>
+	<!-- WFO5002: Form.ShowAsync / ShowDialogAsync experimental on net9; stable on net10+ -->
+	<NoWarn>1701;1702;WFO5002</NoWarn>
 	<Configurations>Debug;Release;Installer;Nightly;Canary</Configurations>
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>

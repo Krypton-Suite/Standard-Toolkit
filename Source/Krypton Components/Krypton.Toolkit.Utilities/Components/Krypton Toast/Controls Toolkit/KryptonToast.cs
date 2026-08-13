@@ -37,6 +37,13 @@ public static class KryptonToast
     public static void ShowBasicNotification(KryptonBasicToastData toastNotificationData) =>
         KryptonToastController.ShowBasicToastNotification(toastNotificationData);
 
+    /// <summary>Shows the basic notification with a boolean return value asynchronously.</summary>
+    public static Task<bool> ShowBasicNotificationWithBooleanReturnValueAsync(KryptonBasicToastData toastNotificationData) =>
+        KryptonToastController.ShowNotificationWithBooleanDoNotShowAgainReturnValueAsync(toastNotificationData);
+
+    /// <summary>Shows the basic notification with a <see cref="CheckState"/> return value asynchronously.</summary>
+    public static Task<CheckState> ShowBasicNotificationWithCheckStateReturnValueAsync(KryptonBasicToastData toastNotificationData) =>
+        KryptonToastController.ShowNotificationWithCheckStateDoNotShowAgainReturnValueAsync(toastNotificationData);
     #endregion
 
     #region Basic Notification with Progress Bar
@@ -58,6 +65,13 @@ public static class KryptonToast
     public static void ShowBasicProgressBarNotification(KryptonBasicToastData toastNotificationData) =>
         KryptonToastController.ShowBasicProgressBarNotification(toastNotificationData);
 
+    /// <summary>Shows the basic progress bar notification with a boolean return value asynchronously.</summary>
+    public static Task<bool> ShowBasicProgressBarNotificationWithBooleanReturnValueAsync(KryptonBasicToastData toastNotificationData) =>
+        KryptonToastController.ShowBasicProgressBarNotificationWithBooleanReturnValueAsync(toastNotificationData);
+
+    /// <summary>Shows the basic progress bar notification with a <see cref="CheckState"/> return value asynchronously.</summary>
+    public static Task<CheckState> ShowBasicProgressBarNotificationWithCheckStateReturnValueAsync(KryptonBasicToastData toastNotificationData) =>
+        KryptonToastController.ShowBasicProgressBarNotificationWithCheckStateReturnValueAsync(toastNotificationData);
     #endregion
 
     #region Notification with Return Values
@@ -75,7 +89,17 @@ public static class KryptonToast
     /// <returns></returns>
     public static object ShowNotificationWithProgressBar(KryptonUserInputToastData data) =>
         KryptonToastController.ShowToastWithProgressBar(data);
+    /// <summary>Shows the user-input notification asynchronously.</summary>
+    /// <param name="data">The data.</param>
+    /// <returns>The typed user response boxed as <see cref="object"/>.</returns>
+    public static Task<object> ShowNotificationAsync(KryptonUserInputToastData data) =>
+        KryptonToastController.ShowToastAsync(data);
 
+    /// <summary>Shows the user-input notification with progress bar asynchronously.</summary>
+    /// <param name="data">The data.</param>
+    /// <returns>The typed user response boxed as <see cref="object"/>.</returns>
+    public static Task<object> ShowNotificationWithProgressBarAsync(KryptonUserInputToastData data) =>
+        KryptonToastController.ShowToastWithProgressBarAsync(data);
     #endregion
 
     #endregion

@@ -49,6 +49,12 @@
    * Selectable Dark / Light / Blue built-ins for Visual Studio 2012, 2013, 2015, 2017, 2019, and 2022 (plus existing VS2010 Office-renderer variations).
    * Visual Studio 2026 Dark / Light mapped from Microsoft Fluent [theme color tokens](https://learn.microsoft.com/en-us/visualstudio/extensibility/ux-guidelines/theme-color-token-reference) (purple `AccentFillDefault` / `EnvironmentBorder`, selection `#0078D4` / `#005FB7`).
    * Classic Blue uses VS blue title-bar chrome (`#293955`) with blue-grey panels and `#007ACC` accent; older years use year-accurate surfaces derived from the same scheme model.
+* Implemented [#4177](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4177), When will the Async Form Methods from .net10 (Started in .net9) actually be implemented
+   * Async form / dialog methods (`ShowAsync` / `ShowDialogAsync`) for Krypton dialogs on **all TFMs**. On .NET 9+ they use WinForms Form async; on earlier TFMs they degrade to sync `ShowDialog` / `Show` under the same awaitable API (`KryptonFormAsync`).
+   * Library wrappers use `ConfigureAwait(false)`.
+   * Coverage includes message box, task dialog, input box, print preview, splash, editors, theme browser, string collection, binary information, GitHub issue report, shell wrappers, Color/Font/Print nested-modal convenience, and Timer-based `KryptonFormFadeController` (`ShowDialogAsync` on all TFMs).
+   * Utilities: Extended / Foldable / AboutBox / ExceptionDialog / Checksum / GitHub / BugReporting / OAuth2 / full toast matrix. Prefer Extended **`ShowAsync(KryptonMessageBoxExtendedData)`**. Toolkit `KryptonExceptionDialog` stays internal; public consumers use Utilities.
+   * To use those Utilities APIs, download the `Krypton.Standard.Toolkit` NuGet package (`Krypton.Toolkit.Utilities`).
 * Improved directory names in `Krypton.Toolkit.Utilities` project
 * Implemented [#4168](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4168), High contrast themes
    * Added builtin `PaletteMode` themes `HighContrast`, `Deuteranopia`, and `Protanopia` (fixed designed palettes) plus Office 2007 / 2010 / 2013, Sparkle, and Material renderer variants (including Material Ripple), selectable via ThemeComboBox / `KryptonManager.GlobalPaletteMode`.

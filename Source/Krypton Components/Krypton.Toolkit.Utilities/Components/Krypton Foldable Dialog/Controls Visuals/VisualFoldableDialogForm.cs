@@ -429,5 +429,17 @@ internal partial class VisualFoldableDialogForm : KryptonForm
             : form.ShowDialog();
     }
 
+    /// <summary>Creates, displays and disposes a <see cref="VisualFoldableDialogForm"/> asynchronously for the supplied data.</summary>
+    /// <param name="data">The data describing the dialog content and behaviour.</param>
+    /// <returns>A task that produces the <see cref="DialogResult"/> when the dialog is closed.</returns>
+    internal static async Task<DialogResult> ShowAsync(KryptonFoldableDialogData data)
+    {
+        using var form = new VisualFoldableDialogForm(data);
+
+        // Await required so using does not dispose the form before the dialog completes.
+        return await KryptonFormAsync.ShowDialogAsync(form, data.Owner).ConfigureAwait(false);
+    }
+
+
     #endregion
 }
