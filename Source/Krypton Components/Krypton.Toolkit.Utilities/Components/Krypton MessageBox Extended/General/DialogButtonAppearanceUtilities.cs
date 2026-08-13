@@ -11,17 +11,17 @@ namespace Krypton.Toolkit.Utilities;
 
 /// <summary>
 /// Applies <see cref="KryptonDialogButtonAppearance"/> colours to Utilities dialog buttons
-/// that use <see cref="InternalKryptonButton"/>.
+/// that use <see cref="KryptonButton"/> (including <see cref="MessageButton"/>).
 /// </summary>
 internal static class DialogButtonAppearanceUtilities
 {
     /// <summary>
-    /// Applies semantic colours to an <see cref="InternalKryptonButton"/> when options resolve colours for its dialog result.
+    /// Applies semantic colours to a <see cref="KryptonButton"/> when options resolve colours for its dialog result.
     /// </summary>
     /// <param name="button">The button to style.</param>
     /// <param name="dialogResult">Dialog result used to select the role.</param>
     /// <param name="options">Call-site or effective colour options; null uses <see cref="KryptonManager.DialogButtonColors"/>.</param>
-    public static void Apply(InternalKryptonButton button, DialogResult dialogResult, KryptonDialogButtonColorOptions? options)
+    public static void Apply(KryptonButton button, DialogResult dialogResult, KryptonDialogButtonColorOptions? options)
     {
         if (button == null || dialogResult == DialogResult.None)
         {
@@ -32,24 +32,18 @@ internal static class DialogButtonAppearanceUtilities
     }
 
     /// <summary>
-    /// Applies semantic colours to an <see cref="InternalKryptonButton"/> for an explicit semantic role.
+    /// Applies semantic colours to a <see cref="KryptonButton"/> for an explicit semantic role.
     /// </summary>
     /// <param name="button">The button to style.</param>
     /// <param name="role">Semantic role used to pick colours (use <see cref="KryptonDialogButtonRole.Help"/> for Help buttons).</param>
     /// <param name="options">Call-site or effective colour options; null uses <see cref="KryptonManager.DialogButtonColors"/>.</param>
-    public static void Apply(InternalKryptonButton button, KryptonDialogButtonRole role, KryptonDialogButtonColorOptions? options)
+    public static void Apply(KryptonButton button, KryptonDialogButtonRole role, KryptonDialogButtonColorOptions? options)
     {
         if (button == null)
         {
             return;
         }
 
-        KryptonDialogButtonAppearance.Apply(
-            button.StateCommon,
-            button.StateTracking,
-            button.StatePressed,
-            button.OverrideDefault,
-            role,
-            options);
+        KryptonDialogButtonAppearance.Apply(button, role, options);
     }
 }

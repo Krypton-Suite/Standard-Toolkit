@@ -659,7 +659,7 @@ public static partial class KryptonMessageBoxExtended
                 showCloseButton, footerText, footerExpanded, footerContentType, footerRichTextBoxHeight, showCopyButton: showCopyButton);
 
     /// <summary>Shows a <seealso cref="KryptonMessageBoxExtended"/> configured from a <see cref="KryptonMessageBoxExtendedData"/> instance.</summary>
-    /// <param name="data">The data describing the message box content and behaviour. Set <see cref="KryptonMessageBoxExtendedData.ShowMoreDetailsOption"/> together with <see cref="KryptonMessageBoxExtendedData.MoreDetailsMessageText"/> (and optionally <see cref="KryptonMessageBoxExtendedData.MoreDetailsButtonText"/>) to include a collapsible ("more details") footer region.</param>
+    /// <param name="data">The data describing the message box content and behaviour. Set <see cref="KryptonMessageBoxExtendedData.DetailsText"/> (or <see cref="KryptonMessageBoxExtendedData.MoreDetailsMessageText"/>) for a FoldableDialog-style collapsible details region; <see cref="KryptonMessageBoxExtendedData.ExpandButtonText"/> / <see cref="KryptonMessageBoxExtendedData.CollapseButtonText"/> customise the expander. Fade in/out, caption timeout, and auto-close are configured via <see cref="KryptonMessageBoxExtendedData.UseFade"/>, <see cref="KryptonMessageBoxExtendedData.UseTimeOut"/>, and <see cref="KryptonMessageBoxExtendedData.AutoClose"/>.</param>
     /// <param name="showCloseButton">Whether to show the close button on the message box form.</param>
     /// <returns>One of the <see cref="DialogResult"/> values.</returns>
     public static DialogResult Show(KryptonMessageBoxExtendedData data, bool showCloseButton = true)
@@ -754,6 +754,7 @@ public static partial class KryptonMessageBoxExtended
                 useOptionalCheckBoxThreeState,
                 useTimeOut,
                 timeOut,
+                timeOutInterval,
                 timerResult,
                 footerText,
                 footerExpanded,
@@ -957,6 +958,7 @@ public static partial class KryptonMessageBoxExtended
                 useOptionalCheckBoxThreeState,
                 useTimeOut,
                 timeOut,
+                timeOutInterval,
                 timerResult,
                 footerText,
                 footerExpanded,
@@ -1148,6 +1150,7 @@ public static partial class KryptonMessageBoxExtended
                 null,
                 useTimeOut,
                 timeOut,
+                timeOutInterval,
                 timerResult,
                 footerText,
                 footerExpanded,

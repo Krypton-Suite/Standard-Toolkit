@@ -8,7 +8,6 @@
 #endregion
 
 using ContentAlignment = System.Drawing.ContentAlignment;
-using Timer = System.Windows.Forms.Timer;
 using Resources = Krypton.Toolkit.Utilities.Properties.Resources;
 
 namespace Krypton.Toolkit.Utilities;
@@ -110,7 +109,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
 
     private static IntPtr _hHook;
 
-    private readonly Timer _timeOutTimer;
+    private MessageBoxExtendedLifetimeController? _lifetimeController;
 
     private int _timeOut;
 
@@ -128,8 +127,10 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
 
     private readonly int? _footerRichTextBoxHeight;
 
-    // Optional custom caption for the footer toggle button (from KryptonMessageBoxExtendedData.MoreDetailsButtonText).
+    // Optional custom captions for the footer toggle (FoldableDialog Expand/Collapse, or a single MoreDetails caption).
     private string? _footerToggleCaption;
+    private string? _footerExpandButtonText;
+    private string? _footerCollapseButtonText;
 
     private readonly ExtendedKryptonMessageBoxCountdownButton _countdownButton;
 
@@ -200,8 +201,8 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         // Store incoming values
         _text = text;
 
-        // Only append the timeout countdown to the caption when the timeout facility is actually being used
-        _caption = useTimeOut is true ? $"{caption} [{timeOut}]" : caption;
+        // Keep the caption clean; the lifetime controller appends a countdown suffix when UseTimeOut is set
+        _caption = caption;
 
         _buttons = buttons;
         _kryptonMessageBoxIcon = icon;
@@ -235,8 +236,6 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         _useTimeOut = useTimeOut ?? false;
         _timeOut = timeOut ?? 60;
         _timeOutInterval = timeOutInterval ?? 1000;
-        _timeOutTimer = new Timer();
-        _timeOutTimer.Interval = _timeOutInterval ?? 1000;
         _timerResult = timerResult ?? DialogResult.None;
         //_openInExplorer = openInExplorer ?? false;
 
@@ -282,12 +281,12 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         // Finally calculate and set form sizing
         UpdateSizing(showOwner);
 
-        _timeOutTimer.Tick += TimeOutTimer_Tick;
-
-        if (_useTimeOut)
-        {
-            _timeOutTimer.Start();
-        }
+        AttachLifetime(MessageBoxExtendedLifetimeOptions.FromShowParameters(
+            _useTimeOut,
+            _timeOut,
+            _timeOutInterval ?? 1000,
+            _timerResult,
+            _caption));
     }
 
     public VisualMessageBoxExtendedForm(KryptonMessageBoxExtendedData messageBoxExtendedData, bool showCloseButton)
@@ -295,6 +294,12 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         _messageBoxExtendedData = messageBoxExtendedData;
         _overlayImage = messageBoxExtendedData.OverlayImage;
         _kryptonMessageBoxIcon = messageBoxExtendedData.Icon;
+        _text = messageBoxExtendedData.MessageText ?? string.Empty;
+        _caption = messageBoxExtendedData.Caption ?? string.Empty;
+        _useTimeOut = messageBoxExtendedData.UseTimeOut;
+        _timeOut = messageBoxExtendedData.TimeOut > 0 ? messageBoxExtendedData.TimeOut : 60;
+        _timeOutInterval = messageBoxExtendedData.TimeOutInterval > 0 ? messageBoxExtendedData.TimeOutInterval : 1000;
+        _timerResult = messageBoxExtendedData.TimeOutResult;
 
         // Create the form contents
         InitializeComponent();
@@ -319,20 +324,25 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
 
         UpdateCloseButtonVisibility(showCloseButton);
 
-        // Wire up the optional expandable "more details" footer from the data model. The details are shown
-        // in a RichTextBox and MoreDetailsButtonText (when supplied) overrides the toggle caption.
-        if (_messageBoxExtendedData.ShowMoreDetailsOption && !string.IsNullOrEmpty(_messageBoxExtendedData.MoreDetailsMessageText))
+        // FoldableDialog-style details: non-empty DetailsText / MoreDetailsMessageText shows the expander.
+        if (MessageBoxExtendedFoldable.TryResolveFromData(_messageBoxExtendedData, out MessageBoxExtendedFoldable.FooterSpec spec)
+            && (!string.IsNullOrEmpty(spec.Text) || spec.ContentType == ExtendedKryptonMessageBoxFooterContentType.CheckBox))
         {
-            _footerText = _messageBoxExtendedData.MoreDetailsMessageText;
-            _footerContentType = ExtendedKryptonMessageBoxFooterContentType.RichTextBox;
-            _footerExpanded = _messageBoxExtendedData.MoreDetailsExpanded;
-            _footerToggleCaption = _messageBoxExtendedData.MoreDetailsButtonText;
+            _footerText = spec.Text;
+            _footerContentType = spec.ContentType;
+            _footerExpanded = spec.Expanded;
+            _footerRichTextBoxHeight = spec.RichTextBoxHeight;
+            _footerExpandButtonText = spec.ExpandButtonText;
+            _footerCollapseButtonText = spec.CollapseButtonText;
+            _footerToggleCaption = spec.MoreDetailsButtonText;
 
             SetupFooter(_footerText, _footerExpanded, _footerContentType, _footerRichTextBoxHeight);
         }
 
         // Finally calculate and set form sizing
         UpdateSizing(_messageBoxExtendedData.Owner);
+
+        AttachLifetime(MessageBoxExtendedLifetimeOptions.FromData(_messageBoxExtendedData));
     }
 
     #endregion Identity
@@ -1717,8 +1727,6 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         {
             PlatformEvents.SendMessage(mbWnd, WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
         }
-
-        _timeOutTimer.Dispose();
     }
 
     private void SetupOptionalCheckBox()
@@ -1783,11 +1791,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
                 {
                     _footerRichTextBox.StateCommon.Content.Font = _messageBoxTypeface;
                 }
-                // Set RichTextBox height if specified
-                if (richTextBoxHeight.HasValue && richTextBoxHeight.Value > 0)
-                {
-                    _footerRichTextBox.Height = richTextBoxHeight.Value;
-                }
+                _footerRichTextBox.Height = MessageBoxExtendedFoldable.ResolveRichTextBoxHeight(richTextBoxHeight);
                 break;
         }
 
@@ -1829,21 +1833,12 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
             }
         }
 
-        // Update toggle button text: match the KryptonFoldableDialog expander with an up/down triangle
-        // glyph. When the data model supplies a custom "more details" caption use it for both states,
-        // otherwise fall back to the shared, localizable "Show/Hide details" strings.
-        var glyph = expanded ? '\u25B2' : '\u25BC';
-        string caption;
-        if (!string.IsNullOrEmpty(_footerToggleCaption))
-        {
-            caption = _footerToggleCaption!;
-        }
-        else
-        {
-            var foldableStrings = KryptonManager.Strings.FoldableDialogStrings;
-            caption = expanded ? foldableStrings.ExpandText : foldableStrings.CollapseText;
-        }
-        _footerToggleButton.Values.Text = $"{glyph}  {caption}";
+        // Match KryptonFoldableDialog: ▼ Show Details / ▲ Hide Details (localizable, optional custom captions).
+        _footerToggleButton.Values.Text = MessageBoxExtendedFoldable.GetToggleCaption(
+            expanded,
+            _footerExpandButtonText,
+            _footerCollapseButtonText,
+            _footerToggleCaption);
 
         // Calculate footer height based on expanded state and content type
         if (expanded)
@@ -1915,21 +1910,60 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
 
     private void UpdateCloseButtonVisibility(bool? visible) => CloseBox = visible ?? true;
 
-    private void TimeOutTimer_Tick(object? sender, EventArgs e)
+    private void AttachLifetime(MessageBoxExtendedLifetimeOptions options)
     {
-        _timeOut--;
+        _lifetimeController = new MessageBoxExtendedLifetimeController(
+            this,
+            options,
+            ResolveTimeoutButton,
+            ResolveDefaultTimeoutResult,
+            CancelButtonCountdowns);
+        _lifetimeController.Attach();
+    }
 
-        Text = $@"{_caption} ({_timeOut})";
-
-        if (_timeOut == 0)
+    private Control? ResolveTimeoutButton(ExtendedMessageBoxTimeoutAction action)
+    {
+        MessageButton? button = action switch
         {
-            Close();
+            ExtendedMessageBoxTimeoutAction.ButtonOne => _button1,
+            ExtendedMessageBoxTimeoutAction.ButtonTwo => _button2,
+            ExtendedMessageBoxTimeoutAction.ButtonThree => _button3,
+            ExtendedMessageBoxTimeoutAction.ButtonFour => _button4,
+            _ => null
+        };
+
+        return button != null && button.Visible ? button : null;
+    }
+
+    private DialogResult ResolveDefaultTimeoutResult() =>
+        AcceptButton is IButtonControl accept && accept.DialogResult != DialogResult.None
+            ? accept.DialogResult
+            : DialogResult.OK;
+
+    private void CancelButtonCountdowns()
+    {
+        if (_countdownButton == ExtendedKryptonMessageBoxCountdownButton.None)
+        {
+            return;
         }
+
+        MessageButton? targetButton = _countdownButton switch
+        {
+            ExtendedKryptonMessageBoxCountdownButton.Button1 => _button1,
+            ExtendedKryptonMessageBoxCountdownButton.Button2 => _button2,
+            ExtendedKryptonMessageBoxCountdownButton.Button3 => _button3,
+            ExtendedKryptonMessageBoxCountdownButton.Button4 => _button4,
+            _ => null
+        };
+
+        targetButton?.CancelCountdown();
     }
 
     /// <inheritdoc />
     protected override void OnFormClosed(FormClosedEventArgs e)
     {
+        _lifetimeController?.Dispose();
+        _lifetimeController = null;
         DisposeOwnedComposedIcon();
         base.OnFormClosed(e);
     }
