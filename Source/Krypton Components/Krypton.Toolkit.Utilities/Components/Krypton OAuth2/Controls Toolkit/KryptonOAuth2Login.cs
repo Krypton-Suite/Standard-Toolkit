@@ -81,14 +81,18 @@ public static class KryptonOAuth2Login
 
         if (owner is Form ownerForm)
         {
-            form.ShowDialog(ownerForm);
-        }
-        else
-        {
-            form.Show();
+            // Do not await ShowDialogAsync here: RunAsync closes the form when auth completes,
+            // and awaiting both can race. Start the dialog and await the authorization result.
+            var dialogTask = KryptonFormAsync.ShowDialogAsync(form, ownerForm);
+            OAuth2AuthorizationResult result = await resultTask.ConfigureAwait(false);
+            await dialogTask.ConfigureAwait(false);
+            return result;
         }
 
-        return await resultTask.ConfigureAwait(true);
+        var showTask = KryptonFormAsync.ShowAsync(form);
+        OAuth2AuthorizationResult modelessResult = await resultTask.ConfigureAwait(false);
+        await showTask.ConfigureAwait(false);
+        return modelessResult;
     }
 #else
     private static Task<OAuth2AuthorizationResult> ShowCore(IWin32Window? owner, string authorizationUrl, string redirectUri, string title)

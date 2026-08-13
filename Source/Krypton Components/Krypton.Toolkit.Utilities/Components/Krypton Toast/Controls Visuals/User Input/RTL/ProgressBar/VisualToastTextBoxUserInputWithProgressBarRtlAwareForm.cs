@@ -235,5 +235,19 @@ internal partial class VisualToastTextBoxUserInputWithProgressBarRtlAwareForm : 
         }
     }
 
-    #endregion
+    
+    internal static async Task<string> ShowNotificationAsync(KryptonUserInputToastData data)
+    {
+        var owner = data.ToastHost ?? FromHandle(PI.GetActiveWindow());
+
+        using var toast = new VisualToastTextBoxUserInputWithProgressBarRtlAwareForm(data);
+
+        toast.StartPosition = owner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
+
+        // Await required so using does not dispose the form before the dialog completes.
+        DialogResult result = await KryptonFormAsync.ShowDialogAsync(toast, owner).ConfigureAwait(false);
+
+        return result == DialogResult.OK ? toast.UserResponse : GlobalStaticValues.DEFAULT_EMPTY_STRING;
+    }
+#endregion
 }
