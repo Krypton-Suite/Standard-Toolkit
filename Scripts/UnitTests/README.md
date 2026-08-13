@@ -57,6 +57,8 @@ Default output folder: `Bin\Debug\net472`.
 | `UnitTest-RadialMenu.ps1` | #4172 radial menu API: defaults, Text/Calendar items, bridge, property sync, PreferRadial, show/close | `include` |
 | `UnitTest-NavigatorTaskbarTabGroups.ps1` | #4129 TabGroup taskbar composites + float taskbar opt-in (needs feature binaries) | `exclude` |
 | `UnitTest-NavigatorCaptionTabRemerge.ps1` | Tear-out / remerge (needs `-HostPid`) | `exclude` |
+| `UnitTest-AsyncFormApis.ps1` | #4177 async dialog API gating (absent on net472; present on net9+ via `pwsh`) | `include` |
+| `Start-AsyncFormsDemoHost.ps1` | Hosts `Feature4177AsyncFormsDemo` | n/a |
 | `Start-NavigatorFormIntegrationHost.ps1` | Hosts `NavigatorFormIntegrationDemo` | n/a |
 | `Invoke-CaptionTabDrag.ps1` | Caption drag + screenshots | n/a |
 | `Get-NavigatorCaptionTabProbe.ps1` | Caption geometry probe | n/a |

@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -151,6 +151,14 @@ internal partial class VisualExceptionDialogForm : KryptonForm
         using var ved = new VisualExceptionDialogForm(showCopyButton, showSearchBox, highlightColor, exception, bugReportCallback);
 
         ved.ShowDialog();
+    }
+
+    internal static async Task ShowAsync(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSearchBox, Action<Exception>? bugReportCallback = null)
+    {
+        using var ved = new VisualExceptionDialogForm(showCopyButton, showSearchBox, highlightColor, exception, bugReportCallback);
+
+        // Await required so using does not dispose the form before the dialog completes.
+        await KryptonFormAsync.ShowDialogAsync(ved).ConfigureAwait(false);
     }
 
     #endregion

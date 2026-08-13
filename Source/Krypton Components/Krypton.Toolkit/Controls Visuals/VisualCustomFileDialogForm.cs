@@ -753,6 +753,19 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
         return _providerResult;
     }
 
+    public async Task<KryptonDialogResult> ShowProviderDialogAsync()
+    {
+        var owner = _context.Owner;
+        // Await required: provider result is finalized after the dialog closes.
+        var dialogResult = await KryptonFormAsync.ShowDialogAsync(this, owner).ConfigureAwait(false);
+        if (_providerResult.DialogResult == DialogResult.None)
+        {
+            _providerResult.DialogResult = dialogResult;
+        }
+
+        return _providerResult;
+    }
+
     private string GetDefaultCaption() => _options.Kind switch
     {
         KryptonDialogKind.SaveFile => DialogStrings.Save,

@@ -55,6 +55,12 @@
    * Prefixed `StateShadow###` (`PaletteBack`) plus `ShadowOpacity` style the circular popup shadow by interaction state when `ShowShadow` is enabled.
    * `Scale` (default `1`) multiplies with device DPI for radii, ring thickness, images, hit padding, and related metrics via shared `RadialMenuMetrics` (auto-fits the available working area / client).
    * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
+* Implemented [#4177](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4177), When will the Async Form Methods from .net10 (Started in .net9) actually be implemented
+   * Async form / dialog methods (`ShowAsync` / `ShowDialogAsync`) for Krypton dialogs on **all TFMs**. On .NET 9+ they use WinForms Form async; on earlier TFMs they degrade to sync `ShowDialog` / `Show` under the same awaitable API (`KryptonFormAsync`).
+   * Library wrappers use `ConfigureAwait(false)`.
+   * Coverage includes message box, task dialog, input box, print preview, splash, editors, theme browser, string collection, binary information, GitHub issue report, shell wrappers, Color/Font/Print nested-modal convenience, and Timer-based `KryptonFormFadeController` (`ShowDialogAsync` on all TFMs).
+   * Utilities: Extended / Foldable / AboutBox / ExceptionDialog / Checksum / GitHub / BugReporting / OAuth2 / full toast matrix. Prefer Extended **`ShowAsync(KryptonMessageBoxExtendedData)`**. Toolkit `KryptonExceptionDialog` stays internal; public consumers use Utilities.
+   * To use those Utilities APIs, download the `Krypton.Standard.Toolkit` NuGet package (`Krypton.Toolkit.Utilities`).
 * Improved directory names in `Krypton.Toolkit.Utilities` project
 * Implemented [#4168](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4168), High contrast themes
    * Added builtin `PaletteMode` themes `HighContrast`, `Deuteranopia`, and `Protanopia` (fixed designed palettes) plus Office 2007 / 2010 / 2013, Sparkle, and Material renderer variants (including Material Ripple), selectable via ThemeComboBox / `KryptonManager.GlobalPaletteMode`.
