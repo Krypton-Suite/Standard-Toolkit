@@ -19,7 +19,7 @@ public class PaletteOffice2007DarkGray : PaletteOffice2007Base
 {
     #region Static Fields
 
-    private readonly Color _tabRowBackgroundColor = Color.FromArgb(51, 51, 51);
+    private readonly Color _tabRowBackgroundColor = Color.FromArgb(229, 229, 229);
     private static readonly Color _ribbonAppButtonDarkColor = Color.FromArgb(70, 70, 70);
     private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(51, 51, 51);
     private static readonly Color _ribbonAppButtonTextColor = Color.White;

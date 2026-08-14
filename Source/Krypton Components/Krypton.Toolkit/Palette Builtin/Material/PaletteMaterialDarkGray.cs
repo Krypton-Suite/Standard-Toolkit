@@ -19,7 +19,7 @@ public class PaletteMaterialDarkGray : PaletteMaterialBase
     private static Image? _contextMenuChecked;
     private static Image? _contextMenuIndeterminate;
     private static Image? _contextMenuSubMenu;
-    private readonly Color _tabRowBackgroundColor = Color.FromArgb(51, 51, 51);
+    private readonly Color _tabRowBackgroundColor = Color.FromArgb(229, 229, 229);
 
     static PaletteMaterialDarkGray()
     {

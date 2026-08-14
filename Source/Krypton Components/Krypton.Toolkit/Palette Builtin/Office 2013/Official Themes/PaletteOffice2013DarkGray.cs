@@ -21,7 +21,7 @@ public class PaletteOffice2013DarkGray : PaletteOffice2013Base
 
     #region Colors
 
-    private readonly Color _tabRowBackgroundColor = Color.FromArgb(51, 51, 51);
+    private readonly Color _tabRowBackgroundColor = Color.FromArgb(229, 229, 229);
 
     #endregion
 
