@@ -57,9 +57,9 @@ public class KryptonPaletteSpecificValues : Storage
     public bool UseCloseButtonKryptonTrackingColors { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the control box buttons should use the Krypton palette tracking colors when the mouse is over them (Office 2013 and Microsoft 365).
+    /// Gets or sets a value indicating whether the controls should use the Krypton palette tracking colors when the mouse is over them (Office 2013 and Microsoft 365).
     /// </summary>
-    [Description("Should the control box buttons use the Krypton palette tracking colors when the mouse is over them (Office 2013 and Microsoft 365).")]
+    [Description("Should the controls use the Krypton palette tracking colors when the mouse is over them (Office 2013 and Microsoft 365).")]
     [Category("Visuals")]
     [DefaultValue(DEFAULT_USE_KRYPTON_PALETTE_TRACKING_COLORS)]
     public bool UseKryptonPaletteTrackingColors { get; set; }
