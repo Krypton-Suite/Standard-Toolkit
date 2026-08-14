@@ -1,14 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿#region BSD License
+/*
+ *
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
+ *
+ */
+#endregion
+
 
 namespace Krypton.Toolkit;
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public class PaletteSpecificValues : Storage
 {
+    #region Static Fields
+
+    private const bool DEFAULT_USE_WINDOWS_CONTROL_BOX_LAYOUT = true;
+
+    #endregion
+
     #region Instance Fields
 
     private readonly VisualForm _owner;
@@ -38,7 +48,7 @@ public class PaletteSpecificValues : Storage
     /// </value>
     [Description("Should the control box buttons be laid out in the same way as Windows does it.")]
     [Category("Visuals")]
-    [DefaultValue(true)]
+    [DefaultValue(DEFAULT_USE_WINDOWS_CONTROL_BOX_LAYOUT)]
     public bool UseWindowsControlBoxLayout
     {
         get => _useWindowsControlBoxLayout;
@@ -53,7 +63,7 @@ public class PaletteSpecificValues : Storage
 
     private bool ShouldSerializeUseWindowsControlBoxLayout() => !_useWindowsControlBoxLayout;
 
-    public void ResetUseWindowsControlBoxLayout() => UseWindowsControlBoxLayout = true;
+    public void ResetUseWindowsControlBoxLayout() => UseWindowsControlBoxLayout = DEFAULT_USE_WINDOWS_CONTROL_BOX_LAYOUT;
 
     #endregion
 
@@ -62,7 +72,7 @@ public class PaletteSpecificValues : Storage
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => UseWindowsControlBoxLayout.Equals(true);
+    public override bool IsDefault => UseWindowsControlBoxLayout.Equals(DEFAULT_USE_WINDOWS_CONTROL_BOX_LAYOUT);
 
     #region Reset
 

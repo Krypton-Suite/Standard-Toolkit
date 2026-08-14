@@ -213,6 +213,12 @@ public sealed class KryptonManager : Component
 
     #endregion
 
+    #region Instance Feilds
+
+    private KryptonPaletteSpecificValues _paletteSpecificValues;
+
+    #endregion
+
     #region Identity
     static KryptonManager()
     {
@@ -234,6 +240,7 @@ public sealed class KryptonManager : Component
     /// </summary>
     public KryptonManager()
     {
+        _paletteSpecificValues = new KryptonPaletteSpecificValues(this);
     }
 
     /// <summary>
@@ -290,6 +297,7 @@ public sealed class KryptonManager : Component
                                ShouldSerializeGlobalDropDownArrowGlyphStyle() ||
                                ShouldSerializeBaseFont() ||
                                ShouldSerializeGlobalPaletteMode() ||
+                               ShouldSerializePaletteSpecificValues() ||
                                ShouldSerializeTouchscreenSettings());
 
     /// <summary>
@@ -310,6 +318,7 @@ public sealed class KryptonManager : Component
         ResetGlobalDropDownArrowGlyphStyle();
         ResetBaseFont();
         ResetGlobalPaletteMode();
+        ResetPaletteSpecificValues();
         ResetTouchscreenSettings();
     }
 
@@ -566,6 +575,18 @@ public sealed class KryptonManager : Component
     private bool ShouldSerializeTouchscreenSettings() => !TouchscreenSettingValues.IsDefault;
     private void ResetTouchscreenSettings() => TouchscreenSettingValues.Reset();
 
+    /// <summary>
+    /// Sets the palette-specific values that can be used to override certain global settings for specific palettes.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Settings for palette-specific values, such as control box layout.")]
+    [MergableProperty(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public KryptonPaletteSpecificValues PaletteSpecificValues => _paletteSpecificValues;
+
+    private bool ShouldSerializePaletteSpecificValues() => !_paletteSpecificValues.IsDefault;
+
+    private void ResetPaletteSpecificValues() => _paletteSpecificValues.Reset();
 
     #endregion
 
