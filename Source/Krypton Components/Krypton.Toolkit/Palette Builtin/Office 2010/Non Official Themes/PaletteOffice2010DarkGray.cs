@@ -12,31 +12,26 @@
 
 namespace Krypton.Toolkit;
 
+/// <summary>
+/// Office 2010 renderer using the Office 2013 Dark Grey chrome colour map.
+/// </summary>
 public class PaletteOffice2010DarkGray : PaletteOffice2010Base
 {
     #region Static Fields
 
     #region Colors
 
-    private readonly Color _tabRowBackgroundGradientRaftingDarkColor = Color.FromArgb(51, 51, 51);
-
-    private readonly Color _tabRowBackgroundGradientRaftingLightColor = Color.FromArgb(212, 212, 212);
+    private readonly Color _tabRowBackgroundColor = Color.FromArgb(51, 51, 51);
 
     #endregion
 
     #region Ribbon Specific Colors
 
-    private static readonly Color _ribbonAppButtonDarkColor = Color.FromArgb(51, 51, 51);
+    private static readonly Color _ribbonAppButtonDarkColor = Color.FromArgb(70, 70, 70);
 
-    private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(140, 140, 140);
+    private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(51, 51, 51);
 
-    private static readonly Color _ribbonAppButtonTextColor = SystemColors.Control;
-
-    #endregion
-
-    #region Rafting
-
-    private readonly float _gradientRafting = SharedStaticConstants.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT;
+    private static readonly Color _ribbonAppButtonTextColor = Color.White;
 
     #endregion
 
@@ -50,24 +45,23 @@ public class PaletteOffice2010DarkGray : PaletteOffice2010Base
     #region Images
 
     private static readonly Image?[] _radioButtonArray;
-    private static readonly Image? _silverDropDownButton = Office2010ArrowResources.Office2010BlueDropDownButton;
-    private static readonly Image? _contextMenuSubMenu = Office2010ArrowResources.Office2010BlueContextMenuSub;
-    private static readonly Image _formCloseNormal = Office2010ControlBoxResources.Office2010SilverCloseNormal;
-    private static readonly Image _formCloseDisabled = Office2010ControlBoxResources.Office2010SilverCloseDisabled;
-    private static readonly Image _formCloseActive = Office2010ControlBoxResources.Office2010SilverCloseActive;
-    private static readonly Image _formClosePressed = Office2010ControlBoxResources.Office2010SilverClosePressed;
-    private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources.Office2010SilverMaximiseNormal;
-    private static readonly Image _formMaximiseDisabled = Office2010ControlBoxResources.Office2010SilverMaximiseDisabled;
-    private static readonly Image _formMaximiseActive = Office2010ControlBoxResources.Office2010SilverMaximiseActive;
-    private static readonly Image _formMaximisePressed = Office2010ControlBoxResources.Office2010SilverMaximisePressed;
-    private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010SilverMinimiseNormal;
-    private static readonly Image _formMinimiseActive = Office2010ControlBoxResources.Office2010SilverMinimiseActive;
-    private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010SilverMinimiseDisabled;
-    private static readonly Image _formMinimisePressed = Office2010ControlBoxResources.Office2010SilverMinimisePressed;
-    private static readonly Image _formRestoreNormal = Office2010ControlBoxResources.Office2010SilverRestoreNormal;
-    private static readonly Image _formRestoreDisabled = Office2010ControlBoxResources.Office2010SilverRestoreDisabled;
-    private static readonly Image _formRestoreActive = Office2010ControlBoxResources.Office2010SilverRestoreActive;
-    private static readonly Image _formRestorePressed = Office2010ControlBoxResources.Office2010SilverRestorePressed;
+    private static readonly Image? _contextMenuSubMenu = Office2010ArrowResources.Office2010BlackContextMenuSub;
+    private static readonly Image _formCloseNormal = Office2010ControlBoxResources.Office2010BlackCloseNormal;
+    private static readonly Image _formCloseDisabled = Office2010ControlBoxResources.Office2010BlackCloseDisabled;
+    private static readonly Image _formCloseActive = Office2010ControlBoxResources.Office2010BlackCloseActive;
+    private static readonly Image _formClosePressed = Office2010ControlBoxResources.Office2010BlackClosePressed;
+    private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources.Office2010BackMaximiseNormal;
+    private static readonly Image _formMaximiseDisabled = Office2010ControlBoxResources.Office2010BlackMaximiseDisabled;
+    private static readonly Image _formMaximiseActive = Office2010ControlBoxResources.Office2010BlackMaximiseActive;
+    private static readonly Image _formMaximisePressed = Office2010ControlBoxResources.Office2010BlackMaximisePressed;
+    private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010BlackMinimiseNormal;
+    private static readonly Image _formMinimiseActive = Office2010ControlBoxResources.Office2010BlackMinimiseActive;
+    private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010BlackMinimiseDisabled;
+    private static readonly Image _formMinimisePressed = Office2010ControlBoxResources.Office2010BlackMinimisePressed;
+    private static readonly Image _formRestoreNormal = Office2010ControlBoxResources.Office2010BlackRestoreNormal;
+    private static readonly Image _formRestoreDisabled = Office2010ControlBoxResources.Office2010BlackRestoreDisabled;
+    private static readonly Image _formRestoreActive = Office2010ControlBoxResources.Office2010BlackRestoreActive;
+    private static readonly Image _formRestorePressed = Office2010ControlBoxResources.Office2010BlackRestorePressed;
     private static readonly Image _formHelpNormal = Office2010ControlBoxResources.Office2010HelpIconNormal;
     private static readonly Image _formHelpActive = Office2010ControlBoxResources.Office2010HelpIconHover;
     private static readonly Image _formHelpPressed = Office2010ControlBoxResources.Office2010HelpIconPressed;
@@ -115,7 +109,7 @@ public class PaletteOffice2010DarkGray : PaletteOffice2010Base
     /// </summary>
     public PaletteOffice2010DarkGray()
         : base(
-        new PaletteOffice2010DarkGray_BaseScheme(),
+        new PaletteOffice2013DarkGray_BaseScheme(),
         _checkBoxList,
         _galleryButtonList,
         _radioButtonArray)
@@ -181,25 +175,30 @@ public class PaletteOffice2010DarkGray : PaletteOffice2010Base
     };
     #endregion
 
+    /// <inheritdoc />
+    public override PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteRibbonBackStyle style, PaletteState state) =>
+        style == PaletteRibbonBackStyle.RibbonGroupArea
+            ? PaletteRibbonColorStyle.Solid
+            : base.GetRibbonBackColorStyle(style, state);
+
     #region Tab Row Background
 
     /// <inheritdoc />
-    public override Color GetRibbonTabRowGradientColor1(PaletteState state) =>
-        SharedStaticVariables.TAB_ROW_GRADIENT_FIRST_COLOR;
+    public override Color GetRibbonTabRowGradientColor1(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <inheritdoc />
     public override Color GetRibbonTabRowBackgroundGradientRaftingDark(PaletteState state) =>
-        _tabRowBackgroundGradientRaftingDarkColor;
+        SharedStaticVariables.EMPTY_COLOR;
 
     /// <inheritdoc />
     public override Color GetRibbonTabRowBackgroundGradientRaftingLight(PaletteState state) =>
-        _tabRowBackgroundGradientRaftingLightColor;
+        SharedStaticVariables.EMPTY_COLOR;
 
     /// <inheritdoc />
-    public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
+    public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => _tabRowBackgroundColor;
 
     /// <inheritdoc />
-    public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => _gradientRafting;
+    public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => -1;
 
     #endregion
 

@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -12,61 +12,48 @@
 
 namespace Krypton.Toolkit;
 
+/// <summary>
+/// Office 2007 renderer using the Office 2013 Dark Grey chrome colour map.
+/// </summary>
 public class PaletteOffice2007DarkGray : PaletteOffice2007Base
 {
     #region Static Fields
 
-    #region Image Lists
+    private readonly Color _tabRowBackgroundColor = Color.FromArgb(51, 51, 51);
+    private static readonly Color _ribbonAppButtonDarkColor = Color.FromArgb(70, 70, 70);
+    private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(51, 51, 51);
+    private static readonly Color _ribbonAppButtonTextColor = Color.White;
 
     private static readonly ImageList _checkBoxList;
     private static readonly ImageList _galleryButtonList;
-
-    #endregion
-
-    #region Image Array
-
     private static readonly Image?[] _radioButtonArray;
 
-    #endregion
-
-    #region Images
-
-    private static readonly Image? _silverDropDownButton = GenericImageResources.SilverDropDownButton;
-    private static readonly Image _silverCloseNormal = Office2007ControlBoxResources.Office2007ControlBoxSilverCloseNormal;
-    private static readonly Image _silverCloseActive = Office2007ControlBoxResources.Office2007ControlBoxSilverCloseActive;
-    private static readonly Image _silverCloseDisabled = Office2007ControlBoxResources.Office2007ControlBoxSilverCloseDisabled;
-    private static readonly Image _silverClosePressed = Office2007ControlBoxResources.Office2007ControlBoxSilverClosePressed;
-    private static readonly Image _silverMaximiseNormal = Office2007ControlBoxResources.Office2007ControlBoxSilverMaximiseNormal;
-    private static readonly Image _silverMaximiseActive = Office2007ControlBoxResources.Office2007ControlBoxSilverMaximiseActive;
-    private static readonly Image _silverMaximiseDisabled = Office2007ControlBoxResources.Office2007ControlBoxSilverMaximiseDisabled;
-    private static readonly Image _silverMaximisePressed = Office2007ControlBoxResources.Office2007ControlBoxSilverMaximisePressed;
-    private static readonly Image _silverMinimiseNormal = Office2007ControlBoxResources.Office2007ControlBoxSilverMinimiseNormal;
-    private static readonly Image _silverMinimiseActive = Office2007ControlBoxResources.Office2007ControlBoxSilverMinimiseActive;
-    private static readonly Image _silverMinimiseDisabled = Office2007ControlBoxResources.Office2007ControlBoxSilverMinimiseDisabled;
-    private static readonly Image _silverMinimisePressed = Office2007ControlBoxResources.Office2007ControlBoxSilverMinimisePessed;
-    private static readonly Image _silverRestoreNormal = Office2007ControlBoxResources.Office2007ControlBoxSilverRestoreNormal;
-    private static readonly Image _silverRestoreActive = Office2007ControlBoxResources.Office2007ControlBoxSilverRestoreActive;
-    private static readonly Image _silverRestoreDisabled = Office2007ControlBoxResources.Office2007ControlBoxSilverRestoreDisabled;
-    private static readonly Image _silverRestorePressed = Office2007ControlBoxResources.Office2007ControlBoxSilverRestorePressed;
-    private static readonly Image _silverHelpNormal = Office2007ControlBoxResources.Office2007HelpIconNormal;
-    private static readonly Image _silverHelpActive = Office2007ControlBoxResources.Office2007HelpIconHover;
-    private static readonly Image _silverHelpPressed = Office2007ControlBoxResources.Office2007HelpIconPressed;
-    private static readonly Image _silverHelpDisabled = Office2007ControlBoxResources.Office2007HelpIconDisabled;
-    private static readonly Image? _contextMenuSubMenu = GenericImageResources.SilverContextMenuSub;
-
-    #endregion
-
-    #region Colour Arrays
-
-    #endregion
-
-    private static readonly string _themeName;
+    private static readonly Image _formCloseNormal = Office2007ControlBoxResources.Office2007ControlBoxBlackCloseNormal;
+    private static readonly Image _formCloseActive = Office2007ControlBoxResources.Office2007ControlBoxBlackCloseActive;
+    private static readonly Image _formCloseDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlackCloseDisabled;
+    private static readonly Image _formClosePressed = Office2007ControlBoxResources.Office2007ControlBoxBlackClosePressed;
+    private static readonly Image _formMaximiseNormal = Office2007ControlBoxResources.Office2007ControlBoxBlackMaximiseNormal;
+    private static readonly Image _formMaximiseActive = Office2007ControlBoxResources.Office2007ControlBoxBlackMaximiseActive;
+    private static readonly Image _formMaximiseDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlackMaximiseDisabled;
+    private static readonly Image _formMaximisePressed = Office2007ControlBoxResources.Office2007ControlBoxBlackMaximisePressed;
+    private static readonly Image _formMinimiseNormal = Office2007ControlBoxResources.Office2007ControlBoxBlackMinimiseNormal;
+    private static readonly Image _formMinimiseActive = Office2007ControlBoxResources.Office2007ControlBoxBlackMinimiseActive;
+    private static readonly Image _formMinimiseDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlackMinimiseDisabled;
+    private static readonly Image _formMinimisePressed = Office2007ControlBoxResources.Office2007ControlBoxBlackMinimisePessed;
+    private static readonly Image _formRestoreNormal = Office2007ControlBoxResources.Office2007ControlBoxBlackRestoreNormal;
+    private static readonly Image _formRestoreActive = Office2007ControlBoxResources.Office2007ControlBoxBlackRestoreActive;
+    private static readonly Image _formRestoreDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlackRestoreDisabled;
+    private static readonly Image _formRestorePressed = Office2007ControlBoxResources.Office2007ControlBoxBlackRestorePressed;
+    private static readonly Image _formHelpNormal = Office2007ControlBoxResources.Office2007HelpIconNormal;
+    private static readonly Image _formHelpActive = Office2007ControlBoxResources.Office2007HelpIconHover;
+    private static readonly Image _formHelpPressed = Office2007ControlBoxResources.Office2007HelpIconPressed;
+    private static readonly Image _formHelpDisabled = Office2007ControlBoxResources.Office2007HelpIconDisabled;
+    private static readonly Image? _contextMenuSubMenu = GenericImageResources.BlackContextMenuSub;
 
     #endregion
 
     #region Identity
 
-    /// <summary>Initializes the <see cref="PaletteOffice2007DarkGray" /> class.</summary>
     static PaletteOffice2007DarkGray()
     {
         _checkBoxList = new ImageList
@@ -95,91 +82,81 @@ public class PaletteOffice2007DarkGray : PaletteOffice2007Base
         ];
     }
 
-    /// <summary>Initializes a new instance of the <see cref="PaletteOffice2007DarkGray" /> class.</summary>
-    public PaletteOffice2007DarkGray() : base(
-        _themeName,
-        new PaletteOffice2007DarkGray_BaseScheme(),
-        _checkBoxList,
-        _galleryButtonList,
-        _radioButtonArray)
+    /// <summary>
+    /// Initialize a new instance of the <see cref="PaletteOffice2007DarkGray"/> class.
+    /// </summary>
+    public PaletteOffice2007DarkGray()
+        : base(
+            "Office 2007 - Dark Gray",
+            new PaletteOffice2013DarkGray_BaseScheme(),
+            _checkBoxList,
+            _galleryButtonList,
+            _radioButtonArray)
     {
-
     }
 
     #endregion
 
     #region Back
-    /// <summary>
-    /// Gets the color background drawing style.
-    /// </summary>
-    /// <param name="style">Background style.</param>
-    /// <param name="state">Palette value should be applicable to this state.</param>
-    /// <returns>Color drawing style.</returns>
+
+    /// <inheritdoc />
     public override PaletteColorStyle GetBackColorStyle(PaletteBackStyle style, PaletteState state) => style switch
     {
         PaletteBackStyle.HeaderForm => PaletteColorStyle.Rounding2,
         _ => base.GetBackColorStyle(style, state)
     };
+
     #endregion
 
-    #region Images
-    /// <summary>
-    /// Gets an image indicating a sub-menu on a context menu item.
-    /// </summary>
-    /// <returns>Appropriate image for drawing; otherwise null.</returns>
+    /// <inheritdoc />
     public override Image? GetContextMenuSubMenuImage() => _contextMenuSubMenu;
 
-    #endregion
-
-    #region ButtonSpec
-    /// <summary>
-    /// Gets the image to display for the button.
-    /// </summary>
-    /// <param name="style">Style of button spec.</param>
-    /// <param name="state">State for which image is required.</param>
-    /// <returns>Image value.</returns>
+    /// <inheritdoc />
     public override Image? GetButtonSpecImage(PaletteButtonSpecStyle style, PaletteState state) => style switch
     {
         PaletteButtonSpecStyle.FormClose => state switch
         {
-            PaletteState.Disabled => _silverCloseDisabled,
-            PaletteState.Tracking => _silverCloseActive,
-            PaletteState.Pressed => _silverClosePressed,
-            _ => _silverCloseNormal
+            PaletteState.Disabled => _formCloseDisabled,
+            PaletteState.Tracking => _formCloseActive,
+            PaletteState.Pressed => _formClosePressed,
+            _ => _formCloseNormal
         },
         PaletteButtonSpecStyle.FormMin => state switch
         {
-            PaletteState.Disabled => _silverMinimiseDisabled,
-            PaletteState.Tracking => _silverMinimiseActive,
-            PaletteState.Pressed => _silverMinimisePressed,
-            _ => _silverMinimiseNormal
+            PaletteState.Disabled => _formMinimiseDisabled,
+            PaletteState.Tracking => _formMinimiseActive,
+            PaletteState.Pressed => _formMinimisePressed,
+            _ => _formMinimiseNormal
         },
         PaletteButtonSpecStyle.FormMax => state switch
         {
-            PaletteState.Disabled => _silverMaximiseDisabled,
-            PaletteState.Tracking => _silverMaximiseActive,
-            PaletteState.Pressed => _silverMaximisePressed,
-            _ => _silverMaximiseNormal
+            PaletteState.Disabled => _formMaximiseDisabled,
+            PaletteState.Tracking => _formMaximiseActive,
+            PaletteState.Pressed => _formMaximisePressed,
+            _ => _formMaximiseNormal
         },
         PaletteButtonSpecStyle.FormRestore => state switch
         {
-            PaletteState.Disabled => _silverRestoreDisabled,
-            PaletteState.Tracking => _silverRestoreActive,
-            PaletteState.Pressed => _silverRestorePressed,
-            _ => _silverRestoreNormal
+            PaletteState.Disabled => _formRestoreDisabled,
+            PaletteState.Tracking => _formRestoreActive,
+            PaletteState.Pressed => _formRestorePressed,
+            _ => _formRestoreNormal
         },
         PaletteButtonSpecStyle.FormHelp => state switch
         {
-            PaletteState.Disabled => _silverHelpDisabled,
-            PaletteState.Tracking => _silverHelpActive,
-            PaletteState.Pressed => _silverHelpPressed,
-            _ => _silverHelpNormal
+            PaletteState.Disabled => _formHelpDisabled,
+            PaletteState.Tracking => _formHelpActive,
+            PaletteState.Pressed => _formHelpPressed,
+            _ => _formHelpNormal
         },
         _ => base.GetButtonSpecImage(style, state)
     };
-    #endregion
 
-    #region Tab Row Background
+    /// <inheritdoc />
+    public override PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteRibbonBackStyle style, PaletteState state) =>
+        style == PaletteRibbonBackStyle.RibbonGroupArea
+            ? PaletteRibbonColorStyle.Solid
+            : base.GetRibbonBackColorStyle(style, state);
 
     /// <inheritdoc />
     public override Color GetRibbonTabRowGradientColor1(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
@@ -193,23 +170,17 @@ public class PaletteOffice2007DarkGray : PaletteOffice2007Base
         SharedStaticVariables.EMPTY_COLOR;
 
     /// <inheritdoc />
-    public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
+    public override Color GetRibbonTabRowBackgroundSolidColor(PaletteState state) => _tabRowBackgroundColor;
 
     /// <inheritdoc />
     public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => -1;
 
-    #endregion
-
-    #region AppButton Colors
+    /// <inheritdoc />
+    public override Color GetRibbonFileAppTabBottomColor(PaletteState state) => _ribbonAppButtonDarkColor;
 
     /// <inheritdoc />
-    public override Color GetRibbonFileAppTabBottomColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
+    public override Color GetRibbonFileAppTabTopColor(PaletteState state) => _ribbonAppButtonLightColor;
 
     /// <inheritdoc />
-    public override Color GetRibbonFileAppTabTopColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
-
-    /// <inheritdoc />
-    public override Color GetRibbonFileAppTabTextColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
-
-    #endregion
+    public override Color GetRibbonFileAppTabTextColor(PaletteState state) => _ribbonAppButtonTextColor;
 }

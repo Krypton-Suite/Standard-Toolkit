@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -21,17 +21,18 @@ public class PaletteOffice2013DarkGray : PaletteOffice2013Base
 
     #region Colors
 
-    private readonly Color _tabRowBackgroundColor = Color.FromArgb(212, 212, 212);
+    private readonly Color _tabRowBackgroundColor = Color.FromArgb(51, 51, 51);
 
     #endregion
 
     #region Ribbon Specific Colors
 
-    private static readonly Color _ribbonAppButtonDarkColor = Color.FromArgb(51, 51, 51);
+    // Dark chrome File tab (not the White-theme blue).
+    private static readonly Color _ribbonAppButtonDarkColor = Color.FromArgb(70, 70, 70);
 
-    private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(140, 140, 140);
+    private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(51, 51, 51);
 
-    private static readonly Color _ribbonAppButtonTextColor = SystemColors.Control;
+    private static readonly Color _ribbonAppButtonTextColor = Color.White;
 
     #endregion
 
@@ -45,24 +46,23 @@ public class PaletteOffice2013DarkGray : PaletteOffice2013Base
     #region Images
 
     private static readonly Image?[] _radioButtonArray;
-    private static readonly Image? _silverDropDownButton = Office2010ArrowResources.Office2010BlueDropDownButton;
-    private static readonly Image? _contextMenuSubMenu = Office2010ArrowResources.Office2010BlueContextMenuSub;
-    private static readonly Image _formCloseNormal = Office2010ControlBoxResources.Office2010SilverCloseNormal;
-    private static readonly Image _formCloseDisabled = Office2010ControlBoxResources.Office2010SilverCloseDisabled;
-    private static readonly Image _formCloseActive = Office2010ControlBoxResources.Office2010SilverCloseActive;
-    private static readonly Image _formClosePressed = Office2010ControlBoxResources.Office2010SilverClosePressed;
-    private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources.Office2010SilverMaximiseNormal;
-    private static readonly Image _formMaximiseDisabled = Office2010ControlBoxResources.Office2010SilverMaximiseDisabled;
-    private static readonly Image _formMaximiseActive = Office2010ControlBoxResources.Office2010SilverMaximiseActive;
-    private static readonly Image _formMaximisePressed = Office2010ControlBoxResources.Office2010SilverMaximisePressed;
-    private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010SilverMinimiseNormal;
-    private static readonly Image _formMinimiseActive = Office2010ControlBoxResources.Office2010SilverMinimiseActive;
-    private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010SilverMinimiseDisabled;
-    private static readonly Image _formMinimisePressed = Office2010ControlBoxResources.Office2010SilverMinimisePressed;
-    private static readonly Image _formRestoreNormal = Office2010ControlBoxResources.Office2010SilverRestoreNormal;
-    private static readonly Image _formRestoreDisabled = Office2010ControlBoxResources.Office2010SilverRestoreDisabled;
-    private static readonly Image _formRestoreActive = Office2010ControlBoxResources.Office2010SilverRestoreActive;
-    private static readonly Image _formRestorePressed = Office2010ControlBoxResources.Office2010SilverRestorePressed;
+    private static readonly Image? _contextMenuSubMenu = Office2010ArrowResources.Office2010BlackContextMenuSub;
+    private static readonly Image _formCloseNormal = Office2010ControlBoxResources.Office2010BlackCloseNormal;
+    private static readonly Image _formCloseDisabled = Office2010ControlBoxResources.Office2010BlackCloseDisabled;
+    private static readonly Image _formCloseActive = Office2010ControlBoxResources.Office2010BlackCloseActive;
+    private static readonly Image _formClosePressed = Office2010ControlBoxResources.Office2010BlackClosePressed;
+    private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources.Office2010BackMaximiseNormal;
+    private static readonly Image _formMaximiseDisabled = Office2010ControlBoxResources.Office2010BlackMaximiseDisabled;
+    private static readonly Image _formMaximiseActive = Office2010ControlBoxResources.Office2010BlackMaximiseActive;
+    private static readonly Image _formMaximisePressed = Office2010ControlBoxResources.Office2010BlackMaximisePressed;
+    private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010BlackMinimiseNormal;
+    private static readonly Image _formMinimiseActive = Office2010ControlBoxResources.Office2010BlackMinimiseActive;
+    private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010BlackMinimiseDisabled;
+    private static readonly Image _formMinimisePressed = Office2010ControlBoxResources.Office2010BlackMinimisePressed;
+    private static readonly Image _formRestoreNormal = Office2010ControlBoxResources.Office2010BlackRestoreNormal;
+    private static readonly Image _formRestoreDisabled = Office2010ControlBoxResources.Office2010BlackRestoreDisabled;
+    private static readonly Image _formRestoreActive = Office2010ControlBoxResources.Office2010BlackRestoreActive;
+    private static readonly Image _formRestorePressed = Office2010ControlBoxResources.Office2010BlackRestorePressed;
     private static readonly Image _formHelpNormal = Office2010ControlBoxResources.Office2010HelpIconNormal;
     private static readonly Image _formHelpActive = Office2010ControlBoxResources.Office2010HelpIconHover;
     private static readonly Image _formHelpPressed = Office2010ControlBoxResources.Office2010HelpIconPressed;
@@ -190,6 +190,25 @@ public class PaletteOffice2013DarkGray : PaletteOffice2013Base
 
     /// <inheritdoc />
     public override float GetRibbonTabRowGradientRaftingAngle(PaletteState state) => -1;
+
+    #endregion
+
+    #region Ribbon group area
+
+    /// <inheritdoc />
+    /// <remarks>
+    /// Office 2013 White leaves <see cref="PaletteRibbonBackStyle.RibbonGroupArea"/> empty so the light form shows through.
+    /// Dark Grey must paint that band so group/button text (light) stays readable.
+    /// </remarks>
+    public override PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteRibbonBackStyle style, PaletteState state)
+    {
+        if (style == PaletteRibbonBackStyle.RibbonGroupArea)
+        {
+            return PaletteRibbonColorStyle.Solid;
+        }
+
+        return base.GetRibbonBackColorStyle(style, state);
+    }
 
     #endregion
 
