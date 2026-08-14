@@ -34,6 +34,25 @@ internal class KryptonToastController
         }
     }
 
+    internal static Task<bool> ShowNotificationWithBooleanDoNotShowAgainReturnValueAsync(KryptonBasicToastData toastNotificationData) =>
+        toastNotificationData.UseRtlReading
+            ? VisualToastBasicRtlAwareForm.InternalShowWithBooleanReturnValueAsync(toastNotificationData)
+            : VisualToastBasicForm.InternalShowWithBooleanReturnValueAsync(toastNotificationData);
+
+    internal static Task<CheckState> ShowNotificationWithCheckStateDoNotShowAgainReturnValueAsync(KryptonBasicToastData toastNotificationData) =>
+        toastNotificationData.UseRtlReading
+            ? VisualToastBasicRtlAwareForm.InternalShowWithCheckStateReturnValueAsync(toastNotificationData)
+            : VisualToastBasicForm.InternalShowWithCheckStateReturnValueAsync(toastNotificationData);
+
+    internal static Task<bool> ShowBasicProgressBarNotificationWithBooleanReturnValueAsync(KryptonBasicToastData toastNotificationData) =>
+        toastNotificationData.UseRtlReading
+            ? VisualToastBasicWithProgressBarRtlAwareForm.InternalShowWithBooleanReturnValueAsync(toastNotificationData)
+            : VisualToastBasicWithProgressBarForm.InternalShowWithBooleanReturnValueAsync(toastNotificationData);
+
+    internal static Task<CheckState> ShowBasicProgressBarNotificationWithCheckStateReturnValueAsync(KryptonBasicToastData toastNotificationData) =>
+        toastNotificationData.UseRtlReading
+            ? VisualToastBasicWithProgressBarRtlAwareForm.InternalShowWithCheckStateReturnValueAsync(toastNotificationData)
+            : VisualToastBasicWithProgressBarForm.InternalShowWithCheckStateReturnValueAsync(toastNotificationData);
     #endregion
 
     #region With Progress Bars
@@ -239,6 +258,161 @@ internal class KryptonToastController
         return string.Empty;
     }
 
+
+    internal static Task<object> ShowToastAsync(KryptonUserInputToastData data)
+    {
+        switch (data.NotificationInputAreaType)
+        {
+            case KryptonToastInputAreaType.ComboBox:
+            case KryptonToastInputAreaType.DomainUpDown:
+            case KryptonToastInputAreaType.MaskedTextBox:
+            case KryptonToastInputAreaType.TextBox:
+            case null:
+                return AsObject(ReturnStringInputAsync(data));
+            case KryptonToastInputAreaType.DateTime:
+                return AsObject(ReturnDateTimeInputAsync(data));
+            case KryptonToastInputAreaType.NumericUpDown:
+                return AsObject(ReturnDecimalInputAsync(data));
+            default:
+                DebugTools.NotImplemented(data.ToString());
+                break;
+        }
+
+        return Task.FromResult(new object());
+    }
+
+    internal static Task<DateTime> ReturnDateTimeInputAsync(KryptonUserInputToastData data) =>
+        CreateDateTimeToastNotificationAsync(data);
+
+    private static Task<DateTime> CreateDateTimeToastNotificationAsync(KryptonUserInputToastData data) =>
+        data.UseRtlReading
+            ? VisualToastDateTimeUserInputRtlAwareForm.ShowNotificationAsync(data)
+            : VisualToastDateTimeUserInputForm.ShowNotificationAsync(data);
+
+    internal static Task<decimal> ReturnDecimalInputAsync(KryptonUserInputToastData data) =>
+        CreateDecimalToastNotificationAsync(data);
+
+    private static Task<decimal> CreateDecimalToastNotificationAsync(KryptonUserInputToastData data) =>
+        data.UseRtlReading
+            ? VisualToastNUDUserInputRtlAwareForm.ShowNotificationAsync(data)
+            : VisualToastNUDUserInputForm.ShowNotificationAsync(data);
+
+    internal static Task<string> ReturnStringInputAsync(KryptonUserInputToastData data) =>
+        CreateStringToastNotificationAsync(data);
+
+    private static Task<string> CreateStringToastNotificationAsync(KryptonUserInputToastData data)
+    {
+        if (data.UseRtlReading)
+        {
+            switch (data.NotificationInputAreaType)
+            {
+                case KryptonToastInputAreaType.ComboBox:
+                    return VisualToastComboBoxUserInputRtlAwareForm.ShowNotificationAsync(data);
+                case KryptonToastInputAreaType.DomainUpDown:
+                    return VisualToastDomainUpDownUserInputRtlAwareForm.ShowNotificationAsync(data);
+                case KryptonToastInputAreaType.MaskedTextBox:
+                    return VisualToastMaskedTextBoxUserInputRtlAwareForm.ShowNotificationAsync(data);
+                case KryptonToastInputAreaType.TextBox:
+                    return VisualToastTextBoxUserInputRtlAwareForm.ShowNotificationAsync(data);
+            }
+        }
+        else
+        {
+            switch (data.NotificationInputAreaType)
+            {
+                case KryptonToastInputAreaType.ComboBox:
+                    return VisualToastComboBoxUserInputForm.ShowNotificationAsync(data);
+                case KryptonToastInputAreaType.DomainUpDown:
+                    return VisualToastDomainUpDownUserInputForm.ShowNotificationAsync(data);
+                case KryptonToastInputAreaType.MaskedTextBox:
+                    return VisualToastMaskedTextBoxUserInputForm.ShowNotificationAsync(data);
+                case KryptonToastInputAreaType.TextBox:
+                    return VisualToastTextBoxUserInputForm.ShowNotificationAsync(data);
+            }
+        }
+
+        return Task.FromResult(string.Empty);
+    }
+
+    internal static Task<object> ShowToastWithProgressBarAsync(KryptonUserInputToastData data)
+    {
+        switch (data.NotificationInputAreaType)
+        {
+            case KryptonToastInputAreaType.ComboBox:
+            case KryptonToastInputAreaType.DomainUpDown:
+            case KryptonToastInputAreaType.MaskedTextBox:
+            case KryptonToastInputAreaType.TextBox:
+                return AsObject(ReturnStringInputWithProgressBarAsync(data));
+            case KryptonToastInputAreaType.DateTime:
+                return AsObject(ReturnDateTimeInputWithProgressBarAsync(data));
+            case KryptonToastInputAreaType.NumericUpDown:
+                return AsObject(ReturnDecimalInputWithProgressBarAsync(data));
+            case null:
+                return ThrowHelper.ThrowArgumentNullException<Task<object>>();
+            default:
+                DebugTools.NotImplemented(data.ToString());
+                break;
+        }
+
+        return Task.FromResult(new object());
+    }
+
+    // Task<object> cannot be covariant from Task<T>; a thin await is required only for boxing.
+    private static async Task<object> AsObject<T>(Task<T> task) =>
+        await task.ConfigureAwait(false);
+
+    private static Task<DateTime> ReturnDateTimeInputWithProgressBarAsync(KryptonUserInputToastData data) =>
+        CreateDateTimeToastWithProgressBarNotificationAsync(data);
+
+    private static Task<DateTime> CreateDateTimeToastWithProgressBarNotificationAsync(KryptonUserInputToastData data) =>
+        data.UseRtlReading
+            ? VisualToastDateTimeUserInputWithProgressBarRtlAwareForm.ShowNotificationAsync(data)
+            : VisualToastDateTimeUserInputWithProgressBarForm.ShowNotificationAsync(data);
+
+    private static Task<decimal> ReturnDecimalInputWithProgressBarAsync(KryptonUserInputToastData data) =>
+        CreateDecimalToastWithProgressBarNotificationAsync(data);
+
+    private static Task<decimal> CreateDecimalToastWithProgressBarNotificationAsync(KryptonUserInputToastData data) =>
+        data.UseRtlReading
+            ? VisualToastNUDUserInputWithProgressBarRtlAwareForm.ShowToastNotificationAsync(data)
+            : VisualToastNUDUserInputWithProgressBarForm.ShowToastNotificationAsync(data);
+
+    private static Task<string> ReturnStringInputWithProgressBarAsync(KryptonUserInputToastData data) =>
+        CreateStringToastWithProgressBarNotificationAsync(data);
+
+    private static Task<string> CreateStringToastWithProgressBarNotificationAsync(KryptonUserInputToastData data)
+    {
+        if (data.UseRtlReading)
+        {
+            switch (data.NotificationInputAreaType)
+            {
+                case KryptonToastInputAreaType.ComboBox:
+                    return VisualToastComboBoxUserInputWithProgressBarRtlAwareForm.ShowNotificationAsync(data);
+                case KryptonToastInputAreaType.DomainUpDown:
+                    return VisualToastDomainUpDownInputWithProgressBarRtlAwareForm.ShowNotificationAsync(data);
+                case KryptonToastInputAreaType.MaskedTextBox:
+                    return VisualToastMaskedTextBoxInputWithProgressBarRtlAwareForm.ShowNotificationAsync(data);
+                case KryptonToastInputAreaType.TextBox:
+                    return VisualToastTextBoxUserInputWithProgressBarRtlAwareForm.ShowNotificationAsync(data);
+            }
+        }
+        else
+        {
+            switch (data.NotificationInputAreaType)
+            {
+                case KryptonToastInputAreaType.ComboBox:
+                    return VisualToastComboBoxUserInputWithProgressBarForm.ShowNotificationAsync(data);
+                case KryptonToastInputAreaType.DomainUpDown:
+                    return VisualToastDomianUpDownInputWithProgressBarForm.ShowNotificationAsync(data);
+                case KryptonToastInputAreaType.MaskedTextBox:
+                    return VisualToastMaskedTextBoxInputWithProgressBarForm.ShowNotificationAsync(data);
+                case KryptonToastInputAreaType.TextBox:
+                    return VisualToastTextBoxUserInputWithProgressBarForm.ShowNotificationAsync(data);
+            }
+        }
+
+        return Task.FromResult(string.Empty);
+    }
     #endregion
 
     #endregion
