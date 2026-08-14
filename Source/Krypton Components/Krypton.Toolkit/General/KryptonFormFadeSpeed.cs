@@ -38,13 +38,9 @@ internal static class KryptonFormFadeSpeed
             case FadeSpeedChoice.Fastest:
                 return DEFAULT_FASTEST;
             case FadeSpeedChoice.Custom:
-                return customFadeSpeed.GetValueOrDefault() > 0
-                    ? customFadeSpeed.GetValueOrDefault()
-                    : DEFAULT_NORMAL;
             default:
-                return customFadeSpeed.GetValueOrDefault() > 0
-                    ? customFadeSpeed.GetValueOrDefault()
-                    : DEFAULT_NORMAL;
+                float custom = customFadeSpeed.GetValueOrDefault();
+                return custom > 0 ? custom : DEFAULT_NORMAL;
         }
     }
 }
