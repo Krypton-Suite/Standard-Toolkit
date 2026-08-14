@@ -50,6 +50,7 @@
    * `ToolTipValues.HostedContent` on Krypton controls, `SetLinkToolTip` / `LinkClicked`, linger dismiss, optional keyboard and close timer.
    * To use HTML fragments (`KryptonHtmlToolTipContent`), download the `Krypton.Standard.Toolkit` NuGet package (`Krypton.Toolkit.Utilities`).
    * `KryptonNotifyIcon.ShowPopupTip` shows the same chrome near the cursor; `KryptonContextMenu` is supported on right-click.
+   * `ToolTipManager` linger now tracks the next view so moving between sibling tooltip targets reshows immediately.
 * Implemented [#4177](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4177), When will the Async Form Methods from .net10 (Started in .net9) actually be implemented
    * Async form / dialog methods (`ShowAsync` / `ShowDialogAsync`) for Krypton dialogs on **all TFMs**. On .NET 9+ they use WinForms Form async; on earlier TFMs they degrade to sync `ShowDialog` / `Show` under the same awaitable API (`KryptonFormAsync`).
    * Library wrappers use `ConfigureAwait(false)`.
