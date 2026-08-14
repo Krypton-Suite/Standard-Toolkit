@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -29,6 +29,9 @@ public class KryptonNotifyIcon : Component
     private PaletteBase? _palette;
     private PaletteMode _paletteMode;
     private bool _disposed;
+    private VisualPopupToolTip? _popup;
+    private PaletteRedirect? _popupRedirector;
+    private KryptonContextMenu? _kryptonContextMenu;
    
     #endregion
 
@@ -352,6 +355,30 @@ public class KryptonNotifyIcon : Component
     public NotifyIcon NotifyIcon => _notifyIcon;
 
     /// <summary>
+    /// Gets or sets the WinForms context menu shown for the notification icon.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"The shortcut menu to show when the user right-clicks the icon.")]
+    [DefaultValue(null)]
+    public ContextMenuStrip? ContextMenuStrip
+    {
+        get => _notifyIcon.ContextMenuStrip;
+        set => _notifyIcon.ContextMenuStrip = value;
+    }
+
+    /// <summary>
+    /// Gets or sets a Krypton context menu shown on right-click (in addition to <see cref="ContextMenuStrip"/>).
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Krypton context menu shown when the user right-clicks the notification icon.")]
+    [DefaultValue(null)]
+    public KryptonContextMenu? KryptonContextMenu
+    {
+        get => _kryptonContextMenu;
+        set => _kryptonContextMenu = value;
+    }
+
+    /// <summary>
     /// Displays a balloon tip in the taskbar for the specified time period.
     /// </summary>
     /// <param name="timeout">The time period, in milliseconds, the balloon tip should display.</param>
@@ -365,6 +392,53 @@ public class KryptonNotifyIcon : Component
     /// <param name="tipText">The text to display on the balloon tip.</param>
     /// <param name="tipIcon">One of the ToolTipIcon values.</param>
     public void ShowBalloonTip(int timeout, string tipTitle, string tipText, ToolTipIcon tipIcon) => _notifyIcon.ShowBalloonTip(timeout, tipTitle, tipText, tipIcon);
+
+    /// <summary>
+    /// Shows a themed popup (hosted control) near the cursor, as a Krypton alternative to the system balloon.
+    /// </summary>
+    /// <param name="content">Control to host. Cannot be a <see cref="Form"/>.</param>
+    /// <param name="title">Optional heading above the hosted control.</param>
+    public void ShowPopupTip([DisallowNull] Control content, string? title = null)
+    {
+        if (content is null || content is Form)
+        {
+            ThrowHelper.ThrowArgumentException(@"Popup tip content cannot be null or a Form.", nameof(content));
+        }
+
+        PaletteBase palette = _palette ?? KryptonManager.CurrentGlobalPalette;
+        IRenderer renderer = palette.GetRenderer();
+        _popupRedirector?.Dispose();
+        _popupRedirector = new PaletteRedirect(palette);
+
+        HeaderValues? heading = null;
+        if (!string.IsNullOrEmpty(title))
+        {
+            heading = new HeaderValues(null, () => 1f);
+            heading.Heading = title!;
+            heading.Description = string.Empty;
+        }
+
+        _popup?.Dispose();
+        _popup = new VisualPopupToolTip(
+            _popupRedirector,
+            content,
+            renderer,
+            PaletteBackStyle.ControlToolTip,
+            PaletteBorderStyle.ControlToolTip,
+            PaletteContentStyle.LabelToolTip,
+            true,
+            heading);
+        _popup.ShowCalculatingSize(Cursor.Position);
+    }
+
+    /// <summary>
+    /// Hides a popup previously shown by <see cref="ShowPopupTip"/>.
+    /// </summary>
+    public void HidePopupTip()
+    {
+        _popup?.Dispose();
+        _popup = null;
+    }
 
     #endregion
 
@@ -392,7 +466,14 @@ public class KryptonNotifyIcon : Component
 
     private void OnMouseDown(object? sender, MouseEventArgs e) => MouseDown?.Invoke(this, e);
 
-    private void OnMouseUp(object? sender, MouseEventArgs e) => MouseUp?.Invoke(this, e);
+    private void OnMouseUp(object? sender, MouseEventArgs e)
+    {
+        MouseUp?.Invoke(this, e);
+        if (e.Button == MouseButtons.Right && _kryptonContextMenu is not null)
+        {
+            _kryptonContextMenu.Show(Cursor.Position);
+        }
+    }
 
     private void OnBalloonTipClicked(object? sender, EventArgs e) => BalloonTipClicked?.Invoke(this, e);
 
@@ -419,7 +500,14 @@ public class KryptonNotifyIcon : Component
     {
         if (!_disposed)
         {
-            _notifyIcon?.Dispose();
+            if (disposing)
+            {
+                KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
+                HidePopupTip();
+                _popupRedirector?.Dispose();
+                _popupRedirector = null;
+                _notifyIcon?.Dispose();
+            }
         }
 
         _disposed = true;

@@ -10,6 +10,8 @@
  */
 #endregion
 
+using Timer = System.Windows.Forms.Timer;
+
 namespace Krypton.Toolkit;
 
 /// <summary>
@@ -21,6 +23,7 @@ public class ToolTipManager
     private readonly System.Windows.Forms.Timer _startTimer;
     private readonly System.Windows.Forms.Timer _detectMoveTimer;
     private readonly System.Windows.Forms.Timer _closeTimer;
+    private readonly ToolTipValues _toolTipValues;
     private int _closeInterval;
     private ViewBase? _startTarget;
     private ViewBase? _currentTarget;
@@ -45,6 +48,7 @@ public class ToolTipManager
     /// </summary>
     public ToolTipManager(ToolTipValues toolTipValues)
     {
+        _toolTipValues = toolTipValues;
         _startTimer = new System.Windows.Forms.Timer
         {
             Interval = toolTipValues.ShowIntervalDelay
@@ -195,9 +199,14 @@ public class ToolTipManager
         _currentTarget = null;
         _startTarget = null;
 
-        // Pressing the mouse down kills any toolkit
+        // Pressing the mouse down kills any tooltip unless an interactive host asked to stay
         if (_showingToolTips)
         {
+            if (_toolTipValues.HostedContent is not null && !_toolTipValues.DismissInteractiveOnTargetMouseDown)
+            {
+                return;
+            }
+
             _showingToolTips = false;
             OnCancelToolTip();
         }
@@ -231,6 +240,11 @@ public class ToolTipManager
         // If currently showing a tooltip for the current target
         if (_showingToolTips)
         {
+            if (_toolTipValues.HostedContent is not null)
+            {
+                return;
+            }
+
             try
             {
                 // Restart the stop timer
@@ -282,7 +296,8 @@ public class ToolTipManager
             OnShowToolTip(new ToolTipEventArgs(_startTarget!, Control.MousePosition));
 
             // Only start close timer when interval > 0 (0 = infinite display)
-            if (_closeInterval > 0)
+            bool interactive = _toolTipValues.HostedContent is not null;
+            if (_closeInterval > 0 && (!interactive || _toolTipValues.UseCloseTimerForInteractive))
             {
                 _closeTimer.Interval = _closeInterval;
 

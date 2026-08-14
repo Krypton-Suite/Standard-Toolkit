@@ -1456,15 +1456,32 @@ public abstract class VisualControlBase : Control,
                 // Remove any currently showing tooltip
                 _visualBasePopupToolTip?.Dispose();
 
-                // Create the actual tooltip popup object
-                // ReSharper disable once UseObjectOrCollectionInitializer
-                _visualBasePopupToolTip = new VisualPopupToolTip(Redirector,
-                    ToolTipValues,
-                    Renderer,
-                    PaletteBackStyle.ControlToolTip,
-                    PaletteBorderStyle.ControlToolTip,
-                    CommonHelper.ContentStyleFromLabelStyle(ToolTipValues.ToolTipStyle),
-                    ToolTipValues.ToolTipShadow);
+                PaletteContentStyle style =
+                    CommonHelper.ContentStyleFromLabelStyle(ToolTipValues.ToolTipStyle);
+                Control? hosted = ToolTipValues.HostedContent is { IsDisposed: false } h ? h : null;
+
+                if (hosted is not null)
+                {
+                    _visualBasePopupToolTip = new VisualPopupToolTip(Redirector,
+                        hosted,
+                        Renderer,
+                        PaletteBackStyle.ControlToolTip,
+                        PaletteBorderStyle.ControlToolTip,
+                        style,
+                        ToolTipValues.ToolTipShadow,
+                        ToolTipValues,
+                        keyboardInert: !ToolTipValues.EnableInteractiveKeyboard);
+                }
+                else
+                {
+                    _visualBasePopupToolTip = new VisualPopupToolTip(Redirector,
+                        ToolTipValues,
+                        Renderer,
+                        PaletteBackStyle.ControlToolTip,
+                        PaletteBorderStyle.ControlToolTip,
+                        style,
+                        ToolTipValues.ToolTipShadow);
+                }
 
                 _visualBasePopupToolTip.Disposed += OnVisualPopupToolTipDisposed;
                 _visualBasePopupToolTip.ShowRelativeTo(e.Target, e.ControlMousePosition);

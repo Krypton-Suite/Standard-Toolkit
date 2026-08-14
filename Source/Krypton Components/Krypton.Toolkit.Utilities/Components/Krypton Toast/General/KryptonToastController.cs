@@ -359,7 +359,7 @@ internal class KryptonToastController
 
     // Task<object> cannot be covariant from Task<T>; a thin await is required only for boxing.
     private static async Task<object> AsObject<T>(Task<T> task) =>
-        await task.ConfigureAwait(false);
+        (await task.ConfigureAwait(false))!;
 
     private static Task<DateTime> ReturnDateTimeInputWithProgressBarAsync(KryptonUserInputToastData data) =>
         CreateDateTimeToastWithProgressBarNotificationAsync(data);
