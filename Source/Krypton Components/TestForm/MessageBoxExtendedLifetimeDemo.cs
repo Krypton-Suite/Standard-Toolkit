@@ -44,6 +44,9 @@ public partial class MessageBoxExtendedLifetimeDemo : KryptonForm
         kcmbTimeOutAction.Items.AddRange(Enum.GetNames(typeof(ExtendedMessageBoxTimeoutAction)));
         kcmbTimeOutAction.SelectedItem = nameof(ExtendedMessageBoxTimeoutAction.Close);
 
+        kcmbCountdownButton.Items.AddRange(Enum.GetNames(typeof(ExtendedKryptonMessageBoxCountdownButton)));
+        kcmbCountdownButton.SelectedItem = nameof(ExtendedKryptonMessageBoxCountdownButton.None);
+
         kcmbTimeOutResult.Items.AddRange(new object[]
         {
             DialogResult.None,
@@ -59,7 +62,7 @@ public partial class MessageBoxExtendedLifetimeDemo : KryptonForm
     {
         ktxtCaption.Text = @"Extended message box";
         ktxtMessage.Text =
-            "Issue #4188: fade in/out, caption countdown, and auto-close.\r\n\r\n" +
+            "Issue #4188: fade in/out, caption countdown, optional countdown on a button, and auto-close.\r\n\r\n" +
             "Use the check boxes and combos, or try a preset. The last DialogResult is shown below.";
     }
 
@@ -93,7 +96,9 @@ public partial class MessageBoxExtendedLifetimeDemo : KryptonForm
             TimeOutInterval = 1000,
             AutoClose = ReadAutoClose(),
             TimeOutResult = ParseEnum(kcmbTimeOutResult.SelectedItem, DialogResult.OK),
-            TimeOutAction = ParseEnum(kcmbTimeOutAction.SelectedItem, ExtendedMessageBoxTimeoutAction.Close)
+            TimeOutAction = ParseEnum(kcmbTimeOutAction.SelectedItem, ExtendedMessageBoxTimeoutAction.Close),
+            CountdownButton = ParseEnum(kcmbCountdownButton.SelectedItem, ExtendedKryptonMessageBoxCountdownButton.None),
+            CountdownButtonSeconds = (int)knudTimeOut.Value
         };
 
     private void ShowData(KryptonMessageBoxExtendedData data)
@@ -109,14 +114,19 @@ public partial class MessageBoxExtendedLifetimeDemo : KryptonForm
         kchkUseFade.Checked = true;
         kchkUseTimeOut.Checked = false;
         kcmbAutoClose.SelectedItem = @"No";
+        kcmbCountdownButton.SelectedItem = nameof(ExtendedKryptonMessageBoxCountdownButton.None);
         ShowData(CreateDataFromUi());
     }
+
+    private void ResetCountdownButtonCombo() =>
+        kcmbCountdownButton.SelectedItem = nameof(ExtendedKryptonMessageBoxCountdownButton.None);
 
     private void kbtnTimeoutNoClose_Click(object? sender, EventArgs e)
     {
         kchkUseFade.Checked = false;
         kchkUseTimeOut.Checked = true;
         kcmbAutoClose.SelectedItem = @"No";
+        ResetCountdownButtonCombo();
         knudTimeOut.Value = 8;
         ShowData(CreateDataFromUi());
     }
@@ -128,6 +138,7 @@ public partial class MessageBoxExtendedLifetimeDemo : KryptonForm
         kcmbAutoClose.SelectedItem = @"Default";
         kcmbTimeOutAction.SelectedItem = nameof(ExtendedMessageBoxTimeoutAction.Close);
         kcmbTimeOutResult.SelectedItem = DialogResult.OK;
+        ResetCountdownButtonCombo();
         knudTimeOut.Value = 5;
         ShowData(CreateDataFromUi());
     }
@@ -139,8 +150,22 @@ public partial class MessageBoxExtendedLifetimeDemo : KryptonForm
         kcmbButtons.SelectedItem = ExtendedMessageBoxButtons.YesNoCancel;
         kcmbAutoClose.SelectedItem = @"Yes";
         kcmbTimeOutAction.SelectedItem = nameof(ExtendedMessageBoxTimeoutAction.ButtonTwo);
+        ResetCountdownButtonCombo();
         knudTimeOut.Value = 5;
         ShowData(CreateDataFromUi());
+    }
+
+    private void kbtnCountdownOnButton_Click(object? sender, EventArgs e)
+    {
+        kchkUseFade.Checked = false;
+        kchkUseTimeOut.Checked = false;
+        kcmbAutoClose.SelectedItem = @"No";
+        kcmbButtons.SelectedItem = ExtendedMessageBoxButtons.OKCancel;
+        kcmbCountdownButton.SelectedItem = nameof(ExtendedKryptonMessageBoxCountdownButton.Button1);
+        knudTimeOut.Value = 8;
+        KryptonMessageBoxExtendedData data = CreateDataFromUi();
+        data.CountdownButtonDialogResult = DialogResult.OK;
+        ShowData(data);
     }
 
     private void kbtnFadeAndTimeout_Click(object? sender, EventArgs e)
@@ -150,6 +175,7 @@ public partial class MessageBoxExtendedLifetimeDemo : KryptonForm
         kchkUseTimeOut.Checked = true;
         kcmbAutoClose.SelectedItem = @"Default";
         kcmbTimeOutResult.SelectedItem = DialogResult.OK;
+        ResetCountdownButtonCombo();
         knudTimeOut.Value = 6;
         ShowData(CreateDataFromUi());
     }
@@ -200,6 +226,7 @@ public partial class MessageBoxExtendedLifetimeDemo : KryptonForm
         kchkUseFade.Checked = true;
         kchkUseTimeOut.Checked = true;
         kcmbAutoClose.SelectedItem = @"Default";
+        ResetCountdownButtonCombo();
         knudTimeOut.Value = 5;
 
         DialogResult result = await KryptonMessageBoxExtended.ShowAsync(CreateDataFromUi()).ConfigureAwait(true);

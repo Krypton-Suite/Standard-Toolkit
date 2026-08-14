@@ -311,6 +311,38 @@ public struct KryptonMessageBoxExtendedData
     /// </value>
     public ExtendedMessageBoxTimeoutAction TimeOutAction { get; set; }
 
+    /// <summary>
+    /// Gets or sets which action button shows a live countdown (for example <c>OK (5s)</c>).
+    /// </summary>
+    /// <value>
+    /// <see cref="ExtendedKryptonMessageBoxCountdownButton.None"/> (default) leaves button text unchanged.
+    /// <see cref="ExtendedKryptonMessageBoxCountdownButton.Button1"/> through
+    /// <see cref="ExtendedKryptonMessageBoxCountdownButton.Button4"/> use that visible button.
+    /// </value>
+    /// <remarks>
+    /// Independent of <see cref="UseTimeOut"/> (caption countdown). Duration defaults to
+    /// <see cref="CountdownButtonSeconds"/>, then <see cref="TimeOut"/>, then 60 seconds.
+    /// When both run, the first completion wins and the other timer is stopped.
+    /// </remarks>
+    public ExtendedKryptonMessageBoxCountdownButton CountdownButton { get; set; }
+
+    /// <summary>
+    /// Gets or sets the button countdown duration in seconds.
+    /// </summary>
+    /// <value>
+    /// When <see langword="null"/>, <see cref="TimeOut"/> is used if <see cref="UseTimeOut"/> is <c>true</c>; otherwise 60.
+    /// </value>
+    public int? CountdownButtonSeconds { get; set; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="DialogResult"/> used when the button countdown reaches zero.
+    /// </summary>
+    /// <value>
+    /// When <see langword="null"/>, the button is left for the user to click.
+    /// When set, the dialog closes with that result (same as the <c>countdownButtonDialogResult</c> Show parameter).
+    /// </value>
+    public DialogResult? CountdownButtonDialogResult { get; set; }
+
     #endregion
 
     #endregion
@@ -323,6 +355,7 @@ public struct KryptonMessageBoxExtendedData
         TimeOutInterval = 1000;
         FadeSpeed = FadeSpeedChoice.Normal;
         TimeOutAction = ExtendedMessageBoxTimeoutAction.Close;
+        CountdownButton = ExtendedKryptonMessageBoxCountdownButton.None;
     }
 
     #endregion

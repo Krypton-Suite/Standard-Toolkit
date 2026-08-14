@@ -36,6 +36,7 @@
             this.kbtnTimeoutNoClose = new Krypton.Toolkit.KryptonButton();
             this.kbtnAutoCloseOk = new Krypton.Toolkit.KryptonButton();
             this.kbtnAutoCloseButton2 = new Krypton.Toolkit.KryptonButton();
+            this.kbtnCountdownOnButton = new Krypton.Toolkit.KryptonButton();
             this.kbtnFadeAndTimeout = new Krypton.Toolkit.KryptonButton();
             this.kbtnRtlTimeout = new Krypton.Toolkit.KryptonButton();
             this.kbtnShowOverload = new Krypton.Toolkit.KryptonButton();
@@ -52,6 +53,8 @@
             this.kcmbAutoClose = new Krypton.Toolkit.KryptonComboBox();
             this.klblAutoClose = new Krypton.Toolkit.KryptonLabel();
             this.kchkUseTimeOut = new Krypton.Toolkit.KryptonCheckBox();
+            this.klblCountdownButton = new Krypton.Toolkit.KryptonLabel();
+            this.kcmbCountdownButton = new Krypton.Toolkit.KryptonComboBox();
             this.kcmbFadeSpeed = new Krypton.Toolkit.KryptonComboBox();
             this.klblFadeSpeed = new Krypton.Toolkit.KryptonLabel();
             this.kchkUseFade = new Krypton.Toolkit.KryptonCheckBox();
@@ -67,6 +70,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.kcmbTimeOutResult)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kcmbTimeOutAction)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kcmbAutoClose)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kcmbCountdownButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kcmbFadeSpeed)).BeginInit();
             this.SuspendLayout();
             // 
@@ -86,6 +90,8 @@
             this.kpnlMain.Controls.Add(this.kcmbAutoClose);
             this.kpnlMain.Controls.Add(this.klblAutoClose);
             this.kpnlMain.Controls.Add(this.kchkUseTimeOut);
+            this.kpnlMain.Controls.Add(this.klblCountdownButton);
+            this.kpnlMain.Controls.Add(this.kcmbCountdownButton);
             this.kpnlMain.Controls.Add(this.kcmbFadeSpeed);
             this.kpnlMain.Controls.Add(this.klblFadeSpeed);
             this.kpnlMain.Controls.Add(this.kchkUseFade);
@@ -110,9 +116,7 @@
             this.klblInstructions.Location = new System.Drawing.Point(12, 12);
             this.klblInstructions.Name = "klblInstructions";
             this.klblInstructions.Size = new System.Drawing.Size(700, 52);
-            this.klblInstructions.Text = "Issue #4188: configure fade, caption timeout, and auto-close, then Show. Presets " +
-    "cover fade-only, display-only countdown, auto-close with a DialogResult, auto-cl" +
-    "ose via button two, fade+timeout, RTL, the existing Show() timeout overload, and ShowAsync(data).";
+            this.klblInstructions.Text = "Issue #4188: configure fade, caption timeout, optional countdown on a button, and auto-close, then Show. Presets cover fade-only, display-only countdown, auto-close with a DialogResult, auto-close via button two, countdown on OK, fade+timeout, RTL, the existing Show() timeout overload, and ShowAsync(data).";
             // 
             // klblCaption
             // 
@@ -183,6 +187,24 @@
             this.kchkUseTimeOut.Size = new System.Drawing.Size(176, 20);
             this.kchkUseTimeOut.TabIndex = 8;
             this.kchkUseTimeOut.Values.Text = "Show caption countdown";
+            // 
+            // klblCountdownButton
+            // 
+            this.klblCountdownButton.Location = new System.Drawing.Point(340, 220);
+            this.klblCountdownButton.Name = "klblCountdownButton";
+            this.klblCountdownButton.Size = new System.Drawing.Size(110, 20);
+            this.klblCountdownButton.TabIndex = 8;
+            this.klblCountdownButton.Values.Text = "Countdown on:";
+            // 
+            // kcmbCountdownButton
+            // 
+            this.kcmbCountdownButton.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.kcmbCountdownButton.DropDownWidth = 120;
+            this.kcmbCountdownButton.IntegralHeight = false;
+            this.kcmbCountdownButton.Location = new System.Drawing.Point(456, 218);
+            this.kcmbCountdownButton.Name = "kcmbCountdownButton";
+            this.kcmbCountdownButton.Size = new System.Drawing.Size(120, 22);
+            this.kcmbCountdownButton.TabIndex = 8;
             // 
             // klblAutoClose
             // 
@@ -303,6 +325,7 @@
             this.flpPresets.Controls.Add(this.kbtnTimeoutNoClose);
             this.flpPresets.Controls.Add(this.kbtnAutoCloseOk);
             this.flpPresets.Controls.Add(this.kbtnAutoCloseButton2);
+            this.flpPresets.Controls.Add(this.kbtnCountdownOnButton);
             this.flpPresets.Controls.Add(this.kbtnFadeAndTimeout);
             this.flpPresets.Controls.Add(this.kbtnRtlTimeout);
             this.flpPresets.Controls.Add(this.kbtnShowOverload);
@@ -361,6 +384,16 @@
             this.kbtnAutoCloseButton2.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnAutoCloseButton2.Values.Text = "Preset: click button 2";
             this.kbtnAutoCloseButton2.Click += new System.EventHandler(this.kbtnAutoCloseButton2_Click);
+            // 
+            // kbtnCountdownOnButton
+            // 
+            this.kbtnCountdownOnButton.Location = new System.Drawing.Point(3, 41);
+            this.kbtnCountdownOnButton.Name = "kbtnCountdownOnButton";
+            this.kbtnCountdownOnButton.Size = new System.Drawing.Size(180, 32);
+            this.kbtnCountdownOnButton.TabIndex = 4;
+            this.kbtnCountdownOnButton.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnCountdownOnButton.Values.Text = "Preset: countdown on OK";
+            this.kbtnCountdownOnButton.Click += new System.EventHandler(this.kbtnCountdownOnButton_Click);
             // 
             // kbtnFadeAndTimeout
             // 
@@ -431,6 +464,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.kcmbTimeOutResult)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kcmbTimeOutAction)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kcmbAutoClose)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kcmbCountdownButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kcmbFadeSpeed)).EndInit();
             this.ResumeLayout(false);
 
@@ -448,6 +482,8 @@
         private Krypton.Toolkit.KryptonLabel klblFadeSpeed;
         private Krypton.Toolkit.KryptonComboBox kcmbFadeSpeed;
         private Krypton.Toolkit.KryptonCheckBox kchkUseTimeOut;
+        private Krypton.Toolkit.KryptonLabel klblCountdownButton;
+        private Krypton.Toolkit.KryptonComboBox kcmbCountdownButton;
         private Krypton.Toolkit.KryptonLabel klblAutoClose;
         private Krypton.Toolkit.KryptonComboBox kcmbAutoClose;
         private Krypton.Toolkit.KryptonLabel klblTimeOut;
@@ -465,6 +501,7 @@
         private Krypton.Toolkit.KryptonButton kbtnTimeoutNoClose;
         private Krypton.Toolkit.KryptonButton kbtnAutoCloseOk;
         private Krypton.Toolkit.KryptonButton kbtnAutoCloseButton2;
+        private Krypton.Toolkit.KryptonButton kbtnCountdownOnButton;
         private Krypton.Toolkit.KryptonButton kbtnFadeAndTimeout;
         private Krypton.Toolkit.KryptonButton kbtnRtlTimeout;
         private Krypton.Toolkit.KryptonButton kbtnShowOverload;

@@ -300,6 +300,9 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         _timeOut = messageBoxExtendedData.TimeOut > 0 ? messageBoxExtendedData.TimeOut : 60;
         _timeOutInterval = messageBoxExtendedData.TimeOutInterval > 0 ? messageBoxExtendedData.TimeOutInterval : 1000;
         _timerResult = messageBoxExtendedData.TimeOutResult;
+        _countdownButton = messageBoxExtendedData.CountdownButton;
+        _countdownButtonSeconds = messageBoxExtendedData.CountdownButtonSeconds;
+        _countdownButtonDialogResult = messageBoxExtendedData.CountdownButtonDialogResult;
 
         // Create the form contents
         InitializeComponent();
@@ -315,6 +318,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         UpdateTextExtra(_messageBoxExtendedData.ShowCtrlCopy);
         UpdateCopyButton(_messageBoxExtendedData.ShowCopyButton);
         ApplySemanticButtonColors(_messageBoxExtendedData.ButtonColors);
+        ApplyCountdownToButton();
 
         UpdateContentAreaType(_messageBoxExtendedData.MessageContentAreaType, _messageBoxExtendedData.MessageTextAlignment, _messageBoxExtendedData.MessageTextBoxAlignment, _messageBoxExtendedData.RichTextBoxTextAlignment);
 
@@ -1006,29 +1010,27 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
             _ => null
         };
 
-        if (targetButton != null && targetButton.Visible)
+        if (targetButton == null)
         {
-            // Configure countdown values
-            // Use countdownButtonSeconds if specified, otherwise fall back to timeout value, otherwise default to 60
-            int countdownDuration = _countdownButtonSeconds ?? (_useTimeOut ? _timeOut : 60);
-            targetButton.CountdownButtonValues.CountdownDuration = countdownDuration;
-            targetButton.CountdownButtonValues.CountdownInterval = _timeOutInterval ?? 1000;
-            
-            // Start the countdown
-            targetButton.StartCountdown();
-            
-            // Handle countdown finished event
-            targetButton.CountdownFinished += (sender, e) =>
-            {
-                // If a specific dialog result was specified, close the dialog with that result
-                if (_countdownButtonDialogResult.HasValue)
-                {
-                    DialogResult = _countdownButtonDialogResult.Value;
-                    Close();
-                }
-                // Otherwise, the button is automatically enabled and user can click it normally
-            };
+            return;
         }
+
+        // Control.Visible is false until the host form is shown, even after UpdateButtons set Visible = true.
+        int countdownDuration = _countdownButtonSeconds ?? (_useTimeOut ? _timeOut : 60);
+        targetButton.CountdownButtonValues.CountdownDuration = countdownDuration;
+        targetButton.CountdownButtonValues.CountdownInterval = _timeOutInterval ?? 1000;
+        targetButton.CountdownButtonValues.DisableDuringCountdown = false;
+
+        targetButton.StartCountdown();
+
+        targetButton.CountdownFinished += (_, _) =>
+        {
+            if (_countdownButtonDialogResult.HasValue)
+            {
+                DialogResult = _countdownButtonDialogResult.Value;
+                Close();
+            }
+        };
     }
 
     private void UpdateButtons()
