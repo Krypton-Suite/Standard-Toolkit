@@ -13,6 +13,7 @@
     <ApplicationUseCompatibleTextRendering>false</ApplicationUseCompatibleTextRendering>
     <ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
     <GenerateResourceWarnOnBinaryFormatterUse>false</GenerateResourceWarnOnBinaryFormatterUse>
+    <NoWarn>$(NoWarn);WFO5002</NoWarn>
   </PropertyGroup>
 
   <Choose>

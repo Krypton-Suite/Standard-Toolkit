@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -269,6 +269,33 @@ public class KryptonTaskDialog : IDisposable
         else
         {
             _form.ShowDialog();
+        }
+
+        return Dialog.DialogResult;
+    }
+
+    /// <summary>
+    /// Show as a modal dialog asynchronously.<br/>
+    /// The returned task completes when the dialog has been dismissed.
+    /// On TFMs before .NET 9 this degrades to a completed task wrapping <see cref="ShowDialog"/>.
+    /// </summary>
+    /// <param name="owner">The parent window that launched this dialog.</param>
+    /// <returns>A task that yields the DialogResult when the dialog closes.</returns>
+    public async Task<DialogResult> ShowDialogAsync(IWin32Window? owner = null)
+    {
+        UpdateFormSizing();
+        UpdateFormPosition(owner);
+        ResetFormDialogResult();
+
+        // The standard form's DialogResult property always returns Cancel when e.Cancel is set to true.<br/>
+        // Before that happens the DialogResult is stored in DialogResultInternal.
+        if (owner is not null)
+        {
+            await _form.ShowDialogAsync(owner).ConfigureAwait(true);
+        }
+        else
+        {
+            await _form.ShowDialogAsync().ConfigureAwait(true);
         }
 
         return Dialog.DialogResult;
