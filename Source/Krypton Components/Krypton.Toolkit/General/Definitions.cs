@@ -587,6 +587,11 @@ public interface IKryptonMonthCalendar
     Size CalendarDimensions { get; }
 
     /// <summary>
+    /// Gets the calendar view used to choose a date (days, months, or years).
+    /// </summary>
+    MonthCalendarView CalendarView { get; }
+
+    /// <summary>
     /// First day of the week.
     /// </summary>
     Day FirstDayOfWeek { get; }
@@ -4889,6 +4894,31 @@ public enum KryptonDialogButtonRole
 
     /// <summary>Help action (Help button that launches help without closing the dialog).</summary>
     Help = 3
+}
+
+#endregion
+
+#region Enum MonthCalendarView
+
+/// <summary>
+/// Specifies the month calendar display used to choose a date.
+/// </summary>
+public enum MonthCalendarView
+{
+    /// <summary>
+    /// Shows a day grid for a month. Header click drills up to months.
+    /// </summary>
+    Days = 0,
+
+    /// <summary>
+    /// Shows twelve months of a year. Clicking a month selects it; header click drills up to years.
+    /// </summary>
+    Months = 1,
+
+    /// <summary>
+    /// Shows twelve years of a decade. Clicking a year selects it.
+    /// </summary>
+    Years = 2
 }
 
 #endregion
