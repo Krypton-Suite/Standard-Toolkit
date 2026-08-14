@@ -339,7 +339,6 @@ public static class KryptonMessageBox
             showHelpButton: displayHelpButton,
             showCloseButton: showCloseButton);
 
-#if NET9_0_OR_GREATER
     /// <summary>
     /// Displays a message box asynchronously in front+center of the application and with the specified text, caption and buttons.
     /// </summary>
@@ -647,7 +646,7 @@ public static class KryptonMessageBox
             showCtrlCopy: showCtrlCopy,
             showHelpButton: displayHelpButton,
             showCloseButton: showCloseButton);
-#endif
+
     #endregion
 
     #region Implementation
@@ -703,7 +702,6 @@ public static class KryptonMessageBox
         }
     }
 
-#if NET9_0_OR_GREATER
     /// <summary>
     /// Displays a message box asynchronously with the specified text, caption, buttons, icon, default button, options, and Help button, using the specified Help file, HelpNavigator, and Help topic.
     /// </summary>
@@ -759,7 +757,6 @@ public static class KryptonMessageBox
                 : await kmb.ShowDialogAsync(showOwner).ConfigureAwait(true);
         }
     }
-#endif
 
     #region WinForm Compatibility
     private static IWin32Window? ValidateOptions(IWin32Window? owner, MessageBoxOptions options, HelpInfo? helpInfo)

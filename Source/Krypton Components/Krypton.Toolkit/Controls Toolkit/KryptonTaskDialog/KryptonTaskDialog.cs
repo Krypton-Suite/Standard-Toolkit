@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -274,10 +274,10 @@ public class KryptonTaskDialog : IDisposable
         return Dialog.DialogResult;
     }
 
-#if NET9_0_OR_GREATER
     /// <summary>
     /// Show as a modal dialog asynchronously.<br/>
     /// The returned task completes when the dialog has been dismissed.
+    /// On TFMs before .NET 9 this degrades to a completed task wrapping <see cref="ShowDialog"/>.
     /// </summary>
     /// <param name="owner">The parent window that launched this dialog.</param>
     /// <returns>A task that yields the DialogResult when the dialog closes.</returns>
@@ -300,7 +300,6 @@ public class KryptonTaskDialog : IDisposable
 
         return Dialog.DialogResult;
     }
-#endif
 
     /// <summary>
     /// Will close the dialog window.<br/>

@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -14,15 +14,8 @@ public partial class AsyncFormMethodsTest : KryptonForm
     public AsyncFormMethodsTest()
     {
         InitializeComponent();
-#if !NET9_0_OR_GREATER
-        kbtnShowDialogAsync.Enabled = false;
-        kbtnMessageBoxShowAsync.Enabled = false;
-        kbtnTaskDialogShowDialogAsync.Enabled = false;
-        klblResult.Text = "Async form APIs require net9.0-windows or newer.";
-#endif
     }
 
-#if NET9_0_OR_GREATER
     private async void kbtnShowDialogAsync_Click(object sender, EventArgs e)
     {
         using var dialog = new KryptonForm
@@ -71,17 +64,4 @@ public partial class AsyncFormMethodsTest : KryptonForm
         var result = await taskDialog.ShowDialogAsync(this).ConfigureAwait(true);
         klblResult.Text = $"KryptonTaskDialog.ShowDialogAsync => {result}";
     }
-#else
-    private void kbtnShowDialogAsync_Click(object sender, EventArgs e)
-    {
-    }
-
-    private void kbtnMessageBoxShowAsync_Click(object sender, EventArgs e)
-    {
-    }
-
-    private void kbtnTaskDialogShowDialogAsync_Click(object sender, EventArgs e)
-    {
-    }
-#endif
 }

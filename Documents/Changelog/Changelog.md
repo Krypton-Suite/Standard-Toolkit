@@ -49,9 +49,9 @@
 ## 2026-10-26 - Build 2610 (Version 105-LTS - Patch 4) - October 2026
 
 * Implemented [#4177](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4177), When will the Async Form Methods from .net10 (Started in .net9) actually be implemented
-   * `KryptonForm` already exposes inherited `ShowAsync` / `ShowDialogAsync` on `net9.0-windows` and newer.
-   * Added `KryptonMessageBox.ShowAsync` overloads and `KryptonTaskDialog.ShowDialogAsync` (gated to `NET9_0_OR_GREATER`).
-   * TestForm: `Async Form Methods` smoke scenario for Form, MessageBox, and TaskDialog async show.
+   * `KryptonForm` uses framework `ShowAsync` / `ShowDialogAsync` on `net9.0-windows` and newer; earlier TFMs get matching extension methods that degrade to sync show (modal) or FormClosed-backed Task (modeless).
+   * Added `KryptonMessageBox.ShowAsync` overloads and `KryptonTaskDialog.ShowDialogAsync` for all supported TFMs.
+   * TestForm: `Async Form Methods` smoke scenario for Form, MessageBox, and TaskDialog async show (same code path on every TFM).
 * Resolved [#3858](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3858), Fix drag-target heuristics in `DragFeedbackDocking` / `DragViewController`
    * Clarified docking drag-target priority (first hit / control edges before nested cells) and cleaned up `DragViewController` cancel path.
 * Implemented [#4088](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4088), A way to store `KryptonManager` strings into a database
