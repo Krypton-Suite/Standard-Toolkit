@@ -28,27 +28,27 @@ public class PaletteOffice2007DarkGray : PaletteOffice2007Base
     private static readonly ImageList _galleryButtonList;
     private static readonly Image?[] _radioButtonArray;
 
-    private static readonly Image _formCloseNormal = Office2007ControlBoxResources.Office2007ControlBoxBlackCloseNormal;
-    private static readonly Image _formCloseActive = Office2007ControlBoxResources.Office2007ControlBoxBlackCloseActive;
-    private static readonly Image _formCloseDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlackCloseDisabled;
-    private static readonly Image _formClosePressed = Office2007ControlBoxResources.Office2007ControlBoxBlackClosePressed;
-    private static readonly Image _formMaximiseNormal = Office2007ControlBoxResources.Office2007ControlBoxBlackMaximiseNormal;
-    private static readonly Image _formMaximiseActive = Office2007ControlBoxResources.Office2007ControlBoxBlackMaximiseActive;
-    private static readonly Image _formMaximiseDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlackMaximiseDisabled;
-    private static readonly Image _formMaximisePressed = Office2007ControlBoxResources.Office2007ControlBoxBlackMaximisePressed;
-    private static readonly Image _formMinimiseNormal = Office2007ControlBoxResources.Office2007ControlBoxBlackMinimiseNormal;
-    private static readonly Image _formMinimiseActive = Office2007ControlBoxResources.Office2007ControlBoxBlackMinimiseActive;
-    private static readonly Image _formMinimiseDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlackMinimiseDisabled;
-    private static readonly Image _formMinimisePressed = Office2007ControlBoxResources.Office2007ControlBoxBlackMinimisePessed;
-    private static readonly Image _formRestoreNormal = Office2007ControlBoxResources.Office2007ControlBoxBlackRestoreNormal;
-    private static readonly Image _formRestoreActive = Office2007ControlBoxResources.Office2007ControlBoxBlackRestoreActive;
-    private static readonly Image _formRestoreDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlackRestoreDisabled;
-    private static readonly Image _formRestorePressed = Office2007ControlBoxResources.Office2007ControlBoxBlackRestorePressed;
+    private static readonly Image _formCloseNormal = Office2007ControlBoxResources.Office2007ControlBoxSilverCloseNormal;
+    private static readonly Image _formCloseActive = Office2007ControlBoxResources.Office2007ControlBoxSilverCloseActive;
+    private static readonly Image _formCloseDisabled = Office2007ControlBoxResources.Office2007ControlBoxSilverCloseDisabled;
+    private static readonly Image _formClosePressed = Office2007ControlBoxResources.Office2007ControlBoxSilverClosePressed;
+    private static readonly Image _formMaximiseNormal = Office2007ControlBoxResources.Office2007ControlBoxSilverMaximiseNormal;
+    private static readonly Image _formMaximiseActive = Office2007ControlBoxResources.Office2007ControlBoxSilverMaximiseActive;
+    private static readonly Image _formMaximiseDisabled = Office2007ControlBoxResources.Office2007ControlBoxSilverMaximiseDisabled;
+    private static readonly Image _formMaximisePressed = Office2007ControlBoxResources.Office2007ControlBoxSilverMaximisePressed;
+    private static readonly Image _formMinimiseNormal = Office2007ControlBoxResources.Office2007ControlBoxSilverMinimiseNormal;
+    private static readonly Image _formMinimiseActive = Office2007ControlBoxResources.Office2007ControlBoxSilverMinimiseActive;
+    private static readonly Image _formMinimiseDisabled = Office2007ControlBoxResources.Office2007ControlBoxSilverMinimiseDisabled;
+    private static readonly Image _formMinimisePressed = Office2007ControlBoxResources.Office2007ControlBoxSilverMinimisePessed;
+    private static readonly Image _formRestoreNormal = Office2007ControlBoxResources.Office2007ControlBoxSilverRestoreNormal;
+    private static readonly Image _formRestoreActive = Office2007ControlBoxResources.Office2007ControlBoxSilverRestoreActive;
+    private static readonly Image _formRestoreDisabled = Office2007ControlBoxResources.Office2007ControlBoxSilverRestoreDisabled;
+    private static readonly Image _formRestorePressed = Office2007ControlBoxResources.Office2007ControlBoxSilverRestorePressed;
     private static readonly Image _formHelpNormal = Office2007ControlBoxResources.Office2007HelpIconNormal;
     private static readonly Image _formHelpActive = Office2007ControlBoxResources.Office2007HelpIconHover;
     private static readonly Image _formHelpPressed = Office2007ControlBoxResources.Office2007HelpIconPressed;
     private static readonly Image _formHelpDisabled = Office2007ControlBoxResources.Office2007HelpIconDisabled;
-    private static readonly Image? _contextMenuSubMenu = GenericImageResources.BlackContextMenuSub;
+    private static readonly Image? _contextMenuSubMenu = GenericImageResources.SilverContextMenuSub;
 
     #endregion
 
