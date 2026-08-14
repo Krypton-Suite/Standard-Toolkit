@@ -20,9 +20,9 @@ namespace Krypton.Toolkit;
 public class ToolTipManager
 {
     #region Instance Fields
-    private readonly System.Windows.Forms.Timer _startTimer;
-    private readonly System.Windows.Forms.Timer _detectMoveTimer;
-    private readonly System.Windows.Forms.Timer _closeTimer;
+    private readonly Timer _startTimer;
+    private readonly Timer _detectMoveTimer;
+    private readonly Timer _closeTimer;
     private readonly ToolTipValues _toolTipValues;
     private int _closeInterval;
     private ViewBase? _startTarget;
@@ -49,7 +49,7 @@ public class ToolTipManager
     public ToolTipManager(ToolTipValues toolTipValues)
     {
         _toolTipValues = toolTipValues;
-        _startTimer = new System.Windows.Forms.Timer
+        _startTimer = new Timer
         {
             Interval = toolTipValues.ShowIntervalDelay
         };
@@ -58,14 +58,14 @@ public class ToolTipManager
         // 0 = infinite display, but cannot have an interval less than 0
         _closeInterval = toolTipValues.CloseIntervalDelay < 0 ? 0 : toolTipValues.CloseIntervalDelay;
 
-        _closeTimer = new System.Windows.Forms.Timer
+        _closeTimer = new Timer
         {
             // 0 = infinite display, but cannot have an interval less than 0
             Interval = _closeInterval > 0 ? _closeInterval : 1
         };
         _closeTimer.Tick += OnCloseTimerTick;
 
-        _detectMoveTimer = new System.Windows.Forms.Timer
+        _detectMoveTimer = new Timer
         {
             Interval = 100 // ReShowDelay
         };
@@ -252,7 +252,10 @@ public class ToolTipManager
                 _detectMoveTimer.Start();
                 _closeTimer.Stop();
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
         }
     }
 
