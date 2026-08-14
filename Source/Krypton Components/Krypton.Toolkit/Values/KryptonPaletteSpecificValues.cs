@@ -42,9 +42,14 @@ public class KryptonPaletteSpecificValues : Storage
 
     #endregion
 
+    #region IsDefault
+
+    /// <inheritdoc />
     [Browsable(false)]
     public override bool IsDefault => UseCloseButtonKryptonTrackingColors.Equals(DEFAULT_USE_CLOSE_BUTTON_KRYPTON_TRACKING_COLORS) &&
            UseKryptonPaletteTrackingColors.Equals(DEFAULT_USE_KRYPTON_PALETTE_TRACKING_COLORS);
+
+    #endregion
 
     #region Public
 
