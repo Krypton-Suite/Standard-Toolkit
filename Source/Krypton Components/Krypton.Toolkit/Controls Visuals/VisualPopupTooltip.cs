@@ -81,8 +81,8 @@ public class VisualPopupToolTip : VisualPopup
     /// <param name="shadow">Does the Tooltip need a shadow effect.</param>
     /// <param name="headingValues">Optional heading (short/long text and image) drawn above the hosted control.</param>
     /// <param name="keyboardInert">When false, keyboard input (including Escape) is delivered to this popup.</param>
-    public VisualPopupToolTip([DisallowNull] PaletteRedirect redirector,
-        [DisallowNull] Control hostedControl,
+    public VisualPopupToolTip(PaletteRedirect redirector,
+        Control hostedControl,
         IRenderer renderer,
         PaletteBackStyle backStyle,
         PaletteBorderStyle borderStyle,
@@ -420,11 +420,15 @@ public class VisualPopupToolTip : VisualPopup
                 ? _hosted.GetPreferredSize(context.DisplayRectangle.Size)
                 : _hosted.Size;
 
+            // First layout often has an empty proposed size, and an unshown control's Size can be 0,0.
+            // Measure unconstrained so AutoSize content can still report a real preferred size.
             if (size.Width <= 0 || size.Height <= 0)
             {
                 size = _hosted.GetPreferredSize(Size.Empty);
             }
 
+            // Last resort: some controls still return empty until they have a handle. Use current
+            // bounds with a 16px floor so the popup chrome does not collapse to zero.
             if (size.Width <= 0 || size.Height <= 0)
             {
                 size = new Size(Math.Max(16, _hosted.Width), Math.Max(16, _hosted.Height));

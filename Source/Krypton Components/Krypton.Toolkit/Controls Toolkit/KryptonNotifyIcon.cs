@@ -500,6 +500,7 @@ public class KryptonNotifyIcon : Component
     {
         if (!_disposed)
         {
+            _disposed = true;
             if (disposing)
             {
                 KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
@@ -509,8 +510,6 @@ public class KryptonNotifyIcon : Component
                 _notifyIcon?.Dispose();
             }
         }
-
-        _disposed = true;
 
         base.Dispose(disposing);
     }

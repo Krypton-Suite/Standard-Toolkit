@@ -39,16 +39,11 @@ public static class KryptonHtmlToolTipContent
             return host;
         }
 
-        string remaining = html
-            .Replace(@"<br/>", @"<br>")
-            .Replace(@"<br />", @"<br>")
-            .Replace(@"<BR>", @"<br>")
-            .Replace(@"<BR/>", @"<br>")
-            .Replace(@"<BR />", @"<br>");
+        string remaining = html;
 
         while (remaining.Length > 0)
         {
-            int br = IndexOfIgnoreCase(remaining, @"<br>");
+            int br = IndexOfBreakTag(remaining, out int brLength);
             int aOpen = IndexOfIgnoreCase(remaining, @"<a ");
             int aOpen2 = IndexOfIgnoreCase(remaining, @"<a>");
             if (aOpen < 0 || (aOpen2 >= 0 && aOpen2 < aOpen))
@@ -73,7 +68,7 @@ public static class KryptonHtmlToolTipContent
             if (br == 0)
             {
                 host.SetFlowBreak(host.Controls.Count == 0 ? AddText(host, " ") : host.Controls[host.Controls.Count - 1], true);
-                remaining = remaining.Substring(4);
+                remaining = remaining.Substring(brLength);
                 continue;
             }
 
@@ -131,6 +126,44 @@ public static class KryptonHtmlToolTipContent
 
     private static int IndexOfIgnoreCase(string haystack, string needle) =>
         haystack.IndexOf(needle, StringComparison.OrdinalIgnoreCase);
+
+    /// <summary>
+    /// Finds the next <c>&lt;br&gt;</c> / <c>&lt;br/&gt;</c> tag and the number of characters to consume, including the closing <c>&gt;</c>.
+    /// </summary>
+    private static int IndexOfBreakTag(string haystack, out int tagLength)
+    {
+        tagLength = 0;
+        var start = 0;
+        while (start < haystack.Length)
+        {
+            int index = haystack.IndexOf(@"<br", start, StringComparison.OrdinalIgnoreCase);
+            if (index < 0)
+            {
+                return -1;
+            }
+
+            int cursor = index + 3;
+            while (cursor < haystack.Length && char.IsWhiteSpace(haystack[cursor]))
+            {
+                cursor++;
+            }
+
+            if (cursor < haystack.Length && haystack[cursor] == '/')
+            {
+                cursor++;
+            }
+
+            if (cursor < haystack.Length && haystack[cursor] == '>')
+            {
+                tagLength = cursor - index + 1;
+                return index;
+            }
+
+            start = index + 3;
+        }
+
+        return -1;
+    }
 
     private static int MinPositive(int a, int b)
     {
