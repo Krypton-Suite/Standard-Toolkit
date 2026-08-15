@@ -228,7 +228,31 @@ internal class KryptonAboutBoxUtilities
         return nvc;
     }
 
-    public static void LaunchSystemInformation() => GlobalToolkitUtilities.LaunchProcess(@"MSInfo32.exe");
+    /// <summary>
+    /// Shows the Krypton System Information window (msinfo32-style), owned by <paramref name="owner"/> when provided.
+    /// When <paramref name="trigger"/> is set, it is disabled until the viewer closes.
+    /// </summary>
+    public static void LaunchSystemInformation(IWin32Window? owner = null, Control? trigger = null)
+    {
+        if (trigger != null)
+        {
+            trigger.Enabled = false;
+        }
+
+        var form = KryptonSystemInformation.Show(owner);
+        if (trigger == null)
+        {
+            return;
+        }
+
+        form.FormClosed += (_, __) =>
+        {
+            if (!trigger.IsDisposed)
+            {
+                trigger.Enabled = true;
+            }
+        };
+    }
 
     public static void PopulateAssemblyDetails(Assembly assembly, KryptonDataGridView assemblyData)
     {

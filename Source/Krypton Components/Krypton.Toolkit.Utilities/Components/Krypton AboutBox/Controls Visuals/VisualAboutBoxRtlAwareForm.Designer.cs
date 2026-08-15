@@ -210,6 +210,7 @@
             this.kbtnSystemInformation.TabIndex = 1;
             this.kbtnSystemInformation.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnSystemInformation.Values.Text = "kryptonButton2";
+            this.kbtnSystemInformation.Click += new System.EventHandler(this.kbtnSystemInformation_Click);
             // 
             // kryptonBorderEdge1
             // 

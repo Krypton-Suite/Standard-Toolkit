@@ -57,6 +57,8 @@ Default output folder: `Bin\Debug\net472`.
 | `UnitTest-NavigatorTaskbarTabGroups.ps1` | #4129 TabGroup taskbar composites + float taskbar opt-in (needs feature binaries) | `exclude` |
 | `UnitTest-NavigatorCaptionTabRemerge.ps1` | Tear-out / remerge (needs `-HostPid`) | `exclude` |
 | `UnitTest-AsyncFormApis.ps1` | #4177 async dialog API gating (absent on net472; present on net9+ via `pwsh`) | `include` |
+| `UnitTest-SystemInformationApi.ps1` | #3176 `KryptonSystemInformation` type/API smoke (no UI) | `include` |
+| `UnitTest-SystemInformationUi.ps1` | #3176 host the viewer and wait for System Summary rows (WMI) | `exclude` |
 | `Start-AsyncFormsDemoHost.ps1` | Hosts `Feature4177AsyncFormsDemo` | n/a |
 | `Start-NavigatorFormIntegrationHost.ps1` | Hosts `NavigatorFormIntegrationDemo` | n/a |
 | `Invoke-CaptionTabDrag.ps1` | Caption drag + screenshots | n/a |

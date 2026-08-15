@@ -16,4 +16,7 @@ internal partial class VisualAboutBoxRtlAwareForm : KryptonForm
         SetInheritedControlOverride();
         InitializeComponent();
     }
+
+    private void kbtnSystemInformation_Click(object sender, EventArgs e) =>
+        KryptonAboutBoxUtilities.LaunchSystemInformation(this, kbtnSystemInformation);
 }

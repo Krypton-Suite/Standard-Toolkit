@@ -45,6 +45,9 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#3176](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3176), A Krypton `msinfo32` drop-in
+   * Krypton System Information (`msinfo32`-style) dialog for About Box and standalone use.
+   * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Implemented [#4177](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4177), When will the Async Form Methods from .net10 (Started in .net9) actually be implemented
    * Async form / dialog methods (`ShowAsync` / `ShowDialogAsync`) for Krypton dialogs on **all TFMs**. On .NET 9+ they use WinForms Form async; on earlier TFMs they degrade to sync `ShowDialog` / `Show` under the same awaitable API (`KryptonFormAsync`).
    * Library wrappers use `ConfigureAwait(false)`.

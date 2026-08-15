@@ -140,7 +140,7 @@ internal partial class VisualAboutBoxForm : KryptonForm
 
     private void kbtnOk_Click(object sender, EventArgs e) => Hide();
 
-    private void kbtnSystemInformation_Click(object sender, EventArgs e) => KryptonAboutBoxUtilities.LaunchSystemInformation();
+    private void kbtnSystemInformation_Click(object sender, EventArgs e) => KryptonAboutBoxUtilities.LaunchSystemInformation(this, kbtnSystemInformation);
 
     private void tsbtnGeneralInformation_Click(object sender, EventArgs e) => SwitchAboutBoxPage(AboutBoxPage.GeneralInformation);
 
