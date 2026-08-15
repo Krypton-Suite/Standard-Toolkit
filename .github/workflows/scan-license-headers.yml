@@ -1,9 +1,11 @@
 # New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
-# Modifications by Peter Wagner (aka PWagner1), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
+# Modifications by Peter Wagner (aka PWagner1), Simon Coghlan (aka Smurf-IV), Giduac, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
 #
 # Scans BSD license header contributor lines and partially replaces the list after the
 # fixed "Modifications by Peter Wagner (aka PWagner1), Simon Coghlan (aka Smurf-IV)" prefix.
 # Each file keeps its own year range and "All rights reserved." suffix.
+# Includes Ahmed Abdelhameed and tbolon only when the header start year is 2018 or 2019.
+# Includes tobitege only when the header start year is 2025 or 2026.
 #
 # KILL-SWITCH: SCAN_LICENSE_HEADERS_DISABLED=true (repository variable)
 # TEST/FORK REPOS: Set EXPECTED_REPOSITORY=YourOrg/YourFork (repository variable)
@@ -123,7 +125,9 @@ jobs:
             Automated partial replacement of BSD license header contributor lines.
 
             - Fixed prefix: `Modifications by Peter Wagner (aka PWagner1), Simon Coghlan (aka Smurf-IV)`
-            - Canonical contributors: Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al.
+            - Canonical contributors: Giduac, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al.
+            - Includes Ahmed Abdelhameed and tbolon only when the header start year is 2018 or 2019.
+            - Includes tobitege only when the header start year is 2025 or 2026.
             - Each file keeps its existing year range and rights suffix.
 
             **Files updated:** ${{ steps.update.outputs.files_changed }}
