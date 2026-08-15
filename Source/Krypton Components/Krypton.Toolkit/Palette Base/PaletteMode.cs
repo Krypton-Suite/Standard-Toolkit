@@ -568,6 +568,71 @@ public enum PaletteMode
     /// </summary>
     Microsoft365LimeGreenDark,
 
+    /// <summary>Office 2007 Materialize Blue (https://colorswall.com/palette/8).</summary>
+    Office2007MaterializeBlue,
+    /// <summary>Office 2007 Materialize Blue dark chrome.</summary>
+    Office2007MaterializeBlueDark,
+    /// <summary>Office 2007 Materialize Light Blue (https://colorswall.com/palette/13).</summary>
+    Office2007MaterializeLightBlue,
+    /// <summary>Office 2007 Materialize Light Blue dark chrome.</summary>
+    Office2007MaterializeLightBlueDark,
+    /// <summary>Office 2007 Silver Dark Mode Alternate.</summary>
+    Office2007SilverDarkModeAlternate,
+
+    /// <summary>Office 2010 Materialize Blue.</summary>
+    Office2010MaterializeBlue,
+    /// <summary>Office 2010 Materialize Blue dark chrome.</summary>
+    Office2010MaterializeBlueDark,
+    /// <summary>Office 2010 Materialize Light Blue.</summary>
+    Office2010MaterializeLightBlue,
+    /// <summary>Office 2010 Materialize Light Blue dark chrome.</summary>
+    Office2010MaterializeLightBlueDark,
+    /// <summary>Office 2010 Silver Dark Mode Alternate.</summary>
+    Office2010SilverDarkModeAlternate,
+
+    /// <summary>Office 2013 Materialize Blue.</summary>
+    Office2013MaterializeBlue,
+    /// <summary>Office 2013 Materialize Blue dark chrome.</summary>
+    Office2013MaterializeBlueDark,
+    /// <summary>Office 2013 Materialize Light Blue.</summary>
+    Office2013MaterializeLightBlue,
+    /// <summary>Office 2013 Materialize Light Blue dark chrome.</summary>
+    Office2013MaterializeLightBlueDark,
+    /// <summary>Office 2013 Silver Dark Mode Alternate.</summary>
+    Office2013SilverDarkModeAlternate,
+
+    /// <summary>Microsoft 365 Materialize Blue.</summary>
+    Microsoft365MaterializeBlue,
+    /// <summary>Microsoft 365 Materialize Blue dark chrome.</summary>
+    Microsoft365MaterializeBlueDark,
+    /// <summary>Microsoft 365 Materialize Light Blue.</summary>
+    Microsoft365MaterializeLightBlue,
+    /// <summary>Microsoft 365 Materialize Light Blue dark chrome.</summary>
+    Microsoft365MaterializeLightBlueDark,
+    /// <summary>Microsoft 365 Silver Dark Mode Alternate.</summary>
+    Microsoft365SilverDarkModeAlternate,
+
+    /// <summary>Material Materialize Blue.</summary>
+    MaterialMaterializeBlue,
+    /// <summary>Material Materialize Blue dark chrome.</summary>
+    MaterialMaterializeBlueDark,
+    /// <summary>Material Materialize Blue with Ripple.</summary>
+    MaterialMaterializeBlueRipple,
+    /// <summary>Material Materialize Blue dark chrome with Ripple.</summary>
+    MaterialMaterializeBlueDarkRipple,
+    /// <summary>Material Materialize Light Blue.</summary>
+    MaterialMaterializeLightBlue,
+    /// <summary>Material Materialize Light Blue dark chrome.</summary>
+    MaterialMaterializeLightBlueDark,
+    /// <summary>Material Materialize Light Blue with Ripple.</summary>
+    MaterialMaterializeLightBlueRipple,
+    /// <summary>Material Materialize Light Blue dark chrome with Ripple.</summary>
+    MaterialMaterializeLightBlueDarkRipple,
+    /// <summary>Material Silver Dark Mode Alternate.</summary>
+    MaterialSilverDarkModeAlternate,
+    /// <summary>Material Silver Dark Mode Alternate with Ripple.</summary>
+    MaterialSilverDarkModeAlternateRipple,
+
     /// <summary>
     /// Specifies a custom palette be used.
     /// </summary>

@@ -1618,6 +1618,66 @@ public sealed class KryptonManager : Component
                 return PaletteMicrosoft365LimeGreen;
             case PaletteMode.Microsoft365LimeGreenDark:
                 return PaletteMicrosoft365LimeGreenDark;
+            case PaletteMode.Office2007MaterializeBlue:
+                return PaletteOffice2007MaterializeBlue;
+            case PaletteMode.Office2007MaterializeBlueDark:
+                return PaletteOffice2007MaterializeBlueDark;
+            case PaletteMode.Office2007MaterializeLightBlue:
+                return PaletteOffice2007MaterializeLightBlue;
+            case PaletteMode.Office2007MaterializeLightBlueDark:
+                return PaletteOffice2007MaterializeLightBlueDark;
+            case PaletteMode.Office2007SilverDarkModeAlternate:
+                return PaletteOffice2007SilverDarkModeAlternate;
+            case PaletteMode.Office2010MaterializeBlue:
+                return PaletteOffice2010MaterializeBlue;
+            case PaletteMode.Office2010MaterializeBlueDark:
+                return PaletteOffice2010MaterializeBlueDark;
+            case PaletteMode.Office2010MaterializeLightBlue:
+                return PaletteOffice2010MaterializeLightBlue;
+            case PaletteMode.Office2010MaterializeLightBlueDark:
+                return PaletteOffice2010MaterializeLightBlueDark;
+            case PaletteMode.Office2010SilverDarkModeAlternate:
+                return PaletteOffice2010SilverDarkModeAlternate;
+            case PaletteMode.Office2013MaterializeBlue:
+                return PaletteOffice2013MaterializeBlue;
+            case PaletteMode.Office2013MaterializeBlueDark:
+                return PaletteOffice2013MaterializeBlueDark;
+            case PaletteMode.Office2013MaterializeLightBlue:
+                return PaletteOffice2013MaterializeLightBlue;
+            case PaletteMode.Office2013MaterializeLightBlueDark:
+                return PaletteOffice2013MaterializeLightBlueDark;
+            case PaletteMode.Office2013SilverDarkModeAlternate:
+                return PaletteOffice2013SilverDarkModeAlternate;
+            case PaletteMode.Microsoft365MaterializeBlue:
+                return PaletteMicrosoft365MaterializeBlue;
+            case PaletteMode.Microsoft365MaterializeBlueDark:
+                return PaletteMicrosoft365MaterializeBlueDark;
+            case PaletteMode.Microsoft365MaterializeLightBlue:
+                return PaletteMicrosoft365MaterializeLightBlue;
+            case PaletteMode.Microsoft365MaterializeLightBlueDark:
+                return PaletteMicrosoft365MaterializeLightBlueDark;
+            case PaletteMode.Microsoft365SilverDarkModeAlternate:
+                return PaletteMicrosoft365SilverDarkModeAlternate;
+            case PaletteMode.MaterialMaterializeBlue:
+                return PaletteMaterialMaterializeBlue;
+            case PaletteMode.MaterialMaterializeBlueDark:
+                return PaletteMaterialMaterializeBlueDark;
+            case PaletteMode.MaterialMaterializeBlueRipple:
+                return PaletteMaterialMaterializeBlueRipple;
+            case PaletteMode.MaterialMaterializeBlueDarkRipple:
+                return PaletteMaterialMaterializeBlueDarkRipple;
+            case PaletteMode.MaterialMaterializeLightBlue:
+                return PaletteMaterialMaterializeLightBlue;
+            case PaletteMode.MaterialMaterializeLightBlueDark:
+                return PaletteMaterialMaterializeLightBlueDark;
+            case PaletteMode.MaterialMaterializeLightBlueRipple:
+                return PaletteMaterialMaterializeLightBlueRipple;
+            case PaletteMode.MaterialMaterializeLightBlueDarkRipple:
+                return PaletteMaterialMaterializeLightBlueDarkRipple;
+            case PaletteMode.MaterialSilverDarkModeAlternate:
+                return PaletteMaterialSilverDarkModeAlternate;
+            case PaletteMode.MaterialSilverDarkModeAlternateRipple:
+                return PaletteMaterialSilverDarkModeAlternateRipple;
 
             case PaletteMode.Custom:
             case PaletteMode.Global:
@@ -2035,6 +2095,36 @@ public sealed class KryptonManager : Component
     /// Gets the single instance of the dark Lime Green variant Microsoft 365 palette.
     /// </summary>
     public static PaletteMicrosoft365LimeGreenDark PaletteMicrosoft365LimeGreenDark => _paletteMicrosoft365LimeGreenDark ??= new PaletteMicrosoft365LimeGreenDark();
+    public static PaletteOffice2007MaterializeBlue PaletteOffice2007MaterializeBlue => _paletteOffice2007MaterializeBlue ??= new PaletteOffice2007MaterializeBlue();
+    public static PaletteOffice2007MaterializeBlueDark PaletteOffice2007MaterializeBlueDark => _paletteOffice2007MaterializeBlueDark ??= new PaletteOffice2007MaterializeBlueDark();
+    public static PaletteOffice2007MaterializeLightBlue PaletteOffice2007MaterializeLightBlue => _paletteOffice2007MaterializeLightBlue ??= new PaletteOffice2007MaterializeLightBlue();
+    public static PaletteOffice2007MaterializeLightBlueDark PaletteOffice2007MaterializeLightBlueDark => _paletteOffice2007MaterializeLightBlueDark ??= new PaletteOffice2007MaterializeLightBlueDark();
+    public static PaletteOffice2007SilverDarkModeAlternate PaletteOffice2007SilverDarkModeAlternate => _paletteOffice2007SilverDarkModeAlternate ??= new PaletteOffice2007SilverDarkModeAlternate();
+    public static PaletteOffice2010MaterializeBlue PaletteOffice2010MaterializeBlue => _paletteOffice2010MaterializeBlue ??= new PaletteOffice2010MaterializeBlue();
+    public static PaletteOffice2010MaterializeBlueDark PaletteOffice2010MaterializeBlueDark => _paletteOffice2010MaterializeBlueDark ??= new PaletteOffice2010MaterializeBlueDark();
+    public static PaletteOffice2010MaterializeLightBlue PaletteOffice2010MaterializeLightBlue => _paletteOffice2010MaterializeLightBlue ??= new PaletteOffice2010MaterializeLightBlue();
+    public static PaletteOffice2010MaterializeLightBlueDark PaletteOffice2010MaterializeLightBlueDark => _paletteOffice2010MaterializeLightBlueDark ??= new PaletteOffice2010MaterializeLightBlueDark();
+    public static PaletteOffice2010SilverDarkModeAlternate PaletteOffice2010SilverDarkModeAlternate => _paletteOffice2010SilverDarkModeAlternate ??= new PaletteOffice2010SilverDarkModeAlternate();
+    public static PaletteOffice2013MaterializeBlue PaletteOffice2013MaterializeBlue => _paletteOffice2013MaterializeBlue ??= new PaletteOffice2013MaterializeBlue();
+    public static PaletteOffice2013MaterializeBlueDark PaletteOffice2013MaterializeBlueDark => _paletteOffice2013MaterializeBlueDark ??= new PaletteOffice2013MaterializeBlueDark();
+    public static PaletteOffice2013MaterializeLightBlue PaletteOffice2013MaterializeLightBlue => _paletteOffice2013MaterializeLightBlue ??= new PaletteOffice2013MaterializeLightBlue();
+    public static PaletteOffice2013MaterializeLightBlueDark PaletteOffice2013MaterializeLightBlueDark => _paletteOffice2013MaterializeLightBlueDark ??= new PaletteOffice2013MaterializeLightBlueDark();
+    public static PaletteOffice2013SilverDarkModeAlternate PaletteOffice2013SilverDarkModeAlternate => _paletteOffice2013SilverDarkModeAlternate ??= new PaletteOffice2013SilverDarkModeAlternate();
+    public static PaletteMicrosoft365MaterializeBlue PaletteMicrosoft365MaterializeBlue => _paletteMicrosoft365MaterializeBlue ??= new PaletteMicrosoft365MaterializeBlue();
+    public static PaletteMicrosoft365MaterializeBlueDark PaletteMicrosoft365MaterializeBlueDark => _paletteMicrosoft365MaterializeBlueDark ??= new PaletteMicrosoft365MaterializeBlueDark();
+    public static PaletteMicrosoft365MaterializeLightBlue PaletteMicrosoft365MaterializeLightBlue => _paletteMicrosoft365MaterializeLightBlue ??= new PaletteMicrosoft365MaterializeLightBlue();
+    public static PaletteMicrosoft365MaterializeLightBlueDark PaletteMicrosoft365MaterializeLightBlueDark => _paletteMicrosoft365MaterializeLightBlueDark ??= new PaletteMicrosoft365MaterializeLightBlueDark();
+    public static PaletteMicrosoft365SilverDarkModeAlternate PaletteMicrosoft365SilverDarkModeAlternate => _paletteMicrosoft365SilverDarkModeAlternate ??= new PaletteMicrosoft365SilverDarkModeAlternate();
+    public static PaletteMaterialMaterializeBlue PaletteMaterialMaterializeBlue => _paletteMaterialMaterializeBlue ??= new PaletteMaterialMaterializeBlue();
+    public static PaletteMaterialMaterializeBlueDark PaletteMaterialMaterializeBlueDark => _paletteMaterialMaterializeBlueDark ??= new PaletteMaterialMaterializeBlueDark();
+    public static PaletteMaterialMaterializeBlueRipple PaletteMaterialMaterializeBlueRipple => _paletteMaterialMaterializeBlueRipple ??= new PaletteMaterialMaterializeBlueRipple();
+    public static PaletteMaterialMaterializeBlueDarkRipple PaletteMaterialMaterializeBlueDarkRipple => _paletteMaterialMaterializeBlueDarkRipple ??= new PaletteMaterialMaterializeBlueDarkRipple();
+    public static PaletteMaterialMaterializeLightBlue PaletteMaterialMaterializeLightBlue => _paletteMaterialMaterializeLightBlue ??= new PaletteMaterialMaterializeLightBlue();
+    public static PaletteMaterialMaterializeLightBlueDark PaletteMaterialMaterializeLightBlueDark => _paletteMaterialMaterializeLightBlueDark ??= new PaletteMaterialMaterializeLightBlueDark();
+    public static PaletteMaterialMaterializeLightBlueRipple PaletteMaterialMaterializeLightBlueRipple => _paletteMaterialMaterializeLightBlueRipple ??= new PaletteMaterialMaterializeLightBlueRipple();
+    public static PaletteMaterialMaterializeLightBlueDarkRipple PaletteMaterialMaterializeLightBlueDarkRipple => _paletteMaterialMaterializeLightBlueDarkRipple ??= new PaletteMaterialMaterializeLightBlueDarkRipple();
+    public static PaletteMaterialSilverDarkModeAlternate PaletteMaterialSilverDarkModeAlternate => _paletteMaterialSilverDarkModeAlternate ??= new PaletteMaterialSilverDarkModeAlternate();
+    public static PaletteMaterialSilverDarkModeAlternateRipple PaletteMaterialSilverDarkModeAlternateRipple => _paletteMaterialSilverDarkModeAlternateRipple ??= new PaletteMaterialSilverDarkModeAlternateRipple();
 
     private static PaletteMaterialLight? _paletteMaterialLight;
     private static PaletteMaterialDark? _paletteMaterialDark;
@@ -2078,6 +2168,36 @@ public sealed class KryptonManager : Component
     private static PaletteOffice2010LimeGreenDark? _paletteOffice2010LimeGreenDark;
     private static PaletteMicrosoft365LimeGreen? _paletteMicrosoft365LimeGreen;
     private static PaletteMicrosoft365LimeGreenDark? _paletteMicrosoft365LimeGreenDark;
+    private static PaletteOffice2007MaterializeBlue? _paletteOffice2007MaterializeBlue;
+    private static PaletteOffice2007MaterializeBlueDark? _paletteOffice2007MaterializeBlueDark;
+    private static PaletteOffice2007MaterializeLightBlue? _paletteOffice2007MaterializeLightBlue;
+    private static PaletteOffice2007MaterializeLightBlueDark? _paletteOffice2007MaterializeLightBlueDark;
+    private static PaletteOffice2007SilverDarkModeAlternate? _paletteOffice2007SilverDarkModeAlternate;
+    private static PaletteOffice2010MaterializeBlue? _paletteOffice2010MaterializeBlue;
+    private static PaletteOffice2010MaterializeBlueDark? _paletteOffice2010MaterializeBlueDark;
+    private static PaletteOffice2010MaterializeLightBlue? _paletteOffice2010MaterializeLightBlue;
+    private static PaletteOffice2010MaterializeLightBlueDark? _paletteOffice2010MaterializeLightBlueDark;
+    private static PaletteOffice2010SilverDarkModeAlternate? _paletteOffice2010SilverDarkModeAlternate;
+    private static PaletteOffice2013MaterializeBlue? _paletteOffice2013MaterializeBlue;
+    private static PaletteOffice2013MaterializeBlueDark? _paletteOffice2013MaterializeBlueDark;
+    private static PaletteOffice2013MaterializeLightBlue? _paletteOffice2013MaterializeLightBlue;
+    private static PaletteOffice2013MaterializeLightBlueDark? _paletteOffice2013MaterializeLightBlueDark;
+    private static PaletteOffice2013SilverDarkModeAlternate? _paletteOffice2013SilverDarkModeAlternate;
+    private static PaletteMicrosoft365MaterializeBlue? _paletteMicrosoft365MaterializeBlue;
+    private static PaletteMicrosoft365MaterializeBlueDark? _paletteMicrosoft365MaterializeBlueDark;
+    private static PaletteMicrosoft365MaterializeLightBlue? _paletteMicrosoft365MaterializeLightBlue;
+    private static PaletteMicrosoft365MaterializeLightBlueDark? _paletteMicrosoft365MaterializeLightBlueDark;
+    private static PaletteMicrosoft365SilverDarkModeAlternate? _paletteMicrosoft365SilverDarkModeAlternate;
+    private static PaletteMaterialMaterializeBlue? _paletteMaterialMaterializeBlue;
+    private static PaletteMaterialMaterializeBlueDark? _paletteMaterialMaterializeBlueDark;
+    private static PaletteMaterialMaterializeBlueRipple? _paletteMaterialMaterializeBlueRipple;
+    private static PaletteMaterialMaterializeBlueDarkRipple? _paletteMaterialMaterializeBlueDarkRipple;
+    private static PaletteMaterialMaterializeLightBlue? _paletteMaterialMaterializeLightBlue;
+    private static PaletteMaterialMaterializeLightBlueDark? _paletteMaterialMaterializeLightBlueDark;
+    private static PaletteMaterialMaterializeLightBlueRipple? _paletteMaterialMaterializeLightBlueRipple;
+    private static PaletteMaterialMaterializeLightBlueDarkRipple? _paletteMaterialMaterializeLightBlueDarkRipple;
+    private static PaletteMaterialSilverDarkModeAlternate? _paletteMaterialSilverDarkModeAlternate;
+    private static PaletteMaterialSilverDarkModeAlternateRipple? _paletteMaterialSilverDarkModeAlternateRipple;
 
     //public static PaletteBase CustomPaletteBase => _customPalette ??= new PaletteBase ();
 
@@ -2343,6 +2463,11 @@ public sealed class KryptonManager : Component
             case PaletteMode.Office2007BlackDarkMode:
             case PaletteMode.Office2007LimeGreen:
             case PaletteMode.Office2007LimeGreenDark:
+            case PaletteMode.Office2007MaterializeBlue:
+            case PaletteMode.Office2007MaterializeBlueDark:
+            case PaletteMode.Office2007MaterializeLightBlue:
+            case PaletteMode.Office2007MaterializeLightBlueDark:
+            case PaletteMode.Office2007SilverDarkModeAlternate:
             case PaletteMode.VisualStudio2010Render2007:
             case PaletteMode.Office2007HighContrast:
             case PaletteMode.Office2007Deuteranopia:
@@ -2372,6 +2497,11 @@ public sealed class KryptonManager : Component
             case PaletteMode.SparkleProtanopia:
             case PaletteMode.Office2010LimeGreen:
             case PaletteMode.Office2010LimeGreenDark:
+            case PaletteMode.Office2010MaterializeBlue:
+            case PaletteMode.Office2010MaterializeBlueDark:
+            case PaletteMode.Office2010MaterializeLightBlue:
+            case PaletteMode.Office2010MaterializeLightBlueDark:
+            case PaletteMode.Office2010SilverDarkModeAlternate:
             case PaletteMode.VisualStudio2010Render2010:
             case PaletteMode.Office2010HighContrast:
             case PaletteMode.Office2010Deuteranopia:
@@ -2385,6 +2515,11 @@ public sealed class KryptonManager : Component
             case PaletteMode.Office2013HighContrast:
             case PaletteMode.Office2013Deuteranopia:
             case PaletteMode.Office2013Protanopia:
+            case PaletteMode.Office2013MaterializeBlue:
+            case PaletteMode.Office2013MaterializeBlueDark:
+            case PaletteMode.Office2013MaterializeLightBlue:
+            case PaletteMode.Office2013MaterializeLightBlueDark:
+            case PaletteMode.Office2013SilverDarkModeAlternate:
                 Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Office2013ToolBarImages);
                 break;
             case PaletteMode.Microsoft365Black:
@@ -2399,6 +2534,11 @@ public sealed class KryptonManager : Component
             case PaletteMode.Microsoft365White:
             case PaletteMode.Microsoft365LimeGreen:
             case PaletteMode.Microsoft365LimeGreenDark:
+            case PaletteMode.Microsoft365MaterializeBlue:
+            case PaletteMode.Microsoft365MaterializeBlueDark:
+            case PaletteMode.Microsoft365MaterializeLightBlue:
+            case PaletteMode.Microsoft365MaterializeLightBlueDark:
+            case PaletteMode.Microsoft365SilverDarkModeAlternate:
             case PaletteMode.VisualStudio2010Render365:
             case PaletteMode.HighContrast:
             case PaletteMode.Deuteranopia:
@@ -2416,6 +2556,16 @@ public sealed class KryptonManager : Component
             case PaletteMode.MaterialLimeGreenDark:
             case PaletteMode.MaterialLimeGreenRipple:
             case PaletteMode.MaterialLimeGreenDarkRipple:
+            case PaletteMode.MaterialMaterializeBlue:
+            case PaletteMode.MaterialMaterializeBlueDark:
+            case PaletteMode.MaterialMaterializeBlueRipple:
+            case PaletteMode.MaterialMaterializeBlueDarkRipple:
+            case PaletteMode.MaterialMaterializeLightBlue:
+            case PaletteMode.MaterialMaterializeLightBlueDark:
+            case PaletteMode.MaterialMaterializeLightBlueRipple:
+            case PaletteMode.MaterialMaterializeLightBlueDarkRipple:
+            case PaletteMode.MaterialSilverDarkModeAlternate:
+            case PaletteMode.MaterialSilverDarkModeAlternateRipple:
             case PaletteMode.MaterialHighContrast:
             case PaletteMode.MaterialDeuteranopia:
             case PaletteMode.MaterialProtanopia:

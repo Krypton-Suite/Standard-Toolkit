@@ -120,6 +120,36 @@ public class PaletteModeStrings : GlobalId
     internal const string DEFAULT_PALETTE_OFFICE_2010_LIME_GREEN_DARK = @"Office 2010 - Lime Green - Dark Mode";
     internal const string DEFAULT_PALETTE_MICROSOFT_365_LIME_GREEN = @"Microsoft 365 - Lime Green";
     internal const string DEFAULT_PALETTE_MICROSOFT_365_LIME_GREEN_DARK = @"Microsoft 365 - Lime Green - Dark Mode";
+    internal const string DEFAULT_PALETTE_OFFICE_2007_MATERIALIZE_BLUE = @"Office 2007 - Materialize Blue";
+    internal const string DEFAULT_PALETTE_OFFICE_2007_MATERIALIZE_BLUE_DARK = @"Office 2007 - Materialize Blue - Dark Mode";
+    internal const string DEFAULT_PALETTE_OFFICE_2007_MATERIALIZE_LIGHT_BLUE = @"Office 2007 - Materialize Light Blue";
+    internal const string DEFAULT_PALETTE_OFFICE_2007_MATERIALIZE_LIGHT_BLUE_DARK = @"Office 2007 - Materialize Light Blue - Dark Mode";
+    internal const string DEFAULT_PALETTE_OFFICE_2007_SILVER_DARK_MODE_ALTERNATE = @"Office 2007 - Silver (Dark Mode - Alternate)";
+    internal const string DEFAULT_PALETTE_OFFICE_2010_MATERIALIZE_BLUE = @"Office 2010 - Materialize Blue";
+    internal const string DEFAULT_PALETTE_OFFICE_2010_MATERIALIZE_BLUE_DARK = @"Office 2010 - Materialize Blue - Dark Mode";
+    internal const string DEFAULT_PALETTE_OFFICE_2010_MATERIALIZE_LIGHT_BLUE = @"Office 2010 - Materialize Light Blue";
+    internal const string DEFAULT_PALETTE_OFFICE_2010_MATERIALIZE_LIGHT_BLUE_DARK = @"Office 2010 - Materialize Light Blue - Dark Mode";
+    internal const string DEFAULT_PALETTE_OFFICE_2010_SILVER_DARK_MODE_ALTERNATE = @"Office 2010 - Silver (Dark Mode - Alternate)";
+    internal const string DEFAULT_PALETTE_OFFICE_2013_MATERIALIZE_BLUE = @"Office 2013 - Materialize Blue";
+    internal const string DEFAULT_PALETTE_OFFICE_2013_MATERIALIZE_BLUE_DARK = @"Office 2013 - Materialize Blue - Dark Mode";
+    internal const string DEFAULT_PALETTE_OFFICE_2013_MATERIALIZE_LIGHT_BLUE = @"Office 2013 - Materialize Light Blue";
+    internal const string DEFAULT_PALETTE_OFFICE_2013_MATERIALIZE_LIGHT_BLUE_DARK = @"Office 2013 - Materialize Light Blue - Dark Mode";
+    internal const string DEFAULT_PALETTE_OFFICE_2013_SILVER_DARK_MODE_ALTERNATE = @"Office 2013 - Silver (Dark Mode - Alternate)";
+    internal const string DEFAULT_PALETTE_MICROSOFT_365_MATERIALIZE_BLUE = @"Microsoft 365 - Materialize Blue";
+    internal const string DEFAULT_PALETTE_MICROSOFT_365_MATERIALIZE_BLUE_DARK = @"Microsoft 365 - Materialize Blue - Dark Mode";
+    internal const string DEFAULT_PALETTE_MICROSOFT_365_MATERIALIZE_LIGHT_BLUE = @"Microsoft 365 - Materialize Light Blue";
+    internal const string DEFAULT_PALETTE_MICROSOFT_365_MATERIALIZE_LIGHT_BLUE_DARK = @"Microsoft 365 - Materialize Light Blue - Dark Mode";
+    internal const string DEFAULT_PALETTE_MICROSOFT_365_SILVER_DARK_MODE_ALTERNATE = @"Microsoft 365 - Silver (Dark Mode - Alternate)";
+    internal const string DEFAULT_PALETTE_MATERIAL_MATERIALIZE_BLUE = @"Material - Materialize Blue";
+    internal const string DEFAULT_PALETTE_MATERIAL_MATERIALIZE_BLUE_DARK = @"Material - Materialize Blue - Dark Mode";
+    internal const string DEFAULT_PALETTE_MATERIAL_MATERIALIZE_BLUE_RIPPLE = @"Material - Materialize Blue (Ripple)";
+    internal const string DEFAULT_PALETTE_MATERIAL_MATERIALIZE_BLUE_DARK_RIPPLE = @"Material - Materialize Blue - Dark Mode (Ripple)";
+    internal const string DEFAULT_PALETTE_MATERIAL_MATERIALIZE_LIGHT_BLUE = @"Material - Materialize Light Blue";
+    internal const string DEFAULT_PALETTE_MATERIAL_MATERIALIZE_LIGHT_BLUE_DARK = @"Material - Materialize Light Blue - Dark Mode";
+    internal const string DEFAULT_PALETTE_MATERIAL_MATERIALIZE_LIGHT_BLUE_RIPPLE = @"Material - Materialize Light Blue (Ripple)";
+    internal const string DEFAULT_PALETTE_MATERIAL_MATERIALIZE_LIGHT_BLUE_DARK_RIPPLE = @"Material - Materialize Light Blue - Dark Mode (Ripple)";
+    internal const string DEFAULT_PALETTE_MATERIAL_SILVER_DARK_MODE_ALTERNATE = @"Material - Silver (Dark Mode - Alternate)";
+    internal const string DEFAULT_PALETTE_MATERIAL_SILVER_DARK_MODE_ALTERNATE_RIPPLE = @"Material - Silver (Dark Mode - Alternate) (Ripple)";
     internal const string DEFAULT_PALETTE_CUSTOM = @"Custom";
 
     #endregion
@@ -154,6 +184,11 @@ public class PaletteModeStrings : GlobalId
             { DEFAULT_PALETTE_OFFICE_2007_PROTANOPIA, PaletteMode.Office2007Protanopia },
             { DEFAULT_PALETTE_OFFICE_2007_LIME_GREEN, PaletteMode.Office2007LimeGreen },
             { DEFAULT_PALETTE_OFFICE_2007_LIME_GREEN_DARK, PaletteMode.Office2007LimeGreenDark },
+            { DEFAULT_PALETTE_OFFICE_2007_MATERIALIZE_BLUE, PaletteMode.Office2007MaterializeBlue },
+            { DEFAULT_PALETTE_OFFICE_2007_MATERIALIZE_BLUE_DARK, PaletteMode.Office2007MaterializeBlueDark },
+            { DEFAULT_PALETTE_OFFICE_2007_MATERIALIZE_LIGHT_BLUE, PaletteMode.Office2007MaterializeLightBlue },
+            { DEFAULT_PALETTE_OFFICE_2007_MATERIALIZE_LIGHT_BLUE_DARK, PaletteMode.Office2007MaterializeLightBlueDark },
+            { DEFAULT_PALETTE_OFFICE_2007_SILVER_DARK_MODE_ALTERNATE, PaletteMode.Office2007SilverDarkModeAlternate },
             //{ DEFAULT_PALETTE_OFFICE_2007_DARK_GRAY, PaletteMode.Office2007DarkGray },
             //{ PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2007_LIGHT_GRAY, PaletteMode.Office2007LightGray },
             { DEFAULT_PALETTE_OFFICE_2010_BLUE, PaletteMode.Office2010Blue },
@@ -170,6 +205,11 @@ public class PaletteModeStrings : GlobalId
             { DEFAULT_PALETTE_OFFICE_2010_PROTANOPIA, PaletteMode.Office2010Protanopia },
             { DEFAULT_PALETTE_OFFICE_2010_LIME_GREEN, PaletteMode.Office2010LimeGreen },
             { DEFAULT_PALETTE_OFFICE_2010_LIME_GREEN_DARK, PaletteMode.Office2010LimeGreenDark },
+            { DEFAULT_PALETTE_OFFICE_2010_MATERIALIZE_BLUE, PaletteMode.Office2010MaterializeBlue },
+            { DEFAULT_PALETTE_OFFICE_2010_MATERIALIZE_BLUE_DARK, PaletteMode.Office2010MaterializeBlueDark },
+            { DEFAULT_PALETTE_OFFICE_2010_MATERIALIZE_LIGHT_BLUE, PaletteMode.Office2010MaterializeLightBlue },
+            { DEFAULT_PALETTE_OFFICE_2010_MATERIALIZE_LIGHT_BLUE_DARK, PaletteMode.Office2010MaterializeLightBlueDark },
+            { DEFAULT_PALETTE_OFFICE_2010_SILVER_DARK_MODE_ALTERNATE, PaletteMode.Office2010SilverDarkModeAlternate },
             //{ DEFAULT_PALETTE_OFFICE_2010_DARK_GRAY, PaletteMode.Office2010DarkGray },
             //{ PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2010_LIGHT_GRAY, PaletteMode.Office2010LightGray },
             { DEFAULT_PALETTE_OFFICE_2013_DARK_GRAY, PaletteMode.Office2013DarkGray },
@@ -178,6 +218,11 @@ public class PaletteModeStrings : GlobalId
             { DEFAULT_PALETTE_OFFICE_2013_HIGH_CONTRAST, PaletteMode.Office2013HighContrast },
             { DEFAULT_PALETTE_OFFICE_2013_DEUTERANOPIA, PaletteMode.Office2013Deuteranopia },
             { DEFAULT_PALETTE_OFFICE_2013_PROTANOPIA, PaletteMode.Office2013Protanopia },
+            { DEFAULT_PALETTE_OFFICE_2013_MATERIALIZE_BLUE, PaletteMode.Office2013MaterializeBlue },
+            { DEFAULT_PALETTE_OFFICE_2013_MATERIALIZE_BLUE_DARK, PaletteMode.Office2013MaterializeBlueDark },
+            { DEFAULT_PALETTE_OFFICE_2013_MATERIALIZE_LIGHT_BLUE, PaletteMode.Office2013MaterializeLightBlue },
+            { DEFAULT_PALETTE_OFFICE_2013_MATERIALIZE_LIGHT_BLUE_DARK, PaletteMode.Office2013MaterializeLightBlueDark },
+            { DEFAULT_PALETTE_OFFICE_2013_SILVER_DARK_MODE_ALTERNATE, PaletteMode.Office2013SilverDarkModeAlternate },
             { DEFAULT_PALETTE_SPARKLE_BLUE, PaletteMode.SparkleBlue },
             { DEFAULT_PALETTE_SPARKLE_BLUE_DARK_MODE, PaletteMode.SparkleBlueDarkMode },
             { DEFAULT_PALETTE_SPARKLE_BLUE_LIGHT_MODE, PaletteMode.SparkleBlueLightMode },
@@ -202,6 +247,11 @@ public class PaletteModeStrings : GlobalId
             { DEFAULT_PALETTE_MICROSOFT_365_BLACK_DARK_MODE_ALTERNATE, PaletteMode.Microsoft365BlackDarkModeAlternate},
             { DEFAULT_PALETTE_MICROSOFT_365_LIME_GREEN, PaletteMode.Microsoft365LimeGreen },
             { DEFAULT_PALETTE_MICROSOFT_365_LIME_GREEN_DARK, PaletteMode.Microsoft365LimeGreenDark },
+            { DEFAULT_PALETTE_MICROSOFT_365_MATERIALIZE_BLUE, PaletteMode.Microsoft365MaterializeBlue },
+            { DEFAULT_PALETTE_MICROSOFT_365_MATERIALIZE_BLUE_DARK, PaletteMode.Microsoft365MaterializeBlueDark },
+            { DEFAULT_PALETTE_MICROSOFT_365_MATERIALIZE_LIGHT_BLUE, PaletteMode.Microsoft365MaterializeLightBlue },
+            { DEFAULT_PALETTE_MICROSOFT_365_MATERIALIZE_LIGHT_BLUE_DARK, PaletteMode.Microsoft365MaterializeLightBlueDark },
+            { DEFAULT_PALETTE_MICROSOFT_365_SILVER_DARK_MODE_ALTERNATE, PaletteMode.Microsoft365SilverDarkModeAlternate },
             //{ DEFAULT_PALETTE_MICROSOFT_365_DARK_GRAY, PaletteMode.Microsoft365DarkGray },
             //{ PaletteModeStrings.DEFAULT_PALETTE_MICROSOFT_365_LIGHT_GRAY, PaletteMode.Microsoft365LightGray },
             { DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2007, PaletteMode.VisualStudio2010Render2007 },
@@ -228,6 +278,16 @@ public class PaletteModeStrings : GlobalId
             { DEFAULT_PALETTE_MATERIAL_LIME_GREEN_DARK, PaletteMode.MaterialLimeGreenDark },
             { DEFAULT_PALETTE_MATERIAL_LIME_GREEN_RIPPLE, PaletteMode.MaterialLimeGreenRipple },
             { DEFAULT_PALETTE_MATERIAL_LIME_GREEN_DARK_RIPPLE, PaletteMode.MaterialLimeGreenDarkRipple },
+            { DEFAULT_PALETTE_MATERIAL_MATERIALIZE_BLUE, PaletteMode.MaterialMaterializeBlue },
+            { DEFAULT_PALETTE_MATERIAL_MATERIALIZE_BLUE_DARK, PaletteMode.MaterialMaterializeBlueDark },
+            { DEFAULT_PALETTE_MATERIAL_MATERIALIZE_BLUE_RIPPLE, PaletteMode.MaterialMaterializeBlueRipple },
+            { DEFAULT_PALETTE_MATERIAL_MATERIALIZE_BLUE_DARK_RIPPLE, PaletteMode.MaterialMaterializeBlueDarkRipple },
+            { DEFAULT_PALETTE_MATERIAL_MATERIALIZE_LIGHT_BLUE, PaletteMode.MaterialMaterializeLightBlue },
+            { DEFAULT_PALETTE_MATERIAL_MATERIALIZE_LIGHT_BLUE_DARK, PaletteMode.MaterialMaterializeLightBlueDark },
+            { DEFAULT_PALETTE_MATERIAL_MATERIALIZE_LIGHT_BLUE_RIPPLE, PaletteMode.MaterialMaterializeLightBlueRipple },
+            { DEFAULT_PALETTE_MATERIAL_MATERIALIZE_LIGHT_BLUE_DARK_RIPPLE, PaletteMode.MaterialMaterializeLightBlueDarkRipple },
+            { DEFAULT_PALETTE_MATERIAL_SILVER_DARK_MODE_ALTERNATE, PaletteMode.MaterialSilverDarkModeAlternate },
+            { DEFAULT_PALETTE_MATERIAL_SILVER_DARK_MODE_ALTERNATE_RIPPLE, PaletteMode.MaterialSilverDarkModeAlternateRipple },
             { DEFAULT_PALETTE_MATERIAL_HIGH_CONTRAST, PaletteMode.MaterialHighContrast },
             { DEFAULT_PALETTE_MATERIAL_DEUTERANOPIA, PaletteMode.MaterialDeuteranopia },
             { DEFAULT_PALETTE_MATERIAL_PROTANOPIA, PaletteMode.MaterialProtanopia },
