@@ -311,18 +311,17 @@ public abstract class PaletteOffice2013Base : PaletteBase
         }
         else
         {
-            // TODO: Check colours for this, they are the same as above but should be different
             _formCloseBorderTracking = Color.FromArgb(155, 61, 61);
-            _formCloseBorderPressed = Color.FromArgb(155, 61, 61);
+            _formCloseBorderPressed = Color.FromArgb(163, 189, 227);
             _formCloseBorderCheckedNormal = Color.FromArgb(155, 61, 61);
-            _formCloseTracking1 = Color.FromArgb(255, 132, 130);
-            _formCloseTracking2 = Color.FromArgb(227, 97, 98);
-            _formClosePressed1 = Color.FromArgb(242, 119, 118);
-            _formClosePressed2 = Color.FromArgb(206, 85, 84);
-            _formCloseChecked1 = Color.FromArgb(255, 132, 130);
-            _formCloseChecked2 = Color.FromArgb(255, 132, 130);
-            _formCloseCheckedTracking1 = Color.FromArgb(255, 132, 130);
-            _formCloseCheckedTracking2 = Color.FromArgb(255, 132, 130);
+            _formCloseTracking1 = Color.FromArgb(213, 225, 242);
+            _formCloseTracking2 = Color.FromArgb(213, 255, 231);
+            _formClosePressed1 = Color.FromArgb(163, 189, 227);
+            _formClosePressed2 = Color.FromArgb(163, 189, 210);
+            _formCloseChecked1 = Color.FromArgb(213, 225, 242);
+            _formCloseChecked2 = Color.FromArgb(213, 225, 242);
+            _formCloseCheckedTracking1 = Color.FromArgb(213, 225, 242);
+            _formCloseCheckedTracking2 = Color.FromArgb(213, 225, 242);
         }
 
         // Get the font settings from the system
