@@ -194,17 +194,7 @@ public abstract class PaletteOffice2013Base : PaletteBase
     private static readonly Color _contextMenuHeadingBorder = Color.FromArgb(197, 197, 197);
     private static readonly Color _contextMenuImageBackChecked = Color.FromArgb(252, 241, 194);
     private static readonly Color _contextMenuImageBorderChecked = Color.FromArgb(242, 149, 54);
-    private static readonly Color _formCloseBorderTracking = Color.FromArgb(155, 61, 61);
-    private static readonly Color _formCloseBorderPressed = Color.FromArgb(155, 61, 61);
-    private static readonly Color _formCloseBorderCheckedNormal = Color.FromArgb(155, 61, 61);
-    private static readonly Color _formCloseTracking1 = Color.FromArgb(255, 132, 130);
-    private static readonly Color _formCloseTracking2 = Color.FromArgb(227, 97, 98);
-    private static readonly Color _formClosePressed1 = Color.FromArgb(242, 119, 118);
-    private static readonly Color _formClosePressed2 = Color.FromArgb(206, 85, 84);
-    private static readonly Color _formCloseChecked1 = Color.FromArgb(255, 132, 130);
-    private static readonly Color _formCloseChecked2 = Color.FromArgb(255, 132, 130);
-    private static readonly Color _formCloseCheckedTracking1 = Color.FromArgb(255, 132, 130);
-    private static readonly Color _formCloseCheckedTracking2 = Color.FromArgb(255, 132, 130);
+    
 
     #endregion
 
@@ -248,6 +238,22 @@ public abstract class PaletteOffice2013Base : PaletteBase
     private readonly ImageList _galleryButtonList;
     private readonly Image?[] _radioButtonArray;
 
+    #region Close Button
+
+    private Color _formCloseBorderTracking;
+    private Color _formCloseBorderPressed;
+    private Color _formCloseBorderCheckedNormal;
+    private Color _formCloseTracking1;
+    private Color _formCloseTracking2;
+    private Color _formClosePressed1;
+    private Color _formClosePressed2;
+    private Color _formCloseChecked1;
+    private Color _formCloseChecked2;
+    private Color _formCloseCheckedTracking1;
+    private Color _formCloseCheckedTracking2;
+
+    #endregion
+
     //TODO Dynamically render
     //public static Color baseUserColor = Color.FromArgb(255, 248, 56);
     #endregion
@@ -287,6 +293,36 @@ public abstract class PaletteOffice2013Base : PaletteBase
         if (radioButtonArray != null)
         {
             _radioButtonArray = radioButtonArray;
+        }
+
+        if (KryptonManager.PaletteValues.UseCloseButtonKryptonTrackingColors)
+        {
+            _formCloseBorderTracking = Color.FromArgb(155, 61, 61);
+            _formCloseBorderPressed = Color.FromArgb(155, 61, 61);
+            _formCloseBorderCheckedNormal = Color.FromArgb(155, 61, 61);
+            _formCloseTracking1 = Color.FromArgb(255, 132, 130);
+            _formCloseTracking2 = Color.FromArgb(227, 97, 98);
+            _formClosePressed1 = Color.FromArgb(242, 119, 118);
+            _formClosePressed2 = Color.FromArgb(206, 85, 84);
+            _formCloseChecked1 = Color.FromArgb(255, 132, 130);
+            _formCloseChecked2 = Color.FromArgb(255, 132, 130);
+            _formCloseCheckedTracking1 = Color.FromArgb(255, 132, 130);
+            _formCloseCheckedTracking2 = Color.FromArgb(255, 132, 130);
+        }
+        else
+        {
+            // TODO: Check colours for this, they are the same as above but should be different
+            _formCloseBorderTracking = Color.FromArgb(155, 61, 61);
+            _formCloseBorderPressed = Color.FromArgb(155, 61, 61);
+            _formCloseBorderCheckedNormal = Color.FromArgb(155, 61, 61);
+            _formCloseTracking1 = Color.FromArgb(255, 132, 130);
+            _formCloseTracking2 = Color.FromArgb(227, 97, 98);
+            _formClosePressed1 = Color.FromArgb(242, 119, 118);
+            _formClosePressed2 = Color.FromArgb(206, 85, 84);
+            _formCloseChecked1 = Color.FromArgb(255, 132, 130);
+            _formCloseChecked2 = Color.FromArgb(255, 132, 130);
+            _formCloseCheckedTracking1 = Color.FromArgb(255, 132, 130);
+            _formCloseCheckedTracking2 = Color.FromArgb(255, 132, 130);
         }
 
         // Get the font settings from the system

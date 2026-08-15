@@ -215,7 +215,7 @@ public sealed class KryptonManager : Component
 
     #region Instance Feilds
 
-    private KryptonPaletteSpecificValues _paletteSpecificValues;
+    private readonly KryptonPaletteSpecificValues _paletteSpecificValues;
 
     #endregion
 
@@ -945,6 +945,12 @@ public sealed class KryptonManager : Component
     /// <summary>Gets the touchscreen support settings.</summary>
     /// <value>The touchscreen support settings.</value>
     public static TouchscreenSettingValues TouchscreenSettingValues { get; } = new TouchscreenSettingValues();
+
+    /// <summary>
+    /// Gets the palette-specific values that can be used to override certain global settings for specific palettes.
+    /// </summary>
+    /// <value>The palette-specific values.</value>
+    public static KryptonPaletteSpecificValues PaletteValues { get; } = new KryptonPaletteSpecificValues(new KryptonManager());
 
     #region Static ShowAdministratorSuffix
     /// <summary>
