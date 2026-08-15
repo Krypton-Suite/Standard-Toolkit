@@ -4916,7 +4916,7 @@ public enum MonthCalendarView
     Months = 1,
 
     /// <summary>
-    /// Shows twelve years of a decade. Clicking a year selects it.
+    /// Shows ten years of a decade. Clicking a year selects it.
     /// </summary>
     Years = 2
 }

@@ -377,8 +377,10 @@ public class ViewDrawMonth : ViewLayoutStack,
             case MonthCalendarView.Months:
                 return value.ToString("yyyy", CultureInfo.CurrentCulture);
             case MonthCalendarView.Years:
+            {
                 var decadeStart = (value.Year / 10) * 10;
                 return $"{decadeStart}-{decadeStart + 11}";
+            }
             default:
                 return value.ToString(CultureInfo.CurrentCulture.DateTimeFormat.YearMonthPattern);
         }

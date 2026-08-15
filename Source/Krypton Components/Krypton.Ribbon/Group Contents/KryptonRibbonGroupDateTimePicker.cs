@@ -445,7 +445,7 @@ public class KryptonRibbonGroupDateTimePicker : KryptonRibbonGroupItem
     /// </summary>
     [Category(@"MonthCalendar")]
     [Description(@"Specifies whether the drop-down calendar shows days, months, or years.")]
-    [DefaultValue(typeof(MonthCalendarView), "Days")]
+    [DefaultValue(MonthCalendarView.Days)]
     public MonthCalendarView CalendarView
     {
         get => DateTimePicker.CalendarView;
