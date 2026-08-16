@@ -45,6 +45,9 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#4223](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4223), A native logging system
+   * Native logging (`KryptonLog`) with levels, named categories, rolling files, a themed viewer, and optional splash/exception/bug-report wiring.
+   * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Resolved, `KryptonExceptionDialog` threw `InvalidCastException` when populating the exception tree (`TreeNode` cannot be cast to `KryptonTreeNode`).
 * Implemented [#4180](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4180), A really good Splash Screen Implementation
    * Non-blocking themed splash screen manager (`KryptonSplashScreenManager`) with fade, live status/progress, logging callbacks, background image, opacity, and startup-step exception handling.

@@ -126,6 +126,12 @@ public class KryptonSplashScreenManagerData
     public Action<string>? LogCallback { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether splash status and exception messages are written to
+    /// <see cref="KryptonLog"/> when <see cref="Logger"/> is null. Defaults to <see langword="false"/>.
+    /// </summary>
+    public bool UseKryptonLog { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether <see cref="KryptonExceptionDialog"/> is shown on the
     /// caller thread after <see cref="KryptonSplashScreenManager.ReportException(Exception)"/>.
     /// </summary>
