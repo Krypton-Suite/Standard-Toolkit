@@ -64,6 +64,19 @@ internal static class CommonHelperThemeSelectors
     }
 
     /// <summary>
+    /// Fills a theme-browser list using <see cref="KryptonThemeBrowserData.ShowExtraThemes"/>.
+    /// </summary>
+    internal static void FillThemeBrowserItems(IList items, KryptonThemeBrowserData themeBrowserData)
+    {
+        items.Clear();
+        var includeExtra = themeBrowserData.ShowExtraThemes ?? true;
+        foreach (var name in GetThemesArray(includeExtra))
+        {
+            items.Add(name);
+        }
+    }
+
+    /// <summary>
     /// Performs a theme change when the control's SelectedIndex is changed.
     /// </summary>
     /// <param name="isLocalUpdate">Enter: ref this._isLocalUpdate.</param>

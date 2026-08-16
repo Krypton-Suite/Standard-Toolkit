@@ -92,6 +92,44 @@ public static class KryptonThemeCatalog
     }
 
     /// <summary>
+    /// Gets the selector display name for <paramref name="mode"/>.
+    /// </summary>
+    public static string GetDisplayName(PaletteMode mode) =>
+        PaletteModeStrings.SupportedThemes.SecondToFirst.TryGetValue(mode, out var name)
+            ? name
+            : mode.ToString();
+
+    /// <summary>
+    /// Gets a snapshot of registered descriptors (core and extra).
+    /// </summary>
+    public static KryptonThemeDescriptor[] GetDescriptors()
+    {
+        EnsureReady();
+        lock (_sync)
+        {
+            var copy = new KryptonThemeDescriptor[_descriptors.Count];
+            _descriptors.Values.CopyTo(copy, 0);
+            return copy;
+        }
+    }
+
+    /// <summary>
+    /// Gets distinct family keys currently registered, ordered by name.
+    /// </summary>
+    public static string[] GetFamilies()
+    {
+        EnsureReady();
+        lock (_sync)
+        {
+            return _descriptors.Values
+                .Select(d => d.Family)
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .OrderBy(s => s, StringComparer.OrdinalIgnoreCase)
+                .ToArray();
+        }
+    }
+
+    /// <summary>
     /// Gets the family key for a mode when it is catalogued.
     /// </summary>
     /// <param name="mode">Palette mode.</param>
@@ -246,11 +284,15 @@ public static class KryptonThemeCatalog
 
             if (probeFile)
             {
-                var directory = AppContext.BaseDirectory;
-                if (!string.IsNullOrEmpty(directory))
+                var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                foreach (var directory in GetThemesProbeDirectories())
                 {
-                    var path = Path.Combine(directory, ThemesAssemblyFileName);
-                    TryLoadThemesAssembly(path);
+                    if (!seen.Add(directory))
+                    {
+                        continue;
+                    }
+
+                    TryLoadThemesAssembly(Path.Combine(directory, ThemesAssemblyFileName));
                 }
             }
         }
@@ -325,6 +367,44 @@ public static class KryptonThemeCatalog
         return missing.ToArray();
     }
 
+    private static IEnumerable<string> GetThemesProbeDirectories()
+    {
+        var directories = new List<string>();
+        if (!string.IsNullOrEmpty(AppContext.BaseDirectory))
+        {
+            directories.Add(AppContext.BaseDirectory);
+        }
+
+        try
+        {
+            var toolkitDir = Path.GetDirectoryName(typeof(KryptonThemeCatalog).Assembly.Location);
+            if (toolkitDir is { Length: > 0 })
+            {
+                directories.Add(toolkitDir);
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(@"KryptonThemeCatalog toolkit directory: " + ex.Message);
+        }
+
+        try
+        {
+            var entry = Assembly.GetEntryAssembly();
+            var entryDir = entry is null ? null : Path.GetDirectoryName(entry.Location);
+            if (entryDir is { Length: > 0 })
+            {
+                directories.Add(entryDir);
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(@"KryptonThemeCatalog entry directory: " + ex.Message);
+        }
+
+        return directories;
+    }
+
     private static void TryLoadThemesAssembly(string path)
     {
         if (string.IsNullOrEmpty(path) || !File.Exists(path))
@@ -343,13 +423,55 @@ public static class KryptonThemeCatalog
 
         try
         {
+            var assemblyName = AssemblyName.GetAssemblyName(path);
+            if (!string.Equals(assemblyName.Name, @"Krypton.Themes", StringComparison.OrdinalIgnoreCase)
+                || !PublicKeyTokenMatchesToolkit(assemblyName))
+            {
+                Debug.WriteLine(@"KryptonThemeCatalog skipped unsigned or unexpected assembly at " + path);
+                return;
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(@"KryptonThemeCatalog could not read " + path + @": " + ex.Message);
+            return;
+        }
+
+        try
+        {
             var loaded = Assembly.LoadFrom(path);
+            if (!PublicKeyTokenMatchesToolkit(loaded.GetName()))
+            {
+                Debug.WriteLine(@"KryptonThemeCatalog rejected " + path + @" after load (public key token).");
+                return;
+            }
+
             TryRegisterFromAssembly(loaded);
         }
         catch (Exception ex)
         {
             Debug.WriteLine(@"KryptonThemeCatalog could not load " + path + @": " + ex.Message);
         }
+    }
+
+    private static bool PublicKeyTokenMatchesToolkit(AssemblyName assemblyName)
+    {
+        var actual = assemblyName.GetPublicKeyToken();
+        var expected = typeof(KryptonThemeCatalog).Assembly.GetName().GetPublicKeyToken();
+        if (actual is null || expected is null || actual.Length != expected.Length)
+        {
+            return false;
+        }
+
+        for (int i = 0; i < actual.Length; i++)
+        {
+            if (actual[i] != expected[i])
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private static void TryRegisterFromAssembly(Assembly assembly)

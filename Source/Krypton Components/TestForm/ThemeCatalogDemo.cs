@@ -47,11 +47,11 @@ public sealed class ThemeCatalogDemo : KryptonForm
         {
             Dock = DockStyle.Top,
             AutoSize = false,
-            Height = 36,
+            Height = 48,
             Padding = new Padding(12, 4, 12, 4)
         };
 
-        var toolbar = new KryptonPanel { Dock = DockStyle.Top, Height = 128, Padding = new Padding(12, 8, 12, 8) };
+        var toolbar = new KryptonPanel { Dock = DockStyle.Top, Height = 168, Padding = new Padding(12, 8, 12, 8) };
         var flow = new FlowLayoutPanel { Dock = DockStyle.Fill, WrapContents = true };
 
         flow.Controls.Add(new KryptonLabel { Text = @"Theme:", AutoSize = true, Padding = new Padding(0, 6, 8, 0) });
@@ -96,6 +96,41 @@ public sealed class ThemeCatalogDemo : KryptonForm
         flow.Controls.Add(btnCore);
         flow.Controls.Add(btnExtra);
 
+        var btnBrowser = new KryptonButton { Text = @"Theme browser", AutoSize = true };
+        btnBrowser.Click += (_, _) =>
+        {
+            KryptonThemeBrowser.Show(new KryptonThemeBrowserData
+            {
+                WindowTitle = @"4230 theme browser",
+                StartPosition = FormStartPosition.CenterParent,
+                ShowExtraThemes = _chkShowExtra.Checked,
+                DefaultPalette = KryptonManager.CurrentGlobalPaletteMode
+            });
+            UpdateStatus();
+        };
+        var btnExport = new KryptonButton { Text = @"Save availability", AutoSize = true };
+        btnExport.Click += (_, _) =>
+        {
+            var path = GetAvailabilityPath();
+            System.IO.File.WriteAllText(path, KryptonThemeAvailability.Export());
+            UpdateStatus();
+            KryptonMessageBox.Show(this, path, @"Availability saved", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
+        };
+        var btnImport = new KryptonButton { Text = @"Load availability", AutoSize = true };
+        btnImport.Click += (_, _) =>
+        {
+            var path = GetAvailabilityPath();
+            if (System.IO.File.Exists(path))
+            {
+                KryptonThemeAvailability.Import(System.IO.File.ReadAllText(path));
+            }
+
+            UpdateStatus();
+        };
+        flow.Controls.Add(btnBrowser);
+        flow.Controls.Add(btnExport);
+        flow.Controls.Add(btnImport);
+
         toolbar.Controls.Add(flow);
 
         var sample = new KryptonPanel { Dock = DockStyle.Fill, Padding = new Padding(16) };
@@ -123,13 +158,29 @@ public sealed class ThemeCatalogDemo : KryptonForm
         };
     }
 
+    private static string GetAvailabilityPath() =>
+        System.IO.Path.Combine(System.IO.Path.GetTempPath(), @"krypton-theme-availability-4230.txt");
+
     private void UpdateStatus()
     {
         var extra = KryptonThemeCatalog.IsImplementationAvailable(PaletteMode.VisualStudio2022Dark);
+        var sample = false;
+        foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+        {
+            if (string.Equals(assembly.GetName().Name, @"ThemeProviderSample", StringComparison.OrdinalIgnoreCase))
+            {
+                sample = true;
+                break;
+            }
+        }
+
         _lblStatus.Text =
             @"Current: " + KryptonManager.CurrentGlobalPaletteMode +
-            @"  |  Extra themes loaded: " + extra +
-            @"  |  Combo items: " + _themeCombo.Items.Count +
-            @"  |  List items: " + _themeList.Items.Count;
+            @"  |  Extra: " + extra +
+            @"  |  Families: " + KryptonThemeCatalog.GetFamilies().Length +
+            @"  |  Descriptors: " + KryptonThemeCatalog.GetDescriptors().Length +
+            @"  |  Sample DLL: " + sample +
+            @"  |  Combo: " + _themeCombo.Items.Count +
+            @"  |  List: " + _themeList.Items.Count;
     }
 }

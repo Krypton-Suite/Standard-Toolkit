@@ -15,7 +15,9 @@ namespace Krypton.Toolkit;
 /// <remarks>
 /// The core provider lives in <c>Krypton.Toolkit</c>. Additional palettes are supplied by
 /// <c>Krypton.Themes</c> via <see cref="KryptonThemeProviderAttribute"/> and
-/// <see cref="KryptonManager.AutoDiscoverThemes"/>.
+/// <see cref="KryptonManager.AutoDiscoverThemes"/>. Third-party assemblies can use the same
+/// attribute. Extra providers cannot add new <see cref="PaletteMode"/> values; they can only
+/// implement modes that are not already registered.
 /// </remarks>
 public interface IKryptonThemeProvider
 {

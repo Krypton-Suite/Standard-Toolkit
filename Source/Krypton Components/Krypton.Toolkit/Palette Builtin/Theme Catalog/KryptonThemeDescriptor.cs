@@ -54,6 +54,11 @@ public sealed class KryptonThemeDescriptor
     public string Family { get; }
 
     /// <summary>
+    /// Gets the selector display name for <see cref="Mode"/>.
+    /// </summary>
+    public string DisplayName => KryptonThemeCatalog.GetDisplayName(Mode);
+
+    /// <summary>
     /// Gets whether the palette ships in the core toolkit assembly.
     /// </summary>
     public bool IsCore { get; }

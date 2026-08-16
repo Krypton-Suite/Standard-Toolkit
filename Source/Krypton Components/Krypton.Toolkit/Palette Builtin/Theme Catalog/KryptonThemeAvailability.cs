@@ -157,6 +157,147 @@ public static class KryptonThemeAvailability
     }
 
     /// <summary>
+    /// Serializes selector enablement for app settings.
+    /// </summary>
+    /// <returns>A v1 text document that <see cref="Import"/> can restore.</returns>
+    public static string Export()
+    {
+        bool allowCustom;
+        PaletteMode[] modes;
+        string[] families;
+        string[] extraFamilies;
+        lock (_sync)
+        {
+            allowCustom = _allowCustomThemes;
+            modes = _disabledModes.OrderBy(m => m.ToString(), StringComparer.Ordinal).ToArray();
+            families = _disabledFamilies.OrderBy(s => s, StringComparer.OrdinalIgnoreCase).ToArray();
+            extraFamilies = _disabledExtraFamilies.OrderBy(s => s, StringComparer.OrdinalIgnoreCase).ToArray();
+        }
+
+        var builder = new StringBuilder();
+        builder.AppendLine(@"# KryptonThemeAvailability v1");
+        builder.Append(@"AllowCustom=").AppendLine(allowCustom ? @"True" : @"False");
+        builder.Append(@"DisabledModes=").AppendLine(string.Join(@",", modes.Select(m => m.ToString()).ToArray()));
+        builder.Append(@"DisabledFamilies=").AppendLine(string.Join(@",", families));
+        builder.Append(@"DisabledExtraFamilies=").AppendLine(string.Join(@",", extraFamilies));
+        return builder.ToString();
+    }
+
+    /// <summary>
+    /// Restores selector enablement previously produced by <see cref="Export"/>.
+    /// </summary>
+    /// <param name="text">Exported document. Empty or null resets to defaults.</param>
+    public static void Import(string? text)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+        {
+            Reset();
+            return;
+        }
+
+        var document = text!;
+
+        var allowCustom = true;
+        var modes = new HashSet<PaletteMode>();
+        var families = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var extraFamilies = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+        var lines = document.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+        foreach (var raw in lines)
+        {
+            var line = raw.Trim();
+            if (line.Length == 0 || line[0] == '#')
+            {
+                continue;
+            }
+
+            var equals = line.IndexOf('=');
+            if (equals <= 0)
+            {
+                continue;
+            }
+
+            var key = line.Substring(0, equals).Trim();
+            var value = line.Substring(equals + 1).Trim();
+            if (string.Equals(key, @"AllowCustom", StringComparison.OrdinalIgnoreCase))
+            {
+                allowCustom = !string.Equals(value, @"False", StringComparison.OrdinalIgnoreCase);
+            }
+            else if (string.Equals(key, @"DisabledModes", StringComparison.OrdinalIgnoreCase))
+            {
+                AddCsvModes(value, modes);
+            }
+            else if (string.Equals(key, @"DisabledFamilies", StringComparison.OrdinalIgnoreCase))
+            {
+                AddCsvNames(value, families);
+            }
+            else if (string.Equals(key, @"DisabledExtraFamilies", StringComparison.OrdinalIgnoreCase))
+            {
+                AddCsvNames(value, extraFamilies);
+            }
+        }
+
+        lock (_sync)
+        {
+            _allowCustomThemes = allowCustom;
+            _disabledModes.Clear();
+            foreach (var mode in modes)
+            {
+                _disabledModes.Add(mode);
+            }
+
+            _disabledFamilies.Clear();
+            foreach (var family in families)
+            {
+                _disabledFamilies.Add(family);
+            }
+
+            _disabledExtraFamilies.Clear();
+            foreach (var family in extraFamilies)
+            {
+                _disabledExtraFamilies.Add(family);
+            }
+        }
+
+        OnChanged();
+    }
+
+    private static void AddCsvModes(string value, HashSet<PaletteMode> target)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return;
+        }
+
+        foreach (var part in value.Split(','))
+        {
+            var name = part.Trim();
+            if (name.Length > 0 && Enum.TryParse(name, true, out PaletteMode mode)
+                && mode != PaletteMode.Global && mode != PaletteMode.Custom)
+            {
+                target.Add(mode);
+            }
+        }
+    }
+
+    private static void AddCsvNames(string value, HashSet<string> target)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return;
+        }
+
+        foreach (var part in value.Split(','))
+        {
+            var name = part.Trim();
+            if (name.Length > 0)
+            {
+                target.Add(name);
+            }
+        }
+    }
+
+    /// <summary>
     /// Clears all per-mode and per-family disables and restores custom-theme listing.
     /// </summary>
     public static void Reset()
