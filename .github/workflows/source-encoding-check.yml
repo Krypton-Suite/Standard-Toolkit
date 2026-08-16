@@ -69,6 +69,7 @@ jobs:
         with:
           script: |
             const fs = require('fs');
+            const path = require('path');
             const files = [];
             for await (const response of github.paginate.iterator(
               github.rest.pulls.listFiles,
@@ -83,8 +84,9 @@ jobs:
                 files.push(file.filename);
               }
             }
-            const pathFile = `${process.env.RUNNER_TEMP}/changed_files.txt`;
-            fs.writeFileSync(pathFile, files.length ? files.join('\n') + '\n' : '');
+            // Write paths to a file so the encoding-check step never receives a huge env/argv payload.
+            const outPath = path.join(process.env.RUNNER_TEMP, 'changed_paths.txt');
+            fs.writeFileSync(outPath, files.length ? files.join('\n') + '\n' : '');
             core.setOutput('has_paths', files.length > 0 ? 'true' : 'false');
 
       - name: List changed files (push)
@@ -96,11 +98,11 @@ jobs:
           before="${{ github.event.before }}"
           after="${{ github.sha }}"
           if [ -z "$before" ] || [ "$before" = "0000000000000000000000000000000000000000" ]; then
-            git diff-tree --no-commit-id --name-only -r "$after" > "$RUNNER_TEMP/changed_files.txt"
+            git diff-tree --no-commit-id --name-only -r "$after" > "$RUNNER_TEMP/changed_paths.txt"
           else
-            git diff --name-only "$before" "$after" > "$RUNNER_TEMP/changed_files.txt"
+            git diff --name-only "$before" "$after" > "$RUNNER_TEMP/changed_paths.txt"
           fi
-          if [ -s "$RUNNER_TEMP/changed_files.txt" ]; then
+          if [ -s "$RUNNER_TEMP/changed_paths.txt" ]; then
             echo "has_paths=true" >> "$GITHUB_OUTPUT"
           else
             echo "has_paths=false" >> "$GITHUB_OUTPUT"
@@ -112,8 +114,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          git diff-tree --no-commit-id --name-only -r HEAD > "$RUNNER_TEMP/changed_files.txt"
-          if [ -s "$RUNNER_TEMP/changed_files.txt" ]; then
+          git diff-tree --no-commit-id --name-only -r HEAD > "$RUNNER_TEMP/changed_paths.txt"
+          if [ -s "$RUNNER_TEMP/changed_paths.txt" ]; then
             echo "has_paths=true" >> "$GITHUB_OUTPUT"
           else
             echo "has_paths=false" >> "$GITHUB_OUTPUT"
@@ -130,12 +132,10 @@ jobs:
           . (Join-Path $repoRoot 'Scripts/CI/Test-SourceEncodingIntegrity.ps1')
 
           $scanAll = $env:SCAN_ALL -ieq 'true'
-          $pathFile = Join-Path $env:RUNNER_TEMP 'changed_files.txt'
+          $changedPathsFile = Join-Path $env:RUNNER_TEMP 'changed_paths.txt'
           $changedPaths = @()
-          if (-not $scanAll -and (Test-Path -LiteralPath $pathFile)) {
-            $changedPaths = Get-Content -LiteralPath $pathFile |
-              ForEach-Object { $_.Trim() } |
-              Where-Object { $_ }
+          if (-not $scanAll -and (Test-Path -LiteralPath $changedPathsFile)) {
+            $changedPaths = Get-Content -LiteralPath $changedPathsFile | ForEach-Object { $_.Trim() } | Where-Object { $_ }
           }
 
           if ($scanAll) {
