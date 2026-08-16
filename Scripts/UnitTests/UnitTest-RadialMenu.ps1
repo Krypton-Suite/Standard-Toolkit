@@ -5,7 +5,7 @@
 .DESCRIPTION
     Loads Debug Krypton.Toolkit / Krypton.Toolkit.Utilities binaries and runs in-process STA checks:
 
-    1. Default appearance values (Sweep, shadow, StartAngle, MaxVisibleItems, HitPadding, image size).
+    1. Default Values (Sweep, shadow, StartAngle, MaxVisibleItems, HitPadding, image size).
     2. Hosted KryptonRadialMenuControl constructs with Items / State### and ResetNavigation.
     3. Item PerformClick / CheckOnClick / ItemClick; ResolveImage from Image and KryptonCommand.
     4. Slider SetNormalizedValue raises ValueChanged; TextItem / CalendarItem construct.
@@ -112,18 +112,19 @@ $form.Size = New-Object System.Drawing.Size(400, 300)
 [void]$form.Show()
 [System.Windows.Forms.Application]::DoEvents()
 
-# ----- Defaults -----
+# ----- Defaults (on Values; not flattened onto the component) -----
 $menu = Get-NetObject ([System.Activator]::CreateInstance([Krypton.Toolkit.Utilities.KryptonRadialMenu]))
-Assert-Equal ([Krypton.Toolkit.Utilities.KryptonRadialMenuAnimationStyle]::Sweep) $menu.AnimationStyle 'Default AnimationStyle is Sweep'
-Assert-Equal 220 $menu.AnimationDuration 'Default AnimationDuration is 220'
-Assert-equal 24 $menu.ItemImageSize 'Default ItemImageSize is 24'
-Assert-True ([bool]$menu.ShowShadow) 'Default ShowShadow is true'
-Assert-True ([bool]$menu.ShowOuterRingOnLeaves) 'Default ShowOuterRingOnLeaves is true'
-Assert-True ([bool]$menu.ShowCheckedGlyph) 'Default ShowCheckedGlyph is true'
-Assert-Equal ([Krypton.Toolkit.Utilities.KryptonRadialMenuDisplayStyle]::ImageAboveText) $menu.DisplayStyle 'Default DisplayStyle is ImageAboveText'
-Assert-Equal (-90) ([float]$menu.StartAngle) 'Default StartAngle is -90'
-Assert-Equal 0 $menu.MaxVisibleItems 'Default MaxVisibleItems is 0 (unlimited)'
-Assert-Equal 4 ([float]$menu.HitPadding) 'Default HitPadding is 4'
+$values = Get-NetObject $menu.Values
+Assert-Equal ([Krypton.Toolkit.Utilities.KryptonRadialMenuAnimationStyle]::Sweep) $values.AnimationStyle 'Default AnimationStyle is Sweep'
+Assert-Equal 220 $values.AnimationDuration 'Default AnimationDuration is 220'
+Assert-Equal 24 $values.ItemImageSize 'Default ItemImageSize is 24'
+Assert-True ([bool]$values.ShowShadow) 'Default ShowShadow is true'
+Assert-True ([bool]$values.ShowOuterRingOnLeaves) 'Default ShowOuterRingOnLeaves is true'
+Assert-True ([bool]$values.ShowCheckedGlyph) 'Default ShowCheckedGlyph is true'
+Assert-Equal ([Krypton.Toolkit.Utilities.KryptonRadialMenuDisplayStyle]::ImageAboveText) $values.DisplayStyle 'Default DisplayStyle is ImageAboveText'
+Assert-Equal (-90) ([float]$values.StartAngle) 'Default StartAngle is -90'
+Assert-Equal 0 $values.MaxVisibleItems 'Default MaxVisibleItems is 0 (unlimited)'
+Assert-Equal 4 ([float]$values.HitPadding) 'Default HitPadding is 4'
 Assert-True ($null -ne $menu.StateCommon) 'StateCommon outer-ring border is available'
 Assert-True ($null -ne $menu.StateNormal) 'StateNormal outer-ring border is available'
 Assert-True ($null -ne $menu.StateTracking) 'StateTracking outer-ring border is available'
@@ -134,8 +135,8 @@ Assert-True ($null -ne $menu.StateShadowNormal) 'StateShadowNormal is available'
 Assert-True ($null -ne $menu.StateShadowTracking) 'StateShadowTracking is available'
 Assert-True ($null -ne $menu.StateShadowPressed) 'StateShadowPressed is available'
 Assert-True ($null -ne $menu.StateShadowDisabled) 'StateShadowDisabled is available'
-Assert-Equal 0.18 ([float]$menu.ShadowOpacity) 'Default ShadowOpacity is 0.18'
-Assert-Equal 1 ([float]$menu.Scale) 'Default Scale is 1'
+Assert-Equal 0.18 ([float]$values.ShadowOpacity) 'Default ShadowOpacity is 0.18'
+Assert-Equal 1 ([float]$values.Scale) 'Default Scale is 1'
 
 # ----- RadialMenuMetrics (internal) -----
 $metricsType = [Krypton.Toolkit.Utilities.KryptonRadialMenu].Assembly.GetType('Krypton.Toolkit.Utilities.RadialMenuMetrics')
@@ -143,7 +144,6 @@ Assert-True ($null -ne $metricsType) 'RadialMenuMetrics type is available'
 $diameterMethod = $metricsType.GetMethod('DiameterFromRadius', [System.Reflection.BindingFlags]'Public,Static')
 Assert-Equal 288 ($diameterMethod.Invoke($null, [object[]]@(140))) 'DiameterFromRadius(140) is 288'
 $fromMethod = $metricsType.GetMethod('From', [System.Reflection.BindingFlags]'Public,Static')
-$values = Get-NetObject $menu.Values
 $metricsFit = $fromMethod.Invoke($null, [object[]]@($values, [float]4.0, [System.Drawing.Size]::new(400, 400)))
 $fitOuter = [int]$metricsFit.MenuRadius
 Assert-True ($fitOuter -le 196) "High DPI metrics clamp to available client (got $fitOuter)"
@@ -153,17 +153,18 @@ Write-Host 'PASS: RadialMenuMetrics diameter and viewport clamp' -ForegroundColo
 
 # ----- Hosted KryptonRadialMenuControl -----
 $hosted = Get-NetObject ([System.Activator]::CreateInstance([Krypton.Toolkit.Utilities.KryptonRadialMenuControl]))
-Assert-Equal 140 $hosted.MenuRadius 'Hosted default MenuRadius is 140'
-Assert-equal 42 $hosted.InnerRadius 'Hosted default InnerRadius is 42'
-Assert-Equal 10 $hosted.OuterRingThickness 'Hosted default OuterRingThickness is 10'
-Assert-Equal 1 ([float]$hosted.Scale) 'Hosted default Scale is 1'
-Assert-Equal ([Krypton.Toolkit.Utilities.KryptonRadialMenuDisplayStyle]::ImageAboveText) $hosted.DisplayStyle 'Hosted default DisplayStyle is ImageAboveText'
+$hostedValues = Get-NetObject $hosted.Values
+Assert-Equal 140 $hostedValues.MenuRadius 'Hosted default MenuRadius is 140'
+Assert-Equal 42 $hostedValues.InnerRadius 'Hosted default InnerRadius is 42'
+Assert-Equal 10 $hostedValues.OuterRingThickness 'Hosted default OuterRingThickness is 10'
+Assert-Equal 1 ([float]$hostedValues.Scale) 'Hosted default Scale is 1'
+Assert-Equal ([Krypton.Toolkit.Utilities.KryptonRadialMenuDisplayStyle]::ImageAboveText) $hostedValues.DisplayStyle 'Hosted default DisplayStyle is ImageAboveText'
 Assert-True ($null -ne $hosted.StateCommon) 'Hosted StateCommon is available'
-Assert-True ($null -ne $hosted.Values.Items) 'Hosted Items collection is available'
-Assert-Equal '+' $hosted.HubText 'Hosted default HubText is +'
-$hosted.HubText = 'Menu'
-Assert-Equal 'Menu' $hosted.HubText 'Hosted HubText can be set'
-Assert-True ($null -eq $hosted.Glyph) 'Hosted default Glyph is null'
+Assert-True ($null -ne $hostedValues.Items) 'Hosted Items collection is available'
+Assert-Equal ([string][char]0x2630) $hostedValues.HubText 'Hosted default HubText is trigram for heaven'
+$hostedValues.HubText = 'Menu'
+Assert-Equal 'Menu' $hostedValues.HubText 'Hosted HubText can be set'
+Assert-True ($null -eq $hostedValues.Glyph) 'Hosted default Glyph is null'
 Assert-True (-not [bool]$hosted.AllowMove) 'Hosted default AllowMove is false'
 Assert-True (-not [bool]$hosted.IsFloating) 'Hosted default IsFloating is false'
 $hosted.AllowMove = $true
@@ -384,12 +385,12 @@ $syncedSource.Text = 'Synced-Updated'
 [System.Windows.Forms.Application]::DoEvents()
 Assert-Equal 'Synced-Updated' $synced.Text 'PropertyChanged sync updates radial Text from context-menu source'
 
-$menu.MaxVisibleItems = 4
-Assert-Equal 4 $menu.MaxVisibleItems 'MaxVisibleItems accepts paging window'
-$menu.StartAngle = 0
-Assert-equal 0 ([float]$menu.StartAngle) 'StartAngle can be set to 0 (east)'
-$menu.StartAngle = -90
-$menu.MaxVisibleItems = 0
+$values.MaxVisibleItems = 4
+Assert-Equal 4 $values.MaxVisibleItems 'MaxVisibleItems accepts paging window'
+$values.StartAngle = 0
+Assert-Equal 0 ([float]$values.StartAngle) 'StartAngle can be set to 0 (east)'
+$values.StartAngle = -90
+$values.MaxVisibleItems = 0
 
 # ----- PreferRadial hook -----
 $prevPrefer = [Krypton.Toolkit.Utilities.KryptonRadialMenuPresenter]::PreferRadialContextMenus
@@ -414,7 +415,7 @@ finally {
 
 # ----- Show / Close -----
 $popupMenu = Get-NetObject ([System.Activator]::CreateInstance([Krypton.Toolkit.Utilities.KryptonRadialMenu]))
-$popupMenu.AnimationStyle = [Krypton.Toolkit.Utilities.KryptonRadialMenuAnimationStyle]::None
+$popupMenu.Values.AnimationStyle = [Krypton.Toolkit.Utilities.KryptonRadialMenuAnimationStyle]::None
 $popupItem = Get-NetObject ([System.Activator]::CreateInstance([Krypton.Toolkit.Utilities.KryptonRadialMenuItem], [object[]]@('PopupLeaf')))
 [void]$popupMenu.Values.Items.Add($popupItem)
 $screenPt = New-Object System.Drawing.Point (-31000, -31000)
@@ -430,8 +431,8 @@ Assert-True (-not [bool]$popupMenu.Visible) 'Menu is not Visible after Close'
 
 # Animated close should not throw.
 $animMenu = Get-NetObject ([System.Activator]::CreateInstance([Krypton.Toolkit.Utilities.KryptonRadialMenu]))
-$animMenu.AnimationStyle = [Krypton.Toolkit.Utilities.KryptonRadialMenuAnimationStyle]::FadeScale
-$animMenu.AnimationDuration = 80
+$animMenu.Values.AnimationStyle = [Krypton.Toolkit.Utilities.KryptonRadialMenuAnimationStyle]::FadeScale
+$animMenu.Values.AnimationDuration = 80
 [void]$animMenu.Values.Items.Add((Get-NetObject ([System.Activator]::CreateInstance([Krypton.Toolkit.Utilities.KryptonRadialMenuItem], [object[]]@('AnimLeaf')))))
 Assert-True ([bool]$animMenu.ShowPopup($form, $screenPt, $false)) 'Animated ShowPopup returns true'
 [System.Windows.Forms.Application]::DoEvents()
@@ -454,8 +455,8 @@ Assert-True (-not [bool]$animMenu.Visible) 'Menu is not Visible after animated C
 
 # Pop uses EaseOutBack(0) == 0; ScaleTransform must not throw on first paint.
 $popMenu = Get-NetObject ([System.Activator]::CreateInstance([Krypton.Toolkit.Utilities.KryptonRadialMenu]))
-$popMenu.AnimationStyle = [Krypton.Toolkit.Utilities.KryptonRadialMenuAnimationStyle]::Pop
-$popMenu.AnimationDuration = 120
+$popMenu.Values.AnimationStyle = [Krypton.Toolkit.Utilities.KryptonRadialMenuAnimationStyle]::Pop
+$popMenu.Values.AnimationDuration = 120
 [void]$popMenu.Values.Items.Add((Get-NetObject ([System.Activator]::CreateInstance([Krypton.Toolkit.Utilities.KryptonRadialMenuItem], [object[]]@('PopLeaf')))))
 $popOk = $true
 try {

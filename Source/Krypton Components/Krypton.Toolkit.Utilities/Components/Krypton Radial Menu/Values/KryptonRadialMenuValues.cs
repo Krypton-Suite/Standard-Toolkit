@@ -178,7 +178,7 @@ public class KryptonRadialMenuValues : Storage
     /// Gets or sets the text drawn on the collapsed hub when <see cref="Glyph"/> is null.
     /// </summary>
     /// <remarks>
-    /// Used by <see cref="KryptonRadialMenuControl"/> hub mode. Default is <c>+</c>. Empty draws no caption.
+    /// Used by <see cref="KryptonRadialMenuControl"/> hub mode. Default is <c>☰</c>. Empty draws no caption.
     /// </remarks>
     [Category(@"Visuals")]
     [Description(@"Text on the collapsed hub when no Glyph image is set. Default is ☰")]
