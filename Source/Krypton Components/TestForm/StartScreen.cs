@@ -57,6 +57,7 @@ public partial class StartScreen : KryptonForm
     /// </summary>
     private void AddButtons()
     {
+        CreateButton<ThemeCatalogDemo>("4230 Theme Catalog", "Issue #4230: core vs Krypton.Themes extra palettes, AutoDiscoverThemes, and KryptonThemeAvailability family filters on the theme combo.");
         CreateButton<ApplicationStringsTest>("Custom Strings", "Issue #3757: store and localise custom strings via KryptonCustomStrings in Krypton.Toolkit.Utilities.");
         CreateButton<TranslationsXmlDemoForm>("Translations XML (Import/Export)", "Export/import KryptonManager toolkit strings via Translations.xml (designer/runtime validation).");
         CreateButton<AboutBoxTest>("AboutBox (#2222)", "Issue #2222: comprehensive About dialog. Show (this app) uses KryptonAboutBox.Show() from assembly attributes. Show custom exercises images, toolkit page, full build date, RTL, and File Information grids.");

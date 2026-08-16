@@ -33,6 +33,8 @@ public class KryptonRibbonGroupThemeComboBox : KryptonRibbonGroupComboBox, IKryp
     private bool _isExternalUpdate = false;
     /// <summary> Backing var for the DefaultPalette property.</summary>
     private PaletteMode _defaultPalette = PaletteMode.Global;
+    /// <summary> Whether extra catalogued palettes appear in the list.</summary>
+    private bool _showExtraThemes = true;
     /// <summary> Local Krypton Manager instance.</summary>
     private readonly KryptonManager _manager;
     /// <summary> User defined palette.</summary>
@@ -49,7 +51,7 @@ public class KryptonRibbonGroupThemeComboBox : KryptonRibbonGroupComboBox, IKryp
         DropDownStyle = ComboBoxStyle.DropDownList;
 
         Items.Clear();
-        Items.AddRange(CommonHelperThemeSelectors.GetThemesArray());
+        Items.AddRange(CommonHelperThemeSelectors.GetThemesArray(_showExtraThemes));
 
         // Sets the intial palette from either global or DefaultPalette property
         SelectedIndex = CommonHelperThemeSelectors.GetInitialSelectedIndex(DefaultPalette, _manager, Items);
@@ -76,6 +78,28 @@ public class KryptonRibbonGroupThemeComboBox : KryptonRibbonGroupComboBox, IKryp
     private void ResetDefaultPalette() => DefaultPalette = PaletteMode.Global;
     private bool ShouldSerializeDefaultPalette() => _defaultPalette != PaletteMode.Global;
 
+    /// <summary>
+    /// Gets or sets whether extra (non-core) catalogued palettes appear in the drop-down.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"When false, only core Toolkit palettes are listed.")]
+    [DefaultValue(true)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public bool ShowExtraThemes
+    {
+        get => _showExtraThemes;
+        set
+        {
+            if (_showExtraThemes == value)
+            {
+                return;
+            }
+
+            _showExtraThemes = value;
+            ReloadThemeItems();
+        }
+    }
+
     #endregion
 
     #region Implementation
@@ -94,26 +118,21 @@ public class KryptonRibbonGroupThemeComboBox : KryptonRibbonGroupComboBox, IKryp
         return Text ?? string.Empty;
     }
 
-    private void ThemeManagerRegisteredThemesChanged(object? sender, EventArgs e)
+    private void ThemeManagerRegisteredThemesChanged(object? sender, EventArgs e) => ReloadThemeItems();
+
+    private void ReloadThemeItems()
     {
-        int previous = SelectedIndex;
-        Items.Clear();
-        Items.AddRange(CommonHelperThemeSelectors.GetThemesArray());
-        if (previous >= 0 && previous < Items.Count)
+        string previous = GetSelectedThemeName();
+        var fallback = KryptonManager.CurrentGlobalPaletteMode;
+        int idx = CommonHelperThemeSelectors.ReloadThemeItems(Items, _showExtraThemes, previous, fallback);
+        _isExternalUpdate = true;
+        try
         {
-            _isExternalUpdate = true;
-            try
-            {
-                SelectedIndex = previous;
-            }
-            finally
-            {
-                _isExternalUpdate = false;
-            }
+            SelectedIndex = idx;
         }
-        else
+        finally
         {
-            SelectedIndex = CommonHelperThemeSelectors.GetPaletteIndex(Items, KryptonManager.CurrentGlobalPaletteMode);
+            _isExternalUpdate = false;
         }
     }
 
@@ -147,10 +166,8 @@ public class KryptonRibbonGroupThemeComboBox : KryptonRibbonGroupComboBox, IKryp
         }
 
         // Refresh theme list so "Custom" shows as "Custom - [Theme Name]" when a custom palette has a name (issue #1031)
-        Items.Clear();
-        Items.AddRange(CommonHelperThemeSelectors.GetThemesArray());
-
-        int idx = CommonHelperThemeSelectors.GetPaletteIndex(Items, mode);
+        string previous = GetSelectedThemeName();
+        int idx = CommonHelperThemeSelectors.ReloadThemeItems(Items, _showExtraThemes, previous, mode);
         if (idx == SelectedIndex)
         {
             return;

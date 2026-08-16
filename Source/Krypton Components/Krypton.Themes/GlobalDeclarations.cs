@@ -28,10 +28,6 @@ global using System.Globalization;
 global using System.IO;
 global using System.Linq;
 global using System.Media;
-#if NET8_0_OR_GREATER
-global using System.Text.Json.Nodes;
-#endif
-global using System.Net.Http;
 global using System.Reflection;
 global using System.Resources;
 global using System.Runtime.CompilerServices;
@@ -47,8 +43,6 @@ global using System.Threading;
 global using System.Threading.Tasks;
 global using System.Timers;
 global using System.Windows.Forms;
-global using System.Windows.Forms.Design;
-global using System.Windows.Forms.Design.Behavior;
 global using System.Windows.Forms.VisualStyles;
 global using System.Xml;
 #endregion
@@ -93,6 +87,7 @@ global using Microsoft.Win32;
 global using Microsoft.Win32.SafeHandles;
 
 global using Krypton.Interop;
+global using Krypton.Toolkit;
 
 
 [assembly: CLSCompliant(true)]
@@ -101,10 +96,4 @@ global using Krypton.Interop;
 [assembly: Dependency(@"System.Drawing", LoadHint.Always)]
 [assembly: Dependency(@"System.Windows.Forms", LoadHint.Always)]
 
-// Public key value needs to be the full key. Before, this was the PublicKeyToken value.
-// See: https://stackoverflow.com/questions/106880/internalsvisibleto-attribute-isnt-working/107958#107958
-[assembly: InternalsVisibleTo( "Krypton.Themes, PublicKey=00240000048000009400000006020000002400005253413100040000010001001f208b6887f7b4f8fad6c30b9eca9849f09cbfbd37901e222f8e888331622c907dfa686c56389c95966b86b33f0dd0ab4cca46b1f1ed92efd7d5ddee2e2274f485867202c581f68c32bd3278ab1188e978a53ea6851be2c14d87efe9ed78c71df95e1a7f7d6923b6703c00dc56b76fd582f945cd0c1951844ebe478a911fcab4", AllInternalsVisible = true)]
-[assembly: InternalsVisibleTo( "Krypton.Navigator, PublicKey=00240000048000009400000006020000002400005253413100040000010001001f208b6887f7b4f8fad6c30b9eca9849f09cbfbd37901e222f8e888331622c907dfa686c56389c95966b86b33f0dd0ab4cca46b1f1ed92efd7d5ddee2e2274f485867202c581f68c32bd3278ab1188e978a53ea6851be2c14d87efe9ed78c71df95e1a7f7d6923b6703c00dc56b76fd582f945cd0c1951844ebe478a911fcab4", AllInternalsVisible = true)]
-[assembly: InternalsVisibleTo( "Krypton.Ribbon, PublicKey=00240000048000009400000006020000002400005253413100040000010001001f208b6887f7b4f8fad6c30b9eca9849f09cbfbd37901e222f8e888331622c907dfa686c56389c95966b86b33f0dd0ab4cca46b1f1ed92efd7d5ddee2e2274f485867202c581f68c32bd3278ab1188e978a53ea6851be2c14d87efe9ed78c71df95e1a7f7d6923b6703c00dc56b76fd582f945cd0c1951844ebe478a911fcab4", AllInternalsVisible = true)]
-[assembly: InternalsVisibleTo( "Krypton.Workspace, PublicKey=00240000048000009400000006020000002400005253413100040000010001001f208b6887f7b4f8fad6c30b9eca9849f09cbfbd37901e222f8e888331622c907dfa686c56389c95966b86b33f0dd0ab4cca46b1f1ed92efd7d5ddee2e2274f485867202c581f68c32bd3278ab1188e978a53ea6851be2c14d87efe9ed78c71df95e1a7f7d6923b6703c00dc56b76fd582f945cd0c1951844ebe478a911fcab4", AllInternalsVisible = true)]
-[assembly: InternalsVisibleTo( "Krypton.Docking, PublicKey=00240000048000009400000006020000002400005253413100040000010001001f208b6887f7b4f8fad6c30b9eca9849f09cbfbd37901e222f8e888331622c907dfa686c56389c95966b86b33f0dd0ab4cca46b1f1ed92efd7d5ddee2e2274f485867202c581f68c32bd3278ab1188e978a53ea6851be2c14d87efe9ed78c71df95e1a7f7d6923b6703c00dc56b76fd582f945cd0c1951844ebe478a911fcab4", AllInternalsVisible = true)]
+[assembly: KryptonThemeProvider(typeof(Krypton.Themes.KryptonExtendedThemeProvider))]

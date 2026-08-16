@@ -29,6 +29,41 @@ internal static class CommonHelperThemeSelectors
     internal static string[] GetThemesArray() => ThemeManager.GetThemesArray();
 
     /// <summary>
+    /// Returns theme names, optionally limited to core palettes.
+    /// </summary>
+    /// <param name="includeExtra">When <see langword="false"/>, extra catalogued palettes are omitted.</param>
+    /// <returns>String array of theme names.</returns>
+    internal static string[] GetThemesArray(bool includeExtra) => ThemeManager.GetThemesArray(includeExtra);
+
+    /// <summary>
+    /// Rebuilds a selector list and restores selection by theme name, then by <paramref name="fallbackMode"/>.
+    /// </summary>
+    /// <param name="items">Selector items collection.</param>
+    /// <param name="includeExtra">Whether extra palettes are listed.</param>
+    /// <param name="previousName">Previously selected display name.</param>
+    /// <param name="fallbackMode">Mode used when the previous name is no longer listed.</param>
+    /// <returns>Index to select, or <c>-1</c>.</returns>
+    internal static int ReloadThemeItems(IList items, bool includeExtra, string? previousName, PaletteMode fallbackMode)
+    {
+        items.Clear();
+        foreach (var name in GetThemesArray(includeExtra))
+        {
+            items.Add(name);
+        }
+
+        if (!string.IsNullOrEmpty(previousName))
+        {
+            int byName = items.IndexOf(previousName);
+            if (byName >= 0)
+            {
+                return byName;
+            }
+        }
+
+        return GetPaletteIndex(items, fallbackMode);
+    }
+
+    /// <summary>
     /// Performs a theme change when the control's SelectedIndex is changed.
     /// </summary>
     /// <param name="isLocalUpdate">Enter: ref this._isLocalUpdate.</param>
@@ -284,6 +319,11 @@ internal interface IKryptonThemeSelectorBase
     /// Gets or sets the default palette mode.
     /// </summary>
     PaletteMode DefaultPalette { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether extra (non-core) catalogued palettes appear in the list.
+    /// </summary>
+    bool ShowExtraThemes { get; set; }
 }
 
 #endregion

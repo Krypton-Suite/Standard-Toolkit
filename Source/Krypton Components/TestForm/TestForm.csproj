@@ -31,6 +31,7 @@
     <ProjectReference Include="..\Krypton.Ribbon\Krypton.Ribbon 2022.csproj" />
     <ProjectReference Include="..\Krypton.Toolkit.JumpList\Krypton.Toolkit.JumpList.csproj" />
     <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+    <ProjectReference Include="..\Krypton.Themes\Krypton.Themes.csproj" />
     <ProjectReference Include="..\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj" />
     <ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
   </ItemGroup>

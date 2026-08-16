@@ -154,9 +154,39 @@ public class ThemeManager
     /// <c>Custom - [name]</c> (issue #1031).
     /// </summary>
     /// <returns>Theme display names.</returns>
-    public static string[] GetThemesArray()
+    public static string[] GetThemesArray() => GetThemesArray(includeExtra: true);
+
+    /// <summary>
+    /// Builds the theme name list for selectors.
+    /// </summary>
+    /// <param name="includeExtra">When <see langword="false"/>, extra (non-core) catalogued palettes are omitted.</param>
+    /// <returns>Theme display names.</returns>
+    public static string[] GetThemesArray(bool includeExtra)
     {
-        var builtins = PaletteModeStrings.SupportedThemesMap.Keys.ToList();
+        var builtins = new List<string>();
+        foreach (var pair in PaletteModeStrings.SupportedThemes.FirstToSecond)
+        {
+            if (pair.Value == PaletteMode.Custom)
+            {
+                if (KryptonThemeAvailability.AllowCustomThemes)
+                {
+                    builtins.Add(pair.Key);
+                }
+
+                continue;
+            }
+
+            if (!includeExtra && !KryptonThemeCatalog.IsCoreMode(pair.Value))
+            {
+                continue;
+            }
+
+            if (KryptonThemeAvailability.IsSelectable(pair.Value))
+            {
+                builtins.Add(pair.Key);
+            }
+        }
+
         int customIndex = builtins.IndexOf(PaletteModeStrings.DEFAULT_PALETTE_CUSTOM);
         if (customIndex < 0)
         {
@@ -164,9 +194,16 @@ public class ThemeManager
         }
 
         string[] registered;
-        lock (_registeredThemesSync)
+        if (!KryptonThemeAvailability.AllowCustomThemes)
         {
-            registered = _registeredCustomThemes.Keys.OrderBy(n => n, StringComparer.OrdinalIgnoreCase).ToArray();
+            registered = Array.Empty<string>();
+        }
+        else
+        {
+            lock (_registeredThemesSync)
+            {
+                registered = _registeredCustomThemes.Keys.OrderBy(n => n, StringComparer.OrdinalIgnoreCase).ToArray();
+            }
         }
 
         for (int i = 0; i < registered.Length; i++)
@@ -228,6 +265,11 @@ public class ThemeManager
     }
 
     private static void OnRegisteredThemesChanged() => RegisteredThemesChanged?.Invoke(null, EventArgs.Empty);
+
+    /// <summary>
+    /// Raises <see cref="RegisteredThemesChanged"/> so selectors rebuild after catalog or availability changes.
+    /// </summary>
+    internal static void NotifyThemeListChanged() => OnRegisteredThemesChanged();
 
     /// <summary>Returns the palette mode from the Krypton Manager instance.</summary>
     /// <param name="manager">The manager instance.</param>

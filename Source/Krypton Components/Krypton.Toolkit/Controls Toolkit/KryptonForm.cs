@@ -3504,10 +3504,15 @@ public class KryptonForm : VisualForm,
 
 	private void ApplyMacWindowEffects(PaletteMacOSBase? macPalette)
 	{
-		macPalette ??= GetResolvedPalette() as PaletteMacOSBase
-					 ?? (KryptonManager.CurrentGlobalPaletteMode == PaletteMode.MacOSDark
-						 ? KryptonManager.PaletteMacOSDark
-						 : KryptonManager.PaletteMacOSLight);
+		macPalette ??= GetResolvedPalette() as PaletteMacOSBase;
+		macPalette ??= (KryptonManager.CurrentGlobalPaletteMode == PaletteMode.MacOSDark
+			? KryptonManager.PaletteMacOSDark
+			: KryptonManager.PaletteMacOSLight) as PaletteMacOSBase;
+
+		if (macPalette is null)
+		{
+			return;
+		}
 
 		if (IsHandleCreated)
 		{

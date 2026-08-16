@@ -1,0 +1,436 @@
+﻿#region BSD License
+/*
+ *
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2026. All rights reserved.
+ *
+ */
+#endregion
+
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Registry of builtin palette implementations (core plus auto-discovered extra assemblies).
+/// </summary>
+public static class KryptonThemeCatalog
+{
+    private const string ThemesAssemblyFileName = @"Krypton.Themes.dll";
+
+    private static readonly object _sync = new object();
+    private static readonly Dictionary<PaletteMode, KryptonThemeDescriptor> _descriptors =
+        new Dictionary<PaletteMode, KryptonThemeDescriptor>();
+    private static readonly Dictionary<Type, PaletteMode> _typeToMode = new Dictionary<Type, PaletteMode>();
+    private static readonly Dictionary<PaletteMode, PaletteBase> _instances = new Dictionary<PaletteMode, PaletteBase>();
+    private static readonly HashSet<string> _loadedAssemblies = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+    private static bool _coreRegistered;
+    private static bool _fileProbeAttempted;
+    private static bool _themesNameLoadAttempted;
+
+    /// <summary>
+    /// Occurs when providers are registered (core or extra). Theme selectors should rebuild.
+    /// </summary>
+    public static event EventHandler? CatalogChanged;
+
+    /// <summary>
+    /// Gets whether an implementation is registered for <paramref name="mode"/>.
+    /// </summary>
+    /// <param name="mode">Palette mode.</param>
+    /// <returns><see langword="true"/> when a factory is available.</returns>
+    public static bool IsImplementationAvailable(PaletteMode mode)
+    {
+        if (mode == PaletteMode.Global || mode == PaletteMode.Custom)
+        {
+            return true;
+        }
+
+        EnsureReady();
+        lock (_sync)
+        {
+            return _descriptors.ContainsKey(mode);
+        }
+    }
+
+    /// <summary>
+    /// Gets whether <paramref name="mode"/> is a core (Toolkit) palette.
+    /// </summary>
+    /// <param name="mode">Palette mode.</param>
+    /// <returns><see langword="true"/> for Professional, Sparkle Blue/Orange/Purple, and Office 2007/2010/Microsoft 365 Blue, Silver, and Black.</returns>
+    public static bool IsCoreMode(PaletteMode mode)
+    {
+        EnsureCoreRegistered();
+        lock (_sync)
+        {
+            return _descriptors.TryGetValue(mode, out var descriptor) && descriptor.IsCore;
+        }
+    }
+
+    /// <summary>
+    /// Tries to resolve the <see cref="PaletteMode"/> for a concrete palette type.
+    /// </summary>
+    /// <param name="paletteType">Palette class type.</param>
+    /// <param name="mode">Resolved mode.</param>
+    /// <returns><see langword="true"/> when the type is catalogued.</returns>
+    public static bool TryGetMode(Type? paletteType, out PaletteMode mode)
+    {
+        mode = PaletteMode.Global;
+        if (paletteType is null)
+        {
+            return false;
+        }
+
+        EnsureReady();
+        lock (_sync)
+        {
+            if (_typeToMode.TryGetValue(paletteType, out mode))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Gets the family key for a mode when it is catalogued.
+    /// </summary>
+    /// <param name="mode">Palette mode.</param>
+    /// <returns>Family name, or <see langword="null"/>.</returns>
+    public static string? GetFamily(PaletteMode mode)
+    {
+        EnsureReady();
+        lock (_sync)
+        {
+            return _descriptors.TryGetValue(mode, out var descriptor) ? descriptor.Family : null;
+        }
+    }
+
+    /// <summary>
+    /// Gets or creates the singleton palette for <paramref name="mode"/>.
+    /// </summary>
+    /// <param name="mode">Requested mode.</param>
+    /// <returns>Palette instance.</returns>
+    /// <exception cref="InvalidOperationException">The mode is an extra theme and <c>Krypton.Themes</c> was not discovered.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">The mode is not a builtin palette.</exception>
+    public static PaletteBase GetPalette(PaletteMode mode)
+    {
+        if (mode == PaletteMode.Global || mode == PaletteMode.Custom)
+        {
+            return KryptonManager.CurrentGlobalPalette;
+        }
+
+        EnsureReady();
+        lock (_sync)
+        {
+            if (_instances.TryGetValue(mode, out var existing))
+            {
+                return existing;
+            }
+
+            if (_descriptors.TryGetValue(mode, out var descriptor))
+            {
+                var created = descriptor.Factory();
+                _instances[mode] = created;
+                return created;
+            }
+        }
+
+        if (IsKnownExtraMode(mode))
+        {
+            if (LicenseManager.UsageMode == LicenseUsageMode.Designtime)
+            {
+                Debug.WriteLine(
+                    @"KryptonThemeCatalog: extra palette '" + mode +
+                    @"' is not available at design time (Krypton.Themes.dll not loaded). Falling back to " +
+                    ToolkitStaticConstants.GLOBAL_DEFAULT_PALETTE_MODE + @".");
+                return GetPalette(ToolkitStaticConstants.GLOBAL_DEFAULT_PALETTE_MODE);
+            }
+
+            throw new InvalidOperationException(
+                @"Palette mode '" + mode +
+                @"' is implemented in Krypton.Themes. Reference the Krypton.Themes package (bundled with Krypton.Standard.Toolkit) so Krypton.Themes.dll is in the application directory.");
+        }
+
+        throw new ArgumentOutOfRangeException(nameof(mode), mode, @"mode must be a PaletteMode value.");
+    }
+
+    /// <summary>
+    /// Registers all themes from <paramref name="provider"/>. Existing modes are not replaced.
+    /// </summary>
+    /// <param name="provider">Theme provider.</param>
+    public static void Register(IKryptonThemeProvider provider)
+    {
+        if (provider is null)
+        {
+            throw new ArgumentNullException(nameof(provider));
+        }
+
+        var themes = provider.GetThemes();
+        if (themes is null)
+        {
+            return;
+        }
+
+        var added = false;
+        lock (_sync)
+        {
+            foreach (var descriptor in themes)
+            {
+                if (descriptor is null)
+                {
+                    continue;
+                }
+
+                if (_descriptors.ContainsKey(descriptor.Mode))
+                {
+                    continue;
+                }
+
+                _descriptors[descriptor.Mode] = descriptor;
+                _typeToMode[descriptor.PaletteType] = descriptor.Mode;
+                added = true;
+            }
+        }
+
+        if (added)
+        {
+            OnCatalogChanged();
+        }
+    }
+
+    /// <summary>
+    /// Loads <c>Krypton.Themes.dll</c> from already-loaded assemblies and the application base directory.
+    /// </summary>
+    public static void DiscoverThemes()
+    {
+        if (!KryptonManager.AutoDiscoverThemes)
+        {
+            EnsureCoreRegistered();
+            return;
+        }
+
+        EnsureCoreRegistered();
+
+        try
+        {
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                TryRegisterFromAssembly(assembly);
+            }
+
+            bool loadByName;
+            lock (_sync)
+            {
+                loadByName = !_themesNameLoadAttempted;
+                _themesNameLoadAttempted = true;
+            }
+
+            if (loadByName)
+            {
+                try
+                {
+                    TryRegisterFromAssembly(Assembly.Load(new AssemblyName(@"Krypton.Themes")));
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(@"KryptonThemeCatalog Assembly.Load(Krypton.Themes): " + ex.Message);
+                }
+            }
+
+            bool probeFile;
+            lock (_sync)
+            {
+                probeFile = !_fileProbeAttempted;
+                _fileProbeAttempted = true;
+            }
+
+            if (probeFile)
+            {
+                var directory = AppContext.BaseDirectory;
+                if (!string.IsNullOrEmpty(directory))
+                {
+                    var path = Path.Combine(directory, ThemesAssemblyFileName);
+                    TryLoadThemesAssembly(path);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(@"KryptonThemeCatalog.DiscoverThemes: " + ex.Message);
+        }
+    }
+
+    internal static void EnsureReady()
+    {
+        EnsureCoreRegistered();
+        if (KryptonManager.AutoDiscoverThemes)
+        {
+            DiscoverThemes();
+        }
+    }
+
+    /// <summary>
+    /// Forwards system preference changes to cached extra palettes.
+    /// </summary>
+    internal static void NotifyUserPreferenceChanged()
+    {
+        lock (_sync)
+        {
+            foreach (var palette in _instances.Values)
+            {
+                palette.UserPreferenceChanged();
+            }
+        }
+    }
+
+    internal static void EnsureCoreRegistered()
+    {
+        lock (_sync)
+        {
+            if (_coreRegistered)
+            {
+                return;
+            }
+
+            _coreRegistered = true;
+        }
+
+        Register(new KryptonCoreThemeProvider());
+    }
+
+    /// <summary>
+    /// Builtin <see cref="PaletteMode"/> values that have no registered implementation after discovery.
+    /// </summary>
+    /// <returns>Empty when core plus discovered extra providers cover the enum (except <see cref="PaletteMode.Global"/> / <see cref="PaletteMode.Custom"/>).</returns>
+    public static PaletteMode[] GetUnimplementedBuiltinModes()
+    {
+        EnsureReady();
+        var missing = new List<PaletteMode>();
+        foreach (PaletteMode mode in Enum.GetValues(typeof(PaletteMode)))
+        {
+            if (mode == PaletteMode.Global || mode == PaletteMode.Custom)
+            {
+                continue;
+            }
+
+            lock (_sync)
+            {
+                if (!_descriptors.ContainsKey(mode))
+                {
+                    missing.Add(mode);
+                }
+            }
+        }
+
+        return missing.ToArray();
+    }
+
+    private static void TryLoadThemesAssembly(string path)
+    {
+        if (string.IsNullOrEmpty(path) || !File.Exists(path))
+        {
+            return;
+        }
+
+        foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+        {
+            if (string.Equals(assembly.GetName().Name, @"Krypton.Themes", StringComparison.OrdinalIgnoreCase))
+            {
+                TryRegisterFromAssembly(assembly);
+                return;
+            }
+        }
+
+        try
+        {
+            var loaded = Assembly.LoadFrom(path);
+            TryRegisterFromAssembly(loaded);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(@"KryptonThemeCatalog could not load " + path + @": " + ex.Message);
+        }
+    }
+
+    private static void TryRegisterFromAssembly(Assembly assembly)
+    {
+        if (assembly is null || assembly.IsDynamic)
+        {
+            return;
+        }
+
+        var name = assembly.FullName ?? assembly.GetName().Name;
+        if (string.IsNullOrEmpty(name))
+        {
+            return;
+        }
+
+        lock (_sync)
+        {
+            if (!_loadedAssemblies.Add(name))
+            {
+                return;
+            }
+        }
+
+        try
+        {
+            var attributes = assembly.GetCustomAttributes(typeof(KryptonThemeProviderAttribute), false);
+            foreach (var raw in attributes)
+            {
+                if (raw is KryptonThemeProviderAttribute attribute)
+                {
+                    TryCreateAndRegister(attribute.ProviderType);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(@"KryptonThemeCatalog.TryRegisterFromAssembly: " + ex.Message);
+        }
+    }
+
+    private static void TryCreateAndRegister(Type? providerType)
+    {
+        if (providerType is null || !typeof(IKryptonThemeProvider).IsAssignableFrom(providerType))
+        {
+            return;
+        }
+
+        try
+        {
+            if (Activator.CreateInstance(providerType) is IKryptonThemeProvider provider)
+            {
+                Register(provider);
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(@"KryptonThemeCatalog.TryCreateAndRegister: " + ex.Message);
+        }
+    }
+
+    private static void OnCatalogChanged()
+    {
+        CatalogChanged?.Invoke(null, EventArgs.Empty);
+        ThemeManager.NotifyThemeListChanged();
+    }
+
+    private static bool IsKnownExtraMode(PaletteMode mode) =>
+        mode != PaletteMode.Global
+        && mode != PaletteMode.Custom
+        && mode != PaletteMode.ProfessionalSystem
+        && mode != PaletteMode.ProfessionalOffice2003
+        && mode != PaletteMode.Office2007Blue
+        && mode != PaletteMode.Office2007Silver
+        && mode != PaletteMode.Office2007Black
+        && mode != PaletteMode.Office2010Blue
+        && mode != PaletteMode.Office2010Silver
+        && mode != PaletteMode.Office2010Black
+        && mode != PaletteMode.Microsoft365Blue
+        && mode != PaletteMode.Microsoft365Silver
+        && mode != PaletteMode.Microsoft365Black
+        && mode != PaletteMode.SparkleBlue
+        && mode != PaletteMode.SparkleOrange
+        && mode != PaletteMode.SparklePurple;
+}
