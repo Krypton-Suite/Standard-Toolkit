@@ -32,6 +32,8 @@ public class KryptonAboutBoxStrings : GlobalId
 
     private const string DEFAULT_BUILD_DATE = @"Build Date";
 
+    private const string DEFAULT_BINARY_BUILD_DATE = @"Binary";
+
     private const string DEFAULT_IMAGE_RUNTIME_VERSION = @"Image Runtime Version";
 
     private const string DEFAULT_LOADED_FROM_GLOBAL_ASSEMBLY_CACHE = @"Loaded from GAC";
@@ -123,6 +125,13 @@ public class KryptonAboutBoxStrings : GlobalId
     [DefaultValue(DEFAULT_BUILD_DATE)]
     public string BuildDate { get; set; }
 
+    /// <summary>Gets or sets the 'binary' build date/time label string.</summary>
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [Description(@"The about box 'Binary' build date and time label string.")]
+    [DefaultValue(DEFAULT_BINARY_BUILD_DATE)]
+    public string BinaryBuildDate { get; set; }
+
     /// <summary>Gets or sets the image runtime version string.</summary>
     /// <value>The image runtime version string.</value>
     [Localizable(true)]
@@ -155,6 +164,7 @@ public class KryptonAboutBoxStrings : GlobalId
                              Trademark.Equals(DEFAULT_TRADE_MARK) &&
                              Version.Equals(DEFAULT_VERSION) &&
                              BuildDate.Equals(DEFAULT_BUILD_DATE) &&
+                             BinaryBuildDate.Equals(DEFAULT_BINARY_BUILD_DATE) &&
                              ImageRuntimeVersion.Equals(DEFAULT_IMAGE_RUNTIME_VERSION) &&
                              LoadedFromGlobalAssemblyCache.Equals(DEFAULT_LOADED_FROM_GLOBAL_ASSEMBLY_CACHE);
 
@@ -178,6 +188,8 @@ public class KryptonAboutBoxStrings : GlobalId
         Version = DEFAULT_VERSION;
 
         BuildDate = DEFAULT_BUILD_DATE;
+
+        BinaryBuildDate = DEFAULT_BINARY_BUILD_DATE;
 
         ImageRuntimeVersion = DEFAULT_IMAGE_RUNTIME_VERSION;
 
