@@ -48,6 +48,10 @@
 * Implemented [#3862](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3862), Enhanced `KryptonContextMenu`
    * Office-style Mini Toolbar with `KryptonContextMenu`, selection fade-in, and in-menu galleries with live preview.
    * Designer- and runtime-configurable: Mini Toolbar items, paired menu items, position, gap, keep-after-command, selection opacity, and per-item visibility.
+* Resolved, `KryptonExceptionDialog` threw `InvalidCastException` when populating the exception tree (`TreeNode` cannot be cast to `KryptonTreeNode`).
+* Implemented [#4180](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4180), A really good Splash Screen Implementation
+   * Non-blocking themed splash screen manager (`KryptonSplashScreenManager`) with fade, live status/progress, logging callbacks, background image, opacity, and startup-step exception handling.
+   * Optional `BorderAnimation` (`None` / `Pulse` / `Sweep`) draws a themed animated edge around the splash.
    * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Implemented [#4225](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4225), **[Breaking Change]** `KryptonRadialMenu` followups
    * `Items` can now be found under `Values.Items` (and `Items` is now `Obsolete`) so the collection can be shared with a `KryptonRadialMenuControl` host.

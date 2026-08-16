@@ -59,7 +59,9 @@ Default output folder: `Bin\Debug\net472`.
 | `UnitTest-NavigatorCaptionTabRemerge.ps1` | Tear-out / remerge (needs `-HostPid`) | `exclude` |
 | `UnitTest-AsyncFormApis.ps1` | #4177 async dialog API gating (absent on net472; present on net9+ via `pwsh`) | `include` |
 | `UnitTest-InteractiveToolTips.ps1` | #4192 hosted-control tooltip / HTML helper / NotifyIcon popup API surface | `include` |
+| `UnitTest-SplashScreenManager.ps1` | #4180 splash manager API: defaults, Show/SetStatus/Close, Run(steps), throwing step | `include` |
 | `Start-AsyncFormsDemoHost.ps1` | Hosts `Feature4177AsyncFormsDemo` | n/a |
+| `Start-SplashScreenManagerHost.ps1` | Hosts `Feature4180SplashScreenManagerDemo` (#4180) | n/a |
 | `Start-NavigatorFormIntegrationHost.ps1` | Hosts `NavigatorFormIntegrationDemo` | n/a |
 | `Invoke-CaptionTabDrag.ps1` | Caption drag + screenshots | n/a |
 | `Get-NavigatorCaptionTabProbe.ps1` | Caption geometry probe | n/a |
