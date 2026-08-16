@@ -15,7 +15,7 @@ namespace Krypton.Toolkit.Utilities;
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(KryptonRadialMenuControl), "ToolboxBitmaps.KryptonRadialMenuControl.bmp")]
 [DefaultEvent(nameof(ItemClick))]
-[DefaultProperty(nameof(Items))]
+[DefaultProperty(nameof(Values))]
 [DesignerCategory(@"code")]
 [Designer(typeof(KryptonRadialMenuControlDesigner))]
 [Description(@"Displays a radial menu as a hosted control on a form or container.")]
@@ -103,7 +103,6 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
         AccessibleName = @"Radial menu";
 
         _paletteMode = PaletteMode.Global;
-        Items = [];
         Values = new KryptonRadialMenuValues(OnNeedPaint);
 
         _paletteRedirect = new PaletteRedirect(ResolvePalette());
@@ -142,14 +141,6 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
     #endregion
 
     #region Public
-
-    /// <summary>
-    /// Gets the collection of radial menu items.
-    /// </summary>
-    [Category(@"Data")]
-    [Description(@"Collection of radial menu items.")]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    public KryptonRadialMenuItemCollection Items { get; }
 
     /// <summary>
     /// Gets access to appearance values (radius, glyph, colours, display style).
@@ -502,7 +493,7 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
 
     KryptonRadialMenuValues IRadialMenuInteractionHost.Values => Values;
 
-    KryptonRadialMenuItemCollection IRadialMenuInteractionHost.RootItems => Items;
+    KryptonRadialMenuItemCollection IRadialMenuInteractionHost.RootItems => Values.Items;
 
     bool IRadialMenuInteractionHost.Enabled => Enabled;
 

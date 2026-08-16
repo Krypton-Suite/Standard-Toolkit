@@ -72,6 +72,8 @@ public class KryptonRadialMenuValues : Storage
         _hitPadding = RadialMenuMetrics.DefaultHitPadding;
         _animationStyle = KryptonRadialMenuAnimationStyle.Sweep;
         _animationDuration = RadialMenuMetrics.DefaultAnimationDurationMs;
+
+        Items = [];
     }
 
     /// <inheritdoc />
@@ -539,6 +541,14 @@ public class KryptonRadialMenuValues : Storage
         get => _animationDuration;
         set => _animationDuration = Math.Max(0, Math.Min(RadialMenuMetrics.MaxAnimationDurationMs, value));
     }
+
+    /// <summary>
+    /// Gets the collection of radial menu items.
+    /// </summary>
+    [Category(@"Data")]
+    [Description(@"Collection of radial menu items.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public KryptonRadialMenuItemCollection Items { get; }
 
     #endregion
 }

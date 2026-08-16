@@ -201,15 +201,15 @@ public partial class RadialMenuDemo : KryptonForm
             }
         };
 
-        _radialMenu.Items.Add(edit);
-        _radialMenu.Items.Add(new KryptonRadialMenuItem(@"Bold", (_, _) => AppendLog(@"Bold"))
+        _radialMenu.Values.Items.Add(edit);
+        _radialMenu.Values.Items.Add(new KryptonRadialMenuItem(@"Bold", (_, _) => AppendLog(@"Bold"))
         {
             Image = CreateSliceIcon(Color.FromArgb(142, 68, 173), @"B"),
             CheckOnClick = true,
             Checked = true,
             ToolTipText = @"Toggle bold formatting"
         });
-        _radialMenu.Items.Add(new KryptonRadialMenuSliderItem
+        _radialMenu.Values.Items.Add(new KryptonRadialMenuSliderItem
         {
             Text = @"Opacity",
             Image = CreateSliceIcon(Color.FromArgb(230, 126, 34), @"◐"),
@@ -218,33 +218,33 @@ public partial class RadialMenuDemo : KryptonForm
             Value = 75,
             ToolTipText = @"Drag the ring to change opacity"
         });
-        _radialMenu.Items.Add(new KryptonRadialMenuColorPaletteItem(ColorScheme.Basic16)
+        _radialMenu.Values.Items.Add(new KryptonRadialMenuColorPaletteItem(ColorScheme.Basic16)
         {
             Text = @"Fill",
             Image = CreateSliceIcon(Color.FromArgb(26, 188, 156), @"■"),
             ToolTipText = @"Open the colour palette ring"
         });
-        _radialMenu.Items.Add(new KryptonRadialMenuFontListItem
+        _radialMenu.Values.Items.Add(new KryptonRadialMenuFontListItem
         {
             Text = @"Font",
             Image = CreateSliceIcon(Color.FromArgb(52, 152, 219), @"A"),
             ToolTipText = @"Open the font list ring"
         });
-        _radialMenu.Items.Add(new KryptonRadialMenuTextItem
+        _radialMenu.Values.Items.Add(new KryptonRadialMenuTextItem
         {
             Label = @"Note",
             Text = @"Hello",
             Image = CreateSliceIcon(Color.FromArgb(155, 89, 182), @"T"),
             ToolTipText = @"Open the text editor ring"
         });
-        _radialMenu.Items.Add(new KryptonRadialMenuCalendarItem
+        _radialMenu.Values.Items.Add(new KryptonRadialMenuCalendarItem
         {
             Text = @"Date",
             SelectedDate = DateTime.Today,
             Image = CreateSliceIcon(Color.FromArgb(22, 160, 133), @"D"),
             ToolTipText = @"Open the calendar editor ring"
         });
-        _radialMenu.Items.Add(new KryptonRadialMenuItem(@"Disabled")
+        _radialMenu.Values.Items.Add(new KryptonRadialMenuItem(@"Disabled")
         {
             Image = CreateSliceIcon(Color.FromArgb(127, 140, 141), @"∅"),
             Enabled = false
@@ -292,27 +292,27 @@ public partial class RadialMenuDemo : KryptonForm
 
         _radialMenu.ItemClick += (_, e) => AppendLog($@"ItemClick: {e.Item}");
         _radialMenu.CenterButtonClick += (_, _) => AppendLog(@"Centre button (close)");
-        if (_radialMenu.Items[2] is KryptonRadialMenuSliderItem slider)
+        if (_radialMenu.Values.Items[2] is KryptonRadialMenuSliderItem slider)
         {
             slider.ValueChanged += (_, _) => AppendLog($@"Slider: {slider.Value}");
         }
 
-        if (_radialMenu.Items[3] is KryptonRadialMenuColorPaletteItem colors)
+        if (_radialMenu.Values.Items[3] is KryptonRadialMenuColorPaletteItem colors)
         {
             colors.SelectedColorChanged += (_, e) => AppendLog($@"Color: {e.Color}");
         }
 
-        if (_radialMenu.Items[4] is KryptonRadialMenuFontListItem fonts)
+        if (_radialMenu.Values.Items[4] is KryptonRadialMenuFontListItem fonts)
         {
             fonts.SelectedFontChanged += (_, _) => AppendLog($@"Font: {fonts.SelectedFont?.Name}");
         }
 
-        if (_radialMenu.Items[5] is KryptonRadialMenuTextItem note)
+        if (_radialMenu.Values.Items[5] is KryptonRadialMenuTextItem note)
         {
             note.TextChanged += (_, _) => AppendLog($@"Text: {note.Text}");
         }
 
-        if (_radialMenu.Items[6] is KryptonRadialMenuCalendarItem date)
+        if (_radialMenu.Values.Items[6] is KryptonRadialMenuCalendarItem date)
         {
             date.SelectedDateChanged += (_, _) => AppendLog($@"Date: {date.SelectedDate:d}");
         }
@@ -323,8 +323,8 @@ public partial class RadialMenuDemo : KryptonForm
 
     private void PopulateHostedControlItems()
     {
-        _hostedControl.Items.Clear();
-        _hostedControl.Items.Add(new KryptonRadialMenuItem(@"Edit")
+        _hostedControl.Values.Items.Clear();
+        _hostedControl.Values.Items.Add(new KryptonRadialMenuItem(@"Edit")
         {
             Image = CreateSliceIcon(Color.FromArgb(52, 73, 94), @"✎"),
             Items =
@@ -333,13 +333,13 @@ public partial class RadialMenuDemo : KryptonForm
                 new KryptonRadialMenuItem(@"Copy", (_, _) => AppendLog(@"Hosted: Copy"))
             }
         });
-        _hostedControl.Items.Add(new KryptonRadialMenuItem(@"Bold", (_, _) => AppendLog(@"Hosted: Bold"))
+        _hostedControl.Values.Items.Add(new KryptonRadialMenuItem(@"Bold", (_, _) => AppendLog(@"Hosted: Bold"))
         {
             Image = CreateSliceIcon(Color.FromArgb(142, 68, 173), @"B"),
             CheckOnClick = true,
             Checked = true
         });
-        _hostedControl.Items.Add(new KryptonRadialMenuSliderItem
+        _hostedControl.Values.Items.Add(new KryptonRadialMenuSliderItem
         {
             Text = @"Opacity",
             Image = CreateSliceIcon(Color.FromArgb(230, 126, 34), @"◐"),
@@ -347,7 +347,7 @@ public partial class RadialMenuDemo : KryptonForm
             Maximum = 100,
             Value = 60
         });
-        _hostedControl.Items.Add(new KryptonRadialMenuColorPaletteItem(ColorScheme.Basic16)
+        _hostedControl.Values.Items.Add(new KryptonRadialMenuColorPaletteItem(ColorScheme.Basic16)
         {
             Text = @"Fill",
             Image = CreateSliceIcon(Color.FromArgb(26, 188, 156), @"■")

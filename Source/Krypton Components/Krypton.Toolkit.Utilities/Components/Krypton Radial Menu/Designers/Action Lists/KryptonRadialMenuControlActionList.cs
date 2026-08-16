@@ -115,14 +115,14 @@ internal class KryptonRadialMenuControlActionList : DesignerActionList
     /// </summary>
     public void EditItems()
     {
-        var editor = TypeDescriptor.GetEditor(_control.Items, typeof(UITypeEditor)) as UITypeEditor;
+        var editor = TypeDescriptor.GetEditor(_control.Values.Items, typeof(UITypeEditor)) as UITypeEditor;
         if (editor == null)
         {
             return;
         }
 
         var context = new RadialMenuControlItemsContext(_control);
-        editor.EditValue(context, context, _control.Items);
+        editor.EditValue(context, context, _control.Values.Items);
     }
 
     #endregion
@@ -132,8 +132,8 @@ internal class KryptonRadialMenuControlActionList : DesignerActionList
     private sealed class RadialMenuControlItemsContext(KryptonRadialMenuControl control) : ITypeDescriptorContext
     {
         public IContainer? Container => control.Container;
-        public object Instance => control.Items;
-        public PropertyDescriptor? PropertyDescriptor => TypeDescriptor.GetProperties(control)[nameof(KryptonRadialMenuControl.Items)];
+        public object Instance => control.Values.Items;
+        public PropertyDescriptor? PropertyDescriptor => TypeDescriptor.GetProperties(control)[nameof(KryptonRadialMenuControl.Values.Items)];
         public object? GetService(Type serviceType) => control.Site?.GetService(serviceType);
         public void OnComponentChanged() { }
         public bool OnComponentChanging() => true;

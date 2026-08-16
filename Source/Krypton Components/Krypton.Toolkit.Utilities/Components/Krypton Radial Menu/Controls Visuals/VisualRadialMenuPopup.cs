@@ -62,7 +62,7 @@ internal class VisualRadialMenuPopup : VisualPopup, IRadialMenuInteractionHost
 
     KryptonRadialMenuValues IRadialMenuInteractionHost.Values => _owner.Values;
 
-    KryptonRadialMenuItemCollection IRadialMenuInteractionHost.RootItems => _owner.Items;
+    KryptonRadialMenuItemCollection IRadialMenuInteractionHost.RootItems => _owner.Values.Items;
 
     bool IRadialMenuInteractionHost.Enabled => _owner.Enabled;
 

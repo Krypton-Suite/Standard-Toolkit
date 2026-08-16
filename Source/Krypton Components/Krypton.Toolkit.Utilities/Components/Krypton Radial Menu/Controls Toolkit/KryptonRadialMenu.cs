@@ -16,7 +16,7 @@ namespace Krypton.Toolkit.Utilities;
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(KryptonRadialMenu), "ToolboxBitmaps.KryptonRadialMenu.bmp")]
 [DefaultEvent(nameof(Opening))]
-[DefaultProperty(nameof(Items))]
+[DefaultProperty(nameof(Values))]
 [DesignerCategory(@"code")]
 [Designer(typeof(KryptonRadialMenuDesigner))]
 [Description(@"Displays a radial shortcut menu in a popup window.")]
@@ -96,7 +96,6 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     public KryptonRadialMenu()
     {
         _paletteMode = PaletteMode.Global;
-        Items = [];
         Values = new KryptonRadialMenuValues(OnNeedPaint);
         Enabled = true;
 
@@ -137,14 +136,6 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     #endregion
 
     #region Public
-
-    /// <summary>
-    /// Gets the collection of radial menu items.
-    /// </summary>
-    [Category(@"Data")]
-    [Description(@"Collection of radial menu items.")]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    public KryptonRadialMenuItemCollection Items { get; }
 
     /// <summary>
     /// Gets access to appearance values (radius, glyph, colours, display style).
@@ -929,10 +920,10 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
             }
 
             DetachPropertySync();
-            Items.Clear();
+            Values.Items.Clear();
             foreach (var item in KryptonRadialMenuContextMenuBridge.ConvertItems(menu.Items))
             {
-                Items.Add(item);
+                Values.Items.Add(item);
             }
 
             if (_boundContextMenu != null)
@@ -998,7 +989,7 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
     private void AttachPropertySync()
     {
         DetachPropertySync();
-        foreach (KryptonRadialMenuItemBase radial in Items)
+        foreach (KryptonRadialMenuItemBase radial in Values.Items)
         {
             AttachPropertySyncRecursive(radial);
         }
