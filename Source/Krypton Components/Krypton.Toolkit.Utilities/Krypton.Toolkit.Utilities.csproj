@@ -131,6 +131,9 @@
 	</Target>
 
 	<ItemGroup>
+	  <Compile Update="Components\Krypton Splash Screen Manager\Controls Visuals\VisualSplashScreenManagerForm.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
 	  <Compile Update="Components\Krypton AboutBox\Controls Visuals\VisualAboutBoxForm.cs">
 	    <SubType>Form</SubType>
 	  </Compile>
