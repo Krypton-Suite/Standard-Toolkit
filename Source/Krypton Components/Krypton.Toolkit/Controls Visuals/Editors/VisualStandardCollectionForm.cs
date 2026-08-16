@@ -262,17 +262,24 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
         {
             ControlBox = false,
             FormBorderStyle = FormBorderStyle.FixedDialog,
+            MaximizeBox = false,
+            MinimizeBox = false,
+            ShowInTaskbar = false,
             StartPosition = FormStartPosition.CenterParent,
             Text = @"Select item type",
-            ClientSize = KryptonDesignerEditorDpi.Scale(this, new Size(320, 280))
+            ClientSize = KryptonDesignerEditorDpi.Scale(this, new Size(520, 340)),
+            MinimumSize = KryptonDesignerEditorDpi.Scale(this, new Size(500, 300))
         };
         form.SetInheritedControlOverride();
         KryptonDesignerEditorTheme.ApplyFromContext(form, Context);
 
-        var listBox = new KryptonListBox { Dock = DockStyle.Fill };
+        var listBox = new KryptonListBox
+        {
+            Dock = DockStyle.Fill
+        };
         foreach (var itemType in itemTypes)
         {
-            listBox.Items.Add(itemType);
+            listBox.Items.Add(new ItemTypeChoice(itemType));
         }
 
         if (listBox.Items.Count > 0)
@@ -285,12 +292,31 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
             DialogResult = DialogResult.OK,
             Values = { Text = KryptonManager.Strings.GeneralStrings.OK }
         };
-        form.Controls.Add(listBox);
-        form.Controls.Add(KryptonDesignerEditorButtonBar.Create(form, okButton));
-        form.AcceptButton = okButton;
+        var cancelButton = new KryptonButton
+        {
+            DialogResult = DialogResult.Cancel,
+            Values = { Text = KryptonManager.Strings.GeneralStrings.Cancel }
+        };
+        var buttonBar = KryptonDesignerEditorButtonBar.Create(form, okButton, cancelButton);
+        var contentHost = InternalDesignerEditorFormChrome.CreateContentHost(listBox);
 
-        return form.ShowDialog(this) == DialogResult.OK && listBox.SelectedItem is Type selected
-            ? selected
+        // Bottom bar first, then fill content, so docking leaves room for the theme + buttons.
+        form.Controls.Add(contentHost);
+        form.Controls.Add(buttonBar);
+        form.AcceptButton = buttonBar.OkButton;
+        form.CancelButton = buttonBar.CancelButton;
+
+        listBox.DoubleClick += (_, _) =>
+        {
+            if (listBox.SelectedItem is ItemTypeChoice)
+            {
+                form.DialogResult = DialogResult.OK;
+                form.Close();
+            }
+        };
+
+        return form.ShowDialog(this) == DialogResult.OK && listBox.SelectedItem is ItemTypeChoice choice
+            ? choice.Type
             : null;
     }
 
@@ -327,6 +353,15 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
         }
 
         return result;
+    }
+
+    private sealed class ItemTypeChoice
+    {
+        public ItemTypeChoice(Type type) => Type = type;
+
+        public Type Type { get; }
+
+        public override string ToString() => Type.Name;
     }
 
     private sealed class CollectionListItem

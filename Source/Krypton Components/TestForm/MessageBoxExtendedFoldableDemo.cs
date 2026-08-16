@@ -86,8 +86,8 @@ public partial class MessageBoxExtendedFoldableDemo : KryptonForm
 
     private void kbtnJitPreset_Click(object sender, EventArgs e)
     {
-        // Exercises the data-driven path: the "more details" footer is configured from
-        // KryptonMessageBoxExtendedData, with a custom MoreDetailsButtonText toggle caption.
+        // FoldableDialog-style data path: DetailsText shows the expander; Expand/Collapse captions
+        // match KryptonFoldableDialog (Hide/Show Details). Expanded is the initial fold state.
         var data = new KryptonMessageBoxExtendedData
         {
             Owner = this,
@@ -95,10 +95,10 @@ public partial class MessageBoxExtendedFoldableDemo : KryptonForm
             MessageText = @"An exception 'System.InvalidOperationException' has occurred in MyApp.exe. Expand the details below to inspect the full stack trace.",
             Buttons = ExtendedMessageBoxButtons.YesNo,
             Icon = ExtendedKryptonMessageBoxIcon.Error,
-            ShowMoreDetailsOption = true,
-            MoreDetailsExpanded = kchkExpanded.Checked,
-            MoreDetailsButtonText = @"Stack trace",
-            MoreDetailsMessageText = SampleDetails()
+            DetailsText = SampleDetails(),
+            Expanded = kchkExpanded.Checked,
+            ExpandButtonText = KryptonManager.Strings.FoldableDialogStrings.ExpandText,
+            CollapseButtonText = KryptonManager.Strings.FoldableDialogStrings.CollapseText
         };
 
         DialogResult result = KryptonMessageBoxExtended.Show(data);
