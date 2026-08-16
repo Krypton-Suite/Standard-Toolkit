@@ -25,6 +25,7 @@ public class ToolTipValues : HeaderValues
     private int _showIntervalDelay = 500;
     private int _closeIntervalDelay = 5000;
     private LabelStyle _toolTipStyle = LabelStyle.SuperTip;
+    private Control? _hostedContent;
 
     #endregion
 
@@ -189,6 +190,75 @@ public class ToolTipValues : HeaderValues
 
     #endregion
 
+    #region HostedContent
+    /// <summary>
+    /// Optional control shown inside the tooltip chrome (interactive). Not designer-serialized.
+    /// Cannot be a <see cref="Form"/>. The tooltip unparents the control while shown and does not dispose it.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [DefaultValue(null)]
+    public Control? HostedContent
+    {
+        get => _hostedContent;
+        set
+        {
+            if (value is Form)
+            {
+                ThrowHelper.ThrowArgumentException(@"A Form cannot be hosted inside a tooltip.", nameof(value));
+            }
+
+            _hostedContent = value;
+        }
+    }
+
+    private bool ShouldSerializeHostedContent() => HostedContent != null;
+
+    private void ResetHostedContent() => HostedContent = null;
+    #endregion
+
+    #region EnableInteractiveKeyboard
+    /// <summary>
+    /// When true, an interactive hosted tooltip receives keyboard input (Escape dismisses). Default is false so hover does not steal typing.
+    /// </summary>
+    [Category(@"ToolTip")]
+    [Description(@"When true, hosted-control tooltips receive keyboard input (Escape dismisses).")]
+    [DefaultValue(false)]
+    public bool EnableInteractiveKeyboard { get; set; }
+
+    private bool ShouldSerializeEnableInteractiveKeyboard() => EnableInteractiveKeyboard;
+
+    private void ResetEnableInteractiveKeyboard() => EnableInteractiveKeyboard = false;
+    #endregion
+
+    #region UseCloseTimerForInteractive
+    /// <summary>
+    /// When true, <see cref="CloseIntervalDelay"/> also applies to hosted-control tooltips. Default is false (stay until leave or click-away).
+    /// </summary>
+    [Category(@"ToolTip")]
+    [Description(@"When true, CloseIntervalDelay applies to interactive hosted-control tooltips.")]
+    [DefaultValue(false)]
+    public bool UseCloseTimerForInteractive { get; set; }
+
+    private bool ShouldSerializeUseCloseTimerForInteractive() => UseCloseTimerForInteractive;
+
+    private void ResetUseCloseTimerForInteractive() => UseCloseTimerForInteractive = false;
+    #endregion
+
+    #region DismissInteractiveOnTargetMouseDown
+    /// <summary>
+    /// When true, mouse-down on the hover target dismisses an interactive tooltip. Default is false.
+    /// </summary>
+    [Category(@"ToolTip")]
+    [Description(@"When true, clicking the hover target dismisses an interactive tooltip.")]
+    [DefaultValue(false)]
+    public bool DismissInteractiveOnTargetMouseDown { get; set; }
+
+    private bool ShouldSerializeDismissInteractiveOnTargetMouseDown() => DismissInteractiveOnTargetMouseDown;
+
+    private void ResetDismissInteractiveOnTargetMouseDown() => DismissInteractiveOnTargetMouseDown = false;
+    #endregion
+
     #endregion
 
     #region IsDefault
@@ -206,6 +276,10 @@ public class ToolTipValues : HeaderValues
         ResetDescription();
         ResetShowIntervalDelay();
         ResetCloseIntervalDelay();
+        ResetHostedContent();
+        ResetEnableInteractiveKeyboard();
+        ResetUseCloseTimerForInteractive();
+        ResetDismissInteractiveOnTargetMouseDown();
     }
 
     /// <summary>
@@ -218,6 +292,10 @@ public class ToolTipValues : HeaderValues
                                       && !ShouldSerializeToolTipPosition()
                                       && !ShouldSerializeShowIntervalDelay()
                                       && !ShouldSerializeCloseIntervalDelay()
+                                      && !ShouldSerializeHostedContent()
+                                      && !ShouldSerializeEnableInteractiveKeyboard()
+                                      && !ShouldSerializeUseCloseTimerForInteractive()
+                                      && !ShouldSerializeDismissInteractiveOnTargetMouseDown()
                                       && base.IsDefault
     ;
     #endregion

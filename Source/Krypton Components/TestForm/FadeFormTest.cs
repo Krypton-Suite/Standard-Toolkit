@@ -7,8 +7,6 @@
  */
 #endregion
 
-using System.Threading;
-
 namespace TestForm;
 
 public partial class FadeFormTest : KryptonForm
@@ -17,60 +15,45 @@ public partial class FadeFormTest : KryptonForm
     {
         InitializeComponent();
         cbtnShowImage.Checked = true;
+
+        FadeValues.FadingEnabled = true;
+        FadeValues.FadeIn = true;
+        FadeValues.FadeOut = true;
+        FadeValues.FadeSpeed = FadeSpeedChoice.Normal;
+
+        FadeInCompleted += (_, _) => lblOpacity.Text = $"Fade in complete ({Opacity:0.00})";
+        FadeOutCompleted += (_, _) => lblOpacity.Text = $"Fade out complete ({Opacity:0.00})";
     }
 
-    private void FadeFormTest_FormClosing(object sender, FormClosingEventArgs e)
+    private void btnFadeOut_Click(object sender, EventArgs e) => FadeOut();
+
+    private void btnFadeIn_Click(object sender, EventArgs e) => FadeIn();
+
+    private void btnFadeOutAndClose_Click(object sender, EventArgs e) => FadeOutAndClose();
+
+    private void btnOpenChild_Click(object sender, EventArgs e)
     {
-        e.Cancel = false;
-    }
-
-    private void btnFadeOut_Click(object sender, EventArgs e)
-    {
-
-        KryptonForm owner = this;
-        double fraction = (double)nudOpacityFraction.Value / 100;
-        int delay = (int)nudSleepDelay.Value;
-
-        while (owner.Opacity > 0.0)
+        KryptonForm child = new KryptonForm
         {
-            Thread.Sleep(delay);
+            Text = @"Faded child form",
+            Size = new Size(420, 240),
+            StartPosition = FormStartPosition.CenterParent
+        };
+        child.FadeValues.FadingEnabled = true;
+        child.FadeValues.FadeSpeed = FadeValues.FadeSpeed;
+        child.FadeValues.CustomFadeSpeed = FadeValues.CustomFadeSpeed;
 
-            owner.Opacity -= fraction;
-            lblOpacity.Text = owner.Opacity.ToString();
-            owner.Refresh();
-        }
-
-        MessageBox.Show("Done");
-
-        owner.Opacity = 1;
-
-    }
-
-    private void btnFadeIn_Click(object sender, EventArgs e)
-    {
-
-        KryptonForm owner = this;
-        owner.Opacity = 0;
-
-        double fraction = (double)nudOpacityFraction.Value / 100;
-        int delay = (int)nudSleepDelay.Value;
-
-        while (owner.Opacity < 1)
+        KryptonLabel label = new KryptonLabel
         {
-            Thread.Sleep(delay);
-
-            owner.Opacity += fraction;
-            lblOpacity.Text = owner.Opacity.ToString();
-            owner.Refresh();
-
-        }
-        MessageBox.Show("Done1");
-
-        owner.Opacity = 1;
+            Dock = DockStyle.Fill,
+            Values =
+            {
+                Text = @"This KryptonForm uses FadeValues.FadingEnabled. Close it to fade out."
+            }
+        };
+        child.Controls.Add(label);
+        child.Show(this);
     }
 
-    private void cbtnShowImage_Click(object sender, EventArgs e)
-    {
-        kryptonPictureBox1.Visible = cbtnShowImage.Checked;
-    }
+    private void cbtnShowImage_Click(object sender, EventArgs e) => kryptonPictureBox1.Visible = cbtnShowImage.Checked;
 }

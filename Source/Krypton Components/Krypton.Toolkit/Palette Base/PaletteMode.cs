@@ -609,6 +609,57 @@ public enum PaletteMode
     Microsoft365LimeGreenDark,
 
     /// <summary>
+    /// Office 2007 renderer with Office 2013 Dark Grey chrome colours.
+    /// Appended before <see cref="Custom"/> so existing <see cref="PaletteMode"/> integer values stay stable.
+    /// </summary>
+    Office2007DarkGray,
+
+    /// <summary>
+    /// Office 2007 renderer with Office 2013 Light Grey chrome colours.
+    /// </summary>
+    Office2007LightGray,
+
+    /// <summary>
+    /// Office 2010 renderer with Office 2013 Dark Grey chrome colours.
+    /// </summary>
+    Office2010DarkGray,
+
+    /// <summary>
+    /// Office 2010 renderer with Office 2013 Light Grey chrome colours.
+    /// </summary>
+    Office2010LightGray,
+
+    /// <summary>
+    /// Microsoft 365 renderer with Office 2013 Dark Grey chrome colours.
+    /// </summary>
+    Microsoft365DarkGray,
+
+    /// <summary>
+    /// Microsoft 365 renderer with Office 2013 Light Grey chrome colours.
+    /// </summary>
+    Microsoft365LightGray,
+
+    /// <summary>
+    /// Material renderer with Office 2013 Dark Grey chrome colours.
+    /// </summary>
+    MaterialDarkGray,
+
+    /// <summary>
+    /// Material renderer with Office 2013 Light Grey chrome colours.
+    /// </summary>
+    MaterialLightGray,
+
+    /// <summary>
+    /// Material Dark Grey chrome with Ripple effect.
+    /// </summary>
+    MaterialDarkGrayRipple,
+
+    /// <summary>
+    /// Material Light Grey chrome with Ripple effect.
+    /// </summary>
+    MaterialLightGrayRipple,
+
+    /// <summary>
     /// Specifies a custom palette be used.
     /// </summary>
     Custom

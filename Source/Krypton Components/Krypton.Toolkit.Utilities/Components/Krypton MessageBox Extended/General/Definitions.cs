@@ -242,12 +242,28 @@ public enum ExtendedMessageBoxDialogResult : int
 
 #region Enum ExtendedMessageBoxTimeoutAction
 
+/// <summary>
+/// Specifies the action taken when a <see cref="KryptonMessageBoxExtended"/> timeout reaches zero
+/// and auto-close is enabled.
+/// </summary>
 public enum ExtendedMessageBoxTimeoutAction
 {
+    /// <summary>
+    /// Close the message box and return <see cref="KryptonMessageBoxExtendedData.TimeOutResult"/>.
+    /// When that result is <see cref="DialogResult.None"/>, the default button result is used instead.
+    /// </summary>
     Close = 0,
+
+    /// <summary>Click the first action button (uses that button's <see cref="DialogResult"/>).</summary>
     ButtonOne = 1,
+
+    /// <summary>Click the second action button (uses that button's <see cref="DialogResult"/>).</summary>
     ButtonTwo = 2,
+
+    /// <summary>Click the third action button (uses that button's <see cref="DialogResult"/>).</summary>
     ButtonThree = 3,
+
+    /// <summary>Click the fourth action button (uses that button's <see cref="DialogResult"/>).</summary>
     ButtonFour = 4
 }
 
