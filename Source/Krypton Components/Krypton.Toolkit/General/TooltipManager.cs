@@ -10,6 +10,8 @@
  */
 #endregion
 
+using Timer = System.Windows.Forms.Timer;
+
 namespace Krypton.Toolkit;
 
 /// <summary>
@@ -18,9 +20,10 @@ namespace Krypton.Toolkit;
 public class ToolTipManager
 {
     #region Instance Fields
-    private readonly System.Windows.Forms.Timer _startTimer;
-    private readonly System.Windows.Forms.Timer _detectMoveTimer;
-    private readonly System.Windows.Forms.Timer _closeTimer;
+    private readonly Timer _startTimer;
+    private readonly Timer _detectMoveTimer;
+    private readonly Timer _closeTimer;
+    private readonly ToolTipValues _toolTipValues;
     private int _closeInterval;
     private ViewBase? _startTarget;
     private ViewBase? _currentTarget;
@@ -45,7 +48,8 @@ public class ToolTipManager
     /// </summary>
     public ToolTipManager(ToolTipValues toolTipValues)
     {
-        _startTimer = new System.Windows.Forms.Timer
+        _toolTipValues = toolTipValues;
+        _startTimer = new Timer
         {
             Interval = toolTipValues.ShowIntervalDelay
         };
@@ -54,14 +58,14 @@ public class ToolTipManager
         // 0 = infinite display, but cannot have an interval less than 0
         _closeInterval = toolTipValues.CloseIntervalDelay < 0 ? 0 : toolTipValues.CloseIntervalDelay;
 
-        _closeTimer = new System.Windows.Forms.Timer
+        _closeTimer = new Timer
         {
             // 0 = infinite display, but cannot have an interval less than 0
             Interval = _closeInterval > 0 ? _closeInterval : 1
         };
         _closeTimer.Tick += OnCloseTimerTick;
 
-        _detectMoveTimer = new System.Windows.Forms.Timer
+        _detectMoveTimer = new Timer
         {
             Interval = 100 // ReShowDelay
         };
@@ -186,17 +190,22 @@ public class ToolTipManager
         Point pt,
         MouseButtons button)
     {
-        // Stop any timers
+        // Stop hover-delay / linger timers. Keep the showing target when an interactive host stays up.
         _startTimer.Stop();
         _detectMoveTimer.Stop();
-        _closeTimer.Stop();
 
-        // Remove tracking of any elements
-        _currentTarget = null;
-        _startTarget = null;
+        bool keepInteractive = _showingToolTips
+                               && _toolTipValues.HostedContent is not null
+                               && !_toolTipValues.DismissInteractiveOnTargetMouseDown;
 
-        // Pressing the mouse down kills any toolkit
-        if (_showingToolTips)
+        if (!keepInteractive)
+        {
+            _closeTimer.Stop();
+            _currentTarget = null;
+            _startTarget = null;
+        }
+
+        if (_showingToolTips && !keepInteractive)
         {
             _showingToolTips = false;
             OnCancelToolTip();
@@ -225,20 +234,46 @@ public class ToolTipManager
     /// <param name="next">Reference to view that is next to have the mouse.</param>
     public void MouseLeave(ViewBase? targetElement, Control c, ViewBase? next)
     {
-        // No longer have a current target
-        _currentTarget = null;
+        // `next` is the view that will receive the mouse (sibling), or null when leaving the control.
+        _currentTarget = next;
 
-        // If currently showing a tooltip for the current target
+        if (_toolTipValues.HostedContent is not null && _showingToolTips)
+        {
+            return;
+        }
+
         if (_showingToolTips)
         {
+            if (next != null && next == _startTarget)
+            {
+                return;
+            }
+
             try
             {
-                // Restart the stop timer
+                // Brief linger so a move onto a sibling view can reshow without the hover delay.
                 _detectMoveTimer.Stop();
                 _detectMoveTimer.Start();
                 _closeTimer.Stop();
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
+
+            return;
+        }
+
+        if (next == null)
+        {
+            _startTimer.Stop();
+            _startTarget = null;
+        }
+        else if (next != _startTarget)
+        {
+            _startTimer.Stop();
+            _startTarget = next;
+            _startTimer.Start();
         }
     }
 
@@ -273,21 +308,15 @@ public class ToolTipManager
         _startTimer.Stop();
 
         // Is the target the same as when the timer was kicked off?
-        if (_currentTarget == _startTarget)
+        if (_currentTarget != null && _currentTarget == _startTarget)
         {
             // Enter showing tooltips mode
             _showingToolTips = true;
 
             // Raise event requesting the tooltip be shown
-            OnShowToolTip(new ToolTipEventArgs(_startTarget!, Control.MousePosition));
+            OnShowToolTip(new ToolTipEventArgs(_startTarget, Control.MousePosition));
 
-            // Only start close timer when interval > 0 (0 = infinite display)
-            if (_closeInterval > 0)
-            {
-                _closeTimer.Interval = _closeInterval;
-
-                _closeTimer.Start();
-            }
+            RestartCloseTimerIfNeeded();
         }
         else
         {
@@ -298,42 +327,53 @@ public class ToolTipManager
 
     private void OnStopDetectMoveTimerTick(object? sender, EventArgs e)
     {
-        // One tick timer, so always stop
         _detectMoveTimer.Stop();
 
-        // Is the target is not the same as the currently showing tooltip
-        if ((_currentTarget != _startTarget)
-            || (_startTarget == null)   // SKC: Default tooltip not using a viewbase ??
-           )
+        if (!_showingToolTips)
         {
-            // Leave tooltips mode
+            return;
+        }
+
+        // Still over the view that owns the open tooltip.
+        if (_currentTarget != null && _currentTarget == _startTarget)
+        {
+            RestartCloseTimerIfNeeded();
+            return;
+        }
+
+        _showingToolTips = false;
+        _closeTimer.Stop();
+        OnCancelToolTip();
+
+        if (_currentTarget != null)
+        {
+            // Moved onto another view during the linger: show immediately (no hover delay).
+            _startTarget = _currentTarget;
+            _showingToolTips = true;
+            OnShowToolTip(new ToolTipEventArgs(_startTarget, Control.MousePosition));
+            RestartCloseTimerIfNeeded();
+        }
+        else
+        {
             _startTarget = null;
-            _showingToolTips = false;
+        }
+    }
 
-            // Raises event indicating the tooltip should be removed
-            _closeTimer.Stop();
-            OnCancelToolTip();
-
-            // If we are over a new target then show straight away
-            // SKC: No Idea how this was supposed to work because the mouse leave will have set this to null !
-            if (_currentTarget != null)
-            {
-                // Enter showing tooltips mode
-                _showingToolTips = true;
-
-                // Target is the current element
-                _startTarget = _currentTarget;
-
-                // Raise event requesting the tooltip be shown
-                OnShowToolTip(new ToolTipEventArgs(_startTarget, Control.MousePosition));
-            }
+    private void RestartCloseTimerIfNeeded()
+    {
+        bool interactive = _toolTipValues.HostedContent is not null;
+        if (_closeInterval > 0 && (!interactive || _toolTipValues.UseCloseTimerForInteractive))
+        {
+            _closeTimer.Interval = _closeInterval;
+            _closeTimer.Start();
         }
     }
 
     private void OnCloseTimerTick(object? sender, EventArgs e)
     {
-        // Raises event indicating the tooltip should be removed
         _closeTimer.Stop();
+        _showingToolTips = false;
+        _startTarget = null;
         OnCancelToolTip();
     }
 

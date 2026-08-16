@@ -6,6 +6,9 @@
 # KILL-SWITCH: Set repository variable SOURCE_ENCODING_CHECK_DISABLED=true to skip.
 # On pull requests, only changed files under Source/, Documents/, .github/, and Scripts/ are scanned.
 # workflow_dispatch with scan_all=true scans the full tree in those roots.
+#
+# Changed paths are written to $RUNNER_TEMP/changed_files.txt (never via env/step-output blobs)
+# so large PRs do not hit Linux MAX_ARG_STRLEN / "Argument list too long".
 
 name: Source encoding check
 

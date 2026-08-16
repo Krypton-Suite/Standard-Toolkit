@@ -54,16 +54,20 @@ Default output folder: `Bin\Debug\net472`.
 | `UnitTest-UnitTestInfrastructure.ps1` | Shared helpers + CI marker discovery smoke assert | `include` |
 | `UnitTest-ButtonSpaceKey.ps1` | #4147 Space activates focused `KryptonButton` when `ActiveView` is null (no hover) | `include` |
 | `UnitTest-DockingDragTargetHeuristics.ps1` | #3858 Escape cancel + solid first-match priority + docking `FindTarget` removal | `include` |
+| `UnitTest-RadialMenu.ps1` | #4172 radial menu API: defaults, Text/Calendar items, bridge, property sync, PreferRadial, show/close | `include` |
 | `UnitTest-NavigatorTaskbarTabGroups.ps1` | #4129 TabGroup taskbar composites + float taskbar opt-in (needs feature binaries) | `exclude` |
 | `UnitTest-NavigatorCaptionTabRemerge.ps1` | Tear-out / remerge (needs `-HostPid`) | `exclude` |
 | `UnitTest-AsyncFormApis.ps1` | #4177 async dialog API gating (absent on net472; present on net9+ via `pwsh`) | `include` |
 | `UnitTest-SystemInformationApi.ps1` | #3176 `KryptonSystemInformation` type/API smoke (no UI) | `include` |
 | `UnitTest-SystemInformationUi.ps1` | #3176 host the viewer and wait for System Summary rows (WMI) | `exclude` |
+| `UnitTest-InteractiveToolTips.ps1` | #4192 hosted-control tooltip / HTML helper / NotifyIcon popup API surface | `include` |
 | `Start-AsyncFormsDemoHost.ps1` | Hosts `Feature4177AsyncFormsDemo` | n/a |
 | `Start-NavigatorFormIntegrationHost.ps1` | Hosts `NavigatorFormIntegrationDemo` | n/a |
 | `Invoke-CaptionTabDrag.ps1` | Caption drag + screenshots | n/a |
 | `Get-NavigatorCaptionTabProbe.ps1` | Caption geometry probe | n/a |
 | `Get-NavigatorTabGroupColourShot.ps1` | Tab-group colour screenshot | n/a |
+| `Start-RadialMenuDemoHost.ps1` | Hosts `RadialMenuDemo` (#4172) | n/a |
+| `Invoke-RadialMenuScreenshot.ps1` | Opens radial menu and writes `Documents/PR/4172-radial-menu-native.png` | `exclude` |
 
 ## Run all CI assert tests (on demand)
 
