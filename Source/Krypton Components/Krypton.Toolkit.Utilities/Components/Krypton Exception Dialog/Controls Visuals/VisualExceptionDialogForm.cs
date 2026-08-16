@@ -31,8 +31,6 @@ internal partial class VisualExceptionDialogForm : KryptonForm
 
     private readonly string? _gitHubConfigFilePath;
 
-    private readonly List<KryptonTreeNode> _originalNodes = new List<KryptonTreeNode>();
-
     #endregion
 
     #region Identity
@@ -112,11 +110,6 @@ internal partial class VisualExceptionDialogForm : KryptonForm
         if (_exception is not null)
         {
             isbSearchArea.Populate(_exception);
-
-            foreach (KryptonTreeNode node in isbSearchArea.Tree.Nodes)
-            {
-                _originalNodes.Add((KryptonTreeNode)node.Clone());
-            }
         }
 
         if (GeneralToolkitUtilities.GetCurrentScreenSize() == new Point(1080, 720))

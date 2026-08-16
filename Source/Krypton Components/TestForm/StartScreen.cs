@@ -153,7 +153,8 @@ public partial class StartScreen : KryptonForm
         CreateButton<Bug4046DataGridViewScrollbarDemo>("Bug 4046 KryptonDataGridView Scrollbar", "Issue #4046: default KryptonDataGridView must not show a non-functional themed overlay scrollbar; rounded grids with overflow should show working themed scrollbars.");
         CreateButton<RibbonNavigatorWorkspaceTest>("Ribbon / Navigator / Workspace", string.Empty);
         CreateButton<RTLControlsTest>("RTL Compliance Tests", "Test the Krypton.Toolkit controls for compliance.");
-        CreateButton<SplashScreenExample>("Splash Screen", string.Empty);
+        CreateButton<Feature4180SplashScreenManagerDemo>("Feature 4180 Splash Screen Manager", "Issue #4180: non-blocking themed splash in Krypton.Toolkit.Utilities — fade, live status/progress, logging, exceptions, background image, opacity. The splash keeps painting while this form is blocked. Distinct from the modal Toolkit Splash Screen demo.");
+        CreateButton<SplashScreenExample>("Splash Screen (Toolkit modal)", "Existing Krypton.Toolkit KryptonSplashScreen: modal ShowDialog splash with optional timeout progress, close/minimize, logo, and version/copyright.");
         CreateButton<TaskbarOverlayIconTest>("Taskbar Overlay Icon Test", "Comprehensive demonstration of taskbar overlay icons on KryptonForm with configurable icons, descriptions, and interactive examples.");
         CreateButton<TaskbarThumbnailButtonsDemo>("Taskbar Thumbnail Buttons", "Demo of taskbar thumbnail toolbar buttons (Play, Pause, Next, Stop) in the taskbar preview. Hover the taskbar button to see them.");
         CreateButton<TaskbarProgressBarDemo>("Taskbar Progress Bar Demo", "Comprehensive demo of KryptonProgressBar taskbar synchronisation (Issue #2890). Covers enable/disable toggle, simulated download, manual slider, all ProgressBarStyles, all KryptonTaskbarProgressState overrides (Normal/Error/Paused/Indeterminate/NoProgress), and Min/Max range.");
