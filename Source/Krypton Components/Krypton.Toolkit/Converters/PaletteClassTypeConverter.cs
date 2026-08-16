@@ -135,7 +135,7 @@ internal class PaletteClassTypeConverter : EnumConverter
             {PaletteMode.MaterialMaterializeLightBlueRipple, typeof(PaletteMaterialMaterializeLightBlueRipple)},
             {PaletteMode.MaterialMaterializeLightBlueDarkRipple, typeof(PaletteMaterialMaterializeLightBlueDarkRipple)},
             {PaletteMode.MaterialSilverDarkModeAlternate, typeof(PaletteMaterialSilverDarkModeAlternate)},
-            {PaletteMode.MaterialSilverDarkModeAlternateRipple, typeof(PaletteMaterialSilverDarkModeAlternateRipple)}
+            {PaletteMode.MaterialSilverDarkModeAlternateRipple, typeof(PaletteMaterialSilverDarkModeAlternateRipple)},
             {PaletteMode.Office2007DarkGray, typeof(PaletteOffice2007DarkGray)},
             {PaletteMode.Office2007LightGray, typeof(PaletteOffice2007LightGray)},
             {PaletteMode.Office2010DarkGray, typeof(PaletteOffice2010DarkGray)},
