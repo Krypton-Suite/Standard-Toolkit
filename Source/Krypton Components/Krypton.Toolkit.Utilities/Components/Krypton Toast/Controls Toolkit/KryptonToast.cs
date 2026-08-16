@@ -91,14 +91,14 @@ public static class KryptonToast
         KryptonToastController.ShowToastWithProgressBar(data);
     /// <summary>Shows the user-input notification asynchronously.</summary>
     /// <param name="data">The data.</param>
-    /// <returns>The typed user response boxed as <see cref="object"/>.</returns>
-    public static Task<object> ShowNotificationAsync(KryptonUserInputToastData data) =>
+    /// <returns>The typed user response boxed as <see cref="object"/>, or <see langword="null"/>.</returns>
+    public static Task<object?> ShowNotificationAsync(KryptonUserInputToastData data) =>
         KryptonToastController.ShowToastAsync(data);
 
     /// <summary>Shows the user-input notification with progress bar asynchronously.</summary>
     /// <param name="data">The data.</param>
-    /// <returns>The typed user response boxed as <see cref="object"/>.</returns>
-    public static Task<object> ShowNotificationWithProgressBarAsync(KryptonUserInputToastData data) =>
+    /// <returns>The typed user response boxed as <see cref="object"/>, or <see langword="null"/>.</returns>
+    public static Task<object?> ShowNotificationWithProgressBarAsync(KryptonUserInputToastData data) =>
         KryptonToastController.ShowToastWithProgressBarAsync(data);
     #endregion
 
