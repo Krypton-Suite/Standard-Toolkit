@@ -14,6 +14,8 @@
 // ReSharper disable IdentifierTypo
 // ReSharper disable InconsistentNaming
 
+using Timer = System.Windows.Forms.Timer;
+
 namespace Krypton.Toolkit;
 
 /// <summary>
@@ -61,6 +63,15 @@ public abstract class VisualForm : Form,
 	private bool _taskbarButtonCreated;
 
 	private readonly PaletteSpecificValues _paletteValues;
+
+	private Timer? _fadeTimer;
+	private bool _fadeIncreasing;
+	private bool _closeAfterFadeOut;
+	private bool _fadeOutComplete;
+	private bool _isFading;
+	private bool _fadeInPrepared;
+	private double _fadeTargetOpacity = 1.0;
+	private float _fadeSpeedUnits;
 
 	#endregion
 
@@ -121,6 +132,9 @@ public abstract class VisualForm : Form,
 	/// </summary>
 	protected VisualForm()
 	{
+		// FadeValues can be read from SetVisibleCore during InitializeComponent.
+		FadeValues = new FadeValues();
+
 		InitializeComponent();
 
 		// Automatically redraw whenever the size of the window changes
@@ -193,6 +207,8 @@ public abstract class VisualForm : Form,
 			// Unhook from global static events
 			KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
 			SystemEvents.UserPreferenceChanged -= OnUserPreferenceChanged;
+
+			StopFadeTimer();
 		}
 
 		base.Dispose(disposing);
@@ -379,18 +395,58 @@ public abstract class VisualForm : Form,
 
 	private bool ShouldSerializePaletteMode() => PaletteMode != PaletteMode.Global;
 
-	/* FadeValues disabled and moved to extended until proven stable. Further development in V100
-	/// <summary>Gets access to the fade values.</summary>
+	/// <summary>
+	/// Gets access to the form fade in/out settings.
+	/// </summary>
+	/// <remarks>
+	/// Fading is opt-in. Leave <see cref="FadeValues.FadingEnabled"/> <c>false</c> (the default)
+	/// unless the form should animate opacity on show and close. Manual
+	/// <see cref="FadeIn()"/> / <see cref="FadeOut()"/> / <see cref="FadeOutAndClose()"/> still work when disabled.
+	/// Do not also enable <c>KryptonMessageBoxExtended</c> <c>UseFade</c> on the same instance.
+	/// </remarks>
 	[Category(@"Visuals")]
-	[Description(@"Form fading.")]
+	[Description(@"Form fade in/out. Disabled by default.")]
 	[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-	public FadeValues FadeValues { get; } = new FadeValues();
+	public FadeValues FadeValues { get; }
 
 	private bool ShouldSerializeFadeValues() => !FadeValues.IsDefault;
 
-	/// <summary>Resets the fade values.</summary>
-	private void ResetFadeValues() => FadeValues.Reset();
-	*/
+	/// <summary>
+	/// Resets the <see cref="FadeValues"/> to their defaults.
+	/// </summary>
+	public void ResetFadeValues() => FadeValues.Reset();
+
+	/// <summary>
+	/// Occurs when a fade-in animation completes.
+	/// </summary>
+	[Category(@"Behavior")]
+	[Description(@"Occurs when a fade-in animation completes.")]
+	public event EventHandler? FadeInCompleted;
+
+	/// <summary>
+	/// Occurs when a fade-out animation completes.
+	/// </summary>
+	[Category(@"Behavior")]
+	[Description(@"Occurs when a fade-out animation completes.")]
+	public event EventHandler? FadeOutCompleted;
+
+	/// <summary>
+	/// Fades the form in from transparent using <see cref="FadeValues"/>.
+	/// </summary>
+	/// <remarks>
+	/// Works whether or not <see cref="FadeValues.FadingEnabled"/> is set. Starts from the current opacity when already partially visible.
+	/// </remarks>
+	public void FadeIn() => StartFade(true, false);
+
+	/// <summary>
+	/// Fades the form out to transparent using <see cref="FadeValues"/>. Does not close the form.
+	/// </summary>
+	public void FadeOut() => StartFade(false, false);
+
+	/// <summary>
+	/// Fades the form out using <see cref="FadeValues"/> and closes it when the fade completes.
+	/// </summary>
+	public void FadeOutAndClose() => StartFade(false, true);
 
 	/// <summary>
 	/// Gets access to the button content.
@@ -990,6 +1046,67 @@ public abstract class VisualForm : Form,
 		}
 
 		base.OnShown(e);
+
+		if (CanAutoFadeIn && Opacity < _fadeTargetOpacity)
+		{
+			StartFade(true, false);
+		}
+	}
+
+	/// <inheritdoc />
+	protected override void SetVisibleCore(bool value)
+	{
+		if (value && CanAutoFadeIn)
+		{
+			PrepareFadeInOpacity();
+		}
+
+		base.SetVisibleCore(value);
+	}
+
+	/// <summary>
+	/// Raises the FormClosing event.
+	/// </summary>
+	/// <param name="e">A <see cref="FormClosingEventArgs"/> that contains the event data.</param>
+	protected override void OnFormClosing(FormClosingEventArgs e)
+	{
+		base.OnFormClosing(e);
+
+		if (e.Cancel || _fadeOutComplete || DesignMode)
+		{
+			return;
+		}
+
+		if (!FadeValues.FadingEnabled || !FadeValues.FadeOut)
+		{
+			return;
+		}
+
+		if (IsImmediateCloseReason(e.CloseReason))
+		{
+			return;
+		}
+
+		if (_isFading && !_fadeIncreasing)
+		{
+			e.Cancel = true;
+			return;
+		}
+
+		e.Cancel = true;
+		StartFade(false, true);
+	}
+
+	/// <inheritdoc />
+	protected override void OnVisibleChanged(EventArgs e)
+	{
+		base.OnVisibleChanged(e);
+
+		// Allow a later Show() to fade in again after Hide().
+		if (!Visible && !IsDisposed)
+		{
+			_fadeInPrepared = false;
+		}
 	}
 
 	//protected override void OnPaint(PaintEventArgs e)
@@ -1006,38 +1123,132 @@ public abstract class VisualForm : Form,
 	//    }
 	//}
 
-	///// <inheritdoc />
-	//protected override void OnLoad(EventArgs e)
-	//{
-	//    /* FadeValues disabled and moved to extended until proven stable. Further development in V100
-	//    if (FadeValues.FadingEnabled)
-	//    {
-	//        #if NET8_0_OR_GREATER
-	//            KryptonFormFadeController.ModernFadeFormIn(FadeValues.Owner ?? this, FadeValues.FadeDuration);
-	//        #else
-	//            KryptonFormFadeController.FadeIn(FadeValues.Owner ?? this, FadeValues.FadeSpeed);
-	//        #endif
-	//    }
-	//    */
-	//    base.OnLoad(e);
-	//}
+	#endregion
 
-	///// <inheritdoc />
-	//protected override void OnClosing(CancelEventArgs e)
-	//{
-	//    /* FadeValues disabled and moved to extended until proven stable. Further development in V100
-	//    if (FadeValues is { FadingEnabled: true, ShouldCloseOnFadeOut: true })
-	//    {
-	//        #if NET8_0_OR_GREATER
-	//            KryptonFormFadeController.ModernFadeFormOut(FadeValues.Owner ?? this, FadeValues.FadeDuration);
-	//        #else
-	//            KryptonFormFadeController.FadeOut(FadeValues.Owner ?? this, FadeValues.FadeSpeed);
-	//        #endif
-	//    }
-	//    */
-	//    base.OnClosing(e);
-	//}
+	#region Private Fade
+	/// <summary>
+	/// Gets whether automatic fade-in should run for this show.
+	/// </summary>
+	protected bool CanAutoFadeIn => !DesignMode && FadeValues.FadingEnabled && FadeValues.FadeIn;
 
+	private static bool IsImmediateCloseReason(CloseReason closeReason) =>
+		closeReason == CloseReason.WindowsShutDown
+		|| closeReason == CloseReason.TaskManagerClosing
+		|| closeReason == CloseReason.ApplicationExitCall;
+
+	private void PrepareFadeInOpacity()
+	{
+		if (_fadeInPrepared)
+		{
+			return;
+		}
+
+		_fadeInPrepared = true;
+		_fadeTargetOpacity = Opacity > 0.01 ? Opacity : 1.0;
+		Opacity = 0;
+	}
+
+	private void StartFade(bool fadeIn, bool closeAfterFadeOut)
+	{
+		if (IsDisposed || Disposing)
+		{
+			return;
+		}
+
+		StopFadeTimer();
+		_fadeIncreasing = fadeIn;
+		_closeAfterFadeOut = closeAfterFadeOut;
+		_isFading = true;
+		_fadeOutComplete = false;
+		_fadeSpeedUnits = KryptonFormFadeSpeed.Resolve(FadeValues.FadeSpeed, FadeValues.CustomFadeSpeed);
+
+		if (fadeIn)
+		{
+			if (_fadeTargetOpacity <= 0.01)
+			{
+				_fadeTargetOpacity = 1.0;
+			}
+
+			if (Opacity <= 0.01)
+			{
+				Opacity = 0;
+			}
+		}
+
+		_fadeTimer = new Timer
+		{
+			Interval = 10
+		};
+		_fadeTimer.Tick += OnFadeTick;
+		_fadeTimer.Start();
+	}
+
+	private void OnFadeTick(object? sender, EventArgs e)
+	{
+		if (IsDisposed)
+		{
+			StopFadeTimer();
+			return;
+		}
+
+		double step = _fadeSpeedUnits / 1000.0;
+
+		if (_fadeIncreasing)
+		{
+			if (Opacity < _fadeTargetOpacity)
+			{
+				Opacity = Math.Min(_fadeTargetOpacity, Opacity + step);
+				return;
+			}
+
+			Opacity = _fadeTargetOpacity;
+			CompleteCurrentFade(true);
+			return;
+		}
+
+		if (Opacity > 0.1)
+		{
+			Opacity = Math.Max(0, Opacity - step);
+			return;
+		}
+
+		Opacity = 0;
+		bool closeAfterFadeOut = _closeAfterFadeOut;
+		CompleteCurrentFade(false);
+		if (closeAfterFadeOut)
+		{
+			_fadeOutComplete = true;
+			Close();
+		}
+	}
+
+	private void CompleteCurrentFade(bool fadeIn)
+	{
+		StopFadeTimer();
+		_isFading = false;
+
+		if (fadeIn)
+		{
+			FadeInCompleted?.Invoke(this, EventArgs.Empty);
+		}
+		else
+		{
+			FadeOutCompleted?.Invoke(this, EventArgs.Empty);
+		}
+	}
+
+	private void StopFadeTimer()
+	{
+		if (_fadeTimer == null)
+		{
+			return;
+		}
+
+		_fadeTimer.Stop();
+		_fadeTimer.Tick -= OnFadeTick;
+		_fadeTimer.Dispose();
+		_fadeTimer = null;
+	}
 	#endregion
 
 	#region Protected/Internal Virtual

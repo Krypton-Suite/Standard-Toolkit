@@ -51,7 +51,7 @@ internal class KryptonFormFadeController
     public KryptonFormFadeController(VisualForm owner)
     {
         _owner = owner;
-        _shouldClose = true;
+        _shouldClose = false;
     }
 
     #endregion
@@ -129,6 +129,9 @@ internal class KryptonFormFadeController
                 }
                 else
                 {
+                    _owner.Opacity = 0;
+                    // Invoke the completed callback before Close so hosts can allow the second FormClosing.
+                    CompleteFade();
                     if (!_shouldClose)
                     {
                         _owner.Hide();
@@ -137,8 +140,6 @@ internal class KryptonFormFadeController
                     {
                         _owner.Close();
                     }
-
-                    CompleteFade();
                 }
 
                 break;
@@ -146,18 +147,7 @@ internal class KryptonFormFadeController
     }
 
     private float ResolveFadeSpeed(FadeSpeedChoice fadeSpeedChoice, float? fadeSpeed) =>
-        fadeSpeedChoice switch
-        {
-            FadeSpeedChoice.Slowest => KryptonFormFadeSpeed.DEFAULT_SLOWEST,
-            FadeSpeedChoice.Slower => KryptonFormFadeSpeed.DEFAULT_SLOWER,
-            FadeSpeedChoice.Slow => KryptonFormFadeSpeed.DEFAULT_SLOW,
-            FadeSpeedChoice.Normal => KryptonFormFadeSpeed.DEFAULT_NORMAL,
-            FadeSpeedChoice.Fast => KryptonFormFadeSpeed.DEFAULT_FAST,
-            FadeSpeedChoice.Faster => KryptonFormFadeSpeed.DEFAULT_FASTER,
-            FadeSpeedChoice.Fastest => KryptonFormFadeSpeed.DEFAULT_FASTEST,
-            FadeSpeedChoice.Custom => fadeSpeed ?? 0.5f,
-            _ => fadeSpeed ?? _fadeSpeed
-        };
+        KryptonFormFadeSpeed.Resolve(fadeSpeedChoice, fadeSpeed);
 
     /// <summary>
     /// Fade the owner in as a modal dialog owned by <paramref name="finished"/>'s parent.

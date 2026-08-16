@@ -47,6 +47,8 @@ namespace TestForm
             this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
             this.btnFadeIn = new Krypton.Toolkit.KryptonButton();
             this.btnFadeOut = new Krypton.Toolkit.KryptonButton();
+            this.btnFadeOutAndClose = new Krypton.Toolkit.KryptonButton();
+            this.btnOpenChild = new Krypton.Toolkit.KryptonButton();
             this.nudOpacityFraction = new System.Windows.Forms.NumericUpDown();
             this.nudSleepDelay = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
@@ -66,6 +68,8 @@ namespace TestForm
             this.kryptonPanel1.Controls.Add(this.kryptonLabel1);
             this.kryptonPanel1.Controls.Add(this.btnFadeIn);
             this.kryptonPanel1.Controls.Add(this.btnFadeOut);
+            this.kryptonPanel1.Controls.Add(this.btnFadeOutAndClose);
+            this.kryptonPanel1.Controls.Add(this.btnOpenChild);
             this.kryptonPanel1.Controls.Add(this.nudOpacityFraction);
             this.kryptonPanel1.Controls.Add(this.nudSleepDelay);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -90,7 +94,7 @@ namespace TestForm
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.kryptonPictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("kryptonPictureBox1.Image")));
-            this.kryptonPictureBox1.Location = new System.Drawing.Point(365, 75);
+            this.kryptonPictureBox1.Location = new System.Drawing.Point(365, 101);
             this.kryptonPictureBox1.Name = "kryptonPictureBox1";
             this.kryptonPictureBox1.Size = new System.Drawing.Size(717, 583);
             this.kryptonPictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -102,11 +106,11 @@ namespace TestForm
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(734, 13);
+            this.label2.Location = new System.Drawing.Point(552, 44);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(188, 20);
+            this.label2.Size = new System.Drawing.Size(370, 20);
             this.label2.TabIndex = 6;
-            this.label2.Values.Text = "Opacity (In)(De)crement Fraction";
+            this.label2.Values.Text = "Property grid: FadeValues (FadingEnabled is on).";
             // 
             // kryptonPropertyGrid1
             // 
@@ -139,11 +143,11 @@ namespace TestForm
             // 
             // kryptonLabel1
             // 
-            this.kryptonLabel1.Location = new System.Drawing.Point(552, 13);
+            this.kryptonLabel1.Location = new System.Drawing.Point(365, 75);
             this.kryptonLabel1.Name = "kryptonLabel1";
-            this.kryptonLabel1.Size = new System.Drawing.Size(115, 20);
+            this.kryptonLabel1.Size = new System.Drawing.Size(540, 20);
             this.kryptonLabel1.TabIndex = 4;
-            this.kryptonLabel1.Values.Text = "Thread.Sleep Delay";
+            this.kryptonLabel1.Values.Text = "Fade In / Out use KryptonForm APIs (Timer, not Thread.Sleep). Close fades out.";
             // 
             // btnFadeIn
             // 
@@ -165,6 +169,26 @@ namespace TestForm
             this.btnFadeOut.Values.Text = "Fade Out";
             this.btnFadeOut.Click += new System.EventHandler(this.btnFadeOut_Click);
             // 
+            // btnFadeOutAndClose
+            // 
+            this.btnFadeOutAndClose.Location = new System.Drawing.Point(552, 13);
+            this.btnFadeOutAndClose.Name = "btnFadeOutAndClose";
+            this.btnFadeOutAndClose.Size = new System.Drawing.Size(172, 25);
+            this.btnFadeOutAndClose.TabIndex = 9;
+            this.btnFadeOutAndClose.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.btnFadeOutAndClose.Values.Text = "Fade Out and Close";
+            this.btnFadeOutAndClose.Click += new System.EventHandler(this.btnFadeOutAndClose_Click);
+            // 
+            // btnOpenChild
+            // 
+            this.btnOpenChild.Location = new System.Drawing.Point(734, 13);
+            this.btnOpenChild.Name = "btnOpenChild";
+            this.btnOpenChild.Size = new System.Drawing.Size(172, 25);
+            this.btnOpenChild.TabIndex = 10;
+            this.btnOpenChild.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.btnOpenChild.Values.Text = "Open faded child";
+            this.btnOpenChild.Click += new System.EventHandler(this.btnOpenChild_Click);
+            // 
             // nudOpacityFraction
             // 
             this.nudOpacityFraction.Location = new System.Drawing.Point(734, 49);
@@ -181,6 +205,7 @@ namespace TestForm
             this.nudOpacityFraction.Name = "nudOpacityFraction";
             this.nudOpacityFraction.Size = new System.Drawing.Size(172, 20);
             this.nudOpacityFraction.TabIndex = 3;
+            this.nudOpacityFraction.Visible = false;
             this.nudOpacityFraction.Value = new decimal(new int[] {
             1,
             0,
@@ -198,6 +223,7 @@ namespace TestForm
             this.nudSleepDelay.Name = "nudSleepDelay";
             this.nudSleepDelay.Size = new System.Drawing.Size(172, 20);
             this.nudSleepDelay.TabIndex = 2;
+            this.nudSleepDelay.Visible = false;
             this.nudSleepDelay.Value = new decimal(new int[] {
             50,
             0,
@@ -211,8 +237,7 @@ namespace TestForm
             this.ClientSize = new System.Drawing.Size(1094, 670);
             this.Controls.Add(this.kryptonPanel1);
             this.Name = "FadeFormTest";
-            this.Text = "FadeFormTest";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FadeFormTest_FormClosing);
+            this.Text = "KryptonForm FadeValues";
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
             this.kryptonPanel1.PerformLayout();
@@ -233,6 +258,8 @@ namespace TestForm
         private NumericUpDown nudSleepDelay;
         private NumericUpDown nudOpacityFraction;
         private KryptonButton btnFadeIn;
+        private KryptonButton btnFadeOutAndClose;
+        private KryptonButton btnOpenChild;
         private KryptonPictureBox kryptonPictureBox1;
         private KryptonCheckButton cbtnShowImage;
         private KryptonLabel lblOpacity;

@@ -21,17 +21,17 @@ public class PaletteOffice2013LightGray : PaletteOffice2013Base
 
     #region Colors
 
-    private readonly Color _tabRowBackgroundColor = Color.FromArgb(212, 212, 212);
+    private readonly Color _tabRowBackgroundColor = Color.FromArgb(230, 230, 230);
 
     #endregion
 
     #region Ribbon Specific Colors
 
-    private static readonly Color _ribbonAppButtonDarkColor = Color.FromArgb(147, 149, 158);
+    private static readonly Color _ribbonAppButtonDarkColor = SharedStaticVariables.DEFAULT_RIBBON_FILE_APP_TAB_BOTTOM_COLOR;
 
-    private static readonly Color _ribbonAppButtonLightColor = Color.FromArgb(195, 198, 209);
+    private static readonly Color _ribbonAppButtonLightColor = SharedStaticVariables.DEFAULT_RIBBON_FILE_APP_TAB_TOP_COLOR;
 
-    private static readonly Color _ribbonAppButtonTextColor = Color.FromArgb(24, 24, 24);
+    private static readonly Color _ribbonAppButtonTextColor = SharedStaticVariables.DEFAULT_RIBBON_FILE_APP_TAB_TEXT_COLOR;
 
     #endregion
 
@@ -45,28 +45,27 @@ public class PaletteOffice2013LightGray : PaletteOffice2013Base
     #region Images
 
     private static readonly Image?[] _radioButtonArray;
-    private static readonly Image? _silverDropDownButton = Office2010ArrowResources.Office2010BlueDropDownButton;
     private static readonly Image? _contextMenuSubMenu = Office2010ArrowResources.Office2010BlueContextMenuSub;
-    private static readonly Image _formCloseNormal = Office2010ControlBoxResources.Office2010SilverCloseNormal;
-    private static readonly Image _formCloseDisabled = Office2010ControlBoxResources.Office2010SilverCloseDisabled;
-    private static readonly Image _formCloseActive = Office2010ControlBoxResources.Office2010SilverCloseActive;
-    private static readonly Image _formClosePressed = Office2010ControlBoxResources.Office2010SilverClosePressed;
-    private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources.Office2010SilverMaximiseNormal;
-    private static readonly Image _formMaximiseDisabled = Office2010ControlBoxResources.Office2010SilverMaximiseDisabled;
-    private static readonly Image _formMaximiseActive = Office2010ControlBoxResources.Office2010SilverMaximiseActive;
-    private static readonly Image _formMaximisePressed = Office2010ControlBoxResources.Office2010SilverMaximisePressed;
-    private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010SilverMinimiseNormal;
-    private static readonly Image _formMinimiseActive = Office2010ControlBoxResources.Office2010SilverMinimiseActive;
-    private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010SilverMinimiseDisabled;
-    private static readonly Image _formMinimisePressed = Office2010ControlBoxResources.Office2010SilverMinimisePressed;
-    private static readonly Image _formRestoreNormal = Office2010ControlBoxResources.Office2010SilverRestoreNormal;
-    private static readonly Image _formRestoreDisabled = Office2010ControlBoxResources.Office2010SilverRestoreDisabled;
-    private static readonly Image _formRestoreActive = Office2010ControlBoxResources.Office2010SilverRestoreActive;
-    private static readonly Image _formRestorePressed = Office2010ControlBoxResources.Office2010SilverRestorePressed;
-    private static readonly Image _formHelpNormal = Office2010ControlBoxResources.Office2010HelpIconNormal;
-    private static readonly Image _formHelpActive = Office2010ControlBoxResources.Office2010HelpIconHover;
-    private static readonly Image _formHelpPressed = Office2010ControlBoxResources.Office2010HelpIconPressed;
-    private static readonly Image _formHelpDisabled = Office2010ControlBoxResources.Office2010HelpIconDisabled;
+    private static readonly Image _formCloseNormal = Office2013ControlBoxResources.Office2013CloseNormal;
+    private static readonly Image _formCloseDisabled = Office2013ControlBoxResources.Office2013CloseDisabled;
+    private static readonly Image _formCloseActive = Office2013ControlBoxResources.Office2013CloseActive;
+    private static readonly Image _formClosePressed = Office2013ControlBoxResources.Office2013ClosePressed;
+    private static readonly Image _formMaximiseNormal = Office2013ControlBoxResources.Office2013MaximiseNormal;
+    private static readonly Image _formMaximiseDisabled = Office2013ControlBoxResources.Office2013MaximiseDisabled;
+    private static readonly Image _formMaximiseActive = Office2013ControlBoxResources.Office2013MaximiseActive;
+    private static readonly Image _formMaximisePressed = Office2013ControlBoxResources.Office2013MaximisePressed;
+    private static readonly Image _formMinimiseNormal = Office2013ControlBoxResources.Office2013MinimiseNormal;
+    private static readonly Image _formMinimiseActive = Office2013ControlBoxResources.Office2013MinimiseActive;
+    private static readonly Image _formMinimiseDisabled = Office2013ControlBoxResources.Office2013MinimiseDisabled;
+    private static readonly Image _formMinimisePressed = Office2013ControlBoxResources.Office2013MinimisePressed;
+    private static readonly Image _formRestoreNormal = Office2013ControlBoxResources.Office2013RestoreNormal;
+    private static readonly Image _formRestoreDisabled = Office2013ControlBoxResources.Office2013RestoreDisabled;
+    private static readonly Image _formRestoreActive = Office2013ControlBoxResources.Office2013RestoreActive;
+    private static readonly Image _formRestorePressed = Office2013ControlBoxResources.Office2013RestorePressed;
+    private static readonly Image _formHelpNormal = Office2013ControlBoxResources.Office2013HelpNormal;
+    private static readonly Image _formHelpActive = Office2013ControlBoxResources.Office2013HelpActive;
+    private static readonly Image _formHelpPressed = Office2013ControlBoxResources.Office2013HelpPressed;
+    private static readonly Image _formHelpDisabled = Office2013ControlBoxResources.Office2013HelpDisabled;
 
     #endregion
     #endregion

@@ -47,6 +47,7 @@ public class ViewDrawMenuMonthCalendar : ViewComposite,
         TodayText = _monthCalendar.TodayText;
         TodayFormat = _monthCalendar.TodayFormat;
         CalendarDimensions = _monthCalendar.CalendarDimensions;
+        CalendarView = _monthCalendar.CalendarView;
 
         // Decide on the enabled state of the display
         _itemEnabled = provider.ProviderEnabled && _monthCalendar.Enabled;
@@ -149,6 +150,11 @@ public class ViewDrawMenuMonthCalendar : ViewComposite,
     /// Gets the number of columns and rows of months displayed.
     /// </summary>
     public Size CalendarDimensions { get; }
+
+    /// <summary>
+    /// Gets the calendar view used to choose a date.
+    /// </summary>
+    public MonthCalendarView CalendarView { get; }
 
     /// <summary>
     /// First day of the week.

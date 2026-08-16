@@ -259,7 +259,7 @@ internal class KryptonToastController
     }
 
 
-    internal static Task<object> ShowToastAsync(KryptonUserInputToastData data)
+    internal static Task<object?> ShowToastAsync(KryptonUserInputToastData data)
     {
         switch (data.NotificationInputAreaType)
         {
@@ -278,7 +278,7 @@ internal class KryptonToastController
                 break;
         }
 
-        return Task.FromResult(new object());
+        return Task.FromResult(new object())!;
     }
 
     internal static Task<DateTime> ReturnDateTimeInputAsync(KryptonUserInputToastData data) =>
@@ -334,7 +334,7 @@ internal class KryptonToastController
         return Task.FromResult(string.Empty);
     }
 
-    internal static Task<object> ShowToastWithProgressBarAsync(KryptonUserInputToastData data)
+    internal static Task<object?> ShowToastWithProgressBarAsync(KryptonUserInputToastData data)
     {
         switch (data.NotificationInputAreaType)
         {
@@ -354,12 +354,12 @@ internal class KryptonToastController
                 break;
         }
 
-        return Task.FromResult(new object());
+        return Task.FromResult(new object())!;
     }
 
     // Task<object> cannot be covariant from Task<T>; a thin await is required only for boxing.
-    private static async Task<object> AsObjectAsync<T>(Task<T> task) =>
-        (await task.ConfigureAwait(false))!;
+    private static async Task<object?> AsObject<T>(Task<T> task) =>
+        await task.ConfigureAwait(false);
 
     private static Task<DateTime> ReturnDateTimeInputWithProgressBarAsync(KryptonUserInputToastData data) =>
         CreateDateTimeToastWithProgressBarNotificationAsync(data);

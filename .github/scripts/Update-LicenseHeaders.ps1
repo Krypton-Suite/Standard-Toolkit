@@ -1,9 +1,11 @@
 # New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
-# Modifications by Peter Wagner (aka PWagner1), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
+# Modifications by Peter Wagner (aka PWagner1), Simon Coghlan (aka Smurf-IV), Giduac, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
 #
 # Partially updates BSD license header "Modifications by ..." contributor lines.
 # Replaces the contributor list after the fixed PWagner1 / Smurf-IV prefix, preserving
 # each file's year range and "All rights reserved." suffix.
+# Includes Ahmed Abdelhameed and tbolon only when the header start year is 2018 or 2019.
+# Includes tobitege only when the header start year is 2025 or 2026.
 # Example:
 #   pwsh .github/scripts/Update-LicenseHeaders.ps1 -DryRun
 
@@ -16,10 +18,29 @@ $ErrorActionPreference = 'Stop'
 
 $ModificationsMarker = 'Modifications by Peter Wagner (aka '
 $CanonicalPrefix = 'Modifications by Peter Wagner (aka PWagner1), Simon Coghlan (aka Smurf-IV)'
-$CanonicalContributors = ', Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs)'
+$CanonicalTail = 'KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs)'
+
+function Get-CanonicalContributors {
+    param([string]$StartYear)
+
+    $names = [System.Collections.Generic.List[string]]::new()
+    [void]$names.Add('Giduac')
+
+    if ($StartYear -in @('2018', '2019')) {
+        [void]$names.Add('Ahmed Abdelhameed')
+        [void]$names.Add('tbolon')
+    }
+
+    if ($StartYear -in @('2025', '2026')) {
+        [void]$names.Add('tobitege')
+    }
+
+    $separatorBeforeTail = if ($StartYear -in @('2025', '2026')) { ',  ' } else { ', ' }
+    return ', ' + ($names -join ', ') + $separatorBeforeTail + $CanonicalTail
+}
 
 $linePattern = [regex]::new(
-    '^(?<leading>.*?)(?<prefix>Modifications by Peter Wagner \(aka (?:Wagnerp|PWagner1)\), Simon Coghlan \(aka Smurf-IV\))(?<old>,.*?)(?<suffix> et al\.\s+\d{4}\s*-\s*\d{4}\.\s*All rights reserved\.\s*)$',
+    '^(?<leading>.*?)(?<prefix>Modifications by Peter Wagner \(aka (?:Wagnerp|PWagner1)\), Simon Coghlan \(aka Smurf-IV\))(?<old>,.*?)(?<suffix> et al\.\s+(?<startYear>\d{4})\s*-\s*\d{4}\.\s*All rights reserved\.\s*)$',
     [System.Text.RegularExpressions.RegexOptions]::Compiled
 )
 
@@ -46,11 +67,13 @@ function Update-LicenseHeaderLine {
         return $Line
     }
 
-    if ($match.Groups['prefix'].Value -eq $CanonicalPrefix -and $match.Groups['old'].Value -eq $CanonicalContributors) {
+    $contributors = Get-CanonicalContributors -StartYear $match.Groups['startYear'].Value
+
+    if ($match.Groups['prefix'].Value -eq $CanonicalPrefix -and $match.Groups['old'].Value -eq $contributors) {
         return $Line
     }
 
-    return $match.Groups['leading'].Value + $CanonicalPrefix + $CanonicalContributors + $match.Groups['suffix'].Value
+    return $match.Groups['leading'].Value + $CanonicalPrefix + $contributors + $match.Groups['suffix'].Value
 }
 
 $utf8Bom = New-Object System.Text.UTF8Encoding($true)

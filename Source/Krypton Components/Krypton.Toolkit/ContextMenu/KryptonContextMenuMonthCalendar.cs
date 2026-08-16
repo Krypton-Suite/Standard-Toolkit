@@ -50,6 +50,7 @@ public class KryptonContextMenuMonthCalendar : KryptonContextMenuItemBase
     private ButtonStyle _dayOfWeekStyle;
     private Day _firstDayOfWeek;
     private Size _dimensions;
+    private MonthCalendarView _calendarView;
     private string _todayFormat;
     private bool _autoClose;
     private bool _enabled;
@@ -105,6 +106,7 @@ public class KryptonContextMenuMonthCalendar : KryptonContextMenuItemBase
         _showTodayCircle = true;
         _closeOnTodayClick = false;
         _dimensions = new Size(1, 1);
+        _calendarView = MonthCalendarView.Days;
         _firstDayOfWeek = Day.Default;
         _headerStyle = HeaderStyle.Calendar;
         _dayStyle = ButtonStyle.CalendarDay;
@@ -716,6 +718,27 @@ public class KryptonContextMenuMonthCalendar : KryptonContextMenuItemBase
 
                 _dimensions = value;
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(CalendarDimensions)));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the calendar view used to choose a date.
+    /// </summary>
+    [KryptonPersist]
+    [Category(@"Behavior")]
+    [Description(@"Specifies whether the calendar shows days, months, or years.")]
+    [DefaultValue(MonthCalendarView.Days)]
+    public MonthCalendarView CalendarView
+    {
+        get => _calendarView;
+
+        set
+        {
+            if (_calendarView != value)
+            {
+                _calendarView = value;
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(CalendarView)));
             }
         }
     }

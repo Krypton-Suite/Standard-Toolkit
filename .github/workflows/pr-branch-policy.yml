@@ -45,6 +45,7 @@ jobs:
         uses: actions/github-script@v9
         with:
           script: |
+            const fs = require('fs');
             const { owner, repo } = context.repo;
             const prNumber = context.payload.pull_request.number;
             const files = [];
@@ -56,7 +57,9 @@ jobs:
                 files.push(file.filename);
               }
             }
-            core.setOutput('paths', files.join('\n'));
+            const pathFile = `${process.env.RUNNER_TEMP}/changed_files.txt`;
+            fs.writeFileSync(pathFile, files.length ? files.join('\n') + '\n' : '');
+            core.setOutput('has_paths', files.length > 0 ? 'true' : 'false');
 
       - name: Run branch policy check
         if: steps.kill_switch.outputs.enabled == 'true'
@@ -69,9 +72,12 @@ jobs:
           REPOSITORY: ${{ github.repository }}
         run: |
           $ErrorActionPreference = 'Stop'
+          $pathFile = Join-Path $env:RUNNER_TEMP 'changed_files.txt'
           $files = @()
-          if ("${{ steps.files.outputs.paths }}" -ne "") {
-            $files = "${{ steps.files.outputs.paths }}" -split "`n" | Where-Object { $_ }
+          if (Test-Path -LiteralPath $pathFile) {
+            $files = Get-Content -LiteralPath $pathFile |
+              ForEach-Object { $_.Trim() } |
+              Where-Object { $_ }
           }
           $tempFile = Join-Path $env:RUNNER_TEMP "changed_files_$([guid]::NewGuid()).json"
           $files | ConvertTo-Json -AsArray | Out-File -FilePath $tempFile -Encoding utf8
