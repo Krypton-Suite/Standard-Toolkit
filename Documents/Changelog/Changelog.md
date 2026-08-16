@@ -47,6 +47,25 @@
 
 * Implemented [#4193](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4193), DateTimePicker to show Month's and Years only with Krypton themes
    * Month- and year-only calendars on `KryptonDateTimePicker` and `KryptonMonthCalendar` via `CalendarView` (`Days`, `Months`, `Years`), with themed 12-cell drop-downs and header drill-up.
+* Implemented [#942](https://github.com/Krypton-Suite/Standard-Toolkit/issues/942), Office dark/light grey themes
+   * Grey chrome (light document area) for Office 2007, 2010, 2013, Microsoft 365, and Material, including Material Ripple variants. New `PaletteMode` values are appended before `Custom` so existing enum integers stay stable.
+* Implemented, Configurable fade in/out on `VisualForm` / `KryptonForm` via `FadeValues` (opt-in; default off).
+   * Set `FadeValues.FadingEnabled` to fade in on show and out on close. `FadeIn` / `FadeOut` / `FadeSpeed` / `CustomFadeSpeed` are designer-serializable. Call `FadeIn()`, `FadeOut()`, or `FadeOutAndClose()` at any time.
+* Implemented [#4188](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4188), Extended Messagebox enhancements
+   * Fade in/out, caption timeout, and auto-close for `KryptonMessageBoxExtended`.
+   * FoldableDialog-style collapsible details on `KryptonMessageBoxExtended` (`DetailsText`, `Expanded`, `ExpandButtonText`, `CollapseButtonText`).
+   * A non-empty `DetailsText` shows the expander (same rule as `KryptonFoldableDialog`). Existing `Show(..., footerText, footerExpanded, footerContentType)` overloads and `MoreDetails*` data properties still work.
+   * Configure via `KryptonMessageBoxExtendedData` (`UseFade`, `UseTimeOut`, `AutoClose`, `TimeOutAction`, `TimeOutResult`, `CountdownButton`). Existing `Show(..., useTimeOut, timeOut, timerResult)` overloads now close with the configured result. Optional `CountdownButton` shows remaining time on a chosen action button (`OK (5s)`); that button stays enabled so it can be clicked before the timer elapses. RTL timeout no longer opens a second dialog.
+* Implemented [#4172](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4172), Radial menu
+   * `KryptonRadialMenu` circular popup menu in `Krypton.Toolkit.Utilities`
+   * Form-hosted `KryptonRadialMenuControl` (Syncfusion-style always-visible surface) sharing items/painter with the popup `KryptonRadialMenu`.
+   * Optional hub mode on `KryptonRadialMenuControl` (`UseHub` / `Expanded`) — press the centre hub to open the ring; centre, Esc, or AutoClose collapses. Customise the hub with `HubText` or `Glyph`. `AllowMove` drags the hub/centre to reposition (short click still expands/activates) and floats outside the host when dragged past the parent (`DockBack` when dropped back over it).
+   * Native command sectors with nested submenus, optional `KryptonCommand`, slider / colour / font / text / calendar editor rings, animations, sector images, and paging via `MaxVisibleItems`.
+   * `ImportFrom` / `FromContextMenu` bridge with collection + property-level live sync; optional `KryptonRadialMenuPresenter.PreferRadialContextMenus` soft-hooks `KryptonContextMenu.Show` without a Toolkit→Utilities reference.
+   * Outer-ring `StateCommon` / `StateNormal` / `StateTracking` / `StatePressed` / `StateDisabled` border colours; pointer opens child/editor rings only via the outer-ring band (sector body on parents does not drill; keyboard Enter still opens). Optional `ShowOuterRingOnLeaves` (default `true`) hides the rim arc on leaf slices when set to `false`.
+   * Prefixed `StateShadow###` (`PaletteBack`) plus `ShadowOpacity` style the circular popup shadow by interaction state when `ShowShadow` is enabled.
+   * `Scale` (default `1`) multiplies with device DPI for radii, ring thickness, images, hit padding, and related metrics via shared `RadialMenuMetrics` (auto-fits the available working area / client).
+   * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Implemented [#4177](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4177), When will the Async Form Methods from .net10 (Started in .net9) actually be implemented
    * Async form / dialog methods (`ShowAsync` / `ShowDialogAsync`) for Krypton dialogs on **all TFMs**. On .NET 9+ they use WinForms Form async; on earlier TFMs they degrade to sync `ShowDialog` / `Show` under the same awaitable API (`KryptonFormAsync`).
    * Library wrappers use `ConfigureAwait(false)`.

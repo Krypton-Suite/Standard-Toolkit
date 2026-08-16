@@ -104,7 +104,7 @@ public class KryptonCountdownButton : KryptonButton
 
     #region Implementation
 
-    /// <summary>Starts the countdown. The button will be disabled during the countdown.</summary>
+    /// <summary>Starts the countdown. The button is disabled during the countdown unless <see cref="CountdownButtonValues.DisableDuringCountdown"/> is <c>false</c>.</summary>
     /// <exception cref="InvalidOperationException">Thrown when the countdown is already running.</exception>
     public void StartCountdown()
     {
@@ -123,7 +123,11 @@ public class KryptonCountdownButton : KryptonButton
             _originalText = StripCountdownFormatting(Text);
         }
 
-        Enabled = false;
+        if (_countdownButtonValues.DisableDuringCountdown)
+        {
+            Enabled = false;
+        }
+
         UpdateCountdownText();
 
         _countdownTimer.Interval = _countdownButtonValues.CountdownInterval;
