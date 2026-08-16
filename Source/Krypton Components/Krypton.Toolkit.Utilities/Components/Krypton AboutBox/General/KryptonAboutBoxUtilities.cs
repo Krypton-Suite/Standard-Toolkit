@@ -10,29 +10,66 @@
 namespace Krypton.Toolkit.Utilities;
 
 /// <summary>This class does the heavy lifting for <see cref="VisualAboutBoxForm"/> and its associated components.</summary>
-internal class KryptonAboutBoxUtilities
+internal static class KryptonAboutBoxUtilities
 {
-    #region Identity
+    #region Implementation
 
-    public KryptonAboutBoxUtilities()
+    internal readonly struct AssemblyIdentity
     {
+        public AssemblyIdentity(string applicationName, string version, string copyright, string company, string description)
+        {
+            ApplicationName = applicationName;
+            Version = version;
+            Copyright = copyright;
+            Company = company;
+            Description = description;
+        }
 
+        public string ApplicationName { get; }
+        public string Version { get; }
+        public string Copyright { get; }
+        public string Company { get; }
+        public string Description { get; }
     }
 
-    #endregion
+    public static KryptonAboutBoxData CreateDataFromAssembly(Assembly assembly)
+    {
+        AssemblyIdentity identity = GetAssemblyIdentity(assembly, default);
+        return new KryptonAboutBoxData
+        {
+            CurrentAssembly = assembly,
+            ApplicationName = identity.ApplicationName
+        };
+    }
 
-    #region Implementation
+    public static Assembly ResolveAssembly(KryptonAboutBoxData aboutBoxData) =>
+        aboutBoxData.CurrentAssembly ?? Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
+
+    public static AssemblyIdentity GetAssemblyIdentity(Assembly assembly, KryptonAboutBoxData data)
+    {
+        FileVersionInfo? info = TryGetFileVersionInfo(assembly);
+        NameValueCollection attribs = AssemblyAttribs(assembly);
+        Version? assemblyVersion = assembly.GetName().Version;
+
+        return new AssemblyIdentity(
+            FirstNonEmpty(data.ApplicationName, info?.ProductName, attribs["Product"], attribs["Title"], assembly.GetName().Name),
+            FirstNonEmpty(data.Version, info?.ProductVersion, info?.FileVersion, attribs["InformationalVersion"], attribs["Version"], assemblyVersion?.ToString()),
+            FirstNonEmpty(data.Copyright, info?.LegalCopyright, attribs["Copyright"]),
+            FirstNonEmpty(data.Company, info?.CompanyName, attribs["Company"]),
+            FirstNonEmpty(data.Description, info?.Comments, info?.FileDescription, attribs["Description"]));
+    }
 
     public static DateTime AssemblyLastWriteTime(Assembly assembly)
     {
-        if (string.IsNullOrEmpty(assembly.Location))
+        string location = TryGetLocation(assembly);
+        if (string.IsNullOrEmpty(location))
         {
             return DateTime.MaxValue;
         }
 
         try
         {
-            return File.GetLastWriteTime(assembly.Location);
+            return File.GetLastWriteTime(location);
         }
         catch
         {
@@ -42,40 +79,159 @@ internal class KryptonAboutBoxUtilities
 
     public static DateTime AssemblyBuildDate(Assembly? assembly, bool forceFileDate)
     {
-        if (assembly != null)
-        {
-            Version assemblyVersion = assembly.GetName().Version!;
-
-            DateTime dateTime;
-
-            if (forceFileDate)
-            {
-                dateTime = AssemblyLastWriteTime(assembly);
-            }
-            else
-            {
-                dateTime = DateTime.Parse(@"01/01/1970").AddDays(assemblyVersion.Build).AddSeconds(assemblyVersion.Revision * 2);
-
-                // if (TimeZone.IsDaylightSavingTime(dateTime, TimeZone.CurrentTimeZone.GetDaylightChanges(dateTime.Year)))
-                // Timezone is deprecated and replaces by TimeZoneInfo
-
-                if (TimeZoneInfo.Local.IsDaylightSavingTime(dateTime))
-                {
-                    dateTime = dateTime.AddHours(1);
-                }
-
-                if (dateTime > DateTime.Now || assemblyVersion.Build < 730 || assemblyVersion.Revision == 0)
-                {
-                    dateTime = AssemblyLastWriteTime(assembly);
-                }
-            }
-
-            return dateTime;
-        }
-        else
+        if (assembly == null)
         {
             return DateTime.Now;
         }
+
+        Version assemblyVersion = assembly.GetName().Version!;
+        DateTime dateTime;
+
+        if (forceFileDate)
+        {
+            dateTime = AssemblyLastWriteTime(assembly);
+        }
+        else
+        {
+            dateTime = new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Unspecified)
+                .AddDays(assemblyVersion.Build)
+                .AddSeconds(assemblyVersion.Revision * 2);
+
+            if (TimeZoneInfo.Local.IsDaylightSavingTime(dateTime))
+            {
+                dateTime = dateTime.AddHours(1);
+            }
+
+            if (dateTime > DateTime.Now || assemblyVersion.Build < 730 || assemblyVersion.Revision == 0)
+            {
+                dateTime = AssemblyLastWriteTime(assembly);
+            }
+        }
+
+        return dateTime;
+    }
+
+    /// <summary>
+    /// Returns the binary compile timestamp.
+    /// Uses the PE COFF <c>TimeDateStamp</c> only when it is a plausible calendar date;
+    /// deterministic SDK builds store a content hash there, which must not be shown as a date.
+    /// Otherwise the assembly file last-write time is used.
+    /// </summary>
+    public static DateTime GetBinaryBuildDateTime(Assembly assembly)
+    {
+        DateTime? pe = TryReadPeTimeDateStamp(assembly);
+        return pe ?? AssemblyLastWriteTime(assembly);
+    }
+
+    public static DateTime? TryReadPeTimeDateStamp(Assembly assembly)
+    {
+        string location = TryGetLocation(assembly);
+        if (string.IsNullOrEmpty(location) || !File.Exists(location))
+        {
+            return null;
+        }
+
+        try
+        {
+            using (var stream = new FileStream(location, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (var reader = new BinaryReader(stream))
+            {
+                if (stream.Length < 0x40)
+                {
+                    return null;
+                }
+
+                if (reader.ReadUInt16() != 0x5A4D)
+                {
+                    return null;
+                }
+
+                stream.Seek(0x3C, SeekOrigin.Begin);
+                int lfanew = reader.ReadInt32();
+                if (lfanew < 0 || (long)lfanew + 12 > stream.Length)
+                {
+                    return null;
+                }
+
+                stream.Seek(lfanew, SeekOrigin.Begin);
+                if (reader.ReadUInt32() != 0x00004550)
+                {
+                    return null;
+                }
+
+                stream.Seek(lfanew + 8, SeekOrigin.Begin);
+                uint stamp = reader.ReadUInt32();
+                if (stamp == 0 || stamp == uint.MaxValue)
+                {
+                    return null;
+                }
+
+                // PE TimeDateStamp is Unix seconds. Deterministic builds put a hash here, not a time.
+                var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+                DateTime peUtc = epoch.AddSeconds(stamp);
+                DateTime minUtc = new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+                if (peUtc < minUtc || peUtc > DateTime.UtcNow.AddHours(12))
+                {
+                    return null;
+                }
+
+                return peUtc.ToLocalTime();
+            }
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    public static string FormatBuildDate(DateTime dateTime, bool useFull) =>
+        dateTime == DateTime.MaxValue
+            ? string.Empty
+            : dateTime.ToString(useFull ? "F" : "G", CultureInfo.CurrentCulture);
+
+    public static string FormatBuildAndBinaryDates(Assembly assembly, bool useFull)
+    {
+        string buildDateText = FormatBuildDate(AssemblyBuildDate(assembly, false), useFull);
+        string binaryText = FormatBuildDate(GetBinaryBuildDateTime(assembly), useFull);
+        var strings = KryptonManager.Strings.AboutBoxStrings;
+        var lines = new List<string>();
+        if (!string.IsNullOrEmpty(buildDateText))
+        {
+            lines.Add($"{strings.BuildDate}: {buildDateText}");
+        }
+
+        if (!string.IsNullOrEmpty(binaryText))
+        {
+            lines.Add($"{strings.BinaryBuildDate}: {binaryText}");
+        }
+
+        return string.Join("\r\n", lines);
+    }
+
+    public static LinkArea ResolveLinkArea(string text, LinkArea requested, LinkArea defaultArea, string? autoFragment)
+    {
+        if (string.IsNullOrEmpty(text))
+        {
+            return new LinkArea(0, 0);
+        }
+
+        bool isCustom = requested.Start != defaultArea.Start || requested.Length != defaultArea.Length;
+        if (isCustom && requested.Start >= 0 && requested.Length > 0 && requested.Start + requested.Length <= text.Length)
+        {
+            return requested;
+        }
+
+        string fragment = autoFragment ?? string.Empty;
+        if (fragment.Length > 0)
+        {
+            int index = text.IndexOf(fragment, StringComparison.CurrentCulture);
+            if (index >= 0)
+            {
+                return new LinkArea(index, fragment.Length);
+            }
+        }
+
+        return new LinkArea(0, text.Length);
     }
 
     public static NameValueCollection AssemblyAttribs(Assembly assembly)
@@ -137,8 +293,7 @@ internal class KryptonAboutBoxUtilities
                     break;
                 case "System.Runtime.InteropServices.ComCompatibleVersionAttribute":
                 {
-                    ComCompatibleVersionAttribute x;
-                    x = ((ComCompatibleVersionAttribute)attrib);
+                    ComCompatibleVersionAttribute x = (ComCompatibleVersionAttribute)attrib;
                     value = $"{x.MajorVersion}.{x.MinorVersion}.{x.RevisionNumber}.{x.BuildNumber}";
                     break;
                 }
@@ -150,8 +305,7 @@ internal class KryptonAboutBoxUtilities
                     break;
                 case "System.Runtime.InteropServices.TypeLibVersionAttribute":
                 {
-                    TypeLibVersionAttribute x;
-                    x = ((TypeLibVersionAttribute)attrib);
+                    TypeLibVersionAttribute x = (TypeLibVersionAttribute)attrib;
                     value = $"{x.MajorVersion}.{x.MinorVersion}";
                     break;
                 }
@@ -159,7 +313,6 @@ internal class KryptonAboutBoxUtilities
                     value = "(Present)";
                     break;
                 default:
-                    // debug.writeline("** unknown assembly attribute '" + TypeName + "'")
                     value = typeName;
                     break;
             }
@@ -170,52 +323,39 @@ internal class KryptonAboutBoxUtilities
             }
         }
 
-        // add some extra values that are not in the AssemblyInfo, but nice to have
-        // codebase
         try
         {
-            // Warning SYSLIB0012 'Assembly.EscapedCodeBase' is obsolete:
-            // 'Assembly.CodeBase and Assembly.EscapedCodeBase are only included for .NET Framework compatibility.
-            // Use Assembly.Location.' Krypton.Toolkit 2022(net6.0 - windows), Krypton.Toolkit 2022(net8.0 - windows), Krypton.Toolkit 2022(net9.0 - windows)
-            //nvc.Add("CodeBase", assembly.EscapedCodeBase.Replace("file:///", ""));
-
-            string s = assembly.Location.Replace("file:///", "");
-            nvc.Add("CodeBase",  s );
+            nvc.Add("CodeBase", TryGetLocation(assembly).Replace("file:///", ""));
         }
         catch (NotSupportedException)
         {
-            nvc.Add("CodeBasee", "(not supported)");
+            nvc.Add("CodeBase", "(not supported)");
         }
-        // build date
+
         var dt = AssemblyBuildDate(assembly, false);
-        if (dt == DateTime.MaxValue)
-        {
-            nvc.Add("BuildDate", "(unknown)");
-        }
-        else
-        {
-            // ToDo: Use current culture format
-            nvc.Add("BuildDate", dt.ToString("yyyy-MM-dd hh:mm tt"));
-        }
-        // location
+        nvc.Add("BuildDate", dt == DateTime.MaxValue ? "(unknown)" : FormatBuildDate(dt, false));
+        DateTime binary = GetBinaryBuildDateTime(assembly);
+        nvc.Add("BinaryBuildDate", binary == DateTime.MaxValue ? "(unknown)" : FormatBuildDate(binary, false));
+
         try
         {
-            nvc.Add("Location", assembly.Location);
+            nvc.Add("Location", TryGetLocation(assembly));
         }
         catch (NotSupportedException)
         {
             nvc.Add("Location", "(not supported)");
         }
-        // version
+
         try
         {
-            if (assembly.GetName().Version!.Major == 0 && assembly.GetName().Version!.Minor == 0)
+            Version? version = assembly.GetName().Version;
+            if (version == null || (version.Major == 0 && version.Minor == 0))
             {
                 nvc.Add("Version", "(unknown)");
             }
             else
             {
-                nvc.Add("Version", assembly.GetName().Version!.ToString());
+                nvc.Add("Version", version.ToString());
             }
         }
         catch (Exception)
@@ -258,12 +398,7 @@ internal class KryptonAboutBoxUtilities
     {
         assemblyData.Rows.Clear();
 
-        Populate(assemblyData, $@"{KryptonManager.Strings.AboutBoxStrings.ImageRuntimeVersion}", assembly.ImageRuntimeVersion);
-
-        // Global assembly cache APIs are obsolete
-        // https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/5.0/global-assembly-cache-apis-obsolete
-        // Statement below commented out to remove the corresponding warning.
-        // Populate(assemblyData, $@"{KryptonManager.Strings.AboutBoxStrings.LoadedFromGlobalAssemblyCache}", $@"{assembly.GlobalAssemblyCache}");
+        Populate(assemblyData, KryptonManager.Strings.AboutBoxStrings.ImageRuntimeVersion, assembly.ImageRuntimeVersion);
 
         NameValueCollection collection = AssemblyAttribs(assembly);
 
@@ -273,77 +408,98 @@ internal class KryptonAboutBoxUtilities
         }
     }
 
+    public static void PopulateBasicApplicationInformation(KryptonDataGridView dataStore, Assembly currentAssembly)
+    {
+        dataStore.Rows.Clear();
+
+        AppDomain domain = AppDomain.CurrentDomain;
+        Assembly? entryAssembly = Assembly.GetEntryAssembly();
+
+        Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.ApplicationName, currentAssembly.GetName().Name ?? string.Empty);
+        Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.ApplicationBase, domain.BaseDirectory);
+        Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.FriendlyName, domain.FriendlyName);
+        Populate(dataStore, KryptonManager.Strings.AboutBoxStrings.BuildDate,
+            FormatBuildDate(AssemblyBuildDate(currentAssembly, false), false));
+        Populate(dataStore, KryptonManager.Strings.AboutBoxStrings.BinaryBuildDate,
+            FormatBuildDate(GetBinaryBuildDateTime(currentAssembly), false));
+        Populate(dataStore, string.Empty, string.Empty);
+        Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.EntryAssembly, entryAssembly?.GetName().Name ?? string.Empty);
+        Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.ExecutingAssembly, Assembly.GetExecutingAssembly().GetName().Name ?? string.Empty);
+        Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.CallingAssembly, currentAssembly.GetName().Name ?? string.Empty);
+    }
+
+    public static void PopulateAssemblies(KryptonDataGridView dataStore, bool useFullBuiltOnDate)
+    {
+        dataStore.Rows.Clear();
+
+        foreach (Assembly assembly in GetLoadedAssemblies())
+        {
+            AssemblyName name = assembly.GetName();
+            DateTime builtOn = GetBinaryBuildDateTime(assembly);
+            dataStore.Rows.Add(
+                name.Name ?? string.Empty,
+                name.Version?.ToString() ?? string.Empty,
+                FormatBuildDate(builtOn, useFullBuiltOnDate),
+                TryGetLocation(assembly));
+        }
+    }
+
+    public static IReadOnlyList<Assembly> GetLoadedAssemblies()
+    {
+        Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+        Array.Sort(assemblies, (left, right) =>
+            string.Compare(left.GetName().Name, right.GetName().Name, StringComparison.CurrentCultureIgnoreCase));
+        return assemblies;
+    }
+
+    public static FileVersionInfo? TryGetFileVersionInfo(Assembly assembly)
+    {
+        string location = TryGetLocation(assembly);
+        if (string.IsNullOrEmpty(location) || !File.Exists(location))
+        {
+            return null;
+        }
+
+        return FileVersionInfo.GetVersionInfo(location);
+    }
+
+    public static FileVersionInfo GetFileVersionInfo(string assemblyLocation) =>
+        FileVersionInfo.GetVersionInfo(assemblyLocation);
+
+    public static string TryGetLocation(Assembly assembly)
+    {
+        try
+        {
+            return assembly.Location ?? string.Empty;
+        }
+        catch (NotSupportedException)
+        {
+            return string.Empty;
+        }
+    }
+
+    public static void ConfigureReadOnlyGrid(KryptonDataGridView grid)
+    {
+        grid.AllowUserToAddRows = false;
+        grid.AllowUserToDeleteRows = false;
+        grid.ReadOnly = true;
+        grid.MultiSelect = false;
+        grid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+    }
+
     private static void Populate(KryptonDataGridView assemblyData, string key, string value) => assemblyData.Rows.Add(key, value);
 
-    public static void PopulateBasicApplicationInformation(KryptonDataGridView dataStore)
+    private static string FirstNonEmpty(params string?[] values)
     {
-        AppDomain domain = AppDomain.CurrentDomain;
-
-        string entryAssemblyName = Assembly.GetEntryAssembly()!.GetName().Name!;
-
-        string executingAssemblyName = Assembly.GetExecutingAssembly().GetName().Name!;
-
-        string callingAssemblyName = Assembly.GetCallingAssembly().GetName().Name!;
-
-        Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.ApplicationName, Assembly.GetEntryAssembly()!.GetName().Name!);
-
-        Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.ApplicationBase, Assembly.GetEntryAssembly()!.Location);
-
-        // ToDo: Move to .NET
-        //Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.CachePath, domain.SetupInformation.CachePath);
-
-        //Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.ConfigurationFile, domain.SetupInformation.ConfigurationFile);
-
-        //Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.DynamicBase, domain.SetupInformation.DynamicBase);
-
-        //Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.FriendlyName, domain.FriendlyName);
-
-        //Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.LicenseFile, domain.SetupInformation.LicenseFile);
-
-        //Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.PrivateBinPath, domain.SetupInformation.PrivateBinPath);
-
-        //Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.ShadowCopyDirectories, domain.SetupInformation.ShadowCopyDirectories);
-
-        Populate(dataStore, string.Empty, string.Empty);
-
-        Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.EntryAssembly, entryAssemblyName);
-
-        Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.ExecutingAssembly, executingAssemblyName);
-
-        Populate(dataStore, KryptonManager.Strings.AboutBoxBasicStrings.CallingAssembly, callingAssemblyName);
-    }
-
-    public static void PopulateAssemblies(KryptonComboBox assemblyList, KryptonDataGridView dataStore)
-    {
-        string entryAssemblyName = Assembly.GetEntryAssembly()!.GetName().Name!;
-
-        foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+        foreach (string? value in values)
         {
-            PopulateAssemblySummary(assembly, dataStore, assemblyList);
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                return value!;
+            }
         }
 
-        assemblyList.SelectedIndex = assemblyList.FindStringExact(entryAssemblyName);
-    }
-
-    private static void PopulateAssemblySummary(Assembly assembly, KryptonDataGridView dataStore, KryptonComboBox assemblyItems)
-    {
-        NameValueCollection collection = AssemblyAttribs(assembly);
-
-        string assemblyName = assembly.GetName().Name!;
-
-        foreach (var value in collection)
-        {
-            dataStore.Rows.Add(value);
-        }
-
-        assemblyItems.Items.Add(assemblyName);
-    }
-
-    public static FileVersionInfo GetFileVersionInfo(string assemblyLocation)
-    {
-        FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo(assemblyLocation);
-
-        return versionInfo;
+        return string.Empty;
     }
 
     #endregion

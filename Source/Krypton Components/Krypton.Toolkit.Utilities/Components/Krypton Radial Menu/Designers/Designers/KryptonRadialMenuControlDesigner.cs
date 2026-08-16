@@ -53,7 +53,7 @@ internal class KryptonRadialMenuControlDesigner : ControlDesigner
             }
 
             var list = new ArrayList();
-            foreach (var item in _control.Items)
+            foreach (var item in _control.Values.Items)
             {
                 list.Add(item);
                 if (item is KryptonRadialMenuItem command)
@@ -80,10 +80,10 @@ internal class KryptonRadialMenuControlDesigner : ControlDesigner
             return;
         }
 
-        for (var i = _control.Items.Count - 1; i >= 0; i--)
+        for (var i = _control.Values.Items.Count - 1; i >= 0; i--)
         {
-            var item = _control.Items[i];
-            _control.Items.RemoveAt(i);
+            var item = _control.Values.Items[i];
+            _control.Values.Items.RemoveAt(i);
             item.Dispose();
         }
     }

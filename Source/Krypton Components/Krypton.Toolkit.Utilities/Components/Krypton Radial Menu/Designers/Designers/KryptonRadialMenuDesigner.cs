@@ -43,8 +43,8 @@ internal class KryptonRadialMenuDesigner : ComponentDesigner
             var compound = new ArrayList(base.AssociatedComponents);
             if (_menu != null)
             {
-                compound.AddRange(_menu.Items);
-                foreach (var item in _menu.Items)
+                compound.AddRange(_menu.Values.Items);
+                foreach (var item in _menu.Values.Items)
                 {
                     if (item is KryptonRadialMenuItem commandItem)
                     {
@@ -96,10 +96,10 @@ internal class KryptonRadialMenuDesigner : ComponentDesigner
         }
 
         // Detach child items when the menu is removed.
-        for (var i = _menu.Items.Count - 1; i >= 0; i--)
+        for (var i = _menu.Values.Items.Count - 1; i >= 0; i--)
         {
-            var item = _menu.Items[i];
-            _menu.Items.Remove(item);
+            var item = _menu.Values.Items[i];
+            _menu.Values.Items.RemoveAt(i);
             _changeService?.OnComponentChanging(_menu, null);
             item.Dispose();
         }
