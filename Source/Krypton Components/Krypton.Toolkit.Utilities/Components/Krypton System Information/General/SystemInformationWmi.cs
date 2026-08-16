@@ -70,7 +70,7 @@ internal static class SystemInformationWmi
         {
             cancellationToken.ThrowIfCancellationRequested();
             var scope = GetScope();
-            var options = new EnumerationOptions
+            var options = new System.Management.EnumerationOptions
             {
                 Timeout = QueryTimeout,
                 Rewindable = false,

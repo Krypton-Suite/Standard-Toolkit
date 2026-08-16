@@ -36,6 +36,7 @@ internal partial class VisualSystemInformationForm : KryptonForm
         kbtnWindowsMsinfo.Visible = data.ShowWindowsSystemInformation ?? true;
         kchkAllModules.Checked = data.EnumerateAllProcessModules ?? false;
         _initialNode = SystemInformationCatalog.Populate(ktvCategories, data.InitialCategoryId);
+        RefreshSearchSuggestions();
         if (_initialNode != null)
         {
             ktvCategories.SelectedNode = _initialNode;
@@ -117,7 +118,7 @@ internal partial class VisualSystemInformationForm : KryptonForm
     {
         var strings = KryptonSystemInformation.Strings;
         Text = strings.WindowTitle;
-        klblFind.Values.Text = strings.Find;
+        ksbFind.SearchBoxValues.PlaceholderText = strings.Find;
         kbtnFindNext.Values.Text = strings.FindNext;
         kbtnCopy.Values.Text = strings.Copy;
         kbtnSave.Values.Text = strings.Save;
@@ -156,20 +157,18 @@ internal partial class VisualSystemInformationForm : KryptonForm
 
     private void kbtnWindowsMsinfo_Click(object sender, EventArgs e) => GlobalToolkitUtilities.LaunchProcess(@"MSInfo32.exe");
 
-    private void ktxtFind_TextChanged(object sender, EventArgs e)
+    private void ksbFind_TextChanged(object sender, EventArgs e)
     {
         ApplyFindFilter();
         RebuildTreeMatches();
     }
 
-    private void ktxtFind_KeyDown(object sender, KeyEventArgs e)
+    private void ksbFind_Search(object sender, SearchEventArgs e) => FindNextTreeMatch();
+
+    private void ksbFind_SearchCleared(object sender, EventArgs e)
     {
-        if (e.KeyCode == Keys.F3 || e.KeyCode == Keys.Enter)
-        {
-            FindNextTreeMatch();
-            e.Handled = true;
-            e.SuppressKeyPress = true;
-        }
+        ApplyFindFilter();
+        RebuildTreeMatches();
     }
 
     private void kbtnFindNext_Click(object sender, EventArgs e) => FindNextTreeMatch();
@@ -418,7 +417,7 @@ internal partial class VisualSystemInformationForm : KryptonForm
     private void ApplyFindFilter()
     {
         _visibleRowIndexes.Clear();
-        var filter = ktxtFind.Text;
+        var filter = ksbFind.Text;
         var hasFilter = !string.IsNullOrWhiteSpace(filter);
         if (_currentTable != null)
         {
@@ -449,11 +448,28 @@ internal partial class VisualSystemInformationForm : KryptonForm
         return false;
     }
 
+    private void RefreshSearchSuggestions()
+    {
+        var names = new List<string>();
+        CollectNodeTexts(ktvCategories.Nodes, names);
+        ksbFind.SearchBoxValues.EnableSuggestions = names.Count > 0;
+        ksbFind.SetSearchSuggestions(names);
+    }
+
+    private static void CollectNodeTexts(TreeNodeCollection nodes, List<string> names)
+    {
+        foreach (TreeNode node in nodes)
+        {
+            names.Add(node.Text);
+            CollectNodeTexts(node.Nodes, names);
+        }
+    }
+
     private void RebuildTreeMatches()
     {
         _treeMatches.Clear();
         _treeMatchIndex = -1;
-        var filter = ktxtFind.Text;
+        var filter = ksbFind.Text;
         if (string.IsNullOrWhiteSpace(filter))
         {
             return;

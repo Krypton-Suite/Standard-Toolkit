@@ -26,8 +26,7 @@
             this.kbtnClose = new Krypton.Toolkit.KryptonButton();
             this.kbtnWindowsMsinfo = new Krypton.Toolkit.KryptonButton();
             this.kpnlToolbar = new Krypton.Toolkit.KryptonPanel();
-            this.klblFind = new Krypton.Toolkit.KryptonLabel();
-            this.ktxtFind = new Krypton.Toolkit.KryptonTextBox();
+            this.ksbFind = new Krypton.Toolkit.Utilities.KryptonSearchBox();
             this.kbtnCopy = new Krypton.Toolkit.KryptonButton();
             this.kbtnSave = new Krypton.Toolkit.KryptonButton();
             this.kbtnRefresh = new Krypton.Toolkit.KryptonButton();
@@ -53,6 +52,7 @@
             this.kscMain.Panel2.SuspendLayout();
             this.kscMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kdgvDetails)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ksbFind)).BeginInit();
             this.kssStatus.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -106,8 +106,7 @@
             this.kpnlToolbar.Controls.Add(this.kbtnSave);
             this.kpnlToolbar.Controls.Add(this.kbtnCopy);
             this.kpnlToolbar.Controls.Add(this.kbtnFindNext);
-            this.kpnlToolbar.Controls.Add(this.ktxtFind);
-            this.kpnlToolbar.Controls.Add(this.klblFind);
+            this.kpnlToolbar.Controls.Add(this.ksbFind);
             this.kpnlToolbar.Dock = System.Windows.Forms.DockStyle.Top;
             this.kpnlToolbar.Location = new System.Drawing.Point(0, 0);
             this.kpnlToolbar.Name = "kpnlToolbar";
@@ -115,26 +114,19 @@
             this.kpnlToolbar.Size = new System.Drawing.Size(1000, 40);
             this.kpnlToolbar.TabIndex = 0;
             // 
-            // klblFind
+            // ksbFind
             // 
-            this.klblFind.Location = new System.Drawing.Point(12, 9);
-            this.klblFind.Name = "klblFind";
-            this.klblFind.Size = new System.Drawing.Size(38, 20);
-            this.klblFind.TabIndex = 0;
-            this.klblFind.Values.Text = "Find:";
-            // 
-            // ktxtFind
-            // 
-            this.ktxtFind.Location = new System.Drawing.Point(56, 8);
-            this.ktxtFind.Name = "ktxtFind";
-            this.ktxtFind.Size = new System.Drawing.Size(160, 23);
-            this.ktxtFind.TabIndex = 1;
-            this.ktxtFind.TextChanged += new System.EventHandler(this.ktxtFind_TextChanged);
-            this.ktxtFind.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ktxtFind_KeyDown);
+            this.ksbFind.Location = new System.Drawing.Point(12, 8);
+            this.ksbFind.Name = "ksbFind";
+            this.ksbFind.Size = new System.Drawing.Size(220, 23);
+            this.ksbFind.TabIndex = 0;
+            this.ksbFind.Search += new System.EventHandler<Krypton.Toolkit.Utilities.SearchEventArgs>(this.ksbFind_Search);
+            this.ksbFind.SearchCleared += new System.EventHandler(this.ksbFind_SearchCleared);
+            this.ksbFind.TextChanged += new System.EventHandler(this.ksbFind_TextChanged);
             // 
             // kbtnFindNext
             // 
-            this.kbtnFindNext.Location = new System.Drawing.Point(222, 7);
+            this.kbtnFindNext.Location = new System.Drawing.Point(238, 7);
             this.kbtnFindNext.Name = "kbtnFindNext";
             this.kbtnFindNext.Size = new System.Drawing.Size(90, 25);
             this.kbtnFindNext.TabIndex = 2;
@@ -288,6 +280,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.kscMain)).EndInit();
             this.kscMain.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kdgvDetails)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ksbFind)).EndInit();
             this.kssStatus.ResumeLayout(false);
             this.kssStatus.PerformLayout();
             this.ResumeLayout(false);
@@ -301,8 +294,7 @@
         private Krypton.Toolkit.KryptonButton kbtnClose;
         private Krypton.Toolkit.KryptonButton kbtnWindowsMsinfo;
         private Krypton.Toolkit.KryptonPanel kpnlToolbar;
-        private Krypton.Toolkit.KryptonLabel klblFind;
-        private Krypton.Toolkit.KryptonTextBox ktxtFind;
+        private Krypton.Toolkit.Utilities.KryptonSearchBox ksbFind;
         private Krypton.Toolkit.KryptonButton kbtnCopy;
         private Krypton.Toolkit.KryptonButton kbtnSave;
         private Krypton.Toolkit.KryptonButton kbtnPrint;
