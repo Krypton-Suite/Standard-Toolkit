@@ -159,7 +159,7 @@ Assert-Equal 10 $hosted.OuterRingThickness 'Hosted default OuterRingThickness is
 Assert-Equal 1 ([float]$hosted.Scale) 'Hosted default Scale is 1'
 Assert-Equal ([Krypton.Toolkit.Utilities.KryptonRadialMenuDisplayStyle]::ImageAboveText) $hosted.DisplayStyle 'Hosted default DisplayStyle is ImageAboveText'
 Assert-True ($null -ne $hosted.StateCommon) 'Hosted StateCommon is available'
-Assert-True ($null -ne $hosted.Items) 'Hosted Items collection is available'
+Assert-True ($null -ne $hosted.Values.Items) 'Hosted Items collection is available'
 Assert-Equal '+' $hosted.HubText 'Hosted default HubText is +'
 $hosted.HubText = 'Menu'
 Assert-Equal 'Menu' $hosted.HubText 'Hosted HubText can be set'
