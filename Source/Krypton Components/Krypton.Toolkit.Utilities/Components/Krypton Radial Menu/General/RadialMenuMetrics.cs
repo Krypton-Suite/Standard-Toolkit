@@ -31,7 +31,7 @@ internal readonly struct RadialMenuMetrics
     public const float DefaultStartAngle = -90f;
     public const float DefaultHitPadding = 4f;
     public const int DefaultAnimationDurationMs = 220;
-    public const string DefaultHubText = @"+";
+    public const string DefaultHubText = @"☰";
     public const string DefaultSubMenuGlyph = @"›";
 
     public const int MinMenuRadius = 60;
