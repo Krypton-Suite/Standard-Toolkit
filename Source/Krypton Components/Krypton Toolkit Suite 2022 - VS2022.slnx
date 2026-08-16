@@ -93,6 +93,30 @@
     <File Path="../../Documents/License/License.md" />
     <File Path="../../LICENSE" />
   </Folder>
+  <Folder Name="/Solution Items/Unit Tests/">
+    <File Path="../../Scripts/UnitTests/Convert-ThrowArgumentNull-ArgumentForm.ps1" />
+    <File Path="../../Scripts/UnitTests/Convert-ThrowHelpers-Pass2.ps1" />
+    <File Path="../../Scripts/UnitTests/Convert-ThrowHelpers.ps1" />
+    <File Path="../../Scripts/UnitTests/Get-NavigatorCaptionTabProbe.ps1" />
+    <File Path="../../Scripts/UnitTests/Get-NavigatorTabGroupColourShot.ps1" />
+    <File Path="../../Scripts/UnitTests/Invoke-AllUnitTests.ps1" />
+    <File Path="../../Scripts/UnitTests/Invoke-CaptionTabDrag.ps1" />
+    <File Path="../../Scripts/UnitTests/Invoke-RadialMenuScreenshot.ps1" />
+    <File Path="../../Scripts/UnitTests/README.md" />
+    <File Path="../../Scripts/UnitTests/Restore-ThrowHelper-Coalesce.ps1" />
+    <File Path="../../Scripts/UnitTests/Start-AsyncFormsDemoHost.ps1" />
+    <File Path="../../Scripts/UnitTests/Start-NavigatorFormIntegrationHost.ps1" />
+    <File Path="../../Scripts/UnitTests/Start-RadialMenuDemoHost.ps1" />
+    <File Path="../../Scripts/UnitTests/UnitTest-AsyncFormApis.ps1" />
+    <File Path="../../Scripts/UnitTests/UnitTest-ButtonSpaceKey.ps1" />
+    <File Path="../../Scripts/UnitTests/UnitTest-DockingDragTargetHeuristics.ps1" />
+    <File Path="../../Scripts/UnitTests/UnitTest-InteractiveToolTips.ps1" />
+    <File Path="../../Scripts/UnitTests/UnitTest-NavigatorCaptionTabRemerge.ps1" />
+    <File Path="../../Scripts/UnitTests/UnitTest-NavigatorTaskbarTabGroups.ps1" />
+    <File Path="../../Scripts/UnitTests/UnitTest-RadialMenu.ps1" />
+    <File Path="../../Scripts/UnitTests/UnitTest-UnitTestInfrastructure.ps1" />
+    <File Path="../../Scripts/UnitTests/UnitTestCommon.ps1" />
+  </Folder>
   <Folder Name="/Source/" />
   <Folder Name="/Source/Core Libraries/">
     <Project Path="Krypton.Docking/Krypton.Docking 2022.csproj" />
@@ -104,7 +128,7 @@
   <Folder Name="/Source/Shared Libraries/">
     <Project Path="Krypton.Interop/Krypton.Interop.csproj" />
   </Folder>
-  <Folder Name="/Source/Utility  Libraries/">
+  <Folder Name="/Source/Utility Libraries/">
     <Project Path="Krypton.Navigator.Utilities/Krypton.Navigator.Utilities.csproj" Id="20869492-f8bf-4fc1-9714-44012de15756">
       <BuildType Solution="Canary|*" Project="Release" />
       <BuildType Solution="Installer|*" Project="Debug" />

@@ -35,8 +35,8 @@ Workflow: [`.github/workflows/unit-tests.yml`](../../.github/workflows/unit-test
 
 Optional Discord notifications use repository secret `DISCORD_WEBHOOK_UNIT_TESTS`:
 
-- Failures always post when the secret is set.
-- Successful on-demand runs post when `notify_discord` is enabled (`workflow_dispatch` default `true`).
+- Success and failure both post when the secret is set (cancelled runs are skipped).
+- On-demand / reusable runs can opt out with `notify_discord=false` (`workflow_dispatch` default `true`).
 
 ## Prerequisites
 

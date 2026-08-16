@@ -137,9 +137,6 @@
 	  <Compile Update="Components\Krypton AboutBox\Controls Visuals\VisualAboutBoxForm.cs">
 	    <SubType>Form</SubType>
 	  </Compile>
-	  <Compile Update="Components\Krypton AboutBox\Controls Visuals\VisualAboutBoxRtlAwareForm.cs">
-	    <SubType>Form</SubType>
-	  </Compile>
 	  <Compile Update="Components\Krypton AboutBox\View Base\InternalAssemblyDetails.cs">
 	    <SubType>UserControl</SubType>
 	  </Compile>
