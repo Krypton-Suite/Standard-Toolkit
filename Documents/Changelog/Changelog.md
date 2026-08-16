@@ -45,6 +45,12 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#4192](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4192), Allow "Any" control in a tooltip (i.e. hyperlinks)
+   * Host any WinForms control (including hyperlinks) inside a themed `KryptonToolTip`.
+   * `ToolTipValues.HostedContent` on Krypton controls, `SetLinkToolTip` / `LinkClicked`, linger dismiss, optional keyboard and close timer.
+   * To use HTML fragments (`KryptonHtmlToolTipContent`), download the `Krypton.Standard.Toolkit` NuGet package (`Krypton.Toolkit.Utilities`).
+   * `KryptonNotifyIcon.ShowPopupTip` shows the same chrome near the cursor; `KryptonContextMenu` is supported on right-click.
+   * `ToolTipManager` linger now tracks the next view so moving between sibling tooltip targets reshows immediately.
 * Implemented [#4193](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4193), DateTimePicker to show Month's and Years only with Krypton themes
    * Month- and year-only calendars on `KryptonDateTimePicker` and `KryptonMonthCalendar` via `CalendarView` (`Days`, `Months`, `Years`), with themed 12-cell drop-downs and header drill-up.
 * Implemented [#942](https://github.com/Krypton-Suite/Standard-Toolkit/issues/942), Office dark/light grey themes
