@@ -48,6 +48,12 @@
 * Implemented [#1551](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1551), New dark/light mode theme colours
    * New Materialize Blue, Materialize Light Blue, and Silver Dark Alternate builtin themes for Office 2007 / 2010 / 2013, Microsoft 365, and Material (including Material Ripple).
 * Implemented [#1083](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1083), Visual Studio themes (2010–2026)
+* Implemented [#4225](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4225), **[Breaking Change]** `KryptonRadialMenu` followups
+   * `Items` can now be found under `Values.Items` (and `Items` is now `Obsolete`) so the collection can be shared with a `KryptonRadialMenuControl` host.
+* Implemented [#2222](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2222), Comprehensive About dialog (`KryptonAboutBox`) with user and developer pages, assembly-attribute defaults, and `Show()` / `Show(Assembly)` overloads.
+  * General, Application, and Assembly Details show **Build Date** plus **Binary** date and time (PE timestamp when it is a plausible date, otherwise the file last-write time).
+  * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
+* Implemented [#1083](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1083), Visual Studio themes (2010 – 2026)
    * Selectable Dark / Light / Blue built-ins for Visual Studio 2012, 2013, 2015, 2017, 2019, and 2022 (plus existing VS2010 Office-renderer variations).
    * Visual Studio 2026 Dark / Light mapped from Microsoft Fluent [theme color tokens](https://learn.microsoft.com/en-us/visualstudio/extensibility/ux-guidelines/theme-color-token-reference) (purple `AccentFillDefault` / `EnvironmentBorder`, selection `#0078D4` / `#005FB7`).
    * Classic Blue uses VS blue title-bar chrome (`#293955`) with blue-grey panels and `#007ACC` accent; older years use year-accurate surfaces derived from the same scheme model.

@@ -9,30 +9,37 @@
 
 namespace Krypton.Toolkit.Utilities;
 
-/// <summary>A structure that contains basic information for <see cref="VisualAboutBoxForm"/>.</summary>
+/// <summary>
+/// Identity and chrome for <see cref="KryptonAboutBox"/>.
+/// Empty members are filled from <see cref="CurrentAssembly"/> attributes and file version info.
+/// </summary>
 public struct KryptonAboutBoxData
 {
     #region Public
 
-    /// <summary>Gets or sets the show toolkit information.</summary>
-    /// <value>The show toolkit information.</value>
+    /// <summary>Gets or sets whether the Toolkit Information page is shown.</summary>
     public bool? ShowToolkitInformation { get; set; }
 
-    /// <summary>Gets or sets the current assembly.</summary>
-    /// <value>The current assembly.</value>
-    public Assembly CurrentAssembly { get; set; }
+    /// <summary>
+    /// Gets or sets whether the System Information button is shown.
+    /// When null, <see cref="KryptonAboutToolkitData.ShowSystemInformationButton"/> is used (default true).
+    /// </summary>
+    public bool? ShowSystemInformationButton { get; set; }
 
-    /// <summary>Gets or sets the use full built on date.</summary>
-    /// <value>The use full built on date.</value>
+    /// <summary>
+    /// Gets or sets the assembly whose attributes and file version supply About identity.
+    /// When null, the entry assembly is used.
+    /// </summary>
+    public Assembly? CurrentAssembly { get; set; }
+
+    /// <summary>Gets or sets whether the build date uses the full culture-specific format (<c>F</c>) rather than general (<c>G</c>).</summary>
     public bool? UseFullBuiltOnDate { get; set; }
 
     /// <summary>Gets or sets the header image.</summary>
-    /// <value>The header image.</value>
     [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
-    public Image? HeaderImage { get; set; } //= GenericImageResources.InformationSmall;
+    public Image? HeaderImage { get; set; }
 
     /// <summary>Gets or sets the main image.</summary>
-    /// <value>The main image.</value>
     public Image? MainImage { get; set; }
 
     /// <summary>
@@ -41,19 +48,29 @@ public struct KryptonAboutBoxData
     /// </summary>
     public KryptonOverlayImage MainImageOverlay { get; set; }
 
-    /// <summary>Gets or sets the name of the application.</summary>
-    /// <value>The name of the application.</value>
-    public string ApplicationName { get; set; }
+    /// <summary>Gets or sets the application name. When empty, product/title attributes are used.</summary>
+    public string? ApplicationName { get; set; }
+
+    /// <summary>Gets or sets an optional version override. When empty, informational/file version is used.</summary>
+    public string? Version { get; set; }
+
+    /// <summary>Gets or sets an optional copyright override.</summary>
+    public string? Copyright { get; set; }
+
+    /// <summary>Gets or sets an optional company override.</summary>
+    public string? Company { get; set; }
+
+    /// <summary>Gets or sets an optional description override shown on the Description page.</summary>
+    public string? Description { get; set; }
 
     /// <summary>Gets or sets the use RTL layout of the <see cref="KryptonAboutBox"/> UI.</summary>
-    /// <value>The use RTL layout in an <see cref="KryptonAboutBox"/>.</value>
     public KryptonUseRTLLayout UseRtlLayout { get; set; }
 
     #endregion
 
     #region Identity
 
-    /// <summary>Initializes a new instance of the <see cref="KryptonAboutBoxData" /> struct.</summary>
+    /// <summary>Initializes a new instance of the <see cref="KryptonAboutBoxData"/> struct.</summary>
     public KryptonAboutBoxData()
     {
         UseRtlLayout = KryptonUseRTLLayout.No;

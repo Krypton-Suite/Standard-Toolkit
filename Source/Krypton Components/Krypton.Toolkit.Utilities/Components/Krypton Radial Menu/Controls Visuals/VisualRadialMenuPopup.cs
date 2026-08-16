@@ -62,9 +62,9 @@ internal class VisualRadialMenuPopup : VisualPopup, IRadialMenuInteractionHost
 
     KryptonRadialMenuValues IRadialMenuInteractionHost.Values => _owner.Values;
 
-    KryptonRadialMenuItemCollection IRadialMenuInteractionHost.RootItems => _owner.Items;
+    KryptonRadialMenuItemCollection IRadialMenuInteractionHost.RootItems => _owner.Values.Items;
 
-    bool IRadialMenuInteractionHost.Enabled => _owner.Enabled;
+    bool IRadialMenuInteractionHost.Enabled => _owner.Values.Enabled;
 
     IRadialMenuAppearance IRadialMenuInteractionHost.Appearance => _owner;
 
@@ -251,7 +251,7 @@ internal class VisualRadialMenuPopup : VisualPopup, IRadialMenuInteractionHost
         }
         else
         {
-            Cursor = (_owner.AllowMove && hit.Kind == RadialHitKind.Center) ? Cursors.SizeAll : Cursors.Default;
+            Cursor = (_owner.Values.AllowMove && hit.Kind == RadialHitKind.Center) ? Cursors.SizeAll : Cursors.Default;
         }
 
         SyncShadowAppearance();
@@ -268,7 +268,7 @@ internal class VisualRadialMenuPopup : VisualPopup, IRadialMenuInteractionHost
         }
 
         var hit = _core.HitTest(e.Location);
-        if (_owner.AllowMove && hit.Kind == RadialHitKind.Center)
+        if (_owner.Values.AllowMove && hit.Kind == RadialHitKind.Center)
         {
             _movePending = true;
             _moving = false;
@@ -693,7 +693,7 @@ internal class VisualRadialMenuPopup : VisualPopup, IRadialMenuInteractionHost
         }
 
         PaletteState state;
-        if (!_owner.Enabled)
+        if (!_owner.Values.Enabled)
         {
             state = PaletteState.Disabled;
         }

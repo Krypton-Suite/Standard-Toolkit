@@ -43,11 +43,11 @@ internal class KryptonRadialMenuActionList : DesignerActionList
     /// </summary>
     public int MenuRadius
     {
-        get => _menu.MenuRadius;
+        get => _menu.Values.MenuRadius;
         set
         {
             _changeService?.OnComponentChanging(_menu, null);
-            _menu.MenuRadius = value;
+            _menu.Values.MenuRadius = value;
             _changeService?.OnComponentChanged(_menu, null, null, null);
         }
     }
@@ -57,11 +57,11 @@ internal class KryptonRadialMenuActionList : DesignerActionList
     /// </summary>
     public int InnerRadius
     {
-        get => _menu.InnerRadius;
+        get => _menu.Values.InnerRadius;
         set
         {
             _changeService?.OnComponentChanging(_menu, null);
-            _menu.InnerRadius = value;
+            _menu.Values.InnerRadius = value;
             _changeService?.OnComponentChanged(_menu, null, null, null);
         }
     }
@@ -71,11 +71,11 @@ internal class KryptonRadialMenuActionList : DesignerActionList
     /// </summary>
     public KryptonRadialMenuDisplayStyle DisplayStyle
     {
-        get => _menu.DisplayStyle;
+        get => _menu.Values.DisplayStyle;
         set
         {
             _changeService?.OnComponentChanging(_menu, null);
-            _menu.DisplayStyle = value;
+            _menu.Values.DisplayStyle = value;
             _changeService?.OnComponentChanged(_menu, null, null, null);
         }
     }
@@ -100,14 +100,14 @@ internal class KryptonRadialMenuActionList : DesignerActionList
     /// </summary>
     public void EditItems()
     {
-        var editor = TypeDescriptor.GetEditor(_menu.Items, typeof(UITypeEditor)) as UITypeEditor;
+        var editor = TypeDescriptor.GetEditor(_menu.Values.Items, typeof(UITypeEditor)) as UITypeEditor;
         if (editor == null)
         {
             return;
         }
 
         var context = new RadialMenuItemsContext(_menu);
-        editor.EditValue(context, context, _menu.Items);
+        editor.EditValue(context, context, _menu.Values.Items);
     }
 
     #endregion
@@ -117,8 +117,8 @@ internal class KryptonRadialMenuActionList : DesignerActionList
     private sealed class RadialMenuItemsContext(KryptonRadialMenu menu) : ITypeDescriptorContext
     {
         public IContainer? Container => menu.Container;
-        public object Instance => menu.Items;
-        public PropertyDescriptor? PropertyDescriptor => TypeDescriptor.GetProperties(menu)[nameof(KryptonRadialMenu.Items)];
+        public object Instance => menu.Values.Items;
+        public PropertyDescriptor? PropertyDescriptor => TypeDescriptor.GetProperties(menu)[nameof(KryptonRadialMenu.Values.Items)];
         public object? GetService(Type serviceType) => menu.Site?.GetService(serviceType);
         public void OnComponentChanged() { }
         public bool OnComponentChanging() => true;
