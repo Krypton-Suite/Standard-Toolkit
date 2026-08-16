@@ -45,6 +45,13 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented, Configurable fade in/out on `VisualForm` / `KryptonForm` via `FadeValues` (opt-in; default off).
+   * Set `FadeValues.FadingEnabled` to fade in on show and out on close. `FadeIn` / `FadeOut` / `FadeSpeed` / `CustomFadeSpeed` are designer-serializable. Call `FadeIn()`, `FadeOut()`, or `FadeOutAndClose()` at any time.
+* Implemented [#4188](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4188), Extended Messagebox enhancements
+   * Fade in/out, caption timeout, and auto-close for `KryptonMessageBoxExtended`.
+   * FoldableDialog-style collapsible details on `KryptonMessageBoxExtended` (`DetailsText`, `Expanded`, `ExpandButtonText`, `CollapseButtonText`).
+   * A non-empty `DetailsText` shows the expander (same rule as `KryptonFoldableDialog`). Existing `Show(..., footerText, footerExpanded, footerContentType)` overloads and `MoreDetails*` data properties still work.
+   * Configure via `KryptonMessageBoxExtendedData` (`UseFade`, `UseTimeOut`, `AutoClose`, `TimeOutAction`, `TimeOutResult`, `CountdownButton`). Existing `Show(..., useTimeOut, timeOut, timerResult)` overloads now close with the configured result. Optional `CountdownButton` shows remaining time on a chosen action button (`OK (5s)`); that button stays enabled so it can be clicked before the timer elapses. RTL timeout no longer opens a second dialog.
 * Implemented [#4172](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4172), Radial menu
    * `KryptonRadialMenu` circular popup menu in `Krypton.Toolkit.Utilities`
    * Form-hosted `KryptonRadialMenuControl` (Syncfusion-style always-visible surface) sharing items/painter with the popup `KryptonRadialMenu`.
