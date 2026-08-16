@@ -45,6 +45,10 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#1083](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1083), Visual Studio themes (2010–2026)
+   * Selectable Dark / Light / Blue built-ins for Visual Studio 2012, 2013, 2015, 2017, 2019, and 2022 (plus existing VS2010 Office-renderer variations).
+   * Visual Studio 2026 Dark / Light mapped from Microsoft Fluent [theme color tokens](https://learn.microsoft.com/en-us/visualstudio/extensibility/ux-guidelines/theme-color-token-reference) (purple `AccentFillDefault` / `EnvironmentBorder`, selection `#0078D4` / `#005FB7`).
+   * Classic Blue uses VS blue title-bar chrome (`#293955`) with blue-grey panels and `#007ACC` accent; older years use year-accurate surfaces derived from the same scheme model.
 * Implemented [#4192](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4192), Allow "Any" control in a tooltip (i.e. hyperlinks)
    * Host any WinForms control (including hyperlinks) inside a themed `KryptonToolTip`.
    * `ToolTipValues.HostedContent` on Krypton controls, `SetLinkToolTip` / `LinkClicked`, linger dismiss, optional keyboard and close timer.
