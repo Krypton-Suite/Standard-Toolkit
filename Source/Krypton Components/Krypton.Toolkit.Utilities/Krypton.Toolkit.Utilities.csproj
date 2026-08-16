@@ -151,6 +151,9 @@
 	  <Compile Update="Components\Krypton System Information\Controls Visuals\VisualSystemInformationForm.Designer.cs">
 	    <DependentUpon>VisualSystemInformationForm.cs</DependentUpon>
 	  </Compile>
+	  <Compile Update="Components\Krypton Splash Screen Manager\Controls Visuals\VisualSplashScreenManagerForm.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
 	  <Compile Update="Components\Krypton AboutBox\Controls Visuals\VisualAboutBoxForm.cs">
 	    <SubType>Form</SubType>
 	  </Compile>
