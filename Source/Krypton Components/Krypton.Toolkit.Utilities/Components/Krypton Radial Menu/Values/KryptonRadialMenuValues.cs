@@ -25,6 +25,7 @@ public class KryptonRadialMenuValues : Storage
     private Color _subMenuHoverColor;
     private KryptonRadialMenuDisplayStyle _displayStyle;
     private string _subMenuGlyph;
+    private string _defaultHubText = @"☰";
     private float _outerRingThickness;
     private bool _showOuterRingOnLeaves;
     private float _scale;
@@ -180,7 +181,7 @@ public class KryptonRadialMenuValues : Storage
     /// Used by <see cref="KryptonRadialMenuControl"/> hub mode. Default is <c>+</c>. Empty draws no caption.
     /// </remarks>
     [Category(@"Visuals")]
-    [Description(@"Text on the collapsed hub when no Glyph image is set. Default is +.")]
+    [Description(@"Text on the collapsed hub when no Glyph image is set. Default is ☰")]
     [DefaultValue(RadialMenuMetrics.DefaultHubText)]
     [Localizable(true)]
     public string HubText
@@ -549,6 +550,26 @@ public class KryptonRadialMenuValues : Storage
     [Description(@"Collection of radial menu items.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public KryptonRadialMenuItemCollection Items { get; }
+
+    /// <summary>
+    /// Gets or sets whether the menu can be shown.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Indicates whether the radial menu can be shown.")]
+    [DefaultValue(true)]
+    public bool Enabled { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the user can drag the centre button to reposition the open menu.
+    /// </summary>
+    /// <remarks>
+    /// When enabled, drag the centre button to move the popup. A short click without dragging
+    /// still performs the usual centre action (back / close).
+    /// </remarks>
+    [Category(@"Behavior")]
+    [Description(@"Allows dragging the centre button to move the open radial menu.")]
+    [DefaultValue(false)]
+    public bool AllowMove { get; set; }
 
     #endregion
 }

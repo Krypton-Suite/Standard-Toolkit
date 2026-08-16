@@ -41,15 +41,15 @@ public partial class RadialMenuDemo : KryptonForm
     private void ConfigureHostedControl()
     {
         _hostedControl.Name = @"kryptonRadialMenuControl";
-        _hostedControl.MenuRadius = 110;
-        _hostedControl.InnerRadius = 34;
-        var diameter = (_hostedControl.MenuRadius * 2) + 8;
+        _hostedControl.Values.MenuRadius = 110;
+        _hostedControl.Values.InnerRadius = 34;
+        var diameter = (_hostedControl.Values.MenuRadius * 2) + 8;
         _hostedControl.Dock = DockStyle.None;
         _hostedControl.Size = new Size(diameter, diameter);
         _hostedControl.TabIndex = 0;
         _hostedControl.UseHub = kchkUseHub.Checked;
-        _hostedControl.AllowMove = kchkAllowMove.Checked;
-        _hostedControl.HubText = ktxtHubText.Text;
+        _hostedControl.Values.AllowMove = kchkAllowMove.Checked;
+        _hostedControl.Values.HubText = ktxtHubText.Text;
         _hostedControl.ItemClick += (_, e) => AppendLog($@"Hosted ItemClick: {e.Item}");
         _hostedControl.CenterButtonClick += (_, _) => AppendLog(@"Hosted centre button");
         _hostedControl.ExpandedChanged += (_, _) =>
@@ -147,8 +147,8 @@ public partial class RadialMenuDemo : KryptonForm
 
     private void ApplyAnimationStyle(KryptonRadialMenuAnimationStyle style)
     {
-        _radialMenu.AnimationStyle = style;
-        _importedMenu.AnimationStyle = style;
+        _radialMenu.Values.AnimationStyle = style;
+        _importedMenu.Values.AnimationStyle = style;
     }
 
     private Image CreateSliceIcon(Color fill, string glyph)
@@ -251,7 +251,7 @@ public partial class RadialMenuDemo : KryptonForm
         });
 
         // Demonstrate overflow paging when more than six sectors are present.
-        _radialMenu.MaxVisibleItems = 6;
+        _radialMenu.Values.MaxVisibleItems = 6;
 
         edit.ToolTipValues.EnableToolTips = true;
         edit.ToolTipValues.Heading = @"Edit";
@@ -388,9 +388,9 @@ public partial class RadialMenuDemo : KryptonForm
 
     private void kchkAllowMove_CheckedChanged(object? sender, EventArgs e)
     {
-        _radialMenu.AllowMove = kchkAllowMove.Checked;
-        _importedMenu.AllowMove = kchkAllowMove.Checked;
-        _hostedControl.AllowMove = kchkAllowMove.Checked;
+        _radialMenu.Values.AllowMove = kchkAllowMove.Checked;
+        _importedMenu.Values.AllowMove = kchkAllowMove.Checked;
+        _hostedControl.Values.AllowMove = kchkAllowMove.Checked;
     }
 
     private void kcmbAnimation_SelectedIndexChanged(object? sender, EventArgs e)
@@ -405,9 +405,9 @@ public partial class RadialMenuDemo : KryptonForm
     {
         if (kcmbDisplayStyle.SelectedItem is KryptonRadialMenuDisplayStyle style)
         {
-            _radialMenu.DisplayStyle = style;
-            _importedMenu.DisplayStyle = style;
-            _hostedControl.DisplayStyle = style;
+            _radialMenu.Values.DisplayStyle = style;
+            _importedMenu.Values.DisplayStyle = style;
+            _hostedControl.Values.DisplayStyle = style;
         }
     }
 
@@ -415,61 +415,61 @@ public partial class RadialMenuDemo : KryptonForm
     {
         if (kcmbImageSize.SelectedItem is int size)
         {
-            _radialMenu.ItemImageSize = size;
-            _importedMenu.ItemImageSize = size;
-            _hostedControl.ItemImageSize = size;
+            _radialMenu.Values.ItemImageSize = size;
+            _importedMenu.Values.ItemImageSize = size;
+            _hostedControl.Values.ItemImageSize = size;
         }
     }
 
     private void knudOuterRing_ValueChanged(object? sender, EventArgs e)
     {
         var thickness = (float)knudOuterRing.Value;
-        _radialMenu.OuterRingThickness = thickness;
-        _importedMenu.OuterRingThickness = thickness;
-        _hostedControl.OuterRingThickness = thickness;
+        _radialMenu.Values.OuterRingThickness = thickness;
+        _importedMenu.Values.OuterRingThickness = thickness;
+        _hostedControl.Values.OuterRingThickness = thickness;
     }
 
     private void knudScale_ValueChanged(object? sender, EventArgs e)
     {
         var scale = (float)knudScale.Value;
-        _radialMenu.Scale = scale;
-        _importedMenu.Scale = scale;
-        _hostedControl.Scale = scale;
+        _radialMenu.Values.Scale = scale;
+        _importedMenu.Values.Scale = scale;
+        _hostedControl.Values.Scale = scale;
         CenterHostedControl();
     }
 
     private void kchkShowShadow_CheckedChanged(object? sender, EventArgs e)
     {
-        _radialMenu.ShowShadow = kchkShowShadow.Checked;
-        _importedMenu.ShowShadow = kchkShowShadow.Checked;
+        _radialMenu.Values.ShowShadow = kchkShowShadow.Checked;
+        _importedMenu.Values.ShowShadow = kchkShowShadow.Checked;
     }
 
     private void kchkShowOuterRingOnLeaves_CheckedChanged(object? sender, EventArgs e)
     {
         var show = kchkShowOuterRingOnLeaves.Checked;
-        _radialMenu.ShowOuterRingOnLeaves = show;
-        _importedMenu.ShowOuterRingOnLeaves = show;
-        _hostedControl.ShowOuterRingOnLeaves = show;
+        _radialMenu.Values.ShowOuterRingOnLeaves = show;
+        _importedMenu.Values.ShowOuterRingOnLeaves = show;
+        _hostedControl.Values.ShowOuterRingOnLeaves = show;
     }
 
     private void knudShadowBlur_ValueChanged(object? sender, EventArgs e)
     {
         var blur = (int)knudShadowBlur.Value;
-        _radialMenu.ShadowBlur = blur;
-        _importedMenu.ShadowBlur = blur;
+        _radialMenu.Values.ShadowBlur = blur;
+        _importedMenu.Values.ShadowBlur = blur;
     }
 
     private void knudShadowOffset_ValueChanged(object? sender, EventArgs e)
     {
         var offset = (int)knudShadowOffset.Value;
-        _radialMenu.ShadowOffset = offset;
-        _importedMenu.ShadowOffset = offset;
+        _radialMenu.Values.ShadowOffset = offset;
+        _importedMenu.Values.ShadowOffset = offset;
     }
 
     private void kchkShowCheckedGlyph_CheckedChanged(object? sender, EventArgs e)
     {
-        _radialMenu.ShowCheckedGlyph = kchkShowCheckedGlyph.Checked;
-        _importedMenu.ShowCheckedGlyph = kchkShowCheckedGlyph.Checked;
+        _radialMenu.Values.ShowCheckedGlyph = kchkShowCheckedGlyph.Checked;
+        _importedMenu.Values.ShowCheckedGlyph = kchkShowCheckedGlyph.Checked;
     }
 
     private void kchkPreferRadial_CheckedChanged(object? sender, EventArgs e)
@@ -484,18 +484,18 @@ public partial class RadialMenuDemo : KryptonForm
 
     private void ktxtHubText_TextChanged(object? sender, EventArgs e)
     {
-        _hostedControl.HubText = ktxtHubText.Text;
+        _hostedControl.Values.HubText = ktxtHubText.Text;
     }
 
     private void kchkHubImage_CheckedChanged(object? sender, EventArgs e)
     {
         if (kchkHubImage.Checked)
         {
-            _hostedControl.Glyph = CreateSliceIcon(Color.FromArgb(52, 152, 219), @"☰");
+            _hostedControl.Values.Glyph = CreateSliceIcon(Color.FromArgb(52, 152, 219), @"☰");
         }
         else
         {
-            _hostedControl.Glyph = null;
+            _hostedControl.Values.Glyph = null;
         }
     }
 

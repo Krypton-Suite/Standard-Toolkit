@@ -43,11 +43,11 @@ internal class KryptonRadialMenuActionList : DesignerActionList
     /// </summary>
     public int MenuRadius
     {
-        get => _menu.MenuRadius;
+        get => _menu.Values.MenuRadius;
         set
         {
             _changeService?.OnComponentChanging(_menu, null);
-            _menu.MenuRadius = value;
+            _menu.Values.MenuRadius = value;
             _changeService?.OnComponentChanged(_menu, null, null, null);
         }
     }
@@ -57,11 +57,11 @@ internal class KryptonRadialMenuActionList : DesignerActionList
     /// </summary>
     public int InnerRadius
     {
-        get => _menu.InnerRadius;
+        get => _menu.Values.InnerRadius;
         set
         {
             _changeService?.OnComponentChanging(_menu, null);
-            _menu.InnerRadius = value;
+            _menu.Values.InnerRadius = value;
             _changeService?.OnComponentChanged(_menu, null, null, null);
         }
     }
@@ -71,11 +71,11 @@ internal class KryptonRadialMenuActionList : DesignerActionList
     /// </summary>
     public KryptonRadialMenuDisplayStyle DisplayStyle
     {
-        get => _menu.DisplayStyle;
+        get => _menu.Values.DisplayStyle;
         set
         {
             _changeService?.OnComponentChanging(_menu, null);
-            _menu.DisplayStyle = value;
+            _menu.Values.DisplayStyle = value;
             _changeService?.OnComponentChanged(_menu, null, null, null);
         }
     }

@@ -128,7 +128,7 @@
   <Folder Name="/Source/Shared Libraries/">
     <Project Path="Krypton.Interop/Krypton.Interop.csproj" />
   </Folder>
-  <Folder Name="/Source/Utility  Libraries/">
+  <Folder Name="/Source/Utility Libraries/">
     <Project Path="Krypton.Navigator.Utilities/Krypton.Navigator.Utilities.csproj" Id="20869492-f8bf-4fc1-9714-44012de15756">
       <BuildType Solution="Canary|*" Project="Release" />
       <BuildType Solution="Installer|*" Project="Debug" />
