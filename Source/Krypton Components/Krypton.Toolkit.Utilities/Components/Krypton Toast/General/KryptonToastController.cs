@@ -268,11 +268,11 @@ internal class KryptonToastController
             case KryptonToastInputAreaType.MaskedTextBox:
             case KryptonToastInputAreaType.TextBox:
             case null:
-                return AsObjectAsync(ReturnStringInputAsync(data));
+                return AsObject(ReturnStringInputAsync(data));
             case KryptonToastInputAreaType.DateTime:
-                return AsObjectAsync(ReturnDateTimeInputAsync(data));
+                return AsObject(ReturnDateTimeInputAsync(data));
             case KryptonToastInputAreaType.NumericUpDown:
-                return AsObjectAsync(ReturnDecimalInputAsync(data));
+                return AsObject(ReturnDecimalInputAsync(data));
             default:
                 DebugTools.NotImplemented(data.ToString());
                 break;
@@ -342,11 +342,11 @@ internal class KryptonToastController
             case KryptonToastInputAreaType.DomainUpDown:
             case KryptonToastInputAreaType.MaskedTextBox:
             case KryptonToastInputAreaType.TextBox:
-                return AsObjectAsync(ReturnStringInputWithProgressBarAsync(data));
+                return AsObject(ReturnStringInputWithProgressBarAsync(data));
             case KryptonToastInputAreaType.DateTime:
-                return AsObjectAsync(ReturnDateTimeInputWithProgressBarAsync(data));
+                return AsObject(ReturnDateTimeInputWithProgressBarAsync(data));
             case KryptonToastInputAreaType.NumericUpDown:
-                return AsObjectAsync(ReturnDecimalInputWithProgressBarAsync(data));
+                return AsObject(ReturnDecimalInputWithProgressBarAsync(data));
             case null:
                 return ThrowHelper.ThrowArgumentNullException<Task<object>>();
             default:

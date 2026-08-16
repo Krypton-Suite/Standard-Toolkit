@@ -73,16 +73,24 @@ public class PaletteModeStrings : GlobalId
     internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_365 = @"Visual Studio 2010 (Microsoft 365 Variation)";
     internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2012_DARK_MODE = @"Visual Studio 2012 - Dark Mode";
     internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2012_LIGHT_MODE = @"Visual Studio 2012 - Light Mode";
+    internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2012_BLUE_MODE = @"Visual Studio 2012 - Blue Mode";
     internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2013_DARK_MODE = @"Visual Studio 2013 - Dark Mode";
     internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2013_LIGHT_MODE = @"Visual Studio 2013 - Light Mode";
+    internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2013_BLUE_MODE = @"Visual Studio 2013 - Blue Mode";
     internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2015_DARK_MODE = @"Visual Studio 2015 - Dark Mode";
     internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2015_LIGHT_MODE = @"Visual Studio 2015 - Light Mode";
+    internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2015_BLUE_MODE = @"Visual Studio 2015 - Blue Mode";
     internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2017_DARK_MODE = @"Visual Studio 2017 - Dark Mode";
     internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2017_LIGHT_MODE = @"Visual Studio 2017 - Light Mode";
+    internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2017_BLUE_MODE = @"Visual Studio 2017 - Blue Mode";
     internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2019_DARK_MODE = @"Visual Studio 2019 - Dark Mode";
     internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2019_LIGHT_MODE = @"Visual Studio 2019 - Light Mode";
+    internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2019_BLUE_MODE = @"Visual Studio 2019 - Blue Mode";
     internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2022_DARK_MODE = @"Visual Studio 2022 - Dark Mode";
     internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2022_LIGHT_MODE = @"Visual Studio 2022 - Light Mode";
+    internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2022_BLUE_MODE = @"Visual Studio 2022 - Blue Mode";
+    internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2026_DARK_MODE = @"Visual Studio 2026 - Dark Mode";
+    internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2026_LIGHT_MODE = @"Visual Studio 2026 - Light Mode";
     internal const string DEFAULT_PALETTE_MATERIAL_LIGHT = @"Material - Light";
     internal const string DEFAULT_PALETTE_MATERIAL_DARK = @"Material - Dark";
     internal const string DEFAULT_PALETTE_MATERIAL_LIGHT_RIPPLE = @"Material - Light (Ripple)";
@@ -262,18 +270,26 @@ public class PaletteModeStrings : GlobalId
             { DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2010, PaletteMode.VisualStudio2010Render2010 },
             { DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2013, PaletteMode.VisualStudio2010Render2013 },
             { DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_365, PaletteMode.VisualStudio2010Render365 },
-            //{ DEFAULT_PALETTE_VISUAL_STUDIO_2012_DARK_MODE, PaletteMode.VisualStudio2012DarkMode },
-            //{ DEFAULT_PALETTE_VISUAL_STUDIO_2012_LIGHT_MODE, PaletteMode.VisualStudio2012LightMode },
-            //{ DEFAULT_PALETTE_VISUAL_STUDIO_2013_DARK_MODE, PaletteMode.VisualStudio2013DarkMode },
-            //{ DEFAULT_PALETTE_VISUAL_STUDIO_2013_LIGHT_MODE, PaletteMode.VisualStudio2013LightMode },
-            //{ DEFAULT_PALETTE_VISUAL_STUDIO_2015_DARK_MODE, PaletteMode.VisualStudio2015DarkMode },
-            //{ DEFAULT_PALETTE_VISUAL_STUDIO_2015_LIGHT_MODE, PaletteMode.VisualStudio2015LightMode },
-            //{ DEFAULT_PALETTE_VISUAL_STUDIO_2017_DARK_MODE, PaletteMode.VisualStudio2017DarkMode },
-            //{ DEFAULT_PALETTE_VISUAL_STUDIO_2017_LIGHT_MODE, PaletteMode.VisualStudio2017LightMode },
-            //{ DEFAULT_PALETTE_VISUAL_STUDIO_2019_DARK_MODE, PaletteMode.VisualStudio2019DarkMode },
-            //{ DEFAULT_PALETTE_VISUAL_STUDIO_2019_LIGHT_MODE, PaletteMode.VisualStudio2019LightMode },
+            { DEFAULT_PALETTE_VISUAL_STUDIO_2012_DARK_MODE, PaletteMode.VisualStudio2012Dark },
+            { DEFAULT_PALETTE_VISUAL_STUDIO_2012_LIGHT_MODE, PaletteMode.VisualStudio2012Light },
+            { DEFAULT_PALETTE_VISUAL_STUDIO_2012_BLUE_MODE, PaletteMode.VisualStudio2012Blue },
+            { DEFAULT_PALETTE_VISUAL_STUDIO_2013_DARK_MODE, PaletteMode.VisualStudio2013Dark },
+            { DEFAULT_PALETTE_VISUAL_STUDIO_2013_LIGHT_MODE, PaletteMode.VisualStudio2013Light },
+            { DEFAULT_PALETTE_VISUAL_STUDIO_2013_BLUE_MODE, PaletteMode.VisualStudio2013Blue },
+            { DEFAULT_PALETTE_VISUAL_STUDIO_2015_DARK_MODE, PaletteMode.VisualStudio2015Dark },
+            { DEFAULT_PALETTE_VISUAL_STUDIO_2015_LIGHT_MODE, PaletteMode.VisualStudio2015Light },
+            { DEFAULT_PALETTE_VISUAL_STUDIO_2015_BLUE_MODE, PaletteMode.VisualStudio2015Blue },
+            { DEFAULT_PALETTE_VISUAL_STUDIO_2017_DARK_MODE, PaletteMode.VisualStudio2017Dark },
+            { DEFAULT_PALETTE_VISUAL_STUDIO_2017_LIGHT_MODE, PaletteMode.VisualStudio2017Light },
+            { DEFAULT_PALETTE_VISUAL_STUDIO_2017_BLUE_MODE, PaletteMode.VisualStudio2017Blue },
+            { DEFAULT_PALETTE_VISUAL_STUDIO_2019_DARK_MODE, PaletteMode.VisualStudio2019Dark },
+            { DEFAULT_PALETTE_VISUAL_STUDIO_2019_LIGHT_MODE, PaletteMode.VisualStudio2019Light },
+            { DEFAULT_PALETTE_VISUAL_STUDIO_2019_BLUE_MODE, PaletteMode.VisualStudio2019Blue },
             { DEFAULT_PALETTE_VISUAL_STUDIO_2022_DARK_MODE, PaletteMode.VisualStudio2022Dark },
-            //{ DEFAULT_PALETTE_VISUAL_STUDIO_2022_LIGHT_MODE, PaletteMode.VisualStudio2022Light },
+            { DEFAULT_PALETTE_VISUAL_STUDIO_2022_LIGHT_MODE, PaletteMode.VisualStudio2022Light },
+            { DEFAULT_PALETTE_VISUAL_STUDIO_2022_BLUE_MODE, PaletteMode.VisualStudio2022Blue },
+            { DEFAULT_PALETTE_VISUAL_STUDIO_2026_DARK_MODE, PaletteMode.VisualStudio2026Dark },
+            { DEFAULT_PALETTE_VISUAL_STUDIO_2026_LIGHT_MODE, PaletteMode.VisualStudio2026Light },
             { DEFAULT_PALETTE_MATERIAL_LIGHT, PaletteMode.MaterialLight },
             { DEFAULT_PALETTE_MATERIAL_DARK, PaletteMode.MaterialDark },
             { DEFAULT_PALETTE_MATERIAL_LIGHT_RIPPLE, PaletteMode.MaterialLightRipple },

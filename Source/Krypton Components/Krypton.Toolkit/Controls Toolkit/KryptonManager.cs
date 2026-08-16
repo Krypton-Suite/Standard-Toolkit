@@ -138,9 +138,28 @@ public sealed class KryptonManager : Component
 
     #endregion
 
-    #region Visual Studio 2022
+    #region Visual Studio 2012–2022
 
+    private static PaletteVisualStudio2012Dark? _paletteVisualStudio2012Dark;
+    private static PaletteVisualStudio2012Light? _paletteVisualStudio2012Light;
+    private static PaletteVisualStudio2012Blue? _paletteVisualStudio2012Blue;
+    private static PaletteVisualStudio2013Dark? _paletteVisualStudio2013Dark;
+    private static PaletteVisualStudio2013Light? _paletteVisualStudio2013Light;
+    private static PaletteVisualStudio2013Blue? _paletteVisualStudio2013Blue;
+    private static PaletteVisualStudio2015Dark? _paletteVisualStudio2015Dark;
+    private static PaletteVisualStudio2015Light? _paletteVisualStudio2015Light;
+    private static PaletteVisualStudio2015Blue? _paletteVisualStudio2015Blue;
+    private static PaletteVisualStudio2017Dark? _paletteVisualStudio2017Dark;
+    private static PaletteVisualStudio2017Light? _paletteVisualStudio2017Light;
+    private static PaletteVisualStudio2017Blue? _paletteVisualStudio2017Blue;
+    private static PaletteVisualStudio2019Dark? _paletteVisualStudio2019Dark;
+    private static PaletteVisualStudio2019Light? _paletteVisualStudio2019Light;
+    private static PaletteVisualStudio2019Blue? _paletteVisualStudio2019Blue;
     private static PaletteVisualStudio2022Dark? _paletteVisualStudio2022Dark;
+    private static PaletteVisualStudio2022Light? _paletteVisualStudio2022Light;
+    private static PaletteVisualStudio2022Blue? _paletteVisualStudio2022Blue;
+    private static PaletteVisualStudio2026Dark? _paletteVisualStudio2026Dark;
+    private static PaletteVisualStudio2026Light? _paletteVisualStudio2026Light;
 
     #endregion
 
@@ -1553,8 +1572,46 @@ public sealed class KryptonManager : Component
                 return PaletteVisualStudio2010Office2013Variation;
             case PaletteMode.VisualStudio2010Render365:
                 return PaletteVisualStudio2010Microsoft365Variation;
+            case PaletteMode.VisualStudio2012Dark:
+                return PaletteVisualStudio2012Dark;
+            case PaletteMode.VisualStudio2012Light:
+                return PaletteVisualStudio2012Light;
+            case PaletteMode.VisualStudio2012Blue:
+                return PaletteVisualStudio2012Blue;
+            case PaletteMode.VisualStudio2013Dark:
+                return PaletteVisualStudio2013Dark;
+            case PaletteMode.VisualStudio2013Light:
+                return PaletteVisualStudio2013Light;
+            case PaletteMode.VisualStudio2013Blue:
+                return PaletteVisualStudio2013Blue;
+            case PaletteMode.VisualStudio2015Dark:
+                return PaletteVisualStudio2015Dark;
+            case PaletteMode.VisualStudio2015Light:
+                return PaletteVisualStudio2015Light;
+            case PaletteMode.VisualStudio2015Blue:
+                return PaletteVisualStudio2015Blue;
+            case PaletteMode.VisualStudio2017Dark:
+                return PaletteVisualStudio2017Dark;
+            case PaletteMode.VisualStudio2017Light:
+                return PaletteVisualStudio2017Light;
+            case PaletteMode.VisualStudio2017Blue:
+                return PaletteVisualStudio2017Blue;
+            case PaletteMode.VisualStudio2019Dark:
+                return PaletteVisualStudio2019Dark;
+            case PaletteMode.VisualStudio2019Light:
+                return PaletteVisualStudio2019Light;
+            case PaletteMode.VisualStudio2019Blue:
+                return PaletteVisualStudio2019Blue;
             case PaletteMode.VisualStudio2022Dark:
                 return PaletteVisualStudio2022Dark;
+            case PaletteMode.VisualStudio2022Light:
+                return PaletteVisualStudio2022Light;
+            case PaletteMode.VisualStudio2022Blue:
+                return PaletteVisualStudio2022Blue;
+            case PaletteMode.VisualStudio2026Dark:
+                return PaletteVisualStudio2026Dark;
+            case PaletteMode.VisualStudio2026Light:
+                return PaletteVisualStudio2026Light;
 
             case PaletteMode.MaterialLight:
                 return PaletteMaterialLight;
@@ -2018,9 +2075,104 @@ public sealed class KryptonManager : Component
     public static PaletteVisualStudio2010Microsoft365Variation PaletteVisualStudio2010Microsoft365Variation => _paletteVisualStudio2010Microsoft365Variation ??= new PaletteVisualStudio2010Microsoft365Variation();
 
     /// <summary>
+    /// Gets the Visual Studio 2012 dark palette.
+    /// </summary>
+    public static PaletteVisualStudio2012Dark PaletteVisualStudio2012Dark => _paletteVisualStudio2012Dark ??= new PaletteVisualStudio2012Dark();
+
+    /// <summary>
+    /// Gets the Visual Studio 2012 light palette.
+    /// </summary>
+    public static PaletteVisualStudio2012Light PaletteVisualStudio2012Light => _paletteVisualStudio2012Light ??= new PaletteVisualStudio2012Light();
+
+    /// <summary>
+    /// Gets the Visual Studio 2012 blue palette.
+    /// </summary>
+    public static PaletteVisualStudio2012Blue PaletteVisualStudio2012Blue => _paletteVisualStudio2012Blue ??= new PaletteVisualStudio2012Blue();
+
+    /// <summary>
+    /// Gets the Visual Studio 2013 dark palette.
+    /// </summary>
+    public static PaletteVisualStudio2013Dark PaletteVisualStudio2013Dark => _paletteVisualStudio2013Dark ??= new PaletteVisualStudio2013Dark();
+
+    /// <summary>
+    /// Gets the Visual Studio 2013 light palette.
+    /// </summary>
+    public static PaletteVisualStudio2013Light PaletteVisualStudio2013Light => _paletteVisualStudio2013Light ??= new PaletteVisualStudio2013Light();
+
+    /// <summary>
+    /// Gets the Visual Studio 2013 blue palette.
+    /// </summary>
+    public static PaletteVisualStudio2013Blue PaletteVisualStudio2013Blue => _paletteVisualStudio2013Blue ??= new PaletteVisualStudio2013Blue();
+
+    /// <summary>
+    /// Gets the Visual Studio 2015 dark palette.
+    /// </summary>
+    public static PaletteVisualStudio2015Dark PaletteVisualStudio2015Dark => _paletteVisualStudio2015Dark ??= new PaletteVisualStudio2015Dark();
+
+    /// <summary>
+    /// Gets the Visual Studio 2015 light palette.
+    /// </summary>
+    public static PaletteVisualStudio2015Light PaletteVisualStudio2015Light => _paletteVisualStudio2015Light ??= new PaletteVisualStudio2015Light();
+
+    /// <summary>
+    /// Gets the Visual Studio 2015 blue palette.
+    /// </summary>
+    public static PaletteVisualStudio2015Blue PaletteVisualStudio2015Blue => _paletteVisualStudio2015Blue ??= new PaletteVisualStudio2015Blue();
+
+    /// <summary>
+    /// Gets the Visual Studio 2017 dark palette.
+    /// </summary>
+    public static PaletteVisualStudio2017Dark PaletteVisualStudio2017Dark => _paletteVisualStudio2017Dark ??= new PaletteVisualStudio2017Dark();
+
+    /// <summary>
+    /// Gets the Visual Studio 2017 light palette.
+    /// </summary>
+    public static PaletteVisualStudio2017Light PaletteVisualStudio2017Light => _paletteVisualStudio2017Light ??= new PaletteVisualStudio2017Light();
+
+    /// <summary>
+    /// Gets the Visual Studio 2017 blue palette.
+    /// </summary>
+    public static PaletteVisualStudio2017Blue PaletteVisualStudio2017Blue => _paletteVisualStudio2017Blue ??= new PaletteVisualStudio2017Blue();
+
+    /// <summary>
+    /// Gets the Visual Studio 2019 dark palette.
+    /// </summary>
+    public static PaletteVisualStudio2019Dark PaletteVisualStudio2019Dark => _paletteVisualStudio2019Dark ??= new PaletteVisualStudio2019Dark();
+
+    /// <summary>
+    /// Gets the Visual Studio 2019 light palette.
+    /// </summary>
+    public static PaletteVisualStudio2019Light PaletteVisualStudio2019Light => _paletteVisualStudio2019Light ??= new PaletteVisualStudio2019Light();
+
+    /// <summary>
+    /// Gets the Visual Studio 2019 blue palette.
+    /// </summary>
+    public static PaletteVisualStudio2019Blue PaletteVisualStudio2019Blue => _paletteVisualStudio2019Blue ??= new PaletteVisualStudio2019Blue();
+
+    /// <summary>
     /// Gets the Visual Studio 2022 dark palette.
     /// </summary>
     public static PaletteVisualStudio2022Dark PaletteVisualStudio2022Dark => _paletteVisualStudio2022Dark ??= new PaletteVisualStudio2022Dark();
+
+    /// <summary>
+    /// Gets the Visual Studio 2022 light palette.
+    /// </summary>
+    public static PaletteVisualStudio2022Light PaletteVisualStudio2022Light => _paletteVisualStudio2022Light ??= new PaletteVisualStudio2022Light();
+
+    /// <summary>
+    /// Gets the Visual Studio 2022 blue palette.
+    /// </summary>
+    public static PaletteVisualStudio2022Blue PaletteVisualStudio2022Blue => _paletteVisualStudio2022Blue ??= new PaletteVisualStudio2022Blue();
+
+    /// <summary>
+    /// Gets the Visual Studio 2026 dark palette (Fluent tokens).
+    /// </summary>
+    public static PaletteVisualStudio2026Dark PaletteVisualStudio2026Dark => _paletteVisualStudio2026Dark ??= new PaletteVisualStudio2026Dark();
+
+    /// <summary>
+    /// Gets the Visual Studio 2026 light palette (Fluent tokens).
+    /// </summary>
+    public static PaletteVisualStudio2026Light PaletteVisualStudio2026Light => _paletteVisualStudio2026Light ??= new PaletteVisualStudio2026Light();
 
     public static PaletteMaterialLight PaletteMaterialLight => _paletteMaterialLight ??= new PaletteMaterialLight();
     public static PaletteMaterialDark PaletteMaterialDark => _paletteMaterialDark ??= new PaletteMaterialDark();
@@ -2615,7 +2767,26 @@ public sealed class KryptonManager : Component
             case PaletteMode.Protanopia:
                 Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Microsoft365ToolBarImages);
                 break;
+            case PaletteMode.VisualStudio2012Dark:
+            case PaletteMode.VisualStudio2012Light:
+            case PaletteMode.VisualStudio2012Blue:
+            case PaletteMode.VisualStudio2013Dark:
+            case PaletteMode.VisualStudio2013Light:
+            case PaletteMode.VisualStudio2013Blue:
+            case PaletteMode.VisualStudio2015Dark:
+            case PaletteMode.VisualStudio2015Light:
+            case PaletteMode.VisualStudio2015Blue:
+            case PaletteMode.VisualStudio2017Dark:
+            case PaletteMode.VisualStudio2017Light:
+            case PaletteMode.VisualStudio2017Blue:
+            case PaletteMode.VisualStudio2019Dark:
+            case PaletteMode.VisualStudio2019Light:
+            case PaletteMode.VisualStudio2019Blue:
             case PaletteMode.VisualStudio2022Dark:
+            case PaletteMode.VisualStudio2022Light:
+            case PaletteMode.VisualStudio2022Blue:
+            case PaletteMode.VisualStudio2026Dark:
+            case PaletteMode.VisualStudio2026Light:
                 Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.VisualStudioToolBarImages);
                 break;
             case PaletteMode.MaterialLight:
