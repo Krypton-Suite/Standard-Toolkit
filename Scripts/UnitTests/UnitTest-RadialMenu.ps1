@@ -179,8 +179,8 @@ $hosted.Collapse()
 Assert-True (-not [bool]$hosted.Expanded) 'Collapse() returns to hub'
 $hosted.UseHub = $false
 Assert-True ([bool]$hosted.Expanded) 'Disabling UseHub keeps menu expanded'
-[void]$hosted.Items.Add((Get-NetObject ([System.Activator]::CreateInstance([Krypton.Toolkit.Utilities.KryptonRadialMenuItem], [object[]]@('HostedLeaf')))))
-Assert-Equal 1 $hosted.Items.Count 'Hosted Items accepts KryptonRadialMenuItem'
+[void]$hosted.Values.Items.Add((Get-NetObject ([System.Activator]::CreateInstance([Krypton.Toolkit.Utilities.KryptonRadialMenuItem], [object[]]@('HostedLeaf')))))
+Assert-Equal 1 $hosted.Values.Items.Count 'Hosted Items accepts KryptonRadialMenuItem'
 $hosted.ResetNavigation()
 $form.Controls.Add($hosted)
 [System.Windows.Forms.Application]::DoEvents()
@@ -219,10 +219,22 @@ $leaf = Get-NetObject ([System.Activator]::CreateInstance([Krypton.Toolkit.Utili
 $leaf.CheckOnClick = $true
 $leafClickHandler = [System.EventHandler]{ param($s, $e) $script:leafClickCount++ }
 $leaf.add_Click($leafClickHandler)
-[void]$menu.Items.Add($leaf)
+[void]$menu.Values.Items.Add($leaf)
 
 # Raise ItemClick the same way the popup does before PerformClick.
-$menu.GetType().GetMethod('RaiseItemClick', [System.Reflection.BindingFlags]'Instance,NonPublic').Invoke($menu, @($leaf))
+# Bind BindingFlags to a typed variable so PowerShell picks GetMethod(string, BindingFlags)
+# instead of GetMethod(string), which only searches public members and misses this internal method.
+$raiseFlags = [System.Reflection.BindingFlags]::Instance -bor [System.Reflection.BindingFlags]::NonPublic
+$raiseMethod = [Krypton.Toolkit.Utilities.KryptonRadialMenu].GetMethod(
+    'RaiseItemClick',
+    $raiseFlags,
+    $null,
+    [type[]]@([Krypton.Toolkit.Utilities.KryptonRadialMenuItemBase]),
+    $null)
+Assert-True ($null -ne $raiseMethod) 'RaiseItemClick is available via reflection'
+if ($null -ne $raiseMethod) {
+    $raiseMethod.Invoke($menu, [object[]]@($leaf))
+}
 $leaf.PerformClick()
 Assert-equal 1 $script:itemClickCount 'RaiseItemClick notifies menu ItemClick'
 Assert-Equal 1 $script:leafClickCount 'PerformClick raises item Click'
@@ -304,7 +316,7 @@ $progress.Value = 42
 
 $imported = Get-NetObject ([Krypton.Toolkit.Utilities.KryptonRadialMenu]::FromContextMenu($ctx))
 $types = @()
-foreach ($entry in $imported.Items) {
+foreach ($entry in $imported.Values.Items) {
     $types += (Get-RadialItemTypeName $entry)
 }
 
@@ -312,11 +324,11 @@ Assert-True ($types -contains 'KryptonRadialMenuItem') 'Import maps command / li
 Assert-True ($types -contains 'KryptonRadialMenuColorPaletteItem') 'Import maps ColorColumns to ColorPaletteItem'
 Assert-True ($types -contains 'KryptonRadialMenuTextItem') 'Import maps TextBox to TextItem'
 Assert-True ($types -contains 'KryptonRadialMenuCalendarItem') 'Import maps MonthCalendar to CalendarItem'
-Assert-Equal 7 $imported.Items.Count 'Import skips Separator and Heading (7 projected items)'
+Assert-Equal 7 $imported.Values.Items.Count 'Import skips Separator and Heading (7 projected items)'
 
 $texts = @()
 $importedTextValue = $null
-foreach ($entry in $imported.Items) {
+foreach ($entry in $imported.Values.Items) {
     $net = Get-NetObject $entry
     if ($net -is [Krypton.Toolkit.Utilities.KryptonRadialMenuItem]) {
         $texts += [string]$net.Text
@@ -342,7 +354,7 @@ Assert-True ($texts -contains 'Colors') 'Imported ColorColumns as Colors'
 Assert-True ($texts -contains 'Date') 'Imported MonthCalendar as CalendarItem'
 
 $comboRadial = $null
-foreach ($entry in $imported.Items) {
+foreach ($entry in $imported.Values.Items) {
     $net = Get-NetObject $entry
     if ($net -is [Krypton.Toolkit.Utilities.KryptonRadialMenuItem] -and $net.Items.Count -gt 0 -and $net.Text -ne 'Open') {
         $child0 = Get-NetObject $net.Items[0]
@@ -359,12 +371,12 @@ Assert-Equal 2 $comboRadial.Items.Count 'ComboBox radial parent has two children
 $live = Get-NetObject ([System.Activator]::CreateInstance([Krypton.Toolkit.Utilities.KryptonRadialMenu]))
 $liveCtx = Get-NetObject ([System.Activator]::CreateInstance([Krypton.Toolkit.KryptonContextMenu]))
 $live.ImportFrom($liveCtx, $true)
-Assert-Equal 0 $live.Items.Count 'Live import starts empty'
+Assert-Equal 0 $live.Values.Items.Count 'Live import starts empty'
 
 $syncedSource = Get-NetObject ([System.Activator]::CreateInstance([Krypton.Toolkit.KryptonContextMenuItem], [object[]]@('Synced')))
 [void]$liveCtx.Items.Add($syncedSource)
-Assert-equal 1 $live.Items.Count 'Live sync re-imports when root Items gains an entry'
-$synced = Get-NetObject $live.Items[0]
+Assert-equal 1 $live.Values.Items.Count 'Live sync re-imports when root Items gains an entry'
+$synced = Get-NetObject $live.Values.Items[0]
 Assert-Equal 'Synced' $synced.Text 'Live-synced item text is Synced'
 
 # Property-level live sync (Tag source → radial twin without full rebuild).
@@ -394,7 +406,7 @@ try {
     $proj1 = Get-NetObject ([Krypton.Toolkit.Utilities.KryptonRadialMenuPresenter]::GetOrCreateProjection($presenterCtx))
     $proj2 = Get-NetObject ([Krypton.Toolkit.Utilities.KryptonRadialMenuPresenter]::GetOrCreateProjection($presenterCtx))
     Assert-True ([object]::ReferenceEquals($proj1, $proj2)) 'Presenter caches one projection per context menu'
-    Assert-Equal 1 $proj1.Items.Count 'Presenter projection imports source items'
+    Assert-Equal 1 $proj1.Values.Items.Count 'Presenter projection imports source items'
 }
 finally {
     [Krypton.Toolkit.Utilities.KryptonRadialMenuPresenter]::PreferRadialContextMenus = $prevPrefer
@@ -404,7 +416,7 @@ finally {
 $popupMenu = Get-NetObject ([System.Activator]::CreateInstance([Krypton.Toolkit.Utilities.KryptonRadialMenu]))
 $popupMenu.AnimationStyle = [Krypton.Toolkit.Utilities.KryptonRadialMenuAnimationStyle]::None
 $popupItem = Get-NetObject ([System.Activator]::CreateInstance([Krypton.Toolkit.Utilities.KryptonRadialMenuItem], [object[]]@('PopupLeaf')))
-[void]$popupMenu.Items.Add($popupItem)
+[void]$popupMenu.Values.Items.Add($popupItem)
 $screenPt = New-Object System.Drawing.Point (-31000, -31000)
 $shown = [bool]$popupMenu.ShowPopup($form, $screenPt, $false)
 Assert-True $shown 'ShowPopup returns true'
@@ -420,7 +432,7 @@ Assert-True (-not [bool]$popupMenu.Visible) 'Menu is not Visible after Close'
 $animMenu = Get-NetObject ([System.Activator]::CreateInstance([Krypton.Toolkit.Utilities.KryptonRadialMenu]))
 $animMenu.AnimationStyle = [Krypton.Toolkit.Utilities.KryptonRadialMenuAnimationStyle]::FadeScale
 $animMenu.AnimationDuration = 80
-[void]$animMenu.Items.Add((Get-NetObject ([System.Activator]::CreateInstance([Krypton.Toolkit.Utilities.KryptonRadialMenuItem], [object[]]@('AnimLeaf')))))
+[void]$animMenu.Values.Items.Add((Get-NetObject ([System.Activator]::CreateInstance([Krypton.Toolkit.Utilities.KryptonRadialMenuItem], [object[]]@('AnimLeaf')))))
 Assert-True ([bool]$animMenu.ShowPopup($form, $screenPt, $false)) 'Animated ShowPopup returns true'
 [System.Windows.Forms.Application]::DoEvents()
 $animCloseOk = $true
@@ -444,7 +456,7 @@ Assert-True (-not [bool]$animMenu.Visible) 'Menu is not Visible after animated C
 $popMenu = Get-NetObject ([System.Activator]::CreateInstance([Krypton.Toolkit.Utilities.KryptonRadialMenu]))
 $popMenu.AnimationStyle = [Krypton.Toolkit.Utilities.KryptonRadialMenuAnimationStyle]::Pop
 $popMenu.AnimationDuration = 120
-[void]$popMenu.Items.Add((Get-NetObject ([System.Activator]::CreateInstance([Krypton.Toolkit.Utilities.KryptonRadialMenuItem], [object[]]@('PopLeaf')))))
+[void]$popMenu.Values.Items.Add((Get-NetObject ([System.Activator]::CreateInstance([Krypton.Toolkit.Utilities.KryptonRadialMenuItem], [object[]]@('PopLeaf')))))
 $popOk = $true
 try {
     Assert-True ([bool]$popMenu.ShowPopup($form, $screenPt, $true)) 'Pop ShowPopup returns true'
