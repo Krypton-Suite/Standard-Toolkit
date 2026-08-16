@@ -49,6 +49,16 @@
    * Selectable Dark / Light / Blue built-ins for Visual Studio 2012, 2013, 2015, 2017, 2019, and 2022 (plus existing VS2010 Office-renderer variations).
    * Visual Studio 2026 Dark / Light mapped from Microsoft Fluent [theme color tokens](https://learn.microsoft.com/en-us/visualstudio/extensibility/ux-guidelines/theme-color-token-reference) (purple `AccentFillDefault` / `EnvironmentBorder`, selection `#0078D4` / `#005FB7`).
    * Classic Blue uses VS blue title-bar chrome (`#293955`) with blue-grey panels and `#007ACC` accent; older years use year-accurate surfaces derived from the same scheme model.
+* Implemented [#4172](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4172), Radial menu
+   * `KryptonRadialMenu` circular popup menu in `Krypton.Toolkit.Utilities`
+   * Form-hosted `KryptonRadialMenuControl` (Syncfusion-style always-visible surface) sharing items/painter with the popup `KryptonRadialMenu`.
+   * Optional hub mode on `KryptonRadialMenuControl` (`UseHub` / `Expanded`) — press the centre hub to open the ring; centre, Esc, or AutoClose collapses. Customise the hub with `HubText` or `Glyph`. `AllowMove` drags the hub/centre to reposition (short click still expands/activates) and floats outside the host when dragged past the parent (`DockBack` when dropped back over it).
+   * Native command sectors with nested submenus, optional `KryptonCommand`, slider / colour / font / text / calendar editor rings, animations, sector images, and paging via `MaxVisibleItems`.
+   * `ImportFrom` / `FromContextMenu` bridge with collection + property-level live sync; optional `KryptonRadialMenuPresenter.PreferRadialContextMenus` soft-hooks `KryptonContextMenu.Show` without a Toolkit→Utilities reference.
+   * Outer-ring `StateCommon` / `StateNormal` / `StateTracking` / `StatePressed` / `StateDisabled` border colours; pointer opens child/editor rings only via the outer-ring band (sector body on parents does not drill; keyboard Enter still opens). Optional `ShowOuterRingOnLeaves` (default `true`) hides the rim arc on leaf slices when set to `false`.
+   * Prefixed `StateShadow###` (`PaletteBack`) plus `ShadowOpacity` style the circular popup shadow by interaction state when `ShowShadow` is enabled.
+   * `Scale` (default `1`) multiplies with device DPI for radii, ring thickness, images, hit padding, and related metrics via shared `RadialMenuMetrics` (auto-fits the available working area / client).
+   * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Implemented [#4177](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4177), When will the Async Form Methods from .net10 (Started in .net9) actually be implemented
    * Async form / dialog methods (`ShowAsync` / `ShowDialogAsync`) for Krypton dialogs on **all TFMs**. On .NET 9+ they use WinForms Form async; on earlier TFMs they degrade to sync `ShowDialog` / `Show` under the same awaitable API (`KryptonFormAsync`).
    * Library wrappers use `ConfigureAwait(false)`.
