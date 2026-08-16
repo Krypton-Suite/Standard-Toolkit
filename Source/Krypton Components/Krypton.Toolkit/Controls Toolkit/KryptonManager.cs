@@ -59,6 +59,7 @@ public sealed class KryptonManager : Component
     #region Office 2007 Themes
 
     private static PaletteOffice2007DarkGray? _paletteOffice2007DarkGray;
+    private static PaletteOffice2007LightGray? _paletteOffice2007LightGray;
     private static PaletteOffice2007Blue? _paletteOffice2007Blue;
     private static PaletteOffice2007BlueDarkMode? _paletteOffice2007BlueDarkMode;
     private static PaletteOffice2007BlueLightMode? _paletteOffice2007BlueLightMode;
@@ -74,6 +75,7 @@ public sealed class KryptonManager : Component
     #region Office 2010 Themes
 
     private static PaletteOffice2010DarkGray? _paletteOffice2010DarkGray;
+    private static PaletteOffice2010LightGray? _paletteOffice2010LightGray;
     private static PaletteOffice2010Blue? _paletteOffice2010Blue;
     private static PaletteOffice2010BlueDarkMode? _paletteOffice2010BlueDarkMode;
     private static PaletteOffice2010BlueLightMode? _paletteOffice2010BlueLightMode;
@@ -111,6 +113,7 @@ public sealed class KryptonManager : Component
     #region Microsoft 365 Themes
 
     private static PaletteMicrosoft365DarkGray? _paletteMicrosoft365DarkGray;
+    private static PaletteMicrosoft365LightGray? _paletteMicrosoft365LightGray;
     private static PaletteMicrosoft365Black? _paletteMicrosoft365Black;
     private static PaletteMicrosoft365BlackDarkMode? _paletteMicrosoft365BlackDarkMode;
     private static PaletteMicrosoft365BlackDarkModeAlternate? _paletteMicrosoft365BlackDarkModeAlternate;
@@ -210,6 +213,12 @@ public sealed class KryptonManager : Component
 
     #endregion
 
+    #region Instance Feilds
+
+    private readonly KryptonPaletteSpecificValues _paletteSpecificValues;
+
+    #endregion
+
     #region Identity
     static KryptonManager()
     {
@@ -231,6 +240,7 @@ public sealed class KryptonManager : Component
     /// </summary>
     public KryptonManager()
     {
+        _paletteSpecificValues = new KryptonPaletteSpecificValues(this);
     }
 
     /// <summary>
@@ -287,6 +297,7 @@ public sealed class KryptonManager : Component
                                ShouldSerializeGlobalDropDownArrowGlyphStyle() ||
                                ShouldSerializeBaseFont() ||
                                ShouldSerializeGlobalPaletteMode() ||
+                               ShouldSerializePaletteSpecificValues() ||
                                ShouldSerializeTouchscreenSettings());
 
     /// <summary>
@@ -307,6 +318,7 @@ public sealed class KryptonManager : Component
         ResetGlobalDropDownArrowGlyphStyle();
         ResetBaseFont();
         ResetGlobalPaletteMode();
+        ResetPaletteSpecificValues();
         ResetTouchscreenSettings();
     }
 
@@ -563,6 +575,18 @@ public sealed class KryptonManager : Component
     private bool ShouldSerializeTouchscreenSettings() => !TouchscreenSettingValues.IsDefault;
     private void ResetTouchscreenSettings() => TouchscreenSettingValues.Reset();
 
+    /// <summary>
+    /// Sets the palette-specific values that can be used to override certain global settings for specific palettes.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Settings for palette-specific values, such as control box layout.")]
+    [MergableProperty(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public KryptonPaletteSpecificValues PaletteSpecificValues => _paletteSpecificValues;
+
+    private bool ShouldSerializePaletteSpecificValues() => !_paletteSpecificValues.IsDefault;
+
+    private void ResetPaletteSpecificValues() => _paletteSpecificValues.Reset();
 
     #endregion
 
@@ -921,6 +945,12 @@ public sealed class KryptonManager : Component
     /// <summary>Gets the touchscreen support settings.</summary>
     /// <value>The touchscreen support settings.</value>
     public static TouchscreenSettingValues TouchscreenSettingValues { get; } = new TouchscreenSettingValues();
+
+    /// <summary>
+    /// Gets the palette-specific values that can be used to override certain global settings for specific palettes.
+    /// </summary>
+    /// <value>The palette-specific values.</value>
+    public static KryptonPaletteSpecificValues PaletteValues { get; } = new KryptonPaletteSpecificValues(new KryptonManager());
 
     #region Static ShowAdministratorSuffix
     /// <summary>
@@ -1437,9 +1467,6 @@ public sealed class KryptonManager : Component
                 return PaletteProfessionalOffice2003;
             case PaletteMode.Office2007Blue:
                 return PaletteOffice2007Blue;
-            // TODO: Re-enable this once completed
-            // case PaletteMode.Office2007DarkGray:
-            // return PaletteOffice2007DarkGray;
             case PaletteMode.Office2007BlueDarkMode:
                 return PaletteOffice2007BlueDarkMode;
             case PaletteMode.Office2007BlueLightMode:
@@ -1454,9 +1481,6 @@ public sealed class KryptonManager : Component
                 return PaletteOffice2007White;
             case PaletteMode.Office2007Black:
                 return PaletteOffice2007Black;
-            // TODO: Re-enable this once completed
-            // case PaletteMode.Office2010DarkGray:
-            // return PaletteOffice2010DarkGray;
             case PaletteMode.Office2007BlackDarkMode:
                 return PaletteOffice2007BlackDarkMode;
             case PaletteMode.Office2010Blue:
@@ -1513,9 +1537,6 @@ public sealed class KryptonManager : Component
                 return PaletteMicrosoft365BlueLightMode;
             case PaletteMode.Microsoft365Blue:
                 return PaletteMicrosoft365Blue;
-            // TODO: Re-enable this once completed
-            // case PaletteMode.Microsoft365DarkGray:
-            // return PaletteMicrosoft365DarkGray;
             case PaletteMode.Microsoft365Silver:
                 return PaletteMicrosoft365Silver;
             case PaletteMode.Microsoft365SilverDarkMode:
@@ -1678,6 +1699,26 @@ public sealed class KryptonManager : Component
                 return PaletteMaterialSilverDarkModeAlternate;
             case PaletteMode.MaterialSilverDarkModeAlternateRipple:
                 return PaletteMaterialSilverDarkModeAlternateRipple;
+            case PaletteMode.Office2007DarkGray:
+                return PaletteOffice2007DarkGray;
+            case PaletteMode.Office2007LightGray:
+                return PaletteOffice2007LightGray;
+            case PaletteMode.Office2010DarkGray:
+                return PaletteOffice2010DarkGray;
+            case PaletteMode.Office2010LightGray:
+                return PaletteOffice2010LightGray;
+            case PaletteMode.Microsoft365DarkGray:
+                return PaletteMicrosoft365DarkGray;
+            case PaletteMode.Microsoft365LightGray:
+                return PaletteMicrosoft365LightGray;
+            case PaletteMode.MaterialDarkGray:
+                return PaletteMaterialDarkGray;
+            case PaletteMode.MaterialLightGray:
+                return PaletteMaterialLightGray;
+            case PaletteMode.MaterialDarkGrayRipple:
+                return PaletteMaterialDarkGrayRipple;
+            case PaletteMode.MaterialLightGrayRipple:
+                return PaletteMaterialLightGrayRipple;
 
             case PaletteMode.Custom:
             case PaletteMode.Global:
@@ -1732,6 +1773,11 @@ public sealed class KryptonManager : Component
     public static PaletteOffice2007DarkGray PaletteOffice2007DarkGray => _paletteOffice2007DarkGray ??= new PaletteOffice2007DarkGray();
 
     /// <summary>
+    /// Gets the single instance of the light gray variant Office 2007 palette.
+    /// </summary>
+    public static PaletteOffice2007LightGray PaletteOffice2007LightGray => _paletteOffice2007LightGray ??= new PaletteOffice2007LightGray();
+
+    /// <summary>
     /// Gets the single instance of the Blue variant Office 2007 palette.
     /// </summary>
     public static PaletteOffice2007Blue PaletteOffice2007Blue => _paletteOffice2007Blue ??= new PaletteOffice2007Blue();
@@ -1780,6 +1826,11 @@ public sealed class KryptonManager : Component
     /// Gets the single instance of the dark gray variant Office 2010 palette.
     /// </summary>
     public static PaletteOffice2010DarkGray PaletteOffice2010DarkGray => _paletteOffice2010DarkGray ??= new PaletteOffice2010DarkGray();
+
+    /// <summary>
+    /// Gets the single instance of the light gray variant Office 2010 palette.
+    /// </summary>
+    public static PaletteOffice2010LightGray PaletteOffice2010LightGray => _paletteOffice2010LightGray ??= new PaletteOffice2010LightGray();
 
     /// <summary>
     /// Gets the single instance of the Blue variant Office 2010 palette.
@@ -1875,6 +1926,11 @@ public sealed class KryptonManager : Component
     /// Gets the single instance of the ### palette.
     /// </summary>
     public static PaletteMicrosoft365DarkGray PaletteMicrosoft365DarkGray => _paletteMicrosoft365DarkGray ??= new PaletteMicrosoft365DarkGray();
+
+    /// <summary>
+    /// Gets the single instance of the light gray variant Microsoft 365 palette.
+    /// </summary>
+    public static PaletteMicrosoft365LightGray PaletteMicrosoft365LightGray => _paletteMicrosoft365LightGray ??= new PaletteMicrosoft365LightGray();
 
     /// <summary>
     /// Gets the palette Microsoft365 silver.
@@ -1974,6 +2030,10 @@ public sealed class KryptonManager : Component
     public static PaletteMaterialLimeGreenDark PaletteMaterialLimeGreenDark => _paletteMaterialLimeGreenDark ??= new PaletteMaterialLimeGreenDark();
     public static PaletteMaterialLimeGreenRipple PaletteMaterialLimeGreenRipple => _paletteMaterialLimeGreenRipple ??= new PaletteMaterialLimeGreenRipple();
     public static PaletteMaterialLimeGreenDarkRipple PaletteMaterialLimeGreenDarkRipple => _paletteMaterialLimeGreenDarkRipple ??= new PaletteMaterialLimeGreenDarkRipple();
+    public static PaletteMaterialDarkGray PaletteMaterialDarkGray => _paletteMaterialDarkGray ??= new PaletteMaterialDarkGray();
+    public static PaletteMaterialLightGray PaletteMaterialLightGray => _paletteMaterialLightGray ??= new PaletteMaterialLightGray();
+    public static PaletteMaterialDarkGrayRipple PaletteMaterialDarkGrayRipple => _paletteMaterialDarkGrayRipple ??= new PaletteMaterialDarkGrayRipple();
+    public static PaletteMaterialLightGrayRipple PaletteMaterialLightGrayRipple => _paletteMaterialLightGrayRipple ??= new PaletteMaterialLightGrayRipple();
 
     /// <summary>
     /// Gets the DOS teal/green RetroUI palette.
@@ -2134,6 +2194,10 @@ public sealed class KryptonManager : Component
     private static PaletteMaterialLimeGreenDark? _paletteMaterialLimeGreenDark;
     private static PaletteMaterialLimeGreenRipple? _paletteMaterialLimeGreenRipple;
     private static PaletteMaterialLimeGreenDarkRipple? _paletteMaterialLimeGreenDarkRipple;
+    private static PaletteMaterialDarkGray? _paletteMaterialDarkGray;
+    private static PaletteMaterialLightGray? _paletteMaterialLightGray;
+    private static PaletteMaterialDarkGrayRipple? _paletteMaterialDarkGrayRipple;
+    private static PaletteMaterialLightGrayRipple? _paletteMaterialLightGrayRipple;
 
     private static PaletteRetroGreen? _paletteRetroGreen;
     private static PaletteRetroBlue? _paletteRetroBlue;
@@ -2468,6 +2532,8 @@ public sealed class KryptonManager : Component
             case PaletteMode.Office2007MaterializeLightBlue:
             case PaletteMode.Office2007MaterializeLightBlueDark:
             case PaletteMode.Office2007SilverDarkModeAlternate:
+            case PaletteMode.Office2007DarkGray:
+            case PaletteMode.Office2007LightGray:
             case PaletteMode.VisualStudio2010Render2007:
             case PaletteMode.Office2007HighContrast:
             case PaletteMode.Office2007Deuteranopia:
@@ -2502,6 +2568,8 @@ public sealed class KryptonManager : Component
             case PaletteMode.Office2010MaterializeLightBlue:
             case PaletteMode.Office2010MaterializeLightBlueDark:
             case PaletteMode.Office2010SilverDarkModeAlternate:
+            case PaletteMode.Office2010DarkGray:
+            case PaletteMode.Office2010LightGray:
             case PaletteMode.VisualStudio2010Render2010:
             case PaletteMode.Office2010HighContrast:
             case PaletteMode.Office2010Deuteranopia:
@@ -2539,6 +2607,8 @@ public sealed class KryptonManager : Component
             case PaletteMode.Microsoft365MaterializeLightBlue:
             case PaletteMode.Microsoft365MaterializeLightBlueDark:
             case PaletteMode.Microsoft365SilverDarkModeAlternate:
+            case PaletteMode.Microsoft365DarkGray:
+            case PaletteMode.Microsoft365LightGray:
             case PaletteMode.VisualStudio2010Render365:
             case PaletteMode.HighContrast:
             case PaletteMode.Deuteranopia:
@@ -2566,6 +2636,10 @@ public sealed class KryptonManager : Component
             case PaletteMode.MaterialMaterializeLightBlueDarkRipple:
             case PaletteMode.MaterialSilverDarkModeAlternate:
             case PaletteMode.MaterialSilverDarkModeAlternateRipple:
+            case PaletteMode.MaterialDarkGray:
+            case PaletteMode.MaterialLightGray:
+            case PaletteMode.MaterialDarkGrayRipple:
+            case PaletteMode.MaterialLightGrayRipple:
             case PaletteMode.MaterialHighContrast:
             case PaletteMode.MaterialDeuteranopia:
             case PaletteMode.MaterialProtanopia:

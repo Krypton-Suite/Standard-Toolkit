@@ -372,6 +372,10 @@ public static class GraphicsExtensionUtilities
             PaletteMode.MaterialLimeGreenDark => true,
             PaletteMode.MaterialLimeGreenRipple => true,
             PaletteMode.MaterialLimeGreenDarkRipple => true,
+            PaletteMode.MaterialDarkGray => true,
+            PaletteMode.MaterialLightGray => true,
+            PaletteMode.MaterialDarkGrayRipple => true,
+            PaletteMode.MaterialLightGrayRipple => true,
             PaletteMode.MacOSDark => true,
             PaletteMode.MacOSLight => true,
             PaletteMode.Microsoft365LimeGreen => true,
@@ -396,6 +400,8 @@ public static class GraphicsExtensionUtilities
             PaletteMode.Office2013MaterializeLightBlue => true,
             PaletteMode.Office2013MaterializeLightBlueDark => true,
             PaletteMode.Office2013SilverDarkModeAlternate => true,
+            PaletteMode.Microsoft365DarkGray => true,
+            PaletteMode.Microsoft365LightGray => true,
             _ => false
         };
     }

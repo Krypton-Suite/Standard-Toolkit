@@ -23,7 +23,6 @@ internal class PaletteClassTypeConverter : EnumConverter
             {PaletteMode.ProfessionalSystem, typeof(PaletteProfessionalSystem)},
             {PaletteMode.ProfessionalOffice2003, typeof(PaletteProfessionalOffice2003)},
             {PaletteMode.Office2007Blue, typeof(PaletteOffice2007Blue)},
-            //{PaletteMode.Office2007DarkGray, typeof(PaletteOffice2007DarkGray)},
             {PaletteMode.Office2007BlueDarkMode, typeof(PaletteOffice2007BlueDarkMode)},
             {PaletteMode.Office2007BlueLightMode, typeof(PaletteOffice2007BlueLightMode)},
             {PaletteMode.Office2007Silver, typeof(PaletteOffice2007Silver)},
@@ -31,7 +30,6 @@ internal class PaletteClassTypeConverter : EnumConverter
             {PaletteMode.Office2007SilverLightMode, typeof(PaletteOffice2007SilverLightMode)},
             {PaletteMode.Office2007White, typeof(PaletteOffice2007White)},
             {PaletteMode.Office2007Black, typeof(PaletteOffice2007Black)},
-            //{PaletteMode.Office2010DarkGray, typeof(PaletteOffice2010DarkGray)},
             {PaletteMode.Office2007BlackDarkMode, typeof(PaletteOffice2007BlackDarkMode)},
             {PaletteMode.Office2010Blue, typeof(PaletteOffice2010Blue)},
             {PaletteMode.Office2010BlueDarkMode, typeof(PaletteOffice2010BlueDarkMode)},
@@ -60,7 +58,6 @@ internal class PaletteClassTypeConverter : EnumConverter
             {PaletteMode.Microsoft365BlueDarkMode, typeof(PaletteMicrosoft365BlueDarkMode)},
             {PaletteMode.Microsoft365BlueLightMode, typeof(PaletteMicrosoft365BlueLightMode)},
             {PaletteMode.Microsoft365Blue, typeof(PaletteMicrosoft365Blue)},
-            //{PaletteMode.Microsoft365DarkGray, typeof(PaletteMicrosoft365DarkGray)},
             {PaletteMode.Microsoft365Silver, typeof(PaletteMicrosoft365Silver)},
             {PaletteMode.Microsoft365SilverDarkMode, typeof(PaletteMicrosoft365SilverDarkMode)},
             {PaletteMode.Microsoft365SilverLightMode, typeof(PaletteMicrosoft365SilverLightMode)},
@@ -139,6 +136,16 @@ internal class PaletteClassTypeConverter : EnumConverter
             {PaletteMode.MaterialMaterializeLightBlueDarkRipple, typeof(PaletteMaterialMaterializeLightBlueDarkRipple)},
             {PaletteMode.MaterialSilverDarkModeAlternate, typeof(PaletteMaterialSilverDarkModeAlternate)},
             {PaletteMode.MaterialSilverDarkModeAlternateRipple, typeof(PaletteMaterialSilverDarkModeAlternateRipple)}
+            {PaletteMode.Office2007DarkGray, typeof(PaletteOffice2007DarkGray)},
+            {PaletteMode.Office2007LightGray, typeof(PaletteOffice2007LightGray)},
+            {PaletteMode.Office2010DarkGray, typeof(PaletteOffice2010DarkGray)},
+            {PaletteMode.Office2010LightGray, typeof(PaletteOffice2010LightGray)},
+            {PaletteMode.Microsoft365DarkGray, typeof(PaletteMicrosoft365DarkGray)},
+            {PaletteMode.Microsoft365LightGray, typeof(PaletteMicrosoft365LightGray)},
+            {PaletteMode.MaterialDarkGray, typeof(PaletteMaterialDarkGray)},
+            {PaletteMode.MaterialLightGray, typeof(PaletteMaterialLightGray)},
+            {PaletteMode.MaterialDarkGrayRipple, typeof(PaletteMaterialDarkGrayRipple)},
+            {PaletteMode.MaterialLightGrayRipple, typeof(PaletteMaterialLightGrayRipple)}
             //{PaletteMode.Custom, typeof(KryptonCustomPaletteBase)}
         });
 

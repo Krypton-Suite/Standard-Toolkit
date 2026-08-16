@@ -1802,6 +1802,14 @@ public class KryptonForm : VisualForm,
 		// transparent to the target opacity instead of from 0 to the target opacity.
 		if (value && FormBorderStyle == FormBorderStyle.None && !DesignMode && !_borderlessFormFirstShowPending)
 		{
+			// Native FadeValues owns opacity when fading in; skip the snap-to-target so the fade can run.
+			if (CanAutoFadeIn)
+			{
+				_borderlessFormFirstShowPending = true;
+				base.SetVisibleCore(true);
+				return;
+			}
+
 			// Set a flag to indicate we are in the middle of the first show of a borderless form, so we don't interfere with subsequent calls to SetVisibleCore
 			_borderlessFormFirstShowPending = true;
 

@@ -56,6 +56,7 @@ public class KryptonMonthCalendar : VisualSimpleBase,
     private readonly DateTimeList _monthlyDates;
     private Day _firstDayOfWeek;
     private Size _dimensions;
+    private MonthCalendarView _calendarView;
     private string _todayFormat;
     private int _maxSelectionCount;
     private int _scrollChange;
@@ -224,6 +225,7 @@ public class KryptonMonthCalendar : VisualSimpleBase,
 
         // Set default property values 
         _dimensions = new Size(1, 1);
+        _calendarView = MonthCalendarView.Days;
         _firstDayOfWeek = Day.Default;
         _headerStyle = HeaderStyle.Calendar;
         _dayStyle = ButtonStyle.CalendarDay;
@@ -724,6 +726,31 @@ public class KryptonMonthCalendar : VisualSimpleBase,
                 // Must update the size to get the new size we require, just calling the perform need 
                 // paint will cause the dimensions to be reset to that matching the current size.
                 Size = GetPreferredSize(new Size(int.MaxValue, int.MaxValue));
+                PerformNeedPaint(true);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the calendar view used to choose a date.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Specifies whether the calendar shows days, months, or years.")]
+    [DefaultValue(MonthCalendarView.Days)]
+    public MonthCalendarView CalendarView
+    {
+        get => _calendarView;
+
+        set
+        {
+            if (_calendarView != value)
+            {
+                _calendarView = value;
+                if (_drawMonths != null)
+                {
+                    _drawMonths.DisplayView = value;
+                }
+
                 PerformNeedPaint(true);
             }
         }
@@ -1682,6 +1709,13 @@ public class KryptonMonthCalendar : VisualSimpleBase,
         var gap = ViewLayoutMonths.GAP;
         var widthMonths = Math.Max(1, (width - backBorderSize.Width - gap) / (singleMonthSize.Width + gap));
         var heightMonths = Math.Max(1, (height - backBorderSize.Height - gap) / (singleMonthSize.Height + gap));
+
+        // Month/year grids are a single 12-cell tile; do not infer extra month dimensions from the client size.
+        if (_drawMonths.DisplayView != MonthCalendarView.Days)
+        {
+            widthMonths = 1;
+            heightMonths = 1;
+        }
 
         // Calculate new sizes based on showing only full months
         width = backBorderSize.Width + (widthMonths * singleMonthSize.Width) + (gap * (widthMonths + 1));

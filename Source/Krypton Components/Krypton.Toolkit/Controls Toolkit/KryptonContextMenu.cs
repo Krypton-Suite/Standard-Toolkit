@@ -63,6 +63,21 @@ public class KryptonContextMenu : Component,
     public event ToolStripDropDownClosedEventHandler? Closed;
     #endregion
 
+    #region Static
+
+    /// <summary>
+    /// Optional alternate show handler. When set and it returns <c>true</c>, the linear context menu is not shown.
+    /// </summary>
+    /// <remarks>
+    /// Used by <c>Krypton.Toolkit.Utilities.KryptonRadialMenuPresenter</c> when PreferRadialContextMenus is enabled.
+    /// Returning <c>true</c> means the alternate presenter handled display.
+    /// </remarks>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    public static Func<KryptonContextMenu, object?, Rectangle, KryptonContextMenuPositionH, KryptonContextMenuPositionV, bool, bool, bool>? AlternativeShow { get; set; }
+
+    #endregion
+
     #region Identity
     /// <summary>
     ///  Initialize a new instance of the KryptonContextMenu class.
@@ -381,6 +396,15 @@ public class KryptonContextMenu : Component,
 
             if (!cea.Cancel)
             {
+                // Optional alternate presenter (e.g. radial menu). When it returns true, skip the linear popup.
+                var alternativeShow = AlternativeShow;
+                if (alternativeShow != null
+                    && alternativeShow(this, caller, screenRect, horz, vert, keyboardActivated, constrain))
+                {
+                    OnOpened(EventArgs.Empty);
+                    return true;
+                }
+
                 // Set a default reason for the menu being dismissed
                 CloseReason = ToolStripDropDownCloseReason.AppFocusChange;
 
