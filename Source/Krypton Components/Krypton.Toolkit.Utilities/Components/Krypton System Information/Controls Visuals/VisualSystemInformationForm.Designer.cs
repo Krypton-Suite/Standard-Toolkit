@@ -52,7 +52,6 @@
             this.kscMain.Panel2.SuspendLayout();
             this.kscMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kdgvDetails)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ksbFind)).BeginInit();
             this.kssStatus.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -280,7 +279,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.kscMain)).EndInit();
             this.kscMain.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kdgvDetails)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ksbFind)).EndInit();
             this.kssStatus.ResumeLayout(false);
             this.kssStatus.PerformLayout();
             this.ResumeLayout(false);
