@@ -43,7 +43,7 @@
 
 =======
 
-* Implemented [#4230](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4230), A new theme system
+* Implemented [#4230](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4230), **[Breaking Change]** A new theme system
   * Extra builtin palettes moved to `Krypton.Themes`, with auto-discovery and selector enable/disable.
   * `Krypton.Toolkit` keeps Professional, Sparkle Blue/Orange/Purple, plus Office 2007/2010/Microsoft 365 Blue, Silver, and Black. Other builtin palettes load from `Krypton.Themes.dll` when it is present (`KryptonManager.AutoDiscoverThemes`).
   * Hide families or individual `PaletteMode` values from theme combos via `KryptonThemeAvailability`. `PaletteMode` values are unchanged.
