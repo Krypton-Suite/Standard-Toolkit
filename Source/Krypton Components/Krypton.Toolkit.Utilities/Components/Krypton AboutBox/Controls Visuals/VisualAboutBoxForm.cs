@@ -16,11 +16,11 @@ internal partial class VisualAboutBoxForm : KryptonForm
     #region Instance Fields
 
     private readonly bool _showToolkitButton;
-
+    private readonly bool _useRtl;
+    private readonly bool _useFullBuiltOnDate;
     private readonly KryptonAboutBoxData _aboutBoxData;
-
     private readonly KryptonAboutToolkitData _aboutToolkitData;
-
+    private readonly KryptonAboutToolkitData _defaultToolkitData;
     private Image? _ownedComposedMainImage;
 
     #endregion
@@ -28,73 +28,122 @@ internal partial class VisualAboutBoxForm : KryptonForm
     #region Identity
 
     public VisualAboutBoxForm(KryptonAboutBoxData aboutBoxData)
+        : this(aboutBoxData, new KryptonAboutToolkitData())
     {
-        //SetInheritedControlOverride(); // Disabled as part of issue #2296. See the issue for details.
-        InitializeComponent();
-
-        _aboutBoxData = aboutBoxData;
-
-        Startup(_aboutBoxData);
-
-        kbtnOk.Text = KryptonManager.Strings.GeneralStrings.OK;
-
-        kbtnSystemInformation.Text = KryptonManager.Strings.CustomStrings.SystemInformation;
     }
 
     public VisualAboutBoxForm(KryptonAboutBoxData aboutBoxData, KryptonAboutToolkitData aboutToolkitData)
     {
-        //SetInheritedControlOverride(); // Disabled as part of issue #2296. See the issue for details.
         InitializeComponent();
 
-        _showToolkitButton = aboutBoxData.ShowToolkitInformation ?? false;
-
         _aboutBoxData = aboutBoxData;
+        _aboutToolkitData = string.IsNullOrEmpty(aboutToolkitData.HeaderText)
+            ? new KryptonAboutToolkitData()
+            : aboutToolkitData;
+        _defaultToolkitData = new KryptonAboutToolkitData();
+        _showToolkitButton = aboutBoxData.ShowToolkitInformation ?? false;
+        _useRtl = aboutBoxData.UseRtlLayout == KryptonUseRTLLayout.Yes;
+        _useFullBuiltOnDate = aboutBoxData.UseFullBuiltOnDate == true;
 
-        _aboutToolkitData = aboutToolkitData;
-
-        Startup(_showToolkitButton, _aboutBoxData, _aboutToolkitData);
+        ApplyRtlLayout(_useRtl);
 
         kbtnOk.Text = KryptonManager.Strings.GeneralStrings.OK;
-
+        kbtnOk.DialogResult = DialogResult.OK;
+        AcceptButton = kbtnOk;
+        CancelButton = kbtnOk;
+        StartPosition = FormStartPosition.CenterParent;
         kbtnSystemInformation.Text = KryptonManager.Strings.CustomStrings.SystemInformation;
+
+        Startup();
     }
 
     #endregion
 
     #region Implementation
 
-    #region Basic Functionallity
-
-    private void Startup(KryptonAboutBoxData aboutBoxData)
+    private void ApplyRtlLayout(bool useRtl)
     {
-        khgMain.ValuesPrimary.Image =
-            aboutBoxData.HeaderImage ?? Resources.InformationSmall;
+        RightToLeft = useRtl ? RightToLeft.Yes : RightToLeft.No;
+        RightToLeftLayout = useRtl;
+    }
 
-        khgMain.ValuesPrimary.Heading =
-            $@"{KryptonManager.Strings.AboutBoxStrings.About} {aboutBoxData.ApplicationName}";
+    private void Startup()
+    {
+        Assembly assembly = KryptonAboutBoxUtilities.ResolveAssembly(_aboutBoxData);
+        KryptonAboutBoxUtilities.AssemblyIdentity identity =
+            KryptonAboutBoxUtilities.GetAssemblyIdentity(assembly, _aboutBoxData);
 
-        pbxImage.Image = aboutBoxData.MainImage ?? Resources.InformationMedium;
-        ApplyMainImageOverlay(aboutBoxData.MainImageOverlay);
+        string heading = $"{KryptonManager.Strings.AboutBoxStrings.About} {identity.ApplicationName}";
+        khgMain.ValuesPrimary.Image = _aboutBoxData.HeaderImage ?? Resources.InformationSmall;
+        khgMain.ValuesPrimary.Heading = heading;
+        Text = heading;
+
+        pbxImage.Image = _aboutBoxData.MainImage ?? Resources.InformationMedium;
+        ApplyMainImageOverlay(_aboutBoxData.MainImageOverlay);
 
         kwlCurrentTheme.Text = $@"{KryptonManager.Strings.CustomStrings.CurrentTheme}:";
 
-        // ToDo: Review
-        UpdateVersionLabel($"{KryptonManager.Strings.AboutBoxStrings.Version}: {KryptonAboutBoxUtilities.GetFileVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion}");
+        UpdateVersionLabel($"{KryptonManager.Strings.AboutBoxStrings.Version}: {identity.Version}");
+        UpdateBuiltOnLabel(KryptonAboutBoxUtilities.FormatBuildAndBinaryDates(assembly, _useFullBuiltOnDate));
+        UpdateCopyrightLabel(string.IsNullOrEmpty(identity.Copyright)
+            ? $"{KryptonManager.Strings.AboutBoxStrings.Copyright}:"
+            : $"{KryptonManager.Strings.AboutBoxStrings.Copyright}: {identity.Copyright}");
+        kryptonWrapLabel5.Text = string.IsNullOrEmpty(identity.Company)
+            ? string.Empty
+            : $"{KryptonManager.Strings.AboutBoxStrings.Company}: {identity.Company}";
 
-        if (aboutBoxData.UseFullBuiltOnDate != null || aboutBoxData.UseFullBuiltOnDate == false)
+        UpdateDescription(identity.Description);
+
+        KryptonAboutBoxUtilities.ConfigureReadOnlyGrid(kdgvApplication);
+        KryptonAboutBoxUtilities.ConfigureReadOnlyGrid(kdgvAssemblies);
+        KryptonAboutBoxUtilities.ConfigureReadOnlyGrid(kdgvVersions);
+        KryptonAboutBoxUtilities.PopulateBasicApplicationInformation(kdgvApplication, assembly);
+        KryptonAboutBoxUtilities.PopulateAssemblies(kdgvAssemblies, _useFullBuiltOnDate);
+        kiadAssemblyDetails.LoadAssemblies(assembly);
+
+        bool showSystemInformation = _aboutBoxData.ShowSystemInformationButton
+                                     ?? _aboutToolkitData.ShowSystemInformationButton;
+        ShowSystemInformationButton(showSystemInformation);
+
+        UpdateShowToolkitButtonUI(_showToolkitButton);
+        if (_showToolkitButton)
         {
-            UpdateBuiltOnLabel($"{KryptonManager.Strings.AboutBoxStrings.BuildDate}: {KryptonAboutBoxUtilities.AssemblyBuildDate(Assembly.GetExecutingAssembly(), true).ToString("F")}");
-        }
-        else
-        {
-            UpdateBuiltOnLabel($"{KryptonManager.Strings.AboutBoxStrings.BuildDate}: {KryptonAboutBoxUtilities.AssemblyBuildDate(Assembly.GetExecutingAssembly(), true)}");
+            StartupToolkitInformation();
         }
 
-        UpdateCopyrightLabel($"{KryptonManager.Strings.AboutBoxStrings.Copyright}: {KryptonAboutBoxUtilities.GetFileVersionInfo(Assembly.GetExecutingAssembly().Location).LegalCopyright}");
+        SwitchAboutBoxPage(AboutBoxPage.GeneralInformation);
+        SwitchFileInformationPage(AboutBoxFileInformationPage.Application);
+    }
 
-        UpdateDescription(KryptonAboutBoxUtilities.GetFileVersionInfo(Assembly.GetEntryAssembly()!.Location!).FileDescription!);
+    private void StartupToolkitInformation()
+    {
+        ShowDeveloperControls(_aboutToolkitData.ShowDeveloperInformationButton);
+        ShowDiscordControls(_aboutToolkitData.ShowDiscordButton);
+        ShowVersionControls(_aboutToolkitData.ShowVersionInformationButton);
+        ShowThemeControls(_aboutToolkitData.ShowThemeOptions);
+        ShowBuildDateLabel(_aboutToolkitData.ShowBuildDate);
 
-        kryptonWrapLabel5.Text = null;
+        Assembly toolkitAssembly = typeof(KryptonManager).Assembly;
+        string toolkitBuiltOnText = KryptonAboutBoxUtilities.FormatBuildDate(
+            KryptonAboutBoxUtilities.GetBinaryBuildDateTime(toolkitAssembly), _useFullBuiltOnDate);
+        UpdateBuiltOnText(string.IsNullOrEmpty(toolkitBuiltOnText)
+            ? _aboutToolkitData.BuildOnText
+            : $"{_aboutToolkitData.BuildOnText}: {toolkitBuiltOnText}");
+
+        UpdateCurrentThemeText($@"{_aboutToolkitData.CurrentThemeText}:");
+        SwitchIcon(_aboutToolkitData.ToolkitSupportType);
+        ConcatenateGeneralInformationText(_aboutToolkitData.GeneralInformationWelcomeText,
+            _aboutToolkitData.GeneralInformationLicenseText, _aboutToolkitData.GeneralInformationLearnMoreText);
+        UpdateDiscordText(_aboutToolkitData.DiscordText);
+        UpdateRepositoriesText(_aboutToolkitData.RepositoryInformationText);
+        UpdateDemosText(_aboutToolkitData.DownloadDemosText);
+        UpdateDocumentationText(_aboutToolkitData.DownloadDocumentationText);
+        UpdateColumnHeadings(_aboutToolkitData.FileNameColumnHeaderText, _aboutToolkitData.VersionColumnHeaderText);
+        UpdateToolBarText(_aboutToolkitData.ToolBarGeneralInformationText, _aboutToolkitData.ToolBarDiscordText,
+            _aboutToolkitData.ToolBarDeveloperInformationText, _aboutToolkitData.ToolBarVersionInformationText);
+        ApplyToolkitLinkAreas();
+        GetReferenceAssemblyInformation(toolkitAssembly);
+        SwitchToolkitInformationPage(AboutToolkitPage.GeneralInformation);
     }
 
     private void ApplyMainImageOverlay(KryptonOverlayImage overlay)
@@ -106,7 +155,7 @@ internal partial class VisualAboutBoxForm : KryptonForm
             return;
         }
 
-        Bitmap? composed = GraphicsExtensions.TryComposeOverlay(pbxImage.Image, overlay, rightToLeft: false);
+        Bitmap? composed = GraphicsExtensions.TryComposeOverlay(pbxImage.Image, overlay, _useRtl);
         if (composed != null)
         {
             _ownedComposedMainImage = composed;
@@ -138,65 +187,62 @@ internal partial class VisualAboutBoxForm : KryptonForm
 
     private void UpdateVersionLabel(string value) => kwlVersionLabel.Text = value;
 
-    private void kbtnOk_Click(object sender, EventArgs e) => Hide();
+    private void kbtnOk_Click(object sender, EventArgs e)
+    {
+        DialogResult = DialogResult.OK;
+        Close();
+    }
 
-    private void kbtnSystemInformation_Click(object sender, EventArgs e) => KryptonAboutBoxUtilities.LaunchSystemInformation();
+    private void kbtnSystemInformation_Click(object sender, EventArgs e) =>
+        KryptonAboutBoxUtilities.LaunchSystemInformation();
 
-    private void tsbtnGeneralInformation_Click(object sender, EventArgs e) => SwitchAboutBoxPage(AboutBoxPage.GeneralInformation);
+    private void tsbtnGeneralInformation_Click(object sender, EventArgs e) =>
+        SwitchAboutBoxPage(AboutBoxPage.GeneralInformation);
 
-    private void tsbtnDescription_Click(object sender, EventArgs e) => SwitchAboutBoxPage(AboutBoxPage.Description);
+    private void tsbtnDescription_Click(object sender, EventArgs e) =>
+        SwitchAboutBoxPage(AboutBoxPage.Description);
 
-    private void tsbtnFileInformation_Click(object sender, EventArgs e) => SwitchAboutBoxPage(AboutBoxPage.FileInformation);
+    private void tsbtnFileInformation_Click(object sender, EventArgs e) =>
+        SwitchAboutBoxPage(AboutBoxPage.FileInformation);
 
-    private void tsbtnTheme_Click(object sender, EventArgs e) => SwitchAboutBoxPage(AboutBoxPage.Theme);
+    private void tsbtnTheme_Click(object sender, EventArgs e) =>
+        SwitchAboutBoxPage(AboutBoxPage.Theme);
 
-    private void tsbtnApplicationDetails_Click(object sender, EventArgs e) => SwitchFileInformationPage(AboutBoxFileInformationPage.Application);
+    private void tsbtnApplicationDetails_Click(object sender, EventArgs e) =>
+        SwitchFileInformationPage(AboutBoxFileInformationPage.Application);
 
-    private void tsbtnAssembliesDetails_Click(object sender, EventArgs e) => SwitchFileInformationPage(AboutBoxFileInformationPage.Assemblies);
+    private void tsbtnAssembliesDetails_Click(object sender, EventArgs e) =>
+        SwitchFileInformationPage(AboutBoxFileInformationPage.Assemblies);
 
-    private void tsbtnAssemblyDetails_Click(object sender, EventArgs e) => SwitchFileInformationPage(AboutBoxFileInformationPage.AssemblyDetails);
+    private void tsbtnAssemblyDetails_Click(object sender, EventArgs e) =>
+        SwitchFileInformationPage(AboutBoxFileInformationPage.AssemblyDetails);
 
     private void SwitchFileInformationPage(AboutBoxFileInformationPage page)
     {
         switch (page)
         {
             case AboutBoxFileInformationPage.Application:
-                tsbtnFileInformation.Checked = true;
-
+                tsbtnApplicationDetails.Checked = true;
                 kpnlApplication.Visible = true;
-
                 tsbtnAssembliesDetails.Checked = false;
-
                 kpnlAssemblies.Visible = false;
-
                 tsbtnAssemblyDetails.Checked = false;
-
                 kpnlAssemblyDetails.Visible = false;
                 break;
             case AboutBoxFileInformationPage.Assemblies:
-                tsbtnFileInformation.Checked = false;
-
+                tsbtnApplicationDetails.Checked = false;
                 kpnlApplication.Visible = false;
-
                 tsbtnAssembliesDetails.Checked = true;
-
                 kpnlAssemblies.Visible = true;
-
                 tsbtnAssemblyDetails.Checked = false;
-
                 kpnlAssemblyDetails.Visible = false;
                 break;
             case AboutBoxFileInformationPage.AssemblyDetails:
-                tsbtnFileInformation.Checked = false;
-
+                tsbtnApplicationDetails.Checked = false;
                 kpnlApplication.Visible = false;
-
                 tsbtnAssembliesDetails.Checked = false;
-
                 kpnlAssemblies.Visible = false;
-
                 tsbtnAssemblyDetails.Checked = true;
-
                 kpnlAssemblyDetails.Visible = true;
                 break;
             default:
@@ -207,238 +253,50 @@ internal partial class VisualAboutBoxForm : KryptonForm
 
     private void SwitchAboutBoxPage(AboutBoxPage page)
     {
-        switch (page)
+        tsbtnGeneralInformation.Checked = page == AboutBoxPage.GeneralInformation;
+        kpnlGeneralInformation.Visible = page == AboutBoxPage.GeneralInformation;
+        tsbtnDescription.Checked = page == AboutBoxPage.Description;
+        kpnlDescription.Visible = page == AboutBoxPage.Description;
+        tsbtnFileInformation.Checked = page == AboutBoxPage.FileInformation;
+        kpnlFileInformation.Visible = page == AboutBoxPage.FileInformation;
+        tsbtnTheme.Checked = page == AboutBoxPage.Theme;
+        kpnlTheme.Visible = page == AboutBoxPage.Theme;
+        tsbtnToolkitInformation.Checked = page == AboutBoxPage.ToolkitInformation;
+        kpnlToolkitInformation.Visible = page == AboutBoxPage.ToolkitInformation;
+
+        // Dock.Fill siblings stay stacked; bring the active page to the front after showing it.
+        KryptonPanel? active = page switch
         {
-            case AboutBoxPage.GeneralInformation:
-                tsbtnGeneralInformation.Checked = true;
-
-                kpnlGeneralInformation.Visible = true;
-
-                tsbtnDescription.Checked = false;
-
-                kpnlDescription.Visible = false;
-
-                tsbtnFileInformation.Checked = false;
-
-                kpnlFileInformation.Visible = false;
-
-                tsbtnTheme.Checked = false;
-
-                kpnlTheme.Visible = false;
-
-                tsbtnToolkitInformation.Checked = false;
-
-                kpnlToolkitInformation.Visible = false;
-                break;
-            case AboutBoxPage.Description:
-                tsbtnGeneralInformation.Checked = false;
-
-                kpnlGeneralInformation.Visible = false;
-
-                tsbtnDescription.Checked = true;
-
-                kpnlDescription.Visible = true;
-
-                tsbtnFileInformation.Checked = false;
-
-                kpnlFileInformation.Visible = false;
-
-                tsbtnTheme.Checked = false;
-
-                kpnlTheme.Visible = false;
-
-                tsbtnToolkitInformation.Checked = false;
-
-                kpnlToolkitInformation.Visible = false;
-                break;
-            case AboutBoxPage.FileInformation:
-                tsbtnGeneralInformation.Checked = false;
-
-                kpnlGeneralInformation.Visible = false;
-
-                tsbtnDescription.Checked = false;
-
-                kpnlDescription.Visible = false;
-
-                tsbtnFileInformation.Checked = true;
-
-                kpnlFileInformation.Visible = true;
-
-                tsbtnTheme.Checked = false;
-
-                kpnlTheme.Visible = false;
-
-                tsbtnToolkitInformation.Checked = false;
-
-                kpnlToolkitInformation.Visible = false;
-                break;
-            case AboutBoxPage.Theme:
-                tsbtnGeneralInformation.Checked = false;
-
-                kpnlGeneralInformation.Visible = false;
-
-                tsbtnDescription.Checked = false;
-
-                kpnlDescription.Visible = false;
-
-                tsbtnFileInformation.Checked = false;
-
-                kpnlFileInformation.Visible = false;
-
-                tsbtnTheme.Checked = true;
-
-                kpnlTheme.Visible = true;
-
-                tsbtnToolkitInformation.Checked = false;
-
-                kpnlToolkitInformation.Visible = false;
-                break;
-            case AboutBoxPage.ToolkitInformation:
-                tsbtnGeneralInformation.Checked = false;
-
-                kpnlGeneralInformation.Visible = false;
-
-                tsbtnDescription.Checked = false;
-
-                kpnlDescription.Visible = false;
-
-                tsbtnFileInformation.Checked = false;
-
-                kpnlFileInformation.Visible = false;
-
-                tsbtnTheme.Checked = false;
-
-                kpnlTheme.Visible = false;
-
-                tsbtnToolkitInformation.Checked = true;
-
-                kpnlToolkitInformation.Visible = true;
-                break;
-            default:
-                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(page), page, null);
-                return;
-        }
-    }
-
-
-    #endregion
-
-    #region Toolkit Information
-
-    private void Startup(bool showToolkitButton, KryptonAboutBoxData aboutBoxData, KryptonAboutToolkitData aboutToolkitData)
-    {
-        UpdateShowToolkitButtonUI(showToolkitButton);
-
-        #region Basic Details
-
-        khgMain.ValuesPrimary.Image =
-            aboutBoxData.HeaderImage ?? Resources.InformationSmall;
-
-        khgMain.ValuesPrimary.Heading =
-            $@"{KryptonManager.Strings.AboutBoxStrings.About} {aboutBoxData.ApplicationName}";
-
-        pbxImage.Image = aboutBoxData.MainImage ?? Resources.InformationMedium;
-        ApplyMainImageOverlay(aboutBoxData.MainImageOverlay);
-
-        kwlCurrentTheme.Text = $@"{KryptonManager.Strings.CustomStrings.CurrentTheme}:";
-
-        // ToDo: Review
-        UpdateVersionLabel($"{KryptonManager.Strings.AboutBoxStrings.Version}: {KryptonAboutBoxUtilities.GetFileVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion}");
-
-        if (aboutBoxData.UseFullBuiltOnDate != null || aboutBoxData.UseFullBuiltOnDate == false)
-        {
-            UpdateBuiltOnLabel($"{KryptonManager.Strings.AboutBoxStrings.BuildDate}: {KryptonAboutBoxUtilities.AssemblyBuildDate(Assembly.GetExecutingAssembly(), true).ToString("F")}");
-        }
-        else
-        {
-            UpdateBuiltOnLabel($"{KryptonManager.Strings.AboutBoxStrings.BuildDate}: {KryptonAboutBoxUtilities.AssemblyBuildDate(Assembly.GetExecutingAssembly(), true)}");
-        }
-
-        UpdateCopyrightLabel($"{KryptonManager.Strings.AboutBoxStrings.Copyright}: {KryptonAboutBoxUtilities.GetFileVersionInfo(Assembly.GetExecutingAssembly().Location).LegalCopyright}");
-
-        UpdateDescription(KryptonAboutBoxUtilities.GetFileVersionInfo(Assembly.GetEntryAssembly()!.Location).FileDescription!);
-
-        kryptonWrapLabel5.Text = null;
-
-        #endregion
-
-        #region Toolkit Details
-
-        // Adjust UI elements
-        ShowDeveloperControls(aboutToolkitData.ShowDeveloperInformationButton);
-
-        ShowDiscordControls(aboutToolkitData.ShowDiscordButton);
-
-        ShowVersionControls(aboutToolkitData.ShowVersionInformationButton);
-
-        ShowThemeControls(aboutToolkitData.ShowThemeOptions);
-
-        ShowBuildDateLabel(aboutToolkitData.ShowBuildDate);
-
-        UpdateBuiltOnText(string.Empty);
-
-        // ToDo: Figure out why this does not work
-        // UpdateBuiltOnText($@"{aboutToolkitData.BuildOnText}: {KryptonAboutBoxUtilities.AssemblyBuildDate(Assembly.LoadFile($@"{Application.ExecutablePath}\Krypton.Toolkit.dll"), false)}");
-
-        UpdateCurrentThemeText($@"{aboutToolkitData.CurrentThemeText}:");
-
-        ShowSystemInformationButton(aboutToolkitData.ShowSystemInformationButton);
-
-        SwitchIcon(aboutToolkitData.ToolkitSupportType);
-
-        ConcatanateGeneralInformationText(aboutToolkitData.GeneralInformationWelcomeText, aboutToolkitData.GeneralInformationLicenseText, aboutToolkitData.GeneralInformationLearnMoreText);
-
-        UpdateDiscordText(aboutToolkitData.DiscordText);
-
-        UpdateRepositoriesText(aboutToolkitData.RepositoryInformationText);
-
-        UpdateDemosText(aboutToolkitData.DownloadDemosText);
-
-        UpdateDocumentationText(aboutToolkitData.DownloadDocumentationText);
-
-        UpdateColumnHeadings(aboutToolkitData.FileNameColumnHeaderText, aboutToolkitData.VersionColumnHeaderText);
-
-        UpdateToolBarText(aboutToolkitData.ToolBarGeneralInformationText, aboutToolkitData.ToolBarDiscordText, aboutToolkitData.ToolBarDeveloperInformationText, aboutToolkitData.ToolBarVersionInformationText);
-
-        UpdateGeneralInformationLinkArea(aboutToolkitData.LearnMoreLinkArea);
-
-        UpdateDocumentationLinkArea(aboutToolkitData.DocumentationLinkArea);
-
-        UpdateDiscordLinkArea(aboutToolkitData.DiscordLinkArea);
-
-        UpdateDemosLinkArea(aboutToolkitData.DownloadDemosLinkArea);
-
-        UpdateRepositoriesLinkArea(aboutToolkitData.RepositoryInformationLinkArea);
-
-        GetReferenceAssemblyInformation();
-
-        #endregion
+            AboutBoxPage.GeneralInformation => kpnlGeneralInformation,
+            AboutBoxPage.Description => kpnlDescription,
+            AboutBoxPage.FileInformation => kpnlFileInformation,
+            AboutBoxPage.Theme => kpnlTheme,
+            AboutBoxPage.ToolkitInformation => kpnlToolkitInformation,
+            _ => null
+        };
+        active?.BringToFront();
     }
 
     private void UpdateShowToolkitButtonUI(bool showToolkitButton)
     {
         tssToolkitInformation.Visible = showToolkitButton;
-
         tsbtnToolkitInformation.Visible = showToolkitButton;
     }
 
     private void UpdateCurrentThemeText(string value) => klblCurrentTheme.Text = value;
 
-    private void UpdateToolBarText(string toolBarGeneralInformationText, string toolBarDiscordText, string toolBarDeveloperInformationText, string toolBarVersionInformationText)
+    private void UpdateToolBarText(string toolBarGeneralInformationText, string toolBarDiscordText,
+        string toolBarDeveloperInformationText, string toolBarVersionInformationText)
     {
-        tsbtnGeneralInformation.Text = toolBarGeneralInformationText;
-
+        tsbtnToolkitGeneralInformation.Text = toolBarGeneralInformationText;
         tsbtnDiscord.Text = toolBarDiscordText;
-
         tsbtnDeveloperInformation.Text = toolBarDeveloperInformationText;
-
         tsbtnVersions.Text = toolBarVersionInformationText;
     }
 
     private void ShowBuildDateLabel(bool value)
     {
         klblBuiltOn.Visible = value;
-
         if (!value)
         {
             klblBuiltOn.Text = null;
@@ -448,30 +306,25 @@ internal partial class VisualAboutBoxForm : KryptonForm
     private void ShowDeveloperControls(bool value)
     {
         tssDeveloperInformation.Visible = value;
-
         tsbtnDeveloperInformation.Visible = value;
     }
 
     private void ShowDiscordControls(bool value)
     {
         tssDiscord.Visible = value;
-
         tsbtnDiscord.Visible = value;
     }
 
     private void ShowVersionControls(bool value)
     {
         tsbtnVersions.Visible = value;
-
         tssVersions.Visible = value;
     }
 
     private void ShowThemeControls(bool value)
     {
         klblCurrentTheme.Visible = value;
-
         ktcmbCurrentTheme.Visible = value;
-
         SetLogoSpan(value);
     }
 
@@ -489,12 +342,29 @@ internal partial class VisualAboutBoxForm : KryptonForm
 
     private void UpdateBuiltOnText(string value) => klblBuiltOn.Text = value;
 
-    private void ConcatanateGeneralInformationText(string welcomeText, string licenseText, string learnMoreText)
+    private void ConcatenateGeneralInformationText(string welcomeText, string licenseText, string learnMoreText)
     {
-        // Note: Do not use verbatim string!
         string output = $"{welcomeText}\r\n\r\n{licenseText}: BSD-3-Clause\r\n\r\n{learnMoreText}";
-
         klwlblGeneralInformation.Text = output;
+    }
+
+    private void ApplyToolkitLinkAreas()
+    {
+        klwlblGeneralInformation.LinkArea = KryptonAboutBoxUtilities.ResolveLinkArea(
+            klwlblGeneralInformation.Text,
+            _aboutToolkitData.LearnMoreLinkArea,
+            _defaultToolkitData.LearnMoreLinkArea,
+            _aboutToolkitData.GeneralInformationLearnMoreText);
+        klwlblDiscord.LinkArea = KryptonAboutBoxUtilities.ResolveLinkArea(
+            klwlblDiscord.Text, _aboutToolkitData.DiscordLinkArea, _defaultToolkitData.DiscordLinkArea, null);
+        klwlblRepositories.LinkArea = KryptonAboutBoxUtilities.ResolveLinkArea(
+            klwlblRepositories.Text, _aboutToolkitData.RepositoryInformationLinkArea,
+            _defaultToolkitData.RepositoryInformationLinkArea, null);
+        klwlblDemos.LinkArea = KryptonAboutBoxUtilities.ResolveLinkArea(
+            klwlblDemos.Text, _aboutToolkitData.DownloadDemosLinkArea, _defaultToolkitData.DownloadDemosLinkArea, null);
+        klwlblDocumentation.LinkArea = KryptonAboutBoxUtilities.ResolveLinkArea(
+            klwlblDocumentation.Text, _aboutToolkitData.DocumentationLinkArea,
+            _defaultToolkitData.DocumentationLinkArea, null);
     }
 
     private void UpdateDiscordText(string value) => klwlblDiscord.Text = value;
@@ -508,19 +378,8 @@ internal partial class VisualAboutBoxForm : KryptonForm
     private void UpdateColumnHeadings(string fileName, string version)
     {
         kdgvVersions.Columns[0].HeaderText = fileName;
-
         kdgvVersions.Columns[1].HeaderText = version;
     }
-
-    private void UpdateGeneralInformationLinkArea(LinkArea linkArea) => klwlblGeneralInformation.LinkArea = linkArea;
-
-    private void UpdateDiscordLinkArea(LinkArea linkArea) => klwlblDiscord.LinkArea = linkArea;
-
-    private void UpdateRepositoriesLinkArea(LinkArea linkArea) => klwlblRepositories.LinkArea = linkArea;
-
-    private void UpdateDemosLinkArea(LinkArea linkArea) => klwlblDemos.LinkArea = linkArea;
-
-    private void UpdateDocumentationLinkArea(LinkArea linkArea) => klwlblDocumentation.LinkArea = linkArea;
 
     private void SetLogoSpan(bool value)
     {
@@ -531,130 +390,63 @@ internal partial class VisualAboutBoxForm : KryptonForm
         else
         {
             klblCurrentTheme.Text = null;
-
             ktcmbCurrentTheme.Visible = false;
-
             tlpGeneralInformation.SetRowSpan(pbxLogo, 1);
         }
     }
 
     private void SwitchToolkitInformationPage(AboutToolkitPage page)
     {
-        switch (page)
-        {
-            case AboutToolkitPage.GeneralInformation:
-                kpnlToolkitGeneralInformation.Visible = true;
-
-                kpnlDiscord.Visible = false;
-
-                kpnlDeveloperInformation.Visible = false;
-
-                kpnlVersions.Visible = false;
-
-                tsbtnToolkitGeneralInformation.Checked = true;
-
-                tsbtnDiscord.Checked = false;
-
-                tsbtnDeveloperInformation.Checked = false;
-
-                tsbtnVersions.Checked = false;
-                break;
-            case AboutToolkitPage.Discord:
-                kpnlToolkitGeneralInformation.Visible = false;
-
-                kpnlDiscord.Visible = true;
-
-                kpnlDeveloperInformation.Visible = false;
-
-                kpnlVersions.Visible = false;
-
-                tsbtnToolkitGeneralInformation.Checked = false;
-
-                tsbtnDiscord.Checked = true;
-
-                tsbtnDeveloperInformation.Checked = false;
-
-                tsbtnVersions.Checked = false;
-                break;
-            case AboutToolkitPage.DeveloperInformation:
-                kpnlToolkitGeneralInformation.Visible = false;
-
-                kpnlDiscord.Visible = false;
-
-                kpnlDeveloperInformation.Visible = true;
-
-                kpnlVersions.Visible = false;
-
-                tsbtnToolkitGeneralInformation.Checked = false;
-
-                tsbtnDiscord.Checked = false;
-
-                tsbtnDeveloperInformation.Checked = true;
-
-                tsbtnVersions.Checked = false;
-                break;
-            case AboutToolkitPage.Versions:
-                kpnlToolkitGeneralInformation.Visible = false;
-
-                kpnlDiscord.Visible = false;
-
-                kpnlDeveloperInformation.Visible = false;
-
-                kpnlVersions.Visible = true;
-
-                tsbtnToolkitGeneralInformation.Checked = false;
-
-                tsbtnDiscord.Checked = false;
-
-                tsbtnDeveloperInformation.Checked = false;
-
-                tsbtnVersions.Checked = true;
-                break;
-            default:
-                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(page), page, null);
-                return;
-        }
+        kpnlToolkitGeneralInformation.Visible = page == AboutToolkitPage.GeneralInformation;
+        tsbtnToolkitGeneralInformation.Checked = page == AboutToolkitPage.GeneralInformation;
+        kpnlDiscord.Visible = page == AboutToolkitPage.Discord;
+        tsbtnDiscord.Checked = page == AboutToolkitPage.Discord;
+        kpnlDeveloperInformation.Visible = page == AboutToolkitPage.DeveloperInformation;
+        tsbtnDeveloperInformation.Checked = page == AboutToolkitPage.DeveloperInformation;
+        kpnlVersions.Visible = page == AboutToolkitPage.Versions;
+        tsbtnVersions.Checked = page == AboutToolkitPage.Versions;
     }
 
-    private void GetReferenceAssemblyInformation()
+    private void GetReferenceAssemblyInformation(Assembly toolkitAssembly)
     {
-        // Get the current assembly
-        Assembly currentAssembly = Assembly.GetExecutingAssembly();
-
-        // Place reference assemblies into an array
-        // Note: Can we use `FileVersionInfo`?
-        AssemblyName[] satelliteAssemblies = currentAssembly.GetReferencedAssemblies();
-
-        foreach (AssemblyName assembly in satelliteAssemblies)
+        kdgvVersions.Rows.Clear();
+        foreach (AssemblyName assembly in toolkitAssembly.GetReferencedAssemblies())
         {
-            //FileVersionInfo fileInfo = FileVersionInfo.GetVersionInfo(file);
-
-            // Fill data grid view
-            kdgvVersions.Rows.Add(assembly.Name!, assembly.Version!.ToString());
+            kdgvVersions.Rows.Add(assembly.Name ?? string.Empty, assembly.Version?.ToString() ?? string.Empty);
         }
     }
 
     private void ShowSystemInformationButton(bool? value) => kbtnSystemInformation.Visible = value ?? true;
 
-    private void tsbtnToolkitInformation_Click(object sender, EventArgs e) => SwitchAboutBoxPage(AboutBoxPage.ToolkitInformation);
+    private void tsbtnToolkitInformation_Click(object sender, EventArgs e) =>
+        SwitchAboutBoxPage(AboutBoxPage.ToolkitInformation);
 
-    private void tsbtnToolkitGeneralInformation_Click(object sender, EventArgs e) => SwitchToolkitInformationPage(AboutToolkitPage.GeneralInformation);
+    private void tsbtnToolkitGeneralInformation_Click(object sender, EventArgs e) =>
+        SwitchToolkitInformationPage(AboutToolkitPage.GeneralInformation);
 
-    private void tsbtnDiscord_Click(object sender, EventArgs e) => SwitchToolkitInformationPage(AboutToolkitPage.Discord);
+    private void tsbtnDiscord_Click(object sender, EventArgs e) =>
+        SwitchToolkitInformationPage(AboutToolkitPage.Discord);
 
-    private void tsbtnDeveloperInformation_Click(object sender, EventArgs e) => SwitchToolkitInformationPage(AboutToolkitPage.DeveloperInformation);
+    private void tsbtnDeveloperInformation_Click(object sender, EventArgs e) =>
+        SwitchToolkitInformationPage(AboutToolkitPage.DeveloperInformation);
 
-    private void tsbtnVersions_Click(object sender, EventArgs e) => SwitchToolkitInformationPage(AboutToolkitPage.Versions);
+    private void tsbtnVersions_Click(object sender, EventArgs e) =>
+        SwitchToolkitInformationPage(AboutToolkitPage.Versions);
 
-    private void klwlblGeneralInformation_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => GlobalToolkitUtilities.LaunchProcess(@"https://github.com/Krypton-Suite/Standard-Toolkit");
+    private void klwlblGeneralInformation_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) =>
+        GlobalToolkitUtilities.LaunchProcess(@"https://github.com/Krypton-Suite/Standard-Toolkit");
 
-    private void klwlblDiscord_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => GlobalToolkitUtilities.LaunchProcess(@"https://discord.gg/CRjF6fY");
+    private void klwlblDiscord_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) =>
+        GlobalToolkitUtilities.LaunchProcess(@"https://discord.gg/CRjF6fY");
 
-    private void klwlblRepositories_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => GlobalToolkitUtilities.LaunchProcess(@"https://github.com/orgs/Krypton-Suite/repositories");
+    private void klwlblRepositories_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) =>
+        GlobalToolkitUtilities.LaunchProcess(@"https://github.com/orgs/Krypton-Suite/repositories");
 
-    private void klwlblDocumentation_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => GlobalToolkitUtilities.LaunchProcess(@"https://github.com/Krypton-Suite/Help-Files/releases");
+    private void klwlblDocumentation_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) =>
+        GlobalToolkitUtilities.LaunchProcess(@"https://github.com/Krypton-Suite/Help-Files/releases");
 
-    private void klwlblDemos_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => GlobalToolkitUtilities.LaunchProcess(@"https://github.com/Krypton-Suite/Standard-Toolkit-Demos/releases");
+    private void klwlblDemos_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) =>
+        GlobalToolkitUtilities.LaunchProcess(@"https://github.com/Krypton-Suite/Standard-Toolkit-Demos/releases");
 
     /// <inheritdoc />
     protected override void OnFormClosed(FormClosedEventArgs e)
@@ -662,8 +454,6 @@ internal partial class VisualAboutBoxForm : KryptonForm
         DisposeOwnedComposedMainImage();
         base.OnFormClosed(e);
     }
-
-    #endregion
 
     #endregion
 }
