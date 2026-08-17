@@ -241,10 +241,11 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
 
         // Optional checkbox
         _showOptionalCheckBox = showOptionalCheckBox ?? false;
-        _isDoNotShowAgainCheckedResult = initialDoNotShowAgainCheckBoxChecked ?? false;
+        _initialDoNotShowAgainCheck = initialDoNotShowAgainCheckBoxChecked ?? false;
+        _isDoNotShowAgainCheckedResult = _initialDoNotShowAgainCheck;
         _initialDoNotShowAgainCheckState = initialDoNotShowAgainCheckBoxCheckState ?? CheckState.Unchecked;
         _doNotShowAgainCheckStateResult = _initialDoNotShowAgainCheckState;
-        _checkBoxText = optionalCheckBoxText ?? string.Empty;
+        _checkBoxText = MessageBoxExtendedDoNotShowAgain.ResolveText(_showOptionalCheckBox, optionalCheckBoxText);
         _useOptionalCheckBoxThreeState = useOptionalCheckBoxThreeState ?? false;
         _footerText = footerText;
         _footerExpanded = footerExpanded;
@@ -303,6 +304,14 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         _countdownButton = messageBoxExtendedData.CountdownButton;
         _countdownButtonSeconds = messageBoxExtendedData.CountdownButtonSeconds;
         _countdownButtonDialogResult = messageBoxExtendedData.CountdownButtonDialogResult;
+
+        _showOptionalCheckBox = MessageBoxExtendedDoNotShowAgain.ResolveShow(messageBoxExtendedData);
+        _checkBoxText = MessageBoxExtendedDoNotShowAgain.ResolveText(messageBoxExtendedData);
+        _useOptionalCheckBoxThreeState = messageBoxExtendedData.UseCheckBoxThreeState ?? false;
+        _initialDoNotShowAgainCheck = messageBoxExtendedData.IsCheckBoxChecked ?? false;
+        _isDoNotShowAgainCheckedResult = _initialDoNotShowAgainCheck;
+        _initialDoNotShowAgainCheckState = messageBoxExtendedData.CheckBoxCheckState ?? CheckState.Unchecked;
+        _doNotShowAgainCheckStateResult = _initialDoNotShowAgainCheckState;
 
         // Create the form contents
         InitializeComponent();
@@ -1500,6 +1509,15 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
             buttonsAreaWidth += copyButtonSize.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING * 2;
         }
 
+        buttonsAreaWidth = MessageBoxExtendedDoNotShowAgain.LayoutInButtonBar(
+            kcbOptionalCheckBox,
+            _showOptionalCheckBox,
+            _copyButton,
+            _copyButton.Enabled,
+            GlobalStaticValues.GLOBAL_BUTTON_PADDING,
+            maxButtonSize.Height,
+            buttonsAreaWidth);
+
         // Size the panel for the buttons
         _panelButtons.Size = new Size(buttonsAreaWidth, maxButtonSize.Height + GlobalStaticValues.GLOBAL_BUTTON_PADDING * 2);
 
@@ -1733,6 +1751,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
 
     private void SetupOptionalCheckBox()
     {
+        kcbOptionalCheckBox.AutoSize = true;
         kcbOptionalCheckBox.Visible = _showOptionalCheckBox;
 
         kcbOptionalCheckBox.ThreeState = _useOptionalCheckBoxThreeState;

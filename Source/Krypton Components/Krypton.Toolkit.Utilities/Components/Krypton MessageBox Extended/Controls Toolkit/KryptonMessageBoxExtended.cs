@@ -659,17 +659,69 @@ public static partial class KryptonMessageBoxExtended
                 showCloseButton, footerText, footerExpanded, footerContentType, footerRichTextBoxHeight, showCopyButton: showCopyButton);
 
     /// <summary>Shows a <seealso cref="KryptonMessageBoxExtended"/> configured from a <see cref="KryptonMessageBoxExtendedData"/> instance.</summary>
-    /// <param name="data">The data describing the message box content and behaviour. Set <see cref="KryptonMessageBoxExtendedData.DetailsText"/> (or <see cref="KryptonMessageBoxExtendedData.MoreDetailsMessageText"/>) for a FoldableDialog-style collapsible details region; <see cref="KryptonMessageBoxExtendedData.ExpandButtonText"/> / <see cref="KryptonMessageBoxExtendedData.CollapseButtonText"/> customise the expander. Fade in/out, caption timeout, auto-close, and optional button countdown are configured via <see cref="KryptonMessageBoxExtendedData.UseFade"/>, <see cref="KryptonMessageBoxExtendedData.UseTimeOut"/>, <see cref="KryptonMessageBoxExtendedData.AutoClose"/>, and <see cref="KryptonMessageBoxExtendedData.CountdownButton"/>.</param>
+    /// <param name="data">The data describing the message box content and behaviour. Set <see cref="KryptonMessageBoxExtendedData.DetailsText"/> (or <see cref="KryptonMessageBoxExtendedData.MoreDetailsMessageText"/>) for a FoldableDialog-style collapsible details region; <see cref="KryptonMessageBoxExtendedData.ExpandButtonText"/> / <see cref="KryptonMessageBoxExtendedData.CollapseButtonText"/> customise the expander. Fade in/out, caption timeout, auto-close, and optional button countdown are configured via <see cref="KryptonMessageBoxExtendedData.UseFade"/>, <see cref="KryptonMessageBoxExtendedData.UseTimeOut"/>, <see cref="KryptonMessageBoxExtendedData.AutoClose"/>, and <see cref="KryptonMessageBoxExtendedData.CountdownButton"/>. Set <see cref="KryptonMessageBoxExtendedData.ShowDoNotShowAgainOption"/> for an optional 'Do not show again' checkbox.</param>
     /// <param name="showCloseButton">Whether to show the close button on the message box form.</param>
     /// <returns>One of the <see cref="DialogResult"/> values.</returns>
     public static DialogResult Show(KryptonMessageBoxExtendedData data, bool showCloseButton = true)
     {
+        if (MessageBoxExtendedDoNotShowAgain.TrySkip(data, out DialogResult suppressed))
+        {
+            return suppressed;
+        }
+
         using var kmbe = new VisualMessageBoxExtendedForm(data, showCloseButton);
 
-        return data.Owner != null
+        DialogResult result = data.Owner != null
             ? kmbe.ShowDialog(data.Owner)
             : kmbe.ShowDialog();
+
+        MessageBoxExtendedDoNotShowAgain.RememberIfChecked(data, kmbe.GetDoNotShowAgainChecked(), result);
+        return result;
     }
+
+    /// <summary>
+    /// Shows a <see cref="KryptonMessageBoxExtended"/> and returns whether the 'Do not show again' checkbox was checked.
+    /// </summary>
+    /// <param name="data">The data describing the message box. Set <see cref="KryptonMessageBoxExtendedData.ShowDoNotShowAgainOption"/> to display the checkbox.</param>
+    /// <param name="doNotShowAgain"><see langword="true"/> if the checkbox was checked, or if a matching <see cref="KryptonMessageBoxExtendedData.DoNotShowAgainKey"/> was already suppressed.</param>
+    /// <param name="showCloseButton">Whether to show the close button on the message box form.</param>
+    /// <returns>One of the <see cref="DialogResult"/> values.</returns>
+    public static DialogResult Show(KryptonMessageBoxExtendedData data, out bool doNotShowAgain, bool showCloseButton = true)
+    {
+        if (MessageBoxExtendedDoNotShowAgain.TrySkip(data, out DialogResult suppressed))
+        {
+            doNotShowAgain = true;
+            return suppressed;
+        }
+
+        using var kmbe = new VisualMessageBoxExtendedForm(data, showCloseButton);
+
+        DialogResult result = data.Owner != null
+            ? kmbe.ShowDialog(data.Owner)
+            : kmbe.ShowDialog();
+
+        doNotShowAgain = kmbe.GetDoNotShowAgainChecked();
+        MessageBoxExtendedDoNotShowAgain.RememberIfChecked(data, doNotShowAgain, result);
+        return result;
+    }
+
+    /// <summary>
+    /// Clears a previously stored 'Do not show again' suppression for this process.
+    /// </summary>
+    /// <param name="key">
+    /// The key passed as <see cref="KryptonMessageBoxExtendedData.DoNotShowAgainKey"/>.
+    /// When <see langword="null"/> or empty, all keys are cleared.
+    /// </param>
+    public static void ResetDoNotShowAgain(string? key = null) =>
+        MessageBoxExtendedDoNotShowAgain.Reset(key);
+
+    /// <summary>
+    /// Gets whether a 'Do not show again' key is currently suppressed in this process.
+    /// </summary>
+    /// <param name="key">The key passed as <see cref="KryptonMessageBoxExtendedData.DoNotShowAgainKey"/>.</param>
+    /// <returns><see langword="true"/> if a later <c>Show</c> with this key will be skipped.</returns>
+    public static bool IsDoNotShowAgainSet(string? key) =>
+        MessageBoxExtendedDoNotShowAgain.TryGet(key, out _);
 
     #endregion
 

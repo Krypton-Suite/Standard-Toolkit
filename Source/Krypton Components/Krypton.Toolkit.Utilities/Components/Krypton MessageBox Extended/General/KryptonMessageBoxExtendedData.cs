@@ -130,7 +130,10 @@ public struct KryptonMessageBoxExtendedData
     public object? HelpParameters { get; set; }
 
     /// <summary>Gets or sets the CheckBox text.</summary>
-    /// <value>The CheckBox text.</value>
+    /// <value>
+    /// Custom caption for the optional checkbox. When empty and <see cref="ShowDoNotShowAgainOption"/> is
+    /// <c>true</c>, <see cref="CustomToolkitStrings.DoNotShowAgain"/> is used.
+    /// </value>
     public string? CheckBoxText { get; set; }
 
     /// <summary>Gets or sets the CheckBox checked value.</summary>
@@ -144,6 +147,30 @@ public struct KryptonMessageBoxExtendedData
     /// <summary>Gets or sets the state of the use CheckBox three.</summary>
     /// <value>The state of the use CheckBox three.</value>
     public bool? UseCheckBoxThreeState { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether a 'Do not show again' checkbox is shown.
+    /// </summary>
+    /// <value><c>true</c> to show the checkbox; otherwise, <c>false</c>. Default is <c>false</c>.</value>
+    /// <remarks>
+    /// Caption defaults to <see cref="CustomToolkitStrings.DoNotShowAgain"/> unless <see cref="CheckBoxText"/> is set.
+    /// The checkbox is shown on the left of the button bar (after the optional Copy button when that is visible).
+    /// Pair with <see cref="DoNotShowAgainKey"/> to skip later <see cref="KryptonMessageBoxExtended.Show(KryptonMessageBoxExtendedData, bool)"/>
+    /// calls in this process after the user checks the box. Use
+    /// <see cref="KryptonMessageBoxExtended.Show(KryptonMessageBoxExtendedData, out bool, bool)"/> to read the checked state
+    /// when you persist suppression yourself.
+    /// </remarks>
+    public bool ShowDoNotShowAgainOption { get; set; }
+
+    /// <summary>
+    /// Gets or sets an optional key used to suppress later shows after the user checks 'Do not show again'.
+    /// </summary>
+    /// <value>
+    /// A caller-defined id (for example <c>welcome-tip</c>). When empty, the checkbox is shown but the toolkit
+    /// does not remember the choice. Suppression lasts for the current process; call
+    /// <see cref="KryptonMessageBoxExtended.ResetDoNotShowAgain"/> to clear it.
+    /// </value>
+    public string? DoNotShowAgainKey { get; set; }
 
     /// <summary>Gets or sets the show close button.</summary>
     /// <value>The show close button.</value>
