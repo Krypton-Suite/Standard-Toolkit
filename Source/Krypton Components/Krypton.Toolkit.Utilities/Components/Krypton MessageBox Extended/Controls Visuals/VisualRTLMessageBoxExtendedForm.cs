@@ -65,7 +65,7 @@ public partial class VisualRTLMessageBoxExtendedForm : KryptonForm
 
     private readonly DialogResult _buttonFourDialogResult;
 
-    private readonly Font _messageBoxTypeface;
+    private readonly Font? _messageBoxTypeface;
 
     private readonly ExtendedMessageBoxButtons _buttons;
 
@@ -1417,11 +1417,11 @@ public partial class VisualRTLMessageBoxExtendedForm : KryptonForm
             _ => null
         };
 
-        return button != null && button.Visible ? button : null;
+        return button is { Visible: true } ? button : null;
     }
 
     private DialogResult ResolveDefaultTimeoutResult() =>
-        AcceptButton is IButtonControl accept && accept.DialogResult != DialogResult.None
+        AcceptButton is { } accept && accept.DialogResult != DialogResult.None
             ? accept.DialogResult
             : DialogResult.OK;
 
