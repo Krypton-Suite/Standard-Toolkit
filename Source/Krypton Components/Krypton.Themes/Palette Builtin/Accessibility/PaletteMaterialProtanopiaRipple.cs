@@ -7,7 +7,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Themes;
 
 /// <summary>
 /// Material Protanopia accessibility palette with Ripple effect enabled.

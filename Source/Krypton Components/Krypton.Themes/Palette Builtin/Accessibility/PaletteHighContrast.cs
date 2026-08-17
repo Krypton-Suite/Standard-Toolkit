@@ -10,7 +10,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Themes;
 
 /// <summary>
 /// Fixed high-contrast palette with black/white surfaces and neon accents (#4168).

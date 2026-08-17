@@ -10,7 +10,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Themes;
 
 #region Class: PaletteOffice2010BlueLightMode
 /// <summary>

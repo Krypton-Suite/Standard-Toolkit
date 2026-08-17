@@ -10,7 +10,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Themes;
 
 /// <summary>
 /// Colour-blind friendly palette tuned for deuteranopia (blue/orange/purple accents, #4168).

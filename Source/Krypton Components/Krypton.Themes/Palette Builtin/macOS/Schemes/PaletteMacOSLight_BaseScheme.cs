@@ -10,7 +10,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Themes;
 
 public sealed class PaletteMacOSLight_BaseScheme : KryptonColorSchemeBase
 {

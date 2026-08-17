@@ -10,7 +10,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Themes;
 
 /// <summary>
 /// Microsoft 365 renderer using the Office 2013 Light Grey chrome colour map.

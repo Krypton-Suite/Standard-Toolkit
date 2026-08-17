@@ -10,7 +10,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Themes;
 
 /// <summary>
 /// Creates <see cref="KryptonCustomPaletteBase"/> instances from builtin macOS palettes for export or app-specific tuning.

@@ -7,7 +7,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Themes;
 
 public sealed class PaletteSparkleOrangeDarkMode_BaseScheme : KryptonColorSchemeBase
 {

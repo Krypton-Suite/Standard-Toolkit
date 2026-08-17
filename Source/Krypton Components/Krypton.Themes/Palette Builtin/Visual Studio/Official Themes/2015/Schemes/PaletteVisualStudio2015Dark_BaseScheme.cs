@@ -7,7 +7,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Themes;
 
 public sealed class PaletteVisualStudio2015Dark_BaseScheme : KryptonColorSchemeBase
 {

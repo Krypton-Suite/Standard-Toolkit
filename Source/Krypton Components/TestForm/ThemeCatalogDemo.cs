@@ -19,6 +19,7 @@ public sealed class ThemeCatalogDemo : KryptonForm
     private readonly KryptonLabel _lblStatus;
     private readonly KryptonCheckBox _chkVisualStudio;
     private readonly KryptonCheckBox _chkMaterial;
+    private readonly KryptonCheckBox _chkMaterialize;
     private readonly KryptonCheckBox _chkSparkle;
     private readonly KryptonCheckBox _chkShowExtra;
     private readonly KryptonThemeListBox _themeList;
@@ -39,7 +40,7 @@ public sealed class ThemeCatalogDemo : KryptonForm
             Padding = new Padding(12),
             Text =
                 "Issue #4230: core palettes live in Krypton.Toolkit (Professional, Sparkle Blue/Orange/Purple, plus Office 2007/2010/Microsoft 365 Blue, Silver, and Black). " +
-                "Everything else is in Krypton.Themes.dll and is auto-discovered when that assembly is beside the app (TestForm references it). " +
+                "Everything else is in Krypton.Themes.dll and is auto-discovered when that assembly is beside the app (TestForm references it), including Issue #1551 Materialize packs. " +
                 "Use the family check boxes to hide themes from selectors (Sparkle extra-only keeps Blue/Orange/Purple). Uncheck Show extra themes to list core palettes only. Programmatic GlobalPaletteMode still applies a hidden extra theme. If Krypton.Themes.dll is missing, extra modes paint as Microsoft 365 Blue instead of throwing."
         };
 
@@ -51,7 +52,7 @@ public sealed class ThemeCatalogDemo : KryptonForm
             Padding = new Padding(12, 4, 12, 4)
         };
 
-        var toolbar = new KryptonPanel { Dock = DockStyle.Top, Height = 168, Padding = new Padding(12, 8, 12, 8) };
+        var toolbar = new KryptonPanel { Dock = DockStyle.Top, Height = 196, Padding = new Padding(12, 8, 12, 8) };
         var flow = new FlowLayoutPanel { Dock = DockStyle.Fill, WrapContents = true };
 
         flow.Controls.Add(new KryptonLabel { Text = @"Theme:", AutoSize = true, Padding = new Padding(0, 6, 8, 0) });
@@ -61,10 +62,12 @@ public sealed class ThemeCatalogDemo : KryptonForm
 
         _chkVisualStudio = new KryptonCheckBox { Text = @"Visual Studio family selectable", Checked = true, AutoSize = true, Padding = new Padding(16, 6, 0, 0) };
         _chkMaterial = new KryptonCheckBox { Text = @"Material family selectable", Checked = true, AutoSize = true, Padding = new Padding(16, 6, 0, 0) };
+        _chkMaterialize = new KryptonCheckBox { Text = @"Materialize family selectable", Checked = true, AutoSize = true, Padding = new Padding(16, 6, 0, 0) };
         _chkSparkle = new KryptonCheckBox { Text = @"Sparkle extra selectable", Checked = true, AutoSize = true, Padding = new Padding(16, 6, 0, 0) };
         _chkShowExtra = new KryptonCheckBox { Text = @"Show extra themes", Checked = true, AutoSize = true, Padding = new Padding(16, 6, 0, 0) };
         _chkVisualStudio.CheckedChanged += (_, _) => KryptonThemeAvailability.SetFamilyEnabled(KryptonThemeFamilies.VisualStudio, _chkVisualStudio.Checked);
         _chkMaterial.CheckedChanged += (_, _) => KryptonThemeAvailability.SetFamilyEnabled(KryptonThemeFamilies.Material, _chkMaterial.Checked);
+        _chkMaterialize.CheckedChanged += (_, _) => KryptonThemeAvailability.SetFamilyEnabled(KryptonThemeFamilies.Materialize, _chkMaterialize.Checked);
         _chkSparkle.CheckedChanged += (_, _) => KryptonThemeAvailability.SetFamilyEnabled(KryptonThemeFamilies.Sparkle, _chkSparkle.Checked, extraOnly: true);
         _chkShowExtra.CheckedChanged += (_, _) =>
         {
@@ -74,6 +77,7 @@ public sealed class ThemeCatalogDemo : KryptonForm
         };
         flow.Controls.Add(_chkVisualStudio);
         flow.Controls.Add(_chkMaterial);
+        flow.Controls.Add(_chkMaterialize);
         flow.Controls.Add(_chkSparkle);
         flow.Controls.Add(_chkShowExtra);
 

@@ -5,7 +5,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Themes;
 
 /// <summary>
 /// Material Dark Lime Green palette — flat Material metrics/renderer with Lime Green accents on dark olive chrome.

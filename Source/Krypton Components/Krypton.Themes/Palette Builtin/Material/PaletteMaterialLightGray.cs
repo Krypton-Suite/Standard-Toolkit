@@ -5,7 +5,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Themes;
 
 /// <summary>
 /// Material renderer using the Office 2013 Light Grey chrome colour map.

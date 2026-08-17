@@ -7,7 +7,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Themes;
 
 /// <summary>Provides a base for Visual Studio palettes.</summary>
 /// <seealso cref="PaletteBase" />

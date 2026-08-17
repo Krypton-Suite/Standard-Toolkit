@@ -7,7 +7,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Themes;
 
 /// <summary>
 /// Content-colour overrides where shared scheme slots cannot satisfy both light and dark chrome

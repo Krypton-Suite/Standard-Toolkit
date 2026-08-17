@@ -5,7 +5,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Themes;
 
 /// <summary>
 /// Builds the Lime Green accent variant of an existing <see cref="KryptonColorSchemeBase"/>-derived scheme.

@@ -1955,116 +1955,95 @@ public sealed class KryptonManager : Component
     /// </summary>
     public static PaletteBase PaletteMicrosoft365LimeGreenDark => GetPaletteForMode(PaletteMode.Microsoft365LimeGreenDark);
 
+    /// <summary>Gets the Office 2007 Materialize Blue extra palette.</summary>
+    public static PaletteBase PaletteOffice2007MaterializeBlue => GetPaletteForMode(PaletteMode.Office2007MaterializeBlue);
 
+    /// <summary>Gets the Office 2007 Materialize Blue dark extra palette.</summary>
+    public static PaletteBase PaletteOffice2007MaterializeBlueDark => GetPaletteForMode(PaletteMode.Office2007MaterializeBlueDark);
 
-    public static PaletteMicrosoft365LimeGreenDark PaletteMicrosoft365LimeGreenDark => _paletteMicrosoft365LimeGreenDark ??= new PaletteMicrosoft365LimeGreenDark();
-    public static PaletteOffice2007MaterializeBlue PaletteOffice2007MaterializeBlue => _paletteOffice2007MaterializeBlue ??= new PaletteOffice2007MaterializeBlue();
-    public static PaletteOffice2007MaterializeBlueDark PaletteOffice2007MaterializeBlueDark => _paletteOffice2007MaterializeBlueDark ??= new PaletteOffice2007MaterializeBlueDark();
-    public static PaletteOffice2007MaterializeLightBlue PaletteOffice2007MaterializeLightBlue => _paletteOffice2007MaterializeLightBlue ??= new PaletteOffice2007MaterializeLightBlue();
-    public static PaletteOffice2007MaterializeLightBlueDark PaletteOffice2007MaterializeLightBlueDark => _paletteOffice2007MaterializeLightBlueDark ??= new PaletteOffice2007MaterializeLightBlueDark();
-    public static PaletteOffice2007SilverDarkModeAlternate PaletteOffice2007SilverDarkModeAlternate => _paletteOffice2007SilverDarkModeAlternate ??= new PaletteOffice2007SilverDarkModeAlternate();
-    public static PaletteOffice2010MaterializeBlue PaletteOffice2010MaterializeBlue => _paletteOffice2010MaterializeBlue ??= new PaletteOffice2010MaterializeBlue();
-    public static PaletteOffice2010MaterializeBlueDark PaletteOffice2010MaterializeBlueDark => _paletteOffice2010MaterializeBlueDark ??= new PaletteOffice2010MaterializeBlueDark();
-    public static PaletteOffice2010MaterializeLightBlue PaletteOffice2010MaterializeLightBlue => _paletteOffice2010MaterializeLightBlue ??= new PaletteOffice2010MaterializeLightBlue();
-    public static PaletteOffice2010MaterializeLightBlueDark PaletteOffice2010MaterializeLightBlueDark => _paletteOffice2010MaterializeLightBlueDark ??= new PaletteOffice2010MaterializeLightBlueDark();
-    public static PaletteOffice2010SilverDarkModeAlternate PaletteOffice2010SilverDarkModeAlternate => _paletteOffice2010SilverDarkModeAlternate ??= new PaletteOffice2010SilverDarkModeAlternate();
-    public static PaletteOffice2013MaterializeBlue PaletteOffice2013MaterializeBlue => _paletteOffice2013MaterializeBlue ??= new PaletteOffice2013MaterializeBlue();
-    public static PaletteOffice2013MaterializeBlueDark PaletteOffice2013MaterializeBlueDark => _paletteOffice2013MaterializeBlueDark ??= new PaletteOffice2013MaterializeBlueDark();
-    public static PaletteOffice2013MaterializeLightBlue PaletteOffice2013MaterializeLightBlue => _paletteOffice2013MaterializeLightBlue ??= new PaletteOffice2013MaterializeLightBlue();
-    public static PaletteOffice2013MaterializeLightBlueDark PaletteOffice2013MaterializeLightBlueDark => _paletteOffice2013MaterializeLightBlueDark ??= new PaletteOffice2013MaterializeLightBlueDark();
-    public static PaletteOffice2013SilverDarkModeAlternate PaletteOffice2013SilverDarkModeAlternate => _paletteOffice2013SilverDarkModeAlternate ??= new PaletteOffice2013SilverDarkModeAlternate();
-    public static PaletteMicrosoft365MaterializeBlue PaletteMicrosoft365MaterializeBlue => _paletteMicrosoft365MaterializeBlue ??= new PaletteMicrosoft365MaterializeBlue();
-    public static PaletteMicrosoft365MaterializeBlueDark PaletteMicrosoft365MaterializeBlueDark => _paletteMicrosoft365MaterializeBlueDark ??= new PaletteMicrosoft365MaterializeBlueDark();
-    public static PaletteMicrosoft365MaterializeLightBlue PaletteMicrosoft365MaterializeLightBlue => _paletteMicrosoft365MaterializeLightBlue ??= new PaletteMicrosoft365MaterializeLightBlue();
-    public static PaletteMicrosoft365MaterializeLightBlueDark PaletteMicrosoft365MaterializeLightBlueDark => _paletteMicrosoft365MaterializeLightBlueDark ??= new PaletteMicrosoft365MaterializeLightBlueDark();
-    public static PaletteMicrosoft365SilverDarkModeAlternate PaletteMicrosoft365SilverDarkModeAlternate => _paletteMicrosoft365SilverDarkModeAlternate ??= new PaletteMicrosoft365SilverDarkModeAlternate();
-    public static PaletteMaterialMaterializeBlue PaletteMaterialMaterializeBlue => _paletteMaterialMaterializeBlue ??= new PaletteMaterialMaterializeBlue();
-    public static PaletteMaterialMaterializeBlueDark PaletteMaterialMaterializeBlueDark => _paletteMaterialMaterializeBlueDark ??= new PaletteMaterialMaterializeBlueDark();
-    public static PaletteMaterialMaterializeBlueRipple PaletteMaterialMaterializeBlueRipple => _paletteMaterialMaterializeBlueRipple ??= new PaletteMaterialMaterializeBlueRipple();
-    public static PaletteMaterialMaterializeBlueDarkRipple PaletteMaterialMaterializeBlueDarkRipple => _paletteMaterialMaterializeBlueDarkRipple ??= new PaletteMaterialMaterializeBlueDarkRipple();
-    public static PaletteMaterialMaterializeLightBlue PaletteMaterialMaterializeLightBlue => _paletteMaterialMaterializeLightBlue ??= new PaletteMaterialMaterializeLightBlue();
-    public static PaletteMaterialMaterializeLightBlueDark PaletteMaterialMaterializeLightBlueDark => _paletteMaterialMaterializeLightBlueDark ??= new PaletteMaterialMaterializeLightBlueDark();
-    public static PaletteMaterialMaterializeLightBlueRipple PaletteMaterialMaterializeLightBlueRipple => _paletteMaterialMaterializeLightBlueRipple ??= new PaletteMaterialMaterializeLightBlueRipple();
-    public static PaletteMaterialMaterializeLightBlueDarkRipple PaletteMaterialMaterializeLightBlueDarkRipple => _paletteMaterialMaterializeLightBlueDarkRipple ??= new PaletteMaterialMaterializeLightBlueDarkRipple();
-    public static PaletteMaterialSilverDarkModeAlternate PaletteMaterialSilverDarkModeAlternate => _paletteMaterialSilverDarkModeAlternate ??= new PaletteMaterialSilverDarkModeAlternate();
-    public static PaletteMaterialSilverDarkModeAlternateRipple PaletteMaterialSilverDarkModeAlternateRipple => _paletteMaterialSilverDarkModeAlternateRipple ??= new PaletteMaterialSilverDarkModeAlternateRipple();
+    /// <summary>Gets the Office 2007 Materialize Light Blue extra palette.</summary>
+    public static PaletteBase PaletteOffice2007MaterializeLightBlue => GetPaletteForMode(PaletteMode.Office2007MaterializeLightBlue);
 
-    private static PaletteMaterialLight? _paletteMaterialLight;
-    private static PaletteMaterialDark? _paletteMaterialDark;
-    private static PaletteMaterialLightRipple? _paletteMaterialLightRipple;
-    private static PaletteMaterialDarkRipple? _paletteMaterialDarkRipple;
-    private static PaletteMaterialLimeGreen? _paletteMaterialLimeGreen;
-    private static PaletteMaterialLimeGreenDark? _paletteMaterialLimeGreenDark;
-    private static PaletteMaterialLimeGreenRipple? _paletteMaterialLimeGreenRipple;
-    private static PaletteMaterialLimeGreenDarkRipple? _paletteMaterialLimeGreenDarkRipple;
-    private static PaletteMaterialDarkGray? _paletteMaterialDarkGray;
-    private static PaletteMaterialLightGray? _paletteMaterialLightGray;
-    private static PaletteMaterialDarkGrayRipple? _paletteMaterialDarkGrayRipple;
-    private static PaletteMaterialLightGrayRipple? _paletteMaterialLightGrayRipple;
+    /// <summary>Gets the Office 2007 Materialize Light Blue dark extra palette.</summary>
+    public static PaletteBase PaletteOffice2007MaterializeLightBlueDark => GetPaletteForMode(PaletteMode.Office2007MaterializeLightBlueDark);
 
-    private static PaletteRetroGreen? _paletteRetroGreen;
-    private static PaletteRetroBlue? _paletteRetroBlue;
-    private static PaletteMacOSXAqua? _paletteMacOSXAqua;
-    private static PaletteMacOSLight? _paletteMacOSLight;
-    private static PaletteMacOSDark? _paletteMacOSDark;
-    private static PaletteHighContrast? _paletteHighContrast;
-    private static PaletteDeuteranopia? _paletteDeuteranopia;
-    private static PaletteProtanopia? _paletteProtanopia;
-    private static PaletteOffice2007HighContrast? _paletteOffice2007HighContrast;
-    private static PaletteOffice2007Deuteranopia? _paletteOffice2007Deuteranopia;
-    private static PaletteOffice2007Protanopia? _paletteOffice2007Protanopia;
-    private static PaletteOffice2010HighContrast? _paletteOffice2010HighContrast;
-    private static PaletteOffice2010Deuteranopia? _paletteOffice2010Deuteranopia;
-    private static PaletteOffice2010Protanopia? _paletteOffice2010Protanopia;
-    private static PaletteOffice2013HighContrast? _paletteOffice2013HighContrast;
-    private static PaletteOffice2013Deuteranopia? _paletteOffice2013Deuteranopia;
-    private static PaletteOffice2013Protanopia? _paletteOffice2013Protanopia;
-    private static PaletteSparkleHighContrast? _paletteSparkleHighContrast;
-    private static PaletteSparkleDeuteranopia? _paletteSparkleDeuteranopia;
-    private static PaletteSparkleProtanopia? _paletteSparkleProtanopia;
-    private static PaletteMaterialHighContrast? _paletteMaterialHighContrast;
-    private static PaletteMaterialDeuteranopia? _paletteMaterialDeuteranopia;
-    private static PaletteMaterialProtanopia? _paletteMaterialProtanopia;
-    private static PaletteMaterialHighContrastRipple? _paletteMaterialHighContrastRipple;
-    private static PaletteMaterialDeuteranopiaRipple? _paletteMaterialDeuteranopiaRipple;
-    private static PaletteMaterialProtanopiaRipple? _paletteMaterialProtanopiaRipple;
+    /// <summary>Gets the Office 2007 Silver Dark Mode Alternate extra palette.</summary>
+    public static PaletteBase PaletteOffice2007SilverDarkModeAlternate => GetPaletteForMode(PaletteMode.Office2007SilverDarkModeAlternate);
 
-    private static PaletteOffice2007LimeGreen? _paletteOffice2007LimeGreen;
-    private static PaletteOffice2007LimeGreenDark? _paletteOffice2007LimeGreenDark;
-    private static PaletteOffice2010LimeGreen? _paletteOffice2010LimeGreen;
-    private static PaletteOffice2010LimeGreenDark? _paletteOffice2010LimeGreenDark;
-    private static PaletteMicrosoft365LimeGreen? _paletteMicrosoft365LimeGreen;
-    private static PaletteMicrosoft365LimeGreenDark? _paletteMicrosoft365LimeGreenDark;
-    private static PaletteOffice2007MaterializeBlue? _paletteOffice2007MaterializeBlue;
-    private static PaletteOffice2007MaterializeBlueDark? _paletteOffice2007MaterializeBlueDark;
-    private static PaletteOffice2007MaterializeLightBlue? _paletteOffice2007MaterializeLightBlue;
-    private static PaletteOffice2007MaterializeLightBlueDark? _paletteOffice2007MaterializeLightBlueDark;
-    private static PaletteOffice2007SilverDarkModeAlternate? _paletteOffice2007SilverDarkModeAlternate;
-    private static PaletteOffice2010MaterializeBlue? _paletteOffice2010MaterializeBlue;
-    private static PaletteOffice2010MaterializeBlueDark? _paletteOffice2010MaterializeBlueDark;
-    private static PaletteOffice2010MaterializeLightBlue? _paletteOffice2010MaterializeLightBlue;
-    private static PaletteOffice2010MaterializeLightBlueDark? _paletteOffice2010MaterializeLightBlueDark;
-    private static PaletteOffice2010SilverDarkModeAlternate? _paletteOffice2010SilverDarkModeAlternate;
-    private static PaletteOffice2013MaterializeBlue? _paletteOffice2013MaterializeBlue;
-    private static PaletteOffice2013MaterializeBlueDark? _paletteOffice2013MaterializeBlueDark;
-    private static PaletteOffice2013MaterializeLightBlue? _paletteOffice2013MaterializeLightBlue;
-    private static PaletteOffice2013MaterializeLightBlueDark? _paletteOffice2013MaterializeLightBlueDark;
-    private static PaletteOffice2013SilverDarkModeAlternate? _paletteOffice2013SilverDarkModeAlternate;
-    private static PaletteMicrosoft365MaterializeBlue? _paletteMicrosoft365MaterializeBlue;
-    private static PaletteMicrosoft365MaterializeBlueDark? _paletteMicrosoft365MaterializeBlueDark;
-    private static PaletteMicrosoft365MaterializeLightBlue? _paletteMicrosoft365MaterializeLightBlue;
-    private static PaletteMicrosoft365MaterializeLightBlueDark? _paletteMicrosoft365MaterializeLightBlueDark;
-    private static PaletteMicrosoft365SilverDarkModeAlternate? _paletteMicrosoft365SilverDarkModeAlternate;
-    private static PaletteMaterialMaterializeBlue? _paletteMaterialMaterializeBlue;
-    private static PaletteMaterialMaterializeBlueDark? _paletteMaterialMaterializeBlueDark;
-    private static PaletteMaterialMaterializeBlueRipple? _paletteMaterialMaterializeBlueRipple;
-    private static PaletteMaterialMaterializeBlueDarkRipple? _paletteMaterialMaterializeBlueDarkRipple;
-    private static PaletteMaterialMaterializeLightBlue? _paletteMaterialMaterializeLightBlue;
-    private static PaletteMaterialMaterializeLightBlueDark? _paletteMaterialMaterializeLightBlueDark;
-    private static PaletteMaterialMaterializeLightBlueRipple? _paletteMaterialMaterializeLightBlueRipple;
-    private static PaletteMaterialMaterializeLightBlueDarkRipple? _paletteMaterialMaterializeLightBlueDarkRipple;
-    private static PaletteMaterialSilverDarkModeAlternate? _paletteMaterialSilverDarkModeAlternate;
-    private static PaletteMaterialSilverDarkModeAlternateRipple? _paletteMaterialSilverDarkModeAlternateRipple;
+    /// <summary>Gets the Office 2010 Materialize Blue extra palette.</summary>
+    public static PaletteBase PaletteOffice2010MaterializeBlue => GetPaletteForMode(PaletteMode.Office2010MaterializeBlue);
+
+    /// <summary>Gets the Office 2010 Materialize Blue dark extra palette.</summary>
+    public static PaletteBase PaletteOffice2010MaterializeBlueDark => GetPaletteForMode(PaletteMode.Office2010MaterializeBlueDark);
+
+    /// <summary>Gets the Office 2010 Materialize Light Blue extra palette.</summary>
+    public static PaletteBase PaletteOffice2010MaterializeLightBlue => GetPaletteForMode(PaletteMode.Office2010MaterializeLightBlue);
+
+    /// <summary>Gets the Office 2010 Materialize Light Blue dark extra palette.</summary>
+    public static PaletteBase PaletteOffice2010MaterializeLightBlueDark => GetPaletteForMode(PaletteMode.Office2010MaterializeLightBlueDark);
+
+    /// <summary>Gets the Office 2010 Silver Dark Mode Alternate extra palette.</summary>
+    public static PaletteBase PaletteOffice2010SilverDarkModeAlternate => GetPaletteForMode(PaletteMode.Office2010SilverDarkModeAlternate);
+
+    /// <summary>Gets the Office 2013 Materialize Blue extra palette.</summary>
+    public static PaletteBase PaletteOffice2013MaterializeBlue => GetPaletteForMode(PaletteMode.Office2013MaterializeBlue);
+
+    /// <summary>Gets the Office 2013 Materialize Blue dark extra palette.</summary>
+    public static PaletteBase PaletteOffice2013MaterializeBlueDark => GetPaletteForMode(PaletteMode.Office2013MaterializeBlueDark);
+
+    /// <summary>Gets the Office 2013 Materialize Light Blue extra palette.</summary>
+    public static PaletteBase PaletteOffice2013MaterializeLightBlue => GetPaletteForMode(PaletteMode.Office2013MaterializeLightBlue);
+
+    /// <summary>Gets the Office 2013 Materialize Light Blue dark extra palette.</summary>
+    public static PaletteBase PaletteOffice2013MaterializeLightBlueDark => GetPaletteForMode(PaletteMode.Office2013MaterializeLightBlueDark);
+
+    /// <summary>Gets the Office 2013 Silver Dark Mode Alternate extra palette.</summary>
+    public static PaletteBase PaletteOffice2013SilverDarkModeAlternate => GetPaletteForMode(PaletteMode.Office2013SilverDarkModeAlternate);
+
+    /// <summary>Gets the Microsoft 365 Materialize Blue extra palette.</summary>
+    public static PaletteBase PaletteMicrosoft365MaterializeBlue => GetPaletteForMode(PaletteMode.Microsoft365MaterializeBlue);
+
+    /// <summary>Gets the Microsoft 365 Materialize Blue dark extra palette.</summary>
+    public static PaletteBase PaletteMicrosoft365MaterializeBlueDark => GetPaletteForMode(PaletteMode.Microsoft365MaterializeBlueDark);
+
+    /// <summary>Gets the Microsoft 365 Materialize Light Blue extra palette.</summary>
+    public static PaletteBase PaletteMicrosoft365MaterializeLightBlue => GetPaletteForMode(PaletteMode.Microsoft365MaterializeLightBlue);
+
+    /// <summary>Gets the Microsoft 365 Materialize Light Blue dark extra palette.</summary>
+    public static PaletteBase PaletteMicrosoft365MaterializeLightBlueDark => GetPaletteForMode(PaletteMode.Microsoft365MaterializeLightBlueDark);
+
+    /// <summary>Gets the Microsoft 365 Silver Dark Mode Alternate extra palette.</summary>
+    public static PaletteBase PaletteMicrosoft365SilverDarkModeAlternate => GetPaletteForMode(PaletteMode.Microsoft365SilverDarkModeAlternate);
+
+    /// <summary>Gets the Material Materialize Blue extra palette.</summary>
+    public static PaletteBase PaletteMaterialMaterializeBlue => GetPaletteForMode(PaletteMode.MaterialMaterializeBlue);
+
+    /// <summary>Gets the Material Materialize Blue dark extra palette.</summary>
+    public static PaletteBase PaletteMaterialMaterializeBlueDark => GetPaletteForMode(PaletteMode.MaterialMaterializeBlueDark);
+
+    /// <summary>Gets the Material Materialize Blue Ripple extra palette.</summary>
+    public static PaletteBase PaletteMaterialMaterializeBlueRipple => GetPaletteForMode(PaletteMode.MaterialMaterializeBlueRipple);
+
+    /// <summary>Gets the Material Materialize Blue dark Ripple extra palette.</summary>
+    public static PaletteBase PaletteMaterialMaterializeBlueDarkRipple => GetPaletteForMode(PaletteMode.MaterialMaterializeBlueDarkRipple);
+
+    /// <summary>Gets the Material Materialize Light Blue extra palette.</summary>
+    public static PaletteBase PaletteMaterialMaterializeLightBlue => GetPaletteForMode(PaletteMode.MaterialMaterializeLightBlue);
+
+    /// <summary>Gets the Material Materialize Light Blue dark extra palette.</summary>
+    public static PaletteBase PaletteMaterialMaterializeLightBlueDark => GetPaletteForMode(PaletteMode.MaterialMaterializeLightBlueDark);
+
+    /// <summary>Gets the Material Materialize Light Blue Ripple extra palette.</summary>
+    public static PaletteBase PaletteMaterialMaterializeLightBlueRipple => GetPaletteForMode(PaletteMode.MaterialMaterializeLightBlueRipple);
+
+    /// <summary>Gets the Material Materialize Light Blue dark Ripple extra palette.</summary>
+    public static PaletteBase PaletteMaterialMaterializeLightBlueDarkRipple => GetPaletteForMode(PaletteMode.MaterialMaterializeLightBlueDarkRipple);
+
+    /// <summary>Gets the Material Silver Dark Mode Alternate extra palette.</summary>
+    public static PaletteBase PaletteMaterialSilverDarkModeAlternate => GetPaletteForMode(PaletteMode.MaterialSilverDarkModeAlternate);
+
+    /// <summary>Gets the Material Silver Dark Mode Alternate Ripple extra palette.</summary>
+    public static PaletteBase PaletteMaterialSilverDarkModeAlternateRipple => GetPaletteForMode(PaletteMode.MaterialSilverDarkModeAlternateRipple);
 
     //public static PaletteBase CustomPaletteBase => _customPalette ??= new PaletteBase ();
 

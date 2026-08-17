@@ -5,7 +5,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Themes;
 
 /// <summary>
 /// Material Light Lime Green palette with Ripple effect enabled.

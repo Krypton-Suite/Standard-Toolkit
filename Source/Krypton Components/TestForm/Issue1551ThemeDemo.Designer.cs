@@ -75,6 +75,7 @@ namespace TestForm
             kwlblInfo.Padding = new Padding(12, 12, 12, 8);
             kwlblInfo.Text =
                 @"Issue #1551 Materialize Blue, Materialize Light Blue, and Silver Dark Alternate across Office 2007 / 2010 / 2013 / Microsoft 365 / Material — light and dark bases. " +
+                @"These extra palettes live in Krypton.Themes and are auto-discovered with the rest of the catalog. " +
                 @"Same lime button accents; chrome follows the era and light/dark surface." + Environment.NewLine + Environment.NewLine +
                 @"Pick a family (also listed in theme selectors as builtin PaletteMode entries), then compare title bar / panels. Reset restores the matching non-lime builtin.";
             //

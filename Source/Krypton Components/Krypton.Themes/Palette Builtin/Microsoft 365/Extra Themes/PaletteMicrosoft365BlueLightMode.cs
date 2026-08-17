@@ -10,7 +10,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Themes;
 
 public class PaletteMicrosoft365BlueLightMode : PaletteMicrosoft365BlueLightModeBase
 {

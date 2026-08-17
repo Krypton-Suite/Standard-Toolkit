@@ -52,4 +52,7 @@ public static class KryptonThemeFamilies
 
     /// <summary>Dark grey / light grey colour variants across chrome families.</summary>
     public const string Gray = @"Gray";
+
+    /// <summary>Issue #1551 Materialize Blue, Materialize Light Blue, and Silver Dark Alternate packs.</summary>
+    public const string Materialize = @"Materialize";
 }

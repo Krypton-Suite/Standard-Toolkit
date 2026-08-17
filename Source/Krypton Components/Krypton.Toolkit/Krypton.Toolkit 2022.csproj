@@ -82,6 +82,8 @@
 	</Compile>
 	<Compile Update="Palette Builtin\Microsoft 365\Bases\PaletteMicrosoft365Base.cs" />
 	<Compile Update="Palette Builtin\Microsoft 365\Official Themes\PaletteMicrosoft365Black.cs" />
+	<Compile Update="Palette Builtin\Microsoft 365\Official Themes\PaletteMicrosoft365Blue.cs" />
+	<Compile Update="Palette Builtin\Microsoft 365\Official Themes\PaletteMicrosoft365Silver.cs" />
 	<Compile Update="Palette Builtin\Office 2010\Official Themes\PaletteOffice2010Black.cs" />
 	<Compile Update="Palette Builtin\Office 2010\Official Themes\PaletteOffice2010Blue.cs" />
 	<Compile Update="Palette Builtin\Office 2010\Official Themes\PaletteOffice2010Silver.cs" />

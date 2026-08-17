@@ -7,7 +7,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Themes;
 
 /// <summary>
 /// Material button chrome for accessibility themes. Material ignores M365 <c>SetArrayColor</c>

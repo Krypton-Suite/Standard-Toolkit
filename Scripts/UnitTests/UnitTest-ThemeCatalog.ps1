@@ -69,6 +69,11 @@ Assert-True ($families.Length -ge 1) 'GetFamilies is not empty'
 $missing = [Krypton.Toolkit.KryptonThemeCatalog]::GetUnimplementedBuiltinModes()
 Assert-True ($missing.Length -eq 0) ("GetUnimplementedBuiltinModes is empty (count=$($missing.Length))")
 
+$materialize = [Krypton.Toolkit.PaletteMode]::Office2007MaterializeBlue
+Assert-True ([Krypton.Toolkit.KryptonThemeCatalog]::IsImplementationAvailable($materialize)) 'Office2007MaterializeBlue is available via Themes'
+Assert-True (-not [Krypton.Toolkit.KryptonThemeCatalog]::IsCoreMode($materialize)) 'Office2007MaterializeBlue is not a core palette'
+Assert-True ($families -contains [Krypton.Toolkit.KryptonThemeFamilies]::Materialize) 'Materialize family is registered'
+
 $all = [Krypton.Toolkit.ThemeManager]::GetThemesArray($true)
 $core = [Krypton.Toolkit.ThemeManager]::GetThemesArray($false)
 Assert-True ($all.Length -gt $core.Length) "GetThemesArray(true) ($($all.Length)) lists more names than cores-only ($($core.Length))"

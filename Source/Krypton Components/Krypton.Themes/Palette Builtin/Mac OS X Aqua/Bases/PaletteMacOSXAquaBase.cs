@@ -5,7 +5,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Themes;
 
 /// <summary>
 /// Base for Mac OS X Aqua palettes: Office 2010 metrics with gel buttons and pinstripe chrome via <see cref="RenderMacOSXAqua"/>.

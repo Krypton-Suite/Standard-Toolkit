@@ -13,6 +13,7 @@
 using System;
 using System.IO;
 
+using Krypton.Themes;
 using Krypton.Toolkit;
 
 namespace MacOSPaletteExporter;

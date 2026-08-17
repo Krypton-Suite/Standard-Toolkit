@@ -10,7 +10,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Themes;
 
 public class PaletteOffice2007White : PaletteOffice2007Base
 {

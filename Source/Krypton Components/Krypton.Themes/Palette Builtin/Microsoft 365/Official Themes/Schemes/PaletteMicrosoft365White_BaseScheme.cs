@@ -7,7 +7,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Themes;
 
 public sealed class PaletteMicrosoft365White_BaseScheme : KryptonColorSchemeBase
 {

@@ -7,7 +7,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Themes;
 
 public class PaletteRetroGreen_BaseScheme : KryptonColorSchemeBase
 {

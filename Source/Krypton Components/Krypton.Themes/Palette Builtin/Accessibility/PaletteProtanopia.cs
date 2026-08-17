@@ -10,7 +10,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Themes;
 
 /// <summary>
 /// Colour-blind friendly palette tuned for protanopia (blue/brown/magenta accents, #4168).

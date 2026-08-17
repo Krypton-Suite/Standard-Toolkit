@@ -6,7 +6,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Themes;
 
 #region Class: PaletteMicrosoft365BlackDarkModeAlternate
 public class PaletteMicrosoft365BlackDarkModeAlternate : PaletteMicrosoft365BlackDarkModeAlternateBase

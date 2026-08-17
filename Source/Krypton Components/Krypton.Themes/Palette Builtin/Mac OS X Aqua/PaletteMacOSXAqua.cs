@@ -5,7 +5,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Themes;
 
 /// <summary>
 /// Mac OS X Aqua-inspired palette (classic gel buttons and pinstripe chrome).

@@ -7,7 +7,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Themes;
 /// <summary>
 /// Office 2007 renderer with protanopia-friendly colours (#4168).
 /// </summary>

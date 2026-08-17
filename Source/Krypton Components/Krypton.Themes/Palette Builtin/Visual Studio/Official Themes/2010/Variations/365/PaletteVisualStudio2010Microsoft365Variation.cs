@@ -7,7 +7,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Themes;
 
 /// <summary>Provides the Visual Studio 2010 colour theme, based on the Microsoft 365 renderer.</summary>
 /// <seealso cref="Krypton.Toolkit.PaletteVisualStudio2010With365Base" />

@@ -10,7 +10,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Themes;
 
 #region Class: PaletteOffice2007SilverDarkMode
 /// <summary>

@@ -10,7 +10,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Themes;
 
 #region Class: PaletteMicrosoft365SilverLightMode
 public class PaletteMicrosoft365SilverLightMode : PaletteMicrosoft365SilverLightModeBase

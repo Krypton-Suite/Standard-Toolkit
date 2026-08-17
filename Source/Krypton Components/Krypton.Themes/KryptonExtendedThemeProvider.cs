@@ -120,7 +120,37 @@ public sealed class KryptonExtendedThemeProvider : IKryptonThemeProvider
             Extra(PaletteMode.MaterialDarkGray, typeof(PaletteMaterialDarkGray), () => new PaletteMaterialDarkGray()),
             Extra(PaletteMode.MaterialLightGray, typeof(PaletteMaterialLightGray), () => new PaletteMaterialLightGray()),
             Extra(PaletteMode.MaterialDarkGrayRipple, typeof(PaletteMaterialDarkGrayRipple), () => new PaletteMaterialDarkGrayRipple()),
-            Extra(PaletteMode.MaterialLightGrayRipple, typeof(PaletteMaterialLightGrayRipple), () => new PaletteMaterialLightGrayRipple())
+            Extra(PaletteMode.MaterialLightGrayRipple, typeof(PaletteMaterialLightGrayRipple), () => new PaletteMaterialLightGrayRipple()),
+            Extra(PaletteMode.Office2007MaterializeBlue, typeof(PaletteOffice2007MaterializeBlue), () => new PaletteOffice2007MaterializeBlue()),
+            Extra(PaletteMode.Office2007MaterializeBlueDark, typeof(PaletteOffice2007MaterializeBlueDark), () => new PaletteOffice2007MaterializeBlueDark()),
+            Extra(PaletteMode.Office2007MaterializeLightBlue, typeof(PaletteOffice2007MaterializeLightBlue), () => new PaletteOffice2007MaterializeLightBlue()),
+            Extra(PaletteMode.Office2007MaterializeLightBlueDark, typeof(PaletteOffice2007MaterializeLightBlueDark), () => new PaletteOffice2007MaterializeLightBlueDark()),
+            Extra(PaletteMode.Office2007SilverDarkModeAlternate, typeof(PaletteOffice2007SilverDarkModeAlternate), () => new PaletteOffice2007SilverDarkModeAlternate()),
+            Extra(PaletteMode.Office2010MaterializeBlue, typeof(PaletteOffice2010MaterializeBlue), () => new PaletteOffice2010MaterializeBlue()),
+            Extra(PaletteMode.Office2010MaterializeBlueDark, typeof(PaletteOffice2010MaterializeBlueDark), () => new PaletteOffice2010MaterializeBlueDark()),
+            Extra(PaletteMode.Office2010MaterializeLightBlue, typeof(PaletteOffice2010MaterializeLightBlue), () => new PaletteOffice2010MaterializeLightBlue()),
+            Extra(PaletteMode.Office2010MaterializeLightBlueDark, typeof(PaletteOffice2010MaterializeLightBlueDark), () => new PaletteOffice2010MaterializeLightBlueDark()),
+            Extra(PaletteMode.Office2010SilverDarkModeAlternate, typeof(PaletteOffice2010SilverDarkModeAlternate), () => new PaletteOffice2010SilverDarkModeAlternate()),
+            Extra(PaletteMode.Office2013MaterializeBlue, typeof(PaletteOffice2013MaterializeBlue), () => new PaletteOffice2013MaterializeBlue()),
+            Extra(PaletteMode.Office2013MaterializeBlueDark, typeof(PaletteOffice2013MaterializeBlueDark), () => new PaletteOffice2013MaterializeBlueDark()),
+            Extra(PaletteMode.Office2013MaterializeLightBlue, typeof(PaletteOffice2013MaterializeLightBlue), () => new PaletteOffice2013MaterializeLightBlue()),
+            Extra(PaletteMode.Office2013MaterializeLightBlueDark, typeof(PaletteOffice2013MaterializeLightBlueDark), () => new PaletteOffice2013MaterializeLightBlueDark()),
+            Extra(PaletteMode.Office2013SilverDarkModeAlternate, typeof(PaletteOffice2013SilverDarkModeAlternate), () => new PaletteOffice2013SilverDarkModeAlternate()),
+            Extra(PaletteMode.Microsoft365MaterializeBlue, typeof(PaletteMicrosoft365MaterializeBlue), () => new PaletteMicrosoft365MaterializeBlue()),
+            Extra(PaletteMode.Microsoft365MaterializeBlueDark, typeof(PaletteMicrosoft365MaterializeBlueDark), () => new PaletteMicrosoft365MaterializeBlueDark()),
+            Extra(PaletteMode.Microsoft365MaterializeLightBlue, typeof(PaletteMicrosoft365MaterializeLightBlue), () => new PaletteMicrosoft365MaterializeLightBlue()),
+            Extra(PaletteMode.Microsoft365MaterializeLightBlueDark, typeof(PaletteMicrosoft365MaterializeLightBlueDark), () => new PaletteMicrosoft365MaterializeLightBlueDark()),
+            Extra(PaletteMode.Microsoft365SilverDarkModeAlternate, typeof(PaletteMicrosoft365SilverDarkModeAlternate), () => new PaletteMicrosoft365SilverDarkModeAlternate()),
+            Extra(PaletteMode.MaterialMaterializeBlue, typeof(PaletteMaterialMaterializeBlue), () => new PaletteMaterialMaterializeBlue()),
+            Extra(PaletteMode.MaterialMaterializeBlueDark, typeof(PaletteMaterialMaterializeBlueDark), () => new PaletteMaterialMaterializeBlueDark()),
+            Extra(PaletteMode.MaterialMaterializeBlueRipple, typeof(PaletteMaterialMaterializeBlueRipple), () => new PaletteMaterialMaterializeBlueRipple()),
+            Extra(PaletteMode.MaterialMaterializeBlueDarkRipple, typeof(PaletteMaterialMaterializeBlueDarkRipple), () => new PaletteMaterialMaterializeBlueDarkRipple()),
+            Extra(PaletteMode.MaterialMaterializeLightBlue, typeof(PaletteMaterialMaterializeLightBlue), () => new PaletteMaterialMaterializeLightBlue()),
+            Extra(PaletteMode.MaterialMaterializeLightBlueDark, typeof(PaletteMaterialMaterializeLightBlueDark), () => new PaletteMaterialMaterializeLightBlueDark()),
+            Extra(PaletteMode.MaterialMaterializeLightBlueRipple, typeof(PaletteMaterialMaterializeLightBlueRipple), () => new PaletteMaterialMaterializeLightBlueRipple()),
+            Extra(PaletteMode.MaterialMaterializeLightBlueDarkRipple, typeof(PaletteMaterialMaterializeLightBlueDarkRipple), () => new PaletteMaterialMaterializeLightBlueDarkRipple()),
+            Extra(PaletteMode.MaterialSilverDarkModeAlternate, typeof(PaletteMaterialSilverDarkModeAlternate), () => new PaletteMaterialSilverDarkModeAlternate()),
+            Extra(PaletteMode.MaterialSilverDarkModeAlternateRipple, typeof(PaletteMaterialSilverDarkModeAlternateRipple), () => new PaletteMaterialSilverDarkModeAlternateRipple())
         };
     }
 
@@ -130,6 +160,12 @@ public sealed class KryptonExtendedThemeProvider : IKryptonThemeProvider
     private static string FamilyFor(PaletteMode mode)
     {
         var name = mode.ToString();
+        if (name.IndexOf(@"Materialize", StringComparison.Ordinal) >= 0
+            || name.IndexOf(@"SilverDarkModeAlternate", StringComparison.Ordinal) >= 0)
+        {
+            return KryptonThemeFamilies.Materialize;
+        }
+
         if (name.IndexOf(@"LimeGreen", StringComparison.Ordinal) >= 0)
         {
             return KryptonThemeFamilies.LimeGreen;

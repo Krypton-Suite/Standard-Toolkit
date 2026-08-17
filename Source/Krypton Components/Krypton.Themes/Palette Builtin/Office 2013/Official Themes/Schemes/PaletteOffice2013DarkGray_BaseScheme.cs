@@ -7,7 +7,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Themes;
 
 /// <summary>
 /// Office 2013 Dark Grey chrome with a light document surface (not a full dark-mode palette).

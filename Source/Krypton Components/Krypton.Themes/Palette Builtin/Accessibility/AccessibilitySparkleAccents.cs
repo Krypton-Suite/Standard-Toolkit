@@ -7,7 +7,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit;
+namespace Krypton.Themes;
 
 /// <summary>
 /// Remaps Sparkle chrome colour arrays (track/checked/pressed/default) onto accessibility accents.
