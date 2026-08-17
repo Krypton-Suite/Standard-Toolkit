@@ -10,7 +10,7 @@
 namespace Krypton.Themes;
 
 /// <summary>Provides the Visual Studio 2010 colour theme, based on the 2007 renderer.</summary>
-/// <seealso cref="Krypton.Toolkit.PaletteVisualStudio2010With2007Base" />
+/// <seealso cref="PaletteVisualStudio2010With2007Base" />
 public class PaletteVisualStudio2010Office2007Variation : PaletteVisualStudio2010With2007Base
 {
     #region Static Fields

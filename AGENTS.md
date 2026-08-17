@@ -83,9 +83,12 @@ Concrete palette types always use namespace `Krypton.Toolkit`, even when the fil
 2. **`PaletteModeStrings`** — Add display-name constant, property, `SupportedThemes` dictionary entry, and `Reset` / equality helpers so enum ↔ string stay in sync.
 3. **Palette class** — Implement `PaletteXxx` reusing an existing base/renderer (Office, Sparkle, Material, Visual Studio, …). Match surrounding file layout under `Palette Builtin\…`. New files: current Standard Toolkit BSD header only; UTF-8 with BOM; CRLF.
 4. **Catalog registration**
-   - Extra: add `Extra(PaletteMode.…, typeof(PaletteXxx), () => new PaletteXxx())` in `Krypton.Themes\KryptonExtendedThemeProvider.cs`, and extend `FamilyFor` / `KryptonThemeFamilies` when introducing a new family key.
-   - Core: add `Core(…)` in `KryptonCoreThemeProvider`, and exclude the mode from `KryptonThemeCatalog.IsKnownExtraMode` (that method is a hard-coded core allow-list inverted).
-5. **`KryptonManager`** — Add a public `PaletteXxx` accessor (`PaletteBase` for extras; concrete type for cores). Wire any existing `GetPaletteForMode` / preference paths that switch on mode.
+   - Extra: add `Extra(PaletteMode.…, KryptonThemeFamilies.…, KryptonThemeChromeKind.…, typeof(PaletteXxx), () => new PaletteXxx())` in `Krypton.Themes\KryptonExtendedThemeProvider.cs`. Pass `KryptonThemeShieldIconStyle` only when it is not `KryptonThemeChrome.DefaultShieldIconStyle(chrome)`. Add a `KryptonThemeFamilies` constant when introducing a new family key.
+   - Core: add `Core(…)` in `KryptonCoreThemeProvider` with family and chrome kind. `KryptonThemeCatalog.CorePaletteCount` reflects registered core descriptors (expected 14 today).
+5. **`KryptonManager` accessor**
+   - Extra: do **not** add a `Palette*` singleton unless a consumer still needs a named property. Use `GetPaletteForMode`. Existing extra accessors stay `PaletteBase`.
+   - Core: typed property with a private static lazy field (same pattern as `PaletteSparkleBlue`).
+   - Do **not** add `PaletteMode` arms to toolbar or shield switches; those read `KryptonThemeChromeKind` / `KryptonThemeShieldIconStyle` from the descriptor.
 6. **Converters** — `PaletteModeConverter` picks up `SupportedThemes` automatically. For **core** types only, also map the type in `PaletteClassTypeConverter`’s core dictionary. Extras resolve via `KryptonThemeCatalog.TryGetMode`.
 7. **Resources** — Add/update palette schema or image resources only when the palette needs them (follow neighbouring Official/Extra themes).
 8. **Validation** — Exercise via theme combo / `ThemeCatalogDemo` (TestForm). After Themes is loaded, `KryptonThemeCatalog.GetUnimplementedBuiltinModes()` must not include the new mode. Prefer extending `Scripts/UnitTests/UnitTest-ThemeCatalog.ps1` when the change is structural.
@@ -98,10 +101,12 @@ Concrete palette types always use namespace `Krypton.Toolkit`, even when the fil
 - Put new optional themes in Toolkit “for convenience” (keeps the core package large).
 - Forget family keys used by `KryptonThemeAvailability.SetFamilyEnabled` (use `extraOnly: true` when hiding Sparkle extras must not hide core Sparkle Blue/Orange/Purple).
 - Assume a missing extra palette throws at runtime — it falls back to Microsoft 365 Blue (`KryptonThemeCatalog.MissingThemeFallback`).
+- Infer family or chrome from the enum name in `KryptonExtendedThemeProvider` — pass them explicitly.
+- Add new `PaletteMode` values after `Custom`, or invent a second theme-id system without a dedicated design (string ids on `Custom` are a future feature, not a shortcut).
 
 ### Third-party / sample providers
 
-Extra assemblies can advertise `[assembly: KryptonThemeProvider(typeof(…))]`. They cannot invent new `PaletteMode` values without a Toolkit change; they may only implement modes not already registered. Sample: `Source/TestHarnesses/ThemeProviderSample`.
+Extra assemblies can advertise `[assembly: KryptonThemeProvider(typeof(…))]`. They cannot invent new `PaletteMode` values without a Toolkit change; they may only implement modes not already registered. Pass family and `KryptonThemeChromeKind` on the descriptor (the five-argument constructor guesses both). Sample: `Source/TestHarnesses/ThemeProviderSample`.
 
 ## Editing Philosophy
 

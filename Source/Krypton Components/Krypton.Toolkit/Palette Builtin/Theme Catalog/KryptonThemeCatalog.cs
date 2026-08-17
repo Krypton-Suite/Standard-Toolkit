@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2026 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -15,6 +15,30 @@ namespace Krypton.Toolkit;
 public static class KryptonThemeCatalog
 {
     private const string ThemesAssemblyFileName = @"Krypton.Themes.dll";
+
+    /// <summary>
+    /// Gets the number of palettes registered as core in <c>Krypton.Toolkit</c>.
+    /// </summary>
+    public static int CorePaletteCount
+    {
+        get
+        {
+            EnsureCoreRegistered();
+            lock (_sync)
+            {
+                var count = 0;
+                foreach (var descriptor in _descriptors.Values)
+                {
+                    if (descriptor.IsCore)
+                    {
+                        count++;
+                    }
+                }
+
+                return count;
+            }
+        }
+    }
 
     private static readonly object _sync = new object();
     private static readonly Dictionary<PaletteMode, KryptonThemeDescriptor> _descriptors =
@@ -141,6 +165,33 @@ public static class KryptonThemeCatalog
         {
             return _descriptors.TryGetValue(mode, out var descriptor) ? descriptor.Family : null;
         }
+    }
+
+    /// <summary>
+    /// Tries to get the registered descriptor for <paramref name="mode"/>.
+    /// </summary>
+    /// <param name="mode">Palette mode.</param>
+    /// <param name="descriptor">The descriptor when registered.</param>
+    /// <returns><see langword="true"/> when the mode is catalogued.</returns>
+    public static bool TryGetDescriptor(PaletteMode mode, out KryptonThemeDescriptor? descriptor)
+    {
+        descriptor = null;
+        if (mode == PaletteMode.Global || mode == PaletteMode.Custom)
+        {
+            return false;
+        }
+
+        EnsureReady();
+        lock (_sync)
+        {
+            if (_descriptors.TryGetValue(mode, out var found))
+            {
+                descriptor = found;
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /// <summary>
@@ -547,18 +598,6 @@ public static class KryptonThemeCatalog
     private static bool IsKnownExtraMode(PaletteMode mode) =>
         mode != PaletteMode.Global
         && mode != PaletteMode.Custom
-        && mode != PaletteMode.ProfessionalSystem
-        && mode != PaletteMode.ProfessionalOffice2003
-        && mode != PaletteMode.Office2007Blue
-        && mode != PaletteMode.Office2007Silver
-        && mode != PaletteMode.Office2007Black
-        && mode != PaletteMode.Office2010Blue
-        && mode != PaletteMode.Office2010Silver
-        && mode != PaletteMode.Office2010Black
-        && mode != PaletteMode.Microsoft365Blue
-        && mode != PaletteMode.Microsoft365Silver
-        && mode != PaletteMode.Microsoft365Black
-        && mode != PaletteMode.SparkleBlue
-        && mode != PaletteMode.SparkleOrange
-        && mode != PaletteMode.SparklePurple;
+        && !IsCoreMode(mode)
+        && PaletteModeStrings.SupportedThemes.SecondToFirst.ContainsKey(mode);
 }

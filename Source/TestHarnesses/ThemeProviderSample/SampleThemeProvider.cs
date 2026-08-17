@@ -21,5 +21,9 @@ namespace ThemeProviderSample;
 public sealed class SampleThemeProvider : IKryptonThemeProvider
 {
     /// <inheritdoc />
+    /// <remarks>
+    /// Return descriptors with explicit family and <see cref="KryptonThemeChromeKind"/>.
+    /// Existing Toolkit/Themes modes are skipped. New <see cref="PaletteMode"/> values cannot be invented here.
+    /// </remarks>
     public IReadOnlyList<KryptonThemeDescriptor> GetThemes() => Array.Empty<KryptonThemeDescriptor>();
 }

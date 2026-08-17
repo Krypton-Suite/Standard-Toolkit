@@ -53,6 +53,8 @@
   * If `Krypton.Themes.dll` is not present, extra `PaletteMode` values paint as Microsoft 365 Blue instead of throwing (`KryptonThemeCatalog.MissingThemeFallback`).
   * The `Krypton.Standard.Toolkit` NuGet package includes `Krypton.Themes`. Apps that reference Toolkit only get core themes unless they add `Krypton.Themes`.
   * Materialize Blue, Materialize Light Blue, and Silver Dark Alternate palettes ship in `Krypton.Themes` (family `Materialize`).
+  * Theme chrome and UAC shield artwork follow `KryptonThemeChromeKind` / `KryptonThemeShieldIconStyle` on the catalog descriptor, so new extra palettes do not need Toolkit `PaletteMode` switch arms.
+  * Extra `KryptonManager.Palette*` singleton accessors are obsolete; use `GetPaletteForMode(PaletteMode)` instead.
 * Implemented [#1551](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1551), New dark/light mode theme colours
    * New Materialize Blue, Materialize Light Blue, and Silver Dark Alternate builtin themes for Office 2007 / 2010 / 2013, Microsoft 365, and Material (including Material Ripple).
    * These palettes live in `Krypton.Themes` and are auto-discovered with other extra themes.

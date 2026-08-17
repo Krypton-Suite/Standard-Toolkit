@@ -3506,8 +3506,8 @@ public class KryptonForm : VisualForm,
 	{
 		macPalette ??= GetResolvedPalette() as PaletteMacOSBase;
 		macPalette ??= (KryptonManager.CurrentGlobalPaletteMode == PaletteMode.MacOSDark
-			? KryptonManager.PaletteMacOSDark
-			: KryptonManager.PaletteMacOSLight) as PaletteMacOSBase;
+			? KryptonManager.GetPaletteForMode(PaletteMode.MacOSDark)
+			: KryptonManager.GetPaletteForMode(PaletteMode.MacOSLight)) as PaletteMacOSBase;
 
 		if (macPalette is null)
 		{

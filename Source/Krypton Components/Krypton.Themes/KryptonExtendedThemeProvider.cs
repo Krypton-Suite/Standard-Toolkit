@@ -19,210 +19,144 @@ public sealed class KryptonExtendedThemeProvider : IKryptonThemeProvider
     {
         return new[]
         {
-            Extra(PaletteMode.Office2007BlueDarkMode, typeof(PaletteOffice2007BlueDarkMode), () => new PaletteOffice2007BlueDarkMode()),
-            Extra(PaletteMode.Office2007BlueLightMode, typeof(PaletteOffice2007BlueLightMode), () => new PaletteOffice2007BlueLightMode()),
-            Extra(PaletteMode.Office2007SilverDarkMode, typeof(PaletteOffice2007SilverDarkMode), () => new PaletteOffice2007SilverDarkMode()),
-            Extra(PaletteMode.Office2007SilverLightMode, typeof(PaletteOffice2007SilverLightMode), () => new PaletteOffice2007SilverLightMode()),
-            Extra(PaletteMode.Office2007White, typeof(PaletteOffice2007White), () => new PaletteOffice2007White()),
-            Extra(PaletteMode.Office2007BlackDarkMode, typeof(PaletteOffice2007BlackDarkMode), () => new PaletteOffice2007BlackDarkMode()),
-            Extra(PaletteMode.Office2010BlueDarkMode, typeof(PaletteOffice2010BlueDarkMode), () => new PaletteOffice2010BlueDarkMode()),
-            Extra(PaletteMode.Office2010BlueLightMode, typeof(PaletteOffice2010BlueLightMode), () => new PaletteOffice2010BlueLightMode()),
-            Extra(PaletteMode.Office2010SilverDarkMode, typeof(PaletteOffice2010SilverDarkMode), () => new PaletteOffice2010SilverDarkMode()),
-            Extra(PaletteMode.Office2010SilverLightMode, typeof(PaletteOffice2010SilverLightMode), () => new PaletteOffice2010SilverLightMode()),
-            Extra(PaletteMode.Office2010White, typeof(PaletteOffice2010White), () => new PaletteOffice2010White()),
-            Extra(PaletteMode.Office2010BlackDarkMode, typeof(PaletteOffice2010BlackDarkMode), () => new PaletteOffice2010BlackDarkMode()),
-            Extra(PaletteMode.Office2013DarkGray, typeof(PaletteOffice2013DarkGray), () => new PaletteOffice2013DarkGray()),
-            Extra(PaletteMode.Office2013LightGray, typeof(PaletteOffice2013LightGray), () => new PaletteOffice2013LightGray()),
-            Extra(PaletteMode.Office2013White, typeof(PaletteOffice2013White), () => new PaletteOffice2013White()),
-            Extra(PaletteMode.SparkleBlueDarkMode, typeof(PaletteSparkleBlueDarkMode), () => new PaletteSparkleBlueDarkMode()),
-            Extra(PaletteMode.SparkleBlueLightMode, typeof(PaletteSparkleBlueLightMode), () => new PaletteSparkleBlueLightMode()),
-            Extra(PaletteMode.SparkleOrangeDarkMode, typeof(PaletteSparkleOrangeDarkMode), () => new PaletteSparkleOrangeDarkMode()),
-            Extra(PaletteMode.SparkleOrangeLightMode, typeof(PaletteSparkleOrangeLightMode), () => new PaletteSparkleOrangeLightMode()),
-            Extra(PaletteMode.SparklePurpleDarkMode, typeof(PaletteSparklePurpleDarkMode), () => new PaletteSparklePurpleDarkMode()),
-            Extra(PaletteMode.SparklePurpleLightMode, typeof(PaletteSparklePurpleLightMode), () => new PaletteSparklePurpleLightMode()),
-            Extra(PaletteMode.Microsoft365BlackDarkMode, typeof(PaletteMicrosoft365BlackDarkMode), () => new PaletteMicrosoft365BlackDarkMode()),
-            Extra(PaletteMode.Microsoft365BlackDarkModeAlternate, typeof(PaletteMicrosoft365BlackDarkModeAlternate), () => new PaletteMicrosoft365BlackDarkModeAlternate()),
-            Extra(PaletteMode.Microsoft365BlueDarkMode, typeof(PaletteMicrosoft365BlueDarkMode), () => new PaletteMicrosoft365BlueDarkMode()),
-            Extra(PaletteMode.Microsoft365BlueLightMode, typeof(PaletteMicrosoft365BlueLightMode), () => new PaletteMicrosoft365BlueLightMode()),
-            Extra(PaletteMode.Microsoft365SilverDarkMode, typeof(PaletteMicrosoft365SilverDarkMode), () => new PaletteMicrosoft365SilverDarkMode()),
-            Extra(PaletteMode.Microsoft365SilverLightMode, typeof(PaletteMicrosoft365SilverLightMode), () => new PaletteMicrosoft365SilverLightMode()),
-            Extra(PaletteMode.Microsoft365White, typeof(PaletteMicrosoft365White), () => new PaletteMicrosoft365White()),
-            Extra(PaletteMode.VisualStudio2010Render2007, typeof(PaletteVisualStudio2010Office2007Variation), () => new PaletteVisualStudio2010Office2007Variation()),
-            Extra(PaletteMode.VisualStudio2010Render2010, typeof(PaletteVisualStudio2010Office2010Variation), () => new PaletteVisualStudio2010Office2010Variation()),
-            Extra(PaletteMode.VisualStudio2010Render2013, typeof(PaletteVisualStudio2010Office2013Variation), () => new PaletteVisualStudio2010Office2013Variation()),
-            Extra(PaletteMode.VisualStudio2010Render365, typeof(PaletteVisualStudio2010Microsoft365Variation), () => new PaletteVisualStudio2010Microsoft365Variation()),
-            Extra(PaletteMode.VisualStudio2012Dark, typeof(PaletteVisualStudio2012Dark), () => new PaletteVisualStudio2012Dark()),
-            Extra(PaletteMode.VisualStudio2012Light, typeof(PaletteVisualStudio2012Light), () => new PaletteVisualStudio2012Light()),
-            Extra(PaletteMode.VisualStudio2012Blue, typeof(PaletteVisualStudio2012Blue), () => new PaletteVisualStudio2012Blue()),
-            Extra(PaletteMode.VisualStudio2013Dark, typeof(PaletteVisualStudio2013Dark), () => new PaletteVisualStudio2013Dark()),
-            Extra(PaletteMode.VisualStudio2013Light, typeof(PaletteVisualStudio2013Light), () => new PaletteVisualStudio2013Light()),
-            Extra(PaletteMode.VisualStudio2013Blue, typeof(PaletteVisualStudio2013Blue), () => new PaletteVisualStudio2013Blue()),
-            Extra(PaletteMode.VisualStudio2015Dark, typeof(PaletteVisualStudio2015Dark), () => new PaletteVisualStudio2015Dark()),
-            Extra(PaletteMode.VisualStudio2015Light, typeof(PaletteVisualStudio2015Light), () => new PaletteVisualStudio2015Light()),
-            Extra(PaletteMode.VisualStudio2015Blue, typeof(PaletteVisualStudio2015Blue), () => new PaletteVisualStudio2015Blue()),
-            Extra(PaletteMode.VisualStudio2017Dark, typeof(PaletteVisualStudio2017Dark), () => new PaletteVisualStudio2017Dark()),
-            Extra(PaletteMode.VisualStudio2017Light, typeof(PaletteVisualStudio2017Light), () => new PaletteVisualStudio2017Light()),
-            Extra(PaletteMode.VisualStudio2017Blue, typeof(PaletteVisualStudio2017Blue), () => new PaletteVisualStudio2017Blue()),
-            Extra(PaletteMode.VisualStudio2019Dark, typeof(PaletteVisualStudio2019Dark), () => new PaletteVisualStudio2019Dark()),
-            Extra(PaletteMode.VisualStudio2019Light, typeof(PaletteVisualStudio2019Light), () => new PaletteVisualStudio2019Light()),
-            Extra(PaletteMode.VisualStudio2019Blue, typeof(PaletteVisualStudio2019Blue), () => new PaletteVisualStudio2019Blue()),
-            Extra(PaletteMode.VisualStudio2022Dark, typeof(PaletteVisualStudio2022Dark), () => new PaletteVisualStudio2022Dark()),
-            Extra(PaletteMode.VisualStudio2022Light, typeof(PaletteVisualStudio2022Light), () => new PaletteVisualStudio2022Light()),
-            Extra(PaletteMode.VisualStudio2022Blue, typeof(PaletteVisualStudio2022Blue), () => new PaletteVisualStudio2022Blue()),
-            Extra(PaletteMode.VisualStudio2026Dark, typeof(PaletteVisualStudio2026Dark), () => new PaletteVisualStudio2026Dark()),
-            Extra(PaletteMode.VisualStudio2026Light, typeof(PaletteVisualStudio2026Light), () => new PaletteVisualStudio2026Light()),
-            Extra(PaletteMode.MaterialLight, typeof(PaletteMaterialLight), () => new PaletteMaterialLight()),
-            Extra(PaletteMode.MaterialDark, typeof(PaletteMaterialDark), () => new PaletteMaterialDark()),
-            Extra(PaletteMode.MaterialLightRipple, typeof(PaletteMaterialLightRipple), () => new PaletteMaterialLightRipple()),
-            Extra(PaletteMode.MaterialDarkRipple, typeof(PaletteMaterialDarkRipple), () => new PaletteMaterialDarkRipple()),
-            Extra(PaletteMode.MaterialLimeGreen, typeof(PaletteMaterialLimeGreen), () => new PaletteMaterialLimeGreen()),
-            Extra(PaletteMode.MaterialLimeGreenDark, typeof(PaletteMaterialLimeGreenDark), () => new PaletteMaterialLimeGreenDark()),
-            Extra(PaletteMode.MaterialLimeGreenRipple, typeof(PaletteMaterialLimeGreenRipple), () => new PaletteMaterialLimeGreenRipple()),
-            Extra(PaletteMode.MaterialLimeGreenDarkRipple, typeof(PaletteMaterialLimeGreenDarkRipple), () => new PaletteMaterialLimeGreenDarkRipple()),
-            Extra(PaletteMode.RetroGreen, typeof(PaletteRetroGreen), () => new PaletteRetroGreen()),
-            Extra(PaletteMode.RetroBlue, typeof(PaletteRetroBlue), () => new PaletteRetroBlue()),
-            Extra(PaletteMode.MacOSXAqua, typeof(PaletteMacOSXAqua), () => new PaletteMacOSXAqua()),
-            Extra(PaletteMode.MacOSLight, typeof(PaletteMacOSLight), () => new PaletteMacOSLight()),
-            Extra(PaletteMode.MacOSDark, typeof(PaletteMacOSDark), () => new PaletteMacOSDark()),
-            Extra(PaletteMode.HighContrast, typeof(PaletteHighContrast), () => new PaletteHighContrast()),
-            Extra(PaletteMode.Deuteranopia, typeof(PaletteDeuteranopia), () => new PaletteDeuteranopia()),
-            Extra(PaletteMode.Protanopia, typeof(PaletteProtanopia), () => new PaletteProtanopia()),
-            Extra(PaletteMode.Office2007HighContrast, typeof(PaletteOffice2007HighContrast), () => new PaletteOffice2007HighContrast()),
-            Extra(PaletteMode.Office2007Deuteranopia, typeof(PaletteOffice2007Deuteranopia), () => new PaletteOffice2007Deuteranopia()),
-            Extra(PaletteMode.Office2007Protanopia, typeof(PaletteOffice2007Protanopia), () => new PaletteOffice2007Protanopia()),
-            Extra(PaletteMode.Office2010HighContrast, typeof(PaletteOffice2010HighContrast), () => new PaletteOffice2010HighContrast()),
-            Extra(PaletteMode.Office2010Deuteranopia, typeof(PaletteOffice2010Deuteranopia), () => new PaletteOffice2010Deuteranopia()),
-            Extra(PaletteMode.Office2010Protanopia, typeof(PaletteOffice2010Protanopia), () => new PaletteOffice2010Protanopia()),
-            Extra(PaletteMode.Office2013HighContrast, typeof(PaletteOffice2013HighContrast), () => new PaletteOffice2013HighContrast()),
-            Extra(PaletteMode.Office2013Deuteranopia, typeof(PaletteOffice2013Deuteranopia), () => new PaletteOffice2013Deuteranopia()),
-            Extra(PaletteMode.Office2013Protanopia, typeof(PaletteOffice2013Protanopia), () => new PaletteOffice2013Protanopia()),
-            Extra(PaletteMode.SparkleHighContrast, typeof(PaletteSparkleHighContrast), () => new PaletteSparkleHighContrast()),
-            Extra(PaletteMode.SparkleDeuteranopia, typeof(PaletteSparkleDeuteranopia), () => new PaletteSparkleDeuteranopia()),
-            Extra(PaletteMode.SparkleProtanopia, typeof(PaletteSparkleProtanopia), () => new PaletteSparkleProtanopia()),
-            Extra(PaletteMode.MaterialHighContrast, typeof(PaletteMaterialHighContrast), () => new PaletteMaterialHighContrast()),
-            Extra(PaletteMode.MaterialDeuteranopia, typeof(PaletteMaterialDeuteranopia), () => new PaletteMaterialDeuteranopia()),
-            Extra(PaletteMode.MaterialProtanopia, typeof(PaletteMaterialProtanopia), () => new PaletteMaterialProtanopia()),
-            Extra(PaletteMode.MaterialHighContrastRipple, typeof(PaletteMaterialHighContrastRipple), () => new PaletteMaterialHighContrastRipple()),
-            Extra(PaletteMode.MaterialDeuteranopiaRipple, typeof(PaletteMaterialDeuteranopiaRipple), () => new PaletteMaterialDeuteranopiaRipple()),
-            Extra(PaletteMode.MaterialProtanopiaRipple, typeof(PaletteMaterialProtanopiaRipple), () => new PaletteMaterialProtanopiaRipple()),
-            Extra(PaletteMode.Office2007LimeGreen, typeof(PaletteOffice2007LimeGreen), () => new PaletteOffice2007LimeGreen()),
-            Extra(PaletteMode.Office2007LimeGreenDark, typeof(PaletteOffice2007LimeGreenDark), () => new PaletteOffice2007LimeGreenDark()),
-            Extra(PaletteMode.Office2010LimeGreen, typeof(PaletteOffice2010LimeGreen), () => new PaletteOffice2010LimeGreen()),
-            Extra(PaletteMode.Office2010LimeGreenDark, typeof(PaletteOffice2010LimeGreenDark), () => new PaletteOffice2010LimeGreenDark()),
-            Extra(PaletteMode.Microsoft365LimeGreen, typeof(PaletteMicrosoft365LimeGreen), () => new PaletteMicrosoft365LimeGreen()),
-            Extra(PaletteMode.Microsoft365LimeGreenDark, typeof(PaletteMicrosoft365LimeGreenDark), () => new PaletteMicrosoft365LimeGreenDark()),
-            Extra(PaletteMode.Office2007DarkGray, typeof(PaletteOffice2007DarkGray), () => new PaletteOffice2007DarkGray()),
-            Extra(PaletteMode.Office2007LightGray, typeof(PaletteOffice2007LightGray), () => new PaletteOffice2007LightGray()),
-            Extra(PaletteMode.Office2010DarkGray, typeof(PaletteOffice2010DarkGray), () => new PaletteOffice2010DarkGray()),
-            Extra(PaletteMode.Office2010LightGray, typeof(PaletteOffice2010LightGray), () => new PaletteOffice2010LightGray()),
-            Extra(PaletteMode.Microsoft365DarkGray, typeof(PaletteMicrosoft365DarkGray), () => new PaletteMicrosoft365DarkGray()),
-            Extra(PaletteMode.Microsoft365LightGray, typeof(PaletteMicrosoft365LightGray), () => new PaletteMicrosoft365LightGray()),
-            Extra(PaletteMode.MaterialDarkGray, typeof(PaletteMaterialDarkGray), () => new PaletteMaterialDarkGray()),
-            Extra(PaletteMode.MaterialLightGray, typeof(PaletteMaterialLightGray), () => new PaletteMaterialLightGray()),
-            Extra(PaletteMode.MaterialDarkGrayRipple, typeof(PaletteMaterialDarkGrayRipple), () => new PaletteMaterialDarkGrayRipple()),
-            Extra(PaletteMode.MaterialLightGrayRipple, typeof(PaletteMaterialLightGrayRipple), () => new PaletteMaterialLightGrayRipple()),
-            Extra(PaletteMode.Office2007MaterializeBlue, typeof(PaletteOffice2007MaterializeBlue), () => new PaletteOffice2007MaterializeBlue()),
-            Extra(PaletteMode.Office2007MaterializeBlueDark, typeof(PaletteOffice2007MaterializeBlueDark), () => new PaletteOffice2007MaterializeBlueDark()),
-            Extra(PaletteMode.Office2007MaterializeLightBlue, typeof(PaletteOffice2007MaterializeLightBlue), () => new PaletteOffice2007MaterializeLightBlue()),
-            Extra(PaletteMode.Office2007MaterializeLightBlueDark, typeof(PaletteOffice2007MaterializeLightBlueDark), () => new PaletteOffice2007MaterializeLightBlueDark()),
-            Extra(PaletteMode.Office2007SilverDarkModeAlternate, typeof(PaletteOffice2007SilverDarkModeAlternate), () => new PaletteOffice2007SilverDarkModeAlternate()),
-            Extra(PaletteMode.Office2010MaterializeBlue, typeof(PaletteOffice2010MaterializeBlue), () => new PaletteOffice2010MaterializeBlue()),
-            Extra(PaletteMode.Office2010MaterializeBlueDark, typeof(PaletteOffice2010MaterializeBlueDark), () => new PaletteOffice2010MaterializeBlueDark()),
-            Extra(PaletteMode.Office2010MaterializeLightBlue, typeof(PaletteOffice2010MaterializeLightBlue), () => new PaletteOffice2010MaterializeLightBlue()),
-            Extra(PaletteMode.Office2010MaterializeLightBlueDark, typeof(PaletteOffice2010MaterializeLightBlueDark), () => new PaletteOffice2010MaterializeLightBlueDark()),
-            Extra(PaletteMode.Office2010SilverDarkModeAlternate, typeof(PaletteOffice2010SilverDarkModeAlternate), () => new PaletteOffice2010SilverDarkModeAlternate()),
-            Extra(PaletteMode.Office2013MaterializeBlue, typeof(PaletteOffice2013MaterializeBlue), () => new PaletteOffice2013MaterializeBlue()),
-            Extra(PaletteMode.Office2013MaterializeBlueDark, typeof(PaletteOffice2013MaterializeBlueDark), () => new PaletteOffice2013MaterializeBlueDark()),
-            Extra(PaletteMode.Office2013MaterializeLightBlue, typeof(PaletteOffice2013MaterializeLightBlue), () => new PaletteOffice2013MaterializeLightBlue()),
-            Extra(PaletteMode.Office2013MaterializeLightBlueDark, typeof(PaletteOffice2013MaterializeLightBlueDark), () => new PaletteOffice2013MaterializeLightBlueDark()),
-            Extra(PaletteMode.Office2013SilverDarkModeAlternate, typeof(PaletteOffice2013SilverDarkModeAlternate), () => new PaletteOffice2013SilverDarkModeAlternate()),
-            Extra(PaletteMode.Microsoft365MaterializeBlue, typeof(PaletteMicrosoft365MaterializeBlue), () => new PaletteMicrosoft365MaterializeBlue()),
-            Extra(PaletteMode.Microsoft365MaterializeBlueDark, typeof(PaletteMicrosoft365MaterializeBlueDark), () => new PaletteMicrosoft365MaterializeBlueDark()),
-            Extra(PaletteMode.Microsoft365MaterializeLightBlue, typeof(PaletteMicrosoft365MaterializeLightBlue), () => new PaletteMicrosoft365MaterializeLightBlue()),
-            Extra(PaletteMode.Microsoft365MaterializeLightBlueDark, typeof(PaletteMicrosoft365MaterializeLightBlueDark), () => new PaletteMicrosoft365MaterializeLightBlueDark()),
-            Extra(PaletteMode.Microsoft365SilverDarkModeAlternate, typeof(PaletteMicrosoft365SilverDarkModeAlternate), () => new PaletteMicrosoft365SilverDarkModeAlternate()),
-            Extra(PaletteMode.MaterialMaterializeBlue, typeof(PaletteMaterialMaterializeBlue), () => new PaletteMaterialMaterializeBlue()),
-            Extra(PaletteMode.MaterialMaterializeBlueDark, typeof(PaletteMaterialMaterializeBlueDark), () => new PaletteMaterialMaterializeBlueDark()),
-            Extra(PaletteMode.MaterialMaterializeBlueRipple, typeof(PaletteMaterialMaterializeBlueRipple), () => new PaletteMaterialMaterializeBlueRipple()),
-            Extra(PaletteMode.MaterialMaterializeBlueDarkRipple, typeof(PaletteMaterialMaterializeBlueDarkRipple), () => new PaletteMaterialMaterializeBlueDarkRipple()),
-            Extra(PaletteMode.MaterialMaterializeLightBlue, typeof(PaletteMaterialMaterializeLightBlue), () => new PaletteMaterialMaterializeLightBlue()),
-            Extra(PaletteMode.MaterialMaterializeLightBlueDark, typeof(PaletteMaterialMaterializeLightBlueDark), () => new PaletteMaterialMaterializeLightBlueDark()),
-            Extra(PaletteMode.MaterialMaterializeLightBlueRipple, typeof(PaletteMaterialMaterializeLightBlueRipple), () => new PaletteMaterialMaterializeLightBlueRipple()),
-            Extra(PaletteMode.MaterialMaterializeLightBlueDarkRipple, typeof(PaletteMaterialMaterializeLightBlueDarkRipple), () => new PaletteMaterialMaterializeLightBlueDarkRipple()),
-            Extra(PaletteMode.MaterialSilverDarkModeAlternate, typeof(PaletteMaterialSilverDarkModeAlternate), () => new PaletteMaterialSilverDarkModeAlternate()),
-            Extra(PaletteMode.MaterialSilverDarkModeAlternateRipple, typeof(PaletteMaterialSilverDarkModeAlternateRipple), () => new PaletteMaterialSilverDarkModeAlternateRipple())
+            Extra(PaletteMode.Office2007BlueDarkMode, KryptonThemeFamilies.Office2007, KryptonThemeChromeKind.Office2007, typeof(PaletteOffice2007BlueDarkMode), () => new PaletteOffice2007BlueDarkMode()),
+            Extra(PaletteMode.Office2007BlueLightMode, KryptonThemeFamilies.Office2007, KryptonThemeChromeKind.Office2007, typeof(PaletteOffice2007BlueLightMode), () => new PaletteOffice2007BlueLightMode()),
+            Extra(PaletteMode.Office2007SilverDarkMode, KryptonThemeFamilies.Office2007, KryptonThemeChromeKind.Office2007, typeof(PaletteOffice2007SilverDarkMode), () => new PaletteOffice2007SilverDarkMode()),
+            Extra(PaletteMode.Office2007SilverLightMode, KryptonThemeFamilies.Office2007, KryptonThemeChromeKind.Office2007, typeof(PaletteOffice2007SilverLightMode), () => new PaletteOffice2007SilverLightMode()),
+            Extra(PaletteMode.Office2007White, KryptonThemeFamilies.Office2007, KryptonThemeChromeKind.Office2007, typeof(PaletteOffice2007White), () => new PaletteOffice2007White()),
+            Extra(PaletteMode.Office2007BlackDarkMode, KryptonThemeFamilies.Office2007, KryptonThemeChromeKind.Office2007, typeof(PaletteOffice2007BlackDarkMode), () => new PaletteOffice2007BlackDarkMode()),
+            Extra(PaletteMode.Office2010BlueDarkMode, KryptonThemeFamilies.Office2010, KryptonThemeChromeKind.Office2010, typeof(PaletteOffice2010BlueDarkMode), () => new PaletteOffice2010BlueDarkMode()),
+            Extra(PaletteMode.Office2010BlueLightMode, KryptonThemeFamilies.Office2010, KryptonThemeChromeKind.Office2010, typeof(PaletteOffice2010BlueLightMode), () => new PaletteOffice2010BlueLightMode()),
+            Extra(PaletteMode.Office2010SilverDarkMode, KryptonThemeFamilies.Office2010, KryptonThemeChromeKind.Office2010, typeof(PaletteOffice2010SilverDarkMode), () => new PaletteOffice2010SilverDarkMode()),
+            Extra(PaletteMode.Office2010SilverLightMode, KryptonThemeFamilies.Office2010, KryptonThemeChromeKind.Office2010, typeof(PaletteOffice2010SilverLightMode), () => new PaletteOffice2010SilverLightMode()),
+            Extra(PaletteMode.Office2010White, KryptonThemeFamilies.Office2010, KryptonThemeChromeKind.Office2010, typeof(PaletteOffice2010White), () => new PaletteOffice2010White()),
+            Extra(PaletteMode.Office2010BlackDarkMode, KryptonThemeFamilies.Office2010, KryptonThemeChromeKind.Office2010, typeof(PaletteOffice2010BlackDarkMode), () => new PaletteOffice2010BlackDarkMode()),
+            Extra(PaletteMode.Office2013DarkGray, KryptonThemeFamilies.Office2013, KryptonThemeChromeKind.Office2013, typeof(PaletteOffice2013DarkGray), () => new PaletteOffice2013DarkGray()),
+            Extra(PaletteMode.Office2013LightGray, KryptonThemeFamilies.Office2013, KryptonThemeChromeKind.Office2013, typeof(PaletteOffice2013LightGray), () => new PaletteOffice2013LightGray()),
+            Extra(PaletteMode.Office2013White, KryptonThemeFamilies.Office2013, KryptonThemeChromeKind.Office2013, typeof(PaletteOffice2013White), () => new PaletteOffice2013White()),
+            Extra(PaletteMode.SparkleBlueDarkMode, KryptonThemeFamilies.Sparkle, KryptonThemeChromeKind.Sparkle, typeof(PaletteSparkleBlueDarkMode), () => new PaletteSparkleBlueDarkMode()),
+            Extra(PaletteMode.SparkleBlueLightMode, KryptonThemeFamilies.Sparkle, KryptonThemeChromeKind.Sparkle, typeof(PaletteSparkleBlueLightMode), () => new PaletteSparkleBlueLightMode()),
+            Extra(PaletteMode.SparkleOrangeDarkMode, KryptonThemeFamilies.Sparkle, KryptonThemeChromeKind.Sparkle, typeof(PaletteSparkleOrangeDarkMode), () => new PaletteSparkleOrangeDarkMode()),
+            Extra(PaletteMode.SparkleOrangeLightMode, KryptonThemeFamilies.Sparkle, KryptonThemeChromeKind.Sparkle, typeof(PaletteSparkleOrangeLightMode), () => new PaletteSparkleOrangeLightMode()),
+            Extra(PaletteMode.SparklePurpleDarkMode, KryptonThemeFamilies.Sparkle, KryptonThemeChromeKind.Sparkle, typeof(PaletteSparklePurpleDarkMode), () => new PaletteSparklePurpleDarkMode()),
+            Extra(PaletteMode.SparklePurpleLightMode, KryptonThemeFamilies.Sparkle, KryptonThemeChromeKind.Sparkle, typeof(PaletteSparklePurpleLightMode), () => new PaletteSparklePurpleLightMode()),
+            Extra(PaletteMode.Microsoft365BlackDarkMode, KryptonThemeFamilies.Microsoft365, KryptonThemeChromeKind.Microsoft365, typeof(PaletteMicrosoft365BlackDarkMode), () => new PaletteMicrosoft365BlackDarkMode()),
+            Extra(PaletteMode.Microsoft365BlackDarkModeAlternate, KryptonThemeFamilies.Microsoft365, KryptonThemeChromeKind.Microsoft365, typeof(PaletteMicrosoft365BlackDarkModeAlternate), () => new PaletteMicrosoft365BlackDarkModeAlternate()),
+            Extra(PaletteMode.Microsoft365BlueDarkMode, KryptonThemeFamilies.Microsoft365, KryptonThemeChromeKind.Microsoft365, typeof(PaletteMicrosoft365BlueDarkMode), () => new PaletteMicrosoft365BlueDarkMode()),
+            Extra(PaletteMode.Microsoft365BlueLightMode, KryptonThemeFamilies.Microsoft365, KryptonThemeChromeKind.Microsoft365, typeof(PaletteMicrosoft365BlueLightMode), () => new PaletteMicrosoft365BlueLightMode()),
+            Extra(PaletteMode.Microsoft365SilverDarkMode, KryptonThemeFamilies.Microsoft365, KryptonThemeChromeKind.Microsoft365, typeof(PaletteMicrosoft365SilverDarkMode), () => new PaletteMicrosoft365SilverDarkMode()),
+            Extra(PaletteMode.Microsoft365SilverLightMode, KryptonThemeFamilies.Microsoft365, KryptonThemeChromeKind.Microsoft365, typeof(PaletteMicrosoft365SilverLightMode), () => new PaletteMicrosoft365SilverLightMode()),
+            Extra(PaletteMode.Microsoft365White, KryptonThemeFamilies.Microsoft365, KryptonThemeChromeKind.Microsoft365, typeof(PaletteMicrosoft365White), () => new PaletteMicrosoft365White()),
+            Extra(PaletteMode.VisualStudio2010Render2007, KryptonThemeFamilies.VisualStudio, KryptonThemeChromeKind.Office2007, KryptonThemeShieldIconStyle.Windows7, typeof(PaletteVisualStudio2010Office2007Variation), () => new PaletteVisualStudio2010Office2007Variation()),
+            Extra(PaletteMode.VisualStudio2010Render2010, KryptonThemeFamilies.VisualStudio, KryptonThemeChromeKind.Office2010, typeof(PaletteVisualStudio2010Office2010Variation), () => new PaletteVisualStudio2010Office2010Variation()),
+            Extra(PaletteMode.VisualStudio2010Render2013, KryptonThemeFamilies.VisualStudio, KryptonThemeChromeKind.Office2013, typeof(PaletteVisualStudio2010Office2013Variation), () => new PaletteVisualStudio2010Office2013Variation()),
+            Extra(PaletteMode.VisualStudio2010Render365, KryptonThemeFamilies.VisualStudio, KryptonThemeChromeKind.Microsoft365, KryptonThemeShieldIconStyle.Windows7, typeof(PaletteVisualStudio2010Microsoft365Variation), () => new PaletteVisualStudio2010Microsoft365Variation()),
+            Extra(PaletteMode.VisualStudio2012Dark, KryptonThemeFamilies.VisualStudio, KryptonThemeChromeKind.VisualStudio, typeof(PaletteVisualStudio2012Dark), () => new PaletteVisualStudio2012Dark()),
+            Extra(PaletteMode.VisualStudio2012Light, KryptonThemeFamilies.VisualStudio, KryptonThemeChromeKind.VisualStudio, typeof(PaletteVisualStudio2012Light), () => new PaletteVisualStudio2012Light()),
+            Extra(PaletteMode.VisualStudio2012Blue, KryptonThemeFamilies.VisualStudio, KryptonThemeChromeKind.VisualStudio, typeof(PaletteVisualStudio2012Blue), () => new PaletteVisualStudio2012Blue()),
+            Extra(PaletteMode.VisualStudio2013Dark, KryptonThemeFamilies.VisualStudio, KryptonThemeChromeKind.VisualStudio, typeof(PaletteVisualStudio2013Dark), () => new PaletteVisualStudio2013Dark()),
+            Extra(PaletteMode.VisualStudio2013Light, KryptonThemeFamilies.VisualStudio, KryptonThemeChromeKind.VisualStudio, typeof(PaletteVisualStudio2013Light), () => new PaletteVisualStudio2013Light()),
+            Extra(PaletteMode.VisualStudio2013Blue, KryptonThemeFamilies.VisualStudio, KryptonThemeChromeKind.VisualStudio, typeof(PaletteVisualStudio2013Blue), () => new PaletteVisualStudio2013Blue()),
+            Extra(PaletteMode.VisualStudio2015Dark, KryptonThemeFamilies.VisualStudio, KryptonThemeChromeKind.VisualStudio, typeof(PaletteVisualStudio2015Dark), () => new PaletteVisualStudio2015Dark()),
+            Extra(PaletteMode.VisualStudio2015Light, KryptonThemeFamilies.VisualStudio, KryptonThemeChromeKind.VisualStudio, typeof(PaletteVisualStudio2015Light), () => new PaletteVisualStudio2015Light()),
+            Extra(PaletteMode.VisualStudio2015Blue, KryptonThemeFamilies.VisualStudio, KryptonThemeChromeKind.VisualStudio, typeof(PaletteVisualStudio2015Blue), () => new PaletteVisualStudio2015Blue()),
+            Extra(PaletteMode.VisualStudio2017Dark, KryptonThemeFamilies.VisualStudio, KryptonThemeChromeKind.VisualStudio, typeof(PaletteVisualStudio2017Dark), () => new PaletteVisualStudio2017Dark()),
+            Extra(PaletteMode.VisualStudio2017Light, KryptonThemeFamilies.VisualStudio, KryptonThemeChromeKind.VisualStudio, typeof(PaletteVisualStudio2017Light), () => new PaletteVisualStudio2017Light()),
+            Extra(PaletteMode.VisualStudio2017Blue, KryptonThemeFamilies.VisualStudio, KryptonThemeChromeKind.VisualStudio, typeof(PaletteVisualStudio2017Blue), () => new PaletteVisualStudio2017Blue()),
+            Extra(PaletteMode.VisualStudio2019Dark, KryptonThemeFamilies.VisualStudio, KryptonThemeChromeKind.VisualStudio, typeof(PaletteVisualStudio2019Dark), () => new PaletteVisualStudio2019Dark()),
+            Extra(PaletteMode.VisualStudio2019Light, KryptonThemeFamilies.VisualStudio, KryptonThemeChromeKind.VisualStudio, typeof(PaletteVisualStudio2019Light), () => new PaletteVisualStudio2019Light()),
+            Extra(PaletteMode.VisualStudio2019Blue, KryptonThemeFamilies.VisualStudio, KryptonThemeChromeKind.VisualStudio, typeof(PaletteVisualStudio2019Blue), () => new PaletteVisualStudio2019Blue()),
+            Extra(PaletteMode.VisualStudio2022Dark, KryptonThemeFamilies.VisualStudio, KryptonThemeChromeKind.VisualStudio, typeof(PaletteVisualStudio2022Dark), () => new PaletteVisualStudio2022Dark()),
+            Extra(PaletteMode.VisualStudio2022Light, KryptonThemeFamilies.VisualStudio, KryptonThemeChromeKind.VisualStudio, typeof(PaletteVisualStudio2022Light), () => new PaletteVisualStudio2022Light()),
+            Extra(PaletteMode.VisualStudio2022Blue, KryptonThemeFamilies.VisualStudio, KryptonThemeChromeKind.VisualStudio, typeof(PaletteVisualStudio2022Blue), () => new PaletteVisualStudio2022Blue()),
+            Extra(PaletteMode.VisualStudio2026Dark, KryptonThemeFamilies.VisualStudio, KryptonThemeChromeKind.VisualStudio, typeof(PaletteVisualStudio2026Dark), () => new PaletteVisualStudio2026Dark()),
+            Extra(PaletteMode.VisualStudio2026Light, KryptonThemeFamilies.VisualStudio, KryptonThemeChromeKind.VisualStudio, typeof(PaletteVisualStudio2026Light), () => new PaletteVisualStudio2026Light()),
+            Extra(PaletteMode.MaterialLight, KryptonThemeFamilies.Material, KryptonThemeChromeKind.Material, typeof(PaletteMaterialLight), () => new PaletteMaterialLight()),
+            Extra(PaletteMode.MaterialDark, KryptonThemeFamilies.Material, KryptonThemeChromeKind.Material, typeof(PaletteMaterialDark), () => new PaletteMaterialDark()),
+            Extra(PaletteMode.MaterialLightRipple, KryptonThemeFamilies.Material, KryptonThemeChromeKind.Material, typeof(PaletteMaterialLightRipple), () => new PaletteMaterialLightRipple()),
+            Extra(PaletteMode.MaterialDarkRipple, KryptonThemeFamilies.Material, KryptonThemeChromeKind.Material, typeof(PaletteMaterialDarkRipple), () => new PaletteMaterialDarkRipple()),
+            Extra(PaletteMode.MaterialLimeGreen, KryptonThemeFamilies.LimeGreen, KryptonThemeChromeKind.Material, typeof(PaletteMaterialLimeGreen), () => new PaletteMaterialLimeGreen()),
+            Extra(PaletteMode.MaterialLimeGreenDark, KryptonThemeFamilies.LimeGreen, KryptonThemeChromeKind.Material, typeof(PaletteMaterialLimeGreenDark), () => new PaletteMaterialLimeGreenDark()),
+            Extra(PaletteMode.MaterialLimeGreenRipple, KryptonThemeFamilies.LimeGreen, KryptonThemeChromeKind.Material, typeof(PaletteMaterialLimeGreenRipple), () => new PaletteMaterialLimeGreenRipple()),
+            Extra(PaletteMode.MaterialLimeGreenDarkRipple, KryptonThemeFamilies.LimeGreen, KryptonThemeChromeKind.Material, typeof(PaletteMaterialLimeGreenDarkRipple), () => new PaletteMaterialLimeGreenDarkRipple()),
+            Extra(PaletteMode.RetroGreen, KryptonThemeFamilies.Retro, KryptonThemeChromeKind.Retro, typeof(PaletteRetroGreen), () => new PaletteRetroGreen()),
+            Extra(PaletteMode.RetroBlue, KryptonThemeFamilies.Retro, KryptonThemeChromeKind.Retro, typeof(PaletteRetroBlue), () => new PaletteRetroBlue()),
+            Extra(PaletteMode.MacOSXAqua, KryptonThemeFamilies.MacOS, KryptonThemeChromeKind.MacOS, typeof(PaletteMacOSXAqua), () => new PaletteMacOSXAqua()),
+            Extra(PaletteMode.MacOSLight, KryptonThemeFamilies.MacOS, KryptonThemeChromeKind.MacOS, typeof(PaletteMacOSLight), () => new PaletteMacOSLight()),
+            Extra(PaletteMode.MacOSDark, KryptonThemeFamilies.MacOS, KryptonThemeChromeKind.MacOS, typeof(PaletteMacOSDark), () => new PaletteMacOSDark()),
+            Extra(PaletteMode.HighContrast, KryptonThemeFamilies.Accessibility, KryptonThemeChromeKind.Microsoft365, typeof(PaletteHighContrast), () => new PaletteHighContrast()),
+            Extra(PaletteMode.Deuteranopia, KryptonThemeFamilies.Accessibility, KryptonThemeChromeKind.Microsoft365, typeof(PaletteDeuteranopia), () => new PaletteDeuteranopia()),
+            Extra(PaletteMode.Protanopia, KryptonThemeFamilies.Accessibility, KryptonThemeChromeKind.Microsoft365, typeof(PaletteProtanopia), () => new PaletteProtanopia()),
+            Extra(PaletteMode.Office2007HighContrast, KryptonThemeFamilies.Accessibility, KryptonThemeChromeKind.Office2007, KryptonThemeShieldIconStyle.Windows10, typeof(PaletteOffice2007HighContrast), () => new PaletteOffice2007HighContrast()),
+            Extra(PaletteMode.Office2007Deuteranopia, KryptonThemeFamilies.Accessibility, KryptonThemeChromeKind.Office2007, KryptonThemeShieldIconStyle.Windows10, typeof(PaletteOffice2007Deuteranopia), () => new PaletteOffice2007Deuteranopia()),
+            Extra(PaletteMode.Office2007Protanopia, KryptonThemeFamilies.Accessibility, KryptonThemeChromeKind.Office2007, KryptonThemeShieldIconStyle.Windows10, typeof(PaletteOffice2007Protanopia), () => new PaletteOffice2007Protanopia()),
+            Extra(PaletteMode.Office2010HighContrast, KryptonThemeFamilies.Accessibility, KryptonThemeChromeKind.Office2010, KryptonThemeShieldIconStyle.Windows10, typeof(PaletteOffice2010HighContrast), () => new PaletteOffice2010HighContrast()),
+            Extra(PaletteMode.Office2010Deuteranopia, KryptonThemeFamilies.Accessibility, KryptonThemeChromeKind.Office2010, KryptonThemeShieldIconStyle.Windows10, typeof(PaletteOffice2010Deuteranopia), () => new PaletteOffice2010Deuteranopia()),
+            Extra(PaletteMode.Office2010Protanopia, KryptonThemeFamilies.Accessibility, KryptonThemeChromeKind.Office2010, KryptonThemeShieldIconStyle.Windows10, typeof(PaletteOffice2010Protanopia), () => new PaletteOffice2010Protanopia()),
+            Extra(PaletteMode.Office2013HighContrast, KryptonThemeFamilies.Accessibility, KryptonThemeChromeKind.Office2013, KryptonThemeShieldIconStyle.Windows10, typeof(PaletteOffice2013HighContrast), () => new PaletteOffice2013HighContrast()),
+            Extra(PaletteMode.Office2013Deuteranopia, KryptonThemeFamilies.Accessibility, KryptonThemeChromeKind.Office2013, KryptonThemeShieldIconStyle.Windows10, typeof(PaletteOffice2013Deuteranopia), () => new PaletteOffice2013Deuteranopia()),
+            Extra(PaletteMode.Office2013Protanopia, KryptonThemeFamilies.Accessibility, KryptonThemeChromeKind.Office2013, KryptonThemeShieldIconStyle.Windows10, typeof(PaletteOffice2013Protanopia), () => new PaletteOffice2013Protanopia()),
+            Extra(PaletteMode.SparkleHighContrast, KryptonThemeFamilies.Accessibility, KryptonThemeChromeKind.Sparkle, typeof(PaletteSparkleHighContrast), () => new PaletteSparkleHighContrast()),
+            Extra(PaletteMode.SparkleDeuteranopia, KryptonThemeFamilies.Accessibility, KryptonThemeChromeKind.Sparkle, typeof(PaletteSparkleDeuteranopia), () => new PaletteSparkleDeuteranopia()),
+            Extra(PaletteMode.SparkleProtanopia, KryptonThemeFamilies.Accessibility, KryptonThemeChromeKind.Sparkle, typeof(PaletteSparkleProtanopia), () => new PaletteSparkleProtanopia()),
+            Extra(PaletteMode.MaterialHighContrast, KryptonThemeFamilies.Accessibility, KryptonThemeChromeKind.Material, typeof(PaletteMaterialHighContrast), () => new PaletteMaterialHighContrast()),
+            Extra(PaletteMode.MaterialDeuteranopia, KryptonThemeFamilies.Accessibility, KryptonThemeChromeKind.Material, typeof(PaletteMaterialDeuteranopia), () => new PaletteMaterialDeuteranopia()),
+            Extra(PaletteMode.MaterialProtanopia, KryptonThemeFamilies.Accessibility, KryptonThemeChromeKind.Material, typeof(PaletteMaterialProtanopia), () => new PaletteMaterialProtanopia()),
+            Extra(PaletteMode.MaterialHighContrastRipple, KryptonThemeFamilies.Accessibility, KryptonThemeChromeKind.Material, typeof(PaletteMaterialHighContrastRipple), () => new PaletteMaterialHighContrastRipple()),
+            Extra(PaletteMode.MaterialDeuteranopiaRipple, KryptonThemeFamilies.Accessibility, KryptonThemeChromeKind.Material, typeof(PaletteMaterialDeuteranopiaRipple), () => new PaletteMaterialDeuteranopiaRipple()),
+            Extra(PaletteMode.MaterialProtanopiaRipple, KryptonThemeFamilies.Accessibility, KryptonThemeChromeKind.Material, typeof(PaletteMaterialProtanopiaRipple), () => new PaletteMaterialProtanopiaRipple()),
+            Extra(PaletteMode.Office2007LimeGreen, KryptonThemeFamilies.LimeGreen, KryptonThemeChromeKind.Office2007, typeof(PaletteOffice2007LimeGreen), () => new PaletteOffice2007LimeGreen()),
+            Extra(PaletteMode.Office2007LimeGreenDark, KryptonThemeFamilies.LimeGreen, KryptonThemeChromeKind.Office2007, typeof(PaletteOffice2007LimeGreenDark), () => new PaletteOffice2007LimeGreenDark()),
+            Extra(PaletteMode.Office2010LimeGreen, KryptonThemeFamilies.LimeGreen, KryptonThemeChromeKind.Office2010, typeof(PaletteOffice2010LimeGreen), () => new PaletteOffice2010LimeGreen()),
+            Extra(PaletteMode.Office2010LimeGreenDark, KryptonThemeFamilies.LimeGreen, KryptonThemeChromeKind.Office2010, typeof(PaletteOffice2010LimeGreenDark), () => new PaletteOffice2010LimeGreenDark()),
+            Extra(PaletteMode.Microsoft365LimeGreen, KryptonThemeFamilies.LimeGreen, KryptonThemeChromeKind.Microsoft365, typeof(PaletteMicrosoft365LimeGreen), () => new PaletteMicrosoft365LimeGreen()),
+            Extra(PaletteMode.Microsoft365LimeGreenDark, KryptonThemeFamilies.LimeGreen, KryptonThemeChromeKind.Microsoft365, typeof(PaletteMicrosoft365LimeGreenDark), () => new PaletteMicrosoft365LimeGreenDark()),
+            Extra(PaletteMode.Office2007DarkGray, KryptonThemeFamilies.Gray, KryptonThemeChromeKind.Office2007, typeof(PaletteOffice2007DarkGray), () => new PaletteOffice2007DarkGray()),
+            Extra(PaletteMode.Office2007LightGray, KryptonThemeFamilies.Gray, KryptonThemeChromeKind.Office2007, typeof(PaletteOffice2007LightGray), () => new PaletteOffice2007LightGray()),
+            Extra(PaletteMode.Office2010DarkGray, KryptonThemeFamilies.Gray, KryptonThemeChromeKind.Office2010, typeof(PaletteOffice2010DarkGray), () => new PaletteOffice2010DarkGray()),
+            Extra(PaletteMode.Office2010LightGray, KryptonThemeFamilies.Gray, KryptonThemeChromeKind.Office2010, typeof(PaletteOffice2010LightGray), () => new PaletteOffice2010LightGray()),
+            Extra(PaletteMode.Microsoft365DarkGray, KryptonThemeFamilies.Gray, KryptonThemeChromeKind.Microsoft365, typeof(PaletteMicrosoft365DarkGray), () => new PaletteMicrosoft365DarkGray()),
+            Extra(PaletteMode.Microsoft365LightGray, KryptonThemeFamilies.Gray, KryptonThemeChromeKind.Microsoft365, typeof(PaletteMicrosoft365LightGray), () => new PaletteMicrosoft365LightGray()),
+            Extra(PaletteMode.MaterialDarkGray, KryptonThemeFamilies.Gray, KryptonThemeChromeKind.Material, typeof(PaletteMaterialDarkGray), () => new PaletteMaterialDarkGray()),
+            Extra(PaletteMode.MaterialLightGray, KryptonThemeFamilies.Gray, KryptonThemeChromeKind.Material, typeof(PaletteMaterialLightGray), () => new PaletteMaterialLightGray()),
+            Extra(PaletteMode.MaterialDarkGrayRipple, KryptonThemeFamilies.Gray, KryptonThemeChromeKind.Material, typeof(PaletteMaterialDarkGrayRipple), () => new PaletteMaterialDarkGrayRipple()),
+            Extra(PaletteMode.MaterialLightGrayRipple, KryptonThemeFamilies.Gray, KryptonThemeChromeKind.Material, typeof(PaletteMaterialLightGrayRipple), () => new PaletteMaterialLightGrayRipple()),
+            Extra(PaletteMode.Office2007MaterializeBlue, KryptonThemeFamilies.Materialize, KryptonThemeChromeKind.Office2007, typeof(PaletteOffice2007MaterializeBlue), () => new PaletteOffice2007MaterializeBlue()),
+            Extra(PaletteMode.Office2007MaterializeBlueDark, KryptonThemeFamilies.Materialize, KryptonThemeChromeKind.Office2007, typeof(PaletteOffice2007MaterializeBlueDark), () => new PaletteOffice2007MaterializeBlueDark()),
+            Extra(PaletteMode.Office2007MaterializeLightBlue, KryptonThemeFamilies.Materialize, KryptonThemeChromeKind.Office2007, typeof(PaletteOffice2007MaterializeLightBlue), () => new PaletteOffice2007MaterializeLightBlue()),
+            Extra(PaletteMode.Office2007MaterializeLightBlueDark, KryptonThemeFamilies.Materialize, KryptonThemeChromeKind.Office2007, typeof(PaletteOffice2007MaterializeLightBlueDark), () => new PaletteOffice2007MaterializeLightBlueDark()),
+            Extra(PaletteMode.Office2007SilverDarkModeAlternate, KryptonThemeFamilies.Materialize, KryptonThemeChromeKind.Office2007, typeof(PaletteOffice2007SilverDarkModeAlternate), () => new PaletteOffice2007SilverDarkModeAlternate()),
+            Extra(PaletteMode.Office2010MaterializeBlue, KryptonThemeFamilies.Materialize, KryptonThemeChromeKind.Office2010, typeof(PaletteOffice2010MaterializeBlue), () => new PaletteOffice2010MaterializeBlue()),
+            Extra(PaletteMode.Office2010MaterializeBlueDark, KryptonThemeFamilies.Materialize, KryptonThemeChromeKind.Office2010, typeof(PaletteOffice2010MaterializeBlueDark), () => new PaletteOffice2010MaterializeBlueDark()),
+            Extra(PaletteMode.Office2010MaterializeLightBlue, KryptonThemeFamilies.Materialize, KryptonThemeChromeKind.Office2010, typeof(PaletteOffice2010MaterializeLightBlue), () => new PaletteOffice2010MaterializeLightBlue()),
+            Extra(PaletteMode.Office2010MaterializeLightBlueDark, KryptonThemeFamilies.Materialize, KryptonThemeChromeKind.Office2010, typeof(PaletteOffice2010MaterializeLightBlueDark), () => new PaletteOffice2010MaterializeLightBlueDark()),
+            Extra(PaletteMode.Office2010SilverDarkModeAlternate, KryptonThemeFamilies.Materialize, KryptonThemeChromeKind.Office2010, typeof(PaletteOffice2010SilverDarkModeAlternate), () => new PaletteOffice2010SilverDarkModeAlternate()),
+            Extra(PaletteMode.Office2013MaterializeBlue, KryptonThemeFamilies.Materialize, KryptonThemeChromeKind.Office2013, KryptonThemeShieldIconStyle.Windows10, typeof(PaletteOffice2013MaterializeBlue), () => new PaletteOffice2013MaterializeBlue()),
+            Extra(PaletteMode.Office2013MaterializeBlueDark, KryptonThemeFamilies.Materialize, KryptonThemeChromeKind.Office2013, KryptonThemeShieldIconStyle.Windows10, typeof(PaletteOffice2013MaterializeBlueDark), () => new PaletteOffice2013MaterializeBlueDark()),
+            Extra(PaletteMode.Office2013MaterializeLightBlue, KryptonThemeFamilies.Materialize, KryptonThemeChromeKind.Office2013, KryptonThemeShieldIconStyle.Windows10, typeof(PaletteOffice2013MaterializeLightBlue), () => new PaletteOffice2013MaterializeLightBlue()),
+            Extra(PaletteMode.Office2013MaterializeLightBlueDark, KryptonThemeFamilies.Materialize, KryptonThemeChromeKind.Office2013, KryptonThemeShieldIconStyle.Windows10, typeof(PaletteOffice2013MaterializeLightBlueDark), () => new PaletteOffice2013MaterializeLightBlueDark()),
+            Extra(PaletteMode.Office2013SilverDarkModeAlternate, KryptonThemeFamilies.Materialize, KryptonThemeChromeKind.Office2013, KryptonThemeShieldIconStyle.Windows10, typeof(PaletteOffice2013SilverDarkModeAlternate), () => new PaletteOffice2013SilverDarkModeAlternate()),
+            Extra(PaletteMode.Microsoft365MaterializeBlue, KryptonThemeFamilies.Materialize, KryptonThemeChromeKind.Microsoft365, typeof(PaletteMicrosoft365MaterializeBlue), () => new PaletteMicrosoft365MaterializeBlue()),
+            Extra(PaletteMode.Microsoft365MaterializeBlueDark, KryptonThemeFamilies.Materialize, KryptonThemeChromeKind.Microsoft365, typeof(PaletteMicrosoft365MaterializeBlueDark), () => new PaletteMicrosoft365MaterializeBlueDark()),
+            Extra(PaletteMode.Microsoft365MaterializeLightBlue, KryptonThemeFamilies.Materialize, KryptonThemeChromeKind.Microsoft365, typeof(PaletteMicrosoft365MaterializeLightBlue), () => new PaletteMicrosoft365MaterializeLightBlue()),
+            Extra(PaletteMode.Microsoft365MaterializeLightBlueDark, KryptonThemeFamilies.Materialize, KryptonThemeChromeKind.Microsoft365, typeof(PaletteMicrosoft365MaterializeLightBlueDark), () => new PaletteMicrosoft365MaterializeLightBlueDark()),
+            Extra(PaletteMode.Microsoft365SilverDarkModeAlternate, KryptonThemeFamilies.Materialize, KryptonThemeChromeKind.Microsoft365, typeof(PaletteMicrosoft365SilverDarkModeAlternate), () => new PaletteMicrosoft365SilverDarkModeAlternate()),
+            Extra(PaletteMode.MaterialMaterializeBlue, KryptonThemeFamilies.Materialize, KryptonThemeChromeKind.Material, typeof(PaletteMaterialMaterializeBlue), () => new PaletteMaterialMaterializeBlue()),
+            Extra(PaletteMode.MaterialMaterializeBlueDark, KryptonThemeFamilies.Materialize, KryptonThemeChromeKind.Material, typeof(PaletteMaterialMaterializeBlueDark), () => new PaletteMaterialMaterializeBlueDark()),
+            Extra(PaletteMode.MaterialMaterializeBlueRipple, KryptonThemeFamilies.Materialize, KryptonThemeChromeKind.Material, typeof(PaletteMaterialMaterializeBlueRipple), () => new PaletteMaterialMaterializeBlueRipple()),
+            Extra(PaletteMode.MaterialMaterializeBlueDarkRipple, KryptonThemeFamilies.Materialize, KryptonThemeChromeKind.Material, typeof(PaletteMaterialMaterializeBlueDarkRipple), () => new PaletteMaterialMaterializeBlueDarkRipple()),
+            Extra(PaletteMode.MaterialMaterializeLightBlue, KryptonThemeFamilies.Materialize, KryptonThemeChromeKind.Material, typeof(PaletteMaterialMaterializeLightBlue), () => new PaletteMaterialMaterializeLightBlue()),
+            Extra(PaletteMode.MaterialMaterializeLightBlueDark, KryptonThemeFamilies.Materialize, KryptonThemeChromeKind.Material, typeof(PaletteMaterialMaterializeLightBlueDark), () => new PaletteMaterialMaterializeLightBlueDark()),
+            Extra(PaletteMode.MaterialMaterializeLightBlueRipple, KryptonThemeFamilies.Materialize, KryptonThemeChromeKind.Material, typeof(PaletteMaterialMaterializeLightBlueRipple), () => new PaletteMaterialMaterializeLightBlueRipple()),
+            Extra(PaletteMode.MaterialMaterializeLightBlueDarkRipple, KryptonThemeFamilies.Materialize, KryptonThemeChromeKind.Material, typeof(PaletteMaterialMaterializeLightBlueDarkRipple), () => new PaletteMaterialMaterializeLightBlueDarkRipple()),
+            Extra(PaletteMode.MaterialSilverDarkModeAlternate, KryptonThemeFamilies.Materialize, KryptonThemeChromeKind.Material, typeof(PaletteMaterialSilverDarkModeAlternate), () => new PaletteMaterialSilverDarkModeAlternate()),
+            Extra(PaletteMode.MaterialSilverDarkModeAlternateRipple, KryptonThemeFamilies.Materialize, KryptonThemeChromeKind.Material, typeof(PaletteMaterialSilverDarkModeAlternateRipple), () => new PaletteMaterialSilverDarkModeAlternateRipple())
         };
     }
 
-    private static KryptonThemeDescriptor Extra(PaletteMode mode, Type type, Func<PaletteBase> factory) =>
-        new KryptonThemeDescriptor(mode, FamilyFor(mode), false, type, factory);
+    private static KryptonThemeDescriptor Extra(PaletteMode mode, string family, KryptonThemeChromeKind chrome, Type type, Func<PaletteBase> factory) =>
+        Extra(mode, family, chrome, KryptonThemeChrome.DefaultShieldIconStyle(chrome), type, factory);
 
-    private static string FamilyFor(PaletteMode mode)
-    {
-        var name = mode.ToString();
-        if (name.IndexOf(@"Materialize", StringComparison.Ordinal) >= 0
-            || name.IndexOf(@"SilverDarkModeAlternate", StringComparison.Ordinal) >= 0)
-        {
-            return KryptonThemeFamilies.Materialize;
-        }
-
-        if (name.IndexOf(@"LimeGreen", StringComparison.Ordinal) >= 0)
-        {
-            return KryptonThemeFamilies.LimeGreen;
-        }
-
-        if (name.IndexOf(@"DarkGray", StringComparison.Ordinal) >= 0 || name.IndexOf(@"LightGray", StringComparison.Ordinal) >= 0)
-        {
-            return KryptonThemeFamilies.Gray;
-        }
-
-        if (name.IndexOf(@"HighContrast", StringComparison.Ordinal) >= 0
-            || name.IndexOf(@"Deuteranopia", StringComparison.Ordinal) >= 0
-            || name.IndexOf(@"Protanopia", StringComparison.Ordinal) >= 0)
-        {
-            return KryptonThemeFamilies.Accessibility;
-        }
-
-        if (name.StartsWith(@"Sparkle", StringComparison.Ordinal))
-        {
-            return KryptonThemeFamilies.Sparkle;
-        }
-
-        if (name.StartsWith(@"VisualStudio", StringComparison.Ordinal))
-        {
-            return KryptonThemeFamilies.VisualStudio;
-        }
-
-        if (name.StartsWith(@"Material", StringComparison.Ordinal))
-        {
-            return KryptonThemeFamilies.Material;
-        }
-
-        if (name.StartsWith(@"Retro", StringComparison.Ordinal))
-        {
-            return KryptonThemeFamilies.Retro;
-        }
-
-        if (name.StartsWith(@"MacOS", StringComparison.Ordinal))
-        {
-            return KryptonThemeFamilies.MacOS;
-        }
-
-        if (name.StartsWith(@"Office2007", StringComparison.Ordinal))
-        {
-            return KryptonThemeFamilies.Office2007;
-        }
-
-        if (name.StartsWith(@"Office2010", StringComparison.Ordinal))
-        {
-            return KryptonThemeFamilies.Office2010;
-        }
-
-        if (name.StartsWith(@"Office2013", StringComparison.Ordinal))
-        {
-            return KryptonThemeFamilies.Office2013;
-        }
-
-        return KryptonThemeFamilies.Microsoft365;
-    }
+    private static KryptonThemeDescriptor Extra(PaletteMode mode, string family, KryptonThemeChromeKind chrome, KryptonThemeShieldIconStyle shield, Type type, Func<PaletteBase> factory) =>
+        new KryptonThemeDescriptor(mode, family, chrome, shield, false, type, factory);
 }

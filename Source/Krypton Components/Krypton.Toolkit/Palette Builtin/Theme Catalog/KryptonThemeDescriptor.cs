@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2026 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -25,6 +25,26 @@ public sealed class KryptonThemeDescriptor
     /// <exception cref="ArgumentNullException">A required argument is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="family"/> is empty or <paramref name="mode"/> is a sentinel.</exception>
     public KryptonThemeDescriptor(PaletteMode mode, string family, bool isCore, Type paletteType, Func<PaletteBase> factory)
+        : this(mode, family, KryptonThemeChrome.GuessChromeKind(mode),
+            KryptonThemeChrome.DefaultShieldIconStyle(KryptonThemeChrome.GuessChromeKind(mode)),
+            isCore, paletteType, factory)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new descriptor with explicit chrome and shield metadata.
+    /// </summary>
+    /// <param name="mode">Public <see cref="PaletteMode"/> identity. Extra themes keep their historical enum values.</param>
+    /// <param name="family">Grouping key used by <see cref="KryptonThemeAvailability"/>.</param>
+    /// <param name="chromeKind">Renderer / chrome era for toolbar images.</param>
+    /// <param name="shieldIconStyle">UAC shield artwork era.</param>
+    /// <param name="isCore"><see langword="true"/> when the implementation ships in <c>Krypton.Toolkit</c>.</param>
+    /// <param name="paletteType">Concrete <see cref="PaletteBase"/> subclass.</param>
+    /// <param name="factory">Creates a process-wide instance; the catalog caches the result.</param>
+    /// <exception cref="ArgumentNullException">A required argument is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="family"/> is empty or <paramref name="mode"/> is a sentinel.</exception>
+    public KryptonThemeDescriptor(PaletteMode mode, string family, KryptonThemeChromeKind chromeKind,
+        KryptonThemeShieldIconStyle shieldIconStyle, bool isCore, Type paletteType, Func<PaletteBase> factory)
     {
         if (string.IsNullOrWhiteSpace(family))
         {
@@ -38,6 +58,8 @@ public sealed class KryptonThemeDescriptor
 
         Mode = mode;
         Family = family;
+        ChromeKind = chromeKind;
+        ShieldIconStyle = shieldIconStyle;
         IsCore = isCore;
         PaletteType = paletteType ?? throw new ArgumentNullException(nameof(paletteType));
         Factory = factory ?? throw new ArgumentNullException(nameof(factory));
@@ -52,6 +74,16 @@ public sealed class KryptonThemeDescriptor
     /// Gets the family key (for example <see cref="KryptonThemeFamilies.Office2007"/>).
     /// </summary>
     public string Family { get; }
+
+    /// <summary>
+    /// Gets the renderer / chrome era (toolbar images follow this, not <see cref="Family"/>).
+    /// </summary>
+    public KryptonThemeChromeKind ChromeKind { get; }
+
+    /// <summary>
+    /// Gets the UAC shield artwork era for this palette.
+    /// </summary>
+    public KryptonThemeShieldIconStyle ShieldIconStyle { get; }
 
     /// <summary>
     /// Gets the selector display name for <see cref="Mode"/>.
