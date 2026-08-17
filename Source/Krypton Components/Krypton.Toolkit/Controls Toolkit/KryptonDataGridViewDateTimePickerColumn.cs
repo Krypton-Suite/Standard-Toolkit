@@ -638,6 +638,42 @@ DateTimePickerCellTemplate?.CalendarFirstDayOfWeek ?? ThrowHelper.ThrowInvalidOp
     }
 
     /// <summary>
+    /// Gets or sets the calendar view used to choose a date.
+    /// </summary>
+    [Category(@"MonthCalendar")]
+    [Description(@"Specifies whether the drop-down calendar shows days, months, or years.")]
+    [DefaultValue(MonthCalendarView.Days)]
+    public MonthCalendarView CalendarView
+    {
+        get =>
+            DateTimePickerCellTemplate?.CalendarView ?? ThrowHelper.ThrowInvalidOperationException<MonthCalendarView>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+        set
+        {
+            if (DateTimePickerCellTemplate == null)
+            {
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+            }
+
+            DateTimePickerCellTemplate.CalendarView = value;
+            if (DataGridView != null)
+            {
+                DataGridViewRowCollection dataGridViewRows = DataGridView.Rows;
+                var rowCount = dataGridViewRows.Count;
+                for (var rowIndex = 0; rowIndex < rowCount; rowIndex++)
+                {
+                    DataGridViewRow dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
+                    if (dataGridViewRow.Cells[Index] is KryptonDataGridViewDateTimePickerCell dataGridViewCell)
+                    {
+                        dataGridViewCell.SetCalendarView(rowIndex, value);
+                    }
+                }
+
+                DataGridView.InvalidateColumn(Index);
+            }
+        }
+    }
+
+    /// <summary>
     /// Gets and sets if the control will display todays date.
     /// </summary>
     [Category(@"MonthCalendar")]

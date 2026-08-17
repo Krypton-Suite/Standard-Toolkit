@@ -13,15 +13,18 @@
 namespace Krypton.Toolkit;
 
 /// <summary>
-/// Visual display of tooltip information.
+/// Visual display of tooltip information, optionally hosting an interactive <see cref="Control"/>.
 /// </summary>
 public class VisualPopupToolTip : VisualPopup
 {
     #region Instance Fields
     private readonly PaletteTripleMetricRedirect _palette;
     private readonly ViewDrawDocker _drawDocker;
-    private readonly ViewDrawContent _drawContent;
-    private readonly IContentValues _contentValues;
+    private readonly ViewDrawContent? _drawContent;
+    private readonly ViewLayoutHostedFill? _layoutFill;
+    private readonly IContentValues? _contentValues;
+    private readonly Control? _hostedControl;
+    private readonly bool _keyboardInert;
     #endregion
 
     #region Identity
@@ -61,33 +64,129 @@ public class VisualPopupToolTip : VisualPopup
         PaletteBorderStyle borderStyle,
         PaletteContentStyle contentStyle,
         bool shadow)
+        : this(redirector, renderer, backStyle, borderStyle, contentStyle, shadow, contentValues, null, true)
+    {
+    }
+
+    /// <summary>
+    /// Initialize a popup tooltip that hosts <paramref name="hostedControl"/> inside tooltip chrome.
+    /// The hosted control is reparented for the lifetime of this popup and unparented on dispose; it is not disposed here.
+    /// </summary>
+    /// <param name="redirector">Redirector for recovering palette values.</param>
+    /// <param name="hostedControl">Control shown inside the tooltip. Cannot be a <see cref="Form"/>.</param>
+    /// <param name="renderer">Drawing renderer.</param>
+    /// <param name="backStyle">Style for the tooltip background.</param>
+    /// <param name="borderStyle">Style for the tooltip border.</param>
+    /// <param name="contentStyle">Style for optional heading content.</param>
+    /// <param name="shadow">Does the Tooltip need a shadow effect.</param>
+    /// <param name="headingValues">Optional heading (short/long text and image) drawn above the hosted control.</param>
+    /// <param name="keyboardInert">When false, keyboard input (including Escape) is delivered to this popup.</param>
+    public VisualPopupToolTip(PaletteRedirect redirector,
+        Control hostedControl,
+        IRenderer renderer,
+        PaletteBackStyle backStyle,
+        PaletteBorderStyle borderStyle,
+        PaletteContentStyle contentStyle,
+        bool shadow,
+        IContentValues? headingValues,
+        bool keyboardInert = true)
+        : this(redirector, renderer, backStyle, borderStyle, contentStyle, shadow, headingValues, hostedControl, keyboardInert)
+    {
+    }
+
+    private VisualPopupToolTip([DisallowNull] PaletteRedirect redirector,
+        IRenderer renderer,
+        PaletteBackStyle backStyle,
+        PaletteBorderStyle borderStyle,
+        PaletteContentStyle contentStyle,
+        bool shadow,
+        IContentValues? contentValues,
+        Control? hostedControl,
+        bool keyboardInert)
         : base(renderer, shadow)
     {
-        Debug.Assert(contentValues is not null);
+        if (hostedControl is Form)
+        {
+            ThrowHelper.ThrowArgumentException(@"A Form cannot be hosted inside a tooltip.", nameof(hostedControl));
+        }
 
-        // Remember references needed later
-        _contentValues =contentValues ?? ThrowHelper.ThrowNullReferenceException<IContentValues>(SharedStaticFunctions.VariableCannotBeNull(nameof(contentValues)));
+        if (contentValues is null && hostedControl is null)
+        {
+            ThrowHelper.ThrowArgumentException(@"Tooltip requires heading content or a hosted control.");
+        }
 
-        // Create the triple redirector needed by view elements
+        _contentValues = contentValues;
+        _hostedControl = hostedControl;
+        _keyboardInert = keyboardInert;
+
         _palette = new PaletteTripleMetricRedirect(redirector, backStyle, borderStyle, contentStyle, NeedPaintDelegate);
 
-        // Our view contains background and border with content inside
         _drawDocker = new ViewDrawDocker(_palette.Back, _palette.Border, null);
-        _drawContent = new ViewDrawContent(_palette.Content, _contentValues, VisualOrientation.Top);
-        _drawDocker.Add(_drawContent, ViewDockStyle.Fill);
 
-        // Create the view manager instance
+        if (_contentValues is not null)
+        {
+            _drawContent = new ViewDrawContent(_palette.Content, _contentValues, VisualOrientation.Top);
+            _drawDocker.Add(_drawContent, hostedControl is null ? ViewDockStyle.Fill : ViewDockStyle.Top);
+        }
+
         ViewManager = new ViewManager(this, _drawDocker);
+
+        if (_hostedControl is not null)
+        {
+            _layoutFill = new ViewLayoutHostedFill(_hostedControl)
+            {
+                DisplayPadding = new Padding(6)
+            };
+            _drawDocker.Add(_layoutFill, ViewDockStyle.Fill);
+
+            if (_hostedControl.Parent is not null)
+            {
+                CommonHelper.RemoveControlFromParent(_hostedControl);
+            }
+
+            // ViewManager.Root must be assigned before parenting: Controls.Add triggers layout.
+            Controls.Add(_hostedControl);
+            _hostedControl.Visible = true;
+        }
+    }
+
+    /// <inheritdoc />
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing && _hostedControl is not null && !_hostedControl.IsDisposed)
+        {
+            // Unparent so ContainerControl.Dispose does not destroy caller-owned content.
+            if (Controls.Contains(_hostedControl))
+            {
+                Controls.Remove(_hostedControl);
+            }
+        }
+
+        base.Dispose(disposing);
     }
     #endregion
 
     #region Public
     /// <summary>
+    /// Gets the control hosted inside this tooltip, if any.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public Control? HostedControl => _hostedControl;
+
+    /// <summary>
+    /// Gets a value indicating whether this popup hosts interactive child controls.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public bool IsInteractive => _hostedControl is not null;
+
+    /// <summary>
     /// Gets a value indicating if the keyboard is passed to this popup.
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public override bool KeyboardInert => true;
+    public override bool KeyboardInert => _keyboardInert;
 
     /// <summary>
     /// Should the mouse move at provided screen point be allowed.
@@ -267,6 +366,20 @@ public class VisualPopupToolTip : VisualPopup
         // Let base class calculate fill rectangle
         base.OnLayout(lEvent);
 
+        if (_layoutFill is not null && _hostedControl is not null && !_hostedControl.IsDisposed)
+        {
+            Rectangle fillRect = _layoutFill.FillRect;
+            if (!fillRect.IsEmpty)
+            {
+                _hostedControl.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
+            }
+        }
+
+        if (!IsHandleCreated || ClientRectangle.IsEmpty)
+        {
+            return;
+        }
+
         // Need a render context for accessing the renderer
         Rectangle rect = ClientRectangle;
         rect.Inflate(1, 1); // Make sure bottom and left borders are visible
@@ -285,6 +398,45 @@ public class VisualPopupToolTip : VisualPopup
 
         // Inform the shadow to use the same paths for drawing the shadow
         DefineShadowPaths(borderPath1, borderPath2, borderPath3);
+    }
+    #endregion
+
+    #region Private Types
+    /// <summary>
+    /// Fills the docker remainder and sizes from the hosted control's AutoSize preferred size or explicit Size.
+    /// </summary>
+    private sealed class ViewLayoutHostedFill : ViewLayoutFill
+    {
+        private readonly Control _hosted;
+
+        public ViewLayoutHostedFill(Control hosted)
+            : base(hosted) =>
+            _hosted = hosted;
+
+        /// <inheritdoc />
+        public override Size GetPreferredSize(ViewLayoutContext context)
+        {
+            Size size = _hosted.AutoSize
+                ? _hosted.GetPreferredSize(context.DisplayRectangle.Size)
+                : _hosted.Size;
+
+            // First layout often has an empty proposed size, and an unshown control's Size can be 0,0.
+            // Measure unconstrained so AutoSize content can still report a real preferred size.
+            if (size.Width <= 0 || size.Height <= 0)
+            {
+                size = _hosted.GetPreferredSize(Size.Empty);
+            }
+
+            // Last resort: some controls still return empty until they have a handle. Use current
+            // bounds with a 16px floor so the popup chrome does not collapse to zero.
+            if (size.Width <= 0 || size.Height <= 0)
+            {
+                size = new Size(Math.Max(16, _hosted.Width), Math.Max(16, _hosted.Height));
+            }
+
+            return new Size(size.Width + DisplayPadding.Horizontal,
+                size.Height + DisplayPadding.Vertical);
+        }
     }
     #endregion
 }

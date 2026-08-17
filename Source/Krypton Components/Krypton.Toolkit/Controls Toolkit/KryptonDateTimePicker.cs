@@ -448,6 +448,14 @@ public class KryptonDateTimePicker : VisualControlBase,
     public Day CalendarFirstDayOfWeek { get; set; }
 
     /// <summary>
+    /// Gets or sets the calendar view used to choose a date.
+    /// </summary>
+    [Category(@"MonthCalendar")]
+    [Description(@"Specifies whether the drop-down calendar shows days, months, or years.")]
+    [DefaultValue(MonthCalendarView.Days)]
+    public MonthCalendarView CalendarView { get; set; }
+
+    /// <summary>
     /// Gets and sets if the control will display todays date.
     /// </summary>
     [Category(@"MonthCalendar")]
@@ -2195,6 +2203,7 @@ public class KryptonDateTimePicker : VisualControlBase,
             _kmc = new KryptonContextMenuMonthCalendar
             {
                 CalendarDimensions = CalendarDimensions,
+                CalendarView = CalendarView,
                 TodayText = CalendarTodayText,
                 TodayFormat = CalendarTodayFormat,
                 FirstDayOfWeek = CalendarFirstDayOfWeek,

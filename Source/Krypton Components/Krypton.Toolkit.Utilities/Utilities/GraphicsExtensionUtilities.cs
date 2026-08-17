@@ -362,10 +362,16 @@ public static class GraphicsExtensionUtilities
             PaletteMode.MaterialLimeGreenDark => true,
             PaletteMode.MaterialLimeGreenRipple => true,
             PaletteMode.MaterialLimeGreenDarkRipple => true,
+            PaletteMode.MaterialDarkGray => true,
+            PaletteMode.MaterialLightGray => true,
+            PaletteMode.MaterialDarkGrayRipple => true,
+            PaletteMode.MaterialLightGrayRipple => true,
             PaletteMode.MacOSDark => true,
             PaletteMode.MacOSLight => true,
             PaletteMode.Microsoft365LimeGreen => true,
             PaletteMode.Microsoft365LimeGreenDark => true,
+            PaletteMode.Microsoft365DarkGray => true,
+            PaletteMode.Microsoft365LightGray => true,
             _ => false
         };
     }

@@ -246,7 +246,7 @@ public sealed class Feature4177AsyncFormsDemo : KryptonForm
 
         buttons.Controls.Add(CreateButton("Toast user-input ShowNotificationAsync", async (_, _) =>
         {
-            object value = await KryptonToast.ShowNotificationAsync(new KryptonUserInputToastData
+            object? value = await KryptonToast.ShowNotificationAsync(new KryptonUserInputToastData
             {
                 ToastHost = this,
                 NotificationTitle = "4177 User Input",
