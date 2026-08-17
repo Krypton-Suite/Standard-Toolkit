@@ -41,7 +41,7 @@ Before considering a task complete:
 
 ## Project Structure & Module Organization
 
-- `Source/Krypton Components`: Core libraries (`Krypton.Toolkit`, `Krypton.Ribbon`, `Krypton.Navigator`, `Krypton.Workspace`, `Krypton.Docking`) and the solution `Krypton Toolkit Suite 2022 - VS2022.sln`
+- `Source/Krypton Components`: Core libraries (`Krypton.Toolkit`, `Krypton.Themes`, `Krypton.Ribbon`, `Krypton.Navigator`, `Krypton.Workspace`, `Krypton.Docking`) and the solution `Krypton Toolkit Suite 2022 - VS2022.sln`
 - `Source/Krypton Components/TestForm`: WinForms sample app used to validate changes; add or extend demos here when features or bugs are completed (see **TestForm Demos**)
 - `Source/TestHarnesses`: Small repro/test harnesses (e.g., `ThemeSwapRepro`)
 - `Scripts/`: Build and packaging scripts; `run.cmd` (root) launches an interactive menu; scripts live under `Scripts/VS2022/`, `Scripts/Current/`, `Scripts/Build/` (e.g., `build-stable.cmd`, `build-canary.cmd`, `build-nightly.cmd`, `build.proj`)
@@ -56,10 +56,52 @@ Before considering a task complete:
 
 - `Krypton.Toolkit` contains the shared infrastructure.
 - `Krypton.Interop` holds shared internal Win32/P/Invoke and net472 nullable polyfills; referenced by `Krypton.Toolkit` and consumed transitively by sibling assemblies.
+- `Krypton.Themes` holds **extra** builtin palettes (optional assembly, auto-discovered). Toolkit must **not** project-reference Themes (cycle).
 - `Krypton.Ribbon` depends on `Krypton.Toolkit`.
 - `Krypton.Navigator` depends on `Krypton.Toolkit`.
 - Rendering flows through the palette and renderer abstractions.
 - New controls should integrate with the palette system rather than hardcoding appearance.
+
+## Built-in Palettes (Theme Catalog)
+
+When adding a new **builtin** palette (not a custom XML/`KryptonCustomPaletteBase` theme), follow this checklist. Prefer **extra** placement in `Krypton.Themes` unless the user explicitly asks for a **core** Toolkit palette. Full walkthrough: `Documents/Development/KryptonThemesCatalog.md`.
+
+### Placement
+
+| Kind | Assembly | Register in | `KryptonManager.Palette*` return type |
+|------|----------|-------------|----------------------------------------|
+| **Extra** (default) | `Krypton.Themes` | `KryptonExtendedThemeProvider` | `PaletteBase` via `GetPaletteForMode` |
+| **Core** (explicit only) | `Krypton.Toolkit` | `KryptonCoreThemeProvider` | Concrete typed property + lazy field |
+
+**Core today (do not expand casually):** Professional System / Office 2003; Office 2007 / 2010 / Microsoft 365 **Blue, Silver, Black**; Sparkle **Blue, Orange, Purple**.
+
+Concrete palette types always use namespace `Krypton.Toolkit`, even when the file lives in `Krypton.Themes`.
+
+### Required steps (every new builtin)
+
+1. **`PaletteMode`** — Add the enum member in `Palette Base/PaletteMode.cs`. Keep **the same order** as `PaletteModeStrings.SupportedThemes`. **`Custom` must remain last.**
+2. **`PaletteModeStrings`** — Add display-name constant, property, `SupportedThemes` dictionary entry, and `Reset` / equality helpers so enum ↔ string stay in sync.
+3. **Palette class** — Implement `PaletteXxx` reusing an existing base/renderer (Office, Sparkle, Material, Visual Studio, …). Match surrounding file layout under `Palette Builtin\…`. New files: current Standard Toolkit BSD header only; UTF-8 with BOM; CRLF.
+4. **Catalog registration**
+   - Extra: add `Extra(PaletteMode.…, typeof(PaletteXxx), () => new PaletteXxx())` in `Krypton.Themes\KryptonExtendedThemeProvider.cs`, and extend `FamilyFor` / `KryptonThemeFamilies` when introducing a new family key.
+   - Core: add `Core(…)` in `KryptonCoreThemeProvider`, and exclude the mode from `KryptonThemeCatalog.IsKnownExtraMode` (that method is a hard-coded core allow-list inverted).
+5. **`KryptonManager`** — Add a public `PaletteXxx` accessor (`PaletteBase` for extras; concrete type for cores). Wire any existing `GetPaletteForMode` / preference paths that switch on mode.
+6. **Converters** — `PaletteModeConverter` picks up `SupportedThemes` automatically. For **core** types only, also map the type in `PaletteClassTypeConverter`’s core dictionary. Extras resolve via `KryptonThemeCatalog.TryGetMode`.
+7. **Resources** — Add/update palette schema or image resources only when the palette needs them (follow neighbouring Official/Extra themes).
+8. **Validation** — Exercise via theme combo / `ThemeCatalogDemo` (TestForm). After Themes is loaded, `KryptonThemeCatalog.GetUnimplementedBuiltinModes()` must not include the new mode. Prefer extending `Scripts/UnitTests/UnitTest-ThemeCatalog.ps1` when the change is structural.
+9. **Docs / release** — Changelog entry; update `Documents/Development/KryptonThemesCatalog.md` if architecture or placement rules change; PR description under `Documents/PR/`.
+
+### Do not
+
+- Add a Toolkit → Themes project reference or type-forward extras from Toolkit.
+- Leave `PaletteMode` / `SupportedThemes` order mismatched, or insert values after `Custom`.
+- Put new optional themes in Toolkit “for convenience” (keeps the core package large).
+- Forget family keys used by `KryptonThemeAvailability.SetFamilyEnabled` (use `extraOnly: true` when hiding Sparkle extras must not hide core Sparkle Blue/Orange/Purple).
+- Assume a missing extra palette throws at runtime — it falls back to Microsoft 365 Blue (`KryptonThemeCatalog.MissingThemeFallback`).
+
+### Third-party / sample providers
+
+Extra assemblies can advertise `[assembly: KryptonThemeProvider(typeof(…))]`. They cannot invent new `PaletteMode` values without a Toolkit change; they may only implement modes not already registered. Sample: `Source/TestHarnesses/ThemeProviderSample`.
 
 ## Editing Philosophy
 

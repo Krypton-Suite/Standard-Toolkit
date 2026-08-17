@@ -40,7 +40,7 @@ public sealed class ThemeCatalogDemo : KryptonForm
             Text =
                 "Issue #4230: core palettes live in Krypton.Toolkit (Professional, Sparkle Blue/Orange/Purple, plus Office 2007/2010/Microsoft 365 Blue, Silver, and Black). " +
                 "Everything else is in Krypton.Themes.dll and is auto-discovered when that assembly is beside the app (TestForm references it). " +
-                "Use the family check boxes to hide themes from selectors (Sparkle extra-only keeps Blue/Orange/Purple). Uncheck Show extra themes to list core palettes only. Programmatic GlobalPaletteMode still applies a hidden extra theme."
+                "Use the family check boxes to hide themes from selectors (Sparkle extra-only keeps Blue/Orange/Purple). Uncheck Show extra themes to list core palettes only. Programmatic GlobalPaletteMode still applies a hidden extra theme. If Krypton.Themes.dll is missing, extra modes paint as Microsoft 365 Blue instead of throwing."
         };
 
         _lblStatus = new KryptonLabel
@@ -82,15 +82,7 @@ public sealed class ThemeCatalogDemo : KryptonForm
         var btnExtra = new KryptonButton { Text = @"Apply extra VS 2022 Dark", AutoSize = true };
         btnExtra.Click += (_, _) =>
         {
-            try
-            {
-                _manager.GlobalPaletteMode = PaletteMode.VisualStudio2022Dark;
-            }
-            catch (Exception ex)
-            {
-                KryptonMessageBox.Show(this, ex.Message, @"Extra theme", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Warning);
-            }
-
+            _manager.GlobalPaletteMode = PaletteMode.VisualStudio2022Dark;
             UpdateStatus();
         };
         flow.Controls.Add(btnCore);

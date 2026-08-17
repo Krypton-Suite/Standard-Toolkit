@@ -1428,7 +1428,7 @@ public sealed class KryptonManager : Component
     /// Gets the implementation for the requested palette mode.
     /// </summary>
     /// <param name="mode">Requested palette mode.</param>
-    /// <returns>PaletteBase reference is available; otherwise null exception.</returns>
+    /// <returns>Palette implementation. Extra modes without <c>Krypton.Themes</c> fall back to Microsoft 365 Blue.</returns>
     public static PaletteBase GetPaletteForMode(PaletteMode mode)
     {
         switch (mode)

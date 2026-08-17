@@ -144,11 +144,16 @@ public static class KryptonThemeCatalog
     }
 
     /// <summary>
+    /// Occurs when an extra <see cref="PaletteMode"/> is requested but no implementation is registered.
+    /// The catalog then paints with <see cref="ToolkitStaticConstants.GLOBAL_DEFAULT_PALETTE_MODE"/>.
+    /// </summary>
+    public static event EventHandler<KryptonMissingThemeEventArgs>? MissingThemeFallback;
+
+    /// <summary>
     /// Gets or creates the singleton palette for <paramref name="mode"/>.
     /// </summary>
     /// <param name="mode">Requested mode.</param>
-    /// <returns>Palette instance.</returns>
-    /// <exception cref="InvalidOperationException">The mode is an extra theme and <c>Krypton.Themes</c> was not discovered.</exception>
+    /// <returns>Palette instance. Extra modes without <c>Krypton.Themes</c> return Microsoft 365 Blue.</returns>
     /// <exception cref="ArgumentOutOfRangeException">The mode is not a builtin palette.</exception>
     public static PaletteBase GetPalette(PaletteMode mode)
     {
@@ -175,21 +180,22 @@ public static class KryptonThemeCatalog
 
         if (IsKnownExtraMode(mode))
         {
-            if (LicenseManager.UsageMode == LicenseUsageMode.Designtime)
-            {
-                Debug.WriteLine(
-                    @"KryptonThemeCatalog: extra palette '" + mode +
-                    @"' is not available at design time (Krypton.Themes.dll not loaded). Falling back to " +
-                    ToolkitStaticConstants.GLOBAL_DEFAULT_PALETTE_MODE + @".");
-                return GetPalette(ToolkitStaticConstants.GLOBAL_DEFAULT_PALETTE_MODE);
-            }
-
-            throw new InvalidOperationException(
-                @"Palette mode '" + mode +
-                @"' is implemented in Krypton.Themes. Reference the Krypton.Themes package (bundled with Krypton.Standard.Toolkit) so Krypton.Themes.dll is in the application directory.");
+            return FallbackMissingExtra(mode);
         }
 
         throw new ArgumentOutOfRangeException(nameof(mode), mode, @"mode must be a PaletteMode value.");
+    }
+
+    private static PaletteBase FallbackMissingExtra(PaletteMode requestedMode)
+    {
+        var fallback = ToolkitStaticConstants.GLOBAL_DEFAULT_PALETTE_MODE;
+        Debug.WriteLine(
+            @"KryptonThemeCatalog: extra palette '" + requestedMode +
+            @"' is not available (Krypton.Themes.dll not loaded). Falling back to " + fallback + @".");
+
+        MissingThemeFallback?.Invoke(null, new KryptonMissingThemeEventArgs(requestedMode, fallback));
+
+        return GetPalette(fallback);
     }
 
     /// <summary>
