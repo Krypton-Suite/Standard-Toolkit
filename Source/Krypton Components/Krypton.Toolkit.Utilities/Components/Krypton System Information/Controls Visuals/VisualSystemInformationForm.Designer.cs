@@ -117,7 +117,7 @@
             // 
             // kchkAllModules
             // 
-            this.kchkAllModules.Location = new System.Drawing.Point(702, 10);
+            this.kchkAllModules.Location = new System.Drawing.Point(718, 10);
             this.kchkAllModules.Name = "kchkAllModules";
             this.kchkAllModules.Size = new System.Drawing.Size(94, 20);
             this.kchkAllModules.TabIndex = 7;
@@ -127,7 +127,7 @@
             // 
             // kbtnRefresh
             // 
-            this.kbtnRefresh.Location = new System.Drawing.Point(606, 7);
+            this.kbtnRefresh.Location = new System.Drawing.Point(622, 7);
             this.kbtnRefresh.Name = "kbtnRefresh";
             this.kbtnRefresh.Size = new System.Drawing.Size(90, 25);
             this.kbtnRefresh.TabIndex = 6;
@@ -137,7 +137,7 @@
             // 
             // kbtnPrint
             // 
-            this.kbtnPrint.Location = new System.Drawing.Point(510, 7);
+            this.kbtnPrint.Location = new System.Drawing.Point(526, 7);
             this.kbtnPrint.Name = "kbtnPrint";
             this.kbtnPrint.Size = new System.Drawing.Size(90, 25);
             this.kbtnPrint.TabIndex = 5;
@@ -147,7 +147,7 @@
             // 
             // kbtnSave
             // 
-            this.kbtnSave.Location = new System.Drawing.Point(414, 7);
+            this.kbtnSave.Location = new System.Drawing.Point(430, 7);
             this.kbtnSave.Name = "kbtnSave";
             this.kbtnSave.Size = new System.Drawing.Size(90, 25);
             this.kbtnSave.TabIndex = 4;
@@ -157,7 +157,7 @@
             // 
             // kbtnCopy
             // 
-            this.kbtnCopy.Location = new System.Drawing.Point(318, 7);
+            this.kbtnCopy.Location = new System.Drawing.Point(334, 7);
             this.kbtnCopy.Name = "kbtnCopy";
             this.kbtnCopy.Size = new System.Drawing.Size(90, 25);
             this.kbtnCopy.TabIndex = 3;
