@@ -21,18 +21,20 @@
 
         private void InitializeComponent()
         {
+            Krypton.Toolkit.Utilities.SearchSuggestionColumnDefinition searchSuggestionColumnDefinition1 = new Krypton.Toolkit.Utilities.SearchSuggestionColumnDefinition();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VisualSystemInformationForm));
             this.kpnlBottom = new Krypton.Toolkit.KryptonPanel();
-            this.kbeBottom = new Krypton.Toolkit.KryptonBorderEdge();
-            this.kbtnClose = new Krypton.Toolkit.KryptonButton();
             this.kbtnWindowsMsinfo = new Krypton.Toolkit.KryptonButton();
+            this.kbtnClose = new Krypton.Toolkit.KryptonButton();
+            this.kbeBottom = new Krypton.Toolkit.KryptonBorderEdge();
             this.kpnlToolbar = new Krypton.Toolkit.KryptonPanel();
-            this.ksbFind = new Krypton.Toolkit.Utilities.KryptonSearchBox();
-            this.kbtnCopy = new Krypton.Toolkit.KryptonButton();
-            this.kbtnSave = new Krypton.Toolkit.KryptonButton();
+            this.kchkAllModules = new Krypton.Toolkit.KryptonCheckBox();
             this.kbtnRefresh = new Krypton.Toolkit.KryptonButton();
             this.kbtnPrint = new Krypton.Toolkit.KryptonButton();
+            this.kbtnSave = new Krypton.Toolkit.KryptonButton();
+            this.kbtnCopy = new Krypton.Toolkit.KryptonButton();
             this.kbtnFindNext = new Krypton.Toolkit.KryptonButton();
-            this.kchkAllModules = new Krypton.Toolkit.KryptonCheckBox();
+            this.ksbFind = new Krypton.Toolkit.Utilities.KryptonSearchBox();
             this.kpnlMain = new Krypton.Toolkit.KryptonPanel();
             this.kscMain = new Krypton.Toolkit.KryptonSplitContainer();
             this.ktvCategories = new Krypton.Toolkit.KryptonTreeView();
@@ -67,13 +69,16 @@
             this.kpnlBottom.Size = new System.Drawing.Size(1000, 50);
             this.kpnlBottom.TabIndex = 2;
             // 
-            // kbeBottom
+            // kbtnWindowsMsinfo
             // 
-            this.kbeBottom.Dock = System.Windows.Forms.DockStyle.Top;
-            this.kbeBottom.Location = new System.Drawing.Point(0, 0);
-            this.kbeBottom.Name = "kbeBottom";
-            this.kbeBottom.Size = new System.Drawing.Size(1000, 1);
-            this.kbeBottom.Text = "";
+            this.kbtnWindowsMsinfo.AutoSize = true;
+            this.kbtnWindowsMsinfo.Location = new System.Drawing.Point(12, 12);
+            this.kbtnWindowsMsinfo.Name = "kbtnWindowsMsinfo";
+            this.kbtnWindowsMsinfo.Size = new System.Drawing.Size(177, 25);
+            this.kbtnWindowsMsinfo.TabIndex = 0;
+            this.kbtnWindowsMsinfo.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnWindowsMsinfo.Values.Text = "Windows System Information...";
+            this.kbtnWindowsMsinfo.Click += new System.EventHandler(this.kbtnWindowsMsinfo_Click);
             // 
             // kbtnClose
             // 
@@ -83,19 +88,16 @@
             this.kbtnClose.Name = "kbtnClose";
             this.kbtnClose.Size = new System.Drawing.Size(92, 25);
             this.kbtnClose.TabIndex = 1;
+            this.kbtnClose.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnClose.Values.Text = "Close";
             this.kbtnClose.Click += new System.EventHandler(this.kbtnClose_Click);
             // 
-            // kbtnWindowsMsinfo
+            // kbeBottom
             // 
-            this.kbtnWindowsMsinfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
-            this.kbtnWindowsMsinfo.AutoSize = true;
-            this.kbtnWindowsMsinfo.Location = new System.Drawing.Point(12, 12);
-            this.kbtnWindowsMsinfo.Name = "kbtnWindowsMsinfo";
-            this.kbtnWindowsMsinfo.Size = new System.Drawing.Size(200, 25);
-            this.kbtnWindowsMsinfo.TabIndex = 0;
-            this.kbtnWindowsMsinfo.Values.Text = "Windows System Information...";
-            this.kbtnWindowsMsinfo.Click += new System.EventHandler(this.kbtnWindowsMsinfo_Click);
+            this.kbeBottom.Dock = System.Windows.Forms.DockStyle.Top;
+            this.kbeBottom.Location = new System.Drawing.Point(0, 0);
+            this.kbeBottom.Name = "kbeBottom";
+            this.kbeBottom.Size = new System.Drawing.Size(1000, 1);
             // 
             // kpnlToolbar
             // 
@@ -113,51 +115,15 @@
             this.kpnlToolbar.Size = new System.Drawing.Size(1000, 40);
             this.kpnlToolbar.TabIndex = 0;
             // 
-            // ksbFind
+            // kchkAllModules
             // 
-            this.ksbFind.Location = new System.Drawing.Point(12, 8);
-            this.ksbFind.Name = "ksbFind";
-            this.ksbFind.Size = new System.Drawing.Size(220, 23);
-            this.ksbFind.TabIndex = 0;
-            this.ksbFind.Search += new System.EventHandler<Krypton.Toolkit.Utilities.SearchEventArgs>(this.ksbFind_Search);
-            this.ksbFind.SearchCleared += new System.EventHandler(this.ksbFind_SearchCleared);
-            this.ksbFind.TextChanged += new System.EventHandler(this.ksbFind_TextChanged);
-            // 
-            // kbtnFindNext
-            // 
-            this.kbtnFindNext.Location = new System.Drawing.Point(238, 7);
-            this.kbtnFindNext.Name = "kbtnFindNext";
-            this.kbtnFindNext.Size = new System.Drawing.Size(90, 25);
-            this.kbtnFindNext.TabIndex = 2;
-            this.kbtnFindNext.Values.Text = "Find next";
-            this.kbtnFindNext.Click += new System.EventHandler(this.kbtnFindNext_Click);
-            // 
-            // kbtnCopy
-            // 
-            this.kbtnCopy.Location = new System.Drawing.Point(318, 7);
-            this.kbtnCopy.Name = "kbtnCopy";
-            this.kbtnCopy.Size = new System.Drawing.Size(90, 25);
-            this.kbtnCopy.TabIndex = 3;
-            this.kbtnCopy.Values.Text = "Copy";
-            this.kbtnCopy.Click += new System.EventHandler(this.kbtnCopy_Click);
-            // 
-            // kbtnSave
-            // 
-            this.kbtnSave.Location = new System.Drawing.Point(414, 7);
-            this.kbtnSave.Name = "kbtnSave";
-            this.kbtnSave.Size = new System.Drawing.Size(90, 25);
-            this.kbtnSave.TabIndex = 4;
-            this.kbtnSave.Values.Text = "Save";
-            this.kbtnSave.Click += new System.EventHandler(this.kbtnSave_Click);
-            // 
-            // kbtnPrint
-            // 
-            this.kbtnPrint.Location = new System.Drawing.Point(510, 7);
-            this.kbtnPrint.Name = "kbtnPrint";
-            this.kbtnPrint.Size = new System.Drawing.Size(90, 25);
-            this.kbtnPrint.TabIndex = 5;
-            this.kbtnPrint.Values.Text = "Print";
-            this.kbtnPrint.Click += new System.EventHandler(this.kbtnPrint_Click);
+            this.kchkAllModules.Location = new System.Drawing.Point(702, 10);
+            this.kchkAllModules.Name = "kchkAllModules";
+            this.kchkAllModules.Size = new System.Drawing.Size(94, 20);
+            this.kchkAllModules.TabIndex = 7;
+            this.kchkAllModules.Values.Text = "All processes";
+            this.kchkAllModules.Visible = false;
+            this.kchkAllModules.CheckedChanged += new System.EventHandler(this.kchkAllModules_CheckedChanged);
             // 
             // kbtnRefresh
             // 
@@ -165,18 +131,66 @@
             this.kbtnRefresh.Name = "kbtnRefresh";
             this.kbtnRefresh.Size = new System.Drawing.Size(90, 25);
             this.kbtnRefresh.TabIndex = 6;
+            this.kbtnRefresh.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnRefresh.Values.Text = "Refresh";
             this.kbtnRefresh.Click += new System.EventHandler(this.kbtnRefresh_Click);
             // 
-            // kchkAllModules
+            // kbtnPrint
             // 
-            this.kchkAllModules.Location = new System.Drawing.Point(702, 10);
-            this.kchkAllModules.Name = "kchkAllModules";
-            this.kchkAllModules.Size = new System.Drawing.Size(200, 20);
-            this.kchkAllModules.TabIndex = 7;
-            this.kchkAllModules.Values.Text = "All processes";
-            this.kchkAllModules.Visible = false;
-            this.kchkAllModules.CheckedChanged += new System.EventHandler(this.kchkAllModules_CheckedChanged);
+            this.kbtnPrint.Location = new System.Drawing.Point(510, 7);
+            this.kbtnPrint.Name = "kbtnPrint";
+            this.kbtnPrint.Size = new System.Drawing.Size(90, 25);
+            this.kbtnPrint.TabIndex = 5;
+            this.kbtnPrint.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnPrint.Values.Text = "Print";
+            this.kbtnPrint.Click += new System.EventHandler(this.kbtnPrint_Click);
+            // 
+            // kbtnSave
+            // 
+            this.kbtnSave.Location = new System.Drawing.Point(414, 7);
+            this.kbtnSave.Name = "kbtnSave";
+            this.kbtnSave.Size = new System.Drawing.Size(90, 25);
+            this.kbtnSave.TabIndex = 4;
+            this.kbtnSave.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnSave.Values.Text = "Save";
+            this.kbtnSave.Click += new System.EventHandler(this.kbtnSave_Click);
+            // 
+            // kbtnCopy
+            // 
+            this.kbtnCopy.Location = new System.Drawing.Point(318, 7);
+            this.kbtnCopy.Name = "kbtnCopy";
+            this.kbtnCopy.Size = new System.Drawing.Size(90, 25);
+            this.kbtnCopy.TabIndex = 3;
+            this.kbtnCopy.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnCopy.Values.Text = "Copy";
+            this.kbtnCopy.Click += new System.EventHandler(this.kbtnCopy_Click);
+            // 
+            // kbtnFindNext
+            // 
+            this.kbtnFindNext.Location = new System.Drawing.Point(238, 7);
+            this.kbtnFindNext.Name = "kbtnFindNext";
+            this.kbtnFindNext.Size = new System.Drawing.Size(90, 25);
+            this.kbtnFindNext.TabIndex = 2;
+            this.kbtnFindNext.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnFindNext.Values.Text = "Find next";
+            this.kbtnFindNext.Click += new System.EventHandler(this.kbtnFindNext_Click);
+            // 
+            // ksbFind
+            // 
+            this.ksbFind.AllowButtonSpecToolTips = true;
+            searchSuggestionColumnDefinition1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            searchSuggestionColumnDefinition1.DataPropertyName = "Suggestion";
+            searchSuggestionColumnDefinition1.HeaderText = "Suggestion";
+            searchSuggestionColumnDefinition1.Name = "Suggestion";
+            searchSuggestionColumnDefinition1.Width = 0;
+            this.ksbFind.DataGridViewColumns.Add(searchSuggestionColumnDefinition1);
+            this.ksbFind.Location = new System.Drawing.Point(12, 8);
+            this.ksbFind.Name = "ksbFind";
+            this.ksbFind.Size = new System.Drawing.Size(220, 23);
+            this.ksbFind.TabIndex = 0;
+            this.ksbFind.Search += new System.EventHandler<Krypton.Toolkit.Utilities.SearchEventArgs>(this.ksbFind_Search);
+            this.ksbFind.SearchCleared += new System.EventHandler(this.ksbFind_SearchCleared);
+            this.ksbFind.TextChanged += new System.EventHandler(this.ksbFind_TextChanged);
             // 
             // kpnlMain
             // 
@@ -192,11 +206,6 @@
             this.kscMain.Cursor = System.Windows.Forms.Cursors.Default;
             this.kscMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kscMain.Location = new System.Drawing.Point(0, 0);
-            this.kscMain.Name = "kscMain";
-            this.kscMain.SeparatorStyle = Krypton.Toolkit.SeparatorStyle.HighProfile;
-            this.kscMain.Size = new System.Drawing.Size(1000, 571);
-            this.kscMain.SplitterDistance = 280;
-            this.kscMain.TabIndex = 0;
             // 
             // kscMain.Panel1
             // 
@@ -205,6 +214,10 @@
             // kscMain.Panel2
             // 
             this.kscMain.Panel2.Controls.Add(this.kdgvDetails);
+            this.kscMain.SeparatorStyle = Krypton.Toolkit.SeparatorStyle.HighProfile;
+            this.kscMain.Size = new System.Drawing.Size(1000, 571);
+            this.kscMain.SplitterDistance = 280;
+            this.kscMain.TabIndex = 0;
             // 
             // ktvCategories
             // 
@@ -222,6 +235,7 @@
             this.kdgvDetails.AllowUserToDeleteRows = false;
             this.kdgvDetails.AllowUserToOrderColumns = true;
             this.kdgvDetails.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.kdgvDetails.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.kdgvDetails.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kdgvDetails.Location = new System.Drawing.Point(0, 0);
             this.kdgvDetails.Name = "kdgvDetails";
@@ -235,10 +249,13 @@
             // 
             // kssStatus
             // 
+            this.kssStatus.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.kssStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tslStatus});
             this.kssStatus.Location = new System.Drawing.Point(0, 661);
             this.kssStatus.Name = "kssStatus";
+            this.kssStatus.ProgressBars = null;
+            this.kssStatus.RenderMode = System.Windows.Forms.ToolStripRenderMode.ManagerRenderMode;
             this.kssStatus.Size = new System.Drawing.Size(1000, 22);
             this.kssStatus.TabIndex = 3;
             // 
@@ -259,9 +276,12 @@
             this.Controls.Add(this.kpnlToolbar);
             this.Controls.Add(this.kpnlBottom);
             this.Controls.Add(this.kssStatus);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(720, 480);
             this.Name = "VisualSystemInformationForm";
-            this.ShowInTaskbar = true;
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "System Information";
             ((System.ComponentModel.ISupportInitialize)(this.kpnlBottom)).EndInit();
@@ -283,6 +303,7 @@
             this.kssStatus.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion
