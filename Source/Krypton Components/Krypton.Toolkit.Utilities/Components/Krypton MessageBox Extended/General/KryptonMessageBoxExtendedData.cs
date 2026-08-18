@@ -11,6 +11,9 @@ using ContentAlignment = System.Drawing.ContentAlignment;
 
 namespace Krypton.Toolkit.Utilities;
 
+/// <summary>
+/// Configuration options for <see cref="KryptonMessageBoxExtended"/>.
+/// </summary>
 public struct KryptonMessageBoxExtendedData
 {
     #region Public
@@ -376,6 +379,9 @@ public struct KryptonMessageBoxExtendedData
 
     #region Identity
 
+    /// <summary>
+    /// Initializes a new <see cref="KryptonMessageBoxExtendedData"/> instance with default values.
+    /// </summary>
     public KryptonMessageBoxExtendedData()
     {
         TimeOut = 60;
