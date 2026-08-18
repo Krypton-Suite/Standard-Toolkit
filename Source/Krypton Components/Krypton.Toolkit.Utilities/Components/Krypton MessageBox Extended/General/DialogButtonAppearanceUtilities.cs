@@ -21,7 +21,7 @@ internal static class DialogButtonAppearanceUtilities
     /// <param name="button">The button to style.</param>
     /// <param name="dialogResult">Dialog result used to select the role.</param>
     /// <param name="options">Call-site or effective colour options; null uses <see cref="KryptonManager.DialogButtonColors"/>.</param>
-    public static void Apply(KryptonButton button, DialogResult dialogResult, KryptonDialogButtonColorOptions? options)
+    public static void Apply(KryptonButton? button, DialogResult dialogResult, KryptonDialogButtonColorOptions? options)
     {
         if (button == null || dialogResult == DialogResult.None)
         {
@@ -37,7 +37,7 @@ internal static class DialogButtonAppearanceUtilities
     /// <param name="button">The button to style.</param>
     /// <param name="role">Semantic role used to pick colours (use <see cref="KryptonDialogButtonRole.Help"/> for Help buttons).</param>
     /// <param name="options">Call-site or effective colour options; null uses <see cref="KryptonManager.DialogButtonColors"/>.</param>
-    public static void Apply(KryptonButton button, KryptonDialogButtonRole role, KryptonDialogButtonColorOptions? options)
+    public static void Apply(KryptonButton? button, KryptonDialogButtonRole role, KryptonDialogButtonColorOptions? options)
     {
         if (button == null)
         {
