@@ -49,6 +49,10 @@ namespace Krypton.Toolkit.Utilities
             kbtnPickSurface = new KryptonButton();
             klblDonor = new KryptonLabel();
             kcmbDonor = new KryptonComboBox();
+            klblFlyout = new KryptonLabel();
+            kcmbFlyout = new KryptonComboBox();
+            klblMagnifierSize = new KryptonLabel();
+            knudMagnifierSize = new KryptonNumericUpDown();
             klblStatus = new KryptonLabel();
             khgPreview = new KryptonHeaderGroup();
             tlpPreview = new TableLayoutPanel();
@@ -62,12 +66,14 @@ namespace Krypton.Toolkit.Utilities
             kbtnRegister = new KryptonButton();
             kbtnExport = new KryptonButton();
             kbtnReset = new KryptonButton();
+            kbtnRandom = new KryptonButton();
             kbtnClose = new KryptonButton();
             ((System.ComponentModel.ISupportInitialize)kpnlMain).BeginInit();
             kpnlMain.SuspendLayout();
             tlpMain.SuspendLayout();
             tlpInputs.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)kcmbDonor).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)kcmbFlyout).BeginInit();
             ((System.ComponentModel.ISupportInitialize)khgPreview).BeginInit();
             ((System.ComponentModel.ISupportInitialize)khgPreview.Panel).BeginInit();
             khgPreview.Panel.SuspendLayout();
@@ -115,7 +121,7 @@ namespace Krypton.Toolkit.Utilities
             kwlblInfo.LabelStyle = LabelStyle.NormalControl;
             kwlblInfo.Location = new Point(3, 3);
             kwlblInfo.Name = "kwlblInfo";
-            kwlblInfo.Text = "Provide a name and a few colours (hex such as #0078D4, or RGB such as 0,120,212), or use the dropper to pick from the screen (PowerToys-style magnifier). The generator remaps an Office 2010 or Microsoft 365 donor. Preview updates on this dialog only until you Apply.";
+            kwlblInfo.Text = "Provide a name and a few colours (hex such as #0078D4, or RGB such as 0,120,212), or use the dropper to pick from the screen. Choose Classic (PowerToys) or Krypton flyout chrome and magnifier size. Preview updates on this dialog only until you Apply.";
             //
             // tlpInputs
             //
@@ -140,11 +146,17 @@ namespace Krypton.Toolkit.Utilities
             tlpInputs.Controls.Add(kbtnPickSurface, 3, 3);
             tlpInputs.Controls.Add(klblDonor, 0, 4);
             tlpInputs.Controls.Add(kcmbDonor, 1, 4);
+            tlpInputs.Controls.Add(klblFlyout, 0, 5);
+            tlpInputs.Controls.Add(kcmbFlyout, 1, 5);
+            tlpInputs.Controls.Add(klblMagnifierSize, 0, 6);
+            tlpInputs.Controls.Add(knudMagnifierSize, 1, 6);
             tlpInputs.Dock = DockStyle.Fill;
             tlpInputs.Location = new Point(3, 75);
             tlpInputs.Name = "tlpInputs";
-            tlpInputs.RowCount = 6;
+            tlpInputs.RowCount = 8;
             tlpInputs.RowStyles.Add(new RowStyle(SizeType.Absolute, 32F));
+            tlpInputs.RowStyles.Add(new RowStyle(SizeType.Absolute, 36F));
+            tlpInputs.RowStyles.Add(new RowStyle(SizeType.Absolute, 36F));
             tlpInputs.RowStyles.Add(new RowStyle(SizeType.Absolute, 36F));
             tlpInputs.RowStyles.Add(new RowStyle(SizeType.Absolute, 36F));
             tlpInputs.RowStyles.Add(new RowStyle(SizeType.Absolute, 36F));
@@ -154,6 +166,7 @@ namespace Krypton.Toolkit.Utilities
             tlpInputs.TabIndex = 1;
             tlpInputs.SetColumnSpan(ktxtName, 3);
             tlpInputs.SetColumnSpan(kcmbDonor, 3);
+            tlpInputs.SetColumnSpan(kcmbFlyout, 3);
             //
             // klblName
             //
@@ -289,6 +302,41 @@ namespace Krypton.Toolkit.Utilities
             kcmbDonor.TabIndex = 9;
             kcmbDonor.SelectedIndexChanged += OnSeedChanged;
             //
+            // klblFlyout
+            //
+            klblFlyout.Dock = DockStyle.Fill;
+            klblFlyout.Location = new Point(3, 179);
+            klblFlyout.Name = "klblFlyout";
+            klblFlyout.Values.Text = "Picker flyout";
+            //
+            // kcmbFlyout
+            //
+            kcmbFlyout.Dock = DockStyle.Fill;
+            kcmbFlyout.DropDownStyle = ComboBoxStyle.DropDownList;
+            kcmbFlyout.Location = new Point(143, 179);
+            kcmbFlyout.Name = "kcmbFlyout";
+            kcmbFlyout.TabIndex = 10;
+            //
+            // klblMagnifierSize
+            //
+            klblMagnifierSize.Dock = DockStyle.Fill;
+            klblMagnifierSize.Location = new Point(3, 215);
+            klblMagnifierSize.Name = "klblMagnifierSize";
+            klblMagnifierSize.Values.Text = "Magnifier size";
+            //
+            // knudMagnifierSize
+            //
+            knudMagnifierSize.Dock = DockStyle.Fill;
+            knudMagnifierSize.DecimalPlaces = 0;
+            knudMagnifierSize.Increment = new decimal(new int[] { 2, 0, 0, 0 });
+            knudMagnifierSize.Location = new Point(143, 215);
+            knudMagnifierSize.Maximum = new decimal(new int[] { 21, 0, 0, 0 });
+            knudMagnifierSize.Minimum = new decimal(new int[] { 7, 0, 0, 0 });
+            knudMagnifierSize.Name = "knudMagnifierSize";
+            knudMagnifierSize.TabIndex = 11;
+            knudMagnifierSize.Value = new decimal(new int[] { 11, 0, 0, 0 });
+            knudMagnifierSize.ValueChanged += knudMagnifierSize_ValueChanged;
+            //
             // klblStatus
             //
             klblStatus.Dock = DockStyle.Fill;
@@ -371,6 +419,7 @@ namespace Krypton.Toolkit.Utilities
             flpButtons.Controls.Add(kbtnRegister);
             flpButtons.Controls.Add(kbtnExport);
             flpButtons.Controls.Add(kbtnReset);
+            flpButtons.Controls.Add(kbtnRandom);
             flpButtons.Controls.Add(kbtnClose);
             flpButtons.Dock = DockStyle.Fill;
             flpButtons.FlowDirection = FlowDirection.RightToLeft;
@@ -398,9 +447,18 @@ namespace Krypton.Toolkit.Utilities
             kbtnReset.Values.Text = "Reset";
             kbtnReset.Click += kbtnReset_Click;
             //
+            // kbtnRandom
+            //
+            kbtnRandom.Location = new Point(200, 8);
+            kbtnRandom.Name = "kbtnRandom";
+            kbtnRandom.Size = new Size(90, 28);
+            kbtnRandom.TabIndex = 4;
+            kbtnRandom.Values.Text = "Randomize";
+            kbtnRandom.Click += kbtnRandom_Click;
+            //
             // kbtnExport
             //
-            kbtnExport.Location = new Point(200, 8);
+            kbtnExport.Location = new Point(296, 8);
             kbtnExport.Name = "kbtnExport";
             kbtnExport.Size = new Size(90, 28);
             kbtnExport.TabIndex = 2;
@@ -409,7 +467,7 @@ namespace Krypton.Toolkit.Utilities
             //
             // kbtnRegister
             //
-            kbtnRegister.Location = new Point(296, 8);
+            kbtnRegister.Location = new Point(392, 8);
             kbtnRegister.Name = "kbtnRegister";
             kbtnRegister.Size = new Size(90, 28);
             kbtnRegister.TabIndex = 1;
@@ -418,7 +476,7 @@ namespace Krypton.Toolkit.Utilities
             //
             // kbtnApply
             //
-            kbtnApply.Location = new Point(392, 8);
+            kbtnApply.Location = new Point(488, 8);
             kbtnApply.Name = "kbtnApply";
             kbtnApply.Size = new Size(90, 28);
             kbtnApply.TabIndex = 0;
@@ -429,13 +487,13 @@ namespace Krypton.Toolkit.Utilities
             //
             AutoScaleDimensions = new SizeF(6F, 13F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(760, 502);
+            ClientSize = new Size(760, 538);
             Controls.Add(kpnlMain);
             Controls.Add(kpnlButtons);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
             MinimizeBox = false;
-            MinimumSize = new Size(720, 504);
+            MinimumSize = new Size(720, 540);
             Name = "VisualCustomThemeBuilderForm";
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterParent;
@@ -447,6 +505,7 @@ namespace Krypton.Toolkit.Utilities
             tlpInputs.ResumeLayout(false);
             tlpInputs.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)kcmbDonor).EndInit();
+            ((System.ComponentModel.ISupportInitialize)kcmbFlyout).EndInit();
             ((System.ComponentModel.ISupportInitialize)khgPreview.Panel).EndInit();
             khgPreview.Panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)khgPreview).EndInit();
@@ -481,6 +540,10 @@ namespace Krypton.Toolkit.Utilities
         private KryptonButton kbtnPickSurface;
         private KryptonLabel klblDonor;
         private KryptonComboBox kcmbDonor;
+        private KryptonLabel klblFlyout;
+        private KryptonComboBox kcmbFlyout;
+        private KryptonLabel klblMagnifierSize;
+        private KryptonNumericUpDown knudMagnifierSize;
         private KryptonLabel klblStatus;
         private KryptonHeaderGroup khgPreview;
         private TableLayoutPanel tlpPreview;
@@ -494,6 +557,7 @@ namespace Krypton.Toolkit.Utilities
         private KryptonButton kbtnRegister;
         private KryptonButton kbtnExport;
         private KryptonButton kbtnReset;
+        private KryptonButton kbtnRandom;
         private KryptonButton kbtnClose;
     }
 }

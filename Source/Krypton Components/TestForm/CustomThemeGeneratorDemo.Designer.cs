@@ -52,12 +52,17 @@ namespace TestForm
             kcmbDonor = new KryptonComboBox();
             klblTheme = new KryptonLabel();
             kcmbTheme = new KryptonThemeComboBox();
+            klblFlyout = new KryptonLabel();
+            kcmbFlyout = new KryptonComboBox();
+            klblMagnifierSize = new KryptonLabel();
+            knudMagnifierSize = new KryptonNumericUpDown();
             flpActions = new FlowLayoutPanel();
             kbtnApply = new KryptonButton();
             kbtnRegister = new KryptonButton();
             kbtnExport = new KryptonButton();
             kbtnBuilder = new KryptonButton();
             kbtnReset = new KryptonButton();
+            kbtnRandom = new KryptonButton();
             khgPreview = new KryptonHeaderGroup();
             tlpPreview = new TableLayoutPanel();
             kbtnPreview = new KryptonButton();
@@ -69,6 +74,7 @@ namespace TestForm
             tlpMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)kcmbDonor).BeginInit();
             ((System.ComponentModel.ISupportInitialize)kcmbTheme).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)kcmbFlyout).BeginInit();
             flpActions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)khgPreview).BeginInit();
             ((System.ComponentModel.ISupportInitialize)khgPreview.Panel).BeginInit();
@@ -85,7 +91,7 @@ namespace TestForm
             kwlblInfo.Name = "kwlblInfo";
             kwlblInfo.Padding = new Padding(12, 12, 12, 8);
             kwlblInfo.Size = new Size(820, 108);
-            kwlblInfo.Text = "Issue #4234: generate a custom theme from a few colours. Enter hex (#0078D4) or RGB (0, 120, 212), or use the dropper to pick from the screen (PowerToys-style magnifier). Pick a donor family (light or dark), then Apply. Register adds the theme to the combo below. Export writes Krypton palette XML. Open Builder for the Utilities dialog.";
+            kwlblInfo.Text = "Issue #4234: generate a custom theme from a few colours. Enter hex (#0078D4) or RGB (0, 120, 212), or use the dropper to pick from the screen. Choose Classic (PowerToys) or Krypton flyout chrome and magnifier size. Pick a donor family, then Apply.";
             //
             // kpnlMain
             //
@@ -123,14 +129,20 @@ namespace TestForm
             tlpMain.Controls.Add(kcmbDonor, 1, 5);
             tlpMain.Controls.Add(klblTheme, 0, 6);
             tlpMain.Controls.Add(kcmbTheme, 1, 6);
-            tlpMain.Controls.Add(flpActions, 0, 7);
-            tlpMain.Controls.Add(khgPreview, 0, 8);
-            tlpMain.Controls.Add(klblStatus, 0, 9);
+            tlpMain.Controls.Add(klblFlyout, 0, 7);
+            tlpMain.Controls.Add(kcmbFlyout, 1, 7);
+            tlpMain.Controls.Add(klblMagnifierSize, 0, 8);
+            tlpMain.Controls.Add(knudMagnifierSize, 1, 8);
+            tlpMain.Controls.Add(flpActions, 0, 9);
+            tlpMain.Controls.Add(khgPreview, 0, 10);
+            tlpMain.Controls.Add(klblStatus, 0, 11);
             tlpMain.Dock = DockStyle.Fill;
             tlpMain.Location = new Point(8, 8);
             tlpMain.Name = "tlpMain";
-            tlpMain.RowCount = 10;
+            tlpMain.RowCount = 12;
             tlpMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 32F));
+            tlpMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 36F));
+            tlpMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 36F));
             tlpMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 36F));
             tlpMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 36F));
             tlpMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 36F));
@@ -146,6 +158,7 @@ namespace TestForm
             tlpMain.SetColumnSpan(kbtnUseRgb, 2);
             tlpMain.SetColumnSpan(kcmbDonor, 3);
             tlpMain.SetColumnSpan(kcmbTheme, 3);
+            tlpMain.SetColumnSpan(kcmbFlyout, 3);
             tlpMain.SetColumnSpan(flpActions, 4);
             tlpMain.SetColumnSpan(khgPreview, 4);
             tlpMain.SetColumnSpan(klblStatus, 4);
@@ -302,6 +315,41 @@ namespace TestForm
             kcmbTheme.Name = "kcmbTheme";
             kcmbTheme.TabIndex = 10;
             //
+            // klblFlyout
+            //
+            klblFlyout.Dock = DockStyle.Fill;
+            klblFlyout.Location = new Point(3, 251);
+            klblFlyout.Name = "klblFlyout";
+            klblFlyout.Values.Text = "Picker flyout";
+            //
+            // kcmbFlyout
+            //
+            kcmbFlyout.Dock = DockStyle.Fill;
+            kcmbFlyout.DropDownStyle = ComboBoxStyle.DropDownList;
+            kcmbFlyout.Location = new Point(143, 251);
+            kcmbFlyout.Name = "kcmbFlyout";
+            kcmbFlyout.TabIndex = 11;
+            //
+            // klblMagnifierSize
+            //
+            klblMagnifierSize.Dock = DockStyle.Fill;
+            klblMagnifierSize.Location = new Point(3, 287);
+            klblMagnifierSize.Name = "klblMagnifierSize";
+            klblMagnifierSize.Values.Text = "Magnifier size";
+            //
+            // knudMagnifierSize
+            //
+            knudMagnifierSize.Dock = DockStyle.Fill;
+            knudMagnifierSize.DecimalPlaces = 0;
+            knudMagnifierSize.Increment = new decimal(new int[] { 2, 0, 0, 0 });
+            knudMagnifierSize.Location = new Point(143, 287);
+            knudMagnifierSize.Maximum = new decimal(new int[] { 21, 0, 0, 0 });
+            knudMagnifierSize.Minimum = new decimal(new int[] { 7, 0, 0, 0 });
+            knudMagnifierSize.Name = "knudMagnifierSize";
+            knudMagnifierSize.TabIndex = 12;
+            knudMagnifierSize.Value = new decimal(new int[] { 11, 0, 0, 0 });
+            knudMagnifierSize.ValueChanged += knudMagnifierSize_ValueChanged;
+            //
             // flpActions
             //
             flpActions.Controls.Add(kbtnApply);
@@ -309,6 +357,7 @@ namespace TestForm
             flpActions.Controls.Add(kbtnExport);
             flpActions.Controls.Add(kbtnBuilder);
             flpActions.Controls.Add(kbtnReset);
+            flpActions.Controls.Add(kbtnRandom);
             flpActions.Dock = DockStyle.Fill;
             flpActions.Location = new Point(3, 251);
             flpActions.Name = "flpActions";
@@ -359,6 +408,15 @@ namespace TestForm
             kbtnReset.TabIndex = 4;
             kbtnReset.Values.Text = "Reset";
             kbtnReset.Click += kbtnReset_Click;
+            //
+            // kbtnRandom
+            //
+            kbtnRandom.Location = new Point(573, 3);
+            kbtnRandom.Name = "kbtnRandom";
+            kbtnRandom.Size = new Size(100, 28);
+            kbtnRandom.TabIndex = 5;
+            kbtnRandom.Values.Text = "Randomize";
+            kbtnRandom.Click += kbtnRandom_Click;
             //
             // khgPreview
             //
@@ -421,10 +479,10 @@ namespace TestForm
             //
             AutoScaleDimensions = new SizeF(6F, 13F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(820, 540);
+            ClientSize = new Size(820, 576);
             Controls.Add(kpnlMain);
             Controls.Add(kwlblInfo);
-            MinimumSize = new Size(760, 480);
+            MinimumSize = new Size(760, 516);
             Name = "CustomThemeGeneratorDemo";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Custom Theme Generator (#4234)";
@@ -436,6 +494,7 @@ namespace TestForm
             tlpMain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)kcmbDonor).EndInit();
             ((System.ComponentModel.ISupportInitialize)kcmbTheme).EndInit();
+            ((System.ComponentModel.ISupportInitialize)kcmbFlyout).EndInit();
             flpActions.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)khgPreview.Panel).EndInit();
             khgPreview.Panel.ResumeLayout(false);
@@ -471,12 +530,17 @@ namespace TestForm
         private KryptonComboBox kcmbDonor;
         private KryptonLabel klblTheme;
         private KryptonThemeComboBox kcmbTheme;
+        private KryptonLabel klblFlyout;
+        private KryptonComboBox kcmbFlyout;
+        private KryptonLabel klblMagnifierSize;
+        private KryptonNumericUpDown knudMagnifierSize;
         private FlowLayoutPanel flpActions;
         private KryptonButton kbtnApply;
         private KryptonButton kbtnRegister;
         private KryptonButton kbtnExport;
         private KryptonButton kbtnBuilder;
         private KryptonButton kbtnReset;
+        private KryptonButton kbtnRandom;
         private KryptonHeaderGroup khgPreview;
         private TableLayoutPanel tlpPreview;
         private KryptonButton kbtnPreview;

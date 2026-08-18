@@ -21,6 +21,8 @@ namespace Krypton.Toolkit.Utilities;
 /// </remarks>
 public static class KryptonCustomThemeGenerator
 {
+    private static readonly object _randomLock = new();
+    private static readonly Random _random = new();
     private static readonly PaletteMode[] _supportedDonors =
     {
         PaletteMode.Office2010Blue,
@@ -82,6 +84,45 @@ public static class KryptonCustomThemeGenerator
     /// <param name="color">Colour to format.</param>
     /// <returns>Hexadecimal colour string.</returns>
     public static string FormatColor(Color color) => CustomThemeColorMath.ToHex(color);
+
+    /// <summary>
+    /// Builds a random seed that can be previewed, applied, registered, or exported like any other custom theme.
+    /// </summary>
+    /// <param name="namePrefix">Optional display-name prefix. Defaults to <c>Random Theme</c>.</param>
+    /// <returns>A seed with a random donor and coordinated primary, secondary, and surface colours.</returns>
+    public static KryptonCustomThemeSeed CreateRandomSeed(string? namePrefix = null)
+    {
+        lock (_randomLock)
+        {
+            PaletteMode donorMode = _supportedDonors[_random.Next(_supportedDonors.Length)];
+            bool dark = IsDarkDonor(donorMode);
+
+            float hue = NextFloat(0f, 360f);
+            float saturation = NextFloat(0.58f, 0.88f);
+            float lightness = dark
+                ? NextFloat(0.50f, 0.64f)
+                : NextFloat(0.42f, 0.56f);
+
+            Color primary = CustomThemeColorMath.FromHsl(hue, saturation, lightness, 255);
+            float secondaryOffset = NextFloat(24f, 42f) * (_random.Next(2) == 0 ? -1f : 1f);
+            Color secondary = CustomThemeColorMath.Analogous(primary, secondaryOffset);
+            Color surface = dark
+                ? CustomThemeColorMath.Darken(CommonHelper.MergeColors(Color.Black, 0.80f, primary, 0.20f), 0.06f)
+                : CommonHelper.MergeColors(Color.White, 0.88f, primary, 0.12f);
+
+            string prefix = string.IsNullOrWhiteSpace(namePrefix) ? @"Random Theme" : namePrefix?.Trim() ?? @"Random Theme";
+            string suffix = CustomThemeColorMath.ToHex(primary).TrimStart('#');
+
+            return new KryptonCustomThemeSeed
+            {
+                Name = string.Format(CultureInfo.InvariantCulture, @"{0} {1}", prefix, suffix),
+                Primary = primary,
+                Secondary = secondary,
+                Surface = surface,
+                DonorMode = donorMode
+            };
+        }
+    }
 
     /// <summary>
     /// Builds a named custom palette from a primary hex or RGB string, using Office 2010 Blue as the donor.
@@ -269,4 +310,7 @@ public static class KryptonCustomThemeGenerator
         state.Border.Color1 = border;
         state.Content.ShortText.Color1 = text;
     }
+
+    private static float NextFloat(float minInclusive, float maxInclusive) =>
+        (float)(minInclusive + (_random.NextDouble() * (maxInclusive - minInclusive)));
 }

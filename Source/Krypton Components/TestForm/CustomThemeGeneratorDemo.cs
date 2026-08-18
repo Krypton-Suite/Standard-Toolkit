@@ -52,22 +52,53 @@ public partial class CustomThemeGeneratorDemo : KryptonForm
         _previousMode = KryptonManager.CurrentGlobalPaletteMode;
         _previousCustom = kryptonManager1.GlobalCustomPalette;
 
+        LoadSeed(new KryptonCustomThemeSeed
+        {
+            Name = @"Contoso",
+            Primary = Color.FromArgb(0x00, 0x78, 0xD4)
+        });
+        GenerateAndApply(register: false);
+    }
+
+    private void LoadSeed(KryptonCustomThemeSeed seed)
+    {
         _suppressEvents = true;
-        ktxtName.Text = @"Contoso";
-        kbtnPrimary.SelectedColor = Color.FromArgb(0x00, 0x78, 0xD4);
-        ktxtPrimaryHex.Text = @"#0078D4";
-        ktxtPrimaryRgb.Text = @"0, 120, 212";
+        ktxtName.Text = seed.Name;
+        kbtnPrimary.SelectedColor = seed.Primary;
+        ktxtPrimaryHex.Text = KryptonCustomThemeGenerator.FormatColor(seed.Primary);
+        ktxtPrimaryRgb.Text = string.Format(CultureInfo.InvariantCulture, @"{0}, {1}, {2}",
+            seed.Primary.R, seed.Primary.G, seed.Primary.B);
+
+        kchkSecondary.Checked = seed.Secondary.HasValue;
+        Color secondary = seed.Secondary ?? CustomThemeColorMath.Analogous(seed.Primary, 30f);
+        kbtnSecondary.SelectedColor = secondary;
+        kbtnSecondary.Enabled = kchkSecondary.Checked;
+
+        kchkSurface.Checked = seed.Surface.HasValue;
+        Color surface = seed.Surface ?? Color.White;
+        kbtnSurface.SelectedColor = surface;
+        kbtnSurface.Enabled = kchkSurface.Checked;
 
         kcmbDonor.Items.Clear();
         IReadOnlyList<PaletteMode> donors = KryptonCustomThemeGenerator.SupportedDonorModes;
+        int donorIndex = 0;
         for (int i = 0; i < donors.Count; i++)
         {
             kcmbDonor.Items.Add(KryptonCustomThemeGenerator.GetDonorDisplayName(donors[i]));
+            if (donors[i] == seed.DonorMode)
+            {
+                donorIndex = i;
+            }
         }
 
-        kcmbDonor.SelectedIndex = 0;
+        kcmbDonor.SelectedIndex = donorIndex;
+
+        kcmbFlyout.Items.Clear();
+        kcmbFlyout.Items.Add(KryptonScreenColorPicker.GetFlyoutStyleDisplayName(KryptonScreenColorPickerFlyoutStyle.Krypton));
+        kcmbFlyout.Items.Add(KryptonScreenColorPicker.GetFlyoutStyleDisplayName(KryptonScreenColorPickerFlyoutStyle.Classic));
+        kcmbFlyout.SelectedIndex = KryptonScreenColorPicker.DefaultFlyoutStyle == KryptonScreenColorPickerFlyoutStyle.Classic ? 1 : 0;
+        knudMagnifierSize.Value = KryptonScreenColorPicker.DefaultMagnifierSize;
         _suppressEvents = false;
-        GenerateAndApply(register: false);
     }
 
     private void CustomThemeGeneratorDemo_FormClosed(object sender, FormClosedEventArgs e)
@@ -178,6 +209,13 @@ public partial class CustomThemeGeneratorDemo : KryptonForm
         klblStatus.Values.Text = @"Reset to builtin Office 2010 Blue.";
     }
 
+    private void kbtnRandom_Click(object? sender, EventArgs e)
+    {
+        LoadSeed(KryptonCustomThemeGenerator.CreateRandomSeed());
+        GenerateAndApply(register: false);
+        klblStatus.Values.Text = @"Generated a random theme seed.";
+    }
+
     private void OnSeedChanged(object? sender, EventArgs e)
     {
         if (_suppressEvents)
@@ -207,12 +245,31 @@ public partial class CustomThemeGeneratorDemo : KryptonForm
     private void kbtnPickSurface_Click(object? sender, EventArgs e) =>
         PickFromScreen(kbtnSurface, null, kchkSurface);
 
+    private KryptonScreenColorPickerFlyoutStyle ReadFlyoutStyle() =>
+        kcmbFlyout.SelectedIndex == 1
+            ? KryptonScreenColorPickerFlyoutStyle.Classic
+            : KryptonScreenColorPickerFlyoutStyle.Krypton;
+
+    private int ReadMagnifierSize() =>
+        KryptonScreenColorPicker.ClampMagnifierSize(decimal.ToInt32(knudMagnifierSize.Value));
+
+    private void knudMagnifierSize_ValueChanged(object? sender, EventArgs e)
+    {
+        int next = ReadMagnifierSize();
+        if (decimal.ToInt32(knudMagnifierSize.Value) != next)
+        {
+            knudMagnifierSize.Value = next;
+        }
+    }
+
     private void PickFromScreen(KryptonColorButton target, KryptonTextBox? hexBox, KryptonCheckBox? enableCheck)
     {
-        if (!KryptonScreenColorPicker.TryPick(this, out Color color))
+        if (!KryptonScreenColorPicker.TryPick(this, ReadFlyoutStyle(), ReadMagnifierSize(), out Color color))
         {
             return;
         }
+
+        knudMagnifierSize.Value = KryptonScreenColorPicker.DefaultMagnifierSize;
 
         _suppressEvents = true;
         if (enableCheck != null)

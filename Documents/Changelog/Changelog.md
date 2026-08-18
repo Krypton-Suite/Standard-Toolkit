@@ -46,10 +46,11 @@
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
 * Implemented, PowerToys-style screen colour picker (`KryptonScreenColorPicker`)
-   * Freeze the desktop, magnify pixels under the cursor, and click to sample hex/RGB. Esc or right-click cancels; mouse wheel zooms.
+   * Live-refresh the desktop, magnify pixels under the cursor, and click to sample hex/RGB. Esc or right-click cancels; mouse wheel zooms; Ctrl+wheel resizes the magnifier (odd 7–21 source pixels). F12 or Print Screen copies the overlay to the clipboard.
+   * Choose **Krypton** (themed `KryptonHeaderGroup` flyout, default) or **Classic** (PowerToys painted flyout) via `KryptonScreenColorPickerFlyoutStyle`.
    * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Implemented [#4234](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4234), An easier way to create custom themes
-   * Generate a custom theme from a few colours (hex or RGB) via `KryptonCustomThemeGenerator` / `KryptonCustomThemeBuilder`.
+   * Generate a custom theme from a few colours (hex, RGB, or a random seed) via `KryptonCustomThemeGenerator` / `KryptonCustomThemeBuilder`.
    * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Implemented [#1551](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1551), New dark/light mode theme colours
    * New Materialize Blue, Materialize Light Blue, and Silver Dark Alternate builtin themes for Office 2007 / 2010 / 2013, Microsoft 365, and Material (including Material Ripple).

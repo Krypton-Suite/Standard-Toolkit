@@ -81,6 +81,12 @@ internal partial class VisualCustomThemeBuilderForm : KryptonForm
         }
 
         kcmbDonor.SelectedIndex = selected;
+
+        kcmbFlyout.Items.Clear();
+        kcmbFlyout.Items.Add(KryptonScreenColorPicker.GetFlyoutStyleDisplayName(KryptonScreenColorPickerFlyoutStyle.Krypton));
+        kcmbFlyout.Items.Add(KryptonScreenColorPicker.GetFlyoutStyleDisplayName(KryptonScreenColorPickerFlyoutStyle.Classic));
+        kcmbFlyout.SelectedIndex = KryptonScreenColorPicker.DefaultFlyoutStyle == KryptonScreenColorPickerFlyoutStyle.Classic ? 1 : 0;
+        knudMagnifierSize.Value = KryptonScreenColorPicker.DefaultMagnifierSize;
         _suppressPreview = false;
     }
 
@@ -211,6 +217,23 @@ internal partial class VisualCustomThemeBuilderForm : KryptonForm
         UpdatePreview();
     }
 
+    private KryptonScreenColorPickerFlyoutStyle ReadFlyoutStyle() =>
+        kcmbFlyout.SelectedIndex == 1
+            ? KryptonScreenColorPickerFlyoutStyle.Classic
+            : KryptonScreenColorPickerFlyoutStyle.Krypton;
+
+    private int ReadMagnifierSize() =>
+        KryptonScreenColorPicker.ClampMagnifierSize(decimal.ToInt32(knudMagnifierSize.Value));
+
+    private void knudMagnifierSize_ValueChanged(object? sender, EventArgs e)
+    {
+        int next = ReadMagnifierSize();
+        if (decimal.ToInt32(knudMagnifierSize.Value) != next)
+        {
+            knudMagnifierSize.Value = next;
+        }
+    }
+
     private void kbtnApply_Click(object? sender, EventArgs e)
     {
         try
@@ -279,10 +302,12 @@ internal partial class VisualCustomThemeBuilderForm : KryptonForm
 
     private void PickFromScreen(KryptonColorButton target, KryptonTextBox hexBox, KryptonCheckBox? enableCheck)
     {
-        if (!KryptonScreenColorPicker.TryPick(this, out Color color))
+        if (!KryptonScreenColorPicker.TryPick(this, ReadFlyoutStyle(), ReadMagnifierSize(), out Color color))
         {
             return;
         }
+
+        knudMagnifierSize.Value = KryptonScreenColorPicker.DefaultMagnifierSize;
 
         _suppressPreview = true;
         if (enableCheck != null)
@@ -305,6 +330,13 @@ internal partial class VisualCustomThemeBuilderForm : KryptonForm
         ApplyPreviewPalette(null);
         UpdatePreview();
         klblStatus.Text = @"Reset to the original seed.";
+    }
+
+    private void kbtnRandom_Click(object? sender, EventArgs e)
+    {
+        LoadSeed(KryptonCustomThemeGenerator.CreateRandomSeed());
+        UpdatePreview();
+        klblStatus.Text = @"Generated a random theme seed.";
     }
 
     private void kbtnClose_Click(object? sender, EventArgs e)
