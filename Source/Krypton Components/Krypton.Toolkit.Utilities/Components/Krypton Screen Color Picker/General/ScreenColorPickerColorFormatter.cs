@@ -55,36 +55,8 @@ internal static class ScreenColorPickerColorFormatter
         return masked == KryptonScreenColorPickerColorFormat.None ? DefaultFormats : masked;
     }
 
-    internal static string GetDisplayName(KryptonScreenColorPickerColorFormat format)
-    {
-        switch (format)
-        {
-            case KryptonScreenColorPickerColorFormat.Hex:
-                return @"Hex";
-            case KryptonScreenColorPickerColorFormat.HexAlpha:
-                return @"Hex (alpha)";
-            case KryptonScreenColorPickerColorFormat.HexInteger:
-                return @"Hex integer";
-            case KryptonScreenColorPickerColorFormat.Rgb:
-                return @"RGB";
-            case KryptonScreenColorPickerColorFormat.Rgba:
-                return @"RGBA";
-            case KryptonScreenColorPickerColorFormat.Hsl:
-                return @"HSL";
-            case KryptonScreenColorPickerColorFormat.Hsv:
-                return @"HSV";
-            case KryptonScreenColorPickerColorFormat.Cmyk:
-                return @"CMYK";
-            case KryptonScreenColorPickerColorFormat.Decimal:
-                return @"Decimal";
-            case KryptonScreenColorPickerColorFormat.Vector:
-                return @"Vector";
-            case KryptonScreenColorPickerColorFormat.KnownName:
-                return @"Known name";
-            default:
-                return format.ToString();
-        }
-    }
+    internal static string GetDisplayName(KryptonScreenColorPickerColorFormat format) =>
+        KryptonScreenColorPicker.Strings.GetFormatDisplayName(format);
 
     internal static string Format(Color color, KryptonScreenColorPickerColorFormat format)
     {
@@ -160,25 +132,24 @@ internal static class ScreenColorPickerColorFormatter
     }
 
     internal static string FormatHex(Color color) =>
-        string.Format(CultureInfo.InvariantCulture, "#{0:X2}{1:X2}{2:X2}", color.R, color.G, color.B);
+        KryptonScreenColorPicker.Strings.FormatHex(color);
 
     internal static string FormatHexAlpha(Color color) =>
-        string.Format(CultureInfo.InvariantCulture, "#{0:X2}{1:X2}{2:X2}{3:X2}", color.A, color.R, color.G, color.B);
+        KryptonScreenColorPicker.Strings.FormatHexAlpha(color);
 
     internal static string FormatHexInteger(Color color) =>
-        string.Format(CultureInfo.InvariantCulture, "0x{0:X2}{1:X2}{2:X2}", color.R, color.G, color.B);
+        KryptonScreenColorPicker.Strings.FormatHexInteger(color);
 
     internal static string FormatRgb(Color color) =>
-        string.Format(CultureInfo.InvariantCulture, @"RGB({0}, {1}, {2})", color.R, color.G, color.B);
+        KryptonScreenColorPicker.Strings.FormatRgb(color);
 
     internal static string FormatRgba(Color color) =>
-        string.Format(CultureInfo.InvariantCulture, @"RGBA({0}, {1}, {2}, {3})", color.R, color.G, color.B, color.A);
+        KryptonScreenColorPicker.Strings.FormatRgba(color);
 
     internal static string FormatHsl(Color color)
     {
         CustomThemeColorMath.ToHsl(color, out float hue, out float saturation, out float lightness);
-        return string.Format(CultureInfo.InvariantCulture, @"HSL({0:0}, {1:0}%, {2:0}%)",
-            hue, saturation * 100f, lightness * 100f);
+        return KryptonScreenColorPicker.Strings.FormatHsl(hue, saturation * 100f, lightness * 100f);
     }
 
     internal static string FormatHsv(Color color)
@@ -190,8 +161,7 @@ internal static class ScreenColorPickerColorFormatter
         float min = Math.Min(r, Math.Min(g, b));
         float delta = max - min;
         float saturation = max <= 0f ? 0f : delta / max;
-        return string.Format(CultureInfo.InvariantCulture, @"HSV({0:0}, {1:0}%, {2:0}%)",
-            color.GetHue(), saturation * 100f, max * 100f);
+        return KryptonScreenColorPicker.Strings.FormatHsv(color.GetHue(), saturation * 100f, max * 100f);
     }
 
     internal static string FormatCmyk(Color color)
@@ -217,22 +187,20 @@ internal static class ScreenColorPickerColorFormatter
             y = (1f - b - k) / ik;
         }
 
-        return string.Format(CultureInfo.InvariantCulture, @"CMYK({0:0}%, {1:0}%, {2:0}%, {3:0}%)",
-            c * 100f, m * 100f, y * 100f, k * 100f);
+        return KryptonScreenColorPicker.Strings.FormatCmyk(c * 100f, m * 100f, y * 100f, k * 100f);
     }
 
     internal static string FormatDecimal(Color color) =>
         ColorTranslator.ToWin32(color).ToString(CultureInfo.InvariantCulture);
 
     internal static string FormatVector(Color color) =>
-        string.Format(CultureInfo.InvariantCulture, @"{0:0.###}, {1:0.###}, {2:0.###}",
-            color.R / 255f, color.G / 255f, color.B / 255f);
+        KryptonScreenColorPicker.Strings.FormatVector(color.R / 255f, color.G / 255f, color.B / 255f);
 
     internal static string FormatKnownName(Color color)
     {
         Color[] webColors = WebColors;
         int best = int.MaxValue;
-        string name = @"Custom";
+        string name = KryptonScreenColorPicker.Strings.CustomColorName;
         for (int i = 0; i < webColors.Length; i++)
         {
             Color candidate = webColors[i];
@@ -272,5 +240,63 @@ internal static class ScreenColorPickerColorFormatter
         }
 
         return colors.ToArray();
+    }
+
+    internal static void BindCheckedList(KryptonCheckedListBox list,
+        KryptonScreenColorPickerColorFormat visible,
+        ItemCheckEventHandler handler)
+    {
+        ThrowHelper.ThrowIfNull(list);
+        list.BeginUpdate();
+        try
+        {
+            list.Items.Clear();
+            KryptonScreenColorPickerColorFormat normalized = Normalize(visible);
+            for (int i = 0; i < DefinedFormats.Length; i++)
+            {
+                KryptonScreenColorPickerColorFormat flag = DefinedFormats[i];
+                int index = list.Items.Add(new ColorFormatListItem(flag));
+                list.SetItemChecked(index, (normalized & flag) == flag);
+            }
+        }
+        finally
+        {
+            list.EndUpdate();
+        }
+
+        list.ItemCheck -= handler;
+        list.ItemCheck += handler;
+    }
+
+    internal static bool TryReadCheckedFlags(KryptonCheckedListBox list, ItemCheckEventArgs e,
+        out KryptonScreenColorPickerColorFormat flags)
+    {
+        flags = KryptonScreenColorPickerColorFormat.None;
+        for (int i = 0; i < list.Items.Count; i++)
+        {
+            if (!(list.Items[i] is ColorFormatListItem item))
+            {
+                continue;
+            }
+
+            bool isChecked = i == e.Index
+                ? e.NewValue == CheckState.Checked
+                : list.GetItemChecked(i);
+            if (isChecked)
+            {
+                flags |= item.Format;
+            }
+        }
+
+        return flags != KryptonScreenColorPickerColorFormat.None;
+    }
+
+    private sealed class ColorFormatListItem
+    {
+        internal ColorFormatListItem(KryptonScreenColorPickerColorFormat format) => Format = format;
+
+        internal KryptonScreenColorPickerColorFormat Format { get; }
+
+        public override string ToString() => GetDisplayName(Format);
     }
 }

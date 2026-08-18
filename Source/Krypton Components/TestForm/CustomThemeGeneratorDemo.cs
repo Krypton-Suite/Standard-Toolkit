@@ -44,7 +44,7 @@ public partial class CustomThemeGeneratorDemo : KryptonForm
         button.AccessibleName = @"Pick colour from screen";
         button.ToolTipValues.EnableToolTips = true;
         button.ToolTipValues.Heading = @"Screen colour picker";
-        button.ToolTipValues.Description = @"Hides this form, then magnifies pixels under the cursor. Click to sample, Esc or right-click to cancel.";
+        button.ToolTipValues.Description = @"Hides this form, then magnifies pixels under the cursor. Click to sample, Esc or right-click to cancel. +/- or Page Up/Down zooms; [ ] resizes the magnifier.";
     }
 
     private void CustomThemeGeneratorDemo_Load(object sender, EventArgs e)

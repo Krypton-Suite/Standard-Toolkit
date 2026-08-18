@@ -9,6 +9,8 @@
 
 namespace Krypton.Toolkit.Utilities;
 
+#region Enum KryptonScreenColorPickerColorFormat
+
 /// <summary>
 /// Colour representations that can be shown on the screen colour picker flyout.
 /// Combine flags to show more than one format. Use
@@ -77,3 +79,25 @@ public enum KryptonScreenColorPickerColorFormat
     /// </summary>
     KnownName = 1024
 }
+
+#endregion
+
+#region Enum KryptonScreenColorPickerFlyoutStyle
+
+/// <summary>
+/// Chrome used for the magnifier flyout that follows the cursor while picking.
+/// </summary>
+public enum KryptonScreenColorPickerFlyoutStyle
+{
+    /// <summary>
+    /// Painted PowerToys-style dark flyout (independent of the current Krypton palette).
+    /// </summary>
+    Classic = 0,
+
+    /// <summary>
+    /// Themed <see cref="KryptonHeaderGroup"/> flyout that follows the current (or local custom) palette.
+    /// </summary>
+    Krypton = 1
+}
+
+#endregion

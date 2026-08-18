@@ -14,15 +14,22 @@ namespace Krypton.Toolkit.Utilities;
 /// </summary>
 /// <remarks>
 /// Inspired by the PowerToys Color Picker overlay (live capture, zoomed pixel grid, hex/RGB readout).
-/// Click samples, Esc or right-click cancels, mouse wheel changes zoom, Ctrl+wheel changes magnifier size.
+/// Click samples, Esc or right-click cancels. Zoom with the mouse wheel, +/- , Page Up/Down, or arrow keys.
+/// Ctrl+wheel, Ctrl+/-, or [ ] changes magnifier size.
 /// When an owner window is supplied it is made fully transparent so colours behind the dialog can be picked.
 /// The magnifier flyout defaults to themed Krypton chrome; Classic painted PowerToys chrome is still available.
 /// Colour formats on the flyout are selected with <see cref="VisibleColorFormats"/> (hex, RGB, HSL, HSV, CMYK, and others).
+/// Drop <see cref="KryptonColorPicker"/> from the toolbox for a designer-sited component with the same behaviour.
 /// </remarks>
 [ToolboxItem(false)]
 [DesignerCategory(@"code")]
 public static class KryptonScreenColorPicker
 {
+    /// <summary>
+    /// Gets the localisable overlay, flyout, and format strings.
+    /// Shared by all screen colour pickers in the application.
+    /// </summary>
+    public static KryptonScreenColorPickerStrings Strings { get; } = new KryptonScreenColorPickerStrings();
     /// <summary>
     /// Smallest odd number of source pixels shown in the magnifier flyout.
     /// </summary>
@@ -138,29 +145,8 @@ public static class KryptonScreenColorPicker
     /// <see cref="VisibleColorFormats"/>. Check changes update <see cref="VisibleColorFormats"/>.
     /// </summary>
     /// <param name="list">Checked list used as a format picker. Cannot be null.</param>
-    public static void BindColorFormatList(KryptonCheckedListBox list)
-    {
-        ThrowHelper.ThrowIfNull(list);
-        list.BeginUpdate();
-        try
-        {
-            list.Items.Clear();
-            KryptonScreenColorPickerColorFormat visible = VisibleColorFormats;
-            for (int i = 0; i < ScreenColorPickerColorFormatter.DefinedFormats.Length; i++)
-            {
-                KryptonScreenColorPickerColorFormat flag = ScreenColorPickerColorFormatter.DefinedFormats[i];
-                int index = list.Items.Add(new ColorFormatListItem(flag));
-                list.SetItemChecked(index, (visible & flag) == flag);
-            }
-        }
-        finally
-        {
-            list.EndUpdate();
-        }
-
-        list.ItemCheck -= ColorFormatList_ItemCheck;
-        list.ItemCheck += ColorFormatList_ItemCheck;
-    }
+    public static void BindColorFormatList(KryptonCheckedListBox list) =>
+        ScreenColorPickerColorFormatter.BindCheckedList(list, VisibleColorFormats, ColorFormatList_ItemCheck);
 
     /// <summary>
     /// Creates a 16 by 16 eyedropper image suitable for a screen-picker button.
@@ -175,8 +161,8 @@ public static class KryptonScreenColorPicker
     /// <returns>A short label.</returns>
     public static string GetFlyoutStyleDisplayName(KryptonScreenColorPickerFlyoutStyle style) =>
         style == KryptonScreenColorPickerFlyoutStyle.Krypton
-            ? @"Krypton"
-            : @"Classic (PowerToys)";
+            ? Strings.FlyoutStyleKrypton
+            : Strings.FlyoutStyleClassic;
 
     /// <summary>
     /// Captures a colour from the screen. Returns <c>false</c> when the user cancels.
@@ -212,7 +198,25 @@ public static class KryptonScreenColorPicker
     /// <param name="magnifierSize">Odd number of source pixels shown in the flyout. Clamped to 7–21.</param>
     /// <param name="color">The sampled colour when the method returns <c>true</c>.</param>
     /// <returns><c>true</c> when a colour was picked.</returns>
-    public static bool TryPick(IWin32Window? owner, KryptonScreenColorPickerFlyoutStyle flyoutStyle, int magnifierSize, out Color color)
+    public static bool TryPick(IWin32Window? owner, KryptonScreenColorPickerFlyoutStyle flyoutStyle, int magnifierSize, out Color color) =>
+        TryPick(owner, flyoutStyle, magnifierSize, DefaultZoom, VisibleColorFormats, out color);
+
+    /// <summary>
+    /// Captures a colour from the screen using the specified flyout chrome, magnifier, zoom, and format set.
+    /// </summary>
+    /// <param name="owner">Owner window. May be null.</param>
+    /// <param name="flyoutStyle">Classic painted flyout or themed Krypton flyout.</param>
+    /// <param name="magnifierSize">Odd number of source pixels shown in the flyout. Clamped to 7–21.</param>
+    /// <param name="zoom">Pixel zoom. Clamped to 6–24.</param>
+    /// <param name="visibleFormats">Colour formats shown on the flyout.</param>
+    /// <param name="color">The sampled colour when the method returns <c>true</c>.</param>
+    /// <returns><c>true</c> when a colour was picked.</returns>
+    public static bool TryPick(IWin32Window? owner,
+        KryptonScreenColorPickerFlyoutStyle flyoutStyle,
+        int magnifierSize,
+        int zoom,
+        KryptonScreenColorPickerColorFormat visibleFormats,
+        out Color color)
     {
         color = Color.Empty;
         Form? ownerForm = ResolveOwnerForm(owner);
@@ -234,7 +238,7 @@ public static class KryptonScreenColorPicker
                 ? kryptonForm.LocalCustomPalette
                 : null;
 
-            using (var overlay = new VisualScreenColorPickerOverlay(flyoutStyle, palette, magnifierSize, DefaultZoom))
+            using (var overlay = new VisualScreenColorPickerOverlay(flyoutStyle, palette, magnifierSize, zoom, visibleFormats))
             {
                 // Do not parent the overlay to a fully transparent owner; TopMost is enough.
                 DialogResult result = overlay.ShowDialog();
@@ -276,38 +280,12 @@ public static class KryptonScreenColorPicker
             return;
         }
 
-        KryptonScreenColorPickerColorFormat flags = KryptonScreenColorPickerColorFormat.None;
-        for (int i = 0; i < list.Items.Count; i++)
-        {
-            if (!(list.Items[i] is ColorFormatListItem item))
-            {
-                continue;
-            }
-
-            bool isChecked = i == e.Index
-                ? e.NewValue == CheckState.Checked
-                : list.GetItemChecked(i);
-            if (isChecked)
-            {
-                flags |= item.Format;
-            }
-        }
-
-        if (flags == KryptonScreenColorPickerColorFormat.None)
+        if (!ScreenColorPickerColorFormatter.TryReadCheckedFlags(list, e, out KryptonScreenColorPickerColorFormat flags))
         {
             e.NewValue = CheckState.Checked;
             return;
         }
 
         VisibleColorFormats = flags;
-    }
-
-    private sealed class ColorFormatListItem
-    {
-        internal ColorFormatListItem(KryptonScreenColorPickerColorFormat format) => Format = format;
-
-        internal KryptonScreenColorPickerColorFormat Format { get; }
-
-        public override string ToString() => ScreenColorPickerColorFormatter.GetDisplayName(Format);
     }
 }

@@ -23,21 +23,24 @@ internal static class ScreenColorPickerMagnifierPainter
         graphics.PixelOffsetMode = PixelOffsetMode.Half;
         graphics.DrawImage(screenshot, imageRect, source, GraphicsUnit.Pixel);
 
-        if (zoom >= 8)
+        int cell = imageRect.Width > 0
+            ? Math.Max(1, imageRect.Width / odd)
+            : Math.Max(1, zoom);
+        if (cell >= 8)
         {
             using (var grid = new Pen(Color.FromArgb(60, 255, 255, 255)))
             {
                 for (int i = 1; i < odd; i++)
                 {
-                    int x = imageRect.X + (i * zoom);
-                    int y = imageRect.Y + (i * zoom);
+                    int x = imageRect.X + (i * cell);
+                    int y = imageRect.Y + (i * cell);
                     graphics.DrawLine(grid, x, imageRect.Top, x, imageRect.Bottom);
                     graphics.DrawLine(grid, imageRect.Left, y, imageRect.Right, y);
                 }
             }
         }
 
-        var center = new Rectangle(imageRect.X + (half * zoom), imageRect.Y + (half * zoom), zoom, zoom);
+        var center = new Rectangle(imageRect.X + (half * cell), imageRect.Y + (half * cell), cell, cell);
         using (var centerPen = new Pen(Color.White, 2f))
         {
             graphics.DrawRectangle(centerPen, center);

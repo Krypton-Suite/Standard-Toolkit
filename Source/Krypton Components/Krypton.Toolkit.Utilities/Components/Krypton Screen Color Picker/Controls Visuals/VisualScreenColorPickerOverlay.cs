@@ -15,15 +15,11 @@ namespace Krypton.Toolkit.Utilities;
 internal sealed class VisualScreenColorPickerOverlay : Form
 {
     private const int BannerHeight = 32;
-    private const int DirtyPadding = 8;
-    private const int ClassicLineHeight = 16;
-    private const int ClassicFooterPadding = 20;
     private const int RefreshIntervalMs = 16;
     private const int VkSnapshot = 0x2C;
     private const int WmKeyDown = 0x0100;
     private const int WmSysKeyDown = 0x0104;
-    private const string InstructionText =
-        @"Click to pick  ·  Esc or right-click to cancel  ·  Wheel zooms  ·  Ctrl+wheel resizes  ·  F12 copies screenshot";
+    private const int MagnifierStep = 2;
 
     private static readonly Color TransparentKey = Color.Magenta;
 
@@ -31,28 +27,27 @@ internal sealed class VisualScreenColorPickerOverlay : Form
     private readonly Rectangle _virtualScreen;
     private readonly KryptonScreenColorPickerFlyoutStyle _flyoutStyle;
     private readonly KryptonScreenColorPickerColorFormat _visibleFormats;
-    private readonly int _classicFooterHeight;
     private readonly VisualScreenColorPickerKryptonFlyoutForm? _kryptonFlyoutForm;
+    private readonly VisualScreenColorPickerClassicFlyoutForm? _classicFlyoutForm;
     private readonly KryptonPanel? _kryptonBanner;
     private readonly System.Windows.Forms.Timer _refreshTimer;
     private int _zoom;
     private int _gridSize;
     private Color _hoverColor = Color.Black;
-    private Rectangle _lastMagnifierBounds;
+    private Point _lastSampleCursor = new Point(int.MinValue, int.MinValue);
 
     internal VisualScreenColorPickerOverlay(
         KryptonScreenColorPickerFlyoutStyle flyoutStyle,
         KryptonCustomPaletteBase? palette,
         int magnifierSize,
-        int zoom)
+        int zoom,
+        KryptonScreenColorPickerColorFormat visibleFormats)
     {
         _sample = new Bitmap(KryptonScreenColorPicker.MaximumMagnifierSize,
             KryptonScreenColorPicker.MaximumMagnifierSize, PixelFormat.Format32bppArgb);
         _virtualScreen = SystemInformation.VirtualScreen;
         _flyoutStyle = flyoutStyle;
-        _visibleFormats = ScreenColorPickerColorFormatter.Normalize(KryptonScreenColorPicker.VisibleColorFormats);
-        int classicLines = ScreenColorPickerColorFormatter.CountPanelLines(_visibleFormats, includeKnownName: true);
-        _classicFooterHeight = ClassicFooterPadding + ((classicLines + 1) * ClassicLineHeight);
+        _visibleFormats = ScreenColorPickerColorFormatter.Normalize(visibleFormats);
         _gridSize = KryptonScreenColorPicker.ClampMagnifierSize(magnifierSize);
         _zoom = KryptonScreenColorPicker.ClampZoom(zoom);
 
@@ -67,7 +62,7 @@ internal sealed class VisualScreenColorPickerOverlay : Form
         TransparencyKey = TransparentKey;
         BackColor = TransparentKey;
         Cursor = Cursors.Cross;
-        Text = @"Screen colour picker";
+        Text = KryptonScreenColorPicker.Strings.OverlayTitle;
 
         SetStyle(ControlStyles.AllPaintingInWmPaint
                  | ControlStyles.UserPaint
@@ -86,6 +81,10 @@ internal sealed class VisualScreenColorPickerOverlay : Form
 
             // Host the flyout in its own TopMost form to avoid erase artifacts on the transparent overlay.
             _kryptonFlyoutForm = new VisualScreenColorPickerKryptonFlyoutForm(palette, _visibleFormats);
+        }
+        else
+        {
+            _classicFlyoutForm = new VisualScreenColorPickerClassicFlyoutForm(_visibleFormats);
         }
     }
 
@@ -110,16 +109,16 @@ internal sealed class VisualScreenColorPickerOverlay : Form
     protected override void OnShown(EventArgs e)
     {
         base.OnShown(e);
-        UpdateSampleFromCursor();
+        UpdateSampleFromCursor(forceLiveCapture: true);
+        PositionFlyout();
         if (_flyoutStyle == KryptonScreenColorPickerFlyoutStyle.Krypton)
         {
-            PositionKryptonFlyout();
             _kryptonFlyoutForm?.Show(this);
         }
         else
         {
-            _lastMagnifierBounds = GetClassicMagnifierBounds();
-            InvalidateMagnifier(Rectangle.Empty, _lastMagnifierBounds);
+            _classicFlyoutForm?.Show(this);
+            Invalidate(new Rectangle(0, 0, Width, BannerHeight));
         }
 
         EnsureCapture();
@@ -129,15 +128,8 @@ internal sealed class VisualScreenColorPickerOverlay : Form
     protected override void OnMouseMove(MouseEventArgs e)
     {
         base.OnMouseMove(e);
-        UpdateSampleFromCursor();
-        if (_flyoutStyle == KryptonScreenColorPickerFlyoutStyle.Krypton)
-        {
-            PositionKryptonFlyout();
-        }
-        else
-        {
-            InvalidateMagnifier(_lastMagnifierBounds, GetClassicMagnifierBounds());
-        }
+        UpdateSampleFromCursor(forceLiveCapture: false);
+        PositionFlyout();
     }
 
     protected override void OnMouseDown(MouseEventArgs e)
@@ -156,27 +148,14 @@ internal sealed class VisualScreenColorPickerOverlay : Form
     protected override void OnMouseWheel(MouseEventArgs e)
     {
         base.OnMouseWheel(e);
-        int delta = e.Delta > 0 ? 2 : -2;
-        bool resize = (ModifierKeys & Keys.Control) == Keys.Control;
-        if (resize)
+        int delta = e.Delta > 0 ? MagnifierStep : -MagnifierStep;
+        if ((ModifierKeys & Keys.Control) == Keys.Control)
         {
-            int nextSize = KryptonScreenColorPicker.ClampMagnifierSize(_gridSize + delta);
-            if (nextSize == _gridSize)
-            {
-                return;
-            }
-
-            ApplyMagnifierChange(() => _gridSize = nextSize);
+            ChangeMagnifierSize(delta);
         }
         else
         {
-            int nextZoom = KryptonScreenColorPicker.ClampZoom(_zoom + delta);
-            if (nextZoom == _zoom)
-            {
-                return;
-            }
-
-            ApplyMagnifierChange(() => _zoom = nextZoom);
+            ChangeZoom(delta);
         }
     }
 
@@ -186,6 +165,11 @@ internal sealed class VisualScreenColorPickerOverlay : Form
         if (key == Keys.F12 || key == Keys.PrintScreen || key == Keys.Snapshot)
         {
             CopyVisibleOverlayToClipboard();
+            return true;
+        }
+
+        if (TryHandleMagnifierKeys(keyData))
+        {
             return true;
         }
 
@@ -221,6 +205,97 @@ internal sealed class VisualScreenColorPickerOverlay : Form
             CopyVisibleOverlayToClipboard();
             e.Handled = true;
         }
+        else if (TryHandleMagnifierKeys(e.KeyData))
+        {
+            e.Handled = true;
+        }
+    }
+
+    private bool TryHandleMagnifierKeys(Keys keyData)
+    {
+        Keys key = keyData & Keys.KeyCode;
+        bool control = (keyData & Keys.Control) == Keys.Control;
+        switch (key)
+        {
+            case Keys.Oemplus:
+            case Keys.Add:
+                if (control)
+                {
+                    ChangeMagnifierSize(MagnifierStep);
+                }
+                else
+                {
+                    ChangeZoom(MagnifierStep);
+                }
+
+                return true;
+            case Keys.OemMinus:
+            case Keys.Subtract:
+                if (control)
+                {
+                    ChangeMagnifierSize(-MagnifierStep);
+                }
+                else
+                {
+                    ChangeZoom(-MagnifierStep);
+                }
+
+                return true;
+            case Keys.OemCloseBrackets:
+                ChangeMagnifierSize(MagnifierStep);
+                return true;
+            case Keys.OemOpenBrackets:
+                ChangeMagnifierSize(-MagnifierStep);
+                return true;
+            case Keys.PageUp:
+            case Keys.Up:
+                if (control)
+                {
+                    ChangeMagnifierSize(MagnifierStep);
+                }
+                else
+                {
+                    ChangeZoom(MagnifierStep);
+                }
+
+                return true;
+            case Keys.PageDown:
+            case Keys.Down:
+                if (control)
+                {
+                    ChangeMagnifierSize(-MagnifierStep);
+                }
+                else
+                {
+                    ChangeZoom(-MagnifierStep);
+                }
+
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    private void ChangeZoom(int delta)
+    {
+        int nextZoom = KryptonScreenColorPicker.ClampZoom(_zoom + delta);
+        if (nextZoom == _zoom)
+        {
+            return;
+        }
+
+        ApplyMagnifierChange(() => _zoom = nextZoom);
+    }
+
+    private void ChangeMagnifierSize(int delta)
+    {
+        int nextSize = KryptonScreenColorPicker.ClampMagnifierSize(_gridSize + delta);
+        if (nextSize == _gridSize)
+        {
+            return;
+        }
+
+        ApplyMagnifierChange(() => _gridSize = nextSize);
     }
 
     protected override void OnPaintBackground(PaintEventArgs e)
@@ -236,7 +311,6 @@ internal sealed class VisualScreenColorPickerOverlay : Form
         if (_flyoutStyle == KryptonScreenColorPickerFlyoutStyle.Classic)
         {
             DrawClassicBanner(e.Graphics);
-            DrawClassicMagnifier(e.Graphics);
         }
     }
 
@@ -248,6 +322,8 @@ internal sealed class VisualScreenColorPickerOverlay : Form
             _refreshTimer.Dispose();
             _kryptonFlyoutForm?.Close();
             _kryptonFlyoutForm?.Dispose();
+            _classicFlyoutForm?.Close();
+            _classicFlyoutForm?.Dispose();
             _sample.Dispose();
         }
 
@@ -323,36 +399,31 @@ internal sealed class VisualScreenColorPickerOverlay : Form
     private void RefreshTimer_Tick(object? sender, EventArgs e)
     {
         EnsureCapture();
-        UpdateSampleFromCursor();
-        if (_flyoutStyle == KryptonScreenColorPickerFlyoutStyle.Krypton)
-        {
-            PositionKryptonFlyout();
-        }
-        else
-        {
-            InvalidateMagnifier(_lastMagnifierBounds, GetClassicMagnifierBounds());
-        }
+        UpdateSampleFromCursor(forceLiveCapture: true);
+        PositionFlyout();
     }
 
-    private void InvalidateMagnifier(Rectangle previous, Rectangle current)
+    private void UpdateSampleFromCursor(bool forceLiveCapture)
     {
-        Rectangle dirty = previous.IsEmpty ? current : Rectangle.Union(previous, current);
-        dirty.Inflate(DirtyPadding, DirtyPadding);
-        Invalidate(dirty);
-        _lastMagnifierBounds = current;
-    }
+        Point cursor = Cursor.Position;
+        if (!forceLiveCapture && cursor == _lastSampleCursor)
+        {
+            return;
+        }
 
-    private void UpdateSampleFromCursor()
-    {
+        _lastSampleCursor = cursor;
         int size = _gridSize;
         int half = size / 2;
-        Point cursor = Cursor.Position;
         var requested = new Rectangle(cursor.X - half, cursor.Y - half, size, size);
         Rectangle visible = Rectangle.Intersect(requested, _virtualScreen);
 
         using (Graphics graphics = Graphics.FromImage(_sample))
         {
-            graphics.Clear(Color.Black);
+            if (visible.Width != size || visible.Height != size)
+            {
+                graphics.Clear(Color.Black);
+            }
+
             if (visible.Width > 0 && visible.Height > 0)
             {
                 try
@@ -371,87 +442,44 @@ internal sealed class VisualScreenColorPickerOverlay : Form
         _hoverColor = _sample.GetPixel(half, half);
     }
 
-    private void PositionKryptonFlyout()
+    private void PositionFlyout()
     {
-        if (_kryptonFlyoutForm is null)
+        if (_kryptonFlyoutForm != null)
         {
+            _kryptonFlyoutForm.UpdateSample(_sample, SampleCenter, _hoverColor, _gridSize, _zoom);
+            MoveFlyout(_kryptonFlyoutForm, _kryptonFlyoutForm.FlyoutSize);
             return;
         }
 
-        _kryptonFlyoutForm.UpdateSample(_sample, SampleCenter, _hoverColor, _gridSize, _zoom);
-        Point cursor = Cursor.Position; // screen coordinates
-        Size size = _kryptonFlyoutForm.FlyoutSize;
+        if (_classicFlyoutForm != null)
+        {
+            _classicFlyoutForm.UpdateSample(_sample, SampleCenter, _hoverColor, _gridSize, _zoom);
+            MoveFlyout(_classicFlyoutForm, _classicFlyoutForm.FlyoutSize);
+        }
+    }
 
-        // Place the flyout so the cursor sits just outside its top-left corner.
+    private void MoveFlyout(Form flyout, Size size)
+    {
+        Point cursor = Cursor.Position;
         int left = cursor.X + 4;
         int top = cursor.Y + 4;
-
-        // Clamp to virtual screen so the flyout stays visible.
         left = Math.Max(_virtualScreen.Left + 8,
             Math.Min(left, _virtualScreen.Right - size.Width - 8));
         top = Math.Max(_virtualScreen.Top + BannerHeight + 8,
             Math.Min(top, _virtualScreen.Bottom - size.Height - 8));
 
         var nextLocation = new Point(left, top);
-        if (_kryptonFlyoutForm.Location != nextLocation)
+        if (flyout.Location != nextLocation)
         {
-            _kryptonFlyoutForm.Location = nextLocation;
+            flyout.Location = nextLocation;
         }
     }
 
     private void ApplyMagnifierChange(Action apply)
     {
-        if (_flyoutStyle == KryptonScreenColorPickerFlyoutStyle.Krypton)
-        {
-            apply();
-            UpdateSampleFromCursor();
-            PositionKryptonFlyout();
-        }
-        else
-        {
-            Rectangle before = GetClassicMagnifierBounds();
-            apply();
-            UpdateSampleFromCursor();
-            InvalidateMagnifier(before, GetClassicMagnifierBounds());
-        }
-    }
-
-    private Rectangle GetClassicMagnifierBounds()
-    {
-        int mag = _gridSize * _zoom;
-        int width = Math.Max(mag + 16, 280);
-        int height = mag + _classicFooterHeight + 16;
-        Point cursor = PointToClient(Cursor.Position);
-        int half = _gridSize / 2;
-        int halfZoom = half * _zoom;
-
-        // Place the flyout so the cursor sits just outside its top-left corner.
-        int left = cursor.X + 4;
-        int top = cursor.Y + 4;
-
-        int minLeft = 8;
-        int maxLeft = ClientSize.Width - width - 8;
-        if (maxLeft < minLeft)
-        {
-            left = minLeft;
-        }
-        else
-        {
-            left = Math.Max(minLeft, Math.Min(left, maxLeft));
-        }
-
-        // Banner is drawn from y=0..BannerHeight. Keep the magnifier below it.
-        int minTop = BannerHeight;
-        int maxTop = ClientSize.Height - height - 8;
-        if (maxTop < minTop)
-        {
-            top = minTop;
-        }
-        else
-        {
-            top = Math.Max(minTop, Math.Min(top, maxTop));
-        }
-        return new Rectangle(left, top, width, height);
+        apply();
+        UpdateSampleFromCursor(forceLiveCapture: true);
+        PositionFlyout();
     }
 
     private void DrawClassicBanner(Graphics graphics)
@@ -462,60 +490,12 @@ internal sealed class VisualScreenColorPickerOverlay : Form
             graphics.FillRectangle(fill, banner);
         }
 
-        string text = InstructionText;
+        string text = KryptonScreenColorPicker.Strings.OverlayInstructions;
         using (var font = new Font("Segoe UI", 9.75f, FontStyle.Regular))
         using (var brush = new SolidBrush(Color.White))
         {
             SizeF size = graphics.MeasureString(text, font);
             graphics.DrawString(text, font, brush, (ClientSize.Width - size.Width) / 2f, (BannerHeight - size.Height) / 2f);
-        }
-    }
-
-    private void DrawClassicMagnifier(Graphics graphics)
-    {
-        Rectangle bounds = GetClassicMagnifierBounds();
-        _lastMagnifierBounds = bounds;
-        int mag = _gridSize * _zoom;
-        var imageRect = new Rectangle(bounds.X + 8, bounds.Y + 8, mag, mag);
-        var footerRect = new Rectangle(bounds.X + 8, imageRect.Bottom + 4, mag, _classicFooterHeight - 12);
-
-        using (var path = CreateRoundRect(bounds, 8))
-        using (var fill = new SolidBrush(Color.FromArgb(230, 24, 24, 24)))
-        using (var border = new Pen(Color.FromArgb(255, 80, 80, 80)))
-        {
-            graphics.SmoothingMode = SmoothingMode.AntiAlias;
-            graphics.FillPath(fill, path);
-            graphics.DrawPath(border, path);
-            graphics.SmoothingMode = SmoothingMode.None;
-        }
-
-        ScreenColorPickerMagnifierPainter.Draw(graphics, _sample, SampleCenter, imageRect, _gridSize, _zoom);
-
-        var swatch = new Rectangle(footerRect.X, footerRect.Y, 36, Math.Max(24, footerRect.Height - 4));
-        using (var swatchBrush = new SolidBrush(_hoverColor))
-        using (var swatchPen = new Pen(Color.White))
-        {
-            graphics.FillRectangle(swatchBrush, swatch);
-            graphics.DrawRectangle(swatchPen, swatch);
-        }
-
-        string[] lines = ScreenColorPickerColorFormatter.BuildReadoutLines(_hoverColor, _visibleFormats, includeKnownName: true);
-        string meta = string.Format(CultureInfo.InvariantCulture, @"{0}x  ·  {1} src px", _zoom, _gridSize);
-
-        using (var font = new Font("Segoe UI", 8.25f, FontStyle.Regular))
-        using (var bold = new Font("Segoe UI", 9f, FontStyle.Bold))
-        using (var brush = new SolidBrush(Color.White))
-        {
-            float textX = swatch.Right + 8;
-            float y = footerRect.Y + 2;
-            for (int i = 0; i < lines.Length; i++)
-            {
-                Font lineFont = i == 0 ? bold : font;
-                graphics.DrawString(lines[i], lineFont, brush, textX, y);
-                y += ClassicLineHeight;
-            }
-
-            graphics.DrawString(meta, font, brush, textX, y);
         }
     }
 
@@ -536,20 +516,8 @@ internal sealed class VisualScreenColorPickerOverlay : Form
         };
         label.LocalCustomPalette = palette;
         label.LabelStyle = LabelStyle.NormalControl;
-        label.Values.Text = InstructionText;
+        label.Values.Text = KryptonScreenColorPicker.Strings.OverlayInstructions;
         panel.Controls.Add(label);
         return panel;
-    }
-
-    private static GraphicsPath CreateRoundRect(Rectangle bounds, int radius)
-    {
-        int d = radius * 2;
-        var path = new GraphicsPath();
-        path.AddArc(bounds.X, bounds.Y, d, d, 180, 90);
-        path.AddArc(bounds.Right - d, bounds.Y, d, d, 270, 90);
-        path.AddArc(bounds.Right - d, bounds.Bottom - d, d, d, 0, 90);
-        path.AddArc(bounds.X, bounds.Bottom - d, d, d, 90, 90);
-        path.CloseFigure();
-        return path;
     }
 }

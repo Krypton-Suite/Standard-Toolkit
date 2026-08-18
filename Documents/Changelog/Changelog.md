@@ -46,9 +46,11 @@
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
 * Implemented, PowerToys-style screen colour picker (`KryptonScreenColorPicker`)
-   * Live-refresh the desktop, magnify pixels under the cursor, and click to sample. Esc or right-click cancels; mouse wheel zooms; Ctrl+wheel resizes the magnifier (odd 7–21 source pixels). F12 or Print Screen copies the overlay to the clipboard.
-   * Choose **Krypton** (themed `KryptonHeaderGroup` flyout, default) or **Classic** (PowerToys painted flyout) via `KryptonScreenColorPickerFlyoutStyle`.
+   * Live-refresh the desktop, magnify pixels under the cursor, and click to sample. Esc or right-click cancels. Zoom with the mouse wheel, `+`/`-`, Page Up/Down, or arrow keys; Ctrl+wheel, Ctrl+`+/-`, or `[`/`]` resizes the magnifier (odd 7–21 source pixels). F12 or Print Screen copies the overlay to the clipboard.
+   * Choose **Krypton** (themed `KryptonHeaderGroup` flyout, default) or **Classic** (PowerToys painted flyout) via `KryptonScreenColorPickerFlyoutStyle`. Classic follows the cursor in its own window so it does not trail, and the magnifier fills the panel.
    * Show or hide colour formats on the flyout (`Hex`, `HexAlpha`, `HexInteger`, `RGB`, `RGBA`, `HSL`, `HSV`, `CMYK`, `Decimal`, `Vector`, `KnownName`) via `KryptonScreenColorPicker.VisibleColorFormats`.
+   * Drop **KryptonColorPicker** from the Visual Studio toolbox (component tray, like `ColorDialog`). Call `ShowDialog` / `TryPick`; set `FlyoutStyle`, `MagnifierSize`, `Zoom`, and `VisibleColorFormats` per instance.
+   * Overlay instructions, flyout labels, and colour-format text are localisable via `KryptonScreenColorPicker.Strings` (also on `KryptonColorPicker.Strings`).
    * To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Implemented [#4234](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4234), An easier way to create custom themes
    * Generate a custom theme from a few colours (hex, RGB, or a random seed) via `KryptonCustomThemeGenerator` / `KryptonCustomThemeBuilder`.

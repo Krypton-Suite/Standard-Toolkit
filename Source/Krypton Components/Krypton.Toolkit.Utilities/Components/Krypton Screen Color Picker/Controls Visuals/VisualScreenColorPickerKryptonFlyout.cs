@@ -38,9 +38,10 @@ internal sealed class VisualScreenColorPickerKryptonFlyoutForm : Form
 
         _flyout = new VisualScreenColorPickerKryptonFlyout(visibleFormats);
         _flyout.ApplyPalette(palette);
-        _flyout.Location = Point.Empty;
+        _flyout.Dock = DockStyle.Fill;
         Controls.Add(_flyout);
-        ClientSize = _flyout.Size;
+        Controls.Add(_flyout.ReadoutPanel);
+        ClientSize = _flyout.PreferredFlyoutSize;
     }
 
     /// <summary>Gets the pixel size of the flyout control.</summary>
@@ -50,11 +51,6 @@ internal sealed class VisualScreenColorPickerKryptonFlyoutForm : Form
     {
         Size nextSize = VisualScreenColorPickerKryptonFlyout.CalculateSize(magnifierSize, zoom, _flyout.VisibleFormats);
         _flyout.UpdateSample(screenshot, samplePoint, color, magnifierSize, zoom);
-        if (_flyout.Size != nextSize)
-        {
-            _flyout.Size = nextSize;
-        }
-
         if (ClientSize != nextSize)
         {
             ClientSize = nextSize;
@@ -119,7 +115,7 @@ internal sealed class VisualScreenColorPickerKryptonFlyout : KryptonHeaderGroup
         TabStop = false;
         HeaderVisibleSecondary = false;
         UseKryptonScrollbars = false;
-        ValuesPrimary.Heading = @"Black";
+        ValuesPrimary.Heading = ScreenColorPickerColorFormatter.FormatKnownName(Color.Black);
         ValuesPrimary.Description = string.Empty;
         ValuesPrimary.Image = Properties.Resources.ColorPickerHeadingImage;
 
@@ -145,19 +141,22 @@ internal sealed class VisualScreenColorPickerKryptonFlyout : KryptonHeaderGroup
             ColumnCount = 1,
             RowCount = panelLines + 1,
             TabStop = false,
-            Padding = new Padding(8, 2, 4, 2)
+            Padding = new Padding(8, 2, 4, 2),
+            BackColor = Color.Transparent
         };
 
         for (int i = 0; i < panelLines; i++)
         {
             _textStack.RowStyles.Add(new RowStyle(SizeType.Absolute, LineHeight));
-            KryptonLabel label = CreateReadoutLabel(i == 0 ? LabelStyle.BoldControl : LabelStyle.NormalControl, string.Empty);
+            KryptonLabel label = CreateReadoutLabel(i == 0 ? LabelStyle.BoldPanel : LabelStyle.NormalPanel, string.Empty);
             _formatLabels[i] = label;
             _textStack.Controls.Add(label, 0, i);
         }
 
         _textStack.RowStyles.Add(new RowStyle(SizeType.Percent, 100f));
-        _metaLabel = CreateReadoutLabel(LabelStyle.NormalControl, @"12x  ·  11 src px");
+        _metaLabel = CreateReadoutLabel(LabelStyle.NormalPanel,
+            KryptonScreenColorPicker.Strings.FormatMagnifierMeta(KryptonScreenColorPicker.DefaultZoom,
+                KryptonScreenColorPicker.DefaultMagnifierSize));
         _textStack.Controls.Add(_metaLabel, 0, panelLines);
 
         _readoutPanel = new KryptonPanel
@@ -167,14 +166,13 @@ internal sealed class VisualScreenColorPickerKryptonFlyout : KryptonHeaderGroup
             TabStop = false,
             Padding = new Padding(4)
         };
-        _readoutPanel.PanelBackStyle = PaletteBackStyle.PanelClient;
+        _readoutPanel.PanelBackStyle = PaletteBackStyle.PanelAlternate;
         _readoutPanel.Controls.Add(_textStack);
         _readoutPanel.Controls.Add(_swatch);
 
         Panel.AutoScroll = false;
         Panel.Padding = new Padding(4);
         Panel.Controls.Add(_canvas);
-        Panel.Controls.Add(_readoutPanel);
 
         ((ISupportInitialize)Panel).EndInit();
         ((ISupportInitialize)this).EndInit();
@@ -182,6 +180,11 @@ internal sealed class VisualScreenColorPickerKryptonFlyout : KryptonHeaderGroup
     }
 
     internal KryptonScreenColorPickerColorFormat VisibleFormats => _visibleFormats;
+
+    internal KryptonPanel ReadoutPanel => _readoutPanel;
+
+    internal Size PreferredFlyoutSize =>
+        CalculateSize(KryptonScreenColorPicker.DefaultMagnifierSize, KryptonScreenColorPicker.DefaultZoom, _visibleFormats);
 
     internal static Size CalculateSize(int magnifierSize, int zoom, KryptonScreenColorPickerColorFormat visibleFormats)
     {
@@ -208,12 +211,6 @@ internal sealed class VisualScreenColorPickerKryptonFlyout : KryptonHeaderGroup
 
     internal void UpdateSample(Bitmap screenshot, Point samplePoint, Color color, int magnifierSize, int zoom)
     {
-        Size nextSize = CalculateSize(magnifierSize, zoom, _visibleFormats);
-        if (Size != nextSize)
-        {
-            Size = nextSize;
-        }
-
         bool showKnownName = (_visibleFormats & KryptonScreenColorPickerColorFormat.KnownName) ==
                              KryptonScreenColorPickerColorFormat.KnownName;
         ValuesPrimary.Heading = showKnownName
@@ -229,7 +226,7 @@ internal sealed class VisualScreenColorPickerKryptonFlyout : KryptonHeaderGroup
             _formatLabels[i].Values.Text = lines[i];
         }
 
-        _metaLabel.Values.Text = string.Format(CultureInfo.InvariantCulture, @"{0}x  ·  {1} src px", zoom, magnifierSize);
+        _metaLabel.Values.Text = KryptonScreenColorPicker.Strings.FormatMagnifierMeta(zoom, magnifierSize);
         _canvas.SetSample(screenshot, samplePoint, magnifierSize, zoom);
     }
 
