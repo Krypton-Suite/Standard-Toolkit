@@ -661,15 +661,22 @@ public static partial class KryptonMessageBoxExtended
                 showCloseButton, footerText, footerExpanded, footerContentType, footerRichTextBoxHeight, showCopyButton: showCopyButton);
 
     /// <summary>Asynchronously shows a <seealso cref="KryptonMessageBoxExtended"/> configured from a <see cref="KryptonMessageBoxExtendedData"/> instance.</summary>
-    /// <param name="data">The data describing the message box content and behaviour. Set <see cref="KryptonMessageBoxExtendedData.DetailsText"/> (or <see cref="KryptonMessageBoxExtendedData.MoreDetailsMessageText"/>) for a FoldableDialog-style collapsible details region; <see cref="KryptonMessageBoxExtendedData.ExpandButtonText"/> / <see cref="KryptonMessageBoxExtendedData.CollapseButtonText"/> customise the expander. Fade in/out, caption timeout, auto-close, and optional button countdown are configured via <see cref="KryptonMessageBoxExtendedData.UseFade"/>, <see cref="KryptonMessageBoxExtendedData.UseTimeOut"/>, <see cref="KryptonMessageBoxExtendedData.AutoClose"/>, and <see cref="KryptonMessageBoxExtendedData.CountdownButton"/>.</param>
+    /// <param name="data">The data describing the message box content and behaviour. Set <see cref="KryptonMessageBoxExtendedData.DetailsText"/> (or <see cref="KryptonMessageBoxExtendedData.MoreDetailsMessageText"/>) for a FoldableDialog-style collapsible details region; <see cref="KryptonMessageBoxExtendedData.ExpandButtonText"/> / <see cref="KryptonMessageBoxExtendedData.CollapseButtonText"/> customise the expander. Fade in/out, caption timeout, auto-close, and optional button countdown are configured via <see cref="KryptonMessageBoxExtendedData.UseFade"/>, <see cref="KryptonMessageBoxExtendedData.UseTimeOut"/>, <see cref="KryptonMessageBoxExtendedData.AutoClose"/>, and <see cref="KryptonMessageBoxExtendedData.CountdownButton"/>. Set <see cref="KryptonMessageBoxExtendedData.ShowDoNotShowAgainOption"/> for an optional 'Do not show again' checkbox.</param>
     /// <param name="showCloseButton">Whether to show the close button on the message box form.</param>
     /// <returns>A task that produces one of the <see cref="DialogResult"/> values when the message box is closed.</returns>
     public static async Task<DialogResult> ShowAsync(KryptonMessageBoxExtendedData data, bool showCloseButton = true)
     {
+        if (MessageBoxExtendedDoNotShowAgain.TrySkip(data, out DialogResult suppressed))
+        {
+            return suppressed;
+        }
+
         using var kmbe = new VisualMessageBoxExtendedForm(data, showCloseButton);
 
         // Await required so using does not dispose the form before the dialog completes.
-        return await KryptonFormAsync.ShowDialogAsync(kmbe, data.Owner).ConfigureAwait(false);
+        DialogResult result = await KryptonFormAsync.ShowDialogAsync(kmbe, data.Owner).ConfigureAwait(false);
+        MessageBoxExtendedDoNotShowAgain.RememberIfChecked(data, kmbe.GetDoNotShowAgainChecked(), result);
+        return result;
     }
 
     #endregion
