@@ -132,6 +132,34 @@ public static class KryptonDesignerEditorTheme
 
         if (!state.Wired)
         {
+            EventHandler? catalogChanged = (_, _) =>
+            {
+                if (combo.IsDisposed)
+                {
+                    return;
+                }
+
+                string? previous = combo.SelectedItem as string;
+                int restored = CommonHelperThemeSelectors.ReloadThemeItems(
+                    combo.Items,
+                    includeExtra: true,
+                    previous,
+                    form.PaletteMode == PaletteMode.Global
+                        ? KryptonManager.CurrentGlobalPaletteMode
+                        : form.PaletteMode);
+                state.Suppress = true;
+                try
+                {
+                    combo.SelectedIndex = restored;
+                }
+                finally
+                {
+                    state.Suppress = false;
+                }
+            };
+            ThemeManager.RegisteredThemesChanged += catalogChanged;
+            form.Disposed += (_, _) => ThemeManager.RegisteredThemesChanged -= catalogChanged;
+
             combo.SelectedIndexChanged += (_, _) =>
             {
                 if (state.Suppress || combo.SelectedItem is not string themeName || themeName.Length == 0)

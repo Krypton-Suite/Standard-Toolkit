@@ -137,6 +137,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Krypton.Templates.Vsix", ".
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Krypton.Interop", "Krypton.Interop\Krypton.Interop.csproj", "{D4929B7D-7C26-4ACB-AD3C-0F020BA260CF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Krypton.Themes", "Krypton.Themes\Krypton.Themes.csproj", "{224FE275-4FD5-4F41-AA4F-78D6A4475D8A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Krypton.Toolkit", "Krypton.Toolkit", "{0E494C1C-F3A8-2DA6-00E7-691AF7CCB5E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Canary|Any CPU = Canary|Any CPU
@@ -482,6 +486,36 @@ Global
 		{D4929B7D-7C26-4ACB-AD3C-0F020BA260CF}.Release|x64.Build.0 = Release|Any CPU
 		{D4929B7D-7C26-4ACB-AD3C-0F020BA260CF}.Release|x86.ActiveCfg = Release|Any CPU
 		{D4929B7D-7C26-4ACB-AD3C-0F020BA260CF}.Release|x86.Build.0 = Release|Any CPU
+		{224FE275-4FD5-4F41-AA4F-78D6A4475D8A}.Canary|Any CPU.ActiveCfg = Canary|Any CPU
+		{224FE275-4FD5-4F41-AA4F-78D6A4475D8A}.Canary|Any CPU.Build.0 = Canary|Any CPU
+		{224FE275-4FD5-4F41-AA4F-78D6A4475D8A}.Canary|x64.ActiveCfg = Canary|Any CPU
+		{224FE275-4FD5-4F41-AA4F-78D6A4475D8A}.Canary|x64.Build.0 = Canary|Any CPU
+		{224FE275-4FD5-4F41-AA4F-78D6A4475D8A}.Canary|x86.ActiveCfg = Canary|Any CPU
+		{224FE275-4FD5-4F41-AA4F-78D6A4475D8A}.Canary|x86.Build.0 = Canary|Any CPU
+		{224FE275-4FD5-4F41-AA4F-78D6A4475D8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{224FE275-4FD5-4F41-AA4F-78D6A4475D8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{224FE275-4FD5-4F41-AA4F-78D6A4475D8A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{224FE275-4FD5-4F41-AA4F-78D6A4475D8A}.Debug|x64.Build.0 = Debug|Any CPU
+		{224FE275-4FD5-4F41-AA4F-78D6A4475D8A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{224FE275-4FD5-4F41-AA4F-78D6A4475D8A}.Debug|x86.Build.0 = Debug|Any CPU
+		{224FE275-4FD5-4F41-AA4F-78D6A4475D8A}.Installer|Any CPU.ActiveCfg = Installer|Any CPU
+		{224FE275-4FD5-4F41-AA4F-78D6A4475D8A}.Installer|Any CPU.Build.0 = Installer|Any CPU
+		{224FE275-4FD5-4F41-AA4F-78D6A4475D8A}.Installer|x64.ActiveCfg = Installer|Any CPU
+		{224FE275-4FD5-4F41-AA4F-78D6A4475D8A}.Installer|x64.Build.0 = Installer|Any CPU
+		{224FE275-4FD5-4F41-AA4F-78D6A4475D8A}.Installer|x86.ActiveCfg = Installer|Any CPU
+		{224FE275-4FD5-4F41-AA4F-78D6A4475D8A}.Installer|x86.Build.0 = Installer|Any CPU
+		{224FE275-4FD5-4F41-AA4F-78D6A4475D8A}.Nightly|Any CPU.ActiveCfg = Nightly|Any CPU
+		{224FE275-4FD5-4F41-AA4F-78D6A4475D8A}.Nightly|Any CPU.Build.0 = Nightly|Any CPU
+		{224FE275-4FD5-4F41-AA4F-78D6A4475D8A}.Nightly|x64.ActiveCfg = Nightly|Any CPU
+		{224FE275-4FD5-4F41-AA4F-78D6A4475D8A}.Nightly|x64.Build.0 = Nightly|Any CPU
+		{224FE275-4FD5-4F41-AA4F-78D6A4475D8A}.Nightly|x86.ActiveCfg = Nightly|Any CPU
+		{224FE275-4FD5-4F41-AA4F-78D6A4475D8A}.Nightly|x86.Build.0 = Nightly|Any CPU
+		{224FE275-4FD5-4F41-AA4F-78D6A4475D8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{224FE275-4FD5-4F41-AA4F-78D6A4475D8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{224FE275-4FD5-4F41-AA4F-78D6A4475D8A}.Release|x64.ActiveCfg = Release|Any CPU
+		{224FE275-4FD5-4F41-AA4F-78D6A4475D8A}.Release|x64.Build.0 = Release|Any CPU
+		{224FE275-4FD5-4F41-AA4F-78D6A4475D8A}.Release|x86.ActiveCfg = Release|Any CPU
+		{224FE275-4FD5-4F41-AA4F-78D6A4475D8A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
