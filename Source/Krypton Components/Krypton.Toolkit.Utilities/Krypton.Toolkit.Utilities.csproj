@@ -53,6 +53,11 @@
 			<Version>4.0.0.0</Version>
 		</Reference>
 		<Reference Include="System.Net.Http" Condition="$(TargetFramework.StartsWith('net4'))" />
+		<Reference Include="System.Management" Condition="$(TargetFramework.StartsWith('net4'))" />
+	</ItemGroup>
+
+	<ItemGroup Condition="!$(TargetFramework.StartsWith('net4'))">
+		<PackageReference Include="System.Management" Version="8.0.0" />
 	</ItemGroup>
 
 	<!-- WebView2: bundled DLLs in Lib/WebView2 (all target frameworks). Run Scripts\WebVew2\Populate-BundledWebView2.cmd to populate. -->
@@ -113,10 +118,19 @@
 	    <Generator>ResXFileCodeGenerator</Generator>
 	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>
+	  <EmbeddedResource Update="Components\Krypton System Information\Controls Visuals\VisualSystemInformationForm.resx">
+	    <DependentUpon>VisualSystemInformationForm.cs</DependentUpon>
+	  </EmbeddedResource>
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Folder Include="Resources\" />
+	  <Folder Include="Components\Krypton System Information\" />
+	  <Folder Include="Components\Krypton System Information\Controls Toolkit\" />
+	  <Folder Include="Components\Krypton System Information\Controls Visuals\" />
+	  <Folder Include="Components\Krypton System Information\General\" />
+	  <Folder Include="Components\Krypton System Information\Providers\" />
+	  <Folder Include="Components\Krypton System Information\Translations\" />
 	</ItemGroup>
 
 	<!-- KryptonToast form .resx files under deep folders exceed MAX_PATH for obj intermediates.
@@ -131,7 +145,16 @@
 	</Target>
 
 	<ItemGroup>
+	  <Compile Update="Components\Krypton System Information\Controls Visuals\VisualSystemInformationForm.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="Components\Krypton System Information\Controls Visuals\VisualSystemInformationForm.Designer.cs">
+	    <DependentUpon>VisualSystemInformationForm.cs</DependentUpon>
+	  </Compile>
 	  <Compile Update="Components\Krypton Splash Screen Manager\Controls Visuals\VisualSplashScreenManagerForm.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="Components\Krypton Logger\Controls Visuals\VisualKryptonLogViewerForm.cs">
 	    <SubType>Form</SubType>
 	  </Compile>
 	  <Compile Update="Components\Krypton AboutBox\Controls Visuals\VisualAboutBoxForm.cs">

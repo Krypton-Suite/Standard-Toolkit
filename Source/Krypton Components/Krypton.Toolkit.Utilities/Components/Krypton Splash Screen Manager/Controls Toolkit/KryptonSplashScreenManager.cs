@@ -371,7 +371,13 @@ public sealed class KryptonSplashScreenManager : IDisposable
             return;
         }
 
-        _data.Logger?.Write(message);
+        var logger = _data.Logger;
+        if (logger == null && _data.UseKryptonLog)
+        {
+            logger = KryptonLog.AsKryptonLogger();
+        }
+
+        logger?.Write(message);
         _data.LogCallback?.Invoke(message);
     }
 

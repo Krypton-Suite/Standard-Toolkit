@@ -9,6 +9,7 @@
 		<KryptonComponentsRoot>..\..\Source\Krypton Components</KryptonComponentsRoot>
 		<KryptonInteropProject>$(KryptonComponentsRoot)\Krypton.Interop\Krypton.Interop.csproj</KryptonInteropProject>
 		<KryptonToolkitProject>$(KryptonComponentsRoot)\Krypton.Toolkit\Krypton.Toolkit 2022.csproj</KryptonToolkitProject>
+		<KryptonThemesProject>$(KryptonComponentsRoot)\Krypton.Themes\Krypton.Themes.csproj</KryptonThemesProject>
 		<KryptonRibbonProject>$(KryptonComponentsRoot)\Krypton.Ribbon\Krypton.Ribbon 2022.csproj</KryptonRibbonProject>
 		<KryptonNavigatorProject>$(KryptonComponentsRoot)\Krypton.Navigator\Krypton.Navigator 2022.csproj</KryptonNavigatorProject>
 		<KryptonWorkspaceProject>$(KryptonComponentsRoot)\Krypton.Workspace\Krypton.Workspace 2022.csproj</KryptonWorkspaceProject>
@@ -46,6 +47,10 @@
 		         Properties="$(KryptonComponentBuildProperties)"
 		         Targets="Build" />
 
+		<MSBuild Projects="$(KryptonThemesProject)"
+		         Properties="$(KryptonComponentBuildProperties)"
+		         Targets="Build" />
+
 		<MSBuild Projects="@(KryptonParallelAfterToolkit)"
 		         Properties="$(KryptonComponentBuildProperties)"
 		         Targets="Build"
@@ -77,6 +82,10 @@
 		         Targets="Restore;Build" />
 
 		<MSBuild Projects="$(KryptonToolkitProject)"
+		         Properties="$(KryptonComponentBuildProperties)"
+		         Targets="Pack" />
+
+		<MSBuild Projects="$(KryptonThemesProject)"
 		         Properties="$(KryptonComponentBuildProperties)"
 		         Targets="Pack" />
 
