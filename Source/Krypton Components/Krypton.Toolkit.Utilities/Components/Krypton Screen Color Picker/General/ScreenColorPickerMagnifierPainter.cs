@@ -49,6 +49,11 @@ internal static class ScreenColorPickerMagnifierPainter
         }
     }
 
-    internal static string FormatRgbHex(Color color) =>
-        string.Format(CultureInfo.InvariantCulture, "#{0:X2}{1:X2}{2:X2}", color.R, color.G, color.B);
+    internal static string FormatRgbHex(Color color) => ScreenColorPickerColorFormatter.FormatHex(color);
+
+    internal static string FormatRgb(Color color) => ScreenColorPickerColorFormatter.FormatRgb(color);
+
+    internal static string FormatHsl(Color color) => ScreenColorPickerColorFormatter.FormatHsl(color);
+
+    internal static string FormatKnownName(Color color) => ScreenColorPickerColorFormatter.FormatKnownName(color);
 }

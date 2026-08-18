@@ -98,6 +98,7 @@ public partial class CustomThemeGeneratorDemo : KryptonForm
         kcmbFlyout.Items.Add(KryptonScreenColorPicker.GetFlyoutStyleDisplayName(KryptonScreenColorPickerFlyoutStyle.Classic));
         kcmbFlyout.SelectedIndex = KryptonScreenColorPicker.DefaultFlyoutStyle == KryptonScreenColorPickerFlyoutStyle.Classic ? 1 : 0;
         knudMagnifierSize.Value = KryptonScreenColorPicker.DefaultMagnifierSize;
+        KryptonScreenColorPicker.BindColorFormatList(kclbColorFormats);
         _suppressEvents = false;
     }
 

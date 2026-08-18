@@ -53,6 +53,8 @@ namespace Krypton.Toolkit.Utilities
             kcmbFlyout = new KryptonComboBox();
             klblMagnifierSize = new KryptonLabel();
             knudMagnifierSize = new KryptonNumericUpDown();
+            klblFormats = new KryptonLabel();
+            kclbColorFormats = new KryptonCheckedListBox();
             klblStatus = new KryptonLabel();
             khgPreview = new KryptonHeaderGroup();
             tlpPreview = new TableLayoutPanel();
@@ -121,7 +123,7 @@ namespace Krypton.Toolkit.Utilities
             kwlblInfo.LabelStyle = LabelStyle.NormalControl;
             kwlblInfo.Location = new Point(3, 3);
             kwlblInfo.Name = "kwlblInfo";
-            kwlblInfo.Text = "Provide a name and a few colours (hex such as #0078D4, or RGB such as 0,120,212), or use the dropper to pick from the screen. Choose Classic (PowerToys) or Krypton flyout chrome and magnifier size. Preview updates on this dialog only until you Apply.";
+            kwlblInfo.Text = "Provide a name and a few colours (hex such as #0078D4, or RGB such as 0,120,212), or use the dropper to pick from the screen. Choose flyout chrome, magnifier size, and which colour formats the overlay shows. Preview updates on this dialog only until you Apply.";
             //
             // tlpInputs
             //
@@ -150,6 +152,8 @@ namespace Krypton.Toolkit.Utilities
             tlpInputs.Controls.Add(kcmbFlyout, 1, 5);
             tlpInputs.Controls.Add(klblMagnifierSize, 0, 6);
             tlpInputs.Controls.Add(knudMagnifierSize, 1, 6);
+            tlpInputs.Controls.Add(klblFormats, 0, 7);
+            tlpInputs.Controls.Add(kclbColorFormats, 1, 7);
             tlpInputs.Dock = DockStyle.Fill;
             tlpInputs.Location = new Point(3, 75);
             tlpInputs.Name = "tlpInputs";
@@ -167,6 +171,7 @@ namespace Krypton.Toolkit.Utilities
             tlpInputs.SetColumnSpan(ktxtName, 3);
             tlpInputs.SetColumnSpan(kcmbDonor, 3);
             tlpInputs.SetColumnSpan(kcmbFlyout, 3);
+            tlpInputs.SetColumnSpan(kclbColorFormats, 3);
             //
             // klblName
             //
@@ -336,6 +341,21 @@ namespace Krypton.Toolkit.Utilities
             knudMagnifierSize.TabIndex = 11;
             knudMagnifierSize.Value = new decimal(new int[] { 11, 0, 0, 0 });
             knudMagnifierSize.ValueChanged += knudMagnifierSize_ValueChanged;
+            //
+            // klblFormats
+            //
+            klblFormats.Dock = DockStyle.Fill;
+            klblFormats.Location = new Point(3, 251);
+            klblFormats.Name = "klblFormats";
+            klblFormats.Values.Text = "Colour formats";
+            //
+            // kclbColorFormats
+            //
+            kclbColorFormats.CheckOnClick = true;
+            kclbColorFormats.Dock = DockStyle.Fill;
+            kclbColorFormats.Location = new Point(143, 251);
+            kclbColorFormats.Name = "kclbColorFormats";
+            kclbColorFormats.TabIndex = 12;
             //
             // klblStatus
             //
@@ -544,6 +564,8 @@ namespace Krypton.Toolkit.Utilities
         private KryptonComboBox kcmbFlyout;
         private KryptonLabel klblMagnifierSize;
         private KryptonNumericUpDown knudMagnifierSize;
+        private KryptonLabel klblFormats;
+        private KryptonCheckedListBox kclbColorFormats;
         private KryptonLabel klblStatus;
         private KryptonHeaderGroup khgPreview;
         private TableLayoutPanel tlpPreview;

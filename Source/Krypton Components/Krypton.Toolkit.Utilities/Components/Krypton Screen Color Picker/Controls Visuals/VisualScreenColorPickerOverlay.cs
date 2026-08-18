@@ -14,9 +14,10 @@ namespace Krypton.Toolkit.Utilities;
 /// </summary>
 internal sealed class VisualScreenColorPickerOverlay : Form
 {
-    private const int FooterHeight = 52;
     private const int BannerHeight = 32;
     private const int DirtyPadding = 8;
+    private const int ClassicLineHeight = 16;
+    private const int ClassicFooterPadding = 20;
     private const int RefreshIntervalMs = 16;
     private const int VkSnapshot = 0x2C;
     private const int WmKeyDown = 0x0100;
@@ -29,6 +30,8 @@ internal sealed class VisualScreenColorPickerOverlay : Form
     private readonly Bitmap _sample;
     private readonly Rectangle _virtualScreen;
     private readonly KryptonScreenColorPickerFlyoutStyle _flyoutStyle;
+    private readonly KryptonScreenColorPickerColorFormat _visibleFormats;
+    private readonly int _classicFooterHeight;
     private readonly VisualScreenColorPickerKryptonFlyoutForm? _kryptonFlyoutForm;
     private readonly KryptonPanel? _kryptonBanner;
     private readonly System.Windows.Forms.Timer _refreshTimer;
@@ -47,6 +50,9 @@ internal sealed class VisualScreenColorPickerOverlay : Form
             KryptonScreenColorPicker.MaximumMagnifierSize, PixelFormat.Format32bppArgb);
         _virtualScreen = SystemInformation.VirtualScreen;
         _flyoutStyle = flyoutStyle;
+        _visibleFormats = ScreenColorPickerColorFormatter.Normalize(KryptonScreenColorPicker.VisibleColorFormats);
+        int classicLines = ScreenColorPickerColorFormatter.CountPanelLines(_visibleFormats, includeKnownName: true);
+        _classicFooterHeight = ClassicFooterPadding + ((classicLines + 1) * ClassicLineHeight);
         _gridSize = KryptonScreenColorPicker.ClampMagnifierSize(magnifierSize);
         _zoom = KryptonScreenColorPicker.ClampZoom(zoom);
 
@@ -79,7 +85,7 @@ internal sealed class VisualScreenColorPickerOverlay : Form
             Controls.Add(_kryptonBanner);
 
             // Host the flyout in its own TopMost form to avoid erase artifacts on the transparent overlay.
-            _kryptonFlyoutForm = new VisualScreenColorPickerKryptonFlyoutForm(palette);
+            _kryptonFlyoutForm = new VisualScreenColorPickerKryptonFlyoutForm(palette, _visibleFormats);
         }
     }
 
@@ -413,8 +419,8 @@ internal sealed class VisualScreenColorPickerOverlay : Form
     private Rectangle GetClassicMagnifierBounds()
     {
         int mag = _gridSize * _zoom;
-        int width = mag + 16;
-        int height = mag + FooterHeight + 16;
+        int width = Math.Max(mag + 16, 280);
+        int height = mag + _classicFooterHeight + 16;
         Point cursor = PointToClient(Cursor.Position);
         int half = _gridSize / 2;
         int halfZoom = half * _zoom;
@@ -471,7 +477,7 @@ internal sealed class VisualScreenColorPickerOverlay : Form
         _lastMagnifierBounds = bounds;
         int mag = _gridSize * _zoom;
         var imageRect = new Rectangle(bounds.X + 8, bounds.Y + 8, mag, mag);
-        var footerRect = new Rectangle(bounds.X + 8, imageRect.Bottom + 4, mag, FooterHeight - 12);
+        var footerRect = new Rectangle(bounds.X + 8, imageRect.Bottom + 4, mag, _classicFooterHeight - 12);
 
         using (var path = CreateRoundRect(bounds, 8))
         using (var fill = new SolidBrush(Color.FromArgb(230, 24, 24, 24)))
@@ -485,7 +491,7 @@ internal sealed class VisualScreenColorPickerOverlay : Form
 
         ScreenColorPickerMagnifierPainter.Draw(graphics, _sample, SampleCenter, imageRect, _gridSize, _zoom);
 
-        var swatch = new Rectangle(footerRect.X, footerRect.Y, 36, footerRect.Height);
+        var swatch = new Rectangle(footerRect.X, footerRect.Y, 36, Math.Max(24, footerRect.Height - 4));
         using (var swatchBrush = new SolidBrush(_hoverColor))
         using (var swatchPen = new Pen(Color.White))
         {
@@ -493,27 +499,23 @@ internal sealed class VisualScreenColorPickerOverlay : Form
             graphics.DrawRectangle(swatchPen, swatch);
         }
 
-        string hex = ScreenColorPickerMagnifierPainter.FormatRgbHex(_hoverColor);
-        string rgb = string.Format(CultureInfo.InvariantCulture, @"RGB({0}, {1}, {2})  ·  {3}x  ·  {4} src px",
-            _hoverColor.R, _hoverColor.G, _hoverColor.B, _zoom, _gridSize);
+        string[] lines = ScreenColorPickerColorFormatter.BuildReadoutLines(_hoverColor, _visibleFormats, includeKnownName: true);
+        string meta = string.Format(CultureInfo.InvariantCulture, @"{0}x  ·  {1} src px", _zoom, _gridSize);
 
-        using (var font = new Font("Segoe UI", 9f, FontStyle.Bold))
-        using (var small = new Font("Segoe UI", 8.25f, FontStyle.Regular))
+        using (var font = new Font("Segoe UI", 8.25f, FontStyle.Regular))
+        using (var bold = new Font("Segoe UI", 9f, FontStyle.Bold))
         using (var brush = new SolidBrush(Color.White))
         {
-            SizeF hexSize = graphics.MeasureString(hex, font);
-            SizeF rgbSize = graphics.MeasureString(rgb, small);
-
             float textX = swatch.Right + 8;
-            float minX = footerRect.X + 2;
-            float maxX = footerRect.Right - Math.Max(hexSize.Width, rgbSize.Width) - 2;
-            textX = Math.Max(minX, Math.Min(textX, maxX));
+            float y = footerRect.Y + 2;
+            for (int i = 0; i < lines.Length; i++)
+            {
+                Font lineFont = i == 0 ? bold : font;
+                graphics.DrawString(lines[i], lineFont, brush, textX, y);
+                y += ClassicLineHeight;
+            }
 
-            float y1 = footerRect.Y + 6;
-            float y2 = footerRect.Bottom - small.GetHeight() - 6;
-
-            graphics.DrawString(hex, font, brush, textX, y1);
-            graphics.DrawString(rgb, small, brush, textX, y2);
+            graphics.DrawString(meta, font, brush, textX, y);
         }
     }
 

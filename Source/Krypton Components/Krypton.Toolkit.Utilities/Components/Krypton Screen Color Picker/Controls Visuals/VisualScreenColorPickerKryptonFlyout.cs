@@ -24,7 +24,8 @@ internal sealed class VisualScreenColorPickerKryptonFlyoutForm : Form
 
     private readonly VisualScreenColorPickerKryptonFlyout _flyout;
 
-    internal VisualScreenColorPickerKryptonFlyoutForm(KryptonCustomPaletteBase? palette)
+    internal VisualScreenColorPickerKryptonFlyoutForm(KryptonCustomPaletteBase? palette,
+        KryptonScreenColorPickerColorFormat visibleFormats)
     {
         FormBorderStyle = FormBorderStyle.None;
         StartPosition = FormStartPosition.Manual;
@@ -35,7 +36,7 @@ internal sealed class VisualScreenColorPickerKryptonFlyoutForm : Form
         MinimizeBox = false;
         SetStyle(ControlStyles.Selectable, false);
 
-        _flyout = new VisualScreenColorPickerKryptonFlyout();
+        _flyout = new VisualScreenColorPickerKryptonFlyout(visibleFormats);
         _flyout.ApplyPalette(palette);
         _flyout.Location = Point.Empty;
         Controls.Add(_flyout);
@@ -47,7 +48,7 @@ internal sealed class VisualScreenColorPickerKryptonFlyoutForm : Form
 
     internal void UpdateSample(Bitmap screenshot, Point samplePoint, Color color, int magnifierSize, int zoom)
     {
-        Size nextSize = VisualScreenColorPickerKryptonFlyout.CalculateSize(magnifierSize, zoom);
+        Size nextSize = VisualScreenColorPickerKryptonFlyout.CalculateSize(magnifierSize, zoom, _flyout.VisibleFormats);
         _flyout.UpdateSample(screenshot, samplePoint, color, magnifierSize, zoom);
         if (_flyout.Size != nextSize)
         {
@@ -87,13 +88,30 @@ internal sealed class VisualScreenColorPickerKryptonFlyoutForm : Form
 
 /// <summary>
 /// Themed magnifier flyout that follows the cursor during a screen pick.
+/// The header shows the nearest known colour name when that format is enabled;
+/// remaining formats live in a panel under the preview.
 /// </summary>
 internal sealed class VisualScreenColorPickerKryptonFlyout : KryptonHeaderGroup
 {
-    private readonly MagnifierCanvas _canvas;
+    private const int ChromeWidth = 24;
+    private const int ChromeHeight = 56;
+    private const int LineHeight = 20;
+    private const int ReadoutPadding = 12;
+    private const int MinimumWidth = 280;
 
-    internal VisualScreenColorPickerKryptonFlyout()
+    private readonly KryptonScreenColorPickerColorFormat _visibleFormats;
+    private readonly MagnifierCanvas _canvas;
+    private readonly KryptonPanel _readoutPanel;
+    private readonly Panel _swatch;
+    private readonly TableLayoutPanel _textStack;
+    private readonly KryptonLabel[] _formatLabels;
+    private readonly KryptonLabel _metaLabel;
+
+    internal VisualScreenColorPickerKryptonFlyout(KryptonScreenColorPickerColorFormat visibleFormats)
     {
+        _visibleFormats = ScreenColorPickerColorFormatter.Normalize(visibleFormats);
+        int panelLines = ScreenColorPickerColorFormatter.CountPanelLines(_visibleFormats, includeKnownName: false);
+
         ((ISupportInitialize)this).BeginInit();
         ((ISupportInitialize)Panel).BeginInit();
         SuspendLayout();
@@ -101,8 +119,9 @@ internal sealed class VisualScreenColorPickerKryptonFlyout : KryptonHeaderGroup
         TabStop = false;
         HeaderVisibleSecondary = false;
         UseKryptonScrollbars = false;
-        ValuesPrimary.Heading = @"#000000";
-        ValuesPrimary.Description = @"RGB(0, 0, 0)";
+        ValuesPrimary.Heading = @"Black";
+        ValuesPrimary.Description = string.Empty;
+        ValuesPrimary.Image = Properties.Resources.ColorPickerHeadingImage;
 
         _canvas = new MagnifierCanvas
         {
@@ -110,34 +129,120 @@ internal sealed class VisualScreenColorPickerKryptonFlyout : KryptonHeaderGroup
             TabStop = false
         };
 
+        _swatch = new Panel
+        {
+            Dock = DockStyle.Left,
+            Width = 36,
+            Margin = new Padding(0),
+            TabStop = false,
+            BackColor = Color.Black
+        };
+
+        _formatLabels = new KryptonLabel[panelLines];
+        _textStack = new TableLayoutPanel
+        {
+            Dock = DockStyle.Fill,
+            ColumnCount = 1,
+            RowCount = panelLines + 1,
+            TabStop = false,
+            Padding = new Padding(8, 2, 4, 2)
+        };
+
+        for (int i = 0; i < panelLines; i++)
+        {
+            _textStack.RowStyles.Add(new RowStyle(SizeType.Absolute, LineHeight));
+            KryptonLabel label = CreateReadoutLabel(i == 0 ? LabelStyle.BoldControl : LabelStyle.NormalControl, string.Empty);
+            _formatLabels[i] = label;
+            _textStack.Controls.Add(label, 0, i);
+        }
+
+        _textStack.RowStyles.Add(new RowStyle(SizeType.Percent, 100f));
+        _metaLabel = CreateReadoutLabel(LabelStyle.NormalControl, @"12x  ·  11 src px");
+        _textStack.Controls.Add(_metaLabel, 0, panelLines);
+
+        _readoutPanel = new KryptonPanel
+        {
+            Dock = DockStyle.Bottom,
+            Height = CalculateReadoutHeight(panelLines),
+            TabStop = false,
+            Padding = new Padding(4)
+        };
+        _readoutPanel.PanelBackStyle = PaletteBackStyle.PanelClient;
+        _readoutPanel.Controls.Add(_textStack);
+        _readoutPanel.Controls.Add(_swatch);
+
         Panel.AutoScroll = false;
         Panel.Padding = new Padding(4);
         Panel.Controls.Add(_canvas);
+        Panel.Controls.Add(_readoutPanel);
 
         ((ISupportInitialize)Panel).EndInit();
         ((ISupportInitialize)this).EndInit();
         ResumeLayout(false);
     }
 
-    internal static Size CalculateSize(int magnifierSize, int zoom)
+    internal KryptonScreenColorPickerColorFormat VisibleFormats => _visibleFormats;
+
+    internal static Size CalculateSize(int magnifierSize, int zoom, KryptonScreenColorPickerColorFormat visibleFormats)
     {
         int mag = magnifierSize * zoom;
-        return new Size(mag + 24, mag + 72);
+        int panelLines = ScreenColorPickerColorFormatter.CountPanelLines(visibleFormats, includeKnownName: false);
+        return new Size(Math.Max(mag + ChromeWidth, MinimumWidth),
+            mag + ChromeHeight + CalculateReadoutHeight(panelLines));
     }
 
-    internal void ApplyPalette(KryptonCustomPaletteBase? palette) => LocalCustomPalette = palette;
+    private static int CalculateReadoutHeight(int panelLines) =>
+        Math.Max(48, ReadoutPadding + ((panelLines + 1) * LineHeight));
+
+    internal void ApplyPalette(KryptonCustomPaletteBase? palette)
+    {
+        LocalCustomPalette = palette;
+        _readoutPanel.Palette = palette;
+        for (int i = 0; i < _formatLabels.Length; i++)
+        {
+            _formatLabels[i].LocalCustomPalette = palette;
+        }
+
+        _metaLabel.LocalCustomPalette = palette;
+    }
 
     internal void UpdateSample(Bitmap screenshot, Point samplePoint, Color color, int magnifierSize, int zoom)
     {
-        Size nextSize = CalculateSize(magnifierSize, zoom);
+        Size nextSize = CalculateSize(magnifierSize, zoom, _visibleFormats);
         if (Size != nextSize)
         {
             Size = nextSize;
         }
-        ValuesPrimary.Heading = ScreenColorPickerMagnifierPainter.FormatRgbHex(color);
-        ValuesPrimary.Description = string.Format(CultureInfo.InvariantCulture,
-            @"RGB({0}, {1}, {2})  ·  {3}x  ·  {4} src px", color.R, color.G, color.B, zoom, magnifierSize);
+
+        bool showKnownName = (_visibleFormats & KryptonScreenColorPickerColorFormat.KnownName) ==
+                             KryptonScreenColorPickerColorFormat.KnownName;
+        ValuesPrimary.Heading = showKnownName
+            ? ScreenColorPickerColorFormatter.FormatKnownName(color)
+            : ScreenColorPickerColorFormatter.FormatHex(color);
+        ValuesPrimary.Description = string.Empty;
+        _swatch.BackColor = Color.FromArgb(255, color.R, color.G, color.B);
+
+        string[] lines = ScreenColorPickerColorFormatter.BuildReadoutLines(color, _visibleFormats, includeKnownName: false);
+        int count = Math.Min(lines.Length, _formatLabels.Length);
+        for (int i = 0; i < count; i++)
+        {
+            _formatLabels[i].Values.Text = lines[i];
+        }
+
+        _metaLabel.Values.Text = string.Format(CultureInfo.InvariantCulture, @"{0}x  ·  {1} src px", zoom, magnifierSize);
         _canvas.SetSample(screenshot, samplePoint, magnifierSize, zoom);
+    }
+
+    private static KryptonLabel CreateReadoutLabel(LabelStyle style, string text)
+    {
+        var label = new KryptonLabel
+        {
+            Dock = DockStyle.Fill,
+            TabStop = false,
+            LabelStyle = style
+        };
+        label.Values.Text = text;
+        return label;
     }
 
     private sealed class MagnifierCanvas : Panel

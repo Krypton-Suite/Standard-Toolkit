@@ -56,6 +56,8 @@ namespace TestForm
             kcmbFlyout = new KryptonComboBox();
             klblMagnifierSize = new KryptonLabel();
             knudMagnifierSize = new KryptonNumericUpDown();
+            klblFormats = new KryptonLabel();
+            kclbColorFormats = new KryptonCheckedListBox();
             flpActions = new FlowLayoutPanel();
             kbtnApply = new KryptonButton();
             kbtnRegister = new KryptonButton();
@@ -91,7 +93,7 @@ namespace TestForm
             kwlblInfo.Name = "kwlblInfo";
             kwlblInfo.Padding = new Padding(12, 12, 12, 8);
             kwlblInfo.Size = new Size(820, 108);
-            kwlblInfo.Text = "Issue #4234: generate a custom theme from a few colours. Enter hex (#0078D4) or RGB (0, 120, 212), or use the dropper to pick from the screen. Choose Classic (PowerToys) or Krypton flyout chrome and magnifier size. Pick a donor family, then Apply.";
+            kwlblInfo.Text = "Issue #4234: generate a custom theme from a few colours. Enter hex (#0078D4) or RGB (0, 120, 212), or use the dropper to pick from the screen. Choose flyout chrome, magnifier size, and which colour formats the overlay shows.";
             //
             // kpnlMain
             //
@@ -133,13 +135,15 @@ namespace TestForm
             tlpMain.Controls.Add(kcmbFlyout, 1, 7);
             tlpMain.Controls.Add(klblMagnifierSize, 0, 8);
             tlpMain.Controls.Add(knudMagnifierSize, 1, 8);
-            tlpMain.Controls.Add(flpActions, 0, 9);
-            tlpMain.Controls.Add(khgPreview, 0, 10);
-            tlpMain.Controls.Add(klblStatus, 0, 11);
+            tlpMain.Controls.Add(klblFormats, 0, 9);
+            tlpMain.Controls.Add(kclbColorFormats, 1, 9);
+            tlpMain.Controls.Add(flpActions, 0, 10);
+            tlpMain.Controls.Add(khgPreview, 0, 11);
+            tlpMain.Controls.Add(klblStatus, 0, 12);
             tlpMain.Dock = DockStyle.Fill;
             tlpMain.Location = new Point(8, 8);
             tlpMain.Name = "tlpMain";
-            tlpMain.RowCount = 12;
+            tlpMain.RowCount = 13;
             tlpMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 32F));
             tlpMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 36F));
             tlpMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 36F));
@@ -149,16 +153,18 @@ namespace TestForm
             tlpMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 36F));
             tlpMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 36F));
             tlpMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 36F));
+            tlpMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 120F));
             tlpMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tlpMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
-            tlpMain.Size = new Size(804, 416);
+            tlpMain.Size = new Size(804, 536);
             tlpMain.TabIndex = 0;
             tlpMain.SetColumnSpan(ktxtName, 3);
             tlpMain.SetColumnSpan(kbtnUseRgb, 2);
             tlpMain.SetColumnSpan(kcmbDonor, 3);
             tlpMain.SetColumnSpan(kcmbTheme, 3);
             tlpMain.SetColumnSpan(kcmbFlyout, 3);
+            tlpMain.SetColumnSpan(kclbColorFormats, 3);
             tlpMain.SetColumnSpan(flpActions, 4);
             tlpMain.SetColumnSpan(khgPreview, 4);
             tlpMain.SetColumnSpan(klblStatus, 4);
@@ -350,6 +356,21 @@ namespace TestForm
             knudMagnifierSize.Value = new decimal(new int[] { 11, 0, 0, 0 });
             knudMagnifierSize.ValueChanged += knudMagnifierSize_ValueChanged;
             //
+            // klblFormats
+            //
+            klblFormats.Dock = DockStyle.Fill;
+            klblFormats.Location = new Point(3, 323);
+            klblFormats.Name = "klblFormats";
+            klblFormats.Values.Text = "Colour formats";
+            //
+            // kclbColorFormats
+            //
+            kclbColorFormats.CheckOnClick = true;
+            kclbColorFormats.Dock = DockStyle.Fill;
+            kclbColorFormats.Location = new Point(143, 323);
+            kclbColorFormats.Name = "kclbColorFormats";
+            kclbColorFormats.TabIndex = 13;
+            //
             // flpActions
             //
             flpActions.Controls.Add(kbtnApply);
@@ -479,10 +500,10 @@ namespace TestForm
             //
             AutoScaleDimensions = new SizeF(6F, 13F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(820, 576);
+            ClientSize = new Size(820, 680);
             Controls.Add(kpnlMain);
             Controls.Add(kwlblInfo);
-            MinimumSize = new Size(760, 516);
+            MinimumSize = new Size(760, 620);
             Name = "CustomThemeGeneratorDemo";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Custom Theme Generator (#4234)";
@@ -534,6 +555,8 @@ namespace TestForm
         private KryptonComboBox kcmbFlyout;
         private KryptonLabel klblMagnifierSize;
         private KryptonNumericUpDown knudMagnifierSize;
+        private KryptonLabel klblFormats;
+        private KryptonCheckedListBox kclbColorFormats;
         private FlowLayoutPanel flpActions;
         private KryptonButton kbtnApply;
         private KryptonButton kbtnRegister;

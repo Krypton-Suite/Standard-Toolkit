@@ -11,5 +11,5 @@ This assembly does not add new `PaletteMode` values (the enum is closed). `GetTh
 Build:
 
 ```powershell
-dotnet build ".\Source\TestHarnesses\ThemeProviderSample\ThemeProviderSample.csproj" -c Debug -f net472
+dotnet build ".\Source\TestHarnesses\ThemeProviderSample\ThemeProviderSample.csproj" -c Debug
 ```
