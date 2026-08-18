@@ -31,11 +31,15 @@ internal partial class VisualExceptionDialogForm : KryptonForm
 
     private readonly string? _gitHubConfigFilePath;
 
+    private readonly KryptonExceptionDialogOptions? _options;
+
+    private KryptonButton? _kbtnViewLog;
+
     #endregion
 
     #region Identity
 
-    public VisualExceptionDialogForm(bool? showCopyButton, bool? showSearchBox, bool? showSubmitBugReportButton, Color? highlightColor, Exception exception, Action<Exception>? bugReportCallback = null, bool? showReportBugToGitHubButton = null, SecureString? gitHubSecretKey = null, string? gitHubConfigFilePath = null)
+    public VisualExceptionDialogForm(bool? showCopyButton, bool? showSearchBox, bool? showSubmitBugReportButton, Color? highlightColor, Exception exception, Action<Exception>? bugReportCallback = null, bool? showReportBugToGitHubButton = null, SecureString? gitHubSecretKey = null, string? gitHubConfigFilePath = null, KryptonExceptionDialogOptions? options = null)
     {
         InitializeComponent();
 
@@ -52,6 +56,8 @@ internal partial class VisualExceptionDialogForm : KryptonForm
         _gitHubSecretKey = gitHubSecretKey is { Length: > 0 } ? gitHubSecretKey : null;
 
         _gitHubConfigFilePath = gitHubConfigFilePath;
+
+        _options = options;
 
         _highlightColor = highlightColor ?? Color.LightYellow;
 
@@ -120,14 +126,29 @@ internal partial class VisualExceptionDialogForm : KryptonForm
         {
             GeneralToolkitUtilities.AdjustFormDimensions(this, 1108, 687);
         }
+
+        EnsureViewLogButton();
     }
 
-    private string? FormatExceptionDetails(Exception exception) =>
-        // Format exception details
-        $"{KryptonManager.Strings.ExceptionDialogStrings.Type}: {exception.GetType().Name}\n" +
-        $"{KryptonManager.Strings.ExceptionDialogStrings.Message}: {exception.Message}\n\n" +
-        $"{KryptonManager.Strings.ExceptionDialogStrings.StackTrace}:\n{exception.StackTrace}\n\n" +
-        $"{KryptonManager.Strings.ExceptionDialogStrings.InnerException}:\n{(exception.InnerException != null ? exception.InnerException.Message : $"{KryptonManager.Strings.ExceptionDialogStrings.None}")}\n";
+    private string? FormatExceptionDetails(Exception exception)
+    {
+        var text =
+            $"{KryptonManager.Strings.ExceptionDialogStrings.Type}: {exception.GetType().Name}\n" +
+            $"{KryptonManager.Strings.ExceptionDialogStrings.Message}: {exception.Message}\n\n" +
+            $"{KryptonManager.Strings.ExceptionDialogStrings.StackTrace}:\n{exception.StackTrace}\n\n" +
+            $"{KryptonManager.Strings.ExceptionDialogStrings.InnerException}:\n{(exception.InnerException != null ? exception.InnerException.Message : $"{KryptonManager.Strings.ExceptionDialogStrings.None}")}\n";
+
+        if (_options?.IncludeRecentLog == true)
+        {
+            var excerpt = KryptonLogViewer.FormatRecent(_options.RecentLogLineCount);
+            if (!string.IsNullOrWhiteSpace(excerpt))
+            {
+                text += "\n" + KryptonLogViewer.Strings.RecentLogHeader + "\n" + excerpt;
+            }
+        }
+
+        return text;
+    }
 
     private void kbtnCopy_Click(object sender, EventArgs e) => Clipboard.SetText(krtbExceptionDetails.Text);
 
@@ -211,6 +232,27 @@ internal partial class VisualExceptionDialogForm : KryptonForm
         return sb.ToString();
     }
 
+    private void EnsureViewLogButton()
+    {
+        var show = _options?.ShowViewLogButton ?? _options?.IncludeRecentLog == true;
+        if (!show || KryptonLog.Memory == null)
+        {
+            return;
+        }
+
+        _kbtnViewLog = new KryptonButton
+        {
+            AutoSize = true,
+            AutoSizeMode = AutoSizeMode.GrowAndShrink,
+            Margin = new Padding(10)
+        };
+        _kbtnViewLog.Values.Text = KryptonLogViewer.Strings.ViewLog;
+        _kbtnViewLog.Click += (_, _) => KryptonLogViewer.Show(this);
+        tableLayoutPanel2.ColumnCount = 5;
+        tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle());
+        tableLayoutPanel2.Controls.Add(_kbtnViewLog, 4, 0);
+    }
+
     #endregion
 
     #region Show
@@ -234,16 +276,17 @@ internal partial class VisualExceptionDialogForm : KryptonForm
     /// integration is not used.</param>
     /// <param name="gitHubConfigFilePath">An optional file path to a GitHub configuration file used when submitting a bug report. If null, the default
     /// configuration is used.</param>
-    internal static void Show(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSubmitBugReportButton, bool? showSearchBox, Action<Exception>? bugReportCallback = null, bool? showReportBugToGitHubButton = null, SecureString? gitHubSecretKey = null, string? gitHubConfigFilePath = null)
+    /// <param name="options">Optional extras such as recent-log copy and View Log. When null, those features are off.</param>
+    internal static void Show(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSubmitBugReportButton, bool? showSearchBox, Action<Exception>? bugReportCallback = null, bool? showReportBugToGitHubButton = null, SecureString? gitHubSecretKey = null, string? gitHubConfigFilePath = null, KryptonExceptionDialogOptions? options = null)
     {
-        using var ved = new VisualExceptionDialogForm(showCopyButton, showSearchBox, showSubmitBugReportButton, highlightColor, exception, bugReportCallback, showReportBugToGitHubButton, gitHubSecretKey, gitHubConfigFilePath);
+        using var ved = new VisualExceptionDialogForm(showCopyButton, showSearchBox, showSubmitBugReportButton, highlightColor, exception, bugReportCallback, showReportBugToGitHubButton, gitHubSecretKey, gitHubConfigFilePath, options);
 
         ved.ShowDialog();
     }
 
-    internal static async Task ShowAsync(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSubmitBugReportButton, bool? showSearchBox, Action<Exception>? bugReportCallback = null, bool? showReportBugToGitHubButton = null, SecureString? gitHubSecretKey = null, string? gitHubConfigFilePath = null)
+    internal static async Task ShowAsync(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSubmitBugReportButton, bool? showSearchBox, Action<Exception>? bugReportCallback = null, bool? showReportBugToGitHubButton = null, SecureString? gitHubSecretKey = null, string? gitHubConfigFilePath = null, KryptonExceptionDialogOptions? options = null)
     {
-        using var ved = new VisualExceptionDialogForm(showCopyButton, showSearchBox, showSubmitBugReportButton, highlightColor, exception, bugReportCallback, showReportBugToGitHubButton, gitHubSecretKey, gitHubConfigFilePath);
+        using var ved = new VisualExceptionDialogForm(showCopyButton, showSearchBox, showSubmitBugReportButton, highlightColor, exception, bugReportCallback, showReportBugToGitHubButton, gitHubSecretKey, gitHubConfigFilePath, options);
 
         // Await required so using does not dispose the form before the dialog completes.
         await KryptonFormAsync.ShowDialogAsync(ved).ConfigureAwait(false);
