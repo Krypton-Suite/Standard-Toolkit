@@ -65,7 +65,7 @@ public partial class VisualRTLMessageBoxExtendedForm : KryptonForm
 
     private readonly DialogResult _buttonFourDialogResult;
 
-    private readonly Font _messageBoxTypeface;
+    private readonly Font? _messageBoxTypeface;
 
     private readonly ExtendedMessageBoxButtons _buttons;
 
@@ -236,7 +236,7 @@ public partial class VisualRTLMessageBoxExtendedForm : KryptonForm
         _optionalCheckBoxChecked = optionalCheckBoxChecked ?? false;
         _initialDoNotShowAgainCheckState = optionalCheckBoxCheckState ?? CheckState.Unchecked;
         _doNotShowAgainCheckStateResult = _initialDoNotShowAgainCheckState;
-        _checkBoxText = optionalCheckBoxText ?? string.Empty;
+        _checkBoxText = MessageBoxExtendedDoNotShowAgain.ResolveText(_showOptionalCheckBox, optionalCheckBoxText);
         _useOptionalCheckBoxThreeState = useOptionalCheckBoxThreeState ?? false;
         _footerText = footerText;
         _footerExpanded = footerExpanded;
@@ -982,6 +982,15 @@ public partial class VisualRTLMessageBoxExtendedForm : KryptonForm
             buttonsAreaWidth += copyButtonSize.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING * 2;
         }
 
+        buttonsAreaWidth = MessageBoxExtendedDoNotShowAgain.LayoutInButtonBar(
+            kcbOptionalCheckBox,
+            _showOptionalCheckBox,
+            _copyButton,
+            _copyButton.Enabled,
+            GlobalStaticValues.GLOBAL_BUTTON_PADDING,
+            maxButtonSize.Height,
+            buttonsAreaWidth);
+
         // Size the panel for the buttons
         _panelButtons.Size = new Size(buttonsAreaWidth, maxButtonSize.Height + GlobalStaticValues.GLOBAL_BUTTON_PADDING * 2);
 
@@ -1216,6 +1225,7 @@ public partial class VisualRTLMessageBoxExtendedForm : KryptonForm
     #region Checkbox
     private void SetupOptionalCheckBox()
     {
+        kcbOptionalCheckBox.AutoSize = true;
         kcbOptionalCheckBox.Visible = _showOptionalCheckBox;
 
         kcbOptionalCheckBox.ThreeState = _useOptionalCheckBoxThreeState;
@@ -1417,11 +1427,11 @@ public partial class VisualRTLMessageBoxExtendedForm : KryptonForm
             _ => null
         };
 
-        return button != null && button.Visible ? button : null;
+        return button is { Visible: true } ? button : null;
     }
 
     private DialogResult ResolveDefaultTimeoutResult() =>
-        AcceptButton is IButtonControl accept && accept.DialogResult != DialogResult.None
+        AcceptButton is { } accept && accept.DialogResult != DialogResult.None
             ? accept.DialogResult
             : DialogResult.OK;
 
