@@ -149,6 +149,13 @@ Follow the links to see the different objects and layouts that this framework al
 
 There are list of changes that have occurred during the development of the V110.00 version
 
+* Implemented [#3854](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3854), Removed unused duplicate utility types.
+  * Ribbon now uses the public Toolkit `BiDictionary`.
+  * Workspace uses Interop `PI.WM_.CONTEXTMENU` instead of a local `PI` stub.
+  * `Krypton.Toolkit.Utilities` uses Interop nullable polyfills instead of a second `AllowNullAttribute.cs`.
+  * Toast graphics helpers call Toolkit `GraphicsExtensions` for image scaling and imageres extraction.
+  * **[Breaking Change]** Removed unused Toolkit copies of file-system list/tree views, countdown button, and their Values types. Use the `Krypton.Toolkit.Utilities` controls (`KryptonFileSystemListView`, `KryptonFileSystemTreeView`, `KryptonCountdownButton`).
+
 * Implemented [#3177](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3177), **[Breaking Change]** Move `KryptonAboutBox` to `Krypton.Toolkit.Utilities`
   * **Note:**: The `KryptonAboutBox` class has been moved from the `Krypton.Toolkit` namespace to the `Krypton.Toolkit.Utilities` namespace. Please update your using directives accordingly.
   * You can find the `KryptonAboutBox` class in the `Krypton.Toolkit.Utilities` assembly, which is part of the `Krypton.Standard.Toolkit` NuGet package.

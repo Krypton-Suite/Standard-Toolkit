@@ -11,6 +11,10 @@ using ToastImageResources = Krypton.Toolkit.Utilities.Components.Krypton_Toast.R
 
 namespace Krypton.Toolkit.Utilities;
 
+/// <summary>
+/// Toast-specific graphics helpers. Image scaling and imageres extraction delegate to
+/// <see cref="GraphicsExtensions"/>.
+/// </summary>
 public static class GraphicsExtensionUtilities
 {
     public const int DEFAULT_TOAST_ICON_SIZE = 128;
@@ -33,11 +37,11 @@ public static class GraphicsExtensionUtilities
             case KryptonToastIcon.Hand:
                 return ToastImageResources.Toast_Hand_128_x_128;
             case KryptonToastIcon.SystemHand:
-                return ScaleImage(SystemIcons.Hand.ToBitmap(), newSize);
+                return GraphicsExtensions.ScaleImage(SystemIcons.Hand.ToBitmap(), newSize);
             case KryptonToastIcon.Question:
                 return ToastImageResources.Toast_Question_128_x_128;
             case KryptonToastIcon.SystemQuestion:
-                return ScaleImage(SystemIcons.Question.ToBitmap(), newSize);
+                return GraphicsExtensions.ScaleImage(SystemIcons.Question.ToBitmap(), newSize);
             case KryptonToastIcon.Exclamation:
             case KryptonToastIcon.SystemExclamation:
             case KryptonToastIcon.Warning:
@@ -47,14 +51,14 @@ public static class GraphicsExtensionUtilities
             case KryptonToastIcon.Error:
                 return ToastImageResources.Toast_Critical_128_x_128;
             case KryptonToastIcon.SystemAsterisk:
-                return ScaleImage(SystemIcons.Asterisk.ToBitmap(), newSize);
+                return GraphicsExtensions.ScaleImage(SystemIcons.Asterisk.ToBitmap(), newSize);
             case KryptonToastIcon.Stop:
                 return ToastImageResources.Toast_Stop_128_x_128;
             case KryptonToastIcon.Information:
                 return ToastImageResources.Toast_Information_128_x_128;
             case KryptonToastIcon.Shield:
                 {
-                    var messageBoxShieldIcon = ExtractIconFromImageresInternal(ImageresIconID.Shield, IconSize.Huge);
+                    var messageBoxShieldIcon = GraphicsExtensions.ExtractIconFromImageres((int)ImageresIconID.Shield, IconSize.Huge);
                     return messageBoxShieldIcon?.ToBitmap();
                 }
             case KryptonToastIcon.WindowsLogo:
@@ -68,18 +72,18 @@ public static class GraphicsExtensionUtilities
                 }
                 else
                 {
-                    return ScaleImage(SystemIcons.WinLogo.ToBitmap(), newSize);
+                    return GraphicsExtensions.ScaleImage(SystemIcons.WinLogo.ToBitmap(), newSize);
                 }
             case KryptonToastIcon.Application:
                 return customImage != null
-                    ? ScaleImage(customImage, newSize)
-                    : ScaleImage(SystemIcons.Application.ToBitmap(), newSize);
+                    ? GraphicsExtensions.ScaleImage(customImage, newSize)
+                    : GraphicsExtensions.ScaleImage(SystemIcons.Application.ToBitmap(), newSize);
             case KryptonToastIcon.SystemApplication:
-                return ScaleImage(SystemIcons.Application.ToBitmap(), newSize);
+                return GraphicsExtensions.ScaleImage(SystemIcons.Application.ToBitmap(), newSize);
             case KryptonToastIcon.Ok:
                 return ToastImageResources.Toast_Ok_128_x_128;
             case KryptonToastIcon.Custom:
-                return customImage != null ? ScaleImage(customImage, newSize) : null;
+                return customImage != null ? GraphicsExtensions.ScaleImage(customImage, newSize) : null;
             default:
                 DebugTools.NotImplemented(notificationIconType.ToString());
                 return ThrowHelper.ThrowArgumentOutOfRangeException<Image?>(nameof(notificationIconType), notificationIconType, null);
@@ -142,139 +146,11 @@ public static class GraphicsExtensionUtilities
         return new Size(resolvedWidth, resolvedHeight);
     }
 
-    /// <summary>Resize the image to the specified width and height. Copied from: https://stackoverflow.com/questions/1922040/how-to-resize-an-image-c-sharp</summary>
-    /// <param name="sourceImage">The image to resize.</param>
-    /// <param name="imageSize">The size that you want to resize the image to.</param>
-    /// <returns>The resized image.</returns>
-    internal static Bitmap? ScaleImage(Image? sourceImage, Size? imageSize)
-    {
-        try
-        {
-            Size tmpSize = imageSize ?? new Size(16, 16);
-
-            var destImage = new Bitmap(tmpSize.Width, tmpSize.Height);
-
-            if (sourceImage != null)
-            {
-                destImage.SetResolution(sourceImage.HorizontalResolution, sourceImage.VerticalResolution);
-
-                using var graphics = Graphics.FromImage(destImage);
-                graphics.CompositingMode = CompositingMode.SourceCopy;
-                graphics.CompositingQuality = CompositingQuality.HighQuality;
-                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-
-                using var wrapMode = new ImageAttributes();
-                wrapMode.SetWrapMode(WrapMode.TileFlipXY);
-
-                var destRect = new Rectangle(0, 0, tmpSize.Width, tmpSize.Height);
-                graphics.DrawImage(sourceImage, destRect, 0, 0, sourceImage.Width, sourceImage.Height,
-                    GraphicsUnit.Pixel, wrapMode);
-            }
-
-            return destImage;
-        }
-        catch (Exception e)
-        {
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
-
-            return null;
-        }
-    }
-
     /// <summary>Extracts an icon from imageres.dll using the specified icon ID and size.</summary>
     /// <param name="iconId">The icon ID from ImageresIconID enum.</param>
     /// <param name="iconSize">The size of the icon to extract. Defaults to Medium (32x32).</param>
     /// <param name="selectionStrategy">The strategy for selecting fallback icons. Defaults to OS-based selection.</param>
     /// <returns>The extracted icon, or null if extraction fails.</returns>
-    public static Icon? ExtractIconFromImageres(int iconId, IconSize iconSize = IconSize.Medium, IconSelectionStrategy selectionStrategy = IconSelectionStrategy.OSBased) => ExtractIconFromImageresInternal((ImageresIconID)iconId, iconSize, selectionStrategy);
-
-    /// <summary>Extracts an icon from imageres.dll using the specified icon ID and size.</summary>
-    /// <param name="iconId">The icon ID from ImageresIconID enum.</param>
-    /// <param name="iconSize">The size of the icon to extract. Defaults to Medium (32x32).</param>
-    /// <param name="selectionStrategy">The strategy for selecting fallback icons. Defaults to OS-based selection.</param>
-    /// <returns>The extracted icon, or null if extraction fails.</returns>
-    internal static Icon? ExtractIconFromImageresInternal(ImageresIconID iconId, IconSize iconSize = IconSize.Medium, IconSelectionStrategy selectionStrategy = IconSelectionStrategy.OSBased)
-    {
-        var size = GetSizeFromIconSize(iconSize);
-        var isLargeIcon = size.Width > 32; // Use large icon extraction for sizes larger than 32x32
-
-        // Try to extract from imageres.dll first
-        var icon = Krypton.Toolkit.GraphicsExtensions.ExtractIcon(Libraries.Imageres, (int)iconId, isLargeIcon);
-        if (icon != null)
-        {
-            return icon;
-        }
-
-        // Fallback to embedded resources for specific icons
-        return GetFallbackIconFromResources(iconId, size, selectionStrategy);
-    }
-
-    /// <summary>Gets the pixel size corresponding to an IconSize enum value.</summary>
-    /// <param name="iconSize">The IconSize enum value.</param>
-    /// <returns>The corresponding pixel size.</returns>
-    private static Size GetSizeFromIconSize(IconSize iconSize) => new((int)iconSize, (int)iconSize);
-
-    /// <summary>Gets a fallback icon from embedded resources when imageres.dll is not available.</summary>
-    /// <param name="iconId">The icon ID that was requested.</param>
-    /// <param name="targetSize">The target size for the icon.</param>
-    /// <param name="selectionStrategy">The strategy for selecting fallback icons.</param>
-    /// <returns>The fallback icon, or null if no suitable fallback is available.</returns>
-    private static Icon? GetFallbackIconFromResources(ImageresIconID iconId, Size targetSize, IconSelectionStrategy selectionStrategy)
-    {
-        try
-        {
-            // Only provide fallbacks for specific icons that we have embedded resources for
-            return iconId switch
-            {
-                ImageresIconID.Shield or ImageresIconID.ShieldAlt => GetUACShieldFallbackIcon(targetSize,
-                    selectionStrategy),
-                _ => null
-            };
-        }
-        catch (Exception)
-        {
-            // If fallback fails, return null
-            return null;
-        }
-    }
-
-    /// <summary>Gets a UAC shield icon from embedded resources based on the current OS or theme.</summary>
-    /// <param name="targetSize">The target size for the icon.</param>
-    /// <param name="selectionStrategy">The strategy for selecting the icon.</param>
-    /// <returns>The UAC shield icon, or null if extraction fails.</returns>
-    private static Icon? GetUACShieldFallbackIcon(Size targetSize, IconSelectionStrategy selectionStrategy)
-    {
-        try
-        {
-            Image? shieldImage;
-
-            if (selectionStrategy == IconSelectionStrategy.ThemeBased)
-            {
-                // Use theme-based selection
-                shieldImage = Krypton.Toolkit.GraphicsExtensions.GetThemeBasedShieldImage(targetSize);
-            }
-            else
-            {
-                // Use OS-based selection (default behavior)
-                shieldImage = Krypton.Toolkit.GraphicsExtensions.GetOSBasedShieldImage(targetSize);
-            }
-
-            if (shieldImage != null)
-            {
-                // Convert to icon
-                using var bitmap = new Bitmap(shieldImage);
-                var iconHandle = bitmap.GetHicon();
-                return Icon.FromHandle(iconHandle);
-            }
-
-            return null;
-        }
-        catch (Exception)
-        {
-            return null;
-        }
-    }
-
+    public static Icon? ExtractIconFromImageres(int iconId, IconSize iconSize = IconSize.Medium, IconSelectionStrategy selectionStrategy = IconSelectionStrategy.OSBased) =>
+        GraphicsExtensions.ExtractIconFromImageres(iconId, iconSize, selectionStrategy);
 }

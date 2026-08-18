@@ -45,6 +45,12 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#3854](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3854), Removed unused duplicate utility types
+  * Ribbon now uses the public Toolkit `BiDictionary`.
+  * Workspace uses Interop `PI.WM_.CONTEXTMENU` instead of a local `PI` stub.
+  * `Krypton.Toolkit.Utilities` uses Interop nullable polyfills instead of a second `AllowNullAttribute.cs`.
+  * Toast graphics helpers call Toolkit `GraphicsExtensions` for image scaling and imageres extraction.
+  * **[Breaking Change]** Removed unused Toolkit copies of file-system list/tree views, countdown button, and their Values types. Use the `Krypton.Toolkit.Utilities` controls (`KryptonFileSystemListView`, `KryptonFileSystemTreeView`, `KryptonCountdownButton`).
 * Implemented [#3176](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3176), A Krypton `msinfo32` drop-in
    * Krypton System Information (`msinfo32`-style) dialog for About Box and standalone use.
 * Implemented [#4223](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4223), A native logging system
