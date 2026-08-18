@@ -83,7 +83,7 @@ internal sealed class MessageBoxExtendedLifetimeOptions
         int timeOutSeconds,
         int timeOutInterval,
         DialogResult timeOutResult,
-        string caption) =>
+        string? caption) =>
         new MessageBoxExtendedLifetimeOptions
         {
             UseFade = false,
@@ -123,7 +123,7 @@ internal sealed class MessageBoxExtendedLifetimeController : IDisposable
     private Timer? _fadeTimer;
     private Timer? _timeOutTimer;
     private FormFadeDirection _fadeDirection;
-    private float _fadeSpeed;
+    private readonly float _fadeSpeed;
     private int _remainingSeconds;
     private bool _isFadingOut;
     private bool _fadeOutComplete;

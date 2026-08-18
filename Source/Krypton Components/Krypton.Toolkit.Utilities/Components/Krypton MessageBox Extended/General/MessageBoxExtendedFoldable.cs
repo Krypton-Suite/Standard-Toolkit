@@ -93,7 +93,7 @@ internal static class MessageBoxExtendedFoldable
     /// <param name="specified">Caller-supplied height, or <see langword="null"/>.</param>
     /// <returns>A positive height in pixels.</returns>
     internal static int ResolveRichTextBoxHeight(int? specified) =>
-        specified.HasValue && specified.Value > 0
+        specified is > 0
             ? specified.Value
             : DefaultDetailsRegionHeight;
 
