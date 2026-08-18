@@ -41,7 +41,9 @@
             this.kbtnRtlTimeout = new Krypton.Toolkit.KryptonButton();
             this.kbtnShowOverload = new Krypton.Toolkit.KryptonButton();
             this.kbtnShowAsync = new Krypton.Toolkit.KryptonButton();
+            this.kbtnResetDoNotShowAgain = new Krypton.Toolkit.KryptonButton();
             this.kchkRtl = new Krypton.Toolkit.KryptonCheckBox();
+            this.kchkDoNotShowAgain = new Krypton.Toolkit.KryptonCheckBox();
             this.kcmbButtons = new Krypton.Toolkit.KryptonComboBox();
             this.klblButtons = new Krypton.Toolkit.KryptonLabel();
             this.kcmbTimeOutResult = new Krypton.Toolkit.KryptonComboBox();
@@ -78,6 +80,7 @@
             // 
             this.kpnlMain.Controls.Add(this.klblResult);
             this.kpnlMain.Controls.Add(this.flpPresets);
+            this.kpnlMain.Controls.Add(this.kchkDoNotShowAgain);
             this.kpnlMain.Controls.Add(this.kchkRtl);
             this.kpnlMain.Controls.Add(this.kcmbButtons);
             this.kpnlMain.Controls.Add(this.klblButtons);
@@ -116,7 +119,7 @@
             this.klblInstructions.Location = new System.Drawing.Point(12, 12);
             this.klblInstructions.Name = "klblInstructions";
             this.klblInstructions.Size = new System.Drawing.Size(700, 52);
-            this.klblInstructions.Text = "Issue #4188: configure fade, caption timeout, optional countdown on a button, and auto-close, then Show. Presets cover fade-only, display-only countdown, auto-close with a DialogResult, auto-close via button two, countdown on OK, fade+timeout, RTL, the existing Show() timeout overload, and ShowAsync(data).";
+            this.klblInstructions.Text = "Issue #4188: configure fade, caption timeout, optional countdown on a button, auto-close, and optional 'Do not show again'. Presets cover fade-only, display-only countdown, auto-close with a DialogResult, auto-close via button two, countdown on OK, fade+timeout, RTL, the existing Show() timeout overload, and ShowAsync(data).";
             // 
             // klblCaption
             // 
@@ -316,6 +319,14 @@
             this.kchkRtl.TabIndex = 19;
             this.kchkRtl.Values.Text = "RTL (MessageBoxOptions)";
             // 
+            // kchkDoNotShowAgain
+            // 
+            this.kchkDoNotShowAgain.Location = new System.Drawing.Point(540, 316);
+            this.kchkDoNotShowAgain.Name = "kchkDoNotShowAgain";
+            this.kchkDoNotShowAgain.Size = new System.Drawing.Size(172, 20);
+            this.kchkDoNotShowAgain.TabIndex = 20;
+            this.kchkDoNotShowAgain.Values.Text = "Do not show again";
+            // 
             // flpPresets
             // 
             this.flpPresets.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
@@ -330,6 +341,7 @@
             this.flpPresets.Controls.Add(this.kbtnRtlTimeout);
             this.flpPresets.Controls.Add(this.kbtnShowOverload);
             this.flpPresets.Controls.Add(this.kbtnShowAsync);
+            this.flpPresets.Controls.Add(this.kbtnResetDoNotShowAgain);
             this.flpPresets.Location = new System.Drawing.Point(12, 352);
             this.flpPresets.Name = "flpPresets";
             this.flpPresets.Size = new System.Drawing.Size(700, 220);
@@ -435,6 +447,16 @@
             this.kbtnShowAsync.Values.Text = "ShowAsync(data)";
             this.kbtnShowAsync.Click += new System.EventHandler(this.kbtnShowAsync_Click);
             // 
+            // kbtnResetDoNotShowAgain
+            // 
+            this.kbtnResetDoNotShowAgain.Location = new System.Drawing.Point(375, 79);
+            this.kbtnResetDoNotShowAgain.Name = "kbtnResetDoNotShowAgain";
+            this.kbtnResetDoNotShowAgain.Size = new System.Drawing.Size(180, 32);
+            this.kbtnResetDoNotShowAgain.TabIndex = 9;
+            this.kbtnResetDoNotShowAgain.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnResetDoNotShowAgain.Values.Text = "Reset Do not show again";
+            this.kbtnResetDoNotShowAgain.Click += new System.EventHandler(this.kbtnResetDoNotShowAgain_Click);
+            // 
             // klblResult
             // 
             this.klblResult.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
@@ -495,6 +517,7 @@
         private Krypton.Toolkit.KryptonLabel klblButtons;
         private Krypton.Toolkit.KryptonComboBox kcmbButtons;
         private Krypton.Toolkit.KryptonCheckBox kchkRtl;
+        private Krypton.Toolkit.KryptonCheckBox kchkDoNotShowAgain;
         private System.Windows.Forms.FlowLayoutPanel flpPresets;
         private Krypton.Toolkit.KryptonButton kbtnShow;
         private Krypton.Toolkit.KryptonButton kbtnFadeOnly;
@@ -506,6 +529,7 @@
         private Krypton.Toolkit.KryptonButton kbtnRtlTimeout;
         private Krypton.Toolkit.KryptonButton kbtnShowOverload;
         private Krypton.Toolkit.KryptonButton kbtnShowAsync;
+        private Krypton.Toolkit.KryptonButton kbtnResetDoNotShowAgain;
         private Krypton.Toolkit.KryptonLabel klblResult;
     }
 }

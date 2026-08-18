@@ -11,10 +11,6 @@ namespace Krypton.Toolkit.Utilities;
 
 public class HelpInfo
 {
-    #region Instance Fields
-
-    #endregion
-
     #region Identity
 
     /// <summary>
