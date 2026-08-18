@@ -23,6 +23,7 @@ public partial class ThemeControlExamples : KryptonForm
             ShowImportButton = true,
             ShowSilentOption = true,
             DefaultPalette = ToolkitStaticConstants.GLOBAL_DEFAULT_PALETTE_MODE,
+            ShowExtraThemes = true,
             StartPosition = FormStartPosition.CenterScreen,
             WindowTitle = KryptonManager.Strings.MiscellaneousThemeStrings.ThemeBrowserWindowTitle
         };

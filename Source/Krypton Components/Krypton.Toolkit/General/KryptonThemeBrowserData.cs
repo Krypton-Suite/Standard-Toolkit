@@ -50,6 +50,12 @@ public struct KryptonThemeBrowserData
     /// <value>The use RTL layout in an <see cref="KryptonThemeBrowser"/>.</value>
     public KryptonUseRTLLayout UseRtlLayout { get; set; }
 
+    /// <summary>
+    /// Gets or sets whether extra (non-core) catalogued palettes appear in the browser list.
+    /// </summary>
+    /// <value><see langword="null"/> or <see langword="true"/> lists extras when they are discovered.</value>
+    public bool? ShowExtraThemes { get; set; }
+
     #endregion
 
     #region Identity

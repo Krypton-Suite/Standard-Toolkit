@@ -424,31 +424,18 @@ public static class GraphicsExtensions
     {
         var currentTheme = KryptonManager.CurrentGlobalPaletteMode;
 
-        // Map themes to appropriate Windows versions
-        if (IsVistaCompatibleTheme(currentTheme))
+        switch (KryptonThemeChrome.GetShieldIconStyle(currentTheme))
         {
-            return GetWindowsVistaShieldImage(targetSize);
-        }
-        else if (IsWindows7CompatibleTheme(currentTheme))
-        {
-            return GetWindows7And8xShieldImage(targetSize);
-        }
-        else if (IsWindows10CompatibleTheme(currentTheme))
-        {
-            // Prefer Windows 11 icons for modern themes, fallback to Windows 10
-            if (OSUtilities.IsAtLeastWindowsEleven)
-            {
-                return GetWindows11ShieldImage(targetSize);
-            }
-            else
-            {
-                return GetWindows10ShieldImage(targetSize);
-            }
-        }
-        else
-        {
-            // Default to OS-based selection for unknown themes
-            return GetOSBasedShieldImage(targetSize);
+            case KryptonThemeShieldIconStyle.Vista:
+                return GetWindowsVistaShieldImage(targetSize);
+            case KryptonThemeShieldIconStyle.Windows7:
+                return GetWindows7And8xShieldImage(targetSize);
+            case KryptonThemeShieldIconStyle.Windows10:
+                return OSUtilities.IsAtLeastWindowsEleven
+                    ? GetWindows11ShieldImage(targetSize)
+                    : GetWindows10ShieldImage(targetSize);
+            default:
+                return GetOSBasedShieldImage(targetSize);
         }
     }
 
@@ -474,188 +461,6 @@ public static class GraphicsExtensions
         {
             return GetWindowsVistaShieldImage(targetSize);
         }
-    }
-
-    /// <summary>Determines if a theme is compatible with Windows Vista icon style.</summary>
-    /// <param name="theme">The theme to check.</param>
-    /// <returns>True if the theme should use Windows Vista icons.</returns>
-    private static bool IsVistaCompatibleTheme(PaletteMode theme)
-    {
-        return theme switch
-        {
-            PaletteMode.ProfessionalSystem => true,
-            PaletteMode.ProfessionalOffice2003 => true,
-            PaletteMode.Office2007Blue => true,
-            PaletteMode.Office2007BlueDarkMode => true,
-            PaletteMode.Office2007BlueLightMode => true,
-            PaletteMode.Office2007Silver => true,
-            PaletteMode.Office2007SilverDarkMode => true,
-            PaletteMode.Office2007SilverLightMode => true,
-            PaletteMode.Office2007White => true,
-            PaletteMode.Office2007Black => true,
-            PaletteMode.Office2007BlackDarkMode => true,
-            PaletteMode.Office2007LimeGreen => true,
-            PaletteMode.Office2007LimeGreenDark => true,
-            PaletteMode.Office2007MaterializeBlue => true,
-            PaletteMode.Office2007MaterializeBlueDark => true,
-            PaletteMode.Office2007MaterializeLightBlue => true,
-            PaletteMode.Office2007MaterializeLightBlueDark => true,
-            PaletteMode.Office2007SilverDarkModeAlternate => true,
-            PaletteMode.SparkleBlue => true,
-            PaletteMode.SparkleBlueDarkMode => true,
-            PaletteMode.SparkleBlueLightMode => true,
-            PaletteMode.SparkleOrange => true,
-            PaletteMode.SparkleOrangeDarkMode => true,
-            PaletteMode.SparkleOrangeLightMode => true,
-            PaletteMode.SparklePurple => true,
-            PaletteMode.SparklePurpleDarkMode => true,
-            PaletteMode.SparklePurpleLightMode => true,
-            PaletteMode.SparkleHighContrast => true,
-            PaletteMode.SparkleDeuteranopia => true,
-            PaletteMode.SparkleProtanopia => true,
-            _ => false
-        };
-    }
-
-    /// <summary>Determines if a theme is compatible with Windows 7/8.x icon style.</summary>
-    /// <param name="theme">The theme to check.</param>
-    /// <returns>True if the theme should use Windows 7/8.x icons.</returns>
-    private static bool IsWindows7CompatibleTheme(PaletteMode theme)
-    {
-        return theme switch
-        {
-            PaletteMode.Office2010Blue => true,
-            PaletteMode.Office2010BlueDarkMode => true,
-            PaletteMode.Office2010BlueLightMode => true,
-            PaletteMode.Office2010Silver => true,
-            PaletteMode.Office2010SilverDarkMode => true,
-            PaletteMode.Office2010SilverLightMode => true,
-            PaletteMode.Office2010White => true,
-            PaletteMode.Office2010Black => true,
-            PaletteMode.Office2010BlackDarkMode => true,
-            PaletteMode.Office2010LimeGreen => true,
-            PaletteMode.Office2010LimeGreenDark => true,
-            PaletteMode.Office2010MaterializeBlue => true,
-            PaletteMode.Office2010MaterializeBlueDark => true,
-            PaletteMode.Office2010MaterializeLightBlue => true,
-            PaletteMode.Office2010MaterializeLightBlueDark => true,
-            PaletteMode.Office2010SilverDarkModeAlternate => true,
-            PaletteMode.Office2013White => true,
-            PaletteMode.VisualStudio2010Render2007 => true,
-            PaletteMode.VisualStudio2010Render2010 => true,
-            PaletteMode.VisualStudio2010Render2013 => true,
-            PaletteMode.VisualStudio2010Render365 => true,
-            PaletteMode.VisualStudio2012Dark => true,
-            PaletteMode.VisualStudio2012Light => true,
-            PaletteMode.VisualStudio2012Blue => true,
-            PaletteMode.VisualStudio2013Dark => true,
-            PaletteMode.VisualStudio2013Light => true,
-            PaletteMode.VisualStudio2013Blue => true,
-            PaletteMode.VisualStudio2015Dark => true,
-            PaletteMode.VisualStudio2015Light => true,
-            PaletteMode.VisualStudio2015Blue => true,
-            PaletteMode.VisualStudio2017Dark => true,
-            PaletteMode.VisualStudio2017Light => true,
-            PaletteMode.VisualStudio2017Blue => true,
-            PaletteMode.VisualStudio2019Dark => true,
-            PaletteMode.VisualStudio2019Light => true,
-            PaletteMode.VisualStudio2019Blue => true,
-            PaletteMode.VisualStudio2022Dark => true,
-            PaletteMode.VisualStudio2022Light => true,
-            PaletteMode.VisualStudio2022Blue => true,
-            PaletteMode.VisualStudio2026Dark => true,
-            PaletteMode.VisualStudio2026Light => true,
-            _ => false
-        };
-    }
-
-    /// <summary>Determines if a theme is compatible with Windows 10/11 icon style.</summary>
-    /// <param name="theme">The theme to check.</param>
-    /// <returns>True if the theme should use Windows 10/11 icons.</returns>
-    private static bool IsWindows10CompatibleTheme(PaletteMode theme)
-    {
-        return theme switch
-        {
-            PaletteMode.Microsoft365Blue => true,
-            PaletteMode.Microsoft365BlueDarkMode => true,
-            PaletteMode.Microsoft365BlueLightMode => true,
-            PaletteMode.Microsoft365Silver => true,
-            PaletteMode.Microsoft365SilverDarkMode => true,
-            PaletteMode.Microsoft365SilverLightMode => true,
-            PaletteMode.Microsoft365White => true,
-            PaletteMode.Microsoft365Black => true,
-            PaletteMode.Microsoft365BlackDarkMode => true,
-            PaletteMode.Microsoft365BlackDarkModeAlternate => true,
-            PaletteMode.Microsoft365LimeGreen => true,
-            PaletteMode.Microsoft365LimeGreenDark => true,
-            PaletteMode.Microsoft365MaterializeBlue => true,
-            PaletteMode.Microsoft365MaterializeBlueDark => true,
-            PaletteMode.Microsoft365MaterializeLightBlue => true,
-            PaletteMode.Microsoft365MaterializeLightBlueDark => true,
-            PaletteMode.Microsoft365SilverDarkModeAlternate => true,
-            PaletteMode.MaterialMaterializeBlue => true,
-            PaletteMode.MaterialMaterializeBlueDark => true,
-            PaletteMode.MaterialMaterializeBlueRipple => true,
-            PaletteMode.MaterialMaterializeBlueDarkRipple => true,
-            PaletteMode.MaterialMaterializeLightBlue => true,
-            PaletteMode.MaterialMaterializeLightBlueDark => true,
-            PaletteMode.MaterialMaterializeLightBlueRipple => true,
-            PaletteMode.MaterialMaterializeLightBlueDarkRipple => true,
-            PaletteMode.MaterialSilverDarkModeAlternate => true,
-            PaletteMode.MaterialSilverDarkModeAlternateRipple => true,
-            PaletteMode.Office2013MaterializeBlue => true,
-            PaletteMode.Office2013MaterializeBlueDark => true,
-            PaletteMode.Office2013MaterializeLightBlue => true,
-            PaletteMode.Office2013MaterializeLightBlueDark => true,
-            PaletteMode.Office2013SilverDarkModeAlternate => true,
-            PaletteMode.Microsoft365DarkGray => true,
-            PaletteMode.Microsoft365LightGray => true,
-            PaletteMode.MaterialLight => true,
-            PaletteMode.MaterialDark => true,
-            PaletteMode.MaterialLightRipple => true,
-            PaletteMode.MaterialDarkRipple => true,
-            PaletteMode.VisualStudio2012Dark => true,
-            PaletteMode.VisualStudio2012Light => true,
-            PaletteMode.VisualStudio2012Blue => true,
-            PaletteMode.VisualStudio2013Dark => true,
-            PaletteMode.VisualStudio2013Light => true,
-            PaletteMode.VisualStudio2013Blue => true,
-            PaletteMode.VisualStudio2015Dark => true,
-            PaletteMode.VisualStudio2015Light => true,
-            PaletteMode.VisualStudio2015Blue => true,
-            PaletteMode.VisualStudio2017Dark => true,
-            PaletteMode.VisualStudio2017Light => true,
-            PaletteMode.VisualStudio2017Blue => true,
-            PaletteMode.VisualStudio2019Dark => true,
-            PaletteMode.VisualStudio2019Light => true,
-            PaletteMode.VisualStudio2019Blue => true,
-            PaletteMode.MaterialLimeGreen => true,
-            PaletteMode.MaterialLimeGreenDark => true,
-            PaletteMode.MaterialLimeGreenRipple => true,
-            PaletteMode.MaterialLimeGreenDarkRipple => true,
-            PaletteMode.MaterialDarkGray => true,
-            PaletteMode.MaterialLightGray => true,
-            PaletteMode.MaterialDarkGrayRipple => true,
-            PaletteMode.MaterialLightGrayRipple => true,
-            PaletteMode.MaterialHighContrast => true,
-            PaletteMode.MaterialDeuteranopia => true,
-            PaletteMode.MaterialProtanopia => true,
-            PaletteMode.MaterialHighContrastRipple => true,
-            PaletteMode.MaterialDeuteranopiaRipple => true,
-            PaletteMode.MaterialProtanopiaRipple => true,
-            PaletteMode.VisualStudio2022Dark => true,
-            PaletteMode.VisualStudio2022Light => true,
-            PaletteMode.VisualStudio2022Blue => true,
-            PaletteMode.VisualStudio2026Dark => true,
-            PaletteMode.VisualStudio2026Light => true,
-            PaletteMode.RetroGreen or PaletteMode.RetroBlue => true,
-            PaletteMode.MacOSXAqua or PaletteMode.MacOSDark or PaletteMode.MacOSLight => true,
-            PaletteMode.HighContrast or PaletteMode.Deuteranopia or PaletteMode.Protanopia => true,
-            PaletteMode.Office2007HighContrast or PaletteMode.Office2007Deuteranopia or PaletteMode.Office2007Protanopia => true,
-            PaletteMode.Office2010HighContrast or PaletteMode.Office2010Deuteranopia or PaletteMode.Office2010Protanopia => true,
-            PaletteMode.Office2013HighContrast or PaletteMode.Office2013Deuteranopia or PaletteMode.Office2013Protanopia => true,
-            _ => false
-        };
     }
 
     /// <summary>Gets a Windows Vista UAC shield image at the specified size.</summary>

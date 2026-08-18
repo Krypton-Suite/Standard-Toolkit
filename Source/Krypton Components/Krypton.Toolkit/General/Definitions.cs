@@ -4922,3 +4922,69 @@ public enum MonthCalendarView
 }
 
 #endregion
+
+#region Enum KryptonThemeChromeKind
+
+/// <summary>
+/// Renderer / chrome era for a catalogued palette. Colour family
+/// (<see cref="KryptonThemeFamilies"/>) can differ; toolbar images follow this kind.
+/// </summary>
+public enum KryptonThemeChromeKind
+{
+    /// <summary>Professional System chrome.</summary>
+    ProfessionalSystem,
+
+    /// <summary>Professional Office 2003 chrome.</summary>
+    ProfessionalOffice2003,
+
+    /// <summary>Office 2007 renderer chrome.</summary>
+    Office2007,
+
+    /// <summary>Office 2010 renderer chrome.</summary>
+    Office2010,
+
+    /// <summary>Office 2013 renderer chrome.</summary>
+    Office2013,
+
+    /// <summary>Microsoft 365 renderer chrome.</summary>
+    Microsoft365,
+
+    /// <summary>Sparkle renderer chrome.</summary>
+    Sparkle,
+
+    /// <summary>Material renderer chrome.</summary>
+    Material,
+
+    /// <summary>Visual Studio year-theme chrome (2012 and later).</summary>
+    VisualStudio,
+
+    /// <summary>macOS / Mac OS X Aqua chrome.</summary>
+    MacOS,
+
+    /// <summary>RetroUI chrome.</summary>
+    Retro
+}
+
+#endregion
+
+#region Enum KryptonThemeShieldIconStyle
+
+/// <summary>
+/// UAC / shield icon era used by <see cref="GraphicsExtensions.GetThemeBasedShieldImage"/>.
+/// </summary>
+public enum KryptonThemeShieldIconStyle
+{
+    /// <summary>Windows Vista shield artwork.</summary>
+    Vista,
+
+    /// <summary>Windows 7 / 8.x shield artwork.</summary>
+    Windows7,
+
+    /// <summary>Windows 10 artwork, or Windows 11 when the OS is Windows 11 or later.</summary>
+    Windows10,
+
+    /// <summary>Follow the current operating system instead of the theme.</summary>
+    OperatingSystem
+}
+
+#endregion
