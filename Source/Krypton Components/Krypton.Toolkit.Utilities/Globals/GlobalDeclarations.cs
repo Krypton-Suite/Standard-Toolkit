@@ -28,6 +28,7 @@ global using System.Drawing.Text;
 global using System.Globalization;
 global using System.IO;
 global using System.Linq;
+global using System.Management;
 #if NET8_0_OR_GREATER
 global using System.Text.Json.Nodes;
 #endif

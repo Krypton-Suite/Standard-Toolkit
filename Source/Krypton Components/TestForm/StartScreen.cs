@@ -60,6 +60,8 @@ public partial class StartScreen : KryptonForm
         CreateButton<ThemeCatalogDemo>("4230 Theme Catalog", "Issue #4230: core vs extra palettes, ShowExtraThemes, extra-only Sparkle, theme browser, and KryptonThemeAvailability export/import.");
         CreateButton<ApplicationStringsTest>("Custom Strings", "Issue #3757: store and localise custom strings via KryptonCustomStrings in Krypton.Toolkit.Utilities.");
         CreateButton<TranslationsXmlDemoForm>("Translations XML (Import/Export)", "Export/import KryptonManager toolkit strings via Translations.xml (designer/runtime validation).");
+        CreateButton<AboutBoxTest>("AboutBox", "Try this About Box for a change. System Information now opens the Krypton msinfo32-style viewer (#3176).");
+        CreateButton<KryptonSystemInformationDemo>("System Information (#3176)", "Krypton msinfo32 drop-in in Krypton.Toolkit.Utilities: category tree, lazy WMI, Find/Copy/Save/Refresh, optional native MSInfo32, RTL, modal vs modeless.");
         CreateButton<AboutBoxTest>("AboutBox (#2222)", "Issue #2222: comprehensive About dialog. Show (this app) uses KryptonAboutBox.Show() from assembly attributes. Show custom exercises images, toolkit page, full build date, RTL, and File Information grids.");
         CreateButton<AccessibilityTest>("Accessibility Test (UIA Providers)", "Comprehensive demo and test for UIA Provider implementation (Issue #762). Tests all 10 controls with accessibility support, organized by category with detailed results.");
         CreateButton<ButtonBadgeTest>("Badge Test", "Comprehensive badge functionality demonstration for KryptonButton and KryptonCheckButton.");
