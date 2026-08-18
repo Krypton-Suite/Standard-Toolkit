@@ -13,7 +13,8 @@ namespace Krypton.Toolkit;
 /// Provides a container for tool strips with Krypton theming support.
 /// </summary>
 [ToolboxItem(true)]
-[ToolboxBitmap(typeof(ToolStripContainer), "ToolboxBitmaps.KryptonToolStripContainer.bmp")]
+[ToolboxBitmap(typeof(KryptonToolStripContainer), "ToolboxBitmaps.KryptonToolstripContainer.bmp")]
+[Category(@"Krypton Toolkit")]
 [DefaultEvent(nameof(ContentPanel))]
 [DefaultProperty(nameof(ContentPanel))]
 [DesignerCategory(@"code")]

@@ -12,7 +12,8 @@
 
 namespace Krypton.Toolkit;
 
-[ToolboxBitmap(typeof(StatusStrip), "ToolboxBitmaps.KryptonStatusStrip.bmp")]
+[ToolboxBitmap(typeof(KryptonStatusStrip), "ToolboxBitmaps.KryptonStatusStrip.bmp")]
+[Category(@"Krypton Toolkit")]
 [Description(@"A Krypton based status strip.")]
 [ToolboxItem(true)]
 public class KryptonStatusStrip : StatusStrip,

@@ -838,11 +838,6 @@ public class KryptonVisualStudio2010With2010Renderer : KryptonProfessionalRender
         {
             case ContextMenuStrip _:
             case ToolStripDropDownMenu _:
-                // Make sure the font is current
-                if (e.ToolStrip.Font != KCT.MenuStripFont)
-                {
-                    e.ToolStrip.Font = KCT.MenuStripFont;
-                }
 
                 // Create border and clipping paths
                 using (GraphicsPath borderPath = CreateBorderPath(e.AffectedBounds, CUT_CONTEXT_MENU),
@@ -865,11 +860,6 @@ public class KryptonVisualStudio2010With2010Renderer : KryptonProfessionalRender
                 {
                     break;
                 }
-                // Make sure the font is current
-                if (e.ToolStrip.Font != KCT.StatusStripFont)
-                {
-                    e.ToolStrip.Font = KCT.StatusStripFont;
-                }
 
                 // We do not paint the top two pixel lines, as they are drawn by the status strip border render method
                 var backRect = new RectangleF(0, 1.5f, e.ToolStrip.Width, e.ToolStrip.Height - 2);
@@ -885,19 +875,11 @@ public class KryptonVisualStudio2010With2010Renderer : KryptonProfessionalRender
                 break;
             }
             case MenuStrip _:
-                if (e.ToolStrip.Font != KCT.MenuStripFont)
-                {
-                    e.ToolStrip.Font = KCT.MenuStripFont;
-                }
 
                 base.OnRenderToolStripBackground(e);
                 break;
             default:
             {
-                if (e.ToolStrip.Font != KCT.ToolStripFont)
-                {
-                    e.ToolStrip.Font = KCT.ToolStripFont;
-                }
 
                 // Cannot paint a zero sized area
                 var backRect = new RectangleF(0, 0, e.ToolStrip.Width, e.ToolStrip.Height);
