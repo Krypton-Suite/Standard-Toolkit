@@ -10,6 +10,8 @@
  */
 #endregion
 
+using Krypton.Themes;
+
 namespace TestForm;
 
 public partial class MacOSThemeSmokeTest : KryptonForm

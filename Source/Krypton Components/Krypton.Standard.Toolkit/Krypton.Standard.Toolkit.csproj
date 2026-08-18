@@ -10,6 +10,7 @@
 		- Krypton.Navigator
 		- Krypton.Navigator.Utilities
 		- Krypton.Ribbon
+		- Krypton.Themes
 		- Krypton.Toolkit
 		- Krypton.Toolkit.JumpList
 		- Krypton.Toolkit.Utilities
@@ -55,7 +56,7 @@
 	<!-- NuGet Package Metadata -->
 	<PropertyGroup>
 		<PackageId>Krypton.Standard.Toolkit</PackageId>
-		<Description>Aggregate package containing Krypton.Docking, Krypton.Interop, Krypton.Navigator, Krypton.Navigator.Utilities, Krypton.Ribbon, Krypton.Toolkit, Krypton.Toolkit.Utilities, and Krypton.Workspace with all reference binaries included.</Description>
+		<Description>Aggregate package containing Krypton.Docking, Krypton.Interop, Krypton.Navigator, Krypton.Navigator.Utilities, Krypton.Ribbon, Krypton.Themes, Krypton.Toolkit, Krypton.Toolkit.Utilities, and Krypton.Workspace with all reference binaries included.</Description>
 		<!-- Additional package metadata (version, authors, license, etc.) is defined in Directory.Build.props and Directory.Build.targets -->
 
 		<!--
@@ -110,6 +111,7 @@
 		<ProjectReference Include="..\Krypton.Navigator.Utilities\Krypton.Navigator.Utilities.csproj" />
 		<ProjectReference Include="..\Krypton.Ribbon\Krypton.Ribbon 2022.csproj" />
 		<ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+		<ProjectReference Include="..\Krypton.Themes\Krypton.Themes.csproj" />
 		<ProjectReference Include="..\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj">
 			<PrivateAssets>All</PrivateAssets>
 		</ProjectReference>

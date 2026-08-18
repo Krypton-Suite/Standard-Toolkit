@@ -34,6 +34,23 @@ public static class KryptonBugReportingDialog
     }
 
     /// <summary>
+    /// Displays the bug reporting dialog, optionally attaching a recent application log excerpt.
+    /// </summary>
+    /// <param name="exception">Optional exception to include in the bug report.</param>
+    /// <param name="emailConfig">The email configuration for sending the bug report.</param>
+    /// <param name="includeApplicationLog">When true, attaches a log excerpt from <see cref="KryptonLog"/> if available.</param>
+    public static DialogResult Show(Exception? exception, BugReportEmailConfig emailConfig, bool includeApplicationLog)
+    {
+        if (emailConfig == null)
+        {
+            ThrowHelper.ThrowArgumentNullException(nameof(emailConfig));
+        }
+
+        using var dialog = new VisualBugReportingDialogForm(exception, emailConfig, includeApplicationLog);
+        return dialog.ShowDialog();
+    }
+
+    /// <summary>
     /// Displays the bug reporting dialog to allow the user to report a bug.
     /// </summary>
     /// <param name="emailConfig">The email configuration for sending the bug report.</param>
@@ -54,9 +71,20 @@ public static class KryptonBugReportingDialog
     /// <summary>Displays the bug reporting dialog asynchronously.</summary>
     public static Task<DialogResult> ShowAsync(BugReportEmailConfig emailConfig) => ShowAsync(null, emailConfig);
 
-    private static async Task<DialogResult> ShowCoreAsync(Exception? exception, BugReportEmailConfig emailConfig)
+    /// <summary>Displays the bug reporting dialog asynchronously, optionally attaching a log excerpt.</summary>
+    public static Task<DialogResult> ShowAsync(Exception? exception, BugReportEmailConfig emailConfig, bool includeApplicationLog)
     {
-        using var dialog = new VisualBugReportingDialogForm(exception, emailConfig);
+        if (emailConfig == null)
+        {
+            ThrowHelper.ThrowArgumentNullException(nameof(emailConfig));
+        }
+
+        return ShowCoreAsync(exception, emailConfig, includeApplicationLog);
+    }
+
+    private static async Task<DialogResult> ShowCoreAsync(Exception? exception, BugReportEmailConfig emailConfig, bool includeApplicationLog = false)
+    {
+        using var dialog = new VisualBugReportingDialogForm(exception, emailConfig, includeApplicationLog);
         // Await required so using does not dispose the form before the dialog completes.
         return await KryptonFormAsync.ShowDialogAsync(dialog).ConfigureAwait(false);
     }

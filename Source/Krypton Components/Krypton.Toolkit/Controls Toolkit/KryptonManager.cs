@@ -53,77 +53,46 @@ public sealed class KryptonManager : Component
     // Initialize instances to match the default modes
 
     // Singleton instances are created on demand
+    private const string ExtraPaletteAccessorObsoleteMessage =
+        "Use KryptonManager.GetPaletteForMode(PaletteMode) instead. Extra palette singleton accessors will be removed in version 120 LTS.";
+
     private static PaletteProfessionalOffice2003? _paletteProfessionalOffice2003;
     private static PaletteProfessionalSystem? _paletteProfessionalSystem;
 
     #region Office 2007 Themes
 
-    private static PaletteOffice2007DarkGray? _paletteOffice2007DarkGray;
-    private static PaletteOffice2007LightGray? _paletteOffice2007LightGray;
     private static PaletteOffice2007Blue? _paletteOffice2007Blue;
-    private static PaletteOffice2007BlueDarkMode? _paletteOffice2007BlueDarkMode;
-    private static PaletteOffice2007BlueLightMode? _paletteOffice2007BlueLightMode;
     private static PaletteOffice2007Silver? _paletteOffice2007Silver;
-    private static PaletteOffice2007SilverDarkMode? _paletteOffice2007SilverDarkMode;
-    private static PaletteOffice2007SilverLightMode? _paletteOffice2007SilverLightMode;
-    private static PaletteOffice2007White? _paletteOffice2007White;
     private static PaletteOffice2007Black? _paletteOffice2007Black;
-    private static PaletteOffice2007BlackDarkMode? _paletteOffice2007BlackDarkMode;
 
     #endregion
 
     #region Office 2010 Themes
 
-    private static PaletteOffice2010DarkGray? _paletteOffice2010DarkGray;
-    private static PaletteOffice2010LightGray? _paletteOffice2010LightGray;
     private static PaletteOffice2010Blue? _paletteOffice2010Blue;
-    private static PaletteOffice2010BlueDarkMode? _paletteOffice2010BlueDarkMode;
-    private static PaletteOffice2010BlueLightMode? _paletteOffice2010BlueLightMode;
-    private static PaletteOffice2010White? _paletteOffice2010White;
     private static PaletteOffice2010Black? _paletteOffice2010Black;
-    private static PaletteOffice2010BlackDarkMode? _paletteOffice2010BlackDarkMode;
     private static PaletteOffice2010Silver? _paletteOffice2010Silver;
-    private static PaletteOffice2010SilverDarkMode? _paletteOffice2010SilverDarkMode;
-    private static PaletteOffice2010SilverLightMode? _paletteOffice2010SilverLightMode;
 
     #endregion
 
     #region Office 2013 Themes
 
-    private static PaletteOffice2013DarkGray? _paletteOffice2013DarkGray;
-    private static PaletteOffice2013LightGray? _paletteOffice2013LightGray;
-    private static PaletteOffice2013White? _paletteOffice2013White;
 
     #endregion
 
     #region Sparkle Themes
 
     private static PaletteSparkleBlue? _paletteSparkleBlue;
-    private static PaletteSparkleBlueDarkMode? _paletteSparkleBlueDarkMode;
-    private static PaletteSparkleBlueLightMode? _paletteSparkleBlueLightMode;
     private static PaletteSparkleOrange? _paletteSparkleOrange;
-    private static PaletteSparkleOrangeDarkMode? _paletteSparkleOrangeDarkMode;
-    private static PaletteSparkleOrangeLightMode? _paletteSparkleOrangeLightMode;
     private static PaletteSparklePurple? _paletteSparklePurple;
-    private static PaletteSparklePurpleDarkMode? _paletteSparklePurpleDarkMode;
-    private static PaletteSparklePurpleLightMode? _paletteSparklePurpleLightMode;
 
     #endregion
 
     #region Microsoft 365 Themes
 
-    private static PaletteMicrosoft365DarkGray? _paletteMicrosoft365DarkGray;
-    private static PaletteMicrosoft365LightGray? _paletteMicrosoft365LightGray;
     private static PaletteMicrosoft365Black? _paletteMicrosoft365Black;
-    private static PaletteMicrosoft365BlackDarkMode? _paletteMicrosoft365BlackDarkMode;
-    private static PaletteMicrosoft365BlackDarkModeAlternate? _paletteMicrosoft365BlackDarkModeAlternate;
     private static PaletteMicrosoft365Blue? _paletteMicrosoft365Blue;
-    private static PaletteMicrosoft365BlueDarkMode? _paletteMicrosoft365BlueDarkMode;
-    private static PaletteMicrosoft365BlueLightMode? _paletteMicrosoft365BlueLightMode;
     private static PaletteMicrosoft365Silver? _paletteMicrosoft365Silver;
-    private static PaletteMicrosoft365SilverDarkMode? _paletteMicrosoft365SilverDarkMode;
-    private static PaletteMicrosoft365SilverLightMode? _paletteMicrosoft365SilverLightMode;
-    private static PaletteMicrosoft365White? _paletteMicrosoft365White;
 
     #endregion
 
@@ -131,35 +100,11 @@ public sealed class KryptonManager : Component
 
     #region Visual Studio 2010 Variations
 
-    private static PaletteVisualStudio2010Office2007Variation? _paletteVisualStudio2010Office2007Variation;
-    private static PaletteVisualStudio2010Office2010Variation? _paletteVisualStudio2010Office2010Variation;
-    private static PaletteVisualStudio2010Office2013Variation? _paletteVisualStudio2010Office2013Variation;
-    private static PaletteVisualStudio2010Microsoft365Variation? _paletteVisualStudio2010Microsoft365Variation;
 
     #endregion
 
     #region Visual Studio 2012–2022
 
-    private static PaletteVisualStudio2012Dark? _paletteVisualStudio2012Dark;
-    private static PaletteVisualStudio2012Light? _paletteVisualStudio2012Light;
-    private static PaletteVisualStudio2012Blue? _paletteVisualStudio2012Blue;
-    private static PaletteVisualStudio2013Dark? _paletteVisualStudio2013Dark;
-    private static PaletteVisualStudio2013Light? _paletteVisualStudio2013Light;
-    private static PaletteVisualStudio2013Blue? _paletteVisualStudio2013Blue;
-    private static PaletteVisualStudio2015Dark? _paletteVisualStudio2015Dark;
-    private static PaletteVisualStudio2015Light? _paletteVisualStudio2015Light;
-    private static PaletteVisualStudio2015Blue? _paletteVisualStudio2015Blue;
-    private static PaletteVisualStudio2017Dark? _paletteVisualStudio2017Dark;
-    private static PaletteVisualStudio2017Light? _paletteVisualStudio2017Light;
-    private static PaletteVisualStudio2017Blue? _paletteVisualStudio2017Blue;
-    private static PaletteVisualStudio2019Dark? _paletteVisualStudio2019Dark;
-    private static PaletteVisualStudio2019Light? _paletteVisualStudio2019Light;
-    private static PaletteVisualStudio2019Blue? _paletteVisualStudio2019Blue;
-    private static PaletteVisualStudio2022Dark? _paletteVisualStudio2022Dark;
-    private static PaletteVisualStudio2022Light? _paletteVisualStudio2022Light;
-    private static PaletteVisualStudio2022Blue? _paletteVisualStudio2022Blue;
-    private static PaletteVisualStudio2026Dark? _paletteVisualStudio2026Dark;
-    private static PaletteVisualStudio2026Light? _paletteVisualStudio2026Light;
 
     #endregion
 
@@ -252,6 +197,7 @@ public sealed class KryptonManager : Component
 
         // Probe the application base directory for a Translations file and load it if found.
         RunAutoDiscovery();
+        KryptonThemeCatalog.DiscoverThemes();
     }
 
     /// <summary>
@@ -630,6 +576,16 @@ public sealed class KryptonManager : Component
     /// <c>Translations.xml</c>, then the same sequence for <c>.json</c>).
     /// </remarks>
     public static bool AutoDiscoverTranslations { get; set; } = true;
+
+    /// <summary>
+    /// When <see langword="true"/>, the manager loads <c>Krypton.Themes.dll</c> from the application directory
+    /// (and already-loaded assemblies) and registers extra builtin palettes. Defaults to <see langword="true"/>.
+    /// </summary>
+    /// <remarks>
+    /// Set to <see langword="false"/> before the first palette lookup to keep only core themes
+    /// (Professional, Sparkle Blue/Orange/Purple, plus Office 2007/2010/Microsoft 365 Blue, Silver, and Black).
+    /// </remarks>
+    public static bool AutoDiscoverThemes { get; set; } = true;
 
     /// <summary>
     /// Occurs after toolkit translations have been successfully imported via any of the load/import methods.
@@ -1475,314 +1431,16 @@ public sealed class KryptonManager : Component
     /// Gets the implementation for the requested palette mode.
     /// </summary>
     /// <param name="mode">Requested palette mode.</param>
-    /// <returns>PaletteBase reference is available; otherwise null exception.</returns>
+    /// <returns>Palette implementation. Extra modes without <c>Krypton.Themes</c> fall back to Microsoft 365 Blue.</returns>
     public static PaletteBase GetPaletteForMode(PaletteMode mode)
     {
         switch (mode)
         {
-            case PaletteMode.ProfessionalSystem:
-                return PaletteProfessionalSystem;
-            case PaletteMode.ProfessionalOffice2003:
-                return PaletteProfessionalOffice2003;
-            case PaletteMode.Office2007Blue:
-                return PaletteOffice2007Blue;
-            case PaletteMode.Office2007BlueDarkMode:
-                return PaletteOffice2007BlueDarkMode;
-            case PaletteMode.Office2007BlueLightMode:
-                return PaletteOffice2007BlueLightMode;
-            case PaletteMode.Office2007Silver:
-                return PaletteOffice2007Silver;
-            case PaletteMode.Office2007SilverDarkMode:
-                return PaletteOffice2007SilverDarkMode;
-            case PaletteMode.Office2007SilverLightMode:
-                return PaletteOffice2007SilverLightMode;
-            case PaletteMode.Office2007White:
-                return PaletteOffice2007White;
-            case PaletteMode.Office2007Black:
-                return PaletteOffice2007Black;
-            case PaletteMode.Office2007BlackDarkMode:
-                return PaletteOffice2007BlackDarkMode;
-            case PaletteMode.Office2010Blue:
-                return PaletteOffice2010Blue;
-            case PaletteMode.Office2010BlueDarkMode:
-                return PaletteOffice2010BlueDarkMode;
-            case PaletteMode.Office2010BlueLightMode:
-                return PaletteOffice2010BlueLightMode;
-            case PaletteMode.Office2010Silver:
-                return PaletteOffice2010Silver;
-            case PaletteMode.Office2010SilverDarkMode:
-                return PaletteOffice2010SilverDarkMode;
-            case PaletteMode.Office2010SilverLightMode:
-                return PaletteOffice2010SilverLightMode;
-            case PaletteMode.Office2010White:
-                return PaletteOffice2010White;
-            case PaletteMode.Office2010Black:
-                return PaletteOffice2010Black;
-            case PaletteMode.Office2010BlackDarkMode:
-                return PaletteOffice2010BlackDarkMode;
-            case PaletteMode.Office2013DarkGray:
-                return PaletteOffice2013DarkGray;
-            case PaletteMode.Office2013LightGray:
-                return PaletteOffice2013LightGray;
-            case PaletteMode.Office2013White:
-                return PaletteOffice2013White;
-            case PaletteMode.SparkleBlue:
-                return PaletteSparkleBlue;
-            case PaletteMode.SparkleBlueDarkMode:
-                return PaletteSparkleBlueDarkMode;
-            case PaletteMode.SparkleBlueLightMode:
-                return PaletteSparkleBlueLightMode;
-            case PaletteMode.SparkleOrange:
-                return PaletteSparkleOrange;
-            case PaletteMode.SparkleOrangeDarkMode:
-                return PaletteSparkleOrangeDarkMode;
-            case PaletteMode.SparkleOrangeLightMode:
-                return PaletteSparkleOrangeLightMode;
-            case PaletteMode.SparklePurple:
-                return PaletteSparklePurple;
-            case PaletteMode.SparklePurpleDarkMode:
-                return PaletteSparklePurpleDarkMode;
-            case PaletteMode.SparklePurpleLightMode:
-                return PaletteSparklePurpleLightMode;
-            case PaletteMode.Microsoft365Black:
-                return PaletteMicrosoft365Black;
-            case PaletteMode.Microsoft365BlackDarkMode:
-                return PaletteMicrosoft365BlackDarkMode;
-            case PaletteMode.Microsoft365BlackDarkModeAlternate:
-                return PaletteMicrosoft365BlackDarkModeAlternate;
-            case PaletteMode.Microsoft365BlueDarkMode:
-                return PaletteMicrosoft365BlueDarkMode;
-            case PaletteMode.Microsoft365BlueLightMode:
-                return PaletteMicrosoft365BlueLightMode;
-            case PaletteMode.Microsoft365Blue:
-                return PaletteMicrosoft365Blue;
-            case PaletteMode.Microsoft365Silver:
-                return PaletteMicrosoft365Silver;
-            case PaletteMode.Microsoft365SilverDarkMode:
-                return PaletteMicrosoft365SilverDarkMode;
-            case PaletteMode.Microsoft365SilverLightMode:
-                return PaletteMicrosoft365SilverLightMode;
-            case PaletteMode.Microsoft365White:
-                return PaletteMicrosoft365White;
-            case PaletteMode.VisualStudio2010Render2007:
-                return PaletteVisualStudio2010Office2007Variation;
-            case PaletteMode.VisualStudio2010Render2010:
-                return PaletteVisualStudio2010Office2010Variation;
-            case PaletteMode.VisualStudio2010Render2013:
-                return PaletteVisualStudio2010Office2013Variation;
-            case PaletteMode.VisualStudio2010Render365:
-                return PaletteVisualStudio2010Microsoft365Variation;
-            case PaletteMode.VisualStudio2012Dark:
-                return PaletteVisualStudio2012Dark;
-            case PaletteMode.VisualStudio2012Light:
-                return PaletteVisualStudio2012Light;
-            case PaletteMode.VisualStudio2012Blue:
-                return PaletteVisualStudio2012Blue;
-            case PaletteMode.VisualStudio2013Dark:
-                return PaletteVisualStudio2013Dark;
-            case PaletteMode.VisualStudio2013Light:
-                return PaletteVisualStudio2013Light;
-            case PaletteMode.VisualStudio2013Blue:
-                return PaletteVisualStudio2013Blue;
-            case PaletteMode.VisualStudio2015Dark:
-                return PaletteVisualStudio2015Dark;
-            case PaletteMode.VisualStudio2015Light:
-                return PaletteVisualStudio2015Light;
-            case PaletteMode.VisualStudio2015Blue:
-                return PaletteVisualStudio2015Blue;
-            case PaletteMode.VisualStudio2017Dark:
-                return PaletteVisualStudio2017Dark;
-            case PaletteMode.VisualStudio2017Light:
-                return PaletteVisualStudio2017Light;
-            case PaletteMode.VisualStudio2017Blue:
-                return PaletteVisualStudio2017Blue;
-            case PaletteMode.VisualStudio2019Dark:
-                return PaletteVisualStudio2019Dark;
-            case PaletteMode.VisualStudio2019Light:
-                return PaletteVisualStudio2019Light;
-            case PaletteMode.VisualStudio2019Blue:
-                return PaletteVisualStudio2019Blue;
-            case PaletteMode.VisualStudio2022Dark:
-                return PaletteVisualStudio2022Dark;
-            case PaletteMode.VisualStudio2022Light:
-                return PaletteVisualStudio2022Light;
-            case PaletteMode.VisualStudio2022Blue:
-                return PaletteVisualStudio2022Blue;
-            case PaletteMode.VisualStudio2026Dark:
-                return PaletteVisualStudio2026Dark;
-            case PaletteMode.VisualStudio2026Light:
-                return PaletteVisualStudio2026Light;
-
-            case PaletteMode.MaterialLight:
-                return PaletteMaterialLight;
-            case PaletteMode.MaterialDark:
-                return PaletteMaterialDark;
-            case PaletteMode.MaterialLightRipple:
-                return PaletteMaterialLightRipple;
-            case PaletteMode.MaterialDarkRipple:
-                return PaletteMaterialDarkRipple;
-            case PaletteMode.MaterialLimeGreen:
-                return PaletteMaterialLimeGreen;
-            case PaletteMode.MaterialLimeGreenDark:
-                return PaletteMaterialLimeGreenDark;
-            case PaletteMode.MaterialLimeGreenRipple:
-                return PaletteMaterialLimeGreenRipple;
-            case PaletteMode.MaterialLimeGreenDarkRipple:
-                return PaletteMaterialLimeGreenDarkRipple;
-            case PaletteMode.RetroGreen:
-                return PaletteRetroGreen;
-            case PaletteMode.RetroBlue:
-                return PaletteRetroBlue;
-
-            case PaletteMode.MacOSXAqua:
-                return PaletteMacOSXAqua;
-
-            case PaletteMode.MacOSLight:
-                return PaletteMacOSLight;
-            case PaletteMode.MacOSDark:
-                return PaletteMacOSDark;
-
-            case PaletteMode.HighContrast:
-                return PaletteHighContrast;
-            case PaletteMode.Deuteranopia:
-                return PaletteDeuteranopia;
-            case PaletteMode.Protanopia:
-                return PaletteProtanopia;
-            case PaletteMode.Office2007HighContrast:
-                return PaletteOffice2007HighContrast;
-            case PaletteMode.Office2007Deuteranopia:
-                return PaletteOffice2007Deuteranopia;
-            case PaletteMode.Office2007Protanopia:
-                return PaletteOffice2007Protanopia;
-            case PaletteMode.Office2010HighContrast:
-                return PaletteOffice2010HighContrast;
-            case PaletteMode.Office2010Deuteranopia:
-                return PaletteOffice2010Deuteranopia;
-            case PaletteMode.Office2010Protanopia:
-                return PaletteOffice2010Protanopia;
-            case PaletteMode.Office2013HighContrast:
-                return PaletteOffice2013HighContrast;
-            case PaletteMode.Office2013Deuteranopia:
-                return PaletteOffice2013Deuteranopia;
-            case PaletteMode.Office2013Protanopia:
-                return PaletteOffice2013Protanopia;
-            case PaletteMode.SparkleHighContrast:
-                return PaletteSparkleHighContrast;
-            case PaletteMode.SparkleDeuteranopia:
-                return PaletteSparkleDeuteranopia;
-            case PaletteMode.SparkleProtanopia:
-                return PaletteSparkleProtanopia;
-            case PaletteMode.MaterialHighContrast:
-                return PaletteMaterialHighContrast;
-            case PaletteMode.MaterialDeuteranopia:
-                return PaletteMaterialDeuteranopia;
-            case PaletteMode.MaterialProtanopia:
-                return PaletteMaterialProtanopia;
-            case PaletteMode.MaterialHighContrastRipple:
-                return PaletteMaterialHighContrastRipple;
-            case PaletteMode.MaterialDeuteranopiaRipple:
-                return PaletteMaterialDeuteranopiaRipple;
-            case PaletteMode.MaterialProtanopiaRipple:
-                return PaletteMaterialProtanopiaRipple;
-            case PaletteMode.Office2007LimeGreen:
-                return PaletteOffice2007LimeGreen;
-            case PaletteMode.Office2007LimeGreenDark:
-                return PaletteOffice2007LimeGreenDark;
-            case PaletteMode.Office2010LimeGreen:
-                return PaletteOffice2010LimeGreen;
-            case PaletteMode.Office2010LimeGreenDark:
-                return PaletteOffice2010LimeGreenDark;
-            case PaletteMode.Microsoft365LimeGreen:
-                return PaletteMicrosoft365LimeGreen;
-            case PaletteMode.Microsoft365LimeGreenDark:
-                return PaletteMicrosoft365LimeGreenDark;
-            case PaletteMode.Office2007MaterializeBlue:
-                return PaletteOffice2007MaterializeBlue;
-            case PaletteMode.Office2007MaterializeBlueDark:
-                return PaletteOffice2007MaterializeBlueDark;
-            case PaletteMode.Office2007MaterializeLightBlue:
-                return PaletteOffice2007MaterializeLightBlue;
-            case PaletteMode.Office2007MaterializeLightBlueDark:
-                return PaletteOffice2007MaterializeLightBlueDark;
-            case PaletteMode.Office2007SilverDarkModeAlternate:
-                return PaletteOffice2007SilverDarkModeAlternate;
-            case PaletteMode.Office2010MaterializeBlue:
-                return PaletteOffice2010MaterializeBlue;
-            case PaletteMode.Office2010MaterializeBlueDark:
-                return PaletteOffice2010MaterializeBlueDark;
-            case PaletteMode.Office2010MaterializeLightBlue:
-                return PaletteOffice2010MaterializeLightBlue;
-            case PaletteMode.Office2010MaterializeLightBlueDark:
-                return PaletteOffice2010MaterializeLightBlueDark;
-            case PaletteMode.Office2010SilverDarkModeAlternate:
-                return PaletteOffice2010SilverDarkModeAlternate;
-            case PaletteMode.Office2013MaterializeBlue:
-                return PaletteOffice2013MaterializeBlue;
-            case PaletteMode.Office2013MaterializeBlueDark:
-                return PaletteOffice2013MaterializeBlueDark;
-            case PaletteMode.Office2013MaterializeLightBlue:
-                return PaletteOffice2013MaterializeLightBlue;
-            case PaletteMode.Office2013MaterializeLightBlueDark:
-                return PaletteOffice2013MaterializeLightBlueDark;
-            case PaletteMode.Office2013SilverDarkModeAlternate:
-                return PaletteOffice2013SilverDarkModeAlternate;
-            case PaletteMode.Microsoft365MaterializeBlue:
-                return PaletteMicrosoft365MaterializeBlue;
-            case PaletteMode.Microsoft365MaterializeBlueDark:
-                return PaletteMicrosoft365MaterializeBlueDark;
-            case PaletteMode.Microsoft365MaterializeLightBlue:
-                return PaletteMicrosoft365MaterializeLightBlue;
-            case PaletteMode.Microsoft365MaterializeLightBlueDark:
-                return PaletteMicrosoft365MaterializeLightBlueDark;
-            case PaletteMode.Microsoft365SilverDarkModeAlternate:
-                return PaletteMicrosoft365SilverDarkModeAlternate;
-            case PaletteMode.MaterialMaterializeBlue:
-                return PaletteMaterialMaterializeBlue;
-            case PaletteMode.MaterialMaterializeBlueDark:
-                return PaletteMaterialMaterializeBlueDark;
-            case PaletteMode.MaterialMaterializeBlueRipple:
-                return PaletteMaterialMaterializeBlueRipple;
-            case PaletteMode.MaterialMaterializeBlueDarkRipple:
-                return PaletteMaterialMaterializeBlueDarkRipple;
-            case PaletteMode.MaterialMaterializeLightBlue:
-                return PaletteMaterialMaterializeLightBlue;
-            case PaletteMode.MaterialMaterializeLightBlueDark:
-                return PaletteMaterialMaterializeLightBlueDark;
-            case PaletteMode.MaterialMaterializeLightBlueRipple:
-                return PaletteMaterialMaterializeLightBlueRipple;
-            case PaletteMode.MaterialMaterializeLightBlueDarkRipple:
-                return PaletteMaterialMaterializeLightBlueDarkRipple;
-            case PaletteMode.MaterialSilverDarkModeAlternate:
-                return PaletteMaterialSilverDarkModeAlternate;
-            case PaletteMode.MaterialSilverDarkModeAlternateRipple:
-                return PaletteMaterialSilverDarkModeAlternateRipple;
-            case PaletteMode.Office2007DarkGray:
-                return PaletteOffice2007DarkGray;
-            case PaletteMode.Office2007LightGray:
-                return PaletteOffice2007LightGray;
-            case PaletteMode.Office2010DarkGray:
-                return PaletteOffice2010DarkGray;
-            case PaletteMode.Office2010LightGray:
-                return PaletteOffice2010LightGray;
-            case PaletteMode.Microsoft365DarkGray:
-                return PaletteMicrosoft365DarkGray;
-            case PaletteMode.Microsoft365LightGray:
-                return PaletteMicrosoft365LightGray;
-            case PaletteMode.MaterialDarkGray:
-                return PaletteMaterialDarkGray;
-            case PaletteMode.MaterialLightGray:
-                return PaletteMaterialLightGray;
-            case PaletteMode.MaterialDarkGrayRipple:
-                return PaletteMaterialDarkGrayRipple;
-            case PaletteMode.MaterialLightGrayRipple:
-                return PaletteMaterialLightGrayRipple;
-
             case PaletteMode.Custom:
             case PaletteMode.Global:
                 return CurrentGlobalPalette;
             default:
-                Debug.Assert(false);
-                return ThrowHelper.ThrowArgumentOutOfRangeException<PaletteBase>(nameof(mode), @"mode must be PaletteMode value.");
+                return KryptonThemeCatalog.GetPalette(mode);
         }
     }
 
@@ -1798,20 +1456,12 @@ public sealed class KryptonManager : Component
             return PaletteMode.Custom;
         }
 
-        object? mode = null;
-        if (palette != null)
+        if (palette != null && KryptonThemeCatalog.TryGetMode(palette.GetType(), out var catalogMode))
         {
-            var modeConverter = new Converters.PaletteClassTypeConverter();
-
-            mode = modeConverter.ConvertFrom(palette.GetType());
+            return catalogMode;
         }
 
-        if (mode == null)
-        {
-            return PaletteMode.Global;
-        }
-
-        return (PaletteMode)mode;
+        return PaletteMode.Global;
     }
 
     /// <summary>
@@ -1827,12 +1477,16 @@ public sealed class KryptonManager : Component
     /// <summary>
     /// Gets the single instance of the dark gray variant Office 2007 palette.
     /// </summary>
-    public static PaletteOffice2007DarkGray PaletteOffice2007DarkGray => _paletteOffice2007DarkGray ??= new PaletteOffice2007DarkGray();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2007DarkGray => GetPaletteForMode(PaletteMode.Office2007DarkGray);
 
     /// <summary>
     /// Gets the single instance of the light gray variant Office 2007 palette.
     /// </summary>
-    public static PaletteOffice2007LightGray PaletteOffice2007LightGray => _paletteOffice2007LightGray ??= new PaletteOffice2007LightGray();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2007LightGray => GetPaletteForMode(PaletteMode.Office2007LightGray);
 
     /// <summary>
     /// Gets the single instance of the Blue variant Office 2007 palette.
@@ -1842,12 +1496,16 @@ public sealed class KryptonManager : Component
     /// <summary>
     /// Gets the single instance of the ### palette.
     /// </summary>
-    public static PaletteOffice2007BlueDarkMode PaletteOffice2007BlueDarkMode => _paletteOffice2007BlueDarkMode ??= new PaletteOffice2007BlueDarkMode();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2007BlueDarkMode => GetPaletteForMode(PaletteMode.Office2007BlueDarkMode);
 
     /// <summary>
     /// Gets the single instance of the ### palette.
     /// </summary>
-    public static PaletteOffice2007BlueLightMode PaletteOffice2007BlueLightMode => _paletteOffice2007BlueLightMode ??= new PaletteOffice2007BlueLightMode();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2007BlueLightMode => GetPaletteForMode(PaletteMode.Office2007BlueLightMode);
 
     /// <summary>
     /// Gets the single instance of the Silver variant Office 2007 palette.
@@ -1857,17 +1515,23 @@ public sealed class KryptonManager : Component
     /// <summary>
     /// Gets the single instance of the ### palette.
     /// </summary>
-    public static PaletteOffice2007SilverDarkMode PaletteOffice2007SilverDarkMode => _paletteOffice2007SilverDarkMode ??= new PaletteOffice2007SilverDarkMode();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2007SilverDarkMode => GetPaletteForMode(PaletteMode.Office2007SilverDarkMode);
 
     /// <summary>
     /// Gets the single instance of the ### palette.
     /// </summary>
-    public static PaletteOffice2007SilverLightMode PaletteOffice2007SilverLightMode => _paletteOffice2007SilverLightMode ??= new PaletteOffice2007SilverLightMode();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2007SilverLightMode => GetPaletteForMode(PaletteMode.Office2007SilverLightMode);
 
     /// <summary>
     /// Gets the single instance of the ### palette.
     /// </summary>
-    public static PaletteOffice2007White PaletteOffice2007White => _paletteOffice2007White ??= new PaletteOffice2007White();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2007White => GetPaletteForMode(PaletteMode.Office2007White);
 
     /// <summary>
     /// Gets the single instance of the Black variant Office 2007 palette.
@@ -1877,17 +1541,23 @@ public sealed class KryptonManager : Component
     /// <summary>
     /// Gets the single instance of the ### palette.
     /// </summary>
-    public static PaletteOffice2007BlackDarkMode PaletteOffice2007BlackDarkMode => _paletteOffice2007BlackDarkMode ??= new PaletteOffice2007BlackDarkMode();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2007BlackDarkMode => GetPaletteForMode(PaletteMode.Office2007BlackDarkMode);
 
     /// <summary>
     /// Gets the single instance of the dark gray variant Office 2010 palette.
     /// </summary>
-    public static PaletteOffice2010DarkGray PaletteOffice2010DarkGray => _paletteOffice2010DarkGray ??= new PaletteOffice2010DarkGray();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2010DarkGray => GetPaletteForMode(PaletteMode.Office2010DarkGray);
 
     /// <summary>
     /// Gets the single instance of the light gray variant Office 2010 palette.
     /// </summary>
-    public static PaletteOffice2010LightGray PaletteOffice2010LightGray => _paletteOffice2010LightGray ??= new PaletteOffice2010LightGray();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2010LightGray => GetPaletteForMode(PaletteMode.Office2010LightGray);
 
     /// <summary>
     /// Gets the single instance of the Blue variant Office 2010 palette.
@@ -1897,12 +1567,16 @@ public sealed class KryptonManager : Component
     /// <summary>
     /// Gets the single instance of the ### palette.
     /// </summary>
-    public static PaletteOffice2010BlueDarkMode PaletteOffice2010BlueDarkMode => _paletteOffice2010BlueDarkMode ??= new PaletteOffice2010BlueDarkMode();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2010BlueDarkMode => GetPaletteForMode(PaletteMode.Office2010BlueDarkMode);
 
     /// <summary>
     /// Gets the single instance of the ### palette.
     /// </summary>
-    public static PaletteOffice2010BlueLightMode PaletteOffice2010BlueLightMode => _paletteOffice2010BlueLightMode ??= new PaletteOffice2010BlueLightMode();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2010BlueLightMode => GetPaletteForMode(PaletteMode.Office2010BlueLightMode);
 
     /// <summary>
     /// Gets the single instance of the Silver variant Office 2010 palette.
@@ -1912,12 +1586,16 @@ public sealed class KryptonManager : Component
     /// <summary>
     /// Gets the single instance of the ### palette.
     /// </summary>
-    public static PaletteOffice2010SilverDarkMode PaletteOffice2010SilverDarkMode => _paletteOffice2010SilverDarkMode ??= new PaletteOffice2010SilverDarkMode();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2010SilverDarkMode => GetPaletteForMode(PaletteMode.Office2010SilverDarkMode);
 
     /// <summary>
     /// Gets the single instance of the ### palette.
     /// </summary>
-    public static PaletteOffice2010SilverLightMode PaletteOffice2010SilverLightMode => _paletteOffice2010SilverLightMode ??= new PaletteOffice2010SilverLightMode();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2010SilverLightMode => GetPaletteForMode(PaletteMode.Office2010SilverLightMode);
 
     /// <summary>
     /// Gets the single instance of the Black variant Office 2010 palette.
@@ -1927,27 +1605,37 @@ public sealed class KryptonManager : Component
     /// <summary>
     /// Gets the single instance of the ### palette.
     /// </summary>
-    public static PaletteOffice2010BlackDarkMode PaletteOffice2010BlackDarkMode => _paletteOffice2010BlackDarkMode ??= new PaletteOffice2010BlackDarkMode();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2010BlackDarkMode => GetPaletteForMode(PaletteMode.Office2010BlackDarkMode);
 
     /// <summary>
     /// Gets the single instance of the dark gray variant Office 2013 palette.
     /// </summary>
-    public static PaletteOffice2013DarkGray PaletteOffice2013DarkGray => _paletteOffice2013DarkGray ??= new PaletteOffice2013DarkGray();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2013DarkGray => GetPaletteForMode(PaletteMode.Office2013DarkGray);
 
     /// <summary>
     /// Gets the single instance of the Light gray variant Office 2013 palette.
     /// </summary>
-    public static PaletteOffice2013LightGray PaletteOffice2013LightGray => _paletteOffice2013LightGray ??= new PaletteOffice2013LightGray();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2013LightGray => GetPaletteForMode(PaletteMode.Office2013LightGray);
 
     /// <summary>
     /// Gets the single instance of the ### palette.
     /// </summary>
-    public static PaletteOffice2010White PaletteOffice2010White => _paletteOffice2010White ??= new PaletteOffice2010White();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2010White => GetPaletteForMode(PaletteMode.Office2010White);
 
     /// <summary>
     /// Gets the single instance of the Office 2013 palette.
     /// </summary>
-    public static PaletteOffice2013White PaletteOffice2013White => _paletteOffice2013White ??= new PaletteOffice2013White();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2013White => GetPaletteForMode(PaletteMode.Office2013White);
 
     /// <summary>
     /// Gets the palette Microsoft365 black.
@@ -1957,12 +1645,16 @@ public sealed class KryptonManager : Component
     /// <summary>
     /// Gets the palette Microsoft 365 black dark mode.
     /// </summary>
-    public static PaletteMicrosoft365BlackDarkMode PaletteMicrosoft365BlackDarkMode => _paletteMicrosoft365BlackDarkMode ??= new PaletteMicrosoft365BlackDarkMode();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMicrosoft365BlackDarkMode => GetPaletteForMode(PaletteMode.Microsoft365BlackDarkMode);
 
     /// <summary>
     /// Gets the palette Microsoft 365 black dark mode alternate.
     /// </summary>
-    public static PaletteMicrosoft365BlackDarkModeAlternate PaletteMicrosoft365BlackDarkModeAlternate => _paletteMicrosoft365BlackDarkModeAlternate ??= new PaletteMicrosoft365BlackDarkModeAlternate();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMicrosoft365BlackDarkModeAlternate => GetPaletteForMode(PaletteMode.Microsoft365BlackDarkModeAlternate);
 
     /// <summary>
     /// Gets the palette Microsoft365 blue.
@@ -1972,22 +1664,30 @@ public sealed class KryptonManager : Component
     /// <summary>
     /// Gets the single instance of the ### palette.
     /// </summary>
-    public static PaletteMicrosoft365BlueDarkMode PaletteMicrosoft365BlueDarkMode => _paletteMicrosoft365BlueDarkMode ??= new PaletteMicrosoft365BlueDarkMode();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMicrosoft365BlueDarkMode => GetPaletteForMode(PaletteMode.Microsoft365BlueDarkMode);
 
     /// <summary>
     /// Gets the single instance of the ### palette.
     /// </summary>
-    public static PaletteMicrosoft365BlueLightMode PaletteMicrosoft365BlueLightMode => _paletteMicrosoft365BlueLightMode ??= new PaletteMicrosoft365BlueLightMode();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMicrosoft365BlueLightMode => GetPaletteForMode(PaletteMode.Microsoft365BlueLightMode);
 
     /// <summary>
     /// Gets the single instance of the ### palette.
     /// </summary>
-    public static PaletteMicrosoft365DarkGray PaletteMicrosoft365DarkGray => _paletteMicrosoft365DarkGray ??= new PaletteMicrosoft365DarkGray();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMicrosoft365DarkGray => GetPaletteForMode(PaletteMode.Microsoft365DarkGray);
 
     /// <summary>
     /// Gets the single instance of the light gray variant Microsoft 365 palette.
     /// </summary>
-    public static PaletteMicrosoft365LightGray PaletteMicrosoft365LightGray => _paletteMicrosoft365LightGray ??= new PaletteMicrosoft365LightGray();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMicrosoft365LightGray => GetPaletteForMode(PaletteMode.Microsoft365LightGray);
 
     /// <summary>
     /// Gets the palette Microsoft365 silver.
@@ -1997,17 +1697,23 @@ public sealed class KryptonManager : Component
     /// <summary>
     /// Gets the single instance of the ### palette.
     /// </summary>
-    public static PaletteMicrosoft365SilverDarkMode PaletteMicrosoft365SilverDarkMode => _paletteMicrosoft365SilverDarkMode ??= new PaletteMicrosoft365SilverDarkMode();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMicrosoft365SilverDarkMode => GetPaletteForMode(PaletteMode.Microsoft365SilverDarkMode);
 
     /// <summary>
     /// Gets the single instance of the ### palette.
     /// </summary>
-    public static PaletteMicrosoft365SilverLightMode PaletteMicrosoft365SilverLightMode => _paletteMicrosoft365SilverLightMode ??= new PaletteMicrosoft365SilverLightMode();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMicrosoft365SilverLightMode => GetPaletteForMode(PaletteMode.Microsoft365SilverLightMode);
 
     /// <summary>
     /// Gets the single instance of the ### palette.
     /// </summary>
-    public static PaletteMicrosoft365White PaletteMicrosoft365White => _paletteMicrosoft365White ??= new PaletteMicrosoft365White();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMicrosoft365White => GetPaletteForMode(PaletteMode.Microsoft365White);
 
     /// <summary>
     /// Gets the single instance of the Blue variant sparkle palette.
@@ -2017,12 +1723,16 @@ public sealed class KryptonManager : Component
     /// <summary>
     /// Gets the single instance of the ### palette.
     /// </summary>
-    public static PaletteSparkleBlueDarkMode PaletteSparkleBlueDarkMode => _paletteSparkleBlueDarkMode ??= new PaletteSparkleBlueDarkMode();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteSparkleBlueDarkMode => GetPaletteForMode(PaletteMode.SparkleBlueDarkMode);
 
     /// <summary>
     /// Gets the single instance of the ### palette.
     /// </summary>
-    public static PaletteSparkleBlueLightMode PaletteSparkleBlueLightMode => _paletteSparkleBlueLightMode ??= new PaletteSparkleBlueLightMode();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteSparkleBlueLightMode => GetPaletteForMode(PaletteMode.SparkleBlueLightMode);
 
     /// <summary>
     /// Gets the single instance of the Orange variant sparkle palette.
@@ -2032,12 +1742,16 @@ public sealed class KryptonManager : Component
     /// <summary>
     /// Gets the single instance of the ### palette.
     /// </summary>
-    public static PaletteSparkleOrangeDarkMode PaletteSparkleOrangeDarkMode => _paletteSparkleOrangeDarkMode ??= new PaletteSparkleOrangeDarkMode();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteSparkleOrangeDarkMode => GetPaletteForMode(PaletteMode.SparkleOrangeDarkMode);
 
     /// <summary>
     /// Gets the single instance of the ### palette.
     /// </summary>
-    public static PaletteSparkleOrangeLightMode PaletteSparkleOrangeLightMode => _paletteSparkleOrangeLightMode ??= new PaletteSparkleOrangeLightMode();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteSparkleOrangeLightMode => GetPaletteForMode(PaletteMode.SparkleOrangeLightMode);
 
     /// <summary>
     /// Gets the single instance of the Purple variant sparkle palette.
@@ -2047,373 +1761,556 @@ public sealed class KryptonManager : Component
     /// <summary>
     /// Gets palette Sparkle Purpke dark moode.
     /// </summary>
-    public static PaletteSparklePurpleDarkMode PaletteSparklePurpleDarkMode => _paletteSparklePurpleDarkMode ??= new PaletteSparklePurpleDarkMode();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteSparklePurpleDarkMode => GetPaletteForMode(PaletteMode.SparklePurpleDarkMode);
 
     /// <summary>
     /// Gets palette Sparkle Purpke light moode.
     /// </summary>
-    public static PaletteSparklePurpleLightMode PaletteSparklePurpleLightMode => _paletteSparklePurpleLightMode ??= new PaletteSparklePurpleLightMode();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteSparklePurpleLightMode => GetPaletteForMode(PaletteMode.SparklePurpleLightMode);
 
     /// <summary>
     /// Gets palette Visual Studio 2010 Office 2007 variant.
     /// </summary>
-    public static PaletteVisualStudio2010Office2007Variation PaletteVisualStudio2010Office2007Variation => _paletteVisualStudio2010Office2007Variation ??= new PaletteVisualStudio2010Office2007Variation();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteVisualStudio2010Office2007Variation => GetPaletteForMode(PaletteMode.VisualStudio2010Render2007);
 
     /// <summary>
     /// Gets palette Visual Studio 2010 Office 2010 variant.
     /// </summary>
-    public static PaletteVisualStudio2010Office2010Variation PaletteVisualStudio2010Office2010Variation => _paletteVisualStudio2010Office2010Variation ??= new PaletteVisualStudio2010Office2010Variation();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteVisualStudio2010Office2010Variation => GetPaletteForMode(PaletteMode.VisualStudio2010Render2010);
 
     /// <summary>
     /// Gets palette Visual Studio 2010 Office 2013 variant.
     /// </summary>
-    public static PaletteVisualStudio2010Office2013Variation PaletteVisualStudio2010Office2013Variation => _paletteVisualStudio2010Office2013Variation ??= new PaletteVisualStudio2010Office2013Variation();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteVisualStudio2010Office2013Variation => GetPaletteForMode(PaletteMode.VisualStudio2010Render2013);
 
     /// <summary>
     /// Gets palette Visual Studio 2010 Office 365 variant.
     /// </summary>
-    public static PaletteVisualStudio2010Microsoft365Variation PaletteVisualStudio2010Microsoft365Variation => _paletteVisualStudio2010Microsoft365Variation ??= new PaletteVisualStudio2010Microsoft365Variation();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteVisualStudio2010Microsoft365Variation => GetPaletteForMode(PaletteMode.VisualStudio2010Render365);
 
     /// <summary>
     /// Gets the Visual Studio 2012 dark palette.
     /// </summary>
-    public static PaletteVisualStudio2012Dark PaletteVisualStudio2012Dark => _paletteVisualStudio2012Dark ??= new PaletteVisualStudio2012Dark();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteVisualStudio2012Dark => GetPaletteForMode(PaletteMode.VisualStudio2012Dark);
 
     /// <summary>
     /// Gets the Visual Studio 2012 light palette.
     /// </summary>
-    public static PaletteVisualStudio2012Light PaletteVisualStudio2012Light => _paletteVisualStudio2012Light ??= new PaletteVisualStudio2012Light();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteVisualStudio2012Light => GetPaletteForMode(PaletteMode.VisualStudio2012Light);
 
     /// <summary>
     /// Gets the Visual Studio 2012 blue palette.
     /// </summary>
-    public static PaletteVisualStudio2012Blue PaletteVisualStudio2012Blue => _paletteVisualStudio2012Blue ??= new PaletteVisualStudio2012Blue();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteVisualStudio2012Blue => GetPaletteForMode(PaletteMode.VisualStudio2012Blue);
 
     /// <summary>
     /// Gets the Visual Studio 2013 dark palette.
     /// </summary>
-    public static PaletteVisualStudio2013Dark PaletteVisualStudio2013Dark => _paletteVisualStudio2013Dark ??= new PaletteVisualStudio2013Dark();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteVisualStudio2013Dark => GetPaletteForMode(PaletteMode.VisualStudio2013Dark);
 
     /// <summary>
     /// Gets the Visual Studio 2013 light palette.
     /// </summary>
-    public static PaletteVisualStudio2013Light PaletteVisualStudio2013Light => _paletteVisualStudio2013Light ??= new PaletteVisualStudio2013Light();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteVisualStudio2013Light => GetPaletteForMode(PaletteMode.VisualStudio2013Light);
 
     /// <summary>
     /// Gets the Visual Studio 2013 blue palette.
     /// </summary>
-    public static PaletteVisualStudio2013Blue PaletteVisualStudio2013Blue => _paletteVisualStudio2013Blue ??= new PaletteVisualStudio2013Blue();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteVisualStudio2013Blue => GetPaletteForMode(PaletteMode.VisualStudio2013Blue);
 
     /// <summary>
     /// Gets the Visual Studio 2015 dark palette.
     /// </summary>
-    public static PaletteVisualStudio2015Dark PaletteVisualStudio2015Dark => _paletteVisualStudio2015Dark ??= new PaletteVisualStudio2015Dark();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteVisualStudio2015Dark => GetPaletteForMode(PaletteMode.VisualStudio2015Dark);
 
     /// <summary>
     /// Gets the Visual Studio 2015 light palette.
     /// </summary>
-    public static PaletteVisualStudio2015Light PaletteVisualStudio2015Light => _paletteVisualStudio2015Light ??= new PaletteVisualStudio2015Light();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteVisualStudio2015Light => GetPaletteForMode(PaletteMode.VisualStudio2015Light);
 
     /// <summary>
     /// Gets the Visual Studio 2015 blue palette.
     /// </summary>
-    public static PaletteVisualStudio2015Blue PaletteVisualStudio2015Blue => _paletteVisualStudio2015Blue ??= new PaletteVisualStudio2015Blue();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteVisualStudio2015Blue => GetPaletteForMode(PaletteMode.VisualStudio2015Blue);
 
     /// <summary>
     /// Gets the Visual Studio 2017 dark palette.
     /// </summary>
-    public static PaletteVisualStudio2017Dark PaletteVisualStudio2017Dark => _paletteVisualStudio2017Dark ??= new PaletteVisualStudio2017Dark();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteVisualStudio2017Dark => GetPaletteForMode(PaletteMode.VisualStudio2017Dark);
 
     /// <summary>
     /// Gets the Visual Studio 2017 light palette.
     /// </summary>
-    public static PaletteVisualStudio2017Light PaletteVisualStudio2017Light => _paletteVisualStudio2017Light ??= new PaletteVisualStudio2017Light();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteVisualStudio2017Light => GetPaletteForMode(PaletteMode.VisualStudio2017Light);
 
     /// <summary>
     /// Gets the Visual Studio 2017 blue palette.
     /// </summary>
-    public static PaletteVisualStudio2017Blue PaletteVisualStudio2017Blue => _paletteVisualStudio2017Blue ??= new PaletteVisualStudio2017Blue();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteVisualStudio2017Blue => GetPaletteForMode(PaletteMode.VisualStudio2017Blue);
 
     /// <summary>
     /// Gets the Visual Studio 2019 dark palette.
     /// </summary>
-    public static PaletteVisualStudio2019Dark PaletteVisualStudio2019Dark => _paletteVisualStudio2019Dark ??= new PaletteVisualStudio2019Dark();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteVisualStudio2019Dark => GetPaletteForMode(PaletteMode.VisualStudio2019Dark);
 
     /// <summary>
     /// Gets the Visual Studio 2019 light palette.
     /// </summary>
-    public static PaletteVisualStudio2019Light PaletteVisualStudio2019Light => _paletteVisualStudio2019Light ??= new PaletteVisualStudio2019Light();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteVisualStudio2019Light => GetPaletteForMode(PaletteMode.VisualStudio2019Light);
 
     /// <summary>
     /// Gets the Visual Studio 2019 blue palette.
     /// </summary>
-    public static PaletteVisualStudio2019Blue PaletteVisualStudio2019Blue => _paletteVisualStudio2019Blue ??= new PaletteVisualStudio2019Blue();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteVisualStudio2019Blue => GetPaletteForMode(PaletteMode.VisualStudio2019Blue);
 
     /// <summary>
     /// Gets the Visual Studio 2022 dark palette.
     /// </summary>
-    public static PaletteVisualStudio2022Dark PaletteVisualStudio2022Dark => _paletteVisualStudio2022Dark ??= new PaletteVisualStudio2022Dark();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteVisualStudio2022Dark => GetPaletteForMode(PaletteMode.VisualStudio2022Dark);
 
     /// <summary>
     /// Gets the Visual Studio 2022 light palette.
     /// </summary>
-    public static PaletteVisualStudio2022Light PaletteVisualStudio2022Light => _paletteVisualStudio2022Light ??= new PaletteVisualStudio2022Light();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteVisualStudio2022Light => GetPaletteForMode(PaletteMode.VisualStudio2022Light);
 
     /// <summary>
     /// Gets the Visual Studio 2022 blue palette.
     /// </summary>
-    public static PaletteVisualStudio2022Blue PaletteVisualStudio2022Blue => _paletteVisualStudio2022Blue ??= new PaletteVisualStudio2022Blue();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteVisualStudio2022Blue => GetPaletteForMode(PaletteMode.VisualStudio2022Blue);
 
     /// <summary>
     /// Gets the Visual Studio 2026 dark palette (Fluent tokens).
     /// </summary>
-    public static PaletteVisualStudio2026Dark PaletteVisualStudio2026Dark => _paletteVisualStudio2026Dark ??= new PaletteVisualStudio2026Dark();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteVisualStudio2026Dark => GetPaletteForMode(PaletteMode.VisualStudio2026Dark);
 
     /// <summary>
     /// Gets the Visual Studio 2026 light palette (Fluent tokens).
     /// </summary>
-    public static PaletteVisualStudio2026Light PaletteVisualStudio2026Light => _paletteVisualStudio2026Light ??= new PaletteVisualStudio2026Light();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteVisualStudio2026Light => GetPaletteForMode(PaletteMode.VisualStudio2026Light);
 
-    public static PaletteMaterialLight PaletteMaterialLight => _paletteMaterialLight ??= new PaletteMaterialLight();
-    public static PaletteMaterialDark PaletteMaterialDark => _paletteMaterialDark ??= new PaletteMaterialDark();
-    public static PaletteMaterialLightRipple PaletteMaterialLightRipple => _paletteMaterialLightRipple ??= new PaletteMaterialLightRipple();
-    public static PaletteMaterialDarkRipple PaletteMaterialDarkRipple => _paletteMaterialDarkRipple ??= new PaletteMaterialDarkRipple();
-    public static PaletteMaterialLimeGreen PaletteMaterialLimeGreen => _paletteMaterialLimeGreen ??= new PaletteMaterialLimeGreen();
-    public static PaletteMaterialLimeGreenDark PaletteMaterialLimeGreenDark => _paletteMaterialLimeGreenDark ??= new PaletteMaterialLimeGreenDark();
-    public static PaletteMaterialLimeGreenRipple PaletteMaterialLimeGreenRipple => _paletteMaterialLimeGreenRipple ??= new PaletteMaterialLimeGreenRipple();
-    public static PaletteMaterialLimeGreenDarkRipple PaletteMaterialLimeGreenDarkRipple => _paletteMaterialLimeGreenDarkRipple ??= new PaletteMaterialLimeGreenDarkRipple();
-    public static PaletteMaterialDarkGray PaletteMaterialDarkGray => _paletteMaterialDarkGray ??= new PaletteMaterialDarkGray();
-    public static PaletteMaterialLightGray PaletteMaterialLightGray => _paletteMaterialLightGray ??= new PaletteMaterialLightGray();
-    public static PaletteMaterialDarkGrayRipple PaletteMaterialDarkGrayRipple => _paletteMaterialDarkGrayRipple ??= new PaletteMaterialDarkGrayRipple();
-    public static PaletteMaterialLightGrayRipple PaletteMaterialLightGrayRipple => _paletteMaterialLightGrayRipple ??= new PaletteMaterialLightGrayRipple();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMaterialLight => GetPaletteForMode(PaletteMode.MaterialLight);
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMaterialDark => GetPaletteForMode(PaletteMode.MaterialDark);
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMaterialLightRipple => GetPaletteForMode(PaletteMode.MaterialLightRipple);
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMaterialDarkRipple => GetPaletteForMode(PaletteMode.MaterialDarkRipple);
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMaterialLimeGreen => GetPaletteForMode(PaletteMode.MaterialLimeGreen);
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMaterialLimeGreenDark => GetPaletteForMode(PaletteMode.MaterialLimeGreenDark);
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMaterialLimeGreenRipple => GetPaletteForMode(PaletteMode.MaterialLimeGreenRipple);
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMaterialLimeGreenDarkRipple => GetPaletteForMode(PaletteMode.MaterialLimeGreenDarkRipple);
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMaterialDarkGray => GetPaletteForMode(PaletteMode.MaterialDarkGray);
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMaterialLightGray => GetPaletteForMode(PaletteMode.MaterialLightGray);
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMaterialDarkGrayRipple => GetPaletteForMode(PaletteMode.MaterialDarkGrayRipple);
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMaterialLightGrayRipple => GetPaletteForMode(PaletteMode.MaterialLightGrayRipple);
 
     /// <summary>
     /// Gets the DOS teal/green RetroUI palette.
     /// </summary>
-    public static PaletteRetroGreen PaletteRetroGreen => _paletteRetroGreen ??= new PaletteRetroGreen();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteRetroGreen => GetPaletteForMode(PaletteMode.RetroGreen);
 
     /// <summary>
     /// Gets the Norton Commander style blue RetroUI palette.
     /// </summary>
-    public static PaletteRetroBlue PaletteRetroBlue => _paletteRetroBlue ??= new PaletteRetroBlue();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteRetroBlue => GetPaletteForMode(PaletteMode.RetroBlue);
 
-    public static PaletteMacOSXAqua PaletteMacOSXAqua => _paletteMacOSXAqua ??= new PaletteMacOSXAqua();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMacOSXAqua => GetPaletteForMode(PaletteMode.MacOSXAqua);
 
     /// <summary>
     /// Gets the macOS-inspired light palette.
     /// </summary>
-    public static PaletteMacOSLight PaletteMacOSLight => _paletteMacOSLight ??= new PaletteMacOSLight();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMacOSLight => GetPaletteForMode(PaletteMode.MacOSLight);
 
     /// <summary>
     /// Gets the macOS-inspired dark palette.
     /// </summary>
-    public static PaletteMacOSDark PaletteMacOSDark => _paletteMacOSDark ??= new PaletteMacOSDark();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMacOSDark => GetPaletteForMode(PaletteMode.MacOSDark);
 
     /// <summary>
     /// Gets the fixed high-contrast accessibility palette.
     /// </summary>
-    public static PaletteHighContrast PaletteHighContrast => _paletteHighContrast ??= new PaletteHighContrast();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteHighContrast => GetPaletteForMode(PaletteMode.HighContrast);
 
     /// <summary>
     /// Gets the deuteranopia-friendly accessibility palette.
     /// </summary>
-    public static PaletteDeuteranopia PaletteDeuteranopia => _paletteDeuteranopia ??= new PaletteDeuteranopia();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteDeuteranopia => GetPaletteForMode(PaletteMode.Deuteranopia);
 
     /// <summary>
     /// Gets the protanopia-friendly accessibility palette.
     /// </summary>
-    public static PaletteProtanopia PaletteProtanopia => _paletteProtanopia ??= new PaletteProtanopia();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteProtanopia => GetPaletteForMode(PaletteMode.Protanopia);
 
     /// <summary>Gets the Office 2007 high-contrast accessibility palette.</summary>
-    public static PaletteOffice2007HighContrast PaletteOffice2007HighContrast => _paletteOffice2007HighContrast ??= new PaletteOffice2007HighContrast();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2007HighContrast => GetPaletteForMode(PaletteMode.Office2007HighContrast);
 
     /// <summary>Gets the Office 2007 deuteranopia accessibility palette.</summary>
-    public static PaletteOffice2007Deuteranopia PaletteOffice2007Deuteranopia => _paletteOffice2007Deuteranopia ??= new PaletteOffice2007Deuteranopia();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2007Deuteranopia => GetPaletteForMode(PaletteMode.Office2007Deuteranopia);
 
     /// <summary>Gets the Office 2007 protanopia accessibility palette.</summary>
-    public static PaletteOffice2007Protanopia PaletteOffice2007Protanopia => _paletteOffice2007Protanopia ??= new PaletteOffice2007Protanopia();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2007Protanopia => GetPaletteForMode(PaletteMode.Office2007Protanopia);
 
     /// <summary>Gets the Office 2010 high-contrast accessibility palette.</summary>
-    public static PaletteOffice2010HighContrast PaletteOffice2010HighContrast => _paletteOffice2010HighContrast ??= new PaletteOffice2010HighContrast();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2010HighContrast => GetPaletteForMode(PaletteMode.Office2010HighContrast);
 
     /// <summary>Gets the Office 2010 deuteranopia accessibility palette.</summary>
-    public static PaletteOffice2010Deuteranopia PaletteOffice2010Deuteranopia => _paletteOffice2010Deuteranopia ??= new PaletteOffice2010Deuteranopia();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2010Deuteranopia => GetPaletteForMode(PaletteMode.Office2010Deuteranopia);
 
     /// <summary>Gets the Office 2010 protanopia accessibility palette.</summary>
-    public static PaletteOffice2010Protanopia PaletteOffice2010Protanopia => _paletteOffice2010Protanopia ??= new PaletteOffice2010Protanopia();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2010Protanopia => GetPaletteForMode(PaletteMode.Office2010Protanopia);
 
     /// <summary>Gets the Office 2013 high-contrast accessibility palette.</summary>
-    public static PaletteOffice2013HighContrast PaletteOffice2013HighContrast => _paletteOffice2013HighContrast ??= new PaletteOffice2013HighContrast();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2013HighContrast => GetPaletteForMode(PaletteMode.Office2013HighContrast);
 
     /// <summary>Gets the Office 2013 deuteranopia accessibility palette.</summary>
-    public static PaletteOffice2013Deuteranopia PaletteOffice2013Deuteranopia => _paletteOffice2013Deuteranopia ??= new PaletteOffice2013Deuteranopia();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2013Deuteranopia => GetPaletteForMode(PaletteMode.Office2013Deuteranopia);
 
     /// <summary>Gets the Office 2013 protanopia accessibility palette.</summary>
-    public static PaletteOffice2013Protanopia PaletteOffice2013Protanopia => _paletteOffice2013Protanopia ??= new PaletteOffice2013Protanopia();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2013Protanopia => GetPaletteForMode(PaletteMode.Office2013Protanopia);
 
     /// <summary>Gets the Sparkle high-contrast accessibility palette.</summary>
-    public static PaletteSparkleHighContrast PaletteSparkleHighContrast => _paletteSparkleHighContrast ??= new PaletteSparkleHighContrast();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteSparkleHighContrast => GetPaletteForMode(PaletteMode.SparkleHighContrast);
 
     /// <summary>Gets the Sparkle deuteranopia accessibility palette.</summary>
-    public static PaletteSparkleDeuteranopia PaletteSparkleDeuteranopia => _paletteSparkleDeuteranopia ??= new PaletteSparkleDeuteranopia();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteSparkleDeuteranopia => GetPaletteForMode(PaletteMode.SparkleDeuteranopia);
 
     /// <summary>Gets the Sparkle protanopia accessibility palette.</summary>
-    public static PaletteSparkleProtanopia PaletteSparkleProtanopia => _paletteSparkleProtanopia ??= new PaletteSparkleProtanopia();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteSparkleProtanopia => GetPaletteForMode(PaletteMode.SparkleProtanopia);
 
     /// <summary>Gets the Material high-contrast accessibility palette.</summary>
-    public static PaletteMaterialHighContrast PaletteMaterialHighContrast => _paletteMaterialHighContrast ??= new PaletteMaterialHighContrast();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMaterialHighContrast => GetPaletteForMode(PaletteMode.MaterialHighContrast);
 
     /// <summary>Gets the Material deuteranopia accessibility palette.</summary>
-    public static PaletteMaterialDeuteranopia PaletteMaterialDeuteranopia => _paletteMaterialDeuteranopia ??= new PaletteMaterialDeuteranopia();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMaterialDeuteranopia => GetPaletteForMode(PaletteMode.MaterialDeuteranopia);
 
     /// <summary>Gets the Material protanopia accessibility palette.</summary>
-    public static PaletteMaterialProtanopia PaletteMaterialProtanopia => _paletteMaterialProtanopia ??= new PaletteMaterialProtanopia();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMaterialProtanopia => GetPaletteForMode(PaletteMode.MaterialProtanopia);
 
     /// <summary>Gets the Material high-contrast accessibility palette with Ripple effect.</summary>
-    public static PaletteMaterialHighContrastRipple PaletteMaterialHighContrastRipple => _paletteMaterialHighContrastRipple ??= new PaletteMaterialHighContrastRipple();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMaterialHighContrastRipple => GetPaletteForMode(PaletteMode.MaterialHighContrastRipple);
 
     /// <summary>Gets the Material deuteranopia accessibility palette with Ripple effect.</summary>
-    public static PaletteMaterialDeuteranopiaRipple PaletteMaterialDeuteranopiaRipple => _paletteMaterialDeuteranopiaRipple ??= new PaletteMaterialDeuteranopiaRipple();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMaterialDeuteranopiaRipple => GetPaletteForMode(PaletteMode.MaterialDeuteranopiaRipple);
 
     /// <summary>Gets the Material protanopia accessibility palette with Ripple effect.</summary>
-    public static PaletteMaterialProtanopiaRipple PaletteMaterialProtanopiaRipple => _paletteMaterialProtanopiaRipple ??= new PaletteMaterialProtanopiaRipple();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMaterialProtanopiaRipple => GetPaletteForMode(PaletteMode.MaterialProtanopiaRipple);
 
     /// <summary>
     /// Gets the single instance of the light Lime Green variant Office 2007 palette.
     /// </summary>
-    public static PaletteOffice2007LimeGreen PaletteOffice2007LimeGreen => _paletteOffice2007LimeGreen ??= new PaletteOffice2007LimeGreen();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2007LimeGreen => GetPaletteForMode(PaletteMode.Office2007LimeGreen);
 
     /// <summary>
     /// Gets the single instance of the dark Lime Green variant Office 2007 palette.
     /// </summary>
-    public static PaletteOffice2007LimeGreenDark PaletteOffice2007LimeGreenDark => _paletteOffice2007LimeGreenDark ??= new PaletteOffice2007LimeGreenDark();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2007LimeGreenDark => GetPaletteForMode(PaletteMode.Office2007LimeGreenDark);
 
     /// <summary>
     /// Gets the single instance of the light Lime Green variant Office 2010 palette.
     /// </summary>
-    public static PaletteOffice2010LimeGreen PaletteOffice2010LimeGreen => _paletteOffice2010LimeGreen ??= new PaletteOffice2010LimeGreen();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2010LimeGreen => GetPaletteForMode(PaletteMode.Office2010LimeGreen);
 
     /// <summary>
     /// Gets the single instance of the dark Lime Green variant Office 2010 palette.
     /// </summary>
-    public static PaletteOffice2010LimeGreenDark PaletteOffice2010LimeGreenDark => _paletteOffice2010LimeGreenDark ??= new PaletteOffice2010LimeGreenDark();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2010LimeGreenDark => GetPaletteForMode(PaletteMode.Office2010LimeGreenDark);
 
     /// <summary>
     /// Gets the single instance of the light Lime Green variant Microsoft 365 palette.
     /// </summary>
-    public static PaletteMicrosoft365LimeGreen PaletteMicrosoft365LimeGreen => _paletteMicrosoft365LimeGreen ??= new PaletteMicrosoft365LimeGreen();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMicrosoft365LimeGreen => GetPaletteForMode(PaletteMode.Microsoft365LimeGreen);
 
     /// <summary>
     /// Gets the single instance of the dark Lime Green variant Microsoft 365 palette.
     /// </summary>
-    public static PaletteMicrosoft365LimeGreenDark PaletteMicrosoft365LimeGreenDark => _paletteMicrosoft365LimeGreenDark ??= new PaletteMicrosoft365LimeGreenDark();
-    public static PaletteOffice2007MaterializeBlue PaletteOffice2007MaterializeBlue => _paletteOffice2007MaterializeBlue ??= new PaletteOffice2007MaterializeBlue();
-    public static PaletteOffice2007MaterializeBlueDark PaletteOffice2007MaterializeBlueDark => _paletteOffice2007MaterializeBlueDark ??= new PaletteOffice2007MaterializeBlueDark();
-    public static PaletteOffice2007MaterializeLightBlue PaletteOffice2007MaterializeLightBlue => _paletteOffice2007MaterializeLightBlue ??= new PaletteOffice2007MaterializeLightBlue();
-    public static PaletteOffice2007MaterializeLightBlueDark PaletteOffice2007MaterializeLightBlueDark => _paletteOffice2007MaterializeLightBlueDark ??= new PaletteOffice2007MaterializeLightBlueDark();
-    public static PaletteOffice2007SilverDarkModeAlternate PaletteOffice2007SilverDarkModeAlternate => _paletteOffice2007SilverDarkModeAlternate ??= new PaletteOffice2007SilverDarkModeAlternate();
-    public static PaletteOffice2010MaterializeBlue PaletteOffice2010MaterializeBlue => _paletteOffice2010MaterializeBlue ??= new PaletteOffice2010MaterializeBlue();
-    public static PaletteOffice2010MaterializeBlueDark PaletteOffice2010MaterializeBlueDark => _paletteOffice2010MaterializeBlueDark ??= new PaletteOffice2010MaterializeBlueDark();
-    public static PaletteOffice2010MaterializeLightBlue PaletteOffice2010MaterializeLightBlue => _paletteOffice2010MaterializeLightBlue ??= new PaletteOffice2010MaterializeLightBlue();
-    public static PaletteOffice2010MaterializeLightBlueDark PaletteOffice2010MaterializeLightBlueDark => _paletteOffice2010MaterializeLightBlueDark ??= new PaletteOffice2010MaterializeLightBlueDark();
-    public static PaletteOffice2010SilverDarkModeAlternate PaletteOffice2010SilverDarkModeAlternate => _paletteOffice2010SilverDarkModeAlternate ??= new PaletteOffice2010SilverDarkModeAlternate();
-    public static PaletteOffice2013MaterializeBlue PaletteOffice2013MaterializeBlue => _paletteOffice2013MaterializeBlue ??= new PaletteOffice2013MaterializeBlue();
-    public static PaletteOffice2013MaterializeBlueDark PaletteOffice2013MaterializeBlueDark => _paletteOffice2013MaterializeBlueDark ??= new PaletteOffice2013MaterializeBlueDark();
-    public static PaletteOffice2013MaterializeLightBlue PaletteOffice2013MaterializeLightBlue => _paletteOffice2013MaterializeLightBlue ??= new PaletteOffice2013MaterializeLightBlue();
-    public static PaletteOffice2013MaterializeLightBlueDark PaletteOffice2013MaterializeLightBlueDark => _paletteOffice2013MaterializeLightBlueDark ??= new PaletteOffice2013MaterializeLightBlueDark();
-    public static PaletteOffice2013SilverDarkModeAlternate PaletteOffice2013SilverDarkModeAlternate => _paletteOffice2013SilverDarkModeAlternate ??= new PaletteOffice2013SilverDarkModeAlternate();
-    public static PaletteMicrosoft365MaterializeBlue PaletteMicrosoft365MaterializeBlue => _paletteMicrosoft365MaterializeBlue ??= new PaletteMicrosoft365MaterializeBlue();
-    public static PaletteMicrosoft365MaterializeBlueDark PaletteMicrosoft365MaterializeBlueDark => _paletteMicrosoft365MaterializeBlueDark ??= new PaletteMicrosoft365MaterializeBlueDark();
-    public static PaletteMicrosoft365MaterializeLightBlue PaletteMicrosoft365MaterializeLightBlue => _paletteMicrosoft365MaterializeLightBlue ??= new PaletteMicrosoft365MaterializeLightBlue();
-    public static PaletteMicrosoft365MaterializeLightBlueDark PaletteMicrosoft365MaterializeLightBlueDark => _paletteMicrosoft365MaterializeLightBlueDark ??= new PaletteMicrosoft365MaterializeLightBlueDark();
-    public static PaletteMicrosoft365SilverDarkModeAlternate PaletteMicrosoft365SilverDarkModeAlternate => _paletteMicrosoft365SilverDarkModeAlternate ??= new PaletteMicrosoft365SilverDarkModeAlternate();
-    public static PaletteMaterialMaterializeBlue PaletteMaterialMaterializeBlue => _paletteMaterialMaterializeBlue ??= new PaletteMaterialMaterializeBlue();
-    public static PaletteMaterialMaterializeBlueDark PaletteMaterialMaterializeBlueDark => _paletteMaterialMaterializeBlueDark ??= new PaletteMaterialMaterializeBlueDark();
-    public static PaletteMaterialMaterializeBlueRipple PaletteMaterialMaterializeBlueRipple => _paletteMaterialMaterializeBlueRipple ??= new PaletteMaterialMaterializeBlueRipple();
-    public static PaletteMaterialMaterializeBlueDarkRipple PaletteMaterialMaterializeBlueDarkRipple => _paletteMaterialMaterializeBlueDarkRipple ??= new PaletteMaterialMaterializeBlueDarkRipple();
-    public static PaletteMaterialMaterializeLightBlue PaletteMaterialMaterializeLightBlue => _paletteMaterialMaterializeLightBlue ??= new PaletteMaterialMaterializeLightBlue();
-    public static PaletteMaterialMaterializeLightBlueDark PaletteMaterialMaterializeLightBlueDark => _paletteMaterialMaterializeLightBlueDark ??= new PaletteMaterialMaterializeLightBlueDark();
-    public static PaletteMaterialMaterializeLightBlueRipple PaletteMaterialMaterializeLightBlueRipple => _paletteMaterialMaterializeLightBlueRipple ??= new PaletteMaterialMaterializeLightBlueRipple();
-    public static PaletteMaterialMaterializeLightBlueDarkRipple PaletteMaterialMaterializeLightBlueDarkRipple => _paletteMaterialMaterializeLightBlueDarkRipple ??= new PaletteMaterialMaterializeLightBlueDarkRipple();
-    public static PaletteMaterialSilverDarkModeAlternate PaletteMaterialSilverDarkModeAlternate => _paletteMaterialSilverDarkModeAlternate ??= new PaletteMaterialSilverDarkModeAlternate();
-    public static PaletteMaterialSilverDarkModeAlternateRipple PaletteMaterialSilverDarkModeAlternateRipple => _paletteMaterialSilverDarkModeAlternateRipple ??= new PaletteMaterialSilverDarkModeAlternateRipple();
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMicrosoft365LimeGreenDark => GetPaletteForMode(PaletteMode.Microsoft365LimeGreenDark);
 
-    private static PaletteMaterialLight? _paletteMaterialLight;
-    private static PaletteMaterialDark? _paletteMaterialDark;
-    private static PaletteMaterialLightRipple? _paletteMaterialLightRipple;
-    private static PaletteMaterialDarkRipple? _paletteMaterialDarkRipple;
-    private static PaletteMaterialLimeGreen? _paletteMaterialLimeGreen;
-    private static PaletteMaterialLimeGreenDark? _paletteMaterialLimeGreenDark;
-    private static PaletteMaterialLimeGreenRipple? _paletteMaterialLimeGreenRipple;
-    private static PaletteMaterialLimeGreenDarkRipple? _paletteMaterialLimeGreenDarkRipple;
-    private static PaletteMaterialDarkGray? _paletteMaterialDarkGray;
-    private static PaletteMaterialLightGray? _paletteMaterialLightGray;
-    private static PaletteMaterialDarkGrayRipple? _paletteMaterialDarkGrayRipple;
-    private static PaletteMaterialLightGrayRipple? _paletteMaterialLightGrayRipple;
+    /// <summary>Gets the Office 2007 Materialize Blue extra palette.</summary>
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2007MaterializeBlue => GetPaletteForMode(PaletteMode.Office2007MaterializeBlue);
 
-    private static PaletteRetroGreen? _paletteRetroGreen;
-    private static PaletteRetroBlue? _paletteRetroBlue;
-    private static PaletteMacOSXAqua? _paletteMacOSXAqua;
-    private static PaletteMacOSLight? _paletteMacOSLight;
-    private static PaletteMacOSDark? _paletteMacOSDark;
-    private static PaletteHighContrast? _paletteHighContrast;
-    private static PaletteDeuteranopia? _paletteDeuteranopia;
-    private static PaletteProtanopia? _paletteProtanopia;
-    private static PaletteOffice2007HighContrast? _paletteOffice2007HighContrast;
-    private static PaletteOffice2007Deuteranopia? _paletteOffice2007Deuteranopia;
-    private static PaletteOffice2007Protanopia? _paletteOffice2007Protanopia;
-    private static PaletteOffice2010HighContrast? _paletteOffice2010HighContrast;
-    private static PaletteOffice2010Deuteranopia? _paletteOffice2010Deuteranopia;
-    private static PaletteOffice2010Protanopia? _paletteOffice2010Protanopia;
-    private static PaletteOffice2013HighContrast? _paletteOffice2013HighContrast;
-    private static PaletteOffice2013Deuteranopia? _paletteOffice2013Deuteranopia;
-    private static PaletteOffice2013Protanopia? _paletteOffice2013Protanopia;
-    private static PaletteSparkleHighContrast? _paletteSparkleHighContrast;
-    private static PaletteSparkleDeuteranopia? _paletteSparkleDeuteranopia;
-    private static PaletteSparkleProtanopia? _paletteSparkleProtanopia;
-    private static PaletteMaterialHighContrast? _paletteMaterialHighContrast;
-    private static PaletteMaterialDeuteranopia? _paletteMaterialDeuteranopia;
-    private static PaletteMaterialProtanopia? _paletteMaterialProtanopia;
-    private static PaletteMaterialHighContrastRipple? _paletteMaterialHighContrastRipple;
-    private static PaletteMaterialDeuteranopiaRipple? _paletteMaterialDeuteranopiaRipple;
-    private static PaletteMaterialProtanopiaRipple? _paletteMaterialProtanopiaRipple;
+    /// <summary>Gets the Office 2007 Materialize Blue dark extra palette.</summary>
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2007MaterializeBlueDark => GetPaletteForMode(PaletteMode.Office2007MaterializeBlueDark);
 
-    private static PaletteOffice2007LimeGreen? _paletteOffice2007LimeGreen;
-    private static PaletteOffice2007LimeGreenDark? _paletteOffice2007LimeGreenDark;
-    private static PaletteOffice2010LimeGreen? _paletteOffice2010LimeGreen;
-    private static PaletteOffice2010LimeGreenDark? _paletteOffice2010LimeGreenDark;
-    private static PaletteMicrosoft365LimeGreen? _paletteMicrosoft365LimeGreen;
-    private static PaletteMicrosoft365LimeGreenDark? _paletteMicrosoft365LimeGreenDark;
-    private static PaletteOffice2007MaterializeBlue? _paletteOffice2007MaterializeBlue;
-    private static PaletteOffice2007MaterializeBlueDark? _paletteOffice2007MaterializeBlueDark;
-    private static PaletteOffice2007MaterializeLightBlue? _paletteOffice2007MaterializeLightBlue;
-    private static PaletteOffice2007MaterializeLightBlueDark? _paletteOffice2007MaterializeLightBlueDark;
-    private static PaletteOffice2007SilverDarkModeAlternate? _paletteOffice2007SilverDarkModeAlternate;
-    private static PaletteOffice2010MaterializeBlue? _paletteOffice2010MaterializeBlue;
-    private static PaletteOffice2010MaterializeBlueDark? _paletteOffice2010MaterializeBlueDark;
-    private static PaletteOffice2010MaterializeLightBlue? _paletteOffice2010MaterializeLightBlue;
-    private static PaletteOffice2010MaterializeLightBlueDark? _paletteOffice2010MaterializeLightBlueDark;
-    private static PaletteOffice2010SilverDarkModeAlternate? _paletteOffice2010SilverDarkModeAlternate;
-    private static PaletteOffice2013MaterializeBlue? _paletteOffice2013MaterializeBlue;
-    private static PaletteOffice2013MaterializeBlueDark? _paletteOffice2013MaterializeBlueDark;
-    private static PaletteOffice2013MaterializeLightBlue? _paletteOffice2013MaterializeLightBlue;
-    private static PaletteOffice2013MaterializeLightBlueDark? _paletteOffice2013MaterializeLightBlueDark;
-    private static PaletteOffice2013SilverDarkModeAlternate? _paletteOffice2013SilverDarkModeAlternate;
-    private static PaletteMicrosoft365MaterializeBlue? _paletteMicrosoft365MaterializeBlue;
-    private static PaletteMicrosoft365MaterializeBlueDark? _paletteMicrosoft365MaterializeBlueDark;
-    private static PaletteMicrosoft365MaterializeLightBlue? _paletteMicrosoft365MaterializeLightBlue;
-    private static PaletteMicrosoft365MaterializeLightBlueDark? _paletteMicrosoft365MaterializeLightBlueDark;
-    private static PaletteMicrosoft365SilverDarkModeAlternate? _paletteMicrosoft365SilverDarkModeAlternate;
-    private static PaletteMaterialMaterializeBlue? _paletteMaterialMaterializeBlue;
-    private static PaletteMaterialMaterializeBlueDark? _paletteMaterialMaterializeBlueDark;
-    private static PaletteMaterialMaterializeBlueRipple? _paletteMaterialMaterializeBlueRipple;
-    private static PaletteMaterialMaterializeBlueDarkRipple? _paletteMaterialMaterializeBlueDarkRipple;
-    private static PaletteMaterialMaterializeLightBlue? _paletteMaterialMaterializeLightBlue;
-    private static PaletteMaterialMaterializeLightBlueDark? _paletteMaterialMaterializeLightBlueDark;
-    private static PaletteMaterialMaterializeLightBlueRipple? _paletteMaterialMaterializeLightBlueRipple;
-    private static PaletteMaterialMaterializeLightBlueDarkRipple? _paletteMaterialMaterializeLightBlueDarkRipple;
-    private static PaletteMaterialSilverDarkModeAlternate? _paletteMaterialSilverDarkModeAlternate;
-    private static PaletteMaterialSilverDarkModeAlternateRipple? _paletteMaterialSilverDarkModeAlternateRipple;
+    /// <summary>Gets the Office 2007 Materialize Light Blue extra palette.</summary>
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2007MaterializeLightBlue => GetPaletteForMode(PaletteMode.Office2007MaterializeLightBlue);
+
+    /// <summary>Gets the Office 2007 Materialize Light Blue dark extra palette.</summary>
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2007MaterializeLightBlueDark => GetPaletteForMode(PaletteMode.Office2007MaterializeLightBlueDark);
+
+    /// <summary>Gets the Office 2007 Silver Dark Mode Alternate extra palette.</summary>
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2007SilverDarkModeAlternate => GetPaletteForMode(PaletteMode.Office2007SilverDarkModeAlternate);
+
+    /// <summary>Gets the Office 2010 Materialize Blue extra palette.</summary>
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2010MaterializeBlue => GetPaletteForMode(PaletteMode.Office2010MaterializeBlue);
+
+    /// <summary>Gets the Office 2010 Materialize Blue dark extra palette.</summary>
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2010MaterializeBlueDark => GetPaletteForMode(PaletteMode.Office2010MaterializeBlueDark);
+
+    /// <summary>Gets the Office 2010 Materialize Light Blue extra palette.</summary>
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2010MaterializeLightBlue => GetPaletteForMode(PaletteMode.Office2010MaterializeLightBlue);
+
+    /// <summary>Gets the Office 2010 Materialize Light Blue dark extra palette.</summary>
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2010MaterializeLightBlueDark => GetPaletteForMode(PaletteMode.Office2010MaterializeLightBlueDark);
+
+    /// <summary>Gets the Office 2010 Silver Dark Mode Alternate extra palette.</summary>
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2010SilverDarkModeAlternate => GetPaletteForMode(PaletteMode.Office2010SilverDarkModeAlternate);
+
+    /// <summary>Gets the Office 2013 Materialize Blue extra palette.</summary>
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2013MaterializeBlue => GetPaletteForMode(PaletteMode.Office2013MaterializeBlue);
+
+    /// <summary>Gets the Office 2013 Materialize Blue dark extra palette.</summary>
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2013MaterializeBlueDark => GetPaletteForMode(PaletteMode.Office2013MaterializeBlueDark);
+
+    /// <summary>Gets the Office 2013 Materialize Light Blue extra palette.</summary>
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2013MaterializeLightBlue => GetPaletteForMode(PaletteMode.Office2013MaterializeLightBlue);
+
+    /// <summary>Gets the Office 2013 Materialize Light Blue dark extra palette.</summary>
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2013MaterializeLightBlueDark => GetPaletteForMode(PaletteMode.Office2013MaterializeLightBlueDark);
+
+    /// <summary>Gets the Office 2013 Silver Dark Mode Alternate extra palette.</summary>
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteOffice2013SilverDarkModeAlternate => GetPaletteForMode(PaletteMode.Office2013SilverDarkModeAlternate);
+
+    /// <summary>Gets the Microsoft 365 Materialize Blue extra palette.</summary>
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMicrosoft365MaterializeBlue => GetPaletteForMode(PaletteMode.Microsoft365MaterializeBlue);
+
+    /// <summary>Gets the Microsoft 365 Materialize Blue dark extra palette.</summary>
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMicrosoft365MaterializeBlueDark => GetPaletteForMode(PaletteMode.Microsoft365MaterializeBlueDark);
+
+    /// <summary>Gets the Microsoft 365 Materialize Light Blue extra palette.</summary>
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMicrosoft365MaterializeLightBlue => GetPaletteForMode(PaletteMode.Microsoft365MaterializeLightBlue);
+
+    /// <summary>Gets the Microsoft 365 Materialize Light Blue dark extra palette.</summary>
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMicrosoft365MaterializeLightBlueDark => GetPaletteForMode(PaletteMode.Microsoft365MaterializeLightBlueDark);
+
+    /// <summary>Gets the Microsoft 365 Silver Dark Mode Alternate extra palette.</summary>
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMicrosoft365SilverDarkModeAlternate => GetPaletteForMode(PaletteMode.Microsoft365SilverDarkModeAlternate);
+
+    /// <summary>Gets the Material Materialize Blue extra palette.</summary>
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMaterialMaterializeBlue => GetPaletteForMode(PaletteMode.MaterialMaterializeBlue);
+
+    /// <summary>Gets the Material Materialize Blue dark extra palette.</summary>
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMaterialMaterializeBlueDark => GetPaletteForMode(PaletteMode.MaterialMaterializeBlueDark);
+
+    /// <summary>Gets the Material Materialize Blue Ripple extra palette.</summary>
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMaterialMaterializeBlueRipple => GetPaletteForMode(PaletteMode.MaterialMaterializeBlueRipple);
+
+    /// <summary>Gets the Material Materialize Blue dark Ripple extra palette.</summary>
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMaterialMaterializeBlueDarkRipple => GetPaletteForMode(PaletteMode.MaterialMaterializeBlueDarkRipple);
+
+    /// <summary>Gets the Material Materialize Light Blue extra palette.</summary>
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMaterialMaterializeLightBlue => GetPaletteForMode(PaletteMode.MaterialMaterializeLightBlue);
+
+    /// <summary>Gets the Material Materialize Light Blue dark extra palette.</summary>
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMaterialMaterializeLightBlueDark => GetPaletteForMode(PaletteMode.MaterialMaterializeLightBlueDark);
+
+    /// <summary>Gets the Material Materialize Light Blue Ripple extra palette.</summary>
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMaterialMaterializeLightBlueRipple => GetPaletteForMode(PaletteMode.MaterialMaterializeLightBlueRipple);
+
+    /// <summary>Gets the Material Materialize Light Blue dark Ripple extra palette.</summary>
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMaterialMaterializeLightBlueDarkRipple => GetPaletteForMode(PaletteMode.MaterialMaterializeLightBlueDarkRipple);
+
+    /// <summary>Gets the Material Silver Dark Mode Alternate extra palette.</summary>
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMaterialSilverDarkModeAlternate => GetPaletteForMode(PaletteMode.MaterialSilverDarkModeAlternate);
+
+    /// <summary>Gets the Material Silver Dark Mode Alternate Ripple extra palette.</summary>
+    // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
+    [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
+    public static PaletteBase PaletteMaterialSilverDarkModeAlternateRipple => GetPaletteForMode(PaletteMode.MaterialSilverDarkModeAlternateRipple);
 
     //public static PaletteBase CustomPaletteBase => _customPalette ??= new PaletteBase ();
 
@@ -2576,28 +2473,17 @@ public sealed class KryptonManager : Component
         _paletteProfessionalSystem?.UserPreferenceChanged();
         _paletteOffice2007Blue?.UserPreferenceChanged();
         _paletteOffice2007Silver?.UserPreferenceChanged();
-        _paletteOffice2007White?.UserPreferenceChanged();
         _paletteOffice2007Black?.UserPreferenceChanged();
-
         _paletteOffice2010Blue?.UserPreferenceChanged();
         _paletteOffice2010Silver?.UserPreferenceChanged();
         _paletteOffice2010Black?.UserPreferenceChanged();
-        _paletteOffice2010White?.UserPreferenceChanged();
-        _paletteOffice2013White?.UserPreferenceChanged();
-
-        _paletteSparkleBlue?.UserPreferenceChanged();
-        _paletteSparkleOrange?.UserPreferenceChanged();
-        _paletteSparklePurple?.UserPreferenceChanged();
-
         _paletteMicrosoft365Black?.UserPreferenceChanged();
         _paletteMicrosoft365Blue?.UserPreferenceChanged();
         _paletteMicrosoft365Silver?.UserPreferenceChanged();
-        _paletteMicrosoft365White?.UserPreferenceChanged();
-
-        _paletteVisualStudio2010Office2007Variation?.UserPreferenceChanged();
-        _paletteVisualStudio2010Office2010Variation?.UserPreferenceChanged();
-        _paletteVisualStudio2010Office2013Variation?.UserPreferenceChanged();
-        _paletteVisualStudio2010Microsoft365Variation?.UserPreferenceChanged();
+        _paletteSparkleBlue?.UserPreferenceChanged();
+        _paletteSparkleOrange?.UserPreferenceChanged();
+        _paletteSparklePurple?.UserPreferenceChanged();
+        KryptonThemeCatalog.NotifyUserPreferenceChanged();
 
         UpdateToolStripManager();
     }
@@ -2654,191 +2540,8 @@ public sealed class KryptonManager : Component
         GlobalPaletteChanged?.Invoke(null, e);
     }
 
-    private static void UpdatePaletteImages(PaletteMode paletteMode)
-    {
-        switch (paletteMode)
-        {
-            case PaletteMode.Global:
-            case PaletteMode.Custom:
-                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.GenericToolBarImages);
-                break;
-            case PaletteMode.ProfessionalSystem:
-                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.SystemToolBarImages);
-                break;
-            case PaletteMode.ProfessionalOffice2003:
-                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Office2003ToolBarImages);
-                break;
-            case PaletteMode.Office2007Blue:
-            case PaletteMode.Office2007BlueDarkMode:
-            case PaletteMode.Office2007BlueLightMode:
-            case PaletteMode.Office2007Silver:
-            case PaletteMode.Office2007SilverDarkMode:
-            case PaletteMode.Office2007SilverLightMode:
-            case PaletteMode.Office2007White:
-            case PaletteMode.Office2007Black:
-            case PaletteMode.Office2007BlackDarkMode:
-            case PaletteMode.Office2007LimeGreen:
-            case PaletteMode.Office2007LimeGreenDark:
-            case PaletteMode.Office2007MaterializeBlue:
-            case PaletteMode.Office2007MaterializeBlueDark:
-            case PaletteMode.Office2007MaterializeLightBlue:
-            case PaletteMode.Office2007MaterializeLightBlueDark:
-            case PaletteMode.Office2007SilverDarkModeAlternate:
-            case PaletteMode.Office2007DarkGray:
-            case PaletteMode.Office2007LightGray:
-            case PaletteMode.VisualStudio2010Render2007:
-            case PaletteMode.Office2007HighContrast:
-            case PaletteMode.Office2007Deuteranopia:
-            case PaletteMode.Office2007Protanopia:
-                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Office2007ToolBarImages);
-                break;
-            case PaletteMode.Office2010Blue:
-            case PaletteMode.Office2010BlueDarkMode:
-            case PaletteMode.Office2010BlueLightMode:
-            case PaletteMode.Office2010Silver:
-            case PaletteMode.Office2010SilverDarkMode:
-            case PaletteMode.Office2010SilverLightMode:
-            case PaletteMode.Office2010White:
-            case PaletteMode.Office2010Black:
-            case PaletteMode.Office2010BlackDarkMode:
-            case PaletteMode.SparkleBlue:
-            case PaletteMode.SparkleBlueDarkMode:
-            case PaletteMode.SparkleBlueLightMode:
-            case PaletteMode.SparkleOrange:
-            case PaletteMode.SparkleOrangeDarkMode:
-            case PaletteMode.SparkleOrangeLightMode:
-            case PaletteMode.SparklePurple:
-            case PaletteMode.SparklePurpleDarkMode:
-            case PaletteMode.SparklePurpleLightMode:
-            case PaletteMode.SparkleHighContrast:
-            case PaletteMode.SparkleDeuteranopia:
-            case PaletteMode.SparkleProtanopia:
-            case PaletteMode.Office2010LimeGreen:
-            case PaletteMode.Office2010LimeGreenDark:
-            case PaletteMode.Office2010MaterializeBlue:
-            case PaletteMode.Office2010MaterializeBlueDark:
-            case PaletteMode.Office2010MaterializeLightBlue:
-            case PaletteMode.Office2010MaterializeLightBlueDark:
-            case PaletteMode.Office2010SilverDarkModeAlternate:
-            case PaletteMode.Office2010DarkGray:
-            case PaletteMode.Office2010LightGray:
-            case PaletteMode.VisualStudio2010Render2010:
-            case PaletteMode.Office2010HighContrast:
-            case PaletteMode.Office2010Deuteranopia:
-            case PaletteMode.Office2010Protanopia:
-                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Office2010ToolBarImages);
-                break;
-            case PaletteMode.Office2013DarkGray:
-            case PaletteMode.Office2013LightGray:
-            case PaletteMode.Office2013White:
-            case PaletteMode.VisualStudio2010Render2013:
-            case PaletteMode.Office2013HighContrast:
-            case PaletteMode.Office2013Deuteranopia:
-            case PaletteMode.Office2013Protanopia:
-            case PaletteMode.Office2013MaterializeBlue:
-            case PaletteMode.Office2013MaterializeBlueDark:
-            case PaletteMode.Office2013MaterializeLightBlue:
-            case PaletteMode.Office2013MaterializeLightBlueDark:
-            case PaletteMode.Office2013SilverDarkModeAlternate:
-                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Office2013ToolBarImages);
-                break;
-            case PaletteMode.Microsoft365Black:
-            case PaletteMode.Microsoft365BlackDarkMode:
-            case PaletteMode.Microsoft365BlackDarkModeAlternate:
-            case PaletteMode.Microsoft365Blue:
-            case PaletteMode.Microsoft365BlueDarkMode:
-            case PaletteMode.Microsoft365BlueLightMode:
-            case PaletteMode.Microsoft365Silver:
-            case PaletteMode.Microsoft365SilverDarkMode:
-            case PaletteMode.Microsoft365SilverLightMode:
-            case PaletteMode.Microsoft365White:
-            case PaletteMode.Microsoft365LimeGreen:
-            case PaletteMode.Microsoft365LimeGreenDark:
-            case PaletteMode.Microsoft365MaterializeBlue:
-            case PaletteMode.Microsoft365MaterializeBlueDark:
-            case PaletteMode.Microsoft365MaterializeLightBlue:
-            case PaletteMode.Microsoft365MaterializeLightBlueDark:
-            case PaletteMode.Microsoft365SilverDarkModeAlternate:
-            case PaletteMode.Microsoft365DarkGray:
-            case PaletteMode.Microsoft365LightGray:
-            case PaletteMode.VisualStudio2010Render365:
-            case PaletteMode.HighContrast:
-            case PaletteMode.Deuteranopia:
-            case PaletteMode.Protanopia:
-                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Microsoft365ToolBarImages);
-                break;
-            case PaletteMode.VisualStudio2012Dark:
-            case PaletteMode.VisualStudio2012Light:
-            case PaletteMode.VisualStudio2012Blue:
-            case PaletteMode.VisualStudio2013Dark:
-            case PaletteMode.VisualStudio2013Light:
-            case PaletteMode.VisualStudio2013Blue:
-            case PaletteMode.VisualStudio2015Dark:
-            case PaletteMode.VisualStudio2015Light:
-            case PaletteMode.VisualStudio2015Blue:
-            case PaletteMode.VisualStudio2017Dark:
-            case PaletteMode.VisualStudio2017Light:
-            case PaletteMode.VisualStudio2017Blue:
-            case PaletteMode.VisualStudio2019Dark:
-            case PaletteMode.VisualStudio2019Light:
-            case PaletteMode.VisualStudio2019Blue:
-            case PaletteMode.VisualStudio2022Dark:
-            case PaletteMode.VisualStudio2022Light:
-            case PaletteMode.VisualStudio2022Blue:
-            case PaletteMode.VisualStudio2026Dark:
-            case PaletteMode.VisualStudio2026Light:
-                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.VisualStudioToolBarImages);
-                break;
-            case PaletteMode.MaterialLight:
-            case PaletteMode.MaterialDark:
-            case PaletteMode.MaterialLightRipple:
-            case PaletteMode.MaterialDarkRipple:
-            case PaletteMode.MaterialLimeGreen:
-            case PaletteMode.MaterialLimeGreenDark:
-            case PaletteMode.MaterialLimeGreenRipple:
-            case PaletteMode.MaterialLimeGreenDarkRipple:
-            case PaletteMode.MaterialMaterializeBlue:
-            case PaletteMode.MaterialMaterializeBlueDark:
-            case PaletteMode.MaterialMaterializeBlueRipple:
-            case PaletteMode.MaterialMaterializeBlueDarkRipple:
-            case PaletteMode.MaterialMaterializeLightBlue:
-            case PaletteMode.MaterialMaterializeLightBlueDark:
-            case PaletteMode.MaterialMaterializeLightBlueRipple:
-            case PaletteMode.MaterialMaterializeLightBlueDarkRipple:
-            case PaletteMode.MaterialSilverDarkModeAlternate:
-            case PaletteMode.MaterialSilverDarkModeAlternateRipple:
-            case PaletteMode.MaterialDarkGray:
-            case PaletteMode.MaterialLightGray:
-            case PaletteMode.MaterialDarkGrayRipple:
-            case PaletteMode.MaterialLightGrayRipple:
-            case PaletteMode.MaterialHighContrast:
-            case PaletteMode.MaterialDeuteranopia:
-            case PaletteMode.MaterialProtanopia:
-            case PaletteMode.MaterialHighContrastRipple:
-            case PaletteMode.MaterialDeuteranopiaRipple:
-            case PaletteMode.MaterialProtanopiaRipple:
-                // TODO create our own Material images
-                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Microsoft365ToolBarImages);
-                break;
-            case PaletteMode.RetroGreen:
-            case PaletteMode.RetroBlue:
-                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Office2010ToolBarImages);
-                break;
-            case PaletteMode.MacOSXAqua:
-            case PaletteMode.MacOSLight:
-            case PaletteMode.MacOSDark:
-                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Microsoft365ToolBarImages);
-                break;
-            default:
-                // Should not happen!
-
-                // Disable since palette mode is an enum and is not nullable
-                //Debug.Assert(paletteMode is not null);
-
-                DebugTools.NotImplemented(paletteMode.ToString());
-                break;
-        }
-    }
+    private static void UpdatePaletteImages(PaletteMode paletteMode) =>
+        KryptonThemeChrome.ApplyToolbarImages(paletteMode);
 
     private static void UpdateToolStripManager()
     {

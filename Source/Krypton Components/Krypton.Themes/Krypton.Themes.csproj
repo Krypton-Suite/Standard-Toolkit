@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Krypton.Themes</RootNamespace>
+    <AssemblyName>Krypton.Themes</AssemblyName>
+    <CheckEolTargetFramework>false</CheckEolTargetFramework>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\Krypton.Toolkit\StrongKrypton.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>false</DelaySign>
+    <UseWindowsForms>true</UseWindowsForms>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <NeutralLanguage>en</NeutralLanguage>
+    <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
+    <Configurations>Debug;Release;Installer;Nightly;Canary</Configurations>
+    <Nullable>enable</Nullable>
+    <WarningLevel>8</WarningLevel>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+    <ForceDesignerDPIUnaware>true</ForceDesignerDPIUnaware>
+    <ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>1701;1702</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>Krypton.Themes</PackageId>
+    <Description>Optional extra builtin palettes (Visual Studio, Material, macOS, Office 2013, Sparkle dark/light variants, gray/lime/accessibility, Materialize, and more). Auto-discovered by KryptonManager when this assembly is present. Official Sparkle Blue/Orange/Purple remain in Krypton.Toolkit.</Description>
+  </PropertyGroup>
+
+  <Import Project="..\Krypton.Shared\Krypton.SharedCompileItems.props" />
+  <PropertyGroup>
+    <IncludeKryptonGlobalSuppressionsLink>true</IncludeKryptonGlobalSuppressionsLink>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Krypton.Interop\Krypton.Interop.csproj" PrivateAssets="all" />
+    <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'!='Debug'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+</Project>

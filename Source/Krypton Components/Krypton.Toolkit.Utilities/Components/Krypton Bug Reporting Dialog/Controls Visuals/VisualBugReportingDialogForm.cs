@@ -22,6 +22,9 @@ public partial class VisualBugReportingDialogForm : KryptonForm
     private readonly BugReportEmailService _emailService = new BugReportEmailService();
     private readonly Dictionary<string, Bitmap> _thumbnailCache = new Dictionary<string, Bitmap>();
     private readonly KryptonErrorProvider _errorProvider;
+    private readonly bool _includeApplicationLog;
+    private KryptonCheckBox? _kchkIncludeLog;
+    private string? _logExcerptPath;
 
     #endregion
 
@@ -32,7 +35,8 @@ public partial class VisualBugReportingDialogForm : KryptonForm
     /// </summary>
     /// <param name="exception">The exception to be reported, or null if no exception is associated with the bug report.</param>
     /// <param name="emailConfig">The configuration settings for sending the bug report via email, or null to use default settings.</param>
-    public VisualBugReportingDialogForm(Exception? exception, BugReportEmailConfig? emailConfig)
+    /// <param name="includeApplicationLog">When true, the include-log checkbox starts checked and a log excerpt is attached when available.</param>
+    public VisualBugReportingDialogForm(Exception? exception, BugReportEmailConfig? emailConfig, bool includeApplicationLog = false)
     {
         InitializeComponent();
 
@@ -40,6 +44,7 @@ public partial class VisualBugReportingDialogForm : KryptonForm
 
         _exception = exception;
         _emailConfig = emailConfig;
+        _includeApplicationLog = includeApplicationLog;
 
         _errorProvider = new KryptonErrorProvider
         {
@@ -85,6 +90,59 @@ public partial class VisualBugReportingDialogForm : KryptonForm
 
         UpdateAttachmentList();
         UpdateSendButtonState();
+        EnsureIncludeLogCheckBox();
+    }
+
+    private void EnsureIncludeLogCheckBox()
+    {
+        if (KryptonLog.Memory == null && string.IsNullOrWhiteSpace(KryptonLog.ActiveFilePath) && !_includeApplicationLog)
+        {
+            return;
+        }
+
+        _kchkIncludeLog = new KryptonCheckBox
+        {
+            Checked = _includeApplicationLog,
+            Margin = new Padding(4)
+        };
+        _kchkIncludeLog.Values.Text = KryptonLogViewer.Strings.IncludeLog;
+        _kchkIncludeLog.CheckedChanged += (_, _) => SyncLogAttachment();
+
+        tableLayoutPanel1.RowCount = 5;
+        tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 32F));
+        tableLayoutPanel1.Controls.Add(_kchkIncludeLog, 1, 4);
+
+        if (_includeApplicationLog)
+        {
+            SyncLogAttachment();
+        }
+    }
+
+    private void SyncLogAttachment()
+    {
+        if (_kchkIncludeLog?.Checked == true)
+        {
+            if (_logExcerptPath != null && _attachmentPaths.Contains(_logExcerptPath))
+            {
+                return;
+            }
+
+            _logExcerptPath = KryptonLogViewer.TryCreateLogExcerptFile();
+            if (_logExcerptPath != null && !_attachmentPaths.Contains(_logExcerptPath))
+            {
+                _attachmentPaths.Add(_logExcerptPath);
+                UpdateAttachmentList();
+            }
+
+            return;
+        }
+
+        if (_logExcerptPath != null)
+        {
+            _attachmentPaths.Remove(_logExcerptPath);
+            _logExcerptPath = null;
+            UpdateAttachmentList();
+        }
     }
 
     /// <summary>
