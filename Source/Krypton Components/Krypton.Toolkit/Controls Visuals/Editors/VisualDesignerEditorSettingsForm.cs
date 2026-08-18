@@ -27,6 +27,8 @@ internal sealed partial class VisualDesignerEditorSettingsForm : KryptonForm
         ApplyDpiLayout();
 
         kcmbTheme.Items.AddRange(CommonHelperThemeSelectors.GetThemesArray());
+        ThemeManager.RegisteredThemesChanged += DesignerEditorThemesChanged;
+        Disposed += (_, _) => ThemeManager.RegisteredThemesChanged -= DesignerEditorThemesChanged;
         LoadCurrentSelection();
         ApplyPreviewTheme();
         kcmbTheme.SelectedIndexChanged += (_, _) => ApplyPreviewTheme();
@@ -158,6 +160,26 @@ internal sealed partial class VisualDesignerEditorSettingsForm : KryptonForm
         }
 
         KryptonDesignerEditorTheme.ApplyToForm(this, mode, null);
+    }
+
+    private void DesignerEditorThemesChanged(object? sender, EventArgs e)
+    {
+        if (IsDisposed)
+        {
+            return;
+        }
+
+        string? previous = kcmbTheme.SelectedItem as string;
+        var mode = KryptonManager.CurrentGlobalPaletteMode;
+        if (KryptonDesignerEditorThemePreferences.TryGetPreferredPaletteMode(out var preferred)
+            && preferred != PaletteMode.Global)
+        {
+            mode = preferred;
+        }
+
+        CommonHelperThemeSelectors.ReloadThemeItems(kcmbTheme.Items, includeExtra: true, previous, mode);
+        LoadCurrentSelection();
+        ApplyPreviewTheme();
     }
 
     private void OnClearPreference(object? sender, EventArgs e)

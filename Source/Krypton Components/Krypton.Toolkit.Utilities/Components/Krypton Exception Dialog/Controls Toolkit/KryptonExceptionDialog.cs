@@ -86,6 +86,18 @@ public static class KryptonExceptionDialog
     public static void Show(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSearchBox, Action<Exception>? bugReportCallback, SecureString? githubSecretKey, string? githubConfigPath = null) =>
         ShowCore(exception, highlightColor, showCopyButton, showSearchBox, bugReportCallback, githubSecretKey, githubConfigPath);
 
+    /// <summary>
+    /// Displays the specified exception using <paramref name="options"/> without changing existing overloads.
+    /// </summary>
+    /// <param name="exception">The exception to display. Cannot be null.</param>
+    /// <param name="options">Optional UI and log-attachment settings. When null, defaults are used.</param>
+    public static void Show(Exception exception, KryptonExceptionDialogOptions? options)
+    {
+        options ??= new KryptonExceptionDialogOptions();
+        ShowCore(exception, options.HighlightColor, options.ShowCopyButton, options.ShowSearchBox,
+            options.BugReportCallback, options.GitHubSecretKey, options.GitHubConfigPath, options);
+    }
+
     /// <summary>Displays the specified exception asynchronously using the default error dialog.</summary>
     public static Task ShowAsync(Exception exception) =>
         ShowCoreAsync(exception, null, null, null, null, null, null);
@@ -110,6 +122,14 @@ public static class KryptonExceptionDialog
     public static Task ShowAsync(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSearchBox, Action<Exception>? bugReportCallback, SecureString? githubSecretKey, string? githubConfigPath = null) =>
         ShowCoreAsync(exception, highlightColor, showCopyButton, showSearchBox, bugReportCallback, githubSecretKey, githubConfigPath);
 
+    /// <summary>Displays the specified exception asynchronously using <paramref name="options"/>.</summary>
+    public static Task ShowAsync(Exception exception, KryptonExceptionDialogOptions? options)
+    {
+        options ??= new KryptonExceptionDialogOptions();
+        return ShowCoreAsync(exception, options.HighlightColor, options.ShowCopyButton, options.ShowSearchBox,
+            options.BugReportCallback, options.GitHubSecretKey, options.GitHubConfigPath, options);
+    }
+
 
     #endregion
 
@@ -125,11 +145,12 @@ public static class KryptonExceptionDialog
     /// <param name="bugReportCallback">An optional callback that will be invoked when the user clicks the "Report Bug" button.</param>
     /// <param name="gitHubSecretKey">Optional secret key for GitHub bug reporting. When provided, "Report Bug" opens the GitHub issue dialog.</param>
     /// <param name="gitHubConfigFilePath">Optional path to the encrypted config file. If null, the default path is used.</param>
-    private static void ShowCore(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSearchBox, Action<Exception>? bugReportCallback, SecureString? gitHubSecretKey, string? gitHubConfigFilePath) =>
-        VisualExceptionDialogForm.Show(exception, highlightColor, showCopyButton, null, showSearchBox, bugReportCallback, null, gitHubSecretKey, gitHubConfigFilePath);
+    /// <param name="options">Optional extras such as recent-log copy and View Log. When null, those features are off.</param>
+    private static void ShowCore(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSearchBox, Action<Exception>? bugReportCallback, SecureString? gitHubSecretKey, string? gitHubConfigFilePath, KryptonExceptionDialogOptions? options = null) =>
+        VisualExceptionDialogForm.Show(exception, highlightColor, showCopyButton, null, showSearchBox, bugReportCallback, null, gitHubSecretKey, gitHubConfigFilePath, options);
 
-    private static Task ShowCoreAsync(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSearchBox, Action<Exception>? bugReportCallback, SecureString? gitHubSecretKey, string? gitHubConfigFilePath) =>
-        VisualExceptionDialogForm.ShowAsync(exception, highlightColor, showCopyButton, null, showSearchBox, bugReportCallback, null, gitHubSecretKey, gitHubConfigFilePath);
+    private static Task ShowCoreAsync(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSearchBox, Action<Exception>? bugReportCallback, SecureString? gitHubSecretKey, string? gitHubConfigFilePath, KryptonExceptionDialogOptions? options = null) =>
+        VisualExceptionDialogForm.ShowAsync(exception, highlightColor, showCopyButton, null, showSearchBox, bugReportCallback, null, gitHubSecretKey, gitHubConfigFilePath, options);
 
 
     #endregion

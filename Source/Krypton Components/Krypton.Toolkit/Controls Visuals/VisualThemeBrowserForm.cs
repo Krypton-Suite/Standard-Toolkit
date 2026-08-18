@@ -59,13 +59,7 @@ internal partial class VisualThemeBrowserForm : KryptonForm
 
 	private void KryptonThemeBrowserForm_Load(object sender, EventArgs e)
 	{
-		foreach (var themeName in ThemeManager.SupportedInternalThemeNames)
-		{
-			if (themeName != null)
-			{
-				klbThemeList.Items.Add(themeName);
-			}
-		}
+		CommonHelperThemeSelectors.FillThemeBrowserItems(klbThemeList.Items, _themeBrowserData);
 
 		int startIndex = CommonHelperThemeSelectors.GetThemeBrowserStartIndex(
 			_themeBrowserData,
