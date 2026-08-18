@@ -25,6 +25,8 @@ namespace Krypton.Toolkit.Utilities;
 [DesignerCategory(@"code")]
 public static class KryptonScreenColorPicker
 {
+    #region Static Fields
+
     /// <summary>
     /// Gets the localisable overlay, flyout, and format strings.
     /// Shared by all screen colour pickers in the application.
@@ -55,6 +57,10 @@ public static class KryptonScreenColorPicker
     private static KryptonScreenColorPickerColorFormat _visibleColorFormats =
         ScreenColorPickerColorFormatter.DefaultFormats;
 
+    #endregion
+
+    #region Public
+
     /// <summary>
     /// Flyout chrome used when <see cref="TryPick(IWin32Window?, out Color)"/> does not specify a style.
     /// Defaults to <see cref="KryptonScreenColorPickerFlyoutStyle.Krypton"/>.
@@ -83,25 +89,6 @@ public static class KryptonScreenColorPicker
     }
 
     /// <summary>
-    /// Clamps <paramref name="size"/> to an odd value between <see cref="MinimumMagnifierSize"/> and <see cref="MaximumMagnifierSize"/>.
-    /// </summary>
-    /// <param name="size">Requested source-pixel count.</param>
-    /// <returns>An odd size in range.</returns>
-    public static int ClampMagnifierSize(int size)
-    {
-        int clamped = Math.Max(MinimumMagnifierSize, Math.Min(MaximumMagnifierSize, size));
-        return (clamped & 1) == 0 ? clamped - 1 : clamped;
-    }
-
-    /// <summary>
-    /// Clamps <paramref name="zoom"/> to <see cref="MinimumZoom"/>–<see cref="MaximumZoom"/>.
-    /// </summary>
-    /// <param name="zoom">Requested pixel zoom.</param>
-    /// <returns>A zoom in range.</returns>
-    public static int ClampZoom(int zoom) =>
-        Math.Max(MinimumZoom, Math.Min(MaximumZoom, zoom));
-
-    /// <summary>
     /// Colour formats shown on the magnifier flyout. Defaults to known name, hex, RGB, and HSL.
     /// Unknown bits are ignored; an empty value falls back to the default set.
     /// </summary>
@@ -122,6 +109,29 @@ public static class KryptonScreenColorPicker
     /// </summary>
     public static KryptonScreenColorPickerColorFormat AllColorFormats =>
         ScreenColorPickerColorFormatter.AllFormats;
+
+    #endregion
+
+    #region Implementation
+
+    /// <summary>
+    /// Clamps <paramref name="size"/> to an odd value between <see cref="MinimumMagnifierSize"/> and <see cref="MaximumMagnifierSize"/>.
+    /// </summary>
+    /// <param name="size">Requested source-pixel count.</param>
+    /// <returns>An odd size in range.</returns>
+    public static int ClampMagnifierSize(int size)
+    {
+        int clamped = Math.Max(MinimumMagnifierSize, Math.Min(MaximumMagnifierSize, size));
+        return (clamped & 1) == 0 ? clamped - 1 : clamped;
+    }
+
+    /// <summary>
+    /// Clamps <paramref name="zoom"/> to <see cref="MinimumZoom"/>–<see cref="MaximumZoom"/>.
+    /// </summary>
+    /// <param name="zoom">Requested pixel zoom.</param>
+    /// <returns>A zoom in range.</returns>
+    public static int ClampZoom(int zoom) =>
+        Math.Max(MinimumZoom, Math.Min(MaximumZoom, zoom));
 
     /// <summary>
     /// Display name for a single <paramref name="format"/> flag, suitable for a checked list.
@@ -225,7 +235,7 @@ public static class KryptonScreenColorPicker
 
         try
         {
-            if (ownerForm != null && ownerForm.Visible)
+            if (ownerForm is { Visible: true })
             {
                 previousOpacity = ownerForm.Opacity;
                 ownerForm.Opacity = 0d;
@@ -254,7 +264,7 @@ public static class KryptonScreenColorPicker
         }
         finally
         {
-            if (hidden && ownerForm != null && !ownerForm.IsDisposed)
+            if (hidden && ownerForm is { IsDisposed: false })
             {
                 ownerForm.Opacity = previousOpacity;
             }
@@ -288,4 +298,6 @@ public static class KryptonScreenColorPicker
 
         VisibleColorFormats = flags;
     }
+
+    #endregion
 }

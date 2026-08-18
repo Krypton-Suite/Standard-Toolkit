@@ -25,11 +25,17 @@ namespace Krypton.Toolkit.Utilities;
 [Description(@"PowerToys-style screen colour picker. Call ShowDialog to sample a colour from the desktop.")]
 public class KryptonColorPicker : Component
 {
+    #region Instance Fields
+
     private Color _color = Color.Empty;
     private KryptonScreenColorPickerFlyoutStyle _flyoutStyle = KryptonScreenColorPickerFlyoutStyle.Krypton;
     private int _magnifierSize = KryptonScreenColorPicker.DefaultMagnifierSize;
     private int _zoom = KryptonScreenColorPicker.DefaultZoom;
     private KryptonScreenColorPickerColorFormat _visibleColorFormats = ScreenColorPickerColorFormatter.DefaultFormats;
+
+    #endregion
+
+    #region Identity
 
     /// <summary>
     /// Initializes a new instance of the <see cref="KryptonColorPicker"/> class.
@@ -49,6 +55,10 @@ public class KryptonColorPicker : Component
         container.Add(this);
     }
 
+    #endregion
+
+    #region Public
+
     /// <summary>
     /// Gets the localisable overlay, flyout, and format strings.
     /// Shared by all screen colour pickers in the application.
@@ -59,13 +69,6 @@ public class KryptonColorPicker : Component
     [Localizable(true)]
     [MergableProperty(false)]
     public KryptonScreenColorPickerStrings Strings => KryptonScreenColorPicker.Strings;
-
-    /// <summary>
-    /// Occurs when <see cref="Color"/> changes, including after a successful pick.
-    /// </summary>
-    [Category(@"Property Changed")]
-    [Description(@"Occurs when the sampled colour changes.")]
-    public event EventHandler? ColorChanged;
 
     /// <summary>
     /// Last colour sampled by <see cref="ShowDialog()"/>, or <see cref="Color.Empty"/> when none.
@@ -135,6 +138,21 @@ public class KryptonColorPicker : Component
         get => _visibleColorFormats;
         set => _visibleColorFormats = ScreenColorPickerColorFormatter.Normalize(value);
     }
+
+    #endregion
+
+    #region Events
+
+    /// <summary>
+    /// Occurs when <see cref="Color"/> changes, including after a successful pick.
+    /// </summary>
+    [Category(@"Property Changed")]
+    [Description(@"Occurs when the sampled colour changes.")]
+    public event EventHandler? ColorChanged;
+
+    #endregion
+
+    #region Implementation
 
     /// <summary>
     /// Captures a colour from the screen using this component's settings.
@@ -222,4 +240,6 @@ public class KryptonColorPicker : Component
 
         VisibleColorFormats = flags;
     }
+
+    #endregion
 }

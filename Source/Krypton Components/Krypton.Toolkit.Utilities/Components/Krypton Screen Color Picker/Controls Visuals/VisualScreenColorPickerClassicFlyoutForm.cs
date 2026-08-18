@@ -15,6 +15,8 @@ namespace Krypton.Toolkit.Utilities;
 /// </summary>
 internal sealed class VisualScreenColorPickerClassicFlyoutForm : Form
 {
+    #region Static Fields
+
     private const int WsExNoActivate = 0x08000000;
     private const int WsExToolWindow = 0x00000080;
     private const int WsExTopMost = 0x00000008;
@@ -25,6 +27,10 @@ internal sealed class VisualScreenColorPickerClassicFlyoutForm : Form
     private const int LineHeight = 16;
     private const int FooterPadding = 16;
     private const int CornerRadius = 8;
+
+    #endregion
+
+    #region Instance Fields
 
     private readonly KryptonScreenColorPickerColorFormat _visibleFormats;
     private readonly int _footerHeight;
@@ -43,6 +49,8 @@ internal sealed class VisualScreenColorPickerClassicFlyoutForm : Form
     private int _previewSize = MinimumPreview;
     private GraphicsPath? _roundPath;
     private Size _chromeSize;
+
+    #endregion
 
     internal VisualScreenColorPickerClassicFlyoutForm(KryptonScreenColorPickerColorFormat visibleFormats)
     {
