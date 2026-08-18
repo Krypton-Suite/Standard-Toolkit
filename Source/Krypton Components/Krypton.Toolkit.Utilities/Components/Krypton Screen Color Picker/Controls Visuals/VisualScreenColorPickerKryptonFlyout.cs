@@ -12,9 +12,16 @@ namespace Krypton.Toolkit.Utilities;
 /// <summary>
 /// Borderless TopMost host form that owns the <see cref="VisualScreenColorPickerKryptonFlyout"/> control
 /// and moves it independently of the transparent overlay to avoid erase artifacts.
+/// Mouse hits pass through so the overlay can confirm or cancel the pick.
 /// </summary>
 internal sealed class VisualScreenColorPickerKryptonFlyoutForm : Form
 {
+    private const int WsExNoActivate = 0x08000000;
+    private const int WsExToolWindow = 0x00000080;
+    private const int WsExTopMost = 0x00000008;
+    private const int WmNcHitTest = 0x0084;
+    private const int HtTransparent = -1;
+
     private readonly VisualScreenColorPickerKryptonFlyout _flyout;
 
     internal VisualScreenColorPickerKryptonFlyoutForm(KryptonCustomPaletteBase? palette)
@@ -23,23 +30,34 @@ internal sealed class VisualScreenColorPickerKryptonFlyoutForm : Form
         StartPosition = FormStartPosition.Manual;
         ShowInTaskbar = false;
         TopMost = true;
-        // Prevent the form from stealing focus from the overlay.
+        ControlBox = false;
+        MaximizeBox = false;
+        MinimizeBox = false;
         SetStyle(ControlStyles.Selectable, false);
 
         _flyout = new VisualScreenColorPickerKryptonFlyout();
         _flyout.ApplyPalette(palette);
-        _flyout.Dock = DockStyle.Fill;
+        _flyout.Location = Point.Empty;
         Controls.Add(_flyout);
+        ClientSize = _flyout.Size;
     }
 
     /// <summary>Gets the pixel size of the flyout control.</summary>
-    internal Size FlyoutSize => _flyout.Size;
+    internal Size FlyoutSize => ClientSize;
 
     internal void UpdateSample(Bitmap screenshot, Point samplePoint, Color color, int magnifierSize, int zoom)
     {
+        Size nextSize = VisualScreenColorPickerKryptonFlyout.CalculateSize(magnifierSize, zoom);
         _flyout.UpdateSample(screenshot, samplePoint, color, magnifierSize, zoom);
-        // Resize the host form to match the flyout after UpdateSample may have changed it.
-        ClientSize = _flyout.Size;
+        if (_flyout.Size != nextSize)
+        {
+            _flyout.Size = nextSize;
+        }
+
+        if (ClientSize != nextSize)
+        {
+            ClientSize = nextSize;
+        }
     }
 
     protected override bool ShowWithoutActivation => true;
@@ -49,10 +67,21 @@ internal sealed class VisualScreenColorPickerKryptonFlyoutForm : Form
         get
         {
             CreateParams cp = base.CreateParams;
-            // WS_EX_NOACTIVATE — prevents the form from stealing focus.
-            cp.ExStyle |= 0x08000000;
+            cp.ExStyle |= WsExNoActivate | WsExToolWindow | WsExTopMost;
             return cp;
         }
+    }
+
+    protected override void WndProc(ref Message m)
+    {
+        if (m.Msg == WmNcHitTest)
+        {
+            // Hits pass through to the overlay so left-click still samples.
+            m.Result = (IntPtr)HtTransparent;
+            return;
+        }
+
+        base.WndProc(ref m);
     }
 }
 
@@ -71,6 +100,7 @@ internal sealed class VisualScreenColorPickerKryptonFlyout : KryptonHeaderGroup
 
         TabStop = false;
         HeaderVisibleSecondary = false;
+        UseKryptonScrollbars = false;
         ValuesPrimary.Heading = @"#000000";
         ValuesPrimary.Description = @"RGB(0, 0, 0)";
 
@@ -80,6 +110,7 @@ internal sealed class VisualScreenColorPickerKryptonFlyout : KryptonHeaderGroup
             TabStop = false
         };
 
+        Panel.AutoScroll = false;
         Panel.Padding = new Padding(4);
         Panel.Controls.Add(_canvas);
 
@@ -88,12 +119,17 @@ internal sealed class VisualScreenColorPickerKryptonFlyout : KryptonHeaderGroup
         ResumeLayout(false);
     }
 
+    internal static Size CalculateSize(int magnifierSize, int zoom)
+    {
+        int mag = magnifierSize * zoom;
+        return new Size(mag + 24, mag + 72);
+    }
+
     internal void ApplyPalette(KryptonCustomPaletteBase? palette) => LocalCustomPalette = palette;
 
     internal void UpdateSample(Bitmap screenshot, Point samplePoint, Color color, int magnifierSize, int zoom)
     {
-        int mag = magnifierSize * zoom;
-        var nextSize = new Size(mag + 24, mag + 72);
+        Size nextSize = CalculateSize(magnifierSize, zoom);
         if (Size != nextSize)
         {
             Size = nextSize;

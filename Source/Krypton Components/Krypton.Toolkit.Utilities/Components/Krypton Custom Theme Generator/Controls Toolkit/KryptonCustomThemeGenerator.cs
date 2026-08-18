@@ -186,8 +186,8 @@ public static class KryptonCustomThemeGenerator
 
         bool dark = IsDarkDonor(seed.DonorMode);
         CustomThemeAccentSet accents = CustomThemeSchemeRemapper.BuildAccents(seed, dark);
-        KryptonColorSchemeBase remapped = CustomThemeSchemeRemapper.Remap(CreateDonorScheme(seed.DonorMode), accents);
         PaletteBase throwaway = CreateThrowawayPalette(seed.DonorMode);
+        KryptonColorSchemeBase remapped = CustomThemeSchemeRemapper.Remap(CopyDonorScheme(throwaway), accents);
         throwaway.ApplyScheme(remapped);
 
         var custom = new KryptonCustomPaletteBase
@@ -239,23 +239,37 @@ public static class KryptonCustomThemeGenerator
     internal static bool IsDarkDonor(PaletteMode mode) =>
         mode == PaletteMode.Office2010BlueDarkMode || mode == PaletteMode.Microsoft365BlackDarkMode;
 
-    private static KryptonColorSchemeBase CreateDonorScheme(PaletteMode mode) => mode switch
+    private static KryptonColorSchemeBase CopyDonorScheme(PaletteBase donor)
     {
-        PaletteMode.Office2010Blue => new PaletteOffice2010Blue_BaseScheme(),
-        PaletteMode.Office2010BlueDarkMode => new PaletteOffice2010BlueDarkMode_BaseScheme(),
-        PaletteMode.Microsoft365Blue => new PaletteMicrosoft365Blue_BaseScheme(),
-        PaletteMode.Microsoft365BlackDarkMode => new PaletteMicrosoft365BlackDarkMode_BaseScheme(),
-        _ => ThrowHelper.ThrowArgumentOutOfRangeException<KryptonColorSchemeBase>(nameof(mode), mode, @"Unsupported donor.")
-    };
+        var scheme = new EmptySchemeBase();
+        Type schemeType = typeof(EmptySchemeBase);
+        foreach (SchemeBaseColors index in (SchemeBaseColors[])Enum.GetValues(typeof(SchemeBaseColors)))
+        {
+            PropertyInfo? property = schemeType.GetProperty(index.ToString());
+            if (property != null && property.CanWrite)
+            {
+                property.SetValue(scheme, donor.GetSchemeColor(index));
+            }
+        }
 
-    private static PaletteBase CreateThrowawayPalette(PaletteMode mode) => mode switch
+        return scheme;
+    }
+
+    /// <summary>
+    /// Creates a fresh donor palette. Extra dark modes live in <c>Krypton.Themes</c> and are resolved
+    /// through the catalog factory so this assembly does not take a compile-time Themes dependency.
+    /// The catalog singleton is never used, so <see cref="KryptonManager.GetPaletteForMode"/> is not mutated.
+    /// </summary>
+    private static PaletteBase CreateThrowawayPalette(PaletteMode mode)
     {
-        PaletteMode.Office2010Blue => new PaletteOffice2010Blue(),
-        PaletteMode.Office2010BlueDarkMode => new PaletteOffice2010BlueDarkMode(),
-        PaletteMode.Microsoft365Blue => new PaletteMicrosoft365Blue(),
-        PaletteMode.Microsoft365BlackDarkMode => new PaletteMicrosoft365BlackDarkMode(),
-        _ => ThrowHelper.ThrowArgumentOutOfRangeException<PaletteBase>(nameof(mode), mode, @"Unsupported donor.")
-    };
+        if (!KryptonThemeCatalog.TryGetDescriptor(mode, out KryptonThemeDescriptor? descriptor) || descriptor is null)
+        {
+            return ThrowHelper.ThrowArgumentOutOfRangeException<PaletteBase>(nameof(mode), mode,
+                @"Donor palette is not registered. Extra dark donors require Krypton.Themes.");
+        }
+
+        return descriptor.Factory();
+    }
 
     /// <summary>
     /// Overwrites Tracking / Pressed / Checked / Disabled fills that PopulateFromBase copied from the

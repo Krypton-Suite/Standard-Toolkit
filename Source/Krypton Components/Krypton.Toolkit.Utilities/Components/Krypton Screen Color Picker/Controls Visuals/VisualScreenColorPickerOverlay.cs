@@ -104,7 +104,6 @@ internal sealed class VisualScreenColorPickerOverlay : Form
     protected override void OnShown(EventArgs e)
     {
         base.OnShown(e);
-        Capture = true;
         UpdateSampleFromCursor();
         if (_flyoutStyle == KryptonScreenColorPickerFlyoutStyle.Krypton)
         {
@@ -117,6 +116,7 @@ internal sealed class VisualScreenColorPickerOverlay : Form
             InvalidateMagnifier(Rectangle.Empty, _lastMagnifierBounds);
         }
 
+        EnsureCapture();
         _refreshTimer.Start();
     }
 
@@ -248,6 +248,23 @@ internal sealed class VisualScreenColorPickerOverlay : Form
         base.Dispose(disposing);
     }
 
+    protected override void OnMouseCaptureChanged(EventArgs e)
+    {
+        base.OnMouseCaptureChanged(e);
+        if (Visible && !IsDisposed && DialogResult == DialogResult.None)
+        {
+            EnsureCapture();
+        }
+    }
+
+    private void EnsureCapture()
+    {
+        if (!Capture)
+        {
+            Capture = true;
+        }
+    }
+
     private void Confirm()
     {
         SelectedColor = _hoverColor;
@@ -299,6 +316,7 @@ internal sealed class VisualScreenColorPickerOverlay : Form
 
     private void RefreshTimer_Tick(object? sender, EventArgs e)
     {
+        EnsureCapture();
         UpdateSampleFromCursor();
         if (_flyoutStyle == KryptonScreenColorPickerFlyoutStyle.Krypton)
         {
