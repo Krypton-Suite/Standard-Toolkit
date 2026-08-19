@@ -517,8 +517,18 @@ public class KryptonContextMenu : Component,
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     internal ToolStripDropDownCloseReason CloseReason { get; set; }
 
-    [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
-    internal VisualContextMenu? VisualContextMenu { get; private set; }
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    protected internal VisualContextMenu? VisualContextMenu { get; private set; }
+
+    /// <summary>
+    /// Gets the palette redirector used by <see cref="StateCommon"/> and related states.
+    /// </summary>
+    internal PaletteRedirect Redirector => _redirector;
+
+    /// <summary>
+    /// Gets the image redirector used when generating context menu views.
+    /// </summary>
+    internal PaletteRedirectContextMenu RedirectorImages => _redirectorImages;
 
     #endregion
 
