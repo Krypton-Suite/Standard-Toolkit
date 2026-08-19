@@ -25,7 +25,6 @@ public class KryptonRadialMenuValues : Storage
     private Color _subMenuHoverColor;
     private KryptonRadialMenuDisplayStyle _displayStyle;
     private string _subMenuGlyph;
-    private string _defaultHubText = @"☰";
     private float _outerRingThickness;
     private bool _showOuterRingOnLeaves;
     private float _scale;

@@ -31,6 +31,8 @@
     <ProjectReference Include="..\Krypton.Ribbon\Krypton.Ribbon 2022.csproj" />
     <ProjectReference Include="..\Krypton.Toolkit.JumpList\Krypton.Toolkit.JumpList.csproj" />
     <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+    <ProjectReference Include="..\Krypton.Themes\Krypton.Themes.csproj" />
+    <ProjectReference Include="..\..\TestHarnesses\ThemeProviderSample\ThemeProviderSample.csproj" />
     <ProjectReference Include="..\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj" />
     <ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
   </ItemGroup>
@@ -113,6 +115,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="KryptonCheckedListComboBoxDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonMultiColumnComboBoxDemo.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="KryptonDropZoneDemo.cs">

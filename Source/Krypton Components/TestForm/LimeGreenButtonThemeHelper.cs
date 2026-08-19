@@ -7,6 +7,8 @@
  */
 #endregion
 
+using Krypton.Themes;
+
 namespace TestForm;
 
 /// <summary>
@@ -49,7 +51,7 @@ internal enum LimeGreenThemeFamily
 /// Maps <see cref="LimeGreenThemeFamily"/> values onto the builtin Lime Green <see cref="PaletteMode"/> entries
 /// (see <c>Palette Builtin/Lime Green</c> in Krypton.Toolkit) and provides small helpers for the TestForm demo
 /// (apply / reset / export). The colour work itself lives entirely in the builtin palette classes
-/// (<see cref="Krypton.Toolkit.PaletteOffice2007LimeGreen"/>, <see cref="Krypton.Toolkit.PaletteMaterialLimeGreen"/>
+/// (<see cref="PaletteOffice2007LimeGreen"/>, <see cref="PaletteMaterialLimeGreen"/>
 /// and siblings) via <c>LimeGreenSchemeHelper</c>.
 /// </summary>
 internal static class LimeGreenButtonThemeHelper
