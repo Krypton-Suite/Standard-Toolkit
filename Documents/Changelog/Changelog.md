@@ -47,6 +47,19 @@
 
 * Implemented [#1110](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1110), Where is the Krypton equivalent of a Form `MenuStrip`
    * `KryptonMenuStrip` is in the Toolbox and MenuStrip/ToolStrip/StatusStrip fonts follow the palette and `BaseFont` (`KryptonMenuStrip` first shipped in #2689).
+* Implemented, PowerToys-style screen colour picker (`KryptonScreenColorPicker`)
+   * Live-refresh the desktop, magnify pixels under the cursor, and click to sample. Esc or right-click cancels. Zoom with the mouse wheel, `+`/`-`, Page Up/Down, or arrow keys; Ctrl+wheel, Ctrl+`+/-`, or `[`/`]` resizes the magnifier (odd 7–21 source pixels). F12 or Print Screen copies the overlay to the clipboard.
+   * Choose **Krypton** (themed `KryptonHeaderGroup` flyout, default) or **Classic** (PowerToys painted flyout) via `KryptonScreenColorPickerFlyoutStyle`. Classic follows the cursor in its own window so it does not trail, and the magnifier fills the panel.
+   * Show or hide colour formats on the flyout (`Hex`, `HexAlpha`, `HexInteger`, `RGB`, `RGBA`, `HSL`, `HSV`, `CMYK`, `Decimal`, `Vector`, `KnownName`) via `KryptonScreenColorPicker.VisibleColorFormats`.
+   * Drop **KryptonColorPicker** from the Visual Studio toolbox (component tray, like `ColorDialog`). Call `ShowDialog` / `TryPick`; set `FlyoutStyle`, `MagnifierSize`, `Zoom`, and `VisibleColorFormats` per instance.
+   * Overlay instructions, flyout labels, and colour-format text are localisable via `KryptonScreenColorPicker.Strings` (also on `KryptonColorPicker.Strings`).
+   * To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
+* Implemented [#4234](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4234), An easier way to create custom themes
+   * Generate a custom theme from a few colours (hex, RGB, or a random seed) via `KryptonCustomThemeGenerator` / `KryptonCustomThemeBuilder`.
+   * Generate a custom theme from a few colours (hex or RGB) via `KryptonCustomThemeGenerator` / `KryptonCustomThemeBuilder`.
+* Implemented [#3862](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3862), Enhanced `KryptonContextMenu`
+   * Office-style Mini Toolbar with `KryptonContextMenu`, selection fade-in, and in-menu galleries with live preview.
+   * Designer- and runtime-configurable: Mini Toolbar items, paired menu items, position, gap, keep-after-command, selection opacity, and per-item visibility.
 * Implemented [#3176](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3176), A Krypton `msinfo32` drop-in
    * Krypton System Information (`msinfo32`-style) dialog for About Box and standalone use.
 * Implemented [#4223](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4223), A native logging system
@@ -63,7 +76,7 @@
   * Extra `KryptonManager.Palette*` singleton accessors are obsolete; use `GetPaletteForMode(PaletteMode)` instead.
 * Implemented [#4237](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4237), Multi Column Combo Boxes
    * Multi-column combo box (`KryptonMultiColumnComboBox`) with a themed grid drop-down and standard Krypton combo editor chrome (ButtonSpecs, rounded corners).
-   * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
+   * To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Implemented [#1551](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1551), New dark/light mode theme colours
    * New Materialize Blue, Materialize Light Blue, and Silver Dark Alternate builtin themes for Office 2007 / 2010 / 2013, Microsoft 365, and Material (including Material Ripple).
    * These palettes live in `Krypton.Themes` and are auto-discovered with other extra themes.
