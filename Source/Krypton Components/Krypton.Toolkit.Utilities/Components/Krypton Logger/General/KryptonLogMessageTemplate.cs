@@ -28,23 +28,22 @@ internal sealed class KryptonLogMessageTemplate
 
     public static string Render(string? template, object?[]? args, out KryptonLogProperty[] properties)
     {
-        if (string.IsNullOrEmpty(template))
+        if (template is null || template.Length == 0)
         {
             properties = EmptyProperties;
             return string.Empty;
         }
 
-        var text = template;
         if (args == null || args.Length == 0)
         {
-            if (text.IndexOf('{') < 0)
+            if (template.IndexOf('{') < 0)
             {
                 properties = EmptyProperties;
-                return text;
+                return template;
             }
         }
 
-        var parsed = Cache.GetOrAdd(text, static t => Parse(t));
+        var parsed = Cache.GetOrAdd(template, static t => Parse(t));
         return parsed.Format(args, out properties);
     }
 
@@ -84,7 +83,7 @@ internal sealed class KryptonLogMessageTemplate
         }
 
         return value is IFormattable formattable
-            ? formattable.ToString(format, CultureInfo.InvariantCulture)
+            ? formattable.ToString(format, CultureInfo.InvariantCulture) ?? string.Empty
             : Convert.ToString(value, CultureInfo.InvariantCulture) ?? string.Empty;
     }
 

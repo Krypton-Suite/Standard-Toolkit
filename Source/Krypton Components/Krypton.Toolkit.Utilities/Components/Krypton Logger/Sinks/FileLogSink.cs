@@ -34,7 +34,7 @@ internal sealed class FileLogSink : IKryptonLogSink
         _rollOnSizeBytes = rollOnSizeBytes is > 0 ? rollOnSizeBytes : null;
         _retainedFileCount = Math.Max(1, retainedFileCount);
         _rollOnDate = rollOnDate;
-        _directory = System.IO.Path.GetDirectoryName(Path);
+        _directory = System.IO.Path.GetDirectoryName(Path) ?? string.Empty;
         if (string.IsNullOrEmpty(_directory))
         {
             _directory = System.IO.Path.GetDirectoryName(KryptonLogPaths.DefaultFilePath) ?? ".";
@@ -92,6 +92,7 @@ internal sealed class FileLogSink : IKryptonLogSink
             }
             catch
             {
+                // ignored
             }
         }
     }
@@ -147,6 +148,7 @@ internal sealed class FileLogSink : IKryptonLogSink
         }
         catch
         {
+            // ignored
         }
 
         _writer = null;
@@ -174,6 +176,7 @@ internal sealed class FileLogSink : IKryptonLogSink
         }
         catch
         {
+            // ignored
         }
     }
 
@@ -197,11 +200,13 @@ internal sealed class FileLogSink : IKryptonLogSink
                 }
                 catch
                 {
+                    // ignored
                 }
             }
         }
         catch
         {
+            // ignored
         }
     }
 }

@@ -21,8 +21,8 @@ Before considering a task complete:
 - Check files you create or edit for UTF-8 BOM encoding issues and fix them (see **Coding Style & Naming Conventions**). Do not leave UTF-8-without-BOM or wrong-encoding files when the repo expects UTF-8 with BOM; do not expand into a repo-wide encoding cleanup unless asked.
 - Update TestForm when adding a feature.
 - Update Changelog.md for completed features and bug fixes.
-- Add developer documentation for substantial new features.
-- Write a PR description in `Documents/PR/` for completed features and bug fixes (see **Pull Request Descriptions**).
+- Add developer documentation for substantial new features (see **Feature Developer Documentation**). Keep `Documents/Development/` files **out of pull requests**.
+- Write a PR description in `Documents/PR/` for completed features and bug fixes, and use that file as the GitHub PR body. Do **not** include the PR description file in the pull request (see **Pull Request Descriptions**).
 - When UI behaviour is verified with ad-hoc PowerShell / UI Automation (mouse synthesise, screenshots, hosted `TestForm` demos), **keep those scripts under `Scripts/UnitTests/`** instead of leaving them only under `Bin/` or deleting them after the session. Prefer reusable, named scripts with a short note in `Scripts/UnitTests/README.md` (see **Unit Test Scripts**).
 
 ## Shell Guidelines
@@ -49,8 +49,8 @@ Before considering a task complete:
 - `Bin/`: Build outputs by configuration (e.g., `Bin/Debug`)
 - `Documents/`, `Assets/`, `Logs/`: Docs, images, and build logs
 - `Documents/Changelog/Changelog.md`: User-facing release notes for completed bugs and features
-- `Documents/Development/`: In-depth developer guides for completed features (APIs, architecture, usage); not listed in `Documents/Changelog/Changelog.md` or `Scripts/ModernBuild/README.md`
-- `Documents/PR/`: One Markdown PR description per completed bug fix or feature, drafted before opening the pull request (see **Pull Request Descriptions**)
+- `Documents/Development/`: In-depth developer guides for completed features (APIs, architecture, usage); not listed in `Documents/Changelog/Changelog.md` or `Scripts/ModernBuild/README.md`; **do not include these files in new or existing PRs**
+- `Documents/PR/`: One Markdown PR description per completed bug fix or feature, drafted locally and used as the GitHub PR body; **do not include that description file in new or existing PRs** (see **Pull Request Descriptions**)
 
 ## Architecture
 
@@ -319,6 +319,7 @@ When the feature warrants user-visible validation, add or update a demo per **Te
 - Name: descriptive kebab or Pascal-style title, e.g. `Krypton-Docking-Developer-Guide.md` or `Visual-Studio-Templates-Developer-Guide.md`.
 - One feature (or cohesive subsystem) per file; cross-link related guides when helpful.
 - CRLF, UTF-8 with BOM; match tone and structure of existing repo docs.
+- These guides are **local working files**. Do not include them in new or existing pull requests (see **Do not include in pull requests** below).
 
 ### Do not list in these files
 
@@ -326,6 +327,10 @@ When the feature warrants user-visible validation, add or update a demo per **Te
 - **Do not** add references or index entries for these guides in `Scripts/ModernBuild/README.md`.
 
 Changelog and ModernBuild README stay focused on user-facing release history and build tooling respectively. Developer guides are discovered via `Documents/Development/` and code cross-references only.
+
+### Do not include in pull requests
+
+Write developer guides under `Documents/Development/` as local working files. Do **not** stage, commit, or push them as part of a new or existing pull request. If an existing PR already contains `Documents/Development/` files, remove those paths from the PR so they are no longer in the diff.
 
 ## Changelog
 
@@ -439,12 +444,12 @@ Use `Scripts/UnitTests/` for PowerShell scripts that drive or inspect a Debug `T
 - Commits: short, imperative subject; reference issues/PRs (e.g., `Fix autosizing (#2433)` or `2439 V100 datecell autosizing`)
 - PRs: clear description, linked issues, screenshots/gifs for UI changes, notes on breaking changes/TFM impact
 - If a pull request is opened or created, it must be compared with `alpha`, not `master`, `gold`, or `canary`. When using `gh pr create`, set the base branch to `alpha` (for example `--base alpha`).
-- Completed bugs and features: update `Documents/Changelog/Changelog.md` (see **Changelog** above); add or update a `TestForm` demo for features (see **TestForm Demos**); add a `Documents/Development/` guide when the feature warrants in-depth maintainer docs; write a PR description in `Documents/PR/` (see **Pull Request Descriptions** below).
+- Completed bugs and features: update `Documents/Changelog/Changelog.md` (see **Changelog** above); add or update a `TestForm` demo for features (see **TestForm Demos**); write a `Documents/Development/` guide when the feature warrants in-depth maintainer docs, and a PR description in `Documents/PR/` (see **Pull Request Descriptions** below). **Do not include** `Documents/Development/` files or the per-change `Documents/PR/` description file in the pull request (new or existing). Use the PR description file as the GitHub PR body (`gh pr create --base alpha --body-file Documents/PR/<file>.md`).
 - Do not add routine validation noise to commit messages or PR descriptions. Mention checks only when they are essential context, unusual, failed, or specifically requested.
 
 ## Pull Request Descriptions
 
-When a **bug fix** or **feature** is completed, create a **PR description** as a Markdown file in the `Documents/PR/` folder in the same change set (before the pull request is opened). The file is the reviewer-facing record that can be pasted directly into the GitHub PR body. When the pull request is opened or created, compare it with `alpha`, not `master`, `gold`, or `canary` (see **Commit & Pull Request Guidelines**).
+When a **bug fix** or **feature** is completed, create a **PR description** as a Markdown file in the `Documents/PR/` folder **before** the pull request is opened. The file is the reviewer-facing record: use it **as the GitHub PR body** (`gh pr create --base alpha --body-file Documents/PR/<file>.md`), and do **not** include that file in the pull request. When the pull request is opened or created, compare it with `alpha`, not `master`, `gold`, or `canary` (see **Commit & Pull Request Guidelines**).
 
 ### When to add
 
@@ -458,6 +463,13 @@ When a **bug fix** or **feature** is completed, create a **PR description** as a
 - Copy `Documents/PR/TEMPLATE.md` to `Documents/PR/<issue-or-branch>-<short-title>.md`, e.g. `Documents/PR/3720-foldable-dialog.md` or `Documents/PR/2444-agents-md.md`. Use the issue number when one exists.
 - One file per bug fix or feature (or the cohesive set of changes going into a single PR).
 - CRLF, UTF-8 with BOM; match the tone and structure of existing repo docs.
+- Keep the file **local**: do not stage, commit, or push it as part of the pull request.
+
+### Opening the pull request
+
+- Use this file **as** the GitHub PR description. Do not write a second body.
+- Prefer `gh pr create --base alpha --body-file Documents/PR/<file>.md` (or the equivalent `--body-file` when updating). On Windows PowerShell, pass the path as a single argument; do not rely on shell quotes around a pasted body (see **Recent Tooling Mistakes To Avoid**).
+- Do not include this file, or any file under `Documents/Development/`, in the commits that make up a new or existing PR.
 
 ### What to include
 
@@ -478,6 +490,8 @@ Fill in every applicable section of `Documents/PR/TEMPLATE.md` (delete those tha
 
 - Do not add changelog entries or release notes inside `Documents/PR/` files — those belong in `Documents/Changelog/Changelog.md`.
 - Do not add references or index entries for `Documents/PR/` files in `Scripts/ModernBuild/README.md`.
+- Do **not** include the per-change PR description file (`Documents/PR/<issue-or-branch>-<short-title>.md`) in a new or existing pull request. Write it locally, use it as the GitHub PR body, and leave it untracked (or unstaged) relative to the PR. Leave `TEMPLATE.md` and `README.md` in this folder alone unless the task is to update those shared files.
+- Do **not** include files under `Documents/Development/` in a new or existing pull request. If an existing PR already contains those files or the per-change PR description, remove them from the PR so they are no longer in the diff.
 
 ## Security & Configuration Tips
 

@@ -520,8 +520,7 @@ internal partial class VisualSystemInformationForm : KryptonForm
         var builder = new StringBuilder();
         foreach (var id in SystemInformationCollector.LeafCategoryIds)
         {
-            SystemInformationTable table;
-            if (!snapshot.TryGetValue(id, out table))
+            if (!snapshot.TryGetValue(id, out SystemInformationTable? table) || table is null)
             {
                 try
                 {
