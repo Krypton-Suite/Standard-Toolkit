@@ -58,36 +58,22 @@ internal static class ScreenColorPickerColorFormatter
     internal static string GetDisplayName(KryptonScreenColorPickerColorFormat format) =>
         KryptonScreenColorPicker.Strings.GetFormatDisplayName(format);
 
-    internal static string Format(Color color, KryptonScreenColorPickerColorFormat format)
-    {
-        switch (format)
+    internal static string Format(Color color, KryptonScreenColorPickerColorFormat format) =>
+        format switch
         {
-            case KryptonScreenColorPickerColorFormat.Hex:
-                return FormatHex(color);
-            case KryptonScreenColorPickerColorFormat.HexAlpha:
-                return FormatHexAlpha(color);
-            case KryptonScreenColorPickerColorFormat.HexInteger:
-                return FormatHexInteger(color);
-            case KryptonScreenColorPickerColorFormat.Rgb:
-                return FormatRgb(color);
-            case KryptonScreenColorPickerColorFormat.Rgba:
-                return FormatRgba(color);
-            case KryptonScreenColorPickerColorFormat.Hsl:
-                return FormatHsl(color);
-            case KryptonScreenColorPickerColorFormat.Hsv:
-                return FormatHsv(color);
-            case KryptonScreenColorPickerColorFormat.Cmyk:
-                return FormatCmyk(color);
-            case KryptonScreenColorPickerColorFormat.Decimal:
-                return FormatDecimal(color);
-            case KryptonScreenColorPickerColorFormat.Vector:
-                return FormatVector(color);
-            case KryptonScreenColorPickerColorFormat.KnownName:
-                return FormatKnownName(color);
-            default:
-                return string.Empty;
-        }
-    }
+            KryptonScreenColorPickerColorFormat.Hex => FormatHex(color),
+            KryptonScreenColorPickerColorFormat.HexAlpha => FormatHexAlpha(color),
+            KryptonScreenColorPickerColorFormat.HexInteger => FormatHexInteger(color),
+            KryptonScreenColorPickerColorFormat.Rgb => FormatRgb(color),
+            KryptonScreenColorPickerColorFormat.Rgba => FormatRgba(color),
+            KryptonScreenColorPickerColorFormat.Hsl => FormatHsl(color),
+            KryptonScreenColorPickerColorFormat.Hsv => FormatHsv(color),
+            KryptonScreenColorPickerColorFormat.Cmyk => FormatCmyk(color),
+            KryptonScreenColorPickerColorFormat.Decimal => FormatDecimal(color),
+            KryptonScreenColorPickerColorFormat.Vector => FormatVector(color),
+            KryptonScreenColorPickerColorFormat.KnownName => FormatKnownName(color),
+            _ => string.Empty
+        };
 
     internal static string[] BuildReadoutLines(Color color, KryptonScreenColorPickerColorFormat formats, bool includeKnownName)
     {
