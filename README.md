@@ -149,6 +149,37 @@ Follow the links to see the different objects and layouts that this framework al
 
 There are list of changes that have occurred during the development of the V110.00 version
 
+* Implemented [#4230](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4230), **[Breaking Change]** A new theme system
+  * Extra builtin palettes moved to `Krypton.Themes`, with auto-discovery and selector enable/disable.
+  * `Krypton.Toolkit` keeps Professional, Sparkle Blue/Orange/Purple, plus Office 2007/2010/Microsoft 365 Blue, Silver, and Black. Other builtin palettes load from `Krypton.Themes.dll` when it is present (`KryptonManager.AutoDiscoverThemes`).
+  * Hide families or individual `PaletteMode` values from theme combos via `KryptonThemeAvailability`. `PaletteMode` values are unchanged.
+  * Extra palette singleton properties on `KryptonManager` now return `PaletteBase` (concrete extra types live in `Krypton.Themes`).
+  * If `Krypton.Themes.dll` is not present, extra `PaletteMode` values paint as Microsoft 365 Blue instead of throwing (`KryptonThemeCatalog.MissingThemeFallback`).
+  * The `Krypton.Standard.Toolkit` NuGet package includes `Krypton.Themes`. Apps that reference Toolkit only get core themes unless they add `Krypton.Themes`.
+  * Materialize Blue, Materialize Light Blue, and Silver Dark Alternate palettes ship in `Krypton.Themes` (family `Materialize`).
+  * Theme chrome and UAC shield artwork follow `KryptonThemeChromeKind` / `KryptonThemeShieldIconStyle` on the catalog descriptor, so new extra palettes do not need Toolkit `PaletteMode` switch arms.
+  * Extra `KryptonManager.Palette*` singleton accessors are obsolete; use `GetPaletteForMode(PaletteMode)` instead.
+
+* Implemented [#4225](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4225), **[Breaking Change]** `KryptonRadialMenu` followups
+   * `Items` can now be found under `Values.Items` (and `Items` is now `Obsolete`) so the collection can be shared with a `KryptonRadialMenuControl` host.
+
+* Implemented [#4135](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4135), **[Breaking Change]** Move all `Global*` classes into `Krypton.Interop`
+   * Toolkit specific constant values and variables are now stored in `ToolkitStaticConstants` and `ToolkitGlobalVariables` in the `Krypton.Toolkit` namespace
+   * Libary wide constant values, functions and variables are now stored in `SharedStaticConstants`, `SharedStaticFunctions` and `SharedGlobalVariables` in the `Krypton.Interop` namespace
+
+* Implemented [#3890](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3890), Different knob styles for `KryptonToggleSwitch`
+   * Added selectable knob styles for `KryptonToggleSwitch`, including classic, gradient, flat, radial, ring, bevel, rounded-square, square, grip, chevron, indicator, thin-track, pill, and metallic rendering.
+   * Added optional track check/cross icons via `ToggleSwitchValues.ShowTrackIcons`.
+   * Added optional knob pulse animation via `ToggleSwitchValues.Pulse` (`Enable`, `Speed`, `Intensity`).
+   * Chevron knob glyph size is configurable via `ToggleSwitchValues.Chevron.GlyphSize`; optional knob gradient uses `ToggleSwitchValues.Gradient`.
+   * Added optional tint colours via `ToggleSwitchValues.Colors.TintColors` (`Enable`, `OnTint`, `OffTint`, `Intensity`), plus optional glyph tints (`EnableGlyphs`, `TintColor1`, `TintColor2`).
+   * **[Breaking Change]** `ToggleSwitchValues` colour, gradient, pulse, and chevron settings are grouped under expandable `Colors`, `Gradient`, `Pulse`, and `Chevron` objects. Obsolete pass-through properties remain for migration.
+
+* Resolved [#3826](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3826), Null reference in `KryptonToggleSwitch` when the global palette changes
+   * **[Breaking Change]**: The `Checked` property has been moved from `KryptonToggleSwitch` to `KryptonToggleSwitchValues`. Please update your code accordingly.
+
+* Implemented [#3455](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3455), **[Breaking Change]** Rename `Krypton.Utilities` to `Krypton.Toolkit.Utilities` (project folder, `Krypton.Toolkit.Utilities.csproj`, assembly name, root namespace, and all types). Aligns naming with `Krypton.Navigator.Utilities`. Update `using` directives, fully qualified type names, `ProjectReference` paths, and any tooling or CI paths that pointed at `Krypton.Utilities`. The aggregate `Krypton.Standard.Toolkit` package now ships `Krypton.Toolkit.Utilities.dll` instead of `Krypton.Utilities.dll`.
+
 * Implemented [#3177](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3177), **[Breaking Change]** Move `KryptonAboutBox` to `Krypton.Toolkit.Utilities`
   * **Note:**: The `KryptonAboutBox` class has been moved from the `Krypton.Toolkit` namespace to the `Krypton.Toolkit.Utilities` namespace. Please update your using directives accordingly.
   * You can find the `KryptonAboutBox` class in the `Krypton.Toolkit.Utilities` assembly, which is part of the `Krypton.Standard.Toolkit` NuGet package.

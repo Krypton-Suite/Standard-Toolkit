@@ -77,6 +77,7 @@ internal partial class VisualContextMenuCollectionForm : VisualDesignerCollectio
                     //imageList.Images.SetKeyName(10, "arrow_up_blue.png");
                     //imageList.Images.SetKeyName(11, "arrow_down_blue.png");
                     KryptonContextMenuImageSelect _ => 12,
+                    KryptonContextMenuGallery _ => 12,
                     KryptonContextMenuMonthCalendar _ => 13,
                     KryptonContextMenuComboBox _ => 14,
                     KryptonContextMenuTextBox _ => 15,
@@ -491,6 +492,8 @@ internal partial class VisualContextMenuCollectionForm : VisualDesignerCollectio
 
         private void buttonAddImageSelect_Click(object? sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuImageSelect)));
 
+        private void buttonAddGallery_Click(object? sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuGallery)));
+
         private void buttonAddComboBox_Click(object? sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuComboBox)));
 
         private void buttonAddProgressBar_Click(object? sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuProgressBar)));
@@ -699,6 +702,7 @@ internal partial class VisualContextMenuCollectionForm : VisualDesignerCollectio
             _buttonAddLinkLabel.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuLinkLabel));
             _buttonAddColorColumns.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuColorColumns));
             _buttonAddImageSelect.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuImageSelect));
+            _buttonAddGallery.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuGallery));
             _buttonDelete.Enabled = item != null;
         }
 

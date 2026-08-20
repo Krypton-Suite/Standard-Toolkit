@@ -272,7 +272,7 @@ internal partial class VisualSplashScreenManagerForm : Form
     {
         string title = !string.IsNullOrWhiteSpace(_data.Title)
             ? _data.Title!
-            : Application.ProductName;
+            : Application.ProductName ?? string.Empty;
         kwlblTitle.Text = title;
         kwlblTitle.Visible = _data.ShowApplicationName || !string.IsNullOrWhiteSpace(_data.Title);
         Text = title;
