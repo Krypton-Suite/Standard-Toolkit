@@ -1,7 +1,7 @@
 <Project>
 
 	<!--
-	  Shared PackLite / PackAll orchestration for stable, LTS, canary, nightly, and installer builds.
+	  Shared PackLite / PackAll orchestration for stable, LTS, RC, canary, nightly, and installer builds.
 	  Set KryptonPackProjectProperties before importing (e.g. ExcludeVs2022UnsupportedTargetFrameworks=true).
 	<!-- PackLite is a TFM subset, not a feature subset: Krypton.Themes is included so extra palettes remain optional packages on lite TFMs. Apps that omit the Krypton.Themes package keep Toolkit cores only. -->
 	-->

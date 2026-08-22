@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -71,6 +71,7 @@ namespace TestForm
             this.flowLayoutPanelButtons = new System.Windows.Forms.FlowLayoutPanel();
             this.kbtnApply = new Krypton.Toolkit.KryptonButton();
             this.kbtnReset = new Krypton.Toolkit.KryptonButton();
+            this.kchkUseGlobal = new Krypton.Toolkit.KryptonCheckBox();
             this.kbtnOpenFormGlow = new Krypton.Toolkit.KryptonButton();
             this.kwlblStatus = new Krypton.Toolkit.KryptonWrapLabel();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanelMain)).BeginInit();
@@ -679,6 +680,7 @@ namespace TestForm
             // 
             this.flowLayoutPanelButtons.Controls.Add(this.kbtnApply);
             this.flowLayoutPanelButtons.Controls.Add(this.kbtnReset);
+            this.flowLayoutPanelButtons.Controls.Add(this.kchkUseGlobal);
             this.flowLayoutPanelButtons.Controls.Add(this.kbtnOpenFormGlow);
             this.flowLayoutPanelButtons.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanelButtons.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
@@ -706,12 +708,20 @@ namespace TestForm
             this.kbtnReset.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnReset.Values.Text = "Reset defaults";
             // 
+            // kchkUseGlobal
+            // 
+            this.kchkUseGlobal.Location = new System.Drawing.Point(3, 71);
+            this.kchkUseGlobal.Name = "kchkUseGlobal";
+            this.kchkUseGlobal.Size = new System.Drawing.Size(190, 40);
+            this.kchkUseGlobal.TabIndex = 2;
+            this.kchkUseGlobal.Values.Text = "Use KryptonManager global values (#4248)";
+            // 
             // kbtnOpenFormGlow
             // 
-            this.kbtnOpenFormGlow.Location = new System.Drawing.Point(3, 71);
+            this.kbtnOpenFormGlow.Location = new System.Drawing.Point(3, 117);
             this.kbtnOpenFormGlow.Name = "kbtnOpenFormGlow";
             this.kbtnOpenFormGlow.Size = new System.Drawing.Size(190, 28);
-            this.kbtnOpenFormGlow.TabIndex = 2;
+            this.kbtnOpenFormGlow.TabIndex = 3;
             this.kbtnOpenFormGlow.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnOpenFormGlow.Values.Text = "Open KryptonForm glow demo…";
             // 
@@ -805,6 +815,7 @@ namespace TestForm
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelButtons;
         private Krypton.Toolkit.KryptonButton kbtnApply;
         private Krypton.Toolkit.KryptonButton kbtnReset;
+        private Krypton.Toolkit.KryptonCheckBox kchkUseGlobal;
         private Krypton.Toolkit.KryptonButton kbtnOpenFormGlow;
         private Krypton.Toolkit.KryptonWrapLabel kwlblStatus;
     }
