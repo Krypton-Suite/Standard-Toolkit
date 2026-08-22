@@ -2618,7 +2618,7 @@ public class KryptonWorkspace : VisualContainerControl,
     protected override void WndProc(ref Message m)
     {
         // We need to snoop the need to show a context menu
-        if (m.Msg == PI.WM_CONTEXTMENU)
+        if (m.Msg == PI.WM_.CONTEXTMENU)
         {
             // We never allow our ContextMenuStrip/KryptonContextMenu to show if there are cells 
             // Displayed, we only want the context menus showing if there are no cells at all Displayed
