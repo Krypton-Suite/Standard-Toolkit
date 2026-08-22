@@ -48,6 +48,9 @@
 
 ## 2026-10-26 - Build 2610 (Version 105-LTS - Patch 4) - October 2026
 
+* Implemented [#3854](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3854), Removed unused duplicate utility types
+  * Ribbon now uses the public Toolkit `BiDictionary`.
+  * Workspace uses Interop `PI.WM_.CONTEXTMENU` instead of a local `PI` stub.
 * Implemented [#4177](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4177), When will the Async Form Methods from .net10 (Started in .net9) actually be implemented
    * `KryptonForm` uses framework `ShowAsync` / `ShowDialogAsync` on `net9.0-windows` and newer; earlier TFMs get matching extension methods that degrade to sync show (modal) or FormClosed-backed Task (modeless).
    * Added `KryptonMessageBox.ShowAsync` overloads and `KryptonTaskDialog.ShowDialogAsync` for all supported TFMs.
@@ -86,6 +89,7 @@
 * Resolved [#4000](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4000), `KryptonManager.Images.ToolbarImages` now updates to the active theme pack when the global palette changes
 * Implemented [#4008](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4008), `KryptonRichTextBox` Support for justify    
    * `KryptonRichTextBox.SelectionParagraphAlignment` adds full paragraph justify (plus Left/Center/Right) via RichEdit
+* All NuGet packages now use 'LTS' versioning scheme (e.g. `105.10.xx.LTS`) to indicate long-term support and stability, with patch releases for bug fixes and minor improvements. 
 
 ====
 
