@@ -16,7 +16,7 @@ For maintainer-focused implementation and release details, see:
 ## Install (recommended — VSIX)
 
 1. Open the [GitHub Releases](https://github.com/Krypton-Suite/Standard-Toolkit/releases) page for this repository.
-2. Select the templates release for your channel (`templates-stable`, `templates-canary`, `templates-alpha`, or `templates-current`).
+2. Select the templates release for your channel (`templates-stable`, `templates-canary`, `templates-alpha`, `templates-rc`, or `templates-current`).
 3. Download `krypton-templates-*.vsix` and double-click to install (or use **Extensions > Manage Extensions > Install from file**).
 4. Restart Visual Studio.
 5. Use **Add > New Item** or **Create a new project** and search for **Krypton**.
