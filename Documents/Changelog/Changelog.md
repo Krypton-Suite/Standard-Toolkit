@@ -48,6 +48,7 @@
 
 ## 2026-10-26 - Build 2610 (Version 105-LTS - Patch 4) - October 2026
 
+* Resolved [#4255](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4255), Black frame flash and extra layout/paint cost when maximizing, minimizing, or restoring a `KryptonForm` from the caption or taskbar.
 * Implemented [#3854](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3854), Removed unused duplicate utility types
   * Ribbon now uses the public Toolkit `BiDictionary`.
   * Workspace uses Interop `PI.WM_.CONTEXTMENU` instead of a local `PI` stub.
