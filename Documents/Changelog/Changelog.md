@@ -45,6 +45,7 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#4255](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4255), Black frame flash and extra layout/paint cost when maximizing, minimizing, or restoring a `KryptonForm` from the caption or taskbar.
 * Implemented [#1110](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1110), Where is the Krypton equivalent of a Form `MenuStrip`
    * `KryptonMenuStrip` is in the Toolbox and MenuStrip/ToolStrip/StatusStrip fonts follow the palette and `BaseFont` (`KryptonMenuStrip` first shipped in #2689).
 * Implemented [#3854](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3854), Removed unused duplicate utility types
