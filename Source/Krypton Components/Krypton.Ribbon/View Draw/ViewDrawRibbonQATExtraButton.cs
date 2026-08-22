@@ -19,11 +19,16 @@ namespace Krypton.Ribbon;
 /// </summary>
 internal class ViewDrawRibbonQATExtraButton : ViewLeaf
 {
+    #region Static Fields
+    // 96-DPI design values. Scaled at layout/paint time (not construction) so per-monitor
+    // DPI is applied after the ribbon handle exists (issue #4254).
+    private const int ViewWidth96 = 13;
+    private const int ViewHeight96 = 22;
+    private const int ContentInflateX96 = 2;
+    private const int ContentInflateY96 = 5;
+    #endregion
+
     #region Instance Fields
-    // Inflate amount applied to the button rectangle to obtain the glyph content area.
-    // DPI scaled in the constructor so the overflow/context arrow stays aligned on high-DPI displays.
-    private readonly Size _contentSize; // = new(-2, -5);
-    private readonly Size _viewSize; // = new(13, 22);
     private readonly KryptonRibbon _ribbon;
     private IDisposable? _mementoBack;
     private readonly EventHandler? _finishDelegate;
@@ -60,8 +65,6 @@ internal class ViewDrawRibbonQATExtraButton : ViewLeaf
         MouseController = controller;
         SourceController = controller;
         KeyController = controller;
-        _viewSize = new Size((int)(13 * FactorDpiX), (int)(22 * FactorDpiY));
-        _contentSize = new Size(-(int)(2 * FactorDpiX), -(int)(5 * FactorDpiY));
     }
 
     /// <summary>
@@ -123,7 +126,8 @@ internal class ViewDrawRibbonQATExtraButton : ViewLeaf
     /// Discover the preferred size of the element.
     /// </summary>
     /// <param name="context">Layout context.</param>
-    public override Size GetPreferredSize(ViewLayoutContext context) => _viewSize;
+    public override Size GetPreferredSize(ViewLayoutContext context) =>
+        new Size(ScaleDpi(ViewWidth96, FactorDpiX), ScaleDpi(ViewHeight96, FactorDpiY));
 
     /// <summary>
     /// Perform a layout of the elements.
@@ -182,7 +186,8 @@ internal class ViewDrawRibbonQATExtraButton : ViewLeaf
 
         // Find the content area inside the button rectangle
         Rectangle contentRect = ClientRectangle;
-        contentRect.Inflate(_contentSize);
+        contentRect.Inflate(-ScaleDpi(ContentInflateX96, FactorDpiX),
+            -ScaleDpi(ContentInflateY96, FactorDpiY));
 
         // Decide if we are drawing an overflow or context arrow image
         if (Overflow)
@@ -197,6 +202,10 @@ internal class ViewDrawRibbonQATExtraButton : ViewLeaf
     #endregion
 
     #region Implementation
+    // Round away from zero so 125% (1.25) still grows 2px design values rather than truncating to the 96-DPI size.
+    protected static int ScaleDpi(int value96, float factor) =>
+        (int)Math.Round(value96 * factor, MidpointRounding.AwayFromZero);
+
     private void ClickFinished(object? sender, EventArgs e)
     {
         // Get access to our mouse controller
