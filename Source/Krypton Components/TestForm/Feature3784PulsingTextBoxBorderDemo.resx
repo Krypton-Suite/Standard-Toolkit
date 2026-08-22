@@ -118,6 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="kwlblInfo.Text" xml:space="preserve">
-    <value>Issue #3784 — optional glowing border on input controls and KryptonForm (GlowingBorderValues). Cue hint shimmer via CueHint.Animate on TextBox, ComboBox, and RichTextBox. Tab into each sample; use the settings panel to tune glow per control or all at once.</value>
+    <value>Issue #3784 — optional glowing border on input controls and KryptonForm (PulsingBorderValues). Issue #4248 — tick “Use KryptonManager global values” to enable glow app-wide; unset per-control properties inherit. Cue hint shimmer via CueHint.Animate. Tab into each sample; use the settings panel to tune glow per control, all at once, or globally.</value>
   </data>
 </root>

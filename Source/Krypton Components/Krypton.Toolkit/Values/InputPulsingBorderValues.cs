@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -12,31 +12,66 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// Storage for optional input control pulsing border settings.
 /// </summary>
+/// <remarks>
+/// Control-owned instances inherit unset properties from
+/// <see cref="KryptonManager.PulsingBorderValues"/>. Assigning a property stores a local
+/// override; <c>Reset*</c> (and <see cref="Reset"/>) clears the override so the global value is
+/// used again. The manager instance does not inherit.
+/// </remarks>
 [TypeConverter(typeof(InputPulsingBorderValuesConverter))]
 public class InputPulsingBorderValues : Storage
 {
+    #region Static Fields
+
+    private const bool DefaultEnable = false;
+    private const bool DefaultAnimate = true;
+    private const float DefaultAnimationSpeed = 1f;
+    private const InputPulsingBorderShowWhen DefaultShowWhen = InputPulsingBorderShowWhen.Focused;
+    private const InputPulsingBorderStyle DefaultStyle = InputPulsingBorderStyle.Bottom;
+
+    #endregion
+
     #region Instance Fields
 
-    private bool _enable;
-    private bool _animate = true;
-    private float _animationSpeed = 1f;
-    private InputPulsingBorderShowWhen _showWhen = InputPulsingBorderShowWhen.Focused;
-    private InputPulsingBorderStyle _style = InputPulsingBorderStyle.Bottom;
+    private readonly bool _inheritFromGlobal;
+    private bool? _enable;
+    private bool? _animate;
+    private float? _animationSpeed;
+    private InputPulsingBorderShowWhen? _showWhen;
+    private InputPulsingBorderStyle? _style;
 
     #endregion
 
     #region Identity
 
     /// <summary>
-    /// Initialize a new instance of the InputGlowingBorderValues class.
+    /// Initialize a new instance of the <see cref="InputPulsingBorderValues"/> class.
     /// </summary>
     /// <param name="needPaint">Delegate for notifying paint requests.</param>
     public InputPulsingBorderValues(NeedPaintHandler? needPaint)
+        : this(needPaint, inheritFromGlobal: true)
+    {
+    }
+
+    /// <summary>
+    /// Initialize a new instance of the <see cref="InputPulsingBorderValues"/> class.
+    /// </summary>
+    /// <param name="needPaint">Delegate for notifying paint requests.</param>
+    /// <param name="inheritFromGlobal">
+    /// When <see langword="true"/>, unset properties read from
+    /// <see cref="KryptonManager.PulsingBorderValues"/>. Pass <see langword="false"/> for the
+    /// manager's own global instance.
+    /// </param>
+    internal InputPulsingBorderValues(NeedPaintHandler? needPaint, bool inheritFromGlobal)
     {
         NeedPaint = needPaint;
-        Colors = new InputPulsingBorderColorValues(needPaint);
+        _inheritFromGlobal = inheritFromGlobal;
+        Colors = new InputPulsingBorderColorValues(needPaint, inheritFromGlobal);
 
-        Reset();
+        if (!inheritFromGlobal)
+        {
+            Reset();
+        }
     }
 
     /// <inheritdoc />
@@ -62,28 +97,21 @@ public class InputPulsingBorderValues : Storage
     /// Gets and sets whether the pulsing bottom border is drawn on the control.
     /// </summary>
     [Category(@"Glowing Border")]
-    [Description(@"Gets and sets whether the pulsing border is drawn on the control.")]
-    [DefaultValue(false)]
+    [Description(@"Gets and sets whether the pulsing border is drawn on the control. Unset control values inherit from KryptonManager.PulsingBorderValues.")]
+    [DefaultValue(DefaultEnable)]
     public bool Enable
     {
-        get => _enable;
+        get => GetInherited(_enable, values => values.Enable, DefaultEnable);
 
-        set
-        {
-            if (_enable != value)
-            {
-                _enable = value;
-                PerformNeedPaint(true);
-            }
-        }
+        set => SetLocal(ref _enable, value, needLayout: true);
     }
 
-    private bool ShouldSerializeEnable() => _enable;
+    private bool ShouldSerializeEnable() => ShouldSerializeLocal(_enable, Enable, DefaultEnable);
 
     /// <summary>
     /// Resets the Enable property to its default value.
     /// </summary>
-    public void ResetEnable() => Enable = false;
+    public void ResetEnable() => ResetLocal(ref _enable, DefaultEnable, needLayout: true);
 
     #endregion
 
@@ -94,27 +122,20 @@ public class InputPulsingBorderValues : Storage
     /// </summary>
     [Category(@"Glowing Border")]
     [Description(@"Gets and sets whether the pulsing border animates while visible.")]
-    [DefaultValue(true)]
+    [DefaultValue(DefaultAnimate)]
     public bool Animate
     {
-        get => _animate;
+        get => GetInherited(_animate, values => values.Animate, DefaultAnimate);
 
-        set
-        {
-            if (_animate != value)
-            {
-                _animate = value;
-                PerformNeedPaint(true);
-            }
-        }
+        set => SetLocal(ref _animate, value, needLayout: true);
     }
 
-    private bool ShouldSerializeAnimate() => !_animate;
+    private bool ShouldSerializeAnimate() => ShouldSerializeLocal(_animate, Animate, DefaultAnimate);
 
     /// <summary>
     /// Resets the Animate property to its default value.
     /// </summary>
-    public void ResetAnimate() => Animate = true;
+    public void ResetAnimate() => ResetLocal(ref _animate, DefaultAnimate, needLayout: true);
 
     #endregion
 
@@ -125,15 +146,15 @@ public class InputPulsingBorderValues : Storage
     /// </summary>
     [Category(@"Glowing Border")]
     [Description(@"Animation speed multiplier. 1 is the default speed; values greater than 1 animate faster and values less than 1 animate slower.")]
-    [DefaultValue(1f)]
+    [DefaultValue(DefaultAnimationSpeed)]
     public float AnimationSpeed
     {
-        get => _animationSpeed;
+        get => GetInherited(_animationSpeed, values => values.AnimationSpeed, DefaultAnimationSpeed);
 
         set
         {
             float speed = Math.Max(0.1f, Math.Min(10f, value));
-            if (Math.Abs(_animationSpeed - speed) > float.Epsilon)
+            if (!_animationSpeed.HasValue || Math.Abs(_animationSpeed.Value - speed) > float.Epsilon)
             {
                 _animationSpeed = speed;
                 PerformNeedPaint(false);
@@ -141,12 +162,13 @@ public class InputPulsingBorderValues : Storage
         }
     }
 
-    private bool ShouldSerializeAnimationSpeed() => Math.Abs(_animationSpeed - 1f) > float.Epsilon;
+    private bool ShouldSerializeAnimationSpeed() =>
+        ShouldSerializeLocal(_animationSpeed, AnimationSpeed, DefaultAnimationSpeed);
 
     /// <summary>
     /// Resets the AnimationSpeed property to its default value.
     /// </summary>
-    public void ResetAnimationSpeed() => AnimationSpeed = 1f;
+    public void ResetAnimationSpeed() => ResetLocal(ref _animationSpeed, DefaultAnimationSpeed, needLayout: false);
 
     #endregion
 
@@ -157,27 +179,20 @@ public class InputPulsingBorderValues : Storage
     /// </summary>
     [Category(@"Glowing Border")]
     [Description(@"Gets and sets when the pulsing border is shown.")]
-    [DefaultValue(InputPulsingBorderShowWhen.Focused)]
+    [DefaultValue(DefaultShowWhen)]
     public InputPulsingBorderShowWhen ShowWhen
     {
-        get => _showWhen;
+        get => GetInherited(_showWhen, values => values.ShowWhen, DefaultShowWhen);
 
-        set
-        {
-            if (_showWhen != value)
-            {
-                _showWhen = value;
-                PerformNeedPaint(true);
-            }
-        }
+        set => SetLocal(ref _showWhen, value, needLayout: true);
     }
 
-    private bool ShouldSerializeShowWhen() => _showWhen != InputPulsingBorderShowWhen.Focused;
+    private bool ShouldSerializeShowWhen() => ShouldSerializeLocal(_showWhen, ShowWhen, DefaultShowWhen);
 
     /// <summary>
     /// Resets the ShowWhen property to its default value.
     /// </summary>
-    public void ResetShowWhen() => ShowWhen = InputPulsingBorderShowWhen.Focused;
+    public void ResetShowWhen() => ResetLocal(ref _showWhen, DefaultShowWhen, needLayout: true);
 
     #endregion
 
@@ -188,27 +203,20 @@ public class InputPulsingBorderValues : Storage
     /// </summary>
     [Category(@"Glowing Border")]
     [Description(@"Gets and sets whether the glow follows the bottom edge only or the entire border.")]
-    [DefaultValue(InputPulsingBorderStyle.Bottom)]
+    [DefaultValue(DefaultStyle)]
     public InputPulsingBorderStyle Style
     {
-        get => _style;
+        get => GetInherited(_style, values => values.Style, DefaultStyle);
 
-        set
-        {
-            if (_style != value)
-            {
-                _style = value;
-                PerformNeedPaint(true);
-            }
-        }
+        set => SetLocal(ref _style, value, needLayout: true);
     }
 
-    private bool ShouldSerializeStyle() => _style != InputPulsingBorderStyle.Bottom;
+    private bool ShouldSerializeStyle() => ShouldSerializeLocal(_style, Style, DefaultStyle);
 
     /// <summary>
     /// Resets the Style property to its default value.
     /// </summary>
-    public void ResetStyle() => Style = InputPulsingBorderStyle.Bottom;
+    public void ResetStyle() => ResetLocal(ref _style, DefaultStyle, needLayout: true);
 
     #endregion
 
@@ -228,13 +236,70 @@ public class InputPulsingBorderValues : Storage
 
     #region Reset
 
+    /// <summary>
+    /// Resets all properties. Control instances clear local overrides and inherit from
+    /// <see cref="KryptonManager.PulsingBorderValues"/> again; the global instance restores factory defaults.
+    /// </summary>
     public void Reset()
     {
+        ResetEnable();
         ResetAnimate();
         ResetAnimationSpeed();
         ResetShowWhen();
         ResetStyle();
         Colors.Reset();
+    }
+
+    #endregion
+
+    #region Implementation
+
+    private InputPulsingBorderValues? InheritSource =>
+        _inheritFromGlobal && !ReferenceEquals(this, KryptonManager.PulsingBorderValues)
+            ? KryptonManager.PulsingBorderValues
+            : null;
+
+    private T GetInherited<T>(T? local, Func<InputPulsingBorderValues, T> read, T factory)
+        where T : struct
+    {
+        if (local.HasValue)
+        {
+            return local.Value;
+        }
+
+        InputPulsingBorderValues? source = InheritSource;
+        return source != null ? read(source) : factory;
+    }
+
+    private bool ShouldSerializeLocal<T>(T? local, T effective, T factory)
+        where T : struct =>
+        _inheritFromGlobal ? local.HasValue : !EqualityComparer<T>.Default.Equals(effective, factory);
+
+    private void SetLocal<T>(ref T? field, T value, bool needLayout)
+        where T : struct
+    {
+        if (!field.HasValue || !EqualityComparer<T>.Default.Equals(field.Value, value))
+        {
+            field = value;
+            PerformNeedPaint(needLayout);
+        }
+    }
+
+    private void ResetLocal<T>(ref T? field, T factory, bool needLayout)
+        where T : struct
+    {
+        if (_inheritFromGlobal)
+        {
+            if (field.HasValue)
+            {
+                field = null;
+                PerformNeedPaint(needLayout);
+            }
+
+            return;
+        }
+
+        SetLocal(ref field, factory, needLayout);
     }
 
     #endregion

@@ -175,6 +175,13 @@ public sealed class KryptonManager : Component
     [Description(@"Occurs when touchscreen availability changes (detected or removed).")]
     public static event EventHandler<TouchscreenAvailabilityChangedEventArgs>? TouchscreenAvailabilityChanged;
 
+    /// <summary>
+    /// Occurs when <see cref="PulsingBorderValues"/> changes.
+    /// </summary>
+    [Category(@"Property Changed")]
+    [Description(@"Occurs when the global pulsing border values change.")]
+    public static event EventHandler? GlobalPulsingBorderChanged;
+
     #endregion
 
     #region Instance Feilds
@@ -263,7 +270,8 @@ public sealed class KryptonManager : Component
                                ShouldSerializeBaseFont() ||
                                ShouldSerializeGlobalPaletteMode() ||
                                ShouldSerializePaletteSpecificValues() ||
-                               ShouldSerializeTouchscreenSettings());
+                               ShouldSerializeTouchscreenSettings() ||
+                               ShouldSerializeGlobalPulsingBorderValues());
 
     /// <summary>
     /// Reset All values
@@ -285,6 +293,7 @@ public sealed class KryptonManager : Component
         ResetGlobalPaletteMode();
         ResetPaletteSpecificValues();
         ResetTouchscreenSettings();
+        ResetGlobalPulsingBorderValues();
     }
 
     /// <summary>
@@ -539,6 +548,18 @@ public sealed class KryptonManager : Component
     public TouchscreenSettingValues TouchscreenSettings => TouchscreenSettingValues;
     private bool ShouldSerializeTouchscreenSettings() => !TouchscreenSettingValues.IsDefault;
     private void ResetTouchscreenSettings() => TouchscreenSettingValues.Reset();
+
+    /// <summary>
+    /// Gets the default pulsing border settings inherited by Krypton input controls and
+    /// <see cref="KryptonForm"/> until they set a local override.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Default pulsing border settings applied globally. Unset properties on individual controls inherit these values.")]
+    [MergableProperty(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public InputPulsingBorderValues GlobalPulsingBorderValues => PulsingBorderValues;
+    private bool ShouldSerializeGlobalPulsingBorderValues() => !PulsingBorderValues.IsDefault;
+    private void ResetGlobalPulsingBorderValues() => PulsingBorderValues.Reset();
 
     /// <summary>
     /// Sets the palette-specific values that can be used to override certain global settings for specific palettes.
@@ -920,6 +941,18 @@ public sealed class KryptonManager : Component
     /// <summary>Gets the touchscreen support settings.</summary>
     /// <value>The touchscreen support settings.</value>
     public static TouchscreenSettingValues TouchscreenSettingValues { get; } = new TouchscreenSettingValues();
+
+    /// <summary>
+    /// Gets the default pulsing border settings inherited by Krypton input controls and
+    /// <see cref="KryptonForm"/> until they set a local override.
+    /// </summary>
+    /// <remarks>
+    /// Set <c>KryptonManager.PulsingBorderValues.Enable = true</c> at startup to turn on pulsing
+    /// borders application-wide. Individual controls can still override any property, or call
+    /// <see cref="InputPulsingBorderValues.Reset"/> to inherit again.
+    /// </remarks>
+    public static InputPulsingBorderValues PulsingBorderValues { get; } =
+        new InputPulsingBorderValues(OnGlobalPulsingBorderNeedPaint, inheritFromGlobal: false);
 
     /// <summary>
     /// Gets the palette-specific values that can be used to override certain global settings for specific palettes.
@@ -2528,6 +2561,9 @@ public sealed class KryptonManager : Component
     private static void OnGlobalDropDownArrowRenderModeChanged(EventArgs e) => GlobalDropDownArrowRenderModeChanged?.Invoke(null, e);
 
     private static void OnGlobalDropDownArrowGlyphStyleChanged(EventArgs e) => GlobalDropDownArrowGlyphStyleChanged?.Invoke(null, e);
+
+    private static void OnGlobalPulsingBorderNeedPaint(object? sender, NeedLayoutEventArgs e) =>
+        GlobalPulsingBorderChanged?.Invoke(null, EventArgs.Empty);
 
     private static void OnGlobalPaletteChanged(EventArgs e)
     {
