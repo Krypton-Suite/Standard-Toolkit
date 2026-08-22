@@ -13,7 +13,7 @@
 	<EnableNETAnalyzers>true</EnableNETAnalyzers>
 	<NeutralLanguage>en</NeutralLanguage>
 	<DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
-	<Configurations>Debug;Release;Installer;Nightly;Canary</Configurations>
+	<Configurations>Debug;Release;Installer;Nightly;Canary;RC</Configurations>
 	<Nullable>enable</Nullable>
 	<!--https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/warning-waves-->
 	<WarningLevel>8</WarningLevel>
