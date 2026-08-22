@@ -12,8 +12,10 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// A Krypton based menu strip.
 /// </summary>
-[ToolboxBitmap(typeof(MenuStrip), "ToolboxBitmaps.KryptonMenuBar.bmp")]
+[ToolboxBitmap(typeof(KryptonMenuStrip), "ToolboxBitmaps.KryptonMenuBar.bmp")]
+[Category(@"Krypton Toolkit")]
 [Description(@"A Krypton based menu strip.")]
+[Designer("System.Windows.Forms.Design.MenuStripDesigner, System.Design")]
 [DesignerCategory(@"code")]
 [ToolboxItem(true)]
 public class KryptonMenuStrip : MenuStrip,

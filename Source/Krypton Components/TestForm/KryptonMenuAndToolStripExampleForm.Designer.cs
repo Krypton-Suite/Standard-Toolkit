@@ -441,7 +441,7 @@
             this.Controls.Add(this.kryptonMenuStrip1);
             this.MainMenuStrip = this.kryptonMenuStrip1;
             this.Name = "KryptonMenuAndToolStripExampleForm";
-            this.Text = "KryptonMenuAndToolStripExampleForm";
+            this.Text = "Krypton MenuStrip and ToolStrip Container";
             this.kryptonMenuStrip1.ResumeLayout(false);
             this.kryptonMenuStrip1.PerformLayout();
             this.kryptonToolStripContainer1.TopToolStripPanel.ResumeLayout(false);

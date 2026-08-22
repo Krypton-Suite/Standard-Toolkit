@@ -523,6 +523,10 @@
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonGroupPanel.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonForm.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonLinkLabel.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonMenuBar.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonStatusStrip.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonToolStrip.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonToolstripContainer.bmp" />
   </ItemGroup>
   <ItemGroup>
 	<Compile Remove="Controls Toolkit\KryptonByteViewer.cs" />
