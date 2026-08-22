@@ -554,10 +554,10 @@ public sealed class KryptonManager : Component
     /// <see cref="KryptonForm"/> until they set a local override.
     /// </summary>
     [Category(@"Visuals")]
-    [Description(@"Default pulsing border settings applied globally. Unset properties on individual controls inherit these values.")]
+    [Description(@"Default pulsing border settings by control type (Forms, Buttons, Inputs, Other). Unset properties on individual controls inherit these values.")]
     [MergableProperty(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    public InputPulsingBorderValues GlobalPulsingBorderValues => PulsingBorderValues;
+    public KryptonGlobalPulsingBorderValues GlobalPulsingBorderValues => PulsingBorderValues;
     private bool ShouldSerializeGlobalPulsingBorderValues() => !PulsingBorderValues.IsDefault;
     private void ResetGlobalPulsingBorderValues() => PulsingBorderValues.Reset();
 
@@ -943,16 +943,16 @@ public sealed class KryptonManager : Component
     public static TouchscreenSettingValues TouchscreenSettingValues { get; } = new TouchscreenSettingValues();
 
     /// <summary>
-    /// Gets the default pulsing border settings inherited by Krypton input controls and
-    /// <see cref="KryptonForm"/> until they set a local override.
+    /// Gets the default pulsing border settings grouped by control type.
     /// </summary>
     /// <remarks>
-    /// Set <c>KryptonManager.PulsingBorderValues.Enable = true</c> at startup to turn on pulsing
-    /// borders application-wide. Individual controls can still override any property, or call
+    /// Set <c>KryptonManager.PulsingBorderValues.Inputs.Enable = true</c> (or
+    /// <c>Buttons</c> / <c>Forms</c> / <c>Other</c>) at startup to turn on pulsing
+    /// borders for that group. Individual controls can still override any property, or call
     /// <see cref="InputPulsingBorderValues.Reset"/> to inherit again.
     /// </remarks>
-    public static InputPulsingBorderValues PulsingBorderValues { get; } =
-        new InputPulsingBorderValues(OnGlobalPulsingBorderNeedPaint, inheritFromGlobal: false);
+    public static KryptonGlobalPulsingBorderValues PulsingBorderValues { get; } =
+        new KryptonGlobalPulsingBorderValues(OnGlobalPulsingBorderNeedPaint);
 
     /// <summary>
     /// Gets the palette-specific values that can be used to override certain global settings for specific palettes.

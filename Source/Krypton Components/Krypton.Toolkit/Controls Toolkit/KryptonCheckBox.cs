@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -44,6 +44,7 @@ public class KryptonCheckBox : VisualSimpleBase, IContentValues
     private bool _checked;
     private bool _threeState;
     private bool _useMnemonic;
+    private readonly InputPulsingBorderViewIntegration _pulsingBorder;
     #endregion
 
     #region Events
@@ -168,7 +169,14 @@ public class KryptonCheckBox : VisualSimpleBase, IContentValues
         UpdateForOrientation();
 
         // Create the view manager instance
-        ViewManager = new ViewManager(this, _layoutDocker);
+        _pulsingBorder = new InputPulsingBorderViewIntegration(this,
+            NeedPaintDelegate,
+            () => ContainsFocus || _drawCheckBox.Tracking,
+            () => null,
+            _layoutDocker,
+            () => Enabled ? PaletteState.Normal : PaletteState.Disabled,
+            InputPulsingBorderCategory.Other);
+        ViewManager = new ViewManager(this, _pulsingBorder.ViewRoot);
 
         // We want to be auto sized by default, but not the property default!
         AutoSize = true;
@@ -177,6 +185,26 @@ public class KryptonCheckBox : VisualSimpleBase, IContentValues
     #endregion
 
     #region Public
+    /// <summary>
+    /// Gets access to the optional pulsing border values.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Optional pulsing border drawn around the check box.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public InputPulsingBorderValues PulsingBorderValues => _pulsingBorder.Values;
+
+    private bool ShouldSerializePulsingBorderValues() => !PulsingBorderValues.IsDefault;
+
+    /// <summary>
+    /// Request the control repaint itself and children.
+    /// </summary>
+    /// <param name="needLayout">Does the palette change require a layout.</param>
+    public override void PerformNeedPaint(bool needLayout)
+    {
+        _pulsingBorder.UpdateAnimationState();
+        base.PerformNeedPaint(needLayout);
+    }
+
     /// <summary>
     /// Gets and sets the automatic resize of the control to fit contents.
     /// </summary>
@@ -845,6 +873,20 @@ public class KryptonCheckBox : VisualSimpleBase, IContentValues
         // Orientation and right to left are interconnected
         UpdateForOrientation();
         base.OnRightToLeftChanged(e);
+    }
+
+    /// <summary>
+    /// Release managed and unmanaged resources.
+    /// </summary>
+    /// <param name="disposing">true to release both managed and unmanaged resources.</param>
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            _pulsingBorder.Dispose();
+        }
+
+        base.Dispose(disposing);
     }
 
     /// <summary>

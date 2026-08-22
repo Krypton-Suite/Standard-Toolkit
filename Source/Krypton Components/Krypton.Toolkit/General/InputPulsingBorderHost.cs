@@ -10,7 +10,7 @@
 namespace Krypton.Toolkit;
 
 /// <summary>
-/// Hosts pulsing border values and animation for an input control.
+/// Hosts pulsing border values and animation for a control.
 /// </summary>
 internal sealed class InputPulsingBorderHost : IInputPulsingBorderProvider, IDisposable
 {
@@ -19,7 +19,7 @@ internal sealed class InputPulsingBorderHost : IInputPulsingBorderProvider, IDis
     private readonly Control _control;
     private readonly NeedPaintHandler _needPaint;
     private readonly Func<bool> _isActive;
-    private readonly Func<IPaletteTriple> _getTripleState;
+    private readonly Func<IPaletteTriple?> _getTripleState;
     private readonly Func<PaletteState> _getBorderState;
     private readonly InputPulsingBorderController _controller;
 
@@ -35,11 +35,13 @@ internal sealed class InputPulsingBorderHost : IInputPulsingBorderProvider, IDis
     /// <param name="isActive">Delegate that returns whether the control is active.</param>
     /// <param name="getTripleState">Delegate that returns the current palette triple state.</param>
     /// <param name="getBorderState">Delegate that returns the current border palette state.</param>
+    /// <param name="category">Manager group this control inherits from.</param>
     public InputPulsingBorderHost(Control control,
         NeedPaintHandler needPaint,
         Func<bool> isActive,
-        Func<IPaletteTriple> getTripleState,
-        Func<PaletteState> getBorderState)
+        Func<IPaletteTriple?> getTripleState,
+        Func<PaletteState> getBorderState,
+        InputPulsingBorderCategory category)
     {
         _control = control;
         _needPaint = needPaint;
@@ -53,8 +55,8 @@ internal sealed class InputPulsingBorderHost : IInputPulsingBorderProvider, IDis
             UpdateAnimationState();
         };
 
-        Values = new InputPulsingBorderValues(needPaintHandler);
-        _controller = new InputPulsingBorderController(Values, needPaint, () => ShouldDrawGlowingBorder());
+        Values = new InputPulsingBorderValues(needPaintHandler, category);
+        _controller = new InputPulsingBorderController(Values, OnAnimationNeedPaint, () => ShouldDrawGlowingBorder());
         KryptonManager.GlobalPulsingBorderChanged += OnGlobalPulsingBorderChanged;
         UpdateAnimationState();
     }
@@ -74,7 +76,7 @@ internal sealed class InputPulsingBorderHost : IInputPulsingBorderProvider, IDis
         Values.Enable && _control.Enabled && ShouldShowGlowingBorder();
 
     /// <inheritdoc />
-    public IPaletteTriple GetGlowingBorderTripleState() => _getTripleState();
+    public IPaletteTriple? GetGlowingBorderTripleState() => _getTripleState();
 
     /// <inheritdoc />
     public PaletteState GetGlowingBorderState() => _getBorderState();
@@ -100,6 +102,17 @@ internal sealed class InputPulsingBorderHost : IInputPulsingBorderProvider, IDis
     #endregion
 
     #region Implementation
+
+    private void OnAnimationNeedPaint(object? sender, NeedLayoutEventArgs e)
+    {
+        if (_control.IsDisposed || !_control.IsHandleCreated)
+        {
+            return;
+        }
+
+        // Do not invalidate child HWNDs (combo drop glyph, up-down buttons, etc.).
+        _control.Invalidate(false);
+    }
 
     private void OnGlobalPulsingBorderChanged(object? sender, EventArgs e)
     {

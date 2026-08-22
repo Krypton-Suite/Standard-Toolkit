@@ -46,7 +46,8 @@
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
 * Implemented [#4248](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4248), Is it possible to add `PulsingBorderValues` in `KryptonManager`
-   * Global `KryptonManager.PulsingBorderValues` so pulsing borders can be enabled and styled application-wide; per-control `PulsingBorderValues` inherit until you set a local override.
+   * Global `KryptonManager.PulsingBorderValues` is grouped by control type (`Forms`, `Buttons`, `Inputs`, `Other`). Per-control `PulsingBorderValues` inherit until you set a local override.
+   * Buttons (`KryptonButton`, `KryptonDropButton`, `KryptonColorButton`) default to a full rounded glow; inputs default to a bottom-edge glow so combo drop-down glyphs are not redrawn every frame.
 * Implemented [#1110](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1110), Where is the Krypton equivalent of a Form `MenuStrip`
    * `KryptonMenuStrip` is in the Toolbox and MenuStrip/ToolStrip/StatusStrip fonts follow the palette and `BaseFont` (`KryptonMenuStrip` first shipped in #2689).
 * Implemented [#3854](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3854), Removed unused duplicate utility types

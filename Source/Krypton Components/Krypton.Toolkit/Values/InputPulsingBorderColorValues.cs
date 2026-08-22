@@ -13,10 +13,10 @@ namespace Krypton.Toolkit;
 /// Storage for input control pulsing border colors.
 /// </summary>
 /// <remarks>
-/// Control-owned instances inherit unset colors from
-/// <see cref="KryptonManager.PulsingBorderValues"/>.Colors. Assigning a color stores a local
-/// override; <c>Reset*</c> (and <see cref="Reset"/>) clears the override so the global value is
-/// used again. The manager instance does not inherit.
+/// Control-owned instances inherit unset colors from the matching
+/// <see cref="KryptonManager.PulsingBorderValues"/> group. Assigning a color stores a local
+/// override; <c>Reset*</c> (and <see cref="Reset"/>) clears the override so the group value is
+/// used again. Manager group instances do not inherit.
 /// </remarks>
 [TypeConverter(typeof(InputPulsingBorderColorValuesConverter))]
 public class InputPulsingBorderColorValues : Storage
@@ -31,7 +31,7 @@ public class InputPulsingBorderColorValues : Storage
 
     #region Instance Fields
 
-    private readonly bool _inheritFromGlobal;
+    private readonly InputPulsingBorderCategory? _inheritCategory;
     private Color? _color1;
     private Color? _color2;
     private Color? _highlightColor;
@@ -45,7 +45,7 @@ public class InputPulsingBorderColorValues : Storage
     /// </summary>
     /// <param name="needPaint">Delegate for notifying paint requests.</param>
     public InputPulsingBorderColorValues(NeedPaintHandler? needPaint)
-        : this(needPaint, inheritFromGlobal: true)
+        : this(needPaint, InputPulsingBorderCategory.Inputs)
     {
     }
 
@@ -53,17 +53,15 @@ public class InputPulsingBorderColorValues : Storage
     /// Initialize a new instance of the <see cref="InputPulsingBorderColorValues"/> class.
     /// </summary>
     /// <param name="needPaint">Delegate for notifying paint requests.</param>
-    /// <param name="inheritFromGlobal">
-    /// When <see langword="true"/>, unset colors read from
-    /// <see cref="KryptonManager.PulsingBorderValues"/>.Colors. Pass <see langword="false"/> for
-    /// the manager's own global instance.
+    /// <param name="inheritCategory">
+    /// Manager group to inherit from, or <see langword="null"/> for a manager group instance.
     /// </param>
-    internal InputPulsingBorderColorValues(NeedPaintHandler? needPaint, bool inheritFromGlobal)
+    internal InputPulsingBorderColorValues(NeedPaintHandler? needPaint, InputPulsingBorderCategory? inheritCategory)
     {
         NeedPaint = needPaint;
-        _inheritFromGlobal = inheritFromGlobal;
+        _inheritCategory = inheritCategory;
 
-        if (!inheritFromGlobal)
+        if (!inheritCategory.HasValue)
         {
             Reset();
         }
@@ -159,8 +157,9 @@ public class InputPulsingBorderColorValues : Storage
     #region Reset
 
     /// <summary>
-    /// Resets all colors. Control instances clear local overrides and inherit from
-    /// <see cref="KryptonManager.PulsingBorderValues"/> again; the global instance restores factory defaults.
+    /// Resets all colors. Control instances clear local overrides and inherit from the
+    /// matching <see cref="KryptonManager.PulsingBorderValues"/> group again; a manager group
+    /// instance restores factory defaults.
     /// </summary>
     public void Reset()
     {
@@ -173,9 +172,11 @@ public class InputPulsingBorderColorValues : Storage
 
     #region Implementation
 
+    private bool InheritFromGlobal => _inheritCategory.HasValue;
+
     private InputPulsingBorderColorValues? InheritSource =>
-        _inheritFromGlobal && !ReferenceEquals(this, KryptonManager.PulsingBorderValues.Colors)
-            ? KryptonManager.PulsingBorderValues.Colors
+        _inheritCategory.HasValue
+            ? KryptonManager.PulsingBorderValues.Get(_inheritCategory.Value).Colors
             : null;
 
     private Color GetInherited(Color? local, Func<InputPulsingBorderColorValues, Color> read, Color factory)
@@ -190,7 +191,7 @@ public class InputPulsingBorderColorValues : Storage
     }
 
     private bool ShouldSerializeLocal(Color? local, Color effective, Color factory) =>
-        _inheritFromGlobal ? local.HasValue : effective != factory;
+        InheritFromGlobal ? local.HasValue : effective != factory;
 
     private void SetLocal(ref Color? field, Color value)
     {
@@ -203,7 +204,7 @@ public class InputPulsingBorderColorValues : Storage
 
     private void ResetLocal(ref Color? field, Color factory)
     {
-        if (_inheritFromGlobal)
+        if (InheritFromGlobal)
         {
             if (field.HasValue)
             {
