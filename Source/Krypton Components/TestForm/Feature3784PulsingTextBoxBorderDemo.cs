@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -12,7 +12,7 @@ using Krypton.Toolkit;
 namespace TestForm;
 
 /// <summary>
-/// Comprehensive manual demo for GitHub issue #3784: optional glowing borders and cue hint shimmer.
+/// Comprehensive manual demo for GitHub issues #3784 and #4248: optional glowing borders, global KryptonManager inherit, and cue hint shimmer.
 /// </summary>
 public partial class Feature3784PulsingTextBoxBorderDemo : KryptonForm
 {
@@ -28,6 +28,7 @@ public partial class Feature3784PulsingTextBoxBorderDemo : KryptonForm
 
     private void WireEvents()
     {
+        FormClosed += (_, _) => RestoreGlobalPulsingBorder();
         kbtnApply.Click += (_, _) => ApplySettingsFromPanel();
         kbtnReset.Click += (_, _) =>
         {
@@ -37,6 +38,15 @@ public partial class Feature3784PulsingTextBoxBorderDemo : KryptonForm
         kbtnOpenFormGlow.Click += (_, _) => OpenFormGlowDemo();
         kcmbTarget.SelectedIndexChanged += (_, _) => SyncSettingsFromTarget();
         kchkCueAnimate.CheckedChanged += (_, _) => knudCueSpeed.Enabled = kchkCueAnimate.Checked;
+        kchkUseGlobal.CheckedChanged += (_, _) =>
+        {
+            if (_syncingSettings)
+            {
+                return;
+            }
+
+            ApplyGlobalMode(kchkUseGlobal.Checked);
+        };
 
         foreach (Control control in GetSampleControls())
         {
@@ -85,6 +95,18 @@ public partial class Feature3784PulsingTextBoxBorderDemo : KryptonForm
 
     private void ApplyFactoryDefaults()
     {
+        _syncingSettings = true;
+        try
+        {
+            kchkUseGlobal.Checked = false;
+        }
+        finally
+        {
+            _syncingSettings = false;
+        }
+
+        RestoreGlobalPulsingBorder();
+
         ApplyGlowDefaults(ktxtAnimatedGlow.PulsingBorderValues, true, true, InputPulsingBorderShowWhen.Focused, InputPulsingBorderStyle.All, 1.5f);
         ApplyCueDefaults(ktxtAnimatedGlow.CueHint, true, 0.75f, "Describe the app or website or idea that you want to build");
 
@@ -205,6 +227,15 @@ public partial class Feature3784PulsingTextBoxBorderDemo : KryptonForm
         float speed = (float)knudAnimationSpeed.Value;
         float cueSpeed = (float)knudCueSpeed.Value;
 
+        if (kchkUseGlobal.Checked)
+        {
+            ApplyGlowDefaults(KryptonManager.PulsingBorderValues, kchkEnable.Checked, kchkAnimate.Checked, showWhen, style, speed);
+            ClearLocalGlowOverrides();
+            ktxtStaticGlow.PulsingBorderValues.Enable = false;
+            SetStatus(@"Applied glow settings to KryptonManager.PulsingBorderValues. Sample controls inherit; Static TextBox is opted out.");
+            return;
+        }
+
         foreach (GlowTarget target in GetSelectedTargets())
         {
             InputPulsingBorderValues glow = target.GetGlow();
@@ -225,6 +256,39 @@ public partial class Feature3784PulsingTextBoxBorderDemo : KryptonForm
         string targetName = kcmbTarget.SelectedIndex <= 0 ? "all controls" : kcmbTarget.Text;
         SetStatus($@"Applied glow settings to {targetName}.");
     }
+
+    private void ApplyGlobalMode(bool enabled)
+    {
+        if (enabled)
+        {
+            var showWhen = (InputPulsingBorderShowWhen)Math.Max(0, kcmbShowWhen.SelectedIndex);
+            var style = kcmbStyle.SelectedIndex == 1 ? InputPulsingBorderStyle.All : InputPulsingBorderStyle.Bottom;
+            ApplyGlowDefaults(KryptonManager.PulsingBorderValues,
+                kchkEnable.Checked,
+                kchkAnimate.Checked,
+                showWhen,
+                style,
+                (float)knudAnimationSpeed.Value);
+            ClearLocalGlowOverrides();
+            ktxtStaticGlow.PulsingBorderValues.Enable = false;
+            SetStatus(@"Global inherit on. Sample controls use KryptonManager.PulsingBorderValues; Static TextBox is opted out (Enable = false).");
+            return;
+        }
+
+        RestoreGlobalPulsingBorder();
+        ApplyFactoryDefaults();
+        SetStatus(@"Global inherit off. Per-control PulsingBorderValues restored.");
+    }
+
+    private void ClearLocalGlowOverrides()
+    {
+        foreach (GlowTarget target in GetGlowTargets())
+        {
+            target.GetGlow().Reset();
+        }
+    }
+
+    private static void RestoreGlobalPulsingBorder() => KryptonManager.PulsingBorderValues.Reset();
 
     private void OpenFormGlowDemo()
     {

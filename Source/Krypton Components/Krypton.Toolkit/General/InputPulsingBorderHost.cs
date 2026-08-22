@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -17,6 +17,7 @@ internal sealed class InputPulsingBorderHost : IInputPulsingBorderProvider, IDis
     #region Instance Fields
 
     private readonly Control _control;
+    private readonly NeedPaintHandler _needPaint;
     private readonly Func<bool> _isActive;
     private readonly Func<IPaletteTriple> _getTripleState;
     private readonly Func<PaletteState> _getBorderState;
@@ -27,7 +28,7 @@ internal sealed class InputPulsingBorderHost : IInputPulsingBorderProvider, IDis
     #region Identity
 
     /// <summary>
-    /// Initialize a new instance of the InputGlowingBorderHost class.
+    /// Initialize a new instance of the <see cref="InputPulsingBorderHost"/> class.
     /// </summary>
     /// <param name="control">Owning control.</param>
     /// <param name="needPaint">Delegate for notifying paint requests.</param>
@@ -41,6 +42,7 @@ internal sealed class InputPulsingBorderHost : IInputPulsingBorderProvider, IDis
         Func<PaletteState> getBorderState)
     {
         _control = control;
+        _needPaint = needPaint;
         _isActive = isActive;
         _getTripleState = getTripleState;
         _getBorderState = getBorderState;
@@ -53,11 +55,13 @@ internal sealed class InputPulsingBorderHost : IInputPulsingBorderProvider, IDis
 
         Values = new InputPulsingBorderValues(needPaintHandler);
         _controller = new InputPulsingBorderController(Values, needPaint, () => ShouldDrawGlowingBorder());
+        KryptonManager.GlobalPulsingBorderChanged += OnGlobalPulsingBorderChanged;
+        UpdateAnimationState();
     }
 
     #endregion
 
-    #region IInputGlowingBorderProvider
+    #region IInputPulsingBorderProvider
 
     /// <inheritdoc />
     public InputPulsingBorderValues Values { get; }
@@ -87,11 +91,26 @@ internal sealed class InputPulsingBorderHost : IInputPulsingBorderProvider, IDis
     /// <summary>
     /// Release resources used by the host.
     /// </summary>
-    public void Dispose() => _controller.Dispose();
+    public void Dispose()
+    {
+        KryptonManager.GlobalPulsingBorderChanged -= OnGlobalPulsingBorderChanged;
+        _controller.Dispose();
+    }
 
     #endregion
 
     #region Implementation
+
+    private void OnGlobalPulsingBorderChanged(object? sender, EventArgs e)
+    {
+        if (_control.IsDisposed)
+        {
+            return;
+        }
+
+        UpdateAnimationState();
+        _needPaint(this, new NeedLayoutEventArgs(true));
+    }
 
     private bool ShouldShowGlowingBorder() => Values.ShowWhen switch
     {
