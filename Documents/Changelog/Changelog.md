@@ -48,6 +48,8 @@
 
 ## 2026-10-26 - Build 2610 (Version 105-LTS - Patch 4) - October 2026
 
+* Implemented [#4254](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4254), DPI-scale Ribbon QAT extra button (`ViewDrawRibbonQATExtraButton`)
+   * Ribbon Quick Access Toolbar overflow/customize button now scales with DPI
 * Implemented [#3854](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3854), Removed unused duplicate utility types
   * Ribbon now uses the public Toolkit `BiDictionary`.
   * Workspace uses Interop `PI.WM_.CONTEXTMENU` instead of a local `PI` stub.
