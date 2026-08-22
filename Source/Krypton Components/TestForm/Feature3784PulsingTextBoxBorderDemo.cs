@@ -229,10 +229,11 @@ public partial class Feature3784PulsingTextBoxBorderDemo : KryptonForm
 
         if (kchkUseGlobal.Checked)
         {
-            ApplyGlowDefaults(KryptonManager.PulsingBorderValues, kchkEnable.Checked, kchkAnimate.Checked, showWhen, style, speed);
+            ApplyGlowDefaults(KryptonManager.PulsingBorderValues.Inputs, kchkEnable.Checked, kchkAnimate.Checked, showWhen, style, speed);
+            ApplyGlowDefaults(KryptonManager.PulsingBorderValues.Buttons, kchkEnable.Checked, kchkAnimate.Checked, showWhen, style, speed);
             ClearLocalGlowOverrides();
             ktxtStaticGlow.PulsingBorderValues.Enable = false;
-            SetStatus(@"Applied glow settings to KryptonManager.PulsingBorderValues. Sample controls inherit; Static TextBox is opted out.");
+            SetStatus(@"Applied glow settings to KryptonManager.PulsingBorderValues.Inputs/Buttons. Sample controls inherit; Static TextBox is opted out.");
             return;
         }
 
@@ -263,7 +264,13 @@ public partial class Feature3784PulsingTextBoxBorderDemo : KryptonForm
         {
             var showWhen = (InputPulsingBorderShowWhen)Math.Max(0, kcmbShowWhen.SelectedIndex);
             var style = kcmbStyle.SelectedIndex == 1 ? InputPulsingBorderStyle.All : InputPulsingBorderStyle.Bottom;
-            ApplyGlowDefaults(KryptonManager.PulsingBorderValues,
+            ApplyGlowDefaults(KryptonManager.PulsingBorderValues.Inputs,
+                kchkEnable.Checked,
+                kchkAnimate.Checked,
+                showWhen,
+                style,
+                (float)knudAnimationSpeed.Value);
+            ApplyGlowDefaults(KryptonManager.PulsingBorderValues.Buttons,
                 kchkEnable.Checked,
                 kchkAnimate.Checked,
                 showWhen,
@@ -271,7 +278,7 @@ public partial class Feature3784PulsingTextBoxBorderDemo : KryptonForm
                 (float)knudAnimationSpeed.Value);
             ClearLocalGlowOverrides();
             ktxtStaticGlow.PulsingBorderValues.Enable = false;
-            SetStatus(@"Global inherit on. Sample controls use KryptonManager.PulsingBorderValues; Static TextBox is opted out (Enable = false).");
+            SetStatus(@"Global inherit on. Sample controls use KryptonManager.PulsingBorderValues.Inputs/Buttons; Static TextBox is opted out (Enable = false).");
             return;
         }
 

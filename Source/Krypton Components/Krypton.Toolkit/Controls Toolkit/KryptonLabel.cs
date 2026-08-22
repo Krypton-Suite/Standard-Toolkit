@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -34,6 +34,7 @@ public class KryptonLabel : VisualSimpleBase, IContentValues
     private bool _useMnemonic;
     private bool _wasEnabled;
     private Control? _target;
+    private readonly InputPulsingBorderViewIntegration _pulsingBorder;
     #endregion
 
     #region Events
@@ -82,7 +83,14 @@ public class KryptonLabel : VisualSimpleBase, IContentValues
         };
 
         // Create the view manager instance
-        ViewManager = new ViewManager(this, _drawContent);
+        _pulsingBorder = new InputPulsingBorderViewIntegration(this,
+            NeedPaintDelegate,
+            () => ContainsFocus,
+            () => null,
+            _drawContent,
+            () => Enabled ? PaletteState.Normal : PaletteState.Disabled,
+            InputPulsingBorderCategory.Other);
+        ViewManager = new ViewManager(this, _pulsingBorder.ViewRoot);
 
         // We want to be auto sized by default, but not the property default!
         AutoSize = true;
@@ -91,6 +99,26 @@ public class KryptonLabel : VisualSimpleBase, IContentValues
     #endregion
 
     #region Public
+    /// <summary>
+    /// Gets access to the optional pulsing border values.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Optional pulsing border drawn around the label.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public InputPulsingBorderValues PulsingBorderValues => _pulsingBorder.Values;
+
+    private bool ShouldSerializePulsingBorderValues() => !PulsingBorderValues.IsDefault;
+
+    /// <summary>
+    /// Request the control repaint itself and children.
+    /// </summary>
+    /// <param name="needLayout">Does the palette change require a layout.</param>
+    public override void PerformNeedPaint(bool needLayout)
+    {
+        _pulsingBorder.UpdateAnimationState();
+        base.PerformNeedPaint(needLayout);
+    }
+
     /// <summary>
     /// Gets and sets the automatic resize of the control to fit contents.
     /// </summary>
@@ -522,6 +550,20 @@ public class KryptonLabel : VisualSimpleBase, IContentValues
 
         // Let base class fire standard event
         base.OnEnabledChanged(e);
+    }
+
+    /// <summary>
+    /// Release managed and unmanaged resources.
+    /// </summary>
+    /// <param name="disposing">true to release both managed and unmanaged resources.</param>
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            _pulsingBorder.Dispose();
+        }
+
+        base.Dispose(disposing);
     }
 
     /// <summary>

@@ -48,6 +48,7 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
     private bool _isSelectable;
     private KryptonColorButtonCustomColorPreviewShape _customColorPreviewShape;
     private ThemeColorSortMode _themeColorSortMode;
+    private readonly InputPulsingBorderViewIntegration _pulsingBorder;
 
     // Context menu items
     private readonly KryptonContextMenu? _kryptonContextMenu;
@@ -225,7 +226,14 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
         _buttonController.MouseSelect += OnButtonSelect;
 
         // Create the view manager instance
-        ViewManager = new ViewManager(this, _drawButton);
+        _pulsingBorder = new InputPulsingBorderViewIntegration(this,
+            NeedPaintDelegate,
+            () => IsColorButtonActive,
+            GetColorButtonTripleState,
+            _drawButton,
+            () => _drawButton.State,
+            InputPulsingBorderCategory.Buttons);
+        ViewManager = new ViewManager(this, _pulsingBorder.ViewRoot);
 
         CustomColorPreviewShape = KryptonColorButtonCustomColorPreviewShape.None;
 
@@ -238,6 +246,26 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
     #endregion
 
     #region Public
+    /// <summary>
+    /// Gets access to the optional pulsing border values.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Optional pulsing border drawn around the color button.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public InputPulsingBorderValues PulsingBorderValues => _pulsingBorder.Values;
+
+    private bool ShouldSerializePulsingBorderValues() => !PulsingBorderValues.IsDefault;
+
+    /// <summary>
+    /// Request the control repaint itself and children.
+    /// </summary>
+    /// <param name="needLayout">Does the palette change require a layout.</param>
+    public override void PerformNeedPaint(bool needLayout)
+    {
+        _pulsingBorder.UpdateAnimationState();
+        base.PerformNeedPaint(needLayout);
+    }
+
     /// <summary>
     /// Gets and sets the automatic resize of the control to fit contents.
     /// </summary>
@@ -1036,6 +1064,7 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
             KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChangedForThemeColors;
             _kryptonContextMenu?.Close();
             _kryptonContextMenu?.Dispose();
+            _pulsingBorder.Dispose();
         }
 
         base.Dispose(disposing);
@@ -1290,6 +1319,28 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
     #endregion
 
     #region Implementation
+    private bool IsColorButtonActive
+    {
+        get
+        {
+            if (DesignMode || ContainsFocus)
+            {
+                return true;
+            }
+
+            return ViewDrawButton.State switch
+            {
+                PaletteState.Tracking => true,
+                PaletteState.Pressed => true,
+                PaletteState.CheckedTracking => true,
+                PaletteState.CheckedPressed => true,
+                _ => false
+            };
+        }
+    }
+
+    private IPaletteTriple GetColorButtonTripleState() => Enabled ? ViewDrawButton.CurrentPalette : StateDisabled;
+
     private void OnButtonTextChanged(object? sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
 
     /// <summary>
