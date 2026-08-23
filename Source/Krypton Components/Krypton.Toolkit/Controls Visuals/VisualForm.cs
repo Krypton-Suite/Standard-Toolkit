@@ -40,6 +40,7 @@ public abstract class VisualForm : Form,
     private bool _captured;
     private bool _disposing;
     private int _ignoreCount;
+    private int _lastWmSizeState = -1;
     private KryptonCustomPaletteBase? _localCustomPalette;
     private PaletteBase _palette;
     private PaletteMode _paletteMode;
@@ -1043,6 +1044,15 @@ public abstract class VisualForm : Form,
         {
             switch (m.Msg)
             {
+                case PI.WM_.ERASEBKGND:
+                    // Windows erases newly exposed regions before WM_NCPAINT/WM_PAINT.
+                    // On custom chrome that fill is a black flash during max/min/restore.
+                    if (_themedApp && !DesignMode)
+                    {
+                        m.Result = (IntPtr)1;
+                        processed = true;
+                    }
+                    break;
                 case PI.WM_.NCPAINT:
                     processed = _ignoreCount > 0 || OnWM_NCPAINT(ref m);
                     break;
@@ -1106,6 +1116,25 @@ public abstract class VisualForm : Form,
                         pi?.SetValue(this, CloseReason.UserClosing, null);
                     }
 
+                    if (sc is PI.SC_.MINIMIZE or PI.SC_.MAXIMIZE or PI.SC_.RESTORE)
+                    {
+                        // Atomic caption/taskbar transitions emit several WM_SIZE messages.
+                        // Coalesce layout to one pass at the final size; skip the wasted
+                        // 0-px client layout when minimizing.
+                        SuspendLayout();
+                        try
+                        {
+                            base.WndProc(ref m);
+                        }
+                        finally
+                        {
+                            ResumeLayout(!CommonHelper.IsFormMinimized(this));
+                        }
+
+                        processed = true;
+                        break;
+                    }
+
                     if (sc != PI.SC_.KEYMENU)
                     {
                         processed = OnPaintNonClient(ref m);
@@ -1143,6 +1172,22 @@ public abstract class VisualForm : Form,
         {
             // Make sure sizing is completed (due to above base) before taking a clean snapshot for focus lost
             _blurManager.TakeSnapshot();
+
+            // Discrete maximize/restore needs a synchronous NC paint; repeated SIZE_RESTORED
+            // during border-drag must not take this path.
+            var sizeState = (int)(m.WParam.ToInt64() & 0xFFFF);
+            if (sizeState != _lastWmSizeState)
+            {
+                int previousState = _lastWmSizeState;
+                _lastWmSizeState = sizeState;
+
+                if (sizeState == (int)PI.SIZE_.MAXIMIZED
+                    || (sizeState == (int)PI.SIZE_.RESTORED
+                        && previousState is (int)PI.SIZE_.MAXIMIZED or (int)PI.SIZE_.MINIMIZED))
+                {
+                    RedrawNonClientNow();
+                }
+            }
         }
     }
 
@@ -1294,8 +1339,35 @@ public abstract class VisualForm : Form,
     /// <returns>True if the message was processed; otherwise false.</returns>
     protected virtual bool OnPaintNonClient(ref Message m)
     {
-        // Let window be updated with new text
-        DefWndProc(ref m);
+        // DefWndProc can re-enter WndProc with WM_NCPAINT (e.g. WM_SETTEXT). Suspend nested
+        // chrome paints, then request a single coalesced repaint. Modal move/size loops must
+        // keep painting live because DefWndProc does not return until the drag ends.
+        var suppressNestedPaint = true;
+        if (m.Msg == PI.WM_.SYSCOMMAND)
+        {
+            var sc = (PI.SC_)(m.WParam.ToInt64() & 0xFFF0);
+            if (sc is PI.SC_.SIZE or PI.SC_.MOVE)
+            {
+                suppressNestedPaint = false;
+            }
+        }
+
+        if (suppressNestedPaint)
+        {
+            SuspendPaint();
+            try
+            {
+                DefWndProc(ref m);
+            }
+            finally
+            {
+                ResumePaint();
+            }
+        }
+        else
+        {
+            DefWndProc(ref m);
+        }
 
         // Need a repaint to show change
         InvalidateNonClient();
@@ -1543,6 +1615,11 @@ public abstract class VisualForm : Form,
                                 // Drawing is easier when using a Graphics instance
                                 using (Graphics g = Graphics.FromHdc(_screenDC))
                                 {
+                                    // CreateCompatibleBitmap is uninitialized (reads as black). Clear to
+                                    // BackColor so gaps during a size transition are not blit as black.
+                                    // The destination DC already excludes the client area.
+                                    g.Clear(BackColor);
+
                                     WindowChromePaint(g, windowBounds);
                                 }
 
@@ -1562,6 +1639,7 @@ public abstract class VisualForm : Form,
                         {
                             // Drawing is easier when using a Graphics instance
                             using Graphics g = Graphics.FromHdc(hDC);
+                            g.Clear(BackColor);
                             WindowChromePaint(g, windowBounds);
                         }
                     }
@@ -1776,6 +1854,76 @@ public abstract class VisualForm : Form,
 #if !NET462
     private void OnDpiChanged(object? sender, DpiChangedEventArgs e) => UpdateDpiFactors();
 #endif
+
+    /// <summary>
+    /// Synchronously repaint the non-client frame after an atomic window-state transition.
+    /// </summary>
+    /// <remarks>
+    /// <see cref="InvalidateNonClient()"/> may run while <see cref="SuspendPaint"/> is active,
+    /// in which case the resulting <c>WM_NCPAINT</c> is ignored. Discrete maximize/restore
+    /// transitions need the frame painted before DWM presents, so this path temporarily
+    /// clears the ignore count around <c>RedrawWindow</c> with <c>RDW_UPDATENOW</c>.
+    /// Interactive drag-resize is not routed here.
+    /// </remarks>
+    protected void RedrawNonClientNow()
+    {
+        if (IsDisposed || Disposing || !IsHandleCreated)
+        {
+            return;
+        }
+
+        if (CommonHelper.IsFormMinimized(this))
+        {
+            return;
+        }
+
+        lock (lockObject)
+        {
+            Padding realWindowBorders = RealWindowBorders;
+            Rectangle realWindowRectangle = RealWindowRectangle;
+            Rectangle invalidRect = realWindowRectangle with
+            {
+                X = -realWindowBorders.Left,
+                Y = -realWindowBorders.Top
+            };
+
+            using var invalidRegion = new Region(invalidRect);
+            invalidRegion.Exclude(ClientRectangle);
+
+            using Graphics g = Graphics.FromHwnd(Handle);
+            IntPtr? hRgn = null;
+            try
+            {
+                hRgn = invalidRegion.GetHrgn(g);
+
+                // Ungate only this deliberate synchronous paint so it is not swallowed by SuspendPaint.
+                int savedIgnoreCount = _ignoreCount;
+                _ignoreCount = 0;
+                try
+                {
+                    PI.RedrawWindow(Handle, IntPtr.Zero, hRgn.Value,
+                        PI.RDW_FRAME | PI.RDW_UPDATENOW | PI.RDW_INVALIDATE);
+                }
+                finally
+                {
+                    _ignoreCount = savedIgnoreCount;
+                }
+            }
+            catch (InvalidOperationException ioEx)
+            {
+                Debug.WriteLine(ioEx.Message);
+            }
+            finally
+            {
+                if (hRgn != null)
+                {
+                    PI.DeleteObject(hRgn.Value);
+                }
+            }
+        }
+    }
+
+
     #endregion
 
     private void UpdateDpiFactors()
