@@ -361,7 +361,7 @@ public class KryptonForm : VisualForm,
 		};
 
 		_formPaletteTriple = new PaletteDoubleTripleAdapter(GetFormPaletteState);
-		_pulsingBorder = new InputPulsingBorderViewIntegration(this, NeedPaintDelegate, () => WindowActive, () => _formPaletteTriple, _drawDocker, () => _drawDocker.State);
+		_pulsingBorder = new InputPulsingBorderViewIntegration(this, NeedPaintDelegate, () => WindowActive, () => _formPaletteTriple, _drawDocker, () => _drawDocker.State, InputPulsingBorderCategory.Forms);
 
 		// Create button specification collection manager
 		_buttonManager = new ButtonSpecManagerDraw(this, Redirector, ButtonSpecs, _buttonSpecsFixed,
