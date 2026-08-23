@@ -1781,6 +1781,34 @@ public enum InputPulsingBorderStyle
 }
 #endregion
 
+#region Enum InputPulsingBorderCategory
+/// <summary>
+/// Identifies which <see cref="KryptonManager.PulsingBorderValues"/> group a control inherits from.
+/// </summary>
+public enum InputPulsingBorderCategory
+{
+    /// <summary>
+    /// Text and selection inputs: TextBox, ComboBox, NumericUpDown, DateTimePicker, and similar.
+    /// </summary>
+    Inputs,
+
+    /// <summary>
+    /// Button-style controls: Button, DropButton, ColorButton, and similar.
+    /// </summary>
+    Buttons,
+
+    /// <summary>
+    /// Form chrome (<see cref="KryptonForm"/>).
+    /// </summary>
+    Forms,
+
+    /// <summary>
+    /// Other simple controls: CheckBox, RadioButton, Label, and similar.
+    /// </summary>
+    Other
+}
+#endregion
+
 #region Enum SeparatorStyle
 /// <summary>
 /// Specifies the separator style.
