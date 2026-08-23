@@ -53,6 +53,8 @@ View [package version details and supported frameworks](https://krypton-suite.gi
 | Release (Canary) | [![Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml/badge.svg?branch=canary)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml) |
 | Build (Alpha) | [![Build](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml/badge.svg?branch=alpha)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml) |
 | Release (Alpha) | [![Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/nightly.yml/badge.svg?branch=alpha)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/nightly.yml) |
+| Build (Gold) | [![Build](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml/badge.svg?branch=gold)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml) |
+| Release (RC) | [![RC Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/rc.yml/badge.svg?branch=gold)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/rc.yml) |
 
 =======
 
@@ -68,6 +70,7 @@ View [package version details and supported frameworks](https://krypton-suite.gi
 | CodeQL Advanced | [![CodeQL Advanced](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/codeql.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/codeql.yml) |
 | Dependabot Updates | [![Dependabot Updates](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/dependabot/dependabot-updates) |
 | Nightly Release | [![Nightly Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/nightly.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/nightly.yml) |
+| RC Release | [![RC Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/rc.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/rc.yml) |
 | Release | [![Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml) |
 | Repository Mirror | [![Repository Mirror](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/repo-mirror.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/repo-mirror.yml) |
 | Visual Studio Templates Release | [![Visual Studio Templates Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/templates-release.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/templates-release.yml) |
@@ -101,11 +104,17 @@ See [Krypton Toolkit release cadence](https://krypton-suite.github.io/Standard-T
 
 ### Package Descriptions
 
-To find out more about the differences between `Nightly`, `Canary` and `Stable` packages, please read this [article](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Support/PackageVersionDescriptions.html).
+To find out more about the differences between `Nightly`, `Canary`, `RC` and `Stable` packages, please read this [article](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Support/PackageVersionDescriptions.html).
 
 ### Installing Pre-Release Versions
 
-To find out how to install either `Canary` or `Nightly` versions, please check out this [article](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Support/HowtoInstallPreReleasePackages.html).
+Release candidates use the **stable** package IDs (`Krypton.Toolkit`, `Krypton.Standard.Toolkit`, …) with a `-rc` version suffix, published from the `gold` branch. Include prerelease packages to install them, for example:
+
+```text
+dotnet add package Krypton.Toolkit --prerelease
+```
+
+To find out how to install `Canary` or `Nightly` versions (separate package IDs), please check out this [article](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Support/HowtoInstallPreReleasePackages.html).
 
 =======
 
@@ -149,6 +158,12 @@ Follow the links to see the different objects and layouts that this framework al
 
 There are list of changes that have occurred during the development of the V110.00 version
 
+* Implemented [#3854](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3854), Removed unused duplicate utility types.
+  * Ribbon now uses the public Toolkit `BiDictionary`.
+  * Workspace uses Interop `PI.WM_.CONTEXTMENU` instead of a local `PI` stub.
+  * `Krypton.Toolkit.Utilities` uses Interop nullable polyfills instead of a second `AllowNullAttribute.cs`.
+  * Toast graphics helpers call Toolkit `GraphicsExtensions` for image scaling and imageres extraction.
+  * **[Breaking Change]** Removed unused Toolkit copies of file-system list/tree views, countdown button, and their Values types. Use the `Krypton.Toolkit.Utilities` controls (`KryptonFileSystemListView`, `KryptonFileSystemTreeView`, `KryptonCountdownButton`).
 * Implemented [#4230](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4230), **[Breaking Change]** A new theme system
   * Extra builtin palettes moved to `Krypton.Themes`, with auto-discovery and selector enable/disable.
   * `Krypton.Toolkit` keeps Professional, Sparkle Blue/Orange/Purple, plus Office 2007/2010/Microsoft 365 Blue, Silver, and Black. Other builtin palettes load from `Krypton.Themes.dll` when it is present (`KryptonManager.AutoDiscoverThemes`).

@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -26,37 +26,28 @@ internal sealed class InputPulsingBorderViewIntegration : IDisposable
     /// <summary>
     /// Initialize a new instance of the InputPulsingBorderViewIntegration class for an input control border view.
     /// </summary>
-    /// <param name="control">Owning control.</param>
-    /// <param name="needPaint">Delegate for notifying paint requests.</param>
-    /// <param name="isActive">Delegate that returns whether the control is active for ShowWhen.Active.</param>
-    /// <param name="getTripleState">Delegate that returns the current palette triple state.</param>
-    /// <param name="borderView">Border view to decorate.</param>
     public InputPulsingBorderViewIntegration(Control control,
         NeedPaintHandler needPaint,
         Func<bool> isActive,
-        Func<IPaletteTriple> getTripleState,
-        ViewDrawDocker borderView)
-        : this(control, needPaint, isActive, getTripleState, borderView, () => borderView.State)
+        Func<IPaletteTriple?> getTripleState,
+        ViewDrawDocker borderView,
+        InputPulsingBorderCategory category = InputPulsingBorderCategory.Inputs)
+        : this(control, needPaint, isActive, getTripleState, borderView, () => borderView.State, category)
     {
     }
 
     /// <summary>
     /// Initialize a new instance of the InputPulsingBorderViewIntegration class.
     /// </summary>
-    /// <param name="control">Owning control.</param>
-    /// <param name="needPaint">Delegate for notifying paint requests.</param>
-    /// <param name="isActive">Delegate that returns whether the control is active for ShowWhen.Active.</param>
-    /// <param name="getTripleState">Delegate that returns the current palette triple state.</param>
-    /// <param name="borderView">Border view to decorate.</param>
-    /// <param name="getBorderState">Delegate that returns the current border palette state.</param>
     public InputPulsingBorderViewIntegration(Control control,
         NeedPaintHandler needPaint,
         Func<bool> isActive,
-        Func<IPaletteTriple> getTripleState,
+        Func<IPaletteTriple?> getTripleState,
         ViewBase borderView,
-        Func<PaletteState> getBorderState)
+        Func<PaletteState> getBorderState,
+        InputPulsingBorderCategory category = InputPulsingBorderCategory.Inputs)
     {
-        _host = new InputPulsingBorderHost(control, needPaint, isActive, getTripleState, getBorderState);
+        _host = new InputPulsingBorderHost(control, needPaint, isActive, getTripleState, getBorderState, category);
         _viewRoot = new ViewDecoratorInputGlow(_host, borderView);
     }
 

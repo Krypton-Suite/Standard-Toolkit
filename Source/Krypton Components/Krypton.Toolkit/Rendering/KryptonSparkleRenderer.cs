@@ -633,11 +633,6 @@ public class KryptonSparkleRenderer : KryptonProfessionalRenderer
     /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
     protected override void OnRenderToolStripBackground(ToolStripRenderEventArgs e)
     {
-        // Make sure the font is current
-        if (!Equals(e.ToolStrip.Font, KCT.MenuStripFont))
-        {
-            e.ToolStrip.Font = KCT.MenuStripFont;
-        }
 
         switch (e.ToolStrip)
         {

@@ -2,7 +2,7 @@
 # Used by .github/workflows/templates-release.yml and for local VSIX builds.
 #
 # Channel mapping (see https://github.com/Krypton-Suite/Standard-Toolkit/issues/3566):
-#   stable / current / dev-*  -> Krypton.Standard.Toolkit
+#   stable / current / rc / gold / dev-*  -> Krypton.Standard.Toolkit
 #   canary                    -> Krypton.Standard.Toolkit.Canary
 #   alpha                     -> Krypton.Standard.Toolkit.Nightly
 
@@ -17,6 +17,8 @@ $ErrorActionPreference = 'Stop'
 $packageId = switch ($Channel.ToLowerInvariant()) {
     'canary' { 'Krypton.Standard.Toolkit.Canary' }
     'alpha' { 'Krypton.Standard.Toolkit.Nightly' }
+    'rc' { 'Krypton.Standard.Toolkit' }
+    'gold' { 'Krypton.Standard.Toolkit' }
     default { 'Krypton.Standard.Toolkit' }
 }
 

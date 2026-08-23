@@ -20,6 +20,7 @@ Before considering a task complete:
 - Fix any compiler or analyzer warnings introduced by the change; treat new warnings as part of the build (do not leave them for later). Prefer fixing pre-existing warnings in files you already touch when the fix is small and local; do not expand into a repo-wide warning cleanup unless asked.
 - Check files you create or edit for UTF-8 BOM encoding issues and fix them (see **Coding Style & Naming Conventions**). Do not leave UTF-8-without-BOM or wrong-encoding files when the repo expects UTF-8 with BOM; do not expand into a repo-wide encoding cleanup unless asked.
 - Update TestForm when adding a feature.
+- When adding a feature, also add or append a comprehensive consumer demo in [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) (see **Standard-Toolkit-Demos**). Clone that repo into the parent directory if it is missing. Work on a new `alpha-…` branch from `alpha`. It is not part of this repository. If an example already exists, do not overwrite it; append.
 - Update Changelog.md for completed features and bug fixes.
 - Add developer documentation for substantial new features (see **Feature Developer Documentation**). Keep `Documents/Development/` files **out of pull requests**.
 - Write a PR description in `Documents/PR/` for completed features and bug fixes, and use that file as the GitHub PR body. Do **not** include the PR description file in the pull request (see **Pull Request Descriptions**).
@@ -43,8 +44,9 @@ Before considering a task complete:
 
 - `Source/Krypton Components`: Core libraries (`Krypton.Toolkit`, `Krypton.Themes`, `Krypton.Ribbon`, `Krypton.Navigator`, `Krypton.Workspace`, `Krypton.Docking`) and the solution `Krypton Toolkit Suite 2022 - VS2022.sln`
 - `Source/Krypton Components/TestForm`: WinForms sample app used to validate changes; add or extend demos here when features or bugs are completed (see **TestForm Demos**)
+- [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) is a **separate** repo in the directory above this project (`..\Standard-Toolkit-Demos`), not a folder inside Standard-Toolkit. Clone it there if missing. When completing a feature, add a consumer example (or **append** if one exists; do not overwrite) on a new `alpha-…` branch from `alpha` (see **Standard-Toolkit-Demos**)
 - `Source/TestHarnesses`: Small repro/test harnesses (e.g., `ThemeSwapRepro`)
-- `Scripts/`: Build and packaging scripts; `run.cmd` (root) launches an interactive menu; scripts live under `Scripts/VS2022/`, `Scripts/Current/`, `Scripts/Build/` (e.g., `build-stable.cmd`, `build-canary.cmd`, `build-nightly.cmd`, `build.proj`)
+- `Scripts/`: Build and packaging scripts; `run.cmd` (root) launches an interactive menu; scripts live under `Scripts/VS2022/`, `Scripts/Current/`, `Scripts/Build/` (e.g., `build-stable.cmd`, `build-canary.cmd`, `build-nightly.cmd`, `build-rc.cmd`, `build.proj`)
 - `Scripts/UnitTests/`: Reusable PowerShell UI-automation helpers for interactive validation of `TestForm` scenarios (see **Unit Test Scripts**)
 - `Bin/`: Build outputs by configuration (e.g., `Bin/Debug`)
 - `Documents/`, `Assets/`, `Logs/`: Docs, images, and build logs
@@ -147,8 +149,8 @@ Extra assemblies can advertise `[assembly: KryptonThemeProvider(typeof(…))]`. 
   - `dotnet run --project ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug`
 - Build script entry points, only when explicitly instructed:
   - `.\run.cmd` launches the interactive menu and lets you choose `Scripts\VS2022` or `Scripts\Current` (VS 2026).
-  - Direct VS2022 presets: `.\Scripts\VS2022\build-stable.cmd`, `.\Scripts\VS2022\build-canary.cmd`, `.\Scripts\VS2022\build-nightly.cmd`.
-  - Direct VS2026 presets: `.\Scripts\Current\build-stable.cmd`, `.\Scripts\Current\build-canary.cmd`, `.\Scripts\Current\build-nightly.cmd`.
+  - Direct VS2022 presets: `.\Scripts\VS2022\build-stable.cmd`, `.\Scripts\VS2022\build-canary.cmd`, `.\Scripts\VS2022\build-nightly.cmd`, `.\Scripts\VS2022\build-rc.cmd`.
+  - Direct VS2026 presets: `.\Scripts\Current\build-stable.cmd`, `.\Scripts\Current\build-canary.cmd`, `.\Scripts\Current\build-nightly.cmd`, `.\Scripts\Current\build-rc.cmd`.
   - Build scripts locate MSBuild via `Scripts\Common\find-msbuild.cmd` (`vswhere.exe`, then standard install paths). Profiles: `2019`, `2022`, `current` (newest VS major 18+), or a pinned major (`18`, `19`, …). `Scripts\Current\` uses `current`. Override with `MSBUILDPATH` or `MSBUILD_PATH` pointing at `MSBuild\Current\Bin`.
 - Outputs land under `Bin\<Configuration>\<TargetFramework>\` by default; with `UseArtifactsOutput=true`, outputs land under `artifacts\bin\<Configuration>\<TargetFramework>\`.
 - Target frameworks are selected by MSBuild properties. VS2019/full MSBuild builds only .NET Framework 4.x TFMs; VS2022/full MSBuild excludes `net10.0-windows` and `net11.0-windows`; VS2026/full MSBuild excludes `net11.0-windows` unless explicitly enabled; CI or SDK-based builds can include `net472`, `net48`, `net481`, `net8.0-windows`, `net9.0-windows`, `net10.0-windows`, and `net11.0-windows` when the required SDKs are installed.
@@ -307,11 +309,11 @@ Each guide should be **in-depth** and **maintainer-focused**, covering as applic
 - **Usage** — minimal code or designer steps; common integration patterns.
 - **Configuration / persistence** — settings, XML, flags, or MSBuild properties if relevant.
 - **Edge cases** — threading, TFM differences, breaking changes, migration notes.
-- **Validation** — how to exercise the feature in `TestForm` or a harness (link to the demo form registered in `StartScreen`).
+- **Validation** — how to exercise the feature in `TestForm` or a harness (link to the demo form registered in `StartScreen`), and in [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) (clone into the parent directory if missing).
 
 ### TestForm demo
 
-When the feature warrants user-visible validation, add or update a demo per **TestForm Demos** and reference it here.
+When the feature warrants user-visible validation, add or update a demo per **TestForm Demos** and reference it here. Also add a consumer example per **Standard-Toolkit-Demos** (clone into the parent directory if missing; **append** if an example already exists — do not overwrite).
 
 ### File conventions
 
@@ -373,12 +375,13 @@ Match existing style:
 
 ## TestForm Demos
 
-`Source/Krypton Components/TestForm` (`TestForm.csproj`) is the primary interactive validation app. When a **feature** is completed, add a **comprehensive demo** or **extend an existing demo** so maintainers and reviewers can exercise the capability without reading source first.
+`Source/Krypton Components/TestForm` (`TestForm.csproj`) is the primary interactive validation app. When a **feature** is completed, add a **comprehensive demo** or **append to an existing demo** (do not overwrite) so maintainers and reviewers can exercise the capability without reading source first.
 
 ### When to add or update
 
 - **Features** — new controls, APIs, designer behavior, themes, dialogs, or subsystems: add or expand a demo.
-- **Bug fixes** — add a minimal repro when none exists; extend an existing demo when the fix changes observable behavior worth regression-testing.
+- **Existing demo** — if a TestForm demo already exists for that control or feature, **do not overwrite or replace it**. Keep the current form, instructions, and scenarios; **append** (new section, tab, control, or case) so the new capability can be exercised alongside what is already there.
+- **Bug fixes** — add a minimal repro when none exists; append to an existing demo when the fix changes observable behavior worth regression-testing.
 - Skip demos for comment-only work, pure refactors, or changes with no UI/API surface.
 
 ### Registration
@@ -413,12 +416,128 @@ Skip the comparison when there is no meaningful WinForms equivalent (e.g. ribbon
 - Add new `.cs` / `.Designer.cs` / `.resx` files to `TestForm.csproj` if not picked up automatically.
 - Reference `Krypton.Toolkit.Utilities` / `Krypton.Navigator.Utilities` when the demo targets those assemblies.
 - Run: `dotnet run --project ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug`
+- `TestForm` does not replace [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos). For features, also add a consumer example there (clone into the parent directory if missing), or **append** if one already exists (see **Standard-Toolkit-Demos**).
+
+## Standard-Toolkit-Demos
+
+[Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) is a **separate GitHub repository**. It is **not** inside this repo. Consumer-facing examples (Krypton Explorer plus per-control sample apps) live there. `TestForm` remains required for maintainer validation. When a **feature** is completed, add a **comprehensive** example in Demos. If an example already exists, **append**; do not overwrite.
+
+### Locate or clone
+
+Look only in the parent of this repository for a folder named `Standard-Toolkit-Demos`:
+
+```powershell
+$toolkitRoot = (Get-Location)   # Standard-Toolkit repo root
+$parentDir = Split-Path $toolkitRoot -Parent
+$demosRoot = Join-Path $parentDir 'Standard-Toolkit-Demos'
+```
+
+Treat the clone as present when `$demosRoot` exists and contains `Source\Krypton Toolkit Examples`. Do **not** look under `Source\` in this repo, do **not** search other drives, and do **not** copy or create Demos projects inside Standard-Toolkit.
+
+If `$demosRoot` does **not** exist, clone it into the parent (do not clone over an existing folder):
+
+```powershell
+git clone https://github.com/Krypton-Suite/Standard-Toolkit-Demos.git $demosRoot
+```
+
+```
+<parent>\Standard-Toolkit\                 # this repository
+<parent>\Standard-Toolkit-Demos\           # separate repository (clone here if missing)
+```
+
+### Directory structure (Demos repo)
+
+Folder names contain spaces. Use the names on disk, not the stale `Source/Krypton Utilities Examples` link in the Demos `README.md`.
+
+```
+Standard-Toolkit-Demos\
+  Directory.Build.props                    # TFMs for all examples
+  Directory.Build.targets                  # app manifests
+  build-all.cmd                            # do not run unless asked
+  Source\
+    Krypton Toolkit Examples\              # Krypton.Toolkit samples
+    Krypton Toolkit Utilities Examples\    # Krypton.Toolkit.Utilities samples
+    Krypton Navigator Examples\
+    Krypton Navigator Utilities Examples\  # Krypton.Navigator.Utilities samples
+    Krypton Ribbon Examples\
+    Krypton Workspace Examples\
+    Krypton Docking Examples\
+    Krypton Explorer\                      # launcher for compiled example .exe files
+    WixInstaller\                          # MSI packaging; do not touch for a feature demo
+  Binaries\Krypton Demos\<Configuration>\  # shared output (Explorer launches .\Name.exe from here)
+```
+
+Each example is its **own WinExe project** in a subfolder of the matching `Source\Krypton … Examples` directory (for example `Source\Krypton Toolkit Examples\KryptonToggleSwitch Examples\`). Copy a neighbouring project in that same folder; do not add forms to Krypton Explorer itself except the launch link.
+
+Category solutions (under that `Source\… Examples` folder):
+
+| Category | Solutions on disk today |
+|----------|-------------------------|
+| Toolkit, Navigator, Ribbon, Workspace, Docking | Four pairs: `(Debug)` / `(Release)` × `Dev` / `Nuget`, each as `.sln` and `.slnx` (names contain `2022` and a double space before `-`) |
+| Toolkit Utilities, Navigator Utilities | Debug Dev `.slnx` only |
+| Explorer | `Krypton Explorer 2022 - Dev` and `- Nuget` (`.sln` and `.slnx`; no Debug/Release in the name) |
+
+Dev solutions `ProjectReference` this repo as `..\..\..\..\Standard-Toolkit\Source\Krypton Components\…`. Nuget solutions use Canary `PackageReference`s when `$(SolutionName)` ends with `Nuget`. `build-all.md` expects `..\Standard-Toolkit` on a matching branch.
+
+### When to add or update
+
+- **Features** — new controls, APIs, designer behavior, themes, dialogs, or subsystems: add a new example project only when no example for that control or feature exists in the matching `Source\… Examples` folder.
+- **Existing example** — if a demo project already exists (same control, dialog, or feature), **do not overwrite, replace, or recreate it**. Keep the existing forms, samples, and instructions. **Append** as required (extra section, tab, page, control, or scenario on `Form1` / the current host) so the new capability sits beside what is already there. Do not rewrite `Form1.cs` / `Form1.Designer.cs` from scratch, delete existing sample content, or substitute a new project with the same name.
+- Prefer appending to the existing example over creating a near-duplicate project.
+- **Bug fixes** — `TestForm` is enough unless the fix changes observable consumer-facing behaviour of an existing Demos example; then append a case to that example rather than replacing it.
+- Skip for comment-only work, pure refactors, or changes with no consumer UI/API surface. If the parent clone cannot be created (clone failed, or a non-Demos folder already occupies that path), say so in the Toolkit PR validation notes and continue without a Demos example.
+
+### Placement
+
+Put the new or updated example under `$demosRoot` (not this repo):
+
+| Package | Folder under `$demosRoot\Source\` |
+|---------|-----------------------------------|
+| `Krypton.Toolkit` | `Krypton Toolkit Examples` |
+| `Krypton.Toolkit.Utilities` | `Krypton Toolkit Utilities Examples` |
+| `Krypton.Navigator` | `Krypton Navigator Examples` |
+| `Krypton.Navigator.Utilities` | `Krypton Navigator Utilities Examples` |
+| `Krypton.Ribbon` | `Krypton Ribbon Examples` |
+| `Krypton.Workspace` | `Krypton Workspace Examples` |
+| `Krypton.Docking` | `Krypton Docking Examples` |
+
+### New example project
+
+Copy a neighbouring example in the same `Source\… Examples` folder **only when creating a new project** (no existing demo). Keep the same conventions:
+
+- Folder and project names like `KryptonXxx Examples` / `KryptonXxx Example` (match existing spelling, including spaces). Csproj names often include `2022`.
+- WinExe SDK-style csproj; designer-backed `Form1` (`*.cs` / `*.Designer.cs` / `*.resx`); `KryptonForm` host; current Standard Toolkit BSD header; UTF-8 with BOM; CRLF. Copy `Krypton.ico` from a neighbour when that folder uses it.
+- `AssemblyName` is the executable name **without** `.exe`. Krypton Explorer’s `LaunchApplication(@"…")` starts `.\<AssemblyName>.exe` from `Binaries\Krypton Demos\<Configuration>\`. Copy a neighbour’s `AssemblyName` style (it is not always identical to the folder name).
+- `OutputPath`: `..\..\..\Binaries\Krypton Demos\$(Configuration)\` (Explorer uses `..\..\Binaries\Krypton Demos\$(Configuration)\`).
+- Dual references: copy the neighbour’s `Choose` / `When` block that tests whether `$(SolutionName)` ends with `Nuget`. Dev arms `ProjectReference` this repo (`Krypton.Toolkit 2022.csproj` plus Navigator/Ribbon/Workspace/Docking/Utilities projects as needed). Nuget arms use the matching Canary packages (`Krypton.Toolkit.Canary`, `Krypton.Navigator.Canary`, `Krypton.Standard.Toolkit.Canary`, …).
+- TFMs come from Demos `Directory.Build.props`; do not duplicate a `<TargetFrameworks>` list on the example unless a neighbour does.
+- Comprehensive for consumers: main API paths, properties, events, theme/palette switches, short on-form instructions. Use a Krypton vs WinForms side-by-side when the feature is a replacement or wrapper for a built-in control (same rule as **TestForm Demos**). This is not a bug-repro form.
+
+### Registration
+
+- Add the project to **every** `.sln` and `.slnx` in that category folder that already lists neighbouring examples. Do not invent missing Debug/Release/Nuget solutions; Utilities categories currently have only a Debug Dev `.slnx`.
+- If neighbouring examples in that category already appear in Krypton Explorer, add a `KryptonLinkLabel` on the same page in `$demosRoot\Source\Krypton Explorer\Main.Designer.cs` and wire `LinkClicked` in `Main.cs` to `LaunchApplication(@"<AssemblyName>")`. Explorer pages today cover Toolkit, Docking, Workspace, Navigator, and Ribbon. Do **not** add a new Explorer tab for Utilities unless the user asks; those examples currently have no Explorer links.
+- Add an entry (and screenshot/GIF when you have one) to that category’s `README.md` when the file exists (`Krypton Navigator Utilities Examples` currently has none).
+- Do not change `WixInstaller` for a feature demo.
+
+### Git boundary
+
+Demos changes live in the **Demos** working tree. Do **not** stage, commit, or push them as part of a Standard-Toolkit pull request. Do **not** copy Demos projects into this repo.
+
+For a **new feature** demo (new example project, or appends for that feature):
+
+1. In `$demosRoot`, `git fetch origin`.
+2. Create and check out a **new branch from `alpha`** with the `alpha-` prefix, e.g. `alpha-1110-krypton-menu-strip` (issue number when one exists, then a short kebab title). Use `git checkout -b alpha-<name> origin/alpha` (or `alpha` if that local branch already tracks `origin/alpha`).
+3. Do not reuse `master`, `gold`, or an unrelated existing branch. If already on the matching `alpha-<name>` branch for this feature, keep it.
+4. If the Demos working tree has unrelated uncommitted changes, do not discard them; stop and tell the user rather than mixing work onto the new branch.
+
+Commit, push, or open a Demos pull request only when the user explicitly asks. When a Demos PR is opened, compare it with `alpha` (`gh pr create --base alpha`), not `master`.
 
 ## Testing Guidelines
 
 - No formal xUnit/NUnit suite. Validate changes via `TestForm` scenarios, harnesses under `Source/TestHarnesses`, and PowerShell helpers under `Scripts/UnitTests/` (see **Unit Test Scripts**)
 - When fixing a bug, add/adjust a minimal repro in `TestForm` or a harness and describe manual steps in the PR
-- When completing a **feature**, add or update a comprehensive demo in `TestForm` per **TestForm Demos** (include Krypton vs WinForms comparison where appropriate)
+- When completing a **feature**, add or append a comprehensive demo in `TestForm` per **TestForm Demos** (include Krypton vs WinForms comparison where appropriate; do not overwrite an existing demo), and a consumer example in [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) (clone into the parent directory if missing; see **Standard-Toolkit-Demos**)
 - When completing a bug fix or feature, update `Documents/Changelog/Changelog.md` per **Changelog** in this file
 
 ## Unit Test Scripts
@@ -444,7 +563,7 @@ Use `Scripts/UnitTests/` for PowerShell scripts that drive or inspect a Debug `T
 - Commits: short, imperative subject; reference issues/PRs (e.g., `Fix autosizing (#2433)` or `2439 V100 datecell autosizing`)
 - PRs: clear description, linked issues, screenshots/gifs for UI changes, notes on breaking changes/TFM impact
 - If a pull request is opened or created, it must be compared with `alpha`, not `master`, `gold`, or `canary`. When using `gh pr create`, set the base branch to `alpha` (for example `--base alpha`).
-- Completed bugs and features: update `Documents/Changelog/Changelog.md` (see **Changelog** above); add or update a `TestForm` demo for features (see **TestForm Demos**); write a `Documents/Development/` guide when the feature warrants in-depth maintainer docs, and a PR description in `Documents/PR/` (see **Pull Request Descriptions** below). **Do not include** `Documents/Development/` files or the per-change `Documents/PR/` description file in the pull request (new or existing). Use the PR description file as the GitHub PR body (`gh pr create --base alpha --body-file Documents/PR/<file>.md`).
+- Completed bugs and features: update `Documents/Changelog/Changelog.md` (see **Changelog** above); add or append a `TestForm` demo for features (see **TestForm Demos**; do not overwrite an existing demo); also add a consumer example in [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) or append if one exists (clone into the parent directory if missing; work on an `alpha-…` branch from `alpha`; see **Standard-Toolkit-Demos**); write a `Documents/Development/` guide when the feature warrants in-depth maintainer docs, and a PR description in `Documents/PR/` (see **Pull Request Descriptions** below). **Do not include** `Documents/Development/` files or the per-change `Documents/PR/` description file in the Standard-Toolkit pull request (new or existing). Demos files belong only in the Demos repo. Use the PR description file as the GitHub PR body (`gh pr create --base alpha --body-file Documents/PR/<file>.md`).
 - Do not add routine validation noise to commit messages or PR descriptions. Mention checks only when they are essential context, unusual, failed, or specifically requested.
 
 ## Pull Request Descriptions
@@ -480,7 +599,7 @@ Fill in every applicable section of `Documents/PR/TEMPLATE.md` (delete those tha
 - **Type of change** — bug fix / feature / breaking change / docs.
 - **Changes** — notable changes grouped by area or project.
 - **Affected packages & target frameworks** — only those touched/verified.
-- **Validation** — `TestForm` demo name, manual steps, and the build command used.
+- **Validation** — `TestForm` demo name, [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) example name and `alpha-…` branch (or a note if clone/branch failed), manual steps, and the build command used.
 - **Screenshots / GIFs** — for any UI change.
 - **Changelog** — the matching `Documents/Changelog/Changelog.md` entry.
 - **Breaking changes & migration** — what consumers must update, if anything.

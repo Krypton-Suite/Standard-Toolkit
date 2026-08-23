@@ -45,6 +45,19 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#4246](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4246), Use of 'RC' NuGet packages
+   * Release candidate NuGet packages from the `gold` branch (`-rc` versions of the stable package IDs).
+* Implemented [#4248](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4248), Is it possible to add `PulsingBorderValues` in `KryptonManager`
+   * Global `KryptonManager.PulsingBorderValues` is grouped by control type (`Forms`, `Buttons`, `Inputs`, `Other`). Per-control `PulsingBorderValues` inherit until you set a local override.
+   * Buttons (`KryptonButton`, `KryptonDropButton`, `KryptonColorButton`) default to a full rounded glow; inputs default to a bottom-edge glow so combo drop-down glyphs are not redrawn every frame.
+* Implemented [#1110](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1110), Where is the Krypton equivalent of a Form `MenuStrip`
+   * `KryptonMenuStrip` is in the Toolbox and MenuStrip/ToolStrip/StatusStrip fonts follow the palette and `BaseFont` (`KryptonMenuStrip` first shipped in #2689).
+* Implemented [#3854](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3854), Removed unused duplicate utility types
+  * Ribbon now uses the public Toolkit `BiDictionary`.
+  * Workspace uses Interop `PI.WM_.CONTEXTMENU` instead of a local `PI` stub.
+  * `Krypton.Toolkit.Utilities` uses Interop nullable polyfills instead of a second `AllowNullAttribute.cs`.
+  * Toast graphics helpers call Toolkit `GraphicsExtensions` for image scaling and imageres extraction.
+  * **[Breaking Change]** Removed unused Toolkit copies of file-system list/tree views, countdown button, and their Values types. Use the `Krypton.Toolkit.Utilities` controls (`KryptonFileSystemListView`, `KryptonFileSystemTreeView`, `KryptonCountdownButton`).
 * Implemented, PowerToys-style screen colour picker (`KryptonScreenColorPicker`)
    * Live-refresh the desktop, magnify pixels under the cursor, and click to sample. Esc or right-click cancels. Zoom with the mouse wheel, `+`/`-`, Page Up/Down, or arrow keys; Ctrl+wheel, Ctrl+`+/-`, or `[`/`]` resizes the magnifier (odd 7–21 source pixels). F12 or Print Screen copies the overlay to the clipboard.
    * Choose **Krypton** (themed `KryptonHeaderGroup` flyout, default) or **Classic** (PowerToys painted flyout) via `KryptonScreenColorPickerFlyoutStyle`. Classic follows the cursor in its own window so it does not trail, and the magnifier fills the panel.
