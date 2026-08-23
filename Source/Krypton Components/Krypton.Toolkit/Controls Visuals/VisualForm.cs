@@ -1619,14 +1619,7 @@ public abstract class VisualForm : Form,
 							}
 							finally
 							{
-								if (CommonHelper.IsFormMinimized(this))
-								{
-									ResumeLayout(false);
-								}
-								else
-								{
-									ResumeLayout(true);
-								}
+								ResumeLayout(!CommonHelper.IsFormMinimized(this));
 							}
 
 							processed = true;
