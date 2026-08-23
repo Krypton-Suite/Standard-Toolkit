@@ -1201,9 +1201,7 @@ public abstract class VisualForm : Form,
 	protected bool CanAutoFadeIn => !DesignMode && FadeValues.FadingEnabled && FadeValues.FadeIn;
 
 	private static bool IsImmediateCloseReason(CloseReason closeReason) =>
-		closeReason == CloseReason.WindowsShutDown
-		|| closeReason == CloseReason.TaskManagerClosing
-		|| closeReason == CloseReason.ApplicationExitCall;
+		closeReason is CloseReason.WindowsShutDown or CloseReason.TaskManagerClosing or CloseReason.ApplicationExitCall;
 
 	private void PrepareFadeInOpacity()
 	{
@@ -1445,7 +1443,7 @@ public abstract class VisualForm : Form,
 		// own DWM extended-frame offset (typically ±8 px), producing the final x/y/cx/cy values
 		// it sends here. We snap them back to the work area so the window lands exactly on it.
 		if (_themedApp
-			&& (m.Msg == PI.WM_.GETMINMAXINFO || m.Msg == PI.WM_.WINDOWPOSCHANGING)
+			&& m.Msg is PI.WM_.GETMINMAXINFO or PI.WM_.WINDOWPOSCHANGING
 			&& (MdiParent is null || UseThemeFormChromeBorderWidth))
 		{
 			if (m.Msg == PI.WM_.GETMINMAXINFO)
@@ -1494,13 +1492,13 @@ public abstract class VisualForm : Form,
 		if (_themedApp
 			&& !CommonHelper.IsFormMaximized(this)
 			&& (MdiParent is null || UseThemeFormChromeBorderWidth))
-        {
-            processed = m.Msg switch
-            {
-                PI.WM_.NCCALCSIZE => OnWM_NCCALCSIZE(ref m),
-                _ => processed
-            };
-        }
+		{
+			processed = m.Msg switch
+			{
+				PI.WM_.NCCALCSIZE => OnWM_NCCALCSIZE(ref m),
+				_ => processed
+			};
+		}
 
 		// Do we need to override message processing?
 		if (!IsDisposed && !Disposing)
@@ -1609,7 +1607,7 @@ public abstract class VisualForm : Form,
 							}
 						}
 
-						if (sc == PI.SC_.MINIMIZE || sc == PI.SC_.MAXIMIZE || sc == PI.SC_.RESTORE)
+						if (sc is PI.SC_.MINIMIZE or PI.SC_.MAXIMIZE or PI.SC_.RESTORE)
 						{
 							// Atomic caption/taskbar transitions emit several WM_SIZE messages.
 							// Coalesce layout to one pass at the final size; skip the wasted
@@ -1694,7 +1692,7 @@ public abstract class VisualForm : Form,
 
 				if (sizeState == (int)PI.SIZE_.MAXIMIZED
 					|| (sizeState == (int)PI.SIZE_.RESTORED
-						&& (previousState == (int)PI.SIZE_.MAXIMIZED || previousState == (int)PI.SIZE_.MINIMIZED)))
+						&& previousState is (int)PI.SIZE_.MAXIMIZED or (int)PI.SIZE_.MINIMIZED))
 				{
 					RedrawNonClientNow();
 				}
@@ -1865,7 +1863,7 @@ public abstract class VisualForm : Form,
 		if (m.Msg == PI.WM_.SYSCOMMAND)
 		{
 			var sc = (PI.SC_)(m.WParam.ToInt64() & 0xFFF0);
-			if (sc == PI.SC_.SIZE || sc == PI.SC_.MOVE)
+			if (sc is PI.SC_.SIZE or PI.SC_.MOVE)
 			{
 				suppressNestedPaint = false;
 			}
