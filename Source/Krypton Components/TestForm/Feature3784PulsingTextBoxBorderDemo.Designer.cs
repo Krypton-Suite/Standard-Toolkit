@@ -98,7 +98,7 @@ namespace TestForm
             this.kwlblInfo.Location = new System.Drawing.Point(0, 0);
             this.kwlblInfo.Name = "kwlblInfo";
             this.kwlblInfo.Padding = new System.Windows.Forms.Padding(12, 12, 12, 8);
-            this.kwlblInfo.Size = new System.Drawing.Size(1424, 35);
+            this.kwlblInfo.Size = new System.Drawing.Size(1877, 35);
             this.kwlblInfo.Text = resources.GetString("kwlblInfo.Text");
             // 
             // kryptonPanelMain
@@ -712,13 +712,13 @@ namespace TestForm
             // 
             this.kchkUseGlobal.Location = new System.Drawing.Point(3, 71);
             this.kchkUseGlobal.Name = "kchkUseGlobal";
-            this.kchkUseGlobal.Size = new System.Drawing.Size(190, 40);
+            this.kchkUseGlobal.Size = new System.Drawing.Size(258, 20);
             this.kchkUseGlobal.TabIndex = 2;
             this.kchkUseGlobal.Values.Text = "Use KryptonManager global values (#4248)";
             // 
             // kbtnOpenFormGlow
             // 
-            this.kbtnOpenFormGlow.Location = new System.Drawing.Point(3, 117);
+            this.kbtnOpenFormGlow.Location = new System.Drawing.Point(3, 97);
             this.kbtnOpenFormGlow.Name = "kbtnOpenFormGlow";
             this.kbtnOpenFormGlow.Size = new System.Drawing.Size(190, 28);
             this.kbtnOpenFormGlow.TabIndex = 3;
@@ -765,6 +765,7 @@ namespace TestForm
             ((System.ComponentModel.ISupportInitialize)(this.kcmbShowWhen)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kcmbStyle)).EndInit();
             this.flowLayoutPanelButtons.ResumeLayout(false);
+            this.flowLayoutPanelButtons.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

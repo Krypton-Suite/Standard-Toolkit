@@ -140,6 +140,7 @@ internal sealed class VisualEnhancedContextMenu : VisualPopup
     /// <summary>
     /// Gets and sets the horizontal setting used to position sub menus.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public KryptonContextMenuPositionH ShowHorz
     {
         get => _provider.ProviderShowHorz;
@@ -149,6 +150,7 @@ internal sealed class VisualEnhancedContextMenu : VisualPopup
     /// <summary>
     /// Gets and sets the vertical setting used to position sub menus.
     /// </summary>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public KryptonContextMenuPositionV ShowVert
     {
         get => _provider.ProviderShowVert;
