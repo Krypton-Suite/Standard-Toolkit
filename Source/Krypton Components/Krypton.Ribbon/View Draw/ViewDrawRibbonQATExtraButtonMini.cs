@@ -19,9 +19,13 @@ namespace Krypton.Ribbon;
 /// </summary>
 internal class ViewDrawRibbonQATExtraButtonMini : ViewDrawRibbonQATExtraButton
 {
+    #region Static Fields
+
     // 96-DPI design values. Scaled in Layout so caption placement tracks per-monitor DPI (issue #4254).
     private const int MiniButtonHeight96 = 22;
     private const int MiniButtonOffset96 = 24;
+
+    #endregion
 
     #region Identity
     /// <summary>
