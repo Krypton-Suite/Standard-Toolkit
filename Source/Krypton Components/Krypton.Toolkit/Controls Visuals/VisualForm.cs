@@ -1116,7 +1116,7 @@ public abstract class VisualForm : Form,
                         pi?.SetValue(this, CloseReason.UserClosing, null);
                     }
 
-                    if (sc == PI.SC_.MINIMIZE || sc == PI.SC_.MAXIMIZE || sc == PI.SC_.RESTORE)
+                    if (sc is PI.SC_.MINIMIZE or PI.SC_.MAXIMIZE or PI.SC_.RESTORE)
                     {
                         // Atomic caption/taskbar transitions emit several WM_SIZE messages.
                         // Coalesce layout to one pass at the final size; skip the wasted
@@ -1128,21 +1128,14 @@ public abstract class VisualForm : Form,
                         }
                         finally
                         {
-                            if (CommonHelper.IsFormMinimized(this))
-                            {
-                                ResumeLayout(false);
-                            }
-                            else
-                            {
-                                ResumeLayout(true);
-                            }
+                            ResumeLayout(!CommonHelper.IsFormMinimized(this));
                         }
 
                         processed = true;
                         break;
                     }
 
-                        if (sc != PI.SC_.KEYMENU)
+                    if (sc != PI.SC_.KEYMENU)
                     {
                         processed = OnPaintNonClient(ref m);
                     }
@@ -1190,7 +1183,7 @@ public abstract class VisualForm : Form,
 
                 if (sizeState == (int)PI.SIZE_.MAXIMIZED
                     || (sizeState == (int)PI.SIZE_.RESTORED
-                        && (previousState == (int)PI.SIZE_.MAXIMIZED || previousState == (int)PI.SIZE_.MINIMIZED)))
+                        && previousState is (int)PI.SIZE_.MAXIMIZED or (int)PI.SIZE_.MINIMIZED))
                 {
                     RedrawNonClientNow();
                 }
@@ -1353,7 +1346,7 @@ public abstract class VisualForm : Form,
         if (m.Msg == PI.WM_.SYSCOMMAND)
         {
             var sc = (PI.SC_)(m.WParam.ToInt64() & 0xFFF0);
-            if (sc == PI.SC_.SIZE || sc == PI.SC_.MOVE)
+            if (sc is PI.SC_.SIZE or PI.SC_.MOVE)
             {
                 suppressNestedPaint = false;
             }
