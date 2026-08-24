@@ -2,6 +2,8 @@
 
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
+		<!-- Explicitly set Windows platform version for all frameworks -->
+		<WindowsPlatformVersion>10.0.19041.0</WindowsPlatformVersion>
 		<RootNamespace>Krypton.Interop</RootNamespace>
 		<AssemblyName>Krypton.Interop</AssemblyName>
 		<IsPackable>false</IsPackable>
@@ -14,13 +16,22 @@
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<NeutralLanguage>en</NeutralLanguage>
 		<DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
-		<Configurations>Debug;Release;Installer;Nightly;Canary</Configurations>
+		<Configurations>Debug;Release;Installer;Nightly;Canary;RC</Configurations>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<Nullable>enable</Nullable>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<WarningLevel>8</WarningLevel>
 		<AnalysisLevel>latest</AnalysisLevel>
 		<AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
 		<NoWarn>1701;1702</NoWarn>
 	</PropertyGroup>
+
+	<!-- Optional CsWin32 for *new* Win32 APIs only; existing PI dual-path remains canonical. -->
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.287">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
 
 </Project>

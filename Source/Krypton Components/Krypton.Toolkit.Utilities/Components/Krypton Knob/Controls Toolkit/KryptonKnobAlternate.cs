@@ -454,7 +454,7 @@ public partial class KryptonKnobAlternate : UserControl
         var faceColor1 = facePalette.GetElementColor1(paletteState);
         var faceColor2 = facePalette.GetElementColor2(paletteState);
         var borderColor = facePalette.GetElementColor3(paletteState);
-        if (borderColor == GlobalStaticVariables.EMPTY_COLOR)
+        if (borderColor == SharedStaticVariables.EMPTY_COLOR)
         {
             borderColor = facePalette.GetElementColor1(paletteState);
         }
@@ -474,7 +474,7 @@ public partial class KryptonKnobAlternate : UserControl
         else
         {
             var drawColor1 = faceColor1;
-            var drawColor2 = faceColor2 == GlobalStaticVariables.EMPTY_COLOR ? faceColor1 : faceColor2;
+            var drawColor2 = faceColor2 == SharedStaticVariables.EMPTY_COLOR ? faceColor1 : faceColor2;
             if (_knobStyle == KnobStyle.Classic && Enabled)
             {
                 drawColor1 = GetLightColour(faceColor1, 55);
@@ -724,13 +724,13 @@ public partial class KryptonKnobAlternate : UserControl
         var paletteState = GetPaletteState();
         var indicatorBegin = indicatorPalette.GetElementColor1(paletteState);
         var indicatorEnd = indicatorPalette.GetElementColor2(paletteState);
-        if (indicatorEnd == GlobalStaticVariables.EMPTY_COLOR)
+        if (indicatorEnd == SharedStaticVariables.EMPTY_COLOR)
         {
             indicatorEnd = indicatorBegin;
         }
 
         var indicatorBorder = indicatorPalette.GetElementColor3(paletteState);
-        if (indicatorBorder == GlobalStaticVariables.EMPTY_COLOR)
+        if (indicatorBorder == SharedStaticVariables.EMPTY_COLOR)
         {
             indicatorBorder = indicatorBegin;
         }
@@ -1140,7 +1140,7 @@ public partial class KryptonKnobAlternate : UserControl
         var paletteState = GetPaletteState();
         var faceColor1 = facePalette.GetElementColor1(paletteState);
         var faceColor2 = facePalette.GetElementColor2(paletteState);
-        if (faceColor2 == GlobalStaticVariables.EMPTY_COLOR)
+        if (faceColor2 == SharedStaticVariables.EMPTY_COLOR)
         {
             faceColor2 = faceColor1;
         }
@@ -1160,7 +1160,7 @@ public partial class KryptonKnobAlternate : UserControl
         var indicatorPalette = GetIndicatorPalette();
         var indicatorBegin = indicatorPalette.GetElementColor1(paletteState);
         var indicatorEnd = indicatorPalette.GetElementColor2(paletteState);
-        if (indicatorEnd == GlobalStaticVariables.EMPTY_COLOR)
+        if (indicatorEnd == SharedStaticVariables.EMPTY_COLOR)
         {
             indicatorEnd = indicatorBegin;
         }
@@ -1508,7 +1508,7 @@ public partial class KryptonKnobAlternate : UserControl
         }
         else
         {
-            throw new ArgumentOutOfRangeException(nameof(value), @"MouseWheelBarPartitions has to be greater than zero");
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), @"MouseWheelBarPartitions has to be greater than zero");
         }
     }
 

@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -106,7 +106,7 @@ internal static class KryptonDesignerNativeEditorBridge
                 }
             }
 
-            throw new InvalidOperationException("Unable to locate a WinForms designer assembly.");
+            return ThrowHelper.ThrowInvalidOperationException<Assembly>("Unable to locate a WinForms designer assembly.");
         }
     }
 }

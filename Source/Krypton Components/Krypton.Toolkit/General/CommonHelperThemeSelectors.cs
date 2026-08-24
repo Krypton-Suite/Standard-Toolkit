@@ -21,28 +21,59 @@ namespace Krypton.Toolkit;
 internal static class CommonHelperThemeSelectors
 {
     /// <summary>
-    /// Returns a list with theme names. When the current global palette is a custom palette with a bundled name,
-    /// the "Custom" entry is shown as "Custom - [Theme Name]" so the theme array displays it correctly (see issue #1031).
+    /// Returns a list with theme names (builtin + registered custom themes).
+    /// When the current global palette is an unregistered named custom, the "Custom" entry is shown as
+    /// "Custom - [Theme Name]" (see issue #1031).
     /// </summary>
     /// <returns>String array of theme names.</returns>
-    internal static string[] GetThemesArray()
-    {
-        var arr = PaletteModeStrings.SupportedThemesMap.Keys.ToArray();
+    internal static string[] GetThemesArray() => ThemeManager.GetThemesArray();
 
-        if (KryptonManager.CurrentGlobalPalette is KryptonCustomPaletteBase custom
-            && !string.IsNullOrWhiteSpace(custom.GetPaletteName()))
+    /// <summary>
+    /// Returns theme names, optionally limited to core palettes.
+    /// </summary>
+    /// <param name="includeExtra">When <see langword="false"/>, extra catalogued palettes are omitted.</param>
+    /// <returns>String array of theme names.</returns>
+    internal static string[] GetThemesArray(bool includeExtra) => ThemeManager.GetThemesArray(includeExtra);
+
+    /// <summary>
+    /// Rebuilds a selector list and restores selection by theme name, then by <paramref name="fallbackMode"/>.
+    /// </summary>
+    /// <param name="items">Selector items collection.</param>
+    /// <param name="includeExtra">Whether extra palettes are listed.</param>
+    /// <param name="previousName">Previously selected display name.</param>
+    /// <param name="fallbackMode">Mode used when the previous name is no longer listed.</param>
+    /// <returns>Index to select, or <c>-1</c>.</returns>
+    internal static int ReloadThemeItems(IList items, bool includeExtra, string? previousName, PaletteMode fallbackMode)
+    {
+        items.Clear();
+        foreach (var name in GetThemesArray(includeExtra))
         {
-            for (int i = 0; i < arr.Length; i++)
+            items.Add(name);
+        }
+
+        if (!string.IsNullOrEmpty(previousName))
+        {
+            int byName = items.IndexOf(previousName);
+            if (byName >= 0)
             {
-                if (arr[i] == PaletteModeStrings.DEFAULT_PALETTE_CUSTOM)
-                {
-                    arr[i] = ThemeManager.CustomThemeNamePrefix + custom.GetPaletteName();
-                    break;
-                }
+                return byName;
             }
         }
 
-        return arr;
+        return GetPaletteIndex(items, fallbackMode);
+    }
+
+    /// <summary>
+    /// Fills a theme-browser list using <see cref="KryptonThemeBrowserData.ShowExtraThemes"/>.
+    /// </summary>
+    internal static void FillThemeBrowserItems(IList items, KryptonThemeBrowserData themeBrowserData)
+    {
+        items.Clear();
+        var includeExtra = themeBrowserData.ShowExtraThemes ?? true;
+        foreach (var name in GetThemesArray(includeExtra))
+        {
+            items.Add(name);
+        }
     }
 
     /// <summary>
@@ -64,35 +95,42 @@ internal static class CommonHelperThemeSelectors
         {
             isLocalUpdate = true;
 
-            // Get palette from theme name. If themeName is not valid default to Global
-            PaletteMode mode = string.IsNullOrEmpty(themeName)
-                ? PaletteMode.Global
-                : ThemeManager.GetThemeManagerMode(themeName);
-
-            if (mode == PaletteMode.Custom)
+            if (ThemeManager.TryApplyRegisteredTheme(themeName, manager))
             {
-                if (kryptonCustomPalette is not null)
-                {
-                    manager.GlobalCustomPalette = kryptonCustomPalette;
-                    defaultPalette = mode;
-                }
-                else
-                {
-                    // Custom has been selected but there's no custom theme assigned
-                    // to the ThemeSelector or in the KManager.
-                    // Leave defaultPalette as it is.
-                    result = false;
-                }
-            }
-            else if (mode == PaletteMode.Global)
-            {
-                // If mode is set to Global, a theme change is not necessary.
-                result = false;
+                defaultPalette = PaletteMode.Custom;
             }
             else
             {
-                ThemeManager.ApplyTheme(themeName, manager);
-                defaultPalette = mode;
+                // Get palette from theme name. If themeName is not valid default to Global
+                PaletteMode mode = string.IsNullOrEmpty(themeName)
+                    ? PaletteMode.Global
+                    : ThemeManager.GetThemeManagerMode(themeName);
+
+                if (mode == PaletteMode.Custom)
+                {
+                    if (kryptonCustomPalette is not null)
+                    {
+                        manager.GlobalCustomPalette = kryptonCustomPalette;
+                        defaultPalette = mode;
+                    }
+                    else
+                    {
+                        // Custom has been selected but there's no custom theme assigned
+                        // to the ThemeSelector or in the KManager.
+                        // Leave defaultPalette as it is.
+                        result = false;
+                    }
+                }
+                else if (mode == PaletteMode.Global)
+                {
+                    // If mode is set to Global, a theme change is not necessary.
+                    result = false;
+                }
+                else
+                {
+                    ThemeManager.ApplyTheme(themeName, manager);
+                    defaultPalette = mode;
+                }
             }
 
             isLocalUpdate = false;
@@ -103,7 +141,8 @@ internal static class CommonHelperThemeSelectors
 
     /// <summary>
     /// Return the index in the list of the requested PaletteMode parameter.
-    /// For Custom mode, finds the entry that is "Custom" or "Custom - [Theme Name]" so dynamic labels work.
+    /// For Custom mode, prefers a registered theme name matching the active custom palette, then
+    /// "Custom" / "Custom - [Theme Name]".
     /// </summary>
     /// <param name="items">The control's list of themes (usually Items).</param>
     /// <param name="mode">The PaletteMode for which to locate the index in items.</param>
@@ -122,13 +161,29 @@ internal static class CommonHelperThemeSelectors
         {
             if (mode == PaletteMode.Custom)
             {
-                // Theme array may show "Custom" or "Custom - [Theme Name]"
-                for (int i = 0; i < items.Count; i++)
+                string? paletteName = null;
+                if (KryptonManager.CurrentGlobalPalette is KryptonCustomPaletteBase custom)
                 {
-                    if (items[i] is string s && (s == PaletteModeStrings.DEFAULT_PALETTE_CUSTOM || s.StartsWith(ThemeManager.CustomThemeNamePrefix, StringComparison.Ordinal)))
+                    paletteName = custom.GetPaletteName();
+                }
+
+                if (!string.IsNullOrWhiteSpace(paletteName))
+                {
+                    newIdx = items.IndexOf(paletteName);
+                }
+
+                if (newIdx < 0)
+                {
+                    // Theme array may show "Custom" or "Custom - [Theme Name]"
+                    for (int i = 0; i < items.Count; i++)
                     {
-                        newIdx = i;
-                        break;
+                        if (items[i] is string s
+                            && (s == PaletteModeStrings.DEFAULT_PALETTE_CUSTOM
+                                || s.StartsWith(ThemeManager.CustomThemeNamePrefix, StringComparison.Ordinal)))
+                        {
+                            newIdx = i;
+                            break;
+                        }
                     }
                 }
             }
@@ -139,7 +194,7 @@ internal static class CommonHelperThemeSelectors
             }
         }
 
-        return (newIdx >= 0 && newIdx < PaletteModeStrings.SupportedThemesMap.Count)
+        return (newIdx >= 0 && newIdx < items.Count)
             ? newIdx
             : -1;
     }
@@ -225,6 +280,42 @@ internal static class CommonHelperThemeSelectors
 
         return result;
     }
+
+    /// <summary>
+    /// Resolves the initial theme list index for <see cref="KryptonThemeBrowser"/>.
+    /// Prefers <see cref="KryptonThemeBrowserData.DefaultPalette"/> over
+    /// <see cref="KryptonThemeBrowserData.StartIndex"/>, then the global default theme.
+    /// </summary>
+    /// <param name="themeBrowserData">Caller-supplied theme browser options.</param>
+    /// <param name="items">Populated theme list items.</param>
+    /// <param name="manager">Manager used when <see cref="PaletteMode.Global"/> is requested.</param>
+    /// <returns>A valid index into <paramref name="items"/>, or <c>-1</c> when the list is empty.</returns>
+    internal static int GetThemeBrowserStartIndex(KryptonThemeBrowserData themeBrowserData, IList items, KryptonManager manager)
+    {
+        if (items.Count == 0)
+        {
+            return -1;
+        }
+
+        if (themeBrowserData.DefaultPalette.HasValue)
+        {
+            int paletteIndex = GetInitialSelectedIndex(themeBrowserData.DefaultPalette.Value, manager, items);
+            if (paletteIndex >= 0)
+            {
+                return paletteIndex;
+            }
+        }
+
+        if (themeBrowserData.StartIndex.HasValue
+            && themeBrowserData.StartIndex.Value >= 0
+            && themeBrowserData.StartIndex.Value < items.Count)
+        {
+            return themeBrowserData.StartIndex.Value;
+        }
+
+        int fallbackIndex = GetPaletteIndex(items, ToolkitStaticConstants.GLOBAL_DEFAULT_PALETTE_MODE);
+        return fallbackIndex >= 0 ? fallbackIndex : 0;
+    }
 }
 
 #endregion
@@ -241,6 +332,11 @@ internal interface IKryptonThemeSelectorBase
     /// Gets or sets the default palette mode.
     /// </summary>
     PaletteMode DefaultPalette { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether extra (non-core) catalogued palettes appear in the list.
+    /// </summary>
+    bool ShowExtraThemes { get; set; }
 }
 
 #endregion

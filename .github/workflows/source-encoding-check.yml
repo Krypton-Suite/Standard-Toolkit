@@ -6,6 +6,9 @@
 # KILL-SWITCH: Set repository variable SOURCE_ENCODING_CHECK_DISABLED=true to skip.
 # On pull requests, only changed files under Source/, Documents/, .github/, and Scripts/ are scanned.
 # workflow_dispatch with scan_all=true scans the full tree in those roots.
+#
+# Changed paths are written to $RUNNER_TEMP/changed_files.txt (never via env/step-output blobs)
+# so large PRs do not hit Linux MAX_ARG_STRLEN / "Argument list too long".
 
 name: Source encoding check
 
@@ -65,6 +68,8 @@ jobs:
         uses: actions/github-script@v9
         with:
           script: |
+            const fs = require('fs');
+            const path = require('path');
             const files = [];
             for await (const response of github.paginate.iterator(
               github.rest.pulls.listFiles,
@@ -79,7 +84,10 @@ jobs:
                 files.push(file.filename);
               }
             }
-            core.setOutput('paths', files.join('\n'));
+            // Write paths to a file so the encoding-check step never receives a huge env/argv payload.
+            const outPath = path.join(process.env.RUNNER_TEMP, 'changed_paths.txt');
+            fs.writeFileSync(outPath, files.length ? files.join('\n') + '\n' : '');
+            core.setOutput('has_paths', files.length > 0 ? 'true' : 'false');
 
       - name: List changed files (push)
         if: steps.kill_switch.outputs.enabled == 'true' && github.event_name == 'push'
@@ -90,16 +98,14 @@ jobs:
           before="${{ github.event.before }}"
           after="${{ github.sha }}"
           if [ -z "$before" ] || [ "$before" = "0000000000000000000000000000000000000000" ]; then
-            git diff-tree --no-commit-id --name-only -r "$after" > "$RUNNER_TEMP/changed_files.txt"
+            git diff-tree --no-commit-id --name-only -r "$after" > "$RUNNER_TEMP/changed_paths.txt"
           else
-            git diff --name-only "$before" "$after" > "$RUNNER_TEMP/changed_files.txt"
+            git diff --name-only "$before" "$after" > "$RUNNER_TEMP/changed_paths.txt"
           fi
-          if [ -s "$RUNNER_TEMP/changed_files.txt" ]; then
-            echo "paths<<EOF" >> "$GITHUB_OUTPUT"
-            cat "$RUNNER_TEMP/changed_files.txt" >> "$GITHUB_OUTPUT"
-            echo "EOF" >> "$GITHUB_OUTPUT"
+          if [ -s "$RUNNER_TEMP/changed_paths.txt" ]; then
+            echo "has_paths=true" >> "$GITHUB_OUTPUT"
           else
-            echo "paths=" >> "$GITHUB_OUTPUT"
+            echo "has_paths=false" >> "$GITHUB_OUTPUT"
           fi
 
       - name: List changed files (workflow dispatch, last commit)
@@ -108,13 +114,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          git diff-tree --no-commit-id --name-only -r HEAD > "$RUNNER_TEMP/changed_files.txt"
-          if [ -s "$RUNNER_TEMP/changed_files.txt" ]; then
-            echo "paths<<EOF" >> "$GITHUB_OUTPUT"
-            cat "$RUNNER_TEMP/changed_files.txt" >> "$GITHUB_OUTPUT"
-            echo "EOF" >> "$GITHUB_OUTPUT"
+          git diff-tree --no-commit-id --name-only -r HEAD > "$RUNNER_TEMP/changed_paths.txt"
+          if [ -s "$RUNNER_TEMP/changed_paths.txt" ]; then
+            echo "has_paths=true" >> "$GITHUB_OUTPUT"
           else
-            echo "paths=" >> "$GITHUB_OUTPUT"
+            echo "has_paths=false" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Run source encoding check
@@ -122,31 +126,31 @@ jobs:
         shell: pwsh
         env:
           SCAN_ALL: ${{ github.event_name == 'workflow_dispatch' && inputs.scan_all == true }}
-          CHANGED_PATHS_PR: ${{ steps.changed_files.outputs.paths }}
-          CHANGED_PATHS_PUSH: ${{ steps.push_changed_files.outputs.paths }}
-          CHANGED_PATHS_DISPATCH: ${{ steps.dispatch_changed_files.outputs.paths }}
         run: |
           $ErrorActionPreference = 'Stop'
           $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
           . (Join-Path $repoRoot 'Scripts/CI/Test-SourceEncodingIntegrity.ps1')
 
           $scanAll = $env:SCAN_ALL -ieq 'true'
-          $rawPaths = $env:CHANGED_PATHS_PR
-          if (-not $rawPaths) { $rawPaths = $env:CHANGED_PATHS_PUSH }
-          if (-not $rawPaths) { $rawPaths = $env:CHANGED_PATHS_DISPATCH }
-
+          $changedPathsFile = Join-Path $env:RUNNER_TEMP 'changed_paths.txt'
           $changedPaths = @()
-          if (-not $scanAll -and $rawPaths) {
-            $changedPaths = $rawPaths -split "`n" | ForEach-Object { $_.Trim() } | Where-Object { $_ }
+          if (-not $scanAll -and (Test-Path -LiteralPath $changedPathsFile)) {
+            $changedPaths = Get-Content -LiteralPath $changedPathsFile | ForEach-Object { $_.Trim() } | Where-Object { $_ }
           }
 
           if ($scanAll) {
+            Write-Host 'Scan mode: all eligible files under Source/, Documents/, .github/, and Scripts/.'
             Test-SourceEncodingIntegrity -RepoRoot $repoRoot -ScanAll -FailOnIssues
           }
           else {
+            Write-Host "Scan mode: changed paths only ($($changedPaths.Count) path(s) supplied)."
+            foreach ($changedPath in $changedPaths) {
+              Write-Host "  - $changedPath"
+            }
+
             Test-SourceEncodingIntegrity -RepoRoot $repoRoot -ChangedPaths $changedPaths -FailOnIssues
           }
 
       - name: No changed files to scan
-        if: steps.kill_switch.outputs.enabled == 'true' && inputs.scan_all != true && ((github.event_name == 'pull_request' && steps.changed_files.outputs.paths == '') || (github.event_name == 'push' && steps.push_changed_files.outputs.paths == '') || (github.event_name == 'workflow_dispatch' && steps.dispatch_changed_files.outputs.paths == ''))
+        if: steps.kill_switch.outputs.enabled == 'true' && inputs.scan_all != true && ((github.event_name == 'pull_request' && steps.changed_files.outputs.has_paths != 'true') || (github.event_name == 'push' && steps.push_changed_files.outputs.has_paths != 'true') || (github.event_name == 'workflow_dispatch' && steps.dispatch_changed_files.outputs.has_paths != 'true'))
         run: echo "No changed files to scan in this event."

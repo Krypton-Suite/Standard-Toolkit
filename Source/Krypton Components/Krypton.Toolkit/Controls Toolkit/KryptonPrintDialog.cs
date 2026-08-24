@@ -427,18 +427,18 @@ public class KryptonPrintDialog : /*!! sealed PrintDialog !!*/ CommonDialog
                 if (PrinterSettings.FromPage < PrinterSettings.MinimumPage
                     || PrinterSettings.FromPage > PrinterSettings.MaximumPage)
                 {
-                    throw new ArgumentException($@"PageOutOfRange [{PrinterSettings.FromPage}]");
+                    ThrowHelper.ThrowArgumentException($@"PageOutOfRange [{PrinterSettings.FromPage}]");
                 }
 
                 if (PrinterSettings.ToPage < PrinterSettings.MinimumPage
                     || PrinterSettings.ToPage > PrinterSettings.MaximumPage)
                 {
-                    throw new ArgumentException($@"PageOutOfRange [{PrinterSettings.ToPage}]");
+                    ThrowHelper.ThrowArgumentException($@"PageOutOfRange [{PrinterSettings.ToPage}]");
                 }
 
                 if (PrinterSettings.ToPage < PrinterSettings.FromPage)
                 {
-                    throw new ArgumentException($@"PageOutOfRange [{PrinterSettings.FromPage}]");
+                    ThrowHelper.ThrowArgumentException($@"PageOutOfRange [{PrinterSettings.FromPage}]");
                 }
 
                 data.nFromPage = (short)PrinterSettings.FromPage;
@@ -579,18 +579,18 @@ public class KryptonPrintDialog : /*!! sealed PrintDialog !!*/ CommonDialog
     //            if (PrinterSettings.FromPage < PrinterSettings.MinimumPage
     //                || PrinterSettings.FromPage > PrinterSettings.MaximumPage)
     //            {
-    //                throw new ArgumentException($@"PageOutOfRange [{PrinterSettings.FromPage}]");
+    //                ThrowHelper.ThrowArgumentException($@"PageOutOfRange [{PrinterSettings.FromPage}]");
     //            }
 
     //            if (PrinterSettings.ToPage < PrinterSettings.MinimumPage
     //                || PrinterSettings.ToPage > PrinterSettings.MaximumPage)
     //            {
-    //                throw new ArgumentException($@"PageOutOfRange [{PrinterSettings.ToPage}]");
+    //                ThrowHelper.ThrowArgumentException($@"PageOutOfRange [{PrinterSettings.ToPage}]");
     //            }
 
     //            if (PrinterSettings.ToPage < PrinterSettings.FromPage)
     //            {
-    //                throw new ArgumentException($@"PageOutOfRange[{PrinterSettings.FromPage}]");
+    //                ThrowHelper.ThrowArgumentException($@"PageOutOfRange[{PrinterSettings.FromPage}]");
     //            }
 
     //            // PAGENUMS Allways set !
@@ -685,6 +685,8 @@ public class KryptonPrintDialog : /*!! sealed PrintDialog !!*/ CommonDialog
         }
     }
 
+    // PrintDlg uses managed PRINTDLG_32 / PRINTDLG_64 class layouts that are not LibraryImport-friendly;
+    // keep classical DllImport here (do not dual-path until those structs are redesigned as blittable).
     [DllImport(Libraries.Comdlg32, EntryPoint = nameof(PrintDlg), CharSet = CharSet.Auto, SetLastError = true)]
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     private static extern PI.BOOL PrintDlg_32([In, Out] PRINTDLG_32 lppd);
@@ -702,7 +704,7 @@ public class KryptonPrintDialog : /*!! sealed PrintDialog !!*/ CommonDialog
                 return PrintDlg_32(lppd32);
             }
 
-            throw new InvalidOperationException($"Expected {nameof(PRINTDLG_32)} data struct");
+            return ThrowHelper.ThrowInvalidOperationException<PI.BOOL>($"Expected {nameof(PRINTDLG_32)} data struct");
         }
 
         if (lppd is PRINTDLG_64 lppd64)
@@ -710,7 +712,7 @@ public class KryptonPrintDialog : /*!! sealed PrintDialog !!*/ CommonDialog
             return PrintDlg_64(lppd64);
         }
 
-        throw new InvalidOperationException($"Expected {nameof(PRINTDLG_64)} data struct");
+        return ThrowHelper.ThrowInvalidOperationException<PI.BOOL>($"Expected {nameof(PRINTDLG_64)} data struct");
     }
 
     //[DllImport(Libraries.Comdlg32, CharSet = CharSet.Auto, SetLastError = true)]
@@ -718,6 +720,28 @@ public class KryptonPrintDialog : /*!! sealed PrintDialog !!*/ CommonDialog
     //internal static extern PI.HRESULT PrintDlgEx([In, Out] PRINTDLGEX lppdex);
 
     //private const int START_PAGE_GENERAL = -1;
+
+    /// <summary>
+    /// Displays the dialog asynchronously.
+    /// </summary>
+    /// <remarks>
+    /// Awaitable convenience over synchronous <see cref="CommonDialog.ShowDialog()"/>.
+    /// Native ComDlg32 dialogs remain nested-modal; the UI thread stays blocked until the dialog closes.
+    /// </remarks>
+    /// <returns>A task that completes with the dialog result.</returns>
+    public Task<DialogResult> ShowDialogAsync() => ShowDialogAsync(owner: null);
+
+    /// <summary>
+    /// Displays the dialog asynchronously with the specified owner.
+    /// </summary>
+    /// <param name="owner">Owner window, or <c>null</c> for no owner.</param>
+    /// <remarks>
+    /// Awaitable convenience over synchronous <see cref="CommonDialog.ShowDialog(IWin32Window)"/>.
+    /// Native ComDlg32 dialogs remain nested-modal; the UI thread stays blocked until the dialog closes.
+    /// </remarks>
+    /// <returns>A task that completes with the dialog result.</returns>
+    public Task<DialogResult> ShowDialogAsync(IWin32Window? owner) =>
+        Task.FromResult(owner is null ? ShowDialog() : ShowDialog(owner));
 
 }
 

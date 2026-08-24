@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -32,7 +32,7 @@ internal interface IInputPulsingBorderProvider
     /// <summary>
     /// Gets the palette triple state used to resolve border rounding.
     /// </summary>
-    IPaletteTriple GetGlowingBorderTripleState();
+    IPaletteTriple? GetGlowingBorderTripleState();
 
     /// <summary>
     /// Gets the palette state used to resolve border rounding.

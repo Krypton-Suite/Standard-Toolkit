@@ -332,7 +332,7 @@ public class KryptonScrollbarManager : IDisposable
     {
         if (targetControl == null)
         {
-            throw new ArgumentNullException(nameof(targetControl));
+            ThrowHelper.ThrowArgumentNullException(nameof(targetControl));
         }
 
         if (_targetControl != null)
@@ -1184,22 +1184,30 @@ public class KryptonScrollbarManager : IDisposable
                 return;
             }
 
-            // For other controls (ListBox, ListView, TreeView, PropertyGrid, etc.), hide native
-            // scrollbars via ShowScrollBar so only Krypton scrollbars are visible.
-            _ = PI.ShowScrollBar(_targetControl.Handle, (int)PI.SB_.BOTH, false);
-
             if (_targetControl is ListBox)
             {
+                // ListBox keeps its scrollbar styles; visibility is driven by ShowScrollBar alone.
+                _ = PI.ShowScrollBar(_targetControl.Handle, (int)PI.SB_.BOTH, false);
                 _targetControl.Invalidate();
                 return;
             }
 
-            // Also remove scrollbar window styles so they stay hidden; frame change is required
-            // for style changes to take effect (see SetWindowLong / SetWindowPos docs).
+            // For other controls (ListView, TreeView, PropertyGrid, etc.) the scrollbar window
+            // styles are removed so they stay hidden. Skip the work when they are already clear:
+            // the frame change below raises a layout for the target control, which asks for
+            // another hide, so repeating it unconditionally repaints the control indefinitely.
             uint style = PI.GetWindowLong(_targetControl.Handle, PI.GWL_.STYLE);
-            style &= ~(uint)PI.WS_.HSCROLL;
-            style &= ~(uint)PI.WS_.VSCROLL;
-            PI.SetWindowLong(_targetControl.Handle, PI.GWL_.STYLE, style);
+            uint hiddenStyle = style & ~((uint)PI.WS_.HSCROLL | (uint)PI.WS_.VSCROLL);
+            if (hiddenStyle == style)
+            {
+                return;
+            }
+
+            _ = PI.ShowScrollBar(_targetControl.Handle, (int)PI.SB_.BOTH, false);
+
+            // A frame change is required for style changes to take effect
+            // (see SetWindowLong / SetWindowPos docs).
+            PI.SetWindowLong(_targetControl.Handle, PI.GWL_.STYLE, hiddenStyle);
             PI.SetWindowPos(_targetControl.Handle, IntPtr.Zero, 0, 0, 0, 0,
                 PI.SWP_.NOMOVE | PI.SWP_.NOSIZE | PI.SWP_.NOZORDER | PI.SWP_.FRAMECHANGED);
 
@@ -1671,6 +1679,52 @@ public class KryptonScrollbarManager : IDisposable
     private static int ManagedScrollBarWidth => SystemInformation.VerticalScrollBarWidth + ScrollBarLanePadding;
 
     private static int ManagedScrollBarHeight => SystemInformation.HorizontalScrollBarHeight + ScrollBarLanePadding;
+
+    /// <summary>
+    /// Returns native-child bounds clipped so overlay themed scrollbars do not cover content.
+    /// </summary>
+    /// <param name="fillRect">The full fill rectangle for the native child.</param>
+    /// <param name="laneRect">
+    /// Outer lane inside the themed border (where overlay scrollbars are positioned).
+    /// </param>
+    /// <returns>
+    /// <paramref name="fillRect"/> with its right/bottom edges clipped to the scrollbar
+    /// edges when visible. Bars stay flush to the themed border; content ends where the bar starts.
+    /// </returns>
+    public Rectangle GetInsetContentBounds(Rectangle fillRect, Rectangle laneRect)
+    {
+        if (_mode != ScrollbarManagerMode.NativeWrapper || !_enabled)
+        {
+            return fillRect;
+        }
+
+        if (laneRect.IsEmpty)
+        {
+            laneRect = fillRect;
+        }
+
+        int right = fillRect.Right;
+        int bottom = fillRect.Bottom;
+
+        // Clip to the overlay bar edge rather than subtracting bar width from FillRect.
+        // FillRect is already inset by DisplayPadding from the lane; subtracting again
+        // left a visible gutter between wrapped text and the scrollbar.
+        if (_verticalScrollBar?.Visible == true)
+        {
+            int scrollbarLeft = laneRect.Right - ManagedScrollBarWidth;
+            right = Math.Min(right, scrollbarLeft);
+        }
+
+        if (_horizontalScrollBar?.Visible == true)
+        {
+            int scrollbarTop = laneRect.Bottom - ManagedScrollBarHeight;
+            bottom = Math.Min(bottom, scrollbarTop);
+        }
+
+        int width = Math.Max(0, right - fillRect.Left);
+        int height = Math.Max(0, bottom - fillRect.Top);
+        return new Rectangle(fillRect.X, fillRect.Y, width, height);
+    }
 
     private void OnCornerNeedPaint(object? sender, NeedLayoutEventArgs e) => _scrollBarCorner?.Invalidate();
 

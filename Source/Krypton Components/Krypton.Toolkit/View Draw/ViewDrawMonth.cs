@@ -48,6 +48,8 @@ public class ViewDrawMonth : ViewLayoutStack,
     private readonly ViewLayoutWeekCorner _drawWeekCorner;
     private readonly ViewDrawWeekNumbers _drawWeekNumbers;
     private readonly ViewLayoutStack _numberStack;
+    private readonly ViewLayoutStack _namesStack;
+    private readonly ViewLayoutStack _weeksStack;
     private readonly PaletteBorderEdgeRedirect _borderEdgeRedirect;
     private readonly PaletteBorderEdge _borderEdge;
     private readonly ButtonSpecManagerDraw _buttonManager;
@@ -105,20 +107,24 @@ public class ViewDrawMonth : ViewLayoutStack,
             _calendar.GetToolStripDelegate, needPaintDelegate);
 
         // Create stacks for holding display items
-        var namesStack = new ViewLayoutStack(true);
-        var weeksStack = new ViewLayoutStack(true);
+        _namesStack = new ViewLayoutStack(true);
+        _weeksStack = new ViewLayoutStack(true);
         var daysStack = new ViewLayoutStack(false);
         _numberStack = new ViewLayoutStack(false);
-        weeksStack.Add(_numberStack);
-        weeksStack.Add(daysStack);
+        _weeksStack.Add(_numberStack);
+        _weeksStack.Add(daysStack);
 
         // Add day names
         _drawMonthDayNames = new ViewDrawMonthDayNames(_calendar, _months);
         _drawWeekCorner = new ViewLayoutWeekCorner(_calendar, _months, _calendar.StateNormal.Header.Border);
-        namesStack.Add(_drawWeekCorner);
-        namesStack.Add(_drawMonthDayNames);
-        Add(namesStack);
-        Add(weeksStack);
+        _namesStack.Add(_drawWeekCorner);
+        _namesStack.Add(_drawMonthDayNames);
+        Add(_namesStack);
+        Add(_weeksStack);
+
+        var headerController = new ButtonController(_drawContent, needPaintDelegate);
+        headerController.Click += OnHeaderClick;
+        _drawContent.MouseController = headerController;
 
         // Add border between week numbers and days area
         _borderEdgeRedirect = new PaletteBorderEdgeRedirect(_calendar.StateNormal.Header.Border, null);
@@ -153,6 +159,9 @@ public class ViewDrawMonth : ViewLayoutStack,
         ViewDrawMonthDays = new ViewDrawMonthDays(_calendar, _months);
         daysStack.Add(ViewDrawMonthDays);
 
+        ViewDrawMonthYearCells = new ViewDrawMonthYearCells(_calendar, _months);
+        Add(ViewDrawMonthYearCells);
+
         // Adding buttons manually means we have to ask for buttons to be created
         _buttonManager.RecreateButtons();
     }
@@ -174,6 +183,11 @@ public class ViewDrawMonth : ViewLayoutStack,
     public ViewDrawMonthDays ViewDrawMonthDays { get; }
 
     /// <summary>
+    /// Gets access to the month/year cell draw element.
+    /// </summary>
+    public ViewDrawMonthYearCells ViewDrawMonthYearCells { get; }
+
+    /// <summary>
     /// Gets and sets the enabled state of the view.
     /// </summary>
     public override bool Enabled
@@ -187,6 +201,7 @@ public class ViewDrawMonth : ViewLayoutStack,
             _drawMonthDayNames.Enabled = value;
             _drawBorderEdge.Enabled = value;
             ViewDrawMonthDays.Enabled = value;
+            ViewDrawMonthYearCells.Enabled = value;
             base.Enabled = value;
         }
     }
@@ -222,9 +237,10 @@ public class ViewDrawMonth : ViewLayoutStack,
     {
         set
         {
-            _header = value.ToString(CultureInfo.CurrentCulture.DateTimeFormat.YearMonthPattern);
             ViewDrawMonthDays.Month = value;
+            ViewDrawMonthYearCells.Month = value;
             _drawWeekNumbers.Month = value;
+            _header = GetHeaderText(value);
         }
     }
 
@@ -249,6 +265,7 @@ public class ViewDrawMonth : ViewLayoutStack,
     public override Size GetPreferredSize(ViewLayoutContext context)
     {
         UpdateWeekNumberViews();
+        UpdateCalendarView();
         return base.GetPreferredSize(context);
     }
 
@@ -259,6 +276,7 @@ public class ViewDrawMonth : ViewLayoutStack,
     public override void Layout(ViewLayoutContext context)
     {
         UpdateWeekNumberViews();
+        UpdateCalendarView();
         base.Layout(context);
     }
     #endregion
@@ -276,7 +294,7 @@ public class ViewDrawMonth : ViewLayoutStack,
     /// </summary>
     /// <param name="state">The state for which the image is needed.</param>
     /// <returns>Color value.</returns>
-    public Color GetImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public Color GetImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the content short text.
@@ -302,7 +320,7 @@ public class ViewDrawMonth : ViewLayoutStack,
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Color value.</returns>
-    public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public Color GetOverlayImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the position of the overlay image relative to the main image.
@@ -337,10 +355,41 @@ public class ViewDrawMonth : ViewLayoutStack,
     #region Implementation
     private void UpdateWeekNumberViews()
     {
-        // Update display of week numbers views
-        var showWeekNumbers = _months.ShowWeekNumbers;
+        var showDays = _months.DisplayView == MonthCalendarView.Days;
+        var showWeekNumbers = showDays && _months.ShowWeekNumbers;
         _drawWeekCorner.Visible = showWeekNumbers;
         _numberStack.Visible = showWeekNumbers;
+    }
+
+    private void UpdateCalendarView()
+    {
+        var showDays = _months.DisplayView == MonthCalendarView.Days;
+        _namesStack.Visible = showDays;
+        _weeksStack.Visible = showDays;
+        ViewDrawMonthDays.Visible = showDays;
+        ViewDrawMonthYearCells.Visible = !showDays;
+    }
+
+    private string GetHeaderText(DateTime value)
+    {
+        switch (_months.DisplayView)
+        {
+            case MonthCalendarView.Months:
+                return value.ToString("yyyy", CultureInfo.CurrentCulture);
+            case MonthCalendarView.Years:
+            {
+                var decadeStart = (value.Year / 10) * 10;
+                return $"{decadeStart}-{decadeStart + 11}";
+            }
+            default:
+                return value.ToString(CultureInfo.CurrentCulture.DateTimeFormat.YearMonthPattern);
+        }
+    }
+
+    private void OnHeaderClick(object? sender, MouseEventArgs e)
+    {
+        Rectangle header = _drawContent.ClientRectangle;
+        _months.DrillUp(new Point(header.X + (header.Width / 2), header.Y + (header.Height / 2)));
     }
 
     private void OnNextMonth(object? sender, EventArgs e) => _months.NextMonth();

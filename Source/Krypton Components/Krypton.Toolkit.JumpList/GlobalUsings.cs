@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -12,4 +12,5 @@
 global using System;
 global using System.IO;
 
+global using Krypton.Interop;
 global using Krypton.Toolkit;

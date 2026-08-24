@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -38,6 +38,7 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
     private bool _useMnemonic;
     private bool _wasEnabled;
     private bool _isSelectable;
+    private readonly InputPulsingBorderViewIntegration _pulsingBorder;
 
     #endregion
 
@@ -129,7 +130,14 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
         _buttonController.MouseSelect += OnButtonSelect;
 
         // Create the view manager instance
-        ViewManager = new ViewManager(this, _drawButton);
+        _pulsingBorder = new InputPulsingBorderViewIntegration(this,
+            NeedPaintDelegate,
+            () => IsButtonActive,
+            GetTripleState,
+            _drawButton,
+            () => _drawButton.State,
+            InputPulsingBorderCategory.Buttons);
+        ViewManager = new ViewManager(this, _pulsingBorder.ViewRoot);
 
         // Set up badge values on the button
         _drawButton.SetBadgeValues(BadgeValues, this);
@@ -137,6 +145,27 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
     #endregion
 
     #region Public
+
+    /// <summary>
+    /// Gets access to the optional pulsing border values.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Optional pulsing border drawn around the button.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public InputPulsingBorderValues PulsingBorderValues => _pulsingBorder.Values;
+
+    private bool ShouldSerializePulsingBorderValues() => !PulsingBorderValues.IsDefault;
+
+    /// <summary>
+    /// Request the control repaint itself and children.
+    /// </summary>
+    /// <param name="needLayout">Does the palette change require a layout.</param>
+    public override void PerformNeedPaint(bool needLayout)
+    {
+        _pulsingBorder.UpdateAnimationState();
+        base.PerformNeedPaint(needLayout);
+    }
+
     /// <summary>
     /// Gets and sets the automatic resize of the control to fit contents.
     /// </summary>
@@ -652,6 +681,20 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
     protected override AccessibleObject CreateAccessibilityInstance() => new KryptonDropButtonAccessibleObject(this);
 
     /// <summary>
+    /// Release managed and unmanaged resources.
+    /// </summary>
+    /// <param name="disposing">true to release both managed and unmanaged resources.</param>
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            _pulsingBorder.Dispose();
+        }
+
+        base.Dispose(disposing);
+    }
+
+    /// <summary>
     /// Raises the EnabledChanged event.
     /// </summary>
     /// <param name="e">An EventArgs that contains the event data.</param>
@@ -879,6 +922,28 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
 
     #region Implementation
 
+    private bool IsButtonActive
+    {
+        get
+        {
+            if (DesignMode || ContainsFocus)
+            {
+                return true;
+            }
+
+            return ViewDrawButton.State switch
+            {
+                PaletteState.Tracking => true,
+                PaletteState.Pressed => true,
+                PaletteState.CheckedTracking => true,
+                PaletteState.CheckedPressed => true,
+                _ => false
+            };
+        }
+    }
+
+    private IPaletteTriple GetTripleState() => Enabled ? ViewDrawButton.CurrentPalette : StateDisabled;
+
     private static bool IsDialogResultValidForForm(DialogResult value)
     {
         return Enum.IsDefined(typeof(DialogResult), value);
@@ -1012,7 +1077,7 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
 
     private void OnKryptonContextMenuClosed(object? sender, EventArgs e)
     {
-        var kcm = sender as KryptonContextMenu ?? throw new ArgumentNullException(nameof(sender));
+        var kcm =sender as KryptonContextMenu ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenu, nameof(sender));
         kcm.Closed -= OnKryptonContextMenuClosed;
         ContextMenuClosed();
     }

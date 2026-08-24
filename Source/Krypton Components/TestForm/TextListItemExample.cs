@@ -127,7 +127,7 @@ public partial class TextListItemExample : KryptonForm
         }
 
         var color = palette.GetSchemeColor(role);
-        if (color.IsEmpty || color == GlobalStaticVariables.EMPTY_COLOR)
+        if (color.IsEmpty || color == SharedStaticVariables.EMPTY_COLOR)
         {
             return "(theme default)";
         }
@@ -187,7 +187,7 @@ public partial class TextListItemExample : KryptonForm
 
         if (color.IsEmpty || color.A == 0)
         {
-            palette.SetSchemeColor(role, GlobalStaticVariables.EMPTY_COLOR);
+            palette.SetSchemeColor(role, SharedStaticVariables.EMPTY_COLOR);
             klblStatus.Values.Text = $"{role} reset. Re-select the theme for the built-in default.";
         }
         else

@@ -56,12 +56,12 @@ internal class ButtonSpecAppButtonController : ButtonController,
         // Validate incoming references
         if (c is null)
         {
-            throw new ArgumentNullException(nameof(c));
+            ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
 
         if (e is null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         switch (e.KeyCode)
@@ -106,11 +106,11 @@ internal class ButtonSpecAppButtonController : ButtonController,
         // Validate incoming references
         if (c == null)
         {
-            throw new ArgumentNullException(nameof(c));
+            ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         _viewManager.KeyMnemonic(e.KeyChar);

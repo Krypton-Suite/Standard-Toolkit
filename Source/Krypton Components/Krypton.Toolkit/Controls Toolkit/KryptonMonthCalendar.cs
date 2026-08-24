@@ -56,6 +56,7 @@ public class KryptonMonthCalendar : VisualSimpleBase,
     private readonly DateTimeList _monthlyDates;
     private Day _firstDayOfWeek;
     private Size _dimensions;
+    private MonthCalendarView _calendarView;
     private string _todayFormat;
     private int _maxSelectionCount;
     private int _scrollChange;
@@ -224,6 +225,7 @@ public class KryptonMonthCalendar : VisualSimpleBase,
 
         // Set default property values 
         _dimensions = new Size(1, 1);
+        _calendarView = MonthCalendarView.Days;
         _firstDayOfWeek = Day.Default;
         _headerStyle = HeaderStyle.Calendar;
         _dayStyle = ButtonStyle.CalendarDay;
@@ -252,12 +254,12 @@ public class KryptonMonthCalendar : VisualSimpleBase,
     {
         if (date.Ticks < _minDate.Ticks)
         {
-            throw new ArgumentOutOfRangeException(nameof(date), date, string.Format(@"Value of '{1}' is not valid for '{0}'. '{0}' must be greater than or equal to {2}.", nameof(date), FormatDate(date), nameof(MinDate)));
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(date), date, string.Format(@"Value of '{1}' is not valid for '{0}'. '{0}' must be greater than or equal to {2}.", nameof(date), FormatDate(date), nameof(MinDate)));
         }
 
         if (date.Ticks > _maxDate.Ticks)
         {
-            throw new ArgumentOutOfRangeException(nameof(date), date, string.Format(@"Value of '{1}' is not valid for '{0}'. '{0}' must be less than or equal to {2}.", nameof(date), FormatDate(date), nameof(MaxDate)));
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(date), date, string.Format(@"Value of '{1}' is not valid for '{0}'. '{0}' must be less than or equal to {2}.", nameof(date), FormatDate(date), nameof(MaxDate)));
         }
 
         SetSelectionRange(date, date);
@@ -331,12 +333,12 @@ public class KryptonMonthCalendar : VisualSimpleBase,
             {
                 if (value > EffectiveMaxDate(_maxDate))
                 {
-                    throw new ArgumentOutOfRangeException(nameof(MinDate), @"Date provided is greater than the maximum supported date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(MinDate), @"Date provided is greater than the maximum supported date.");
                 }
 
                 if (value < DateTimePicker.MinimumDateTime)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(MinDate), @"Date provided is less than the minimum supported date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(MinDate), @"Date provided is less than the minimum supported date.");
                 }
 
                 _minDate = value;
@@ -525,12 +527,12 @@ public class KryptonMonthCalendar : VisualSimpleBase,
             {
                 if (value < EffectiveMinDate(_minDate))
                 {
-                    throw new ArgumentOutOfRangeException(nameof(MaxDate), @"Date provided is less than the minimum supported date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(MaxDate), @"Date provided is less than the minimum supported date.");
                 }
 
                 if (value > DateTimePicker.MaximumDateTime)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(MaxDate), @"Date provided is greater than the maximum supported date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(MaxDate), @"Date provided is greater than the maximum supported date.");
                 }
 
                 _maxDate = value;
@@ -560,7 +562,7 @@ public class KryptonMonthCalendar : VisualSimpleBase,
         {
             if (value < 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(MaxSelectionCount), @"MaxSelectionCount cannot be less than zero.");
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(MaxSelectionCount), @"MaxSelectionCount cannot be less than zero.");
             }
 
             if (value != _maxSelectionCount)
@@ -589,12 +591,12 @@ public class KryptonMonthCalendar : VisualSimpleBase,
             {
                 if (value > _maxDate)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(SelectionStart), @"Date provided is greater than the maximum date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(SelectionStart), @"Date provided is greater than the maximum date.");
                 }
 
                 if (value < _minDate)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(SelectionStart), @"Date provided is less than the minimum date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(SelectionStart), @"Date provided is less than the minimum date.");
                 }
 
                 DateTime endDate = _selectionEnd;
@@ -639,12 +641,12 @@ public class KryptonMonthCalendar : VisualSimpleBase,
             {
                 if (value > _maxDate)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(SelectionEnd), @"Date provided is greater than the maximum date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(SelectionEnd), @"Date provided is greater than the maximum date.");
                 }
 
                 if (value < _minDate)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(SelectionEnd), @"Date provided is less than the minimum date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(SelectionEnd), @"Date provided is less than the minimum date.");
                 }
 
                 DateTime startDate = _selectionStart;
@@ -711,12 +713,12 @@ public class KryptonMonthCalendar : VisualSimpleBase,
             {
                 if (value.Width < 1)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(CalendarDimensions), @"CalendarDimension Width must be greater than 0");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(CalendarDimensions), @"CalendarDimension Width must be greater than 0");
                 }
 
                 if (value.Height < 1)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(CalendarDimensions), @"CalendarDimension Height must be greater than 0");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(CalendarDimensions), @"CalendarDimension Height must be greater than 0");
                 }
 
                 _dimensions = value;
@@ -724,6 +726,31 @@ public class KryptonMonthCalendar : VisualSimpleBase,
                 // Must update the size to get the new size we require, just calling the perform need 
                 // paint will cause the dimensions to be reset to that matching the current size.
                 Size = GetPreferredSize(new Size(int.MaxValue, int.MaxValue));
+                PerformNeedPaint(true);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the calendar view used to choose a date.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Specifies whether the calendar shows days, months, or years.")]
+    [DefaultValue(MonthCalendarView.Days)]
+    public MonthCalendarView CalendarView
+    {
+        get => _calendarView;
+
+        set
+        {
+            if (_calendarView != value)
+            {
+                _calendarView = value;
+                if (_drawMonths != null)
+                {
+                    _drawMonths.DisplayView = value;
+                }
+
                 PerformNeedPaint(true);
             }
         }
@@ -1224,22 +1251,22 @@ public class KryptonMonthCalendar : VisualSimpleBase,
     {
         if (start.Ticks > _maxDate.Ticks)
         {
-            throw new ArgumentOutOfRangeException(nameof(start), @"Start date provided is greater than the maximum date.");
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(start), @"Start date provided is greater than the maximum date.");
         }
 
         if (start.Ticks < _minDate.Ticks)
         {
-            throw new ArgumentOutOfRangeException(nameof(start), @"Start date provided is less than the minimum date.");
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(start), @"Start date provided is less than the minimum date.");
         }
 
         if (end.Ticks > _maxDate.Ticks)
         {
-            throw new ArgumentOutOfRangeException(nameof(end), @"End date provided is greater than the maximum date.");
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(end), @"End date provided is greater than the maximum date.");
         }
 
         if (end.Ticks < _minDate.Ticks)
         {
-            throw new ArgumentOutOfRangeException(nameof(end), @"End date provided is less than the minimum date.");
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(end), @"End date provided is less than the minimum date.");
         }
 
         if (start > end)
@@ -1682,6 +1709,13 @@ public class KryptonMonthCalendar : VisualSimpleBase,
         var gap = ViewLayoutMonths.GAP;
         var widthMonths = Math.Max(1, (width - backBorderSize.Width - gap) / (singleMonthSize.Width + gap));
         var heightMonths = Math.Max(1, (height - backBorderSize.Height - gap) / (singleMonthSize.Height + gap));
+
+        // Month/year grids are a single 12-cell tile; do not infer extra month dimensions from the client size.
+        if (_drawMonths.DisplayView != MonthCalendarView.Days)
+        {
+            widthMonths = 1;
+            heightMonths = 1;
+        }
 
         // Calculate new sizes based on showing only full months
         width = backBorderSize.Width + (widthMonths * singleMonthSize.Width) + (gap * (widthMonths + 1));

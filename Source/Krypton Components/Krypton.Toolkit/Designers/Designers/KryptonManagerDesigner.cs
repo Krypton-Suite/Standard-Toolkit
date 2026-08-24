@@ -18,7 +18,17 @@ internal class KryptonManagerDesigner : ComponentDesigner
 
     private DesignerVerbCollection? _verbCollection;
 
-    private DesignerVerb _resetVerb;
+    private DesignerVerb? _resetVerb;
+
+    private DesignerVerb? _importTranslationsXmlFileVerb;
+
+    private DesignerVerb? _exportTranslationsXmlFileVerb;
+
+    private DesignerVerb? _importTranslationsJsonFileVerb;
+
+    private DesignerVerb? _exportTranslationsJsonFileVerb;
+
+    private DesignerVerb? _generateTranslationTemplateVerb;
 
     private KryptonManager? _manager;
 
@@ -71,7 +81,25 @@ internal class KryptonManagerDesigner : ComponentDesigner
 
                 _resetVerb = new DesignerVerb(@"Reset to Default Theme", OnReset);
 
-                _verbCollection.AddRange(new DesignerVerb[] { _resetVerb });
+                _importTranslationsXmlFileVerb =
+                    new DesignerVerb(@"Import Translations from Xml file...", OnImportTranslationsXml);
+
+                _exportTranslationsXmlFileVerb =
+                    new DesignerVerb(@"Export Translations to Xml file...", OnExportTranslationsXml);
+
+                _importTranslationsJsonFileVerb =
+                    new DesignerVerb(@"Import Translations from Json file...", OnImportTranslationsJson);
+
+                _exportTranslationsJsonFileVerb =
+                    new DesignerVerb(@"Export Translations to Json file...", OnExportTranslationsJson);
+
+                _generateTranslationTemplateVerb =
+                    new DesignerVerb(@"Generate Translation Template...", OnGenerateTemplate);
+
+                _verbCollection.AddRange([
+                    _resetVerb, _importTranslationsXmlFileVerb, _exportTranslationsJsonFileVerb,
+                    _importTranslationsXmlFileVerb, _exportTranslationsJsonFileVerb, _generateTranslationTemplateVerb
+                ]);
             }
 
             UpdateVerbStatus();
@@ -88,7 +116,7 @@ internal class KryptonManagerDesigner : ComponentDesigner
     {
         if (_verbCollection != null)
         {
-            _resetVerb.Enabled = !_manager!.GlobalPaletteMode.Equals(PaletteMode.Microsoft365Blue);
+            _resetVerb?.Enabled = !_manager!.GlobalPaletteMode.Equals(PaletteMode.Microsoft365Blue);
         }
     }
 
@@ -96,7 +124,7 @@ internal class KryptonManagerDesigner : ComponentDesigner
 
     private void OnComponentRemoving(object sender, ComponentEventArgs e)
     {
-        throw new NotImplementedException();
+        ThrowHelper.ThrowNotImplementedException();
     }
 
     private void OnReset(object? sender, EventArgs e)
@@ -117,6 +145,160 @@ internal class KryptonManagerDesigner : ComponentDesigner
 
                 UpdateVerbStatus();
             }
+        }
+    }
+
+    private void OnImportTranslationsXml(object? sender, EventArgs e)
+    {
+        if (_manager == null)
+        {
+            return;
+        }
+
+        try
+        {
+            using var ofd = new OpenFileDialog();
+            ofd.CheckFileExists = true;
+            ofd.CheckPathExists = true;
+            ofd.FileName = @"Translations";
+            ofd.DefaultExt = @"xml";
+            ofd.Filter = @"Translations files (*.xml)|*.xml|All files (*.*)|(*.*)";
+            ofd.Title = @"Load Translations";
+
+            var fileName = (ofd.ShowDialog() == DialogResult.OK) ? ofd.FileName : string.Empty;
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                return;
+            }
+
+            _manager.ToolkitStrings.ImportFromXmlFile(fileName, resetFirst: true, refreshOpenForms: false);
+            _service?.OnComponentChanged(_manager, null, null, null);
+        }
+        catch (Exception exc)
+        {
+            KryptonExceptionHandler.CaptureException(exc, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
+        }
+    }
+
+    private void OnExportTranslationsXml(object? sender, EventArgs e)
+    {
+        if (_manager == null)
+        {
+            return;
+        }
+
+        try
+        {
+            using var sfd = new SaveFileDialog();
+            sfd.OverwritePrompt = true;
+            sfd.DefaultExt = @"xml";
+            sfd.FileName = @"Translations";
+            sfd.Filter = @"Translations files (*.xml)|*.xml|All files (*.*)|(*.*)";
+            sfd.Title = @"Save Translations";
+
+            var fileName = (sfd.ShowDialog() == DialogResult.OK) ? sfd.FileName : string.Empty;
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                return;
+            }
+
+            _manager.ToolkitStrings.ExportToXmlFile(fileName, includeDefaults: false);
+        }
+        catch (Exception exc)
+        {
+            KryptonExceptionHandler.CaptureException(exc, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
+        }
+    }
+
+    private void OnImportTranslationsJson(object? sender, EventArgs e)
+    {
+        if (_manager == null)
+        {
+            return;
+        }
+
+        try
+        {
+            using var ofd = new OpenFileDialog();
+            ofd.CheckFileExists = true;
+            ofd.CheckPathExists = true;
+            ofd.FileName = @"Translations";
+            ofd.DefaultExt = @"json";
+            ofd.Filter = @"JSON Translations files (*.json)|*.json|All files (*.*)|(*.*)";
+            ofd.Title = @"Load Translations (JSON)";
+
+            var fileName = (ofd.ShowDialog() == DialogResult.OK) ? ofd.FileName : string.Empty;
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                return;
+            }
+
+            _manager.ToolkitStrings.ImportFromJsonFile(fileName, resetFirst: true, refreshOpenForms: false);
+            _service?.OnComponentChanged(_manager, null, null, null);
+        }
+        catch (Exception exc)
+        {
+            KryptonExceptionHandler.CaptureException(exc, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
+        }
+    }
+
+    private void OnExportTranslationsJson(object? sender, EventArgs e)
+    {
+        if (_manager == null)
+        {
+            return;
+        }
+
+        try
+        {
+            using var sfd = new SaveFileDialog();
+            sfd.OverwritePrompt = true;
+            sfd.DefaultExt = @"json";
+            sfd.FileName = @"Translations";
+            sfd.Filter = @"JSON Translations files (*.json)|*.json|All files (*.*)|(*.*)";
+            sfd.Title = @"Save Translations (JSON)";
+
+            var fileName = (sfd.ShowDialog() == DialogResult.OK) ? sfd.FileName : string.Empty;
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                return;
+            }
+
+            _manager.ToolkitStrings.ExportToJsonFile(fileName, includeDefaults: false);
+        }
+        catch (Exception exc)
+        {
+            KryptonExceptionHandler.CaptureException(exc, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
+        }
+    }
+
+    private void OnGenerateTemplate(object? sender, EventArgs e)
+    {
+        if (_manager == null)
+        {
+            return;
+        }
+
+        try
+        {
+            using var sfd = new SaveFileDialog();
+            sfd.OverwritePrompt = true;
+            sfd.DefaultExt = @"xml";
+            sfd.FileName = @"Translations-Template.xml";
+            sfd.Filter = @"Translations files (*.xml)|*.xml|All files (*.*)|(*.*)";
+            sfd.Title = @"Generate Translation Template (all strings included)";
+
+            var fileName = (sfd.ShowDialog() == DialogResult.OK) ? sfd.FileName : string.Empty;
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                return;
+            }
+
+            _manager.ToolkitStrings.ExportToXmlFile(fileName, includeDefaults: true);
+        }
+        catch (Exception exc)
+        {
+            KryptonExceptionHandler.CaptureException(exc, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 

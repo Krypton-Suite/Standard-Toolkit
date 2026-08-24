@@ -29,7 +29,7 @@ public static class NavigatorExtensions
     {
         if (page == null)
         {
-            throw new ArgumentNullException(nameof(page));
+            ThrowHelper.ThrowArgumentNullException(nameof(page));
         }
 
         smallSize = smallSize > 0 ? smallSize : FontAwesomeHelper.DefaultSize;
@@ -83,7 +83,7 @@ public static class NavigatorExtensions
     {
         if (page == null)
         {
-            throw new ArgumentNullException(nameof(page));
+            ThrowHelper.ThrowArgumentNullException(nameof(page));
         }
 
         smallSize = smallSize > 0 ? smallSize : FontAwesomeHelper.DefaultSize;
@@ -134,7 +134,7 @@ public static class NavigatorExtensions
     {
         if (page == null)
         {
-            throw new ArgumentNullException(nameof(page));
+            ThrowHelper.ThrowArgumentNullException(nameof(page));
         }
 
         var iconBitmap = FontAwesomeHelper.RenderIcon(icon, size, color, style);
@@ -161,7 +161,7 @@ public static class NavigatorExtensions
     {
         if (page == null)
         {
-            throw new ArgumentNullException(nameof(page));
+            ThrowHelper.ThrowArgumentNullException(nameof(page));
         }
 
         var iconBitmap = FontAwesomeHelper.RenderIcon(iconName, size, color, style);

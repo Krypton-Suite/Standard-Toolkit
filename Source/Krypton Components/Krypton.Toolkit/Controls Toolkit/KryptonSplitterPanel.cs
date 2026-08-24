@@ -82,7 +82,7 @@ public sealed class KryptonSplitterPanel : KryptonPanel
     {
         Debug.Assert(container is not null);
 
-        Owner = container ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(container)));
+        Owner = container ?? ThrowHelper.ThrowNullReferenceException<KryptonSplitContainer>(SharedStaticFunctions.VariableCannotBeNull(nameof(container)));
     }
     #endregion
 
@@ -168,7 +168,7 @@ public sealed class KryptonSplitterPanel : KryptonPanel
     {
         get => Collapsed ? 0 : base.Height;
 
-        set => throw new NotSupportedException("Cannot set the Height of a KryptonSplitterPanel");
+        set => ThrowHelper.ThrowNotSupportedException<int>("Cannot set the Height of a KryptonSplitterPanel");
     }
 
     /// <summary>
@@ -293,7 +293,7 @@ public sealed class KryptonSplitterPanel : KryptonPanel
     {
         get => Collapsed ? 0 : base.Width;
 
-        set => throw new NotSupportedException("Cannot set the Width of a KryptonSplitterPanel");
+        set => ThrowHelper.ThrowNotSupportedException<int>("Cannot set the Width of a KryptonSplitterPanel");
     }
 
     #endregion

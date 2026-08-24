@@ -496,7 +496,7 @@ public class KryptonWorkspace : VisualContainerControl,
                 // Cannot assign a value of less than zero
                 if (value < 0)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(SplitterWidth), @"Value cannot be less than zero");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(SplitterWidth), @"Value cannot be less than zero");
                 }
 
                 // Use new width of the splitter area
@@ -1901,7 +1901,7 @@ public class KryptonWorkspace : VisualContainerControl,
             // Double check this has the correct element name
             if (xmlReader.Name != @"KW")
             {
-                throw new ArgumentException(@"Root element must be named 'KW'");
+                ThrowHelper.ThrowArgumentException(@"Root element must be named 'KW'");
             }
 
             // Load the format version number
@@ -1914,7 +1914,7 @@ public class KryptonWorkspace : VisualContainerControl,
             // We can only load 1 upward version formats
             if (formatVersion < 1)
             {
-                throw new ArgumentException(@"Can only load Version 1 and upwards of KryptonWorkspace persisted data.");
+                ThrowHelper.ThrowArgumentException(@"Can only load Version 1 and upwards of KryptonWorkspace persisted data.");
             }
 
             var obscurer = new ScreenObscurer();
@@ -1939,12 +1939,12 @@ public class KryptonWorkspace : VisualContainerControl,
                 // Read to custom data element
                 if (!xmlReader.Read())
                 {
-                    throw new ArgumentException(@"An element was expected but could not be read in.");
+                    ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.");
                 }
 
                 if (xmlReader.Name != @"CGD")
                 {
-                    throw new ArgumentException(@"Expected 'CGD' element was not found.");
+                    ThrowHelper.ThrowArgumentException(@"Expected 'CGD' element was not found.");
                 }
 
                 var finished = xmlReader.IsEmptyElement;
@@ -1965,7 +1965,7 @@ public class KryptonWorkspace : VisualContainerControl,
                     {
                         if (!xmlReader.Read())
                         {
-                            throw new ArgumentException(@"An element was expected but could not be read in.");
+                            ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.");
                         }
                     }
                 }
@@ -1973,13 +1973,13 @@ public class KryptonWorkspace : VisualContainerControl,
                 // Read the next well known element
                 if (!xmlReader.Read())
                 {
-                    throw new ArgumentException(@"An element was expected but could not be read in.");
+                    ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.");
                 }
 
                 // Is it the expected element?
                 if (xmlReader.Name != @"WS")
                 {
-                    throw new ArgumentException(@"Element 'WS' was expected but not found.");
+                    ThrowHelper.ThrowArgumentException(@"Element 'WS' was expected but not found.");
                 }
 
                 // Reload the root sequence
@@ -1988,13 +1988,13 @@ public class KryptonWorkspace : VisualContainerControl,
                 // Move past the end element
                 if (!xmlReader.Read())
                 {
-                    throw new ArgumentException(@"Could not read in next expected node.");
+                    ThrowHelper.ThrowArgumentException(@"Could not read in next expected node.");
                 }
 
                 // Check it has the expected name
                 if (xmlReader.NodeType != XmlNodeType.EndElement)
                 {
-                    throw new ArgumentException(@"EndElement expected but not found.");
+                    ThrowHelper.ThrowArgumentException(@"EndElement expected but not found.");
                 }
 
                 // Are there any unmatched pages?
@@ -2139,11 +2139,8 @@ public class KryptonWorkspace : VisualContainerControl,
         XmlHelper.TextToXmlAttribute(xmlWriter, @"MAXS", CommonHelper.SizeToString(page.MaximumSize), "0, 0");
         XmlHelper.TextToXmlAttribute(xmlWriter, @"AHSS", CommonHelper.SizeToString(page.AutoHiddenSlideSize), "150, 150");
         XmlHelper.TextToXmlAttribute(xmlWriter, @"F", page.Flags.ToString());
-
-        //Seb
-        //TODO store object instead of strings
-        XmlHelper.TextToXmlAttribute(xmlWriter, @"TAG", page.Tag?.ToString()!);
-        //End Seb
+        XmlHelper.TextToXmlAttribute(xmlWriter, @"TG", page.TabGroupId, string.Empty);
+        XmlHelper.ObjectToXmlAttributes(xmlWriter, @"TAG", @"TAGT", page.Tag);
 
         // Write out images as child elements
         XmlHelper.ImageToXmlCData(xmlWriter, @"IS", page.ImageSmall);
@@ -2204,16 +2201,19 @@ public class KryptonWorkspace : VisualContainerControl,
             page.MaximumSize = CommonHelper.StringToSize(XmlHelper.XmlAttributeToText(xmlReader, @"MAXS", @"0, 0"));
             page.AutoHiddenSlideSize = CommonHelper.StringToSize(XmlHelper.XmlAttributeToText(xmlReader, @"AHSS", @"150, 150"));
             page.Flags = int.Parse(XmlHelper.XmlAttributeToText(xmlReader, @"F", page.Flags.ToString()));
+            page.TabGroupId = XmlHelper.XmlAttributeToText(xmlReader, @"TG", string.Empty);
 
-            //Seb
-            page.Tag = XmlHelper.XmlAttributeToText(xmlReader, @"TAG");
-            //End Seb
+            object? tag = XmlHelper.XmlAttributesToObject(xmlReader, @"TAG", @"TAGT", out bool tagPresent);
+            if (tagPresent)
+            {
+                page.Tag = tag;
+            }
         }
 
         // Read the next Element
         if (!xmlReader.Read())
         {
-            throw new ArgumentException(@"An element was expected but could not be read in.");
+            ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.");
         }
 
         if (page != null)
@@ -2618,7 +2618,7 @@ public class KryptonWorkspace : VisualContainerControl,
     protected override void WndProc(ref Message m)
     {
         // We need to snoop the need to show a context menu
-        if (m.Msg == PI.WM_CONTEXTMENU)
+        if (m.Msg == PI.WM_.CONTEXTMENU)
         {
             // We never allow our ContextMenuStrip/KryptonContextMenu to show if there are cells 
             // Displayed, we only want the context menus showing if there are no cells at all Displayed
@@ -3804,12 +3804,12 @@ public class KryptonWorkspace : VisualContainerControl,
 
             if (_menuPage is null)
             {
-                throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_menuPage)));
+                ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_menuPage)));
             }
 
             if (_menuCell is null)
             {
-                throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_menuCell)));
+                ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_menuCell)));
             }
 
             // Update the individual menu options
@@ -3849,7 +3849,7 @@ public class KryptonWorkspace : VisualContainerControl,
     private void OnCellClosedContextMenu(object? sender, ToolStripDropDownClosedEventArgs e)
     {
         // Unhook from context menu
-        var contextMenu = sender as KryptonContextMenu ?? throw new ArgumentNullException(nameof(sender));
+        var contextMenu =sender as KryptonContextMenu ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenu, nameof(sender));
 
         // Remove our menu items as we only want them to be inside the currently showing context menu
         contextMenu.Closed -= OnCellClosedContextMenu;
@@ -4070,7 +4070,7 @@ public class KryptonWorkspace : VisualContainerControl,
             // Move to the contained CData element
             if (!xmlReader.Read())
             {
-                throw new ArgumentException(@"An element was expected but could not be read in.");
+                ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.");
             }
 
             // Load the image from the elements contained data
@@ -4079,7 +4079,7 @@ public class KryptonWorkspace : VisualContainerControl,
             // Read past the end of optional element                   
             if (!xmlReader.Read())
             {
-                throw new ArgumentException(@"An element was expected but could not be read in.");
+                ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.");
             }
         }
 

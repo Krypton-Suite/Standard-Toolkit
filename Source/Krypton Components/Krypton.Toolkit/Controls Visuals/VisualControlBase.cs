@@ -701,7 +701,7 @@ public abstract class VisualControlBase : Control,
         // Validate incoming reference
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
     }
 
@@ -748,7 +748,7 @@ public abstract class VisualControlBase : Control,
         // Validate incoming reference
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         // Never try and redraw or layout when disposed are trying to dispose
@@ -1456,15 +1456,32 @@ public abstract class VisualControlBase : Control,
                 // Remove any currently showing tooltip
                 _visualBasePopupToolTip?.Dispose();
 
-                // Create the actual tooltip popup object
-                // ReSharper disable once UseObjectOrCollectionInitializer
-                _visualBasePopupToolTip = new VisualPopupToolTip(Redirector,
-                    ToolTipValues,
-                    Renderer,
-                    PaletteBackStyle.ControlToolTip,
-                    PaletteBorderStyle.ControlToolTip,
-                    CommonHelper.ContentStyleFromLabelStyle(ToolTipValues.ToolTipStyle),
-                    ToolTipValues.ToolTipShadow);
+                PaletteContentStyle style =
+                    CommonHelper.ContentStyleFromLabelStyle(ToolTipValues.ToolTipStyle);
+                Control? hosted = ToolTipValues.HostedContent is { IsDisposed: false } h ? h : null;
+
+                if (hosted is not null)
+                {
+                    _visualBasePopupToolTip = new VisualPopupToolTip(Redirector,
+                        hosted,
+                        Renderer,
+                        PaletteBackStyle.ControlToolTip,
+                        PaletteBorderStyle.ControlToolTip,
+                        style,
+                        ToolTipValues.ToolTipShadow,
+                        ToolTipValues,
+                        keyboardInert: !ToolTipValues.EnableInteractiveKeyboard);
+                }
+                else
+                {
+                    _visualBasePopupToolTip = new VisualPopupToolTip(Redirector,
+                        ToolTipValues,
+                        Renderer,
+                        PaletteBackStyle.ControlToolTip,
+                        PaletteBorderStyle.ControlToolTip,
+                        style,
+                        ToolTipValues.ToolTipShadow);
+                }
 
                 _visualBasePopupToolTip.Disposed += OnVisualPopupToolTipDisposed;
                 _visualBasePopupToolTip.ShowRelativeTo(e.Target, e.ControlMousePosition);
@@ -1479,7 +1496,7 @@ public abstract class VisualControlBase : Control,
     private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
     {
         // Unhook events from the specific instance that generated event
-        var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
+        var popupToolTip =sender as VisualPopupToolTip ?? ThrowHelper.ThrowArgumentNullException(sender as VisualPopupToolTip, nameof(sender));
         popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
         // Not showing a popup page anymore

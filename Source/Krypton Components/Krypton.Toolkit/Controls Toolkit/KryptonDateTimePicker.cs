@@ -448,6 +448,14 @@ public class KryptonDateTimePicker : VisualControlBase,
     public Day CalendarFirstDayOfWeek { get; set; }
 
     /// <summary>
+    /// Gets or sets the calendar view used to choose a date.
+    /// </summary>
+    [Category(@"MonthCalendar")]
+    [Description(@"Specifies whether the drop-down calendar shows days, months, or years.")]
+    [DefaultValue(MonthCalendarView.Days)]
+    public MonthCalendarView CalendarView { get; set; }
+
+    /// <summary>
     /// Gets and sets if the control will display todays date.
     /// </summary>
     [Category(@"MonthCalendar")]
@@ -636,7 +644,7 @@ public class KryptonDateTimePicker : VisualControlBase,
             }
             else
             {
-                throw new ArgumentException(@"Value can only accept 'null', 'DBNull' or 'DateTime' values.");
+                ThrowHelper.ThrowArgumentException(@"Value can only accept 'null', 'DBNull' or 'DateTime' values.");
             }
         }
     }
@@ -851,12 +859,12 @@ public class KryptonDateTimePicker : VisualControlBase,
             {
                 if (value < EffectiveMinDate(_minDateTime))
                 {
-                    throw new ArgumentOutOfRangeException(nameof(MaxDate), @"Date provided is less than the minimum supported date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(MaxDate), @"Date provided is less than the minimum supported date.");
                 }
 
                 if (value > DateTimePicker.MaximumDateTime)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(MaxDate), @"Date provided is greater than the maximum supported date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(MaxDate), @"Date provided is greater than the maximum supported date.");
                 }
 
                 _maxDateTime = value;
@@ -901,12 +909,12 @@ public class KryptonDateTimePicker : VisualControlBase,
             {
                 if (value > EffectiveMaxDate(_maxDateTime))
                 {
-                    throw new ArgumentOutOfRangeException(nameof(MinDate), @"Date provided is greater than the maximum supported date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(MinDate), @"Date provided is greater than the maximum supported date.");
                 }
 
                 if (value < DateTimePicker.MinimumDateTime)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(MinDate), @"Date provided is less than the minimum supported date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(MinDate), @"Date provided is less than the minimum supported date.");
                 }
 
                 _minDateTime = value;
@@ -1406,7 +1414,7 @@ public class KryptonDateTimePicker : VisualControlBase,
     /// </summary>
     /// <param name="state">Tab state.</param>
     /// <returns>Transparent Color.</returns>
-    public Color GetImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public Color GetImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the short text used as the main ribbon title.
@@ -1432,7 +1440,7 @@ public class KryptonDateTimePicker : VisualControlBase,
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Color value.</returns>
-    public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public Color GetOverlayImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the position of the overlay image relative to the main image.
@@ -2195,6 +2203,7 @@ public class KryptonDateTimePicker : VisualControlBase,
             _kmc = new KryptonContextMenuMonthCalendar
             {
                 CalendarDimensions = CalendarDimensions,
+                CalendarView = CalendarView,
                 TodayText = CalendarTodayText,
                 TodayFormat = CalendarTodayFormat,
                 FirstDayOfWeek = CalendarFirstDayOfWeek,
@@ -2364,7 +2373,7 @@ public class KryptonDateTimePicker : VisualControlBase,
     private void OnKryptonContextMenuClosed(object? sender, EventArgs e)
     {
         // Must unhook from menu so it can be garbage collected
-        var kcm = sender as KryptonContextMenu ?? throw new ArgumentNullException(nameof(sender));
+        var kcm =sender as KryptonContextMenu ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenu, nameof(sender));
         kcm.Closed -= OnKryptonContextMenuClosed;
 
         // Unhook from month calendar events
@@ -2420,7 +2429,7 @@ public class KryptonDateTimePicker : VisualControlBase,
     private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
     {
         // Unhook events from the specific instance that generated event
-        var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
+        var popupToolTip =sender as VisualPopupToolTip ?? ThrowHelper.ThrowArgumentNullException(sender as VisualPopupToolTip, nameof(sender));
         popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
         // Not showing a popup page any more

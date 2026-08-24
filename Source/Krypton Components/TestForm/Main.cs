@@ -1,8 +1,8 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avil�s (aka mcpbcs) et al. 2024 - 2026. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2024 - 2026. All rights reserved. 
  *  
  */
 #endregion
@@ -112,7 +112,7 @@ public partial class Main : KryptonForm
         {
             ShowImportButton = true,
             ShowSilentOption = true,
-            StartIndex = GlobalStaticConstants.GLOBAL_DEFAULT_THEME_INDEX,
+            DefaultPalette = ToolkitStaticConstants.GLOBAL_DEFAULT_PALETTE_MODE,
             StartPosition = FormStartPosition.CenterScreen,
             WindowTitle = KryptonManager.Strings.MiscellaneousThemeStrings.ThemeBrowserWindowTitle
         };
@@ -309,7 +309,8 @@ public partial class Main : KryptonForm
                 kcbtnSizableToolWindow.Checked = true;
                 break;
             default:
-                throw new ArgumentOutOfRangeException(nameof(borderStyle), borderStyle, null);
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(borderStyle), borderStyle, null);
+                return;
         }
     }
 
@@ -390,7 +391,7 @@ public partial class Main : KryptonForm
     {
         try
         {
-            throw new ArgumentOutOfRangeException();
+            ThrowHelper.ThrowArgumentOutOfRangeException();
         }
         catch (Exception ex)
         {

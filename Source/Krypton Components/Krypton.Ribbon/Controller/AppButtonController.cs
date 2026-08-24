@@ -255,12 +255,12 @@ internal class AppButtonController : GlobalId,
 
         if (ribbon is null)
         {
-            throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(ribbon)));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(ribbon)));
         }
 
         if (ribbon.TabsArea is null)
         {
-            throw new NullReferenceException(GlobalStaticFunctions.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
         }
 
         switch (e.KeyData)
@@ -385,12 +385,12 @@ internal class AppButtonController : GlobalId,
     {
         if (ribbon is null)
         {
-            throw new ArgumentNullException(nameof(ribbon));
+            ThrowHelper.ThrowArgumentNullException(nameof(ribbon));
         }
 
         if (ribbon.TabsArea is null)
         {
-            throw new NullReferenceException(GlobalStaticFunctions.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
         }
 
         // We leave key tips usage whenever we use the application button

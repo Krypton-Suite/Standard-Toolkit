@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -12,7 +12,7 @@ namespace Krypton.Toolkit;
 using Timer = System.Windows.Forms.Timer;
 
 /// <summary>
-/// Provides themed Krypton tooltips for arbitrary <see cref="Control"/> instances (designer-extended title/body/image and palette settings reuse <see cref="VisualPopupToolTip"/>).
+/// Provides themed Krypton tooltips for arbitrary <see cref="Control"/> instances (designer-extended title/body/image, optional hosted controls, and palette settings reuse <see cref="VisualPopupToolTip"/>).
 /// </summary>
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(ToolTip), "ToolboxBitmaps.KryptonToolTip.bmp")]
@@ -21,6 +21,7 @@ using Timer = System.Windows.Forms.Timer;
 [ProvideProperty(@"KryptonToolTipTitle", typeof(Control))]
 [ProvideProperty(@"KryptonToolTipDescription", typeof(Control))]
 [ProvideProperty(@"KryptonToolTipImage", typeof(Control))]
+[ProvideProperty(@"KryptonToolTipContent", typeof(Control))]
 [Description(@"Provides themed Krypton tooltips for Windows Forms controls.")]
 public class KryptonToolTip : Component, IExtenderProvider
 {
@@ -94,6 +95,8 @@ public class KryptonToolTip : Component, IExtenderProvider
     private Timer? _showTimer;
 
     private Timer? _closeTimer;
+
+    private Timer? _lingerTimer;
 
     private VisualPopupToolTip? _popup;
 
@@ -210,6 +213,63 @@ public class KryptonToolTip : Component, IExtenderProvider
 
     private void ResetEnableKeyboardToolTips() => EnableKeyboardToolTips = true;
 
+    /// <summary>
+    /// Grace period (milliseconds) after the pointer leaves the target or popup before an interactive tooltip is dismissed.
+    /// Allows the pointer to travel from the hovered control onto the popup.
+    /// </summary>
+    [Category(@"ToolTip")]
+    [Description(@"Milliseconds to wait after mouse leave before dismissing an interactive (hosted-control) tooltip.")]
+    [DefaultValue(300)]
+    public int InteractiveLingerDelay { get; set; } = 300;
+
+    private bool ShouldSerializeInteractiveLingerDelay() => InteractiveLingerDelay != 300;
+
+    private void ResetInteractiveLingerDelay() => InteractiveLingerDelay = 300;
+
+    /// <summary>
+    /// Occurs when a hyperlink created by <see cref="SetLinkToolTip"/> is clicked.
+    /// Set <see cref="ToolTipLinkClickedEventArgs.Cancel"/> to skip the default shell open.
+    /// </summary>
+    [Category(@"Action")]
+    [Description(@"Occurs when a tooltip hyperlink is clicked.")]
+    public event EventHandler<ToolTipLinkClickedEventArgs>? LinkClicked;
+
+    /// <summary>
+    /// When true, interactive hosted tooltips receive keyboard input (Escape dismisses). Default is false.
+    /// </summary>
+    [Category(@"ToolTip")]
+    [Description(@"When true, hosted-control tooltips receive keyboard input.")]
+    [DefaultValue(false)]
+    public bool EnableInteractiveKeyboard { get; set; }
+
+    private bool ShouldSerializeEnableInteractiveKeyboard() => EnableInteractiveKeyboard;
+
+    private void ResetEnableInteractiveKeyboard() => EnableInteractiveKeyboard = false;
+
+    /// <summary>
+    /// When true, <see cref="ToolTipValues.CloseIntervalDelay"/> applies to interactive tooltips. Default is false.
+    /// </summary>
+    [Category(@"ToolTip")]
+    [Description(@"When true, CloseIntervalDelay also closes interactive hosted-control tooltips.")]
+    [DefaultValue(false)]
+    public bool UseCloseTimerForInteractive { get; set; }
+
+    private bool ShouldSerializeUseCloseTimerForInteractive() => UseCloseTimerForInteractive;
+
+    private void ResetUseCloseTimerForInteractive() => UseCloseTimerForInteractive = false;
+
+    /// <summary>
+    /// When true, mouse-down on the hover target dismisses an interactive tooltip. Default is false.
+    /// </summary>
+    [Category(@"ToolTip")]
+    [Description(@"When true, clicking the hover target dismisses an interactive tooltip.")]
+    [DefaultValue(false)]
+    public bool DismissInteractiveOnTargetMouseDown { get; set; }
+
+    private bool ShouldSerializeDismissInteractiveOnTargetMouseDown() => DismissInteractiveOnTargetMouseDown;
+
+    private void ResetDismissInteractiveOnTargetMouseDown() => DismissInteractiveOnTargetMouseDown = false;
+
     #endregion
 
     #region Container
@@ -257,8 +317,104 @@ public class KryptonToolTip : Component, IExtenderProvider
 
         _associations[control] =
             new ToolTipAssociation(title ?? string.Empty, description ?? string.Empty, image,
-                imageTransparentColor == default ? GlobalStaticVariables.EMPTY_COLOR : imageTransparentColor);
+                imageTransparentColor == default ? SharedStaticVariables.EMPTY_COLOR : imageTransparentColor);
         SyncHooksFor(control);
+    }
+
+    /// <summary>
+    /// Shows <paramref name="content"/> inside a themed tooltip when <paramref name="control"/> is hovered.
+    /// </summary>
+    /// <param name="control">The target control.</param>
+    /// <param name="content">Control hosted in the popup. Cannot be a <see cref="Form"/> or <paramref name="control"/> itself.</param>
+    /// <param name="ownsContent">When <see langword="true"/>, <paramref name="content"/> is disposed with this component (not when the popup hides).</param>
+    public void SetToolTip(Control? control, Control? content, bool ownsContent = true) =>
+        SetToolTip(control, string.Empty, content, ownsContent);
+
+    /// <summary>
+    /// Shows an optional heading plus <paramref name="content"/> inside a themed tooltip when <paramref name="control"/> is hovered.
+    /// </summary>
+    /// <param name="control">The target control.</param>
+    /// <param name="title">Optional heading drawn above the hosted control.</param>
+    /// <param name="content">Control hosted in the popup. Cannot be a <see cref="Form"/> or <paramref name="control"/> itself.</param>
+    /// <param name="ownsContent">When <see langword="true"/>, <paramref name="content"/> is disposed with this component (not when the popup hides).</param>
+    public void SetToolTip(Control? control, string title, Control? content, bool ownsContent = true)
+    {
+        if (control is null)
+        {
+            return;
+        }
+
+        if (content is null)
+        {
+            RemoveAssociations(control);
+            return;
+        }
+
+        if (content is Form || ReferenceEquals(content, control))
+        {
+            ThrowHelper.ThrowArgumentException(@"Hosted tooltip content cannot be a Form or the hover target.", nameof(content));
+        }
+
+        foreach (KeyValuePair<Control, ToolTipAssociation> pair in _associations)
+        {
+            if (!ReferenceEquals(pair.Key, control) && ReferenceEquals(pair.Value.HostedContent, content))
+            {
+                ThrowHelper.ThrowArgumentException(@"This control is already hosted by another KryptonToolTip association.", nameof(content));
+            }
+        }
+
+        DisposeOwnedHostedContent(control);
+
+        _associations[control] = new ToolTipAssociation(
+            title ?? string.Empty,
+            string.Empty,
+            null,
+            SharedStaticVariables.EMPTY_COLOR)
+        {
+            HostedContent = content,
+            OwnsContent = ownsContent
+        };
+        SyncHooksFor(control);
+    }
+
+    /// <summary>
+    /// Convenience for a clickable hyperlink inside a themed tooltip.
+    /// </summary>
+    /// <param name="control">The target control.</param>
+    /// <param name="title">Optional heading.</param>
+    /// <param name="linkText">Text shown on the <see cref="KryptonLinkLabel"/>.</param>
+    /// <param name="url">Address opened with the shell when the link is clicked.</param>
+    public void SetLinkToolTip(Control? control, string title, string linkText, string url)
+    {
+        if (control is null || string.IsNullOrEmpty(linkText) || string.IsNullOrEmpty(url))
+        {
+            if (control is not null)
+            {
+                RemoveAssociations(control);
+            }
+
+            return;
+        }
+
+        var link = new KryptonLinkLabel
+        {
+            AutoSize = true,
+            Name = @"kryptonToolTipLink"
+        };
+        link.Values.Text = linkText;
+        string capturedUrl = url;
+        Control capturedTarget = control;
+        link.LinkClicked += (_, _) =>
+        {
+            var args = new ToolTipLinkClickedEventArgs(capturedTarget, capturedUrl);
+            LinkClicked?.Invoke(this, args);
+            if (!args.Cancel)
+            {
+                TryOpenUrl(capturedUrl);
+            }
+        };
+
+        SetToolTip(control, title ?? string.Empty, link, ownsContent: true);
     }
 
     /// <summary>
@@ -290,7 +446,7 @@ public class KryptonToolTip : Component, IExtenderProvider
     [Localizable(true)]
     [DefaultValue("")]
     public string GetKryptonToolTipTitle(Control control) =>
-        _associations.TryGetValue(control, out ToolTipAssociation a)
+        _associations.TryGetValue(control, out ToolTipAssociation? a)
             ? a.Title
             : string.Empty;
 
@@ -309,7 +465,7 @@ public class KryptonToolTip : Component, IExtenderProvider
     [Localizable(true)]
     [DefaultValue("")]
     public string GetKryptonToolTipDescription(Control control) =>
-        _associations.TryGetValue(control, out ToolTipAssociation a)
+        _associations.TryGetValue(control, out ToolTipAssociation? a)
             ? a.Description
             : string.Empty;
 
@@ -329,7 +485,7 @@ public class KryptonToolTip : Component, IExtenderProvider
     [Description(@"Optional tooltip image.")]
     [DefaultValue(null)]
     public Image? GetKryptonToolTipImage(Control control) =>
-        _associations.TryGetValue(control, out ToolTipAssociation a)
+        _associations.TryGetValue(control, out ToolTipAssociation? a)
             ? a.Image
             : null;
 
@@ -337,6 +493,43 @@ public class KryptonToolTip : Component, IExtenderProvider
     public void SetKryptonToolTipImage(Control control, Image? value)
     {
         UpsertImage(control, value);
+    }
+
+    /// <summary>
+    /// Gets the hosted interactive content control for this target, if any.
+    /// Assigning a form control here reparents it into the popup while shown.
+    /// </summary>
+    [ExtenderProvidedProperty]
+    [Category(@"ToolTip")]
+    [Description(@"Optional control hosted inside the tooltip. Prefer creating content in code; a form child will leave the form while the tip is shown.")]
+    [DefaultValue(null)]
+    public Control? GetKryptonToolTipContent(Control control) =>
+        _associations.TryGetValue(control, out ToolTipAssociation? a)
+            ? a.HostedContent
+            : null;
+
+    /// <summary>
+    /// Sets hosted interactive tooltip content. Ownership is not taken (the designer/form owns the control).
+    /// </summary>
+    public void SetKryptonToolTipContent(Control control, Control? value)
+    {
+        if (value is null)
+        {
+            if (_associations.TryGetValue(control, out ToolTipAssociation? existing) && existing.IsInteractive)
+            {
+                existing.HostedContent = null;
+                existing.OwnsContent = false;
+                if (!HasAssociationContent(existing))
+                {
+                    RemoveAssociations(control);
+                }
+            }
+
+            return;
+        }
+
+        string title = _associations.TryGetValue(control, out ToolTipAssociation? prior) ? prior.Title : string.Empty;
+        SetToolTip(control, title, value, ownsContent: false);
     }
 
     /// <summary>
@@ -400,7 +593,7 @@ public class KryptonToolTip : Component, IExtenderProvider
         public bool IsScreenCoordinates { get; }
     }
 
-    private readonly struct ToolTipAssociation
+    private sealed class ToolTipAssociation
     {
         internal ToolTipAssociation(
             string title,
@@ -414,13 +607,19 @@ public class KryptonToolTip : Component, IExtenderProvider
             ImageTransparentColor = imageTransparentColor;
         }
 
-        public string Title { get; }
+        public string Title { get; set; }
 
-        public string Description { get; }
+        public string Description { get; set; }
 
-        public Image? Image { get; }
+        public Image? Image { get; set; }
 
-        public Color ImageTransparentColor { get; }
+        public Color ImageTransparentColor { get; set; }
+
+        public Control? HostedContent { get; set; }
+
+        public bool OwnsContent { get; set; }
+
+        public bool IsInteractive => HostedContent is not null;
     }
 
     private sealed class PerControlToolTipContent : IContentValues
@@ -448,7 +647,7 @@ public class KryptonToolTip : Component, IExtenderProvider
         public Image? GetOverlayImage(PaletteState state) => null;
 
         /// <inheritdoc />
-        public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+        public Color GetOverlayImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
         /// <inheritdoc />
         public OverlayImagePosition GetOverlayImagePosition(PaletteState state) => OverlayImagePosition.TopRight;
@@ -469,62 +668,55 @@ public class KryptonToolTip : Component, IExtenderProvider
 
     private void UpsertHeading(Control control, string heading)
     {
-        _associations.TryGetValue(control, out ToolTipAssociation prior);
-        if (!HasRenderableTextOrImage(heading, prior.Description, prior.Image))
+        _associations.TryGetValue(control, out ToolTipAssociation? prior);
+        if (prior?.IsInteractive != true
+            && !HasRenderableTextOrImage(heading, prior?.Description, prior?.Image))
         {
             RemoveAssociations(control);
             return;
         }
 
         ToolTipAssociation current = EnsureAssociation(control);
-        _associations[control] = new ToolTipAssociation(
-            heading,
-            current.Description,
-            current.Image,
-            current.ImageTransparentColor);
+        current.Title = heading;
         SyncHooksFor(control);
     }
 
     private void UpsertDescription(Control control, string description)
     {
-        _associations.TryGetValue(control, out ToolTipAssociation prior);
-        if (!HasRenderableTextOrImage(prior.Title, description, prior.Image))
+        _associations.TryGetValue(control, out ToolTipAssociation? prior);
+        if (prior?.IsInteractive != true
+            && !HasRenderableTextOrImage(prior?.Title, description, prior?.Image))
         {
             RemoveAssociations(control);
             return;
         }
 
         ToolTipAssociation current = EnsureAssociation(control);
-        _associations[control] = new ToolTipAssociation(
-            current.Title,
-            description,
-            current.Image,
-            current.ImageTransparentColor);
+        current.Description = description;
         SyncHooksFor(control);
     }
 
     private void UpsertImage(Control control, Image? image)
     {
         ToolTipAssociation current = EnsureAssociation(control);
-        if (!HasRenderableTextOrImage(current.Title, current.Description, image))
+        if (!current.IsInteractive && !HasRenderableTextOrImage(current.Title, current.Description, image))
         {
             RemoveAssociations(control);
             return;
         }
 
-        _associations[control] =
-            new ToolTipAssociation(current.Title, current.Description, image, current.ImageTransparentColor);
+        current.Image = image;
         SyncHooksFor(control);
     }
 
     private ToolTipAssociation EnsureAssociation(Control control)
     {
-        if (_associations.TryGetValue(control, out ToolTipAssociation existing))
+        if (_associations.TryGetValue(control, out ToolTipAssociation? existing))
         {
             return existing;
         }
 
-        var created = new ToolTipAssociation(string.Empty, string.Empty, null, GlobalStaticVariables.EMPTY_COLOR);
+        var created = new ToolTipAssociation(string.Empty, string.Empty, null, SharedStaticVariables.EMPTY_COLOR);
         _associations[control] = created;
         return created;
     }
@@ -532,8 +724,43 @@ public class KryptonToolTip : Component, IExtenderProvider
     private static bool HasRenderableTextOrImage(string? title, string? description, Image? image) =>
         !(string.IsNullOrEmpty(title) && string.IsNullOrEmpty(description) && image == null);
 
+    private static bool HasAssociationContent(ToolTipAssociation association) =>
+        association.IsInteractive
+        || HasRenderableTextOrImage(association.Title, association.Description, association.Image);
+
+    private void DisposeOwnedHostedContent(Control control)
+    {
+        if (!_associations.TryGetValue(control, out ToolTipAssociation? existing)
+            || existing.HostedContent is null
+            || !existing.OwnsContent
+            || existing.HostedContent.IsDisposed)
+        {
+            return;
+        }
+
+        existing.HostedContent.Dispose();
+        existing.HostedContent = null;
+    }
+
+    private static void TryOpenUrl(string url)
+    {
+        try
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = url,
+                UseShellExecute = true
+            });
+        }
+        catch
+        {
+            // Shell execute can fail if the association is missing; ignore so the tooltip stays usable.
+        }
+    }
+
     private void RemoveAssociations(Control control)
     {
+        DisposeOwnedHostedContent(control);
         _associations.Remove(control);
         _placementRectangles.Remove(control);
         UnhookControlEvents(control);
@@ -541,8 +768,8 @@ public class KryptonToolTip : Component, IExtenderProvider
 
     private void SyncHooksFor(Control control)
     {
-        if (!_associations.TryGetValue(control, out ToolTipAssociation a) ||
-            !HasRenderableTextOrImage(a.Title, a.Description, a.Image))
+        if (!_associations.TryGetValue(control, out ToolTipAssociation? a) ||
+            !HasAssociationContent(a))
         {
             UnhookControlEvents(control);
             return;
@@ -581,13 +808,7 @@ public class KryptonToolTip : Component, IExtenderProvider
     {
         if (sender is Control c)
         {
-            _associations.Remove(c);
-            UnhookCore(c);
-            if (_hoverControl == c)
-            {
-                _hoverControl = null;
-                CleanupTransientState(false);
-            }
+            RemoveAssociations(c);
         }
     }
 
@@ -613,17 +834,36 @@ public class KryptonToolTip : Component, IExtenderProvider
             return;
         }
 
+        StopLingerTimer();
+
+        // Pointer returned to the target while an interactive popup is already showing.
+        if (_popup is { IsDisposed: false, IsInteractive: true } && ReferenceEquals(_hoverControl, c))
+        {
+            return;
+        }
+
         ScheduleShow(c, Cursor.Position);
     }
 
     private void OnTargetMouseLeave(object? sender, EventArgs e)
     {
+        if (IsCurrentInteractivePopupVisible())
+        {
+            ScheduleLingerDismiss();
+            return;
+        }
+
         CleanupTransientState(false);
         _hoverControl = null;
     }
 
     private void OnTargetMouseDown(object? sender, MouseEventArgs e)
     {
+        if (IsCurrentInteractivePopupVisible() && !DismissInteractiveOnTargetMouseDown)
+        {
+            return;
+        }
+
         CleanupTransientState(false);
     }
 
@@ -649,6 +889,11 @@ public class KryptonToolTip : Component, IExtenderProvider
 
         if (sender is Control c && ReferenceEquals(_hoverControl, c))
         {
+            if (IsCurrentInteractivePopupVisible() && (_popup?.ContainsFocus == true || EnableInteractiveKeyboard))
+            {
+                return;
+            }
+
             CleanupTransientState(false);
             _hoverControl = null;
         }
@@ -687,27 +932,44 @@ public class KryptonToolTip : Component, IExtenderProvider
             return;
         }
 
-        if (!_associations.TryGetValue(hc, out ToolTipAssociation association) ||
-            !HasRenderableTextOrImage(association.Title, association.Description, association.Image))
+        if (!_associations.TryGetValue(hc, out ToolTipAssociation? association) ||
+            !HasAssociationContent(association))
         {
             return;
         }
 
         _popup?.Dispose();
-        var content = new PerControlToolTipContent(association);
 
         PaletteContentStyle style =
             CommonHelper.ContentStyleFromLabelStyle(ToolTipValues.ToolTipStyle);
 
-        _popup =
-            new VisualPopupToolTip(
+        PerControlToolTipContent heading = new PerControlToolTipContent(association);
+        bool hasHeading = HasRenderableTextOrImage(association.Title, association.Description, association.Image);
+
+        if (association.HostedContent is { IsDisposed: false } hosted)
+        {
+            _popup = new VisualPopupToolTip(
                 Redirector,
-                content,
+                hosted,
+                Renderer,
+                PaletteBackStyle.ControlToolTip,
+                PaletteBorderStyle.ControlToolTip,
+                style,
+                ToolTipValues.ToolTipShadow,
+                hasHeading ? heading : null,
+                keyboardInert: !EnableInteractiveKeyboard);
+        }
+        else
+        {
+            _popup = new VisualPopupToolTip(
+                Redirector,
+                heading,
                 Renderer,
                 PaletteBackStyle.ControlToolTip,
                 PaletteBorderStyle.ControlToolTip,
                 style,
                 ToolTipValues.ToolTipShadow);
+        }
 
         _popup.Disposed += OnPopupDisposed;
         Point anchor = _showAnchorScreenPoint;
@@ -720,8 +982,9 @@ public class KryptonToolTip : Component, IExtenderProvider
             _popup.ShowRelativeTo(hc, anchor, CreateEffectivePositionValues(hc));
         }
 
+        // Interactive tips stay until leave-both or click-away; hover tips still honor CloseIntervalDelay.
         int closeDelay = ToolTipValues.CloseIntervalDelay;
-        if (closeDelay > 0)
+        if (closeDelay > 0 && (_popup.IsInteractive == false || UseCloseTimerForInteractive))
         {
             _closeTimer?.Dispose();
             _closeTimer =
@@ -732,6 +995,57 @@ public class KryptonToolTip : Component, IExtenderProvider
             _closeTimer.Tick += OnCloseTimerTick;
             _closeTimer.Start();
         }
+    }
+
+    private bool IsCurrentInteractivePopupVisible() =>
+        _popup is { IsDisposed: false, IsInteractive: true };
+
+    private static bool IsPointerOver(Control? control)
+    {
+        if (control is null || control.IsDisposed || !control.IsHandleCreated || !control.Visible)
+        {
+            return false;
+        }
+
+        return control.RectangleToScreen(control.ClientRectangle).Contains(Control.MousePosition);
+    }
+
+    private void ScheduleLingerDismiss()
+    {
+        if (_lingerTimer is not null)
+        {
+            return;
+        }
+
+        int delay = Math.Max(1, InteractiveLingerDelay);
+        _lingerTimer = new Timer { Interval = delay };
+        _lingerTimer.Tick += OnLingerTimerTick;
+        _lingerTimer.Start();
+    }
+
+    private void StopLingerTimer()
+    {
+        if (_lingerTimer is null)
+        {
+            return;
+        }
+
+        _lingerTimer.Tick -= OnLingerTimerTick;
+        _lingerTimer.Stop();
+        _lingerTimer.Dispose();
+        _lingerTimer = null;
+    }
+
+    private void OnLingerTimerTick(object? sender, EventArgs e)
+    {
+        if (IsPointerOver(_hoverControl) || IsPointerOver(_popup))
+        {
+            return;
+        }
+
+        StopLingerTimer();
+        CleanupTransientState(false);
+        _hoverControl = null;
     }
 
     private void OnCloseTimerTick(object? sender, EventArgs e)
@@ -763,6 +1077,8 @@ public class KryptonToolTip : Component, IExtenderProvider
 
     private void CleanupTransientState(bool unhookTrackedControls)
     {
+        StopLingerTimer();
+
         _showTimer?.Stop();
         _showTimer?.Dispose();
         _showTimer = null;

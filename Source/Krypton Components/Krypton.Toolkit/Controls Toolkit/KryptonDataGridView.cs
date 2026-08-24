@@ -60,7 +60,7 @@ public class KryptonDataGridView : DataGridView
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+        public Color GetImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the content short text.
@@ -86,7 +86,7 @@ public class KryptonDataGridView : DataGridView
         /// </summary>
         /// <param name="state">The state for which the overlay image is needed.</param>
         /// <returns>Color value.</returns>
-        public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+        public Color GetOverlayImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the position of the overlay image relative to the main image.
@@ -1040,7 +1040,7 @@ public class KryptonDataGridView : DataGridView
         // Validate incoming reference
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         // Change in setting means we need to evaluate transparent painting
@@ -1145,7 +1145,7 @@ public class KryptonDataGridView : DataGridView
         // Validate incoming reference
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
     }
     #endregion
@@ -1157,6 +1157,13 @@ public class KryptonDataGridView : DataGridView
         base.OnScroll(e);
 
         SyncDetachedRoundingScrollbarsFromGridIfIdle(false);
+
+        // Custom-painted cell borders + DGV ScrollWindow leave mid-cell line residue until a full repaint.
+        // Selecting a cell clears it; force a content invalidate while detached overlay scrollbars are active.
+        if (_roundingUsesDetachedScrollbars)
+        {
+            InvalidateDetachedScrollContent();
+        }
 
         // #2681 - work-around
         // Headers not correctly repainted on horizontal mouse scroll
@@ -1404,7 +1411,7 @@ public class KryptonDataGridView : DataGridView
     {
         if (e is null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         // Get the palette and state values for this cell
@@ -1817,7 +1824,7 @@ public class KryptonDataGridView : DataGridView
                             focusCellBounds.X++;
                         }
 
-                        ControlPaint.DrawFocusRectangle(e.Graphics!, focusCellBounds, GlobalStaticVariables.EMPTY_COLOR, paletteContent!.GetContentShortTextColor1(state));
+                        ControlPaint.DrawFocusRectangle(e.Graphics!, focusCellBounds, SharedStaticVariables.EMPTY_COLOR, paletteContent!.GetContentShortTextColor1(state));
                     }
                 }
             }
@@ -2337,12 +2344,12 @@ public class KryptonDataGridView : DataGridView
     {
         PaletteState state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
 
-        if ((ColumnHeadersDefaultCellStyle.BackColor == GlobalStaticVariables.EMPTY_COLOR) ||
+        if ((ColumnHeadersDefaultCellStyle.BackColor == SharedStaticVariables.EMPTY_COLOR) ||
             (ColumnHeadersDefaultCellStyle.BackColor == _columnBackColor))
         {
             _columnBackColor = StateNormal.HeaderColumn.Back.Color1;
 
-            if (_columnBackColor == GlobalStaticVariables.EMPTY_COLOR)
+            if (_columnBackColor == SharedStaticVariables.EMPTY_COLOR)
             {
                 _columnBackColor = StateNormal.HeaderColumn.Back.GetBackColor1(state);
             }
@@ -2350,12 +2357,12 @@ public class KryptonDataGridView : DataGridView
             ColumnHeadersDefaultCellStyle.BackColor = _columnBackColor;
         }
 
-        if ((RowHeadersDefaultCellStyle.BackColor == GlobalStaticVariables.EMPTY_COLOR) ||
+        if ((RowHeadersDefaultCellStyle.BackColor == SharedStaticVariables.EMPTY_COLOR) ||
             (RowHeadersDefaultCellStyle.BackColor == _rowBackColor))
         {
             _rowBackColor = StateNormal.HeaderRow.Back.Color1;
 
-            if (_rowBackColor == GlobalStaticVariables.EMPTY_COLOR)
+            if (_rowBackColor == SharedStaticVariables.EMPTY_COLOR)
             {
                 _rowBackColor = StateNormal.HeaderRow.Back.GetBackColor1(state);
             }
@@ -2363,12 +2370,12 @@ public class KryptonDataGridView : DataGridView
             RowHeadersDefaultCellStyle.BackColor = _rowBackColor;
         }
 
-        if ((DefaultCellStyle.BackColor == GlobalStaticVariables.EMPTY_COLOR) ||
+        if ((DefaultCellStyle.BackColor == SharedStaticVariables.EMPTY_COLOR) ||
             (DefaultCellStyle.BackColor == _dataCellBackColor))
         {
             _dataCellBackColor = StateNormal.DataCell.Back.Color1;
 
-            if (_dataCellBackColor == GlobalStaticVariables.EMPTY_COLOR)
+            if (_dataCellBackColor == SharedStaticVariables.EMPTY_COLOR)
             {
                 _dataCellBackColor = StateNormal.DataCell.Back.GetBackColor1(state);
             }
@@ -2381,12 +2388,12 @@ public class KryptonDataGridView : DataGridView
     {
         PaletteState state = Enabled ? PaletteState.CheckedNormal : PaletteState.Disabled;
 
-        if ((ColumnHeadersDefaultCellStyle.SelectionBackColor == GlobalStaticVariables.EMPTY_COLOR) ||
+        if ((ColumnHeadersDefaultCellStyle.SelectionBackColor == SharedStaticVariables.EMPTY_COLOR) ||
             (ColumnHeadersDefaultCellStyle.SelectionBackColor == _columnSelBackColor))
         {
             _columnSelBackColor = StateSelected.HeaderColumn.Back.Color1;
 
-            if (_columnSelBackColor == GlobalStaticVariables.EMPTY_COLOR)
+            if (_columnSelBackColor == SharedStaticVariables.EMPTY_COLOR)
             {
                 _columnSelBackColor = StateSelected.HeaderColumn.Back.GetBackColor1(state);
             }
@@ -2394,12 +2401,12 @@ public class KryptonDataGridView : DataGridView
             ColumnHeadersDefaultCellStyle.SelectionBackColor = _columnSelBackColor;
         }
 
-        if ((RowHeadersDefaultCellStyle.SelectionBackColor == GlobalStaticVariables.EMPTY_COLOR) ||
+        if ((RowHeadersDefaultCellStyle.SelectionBackColor == SharedStaticVariables.EMPTY_COLOR) ||
             (RowHeadersDefaultCellStyle.SelectionBackColor == _rowSelBackColor))
         {
             _rowSelBackColor = StateSelected.HeaderRow.Back.Color1;
 
-            if (_rowSelBackColor == GlobalStaticVariables.EMPTY_COLOR)
+            if (_rowSelBackColor == SharedStaticVariables.EMPTY_COLOR)
             {
                 _rowSelBackColor = StateSelected.HeaderRow.Back.GetBackColor1(state);
             }
@@ -2407,12 +2414,12 @@ public class KryptonDataGridView : DataGridView
             RowHeadersDefaultCellStyle.SelectionBackColor = _rowSelBackColor;
         }
 
-        if ((DefaultCellStyle.SelectionBackColor == GlobalStaticVariables.EMPTY_COLOR) ||
+        if ((DefaultCellStyle.SelectionBackColor == SharedStaticVariables.EMPTY_COLOR) ||
             (DefaultCellStyle.SelectionBackColor == _dataCellSelBackColor))
         {
             _dataCellSelBackColor = StateSelected.DataCell.Back.Color1;
 
-            if (_dataCellSelBackColor == GlobalStaticVariables.EMPTY_COLOR)
+            if (_dataCellSelBackColor == SharedStaticVariables.EMPTY_COLOR)
             {
                 _dataCellSelBackColor = StateSelected.DataCell.Back.GetBackColor1(state);
             }
@@ -2425,12 +2432,12 @@ public class KryptonDataGridView : DataGridView
     {
         PaletteState state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
 
-        if ((ColumnHeadersDefaultCellStyle.ForeColor == GlobalStaticVariables.EMPTY_COLOR) ||
+        if ((ColumnHeadersDefaultCellStyle.ForeColor == SharedStaticVariables.EMPTY_COLOR) ||
             (ColumnHeadersDefaultCellStyle.ForeColor == _columnForeColor))
         {
             _columnForeColor = StateNormal.HeaderColumn.Content.Color1;
 
-            if (_columnForeColor == GlobalStaticVariables.EMPTY_COLOR)
+            if (_columnForeColor == SharedStaticVariables.EMPTY_COLOR)
             {
                 _columnForeColor = StateNormal.HeaderColumn.Content.GetContentShortTextColor1(state);
             }
@@ -2438,12 +2445,12 @@ public class KryptonDataGridView : DataGridView
             ColumnHeadersDefaultCellStyle.ForeColor = _columnForeColor;
         }
 
-        if ((RowHeadersDefaultCellStyle.ForeColor == GlobalStaticVariables.EMPTY_COLOR) ||
+        if ((RowHeadersDefaultCellStyle.ForeColor == SharedStaticVariables.EMPTY_COLOR) ||
             (RowHeadersDefaultCellStyle.ForeColor == _rowForeColor))
         {
             _rowForeColor = StateNormal.HeaderRow.Content.Color1;
 
-            if (_rowForeColor == GlobalStaticVariables.EMPTY_COLOR)
+            if (_rowForeColor == SharedStaticVariables.EMPTY_COLOR)
             {
                 _rowForeColor = StateNormal.HeaderRow.Content.GetContentShortTextColor1(state);
             }
@@ -2451,12 +2458,12 @@ public class KryptonDataGridView : DataGridView
             RowHeadersDefaultCellStyle.ForeColor = _rowForeColor;
         }
 
-        if ((DefaultCellStyle.ForeColor == GlobalStaticVariables.EMPTY_COLOR) ||
+        if ((DefaultCellStyle.ForeColor == SharedStaticVariables.EMPTY_COLOR) ||
             (DefaultCellStyle.ForeColor == _dataCellForeColor))
         {
             _dataCellForeColor = StateNormal.DataCell.Content.Color1;
 
-            if (_dataCellForeColor == GlobalStaticVariables.EMPTY_COLOR)
+            if (_dataCellForeColor == SharedStaticVariables.EMPTY_COLOR)
             {
                 _dataCellForeColor = StateNormal.DataCell.Content.GetContentShortTextColor1(state);
             }
@@ -2469,12 +2476,12 @@ public class KryptonDataGridView : DataGridView
     {
         PaletteState state = Enabled ? PaletteState.CheckedNormal : PaletteState.Disabled;
 
-        if ((ColumnHeadersDefaultCellStyle.SelectionForeColor == GlobalStaticVariables.EMPTY_COLOR) ||
+        if ((ColumnHeadersDefaultCellStyle.SelectionForeColor == SharedStaticVariables.EMPTY_COLOR) ||
             (ColumnHeadersDefaultCellStyle.SelectionForeColor == _columnSelForeColor))
         {
             _columnSelForeColor = StateSelected.HeaderColumn.Content.Color1;
 
-            if (_columnSelForeColor == GlobalStaticVariables.EMPTY_COLOR)
+            if (_columnSelForeColor == SharedStaticVariables.EMPTY_COLOR)
             {
                 _columnSelForeColor = StateSelected.HeaderColumn.Content.GetContentShortTextColor1(state);
             }
@@ -2482,12 +2489,12 @@ public class KryptonDataGridView : DataGridView
             ColumnHeadersDefaultCellStyle.SelectionForeColor = _columnSelForeColor;
         }
 
-        if ((RowHeadersDefaultCellStyle.SelectionForeColor == GlobalStaticVariables.EMPTY_COLOR) ||
+        if ((RowHeadersDefaultCellStyle.SelectionForeColor == SharedStaticVariables.EMPTY_COLOR) ||
             (RowHeadersDefaultCellStyle.SelectionForeColor == _rowSelForeColor))
         {
             _rowSelForeColor = StateSelected.HeaderRow.Content.Color1;
 
-            if (_rowSelForeColor == GlobalStaticVariables.EMPTY_COLOR)
+            if (_rowSelForeColor == SharedStaticVariables.EMPTY_COLOR)
             {
                 _rowSelForeColor = StateSelected.HeaderRow.Content.GetContentShortTextColor1(state);
             }
@@ -2495,12 +2502,12 @@ public class KryptonDataGridView : DataGridView
             RowHeadersDefaultCellStyle.SelectionForeColor = _rowSelForeColor;
         }
 
-        if ((DefaultCellStyle.SelectionForeColor == GlobalStaticVariables.EMPTY_COLOR) ||
+        if ((DefaultCellStyle.SelectionForeColor == SharedStaticVariables.EMPTY_COLOR) ||
             (DefaultCellStyle.SelectionForeColor == _dataCellSelForeColor))
         {
             _dataCellSelForeColor = StateSelected.DataCell.Content.Color1;
 
-            if (_dataCellSelForeColor == GlobalStaticVariables.EMPTY_COLOR)
+            if (_dataCellSelForeColor == SharedStaticVariables.EMPTY_COLOR)
             {
                 _dataCellSelForeColor = StateSelected.DataCell.Content.GetContentShortTextColor1(state);
             }
@@ -2605,7 +2612,7 @@ public class KryptonDataGridView : DataGridView
 
         // Check if the cell is hard against the far or bottom edges, if so do not need to draw
         // border that is hard against the edge as it will then look like it has double borders
-        Rectangle outerBounds = GetOuterRoundingBounds();
+        Rectangle outerBounds = GetCellBorderOuterBounds();
 
         if (HideOuterBorders || HasCornerRounding)
         {
@@ -2728,6 +2735,44 @@ public class KryptonDataGridView : DataGridView
     /// </summary>
     private Rectangle GetOuterRoundingBounds() => ClientRectangle;
 
+    /// <summary>
+    /// Content bounds used when suppressing cell borders against the detached scrollbar lanes.
+    /// </summary>
+    private Rectangle GetCellBorderOuterBounds()
+    {
+        Rectangle bounds = ClientRectangle;
+
+        if (!_roundingUsesDetachedScrollbars)
+        {
+            return bounds;
+        }
+
+        if (_roundingVScrollBar?.Visible == true)
+        {
+            bounds.Width = Math.Max(0, GetDetachedDataRight(true));
+        }
+
+        if (_roundingHScrollBar?.Visible == true)
+        {
+            bounds.Height = Math.Max(0, GetDetachedDataBottom(true));
+        }
+
+        return bounds;
+    }
+
+    private void InvalidateDetachedScrollContent()
+    {
+        Rectangle contentBounds = GetCellBorderOuterBounds();
+        if (contentBounds.Width > 0 && contentBounds.Height > 0)
+        {
+            Invalidate(contentBounds);
+        }
+        else
+        {
+            Invalidate();
+        }
+    }
+
     private void UpdateRoundingAppearance()
     {
         UpdateRoundingScrollbars();
@@ -2755,6 +2800,11 @@ public class KryptonDataGridView : DataGridView
 
     private bool ShouldUseDetachedScrollbars()
     {
+        if (!HasCornerRounding)
+        {
+            return false;
+        }
+
         ScrollBars scrollBars = _roundingUsesDetachedScrollbars ? _savedScrollBarsForRounding : base.ScrollBars;
         return scrollBars != ScrollBars.None;
     }
@@ -2909,6 +2959,15 @@ public class KryptonDataGridView : DataGridView
     private bool WantsDetachedHorizontalScrollBar() =>
         _savedScrollBarsForRounding == ScrollBars.Horizontal || _savedScrollBarsForRounding == ScrollBars.Both;
 
+    // Krypton scroll bars draw with a 2px inset; widen the overlay lane so it covers the native gutter.
+    private const int DetachedScrollBarLanePadding = 2;
+
+    private static int DetachedManagedScrollBarWidth =>
+        SystemInformation.VerticalScrollBarWidth + DetachedScrollBarLanePadding;
+
+    private static int DetachedManagedScrollBarHeight =>
+        SystemInformation.HorizontalScrollBarHeight + DetachedScrollBarLanePadding;
+
     private int GetDetachedDataRight(bool showVertical) =>
         ClientSize.Width - (showVertical ? SystemInformation.VerticalScrollBarWidth : 0);
 
@@ -2916,33 +2975,42 @@ public class KryptonDataGridView : DataGridView
         ClientSize.Height - (showHorizontal ? SystemInformation.HorizontalScrollBarHeight : 0);
 
     private void SetDetachedVerticalScrollBarBounds(bool showVertical) =>
-        SetDetachedVerticalScrollBarBounds(showVertical, GetDetachedDataBottom(false));
+        SetDetachedVerticalScrollBarBounds(showVertical, _roundingHScrollBar?.Visible == true, GetDetachedDataBottom(_roundingHScrollBar?.Visible == true));
 
-    private void SetDetachedVerticalScrollBarBounds(bool showVertical, int dataBottom)
+    private void SetDetachedVerticalScrollBarBounds(bool showVertical, int dataBottom) =>
+        SetDetachedVerticalScrollBarBounds(showVertical, _roundingHScrollBar?.Visible == true, dataBottom);
+
+    private void SetDetachedVerticalScrollBarBounds(bool showVertical, bool showHorizontal, int dataBottom)
     {
         if (_roundingVScrollBar == null)
         {
             return;
         }
 
-        int scrollbarWidth = SystemInformation.VerticalScrollBarWidth;
-        int dataRight = GetDetachedDataRight(showVertical);
-        _roundingVScrollBar.SetBounds(dataRight, 0, scrollbarWidth, Math.Max(0, dataBottom));
+        int scrollbarWidth = DetachedManagedScrollBarWidth;
+        int x = ClientSize.Width - scrollbarWidth;
+        int height = showHorizontal
+            ? Math.Max(0, ClientSize.Height - DetachedManagedScrollBarHeight)
+            : Math.Max(0, dataBottom);
+        _roundingVScrollBar.SetBounds(x, 0, scrollbarWidth, height);
     }
 
     private void SetDetachedHorizontalScrollBarBounds(bool showHorizontal) =>
-        SetDetachedHorizontalScrollBarBounds(showHorizontal, GetDetachedDataRight(false));
+        SetDetachedHorizontalScrollBarBounds(showHorizontal, _roundingVScrollBar?.Visible == true, GetDetachedDataRight(_roundingVScrollBar?.Visible == true));
 
-    private void SetDetachedHorizontalScrollBarBounds(bool showHorizontal, int dataRight)
+    private void SetDetachedHorizontalScrollBarBounds(bool showHorizontal, int dataRight) =>
+        SetDetachedHorizontalScrollBarBounds(showHorizontal, _roundingVScrollBar?.Visible == true, dataRight);
+
+    private void SetDetachedHorizontalScrollBarBounds(bool showHorizontal, bool showVertical, int dataRight)
     {
         if (_roundingHScrollBar == null)
         {
             return;
         }
 
-        int scrollbarHeight = SystemInformation.HorizontalScrollBarHeight;
-        int dataBottom = GetDetachedDataBottom(showHorizontal);
-        _roundingHScrollBar.SetBounds(0, dataBottom, Math.Max(0, dataRight), scrollbarHeight);
+        int scrollbarHeight = DetachedManagedScrollBarHeight;
+        int y = ClientSize.Height - scrollbarHeight;
+        _roundingHScrollBar.SetBounds(0, y, Math.Max(0, dataRight), scrollbarHeight);
     }
 
     private void LayoutDetachedRoundingScrollbars(bool updateRoundingRegion = true)
@@ -2960,10 +3028,10 @@ public class KryptonDataGridView : DataGridView
         int dataRight = GetDetachedDataRight(showVertical);
         int dataBottom = GetDetachedDataBottom(showHorizontal);
 
-        SetDetachedVerticalScrollBarBounds(showVertical, dataBottom);
+        SetDetachedVerticalScrollBarBounds(showVertical, showHorizontal, dataBottom);
         _roundingVScrollBar?.BringToFront();
 
-        SetDetachedHorizontalScrollBarBounds(showHorizontal, dataRight);
+        SetDetachedHorizontalScrollBarBounds(showHorizontal, showVertical, dataRight);
         _roundingHScrollBar?.BringToFront();
 
         SendNativeDataGridScrollBarsToBack();
@@ -3439,7 +3507,8 @@ public class KryptonDataGridView : DataGridView
         position = 0;
 
         if (!TryGetNativeDataGridScrollBar(horizontal, out ScrollBar? nativeScrollBar)
-            || nativeScrollBar == null)
+            || nativeScrollBar == null
+            || !nativeScrollBar.Visible)
         {
             return false;
         }
@@ -3501,6 +3570,9 @@ public class KryptonDataGridView : DataGridView
         finally
         {
             _suppressRoundingScrollSync = false;
+
+            // Ensure themed-scrollbar scrolls also clear ScrollWindow border residue.
+            InvalidateDetachedScrollContent();
         }
     }
 
@@ -3711,7 +3783,7 @@ public class KryptonDataGridView : DataGridView
     private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
     {
         // Unhook events from the specific instance that generated event
-        var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
+        var popupToolTip =sender as VisualPopupToolTip ?? ThrowHelper.ThrowArgumentNullException(sender as VisualPopupToolTip, nameof(sender));
         popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
         // Not showing a popup page any more
@@ -3825,7 +3897,7 @@ public class KryptonDataGridView : DataGridView
     {
         if (cell is null)
         {
-            throw new ArgumentNullException(nameof(cell));
+            ThrowHelper.ThrowArgumentNullException(nameof(cell));
         }
 
         // Only need to cache reflection info the first time around
@@ -3844,7 +3916,7 @@ public class KryptonDataGridView : DataGridView
     {
         if (cell is null)
         {
-            throw new ArgumentNullException(nameof(cell));
+            ThrowHelper.ThrowArgumentNullException(nameof(cell));
         }
 
         // Only need to cache reflection info the first time around

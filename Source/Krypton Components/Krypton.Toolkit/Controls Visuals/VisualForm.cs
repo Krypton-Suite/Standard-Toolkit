@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -13,6 +13,8 @@
 // ReSharper disable CommentTypo
 // ReSharper disable IdentifierTypo
 // ReSharper disable InconsistentNaming
+
+using Timer = System.Windows.Forms.Timer;
 
 namespace Krypton.Toolkit;
 
@@ -46,6 +48,7 @@ public abstract class VisualForm : Form,
 	private bool _captured;
 	private bool _disposing;
 	private int _ignoreCount;
+	private int _lastWmSizeState = -1;
 	private KryptonCustomPaletteBase? _localCustomPalette;
 	private PaletteBase _palette;
 	private PaletteMode _paletteMode;
@@ -61,6 +64,15 @@ public abstract class VisualForm : Form,
 	private bool _taskbarButtonCreated;
 
 	private readonly PaletteSpecificValues _paletteValues;
+
+	private Timer? _fadeTimer;
+	private bool _fadeIncreasing;
+	private bool _closeAfterFadeOut;
+	private bool _fadeOutComplete;
+	private bool _isFading;
+	private bool _fadeInPrepared;
+	private double _fadeTargetOpacity = 1.0;
+	private float _fadeSpeedUnits;
 
 	#endregion
 
@@ -121,6 +133,9 @@ public abstract class VisualForm : Form,
 	/// </summary>
 	protected VisualForm()
 	{
+		// FadeValues can be read from SetVisibleCore during InitializeComponent.
+		FadeValues = new FadeValues();
+
 		InitializeComponent();
 
 		// Automatically redraw whenever the size of the window changes
@@ -193,6 +208,8 @@ public abstract class VisualForm : Form,
 			// Unhook from global static events
 			KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
 			SystemEvents.UserPreferenceChanged -= OnUserPreferenceChanged;
+
+			StopFadeTimer();
 		}
 
 		base.Dispose(disposing);
@@ -379,18 +396,58 @@ public abstract class VisualForm : Form,
 
 	private bool ShouldSerializePaletteMode() => PaletteMode != PaletteMode.Global;
 
-	/* FadeValues disabled and moved to extended until proven stable. Further development in V100
-	/// <summary>Gets access to the fade values.</summary>
+	/// <summary>
+	/// Gets access to the form fade in/out settings.
+	/// </summary>
+	/// <remarks>
+	/// Fading is opt-in. Leave <see cref="FadeValues.FadingEnabled"/> <c>false</c> (the default)
+	/// unless the form should animate opacity on show and close. Manual
+	/// <see cref="FadeIn()"/> / <see cref="FadeOut()"/> / <see cref="FadeOutAndClose()"/> still work when disabled.
+	/// Do not also enable <c>KryptonMessageBoxExtended</c> <c>UseFade</c> on the same instance.
+	/// </remarks>
 	[Category(@"Visuals")]
-	[Description(@"Form fading.")]
+	[Description(@"Form fade in/out. Disabled by default.")]
 	[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-	public FadeValues FadeValues { get; } = new FadeValues();
+	public FadeValues FadeValues { get; }
 
 	private bool ShouldSerializeFadeValues() => !FadeValues.IsDefault;
 
-	/// <summary>Resets the fade values.</summary>
-	private void ResetFadeValues() => FadeValues.Reset();
-	*/
+	/// <summary>
+	/// Resets the <see cref="FadeValues"/> to their defaults.
+	/// </summary>
+	public void ResetFadeValues() => FadeValues.Reset();
+
+	/// <summary>
+	/// Occurs when a fade-in animation completes.
+	/// </summary>
+	[Category(@"Behavior")]
+	[Description(@"Occurs when a fade-in animation completes.")]
+	public event EventHandler? FadeInCompleted;
+
+	/// <summary>
+	/// Occurs when a fade-out animation completes.
+	/// </summary>
+	[Category(@"Behavior")]
+	[Description(@"Occurs when a fade-out animation completes.")]
+	public event EventHandler? FadeOutCompleted;
+
+	/// <summary>
+	/// Fades the form in from transparent using <see cref="FadeValues"/>.
+	/// </summary>
+	/// <remarks>
+	/// Works whether or not <see cref="FadeValues.FadingEnabled"/> is set. Starts from the current opacity when already partially visible.
+	/// </remarks>
+	public void FadeIn() => StartFade(true, false);
+
+	/// <summary>
+	/// Fades the form out to transparent using <see cref="FadeValues"/>. Does not close the form.
+	/// </summary>
+	public void FadeOut() => StartFade(false, false);
+
+	/// <summary>
+	/// Fades the form out using <see cref="FadeValues"/> and closes it when the fade completes.
+	/// </summary>
+	public void FadeOutAndClose() => StartFade(false, true);
 
 	/// <summary>
 	/// Gets access to the button content.
@@ -674,7 +731,7 @@ public abstract class VisualForm : Form,
 			set
 			{
 				base.MdiChildrenMinimizedAnchorBottom = value;
-				throw new NotSupportedException(@"Please use .NET 6 or newer to use this feature.");
+				ThrowHelper.ThrowNotSupportedException(@"Please use .NET 6 or newer to use this feature.");
 			}
 		}
 #endif
@@ -835,6 +892,74 @@ public abstract class VisualForm : Form,
 	}
 
 	/// <summary>
+	/// Synchronously repaint the non-client frame after an atomic window-state transition.
+	/// </summary>
+	/// <remarks>
+	/// <see cref="InvalidateNonClient()"/> may run while <see cref="SuspendPaint"/> is active,
+	/// in which case the resulting <c>WM_NCPAINT</c> is ignored. Discrete maximize/restore
+	/// transitions need the frame painted before DWM presents, so this path temporarily
+	/// clears the ignore count around <c>RedrawWindow</c> with <c>RDW_UPDATENOW</c>.
+	/// Interactive drag-resize is not routed here.
+	/// </remarks>
+	protected void RedrawNonClientNow()
+	{
+		if (IsDisposed || Disposing || !IsHandleCreated)
+		{
+			return;
+		}
+
+		if (CommonHelper.IsFormMinimized(this))
+		{
+			return;
+		}
+
+		lock (lockObject)
+		{
+			Padding realWindowBorders = RealWindowBorders;
+			Rectangle realWindowRectangle = RealWindowRectangle;
+			Rectangle invalidRect = realWindowRectangle with
+			{
+				X = -realWindowBorders.Left,
+				Y = -realWindowBorders.Top
+			};
+
+			using var invalidRegion = new Region(invalidRect);
+			invalidRegion.Exclude(ClientRectangle);
+
+			using Graphics g = Graphics.FromHwnd(Handle);
+			IntPtr? hRgn = null;
+			try
+			{
+				hRgn = invalidRegion.GetHrgn(g);
+
+				// Ungate only this deliberate synchronous paint so it is not swallowed by SuspendPaint.
+				int savedIgnoreCount = _ignoreCount;
+				_ignoreCount = 0;
+				try
+				{
+					PI.RedrawWindow(Handle, IntPtr.Zero, hRgn.Value,
+						PI.RDW_FRAME | PI.RDW_UPDATENOW | PI.RDW_INVALIDATE);
+				}
+				finally
+				{
+					_ignoreCount = savedIgnoreCount;
+				}
+			}
+			catch (InvalidOperationException ioEx)
+			{
+				Debug.WriteLine(ioEx.Message);
+			}
+			finally
+			{
+				if (hRgn != null)
+				{
+					PI.DeleteObject(hRgn.Value);
+				}
+			}
+		}
+	}
+
+	/// <summary>
 	/// Determines whether the form has a native non-client frame with a usable caption.
 	/// 
 	/// This method must be overridden by derived classes that provide
@@ -843,11 +968,8 @@ public abstract class VisualForm : Form,
 	/// <exception cref="NotSupportedException">
 	/// Thrown when the method is not overridden in a derived class.
 	/// </exception>
-	protected virtual bool HasCaptionContent()
-	{
-		throw new NotSupportedException(
-			$"{GetType().Name} must override HasCaptionContent() to provide a valid implementation.");
-	}
+	protected virtual bool HasCaptionContent() =>
+		ThrowHelper.ThrowNotSupportedException<bool>($"{GetType().Name} must override HasCaptionContent() to provide a valid implementation.");
 
 	/// <summary>
 	/// Gets rectangle that is the real window rectangle based on Win32 API call.
@@ -993,6 +1115,67 @@ public abstract class VisualForm : Form,
 		}
 
 		base.OnShown(e);
+
+		if (CanAutoFadeIn && Opacity < _fadeTargetOpacity)
+		{
+			StartFade(true, false);
+		}
+	}
+
+	/// <inheritdoc />
+	protected override void SetVisibleCore(bool value)
+	{
+		if (value && CanAutoFadeIn)
+		{
+			PrepareFadeInOpacity();
+		}
+
+		base.SetVisibleCore(value);
+	}
+
+	/// <summary>
+	/// Raises the FormClosing event.
+	/// </summary>
+	/// <param name="e">A <see cref="FormClosingEventArgs"/> that contains the event data.</param>
+	protected override void OnFormClosing(FormClosingEventArgs e)
+	{
+		base.OnFormClosing(e);
+
+		if (e.Cancel || _fadeOutComplete || DesignMode)
+		{
+			return;
+		}
+
+		if (!FadeValues.FadingEnabled || !FadeValues.FadeOut)
+		{
+			return;
+		}
+
+		if (IsImmediateCloseReason(e.CloseReason))
+		{
+			return;
+		}
+
+		if (_isFading && !_fadeIncreasing)
+		{
+			e.Cancel = true;
+			return;
+		}
+
+		e.Cancel = true;
+		StartFade(false, true);
+	}
+
+	/// <inheritdoc />
+	protected override void OnVisibleChanged(EventArgs e)
+	{
+		base.OnVisibleChanged(e);
+
+		// Allow a later Show() to fade in again after Hide().
+		if (!Visible && !IsDisposed)
+		{
+			_fadeInPrepared = false;
+		}
 	}
 
 	//protected override void OnPaint(PaintEventArgs e)
@@ -1009,38 +1192,130 @@ public abstract class VisualForm : Form,
 	//    }
 	//}
 
-	///// <inheritdoc />
-	//protected override void OnLoad(EventArgs e)
-	//{
-	//    /* FadeValues disabled and moved to extended until proven stable. Further development in V100
-	//    if (FadeValues.FadingEnabled)
-	//    {
-	//        #if NET8_0_OR_GREATER
-	//            KryptonFormFadeController.ModernFadeFormIn(FadeValues.Owner ?? this, FadeValues.FadeDuration);
-	//        #else
-	//            KryptonFormFadeController.FadeIn(FadeValues.Owner ?? this, FadeValues.FadeSpeed);
-	//        #endif
-	//    }
-	//    */
-	//    base.OnLoad(e);
-	//}
+	#endregion
 
-	///// <inheritdoc />
-	//protected override void OnClosing(CancelEventArgs e)
-	//{
-	//    /* FadeValues disabled and moved to extended until proven stable. Further development in V100
-	//    if (FadeValues is { FadingEnabled: true, ShouldCloseOnFadeOut: true })
-	//    {
-	//        #if NET8_0_OR_GREATER
-	//            KryptonFormFadeController.ModernFadeFormOut(FadeValues.Owner ?? this, FadeValues.FadeDuration);
-	//        #else
-	//            KryptonFormFadeController.FadeOut(FadeValues.Owner ?? this, FadeValues.FadeSpeed);
-	//        #endif
-	//    }
-	//    */
-	//    base.OnClosing(e);
-	//}
+	#region Private Fade
+	/// <summary>
+	/// Gets whether automatic fade-in should run for this show.
+	/// </summary>
+	protected bool CanAutoFadeIn => !DesignMode && FadeValues.FadingEnabled && FadeValues.FadeIn;
 
+	private static bool IsImmediateCloseReason(CloseReason closeReason) =>
+		closeReason is CloseReason.WindowsShutDown or CloseReason.TaskManagerClosing or CloseReason.ApplicationExitCall;
+
+	private void PrepareFadeInOpacity()
+	{
+		if (_fadeInPrepared)
+		{
+			return;
+		}
+
+		_fadeInPrepared = true;
+		_fadeTargetOpacity = Opacity > 0.01 ? Opacity : 1.0;
+		Opacity = 0;
+	}
+
+	private void StartFade(bool fadeIn, bool closeAfterFadeOut)
+	{
+		if (IsDisposed || Disposing)
+		{
+			return;
+		}
+
+		StopFadeTimer();
+		_fadeIncreasing = fadeIn;
+		_closeAfterFadeOut = closeAfterFadeOut;
+		_isFading = true;
+		_fadeOutComplete = false;
+		_fadeSpeedUnits = KryptonFormFadeSpeed.Resolve(FadeValues.FadeSpeed, FadeValues.CustomFadeSpeed);
+
+		if (fadeIn)
+		{
+			if (_fadeTargetOpacity <= 0.01)
+			{
+				_fadeTargetOpacity = 1.0;
+			}
+
+			if (Opacity <= 0.01)
+			{
+				Opacity = 0;
+			}
+		}
+
+		_fadeTimer = new Timer
+		{
+			Interval = 10
+		};
+		_fadeTimer.Tick += OnFadeTick;
+		_fadeTimer.Start();
+	}
+
+	private void OnFadeTick(object? sender, EventArgs e)
+	{
+		if (IsDisposed)
+		{
+			StopFadeTimer();
+			return;
+		}
+
+		double step = _fadeSpeedUnits / 1000.0;
+
+		if (_fadeIncreasing)
+		{
+			if (Opacity < _fadeTargetOpacity)
+			{
+				Opacity = Math.Min(_fadeTargetOpacity, Opacity + step);
+				return;
+			}
+
+			Opacity = _fadeTargetOpacity;
+			CompleteCurrentFade(true);
+			return;
+		}
+
+		if (Opacity > 0.1)
+		{
+			Opacity = Math.Max(0, Opacity - step);
+			return;
+		}
+
+		Opacity = 0;
+		bool closeAfterFadeOut = _closeAfterFadeOut;
+		CompleteCurrentFade(false);
+		if (closeAfterFadeOut)
+		{
+			_fadeOutComplete = true;
+			Close();
+		}
+	}
+
+	private void CompleteCurrentFade(bool fadeIn)
+	{
+		StopFadeTimer();
+		_isFading = false;
+
+		if (fadeIn)
+		{
+			FadeInCompleted?.Invoke(this, EventArgs.Empty);
+		}
+		else
+		{
+			FadeOutCompleted?.Invoke(this, EventArgs.Empty);
+		}
+	}
+
+	private void StopFadeTimer()
+	{
+		if (_fadeTimer == null)
+		{
+			return;
+		}
+
+		_fadeTimer.Stop();
+		_fadeTimer.Tick -= OnFadeTick;
+		_fadeTimer.Dispose();
+		_fadeTimer = null;
+	}
 	#endregion
 
 	#region Protected/Internal Virtual
@@ -1057,6 +1332,15 @@ public abstract class VisualForm : Form,
 	/// <param name="screenPoint">The screen coordinates to test.</param>
 	/// <returns>True if the point is over control buttons; otherwise false.</returns>
 	internal virtual bool IsOnControlButtons(Point screenPoint) => false;
+
+	/// <summary>
+	/// Determines if the specified screen point is over chrome content that handles its own
+	/// mouse input, such as injected caption views (navigator tabs) or ButtonSpecs.
+	/// </summary>
+	/// <param name="screenPoint">The screen coordinates to test.</param>
+	/// <returns>True if interactive chrome content is under the point; otherwise false.</returns>
+	internal bool IsOverInteractiveChromeContent(Point screenPoint) =>
+		IsOverInteractiveChromeView(PointToWindow(screenPoint));
 
 	// ReSharper disable VirtualMemberNeverOverridden.Global
 	/// <summary>
@@ -1127,7 +1411,7 @@ public abstract class VisualForm : Form,
 		// Validate incoming reference
 		if (e == null)
 		{
-			throw new ArgumentNullException(nameof(e));
+			ThrowHelper.ThrowArgumentNullException(nameof(e));
 		}
 
 		// Do we need to recalc the border size as well as invalidate?
@@ -1159,7 +1443,7 @@ public abstract class VisualForm : Form,
 		// own DWM extended-frame offset (typically ±8 px), producing the final x/y/cx/cy values
 		// it sends here. We snap them back to the work area so the window lands exactly on it.
 		if (_themedApp
-			&& (m.Msg == PI.WM_.GETMINMAXINFO || m.Msg == PI.WM_.WINDOWPOSCHANGING)
+			&& m.Msg is PI.WM_.GETMINMAXINFO or PI.WM_.WINDOWPOSCHANGING
 			&& (MdiParent is null || UseThemeFormChromeBorderWidth))
 		{
 			if (m.Msg == PI.WM_.GETMINMAXINFO)
@@ -1208,13 +1492,13 @@ public abstract class VisualForm : Form,
 		if (_themedApp
 			&& !CommonHelper.IsFormMaximized(this)
 			&& (MdiParent is null || UseThemeFormChromeBorderWidth))
-        {
-            processed = m.Msg switch
-            {
-                PI.WM_.NCCALCSIZE => OnWM_NCCALCSIZE(ref m),
-                _ => processed
-            };
-        }
+		{
+			processed = m.Msg switch
+			{
+				PI.WM_.NCCALCSIZE => OnWM_NCCALCSIZE(ref m),
+				_ => processed
+			};
+		}
 
 		// Do we need to override message processing?
 		if (!IsDisposed && !Disposing)
@@ -1228,6 +1512,16 @@ public abstract class VisualForm : Form,
 
 			switch (m.Msg)
 			{
+				case PI.WM_.ERASEBKGND:
+					// Windows erases newly exposed regions before WM_NCPAINT/WM_PAINT.
+					// On custom chrome that fill is a black flash during max/min/restore.
+					if (_themedApp && !DesignMode)
+					{
+						m.Result = (IntPtr)1;
+						processed = true;
+					}
+					break;
+
 				case PI.WM_.NCPAINT:
 					processed = _ignoreCount > 0 || OnWM_NCPAINT(ref m);
 					break;
@@ -1250,6 +1544,14 @@ public abstract class VisualForm : Form,
 
 				case PI.WM_.NCLBUTTONUP:
 					processed = OnWM_NCLBUTTONUP(ref m);
+					break;
+
+				case PI.WM_.NCRBUTTONDOWN:
+					processed = OnWM_NCRBUTTONDOWN(ref m);
+					break;
+
+				case PI.WM_.NCRBUTTONUP:
+					processed = OnWM_NCRBUTTONUP(ref m);
 					break;
 
 				case PI.WM_.MOUSEMOVE:
@@ -1279,7 +1581,7 @@ public abstract class VisualForm : Form,
 
 				case PI.WM_.SYSCOMMAND:
 					{
-						var sc = (PI.SC_)m.WParam.ToInt64();
+						var sc = (PI.SC_)(m.WParam.ToInt64() & 0xFFF0);
 						// Is this the command for closing the form?
 						if (sc == PI.SC_.CLOSE)
 						{
@@ -1290,6 +1592,38 @@ public abstract class VisualForm : Form,
 
 							// Update form with the reason for the close
 							pi?.SetValue(this, CloseReason.UserClosing, null);
+						}
+
+						// Right-click on themed caption must not open the system menu when over
+						// interactive chrome, or anywhere in the title-bar strip we own.
+						if (sc == PI.SC_.MOUSEMENU)
+						{
+							Point screenPt = Control.MousePosition;
+							if (IsOverInteractiveChromeView(PointToWindow(screenPt)) || IsInTitleBarArea(screenPt))
+							{
+								processed = true;
+								m.Result = IntPtr.Zero;
+								break;
+							}
+						}
+
+						if (sc is PI.SC_.MINIMIZE or PI.SC_.MAXIMIZE or PI.SC_.RESTORE)
+						{
+							// Atomic caption/taskbar transitions emit several WM_SIZE messages.
+							// Coalesce layout to one pass at the final size; skip the wasted
+							// 0-px client layout when minimizing.
+							SuspendLayout();
+							try
+							{
+								base.WndProc(ref m);
+							}
+							finally
+							{
+								ResumeLayout(!CommonHelper.IsFormMinimized(this));
+							}
+
+							processed = true;
+							break;
 						}
 
 						if (sc != PI.SC_.KEYMENU)
@@ -1340,6 +1674,22 @@ public abstract class VisualForm : Form,
 		{
 			// Make sure sizing is completed (due to above base) before taking a clean snapshot for focus lost
 			_blurManager.TakeSnapshot();
+
+			// Discrete maximize/restore needs a synchronous NC paint; repeated SIZE_RESTORED
+			// during border-drag must not take this path.
+			var sizeState = (int)(m.WParam.ToInt64() & 0xFFFF);
+			if (sizeState != _lastWmSizeState)
+			{
+				int previousState = _lastWmSizeState;
+				_lastWmSizeState = sizeState;
+
+				if (sizeState == (int)PI.SIZE_.MAXIMIZED
+					|| (sizeState == (int)PI.SIZE_.RESTORED
+						&& previousState is (int)PI.SIZE_.MAXIMIZED or (int)PI.SIZE_.MINIMIZED))
+				{
+					RedrawNonClientNow();
+				}
+			}
 		}
 	}
 
@@ -1499,13 +1849,38 @@ public abstract class VisualForm : Form,
 	/// <returns>True if the message was processed; otherwise false.</returns>
 	protected virtual bool OnPaintNonClient(ref Message m)
 	{
-		// Let window be updated with new text
-		DefWndProc(ref m);
+		// DefWndProc can re-enter WndProc with WM_NCPAINT (e.g. WM_SETTEXT). Suspend nested
+		// chrome paints, then request a single coalesced repaint. Modal move/size loops must
+		// keep painting live because DefWndProc does not return until the drag ends.
+		var suppressNestedPaint = true;
+		if (m.Msg == PI.WM_.SYSCOMMAND)
+		{
+			var sc = (PI.SC_)(m.WParam.ToInt64() & 0xFFF0);
+			if (sc is PI.SC_.SIZE or PI.SC_.MOVE)
+			{
+				suppressNestedPaint = false;
+			}
+		}
 
-		// Need a repaint to show change
+		if (suppressNestedPaint)
+		{
+			SuspendPaint();
+			try
+			{
+				DefWndProc(ref m);
+			}
+			finally
+			{
+				ResumePaint();
+			}
+		}
+		else
+		{
+			DefWndProc(ref m);
+		}
+
 		InvalidateNonClient();
 
-		// Message processed, do not pass onto base class for processing
 		return true;
 	}
 
@@ -1587,6 +1962,52 @@ public abstract class VisualForm : Form,
 
 		// Perform actual mouse up processing
 		return WindowChromeLeftMouseUp(windowPoint);
+	}
+
+	/// <summary>
+	/// Process the WM_NCRBUTTONDOWN message when overriding window chrome.
+	/// </summary>
+	/// <param name="m">A Windows-based message.</param>
+	/// <returns>True if the message was processed; otherwise false.</returns>
+	protected virtual bool OnWM_NCRBUTTONDOWN(ref Message m)
+	{
+		var screenPoint = new Point((int)m.LParam.ToInt64());
+		Point windowPoint = ScreenToWindow(screenPoint);
+
+		// Always route through the view first so caption tabs / button specs can handle RightClick.
+		WindowChromeRightMouseDown(windowPoint);
+
+		// Swallow when over interactive chrome so DefWndProc cannot open the system menu
+		// (HTCAPTION right-clicks otherwise show Restore/Move/Size/…).
+		if (IsOverInteractiveChromeView(windowPoint))
+		{
+			m.Result = IntPtr.Zero;
+			return true;
+		}
+
+		return false;
+	}
+
+	/// <summary>
+	/// Process the WM_NCRBUTTONUP message when overriding window chrome.
+	/// </summary>
+	/// <param name="m">A Windows-based message.</param>
+	/// <returns>True if the message was processed; otherwise false.</returns>
+	protected virtual bool OnWM_NCRBUTTONUP(ref Message m)
+	{
+		var screenPoint = new Point((int)m.LParam.ToInt64());
+		Point windowPoint = ScreenToWindow(screenPoint);
+
+		WindowChromeRightMouseUp(windowPoint);
+
+		// Must swallow UP as well — Windows often opens the system menu from NCRBUTTONUP.
+		if (IsOverInteractiveChromeView(windowPoint))
+		{
+			m.Result = IntPtr.Zero;
+			return true;
+		}
+
+		return false;
 	}
 
 	/// <summary>
@@ -1748,6 +2169,10 @@ public abstract class VisualForm : Form,
 								// Drawing is easier when using a Graphics instance
 								using (Graphics g = Graphics.FromHdc(_screenDC))
 								{
+									// CreateCompatibleBitmap is uninitialized (reads as black). Clear to
+									// BackColor so gaps during a size transition are not blit as black.
+									// The destination DC already excludes the client area.
+									g.Clear(BackColor);
 									WindowChromePaint(g, windowBounds);
 								}
 
@@ -1767,6 +2192,7 @@ public abstract class VisualForm : Form,
 						{
 							// Drawing is easier when using a Graphics instance
 							using Graphics g = Graphics.FromHdc(hDC);
+							g.Clear(BackColor);
 							WindowChromePaint(g, windowBounds);
 						}
 					}
@@ -1859,6 +2285,52 @@ public abstract class VisualForm : Form,
 		// By default, we have not handled the mouse up event
 		return false;
 	}
+
+	/// <summary>
+	/// Process the right mouse down event.
+	/// </summary>
+	/// <param name="windowPoint">Window coordinate of the mouse down.</param>
+	/// <returns>True if event is processed; otherwise false.</returns>
+	protected virtual bool WindowChromeRightMouseDown(Point windowPoint)
+	{
+		ViewManager?.MouseDown(new MouseEventArgs(MouseButtons.Right, 1, windowPoint.X, windowPoint.Y, 0), windowPoint);
+		return IsOverInteractiveChromeView(windowPoint);
+	}
+
+	/// <summary>
+	/// Process the right mouse up event.
+	/// </summary>
+	/// <param name="pt">Window coordinate of the mouse up.</param>
+	/// <returns>True if event is processed; otherwise false.</returns>
+	protected virtual bool WindowChromeRightMouseUp(Point pt)
+	{
+		ViewManager?.MouseUp(new MouseEventArgs(MouseButtons.Right, 0, pt.X, pt.Y, 0), pt);
+		return IsOverInteractiveChromeView(pt);
+	}
+
+	/// <summary>
+	/// Gets whether the window point is over chrome content that owns a mouse controller
+	/// (caption tabs, button specs, etc.).
+	/// </summary>
+	/// <param name="windowPoint">Point in window coordinates.</param>
+	/// <returns>True when an interactive chrome view is under the point.</returns>
+	protected virtual bool IsOverInteractiveChromeView(Point windowPoint)
+	{
+		if (ViewManager?.Root == null)
+		{
+			return false;
+		}
+
+		ViewBase? view = ViewManager.Root.ViewFromPoint(windowPoint);
+		return view?.FindMouseController() != null;
+	}
+
+	/// <summary>
+	/// Converts a screen point into window coordinates.
+	/// </summary>
+	/// <param name="screenPoint">Point in screen coordinates.</param>
+	/// <returns>Point in window coordinates.</returns>
+	protected Point PointToWindow(Point screenPoint) => ScreenToWindow(screenPoint);
 
 	/// <summary>
 	/// Perform mouse leave processing.
@@ -2064,7 +2536,7 @@ public abstract class VisualForm : Form,
 		{
 			// Silently fail if jump list API is not available
 			// This can happen on older Windows versions or if COM registration fails
-			KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
+			KryptonExceptionHandler.CaptureException(ex, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
 		}
 	}
 
@@ -2126,7 +2598,7 @@ public abstract class VisualForm : Form,
 		}
 		catch (Exception ex)
 		{
-			KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
+			KryptonExceptionHandler.CaptureException(ex, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
 			return null;
 		}
 	}
@@ -2245,7 +2717,7 @@ public abstract class VisualForm : Form,
 		{
 			// Silently fail if taskbar API is not available
 			// This can happen on older Windows versions or if COM registration fails
-			KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
+			KryptonExceptionHandler.CaptureException(ex, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
 		}
 	}
 
@@ -2328,7 +2800,7 @@ public abstract class VisualForm : Form,
 		}
 		catch (Exception ex)
 		{
-			KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
+			KryptonExceptionHandler.CaptureException(ex, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
 		}
 	}
 }

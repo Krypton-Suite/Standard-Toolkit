@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -61,6 +61,21 @@ public class KryptonContextMenu : Component,
     [Category(@"Action")]
     [Description(@"Occurs when the context menu has been closed.")]
     public event ToolStripDropDownClosedEventHandler? Closed;
+    #endregion
+
+    #region Static
+
+    /// <summary>
+    /// Optional alternate show handler. When set and it returns <c>true</c>, the linear context menu is not shown.
+    /// </summary>
+    /// <remarks>
+    /// Used by <c>Krypton.Toolkit.Utilities.KryptonRadialMenuPresenter</c> when PreferRadialContextMenus is enabled.
+    /// Returning <c>true</c> means the alternate presenter handled display.
+    /// </remarks>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    public static Func<KryptonContextMenu, object?, Rectangle, KryptonContextMenuPositionH, KryptonContextMenuPositionV, bool, bool, bool>? AlternativeShow { get; set; }
+
     #endregion
 
     #region Identity
@@ -381,6 +396,15 @@ public class KryptonContextMenu : Component,
 
             if (!cea.Cancel)
             {
+                // Optional alternate presenter (e.g. radial menu). When it returns true, skip the linear popup.
+                var alternativeShow = AlternativeShow;
+                if (alternativeShow != null
+                    && alternativeShow(this, caller, screenRect, horz, vert, keyboardActivated, constrain))
+                {
+                    OnOpened(EventArgs.Empty);
+                    return true;
+                }
+
                 // Set a default reason for the menu being dismissed
                 CloseReason = ToolStripDropDownCloseReason.AppFocusChange;
 
@@ -493,8 +517,18 @@ public class KryptonContextMenu : Component,
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     internal ToolStripDropDownCloseReason CloseReason { get; set; }
 
-    [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
-    internal VisualContextMenu? VisualContextMenu { get; private set; }
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    protected internal VisualContextMenu? VisualContextMenu { get; private set; }
+
+    /// <summary>
+    /// Gets the palette redirector used by <see cref="StateCommon"/> and related states.
+    /// </summary>
+    internal PaletteRedirect Redirector => _redirector;
+
+    /// <summary>
+    /// Gets the image redirector used when generating context menu views.
+    /// </summary>
+    internal PaletteRedirectContextMenu RedirectorImages => _redirectorImages;
 
     #endregion
 
@@ -508,7 +542,7 @@ public class KryptonContextMenu : Component,
         // Validate incoming reference
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         // Pass request onto the displaying control if we have one

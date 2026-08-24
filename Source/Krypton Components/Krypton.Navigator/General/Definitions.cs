@@ -111,6 +111,13 @@ public enum KryptonPageFlags
     /// <summary>Specifies that the page is allowed to be dragged from the navigator.</summary>
     AllowPageDrag = 0x0400,
 
+    /// <summary>
+    /// Specifies that the page may appear as an individual taskbar thumbnail when a
+    /// <c>Krypton.Navigator.Utilities.KryptonNavigatorTaskbarThumbnails</c> component is attached and enabled.
+    /// Clear this flag for wizard steps or other pages that should not get a thumbnail.
+    /// </summary>
+    AllowTaskbarThumbnail = 0x0800,
+
     /// <summary>Specifies that all flags are set.</summary>
     All = 0xFFFF
 }

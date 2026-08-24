@@ -441,6 +441,18 @@ public class KryptonRibbonGroupDateTimePicker : KryptonRibbonGroupItem
     }
 
     /// <summary>
+    /// Gets or sets the calendar view used to choose a date.
+    /// </summary>
+    [Category(@"MonthCalendar")]
+    [Description(@"Specifies whether the drop-down calendar shows days, months, or years.")]
+    [DefaultValue(MonthCalendarView.Days)]
+    public MonthCalendarView CalendarView
+    {
+        get => DateTimePicker.CalendarView;
+        set => DateTimePicker.CalendarView = value;
+    }
+
+    /// <summary>
     /// Gets and sets if clicking the Today button closes the drop-down menu.
     /// </summary>
     [Category(@"MonthCalendar")]

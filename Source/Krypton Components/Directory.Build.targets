@@ -1,4 +1,4 @@
-<Project>
+﻿<Project>
 	<!-- For reference, not used
 		<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.targets', '$(MSBuildThisFileDirectory)../../'))" />
 		-->
@@ -122,6 +122,34 @@
 			</PropertyGroup>
 		</When>
 
+		<When Condition="'$(Configuration)' == 'RC'">
+			<PropertyGroup>
+				<Minor>$([System.DateTime]::Now.ToString(yy))</Minor>
+				<Build>$([System.DateTime]::Now.ToString(MM))</Build>
+				<Revision>$([System.DateTime]::Now.get_DayOfYear().ToString())</Revision>
+
+				<!--Version layout schema:
+				110 = Major
+				26 = Minor - Year of release
+				01 = Build - Month of release
+				1 = Revision - Day of release (day of year)
+				-rc = Release candidate of the stable package identity (gold branch)
+				-->
+				<LibraryVersion>110.$(Minor).$(Build).$(Revision)</LibraryVersion>
+				<!--https://learn.microsoft.com/en-us/nuget/concepts/package-versioning?tabs=semver20sort#pre-release-versions-->
+
+				<PackageVersion>110.$(Minor).$(Build).$(Revision)-rc</PackageVersion>
+
+				<AssemblyVersion>110.$(Minor).$(Build).$(Revision)</AssemblyVersion>
+
+				<FileVersion>110.$(Minor).$(Build).$(Revision)</FileVersion>
+
+				<LangVersion>preview</LangVersion>
+
+				<AnalysLevel>preview</AnalysLevel>
+			</PropertyGroup>
+		</When>
+
 		<When Condition="'$(Configuration)' == 'Installer'">
 			<PropertyGroup>
 				<Minor>$([System.DateTime]::Now.ToString(yy))</Minor>
@@ -200,6 +228,17 @@
 				<PackageId Condition="'$(TFMs)' == 'all' And '$(PackageId)' != ''">$(PackageId).Nightly</PackageId>
 
 				<Description Condition="'$(TFMs)' == 'all'">An update to Component factory's krypton toolkit to support .NET Framework 4.7.2 - 4.8.1 and .NET 8 - 11. $(Description) This package supports all .NET Framework versions starting .NET Framework 4.6.2 - 4.8.1 and .NET 8 - 11. Also, all libraries are included targeting each specific framework version for performance purposes. To view all of the standard toolkit package latest version information, please visit: https://github.com/Krypton-Suite/Krypton-Toolkit-Suite-Version-Dashboard/blob/main/Documents/Modules/Standard/Krypton-Toolkit-Suite-Standard-Modules.md To find out what's new, please visit: https://github.com/Krypton-Suite/Standard-Toolkit/blob/alpha/Documents/Changelog/Changelog.md This package is for those who want to try out the latest cutting edge features before deployment.</Description>
+			</PropertyGroup>
+		</When>
+
+		<When Condition="'$(Configuration)' == 'RC'">
+			<PropertyGroup>
+				<PackageId Condition="'$(TFMs)' == 'lite' And '$(PackageId)' != ''">$(PackageId).Lite</PackageId>
+
+				<Description Condition="'$(TFMs)' == 'lite'">An update to Component factory's krypton toolkit to support .NET Framework 4.8 - 4.8.1 and .NET 8 - 11. $(Description) This package supports all .NET Framework versions starting .NET Framework 4.8 - 4.8.1, .NET 6 - 8. Also, all libraries are included targeting each specific framework version for performance purposes. To view all of the standard toolkit package latest version information, please visit: https://github.com/Krypton-Suite/Krypton-Toolkit-Suite-Version-Dashboard/blob/main/Documents/Modules/Standard/Krypton-Toolkit-Suite-Standard-Modules.md To find out what's new, please visit: https://github.com/Krypton-Suite/Standard-Toolkit/blob/gold/Documents/Changelog/Changelog.md This is a release candidate of the stable package. Include prerelease packages to consume it; the matching stable version replaces it at GA.</Description>
+
+				<PackageId Condition="'$(TFMs)' == 'all' And '$(PackageId)' != ''">$(PackageId)</PackageId>
+				<Description Condition="'$(TFMs)' == 'all'">An update to Component factory's krypton toolkit to support .NET Framework 4.7.2 - 4.8.1 and .NET 8 - 11. $(Description) This package supports all .NET Framework versions starting .NET Framework 4.6.2 - 4.8.1 and .NET 8 - 11. Also, all libraries are included targeting each specific framework version for performance purposes. To view all of the standard toolkit package latest version information, please visit: https://github.com/Krypton-Suite/Krypton-Toolkit-Suite-Version-Dashboard/blob/main/Documents/Modules/Standard/Krypton-Toolkit-Suite-Standard-Modules.md To find out what's new, please visit: https://github.com/Krypton-Suite/Standard-Toolkit/blob/gold/Documents/Changelog/Changelog.md This is a release candidate of the stable package. Include prerelease packages to consume it; the matching stable version replaces it at GA.</Description>
 			</PropertyGroup>
 		</When>
 

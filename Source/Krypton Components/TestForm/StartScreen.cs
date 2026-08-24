@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -57,28 +57,59 @@ public partial class StartScreen : KryptonForm
     /// </summary>
     private void AddButtons()
     {
+        CreateButton<ThemeCatalogDemo>("4230 Theme Catalog", "Issue #4230: core vs extra palettes, ShowExtraThemes, extra-only Sparkle, theme browser, and KryptonThemeAvailability export/import.");
         CreateButton<ApplicationStringsTest>("Custom Strings", "Issue #3757: store and localise custom strings via KryptonCustomStrings in Krypton.Toolkit.Utilities.");
-        CreateButton<AboutBoxTest>("AboutBox", "Try this About Box for a change");
+        CreateButton<TranslationsXmlDemoForm>("Translations XML (Import/Export)", "Export/import KryptonManager toolkit strings via Translations.xml (designer/runtime validation).");
+        CreateButton<AboutBoxTest>("AboutBox", "Try this About Box for a change. System Information now opens the Krypton msinfo32-style viewer (#3176).");
+        CreateButton<KryptonSystemInformationDemo>("System Information (#3176)", "Krypton msinfo32 drop-in in Krypton.Toolkit.Utilities: category tree, lazy WMI, Find/Copy/Save/Refresh, optional native MSInfo32, RTL, modal vs modeless.");
+        CreateButton<AboutBoxTest>("AboutBox (#2222)", "Issue #2222: comprehensive About dialog. Show (this app) uses KryptonAboutBox.Show() from assembly attributes. Show custom exercises images, toolkit page, full build date, RTL, and File Information grids.");
         CreateButton<AccessibilityTest>("Accessibility Test (UIA Providers)", "Comprehensive demo and test for UIA Provider implementation (Issue #762). Tests all 10 controls with accessibility support, organized by category with detailed results.");
         CreateButton<ButtonBadgeTest>("Badge Test", "Comprehensive badge functionality demonstration for KryptonButton and KryptonCheckButton.");
         CreateButton<ButtonTextTrackingExample>("Button Text Tracking", "Demonstrates alternate text color for tracking (hover) state on KryptonButton, KryptonCheckButton, KryptonColorButton and other controls (Issue #1326). Improves readability in dark themes.");
         CreateButton<TextListItemExample>("Text List Item", "Demonstrates independent list and tree item text color via SchemeBaseColors.TextListItem (Issue #880). TextLabelControl, TextListItem, and TextButtonNormal each drive labels, tree/list controls, and buttons separately. Contrast preset, per-slot color pickers, live scheme readout, and theme switching.");
         CreateButton<ButtonsTest>("Buttons Test", "All the buttons you want to test.");
+        CreateButton<LimeGreenButtonThemeDemo>("Lime Green Theme", "Builtin Lime Green PaletteMode themes (Office 2007 / 2010 / Microsoft 365, light + dark), available in theme selectors like any other builtin theme. Demo: family switch, apply/reset/export.");
+        CreateButton<VisualStudioThemesDemo>("1083 Visual Studio Themes", "Issue #1083: Visual Studio 2010–2026 built-in themes. 2012–2022 Dark/Light/Blue; 2026 Fluent Dark/Light from MS theme color tokens; VS2010 Office renderer variations.");
+        CreateButton<CustomThemeGeneratorDemo>("4234 Custom Theme Generator", "Issue #4234: generate a custom theme from a few colours (hex, RGB, or a screen dropper). Switch the picker flyout between Classic (PowerToys) and Krypton chrome. Apply, register, export XML, and open the Utilities builder.");
+        CreateButton<KryptonColorPickerDemo>("KryptonColorPicker", "Toolbox/tray component for the PowerToys-style screen colour picker. Set flyout, magnifier, zoom, and formats, then ShowDialog. Side-by-side with native ColorDialog (palette dialog, not a screen dropper).");
+        CreateButton<LimeGreenButtonThemeDemo>("Lime Green Theme", "Builtin Lime Green PaletteMode themes (Office 2007 / 2010 / Microsoft 365 / Material light+dark, including Material Ripple), available in theme selectors. Demo: family switch, apply/reset/export.");
+        CreateButton<Issue1551ThemeDemo>("1551 Materialize Themes", "Issue #1551: Materialize Blue, Materialize Light Blue, and Silver Dark Alternate as builtin PaletteMode themes on Office 2007 / 2010 / 2013, Microsoft 365, and Material (+ Ripple). Switch variants and compare chrome.");
+        CreateButton<Office2013GrayThemesDemo>("942 Grey Themes", "Issue #942: Light Grey and Dark Grey chrome for Office 2007, 2010, 2013, Microsoft 365, and Material. Switch themes and check title bar, ribbon tab row, headers, status strip, and light client area.");
+        CreateButton<BlinkingStatusStripLabelDemo>("Blinking Status Strip Label", "KryptonBlinkingToolStripStatusLabel in Krypton.Toolkit.Utilities: Hard/Soft/Visibility blink modes, timing, colours, PauseOnMouseOver, and side-by-side comparison with a normal ToolStripStatusLabel.");
+        CreateButton<ToolStripHostsDemo>("ToolStrip Hosts", "Krypton.Toolkit.Utilities hosts: KryptonBasicToolStrip, KryptonEnhancedToolStrip (ClickThrough), and KryptonProgressStatusStrip (UseAsProgressBar), side-by-side with native ToolStrip/StatusStrip.");
+        CreateButton<ToolStripHostedItemsDemo>("ToolStrip Hosted Items", "Hosted editors: KryptonToolStripTextBox, BrowseBox (open/save/folder/reset), DateTimePicker, NumericUpDown, ColourButton, TrackBar, and ThemeToolStripComboBox with live value readout.");
+        CreateButton<ToolStripMenuExtrasDemo>("ToolStrip Menu Extras", "Menu extras: radio/checkbox EnhancedToolStripMenuItem, EnhancedSeparator, Marquee, ExpandingMenuItem, UAC shield (elevation off), ClearClipboard, and LoadingCircle on a MenuStrip/ContextMenuStrip.");
+        CreateButton<ToolStripSliderDemo>("ToolStrip Slider", "KryptonSlider on a ToolStrip plus standalone KryptonToolbarSlider (plus/minus KryptonSliderButton chrome). Adjust Value, Range, Steps, FireInterval, and SingleClick.");
+        CreateButton<ToolStripProgressLoadingDemo>("ToolStrip Progress && Loading", "EnhancedToolStripProgressBar, ProgressBarWithValueText, LoadingCircle presets, LoadingCircleToolStripMenuItem, and ProgressStatusStrip with animate-to-100.");
+        CreateButton<ToolStripLabelsDemo>("ToolStrip Labels Extended", "KryptonToolStripLabelExtended safe alert/gradient/blink properties vs a normal ToolStripStatusLabel. Prefer KryptonBlinkingToolStripStatusLabel for production blink (see Blinking Status Strip Label demo).");
+        CreateButton<ToolStripMRUDemo>("ToolStrip MRU", "Most-recently-used files: KryptonMRUMenuItem, KryptonMRUOpenFileMenuItem, MostRecentlyUsedFileManager (registry). Save/SaveAs items shown as stubs until OnClick is implemented.");
         CreateButton<CheckBoxExtendedDemo>("CheckBox Extended", "Issue #3833: KryptonCheckBoxExtended in Krypton.Toolkit.Utilities for word-wrapped check box text and optional subtext. Compare with standard KryptonCheckBox at the same width.");
         CreateButton<KryptonColorButtonDemo>("KryptonColorButton Custom Colours", "Comprehensive demo of KryptonColorButton custom colours (Issue #776): CustomColors, MaxCustomColors, and visibility. Only 10 colours, or custom + theme + standard, or cap display count.");
         CreateButton<KryptonComboBoxUserControlDemo>("KryptonComboBoxUserControl", "Demo for Issue #3443: a ComboBox-style control whose drop-down hosts any UserControl. Shows tree-picker, grid-picker and a plain (non-contract) UserControl scenario.");
         CreateButton<KryptonTreeComboBoxDemo>("KryptonTreeComboBox", "Demo for Issue #3444: ComboBox-style control with a grouped tree drop-down (leaf/full path, breadcrumb, and parent-node selection).");
         CreateButton<KryptonCheckedListComboBoxDemo>("KryptonCheckedListComboBox", "Multi-select combo (#3445) with KryptonCheckedListBox drop-down: items + DataSource/DisplayMember/ValueMember demo and live summary.");
+        CreateButton<KryptonMultiColumnComboBoxDemo>("KryptonMultiColumnComboBox", "Issue #4237: ComboBox-style control with a multi-column KryptonDataGridView drop-down. Explicit columns, auto-generated DataTable columns, filter-as-you-type, and closed-editor chrome next to KryptonComboBox. Extra ButtonSpec clears the first combo.");
         CreateButton<BorderlessFormDemo>("Borderless Form Demo", "Demo for Issue #2922: Borderless KryptonForm without system title bar flicker on startup. Form should appear directly in borderless state.");
+        CreateButton<Bug1103GdiTextPerfDemo>("Bug 1103 Native GDI Text", "Issue #1103: benchmark Graphics.DrawString vs TextRenderer vs P/Invoke DrawText/ExtTextOut (cached HFONT), visual parity panel, and toggle AccurateText.PreferNativeGdiText on live Krypton button/label. Requires SetCompatibleTextRenderingDefault(false).");
         CreateButton<Bug2914Test>("Bug 2914 Test", "Tests the fix for 2914.");
         CreateButton<Bug2984SeparatorTest>("Bug 2984 Separator Test", "Demo for Issue #2984: NullReferenceException in ViewDrawSeparator.RenderBefore. Exercises KryptonNavigator (Outlook), KryptonSplitContainer, and KryptonSeparator. Swap themes to verify no crash.");
         CreateButton<Bug3025KryptonLabelAutoSizeDemo>("Bug 3025 KryptonLabel AutoSize Demo", "Demo for Issue #3025: KryptonLabel with AutoSize now resizes to fit text when placed in the Designer (click-drag). Shows AutoSize on/off, LabelStyles, short/long text, and text + image.");
-        CreateButton<Feature3784PulsingTextBoxBorderDemo>("Feature 3784 Glowing Borders", "Comprehensive demo for issue #3784: glowing border on all supported input controls, cue shimmer, live settings panel, and KryptonForm chrome glow.");
-        CreateButton<Feature3851RenderingDpiDemo>("Feature 3851 Rendering & DPI", "Issue #3851: ribbon QAT overflow/context-arrow glyph across themes and DPI (points 4.1/4.2) plus the multiline editor button now living in an internal fixed collection so it never shows in the public ButtonSpecs (point 4.4). Switch themes, note the DPI/scale readout, and toggle MultilineStringEditor.");
+        CreateButton<Feature882NavigatorTaskbarThumbnailsDemo>("Feature 882 Navigator Taskbar Thumbnails", "Issue #882/#4129: KryptonNavigatorTaskbarThumbnails — per-page taskbar thumbnails; enable Tab group composites for Explorer-like Group | … entries.");
+        CreateButton<Feature4129SnapGroupsDemo>("Feature 4129 Snap Groups", "Issue #4129: Windows 11 Snap Group eligibility — open an unowned peer KryptonForm, snap both, hover taskbar; optional docking floats on the taskbar.");
+        CreateButton<Feature4193DateTimePickerCalendarViewDemo>("Feature 4193 Month/Year Calendar", "Issue #4193: KryptonDateTimePicker and KryptonMonthCalendar CalendarView (Days / Months / Years). Compare native DateTimePicker caption-only vs themed month/year drop-down; click the header to drill up.");
+        CreateButton<Feature3784PulsingTextBoxBorderDemo>("Feature 3784 / 4248 Glowing Borders", "Comprehensive demo for issues #3784 and #4248: glowing border on all supported input controls, KryptonManager.PulsingBorderValues global inherit, cue shimmer, live settings panel, and KryptonForm chrome glow.");
+        CreateButton<Feature3851RenderingDpiDemo>("Feature 3851 / 4254 Rendering & DPI", "Issues #3851 and #4254: ribbon QAT overflow/context-arrow glyph and extra-button size/padding across themes and DPI. Toggle QAT Above/Below, switch themes, note the DPI/scale readout, and toggle MultilineStringEditor.");
         CreateButton<Bug3342KryptonTextBoxResizeFlickerDemo>("Bug 3342 Multiline TextBox Flicker", "Demo for issue #3342: multiline KryptonTextBox text flicker while resizing. Includes manual resize steps and an automated stress-resize toggle.");
         CreateButton<Bug3786ControlBoxOrderDemo>("Bug 3786 Control Box Order", "Issue #3786: comprehensive demo for KryptonForm control box order (LTR/RTL), macOS traffic lights (red-yellow-green), RTL left-side placement, FormTrafficLightEdge, and live PASS/FAIL diagnostics.");
         CreateButton<Bug2475KryptonFormHelpButtonDemo>("Bug 2475 Form Help Button", "Issue #2475: KryptonForm HelpButton shows a themed ? in the title bar. Toggle HelpButton/min/max, click ? to fire HelpRequested, open a sample child form.");
+        CreateButton<Bug4086AdministratorSuffixDemo>("Bug 4086 Administrator Suffix", "Issue #4086: elevated KryptonForm title must not show bare () when ShowAdministratorSuffix is false or Administrator is empty; toggle suffix and clear/localise the string.");
+        CreateButton<Bug4132FormBorderClippingDemo>("Bug 4132 Form Border Clipping", "Issue #4132: the right and bottom KryptonForm borders were clipped by the window region, which also cut the flush Close button edge. Open the samples, switch themes, hover Close, and confirm every edge reports PASS.");
+        CreateButton<Bug4255VisualFormStateTransitionDemo>("Bug 4255 Form max/min black frame", "Issue #4255: maximize, minimize, and restore from the caption or taskbar must not flash a black frame. Nested docking content should not be laid out at 0 px on minimize. Border-drag resize must stay live.");
+        CreateButton<Bug4147ButtonSpaceKeyDemo>("Bug 4147 Button Space Key", "Issue #4147: Space must activate a focused KryptonButton when the mouse is not over it. Tab to each button with the mouse away, press Space, then repeat with hover; click counts should increase.");
+
         CreateButton<Bug3367KryptonTextBoxButtonSpecHoverDemo>("Bug 3367 TextBox ButtonSpec Hover", "Demo for issue #3367: ButtonSpec hover flicker on KryptonTextBox/KryptonMaskedTextBox, including ImageStates.ImageNormal without the Image property.");
+        CreateButton<Bug3382CueHintLinesDemo>("Bug 3382 CueHint line artifacts", "Demo for issue #3382: KryptonTextBox CueHint with TextH Near and mixed cue/content fonts - verify no stray top/left lines; cue remains vertically centered.");
+        CreateButton<Bug3383KryptonButtonStateTrackingRoundingDemo>("Bug 3383 KryptonButton hover rounding vs OverrideFocus", "Demo for issue #3383: large StateCommon rounding with different StateTracking rounding and OverrideFocus rounding - Tab to focus, then hover (left repro vs right matched control). Corner fill and stroke should align after the palette merge fix.");
         CreateButton<Bug3382CueHintLinesDemo>("Bug 3382 CueHint line artifacts", "Demo for issue #3382: KryptonTextBox CueHint with TextH Near and mixed cue/content fonts — verify no stray top/left lines; cue remains vertically centered.");
         CreateButton<Bug3383KryptonButtonStateTrackingRoundingDemo>("Bug 3383 KryptonButton hover rounding vs OverrideFocus", "Demo for issue #3383: large StateCommon rounding with different StateTracking rounding and OverrideFocus rounding — Tab to focus, then hover (left repro vs right matched control). Corner fill and stroke should align after the palette merge fix.");
         CreateButton<Issue797IndividualCornerRoundingDemo>("Issue 797 Individual corner rounding", "Demo for issue #797: per-corner border rounding via StateNormal.Border.RoundingTopLeft/TopRight/BottomLeft/BottomRight. Left: TL/TR/BL=5, BR=0; right: uniform rounding.");
@@ -87,7 +118,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<KryptonContextMenuSharedCommandDemo>("Issue 3891 Shared Context Menu Command", "Issue #3891: multiple KryptonContextMenu items share one KryptonCommand. Each item sets CommandParameter; the shared Execute handler inspects sender and KryptonCommandExecuteEventArgs.Parameter.");
         CreateButton<Bug3381KryptonButtonRoundedTextCenteringDemo>("Bug 3381 KryptonButton Rounded Text Centering", "Demo for issue #3381: vertical and horizontal text centering inside heavily rounded KryptonButton (wide pill, Cyrillic, font metrics). Includes side-by-side stress, tall narrow capsule, low-rounding baseline, and live rounding / TextV / font / height controls.");
         CreateButton<Bug3850TooltipHotSpotDemo>("Bug 3850 Tooltip HotSpot", "Issue #3850: tooltip placement respects cursor hotspot and full cursor bounds. Try Mouse, RelativePoint, Center, legacy cursor placement, and different cursors.");
-        CreateButton<KryptonToolTipTest>("KryptonToolTip", "Component wrapper (#3380): themed VisualPopupToolTip on arbitrary WinForms / Krypton controls via extender props or SetToolTip.");
+        CreateButton<KryptonToolTipTest>("KryptonToolTip", "Component wrapper (#3380 / #4192): SuperTips, hosted controls, hyperlinks, HTML fragments, LinkClicked.");
         CreateButton<Bug3283ThemeComboBoxProgrammaticTest>("Bug 3283 ThemeComboBox programmatic", "Issue #3283: KryptonThemeComboBox must apply the global palette when SelectedIndex is set in code. Buttons cycle or jump the index; status lines show selection vs KryptonManager.CurrentGlobalPaletteMode. Optional: add a fresh combo with index set before its handle exists.");
         CreateButton<Bug2935MdiMultiMonitorDemo>("Bug 2935 MDI multi-monitor", "Demo for issue #2935: maximized MDI child form border drawn on the correct monitor. Move the MDI parent to a second monitor, open and maximize a child; the border should stay on the same monitor.");
         CreateButton<Bug3013TestForm>("Bug 3013 Test", "Tests the fix for 3013.");
@@ -103,6 +134,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<DateTimeExample>("DateTime Example", string.Empty);
         CreateButton<DockingConfigSaveLoadTest>("Docking Config Save/Load Test", "Test SaveConfigToArray and LoadConfigFromArray");
         CreateButton<DockingRedockDemo>("Docking Redock Demo", "Demo for Issue #2933: undock (Float) then redock; no floating window left behind.");
+        CreateButton<Bug3858DockingDragHeuristicsDemo>("Bug 3858 Docking Drag Heuristics", "Issue #3858: drag-target priority with nested workspace cells, auto-hide strips, Escape cancel, and Rounded/Square/Block feedback modes. Outer edge diamonds should win over nested cell targets when both compete.");
         CreateButton<FoldableDialogDemo>("Foldable Dialog", "Demo for Issue #3840: KryptonFoldableDialog, a message-box style dialog with a collapsible (foldable) details region modelled on the Visual Studio Just-In-Time debugger dialog. Configure caption, heading, message, details, icon, buttons, default button, and initial expanded state, or try the JIT-style preset.");
         CreateButton<MessageBoxExtendedFoldableDemo>("Message Box Extended - Foldable Footer", "Demo for the optional expandable (foldable) footer of KryptonMessageBoxExtended: a collapsible details region (Text, CheckBox, or RichTextBox) with a Show/Hide details toggle that matches the KryptonFoldableDialog expander. Configure message, caption, icon, buttons, footer content type, RichTextBox height, and initial expanded state, or try the JIT-style preset.");
         CreateButton<FontAwesomeTest>("Font Awesome Test", string.Empty);
@@ -115,7 +147,8 @@ public partial class StartScreen : KryptonForm
         CreateButton<FormBorderTest>("FormBorder Test", string.Empty);
         CreateButton<HeaderExamples>("Header Examples", string.Empty);
         CreateButton<HelpProviderTest>("HelpProvider", "Test KryptonHelpProvider functionality");
-        CreateButton<MenuToolBarStatusStripTest>("Menu/Tool/Status Strips (#1297)", "Tools menu: change BaseFont size, family, and bold; verify MenuStrip, ToolStrip, StatusStrip, and ContextMenuStrip fonts follow family/size but stay Regular when BaseFont is bold. Right-click the panel for context menu check.");
+        CreateButton<MenuToolBarStatusStripTest>("Menu/Tool/Status Strips (#1110 / #1297)", "KryptonMenuStrip and KryptonToolStrip on the form, native MenuStrip/ToolStrip in the panel. Tools menu: change BaseFont size, family, and bold; both families should follow. Menu text stays Regular when BaseFont is bold. Right-click the panel for context menu check.");
+        CreateButton<KryptonMenuAndToolStripExampleForm>("Krypton MenuStrip + ToolStrip Container", "Standard File/Edit/Tools/Help KryptonMenuStrip with KryptonToolStrip inside KryptonToolStripContainer. Designer-style Insert Standard Items layout.");
         CreateButton<NotifyIconTest>("NotifyIcon", "Comprehensive demonstration of KryptonNotifyIcon with all events, balloon tips, and context menu support.");
         CreateButton<OAuth2Demo>("OAuth2 PKCE Demo", "Comprehensive OAuth2 with PKCE demo. Sign in with Azure AD, Google, or GitHub using embedded WebView2 or system browser. Configure client ID, redirect URI, and scopes.");
         CreateButton<QRCodeDemo>("QR Code (KryptonQRCode)", "Native QR code generation without external packages: live preview, ECC levels, module size, colors, quiet zone, Save PNG, clipboard, and static GenerateBitmap API.");
@@ -123,10 +156,13 @@ public partial class StartScreen : KryptonForm
         CreateButton<ProgressBarTest>("ProgressBar", "Checkout if progress has been made.");
         CreateButton<ScrollBarTest>("ScrollBar", "Comprehensive demonstration of KryptonHScrollBar and KryptonVScrollBar controls with basic usage, scrolling content, synchronization, theming, programmatic control, and event logging.");
         CreateButton<ScrollbarManagerTest>("Scrollbar Manager", "Comprehensive demonstration of KryptonScrollbarManager with container mode, native wrapper mode, dynamic content, and integration examples.");
+        CreateButton<Bug4000ToolbarThemeImagesDemo>("Bug 4000 Toolbar Theme Images", "Issue #4000: KryptonManager.Images.ToolbarImages must refresh when the global theme changes. Switch themes and confirm the New/Open/Save/… icons update to the matching theme pack.");
         CreateButton<Bug3902ScrollbarGapDemo>("Bug 3902 Scrollbar Gap", "Issue #3902: Krypton scrollbars on TextBox, RichTextBox, and ListBox should sit flush against the themed border with no white 1–2px gutter. Swap themes and DPI to verify.");
+        CreateButton<Bug4046DataGridViewScrollbarDemo>("Bug 4046 KryptonDataGridView Scrollbar", "Issue #4046: default KryptonDataGridView must not show a non-functional themed overlay scrollbar; rounded grids with overflow should show working themed scrollbars.");
         CreateButton<RibbonNavigatorWorkspaceTest>("Ribbon / Navigator / Workspace", string.Empty);
         CreateButton<RTLControlsTest>("RTL Compliance Tests", "Test the Krypton.Toolkit controls for compliance.");
-        CreateButton<SplashScreenExample>("Splash Screen", string.Empty);
+        CreateButton<Feature4180SplashScreenManagerDemo>("Feature 4180 Splash Screen Manager", "Issue #4180: non-blocking themed splash in Krypton.Toolkit.Utilities — fade, live status/progress, logging, exceptions, background image, opacity. The splash keeps painting while this form is blocked. Distinct from the modal Toolkit Splash Screen demo.");
+        CreateButton<SplashScreenExample>("Splash Screen (Toolkit modal)", "Existing Krypton.Toolkit KryptonSplashScreen: modal ShowDialog splash with optional timeout progress, close/minimize, logo, and version/copyright.");
         CreateButton<TaskbarOverlayIconTest>("Taskbar Overlay Icon Test", "Comprehensive demonstration of taskbar overlay icons on KryptonForm with configurable icons, descriptions, and interactive examples.");
         CreateButton<TaskbarThumbnailButtonsDemo>("Taskbar Thumbnail Buttons", "Demo of taskbar thumbnail toolbar buttons (Play, Pause, Next, Stop) in the taskbar preview. Hover the taskbar button to see them.");
         CreateButton<TaskbarProgressBarDemo>("Taskbar Progress Bar Demo", "Comprehensive demo of KryptonProgressBar taskbar synchronisation (Issue #2890). Covers enable/disable toggle, simulated download, manual slider, all ProgressBarStyles, all KryptonTaskbarProgressState overrides (Normal/Error/Paused/Indeterminate/NoProgress), and Min/Max range.");
@@ -135,11 +171,14 @@ public partial class StartScreen : KryptonForm
         CreateButton<TooltipTimeoutTest>("Tooltip Extended/Infinite Timeout", "Comprehensive demo of extended and infinite tooltip timeout (Issue #3075). Krypton tooltips support AutoPopDelay > 5000ms and 0 (infinite) on all Windows versions.");
         CreateButton<KryptonTextBoxValidatingTest>("TextBox Validating Test", "Tests fix for Validating event duplication bug #2801");
         CreateButton<TouchscreenHighDpiDemo>("Touchscreen + High DPI Demo", "Comprehensive demonstration of touchscreen support with per-monitor high DPI scaling (Issue #2844).");
+        CreateButton<ToggleSwitchTest>("Toggle Switch (#3890)", "Issue #3890: KryptonToggleSwitch knob styles. Compare classic, flat, radial, ring, bevel, and rounded-square thumbs; toggle each sample and edit ToggleSwitchValues in the property grid.");
         CreateButton<KryptonFormTitleBarDemo>("Title Bar Menu", "Demonstrates titlebar menu.");
         CreateButton<RichTextBoxFormattingTest>("RichTextBox Formatting Test", "Tests fix for RichTextBox formatting preservation when palette changes (Issue #2832)");
+        CreateButton<Feature4008RichTextBoxJustifyDemo>("Feature 4008 RichTextBox Justify", "Issue #4008: KryptonRichTextBox.SelectionParagraphAlignment with Left/Center/Right/Justify. Compare with native RichTextBox SelectionAlignment (no Justify). Resize the form to see justified word spacing.");
         CreateButton<Bug3343RichTextBoxEditLossDemo>("Bug 3343 RichTextBox mouse leave", "Issue #3343: type in KryptonRichTextBox, move the mouse out without changing focus; text and TextLength must not reset. Includes KryptonTextBox for comparison.");
         CreateButton<RTLFormBorderTest>("RTL Layout Test", "Test for RTL compliance");
         CreateButton<ToastNotificationTestChoice>("Toast", "For breakfast....?");
+        CreateButton<Feature3959WorkspacePageTagPersistDemo>("Feature 3959 Workspace Page.Tag", "Issue #3959: persist KryptonPage.Tag via TypeConverter (string/int) on workspace save/load; use PageSaving/PageLoading for non-convertible custom Tag objects.");
         CreateButton<WorkspaceTest>("WorkspaceTest", string.Empty);
         CreateButton<BlurExampleForm>("Blur Example", string.Empty);
         CreateButton<VisualControlsTest>("Visual Controls", string.Empty);
@@ -154,24 +193,33 @@ public partial class StartScreen : KryptonForm
         CreateButton<DataGridViewDemo>("KryptonDataGridView Demo", string.Empty);
         CreateButton<BindingNavigatorDemo>("KryptonBindingNavigator Demo", "Comprehensive example of KryptonBindingNavigator with data binding");
         CreateButton<KryptonDialogExamples>("Krypton Dialog tests", "Tests the various types of dialogs.");
-        CreateButton<FadeFormTest>("FadeForm", string.Empty);
+        CreateButton<FadeFormTest>("KryptonForm FadeValues", "Native opt-in fade in/out on KryptonForm. This demo fades in on open; use Fade In / Fade Out / Fade Out and Close, open a faded child, or edit FadeValues in the property grid.");
         CreateButton<GroupBoxTest>("GroupBox", string.Empty);
         CreateButton<Bug3879KryptonComboBoxDisabledDemo>("3879 ComboBox Disabled", "Issue #3879: KryptonComboBox disabled at startup (DropDown and DropDownList) should use theme disabled colors. Toggle Enabled and switch themes to verify.");
         CreateButton<InputBoxTest>("InputBox", string.Empty);
         CreateButton<JumpListTest>("Jump List Test", "Comprehensive demonstration of jump lists on KryptonForm with user tasks, custom categories, known categories, and interactive examples.");
         CreateButton<KryptonLoggerDemo>("Krypton Logger (#3856)", "Issue #3856: exercise KryptonLogger, CommonHelper.LogOutput, optional file logging (set KRYPTON_LOG or KRYPTON_LOG_PATH before launch), custom IKryptonLogger, parallel stress writes, and theme-swap WM tracing.");
+        CreateButton<Feature4223KryptonLogDemo>("Feature 4223 Native Logging", "Issue #4223: native KryptonLog in Krypton.Toolkit.Utilities — levels, categories, rolling file, memory viewer, InstallAsToolkitLogger, exception-dialog log attach, parallel stress, and callback sink.");
+        CreateButton<KryptonFileDialogProviderDemo>("File Dialog Provider Demo", "Issue #1231: compare the native and custom providers for Krypton open, save, and folder dialogs. Change the initial directory/filter, run both paths, and verify the custom provider stays responsive.");
         CreateButton<KryptonFolderBrowserDialogDemo>("Folder Browser Dialog", "Comprehensive demo of KryptonFolderBrowserDialog: configure Title, Icon, SelectedPath, RootFolder, and InitialDirectory, compare with the standard dialog, and try preset scenarios.");
         CreateButton<KryptonKnobDemo>("Krypton Knob", "Issue #3894: comprehensive demo of KryptonKnob rotary control with full palette State### integration: drag and keyboard input, scale marks, theme switching, custom State colours, and property-grid exploration. Includes a side-by-side enabled vs disabled comparison so the disabled palette colours (face, indicator, ticks, industrial backplate) are obvious.");
+        CreateButton<RadialMenuDemo>("Radial Menu (#4172)", "Issue #4172: left surface = popup KryptonRadialMenu (right-click); right panel = hosted KryptonRadialMenuControl (hub, Allow move / float). Native items, editors, ImportFrom, PreferRadial.");
+        CreateButton<EnhancedContextMenuDemo>("Enhanced Context Menu (#3862)", "Issue #3862: Office Mini Toolbar + KryptonContextMenu, designer/runtime configurable. Right-click for paired popup; select text for fade-in Mini Toolbar; use the Configuration panel to show/hide commands, position, opacity. Side-by-side KryptonRichTextBox vs native RichTextBox.");
         CreateButton<KryptonKnobAlternateDemo>("Krypton Knob (Enhanced)", "Issue #3894: comprehensive demo of KryptonKnobAlternate with numeric graduations, arc angles, subdivisions, two-click interaction, full palette State### integration, theme switching, and property-grid exploration. Includes a side-by-side enabled vs disabled comparison so the greyed-out disabled appearance is obvious.");
         CreateButton<MessageBoxTest>("MessageBox", string.Empty);
         CreateButton<MessageBoxCopyButtonDemo>("MessageBox Copy Button", "Issue #3836: comprehensive demo of the optional 'Copy' button on KryptonMessageBox. Configure buttons, icon, default button, RTL and the opt-in flags (Copy/Close/Ctrl+C/Help), then preview what the Copy button or Ctrl+C places on the clipboard. Includes quick presets (Error, Yes/No/Cancel + Help, RTL).");
         CreateButton<MessageBoxExtendedCopyButtonDemo>("MessageBox Extended Copy Button", "Issue #3836 parity: comprehensive demo of the optional 'Copy' button on KryptonMessageBoxExtended. Configure buttons, icon, default button, content type (Normal/RichTextBox/HyperLink), RTL and the opt-in flags (Copy/Close/Ctrl+C/Help), then preview the clipboard. Includes presets (Error, RichTextBox, HyperLink, struct-based path) and verifies Ctrl+C copies all content types.");
+        CreateButton<MessageBoxExtendedLifetimeDemo>("4188 MessageBox Extended Fade / Timeout", "Issue #4188: fade in/out, caption countdown, optional countdown on an action button, auto-close, and optional 'Do not show again' on KryptonMessageBoxExtended. Presets cover fade-only, display-only timeout, auto-close with DialogResult, auto-close via button two, countdown on OK, fade+timeout together, RTL Show() path, the existing Show() timeout overload, and ShowAsync(data).");
+        CreateButton<MessageBoxExtendedOverlayImageDemo>("4162 Dialog Overlay Image", "Issue #4162: optional macOS-style badge overlay on dialog icons. Extended MessageBox (stock/app/custom), core KryptonMessageBox, position + RTL, live ComposeOverlayImage preview. Also covers shared KryptonOverlayImage used by TaskDialog heading and AboutBox MainImageOverlay.");
+        CreateButton<DialogButtonColorsDemo>("4165 Dialog Button Colours", "Issue #4165: optional semantic accept/cancel dialog button colours with Standard, Deuteranopia, Protanopia, HighContrast presets and per-role overrides. Exercise MessageBox, TaskDialog, MessageBoxExtended, FoldableDialog, and KryptonManager.DialogButtonColors.");
+        CreateButton<AccessibilityThemesDemo>("4168 Accessibility Themes", "Issue #4168: High Contrast / Deuteranopia / Protanopia as Microsoft 365, Office 2007/2010/2013, Sparkle, and Material (+ Ripple) PaletteMode themes. Switch family+accent; optional MessageBox compares matching #4165 dialog button schemes.");
         CreateButton<Bug3842MessageBoxExtendedRtlRoutingDemo>("3842 MessageBox Extended RTL routing", "Issue #3842: verifies the bool- and CheckState-returning ShowCore paths display the RTL extended message box and return the optional checkbox state. Compare LTR vs RTL for both return types.");
         CreateButton<Main>("Old Style Main: Fullscreen", string.Empty);
         CreateButton<ProgressBarTriStateTest>("ProgressBar Tri-State", string.Empty);
-        CreateButton<OverlayImageTest>("Overlay Image Test", "Comprehensive demonstration of overlay images on KryptonButton and KryptonLabel with configurable positions and scaling modes.");
+        CreateButton<OverlayImageTest>("Overlay Image Test", "Overlay images on KryptonButton, KryptonLabel, KryptonColorButton, and ButtonSpec — positions, scaling, per-state overlays, and RTL-aware corners (#1205 / #4157).");
         CreateButton<PropertyGridTest>("PropertyGridTest", string.Empty);
         CreateButton<RibbonTest>("Ribbon", string.Empty);
+        CreateButton<RibbonShowTabHeadersDemo>("Ribbon ShowTabHeaders / Toolbar (#331)", "Issue #331: ShowTabHeaders property and KryptonRibbonToolbar. Compare a normal ribbon (toggle headers) with the toolbar subclass; groups stay visible when the tab strip is hidden.");
         CreateButton<RibbonNotificationBarDemo>("Ribbon Notification Bar", "Comprehensive demonstration of the Krypton Ribbon Notification Bar feature with all customization options.");
         CreateButton<RibbonMergerDemo>("Ribbon Merger Demo", "Demonstrates UserControl hosting and ribbon merging for plugin architectures");
         CreateButton<RibbonDetachableTest>("Detachable Ribbons", "Demonstrates detachable ribbons feature - allows ribbon to be moved to a floating window (Issue #595)");
@@ -188,8 +236,11 @@ public partial class StartScreen : KryptonForm
         CreateButton<KryptonTaskDialogDemoForm>("Krypton Task Dialog Demo", string.Empty);
         CreateButton<MdiWindow>("Krypton MDI Window", "KryptonForm MDI Container with both KForm and WForm children");
         CreateButton<TabbedMdiDemo>("Tabbed MDI Demo (Issue #1746)", "KryptonTabbedMdiManager: MDI child windows displayed as tab pages instead of overlapping windows.");
+        CreateButton<NavigatorFormIntegrationDemo>("Navigator Form Integration (#925)", "Issue #925/#927: CaptionIntegrated (tabs in title bar) with browser-style tab groups, ClientChrome, CaptionAdjacent, tear-out, and new-tab '+'.");
+        CreateButton<DocumentGroupsDemo>("Document Groups (Workspace)", "IDE-style document groups via KryptonWorkspace cells + KryptonDocumentGroupHelper, with multi-strip CaptionIntegrated chrome (one strip per cell).");
         CreateButton<RibbonMdiDemo>("Ribbon MDI Demo (Issue #2921)", "Comprehensive demo for Issue #2921: Ribbon + MDI. Verifies no double ribbon tabs when opening/closing maximized MDI children; close/minimize/maximize and QAT click areas aligned with visuals.");
         CreateButton<Bug3203QATLocationHiddenFormTest>("Ribbon QATLocation=Hidden does not hide QAT when FormBorderStyle=None (Issue #3203)", string.Empty);
+        CreateButton<Bug4061RibbonCaptionIconThemeDemo>("Bug 4061 Ribbon caption icon on theme change", "Issue #4061: Switch themes without resizing. Office 2007 hides the form icon when the File app button is visible; Office 2010+/macOS/Aqua show it. Status line reports RibbonShape and AllowIconDisplay; QAT Above should hide under macOS shapes.");
         CreateButton<Bug3183SmallSquareRenderedNextToClose>("Small Square Rendered Next to Close Button (Issue #3183)", string.Empty);
         CreateButton<GlyphColors>("Glyph Colors", "Customization of glyph colors using kryptonCustomPalette");
     }
@@ -253,7 +304,7 @@ public partial class StartScreen : KryptonForm
 
         if (!typeof(Form).IsAssignableFrom(formType))
         {
-            throw new InvalidCastException("Parameter formType is not of type Form or derived from Form.");
+            ThrowHelper.ThrowInvalidCastException("Parameter formType is not of type Form or derived from Form.");
         }
 
         button.CommandLinkTextValues.Heading = heading;
@@ -345,7 +396,7 @@ public partial class StartScreen : KryptonForm
         }
         else
         {
-            throw new NullReferenceException(nameof(propertyInfo));
+            ThrowHelper.ThrowNullReferenceException(nameof(propertyInfo));
         }
     }
 
@@ -412,7 +463,8 @@ public partial class StartScreen : KryptonForm
             }
             else
             {
-                throw new NullReferenceException($"ButtonHeadingComparer: make sure that parameter x and y both are valid references to a KryptonCommandLinkButton instance.");
+                ThrowHelper.ThrowNullReferenceException($"ButtonHeadingComparer: make sure that parameter x and y both are valid references to a KryptonCommandLinkButton instance.");
+                return 0;
             }
         }
     }

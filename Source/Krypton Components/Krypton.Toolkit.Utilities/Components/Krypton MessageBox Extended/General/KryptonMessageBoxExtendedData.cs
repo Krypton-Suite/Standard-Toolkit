@@ -11,6 +11,9 @@ using ContentAlignment = System.Drawing.ContentAlignment;
 
 namespace Krypton.Toolkit.Utilities;
 
+/// <summary>
+/// Configuration options for <see cref="KryptonMessageBoxExtended"/>.
+/// </summary>
 public struct KryptonMessageBoxExtendedData
 {
     #region Public
@@ -82,6 +85,13 @@ public struct KryptonMessageBoxExtendedData
     /// <value>The application path.</value>
     public string? ApplicationPath { get; set; }
 
+    /// <summary>
+    /// Gets or sets an optional overlay (badge) image drawn on top of the main message icon.
+    /// When <see cref="KryptonOverlayImage.Image"/> is null, no overlay is applied.
+    /// </summary>
+    /// <value>The overlay image settings.</value>
+    public KryptonOverlayImage OverlayImage { get; set; }
+
     /// <summary>Gets or sets the type of the message content area.</summary>
     /// <value>The type of the message content area.</value>
     public ExtendedKryptonMessageBoxMessageContainerType? MessageContentAreaType { get; set; }
@@ -123,7 +133,10 @@ public struct KryptonMessageBoxExtendedData
     public object? HelpParameters { get; set; }
 
     /// <summary>Gets or sets the CheckBox text.</summary>
-    /// <value>The CheckBox text.</value>
+    /// <value>
+    /// Custom caption for the optional checkbox. When empty and <see cref="ShowDoNotShowAgainOption"/> is
+    /// <c>true</c>, <see cref="CustomToolkitStrings.DoNotShowAgain"/> is used.
+    /// </value>
     public string? CheckBoxText { get; set; }
 
     /// <summary>Gets or sets the CheckBox checked value.</summary>
@@ -138,6 +151,30 @@ public struct KryptonMessageBoxExtendedData
     /// <value>The state of the use CheckBox three.</value>
     public bool? UseCheckBoxThreeState { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether a 'Do not show again' checkbox is shown.
+    /// </summary>
+    /// <value><c>true</c> to show the checkbox; otherwise, <c>false</c>. Default is <c>false</c>.</value>
+    /// <remarks>
+    /// Caption defaults to <see cref="CustomToolkitStrings.DoNotShowAgain"/> unless <see cref="CheckBoxText"/> is set.
+    /// The checkbox is shown on the left of the button bar (after the optional Copy button when that is visible).
+    /// Pair with <see cref="DoNotShowAgainKey"/> to skip later <see cref="KryptonMessageBoxExtended.Show(KryptonMessageBoxExtendedData, bool)"/>
+    /// calls in this process after the user checks the box. Use
+    /// <see cref="KryptonMessageBoxExtended.Show(KryptonMessageBoxExtendedData, out bool, bool)"/> to read the checked state
+    /// when you persist suppression yourself.
+    /// </remarks>
+    public bool ShowDoNotShowAgainOption { get; set; }
+
+    /// <summary>
+    /// Gets or sets an optional key used to suppress later shows after the user checks 'Do not show again'.
+    /// </summary>
+    /// <value>
+    /// A caller-defined id (for example <c>welcome-tip</c>). When empty, the checkbox is shown but the toolkit
+    /// does not remember the choice. Suppression lasts for the current process; call
+    /// <see cref="KryptonMessageBoxExtended.ResetDoNotShowAgain"/> to clear it.
+    /// </value>
+    public string? DoNotShowAgainKey { get; set; }
+
     /// <summary>Gets or sets the show close button.</summary>
     /// <value>The show close button.</value>
     public bool? ShowCloseButton { get; set; }
@@ -146,17 +183,195 @@ public struct KryptonMessageBoxExtendedData
 
     #region Extended
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the collapsible details expander is shown.
+    /// </summary>
+    /// <remarks>
+    /// A non-empty <see cref="DetailsText"/> or <see cref="MoreDetailsMessageText"/> also shows the expander
+    /// (same rule as <see cref="KryptonFoldableDialogData.DetailsText"/>). Use this flag with
+    /// <see cref="FooterContentType"/> of <see cref="ExtendedKryptonMessageBoxFooterContentType.CheckBox"/>
+    /// when there is no details text.
+    /// </remarks>
     public bool ShowMoreDetailsOption { get; set; }
 
     /// <summary>Gets or sets a value indicating whether the "more details" footer starts expanded.</summary>
     /// <value><c>true</c> to show the details region expanded on open; otherwise, <c>false</c> (collapsed).</value>
     public bool MoreDetailsExpanded { get; set; }
 
+    /// <summary>
+    /// Gets or sets whether the details region starts expanded.
+    /// </summary>
+    /// <remarks>FoldableDialog-style alias for <see cref="MoreDetailsExpanded"/>.</remarks>
+    public bool Expanded
+    {
+        get => MoreDetailsExpanded;
+        set => MoreDetailsExpanded = value;
+    }
+
     public PaletteRelativeAlign? RichTextBoxTextAlignment { get; set; }
 
+    /// <summary>
+    /// Gets or sets a single toggle caption used for both expanded and collapsed states.
+    /// </summary>
+    /// <remarks>
+    /// Prefer <see cref="ExpandButtonText"/> / <see cref="CollapseButtonText"/> to match
+    /// <see cref="KryptonFoldableDialog"/>. When those are empty, this value is used for both states;
+    /// otherwise the localizable <see cref="KryptonFoldableDialogStrings"/> defaults apply.
+    /// </remarks>
     public string? MoreDetailsButtonText { get; set; }
 
+    /// <summary>
+    /// Gets or sets the expander caption while the details region is expanded (typically "Hide Details").
+    /// </summary>
+    public string? ExpandButtonText { get; set; }
+
+    /// <summary>
+    /// Gets or sets the expander caption while the details region is collapsed (typically "Show Details").
+    /// </summary>
+    public string? CollapseButtonText { get; set; }
+
+    /// <summary>Gets or sets the text shown inside the collapsible details region.</summary>
     public string? MoreDetailsMessageText { get; set; }
+
+    /// <summary>
+    /// Gets or sets the text shown inside the collapsible details region.
+    /// </summary>
+    /// <remarks>
+    /// FoldableDialog-style alias for <see cref="MoreDetailsMessageText"/>. Setting a non-empty value
+    /// shows the expander without also setting <see cref="ShowMoreDetailsOption"/>.
+    /// </remarks>
+    public string? DetailsText
+    {
+        get => MoreDetailsMessageText;
+        set
+        {
+            MoreDetailsMessageText = value;
+            if (!string.IsNullOrEmpty(value))
+            {
+                ShowMoreDetailsOption = true;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the details content type. When <see langword="null"/>, a non-empty details string uses
+    /// <see cref="ExtendedKryptonMessageBoxFooterContentType.RichTextBox"/> (FoldableDialog-style).
+    /// </summary>
+    public ExtendedKryptonMessageBoxFooterContentType? FooterContentType { get; set; }
+
+    /// <summary>
+    /// Gets or sets the details RichTextBox height. When <see langword="null"/>, the FoldableDialog default (180) is used.
+    /// </summary>
+    public int? FooterRichTextBoxHeight { get; set; }
+
+    /// <summary>
+    /// Gets or sets optional semantic colours for the message-box action buttons.
+    /// </summary>
+    /// <remarks>
+    /// When null, <see cref="KryptonManager.DialogButtonColors"/> is used. When both are null,
+    /// buttons keep themed Standalone chrome.
+    /// </remarks>
+    public KryptonDialogButtonColorOptions? ButtonColors { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the message box fades in on show and fades out on close.
+    /// </summary>
+    /// <value><c>true</c> to animate opacity; otherwise, <c>false</c>. Default is <c>false</c>.</value>
+    public bool UseFade { get; set; }
+
+    /// <summary>
+    /// Gets or sets the fade speed preset used when <see cref="UseFade"/> is <c>true</c>.
+    /// </summary>
+    /// <value>A <see cref="FadeSpeedChoice"/> value. Default is <see cref="FadeSpeedChoice.Normal"/>.</value>
+    public FadeSpeedChoice FadeSpeed { get; set; }
+
+    /// <summary>
+    /// Gets or sets a custom fade step used when <see cref="FadeSpeed"/> is <see cref="FadeSpeedChoice.Custom"/>.
+    /// </summary>
+    /// <value>Opacity step scale matching other Krypton fade APIs; ignored for named speed presets.</value>
+    public float? CustomFadeSpeed { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether remaining time is shown in the caption.
+    /// </summary>
+    /// <value><c>true</c> to display a caption countdown; otherwise, <c>false</c>. Default is <c>false</c>.</value>
+    /// <remarks>
+    /// When <c>true</c> and <see cref="AutoClose"/> is <see langword="null"/>, the dialog also auto-closes at zero.
+    /// </remarks>
+    public bool UseTimeOut { get; set; }
+
+    /// <summary>
+    /// Gets or sets the timeout duration in seconds.
+    /// </summary>
+    /// <value>Seconds until the countdown completes. Default is 60. Values of 0 or less are treated as 60.</value>
+    public int TimeOut { get; set; }
+
+    /// <summary>
+    /// Gets or sets the timeout timer interval in milliseconds.
+    /// </summary>
+    /// <value>Tick interval for the caption countdown. Default is 1000. Values of 0 or less are treated as 1000.</value>
+    public int TimeOutInterval { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the message box closes when the timeout reaches zero.
+    /// </summary>
+    /// <value>
+    /// <see langword="null"/> to auto-close when <see cref="UseTimeOut"/> is <c>true</c>;
+    /// <c>true</c> to dismiss even without a caption countdown;
+    /// <c>false</c> for a display-only countdown.
+    /// </value>
+    public bool? AutoClose { get; set; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="DialogResult"/> returned when auto-close uses <see cref="ExtendedMessageBoxTimeoutAction.Close"/>.
+    /// </summary>
+    /// <value>
+    /// The result to return. When <see cref="DialogResult.None"/>, the default button result (typically OK) is used
+    /// so a timed-out modal does not return <see cref="DialogResult.None"/>.
+    /// </value>
+    public DialogResult TimeOutResult { get; set; }
+
+    /// <summary>
+    /// Gets or sets the action taken when auto-close fires.
+    /// </summary>
+    /// <value>
+    /// <see cref="ExtendedMessageBoxTimeoutAction.Close"/> (default) closes with <see cref="TimeOutResult"/>;
+    /// <see cref="ExtendedMessageBoxTimeoutAction.ButtonOne"/> through <see cref="ExtendedMessageBoxTimeoutAction.ButtonFour"/>
+    /// click that button instead.
+    /// </value>
+    public ExtendedMessageBoxTimeoutAction TimeOutAction { get; set; }
+
+    /// <summary>
+    /// Gets or sets which action button shows a live countdown (for example <c>OK (5s)</c>).
+    /// </summary>
+    /// <value>
+    /// <see cref="ExtendedKryptonMessageBoxCountdownButton.None"/> (default) leaves button text unchanged.
+    /// <see cref="ExtendedKryptonMessageBoxCountdownButton.Button1"/> through
+    /// <see cref="ExtendedKryptonMessageBoxCountdownButton.Button4"/> use that visible button.
+    /// </value>
+    /// <remarks>
+    /// Independent of <see cref="UseTimeOut"/> (caption countdown). Duration defaults to
+    /// <see cref="CountdownButtonSeconds"/>, then <see cref="TimeOut"/>, then 60 seconds.
+    /// When both run, the first completion wins and the other timer is stopped.
+    /// </remarks>
+    public ExtendedKryptonMessageBoxCountdownButton CountdownButton { get; set; }
+
+    /// <summary>
+    /// Gets or sets the button countdown duration in seconds.
+    /// </summary>
+    /// <value>
+    /// When <see langword="null"/>, <see cref="TimeOut"/> is used if <see cref="UseTimeOut"/> is <c>true</c>; otherwise 60.
+    /// </value>
+    public int? CountdownButtonSeconds { get; set; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="DialogResult"/> used when the button countdown reaches zero.
+    /// </summary>
+    /// <value>
+    /// When <see langword="null"/>, the button is left for the user to click.
+    /// When set, the dialog closes with that result (same as the <c>countdownButtonDialogResult</c> Show parameter).
+    /// </value>
+    public DialogResult? CountdownButtonDialogResult { get; set; }
 
     #endregion
 
@@ -164,9 +379,16 @@ public struct KryptonMessageBoxExtendedData
 
     #region Identity
 
+    /// <summary>
+    /// Initializes a new <see cref="KryptonMessageBoxExtendedData"/> instance with default values.
+    /// </summary>
     public KryptonMessageBoxExtendedData()
     {
-
+        TimeOut = 60;
+        TimeOutInterval = 1000;
+        FadeSpeed = FadeSpeedChoice.Normal;
+        TimeOutAction = ExtendedMessageBoxTimeoutAction.Close;
+        CountdownButton = ExtendedKryptonMessageBoxCountdownButton.None;
     }
 
     #endregion

@@ -71,8 +71,8 @@ internal class ViewDrawNavRibbonTab : ViewComposite,
         Debug.Assert(navigator is not null);
         Debug.Assert(page is not null);
 
-        Navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
-        Page = page ?? throw new ArgumentNullException(nameof(page));
+        Navigator = navigator ?? ThrowHelper.ThrowArgumentNullException(navigator);
+        Page = page ?? ThrowHelper.ThrowArgumentNullException(page);
         _lastClick = DateTime.Now.AddDays(-1);
 
         // Associate the page component with this view element
@@ -340,7 +340,7 @@ internal class ViewDrawNavRibbonTab : ViewComposite,
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // Ensure we are using the correct palette
@@ -400,7 +400,7 @@ internal class ViewDrawNavRibbonTab : ViewComposite,
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Color value.</returns>
-    public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public Color GetOverlayImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the position of the overlay image relative to the main image.

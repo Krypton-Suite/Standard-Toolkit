@@ -83,7 +83,7 @@ public class ViewDrawGroupBoxDocker : ViewDrawDocker
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (this[0]!.Visible)
@@ -144,7 +144,7 @@ public class ViewDrawGroupBoxDocker : ViewDrawDocker
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         base.RenderAfter(context);

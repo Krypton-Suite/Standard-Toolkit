@@ -46,8 +46,8 @@ internal class ViewDrawRibbonGroupClusterButtonText : ViewLeaf,
         Debug.Assert(ribbon is not null);
         Debug.Assert(ribbonButton is not null);
 
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        _ribbonButton = ribbonButton ?? throw new ArgumentNullException(nameof(ribbonButton));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _ribbonButton = ribbonButton ?? ThrowHelper.ThrowArgumentNullException(ribbonButton);
 
         // Use a class to convert from ribbon group to content interface
         _contentProvider = new RibbonGroupNormalDisabledTextToContent(ribbon.StateCommon.RibbonGeneral,
@@ -104,18 +104,18 @@ internal class ViewDrawRibbonGroupClusterButtonText : ViewLeaf,
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // A change in state always causes a size and layout calculation
@@ -160,12 +160,12 @@ internal class ViewDrawRibbonGroupClusterButtonText : ViewLeaf,
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // We take on all the available display area
@@ -217,7 +217,7 @@ internal class ViewDrawRibbonGroupClusterButtonText : ViewLeaf,
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         Rectangle drawRect = ClientRectangle;
@@ -278,7 +278,7 @@ internal class ViewDrawRibbonGroupClusterButtonText : ViewLeaf,
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Color value.</returns>
-    public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public Color GetOverlayImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the position of the overlay image relative to the main image.

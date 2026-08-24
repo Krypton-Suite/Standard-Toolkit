@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -12,10 +12,12 @@ using Krypton.Ribbon;
 namespace TestForm;
 
 /// <summary>
-/// Interactive demo for issue #3851 (rendering, DPI and performance).
+/// Interactive demo for issue #3851 (rendering, DPI and performance) and issue #4254 (QAT extra button DPI).
 /// <list type="bullet">
 /// <item>4.1 / 4.2 - the ribbon Quick Access Toolbar overflow / context-arrow glyph is exercised across
 /// every ribbon shape (theme) so it can be eyeballed at 100%, 150% and 200% DPI.</item>
+/// <item>#4254 - the overflow/customize extra button size and glyph padding scale at layout/paint time
+/// for QAT Above (caption mini button) and QAT Below (full bar).</item>
 /// <item>4.4 - the multiline editor button now lives in an internal fixed collection, so it never appears
 /// in the public <see cref="KryptonTextBox.ButtonSpecs"/> collection (the count stays at zero).</item>
 /// </list>
@@ -50,8 +52,11 @@ public partial class Feature3851RenderingDpiDemo : KryptonForm
             Dock = DockStyle.Top,
             LabelStyle = LabelStyle.NormalPanel,
             Text = "Switch themes to change the ribbon shape and watch the Quick Access Toolbar overflow / "
-                 + "context-arrow glyph (top-left of the ribbon). Re-open this form on monitors at 100%, 150% "
-                 + "and 200% scaling to confirm the glyph stays aligned (issue #3851, points 4.1/4.2).\r\n\r\n"
+                 + "context-arrow glyph (top-left of the ribbon). Re-open this form on monitors at 100%, 125%, "
+                 + "150% and 200% scaling to confirm the glyph stays aligned (issue #3851, points 4.1/4.2).\r\n\r\n"
+                 + "Issue #4254: the extra button itself (preferred size and glyph padding) now scales at layout "
+                 + "and paint time. Toggle QAT Above (caption mini button) and QAT Below (full bar) and confirm "
+                 + "the overflow chevrons / customize arrow sit inside the extra button, not clipped or floating.\r\n\r\n"
                  + "The text box below enables the multiline string editor button. That button is now an internal "
                  + "fixed button spec, so the public ButtonSpecs count stays at 0 - it can no longer be removed, "
                  + "reordered, or serialized by the designer (point 4.4)."
@@ -87,6 +92,20 @@ public partial class Feature3851RenderingDpiDemo : KryptonForm
         };
         refreshButton.Click += (_, _) => RefreshDiagnostics();
 
+        var qatLocationButton = new KryptonButton
+        {
+            Dock = DockStyle.Top,
+            Text = "Toggle QAT location (Above caption / Below ribbon)",
+            Margin = new Padding(0, 0, 0, 8)
+        };
+        qatLocationButton.Click += (_, _) =>
+        {
+            _ribbon.QATLocation = _ribbon.QATLocation == QATLocation.Above
+                ? QATLocation.Below
+                : QATLocation.Above;
+            RefreshDiagnostics();
+        };
+
         var panel = new KryptonPanel { Dock = DockStyle.Fill, Padding = new Padding(12) };
 
         // Docked children are added bottom-first so the first added ends up at the bottom of the stack.
@@ -95,6 +114,7 @@ public partial class Feature3851RenderingDpiDemo : KryptonForm
         panel.Controls.Add(_multilineToggle);
         panel.Controls.Add(_buttonSpecLabel);
         panel.Controls.Add(instructions);
+        panel.Controls.Add(qatLocationButton);
         panel.Controls.Add(_shapeLabel);
         panel.Controls.Add(_dpiLabel);
         panel.Controls.Add(themeCombo);
@@ -158,7 +178,8 @@ public partial class Feature3851RenderingDpiDemo : KryptonForm
     {
         var factor = DeviceDpi / 96f;
         _dpiLabel.Text = $"Device DPI: {DeviceDpi} (scale factor {factor:0.00}x)";
-        _shapeLabel.Text = $"Active ribbon shape: {_ribbon.StateCommon.RibbonGeneral.GetRibbonShape()}";
+        _shapeLabel.Text = $"Active ribbon shape: {_ribbon.StateCommon.RibbonGeneral.GetRibbonShape()}; "
+                         + $"QAT location: {_ribbon.QATLocation}";
         _buttonSpecLabel.Text = $"Public ButtonSpecs count: {_multilineTextBox.ButtonSpecs.Count} "
                               + "(expected 0 - the editor button is internal)";
     }

@@ -63,10 +63,10 @@ internal class GroupRadioButtonController : GlobalId,
         Debug.Assert(targetImage is not null);
         Debug.Assert(needPaint is not null);
 
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        TargetMain = targetMain ?? throw new ArgumentNullException(nameof(targetMain));
-        _targetImage = targetImage ?? throw new ArgumentNullException(nameof(targetImage));
-        NeedPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        TargetMain = targetMain ?? ThrowHelper.ThrowArgumentNullException(targetMain);
+        _targetImage = targetImage ?? ThrowHelper.ThrowArgumentNullException(targetImage);
+        NeedPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
     }
     #endregion
 
@@ -443,12 +443,12 @@ internal class GroupRadioButtonController : GlobalId,
 
         if (ribbon is null)
         {
-            throw new NullReferenceException(GlobalStaticFunctions.ParameterCannotBeNull(nameof(ribbon)));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.ParameterCannotBeNull(nameof(ribbon)));
         }
 
         if (ribbon.TabsArea is null)
         {
-            throw new NullReferenceException(GlobalStaticFunctions.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
         }
 
         switch (e.KeyData)

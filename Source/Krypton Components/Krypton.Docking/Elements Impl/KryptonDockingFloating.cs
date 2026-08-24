@@ -27,8 +27,10 @@ public class KryptonDockingFloating : DockingElementClosedCollection
     /// <param name="name">Initial name of the element.</param>
     /// <param name="ownerForm">Reference to form that will own all the floating windows.</param>
     public KryptonDockingFloating(string name, Form ownerForm)
-        : base(name) =>
-        OwnerForm = ownerForm ?? throw new ArgumentNullException(nameof(ownerForm));
+        : base(name)
+    {
+        OwnerForm = ownerForm ?? ThrowHelper.ThrowArgumentNullException(ownerForm);
+    }
 
     #endregion
 
@@ -89,6 +91,14 @@ public class KryptonDockingFloating : DockingElementClosedCollection
     /// </summary>
     [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden)]
     public bool UseMinimiseBox { get; set; }
+
+    /// <summary>
+    /// Gets and sets whether newly created floating windows appear on the Windows taskbar.
+    /// When true, floats can participate in Windows 11 Snap Groups; default remains false.
+    /// </summary>
+    [DefaultValue(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public bool ShowFloatingWindowsInTaskbar { get; set; }
     #endregion
 
     #region Protected
@@ -125,7 +135,7 @@ public class KryptonDockingFloating : DockingElementClosedCollection
     {
         // Create a floatspace and floating window for hosting the floatspace
         var floatSpaceElement = new KryptonDockingFloatspace(@"Floatspace");
-        var floatingWindowElement = new KryptonDockingFloatingWindow(name, OwnerForm, floatSpaceElement, UseMinimiseBox);
+        var floatingWindowElement = new KryptonDockingFloatingWindow(name, OwnerForm, floatSpaceElement, UseMinimiseBox, ShowFloatingWindowsInTaskbar);
         floatingWindowElement.Disposed += OnDockingFloatingWindowDisposed;
         InternalAdd(floatingWindowElement);
 
@@ -146,7 +156,7 @@ public class KryptonDockingFloating : DockingElementClosedCollection
     private void OnDockingFloatingWindowDisposed(object? sender, EventArgs e)
     {
         // Cast to correct type and unhook event handlers so garbage collection can occur
-        var floatingWindowElement = sender as KryptonDockingFloatingWindow ?? throw new ArgumentNullException(nameof(sender));
+        var floatingWindowElement =sender as KryptonDockingFloatingWindow ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonDockingFloatingWindow, nameof(sender));
         floatingWindowElement.Disposed -= OnDockingFloatingWindowDisposed;
 
         // Remove the element from our child collection as it is no longer valid

@@ -684,8 +684,12 @@ public class KryptonTreeView : VisualControlBase,
     {
         if (disposing)
         {
-            _scrollbarManager?.Dispose();
-            _scrollbarManager = null;
+            if (_scrollbarManager != null)
+            {
+                _scrollbarManager.ScrollbarsChanged -= OnManagedScrollbarsChanged;
+                _scrollbarManager.Dispose();
+                _scrollbarManager = null;
+            }
         }
         base.Dispose(disposing);
     }
@@ -1918,7 +1922,8 @@ public class KryptonTreeView : VisualControlBase,
         // to allow a relayout or if in design mode.
         if (IsHandleCreated || _forcedLayout || (DesignMode))
         {
-            Rectangle fillRect = _layoutFill.FillRect;
+            Rectangle fillRect = KryptonNativeWrapperScrollbarBoundsHelper.GetNativeChildBounds(
+                _layoutFill, _scrollbarManager, UseKryptonScrollbars);
             _treeView.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
         }
     }
@@ -1987,14 +1992,18 @@ public class KryptonTreeView : VisualControlBase,
             // attachment to the inner control follows the enabled state.
             if (ScrollbarManager.TargetControl == null)
             {
+                ScrollbarManager.ScrollbarsChanged += OnManagedScrollbarsChanged;
                 ScrollbarManager.Attach(_treeView, ScrollbarManagerMode.NativeWrapper);
             }
         }
-        else
+        else if (_scrollbarManager != null)
         {
-            _scrollbarManager?.Detach();
+            _scrollbarManager.ScrollbarsChanged -= OnManagedScrollbarsChanged;
+            _scrollbarManager.Detach();
         }
     }
+
+    private void OnManagedScrollbarsChanged(object? sender, EventArgs e) => ForceControlLayout();
 
     private void UpdateItemHeight()
     {
@@ -2040,7 +2049,7 @@ public class KryptonTreeView : VisualControlBase,
                 _contentValues.ShortText = node.Text;
                 _contentValues.LongText = string.Empty;
                 _contentValues.Image = null;
-                _contentValues.ImageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
+                _contentValues.ImageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
 
                 if (node is KryptonTreeNode kryptonNode)
                 {
@@ -2054,7 +2063,7 @@ public class KryptonTreeView : VisualControlBase,
                 _contentValues.ShortText = @"A";
                 _contentValues.LongText = string.Empty;
                 _contentValues.Image = null;
-                _contentValues.ImageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
+                _contentValues.ImageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
             }
         }
     }

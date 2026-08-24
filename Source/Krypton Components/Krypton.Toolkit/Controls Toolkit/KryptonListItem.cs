@@ -42,7 +42,7 @@ public class KryptonListItem : Component,
     /// Initialize a new instance of the KryptonListItem class.
     /// </summary>
     public KryptonListItem()
-        : this("ListItem", null, null, GlobalStaticVariables.EMPTY_COLOR)
+        : this("ListItem", null, null, SharedStaticVariables.EMPTY_COLOR)
     {
     }
 
@@ -51,7 +51,7 @@ public class KryptonListItem : Component,
     /// </summary>
     /// <param name="shortText">Initial short text value.</param>
     public KryptonListItem(string shortText)
-        : this(shortText, null, null, GlobalStaticVariables.EMPTY_COLOR)
+        : this(shortText, null, null, SharedStaticVariables.EMPTY_COLOR)
     {
     }
 
@@ -61,7 +61,7 @@ public class KryptonListItem : Component,
     /// <param name="shortText">Initial short text value.</param>
     /// <param name="longText">Initial long text value.</param>
     public KryptonListItem(string shortText, string longText)
-        : this(shortText, longText, null, GlobalStaticVariables.EMPTY_COLOR)
+        : this(shortText, longText, null, SharedStaticVariables.EMPTY_COLOR)
     {
     }
 
@@ -74,7 +74,7 @@ public class KryptonListItem : Component,
     public KryptonListItem(string shortText,
         string longText,
         Image? image)
-        : this(shortText, longText, image, GlobalStaticVariables.EMPTY_COLOR)
+        : this(shortText, longText, image, SharedStaticVariables.EMPTY_COLOR)
     {
     }
 
@@ -201,7 +201,7 @@ public class KryptonListItem : Component,
         }
     }
 
-    private bool ShouldSerializeImageTransparentColor() => _imageTransparentColor != GlobalStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeImageTransparentColor() => _imageTransparentColor != SharedStaticVariables.EMPTY_COLOR;
 
     #endregion
 
@@ -256,7 +256,7 @@ public class KryptonListItem : Component,
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Color value.</returns>
-    public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public Color GetOverlayImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the position of the overlay image relative to the main image.

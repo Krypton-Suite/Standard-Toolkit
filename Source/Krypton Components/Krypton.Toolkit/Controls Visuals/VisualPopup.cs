@@ -167,6 +167,23 @@ public class VisualPopup : ContainerControl
     }
 
     /// <summary>
+    /// Shows the shadow window for the popup rectangle, with optional padding for outer halo paths.
+    /// </summary>
+    /// <param name="popupScreenRect">Screen bounds of this popup.</param>
+    /// <param name="padding">Extra pixels around the popup for soft shadow rings.</param>
+    protected void ShowShadow(Rectangle popupScreenRect, int padding) =>
+        _shadow?.Show(popupScreenRect, padding);
+
+    /// <summary>
+    /// Shows the shadow window for the popup rectangle with padding and drop offset.
+    /// </summary>
+    /// <param name="popupScreenRect">Screen bounds of this popup.</param>
+    /// <param name="padding">Extra pixels around the popup for soft shadow rings.</param>
+    /// <param name="offset">Drop offset in pixels (down and right).</param>
+    protected void ShowShadow(Rectangle popupScreenRect, int padding, int offset) =>
+        _shadow?.Show(popupScreenRect, padding, offset);
+
+    /// <summary>
     /// Show the popup with the given size but relative to the provided top left point.
     /// </summary>
     /// <param name="popupLocation">Intended top left of parent area.</param>
@@ -222,15 +239,14 @@ public class VisualPopup : ContainerControl
             // Assuming we got back a valid window handle
             if (hWnd != IntPtr.Zero)
             {
-                var className = new StringBuilder(256);
-                var length = PI.GetClassName(hWnd, className, className.Capacity);
+                var className = PI.GetClassNameString(hWnd);
 
                 // If we got back a valid name
-                if (length > 0)
+                if (className.Length > 0)
                 {
                     // If let the message occur as it is being pressed on a combo box 
                     // drop-down list and so it will process the message appropriately
-                    if (className.ToString() == "ComboLBox")
+                    if (className == "ComboLBox")
                     {
                         endTracking = false;
                     }
@@ -384,7 +400,7 @@ public class VisualPopup : ContainerControl
         // Validate incoming reference
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         // If required, layout the control
@@ -434,6 +450,25 @@ public class VisualPopup : ContainerControl
             return cp;
         }
     }
+
+    /// <summary>
+    /// Raises the LocationChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected override void OnLocationChanged(EventArgs e)
+    {
+        // Keep the shadow window aligned when the popup is moved (e.g. radial AllowMove drag).
+        _shadow?.UpdatePopupLocation(Location);
+        base.OnLocationChanged(e);
+    }
+
+    /// <summary>
+    /// Updates the popup shadow colour and opacity when a shadow window is present.
+    /// </summary>
+    /// <param name="color">Base RGB colour for the shadow layers.</param>
+    /// <param name="opacity">Form opacity in the range 0..1.</param>
+    protected void UpdateShadowAppearance(Color color, float opacity) =>
+        _shadow?.ApplyAppearance(color, opacity);
 
     /// <summary>
     /// Raises the Layout event.

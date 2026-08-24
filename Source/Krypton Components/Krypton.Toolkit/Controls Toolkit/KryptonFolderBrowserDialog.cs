@@ -28,21 +28,16 @@ public class KryptonFolderBrowserDialog : ShellDialogWrapper, IDisposable
 #endif
 
     /// <inheritdoc />
-    protected override DialogResult ShowActualDialog(IWin32Window? owner) => _internalOpenFileDialog.ShowDialog(owner);
+    protected override DialogResult ShowActualDialog(IWin32Window? owner) =>
+#if NET8_0_OR_GREATER
+        _internalOpenFileDialog.ShowDialog(owner);
+#else
+        // Avoid nested ShellDialogWrapper.ShowDialog (second CBT/host pass).
+        _internalOpenFileDialog.ShowFolderDialogCore(owner);
+#endif
 
-    private protected override bool WndActivated(object sender, MsdnMag.CbtEventArgs e)
-    {
-        if (!base.WndActivated(sender, e))
-        {
-            // Not handled
-            return false;
-        }
-
-        // BrowseDlg does not repaint the native list backgrounds correctly when transparent.
-        var exStyle = PI.GetWindowLong(_handle, PI.GWL_.EXSTYLE);
-        PI.SetWindowLong(_handle, PI.GWL_.EXSTYLE, exStyle & ~PI.WS_EX_.TRANSPARENT);
-        return true;
-    }
+    private protected override bool WndActivated(object sender, MsdnMag.CbtEventArgs e) =>
+        base.WndActivated(sender, e);
 
 #if NET8_0_OR_GREATER
         /// <inheritdoc />
@@ -119,5 +114,40 @@ public class KryptonFolderBrowserDialog : ShellDialogWrapper, IDisposable
 
     /// <inheritdoc />
     public void Dispose() => _internalOpenFileDialog.Dispose();
+
+    internal override KryptonDialogOptions CreateDialogOptions() => new KryptonDialogOptions
+    {
+        Kind = KryptonDialogKind.SelectFolder,
+        Title = Title,
+        Icon = Icon,
+        InitialDirectory =
+#if NET8_0_OR_GREATER
+            InitialDirectory ?? string.Empty,
+#else
+            SelectedPath ?? string.Empty,
+#endif
+        CurrentPath = SelectedPath ?? string.Empty,
+        FileName = string.Empty,
+        RootFolder = RootFolder
+    };
+
+    internal override KryptonDialogResult CaptureDialogResult()
+    {
+        var selectedPath = SelectedPath ?? string.Empty;
+        return new KryptonDialogResult
+        {
+            SelectedPath = selectedPath,
+            FileName = selectedPath,
+            FileNames = string.IsNullOrWhiteSpace(selectedPath) ? Array.Empty<string>() : new[] { selectedPath }
+        };
+    }
+
+    internal override void ApplyDialogResult(KryptonDialogResult result)
+    {
+        SelectedPath = result.SelectedPath;
+#if NET8_0_OR_GREATER
+        InitialDirectory = result.SelectedPath;
+#endif
+    }
 
 }

@@ -22,6 +22,8 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
     private bool _isExternalUpdate = false;
     /// <summary> Backing var for the DefaultPalette property.</summary>
     private PaletteMode _defaultPalette = PaletteMode.Global;
+    /// <summary> Whether extra catalogued palettes appear in the list.</summary>
+    private bool _showExtraThemes = true;
     /// <summary> Local Krypton Manager instance.</summary>
     private readonly KryptonManager _manager;
     /// <summary> User defined palette.</summary>
@@ -38,7 +40,7 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
         DropDownStyle = ComboBoxStyle.DropDownList;
 
         Items.Clear();
-        Items.AddRange(CommonHelperThemeSelectors.GetThemesArray());
+        Items.AddRange(CommonHelperThemeSelectors.GetThemesArray(_showExtraThemes));
 
         // Sets the intial palette from either global or DefaultPalette property
         SelectedIndex = CommonHelperThemeSelectors.GetInitialSelectedIndex(DefaultPalette, _manager, Items);
@@ -61,6 +63,28 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
 
     private void ResetDefaultPalette() => DefaultPalette = PaletteMode.Global;
     private bool ShouldSerializeDefaultPalette() => _defaultPalette != PaletteMode.Global;
+
+    /// <summary>
+    /// Gets or sets whether extra (non-core) catalogued palettes appear in the drop-down.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"When false, only core Toolkit palettes are listed.")]
+    [DefaultValue(true)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public bool ShowExtraThemes
+    {
+        get => _showExtraThemes;
+        set
+        {
+            if (_showExtraThemes == value)
+            {
+                return;
+            }
+
+            _showExtraThemes = value;
+            ReloadThemeItems();
+        }
+    }
 
     #endregion
 
@@ -90,8 +114,44 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
     {
         // React to theme changes from outside this control.
         KryptonManager.GlobalPaletteChanged += KryptonManagerGlobalPaletteChanged;
+        ThemeManager.RegisteredThemesChanged += ThemeManagerRegisteredThemesChanged;
         base.OnHandleCreated(e);
     }
+
+    /// <inheritdoc />
+    protected override void OnHandleDestroyed(EventArgs e)
+    {
+        KryptonManager.GlobalPaletteChanged -= KryptonManagerGlobalPaletteChanged;
+        ThemeManager.RegisteredThemesChanged -= ThemeManagerRegisteredThemesChanged;
+        base.OnHandleDestroyed(e);
+    }
+
+    private void ThemeManagerRegisteredThemesChanged(object? sender, EventArgs e)
+    {
+        if (IsDisposed)
+        {
+            return;
+        }
+
+        ReloadThemeItems();
+    }
+
+    private void ReloadThemeItems()
+    {
+        string previous = GetSelectedThemeName();
+        var fallback = KryptonManager.CurrentGlobalPaletteMode;
+        int idx = CommonHelperThemeSelectors.ReloadThemeItems(Items, _showExtraThemes, previous, fallback);
+        _isExternalUpdate = true;
+        try
+        {
+            SelectedIndex = idx;
+        }
+        finally
+        {
+            _isExternalUpdate = false;
+        }
+    }
+
     /// <summary>
     /// This method will run when the KryptonManager.GlobalPaletteChanged event is fired.<br/>
     /// It will synchronize the SelectedIndex with the newly assigned Global Palette.
@@ -112,10 +172,8 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
         }
 
         // Refresh theme list so "Custom" shows as "Custom - [Theme Name]" when a custom palette has a name (issue #1031)
-        Items.Clear();
-        Items.AddRange(CommonHelperThemeSelectors.GetThemesArray());
-
-        int idx = CommonHelperThemeSelectors.GetPaletteIndex(Items, mode);
+        string previous = GetSelectedThemeName();
+        int idx = CommonHelperThemeSelectors.ReloadThemeItems(Items, _showExtraThemes, previous, mode);
         if (idx == SelectedIndex)
         {
             return;

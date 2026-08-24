@@ -20,64 +20,21 @@ internal class PaletteClassTypeConverter : EnumConverter
     private static readonly BiDictionary<PaletteMode, Type> _pairs = new BiDictionary<PaletteMode, Type>
     (new Dictionary<PaletteMode, Type>
         {
+            // Core palettes only; extra modes resolve via KryptonThemeCatalog after discovery.
             {PaletteMode.ProfessionalSystem, typeof(PaletteProfessionalSystem)},
             {PaletteMode.ProfessionalOffice2003, typeof(PaletteProfessionalOffice2003)},
             {PaletteMode.Office2007Blue, typeof(PaletteOffice2007Blue)},
-            //{PaletteMode.Office2007DarkGray, typeof(PaletteOffice2007DarkGray)},
-            {PaletteMode.Office2007BlueDarkMode, typeof(PaletteOffice2007BlueDarkMode)},
-            {PaletteMode.Office2007BlueLightMode, typeof(PaletteOffice2007BlueLightMode)},
             {PaletteMode.Office2007Silver, typeof(PaletteOffice2007Silver)},
-            {PaletteMode.Office2007SilverDarkMode, typeof(PaletteOffice2007SilverDarkMode)},
-            {PaletteMode.Office2007SilverLightMode, typeof(PaletteOffice2007SilverLightMode)},
-            {PaletteMode.Office2007White, typeof(PaletteOffice2007White)},
             {PaletteMode.Office2007Black, typeof(PaletteOffice2007Black)},
-            //{PaletteMode.Office2010DarkGray, typeof(PaletteOffice2010DarkGray)},
-            {PaletteMode.Office2007BlackDarkMode, typeof(PaletteOffice2007BlackDarkMode)},
             {PaletteMode.Office2010Blue, typeof(PaletteOffice2010Blue)},
-            {PaletteMode.Office2010BlueDarkMode, typeof(PaletteOffice2010BlueDarkMode)},
-            {PaletteMode.Office2010BlueLightMode, typeof(PaletteOffice2010BlueLightMode)},
             {PaletteMode.Office2010Silver, typeof(PaletteOffice2010Silver)},
-            {PaletteMode.Office2010SilverDarkMode, typeof(PaletteOffice2010SilverDarkMode)},
-            {PaletteMode.Office2010SilverLightMode, typeof(PaletteOffice2010SilverLightMode)},
-            {PaletteMode.Office2010White, typeof(PaletteOffice2010White)},
             {PaletteMode.Office2010Black, typeof(PaletteOffice2010Black)},
-            {PaletteMode.Office2010BlackDarkMode, typeof(PaletteOffice2010BlackDarkMode)},
-            {PaletteMode.Office2013DarkGray, typeof(PaletteOffice2013DarkGray)},
-            {PaletteMode.Office2013LightGray, typeof(PaletteOffice2013LightGray)},
-            {PaletteMode.Office2013White, typeof(PaletteOffice2013White)},
-            {PaletteMode.SparkleBlue, typeof(PaletteSparkleBlue)},
-            {PaletteMode.SparkleBlueDarkMode, typeof(PaletteSparkleBlueDarkMode)},
-            {PaletteMode.SparkleBlueLightMode, typeof(PaletteSparkleBlueLightMode)},
-            {PaletteMode.SparkleOrange, typeof(PaletteSparkleOrange)},
-            {PaletteMode.SparkleOrangeDarkMode, typeof(PaletteSparkleOrangeDarkMode)},
-            {PaletteMode.SparkleOrangeLightMode, typeof(PaletteSparkleOrangeLightMode)},
-            {PaletteMode.SparklePurple, typeof(PaletteSparklePurple)},
-            {PaletteMode.SparklePurpleDarkMode, typeof(PaletteSparklePurpleDarkMode)},
-            {PaletteMode.SparklePurpleLightMode, typeof(PaletteSparklePurpleLightMode)},
-            {PaletteMode.Microsoft365Black, typeof(PaletteMicrosoft365Black)},
-            {PaletteMode.Microsoft365BlackDarkMode, typeof(PaletteMicrosoft365BlackDarkMode)},
-            {PaletteMode.Microsoft365BlackDarkModeAlternate, typeof(PaletteMicrosoft365BlackDarkModeAlternate)},
-            {PaletteMode.Microsoft365BlueDarkMode, typeof(PaletteMicrosoft365BlueDarkMode)},
-            {PaletteMode.Microsoft365BlueLightMode, typeof(PaletteMicrosoft365BlueLightMode)},
             {PaletteMode.Microsoft365Blue, typeof(PaletteMicrosoft365Blue)},
-            //{PaletteMode.Microsoft365DarkGray, typeof(PaletteMicrosoft365DarkGray)},
             {PaletteMode.Microsoft365Silver, typeof(PaletteMicrosoft365Silver)},
-            {PaletteMode.Microsoft365SilverDarkMode, typeof(PaletteMicrosoft365SilverDarkMode)},
-            {PaletteMode.Microsoft365SilverLightMode, typeof(PaletteMicrosoft365SilverLightMode)},
-            {PaletteMode.Microsoft365White, typeof(PaletteMicrosoft365White)},
-            {PaletteMode.VisualStudio2010Render2007, typeof(PaletteVisualStudio2010Office2007Variation)},
-            {PaletteMode.VisualStudio2010Render2010, typeof(PaletteVisualStudio2010Office2010Variation)},
-            {PaletteMode.VisualStudio2010Render2013, typeof(PaletteVisualStudio2010Office2013Variation)},
-            {PaletteMode.VisualStudio2010Render365, typeof(PaletteVisualStudio2010Microsoft365Variation)},
-            {PaletteMode.VisualStudio2022Dark, typeof(PaletteVisualStudio2022Dark)},
-            {PaletteMode.MaterialLight, typeof(PaletteMaterialLight)},
-            {PaletteMode.MaterialDark, typeof(PaletteMaterialDark)},
-            {PaletteMode.MaterialLightRipple, typeof(PaletteMaterialLightRipple)},
-            {PaletteMode.MaterialDarkRipple, typeof(PaletteMaterialDarkRipple)},
-            {PaletteMode.RetroGreen, typeof(PaletteRetroGreen)},
-            {PaletteMode.RetroBlue, typeof(PaletteRetroBlue)},
-            {PaletteMode.MacOSLight, typeof(PaletteMacOSLight)},
-            {PaletteMode.MacOSDark, typeof(PaletteMacOSDark)}
+            {PaletteMode.Microsoft365Black, typeof(PaletteMicrosoft365Black)},
+            {PaletteMode.SparkleBlue, typeof(PaletteSparkleBlue)},
+            {PaletteMode.SparkleOrange, typeof(PaletteSparkleOrange)},
+            {PaletteMode.SparklePurple, typeof(PaletteSparklePurple)}
             //{PaletteMode.Custom, typeof(KryptonCustomPaletteBase)}
         });
 
@@ -114,6 +71,9 @@ internal class PaletteClassTypeConverter : EnumConverter
             {
                 return classType;
             }
+
+            KryptonThemeCatalog.EnsureReady();
+            // Extra palettes: identity is the mode; consumers should use GetPaletteForMode.
         }
 
         // Let base class perform default conversion
@@ -137,6 +97,11 @@ internal class PaletteClassTypeConverter : EnumConverter
             if( _pairs.SecondToFirst.TryGetValue(val, out var mode))
             {
                 return mode;
+            }
+
+            if (KryptonThemeCatalog.TryGetMode(val, out var catalogMode))
+            {
+                return catalogMode;
             }
         }
 

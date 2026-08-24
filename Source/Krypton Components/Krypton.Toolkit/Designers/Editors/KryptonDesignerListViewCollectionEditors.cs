@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -125,7 +125,7 @@ public sealed class KryptonDesignerListViewGroupCollectionEditor : KryptonDesign
 
     #region Public
     /// <inheritdoc />
-    public override object? EditValue(ITypeDescriptorContext? context, IServiceProvider provider, object? value)
+    public override object? EditValue(ITypeDescriptorContext? context, IServiceProvider? provider, object? value)
     {
         _editValue = value;
         value = base.EditValue(context, provider, value);

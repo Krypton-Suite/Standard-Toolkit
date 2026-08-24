@@ -16,7 +16,7 @@
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<NeutralLanguage>en</NeutralLanguage>
 		<DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
-		<Configurations>Debug;Release;Installer;Nightly;Canary</Configurations>
+		<Configurations>Debug;Release;Installer;Nightly;Canary;RC</Configurations>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<Nullable>enable</Nullable>
 		<WarningLevel>8</WarningLevel>
@@ -28,6 +28,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<!-- Direct Interop ref required because Krypton.Toolkit uses PrivateAssets="all" (#3908). -->
+		<ProjectReference Include="..\Krypton.Interop\Krypton.Interop.csproj" PrivateAssets="all" />
 		<ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
 	</ItemGroup>
 

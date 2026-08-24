@@ -42,7 +42,7 @@ internal class ViewLayoutRibbonAppButton : ViewLayoutDocker
         bool bottomHalf)
     {
         Debug.Assert(ribbon is not null);
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
 
         AppButton = new ViewDrawRibbonAppButton(ribbon, bottomHalf);
         _separator = new ViewLayoutRibbonSeparator(APPBUTTON_GAP, true);
@@ -130,7 +130,9 @@ internal class ViewLayoutRibbonAppButton : ViewLayoutDocker
     #region Implementation
     private void UpdateSeparatorSize()
     {
-        var separatorSize = new Size(APPBUTTON_GAP, APPBUTTON_GAP);
+        // APPBUTTON_GAP is logical (96 DPI); form borders are already in physical pixels.
+        var scaledGap = Math.Max(0, (int)Math.Round(APPBUTTON_GAP * FactorDpiX, MidpointRounding.AwayFromZero));
+        var separatorSize = new Size(scaledGap, scaledGap);
 
         // Do we need to add on extra sizing to the separator?
         if (OwnerForm != null)

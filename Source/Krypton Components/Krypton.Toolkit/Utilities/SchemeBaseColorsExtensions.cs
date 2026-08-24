@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -21,7 +21,7 @@ public static class SchemeBaseColorsExtensions
     {
         if (scheme == null)
         {
-            throw new ArgumentNullException(nameof(scheme));
+            ThrowHelper.ThrowArgumentNullException(nameof(scheme));
         }
 
         var names = Enum.GetNames(typeof(SchemeBaseColors));
@@ -32,7 +32,7 @@ public static class SchemeBaseColorsExtensions
         {
             var property = type.GetProperty(names[i]);
             colors[i] = property is null
-                ? GlobalStaticVariables.EMPTY_COLOR
+                ? SharedStaticVariables.EMPTY_COLOR
                 : (Color)property.GetValue(scheme)!;
         }
 
@@ -49,7 +49,7 @@ public static class SchemeBaseColorsExtensions
     {
         if (scheme == null)
         {
-            throw new ArgumentNullException(nameof(scheme));
+            ThrowHelper.ThrowArgumentNullException(nameof(scheme));
         }
 
         return new[]

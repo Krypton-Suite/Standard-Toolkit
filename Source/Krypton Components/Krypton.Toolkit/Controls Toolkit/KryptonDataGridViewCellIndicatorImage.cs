@@ -168,8 +168,9 @@ internal class KryptonDataGridViewCellIndicatorImage : IDisposable
     /// For use by non-selected, non-highlighted, non-editing cells.
     /// </summary>
     /// <param name="size">Desired square size in pixels.</param>
+    /// <param name="cellType">Desired cell type.</param>
     /// <returns>Bitmap image; null if renderer/palette not available.</returns>
-    internal Image? GetOrCreate(int size)
+    internal Image? GetOrCreate(int size, DataGridViewCell? cellType = null)
     {
         if (size <= 0)
         {
@@ -182,6 +183,7 @@ internal class KryptonDataGridViewCellIndicatorImage : IDisposable
         }
 
         PaletteBase palette = _dataGridView.GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
+        _paletteState = _dataGridView.Enabled ? PaletteState.Normal : PaletteState.Disabled;
         (Color outline, Color fill) = DropDownArrowGlyphColors.Resolve(palette, _paletteState);
 
         int maxSize = Math.Max(size, 1);
@@ -203,7 +205,29 @@ internal class KryptonDataGridViewCellIndicatorImage : IDisposable
             return _image;
         }
 
-        return DropDownArrowGlyphCache.GetOrCreate(glyphSize, outline, fill, DropDownArrowGlyphDirection.Down);
+        switch (cellType)
+        {
+            case KryptonDataGridViewDomainUpDownCell:
+            case KryptonDataGridViewNumericUpDownCell:
+                glyphSize = Math.Max(glyphSize, size);
+                int half = glyphSize / 2;
+                int offsetX = ((glyphSize - half) / 2 ) + 2;
+
+                var imageUpDown = new Bitmap(glyphSize, glyphSize, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                Image up = DropDownArrowGlyphCache.GetOrCreate(half, outline, fill, DropDownArrowGlyphDirection.Up);
+                Image down = DropDownArrowGlyphCache.GetOrCreate(half, outline, fill, DropDownArrowGlyphDirection.Down);
+
+                using (var g = Graphics.FromImage(imageUpDown))
+                {
+                    g.Clear(Color.Transparent);
+                    g.DrawImage(up, offsetX, 0, half, half);
+                    g.DrawImage(down, offsetX, half, half, half);
+                }
+                return imageUpDown;
+
+            default:
+                return DropDownArrowGlyphCache.GetOrCreate(glyphSize, outline, fill, DropDownArrowGlyphDirection.Down);
+        }
     }
     #endregion Private
 }

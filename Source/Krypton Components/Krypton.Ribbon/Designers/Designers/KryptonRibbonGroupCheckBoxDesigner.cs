@@ -70,8 +70,8 @@ internal class KryptonRibbonGroupCheckBoxDesigner : ComponentDesigner
         }
 
         // Get access to the services
-        _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
-        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
+        _designerHost =(IDesignerHost?)GetService(typeof(IDesignerHost)) ?? ThrowHelper.ThrowNullReferenceException<IDesignerHost>(SharedStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
+        _changeService =(IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? ThrowHelper.ThrowNullReferenceException<IComponentChangeService>(SharedStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
 
         // We need to know when we are being removed/changed
         _changeService.ComponentChanged += OnComponentChanged;
@@ -165,7 +165,7 @@ internal class KryptonRibbonGroupCheckBoxDesigner : ComponentDesigner
         if (_ribbonCheckBox is { Ribbon: not null, RibbonContainer: not null })
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
+            var items = ParentItems ?? ThrowHelper.ThrowNullReferenceException<TypedRestrictCollection<KryptonRibbonGroupItem>>(SharedStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCheckBox MoveFirst");
@@ -198,7 +198,7 @@ internal class KryptonRibbonGroupCheckBoxDesigner : ComponentDesigner
 
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
+            var items = ParentItems ?? ThrowHelper.ThrowNullReferenceException<TypedRestrictCollection<KryptonRibbonGroupItem>>(SharedStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCheckBox MovePrevious");
@@ -232,7 +232,7 @@ internal class KryptonRibbonGroupCheckBoxDesigner : ComponentDesigner
         if (_ribbonCheckBox is { Ribbon: not null, RibbonContainer: not null })
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
+            var items = ParentItems ?? ThrowHelper.ThrowNullReferenceException<TypedRestrictCollection<KryptonRibbonGroupItem>>(SharedStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCheckBox MoveNext");
@@ -266,7 +266,7 @@ internal class KryptonRibbonGroupCheckBoxDesigner : ComponentDesigner
         if (_ribbonCheckBox is { Ribbon: not null, RibbonContainer: not null })
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
+            var items = ParentItems ?? ThrowHelper.ThrowNullReferenceException<TypedRestrictCollection<KryptonRibbonGroupItem>>(SharedStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCheckBox MoveLast");
@@ -298,7 +298,7 @@ internal class KryptonRibbonGroupCheckBoxDesigner : ComponentDesigner
         if (_ribbonCheckBox is { Ribbon: not null, RibbonContainer: not null })
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
+            var items = ParentItems ?? ThrowHelper.ThrowNullReferenceException<TypedRestrictCollection<KryptonRibbonGroupItem>>(SharedStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCheckBox DeleteCheckBox");

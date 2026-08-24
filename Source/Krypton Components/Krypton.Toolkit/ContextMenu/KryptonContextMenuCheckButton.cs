@@ -75,7 +75,7 @@ public class KryptonContextMenuCheckButton : KryptonContextMenuItemBase, IKrypto
         _text = initialText;
         _extraText = string.Empty;
         _image = null;
-        _imageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
+        _imageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
         _checked = false;
         _autoCheck = false;
         _style = ButtonStyle.Standalone;
@@ -262,7 +262,7 @@ public class KryptonContextMenuCheckButton : KryptonContextMenuItemBase, IKrypto
         }
     }
 
-    private bool ShouldSerializeImageTransparentColor() => (_imageTransparentColor == null) || !_imageTransparentColor.Equals(GlobalStaticVariables.EMPTY_COLOR);
+    private bool ShouldSerializeImageTransparentColor() => (_imageTransparentColor == null) || !_imageTransparentColor.Equals(SharedStaticVariables.EMPTY_COLOR);
 
     /// <summary>
     /// Gets and sets the check button style.

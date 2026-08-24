@@ -62,7 +62,7 @@ public class KryptonDataGridViewLinkColumn : KryptonDataGridViewIconColumn
     public override object Clone()
     {
         // Create a new instance
-        var clone = base.Clone() as KryptonDataGridViewLinkColumn ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("clone"));
+        var clone =base.Clone() as KryptonDataGridViewLinkColumn ?? ThrowHelper.ThrowNullReferenceException<KryptonDataGridViewLinkColumn>(SharedStaticFunctions.VariableCannotBeNull("clone"));
         clone.Text = Text;
         clone.LabelStyle = LabelStyle;
 
@@ -84,7 +84,7 @@ public class KryptonDataGridViewLinkColumn : KryptonDataGridViewIconColumn
         {
             if ((value is not null) && value is not KryptonDataGridViewLinkCell)
             {
-                throw new InvalidCastException("Can only assign a object of type KryptonDataGridViewLinkCell");
+                ThrowHelper.ThrowInvalidCastException("Can only assign a object of type KryptonDataGridViewLinkCell");
             }
 
             base.CellTemplate = value as KryptonDataGridViewLinkCell;
@@ -173,7 +173,7 @@ public class KryptonDataGridViewLinkColumn : KryptonDataGridViewIconColumn
     public LinkBehavior LinkBehavior
     {
         get =>
-            ((KryptonDataGridViewLinkCell)CellTemplate!)?.LinkBehavior ?? throw new InvalidOperationException("KryptonDataGridViewLinkCell cell template required");
+((KryptonDataGridViewLinkCell)CellTemplate!)?.LinkBehavior ?? ThrowHelper.ThrowInvalidOperationException<LinkBehavior>("KryptonDataGridViewLinkCell cell template required");
         set
         {
             if (!LinkBehavior.Equals(value))
@@ -206,7 +206,7 @@ public class KryptonDataGridViewLinkColumn : KryptonDataGridViewIconColumn
     public bool TrackVisitedState
     {
         get =>
-            ((KryptonDataGridViewLinkCell)CellTemplate!)?.TrackVisitedState ?? throw new InvalidOperationException("KryptonDataGridViewLinkCell cell template required");
+((KryptonDataGridViewLinkCell)CellTemplate!)?.TrackVisitedState ?? ThrowHelper.ThrowInvalidOperationException<bool>("KryptonDataGridViewLinkCell cell template required");
         set
         {
             if (TrackVisitedState != value)
@@ -237,7 +237,7 @@ public class KryptonDataGridViewLinkColumn : KryptonDataGridViewIconColumn
     public bool UseColumnTextForLinkValue
     {
         get =>
-            ((KryptonDataGridViewLinkCell)CellTemplate!)?.UseColumnTextForLinkValue ?? throw new InvalidOperationException("KryptonDataGridViewLinkCell cell template required");
+((KryptonDataGridViewLinkCell)CellTemplate!)?.UseColumnTextForLinkValue ?? ThrowHelper.ThrowInvalidOperationException<bool>("KryptonDataGridViewLinkCell cell template required");
 
         set
         {

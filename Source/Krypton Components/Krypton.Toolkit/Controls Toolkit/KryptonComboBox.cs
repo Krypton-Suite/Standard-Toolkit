@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -276,7 +276,7 @@ public class KryptonComboBox : VisualControlBase,
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Color value.</returns>
-        public virtual Color GetImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+        public virtual Color GetImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the content long text.
@@ -296,7 +296,7 @@ public class KryptonComboBox : VisualControlBase,
         /// </summary>
         /// <param name="state">The state for which the overlay image is needed.</param>
         /// <returns>Color value.</returns>
-        public virtual Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+        public virtual Color GetOverlayImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the position of the overlay image relative to the main image.
@@ -1914,7 +1914,7 @@ public class KryptonComboBox : VisualControlBase,
             {
                 if (value == ComboBoxStyle.Simple)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(_comboBox.DropDownStyle), @"KryptonComboBox does not support the DropDownStyle.Simple style.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(_comboBox.DropDownStyle), @"KryptonComboBox does not support the DropDownStyle.Simple style.");
                 }
 
                 // #1697 Work-around
@@ -3501,7 +3501,7 @@ public class KryptonComboBox : VisualControlBase,
             _contentValues!.ShortText = _comboBox.GetItemText(Items[index]);
             _contentValues.LongText = null;
             _contentValues.Image = null;
-            _contentValues.ImageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
+            _contentValues.ImageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
         }
 
         // Always ensure there is some text that can be measured, if only a single space. The height of
@@ -3718,7 +3718,7 @@ public class KryptonComboBox : VisualControlBase,
     private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
     {
         // Unhook events from the specific instance that generated event
-        var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
+        var popupToolTip =sender as VisualPopupToolTip ?? ThrowHelper.ThrowArgumentNullException(sender as VisualPopupToolTip, nameof(sender));
         popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
         // Not showing a popup page anymore

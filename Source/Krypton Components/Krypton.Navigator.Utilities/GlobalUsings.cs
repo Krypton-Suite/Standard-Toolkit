@@ -1,15 +1,22 @@
-// Global using directives
-
-global using System;
+﻿global using System;
+global using System.Diagnostics;
 global using System.Diagnostics.CodeAnalysis;
 global using System.Collections.Generic;
 global using System.ComponentModel;
 global using System.ComponentModel.Design;
 global using System.Drawing;
+global using System.Drawing.Drawing2D;
+global using System.Drawing.Imaging;
+global using System.IO;
 global using System.Reflection;
+global using System.Runtime.CompilerServices;
 global using System.Runtime.InteropServices;
 global using System.Text;
 global using System.Windows.Forms;
 global using System.Linq;
+global using System.Xml;
 
+global using Krypton.Interop;
 global using Krypton.Navigator;
+global using Krypton.Toolkit;
+global using Krypton.Workspace;

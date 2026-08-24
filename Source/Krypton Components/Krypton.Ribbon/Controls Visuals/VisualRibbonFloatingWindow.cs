@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -39,7 +39,7 @@ public class VisualRibbonFloatingWindow : KryptonForm
     /// <param name="ribbon">Reference to the ribbon control to host.</param>
     public VisualRibbonFloatingWindow(Form owner, KryptonRibbon ribbon)
     {
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
 
         // IMPORTANT: Set inherited control override for proper control handling
         // This is required for KryptonForm to properly manage controls

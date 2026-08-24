@@ -82,7 +82,10 @@ internal class KryptonSystemMenuListener : NativeWindow
         if (m.Msg == PI.WM_.NCRBUTTONDOWN)
         {
             Point screenPoint = GetScreenPointFromLParam(m.LParam);
-            if (_form.IsInTitleBarArea(screenPoint))
+
+            // Interactive caption content (injected navigator tabs, ButtonSpecs) shows its own
+            // right-click menu, so the message must reach the form instead of being eaten here.
+            if (_form.IsInTitleBarArea(screenPoint) && !_form.IsOverInteractiveChromeContent(screenPoint))
             {
                 OnNCRightMouseButtonDown(screenPoint);
                 // Eat the message

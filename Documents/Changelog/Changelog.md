@@ -45,9 +45,241 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#4255](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4255), Black frame flash and extra layout/paint cost when maximizing, minimizing, or restoring a `KryptonForm` from the caption or taskbar.
+* Implemented [#4254](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4254), DPI-scale Ribbon QAT extra button (`ViewDrawRibbonQATExtraButton`)
+   * Ribbon Quick Access Toolbar overflow/customize button now scales with DPI
+* Implemented [#4246](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4246), Use of 'RC' NuGet packages
+   * Release candidate NuGet packages from the `gold` branch (`-rc` versions of the stable package IDs).
+* Implemented [#4248](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4248), Is it possible to add `PulsingBorderValues` in `KryptonManager`
+   * Global `KryptonManager.PulsingBorderValues` is grouped by control type (`Forms`, `Buttons`, `Inputs`, `Other`). Per-control `PulsingBorderValues` inherit until you set a local override.
+   * Buttons (`KryptonButton`, `KryptonDropButton`, `KryptonColorButton`) default to a full rounded glow; inputs default to a bottom-edge glow so combo drop-down glyphs are not redrawn every frame.
+* Implemented [#1110](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1110), Where is the Krypton equivalent of a Form `MenuStrip`
+   * `KryptonMenuStrip` is in the Toolbox and MenuStrip/ToolStrip/StatusStrip fonts follow the palette and `BaseFont` (`KryptonMenuStrip` first shipped in #2689).
+* Implemented [#3854](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3854), Removed unused duplicate utility types
+  * Ribbon now uses the public Toolkit `BiDictionary`.
+  * Workspace uses Interop `PI.WM_.CONTEXTMENU` instead of a local `PI` stub.
+  * `Krypton.Toolkit.Utilities` uses Interop nullable polyfills instead of a second `AllowNullAttribute.cs`.
+  * Toast graphics helpers call Toolkit `GraphicsExtensions` for image scaling and imageres extraction.
+  * **[Breaking Change]** Removed unused Toolkit copies of file-system list/tree views, countdown button, and their Values types. Use the `Krypton.Toolkit.Utilities` controls (`KryptonFileSystemListView`, `KryptonFileSystemTreeView`, `KryptonCountdownButton`).
+* Implemented, PowerToys-style screen colour picker (`KryptonScreenColorPicker`)
+   * Live-refresh the desktop, magnify pixels under the cursor, and click to sample. Esc or right-click cancels. Zoom with the mouse wheel, `+`/`-`, Page Up/Down, or arrow keys; Ctrl+wheel, Ctrl+`+/-`, or `[`/`]` resizes the magnifier (odd 7–21 source pixels). F12 or Print Screen copies the overlay to the clipboard.
+   * Choose **Krypton** (themed `KryptonHeaderGroup` flyout, default) or **Classic** (PowerToys painted flyout) via `KryptonScreenColorPickerFlyoutStyle`. Classic follows the cursor in its own window so it does not trail, and the magnifier fills the panel.
+   * Show or hide colour formats on the flyout (`Hex`, `HexAlpha`, `HexInteger`, `RGB`, `RGBA`, `HSL`, `HSV`, `CMYK`, `Decimal`, `Vector`, `KnownName`) via `KryptonScreenColorPicker.VisibleColorFormats`.
+   * Drop **KryptonColorPicker** from the Visual Studio toolbox (component tray, like `ColorDialog`). Call `ShowDialog` / `TryPick`; set `FlyoutStyle`, `MagnifierSize`, `Zoom`, and `VisibleColorFormats` per instance.
+   * Overlay instructions, flyout labels, and colour-format text are localisable via `KryptonScreenColorPicker.Strings` (also on `KryptonColorPicker.Strings`).
+   * To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
+* Implemented [#4234](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4234), An easier way to create custom themes
+   * Generate a custom theme from a few colours (hex, RGB, or a random seed) via `KryptonCustomThemeGenerator` / `KryptonCustomThemeBuilder`.
+   * Generate a custom theme from a few colours (hex or RGB) via `KryptonCustomThemeGenerator` / `KryptonCustomThemeBuilder`.
+* Implemented [#3862](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3862), Enhanced `KryptonContextMenu`
+   * Office-style Mini Toolbar with `KryptonContextMenu`, selection fade-in, and in-menu galleries with live preview.
+   * Designer- and runtime-configurable: Mini Toolbar items, paired menu items, position, gap, keep-after-command, selection opacity, and per-item visibility.
+* Implemented [#3176](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3176), A Krypton `msinfo32` drop-in
+   * Krypton System Information (`msinfo32`-style) dialog for About Box and standalone use.
+* Implemented [#4223](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4223), A native logging system
+   * Native logging (`KryptonLog`) with levels, named categories, rolling files, a themed viewer, and optional splash/exception/bug-report wiring.
+* Implemented [#4230](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4230), **[Breaking Change]** A new theme system
+  * Extra builtin palettes moved to `Krypton.Themes`, with auto-discovery and selector enable/disable.
+  * `Krypton.Toolkit` keeps Professional, Sparkle Blue/Orange/Purple, plus Office 2007/2010/Microsoft 365 Blue, Silver, and Black. Other builtin palettes load from `Krypton.Themes.dll` when it is present (`KryptonManager.AutoDiscoverThemes`).
+  * Hide families or individual `PaletteMode` values from theme combos via `KryptonThemeAvailability`. `PaletteMode` values are unchanged.
+  * Extra palette singleton properties on `KryptonManager` now return `PaletteBase` (concrete extra types live in `Krypton.Themes`).
+  * If `Krypton.Themes.dll` is not present, extra `PaletteMode` values paint as Microsoft 365 Blue instead of throwing (`KryptonThemeCatalog.MissingThemeFallback`).
+  * The `Krypton.Standard.Toolkit` NuGet package includes `Krypton.Themes`. Apps that reference Toolkit only get core themes unless they add `Krypton.Themes`.
+  * Materialize Blue, Materialize Light Blue, and Silver Dark Alternate palettes ship in `Krypton.Themes` (family `Materialize`).
+  * Theme chrome and UAC shield artwork follow `KryptonThemeChromeKind` / `KryptonThemeShieldIconStyle` on the catalog descriptor, so new extra palettes do not need Toolkit `PaletteMode` switch arms.
+  * Extra `KryptonManager.Palette*` singleton accessors are obsolete; use `GetPaletteForMode(PaletteMode)` instead.
+* Implemented [#4237](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4237), Multi Column Combo Boxes
+   * Multi-column combo box (`KryptonMultiColumnComboBox`) with a themed grid drop-down and standard Krypton combo editor chrome (ButtonSpecs, rounded corners).
+   * To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
+* Implemented [#1551](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1551), New dark/light mode theme colours
+   * New Materialize Blue, Materialize Light Blue, and Silver Dark Alternate builtin themes for Office 2007 / 2010 / 2013, Microsoft 365, and Material (including Material Ripple).
+   * These palettes live in `Krypton.Themes` and are auto-discovered with other extra themes.
+* Implemented [#1083](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1083), Visual Studio themes (2010 – 2026)
+* Resolved, `KryptonExceptionDialog` threw `InvalidCastException` when populating the exception tree (`TreeNode` cannot be cast to `KryptonTreeNode`).
+* Implemented [#4180](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4180), A really good Splash Screen Implementation
+   * Non-blocking themed splash screen manager (`KryptonSplashScreenManager`) with fade, live status/progress, logging callbacks, background image, opacity, and startup-step exception handling.
+   * Optional `BorderAnimation` (`None` / `Pulse` / `Sweep`) draws a themed animated edge around the splash.
+   * To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
+* Implemented [#4225](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4225), **[Breaking Change]** `KryptonRadialMenu` followups
+   * `Items` can now be found under `Values.Items` (and `Items` is now `Obsolete`) so the collection can be shared with a `KryptonRadialMenuControl` host.
+* Implemented [#2222](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2222), Comprehensive About dialog (`KryptonAboutBox`) with user and developer pages, assembly-attribute defaults, and `Show()` / `Show(Assembly)` overloads.
+  * General, Application, and Assembly Details show **Build Date** plus **Binary** date and time (PE timestamp when it is a plausible date, otherwise the file last-write time).
+  * To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
+* Implemented [#1083](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1083), Visual Studio themes (2010 – 2026)
+   * Selectable Dark / Light / Blue built-ins for Visual Studio 2012, 2013, 2015, 2017, 2019, and 2022 (plus existing VS2010 Office-renderer variations).
+   * Visual Studio 2026 Dark / Light mapped from Microsoft Fluent [theme color tokens](https://learn.microsoft.com/en-us/visualstudio/extensibility/ux-guidelines/theme-color-token-reference) (purple `AccentFillDefault` / `EnvironmentBorder`, selection `#0078D4` / `#005FB7`).
+   * Classic Blue uses VS blue title-bar chrome (`#293955`) with blue-grey panels and `#007ACC` accent; older years use year-accurate surfaces derived from the same scheme model.
+* Implemented [#4192](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4192), Allow "Any" control in a tooltip (i.e. hyperlinks)
+   * Host any WinForms control (including hyperlinks) inside a themed `KryptonToolTip`.
+   * `ToolTipValues.HostedContent` on Krypton controls, `SetLinkToolTip` / `LinkClicked`, linger dismiss, optional keyboard and close timer.
+   * To use HTML fragments (`KryptonHtmlToolTipContent`), download the `Krypton.Standard.Toolkit` NuGet package (`Krypton.Toolkit.Utilities`).
+   * `KryptonNotifyIcon.ShowPopupTip` shows the same chrome near the cursor; `KryptonContextMenu` is supported on right-click.
+   * `ToolTipManager` linger now tracks the next view so moving between sibling tooltip targets reshows immediately.
+* Implemented [#4193](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4193), DateTimePicker to show Month's and Years only with Krypton themes
+   * Month- and year-only calendars on `KryptonDateTimePicker` and `KryptonMonthCalendar` via `CalendarView` (`Days`, `Months`, `Years`), with themed 12-cell drop-downs and header drill-up.
+* Implemented [#942](https://github.com/Krypton-Suite/Standard-Toolkit/issues/942), Office dark/light grey themes
+   * Grey chrome (light document area) for Office 2007, 2010, 2013, Microsoft 365, and Material, including Material Ripple variants. New `PaletteMode` values are appended before `Custom` so existing enum integers stay stable.
+* Implemented, Configurable fade in/out on `VisualForm` / `KryptonForm` via `FadeValues` (opt-in; default off).
+   * Set `FadeValues.FadingEnabled` to fade in on show and out on close. `FadeIn` / `FadeOut` / `FadeSpeed` / `CustomFadeSpeed` are designer-serializable. Call `FadeIn()`, `FadeOut()`, or `FadeOutAndClose()` at any time.
+* Implemented [#4188](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4188), Extended Messagebox enhancements
+   * Fade in/out, caption timeout, and auto-close for `KryptonMessageBoxExtended`.
+   * FoldableDialog-style collapsible details on `KryptonMessageBoxExtended` (`DetailsText`, `Expanded`, `ExpandButtonText`, `CollapseButtonText`).
+   * A non-empty `DetailsText` shows the expander (same rule as `KryptonFoldableDialog`). Existing `Show(..., footerText, footerExpanded, footerContentType)` overloads and `MoreDetails*` data properties still work.
+   * Configure via `KryptonMessageBoxExtendedData` (`UseFade`, `UseTimeOut`, `AutoClose`, `TimeOutAction`, `TimeOutResult`, `CountdownButton`, `ShowDoNotShowAgainOption`). Existing `Show(..., useTimeOut, timeOut, timerResult)` overloads now close with the configured result. Optional `CountdownButton` shows remaining time on a chosen action button (`OK (5s)`); that button stays enabled so it can be clicked before the timer elapses. RTL timeout no longer opens a second dialog.
+   * Optional 'Do not show again' checkbox on the button bar (`ShowDoNotShowAgainOption`, localizable caption). Pair with `DoNotShowAgainKey` to skip later shows in this process, or use `Show(data, out bool doNotShowAgain)` to persist the choice yourself. `ResetDoNotShowAgain` clears suppression.
+* Implemented [#4172](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4172), Radial menu
+   * `KryptonRadialMenu` circular popup menu in `Krypton.Toolkit.Utilities`
+   * Form-hosted `KryptonRadialMenuControl` (Syncfusion-style always-visible surface) sharing items/painter with the popup `KryptonRadialMenu`.
+   * Optional hub mode on `KryptonRadialMenuControl` (`UseHub` / `Expanded`) — press the centre hub to open the ring; centre, Esc, or AutoClose collapses. Customise the hub with `HubText` or `Glyph`. `AllowMove` drags the hub/centre to reposition (short click still expands/activates) and floats outside the host when dragged past the parent (`DockBack` when dropped back over it).
+   * Native command sectors with nested submenus, optional `KryptonCommand`, slider / colour / font / text / calendar editor rings, animations, sector images, and paging via `MaxVisibleItems`.
+   * `ImportFrom` / `FromContextMenu` bridge with collection + property-level live sync; optional `KryptonRadialMenuPresenter.PreferRadialContextMenus` soft-hooks `KryptonContextMenu.Show` without a Toolkit→Utilities reference.
+   * Outer-ring `StateCommon` / `StateNormal` / `StateTracking` / `StatePressed` / `StateDisabled` border colours; pointer opens child/editor rings only via the outer-ring band (sector body on parents does not drill; keyboard Enter still opens). Optional `ShowOuterRingOnLeaves` (default `true`) hides the rim arc on leaf slices when set to `false`.
+   * Prefixed `StateShadow###` (`PaletteBack`) plus `ShadowOpacity` style the circular popup shadow by interaction state when `ShowShadow` is enabled.
+   * `Scale` (default `1`) multiplies with device DPI for radii, ring thickness, images, hit padding, and related metrics via shared `RadialMenuMetrics` (auto-fits the available working area / client).
+   * To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
+* Implemented [#4177](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4177), When will the Async Form Methods from .net10 (Started in .net9) actually be implemented
+   * Async form / dialog methods (`ShowAsync` / `ShowDialogAsync`) for Krypton dialogs on **all TFMs**. On .NET 9+ they use WinForms Form async; on earlier TFMs they degrade to sync `ShowDialog` / `Show` under the same awaitable API (`KryptonFormAsync`).
+   * Library wrappers use `ConfigureAwait(false)`.
+   * Coverage includes message box, task dialog, input box, print preview, splash, editors, theme browser, string collection, binary information, GitHub issue report, shell wrappers, Color/Font/Print nested-modal convenience, and Timer-based `KryptonFormFadeController` (`ShowDialogAsync` on all TFMs).
+   * Utilities: Extended / Foldable / AboutBox / ExceptionDialog / Checksum / GitHub / BugReporting / OAuth2 / full toast matrix. Prefer Extended **`ShowAsync(KryptonMessageBoxExtendedData)`**. Toolkit `KryptonExceptionDialog` stays internal; public consumers use Utilities.
+   * To use those Utilities APIs, download the `Krypton.Standard.Toolkit` NuGet package (`Krypton.Toolkit.Utilities`).
+* Improved directory names in `Krypton.Toolkit.Utilities` project
+* Implemented [#4168](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4168), High contrast themes
+   * Added builtin `PaletteMode` themes `HighContrast`, `Deuteranopia`, and `Protanopia` (fixed designed palettes) plus Office 2007 / 2010 / 2013, Sparkle, and Material renderer variants (including Material Ripple), selectable via ThemeComboBox / `KryptonManager.GlobalPaletteMode`.
+   * High Contrast themes paint combo / context-menu client backs black (not `SystemColors.Window`).
+   * Deuteranopia / Protanopia fix secondary-header and default-button text contrast.
+   * Protanopia: stronger magenta link contrast and dark hover text on pale brown tracking.
+   * Deuteranopia / Protanopia AcceptButton default text is white (family bases return empty content colours for `NormalDefaultOverride`).
+   * Material ripple modes: `MaterialHighContrastRipple`, `MaterialDeuteranopiaRipple`, `MaterialProtanopiaRipple`.
+* Implemented, `ThemeManager.RegisterCustomTheme` so named custom themes appear in theme selectors.
+* Implemented, Builtin Lime Green Material palette themes: `MaterialLimeGreen`, `MaterialLimeGreenDark`, `MaterialLimeGreenRipple`, and `MaterialLimeGreenDarkRipple` (`Palette Builtin/Lime Green`), wired into `KryptonManager`, `PaletteModeStrings.SupportedThemes`, and theme selectors; TestForm Lime Green Theme demo includes Material (+ Ripple) family options.
+* Implemented, Builtin Lime Green palette theme (`Palette Builtin/Lime Green`): `Office2007LimeGreen(Dark)`, `Office2010LimeGreen(Dark)`, and `Microsoft365LimeGreen(Dark)` `PaletteMode` entries, wired into `KryptonManager`, `PaletteModeStrings.SupportedThemes`, and theme selectors alongside every other builtin theme; TestForm's Lime Green Theme demo now applies these via `ThemeManager.ApplyTheme(PaletteMode, KryptonManager)` instead of a runtime-built custom palette.
+* Implemented [#4142](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4142), Use `ThrowHelper`
+   * Shared `ThrowHelper` in `Krypton.Interop` for cold-path throws (`[DoesNotReturn]`), including Argument*, NRE, NotSupported, NotImplemented, ObjectDisposed, InvalidCast, and Win32.
+   * Rolled out across Toolkit, Ribbon, Navigator, Workspace, Docking, Utilities, Interop, and TestForm.
+* Implemented [#4165](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4165), Red/Green accept/cancel dialog buttons
+   * Optional red/green (and colour-blind-safe) accept/cancel colours for dialog buttons via `KryptonDialogButtonColorOptions` / `KryptonDialogButtonAppearance`, with presets and per-role overrides on `KryptonMessageBox`, `KryptonTaskDialog`, `KryptonMessageBoxExtended`, and `KryptonFoldableDialog`.
+   * To use Extended / Foldable APIs, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as those types are part of the `Krypton.Toolkit.Utilities` assembly.
+* Resolved [#3858](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3858), Fix drag-target heuristics in `DragFeedbackDocking` / `DragViewController`
+   * Clarified docking drag-target priority (first hit / control edges before nested cells) and cleaned up `DragViewController` cancel path.
+* Implemented [#4162](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4162), Optional overlay (badge) image for dialog icons (`KryptonMessageBoxExtended`, `KryptonMessageBox`, TaskDialog heading, AboutBox main image) via shared `KryptonOverlayImage` / `ComposeOverlayImage`.
+   * To use Extended / AboutBox APIs, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as those types are part of the `Krypton.Toolkit.Utilities` assembly.
+* Implemented [#4157](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4157), Overlay image extras for buttons  
+   * Per-state (and checked) overlays, `ButtonSpec` / `KryptonColorButton` support, and RTL-aware Left/Right corner mirroring.
+* Implemented [#4129](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4129), Show grouped tabs as previews in taskbar
+   * Explorer-like composite `Group | …` taskbar thumbnails for navigator caption tab groups via `KryptonNavigatorTaskbarThumbnails.ShowTabGroupThumbnails` + `FormIntegrator`.
+   * Opt-in `KryptonDockingFloating.ShowFloatingWindowsInTaskbar` so docking floats can join Windows 11 Snap Groups; peer `KryptonForm` guidance uses shared process AUMID.
+   * To use the navigator thumbnails, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Navigator.Utilities` assembly.
+* Resolved [#4147](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4147), Space Key not working on Button
+   * Space key activates a focused `KryptonButton` when the mouse is not hovering over it.
+* Implemented [#4135](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4135), **[Breaking Change]** Move all `Global*` classes into `Krypton.Interop`
+   * Toolkit specific constant values and variables are now stored in `ToolkitStaticConstants` and `ToolkitGlobalVariables` in the `Krypton.Toolkit` namespace
+   * Libary wide constant values, functions and variables are now stored in `SharedStaticConstants`, `SharedStaticFunctions` and `SharedGlobalVariables` in the `Krypton.Interop` namespace
+* Implemented [#4088](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4088), A way to store `KryptonManager` strings into a database
+   * Save/load `KryptonManager` toolkit strings via versioned `Translations.xml` (designer verbs + `KryptonManager.Strings` import/export APIs).
+   * Auto-discovery: place culture-specific or default `Translations.{culture}.xml` / `.json` files in the app's output directory and the toolkit loads the best match automatically (exact → neutral → default, XML before JSON, with graceful fallback). Opt-out via `KryptonManager.AutoDiscoverTranslations = false`.
+   * Static `KryptonManager.LoadTranslationsFromFile` / `TryLoadTranslationsFromFile` / `TryLoadCultureSpecificTranslations` / `TrySwitchTranslationsCulture` for explicit startup loading and runtime culture switching (with graceful fallback to built-in defaults), plus designer Smart Tag UI Culture dropdown, Switch Translations Culture verb, and Generate Translation Template verbs for both XML and JSON.
+   * Stream overloads (`ExportToStream` / `ImportFromStream`) for embedded resources and database BLOBs.
+   * Extended to `DockingManagerStrings` and `WorkspaceMenus` string sets, including JSON import/export parity.
+   * `TranslationsImported` event, culture-mismatch warnings, diff/merge utility, XSD schema, and JSON export/import included.
+   * `KryptonCustomStrings` in `Krypton.Toolkit.Utilities` can now export/import application-defined key/value strings and registered typed string sets through matching XML/JSON/stream persistence APIs.
+   * Added `KryptonCombinedTranslations` for a single combined toolkit + custom XML artifact, plus opt-in custom-string auto-discovery, culture-specific probing, merge support, designer verbs, import event, validation demo coverage, and custom XML/JSON schema files.
+   * Optional Windows language-pack strings: set `KryptonManager.Strings.UseWindowsLanguagePackStrings` (or `CommonStrings.UseOSStrings` / nested `UseOSStrings`) to load matching dialog buttons and form control-box tooltips (Minimize/Maximize/Restore/Close/Help) from `user32.dll`, and Explorer column headers from `shell32.dll`, for the current UI language; default remains toolkit/custom strings.
+   * Canonical `KryptonManager.Strings.CommonStrings` owns shared General, ControlBox, SystemMenu, Commands, and FileSystem string sets. Legacy `GeneralStrings` / `ControlBoxButtonStrings` / `SystemMenuStrings` / `FileSystemListViewStrings` / selected `CustomStrings` command properties remain as compatibility aliases. New XML/JSON exports write `CommonStrings` once; legacy paths still import (CommonStrings wins when both are present).
+   * Verified `WindowsMuiStringId` catalog plus `WindowsMuiStrings` / Utilities `WindowsSystemStringLoader` for advanced System32-only raw resource lookups (undocumented IDs, best-effort with fallbacks).
+   * Catalog-drift resilience: tolerant import ignores unknown keys and keeps defaults for missing ones; `AnalyzeTranslationsFromFile` / `MergeMissingTranslationsToFile`, `TranslationsCoverageReported`, `ToolkitVersion` export stamp, and designer **Merge Missing Translations…** verb help upgrade older culture files when the toolkit adds strings.
+* Resolved [#3996](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3996), Navigator stack and Outlook full modes now scroll the requested page check button into view (previously ignored the page argument)
+* Implemented [#1103](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1103), Investigate use of PInvoked GDI text functionality for performance [and compare with TextRenderer.DrawText (Mode off)]
+   * Opt-in native GDI text path for `AccurateText` (`PreferNativeGdiText` / `GdiNativeText`) with TestForm benchmark
+* Resolved [#4061](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4061), Ribbon caption form icon and QAT refresh when the palette/theme changes (no resize required)
+* Implemented [#882](https://github.com/Krypton-Suite/Standard-Toolkit/issues/882), `KryptonNavigator` individual taskbar 'thumbnail' views
+   * Opt-in Windows taskbar tabbed thumbnails for `KryptonNavigator` pages via `KryptonNavigatorTaskbarThumbnails` (`KryptonPageFlags.AllowTaskbarThumbnail` to exclude pages).
+   * Multi-navigator merge on one taskbar host, docking float detach/reattach, Win11 Peek via `ITaskbarList4`, and designer/Flags UI included.
+   * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Navigator.Utilities` assembly.
+* Implemented [#925](https://github.com/Krypton-Suite/Standard-Toolkit/issues/925), Allow `KryptonNavigator` to integrate with a `KryptonForm` (browser/Explorer-style tabbed chrome) via `KryptonNavigatorFormIntegrator`, including **CaptionIntegrated** mode that injects tabs into the form title bar
+   * Optional caption `+` new-tab button on `KryptonNavigatorFormIntegrator` (`ShowNewTabButton` / `NewTabButtonClick`)
+   * Added drag tear-out / reattach between integrated windows, optional close-empty-window behavior, built-in caption-tab context menus with a customization hook, and an optional caption `+` new-tab button (`ShowNewTabButton` / `NewTabButtonClick`). 
+   * Browser-style caption tab groups (`KryptonPage.TabGroupId`, colored headers, collapse, context-menu assign/ungroup) plus IDE document-group helpers (`KryptonDocumentGroupHelper`) and multi-strip CaptionIntegrated chrome over `KryptonWorkspace`
+   * Save/load for caption tab groups and layouts (`KryptonNavigatorFormIntegrator.SaveLayout*` / `LoadLayout*`, workspace `TG` page attribute, group catalog in `GlobalSaving`)
+   * Tab-group follow-ups: whole-group drag/tear-out from headers, join-on-drop, collapsed `Title (n)` badge, workspace edge drag-to-split from caption tabs, bar-mode group accents, richer rename/recolor UI, cross-window catalog merge, DPI caption rebuild, and layout smoke harness
+   * Right-clicking a caption tab now shows the tab context menu; the themed `KryptonForm` system menu no longer intercepts right-clicks over interactive caption content (it still opens over empty caption space)
+   * Dragging a caption tab back onto the tab strip now reorders it, or joins the group of the tab or group header it is dropped on, instead of always tearing it out into a new window; tear-out and cross-window drops also now track the mouse position accurately
+   * Caption-tab context menu strings (and rename-group dialog cue/prompt) are fully localizable via `KryptonManager.Strings.NavigatorIntegrationStrings`; form system commands use `SystemMenuStrings`, and menu text is refreshed from those values each time the menu opens
+   * Caption tab groups now read as a distinct coloured cluster: the group header is washed in the group colour with a solid accent bar, and every member tab keeps a group-colour underline in all states (including selected), making differently-coloured groups easy to tell apart
+   * Group colour treatment is adjustable via `KryptonNavigatorFormIntegrator.TabGroupAppearance` (header wash strength, header accent bar, member underline, and member border)
+   * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Navigator.Utilities` assembly.
+* Implemented [#927](https://github.com/Krypton-Suite/Standard-Toolkit/issues/927), `KryptonNavigator` form minimize, maximize/restore, and close `ButtonSpec` buttons
+* Resolved [#4132](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4132), ControlBox item borders do not paint correctly
+   * The right and bottom borders of a `KryptonForm` are no longer clipped away by the window region.
+   * Caption control-box / ButtonSpec spacing is driven by `GlobalStaticConstants.HEADER_BUTTON_EDGE_INSET_FORM_RIGHT` (default `1`) and `HEADER_BUTTON_EDGE_INSET_FORM_TOP` (default `1`; negative restores caption centring).
+   * When maximized, any WinForms/DWM top overhang (often `Top = -8`) is added to the top inset so ButtonSpecs stay fully on-screen, and the Close/Max/Min hit targets expand to the top (Close also to the right edge) so the extreme corner still lights and activates the button.
+* Implemented [#4104](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4104), Preserve git history in mirror backup
+* Resolved [#4131](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4131), `KryptonForm` no longer throws `EntryPointNotFoundException` on `net8.0`/`net9.0`/`net10.0-windows`.
+   * `GetWindowLong` and `SetWindowLong` now route through the `GetWindowLongPtr`/`SetWindowLongPtr` APIs, which are the only variants available on 64-bit Windows.
+   * Corrected the native entry point names for a further 15 interop declarations (including `SendMessage`, `PostMessage`, `FindWindow`, `LoadImage`, `SetWindowsHookEx`, `GetMenuItemInfo`, and `GetObject`) that silently failed to bind on .NET 8 and later.
+   * Jump list item titles are applied again, as the underlying property-system calls now bind correctly.
+* Resolved [#4059](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4059), Grouped Ribbon controls do expose designers, needs a closer look
+   * `KryptonRibbonGroupThemeComboBox` now reuses the base ribbon combo box designer instead of a near-duplicate Theme-specific designer
+* Implemented [#1231](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1231), The `KryptonOpenFileDialog` can have poor performance on some OS hardware
+   * Added a provider-based custom dialog mode for `KryptonOpenFileDialog`, `KryptonSaveFileDialog`, and `KryptonFolderBrowserDialog` so applications can avoid the native shell wrapper path on machines where it performs poorly.
+   * Native provider mode uses the standard Windows Explorer dialog directly. Hosting that HWND inside a `KryptonForm` is not reliable on modern Windows (clipped/blank UI); use `ProviderMode = Custom` for the managed KryptonForm dialog.
+   * The custom dialog navigation tree can now be expanded into drives, places and their sub folders (folders are loaded on demand), and it follows navigation made from the file list, the up button and the address bar.
+   * Fixed the custom dialog opening stuck on the breadcrumb default caption "Root" with an empty list: the first navigate no longer early-returns when the constructor has already set the starting path. Removed the misleading Common Places "Root Folder" node (`RootFolder` remains a starting/fallback path only).
+   * Custom dialog file name box starts empty unless `FileName` is set, and shows an optional localizable cue (`KryptonManager.Strings.CustomFileDialogStrings.FileNameCueText`; clear the string to hide it). Search cue is also localizable via the same strings object.
+   * Added Krypton-themed autocomplete popups to the editable address path and search boxes. Address suggestions enumerate matching folders asynchronously; search suggestions combine current-folder entries with recent search terms.
+   * Added a localizable Krypton breadcrumb context menu for copying the address (quoted or plain text), switching to address editing, and clearing back/forward navigation history.
+   * Added a localizable Date modified filter next to the search box (Any time / Today / Yesterday / This week / Last week / This month / Last month / This year / Last year) that works with the text search. Enable with `ShowDateModifiedFilter = true` on the dialog (Custom provider only; default is off).
+   * Custom dialog UI strings (chrome, places, columns, view modes, status and validation) are fully localizable via `KryptonManager.Strings.CustomFileDialogStrings`; Cancel reuses `GeneralToolkitStrings.Cancel`.
+   * Custom dialog layout, list columns, tile size, suggestion popup minimum width and shell icon lists scale with per-monitor DPI (including `DpiChanged` while open).
+   * Fixed navigation tree flicker when the custom dialog opens, expands a folder or selects a deep path.
+   * Fixed continuous flicker in controls using Krypton scrollbars (`UseKryptonScrollbars`): the scrollbar manager re-hid already hidden native scrollbars twenty times a second, and each pass forced a window frame change and full repaint of the hosting control.
+* Resolved [#4086](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4086), Redundant parentheses when `ShowAdministratorSuffix` is set to false
+   * Elevated `KryptonForm` titles no longer show empty `()` when `ShowAdministratorSuffix` is disabled or the Administrator string is blank
+* Implemented [#331](https://github.com/Krypton-Suite/Standard-Toolkit/issues/331), Make the "No Tab in a ribbon Solution" An Actual Designer Tool
+   * `KryptonRibbon.ShowTabHeaders` hides the tab strip for toolbar-style ribbons while keeping the selected tab's groups; designer verbs/smart-tag toggle and `KryptonRibbonToolbar` toolbox control included.
+   * Context titles (`RibbonContexts`) stay hidden with the tab strip and no longer linger after toggling `ShowTabHeaders` at runtime.
+   * Groups area top border remains visible when `ShowTabHeaders` and `ShowMinimizeButton` are both false (tab band collapsed).
+* Resolved [#4060](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4060), Ribbon QAT button enumeration now uses `OfType<IQuickAccessToolbarButton>()` instead of unsafe casts
+* Implemented [#4063](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4063), `KryptonThemeBrowserData.DefaultPalette` selects the initial theme by `PaletteMode` (takes precedence over `StartIndex`)
+* Implemented [#4048](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4048), Time to bring over menu/tool/status strip enhancements
+  * Implemented Krypton ToolStrip utilities suite in `Krypton.Toolkit.Utilities`: hosts (`KryptonBasicToolStrip`, `KryptonEnhancedToolStrip`, `KryptonProgressStatusStrip`), hosted editors (TextBox, BrowseBox, DateTimePicker, NumericUpDown, ColourButton, TrackBar, Theme combo), menu extras (enhanced radio/separator, marquee, expanding, UAC shield, clear clipboard), sliders, progress/loading circle controls, MRU open/manager.
+  * Implemented `KryptonBlinkingToolStripStatusLabel` in `Krypton.Toolkit.Utilities`: a `ToolStripStatusLabel` with Timer-based Hard, Soft, and Visibility blink modes; options are grouped under expandable `BlinkValues` (`BlinkingStatusLabelValues` / `ExpandableObjectConverter`) with Start/Stop APIs for StatusStrip and ToolStrip hosts.
+   * To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
+* Implemented [#4049](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4049),Implement the glyphs in `KryptonDomainUpDown` and `KryptonNumericUpDown`
+* Resolved [#4064](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4064), Fixed `KryptonMessageBoxIcon` and `KryptonToastIcon` design-time converters that threw when built against `MessageBoxIcon` alias values
+* Resolved [#3999](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3999), Clarified docking indicator hit-target selection during drag feedback
+* Implemented [#4049](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4049), Implement the glyphs in `KryptonDomainUpDown` and `KryptonNumericUpDown`
+   * Updates the buttons for `KryptonDomainUpDown`, `KryptonNumericUpDown`, `KryptonDataGridViewDomainUpDownColumn`, and `KryptonDataGridViewNumericUpDownColumn`.
+   * The polygons draws in a single direction (downw) and are rotated to the correct orientation. 
+   * Adjusted the corresponding image for the `KryptonDataGridViewDomainUpDownColumn` and `KryptonDataGridViewNumericUpDownColumn` column types
+* Resolved [#4000](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4000), `KryptonManager.Images.ToolbarImages` now updates to the active theme pack when the global palette changes
+* Implemented [#3874](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3874), Use the more optimised `LibraryImport`
+   * Use source-generated `LibraryImport` for eligible Win32 P/Invokes on modern TFMs (Framework TFMs keep `DllImport`)
+   * `GetClassName`, `GetMenuString`, and `LoadString` now use `[Out] char[]` on modern TFMs with `GetClassNameString` / `GetMenuStringString` / string-returning `LoadString` helpers
+   * Native string helpers return truncated text at the 4096-character cap instead of an empty string when Win32 still fills the buffer
+* Resolved [#4046](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4046), Unexpected scrollbar appears on DataGridView at runtime time in .NET Framework 4.8
+  * Fixed `KryptonDataGridView` showing a non-functional themed scrollbar at runtime when corner rounding is not enabled; detached overlay scrollbars are now used only while external corner rounding is active, hidden native child scrollbar metrics are ignored so a ghost bar is not created, and scroll repaints no longer leave mid-cell border residue.
+* Resolved [#3960](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3960), Ribbon app-button/tab gaps now scale with DPI (Office 2007 spacing; Office 2010+ remains flush)
+* Implemented [#3959](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3959), Workspace layout save/load now persists `KryptonPage.Tag` via TypeConverter when the value is a string or round-trips to/from string (writes `TAG` plus optional `TAGT`); non-convertible tags are omitted and should use `PageSaving`/`PageLoading`
+* Implemented [#4001](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4001), Use the standard WinForms app icon
+   * `GenericImageStorage.ApplicationIcon` now defaults to the standard WinForms `SystemIcons.Application` image
+* Implemented [#3890](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3890), Different knob styles for `KryptonToggleSwitch`
+   * Added selectable knob styles for `KryptonToggleSwitch`, including classic, gradient, flat, radial, ring, bevel, rounded-square, square, grip, chevron, indicator, thin-track, pill, and metallic rendering.
+   * Added optional track check/cross icons via `ToggleSwitchValues.ShowTrackIcons`.
+   * Added optional knob pulse animation via `ToggleSwitchValues.Pulse` (`Enable`, `Speed`, `Intensity`).
+   * Chevron knob glyph size is configurable via `ToggleSwitchValues.Chevron.GlyphSize`; optional knob gradient uses `ToggleSwitchValues.Gradient`.
+   * Added optional tint colours via `ToggleSwitchValues.Colors.TintColors` (`Enable`, `OnTint`, `OffTint`, `Intensity`), plus optional glyph tints (`EnableGlyphs`, `TintColor1`, `TintColor2`).
+   * **[Breaking Change]** `ToggleSwitchValues` colour, gradient, pulse, and chevron settings are grouped under expandable `Colors`, `Gradient`, `Pulse`, and `Chevron` objects. Obsolete pass-through properties remain for migration.
+* Implemented optional vertical layout for `KryptonToggleSwitch` via `ToggleSwitchValues.Orientation`.
+   * Horizontal remains the default (off left, on right). Vertical moves the knob top (off) to bottom (on) and works best with a tall, narrow control size.
+* Implemented [#4008](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4008), `KryptonRichTextBox` Support for justify    
+   * `KryptonRichTextBox.SelectionParagraphAlignment` adds full paragraph justify (plus Left/Center/Right) via RichEdit
+   * Resolved themed scrollbar overlay covering native-wrapper content (RichTextBox, TextBox, ListBox, ListView, TreeView, PropertyGrid) after flush-to-border scrollbars; content is inset when the bar is visible so text is not clipped
 * Implemented [#3849](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3849), Krypton-themed designer property and collection editors replace native WinForms dialogs
    * Designer collection and property editors now use Krypton controls and `KryptonForm` chrome — workspace sequence, context menu items, breadcrumb items, check-button collections, tree nodes, string/`Items` collections, multiline text/`Lines`, format string, and related binding/image/index editors inherit the owning component palette at design time
    * Migrated editor dialogs use `KryptonDesignerEditorDpi` for consistent scaling on high-DPI displays
+   * Designer-editor footer theme selection is remembered across sessions (`%LocalAppData%\Krypton-Suite\Toolkit\DesignerEditorTheme.prefs`) and applied before owner/global palette resolution; custom palettes are not persisted
+   * In Visual Studio 2022 (where the footer theme combo is hidden), a compact `Theme...` button opens a shared designer-editor settings dialog; also available from the `KryptonManager` smart-tag actions
    * Public `KryptonDesigner*` `UITypeEditor` / `CollectionEditor` APIs, shared chrome, theme/DPI/button-bar helpers, and collection bases for reuse on consumer components — apply with `[Editor(typeof(...), typeof(UITypeEditor))]` or subclass `KryptonDesignerStandardCollectionEditor`.
    * Workspace collection editor OK commits root-level item ordering and collection changes back to the designer `EditValue`
    * Resolved Krypton-themed designer editor dialogs opening with blank content when child controls were routed to the hidden internal client panel; collection editor bases and multiline string editors now call `SetInheritedControlOverride()` before layout
@@ -97,7 +329,7 @@
 * Implemented [#3807](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3807), `KryptonKnob` control
    * The value indicator (inner circle) defaults to the palette `PanelAlternate` back colour instead of the track-bar position element colour.
    * Hover and drag now apply `StateTracking` and `StatePressed` palette colours to the indicator as well as the knob face.
-   * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
+   * To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Resolved [#3850](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3850), Tooltip hot-spot not respected 
    * Tooltip placement now respects cursor hotspot and full cursor bounds
 * Implemented [#3856](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3856), Replace `CommonHelper.LogOutput` with thread-safe, non-UAC-protected logging
@@ -109,14 +341,14 @@
    * `KryptonMultiSelectTreeView` in `Krypton.Toolkit.Utilities` with Ctrl+click toggle, Shift+click range selection, rubber-band drag selection, check-box selection, and a `SelectedNodes` collection; core `KryptonTreeView` exposes `IsNodeMultiSelected` for multi-highlight painting
 * Implemented [#3848](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3848), Removed dead code: obsolete docking drag timer, unused `KryptonForm` designer scaffolding, and unimplemented custom palette binary export designer action; `AccurateText` draw path now applies the text rendering hint captured at measure time
 * Implemented [#3833](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3833), Expand `KryptonCheckBox` to allow more text
-   * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
+   * To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Implemented [#3780](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3780), Bring the `KryptonDropZone` over
-   * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
+   * To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Implemented [#3840](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3840), Foldable dialog  
    * `KryptonFoldableDialog`, a message-box style dialog with a collapsible (foldable) details region modelled on the Visual Studio Just-In-Time debugger dialog. Configure the caption, heading, message, foldable details, icon, buttons, default button, initial expanded state, and start position (`StartPosition`, defaults to `CenterScreen`; `CenterParent` centres on the owner) via `KryptonFoldableDialogData`.
-   * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
+   * To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Implemented an optional expandable (foldable) footer for `KryptonMessageBoxExtended`, giving it a collapsible details region (Text, CheckBox, or RichTextBox) with a Show/Hide details toggle that matches the `KryptonFoldableDialog` expander (▼/▲ glyph and localizable `KryptonManager.Strings.FoldableDialogStrings`). Opt in via the `footerText`, `footerExpanded`, `footerContentType`, and `footerRichTextBoxHeight` parameters on `KryptonMessageBoxExtended.Show(...)`, or via a new `KryptonMessageBoxExtended.Show(KryptonMessageBoxExtendedData)` overload using the now-active `ShowMoreDetailsOption`, `MoreDetailsExpanded`, `MoreDetailsMessageText`, and `MoreDetailsButtonText` properties.
-   * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
+   * To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Implemented [#3836](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3836), An optional 'copy' button on messageboxes
    * An optional 'Copy' button on `KryptonMessageBox`. Enable via the new `showCopyButton` parameter on `KryptonMessageBox.Show(...)`; clicking it copies the message box contents to the clipboard (the same content as `Ctrl+C`) without closing the dialog
    * Extended the same optional 'Copy' button to `KryptonMessageBoxExtended`. Enable via the new `showCopyButton` parameter on `KryptonMessageBoxExtended.Show(...)` (or the `ShowCopyButton` property on `KryptonMessageBoxExtendedData`); copying works for Normal, `RichTextBox` and hyperlink content and also fixes the previously non-functional `Ctrl+C` shortcut on the extended message box (including RTL)
@@ -136,7 +368,7 @@
 * Resolved [#3786](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3786), Control box buttons shown in wrong order and on the wrong edge in RTL (standard palettes now close, maximize/restore, minimize on the left; macOS and OS X Aqua traffic lights red-yellow-green on first show)
 * Implemented [#3788](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3788), Allow build scripts to find Visual Studio. Build scripts locate Visual Studio/MSBuild via `Scripts/Common/find-msbuild.cmd` (`vswhere.exe`, `current` profile for yearly VS 18+, custom install paths and non-default drives); override with `MSBUILDPATH` or `MSBUILD_PATH`. Build scripts and ModernBuild locate MSBuild via `Scripts/Common/find-msbuild.cmd` and `vswhere.exe`, with `%ProgramFiles%` fallback and `MSBUILDPATH` / `MSBUILD_PATH` overrides for custom or non-system-drive Visual Studio installs
 * Implemented [#3763](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3763), Bring the `KryptonCircularProgressBar` over
-   * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
+   * To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Resolved [#3767](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3767), Adjust the position and size of the buttons in the `KryptonMessageBox`
 * Implemented [#3757](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3757), Make the `KryptonManager` strings more flexible to use. `KryptonCustomStrings` and `KryptonCustomStringsManager` in `Krypton.Toolkit.Utilities` for application key/value and strongly-typed custom string sets
 * Resolved [#1870](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1870), Restored `BasePaletteMode` in `KryptonCustomPaletteBase`
@@ -197,7 +429,7 @@
   * Designer integration: `KryptonComboBoxUserControlDesigner` + smart-tag action list (`DropDownAlign`, `DropDownWidth/Height`, `DropDownResizable`, `ReadOnlyEditor`, `InputControlStyle`, `PaletteMode`) and a `KryptonDropContentEditor` UITypeEditor that lets designers pick `DropContent` from a drop-down of available `Control`s on the same form **or instantiate a brand-new `UserControl`-derived type** discovered via `ITypeDiscoveryService` (the new component is sited on the host so it appears in `Designer.cs` code-gen).
   * `TestForm` demo (`KryptonComboBoxUserControlDemo`) covers four scenarios: tree-picker, multi-column grid-picker, plain (non-contract) `UserControl`, and a filter-as-you-type city picker.
   * Developer guide: [KryptonComboDropDownControls.md](KryptonComboDropDownControls.md) (API reference, contracts, examples, troubleshooting).
-  * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
+  * To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Resolved [#3382](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3382), Lines when using `CueHint` for `KryptonTextBox`
 * Implemented [#3405](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3405), Add Badge Support for `KryptonNavigator` (Notification Indicator)
 * Resolved [#3343](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3343), Strange behavior of `KryptonRichTextBox` when editing text
@@ -224,7 +456,7 @@
   * Updated GitHub Actions workflows to build with artifacts output enabled and to resolve package/DLL paths from `artifacts/*` with legacy `Bin/*` fallback.
 * Implemented [#1002](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1002), Implement `ActionLists` for file dialogs, `KryptonOpenFileDialog`, `KryptonSaveFileDialog`, and `KryptonFolderBrowserDialog` to expose common design-time properties.
 * Implemented [#3305](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3305), QR Code Generation/Viewer
-  * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
+  * To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
   * `KryptonQRCode` optional palette integration for `CenterImage`: `CenterImageUsePaletteColors`, `CenterImagePaletteStyle`, `CenterImageColorMap`, `CenterImageColorTo`, `CenterImageTransparentColor`, and `CenterImageEffect` (empty/inherit values resolve from the active palette; template glyphs using the Krypton transparency key remap to the effective dark module color). `GetCenterImagePalette()` and `QRCodeCenterImagePalette` support `GetBitmap()` / `GenerateBitmap()` export with the same drawing rules.
   * Added `PaletteImageDrawing` in `Krypton.Toolkit` — shared palette image effect and color-remap drawing used by `KryptonQRCode` and `RenderBase.DrawImageHelper`.
 * Resolved [#3018](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3018), `KryptonToast` no longer works properly
@@ -301,9 +533,9 @@
 * Resolved/Implemented [#2844](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2844), Touchscreen High DPI scaling
 * Implemented [#2808](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2808), Move `KryptonToastNotification` feature to `Krypton.Toolkit.Utilities`
 * Implemented [#2572](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2572), Autocomplete control/menu
-  * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
+  * To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Implemented [#2812](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2812), Code Editor Control
-  * To use, you will need to download the `Krypton.Standard.Toolkit` NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
+  * To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Implemented [#1205](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1205), Overlay Images within Krypton Toolkit controls (Not Taskbar)
 * Resolved [#2886](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2886), Jump list support
 * Implemented [#2882](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2882), `KryptonPrintPreviewDialog` - Part of #2658

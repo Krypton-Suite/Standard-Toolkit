@@ -69,6 +69,22 @@ public partial class VisualInputBoxForm : KryptonForm
             : string.Empty;
     }
 
+    internal static async Task<string> InternalShowAsync(KryptonInputBoxData inputBoxData)
+    {
+        // If do not have an owner passed in then get the active window and use that instead
+        IWin32Window? showOwner = inputBoxData.Owner ?? FromHandle(PI.GetActiveWindow());
+
+        using var ib = new VisualInputBoxForm(inputBoxData);
+        ib.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
+
+        // Await required so using does not dispose the form before the dialog completes.
+        DialogResult result = await KryptonFormAsync.ShowDialogAsync(ib, showOwner).ConfigureAwait(false);
+
+        return result == DialogResult.OK
+            ? ib.InputResponse
+            : string.Empty;
+    }
+
     internal string InputResponse => _textBoxResponse.Text;
 
     private void UpdateText()
@@ -83,7 +99,7 @@ public partial class VisualInputBoxForm : KryptonForm
     {
         _textBoxResponse.CueHint.CueHintText = _inputBoxData.CueText;
 
-        if (_inputBoxData.CueColor != null || _inputBoxData.CueColor != Color.Transparent || _inputBoxData.CueColor != GlobalStaticVariables.EMPTY_COLOR)
+        if (_inputBoxData.CueColor != null || _inputBoxData.CueColor != Color.Transparent || _inputBoxData.CueColor != SharedStaticVariables.EMPTY_COLOR)
         {
             _textBoxResponse.CueHint.Color1 = _inputBoxData.CueColor ?? Color.Gray;
         }

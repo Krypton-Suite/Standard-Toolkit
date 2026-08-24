@@ -53,6 +53,8 @@ View [package version details and supported frameworks](https://krypton-suite.gi
 | Release (Canary) | [![Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml/badge.svg?branch=canary)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml) |
 | Build (Alpha) | [![Build](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml/badge.svg?branch=alpha)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml) |
 | Release (Alpha) | [![Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/nightly.yml/badge.svg?branch=alpha)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/nightly.yml) |
+| Build (Gold) | [![Build](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml/badge.svg?branch=gold)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml) |
+| Release (RC) | [![RC Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/rc.yml/badge.svg?branch=gold)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/rc.yml) |
 
 =======
 
@@ -68,9 +70,11 @@ View [package version details and supported frameworks](https://krypton-suite.gi
 | CodeQL Advanced | [![CodeQL Advanced](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/codeql.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/codeql.yml) |
 | Dependabot Updates | [![Dependabot Updates](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/dependabot/dependabot-updates) |
 | Nightly Release | [![Nightly Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/nightly.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/nightly.yml) |
+| RC Release | [![RC Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/rc.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/rc.yml) |
 | Release | [![Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml) |
 | Repository Mirror | [![Repository Mirror](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/repo-mirror.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/repo-mirror.yml) |
 | Visual Studio Templates Release | [![Visual Studio Templates Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/templates-release.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/templates-release.yml) |
+| Unit Tests (Alpha) | [![Unit Tests](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/unit-tests.yml) |
 
 =======
 
@@ -100,11 +104,17 @@ See [Krypton Toolkit release cadence](https://krypton-suite.github.io/Standard-T
 
 ### Package Descriptions
 
-To find out more about the differences between `Nightly`, `Canary` and `Stable` packages, please read this [article](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Support/PackageVersionDescriptions.html).
+To find out more about the differences between `Nightly`, `Canary`, `RC` and `Stable` packages, please read this [article](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Support/PackageVersionDescriptions.html).
 
 ### Installing Pre-Release Versions
 
-To find out how to install either `Canary` or `Nightly` versions, please check out this [article](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Support/HowtoInstallPreReleasePackages.html).
+Release candidates use the **stable** package IDs (`Krypton.Toolkit`, `Krypton.Standard.Toolkit`, …) with a `-rc` version suffix, published from the `gold` branch. Include prerelease packages to install them, for example:
+
+```text
+dotnet add package Krypton.Toolkit --prerelease
+```
+
+To find out how to install `Canary` or `Nightly` versions (separate package IDs), please check out this [article](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/Source/Help/Output/articles/Support/HowtoInstallPreReleasePackages.html).
 
 =======
 
@@ -147,6 +157,43 @@ Follow the links to see the different objects and layouts that this framework al
 ## V110.00 (2026-11-xx - Build 2611 - November 2026)
 
 There are list of changes that have occurred during the development of the V110.00 version
+
+* Implemented [#3854](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3854), Removed unused duplicate utility types.
+  * Ribbon now uses the public Toolkit `BiDictionary`.
+  * Workspace uses Interop `PI.WM_.CONTEXTMENU` instead of a local `PI` stub.
+  * `Krypton.Toolkit.Utilities` uses Interop nullable polyfills instead of a second `AllowNullAttribute.cs`.
+  * Toast graphics helpers call Toolkit `GraphicsExtensions` for image scaling and imageres extraction.
+  * **[Breaking Change]** Removed unused Toolkit copies of file-system list/tree views, countdown button, and their Values types. Use the `Krypton.Toolkit.Utilities` controls (`KryptonFileSystemListView`, `KryptonFileSystemTreeView`, `KryptonCountdownButton`).
+* Implemented [#4230](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4230), **[Breaking Change]** A new theme system
+  * Extra builtin palettes moved to `Krypton.Themes`, with auto-discovery and selector enable/disable.
+  * `Krypton.Toolkit` keeps Professional, Sparkle Blue/Orange/Purple, plus Office 2007/2010/Microsoft 365 Blue, Silver, and Black. Other builtin palettes load from `Krypton.Themes.dll` when it is present (`KryptonManager.AutoDiscoverThemes`).
+  * Hide families or individual `PaletteMode` values from theme combos via `KryptonThemeAvailability`. `PaletteMode` values are unchanged.
+  * Extra palette singleton properties on `KryptonManager` now return `PaletteBase` (concrete extra types live in `Krypton.Themes`).
+  * If `Krypton.Themes.dll` is not present, extra `PaletteMode` values paint as Microsoft 365 Blue instead of throwing (`KryptonThemeCatalog.MissingThemeFallback`).
+  * The `Krypton.Standard.Toolkit` NuGet package includes `Krypton.Themes`. Apps that reference Toolkit only get core themes unless they add `Krypton.Themes`.
+  * Materialize Blue, Materialize Light Blue, and Silver Dark Alternate palettes ship in `Krypton.Themes` (family `Materialize`).
+  * Theme chrome and UAC shield artwork follow `KryptonThemeChromeKind` / `KryptonThemeShieldIconStyle` on the catalog descriptor, so new extra palettes do not need Toolkit `PaletteMode` switch arms.
+  * Extra `KryptonManager.Palette*` singleton accessors are obsolete; use `GetPaletteForMode(PaletteMode)` instead.
+
+* Implemented [#4225](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4225), **[Breaking Change]** `KryptonRadialMenu` followups
+   * `Items` can now be found under `Values.Items` (and `Items` is now `Obsolete`) so the collection can be shared with a `KryptonRadialMenuControl` host.
+
+* Implemented [#4135](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4135), **[Breaking Change]** Move all `Global*` classes into `Krypton.Interop`
+   * Toolkit specific constant values and variables are now stored in `ToolkitStaticConstants` and `ToolkitGlobalVariables` in the `Krypton.Toolkit` namespace
+   * Libary wide constant values, functions and variables are now stored in `SharedStaticConstants`, `SharedStaticFunctions` and `SharedGlobalVariables` in the `Krypton.Interop` namespace
+
+* Implemented [#3890](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3890), Different knob styles for `KryptonToggleSwitch`
+   * Added selectable knob styles for `KryptonToggleSwitch`, including classic, gradient, flat, radial, ring, bevel, rounded-square, square, grip, chevron, indicator, thin-track, pill, and metallic rendering.
+   * Added optional track check/cross icons via `ToggleSwitchValues.ShowTrackIcons`.
+   * Added optional knob pulse animation via `ToggleSwitchValues.Pulse` (`Enable`, `Speed`, `Intensity`).
+   * Chevron knob glyph size is configurable via `ToggleSwitchValues.Chevron.GlyphSize`; optional knob gradient uses `ToggleSwitchValues.Gradient`.
+   * Added optional tint colours via `ToggleSwitchValues.Colors.TintColors` (`Enable`, `OnTint`, `OffTint`, `Intensity`), plus optional glyph tints (`EnableGlyphs`, `TintColor1`, `TintColor2`).
+   * **[Breaking Change]** `ToggleSwitchValues` colour, gradient, pulse, and chevron settings are grouped under expandable `Colors`, `Gradient`, `Pulse`, and `Chevron` objects. Obsolete pass-through properties remain for migration.
+
+* Resolved [#3826](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3826), Null reference in `KryptonToggleSwitch` when the global palette changes
+   * **[Breaking Change]**: The `Checked` property has been moved from `KryptonToggleSwitch` to `KryptonToggleSwitchValues`. Please update your code accordingly.
+
+* Implemented [#3455](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3455), **[Breaking Change]** Rename `Krypton.Utilities` to `Krypton.Toolkit.Utilities` (project folder, `Krypton.Toolkit.Utilities.csproj`, assembly name, root namespace, and all types). Aligns naming with `Krypton.Navigator.Utilities`. Update `using` directives, fully qualified type names, `ProjectReference` paths, and any tooling or CI paths that pointed at `Krypton.Utilities`. The aggregate `Krypton.Standard.Toolkit` package now ships `Krypton.Toolkit.Utilities.dll` instead of `Krypton.Utilities.dll`.
 
 * Implemented [#3177](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3177), **[Breaking Change]** Move `KryptonAboutBox` to `Krypton.Toolkit.Utilities`
   * **Note:**: The `KryptonAboutBox` class has been moved from the `Krypton.Toolkit` namespace to the `Krypton.Toolkit.Utilities` namespace. Please update your using directives accordingly.

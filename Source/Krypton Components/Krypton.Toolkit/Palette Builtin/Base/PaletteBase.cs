@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
@@ -921,7 +921,7 @@ public abstract class PaletteBase : Component
         switch (style)
         {
             case PaletteButtonSpecStyle.Generic:
-                return GlobalStaticVariables.EMPTY_COLOR;
+                return SharedStaticVariables.EMPTY_COLOR;
             case PaletteButtonSpecStyle.Close:
             case PaletteButtonSpecStyle.Context:
             case PaletteButtonSpecStyle.Next:
@@ -945,7 +945,7 @@ public abstract class PaletteBase : Component
             case PaletteButtonSpecStyle.WorkspaceRestore:
             case PaletteButtonSpecStyle.RibbonMinimize:
             case PaletteButtonSpecStyle.RibbonExpand:
-                return GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
+                return SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
             case PaletteButtonSpecStyle.New:
             case PaletteButtonSpecStyle.Open:
             case PaletteButtonSpecStyle.SaveAll:
@@ -960,12 +960,12 @@ public abstract class PaletteBase : Component
             case PaletteButtonSpecStyle.PrintPreview:
             case PaletteButtonSpecStyle.Print:
             case PaletteButtonSpecStyle.QuickPrint:
-                return GlobalStaticVariables.EMPTY_COLOR;
+                return SharedStaticVariables.EMPTY_COLOR;
             default:
                 // Should never happen!
                 Debug.Assert(false);
                 DebugTools.NotImplemented(style.ToString());
-                return GlobalStaticVariables.EMPTY_COLOR;
+                return SharedStaticVariables.EMPTY_COLOR;
         }
     }
 
@@ -1086,13 +1086,14 @@ public abstract class PaletteBase : Component
     /// <returns>String value.</returns>
     public virtual string GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style)
     {
+        var controlBox = KryptonManager.Strings.ControlBoxButtonStrings;
+
         switch (style)
         {
-            // TODO: Use LanguageManager for strings
             case PaletteButtonSpecStyle.Close:
             case PaletteButtonSpecStyle.PendantClose:
             case PaletteButtonSpecStyle.FormClose:
-                return "Close";
+                return controlBox.Close;
             case PaletteButtonSpecStyle.Context:
                 return "Select";
             case PaletteButtonSpecStyle.Next:
@@ -1101,16 +1102,18 @@ public abstract class PaletteBase : Component
                 return "Previous";
             case PaletteButtonSpecStyle.FormMin:
             case PaletteButtonSpecStyle.PendantMin:
-                return "Minimize";
-            case PaletteButtonSpecStyle.FormMax:
-                return "Maximize";
-            case PaletteButtonSpecStyle.PendantRestore:
-            case PaletteButtonSpecStyle.FormRestore:
-                return "Restore";
-            case PaletteButtonSpecStyle.FormHelp:
-                return nameof(Help);
             case PaletteButtonSpecStyle.RibbonMinimize:
-                return "Minimize";
+                return controlBox.Minimize;
+            case PaletteButtonSpecStyle.FormMax:
+                return controlBox.Maximize;
+            case PaletteButtonSpecStyle.FormRestore:
+                // Maximize button toggled to restore (Windows MUI: Restore Down).
+                return controlBox.Restore;
+            case PaletteButtonSpecStyle.PendantRestore:
+                // Minimize-side restore (Windows MUI: Restore Up), e.g. maximized MDI child.
+                return controlBox.RestoreUp;
+            case PaletteButtonSpecStyle.FormHelp:
+                return controlBox.Help;
             case PaletteButtonSpecStyle.RibbonExpand:
                 return "Expand";
             case PaletteButtonSpecStyle.PinVertical:
@@ -1175,7 +1178,7 @@ public abstract class PaletteBase : Component
             case PaletteButtonSpecStyle.PrintPreview:
             case PaletteButtonSpecStyle.Print:
             case PaletteButtonSpecStyle.QuickPrint:
-                return GlobalStaticVariables.EMPTY_COLOR;
+                return SharedStaticVariables.EMPTY_COLOR;
             case PaletteButtonSpecStyle.Close:
             case PaletteButtonSpecStyle.Context:
             case PaletteButtonSpecStyle.Next:
@@ -1196,7 +1199,7 @@ public abstract class PaletteBase : Component
                 // Should never happen!
                 Debug.Assert(false);
                 DebugTools.NotImplemented(style.ToString());
-                return GlobalStaticVariables.EMPTY_COLOR;
+                return SharedStaticVariables.EMPTY_COLOR;
         }
     }
 
@@ -1224,7 +1227,7 @@ public abstract class PaletteBase : Component
             case PaletteButtonSpecStyle.PrintPreview:
             case PaletteButtonSpecStyle.Print:
             case PaletteButtonSpecStyle.QuickPrint:
-                return GlobalStaticVariables.EMPTY_COLOR;
+                return SharedStaticVariables.EMPTY_COLOR;
             case PaletteButtonSpecStyle.Close:
             case PaletteButtonSpecStyle.Context:
             case PaletteButtonSpecStyle.Next:
@@ -1248,12 +1251,12 @@ public abstract class PaletteBase : Component
             case PaletteButtonSpecStyle.WorkspaceRestore:
             case PaletteButtonSpecStyle.RibbonMinimize:
             case PaletteButtonSpecStyle.RibbonExpand:
-                return GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
+                return SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
             default:
                 // Should never happen!
                 Debug.Assert(false);
                 DebugTools.NotImplemented(style.ToString());
-                return GlobalStaticVariables.EMPTY_COLOR;
+                return SharedStaticVariables.EMPTY_COLOR;
         }
     }
 
@@ -2211,15 +2214,17 @@ public abstract class PaletteBase : Component
     /// <summary>
     /// Called once from a family base static constructor to seed default colours for a particular enum slot.
     /// </summary>
-    protected static void RegisterColor<TEnum>(TEnum slot, Color value) where TEnum : struct, Enum
+    protected internal static void RegisterColor<TEnum>(TEnum slot, Color value) where TEnum : struct, Enum
     {
         RegisterColor<PaletteBase, TEnum>(slot, value);
     }
 
     /// <summary>
-    /// Called once from a family base static constructor to seed default colours for a particular enum slot.
+    /// Called once from a family base static constructor (or same-assembly helpers) to seed default colours
+    /// for a particular enum slot, keyed by <typeparamref name="TOwner"/> so derived palettes can override
+    /// shared family defaults without mutating the <see cref="PaletteBase"/> fallback entries.
     /// </summary>
-    protected static void RegisterColor<TOwner, TEnum>(TEnum slot, Color value)
+    protected internal static void RegisterColor<TOwner, TEnum>(TEnum slot, Color value)
         where TOwner : PaletteBase
         where TEnum : struct, Enum
     {
@@ -2352,7 +2357,7 @@ public abstract class PaletteBase : Component
     {
         if (source == null)
         {
-            throw new ArgumentNullException(nameof(source));
+            ThrowHelper.ThrowArgumentNullException(nameof(source));
         }
 
         lock (_colorLock)
@@ -2396,7 +2401,7 @@ public abstract class PaletteBase : Component
     {
         if (colorUpdates is null)
         {
-            throw new ArgumentNullException(nameof(colorUpdates));
+            ThrowHelper.ThrowArgumentNullException(nameof(colorUpdates));
         }
 
         foreach (var kv in colorUpdates)
@@ -2436,7 +2441,7 @@ public abstract class PaletteBase : Component
         lock (_colorLock)
         {
             var idx = (int)colorIndex;
-            return idx >= 0 && idx < _extraColors.Length ? _extraColors[idx] : GlobalStaticVariables.EMPTY_COLOR;
+            return idx >= 0 && idx < _extraColors.Length ? _extraColors[idx] : SharedStaticVariables.EMPTY_COLOR;
         }
     }
 
@@ -2448,7 +2453,7 @@ public abstract class PaletteBase : Component
     {
         if (colorUpdates is null)
         {
-            throw new ArgumentNullException(nameof(colorUpdates));
+            ThrowHelper.ThrowArgumentNullException(nameof(colorUpdates));
         }
 
         foreach (var kv in colorUpdates)
@@ -2460,7 +2465,7 @@ public abstract class PaletteBase : Component
     {
         if (newScheme is null)
         {
-            throw new ArgumentNullException(nameof(newScheme));
+            ThrowHelper.ThrowArgumentNullException(nameof(newScheme));
         }
 
         lock (_colorLock)
@@ -2495,7 +2500,7 @@ public abstract class PaletteBase : Component
 
         if (state is PaletteState.Tracking or PaletteState.CheckedTracking)
         {
-            return trackingColor != GlobalStaticVariables.EMPTY_COLOR && !trackingColor.IsEmpty
+            return trackingColor != SharedStaticVariables.EMPTY_COLOR && !trackingColor.IsEmpty
                 ? trackingColor
                 : defaultColor;
         }

@@ -35,7 +35,7 @@ internal class ViewDrawRibbonGroupClusterSeparator : ViewLeaf
     {
         Debug.Assert(ribbon is not null);
 
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon ));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
         _start = start;
         _preferredSize = new Size((int)(1 * FactorDpiX), (int)(4 * FactorDpiY));
     }
@@ -79,7 +79,7 @@ internal class ViewDrawRibbonGroupClusterSeparator : ViewLeaf
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         Rectangle drawRect = ClientRectangle;

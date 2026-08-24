@@ -16,7 +16,13 @@ namespace Krypton.Toolkit;
 
 internal class ShellBrowserDialogTFM : ShellDialogWrapper, IDisposable
 {
-    private readonly OpenFileDialog _internalOpenFileDialog = new OpenFileDialog();// { AutoUpgradeEnabled = true };
+    private readonly OpenFileDialog _internalOpenFileDialog = new OpenFileDialog();
+
+    /// <summary>
+    /// Shows the underlying folder-picker OpenFileDialog without installing another CBT/embed pass.
+    /// Used by <see cref="KryptonFolderBrowserDialog"/> which already owns the shell wrapper.
+    /// </summary>
+    internal DialogResult ShowFolderDialogCore(IWin32Window? owner) => ShowActualDialog(owner);
     private static readonly Type _ofd = typeof(OpenFileDialog);
 
     [Flags]
@@ -73,6 +79,12 @@ internal class ShellBrowserDialogTFM : ShellDialogWrapper, IDisposable
     {
         base.WndMessage(sender, e, out actioned);
 
+        // Chrome-only hosting leaves native controls in place; do not rewrite button captions.
+        if (_commonDialogHandler == null || !_commonDialogHandler.ReplaceNativeControls)
+        {
+            return;
+        }
+
         if (e.message == PI.WM_.INITDIALOG)
         {
             var button = _commonDialogHandler.Controls.FirstOrDefault(static ctl => ctl.DlgCtrlId == 1);
@@ -117,8 +129,35 @@ internal class ShellBrowserDialogTFM : ShellDialogWrapper, IDisposable
 
     public string SelectedPath
     {
-        get => Path.GetDirectoryName(_internalOpenFileDialog.FileName)!;
-        set => _internalOpenFileDialog.InitialDirectory = value;
+        get
+        {
+            var fileName = _internalOpenFileDialog.FileName;
+            if (!string.IsNullOrWhiteSpace(fileName))
+            {
+                try
+                {
+                    // Folder-picker mode may return the folder path directly.
+                    if (Directory.Exists(fileName))
+                    {
+                        return fileName;
+                    }
+
+                    // Otherwise FileName is typically "<folder>\Folder Selection.".
+                    var directoryName = Path.GetDirectoryName(fileName);
+                    if (!string.IsNullOrEmpty(directoryName))
+                    {
+                        return directoryName;
+                    }
+                }
+                catch (ArgumentException)
+                {
+                    // Illegal path form — fall through to InitialDirectory.
+                }
+            }
+
+            return _internalOpenFileDialog.InitialDirectory ?? string.Empty;
+        }
+        set => _internalOpenFileDialog.InitialDirectory = value ?? string.Empty;
     }
 
     private Environment.SpecialFolder _rootFolder;
@@ -137,4 +176,30 @@ internal class ShellBrowserDialogTFM : ShellDialogWrapper, IDisposable
 
     /// <inheritdoc />
     public void Dispose() => _internalOpenFileDialog.Dispose();
+
+    internal override KryptonDialogOptions CreateDialogOptions() => new KryptonDialogOptions
+    {
+        Kind = KryptonDialogKind.SelectFolder,
+        Title = Title,
+        Icon = Icon,
+        InitialDirectory = SelectedPath ?? string.Empty,
+        CurrentPath = SelectedPath ?? string.Empty,
+        RootFolder = RootFolder
+    };
+
+    internal override KryptonDialogResult CaptureDialogResult()
+    {
+        var selectedPath = SelectedPath ?? string.Empty;
+        return new KryptonDialogResult
+        {
+            SelectedPath = selectedPath,
+            FileName = selectedPath,
+            FileNames = string.IsNullOrWhiteSpace(selectedPath) ? Array.Empty<string>() : new[] { selectedPath }
+        };
+    }
+
+    internal override void ApplyDialogResult(KryptonDialogResult result)
+    {
+        SelectedPath = result.SelectedPath;
+    }
 }

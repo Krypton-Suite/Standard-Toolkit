@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -53,6 +53,7 @@ public class KryptonPage : VisualPanel
     private string _toolTipTitle;
     private string _toolTipBody;
     private string _uniqueName;
+    private string _tabGroupId;
     private Bitmap? _imageSmall;
     private Bitmap? _imageMedium;
     private Bitmap? _imageLarge;
@@ -192,6 +193,7 @@ public class KryptonPage : VisualPanel
         _setVisible = true;
         _autoHiddenSlideSize = new Size(200, 200);
         _uniqueName = string.IsNullOrEmpty(uniqueName) ? CommonHelper.UniqueString : uniqueName ?? string.Empty;
+        _tabGroupId = string.Empty;
         _flags.Flags = (int)KryptonPageFlags.All;
         _flags.ClearFlags((int)KryptonPageFlags.PageInOverflowBarForOutlookMode);
 
@@ -201,7 +203,7 @@ public class KryptonPage : VisualPanel
 
         if (Redirector is null)
         {
-            throw new ArgumentNullException(nameof(Redirector));
+            ThrowHelper.ThrowArgumentNullException(nameof(Redirector));
         }
 
         // Create redirector for inheriting from owning navigator
@@ -722,6 +724,38 @@ public class KryptonPage : VisualPanel
     }
 
     private void ResetUniqueName() => UniqueName = CommonHelper.UniqueString;
+
+    /// <summary>
+    /// Gets and sets the browser-style tab group identifier for this page.
+    /// </summary>
+    /// <remarks>
+    /// Empty means the page is ungrouped. Membership travels with the page instance (e.g. tear-out).
+    /// Group titles/colors/collapsed state live in a host catalog such as
+    /// <c>KryptonNavigatorFormIntegrator.TabGroups</c>.
+    /// </remarks>
+    [Category(@"Appearance")]
+    [Description(@"Browser-style tab group id. Empty when the page is not in a group.")]
+    [DefaultValue("")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public virtual string TabGroupId
+    {
+        get => _tabGroupId;
+
+        set
+        {
+            value ??= string.Empty;
+            if (_tabGroupId == value)
+            {
+                return;
+            }
+
+            _tabGroupId = value;
+            OnAppearancePropertyChanged(nameof(TabGroupId));
+        }
+    }
+
+    private void ResetTabGroupId() => TabGroupId = string.Empty;
+    private bool ShouldSerializeTabGroupId() => !string.IsNullOrEmpty(TabGroupId);
 
     /// <summary>
     /// Fix the control to a particular palette state.

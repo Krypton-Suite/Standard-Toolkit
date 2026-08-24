@@ -39,6 +39,7 @@ public static class KryptonDesignerEditorDpi
         KryptonManager.InvalidateDpiCache();
 
         RefreshPropertyGrids(form.Controls);
+        RefreshButtonBars(form);
         form.PerformLayout();
     }
 
@@ -86,6 +87,32 @@ public static class KryptonDesignerEditorDpi
             if (control.HasChildren)
             {
                 RefreshPropertyGrids(control.Controls);
+            }
+        }
+    }
+
+    private static void RefreshButtonBars(Form form)
+    {
+        if (form is not KryptonForm owner)
+        {
+            return;
+        }
+
+        RefreshButtonBars(form.Controls, owner);
+    }
+
+    private static void RefreshButtonBars(Control.ControlCollection controls, KryptonForm owner)
+    {
+        foreach (Control control in controls)
+        {
+            if (control is InternalDesignerEditorButtonBarPanel buttonBar)
+            {
+                buttonBar.ApplyDpi(owner);
+            }
+
+            if (control.HasChildren)
+            {
+                RefreshButtonBars(control.Controls, owner);
             }
         }
     }

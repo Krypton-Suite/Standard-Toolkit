@@ -15,7 +15,7 @@
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <NeutralLanguage>en</NeutralLanguage>
     <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
-    <Configurations>Debug;Release;Installer;Nightly;Canary</Configurations>
+    <Configurations>Debug;Release;Installer;Nightly;Canary;RC</Configurations>
     <Nullable>enable</Nullable>
     <!--https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/warning-waves-->
     <WarningLevel>8</WarningLevel>
@@ -88,6 +88,7 @@
     <EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroup.bmp" />
     <EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonTab.bmp" />
     <EmbeddedResource Include="ToolboxBitmaps\KryptonRibbon.bmp" />
+    <EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonToolbar.bmp" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Controls Ribbon Install\KryptonGalleryLicence.cs" />

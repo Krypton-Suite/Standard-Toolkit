@@ -144,7 +144,7 @@ public class KryptonCircularProgressBar : KryptonProgressBar
         {
             if (value == null)
             {
-                throw new ArgumentNullException(nameof(value));
+                ThrowHelper.ThrowArgumentNullException(nameof(value));
             }
 
             _knownAnimationFunction = WinFormAnimation.KnownAnimationFunctions.None;

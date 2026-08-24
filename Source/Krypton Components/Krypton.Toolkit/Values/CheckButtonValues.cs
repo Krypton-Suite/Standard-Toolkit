@@ -44,6 +44,16 @@ public class CheckButtonValues : ButtonValues
     }
     #endregion
 
+    #region CreateOverlayImageValues
+    /// <summary>
+    /// Create the storage for the overlay image values.
+    /// </summary>
+    /// <param name="needPaint">Delegate for notifying paint requests.</param>
+    /// <returns>Storage object.</returns>
+    protected override OverlayImageValues CreateOverlayImageValues(NeedPaintHandler needPaint) =>
+        new CheckOverlayImageValues(needPaint);
+    #endregion
+
     #region IContentValues
     /// <summary>
     /// Gets the content image.
@@ -63,5 +73,12 @@ public class CheckButtonValues : ButtonValues
 
         return image ?? base.GetImage(state);
     }
+
+    /// <summary>
+    /// Gets the overlay image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay image is needed.</param>
+    /// <returns>Overlay image value, or null if no overlay image is set.</returns>
+    public override Image? GetOverlayImage(PaletteState state) => OverlayImage.GetImage(state);
     #endregion
 }

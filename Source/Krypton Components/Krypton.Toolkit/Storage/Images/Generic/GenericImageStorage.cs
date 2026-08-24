@@ -14,8 +14,7 @@ public class GenericImageStorage : Storage
 {
     #region Static Fields
 
-    // ToDo: Use the standard WinForms app icon
-    private readonly Image _defaultApplicationImage = GenericImageResources.AppButtonDefault;
+    private readonly Image _defaultApplicationImage = SystemIcons.Application.ToBitmap();
 
     #endregion
 
@@ -53,8 +52,11 @@ public class GenericImageStorage : Storage
     [Category(@"Values")]
     [Description(@"Application button image.")]
     [RefreshProperties(RefreshProperties.All)]
-    [DefaultValue(typeof(Image), "Resources.AppButtonDefault.png")]
     public Image ApplicationIcon { get; set; }
+
+    private bool ShouldSerializeApplicationIcon() => !_defaultApplicationImage.Equals(ApplicationIcon);
+
+    private void ResetApplicationIcon() => ApplicationIcon = _defaultApplicationImage;
 
     #endregion
 

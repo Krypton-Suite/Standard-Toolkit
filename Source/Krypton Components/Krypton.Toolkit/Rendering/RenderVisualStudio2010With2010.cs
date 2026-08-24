@@ -65,12 +65,12 @@ public class RenderVisualStudio2010With2010 : RenderProfessional
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (paletteBack is null)
         {
-            throw new ArgumentNullException(nameof(paletteBack));
+            ThrowHelper.ThrowArgumentNullException(nameof(paletteBack));
         }
 
         // Get the first border color
@@ -101,7 +101,7 @@ public class RenderVisualStudio2010With2010 : RenderProfessional
         // Validate incoming parameter
         if (colorPalette == null)
         {
-            throw new ArgumentNullException(nameof(colorPalette));
+            ThrowHelper.ThrowArgumentNullException(nameof(colorPalette));
         }
 
         // Use the professional renderer but pull colors from the palette

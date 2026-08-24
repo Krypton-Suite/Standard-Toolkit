@@ -43,8 +43,8 @@ internal class ViewLayoutRibbonQATFromOverflow : ViewLayoutRibbonQATContents
         Debug.Assert(parentControl is not null);
         Debug.Assert(contents is not null);
             
-        _contents = contents ?? throw new ArgumentNullException(nameof(contents));
-        ParentControl = parentControl ?? throw new ArgumentNullException(nameof(parentControl));
+        _contents = contents ?? ThrowHelper.ThrowArgumentNullException(contents);
+        ParentControl = parentControl ?? ThrowHelper.ThrowArgumentNullException(parentControl);
     }
     #endregion
 
@@ -59,7 +59,7 @@ internal class ViewLayoutRibbonQATFromOverflow : ViewLayoutRibbonQATContents
             var qatOverflow = new List<IQuickAccessToolbarButton>();
 
             // Scan all the defined buttons for ones to show as overflowing
-            foreach (IQuickAccessToolbarButton qatButton in Ribbon.QATButtons)
+            foreach (var qatButton in Ribbon.QATButtons.OfType<IQuickAccessToolbarButton>())
             {
                 // If the button requests to be shown...
                 if (qatButton.GetVisible())

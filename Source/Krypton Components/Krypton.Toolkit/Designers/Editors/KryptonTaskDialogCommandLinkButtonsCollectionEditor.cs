@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -26,7 +26,7 @@ public sealed class KryptonTaskDialogCommandLinkButtonsCollectionEditor : Krypto
 
     #region Public
     /// <inheritdoc />
-    public override object? EditValue(ITypeDescriptorContext? context, IServiceProvider provider, object? value)
+    public override object? EditValue(ITypeDescriptorContext? context, IServiceProvider? provider, object? value)
     {
         if (context?.Instance is not KryptonTaskDialogElementCommandLinkButtons parent)
         {

@@ -28,6 +28,7 @@ global using System.Windows.Forms;
 global using System.Windows.Forms.Design;
 global using System.Windows.Forms.VisualStyles;
 
+global using Krypton.Interop;
 global using Krypton.Toolkit;
 
 global using Krypton.Ribbon.Resources;

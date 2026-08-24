@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -74,6 +74,56 @@ public static class KryptonFoldableDialog
             Icon = icon
         });
 
+    /// <summary>Displays a foldable dialog asynchronously described by the supplied <paramref name="data"/>.</summary>
+    /// <param name="data">The data describing the dialog content and behaviour. Cannot be null.</param>
+    /// <returns>A task that produces the <see cref="DialogResult"/> when the dialog is closed.</returns>
+    public static Task<DialogResult> ShowAsync(KryptonFoldableDialogData data) => ShowCoreAsync(data);
+
+    /// <summary>Displays a foldable dialog asynchronously with the supplied heading, message and collapsible details.</summary>
+    /// <param name="heading">The bold main instruction shown at the top of the dialog.</param>
+    /// <param name="text">The descriptive message text shown below the heading.</param>
+    /// <param name="detailsText">The text shown inside the collapsible details region. When null or empty, no expander is shown.</param>
+    /// <param name="caption">The window title (caption) of the dialog.</param>
+    /// <param name="buttons">The set of action buttons to display. Defaults to <see cref="KryptonMessageBoxButtons.OK"/>.</param>
+    /// <param name="icon">The icon to display. Defaults to <see cref="ExtendedKryptonMessageBoxIcon.None"/>.</param>
+    /// <returns>A task that produces the <see cref="DialogResult"/> when the dialog is closed.</returns>
+    public static Task<DialogResult> ShowAsync(string? heading, string? text, string? detailsText, string? caption,
+        KryptonMessageBoxButtons buttons = KryptonMessageBoxButtons.OK,
+        ExtendedKryptonMessageBoxIcon icon = ExtendedKryptonMessageBoxIcon.None) =>
+        ShowCoreAsync(new KryptonFoldableDialogData
+        {
+            Heading = heading,
+            Text = text,
+            DetailsText = detailsText,
+            Caption = caption,
+            Buttons = buttons,
+            Icon = icon
+        });
+
+    /// <summary>Displays a foldable dialog asynchronously owned by the supplied window.</summary>
+    /// <param name="owner">The window that owns the dialog.</param>
+    /// <param name="heading">The bold main instruction shown at the top of the dialog.</param>
+    /// <param name="text">The descriptive message text shown below the heading.</param>
+    /// <param name="detailsText">The text shown inside the collapsible details region. When null or empty, no expander is shown.</param>
+    /// <param name="caption">The window title (caption) of the dialog.</param>
+    /// <param name="buttons">The set of action buttons to display. Defaults to <see cref="KryptonMessageBoxButtons.OK"/>.</param>
+    /// <param name="icon">The icon to display. Defaults to <see cref="ExtendedKryptonMessageBoxIcon.None"/>.</param>
+    /// <returns>A task that produces the <see cref="DialogResult"/> when the dialog is closed.</returns>
+    public static Task<DialogResult> ShowAsync(IWin32Window? owner, string? heading, string? text, string? detailsText, string? caption,
+        KryptonMessageBoxButtons buttons = KryptonMessageBoxButtons.OK,
+        ExtendedKryptonMessageBoxIcon icon = ExtendedKryptonMessageBoxIcon.None) =>
+        ShowCoreAsync(new KryptonFoldableDialogData
+        {
+            Owner = owner,
+            Heading = heading,
+            Text = text,
+            DetailsText = detailsText,
+            Caption = caption,
+            Buttons = buttons,
+            Icon = icon
+        });
+
+
     #endregion
 
     #region Implementation
@@ -82,11 +132,22 @@ public static class KryptonFoldableDialog
     {
         if (data == null)
         {
-            throw new ArgumentNullException(nameof(data));
+            ThrowHelper.ThrowArgumentNullException(nameof(data));
         }
 
         return VisualFoldableDialogForm.Show(data);
     }
+
+    private static Task<DialogResult> ShowCoreAsync(KryptonFoldableDialogData data)
+    {
+        if (data == null)
+        {
+            ThrowHelper.ThrowArgumentNullException(nameof(data));
+        }
+
+        return VisualFoldableDialogForm.ShowAsync(data);
+    }
+
 
     #endregion
 }

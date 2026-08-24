@@ -86,7 +86,7 @@ public class RenderOffice2013 : RenderOffice2010
         // Validate incoming parameter
         if (colorPalette == null)
         {
-            throw new ArgumentNullException(nameof(colorPalette));
+            ThrowHelper.ThrowArgumentNullException(nameof(colorPalette));
         }
 
         // Use the professional renderer but pull colors from the palette
@@ -283,7 +283,7 @@ public class RenderOffice2013 : RenderOffice2010
                 cache.Dispose();
 
                 // If we have a context color to use then modify the drawing colors
-                if (c5 != GlobalStaticVariables.EMPTY_COLOR)
+                if (c5 != SharedStaticVariables.EMPTY_COLOR)
                 {
                     if (!standard)
                     {
@@ -387,7 +387,7 @@ public class RenderOffice2013 : RenderOffice2010
                 cache.Dispose();
 
                 // If c5 has a colour then use that to highlight the tab
-                if (c5 != GlobalStaticVariables.EMPTY_COLOR)
+                if (c5 != SharedStaticVariables.EMPTY_COLOR)
                 {
                     if (!standard)
                     {

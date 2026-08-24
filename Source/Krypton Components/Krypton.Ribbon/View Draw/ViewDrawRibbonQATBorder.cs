@@ -184,7 +184,7 @@ internal class ViewDrawRibbonQATBorder : ViewComposite
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // We never draw the background/border for Office 2010 shape QAT

@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -25,6 +25,10 @@ internal partial class VisualMessageBoxRtlAwareForm : KryptonForm
     private readonly IWin32Window? _showOwner;
     private readonly HelpInfo? _helpInfo;
     private readonly KryptonMessageBoxNativeWindow _krtbNativeWindow;
+    private readonly KryptonOverlayImage _overlayImage;
+    private readonly KryptonDialogButtonColorOptions? _buttonColors;
+    private MessageButton? _helpButton;
+    private Image? _ownedComposedIcon;
     #endregion
 
     #region Public
@@ -49,7 +53,9 @@ internal partial class VisualMessageBoxRtlAwareForm : KryptonForm
         HelpInfo? helpInfo, bool? showCtrlCopy,
         bool? showHelpButton,
         bool? showCloseButton,
-        bool? showCopyButton)
+        bool? showCopyButton,
+        KryptonOverlayImage overlayImage = default,
+        KryptonDialogButtonColorOptions? buttonColors = null)
     {
         //SetInheritedControlOverride(); // Disabled as part of issue #2296. See the issue for details.
         // Store incoming values
@@ -61,6 +67,8 @@ internal partial class VisualMessageBoxRtlAwareForm : KryptonForm
         _helpInfo = helpInfo;
         _showOwner = showOwner;
         _showHelpButton = showHelpButton ?? (helpInfo != null);
+        _overlayImage = overlayImage;
+        _buttonColors = buttonColors;
         _krtbNativeWindow = new();
 
         // Create the form contents
@@ -82,7 +90,7 @@ internal partial class VisualMessageBoxRtlAwareForm : KryptonForm
 
         // #1692 text font colour for input controls does not work correct on KMBees when using dark themes.
         // Set the text colour to the one a control uses.
-        krtbMessageText.StateCommon.Content.Color1 = GlobalStaticVariables.KryptonMessageBoxRichTextBoxTextColor;
+        krtbMessageText.StateCommon.Content.Color1 = ToolkitStaticVariables.KryptonMessageBoxRichTextBoxTextColor;
 
         // Update contents to match requirements
         UpdateText();
@@ -91,6 +99,7 @@ internal partial class VisualMessageBoxRtlAwareForm : KryptonForm
         UpdateDefault();
         UpdateHelp();
         UpdateCopyButton(showCopyButton);
+        ApplySemanticButtonColors();
         UpdateTextExtra(showCtrlCopy);
         // Finally calculate and set form sizing
         UpdateSizing(showOwner);
@@ -339,6 +348,39 @@ internal partial class VisualMessageBoxRtlAwareForm : KryptonForm
             }
         }
         _messageIcon.Visible = (_kryptonMessageBoxIcon != KryptonMessageBoxIcon.None);
+        ApplyOverlayImageIfNeeded(rightToLeft: true);
+    }
+
+    private void ApplyOverlayImageIfNeeded(bool rightToLeft)
+    {
+        if (_overlayImage.IsEmpty || _messageIcon.Image == null)
+        {
+            return;
+        }
+
+        DisposeOwnedComposedIcon();
+        Bitmap? composed = GraphicsExtensions.TryComposeOverlay(_messageIcon.Image, _overlayImage, rightToLeft);
+        if (composed != null)
+        {
+            _ownedComposedIcon = composed;
+            _messageIcon.Image = composed;
+        }
+    }
+
+    private void DisposeOwnedComposedIcon()
+    {
+        if (_ownedComposedIcon == null)
+        {
+            return;
+        }
+
+        if (ReferenceEquals(_messageIcon.Image, _ownedComposedIcon))
+        {
+            _messageIcon.Image = null;
+        }
+
+        _ownedComposedIcon.Dispose();
+        _ownedComposedIcon = null;
     }
 
     private void UpdateButtons()
@@ -448,6 +490,30 @@ internal partial class VisualMessageBoxRtlAwareForm : KryptonForm
         }
     }
 
+    private void ApplySemanticButtonColors()
+    {
+        ApplySemanticButtonColor(_button1);
+        ApplySemanticButtonColor(_button2);
+        ApplySemanticButtonColor(_button3);
+        ApplySemanticButtonColor(_button4);
+
+        if (_helpButton != null)
+        {
+            KryptonDialogButtonAppearance.Apply(_helpButton, KryptonDialogButtonRole.Help, _buttonColors);
+        }
+    }
+
+    private void ApplySemanticButtonColor(MessageButton button)
+    {
+        // Do not use Control.Visible here: before ShowDialog it is false whenever any
+        // ancestor is hidden, so colours would never apply during construction.
+        // Help is applied separately — Help buttons keep DialogResult.None.
+        if (button.DialogResult != DialogResult.None && !ReferenceEquals(button, _helpButton))
+        {
+            KryptonDialogButtonAppearance.Apply(button, button.DialogResult, _buttonColors);
+        }
+    }
+
     private void UpdateDefault()
     {
         switch (_defaultButton)
@@ -487,7 +553,7 @@ internal partial class VisualMessageBoxRtlAwareForm : KryptonForm
             KryptonMessageBoxButtons.OK => _button2,
             KryptonMessageBoxButtons.OKCancel or KryptonMessageBoxButtons.YesNo or KryptonMessageBoxButtons.RetryCancel => _button3,
             KryptonMessageBoxButtons.AbortRetryIgnore or KryptonMessageBoxButtons.YesNoCancel or KryptonMessageBoxButtons.CancelTryContinue => _button4,
-            _ => throw new ArgumentOutOfRangeException()
+            _ => ThrowHelper.ThrowArgumentOutOfRangeException<MessageButton>()
         };
         if (helpButton != null)
         {
@@ -496,6 +562,7 @@ internal partial class VisualMessageBoxRtlAwareForm : KryptonForm
             helpButton.Text = KryptonManager.Strings.GeneralStrings.Help;
             helpButton.KeyPress += (_, _) => LaunchHelp();
             helpButton.Click += (_, _) => LaunchHelp();
+            _helpButton = helpButton;
         }
     }
 
@@ -632,7 +699,7 @@ internal partial class VisualMessageBoxRtlAwareForm : KryptonForm
             // Find size of the label, with a max of 2/3 screen width
             Screen screen = showOwner is IWin32Window window
                 ? Screen.FromHandle(window.Handle)
-                : Screen.PrimaryScreen ?? throw new NullReferenceException("Screen.PrimaryScreen returned null");
+: Screen.PrimaryScreen ?? ThrowHelper.ThrowNullReferenceException<Screen>("Screen.PrimaryScreen returned null");
 
             Size scaledMonitorSize = screen.WorkingArea.Size;
             scaledMonitorSize.Width = (int)(scaledMonitorSize.Width * 2 / 3.0f);
@@ -675,14 +742,14 @@ internal partial class VisualMessageBoxRtlAwareForm : KryptonForm
 
         // Button1 is always visible
         Size button1Size = _button1.GetPreferredSize(Size.Empty);
-        var maxButtonSize = button1Size with { Width = button1Size.Width + GlobalStaticConstants.GLOBAL_BUTTON_PADDING };
+        var maxButtonSize = button1Size with { Width = button1Size.Width + SharedStaticConstants.GLOBAL_BUTTON_PADDING };
 
         // If Button2 is visible
         if (_button2.Enabled)
         {
             numButtons++;
             Size button2Size = _button2.GetPreferredSize(Size.Empty);
-            maxButtonSize.Width = Math.Max(maxButtonSize.Width, button2Size.Width + GlobalStaticConstants.GLOBAL_BUTTON_PADDING);
+            maxButtonSize.Width = Math.Max(maxButtonSize.Width, button2Size.Width + SharedStaticConstants.GLOBAL_BUTTON_PADDING);
             maxButtonSize.Height = Math.Max(maxButtonSize.Height, button2Size.Height);
         }
 
@@ -691,7 +758,7 @@ internal partial class VisualMessageBoxRtlAwareForm : KryptonForm
         {
             numButtons++;
             Size button3Size = _button3.GetPreferredSize(Size.Empty);
-            maxButtonSize.Width = Math.Max(maxButtonSize.Width, button3Size.Width + GlobalStaticConstants.GLOBAL_BUTTON_PADDING);
+            maxButtonSize.Width = Math.Max(maxButtonSize.Width, button3Size.Width + SharedStaticConstants.GLOBAL_BUTTON_PADDING);
             maxButtonSize.Height = Math.Max(maxButtonSize.Height, button3Size.Height);
         }
         // If Button4 is visible
@@ -699,60 +766,60 @@ internal partial class VisualMessageBoxRtlAwareForm : KryptonForm
         {
             numButtons++;
             Size button4Size = _button4.GetPreferredSize(Size.Empty);
-            maxButtonSize.Width = Math.Max(maxButtonSize.Width, button4Size.Width + GlobalStaticConstants.GLOBAL_BUTTON_PADDING);
+            maxButtonSize.Width = Math.Max(maxButtonSize.Width, button4Size.Width + SharedStaticConstants.GLOBAL_BUTTON_PADDING);
             maxButtonSize.Height = Math.Max(maxButtonSize.Height, button4Size.Height);
         }
 
         // Start positioning buttons 10 pixels from right edge
-        var right = _panelButtons.Right - GlobalStaticConstants.GLOBAL_BUTTON_PADDING;
+        var right = _panelButtons.Right - SharedStaticConstants.GLOBAL_BUTTON_PADDING;
 
         //var left = _panelButtons.Left - GlobalStaticValues.GLOBAL_BUTTON_PADDING;
 
         // If Button4 is visible
         if (_button4.Enabled)
         {
-            _button4.Location = new Point(right - maxButtonSize.Width, GlobalStaticConstants.GLOBAL_BUTTON_PADDING);
+            _button4.Location = new Point(right - maxButtonSize.Width, SharedStaticConstants.GLOBAL_BUTTON_PADDING);
             _button4.Size = maxButtonSize;
-            right -= maxButtonSize.Width + GlobalStaticConstants.GLOBAL_BUTTON_PADDING;
+            right -= maxButtonSize.Width + SharedStaticConstants.GLOBAL_BUTTON_PADDING;
         }
 
         // If Button3 is visible
         if (_button3.Enabled)
         {
-            _button3.Location = new Point(right - maxButtonSize.Width, GlobalStaticConstants.GLOBAL_BUTTON_PADDING);
+            _button3.Location = new Point(right - maxButtonSize.Width, SharedStaticConstants.GLOBAL_BUTTON_PADDING);
             _button3.Size = maxButtonSize;
-            right -= maxButtonSize.Width + GlobalStaticConstants.GLOBAL_BUTTON_PADDING;
+            right -= maxButtonSize.Width + SharedStaticConstants.GLOBAL_BUTTON_PADDING;
         }
 
         // If Button2 is visible
         if (_button2.Enabled)
         {
-            _button2.Location = new Point(right - maxButtonSize.Width, GlobalStaticConstants.GLOBAL_BUTTON_PADDING);
+            _button2.Location = new Point(right - maxButtonSize.Width, SharedStaticConstants.GLOBAL_BUTTON_PADDING);
             _button2.Size = maxButtonSize;
-            right -= maxButtonSize.Width + GlobalStaticConstants.GLOBAL_BUTTON_PADDING;
+            right -= maxButtonSize.Width + SharedStaticConstants.GLOBAL_BUTTON_PADDING;
         }
 
         // Button1 is always visible
-        _button1.Location = new Point(right - maxButtonSize.Width, GlobalStaticConstants.GLOBAL_BUTTON_PADDING);
+        _button1.Location = new Point(right - maxButtonSize.Width, SharedStaticConstants.GLOBAL_BUTTON_PADDING);
         _button1.Size = maxButtonSize;
 
         // Button area is the number of buttons with gaps between them and 10 pixels around all edges
-        var buttonsAreaWidth = (maxButtonSize.Width * numButtons) + (GlobalStaticConstants.GLOBAL_BUTTON_PADDING * (numButtons + 1));
+        var buttonsAreaWidth = (maxButtonSize.Width * numButtons) + (SharedStaticConstants.GLOBAL_BUTTON_PADDING * (numButtons + 1));
 
         // The optional Copy button is anchored to the left edge, opposite the action buttons
         if (_copyButton.Enabled)
         {
             Size copyPreferredSize = _copyButton.GetPreferredSize(Size.Empty);
-            var copyButtonSize = new Size(Math.Max(maxButtonSize.Width, copyPreferredSize.Width + GlobalStaticConstants.GLOBAL_BUTTON_PADDING), maxButtonSize.Height);
+            var copyButtonSize = new Size(Math.Max(maxButtonSize.Width, copyPreferredSize.Width + SharedStaticConstants.GLOBAL_BUTTON_PADDING), maxButtonSize.Height);
 
-            _copyButton.Location = new Point(GlobalStaticConstants.GLOBAL_BUTTON_PADDING, GlobalStaticConstants.GLOBAL_BUTTON_PADDING);
+            _copyButton.Location = new Point(SharedStaticConstants.GLOBAL_BUTTON_PADDING, SharedStaticConstants.GLOBAL_BUTTON_PADDING);
             _copyButton.Size = copyButtonSize;
 
             // Widen the area so the Copy button never overlaps the action buttons
-            buttonsAreaWidth += copyButtonSize.Width + (GlobalStaticConstants.GLOBAL_BUTTON_PADDING * 2);
+            buttonsAreaWidth += copyButtonSize.Width + (SharedStaticConstants.GLOBAL_BUTTON_PADDING * 2);
         }
 
-        var buttonsAreaSize = new Size(buttonsAreaWidth, maxButtonSize.Height + (GlobalStaticConstants.GLOBAL_BUTTON_PADDING * 2));
+        var buttonsAreaSize = new Size(buttonsAreaWidth, maxButtonSize.Height + (SharedStaticConstants.GLOBAL_BUTTON_PADDING * 2));
 
         // Size the panel for the buttons
         _panelButtons.Size = buttonsAreaSize;
@@ -764,6 +831,7 @@ internal partial class VisualMessageBoxRtlAwareForm : KryptonForm
 
     private void OnFormClosed(object sender, FormClosedEventArgs e)
     {
+        DisposeOwnedComposedIcon();
         _krtbNativeWindow.ReleaseHandle();
     }
     #endregion
