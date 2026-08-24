@@ -32,7 +32,6 @@ These workflows and config files must be present on the **default branch (`maste
 
 - `.github/workflows/sync-github-from-master.yml`
 - `.github/workflows/pr-branch-policy.yml`
-- `.github/workflows/rc.yml` (RC NuGet publish; the job still checks out `gold`)
 - `.github/branch-policy.json`
 - `.github/scripts/Invoke-BranchPolicyCheck.ps1`
 

@@ -13,7 +13,6 @@ on:
       - master
       - alpha
       - canary
-      - gold
       - V110
     paths:
       - "Templates/**"
@@ -71,12 +70,6 @@ jobs:
               $channel = 'canary'
               $tag = 'templates-canary'
               $title = 'Krypton Templates (Canary)'
-              $prerelease = 'true'
-            }
-            'gold' {
-              $channel = 'rc'
-              $tag = 'templates-rc'
-              $title = 'Krypton Templates (RC)'
               $prerelease = 'true'
             }
             'alpha' {
