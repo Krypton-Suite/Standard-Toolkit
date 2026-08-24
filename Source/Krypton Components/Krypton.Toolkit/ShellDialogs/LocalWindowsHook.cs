@@ -1,4 +1,4 @@
-// Decompiled with JetBrains decompiler
+﻿// Decompiled with JetBrains decompiler
 // Type: MsdnMag.LocalWindowsHook
 // Assembly: WindowsHook, Version=1.0.921.18849, Culture=neutral, PublicKeyToken=null
 // Original from http://msdn.microsoft.com/msdnmag/issues/02/10/cuttingedge
