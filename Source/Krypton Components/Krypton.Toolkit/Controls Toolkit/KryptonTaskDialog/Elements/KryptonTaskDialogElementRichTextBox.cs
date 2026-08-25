@@ -154,6 +154,15 @@ public class KryptonTaskDialogElementRichTextBox : KryptonTaskDialogElementBase,
         set => _richTextBox.Text = value;
     }
 
+    /// <summary>
+    /// Get or set the RTF content in the richtextbox.
+    /// </summary>
+    public string? Rtf
+    {
+        get => _richTextBox.Rtf;
+        set => _richTextBox.Rtf = value;
+    }
+
     ///<summary>
     /// Enables the textbox.
     /// </summary>
