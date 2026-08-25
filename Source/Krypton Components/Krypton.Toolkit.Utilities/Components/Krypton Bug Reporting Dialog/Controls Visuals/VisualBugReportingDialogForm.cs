@@ -149,7 +149,8 @@ public partial class VisualBugReportingDialogForm : KryptonForm
     /// Formats detailed information about the specified exception into a readable string.
     /// </summary>
     /// <param name="exception">The exception to format. Cannot be null.</param>
-    /// <returns>A string containing the exception type, message, stack trace, and inner exception details, if present.</returns>
+    /// <returns>A string containing the exception type, message, and inner exception details, if present.</returns>
+    /* <returns>A string containing the exception type, message, stack trace, and inner exception details, if present.</returns>*/
     private string FormatExceptionDetails(Exception exception)
     {
         var sb = new StringBuilder();
@@ -157,7 +158,8 @@ public partial class VisualBugReportingDialogForm : KryptonForm
         sb.AppendLine($"Message: {exception.Message}");
         sb.AppendLine();
         sb.AppendLine("Stack Trace:");
-        sb.AppendLine(exception.StackTrace ?? "N/A");
+        sb.AppendLine("Suppressed for security reasons. Please see the exception details in the bug report email.");
+        // sb.AppendLine(exception.StackTrace ?? "N/A");
         if (exception.InnerException != null)
         {
             sb.AppendLine();
