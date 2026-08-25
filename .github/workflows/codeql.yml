@@ -16,9 +16,9 @@ name: "CodeQL Advanced"
 
 on:
   push:
-    branches: [ "master", "V105-LTS", "V85-LTS", "alpha", "canary", "gold" ]
+    branches: [ "master", "V105-LTS", "alpha", "canary", "gold" ]
   pull_request:
-    branches: [ "master", "V105-LTS", "V85-LTS", "alpha", "canary", "gold" ]
+    branches: [ "master", "V105-LTS", "alpha", "canary", "gold" ]
   schedule:
     # Mondays at 00:41 UTC (off-hour to avoid GitHub schedule queue delays)
     - cron: '41 0 * * 1'
