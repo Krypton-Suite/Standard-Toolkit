@@ -48,6 +48,7 @@ jobs:
 
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b sync-scan-code-todos-${{ github.run_id }}
           git add .github/workflows/scan-code-todos.yml
           git commit -m "chore(ci): sync scan-code-todos branch options from branch-policy"
-          git push
+          git push origin sync-scan-code-todos-${{ github.run_id }}
