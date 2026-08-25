@@ -2,7 +2,7 @@
 # Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, tobitege et al. 2026 - 2026. All rights reserved.
 #
 # Mirrors major branches from this repository to a separate GitHub repository.
-# Branches: master, gold, canary, alpha, V105-LTS, V85-LTS (plus all tags).
+# Branches: master, gold, canary, alpha, V105-LTS (plus all tags).
 # Maintains mirror equivalence: updates refs on the target, deletes configured branches
 # removed from source, prunes tags removed from source, and fails if a configured branch
 # is missing from both source and mirror (typo guard).
@@ -56,7 +56,6 @@ on:
       - alpha
       - alpha-backup
       - V105-LTS
-      - V85-LTS
       # The branch before code enters the alpha branch, i.e. V120
       - prerelease
   workflow_dispatch:
@@ -232,7 +231,7 @@ jobs:
           if [ -n "${MIRROR_BRANCHES:-}" ]; then
             IFS=',' read -r -a branches <<< "$MIRROR_BRANCHES"
           else
-            branches=(master gold canary alpha V105-LTS V85-LTS)
+            branches=(master gold canary alpha V105-LTS)
           fi
 
           normalized_branches=()
