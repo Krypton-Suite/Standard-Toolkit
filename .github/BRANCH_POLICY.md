@@ -32,6 +32,7 @@ These workflows and config files must be present on the **default branch (`maste
 
 - `.github/workflows/sync-github-from-master.yml`
 - `.github/workflows/pr-branch-policy.yml`
+- `.github/workflows/rc.yml` (RC NuGet publish; the job still checks out `gold`)
 - `.github/branch-policy.json`
 - `.github/scripts/Invoke-BranchPolicyCheck.ps1`
 
@@ -43,7 +44,7 @@ If `alpha` is later replaced (e.g. with `alpha-recovered`), commits that exist o
 
 Workflow **Sync .github from master** (`.github/workflows/sync-github-from-master.yml`) opens PRs that copy only `.github/` from `master` onto configured release branches.
 
-Targets include `alpha`, `canary`, `gold`, `prerelease`, `V105-LTS`, `V85-LTS`, and `V110` (see `syncGithubFromMasterTargets` in `branch-policy.json`). The sync uses `git checkout origin/master -- .github` on the target branch tip (path copy, not a merge of `master`).
+Targets include `alpha`, `canary`, `gold`, `prerelease`, `V105-LTS`, and `V110` (see `syncGithubFromMasterTargets` in `branch-policy.json`). The sync uses `git checkout origin/master -- .github` on the target branch tip (path copy, not a merge of `master`).
 
 ## Required checks on `master` vs release branches
 
