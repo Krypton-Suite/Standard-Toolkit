@@ -1,5 +1,5 @@
 # New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
-# Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, tobitege et al. 2026 - 2026. All rights reserved.
+# Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac et al. 2026 - 2026. All rights reserved.
 #
 # KILL-SWITCH: To disable this workflow, set repository variable RC_DISABLED=true
 # Location: Repository Settings → Secrets and variables → Actions → Variables tab
@@ -9,7 +9,7 @@
 # from the gold branch only. Gated by the production environment (approval) and a
 # branch check. Do not pack Configuration=Release from gold.
 
-name: RC Release
+name: Release Candidate Release
 
 on:
   push:
@@ -30,8 +30,8 @@ jobs:
       cancel-in-progress: true
 
     steps:
-      # RC Release kill switch
-      - name: RC Release Kill Switch Check
+      # Release Candidate Release kill switch
+      - name: Release Candidate Release Kill Switch Check
         id: rc_release_kill_switch
         shell: pwsh
         run: |
@@ -39,11 +39,11 @@ jobs:
           $disabled = '${{ vars.RC_DISABLED }}'
 
           if ($disabled -eq 'true') {
-            Write-Host "::warning:: RC Release workflow is currently DISABLED via kill switch (RC_DISABLED=true)"
+            Write-Host "::warning:: Release Candidate Release workflow is currently DISABLED via kill switch (RC_DISABLED=true)"
             Write-Host "To re-enable: Go to Repository Settings -> Secrets and Variables -> Actions -> Variables -> Set RC_DISABLED to 'false'."
             echo "enabled=false" >> $env:GITHUB_OUTPUT
           } else {
-            Write-Host "RC Release kill switch check has passed, continuing..."
+            Write-Host "Release Candidate Release kill switch check has passed, continuing..."
             echo "enabled=true" >> $env:GITHUB_OUTPUT
           }
 
@@ -71,7 +71,7 @@ jobs:
           $ErrorActionPreference = 'Stop'
           # This workflow is for the gold branch only (push to gold or manual run from gold)
           if ($env:GITHUB_REF -ne 'refs/heads/gold') {
-            Write-Error "Security: RC release only runs from branch gold. Current ref: '$env:GITHUB_REF'. For manual run, select branch 'gold' in the workflow dispatch."
+            Write-Error "Security: Release Candidate release only runs from branch gold. Current ref: '$env:GITHUB_REF'. For manual run, select branch 'gold' in the workflow dispatch."
             exit 1
           }
           Write-Host "✓ Branch verified: $env:GITHUB_REF"
@@ -83,7 +83,7 @@ jobs:
           ref: gold
           fetch-depth: 0
 
-      # RC always builds gold; the workflow file may land before Populate-WebView2.ps1 is merged to gold.
+      # Release Candidate always builds gold; the workflow file may land before Populate-WebView2.ps1 is merged to gold.
       - name: Checkout WebView2 CI script overlay
         if: steps.rc_release_kill_switch.outputs.enabled == 'true'
         uses: actions/checkout@v7
@@ -409,7 +409,7 @@ jobs:
           echo "version=$version" >> $env:GITHUB_OUTPUT
           echo "tag=v$version-rc" >> $env:GITHUB_OUTPUT
 
-      - name: Announce RC Release on Discord
+      - name: Announce Release Candidate Release on Discord
         if: steps.rc_release_kill_switch.outputs.enabled == 'true' && steps.push_nuget.outputs.packages_published == 'True'
         shell: pwsh
         run: |

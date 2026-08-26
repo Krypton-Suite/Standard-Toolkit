@@ -45,6 +45,8 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#4287](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4287), exposing a `Rtf` property on `KryptonTaskDialogElementRichTextBox`, allowing rich text content to be displayed in `KryptonTaskDialog`s
+* Resolved [#4255](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4255), Black frame flash and extra layout/paint cost when maximizing, minimizing, or restoring a `KryptonForm` from the caption or taskbar.
 * Implemented [#4254](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4254), DPI-scale Ribbon QAT extra button (`ViewDrawRibbonQATExtraButton`)
    * Ribbon Quick Access Toolbar overflow/customize button now scales with DPI
 * Implemented [#4246](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4246), Use of 'RC' NuGet packages
