@@ -2,6 +2,8 @@
 
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
+		<!-- Explicitly set Windows platform version for all frameworks -->
+		<WindowsPlatformVersion>10.0.19041.0</WindowsPlatformVersion>
 		<RootNamespace>Krypton.Interop</RootNamespace>
 		<AssemblyName>Krypton.Interop</AssemblyName>
 		<IsPackable>false</IsPackable>

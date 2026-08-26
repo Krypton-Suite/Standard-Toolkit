@@ -9,7 +9,6 @@
     "gold",
     "prerelease",
     "V105-LTS",
-    "V85-LTS",
     "V110"
   ],
   "longLivedHeadBranches": [
@@ -22,7 +21,6 @@
     "gold",
     "prerelease",
     "V105-LTS",
-    "V85-LTS",
     "V110"
   ],
   "syncGithubFromMasterTargets": [
@@ -31,7 +29,6 @@
     "gold",
     "prerelease",
     "V105-LTS",
-    "V85-LTS",
     "V110"
   ],
   "rules": [

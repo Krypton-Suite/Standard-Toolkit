@@ -9,9 +9,11 @@
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable IdentifierTypo
-namespace Krypton.Toolkit;
+using Krypton.Toolkit;
 
-internal partial class PI
+namespace Krypton.Interop;
+
+internal partial class NativeFunctions
 {
     internal enum HRESULT : uint
     {
@@ -84,27 +86,36 @@ internal partial class PI
         E_INVALIDARG = 0x80070057,
         ERROR_CANCELLED = 0x800704C7
     }
-}
 
-internal static class HResultExtensions
-{
-    public static bool Succeeded(this PI.HRESULT hr) => (int)hr >= 0;
-
-    public static bool Failed(this PI.HRESULT hr) => (int)hr < 0;
-
-    public static string AsString(this PI.HRESULT hr)
-        => Enum.IsDefined(typeof(PI.HRESULT), hr)
-            ? $"HRESULT {hr} [0x{(int)hr:X} ({(int)hr:D})]"
-            : $"HRESULT [0x{(int)hr:X} ({(int)hr:D})]";
-
-    public static Exception GetExceptionForHR(this PI.HRESULT errorCode) => Marshal.GetExceptionForHR((int)errorCode)!;
-
-    public static void ThrowExceptionIfFailed(this PI.HRESULT hr)
+    /// <summary>
+    /// Contains operating system version information. The information includes major and minor version numbers, a build number, a platform identifier, 
+    /// and information about product suites and the latest Service Pack installed on the system. 
+    /// This structure is used with the RtlGetVersion, GetVersionEx and VerifyVersionInfo functions.
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+    internal struct OSVERSIONINFOEX
     {
-        if (Failed(hr))
-        {
-            throw GetExceptionForHR(hr);
-        }
+        public uint dwOSVersionInfoSize;
+        public uint dwMajorVersion;
+        public uint dwMinorVersion;
+        public uint dwBuildNumber;
+        public uint dwPlatformId;
+
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+        public string szCSDVersion;
+
+        public ushort wServicePackMajor;
+        public ushort wServicePackMinor;
+        public ushort wSuiteMask;
+        public byte wProductType;
+        public byte wReserved;
     }
 
+    #region nt.dll
+
+    [DllImport(Libraries.NtDll, SetLastError = true)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    internal static extern int RtlGetVersion(ref OSVERSIONINFOEX lpVersionInformation);
+
+    #endregion
 }
