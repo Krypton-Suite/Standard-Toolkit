@@ -14,7 +14,7 @@ public partial class CommandLinkButtons : KryptonForm
     public CommandLinkButtons()
     {
         InitializeComponent();
-        //StateCommon.Border.Draw = InheritBool.False;
-        //StateCommon.Border.DrawBorders = PaletteDrawBorders.Top;
+        Text = "Command Link Buttons";
+        // Issue #4264: default arrow must appear, including the Windows 7 embedded fallback.
     }
 }
