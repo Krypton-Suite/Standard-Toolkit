@@ -34,6 +34,12 @@ public class SharedStaticConstants
     /// <summary>The alternative UAC shield icon ID in imageres.dll</summary>
     public const int UAC_SHIELD_ICON_ID_ALT = (int)ImageresIconID.ShieldAlt;
 
+    /// <summary>
+    /// The command-link arrow icon resource ID in <c>shell32.dll</c>.
+    /// Present on Windows 10 and later; missing or mapped differently on Windows 7 / 8 / 8.1.
+    /// </summary>
+    public const int COMMAND_LINK_ARROW_ICON_ID = 16805;
+
     /// <summary>The global button padding</summary>
     public const int GLOBAL_BUTTON_PADDING = 10;
 

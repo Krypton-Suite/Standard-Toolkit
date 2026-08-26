@@ -47,6 +47,10 @@
 
 * Resolved [#4270](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4270) and [#4269](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4269), `KryptonLog` no longer stores clear-text secrets when writing to Trace or rolling log files.
   * Template properties whose names look like `Password`, `Passwd`, `Secret`, or `Credential` are stored as `***`.
+* Resolved [#4264](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4264), Command-link buttons now show the default arrow image on Windows 7
+   * Windows 7 / 8 / 8.1 use an embedded Aero-style arrow; Windows 10+ still load the system glyph from `shell32.dll`.
+   * Applies to `KryptonCommandLinkButton` and Task Dialog command links.
+   * To use `KryptonCommandLinkButton`, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Implemented [#4287](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4287), exposing a `Rtf` property on `KryptonTaskDialogElementRichTextBox`, allowing rich text content to be displayed in `KryptonTaskDialog`s
 * Resolved [#4255](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4255), Black frame flash and extra layout/paint cost when maximizing, minimizing, or restoring a `KryptonForm` from the caption or taskbar.
 * Implemented [#4254](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4254), DPI-scale Ribbon QAT extra button (`ViewDrawRibbonQATExtraButton`)
