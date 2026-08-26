@@ -76,7 +76,7 @@ jobs:
             'gold' {
               $channel = 'rc'
               $tag = 'templates-rc'
-              $title = 'Krypton Templates (RC)'
+              $title = 'Krypton Templates (Release Candidate)'
               $prerelease = 'true'
             }
             'alpha' {
