@@ -62,8 +62,11 @@ internal sealed class KryptonLogMessageTemplate
             sb.Append(_literals[i]);
             var argIndex = _holes[i].Index;
             object? value = args != null && argIndex >= 0 && argIndex < args.Length ? args[argIndex] : null;
-            properties[i] = new KryptonLogProperty(_holes[i].Name, value);
-            sb.Append(FormatValue(value, _holes[i].Format));
+            var sensitive = KryptonLogProtect.IsSensitivePropertyName(_holes[i].Name);
+            properties[i] = new KryptonLogProperty(
+                _holes[i].Name,
+                sensitive ? KryptonLogProtect.RedactedValue : value);
+            sb.Append(sensitive ? KryptonLogProtect.RedactedValue : FormatValue(value, _holes[i].Format));
         }
 
         sb.Append(_literals[_holes.Length]);
