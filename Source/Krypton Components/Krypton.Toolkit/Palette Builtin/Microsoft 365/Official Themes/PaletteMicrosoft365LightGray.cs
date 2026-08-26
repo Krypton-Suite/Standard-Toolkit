@@ -47,7 +47,13 @@ public class PaletteMicrosoft365LightGray : PaletteMicrosoft365Base
 
     #region Images
 
-    public override Image? GetContextMenuSubMenuImage() => throw new NotImplementedException();
+    private static readonly Image? _contextMenuSubMenu = Office2010ArrowResources.Office2010BlueContextMenuSub;
+
+    /// <summary>
+    /// Gets an image indicating a sub-menu on a context menu item.
+    /// </summary>
+    /// <returns>Appropriate image for drawing; otherwise null.</returns>
+    public override Image? GetContextMenuSubMenuImage() => _contextMenuSubMenu;
 
     #endregion
 

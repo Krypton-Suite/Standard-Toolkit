@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -14,7 +14,11 @@ namespace Krypton.Toolkit;
 
 public class PaletteOffice2007LightGray : PaletteOffice2007Base
 {
-    //private static readonly string _themeName;
+    #region Static Fields
+
+    private static readonly Image? _contextMenuSubMenu = GenericImageResources.SilverContextMenuSub;
+
+    #endregion
 
     public PaletteOffice2007LightGray(string themeName, Color[] schemeColors, ImageList checkBoxList, ImageList galleryButtonList, Image?[] radioButtonArray, Color[] trackBarColors) : base(
         themeName,
@@ -25,7 +29,11 @@ public class PaletteOffice2007LightGray : PaletteOffice2007Base
     {
     }
 
-    public override Image? GetContextMenuSubMenuImage() => throw new NotImplementedException();
+    /// <summary>
+    /// Gets an image indicating a sub-menu on a context menu item.
+    /// </summary>
+    /// <returns>Appropriate image for drawing; otherwise null.</returns>
+    public override Image? GetContextMenuSubMenuImage() => _contextMenuSubMenu;
 
     #region Tab Row Background
 
