@@ -45,6 +45,8 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#4242](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4242), Native `KryptonMenuBar` (not a `MenuStrip`/`ToolStrip` subclass) using `KryptonContextMenuItem` top-level items and `KryptonContextMenu` drop-downs. Assign to `KryptonForm.MenuBar` for shortcuts and Alt activation; `KryptonMenuStrip` remains the WinForms `MainMenuStrip` path.
+   * Optional `KryptonFormTitleBar.MenuStrip` bind so a `KryptonMenuStrip` (or `MenuStrip`) can drive caption File/Edit menus without hosting a ToolStrip in the title bar. Assign the strip in the designer; clicks forward to the original items. `KryptonFormTitleBar.ImportFrom` copies into `ButtonSpecs` when a snapshot is preferred.
 * Resolved [#4264](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4264), Command-link buttons now show the default arrow image on Windows 7
    * Windows 7 / 8 / 8.1 use an embedded Aero-style arrow; Windows 10+ still load the system glyph from `shell32.dll`.
    * Applies to `KryptonCommandLinkButton` and Task Dialog command links.

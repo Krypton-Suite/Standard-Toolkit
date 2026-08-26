@@ -148,6 +148,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<HeaderExamples>("Header Examples", string.Empty);
         CreateButton<HelpProviderTest>("HelpProvider", "Test KryptonHelpProvider functionality");
         CreateButton<MenuToolBarStatusStripTest>("Menu/Tool/Status Strips (#1110 / #1297)", "KryptonMenuStrip and KryptonToolStrip on the form, native MenuStrip/ToolStrip in the panel. Tools menu: change BaseFont size, family, and bold; both families should follow. Menu text stays Regular when BaseFont is bold. Right-click the panel for context menu check.");
+        CreateButton<KryptonMenuBarDemo>("KryptonMenuBar (#4242)", "Native KryptonMenuBar (not ToolStrip) vs KryptonMenuStrip vs MenuStrip. Assigned to KryptonForm.MenuBar. Try Alt/F10, mnemonics, hover-switch, Ctrl+N, Insert Standard Items, and theme changes.");
         CreateButton<KryptonMenuAndToolStripExampleForm>("Krypton MenuStrip + ToolStrip Container", "Standard File/Edit/Tools/Help KryptonMenuStrip with KryptonToolStrip inside KryptonToolStripContainer. Designer-style Insert Standard Items layout.");
         CreateButton<NotifyIconTest>("NotifyIcon", "Comprehensive demonstration of KryptonNotifyIcon with all events, balloon tips, and context menu support.");
         CreateButton<OAuth2Demo>("OAuth2 PKCE Demo", "Comprehensive OAuth2 with PKCE demo. Sign in with Azure AD, Google, or GitHub using embedded WebView2 or system browser. Configure client ID, redirect URI, and scopes.");
@@ -172,7 +173,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<KryptonTextBoxValidatingTest>("TextBox Validating Test", "Tests fix for Validating event duplication bug #2801");
         CreateButton<TouchscreenHighDpiDemo>("Touchscreen + High DPI Demo", "Comprehensive demonstration of touchscreen support with per-monitor high DPI scaling (Issue #2844).");
         CreateButton<ToggleSwitchTest>("Toggle Switch (#3890)", "Issue #3890: KryptonToggleSwitch knob styles. Compare classic, flat, radial, ring, bevel, and rounded-square thumbs; toggle each sample and edit ToggleSwitchValues in the property grid.");
-        CreateButton<KryptonFormTitleBarDemo>("Title Bar Menu", "Demonstrates titlebar menu.");
+        CreateButton<KryptonFormTitleBarDemo>("Title Bar Menu", "Caption ButtonSpecs, Insert Standard Items, and optional KryptonMenuStrip bind (File/Edit in the title bar).");
         CreateButton<RichTextBoxFormattingTest>("RichTextBox Formatting Test", "Tests fix for RichTextBox formatting preservation when palette changes (Issue #2832)");
         CreateButton<Feature4008RichTextBoxJustifyDemo>("Feature 4008 RichTextBox Justify", "Issue #4008: KryptonRichTextBox.SelectionParagraphAlignment with Left/Center/Right/Justify. Compare with native RichTextBox SelectionAlignment (no Justify). Resize the form to see justified word spacing.");
         CreateButton<Bug3343RichTextBoxEditLossDemo>("Bug 3343 RichTextBox mouse leave", "Issue #3343: type in KryptonRichTextBox, move the mouse out without changing focus; text and TextLength must not reset. Includes KryptonTextBox for comparison.");
