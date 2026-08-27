@@ -357,6 +357,16 @@ public class KryptonListView : VisualControlBase,
     [Description("ListView ItemSelectionChanged")]
     public event ListViewItemSelectionChangedEventHandler? ItemSelectionChanged;
 
+    /// <summary>Occurs when the <see cref="T:System.Windows.Forms.ListView" /> is in virtual mode and the contents of its cache need to be refreshed.</summary>
+    [Category("Action")]
+    [Description("ListView CacheVirtualItems")]
+    public event CacheVirtualItemsEventHandler? CacheVirtualItems;
+
+    /// <summary>Occurs when the <see cref="T:System.Windows.Forms.ListView" /> is in virtual mode and a <see cref="T:System.Windows.Forms.ListViewItem" /> must be provided.</summary>
+    [Category("Action")]
+    [Description("ListView RetrieveVirtualItem")]
+    public event RetrieveVirtualItemEventHandler? RetrieveVirtualItem;
+
     /// <summary>Occurs when the <see cref="T:System.Windows.Forms.ListView" /> is in virtual mode and a search is taking place.</summary>
     [Category("Action")]
     [Description("ListView SearchForVirtualItem")]
@@ -434,6 +444,8 @@ public class KryptonListView : VisualControlBase,
         _listView.KeyPress += OnListViewKeyPress;
         _listView.KeyUp += OnListViewKeyUp;
         _listView.LostFocus += OnListViewLostFocus;
+        _listView.CacheVirtualItems += OnCacheVirtualItems;
+        _listView.RetrieveVirtualItem += OnRetrieveVirtualItem;
         _listView.SearchForVirtualItem += OnSearchForVirtualItem;
         _listView.SelectedIndexChanged += OnSelectedIndexChanged;
         _listView.VirtualItemsSelectionRangeChanged += OnVirtualItemsSelectionRangeChanged;
@@ -486,6 +498,17 @@ public class KryptonListView : VisualControlBase,
     private void OnListViewKeyPress(object? sender, KeyPressEventArgs e) => OnKeyPress(e);
 
     private void OnListViewKeyUp(object? sender, KeyEventArgs e) => OnKeyUp(e);
+
+    private void OnCacheVirtualItems(object? sender, CacheVirtualItemsEventArgs e) => CacheVirtualItems?.Invoke(this, e);
+
+    private void OnRetrieveVirtualItem(object? sender, RetrieveVirtualItemEventArgs e)
+    {
+        RetrieveVirtualItem?.Invoke(this, e);
+        if (e.Item != null)
+        {
+            SetItemState(e.Item);
+        }
+    }
 
     private void OnSearchForVirtualItem(object? sender, SearchForVirtualItemEventArgs e) => SearchForVirtualItem?.Invoke(this, e);
 
@@ -1000,7 +1023,6 @@ public class KryptonListView : VisualControlBase,
         set => _listView.View = value;
     }
 
-    /* TODO: Need to wire up the virtual events as well
     /// <summary>Gets or sets the number of <see cref="T:System.Windows.Forms.ListViewItem" /> objects contained in the list when in virtual mode.</summary>
     /// <returns>The number of <see cref="T:System.Windows.Forms.ListViewItem" /> objects contained in the <see cref="T:System.Windows.Forms.ListView" /> when in virtual mode.</returns>
     /// <exception cref="T:System.ArgumentException">
@@ -1039,7 +1061,6 @@ public class KryptonListView : VisualControlBase,
         get => _listView.VirtualMode;
         set => _listView.VirtualMode = value;
     }
-    */
 
     /// <summary>Arranges items in the control when they are displayed as icons with a specified alignment setting.</summary>
     /// <param name="value">One of the <see cref="T:System.Windows.Forms.ListViewAlignment" /> values.</param>
@@ -1321,9 +1342,17 @@ public class KryptonListView : VisualControlBase,
             _drawDockerOuter.ElementState = state;
 
             _listView.BackColor = doubleState.PaletteBack.GetBackColor1(state);
-            foreach (ListViewItem li in Items)
+            if (_listView.VirtualMode)
             {
-                SetItemState(li);
+                // Enumerating Items in virtual mode retrieves every row. Visible items are styled in OnRetrieveVirtualItem.
+                _listView.Invalidate();
+            }
+            else
+            {
+                foreach (ListViewItem li in Items)
+                {
+                    SetItemState(li);
+                }
             }
         }
     }
