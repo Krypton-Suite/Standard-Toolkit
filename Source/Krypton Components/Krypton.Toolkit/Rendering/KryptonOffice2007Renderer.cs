@@ -766,58 +766,8 @@ public class KryptonOffice2007Renderer : KryptonProfessionalRenderer
     /// Raises the RenderImageMargin event.
     /// </summary>
     /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
-    protected override void OnRenderImageMargin(ToolStripRenderEventArgs e)
-    {
-        if (e.ToolStrip is ContextMenuStrip or ToolStripDropDownMenu)
-        {
-            // Start with the total margin area
-            Rectangle marginRect = e.AffectedBounds;
-
-            // Do we need to draw with separator on the opposite edge?
-            var rtl = e.ToolStrip.RightToLeft == RightToLeft.Yes;
-
-            marginRect.Y += MARGIN_INSET;
-            marginRect.Height -= MARGIN_INSET * 2;
-
-            // Reduce so it is inside the border
-            if (!rtl)
-            {
-                marginRect.X += MARGIN_INSET;
-            }
-            else
-            {
-                marginRect.X += MARGIN_INSET / 2;
-            }
-
-            // Draw the entire margin area in a solid color
-            using (var backBrush = new SolidBrush(KCT.ContextMenuImageColumnBack))
-            {
-                e.Graphics.FillRectangle(backBrush, marginRect);
-            }
-
-            // Create the light and dark line pens from the color table to match ToolStripDropDownMenu
-            using (Pen lightPen = new Pen(KCT.ContextMenuImageColumnBorder),
-                   darkPen  = new Pen(KCT.ContextMenuImageColumnBorder))
-            {
-                if (!rtl)
-                {
-                    // Draw the light and dark lines on the right hand side
-                    e.Graphics.DrawLine(lightPen, marginRect.Right, marginRect.Top, marginRect.Right, marginRect.Bottom);
-                    e.Graphics.DrawLine(darkPen, marginRect.Right - 1, marginRect.Top, marginRect.Right - 1, marginRect.Bottom);
-                }
-                else
-                {
-                    // Draw the light and dark lines on the left hand side
-                    e.Graphics.DrawLine(lightPen, marginRect.Left - 1, marginRect.Top, marginRect.Left - 1, marginRect.Bottom);
-                    e.Graphics.DrawLine(darkPen, marginRect.Left, marginRect.Top, marginRect.Left, marginRect.Bottom);
-                }
-            }
-        }
-        else
-        {
-            base.OnRenderImageMargin(e);
-        }
-    }
+    protected override void OnRenderImageMargin(ToolStripRenderEventArgs e) =>
+        RenderImageMarginFromColorTable(e, MARGIN_INSET);
     #endregion
 
     #region OnRenderToolStripBorder

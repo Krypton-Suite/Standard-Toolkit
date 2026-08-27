@@ -64,6 +64,18 @@ internal static class CommonHelperThemeSelectors
     }
 
     /// <summary>
+    /// Rebuilds selector items after <see cref="KryptonManager.GlobalPaletteChanged"/>.
+    /// When the active mode is <see cref="PaletteMode.Custom"/>, the previous builtin
+    /// display name is not preserved so the list selects Custom instead of re-applying
+    /// the last builtin theme (which would wipe custom TMS colours such as ImageMargin).
+    /// </summary>
+    internal static int ReloadThemeItemsForGlobalChange(IList items, bool includeExtra, string? selectedName, PaletteMode mode)
+    {
+        string? previous = mode == PaletteMode.Custom ? null : selectedName;
+        return ReloadThemeItems(items, includeExtra, previous, mode);
+    }
+
+    /// <summary>
     /// Fills a theme-browser list using <see cref="KryptonThemeBrowserData.ShowExtraThemes"/>.
     /// </summary>
     internal static void FillThemeBrowserItems(IList items, KryptonThemeBrowserData themeBrowserData)
