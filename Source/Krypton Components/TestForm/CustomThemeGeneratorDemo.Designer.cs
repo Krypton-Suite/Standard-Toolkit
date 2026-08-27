@@ -28,502 +28,567 @@ namespace TestForm
 
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
-            kryptonManager1 = new KryptonManager(components);
-            kwlblInfo = new KryptonWrapLabel();
-            kpnlMain = new KryptonPanel();
-            tlpMain = new TableLayoutPanel();
-            klblName = new KryptonLabel();
-            ktxtName = new KryptonTextBox();
-            klblPrimary = new KryptonLabel();
-            kbtnPrimary = new KryptonColorButton();
-            ktxtPrimaryHex = new KryptonTextBox();
-            kbtnPickPrimary = new KryptonButton();
-            klblRgb = new KryptonLabel();
-            ktxtPrimaryRgb = new KryptonTextBox();
-            kbtnUseRgb = new KryptonButton();
-            kchkSecondary = new KryptonCheckBox();
-            kbtnSecondary = new KryptonColorButton();
-            kbtnPickSecondary = new KryptonButton();
-            kchkSurface = new KryptonCheckBox();
-            kbtnSurface = new KryptonColorButton();
-            kbtnPickSurface = new KryptonButton();
-            klblDonor = new KryptonLabel();
-            kcmbDonor = new KryptonComboBox();
-            klblTheme = new KryptonLabel();
-            kcmbTheme = new KryptonThemeComboBox();
-            klblFlyout = new KryptonLabel();
-            kcmbFlyout = new KryptonComboBox();
-            klblMagnifierSize = new KryptonLabel();
-            knudMagnifierSize = new KryptonNumericUpDown();
-            klblFormats = new KryptonLabel();
-            kclbColorFormats = new KryptonCheckedListBox();
-            flpActions = new FlowLayoutPanel();
-            kbtnApply = new KryptonButton();
-            kbtnRegister = new KryptonButton();
-            kbtnExport = new KryptonButton();
-            kbtnBuilder = new KryptonButton();
-            kbtnReset = new KryptonButton();
-            kbtnRandom = new KryptonButton();
-            khgPreview = new KryptonHeaderGroup();
-            tlpPreview = new TableLayoutPanel();
-            kbtnPreview = new KryptonButton();
-            kchkPreview = new KryptonCheckButton();
-            ktxtPreview = new KryptonTextBox();
-            klblStatus = new KryptonLabel();
-            ((System.ComponentModel.ISupportInitialize)kpnlMain).BeginInit();
-            kpnlMain.SuspendLayout();
-            tlpMain.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)kcmbDonor).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)kcmbTheme).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)kcmbFlyout).BeginInit();
-            flpActions.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)khgPreview).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)khgPreview.Panel).BeginInit();
-            khgPreview.Panel.SuspendLayout();
-            khgPreview.SuspendLayout();
-            tlpPreview.SuspendLayout();
-            SuspendLayout();
-            //
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CustomThemeGeneratorDemo));
+            this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
+            this.kwlblInfo = new Krypton.Toolkit.KryptonWrapLabel();
+            this.kpnlMain = new Krypton.Toolkit.KryptonPanel();
+            this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
+            this.klblName = new Krypton.Toolkit.KryptonLabel();
+            this.ktxtName = new Krypton.Toolkit.KryptonTextBox();
+            this.klblPrimary = new Krypton.Toolkit.KryptonLabel();
+            this.kbtnPrimary = new Krypton.Toolkit.KryptonColorButton();
+            this.ktxtPrimaryHex = new Krypton.Toolkit.KryptonTextBox();
+            this.kbtnPickPrimary = new Krypton.Toolkit.KryptonButton();
+            this.klblRgb = new Krypton.Toolkit.KryptonLabel();
+            this.ktxtPrimaryRgb = new Krypton.Toolkit.KryptonTextBox();
+            this.kbtnUseRgb = new Krypton.Toolkit.KryptonButton();
+            this.kchkSecondary = new Krypton.Toolkit.KryptonCheckBox();
+            this.kbtnSecondary = new Krypton.Toolkit.KryptonColorButton();
+            this.kbtnPickSecondary = new Krypton.Toolkit.KryptonButton();
+            this.kchkSurface = new Krypton.Toolkit.KryptonCheckBox();
+            this.kbtnSurface = new Krypton.Toolkit.KryptonColorButton();
+            this.kbtnPickSurface = new Krypton.Toolkit.KryptonButton();
+            this.klblDonor = new Krypton.Toolkit.KryptonLabel();
+            this.kcmbDonor = new Krypton.Toolkit.KryptonComboBox();
+            this.klblTheme = new Krypton.Toolkit.KryptonLabel();
+            this.kcmbTheme = new Krypton.Toolkit.KryptonThemeComboBox();
+            this.klblFlyout = new Krypton.Toolkit.KryptonLabel();
+            this.kcmbFlyout = new Krypton.Toolkit.KryptonComboBox();
+            this.klblMagnifierSize = new Krypton.Toolkit.KryptonLabel();
+            this.knudMagnifierSize = new Krypton.Toolkit.KryptonNumericUpDown();
+            this.klblFormats = new Krypton.Toolkit.KryptonLabel();
+            this.kclbColorFormats = new Krypton.Toolkit.KryptonCheckedListBox();
+            this.flpActions = new System.Windows.Forms.FlowLayoutPanel();
+            this.kbtnApply = new Krypton.Toolkit.KryptonButton();
+            this.kbtnRegister = new Krypton.Toolkit.KryptonButton();
+            this.kbtnExport = new Krypton.Toolkit.KryptonButton();
+            this.kbtnBuilder = new Krypton.Toolkit.KryptonButton();
+            this.kbtnReset = new Krypton.Toolkit.KryptonButton();
+            this.kbtnRandom = new Krypton.Toolkit.KryptonButton();
+            this.khgPreview = new Krypton.Toolkit.KryptonHeaderGroup();
+            this.tlpPreview = new System.Windows.Forms.TableLayoutPanel();
+            this.kbtnPreview = new Krypton.Toolkit.KryptonButton();
+            this.kchkPreview = new Krypton.Toolkit.KryptonCheckButton();
+            this.ktxtPreview = new Krypton.Toolkit.KryptonTextBox();
+            this.klblStatus = new Krypton.Toolkit.KryptonLabel();
+            ((System.ComponentModel.ISupportInitialize)(this.kpnlMain)).BeginInit();
+            this.kpnlMain.SuspendLayout();
+            this.tlpMain.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kcmbDonor)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kcmbTheme)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kcmbFlyout)).BeginInit();
+            this.flpActions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.khgPreview)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.khgPreview.Panel)).BeginInit();
+            this.khgPreview.Panel.SuspendLayout();
+            this.khgPreview.SuspendLayout();
+            this.tlpPreview.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // kryptonManager1
+            // 
+            this.kryptonManager1.ToolkitStrings.MessageBoxStrings.LessDetails = "L&ess Details...";
+            this.kryptonManager1.ToolkitStrings.MessageBoxStrings.MoreDetails = "&More Details...";
+            // 
             // kwlblInfo
-            //
-            kwlblInfo.Dock = DockStyle.Top;
-            kwlblInfo.LabelStyle = LabelStyle.NormalControl;
-            kwlblInfo.Location = new Point(0, 0);
-            kwlblInfo.Name = "kwlblInfo";
-            kwlblInfo.Padding = new Padding(12, 12, 12, 8);
-            kwlblInfo.Size = new Size(820, 108);
-            kwlblInfo.Text = "Issue #4234: generate a custom theme from a few colours. Enter hex (#0078D4) or RGB (0, 120, 212), or use the dropper to pick from the screen. Choose flyout chrome, magnifier size, and which colour formats the overlay shows.";
-            //
+            // 
+            this.kwlblInfo.Dock = System.Windows.Forms.DockStyle.Top;
+            this.kwlblInfo.LabelStyle = Krypton.Toolkit.LabelStyle.NormalControl;
+            this.kwlblInfo.Location = new System.Drawing.Point(0, 0);
+            this.kwlblInfo.Name = "kwlblInfo";
+            this.kwlblInfo.Padding = new System.Windows.Forms.Padding(12, 12, 12, 8);
+            this.kwlblInfo.Size = new System.Drawing.Size(1221, 35);
+            this.kwlblInfo.Text = resources.GetString("kwlblInfo.Text");
+            // 
             // kpnlMain
-            //
-            kpnlMain.Controls.Add(tlpMain);
-            kpnlMain.Dock = DockStyle.Fill;
-            kpnlMain.Location = new Point(0, 108);
-            kpnlMain.Name = "kpnlMain";
-            kpnlMain.Padding = new Padding(8);
-            kpnlMain.Size = new Size(820, 432);
-            kpnlMain.TabIndex = 0;
-            //
+            // 
+            this.kpnlMain.Controls.Add(this.tlpMain);
+            this.kpnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kpnlMain.Location = new System.Drawing.Point(0, 35);
+            this.kpnlMain.Name = "kpnlMain";
+            this.kpnlMain.Padding = new System.Windows.Forms.Padding(8);
+            this.kpnlMain.Size = new System.Drawing.Size(820, 645);
+            this.kpnlMain.TabIndex = 0;
+            // 
             // tlpMain
-            //
-            tlpMain.ColumnCount = 4;
-            tlpMain.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 140F));
-            tlpMain.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 55F));
-            tlpMain.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 45F));
-            tlpMain.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
-            tlpMain.Controls.Add(klblName, 0, 0);
-            tlpMain.Controls.Add(ktxtName, 1, 0);
-            tlpMain.Controls.Add(klblPrimary, 0, 1);
-            tlpMain.Controls.Add(kbtnPrimary, 1, 1);
-            tlpMain.Controls.Add(ktxtPrimaryHex, 2, 1);
-            tlpMain.Controls.Add(kbtnPickPrimary, 3, 1);
-            tlpMain.Controls.Add(klblRgb, 0, 2);
-            tlpMain.Controls.Add(ktxtPrimaryRgb, 1, 2);
-            tlpMain.Controls.Add(kbtnUseRgb, 2, 2);
-            tlpMain.Controls.Add(kchkSecondary, 0, 3);
-            tlpMain.Controls.Add(kbtnSecondary, 1, 3);
-            tlpMain.Controls.Add(kbtnPickSecondary, 3, 3);
-            tlpMain.Controls.Add(kchkSurface, 0, 4);
-            tlpMain.Controls.Add(kbtnSurface, 1, 4);
-            tlpMain.Controls.Add(kbtnPickSurface, 3, 4);
-            tlpMain.Controls.Add(klblDonor, 0, 5);
-            tlpMain.Controls.Add(kcmbDonor, 1, 5);
-            tlpMain.Controls.Add(klblTheme, 0, 6);
-            tlpMain.Controls.Add(kcmbTheme, 1, 6);
-            tlpMain.Controls.Add(klblFlyout, 0, 7);
-            tlpMain.Controls.Add(kcmbFlyout, 1, 7);
-            tlpMain.Controls.Add(klblMagnifierSize, 0, 8);
-            tlpMain.Controls.Add(knudMagnifierSize, 1, 8);
-            tlpMain.Controls.Add(klblFormats, 0, 9);
-            tlpMain.Controls.Add(kclbColorFormats, 1, 9);
-            tlpMain.Controls.Add(flpActions, 0, 10);
-            tlpMain.Controls.Add(khgPreview, 0, 11);
-            tlpMain.Controls.Add(klblStatus, 0, 12);
-            tlpMain.Dock = DockStyle.Fill;
-            tlpMain.Location = new Point(8, 8);
-            tlpMain.Name = "tlpMain";
-            tlpMain.RowCount = 13;
-            tlpMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 32F));
-            tlpMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 36F));
-            tlpMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 36F));
-            tlpMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 36F));
-            tlpMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 36F));
-            tlpMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 36F));
-            tlpMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 36F));
-            tlpMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 36F));
-            tlpMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 36F));
-            tlpMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 120F));
-            tlpMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-            tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tlpMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
-            tlpMain.Size = new Size(804, 536);
-            tlpMain.TabIndex = 0;
-            tlpMain.SetColumnSpan(ktxtName, 3);
-            tlpMain.SetColumnSpan(kbtnUseRgb, 2);
-            tlpMain.SetColumnSpan(kcmbDonor, 3);
-            tlpMain.SetColumnSpan(kcmbTheme, 3);
-            tlpMain.SetColumnSpan(kcmbFlyout, 3);
-            tlpMain.SetColumnSpan(kclbColorFormats, 3);
-            tlpMain.SetColumnSpan(flpActions, 4);
-            tlpMain.SetColumnSpan(khgPreview, 4);
-            tlpMain.SetColumnSpan(klblStatus, 4);
-            //
+            // 
+            this.tlpMain.BackColor = System.Drawing.Color.Transparent;
+            this.tlpMain.ColumnCount = 4;
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 140F));
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 55F));
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45F));
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 41F));
+            this.tlpMain.Controls.Add(this.klblName, 0, 0);
+            this.tlpMain.Controls.Add(this.ktxtName, 1, 0);
+            this.tlpMain.Controls.Add(this.klblPrimary, 0, 1);
+            this.tlpMain.Controls.Add(this.kbtnPrimary, 1, 1);
+            this.tlpMain.Controls.Add(this.ktxtPrimaryHex, 2, 1);
+            this.tlpMain.Controls.Add(this.kbtnPickPrimary, 3, 1);
+            this.tlpMain.Controls.Add(this.klblRgb, 0, 2);
+            this.tlpMain.Controls.Add(this.ktxtPrimaryRgb, 1, 2);
+            this.tlpMain.Controls.Add(this.kbtnUseRgb, 2, 2);
+            this.tlpMain.Controls.Add(this.kchkSecondary, 0, 3);
+            this.tlpMain.Controls.Add(this.kbtnSecondary, 1, 3);
+            this.tlpMain.Controls.Add(this.kbtnPickSecondary, 3, 3);
+            this.tlpMain.Controls.Add(this.kchkSurface, 0, 4);
+            this.tlpMain.Controls.Add(this.kbtnSurface, 1, 4);
+            this.tlpMain.Controls.Add(this.kbtnPickSurface, 3, 4);
+            this.tlpMain.Controls.Add(this.klblDonor, 0, 5);
+            this.tlpMain.Controls.Add(this.kcmbDonor, 1, 5);
+            this.tlpMain.Controls.Add(this.klblTheme, 0, 6);
+            this.tlpMain.Controls.Add(this.kcmbTheme, 1, 6);
+            this.tlpMain.Controls.Add(this.klblFlyout, 0, 7);
+            this.tlpMain.Controls.Add(this.kcmbFlyout, 1, 7);
+            this.tlpMain.Controls.Add(this.klblMagnifierSize, 0, 8);
+            this.tlpMain.Controls.Add(this.knudMagnifierSize, 1, 8);
+            this.tlpMain.Controls.Add(this.klblFormats, 0, 9);
+            this.tlpMain.Controls.Add(this.kclbColorFormats, 1, 9);
+            this.tlpMain.Controls.Add(this.flpActions, 0, 10);
+            this.tlpMain.Controls.Add(this.khgPreview, 0, 11);
+            this.tlpMain.Controls.Add(this.klblStatus, 0, 12);
+            this.tlpMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpMain.Location = new System.Drawing.Point(8, 8);
+            this.tlpMain.Name = "tlpMain";
+            this.tlpMain.RowCount = 13;
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+            this.tlpMain.Size = new System.Drawing.Size(804, 629);
+            this.tlpMain.TabIndex = 0;
+            // 
             // klblName
-            //
-            klblName.Dock = DockStyle.Fill;
-            klblName.Location = new Point(3, 3);
-            klblName.Name = "klblName";
-            klblName.Values.Text = "Name";
-            //
+            // 
+            this.klblName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.klblName.Location = new System.Drawing.Point(3, 3);
+            this.klblName.Name = "klblName";
+            this.klblName.Size = new System.Drawing.Size(134, 26);
+            this.klblName.TabIndex = 0;
+            this.klblName.Values.Text = "Name";
+            // 
             // ktxtName
-            //
-            ktxtName.Dock = DockStyle.Fill;
-            ktxtName.Location = new Point(143, 3);
-            ktxtName.Name = "ktxtName";
-            ktxtName.TabIndex = 0;
-            //
+            // 
+            this.tlpMain.SetColumnSpan(this.ktxtName, 3);
+            this.ktxtName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ktxtName.Location = new System.Drawing.Point(143, 3);
+            this.ktxtName.Name = "ktxtName";
+            this.ktxtName.Size = new System.Drawing.Size(658, 23);
+            this.ktxtName.TabIndex = 0;
+            // 
             // klblPrimary
-            //
-            klblPrimary.Dock = DockStyle.Fill;
-            klblPrimary.Location = new Point(3, 35);
-            klblPrimary.Name = "klblPrimary";
-            klblPrimary.Values.Text = "Primary (hex)";
-            //
+            // 
+            this.klblPrimary.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.klblPrimary.Location = new System.Drawing.Point(3, 35);
+            this.klblPrimary.Name = "klblPrimary";
+            this.klblPrimary.Size = new System.Drawing.Size(134, 30);
+            this.klblPrimary.TabIndex = 1;
+            this.klblPrimary.Values.Text = "Primary (hex)";
+            // 
             // kbtnPrimary
-            //
-            kbtnPrimary.Dock = DockStyle.Fill;
-            kbtnPrimary.Location = new Point(143, 35);
-            kbtnPrimary.Name = "kbtnPrimary";
-            kbtnPrimary.TabIndex = 1;
-            kbtnPrimary.Values.Text = "Pick";
-            kbtnPrimary.SelectedColorChanged += OnColorChanged;
-            //
+            // 
+            this.kbtnPrimary.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kbtnPrimary.Location = new System.Drawing.Point(143, 35);
+            this.kbtnPrimary.Name = "kbtnPrimary";
+            this.kbtnPrimary.Size = new System.Drawing.Size(336, 30);
+            this.kbtnPrimary.TabIndex = 1;
+            this.kbtnPrimary.Values.Text = "Pick";
+            // 
             // ktxtPrimaryHex
-            //
-            ktxtPrimaryHex.Dock = DockStyle.Fill;
-            ktxtPrimaryHex.Location = new Point(446, 35);
-            ktxtPrimaryHex.Name = "ktxtPrimaryHex";
-            ktxtPrimaryHex.TabIndex = 2;
-            //
+            // 
+            this.ktxtPrimaryHex.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ktxtPrimaryHex.Location = new System.Drawing.Point(485, 35);
+            this.ktxtPrimaryHex.Name = "ktxtPrimaryHex";
+            this.ktxtPrimaryHex.Size = new System.Drawing.Size(274, 23);
+            this.ktxtPrimaryHex.TabIndex = 2;
+            // 
             // kbtnPickPrimary
-            //
-            kbtnPickPrimary.Dock = DockStyle.Fill;
-            kbtnPickPrimary.Location = new Point(764, 35);
-            kbtnPickPrimary.Name = "kbtnPickPrimary";
-            kbtnPickPrimary.TabIndex = 3;
-            kbtnPickPrimary.Values.Text = "";
-            kbtnPickPrimary.Click += kbtnPickPrimary_Click;
-            //
+            // 
+            this.kbtnPickPrimary.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kbtnPickPrimary.Location = new System.Drawing.Point(765, 35);
+            this.kbtnPickPrimary.Name = "kbtnPickPrimary";
+            this.kbtnPickPrimary.Size = new System.Drawing.Size(36, 30);
+            this.kbtnPickPrimary.TabIndex = 3;
+            this.kbtnPickPrimary.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnPickPrimary.Values.Text = "";
+            // 
             // klblRgb
-            //
-            klblRgb.Dock = DockStyle.Fill;
-            klblRgb.Location = new Point(3, 71);
-            klblRgb.Name = "klblRgb";
-            klblRgb.Values.Text = "Primary (RGB)";
-            //
+            // 
+            this.klblRgb.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.klblRgb.Location = new System.Drawing.Point(3, 71);
+            this.klblRgb.Name = "klblRgb";
+            this.klblRgb.Size = new System.Drawing.Size(134, 30);
+            this.klblRgb.TabIndex = 4;
+            this.klblRgb.Values.Text = "Primary (RGB)";
+            // 
             // ktxtPrimaryRgb
-            //
-            ktxtPrimaryRgb.Dock = DockStyle.Fill;
-            ktxtPrimaryRgb.Location = new Point(143, 71);
-            ktxtPrimaryRgb.Name = "ktxtPrimaryRgb";
-            ktxtPrimaryRgb.TabIndex = 3;
-            //
+            // 
+            this.ktxtPrimaryRgb.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ktxtPrimaryRgb.Location = new System.Drawing.Point(143, 71);
+            this.ktxtPrimaryRgb.Name = "ktxtPrimaryRgb";
+            this.ktxtPrimaryRgb.Size = new System.Drawing.Size(336, 23);
+            this.ktxtPrimaryRgb.TabIndex = 3;
+            // 
             // kbtnUseRgb
-            //
-            kbtnUseRgb.Dock = DockStyle.Fill;
-            kbtnUseRgb.Location = new Point(446, 71);
-            kbtnUseRgb.Name = "kbtnUseRgb";
-            kbtnUseRgb.TabIndex = 4;
-            kbtnUseRgb.Values.Text = "Use RGB";
-            kbtnUseRgb.Click += kbtnUseRgb_Click;
-            //
+            // 
+            this.tlpMain.SetColumnSpan(this.kbtnUseRgb, 2);
+            this.kbtnUseRgb.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kbtnUseRgb.Location = new System.Drawing.Point(485, 71);
+            this.kbtnUseRgb.Name = "kbtnUseRgb";
+            this.kbtnUseRgb.Size = new System.Drawing.Size(316, 30);
+            this.kbtnUseRgb.TabIndex = 4;
+            this.kbtnUseRgb.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnUseRgb.Values.Text = "Use RGB";
+            // 
             // kchkSecondary
-            //
-            kchkSecondary.Dock = DockStyle.Fill;
-            kchkSecondary.Location = new Point(3, 107);
-            kchkSecondary.Name = "kchkSecondary";
-            kchkSecondary.TabIndex = 5;
-            kchkSecondary.Values.Text = "Secondary";
-            kchkSecondary.CheckedChanged += OnSeedChanged;
-            //
+            // 
+            this.kchkSecondary.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kchkSecondary.Location = new System.Drawing.Point(3, 107);
+            this.kchkSecondary.Name = "kchkSecondary";
+            this.kchkSecondary.Size = new System.Drawing.Size(134, 30);
+            this.kchkSecondary.TabIndex = 5;
+            this.kchkSecondary.Values.Text = "Secondary";
+            // 
             // kbtnSecondary
-            //
-            kbtnSecondary.Dock = DockStyle.Fill;
-            kbtnSecondary.Enabled = false;
-            kbtnSecondary.Location = new Point(143, 107);
-            kbtnSecondary.Name = "kbtnSecondary";
-            kbtnSecondary.TabIndex = 6;
-            kbtnSecondary.Values.Text = "Pick";
-            //
+            // 
+            this.kbtnSecondary.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kbtnSecondary.Enabled = false;
+            this.kbtnSecondary.Location = new System.Drawing.Point(143, 107);
+            this.kbtnSecondary.Name = "kbtnSecondary";
+            this.kbtnSecondary.Size = new System.Drawing.Size(336, 30);
+            this.kbtnSecondary.TabIndex = 6;
+            this.kbtnSecondary.Values.Text = "Pick";
+            // 
             // kbtnPickSecondary
-            //
-            kbtnPickSecondary.Dock = DockStyle.Fill;
-            kbtnPickSecondary.Location = new Point(764, 107);
-            kbtnPickSecondary.Name = "kbtnPickSecondary";
-            kbtnPickSecondary.TabIndex = 7;
-            kbtnPickSecondary.Values.Text = "";
-            kbtnPickSecondary.Click += kbtnPickSecondary_Click;
-            //
+            // 
+            this.kbtnPickSecondary.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kbtnPickSecondary.Location = new System.Drawing.Point(765, 107);
+            this.kbtnPickSecondary.Name = "kbtnPickSecondary";
+            this.kbtnPickSecondary.Size = new System.Drawing.Size(36, 30);
+            this.kbtnPickSecondary.TabIndex = 7;
+            this.kbtnPickSecondary.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnPickSecondary.Values.Text = "";
+            // 
             // kchkSurface
-            //
-            kchkSurface.Dock = DockStyle.Fill;
-            kchkSurface.Location = new Point(3, 143);
-            kchkSurface.Name = "kchkSurface";
-            kchkSurface.TabIndex = 7;
-            kchkSurface.Values.Text = "Surface";
-            kchkSurface.CheckedChanged += OnSeedChanged;
-            //
+            // 
+            this.kchkSurface.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kchkSurface.Location = new System.Drawing.Point(3, 143);
+            this.kchkSurface.Name = "kchkSurface";
+            this.kchkSurface.Size = new System.Drawing.Size(134, 30);
+            this.kchkSurface.TabIndex = 7;
+            this.kchkSurface.Values.Text = "Surface";
+            // 
             // kbtnSurface
-            //
-            kbtnSurface.Dock = DockStyle.Fill;
-            kbtnSurface.Enabled = false;
-            kbtnSurface.Location = new Point(143, 143);
-            kbtnSurface.Name = "kbtnSurface";
-            kbtnSurface.TabIndex = 8;
-            kbtnSurface.Values.Text = "Pick";
-            //
+            // 
+            this.kbtnSurface.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kbtnSurface.Enabled = false;
+            this.kbtnSurface.Location = new System.Drawing.Point(143, 143);
+            this.kbtnSurface.Name = "kbtnSurface";
+            this.kbtnSurface.Size = new System.Drawing.Size(336, 30);
+            this.kbtnSurface.TabIndex = 8;
+            this.kbtnSurface.Values.Text = "Pick";
+            // 
             // kbtnPickSurface
-            //
-            kbtnPickSurface.Dock = DockStyle.Fill;
-            kbtnPickSurface.Location = new Point(764, 143);
-            kbtnPickSurface.Name = "kbtnPickSurface";
-            kbtnPickSurface.TabIndex = 9;
-            kbtnPickSurface.Values.Text = "";
-            kbtnPickSurface.Click += kbtnPickSurface_Click;
-            //
+            // 
+            this.kbtnPickSurface.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kbtnPickSurface.Location = new System.Drawing.Point(765, 143);
+            this.kbtnPickSurface.Name = "kbtnPickSurface";
+            this.kbtnPickSurface.Size = new System.Drawing.Size(36, 30);
+            this.kbtnPickSurface.TabIndex = 9;
+            this.kbtnPickSurface.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnPickSurface.Values.Text = "";
+            // 
             // klblDonor
-            //
-            klblDonor.Dock = DockStyle.Fill;
-            klblDonor.Location = new Point(3, 179);
-            klblDonor.Name = "klblDonor";
-            klblDonor.Values.Text = "Donor family";
-            //
+            // 
+            this.klblDonor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.klblDonor.Location = new System.Drawing.Point(3, 179);
+            this.klblDonor.Name = "klblDonor";
+            this.klblDonor.Size = new System.Drawing.Size(134, 30);
+            this.klblDonor.TabIndex = 10;
+            this.klblDonor.Values.Text = "Donor family";
+            // 
             // kcmbDonor
-            //
-            kcmbDonor.Dock = DockStyle.Fill;
-            kcmbDonor.DropDownStyle = ComboBoxStyle.DropDownList;
-            kcmbDonor.Location = new Point(143, 179);
-            kcmbDonor.Name = "kcmbDonor";
-            kcmbDonor.TabIndex = 9;
-            //
+            // 
+            this.tlpMain.SetColumnSpan(this.kcmbDonor, 3);
+            this.kcmbDonor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kcmbDonor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.kcmbDonor.Location = new System.Drawing.Point(143, 179);
+            this.kcmbDonor.Name = "kcmbDonor";
+            this.kcmbDonor.Size = new System.Drawing.Size(658, 30);
+            this.kcmbDonor.TabIndex = 9;
+            // 
             // klblTheme
-            //
-            klblTheme.Dock = DockStyle.Fill;
-            klblTheme.Location = new Point(3, 215);
-            klblTheme.Name = "klblTheme";
-            klblTheme.Values.Text = "Theme selector";
-            //
+            // 
+            this.klblTheme.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.klblTheme.Location = new System.Drawing.Point(3, 215);
+            this.klblTheme.Name = "klblTheme";
+            this.klblTheme.Size = new System.Drawing.Size(134, 30);
+            this.klblTheme.TabIndex = 11;
+            this.klblTheme.Values.Text = "Theme selector";
+            // 
             // kcmbTheme
-            //
-            kcmbTheme.Dock = DockStyle.Fill;
-            kcmbTheme.Location = new Point(143, 215);
-            kcmbTheme.Name = "kcmbTheme";
-            kcmbTheme.TabIndex = 10;
-            //
+            // 
+            this.tlpMain.SetColumnSpan(this.kcmbTheme, 3);
+            this.kcmbTheme.DefaultPalette = Krypton.Toolkit.PaletteMode.Microsoft365Blue;
+            this.kcmbTheme.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kcmbTheme.Location = new System.Drawing.Point(143, 215);
+            this.kcmbTheme.Name = "kcmbTheme";
+            this.kcmbTheme.Size = new System.Drawing.Size(658, 30);
+            this.kcmbTheme.TabIndex = 10;
+            // 
             // klblFlyout
-            //
-            klblFlyout.Dock = DockStyle.Fill;
-            klblFlyout.Location = new Point(3, 251);
-            klblFlyout.Name = "klblFlyout";
-            klblFlyout.Values.Text = "Picker flyout";
-            //
+            // 
+            this.klblFlyout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.klblFlyout.Location = new System.Drawing.Point(3, 251);
+            this.klblFlyout.Name = "klblFlyout";
+            this.klblFlyout.Size = new System.Drawing.Size(134, 30);
+            this.klblFlyout.TabIndex = 12;
+            this.klblFlyout.Values.Text = "Picker flyout";
+            // 
             // kcmbFlyout
-            //
-            kcmbFlyout.Dock = DockStyle.Fill;
-            kcmbFlyout.DropDownStyle = ComboBoxStyle.DropDownList;
-            kcmbFlyout.Location = new Point(143, 251);
-            kcmbFlyout.Name = "kcmbFlyout";
-            kcmbFlyout.TabIndex = 11;
-            //
+            // 
+            this.tlpMain.SetColumnSpan(this.kcmbFlyout, 3);
+            this.kcmbFlyout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kcmbFlyout.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.kcmbFlyout.Location = new System.Drawing.Point(143, 251);
+            this.kcmbFlyout.Name = "kcmbFlyout";
+            this.kcmbFlyout.Size = new System.Drawing.Size(658, 30);
+            this.kcmbFlyout.TabIndex = 11;
+            // 
             // klblMagnifierSize
-            //
-            klblMagnifierSize.Dock = DockStyle.Fill;
-            klblMagnifierSize.Location = new Point(3, 287);
-            klblMagnifierSize.Name = "klblMagnifierSize";
-            klblMagnifierSize.Values.Text = "Magnifier size";
-            //
+            // 
+            this.klblMagnifierSize.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.klblMagnifierSize.Location = new System.Drawing.Point(3, 287);
+            this.klblMagnifierSize.Name = "klblMagnifierSize";
+            this.klblMagnifierSize.Size = new System.Drawing.Size(134, 30);
+            this.klblMagnifierSize.TabIndex = 13;
+            this.klblMagnifierSize.Values.Text = "Magnifier size";
+            // 
             // knudMagnifierSize
-            //
-            knudMagnifierSize.Dock = DockStyle.Fill;
-            knudMagnifierSize.DecimalPlaces = 0;
-            knudMagnifierSize.Increment = new decimal(new int[] { 2, 0, 0, 0 });
-            knudMagnifierSize.Location = new Point(143, 287);
-            knudMagnifierSize.Maximum = new decimal(new int[] { 21, 0, 0, 0 });
-            knudMagnifierSize.Minimum = new decimal(new int[] { 7, 0, 0, 0 });
-            knudMagnifierSize.Name = "knudMagnifierSize";
-            knudMagnifierSize.TabIndex = 12;
-            knudMagnifierSize.Value = new decimal(new int[] { 11, 0, 0, 0 });
-            knudMagnifierSize.ValueChanged += knudMagnifierSize_ValueChanged;
-            //
+            // 
+            this.knudMagnifierSize.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.knudMagnifierSize.Increment = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.knudMagnifierSize.Location = new System.Drawing.Point(143, 287);
+            this.knudMagnifierSize.Maximum = new decimal(new int[] {
+            21,
+            0,
+            0,
+            0});
+            this.knudMagnifierSize.Minimum = new decimal(new int[] {
+            7,
+            0,
+            0,
+            0});
+            this.knudMagnifierSize.Name = "knudMagnifierSize";
+            this.knudMagnifierSize.Size = new System.Drawing.Size(336, 30);
+            this.knudMagnifierSize.TabIndex = 12;
+            this.knudMagnifierSize.Value = new decimal(new int[] {
+            11,
+            0,
+            0,
+            0});
+            // 
             // klblFormats
-            //
-            klblFormats.Dock = DockStyle.Fill;
-            klblFormats.Location = new Point(3, 323);
-            klblFormats.Name = "klblFormats";
-            klblFormats.Values.Text = "Colour formats";
-            //
+            // 
+            this.klblFormats.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.klblFormats.Location = new System.Drawing.Point(3, 323);
+            this.klblFormats.Name = "klblFormats";
+            this.klblFormats.Size = new System.Drawing.Size(134, 114);
+            this.klblFormats.TabIndex = 14;
+            this.klblFormats.Values.Text = "Colour formats";
+            // 
             // kclbColorFormats
-            //
-            kclbColorFormats.CheckOnClick = true;
-            kclbColorFormats.Dock = DockStyle.Fill;
-            kclbColorFormats.Location = new Point(143, 323);
-            kclbColorFormats.Name = "kclbColorFormats";
-            kclbColorFormats.TabIndex = 13;
-            //
+            // 
+            this.kclbColorFormats.CheckOnClick = true;
+            this.tlpMain.SetColumnSpan(this.kclbColorFormats, 3);
+            this.kclbColorFormats.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kclbColorFormats.Location = new System.Drawing.Point(143, 323);
+            this.kclbColorFormats.Name = "kclbColorFormats";
+            this.kclbColorFormats.Size = new System.Drawing.Size(658, 114);
+            this.kclbColorFormats.TabIndex = 13;
+            // 
             // flpActions
-            //
-            flpActions.Controls.Add(kbtnApply);
-            flpActions.Controls.Add(kbtnRegister);
-            flpActions.Controls.Add(kbtnExport);
-            flpActions.Controls.Add(kbtnBuilder);
-            flpActions.Controls.Add(kbtnReset);
-            flpActions.Controls.Add(kbtnRandom);
-            flpActions.Dock = DockStyle.Fill;
-            flpActions.Location = new Point(3, 251);
-            flpActions.Name = "flpActions";
-            flpActions.Size = new Size(798, 34);
-            flpActions.TabIndex = 11;
-            //
+            // 
+            this.tlpMain.SetColumnSpan(this.flpActions, 4);
+            this.flpActions.Controls.Add(this.kbtnApply);
+            this.flpActions.Controls.Add(this.kbtnRegister);
+            this.flpActions.Controls.Add(this.kbtnExport);
+            this.flpActions.Controls.Add(this.kbtnBuilder);
+            this.flpActions.Controls.Add(this.kbtnReset);
+            this.flpActions.Controls.Add(this.kbtnRandom);
+            this.flpActions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flpActions.Location = new System.Drawing.Point(3, 443);
+            this.flpActions.Name = "flpActions";
+            this.flpActions.Size = new System.Drawing.Size(798, 34);
+            this.flpActions.TabIndex = 11;
+            // 
             // kbtnApply
-            //
-            kbtnApply.Location = new Point(3, 3);
-            kbtnApply.Name = "kbtnApply";
-            kbtnApply.Size = new Size(100, 28);
-            kbtnApply.TabIndex = 0;
-            kbtnApply.Values.Text = "Apply";
-            kbtnApply.Click += kbtnApply_Click;
-            //
+            // 
+            this.kbtnApply.Location = new System.Drawing.Point(3, 3);
+            this.kbtnApply.Name = "kbtnApply";
+            this.kbtnApply.Size = new System.Drawing.Size(100, 28);
+            this.kbtnApply.TabIndex = 0;
+            this.kbtnApply.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnApply.Values.Text = "Apply";
+            // 
             // kbtnRegister
-            //
-            kbtnRegister.Location = new Point(109, 3);
-            kbtnRegister.Name = "kbtnRegister";
-            kbtnRegister.Size = new Size(110, 28);
-            kbtnRegister.TabIndex = 1;
-            kbtnRegister.Values.Text = "Register";
-            kbtnRegister.Click += kbtnRegister_Click;
-            //
+            // 
+            this.kbtnRegister.Location = new System.Drawing.Point(109, 3);
+            this.kbtnRegister.Name = "kbtnRegister";
+            this.kbtnRegister.Size = new System.Drawing.Size(110, 28);
+            this.kbtnRegister.TabIndex = 1;
+            this.kbtnRegister.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnRegister.Values.Text = "Register";
+            // 
             // kbtnExport
-            //
-            kbtnExport.Location = new Point(225, 3);
-            kbtnExport.Name = "kbtnExport";
-            kbtnExport.Size = new Size(110, 28);
-            kbtnExport.TabIndex = 2;
-            kbtnExport.Values.Text = "Export XML";
-            kbtnExport.Click += kbtnExport_Click;
-            //
+            // 
+            this.kbtnExport.Location = new System.Drawing.Point(225, 3);
+            this.kbtnExport.Name = "kbtnExport";
+            this.kbtnExport.Size = new System.Drawing.Size(110, 28);
+            this.kbtnExport.TabIndex = 2;
+            this.kbtnExport.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnExport.Values.Text = "Export XML";
+            // 
             // kbtnBuilder
-            //
-            kbtnBuilder.Location = new Point(341, 3);
-            kbtnBuilder.Name = "kbtnBuilder";
-            kbtnBuilder.Size = new Size(120, 28);
-            kbtnBuilder.TabIndex = 3;
-            kbtnBuilder.Values.Text = "Open Builder";
-            kbtnBuilder.Click += kbtnBuilder_Click;
-            //
+            // 
+            this.kbtnBuilder.Location = new System.Drawing.Point(341, 3);
+            this.kbtnBuilder.Name = "kbtnBuilder";
+            this.kbtnBuilder.Size = new System.Drawing.Size(120, 28);
+            this.kbtnBuilder.TabIndex = 3;
+            this.kbtnBuilder.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnBuilder.Values.Text = "Open Builder";
+            // 
             // kbtnReset
-            //
-            kbtnReset.Location = new Point(467, 3);
-            kbtnReset.Name = "kbtnReset";
-            kbtnReset.Size = new Size(100, 28);
-            kbtnReset.TabIndex = 4;
-            kbtnReset.Values.Text = "Reset";
-            kbtnReset.Click += kbtnReset_Click;
-            //
+            // 
+            this.kbtnReset.Location = new System.Drawing.Point(467, 3);
+            this.kbtnReset.Name = "kbtnReset";
+            this.kbtnReset.Size = new System.Drawing.Size(100, 28);
+            this.kbtnReset.TabIndex = 4;
+            this.kbtnReset.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnReset.Values.Text = "Reset";
+            // 
             // kbtnRandom
-            //
-            kbtnRandom.Location = new Point(573, 3);
-            kbtnRandom.Name = "kbtnRandom";
-            kbtnRandom.Size = new Size(100, 28);
-            kbtnRandom.TabIndex = 5;
-            kbtnRandom.Values.Text = "Randomize";
-            kbtnRandom.Click += kbtnRandom_Click;
-            //
+            // 
+            this.kbtnRandom.Location = new System.Drawing.Point(573, 3);
+            this.kbtnRandom.Name = "kbtnRandom";
+            this.kbtnRandom.Size = new System.Drawing.Size(100, 28);
+            this.kbtnRandom.TabIndex = 5;
+            this.kbtnRandom.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnRandom.Values.Text = "Randomize";
+            this.kbtnRandom.Click += new System.EventHandler(this.kbtnRandom_Click);
+            // 
             // khgPreview
-            //
-            khgPreview.Dock = DockStyle.Fill;
-            khgPreview.Location = new Point(3, 291);
-            khgPreview.Name = "khgPreview";
-            khgPreview.Size = new Size(798, 94);
-            khgPreview.TabIndex = 12;
-            khgPreview.ValuesPrimary.Heading = "Preview";
-            khgPreview.ValuesPrimary.Description = "Buttons and input follow the generated theme";
-            khgPreview.Panel.Controls.Add(tlpPreview);
-            //
+            // 
+            this.tlpMain.SetColumnSpan(this.khgPreview, 4);
+            this.khgPreview.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.khgPreview.Location = new System.Drawing.Point(3, 483);
+            // 
+            // khgPreview.Panel
+            // 
+            this.khgPreview.Panel.Controls.Add(this.tlpPreview);
+            this.khgPreview.Size = new System.Drawing.Size(798, 115);
+            this.khgPreview.TabIndex = 12;
+            this.khgPreview.ValuesPrimary.Description = "Buttons and input follow the generated theme";
+            this.khgPreview.ValuesPrimary.Heading = "Preview";
+            // 
             // tlpPreview
-            //
-            tlpPreview.ColumnCount = 3;
-            tlpPreview.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33F));
-            tlpPreview.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33F));
-            tlpPreview.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 34F));
-            tlpPreview.Controls.Add(kbtnPreview, 0, 0);
-            tlpPreview.Controls.Add(kchkPreview, 1, 0);
-            tlpPreview.Controls.Add(ktxtPreview, 2, 0);
-            tlpPreview.Dock = DockStyle.Fill;
-            tlpPreview.Location = new Point(0, 0);
-            tlpPreview.Name = "tlpPreview";
-            tlpPreview.Padding = new Padding(8);
-            tlpPreview.RowCount = 1;
-            tlpPreview.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tlpPreview.Size = new Size(796, 50);
-            tlpPreview.TabIndex = 0;
-            //
+            // 
+            this.tlpPreview.ColumnCount = 3;
+            this.tlpPreview.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33F));
+            this.tlpPreview.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33F));
+            this.tlpPreview.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 34F));
+            this.tlpPreview.Controls.Add(this.kbtnPreview, 0, 0);
+            this.tlpPreview.Controls.Add(this.kchkPreview, 1, 0);
+            this.tlpPreview.Controls.Add(this.ktxtPreview, 2, 0);
+            this.tlpPreview.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpPreview.Location = new System.Drawing.Point(0, 0);
+            this.tlpPreview.Name = "tlpPreview";
+            this.tlpPreview.Padding = new System.Windows.Forms.Padding(8);
+            this.tlpPreview.RowCount = 1;
+            this.tlpPreview.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpPreview.Size = new System.Drawing.Size(796, 57);
+            this.tlpPreview.TabIndex = 0;
+            // 
             // kbtnPreview
-            //
-            kbtnPreview.Dock = DockStyle.Fill;
-            kbtnPreview.Location = new Point(11, 11);
-            kbtnPreview.Name = "kbtnPreview";
-            kbtnPreview.Values.Text = "Sample button";
-            //
+            // 
+            this.kbtnPreview.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kbtnPreview.Location = new System.Drawing.Point(11, 11);
+            this.kbtnPreview.Name = "kbtnPreview";
+            this.kbtnPreview.Size = new System.Drawing.Size(251, 35);
+            this.kbtnPreview.TabIndex = 0;
+            this.kbtnPreview.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnPreview.Values.Text = "Sample button";
+            // 
             // kchkPreview
-            //
-            kchkPreview.Dock = DockStyle.Fill;
-            kchkPreview.Location = new Point(273, 11);
-            kchkPreview.Name = "kchkPreview";
-            kchkPreview.Values.Text = "Check button";
-            //
+            // 
+            this.kchkPreview.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kchkPreview.Location = new System.Drawing.Point(268, 11);
+            this.kchkPreview.Name = "kchkPreview";
+            this.kchkPreview.Size = new System.Drawing.Size(251, 35);
+            this.kchkPreview.TabIndex = 1;
+            this.kchkPreview.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kchkPreview.Values.Text = "Check button";
+            // 
             // ktxtPreview
-            //
-            ktxtPreview.Dock = DockStyle.Fill;
-            ktxtPreview.Location = new Point(535, 11);
-            ktxtPreview.Name = "ktxtPreview";
-            ktxtPreview.Text = "Sample input";
-            //
+            // 
+            this.ktxtPreview.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ktxtPreview.Location = new System.Drawing.Point(525, 11);
+            this.ktxtPreview.Name = "ktxtPreview";
+            this.ktxtPreview.Size = new System.Drawing.Size(260, 23);
+            this.ktxtPreview.TabIndex = 2;
+            this.ktxtPreview.Text = "Sample input";
+            // 
             // klblStatus
-            //
-            klblStatus.Dock = DockStyle.Fill;
-            klblStatus.Location = new Point(3, 391);
-            klblStatus.Name = "klblStatus";
-            klblStatus.Values.Text = "Ready";
-            //
+            // 
+            this.tlpMain.SetColumnSpan(this.klblStatus, 4);
+            this.klblStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.klblStatus.Location = new System.Drawing.Point(3, 604);
+            this.klblStatus.Name = "klblStatus";
+            this.klblStatus.Size = new System.Drawing.Size(798, 22);
+            this.klblStatus.TabIndex = 15;
+            this.klblStatus.Values.Text = "Ready";
+            // 
             // CustomThemeGeneratorDemo
-            //
-            AutoScaleDimensions = new SizeF(6F, 13F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(820, 680);
-            Controls.Add(kpnlMain);
-            Controls.Add(kwlblInfo);
-            MinimumSize = new Size(760, 620);
-            Name = "CustomThemeGeneratorDemo";
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "Custom Theme Generator (#4234)";
-            FormClosed += CustomThemeGeneratorDemo_FormClosed;
-            Load += CustomThemeGeneratorDemo_Load;
-            ((System.ComponentModel.ISupportInitialize)kpnlMain).EndInit();
-            kpnlMain.ResumeLayout(false);
-            tlpMain.ResumeLayout(false);
-            tlpMain.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)kcmbDonor).EndInit();
-            ((System.ComponentModel.ISupportInitialize)kcmbTheme).EndInit();
-            ((System.ComponentModel.ISupportInitialize)kcmbFlyout).EndInit();
-            flpActions.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)khgPreview.Panel).EndInit();
-            khgPreview.Panel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)khgPreview).EndInit();
-            khgPreview.ResumeLayout(false);
-            tlpPreview.ResumeLayout(false);
-            tlpPreview.PerformLayout();
-            ResumeLayout(false);
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(820, 680);
+            this.Controls.Add(this.kpnlMain);
+            this.Controls.Add(this.kwlblInfo);
+            this.MinimumSize = new System.Drawing.Size(760, 620);
+            this.Name = "CustomThemeGeneratorDemo";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Custom Theme Generator (#4234)";
+            ((System.ComponentModel.ISupportInitialize)(this.kpnlMain)).EndInit();
+            this.kpnlMain.ResumeLayout(false);
+            this.tlpMain.ResumeLayout(false);
+            this.tlpMain.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kcmbDonor)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kcmbTheme)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kcmbFlyout)).EndInit();
+            this.flpActions.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.khgPreview.Panel)).EndInit();
+            this.khgPreview.Panel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.khgPreview)).EndInit();
+            this.khgPreview.ResumeLayout(false);
+            this.tlpPreview.ResumeLayout(false);
+            this.tlpPreview.PerformLayout();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion

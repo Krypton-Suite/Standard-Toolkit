@@ -137,11 +137,20 @@ public static class KryptonCustomThemeGenerator
             ThrowHelper.ThrowArgumentException(@"A hexadecimal, RGB, or named colour is required.", nameof(primaryHex));
         }
 
-        return Create(new KryptonCustomThemeSeed
+        try
         {
-            Name = name,
-            Primary = primary
-        });
+            return Create(new KryptonCustomThemeSeed
+            {
+                Name = name,
+                Primary = primary
+            });
+        }
+        catch (Exception ex)
+        {
+            KryptonExceptionHandler.CaptureException(ex);
+
+            return new KryptonCustomPaletteBase();
+        }
     }
 
     /// <summary>
@@ -172,32 +181,40 @@ public static class KryptonCustomThemeGenerator
     {
         ThrowHelper.ThrowIfNull(seed);
 
-        if (string.IsNullOrWhiteSpace(seed.Name))
+        try
         {
-            ThrowHelper.ThrowArgumentException(@"A theme display name is required.", nameof(seed));
+            if (string.IsNullOrWhiteSpace(seed.Name))
+            {
+                ThrowHelper.ThrowArgumentException(@"A theme display name is required.", nameof(seed));
+            }
+
+            if (!IsSupportedDonor(seed.DonorMode))
+            {
+                ThrowHelper.ThrowArgumentException(
+                    @"DonorMode must be Office2010Blue, Office2010BlueDarkMode, Microsoft365Blue, or Microsoft365BlackDarkMode.",
+                    nameof(seed));
+            }
+
+            bool dark = IsDarkDonor(seed.DonorMode);
+            CustomThemeAccentSet accents = CustomThemeSchemeRemapper.BuildAccents(seed, dark);
+            PaletteBase throwaway = CreateThrowawayPalette(seed.DonorMode);
+            KryptonColorSchemeBase remapped = CustomThemeSchemeRemapper.Remap(CopyDonorScheme(throwaway), accents);
+            throwaway.ApplyScheme(remapped);
+
+            var custom = new KryptonCustomPaletteBase
+            {
+                BasePalette = throwaway
+            };
+            custom.PopulateFromBase(silent: true);
+            custom.SetPaletteName(seed.Name);
+            PatchInteractiveButtonColors(custom, accents);
+            return custom;
         }
-
-        if (!IsSupportedDonor(seed.DonorMode))
+        catch (Exception ex)
         {
-            ThrowHelper.ThrowArgumentException(
-                @"DonorMode must be Office2010Blue, Office2010BlueDarkMode, Microsoft365Blue, or Microsoft365BlackDarkMode.",
-                nameof(seed));
+            KryptonExceptionHandler.CaptureException(ex);
+            return new KryptonCustomPaletteBase();
         }
-
-        bool dark = IsDarkDonor(seed.DonorMode);
-        CustomThemeAccentSet accents = CustomThemeSchemeRemapper.BuildAccents(seed, dark);
-        PaletteBase throwaway = CreateThrowawayPalette(seed.DonorMode);
-        KryptonColorSchemeBase remapped = CustomThemeSchemeRemapper.Remap(CopyDonorScheme(throwaway), accents);
-        throwaway.ApplyScheme(remapped);
-
-        var custom = new KryptonCustomPaletteBase
-        {
-            BasePalette = throwaway
-        };
-        custom.PopulateFromBase(silent: true);
-        custom.SetPaletteName(seed.Name);
-        PatchInteractiveButtonColors(custom, accents);
-        return custom;
     }
 
     /// <summary>
