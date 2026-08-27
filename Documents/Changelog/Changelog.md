@@ -45,6 +45,8 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#3847](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3847), `KryptonListView` virtual mode (`VirtualMode`, `VirtualListSize`, `RetrieveVirtualItem`, `CacheVirtualItems`).
+  * Details column headers follow the Krypton palette. Overlay scrollbars keep native `WS_VSCROLL` for `LVM_SCROLL` without reserving a second native gutter.
 * Resolved [#4264](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4264), Command-link buttons now show the default arrow image on Windows 7
    * Windows 7 / 8 / 8.1 use an embedded Aero-style arrow; Windows 10+ still load the system glyph from `shell32.dll`.
    * Applies to `KryptonCommandLinkButton` and Task Dialog command links.

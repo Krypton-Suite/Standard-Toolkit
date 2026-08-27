@@ -11,6 +11,7 @@ These are recurring issues observed when using AI coding agents and shell wrappe
 - Do not try to rename an existing stash with `git stash store -m`; stash display names may still come from the original stash commit. Correct example: re-apply the stash, then create a fresh `git stash push -m "3493-followup" -- .` if the label matters.
 - Do not over-escape regex patterns for `rg`. A pattern like `msbuild\\.exe` can search for the wrong text. Correct example in PowerShell: `$pattern = 'msbuild\.exe'; $root = 'Scripts'; rg -n $pattern $root --glob '*.cmd'`.
 - Do not use `findstr` quoted path experiments for ordinary file reads or searches. Correct example: `$path = 'Scripts\VS2022\rebuild-build-nightly.cmd'; Select-String -LiteralPath $path -Pattern 'nightly.proj'`.
+- Do not `git clone` [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) when `..\Standard-Toolkit-Demos` already exists. Reuse that working tree: switch to `alpha` if not already on it, then create a new `alpha-…` branch from `alpha`. Clone only when the parent folder is missing (see **Standard-Toolkit-Demos**).
 
 ## Always
 
@@ -20,7 +21,7 @@ Before considering a task complete:
 - Fix any compiler or analyzer warnings introduced by the change; treat new warnings as part of the build (do not leave them for later). Prefer fixing pre-existing warnings in files you already touch when the fix is small and local; do not expand into a repo-wide warning cleanup unless asked.
 - Check files you create or edit for UTF-8 BOM encoding issues and fix them (see **Coding Style & Naming Conventions**). Do not leave UTF-8-without-BOM or wrong-encoding files when the repo expects UTF-8 with BOM; do not expand into a repo-wide encoding cleanup unless asked.
 - Update TestForm when adding a feature.
-- When adding a feature, also add or append a comprehensive consumer demo in [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) (see **Standard-Toolkit-Demos**). Clone that repo into the parent directory if it is missing. Work on a new `alpha-…` branch from `alpha`. It is not part of this repository. If an example already exists, do not overwrite it; append.
+- When adding a feature, also add or append a comprehensive consumer demo in [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) (see **Standard-Toolkit-Demos**). Reuse `..\Standard-Toolkit-Demos` if it already exists (do **not** clone again); clone into the parent only if that folder is missing. Then switch to `alpha` (if not already on it) and create a new `alpha-…` branch from `alpha`. It is not part of this repository. If an example already exists, do not overwrite it; append.
 - Update Changelog.md for completed features and bug fixes.
 - Add developer documentation for substantial new features (see **Feature Developer Documentation**). Keep `Documents/Development/` files **out of pull requests**.
 - Write a PR description in `Documents/PR/` for completed features and bug fixes, and use that file as the GitHub PR body. Do **not** include the PR description file in the pull request (see **Pull Request Descriptions**).
@@ -44,7 +45,7 @@ Before considering a task complete:
 
 - `Source/Krypton Components`: Core libraries (`Krypton.Toolkit`, `Krypton.Themes`, `Krypton.Ribbon`, `Krypton.Navigator`, `Krypton.Workspace`, `Krypton.Docking`) and the solution `Krypton Toolkit Suite 2022 - VS2022.sln`
 - `Source/Krypton Components/TestForm`: WinForms sample app used to validate changes; add or extend demos here when features or bugs are completed (see **TestForm Demos**)
-- [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) is a **separate** repo in the directory above this project (`..\Standard-Toolkit-Demos`), not a folder inside Standard-Toolkit. Clone it there if missing. When completing a feature, add a consumer example (or **append** if one exists; do not overwrite) on a new `alpha-…` branch from `alpha` (see **Standard-Toolkit-Demos**)
+- [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) is a **separate** repo in the directory above this project (`..\Standard-Toolkit-Demos`), not a folder inside Standard-Toolkit. Reuse that folder if it exists (do **not** clone again); clone there only if missing. When completing a feature, add a consumer example (or **append** if one exists; do not overwrite) on a new `alpha-…` branch from `alpha` (see **Standard-Toolkit-Demos**)
 - `Source/TestHarnesses`: Small repro/test harnesses (e.g., `ThemeSwapRepro`)
 - `Scripts/`: Build and packaging scripts; `run.cmd` (root) launches an interactive menu; scripts live under `Scripts/VS2022/`, `Scripts/Current/`, `Scripts/Build/` (e.g., `build-stable.cmd`, `build-canary.cmd`, `build-nightly.cmd`, `build-rc.cmd`, `build.proj`)
 - `Scripts/UnitTests/`: Reusable PowerShell UI-automation helpers for interactive validation of `TestForm` scenarios (see **Unit Test Scripts**)
@@ -309,11 +310,11 @@ Each guide should be **in-depth** and **maintainer-focused**, covering as applic
 - **Usage** — minimal code or designer steps; common integration patterns.
 - **Configuration / persistence** — settings, XML, flags, or MSBuild properties if relevant.
 - **Edge cases** — threading, TFM differences, breaking changes, migration notes.
-- **Validation** — how to exercise the feature in `TestForm` or a harness (link to the demo form registered in `StartScreen`), and in [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) (clone into the parent directory if missing).
+- **Validation** — how to exercise the feature in `TestForm` or a harness (link to the demo form registered in `StartScreen`), and in [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) (reuse `..\Standard-Toolkit-Demos` if present; clone into the parent only if missing).
 
 ### TestForm demo
 
-When the feature warrants user-visible validation, add or update a demo per **TestForm Demos** and reference it here. Also add a consumer example per **Standard-Toolkit-Demos** (clone into the parent directory if missing; **append** if an example already exists — do not overwrite).
+When the feature warrants user-visible validation, add or update a demo per **TestForm Demos** and reference it here. Also add a consumer example per **Standard-Toolkit-Demos** (reuse `..\Standard-Toolkit-Demos` if present; clone into the parent only if missing; **append** if an example already exists — do not overwrite).
 
 ### File conventions
 
@@ -416,13 +417,13 @@ Skip the comparison when there is no meaningful WinForms equivalent (e.g. ribbon
 - Add new `.cs` / `.Designer.cs` / `.resx` files to `TestForm.csproj` if not picked up automatically.
 - Reference `Krypton.Toolkit.Utilities` / `Krypton.Navigator.Utilities` when the demo targets those assemblies.
 - Run: `dotnet run --project ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug`
-- `TestForm` does not replace [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos). For features, also add a consumer example there (clone into the parent directory if missing), or **append** if one already exists (see **Standard-Toolkit-Demos**).
+- `TestForm` does not replace [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos). For features, also add a consumer example there (reuse `..\Standard-Toolkit-Demos` if present; clone into the parent only if missing), or **append** if one already exists (see **Standard-Toolkit-Demos**).
 
 ## Standard-Toolkit-Demos
 
 [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) is a **separate GitHub repository**. It is **not** inside this repo. Consumer-facing examples (Krypton Explorer plus per-control sample apps) live there. `TestForm` remains required for maintainer validation. When a **feature** is completed, add a **comprehensive** example in Demos. If an example already exists, **append**; do not overwrite.
 
-### Locate or clone
+### Locate or clone (never re-clone)
 
 Look only in the parent of this repository for a folder named `Standard-Toolkit-Demos`:
 
@@ -434,15 +435,19 @@ $demosRoot = Join-Path $parentDir 'Standard-Toolkit-Demos'
 
 Treat the clone as present when `$demosRoot` exists and contains `Source\Krypton Toolkit Examples`. Do **not** look under `Source\` in this repo, do **not** search other drives, and do **not** copy or create Demos projects inside Standard-Toolkit.
 
-If `$demosRoot` does **not** exist, clone it into the parent (do not clone over an existing folder):
+**If `$demosRoot` already exists, do not clone again.** Reuse that working tree. Do **not** `git clone` into the parent, do **not** clone over the existing folder, and do **not** create a second copy. Then follow **Git boundary**: switch to `alpha` if not already on it, then create a new `alpha-…` branch from `alpha`.
+
+**If `$demosRoot` does not exist**, clone it into the parent (do not clone over an existing folder):
 
 ```powershell
 git clone https://github.com/Krypton-Suite/Standard-Toolkit-Demos.git $demosRoot
 ```
 
+After a fresh clone, still follow **Git boundary** (switch to `alpha`, then create a new `alpha-…` branch).
+
 ```
 <parent>\Standard-Toolkit\                 # this repository
-<parent>\Standard-Toolkit-Demos\           # separate repository (clone here if missing)
+<parent>\Standard-Toolkit-Demos\           # separate repository (reuse if present; clone only if missing)
 ```
 
 ### Directory structure (Demos repo)
@@ -526,10 +531,12 @@ Demos changes live in the **Demos** working tree. Do **not** stage, commit, or p
 
 For a **new feature** demo (new example project, or appends for that feature):
 
-1. In `$demosRoot`, `git fetch origin`.
-2. Create and check out a **new branch from `alpha`** with the `alpha-` prefix, e.g. `alpha-1110-krypton-menu-strip` (issue number when one exists, then a short kebab title). Use `git checkout -b alpha-<name> origin/alpha` (or `alpha` if that local branch already tracks `origin/alpha`).
-3. Do not reuse `master`, `gold`, or an unrelated existing branch. If already on the matching `alpha-<name>` branch for this feature, keep it.
-4. If the Demos working tree has unrelated uncommitted changes, do not discard them; stop and tell the user rather than mixing work onto the new branch.
+1. If `$demosRoot` already exists, **do not clone**. Use the existing working tree.
+2. In `$demosRoot`, `git fetch origin`.
+3. Switch to the `alpha` branch if not already on it (`git checkout alpha`). If local `alpha` tracks `origin/alpha`, update it (`git merge --ff-only origin/alpha` or equivalent). After a fresh clone, check out `alpha` before branching.
+4. Create and check out a **new branch from `alpha`** with the `alpha-` prefix, e.g. `alpha-1110-krypton-menu-strip` (issue number when one exists, then a short kebab title). Use `git checkout -b alpha-<name>` while on `alpha`. The new branch must be based on `alpha`, not `master`, `gold`, or another feature branch.
+5. Do not reuse `master`, `gold`, or an unrelated existing branch. If already on the matching `alpha-<name>` branch for this feature, keep it.
+6. If the Demos working tree has unrelated uncommitted changes, do not discard them; stop and tell the user rather than mixing work onto the new branch.
 
 Commit, push, or open a Demos pull request only when the user explicitly asks. When a Demos PR is opened, compare it with `alpha` (`gh pr create --base alpha`), not `master`.
 
@@ -537,7 +544,7 @@ Commit, push, or open a Demos pull request only when the user explicitly asks. W
 
 - No formal xUnit/NUnit suite. Validate changes via `TestForm` scenarios, harnesses under `Source/TestHarnesses`, and PowerShell helpers under `Scripts/UnitTests/` (see **Unit Test Scripts**)
 - When fixing a bug, add/adjust a minimal repro in `TestForm` or a harness and describe manual steps in the PR
-- When completing a **feature**, add or append a comprehensive demo in `TestForm` per **TestForm Demos** (include Krypton vs WinForms comparison where appropriate; do not overwrite an existing demo), and a consumer example in [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) (clone into the parent directory if missing; see **Standard-Toolkit-Demos**)
+- When completing a **feature**, add or append a comprehensive demo in `TestForm` per **TestForm Demos** (include Krypton vs WinForms comparison where appropriate; do not overwrite an existing demo), and a consumer example in [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) (reuse `..\Standard-Toolkit-Demos` if present; clone into the parent only if missing; see **Standard-Toolkit-Demos**)
 - When completing a bug fix or feature, update `Documents/Changelog/Changelog.md` per **Changelog** in this file
 
 ## Unit Test Scripts
@@ -563,7 +570,7 @@ Use `Scripts/UnitTests/` for PowerShell scripts that drive or inspect a Debug `T
 - Commits: short, imperative subject; reference issues/PRs (e.g., `Fix autosizing (#2433)` or `2439 V100 datecell autosizing`)
 - PRs: clear description, linked issues, screenshots/gifs for UI changes, notes on breaking changes/TFM impact
 - If a pull request is opened or created, it must be compared with `alpha`, not `master`, `gold`, or `canary`. When using `gh pr create`, set the base branch to `alpha` (for example `--base alpha`).
-- Completed bugs and features: update `Documents/Changelog/Changelog.md` (see **Changelog** above); add or append a `TestForm` demo for features (see **TestForm Demos**; do not overwrite an existing demo); also add a consumer example in [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) or append if one exists (clone into the parent directory if missing; work on an `alpha-…` branch from `alpha`; see **Standard-Toolkit-Demos**); write a `Documents/Development/` guide when the feature warrants in-depth maintainer docs, and a PR description in `Documents/PR/` (see **Pull Request Descriptions** below). **Do not include** `Documents/Development/` files or the per-change `Documents/PR/` description file in the Standard-Toolkit pull request (new or existing). Demos files belong only in the Demos repo. Use the PR description file as the GitHub PR body (`gh pr create --base alpha --body-file Documents/PR/<file>.md`).
+- Completed bugs and features: update `Documents/Changelog/Changelog.md` (see **Changelog** above); add or append a `TestForm` demo for features (see **TestForm Demos**; do not overwrite an existing demo); also add a consumer example in [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) or append if one exists (reuse `..\Standard-Toolkit-Demos` if present; clone into the parent only if missing; then switch to `alpha` and create a new `alpha-…` branch from `alpha`; see **Standard-Toolkit-Demos**); write a `Documents/Development/` guide when the feature warrants in-depth maintainer docs, and a PR description in `Documents/PR/` (see **Pull Request Descriptions** below). **Do not include** `Documents/Development/` files or the per-change `Documents/PR/` description file in the Standard-Toolkit pull request (new or existing). Demos files belong only in the Demos repo. Use the PR description file as the GitHub PR body (`gh pr create --base alpha --body-file Documents/PR/<file>.md`).
 - Do not add routine validation noise to commit messages or PR descriptions. Mention checks only when they are essential context, unusual, failed, or specifically requested.
 
 ## Pull Request Descriptions
