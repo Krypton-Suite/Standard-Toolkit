@@ -22,6 +22,7 @@ Before considering a task complete:
 - Update TestForm when adding a feature.
 - When adding a feature, also add or append a comprehensive consumer demo in [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) (see **Standard-Toolkit-Demos**). Clone that repo into the parent directory if it is missing. Work on a new `alpha-…` branch from `alpha`. It is not part of this repository. If an example already exists, do not overwrite it; append.
 - Update Changelog.md for completed features and bug fixes.
+- When a change is **breaking** for consumers, also update `README.md` under **Breaking Changes** (see **Breaking Changes (README)**). The entry must follow the existing pattern in that section.
 - Add developer documentation for substantial new features (see **Feature Developer Documentation**). Keep `Documents/Development/` files **out of pull requests**.
 - Write a PR description in `Documents/PR/` for completed features and bug fixes, and use that file as the GitHub PR body. Do **not** include the PR description file in the pull request (see **Pull Request Descriptions**).
 - When UI behaviour is verified with ad-hoc PowerShell / UI Automation (mouse synthesise, screenshots, hosted `TestForm` demos), **keep those scripts under `Scripts/UnitTests/`** instead of leaving them only under `Bin/` or deleting them after the session. Prefer reusable, named scripts with a short note in `Scripts/UnitTests/README.md` (see **Unit Test Scripts**).
@@ -50,6 +51,7 @@ Before considering a task complete:
 - `Scripts/UnitTests/`: Reusable PowerShell UI-automation helpers for interactive validation of `TestForm` scenarios (see **Unit Test Scripts**)
 - `Bin/`: Build outputs by configuration (e.g., `Bin/Debug`)
 - `Documents/`, `Assets/`, `Logs/`: Docs, images, and build logs
+- `README.md`: Consumer-facing project overview; **Breaking Changes** lists migration notes for each major version (see **Breaking Changes (README)**)
 - `Documents/Changelog/Changelog.md`: User-facing release notes for completed bugs and features
 - `Documents/Development/`: In-depth developer guides for completed features (APIs, architecture, usage); not listed in `Documents/Changelog/Changelog.md` or `Scripts/ModernBuild/README.md`; **do not include these files in new or existing PRs**
 - `Documents/PR/`: One Markdown PR description per completed bug fix or feature, drafted locally and used as the GitHub PR body; **do not include that description file in new or existing PRs** (see **Pull Request Descriptions**)
@@ -363,7 +365,7 @@ Match existing style:
 
 - Prefix with `Resolved` or `Implemented` (same verbs as existing entries).
 - Link the GitHub issue when one exists (`[#NNNN](https://github.com/Krypton-Suite/Standard-Toolkit/issues/NNNN)`).
-- If the change is **breaking** for consumers (API removal/rename, behavior change requiring migration, assembly/namespace moves), insert `**[Breaking Change]**` immediately after the issue link comma and before the summary.
+- If the change is **breaking** for consumers (API removal/rename, behavior change requiring migration, assembly/namespace moves), insert `**[Breaking Change]**` immediately after the issue link comma and before the summary. Also add a matching entry to `README.md` under **Breaking Changes** in the same change set (see **Breaking Changes (README)**). Do not leave a `**[Breaking Change]**` changelog item without a README counterpart.
 - If the feature lives in `Krypton.Toolkit.Utilities.csproj` or `Krypton.Navigator.Utilities.csproj`, append the indented NuGet sub-bullet shown in the example above (`To use, you will need to download the Krypton.Standard.Toolkit NuGet package…`). Use the matching assembly name (`Krypton.Toolkit.Utilities` or `Krypton.Navigator.Utilities`).
 - One line per item; use indented sub-bullets only when extra user-facing detail is needed (see existing entries).
 - Write for **consumers** of the toolkit (what changed and why it matters), not implementation detail—that belongs in `Documents/Development/` or code comments.
@@ -372,6 +374,50 @@ Match existing style:
 
 - Entries for developer guides under `Documents/Development/`.
 - References to `Scripts/ModernBuild/README.md` or build-script internals unless the change is user-facing.
+
+## Breaking Changes (README)
+
+When a **bug fix** or **feature** is **breaking** for consumers (API removal/rename, behavior change requiring migration, assembly/namespace moves, TFM or runtime support drop), add a matching entry to `README.md` under **Breaking Changes** in the same change set as the changelog entry. Do not leave a `**[Breaking Change]**` changelog item without a README counterpart.
+
+### When to update
+
+- Same trigger as the changelog `**[Breaking Change]**` marker (see **Changelog** above).
+- Skip when the change is not breaking for consumers (comment-only work, internal refactors, additive APIs with no migration).
+
+### Where to add
+
+- File: `README.md`, section **Breaking Changes** (after **Version History**).
+- Append to the **current in-progress version** heading (the first `## Vxxx.00 (…)` after `## Breaking Changes`), e.g. `## V110.00 (2026-11-xx - Build 2611 - November 2026)`.
+- Add new bullets **after** that heading and its intro sentence (if present), before older entries in that version (newest first within the version).
+- If that version heading does not exist yet, add it immediately after `## Breaking Changes`, using the same title pattern as adjacent version headings (`## Vxxx.00 (yyyy-MM-dd - Build nnnn - Month yyyy)`), add the intro sentence used by neighbouring versions (`There are list of changes that have occurred during the development of the Vxxx.00 version`), and add a table-of-contents link under `* [Breaking Changes](#breaking-changes)` (newest version first). Match the existing GitHub anchor style (`V110.00` → `#v11000-…`).
+- Do **not** create a new version heading when the current in-progress release already has one. Do **not** append breaking items to a previously released version section.
+
+### Entry format
+
+Follow the existing `README.md` **Breaking Changes** pattern. Copy the consumer-facing changelog item (or the parent item when the break is a sub-bullet) and keep `**[Breaking Change]**`. Include indented sub-bullets for what consumers must update.
+
+```markdown
+* Implemented [#9012](https://github.com/Krypton-Suite/Standard-Toolkit/issues/9012), **[Breaking Change]** Summary of what broke and what consumers must update.
+  * Migration detail (new type, namespace, property path, or package).
+```
+
+Match surrounding entries:
+
+- Same `Resolved` / `Implemented` prefix and issue link as the changelog entry.
+- `**[Breaking Change]**` immediately after the issue link comma (or on the sub-bullet when only part of the item is breaking — see existing V110 entries such as unused-utility removals and `ToggleSwitchValues` grouping).
+- Indented sub-bullets for migration: namespace/assembly moves, renamed members, obsolete replacements, designer values to delete, NuGet package notes.
+- Write for **consumers** (what broke and how to update), not implementation detail.
+- Do not invent a new heading style, numbered lists, or a second breaking-change document. Do not drop `**[Breaking Change]**` from the README copy.
+
+### Table of contents
+
+When adding a **new** version heading, also add a TOC child under Breaking Changes, newest first, matching the heading text and GitHub slug used by neighbouring version links. Do not add a TOC link for an individual breaking-change bullet.
+
+### Do not
+
+- Put breaking-change documentation only in `Documents/Changelog/Changelog.md` or the PR description.
+- Overwrite or rephrase older README breaking-change entries unless they are inaccurate for the same change.
+- Add non-breaking changelog items to **Breaking Changes**.
 
 ## TestForm Demos
 
@@ -538,7 +584,7 @@ Commit, push, or open a Demos pull request only when the user explicitly asks. W
 - No formal xUnit/NUnit suite. Validate changes via `TestForm` scenarios, harnesses under `Source/TestHarnesses`, and PowerShell helpers under `Scripts/UnitTests/` (see **Unit Test Scripts**)
 - When fixing a bug, add/adjust a minimal repro in `TestForm` or a harness and describe manual steps in the PR
 - When completing a **feature**, add or append a comprehensive demo in `TestForm` per **TestForm Demos** (include Krypton vs WinForms comparison where appropriate; do not overwrite an existing demo), and a consumer example in [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) (clone into the parent directory if missing; see **Standard-Toolkit-Demos**)
-- When completing a bug fix or feature, update `Documents/Changelog/Changelog.md` per **Changelog** in this file
+- When completing a bug fix or feature, update `Documents/Changelog/Changelog.md` per **Changelog** in this file; if the change is breaking, also update `README.md` per **Breaking Changes (README)**
 
 ## Unit Test Scripts
 
@@ -563,7 +609,7 @@ Use `Scripts/UnitTests/` for PowerShell scripts that drive or inspect a Debug `T
 - Commits: short, imperative subject; reference issues/PRs (e.g., `Fix autosizing (#2433)` or `2439 V100 datecell autosizing`)
 - PRs: clear description, linked issues, screenshots/gifs for UI changes, notes on breaking changes/TFM impact
 - If a pull request is opened or created, it must be compared with `alpha`, not `master`, `gold`, or `canary`. When using `gh pr create`, set the base branch to `alpha` (for example `--base alpha`).
-- Completed bugs and features: update `Documents/Changelog/Changelog.md` (see **Changelog** above); add or append a `TestForm` demo for features (see **TestForm Demos**; do not overwrite an existing demo); also add a consumer example in [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) or append if one exists (clone into the parent directory if missing; work on an `alpha-…` branch from `alpha`; see **Standard-Toolkit-Demos**); write a `Documents/Development/` guide when the feature warrants in-depth maintainer docs, and a PR description in `Documents/PR/` (see **Pull Request Descriptions** below). **Do not include** `Documents/Development/` files or the per-change `Documents/PR/` description file in the Standard-Toolkit pull request (new or existing). Demos files belong only in the Demos repo. Use the PR description file as the GitHub PR body (`gh pr create --base alpha --body-file Documents/PR/<file>.md`).
+- Completed bugs and features: update `Documents/Changelog/Changelog.md` (see **Changelog** above); if the change is breaking, also update `README.md` under **Breaking Changes** (see **Breaking Changes (README)**); add or append a `TestForm` demo for features (see **TestForm Demos**; do not overwrite an existing demo); also add a consumer example in [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) or append if one exists (clone into the parent directory if missing; work on an `alpha-…` branch from `alpha`; see **Standard-Toolkit-Demos**); write a `Documents/Development/` guide when the feature warrants in-depth maintainer docs, and a PR description in `Documents/PR/` (see **Pull Request Descriptions** below). **Do not include** `Documents/Development/` files or the per-change `Documents/PR/` description file in the Standard-Toolkit pull request (new or existing). Demos files belong only in the Demos repo. Use the PR description file as the GitHub PR body (`gh pr create --base alpha --body-file Documents/PR/<file>.md`).
 - Do not add routine validation noise to commit messages or PR descriptions. Mention checks only when they are essential context, unusual, failed, or specifically requested.
 
 ## Pull Request Descriptions
@@ -602,7 +648,7 @@ Fill in every applicable section of `Documents/PR/TEMPLATE.md` (delete those tha
 - **Validation** — `TestForm` demo name, [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) example name and `alpha-…` branch (or a note if clone/branch failed), manual steps, and the build command used.
 - **Screenshots / GIFs** — for any UI change.
 - **Changelog** — the matching `Documents/Changelog/Changelog.md` entry.
-- **Breaking changes & migration** — what consumers must update, if anything.
+- **Breaking changes & migration** — what consumers must update, if anything. If the change is breaking, the matching `README.md` **Breaking Changes** entry must exist and follow the existing pattern (see **Breaking Changes (README)**).
 - **Developer documentation** — link to the `Documents/Development/` guide for substantial features.
 
 ### Do not
