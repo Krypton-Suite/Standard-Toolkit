@@ -114,6 +114,10 @@ public class KryptonRibbon : VisualSimple,
     private Size _originalSize;
     private DockStyle _originalDock;
     private bool _allowDetach;
+    private bool _allowDragReattach;
+    private bool _isMouseDownForDrag;
+    private Point _dragMouseDownPoint;
+    private string _floatingWindowText;
     
     // Preference persistence support
     private Point? _savedFloatingWindowPosition;
@@ -562,6 +566,23 @@ public class KryptonRibbon : VisualSimple,
     }
 
     /// <summary>
+    /// Gets or sets if dragging the floating ribbon window near the parent window will automatically snap and reattach.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Determines if dragging the floating ribbon window near the parent window will automatically snap and reattach.")]
+    [DefaultValue(true)]
+    public bool AllowDragReattach
+    {
+        get => _allowDragReattach;
+        set => _allowDragReattach = value;
+    }
+
+    /// <summary>
+    /// Gets the original parent control the ribbon was detached from.
+    /// </summary>
+    internal Control? OriginalParent => _originalParent;
+
+    /// <summary>
     /// Gets a value indicating whether the ribbon is currently detached.
     /// </summary>
     [Browsable(false)]
@@ -821,7 +842,25 @@ public class KryptonRibbon : VisualSimple,
     [Description(@"Text displayed in the floating window.")]
     [Localizable(true)]
     [DefaultValue(@"Ribbon")]
-    public string FloatingWindowText { get; set; }
+    public string FloatingWindowText
+    {
+        get => _floatingWindowText;
+        set
+        {
+            _floatingWindowText = value;
+            if (_floatingWindow is { IsDisposed: false })
+            {
+                _floatingWindow.Text = value ?? @"Ribbon";
+            }
+        }
+    }
+
+    /// <summary>
+    /// Resets the FloatingWindowText property to its default value.
+    /// </summary>
+    public void ResetFloatingWindowText() => FloatingWindowText = KryptonManager.Strings.MiscellaneousStrings.RibbonFloatingWindowText;
+
+    private bool ShouldSerializeFloatingWindowText() => !string.Equals(FloatingWindowText, KryptonManager.Strings.MiscellaneousStrings.RibbonFloatingWindowText, StringComparison.Ordinal);
 
     /// <summary>
     /// Gets or sets a value indicating whether preferences are automatically saved when the detached state changes.
@@ -1248,6 +1287,8 @@ public class KryptonRibbon : VisualSimple,
 
             // Prevent form integration when detached
             CaptionArea!.PreventIntegration = true;
+            MainPanel.Visible = true;
+            TabsArea?.CheckRibbonSize();
 
             // Create floating window
             _floatingWindow = new VisualRibbonFloatingWindow(ownerForm, this);
@@ -1255,78 +1296,50 @@ public class KryptonRibbon : VisualSimple,
             _floatingWindow.TitleBarDoubleClick += OnFloatingWindowTitleBarDoubleClick;
 
             // Store the ribbon's current size before removing from parent
-            // This ensures we have a valid size even if the parent is resizing
-            var ribbonSize = Size;
-            
-            // If size is invalid or too small, calculate preferred size
-            // Ribbon typically needs at least 100-150 pixels height for tabs and groups
-            if (ribbonSize.Width <= 0 || ribbonSize.Height <= 0 || ribbonSize.Height < 100)
-            {
-                // Force a layout to get accurate size
-                PerformLayout();
-                
-                // Get the actual rendered size
-                ribbonSize = Size;
-                
-                // If still invalid, calculate preferred size with a reasonable width
-                if (ribbonSize.Width <= 0 || ribbonSize.Height <= 0)
-                {
-                    var preferredSize = GetPreferredSize(new Size(Math.Max(400, Width), 0));
-                    ribbonSize = new Size(
-                        Math.Max(400, preferredSize.Width > 0 ? preferredSize.Width : 400),
-                        Math.Max(150, preferredSize.Height > 0 ? preferredSize.Height : 150));
-                }
-            }
+            var ribbonWidth = Width > 0 ? Width : 400;
+            var preferredSize = GetPreferredSize(new Size(Math.Max(400, ribbonWidth), 0));
+            var ribbonHeight = preferredSize.Height > 0 ? preferredSize.Height : (Height > 0 ? Height : 115);
 
-            // Remove from original parent
+            // Remove from original parent and refresh original parent
             _originalParent.Controls.Remove(this);
+            _originalParent.PerformLayout();
+            _originalParent.Invalidate(true);
+            _originalParent.Update();
 
-            // Set size before adding to ensure it's visible
-            // Ensure minimum height for ribbon to display properly
-            Size = new Size(
-                Math.Max(400, ribbonSize.Width),
-                Math.Max(150, ribbonSize.Height));
             Dock = DockStyle.Top;
             Visible = true;
 
             // Add to floating window
             _floatingWindow.Controls.Add(this);
+            BringToFront();
 
-            // Set floating window size based on ribbon's calculated size
-            // Use the ribbon's width (preserved from before detachment) and calculate appropriate height
-            // Add caption bar height to accommodate the window chrome
-            var captionHeight = SystemInformation.CaptionHeight;
-            var windowWidth = Math.Max(400, ribbonSize.Width); // Ensure minimum width
-            var windowHeight = Math.Max(150 + captionHeight, ribbonSize.Height + captionHeight);
-            _floatingWindow.Size = new Size(windowWidth, windowHeight);
-            
-            // Set minimum size to prevent window from being too small
-            _floatingWindow.MinimumSize = new Size(400, 150 + SystemInformation.CaptionHeight);
+            // Set client size of floating window based on ribbon dimensions
+            _floatingWindow.ClientSize = new Size(Math.Max(400, ribbonWidth), ribbonHeight);
+            _floatingWindow.MinimumSize = _floatingWindow.Size;
 
             // Force layout to ensure proper display
             SuspendLayout();
             _floatingWindow.SuspendLayout();
-            
+
             PerformLayout();
             _floatingWindow.PerformLayout();
-            
+
             ResumeLayout(true);
             _floatingWindow.ResumeLayout(true);
 
             // Show the floating window
             _floatingWindow.Show();
-            
-            // Save initial position
+
             if (_floatingWindow is { IsDisposed: false })
             {
                 _savedFloatingWindowPosition = _floatingWindow.Location;
             }
-            
+
             // Force a refresh after showing
             Invalidate(true);
+            Update();
             _floatingWindow?.Invalidate(true);
             _floatingWindow?.Update();
-            Update();
 
             // Hook up position tracking and save initial position
             if (_floatingWindow != null)
@@ -1356,6 +1369,36 @@ public class KryptonRibbon : VisualSimple,
     }
 
     /// <summary>
+    /// Detaches the ribbon into a floating window and immediately begins an interactive drag operation.
+    /// </summary>
+    /// <param name="screenPoint">Initial cursor position in screen coordinates.</param>
+    /// <returns>True if the ribbon was successfully detached and drag initiated; otherwise, false.</returns>
+    public bool DetachAndDrag(Point screenPoint)
+    {
+        Capture = false;
+
+        if (!Detach())
+        {
+            return false;
+        }
+
+        if (_floatingWindow is { IsDisposed: false })
+        {
+            // Position floating window centered horizontally under cursor with title bar under mouse
+            var targetX = screenPoint.X - (_floatingWindow.Width / 2);
+            var targetY = Math.Max(0, screenPoint.Y - 15);
+            _floatingWindow.Location = new Point(targetX, targetY);
+
+            // Post message to initiate window move modal loop
+            var lParam = (IntPtr)((screenPoint.Y << 16) | (screenPoint.X & 0xFFFF));
+            PI.SendMessage(_floatingWindow.Handle, (int)PI.WM_.NCLBUTTONDOWN, (IntPtr)PI.HT.CAPTION, lParam);
+            return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
     /// Reattaches the ribbon to its original parent.
     /// </summary>
     /// <returns>True if the ribbon was successfully reattached; otherwise, false.</returns>
@@ -1369,40 +1412,62 @@ public class KryptonRibbon : VisualSimple,
 
         try
         {
+            var floatingWindow = _floatingWindow;
+            Control targetParent = _originalParent;
+
             // Save position before closing
-            if (_floatingWindow is { IsDisposed: false })
+            if (floatingWindow is { IsDisposed: false })
             {
-                _savedFloatingWindowPosition = _floatingWindow.Location;
+                _savedFloatingWindowPosition = floatingWindow.Location;
             }
 
             // Remove from floating window
-            _floatingWindow?.Controls.Remove(this);
-            _floatingWindow?.WindowClosing -= OnFloatingWindowClosing;
-            _floatingWindow?.TitleBarDoubleClick -= OnFloatingWindowTitleBarDoubleClick;
-            _floatingWindow?.LocationChanged -= OnFloatingWindowLocationChanged;
-
-            // Close and dispose floating window
-            if (!(_floatingWindow is { IsDisposed: true }))
-            {
-                _floatingWindow?.Close();
-                _floatingWindow?.Dispose();
-            }
+            floatingWindow.Controls.Remove(this);
+            floatingWindow.WindowClosing -= OnFloatingWindowClosing;
+            floatingWindow.TitleBarDoubleClick -= OnFloatingWindowTitleBarDoubleClick;
+            floatingWindow.LocationChanged -= OnFloatingWindowLocationChanged;
 
             _floatingWindow = null;
+
+            // Close and dispose floating window
+            if (!floatingWindow.IsDisposed)
+            {
+                floatingWindow.Close();
+                floatingWindow.Dispose();
+            }
 
             // Restore original state
             Dock = _originalDock;
             Location = _originalLocation;
             Size = _originalSize;
 
+            // Add back to original parent FIRST so Parent is valid when updating PreventIntegration
+            targetParent.Controls.Add(this);
+            targetParent.Controls.SetChildIndex(this, 0); // Bring to front of z-order for docking
+
             // Re-enable form integration
             CaptionArea!.PreventIntegration = false;
-
-            // Add back to original parent
-            _originalParent.Controls.Add(this);
+            MainPanel.Visible = true;
+            TabsArea?.CheckRibbonSize();
 
             // Clear stored state
             _originalParent = null;
+
+            // Perform layout and invalidate parent and ribbon
+            targetParent.PerformLayout();
+            targetParent.Invalidate(true);
+            targetParent.Update();
+
+            PerformLayout();
+            Invalidate(true);
+            Update();
+
+            // If the target parent form is a KryptonForm, refresh custom chrome
+            if (targetParent.FindForm() is KryptonForm kForm)
+            {
+                kForm.RecreateMinMaxCloseButtons();
+                kForm.PerformNeedPaint(true);
+            }
 
             // Raise event
             OnRibbonReattached(EventArgs.Empty);
@@ -2152,6 +2217,12 @@ public class KryptonRibbon : VisualSimple,
         // Cannot process a message for a disposed control
         if (!IsDisposed)
         {
+            if (_allowDetach && !IsDetached && e.Button == MouseButtons.Left)
+            {
+                _isMouseDownForDrag = true;
+                _dragMouseDownPoint = new Point(e.X, e.Y);
+            }
+
             // Do we have a manager for processing mouse messages?
             ViewManager?.MouseDown(e, new Point(e.X, e.Y));
         }
@@ -2160,11 +2231,36 @@ public class KryptonRibbon : VisualSimple,
     }
 
     /// <summary>
+    /// Raises the MouseMove event.
+    /// </summary>
+    /// <param name="e">A MouseEventArgs that contains the event data.</param>
+    protected override void OnMouseMove(MouseEventArgs e)
+    {
+        if (!IsDisposed)
+        {
+            ViewManager?.MouseMove(e, new Point(e.X, e.Y));
+
+            if (_isMouseDownForDrag && _allowDetach && !IsDetached && e.Button == MouseButtons.Left)
+            {
+                var diffX = Math.Abs(e.X - _dragMouseDownPoint.X);
+                var diffY = Math.Abs(e.Y - _dragMouseDownPoint.Y);
+                if (diffX >= SystemInformation.DragSize.Width || diffY >= SystemInformation.DragSize.Height)
+                {
+                    _isMouseDownForDrag = false;
+                    DetachAndDrag(Cursor.Position);
+                }
+            }
+        }
+    }
+
+    /// <summary>
     /// Raises the MouseUp event.
     /// </summary>
     /// <param name="e">A MouseEventArgs that contains the event data.</param>
     protected override void OnMouseUp(MouseEventArgs e)
     {
+        _isMouseDownForDrag = false;
+
         // Cannot process a message for a disposed control
         if (!IsDisposed)
         {
@@ -3380,6 +3476,7 @@ public class KryptonRibbon : VisualSimple,
         AllowButtonSpecToolTips = false;
         AllowButtonSpecToolTipPriority = false;
         AllowMinimizedChange = true;
+        _allowDragReattach = true;
         AutoSize = true;
         AutoSizeMode = AutoSizeMode.GrowAndShrink;
         Dock = DockStyle.Top;
