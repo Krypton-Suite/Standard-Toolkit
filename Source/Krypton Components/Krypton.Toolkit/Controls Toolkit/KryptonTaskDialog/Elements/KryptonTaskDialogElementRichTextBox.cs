@@ -14,16 +14,19 @@ public class KryptonTaskDialogElementRichTextBox : KryptonTaskDialogElementBase,
     IKryptonTaskDialogElementHeight,
     IKryptonTaskDialogElementRoundedCorners
 {
-    #region fields
+    #region Instance Fields
+
     private bool _disposed;
     private KryptonTaskDialogKryptonRichTextBox _richTextBox;
     private KryptonContextMenu _contextMenu;
-    KryptonContextMenuItem _kcmiCopy;
-    KryptonContextMenuItem _kcmiCut;
-    KryptonContextMenuItem _kcmiPaste;
+    private KryptonContextMenuItem _kcmiCopy;
+    private KryptonContextMenuItem _kcmiCut;
+    private KryptonContextMenuItem _kcmiPaste;
+    
     #endregion
 
     #region Identity
+    
     public KryptonTaskDialogElementRichTextBox(KryptonTaskDialogDefaults taskDialogDefaults) : 
         base(taskDialogDefaults)
     {
@@ -40,6 +43,7 @@ public class KryptonTaskDialogElementRichTextBox : KryptonTaskDialogElementBase,
         EnableContextMenu = true;
         ScrollBars = RichTextBoxScrollBars.Both;
     }
+   
     #endregion
 
     #region Protected/Internal
@@ -157,7 +161,7 @@ public class KryptonTaskDialogElementRichTextBox : KryptonTaskDialogElementBase,
     /// <summary>
     /// Get or set the RTF content in the richtextbox.
     /// </summary>
-    public string Rtf
+    public string? Rtf
     {
         get => _richTextBox.Rtf;
         set => _richTextBox.Rtf = value;
