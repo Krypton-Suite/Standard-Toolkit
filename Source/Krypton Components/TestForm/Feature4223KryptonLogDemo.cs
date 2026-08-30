@@ -43,12 +43,13 @@ public sealed class Feature4223KryptonLogDemo : KryptonForm
         {
             Dock = DockStyle.Top,
             AutoSize = false,
-            Height = 88,
+            Height = 108,
             Padding = new Padding(12),
             Text =
                 "Issue #4223 (Krypton.Toolkit.Utilities): native KryptonLog — levels, named categories, rolling file, memory viewer.\r\n" +
                 "Configure is opt-in. InstallAsToolkitLogger sends CommonHelper.LogOutput and theme-swap [WM] lines through this pipeline.\r\n" +
-                "Open the viewer, write at each level, run parallel stress, then show an exception dialog with a log excerpt."
+                "Open the viewer, write at each level, run parallel stress, then show an exception dialog with a log excerpt.\r\n" +
+                "#4270 / #4269: Trace and file sinks protect rendered lines; {Password}/{Secret}/{Credential} template values are stored as ***."
         };
 
         _status = new KryptonWrapLabel
@@ -121,6 +122,7 @@ public sealed class Feature4223KryptonLogDemo : KryptonForm
         actions.Controls.Add(CreateButton("Error + exception", (_, _) => WriteError()));
         actions.Controls.Add(CreateButton("Fatal", (_, _) => Write(KryptonLogLevel.Fatal)));
         actions.Controls.Add(CreateButton("Parallel stress", OnParallelStress));
+        actions.Controls.Add(CreateButton("Log {Password} (redacted)", OnLogSensitiveProperty));
         actions.Controls.Add(CreateButton("Open viewer", (_, _) => KryptonLogViewer.Show(this)));
         actions.Controls.Add(CreateButton("Exception dialog", OnExceptionDialog));
         actions.Controls.Add(CreateButton("CommonHelper.LogOutput", OnToolkitLogOutput));
@@ -139,7 +141,7 @@ public sealed class Feature4223KryptonLogDemo : KryptonForm
         }
 
         Append($"File: {_logFilePath}");
-        _status.Text = @"Pipeline configured (Debug + file + memory + callback).";
+        _status.Text = @"Pipeline configured (Debug + Trace + file + memory + callback).";
     }
 
     protected override void OnFormClosed(FormClosedEventArgs e)
@@ -155,6 +157,7 @@ public sealed class Feature4223KryptonLogDemo : KryptonForm
             .MinimumLevel(KryptonLogLevel.Trace)
             .Override("Krypton.Toolkit", KryptonLogLevel.Debug)
             .WriteTo.Debug()
+            .WriteTo.Trace()
             .WriteTo.File(_logFilePath, rollOnSizeBytes: 1_000_000, retainedFileCount: 3)
             .WriteTo.Memory(2000)
             .WriteTo.Callback(evt =>
@@ -193,6 +196,13 @@ public sealed class Feature4223KryptonLogDemo : KryptonForm
             CurrentLogger().Error(ex, "Handled demo error {Number}", n);
             _status.Text = $"Wrote Error #{n} with exception.";
         }
+    }
+
+    private void OnLogSensitiveProperty(object? sender, EventArgs e)
+    {
+        var n = ++_counter;
+        CurrentLogger().Information("Secret probe {Password} {Number}", "should-not-appear-in-log", n);
+        _status.Text = $"Wrote Information #{n} with {{Password}} — viewer and file should show *** not the secret.";
     }
 
     private void OnParallelStress(object? sender, EventArgs e)
