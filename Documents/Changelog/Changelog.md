@@ -48,6 +48,8 @@
 * Resolved [#638](https://github.com/Krypton-Suite/Standard-Toolkit/issues/638), `ImageMarginxxx` options do not work as expected for all themes (Apart from `System` and `Professional`!)
   * Custom palette `ImageMargin` gradient colours now paint the menu image column on Office, Sparkle, Visual Studio, Microsoft 365, and Material themes (not only System and Professional).
   * Theme selectors no longer re-apply the previous builtin theme when a custom palette is assigned, which was wiping those `ImageMargin` colours.
+* Resolved [#4270](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4270) and [#4269](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4269), `KryptonLog` no longer stores clear-text secrets when writing to Trace or rolling log files.
+  * Template properties whose names look like `Password`, `Passwd`, `Secret`, or `Credential` are stored as `***`.
 * Resolved [#4264](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4264), Command-link buttons now show the default arrow image on Windows 7
    * Windows 7 / 8 / 8.1 use an embedded Aero-style arrow; Windows 10+ still load the system glyph from `shell32.dll`.
    * Applies to `KryptonCommandLinkButton` and Task Dialog command links.
@@ -535,6 +537,9 @@
 * Implemented [#187](https://github.com/Krypton-Suite/Standard-Toolkit/issues/187), Can the Extended Kit Scrollbars be placed into standard and used by all controls that have scrollability?
 * Resolved [#2862](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2862), Form border resize flicker
 * Implemented [#595](https://github.com/Krypton-Suite/Standard-Toolkit/issues/595), Detachable Ribbons - Added ability to detach `KryptonRibbon` into a floating window with `AllowDetach` property, `Detach()` and `Reattach()` methods, and `RibbonDetached`/`RibbonReattached` events. See [Detachable Ribbons Documentation](https://krypton-suite.github.io/Standard-Toolkit-Online-Help/articles/Standard%20Toolkit/Ribbon/KryptonDetachableRibbon.html) for comprehensive details.
+   * Fixed ribbon visibility and form chrome integration when detaching into `VisualRibbonFloatingWindow` and reattaching back to the parent window.
+   * Added drag-to-detach capability (dragging a ribbon tab or header area tears out the ribbon into an interactive floating window).
+   * Added drag-to-reattach capability with a semi-transparent dock preview indicator (`VisualRibbonDropSolidWindow`) and `AllowDragReattach` toggle.
 * Implemented [#2898](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2898), `KryptonHScrollBar` & `KryptonVScrollBar` - Part of #2658
 * Resolved [#2910](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2910), `KryptonComboBox` override Font property causes form designer error
 * Implemented [#2895](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2895), `KryptonProgressBar` - Three Colour States
