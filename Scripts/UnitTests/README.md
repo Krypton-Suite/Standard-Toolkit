@@ -62,6 +62,7 @@ Default output folder: `Bin\Debug\net472`.
 | `UnitTest-SystemInformationUi.ps1` | #3176 host the viewer and wait for System Summary rows (WMI) | `exclude` |
 | `UnitTest-InteractiveToolTips.ps1` | #4192 hosted-control tooltip / HTML helper / NotifyIcon popup API surface | `include` |
 | `UnitTest-SplashScreenManager.ps1` | #4180 splash manager API: defaults, Show/SetStatus/Close, Run(steps), throwing step | `include` |
+| `UnitTest-KryptonLogProtect.ps1` | #4270 / #4269 `KryptonLog` redacts `{Password}` before file storage | `include` |
 | `UnitTest-CommandLinkArrow.ps1` | #4264 default command-link arrow: helper returns 32x32 image; Windows 7 embedded resource is packaged | `include` |
 | `Start-AsyncFormsDemoHost.ps1` | Hosts `Feature4177AsyncFormsDemo` | n/a |
 | `Start-SplashScreenManagerHost.ps1` | Hosts `Feature4180SplashScreenManagerDemo` (#4180) | n/a |
@@ -111,3 +112,11 @@ dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f 
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-NavigatorTaskbarTabGroups.ps1
 ```
 Screenshots from interactive helpers are written under the bin/output directory and are not checked in.
+
+## Typical usage (#4270 / #4269 log protect)
+
+```powershell
+dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-KryptonLogProtect.ps1
+```
+
