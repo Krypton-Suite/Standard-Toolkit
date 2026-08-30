@@ -250,7 +250,16 @@ public static class KryptonThemeCatalog
         var fallback = ToolkitStaticConstants.GLOBAL_DEFAULT_PALETTE_MODE;
         var requestedDisplayName = GetDisplayName(requestedMode);
         var fallbackDisplayName = GetDisplayName(fallback);
-        var reason = $"The requested theme '{requestedDisplayName}' ('{requestedMode}') requires the 'Krypton.Themes' assembly ('Krypton.Themes.dll'), which is not loaded or could not be found in the application directory.\nThe theme has reverted to '{fallbackDisplayName}' ('{fallback}').\nPlease install the 'Krypton.Standard.Toolkit' package from NuGet to continue using this theme.";
+        var messageTemplate = KryptonManager.Strings.MiscellaneousThemeStrings.ThemeFallbackWarningMessage;
+        string reason;
+        try
+        {
+            reason = string.Format(messageTemplate, requestedDisplayName, requestedMode, fallbackDisplayName, fallback);
+        }
+        catch (FormatException)
+        {
+            reason = $"The requested theme '{requestedDisplayName}' ('{requestedMode}') requires the 'Krypton.Themes' assembly ('Krypton.Themes.dll'), which is not loaded or could not be found in the application directory. The theme has reverted to '{fallbackDisplayName}' ('{fallback}').";
+        }
 
         Debug.WriteLine(
             @"KryptonThemeCatalog: extra palette '" + requestedMode +
@@ -272,9 +281,10 @@ public static class KryptonThemeCatalog
             {
                 try
                 {
+                    var title = KryptonManager.Strings.MiscellaneousThemeStrings.ThemeFallbackWarningTitle;
                     KryptonMessageBox.Show(
                         reason,
-                        @"Theme Fallback Warning",
+                        title,
                         KryptonMessageBoxButtons.OK,
                         KryptonMessageBoxIcon.Warning,
                         showCopyButton: true);

@@ -19,6 +19,8 @@ public class KryptonMiscellaneousThemeStrings : GlobalId
     private const string DEFAULT_IMPORT_THEME_TEXT = @"I&mport...";
     private const string DEFAULT_SILENT_TEXT = @"&Silent";
     private const string DEFAULT_UPGRADE_TEXT = @"Up&grade";
+    private const string DEFAULT_THEME_FALLBACK_WARNING_TITLE = @"Theme Fallback Warning";
+    private const string DEFAULT_THEME_FALLBACK_WARNING_MESSAGE = @"The requested theme '{0}' ('{1}') requires the 'Krypton.Themes' assembly ('Krypton.Themes.dll'), which is not loaded or could not be found in the application directory.\nThe theme has reverted to '{2}' ('{3}').\nPlease install the 'Krypton.Standard.Toolkit' package from NuGet to continue using this theme.";
 
     #endregion
 
@@ -76,6 +78,22 @@ public class KryptonMiscellaneousThemeStrings : GlobalId
     [DefaultValue(DEFAULT_UPGRADE_TEXT)]
     public string Upgrade { get; set; }
 
+    /// <summary>Gets or sets the theme fallback warning dialog title.</summary>
+    /// <value>The theme fallback warning dialog title.</value>
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [Description(@"The theme fallback warning dialog title.")]
+    [DefaultValue(DEFAULT_THEME_FALLBACK_WARNING_TITLE)]
+    public string ThemeFallbackWarningTitle { get; set; }
+
+    /// <summary>Gets or sets the theme fallback warning message format template.</summary>
+    /// <value>The theme fallback warning message format template.</value>
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [Description(@"The theme fallback warning message format template.")]
+    [DefaultValue(DEFAULT_THEME_FALLBACK_WARNING_MESSAGE)]
+    public string ThemeFallbackWarningMessage { get; set; }
+
     #endregion
 
     #region Implementation
@@ -85,7 +103,9 @@ public class KryptonMiscellaneousThemeStrings : GlobalId
                              ThemeBrowserWindowTitle.Equals(DEFAULT_THEME_BROWSER_WINDOW_TITLE) &&
                              Import.Equals(DEFAULT_IMPORT_THEME_TEXT) &&
                              Silent.Equals(DEFAULT_SILENT_TEXT) &&
-                             Upgrade.Equals(DEFAULT_UPGRADE_TEXT);
+                             Upgrade.Equals(DEFAULT_UPGRADE_TEXT) &&
+                             ThemeFallbackWarningTitle.Equals(DEFAULT_THEME_FALLBACK_WARNING_TITLE) &&
+                             ThemeFallbackWarningMessage.Equals(DEFAULT_THEME_FALLBACK_WARNING_MESSAGE);
 
     public void Reset()
     {
@@ -98,6 +118,10 @@ public class KryptonMiscellaneousThemeStrings : GlobalId
         Silent = DEFAULT_SILENT_TEXT;
 
         Upgrade = DEFAULT_UPGRADE_TEXT;
+
+        ThemeFallbackWarningTitle = DEFAULT_THEME_FALLBACK_WARNING_TITLE;
+
+        ThemeFallbackWarningMessage = DEFAULT_THEME_FALLBACK_WARNING_MESSAGE;
     }
 
     #endregion

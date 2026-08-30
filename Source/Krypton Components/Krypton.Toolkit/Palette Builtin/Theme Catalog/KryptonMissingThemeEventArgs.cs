@@ -34,7 +34,24 @@ public sealed class KryptonMissingThemeEventArgs : EventArgs
     {
         RequestedMode = requestedMode;
         FallbackMode = fallbackMode;
-        Reason = reason ?? $"The requested theme '{requestedMode}' requires the 'Krypton.Themes' assembly ('Krypton.Themes.dll'), which is not loaded or could not be found. The theme has reverted to '{fallbackMode}'.";
+        if (!string.IsNullOrEmpty(reason))
+        {
+            Reason = reason!;
+        }
+        else
+        {
+            var requestedDisplayName = KryptonThemeCatalog.GetDisplayName(requestedMode);
+            var fallbackDisplayName = KryptonThemeCatalog.GetDisplayName(fallbackMode);
+            var template = KryptonManager.Strings.MiscellaneousThemeStrings.ThemeFallbackWarningMessage;
+            try
+            {
+                Reason = string.Format(template, requestedDisplayName, requestedMode, fallbackDisplayName, fallbackMode);
+            }
+            catch (FormatException)
+            {
+                Reason = $"The requested theme '{requestedDisplayName}' ('{requestedMode}') requires the 'Krypton.Themes' assembly ('Krypton.Themes.dll'), which is not loaded or could not be found in the application directory. The theme has reverted to '{fallbackDisplayName}' ('{fallbackMode}').";
+            }
+        }
     }
 
     /// <summary>

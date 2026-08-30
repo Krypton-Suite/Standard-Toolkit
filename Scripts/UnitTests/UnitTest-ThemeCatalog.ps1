@@ -95,6 +95,8 @@ Assert-True ([Krypton.Toolkit.KryptonThemeCatalog]::CorePaletteCount -eq 14) 'Co
 
 Assert-True ([Krypton.Toolkit.KryptonThemeCatalog]::ShowMissingThemeWarningDialog) 'ShowMissingThemeWarningDialog is true by default (opt-out)'
 Assert-True ([Krypton.Toolkit.KryptonManager]::ShowMissingThemeWarningDialog) 'KryptonManager.ShowMissingThemeWarningDialog forwards to KryptonThemeCatalog'
+Assert-True ([Krypton.Toolkit.KryptonManager]::Strings.MiscellaneousThemeStrings.ThemeFallbackWarningTitle -eq 'Theme Fallback Warning') 'ThemeFallbackWarningTitle has default value'
+Assert-True ([Krypton.Toolkit.KryptonManager]::Strings.MiscellaneousThemeStrings.ThemeFallbackWarningMessage.Length -gt 0) 'ThemeFallbackWarningMessage has default template'
 
 # Missing-theme fallback when Krypton.Themes.dll is absent (Toolkit-only scenario).
 $fallbackState = New-Object PSObject -Property @{
