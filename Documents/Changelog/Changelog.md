@@ -48,6 +48,10 @@
 
 ## 2026-10-26 - Build 2610 (Version 105-LTS - Patch 4) - October 2026
 
+* Implemented [#3847](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3847), `KryptonListView` virtual mode
+   * Exposed `VirtualMode` and `VirtualListSize`, and forwarded `RetrieveVirtualItem` and `CacheVirtualItems` (alongside existing `SearchForVirtualItem` / `VirtualItemsSelectionRangeChanged`).
+   * Palette item styling skips enumerating `Items` in virtual mode and applies colours on retrieve instead.
+   * TestForm: `ListView Virtual Mode` scenario with 100,000 items, cache window, type-ahead / Find, and theme change.
 * Resolved [#4252](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4252), Light Gray Office 2007, Office 2010, and Microsoft 365 themes no longer throw when drawing context-menu submenu arrows.
 * Resolved [#4252](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4252), Light Gray Office 2007, Office 2010, and Microsoft 365 themes no longer throw when drawing context-menu submenu arrows.
 * Implemented [#4287](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4287), exposing a `Rtf` property on `KryptonTaskDialogElementRichTextBox`, allowing rich text content to be displayed in `KryptonTaskDialog`s
