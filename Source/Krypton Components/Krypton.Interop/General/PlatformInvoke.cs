@@ -491,6 +491,7 @@ internal partial class PI
 
     internal const int LVM_FIRST = 0x1000;
     internal const int LVM_SCROLL = LVM_FIRST + 20;
+    internal const int LVM_GETHEADER = LVM_FIRST + 31;
 
     internal enum ScrollBarType
     {

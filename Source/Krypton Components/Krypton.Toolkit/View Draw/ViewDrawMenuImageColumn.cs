@@ -92,43 +92,15 @@ internal class ViewDrawMenuImageColumn : ViewDrawDocker
     {
         base.RenderBefore(context);
 
-        // Fill the image column using palette back colors first (to honor control overrides),
-        // and fall back to the ColorTable values when palette is empty.
+        // Same ColorTable ImageMargin Begin/Middle/End as ToolStripDropDownMenu so TMS
+        // overrides paint here too. Palette ContextMenuItemImageColumn is a solid theme
+        // colour and would hide those gradients if painted first.
         var rect = ClientRectangle;
         if (rect.Width > 0 && rect.Height > 0)
         {
-            Color p1 = PaletteBack!.GetBackColor1(State);
-            Color p2 = PaletteBack!.GetBackColor2(State);
-
-            if (p1 != SharedStaticVariables.EMPTY_COLOR || p2 != SharedStaticVariables.EMPTY_COLOR)
-            {
-                if (p1 == p2)
-                {
-                    using var solid = new SolidBrush(p1);
-                    context.Graphics.FillRectangle(solid, rect);
-                }
-                else
-                {
-                    using var brush = new LinearGradientBrush(rect, p1, p2, 0f);
-                    context.Graphics.FillRectangle(brush, rect);
-                }
-            }
-            else
-            {
-                var ct = _provider.ProviderRedirector.ColorTable;
-                Color c1 = ct.ImageMarginGradientBegin;
-                Color c2 = ct.ImageMarginGradientEnd;
-                if (c1 == c2)
-                {
-                    using var solid = new SolidBrush(c1);
-                    context.Graphics.FillRectangle(solid, rect);
-                }
-                else
-                {
-                    using var brush = new LinearGradientBrush(rect, c1, c2, 0f);
-                    context.Graphics.FillRectangle(brush, rect);
-                }
-            }
+            var ct = _provider.ProviderRedirector.ColorTable;
+            KryptonProfessionalRenderer.FillImageMargin(context.Graphics, rect,
+                ct.ImageMarginGradientBegin, ct.ImageMarginGradientMiddle, ct.ImageMarginGradientEnd);
         }
     }
 
