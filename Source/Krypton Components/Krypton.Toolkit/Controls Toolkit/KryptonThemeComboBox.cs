@@ -138,12 +138,12 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
 
     private void ReloadThemeItems()
     {
-        string previous = GetSelectedThemeName();
-        var fallback = KryptonManager.CurrentGlobalPaletteMode;
-        int idx = CommonHelperThemeSelectors.ReloadThemeItems(Items, _showExtraThemes, previous, fallback);
         _isExternalUpdate = true;
         try
         {
+            string previous = GetSelectedThemeName();
+            var fallback = KryptonManager.CurrentGlobalPaletteMode;
+            int idx = CommonHelperThemeSelectors.ReloadThemeItems(Items, _showExtraThemes, previous, fallback);
             SelectedIndex = idx;
         }
         finally
@@ -171,39 +171,56 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
             return;
         }
 
-        // Refresh theme list so "Custom" shows as "Custom - [Theme Name]" when a custom palette has a name (issue #1031)
-        string previous = GetSelectedThemeName();
-        int idx = CommonHelperThemeSelectors.ReloadThemeItems(Items, _showExtraThemes, previous, mode);
-        if (idx == SelectedIndex)
+        // Refresh theme list so "Custom" shows as "Custom - [Theme Name]" when a custom palette has a name (issue #1031).
+        // Suppress SelectedIndexChanged apply for Items.Clear()/restore: a deferred apply would
+        // re-select the previous builtin theme and wipe an ad-hoc custom palette.
+        _isExternalUpdate = true;
+        int idx;
+        var deferCommit = false;
+        try
         {
-            return;
-        }
+            string previous = GetSelectedThemeName();
+            idx = CommonHelperThemeSelectors.ReloadThemeItemsForGlobalChange(Items, _showExtraThemes, previous, mode);
+            if (idx == SelectedIndex)
+            {
+                return;
+            }
 
-        void Commit()
+            deferCommit = ThemeChangeCoordinator.InProgress && !IsDisposed && IsHandleCreated;
+            if (deferCommit)
+            {
+                BeginInvoke((System.Windows.Forms.MethodInvoker)(() => CommitThemeSelection(idx)));
+            }
+            else
+            {
+                // If the handle is not yet created (or disposed), update immediately to avoid InvalidOperationException
+                CommitThemeSelection(idx);
+            }
+        }
+        finally
+        {
+            if (!deferCommit)
+            {
+                _isExternalUpdate = false;
+            }
+        }
+    }
+
+    private void CommitThemeSelection(int idx)
+    {
+        try
         {
             if (IsDisposed || !IsHandleCreated)
             {
                 return;
             }
-            _isExternalUpdate = true;
-            try
-            {
-                SelectedIndex = idx;
-            }
-            finally
-            {
-                _isExternalUpdate = false;
-            }
-        }
 
-        if (ThemeChangeCoordinator.InProgress && !IsDisposed && IsHandleCreated)
-        {
-            BeginInvoke((System.Windows.Forms.MethodInvoker)Commit);
+            _isExternalUpdate = true;
+            SelectedIndex = idx;
         }
-        else
+        finally
         {
-            // If the handle is not yet created (or disposed), update immediately to avoid InvalidOperationException
-            Commit();
+            _isExternalUpdate = false;
         }
     }
 
@@ -214,6 +231,10 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
     /// <inheritdoc />
     protected override void OnSelectedIndexChanged(EventArgs e)
     {
+        // Capture before any deferred work. Items.Clear() during a palette sync queues this
+        // handler, and _isExternalUpdate may already be false by the time BeginInvoke runs.
+        var isExternalUpdate = _isExternalUpdate;
+
         // Disable redraw immediately to reduce flicker; defer the heavy theme swap until after WM_COMMAND unwinds
         if (IsHandleCreated)
         {
@@ -222,12 +243,19 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
 
         if (!IsHandleCreated)
         {
-            if (!CommonHelperThemeSelectors.OnSelectedIndexChanged(ref _isLocalUpdate, _isExternalUpdate, ref _defaultPalette, GetSelectedThemeName(), _manager, _kryptonCustomPalette))
+            if (!CommonHelperThemeSelectors.OnSelectedIndexChanged(ref _isLocalUpdate, isExternalUpdate, ref _defaultPalette, GetSelectedThemeName(), _manager, _kryptonCustomPalette))
             {
                 SelectedIndex = CommonHelperThemeSelectors.GetPaletteIndex(Items, _manager.GlobalPaletteMode);
             }
 
             base.OnSelectedIndexChanged(e);
+            return;
+        }
+
+        if (isExternalUpdate)
+        {
+            base.OnSelectedIndexChanged(e);
+            RestoreThemeComboRedraw();
             return;
         }
 
@@ -241,7 +269,7 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
             ThemeChangeCoordinator.Begin(FindForm());
             try
             {
-                if (!CommonHelperThemeSelectors.OnSelectedIndexChanged(ref _isLocalUpdate, _isExternalUpdate, ref _defaultPalette, GetSelectedThemeName(), _manager, _kryptonCustomPalette))
+                if (!CommonHelperThemeSelectors.OnSelectedIndexChanged(ref _isLocalUpdate, isExternalUpdate, ref _defaultPalette, GetSelectedThemeName(), _manager, _kryptonCustomPalette))
                 {
                     // theme change failed; resync index to current global palette
                     SelectedIndex = CommonHelperThemeSelectors.GetPaletteIndex(Items, _manager.GlobalPaletteMode);
@@ -254,25 +282,32 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
                 ThemeChangeCoordinator.End();
             }
 
-            if (IsHandleCreated)
-            {
-                // Re-enable redraw and perform a single composited repaint to reduce flicker
-                PI.SendMessage(Handle, PI.SETREDRAW, (IntPtr)1, IntPtr.Zero);
-                var form = FindForm();
-                if (form is { IsHandleCreated: true })
-                {
-                    // Force full subtree invalidation and a one-pass update including children and frame
-                    form.Invalidate(true);
-                    PI.RedrawWindow(form.Handle, IntPtr.Zero, IntPtr.Zero,
-                        PI.RDW_INVALIDATE | PI.RDW_ALLCHILDREN | PI.RDW_UPDATENOW | PI.RDW_FRAME);
-                }
-                else
-                {
-                    Invalidate(true);
-                    Update();
-                }
-            }
+            RestoreThemeComboRedraw();
         }));
+    }
+
+    private void RestoreThemeComboRedraw()
+    {
+        if (!IsHandleCreated)
+        {
+            return;
+        }
+
+        // Re-enable redraw and perform a single composited repaint to reduce flicker
+        PI.SendMessage(Handle, PI.SETREDRAW, (IntPtr)1, IntPtr.Zero);
+        var form = FindForm();
+        if (form is { IsHandleCreated: true })
+        {
+            // Force full subtree invalidation and a one-pass update including children and frame
+            form.Invalidate(true);
+            PI.RedrawWindow(form.Handle, IntPtr.Zero, IntPtr.Zero,
+                PI.RDW_INVALIDATE | PI.RDW_ALLCHILDREN | PI.RDW_UPDATENOW | PI.RDW_FRAME);
+        }
+        else
+        {
+            Invalidate(true);
+            Update();
+        }
     }
 
     #endregion
