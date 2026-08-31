@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -23,6 +23,7 @@ namespace Krypton.Toolkit;
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(KryptonCustomPaletteBase), "ToolboxBitmaps.KryptonPalette.bmp")]
 [DefaultEvent(nameof(PalettePaint))]
+[DefaultProperty(nameof(BasePaletteMode))]
 [DesignerCategory(@"code")]
 [Designer(typeof(KryptonCustomPaletteBaseDesigner))]
 [Description(@"A customisable palette component.")]
@@ -42,6 +43,7 @@ public class KryptonCustomPaletteBase : PaletteBase
     private IRenderer? _baseRenderer;
     private RendererMode _baseRenderMode;
     private PaletteBase? _basePalette;
+    private PaletteMode _basePaletteMode;
     private readonly PaletteRedirect _redirector;
     private readonly NeedPaintHandler _needPaintDelegate;
 
@@ -58,6 +60,7 @@ public class KryptonCustomPaletteBase : PaletteBase
 
         // Set the default palette/palette mode
         _basePalette = KryptonManager.GetPaletteForMode(ThemeManager.DefaultGlobalPalette);
+        _basePaletteMode = ThemeManager.DefaultGlobalPalette;
 
         // Set the default renderer
         _baseRenderer = null;
@@ -2699,6 +2702,7 @@ public class KryptonCustomPaletteBase : PaletteBase
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool IsDefault => !(ShouldSerializeCustomisedKryptonPaletteFilePath()
                                || ShouldSerializePaletteName()
+                               || ShouldSerializeBasePaletteMode()
                                || ShouldSerializeBasePalette()
                                || ShouldSerializeBaseRendererMode()
                                || ShouldSerializeBaseRenderer()
@@ -2711,6 +2715,7 @@ public class KryptonCustomPaletteBase : PaletteBase
     {
         ResetCustomisedKryptonPaletteFilePath();
         ResetPaletteName();
+        ResetBasePaletteMode();
         ResetBasePalette();
         ResetBaseRendererMode();
         ResetBaseRenderer();
@@ -2739,33 +2744,111 @@ public class KryptonCustomPaletteBase : PaletteBase
     private void ResetPaletteName() => PaletteName = string.Empty;
 
     /// <summary>
+    /// Gets or sets the builtin palette used to inherit unset colours and styles from.
+    /// </summary>
+    /// <remarks>
+    /// Changing this value updates <see cref="BasePalette"/> and the inherited
+    /// <see cref="ColorTable"/>. To inherit from another <see cref="KryptonCustomPaletteBase"/>,
+    /// assign that instance to <see cref="BasePalette"/> instead.
+    /// </remarks>
+    [KryptonPersist(false, false)]
+    [Category(@"Visuals")]
+    [Description(@"Base palette used to inherit from.")]
+    [DefaultValue(GlobalStaticValues.GLOBAL_DEFAULT_PALETTE_MODE)]
+    [RefreshProperties(RefreshProperties.All)]
+    public PaletteMode BasePaletteMode
+    {
+        get => _basePaletteMode;
+
+        set
+        {
+            if (_basePaletteMode != value)
+            {
+                if (value == PaletteMode.Custom)
+                {
+                    // Do nothing, you must assign a palette to the
+                    // 'BasePalette' property in order to get the custom mode
+                    return;
+                }
+
+                PaletteMode tempMode = _basePaletteMode;
+                PaletteBase? tempPalette = _basePalette;
+
+                _basePaletteMode = value;
+                _basePalette = KryptonManager.GetPaletteForMode(_basePaletteMode);
+
+                if (HasCircularReference())
+                {
+                    _basePaletteMode = tempMode;
+                    _basePalette = tempPalette;
+
+                    throw new ArgumentOutOfRangeException(nameof(value), @"Cannot use palette that would create a circular reference");
+                }
+
+                // Restore the original base palette as 'SetPalette' will not
+                // work correctly unless it still has the old value in place
+                _basePalette = tempPalette;
+
+                SetPalette(KryptonManager.GetPaletteForMode(_basePaletteMode));
+
+                OnBasePaletteChanged(this, EventArgs.Empty);
+                OnBaseRendererChanged(this, EventArgs.Empty);
+                OnButtonSpecChanged(this, EventArgs.Empty);
+                OnPalettePaint(this, new PaletteLayoutEventArgs(true, true));
+            }
+        }
+    }
+
+    private bool ShouldSerializeBasePaletteMode() => BasePaletteMode != ThemeManager.DefaultGlobalPalette;
+
+    private void ResetBasePaletteMode() => BasePaletteMode = ThemeManager.DefaultGlobalPalette;
+
+    /// <summary>
     /// Gets and sets the KryptonPalette used to inherit from.
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"KryptonPalette used to inherit from.")]
     [DefaultValue(null)]
+    [RefreshProperties(RefreshProperties.All)]
     public PaletteBase? BasePalette
     {
         get => _basePalette;
 
         set
         {
-            // Only interested in changes of value
             if (_basePalette != value)
             {
-                // If no custom palette is required
+                PaletteMode tempMode = _basePaletteMode;
+                PaletteBase? tempPalette = _basePalette;
+
+                // Builtin instances keep their catalog mode so the designer persists BasePaletteMode
+                // instead of Custom. Another KryptonCustomPaletteBase still maps to Custom.
+                _basePaletteMode = value == null
+                    ? ThemeManager.DefaultGlobalPalette
+                    : KryptonManager.GetModeForPalette(value);
+                _basePalette = value;
+
+                if (HasCircularReference())
+                {
+                    _basePaletteMode = tempMode;
+                    _basePalette = tempPalette;
+
+                    throw new ArgumentOutOfRangeException(nameof(value), @"Cannot use palette that would create a circular reference");
+                }
+
+                // Restore the original base palette as 'SetPalette' will not
+                // work correctly unless it still has the old value in place
+                _basePalette = tempPalette;
+
                 if (value == null)
                 {
-                    // Get the appropriate palette for the global mode
-                    SetPalette(KryptonManager.GetPaletteForMode(ThemeManager.DefaultGlobalPalette));
+                    SetPalette(KryptonManager.GetPaletteForMode(_basePaletteMode));
                 }
                 else
                 {
-                    // Use the provided palette value
                     SetPalette(value);
                 }
 
-                // Indicate the palette values have changed
                 OnBasePaletteChanged(this, EventArgs.Empty);
                 OnBaseRendererChanged(this, EventArgs.Empty);
                 OnUseThemeFormChromeBorderWidthChanged(this, EventArgs.Empty);
@@ -2775,7 +2858,7 @@ public class KryptonCustomPaletteBase : PaletteBase
         }
     }
 
-    private bool ShouldSerializeBasePalette() => BasePalette != null;
+    private bool ShouldSerializeBasePalette() => BasePaletteMode == PaletteMode.Custom && BasePalette != null;
     private void ResetBasePalette() => BasePalette = null;
 
     /// <summary>
@@ -2856,8 +2939,14 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <summary>
     /// Gets access to the color table instance.
     /// </summary>
-    [Browsable(false)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
+    /// <remarks>
+    /// Resolved colours inherit from the current <see cref="BasePalette"/>. Override
+    /// individual entries through <see cref="ToolMenuStatus"/>; this property is not serialized.
+    /// </remarks>
+    [Category(@"Visuals")]
+    [Description(@"Inherited tool, menu and status strip colours from the base palette. Override individual colours via ToolMenuStatus.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
     public override KryptonColorTable ColorTable => ToolMenuStatus.InternalKCT;
 
     /// <inheritdoc />
@@ -2966,6 +3055,40 @@ public class KryptonCustomPaletteBase : PaletteBase
         {
             base.OnButtonSpecChanged(this, e);
         }
+    }
+    #endregion
+
+    #region Internal
+    internal bool HasCircularReference()
+    {
+        var paletteSet = new Dictionary<PaletteBase, bool>();
+        PaletteBase? palette = this;
+
+        while (palette != null)
+        {
+            if (paletteSet.ContainsKey(palette))
+            {
+                return true;
+            }
+
+            paletteSet.Add(palette, true);
+
+            if (palette is KryptonCustomPaletteBase owner)
+            {
+                palette = owner.BasePaletteMode switch
+                {
+                    PaletteMode.Custom => owner.BasePalette,
+                    PaletteMode.Global => KryptonManager.CurrentGlobalPalette,
+                    _ => null
+                };
+            }
+            else
+            {
+                palette = null;
+            }
+        }
+
+        return false;
     }
     #endregion
 
@@ -5850,6 +5973,9 @@ public class KryptonCustomPaletteBase : PaletteBase
                 _basePalette.BasePaletteChanged += OnBasePaletteChanged;
                 _basePalette.BaseRendererChanged += OnBaseRendererChanged;
             }
+
+            // Re-read ColorTable / BasePalette in the designer property grid
+            TypeDescriptor.Refresh(this);
         }
     }
 
