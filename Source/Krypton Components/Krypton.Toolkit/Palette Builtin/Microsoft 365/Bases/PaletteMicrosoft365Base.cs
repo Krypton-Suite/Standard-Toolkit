@@ -138,6 +138,7 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
     private static readonly Image _buttonSpecRibbonExpand = RibbonArrowImageResources.RibbonDown2010;
     private static readonly Image? _contextMenuChecked = GenericOffice2007ImageResources.Office2007Checked;
     private static readonly Image? _contextMenuIndeterminate = GenericOffice2007ImageResources.Office2007Indeterminate;
+    private static readonly Image? _contextMenuSubMenu = Office2010ArrowResources.Office2010BlueContextMenuSub;
 
     #region Integrated Tool Bar Images
 
@@ -3347,6 +3348,12 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
     /// </summary>
     /// <returns>Appropriate image for drawing; otherwise null.</returns>
     public override Image? GetContextMenuIndeterminateImage() => _contextMenuIndeterminate;
+
+    /// <summary>
+    /// Gets an image indicating a sub-menu on a context menu item.
+    /// </summary>
+    /// <returns>Appropriate image for drawing; otherwise null.</returns>
+    public override Image? GetContextMenuSubMenuImage() => _contextMenuSubMenu;
 
     /// <summary>
     /// Gets a check box image appropriate for the provided state.

@@ -48,6 +48,7 @@
 * Resolved [#1870](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1870), `KryptonCustomPaletteBase`, Unable to Set / Change the colour table (help to migrate to v90.)
   * `KryptonCustomPaletteBase.BasePaletteMode` now switches the inherited colour table (Office 2010 Silver and other builtin themes no longer stay stuck on Microsoft 365 Blue).
   * The designer `ColorTable` shows the resolved colours; assigning a builtin palette to `BasePalette` keeps the matching `BasePaletteMode` instead of forcing `Custom`.
+* Resolved [#4252](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4252), Light Gray Office 2007, Office 2010, and Microsoft 365 themes no longer throw when drawing context-menu submenu arrows.
 * Implemented [#3847](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3847), `KryptonListView` virtual mode (`VirtualMode`, `VirtualListSize`, `RetrieveVirtualItem`, `CacheVirtualItems`).
   * Details column headers follow the Krypton palette. Overlay scrollbars keep native `WS_VSCROLL` for `LVM_SCROLL` without reserving a second native gutter.
 * Resolved [#638](https://github.com/Krypton-Suite/Standard-Toolkit/issues/638), `ImageMarginxxx` options do not work as expected for all themes (Apart from `System` and `Professional`!)
@@ -98,7 +99,7 @@
   * `Krypton.Toolkit` keeps Professional, Sparkle Blue/Orange/Purple, plus Office 2007/2010/Microsoft 365 Blue, Silver, and Black. Other builtin palettes load from `Krypton.Themes.dll` when it is present (`KryptonManager.AutoDiscoverThemes`).
   * Hide families or individual `PaletteMode` values from theme combos via `KryptonThemeAvailability`. `PaletteMode` values are unchanged.
   * Extra palette singleton properties on `KryptonManager` now return `PaletteBase` (concrete extra types live in `Krypton.Themes`).
-  * If `Krypton.Themes.dll` is not present, extra `PaletteMode` values paint as Microsoft 365 Blue instead of throwing (`KryptonThemeCatalog.MissingThemeFallback`).
+  * If `Krypton.Themes.dll` is not present, extra `PaletteMode` values paint as Microsoft 365 Blue instead of throwing (`KryptonThemeCatalog.MissingThemeFallback`), and display an opt-out warning dialog (`ShowMissingThemeWarningDialog`, true by default) explaining the reason for reverting.
   * The `Krypton.Standard.Toolkit` NuGet package includes `Krypton.Themes`. Apps that reference Toolkit only get core themes unless they add `Krypton.Themes`.
   * Materialize Blue, Materialize Light Blue, and Silver Dark Alternate palettes ship in `Krypton.Themes` (family `Materialize`).
   * Theme chrome and UAC shield artwork follow `KryptonThemeChromeKind` / `KryptonThemeShieldIconStyle` on the catalog descriptor, so new extra palettes do not need Toolkit `PaletteMode` switch arms.
