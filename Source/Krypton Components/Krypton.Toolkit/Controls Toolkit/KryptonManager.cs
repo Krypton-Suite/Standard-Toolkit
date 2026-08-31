@@ -609,6 +609,16 @@ public sealed class KryptonManager : Component
     public static bool AutoDiscoverThemes { get; set; } = true;
 
     /// <summary>
+    /// Gets or sets whether a warning dialog is displayed when an extra theme is requested but <c>Krypton.Themes.dll</c> is unavailable.
+    /// Defaults to <see langword="true"/> (opt-out).
+    /// </summary>
+    public static bool ShowMissingThemeWarningDialog
+    {
+        get => KryptonThemeCatalog.ShowMissingThemeWarningDialog;
+        set => KryptonThemeCatalog.ShowMissingThemeWarningDialog = value;
+    }
+
+    /// <summary>
     /// Occurs after toolkit translations have been successfully imported via any of the load/import methods.
     /// </summary>
     public static event EventHandler? TranslationsImported;
