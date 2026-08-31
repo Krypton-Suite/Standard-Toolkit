@@ -1,11 +1,11 @@
-#region BSD License
+ï»¿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ *  ï¿½ Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilï¿½s (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -36,7 +36,7 @@ public class KryptonColorTable2013White : KryptonColorTable2013
     /// <summary>
     /// MenuStripText
     /// </summary>
-    public override Color MenuStripText => Color.FromArgb(255, 30, 30, 30);
+    public override Color MenuStripText => SchemeBaseColorsExtensions.Coalesce(Colors.Get(SchemeBaseColors.MenuStripText), Color.FromArgb(255, 30, 30, 30));
 }
 
 /// <summary>
@@ -505,7 +505,7 @@ public class KryptonColorTable2013 : KryptonColorTable
     /// <summary>
     /// Gets the text color used on the menu items.
     /// </summary>
-    public override Color MenuItemText => _colors[(int)SchemeBaseColors.TextButtonNormal];
+    public override Color MenuItemText => _colors.Resolve(SchemeBaseColors.MenuItemText, SchemeBaseColors.TextButtonNormal);
 
     #endregion
 
@@ -513,7 +513,7 @@ public class KryptonColorTable2013 : KryptonColorTable
     /// <summary>
     /// Gets the text color used on the menu strip.
     /// </summary>
-    public override Color MenuStripText => _colors[(int)SchemeBaseColors.StatusStripText];
+    public override Color MenuStripText => _colors.Resolve(SchemeBaseColors.MenuStripText, SchemeBaseColors.StatusStripText);
 
     #endregion
 
@@ -521,7 +521,7 @@ public class KryptonColorTable2013 : KryptonColorTable
     /// <summary>
     /// Gets the text color used on the tool strip.
     /// </summary>
-    public override Color ToolStripText => _colors[(int)SchemeBaseColors.StatusStripText];
+    public override Color ToolStripText => _colors.Resolve(SchemeBaseColors.ToolStripText, SchemeBaseColors.StatusStripText);
 
     #endregion
 

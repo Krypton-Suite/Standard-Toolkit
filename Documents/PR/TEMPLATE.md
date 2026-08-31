@@ -1,4 +1,4 @@
-# <Type>: <Short imperative title> (#<issue>)
+﻿# <Type>: <Short imperative title> (#<issue>)
 
 <!--
 Copy this file to Documents/PR/<issue-or-branch>-<short-title>.md and fill it in.
@@ -41,7 +41,9 @@ Delete any section that does not apply.
 
 ## Screenshots / GIFs
 
-<Before/after images for any UI change. Remove if not a UI change.>
+<!-- Capture per AGENTS.md UI Screenshots / GIFs. Save PNG or GIF files next to this file as Documents/PR/<issue>-<short-title>-<state>.png or .gif. Embed relative images below for the local draft. Do not upload or attach them to the GitHub pull request. Remove this section only when there is no UI change; do not leave this placeholder. -->
+
+![<state>](./<issue>-<short-title>-<state>.png)
 
 ## Changelog
 

@@ -1,7 +1,7 @@
-#region BSD License
+ï»¿#region BSD License
 /*
  *   BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2023 - 2026. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilï¿½s (aka mcpbcs) et al. 2023 - 2026. All rights reserved. 
  *  
  */
 #endregion
@@ -477,7 +477,7 @@ public class KryptonVisualStudio2010WithMicrosoft365ColorTable : KryptonColorTab
     /// <summary>
     /// Gets the text color used on the menu items.
     /// </summary>
-    public override Color MenuItemText => _menuStripItemTextColor; // _colors[(int)SchemeBaseColors.TextButtonNormal];
+    public override Color MenuItemText => SchemeBaseColorsExtensions.Coalesce(_colors.Get(SchemeBaseColors.MenuItemText), _menuStripItemTextColor);
 
     #endregion
 
@@ -486,7 +486,7 @@ public class KryptonVisualStudio2010WithMicrosoft365ColorTable : KryptonColorTab
     /// <summary>
     /// Gets the text color used on the menu strip.
     /// </summary>
-    public override Color MenuStripText => _menuStripItemTextColor; // _colors[(int)SchemeBaseColors.StatusStripText];
+    public override Color MenuStripText => SchemeBaseColorsExtensions.Coalesce(_colors.Get(SchemeBaseColors.MenuStripText), _menuStripItemTextColor);
 
     #endregion
 
@@ -494,7 +494,7 @@ public class KryptonVisualStudio2010WithMicrosoft365ColorTable : KryptonColorTab
     /// <summary>
     /// Gets the text color used on the tool strip.
     /// </summary>
-    public override Color ToolStripText => _colors[(int)SchemeBaseColors.StatusStripText];
+    public override Color ToolStripText => _colors.Resolve(SchemeBaseColors.ToolStripText, SchemeBaseColors.StatusStripText);
 
     #endregion
 
