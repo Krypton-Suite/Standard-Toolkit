@@ -13,6 +13,7 @@ namespace TestForm;
 
 /// <summary>
 /// Demo for Issue #942: grey chrome palettes across Office 2007/2010/2013, Microsoft 365, and Material.
+/// Also covers Issue #4252: Light Gray context-menu submenu arrows must not throw.
 /// Grey variants use grey window chrome with a light document surface.
 /// </summary>
 public sealed class Office2013GrayThemesDemo : KryptonForm
@@ -21,11 +22,12 @@ public sealed class Office2013GrayThemesDemo : KryptonForm
     private readonly KryptonComboBox _cmbTheme;
     private readonly KryptonLabel _lblStatus;
     private readonly KryptonRibbon _ribbon;
+    private readonly KryptonContextMenu _nestedContextMenu;
     private PaletteMode _previousMode;
 
     public Office2013GrayThemesDemo()
     {
-        Text = @"942 — Grey Themes (2007 / 2010 / 2013 / 365 / Material)";
+        Text = @"942 / 4252 — Grey Themes (2007 / 2010 / 2013 / 365 / Material)";
         Size = new Size(900, 640);
         StartPosition = FormStartPosition.CenterScreen;
 
@@ -53,12 +55,13 @@ public sealed class Office2013GrayThemesDemo : KryptonForm
         {
             Dock = DockStyle.Top,
             AutoSize = false,
-            Height = 88,
+            Height = 108,
             Padding = new Padding(12),
             Text =
                 "Issue #942: Office 2013 Light Grey and Dark Grey chrome (White is the same family for comparison).\r\n" +
                 "Grey themes change the title bar, ribbon tab row, and status strip. The client/document area stays light.\r\n" +
-                "Dark Grey is not a full dark mode: caption text is white on dark chrome; buttons and text boxes stay light."
+                "Dark Grey is not a full dark mode: caption text is white on dark chrome; buttons and text boxes stay light.\r\n" +
+                "Issue #4252: Switch to Office 2007 / 2010 / Microsoft 365 Light Gray, then open the nested context menu. File must show a submenu arrow without throwing."
         };
 
         var toolbar = new KryptonPanel { Dock = DockStyle.Top, Height = 48, Padding = new Padding(12, 8, 12, 8) };
@@ -134,6 +137,17 @@ public sealed class Office2013GrayThemesDemo : KryptonForm
         leftFlow.Controls.Add(new KryptonButton { Text = @"Normal button", AutoSize = true });
         leftFlow.Controls.Add(new KryptonCheckBox { Text = @"Check box", Checked = true });
         leftFlow.Controls.Add(new KryptonLinkLabel { Text = @"Sample link" });
+
+        _nestedContextMenu = CreateNestedContextMenu();
+        left.KryptonContextMenu = _nestedContextMenu;
+        var btnContextMenu = new KryptonButton { Text = @"Open nested context menu (#4252)", AutoSize = true };
+        btnContextMenu.Click += (_, _) => _nestedContextMenu.Show(btnContextMenu, btnContextMenu.PointToScreen(new Point(0, btnContextMenu.Height)));
+        leftFlow.Controls.Add(btnContextMenu);
+        leftFlow.Controls.Add(new KryptonLabel
+        {
+            Text = @"Right-click this panel, or use the button. Hover File — a submenu arrow must appear.",
+            AutoSize = true
+        });
         left.Controls.Add(leftFlow);
         layout.Controls.Add(left, 0, 2);
 
@@ -145,7 +159,8 @@ public sealed class Office2013GrayThemesDemo : KryptonForm
             Text =
                 "White: white chrome, dark caption text, blue status (family default).\r\n\r\n" +
                 "Light Grey: medium-grey title bar and ribbon tab row, dark caption text, light client.\r\n\r\n" +
-                "Dark Grey: dark title bar and tab row, white caption text, grey ribbon groups, light client. Control-box glyphs should remain visible."
+                "Dark Grey: dark title bar and tab row, white caption text, grey ribbon groups, light client. Control-box glyphs should remain visible.\r\n\r\n" +
+                "#4252: Office 2007 / 2010 / Microsoft 365 Light Gray must show a submenu chevron on File. A throw here is a regression."
         });
         layout.Controls.Add(right, 1, 2);
 
@@ -177,5 +192,20 @@ public sealed class Office2013GrayThemesDemo : KryptonForm
 
         ThemeManager.ApplyTheme(mode, _manager);
         _lblStatus.Text = $@"Applied {mode}";
+    }
+
+    private static KryptonContextMenu CreateNestedContextMenu()
+    {
+        var menu = new KryptonContextMenu();
+        var root = new KryptonContextMenuItems();
+        var file = new KryptonContextMenuItem(@"File");
+        var fileItems = new KryptonContextMenuItems();
+        fileItems.Items.Add(new KryptonContextMenuItem(@"Open"));
+        fileItems.Items.Add(new KryptonContextMenuItem(@"Save"));
+        file.Items.Add(fileItems);
+        root.Items.Add(file);
+        root.Items.Add(new KryptonContextMenuItem(@"Help"));
+        menu.Items.Add(root);
+        return menu;
     }
 }
