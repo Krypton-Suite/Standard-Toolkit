@@ -53,7 +53,7 @@ public static class KryptonLogMicrosoftExtensions
         public bool IsEnabled(KryptonLogLevel level) => _isEnabled?.Invoke(level) ?? true;
 
         public void Emit(KryptonLogEvent logEvent) =>
-            _write(logEvent.Level, logEvent.Message, logEvent.Exception);
+            _write(logEvent.Level, KryptonLogProtect.Protect(logEvent.Message), logEvent.Exception);
 
         public void Dispose()
         {

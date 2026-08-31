@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2021 - 2026. All rights reserved.
@@ -32,7 +32,10 @@ public class KryptonListView : VisualControlBase,
         private readonly ViewManager? _viewManager;
         private readonly KryptonListView _kryptonListView;
         private readonly IntPtr _screenDC;
+        private ListViewHeaderWindow? _headerWindow;
         private bool _mouseOver;
+        private bool _inNcCalcSize;
+        private bool _syncingHeaderWidth;
 
         #endregion
 
@@ -84,6 +87,11 @@ public class KryptonListView : VisualControlBase,
         /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
         protected override void Dispose(bool disposing)
         {
+            if (disposing)
+            {
+                ReleaseHeaderWindow();
+            }
+
             base.Dispose(disposing);
             if (_screenDC != IntPtr.Zero)
             {
@@ -169,15 +177,33 @@ public class KryptonListView : VisualControlBase,
                     // Do not draw the background here, always do it in the paint
                     // instead to prevent flicker because of a two stage drawing process
                     break;
+                case PI.WM_.NCCALCSIZE:
+                    if (_kryptonListView.UseKryptonScrollbars)
+                    {
+                        SuppressNativeScrollBarNonClient(ref m);
+                        return;
+                    }
+
+                    base.WndProc(ref m);
+                    break;
                 case PI.WM_.PRINTCLIENT:
                 case PI.WM_.PAINT:
                     WmPaint(ref m);
                     break;
                 case PI.WM_.VSCROLL:
                 case PI.WM_.HSCROLL:
-                case PI.WM_.MOUSEWHEEL:
                     Invalidate();
                     base.WndProc(ref m);
+                    break;
+                case PI.WM_.MOUSEWHEEL:
+                    var oldTopIndex = GetTopItemIndex();
+                    Invalidate();
+                    base.WndProc(ref m);
+                    _kryptonListView.SyncScrollbarManagerMouseWheel(PI.HIWORD(m.WParam), oldTopIndex, GetTopItemIndex());
+                    break;
+                case PI.WM_.WINDOWPOSCHANGED:
+                    base.WndProc(ref m);
+                    SyncHeaderWidthToClient();
                     break;
                 case PI.WM_.MOUSELEAVE:
                     if (MouseOver)
@@ -220,6 +246,210 @@ public class KryptonListView : VisualControlBase,
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
         private void OnTrackMouseLeave(EventArgs e) => TrackMouseLeave?.Invoke(this, e);
+
+        /// <summary>
+        /// Top item index, or the native vertical scroll position when <see cref="ListView.TopItem"/> is not available.
+        /// </summary>
+        internal int GetTopItemIndex()
+        {
+            try
+            {
+                return TopItem?.Index ?? 0;
+            }
+            catch (InvalidOperationException)
+            {
+                return PI.GetScrollPos(Handle, PI.SB_.VERT);
+            }
+        }
+
+        /// <inheritdoc />
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+            AttachHeaderWindow();
+            RecalcNonClientForKryptonScrollbars();
+        }
+
+        /// <inheritdoc />
+        protected override void OnHandleDestroyed(EventArgs e)
+        {
+            ReleaseHeaderWindow();
+            base.OnHandleDestroyed(e);
+        }
+
+        internal void AttachHeaderWindow()
+        {
+            if (!IsHandleCreated || HeaderStyle == ColumnHeaderStyle.None || View != View.Details)
+            {
+                ReleaseHeaderWindow();
+                return;
+            }
+
+            IntPtr headerHandle = GetHeaderHandle();
+            if (headerHandle == IntPtr.Zero)
+            {
+                ReleaseHeaderWindow();
+                return;
+            }
+
+            if (_headerWindow != null && _headerWindow.Handle == headerHandle)
+            {
+                return;
+            }
+
+            ReleaseHeaderWindow();
+            _headerWindow = new ListViewHeaderWindow(this, _kryptonListView, headerHandle);
+            SyncHeaderWidthToClient();
+        }
+
+        internal void InvalidateHeader()
+        {
+            if (_headerWindow != null && _headerWindow.Handle != IntPtr.Zero)
+            {
+                PI.InvalidateRect(_headerWindow.Handle, IntPtr.Zero, false);
+            }
+        }
+
+        internal void RecalcNonClientForKryptonScrollbars()
+        {
+            if (!IsHandleCreated)
+            {
+                return;
+            }
+
+            PI.SetWindowPos(Handle, IntPtr.Zero, 0, 0, 0, 0,
+                PI.SWP_.NOMOVE | PI.SWP_.NOSIZE | PI.SWP_.NOZORDER | PI.SWP_.NOACTIVATE | PI.SWP_.FRAMECHANGED);
+            SyncHeaderWidthToClient();
+        }
+
+        /// <inheritdoc />
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+            SyncHeaderWidthToClient();
+        }
+
+        private void SyncHeaderWidthToClient()
+        {
+            if (_syncingHeaderWidth ||
+                !_kryptonListView.UseKryptonScrollbars ||
+                !IsHandleCreated ||
+                View != View.Details ||
+                HeaderStyle == ColumnHeaderStyle.None)
+            {
+                return;
+            }
+
+            IntPtr header = GetHeaderHandle();
+            if (header == IntPtr.Zero || !PI.GetClientRect(Handle, out PI.RECT client))
+            {
+                return;
+            }
+
+            int clientWidth = client.right - client.left;
+            if (clientWidth <= 0)
+            {
+                return;
+            }
+
+            var headerScreen = new PI.RECT();
+            if (!PI.GetWindowRect(header, ref headerScreen))
+            {
+                return;
+            }
+
+            int headerHeight = headerScreen.bottom - headerScreen.top;
+            int headerWidth = headerScreen.right - headerScreen.left;
+            if (headerHeight <= 0)
+            {
+                headerHeight = SystemInformation.CaptionButtonSize.Height;
+            }
+
+            if (headerWidth == clientWidth)
+            {
+                return;
+            }
+
+            // ListView still sizes SysHeader32 as if WS_VSCROLL occupies the right strip.
+            // Stretch the header to the full client so it meets the overlay scrollbar.
+            _syncingHeaderWidth = true;
+            try
+            {
+                PI.SetWindowPos(header, IntPtr.Zero, 0, 0, clientWidth, headerHeight,
+                    PI.SWP_.NOZORDER | PI.SWP_.NOACTIVATE);
+            }
+            finally
+            {
+                _syncingHeaderWidth = false;
+            }
+
+            InvalidateHeader();
+        }
+
+        private void SuppressNativeScrollBarNonClient(ref Message m)
+        {
+            if (_inNcCalcSize)
+            {
+                base.WndProc(ref m);
+                return;
+            }
+
+            _inNcCalcSize = true;
+            try
+            {
+                // Keep WS_VSCROLL/WS_HSCROLL on the window so LVM_SCROLL and GetScrollInfo
+                // still work, but do not let DefWndProc reserve non-client space for them.
+                uint style = PI.GetWindowLong(Handle, PI.GWL_.STYLE);
+                uint withoutScroll = style & ~((uint)PI.WS_.VSCROLL | (uint)PI.WS_.HSCROLL);
+                if (withoutScroll != style)
+                {
+                    PI.SetWindowLong(Handle, PI.GWL_.STYLE, withoutScroll);
+                }
+
+                base.WndProc(ref m);
+
+                if (withoutScroll != style)
+                {
+                    PI.SetWindowLong(Handle, PI.GWL_.STYLE, style);
+                }
+            }
+            finally
+            {
+                _inNcCalcSize = false;
+            }
+        }
+
+        private void ReleaseHeaderWindow()
+        {
+            if (_headerWindow == null)
+            {
+                return;
+            }
+
+            _headerWindow.ReleaseHandle();
+            _headerWindow = null;
+        }
+
+        private IntPtr GetHeaderHandle()
+        {
+            uint header = PI.SendMessage(Handle, PI.LVM_GETHEADER, IntPtr.Zero, IntPtr.Zero);
+            if (header != 0)
+            {
+                return new IntPtr(unchecked((int)header));
+            }
+
+            for (IntPtr child = PI.GetWindow(Handle, PI.GetWindowType.GW_CHILD);
+                 child != IntPtr.Zero;
+                 child = PI.GetWindow(child, PI.GetWindowType.GW_HWNDNEXT))
+            {
+                if (string.Equals(PI.GetClassNameString(child), @"SysHeader32", StringComparison.Ordinal))
+                {
+                    return child;
+                }
+            }
+
+            return IntPtr.Zero;
+        }
 
         private void WmPaint(ref Message m)
         {
@@ -299,6 +529,106 @@ public class KryptonListView : VisualControlBase,
         }
 
         #endregion
+
+        #region Header Window
+
+        /// <summary>
+        /// Subclasses the SysHeader32 child so Details headers paint with the Krypton palette.
+        /// </summary>
+        private sealed class ListViewHeaderWindow : NativeWindow
+        {
+            private readonly InternalListView _listView;
+            private readonly KryptonListView _kryptonListView;
+
+            internal ListViewHeaderWindow(InternalListView listView, KryptonListView kryptonListView, IntPtr headerHandle)
+            {
+                _listView = listView;
+                _kryptonListView = kryptonListView;
+                AssignHandle(headerHandle);
+            }
+
+            /// <inheritdoc />
+            protected override void WndProc(ref Message m)
+            {
+                switch (m.Msg)
+                {
+                    case PI.WM_.ERASEBKGND:
+                        m.Result = (IntPtr)1;
+                        return;
+                    case PI.WM_.WINDOWPOSCHANGING:
+                        ExpandHeaderToListViewClient(ref m);
+                        base.WndProc(ref m);
+                        return;
+                    case PI.WM_.PRINTCLIENT:
+                    case PI.WM_.PAINT:
+                        WmPaint(ref m);
+                        return;
+                    default:
+                        base.WndProc(ref m);
+                        break;
+                }
+            }
+
+            private void ExpandHeaderToListViewClient(ref Message m)
+            {
+                if (!_kryptonListView.UseKryptonScrollbars || m.LParam == IntPtr.Zero || !_listView.IsHandleCreated)
+                {
+                    return;
+                }
+
+                if (!PI.GetClientRect(_listView.Handle, out PI.RECT client))
+                {
+                    return;
+                }
+
+                int clientWidth = client.right - client.left;
+                if (clientWidth <= 0)
+                {
+                    return;
+                }
+
+                var pos = Marshal.PtrToStructure<PI.WINDOWPOS>(m.LParam);
+                if ((pos.flags & PI.SWP_.NOSIZE) != 0 || pos.cx == clientWidth)
+                {
+                    return;
+                }
+
+                pos.x = 0;
+                pos.cx = clientWidth;
+                Marshal.StructureToPtr(pos, m.LParam, false);
+            }
+
+            private void WmPaint(ref Message m)
+            {
+                var ps = new PI.PAINTSTRUCT();
+                IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
+                try
+                {
+                    if (!PI.GetClientRect(Handle, out PI.RECT clientRect))
+                    {
+                        return;
+                    }
+
+                    Rectangle bounds = PI.RectToRectangle(clientRect);
+                    if (bounds.Width <= 0 || bounds.Height <= 0)
+                    {
+                        return;
+                    }
+
+                    using Graphics graphics = Graphics.FromHdc(hdc);
+                    _kryptonListView.PaintListViewColumnHeaders(graphics, bounds);
+                }
+                finally
+                {
+                    if (m.WParam == IntPtr.Zero)
+                    {
+                        PI.EndPaint(Handle, ref ps);
+                    }
+                }
+            }
+        }
+
+        #endregion
     }
 
     #endregion
@@ -313,6 +643,10 @@ public class KryptonListView : VisualControlBase,
     private readonly ViewDrawDocker _drawDockerOuter;
     private readonly ViewLayoutFill _layoutFill;
     private readonly InternalListView _listView;
+    private readonly PaletteBackInheritRedirect _headerBack;
+    private readonly PaletteBorderInheritRedirect _headerBorder;
+    private readonly PaletteContentInheritRedirect _headerContent;
+    private readonly FixedContentValue _headerContentValues;
     private bool? _fixedActive;
     private readonly IntPtr _screenDC;
     private bool _mouseOver;
@@ -360,6 +694,29 @@ public class KryptonListView : VisualControlBase,
     [Category("Behavior")]
     [Description("ListView ItemSelectionChanged")]
     public event ListViewItemSelectionChangedEventHandler? ItemSelectionChanged;
+
+    /// <summary>
+    /// Occurs when the <see cref="KryptonListView"/> is in virtual mode and the cache of items should be updated.
+    /// </summary>
+    /// <remarks>
+    /// Handle this event to prefetch backing data for the range
+    /// <see cref="CacheVirtualItemsEventArgs.StartIndex"/> through <see cref="CacheVirtualItemsEventArgs.EndIndex"/>.
+    /// </remarks>
+    [Category("Behavior")]
+    [Description("Occurs when the ListView is in virtual mode and a cache of items needs to be updated.")]
+    public event CacheVirtualItemsEventHandler? CacheVirtualItems;
+
+    /// <summary>
+    /// Occurs when the <see cref="KryptonListView"/> is in virtual mode and an item must be provided for display.
+    /// </summary>
+    /// <remarks>
+    /// Handle this event before setting <see cref="VirtualListSize"/> to a value greater than zero.
+    /// Set <see cref="RetrieveVirtualItemEventArgs.Item"/> to a non-null <see cref="ListViewItem"/>.
+    /// Palette colours are applied to the supplied item after the event returns.
+    /// </remarks>
+    [Category("Behavior")]
+    [Description("Occurs when the ListView is in virtual mode and an item must be provided for display.")]
+    public event RetrieveVirtualItemEventHandler? RetrieveVirtualItem;
 
     /// <summary>Occurs when the <see cref="T:System.Windows.Forms.ListView" /> is in virtual mode and a search is taking place.</summary>
     [Category("Action")]
@@ -422,6 +779,11 @@ public class KryptonListView : VisualControlBase,
         _overrideCheckedNormal = new PaletteTripleOverride(OverrideFocus.Node, StateCheckedNormal.Node, PaletteState.FocusOverride);
         _overrideCheckedTracking = new PaletteTripleOverride(OverrideFocus.Node, StateCheckedTracking.Node, PaletteState.FocusOverride);
 
+        _headerBack = new PaletteBackInheritRedirect(Redirector, PaletteBackStyle.GridHeaderColumnList);
+        _headerBorder = new PaletteBorderInheritRedirect(Redirector, PaletteBorderStyle.GridHeaderColumnList);
+        _headerContent = new PaletteContentInheritRedirect(Redirector, PaletteContentStyle.GridHeaderColumnList);
+        _headerContentValues = new FixedContentValue();
+
         // Create the internal list box used for containing content
         _listView = new InternalListView(this);
         _listView.AfterLabelEdit += OnAfterLabelEdit;
@@ -438,6 +800,8 @@ public class KryptonListView : VisualControlBase,
         _listView.KeyPress += OnListViewKeyPress;
         _listView.KeyUp += OnListViewKeyUp;
         _listView.LostFocus += OnListViewLostFocus;
+        _listView.CacheVirtualItems += OnCacheVirtualItems;
+        _listView.RetrieveVirtualItem += OnRetrieveVirtualItem;
         _listView.SearchForVirtualItem += OnSearchForVirtualItem;
         _listView.SelectedIndexChanged += OnSelectedIndexChanged;
         _listView.VirtualItemsSelectionRangeChanged += OnVirtualItemsSelectionRangeChanged;
@@ -498,6 +862,17 @@ public class KryptonListView : VisualControlBase,
     private void OnListViewKeyPress(object? sender, KeyPressEventArgs e) => OnKeyPress(e);
 
     private void OnListViewKeyUp(object? sender, KeyEventArgs e) => OnKeyUp(e);
+
+    private void OnCacheVirtualItems(object? sender, CacheVirtualItemsEventArgs e) => CacheVirtualItems?.Invoke(this, e);
+
+    private void OnRetrieveVirtualItem(object? sender, RetrieveVirtualItemEventArgs e)
+    {
+        RetrieveVirtualItem?.Invoke(this, e);
+        if (e.Item != null)
+        {
+            SetItemState(e.Item);
+        }
+    }
 
     private void OnSearchForVirtualItem(object? sender, SearchForVirtualItemEventArgs e) => SearchForVirtualItem?.Invoke(this, e);
 
@@ -777,7 +1152,11 @@ public class KryptonListView : VisualControlBase,
     public ColumnHeaderStyle HeaderStyle
     {
         get => _listView.HeaderStyle;
-        set => _listView.HeaderStyle = value;
+        set
+        {
+            _listView.HeaderStyle = value;
+            _listView.AttachHeaderWindow();
+        }
     }
 
     /// <summary>Gets or sets a value indicating whether the selected item in the control remains highlighted when the control loses focus.</summary>
@@ -1022,10 +1401,13 @@ public class KryptonListView : VisualControlBase,
     public View View
     {
         get => _listView.View;
-        set => _listView.View = value;
+        set
+        {
+            _listView.View = value;
+            _listView.AttachHeaderWindow();
+        }
     }
 
-    /* TODO: Need to wire up the virtual events as well
     /// <summary>Gets or sets the number of <see cref="T:System.Windows.Forms.ListViewItem" /> objects contained in the list when in virtual mode.</summary>
     /// <returns>The number of <see cref="T:System.Windows.Forms.ListViewItem" /> objects contained in the <see cref="T:System.Windows.Forms.ListView" /> when in virtual mode.</returns>
     /// <exception cref="T:System.ArgumentException">
@@ -1039,7 +1421,11 @@ public class KryptonListView : VisualControlBase,
     public int VirtualListSize
     {
         get => _listView.VirtualListSize;
-        set => _listView.VirtualListSize = value;
+        set
+        {
+            _listView.VirtualListSize = value;
+            _scrollbarManager?.UpdateScrollbars();
+        }
     }
 
     /// <summary>Gets or sets a value indicating whether you have provided your own data-management operations for the <see cref="T:System.Windows.Forms.ListView" /> control.</summary>
@@ -1064,7 +1450,6 @@ public class KryptonListView : VisualControlBase,
         get => _listView.VirtualMode;
         set => _listView.VirtualMode = value;
     }
-    */
 
     /// <summary>Arranges items in the control when they are displayed as icons with a specified alignment setting.</summary>
     /// <param name="value">One of the <see cref="T:System.Windows.Forms.ListViewAlignment" /> values.</param>
@@ -1379,9 +1764,17 @@ public class KryptonListView : VisualControlBase,
 
             _listView.BackColor = doubleState.PaletteBack.GetBackColor1(state);
             SyncListViewNativeTextColor();
-            foreach (ListViewItem li in Items)
+            if (VirtualMode)
             {
-                SetItemState(li);
+                // Do not enumerate Items: each access fires RetrieveVirtualItem for the full VirtualListSize.
+                _listView.Invalidate();
+            }
+            else
+            {
+                foreach (ListViewItem li in Items)
+                {
+                    SetItemState(li);
+                }
             }
         }
     }
@@ -1438,6 +1831,113 @@ public class KryptonListView : VisualControlBase,
         li.BackColor = nodeState.PaletteBack.GetBackColor1(state);
         li.ForeColor = nodeState.PaletteContent!.GetContentShortTextColor1(state);
         li.Font = nodeState.PaletteContent.GetContentShortTextFont(state) ?? Font;
+    }
+
+    /// <summary>
+    /// Paints Details-view column headers using the current Krypton palette.
+    /// </summary>
+    /// <param name="graphics">Header device context.</param>
+    /// <param name="headerClient">Header client rectangle in header-window coordinates.</param>
+    internal void PaintListViewColumnHeaders(Graphics graphics, Rectangle headerClient)
+    {
+        PaletteState state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
+        DrawThemedColumnHeader(graphics, headerClient, string.Empty, state);
+
+        int offset = _listView.IsHandleCreated ? PI.GetScrollPos(_listView.Handle, PI.SB_.HORZ) : 0;
+        int x = headerClient.X - offset;
+        foreach (ColumnHeader? column in GetOrderedColumnHeaders())
+        {
+            if (column == null)
+            {
+                continue;
+            }
+
+            var bounds = new Rectangle(x, headerClient.Y, column.Width, headerClient.Height);
+            bounds.Intersect(headerClient);
+            if (bounds.Width > 0 && bounds.Height > 0)
+            {
+                DrawThemedColumnHeader(graphics, bounds, column.Text ?? string.Empty, state);
+            }
+
+            x += column.Width;
+        }
+    }
+
+    private ColumnHeader[] GetOrderedColumnHeaders()
+    {
+        var columns = _listView.Columns;
+        var ordered = new ColumnHeader[columns.Count];
+        for (int i = 0; i < columns.Count; i++)
+        {
+            ColumnHeader column = columns[i];
+            int displayIndex = column.DisplayIndex;
+            if (displayIndex < 0 || displayIndex >= ordered.Length || ordered[displayIndex] != null)
+            {
+                displayIndex = i;
+            }
+
+            ordered[displayIndex] = column;
+        }
+
+        return ordered;
+    }
+
+    private void DrawThemedColumnHeader(Graphics graphics, Rectangle bounds, string text, PaletteState state)
+    {
+        if (bounds.Width <= 0 || bounds.Height <= 0)
+        {
+            return;
+        }
+
+        try
+        {
+            using var context = new RenderContext(_listView, this, graphics, bounds, Renderer);
+            GraphicsPath path = Renderer.RenderStandardBorder.GetBackPath(context, bounds, _headerBorder,
+                VisualOrientation.Top, state);
+            try
+            {
+                IDisposable? backMemento = Renderer.RenderStandardBack.DrawBack(context, bounds, path, _headerBack,
+                    VisualOrientation.Top, state, null);
+                backMemento?.Dispose();
+                Renderer.RenderStandardBorder.DrawBorder(context, bounds, _headerBorder, VisualOrientation.Top, state);
+            }
+            finally
+            {
+                path.Dispose();
+            }
+
+            if (string.IsNullOrEmpty(text))
+            {
+                return;
+            }
+
+            _headerContentValues.ShortText = text;
+            using var layoutContext = new ViewLayoutContext(this, Renderer);
+            IDisposable contentMemento = Renderer.RenderStandardContent.LayoutContent(layoutContext, bounds,
+                _headerContent, _headerContentValues, VisualOrientation.Top, state);
+            try
+            {
+                Renderer.RenderStandardContent.DrawContent(context, bounds, _headerContent, contentMemento,
+                    VisualOrientation.Top, state, false);
+            }
+            finally
+            {
+                contentMemento.Dispose();
+            }
+        }
+        catch
+        {
+            Color back = _headerBack.GetBackColor1(state);
+            using var brush = new SolidBrush(back);
+            graphics.FillRectangle(brush, bounds);
+            if (!string.IsNullOrEmpty(text))
+            {
+                Color fore = _headerContent.GetContentShortTextColor1(state);
+                TextRenderer.DrawText(graphics, text, Font, bounds, fore,
+                    TextFormatFlags.VerticalCenter | TextFormatFlags.Left | TextFormatFlags.EndEllipsis |
+                    TextFormatFlags.NoPrefix);
+            }
+        }
     }
 
     #endregion
@@ -1532,6 +2032,8 @@ public class KryptonListView : VisualControlBase,
     protected override void OnEnabledChanged(EventArgs e)
     {
         UpdateStateAndPalettes();
+        _listView.Invalidate();
+        _listView.InvalidateHeader();
         PerformNeedPaint(true);
         base.OnEnabledChanged(e);
     }
@@ -1558,6 +2060,7 @@ public class KryptonListView : VisualControlBase,
         _listView.Recreate();
         UpdateStateAndPalettes();
         _listView.Invalidate();
+        _listView.InvalidateHeader();
         base.OnPaletteChanged(e);
     }
 
@@ -1785,15 +2288,21 @@ public class KryptonListView : VisualControlBase,
                 ScrollbarManager.ScrollbarsChanged += OnManagedScrollbarsChanged;
                 ScrollbarManager.Attach(_listView, ScrollbarManagerMode.NativeWrapper);
             }
+
+            _listView.RecalcNonClientForKryptonScrollbars();
         }
         else if (_scrollbarManager != null)
         {
             _scrollbarManager.ScrollbarsChanged -= OnManagedScrollbarsChanged;
             _scrollbarManager.Detach();
+            _listView.RecalcNonClientForKryptonScrollbars();
         }
     }
 
     private void OnManagedScrollbarsChanged(object? sender, EventArgs e) => ForceControlLayout();
+
+    internal void SyncScrollbarManagerMouseWheel(int delta, int oldTopIndex, int newTopIndex) =>
+        _scrollbarManager?.SyncListViewMouseWheel(delta, oldTopIndex, newTopIndex);
 
     NativeWrapperScrollbarLayout IKryptonNativeWrapperScrollbarBounds.GetNativeWrapperScrollbarLayout() =>
         KryptonNativeWrapperScrollbarBoundsHelper.GetLayout(this, _layoutFill);

@@ -132,12 +132,12 @@ public class KryptonThemeListBox : KryptonListBox, IKryptonThemeSelectorBase
 
     private void ReloadThemeItems()
     {
-        string previous = GetSelectedThemeName();
-        var fallback = KryptonManager.CurrentGlobalPaletteMode;
-        int idx = CommonHelperThemeSelectors.ReloadThemeItems(Items, _showExtraThemes, previous, fallback);
         _isExternalUpdate = true;
         try
         {
+            string previous = GetSelectedThemeName();
+            var fallback = KryptonManager.CurrentGlobalPaletteMode;
+            int idx = CommonHelperThemeSelectors.ReloadThemeItems(Items, _showExtraThemes, previous, fallback);
             SelectedIndex = idx;
         }
         finally
@@ -165,39 +165,55 @@ public class KryptonThemeListBox : KryptonListBox, IKryptonThemeSelectorBase
             return;
         }
 
-        // Refresh theme list so "Custom" shows as "Custom - [Theme Name]" when a custom palette has a name (issue #1031)
-        string previous = GetSelectedThemeName();
-        int idx = CommonHelperThemeSelectors.ReloadThemeItems(Items, _showExtraThemes, previous, mode);
-        if (idx == SelectedIndex)
+        // Refresh theme list so "Custom" shows as "Custom - [Theme Name]" when a custom palette has a name (issue #1031).
+        // Suppress SelectedIndexChanged apply for Items.Clear()/restore so an ad-hoc custom palette is not wiped.
+        _isExternalUpdate = true;
+        int idx;
+        var deferCommit = false;
+        try
         {
-            return;
-        }
+            string previous = GetSelectedThemeName();
+            idx = CommonHelperThemeSelectors.ReloadThemeItemsForGlobalChange(Items, _showExtraThemes, previous, mode);
+            if (idx == SelectedIndex)
+            {
+                return;
+            }
 
-        void Commit()
+            deferCommit = ThemeChangeCoordinator.InProgress && !IsDisposed && IsHandleCreated;
+            if (deferCommit)
+            {
+                BeginInvoke((System.Windows.Forms.MethodInvoker)(() => CommitThemeSelection(idx)));
+            }
+            else
+            {
+                // If the handle is not yet created (or disposed), update immediately to avoid InvalidOperationException
+                CommitThemeSelection(idx);
+            }
+        }
+        finally
+        {
+            if (!deferCommit)
+            {
+                _isExternalUpdate = false;
+            }
+        }
+    }
+
+    private void CommitThemeSelection(int idx)
+    {
+        try
         {
             if (IsDisposed || !IsHandleCreated)
             {
                 return;
             }
-            _isExternalUpdate = true;
-            try
-            {
-                SelectedIndex = idx;
-            }
-            finally
-            {
-                _isExternalUpdate = false;
-            }
-        }
 
-        if (ThemeChangeCoordinator.InProgress && !IsDisposed && IsHandleCreated)
-        {
-            BeginInvoke((System.Windows.Forms.MethodInvoker)Commit);
+            _isExternalUpdate = true;
+            SelectedIndex = idx;
         }
-        else
+        finally
         {
-            // If the handle is not yet created (or disposed), update immediately to avoid InvalidOperationException
-            Commit();
+            _isExternalUpdate = false;
         }
     }
 
