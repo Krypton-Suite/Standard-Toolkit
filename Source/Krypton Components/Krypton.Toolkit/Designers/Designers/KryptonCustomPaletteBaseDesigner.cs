@@ -22,6 +22,7 @@ internal class KryptonCustomPaletteBaseDesigner : ComponentDesigner
     private DesignerVerb _importVerb;
     private DesignerVerb _exportVerb;
     private DesignerVerb _upgradeVerb;
+    private DesignerVerb _convertVerb;
 
     private KryptonCustomPaletteBase? _palette;
 
@@ -72,13 +73,15 @@ internal class KryptonCustomPaletteBaseDesigner : ComponentDesigner
 
                 _populateVerb = new DesignerVerb(@"Populate from Base", OnPopulate);
 
-                _importVerb = new DesignerVerb(@"Import from XML File...", OnImport);
+                _importVerb = new DesignerVerb(@"Import palette...", OnImport);
 
-                _exportVerb = new DesignerVerb(@"Export to XML File...", OnExport);
+                _exportVerb = new DesignerVerb(@"Export palette...", OnExport);
 
                 _upgradeVerb = new DesignerVerb(@"Upgrade Palette", OnUpgrade);
 
-                _verbCollection.AddRange(new DesignerVerb[] { _resetVerb, _populateVerb, _importVerb, _exportVerb, _upgradeVerb });
+                _convertVerb = new DesignerVerb(@"Convert palette file...", OnConvert);
+
+                _verbCollection.AddRange(new DesignerVerb[] { _resetVerb, _populateVerb, _importVerb, _exportVerb, _upgradeVerb, _convertVerb });
             }
 
             return _verbCollection;
@@ -96,9 +99,11 @@ internal class KryptonCustomPaletteBaseDesigner : ComponentDesigner
             using var ofd = new OpenFileDialog(); /*KryptonOpenFileDialog*/
             ofd.CheckFileExists = true;
             ofd.CheckPathExists = true;
-            ofd.DefaultExt = @"xml";
-            ofd.Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)";
+            ofd.DefaultExt = KryptonPaletteFile.Extension;
+            ofd.Filter = KryptonPaletteFile.DialogFilter;
             ofd.Title = @"Load Custom Palette";
+
+            KryptonPaletteFile.EnsureShellAssociations();
 
             var paletteFileName = (ofd.ShowDialog() == DialogResult.OK)
                 ? ofd.FileName
@@ -110,6 +115,22 @@ internal class KryptonCustomPaletteBaseDesigner : ComponentDesigner
             }
 
             _palette?.ImportWithUpgrade(File.OpenRead(paletteFileName));
+        }
+        catch (Exception exc)
+        {
+            KryptonExceptionHandler.CaptureException(exc, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
+        }
+    }
+
+    private void OnConvert(object? sender, EventArgs e)
+    {
+        try
+        {
+            var destination = _palette?.ActionListConvert();
+            if (!string.IsNullOrWhiteSpace(destination) && _palette != null)
+            {
+                _service?.OnComponentChanged(_palette, null, null, null);
+            }
         }
         catch (Exception exc)
         {

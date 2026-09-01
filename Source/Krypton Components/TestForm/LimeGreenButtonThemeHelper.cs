@@ -121,19 +121,19 @@ internal static class LimeGreenButtonThemeHelper
     /// Gets a suggested export file name for <paramref name="family"/>.
     /// </summary>
     /// <param name="family">Lime theme family.</param>
-    /// <returns>File name including <c>.xml</c>.</returns>
+    /// <returns>File name including <c>.kpalx</c>.</returns>
     public static string GetExportFileName(LimeGreenThemeFamily family) => family switch
     {
-        LimeGreenThemeFamily.Office2007 => @"LimeGreen-Office2007.xml",
-        LimeGreenThemeFamily.Office2010 => @"LimeGreen-Office2010.xml",
-        LimeGreenThemeFamily.Microsoft365 => @"LimeGreen-Microsoft365.xml",
-        LimeGreenThemeFamily.Material => @"LimeGreen-Material.xml",
-        LimeGreenThemeFamily.MaterialRipple => @"LimeGreen-Material-Ripple.xml",
-        LimeGreenThemeFamily.Office2007Dark => @"LimeGreen-Office2007-Dark.xml",
-        LimeGreenThemeFamily.Office2010Dark => @"LimeGreen-Office2010-Dark.xml",
-        LimeGreenThemeFamily.Microsoft365Dark => @"LimeGreen-Microsoft365-Dark.xml",
-        LimeGreenThemeFamily.MaterialDark => @"LimeGreen-Material-Dark.xml",
-        LimeGreenThemeFamily.MaterialDarkRipple => @"LimeGreen-Material-Dark-Ripple.xml",
+        LimeGreenThemeFamily.Office2007 => @"LimeGreen-Office2007." + KryptonPaletteFile.Extension,
+        LimeGreenThemeFamily.Office2010 => @"LimeGreen-Office2010." + KryptonPaletteFile.Extension,
+        LimeGreenThemeFamily.Microsoft365 => @"LimeGreen-Microsoft365." + KryptonPaletteFile.Extension,
+        LimeGreenThemeFamily.Material => @"LimeGreen-Material." + KryptonPaletteFile.Extension,
+        LimeGreenThemeFamily.MaterialRipple => @"LimeGreen-Material-Ripple." + KryptonPaletteFile.Extension,
+        LimeGreenThemeFamily.Office2007Dark => @"LimeGreen-Office2007-Dark." + KryptonPaletteFile.Extension,
+        LimeGreenThemeFamily.Office2010Dark => @"LimeGreen-Office2010-Dark." + KryptonPaletteFile.Extension,
+        LimeGreenThemeFamily.Microsoft365Dark => @"LimeGreen-Microsoft365-Dark." + KryptonPaletteFile.Extension,
+        LimeGreenThemeFamily.MaterialDark => @"LimeGreen-Material-Dark." + KryptonPaletteFile.Extension,
+        LimeGreenThemeFamily.MaterialDarkRipple => @"LimeGreen-Material-Dark-Ripple." + KryptonPaletteFile.Extension,
         _ => throw new ArgumentOutOfRangeException(nameof(family), family, null)
     };
 

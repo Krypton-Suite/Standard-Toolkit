@@ -237,7 +237,7 @@ public static class KryptonCustomThemeGenerator
     }
 
     /// <summary>
-    /// Exports <paramref name="palette"/> to a Krypton palette XML file.
+    /// Exports <paramref name="palette"/> to a Krypton palette file (<c>.kpalx</c> XML, <c>.xml</c>, or optional native <c>.kpal</c>).
     /// </summary>
     /// <param name="palette">Palette to export. Cannot be null.</param>
     /// <param name="filePath">Destination path. Cannot be empty.</param>

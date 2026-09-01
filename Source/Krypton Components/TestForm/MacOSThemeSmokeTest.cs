@@ -121,8 +121,9 @@ public partial class MacOSThemeSmokeTest : KryptonForm
 
         using var dialog = new SaveFileDialog
         {
-            Filter = @"Palette files (*.xml)|*.xml",
-            FileName = mode == PaletteMode.MacOSDark ? @"macOS-Dark.xml" : @"macOS-Light.xml",
+            Filter = KryptonPaletteFile.DialogFilter,
+            DefaultExt = KryptonPaletteFile.Extension,
+            FileName = (mode == PaletteMode.MacOSDark ? @"macOS-Dark." : @"macOS-Light.") + KryptonPaletteFile.Extension,
             Title = @"Export macOS palette"
         };
 
@@ -158,7 +159,8 @@ public partial class MacOSThemeSmokeTest : KryptonForm
 
         using var dialog = new OpenFileDialog
         {
-            Filter = @"Palette files (*.xml)|*.xml",
+            Filter = KryptonPaletteFile.DialogFilter,
+            DefaultExt = KryptonPaletteFile.Extension,
             InitialDirectory = palettesDir,
             Title = @"Import macOS sample palette"
         };

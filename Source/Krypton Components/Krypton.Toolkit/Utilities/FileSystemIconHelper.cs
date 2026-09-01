@@ -105,6 +105,16 @@ internal static class FileSystemIconHelper
             extension = "." + extension;
         }
 
+        if (KryptonPaletteFile.IsPaletteExtension(extension))
+        {
+            KryptonPaletteFile.EnsureShellAssociations();
+            var paletteIcon = KryptonPaletteFile.CreateShellIcon(largeIcon);
+            if (paletteIcon != null)
+            {
+                return paletteIcon;
+            }
+        }
+
         // Create a temporary file path with the extension
         string tempPath = Path.Combine(Path.GetTempPath(), "temp" + extension);
         return GetFileSystemIcon(tempPath, largeIcon);

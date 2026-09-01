@@ -26,6 +26,7 @@ global using System.Drawing.Printing;
 global using System.Drawing.Text;
 global using System.Globalization;
 global using System.IO;
+global using System.IO.Compression;
 global using System.Linq;
 global using System.Media;
 #if NET8_0_OR_GREATER

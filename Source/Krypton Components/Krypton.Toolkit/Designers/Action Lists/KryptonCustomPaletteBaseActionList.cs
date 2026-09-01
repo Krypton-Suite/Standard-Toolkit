@@ -56,9 +56,10 @@ internal class KryptonCustomPaletteBaseActionList : DesignerActionList
             // Add the list of panel specific actions
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Reset to Defaults", OnResetClick), "Actions"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Populate from Base", OnPopulateClick), "Actions"));
-            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Import from Xml file...", OnImportClick), "Actions"));
-            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Export to Xml file...", OnExportClick), "Actions"));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Import palette...", OnImportClick), "Actions"));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Export palette...", OnExportClick), "Actions"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Upgrade Palette", OnUpgradePalette), "Actions"));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Convert palette file...", OnConvertPaletteFile), "Actions"));
         }
 
         return actions;
@@ -116,9 +117,11 @@ internal class KryptonCustomPaletteBaseActionList : DesignerActionList
             using var ofd = new OpenFileDialog(); /*KryptonOpenFileDialog*/
             ofd.CheckFileExists = true;
             ofd.CheckPathExists = true;
-            ofd.DefaultExt = @"xml";
-            ofd.Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)";
+            ofd.DefaultExt = KryptonPaletteFile.Extension;
+            ofd.Filter = KryptonPaletteFile.DialogFilter;
             ofd.Title = @"Load Custom Palette";
+
+            KryptonPaletteFile.EnsureShellAssociations();
 
             string paletteFileName = (ofd.ShowDialog() == DialogResult.OK)
                 ? ofd.FileName
@@ -130,6 +133,22 @@ internal class KryptonCustomPaletteBaseActionList : DesignerActionList
             }
 
             _palette?.ImportWithUpgrade(File.OpenRead(paletteFileName));
+        }
+        catch (Exception exc)
+        {
+            KryptonExceptionHandler.CaptureException(exc, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
+        }
+    }
+
+    private void OnConvertPaletteFile(object? sender, EventArgs e)
+    {
+        try
+        {
+            var destination = _palette?.ActionListConvert();
+            if (!string.IsNullOrWhiteSpace(destination))
+            {
+                _service?.OnComponentChanged(_palette, null, null, null);
+            }
         }
         catch (Exception exc)
         {

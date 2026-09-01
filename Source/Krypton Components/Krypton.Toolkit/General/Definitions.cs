@@ -5016,3 +5016,30 @@ public enum KryptonThemeShieldIconStyle
 }
 
 #endregion
+
+#region Enum KryptonPaletteFileFormat
+
+/// <summary>
+/// Identifies how a custom palette is stored on disk or in a stream.
+/// </summary>
+public enum KryptonPaletteFileFormat
+{
+    /// <summary>
+    /// Human-readable XML (<c>KryptonPalette</c> document). Default for <c>.kpalx</c> and
+    /// <c>.xml</c> files, and for <see cref="KryptonCustomPaletteBase.Export(bool)"/> byte arrays.
+    /// </summary>
+    Xml = 0,
+
+    /// <summary>
+    /// Optional KPLT <c>.kpal</c> container with a Deflate-compressed XML payload (kind 0).
+    /// </summary>
+    PaletteCompressedXml = 1,
+
+    /// <summary>
+    /// Optional KPLT <c>.kpal</c> container with a native persist stream and raw PNG image blobs
+    /// (kind 1). Default when exporting to a <c>.kpal</c> path.
+    /// </summary>
+    PaletteBinary = 2
+}
+
+#endregion

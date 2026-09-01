@@ -50,19 +50,18 @@ public static class MacOSCustomPaletteHelper
     }
 
     /// <summary>
-    /// Exports a builtin macOS palette to an XML file compatible with <see cref="KryptonCustomPaletteBase.Import(string, bool)"/>.
+    /// Exports a builtin macOS palette to a file compatible with <see cref="KryptonCustomPaletteBase.Import(string, bool)"/>.
     /// </summary>
     /// <param name="mode">Either <see cref="PaletteMode.MacOSLight"/> or <see cref="PaletteMode.MacOSDark"/>.</param>
-    /// <param name="filePath">Destination path (typically .xml).</param>
+    /// <param name="filePath">Destination path (typically <c>.kpalx</c> or <c>.xml</c>).</param>
     /// <param name="ignoreDefaults">When true, omits properties that match base defaults.</param>
     public static void ExportToFile(PaletteMode mode, string filePath, bool ignoreDefaults = true)
     {
-        if (string.IsNullOrWhiteSpace(filePath))
+        if (mode != PaletteMode.MacOSLight && mode != PaletteMode.MacOSDark)
         {
-            ThrowHelper.ThrowArgumentException(@"A file path is required.", nameof(filePath));
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(mode), mode, @"Expected MacOSLight or MacOSDark.");
         }
 
-        var custom = CreateCustomPalette(mode);
-        custom.Export(filePath, ignoreDefaults, silent: true);
+        KryptonThemeCustomPaletteHelper.ExportToFile(mode, filePath, ignoreDefaults);
     }
 }

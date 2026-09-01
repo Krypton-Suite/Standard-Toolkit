@@ -45,6 +45,14 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#2117](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2117), To save & load palettes to/from 'palette' binary
+  * To save & load palettes as `.kpalx` XML
+  * Custom palette export recognises `PaletteCornerRounding` so per-corner border radii persist in `.kpalx` / XML / `.kpal`.
+  * Import restores the palette `Name` attribute from XML / `.kpalx`.
+  * Explorer uses the Stable Kr tile as the per-user icon for `*.kpal` and `*.kpalx` (`KryptonPaletteFile.EnsureShellAssociations`).
+  * Extra palettes in `Krypton.Themes` export through `KryptonThemeCustomPaletteHelper` (macOS still has `MacOSCustomPaletteHelper`) using the same `.kpalx` / `.kpal` / XML import and export APIs.
+  * `KryptonCustomPaletteBase.Export(string)` writes XML for `.kpalx` and `.xml`; `.kpal` writes the optional native persist stream. Use the `KryptonPaletteFileFormat` overload for compressed-XML `.kpal`. `Export(bool)` still returns XML bytes.
+  * `KryptonPaletteFile.Convert` rewrites a legacy `.xml` (or current `.kpalx` / `.kpal`) through `ImportWithUpgrade` and writes `.kpalx`, `.xml`, or native `.kpal`. JSON is not a palette format.
 * Resolved [#1870](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1870), `KryptonCustomPaletteBase`, Unable to Set / Change the colour table (help to migrate to v90.)
   * `KryptonCustomPaletteBase.BasePaletteMode` now switches the inherited colour table (Office 2010 Silver and other builtin themes no longer stay stuck on Microsoft 365 Blue).
   * The designer `ColorTable` shows the resolved colours; assigning a builtin palette to `BasePalette` keeps the matching `BasePaletteMode` instead of forcing `Custom`.
