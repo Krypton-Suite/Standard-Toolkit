@@ -51,6 +51,14 @@ public static class KryptonThemeCatalog
     private static bool _fileProbeAttempted;
     private static bool _themesNameLoadAttempted;
 
+    private static readonly HashSet<PaletteMode> _warnedMissingModes = new HashSet<PaletteMode>();
+
+    /// <summary>
+    /// Gets or sets whether a warning dialog is displayed when an extra theme is requested but <c>Krypton.Themes.dll</c> is unavailable.
+    /// Defaults to <see langword="true"/> (opt-out).
+    /// </summary>
+    public static bool ShowMissingThemeWarningDialog { get; set; } = true;
+
     /// <summary>
     /// Occurs when providers are registered (core or extra). Theme selectors should rebuild.
     /// </summary>
@@ -240,11 +248,53 @@ public static class KryptonThemeCatalog
     private static PaletteBase FallbackMissingExtra(PaletteMode requestedMode)
     {
         var fallback = ToolkitStaticConstants.GLOBAL_DEFAULT_PALETTE_MODE;
+        var requestedDisplayName = GetDisplayName(requestedMode);
+        var fallbackDisplayName = GetDisplayName(fallback);
+        var messageTemplate = KryptonManager.Strings.MiscellaneousThemeStrings.ThemeFallbackWarningMessage;
+        string reason;
+        try
+        {
+            reason = string.Format(messageTemplate, requestedDisplayName, requestedMode, fallbackDisplayName, fallback);
+        }
+        catch (FormatException)
+        {
+            reason = $"The requested theme '{requestedDisplayName}' ('{requestedMode}') requires the 'Krypton.Themes' assembly ('Krypton.Themes.dll'), which is not loaded or could not be found in the application directory. The theme has reverted to '{fallbackDisplayName}' ('{fallback}').";
+        }
+
         Debug.WriteLine(
             @"KryptonThemeCatalog: extra palette '" + requestedMode +
             @"' is not available (Krypton.Themes.dll not loaded). Falling back to " + fallback + @".");
+        Trace.TraceWarning(@"[KryptonThemeCatalog] " + reason);
 
-        MissingThemeFallback?.Invoke(null, new KryptonMissingThemeEventArgs(requestedMode, fallback));
+        var eventArgs = new KryptonMissingThemeEventArgs(requestedMode, fallback, reason);
+        MissingThemeFallback?.Invoke(null, eventArgs);
+
+        if (ShowMissingThemeWarningDialog && !eventArgs.Handled && SystemInformation.UserInteractive)
+        {
+            var shouldWarn = false;
+            lock (_sync)
+            {
+                shouldWarn = _warnedMissingModes.Add(requestedMode);
+            }
+
+            if (shouldWarn)
+            {
+                try
+                {
+                    var title = KryptonManager.Strings.MiscellaneousThemeStrings.ThemeFallbackWarningTitle;
+                    KryptonMessageBox.Show(
+                        reason,
+                        title,
+                        KryptonMessageBoxButtons.OK,
+                        KryptonMessageBoxIcon.Warning,
+                        showCopyButton: true);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(@"KryptonThemeCatalog.FallbackMissingExtra dialog: " + ex.Message);
+                }
+            }
+        }
 
         return GetPalette(fallback);
     }
