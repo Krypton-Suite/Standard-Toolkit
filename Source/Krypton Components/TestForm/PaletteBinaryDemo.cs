@@ -10,6 +10,7 @@
 using System.IO;
 
 using Krypton.Themes;
+using Krypton.Toolkit.Utilities;
 
 namespace TestForm;
 
@@ -26,8 +27,12 @@ public sealed class PaletteBinaryDemo : KryptonForm
     private readonly PaletteMode _savedPaletteMode;
     private readonly KryptonCustomPaletteBase? _savedCustomPalette;
     private readonly KryptonComboBox _cboExtraTheme;
+    private readonly KryptonComboBox _cboPackTheme;
+    private readonly KryptonPaletteFileComboBox _fileCombo;
+    private readonly KryptonPaletteFileListBox _fileList;
     private readonly PaletteMode[] _extraModes;
     private string? _lastDirectory;
+    private string? _packPath;
 
     public PaletteBinaryDemo()
     {
@@ -38,19 +43,18 @@ public sealed class PaletteBinaryDemo : KryptonForm
 
         _savedPaletteMode = KryptonManager.CurrentGlobalPaletteMode;
         _savedCustomPalette = _manager.GlobalCustomPalette;
-        _lastDirectory = Path.GetTempPath();
         KryptonPaletteFile.EnsureShellAssociations();
 
         var instructions = new KryptonWrapLabel
         {
             Dock = DockStyle.Top,
             AutoSize = false,
-            Height = 112,
+            Height = 128,
             Text =
                 @"How to test issue #2117:" + Environment.NewLine +
                 @"1) Pick an extra Krypton.Themes palette, populate from it, then Export .kpalx (XML). Optionally export native .kpal, compressed-XML .kpal, and legacy .xml." + Environment.NewLine +
                 @"2) Open the .kpalx file in a text editor — it is the KryptonPalette XML document. Import each file and confirm the sample header follows the theme." + Environment.NewLine +
-                @"3) Convert XML to .kpalx… rewrites a legacy .xml (or current .kpalx / .kpal) via ImportWithUpgrade, then writes the destination. JSON is not a palette format."
+                @"3) Convert XML to .kpalx… rewrites a legacy .xml. Export .kpal pack stores several named themes in one binary file. The list and combo on the left scan the last export folder (Utilities KryptonPaletteFileListBox / ComboBox)."
         };
 
         _lblStatus = new KryptonWrapLabel
@@ -86,6 +90,12 @@ public sealed class PaletteBinaryDemo : KryptonForm
             _cboExtraTheme.SelectedIndex = macOs >= 0 ? macOs : 0;
         }
 
+        _cboPackTheme = new KryptonComboBox
+        {
+            DropDownStyle = ComboBoxStyle.DropDownList,
+            Width = 220
+        };
+
         var btnPopulate = new KryptonButton { Text = @"Populate from extra theme", AutoSize = true };
         btnPopulate.Click += (_, _) => PopulateFromBase();
 
@@ -107,6 +117,12 @@ public sealed class PaletteBinaryDemo : KryptonForm
         var btnConvert = new KryptonButton { Text = @"Convert XML to .kpalx...", AutoSize = true };
         btnConvert.Click += (_, _) => ConvertFile();
 
+        var btnExportPack = new KryptonButton { Text = @"Export .kpal pack", AutoSize = true };
+        btnExportPack.Click += (_, _) => ExportPackFile();
+
+        var btnLoadPackTheme = new KryptonButton { Text = @"Load pack theme", AutoSize = true };
+        btnLoadPackTheme.Click += (_, _) => LoadPackTheme();
+
         var btnApply = new KryptonButton { Text = @"Apply as global custom", AutoSize = true };
         btnApply.Click += (_, _) => ApplyCustom();
 
@@ -121,6 +137,9 @@ public sealed class PaletteBinaryDemo : KryptonForm
         buttonPanel.Controls.Add(btnExportXml);
         buttonPanel.Controls.Add(btnImport);
         buttonPanel.Controls.Add(btnConvert);
+        buttonPanel.Controls.Add(btnExportPack);
+        buttonPanel.Controls.Add(_cboPackTheme);
+        buttonPanel.Controls.Add(btnLoadPackTheme);
         buttonPanel.Controls.Add(btnApply);
         buttonPanel.Controls.Add(btnReset);
 
@@ -144,7 +163,40 @@ public sealed class PaletteBinaryDemo : KryptonForm
             Dock = DockStyle.Fill
         };
 
+        _fileCombo = new KryptonPaletteFileComboBox
+        {
+            Dock = DockStyle.Top,
+            AutoApply = true
+        };
+        _fileCombo.KryptonManager = _manager;
+
+        _fileList = new KryptonPaletteFileListBox
+        {
+            Dock = DockStyle.Fill,
+            AutoApply = true
+        };
+        _fileList.KryptonManager = _manager;
+
+        var fileLabel = new KryptonWrapLabel
+        {
+            Dock = DockStyle.Top,
+            AutoSize = false,
+            Height = 40,
+            Text = @"Palette files (last export folder):"
+        };
+
+        var filePanel = new Panel
+        {
+            Dock = DockStyle.Left,
+            Width = 268,
+            Padding = new Padding(8, 0, 8, 8)
+        };
+        filePanel.Controls.Add(_fileList);
+        filePanel.Controls.Add(_fileCombo);
+        filePanel.Controls.Add(fileLabel);
+
         Controls.Add(_lstLog);
+        Controls.Add(filePanel);
         Controls.Add(sample);
         Controls.Add(buttonPanel);
         Controls.Add(_lblStatus);
@@ -198,7 +250,7 @@ public sealed class PaletteBinaryDemo : KryptonForm
                     : KryptonPaletteFile.Extension)
                 : KryptonPaletteFile.BinaryExtension,
             FileName = suggestedName,
-            InitialDirectory = _lastDirectory,
+            InitialDirectory = _lastDirectory ?? string.Empty,
             OverwritePrompt = true
         };
 
@@ -212,6 +264,7 @@ public sealed class PaletteBinaryDemo : KryptonForm
         var info = new FileInfo(dialog.FileName);
         Log($@"Exported {format} → {dialog.FileName} ({info.Length:N0} bytes).");
         _lblStatus.Text = $@"Status: exported {format} ({info.Length:N0} bytes).";
+        RefreshFileSelectors();
     }
 
     private void ImportFile()
@@ -221,7 +274,7 @@ public sealed class PaletteBinaryDemo : KryptonForm
             Title = @"Load palette",
             Filter = KryptonPaletteFile.DialogFilter,
             DefaultExt = KryptonPaletteFile.Extension,
-            InitialDirectory = _lastDirectory,
+            InitialDirectory = _lastDirectory ?? string.Empty,
             CheckFileExists = true
         };
 
@@ -231,11 +284,20 @@ public sealed class PaletteBinaryDemo : KryptonForm
         }
 
         _lastDirectory = Path.GetDirectoryName(dialog.FileName) ?? _lastDirectory;
+        if (KryptonPaletteFile.IsPack(dialog.FileName))
+        {
+            BindPackFile(dialog.FileName);
+            LoadPackTheme();
+            RefreshFileSelectors();
+            return;
+        }
+
         _palette.Import(dialog.FileName, silent: true);
         ApplyCustom();
         var info = new FileInfo(dialog.FileName);
         Log($@"Imported {dialog.FileName} ({info.Length:N0} bytes). Name='{_palette.GetPaletteName()}'.");
         _lblStatus.Text = $@"Status: imported '{_palette.GetPaletteName()}'.";
+        RefreshFileSelectors();
     }
 
     private void ConvertFile()
@@ -245,7 +307,7 @@ public sealed class PaletteBinaryDemo : KryptonForm
             Title = @"Convert palette from",
             Filter = KryptonPaletteFile.DialogFilter,
             DefaultExt = KryptonPaletteFile.XmlExtension,
-            InitialDirectory = _lastDirectory,
+            InitialDirectory = _lastDirectory ?? string.Empty,
             CheckFileExists = true
         };
 
@@ -262,7 +324,7 @@ public sealed class PaletteBinaryDemo : KryptonForm
             Filter = KryptonPaletteFile.DialogFilter,
             DefaultExt = KryptonPaletteFile.Extension,
             FileName = Path.GetFileNameWithoutExtension(open.FileName) + @"." + KryptonPaletteFile.Extension,
-            InitialDirectory = _lastDirectory,
+            InitialDirectory = _lastDirectory ?? string.Empty,
             OverwritePrompt = true
         };
 
@@ -281,6 +343,7 @@ public sealed class PaletteBinaryDemo : KryptonForm
             ApplyCustom();
             Log($@"Converted {open.FileName} → {destination} ({info.Length:N0} bytes). Name='{_palette.GetPaletteName()}'.");
             _lblStatus.Text = $@"Status: converted to '{_palette.GetPaletteName()}' ({info.Length:N0} bytes).";
+            RefreshFileSelectors();
         }
         catch (Exception ex)
         {
@@ -288,6 +351,105 @@ public sealed class PaletteBinaryDemo : KryptonForm
             _lblStatus.Text = @"Status: convert failed.";
             KryptonMessageBox.Show(this, ex.Message, @"Palette Convert", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error);
         }
+    }
+
+    private void ExportPackFile()
+    {
+        using var dialog = new SaveFileDialog
+        {
+            Title = @"Save palette pack",
+            Filter = KryptonPaletteFile.DialogFilter,
+            DefaultExt = KryptonPaletteFile.BinaryExtension,
+            FileName = @"themes.kpal",
+            InitialDirectory = _lastDirectory ?? string.Empty,
+            OverwritePrompt = true
+        };
+
+        if (dialog.ShowDialog(this) != DialogResult.OK)
+        {
+            return;
+        }
+
+        _lastDirectory = Path.GetDirectoryName(dialog.FileName) ?? _lastDirectory;
+        var palettes = new List<KryptonCustomPaletteBase>();
+        try
+        {
+            if (_extraModes.Length >= 2)
+            {
+                palettes.Add(KryptonThemeCustomPaletteHelper.CreateCustomPalette(_extraModes[0]));
+                palettes.Add(KryptonThemeCustomPaletteHelper.CreateCustomPalette(_extraModes[1]));
+            }
+            else
+            {
+                palettes.Add(CreateNamedMarker(@"Pack-Lime", Color.Lime));
+                palettes.Add(CreateNamedMarker(@"Pack-Orange", Color.Orange));
+            }
+
+            var destination = KryptonPaletteFile.ExportPack(dialog.FileName, palettes, ignoreDefaults: true, packName: @"2117-pack");
+            var info = new FileInfo(destination);
+            BindPackFile(destination);
+            Log($@"Exported pack ({palettes.Count} themes) → {destination} ({info.Length:N0} bytes).");
+            _lblStatus.Text = $@"Status: exported pack ({palettes.Count} themes, {info.Length:N0} bytes).";
+            RefreshFileSelectors();
+        }
+        catch (Exception ex)
+        {
+            Log($@"Pack export failed: {ex.Message}");
+            KryptonMessageBox.Show(this, ex.Message, @"Palette Pack", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error);
+        }
+        finally
+        {
+            for (var i = 0; i < palettes.Count; i++)
+            {
+                palettes[i].Dispose();
+            }
+        }
+    }
+
+    private void BindPackFile(string path)
+    {
+        _packPath = path;
+        _cboPackTheme.Items.Clear();
+        var names = KryptonPaletteFile.GetThemeNames(path);
+        foreach (var name in names)
+        {
+            _cboPackTheme.Items.Add(name);
+        }
+
+        if (_cboPackTheme.Items.Count > 0)
+        {
+            _cboPackTheme.SelectedIndex = 0;
+        }
+    }
+
+    private void LoadPackTheme()
+    {
+        if (string.IsNullOrWhiteSpace(_packPath) || _cboPackTheme.SelectedIndex < 0)
+        {
+            Log(@"Export or import a .kpal pack first, then pick a theme name.");
+            return;
+        }
+
+        var packPath = _packPath;
+        var themeName = _cboPackTheme.GetItemText(_cboPackTheme.SelectedItem);
+        if (string.IsNullOrWhiteSpace(packPath) || string.IsNullOrWhiteSpace(themeName))
+        {
+            Log(@"Export or import a .kpal pack first, then pick a theme name.");
+            return;
+        }
+
+        _palette.Import(packPath!, themeName!, silent: true);
+        ApplyCustom();
+        Log($@"Imported pack theme '{themeName}' from {_packPath}.");
+        _lblStatus.Text = $@"Status: imported pack theme '{themeName}'.";
+    }
+
+    private static KryptonCustomPaletteBase CreateNamedMarker(string name, Color marker)
+    {
+        var palette = new KryptonCustomPaletteBase();
+        palette.SetPaletteName(name);
+        palette.ToolMenuStatus.StatusStrip.StatusStripGradientBegin = marker;
+        return palette;
     }
 
     private void ApplyCustom()
@@ -303,6 +465,28 @@ public sealed class PaletteBinaryDemo : KryptonForm
         _manager.GlobalPaletteMode = _savedPaletteMode;
         _lblStatus.Text = @"Status: restored the previous global theme.";
         Log(@"Restored previous global theme.");
+    }
+
+    private void RefreshFileSelectors()
+    {
+        var directory = _lastDirectory ?? string.Empty;
+        if (!string.Equals(_fileCombo.PaletteDirectory, directory, StringComparison.OrdinalIgnoreCase))
+        {
+            _fileCombo.PaletteDirectory = directory;
+        }
+        else
+        {
+            _fileCombo.Reload();
+        }
+
+        if (!string.Equals(_fileList.PaletteDirectory, directory, StringComparison.OrdinalIgnoreCase))
+        {
+            _fileList.PaletteDirectory = directory;
+        }
+        else
+        {
+            _fileList.Reload();
+        }
     }
 
     private void Log(string message) => _lstLog.Items.Insert(0, $@"{DateTime.Now:HH:mm:ss}  {message}");

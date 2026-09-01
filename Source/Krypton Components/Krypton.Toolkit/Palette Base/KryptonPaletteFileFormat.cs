@@ -123,6 +123,94 @@ public static class KryptonPaletteFile
     }
 
     /// <summary>
+    /// Returns the theme names stored in a palette file. A single-theme file yields one name
+    /// (possibly empty). A <c>.kpal</c> pack yields every packed name.
+    /// </summary>
+    /// <param name="path">Existing <c>.xml</c>, <c>.kpalx</c>, or KPLT <c>.kpal</c> file.</param>
+    /// <returns>Theme names in file order.</returns>
+    public static string[] GetThemeNames(string path)
+    {
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            ThrowHelper.ThrowArgumentNullException(nameof(path));
+        }
+
+        RejectJsonPalettePath(path!, nameof(path));
+        using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+        return KryptonPaletteBinaryPersistence.GetThemeNames(stream);
+    }
+
+    /// <summary>
+    /// Returns whether <paramref name="path"/> is a multi-theme KPLT pack (payload kind 2).
+    /// Single-theme <c>.kpal</c>, <c>.kpalx</c>, and XML files return <see langword="false"/>.
+    /// </summary>
+    /// <param name="path">Existing palette file.</param>
+    /// <returns><see langword="true"/> when the file is a named theme pack.</returns>
+    public static bool IsPack(string path)
+    {
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            ThrowHelper.ThrowArgumentNullException(nameof(path));
+        }
+
+        RejectJsonPalettePath(path!, nameof(path));
+        using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+        return KryptonPaletteBinaryPersistence.IsPack(stream);
+    }
+
+    /// <summary>
+    /// Writes two or more named palettes into one native <c>.kpal</c> pack. Each palette must
+    /// have a unique <c>SetPaletteName</c> value. Destination extension must be <c>.kpal</c>.
+    /// </summary>
+    /// <param name="destinationPath">File to create or overwrite.</param>
+    /// <param name="palettes">Palettes to pack. Cannot be empty.</param>
+    /// <returns>The full destination path.</returns>
+    public static string ExportPack(string destinationPath, IEnumerable<KryptonCustomPaletteBase> palettes) =>
+        ExportPack(destinationPath, palettes, ignoreDefaults: false, packName: null);
+
+    /// <summary>
+    /// Writes named palettes into one native <c>.kpal</c> pack.
+    /// </summary>
+    /// <param name="destinationPath">File to create or overwrite.</param>
+    /// <param name="palettes">Palettes to pack. Cannot be empty.</param>
+    /// <param name="ignoreDefaults"><see langword="true"/> to omit values that match the current base palette.</param>
+    /// <returns>The full destination path.</returns>
+    public static string ExportPack(string destinationPath, IEnumerable<KryptonCustomPaletteBase> palettes, bool ignoreDefaults) =>
+        ExportPack(destinationPath, palettes, ignoreDefaults, packName: null);
+
+    /// <summary>
+    /// Writes named palettes into one native <c>.kpal</c> pack.
+    /// </summary>
+    /// <param name="destinationPath">File to create or overwrite. Must be <c>.kpal</c>.</param>
+    /// <param name="palettes">Palettes to pack. Cannot be empty.</param>
+    /// <param name="ignoreDefaults"><see langword="true"/> to omit values that match the current base palette.</param>
+    /// <param name="packName">Optional display name for the pack (header name, not a theme name).</param>
+    /// <returns>The full destination path.</returns>
+    public static string ExportPack(string destinationPath, IEnumerable<KryptonCustomPaletteBase> palettes, bool ignoreDefaults, string? packName)
+    {
+        if (string.IsNullOrWhiteSpace(destinationPath))
+        {
+            ThrowHelper.ThrowArgumentNullException(nameof(destinationPath));
+        }
+
+        ThrowHelper.ThrowIfNull(palettes);
+        RejectJsonPalettePath(destinationPath!, nameof(destinationPath));
+
+        if (FormatFromPath(destinationPath) != KryptonPaletteFileFormat.PaletteBinary)
+        {
+            ThrowHelper.ThrowArgumentException(@"Multi-theme packs can only be written as .kpal.", nameof(destinationPath));
+        }
+
+        var list = palettes as IList<KryptonCustomPaletteBase> ?? new List<KryptonCustomPaletteBase>(palettes!);
+        using (var stream = new FileStream(destinationPath, FileMode.Create, FileAccess.Write, FileShare.None))
+        {
+            KryptonPaletteBinaryPersistence.ExportPack(stream, list, ignoreDefaults, packName ?? string.Empty);
+        }
+
+        return Path.GetFullPath(destinationPath);
+    }
+
+    /// <summary>
     /// Returns whether <paramref name="pathOrExtension"/> is a <c>.kpal</c> or <c>.kpalx</c> palette file.
     /// </summary>
     /// <param name="pathOrExtension">A file path, or an extension with or without a leading dot.</param>

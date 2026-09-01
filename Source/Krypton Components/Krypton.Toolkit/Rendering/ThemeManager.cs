@@ -344,6 +344,41 @@ public class ThemeManager
     }
 
     /// <summary>
+    /// Loads one named theme from a <c>.kpal</c> pack (or a matching single-theme file).
+    /// </summary>
+    /// <param name="themeFile">Valid path including filename to the theme file.</param>
+    /// <param name="themeName">Theme name in the pack. Comparison is case-insensitive.</param>
+    /// <param name="silent">True if the operation should suppress messages from the palette import process.</param>
+    /// <param name="manager">The manager.</param>
+    public static void ApplyTheme(string themeFile, string themeName, bool silent, KryptonManager manager)
+    {
+        if (themeFile.Length > 0 && File.Exists(themeFile))
+        {
+            try
+            {
+                KryptonCustomPaletteBase palette = new();
+                palette.Import(themeFile, themeName, silent);
+
+                ApplyTheme(palette, manager);
+            }
+            catch (Exception exc)
+            {
+                KryptonExceptionHandler.CaptureException(exc, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
+            }
+        }
+        else
+        {
+            KryptonMessageBox.Show(
+                $"The parameter 'themeFile' points to a file that does not exist.\n" +
+                $"Filename: {themeFile}\n\n" +
+                $"ApplyTheme aborted.",
+                _msgBoxCaption,
+                buttons: KryptonMessageBoxButtons.OK,
+                icon: KryptonMessageBoxIcon.Exclamation);
+        }
+    }
+
+    /// <summary>
     /// Applies the global theme.
     /// </summary>
     /// <param name="manager">The manager.</param>

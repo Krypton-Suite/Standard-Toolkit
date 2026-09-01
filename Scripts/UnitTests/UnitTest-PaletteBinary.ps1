@@ -5,7 +5,7 @@
 .DESCRIPTION
     Loads Debug Krypton.Toolkit and round-trips a distinctive colour through
     .kpalx XML, legacy XML, compressed-XML .kpal, and native binary .kpal.
-    Also checks KPLT magic, FormatFromPath, PaletteCornerRounding persist, Convert XML to .kpalx / .kpal, JSON rejection, and that .kpalx is XML (not KPLT).
+    Also checks KPLT magic, FormatFromPath, PaletteCornerRounding persist, Convert, packs, JSON rejection, and Utilities FromDirectory scan.
 
     Exit code 0 on success; non-zero on failure.
 
@@ -32,6 +32,10 @@ Add-Type -AssemblyName System.Drawing
 
 [void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Interop.dll'))
 [void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Toolkit.dll'))
+$utilitiesDll = Join-Path $bin 'Krypton.Toolkit.Utilities.dll'
+if (Test-Path -LiteralPath $utilitiesDll) {
+    [void][System.Reflection.Assembly]::LoadFrom($utilitiesDll)
+}
 $themesDll = Join-Path $bin 'Krypton.Themes.dll'
 if (Test-Path -LiteralPath $themesDll) {
     [void][System.Reflection.Assembly]::LoadFrom($themesDll)
@@ -157,6 +161,58 @@ try {
         $jsonRejected = $_.Exception.GetBaseException().Message -match 'JSON'
     }
     Assert-True $jsonRejected 'Convert rejects JSON as a palette format'
+
+    $orange = [System.Drawing.Color]::Orange
+    $packLime = New-Object Krypton.Toolkit.KryptonCustomPaletteBase
+    $packLime.SetPaletteName('Pack-Lime')
+    $packLime.ToolMenuStatus.StatusStrip.StatusStripGradientBegin = $marker
+    $packOrange = New-Object Krypton.Toolkit.KryptonCustomPaletteBase
+    $packOrange.SetPaletteName('Pack-Orange')
+    $packOrange.ToolMenuStatus.StatusStrip.StatusStripGradientBegin = $orange
+    $packList = New-Object 'System.Collections.Generic.List[Krypton.Toolkit.KryptonCustomPaletteBase]'
+    [void]$packList.Add($packLime)
+    [void]$packList.Add($packOrange)
+    $packPath = Join-Path $temp 'themes.kpal'
+    [void][Krypton.Toolkit.KryptonPaletteFile]::ExportPack($packPath, $packList, $true, '2117-pack')
+    Assert-True ((Get-Magic $packPath) -eq 'KPLT') 'Pack .kpal starts with KPLT'
+    Assert-True ([Krypton.Toolkit.KryptonPaletteFile]::IsPack($packPath)) 'IsPack is true for a multi-theme .kpal'
+    Assert-True (-not [Krypton.Toolkit.KryptonPaletteFile]::IsPack($binaryPath)) 'IsPack is false for a single-theme .kpal'
+    $packNames = [Krypton.Toolkit.KryptonPaletteFile]::GetThemeNames($packPath)
+    Assert-True ($packNames.Length -eq 2) 'GetThemeNames returns two pack themes'
+    Assert-True (($packNames[0] -eq 'Pack-Lime') -and ($packNames[1] -eq 'Pack-Orange')) 'GetThemeNames preserves pack order'
+    $fromPack = New-Object Krypton.Toolkit.KryptonCustomPaletteBase
+    [void]$fromPack.Import($packPath, 'Pack-Orange', $true)
+    Assert-True ((Format-Color $fromPack.ColorTable.StatusStripGradientBegin) -eq (Format-Color $orange)) 'Import named pack theme restores Pack-Orange'
+    Assert-True ($fromPack.GetPaletteName() -eq 'Pack-Orange') 'Import named pack theme sets the palette name'
+    $packUnnamedThrow = $false
+    try {
+        [void]$fromPack.Import($packPath, $true)
+    }
+    catch {
+        $packUnnamedThrow = $_.Exception.GetBaseException().Message -match 'multiple themes'
+    }
+    Assert-True $packUnnamedThrow 'Import without a name throws for a multi-theme .kpal'
+    $packXmlRejected = $false
+    try {
+        [void][Krypton.Toolkit.KryptonPaletteFile]::ExportPack((Join-Path $temp 'themes.kpalx'), $packList)
+    }
+    catch {
+        $packXmlRejected = $_.Exception.GetBaseException().Message -match '\.kpal'
+    }
+    Assert-True $packXmlRejected 'ExportPack rejects a .kpalx destination'
+
+    $utilitiesLoaded = [bool]([AppDomain]::CurrentDomain.GetAssemblies() | Where-Object { $_.GetName().Name -eq 'Krypton.Toolkit.Utilities' })
+    Assert-True $utilitiesLoaded 'Krypton.Toolkit.Utilities is loaded for file-selector scan'
+    if ($utilitiesLoaded) {
+        $scanned = [Krypton.Toolkit.Utilities.KryptonPaletteFileThemeItem]::FromDirectory($temp)
+        Assert-True ($scanned.Length -ge 2) 'FromDirectory finds palette files in the temp folder'
+        $packItems = @($scanned | Where-Object { $_.IsPack })
+        Assert-True ($packItems.Length -eq 2) 'FromDirectory expands a .kpal pack into named items'
+    }
+
+    $packLime.Dispose()
+    $packOrange.Dispose()
+    $fromPack.Dispose()
 
     $macOs = [Krypton.Toolkit.PaletteMode]::MacOSLight
     Assert-True ([Krypton.Toolkit.KryptonThemeCatalog]::IsImplementationAvailable($macOs)) 'Krypton.Themes extra palette MacOSLight is catalogued'

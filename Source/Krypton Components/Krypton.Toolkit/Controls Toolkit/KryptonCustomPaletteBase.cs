@@ -2218,12 +2218,126 @@ public class KryptonCustomPaletteBase : PaletteBase
     }
 
     /// <summary>
+    /// Import one named theme from a <c>.kpal</c> pack (or a single-theme file whose name matches).
+    /// </summary>
+    /// <param name="filename">Filename to load.</param>
+    /// <param name="themeName">Theme name in the pack. Comparison is case-insensitive.</param>
+    /// <returns>Full path of imported filename; otherwise empty string.</returns>
+    public string Import(string filename, string themeName) => Import(filename, themeName, true);
+
+    /// <summary>
+    /// Import one named theme from a <c>.kpal</c> pack (or a single-theme file whose name matches).
+    /// </summary>
+    /// <param name="filename">Filename to load.</param>
+    /// <param name="themeName">Theme name in the pack. Comparison is case-insensitive.</param>
+    /// <param name="silent">True, silent mode provides user interface feedback from the palette import process. No messages when false.</param>
+    /// <returns>Full path of imported filename; otherwise empty string.</returns>
+    public string Import(string filename, string themeName, bool silent)
+    {
+        if (string.IsNullOrWhiteSpace(themeName))
+        {
+            return Import(filename, silent);
+        }
+
+        string? ret;
+
+        try
+        {
+            SuspendUpdates();
+
+            if (silent)
+            {
+                ret = ImportFromFile(new object[] { filename, themeName }) as string;
+            }
+            else
+            {
+                ret = CommonHelper.PerformOperation(ImportFromFile!,
+                    new object[] { filename, themeName }) as string;
+
+                KryptonMessageBox.Show($"Import from file '{filename}' ({themeName}) completed.",
+                    @"Palette Import",
+                    KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
+            }
+        }
+        catch (Exception ex)
+        {
+            if (!silent)
+            {
+                KryptonMessageBox.Show($"Import from file '{filename}' failed.\n\n Error:{ex.Message}",
+                    @"Palette Import",
+                    KryptonMessageBoxButtons.OK,
+                    KryptonMessageBoxIcon.Error);
+            }
+
+            throw;
+        }
+        finally
+        {
+            ResumeUpdates();
+        }
+
+        return ret ?? string.Empty;
+    }
+
+    /// <summary>
     /// Import palette settings from the specified stream.
     /// </summary>
     /// <param name="stream">Stream that contains XML or a KPLT container.</param>
     public void Import(Stream stream) =>
         // By default, the import is silent
         Import(stream, true);
+
+    /// <summary>
+    /// Import one named theme from a KPLT pack stream.
+    /// </summary>
+    /// <param name="stream">Stream that contains XML or a KPLT container.</param>
+    /// <param name="themeName">Theme name in the pack. Comparison is case-insensitive.</param>
+    public void Import(Stream stream, string themeName) => Import(stream, themeName, true);
+
+    /// <summary>
+    /// Import one named theme from a KPLT pack stream.
+    /// </summary>
+    /// <param name="stream">Stream that contains XML or a KPLT container.</param>
+    /// <param name="themeName">Theme name in the pack. Comparison is case-insensitive.</param>
+    /// <param name="silent">Silent mode provides no user interface feedback.</param>
+    public void Import(Stream stream, string themeName, bool silent)
+    {
+        if (string.IsNullOrWhiteSpace(themeName))
+        {
+            Import(stream, silent);
+            return;
+        }
+
+        try
+        {
+            SuspendUpdates();
+
+            KryptonPaletteBinaryPersistence.Import(this, stream, themeName);
+
+            if (!silent)
+            {
+                KryptonMessageBox.Show(@"Import from stream completed.",
+                    @"Palette Import",
+                    KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
+            }
+        }
+        catch (Exception ex)
+        {
+            if (!silent)
+            {
+                KryptonMessageBox.Show($"Import from stream failed.\n\n Error:{ex.Message}",
+                    @"Palette Import",
+                    KryptonMessageBoxButtons.OK,
+                    KryptonMessageBoxIcon.Error);
+            }
+
+            throw;
+        }
+        finally
+        {
+            ResumeUpdates();
+        }
+    }
 
     /// <summary>
     /// Import a palette - with auto upgrade - from the specified stream.
@@ -3268,20 +3382,36 @@ public class KryptonCustomPaletteBase : PaletteBase
 
     private object? ImportFromFile([DisallowNull] object? parameter)
     {
-        // Cast to correct type
-        if (parameter is not string filename)
+        string? filename = null;
+        string? themeName = null;
+
+        switch (parameter)
+        {
+            case string path:
+                filename = path;
+                break;
+            case object[] args when args.Length > 0:
+                filename = args[0] as string;
+                if (args.Length > 1)
+                {
+                    themeName = args[1] as string;
+                }
+
+                break;
+        }
+
+        if (string.IsNullOrWhiteSpace(filename))
         {
             return null;
         }
 
-        // Check the target file actually exists
         if (!File.Exists(filename))
         {
             ThrowHelper.ThrowArgumentException(@"Provided file does not exist.", nameof(parameter));
         }
 
         using var stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
-        KryptonPaletteBinaryPersistence.Import(this, stream);
+        KryptonPaletteBinaryPersistence.Import(this, stream, themeName);
 
         return filename;
     }
