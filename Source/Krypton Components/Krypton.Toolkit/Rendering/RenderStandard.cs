@@ -2921,6 +2921,122 @@ public class RenderStandard : RenderBase
 			_ => new RibbonContextArrowTopLine(0, -1)
 		};
 
+	/// <summary>
+	/// Per-theme 96-DPI geometry for the pair of QAT overflow chevrons. Every shape currently
+	/// shares the same offsets; Office 2010 / OSX Aqua / macOS unify the dark and light pens
+	/// so the glyph reads as a single colour. Metrics live here so future theme tweaks are
+	/// data, not another inline <c>DrawLine</c> branch (issue #4253).
+	/// </summary>
+	private readonly struct RibbonOverflowChevronMetrics
+	{
+		public RibbonOverflowChevronMetrics(bool unifyDarkLightColor)
+			: this(4, 1, 3, 1, 2, 2, 2, 1, 3, 4, unifyDarkLightColor)
+		{
+		}
+
+		public RibbonOverflowChevronMetrics(int secondChevronGap,
+			int darkStemTop,
+			int darkStemBottom,
+			int darkDiagonalX,
+			int darkDiagonalY,
+			int lightPeakX,
+			int lightPeakY,
+			int lightBaseStartX,
+			int lightBaseStartY,
+			int lightTipY,
+			bool unifyDarkLightColor)
+		{
+			SecondChevronGap = secondChevronGap;
+			DarkStemTop = darkStemTop;
+			DarkStemBottom = darkStemBottom;
+			DarkDiagonalX = darkDiagonalX;
+			DarkDiagonalY = darkDiagonalY;
+			LightPeakX = lightPeakX;
+			LightPeakY = lightPeakY;
+			LightBaseStartX = lightBaseStartX;
+			LightBaseStartY = lightBaseStartY;
+			LightTipY = lightTipY;
+			UnifyDarkLightColor = unifyDarkLightColor;
+		}
+
+		/// <summary>Base (96 DPI) horizontal gap between the first and second chevron.</summary>
+		public int SecondChevronGap { get; }
+
+		/// <summary>Base (96 DPI) top of the dark vertical stem.</summary>
+		public int DarkStemTop { get; }
+
+		/// <summary>Base (96 DPI) bottom of the dark vertical stem (also the dark diagonal end).</summary>
+		public int DarkStemBottom { get; }
+
+		/// <summary>Base (96 DPI) horizontal offset of the dark diagonal start.</summary>
+		public int DarkDiagonalX { get; }
+
+		/// <summary>Base (96 DPI) vertical offset of the dark diagonal start.</summary>
+		public int DarkDiagonalY { get; }
+
+		/// <summary>Base (96 DPI) horizontal offset of the light peak end.</summary>
+		public int LightPeakX { get; }
+
+		/// <summary>Base (96 DPI) vertical offset of the light peak end.</summary>
+		public int LightPeakY { get; }
+
+		/// <summary>Base (96 DPI) horizontal offset of the light base start.</summary>
+		public int LightBaseStartX { get; }
+
+		/// <summary>Base (96 DPI) vertical offset of the light base start.</summary>
+		public int LightBaseStartY { get; }
+
+		/// <summary>Base (96 DPI) vertical offset of the light tip (base end).</summary>
+		public int LightTipY { get; }
+
+		/// <summary>
+		/// When <see langword="true"/> the light pen uses the dark colour so both chevron
+		/// halves paint as one tone (Office 2010 / OSX Aqua / macOS).
+		/// </summary>
+		public bool UnifyDarkLightColor { get; }
+	}
+
+	/// <summary>
+	/// Returns the per-theme overflow chevron geometry. Line offsets are shared; only
+	/// <see cref="RibbonOverflowChevronMetrics.UnifyDarkLightColor"/> differs today.
+	/// </summary>
+	/// <param name="shape">Ribbon shape.</param>
+	private static RibbonOverflowChevronMetrics GetRibbonOverflowChevronMetrics(PaletteRibbonShape shape) =>
+		new RibbonOverflowChevronMetrics(shape is PaletteRibbonShape.Office2010
+			or PaletteRibbonShape.OSXAqua
+			or PaletteRibbonShape.MacOS);
+
+	/// <summary>
+	/// Scales a 96-DPI ribbon glyph offset. Uses <see cref="MidpointRounding.AwayFromZero"/>
+	/// so 125% still grows 2px design values rather than banker's-rounding them back
+	/// (matches <c>ViewDrawRibbonQATExtraButton</c>, issues #3851 / #4253 / #4254).
+	/// </summary>
+	/// <param name="value96">Offset designed at 96 DPI.</param>
+	/// <param name="factor">Device scale factor (<c>Dpi / 96</c>).</param>
+	private static int ScaleRibbonGlyph(int value96, float factor) =>
+		(int)Math.Round(value96 * factor, MidpointRounding.AwayFromZero);
+
+	/// <summary>
+	/// Draws one overflow chevron at <paramref name="left"/> using the supplied 96-DPI metrics.
+	/// </summary>
+	private static void DrawRibbonOverflowChevron(Graphics graphics,
+		Pen darkPen,
+		Pen lightPen,
+		int left,
+		int top,
+		float dpiX,
+		float dpiY,
+		RibbonOverflowChevronMetrics metrics)
+	{
+		int Sx(int value) => ScaleRibbonGlyph(value, dpiX);
+		int Sy(int value) => ScaleRibbonGlyph(value, dpiY);
+
+		graphics.DrawLine(darkPen, left, top + Sy(metrics.DarkStemTop), left, top + Sy(metrics.DarkStemBottom));
+		graphics.DrawLine(darkPen, left + Sx(metrics.DarkDiagonalX), top + Sy(metrics.DarkDiagonalY), left, top + Sy(metrics.DarkStemBottom));
+		graphics.DrawLine(lightPen, left, top, left + Sx(metrics.LightPeakX), top + Sy(metrics.LightPeakY));
+		graphics.DrawLine(lightPen, left + Sx(metrics.LightBaseStartX), top + Sy(metrics.LightBaseStartY), left, top + Sy(metrics.LightTipY));
+	}
+
 	#endregion
 
 	/// <summary>
@@ -2968,8 +3084,8 @@ public class RenderStandard : RenderBase
 		// Scale the base (96 DPI) offsets so the glyph stays aligned across themes and DPI settings (issue #3851).
 		var dpiX = context.Graphics.DpiX / 96f;
 		var dpiY = context.Graphics.DpiY / 96f;
-		int Sx(int value) => (int)Math.Round(value * dpiX);
-		int Sy(int value) => (int)Math.Round(value * dpiY);
+		int Sx(int value) => ScaleRibbonGlyph(value, dpiX);
+		int Sy(int value) => ScaleRibbonGlyph(value, dpiY);
 
 		int left = displayRect.Left;
 		int top = displayRect.Top;
@@ -3023,8 +3139,8 @@ public class RenderStandard : RenderBase
 		Color c1 = paletteGeneral.GetRibbonQATButtonDark(state);
 		Color c2 = paletteGeneral.GetRibbonQATButtonLight(state);
 
-		// Office 2010 uses the same color for both parts
-		if (shape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS)
+		RibbonOverflowChevronMetrics metrics = GetRibbonOverflowChevronMetrics(shape);
+		if (metrics.UnifyDarkLightColor)
 		{
 			c2 = c1;
 		}
@@ -3039,27 +3155,16 @@ public class RenderStandard : RenderBase
 		using var darkPen = new Pen(c1);
 		using var lightPen = new Pen(c2);
 
-		// Scale the base (96 DPI) offsets so the two chevrons stay aligned across themes and DPI settings (issue #3851).
+		// Scale the base (96 DPI) offsets so the two chevrons stay aligned across themes and DPI settings (issues #3851 / #4253).
 		var dpiX = context.Graphics.DpiX / 96f;
 		var dpiY = context.Graphics.DpiY / 96f;
-		int Sx(int value) => (int)Math.Round(value * dpiX);
-		int Sy(int value) => (int)Math.Round(value * dpiY);
 
 		int top = displayRect.Top;
-
-		// Both chevrons share the same geometry; the second is shifted right by a fixed base gap.
 		int firstLeft = displayRect.Left;
-		int secondLeft = displayRect.Left + Sx(4);
+		int secondLeft = displayRect.Left + ScaleRibbonGlyph(metrics.SecondChevronGap, dpiX);
 
-		context.Graphics.DrawLine(darkPen, firstLeft, top + Sy(1), firstLeft, top + Sy(3));
-		context.Graphics.DrawLine(darkPen, firstLeft + Sx(1), top + Sy(2), firstLeft, top + Sy(3));
-		context.Graphics.DrawLine(lightPen, firstLeft, top, firstLeft + Sx(2), top + Sy(2));
-		context.Graphics.DrawLine(lightPen, firstLeft + Sx(1), top + Sy(3), firstLeft, top + Sy(4));
-
-		context.Graphics.DrawLine(darkPen, secondLeft, top + Sy(1), secondLeft, top + Sy(3));
-		context.Graphics.DrawLine(darkPen, secondLeft + Sx(1), top + Sy(2), secondLeft, top + Sy(3));
-		context.Graphics.DrawLine(lightPen, secondLeft, top, secondLeft + Sx(2), top + Sy(2));
-		context.Graphics.DrawLine(lightPen, secondLeft + Sx(1), top + Sy(3), secondLeft, top + Sy(4));
+		DrawRibbonOverflowChevron(context.Graphics, darkPen, lightPen, firstLeft, top, dpiX, dpiY, metrics);
+		DrawRibbonOverflowChevron(context.Graphics, darkPen, lightPen, secondLeft, top, dpiX, dpiY, metrics);
 	}
 
 	/// <summary>

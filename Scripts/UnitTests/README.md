@@ -65,6 +65,7 @@ Default output folder: `Bin\Debug\net472`.
 | `UnitTest-SplashScreenManager.ps1` | #4180 splash manager API: defaults, Show/SetStatus/Close, Run(steps), throwing step | `include` |
 | `UnitTest-KryptonLogProtect.ps1` | #4270 / #4269 `KryptonLog` redacts `{Password}` before file storage | `include` |
 | `UnitTest-CommandLinkArrow.ps1` | #4264 default command-link arrow: helper returns 32x32 image; Windows 7 embedded resource is packaged | `include` |
+| `UnitTest-RibbonOverflowGlyph.ps1` | #4253 QAT overflow chevrons paint at 96/144/192 DPI for Office 2007 and Office 2010 | `include` |
 | `UnitTest-CustomPaletteBasePaletteMode.ps1` | #1870 `KryptonCustomPaletteBase.BasePaletteMode` inherits the builtin colour table; builtin `BasePalette` keeps catalog mode | `include` |
 | `UnitTest-ContextMenuSubMenuImage.ps1` | #4252 Light Gray Office 2007/2010/Microsoft 365 `GetContextMenuSubMenuImage` returns an image; all catalog palettes must not throw | `include` |
 | `Start-AsyncFormsDemoHost.ps1` | Hosts `Feature4177AsyncFormsDemo` | n/a |
@@ -121,5 +122,12 @@ Screenshots from interactive helpers are written under the bin/output directory 
 ```powershell
 dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-KryptonLogProtect.ps1
+```
+
+## Typical usage (#4253 ribbon overflow glyph)
+
+```powershell
+dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-RibbonOverflowGlyph.ps1
 ```
 
