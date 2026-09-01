@@ -125,7 +125,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<Bug3283ThemeComboBoxProgrammaticTest>("Bug 3283 ThemeComboBox programmatic", "Issue #3283: KryptonThemeComboBox must apply the global palette when SelectedIndex is set in code. Buttons cycle or jump the index; status lines show selection vs KryptonManager.CurrentGlobalPaletteMode. Optional: add a fresh combo with index set before its handle exists.");
         CreateButton<Bug2935MdiMultiMonitorDemo>("Bug 2935 MDI multi-monitor", "Demo for issue #2935: maximized MDI child form border drawn on the correct monitor. Move the MDI parent to a second monitor, open and maximize a child; the border should stay on the same monitor.");
         CreateButton<Bug3013TestForm>("Bug 3013 Test", "Tests the fix for 3013.");
-        CreateButton<BugReportingDialogTest>("BugReportingTool", "Easily report bugs with this tool.");
+        CreateButton<BugReportingDialogTest>("BugReportingTool", "Easily report bugs with this tool. Exception emails include type and message only (no stack traces or SMTP password).");
         CreateButton<CodeEditorTest>("Code Editor", "Native code editor with syntax highlighting, line numbering, code folding, and auto-completion.");
         CreateButton<CountdownButtonTest>("Countdown Button", "Comprehensive demonstration of KryptonCountdownButton features with customizable duration, format, and enable-at-zero options.");
         CreateButton<KryptonEnumButtonDemo>("Enum Button", "Issue #3838: KryptonEnumButton cycles through the values of an enum on click, showing DescriptionAttribute text or field names. Demonstrates wrap-around, reverse on right-click, programmatic cycling, and value-changed events.");
