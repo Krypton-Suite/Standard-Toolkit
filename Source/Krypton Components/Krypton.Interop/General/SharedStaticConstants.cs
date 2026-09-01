@@ -52,7 +52,7 @@ public class SharedStaticConstants
     internal const int DEFAULT_PADDING = 10;
 
     /// <summary>The current supported palette version</summary>
-    public const int CURRENT_SUPPORTED_PALETTE_VERSION = 21;
+    public const int CURRENT_SUPPORTED_PALETTE_VERSION = 22;
 
     /// <summary>The default rafting ribbon tab background gradient</summary>
     public const float DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT = 90F;
