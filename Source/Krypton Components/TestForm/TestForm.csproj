@@ -85,11 +85,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>KryptonTaskDialogDemoResources.resx</DependentUpon>
     </Compile>
-    <Compile Update="KryptonToolkit\Feature\BorderlessFormDemo.cs">
+    <Compile Update="KryptonWorkspace\Feature3959WorkspacePageTagPersistDemo.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="KryptonToolkit\Feature\BorderlessFormDemo.Designer.cs">
-      <DependentUpon>BorderlessFormDemo.cs</DependentUpon>
     </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -194,8 +191,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="KryptonDocking\Bugs\" />
-    <Folder Include="KryptonDocking\Feature\" />
     <Folder Include="KryptonNavigator\Bugs\" />
     <Folder Include="KryptonNavigator\Feature\" />
     <Folder Include="KryptonRibbon\Bugs\" />
