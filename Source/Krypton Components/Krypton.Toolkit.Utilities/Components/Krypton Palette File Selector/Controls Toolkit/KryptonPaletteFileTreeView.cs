@@ -23,12 +23,14 @@ namespace Krypton.Toolkit.Utilities;
 [Description(@"Shows palette files and .ktheme collection folders as a tree and applies the selected custom theme.")]
 public class KryptonPaletteFileTreeView : KryptonTreeView
 {
-    private readonly KryptonPaletteFileThemeSelectorController _controller = new();
+    private readonly KryptonPaletteFileThemeSelectorController _controller = new KryptonPaletteFileThemeSelectorController();
+    private readonly KryptonPaletteFileSelectorStrings _strings = new KryptonPaletteFileSelectorStrings();
     private ImageList? _thumbnailImages;
 
     /// <summary>Initializes a new instance of the <see cref="KryptonPaletteFileTreeView"/> class.</summary>
     public KryptonPaletteFileTreeView()
     {
+        _controller.Strings = _strings;
         _controller.SearchSubdirectories = true;
         HideSelection = false;
         Sorted = true;
@@ -243,6 +245,19 @@ public class KryptonPaletteFileTreeView : KryptonTreeView
 
         base.OnAfterSelect(e);
     }
+
+    /// <summary>
+    /// Gets the localisable strings used when listing palette files.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Localizable strings used when listing palette files.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Localizable(true)]
+    public KryptonPaletteFileSelectorStrings Strings => _strings;
+
+    private bool ShouldSerializeStrings() => !Strings.IsDefault;
+
+    private void ResetStrings() => Strings.Reset();
 
     /// <summary>Gets the tree nodes.</summary>
     [Browsable(false)]

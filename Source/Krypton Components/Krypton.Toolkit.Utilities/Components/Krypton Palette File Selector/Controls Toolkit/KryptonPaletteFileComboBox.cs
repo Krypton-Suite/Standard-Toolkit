@@ -22,12 +22,14 @@ namespace Krypton.Toolkit.Utilities;
 [Description(@"Lists palette files (.kthemex / .ktheme collections / .xml) and applies the selected custom theme.")]
 public class KryptonPaletteFileComboBox : KryptonComboBox
 {
-    private readonly KryptonPaletteFileThemeSelectorController _controller = new();
+    private readonly KryptonPaletteFileThemeSelectorController _controller = new KryptonPaletteFileThemeSelectorController();
+    private readonly KryptonPaletteFileSelectorStrings _strings = new KryptonPaletteFileSelectorStrings();
 
     /// <summary>Initializes a new instance of the <see cref="KryptonPaletteFileComboBox"/> class.</summary>
     public KryptonPaletteFileComboBox()
     {
         DropDownStyle = ComboBoxStyle.DropDownList;
+        _controller.Strings = _strings;
     }
 
     /// <summary>
@@ -251,6 +253,19 @@ public class KryptonPaletteFileComboBox : KryptonComboBox
         get => base.DropDownStyle;
         set => base.DropDownStyle = value;
     }
+
+    /// <summary>
+    /// Gets the localisable strings used when listing palette files.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Localizable strings used when listing palette files.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Localizable(true)]
+    public KryptonPaletteFileSelectorStrings Strings => _strings;
+
+    private bool ShouldSerializeStrings() => !Strings.IsDefault;
+
+    private void ResetStrings() => Strings.Reset();
 
     /// <summary>Gets and sets the selected index.</summary>
     [Browsable(false)]

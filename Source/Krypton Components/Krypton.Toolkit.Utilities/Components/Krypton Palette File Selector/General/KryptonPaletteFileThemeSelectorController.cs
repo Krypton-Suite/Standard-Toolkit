@@ -36,6 +36,8 @@ internal sealed class KryptonPaletteFileThemeSelectorController
 
     internal bool LoadThumbnails { get; set; }
 
+    internal KryptonPaletteFileSelectorStrings Strings { get; set; } = KryptonPaletteFileSelectorStrings.Default;
+
     internal Size ThumbnailSize { get; set; } = new Size(32, 32);
 
     internal bool SuppressSelection { get; set; }
@@ -46,7 +48,7 @@ internal sealed class KryptonPaletteFileThemeSelectorController
 
     internal KryptonPaletteFileThemeItem[] Scan() =>
         KryptonPaletteFileThemeItem.FromDirectory(PaletteDirectory, SearchSubdirectories,
-            IncludeKthemex, IncludeKtheme, IncludeXml, LoadThumbnails);
+            IncludeKthemex, IncludeKtheme, IncludeXml, LoadThumbnails, Strings.DuplicateDisplayNameFormat);
 
     internal int Reload(IList items, KryptonPaletteFileThemeItem? previous)
     {

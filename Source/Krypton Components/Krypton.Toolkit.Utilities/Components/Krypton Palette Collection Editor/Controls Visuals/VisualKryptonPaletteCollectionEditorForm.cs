@@ -14,8 +14,21 @@ namespace Krypton.Toolkit.Utilities;
 /// </summary>
 internal partial class VisualKryptonPaletteCollectionEditorForm : KryptonForm
 {
+    private readonly KryptonPaletteCollectionEditorStrings _strings;
+
     internal VisualKryptonPaletteCollectionEditorForm()
+        : this(null, null)
     {
+    }
+
+    internal VisualKryptonPaletteCollectionEditorForm(string? collectionPath)
+        : this(collectionPath, null)
+    {
+    }
+
+    internal VisualKryptonPaletteCollectionEditorForm(string? collectionPath, KryptonPaletteCollectionEditorStrings? strings)
+    {
+        _strings = strings ?? new KryptonPaletteCollectionEditorStrings();
         InitializeComponent();
         kbtnBrowse.Click += (_, _) => BrowseCollection();
         kbtnSaveName.Click += (_, _) => SaveCollectionName();
@@ -23,11 +36,9 @@ internal partial class VisualKryptonPaletteCollectionEditorForm : KryptonForm
         kbtnRemove.Click += (_, _) => RemoveSelectedTheme();
         kbtnClose.Click += (_, _) => Close();
         CancelButton = kbtnClose;
-    }
+        ApplyStrings();
+        PopulateViews();
 
-    internal VisualKryptonPaletteCollectionEditorForm(string? collectionPath)
-        : this()
-    {
         if (!string.IsNullOrWhiteSpace(collectionPath))
         {
             ktxtCollectionPath.Text = collectionPath;
@@ -44,12 +55,12 @@ internal partial class VisualKryptonPaletteCollectionEditorForm : KryptonForm
     {
         using var dialog = new OpenFileDialog
         {
-            Title = @"Open or create palette collection",
-            Filter = @"Krypton theme containers (*.ktheme)|*.ktheme|All files (*.*)|*.*",
+            Title = _strings.OpenCollectionTitle,
+            Filter = _strings.ThemeContainerDialogFilter,
             DefaultExt = KryptonPaletteFile.BinaryExtension,
             CheckFileExists = false,
             FileName = string.IsNullOrWhiteSpace(ktxtCollectionPath.Text)
-                ? @"themes.ktheme"
+                ? _strings.CollectionFileName
                 : Path.GetFileName(ktxtCollectionPath.Text),
             InitialDirectory = InitialDirectory(ktxtCollectionPath.Text)
         };
@@ -73,18 +84,18 @@ internal partial class VisualKryptonPaletteCollectionEditorForm : KryptonForm
 
         if (!File.Exists(path))
         {
-            SetStatus(@"Add a theme before saving the collection name.");
+            SetStatus(_strings.AddThemeBeforeSavingName);
             return;
         }
 
         try
         {
             KryptonPaletteFile.SetCollectionName(path, ktxtCollectionName.Text);
-            SetStatus($@"Collection name saved as '{KryptonPaletteFile.GetCollectionName(path)}'.");
+            SetStatus(string.Format(_strings.CollectionNameSavedFormat, KryptonPaletteFile.GetCollectionName(path)));
         }
         catch (Exception ex)
         {
-            ShowError(ex, @"Save collection name");
+            ShowError(ex, _strings.SaveCollectionNameTitle);
         }
     }
 
@@ -98,8 +109,8 @@ internal partial class VisualKryptonPaletteCollectionEditorForm : KryptonForm
 
         using var dialog = new OpenFileDialog
         {
-            Title = @"Add palette files to collection",
-            Filter = KryptonPaletteFile.DialogFilter,
+            Title = _strings.AddFilesTitle,
+            Filter = _strings.AddFilesFilter,
             DefaultExt = KryptonPaletteFile.Extension,
             Multiselect = true,
             CheckFileExists = true,
@@ -124,8 +135,8 @@ internal partial class VisualKryptonPaletteCollectionEditorForm : KryptonForm
         RefreshThemes();
         PersistCollectionNameIfNeeded(path);
         SetStatus(added == 0
-            ? @"No themes were added."
-            : $@"Added {added} file(s) to the collection.");
+            ? _strings.NoThemesAdded
+            : string.Format(_strings.AddedFilesFormat, added));
     }
 
     private bool TryAddSource(string collectionPath, string sourcePath)
@@ -138,8 +149,8 @@ internal partial class VisualKryptonPaletteCollectionEditorForm : KryptonForm
         catch (ArgumentException ex) when (IsDuplicateName(ex))
         {
             var replace = KryptonMessageBox.Show(this,
-                ex.Message + Environment.NewLine + Environment.NewLine + @"Replace the existing theme?",
-                @"Duplicate theme name",
+                ex.Message + Environment.NewLine + Environment.NewLine + _strings.ReplaceExistingTheme,
+                _strings.DuplicateThemeTitle,
                 KryptonMessageBoxButtons.YesNo,
                 KryptonMessageBoxIcon.Question);
             if (replace != DialogResult.Yes)
@@ -154,13 +165,13 @@ internal partial class VisualKryptonPaletteCollectionEditorForm : KryptonForm
             }
             catch (Exception retryEx)
             {
-                ShowError(retryEx, @"Add to collection");
+                ShowError(retryEx, _strings.AddToCollectionTitle);
                 return false;
             }
         }
         catch (Exception ex)
         {
-            ShowError(ex, @"Add to collection");
+            ShowError(ex, _strings.AddToCollectionTitle);
             return false;
         }
     }
@@ -173,10 +184,10 @@ internal partial class VisualKryptonPaletteCollectionEditorForm : KryptonForm
             return;
         }
 
-        var themeName = klstThemes.GetItemText(klstThemes.SelectedItem);
+        var themeName = SelectedThemeName();
         if (string.IsNullOrWhiteSpace(themeName))
         {
-            SetStatus(@"Select a theme to remove.");
+            SetStatus(_strings.SelectThemeToRemove);
             return;
         }
 
@@ -184,17 +195,17 @@ internal partial class VisualKryptonPaletteCollectionEditorForm : KryptonForm
         {
             KryptonPaletteFile.RemoveFromCollection(path, themeName!);
             RefreshThemes();
-            SetStatus($@"Removed '{themeName}'.");
+            SetStatus(string.Format(_strings.RemovedThemeFormat, themeName));
         }
         catch (Exception ex)
         {
-            ShowError(ex, @"Remove from collection");
+            ShowError(ex, _strings.RemoveFromCollectionTitle);
         }
     }
 
     private void RefreshThemes()
     {
-        klstThemes.Items.Clear();
+        klvThemes.Items.Clear();
         var path = CollectionPath;
         if (string.IsNullOrWhiteSpace(path) || !File.Exists(path))
         {
@@ -206,8 +217,8 @@ internal partial class VisualKryptonPaletteCollectionEditorForm : KryptonForm
             kbtnRemove.Enabled = false;
             kbtnSaveName.Enabled = File.Exists(path);
             SetStatus(string.IsNullOrWhiteSpace(path)
-                ? @"Choose a .ktheme collection, then add .kthemex files."
-                : @"Collection file does not exist yet. Add a .kthemex file to create it.");
+                ? _strings.StatusChooseThenAdd
+                : _strings.CollectionMissingAddToCreate);
             return;
         }
 
@@ -217,24 +228,27 @@ internal partial class VisualKryptonPaletteCollectionEditorForm : KryptonForm
             var names = KryptonPaletteFile.GetThemeNames(path);
             for (var i = 0; i < names.Length; i++)
             {
-                klstThemes.Items.Add(names[i]);
+                klvThemes.Items.Add(names[i]);
             }
 
-            if (klstThemes.Items.Count > 0)
+            if (klvThemes.Items.Count > 0)
             {
-                klstThemes.SelectedIndex = 0;
+                klvThemes.Items[0].Selected = true;
+                klvThemes.Items[0].Focused = true;
             }
 
-            kbtnRemove.Enabled = klstThemes.Items.Count > 1;
+            kbtnRemove.Enabled = klvThemes.Items.Count > 1;
             kbtnSaveName.Enabled = KryptonPaletteFile.IsCollection(path);
-            var collectionLabel = KryptonPaletteFile.IsCollection(path) ? @"collection" : @"single-theme .ktheme (will become a collection on add)";
-            SetStatus($@"{names.Length} theme(s) in {collectionLabel}.");
+            var collectionLabel = KryptonPaletteFile.IsCollection(path)
+                ? _strings.CollectionKindCollection
+                : _strings.CollectionKindSingleTheme;
+            SetStatus(string.Format(_strings.ThemeCountFormat, names.Length, collectionLabel));
         }
         catch (Exception ex)
         {
             kbtnRemove.Enabled = false;
             kbtnSaveName.Enabled = false;
-            ShowError(ex, @"Open collection");
+            ShowError(ex, _strings.OpenCollectionErrorTitle);
         }
     }
 
@@ -248,16 +262,16 @@ internal partial class VisualKryptonPaletteCollectionEditorForm : KryptonForm
 
         if (!createIfMissing)
         {
-            SetStatus(@"Choose a .ktheme collection first.");
+            SetStatus(_strings.ChooseCollectionFirst);
             return null;
         }
 
         using var dialog = new SaveFileDialog
         {
-            Title = @"Create palette collection",
-            Filter = @"Krypton theme containers (*.ktheme)|*.ktheme|All files (*.*)|*.*",
+            Title = _strings.CreateCollectionTitle,
+            Filter = _strings.ThemeContainerDialogFilter,
             DefaultExt = KryptonPaletteFile.BinaryExtension,
-            FileName = @"themes.ktheme",
+            FileName = _strings.CollectionFileName,
             OverwritePrompt = true
         };
 
@@ -317,12 +331,77 @@ internal partial class VisualKryptonPaletteCollectionEditorForm : KryptonForm
         return string.IsNullOrEmpty(directory) ? string.Empty : directory;
     }
 
+    private string? SelectedThemeName() =>
+        klvThemes.SelectedItems.Count > 0 ? klvThemes.SelectedItems[0].Text : null;
+
     private void SetStatus(string text) => klblStatus.Text = text;
+
+    private void ApplyStrings()
+    {
+        var s = _strings;
+        Text = s.WindowTitle;
+        kwlblInfo.Text = s.Info;
+        klblCollectionPath.Values.Text = s.CollectionFileLabel;
+        kbtnBrowse.Values.Text = s.Browse;
+        klblCollectionName.Values.Text = s.CollectionNameLabel;
+        kbtnSaveName.Values.Text = s.SaveName;
+        klblThemes.Values.Text = s.ThemesLabel;
+        kbtnAdd.Values.Text = s.Add;
+        kbtnRemove.Values.Text = s.Remove;
+        kbtnClose.Values.Text = KryptonManager.Strings.GeneralStrings.Close;
+        klblViewBy.Values.Text = s.ViewByLabel;
+        klblStatus.Values.Text = s.StatusChooseThenAdd;
+    }
+
+    private void PopulateViews()
+    {
+        var selected = klvThemes.View;
+        kcmbViewBy.Items.Clear();
+        kcmbViewBy.Items.Add(new ViewDisplayItem(View.LargeIcon, _strings.ViewLargeIcon));
+        kcmbViewBy.Items.Add(new ViewDisplayItem(View.Details, _strings.ViewDetails));
+        kcmbViewBy.Items.Add(new ViewDisplayItem(View.SmallIcon, _strings.ViewSmallIcon));
+        kcmbViewBy.Items.Add(new ViewDisplayItem(View.List, _strings.ViewList));
+        kcmbViewBy.Items.Add(new ViewDisplayItem(View.Tile, _strings.ViewTile));
+        var index = 0;
+        for (var i = 0; i < kcmbViewBy.Items.Count; i++)
+        {
+            if (kcmbViewBy.Items[i] is ViewDisplayItem item && item.View == selected)
+            {
+                index = i;
+                break;
+            }
+        }
+
+        kcmbViewBy.SelectedIndex = index;
+    }
 
     private void ShowError(Exception ex, string title)
     {
         var message = ex.GetBaseException().Message;
         SetStatus(message);
         KryptonMessageBox.Show(this, message, title, KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error);
+    }
+
+    private void kcmbViewBy_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (kcmbViewBy.SelectedItem is ViewDisplayItem item)
+        {
+            klvThemes.View = item.View;
+        }
+    }
+
+    private sealed class ViewDisplayItem
+    {
+        internal ViewDisplayItem(View view, string text)
+        {
+            View = view;
+            Text = text;
+        }
+
+        internal View View { get; }
+
+        private string Text { get; }
+
+        public override string ToString() => Text;
     }
 }

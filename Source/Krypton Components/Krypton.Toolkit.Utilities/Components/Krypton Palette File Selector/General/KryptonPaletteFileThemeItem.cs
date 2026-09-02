@@ -90,6 +90,10 @@ public sealed class KryptonPaletteFileThemeItem : IContentValues
     /// <param name="includeKtheme">Include <c>*.ktheme</c>.</param>
     /// <param name="includeXml">Include legacy <c>*.xml</c>.</param>
     /// <param name="loadThumbnails">When <see langword="true"/>, attach <see cref="Thumbnail"/> from the collection catalog or persisted image.</param>
+    /// <param name="duplicateDisplayNameFormat">
+    /// Format for colliding list captions. <c>{0}</c> is the original name, <c>{1}</c> is a suffix.
+    /// When omitted, <see cref="KryptonPaletteFileSelectorStrings.Default"/> is used.
+    /// </param>
     /// <returns>Items sorted by display name.</returns>
     // ToDo V120 LTS: Remove includeXml. Call UpgradeXmlToKthemex before scanning a folder of palettes.
     public static KryptonPaletteFileThemeItem[] FromDirectory(string directory,
@@ -97,7 +101,8 @@ public sealed class KryptonPaletteFileThemeItem : IContentValues
         bool includeKthemex = true,
         bool includeKtheme = true,
         bool includeXml = true,
-        bool loadThumbnails = false)
+        bool loadThumbnails = false,
+        string? duplicateDisplayNameFormat = null)
     {
         var files = KryptonPaletteFile.GetPaletteFiles(directory, searchSubdirectories, includeKthemex, includeKtheme, includeXml);
         var items = new List<KryptonPaletteFileThemeItem>();
@@ -132,7 +137,8 @@ public sealed class KryptonPaletteFileThemeItem : IContentValues
                             string.IsNullOrWhiteSpace(innerName)
                                 ? Path.GetFileNameWithoutExtension(path)
                                 : innerName);
-                    var display = UniqueDisplay(KryptonPaletteFile.ToDisplayPath(treePath), usedDisplayNames);
+                    var display = UniqueDisplay(KryptonPaletteFile.ToDisplayPath(treePath), usedDisplayNames,
+                        duplicateDisplayNameFormat);
                     items.Add(new KryptonPaletteFileThemeItem(path, innerName, isCollection: true, display, treePath));
                 }
             }
@@ -145,7 +151,7 @@ public sealed class KryptonPaletteFileThemeItem : IContentValues
                     : (!string.IsNullOrWhiteSpace(themeName)
                         ? themeName
                         : Path.GetFileNameWithoutExtension(path));
-                var display = UniqueDisplay(displaySource, usedDisplayNames);
+                var display = UniqueDisplay(displaySource, usedDisplayNames, duplicateDisplayNameFormat);
                 items.Add(new KryptonPaletteFileThemeItem(path, themeName, isCollection: false, display, treePath));
             }
         }
@@ -330,13 +336,24 @@ public sealed class KryptonPaletteFileThemeItem : IContentValues
         return slash <= 0 ? string.Empty : collectionThemeName.Substring(0, slash);
     }
 
-    private static string UniqueDisplay(string candidate, HashSet<string> used)
+    private static string UniqueDisplay(string candidate, HashSet<string> used, string? format)
     {
         var display = candidate;
         var suffix = 2;
+        var pattern = string.IsNullOrEmpty(format)
+            ? KryptonPaletteFileSelectorStrings.Default.DuplicateDisplayNameFormat
+            : format;
         while (!used.Add(display))
         {
-            display = $@"{candidate} ({suffix})";
+            try
+            {
+                display = string.Format(pattern, candidate, suffix);
+            }
+            catch (FormatException)
+            {
+                display = candidate + @" (" + suffix + @")";
+            }
+
             suffix++;
         }
 

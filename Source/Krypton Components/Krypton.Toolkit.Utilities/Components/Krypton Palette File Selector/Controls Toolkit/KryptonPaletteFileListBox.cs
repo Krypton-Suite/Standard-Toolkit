@@ -22,7 +22,14 @@ namespace Krypton.Toolkit.Utilities;
 [Description(@"Lists palette files (.kthemex / .ktheme collections / .xml) and applies the selected custom theme.")]
 public class KryptonPaletteFileListBox : KryptonListBox
 {
-    private readonly KryptonPaletteFileThemeSelectorController _controller = new();
+    private readonly KryptonPaletteFileThemeSelectorController _controller = new KryptonPaletteFileThemeSelectorController();
+    private readonly KryptonPaletteFileSelectorStrings _strings = new KryptonPaletteFileSelectorStrings();
+
+    /// <summary>Initializes a new instance of the <see cref="KryptonPaletteFileListBox"/> class.</summary>
+    public KryptonPaletteFileListBox()
+    {
+        _controller.Strings = _strings;
+    }
 
     /// <summary>
     /// Gets or sets the folder that is scanned for palette files.
@@ -231,6 +238,19 @@ public class KryptonPaletteFileListBox : KryptonListBox
 
         base.OnSelectedIndexChanged(e);
     }
+
+    /// <summary>
+    /// Gets the localisable strings used when listing palette files.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Localizable strings used when listing palette files.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Localizable(true)]
+    public KryptonPaletteFileSelectorStrings Strings => _strings;
+
+    private bool ShouldSerializeStrings() => !Strings.IsDefault;
+
+    private void ResetStrings() => Strings.Reset();
 
     /// <summary>Gets the items of the list box.</summary>
     [Browsable(false)]

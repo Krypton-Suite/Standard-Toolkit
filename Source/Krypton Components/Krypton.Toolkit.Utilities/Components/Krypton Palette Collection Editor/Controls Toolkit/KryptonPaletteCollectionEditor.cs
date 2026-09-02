@@ -28,6 +28,7 @@ public class KryptonPaletteCollectionEditor : Component
     /// </summary>
     public KryptonPaletteCollectionEditor()
     {
+        Strings = new KryptonPaletteCollectionEditorStrings();
     }
 
     /// <summary>
@@ -46,12 +47,26 @@ public class KryptonPaletteCollectionEditor : Component
     /// </summary>
     [Category(@"Data")]
     [DefaultValue(@"")]
+    [Localizable(true)]
     [Description(@"Path of the .ktheme collection to edit.")]
     public string CollectionPath
     {
         get => _collectionPath;
         set => _collectionPath = value ?? string.Empty;
     }
+
+    /// <summary>
+    /// Gets the localisable strings used by the collection editor dialog.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Localizable strings used by the collection editor dialog.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Localizable(true)]
+    public KryptonPaletteCollectionEditorStrings Strings { get; }
+
+    private bool ShouldSerializeStrings() => !Strings.IsDefault;
+
+    private void ResetStrings() => Strings.Reset();
 
     /// <summary>
     /// Shows the collection editor without an owner window.
@@ -66,7 +81,7 @@ public class KryptonPaletteCollectionEditor : Component
     /// <returns>The dialog result.</returns>
     public DialogResult ShowDialog(IWin32Window? owner)
     {
-        using var form = new VisualKryptonPaletteCollectionEditorForm(CollectionPath);
+        using var form = new VisualKryptonPaletteCollectionEditorForm(CollectionPath, Strings);
         var result = owner is null ? form.ShowDialog() : form.ShowDialog(owner);
         CollectionPath = form.CollectionPath;
         return result;
@@ -93,7 +108,12 @@ public class KryptonPaletteCollectionEditor : Component
     /// <returns>The dialog result.</returns>
     public static DialogResult Show(IWin32Window? owner, string? collectionPath)
     {
-        using var form = new VisualKryptonPaletteCollectionEditorForm(collectionPath);
-        return owner is null ? form.ShowDialog() : form.ShowDialog(owner);
+        using var editor = new KryptonPaletteCollectionEditor();
+        if (!string.IsNullOrWhiteSpace(collectionPath))
+        {
+            editor.CollectionPath = collectionPath!;
+        }
+
+        return editor.ShowDialog(owner);
     }
 }
