@@ -54,7 +54,9 @@
   * `KryptonCustomPaletteBase.Export(string)` writes XML for `.kpalx` and `.xml`; `.kpal` writes the optional native persist stream. Use the `KryptonPaletteFileFormat` overload for compressed-XML `.kpal`. `Export(bool)` still returns XML bytes.
   * `KryptonPaletteFile.Convert` rewrites a legacy `.xml` (or current `.kpalx` / `.kpal`) through `ImportWithUpgrade` and writes `.kpalx`, `.xml`, or native `.kpal`. JSON is not a palette format.
   * A `.kpal` pack can store several named themes in one file (`KryptonPaletteFile.ExportPack` / `GetThemeNames` / `Import(path, themeName)`). Single-theme `.kpal` files are unchanged.
-  * `KryptonPaletteFileListBox` and `KryptonPaletteFileComboBox` list `.kpalx` / `.kpal` (including packs) / `.xml` from a folder and apply the selected theme.
+  * `KryptonPaletteFile.ExportPackFromDirectory` packs a folder tree into one `.kpal` using relative `/` paths as theme names (no container-version bump).
+  * Palettes can store an optional `KryptonCustomPaletteBase.Thumbnail` preview (recommended 64×64). Packs keep a trailing `KPTH` catalog so selectors can list previews without a full import; older readers ignore the tail.
+  * `KryptonPaletteFileListBox`, `KryptonPaletteFileComboBox`, and `KryptonPaletteFileTreeView` list `.kpalx` / `.kpal` (including folder packs) / `.xml` from a folder and apply the selected theme. Enable `SearchSubdirectories` to mirror a catalog such as Theme-Palettes. Set `ShowThumbnails` when palettes provide previews.
    * To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Resolved [#1870](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1870), `KryptonCustomPaletteBase`, Unable to Set / Change the colour table (help to migrate to v90.)
   * `KryptonCustomPaletteBase.BasePaletteMode` now switches the inherited colour table (Office 2010 Silver and other builtin themes no longer stay stuck on Microsoft 365 Blue).

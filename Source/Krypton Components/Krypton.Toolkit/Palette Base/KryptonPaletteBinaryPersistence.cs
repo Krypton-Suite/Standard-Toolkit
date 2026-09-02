@@ -18,7 +18,10 @@ namespace Krypton.Toolkit;
 /// payload kind (uint16: 0 = Deflate XML, 1 = native persist, 2 = named theme pack),
 /// palette schema version (int32), name length (uint16) + UTF-8 name, then payload bytes.
 /// Kind 2 payload: uint16 count, then count entries of (uint16 name length + UTF-8 name,
-/// uint16 inner kind, int32 payload length, payload bytes).
+/// uint16 inner kind, int32 payload length, payload bytes). Optional trailing catalog:
+/// ASCII "KPTH", uint16 catalog version, int32 byte length, then that many bytes
+/// (uint16 count, then per-image name + width + height + PNG). Older readers ignore the tail.
+/// Do not bump the container version for the catalog.
 /// </remarks>
 internal static class KryptonPaletteBinaryPersistence
 {
@@ -26,6 +29,9 @@ internal static class KryptonPaletteBinaryPersistence
     internal const ushort KindCompressedXml = 0;
     internal const ushort KindNative = 1;
     internal const ushort KindPack = 2;
+    internal const ushort ThumbnailCatalogVersion = 1;
+
+    private static readonly byte[] ThumbnailCatalogMagicBytes = Encoding.ASCII.GetBytes(@"KPTH");
 
     private const byte RecordEnd = 0;
     private const byte RecordNavigate = 1;
@@ -35,9 +41,9 @@ internal static class KryptonPaletteBinaryPersistence
 
     internal enum SniffedKind
     {
+        Unknown,
         Xml,
-        Container,
-        Unknown
+        Container
     }
 
     internal static SniffedKind Sniff(Stream stream)
@@ -160,6 +166,253 @@ internal static class KryptonPaletteBinaryPersistence
         }
     }
 
+    internal static Image?[] GetPackThemeThumbnails(Stream stream)
+    {
+        ThrowHelper.ThrowIfNull(stream);
+
+        var owned = false;
+        if (!stream.CanSeek)
+        {
+            stream = CopyRemaining(stream);
+            owned = true;
+        }
+
+        var position = stream.Position;
+        try
+        {
+            if (Sniff(stream) != SniffedKind.Container)
+            {
+                return Array.Empty<Image?>();
+            }
+
+            var header = ReadContainerHeader(stream);
+            if (header.Kind != KindPack)
+            {
+                return Array.Empty<Image?>();
+            }
+
+            var entries = ReadPackEntries(stream);
+            var names = new string[entries.Count];
+            for (var i = 0; i < entries.Count; i++)
+            {
+                names[i] = entries[i].Name;
+            }
+
+            return AlignThumbnails(names, TryReadThumbnailCatalog(stream));
+        }
+        finally
+        {
+            if (owned)
+            {
+                stream.Dispose();
+            }
+            else
+            {
+                stream.Position = position;
+            }
+        }
+    }
+
+    private static void WriteThumbnailCatalog(BinaryWriter writer, IList<KryptonCustomPaletteBase> palettes)
+    {
+        using var payload = new MemoryStream();
+        using (var payloadWriter = new BinaryWriter(payload, Encoding.UTF8, leaveOpen: true))
+        {
+            var countPosition = payload.Position;
+            payloadWriter.Write((ushort)0);
+            ushort count = 0;
+            for (var i = 0; i < palettes.Count; i++)
+            {
+                var palette = palettes[i];
+                if (palette?.Thumbnail == null)
+                {
+                    continue;
+                }
+
+                Bitmap? owned = null;
+                var bitmap = palette.Thumbnail as Bitmap;
+                if (bitmap == null)
+                {
+                    owned = new Bitmap(palette.Thumbnail);
+                    bitmap = owned;
+                }
+
+                try
+                {
+                    var name = palette.GetPaletteName()?.Trim() ?? string.Empty;
+                    var nameBytes = Encoding.UTF8.GetBytes(name);
+                    if (nameBytes.Length > ushort.MaxValue)
+                    {
+                        continue;
+                    }
+
+                    var png = EncodePng(bitmap);
+                    if (png.Length == 0 || png.Length > MaxThumbnailPngBytes)
+                    {
+                        continue;
+                    }
+
+                    payloadWriter.Write((ushort)nameBytes.Length);
+                    payloadWriter.Write(nameBytes);
+                    payloadWriter.Write((ushort)Math.Min(bitmap.Width, ushort.MaxValue));
+                    payloadWriter.Write((ushort)Math.Min(bitmap.Height, ushort.MaxValue));
+                    payloadWriter.Write(png.Length);
+                    payloadWriter.Write(png);
+                    count++;
+                }
+                finally
+                {
+                    owned?.Dispose();
+                }
+            }
+
+            if (count == 0)
+            {
+                return;
+            }
+
+            payloadWriter.Flush();
+            payload.Position = countPosition;
+            payloadWriter.Write(count);
+            payloadWriter.Flush();
+        }
+
+        var bytes = payload.ToArray();
+        writer.Write(ThumbnailCatalogMagicBytes);
+        writer.Write(ThumbnailCatalogVersion);
+        writer.Write(bytes.Length);
+        writer.Write(bytes);
+    }
+
+    private static Dictionary<string, Image>? TryReadThumbnailCatalog(Stream stream)
+    {
+        if (stream.Length - stream.Position < 10)
+        {
+            return null;
+        }
+
+        var magic = new byte[4];
+        var read = stream.Read(magic, 0, 4);
+        if (read != 4 || magic[0] != ThumbnailCatalogMagicBytes[0]
+            || magic[1] != ThumbnailCatalogMagicBytes[1]
+            || magic[2] != ThumbnailCatalogMagicBytes[2]
+            || magic[3] != ThumbnailCatalogMagicBytes[3])
+        {
+            if (read > 0 && stream.CanSeek)
+            {
+                stream.Position -= read;
+            }
+
+            return null;
+        }
+
+        using var reader = new BinaryReader(stream, Encoding.UTF8, leaveOpen: true);
+        var version = reader.ReadUInt16();
+        var byteLength = reader.ReadInt32();
+        if (byteLength < 0 || byteLength > stream.Length - stream.Position)
+        {
+            return null;
+        }
+
+        var payload = byteLength == 0 ? Array.Empty<byte>() : reader.ReadBytes(byteLength);
+        if (payload.Length != byteLength)
+        {
+            return null;
+        }
+
+        if (version != ThumbnailCatalogVersion)
+        {
+            return null;
+        }
+
+        return ParseThumbnailCatalogPayload(payload);
+    }
+
+    private static Dictionary<string, Image>? ParseThumbnailCatalogPayload(byte[] payload)
+    {
+        using var memory = new MemoryStream(payload, writable: false);
+        using var reader = new BinaryReader(memory, Encoding.UTF8, leaveOpen: true);
+        var count = reader.ReadUInt16();
+        var map = new Dictionary<string, Image>(count, StringComparer.OrdinalIgnoreCase);
+        for (var i = 0; i < count; i++)
+        {
+            var nameLength = reader.ReadUInt16();
+            var nameBytes = nameLength == 0 ? Array.Empty<byte>() : reader.ReadBytes(nameLength);
+            if (nameBytes.Length != nameLength)
+            {
+                DisposeImages(map);
+                return null;
+            }
+
+            var name = nameLength == 0 ? string.Empty : Encoding.UTF8.GetString(nameBytes);
+            reader.ReadUInt16();
+            reader.ReadUInt16();
+            var pngLength = reader.ReadInt32();
+            if (pngLength < 0 || pngLength > MaxThumbnailPngBytes)
+            {
+                DisposeImages(map);
+                return null;
+            }
+
+            var png = pngLength == 0 ? Array.Empty<byte>() : reader.ReadBytes(pngLength);
+            if (png.Length != pngLength)
+            {
+                DisposeImages(map);
+                return null;
+            }
+
+            if (pngLength == 0 || string.IsNullOrEmpty(name) || map.ContainsKey(name))
+            {
+                continue;
+            }
+
+            map[name] = LoadPng(png);
+        }
+
+        return map;
+    }
+
+    private static Image?[] AlignThumbnails(string[] names, Dictionary<string, Image>? catalog)
+    {
+        var result = new Image?[names.Length];
+        if (catalog == null)
+        {
+            return result;
+        }
+
+        var used = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        for (var i = 0; i < names.Length; i++)
+        {
+            if (catalog.TryGetValue(names[i], out var image))
+            {
+                result[i] = image;
+                used.Add(names[i]);
+            }
+        }
+
+        foreach (var pair in catalog)
+        {
+            if (!used.Contains(pair.Key))
+            {
+                pair.Value.Dispose();
+            }
+        }
+
+        return result;
+    }
+
+    private static void DisposeImages(Dictionary<string, Image> map)
+    {
+        foreach (var pair in map)
+        {
+            pair.Value.Dispose();
+        }
+
+        map.Clear();
+    }
+
+    private const int MaxThumbnailPngBytes = 1024 * 1024;
+
     internal static bool IsPack(Stream stream)
     {
         ThrowHelper.ThrowIfNull(stream);
@@ -265,6 +518,7 @@ internal static class KryptonPaletteBinaryPersistence
             writer.Write(entry.Payload);
         }
 
+        WriteThumbnailCatalog(writer, palettes);
         writer.Flush();
     }
 
@@ -291,11 +545,13 @@ internal static class KryptonPaletteBinaryPersistence
     }
 
     /// <summary>
-    /// Copies XML that PaletteUpgradeTool / XSLT can consume. Returns <see langword="false"/> for native payloads.
+    /// Copies XML that PaletteUpgradeTool / XSLT can consume.
+    /// Returns <see langword="true"/> only when <paramref name="xmlStream"/> is a usable XML copy;
+    /// <see langword="false"/> for native payloads, unknown data, or when no XML could be produced.
     /// </summary>
-    internal static bool TryCopyXmlForUpgrade(Stream stream, out MemoryStream? xmlStream)
+    internal static bool TryCopyXmlForUpgrade(Stream stream, out MemoryStream xmlStream)
     {
-        xmlStream = null;
+        xmlStream = null!;
         ThrowHelper.ThrowIfNull(stream);
 
         var owned = false;
@@ -307,12 +563,13 @@ internal static class KryptonPaletteBinaryPersistence
 
         try
         {
+            MemoryStream? xml = null;
             var sniffed = Sniff(stream);
             switch (sniffed)
             {
                 case SniffedKind.Xml:
-                    xmlStream = CopyRemaining(stream);
-                    return true;
+                    xml = CopyRemaining(stream);
+                    break;
                 case SniffedKind.Container:
                     var header = ReadContainerHeader(stream);
                     if (header.Kind != KindCompressedXml)
@@ -320,11 +577,19 @@ internal static class KryptonPaletteBinaryPersistence
                         return false;
                     }
 
-                    xmlStream = InflateToMemory(stream);
-                    return true;
+                    xml = InflateToMemory(stream);
+                    break;
                 default:
                     return false;
             }
+
+            if (xml == null)
+            {
+                return false;
+            }
+
+            xmlStream = xml;
+            return true;
         }
         finally
         {

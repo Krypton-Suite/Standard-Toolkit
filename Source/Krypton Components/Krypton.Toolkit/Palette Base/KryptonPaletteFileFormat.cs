@@ -12,7 +12,7 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// File-dialog filters, extensions, and path helpers for custom palette persistence.
 /// </summary>
-public static class KryptonPaletteFile
+public static partial class KryptonPaletteFile
 {
     /// <summary>
     /// Preferred extension for the XML palette document (without a leading dot).
@@ -138,6 +138,54 @@ public static class KryptonPaletteFile
         RejectJsonPalettePath(path!, nameof(path));
         using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
         return KryptonPaletteBinaryPersistence.GetThemeNames(stream);
+    }
+
+    /// <summary>
+    /// Recommended width and height in pixels for <see cref="KryptonCustomPaletteBase.Thumbnail"/>.
+    /// </summary>
+    public const int RecommendedThumbnailSize = 64;
+
+    /// <summary>
+    /// Four-byte ASCII magic for the optional thumbnail catalog after a kind-2 pack.
+    /// Older readers ignore bytes past the pack entries; do not bump the KPLT container version.
+    /// </summary>
+    public const string ThumbnailCatalogMagic = @"KPTH";
+
+    /// <summary>
+    /// Returns preview images stored for each theme, in the same order as <see cref="GetThemeNames"/>.
+    /// Missing previews are <see langword="null"/>. The caller disposes non-null images.
+    /// </summary>
+    /// <param name="path">Existing palette file.</param>
+    /// <returns>One slot per theme name.</returns>
+    public static Image?[] GetThemeThumbnails(string path)
+    {
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            ThrowHelper.ThrowArgumentNullException(nameof(path));
+        }
+
+        RejectJsonPalettePath(path!, nameof(path));
+        if (IsPack(path))
+        {
+            using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+            return KryptonPaletteBinaryPersistence.GetPackThemeThumbnails(stream);
+        }
+
+        using (var palette = new KryptonCustomPaletteBase())
+        {
+            using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                palette.ImportWithUpgrade(stream);
+            }
+
+            var images = new Image?[1];
+            if (palette.Thumbnail != null)
+            {
+                images[0] = new Bitmap(palette.Thumbnail);
+            }
+
+            return images;
+        }
     }
 
     /// <summary>

@@ -5,7 +5,7 @@
 .DESCRIPTION
     Loads Debug Krypton.Toolkit and round-trips a distinctive colour through
     .kpalx XML, legacy XML, compressed-XML .kpal, and native binary .kpal.
-    Also checks KPLT magic, FormatFromPath, PaletteCornerRounding persist, Convert, packs, JSON rejection, and Utilities FromDirectory scan.
+    Also checks KPLT magic, FormatFromPath, PaletteCornerRounding persist, Convert, packs, directory packs, JSON rejection, and Utilities FromDirectory scan.
 
     Exit code 0 on success; non-zero on failure.
 
@@ -201,14 +201,83 @@ try {
     }
     Assert-True $packXmlRejected 'ExportPack rejects a .kpalx destination'
 
+    $emptyThumbs = [Krypton.Toolkit.KryptonPaletteFile]::GetThemeThumbnails($packPath)
+    Assert-True ($emptyThumbs.Length -eq 2) 'GetThemeThumbnails matches GetThemeNames length when no catalog is present'
+    Assert-True (($null -eq $emptyThumbs[0]) -and ($null -eq $emptyThumbs[1])) 'GetThemeThumbnails is empty when palettes have no Thumbnail'
+
+    $thumb = New-Object System.Drawing.Bitmap 8,8
+    $thumb.SetPixel(0, 0, [System.Drawing.Color]::Red)
+    $packLime.Thumbnail = $thumb
+    $thumbPack = Join-Path $temp 'thumbs.kpal'
+    [void][Krypton.Toolkit.KryptonPaletteFile]::ExportPack($thumbPack, $packList, $true, '2117-thumbs')
+    Assert-True ((Get-Magic $thumbPack) -eq 'KPLT') 'Thumbnail pack still starts with KPLT'
+    $thumbNames = [Krypton.Toolkit.KryptonPaletteFile]::GetThemeNames($thumbPack)
+    Assert-True (($thumbNames[0] -eq 'Pack-Lime') -and ($thumbNames[1] -eq 'Pack-Orange')) 'Thumbnail pack GetThemeNames is unchanged'
+    $packThumbs = [Krypton.Toolkit.KryptonPaletteFile]::GetThemeThumbnails($thumbPack)
+    Assert-True ($packThumbs.Length -eq 2) 'GetThemeThumbnails returns two slots for a two-theme pack'
+    Assert-True (($null -ne $packThumbs[0]) -and ($packThumbs[0].Width -eq 8)) 'Pack catalog returns the Pack-Lime thumbnail'
+    Assert-True ($null -eq $packThumbs[1]) 'Pack catalog has no image for a theme without Thumbnail'
+    if ($packThumbs[0]) { $packThumbs[0].Dispose() }
+    $fromThumb = New-Object Krypton.Toolkit.KryptonCustomPaletteBase
+    [void]$fromThumb.Import($thumbPack, 'Pack-Lime', $true)
+    Assert-True (($null -ne $fromThumb.Thumbnail) -and ($fromThumb.Thumbnail.Width -eq 8)) 'Imported pack theme restores Thumbnail from persist'
+    $xmlThumbPath = Join-Path $temp 'thumb.kpalx'
+    [void]$packLime.Export($xmlThumbPath, $true, $true)
+    $fromXmlThumb = New-Object Krypton.Toolkit.KryptonCustomPaletteBase
+    [void]$fromXmlThumb.Import($xmlThumbPath, $true)
+    Assert-True (($null -ne $fromXmlThumb.Thumbnail) -and ($fromXmlThumb.Thumbnail.Width -eq 8)) '.kpalx import restores Thumbnail'
+    $fromThumb.Dispose()
+    $fromXmlThumb.Dispose()
+    $thumb.Dispose()
+
+    $treeRoot = Join-Path $temp 'Palettes'
+    $officeDir = Join-Path $treeRoot 'Office Themes\2013'
+    $otherDir = Join-Path $treeRoot 'Other'
+    New-Item -ItemType Directory -Path $officeDir -Force | Out-Null
+    New-Item -ItemType Directory -Path $otherDir -Force | Out-Null
+    $access = New-Object Krypton.Toolkit.KryptonCustomPaletteBase
+    $access.SetPaletteName('Access 2013')
+    $access.ToolMenuStatus.StatusStrip.StatusStripGradientBegin = $marker
+    [void]$access.Export((Join-Path $officeDir 'Access 2013.xml'), $true, $true)
+    $hazel = New-Object Krypton.Toolkit.KryptonCustomPaletteBase
+    $hazel.SetPaletteName('Hazel')
+    $hazel.ToolMenuStatus.StatusStrip.StatusStripGradientBegin = $orange
+    [void]$hazel.Export((Join-Path $otherDir 'Hazel.xml'), $true, $true)
+    $dirPack = Join-Path $temp 'palettes.kpal'
+    [void][Krypton.Toolkit.KryptonPaletteFile]::ExportPackFromDirectory($dirPack, $treeRoot)
+    Assert-True ([Krypton.Toolkit.KryptonPaletteFile]::IsPack($dirPack)) 'ExportPackFromDirectory writes a kind-2 pack'
+    Assert-True ([Krypton.Toolkit.KryptonPaletteFile]::IsPackThemePath('Office Themes/2013/Access 2013')) 'IsPackThemePath is true for a / path'
+    $dirNames = [Krypton.Toolkit.KryptonPaletteFile]::GetThemeNames($dirPack)
+    Assert-True ($dirNames -contains 'Office Themes/2013/Access 2013') 'Directory pack names include Office Themes/2013/Access 2013'
+    Assert-True ($dirNames -contains 'Other/Hazel') 'Directory pack names include Other/Hazel'
+    $fromDirPack = New-Object Krypton.Toolkit.KryptonCustomPaletteBase
+    [void]$fromDirPack.Import($dirPack, 'Office Themes/2013/Access 2013', $true)
+    Assert-True ((Format-Color $fromDirPack.ColorTable.StatusStripGradientBegin) -eq (Format-Color $marker)) 'Import path-named pack theme restores Access 2013'
+    Assert-True ($fromDirPack.GetPaletteName() -eq 'Office Themes/2013/Access 2013') 'Import path-named pack theme sets the palette name'
+
     $utilitiesLoaded = [bool]([AppDomain]::CurrentDomain.GetAssemblies() | Where-Object { $_.GetName().Name -eq 'Krypton.Toolkit.Utilities' })
     Assert-True $utilitiesLoaded 'Krypton.Toolkit.Utilities is loaded for file-selector scan'
     if ($utilitiesLoaded) {
         $scanned = [Krypton.Toolkit.Utilities.KryptonPaletteFileThemeItem]::FromDirectory($temp)
         Assert-True ($scanned.Length -ge 2) 'FromDirectory finds palette files in the temp folder'
         $packItems = @($scanned | Where-Object { $_.IsPack })
-        Assert-True ($packItems.Length -eq 2) 'FromDirectory expands a .kpal pack into named items'
+        Assert-True ($packItems.Length -ge 2) 'FromDirectory expands a .kpal pack into named items'
+        $scannedTree = [Krypton.Toolkit.Utilities.KryptonPaletteFileThemeItem]::FromDirectory($treeRoot, $true)
+        Assert-True ($scannedTree.Length -eq 2) 'FromDirectory with SearchSubdirectories finds nested XML palettes'
+        $accessItem = @($scannedTree | Where-Object { $_.TreePath -eq 'Office Themes/2013/Access 2013' })
+        Assert-True ($accessItem.Length -eq 1) 'FromDirectory TreePath preserves Office Themes/2013/Access 2013'
+        $packOnly = Join-Path $temp 'pack-only'
+        New-Item -ItemType Directory -Path $packOnly -Force | Out-Null
+        Copy-Item -LiteralPath $dirPack -Destination (Join-Path $packOnly 'palettes.kpal')
+        $fromPackScan = [Krypton.Toolkit.Utilities.KryptonPaletteFileThemeItem]::FromDirectory($packOnly)
+        $packAccess = @($fromPackScan | Where-Object { $_.ThemeName -eq 'Office Themes/2013/Access 2013' })
+        Assert-True ($packAccess.Length -eq 1) 'FromDirectory rebuilds path-named pack themes'
+        Assert-True ($packAccess[0].TreePath -eq 'Office Themes/2013/Access 2013') 'Pack theme TreePath matches the stored / path'
     }
+
+    $access.Dispose()
+    $hazel.Dispose()
+    $fromDirPack.Dispose()
 
     $packLime.Dispose()
     $packOrange.Dispose()

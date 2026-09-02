@@ -11,7 +11,7 @@ namespace Krypton.Toolkit.Utilities;
 
 /// <summary>
 /// Lists <c>.kpalx</c>, <c>.kpal</c> (including packs), and optional XML palette files from a folder
-/// and applies the selected theme through a <see cref="KryptonManager"/>.
+/// (optionally including subfolders) and applies the selected theme through a <see cref="KryptonManager"/>.
 /// </summary>
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(KryptonListBox), "ToolboxBitmaps.KryptonListBox.bmp")]
@@ -131,6 +131,51 @@ public class KryptonPaletteFileListBox : KryptonListBox
     {
         get => _controller.AutoApply;
         set => _controller.AutoApply = value;
+    }
+
+    /// <summary>
+    /// Gets or sets whether preview images are loaded and shown when a palette defines
+    /// <see cref="KryptonCustomPaletteBase.Thumbnail"/> (or a pack thumbnail catalog).
+    /// </summary>
+    [Category(@"Appearance")]
+    [Description(@"When true, optional palette thumbnails are loaded and shown. Leave off until palettes provide previews.")]
+    [DefaultValue(false)]
+    public bool ShowThumbnails
+    {
+        get => _controller.LoadThumbnails;
+        set
+        {
+            if (_controller.LoadThumbnails == value)
+            {
+                return;
+            }
+
+            _controller.LoadThumbnails = value;
+            Reload();
+        }
+    }
+
+    /// <summary>Gets or sets the display size for loaded thumbnails.</summary>
+    [Category(@"Appearance")]
+    [Description(@"Display size for palette thumbnails when ShowThumbnails is true.")]
+    [DefaultValue(typeof(Size), "32, 32")]
+    public Size ThumbnailSize
+    {
+        get => _controller.ThumbnailSize;
+        set
+        {
+            var size = value.Width < 1 || value.Height < 1 ? new Size(32, 32) : value;
+            if (_controller.ThumbnailSize == size)
+            {
+                return;
+            }
+
+            _controller.ThumbnailSize = size;
+            if (_controller.LoadThumbnails)
+            {
+                Reload();
+            }
+        }
     }
 
     /// <summary>Gets or sets the manager used when applying a theme.</summary>

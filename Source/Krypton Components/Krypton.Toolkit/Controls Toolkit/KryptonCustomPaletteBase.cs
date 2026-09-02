@@ -2370,7 +2370,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                 stream.Position = 0;
             }
 
-            if (KryptonPaletteBinaryPersistence.TryCopyXmlForUpgrade(stream, out var xmlStream) && xmlStream != null)
+            if (KryptonPaletteBinaryPersistence.TryCopyXmlForUpgrade(stream, out var xmlStream))
             {
                 using (xmlStream)
                 {
@@ -2963,6 +2963,25 @@ public class KryptonCustomPaletteBase : PaletteBase
 
     private bool ShouldSerializePaletteName() => !string.IsNullOrWhiteSpace(PaletteName);
     private void ResetPaletteName() => PaletteName = string.Empty;
+
+    /// <summary>
+    /// Gets or sets an optional preview image for this palette (recommended
+    /// <see cref="KryptonPaletteFile.RecommendedThumbnailSize"/> square PNG).
+    /// </summary>
+    /// <remarks>
+    /// Persists in <c>.kpalx</c> / XML and native <c>.kpal</c>. Older toolkits skip the property.
+    /// Pack files also store a trailing thumbnail catalog for fast listing without a full import.
+    /// Leave <see langword="null"/> until a future version generates previews.
+    /// </remarks>
+    [KryptonPersist(false, false)]
+    [Category(@"Visuals")]
+    [Description(@"Optional preview image shown by palette file selectors.")]
+    [DefaultValue(null)]
+    public Image? Thumbnail { get; set; }
+
+    private bool ShouldSerializeThumbnail() => Thumbnail != null;
+
+    private void ResetThumbnail() => Thumbnail = null;
 
     /// <summary>
     /// Gets or sets the builtin palette used to inherit unset colours and styles from.

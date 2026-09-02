@@ -144,10 +144,13 @@ internal class KryptonCustomPaletteBaseActionList : DesignerActionList
     {
         try
         {
-            var destination = _palette?.ActionListConvert();
-            if (!string.IsNullOrWhiteSpace(destination))
+            if (_palette != null)
             {
-                _service?.OnComponentChanged(_palette, null, null, null);
+                var destination = _palette.ActionListConvert();
+                if (!string.IsNullOrWhiteSpace(destination))
+                {
+                    _service?.OnComponentChanged(_palette, null, null, null);
+                }
             }
         }
         catch (Exception exc)

@@ -10,24 +10,29 @@
 namespace Krypton.Toolkit.Utilities;
 
 /// <summary>
-/// Combo box that lists <c>.kpalx</c>, <c>.kpal</c> (including packs), and optional XML palette files
-/// from a folder (optionally including subfolders) and applies the selected theme through a <see cref="KryptonManager"/>.
+/// Tree that lists <c>.kpalx</c>, <c>.kpal</c> (including packs), and optional XML palette files
+/// from a folder (and its subfolders) and applies the selected theme through a <see cref="KryptonManager"/>.
+/// Path-named pack themes reconstruct the original folder tree.
 /// </summary>
 [ToolboxItem(true)]
-[ToolboxBitmap(typeof(KryptonComboBox), "ToolboxBitmaps.KryptonComboBox.bmp")]
-[DefaultEvent(nameof(SelectedIndexChanged))]
+[ToolboxBitmap(typeof(KryptonTreeView), "ToolboxBitmaps.KryptonTreeView.bmp")]
+[DefaultEvent(nameof(AfterSelect))]
 [DefaultProperty(nameof(PaletteDirectory))]
 [Designer(typeof(KryptonStubDesigner))]
 [DesignerCategory(@"code")]
-[Description(@"Lists palette files (.kpalx / .kpal packs / .xml) and applies the selected custom theme.")]
-public class KryptonPaletteFileComboBox : KryptonComboBox
+[Description(@"Shows palette files and .kpal pack folders as a tree and applies the selected custom theme.")]
+public class KryptonPaletteFileTreeView : KryptonTreeView
 {
     private readonly KryptonPaletteFileThemeSelectorController _controller = new();
+    private ImageList? _thumbnailImages;
 
-    /// <summary>Initializes a new instance of the <see cref="KryptonPaletteFileComboBox"/> class.</summary>
-    public KryptonPaletteFileComboBox()
+    /// <summary>Initializes a new instance of the <see cref="KryptonPaletteFileTreeView"/> class.</summary>
+    public KryptonPaletteFileTreeView()
     {
-        DropDownStyle = ComboBoxStyle.DropDownList;
+        _controller.SearchSubdirectories = true;
+        HideSelection = false;
+        Sorted = true;
+        FullRowSelect = true;
     }
 
     /// <summary>
@@ -56,7 +61,7 @@ public class KryptonPaletteFileComboBox : KryptonComboBox
     /// <summary>Gets or sets whether nested folders are scanned.</summary>
     [Category(@"Data")]
     [Description(@"When true, palette files in subfolders are included.")]
-    [DefaultValue(false)]
+    [DefaultValue(true)]
     public bool SearchSubdirectories
     {
         get => _controller.SearchSubdirectories;
@@ -129,7 +134,7 @@ public class KryptonPaletteFileComboBox : KryptonComboBox
         }
     }
 
-    /// <summary>Gets or sets whether selecting an item applies it as the global custom palette.</summary>
+    /// <summary>Gets or sets whether selecting a theme node applies it as the global custom palette.</summary>
     [Category(@"Behavior")]
     [Description(@"When true, the selected palette file theme is applied immediately.")]
     [DefaultValue(true)]
@@ -193,16 +198,15 @@ public class KryptonPaletteFileComboBox : KryptonComboBox
         set => _controller.Manager = value ?? new KryptonManager();
     }
 
-    /// <summary>Gets the selected palette file theme, if any.</summary>
+    /// <summary>Gets the selected palette file theme, if any. Folder nodes return <see langword="null"/>.</summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public KryptonPaletteFileThemeItem? SelectedPaletteTheme
     {
-        get => SelectedItem as KryptonPaletteFileThemeItem;
+        get => SelectedNode?.Tag as KryptonPaletteFileThemeItem;
         set
         {
-            var index = _controller.IndexOf(Items, value);
-            SelectedIndex = index;
+            SelectedNode = FindNode(Nodes, value);
         }
     }
 
@@ -213,8 +217,10 @@ public class KryptonPaletteFileComboBox : KryptonComboBox
         _controller.SuppressSelection = true;
         try
         {
-            var index = _controller.Reload(Items, previous);
-            SelectedIndex = index;
+            var selected = _controller.ReloadTree(Nodes, previous);
+            ApplyThumbnailImages();
+            ExpandAll();
+            SelectedNode = selected;
         }
         finally
         {
@@ -222,41 +228,99 @@ public class KryptonPaletteFileComboBox : KryptonComboBox
         }
     }
 
-    /// <summary>Applies the current selection without requiring <see cref="AutoApply"/>.</summary>
+    /// <summary>Applies the current theme node without requiring <see cref="AutoApply"/>.</summary>
     /// <returns><see langword="true"/> when a theme was applied.</returns>
-    public bool ApplySelected() => _controller.Apply(SelectedItem);
+    public bool ApplySelected() => _controller.Apply(SelectedNode);
 
     /// <inheritdoc />
-    protected override void OnSelectedIndexChanged(EventArgs e)
+    protected override void OnAfterSelect(TreeViewEventArgs e)
     {
         if (!_controller.SuppressSelection && AutoApply && !DesignMode)
         {
-            _controller.Apply(SelectedItem);
+            _controller.Apply(e.Node);
         }
 
-        base.OnSelectedIndexChanged(e);
+        base.OnAfterSelect(e);
     }
 
-    /// <summary>Gets or sets the items in the combo box.</summary>
+    /// <summary>Gets the tree nodes.</summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public new ComboBox.ObjectCollection Items => base.Items;
+    public new TreeNodeCollection Nodes => base.Nodes;
 
-    /// <summary>Gets and sets the appearance and functionality of the combo box.</summary>
+    /// <summary>Gets and sets the selected node.</summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public new ComboBoxStyle DropDownStyle
+    public new TreeNode? SelectedNode
     {
-        get => base.DropDownStyle;
-        set => base.DropDownStyle = value;
+        get => base.SelectedNode;
+        set => base.SelectedNode = value;
     }
 
-    /// <summary>Gets and sets the selected index.</summary>
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public new int SelectedIndex
+    private static TreeNode? FindNode(TreeNodeCollection nodes, KryptonPaletteFileThemeItem? match)
     {
-        get => base.SelectedIndex;
-        set => base.SelectedIndex = value;
+        if (match == null)
+        {
+            return null;
+        }
+
+        foreach (TreeNode node in nodes)
+        {
+            if (node.Tag is KryptonPaletteFileThemeItem item
+                && KryptonPaletteFileThemeSelectorController.Matches(item, match))
+            {
+                return node;
+            }
+
+            var child = FindNode(node.Nodes, match);
+            if (child != null)
+            {
+                return child;
+            }
+        }
+
+        return null;
+    }
+
+    private void ApplyThumbnailImages()
+    {
+        ImageList = null;
+        _thumbnailImages?.Dispose();
+        _thumbnailImages = null;
+        if (!_controller.LoadThumbnails)
+        {
+            return;
+        }
+
+        var list = new ImageList
+        {
+            ColorDepth = ColorDepth.Depth32Bit,
+            ImageSize = _controller.ThumbnailSize
+        };
+        AssignNodeImages(Nodes, list);
+        if (list.Images.Count == 0)
+        {
+            list.Dispose();
+            return;
+        }
+
+        _thumbnailImages = list;
+        ImageList = list;
+    }
+
+    private static void AssignNodeImages(TreeNodeCollection nodes, ImageList list)
+    {
+        foreach (TreeNode node in nodes)
+        {
+            if (node.Tag is KryptonPaletteFileThemeItem item && item.Thumbnail != null)
+            {
+                var index = list.Images.Count;
+                list.Images.Add(item.Thumbnail);
+                node.ImageIndex = index;
+                node.SelectedImageIndex = index;
+            }
+
+            AssignNodeImages(node.Nodes, list);
+        }
     }
 }
