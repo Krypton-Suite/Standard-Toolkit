@@ -1,11 +1,11 @@
-#region BSD License
+ï»¿#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ *  Â© Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. AvilÃ©s (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -472,7 +472,7 @@ public class KryptonColorTable2007 : KryptonColorTable
     /// <summary>
     /// Gets the text color used on the menu items.
     /// </summary>
-    public override Color MenuItemText => Colors[(int)SchemeBaseColors.TextButtonNormal];
+    public override Color MenuItemText => Colors.Resolve(SchemeBaseColors.MenuItemText, SchemeBaseColors.TextButtonNormal);
 
     #endregion
 
@@ -480,7 +480,7 @@ public class KryptonColorTable2007 : KryptonColorTable
     /// <summary>
     /// Gets the text color used on the menu strip.
     /// </summary>
-    public override Color MenuStripText => Colors[(int)SchemeBaseColors.TextLabelPanel];
+    public override Color MenuStripText => Colors.Resolve(SchemeBaseColors.MenuStripText, SchemeBaseColors.TextLabelPanel);
 
     #endregion
 
@@ -488,7 +488,7 @@ public class KryptonColorTable2007 : KryptonColorTable
     /// <summary>
     /// Gets the text color used on the tool strip.
     /// </summary>
-    public override Color ToolStripText => Colors[(int)SchemeBaseColors.TextButtonNormal];
+    public override Color ToolStripText => Colors.Resolve(SchemeBaseColors.ToolStripText, SchemeBaseColors.TextButtonNormal);
 
     #endregion
 

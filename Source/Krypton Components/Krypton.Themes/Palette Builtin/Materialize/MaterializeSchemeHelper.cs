@@ -241,6 +241,7 @@ public static class MaterializeSchemeHelper
         scheme.ContextMenuImageColumn = panelAlt;
         scheme.MenuItemText = Color.Black;
         scheme.MenuStripText = Color.Black;
+        scheme.ToolStripText = Color.Black;
     }
 
     /// <summary>
@@ -397,6 +398,7 @@ public static class MaterializeSchemeHelper
         scheme.TextListItem = lightText;
         scheme.MenuItemText = lightText;
         scheme.MenuStripText = lightText;
+        scheme.ToolStripText = lightText;
         scheme.DisabledMenuItemText = mutedText;
         scheme.MenuMarginGradientStart = panelMid;
         scheme.MenuMarginGradientMiddle = panelRaised;
