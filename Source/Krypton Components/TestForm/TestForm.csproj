@@ -79,6 +79,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>KryptonTaskDialogDemoResources.resx</DependentUpon>
     </Compile>
+    <Compile Update="KryptonWorkspace\Feature3959WorkspacePageTagPersistDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -175,7 +178,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="KryptonDocking\Bugs\" />
     <Folder Include="KryptonNavigator\Bugs\" />
     <Folder Include="KryptonRibbon\Bugs\" />
     <Folder Include="KryptonToolkit\Bugs\" />
