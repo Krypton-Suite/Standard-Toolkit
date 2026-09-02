@@ -29,19 +29,19 @@ public partial class StartScreen : KryptonForm
         InitializeComponent();
 
         // Init & basic settings
-        _registryAccess = new RegistryAccess();
-        _dockTopRight = false;
-        _buttons = [];
+        _registryAccess  = new RegistryAccess();
+        _dockTopRight    = false;
+        _buttons         = [];
         _headingComparer = new ButtonHeadingComparer();
-        _panelWidth = tlpMain.Width;
-        _filterTimer = new Timer();
-        _sizeAtStartup = new Size(902, 633);
+        _panelWidth      = tlpMain.Width;
+        _filterTimer     = new Timer();
+        _sizeAtStartup   = new Size(902, 633);
         
-        this.Size = _sizeAtStartup;
+        this.Size        =  _sizeAtStartup;
         this.FormClosing += OnFormClosing;
 
         btnDockTopRight.Click += OnBtnDockTopRightClick;
-        btnRestoreSize.Click += OnBtnRestoreSizeClick;
+        btnRestoreSize.Click  += OnBtnRestoreSizeClick;
 
         SetupFilterBox();
         SetupExitButton();
@@ -67,6 +67,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<ButtonBadgeTest>("Badge Test", "Comprehensive badge functionality demonstration for KryptonButton and KryptonCheckButton.");
         CreateButton<ButtonTextTrackingExample>("Button Text Tracking", "Demonstrates alternate text color for tracking (hover) state on KryptonButton, KryptonCheckButton, KryptonColorButton and other controls (Issue #1326). Improves readability in dark themes.");
         CreateButton<TextListItemExample>("Text List Item", "Demonstrates independent list and tree item text color via SchemeBaseColors.TextListItem (Issue #880). TextLabelControl, TextListItem, and TextButtonNormal each drive labels, tree/list controls, and buttons separately. Contrast preset, per-slot color pickers, live scheme readout, and theme switching.");
+        CreateButton<SchemeStripTextDemo>("1100 Scheme Strip Text", "Issue #1100: MenuStrip, ToolStrip, StatusStrip, and context/menu-item text are independent SchemeBaseColors slots. Contrast demo plus per-slot pickers; Krypton and native strips share the ColorTable. Empty slots keep the historic theme alias.");
         CreateButton<ButtonsTest>("Buttons Test", "All the buttons you want to test.");
         CreateButton<LimeGreenButtonThemeDemo>("Lime Green Theme", "Builtin Lime Green PaletteMode themes (Office 2007 / 2010 / Microsoft 365, light + dark), available in theme selectors like any other builtin theme. Demo: family switch, apply/reset/export.");
         CreateButton<VisualStudioThemesDemo>("1083 Visual Studio Themes", "Issue #1083: Visual Studio 2010–2026 built-in themes. 2012–2022 Dark/Light/Blue; 2026 Fluent Dark/Light from MS theme color tokens; VS2010 Office renderer variations.");
@@ -285,10 +286,20 @@ public partial class StartScreen : KryptonForm
     private void RestoreLastFilter()
     {
         string lastFilter = _registryAccess.LastFilterString;
-        if (lastFilter.Length > 0)
+        if ( lastFilter.Length > 0 )
         {
             tbFilter.Text = lastFilter;
         }
+        else
+        {
+            // if there is no last filter at startup the buttons will be hidden at first.
+            AllCommandButtonsVisible();
+        }
+    }
+
+    private void AllCommandButtonsVisible()
+    {
+        _buttons.ForEach( button => button.Visible = true );
     }
 
     private void RestoreFormSize()
@@ -300,26 +311,26 @@ public partial class StartScreen : KryptonForm
         }
     }
 
-    private void CreateButton<TForm>(string heading, string description, Image? image = null) where TForm : Form
+    private void CreateButton<TForm>( string heading, string description, Image? image = null ) where TForm : Form
     {
-        KryptonCommandLinkButton button = new();
+        KryptonCommandLinkButton button = new()
+        {
+            Visible = false
+        };
+
         Type formType = typeof(TForm);
 
-        if (!typeof(Form).IsAssignableFrom(formType))
-        {
-            ThrowHelper.ThrowInvalidCastException("Parameter formType is not of type Form or derived from Form.");
-        }
-
-        button.CommandLinkTextValues.Heading = heading;
-        button.CommandLinkTextValues.Description = description;
-        button.AccessibleName = heading;
-        button.AccessibleDescription = description;
-        button.AccessibleRole = AccessibleRole.PushButton;
-        button.AutoSize = false;
-        button.Dock = DockStyle.Fill;
-        button.MinimumSize = new Size(0, 60);
-        button.Size = new Size(_panelWidth - 10, 60);
-        button.Click += (_, _) => OnCommandLinkTestButtonClick(formType);
+        button.SetDoubleBuffered( true );
+        button.CommandLinkTextValues.Heading     =  heading;
+        button.CommandLinkTextValues.Description =  description;
+        button.AccessibleName                    =  heading;
+        button.AccessibleDescription             =  description;
+        button.AccessibleRole                    =  AccessibleRole.PushButton;
+        button.AutoSize                          =  false;
+        button.Dock                              =  DockStyle.Fill;
+        button.MinimumSize                       =  new Size(0, 60);
+        button.Size                              =  new Size(_panelWidth - 10, 60);
+        button.Click                             += (_, _) => OnCommandLinkTestButtonClick(formType);
 
         if (image is not null)
         {
@@ -375,7 +386,7 @@ public partial class StartScreen : KryptonForm
 
     private void SetupTableLayoutPanel()
     {
-        SetTableLayoutPanelDoubleBuffered(true);
+        tlpMain.SetDoubleBuffered(true);
         tlpMain.RowCount = 0;
         tlpMain.ColumnCount = 1;
 
@@ -390,19 +401,6 @@ public partial class StartScreen : KryptonForm
         tlpMain.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
     }
     
-    private void SetTableLayoutPanelDoubleBuffered(bool enableDoubleBuffering)
-    {
-        PropertyInfo? propertyInfo = typeof(TableLayoutPanel).GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
-        if (propertyInfo is not null)
-        {
-            propertyInfo.SetValue(tlpMain, enableDoubleBuffering);
-        }
-        else
-        {
-            ThrowHelper.ThrowNullReferenceException(nameof(propertyInfo));
-        }
-    }
-
     private void AddButtonsToTlpMain()
     {
         _buttons.ForEach(button => {
@@ -420,6 +418,8 @@ public partial class StartScreen : KryptonForm
 
     private void OnFilterChangedPerformFilter(object? sender, EventArgs e)
     {
+        tlpMain.Visible = false;
+
         _filterTimer.Stop();
 
         if (tbFilter.Text.Length > 0)
@@ -435,6 +435,8 @@ public partial class StartScreen : KryptonForm
         {
             tlpMain.ScrollControlIntoView(tlpMain.Controls[0]);
         }
+
+        tlpMain.Visible = true;
     }
 
     private void kbtnExit_Click(object? sender, EventArgs e)

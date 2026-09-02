@@ -269,6 +269,7 @@ internal static class CustomThemeSchemeRemapper
         scheme.ContextMenuImageColumn = a.SurfaceAlt;
         scheme.MenuItemText = a.OnSurface;
         scheme.MenuStripText = a.OnSurface;
+        scheme.ToolStripText = a.OnSurface;
         scheme.DisabledMenuItemText = a.MutedText;
 
         if (!a.Dark)
