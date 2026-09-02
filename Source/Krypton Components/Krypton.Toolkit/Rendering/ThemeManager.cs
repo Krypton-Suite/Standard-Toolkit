@@ -315,14 +315,19 @@ public class ThemeManager
     /// <param name="themeFile">Valid path including filename to the theme file. The file must exist an be compatible, otherwise the import will fail.</param>
     /// <param name="silent">True if the operation should suppress messages from the palette import process, otherwise false.</param>
     /// <param name="manager">The manager.</param>
+    // ToDo V120 LTS: Document .kpalx as the expected custom theme file. Import still sniffs XML content.
     public static void ApplyTheme(string themeFile, bool silent, KryptonManager manager)
     {
-        if (themeFile.Length > 0 && File.Exists(themeFile))
+        if (File.Exists(themeFile))
         {
             try
             {
                 KryptonCustomPaletteBase palette = new();
-                palette.Import(themeFile, silent);
+                var imported = palette.Import(themeFile, silent);
+                if (string.IsNullOrEmpty(imported))
+                {
+                    return;
+                }
 
                 ApplyTheme(palette, manager);
             }
@@ -352,12 +357,16 @@ public class ThemeManager
     /// <param name="manager">The manager.</param>
     public static void ApplyTheme(string themeFile, string themeName, bool silent, KryptonManager manager)
     {
-        if (themeFile.Length > 0 && File.Exists(themeFile))
+        if (File.Exists(themeFile))
         {
             try
             {
                 KryptonCustomPaletteBase palette = new();
-                palette.Import(themeFile, themeName, silent);
+                var imported = palette.Import(themeFile, themeName, silent);
+                if (string.IsNullOrEmpty(imported))
+                {
+                    return;
+                }
 
                 ApplyTheme(palette, manager);
             }

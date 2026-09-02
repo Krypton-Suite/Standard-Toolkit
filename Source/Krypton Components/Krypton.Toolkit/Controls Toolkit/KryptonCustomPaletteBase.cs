@@ -2067,6 +2067,7 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// Import palette settings from a palette file (<c>.kpalx</c> XML, <c>.xml</c>, or a KPLT container).
     /// </summary>
     /// <returns>Full path of imported filename; otherwise empty string.</returns>
+    // ToDo V120 LTS: Drop .xml from Import remarks and dialogs. Keep sniffing XML content for .kpalx.
     public string Import(bool silent = false)
     {
         KryptonPaletteFile.EnsureShellAssociations();
@@ -2162,6 +2163,14 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <exception>Thrown if failure to import</exception>
     public string Import(string filename, bool silent)
     {
+        var resolved = KryptonPaletteFile.PromptLegacyXmlUpgrade(filename, silent);
+        if (resolved == null)
+        {
+            return string.Empty;
+        }
+
+        filename = resolved;
+
         string? ret;
 
         try
@@ -2238,6 +2247,14 @@ public class KryptonCustomPaletteBase : PaletteBase
         {
             return Import(filename, silent);
         }
+
+        var resolved = KryptonPaletteFile.PromptLegacyXmlUpgrade(filename, silent);
+        if (resolved == null)
+        {
+            return string.Empty;
+        }
+
+        filename = resolved;
 
         string? ret;
 
@@ -2393,11 +2410,17 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <param name="themeFilePath">The theme file path.</param>
     public void ImportWithUpgrade(string themeFilePath)
     {
+        var resolved = KryptonPaletteFile.PromptLegacyXmlUpgrade(themeFilePath, silent: false);
+        if (resolved == null)
+        {
+            return;
+        }
+
         FileStream? stream = null;
 
         try
         {
-            stream = new FileStream(path: themeFilePath, mode: FileMode.Open);
+            stream = new FileStream(path: resolved, mode: FileMode.Open);
 
             ImportWithUpgrade(stream);
         }
@@ -2655,13 +2678,114 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// Designer verb: convert an on-disk palette (legacy XML, <c>.kpalx</c>, or KPLT <c>.kpal</c>)
     /// to a new file, then import the result into this instance.
     /// </summary>
-    internal string? ActionListConvert()
+    internal string ActionListConvert() => ConvertFile(silent: false);
+
+    /// <summary>
+    /// Rewrites a legacy <c>.xml</c> palette as <c>.kpalx</c> in the same folder and imports the result.
+    /// The source file is left in place.
+    /// </summary>
+    /// <param name="sourcePath">Existing <c>.xml</c> palette file.</param>
+    /// <param name="silent"><see langword="true"/> to omit the completion message box.</param>
+    /// <returns>The full path of the written <c>.kpalx</c> file.</returns>
+    /// <seealso cref="KryptonPaletteFile.UpgradeXmlToKpalx(string)"/>
+    public string UpgradeXmlToKpalx(string sourcePath, bool silent = true)
+    {
+        var destination = KryptonPaletteFile.UpgradeXmlToKpalx(sourcePath);
+        Import(destination, silent);
+        return destination;
+    }
+
+    /// <summary>
+    /// Rewrites a legacy <c>.xml</c> palette as <c>.kpalx</c> and imports the result.
+    /// The source file is left in place.
+    /// </summary>
+    /// <param name="sourcePath">Existing <c>.xml</c> palette file.</param>
+    /// <param name="destinationPath">File to create or overwrite. Must be <c>.kpalx</c>.</param>
+    /// <param name="silent"><see langword="true"/> to omit the completion message box.</param>
+    /// <returns>The full path of the written <c>.kpalx</c> file.</returns>
+    /// <seealso cref="KryptonPaletteFile.UpgradeXmlToKpalx(string, string)"/>
+    public string UpgradeXmlToKpalx(string sourcePath, string destinationPath, bool silent = true)
+    {
+        var destination = KryptonPaletteFile.UpgradeXmlToKpalx(sourcePath, destinationPath);
+        Import(destination, silent);
+        return destination;
+    }
+
+    /// <summary>
+    /// Designer/runtime dialog: pick a legacy <c>.xml</c> palette, rewrite it as <c>.kpalx</c>
+    /// beside the source, and import the result into this instance.
+    /// </summary>
+    /// <param name="silent"><see langword="true"/> to omit the completion message box.</param>
+    /// <returns>The full path of the written <c>.kpalx</c> file; otherwise an empty string.</returns>
+    // ToDo V120 LTS: Remove this .xml picker once XmlExtension is retired.
+    public string UpgradeXmlToKpalx(bool silent = false)
     {
         KryptonPaletteFile.EnsureShellAssociations();
 
         using var open = new OpenFileDialog();
         open.CheckFileExists = true;
         open.CheckPathExists = true;
+        open.DefaultExt = KryptonPaletteFile.XmlExtension;
+        open.Filter = @"XML palette files (*.xml)|*.xml|All files (*.*)|*.*";
+        open.Title = @"Upgrade XML Palette To .kpalx";
+
+        if (open.ShowDialog() != DialogResult.OK)
+        {
+            return string.Empty;
+        }
+
+        var destination = UpgradeXmlToKpalx(open.FileName, silent: true);
+        if (!silent)
+        {
+            KryptonMessageBox.Show($"Upgraded to file '{destination}'. The source .xml was left in place.",
+                @"Palette Upgrade",
+                KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
+        }
+
+        return destination;
+    }
+
+    /// <summary>
+    /// Designer verb: pick a legacy <c>.xml</c> palette, rewrite it as <c>.kpalx</c>, and import it.
+    /// </summary>
+    internal string ActionListUpgradeXml() => UpgradeXmlToKpalx(silent: false);
+
+    /// <summary>
+    /// Loads a palette file, applies the XML schema upgrade when needed, writes
+    /// <paramref name="destinationPath"/>, and imports the result into this instance.
+    /// Legacy <c>.xml</c> sources destined for <c>.kpalx</c> use
+    /// <see cref="KryptonPaletteFile.UpgradeXmlToKpalx(string, string)"/>.
+    /// </summary>
+    /// <param name="sourcePath">Existing <c>.xml</c>, <c>.kpalx</c>, or KPLT <c>.kpal</c> file.</param>
+    /// <param name="destinationPath">File to create or overwrite.</param>
+    /// <param name="silent"><see langword="true"/> to omit the import completion message box.</param>
+    /// <returns>The full destination path.</returns>
+    public string ConvertFile(string sourcePath, string destinationPath, bool silent = true)
+    {
+        var destIsKpalx = string.Equals(Path.GetExtension(destinationPath),
+            @"." + KryptonPaletteFile.Extension,
+            StringComparison.OrdinalIgnoreCase);
+        var destination = KryptonPaletteFile.IsLegacyXmlExtension(sourcePath) && destIsKpalx
+            ? KryptonPaletteFile.UpgradeXmlToKpalx(sourcePath, destinationPath)
+            : KryptonPaletteFile.Convert(sourcePath, destinationPath);
+
+        Import(destination, silent);
+        return destination;
+    }
+
+    /// <summary>
+    /// Designer/runtime dialog: convert an on-disk palette to a new file, then import the result.
+    /// </summary>
+    /// <param name="silent"><see langword="true"/> to omit the completion message box.</param>
+    /// <returns>The full destination path; otherwise an empty string.</returns>
+    public string ConvertFile(bool silent = false)
+    {
+        KryptonPaletteFile.EnsureShellAssociations();
+
+        using var open = new OpenFileDialog();
+        open.CheckFileExists = true;
+        open.CheckPathExists = true;
+        // ToDo V120 LTS: Default this open dialog to Extension (.kpalx) once .xml is retired.
         open.DefaultExt = KryptonPaletteFile.XmlExtension;
         open.Filter = KryptonPaletteFile.DialogFilter;
         open.Title = @"Convert Palette From";
@@ -2683,12 +2807,13 @@ public class KryptonCustomPaletteBase : PaletteBase
             return string.Empty;
         }
 
-        var destination = KryptonPaletteFile.Convert(open.FileName, save.FileName);
-        Import(destination, silent: true);
-
-        KryptonMessageBox.Show($"Converted to file '{destination}'.",
-            @"Palette Convert",
-            KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
+        var destination = ConvertFile(open.FileName, save.FileName, silent: true);
+        if (!silent)
+        {
+            KryptonMessageBox.Show($"Converted to file '{destination}'.",
+                @"Palette Convert",
+                KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
+        }
 
         return destination;
     }
@@ -2700,6 +2825,7 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <param name="filename">Filename to create or overwrite.</param>
     /// <param name="ignoreDefaults">Should default values be exported.</param>
     /// <returns>Full path of exported filename; otherwise empty string.</returns>
+    // ToDo V120 LTS: Stop writing .xml from path Export; FormatFromPath should not map .xml. Prefer .kpalx.
     public string? Export(string filename, bool ignoreDefaults)
         => Export(filename, ignoreDefaults, true);
 

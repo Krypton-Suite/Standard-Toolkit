@@ -22,6 +22,8 @@ public static partial class KryptonPaletteFile
     /// <summary>
     /// Legacy XML palette extension (without a leading dot).
     /// </summary>
+    // ToDo V120 LTS: Remove legacy .xml palette file support (constant, dialog filter, and FormatFromPath).
+    // Consumers should call UpgradeXmlToKpalx or Convert to rewrite .xml as .kpalx. Do not remove .kpalx XML documents.
     public const string XmlExtension = @"xml";
 
     /// <summary>
@@ -32,6 +34,7 @@ public static partial class KryptonPaletteFile
     /// <summary>
     /// Open/save dialog filter with <c>.kpalx</c> first, then optional native <c>.kpal</c>, then legacy XML.
     /// </summary>
+    // ToDo V120 LTS: Drop the *.xml filter entry once XmlExtension is removed.
     public const string DialogFilter =
         @"Krypton palette files (*.kpalx)|*.kpalx|Binary palette files (*.kpal)|*.kpal|XML palette files (*.xml)|*.xml|All files (*.*)|*.*";
 
@@ -47,12 +50,10 @@ public static partial class KryptonPaletteFile
     /// </summary>
     /// <param name="path">Destination or source file path. Cannot be empty.</param>
     /// <returns>The format implied by the extension.</returns>
+    // ToDo V120 LTS: Stop mapping .xml to Xml; only .kpalx (and non-.kpal fallbacks) should select XML persist.
     public static KryptonPaletteFileFormat FormatFromPath(string path)
     {
-        if (string.IsNullOrWhiteSpace(path))
-        {
-            ThrowHelper.ThrowArgumentNullException(nameof(path));
-        }
+        ThrowHelper.ThrowIfNullOrWhiteSpace(path);
 
         return string.Equals(Path.GetExtension(path), @"." + BinaryExtension, StringComparison.OrdinalIgnoreCase)
             ? KryptonPaletteFileFormat.PaletteBinary
@@ -69,6 +70,7 @@ public static partial class KryptonPaletteFile
     /// <remarks>
     /// JSON is not a Krypton palette format. Native <c>.kpal</c> sources must already be the current
     /// schema; older palettes stay XML plus <see cref="KryptonCustomPaletteBase.ImportWithUpgrade(Stream)"/>.
+    /// For a dedicated <c>.xml</c> → <c>.kpalx</c> rewrite, prefer <see cref="UpgradeXmlToKpalx(string)"/>.
     /// </remarks>
     public static string Convert(string sourcePath, string destinationPath) =>
         Convert(sourcePath, destinationPath, FormatFromPath(destinationPath), ignoreDefaults: false);
@@ -96,18 +98,11 @@ public static partial class KryptonPaletteFile
     /// <exception cref="ArgumentException">The source or destination is JSON, which is not a palette format.</exception>
     public static string Convert(string sourcePath, string destinationPath, KryptonPaletteFileFormat format, bool ignoreDefaults)
     {
-        if (string.IsNullOrWhiteSpace(sourcePath))
-        {
-            ThrowHelper.ThrowArgumentNullException(nameof(sourcePath));
-        }
+        ThrowHelper.ThrowIfNullOrWhiteSpace(sourcePath);
+        ThrowHelper.ThrowIfNullOrWhiteSpace(destinationPath);
 
-        if (string.IsNullOrWhiteSpace(destinationPath))
-        {
-            ThrowHelper.ThrowArgumentNullException(nameof(destinationPath));
-        }
-
-        RejectJsonPalettePath(sourcePath!, nameof(sourcePath));
-        RejectJsonPalettePath(destinationPath!, nameof(destinationPath));
+        RejectJsonPalettePath(sourcePath, nameof(sourcePath));
+        RejectJsonPalettePath(destinationPath, nameof(destinationPath));
 
         using (var palette = new KryptonCustomPaletteBase())
         {
@@ -123,19 +118,150 @@ public static partial class KryptonPaletteFile
     }
 
     /// <summary>
+    /// Rewrites a legacy <c>.xml</c> palette as <c>.kpalx</c> in the same folder
+    /// (<c>theme.xml</c> → <c>theme.kpalx</c>). The source file is left in place.
+    /// </summary>
+    /// <param name="sourcePath">Existing <c>.xml</c> palette file.</param>
+    /// <returns>The full path of the written <c>.kpalx</c> file.</returns>
+    /// <remarks>
+    /// Applies <see cref="KryptonCustomPaletteBase.ImportWithUpgrade(Stream)"/> so older schema
+    /// versions are upgraded. Prefer this over saving a new <c>.xml</c> file. The document inside
+    /// <c>.kpalx</c> remains XML.
+    /// </remarks>
+    /// <exception cref="ArgumentException">The source is not a <c>.xml</c> file.</exception>
+    public static string UpgradeXmlToKpalx(string sourcePath)
+    {
+        ThrowHelper.ThrowIfNullOrWhiteSpace(sourcePath);
+        return UpgradeXmlToKpalx(sourcePath, Path.ChangeExtension(sourcePath, @"." + Extension));
+    }
+
+    /// <summary>
+    /// Rewrites a legacy <c>.xml</c> palette as <c>.kpalx</c>. The source file is left in place.
+    /// </summary>
+    /// <param name="sourcePath">Existing <c>.xml</c> palette file.</param>
+    /// <param name="destinationPath">File to create or overwrite. Must be <c>.kpalx</c>.</param>
+    /// <returns>The full path of the written <c>.kpalx</c> file.</returns>
+    /// <exception cref="ArgumentException">The source is not <c>.xml</c>, or the destination is not <c>.kpalx</c>.</exception>
+    public static string UpgradeXmlToKpalx(string sourcePath, string destinationPath)
+    {
+        ThrowHelper.ThrowIfNullOrWhiteSpace(sourcePath);
+        ThrowHelper.ThrowIfNullOrWhiteSpace(destinationPath);
+
+        if (!IsLegacyXmlExtension(sourcePath))
+        {
+            ThrowHelper.ThrowArgumentException(
+                @"Source must be a legacy .xml palette file. Preferred palettes use .kpalx; use Convert for other formats.",
+                nameof(sourcePath));
+        }
+
+        if (!string.Equals(Path.GetExtension(destinationPath), @"." + Extension, StringComparison.OrdinalIgnoreCase))
+        {
+            ThrowHelper.ThrowArgumentException(@"Destination must be a .kpalx file.", nameof(destinationPath));
+        }
+
+        return Convert(sourcePath, destinationPath, KryptonPaletteFileFormat.Xml, ignoreDefaults: false);
+    }
+
+    /// <summary>
+    /// When <paramref name="sourcePath"/> is a legacy <c>.xml</c> palette and prompting is enabled,
+    /// warns that the format may be removed and offers to upgrade to <c>.kpalx</c> before load.
+    /// </summary>
+    /// <param name="sourcePath">Palette file the caller is about to import or apply.</param>
+    /// <param name="silent">When <see langword="true"/>, skip the dialog and return <paramref name="sourcePath"/>.</param>
+    /// <returns>
+    /// The path to import: the original file, a newly written <c>.kpalx</c>, or
+    /// <see langword="null"/> if the user cancelled.
+    /// Non-<c>.xml</c> paths are returned unchanged.
+    /// </returns>
+    /// <remarks>
+    /// Strings come from <see cref="KryptonMiscellaneousThemeStrings.LegacyXmlUpgradeTitle"/> and
+    /// <see cref="KryptonMiscellaneousThemeStrings.LegacyXmlUpgradeMessage"/>. Yes / No / Cancel
+    /// captions come from <see cref="GeneralToolkitStrings"/>.
+    /// </remarks>
+    // ToDo V120 LTS: Stop offering "load .xml anyway"; upgrade or cancel only.
+    public static string? PromptLegacyXmlUpgrade(string sourcePath, bool silent)
+    {
+        ThrowHelper.ThrowIfNullOrWhiteSpace(sourcePath);
+
+        if (silent || !IsLegacyXmlExtension(sourcePath) || !SystemInformation.UserInteractive)
+        {
+            return sourcePath;
+        }
+
+        var themeStrings = KryptonManager.Strings.MiscellaneousThemeStrings;
+        var general = KryptonManager.Strings.GeneralStrings;
+        var fileName = Path.GetFileName(sourcePath);
+        string message;
+        try
+        {
+            message = string.Format(themeStrings.LegacyXmlUpgradeMessage,
+                fileName,
+                StripMenuAccelerator(general.Yes),
+                StripMenuAccelerator(general.No),
+                StripMenuAccelerator(general.Cancel));
+        }
+        catch (FormatException)
+        {
+            message = string.Format(
+                @"'{0}' uses the legacy .xml palette format. Prefer .kpalx. {1}: upgrade and apply. {2}: apply .xml without upgrading. {3}: do not apply.",
+                fileName,
+                StripMenuAccelerator(general.Yes),
+                StripMenuAccelerator(general.No),
+                StripMenuAccelerator(general.Cancel));
+        }
+
+        var result = KryptonMessageBox.Show(message,
+            themeStrings.LegacyXmlUpgradeTitle,
+            KryptonMessageBoxButtons.YesNoCancel,
+            KryptonMessageBoxIcon.Warning,
+            KryptonMessageBoxDefaultButton.Button1);
+
+        switch (result)
+        {
+            case DialogResult.Yes:
+                return UpgradeXmlToKpalx(sourcePath);
+            case DialogResult.No:
+                return sourcePath;
+            default:
+                return null;
+        }
+    }
+
+    private static string StripMenuAccelerator(string value) =>
+        string.IsNullOrEmpty(value) ? value : value.Replace(@"&", string.Empty);
+
+    /// <summary>
+    /// Returns whether <paramref name="pathOrExtension"/> uses the legacy <c>.xml</c> palette extension.
+    /// </summary>
+    /// <param name="pathOrExtension">A file path, or an extension with or without a leading dot.</param>
+    /// <returns><see langword="true"/> when the extension is <c>.xml</c>.</returns>
+    // ToDo V120 LTS: Remove with XmlExtension. IsPaletteExtension already excludes .xml.
+    public static bool IsLegacyXmlExtension(string? pathOrExtension)
+    {
+        if (string.IsNullOrWhiteSpace(pathOrExtension))
+        {
+            return false;
+        }
+
+        var extension = pathOrExtension!.IndexOf('.') >= 0
+            ? Path.GetExtension(pathOrExtension)
+            : @"." + pathOrExtension;
+
+        return string.Equals(extension, @"." + XmlExtension, StringComparison.OrdinalIgnoreCase);
+    }
+
+    /// <summary>
     /// Returns the theme names stored in a palette file. A single-theme file yields one name
     /// (possibly empty). A <c>.kpal</c> pack yields every packed name.
     /// </summary>
     /// <param name="path">Existing <c>.xml</c>, <c>.kpalx</c>, or KPLT <c>.kpal</c> file.</param>
     /// <returns>Theme names in file order.</returns>
+    // ToDo V120 LTS: Drop .xml from this remark; GetThemeNames still reads .kpalx XML content.
     public static string[] GetThemeNames(string path)
     {
-        if (string.IsNullOrWhiteSpace(path))
-        {
-            ThrowHelper.ThrowArgumentNullException(nameof(path));
-        }
+        ThrowHelper.ThrowIfNullOrWhiteSpace(path);
 
-        RejectJsonPalettePath(path!, nameof(path));
+        RejectJsonPalettePath(path, nameof(path));
         using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
         return KryptonPaletteBinaryPersistence.GetThemeNames(stream);
     }
@@ -159,12 +285,9 @@ public static partial class KryptonPaletteFile
     /// <returns>One slot per theme name.</returns>
     public static Image?[] GetThemeThumbnails(string path)
     {
-        if (string.IsNullOrWhiteSpace(path))
-        {
-            ThrowHelper.ThrowArgumentNullException(nameof(path));
-        }
+        ThrowHelper.ThrowIfNullOrWhiteSpace(path);
 
-        RejectJsonPalettePath(path!, nameof(path));
+        RejectJsonPalettePath(path, nameof(path));
         if (IsPack(path))
         {
             using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
@@ -196,12 +319,9 @@ public static partial class KryptonPaletteFile
     /// <returns><see langword="true"/> when the file is a named theme pack.</returns>
     public static bool IsPack(string path)
     {
-        if (string.IsNullOrWhiteSpace(path))
-        {
-            ThrowHelper.ThrowArgumentNullException(nameof(path));
-        }
+        ThrowHelper.ThrowIfNullOrWhiteSpace(path);
 
-        RejectJsonPalettePath(path!, nameof(path));
+        RejectJsonPalettePath(path, nameof(path));
         using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
         return KryptonPaletteBinaryPersistence.IsPack(stream);
     }
@@ -236,20 +356,16 @@ public static partial class KryptonPaletteFile
     /// <returns>The full destination path.</returns>
     public static string ExportPack(string destinationPath, IEnumerable<KryptonCustomPaletteBase> palettes, bool ignoreDefaults, string? packName)
     {
-        if (string.IsNullOrWhiteSpace(destinationPath))
-        {
-            ThrowHelper.ThrowArgumentNullException(nameof(destinationPath));
-        }
-
+        ThrowHelper.ThrowIfNullOrWhiteSpace(destinationPath);
         ThrowHelper.ThrowIfNull(palettes);
-        RejectJsonPalettePath(destinationPath!, nameof(destinationPath));
+        RejectJsonPalettePath(destinationPath, nameof(destinationPath));
 
         if (FormatFromPath(destinationPath) != KryptonPaletteFileFormat.PaletteBinary)
         {
             ThrowHelper.ThrowArgumentException(@"Multi-theme packs can only be written as .kpal.", nameof(destinationPath));
         }
 
-        var list = palettes as IList<KryptonCustomPaletteBase> ?? new List<KryptonCustomPaletteBase>(palettes!);
+        var list = palettes as IList<KryptonCustomPaletteBase> ?? new List<KryptonCustomPaletteBase>(palettes);
         using (var stream = new FileStream(destinationPath, FileMode.Create, FileAccess.Write, FileShare.None))
         {
             KryptonPaletteBinaryPersistence.ExportPack(stream, list, ignoreDefaults, packName ?? string.Empty);

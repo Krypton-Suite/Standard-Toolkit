@@ -52,6 +52,7 @@ public static class KryptonThemeCustomPaletteHelper
     /// <param name="mode">Catalogued builtin palette mode.</param>
     /// <param name="filePath">Destination path. Cannot be empty.</param>
     /// <param name="ignoreDefaults">When <see langword="true"/>, omits properties that match base defaults.</param>
+    // ToDo V120 LTS: Stop documenting .xml destinations; ExportToFile should prefer .kpalx.
     public static void ExportToFile(PaletteMode mode, string filePath, bool ignoreDefaults = true)
     {
         ValidatePath(filePath);

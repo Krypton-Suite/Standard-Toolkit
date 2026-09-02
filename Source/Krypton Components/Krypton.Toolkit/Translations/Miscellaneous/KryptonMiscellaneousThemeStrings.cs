@@ -21,6 +21,13 @@ public class KryptonMiscellaneousThemeStrings : GlobalId
     private const string DEFAULT_UPGRADE_TEXT = @"Up&grade";
     private const string DEFAULT_THEME_FALLBACK_WARNING_TITLE = @"Theme Fallback Warning";
     private const string DEFAULT_THEME_FALLBACK_WARNING_MESSAGE = @"The requested theme '{0}' ('{1}') requires the 'Krypton.Themes' assembly ('Krypton.Themes.dll'), which is not loaded or could not be found in the application directory.\nThe theme has reverted to '{2}' ('{3}').\nPlease install the 'Krypton.Standard.Toolkit' package from NuGet to continue using this theme.";
+    private const string DEFAULT_LEGACY_XML_UPGRADE_TITLE = @"Legacy XML palette";
+    private const string DEFAULT_LEGACY_XML_UPGRADE_MESSAGE =
+        @"'{0}' uses the legacy .xml palette format. Prefer .kpalx, which is the same XML document with the dedicated palette extension. Support for .xml palette files may be removed in a future release.
+
+{1}: Upgrade to .kpalx and apply the theme. The original .xml file is left in place.
+{2}: Apply this .xml file without upgrading.
+{3}: Do not apply the theme.";
 
     #endregion
 
@@ -94,6 +101,24 @@ public class KryptonMiscellaneousThemeStrings : GlobalId
     [DefaultValue(DEFAULT_THEME_FALLBACK_WARNING_MESSAGE)]
     public string ThemeFallbackWarningMessage { get; set; }
 
+    /// <summary>Gets or sets the title for the legacy <c>.xml</c> palette upgrade warning.</summary>
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [Description(@"Title for the warning shown when loading a legacy .xml palette file.")]
+    [DefaultValue(DEFAULT_LEGACY_XML_UPGRADE_TITLE)]
+    public string LegacyXmlUpgradeTitle { get; set; }
+
+    /// <summary>
+    /// Gets or sets the warning shown when loading a legacy <c>.xml</c> palette.
+    /// Format items: <c>{0}</c> file name, <c>{1}</c> Yes, <c>{2}</c> No, <c>{3}</c> Cancel
+    /// (from <see cref="GeneralToolkitStrings"/>).
+    /// </summary>
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [Description(@"Warning when loading a legacy .xml palette. {0}=file name, {1}=Yes, {2}=No, {3}=Cancel.")]
+    [DefaultValue(DEFAULT_LEGACY_XML_UPGRADE_MESSAGE)]
+    public string LegacyXmlUpgradeMessage { get; set; }
+
     #endregion
 
     #region Implementation
@@ -105,7 +130,9 @@ public class KryptonMiscellaneousThemeStrings : GlobalId
                              Silent.Equals(DEFAULT_SILENT_TEXT) &&
                              Upgrade.Equals(DEFAULT_UPGRADE_TEXT) &&
                              ThemeFallbackWarningTitle.Equals(DEFAULT_THEME_FALLBACK_WARNING_TITLE) &&
-                             ThemeFallbackWarningMessage.Equals(DEFAULT_THEME_FALLBACK_WARNING_MESSAGE);
+                             ThemeFallbackWarningMessage.Equals(DEFAULT_THEME_FALLBACK_WARNING_MESSAGE) &&
+                             LegacyXmlUpgradeTitle.Equals(DEFAULT_LEGACY_XML_UPGRADE_TITLE) &&
+                             LegacyXmlUpgradeMessage.Equals(DEFAULT_LEGACY_XML_UPGRADE_MESSAGE);
 
     public void Reset()
     {
@@ -122,6 +149,10 @@ public class KryptonMiscellaneousThemeStrings : GlobalId
         ThemeFallbackWarningTitle = DEFAULT_THEME_FALLBACK_WARNING_TITLE;
 
         ThemeFallbackWarningMessage = DEFAULT_THEME_FALLBACK_WARNING_MESSAGE;
+
+        LegacyXmlUpgradeTitle = DEFAULT_LEGACY_XML_UPGRADE_TITLE;
+
+        LegacyXmlUpgradeMessage = DEFAULT_LEGACY_XML_UPGRADE_MESSAGE;
     }
 
     #endregion

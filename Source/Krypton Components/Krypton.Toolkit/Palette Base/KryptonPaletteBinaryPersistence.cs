@@ -132,8 +132,11 @@ internal static class KryptonPaletteBinaryPersistence
             switch (sniffed)
             {
                 case SniffedKind.Xml:
+                {
                     return new[] { ReadXmlPaletteName(stream) };
+                }
                 case SniffedKind.Container:
+                {
                     var header = ReadContainerHeader(stream);
                     if (header.Kind == KindPack)
                     {
@@ -148,6 +151,7 @@ internal static class KryptonPaletteBinaryPersistence
                     }
 
                     return new[] { header.Name };
+                }
                 default:
                     ThrowHelper.ThrowArgumentException(@"Unrecognised palette file. Expected XML or a KPLT container.", nameof(stream));
                     return Array.Empty<string>();
@@ -549,9 +553,9 @@ internal static class KryptonPaletteBinaryPersistence
     /// Returns <see langword="true"/> only when <paramref name="xmlStream"/> is a usable XML copy;
     /// <see langword="false"/> for native payloads, unknown data, or when no XML could be produced.
     /// </summary>
-    internal static bool TryCopyXmlForUpgrade(Stream stream, out MemoryStream xmlStream)
+    internal static bool TryCopyXmlForUpgrade(Stream stream, [NotNullWhen(true)] out MemoryStream? xmlStream)
     {
-        xmlStream = null!;
+        xmlStream = null;
         ThrowHelper.ThrowIfNull(stream);
 
         var owned = false;
@@ -568,9 +572,12 @@ internal static class KryptonPaletteBinaryPersistence
             switch (sniffed)
             {
                 case SniffedKind.Xml:
+                {
                     xml = CopyRemaining(stream);
                     break;
+                }
                 case SniffedKind.Container:
+                {
                     var header = ReadContainerHeader(stream);
                     if (header.Kind != KindCompressedXml)
                     {
@@ -579,6 +586,7 @@ internal static class KryptonPaletteBinaryPersistence
 
                     xml = InflateToMemory(stream);
                     break;
+                }
                 default:
                     return false;
             }

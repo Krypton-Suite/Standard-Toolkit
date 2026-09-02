@@ -91,6 +91,7 @@ public sealed class KryptonPaletteFileThemeItem : IContentValues
     /// <param name="includeXml">Include legacy <c>*.xml</c>.</param>
     /// <param name="loadThumbnails">When <see langword="true"/>, attach <see cref="Thumbnail"/> from the pack catalog or persisted image.</param>
     /// <returns>Items sorted by display name.</returns>
+    // ToDo V120 LTS: Remove includeXml. Call UpgradeXmlToKpalx before scanning a folder of palettes.
     public static KryptonPaletteFileThemeItem[] FromDirectory(string directory,
         bool searchSubdirectories = false,
         bool includeKpalx = true,
@@ -272,8 +273,38 @@ public sealed class KryptonPaletteFileThemeItem : IContentValues
     public void ImportInto(KryptonCustomPaletteBase palette)
     {
         ThrowHelper.ThrowIfNull(palette);
+        TryImportInto(palette, promptLegacyXml: false);
+    }
 
-        palette.Import(FilePath, ThemeName, silent: true);
+    /// <summary>
+    /// Imports this theme into <paramref name="palette"/>.
+    /// </summary>
+    /// <param name="palette">Destination custom palette.</param>
+    /// <param name="promptLegacyXml">
+    /// When <see langword="true"/>, warn and offer to upgrade a legacy <c>.xml</c> file to <c>.kpalx</c>
+    /// before importing.
+    /// </param>
+    /// <returns><see langword="false"/> when the user cancelled the legacy XML prompt.</returns>
+    public bool TryImportInto(KryptonCustomPaletteBase palette, bool promptLegacyXml)
+    {
+        ThrowHelper.ThrowIfNull(palette);
+
+        var path = KryptonPaletteFile.PromptLegacyXmlUpgrade(FilePath, silent: !promptLegacyXml);
+        if (path == null)
+        {
+            return false;
+        }
+
+        if (string.IsNullOrWhiteSpace(ThemeName))
+        {
+            palette.Import(path, silent: true);
+        }
+        else
+        {
+            palette.Import(path, ThemeName, silent: true);
+        }
+
+        return true;
     }
 
     /// <summary>
@@ -285,7 +316,11 @@ public sealed class KryptonPaletteFileThemeItem : IContentValues
     {
         ThrowHelper.ThrowIfNull(manager);
         var target = palette ?? new KryptonCustomPaletteBase();
-        ImportInto(target);
+        if (!TryImportInto(target, promptLegacyXml: true))
+        {
+            return;
+        }
+
         ThemeManager.ApplyTheme(target, manager);
     }
 

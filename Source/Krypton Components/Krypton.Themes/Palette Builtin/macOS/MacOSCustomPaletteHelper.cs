@@ -53,8 +53,9 @@ public static class MacOSCustomPaletteHelper
     /// Exports a builtin macOS palette to a file compatible with <see cref="KryptonCustomPaletteBase.Import(string, bool)"/>.
     /// </summary>
     /// <param name="mode">Either <see cref="PaletteMode.MacOSLight"/> or <see cref="PaletteMode.MacOSDark"/>.</param>
-    /// <param name="filePath">Destination path (typically <c>.kpalx</c> or <c>.xml</c>).</param>
+    /// <param name="filePath">Destination path (typically <c>.kpalx</c>).</param>
     /// <param name="ignoreDefaults">When true, omits properties that match base defaults.</param>
+    // ToDo V120 LTS: Do not mention .xml here; rewrite existing .xml with UpgradeXmlToKpalx.
     public static void ExportToFile(PaletteMode mode, string filePath, bool ignoreDefaults = true)
     {
         if (mode != PaletteMode.MacOSLight && mode != PaletteMode.MacOSDark)

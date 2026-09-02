@@ -146,6 +146,7 @@ public partial class MacOSThemeSmokeTest : KryptonForm
         }
 
         string palettesDir = System.IO.Path.Combine(repoRoot, "Documents", "Palettes");
+        // ToDo V120 LTS: Convert these sample palettes to .kpalx (UpgradeXmlToKpalx) and load .kpalx here.
         string lightPath = System.IO.Path.Combine(palettesDir, "macOS-Light.xml");
         string darkPath = System.IO.Path.Combine(palettesDir, "macOS-Dark.xml");
 

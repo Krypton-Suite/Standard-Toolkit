@@ -29,6 +29,7 @@ internal sealed class KryptonPaletteFileThemeSelectorController
 
     internal bool IncludeKpal { get; set; } = true;
 
+    // ToDo V120 LTS: Remove IncludeXml (default true). Folder selectors should list .kpalx / .kpal only.
     internal bool IncludeXml { get; set; } = true;
 
     internal bool AutoApply { get; set; } = true;
@@ -111,7 +112,11 @@ internal sealed class KryptonPaletteFileThemeSelectorController
             return false;
         }
 
-        item.ImportInto(Palette);
+        if (!item.TryImportInto(Palette, promptLegacyXml: true))
+        {
+            return false;
+        }
+
         ThemeManager.ApplyTheme(Palette, Manager);
         return true;
     }

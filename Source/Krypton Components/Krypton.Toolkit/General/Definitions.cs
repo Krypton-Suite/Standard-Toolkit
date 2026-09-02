@@ -5029,8 +5029,9 @@ public enum KryptonPaletteFileFormat
 {
     /// <summary>
     /// Human-readable XML (<c>KryptonPalette</c> document). Default for <c>.kpalx</c> and
-    /// <c>.xml</c> files, and for <see cref="KryptonCustomPaletteBase.Export(bool)"/> byte arrays.
+    /// legacy <c>.xml</c> files, and for <see cref="KryptonCustomPaletteBase.Export(bool)"/> byte arrays.
     /// </summary>
+    // ToDo V120 LTS: Drop .xml from this remark. Xml remains the persist format for .kpalx and Export(bool).
     Xml = 0,
 
     /// <summary>

@@ -108,6 +108,7 @@ public class KryptonPaletteFileListBox : KryptonListBox
     [Category(@"Data")]
     [Description(@"When true, legacy *.xml palette files are listed.")]
     [DefaultValue(true)]
+    // ToDo V120 LTS: Remove IncludeXml. Prefer UpgradeXmlToKpalx, then list .kpalx / .kpal only.
     public bool IncludeXml
     {
         get => _controller.IncludeXml;

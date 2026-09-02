@@ -17,6 +17,8 @@ namespace TestForm;
 /// <summary>
 /// Demo for issue #2117: save and load custom palettes as <c>.kpalx</c> XML
 /// (same document as legacy <c>.xml</c>), plus an optional native <c>.kpal</c> persist stream.
+/// Use <see cref="KryptonCustomPaletteBase.UpgradeXmlToKpalx(string, bool)"/> (or
+/// <see cref="KryptonPaletteFile.UpgradeXmlToKpalx(string)"/>) to rewrite <c>.xml</c> as <c>.kpalx</c>.
 /// </summary>
 public sealed class PaletteBinaryDemo : KryptonForm
 {
@@ -53,9 +55,9 @@ public sealed class PaletteBinaryDemo : KryptonForm
             Height = 128,
             Text =
                 @"How to test issue #2117:" + Environment.NewLine +
-                @"1) Pick an extra Krypton.Themes palette, populate from it, then Export .kpalx (XML). Optionally export native .kpal, compressed-XML .kpal, and legacy .xml." + Environment.NewLine +
+                @"1) Pick an extra Krypton.Themes palette, populate from it, then Export .kpalx (XML). Optionally export native .kpal or compressed-XML .kpal. Prefer .kpalx over legacy .xml." + Environment.NewLine +
                 @"2) Open the .kpalx file in a text editor — it is the KryptonPalette XML document. Import each file and confirm the sample header follows the theme." + Environment.NewLine +
-                @"3) Convert XML to .kpalx… rewrites a legacy .xml. Export .kpal pack stores several named themes. Pack folder to .kpal stores a directory tree (relative / paths). The combo, tree, and list on the left scan the last export folder including subfolders."
+                @"3) Import file… warns on legacy .xml and offers to upgrade to .kpalx before applying. Upgrade .xml to .kpalx… uses KryptonCustomPaletteBase.UpgradeXmlToKpalx. Convert XML to .kpalx… uses ConvertFile. Export .kpal pack stores several named themes. Pack folder to .kpal stores a directory tree (relative / paths). Selecting an .xml theme in the combo/tree/list also shows the upgrade warning."
         };
 
         _lblStatus = new KryptonWrapLabel
@@ -110,6 +112,7 @@ public sealed class PaletteBinaryDemo : KryptonForm
         btnExportCompressed.Click += (_, _) => Export(KryptonPaletteFileFormat.PaletteCompressedXml, @"sample-xml.kpal");
 
         var btnExportXml = new KryptonButton { Text = @"Export XML", AutoSize = true };
+        // ToDo V120 LTS: Remove the Export XML (.xml) button; keep Export .kpalx.
         btnExportXml.Click += (_, _) => Export(KryptonPaletteFileFormat.Xml, @"sample.xml");
 
         var btnImport = new KryptonButton { Text = @"Import file...", AutoSize = true };
@@ -117,6 +120,9 @@ public sealed class PaletteBinaryDemo : KryptonForm
 
         var btnConvert = new KryptonButton { Text = @"Convert XML to .kpalx...", AutoSize = true };
         btnConvert.Click += (_, _) => ConvertFile();
+
+        var btnUpgradeXml = new KryptonButton { Text = @"Upgrade .xml to .kpalx...", AutoSize = true };
+        btnUpgradeXml.Click += (_, _) => UpgradeXmlFile();
 
         var btnExportPack = new KryptonButton { Text = @"Export .kpal pack", AutoSize = true };
         btnExportPack.Click += (_, _) => ExportPackFile();
@@ -141,6 +147,7 @@ public sealed class PaletteBinaryDemo : KryptonForm
         buttonPanel.Controls.Add(btnExportXml);
         buttonPanel.Controls.Add(btnImport);
         buttonPanel.Controls.Add(btnConvert);
+        buttonPanel.Controls.Add(btnUpgradeXml);
         buttonPanel.Controls.Add(btnExportPack);
         buttonPanel.Controls.Add(btnPackFolder);
         buttonPanel.Controls.Add(_cboPackTheme);
@@ -309,10 +316,18 @@ public sealed class PaletteBinaryDemo : KryptonForm
             return;
         }
 
-        _palette.Import(dialog.FileName, silent: true);
+        var path = KryptonPaletteFile.PromptLegacyXmlUpgrade(dialog.FileName, silent: false);
+        if (path == null)
+        {
+            Log(@"Import cancelled.");
+            _lblStatus.Text = @"Status: import cancelled.";
+            return;
+        }
+
+        _palette.Import(path, silent: true);
         ApplyCustom();
-        var info = new FileInfo(dialog.FileName);
-        Log($@"Imported {dialog.FileName} ({info.Length:N0} bytes). Name='{_palette.GetPaletteName()}'.");
+        var info = new FileInfo(path);
+        Log($@"Imported {path} ({info.Length:N0} bytes). Name='{_palette.GetPaletteName()}'.");
         _lblStatus.Text = $@"Status: imported '{_palette.GetPaletteName()}'.";
         RefreshFileSelectors();
     }
@@ -323,6 +338,7 @@ public sealed class PaletteBinaryDemo : KryptonForm
         {
             Title = @"Convert palette from",
             Filter = KryptonPaletteFile.DialogFilter,
+            // ToDo V120 LTS: Default this open dialog to Extension (.kpalx) once .xml is retired.
             DefaultExt = KryptonPaletteFile.XmlExtension,
             InitialDirectory = _lastDirectory ?? string.Empty,
             CheckFileExists = true
@@ -354,9 +370,8 @@ public sealed class PaletteBinaryDemo : KryptonForm
 
         try
         {
-            var destination = KryptonPaletteFile.Convert(open.FileName, save.FileName);
+            var destination = _palette.ConvertFile(open.FileName, save.FileName);
             var info = new FileInfo(destination);
-            _palette.Import(destination, silent: true);
             ApplyCustom();
             Log($@"Converted {open.FileName} → {destination} ({info.Length:N0} bytes). Name='{_palette.GetPaletteName()}'.");
             _lblStatus.Text = $@"Status: converted to '{_palette.GetPaletteName()}' ({info.Length:N0} bytes).";
@@ -367,6 +382,41 @@ public sealed class PaletteBinaryDemo : KryptonForm
             Log($@"Convert failed: {ex.Message}");
             _lblStatus.Text = @"Status: convert failed.";
             KryptonMessageBox.Show(this, ex.Message, @"Palette Convert", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error);
+        }
+    }
+
+    private void UpgradeXmlFile()
+    {
+        using var open = new OpenFileDialog
+        {
+            Title = @"Upgrade legacy .xml palette",
+            Filter = @"XML palette files (*.xml)|*.xml|All files (*.*)|*.*",
+            DefaultExt = KryptonPaletteFile.XmlExtension,
+            InitialDirectory = _lastDirectory ?? string.Empty,
+            CheckFileExists = true
+        };
+
+        if (open.ShowDialog(this) != DialogResult.OK)
+        {
+            return;
+        }
+
+        _lastDirectory = Path.GetDirectoryName(open.FileName) ?? _lastDirectory;
+
+        try
+        {
+            var destination = _palette.UpgradeXmlToKpalx(open.FileName);
+            var info = new FileInfo(destination);
+            ApplyCustom();
+            Log($@"Upgraded {open.FileName} → {destination} ({info.Length:N0} bytes). Source .xml left in place. Name='{_palette.GetPaletteName()}'.");
+            _lblStatus.Text = $@"Status: upgraded to '{_palette.GetPaletteName()}' ({info.Length:N0} bytes).";
+            RefreshFileSelectors();
+        }
+        catch (Exception ex)
+        {
+            Log($@"Upgrade .xml failed: {ex.Message}");
+            _lblStatus.Text = @"Status: upgrade failed.";
+            KryptonMessageBox.Show(this, ex.Message, @"Palette Upgrade", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error);
         }
     }
 

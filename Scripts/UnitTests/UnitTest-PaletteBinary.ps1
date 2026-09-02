@@ -5,7 +5,8 @@
 .DESCRIPTION
     Loads Debug Krypton.Toolkit and round-trips a distinctive colour through
     .kpalx XML, legacy XML, compressed-XML .kpal, and native binary .kpal.
-    Also checks KPLT magic, FormatFromPath, PaletteCornerRounding persist, Convert, packs, directory packs, JSON rejection, and Utilities FromDirectory scan.
+    Also checks KPLT magic, FormatFromPath, PaletteCornerRounding persist, Convert,
+    UpgradeXmlToKpalx / ConvertFile (file and KryptonCustomPaletteBase), packs, directory packs, JSON rejection, and Utilities FromDirectory scan.
 
     Exit code 0 on success; non-zero on failure.
 
@@ -71,6 +72,14 @@ Write-UnitTestBanner -Status INFO -Message 'Asserting #2117 .kpalx XML save/load
 Assert-True ([Krypton.Toolkit.KryptonPaletteFile]::FormatFromPath('theme.kpalx') -eq [Krypton.Toolkit.KryptonPaletteFileFormat]::Xml) 'FormatFromPath(.kpalx) is Xml'
 Assert-True ([Krypton.Toolkit.KryptonPaletteFile]::FormatFromPath('theme.kpal') -eq [Krypton.Toolkit.KryptonPaletteFileFormat]::PaletteBinary) 'FormatFromPath(.kpal) is PaletteBinary'
 Assert-True ([Krypton.Toolkit.KryptonPaletteFile]::FormatFromPath('theme.xml') -eq [Krypton.Toolkit.KryptonPaletteFileFormat]::Xml) 'FormatFromPath(.xml) is Xml'
+Assert-True ([Krypton.Toolkit.KryptonPaletteFile]::IsLegacyXmlExtension('theme.xml')) 'IsLegacyXmlExtension(.xml)'
+Assert-True ([Krypton.Toolkit.KryptonPaletteFile]::IsLegacyXmlExtension('xml')) 'IsLegacyXmlExtension(xml)'
+Assert-True (-not [Krypton.Toolkit.KryptonPaletteFile]::IsLegacyXmlExtension('theme.kpalx')) 'IsLegacyXmlExtension(.kpalx) is false'
+$silentPromptKpalx = [Krypton.Toolkit.KryptonPaletteFile]::PromptLegacyXmlUpgrade('theme.kpalx', $true)
+Assert-True ($silentPromptKpalx -eq 'theme.kpalx') 'PromptLegacyXmlUpgrade silent leaves .kpalx unchanged'
+$themeStrings = [Krypton.Toolkit.KryptonManager]::Strings.MiscellaneousThemeStrings
+Assert-True ($themeStrings.LegacyXmlUpgradeTitle.Length -gt 0) 'LegacyXmlUpgradeTitle has a default'
+Assert-True ($themeStrings.LegacyXmlUpgradeMessage.Contains('{0}')) 'LegacyXmlUpgradeMessage includes the file-name placeholder'
 Assert-True ([Krypton.Toolkit.KryptonPaletteFile]::DialogFilter.StartsWith('Krypton palette files (*.kpalx)')) 'Dialog filter lists .kpalx first'
 Assert-True ([Krypton.Toolkit.KryptonPaletteFile]::IsPaletteExtension('theme.kpalx')) 'IsPaletteExtension(.kpalx)'
 Assert-True ([Krypton.Toolkit.KryptonPaletteFile]::IsPaletteExtension('.kpal')) 'IsPaletteExtension(.kpal)'
@@ -152,6 +161,55 @@ try {
     Assert-True ((Format-Color $fromConverted.ColorTable.StatusStripGradientBegin) -eq (Format-Color $marker)) 'Convert XML → .kpalx restores StatusStripGradientBegin'
     Assert-True ($fromConverted.GetPaletteName() -eq '2117-roundtrip') 'Convert XML → .kpalx restores the palette name'
     $fromConverted.Dispose()
+
+    $legacyXml = Join-Path $temp 'legacy-upgrade.xml'
+    Copy-Item -LiteralPath $xmlPath -Destination $legacyXml
+    $upgradedPath = [Krypton.Toolkit.KryptonPaletteFile]::UpgradeXmlToKpalx($legacyXml)
+    Assert-True (Test-Path -LiteralPath $upgradedPath) 'UpgradeXmlToKpalx created a .kpalx beside the source'
+    Assert-True ($upgradedPath.EndsWith('.kpalx')) 'UpgradeXmlToKpalx destination uses .kpalx'
+    Assert-True (Test-Path -LiteralPath $legacyXml) 'UpgradeXmlToKpalx leaves the source .xml in place'
+    $silentPromptXml = [Krypton.Toolkit.KryptonPaletteFile]::PromptLegacyXmlUpgrade($legacyXml, $true)
+    Assert-True ($silentPromptXml -eq $legacyXml) 'PromptLegacyXmlUpgrade silent returns the .xml path without rewriting'
+    Assert-True ((Get-Magic $upgradedPath) -ne 'KPLT') 'UpgradeXmlToKpalx writes XML, not a KPLT container'
+    $fromUpgraded = New-Object Krypton.Toolkit.KryptonCustomPaletteBase
+    [void]$fromUpgraded.Import($upgradedPath, $true)
+    Assert-True ((Format-Color $fromUpgraded.ColorTable.StatusStripGradientBegin) -eq (Format-Color $marker)) 'UpgradeXmlToKpalx restores StatusStripGradientBegin'
+    Assert-True ($fromUpgraded.GetPaletteName() -eq '2117-roundtrip') 'UpgradeXmlToKpalx restores the palette name'
+    $fromUpgraded.Dispose()
+
+    $upgradeRejectedKpalx = $false
+    try {
+        [void][Krypton.Toolkit.KryptonPaletteFile]::UpgradeXmlToKpalx($kpalxPath)
+    }
+    catch {
+        $upgradeRejectedKpalx = $_.Exception.GetBaseException().Message -match 'legacy'
+    }
+    Assert-True $upgradeRejectedKpalx 'UpgradeXmlToKpalx rejects a .kpalx source'
+
+    $upgradeRejectedDest = $false
+    try {
+        [void][Krypton.Toolkit.KryptonPaletteFile]::UpgradeXmlToKpalx($legacyXml, $binaryPath)
+    }
+    catch {
+        $upgradeRejectedDest = $_.Exception.GetBaseException().Message -match '\.kpalx'
+    }
+    Assert-True $upgradeRejectedDest 'UpgradeXmlToKpalx rejects a non-.kpalx destination'
+
+    $legacyXmlInstance = Join-Path $temp 'legacy-upgrade-instance.xml'
+    Copy-Item -LiteralPath $xmlPath -Destination $legacyXmlInstance
+    $instanceUpgrade = New-Object Krypton.Toolkit.KryptonCustomPaletteBase
+    $instanceUpgradePath = $instanceUpgrade.UpgradeXmlToKpalx($legacyXmlInstance)
+    Assert-True (Test-Path -LiteralPath $instanceUpgradePath) 'KryptonCustomPaletteBase.UpgradeXmlToKpalx created a .kpalx'
+    Assert-True ((Format-Color $instanceUpgrade.ColorTable.StatusStripGradientBegin) -eq (Format-Color $marker)) 'KryptonCustomPaletteBase.UpgradeXmlToKpalx imports StatusStripGradientBegin'
+    Assert-True ($instanceUpgrade.GetPaletteName() -eq '2117-roundtrip') 'KryptonCustomPaletteBase.UpgradeXmlToKpalx imports the palette name'
+    $instanceUpgrade.Dispose()
+
+    $convertedInstancePath = Join-Path $temp 'converted-instance.kpalx'
+    $instanceConvert = New-Object Krypton.Toolkit.KryptonCustomPaletteBase
+    [void]$instanceConvert.ConvertFile($xmlPath, $convertedInstancePath)
+    Assert-True (Test-Path -LiteralPath $convertedInstancePath) 'KryptonCustomPaletteBase.ConvertFile created a .kpalx'
+    Assert-True ((Format-Color $instanceConvert.ColorTable.StatusStripGradientBegin) -eq (Format-Color $marker)) 'KryptonCustomPaletteBase.ConvertFile imports StatusStripGradientBegin'
+    $instanceConvert.Dispose()
 
     $jsonRejected = $false
     try {

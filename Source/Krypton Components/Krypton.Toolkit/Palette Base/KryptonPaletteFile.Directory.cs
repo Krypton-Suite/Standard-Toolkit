@@ -117,12 +117,9 @@ public static partial class KryptonPaletteFile
     /// <returns>Relative pack name, or the file stem when the file is not under the root.</returns>
     public static string GetRelativePackThemeName(string filePath, string rootDirectory)
     {
-        if (string.IsNullOrWhiteSpace(filePath))
-        {
-            ThrowHelper.ThrowArgumentNullException(nameof(filePath));
-        }
+        ThrowHelper.ThrowIfNullOrWhiteSpace(filePath);
 
-        var relative = GetRelativePath(rootDirectory, filePath!);
+        var relative = GetRelativePath(rootDirectory, filePath);
         return StripPaletteExtension(NormalizePackThemeName(relative));
     }
 
@@ -135,6 +132,7 @@ public static partial class KryptonPaletteFile
     /// <param name="includeKpal">Include <c>*.kpal</c>.</param>
     /// <param name="includeXml">Include legacy <c>*.xml</c>.</param>
     /// <returns>Full paths, sorted ordinal ignore-case.</returns>
+    // ToDo V120 LTS: Remove includeXml (default listing of *.xml). Callers should UpgradeXmlToKpalx first.
     public static string[] GetPaletteFiles(string directory,
         bool searchSubdirectories = false,
         bool includeKpalx = true,
@@ -150,6 +148,7 @@ public static partial class KryptonPaletteFile
         var files = new List<string>();
         AddPaletteFiles(files, directory, @"*." + Extension, includeKpalx, option);
         AddPaletteFiles(files, directory, @"*." + BinaryExtension, includeKpal, option);
+        // ToDo V120 LTS: Stop scanning *.xml once XmlExtension is removed.
         AddPaletteFiles(files, directory, @"*." + XmlExtension, includeXml, option);
         files.Sort(StringComparer.OrdinalIgnoreCase);
         return files.ToArray();
@@ -160,7 +159,7 @@ public static partial class KryptonPaletteFile
     /// Theme names are the relative paths with <c>/</c> separators. Nested <c>.kpal</c> packs are flattened.
     /// </summary>
     /// <param name="destinationPath">File to create or overwrite. Must be <c>.kpal</c>.</param>
-    /// <param name="sourceDirectory">Folder of <c>.kpalx</c> / <c>.kpal</c> / <c>.xml</c> files.</param>
+    /// <param name="sourceDirectory">Folder of <c>.kpalx</c> / <c>.kpal</c> / legacy <c>.xml</c> files.</param>
     /// <returns>The full destination path.</returns>
     public static string ExportPackFromDirectory(string destinationPath, string sourceDirectory) =>
         ExportPackFromDirectory(destinationPath, sourceDirectory, searchSubdirectories: true, ignoreDefaults: false, packName: null);
@@ -180,29 +179,22 @@ public static partial class KryptonPaletteFile
         bool ignoreDefaults,
         string? packName)
     {
-        if (string.IsNullOrWhiteSpace(destinationPath))
-        {
-            ThrowHelper.ThrowArgumentNullException(nameof(destinationPath));
-        }
-
-        if (string.IsNullOrWhiteSpace(sourceDirectory))
-        {
-            ThrowHelper.ThrowArgumentNullException(nameof(sourceDirectory));
-        }
+        ThrowHelper.ThrowIfNullOrWhiteSpace(destinationPath);
+        ThrowHelper.ThrowIfNullOrWhiteSpace(sourceDirectory);
 
         if (!Directory.Exists(sourceDirectory))
         {
             ThrowHelper.ThrowArgumentException(@"Palette folder does not exist.", nameof(sourceDirectory));
         }
 
-        RejectJsonPalettePath(destinationPath!, nameof(destinationPath));
+        RejectJsonPalettePath(destinationPath, nameof(destinationPath));
         if (FormatFromPath(destinationPath) != KryptonPaletteFileFormat.PaletteBinary)
         {
             ThrowHelper.ThrowArgumentException(@"Multi-theme packs can only be written as .kpal.", nameof(destinationPath));
         }
 
         var destFull = Path.GetFullPath(destinationPath);
-        var files = GetPaletteFiles(sourceDirectory!, searchSubdirectories);
+        var files = GetPaletteFiles(sourceDirectory, searchSubdirectories);
         var palettes = new List<KryptonCustomPaletteBase>();
         var usedNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
@@ -216,7 +208,7 @@ public static partial class KryptonPaletteFile
                     continue;
                 }
 
-                AddDirectoryPackEntries(palettes, usedNames, file, sourceDirectory!);
+                AddDirectoryPackEntries(palettes, usedNames, file, sourceDirectory);
             }
 
             if (palettes.Count == 0)
@@ -225,10 +217,10 @@ public static partial class KryptonPaletteFile
             }
 
             var headerName = string.IsNullOrWhiteSpace(packName)
-                ? Path.GetFileName(Path.GetFullPath(sourceDirectory!).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar))
+                ? Path.GetFileName(Path.GetFullPath(sourceDirectory).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar))
                 : packName;
 
-            return ExportPack(destinationPath!, palettes, ignoreDefaults, headerName);
+            return ExportPack(destinationPath, palettes, ignoreDefaults, headerName);
         }
         finally
         {
@@ -335,6 +327,7 @@ public static partial class KryptonPaletteFile
 
         if (string.Equals(extension, @"." + Extension, StringComparison.OrdinalIgnoreCase)
             || string.Equals(extension, @"." + BinaryExtension, StringComparison.OrdinalIgnoreCase)
+            // ToDo V120 LTS: Stop stripping .xml from pack theme names.
             || string.Equals(extension, @"." + XmlExtension, StringComparison.OrdinalIgnoreCase))
         {
             return relativePath.Substring(0, relativePath.Length - extension.Length);
@@ -373,17 +366,7 @@ public static partial class KryptonPaletteFile
         for (var i = 0; i < found.Length; i++)
         {
             var path = found[i];
-            var exists = false;
-            for (var f = 0; f < files.Count; f++)
-            {
-                if (string.Equals(files[f], path, StringComparison.OrdinalIgnoreCase))
-                {
-                    exists = true;
-                    break;
-                }
-            }
-
-            if (!exists)
+            if (files.Find(existing => string.Equals(existing, path, StringComparison.OrdinalIgnoreCase)) == null)
             {
                 files.Add(path);
             }
