@@ -36,6 +36,7 @@ internal partial class VisualKryptonPaletteCollectionEditorForm : KryptonForm
         kbtnRemove.Click += (_, _) => RemoveSelectedTheme();
         kbtnClose.Click += (_, _) => Close();
         CancelButton = kbtnClose;
+        SetupThemeListView();
         ApplyStrings();
         PopulateViews();
 
@@ -228,7 +229,7 @@ internal partial class VisualKryptonPaletteCollectionEditorForm : KryptonForm
             var names = KryptonPaletteFile.GetThemeNames(path);
             for (var i = 0; i < names.Length; i++)
             {
-                klvThemes.Items.Add(names[i]);
+                klvThemes.Items.Add(CreateThemeItem(names[i]));
             }
 
             if (klvThemes.Items.Count > 0)
@@ -331,10 +332,73 @@ internal partial class VisualKryptonPaletteCollectionEditorForm : KryptonForm
         return string.IsNullOrEmpty(directory) ? string.Empty : directory;
     }
 
-    private string? SelectedThemeName() =>
-        klvThemes.SelectedItems.Count > 0 ? klvThemes.SelectedItems[0].Text : null;
+    private string? SelectedThemeName()
+    {
+        if (klvThemes.SelectedItems.Count == 0)
+        {
+            return null;
+        }
+
+        var selected = klvThemes.SelectedItems[0];
+        return selected.Tag as string ?? selected.Text;
+    }
+
+    private static ListViewItem CreateThemeItem(string themeName)
+    {
+        var normalised = KryptonPaletteFile.NormalizeCollectionThemeName(themeName);
+        var slash = normalised.LastIndexOf(KryptonPaletteFile.CollectionPathSeparator);
+        string theme;
+        string folder;
+        if (slash <= 0)
+        {
+            theme = string.IsNullOrEmpty(normalised) ? themeName : normalised;
+            folder = string.Empty;
+        }
+        else
+        {
+            folder = KryptonPaletteFile.ToDisplayPath(normalised.Substring(0, slash));
+            theme = normalised.Substring(slash + 1);
+        }
+
+        var item = new ListViewItem(theme)
+        {
+            Tag = themeName,
+            ToolTipText = string.IsNullOrEmpty(normalised)
+                ? themeName
+                : KryptonPaletteFile.ToDisplayPath(normalised)
+        };
+        item.SubItems.Add(folder);
+        return item;
+    }
 
     private void SetStatus(string text) => klblStatus.Text = text;
+
+    private void SetupThemeListView()
+    {
+        klvThemes.View = View.Details;
+        klvThemes.FullRowSelect = true;
+        klvThemes.MultiSelect = false;
+        klvThemes.HeaderStyle = ColumnHeaderStyle.Nonclickable;
+        klvThemes.ShowItemToolTips = true;
+        if (klvThemes.Columns.Count == 0)
+        {
+            klvThemes.Columns.Add(string.Empty, 240);
+            klvThemes.Columns.Add(string.Empty, -2);
+        }
+    }
+
+    private void ApplyColumnHeadings()
+    {
+        if (klvThemes.Columns.Count > 0)
+        {
+            klvThemes.Columns[0].Text = _strings.ColumnTheme;
+        }
+
+        if (klvThemes.Columns.Count > 1)
+        {
+            klvThemes.Columns[1].Text = _strings.ColumnFolder;
+        }
+    }
 
     private void ApplyStrings()
     {
@@ -351,6 +415,7 @@ internal partial class VisualKryptonPaletteCollectionEditorForm : KryptonForm
         kbtnClose.Values.Text = KryptonManager.Strings.GeneralStrings.Close;
         klblViewBy.Values.Text = s.ViewByLabel;
         klblStatus.Values.Text = s.StatusChooseThenAdd;
+        ApplyColumnHeadings();
     }
 
     private void PopulateViews()

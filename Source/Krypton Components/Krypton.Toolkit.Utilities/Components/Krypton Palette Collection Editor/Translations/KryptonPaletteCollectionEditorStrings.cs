@@ -58,6 +58,8 @@ public class KryptonPaletteCollectionEditorStrings : GlobalId
     private const string DefaultViewSmallIcon = @"Small Icons";
     private const string DefaultViewList = @"List";
     private const string DefaultViewTile = @"Tile";
+    private const string DefaultColumnTheme = @"Theme";
+    private const string DefaultColumnFolder = @"Folder";
 
     /// <summary>Initializes a new instance of the <see cref="KryptonPaletteCollectionEditorStrings"/> class.</summary>
     public KryptonPaletteCollectionEditorStrings() => Reset();
@@ -108,7 +110,9 @@ public class KryptonPaletteCollectionEditorStrings : GlobalId
         && ViewDetails == DefaultViewDetails
         && ViewSmallIcon == DefaultViewSmallIcon
         && ViewList == DefaultViewList
-        && ViewTile == DefaultViewTile;
+        && ViewTile == DefaultViewTile
+        && ColumnTheme == DefaultColumnTheme
+        && ColumnFolder == DefaultColumnFolder;
 
     /// <summary>Resets all strings to defaults.</summary>
     public void Reset()
@@ -153,6 +157,8 @@ public class KryptonPaletteCollectionEditorStrings : GlobalId
         ViewSmallIcon = DefaultViewSmallIcon;
         ViewList = DefaultViewList;
         ViewTile = DefaultViewTile;
+        ColumnTheme = DefaultColumnTheme;
+        ColumnFolder = DefaultColumnFolder;
     }
 
     /// <summary>Gets the combined collection-file dialog filter.</summary>
@@ -401,4 +407,16 @@ public class KryptonPaletteCollectionEditorStrings : GlobalId
     [Category(@"Visuals")]
     [DefaultValue(DefaultViewTile)]
     public string ViewTile { get; set; }
+
+    /// <summary>Gets or sets the Details-view Theme column heading.</summary>
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [DefaultValue(DefaultColumnTheme)]
+    public string ColumnTheme { get; set; }
+
+    /// <summary>Gets or sets the Details-view Folder column heading.</summary>
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [DefaultValue(DefaultColumnFolder)]
+    public string ColumnFolder { get; set; }
 }
