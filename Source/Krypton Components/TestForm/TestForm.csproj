@@ -62,19 +62,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Update="KryptonTaskDialogDemo\DemoDialogs\KryptonTaskDialogDemoForm.ProgressBar1.cs">
+    <Compile Update="KryptonToolkit\KryptonTaskDialogDemo\DemoDialogs\KryptonTaskDialogDemoForm.ProgressBar1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="KryptonTaskDialogDemo\DemoDialogs\KryptonTaskDialogDemoFormFreeWheeler1.cs">
+    <Compile Update="KryptonToolkit\KryptonTaskDialogDemo\DemoDialogs\KryptonTaskDialogDemoFormFreeWheeler1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="KryptonTaskDialogDemo\DemoDialogs\KryptonTaskDialogDemoForm.CommandLinkButtons1.cs">
+    <Compile Update="KryptonToolkit\KryptonTaskDialogDemo\DemoDialogs\KryptonTaskDialogDemoForm.CommandLinkButtons1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="KryptonTaskDialogDemo\DemoDialogs\KryptonTaskDialogDemoForm.MessageBox2.cs">
+    <Compile Update="KryptonToolkit\KryptonTaskDialogDemo\DemoDialogs\KryptonTaskDialogDemoForm.MessageBox2.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="KryptonTaskDialogDemo\KryptonTaskDialogDemoResources.Designer.cs">
+    <Compile Update="KryptonToolkit\KryptonTaskDialogDemo\KryptonTaskDialogDemoResources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>KryptonTaskDialogDemoResources.resx</DependentUpon>
@@ -138,7 +138,7 @@
     <EmbeddedResource Update="Bug3381KryptonButtonRoundedTextCenteringDemo.resx">
       <DependentUpon>Bug3381KryptonButtonRoundedTextCenteringDemo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Update="KryptonTaskDialogDemo\KryptonTaskDialogDemoResources.resx">
+    <EmbeddedResource Update="KryptonToolkit\KryptonTaskDialogDemo\KryptonTaskDialogDemoResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>KryptonTaskDialogDemoResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
@@ -157,7 +157,7 @@
   <ItemGroup>
     <None Include="app.manifest" />
     <None Include="App.config" />
-    <None Include="KryptonTaskDialogDemo\DemoDialogs\KryptonTaskDialogDemoForm.CommandLinkButtons1.cs" />
+    <None Include="KryptonToolkit\KryptonTaskDialogDemo\DemoDialogs\KryptonTaskDialogDemoForm.CommandLinkButtons1.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -172,6 +172,15 @@
     <PackageReference Include="Bogus" Version="35.6.5" />
     <PackageReference Include="Cyotek.Windows.Forms.ColorPicker" Version="2.0.0-beta.7" />
     <PackageReference Include="System.Private.Uri" Version="4.3.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="KryptonDocking\Bugs\" />
+    <Folder Include="KryptonNavigator\Bugs\" />
+    <Folder Include="KryptonRibbon\Bugs\" />
+    <Folder Include="KryptonToolkit\Bugs\" />
+    <Folder Include="KryptonUtilities\Bugs\" />
+    <Folder Include="KryptonWorkspace\Bugs\" />
   </ItemGroup>
 
 </Project>

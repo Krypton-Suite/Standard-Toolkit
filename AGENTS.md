@@ -26,6 +26,7 @@ Before considering a task complete:
 - When a change is **breaking** for consumers, also update `README.md` under **Breaking Changes** (see **Breaking Changes (README)**). The entry must follow the existing pattern in that section.
 - Add developer documentation for substantial new features (see **Feature Developer Documentation**). Keep `Documents/Development/` files **out of pull requests**.
 - Write a PR description in `Documents/PR/` for completed features and bug fixes, and use that file as the GitHub PR body. Do **not** include the PR description file in the pull request (see **Pull Request Descriptions**).
+- For UI-visible changes, capture screenshots (or a short GIF when motion is the point) into the local `Documents/PR/` description. Do not leave **Screenshots / GIFs** as a placeholder, and do **not** upload or attach the images to the GitHub pull request (see **UI Screenshots / GIFs**).
 - When UI behaviour is verified with ad-hoc PowerShell / UI Automation (mouse synthesise, screenshots, hosted `TestForm` demos), **keep those scripts under `Scripts/UnitTests/`** instead of leaving them only under `Bin/` or deleting them after the session. Prefer reusable, named scripts with a short note in `Scripts/UnitTests/README.md` (see **Unit Test Scripts**).
 
 ## Shell Guidelines
@@ -121,7 +122,7 @@ Extra assemblies can advertise `[assembly: KryptonThemeProvider(typeof(…))]`. 
 - Do not refactor unrelated code.
 - Do not rename identifiers unless requested.
 - When adding or changing public/protected API, include scoped documentation per **Code Documentation Guidelines**; do not turn a feature or bug fix into a repo-wide documentation pass unless asked.
-- Keep accompanying artefacts (changelog, developer guide, PR description, TestForm demo) consistent with the implementation; do not leave placeholder text from templates.
+- Keep accompanying artefacts (changelog, developer guide, PR description, TestForm demo, UI screenshots / GIFs) consistent with the implementation; do not leave placeholder text from templates.
 
 ## Public API
 
@@ -592,6 +593,7 @@ Commit, push, or open a Demos pull request only when the user explicitly asks. W
 - When fixing a bug, add/adjust a minimal repro in `TestForm` or a harness and describe manual steps in the PR
 - When completing a **feature**, add or append a comprehensive demo in `TestForm` per **TestForm Demos** (include Krypton vs WinForms comparison where appropriate; do not overwrite an existing demo), and a consumer example in [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) (clone into the parent directory if missing; see **Standard-Toolkit-Demos**)
 - When completing a bug fix or feature, update `Documents/Changelog/Changelog.md` per **Changelog** in this file; if the change is breaking, also update `README.md` per **Breaking Changes (README)**
+- For UI-visible changes, capture screenshots per **UI Screenshots / GIFs** into the local `Documents/PR/` description; do not leave the template placeholder, and do not upload the images or GIFs to GitHub
 
 ## Unit Test Scripts
 
@@ -602,7 +604,7 @@ Use `Scripts/UnitTests/` for PowerShell scripts that drive or inspect a Debug `T
 - Creating throwaway `.ps1` files under `Bin/` during a bug investigation is fine for the session, but **before the work is finished**, move or rewrite the keepers into `Scripts/UnitTests/` with clear names and brief `.SYNOPSIS` / `.DESCRIPTION` help.
 - Prefer extending an existing unit-test script over adding a near-duplicate.
 - Document new scripts in `Scripts/UnitTests/README.md` (purpose and a short usage example).
-- Do not check in screenshots or `Bin/` output produced by these scripts.
+- Do not check in screenshots or `Bin/` output produced by these scripts. Reviewer shots for a PR belong under `Documents/PR/` and are also not committed (see **UI Screenshots / GIFs**).
 
 ### Conventions
 
@@ -611,10 +613,59 @@ Use `Scripts/UnitTests/` for PowerShell scripts that drive or inspect a Debug `T
 - Keep scripts focused on one scenario (host, drag, remerge, probe, …).
 - Existing #925 helpers: `Start-NavigatorFormIntegrationHost.ps1`, `Invoke-CaptionTabDrag.ps1`, `UnitTest-NavigatorCaptionTabRemerge.ps1`, `Get-NavigatorCaptionTabProbe.ps1`.
 
+## UI Screenshots / GIFs
+
+When a change is **user-visible**, capture stills (and a short GIF when motion is the point) before treating the work as complete, and embed them in the local `Documents/PR/` description. Do not leave **Screenshots / GIFs** as a placeholder such as “add after a local TestForm run if desired”. Do **not** upload, attach, or host the files on the GitHub pull request.
+
+### When
+
+- Features and bug fixes that change appearance, layout, chrome, themes/palettes, dialogs, or demo UI.
+- New or updated TestForm demos that show the capability.
+- Skip for API-only work, comment-only changes, and refactors with no visual difference.
+
+### What to capture
+
+- Enough to show the change: typical default look plus the distinctive demo state (for example contrast/override, or before/after).
+- Do not capture every theme variant unless the bug or feature is family-specific; then include the affected families.
+- **PNG** for stills (colour, layout, chrome, default vs override).
+- **Short GIF** when motion is the point (drag, tear-out/remerge, animation, slide, flicker). Do not GIF a static colour or layout change, and do not substitute a single still when the defect is motion.
+
+### How
+
+1. Build Debug TestForm if binaries are stale: `dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug`.
+2. Host the relevant demo **on-screen** with PowerShell `-STA`. Reuse a `Start-*Host.ps1`, or instantiate the form in-process (pattern: `Scripts/UnitTests/Invoke-RadialMenuScreenshot.ps1`).
+3. `Show` / `Activate`, `Application.DoEvents()`, then a short sleep so paint completes. Do not capture off-screen or hidden windows.
+4. Capture with `System.Drawing.Graphics.CopyFromScreen` to PNG. Crop to the relevant chrome when a full-desktop shot would hide the change.
+5. Read the PNG or GIF in the session so the image is visible for confirmation.
+6. If the capture is reusable, keep the script under `Scripts/UnitTests/` with `# UnitTest-CI: exclude` and a README row (see **Unit Test Scripts**). Copy `Scripts/UnitTests/Invoke-RadialMenuScreenshot.ps1` (STA `-File`, in-process form, `CopyFromScreen` to `Documents/PR/`) rather than a long `powershell -Command { … }` one-liner (see **Recent Tooling Mistakes To Avoid**).
+
+**GIF (motion only):** same host, STA, on-screen, and crop rules as PNG. Capture a short frame sequence during the interaction (`CopyFromScreen` on a timer, or before / during / after plus in-between frames for a drag). Encode to an animated GIF and save next to the description. Prefer `ffmpeg` or ImageMagick `magick` if on PATH; otherwise assemble frames with WPF `GifBitmapEncoder` (`Add-Type -AssemblyName PresentationCore`). Keep it to a few seconds, cropped, looping. If no encoder is available, capture labelled stills (`-before.png`, `-during.png`, `-after.png`) instead of skipping — do not invent a GIF.
+
+### Where
+
+- Save reviewer shots as `Documents/PR/<issue-or-branch>-<short-title>-<state>.png` or `.gif` next to the PR description (for example `1100-scheme-strip-text-default.png`, `925-caption-tab-remerge.gif`).
+- These files are **local**, like the PR description file: do **not** stage, commit, or push them. Do **not** leave the only copy under `Bin/`.
+- Embed in `Documents/PR/<file>.md` with relative markdown images and a one-line caption stating the state shown:
+
+```markdown
+![Default builtin theme](./1100-scheme-strip-text-default.png)
+![Caption tab remerge](./925-caption-tab-remerge.gif)
+```
+
+- Do **not** upload, attach, or host these files on the GitHub pull request (no `user-attachments` URLs, no drag-and-drop onto the PR, no `gh` image attach). GitHub will not display local relative paths; that is intended.
+- Demos category README: add a screenshot/GIF when you have one (see **Standard-Toolkit-Demos**). Those live in the Demos repo, not on the Toolkit GitHub PR.
+
+### Do not
+
+- Skip screenshots or GIFs for UI work, or leave the template placeholder.
+- Commit PNGs, GIFs, or `Bin/` capture output in the Standard-Toolkit pull request.
+- Upload or attach screenshot or GIF files to the GitHub pull request.
+- Invent or draw substitute images. If capture is impossible (no interactive desktop), say so in **Validation** instead of faking a shot.
+
 ## Commit & Pull Request Guidelines
 
 - Commits: short, imperative subject; reference issues/PRs (e.g., `Fix autosizing (#2433)` or `2439 V100 datecell autosizing`)
-- PRs: clear description, linked issues, screenshots/gifs for UI changes, notes on breaking changes/TFM impact
+- PRs: clear description, linked issues, notes on breaking changes/TFM impact. UI screenshots and GIFs stay in the local `Documents/PR/` description (see **UI Screenshots / GIFs**); do not upload them to GitHub.
 - If a pull request is opened or created, it must be compared with `alpha`, not `master`, `gold`, or `canary`. When using `gh pr create`, set the base branch to `alpha` (for example `--base alpha`).
 - Completed bugs and features: update `Documents/Changelog/Changelog.md` (see **Changelog** above); if the change is breaking, also update `README.md` under **Breaking Changes** (see **Breaking Changes (README)**); add or append a `TestForm` demo for features (see **TestForm Demos**; do not overwrite an existing demo); also add a consumer example in [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) or append if one exists (clone into the parent directory if missing; work on an `alpha-…` branch from `alpha`; see **Standard-Toolkit-Demos**); write a `Documents/Development/` guide when the feature warrants in-depth maintainer docs, and a PR description in `Documents/PR/` (see **Pull Request Descriptions** below). **Do not include** `Documents/Development/` files or the per-change `Documents/PR/` description file in the Standard-Toolkit pull request (new or existing). Demos files belong only in the Demos repo. Use the PR description file as the GitHub PR body (`gh pr create --base alpha --body-file Documents/PR/<file>.md`).
 - Do not add routine validation noise to commit messages or PR descriptions. Mention checks only when they are essential context, unusual, failed, or specifically requested.
@@ -635,13 +686,14 @@ When a **bug fix** or **feature** is completed, create a **PR description** as a
 - Copy `Documents/PR/TEMPLATE.md` to `Documents/PR/<issue-or-branch>-<short-title>.md`, e.g. `Documents/PR/3720-foldable-dialog.md` or `Documents/PR/2444-agents-md.md`. Use the issue number when one exists.
 - One file per bug fix or feature (or the cohesive set of changes going into a single PR).
 - CRLF, UTF-8 with BOM; match the tone and structure of existing repo docs.
-- Keep the file **local**: do not stage, commit, or push it as part of the pull request.
+- Keep the file **local**: do not stage, commit, or push it as part of the pull request. Matching screenshot PNGs and GIFs next to it are local as well (see **UI Screenshots / GIFs**).
 
 ### Opening the pull request
 
 - Use this file **as** the GitHub PR description. Do not write a second body.
 - Prefer `gh pr create --base alpha --body-file Documents/PR/<file>.md` (or the equivalent `--body-file` when updating). On Windows PowerShell, pass the path as a single argument; do not rely on shell quotes around a pasted body (see **Recent Tooling Mistakes To Avoid**).
 - Do not include this file, or any file under `Documents/Development/`, in the commits that make up a new or existing PR.
+- Do **not** upload or attach screenshot PNGs/GIFs to the GitHub pull request. Relative image links in this file are for the local draft only.
 
 ### What to include
 
@@ -653,7 +705,7 @@ Fill in every applicable section of `Documents/PR/TEMPLATE.md` (delete those tha
 - **Changes** — notable changes grouped by area or project.
 - **Affected packages & target frameworks** — only those touched/verified.
 - **Validation** — `TestForm` demo name, [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) example name and `alpha-…` branch (or a note if clone/branch failed), manual steps, and the build command used.
-- **Screenshots / GIFs** — for any UI change.
+- **Screenshots / GIFs** — required for any UI change; capture them locally per **UI Screenshots / GIFs**. Do not leave the template placeholder. Remove the section only when there is no UI change. Do not upload the images or GIFs to GitHub.
 - **Changelog** — the matching `Documents/Changelog/Changelog.md` entry.
 - **Breaking changes & migration** — what consumers must update, if anything. If the change is breaking, the matching `README.md` **Breaking Changes** entry must exist and follow the existing pattern (see **Breaking Changes (README)**).
 - **Developer documentation** — link to the `Documents/Development/` guide for substantial features.
@@ -662,7 +714,7 @@ Fill in every applicable section of `Documents/PR/TEMPLATE.md` (delete those tha
 
 - Do not add changelog entries or release notes inside `Documents/PR/` files — those belong in `Documents/Changelog/Changelog.md`.
 - Do not add references or index entries for `Documents/PR/` files in `Scripts/ModernBuild/README.md`.
-- Do **not** include the per-change PR description file (`Documents/PR/<issue-or-branch>-<short-title>.md`) in a new or existing pull request. Write it locally, use it as the GitHub PR body, and leave it untracked (or unstaged) relative to the PR. Leave `TEMPLATE.md` and `README.md` in this folder alone unless the task is to update those shared files.
+- Do **not** include the per-change PR description file (`Documents/PR/<issue-or-branch>-<short-title>.md`) or matching screenshot PNGs/GIFs in a new or existing pull request. Write them locally, use the Markdown as the GitHub PR body, and leave them untracked (or unstaged) relative to the PR. Do **not** upload or attach the screenshot or GIF files to GitHub. Leave `TEMPLATE.md` and `README.md` in this folder alone unless the task is to update those shared files.
 - Do **not** include files under `Documents/Development/` in a new or existing pull request. If an existing PR already contains those files or the per-change PR description, remove them from the PR so they are no longer in the diff.
 
 ## Security & Configuration Tips

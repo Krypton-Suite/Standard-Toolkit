@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege, et al. 2024 - 2026. All rights reserved.
@@ -838,7 +838,7 @@ public class KryptonColorTable365BlackDarkModeAlternate : KryptonColorTable
     /// <summary>
     /// Gets the text color used on the menu items.
     /// </summary>
-    public override Color MenuItemText => _colors[(int)SchemeBaseColors.TextButtonNormal];
+    public override Color MenuItemText => _colors.Resolve(SchemeBaseColors.MenuItemText, SchemeBaseColors.TextButtonNormal);
 
     #endregion
 
@@ -846,7 +846,7 @@ public class KryptonColorTable365BlackDarkModeAlternate : KryptonColorTable
     /// <summary>
     /// Gets the text color used on the menu strip.
     /// </summary>
-    public override Color MenuStripText => _colors[(int)SchemeBaseColors.StatusStripText];
+    public override Color MenuStripText => _colors.Resolve(SchemeBaseColors.MenuStripText, SchemeBaseColors.StatusStripText);
 
     #endregion
 
@@ -854,7 +854,7 @@ public class KryptonColorTable365BlackDarkModeAlternate : KryptonColorTable
     /// <summary>
     /// Gets the text color used on the tool strip.
     /// </summary>
-    public override Color ToolStripText => _colors[(int)SchemeBaseColors.StatusStripText];
+    public override Color ToolStripText => _colors.Resolve(SchemeBaseColors.ToolStripText, SchemeBaseColors.StatusStripText);
 
     #endregion
 

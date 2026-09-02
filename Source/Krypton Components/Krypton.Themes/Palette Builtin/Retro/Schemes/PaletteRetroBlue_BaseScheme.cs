@@ -42,6 +42,8 @@ public sealed class PaletteRetroBlue_BaseScheme : PaletteRetroGreen_BaseScheme
         ButtonNavigatorText = Color.White;
 
         StatusStripText = Color.White;
+        MenuStripText = Color.White;
+        ToolStripText = Color.White;
         FormBorderActive = DosBlue;
         FormBorderHeaderActive = DosBlue;
         FormHeaderShortActive = Color.White;

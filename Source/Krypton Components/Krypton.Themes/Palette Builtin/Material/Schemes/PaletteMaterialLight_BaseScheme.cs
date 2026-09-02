@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -246,7 +246,8 @@ public sealed class PaletteMaterialLight_BaseScheme : KryptonColorSchemeBase
     public override Color MenuMarginGradientMiddle         { get; set; } = Color.FromArgb(245, 245, 245);
     public override Color MenuMarginGradientEnd            { get; set; } = Color.FromArgb(245, 245, 245);
     public override Color DisabledMenuItemText             { get; set; } = Color.FromArgb(160, 160, 160);
-    public override Color MenuStripText                    { get; set; } = Color.FromArgb(33, 33, 33);
+    public override Color MenuStripText                    { get; set; } = Color.FromArgb(33, 33, 33);
+    public override Color ToolStripText                    { get; set; } = Color.FromArgb(33, 33, 33);
     public override Color TrackBarTickMarks                { get; set; } = Color.FromArgb(116, 150, 194);
     public override Color TrackBarTopTrack                 { get; set; } = Color.FromArgb(116, 150, 194);
     public override Color TrackBarBottomTrack              { get; set; } = Color.FromArgb(152, 190, 241);
