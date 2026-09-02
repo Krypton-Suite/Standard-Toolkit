@@ -17,17 +17,18 @@ public partial class KryptonTaskDialogDemoForm
 
         taskDialog.Dialog.Form.Text = "A Content sample with an image displayed";
 
-        string text = BogusData.BogusGenerator.GenerateLoremIpsumLines(5) + Environment.NewLine + Environment.NewLine +
+        string text = 
+            BogusData.BogusGenerator.GenerateLoremIpsumLines(5) + Environment.NewLine + Environment.NewLine +
             BogusData.BogusGenerator.GenerateLoremIpsumLines(5) + Environment.NewLine + Environment.NewLine +
             BogusData.BogusGenerator.GenerateLoremIpsumLines(5) + Environment.NewLine + Environment.NewLine +
             BogusData.BogusGenerator.GenerateLoremIpsumLines(5);
 
-        taskDialog.Content.ContentImage.Image = KryptonTaskDialogDemo.KryptonTaskDialogDemoResources.lorem_ipsum;
-        taskDialog.Content.ContentImage.Size = new Size(150, 150);
-        taskDialog.Content.ContentImage.Visible = true;
+        taskDialog.Content.ContentImage.Image          = KryptonToolkit.KryptonTaskDialogDemo.KryptonTaskDialogDemoResources.lorem_ipsum;
+        taskDialog.Content.ContentImage.Size           = new Size(150, 150);
+        taskDialog.Content.ContentImage.Visible        = true;
         taskDialog.Content.ContentImage.PositionedLeft = true;
-        taskDialog.Content.Visible = true;
-        taskDialog.Content.Text = text;
+        taskDialog.Content.Visible                     = true;
+        taskDialog.Content.Text                        = text;
 
         taskDialog.Show(this);
     }
