@@ -8,9 +8,12 @@
 #endregion
 
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 using Krypton.Toolkit.Utilities;
+
+using static Krypton.Interop.NativeFunctions;
 
 namespace TestForm;
 
@@ -424,7 +427,12 @@ public partial class StartScreen : KryptonForm
 
         if (tbFilter.Text.Length > 0)
         {
-            _buttons.ForEach(button => button.Visible = button.CommandLinkTextValues.Heading.IndexOf(tbFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+            string filter = @"^" + string.Concat( tbFilter.Text
+                .Trim()
+                .Split( ' ' )
+                .Select( word => $"(?=.*{word.Trim()})" ));
+
+            _buttons.ForEach( button => button.Visible = Regex.IsMatch( button.CommandLinkTextValues.Heading, filter, RegexOptions.IgnoreCase ) );
         }
         else
         {
