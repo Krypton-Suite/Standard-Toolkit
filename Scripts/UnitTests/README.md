@@ -51,6 +51,7 @@ Default output folder: `Bin\Debug\net472`.
 | Script | Purpose | Marker |
 |--------|---------|--------|
 | `Invoke-AllUnitTests.ps1` | Discovers markers, runs every `include` script in STA children | (entry point) |
+| `UnitTest-DesignerSerializationDefaults.ps1` | #4325 toolbox drop: core controls must not report designer `Modified` storage (`IsDefault` false) | `include` |
 | `UnitTest-UnitTestInfrastructure.ps1` | Shared helpers + CI marker discovery smoke assert | `include` |
 | `UnitTest-ThemeCatalog.ps1` | #4230 catalog: cores, enum/SupportedThemes order, Themes discovery, Materialize chrome, extraOnly Sparkle, Export/Import, sample provider | `include` |
 | `UnitTest-RibbonDetachable.ps1` | #595 Ribbon detach/reattach lifecycle, floating window, drag-to-reattach support | `include` |

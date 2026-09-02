@@ -45,6 +45,8 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#4325](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4325), When using Fresh dragged objects onto a form, the designer has lots of `Modified` entries
+  * Freshly dropped Krypton controls no longer show nested palette/values properties as **Modified** in the Visual Studio Properties window until you change them.
 * Implemented [#1100](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1100), Extension of the `SchemeOfficeColors` enum
   * Menu, tool, and context strip text colours can be set independently of the status strip.
 * Resolved [#1870](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1870), `KryptonCustomPaletteBase`, Unable to Set / Change the colour table (help to migrate to v90.)

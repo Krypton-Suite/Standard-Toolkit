@@ -129,9 +129,9 @@ public class KryptonHScrollBar : Control
         _stateActive = new PaletteInputControlTripleStates(_stateCommon, OnNeedPaint);
 
         // Initialize palette border colors with default values
-        _stateNormal.Border.Color1 = _borderColor;
-        _stateActive.Border.Color1 = _borderColor;
-        _stateDisabled.Border.Color1 = _disabledBorderColor;
+        _stateNormal.Border.SetFactoryColor1(_borderColor);
+        _stateActive.Border.SetFactoryColor1(_borderColor);
+        _stateDisabled.Border.SetFactoryColor1(_disabledBorderColor);
 
         // Ensure border is drawn by default (all palette border properties are accessible through StateCommon/StateNormal/StateDisabled/StateActive.Border)
         // Available properties: Draw, DrawBorders, Width, Color1, Color2, ColorStyle, ColorAlign, ColorAngle, Rounding, Image, ImageStyle, ImageAlign, GraphicsHint
