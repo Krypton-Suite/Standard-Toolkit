@@ -4463,7 +4463,10 @@ public enum SchemeBaseColors
     ButtonTextTracking = 240,
 
     /// <summary>Text color for tree view and list box items in normal state.</summary>
-    TextListItem = 241
+    TextListItem = 241,
+
+    /// <summary>Text color for tool strips. Empty inherits the ColorTable family fallback (often StatusStripText).</summary>
+    ToolStripText = 242
 }
 
 #endregion

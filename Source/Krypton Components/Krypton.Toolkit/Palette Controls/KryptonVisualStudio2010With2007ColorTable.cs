@@ -1,7 +1,7 @@
-#region BSD License
+﻿#region BSD License
 /*
  *   BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avil�s (aka mcpbcs) et al. 2023 - 2026. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2023 - 2026. All rights reserved. 
  *  
  */
 #endregion
@@ -469,7 +469,7 @@ public class KryptonVisualStudio2010With2007ColorTable : KryptonColorTable
     /// <summary>
     /// Gets the text color used on the menu items.
     /// </summary>
-    public override Color MenuItemText => Colors[(int)SchemeBaseColors.TextButtonNormal];
+    public override Color MenuItemText => Colors.Resolve(SchemeBaseColors.MenuItemText, SchemeBaseColors.TextButtonNormal);
 
     #endregion
 
@@ -478,7 +478,7 @@ public class KryptonVisualStudio2010With2007ColorTable : KryptonColorTable
     /// <summary>
     /// Gets the text color used on the menu strip.
     /// </summary>
-    public override Color MenuStripText => _menuStripTextColor; // Colors[(int)SchemeBaseColors.TextLabelPanel];
+    public override Color MenuStripText => SchemeBaseColorsExtensions.Coalesce(Colors.Get(SchemeBaseColors.MenuStripText), _menuStripTextColor);
 
     #endregion
 
@@ -486,7 +486,7 @@ public class KryptonVisualStudio2010With2007ColorTable : KryptonColorTable
     /// <summary>
     /// Gets the text color used on the tool strip.
     /// </summary>
-    public override Color ToolStripText => Colors[(int)SchemeBaseColors.TextButtonNormal];
+    public override Color ToolStripText => Colors.Resolve(SchemeBaseColors.ToolStripText, SchemeBaseColors.TextButtonNormal);
 
     #endregion
 

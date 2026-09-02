@@ -56,6 +56,8 @@
   * A `.kpal` pack can store several named themes in one file (`KryptonPaletteFile.ExportPack` / `GetThemeNames` / `Import(path, themeName)`). Single-theme `.kpal` files are unchanged.
   * `KryptonPaletteFileListBox` and `KryptonPaletteFileComboBox` list `.kpalx` / `.kpal` (including packs) / `.xml` from a folder and apply the selected theme.
    * To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
+* Implemented [#1100](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1100), Extension of the `SchemeOfficeColors` enum
+  * Menu, tool, and context strip text colours can be set independently of the status strip.
 * Resolved [#1870](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1870), `KryptonCustomPaletteBase`, Unable to Set / Change the colour table (help to migrate to v90.)
   * `KryptonCustomPaletteBase.BasePaletteMode` now switches the inherited colour table (Office 2010 Silver and other builtin themes no longer stay stuck on Microsoft 365 Blue).
   * The designer `ColorTable` shows the resolved colours; assigning a builtin palette to `BasePalette` keeps the matching `BasePaletteMode` instead of forcing `Custom`.
