@@ -29,19 +29,19 @@ public partial class StartScreen : KryptonForm
         InitializeComponent();
 
         // Init & basic settings
-        _registryAccess = new RegistryAccess();
-        _dockTopRight = false;
-        _buttons = [];
+        _registryAccess  = new RegistryAccess();
+        _dockTopRight    = false;
+        _buttons         = [];
         _headingComparer = new ButtonHeadingComparer();
-        _panelWidth = tlpMain.Width;
-        _filterTimer = new Timer();
-        _sizeAtStartup = new Size(902, 633);
+        _panelWidth      = tlpMain.Width;
+        _filterTimer     = new Timer();
+        _sizeAtStartup   = new Size(902, 633);
         
-        this.Size = _sizeAtStartup;
+        this.Size        =  _sizeAtStartup;
         this.FormClosing += OnFormClosing;
 
         btnDockTopRight.Click += OnBtnDockTopRightClick;
-        btnRestoreSize.Click += OnBtnRestoreSizeClick;
+        btnRestoreSize.Click  += OnBtnRestoreSizeClick;
 
         SetupFilterBox();
         SetupExitButton();
@@ -285,10 +285,20 @@ public partial class StartScreen : KryptonForm
     private void RestoreLastFilter()
     {
         string lastFilter = _registryAccess.LastFilterString;
-        if (lastFilter.Length > 0)
+        if ( lastFilter.Length > 0 )
         {
             tbFilter.Text = lastFilter;
         }
+        else
+        {
+            // if there is no last filter at startup the buttons will be hidden at first.
+            AllCommandButtonsVisible();
+        }
+    }
+
+    private void AllCommandButtonsVisible()
+    {
+        _buttons.ForEach( button => button.Visible = true );
     }
 
     private void RestoreFormSize()
@@ -300,26 +310,26 @@ public partial class StartScreen : KryptonForm
         }
     }
 
-    private void CreateButton<TForm>(string heading, string description, Image? image = null) where TForm : Form
+    private void CreateButton<TForm>( string heading, string description, Image? image = null ) where TForm : Form
     {
-        KryptonCommandLinkButton button = new();
+        KryptonCommandLinkButton button = new()
+        {
+            Visible = false
+        };
+
         Type formType = typeof(TForm);
 
-        if (!typeof(Form).IsAssignableFrom(formType))
-        {
-            ThrowHelper.ThrowInvalidCastException("Parameter formType is not of type Form or derived from Form.");
-        }
-
-        button.CommandLinkTextValues.Heading = heading;
-        button.CommandLinkTextValues.Description = description;
-        button.AccessibleName = heading;
-        button.AccessibleDescription = description;
-        button.AccessibleRole = AccessibleRole.PushButton;
-        button.AutoSize = false;
-        button.Dock = DockStyle.Fill;
-        button.MinimumSize = new Size(0, 60);
-        button.Size = new Size(_panelWidth - 10, 60);
-        button.Click += (_, _) => OnCommandLinkTestButtonClick(formType);
+        button.SetDoubleBuffered( true );
+        button.CommandLinkTextValues.Heading     =  heading;
+        button.CommandLinkTextValues.Description =  description;
+        button.AccessibleName                    =  heading;
+        button.AccessibleDescription             =  description;
+        button.AccessibleRole                    =  AccessibleRole.PushButton;
+        button.AutoSize                          =  false;
+        button.Dock                              =  DockStyle.Fill;
+        button.MinimumSize                       =  new Size(0, 60);
+        button.Size                              =  new Size(_panelWidth - 10, 60);
+        button.Click                             += (_, _) => OnCommandLinkTestButtonClick(formType);
 
         if (image is not null)
         {
@@ -375,7 +385,7 @@ public partial class StartScreen : KryptonForm
 
     private void SetupTableLayoutPanel()
     {
-        SetTableLayoutPanelDoubleBuffered(true);
+        tlpMain.SetDoubleBuffered(true);
         tlpMain.RowCount = 0;
         tlpMain.ColumnCount = 1;
 
@@ -390,19 +400,6 @@ public partial class StartScreen : KryptonForm
         tlpMain.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
     }
     
-    private void SetTableLayoutPanelDoubleBuffered(bool enableDoubleBuffering)
-    {
-        PropertyInfo? propertyInfo = typeof(TableLayoutPanel).GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
-        if (propertyInfo is not null)
-        {
-            propertyInfo.SetValue(tlpMain, enableDoubleBuffering);
-        }
-        else
-        {
-            ThrowHelper.ThrowNullReferenceException(nameof(propertyInfo));
-        }
-    }
-
     private void AddButtonsToTlpMain()
     {
         _buttons.ForEach(button => {
@@ -420,6 +417,8 @@ public partial class StartScreen : KryptonForm
 
     private void OnFilterChangedPerformFilter(object? sender, EventArgs e)
     {
+        tlpMain.Visible = false;
+
         _filterTimer.Stop();
 
         if (tbFilter.Text.Length > 0)
@@ -435,6 +434,8 @@ public partial class StartScreen : KryptonForm
         {
             tlpMain.ScrollControlIntoView(tlpMain.Controls[0]);
         }
+
+        tlpMain.Visible = true;
     }
 
     private void kbtnExit_Click(object? sender, EventArgs e)
