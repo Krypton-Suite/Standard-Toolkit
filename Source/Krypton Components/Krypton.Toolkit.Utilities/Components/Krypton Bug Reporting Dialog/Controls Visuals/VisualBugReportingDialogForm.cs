@@ -60,7 +60,7 @@ public partial class VisualBugReportingDialogForm : KryptonForm
 
     #region Implementation
 
-    private static readonly KryptonBugReportingDialogStrings _defaultStrings = new KryptonBugReportingDialogStrings();
+    private static KryptonBugReportingDialogStrings Strings => KryptonBugReportingDialog.Strings;
 
     /// <summary>
     /// Initializes the user interface elements with default text and updates their state based on the current context.
@@ -70,7 +70,7 @@ public partial class VisualBugReportingDialogForm : KryptonForm
     /// exception details if an exception is present.</remarks>
     private void SetupUI()
     {
-        var strings = _defaultStrings;
+        var strings = Strings;
 
         Text = strings.WindowTitle;
         kwlblEmailAddress.Text = strings.EmailAddress;
@@ -152,13 +152,14 @@ public partial class VisualBugReportingDialogForm : KryptonForm
     /// <returns>A string containing the exception type, message, and inner exception message, if present. Stack traces are omitted.</returns>
     private string FormatExceptionDetails(Exception exception)
     {
+        var strings = Strings;
         var sb = new StringBuilder();
-        sb.AppendLine($"Exception Type: {exception.GetType().Name}");
-        sb.AppendLine($"Message: {exception.Message}");
+        sb.AppendLine(KryptonBugReportingDialogStrings.Format(strings.ExceptionTypeFormat, exception.GetType().Name));
+        sb.AppendLine(KryptonBugReportingDialogStrings.Format(strings.ExceptionMessageFormat, exception.Message));
         if (exception.InnerException != null)
         {
             sb.AppendLine();
-            sb.AppendLine("Inner Exception:");
+            sb.AppendLine(strings.InnerExceptionHeader);
             sb.AppendLine(exception.InnerException.Message);
         }
         return sb.ToString();
@@ -254,9 +255,10 @@ public partial class VisualBugReportingDialogForm : KryptonForm
         label.MouseLeave += (s, e) => panel.BackColor = Color.White;
 
         var toolTip = new ToolTip();
-        toolTip.SetToolTip(panel, $"Double-click to open: {fileName}");
-        toolTip.SetToolTip(pictureBox, $"Double-click to open: {fileName}");
-        toolTip.SetToolTip(label, $"Double-click to open: {fileName}");
+        var tooltipText = KryptonBugReportingDialogStrings.Format(Strings.OpenAttachmentTooltipFormat, fileName);
+        toolTip.SetToolTip(panel, tooltipText);
+        toolTip.SetToolTip(pictureBox, tooltipText);
+        toolTip.SetToolTip(label, tooltipText);
 
         panel.Controls.Add(pictureBox);
         panel.Controls.Add(label);
@@ -287,7 +289,9 @@ public partial class VisualBugReportingDialogForm : KryptonForm
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show($"Unable to open file: {ex.Message}", "Error",
+                KryptonMessageBox.Show(
+                    KryptonBugReportingDialogStrings.Format(Strings.UnableToOpenFileFormat, ex.Message),
+                    Strings.GenericErrorTitle,
                     KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error);
             }
         }
@@ -347,7 +351,9 @@ public partial class VisualBugReportingDialogForm : KryptonForm
                 }
                 catch (FileNotFoundException e)
                 {
-                    KryptonMessageBox.Show($"Temporary file not found: {e.Message}", "Error",
+                    KryptonMessageBox.Show(
+                        KryptonBugReportingDialogStrings.Format(Strings.TemporaryFileNotFoundFormat, e.Message),
+                        Strings.GenericErrorTitle,
                         KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error);
                 }
             }
@@ -407,7 +413,10 @@ public partial class VisualBugReportingDialogForm : KryptonForm
         }
         catch (Exception ex)
         {
-            KryptonMessageBox.Show($"Failed to capture screenshot: {ex.Message}", "Error", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error);
+            KryptonMessageBox.Show(
+                KryptonBugReportingDialogStrings.Format(Strings.FailedToCaptureScreenshotFormat, ex.Message),
+                Strings.GenericErrorTitle,
+                KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error);
         }
     }
 
@@ -422,7 +431,7 @@ public partial class VisualBugReportingDialogForm : KryptonForm
     {
         using var dialog = new OpenFileDialog();
         dialog.Multiselect = true;
-        dialog.Title = "Select Files to Attach";
+        dialog.Title = Strings.SelectFilesToAttach;
 
         if (dialog.ShowDialog(this) == DialogResult.OK)
         {
@@ -446,7 +455,7 @@ public partial class VisualBugReportingDialogForm : KryptonForm
     /// <returns>true if all required fields are valid and the email configuration is set; otherwise, false.</returns>
     private bool ValidateInput()
     {
-        var strings = _defaultStrings;
+        var strings = Strings;
         bool isValid = true;
 
         if (string.IsNullOrWhiteSpace(ktbEmailAddress.Text))
@@ -476,7 +485,7 @@ public partial class VisualBugReportingDialogForm : KryptonForm
 
         if (_emailConfig == null || string.IsNullOrWhiteSpace(_emailConfig.ToEmail))
         {
-            KryptonMessageBox.Show("Email configuration is not set. Please configure the recipient email address.", strings.ErrorTitle, KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error);
+            KryptonMessageBox.Show(strings.EmailConfigurationNotSet, strings.ErrorTitle, KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error);
             isValid = false;
         }
 
@@ -491,7 +500,7 @@ public partial class VisualBugReportingDialogForm : KryptonForm
     /// input events to provide immediate feedback.</remarks>
     private void ValidateEmailAddress()
     {
-        var strings = _defaultStrings;
+        var strings = Strings;
 
         if (string.IsNullOrWhiteSpace(ktbEmailAddress.Text))
         {
@@ -517,7 +526,7 @@ public partial class VisualBugReportingDialogForm : KryptonForm
     /// updates the enabled state of the send button based on the current validation result.</remarks>
     private void ValidateBugDescription()
     {
-        var strings = _defaultStrings;
+        var strings = Strings;
 
         _errorProvider.SetError(krtbBugDescription,
             string.IsNullOrWhiteSpace(krtbBugDescription.Text) ? strings.RequiredFields : string.Empty);
@@ -560,7 +569,7 @@ public partial class VisualBugReportingDialogForm : KryptonForm
             return;
         }
 
-        var strings = _defaultStrings;
+        var strings = Strings;
 
         kbtnSend.Enabled = false;
         kbtnSend.Text = strings.Sending;
@@ -568,7 +577,7 @@ public partial class VisualBugReportingDialogForm : KryptonForm
 
         try
         {
-            var subject = $"Bug Report - {DateTime.Now:yyyy-MM-dd HH:mm:ss}";
+            var subject = KryptonBugReportingDialogStrings.Format(strings.EmailSubjectFormat, DateTimeOffset.Now.ToString("o"));
             var body = BuildEmailBody();
 
             var success = _emailService.SendBugReport(_emailConfig!, subject, body, _attachmentPaths);
@@ -651,7 +660,9 @@ public partial class VisualBugReportingDialogForm : KryptonForm
                 }
                 catch (FileNotFoundException ex)
                 {
-                    KryptonMessageBox.Show($"Temporary file not found: {ex.Message}", "Error",
+                    KryptonMessageBox.Show(
+                        KryptonBugReportingDialogStrings.Format(Strings.TemporaryFileNotFoundFormat, ex.Message),
+                        Strings.GenericErrorTitle,
                         KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error);
                 }
             }

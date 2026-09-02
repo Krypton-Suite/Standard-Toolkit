@@ -117,35 +117,36 @@ public class BugReportEmailService
         Exception? exception,
         string[]? attachmentPaths)
     {
-        var sb = new StringBuilder();
-        sb.AppendLine("Bug Report");
-        sb.AppendLine("==========");
+        var strings = KryptonBugReportingDialog.Strings;
+        var sb = new StringBuilder(strings.EmailHeading);
         sb.AppendLine();
-        sb.AppendLine($"Reported by: {reporterEmail}");
-        sb.AppendLine($"Date: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+        sb.AppendLine(@"==========");
         sb.AppendLine();
-        sb.AppendLine("Bug Description:");
-        sb.AppendLine("----------------");
+        sb.AppendLine(KryptonBugReportingDialogStrings.Format(strings.ReportedByFormat, reporterEmail));
+        sb.AppendLine(KryptonBugReportingDialogStrings.Format(strings.DateFormat, DateTimeOffset.Now.ToString("o")));
+        sb.AppendLine();
+        sb.AppendLine(strings.BugDescription);
+        sb.AppendLine(@"----------------");
         sb.AppendLine(bugDescription);
         sb.AppendLine();
-        sb.AppendLine("Steps to Reproduce:");
-        sb.AppendLine("-------------------");
+        sb.AppendLine(strings.StepsToReproduce);
+        sb.AppendLine(@"-------------------");
         sb.AppendLine(stepsToReproduce);
         sb.AppendLine();
 
         if (exception != null)
         {
-            sb.AppendLine("Exception Details:");
-            sb.AppendLine("-----------------");
-            sb.AppendLine($"Exception Type: {exception.GetType().Name}");
-            sb.AppendLine($"Message: {exception.Message}");
+            sb.AppendLine(strings.EmailExceptionHeader);
+            sb.AppendLine(@"-----------------");
+            sb.AppendLine(KryptonBugReportingDialogStrings.Format(strings.ExceptionTypeFormat, exception.GetType().Name));
+            sb.AppendLine(KryptonBugReportingDialogStrings.Format(strings.ExceptionMessageFormat, exception.Message));
             sb.AppendLine();
         }
 
         if (attachmentPaths != null && attachmentPaths.Length > 0)
         {
-            sb.AppendLine("Attachments:");
-            sb.AppendLine("-----------");
+            sb.AppendLine(strings.Attachments);
+            sb.AppendLine(@"-----------");
             foreach (var path in attachmentPaths)
             {
                 sb.AppendLine(Path.GetFileName(path));

@@ -48,6 +48,7 @@
 * Resolved [#4271](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4271), Information exposure through transmitted data (CodeQL 32)
   * Bug-report emails no longer transmit stack traces or SMTP credentials.
   * Exception details in the email body are limited to type and message.
+  * Email, GitHub, and error strings are localisable through `KryptonBugReportingDialog.Strings`.
   * To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Implemented [#1100](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1100), Extension of the `SchemeOfficeColors` enum
   * Menu, tool, and context strip text colours can be set independently of the status strip.
