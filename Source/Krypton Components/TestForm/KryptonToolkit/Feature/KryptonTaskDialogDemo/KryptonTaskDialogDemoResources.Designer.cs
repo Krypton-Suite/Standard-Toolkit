@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TestForm.KryptonToolkit.KryptonTaskDialogDemo {
+namespace TestForm.KryptonToolkit.Feature.KryptonTaskDialogDemo {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace TestForm.KryptonToolkit.KryptonTaskDialogDemo {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TestForm.KryptonToolkit.KryptonTaskDialogDemo.KryptonTaskDialogDemoResources", typeof(KryptonTaskDialogDemoResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TestForm.KryptonToolkit.Feature.KryptonTaskDialogDemo.KryptonTaskDialogDemoResources", typeof(KryptonTaskDialogDemoResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
