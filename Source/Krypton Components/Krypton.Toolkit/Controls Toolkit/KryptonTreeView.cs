@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -821,25 +821,35 @@ public class KryptonTreeView : VisualControlBase,
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether check boxes are Displayed next to the tree nodes in the tree view control.
+    /// Gets or sets a value indicating whether selecting a node toggles its checked state so more than one node can be marked.
     /// </summary>
+    /// <remarks>
+    /// Independent of <see cref="CheckBoxes"/>. Showing check boxes does not force this property to
+    /// <see langword="true"/>, so the designer can set it to <see langword="false"/> on a newly dropped control.
+    /// </remarks>
     [Category(@"Appearance")]
-    [Description(@"Indicates whether 'MultiSelect' is implemented on Selection")]
+    [Description(@"Indicates whether selecting a node toggles its checked state for multi-node selection.")]
     [DefaultValue(false)]
     public bool MultiSelect
     {
-        get => _multiSelect || CheckBoxes;
+        get => _multiSelect;
         set
         {
+            if (_multiSelect == value)
+            {
+                return;
+            }
+
             _multiSelect = value;
-            // Force redraw of current options
+
+            // Re-apply checked nodes so turning MultiSelect off collapses to a single check when CheckBoxes is also off.
             var checkedNodes = CheckedNodes;
             CheckedNodes = checkedNodes;
         }
     }
 
     private bool ShouldSerializeMultiSelect() => _multiSelect;
-    private void ResetMultiSelect() => _multiSelect = false;
+    private void ResetMultiSelect() => MultiSelect = false;
 
     /// <summary>
     /// Gets or sets a value indicating whether the selection highlight spans the width of the tree view control.
@@ -1030,9 +1040,9 @@ public class KryptonTreeView : VisualControlBase,
             foreach (TreeNode node in value)
             {
                 node.Checked = true;
-                if (!MultiSelect)
+                if (!MultiSelect && !CheckBoxes)
                 {
-                    // Only do the first one !
+                    // Only keep the first node when neither click-to-toggle multi-select nor check boxes are enabled.
                     break;
                 }
             }
