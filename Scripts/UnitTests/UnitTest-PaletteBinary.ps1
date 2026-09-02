@@ -6,7 +6,7 @@
     Loads Debug Krypton.Toolkit and round-trips a distinctive colour through
     .kpalx XML, legacy XML, compressed-XML .kpal, and native binary .kpal.
     Also checks KPLT magic, FormatFromPath, PaletteCornerRounding persist, Convert,
-    UpgradeXmlToKpalx / ConvertFile (file and KryptonCustomPaletteBase), packs, directory packs, JSON rejection, and Utilities FromDirectory scan.
+    UpgradeXmlToKpalx / ConvertFile (file and KryptonCustomPaletteBase), UpgradeXmlToKpalxFromDirectory, packs, directory packs, JSON rejection, and Utilities FromDirectory scan.
 
     Exit code 0 on success; non-zero on failure.
 
@@ -177,6 +177,93 @@ try {
     Assert-True ($fromUpgraded.GetPaletteName() -eq '2117-roundtrip') 'UpgradeXmlToKpalx restores the palette name'
     $fromUpgraded.Dispose()
 
+    function Get-PaletteXmlVersion([string]$Path) {
+        $text = [System.IO.File]::ReadAllText($Path)
+        $m = [regex]::Match($text, 'KryptonPalette\s+[^>]*Version="(\d+)"')
+        if (-not $m.Success) {
+            $m = [regex]::Match($text, "KryptonPalette\s+[^>]*Version='(\d+)'")
+        }
+        if ($m.Success) { return [int]$m.Groups[1].Value }
+        return 0
+    }
+
+    $currentSchema = [Krypton.Interop.SharedStaticConstants]::CURRENT_SUPPORTED_PALETTE_VERSION
+    Assert-True ((Get-PaletteXmlVersion $xmlPath) -eq $currentSchema) 'Fresh XML export uses the current schema version'
+
+    $schema21Xml = Join-Path $temp 'schema-21.xml'
+    $schema21Text = [System.IO.File]::ReadAllText($xmlPath) -replace "Version=`"$currentSchema`"", 'Version="21"' -replace "Version='$currentSchema'", "Version='21'"
+    [System.IO.File]::WriteAllText($schema21Xml, $schema21Text)
+    Assert-True ((Get-PaletteXmlVersion $schema21Xml) -eq 21) 'Downgraded test file reports schema 21'
+
+    $schema21ImportThrew = $false
+    try {
+        $directV21 = New-Object Krypton.Toolkit.KryptonCustomPaletteBase
+        [void]$directV21.Import($schema21Xml, $true)
+        $directV21.Dispose()
+    }
+    catch {
+        $schema21ImportThrew = $_.Exception.GetBaseException().Message -match 'number is incompatible'
+    }
+    Assert-True $schema21ImportThrew 'Silent Import of schema 21 throws without upgrading'
+
+    $schema21Kpalx = [Krypton.Toolkit.KryptonPaletteFile]::UpgradeXmlToKpalx($schema21Xml)
+    Assert-True ((Get-PaletteXmlVersion $schema21Kpalx) -eq $currentSchema) 'UpgradeXmlToKpalx raises schema 21 to the current version'
+    $fromSchema21 = New-Object Krypton.Toolkit.KryptonCustomPaletteBase
+    [void]$fromSchema21.Import($schema21Kpalx, $true)
+    Assert-True ((Format-Color $fromSchema21.ColorTable.StatusStripGradientBegin) -eq (Format-Color $marker)) 'UpgradeXmlToKpalx of schema 21 restores StatusStripGradientBegin'
+    Assert-True ($fromSchema21.GetPaletteName() -eq '2117-roundtrip') 'UpgradeXmlToKpalx of schema 21 restores the palette name'
+    $fromSchema21.Dispose()
+
+    $schema21Stream = New-Object Krypton.Toolkit.KryptonCustomPaletteBase
+    $fs21 = [System.IO.File]::OpenRead($schema21Xml)
+    try {
+        $schema21Stream.ImportWithUpgrade($fs21)
+    }
+    finally {
+        $fs21.Dispose()
+    }
+    Assert-True ((Format-Color $schema21Stream.ColorTable.StatusStripGradientBegin) -eq (Format-Color $marker)) 'ImportWithUpgrade of schema 21 XML restores StatusStripGradientBegin'
+    $schema21Stream.Dispose()
+
+    $schema20Xml = Join-Path $temp 'schema-20.xml'
+    $schema20Text = [System.IO.File]::ReadAllText($xmlPath) -replace "Version=`"$currentSchema`"", 'Version="20"' -replace "Version='$currentSchema'", "Version='20'"
+    [System.IO.File]::WriteAllText($schema20Xml, $schema20Text)
+    $schema20Kpalx = [Krypton.Toolkit.KryptonPaletteFile]::Convert($schema20Xml, (Join-Path $temp 'schema-20.kpalx'))
+    Assert-True ((Get-PaletteXmlVersion $schema20Kpalx) -eq $currentSchema) 'Convert raises schema 20 to the current version'
+    $fromSchema20 = New-Object Krypton.Toolkit.KryptonCustomPaletteBase
+    [void]$fromSchema20.Import($schema20Kpalx, $true)
+    Assert-True ((Format-Color $fromSchema20.ColorTable.StatusStripGradientBegin) -eq (Format-Color $marker)) 'Convert of schema 20 restores StatusStripGradientBegin'
+    $fromSchema20.Dispose()
+
+    $bulkRoot = Join-Path $temp 'bulk-xml'
+    $bulkNested = Join-Path $bulkRoot 'nested'
+    [void][System.IO.Directory]::CreateDirectory($bulkNested)
+    Copy-Item -LiteralPath $xmlPath -Destination (Join-Path $bulkRoot 'root.xml')
+    Copy-Item -LiteralPath $xmlPath -Destination (Join-Path $bulkNested 'child.xml')
+    [System.IO.File]::WriteAllText((Join-Path $bulkRoot 'not-a-palette.xml'), '<root>not a palette</root>')
+    $bulk = [Krypton.Toolkit.KryptonPaletteFile]::UpgradeXmlToKpalxFromDirectory($bulkRoot)
+    Assert-True ($bulk.ConvertedCount -eq 2) 'UpgradeXmlToKpalxFromDirectory converts two palettes including nested'
+    Assert-True ($bulk.SkippedCount -eq 1) 'UpgradeXmlToKpalxFromDirectory skips non-palette XML'
+    Assert-True ($bulk.ErrorCount -eq 0) 'UpgradeXmlToKpalxFromDirectory has no errors for valid palettes'
+    Assert-True (Test-Path -LiteralPath (Join-Path $bulkRoot 'root.kpalx')) 'Bulk convert wrote root.kpalx beside the source'
+    Assert-True (Test-Path -LiteralPath (Join-Path $bulkNested 'child.kpalx')) 'Bulk convert wrote nested child.kpalx'
+    Assert-True (Test-Path -LiteralPath (Join-Path $bulkRoot 'root.xml')) 'Bulk convert leaves source XML in place'
+    $topOnly = [Krypton.Toolkit.KryptonPaletteFile]::UpgradeXmlToKpalxFromDirectory($bulkRoot, $false)
+    Assert-True ($topOnly.ConvertedCount -eq 1) 'UpgradeXmlToKpalxFromDirectory without subdirs converts only the top folder'
+    Assert-True ($topOnly.SkippedCount -eq 1) 'Top-only bulk still skips non-palette XML'
+    $missingDirThrew = $false
+    try {
+        [void][Krypton.Toolkit.KryptonPaletteFile]::UpgradeXmlToKpalxFromDirectory((Join-Path $temp 'does-not-exist'))
+    }
+    catch {
+        $missingDirThrew = $_.Exception.GetBaseException().Message -match 'does not exist'
+    }
+    Assert-True $missingDirThrew 'UpgradeXmlToKpalxFromDirectory throws when the folder is missing'
+    $instanceBulk = New-Object Krypton.Toolkit.KryptonCustomPaletteBase
+    $instanceBulkResult = $instanceBulk.UpgradeXmlToKpalxFromDirectory($bulkRoot, $true, $true)
+    Assert-True ($instanceBulkResult.ConvertedCount -eq 2) 'KryptonCustomPaletteBase.UpgradeXmlToKpalxFromDirectory converts the folder'
+    $instanceBulk.Dispose()
+
     $upgradeRejectedKpalx = $false
     try {
         [void][Krypton.Toolkit.KryptonPaletteFile]::UpgradeXmlToKpalx($kpalxPath)
@@ -258,6 +345,71 @@ try {
         $packXmlRejected = $_.Exception.GetBaseException().Message -match '\.kpal'
     }
     Assert-True $packXmlRejected 'ExportPack rejects a .kpalx destination'
+
+    Assert-True ([Krypton.Toolkit.KryptonPaletteFile]::GetPackName($packPath) -eq '2117-pack') 'GetPackName returns the pack header name'
+    Assert-True ([Krypton.Toolkit.KryptonPaletteFile]::GetPackName($binaryPath) -eq '') 'GetPackName is empty for a single-theme .kpal'
+    [void][Krypton.Toolkit.KryptonPaletteFile]::SetPackName($packPath, '2117-pack-renamed')
+    Assert-True ([Krypton.Toolkit.KryptonPaletteFile]::GetPackName($packPath) -eq '2117-pack-renamed') 'SetPackName rewrites the pack header name'
+    [void][Krypton.Toolkit.KryptonPaletteFile]::SetPackName($packPath, '2117-pack')
+
+    $violet = New-Object Krypton.Toolkit.KryptonCustomPaletteBase
+    $violet.SetPaletteName('Pack-Violet')
+    $violet.ToolMenuStatus.StatusStrip.StatusStripGradientBegin = [System.Drawing.Color]::BlueViolet
+    $violetPath = Join-Path $temp 'Pack-Violet.kpalx'
+    [void]$violet.Export($violetPath, $true, $true)
+    $editPack = Join-Path $temp 'edit.kpal'
+    Copy-Item -LiteralPath $packPath -Destination $editPack
+    [void][Krypton.Toolkit.KryptonPaletteFile]::AddToPack($editPack, $violetPath)
+    $afterAdd = [Krypton.Toolkit.KryptonPaletteFile]::GetThemeNames($editPack)
+    Assert-True ($afterAdd.Length -eq 3) 'AddToPack adds a .kpalx theme'
+    Assert-True ($afterAdd -contains 'Pack-Violet') 'AddToPack stores Pack-Violet'
+    $fromAdded = New-Object Krypton.Toolkit.KryptonCustomPaletteBase
+    [void]$fromAdded.Import($editPack, 'Pack-Violet', $true)
+    Assert-True ((Format-Color $fromAdded.ColorTable.StatusStripGradientBegin) -eq (Format-Color ([System.Drawing.Color]::BlueViolet))) 'AddToPack .kpalx payload is restored'
+    $dupThrow = $false
+    try {
+        [void][Krypton.Toolkit.KryptonPaletteFile]::AddToPack($editPack, $violetPath)
+    }
+    catch {
+        $dupThrow = $_.Exception.GetBaseException().Message -match 'Duplicate'
+    }
+    Assert-True $dupThrow 'AddToPack throws on duplicate name unless replaceExisting'
+    [void][Krypton.Toolkit.KryptonPaletteFile]::AddToPack($editPack, $violet, $true)
+    Assert-True (([Krypton.Toolkit.KryptonPaletteFile]::GetThemeNames($editPack)).Length -eq 3) 'AddToPack replaceExisting keeps count'
+    [void][Krypton.Toolkit.KryptonPaletteFile]::RemoveFromPack($editPack, 'Pack-Violet')
+    Assert-True (([Krypton.Toolkit.KryptonPaletteFile]::GetThemeNames($editPack)).Length -eq 2) 'RemoveFromPack drops Pack-Violet'
+    [void][Krypton.Toolkit.KryptonPaletteFile]::RemoveFromPack($editPack, 'Pack-Lime')
+    $lastThrow = $false
+    try {
+        [void][Krypton.Toolkit.KryptonPaletteFile]::RemoveFromPack($editPack, 'Pack-Orange')
+    }
+    catch {
+        $lastThrow = $_.Exception.GetBaseException().Message -match 'cannot be empty'
+    }
+    Assert-True $lastThrow 'RemoveFromPack throws when removing the last theme'
+    Assert-True (([Krypton.Toolkit.KryptonPaletteFile]::GetThemeNames($editPack)).Length -eq 1) 'The last theme remains in the pack'
+    Assert-True (Test-Path -LiteralPath $editPack) 'RemoveFromPack does not delete the pack file'
+
+    $promotePath = Join-Path $temp 'promote.kpal'
+    Copy-Item -LiteralPath $binaryPath -Destination $promotePath
+    Assert-True (-not [Krypton.Toolkit.KryptonPaletteFile]::IsPack($promotePath)) 'Copied single-theme .kpal is not a pack'
+    [void][Krypton.Toolkit.KryptonPaletteFile]::AddToPack($promotePath, $violetPath)
+    Assert-True ([Krypton.Toolkit.KryptonPaletteFile]::IsPack($promotePath)) 'AddToPack promotes a single-theme .kpal to a pack'
+    Assert-True (([Krypton.Toolkit.KryptonPaletteFile]::GetThemeNames($promotePath)).Length -eq 2) 'Promoted pack has the original theme plus the added .kpalx'
+
+    $bogusXml = Join-Path $temp 'notes.xml'
+    Set-Content -LiteralPath $bogusXml -Value '<root>not a palette</root>'
+    $nonPaletteThrow = $false
+    try {
+        [void][Krypton.Toolkit.KryptonPaletteFile]::AddToPack($packPath, $bogusXml)
+    }
+    catch {
+        $nonPaletteThrow = $true
+    }
+    Assert-True $nonPaletteThrow 'AddToPack rejects non-palette XML'
+    Assert-True (([Krypton.Toolkit.KryptonPaletteFile]::GetThemeNames($packPath)).Length -eq 2) 'Failed AddToPack leaves the original pack unchanged'
+    $fromAdded.Dispose()
+    $violet.Dispose()
 
     $emptyThumbs = [Krypton.Toolkit.KryptonPaletteFile]::GetThemeThumbnails($packPath)
     Assert-True ($emptyThumbs.Length -eq 2) 'GetThemeThumbnails matches GetThemeNames length when no catalog is present'

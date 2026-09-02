@@ -155,6 +155,76 @@ public static partial class KryptonPaletteFile
     }
 
     /// <summary>
+    /// Rewrites every Krypton palette <c>.xml</c> under <paramref name="directory"/> as <c>.kpalx</c>
+    /// beside the source (nested folders included). Source files are left in place.
+    /// </summary>
+    /// <param name="directory">Folder to scan.</param>
+    /// <returns>Converted paths, skipped non-palette XML, and per-file errors.</returns>
+    /// <exception cref="ArgumentException">The folder does not exist.</exception>
+    // ToDo V120 LTS: Remove with XmlExtension. Callers should already have .kpalx files.
+    public static KryptonPaletteDirectoryUpgradeResult UpgradeXmlToKpalxFromDirectory(string directory) =>
+        UpgradeXmlToKpalxFromDirectory(directory, searchSubdirectories: true);
+
+    /// <summary>
+    /// Rewrites every Krypton palette <c>.xml</c> under <paramref name="directory"/> as <c>.kpalx</c>
+    /// beside the source. Source files are left in place. Non-palette <c>.xml</c> is skipped.
+    /// A failure on one file does not stop the rest.
+    /// </summary>
+    /// <param name="directory">Folder to scan.</param>
+    /// <param name="searchSubdirectories">When <see langword="true"/>, include nested folders.</param>
+    /// <returns>Converted paths, skipped non-palette XML, and per-file errors.</returns>
+    /// <exception cref="ArgumentException">The folder does not exist.</exception>
+    // ToDo V120 LTS: Remove with XmlExtension. Callers should already have .kpalx files.
+    public static KryptonPaletteDirectoryUpgradeResult UpgradeXmlToKpalxFromDirectory(string directory,
+        bool searchSubdirectories)
+    {
+        ThrowHelper.ThrowIfNullOrWhiteSpace(directory);
+
+        if (!Directory.Exists(directory))
+        {
+            ThrowHelper.ThrowArgumentException(@"Palette folder does not exist.", nameof(directory));
+        }
+
+        var xmlFiles = GetPaletteFiles(directory, searchSubdirectories, includeKpalx: false, includeKpal: false,
+            includeXml: true);
+        var converted = new List<string>();
+        var sources = new List<string>();
+        var skipped = new List<string>();
+        var errors = new List<KryptonPaletteDirectoryUpgradeError>();
+
+        for (var i = 0; i < xmlFiles.Length; i++)
+        {
+            var sourcePath = xmlFiles[i];
+            try
+            {
+                if (!IsKryptonPaletteXmlFile(sourcePath))
+                {
+                    skipped.Add(sourcePath);
+                    continue;
+                }
+
+                converted.Add(UpgradeXmlToKpalx(sourcePath));
+                sources.Add(sourcePath);
+            }
+            catch (Exception ex)
+            {
+                errors.Add(new KryptonPaletteDirectoryUpgradeError(sourcePath, ex.Message));
+            }
+        }
+
+        return new KryptonPaletteDirectoryUpgradeResult(converted.ToArray(), sources.ToArray(), skipped.ToArray(),
+            errors.ToArray());
+    }
+
+    private static bool IsKryptonPaletteXmlFile(string path)
+    {
+        using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
+        {
+            return KryptonPaletteBinaryPersistence.TryGetSchemaVersion(stream, out _);
+        }
+    }
+
+    /// <summary>
     /// Packs every palette file under <paramref name="sourceDirectory"/> into one <c>.kpal</c>.
     /// Theme names are the relative paths with <c>/</c> separators. Nested <c>.kpal</c> packs are flattened.
     /// </summary>

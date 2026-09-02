@@ -19,6 +19,7 @@ namespace TestForm;
 /// (same document as legacy <c>.xml</c>), plus an optional native <c>.kpal</c> persist stream.
 /// Use <see cref="KryptonCustomPaletteBase.UpgradeXmlToKpalx(string, bool)"/> (or
 /// <see cref="KryptonPaletteFile.UpgradeXmlToKpalx(string)"/>) to rewrite <c>.xml</c> as <c>.kpalx</c>.
+/// Use <see cref="KryptonPaletteFile.UpgradeXmlToKpalxFromDirectory(string, bool)"/> to convert a folder.
 /// </summary>
 public sealed class PaletteBinaryDemo : KryptonForm
 {
@@ -57,7 +58,7 @@ public sealed class PaletteBinaryDemo : KryptonForm
                 @"How to test issue #2117:" + Environment.NewLine +
                 @"1) Pick an extra Krypton.Themes palette, populate from it, then Export .kpalx (XML). Optionally export native .kpal or compressed-XML .kpal. Prefer .kpalx over legacy .xml." + Environment.NewLine +
                 @"2) Open the .kpalx file in a text editor — it is the KryptonPalette XML document. Import each file and confirm the sample header follows the theme." + Environment.NewLine +
-                @"3) Import file… warns on legacy .xml and offers to upgrade to .kpalx before applying. Upgrade .xml to .kpalx… uses KryptonCustomPaletteBase.UpgradeXmlToKpalx. Convert XML to .kpalx… uses ConvertFile. Export .kpal pack stores several named themes. Pack folder to .kpal stores a directory tree (relative / paths). Selecting an .xml theme in the combo/tree/list also shows the upgrade warning."
+                @"3) Import file… warns on legacy .xml and offers to upgrade to .kpalx before applying. Upgrade .xml to .kpalx… uses KryptonCustomPaletteBase.UpgradeXmlToKpalx. Upgrade folder .xml to .kpalx… uses UpgradeXmlToKpalxFromDirectory. Convert XML to .kpalx… uses ConvertFile. Export .kpal pack stores several named themes. Pack folder to .kpal stores a directory tree (relative / paths). Edit .kpal pack… opens KryptonPalettePackEditor to add .kpalx files and remove named themes. Selecting an .xml theme in the combo/tree/list also shows the upgrade warning."
         };
 
         _lblStatus = new KryptonWrapLabel
@@ -124,6 +125,9 @@ public sealed class PaletteBinaryDemo : KryptonForm
         var btnUpgradeXml = new KryptonButton { Text = @"Upgrade .xml to .kpalx...", AutoSize = true };
         btnUpgradeXml.Click += (_, _) => UpgradeXmlFile();
 
+        var btnUpgradeXmlFolder = new KryptonButton { Text = @"Upgrade folder .xml to .kpalx...", AutoSize = true };
+        btnUpgradeXmlFolder.Click += (_, _) => UpgradeXmlFolder();
+
         var btnExportPack = new KryptonButton { Text = @"Export .kpal pack", AutoSize = true };
         btnExportPack.Click += (_, _) => ExportPackFile();
 
@@ -132,6 +136,9 @@ public sealed class PaletteBinaryDemo : KryptonForm
 
         var btnLoadPackTheme = new KryptonButton { Text = @"Load pack theme", AutoSize = true };
         btnLoadPackTheme.Click += (_, _) => LoadPackTheme();
+
+        var btnEditPack = new KryptonButton { Text = @"Edit .kpal pack...", AutoSize = true };
+        btnEditPack.Click += (_, _) => EditPackFile();
 
         var btnApply = new KryptonButton { Text = @"Apply as global custom", AutoSize = true };
         btnApply.Click += (_, _) => ApplyCustom();
@@ -148,10 +155,12 @@ public sealed class PaletteBinaryDemo : KryptonForm
         buttonPanel.Controls.Add(btnImport);
         buttonPanel.Controls.Add(btnConvert);
         buttonPanel.Controls.Add(btnUpgradeXml);
+        buttonPanel.Controls.Add(btnUpgradeXmlFolder);
         buttonPanel.Controls.Add(btnExportPack);
         buttonPanel.Controls.Add(btnPackFolder);
         buttonPanel.Controls.Add(_cboPackTheme);
         buttonPanel.Controls.Add(btnLoadPackTheme);
+        buttonPanel.Controls.Add(btnEditPack);
         buttonPanel.Controls.Add(btnApply);
         buttonPanel.Controls.Add(btnReset);
 
@@ -420,6 +429,40 @@ public sealed class PaletteBinaryDemo : KryptonForm
         }
     }
 
+    private void UpgradeXmlFolder()
+    {
+        using var folder = new KryptonFolderBrowserDialog();
+        folder.Title = @"Upgrade folder .xml to .kpalx";
+        if (!string.IsNullOrWhiteSpace(_lastDirectory))
+        {
+            folder.SelectedPath = _lastDirectory;
+        }
+
+        if (folder.ShowDialog(this) != DialogResult.OK || string.IsNullOrWhiteSpace(folder.SelectedPath))
+        {
+            return;
+        }
+
+        _lastDirectory = folder.SelectedPath;
+
+        try
+        {
+            var result = KryptonPaletteFile.UpgradeXmlToKpalxFromDirectory(folder.SelectedPath, searchSubdirectories: true);
+            Log(result.ToSummaryString().Replace(Environment.NewLine, @" "));
+            _lblStatus.Text = $@"Status: converted {result.ConvertedCount} palette(s) to .kpalx ({result.SkippedCount} skipped, {result.ErrorCount} failed).";
+            RefreshFileSelectors();
+            var icon = result.ErrorCount > 0 ? KryptonMessageBoxIcon.Warning : KryptonMessageBoxIcon.Information;
+            KryptonMessageBox.Show(this, result.ToSummaryString(), @"Upgrade folder .xml to .kpalx",
+                KryptonMessageBoxButtons.OK, icon);
+        }
+        catch (Exception ex)
+        {
+            Log($@"Upgrade folder .xml failed: {ex.Message}");
+            _lblStatus.Text = @"Status: folder upgrade failed.";
+            KryptonMessageBox.Show(this, ex.Message, @"Palette Upgrade", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error);
+        }
+    }
+
     private void ExportPackFile()
     {
         using var dialog = new SaveFileDialog
@@ -542,6 +585,40 @@ public sealed class PaletteBinaryDemo : KryptonForm
         if (_cboPackTheme.Items.Count > 0)
         {
             _cboPackTheme.SelectedIndex = 0;
+        }
+    }
+
+    private void EditPackFile()
+    {
+        var path = _packPath;
+        if (string.IsNullOrWhiteSpace(path) || !File.Exists(path))
+        {
+            using var dialog = new OpenFileDialog
+            {
+                Title = @"Edit palette pack",
+                Filter = @"Binary palette files (*.kpal)|*.kpal|All files (*.*)|*.*",
+                DefaultExt = KryptonPaletteFile.BinaryExtension,
+                CheckFileExists = false,
+                InitialDirectory = _lastDirectory ?? string.Empty
+            };
+
+            if (dialog.ShowDialog(this) != DialogResult.OK)
+            {
+                return;
+            }
+
+            path = dialog.FileName;
+            _lastDirectory = Path.GetDirectoryName(path) ?? _lastDirectory;
+        }
+
+        KryptonPalettePackEditor.Show(this, path);
+        if (!string.IsNullOrWhiteSpace(path) && File.Exists(path))
+        {
+            BindPackFile(path!);
+            RefreshFileSelectors();
+            var names = KryptonPaletteFile.GetThemeNames(path!);
+            Log($@"Edited pack '{path}' ({names.Length} theme(s)).");
+            _lblStatus.Text = $@"Status: pack has {names.Length} theme(s).";
         }
     }
 

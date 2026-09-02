@@ -69,7 +69,8 @@ public static partial class KryptonPaletteFile
     /// <returns>The full destination path.</returns>
     /// <remarks>
     /// JSON is not a Krypton palette format. Native <c>.kpal</c> sources must already be the current
-    /// schema; older palettes stay XML plus <see cref="KryptonCustomPaletteBase.ImportWithUpgrade(Stream)"/>.
+    /// schema; older palettes stay XML plus <see cref="KryptonCustomPaletteBase.ImportWithUpgrade(Stream)"/>,
+    /// which raises the XML schema version before export.
     /// For a dedicated <c>.xml</c> → <c>.kpalx</c> rewrite, prefer <see cref="UpgradeXmlToKpalx(string)"/>.
     /// </remarks>
     public static string Convert(string sourcePath, string destinationPath) =>
@@ -125,8 +126,8 @@ public static partial class KryptonPaletteFile
     /// <returns>The full path of the written <c>.kpalx</c> file.</returns>
     /// <remarks>
     /// Applies <see cref="KryptonCustomPaletteBase.ImportWithUpgrade(Stream)"/> so older schema
-    /// versions are upgraded. Prefer this over saving a new <c>.xml</c> file. The document inside
-    /// <c>.kpalx</c> remains XML.
+    /// versions are raised to the current persist version before the <c>.kpalx</c> is written.
+    /// Prefer this over saving a new <c>.xml</c> file. The document inside <c>.kpalx</c> remains XML.
     /// </remarks>
     /// <exception cref="ArgumentException">The source is not a <c>.xml</c> file.</exception>
     public static string UpgradeXmlToKpalx(string sourcePath)

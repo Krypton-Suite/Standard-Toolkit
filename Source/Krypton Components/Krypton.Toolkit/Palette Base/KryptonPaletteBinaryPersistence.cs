@@ -452,6 +452,41 @@ internal static class KryptonPaletteBinaryPersistence
         }
     }
 
+    internal static string GetPackDisplayName(Stream stream)
+    {
+        ThrowHelper.ThrowIfNull(stream);
+
+        var owned = false;
+        if (!stream.CanSeek)
+        {
+            stream = CopyRemaining(stream);
+            owned = true;
+        }
+
+        var position = stream.Position;
+        try
+        {
+            if (Sniff(stream) != SniffedKind.Container)
+            {
+                return string.Empty;
+            }
+
+            var header = ReadContainerHeader(stream);
+            return header.Kind == KindPack ? header.Name : string.Empty;
+        }
+        finally
+        {
+            if (owned)
+            {
+                stream.Dispose();
+            }
+            else
+            {
+                stream.Position = position;
+            }
+        }
+    }
+
     internal static void ExportPack(Stream stream, IList<KryptonCustomPaletteBase> palettes, bool ignoreDefaults, string packName)
     {
         ThrowHelper.ThrowIfNull(stream);
@@ -608,6 +643,48 @@ internal static class KryptonPaletteBinaryPersistence
         }
     }
 
+    /// <summary>
+    /// Reads the palette schema version from XML or a KPLT header without consuming the stream.
+    /// </summary>
+    /// <returns>
+    /// <see langword="true"/> when a version could be read; <see langword="false"/> for
+    /// unrecognised data or when the stream is not seekable.
+    /// </returns>
+    internal static bool TryGetSchemaVersion(Stream stream, out int schemaVersion)
+    {
+        schemaVersion = 0;
+        ThrowHelper.ThrowIfNull(stream);
+
+        if (!stream.CanSeek)
+        {
+            return false;
+        }
+
+        var position = stream.Position;
+        try
+        {
+            switch (Sniff(stream))
+            {
+                case SniffedKind.Xml:
+                    schemaVersion = ReadXmlSchemaVersionWithoutRewind(stream);
+                    return schemaVersion > 0;
+                case SniffedKind.Container:
+                    schemaVersion = ReadContainerHeader(stream).SchemaVersion;
+                    return true;
+                default:
+                    return false;
+            }
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+        finally
+        {
+            stream.Position = position;
+        }
+    }
+
     private static void ImportXml(KryptonCustomPaletteBase palette, Stream stream) =>
         ImportXml(palette, stream, themeName: null);
 
@@ -641,6 +718,30 @@ internal static class KryptonPaletteBinaryPersistence
             doc.Load(stream);
             var root = doc.SelectSingleNode(@"KryptonPalette") as XmlElement;
             return root?.GetAttribute(@"Name") ?? string.Empty;
+        }
+        finally
+        {
+            stream.Position = position;
+        }
+    }
+
+    private static int ReadXmlSchemaVersionWithoutRewind(Stream stream)
+    {
+        var position = stream.Position;
+        try
+        {
+            var doc = new XmlDocument();
+            doc.Load(stream);
+            var root = doc.SelectSingleNode(@"KryptonPalette") as XmlElement;
+            if (root == null || !root.HasAttribute(@"Version"))
+            {
+                return 0;
+            }
+
+            return int.TryParse(root.GetAttribute(@"Version"), NumberStyles.Integer, CultureInfo.InvariantCulture,
+                out var version)
+                ? version
+                : 0;
         }
         finally
         {

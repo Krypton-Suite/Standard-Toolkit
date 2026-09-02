@@ -23,6 +23,7 @@ internal class KryptonCustomPaletteBaseDesigner : ComponentDesigner
     private DesignerVerb _exportVerb;
     private DesignerVerb _upgradeVerb;
     private DesignerVerb _upgradeXmlVerb;
+    private DesignerVerb _upgradeXmlFolderVerb;
     private DesignerVerb _convertVerb;
 
     private KryptonCustomPaletteBase? _palette;
@@ -82,9 +83,11 @@ internal class KryptonCustomPaletteBaseDesigner : ComponentDesigner
 
                 _upgradeXmlVerb = new DesignerVerb(@"Upgrade .xml to .kpalx...", OnUpgradeXml);
 
+                _upgradeXmlFolderVerb = new DesignerVerb(@"Upgrade folder .xml to .kpalx...", OnUpgradeXmlFolder);
+
                 _convertVerb = new DesignerVerb(@"Convert palette file...", OnConvert);
 
-                _verbCollection.AddRange(new DesignerVerb[] { _resetVerb, _populateVerb, _importVerb, _exportVerb, _upgradeVerb, _upgradeXmlVerb, _convertVerb });
+                _verbCollection.AddRange(new DesignerVerb[] { _resetVerb, _populateVerb, _importVerb, _exportVerb, _upgradeVerb, _upgradeXmlVerb, _upgradeXmlFolderVerb, _convertVerb });
             }
 
             return _verbCollection;
@@ -134,6 +137,18 @@ internal class KryptonCustomPaletteBaseDesigner : ComponentDesigner
             {
                 _service?.OnComponentChanged(_palette, null, null, null);
             }
+        }
+        catch (Exception exc)
+        {
+            KryptonExceptionHandler.CaptureException(exc, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
+        }
+    }
+
+    private void OnUpgradeXmlFolder(object? sender, EventArgs e)
+    {
+        try
+        {
+            _palette?.ActionListUpgradeXmlDirectory();
         }
         catch (Exception exc)
         {

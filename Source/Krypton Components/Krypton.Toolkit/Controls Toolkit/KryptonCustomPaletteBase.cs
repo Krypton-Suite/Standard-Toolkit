@@ -2358,6 +2358,9 @@ public class KryptonCustomPaletteBase : PaletteBase
 
     /// <summary>
     /// Import a palette - with auto upgrade - from the specified stream.
+    /// Older XML (and compressed-XML <c>.kpal</c>) is raised to
+    /// <see cref="SharedStaticConstants.CURRENT_SUPPORTED_PALETTE_VERSION"/> before import.
+    /// Native <c>.kpal</c> must already be the current schema.
     /// </summary>
     /// <param name="stream">Stream that contains XML or a KPLT container. Needs to have settable <c>Position</c>.</param>
     /// <exception>Will be thrown if the palette cannot be transformed, or is incorrect</exception>
@@ -2368,35 +2371,24 @@ public class KryptonCustomPaletteBase : PaletteBase
             // Prevent lots of redraw events until all loading completes
             SuspendUpdates();
 
-            ImportFromStream(stream);
-        }
-        catch (ArgumentException aex)
-        {
-            // Probably due to a version conflict:
-            // ThrowHelper.ThrowArgumentException($"Version '{version}' number is incompatible, only version {CURRENT_PALETTE_VERSION} or above can be imported.\nUse the PaletteUpgradeTool from the Application tab of the KryptonExplorer to upgrade.");
-            CommonHelper.LogOutput(aex.Message);
-            if (!aex.Message.Contains(@"number is incompatible"))
+            // Raise older XML (and compressed-XML .kpal) to the current schema before import.
+            // Do not wait for ImportFromXmlDocument to throw: that path used to show the
+            // version-mismatch dialog and swallow the exception, so Convert wrote an empty palette.
+            if (KryptonPaletteBinaryPersistence.TryGetSchemaVersion(stream, out var schemaVersion)
+                && schemaVersion < SharedStaticConstants.CURRENT_SUPPORTED_PALETTE_VERSION)
             {
-                throw;
+                ImportUpgradedXml(stream, schemaVersion);
+                return;
             }
 
-            KryptonExceptionHandler.CaptureException(aex);
-
-            if (stream.CanSeek)
+            try
             {
-                stream.Position = 0;
+                ImportFromStream(stream);
             }
-
-            if (KryptonPaletteBinaryPersistence.TryCopyXmlForUpgrade(stream, out var xmlStream))
+            catch (ArgumentException aex) when (IsPaletteSchemaVersionException(aex))
             {
-                using (xmlStream)
-                {
-                    PerformUpgrade(xmlStream);
-                }
-            }
-            else
-            {
-                throw;
+                CommonHelper.LogOutput(aex.Message);
+                ImportUpgradedXml(stream, schemaVersion: 0);
             }
         }
         finally
@@ -2437,45 +2429,90 @@ public class KryptonCustomPaletteBase : PaletteBase
         }
     }
 
+    private void ImportUpgradedXml(Stream stream, int schemaVersion)
+    {
+        if (stream.CanSeek)
+        {
+            stream.Position = 0;
+        }
+
+        if (!KryptonPaletteBinaryPersistence.TryCopyXmlForUpgrade(stream, out var xmlStream))
+        {
+            var versionText = schemaVersion > 0 ? schemaVersion.ToString() : @"unknown";
+            ThrowHelper.ThrowArgumentException(
+                $"Version '{versionText}' number is incompatible, only version {SharedStaticConstants.CURRENT_SUPPORTED_PALETTE_VERSION} or above can be imported.\nUse the PaletteUpgradeTool from the Application tab of the KryptonExplorer to upgrade.");
+        }
+
+        using (xmlStream)
+        {
+            PerformUpgrade(xmlStream);
+        }
+    }
+
+    private static bool IsPaletteSchemaVersionException(Exception ex) =>
+        ex.Message.IndexOf(@"number is incompatible", StringComparison.Ordinal) >= 0;
+
     private void PerformUpgrade(Stream stream)
     {
-        try
+        var doc = new XmlDocument();
+        doc.Load(stream);
+
+        var root = doc.SelectSingleNode(@"KryptonPalette") as XmlElement;
+        if (root == null)
         {
-            using var reader = new StreamReader(stream);
-
-            var end = reader.ReadToEnd();
-            reader.Close();
-
-            using (var currentSupportedPaletteSchemaReader =
-                   new StreamReader(PaletteSchemaResources.CurrentSupportedPaletteSchema))
-            {
-                using (var xslTextReader = XmlReader.Create(currentSupportedPaletteSchemaReader))
-                {
-                    var xslToXmlTransformer = new XmlTransformer();
-
-                    xslToXmlTransformer.Load(xslTextReader);
-
-                    end = TransformXml(xslToXmlTransformer, end);
-                }
-            }
-
-            using var ms = new MemoryStream();
-            using (var writer = new StreamWriter(ms,
-                       /*StreamWriter.UTF8NoBOM*/ new UTF8Encoding(false, true),
-                       1024, true))
-            {
-                writer.WriteLine("<?xml version=\"1.0\"?>");
-                writer.Write(end);
-                writer.Flush();
-                writer.Close();
-            }
-            ms.Position = 0;
-            // If this goes boom, then something more needs to be done !
-            ImportFromStream(ms);
+            ThrowHelper.ThrowArgumentException(@"Root element must be called 'KryptonPalette'.");
         }
-        catch (Exception e)
+
+        var paletteName = root.HasAttribute(@"Name") ? root.GetAttribute(@"Name") : string.Empty;
+        var version = 0;
+        if (root.HasAttribute(nameof(Version)))
         {
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
+            int.TryParse(root.GetAttribute(nameof(Version)), NumberStyles.Integer, CultureInfo.InvariantCulture,
+                out version);
+        }
+
+        // CurrentSupportedPaletteSchema is the historical 19→20 map (PaletteMode aliases, Prefix type).
+        // Schema 20 and 21 only need the Version attribute raised to the current persist version.
+        if (version < 20)
+        {
+            var transformed = TransformWithCurrentPaletteSchema(doc.OuterXml);
+            doc = new XmlDocument();
+            using (var reader = new StringReader(transformed))
+            {
+                doc.Load(reader);
+            }
+            root = doc.SelectSingleNode(@"KryptonPalette") as XmlElement;
+            if (root == null)
+            {
+                ThrowHelper.ThrowArgumentException(@"Root element must be called 'KryptonPalette'.");
+            }
+
+            if (!string.IsNullOrEmpty(paletteName) && !root.HasAttribute(@"Name"))
+            {
+                root.SetAttribute(@"Name", paletteName);
+            }
+        }
+
+        root.SetAttribute(nameof(Version),
+            SharedStaticConstants.CURRENT_SUPPORTED_PALETTE_VERSION.ToString());
+
+        using var upgraded = new MemoryStream();
+        doc.Save(upgraded);
+        upgraded.Position = 0;
+        ImportFromStream(upgraded);
+    }
+
+    private string TransformWithCurrentPaletteSchema(string xml)
+    {
+        using (var currentSupportedPaletteSchemaReader =
+               new StreamReader(PaletteSchemaResources.CurrentSupportedPaletteSchema))
+        {
+            using (var xslTextReader = XmlReader.Create(currentSupportedPaletteSchemaReader))
+            {
+                var xslToXmlTransformer = new XmlTransformer();
+                xslToXmlTransformer.Load(xslTextReader);
+                return TransformXml(xslToXmlTransformer, xml);
+            }
         }
     }
 
@@ -2749,6 +2786,62 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// Designer verb: pick a legacy <c>.xml</c> palette, rewrite it as <c>.kpalx</c>, and import it.
     /// </summary>
     internal string ActionListUpgradeXml() => UpgradeXmlToKpalx(silent: false);
+
+    /// <summary>
+    /// Rewrites every Krypton palette <c>.xml</c> under <paramref name="directory"/> as <c>.kpalx</c>
+    /// beside the source. Does not import into this instance.
+    /// </summary>
+    /// <param name="directory">Folder to scan.</param>
+    /// <param name="searchSubdirectories">When <see langword="true"/>, include nested folders.</param>
+    /// <param name="silent"><see langword="true"/> to omit the completion message box.</param>
+    /// <returns>Converted paths, skipped non-palette XML, and per-file errors.</returns>
+    /// <seealso cref="KryptonPaletteFile.UpgradeXmlToKpalxFromDirectory(string, bool)"/>
+    // ToDo V120 LTS: Remove with XmlExtension.
+    public KryptonPaletteDirectoryUpgradeResult UpgradeXmlToKpalxFromDirectory(string directory,
+        bool searchSubdirectories = true,
+        bool silent = true)
+    {
+        var result = KryptonPaletteFile.UpgradeXmlToKpalxFromDirectory(directory, searchSubdirectories);
+        if (!silent)
+        {
+            ShowDirectoryUpgradeSummary(result);
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Designer/runtime dialog: pick a folder of legacy <c>.xml</c> palettes and rewrite each as
+    /// <c>.kpalx</c> beside the source (nested folders included). Does not import into this instance.
+    /// </summary>
+    /// <param name="silent"><see langword="true"/> to omit the completion message box.</param>
+    /// <returns>The batch result, or <see cref="KryptonPaletteDirectoryUpgradeResult.Empty"/> when cancelled.</returns>
+    // ToDo V120 LTS: Remove with XmlExtension.
+    public KryptonPaletteDirectoryUpgradeResult UpgradeXmlToKpalxFromDirectory(bool silent = false)
+    {
+        using var folder = new KryptonFolderBrowserDialog();
+        folder.Title = @"Upgrade folder .xml to .kpalx";
+
+        if (folder.ShowDialog() != DialogResult.OK || string.IsNullOrWhiteSpace(folder.SelectedPath))
+        {
+            return KryptonPaletteDirectoryUpgradeResult.Empty;
+        }
+
+        return UpgradeXmlToKpalxFromDirectory(folder.SelectedPath, searchSubdirectories: true, silent);
+    }
+
+    /// <summary>
+    /// Designer verb: pick a folder of legacy <c>.xml</c> palettes and rewrite each as <c>.kpalx</c>.
+    /// </summary>
+    internal KryptonPaletteDirectoryUpgradeResult ActionListUpgradeXmlDirectory() =>
+        UpgradeXmlToKpalxFromDirectory(silent: false);
+
+    private static void ShowDirectoryUpgradeSummary(KryptonPaletteDirectoryUpgradeResult result)
+    {
+        var icon = result.ErrorCount > 0 ? KryptonMessageBoxIcon.Warning : KryptonMessageBoxIcon.Information;
+        KryptonMessageBox.Show(result.ToSummaryString(), @"Upgrade folder .xml to .kpalx",
+            KryptonMessageBoxButtons.OK, icon);
+    }
 
     /// <summary>
     /// Loads a palette file, applies the XML schema upgrade when needed, writes
@@ -3677,6 +3770,13 @@ public class KryptonCustomPaletteBase : PaletteBase
         }
         catch (Exception e)
         {
+            // Version mismatches are recovered by ImportWithUpgrade / Convert; do not show
+            // the exception dialog or swallow the error (that left Convert with an empty palette).
+            if (IsPaletteSchemaVersionException(e))
+            {
+                throw;
+            }
+
             KryptonExceptionHandler.CaptureException(e, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
         finally

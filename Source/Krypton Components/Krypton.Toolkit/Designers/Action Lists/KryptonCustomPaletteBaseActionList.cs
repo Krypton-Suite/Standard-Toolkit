@@ -60,6 +60,7 @@ internal class KryptonCustomPaletteBaseActionList : DesignerActionList
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Export palette...", OnExportClick), "Actions"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Upgrade Palette", OnUpgradePalette), "Actions"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Upgrade .xml to .kpalx...", OnUpgradeXmlFile), "Actions"));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Upgrade folder .xml to .kpalx...", OnUpgradeXmlDirectory), "Actions"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Convert palette file...", OnConvertPaletteFile), "Actions"));
         }
 
@@ -153,6 +154,18 @@ internal class KryptonCustomPaletteBaseActionList : DesignerActionList
                     _service?.OnComponentChanged(_palette, null, null, null);
                 }
             }
+        }
+        catch (Exception exc)
+        {
+            KryptonExceptionHandler.CaptureException(exc, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
+        }
+    }
+
+    private void OnUpgradeXmlDirectory(object? sender, EventArgs e)
+    {
+        try
+        {
+            _palette?.ActionListUpgradeXmlDirectory();
         }
         catch (Exception exc)
         {
