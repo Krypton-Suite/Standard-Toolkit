@@ -81,6 +81,7 @@ public class KryptonLinkWrapLabel : LinkLabel
         _redirector = CreateRedirector();
 
         // Default properties
+        _labelStyle = LabelStyle.NormalPanel;
         SetLabelStyle(LabelStyle.NormalPanel);
         AutoSize = true;
         TabStop = false;

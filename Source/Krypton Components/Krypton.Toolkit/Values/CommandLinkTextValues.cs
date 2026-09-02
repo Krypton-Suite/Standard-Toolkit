@@ -90,6 +90,8 @@ public class CommandLinkTextValues : CaptionValues
 
     #region Protected
 
+    protected override Image? GetImageDefault() => DEFAULT_IMAGE;
+
     /// <inheritdoc />
     protected override string GetDescriptionDefault() => DEFAULT_DESCRIPTION;
 

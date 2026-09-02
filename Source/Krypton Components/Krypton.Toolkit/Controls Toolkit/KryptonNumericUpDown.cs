@@ -1174,7 +1174,7 @@ public class KryptonNumericUpDown : VisualControlBase,
     /// </summary>
     [Category(@"Data")]
     [Description(@"Indicates the amount to increment or decrement one each button click.")]
-    [DefaultValue(1.0d)]
+    [DefaultValue(typeof(decimal), "1")]
     public decimal Increment
     {
         get => _numericUpDown.Increment;
@@ -1187,7 +1187,7 @@ public class KryptonNumericUpDown : VisualControlBase,
     [Category(@"Data")]
     [Description(@"Indicates the maximum value for the numeric up-down control.")]
     [RefreshProperties(RefreshProperties.All)]
-    [DefaultValue(100.0d)]
+    [DefaultValue(typeof(decimal), "100")]
     public decimal Maximum
     {
         get => _numericUpDown.Maximum;
@@ -1200,7 +1200,7 @@ public class KryptonNumericUpDown : VisualControlBase,
     [Category(@"Data")]
     [Description(@"Indicates the minimum value for the numeric up-down control.")]
     [RefreshProperties(RefreshProperties.All)]
-    [DefaultValue(0.0d)]
+    [DefaultValue(typeof(decimal), "0")]
     public decimal Minimum
     {
         get => _numericUpDown.Minimum;
@@ -1225,7 +1225,7 @@ public class KryptonNumericUpDown : VisualControlBase,
     /// </summary>
     [Category(@"Appearance")]
     [Description(@"The current value of the numeric up-down control.")]
-    [DefaultValue(0.0d)]
+    [DefaultValue(typeof(decimal), "0")]
     [Bindable(true)]
     public decimal Value
     {

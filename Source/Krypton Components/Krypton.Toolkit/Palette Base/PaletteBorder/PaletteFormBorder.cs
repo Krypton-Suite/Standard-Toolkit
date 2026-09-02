@@ -29,6 +29,7 @@ public class PaletteFormBorder : PaletteBorder
         : base(inherit, needPaint)
     {
         _ownerForm = ownerForm;
+        CaptureFactoryDefaults();
     }
     #endregion
 

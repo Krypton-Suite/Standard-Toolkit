@@ -110,6 +110,7 @@ public class KryptonScrollBar : Control
     /// <summary>Gets or sets the width of the scroll bar.</summary>
     /// <value>The width of the scroll bar.</value>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    [DefaultValue(19)]
     public int ScrollBarWidth
     {
         get => Width; 
@@ -414,7 +415,6 @@ public class KryptonScrollBar : Control
     /// </summary>
     [Category(@"Appearance")]
     [Description(@"Gets or sets the border color.")]
-    [DefaultValue(typeof(Color), "Color.FromARGB(93, 140, 201)")]
     public Color BorderColor
     {
         get => _borderColor;
@@ -426,13 +426,14 @@ public class KryptonScrollBar : Control
             Invalidate();
         }
     }
+    private bool ShouldSerializeBorderColor() => _borderColor != Color.FromArgb(93, 140, 201);
+    private void ResetBorderColor() => BorderColor = Color.FromArgb(93, 140, 201);
 
     /// <summary>
     /// Gets or sets the border color in disabled state.
     /// </summary>
     [Category(@"Appearance")]
     [Description(@"Gets or sets the border color in disabled state.")]
-    [DefaultValue(typeof(Color), "Color.Gray")]
     public Color DisabledBorderColor
     {
         get => _disabledBorderColor;
@@ -444,13 +445,15 @@ public class KryptonScrollBar : Control
             Invalidate();
         }
     }
+    private bool ShouldSerializeDisabledBorderColor() => _disabledBorderColor != Color.Gray;
+    private void ResetDisabledBorderColor() => DisabledBorderColor = Color.Gray;
 
     /// <summary>
     /// Gets or sets the opacity of the context menu (from 0 - 1).
     /// </summary>
     [Category(@"Appearance")]
     [Description(@"Gets or sets the opacity of the context menu (from 0 - 1).")]
-    [DefaultValue(1)]
+    [DefaultValue(1.0)]
     public double Opacity
     {
         get => _contextMenu.Opacity;

@@ -68,6 +68,16 @@ public class PaletteBack : Storage,
     #region Instance Fields
     private IPaletteBack? _inherit;
     private InternalStorage? _storage;
+    private InheritBool _factoryDraw = InheritBool.Inherit;
+    private PaletteGraphicsHint _factoryGraphicsHint = PaletteGraphicsHint.Inherit;
+    private Color _factoryColor1 = GlobalStaticValues.EMPTY_COLOR;
+    private Color _factoryColor2 = GlobalStaticValues.EMPTY_COLOR;
+    private PaletteColorStyle _factoryColorStyle = PaletteColorStyle.Inherit;
+    private PaletteRectangleAlign _factoryColorAlign = PaletteRectangleAlign.Inherit;
+    private float _factoryColorAngle = -1;
+    private Image? _factoryImage;
+    private PaletteImageStyle _factoryImageStyle = PaletteImageStyle.Inherit;
+    private PaletteRectangleAlign _factoryImageAlign = PaletteRectangleAlign.Inherit;
     #endregion
 
     #region Events
@@ -102,7 +112,34 @@ public class PaletteBack : Storage,
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => (_storage == null) || _storage.IsDefault;
+    public override bool IsDefault =>
+        Draw == _factoryDraw &&
+        GraphicsHint == _factoryGraphicsHint &&
+        Color1.Equals(_factoryColor1) &&
+        Color2.Equals(_factoryColor2) &&
+        ColorStyle == _factoryColorStyle &&
+        ColorAlign == _factoryColorAlign &&
+        ColorAngle.Equals(_factoryColorAngle) &&
+        Image == _factoryImage &&
+        ImageStyle == _factoryImageStyle &&
+        ImageAlign == _factoryImageAlign;
+
+    /// <summary>
+    /// Treats the current values as the unset designer default.
+    /// </summary>
+    public void CaptureFactoryDefaults()
+    {
+        _factoryDraw = Draw;
+        _factoryGraphicsHint = GraphicsHint;
+        _factoryColor1 = Color1;
+        _factoryColor2 = Color2;
+        _factoryColorStyle = ColorStyle;
+        _factoryColorAlign = ColorAlign;
+        _factoryColorAngle = ColorAngle;
+        _factoryImage = Image;
+        _factoryImageStyle = ImageStyle;
+        _factoryImageAlign = ImageAlign;
+    }
 
     #endregion
 
@@ -141,7 +178,6 @@ public class PaletteBack : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Should background be drawn.")]
-    [DefaultValue(InheritBool.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
     public InheritBool Draw
     {
@@ -188,7 +224,6 @@ public class PaletteBack : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Hint for drawing graphics.")]
-    [DefaultValue(PaletteGraphicsHint.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
     public PaletteGraphicsHint GraphicsHint
     {
@@ -236,7 +271,6 @@ public class PaletteBack : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Main background color.")]
-    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color Color1
     {
@@ -283,7 +317,6 @@ public class PaletteBack : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Secondary background color.")]
-    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color Color2
     {
@@ -330,7 +363,6 @@ public class PaletteBack : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Background color drawing style.")]
-    [DefaultValue(PaletteColorStyle.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
     public PaletteColorStyle ColorStyle
     {
@@ -377,7 +409,6 @@ public class PaletteBack : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Background color alignment style.")]
-    [DefaultValue(PaletteRectangleAlign.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
     public PaletteRectangleAlign ColorAlign
     {
@@ -425,7 +456,6 @@ public class PaletteBack : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Background color angle.")]
-    [DefaultValue(-1f)]
     [RefreshProperties(RefreshProperties.All)]
     public float ColorAngle
     {
@@ -473,7 +503,6 @@ public class PaletteBack : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Background image.")]
-    [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
     public Image? Image
     {
@@ -520,7 +549,6 @@ public class PaletteBack : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Background image style.")]
-    [DefaultValue(PaletteImageStyle.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
     public PaletteImageStyle ImageStyle
     {
@@ -569,7 +597,6 @@ public class PaletteBack : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Background image alignment style.")]
-    [DefaultValue(PaletteRectangleAlign.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
     public PaletteRectangleAlign ImageAlign
     {
@@ -608,6 +635,29 @@ public class PaletteBack : Storage,
     /// <returns>Image alignment style.</returns>
     public PaletteRectangleAlign GetBackImageAlign(PaletteState state) =>
         ImageAlign != PaletteRectangleAlign.Inherit ? ImageAlign : _inherit!.GetBackImageAlign(state);
+    #endregion
+
+    #region ShouldSerialize
+    private bool ShouldSerializeDraw() => Draw != _factoryDraw;
+    private void ResetDraw() => Draw = _factoryDraw;
+    private bool ShouldSerializeGraphicsHint() => GraphicsHint != _factoryGraphicsHint;
+    private void ResetGraphicsHint() => GraphicsHint = _factoryGraphicsHint;
+    private bool ShouldSerializeColor1() => !Color1.Equals(_factoryColor1);
+    private void ResetColor1() => Color1 = _factoryColor1;
+    private bool ShouldSerializeColor2() => !Color2.Equals(_factoryColor2);
+    private void ResetColor2() => Color2 = _factoryColor2;
+    private bool ShouldSerializeColorStyle() => ColorStyle != _factoryColorStyle;
+    private void ResetColorStyle() => ColorStyle = _factoryColorStyle;
+    private bool ShouldSerializeColorAlign() => ColorAlign != _factoryColorAlign;
+    private void ResetColorAlign() => ColorAlign = _factoryColorAlign;
+    private bool ShouldSerializeColorAngle() => !ColorAngle.Equals(_factoryColorAngle);
+    private void ResetColorAngle() => ColorAngle = _factoryColorAngle;
+    private bool ShouldSerializeImage() => Image != _factoryImage;
+    private void ResetImage() => Image = _factoryImage;
+    private bool ShouldSerializeImageStyle() => ImageStyle != _factoryImageStyle;
+    private void ResetImageStyle() => ImageStyle = _factoryImageStyle;
+    private bool ShouldSerializeImageAlign() => ImageAlign != _factoryImageAlign;
+    private void ResetImageAlign() => ImageAlign = _factoryImageAlign;
     #endregion
 
     #region Protected

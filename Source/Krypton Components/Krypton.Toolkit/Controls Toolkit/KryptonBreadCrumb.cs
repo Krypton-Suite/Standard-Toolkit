@@ -100,6 +100,7 @@ public class KryptonBreadCrumb : VisualSimpleBase,
         _buttonStyle = ButtonStyle.BreadCrumb;
         RootItem = new KryptonBreadCrumbItem("Root");
         RootItem.PropertyChanged += OnCrumbItemChanged;
+        AutoSize = true;
         AllowButtonSpecToolTips = false;
         AllowButtonSpecToolTipPriority = false;
 

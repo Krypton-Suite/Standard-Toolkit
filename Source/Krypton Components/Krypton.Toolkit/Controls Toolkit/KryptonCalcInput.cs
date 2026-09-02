@@ -537,7 +537,7 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
     /// </summary>
     [Category(@"Appearance")]
     [Description(@"The current value of the numeric up-down control.")]
-    [DefaultValue(0.0d)]
+    [DefaultValue(typeof(decimal), "0")]
     [Bindable(true)]
     public decimal Value
     {
