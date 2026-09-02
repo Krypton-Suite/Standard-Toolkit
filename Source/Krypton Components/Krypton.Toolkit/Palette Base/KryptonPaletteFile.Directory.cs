@@ -16,71 +16,71 @@ namespace Krypton.Toolkit;
 public static partial class KryptonPaletteFile
 {
     /// <summary>
-    /// Separator stored in pack theme names that represent a folder path.
+    /// Separator stored in collection theme names that represent a folder path.
     /// </summary>
-    public const char PackPathSeparator = '/';
+    public const char CollectionPathSeparator = '/';
 
     /// <summary>
     /// Returns whether <paramref name="themeName"/> encodes a folder path (<c>/</c> or <c>\</c>).
     /// </summary>
     /// <param name="themeName">Pack theme name or relative file path.</param>
     /// <returns><see langword="true"/> when the name contains a path separator.</returns>
-    public static bool IsPackThemePath(string? themeName)
+    public static bool IsCollectionThemePath(string? themeName)
     {
         if (string.IsNullOrWhiteSpace(themeName))
         {
             return false;
         }
 
-        return themeName!.IndexOf(PackPathSeparator) >= 0
+        return themeName!.IndexOf(CollectionPathSeparator) >= 0
                || themeName.IndexOf(Path.DirectorySeparatorChar) >= 0
                || themeName.IndexOf(Path.AltDirectorySeparatorChar) >= 0;
     }
 
     /// <summary>
-    /// Normalises a relative palette path to pack form: <c>/</c> separators, no leading or trailing slash.
+    /// Normalises a relative palette path to collection form: <c>/</c> separators, no leading or trailing slash.
     /// </summary>
-    /// <param name="relativePath">Disk-relative or pack theme name. May be empty.</param>
+    /// <param name="relativePath">Disk-relative or collection theme name. May be empty.</param>
     /// <returns>Normalised path, or empty when <paramref name="relativePath"/> is empty.</returns>
-    public static string NormalizePackThemeName(string? relativePath)
+    public static string NormalizeCollectionThemeName(string? relativePath)
     {
         if (string.IsNullOrWhiteSpace(relativePath))
         {
             return string.Empty;
         }
 
-        var normalised = relativePath!.Trim().Replace('\\', PackPathSeparator);
+        var normalised = relativePath!.Trim().Replace('\\', CollectionPathSeparator);
         while (normalised.IndexOf(@"//", StringComparison.Ordinal) >= 0)
         {
             normalised = normalised.Replace(@"//", @"/");
         }
 
-        return normalised.Trim(PackPathSeparator);
+        return normalised.Trim(CollectionPathSeparator);
     }
 
     /// <summary>
-    /// Splits a pack theme name or relative path into folder and leaf segments.
+    /// Splits a collection theme name or relative path into folder and leaf segments.
     /// </summary>
     /// <param name="themeName">Pack theme name.</param>
     /// <returns>Segments in order. Empty when <paramref name="themeName"/> is empty.</returns>
-    public static string[] SplitPackThemePath(string? themeName)
+    public static string[] SplitCollectionThemePath(string? themeName)
     {
-        var normalised = NormalizePackThemeName(themeName);
+        var normalised = NormalizeCollectionThemeName(themeName);
         return string.IsNullOrEmpty(normalised)
             ? Array.Empty<string>()
-            : normalised.Split(new[] { PackPathSeparator }, StringSplitOptions.RemoveEmptyEntries);
+            : normalised.Split(new[] { CollectionPathSeparator }, StringSplitOptions.RemoveEmptyEntries);
     }
 
     /// <summary>
-    /// Joins two pack path fragments with <see cref="PackPathSeparator"/>.
+    /// Joins two pack path fragments with <see cref="CollectionPathSeparator"/>.
     /// </summary>
     /// <param name="left">Parent path. May be empty.</param>
     /// <param name="right">Child path. May be empty.</param>
     /// <returns>Combined path. <paramref name="right"/> is returned unchanged when it already starts with <paramref name="left"/>.</returns>
-    public static string CombinePackThemePath(string? left, string? right)
+    public static string CombineCollectionThemePath(string? left, string? right)
     {
-        var parent = NormalizePackThemeName(left);
-        var child = NormalizePackThemeName(right);
+        var parent = NormalizeCollectionThemeName(left);
+        var child = NormalizeCollectionThemeName(right);
         if (string.IsNullOrEmpty(parent))
         {
             return child;
@@ -92,35 +92,35 @@ public static partial class KryptonPaletteFile
         }
 
         if (string.Equals(child, parent, StringComparison.OrdinalIgnoreCase)
-            || child.StartsWith(parent + PackPathSeparator, StringComparison.OrdinalIgnoreCase))
+            || child.StartsWith(parent + CollectionPathSeparator, StringComparison.OrdinalIgnoreCase))
         {
             return child;
         }
 
-        return parent + PackPathSeparator + child;
+        return parent + CollectionPathSeparator + child;
     }
 
     /// <summary>
-    /// Converts a pack theme name to a display path using the platform directory separator.
+    /// Converts a collection theme name to a display path using the platform directory separator.
     /// </summary>
     /// <param name="themeName">Pack theme name or relative path.</param>
     /// <returns>Display string, or empty when <paramref name="themeName"/> is empty.</returns>
     public static string ToDisplayPath(string? themeName) =>
-        NormalizePackThemeName(themeName).Replace(PackPathSeparator, Path.DirectorySeparatorChar);
+        NormalizeCollectionThemeName(themeName).Replace(CollectionPathSeparator, Path.DirectorySeparatorChar);
 
     /// <summary>
-    /// Returns the pack theme name for a file under <paramref name="rootDirectory"/>
+    /// Returns the collection theme name for a file under <paramref name="rootDirectory"/>
     /// (relative path, <c>/</c> separators, palette extension removed).
     /// </summary>
     /// <param name="filePath">Palette file path.</param>
     /// <param name="rootDirectory">Folder that is treated as the path root.</param>
     /// <returns>Relative pack name, or the file stem when the file is not under the root.</returns>
-    public static string GetRelativePackThemeName(string filePath, string rootDirectory)
+    public static string GetRelativeCollectionThemeName(string filePath, string rootDirectory)
     {
         ThrowHelper.ThrowIfNullOrWhiteSpace(filePath);
 
         var relative = GetRelativePath(rootDirectory, filePath);
-        return StripPaletteExtension(NormalizePackThemeName(relative));
+        return StripPaletteExtension(NormalizeCollectionThemeName(relative));
     }
 
     /// <summary>
@@ -128,15 +128,15 @@ public static partial class KryptonPaletteFile
     /// </summary>
     /// <param name="directory">Folder to scan.</param>
     /// <param name="searchSubdirectories">When <see langword="true"/>, include nested folders.</param>
-    /// <param name="includeKpalx">Include <c>*.kpalx</c>.</param>
-    /// <param name="includeKpal">Include <c>*.kpal</c>.</param>
+    /// <param name="includeKthemex">Include <c>*.kthemex</c>.</param>
+    /// <param name="includeKtheme">Include <c>*.ktheme</c>.</param>
     /// <param name="includeXml">Include legacy <c>*.xml</c>.</param>
     /// <returns>Full paths, sorted ordinal ignore-case.</returns>
-    // ToDo V120 LTS: Remove includeXml (default listing of *.xml). Callers should UpgradeXmlToKpalx first.
+    // ToDo V120 LTS: Remove includeXml (default listing of *.xml). Callers should UpgradeXmlToKthemex first.
     public static string[] GetPaletteFiles(string directory,
         bool searchSubdirectories = false,
-        bool includeKpalx = true,
-        bool includeKpal = true,
+        bool includeKthemex = true,
+        bool includeKtheme = true,
         bool includeXml = true)
     {
         if (string.IsNullOrWhiteSpace(directory) || !Directory.Exists(directory))
@@ -146,8 +146,8 @@ public static partial class KryptonPaletteFile
 
         var option = searchSubdirectories ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
         var files = new List<string>();
-        AddPaletteFiles(files, directory, @"*." + Extension, includeKpalx, option);
-        AddPaletteFiles(files, directory, @"*." + BinaryExtension, includeKpal, option);
+        AddPaletteFiles(files, directory, @"*." + Extension, includeKthemex, option);
+        AddPaletteFiles(files, directory, @"*." + BinaryExtension, includeKtheme, option);
         // ToDo V120 LTS: Stop scanning *.xml once XmlExtension is removed.
         AddPaletteFiles(files, directory, @"*." + XmlExtension, includeXml, option);
         files.Sort(StringComparer.OrdinalIgnoreCase);
@@ -155,18 +155,18 @@ public static partial class KryptonPaletteFile
     }
 
     /// <summary>
-    /// Rewrites every Krypton palette <c>.xml</c> under <paramref name="directory"/> as <c>.kpalx</c>
+    /// Rewrites every Krypton palette <c>.xml</c> under <paramref name="directory"/> as <c>.kthemex</c>
     /// beside the source (nested folders included). Source files are left in place.
     /// </summary>
     /// <param name="directory">Folder to scan.</param>
     /// <returns>Converted paths, skipped non-palette XML, and per-file errors.</returns>
     /// <exception cref="ArgumentException">The folder does not exist.</exception>
-    // ToDo V120 LTS: Remove with XmlExtension. Callers should already have .kpalx files.
-    public static KryptonPaletteDirectoryUpgradeResult UpgradeXmlToKpalxFromDirectory(string directory) =>
-        UpgradeXmlToKpalxFromDirectory(directory, searchSubdirectories: true);
+    // ToDo V120 LTS: Remove with XmlExtension. Callers should already have .kthemex files.
+    public static KryptonPaletteDirectoryUpgradeResult UpgradeXmlToKthemexFromDirectory(string directory) =>
+        UpgradeXmlToKthemexFromDirectory(directory, searchSubdirectories: true);
 
     /// <summary>
-    /// Rewrites every Krypton palette <c>.xml</c> under <paramref name="directory"/> as <c>.kpalx</c>
+    /// Rewrites every Krypton palette <c>.xml</c> under <paramref name="directory"/> as <c>.kthemex</c>
     /// beside the source. Source files are left in place. Non-palette <c>.xml</c> is skipped.
     /// A failure on one file does not stop the rest.
     /// </summary>
@@ -174,8 +174,8 @@ public static partial class KryptonPaletteFile
     /// <param name="searchSubdirectories">When <see langword="true"/>, include nested folders.</param>
     /// <returns>Converted paths, skipped non-palette XML, and per-file errors.</returns>
     /// <exception cref="ArgumentException">The folder does not exist.</exception>
-    // ToDo V120 LTS: Remove with XmlExtension. Callers should already have .kpalx files.
-    public static KryptonPaletteDirectoryUpgradeResult UpgradeXmlToKpalxFromDirectory(string directory,
+    // ToDo V120 LTS: Remove with XmlExtension. Callers should already have .kthemex files.
+    public static KryptonPaletteDirectoryUpgradeResult UpgradeXmlToKthemexFromDirectory(string directory,
         bool searchSubdirectories)
     {
         ThrowHelper.ThrowIfNullOrWhiteSpace(directory);
@@ -185,7 +185,7 @@ public static partial class KryptonPaletteFile
             ThrowHelper.ThrowArgumentException(@"Palette folder does not exist.", nameof(directory));
         }
 
-        var xmlFiles = GetPaletteFiles(directory, searchSubdirectories, includeKpalx: false, includeKpal: false,
+        var xmlFiles = GetPaletteFiles(directory, searchSubdirectories, includeKthemex: false, includeKtheme: false,
             includeXml: true);
         var converted = new List<string>();
         var sources = new List<string>();
@@ -203,7 +203,7 @@ public static partial class KryptonPaletteFile
                     continue;
                 }
 
-                converted.Add(UpgradeXmlToKpalx(sourcePath));
+                converted.Add(UpgradeXmlToKthemex(sourcePath));
                 sources.Add(sourcePath);
             }
             catch (Exception ex)
@@ -225,29 +225,29 @@ public static partial class KryptonPaletteFile
     }
 
     /// <summary>
-    /// Packs every palette file under <paramref name="sourceDirectory"/> into one <c>.kpal</c>.
-    /// Theme names are the relative paths with <c>/</c> separators. Nested <c>.kpal</c> packs are flattened.
+    /// Stores every palette file under <paramref name="sourceDirectory"/> into one <c>.ktheme</c>.
+    /// Theme names are the relative paths with <c>/</c> separators. Nested <c>.ktheme</c> packs are flattened.
     /// </summary>
-    /// <param name="destinationPath">File to create or overwrite. Must be <c>.kpal</c>.</param>
-    /// <param name="sourceDirectory">Folder of <c>.kpalx</c> / <c>.kpal</c> / legacy <c>.xml</c> files.</param>
+    /// <param name="destinationPath">File to create or overwrite. Must be <c>.ktheme</c>.</param>
+    /// <param name="sourceDirectory">Folder of <c>.kthemex</c> / <c>.ktheme</c> / legacy <c>.xml</c> files.</param>
     /// <returns>The full destination path.</returns>
-    public static string ExportPackFromDirectory(string destinationPath, string sourceDirectory) =>
-        ExportPackFromDirectory(destinationPath, sourceDirectory, searchSubdirectories: true, ignoreDefaults: false, packName: null);
+    public static string ExportCollectionFromDirectory(string destinationPath, string sourceDirectory) =>
+        ExportCollectionFromDirectory(destinationPath, sourceDirectory, searchSubdirectories: true, ignoreDefaults: false, collectionName: null);
 
     /// <summary>
-    /// Packs palette files under <paramref name="sourceDirectory"/> into one <c>.kpal</c>.
+    /// Stores palette files under <paramref name="sourceDirectory"/> into one <c>.ktheme</c>.
     /// </summary>
-    /// <param name="destinationPath">File to create or overwrite. Must be <c>.kpal</c>.</param>
+    /// <param name="destinationPath">File to create or overwrite. Must be <c>.ktheme</c>.</param>
     /// <param name="sourceDirectory">Folder of palette files.</param>
     /// <param name="searchSubdirectories">When <see langword="true"/>, include nested folders.</param>
     /// <param name="ignoreDefaults"><see langword="true"/> to omit values that match each file's base palette.</param>
-    /// <param name="packName">Optional pack display name (header). Defaults to the folder name.</param>
+    /// <param name="collectionName">Optional collection display name (header). Defaults to the folder name.</param>
     /// <returns>The full destination path.</returns>
-    public static string ExportPackFromDirectory(string destinationPath,
+    public static string ExportCollectionFromDirectory(string destinationPath,
         string sourceDirectory,
         bool searchSubdirectories,
         bool ignoreDefaults,
-        string? packName)
+        string? collectionName)
     {
         ThrowHelper.ThrowIfNullOrWhiteSpace(destinationPath);
         ThrowHelper.ThrowIfNullOrWhiteSpace(sourceDirectory);
@@ -260,7 +260,7 @@ public static partial class KryptonPaletteFile
         RejectJsonPalettePath(destinationPath, nameof(destinationPath));
         if (FormatFromPath(destinationPath) != KryptonPaletteFileFormat.PaletteBinary)
         {
-            ThrowHelper.ThrowArgumentException(@"Multi-theme packs can only be written as .kpal.", nameof(destinationPath));
+            ThrowHelper.ThrowArgumentException(@"Multi-theme collections can only be written as .ktheme.", nameof(destinationPath));
         }
 
         var destFull = Path.GetFullPath(destinationPath);
@@ -278,7 +278,7 @@ public static partial class KryptonPaletteFile
                     continue;
                 }
 
-                AddDirectoryPackEntries(palettes, usedNames, file, sourceDirectory);
+                AddDirectoryCollectionEntries(palettes, usedNames, file, sourceDirectory);
             }
 
             if (palettes.Count == 0)
@@ -286,11 +286,11 @@ public static partial class KryptonPaletteFile
                 ThrowHelper.ThrowArgumentException(@"The folder does not contain any palette files.", nameof(sourceDirectory));
             }
 
-            var headerName = string.IsNullOrWhiteSpace(packName)
+            var headerName = string.IsNullOrWhiteSpace(collectionName)
                 ? Path.GetFileName(Path.GetFullPath(sourceDirectory).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar))
-                : packName;
+                : collectionName;
 
-            return ExportPack(destinationPath, palettes, ignoreDefaults, headerName);
+            return ExportCollection(destinationPath, palettes, ignoreDefaults, headerName);
         }
         finally
         {
@@ -301,41 +301,41 @@ public static partial class KryptonPaletteFile
         }
     }
 
-    private static void AddDirectoryPackEntries(List<KryptonCustomPaletteBase> palettes,
+    private static void AddDirectoryCollectionEntries(List<KryptonCustomPaletteBase> palettes,
         HashSet<string> usedNames,
         string file,
         string rootDirectory)
     {
-        var relativeName = GetRelativePackThemeName(file, rootDirectory);
-        var relativeDir = ParentPackPath(relativeName);
+        var relativeName = GetRelativeCollectionThemeName(file, rootDirectory);
+        var relativeDir = ParentCollectionPath(relativeName);
         string[] names;
-        bool isPack;
+        bool isCollection;
         try
         {
             names = GetThemeNames(file);
-            isPack = IsPack(file);
+            isCollection = IsCollection(file);
         }
         catch (Exception ex)
         {
             throw new InvalidOperationException($@"Could not read palette file '{file}'. {ex.Message}", ex);
         }
 
-        if (isPack || names.Length > 1)
+        if (isCollection || names.Length > 1)
         {
             for (var n = 0; n < names.Length; n++)
             {
                 var innerName = names[n];
-                var packKey = IsPackThemePath(innerName)
-                    ? CombinePackThemePath(relativeDir, innerName)
-                    : CombinePackThemePath(relativeName,
+                var collectionKey = IsCollectionThemePath(innerName)
+                    ? CombineCollectionThemePath(relativeDir, innerName)
+                    : CombineCollectionThemePath(relativeName,
                         string.IsNullOrWhiteSpace(innerName) ? Path.GetFileNameWithoutExtension(file) : innerName);
-                packKey = UniquePackName(packKey, usedNames);
+                collectionKey = UniqueCollectionName(collectionKey, usedNames);
 
                 var palette = new KryptonCustomPaletteBase();
                 try
                 {
                     palette.Import(file, innerName, silent: true);
-                    palette.SetPaletteName(packKey);
+                    palette.SetPaletteName(collectionKey);
                     palettes.Add(palette);
                 }
                 catch
@@ -348,7 +348,7 @@ public static partial class KryptonPaletteFile
             return;
         }
 
-        var singleKey = UniquePackName(relativeName, usedNames);
+        var singleKey = UniqueCollectionName(relativeName, usedNames);
         var single = new KryptonCustomPaletteBase();
         try
         {
@@ -367,13 +367,13 @@ public static partial class KryptonPaletteFile
         }
     }
 
-    private static string ParentPackPath(string packThemeName)
+    private static string ParentCollectionPath(string collectionThemeName)
     {
-        var slash = packThemeName.LastIndexOf(PackPathSeparator);
-        return slash <= 0 ? string.Empty : packThemeName.Substring(0, slash);
+        var slash = collectionThemeName.LastIndexOf(CollectionPathSeparator);
+        return slash <= 0 ? string.Empty : collectionThemeName.Substring(0, slash);
     }
 
-    private static string UniquePackName(string candidate, HashSet<string> used)
+    private static string UniqueCollectionName(string candidate, HashSet<string> used)
     {
         var name = string.IsNullOrWhiteSpace(candidate) ? @"Palette" : candidate;
         var suffix = 2;
@@ -397,7 +397,7 @@ public static partial class KryptonPaletteFile
 
         if (string.Equals(extension, @"." + Extension, StringComparison.OrdinalIgnoreCase)
             || string.Equals(extension, @"." + BinaryExtension, StringComparison.OrdinalIgnoreCase)
-            // ToDo V120 LTS: Stop stripping .xml from pack theme names.
+            // ToDo V120 LTS: Stop stripping .xml from collection theme names.
             || string.Equals(extension, @"." + XmlExtension, StringComparison.OrdinalIgnoreCase))
         {
             return relativePath.Substring(0, relativePath.Length - extension.Length);

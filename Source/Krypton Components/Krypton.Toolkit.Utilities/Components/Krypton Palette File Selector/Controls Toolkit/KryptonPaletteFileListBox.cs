@@ -10,7 +10,7 @@
 namespace Krypton.Toolkit.Utilities;
 
 /// <summary>
-/// Lists <c>.kpalx</c>, <c>.kpal</c> (including packs), and optional XML palette files from a folder
+/// Lists <c>.kthemex</c>, <c>.ktheme</c> (including collections), and optional XML palette files from a folder
 /// (optionally including subfolders) and applies the selected theme through a <see cref="KryptonManager"/>.
 /// </summary>
 [ToolboxItem(true)]
@@ -19,7 +19,7 @@ namespace Krypton.Toolkit.Utilities;
 [DefaultProperty(nameof(PaletteDirectory))]
 [Designer(typeof(KryptonStubDesigner))]
 [DesignerCategory(@"code")]
-[Description(@"Lists palette files (.kpalx / .kpal packs / .xml) and applies the selected custom theme.")]
+[Description(@"Lists palette files (.kthemex / .ktheme collections / .xml) and applies the selected custom theme.")]
 public class KryptonPaletteFileListBox : KryptonListBox
 {
     private readonly KryptonPaletteFileThemeSelectorController _controller = new();
@@ -28,7 +28,7 @@ public class KryptonPaletteFileListBox : KryptonListBox
     /// Gets or sets the folder that is scanned for palette files.
     /// </summary>
     [Category(@"Data")]
-    [Description(@"Folder that is scanned for .kpalx, .kpal, and optional .xml palette files.")]
+    [Description(@"Folder that is scanned for .kthemex, .ktheme, and optional .xml palette files.")]
     [DefaultValue(@"")]
     [Editor(typeof(FolderNameEditor), typeof(UITypeEditor))]
     public string PaletteDirectory
@@ -66,40 +66,40 @@ public class KryptonPaletteFileListBox : KryptonListBox
         }
     }
 
-    /// <summary>Gets or sets whether <c>*.kpalx</c> files are listed.</summary>
+    /// <summary>Gets or sets whether <c>*.kthemex</c> files are listed.</summary>
     [Category(@"Data")]
-    [Description(@"When true, *.kpalx XML palette files are listed.")]
+    [Description(@"When true, *.kthemex XML palette files are listed.")]
     [DefaultValue(true)]
-    public bool IncludeKpalx
+    public bool IncludeKthemex
     {
-        get => _controller.IncludeKpalx;
+        get => _controller.IncludeKthemex;
         set
         {
-            if (_controller.IncludeKpalx == value)
+            if (_controller.IncludeKthemex == value)
             {
                 return;
             }
 
-            _controller.IncludeKpalx = value;
+            _controller.IncludeKthemex = value;
             Reload();
         }
     }
 
-    /// <summary>Gets or sets whether <c>*.kpal</c> files (including packs) are listed.</summary>
+    /// <summary>Gets or sets whether <c>*.ktheme</c> files (including collections) are listed.</summary>
     [Category(@"Data")]
-    [Description(@"When true, *.kpal files (including multi-theme packs) are listed.")]
+    [Description(@"When true, *.ktheme files (including multi-theme collections) are listed.")]
     [DefaultValue(true)]
-    public bool IncludeKpal
+    public bool IncludeKtheme
     {
-        get => _controller.IncludeKpal;
+        get => _controller.IncludeKtheme;
         set
         {
-            if (_controller.IncludeKpal == value)
+            if (_controller.IncludeKtheme == value)
             {
                 return;
             }
 
-            _controller.IncludeKpal = value;
+            _controller.IncludeKtheme = value;
             Reload();
         }
     }
@@ -108,7 +108,7 @@ public class KryptonPaletteFileListBox : KryptonListBox
     [Category(@"Data")]
     [Description(@"When true, legacy *.xml palette files are listed.")]
     [DefaultValue(true)]
-    // ToDo V120 LTS: Remove IncludeXml. Prefer UpgradeXmlToKpalx, then list .kpalx / .kpal only.
+    // ToDo V120 LTS: Remove IncludeXml. Prefer UpgradeXmlToKthemex, then list .kthemex / .ktheme only.
     public bool IncludeXml
     {
         get => _controller.IncludeXml;
@@ -136,7 +136,7 @@ public class KryptonPaletteFileListBox : KryptonListBox
 
     /// <summary>
     /// Gets or sets whether preview images are loaded and shown when a palette defines
-    /// <see cref="KryptonCustomPaletteBase.Thumbnail"/> (or a pack thumbnail catalog).
+    /// <see cref="KryptonCustomPaletteBase.Thumbnail"/> (or a collection thumbnail catalog).
     /// </summary>
     [Category(@"Appearance")]
     [Description(@"When true, optional palette thumbnails are loaded and shown. Leave off until palettes provide previews.")]

@@ -66,7 +66,7 @@ Default output folder: `Bin\Debug\net472`.
 | `UnitTest-KryptonLogProtect.ps1` | #4270 / #4269 `KryptonLog` redacts `{Password}` before file storage | `include` |
 | `UnitTest-CommandLinkArrow.ps1` | #4264 default command-link arrow: helper returns 32x32 image; Windows 7 embedded resource is packaged | `include` |
 | `UnitTest-CustomPaletteBasePaletteMode.ps1` | #1870 `KryptonCustomPaletteBase.BasePaletteMode` inherits the builtin colour table; builtin `BasePalette` keeps catalog mode | `include` |
-| `UnitTest-PaletteBinary.ps1` | #2117 custom palette `.kpalx` / `.kpal` round-trip, `Convert`, `UpgradeXmlToKpalx` / `ConvertFile` (file and `KryptonCustomPaletteBase`), packs, `AddToPack` / `RemoveFromPack`, directory packs, and Utilities `FromDirectory` | `include` |
+| `UnitTest-PaletteBinary.ps1` | #2117 custom palette `.kthemex` / `.ktheme` round-trip, `Convert`, `UpgradeXmlToKthemex` / `ConvertFile` (file and `KryptonCustomPaletteBase`), collections, `AddToCollection` / `RemoveFromCollection`, directory collections, and Utilities `FromDirectory` | `include` |
 | `UnitTest-ContextMenuSubMenuImage.ps1` | #4252 Light Gray Office 2007/2010/Microsoft 365 `GetContextMenuSubMenuImage` returns an image; all catalog palettes must not throw | `include` |
 | `Start-AsyncFormsDemoHost.ps1` | Hosts `Feature4177AsyncFormsDemo` | n/a |
 | `Start-SplashScreenManagerHost.ps1` | Hosts `Feature4180SplashScreenManagerDemo` (#4180) | n/a |
@@ -78,7 +78,7 @@ Default output folder: `Bin\Debug\net472`.
 | `Invoke-RadialMenuScreenshot.ps1` | Opens radial menu and writes `Documents/PR/4172-radial-menu-native.png` | `exclude` |
 | `Invoke-SchemeStripTextScreenshot.ps1` | Hosts `SchemeStripTextDemo` (#1100) and writes default/contrast PNGs under `Documents/PR/` | `exclude` |
 | `Invoke-PaletteBinaryScreenshot.ps1` | Hosts `PaletteBinaryDemo` (#2117) and writes `Documents/PR/2117-bulk-xml-upgrade-demo.png` | `exclude` |
-| `Invoke-PalettePackEditorScreenshot.ps1` | Hosts `KryptonPalettePackEditor` (#2117) and writes `Documents/PR/2117-pack-editor-demo.png` | `exclude` |
+| `Invoke-PaletteCollectionEditorScreenshot.ps1` | Hosts `KryptonPaletteCollectionEditor` (#2117) and writes `Documents/PR/2117-pack-editor-demo.png` | `exclude` |
 
 ## Run all CI assert tests (on demand)
 

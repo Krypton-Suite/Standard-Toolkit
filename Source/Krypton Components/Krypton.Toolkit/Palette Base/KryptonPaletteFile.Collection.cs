@@ -10,53 +10,53 @@
 namespace Krypton.Toolkit;
 
 /// <content>
-/// Add, remove, and rename helpers for multi-theme <c>.kpal</c> packs.
+/// Add, remove, and rename helpers for multi-theme <c>.ktheme</c> collections.
 /// Rewrites use the existing KPLT kind-2 layout (no container-version bump).
 /// </content>
 public static partial class KryptonPaletteFile
 {
     /// <summary>
-    /// Returns the pack display name stored in the KPLT header of a kind-2 <c>.kpal</c>.
-    /// Single-theme files, XML, and <c>.kpalx</c> return empty.
+    /// Returns the collection display name stored in the KPLT header of a kind-2 <c>.ktheme</c>.
+    /// Single-theme files, XML, and <c>.kthemex</c> return empty.
     /// </summary>
     /// <param name="path">Existing palette file.</param>
-    /// <returns>Header name, or empty when the file is not a pack.</returns>
-    public static string GetPackName(string path)
+    /// <returns>Header name, or empty when the file is not a collection.</returns>
+    public static string GetCollectionName(string path)
     {
         ThrowHelper.ThrowIfNullOrWhiteSpace(path);
 
         RejectJsonPalettePath(path, nameof(path));
         using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
-        return KryptonPaletteBinaryPersistence.GetPackDisplayName(stream);
+        return KryptonPaletteBinaryPersistence.GetCollectionDisplayName(stream);
     }
 
     /// <summary>
-    /// Rewrites a kind-2 pack with a new header display name. Theme payloads are unchanged.
+    /// Rewrites a kind-2 collection with a new header display name. Theme payloads are unchanged.
     /// </summary>
-    /// <param name="packPath">Existing <c>.kpal</c> pack.</param>
-    /// <param name="packName">New display name. May be empty.</param>
-    /// <returns>The full pack path.</returns>
-    public static string SetPackName(string packPath, string? packName)
+    /// <param name="collectionPath">Existing <c>.ktheme</c> collection.</param>
+    /// <param name="collectionName">New display name. May be empty.</param>
+    /// <returns>The full collection path.</returns>
+    public static string SetCollectionName(string collectionPath, string? collectionName)
     {
-        ThrowHelper.ThrowIfNullOrWhiteSpace(packPath);
-        RejectJsonPalettePath(packPath, nameof(packPath));
-        EnsurePackDestination(packPath);
+        ThrowHelper.ThrowIfNullOrWhiteSpace(collectionPath);
+        RejectJsonPalettePath(collectionPath, nameof(collectionPath));
+        EnsureCollectionDestination(collectionPath);
 
-        if (!File.Exists(packPath))
+        if (!File.Exists(collectionPath))
         {
-            throw new FileNotFoundException(@"Palette pack file was not found.", packPath);
+            throw new FileNotFoundException(@"Palette collection file was not found.", collectionPath);
         }
 
-        if (!IsPack(packPath))
+        if (!IsCollection(collectionPath))
         {
-            ThrowHelper.ThrowArgumentException(@"File is not a multi-theme .kpal pack.", nameof(packPath));
+            ThrowHelper.ThrowArgumentException(@"File is not a multi-theme .ktheme collection.", nameof(collectionPath));
         }
 
         var palettes = new List<KryptonCustomPaletteBase>();
         try
         {
-            LoadDestinationPalettes(packPath, palettes);
-            return ExportPack(packPath, palettes, ignoreDefaults: false, packName ?? string.Empty);
+            LoadDestinationPalettes(collectionPath, palettes);
+            return ExportCollection(collectionPath, palettes, ignoreDefaults: false, collectionName ?? string.Empty);
         }
         finally
         {
@@ -65,50 +65,50 @@ public static partial class KryptonPaletteFile
     }
 
     /// <summary>
-    /// Adds a palette file to a <c>.kpal</c> pack. Missing destination files are created.
-    /// A single-theme <c>.kpal</c> is promoted to a pack. Source packs add every named theme.
+    /// Adds a palette file to a <c>.ktheme</c> collection. Missing destination files are created.
+    /// A single-theme <c>.ktheme</c> is promoted to a collection. Source collections add every named theme.
     /// </summary>
-    /// <param name="packPath">Pack to create or update. Must be <c>.kpal</c>.</param>
-    /// <param name="sourcePath">Palette file to add (<c>.kpalx</c>, <c>.xml</c>, or <c>.kpal</c>).</param>
-    /// <returns>The full pack path.</returns>
-    public static string AddToPack(string packPath, string sourcePath) =>
-        AddToPack(packPath, sourcePath, themeName: null, replaceExisting: false);
+    /// <param name="collectionPath">Collection to create or update. Must be <c>.ktheme</c>.</param>
+    /// <param name="sourcePath">Palette file to add (<c>.kthemex</c>, <c>.xml</c>, or <c>.ktheme</c>).</param>
+    /// <returns>The full collection path.</returns>
+    public static string AddToCollection(string collectionPath, string sourcePath) =>
+        AddToCollection(collectionPath, sourcePath, themeName: null, replaceExisting: false);
 
     /// <summary>
-    /// Adds a palette file to a <c>.kpal</c> pack.
+    /// Adds a palette file to a <c>.ktheme</c> collection.
     /// </summary>
-    /// <param name="packPath">Pack to create or update. Must be <c>.kpal</c>.</param>
+    /// <param name="collectionPath">Collection to create or update. Must be <c>.ktheme</c>.</param>
     /// <param name="sourcePath">Palette file to add.</param>
     /// <param name="themeName">
-    /// Destination name for a single-theme source, or the packed name to copy from a source pack.
-    /// When omitted, a single-theme file uses <c>GetPaletteName</c> or the file stem; a source pack adds every theme.
+    /// Destination name for a single-theme source, or the collection theme name to copy from a source collection.
+    /// When omitted, a single-theme file uses <c>GetPaletteName</c> or the file stem; a source collection adds every theme.
     /// </param>
     /// <param name="replaceExisting"><see langword="true"/> to overwrite a theme with the same name.</param>
-    /// <returns>The full pack path.</returns>
-    public static string AddToPack(string packPath, string sourcePath, string? themeName, bool replaceExisting)
+    /// <returns>The full collection path.</returns>
+    public static string AddToCollection(string collectionPath, string sourcePath, string? themeName, bool replaceExisting)
     {
-        ThrowHelper.ThrowIfNullOrWhiteSpace(packPath);
+        ThrowHelper.ThrowIfNullOrWhiteSpace(collectionPath);
         ThrowHelper.ThrowIfNullOrWhiteSpace(sourcePath);
-        return AddToPackCore(packPath, new[] { new PackAddRequest(sourcePath, themeName) }, replaceExisting);
+        return AddToCollectionCore(collectionPath, new[] { new CollectionAddRequest(sourcePath, themeName) }, replaceExisting);
     }
 
     /// <summary>
-    /// Adds each palette file to a <c>.kpal</c> pack in one rewrite.
+    /// Adds each palette file to a <c>.ktheme</c> collection in one rewrite.
     /// </summary>
-    /// <param name="packPath">Pack to create or update. Must be <c>.kpal</c>.</param>
+    /// <param name="collectionPath">Collection to create or update. Must be <c>.ktheme</c>.</param>
     /// <param name="sourcePaths">Palette files to add. Cannot be empty.</param>
     /// <param name="replaceExisting"><see langword="true"/> to overwrite themes with the same name.</param>
-    /// <returns>The full pack path.</returns>
-    public static string AddToPack(string packPath, IEnumerable<string> sourcePaths, bool replaceExisting = false)
+    /// <returns>The full collection path.</returns>
+    public static string AddToCollection(string collectionPath, IEnumerable<string> sourcePaths, bool replaceExisting = false)
     {
-        ThrowHelper.ThrowIfNullOrWhiteSpace(packPath);
+        ThrowHelper.ThrowIfNullOrWhiteSpace(collectionPath);
         ThrowHelper.ThrowIfNull(sourcePaths);
 
-        var requests = new List<PackAddRequest>();
+        var requests = new List<CollectionAddRequest>();
         foreach (var sourcePath in sourcePaths)
         {
             ThrowHelper.ThrowIfNullOrWhiteSpace(sourcePath);
-            requests.Add(new PackAddRequest(sourcePath!, themeName: null));
+            requests.Add(new CollectionAddRequest(sourcePath!, themeName: null));
         }
 
         if (requests.Count == 0)
@@ -116,24 +116,24 @@ public static partial class KryptonPaletteFile
             ThrowHelper.ThrowArgumentException(@"At least one palette file is required.", nameof(sourcePaths));
         }
 
-        return AddToPackCore(packPath, requests, replaceExisting);
+        return AddToCollectionCore(collectionPath, requests, replaceExisting);
     }
 
     /// <summary>
-    /// Adds an in-memory palette to a <c>.kpal</c> pack. The palette must have a unique
+    /// Adds an in-memory palette to a <c>.ktheme</c> collection. The palette must have a unique
     /// <c>SetPaletteName</c> value unless <paramref name="replaceExisting"/> is <see langword="true"/>.
     /// The caller still owns <paramref name="palette"/>.
     /// </summary>
-    /// <param name="packPath">Pack to create or update. Must be <c>.kpal</c>.</param>
-    /// <param name="palette">Named palette to pack.</param>
+    /// <param name="collectionPath">Collection to create or update. Must be <c>.ktheme</c>.</param>
+    /// <param name="palette">Named palette to collection.</param>
     /// <param name="replaceExisting"><see langword="true"/> to overwrite a theme with the same name.</param>
-    /// <returns>The full pack path.</returns>
-    public static string AddToPack(string packPath, KryptonCustomPaletteBase palette, bool replaceExisting = false)
+    /// <returns>The full collection path.</returns>
+    public static string AddToCollection(string collectionPath, KryptonCustomPaletteBase palette, bool replaceExisting = false)
     {
-        ThrowHelper.ThrowIfNullOrWhiteSpace(packPath);
+        ThrowHelper.ThrowIfNullOrWhiteSpace(collectionPath);
         ThrowHelper.ThrowIfNull(palette);
-        RejectJsonPalettePath(packPath, nameof(packPath));
-        EnsurePackDestination(packPath);
+        RejectJsonPalettePath(collectionPath, nameof(collectionPath));
+        EnsureCollectionDestination(collectionPath);
 
         if (string.IsNullOrWhiteSpace(palette!.GetPaletteName()))
         {
@@ -143,9 +143,9 @@ public static partial class KryptonPaletteFile
         var palettes = new List<KryptonCustomPaletteBase>();
         try
         {
-            var packName = LoadDestinationPalettes(packPath, palettes);
+            var collectionName = LoadDestinationPalettes(collectionPath, palettes);
             MergePalette(palettes, palette, replaceExisting, disposeIncomingOnFailure: false);
-            return ExportPack(packPath, palettes, ignoreDefaults: false, packName);
+            return ExportCollection(collectionPath, palettes, ignoreDefaults: false, collectionName);
         }
         finally
         {
@@ -154,42 +154,42 @@ public static partial class KryptonPaletteFile
     }
 
     /// <summary>
-    /// Removes a named theme from a <c>.kpal</c> pack. The last remaining theme cannot be removed
-    /// (a pack cannot be empty); delete the file instead.
+    /// Removes a named theme from a <c>.ktheme</c> collection. The last remaining theme cannot be removed
+    /// (a collection cannot be empty); delete the file instead.
     /// </summary>
-    /// <param name="packPath">Existing <c>.kpal</c> pack or single-theme file that is a pack of one after promotion.</param>
-    /// <param name="themeName">Packed name to remove (ordinal ignore-case).</param>
-    /// <returns>The full pack path.</returns>
-    public static string RemoveFromPack(string packPath, string themeName)
+    /// <param name="collectionPath">Existing <c>.ktheme</c> collection or single-theme file that is a collection of one after promotion.</param>
+    /// <param name="themeName">Collection theme name to remove (ordinal ignore-case).</param>
+    /// <returns>The full collection path.</returns>
+    public static string RemoveFromCollection(string collectionPath, string themeName)
     {
-        ThrowHelper.ThrowIfNullOrWhiteSpace(packPath);
+        ThrowHelper.ThrowIfNullOrWhiteSpace(collectionPath);
         ThrowHelper.ThrowIfNullOrWhiteSpace(themeName);
-        RejectJsonPalettePath(packPath, nameof(packPath));
-        EnsurePackDestination(packPath);
+        RejectJsonPalettePath(collectionPath, nameof(collectionPath));
+        EnsureCollectionDestination(collectionPath);
 
-        if (!File.Exists(packPath))
+        if (!File.Exists(collectionPath))
         {
-            throw new FileNotFoundException(@"Palette pack file was not found.", packPath);
+            throw new FileNotFoundException(@"Palette collection file was not found.", collectionPath);
         }
 
         var palettes = new List<KryptonCustomPaletteBase>();
         try
         {
-            var packName = LoadDestinationPalettes(packPath, palettes);
+            var collectionName = LoadDestinationPalettes(collectionPath, palettes);
             var index = FindPaletteIndex(palettes, themeName);
             if (index < 0)
             {
-                ThrowHelper.ThrowArgumentException($@"Theme '{themeName}' was not found in the pack.", nameof(themeName));
+                ThrowHelper.ThrowArgumentException($@"Theme '{themeName}' was not found in the collection.", nameof(themeName));
             }
 
             if (palettes.Count == 1)
             {
-                ThrowHelper.ThrowInvalidOperationException(@"A .kpal pack cannot be empty. Delete the file to remove the last theme.");
+                ThrowHelper.ThrowInvalidOperationException(@"A .ktheme collection cannot be empty. Delete the file to remove the last theme.");
             }
 
             palettes[index].Dispose();
             palettes.RemoveAt(index);
-            return ExportPack(packPath, palettes, ignoreDefaults: false, packName);
+            return ExportCollection(collectionPath, palettes, ignoreDefaults: false, collectionName);
         }
         finally
         {
@@ -197,9 +197,9 @@ public static partial class KryptonPaletteFile
         }
     }
 
-    private readonly struct PackAddRequest
+    private readonly struct CollectionAddRequest
     {
-        internal PackAddRequest(string sourcePath, string? themeName)
+        internal CollectionAddRequest(string sourcePath, string? themeName)
         {
             SourcePath = sourcePath;
             ThemeName = themeName;
@@ -210,31 +210,31 @@ public static partial class KryptonPaletteFile
         internal string? ThemeName { get; }
     }
 
-    private static string AddToPackCore(string packPath, IList<PackAddRequest> requests, bool replaceExisting)
+    private static string AddToCollectionCore(string collectionPath, IList<CollectionAddRequest> requests, bool replaceExisting)
     {
-        RejectJsonPalettePath(packPath, nameof(packPath));
-        EnsurePackDestination(packPath);
+        RejectJsonPalettePath(collectionPath, nameof(collectionPath));
+        EnsureCollectionDestination(collectionPath);
 
-        var packFull = Path.GetFullPath(packPath);
+        var collectionFull = Path.GetFullPath(collectionPath);
         for (var i = 0; i < requests.Count; i++)
         {
             RejectJsonPalettePath(requests[i].SourcePath, nameof(requests));
-            if (string.Equals(Path.GetFullPath(requests[i].SourcePath), packFull, StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(Path.GetFullPath(requests[i].SourcePath), collectionFull, StringComparison.OrdinalIgnoreCase))
             {
-                ThrowHelper.ThrowArgumentException(@"Cannot add a pack to itself.", nameof(requests));
+                ThrowHelper.ThrowArgumentException(@"Cannot add a collection to itself.", nameof(requests));
             }
         }
 
         var palettes = new List<KryptonCustomPaletteBase>();
         try
         {
-            var packName = LoadDestinationPalettes(packPath, palettes);
+            var collectionName = LoadDestinationPalettes(collectionPath, palettes);
             for (var i = 0; i < requests.Count; i++)
             {
                 AddSourceToList(palettes, requests[i], replaceExisting);
             }
 
-            return ExportPack(packPath, palettes, ignoreDefaults: false, packName);
+            return ExportCollection(collectionPath, palettes, ignoreDefaults: false, collectionName);
         }
         finally
         {
@@ -242,7 +242,7 @@ public static partial class KryptonPaletteFile
         }
     }
 
-    private static void AddSourceToList(List<KryptonCustomPaletteBase> palettes, PackAddRequest request, bool replaceExisting)
+    private static void AddSourceToList(List<KryptonCustomPaletteBase> palettes, CollectionAddRequest request, bool replaceExisting)
     {
         var loaded = new List<KryptonCustomPaletteBase>();
         try
@@ -270,30 +270,30 @@ public static partial class KryptonPaletteFile
         }
     }
 
-    private static void EnsurePackDestination(string packPath)
+    private static void EnsureCollectionDestination(string collectionPath)
     {
-        if (FormatFromPath(packPath) != KryptonPaletteFileFormat.PaletteBinary)
+        if (FormatFromPath(collectionPath) != KryptonPaletteFileFormat.PaletteBinary)
         {
-            ThrowHelper.ThrowArgumentException(@"Multi-theme packs can only be written as .kpal.", nameof(packPath));
+            ThrowHelper.ThrowArgumentException(@"Multi-theme collections can only be written as .ktheme.", nameof(collectionPath));
         }
     }
 
-    private static string LoadDestinationPalettes(string packPath, List<KryptonCustomPaletteBase> palettes)
+    private static string LoadDestinationPalettes(string collectionPath, List<KryptonCustomPaletteBase> palettes)
     {
-        if (!File.Exists(packPath))
+        if (!File.Exists(collectionPath))
         {
-            return Path.GetFileNameWithoutExtension(packPath) ?? string.Empty;
+            return Path.GetFileNameWithoutExtension(collectionPath) ?? string.Empty;
         }
 
-        if (IsPack(packPath))
+        if (IsCollection(collectionPath))
         {
-            var names = GetThemeNames(packPath);
+            var names = GetThemeNames(collectionPath);
             for (var i = 0; i < names.Length; i++)
             {
                 var palette = new KryptonCustomPaletteBase();
                 try
                 {
-                    palette.Import(packPath, names[i], silent: true);
+                    palette.Import(collectionPath, names[i], silent: true);
                     palettes.Add(palette);
                 }
                 catch
@@ -303,22 +303,22 @@ public static partial class KryptonPaletteFile
                 }
             }
 
-            return GetPackName(packPath);
+            return GetCollectionName(collectionPath);
         }
 
-        EnsureReadablePaletteFile(packPath);
+        EnsureReadablePaletteFile(collectionPath);
 
         var single = new KryptonCustomPaletteBase();
         try
         {
-            using (var stream = new FileStream(packPath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (var stream = new FileStream(collectionPath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 single.ImportWithUpgrade(stream);
             }
 
             if (string.IsNullOrWhiteSpace(single.GetPaletteName()))
             {
-                single.SetPaletteName(Path.GetFileNameWithoutExtension(packPath));
+                single.SetPaletteName(Path.GetFileNameWithoutExtension(collectionPath));
             }
 
             palettes.Add(single);
@@ -329,7 +329,7 @@ public static partial class KryptonPaletteFile
             throw;
         }
 
-        var stem = Path.GetFileNameWithoutExtension(packPath);
+        var stem = Path.GetFileNameWithoutExtension(collectionPath);
         return string.IsNullOrWhiteSpace(stem) ? string.Empty : stem;
     }
 
@@ -340,7 +340,7 @@ public static partial class KryptonPaletteFile
             throw new FileNotFoundException(@"Palette file was not found.", sourcePath);
         }
 
-        if (IsPack(sourcePath))
+        if (IsCollection(sourcePath))
         {
             var names = GetThemeNames(sourcePath);
             if (!string.IsNullOrWhiteSpace(themeName))
@@ -427,7 +427,7 @@ public static partial class KryptonPaletteFile
                 incoming.Dispose();
             }
 
-            ThrowHelper.ThrowArgumentException(@"Each packed palette must have a name (SetPaletteName).", nameof(incoming));
+            ThrowHelper.ThrowArgumentException(@"Each named palette must have a name (SetPaletteName).", nameof(incoming));
         }
 
         var index = FindPaletteIndex(palettes, name!);

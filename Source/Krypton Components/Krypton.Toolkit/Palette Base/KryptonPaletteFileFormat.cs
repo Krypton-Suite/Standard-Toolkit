@@ -17,40 +17,41 @@ public static partial class KryptonPaletteFile
     /// <summary>
     /// Preferred extension for the XML palette document (without a leading dot).
     /// </summary>
-    public const string Extension = @"kpalx";
+    public const string Extension = @"kthemex";
 
     /// <summary>
     /// Legacy XML palette extension (without a leading dot).
     /// </summary>
     // ToDo V120 LTS: Remove legacy .xml palette file support (constant, dialog filter, and FormatFromPath).
-    // Consumers should call UpgradeXmlToKpalx or Convert to rewrite .xml as .kpalx. Do not remove .kpalx XML documents.
+    // Consumers should call UpgradeXmlToKthemex or Convert to rewrite .xml as .kthemex.
     public const string XmlExtension = @"xml";
 
     /// <summary>
     /// Optional native binary container extension (without a leading dot).
     /// </summary>
-    public const string BinaryExtension = @"kpal";
+    public const string BinaryExtension = @"ktheme";
 
     /// <summary>
-    /// Open/save dialog filter with <c>.kpalx</c> first, then optional native <c>.kpal</c>, then legacy XML.
+    /// Open/save dialog filter with <c>.kthemex</c> first, then optional native <c>.ktheme</c>,
+    /// then legacy <c>.xml</c>.
     /// </summary>
     // ToDo V120 LTS: Drop the *.xml filter entry once XmlExtension is removed.
     public const string DialogFilter =
-        @"Krypton palette files (*.kpalx)|*.kpalx|Binary palette files (*.kpal)|*.kpal|XML palette files (*.xml)|*.xml|All files (*.*)|*.*";
+        @"Krypton theme files (*.kthemex)|*.kthemex|Krypton theme containers (*.ktheme)|*.ktheme|XML palette files (*.xml)|*.xml|All files (*.*)|*.*";
 
     /// <summary>
-    /// Four-byte ASCII magic written at the start of every optional KPLT <c>.kpal</c> container.
+    /// Four-byte ASCII magic written at the start of every optional KPLT <c>.ktheme</c> container.
     /// </summary>
     public const string ContainerMagic = @"KPLT";
 
     /// <summary>
-    /// Chooses a persist format from a file path. <c>.kpalx</c> and <c>.xml</c> map to
-    /// <see cref="KryptonPaletteFileFormat.Xml"/>; <c>.kpal</c> maps to the optional native
+    /// Chooses a persist format from a file path. <c>.kthemex</c> and <c>.xml</c> map to
+    /// <see cref="KryptonPaletteFileFormat.Xml"/>; <c>.ktheme</c> maps to the optional native
     /// persist stream.
     /// </summary>
     /// <param name="path">Destination or source file path. Cannot be empty.</param>
     /// <returns>The format implied by the extension.</returns>
-    // ToDo V120 LTS: Stop mapping .xml to Xml; only .kpalx (and non-.kpal fallbacks) should select XML persist.
+    // ToDo V120 LTS: Stop mapping .xml to Xml; only .kthemex (and non-.ktheme fallbacks) should select XML persist.
     public static KryptonPaletteFileFormat FormatFromPath(string path)
     {
         ThrowHelper.ThrowIfNullOrWhiteSpace(path);
@@ -62,16 +63,16 @@ public static partial class KryptonPaletteFile
 
     /// <summary>
     /// Loads a palette file, applies the XML schema upgrade when needed, and writes it to
-    /// <paramref name="destinationPath"/>. The destination extension selects XML vs native <c>.kpal</c>.
+    /// <paramref name="destinationPath"/>. The destination extension selects XML vs native <c>.ktheme</c>.
     /// </summary>
-    /// <param name="sourcePath">Existing <c>.xml</c>, <c>.kpalx</c>, or KPLT <c>.kpal</c> file.</param>
+    /// <param name="sourcePath">Existing <c>.xml</c>, <c>.kthemex</c>, or KPLT <c>.ktheme</c> file.</param>
     /// <param name="destinationPath">File to create or overwrite.</param>
     /// <returns>The full destination path.</returns>
     /// <remarks>
-    /// JSON is not a Krypton palette format. Native <c>.kpal</c> sources must already be the current
+    /// JSON is not a Krypton palette format. Native <c>.ktheme</c> sources must already be the current
     /// schema; older palettes stay XML plus <see cref="KryptonCustomPaletteBase.ImportWithUpgrade(Stream)"/>,
     /// which raises the XML schema version before export.
-    /// For a dedicated <c>.xml</c> → <c>.kpalx</c> rewrite, prefer <see cref="UpgradeXmlToKpalx(string)"/>.
+    /// For a dedicated <c>.xml</c> → <c>.kthemex</c> rewrite, prefer <see cref="UpgradeXmlToKthemex(string)"/>.
     /// </remarks>
     public static string Convert(string sourcePath, string destinationPath) =>
         Convert(sourcePath, destinationPath, FormatFromPath(destinationPath), ignoreDefaults: false);
@@ -80,7 +81,7 @@ public static partial class KryptonPaletteFile
     /// Loads a palette file, applies the XML schema upgrade when needed, and writes it using
     /// <paramref name="format"/>.
     /// </summary>
-    /// <param name="sourcePath">Existing <c>.xml</c>, <c>.kpalx</c>, or KPLT <c>.kpal</c> file.</param>
+    /// <param name="sourcePath">Existing <c>.xml</c>, <c>.kthemex</c>, or KPLT <c>.ktheme</c> file.</param>
     /// <param name="destinationPath">File to create or overwrite.</param>
     /// <param name="format">XML, compressed-XML container, or native binary container.</param>
     /// <returns>The full destination path.</returns>
@@ -91,7 +92,7 @@ public static partial class KryptonPaletteFile
     /// Loads a palette file, applies the XML schema upgrade when needed, and writes it using
     /// <paramref name="format"/>.
     /// </summary>
-    /// <param name="sourcePath">Existing <c>.xml</c>, <c>.kpalx</c>, or KPLT <c>.kpal</c> file.</param>
+    /// <param name="sourcePath">Existing <c>.xml</c>, <c>.kthemex</c>, or KPLT <c>.ktheme</c> file.</param>
     /// <param name="destinationPath">File to create or overwrite.</param>
     /// <param name="format">XML, compressed-XML container, or native binary container.</param>
     /// <param name="ignoreDefaults"><see langword="true"/> to omit values that match the current base palette.</param>
@@ -119,31 +120,31 @@ public static partial class KryptonPaletteFile
     }
 
     /// <summary>
-    /// Rewrites a legacy <c>.xml</c> palette as <c>.kpalx</c> in the same folder
-    /// (<c>theme.xml</c> → <c>theme.kpalx</c>). The source file is left in place.
+    /// Rewrites a legacy <c>.xml</c> palette as <c>.kthemex</c> in the same folder
+    /// (<c>theme.xml</c> → <c>theme.kthemex</c>). The source file is left in place.
     /// </summary>
     /// <param name="sourcePath">Existing <c>.xml</c> palette file.</param>
-    /// <returns>The full path of the written <c>.kpalx</c> file.</returns>
+    /// <returns>The full path of the written <c>.kthemex</c> file.</returns>
     /// <remarks>
     /// Applies <see cref="KryptonCustomPaletteBase.ImportWithUpgrade(Stream)"/> so older schema
-    /// versions are raised to the current persist version before the <c>.kpalx</c> is written.
-    /// Prefer this over saving a new <c>.xml</c> file. The document inside <c>.kpalx</c> remains XML.
+    /// versions are raised to the current persist version before the <c>.kthemex</c> is written.
+    /// Prefer this over saving a new <c>.xml</c> file. The document inside <c>.kthemex</c> remains XML.
     /// </remarks>
     /// <exception cref="ArgumentException">The source is not a <c>.xml</c> file.</exception>
-    public static string UpgradeXmlToKpalx(string sourcePath)
+    public static string UpgradeXmlToKthemex(string sourcePath)
     {
         ThrowHelper.ThrowIfNullOrWhiteSpace(sourcePath);
-        return UpgradeXmlToKpalx(sourcePath, Path.ChangeExtension(sourcePath, @"." + Extension));
+        return UpgradeXmlToKthemex(sourcePath, Path.ChangeExtension(sourcePath, @"." + Extension));
     }
 
     /// <summary>
-    /// Rewrites a legacy <c>.xml</c> palette as <c>.kpalx</c>. The source file is left in place.
+    /// Rewrites a legacy <c>.xml</c> palette as <c>.kthemex</c>. The source file is left in place.
     /// </summary>
     /// <param name="sourcePath">Existing <c>.xml</c> palette file.</param>
-    /// <param name="destinationPath">File to create or overwrite. Must be <c>.kpalx</c>.</param>
-    /// <returns>The full path of the written <c>.kpalx</c> file.</returns>
-    /// <exception cref="ArgumentException">The source is not <c>.xml</c>, or the destination is not <c>.kpalx</c>.</exception>
-    public static string UpgradeXmlToKpalx(string sourcePath, string destinationPath)
+    /// <param name="destinationPath">File to create or overwrite. Must be <c>.kthemex</c>.</param>
+    /// <returns>The full path of the written <c>.kthemex</c> file.</returns>
+    /// <exception cref="ArgumentException">The source is not <c>.xml</c>, or the destination is not <c>.kthemex</c>.</exception>
+    public static string UpgradeXmlToKthemex(string sourcePath, string destinationPath)
     {
         ThrowHelper.ThrowIfNullOrWhiteSpace(sourcePath);
         ThrowHelper.ThrowIfNullOrWhiteSpace(destinationPath);
@@ -151,13 +152,13 @@ public static partial class KryptonPaletteFile
         if (!IsLegacyXmlExtension(sourcePath))
         {
             ThrowHelper.ThrowArgumentException(
-                @"Source must be a legacy .xml palette file. Preferred palettes use .kpalx; use Convert for other formats.",
+                @"Source must be a legacy .xml palette file. Preferred palettes use .kthemex; use Convert for other formats.",
                 nameof(sourcePath));
         }
 
         if (!string.Equals(Path.GetExtension(destinationPath), @"." + Extension, StringComparison.OrdinalIgnoreCase))
         {
-            ThrowHelper.ThrowArgumentException(@"Destination must be a .kpalx file.", nameof(destinationPath));
+            ThrowHelper.ThrowArgumentException(@"Destination must be a .kthemex file.", nameof(destinationPath));
         }
 
         return Convert(sourcePath, destinationPath, KryptonPaletteFileFormat.Xml, ignoreDefaults: false);
@@ -165,12 +166,12 @@ public static partial class KryptonPaletteFile
 
     /// <summary>
     /// When <paramref name="sourcePath"/> is a legacy <c>.xml</c> palette and prompting is enabled,
-    /// warns that the format may be removed and offers to upgrade to <c>.kpalx</c> before load.
+    /// warns that the format may be removed and offers to upgrade to <c>.kthemex</c> before load.
     /// </summary>
     /// <param name="sourcePath">Palette file the caller is about to import or apply.</param>
     /// <param name="silent">When <see langword="true"/>, skip the dialog and return <paramref name="sourcePath"/>.</param>
     /// <returns>
-    /// The path to import: the original file, a newly written <c>.kpalx</c>, or
+    /// The path to import: the original file, a newly written <c>.kthemex</c>, or
     /// <see langword="null"/> if the user cancelled.
     /// Non-<c>.xml</c> paths are returned unchanged.
     /// </returns>
@@ -204,7 +205,7 @@ public static partial class KryptonPaletteFile
         catch (FormatException)
         {
             message = string.Format(
-                @"'{0}' uses the legacy .xml palette format. Prefer .kpalx. {1}: upgrade and apply. {2}: apply .xml without upgrading. {3}: do not apply.",
+                @"'{0}' uses the legacy .xml palette format. Prefer .kthemex. {1}: upgrade and apply. {2}: apply .xml without upgrading. {3}: do not apply.",
                 fileName,
                 StripMenuAccelerator(general.Yes),
                 StripMenuAccelerator(general.No),
@@ -220,7 +221,7 @@ public static partial class KryptonPaletteFile
         switch (result)
         {
             case DialogResult.Yes:
-                return UpgradeXmlToKpalx(sourcePath);
+                return UpgradeXmlToKthemex(sourcePath);
             case DialogResult.No:
                 return sourcePath;
             default:
@@ -253,11 +254,11 @@ public static partial class KryptonPaletteFile
 
     /// <summary>
     /// Returns the theme names stored in a palette file. A single-theme file yields one name
-    /// (possibly empty). A <c>.kpal</c> pack yields every packed name.
+    /// (possibly empty). A <c>.ktheme</c> collection yields every named theme.
     /// </summary>
-    /// <param name="path">Existing <c>.xml</c>, <c>.kpalx</c>, or KPLT <c>.kpal</c> file.</param>
+    /// <param name="path">Existing <c>.xml</c>, <c>.kthemex</c>, or KPLT <c>.ktheme</c> file.</param>
     /// <returns>Theme names in file order.</returns>
-    // ToDo V120 LTS: Drop .xml from this remark; GetThemeNames still reads .kpalx XML content.
+    // ToDo V120 LTS: Drop .xml from this remark; GetThemeNames still reads .kthemex XML content.
     public static string[] GetThemeNames(string path)
     {
         ThrowHelper.ThrowIfNullOrWhiteSpace(path);
@@ -273,8 +274,8 @@ public static partial class KryptonPaletteFile
     public const int RecommendedThumbnailSize = 64;
 
     /// <summary>
-    /// Four-byte ASCII magic for the optional thumbnail catalog after a kind-2 pack.
-    /// Older readers ignore bytes past the pack entries; do not bump the KPLT container version.
+    /// Four-byte ASCII magic for the optional thumbnail catalog after a kind-2 collection.
+    /// Older readers ignore bytes past the collection entries; do not bump the KPLT container version.
     /// </summary>
     public const string ThumbnailCatalogMagic = @"KPTH";
 
@@ -289,10 +290,10 @@ public static partial class KryptonPaletteFile
         ThrowHelper.ThrowIfNullOrWhiteSpace(path);
 
         RejectJsonPalettePath(path, nameof(path));
-        if (IsPack(path))
+        if (IsCollection(path))
         {
             using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
-            return KryptonPaletteBinaryPersistence.GetPackThemeThumbnails(stream);
+            return KryptonPaletteBinaryPersistence.GetCollectionThemeThumbnails(stream);
         }
 
         using (var palette = new KryptonCustomPaletteBase())
@@ -313,49 +314,49 @@ public static partial class KryptonPaletteFile
     }
 
     /// <summary>
-    /// Returns whether <paramref name="path"/> is a multi-theme KPLT pack (payload kind 2).
-    /// Single-theme <c>.kpal</c>, <c>.kpalx</c>, and XML files return <see langword="false"/>.
+    /// Returns whether <paramref name="path"/> is a multi-theme KPLT collection (payload kind 2).
+    /// Single-theme <c>.ktheme</c>, <c>.kthemex</c>, and XML files return <see langword="false"/>.
     /// </summary>
     /// <param name="path">Existing palette file.</param>
-    /// <returns><see langword="true"/> when the file is a named theme pack.</returns>
-    public static bool IsPack(string path)
+    /// <returns><see langword="true"/> when the file is a named theme collection.</returns>
+    public static bool IsCollection(string path)
     {
         ThrowHelper.ThrowIfNullOrWhiteSpace(path);
 
         RejectJsonPalettePath(path, nameof(path));
         using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
-        return KryptonPaletteBinaryPersistence.IsPack(stream);
+        return KryptonPaletteBinaryPersistence.IsCollection(stream);
     }
 
     /// <summary>
-    /// Writes two or more named palettes into one native <c>.kpal</c> pack. Each palette must
-    /// have a unique <c>SetPaletteName</c> value. Destination extension must be <c>.kpal</c>.
+    /// Writes two or more named palettes into one native <c>.ktheme</c> pack. Each palette must
+    /// have a unique <c>SetPaletteName</c> value. Destination extension must be <c>.ktheme</c>.
     /// </summary>
     /// <param name="destinationPath">File to create or overwrite.</param>
-    /// <param name="palettes">Palettes to pack. Cannot be empty.</param>
+    /// <param name="palettes">Palettes to collection. Cannot be empty.</param>
     /// <returns>The full destination path.</returns>
-    public static string ExportPack(string destinationPath, IEnumerable<KryptonCustomPaletteBase> palettes) =>
-        ExportPack(destinationPath, palettes, ignoreDefaults: false, packName: null);
+    public static string ExportCollection(string destinationPath, IEnumerable<KryptonCustomPaletteBase> palettes) =>
+        ExportCollection(destinationPath, palettes, ignoreDefaults: false, collectionName: null);
 
     /// <summary>
-    /// Writes named palettes into one native <c>.kpal</c> pack.
+    /// Writes named palettes into one native <c>.ktheme</c> pack.
     /// </summary>
     /// <param name="destinationPath">File to create or overwrite.</param>
-    /// <param name="palettes">Palettes to pack. Cannot be empty.</param>
+    /// <param name="palettes">Palettes to collection. Cannot be empty.</param>
     /// <param name="ignoreDefaults"><see langword="true"/> to omit values that match the current base palette.</param>
     /// <returns>The full destination path.</returns>
-    public static string ExportPack(string destinationPath, IEnumerable<KryptonCustomPaletteBase> palettes, bool ignoreDefaults) =>
-        ExportPack(destinationPath, palettes, ignoreDefaults, packName: null);
+    public static string ExportCollection(string destinationPath, IEnumerable<KryptonCustomPaletteBase> palettes, bool ignoreDefaults) =>
+        ExportCollection(destinationPath, palettes, ignoreDefaults, collectionName: null);
 
     /// <summary>
-    /// Writes named palettes into one native <c>.kpal</c> pack.
+    /// Writes named palettes into one native <c>.ktheme</c> pack.
     /// </summary>
-    /// <param name="destinationPath">File to create or overwrite. Must be <c>.kpal</c>.</param>
-    /// <param name="palettes">Palettes to pack. Cannot be empty.</param>
+    /// <param name="destinationPath">File to create or overwrite. Must be <c>.ktheme</c>.</param>
+    /// <param name="palettes">Palettes to collection. Cannot be empty.</param>
     /// <param name="ignoreDefaults"><see langword="true"/> to omit values that match the current base palette.</param>
-    /// <param name="packName">Optional display name for the pack (header name, not a theme name).</param>
+    /// <param name="collectionName">Optional display name for the collection (header name, not a theme name).</param>
     /// <returns>The full destination path.</returns>
-    public static string ExportPack(string destinationPath, IEnumerable<KryptonCustomPaletteBase> palettes, bool ignoreDefaults, string? packName)
+    public static string ExportCollection(string destinationPath, IEnumerable<KryptonCustomPaletteBase> palettes, bool ignoreDefaults, string? collectionName)
     {
         ThrowHelper.ThrowIfNullOrWhiteSpace(destinationPath);
         ThrowHelper.ThrowIfNull(palettes);
@@ -363,20 +364,20 @@ public static partial class KryptonPaletteFile
 
         if (FormatFromPath(destinationPath) != KryptonPaletteFileFormat.PaletteBinary)
         {
-            ThrowHelper.ThrowArgumentException(@"Multi-theme packs can only be written as .kpal.", nameof(destinationPath));
+            ThrowHelper.ThrowArgumentException(@"Multi-theme collections can only be written as .ktheme.", nameof(destinationPath));
         }
 
         var list = palettes as IList<KryptonCustomPaletteBase> ?? new List<KryptonCustomPaletteBase>(palettes);
         using (var stream = new FileStream(destinationPath, FileMode.Create, FileAccess.Write, FileShare.None))
         {
-            KryptonPaletteBinaryPersistence.ExportPack(stream, list, ignoreDefaults, packName ?? string.Empty);
+            KryptonPaletteBinaryPersistence.ExportCollection(stream, list, ignoreDefaults, collectionName ?? string.Empty);
         }
 
         return Path.GetFullPath(destinationPath);
     }
 
     /// <summary>
-    /// Returns whether <paramref name="pathOrExtension"/> is a <c>.kpal</c> or <c>.kpalx</c> palette file.
+    /// Returns whether <paramref name="pathOrExtension"/> is a <c>.ktheme</c> or <c>.kthemex</c> palette file.
     /// </summary>
     /// <param name="pathOrExtension">A file path, or an extension with or without a leading dot.</param>
     /// <returns><see langword="true"/> when the extension is a Krypton palette file.</returns>
@@ -396,7 +397,7 @@ public static partial class KryptonPaletteFile
     }
 
     /// <summary>
-    /// Registers per-user Explorer icons for <c>.kpal</c> and <c>.kpalx</c> using the Stable Kr tile.
+    /// Registers per-user Explorer icons for <c>.ktheme</c> and <c>.kthemex</c> using the Stable Kr tile.
     /// </summary>
     /// <remarks>
     /// Writes <c>HKCU\Software\Classes</c> only. Safe to call more than once. Failures are ignored so
@@ -412,8 +413,10 @@ public static partial class KryptonPaletteFile
         try
         {
             var iconPath = ExtractShellIconFile();
-            RegisterExtension(Extension, @"Krypton.Toolkit.PaletteXml", @"Krypton Palette XML", iconPath);
-            RegisterExtension(BinaryExtension, @"Krypton.Toolkit.PaletteBinary", @"Krypton Palette", iconPath);
+            RegisterExtension(Extension, @"Krypton.Toolkit.PaletteXml", @"Krypton Theme XML", iconPath);
+            RegisterExtension(BinaryExtension, @"Krypton.Toolkit.PaletteBinary", @"Krypton Theme Container", iconPath);
+            UnregisterUnreleasedExtension(@"kpal", @"Krypton.Toolkit.PaletteBinary");
+            UnregisterUnreleasedExtension(@"kpalx", @"Krypton.Toolkit.PaletteXmlLegacy");
             SHChangeNotify(ShcneAssocChanged, ShcnfIdList, IntPtr.Zero, IntPtr.Zero);
         }
         catch (Exception)
@@ -489,9 +492,29 @@ public static partial class KryptonPaletteFile
         if (string.Equals(Path.GetExtension(path), @".json", StringComparison.OrdinalIgnoreCase))
         {
             ThrowHelper.ThrowArgumentException(
-                @"JSON is not a Krypton palette format. Convert XML (.xml / .kpalx) or a KPLT .kpal file.",
+                @"JSON is not a Krypton palette format. Convert XML (.xml / .kthemex) or a KPLT .ktheme file.",
                 paramName);
         }
+    }
+
+    private static void UnregisterUnreleasedExtension(string extensionWithoutDot, string progId)
+    {
+        var extensionKey = @"Software\Classes\." + extensionWithoutDot;
+        using (var extKey = Registry.CurrentUser.OpenSubKey(extensionKey))
+        {
+            if (extKey == null)
+            {
+                return;
+            }
+
+            var current = extKey.GetValue(null) as string;
+            if (!string.Equals(current, progId, StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+        }
+
+        Registry.CurrentUser.DeleteSubKeyTree(extensionKey, throwOnMissingSubKey: false);
     }
 
     private static void RegisterExtension(string extensionWithoutDot, string progId, string friendlyName, string iconPath)

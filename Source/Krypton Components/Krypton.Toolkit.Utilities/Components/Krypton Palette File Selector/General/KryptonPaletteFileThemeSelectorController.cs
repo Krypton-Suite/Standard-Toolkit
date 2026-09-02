@@ -25,11 +25,11 @@ internal sealed class KryptonPaletteFileThemeSelectorController
 
     internal bool SearchSubdirectories { get; set; }
 
-    internal bool IncludeKpalx { get; set; } = true;
+    internal bool IncludeKthemex { get; set; } = true;
 
-    internal bool IncludeKpal { get; set; } = true;
+    internal bool IncludeKtheme { get; set; } = true;
 
-    // ToDo V120 LTS: Remove IncludeXml (default true). Folder selectors should list .kpalx / .kpal only.
+    // ToDo V120 LTS: Remove IncludeXml (default true). Folder selectors should list .kthemex / .ktheme only.
     internal bool IncludeXml { get; set; } = true;
 
     internal bool AutoApply { get; set; } = true;
@@ -46,7 +46,7 @@ internal sealed class KryptonPaletteFileThemeSelectorController
 
     internal KryptonPaletteFileThemeItem[] Scan() =>
         KryptonPaletteFileThemeItem.FromDirectory(PaletteDirectory, SearchSubdirectories,
-            IncludeKpalx, IncludeKpal, IncludeXml, LoadThumbnails);
+            IncludeKthemex, IncludeKtheme, IncludeXml, LoadThumbnails);
 
     internal int Reload(IList items, KryptonPaletteFileThemeItem? previous)
     {

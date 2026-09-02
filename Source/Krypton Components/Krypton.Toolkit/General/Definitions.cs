@@ -5028,20 +5028,20 @@ public enum KryptonThemeShieldIconStyle
 public enum KryptonPaletteFileFormat
 {
     /// <summary>
-    /// Human-readable XML (<c>KryptonPalette</c> document). Default for <c>.kpalx</c> and
+    /// Human-readable XML (<c>KryptonPalette</c> document). Default for <c>.kthemex</c> and
     /// legacy <c>.xml</c> files, and for <see cref="KryptonCustomPaletteBase.Export(bool)"/> byte arrays.
     /// </summary>
-    // ToDo V120 LTS: Drop .xml from this remark. Xml remains the persist format for .kpalx and Export(bool).
+    // ToDo V120 LTS: Drop .xml from this remark. Xml remains the persist format for .kthemex and Export(bool).
     Xml = 0,
 
     /// <summary>
-    /// Optional KPLT <c>.kpal</c> container with a Deflate-compressed XML payload (kind 0).
+    /// Optional KPLT <c>.ktheme</c> container with a Deflate-compressed XML payload (kind 0).
     /// </summary>
     PaletteCompressedXml = 1,
 
     /// <summary>
-    /// Optional KPLT <c>.kpal</c> container with a native persist stream and raw PNG image blobs
-    /// (kind 1). Default when exporting to a <c>.kpal</c> path.
+    /// Optional KPLT <c>.ktheme</c> container with a native persist stream and raw PNG image blobs
+    /// (kind 1). Default when exporting to a <c>.ktheme</c> path.
     /// </summary>
     PaletteBinary = 2
 }

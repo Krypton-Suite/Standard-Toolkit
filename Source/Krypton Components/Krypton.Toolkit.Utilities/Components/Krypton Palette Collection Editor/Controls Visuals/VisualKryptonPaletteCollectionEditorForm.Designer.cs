@@ -9,7 +9,7 @@
 
 namespace Krypton.Toolkit.Utilities
 {
-    partial class VisualKryptonPalettePackEditorForm
+    partial class VisualKryptonPaletteCollectionEditorForm
     {
         private System.ComponentModel.IContainer components = null;
 
@@ -31,12 +31,12 @@ namespace Krypton.Toolkit.Utilities
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.kwlblInfo = new Krypton.Toolkit.KryptonWrapLabel();
             this.tlpPath = new System.Windows.Forms.TableLayoutPanel();
-            this.klblPackPath = new Krypton.Toolkit.KryptonLabel();
-            this.ktxtPackPath = new Krypton.Toolkit.KryptonTextBox();
+            this.klblCollectionPath = new Krypton.Toolkit.KryptonLabel();
+            this.ktxtCollectionPath = new Krypton.Toolkit.KryptonTextBox();
             this.kbtnBrowse = new Krypton.Toolkit.KryptonButton();
             this.tlpName = new System.Windows.Forms.TableLayoutPanel();
-            this.klblPackName = new Krypton.Toolkit.KryptonLabel();
-            this.ktxtPackName = new Krypton.Toolkit.KryptonTextBox();
+            this.klblCollectionName = new Krypton.Toolkit.KryptonLabel();
+            this.ktxtCollectionName = new Krypton.Toolkit.KryptonTextBox();
             this.kbtnSaveName = new Krypton.Toolkit.KryptonButton();
             this.klblThemes = new Krypton.Toolkit.KryptonLabel();
             this.klstThemes = new Krypton.Toolkit.KryptonListBox();
@@ -96,7 +96,7 @@ namespace Krypton.Toolkit.Utilities
             this.kwlblInfo.Location = new System.Drawing.Point(3, 0);
             this.kwlblInfo.Name = "kwlblInfo";
             this.kwlblInfo.Size = new System.Drawing.Size(682, 72);
-            this.kwlblInfo.Text = "Edit a multi-theme .kpal pack. Browse or create a pack, then Add .kpalx (or .kpal / .xml) files. Remove drops a named theme. The last theme cannot be removed; delete the file instead. Add/Remove save immediately.";
+            this.kwlblInfo.Text = "Edit a multi-theme .ktheme collection. Browse or create a collection, then Add .kthemex (or .ktheme / .xml) files. Remove drops a named theme. The last theme cannot be removed; delete the file instead. Add/Remove save immediately.";
             //
             // tlpPath
             //
@@ -104,8 +104,8 @@ namespace Krypton.Toolkit.Utilities
             this.tlpPath.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 88F));
             this.tlpPath.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpPath.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 88F));
-            this.tlpPath.Controls.Add(this.klblPackPath, 0, 0);
-            this.tlpPath.Controls.Add(this.ktxtPackPath, 1, 0);
+            this.tlpPath.Controls.Add(this.klblCollectionPath, 0, 0);
+            this.tlpPath.Controls.Add(this.ktxtCollectionPath, 1, 0);
             this.tlpPath.Controls.Add(this.kbtnBrowse, 2, 0);
             this.tlpPath.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpPath.Location = new System.Drawing.Point(0, 72);
@@ -115,21 +115,21 @@ namespace Krypton.Toolkit.Utilities
             this.tlpPath.Size = new System.Drawing.Size(688, 36);
             this.tlpPath.TabIndex = 1;
             //
-            // klblPackPath
+            // klblCollectionPath
             //
-            this.klblPackPath.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.klblPackPath.Location = new System.Drawing.Point(3, 3);
-            this.klblPackPath.Name = "klblPackPath";
-            this.klblPackPath.Size = new System.Drawing.Size(82, 30);
-            this.klblPackPath.Values.Text = "Pack file";
+            this.klblCollectionPath.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.klblCollectionPath.Location = new System.Drawing.Point(3, 3);
+            this.klblCollectionPath.Name = "klblCollectionPath";
+            this.klblCollectionPath.Size = new System.Drawing.Size(82, 30);
+            this.klblCollectionPath.Values.Text = "Collection file";
             //
-            // ktxtPackPath
+            // ktxtCollectionPath
             //
-            this.ktxtPackPath.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ktxtPackPath.Location = new System.Drawing.Point(91, 3);
-            this.ktxtPackPath.Name = "ktxtPackPath";
-            this.ktxtPackPath.Size = new System.Drawing.Size(506, 23);
-            this.ktxtPackPath.TabIndex = 0;
+            this.ktxtCollectionPath.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ktxtCollectionPath.Location = new System.Drawing.Point(91, 3);
+            this.ktxtCollectionPath.Name = "ktxtCollectionPath";
+            this.ktxtCollectionPath.Size = new System.Drawing.Size(506, 23);
+            this.ktxtCollectionPath.TabIndex = 0;
             //
             // kbtnBrowse
             //
@@ -146,8 +146,8 @@ namespace Krypton.Toolkit.Utilities
             this.tlpName.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 88F));
             this.tlpName.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpName.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 88F));
-            this.tlpName.Controls.Add(this.klblPackName, 0, 0);
-            this.tlpName.Controls.Add(this.ktxtPackName, 1, 0);
+            this.tlpName.Controls.Add(this.klblCollectionName, 0, 0);
+            this.tlpName.Controls.Add(this.ktxtCollectionName, 1, 0);
             this.tlpName.Controls.Add(this.kbtnSaveName, 2, 0);
             this.tlpName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpName.Location = new System.Drawing.Point(0, 108);
@@ -157,21 +157,21 @@ namespace Krypton.Toolkit.Utilities
             this.tlpName.Size = new System.Drawing.Size(688, 36);
             this.tlpName.TabIndex = 2;
             //
-            // klblPackName
+            // klblCollectionName
             //
-            this.klblPackName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.klblPackName.Location = new System.Drawing.Point(3, 3);
-            this.klblPackName.Name = "klblPackName";
-            this.klblPackName.Size = new System.Drawing.Size(82, 30);
-            this.klblPackName.Values.Text = "Pack name";
+            this.klblCollectionName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.klblCollectionName.Location = new System.Drawing.Point(3, 3);
+            this.klblCollectionName.Name = "klblCollectionName";
+            this.klblCollectionName.Size = new System.Drawing.Size(82, 30);
+            this.klblCollectionName.Values.Text = "Collection name";
             //
-            // ktxtPackName
+            // ktxtCollectionName
             //
-            this.ktxtPackName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ktxtPackName.Location = new System.Drawing.Point(91, 3);
-            this.ktxtPackName.Name = "ktxtPackName";
-            this.ktxtPackName.Size = new System.Drawing.Size(506, 23);
-            this.ktxtPackName.TabIndex = 2;
+            this.ktxtCollectionName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ktxtCollectionName.Location = new System.Drawing.Point(91, 3);
+            this.ktxtCollectionName.Name = "ktxtCollectionName";
+            this.ktxtCollectionName.Size = new System.Drawing.Size(506, 23);
+            this.ktxtCollectionName.TabIndex = 2;
             //
             // kbtnSaveName
             //
@@ -189,7 +189,7 @@ namespace Krypton.Toolkit.Utilities
             this.klblThemes.Location = new System.Drawing.Point(3, 147);
             this.klblThemes.Name = "klblThemes";
             this.klblThemes.Size = new System.Drawing.Size(682, 18);
-            this.klblThemes.Values.Text = "Themes in pack";
+            this.klblThemes.Values.Text = "Themes in collection";
             //
             // klstThemes
             //
@@ -243,9 +243,9 @@ namespace Krypton.Toolkit.Utilities
             this.klblStatus.Location = new System.Drawing.Point(3, 407);
             this.klblStatus.Name = "klblStatus";
             this.klblStatus.Size = new System.Drawing.Size(682, 22);
-            this.klblStatus.Values.Text = "Choose a .kpal pack, then add .kpalx files.";
+            this.klblStatus.Values.Text = "Choose a .ktheme collection, then add .kthemex files.";
             //
-            // VisualKryptonPalettePackEditorForm
+            // VisualKryptonPaletteCollectionEditorForm
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -253,9 +253,9 @@ namespace Krypton.Toolkit.Utilities
             this.Controls.Add(this.kpnlMain);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
             this.MinimumSize = new System.Drawing.Size(560, 360);
-            this.Name = "VisualKryptonPalettePackEditorForm";
+            this.Name = "VisualKryptonPaletteCollectionEditorForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Krypton Palette Pack Editor";
+            this.Text = "Krypton Palette Collection Editor";
             ((System.ComponentModel.ISupportInitialize)(this.kpnlMain)).EndInit();
             this.kpnlMain.ResumeLayout(false);
             this.tlpMain.ResumeLayout(false);
@@ -274,12 +274,12 @@ namespace Krypton.Toolkit.Utilities
         private System.Windows.Forms.TableLayoutPanel tlpMain;
         private Krypton.Toolkit.KryptonWrapLabel kwlblInfo;
         private System.Windows.Forms.TableLayoutPanel tlpPath;
-        private Krypton.Toolkit.KryptonLabel klblPackPath;
-        private Krypton.Toolkit.KryptonTextBox ktxtPackPath;
+        private Krypton.Toolkit.KryptonLabel klblCollectionPath;
+        private Krypton.Toolkit.KryptonTextBox ktxtCollectionPath;
         private Krypton.Toolkit.KryptonButton kbtnBrowse;
         private System.Windows.Forms.TableLayoutPanel tlpName;
-        private Krypton.Toolkit.KryptonLabel klblPackName;
-        private Krypton.Toolkit.KryptonTextBox ktxtPackName;
+        private Krypton.Toolkit.KryptonLabel klblCollectionName;
+        private Krypton.Toolkit.KryptonTextBox ktxtCollectionName;
         private Krypton.Toolkit.KryptonButton kbtnSaveName;
         private Krypton.Toolkit.KryptonLabel klblThemes;
         private Krypton.Toolkit.KryptonListBox klstThemes;

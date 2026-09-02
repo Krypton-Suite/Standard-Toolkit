@@ -9,7 +9,7 @@
 
 namespace TestForm
 {
-    partial class PalettePackEditorDemo
+    partial class PaletteCollectionEditorDemo
     {
         private System.ComponentModel.IContainer components = null;
 
@@ -30,7 +30,7 @@ namespace TestForm
             this.kpnlMain = new Krypton.Toolkit.KryptonPanel();
             this.kwlblInfo = new Krypton.Toolkit.KryptonWrapLabel();
             this.kbtnCreateSample = new Krypton.Toolkit.KryptonButton();
-            this.kbtnEditPack = new Krypton.Toolkit.KryptonButton();
+            this.kbtnEditCollection = new Krypton.Toolkit.KryptonButton();
             this.kbtnEditEmpty = new Krypton.Toolkit.KryptonButton();
             this.kwlblStatus = new Krypton.Toolkit.KryptonWrapLabel();
             ((System.ComponentModel.ISupportInitialize)(this.kpnlMain)).BeginInit();
@@ -41,7 +41,7 @@ namespace TestForm
             //
             this.kpnlMain.Controls.Add(this.kwlblStatus);
             this.kpnlMain.Controls.Add(this.kbtnEditEmpty);
-            this.kpnlMain.Controls.Add(this.kbtnEditPack);
+            this.kpnlMain.Controls.Add(this.kbtnEditCollection);
             this.kpnlMain.Controls.Add(this.kbtnCreateSample);
             this.kpnlMain.Controls.Add(this.kwlblInfo);
             this.kpnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -56,7 +56,7 @@ namespace TestForm
             this.kwlblInfo.Location = new System.Drawing.Point(16, 16);
             this.kwlblInfo.Name = "kwlblInfo";
             this.kwlblInfo.Size = new System.Drawing.Size(608, 88);
-            this.kwlblInfo.Text = "Issue #2117: KryptonPalettePackEditor (Krypton.Toolkit.Utilities) adds .kpalx files to a .kpal pack and removes named themes. Create a sample pack (two themes plus a spare .kpalx), then open the editor. Add Pack-Violet.kpalx, then Remove it. The last theme cannot be removed.";
+            this.kwlblInfo.Text = "Issue #2117: KryptonPaletteCollectionEditor (Krypton.Toolkit.Utilities) adds .kthemex files to a .ktheme collection and removes named themes. Create a sample collection (two themes plus a spare .kthemex), then open the editor. Add Collection-Violet.kthemex, then Remove it. The last theme cannot be removed.";
             //
             // kbtnCreateSample
             //
@@ -64,16 +64,16 @@ namespace TestForm
             this.kbtnCreateSample.Name = "kbtnCreateSample";
             this.kbtnCreateSample.Size = new System.Drawing.Size(180, 32);
             this.kbtnCreateSample.TabIndex = 0;
-            this.kbtnCreateSample.Values.Text = "Create sample pack";
+            this.kbtnCreateSample.Values.Text = "Create sample collection";
             //
-            // kbtnEditPack
+            // kbtnEditCollection
             //
-            this.kbtnEditPack.Enabled = false;
-            this.kbtnEditPack.Location = new System.Drawing.Point(202, 112);
-            this.kbtnEditPack.Name = "kbtnEditPack";
-            this.kbtnEditPack.Size = new System.Drawing.Size(180, 32);
-            this.kbtnEditPack.TabIndex = 1;
-            this.kbtnEditPack.Values.Text = "Edit sample pack...";
+            this.kbtnEditCollection.Enabled = false;
+            this.kbtnEditCollection.Location = new System.Drawing.Point(202, 112);
+            this.kbtnEditCollection.Name = "kbtnEditCollection";
+            this.kbtnEditCollection.Size = new System.Drawing.Size(180, 32);
+            this.kbtnEditCollection.TabIndex = 1;
+            this.kbtnEditCollection.Values.Text = "Edit sample collection...";
             //
             // kbtnEditEmpty
             //
@@ -88,18 +88,18 @@ namespace TestForm
             this.kwlblStatus.Location = new System.Drawing.Point(16, 156);
             this.kwlblStatus.Name = "kwlblStatus";
             this.kwlblStatus.Size = new System.Drawing.Size(608, 96);
-            this.kwlblStatus.Text = "Create a sample pack, then open the editor.";
+            this.kwlblStatus.Text = "Create a sample collection, then open the editor.";
             //
-            // PalettePackEditorDemo
+            // PaletteCollectionEditorDemo
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(640, 280);
             this.Controls.Add(this.kpnlMain);
             this.MinimumSize = new System.Drawing.Size(560, 240);
-            this.Name = "PalettePackEditorDemo";
+            this.Name = "PaletteCollectionEditorDemo";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Feature #2117 - Palette pack editor";
+            this.Text = "Feature #2117 - Palette collection editor";
             ((System.ComponentModel.ISupportInitialize)(this.kpnlMain)).EndInit();
             this.kpnlMain.ResumeLayout(false);
             this.kpnlMain.PerformLayout();
@@ -111,7 +111,7 @@ namespace TestForm
         private Krypton.Toolkit.KryptonPanel kpnlMain;
         private Krypton.Toolkit.KryptonWrapLabel kwlblInfo;
         private Krypton.Toolkit.KryptonButton kbtnCreateSample;
-        private Krypton.Toolkit.KryptonButton kbtnEditPack;
+        private Krypton.Toolkit.KryptonButton kbtnEditCollection;
         private Krypton.Toolkit.KryptonButton kbtnEditEmpty;
         private Krypton.Toolkit.KryptonWrapLabel kwlblStatus;
     }

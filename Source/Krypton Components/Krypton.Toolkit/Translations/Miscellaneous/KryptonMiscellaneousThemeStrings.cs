@@ -23,9 +23,9 @@ public class KryptonMiscellaneousThemeStrings : GlobalId
     private const string DEFAULT_THEME_FALLBACK_WARNING_MESSAGE = @"The requested theme '{0}' ('{1}') requires the 'Krypton.Themes' assembly ('Krypton.Themes.dll'), which is not loaded or could not be found in the application directory.\nThe theme has reverted to '{2}' ('{3}').\nPlease install the 'Krypton.Standard.Toolkit' package from NuGet to continue using this theme.";
     private const string DEFAULT_LEGACY_XML_UPGRADE_TITLE = @"Legacy XML palette";
     private const string DEFAULT_LEGACY_XML_UPGRADE_MESSAGE =
-        @"'{0}' uses the legacy .xml palette format. Prefer .kpalx, which is the same XML document with the dedicated palette extension. Support for .xml palette files may be removed in a future release.
+        @"'{0}' uses the legacy .xml palette format. Prefer .kthemex, which is the same XML document with the dedicated palette extension. Support for .xml palette files may be removed in a future release.
 
-{1}: Upgrade to .kpalx and apply the theme. The original .xml file is left in place.
+{1}: Upgrade to .kthemex and apply the theme. The original .xml file is left in place.
 {2}: Apply this .xml file without upgrading.
 {3}: Do not apply the theme.";
 

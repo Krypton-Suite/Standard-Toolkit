@@ -47,12 +47,12 @@ public static class KryptonThemeCustomPaletteHelper
     }
 
     /// <summary>
-    /// Exports a builtin palette to a file. <c>.kpalx</c> and <c>.xml</c> write XML; <c>.kpal</c> writes the optional native persist stream.
+    /// Exports a builtin palette to a file. <c>.kthemex</c> and <c>.xml</c> write XML; <c>.ktheme</c> writes the optional native persist stream.
     /// </summary>
     /// <param name="mode">Catalogued builtin palette mode.</param>
     /// <param name="filePath">Destination path. Cannot be empty.</param>
     /// <param name="ignoreDefaults">When <see langword="true"/>, omits properties that match base defaults.</param>
-    // ToDo V120 LTS: Stop documenting .xml destinations; ExportToFile should prefer .kpalx.
+    // ToDo V120 LTS: Stop documenting .xml destinations; ExportToFile should prefer .kthemex.
     public static void ExportToFile(PaletteMode mode, string filePath, bool ignoreDefaults = true)
     {
         ValidatePath(filePath);

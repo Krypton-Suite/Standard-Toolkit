@@ -15,7 +15,7 @@ namespace Krypton.Toolkit;
 /// <remarks>
 /// Container layout (little-endian):
 /// magic (4 ASCII bytes "KPLT"), container version (uint16, currently 1),
-/// payload kind (uint16: 0 = Deflate XML, 1 = native persist, 2 = named theme pack),
+/// payload kind (uint16: 0 = Deflate XML, 1 = native persist, 2 = named theme collection),
 /// palette schema version (int32), name length (uint16) + UTF-8 name, then payload bytes.
 /// Kind 2 payload: uint16 count, then count entries of (uint16 name length + UTF-8 name,
 /// uint16 inner kind, int32 payload length, payload bytes). Optional trailing catalog:
@@ -28,7 +28,7 @@ internal static class KryptonPaletteBinaryPersistence
     internal const ushort CurrentContainerVersion = 1;
     internal const ushort KindCompressedXml = 0;
     internal const ushort KindNative = 1;
-    internal const ushort KindPack = 2;
+    internal const ushort KindCollection = 2;
     internal const ushort ThumbnailCatalogVersion = 1;
 
     private static readonly byte[] ThumbnailCatalogMagicBytes = Encoding.ASCII.GetBytes(@"KPTH");
@@ -138,9 +138,9 @@ internal static class KryptonPaletteBinaryPersistence
                 case SniffedKind.Container:
                 {
                     var header = ReadContainerHeader(stream);
-                    if (header.Kind == KindPack)
+                    if (header.Kind == KindCollection)
                     {
-                        var entries = ReadPackEntries(stream);
+                        var entries = ReadCollectionEntries(stream);
                         var names = new string[entries.Count];
                         for (var i = 0; i < entries.Count; i++)
                         {
@@ -170,7 +170,7 @@ internal static class KryptonPaletteBinaryPersistence
         }
     }
 
-    internal static Image?[] GetPackThemeThumbnails(Stream stream)
+    internal static Image?[] GetCollectionThemeThumbnails(Stream stream)
     {
         ThrowHelper.ThrowIfNull(stream);
 
@@ -190,12 +190,12 @@ internal static class KryptonPaletteBinaryPersistence
             }
 
             var header = ReadContainerHeader(stream);
-            if (header.Kind != KindPack)
+            if (header.Kind != KindCollection)
             {
                 return Array.Empty<Image?>();
             }
 
-            var entries = ReadPackEntries(stream);
+            var entries = ReadCollectionEntries(stream);
             var names = new string[entries.Count];
             for (var i = 0; i < entries.Count; i++)
             {
@@ -417,7 +417,7 @@ internal static class KryptonPaletteBinaryPersistence
 
     private const int MaxThumbnailPngBytes = 1024 * 1024;
 
-    internal static bool IsPack(Stream stream)
+    internal static bool IsCollection(Stream stream)
     {
         ThrowHelper.ThrowIfNull(stream);
 
@@ -437,7 +437,7 @@ internal static class KryptonPaletteBinaryPersistence
             }
 
             var header = ReadContainerHeader(stream);
-            return header.Kind == KindPack;
+            return header.Kind == KindCollection;
         }
         finally
         {
@@ -452,7 +452,7 @@ internal static class KryptonPaletteBinaryPersistence
         }
     }
 
-    internal static string GetPackDisplayName(Stream stream)
+    internal static string GetCollectionDisplayName(Stream stream)
     {
         ThrowHelper.ThrowIfNull(stream);
 
@@ -472,7 +472,7 @@ internal static class KryptonPaletteBinaryPersistence
             }
 
             var header = ReadContainerHeader(stream);
-            return header.Kind == KindPack ? header.Name : string.Empty;
+            return header.Kind == KindCollection ? header.Name : string.Empty;
         }
         finally
         {
@@ -487,23 +487,23 @@ internal static class KryptonPaletteBinaryPersistence
         }
     }
 
-    internal static void ExportPack(Stream stream, IList<KryptonCustomPaletteBase> palettes, bool ignoreDefaults, string packName)
+    internal static void ExportCollection(Stream stream, IList<KryptonCustomPaletteBase> palettes, bool ignoreDefaults, string collectionName)
     {
         ThrowHelper.ThrowIfNull(stream);
         ThrowHelper.ThrowIfNull(palettes);
 
         if (palettes.Count == 0)
         {
-            ThrowHelper.ThrowArgumentException(@"A .kpal pack requires at least one palette.", nameof(palettes));
+            ThrowHelper.ThrowArgumentException(@"A .ktheme collection requires at least one palette.", nameof(palettes));
         }
 
         if (palettes.Count > ushort.MaxValue)
         {
-            ThrowHelper.ThrowArgumentException(@"A .kpal pack cannot contain more than 65535 palettes.", nameof(palettes));
+            ThrowHelper.ThrowArgumentException(@"A .ktheme collection cannot contain more than 65535 palettes.", nameof(palettes));
         }
 
         var names = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        var entries = new List<PackEntry>(palettes.Count);
+        var entries = new List<CollectionEntry>(palettes.Count);
         for (var i = 0; i < palettes.Count; i++)
         {
             var palette = palettes[i];
@@ -528,23 +528,23 @@ internal static class KryptonPaletteBinaryPersistence
             using (var payloadStream = new MemoryStream())
             {
                 ExportNative(palette, payloadStream, ignoreDefaults);
-                entries.Add(new PackEntry(name, KindNative, payloadStream.ToArray()));
+                entries.Add(new CollectionEntry(name, KindNative, payloadStream.ToArray()));
             }
         }
 
-        var packNameBytes = Encoding.UTF8.GetBytes(packName ?? string.Empty);
-        if (packNameBytes.Length > ushort.MaxValue)
+        var collectionNameBytes = Encoding.UTF8.GetBytes(collectionName ?? string.Empty);
+        if (collectionNameBytes.Length > ushort.MaxValue)
         {
-            ThrowHelper.ThrowArgumentException(@"Pack name is too long to store in a KPLT container.", nameof(packName));
+            ThrowHelper.ThrowArgumentException(@"Collection name is too long to store in a KPLT container.", nameof(collectionName));
         }
 
         using var writer = new BinaryWriter(stream, Encoding.UTF8, leaveOpen: true);
         writer.Write(MagicBytes);
         writer.Write(CurrentContainerVersion);
-        writer.Write(KindPack);
+        writer.Write(KindCollection);
         writer.Write(SharedStaticConstants.CURRENT_SUPPORTED_PALETTE_VERSION);
-        writer.Write((ushort)packNameBytes.Length);
-        writer.Write(packNameBytes);
+        writer.Write((ushort)collectionNameBytes.Length);
+        writer.Write(collectionNameBytes);
         writer.Write((ushort)entries.Count);
         for (var i = 0; i < entries.Count; i++)
         {
@@ -797,8 +797,8 @@ internal static class KryptonPaletteBinaryPersistence
 
                 ImportNative(palette, stream, header.SchemaVersion);
                 break;
-            case KindPack:
-                ImportPack(palette, stream, themeName, header.SchemaVersion);
+            case KindCollection:
+                ImportCollection(palette, stream, themeName, header.SchemaVersion);
                 break;
             default:
                 ThrowHelper.ThrowArgumentException($@"Unknown palette payload kind '{header.Kind}'.", nameof(stream));
@@ -806,21 +806,21 @@ internal static class KryptonPaletteBinaryPersistence
         }
     }
 
-    private static void ImportPack(KryptonCustomPaletteBase palette, Stream stream, string? themeName, int schemaVersion)
+    private static void ImportCollection(KryptonCustomPaletteBase palette, Stream stream, string? themeName, int schemaVersion)
     {
-        var entries = ReadPackEntries(stream);
+        var entries = ReadCollectionEntries(stream);
         if (entries.Count == 0)
         {
-            ThrowHelper.ThrowArgumentException(@"The .kpal pack does not contain any themes.", nameof(stream));
+            ThrowHelper.ThrowArgumentException(@"The .ktheme collection does not contain any themes.", nameof(stream));
         }
 
-        PackEntry selected;
+        CollectionEntry selected;
         if (string.IsNullOrWhiteSpace(themeName))
         {
             if (entries.Count > 1)
             {
                 ThrowHelper.ThrowArgumentException(
-                    $@"This .kpal file contains multiple themes ({FormatThemeNames(entries)}). Pass a theme name to Import.",
+                    $@"This .ktheme file contains multiple themes ({FormatThemeNames(entries)}). Pass a theme name to Import.",
                     nameof(themeName));
             }
 
@@ -843,15 +843,15 @@ internal static class KryptonPaletteBinaryPersistence
             if (!found)
             {
                 ThrowHelper.ThrowArgumentException(
-                    $@"Theme '{themeName}' was not found in this .kpal pack. Available: {FormatThemeNames(entries)}.",
+                    $@"Theme '{themeName}' was not found in this .ktheme collection. Available: {FormatThemeNames(entries)}.",
                     nameof(themeName));
             }
         }
 
-        ImportPackPayload(palette, selected, schemaVersion);
+        ImportCollectionPayload(palette, selected, schemaVersion);
     }
 
-    private static void ImportPackPayload(KryptonCustomPaletteBase palette, PackEntry entry, int schemaVersion)
+    private static void ImportCollectionPayload(KryptonCustomPaletteBase palette, CollectionEntry entry, int schemaVersion)
     {
         if (!string.IsNullOrWhiteSpace(entry.Name))
         {
@@ -877,18 +877,18 @@ internal static class KryptonPaletteBinaryPersistence
         }
     }
 
-    private static List<PackEntry> ReadPackEntries(Stream stream)
+    private static List<CollectionEntry> ReadCollectionEntries(Stream stream)
     {
         using var reader = new BinaryReader(stream, Encoding.UTF8, leaveOpen: true);
         var count = reader.ReadUInt16();
-        var entries = new List<PackEntry>(count);
+        var entries = new List<CollectionEntry>(count);
         for (var i = 0; i < count; i++)
         {
             var nameLength = reader.ReadUInt16();
             var nameBytes = nameLength == 0 ? Array.Empty<byte>() : reader.ReadBytes(nameLength);
             if (nameBytes.Length != nameLength)
             {
-                ThrowHelper.ThrowArgumentException(@"Palette pack entry name is truncated.", nameof(stream));
+                ThrowHelper.ThrowArgumentException(@"Palette collection entry name is truncated.", nameof(stream));
             }
 
             var name = nameLength == 0 ? string.Empty : Encoding.UTF8.GetString(nameBytes);
@@ -896,16 +896,16 @@ internal static class KryptonPaletteBinaryPersistence
             var payloadLength = reader.ReadInt32();
             if (payloadLength < 0)
             {
-                ThrowHelper.ThrowArgumentException(@"Palette pack entry payload length is invalid.", nameof(stream));
+                ThrowHelper.ThrowArgumentException(@"Palette collection entry payload length is invalid.", nameof(stream));
             }
 
             var payload = payloadLength == 0 ? Array.Empty<byte>() : reader.ReadBytes(payloadLength);
             if (payload.Length != payloadLength)
             {
-                ThrowHelper.ThrowArgumentException(@"Palette pack entry payload is truncated.", nameof(stream));
+                ThrowHelper.ThrowArgumentException(@"Palette collection entry payload is truncated.", nameof(stream));
             }
 
-            entries.Add(new PackEntry(name, kind, payload));
+            entries.Add(new CollectionEntry(name, kind, payload));
         }
 
         return entries;
@@ -931,7 +931,7 @@ internal static class KryptonPaletteBinaryPersistence
         }
     }
 
-    private static string FormatThemeNames(List<PackEntry> entries)
+    private static string FormatThemeNames(List<CollectionEntry> entries)
     {
         var names = new string[entries.Count];
         for (var i = 0; i < entries.Count; i++)
@@ -942,13 +942,13 @@ internal static class KryptonPaletteBinaryPersistence
         return string.Join(@", ", names);
     }
 
-    private readonly struct PackEntry
+    private readonly struct CollectionEntry
     {
         internal string Name { get; }
         internal ushort Kind { get; }
         internal byte[] Payload { get; }
 
-        internal PackEntry(string name, ushort kind, byte[] payload)
+        internal CollectionEntry(string name, ushort kind, byte[] payload)
         {
             Name = name;
             Kind = kind;

@@ -10,27 +10,27 @@
 namespace Krypton.Toolkit.Utilities;
 
 /// <summary>
-/// Dialog that adds palette files to a <c>.kpal</c> pack and removes named themes.
+/// Dialog that adds palette files to a <c>.ktheme</c> collection and removes named themes.
 /// </summary>
-internal partial class VisualKryptonPalettePackEditorForm : KryptonForm
+internal partial class VisualKryptonPaletteCollectionEditorForm : KryptonForm
 {
-    internal VisualKryptonPalettePackEditorForm()
+    internal VisualKryptonPaletteCollectionEditorForm()
     {
         InitializeComponent();
-        kbtnBrowse.Click += (_, _) => BrowsePack();
-        kbtnSaveName.Click += (_, _) => SavePackName();
+        kbtnBrowse.Click += (_, _) => BrowseCollection();
+        kbtnSaveName.Click += (_, _) => SaveCollectionName();
         kbtnAdd.Click += (_, _) => AddThemes();
         kbtnRemove.Click += (_, _) => RemoveSelectedTheme();
         kbtnClose.Click += (_, _) => Close();
         CancelButton = kbtnClose;
     }
 
-    internal VisualKryptonPalettePackEditorForm(string? packPath)
+    internal VisualKryptonPaletteCollectionEditorForm(string? collectionPath)
         : this()
     {
-        if (!string.IsNullOrWhiteSpace(packPath))
+        if (!string.IsNullOrWhiteSpace(collectionPath))
         {
-            ktxtPackPath.Text = packPath;
+            ktxtCollectionPath.Text = collectionPath;
             RefreshThemes();
         }
     }
@@ -38,20 +38,20 @@ internal partial class VisualKryptonPalettePackEditorForm : KryptonForm
     /// <summary>
     /// Pack path shown in the dialog after close (browse or add may change it).
     /// </summary>
-    internal string PackPath => ktxtPackPath.Text.Trim();
+    internal string CollectionPath => ktxtCollectionPath.Text.Trim();
 
-    private void BrowsePack()
+    private void BrowseCollection()
     {
         using var dialog = new OpenFileDialog
         {
-            Title = @"Open or create palette pack",
-            Filter = @"Binary palette files (*.kpal)|*.kpal|All files (*.*)|*.*",
+            Title = @"Open or create palette collection",
+            Filter = @"Krypton theme containers (*.ktheme)|*.ktheme|All files (*.*)|*.*",
             DefaultExt = KryptonPaletteFile.BinaryExtension,
             CheckFileExists = false,
-            FileName = string.IsNullOrWhiteSpace(ktxtPackPath.Text)
-                ? @"themes.kpal"
-                : Path.GetFileName(ktxtPackPath.Text),
-            InitialDirectory = InitialDirectory(ktxtPackPath.Text)
+            FileName = string.IsNullOrWhiteSpace(ktxtCollectionPath.Text)
+                ? @"themes.ktheme"
+                : Path.GetFileName(ktxtCollectionPath.Text),
+            InitialDirectory = InitialDirectory(ktxtCollectionPath.Text)
         };
 
         if (dialog.ShowDialog(this) != DialogResult.OK)
@@ -59,13 +59,13 @@ internal partial class VisualKryptonPalettePackEditorForm : KryptonForm
             return;
         }
 
-        ktxtPackPath.Text = dialog.FileName;
+        ktxtCollectionPath.Text = dialog.FileName;
         RefreshThemes();
     }
 
-    private void SavePackName()
+    private void SaveCollectionName()
     {
-        var path = RequirePackPath(createIfMissing: false);
+        var path = RequireCollectionPath(createIfMissing: false);
         if (path == null)
         {
             return;
@@ -73,24 +73,24 @@ internal partial class VisualKryptonPalettePackEditorForm : KryptonForm
 
         if (!File.Exists(path))
         {
-            SetStatus(@"Add a theme before saving the pack name.");
+            SetStatus(@"Add a theme before saving the collection name.");
             return;
         }
 
         try
         {
-            KryptonPaletteFile.SetPackName(path, ktxtPackName.Text);
-            SetStatus($@"Pack name saved as '{KryptonPaletteFile.GetPackName(path)}'.");
+            KryptonPaletteFile.SetCollectionName(path, ktxtCollectionName.Text);
+            SetStatus($@"Collection name saved as '{KryptonPaletteFile.GetCollectionName(path)}'.");
         }
         catch (Exception ex)
         {
-            ShowError(ex, @"Save pack name");
+            ShowError(ex, @"Save collection name");
         }
     }
 
     private void AddThemes()
     {
-        var path = RequirePackPath(createIfMissing: true);
+        var path = RequireCollectionPath(createIfMissing: true);
         if (path == null)
         {
             return;
@@ -98,7 +98,7 @@ internal partial class VisualKryptonPalettePackEditorForm : KryptonForm
 
         using var dialog = new OpenFileDialog
         {
-            Title = @"Add palette files to pack",
+            Title = @"Add palette files to collection",
             Filter = KryptonPaletteFile.DialogFilter,
             DefaultExt = KryptonPaletteFile.Extension,
             Multiselect = true,
@@ -122,17 +122,17 @@ internal partial class VisualKryptonPalettePackEditorForm : KryptonForm
         }
 
         RefreshThemes();
-        PersistPackNameIfNeeded(path);
+        PersistCollectionNameIfNeeded(path);
         SetStatus(added == 0
             ? @"No themes were added."
-            : $@"Added {added} file(s) to the pack.");
+            : $@"Added {added} file(s) to the collection.");
     }
 
-    private bool TryAddSource(string packPath, string sourcePath)
+    private bool TryAddSource(string collectionPath, string sourcePath)
     {
         try
         {
-            KryptonPaletteFile.AddToPack(packPath, sourcePath, themeName: null, replaceExisting: false);
+            KryptonPaletteFile.AddToCollection(collectionPath, sourcePath, themeName: null, replaceExisting: false);
             return true;
         }
         catch (ArgumentException ex) when (IsDuplicateName(ex))
@@ -149,25 +149,25 @@ internal partial class VisualKryptonPalettePackEditorForm : KryptonForm
 
             try
             {
-                KryptonPaletteFile.AddToPack(packPath, sourcePath, themeName: null, replaceExisting: true);
+                KryptonPaletteFile.AddToCollection(collectionPath, sourcePath, themeName: null, replaceExisting: true);
                 return true;
             }
             catch (Exception retryEx)
             {
-                ShowError(retryEx, @"Add to pack");
+                ShowError(retryEx, @"Add to collection");
                 return false;
             }
         }
         catch (Exception ex)
         {
-            ShowError(ex, @"Add to pack");
+            ShowError(ex, @"Add to collection");
             return false;
         }
     }
 
     private void RemoveSelectedTheme()
     {
-        var path = RequirePackPath(createIfMissing: false);
+        var path = RequireCollectionPath(createIfMissing: false);
         if (path == null)
         {
             return;
@@ -182,38 +182,38 @@ internal partial class VisualKryptonPalettePackEditorForm : KryptonForm
 
         try
         {
-            KryptonPaletteFile.RemoveFromPack(path, themeName!);
+            KryptonPaletteFile.RemoveFromCollection(path, themeName!);
             RefreshThemes();
             SetStatus($@"Removed '{themeName}'.");
         }
         catch (Exception ex)
         {
-            ShowError(ex, @"Remove from pack");
+            ShowError(ex, @"Remove from collection");
         }
     }
 
     private void RefreshThemes()
     {
         klstThemes.Items.Clear();
-        var path = PackPath;
+        var path = CollectionPath;
         if (string.IsNullOrWhiteSpace(path) || !File.Exists(path))
         {
-            if (string.IsNullOrWhiteSpace(ktxtPackName.Text) && !string.IsNullOrWhiteSpace(path))
+            if (string.IsNullOrWhiteSpace(ktxtCollectionName.Text) && !string.IsNullOrWhiteSpace(path))
             {
-                ktxtPackName.Text = Path.GetFileNameWithoutExtension(path);
+                ktxtCollectionName.Text = Path.GetFileNameWithoutExtension(path);
             }
 
             kbtnRemove.Enabled = false;
             kbtnSaveName.Enabled = File.Exists(path);
             SetStatus(string.IsNullOrWhiteSpace(path)
-                ? @"Choose a .kpal pack, then add .kpalx files."
-                : @"Pack file does not exist yet. Add a .kpalx file to create it.");
+                ? @"Choose a .ktheme collection, then add .kthemex files."
+                : @"Collection file does not exist yet. Add a .kthemex file to create it.");
             return;
         }
 
         try
         {
-            ktxtPackName.Text = KryptonPaletteFile.GetPackName(path);
+            ktxtCollectionName.Text = KryptonPaletteFile.GetCollectionName(path);
             var names = KryptonPaletteFile.GetThemeNames(path);
             for (var i = 0; i < names.Length; i++)
             {
@@ -226,21 +226,21 @@ internal partial class VisualKryptonPalettePackEditorForm : KryptonForm
             }
 
             kbtnRemove.Enabled = klstThemes.Items.Count > 1;
-            kbtnSaveName.Enabled = KryptonPaletteFile.IsPack(path);
-            var packLabel = KryptonPaletteFile.IsPack(path) ? @"pack" : @"single-theme .kpal (will become a pack on add)";
-            SetStatus($@"{names.Length} theme(s) in {packLabel}.");
+            kbtnSaveName.Enabled = KryptonPaletteFile.IsCollection(path);
+            var collectionLabel = KryptonPaletteFile.IsCollection(path) ? @"collection" : @"single-theme .ktheme (will become a collection on add)";
+            SetStatus($@"{names.Length} theme(s) in {collectionLabel}.");
         }
         catch (Exception ex)
         {
             kbtnRemove.Enabled = false;
             kbtnSaveName.Enabled = false;
-            ShowError(ex, @"Open pack");
+            ShowError(ex, @"Open collection");
         }
     }
 
-    private string? RequirePackPath(bool createIfMissing)
+    private string? RequireCollectionPath(bool createIfMissing)
     {
-        var path = PackPath;
+        var path = CollectionPath;
         if (!string.IsNullOrWhiteSpace(path))
         {
             return path;
@@ -248,16 +248,16 @@ internal partial class VisualKryptonPalettePackEditorForm : KryptonForm
 
         if (!createIfMissing)
         {
-            SetStatus(@"Choose a .kpal pack first.");
+            SetStatus(@"Choose a .ktheme collection first.");
             return null;
         }
 
         using var dialog = new SaveFileDialog
         {
-            Title = @"Create palette pack",
-            Filter = @"Binary palette files (*.kpal)|*.kpal|All files (*.*)|*.*",
+            Title = @"Create palette collection",
+            Filter = @"Krypton theme containers (*.ktheme)|*.ktheme|All files (*.*)|*.*",
             DefaultExt = KryptonPaletteFile.BinaryExtension,
-            FileName = @"themes.kpal",
+            FileName = @"themes.ktheme",
             OverwritePrompt = true
         };
 
@@ -266,24 +266,24 @@ internal partial class VisualKryptonPalettePackEditorForm : KryptonForm
             return null;
         }
 
-        ktxtPackPath.Text = dialog.FileName;
-        if (string.IsNullOrWhiteSpace(ktxtPackName.Text))
+        ktxtCollectionPath.Text = dialog.FileName;
+        if (string.IsNullOrWhiteSpace(ktxtCollectionName.Text))
         {
-            ktxtPackName.Text = Path.GetFileNameWithoutExtension(dialog.FileName);
+            ktxtCollectionName.Text = Path.GetFileNameWithoutExtension(dialog.FileName);
         }
 
         return dialog.FileName;
     }
 
-    private void PersistPackNameIfNeeded(string packPath)
+    private void PersistCollectionNameIfNeeded(string collectionPath)
     {
-        if (!File.Exists(packPath) || !KryptonPaletteFile.IsPack(packPath))
+        if (!File.Exists(collectionPath) || !KryptonPaletteFile.IsCollection(collectionPath))
         {
             return;
         }
 
-        var desired = ktxtPackName.Text.Trim();
-        var current = KryptonPaletteFile.GetPackName(packPath);
+        var desired = ktxtCollectionName.Text.Trim();
+        var current = KryptonPaletteFile.GetCollectionName(collectionPath);
         if (string.Equals(desired, current, StringComparison.Ordinal))
         {
             return;
@@ -291,8 +291,8 @@ internal partial class VisualKryptonPalettePackEditorForm : KryptonForm
 
         try
         {
-            KryptonPaletteFile.SetPackName(packPath, desired);
-            ktxtPackName.Text = KryptonPaletteFile.GetPackName(packPath);
+            KryptonPaletteFile.SetCollectionName(collectionPath, desired);
+            ktxtCollectionName.Text = KryptonPaletteFile.GetCollectionName(collectionPath);
         }
         catch (Exception)
         {

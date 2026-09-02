@@ -10,31 +10,31 @@
 namespace Krypton.Toolkit.Utilities;
 
 /// <summary>
-/// Designer-sited dialog for adding <c>.kpalx</c> (and other palette) files to a <c>.kpal</c> pack
-/// and removing named themes. Drop from the toolbox, set <see cref="PackPath"/>, then call
+/// Designer-sited dialog for adding <c>.kthemex</c> (and other palette) files to a <c>.ktheme</c> collection
+/// and removing named themes. Drop from the toolbox, set <see cref="CollectionPath"/>, then call
 /// <see cref="ShowDialog()"/>.
 /// </summary>
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(KryptonListBox), "ToolboxBitmaps.KryptonListBox.bmp")]
 [DesignerCategory(@"code")]
-[DefaultProperty(nameof(PackPath))]
-[Description(@"Add or remove named themes in a multi-theme .kpal pack.")]
-public class KryptonPalettePackEditor : Component
+[DefaultProperty(nameof(CollectionPath))]
+[Description(@"Add or remove named themes in a multi-theme .ktheme collection.")]
+public class KryptonPaletteCollectionEditor : Component
 {
-    private string _packPath = string.Empty;
+    private string _collectionPath = string.Empty;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="KryptonPalettePackEditor"/> class.
+    /// Initializes a new instance of the <see cref="KryptonPaletteCollectionEditor"/> class.
     /// </summary>
-    public KryptonPalettePackEditor()
+    public KryptonPaletteCollectionEditor()
     {
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="KryptonPalettePackEditor"/> class.
+    /// Initializes a new instance of the <see cref="KryptonPaletteCollectionEditor"/> class.
     /// </summary>
     /// <param name="container">The container that owns this component.</param>
-    public KryptonPalettePackEditor(IContainer container)
+    public KryptonPaletteCollectionEditor(IContainer container)
         : this()
     {
         ThrowHelper.ThrowIfNull(container);
@@ -42,58 +42,58 @@ public class KryptonPalettePackEditor : Component
     }
 
     /// <summary>
-    /// Pack file shown when the dialog opens. May be empty so the user can browse or create one.
+    /// Collection file shown when the dialog opens. May be empty so the user can browse or create one.
     /// </summary>
     [Category(@"Data")]
     [DefaultValue(@"")]
-    [Description(@"Path of the .kpal pack to edit.")]
-    public string PackPath
+    [Description(@"Path of the .ktheme collection to edit.")]
+    public string CollectionPath
     {
-        get => _packPath;
-        set => _packPath = value ?? string.Empty;
+        get => _collectionPath;
+        set => _collectionPath = value ?? string.Empty;
     }
 
     /// <summary>
-    /// Shows the pack editor without an owner window.
+    /// Shows the collection editor without an owner window.
     /// </summary>
     /// <returns>The dialog result.</returns>
     public DialogResult ShowDialog() => ShowDialog(null);
 
     /// <summary>
-    /// Shows the pack editor owned by <paramref name="owner"/>.
+    /// Shows the collection editor owned by <paramref name="owner"/>.
     /// </summary>
     /// <param name="owner">Owner window, or <c>null</c>.</param>
     /// <returns>The dialog result.</returns>
     public DialogResult ShowDialog(IWin32Window? owner)
     {
-        using var form = new VisualKryptonPalettePackEditorForm(PackPath);
+        using var form = new VisualKryptonPaletteCollectionEditorForm(CollectionPath);
         var result = owner is null ? form.ShowDialog() : form.ShowDialog(owner);
-        PackPath = form.PackPath;
+        CollectionPath = form.CollectionPath;
         return result;
     }
 
     /// <summary>
-    /// Shows the pack editor with default settings.
+    /// Shows the collection editor with default settings.
     /// </summary>
     /// <returns>The dialog result.</returns>
     public static DialogResult Show() => Show(null, null);
 
     /// <summary>
-    /// Shows the pack editor owned by <paramref name="owner"/>.
+    /// Shows the collection editor owned by <paramref name="owner"/>.
     /// </summary>
     /// <param name="owner">Owner window, or <c>null</c>.</param>
     /// <returns>The dialog result.</returns>
     public static DialogResult Show(IWin32Window? owner) => Show(owner, null);
 
     /// <summary>
-    /// Shows the pack editor owned by <paramref name="owner"/>, opened at <paramref name="packPath"/>.
+    /// Shows the collection editor owned by <paramref name="owner"/>, opened at <paramref name="collectionPath"/>.
     /// </summary>
     /// <param name="owner">Owner window, or <c>null</c>.</param>
-    /// <param name="packPath">Existing or new <c>.kpal</c> path. May be empty.</param>
+    /// <param name="collectionPath">Existing or new <c>.ktheme</c> path. May be empty.</param>
     /// <returns>The dialog result.</returns>
-    public static DialogResult Show(IWin32Window? owner, string? packPath)
+    public static DialogResult Show(IWin32Window? owner, string? collectionPath)
     {
-        using var form = new VisualKryptonPalettePackEditorForm(packPath);
+        using var form = new VisualKryptonPaletteCollectionEditorForm(collectionPath);
         return owner is null ? form.ShowDialog() : form.ShowDialog(owner);
     }
 }

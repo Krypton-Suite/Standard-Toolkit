@@ -10,7 +10,7 @@
 namespace Krypton.Toolkit.Utilities;
 
 /// <summary>
-/// One selectable theme from a palette file. A <c>.kpal</c> pack yields one item per named theme.
+/// One selectable theme from a palette file. A <c>.ktheme</c> pack yields one item per named theme.
 /// Folder packs use <see cref="TreePath"/> with <c>/</c> separators.
 /// </summary>
 public sealed class KryptonPaletteFileThemeItem : IContentValues
@@ -20,10 +20,10 @@ public sealed class KryptonPaletteFileThemeItem : IContentValues
     /// </summary>
     /// <param name="filePath">Palette file path.</param>
     /// <param name="themeName">Pack theme name, or the single-file palette name. May be empty.</param>
-    /// <param name="isPack"><see langword="true"/> when the file is a multi-theme KPLT pack.</param>
+    /// <param name="isCollection"><see langword="true"/> when the file is a multi-theme KPLT collection.</param>
     /// <param name="displayName">Text shown in a list or combo.</param>
-    public KryptonPaletteFileThemeItem(string filePath, string themeName, bool isPack, string displayName)
-        : this(filePath, themeName, isPack, displayName, treePath: displayName)
+    public KryptonPaletteFileThemeItem(string filePath, string themeName, bool isCollection, string displayName)
+        : this(filePath, themeName, isCollection, displayName, treePath: displayName)
     {
     }
 
@@ -32,15 +32,15 @@ public sealed class KryptonPaletteFileThemeItem : IContentValues
     /// </summary>
     /// <param name="filePath">Palette file path.</param>
     /// <param name="themeName">Pack theme name, or the single-file palette name. May be empty.</param>
-    /// <param name="isPack"><see langword="true"/> when the file is a multi-theme KPLT pack.</param>
+    /// <param name="isCollection"><see langword="true"/> when the file is a multi-theme KPLT collection.</param>
     /// <param name="displayName">Text shown in a list or combo.</param>
     /// <param name="treePath">Folder path used by the tree and by nested list labels (<c>/</c> separators).</param>
-    public KryptonPaletteFileThemeItem(string filePath, string themeName, bool isPack, string displayName, string treePath)
+    public KryptonPaletteFileThemeItem(string filePath, string themeName, bool isCollection, string displayName, string treePath)
     {
         FilePath = filePath ?? string.Empty;
         ThemeName = themeName ?? string.Empty;
-        IsPack = isPack;
-        TreePath = KryptonPaletteFile.NormalizePackThemeName(treePath);
+        IsCollection = isCollection;
+        TreePath = KryptonPaletteFile.NormalizeCollectionThemeName(treePath);
         DisplayName = string.IsNullOrWhiteSpace(displayName)
             ? (string.IsNullOrEmpty(TreePath)
                 ? Path.GetFileNameWithoutExtension(FilePath)
@@ -58,7 +58,7 @@ public sealed class KryptonPaletteFileThemeItem : IContentValues
     public string ThemeName { get; }
 
     /// <summary>Gets whether the file is a KPLT pack (payload kind 2).</summary>
-    public bool IsPack { get; }
+    public bool IsCollection { get; }
 
     /// <summary>
     /// Gets the folder path for tree nodes and nested list labels, using <c>/</c> separators.
@@ -75,31 +75,31 @@ public sealed class KryptonPaletteFileThemeItem : IContentValues
     public Image? Thumbnail { get; set; }
 
     /// <summary>Gets folder and leaf segments for <see cref="TreePath"/>.</summary>
-    public string[] GetPathSegments() => KryptonPaletteFile.SplitPackThemePath(TreePath);
+    public string[] GetPathSegments() => KryptonPaletteFile.SplitCollectionThemePath(TreePath);
 
     /// <inheritdoc />
     public override string ToString() => DisplayName;
 
     /// <summary>
-    /// Scans a directory for palette files and expands <c>.kpal</c> packs into named items.
-    /// Unreadable files are skipped. Nested files and path-named pack themes keep their folder path.
+    /// Scans a directory for palette files and expands <c>.ktheme</c> packs into named items.
+    /// Unreadable files are skipped. Nested files and path-named collection themes keep their folder path.
     /// </summary>
     /// <param name="directory">Folder to scan. Empty or missing folders yield an empty array.</param>
     /// <param name="searchSubdirectories">When <see langword="true"/>, include nested folders.</param>
-    /// <param name="includeKpalx">Include <c>*.kpalx</c>.</param>
-    /// <param name="includeKpal">Include <c>*.kpal</c>.</param>
+    /// <param name="includeKthemex">Include <c>*.kthemex</c>.</param>
+    /// <param name="includeKtheme">Include <c>*.ktheme</c>.</param>
     /// <param name="includeXml">Include legacy <c>*.xml</c>.</param>
-    /// <param name="loadThumbnails">When <see langword="true"/>, attach <see cref="Thumbnail"/> from the pack catalog or persisted image.</param>
+    /// <param name="loadThumbnails">When <see langword="true"/>, attach <see cref="Thumbnail"/> from the collection catalog or persisted image.</param>
     /// <returns>Items sorted by display name.</returns>
-    // ToDo V120 LTS: Remove includeXml. Call UpgradeXmlToKpalx before scanning a folder of palettes.
+    // ToDo V120 LTS: Remove includeXml. Call UpgradeXmlToKthemex before scanning a folder of palettes.
     public static KryptonPaletteFileThemeItem[] FromDirectory(string directory,
         bool searchSubdirectories = false,
-        bool includeKpalx = true,
-        bool includeKpal = true,
+        bool includeKthemex = true,
+        bool includeKtheme = true,
         bool includeXml = true,
         bool loadThumbnails = false)
     {
-        var files = KryptonPaletteFile.GetPaletteFiles(directory, searchSubdirectories, includeKpalx, includeKpal, includeXml);
+        var files = KryptonPaletteFile.GetPaletteFiles(directory, searchSubdirectories, includeKthemex, includeKtheme, includeXml);
         var items = new List<KryptonPaletteFileThemeItem>();
         var usedDisplayNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
@@ -107,46 +107,46 @@ public sealed class KryptonPaletteFileThemeItem : IContentValues
         {
             var path = files[i];
             string[] names;
-            bool isPack;
+            bool isCollection;
             try
             {
                 names = KryptonPaletteFile.GetThemeNames(path);
-                isPack = KryptonPaletteFile.IsPack(path);
+                isCollection = KryptonPaletteFile.IsCollection(path);
             }
             catch (Exception)
             {
                 continue;
             }
 
-            var relativeName = KryptonPaletteFile.GetRelativePackThemeName(path, directory);
+            var relativeName = KryptonPaletteFile.GetRelativeCollectionThemeName(path, directory);
             var relativeDir = ParentPath(relativeName);
 
-            if (isPack || names.Length > 1)
+            if (isCollection || names.Length > 1)
             {
                 for (var n = 0; n < names.Length; n++)
                 {
                     var innerName = names[n];
-                    var treePath = KryptonPaletteFile.IsPackThemePath(innerName)
-                        ? KryptonPaletteFile.CombinePackThemePath(relativeDir, innerName)
-                        : KryptonPaletteFile.CombinePackThemePath(relativeName,
+                    var treePath = KryptonPaletteFile.IsCollectionThemePath(innerName)
+                        ? KryptonPaletteFile.CombineCollectionThemePath(relativeDir, innerName)
+                        : KryptonPaletteFile.CombineCollectionThemePath(relativeName,
                             string.IsNullOrWhiteSpace(innerName)
                                 ? Path.GetFileNameWithoutExtension(path)
                                 : innerName);
                     var display = UniqueDisplay(KryptonPaletteFile.ToDisplayPath(treePath), usedDisplayNames);
-                    items.Add(new KryptonPaletteFileThemeItem(path, innerName, isPack: true, display, treePath));
+                    items.Add(new KryptonPaletteFileThemeItem(path, innerName, isCollection: true, display, treePath));
                 }
             }
             else
             {
                 var themeName = names.Length == 1 ? names[0] : string.Empty;
                 var treePath = relativeName;
-                var displaySource = searchSubdirectories && KryptonPaletteFile.IsPackThemePath(relativeName)
+                var displaySource = searchSubdirectories && KryptonPaletteFile.IsCollectionThemePath(relativeName)
                     ? KryptonPaletteFile.ToDisplayPath(treePath)
                     : (!string.IsNullOrWhiteSpace(themeName)
                         ? themeName
                         : Path.GetFileNameWithoutExtension(path));
                 var display = UniqueDisplay(displaySource, usedDisplayNames);
-                items.Add(new KryptonPaletteFileThemeItem(path, themeName, isPack: false, display, treePath));
+                items.Add(new KryptonPaletteFileThemeItem(path, themeName, isCollection: false, display, treePath));
             }
         }
 
@@ -281,7 +281,7 @@ public sealed class KryptonPaletteFileThemeItem : IContentValues
     /// </summary>
     /// <param name="palette">Destination custom palette.</param>
     /// <param name="promptLegacyXml">
-    /// When <see langword="true"/>, warn and offer to upgrade a legacy <c>.xml</c> file to <c>.kpalx</c>
+    /// When <see langword="true"/>, warn and offer to upgrade a legacy <c>.xml</c> file to <c>.kthemex</c>
     /// before importing.
     /// </param>
     /// <returns><see langword="false"/> when the user cancelled the legacy XML prompt.</returns>
@@ -324,10 +324,10 @@ public sealed class KryptonPaletteFileThemeItem : IContentValues
         ThemeManager.ApplyTheme(target, manager);
     }
 
-    private static string ParentPath(string packThemeName)
+    private static string ParentPath(string collectionThemeName)
     {
-        var slash = packThemeName.LastIndexOf(KryptonPaletteFile.PackPathSeparator);
-        return slash <= 0 ? string.Empty : packThemeName.Substring(0, slash);
+        var slash = collectionThemeName.LastIndexOf(KryptonPaletteFile.CollectionPathSeparator);
+        return slash <= 0 ? string.Empty : collectionThemeName.Substring(0, slash);
     }
 
     private static string UniqueDisplay(string candidate, HashSet<string> used)

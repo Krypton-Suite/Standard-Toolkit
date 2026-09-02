@@ -81,9 +81,9 @@ internal class KryptonCustomPaletteBaseDesigner : ComponentDesigner
 
                 _upgradeVerb = new DesignerVerb(@"Upgrade Palette", OnUpgrade);
 
-                _upgradeXmlVerb = new DesignerVerb(@"Upgrade .xml to .kpalx...", OnUpgradeXml);
+                _upgradeXmlVerb = new DesignerVerb(@"Upgrade .xml to .kthemex...", OnUpgradeXml);
 
-                _upgradeXmlFolderVerb = new DesignerVerb(@"Upgrade folder .xml to .kpalx...", OnUpgradeXmlFolder);
+                _upgradeXmlFolderVerb = new DesignerVerb(@"Upgrade folder .xml to .kthemex...", OnUpgradeXmlFolder);
 
                 _convertVerb = new DesignerVerb(@"Convert palette file...", OnConvert);
 

@@ -121,7 +121,7 @@ internal static class LimeGreenButtonThemeHelper
     /// Gets a suggested export file name for <paramref name="family"/>.
     /// </summary>
     /// <param name="family">Lime theme family.</param>
-    /// <returns>File name including <c>.kpalx</c>.</returns>
+    /// <returns>File name including <c>.kthemex</c>.</returns>
     public static string GetExportFileName(LimeGreenThemeFamily family) => family switch
     {
         LimeGreenThemeFamily.Office2007 => @"LimeGreen-Office2007." + KryptonPaletteFile.Extension,

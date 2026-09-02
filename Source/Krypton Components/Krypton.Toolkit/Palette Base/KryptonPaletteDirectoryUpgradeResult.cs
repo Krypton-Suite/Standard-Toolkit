@@ -10,8 +10,8 @@
 namespace Krypton.Toolkit;
 
 /// <summary>
-/// Outcome of <see cref="KryptonPaletteFile.UpgradeXmlToKpalxFromDirectory(string, bool)"/>.
-/// Each converted <c>.xml</c> is rewritten as <c>.kpalx</c> beside the source; the source is left in place.
+/// Outcome of <see cref="KryptonPaletteFile.UpgradeXmlToKthemexFromDirectory(string, bool)"/>.
+/// Each converted <c>.xml</c> is rewritten as <c>.kthemex</c> beside the source; the source is left in place.
 /// </summary>
 public sealed class KryptonPaletteDirectoryUpgradeResult
 {
@@ -37,7 +37,7 @@ public sealed class KryptonPaletteDirectoryUpgradeResult
     }
 
     /// <summary>
-    /// Full paths of written <c>.kpalx</c> files, in the same order as <see cref="SourcePaths"/>.
+    /// Full paths of written <c>.kthemex</c> files, in the same order as <see cref="SourcePaths"/>.
     /// </summary>
     public string[] ConvertedPaths { get; }
 
@@ -56,7 +56,7 @@ public sealed class KryptonPaletteDirectoryUpgradeResult
     /// </summary>
     public KryptonPaletteDirectoryUpgradeError[] Errors { get; }
 
-    /// <summary>Number of palettes rewritten as <c>.kpalx</c>.</summary>
+    /// <summary>Number of palettes rewritten as <c>.kthemex</c>.</summary>
     public int ConvertedCount => ConvertedPaths.Length;
 
     /// <summary>Number of non-palette <c>.xml</c> files skipped.</summary>
@@ -74,7 +74,7 @@ public sealed class KryptonPaletteDirectoryUpgradeResult
         var builder = new StringBuilder();
         builder.Append("Converted ");
         builder.Append(ConvertedCount);
-        builder.AppendLine(" palette file(s) to .kpalx. Original .xml files were left in place.");
+        builder.AppendLine(" palette file(s) to .kthemex. Original .xml files were left in place.");
 
         if (SkippedCount > 0)
         {
@@ -109,7 +109,7 @@ public sealed class KryptonPaletteDirectoryUpgradeResult
 }
 
 /// <summary>
-/// One failed file from <see cref="KryptonPaletteFile.UpgradeXmlToKpalxFromDirectory(string, bool)"/>.
+/// One failed file from <see cref="KryptonPaletteFile.UpgradeXmlToKthemexFromDirectory(string, bool)"/>.
 /// </summary>
 public sealed class KryptonPaletteDirectoryUpgradeError
 {

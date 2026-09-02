@@ -237,12 +237,12 @@ public static class KryptonCustomThemeGenerator
     }
 
     /// <summary>
-    /// Exports <paramref name="palette"/> to a Krypton palette file (<c>.kpalx</c> XML or optional native <c>.kpal</c>).
+    /// Exports <paramref name="palette"/> to a Krypton palette file (<c>.kthemex</c> XML or optional native <c>.ktheme</c>).
     /// </summary>
     /// <param name="palette">Palette to export. Cannot be null.</param>
     /// <param name="filePath">Destination path. Cannot be empty.</param>
     /// <param name="ignoreDefaults">When <c>true</c>, omits properties that match base defaults.</param>
-    // ToDo V120 LTS: Stop writing .xml from the theme generator; destinations should be .kpalx or .kpal.
+    // ToDo V120 LTS: Stop writing .xml from the theme generator; destinations should be .kthemex or .ktheme.
     public static void Export(KryptonCustomPaletteBase palette, string filePath, bool ignoreDefaults = true)
     {
         ThrowHelper.ThrowIfNull(palette);

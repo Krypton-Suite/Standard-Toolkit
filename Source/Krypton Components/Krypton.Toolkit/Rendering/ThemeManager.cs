@@ -315,7 +315,7 @@ public class ThemeManager
     /// <param name="themeFile">Valid path including filename to the theme file. The file must exist an be compatible, otherwise the import will fail.</param>
     /// <param name="silent">True if the operation should suppress messages from the palette import process, otherwise false.</param>
     /// <param name="manager">The manager.</param>
-    // ToDo V120 LTS: Document .kpalx as the expected custom theme file. Import still sniffs XML content.
+    // ToDo V120 LTS: Document .kthemex as the expected custom theme file. Import still sniffs XML content.
     public static void ApplyTheme(string themeFile, bool silent, KryptonManager manager)
     {
         if (File.Exists(themeFile))
@@ -349,10 +349,10 @@ public class ThemeManager
     }
 
     /// <summary>
-    /// Loads one named theme from a <c>.kpal</c> pack (or a matching single-theme file).
+    /// Loads one named theme from a <c>.ktheme</c> pack (or a matching single-theme file).
     /// </summary>
     /// <param name="themeFile">Valid path including filename to the theme file.</param>
-    /// <param name="themeName">Theme name in the pack. Comparison is case-insensitive.</param>
+    /// <param name="themeName">Theme name in the collection. Comparison is case-insensitive.</param>
     /// <param name="silent">True if the operation should suppress messages from the palette import process.</param>
     /// <param name="manager">The manager.</param>
     public static void ApplyTheme(string themeFile, string themeName, bool silent, KryptonManager manager)

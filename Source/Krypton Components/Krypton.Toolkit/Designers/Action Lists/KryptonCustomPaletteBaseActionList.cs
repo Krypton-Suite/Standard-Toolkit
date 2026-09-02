@@ -59,8 +59,8 @@ internal class KryptonCustomPaletteBaseActionList : DesignerActionList
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Import palette...", OnImportClick), "Actions"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Export palette...", OnExportClick), "Actions"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Upgrade Palette", OnUpgradePalette), "Actions"));
-            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Upgrade .xml to .kpalx...", OnUpgradeXmlFile), "Actions"));
-            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Upgrade folder .xml to .kpalx...", OnUpgradeXmlDirectory), "Actions"));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Upgrade .xml to .kthemex...", OnUpgradeXmlFile), "Actions"));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Upgrade folder .xml to .kthemex...", OnUpgradeXmlDirectory), "Actions"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Convert palette file...", OnConvertPaletteFile), "Actions"));
         }
 
