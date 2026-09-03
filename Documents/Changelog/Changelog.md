@@ -45,6 +45,9 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#4336](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4336), `KryptonListView` does not use `StateTracking###`
+  * `KryptonListView` hover now uses `StateTracking` / `StateCheckedTracking` instead of Win32 hot-track.
+  * `ShowItemToolTips` uses `KryptonToolTip` (from `ListViewItem.ToolTipText`) instead of Win32 infotips, positioned at the hovered item.
 * Implemented [#1100](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1100), Extension of the `SchemeOfficeColors` enum
   * Menu, tool, and context strip text colours can be set independently of the status strip.
 * Resolved [#1870](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1870), `KryptonCustomPaletteBase`, Unable to Set / Change the colour table (help to migrate to v90.)
