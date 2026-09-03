@@ -1040,9 +1040,9 @@ public class KryptonTreeView : VisualControlBase,
             foreach (TreeNode node in value)
             {
                 node.Checked = true;
-                if (!MultiSelect && !CheckBoxes)
+                if (!MultiSelect)
                 {
-                    // Only keep the first node when neither click-to-toggle multi-select nor check boxes are enabled.
+                    // Only do the first one!
                     break;
                 }
             }
