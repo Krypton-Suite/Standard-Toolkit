@@ -449,10 +449,10 @@ public class KryptonScrollBar : Control
     private void ResetDisabledBorderColor() => DisabledBorderColor = Color.Gray;
 
     /// <summary>
-    /// Gets or sets the opacity of the context menu (from 0 - 1).
+    /// Gets or sets the opacity of the context menu (from 0 - 1.0).
     /// </summary>
     [Category(@"Appearance")]
-    [Description(@"Gets or sets the opacity of the context menu (from 0 - 1).")]
+    [Description(@"Gets or sets the opacity of the context menu (from 0 - 1.0).")]
     [DefaultValue(1.0)]
     public double Opacity
     {
@@ -466,7 +466,7 @@ public class KryptonScrollBar : Control
                 return;
             }
 
-            _contextMenu.AllowTransparency = value != 1;
+            _contextMenu.AllowTransparency = value != 1.0;
 
             _contextMenu.Opacity = value;
         }

@@ -25,8 +25,9 @@ public class KryptonStatusStrip : StatusStrip,
 
     #region Properties
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    [Description(@"The progress bars to display on the status strip.")]
     [DefaultValue(null)]
-    public ToolStripProgressBar[] ProgressBars { get; set; }
+    public ToolStripProgressBar[]? ProgressBars { get; set; }
     #endregion
 
     #region Constructor
