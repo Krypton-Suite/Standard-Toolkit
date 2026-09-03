@@ -289,7 +289,7 @@ public partial class VisualBugReportingDialogForm : KryptonForm
             }
             catch (Exception ex)
             {
-                KryptonMessageBox.Show(
+                KryptonMessageBox.Show(this,
                     KryptonBugReportingDialogStrings.Format(Strings.UnableToOpenFileFormat, ex.Message),
                     Strings.GenericErrorTitle,
                     KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error);

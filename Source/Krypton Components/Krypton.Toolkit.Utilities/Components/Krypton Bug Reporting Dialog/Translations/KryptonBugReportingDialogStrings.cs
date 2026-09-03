@@ -235,18 +235,18 @@ public class KryptonBugReportingDialogStrings : GlobalId
     [RefreshProperties(RefreshProperties.All)]
     public string SuccessMessage { get; set; }
 
-    /// <summary>Gets or sets the error dialog title used when sending a report fails.</summary>
+    /// <summary>Gets or sets the error dialog title.</summary>
     [Localizable(true)]
     [Category(@"Values")]
-    [Description(@"The error dialog title used when sending a report fails.")]
+    [Description(@"The error dialog title.")]
     [DefaultValue(DEFAULT_BUG_REPORTING_DIALOG_ERROR_TITLE)]
     [RefreshProperties(RefreshProperties.All)]
     public string ErrorTitle { get; set; }
 
-    /// <summary>Gets or sets the error dialog message used when sending a report fails.</summary>
+    /// <summary>Gets or sets the error dialog message.</summary>
     [Localizable(true)]
     [Category(@"Values")]
-    [Description(@"The error dialog message used when sending a report fails.")]
+    [Description(@"The error dialog message.")]
     [DefaultValue(DEFAULT_BUG_REPORTING_DIALOG_ERROR_MESSAGE)]
     [RefreshProperties(RefreshProperties.All)]
     public string ErrorMessage { get; set; }
