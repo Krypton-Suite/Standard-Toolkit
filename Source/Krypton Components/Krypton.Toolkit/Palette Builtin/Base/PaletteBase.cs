@@ -2277,27 +2277,40 @@ public abstract class PaletteBase : Component
 
     private readonly object _colorLock = new();
     private readonly Color[] _extraColors = new Color[36];
+    private KryptonColorSchemeBase? _backingScheme;
+    private bool _backingSchemeResolved;
 
     /// <summary>
     /// Resets <see cref="ColorTable"/> to be updated on next paint.
     /// </summary>
     protected virtual void InvalidateColorTable()
     {
-        // Default implementation uses reflection as fallback
-        var tableField = GetType().GetField("_table", BindingFlags.Instance | BindingFlags.NonPublic)
-                         ?? GetType().GetField("Table", BindingFlags.Instance | BindingFlags.NonPublic);
+        // Walk the runtime type: GetField/GetProperty do not see private/protected
+        // members declared on a base class. Office 2010/2013/365 cache the table in a
+        // `Table` auto-property (backing field `<Table>k__BackingField`), not `_table`.
+        const BindingFlags declared = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
 
-        if (tableField != null)
+        for (var type = GetType(); type != null && type != typeof(object); type = type.BaseType)
         {
-            tableField.SetValue(this, null);
-            return;
+            var tableProperty = type.GetProperty("Table", declared);
+            if (tableProperty != null && tableProperty.CanWrite)
+            {
+                tableProperty.SetValue(this, null);
+                return;
+            }
+
+            var tableField = type.GetField("_table", declared) ?? type.GetField("Table", declared);
+            if (tableField != null && !tableField.IsInitOnly && !tableField.IsLiteral)
+            {
+                tableField.SetValue(this, null);
+                return;
+            }
         }
 
-        // Try property approach
-        var tableProp = GetType().GetProperty("ColorTable", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
-        if (tableProp != null && tableProp.CanWrite)
+        var colorTableProp = GetType().GetProperty(nameof(ColorTable), BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+        if (colorTableProp != null && colorTableProp.CanWrite)
         {
-            tableProp.SetValue(this, null);
+            colorTableProp.SetValue(this, null);
         }
     }
 
@@ -2363,6 +2376,7 @@ public abstract class PaletteBase : Component
         lock (_colorLock)
         {
             Array.Copy(source, SchemeColors, Math.Min(source.Length, SchemeColors.Length));
+            SyncBackingSchemeFromArray();
             InvalidateColorTable();
         }
 
@@ -2380,6 +2394,7 @@ public abstract class PaletteBase : Component
             }
 
             SchemeColors[(int)colorIndex] = newColor;
+            SyncBackingSchemeColor(colorIndex, newColor);
             InvalidateColorTable();
         }
         OnSchemeColorChanged(colorIndex, newColor);
@@ -2471,6 +2486,7 @@ public abstract class PaletteBase : Component
         lock (_colorLock)
         {
             Array.Copy(newScheme.ToArray(), SchemeColors, SchemeColors.Length);
+            SyncBackingSchemeFromArray();
             InvalidateColorTable();
         }
         // notify each index has changed
@@ -2482,6 +2498,67 @@ public abstract class PaletteBase : Component
     }
 
     #endregion Palette Helpers
+
+    /// <summary>
+    /// Returns the scheme colour at <paramref name="primary"/>, or <paramref name="fallback"/> when that slot is empty or missing.
+    /// </summary>
+    /// <param name="primary">Preferred scheme slot.</param>
+    /// <param name="fallback">Slot used when <paramref name="primary"/> is empty.</param>
+    /// <returns>The resolved colour.</returns>
+    protected Color GetSchemeColorOrFallback(SchemeBaseColors primary, SchemeBaseColors fallback) =>
+        SchemeColors.Resolve(primary, fallback);
+
+    private KryptonColorSchemeBase? GetBackingScheme()
+    {
+        if (_backingSchemeResolved)
+        {
+            return _backingScheme;
+        }
+
+        _backingSchemeResolved = true;
+        const BindingFlags declared = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
+
+        for (var type = GetType(); type != null && type != typeof(object); type = type.BaseType)
+        {
+            var field = type.GetField("BaseColors", declared);
+            if (field != null)
+            {
+                _backingScheme = field.GetValue(this) as KryptonColorSchemeBase;
+                return _backingScheme;
+            }
+
+            var property = type.GetProperty("BaseColors", declared);
+            if (property != null)
+            {
+                _backingScheme = property.GetValue(this) as KryptonColorSchemeBase;
+                return _backingScheme;
+            }
+        }
+
+        return null;
+    }
+
+    private void SyncBackingSchemeColor(SchemeBaseColors index, Color newColor) =>
+        GetBackingScheme().Set(index, newColor);
+
+    private void SyncBackingSchemeFromArray()
+    {
+        var scheme = GetBackingScheme();
+        if (scheme is null)
+        {
+            return;
+        }
+
+        var colors = SchemeColors;
+        foreach (SchemeBaseColors index in Enum.GetValues(typeof(SchemeBaseColors)))
+        {
+            var i = (int)index;
+            if (i >= 0 && i < colors.Length)
+            {
+                scheme.Set(index, colors[i]);
+            }
+        }
+    }
 
     /// <summary>
     /// Gets ribbon group text color with optional disabled and tracking handling.

@@ -252,6 +252,7 @@ public static class LimeGreenSchemeHelper
         scheme.ContextMenuImageColumn = Color.FromArgb(0xEA, 0xF5, 0xC8);
         scheme.MenuItemText = Color.Black;
         scheme.MenuStripText = Color.Black;
+        scheme.ToolStripText = Color.Black;
     }
 
     /// <summary>
@@ -399,6 +400,7 @@ public static class LimeGreenSchemeHelper
         scheme.TextListItem = lightText;
         scheme.MenuItemText = lightText;
         scheme.MenuStripText = lightText;
+        scheme.ToolStripText = lightText;
         scheme.DisabledMenuItemText = mutedText;
         scheme.MenuMarginGradientStart = panelMid;
         scheme.MenuMarginGradientMiddle = panelRaised;
