@@ -34,6 +34,15 @@ internal static class FileSystemIconHelper
 
         try
         {
+            if (KryptonPaletteFile.IsPaletteExtension(path))
+            {
+                var themeIcon = KryptonPaletteFile.CreateThemeFileIcon(path, largeIcon);
+                if (themeIcon != null)
+                {
+                    return themeIcon;
+                }
+            }
+
             var shfi = new PI.SHFILEINFO();
             uint flags = (uint)(PI.SHGFI_.ICON | (largeIcon ? PI.SHGFI_.LARGEICON : PI.SHGFI_.SMALLICON));
 
@@ -107,11 +116,10 @@ internal static class FileSystemIconHelper
 
         if (KryptonPaletteFile.IsPaletteExtension(extension))
         {
-            KryptonPaletteFile.EnsureShellAssociations();
-            var paletteIcon = KryptonPaletteFile.CreateShellIcon(largeIcon);
-            if (paletteIcon != null)
+            var themeIcon = KryptonPaletteFile.CreateThemeFileIcon(null, largeIcon);
+            if (themeIcon != null)
             {
-                return paletteIcon;
+                return themeIcon;
             }
         }
 

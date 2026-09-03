@@ -34,7 +34,7 @@ internal sealed class KryptonPaletteFileThemeSelectorController
 
     internal bool AutoApply { get; set; } = true;
 
-    internal bool LoadThumbnails { get; set; }
+    internal bool LoadThumbnails { get; set; } = true;
 
     internal KryptonPaletteFileSelectorStrings Strings { get; set; } = KryptonPaletteFileSelectorStrings.Default;
 
@@ -46,9 +46,18 @@ internal sealed class KryptonPaletteFileThemeSelectorController
 
     internal KryptonCustomPaletteBase Palette { get; }
 
-    internal KryptonPaletteFileThemeItem[] Scan() =>
-        KryptonPaletteFileThemeItem.FromDirectory(PaletteDirectory, SearchSubdirectories,
+    internal KryptonPaletteFileThemeItem[] Scan()
+    {
+        var found = KryptonPaletteFileThemeItem.FromDirectory(PaletteDirectory, SearchSubdirectories,
             IncludeKthemex, IncludeKtheme, IncludeXml, LoadThumbnails, Strings.DuplicateDisplayNameFormat);
+        var size = ThumbnailSize;
+        for (var i = 0; i < found.Length; i++)
+        {
+            found[i].AssignListIcon(KryptonPaletteFile.CreateThemeIcon(found[i].Thumbnail, size));
+        }
+
+        return found;
+    }
 
     internal int Reload(IList items, KryptonPaletteFileThemeItem? previous)
     {
@@ -147,11 +156,7 @@ internal sealed class KryptonPaletteFileThemeSelectorController
         }
     }
 
-    private static void DisposeThumbnail(KryptonPaletteFileThemeItem item)
-    {
-        item.Thumbnail?.Dispose();
-        item.Thumbnail = null;
-    }
+    private static void DisposeThumbnail(KryptonPaletteFileThemeItem item) => item.DisposeImages();
 
     private static TreeNode InsertPath(TreeNodeCollection nodes, KryptonPaletteFileThemeItem item)
     {

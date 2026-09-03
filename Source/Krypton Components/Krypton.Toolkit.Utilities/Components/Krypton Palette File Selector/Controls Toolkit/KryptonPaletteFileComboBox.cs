@@ -145,10 +145,12 @@ public class KryptonPaletteFileComboBox : KryptonComboBox
     /// <summary>
     /// Gets or sets whether preview images are loaded and shown when a palette defines
     /// <see cref="KryptonCustomPaletteBase.Thumbnail"/> (or a collection thumbnail catalog).
+    /// Previews are drawn with the Stable Kr tile as a corner overlay; files without a preview
+    /// use the Kr tile alone.
     /// </summary>
     [Category(@"Appearance")]
-    [Description(@"When true, optional palette thumbnails are loaded and shown. Leave off until palettes provide previews.")]
-    [DefaultValue(false)]
+    [Description(@"When true, palette thumbnails are loaded and shown with the Krypton Stable overlay.")]
+    [DefaultValue(true)]
     public bool ShowThumbnails
     {
         get => _controller.LoadThumbnails;

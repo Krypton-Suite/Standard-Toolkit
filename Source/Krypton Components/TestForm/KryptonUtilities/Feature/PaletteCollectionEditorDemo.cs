@@ -35,10 +35,10 @@ public partial class PaletteCollectionEditorDemo : KryptonForm
         Directory.CreateDirectory(folder);
         _sampleCollectionPath = Path.Combine(folder, @"sample-collection.ktheme");
 
-        var lime = CreateNamedMarker(@"Collection-Lime", Color.Lime);
-        var orange = CreateNamedMarker(@"Collection-Orange", Color.Orange);
+        var lime = CreateNamedMarker(@"Collection-Lime", Color.Lime, withThumbnail: true);
+        var orange = CreateNamedMarker(@"Collection-Orange", Color.Orange, withThumbnail: false);
         var violetPath = Path.Combine(folder, @"Collection-Violet.kthemex");
-        var violet = CreateNamedMarker(@"Collection-Violet", Color.BlueViolet);
+        var violet = CreateNamedMarker(@"Collection-Violet", Color.BlueViolet, withThumbnail: true);
         try
         {
             lime.Export(Path.Combine(folder, @"Collection-Lime.kthemex"), ignoreDefaults: true, silent: true);
@@ -68,11 +68,23 @@ public partial class PaletteCollectionEditorDemo : KryptonForm
         }
     }
 
-    private static KryptonCustomPaletteBase CreateNamedMarker(string name, Color marker)
+    private static KryptonCustomPaletteBase CreateNamedMarker(string name, Color marker, bool withThumbnail)
     {
         var palette = new KryptonCustomPaletteBase();
         palette.SetPaletteName(name);
         palette.ToolMenuStatus.StatusStrip.StatusStripGradientBegin = marker;
+        if (withThumbnail)
+        {
+            var preview = new Bitmap(KryptonPaletteFile.RecommendedThumbnailSize,
+                KryptonPaletteFile.RecommendedThumbnailSize);
+            using (var graphics = Graphics.FromImage(preview))
+            {
+                graphics.Clear(marker);
+            }
+
+            palette.Thumbnail = preview;
+        }
+
         return palette;
     }
 }

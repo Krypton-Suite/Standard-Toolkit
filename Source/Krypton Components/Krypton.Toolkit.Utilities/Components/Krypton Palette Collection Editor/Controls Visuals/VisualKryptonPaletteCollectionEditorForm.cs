@@ -15,6 +15,8 @@ namespace Krypton.Toolkit.Utilities;
 internal partial class VisualKryptonPaletteCollectionEditorForm : KryptonForm
 {
     private readonly KryptonPaletteCollectionEditorStrings _strings;
+    private ImageList? _largeThemeImages;
+    private ImageList? _smallThemeImages;
 
     internal VisualKryptonPaletteCollectionEditorForm()
         : this(null, null)
@@ -36,6 +38,7 @@ internal partial class VisualKryptonPaletteCollectionEditorForm : KryptonForm
         kbtnRemove.Click += (_, _) => RemoveSelectedTheme();
         kbtnClose.Click += (_, _) => Close();
         CancelButton = kbtnClose;
+        FormClosed += (_, _) => DisposeThemeImages();
         SetupThemeListView();
         ApplyStrings();
         PopulateViews();
@@ -206,6 +209,7 @@ internal partial class VisualKryptonPaletteCollectionEditorForm : KryptonForm
 
     private void RefreshThemes()
     {
+        DisposeThemeImages();
         klvThemes.Items.Clear();
         var path = CollectionPath;
         if (string.IsNullOrWhiteSpace(path) || !File.Exists(path))
@@ -227,10 +231,58 @@ internal partial class VisualKryptonPaletteCollectionEditorForm : KryptonForm
         {
             ktxtCollectionName.Text = KryptonPaletteFile.GetCollectionName(path);
             var names = KryptonPaletteFile.GetThemeNames(path);
+            Image?[] thumbs;
+            try
+            {
+                thumbs = KryptonPaletteFile.GetThemeThumbnails(path);
+            }
+            catch (Exception)
+            {
+                thumbs = new Image?[names.Length];
+            }
+
+            _largeThemeImages = CreateThemeImageList(32);
+            _smallThemeImages = CreateThemeImageList(16);
+            var badgeIndex = -1;
             for (var i = 0; i < names.Length; i++)
             {
-                klvThemes.Items.Add(CreateThemeItem(names[i]));
+                var preview = i < thumbs.Length ? thumbs[i] : null;
+                int imageIndex;
+                if (preview == null)
+                {
+                    if (badgeIndex < 0)
+                    {
+                        using (var large = KryptonPaletteFile.CreateThemeIcon(null, 32))
+                        using (var small = KryptonPaletteFile.CreateThemeIcon(null, 16))
+                        {
+                            badgeIndex = _largeThemeImages.Images.Count;
+                            _largeThemeImages.Images.Add(large);
+                            _smallThemeImages.Images.Add(small);
+                        }
+                    }
+
+                    imageIndex = badgeIndex;
+                }
+                else
+                {
+                    using (var large = KryptonPaletteFile.CreateThemeIcon(preview, 32))
+                    using (var small = KryptonPaletteFile.CreateThemeIcon(preview, 16))
+                    {
+                        imageIndex = _largeThemeImages.Images.Count;
+                        _largeThemeImages.Images.Add(large);
+                        _smallThemeImages.Images.Add(small);
+                    }
+
+                    preview.Dispose();
+                }
+
+                var item = CreateThemeItem(names[i]);
+                item.ImageIndex = imageIndex;
+                klvThemes.Items.Add(item);
             }
+
+            klvThemes.LargeImageList = _largeThemeImages;
+            klvThemes.SmallImageList = _smallThemeImages;
 
             if (klvThemes.Items.Count > 0)
             {
@@ -385,6 +437,23 @@ internal partial class VisualKryptonPaletteCollectionEditorForm : KryptonForm
             klvThemes.Columns.Add(string.Empty, 240);
             klvThemes.Columns.Add(string.Empty, -2);
         }
+    }
+
+    private static ImageList CreateThemeImageList(int size) =>
+        new ImageList
+        {
+            ColorDepth = ColorDepth.Depth32Bit,
+            ImageSize = new Size(size, size)
+        };
+
+    private void DisposeThemeImages()
+    {
+        klvThemes.LargeImageList = null;
+        klvThemes.SmallImageList = null;
+        _largeThemeImages?.Dispose();
+        _smallThemeImages?.Dispose();
+        _largeThemeImages = null;
+        _smallThemeImages = null;
     }
 
     private void ApplyColumnHeadings()

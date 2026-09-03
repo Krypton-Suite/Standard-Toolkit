@@ -74,6 +74,36 @@ public sealed class KryptonPaletteFileThemeItem : IContentValues
     /// </summary>
     public Image? Thumbnail { get; set; }
 
+    private Image? _listIcon;
+
+    /// <summary>
+    /// Gets the composed list icon (thumbnail plus Kr overlay, or the Kr tile alone).
+    /// </summary>
+    internal Image? ListIcon => _listIcon;
+
+    /// <summary>
+    /// Assigns the composed icon shown in list, combo, and tree selectors.
+    /// </summary>
+    /// <param name="icon">Bitmap owned by this item. May be <see langword="null"/>.</param>
+    internal void AssignListIcon(Image? icon)
+    {
+        if (ReferenceEquals(_listIcon, icon))
+        {
+            return;
+        }
+
+        _listIcon?.Dispose();
+        _listIcon = icon;
+    }
+
+    /// <summary>Disposes <see cref="Thumbnail"/> and the composed list icon.</summary>
+    internal void DisposeImages()
+    {
+        Thumbnail?.Dispose();
+        Thumbnail = null;
+        AssignListIcon(null);
+    }
+
     /// <summary>Gets folder and leaf segments for <see cref="TreePath"/>.</summary>
     public string[] GetPathSegments() => KryptonPaletteFile.SplitCollectionThemePath(TreePath);
 
@@ -166,7 +196,7 @@ public sealed class KryptonPaletteFileThemeItem : IContentValues
     }
 
     /// <inheritdoc />
-    public Image? GetImage(PaletteState state) => Thumbnail;
+    public Image? GetImage(PaletteState state) => _listIcon ?? KryptonPaletteFile.GetThemeBadgeImage();
 
     /// <inheritdoc />
     public Color GetImageTransparentColor(PaletteState state) => Color.Empty;

@@ -441,6 +441,16 @@ try {
     $fromXmlThumb = New-Object Krypton.Toolkit.KryptonCustomPaletteBase
     [void]$fromXmlThumb.Import($xmlThumbPath, $true)
     Assert-True (($null -ne $fromXmlThumb.Thumbnail) -and ($fromXmlThumb.Thumbnail.Width -eq 8)) '.kthemex import restores Thumbnail'
+    $iconSize = New-Object System.Drawing.Size 32,32
+    $badgeIcon = [Krypton.Toolkit.KryptonPaletteFile]::CreateThemeIcon($null, $iconSize)
+    Assert-True (($badgeIcon.Width -eq 32) -and ($badgeIcon.Height -eq 32)) 'CreateThemeIcon without thumbnail is 32x32'
+    $overlayIcon = [Krypton.Toolkit.KryptonPaletteFile]::CreateThemeIcon($thumb, $iconSize)
+    Assert-True (($overlayIcon.Width -eq 32) -and ($overlayIcon.Height -eq 32)) 'CreateThemeIcon with thumbnail is 32x32'
+    $xmlText = [System.IO.File]::ReadAllText($xmlThumbPath)
+    Assert-True ($xmlText.Contains('Thumbnail')) '.kthemex stores the Thumbnail property'
+    Assert-True ($xmlText.Contains('<![CDATA[')) '.kthemex encodes thumbnail images as base64 CDATA'
+    $badgeIcon.Dispose()
+    $overlayIcon.Dispose()
     $fromThumb.Dispose()
     $fromXmlThumb.Dispose()
     $thumb.Dispose()

@@ -150,10 +150,12 @@ public class KryptonPaletteFileTreeView : KryptonTreeView
     /// <summary>
     /// Gets or sets whether preview images are loaded and shown when a palette defines
     /// <see cref="KryptonCustomPaletteBase.Thumbnail"/> (or a collection thumbnail catalog).
+    /// Previews are drawn with the Stable Kr tile as a corner overlay; files without a preview
+    /// use the Kr tile alone.
     /// </summary>
     [Category(@"Appearance")]
-    [Description(@"When true, optional palette thumbnails are loaded and shown. Leave off until palettes provide previews.")]
-    [DefaultValue(false)]
+    [Description(@"When true, palette thumbnails are loaded and shown with the Krypton Stable overlay.")]
+    [DefaultValue(true)]
     public bool ShowThumbnails
     {
         get => _controller.LoadThumbnails;
@@ -303,10 +305,6 @@ public class KryptonPaletteFileTreeView : KryptonTreeView
         ImageList = null;
         _thumbnailImages?.Dispose();
         _thumbnailImages = null;
-        if (!_controller.LoadThumbnails)
-        {
-            return;
-        }
 
         var list = new ImageList
         {
@@ -328,12 +326,16 @@ public class KryptonPaletteFileTreeView : KryptonTreeView
     {
         foreach (TreeNode node in nodes)
         {
-            if (node.Tag is KryptonPaletteFileThemeItem item && item.Thumbnail != null)
+            if (node.Tag is KryptonPaletteFileThemeItem item)
             {
-                var index = list.Images.Count;
-                list.Images.Add(item.Thumbnail);
-                node.ImageIndex = index;
-                node.SelectedImageIndex = index;
+                var image = item.GetImage(PaletteState.Normal);
+                if (image != null)
+                {
+                    var index = list.Images.Count;
+                    list.Images.Add(image);
+                    node.ImageIndex = index;
+                    node.SelectedImageIndex = index;
+                }
             }
 
             AssignNodeImages(node.Nodes, list);

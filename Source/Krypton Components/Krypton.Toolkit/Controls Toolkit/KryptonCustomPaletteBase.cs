@@ -3188,9 +3188,10 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <see cref="KryptonPaletteFile.RecommendedThumbnailSize"/> square PNG).
     /// </summary>
     /// <remarks>
-    /// Persists in <c>.kthemex</c> / XML and native <c>.ktheme</c>. Older toolkits skip the property.
-    /// Collection files also store a trailing thumbnail catalog for fast listing without a full import.
-    /// Leave <see langword="null"/> until a future version generates previews.
+    /// Persists in <c>.kthemex</c> / XML as a base64 PNG in the image cache, and in native <c>.ktheme</c>.
+    /// Older toolkits skip the property. Collection files also store a trailing thumbnail catalog for fast
+    /// listing without a full import. Selectors and the collection editor show the preview with the Stable
+    /// Kr tile as a corner overlay; files without a preview use the Kr tile alone.
     /// </remarks>
     [KryptonPersist(false, false)]
     [Category(@"Visuals")]
