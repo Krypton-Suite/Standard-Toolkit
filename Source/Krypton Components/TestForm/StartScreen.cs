@@ -296,11 +296,11 @@ public partial class StartScreen : KryptonForm
         else
         {
             // if there is no last filter at startup the buttons will be hidden at first.
-            AllCommandButtonsVisible();
+            ShowAllCommandButtons();
         }
     }
 
-    private void AllCommandButtonsVisible()
+    private void ShowAllCommandButtons()
     {
         _buttons.ForEach( button => button.Visible = true );
     }
@@ -390,26 +390,30 @@ public partial class StartScreen : KryptonForm
     private void SetupTableLayoutPanel()
     {
         tlpMain.SetDoubleBuffered(true);
-        tlpMain.RowCount = 0;
+        tlpMain.RowCount    = 1;
         tlpMain.ColumnCount = 1;
+        tlpMain.AutoSize    = false;
+        tlpMain.BackColor   = Color.Transparent;
+        tlpMain.Padding     = new Padding(0);
+        tlpMain.Margin      = new Padding(0);
+        tlpMain.AutoScroll  = true;
 
-        tlpMain.AutoSize     = false;
-        tlpMain.BackColor    = Color.Transparent;
-        tlpMain.Padding      = new Padding(0);
-        tlpMain.Margin       = new Padding(0);
-        tlpMain.AutoScroll   = true;
-
+        // The first row will act as the filler that pushed the buttons up.
+        // After that, each new row will be inserted before the filler position
         tlpMain.RowStyles.Clear();
+        tlpMain.RowStyles.Add( new RowStyle( SizeType.AutoSize) );
         tlpMain.ColumnStyles.Clear();
-        tlpMain.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+        tlpMain.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 90));
     }
     
     private void AddButtonsToTlpMain()
     {
+        // The first row will act as the filler that pushed the buttons up.
+        // After that, each new row will be inserted before the filler position
         _buttons.ForEach(button => {
             tlpMain.RowCount += 1;
-            tlpMain.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-            tlpMain.Controls.Add(button, 0, tlpMain.RowCount - 1);
+            tlpMain.RowStyles.Insert(tlpMain.RowCount - 2, new RowStyle(SizeType.AutoSize));
+            tlpMain.Controls.Add(button, 0, tlpMain.RowCount - 2);
         });
     }
 
@@ -436,15 +440,13 @@ public partial class StartScreen : KryptonForm
         }
         else
         {
-            _buttons.ForEach(button => button.Visible = true);
+            ShowAllCommandButtons();
         }
 
         if (tlpMain.Controls.Count > 0)
         {
             tlpMain.ScrollControlIntoView(tlpMain.Controls[0]);
         }
-
-        tlpMain.Visible = true;
     }
 
     private void kbtnExit_Click(object? sender, EventArgs e)
@@ -476,7 +478,7 @@ public partial class StartScreen : KryptonForm
             }
             else
             {
-                ThrowHelper.ThrowNullReferenceException($"ButtonHeadingComparer: make sure that parameter x and y both are valid references to a KryptonCommandLinkButton instance.");
+                ThrowHelper.ThrowArgumentNullException($"ButtonHeadingComparer: make sure that parameter x and y both are valid references to a KryptonCommandLinkButton instance.");
                 return 0;
             }
         }
