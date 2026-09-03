@@ -446,6 +446,15 @@ try {
     Assert-True (($badgeIcon.Width -eq 32) -and ($badgeIcon.Height -eq 32)) 'CreateThemeIcon without thumbnail is 32x32'
     $overlayIcon = [Krypton.Toolkit.KryptonPaletteFile]::CreateThemeIcon($thumb, $iconSize)
     Assert-True (($overlayIcon.Width -eq 32) -and ($overlayIcon.Height -eq 32)) 'CreateThemeIcon with thumbnail is 32x32'
+    $imageList = New-Object System.Windows.Forms.ImageList
+    $imageList.ColorDepth = [System.Windows.Forms.ColorDepth]::Depth32Bit
+    $imageList.ImageSize = $iconSize
+    $listCopy = New-Object System.Drawing.Bitmap $badgeIcon
+    $imageList.Images.Add($listCopy)
+    $null = $imageList.Handle
+    $listCopy.Dispose()
+    Assert-True ($imageList.Images.Count -eq 1) 'ImageList keeps the theme icon after the source bitmap is disposed'
+    $imageList.Dispose()
     $xmlText = [System.IO.File]::ReadAllText($xmlThumbPath)
     Assert-True ($xmlText.Contains('Thumbnail')) '.kthemex stores the Thumbnail property'
     Assert-True ($xmlText.Contains('<![CDATA[')) '.kthemex encodes thumbnail images as base64 CDATA'

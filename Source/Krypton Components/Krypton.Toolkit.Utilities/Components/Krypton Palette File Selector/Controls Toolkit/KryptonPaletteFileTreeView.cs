@@ -318,6 +318,8 @@ public class KryptonPaletteFileTreeView : KryptonTreeView
             return;
         }
 
+        // Copy into the native ImageList before the TreeView handle is created.
+        _ = list.Handle;
         _thumbnailImages = list;
         ImageList = list;
     }

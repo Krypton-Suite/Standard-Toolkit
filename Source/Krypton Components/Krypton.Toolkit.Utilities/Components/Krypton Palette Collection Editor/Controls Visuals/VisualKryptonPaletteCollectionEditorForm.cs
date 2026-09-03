@@ -252,27 +252,14 @@ internal partial class VisualKryptonPaletteCollectionEditorForm : KryptonForm
                 {
                     if (badgeIndex < 0)
                     {
-                        using (var large = KryptonPaletteFile.CreateThemeIcon(null, 32))
-                        using (var small = KryptonPaletteFile.CreateThemeIcon(null, 16))
-                        {
-                            badgeIndex = _largeThemeImages.Images.Count;
-                            _largeThemeImages.Images.Add(large);
-                            _smallThemeImages.Images.Add(small);
-                        }
+                        badgeIndex = AddThemeIcons(_largeThemeImages, _smallThemeImages, null);
                     }
 
                     imageIndex = badgeIndex;
                 }
                 else
                 {
-                    using (var large = KryptonPaletteFile.CreateThemeIcon(preview, 32))
-                    using (var small = KryptonPaletteFile.CreateThemeIcon(preview, 16))
-                    {
-                        imageIndex = _largeThemeImages.Images.Count;
-                        _largeThemeImages.Images.Add(large);
-                        _smallThemeImages.Images.Add(small);
-                    }
-
+                    imageIndex = AddThemeIcons(_largeThemeImages, _smallThemeImages, preview);
                     preview.Dispose();
                 }
 
@@ -445,6 +432,23 @@ internal partial class VisualKryptonPaletteCollectionEditorForm : KryptonForm
             ColorDepth = ColorDepth.Depth32Bit,
             ImageSize = new Size(size, size)
         };
+
+    private static int AddThemeIcons(ImageList largeList, ImageList smallList, Image? preview)
+    {
+        var index = largeList.Images.Count;
+        using (var large = KryptonPaletteFile.CreateThemeIcon(preview, largeList.ImageSize))
+        using (var small = KryptonPaletteFile.CreateThemeIcon(preview, smallList.ImageSize))
+        {
+            largeList.Images.Add(large);
+            smallList.Images.Add(small);
+            // WinForms ImageList keeps the Image until the native handle is created
+            // (ListView.OnHandleCreated). Copy now so disposing these bitmaps is safe.
+            _ = largeList.Handle;
+            _ = smallList.Handle;
+        }
+
+        return index;
+    }
 
     private void DisposeThemeImages()
     {
