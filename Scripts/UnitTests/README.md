@@ -75,6 +75,7 @@ Default output folder: `Bin\Debug\net472`.
 | `Get-NavigatorTabGroupColourShot.ps1` | Tab-group colour screenshot | n/a |
 | `Start-RadialMenuDemoHost.ps1` | Hosts `RadialMenuDemo` (#4172) | n/a |
 | `Invoke-RadialMenuScreenshot.ps1` | Opens radial menu and writes `Documents/PR/4172-radial-menu-native.png` | `exclude` |
+| `Invoke-ComboBoxSimpleStyleScreenshot.ps1` | Hosts `Feature4339ComboBoxSimpleStyleDemo` (#4339) and writes `Documents/PR/4339-combobox-simple-style.png` | `exclude` |
 | `Invoke-SchemeStripTextScreenshot.ps1` | Hosts `SchemeStripTextDemo` (#1100) and writes default/contrast PNGs under `Documents/PR/` | `exclude` |
 
 ## Run all CI assert tests (on demand)
