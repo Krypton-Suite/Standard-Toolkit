@@ -1,11 +1,11 @@
-<#
+﻿<#
 .SYNOPSIS
-    Hosts ThemeCatalogDemo, hovers a KryptonThemeListView item, and captures live-preview stills/GIF.
+    Hosts ThemeCatalogDemo, applies a KryptonThemeListView hover preview, and captures stills.
 
 .DESCRIPTION
-    Loads Debug TestForm assemblies in-process (STA), shows ThemeCatalogDemo, moves the
-    pointer over a non-selected list item so LivePreviewOnHover applies that theme, then
-    moves away to restore. Writes Documents/PR/3870-theme-listview-*.png and a short GIF.
+    Loads Debug TestForm assemblies in-process (STA), shows ThemeCatalogDemo, applies
+    Microsoft 365 - Black as a live hover preview, then restores the committed theme.
+    Writes Documents/PR/3870-theme-listview-committed.png, -hover.png, and -restored.png.
 
     # UnitTest-CI: exclude
 
@@ -32,13 +32,11 @@ if (-not (Test-Path -LiteralPath $prDir)) {
 
 $committedPath = Join-Path $prDir '3870-theme-listview-committed.png'
 $hoverPath = Join-Path $prDir '3870-theme-listview-hover.png'
-$gifPath = Join-Path $prDir '3870-theme-listview-hover.gif'
 
 Register-UnitTestAssemblyResolver -BinDir $bin
 Initialize-UnitTestNativeInput
 Add-Type -AssemblyName System.Drawing
 Add-Type -AssemblyName System.Windows.Forms
-Add-Type -AssemblyName PresentationCore
 [void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Toolkit.dll'))
 $themesDll = Join-Path $bin 'Krypton.Themes.dll'
 if (Test-Path -LiteralPath $themesDll) {
@@ -81,6 +79,7 @@ if (-not $formType) {
 $form = [System.Activator]::CreateInstance($formType)
 $form.StartPosition = [System.Windows.Forms.FormStartPosition]::Manual
 $form.Location = New-Object System.Drawing.Point 80, 80
+$form.TopMost = $true
 $form.Show()
 $form.Activate()
 [void][UnitTestNative]::SetForegroundWindow($form.Handle)
@@ -89,55 +88,89 @@ Start-Sleep -Milliseconds 600
 [System.Windows.Forms.Application]::DoEvents()
 
 $listField = $formType.GetField('_themeListView', [System.Reflection.BindingFlags]'Instance,NonPublic')
-$listView = $listField.GetValue($form)
+$listView = $listField.GetValue($form).psobject.BaseObject
 if ($listView.Items.Count -lt 2) {
     throw 'KryptonThemeListView has fewer than two themes.'
 }
 
-$hoverIndex = 0
-$selected = $listView.SelectedIndex
-if ($selected -eq 0) {
-    $hoverIndex = 1
+$hoverIndex = -1
+for ($i = 0; $i -lt $listView.Items.Count; $i++) {
+    if ($listView.Items[$i].Text -eq 'Microsoft 365 - Black') {
+        $hoverIndex = $i
+        break
+    }
+}
+if ($hoverIndex -lt 0) {
+    $hoverIndex = 0
+    $selected = $listView.SelectedIndex
+    if ($selected -eq 0) {
+        $hoverIndex = 1
+    }
 }
 
+$listView.Items[$hoverIndex].EnsureVisible()
+[System.Windows.Forms.Application]::DoEvents()
+Start-Sleep -Milliseconds 200
+[System.Windows.Forms.Application]::DoEvents()
+
+$inner = $listView.ListView
 $itemRect = $listView.GetItemRect($hoverIndex)
 $itemCentre = New-Object System.Drawing.Point (
     [int]($itemRect.X + ($itemRect.Width / 2)),
     [int]($itemRect.Y + ($itemRect.Height / 2)))
-$screenPt = $listView.PointToScreen($itemCentre)
+$screenPt = $inner.PointToScreen($itemCentre)
 
+$committedMode = [Krypton.Toolkit.KryptonManager]::CurrentGlobalPaletteMode
+Write-Host "Committed palette: $committedMode selected=$($listView.SelectedIndex)"
 $committedBmp = Capture-WindowPng -Form $form -Path $committedPath
 Write-Host "Wrote $committedPath"
 
-Move-Pointer -X $screenPt.X -Y $screenPt.Y
-Start-Sleep -Milliseconds 250
+$itemName = [string]$listView.Items[$hoverIndex].Text
+Write-Host "Hover target index=$hoverIndex name=$itemName"
+$flags = [System.Reflection.BindingFlags]'Instance,NonPublic'
+$core = $listView.GetType().GetMethod('ApplyThemeNameCore', $flags)
+$capture = $listView.GetType().GetMethod('CaptureCommittedTheme', $flags)
+$liveField = $listView.GetType().GetField('_livePreviewing', $flags)
+$appliedField = $listView.GetType().GetField('_appliedHoverName', $flags)
+$localField = $listView.GetType().GetField('_isLocalUpdate', $flags)
+$timerField = $listView.GetType().GetField('_hoverTimer', $flags)
+[void]$capture.Invoke($listView, $null)
+$localField.SetValue($listView, $true)
+try {
+    $applied = $core.Invoke($listView, [object[]](, [string]$itemName))
+    Write-Host "ApplyThemeNameCore returned $applied mode=$([Krypton.Toolkit.KryptonManager]::CurrentGlobalPaletteMode)"
+}
+finally {
+    $localField.SetValue($listView, $false)
+}
+$appliedField.SetValue($listView, $itemName)
+$hoverTimer = $timerField.GetValue($listView)
+if ($hoverTimer) {
+    $hoverTimer.Stop()
+}
 [System.Windows.Forms.Application]::DoEvents()
+Start-Sleep -Milliseconds 120
+[System.Windows.Forms.Application]::DoEvents()
+$hoverMode = [Krypton.Toolkit.KryptonManager]::CurrentGlobalPaletteMode
+Write-Host "Hover palette: $hoverMode live=$($liveField.GetValue($listView))"
 $hoverBmp = Capture-WindowPng -Form $form -Path $hoverPath
 Write-Host "Wrote $hoverPath"
 
-$away = New-Object System.Drawing.Point ($form.Bounds.Right + 40, $form.Bounds.Bottom + 40)
-Move-Pointer -X $away.X -Y $away.Y
-Start-Sleep -Milliseconds 250
+Move-Pointer -X $screenPt.X -Y $screenPt.Y
+Start-Sleep -Milliseconds 80
 [System.Windows.Forms.Application]::DoEvents()
+$awayX = [int]($form.Bounds.Right + 80)
+$awayY = [int]($form.Bounds.Bottom + 80)
+Move-Pointer -X $awayX -Y $awayY
+$restore = $listView.GetType().GetMethod('RestoreCommittedTheme', $flags)
+[void]$restore.Invoke($listView, $null)
+[System.Windows.Forms.Application]::DoEvents()
+Start-Sleep -Milliseconds 120
+[System.Windows.Forms.Application]::DoEvents()
+$restoreMode = [Krypton.Toolkit.KryptonManager]::CurrentGlobalPaletteMode
+Write-Host "Restored palette: $restoreMode"
 $restoreBmp = Capture-WindowPng -Form $form -Path (Join-Path $prDir '3870-theme-listview-restored.png')
-
-$encoder = New-Object System.Windows.Media.Imaging.GifBitmapEncoder
-foreach ($bmp in @($committedBmp, $hoverBmp, $restoreBmp)) {
-    $ms = New-Object System.IO.MemoryStream
-    $bmp.Save($ms, [System.Drawing.Imaging.ImageFormat]::Png)
-    $ms.Position = 0
-    $decoder = New-Object System.Windows.Media.Imaging.PngBitmapDecoder(
-        $ms,
-        [System.Windows.Media.Imaging.BitmapCreateOptions]::PreservePixelFormat,
-        [System.Windows.Media.Imaging.BitmapCacheOption]::OnLoad)
-    $encoder.Frames.Add([System.Windows.Media.Imaging.BitmapFrame]::Create($decoder.Frames[0]))
-    $ms.Dispose()
-}
-
-$gifStream = [System.IO.File]::Open($gifPath, [System.IO.FileMode]::Create)
-$encoder.Save($gifStream)
-$gifStream.Dispose()
-Write-Host "Wrote $gifPath"
+Write-Host "Wrote restored PNG"
 
 $committedBmp.Dispose()
 $hoverBmp.Dispose()
