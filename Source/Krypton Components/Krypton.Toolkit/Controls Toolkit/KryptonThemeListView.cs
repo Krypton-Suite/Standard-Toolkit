@@ -13,7 +13,8 @@ namespace Krypton.Toolkit;
 /// Theme selector list view that shows stored or generated previews in icon, tile, and details views (issue #3870).
 /// Custom palettes with a <see cref="KryptonCustomPaletteBase.Thumbnail"/> use that image plus the Stable Kr overlay.
 /// Missing images fall back to the Kr tile. Builtin themes get a generated window mock-up when
-/// <see cref="ShowThemePreviews"/> is on.
+/// <see cref="ShowThemePreviews"/> is on. Hovering a row applies that theme as a live preview until the pointer
+/// leaves; a click still commits. See <see cref="LivePreviewOnHover"/>.
 /// </summary>
 [Designer(typeof(KryptonStubDesigner))]
 [Description(@"Lists Krypton themes with preview images and applies the selected theme.")]
@@ -21,6 +22,7 @@ public class KryptonThemeListView : KryptonListView, IKryptonThemeSelectorBase
 {
     private const int LargePreviewSize = 48;
     private const int SmallPreviewSize = 16;
+    private const int LivePreviewHoverDelayMs = 50;
 
     /// <summary> When we change the palette, Krypton Manager will notify us that there was a change. Since we are changing it that notification can be skipped.</summary>
     private bool _isLocalUpdate;
@@ -37,6 +39,9 @@ public class KryptonThemeListView : KryptonListView, IKryptonThemeSelectorBase
     /// <summary> Whether preview images are composed for each row.</summary>
     private bool _showThemePreviews = true;
 
+    /// <summary> Whether hovering a row temporarily applies that theme.</summary>
+    private bool _livePreviewOnHover = true;
+
     /// <summary> Local Krypton Manager instance.</summary>
     private readonly KryptonManager _manager;
 
@@ -46,6 +51,13 @@ public class KryptonThemeListView : KryptonListView, IKryptonThemeSelectorBase
     private ImageList? _largeThemeImages;
     private ImageList? _smallThemeImages;
     private bool _applyPosted;
+    private System.Windows.Forms.Timer? _hoverTimer;
+    private string? _pendingHoverName;
+    private string? _appliedHoverName;
+    private bool _livePreviewing;
+    private PaletteMode _restoreMode = PaletteMode.Global;
+    private KryptonCustomPaletteBase? _restoreCustom;
+    private string? _restoreName;
 
     /// <summary>Initializes a new instance of the <see cref="KryptonThemeListView"/> class.</summary>
     public KryptonThemeListView()
@@ -58,6 +70,8 @@ public class KryptonThemeListView : KryptonListView, IKryptonThemeSelectorBase
         ShowItemToolTips = true;
         HideSelection = false;
         SelectedIndexChanged += OnThemeSelectedIndexChanged;
+        ListView.MouseMove += OnLivePreviewMouseMove;
+        ListView.MouseLeave += OnLivePreviewMouseLeave;
         PopulateThemes();
     }
 
@@ -122,6 +136,32 @@ public class KryptonThemeListView : KryptonListView, IKryptonThemeSelectorBase
     }
 
     /// <summary>
+    /// Gets or sets whether hovering a theme row temporarily applies that theme to the application.
+    /// The committed (clicked) selection is restored when the pointer leaves the list.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Temporarily apply the hovered theme as a live preview. The last clicked theme is restored when the pointer leaves.")]
+    [DefaultValue(true)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public bool LivePreviewOnHover
+    {
+        get => _livePreviewOnHover;
+        set
+        {
+            if (_livePreviewOnHover == value)
+            {
+                return;
+            }
+
+            _livePreviewOnHover = value;
+            if (!value)
+            {
+                CancelLivePreview(restore: true);
+            }
+        }
+    }
+
+    /// <summary>
     /// Gets or sets the selected theme index.
     /// </summary>
     [Browsable(false)]
@@ -175,6 +215,16 @@ public class KryptonThemeListView : KryptonListView, IKryptonThemeSelectorBase
     {
         if (disposing)
         {
+            ListView.MouseMove -= OnLivePreviewMouseMove;
+            ListView.MouseLeave -= OnLivePreviewMouseLeave;
+            CancelLivePreview(restore: false);
+            if (_hoverTimer != null)
+            {
+                _hoverTimer.Tick -= OnLivePreviewTimerTick;
+                _hoverTimer.Dispose();
+                _hoverTimer = null;
+            }
+
             DisposeThemeImages();
         }
 
@@ -381,6 +431,12 @@ public class KryptonThemeListView : KryptonListView, IKryptonThemeSelectorBase
             return;
         }
 
+        // An external theme change is the new committed state; drop any hover preview.
+        if (_livePreviewing)
+        {
+            CancelLivePreview(restore: false);
+        }
+
         var mode = KryptonManager.CurrentGlobalPaletteMode;
         if (mode == PaletteMode.Global)
         {
@@ -488,12 +544,262 @@ public class KryptonThemeListView : KryptonListView, IKryptonThemeSelectorBase
             return;
         }
 
+        CancelLivePreview(restore: false);
         var themeName = GetSelectedThemeName();
         if (!CommonHelperThemeSelectors.OnSelectedIndexChanged(ref _isLocalUpdate, _isExternalUpdate, ref _defaultPalette,
                 themeName, _manager, _kryptonCustomPalette))
         {
             SelectedIndex = CommonHelperThemeSelectors.GetPaletteIndex(ThemeNames, _manager.GlobalPaletteMode);
         }
+
+        ResumeHoverUnderPointer();
+    }
+
+    private void OnLivePreviewMouseMove(object? sender, MouseEventArgs e)
+    {
+        if (!_livePreviewOnHover || DesignMode || IsDisposed)
+        {
+            return;
+        }
+
+        var item = ListView.GetItemAt(e.X, e.Y);
+        if (item == null)
+        {
+            return;
+        }
+
+        QueueLivePreview(item.Text);
+    }
+
+    private void OnLivePreviewMouseLeave(object? sender, EventArgs e)
+    {
+        if (!_livePreviewOnHover || DesignMode || IsDisposed)
+        {
+            return;
+        }
+
+        // RecreateHandle after a palette change raises MouseLeave while the pointer is still over the list.
+        if (IsPointerOverSelector())
+        {
+            return;
+        }
+
+        QueueLivePreview(null);
+    }
+
+    private void QueueLivePreview(string? themeName)
+    {
+        if (string.Equals(themeName, _pendingHoverName, StringComparison.Ordinal)
+            && _hoverTimer != null
+            && _hoverTimer.Enabled)
+        {
+            return;
+        }
+
+        if (themeName != null
+            && string.Equals(themeName, _appliedHoverName, StringComparison.Ordinal)
+            && (_hoverTimer == null || !_hoverTimer.Enabled))
+        {
+            return;
+        }
+
+        _pendingHoverName = themeName;
+        var timer = EnsureHoverTimer();
+        timer.Stop();
+        timer.Start();
+    }
+
+    private System.Windows.Forms.Timer EnsureHoverTimer()
+    {
+        if (_hoverTimer == null)
+        {
+            _hoverTimer = new System.Windows.Forms.Timer
+            {
+                Interval = LivePreviewHoverDelayMs
+            };
+            _hoverTimer.Tick += OnLivePreviewTimerTick;
+        }
+
+        return _hoverTimer;
+    }
+
+    private void OnLivePreviewTimerTick(object? sender, EventArgs e)
+    {
+        if (_hoverTimer != null)
+        {
+            _hoverTimer.Stop();
+        }
+
+        if (IsDisposed || !_livePreviewOnHover || DesignMode)
+        {
+            CancelLivePreview(restore: _livePreviewing);
+            return;
+        }
+
+        var themeName = _pendingHoverName;
+        if (string.IsNullOrEmpty(themeName))
+        {
+            RestoreCommittedTheme();
+            return;
+        }
+
+        var committedName = GetSelectedThemeName();
+        if (string.Equals(themeName, committedName, StringComparison.Ordinal))
+        {
+            if (_livePreviewing)
+            {
+                RestoreCommittedTheme();
+            }
+
+            _appliedHoverName = themeName;
+            return;
+        }
+
+        if (string.Equals(themeName, _appliedHoverName, StringComparison.Ordinal))
+        {
+            return;
+        }
+
+        CaptureCommittedTheme();
+        _isLocalUpdate = true;
+        try
+        {
+            if (ApplyThemeNameCore(themeName!))
+            {
+                _appliedHoverName = themeName;
+            }
+        }
+        finally
+        {
+            _isLocalUpdate = false;
+        }
+    }
+
+    private void CaptureCommittedTheme()
+    {
+        if (_livePreviewing)
+        {
+            return;
+        }
+
+        _restoreMode = KryptonManager.CurrentGlobalPaletteMode;
+        _restoreCustom = KryptonManager.CurrentGlobalPalette as KryptonCustomPaletteBase;
+        _restoreName = GetSelectedThemeName();
+        _livePreviewing = true;
+    }
+
+    private void RestoreCommittedTheme()
+    {
+        if (!_livePreviewing)
+        {
+            _appliedHoverName = null;
+            _pendingHoverName = null;
+            return;
+        }
+
+        _isLocalUpdate = true;
+        try
+        {
+            if (_restoreMode == PaletteMode.Custom && _restoreCustom != null)
+            {
+                ThemeManager.ApplyTheme(_restoreCustom, _manager);
+            }
+            else if (_restoreMode != PaletteMode.Global && _restoreMode != PaletteMode.Custom)
+            {
+                ThemeManager.ApplyGlobalTheme(_manager, _restoreMode);
+            }
+            else if (!string.IsNullOrEmpty(_restoreName))
+            {
+                ApplyThemeNameCore(_restoreName!);
+            }
+        }
+        finally
+        {
+            _isLocalUpdate = false;
+            _livePreviewing = false;
+            _appliedHoverName = null;
+            _pendingHoverName = null;
+            _restoreCustom = null;
+            _restoreName = null;
+            _restoreMode = PaletteMode.Global;
+        }
+    }
+
+    private void CancelLivePreview(bool restore)
+    {
+        if (_hoverTimer != null)
+        {
+            _hoverTimer.Stop();
+        }
+
+        if (restore)
+        {
+            RestoreCommittedTheme();
+            return;
+        }
+
+        _livePreviewing = false;
+        _appliedHoverName = null;
+        _pendingHoverName = null;
+        _restoreCustom = null;
+        _restoreName = null;
+        _restoreMode = PaletteMode.Global;
+    }
+
+    private void ResumeHoverUnderPointer()
+    {
+        if (!_livePreviewOnHover || DesignMode || IsDisposed || !IsHandleCreated)
+        {
+            return;
+        }
+
+        var client = ListView.PointToClient(Control.MousePosition);
+        var item = ListView.GetItemAt(client.X, client.Y);
+        if (item == null || string.Equals(item.Text, GetSelectedThemeName(), StringComparison.Ordinal))
+        {
+            return;
+        }
+
+        _pendingHoverName = item.Text;
+        OnLivePreviewTimerTick(this, EventArgs.Empty);
+    }
+
+    private bool IsPointerOverSelector()
+    {
+        if (!IsHandleCreated)
+        {
+            return false;
+        }
+
+        return ClientRectangle.Contains(PointToClient(Control.MousePosition));
+    }
+
+    private bool ApplyThemeNameCore(string themeName)
+    {
+        if (ThemeManager.TryApplyRegisteredTheme(themeName, _manager))
+        {
+            return true;
+        }
+
+        var mode = ThemeManager.GetThemeManagerMode(themeName);
+        if (mode == PaletteMode.Custom)
+        {
+            if (_kryptonCustomPalette != null)
+            {
+                _manager.GlobalCustomPalette = _kryptonCustomPalette;
+                return true;
+            }
+
+            return false;
+        }
+
+        if (mode == PaletteMode.Global)
+        {
+            return false;
+        }
+
+        ThemeManager.ApplyTheme(themeName, _manager);
+        return true;
     }
 
     /// <summary>Gets the items of the list view.</summary>

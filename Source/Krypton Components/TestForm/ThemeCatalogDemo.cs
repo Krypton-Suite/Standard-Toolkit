@@ -25,6 +25,7 @@ public sealed class ThemeCatalogDemo : KryptonForm
     private readonly KryptonThemeListBox _themeList;
     private readonly KryptonThemeListView _themeListView;
     private readonly KryptonCheckBox _chkShowPreviews;
+    private readonly KryptonCheckBox _chkLivePreview;
     private PaletteMode _previousMode;
     private const string PreviewSampleName = @"3870 Preview Sample";
     private const string LogoFallbackName = @"3870 Logo Fallback";
@@ -41,13 +42,13 @@ public sealed class ThemeCatalogDemo : KryptonForm
         {
             Dock = DockStyle.Top,
             AutoSize = false,
-            Height = 148,
+            Height = 172,
             Padding = new Padding(12),
             Text =
                 "Issue #4230: core palettes live in Krypton.Toolkit (Professional, Sparkle Blue/Orange/Purple, plus Office 2007/2010/Microsoft 365 Blue, Silver, and Black). " +
                 "Everything else is in Krypton.Themes.dll and is auto-discovered when that assembly is beside the app (TestForm references it), including Issue #1551 Materialize packs. " +
                 "Use the family check boxes to hide themes from selectors (Sparkle extra-only keeps Blue/Orange/Purple). Uncheck Show extra themes to list core palettes only. Programmatic GlobalPaletteMode still applies a hidden extra theme. If Krypton.Themes.dll is missing, extra modes paint as Microsoft 365 Blue instead of throwing. " +
-                "Issue #3870: KryptonThemeListView (right) shows Large Icons, Tile, or Details previews. Builtin themes use a generated window mock-up. Registered custom 3870 Preview Sample stores a Thumbnail; 3870 Logo Fallback has none and uses the Kr tile."
+                "Issue #3870: KryptonThemeListView (right) shows Large Icons, Tile, or Details previews. Builtin themes use a generated window mock-up. Registered custom 3870 Preview Sample stores a Thumbnail; 3870 Logo Fallback has none and uses the Kr tile. Hover a list-view theme for a live preview of the form; move the pointer away to restore the last clicked theme. Click still commits. Uncheck Live preview on hover to disable."
         };
 
         _lblStatus = new KryptonLabel
@@ -58,7 +59,7 @@ public sealed class ThemeCatalogDemo : KryptonForm
             Padding = new Padding(12, 4, 12, 4)
         };
 
-        var toolbar = new KryptonPanel { Dock = DockStyle.Top, Height = 230, Padding = new Padding(12, 8, 12, 8) };
+        var toolbar = new KryptonPanel { Dock = DockStyle.Top, Height = 252, Padding = new Padding(12, 8, 12, 8) };
         var flow = new FlowLayoutPanel { Dock = DockStyle.Fill, WrapContents = true };
 
         flow.Controls.Add(new KryptonLabel { Text = @"Theme:", AutoSize = true, Padding = new Padding(0, 6, 8, 0) });
@@ -88,12 +89,18 @@ public sealed class ThemeCatalogDemo : KryptonForm
         {
             _themeListView.ShowThemePreviews = _chkShowPreviews.Checked;
         };
+        _chkLivePreview = new KryptonCheckBox { Text = @"Live preview on hover", Checked = true, AutoSize = true, Padding = new Padding(16, 6, 0, 0) };
+        _chkLivePreview.CheckedChanged += (_, _) =>
+        {
+            _themeListView.LivePreviewOnHover = _chkLivePreview.Checked;
+        };
         flow.Controls.Add(_chkVisualStudio);
         flow.Controls.Add(_chkMaterial);
         flow.Controls.Add(_chkMaterialize);
         flow.Controls.Add(_chkSparkle);
         flow.Controls.Add(_chkShowExtra);
         flow.Controls.Add(_chkShowPreviews);
+        flow.Controls.Add(_chkLivePreview);
 
         var btnLarge = new KryptonButton { Text = @"Large icons", AutoSize = true };
         btnLarge.Click += (_, _) => _themeListView.View = View.LargeIcon;
