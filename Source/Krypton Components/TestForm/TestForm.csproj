@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -73,6 +73,12 @@
     </Compile>
     <Compile Update="Bug3381KryptonButtonRoundedTextCenteringDemo.Designer.cs">
       <DependentUpon>Bug3381KryptonButtonRoundedTextCenteringDemo.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Bug4336ListViewStateTrackingDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Bug4336ListViewStateTrackingDemo.Designer.cs">
+      <DependentUpon>Bug4336ListViewStateTrackingDemo.cs</DependentUpon>
     </Compile>
     <Compile Update="Bug3661KryptonContextMenuOverflowDemo.cs">
       <SubType>Form</SubType>

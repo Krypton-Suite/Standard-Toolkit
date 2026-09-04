@@ -116,7 +116,34 @@ public class VisualPopupToolTip : VisualPopup
             position = new PopupPositionValues();
         }
 
+        Control? owning = target.OwningControl;
+        if (owning is null)
+        {
+            ShowCalculatingSize(controlMousePosition);
+            return;
+        }
 
+        ApplyPlacementAndShow(controlMousePosition, position, owning, target.ClientRectangle);
+    }
+
+    /// <summary>
+    /// Positions the tooltip using <paramref name="position"/> and the rectangle of <paramref name="placementControl"/>
+    /// when <see cref="PopupPositionValues.PlacementRectangle"/> is empty.
+    /// </summary>
+    public void ShowRelativeTo(Control placementControl, Point screenMousePosition, PopupPositionValues position) =>
+        ShowRelativeTo(placementControl, screenMousePosition, position, placementControl.ClientRectangle);
+
+    /// <summary>
+    /// Positions the tooltip using <paramref name="position"/>, with <paramref name="fallbackPlacementRectInOwningClient"/>
+    /// as the target when <see cref="PopupPositionValues.PlacementRectangle"/> is empty.
+    /// </summary>
+    public void ShowRelativeTo(Control placementControl, Point screenMousePosition, PopupPositionValues position,
+        Rectangle fallbackPlacementRectInOwningClient) =>
+        ApplyPlacementAndShow(screenMousePosition, position, placementControl, fallbackPlacementRectInOwningClient);
+
+    private void ApplyPlacementAndShow(Point controlMousePosition, PopupPositionValues position,
+        Control fallbackOwningControl, Rectangle fallbackPlacementRectInOwningClient)
+    {
         Rectangle cursorBounds = CommonHelper.GetCursorScreenBounds(controlMousePosition);
         const int cursorMargin = 2;
 
@@ -125,38 +152,29 @@ public class VisualPopupToolTip : VisualPopup
         {
             case PlacementMode.Absolute:
             case PlacementMode.AbsolutePoint:
-                // The screen, or PlacementRectangle if it is set.
-                // So do nothing !
                 break;
             case PlacementMode.Mouse:
             case PlacementMode.MousePoint:
-                // The bounds of the mouse pointer. PlacementRectangle is ignored
                 positionPlacementRectangle = cursorBounds;
                 break;
             default:
-                // The screen, or PlacementRectangle if it is set. The PlacementRectangle is relative to the screen.
+                // PlacementRectangle is screen coordinates when set; otherwise the placement target / fallback control.
                 if (positionPlacementRectangle.IsEmpty)
                 {
-                    var ctrl = (position.PlacementTarget?.OwningControl ?? target.OwningControl);
+                    Control? ctrl = position.PlacementTarget?.OwningControl ?? fallbackOwningControl;
                     if (ctrl is not null)
                     {
-                        // PlacementTarget or parent.
-                        positionPlacementRectangle = position.PlacementTarget?.ClientRectangle ?? target.ClientRectangle;
-                        positionPlacementRectangle = ctrl.RectangleToScreen(positionPlacementRectangle);
+                        Rectangle rectInOwnerClient = position.PlacementTarget?.ClientRectangle ?? fallbackPlacementRectInOwningClient;
+                        positionPlacementRectangle = ctrl.RectangleToScreen(rectInOwnerClient);
                     }
                     else
                     {
                         positionPlacementRectangle = cursorBounds;
                     }
                 }
-                else
-                {
-                    positionPlacementRectangle = Screen.GetWorkingArea(controlMousePosition);
-                }
                 break;
         }
 
-        // Get the size the popup would like to be
         Size popupSize = ViewManager!.GetPreferredSize(Renderer, new Size(100, 10));
         Point popupLocation;
 
@@ -167,7 +185,6 @@ public class VisualPopupToolTip : VisualPopup
             case PlacementMode.MousePoint:
             case PlacementMode.Relative:
             case PlacementMode.RelativePoint:
-                // The top-left corner of the target area.     The top-left corner of the Popup.
                 popupLocation = positionPlacementRectangle.Location;
                 if (positionPlacementRectangle.IntersectsWith(cursorBounds))
                 {
@@ -176,11 +193,9 @@ public class VisualPopupToolTip : VisualPopup
                 break;
             case PlacementMode.Bottom:
             case PlacementMode.Mouse:
-                // The bottom-left corner of the target area.     The top-left corner of the Popup.
                 popupLocation = new Point(positionPlacementRectangle.Left, positionPlacementRectangle.Bottom);
                 break;
             case PlacementMode.Center:
-                // The center of the target area.     The center of the Popup.
                 popupLocation = positionPlacementRectangle.Location;
                 popupLocation.Offset(popupSize.Width / 2, -popupSize.Height / 2);
                 if (positionPlacementRectangle.IntersectsWith(cursorBounds))
@@ -189,23 +204,19 @@ public class VisualPopupToolTip : VisualPopup
                 }
                 break;
             case PlacementMode.Left:
-                // The top-left corner of the target area.     The top-right corner of the Popup.
                 popupLocation = new Point(positionPlacementRectangle.Left - popupSize.Width, positionPlacementRectangle.Top);
                 break;
             case PlacementMode.Right:
-                // The top-right corner of the target area.     The top-left corner of the Popup.
                 popupLocation = new Point(positionPlacementRectangle.Right, positionPlacementRectangle.Top);
                 break;
             case PlacementMode.Top:
-                // The top-left corner of the target area.     The bottom-left corner of the Popup.
                 popupLocation = new Point(positionPlacementRectangle.Left, positionPlacementRectangle.Top - popupSize.Height);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(position.PlacementMode));
         }
-        // Show it now!
-        Show(popupLocation, popupSize);
 
+        Show(popupLocation, popupSize);
     }
 
     /// <summary>
