@@ -106,7 +106,17 @@ public class KryptonListView : VisualControlBase,
         /// <summary>
         /// Recreate the window handle.
         /// </summary>
-        public void Recreate() => RecreateHandle();
+        public void Recreate()
+        {
+            // RecreateHandle during LVN_ITEMCHANGED / palette apply throws Win32Exception
+            // ("Error creating window handle"). Skip when the handle is already being rebuilt.
+            if (!IsHandleCreated || RecreatingHandle || IsDisposed)
+            {
+                return;
+            }
+
+            RecreateHandle();
+        }
 
         /// <summary>
         /// Gets access to the contained view draw panel instance.
@@ -654,6 +664,7 @@ public class KryptonListView : VisualControlBase,
     private bool _forcedLayout;
     private KryptonScrollbarManager? _scrollbarManager;
     private bool? _useKryptonScrollbars;
+    private bool _paletteRecreatePosted;
 
     #endregion
 
@@ -2057,11 +2068,29 @@ public class KryptonListView : VisualControlBase,
     /// <param name="e">An EventArgs that contains the event data.</param>
     protected override void OnPaletteChanged(EventArgs e)
     {
-        _listView.Recreate();
         UpdateStateAndPalettes();
+        PostListViewRecreate();
         _listView.Invalidate();
         _listView.InvalidateHeader();
         base.OnPaletteChanged(e);
+    }
+
+    private void PostListViewRecreate()
+    {
+        if (_paletteRecreatePosted || IsDisposed || !_listView.IsHandleCreated)
+        {
+            return;
+        }
+
+        _paletteRecreatePosted = true;
+        BeginInvoke(new System.Windows.Forms.MethodInvoker(() =>
+        {
+            _paletteRecreatePosted = false;
+            if (!IsDisposed && !_listView.IsDisposed && _listView.IsHandleCreated)
+            {
+                _listView.Recreate();
+            }
+        }));
     }
 
     /// <summary>

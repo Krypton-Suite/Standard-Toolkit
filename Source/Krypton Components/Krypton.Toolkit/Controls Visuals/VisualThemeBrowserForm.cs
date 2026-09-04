@@ -98,6 +98,7 @@ internal partial class VisualThemeBrowserForm : KryptonForm
 		if (this.saveFileDialog1.ShowDialog() == DialogResult.OK)
 		{
 			this.kcpbCustom.PopulateFromBase(true);
+			KryptonThemePreview.AssignGeneratedThumbnail(this.kcpbCustom);
 			this.kcpbCustom.Export(this.saveFileDialog1.FileName, false);
 		}
 	}
