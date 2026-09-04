@@ -412,7 +412,8 @@ public static partial class KryptonPaletteFile
     /// <remarks>
     /// Writes <c>HKCU\Software\Classes</c> only (no admin). Safe to call more than once. Failures are
     /// ignored so restricted designer hosts still work. Does not replace an existing Open verb that
-    /// already points at an application executable.
+    /// already points at an application executable. After writing, Explorer is notified in-place
+    /// (<c>SHChangeNotify</c>) so icons and Open verbs refresh without restarting <c>explorer.exe</c>.
     /// </remarks>
     public static void EnsureShellAssociations() => EnsureShellAssociations(null);
 
@@ -460,7 +461,7 @@ public static partial class KryptonPaletteFile
             DeleteProgId(@"Krypton.Toolkit.PaletteBinary");
             UnregisterUnreleasedExtension(@"kpal", @"Krypton.Toolkit.PaletteBinary");
             UnregisterUnreleasedExtension(@"kpalx", @"Krypton.Toolkit.PaletteXmlLegacy");
-            SHChangeNotify(ShcneAssocChanged, ShcnfIdList, IntPtr.Zero, IntPtr.Zero);
+            NotifyAssociationsChanged();
             Interlocked.Exchange(ref _shellAssociationsState, 1);
         }
         catch (Exception)
@@ -491,12 +492,7 @@ public static partial class KryptonPaletteFile
     }
 
     private const string ShellIconResourceName = @"Krypton.Toolkit.Resources.KryptonPalette.ico";
-    private const uint ShcneAssocChanged = 0x08000000;
-    private const uint ShcnfIdList = 0x0000;
     private static int _shellAssociationsState;
-
-    [DllImport(@"shell32.dll")]
-    private static extern void SHChangeNotify(uint wEventId, uint uFlags, IntPtr dwItem1, IntPtr dwItem2);
 
     private static string ExtractShellIconFile()
     {
@@ -656,5 +652,56 @@ public static partial class KryptonPaletteFile
         }
 
         Registry.CurrentUser.DeleteSubKeyTree(@"Software\Classes\" + progId, throwOnMissingSubKey: false);
+    }
+
+    /// <summary>
+    /// Tells Explorer that file associations changed, so icons, verbs, and cached handlers refresh
+    /// without restarting <c>explorer.exe</c>. Call once after all registry writes are done.
+    /// </summary>
+    private static void NotifyAssociationsChanged()
+    {
+        // ASSOCCHANGED requires SHCNF_IDLIST with null item pointers.
+        SHChangeNotify((uint)SHCNE.ASSOCCHANGED, (uint)SHCNF.IDLIST, IntPtr.Zero, IntPtr.Zero);
+        // Refresh the system image list so existing Explorer windows pick up the new DefaultIcon.
+        SHChangeNotify((uint)SHCNE.UPDATEIMAGE, (uint)SHCNF.FLUSHNOWAIT, IntPtr.Zero, IntPtr.Zero);
+        NotifyDirectoryChanged(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory));
+    }
+
+    private static void NotifyDirectoryChanged(string path)
+    {
+        if (string.IsNullOrWhiteSpace(path) || !Directory.Exists(path))
+        {
+            return;
+        }
+
+        var buffer = Marshal.StringToHGlobalUni(path);
+        try
+        {
+            SHChangeNotify((uint)SHCNE.UPDATEDIR, (uint)(SHCNF.PATH | SHCNF.FLUSHNOWAIT), buffer, IntPtr.Zero);
+        }
+        finally
+        {
+            Marshal.FreeHGlobal(buffer);
+        }
+    }
+
+    [DllImport(Libraries.Shell32, SetLastError = false)]
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    private static extern void SHChangeNotify(uint wEventId, uint uFlags, IntPtr dwItem1, IntPtr dwItem2);
+
+    [Flags]
+    private enum SHCNE : uint
+    {
+        UPDATEDIR = 0x00001000,
+        UPDATEIMAGE = 0x00008000,
+        ASSOCCHANGED = 0x08000000
+    }
+
+    [Flags]
+    private enum SHCNF : uint
+    {
+        IDLIST = 0x0000,
+        PATH = 0x0005,
+        FLUSHNOWAIT = 0x3000
     }
 }
