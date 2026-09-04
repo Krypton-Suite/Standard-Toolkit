@@ -1692,10 +1692,11 @@ public class KryptonRibbon : VisualSimple,
     {
         base.OnPaletteChanged(e);
 
-        // RibbonShape (and related caption chrome) come from the palette; refresh QAT and
-        // form icon integration immediately rather than waiting for a resize/chrome event.
-        CaptionArea?.UpdateQAT();
-        CaptionArea?.PerformFormChromeCheck();
+        // RibbonShape (orb vs File tab, QAT Above, form icon, injected caption chrome)
+        // comes from the palette. Refresh immediately rather than waiting for a resize
+        // or form-chrome event (#3859, #4061).
+        TabsArea?.AppButtonVisibleChanged();
+        CaptionArea?.ApplyPaletteChanged();
     }
 
 
