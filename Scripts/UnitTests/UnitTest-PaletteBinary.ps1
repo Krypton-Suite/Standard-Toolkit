@@ -89,6 +89,18 @@ Assert-True (-not [Krypton.Toolkit.KryptonPaletteFile]::IsPaletteExtension('them
 Assert-True ([Krypton.Toolkit.KryptonPaletteFile]::BinaryExtension -eq 'ktheme') 'BinaryExtension is ktheme'
 Assert-True (-not [Krypton.Toolkit.KryptonPaletteFile]::DialogFilter.Contains('.kpal')) 'Dialog filter does not list .kpal'
 Assert-True (-not [Krypton.Toolkit.KryptonPaletteFile]::DialogFilter.Contains('kpalx')) 'Dialog filter does not list .kpalx'
+Assert-True ([Krypton.Toolkit.KryptonPaletteFile]::XmlProgId -eq 'kthemexfile') 'XmlProgId is kthemexfile'
+Assert-True ([Krypton.Toolkit.KryptonPaletteFile]::BinaryProgId -eq 'kthemefile') 'BinaryProgId is kthemefile'
+[Krypton.Toolkit.KryptonPaletteFile]::EnsureShellAssociations()
+$kthemexClass = [Microsoft.Win32.Registry]::CurrentUser.OpenSubKey('Software\Classes\.kthemex')
+$kthemexProgId = if ($kthemexClass) { [string]$kthemexClass.GetValue($null) } else { '' }
+Assert-True ($kthemexProgId -eq 'kthemexfile') 'HKCU .kthemex default ProgID is kthemexfile'
+$kthemeClass = [Microsoft.Win32.Registry]::CurrentUser.OpenSubKey('Software\Classes\.ktheme')
+$kthemeProgId = if ($kthemeClass) { [string]$kthemeClass.GetValue($null) } else { '' }
+Assert-True ($kthemeProgId -eq 'kthemefile') 'HKCU .ktheme default ProgID is kthemefile'
+$xmlIcon = [Microsoft.Win32.Registry]::CurrentUser.OpenSubKey('Software\Classes\kthemexfile\DefaultIcon')
+$xmlIconPath = if ($xmlIcon) { [string]$xmlIcon.GetValue($null) } else { '' }
+Assert-True (-not [string]::IsNullOrWhiteSpace($xmlIconPath)) 'kthemexfile DefaultIcon is set'
 $shellIcon = [Krypton.Toolkit.KryptonPaletteFile]::CreateShellIcon($false)
 Assert-True ($null -ne $shellIcon) 'CreateShellIcon returns the Stable Kr tile'
 if ($shellIcon) { $shellIcon.Dispose() }

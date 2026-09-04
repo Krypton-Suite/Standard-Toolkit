@@ -32,6 +32,16 @@ public static partial class KryptonPaletteFile
     public const string BinaryExtension = @"ktheme";
 
     /// <summary>
+    /// Per-user ProgID under <c>HKCU\Software\Classes</c> for <c>.kthemex</c> (Windows <c>extfile</c> convention).
+    /// </summary>
+    public const string XmlProgId = @"kthemexfile";
+
+    /// <summary>
+    /// Per-user ProgID under <c>HKCU\Software\Classes</c> for <c>.ktheme</c>.
+    /// </summary>
+    public const string BinaryProgId = @"kthemefile";
+
+    /// <summary>
     /// Open/save dialog filter with <c>.kthemex</c> first, then optional native <c>.ktheme</c>,
     /// then legacy <c>.xml</c>.
     /// </summary>
@@ -397,27 +407,61 @@ public static partial class KryptonPaletteFile
     }
 
     /// <summary>
-    /// Registers per-user Explorer icons for <c>.ktheme</c> and <c>.kthemex</c> using the Stable Kr tile.
+    /// Registers per-user Explorer icons for <c>.ktheme</c> and <c>.kthemex</c>.
     /// </summary>
     /// <remarks>
-    /// Writes <c>HKCU\Software\Classes</c> only. Safe to call more than once. Failures are ignored so
-    /// restricted designer hosts still work.
+    /// Writes <c>HKCU\Software\Classes</c> only (no admin). Safe to call more than once. Failures are
+    /// ignored so restricted designer hosts still work. Does not replace an existing Open verb that
+    /// already points at an application executable.
     /// </remarks>
-    public static void EnsureShellAssociations()
+    public static void EnsureShellAssociations() => EnsureShellAssociations(null);
+
+    /// <summary>
+    /// Registers per-user Explorer icons and, when <paramref name="openWithExecutable"/> is a
+    /// reachable <c>.exe</c>, the Open verb for <c>.ktheme</c> and <c>.kthemex</c>.
+    /// </summary>
+    /// <param name="openWithExecutable">
+    /// Full path to the application that should open these files (typically Palette Designer).
+    /// Explorer uses that executable's first icon (<c>path,0</c>) so a separate <c>.ico</c> is not
+    /// required. When omitted or not an <c>.exe</c>, only the Stable Kr tile is registered as
+    /// <c>DefaultIcon</c>.
+    /// </param>
+    /// <remarks>
+    /// Layout (example for <c>.kthemex</c>):
+    /// <c>HKCU\Software\Classes\.kthemex</c> default = <see cref="XmlProgId"/>;
+    /// <c>HKCU\Software\Classes\kthemexfile\DefaultIcon</c>;
+    /// <c>HKCU\Software\Classes\kthemexfile\shell\open\command</c> = <c>"exe" "%1"</c>.
+    /// The same pattern uses <see cref="BinaryProgId"/> for <c>.ktheme</c>.
+    /// </remarks>
+    public static void EnsureShellAssociations(string? openWithExecutable)
     {
-        if (Interlocked.CompareExchange(ref _shellAssociationsState, 1, 0) != 0)
+        var openWith = NormalizeOpenWithExecutable(openWithExecutable);
+        if (openWith == null && Interlocked.CompareExchange(ref _shellAssociationsState, 1, 0) != 0)
         {
             return;
         }
 
         try
         {
-            var iconPath = ExtractShellIconFile();
-            RegisterExtension(Extension, @"Krypton.Toolkit.PaletteXml", @"Krypton Theme XML", iconPath);
-            RegisterExtension(BinaryExtension, @"Krypton.Toolkit.PaletteBinary", @"Krypton Theme Container", iconPath);
+            string iconValue;
+            var replaceOpenCommand = openWith != null;
+            if (replaceOpenCommand)
+            {
+                iconValue = QuotePath(openWith!) + @",0";
+            }
+            else
+            {
+                iconValue = ExtractShellIconFile();
+            }
+
+            RegisterExtension(Extension, XmlProgId, @"Krypton Theme XML", iconValue, openWith, replaceOpenCommand);
+            RegisterExtension(BinaryExtension, BinaryProgId, @"Krypton Theme Container", iconValue, openWith, replaceOpenCommand);
+            DeleteProgId(@"Krypton.Toolkit.PaletteXml");
+            DeleteProgId(@"Krypton.Toolkit.PaletteBinary");
             UnregisterUnreleasedExtension(@"kpal", @"Krypton.Toolkit.PaletteBinary");
             UnregisterUnreleasedExtension(@"kpalx", @"Krypton.Toolkit.PaletteXmlLegacy");
             SHChangeNotify(ShcneAssocChanged, ShcnfIdList, IntPtr.Zero, IntPtr.Zero);
+            Interlocked.Exchange(ref _shellAssociationsState, 1);
         }
         catch (Exception)
         {
@@ -517,7 +561,12 @@ public static partial class KryptonPaletteFile
         Registry.CurrentUser.DeleteSubKeyTree(extensionKey, throwOnMissingSubKey: false);
     }
 
-    private static void RegisterExtension(string extensionWithoutDot, string progId, string friendlyName, string iconPath)
+    private static void RegisterExtension(string extensionWithoutDot,
+        string progId,
+        string friendlyName,
+        string iconValue,
+        string? openWithExecutable,
+        bool replaceOpenCommand)
     {
         using (var extKey = Registry.CurrentUser.CreateSubKey(@"Software\Classes\." + extensionWithoutDot))
         {
@@ -526,9 +575,86 @@ public static partial class KryptonPaletteFile
 
         using (var progKey = Registry.CurrentUser.CreateSubKey(@"Software\Classes\" + progId))
         {
-            progKey?.SetValue(null, friendlyName);
-            using var iconKey = progKey?.CreateSubKey(@"DefaultIcon");
-            iconKey?.SetValue(null, iconPath);
+            if (progKey == null)
+            {
+                return;
+            }
+
+            progKey.SetValue(null, friendlyName);
+            using (var iconKey = progKey.CreateSubKey(@"DefaultIcon"))
+            {
+                if (iconKey != null && ShouldWriteDefaultIcon(iconKey.GetValue(null) as string, replaceOpenCommand))
+                {
+                    iconKey.SetValue(null, iconValue);
+                }
+            }
+
+            if (!replaceOpenCommand || string.IsNullOrEmpty(openWithExecutable))
+            {
+                return;
+            }
+
+            using var commandKey = progKey.CreateSubKey(@"shell\open\command");
+            commandKey?.SetValue(null, QuotePath(openWithExecutable!) + @" ""%1""");
         }
+    }
+
+    private static bool ShouldWriteDefaultIcon(string? existing, bool replaceOpenCommand)
+    {
+        if (replaceOpenCommand || string.IsNullOrWhiteSpace(existing))
+        {
+            return true;
+        }
+
+        return !IsExecutableIcon(existing);
+    }
+
+    private static bool IsExecutableIcon(string? value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return false;
+        }
+
+        var comma = value!.LastIndexOf(',');
+        var path = (comma > 0 ? value.Substring(0, comma) : value).Trim().Trim('"');
+        return string.Equals(Path.GetExtension(path), @".exe", StringComparison.OrdinalIgnoreCase)
+               && File.Exists(path);
+    }
+
+    private static string? NormalizeOpenWithExecutable(string? path)
+    {
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            return null;
+        }
+
+        try
+        {
+            path = Path.GetFullPath(path!);
+        }
+        catch (Exception)
+        {
+            return null;
+        }
+
+        return string.Equals(Path.GetExtension(path), @".exe", StringComparison.OrdinalIgnoreCase) && File.Exists(path)
+            ? path
+            : null;
+    }
+
+    private static string QuotePath(string path) =>
+        path.Length >= 2 && path[0] == '"' && path[path.Length - 1] == '"'
+            ? path
+            : @"""" + path + @"""";
+
+    private static void DeleteProgId(string progId)
+    {
+        if (string.IsNullOrWhiteSpace(progId))
+        {
+            return;
+        }
+
+        Registry.CurrentUser.DeleteSubKeyTree(@"Software\Classes\" + progId, throwOnMissingSubKey: false);
     }
 }

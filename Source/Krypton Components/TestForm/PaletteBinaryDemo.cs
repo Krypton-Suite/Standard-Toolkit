@@ -53,12 +53,12 @@ public sealed class PaletteBinaryDemo : KryptonForm
         {
             Dock = DockStyle.Top,
             AutoSize = false,
-            Height = 128,
+            Height = 148,
             Text =
                 @"How to test issue #2117:" + Environment.NewLine +
                 @"1) Pick an extra Krypton.Themes palette, populate from it, then Export .kthemex (XML). Optionally export native .ktheme or compressed-XML .ktheme. Prefer .kthemex over legacy .xml." + Environment.NewLine +
                 @"2) Open the .kthemex file in a text editor — it is the KryptonPalette XML document. Import each file and confirm the sample header follows the theme." + Environment.NewLine +
-                @"3) Import file… warns on legacy .xml and offers to upgrade to .kthemex before applying. Upgrade .xml to .kthemex… uses KryptonCustomPaletteBase.UpgradeXmlToKthemex. Upgrade folder .xml to .kthemex… uses UpgradeXmlToKthemexFromDirectory. Convert XML to .kthemex… uses ConvertFile. Export .ktheme collection stores several named themes. Collection folder to .ktheme stores a directory tree (relative / paths). Edit .ktheme collection… opens KryptonPaletteCollectionEditor to add .kthemex files and remove named themes. Selecting an .xml theme in the combo/tree/list also shows the upgrade warning."
+                @"3) Import file… warns on legacy .xml and offers to upgrade to .kthemex before applying. Upgrade .xml to .kthemex… uses KryptonCustomPaletteBase.UpgradeXmlToKthemex. Upgrade folder .xml to .kthemex… uses UpgradeXmlToKthemexFromDirectory. Convert XML to .kthemex… uses ConvertFile. Export .ktheme collection stores several named themes. Collection folder to .ktheme stores a directory tree (relative / paths). Edit .ktheme collection… opens KryptonPaletteCollectionEditor to add .kthemex files and remove named themes. Selecting an .xml theme in the combo/tree/list also shows the upgrade warning. This demo registers per-user Explorer icons only; run Palette Designer once to add the Open verb (double-click) for the current Windows user."
         };
 
         _lblStatus = new KryptonWrapLabel
