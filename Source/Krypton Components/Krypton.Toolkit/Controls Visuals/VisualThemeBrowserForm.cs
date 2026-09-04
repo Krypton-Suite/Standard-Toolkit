@@ -89,11 +89,12 @@ internal partial class VisualThemeBrowserForm : KryptonForm
 
 	private void kbtnExport_Click(object sender, EventArgs e)
 	{
+		KryptonPaletteFile.EnsureShellAssociations();
 		this.saveFileDialog1.OverwritePrompt = true;
-		this.saveFileDialog1.DefaultExt = "xml";
-		this.saveFileDialog1.Filter = "Palette files (*.xml)|*.xml|All files (*.*)|(*.*)";
+		this.saveFileDialog1.DefaultExt = KryptonPaletteFile.Extension;
+		this.saveFileDialog1.Filter = KryptonPaletteFile.DialogFilter;
 		this.saveFileDialog1.Title = "Save Palette As";
-		this.saveFileDialog1.FileName = $"{klbThemeList.GetItemText(klbThemeList.SelectedItem)}.xml";
+		this.saveFileDialog1.FileName = $"{klbThemeList.GetItemText(klbThemeList.SelectedItem)}.{KryptonPaletteFile.Extension}";
 		if (this.saveFileDialog1.ShowDialog() == DialogResult.OK)
 		{
 			this.kcpbCustom.PopulateFromBase(true);

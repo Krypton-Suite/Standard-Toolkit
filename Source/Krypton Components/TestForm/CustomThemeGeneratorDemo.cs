@@ -184,8 +184,9 @@ public partial class CustomThemeGeneratorDemo : KryptonForm
 
         using var dialog = new SaveFileDialog
         {
-            Filter = @"Krypton Palette (*.xml)|*.xml",
-            FileName = seed.Name + @".xml",
+            Filter = KryptonPaletteFile.DialogFilter,
+            DefaultExt = KryptonPaletteFile.Extension,
+            FileName = seed.Name + @"." + KryptonPaletteFile.Extension,
             Title = @"Export generated theme"
         };
 
