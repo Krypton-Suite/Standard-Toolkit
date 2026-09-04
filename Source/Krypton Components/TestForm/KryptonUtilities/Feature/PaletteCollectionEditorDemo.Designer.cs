@@ -56,7 +56,7 @@ namespace TestForm
             this.kwlblInfo.Location = new System.Drawing.Point(16, 16);
             this.kwlblInfo.Name = "kwlblInfo";
             this.kwlblInfo.Size = new System.Drawing.Size(608, 88);
-            this.kwlblInfo.Text = "Issue #2117: KryptonPaletteCollectionEditor (Krypton.Toolkit.Utilities) adds .kthemex files to a .ktheme collection and removes named themes. Create a sample collection (two themes plus a spare .kthemex), then open the editor. Add Collection-Violet.kthemex, then Remove it. The last theme cannot be removed.";
+            this.kwlblInfo.Text = "Issue #2117: KryptonPaletteCollectionEditor (Krypton.Toolkit.Utilities) adds .kthemex files to a .ktheme collection and removes named themes. Create a sample collection (two themes plus a spare .kthemex), then open the editor. Add Collection - Violet.kthemex, then Remove it. The last theme cannot be removed.";
             //
             // kbtnCreateSample
             //
