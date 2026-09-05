@@ -267,6 +267,8 @@ public class KryptonForm : VisualForm,
 	private KryptonFormTitleBar? _titleBar;
 	private ViewDrawDocker? _titleBarDocker;
 	private ButtonSpecManagerDraw? _titleBarButtonManager;
+	private ButtonSpecManagerDraw? _titleBarMenuStripButtonManager;
+	private KryptonMenuBar? _menuBar;
 
 	#endregion
 
@@ -1306,6 +1308,28 @@ public class KryptonForm : VisualForm,
 	}
 
 	/// <summary>
+	/// Gets or sets the native <see cref="KryptonMenuBar"/> used as this form's menu bar.
+	/// Assignment does not dock or reparent the control. Coexists with <see cref="Form.MainMenuStrip"/>.
+	/// </summary>
+	[Category(@"Visuals")]
+	[Description(@"Native Krypton menu bar used for shortcuts and Alt activation.")]
+	[DefaultValue(null)]
+	public KryptonMenuBar? MenuBar
+	{
+		get => _menuBar;
+
+		set
+		{
+			if (_menuBar == value)
+			{
+				return;
+			}
+
+			_menuBar = value;
+		}
+	}
+
+	/// <summary>
 	/// Gets access to the minimize button spec.
 	/// </summary>
 	[Browsable(false)]
@@ -1975,6 +1999,7 @@ public class KryptonForm : VisualForm,
 		_buttonManager?.RecreateButtons();
 
 		_titleBarButtonManager?.RecreateButtons();
+		_titleBarMenuStripButtonManager?.RecreateButtons();
 	}
 
 	/// <inheritdoc />
@@ -1990,6 +2015,7 @@ public class KryptonForm : VisualForm,
 		_buttonManager?.RecreateButtons();
 
 		_titleBarButtonManager?.RecreateButtons();
+		_titleBarMenuStripButtonManager?.RecreateButtons();
 	}
 
 	/// <summary>
@@ -2003,6 +2029,7 @@ public class KryptonForm : VisualForm,
 		_buttonManager?.RecreateButtons();
 
 		_titleBarButtonManager?.RecreateButtons();
+		_titleBarMenuStripButtonManager?.RecreateButtons();
 	}
 
 	/// <summary>
@@ -2269,7 +2296,8 @@ public class KryptonForm : VisualForm,
 
 		Point windowPoint = ScreenToWindow(Control.MousePosition);
 		return _buttonManager.IsPointOverButton(windowPoint)
-			   || (_titleBarButtonManager?.IsPointOverButton(windowPoint) ?? false);
+			   || (_titleBarButtonManager?.IsPointOverButton(windowPoint) ?? false)
+			   || (_titleBarMenuStripButtonManager?.IsPointOverButton(windowPoint) ?? false);
 	}
 
 	/// <summary>
@@ -2283,6 +2311,9 @@ public class KryptonForm : VisualForm,
 			_buttonManager.RecreateButtons();
 			_recreateButtons = false;
 		}
+
+		_titleBarButtonManager?.RecreateButtons();
+		_titleBarMenuStripButtonManager?.RecreateButtons();
 
 		// Need to perform a layout
 		PerformNeedPaint(true);
@@ -3697,6 +3728,18 @@ public class KryptonForm : VisualForm,
 	/// <inheritdoc />
 	protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 	{
+		if (_menuBar is { IsDisposed: false }
+		    && _menuBar.ProcessBarCmdKey(ref msg, keyData))
+		{
+			return true;
+		}
+
+		if (_titleBar != null
+		    && _titleBar.ProcessButtonSpecShortcuts(keyData))
+		{
+			return true;
+		}
+
 		return base.ProcessCmdKey(ref msg, keyData);
 	}
 
@@ -3714,60 +3757,46 @@ public class KryptonForm : VisualForm,
 		_titleBarDocker = new ViewDrawDocker(StateActive.Header.Back, StateActive.Header.Border, StateActive.Header,
 			PaletteMetricBool.None, PaletteMetricPadding.None, VisualOrientation.Top);
 
-		// ButtonSpecManagerDraw wires the KryptonFormTitleBar.ButtonSpecs collection to
-		// the view layer.  Each ButtonSpec is turned into a real view button, rendered
-		// inside _titleBarDocker, and measured using the HeaderButtonEdgeInset /
-		// HeaderButtonPadding metrics so spacing stays consistent with the rest of the
-		// caption buttons (Min/Max/Close).
-		// Passing null for the fixed-button array means only the user-defined specs
-		// from the titleBar are managed here; the system chrome buttons are handled by
-		// the separate _buttonManager.
-		// Under RTL+RightToLeftLayout, ViewDrawDocker.CalculateDock() automatically
-		// flips ViewDockStyle.Left to ViewDockStyle.Right, so the injected docker
-		// migrates to the correct visual edge without any extra code here.
-		_titleBarButtonManager = new ButtonSpecManagerDraw(
-			this,                                           // owning control (for RightToLeft checks)
-			Redirector,                                     // palette redirector
-			titleBar.ButtonSpecs,                           // the user-defined button specs to render
-			null,                                           // no fixed button specs in this manager
-			[_titleBarDocker],                              // single view container the buttons live in
-			[StateCommon!.Header],                           // palette state used to style each button
-			[PaletteMetricInt.HeaderButtonEdgeInsetForm],   // edge inset metric (gap from docker border)
-			[PaletteMetricPadding.HeaderButtonPaddingForm], // padding metric around each button
-			CreateToolStripRenderer,                        // renderer factory (for ToolStrip-hosted glyphs)
-			OnNeedPaint);                                   // invalidation callback
-
-		// Share the form-level ToolTipManager so hovering a title bar button shows
-		// a tooltip using the same infrastructure as all other Krypton controls.
-		_titleBarButtonManager.ToolTipManager = ToolTipManager;
-
-		// Physically insert _titleBarDocker into the caption view tree as a Left-docked
-		// child of _drawHeading.  This places the custom buttons between the form icon
-		// (which is drawn by _drawContent as the content image) and the title text,
-		// mirroring where the Ribbon places its Quick-Access Toolbar buttons.
-		// Under RTL the Left dock is flipped to Right by the layout engine, which in a
-		// mirrored coordinate system is still visually "after the icon, before the title".
+		// Insert the docker before creating button managers so RecreateButtons can measure against the caption tree.
 		InjectViewElement(_titleBarDocker, ViewDockStyle.Left);
 
-		// Track collection changes so the view stays in sync: when the developer adds
-		// or removes a ButtonSpec at runtime, OnTitleBarButtonSpecChanged refreshes the
-		// button views and re-measures the caption area.
+		_titleBarMenuStripButtonManager = CreateTitleBarSpecManager(titleBar.MenuStripButtonSpecs);
+		_titleBarButtonManager = CreateTitleBarSpecManager(titleBar.ButtonSpecs);
+
 		titleBar.ButtonSpecInserted += OnTitleBarButtonSpecChanged;
 		titleBar.ButtonSpecRemoved += OnTitleBarButtonSpecChanged;
+		titleBar.MenuStripButtonSpecInserted += OnTitleBarMenuStripButtonSpecChanged;
+		titleBar.MenuStripButtonSpecRemoved += OnTitleBarMenuStripButtonSpecChanged;
 
-		// Rebuild the Min/Max/Close buttons because their edge-inset calculations can
-		// depend on how many title bar buttons are now present, then request a full
-		// non-client repaint so the new buttons appear immediately.
 		RecreateMinMaxCloseButtons();
+		_titleBarMenuStripButtonManager.RecreateButtons();
+		_titleBarButtonManager.RecreateButtons();
 		PerformNeedPaint(true);
+	}
+
+	private ButtonSpecManagerDraw CreateTitleBarSpecManager(ButtonSpecCollectionBase specs)
+	{
+		var manager = new ButtonSpecManagerDraw(
+			this,
+			Redirector,
+			specs,
+			null,
+			[_titleBarDocker!],
+			[StateCommon!.Header],
+			[PaletteMetricInt.HeaderButtonEdgeInsetForm],
+			[PaletteMetricPadding.HeaderButtonPaddingForm],
+			CreateToolStripRenderer,
+			OnNeedPaint);
+		manager.ToolTipManager = ToolTipManager;
+		return manager;
 	}
 
 	private void DetachTitleBar([DisallowNull] KryptonFormTitleBar titleBar)
 	{
-		// Stop listening for collection changes first so no callbacks fire
-		// during the teardown sequence below.
 		titleBar.ButtonSpecInserted -= OnTitleBarButtonSpecChanged;
 		titleBar.ButtonSpecRemoved -= OnTitleBarButtonSpecChanged;
+		titleBar.MenuStripButtonSpecInserted -= OnTitleBarMenuStripButtonSpecChanged;
+		titleBar.MenuStripButtonSpecRemoved -= OnTitleBarMenuStripButtonSpecChanged;
 
 		// Remove the docker from the caption view tree before destroying it so the
 		// layout engine never tries to measure a partially-disposed element.
@@ -3780,6 +3809,8 @@ public class KryptonForm : VisualForm,
 		// unregisters any internal event handlers it holds.
 		_titleBarButtonManager?.Destruct();
 		_titleBarButtonManager = null;
+		_titleBarMenuStripButtonManager?.Destruct();
+		_titleBarMenuStripButtonManager = null;
 
 		// Dispose the docker view after the manager is gone so no lingering
 		// button views attempt to paint through an already-disposed parent.
@@ -3803,6 +3834,13 @@ public class KryptonForm : VisualForm,
 		// without rebuilding the entire caption tree, then RecreateMinMaxCloseButtons
 		// adjusts the chrome button spacing and a repaint makes the change visible.
 		_titleBarButtonManager?.RefreshButtons();
+		RecreateMinMaxCloseButtons();
+		PerformNeedPaint(true);
+	}
+
+	private void OnTitleBarMenuStripButtonSpecChanged(object? sender, ButtonSpecEventArgs e)
+	{
+		_titleBarMenuStripButtonManager?.RefreshButtons();
 		RecreateMinMaxCloseButtons();
 		PerformNeedPaint(true);
 	}

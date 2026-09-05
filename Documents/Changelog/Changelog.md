@@ -47,6 +47,8 @@
 
 * Implemented [#2382](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2382), RTL support for **all** `Krypton.Ribbon` controls
   * Office-style right-to-left layout for `KryptonRibbon` (tabs, groups, QAT, File button, clusters, galleries, and key navigation). Set `RightToLeft` and `RightToLeftLayout` on the host `KryptonForm`; the ribbon syncs automatically.
+* Implemented [#4242](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4242), Native `KryptonMenuBar` (not a `MenuStrip`/`ToolStrip` subclass) using `KryptonContextMenuItem` top-level items and `KryptonContextMenu` drop-downs. Assign to `KryptonForm.MenuBar` for shortcuts and Alt activation; `KryptonMenuStrip` remains the WinForms `MainMenuStrip` path.
+   * Optional `KryptonFormTitleBar.MenuStrip` bind so a `KryptonMenuStrip` (or `MenuStrip`) can drive caption File/Edit menus without hosting a ToolStrip in the title bar. Assign the strip in the designer; clicks forward to the original items. `KryptonFormTitleBar.ImportFrom` copies into `ButtonSpecs` when a snapshot is preferred.
 * Implemented [#1100](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1100), Extension of the `SchemeOfficeColors` enum
   * Menu, tool, and context strip text colours can be set independently of the status strip.
 * Resolved [#1870](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1870), `KryptonCustomPaletteBase`, Unable to Set / Change the colour table (help to migrate to v90.)
