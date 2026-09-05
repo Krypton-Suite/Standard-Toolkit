@@ -560,7 +560,7 @@ public static class CommonHelper
     /// <param name="owningForm">Form providing non-client border metrics.</param>
     /// <returns>Pixel inset from the right chrome edge.</returns>
     public static int GetFormHeaderButtonEdgeInsetRight(KryptonForm? owningForm) =>
-        owningForm == null ? 0 : Math.Max(2, owningForm.RealWindowBorders.Right);
+        owningForm == null ? 0 : Math.Max(2, WindowBorderThickness(owningForm.RealWindowBorders.Right));
 
     /// <summary>
     /// HeaderForm content padding with the frame inset on the icon side, plus
@@ -578,13 +578,28 @@ public static class CommonHelper
         Padding padding = palettePadding;
         if (owningForm != null && IsRightToLeftLayout(owningForm))
         {
-            int frameInset = Math.Max(palettePadding.Left, palettePadding.Right);
+            // Thickness only: AdjustWindowRectEx can return a signed side (RTL exstyle).
+            // Screen origin (primary monitor on the right) is not part of this metric.
+            int frameInset = Math.Max(
+                WindowBorderThickness(palettePadding.Left),
+                WindowBorderThickness(palettePadding.Right));
             if (frameInset < 2)
             {
-                frameInset = Math.Max(2, owningForm.RealWindowBorders.Right);
+                Padding borders = owningForm.RealWindowBorders;
+                frameInset = Math.Max(
+                    WindowBorderThickness(borders.Left),
+                    WindowBorderThickness(borders.Right));
+                if (frameInset < 2)
+                {
+                    frameInset = 2;
+                }
             }
 
-            padding = new Padding(palettePadding.Right, palettePadding.Top, frameInset, palettePadding.Bottom);
+            padding = new Padding(
+                WindowBorderThickness(palettePadding.Right),
+                palettePadding.Top,
+                frameInset,
+                palettePadding.Bottom);
         }
 
         if (owningForm == null)
@@ -597,6 +612,19 @@ public static class CommonHelper
             ? padding
             : new Padding(padding.Left + extra.Left, padding.Top + extra.Top, padding.Right + extra.Right, padding.Bottom + extra.Bottom);
     }
+
+    /// <summary>
+    /// Absolute pixel width of one window-frame side from <see cref="GetWindowBorders"/>.
+    /// </summary>
+    /// <param name="sideMetric">A <see cref="Padding"/> Left/Right/Top/Bottom from border metrics.</param>
+    /// <returns>Non-negative thickness in pixels.</returns>
+    /// <remarks>
+    /// <see cref="GetWindowBorders"/> uses a zero <c>RECT</c> with <c>AdjustWindowRectEx</c>, so the
+    /// result is chrome thickness, not screen position. A primary monitor placed on the right (negative
+    /// virtual-screen X) does not change it. <c>WS_EX_LAYOUTRTL</c> can still make a side negative;
+    /// callers must use the magnitude as a width.
+    /// </remarks>
+    private static int WindowBorderThickness(int sideMetric) => Math.Abs(sideMetric);
 
     /// <summary>
     /// Gets a value indicating if the provided value is an override state but excludes one value.
