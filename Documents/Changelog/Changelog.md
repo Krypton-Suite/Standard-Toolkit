@@ -45,6 +45,10 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved/Implemented [#4339](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4339), Add 'Simple' as a dropdown style for `KryptonComboBox`
+  * `KryptonComboBox` now supports `ComboBoxStyle.Simple` (always-visible list with an editable text box, matching WinForms).
+  * Set `DropDownStyle = ComboBoxStyle.Simple` and give the control enough `Height` to show the list. The designer allows vertical resize in this style.
+  * `KryptonDataGridViewComboBoxCell` still rejects Simple; an always-visible list cannot be hosted in a grid cell.
 * Resolved [#4336](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4336), `KryptonListView` does not use `StateTracking###`
   * `KryptonListView` hover now uses `StateTracking` / `StateCheckedTracking` instead of Win32 hot-track.
   * `ShowItemToolTips` uses `KryptonToolTip` (from `ListViewItem.ToolTipText`) instead of Win32 infotips, positioned at the hovered item.
