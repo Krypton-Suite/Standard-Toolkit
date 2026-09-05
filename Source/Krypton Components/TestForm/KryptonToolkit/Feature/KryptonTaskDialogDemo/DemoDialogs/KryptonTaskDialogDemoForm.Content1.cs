@@ -23,7 +23,7 @@ public partial class KryptonTaskDialogDemoForm
             BogusData.BogusGenerator.GenerateLoremIpsumLines(5) + Environment.NewLine + Environment.NewLine +
             BogusData.BogusGenerator.GenerateLoremIpsumLines(5);
 
-        taskDialog.Content.ContentImage.Image          = KryptonToolkit.KryptonTaskDialogDemo.KryptonTaskDialogDemoResources.lorem_ipsum;
+        taskDialog.Content.ContentImage.Image          = KryptonToolkit.Feature.KryptonTaskDialogDemo.KryptonTaskDialogDemoResources.lorem_ipsum;
         taskDialog.Content.ContentImage.Size           = new Size(150, 150);
         taskDialog.Content.ContentImage.Visible        = true;
         taskDialog.Content.ContentImage.PositionedLeft = true;

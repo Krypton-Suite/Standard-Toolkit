@@ -5506,6 +5506,68 @@ No 	                    No 	                    Show text only
         uint cbSizeFileInfo,
         uint uFlags);
 
+    /// <summary>
+    /// Win32 <c>SHCNE_*</c> event flags for <see cref="SHChangeNotify"/>.
+    /// </summary>
+    [Flags]
+    internal enum SHCNE_ : uint
+    {
+        RENAMEITEM = 0x00000001,
+        CREATE = 0x00000002,
+        DELETE = 0x00000004,
+        MKDIR = 0x00000008,
+        RMDIR = 0x00000010,
+        MEDIAINSERTED = 0x00000020,
+        MEDIAREMOVED = 0x00000040,
+        DRIVEREMOVED = 0x00000080,
+        DRIVEADD = 0x00000100,
+        NETSHARE = 0x00000200,
+        NETUNSHARE = 0x00000400,
+        ATTRIBUTES = 0x00000800,
+        UPDATEDIR = 0x00001000,
+        UPDATEITEM = 0x00002000,
+        SERVERDISCONNECT = 0x00004000,
+        UPDATEIMAGE = 0x00008000,
+        DRIVEADDGUI = 0x00010000,
+        RENAMEFOLDER = 0x00020000,
+        FREESPACE = 0x00040000,
+        EXTENDED_EVENT = 0x04000000,
+        ASSOCCHANGED = 0x08000000,
+        DISKEVENTS = 0x0002381F,
+        GLOBALEVENTS = 0x0C0581E0,
+        ALLEVENTS = 0x7FFFFFFF,
+        INTERRUPT = 0x80000000u
+    }
+
+    /// <summary>
+    /// Win32 <c>SHCNF_*</c> flags for <see cref="SHChangeNotify"/> item pointers and flush behaviour.
+    /// </summary>
+    [Flags]
+    internal enum SHCNF_ : uint
+    {
+        IDLIST = 0x0000,
+        PATHA = 0x0001,
+        PRINTERA = 0x0002,
+        DWORD = 0x0003,
+        PATHW = 0x0005,
+        PRINTERW = 0x0006,
+        /// <summary>Unicode path pointer; same value as <see cref="PATHW"/>.</summary>
+        PATH = PATHW,
+        TYPE = 0x00FF,
+        FLUSH = 0x1000,
+        FLUSHNOWAIT = 0x2000,
+        NOTIFYRECURSIVE = 0x10000
+    }
+
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Shell32)]
+    internal static partial void SHChangeNotify(uint wEventId, uint uFlags, IntPtr dwItem1, IntPtr dwItem2);
+    #else
+    [DllImport(Libraries.Shell32, SetLastError = false)]
+    internal static extern void SHChangeNotify(uint wEventId, uint uFlags, IntPtr dwItem1, IntPtr dwItem2);
+    #endif
+
     #endregion
 
     #region Static Uxtheme
