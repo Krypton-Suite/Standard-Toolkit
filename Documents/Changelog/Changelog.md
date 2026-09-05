@@ -45,6 +45,8 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#2382](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2382), RTL support for **all** `Krypton.Ribbon` controls
+  * Office-style right-to-left layout for `KryptonRibbon` (tabs, groups, QAT, File button, clusters, galleries, and key navigation). Set `RightToLeft` and `RightToLeftLayout` on the host `KryptonForm`; the ribbon syncs automatically.
 * Implemented [#1100](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1100), Extension of the `SchemeOfficeColors` enum
   * Menu, tool, and context strip text colours can be set independently of the status strip.
 * Resolved [#1870](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1870), `KryptonCustomPaletteBase`, Unable to Set / Change the colour table (help to migrate to v90.)

@@ -47,6 +47,7 @@ public class KryptonGallery : VisualSimpleBase
     private readonly Timer _trackingEventTimer;
     private KryptonContextMenu? _dropMenu;
     private EventHandler? _finishDelegate;
+    private KryptonRibbon? _ribbonOwner;
     #endregion
 
     #region Events
@@ -94,6 +95,7 @@ public class KryptonGallery : VisualSimpleBase
         _preferredItemSize = new Size(5, 1);
         _dropMaxItemWidth = 128;
         _dropMinItemWidth = 3;
+        _ribbonOwner = null;
 
         // Timer used to generate tracking change event
         _trackingEventTimer = new Timer
@@ -752,7 +754,15 @@ public class KryptonGallery : VisualSimpleBase
     }
 
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    internal KryptonRibbon? Ribbon { get; set; }
+    internal KryptonRibbon? Ribbon
+    {
+        get => _ribbonOwner;
+        set
+        {
+            _ribbonOwner = value;
+            RibbonRtlLayout.ApplyTo(this, value);
+        }
+    }
 
     internal void OnDropButton() => ShownGalleryDropDown(RectangleToScreen(ClientRectangle),
         KryptonContextMenuPositionH.Left,

@@ -548,7 +548,8 @@ internal class ViewDrawRibbonCaptionArea : ViewDrawDocker
 				}
 
 				// Update width of the separator used in place of the app button when app button not visible
-				_spaceInsteadOfAppButton.SeparatorSize = new Size(_kryptonForm.RealWindowBorders.Left, 0);
+				_spaceInsteadOfAppButton.SeparatorSize = new Size(
+					RibbonRtlLayout.StartBorderWidth(_kryptonForm.RealWindowBorders, RibbonRtlLayout.IsRtl(_ribbon)), 0);
 			}
 
 			var overrideIntegrated = integrated;
