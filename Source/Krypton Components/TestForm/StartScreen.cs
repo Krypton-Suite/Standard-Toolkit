@@ -250,7 +250,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<DocumentGroupsDemo>("Document Groups (Workspace)", "IDE-style document groups via KryptonWorkspace cells + KryptonDocumentGroupHelper, with multi-strip CaptionIntegrated chrome (one strip per cell).");
         CreateButton<RibbonMdiDemo>("Ribbon MDI Demo (Issue #2921)", "Comprehensive demo for Issue #2921: Ribbon + MDI. Verifies no double ribbon tabs when opening/closing maximized MDI children; close/minimize/maximize and QAT click areas aligned with visuals.");
         CreateButton<Bug3203QATLocationHiddenFormTest>("Ribbon QATLocation=Hidden does not hide QAT when FormBorderStyle=None (Issue #3203)", string.Empty);
-        CreateButton<Bug4061RibbonCaptionIconThemeDemo>("Bug 4061 Ribbon caption icon on theme change", "Issue #4061: Switch themes without resizing. Office 2007 hides the form icon when the File app button is visible; Office 2010+/macOS/Aqua show it. Status line reports RibbonShape and AllowIconDisplay; QAT Above should hide under macOS shapes.");
+        CreateButton<Bug4061RibbonCaptionIconThemeDemo>("Ribbon caption on theme change (#3859 / #4061)", "Issues #3859/#4061: Switch themes without resizing. Caption colours, context titles, QAT, File orb/tab, and form icon must update immediately. Office 2007 hides the form icon when the File app button is visible; Office 2010+/macOS/Aqua show it.");
         CreateButton<Bug3183SmallSquareRenderedNextToClose>("Small Square Rendered Next to Close Button (Issue #3183)", string.Empty);
         CreateButton<GlyphColors>("Glyph Colors", "Customization of glyph colors using kryptonCustomPalette");
     }
