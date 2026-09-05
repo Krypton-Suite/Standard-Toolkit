@@ -45,6 +45,8 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#4326](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4326), Fresh KTree does not allow `MultiSelect` to be set to false
+  * `KryptonTreeView.MultiSelect` can be set to `false` in the designer on a newly dropped control (including when `CheckBoxes` is `true`).
 * Resolved [#4271](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4271), Information exposure through transmitted data (CodeQL 32)
   * Bug-report emails no longer transmit stack traces or SMTP credentials.
   * Exception details in the email body are limited to type and message.
