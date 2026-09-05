@@ -66,15 +66,17 @@ public class KryptonListView : VisualControlBase,
                      | ControlStyles.OptimizedDoubleBuffer, true);
 
             _kryptonListView = kryptonListView;
+            MouseIndex = -1;
 
             // Create manager and view for drawing the background
             ViewDrawPanel = new ViewDrawPanel();
             _viewManager = new ViewManager(this, ViewDrawPanel);
 
             // ReSharper disable RedundantBaseQualifier
-            // Set required properties to act as an owner draw list box
+            // Owner-draw items so StateTracking / StateChecked* paint instead of Win32 hot-track.
             base.Size = Size.Empty;
             base.BorderStyle = BorderStyle.None;
+            base.OwnerDraw = true;
             // ReSharper restore RedundantBaseQualifier
 
             // We need to create and cache a device context compatible with the display
@@ -124,6 +126,12 @@ public class KryptonListView : VisualControlBase,
         public ViewDrawPanel ViewDrawPanel { get; }
 
         /// <summary>
+        /// Gets the item index the mouse is over, or <c>-1</c> when it is not over an item.
+        /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public int MouseIndex { get; private set; }
+
+        /// <summary>
         /// Gets and sets if the mouse is currently over the combo box.
         /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -145,6 +153,12 @@ public class KryptonListView : VisualControlBase,
                     else
                     {
                         OnTrackMouseLeave(EventArgs.Empty);
+                        if (MouseIndex != -1)
+                        {
+                            int oldIndex = MouseIndex;
+                            MouseIndex = -1;
+                            _kryptonListView.InvalidateTrackedItems(oldIndex, -1);
+                        }
                     }
                 }
             }
@@ -233,6 +247,7 @@ public class KryptonListView : VisualControlBase,
                         Invalidate();
                     }
 
+                    UpdateMouseIndexFromLParam(m.LParam);
                     base.WndProc(ref m);
                     break;
                 default:
@@ -244,6 +259,33 @@ public class KryptonListView : VisualControlBase,
         #endregion
 
         #region Private
+
+        private void UpdateMouseIndexFromLParam(IntPtr lParam)
+        {
+            var mousePoint = new Point((int)lParam.ToInt64());
+            var mouseIndex = -1;
+            try
+            {
+                ListViewHitTestInfo hit = HitTest(mousePoint);
+                if (hit.Item != null)
+                {
+                    mouseIndex = hit.Item.Index;
+                }
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                mouseIndex = -1;
+            }
+
+            if (MouseIndex == mouseIndex)
+            {
+                return;
+            }
+
+            int oldIndex = MouseIndex;
+            MouseIndex = mouseIndex;
+            _kryptonListView.InvalidateTrackedItems(oldIndex, mouseIndex);
+        }
 
         /// <summary>
         /// Raises the TrackMouseEnter event.
@@ -276,6 +318,8 @@ public class KryptonListView : VisualControlBase,
         protected override void OnHandleCreated(EventArgs e)
         {
             base.OnHandleCreated(e);
+            // Native infotips would paint Win32 hover text over KryptonToolTip.
+            ShowItemToolTips = false;
             AttachHeaderWindow();
             RecalcNonClientForKryptonScrollbars();
         }
@@ -665,6 +709,9 @@ public class KryptonListView : VisualControlBase,
     private KryptonScrollbarManager? _scrollbarManager;
     private bool? _useKryptonScrollbars;
     private bool _paletteRecreatePosted;
+    private readonly KryptonToolTip _itemToolTip;
+    private bool _showItemToolTips;
+    private int _itemToolTipIndex = -1;
 
     #endregion
 
@@ -764,7 +811,6 @@ public class KryptonListView : VisualControlBase,
         var commonBorder = new PaletteBorder(borderInherit, NeedPaintDelegate);
         StateCommon = new PaletteTreeStateRedirect(Redirector, commonBack, backInherit, commonBorder, borderInherit,
             NeedPaintDelegate);
-        StateCommon.Node.BackStyle = PaletteBackStyle.InputControlStandalone;
         var disabledBack = new PaletteBackColor1(StateCommon.PaletteBack, NeedPaintDelegate);
         var disabledBorder = new PaletteBorder(StateCommon.PaletteBorder!, NeedPaintDelegate);
         StateDisabled = new PaletteTreeState(StateCommon, disabledBack, disabledBorder, NeedPaintDelegate);
@@ -794,6 +840,10 @@ public class KryptonListView : VisualControlBase,
         _headerBorder = new PaletteBorderInheritRedirect(Redirector, PaletteBorderStyle.GridHeaderColumnList);
         _headerContent = new PaletteContentInheritRedirect(Redirector, PaletteContentStyle.GridHeaderColumnList);
         _headerContentValues = new FixedContentValue();
+        _itemToolTip = new KryptonToolTip();
+        _itemToolTip.ToolTipValues.EnableToolTips = true;
+        _itemToolTip.ToolTipValues.ToolTipStyle = LabelStyle.SuperTip;
+        _itemToolTip.ToolTipValues.ToolTipPosition.PlacementMode = PlacementMode.Bottom;
 
         // Create the internal list box used for containing content
         _listView = new InternalListView(this);
@@ -816,6 +866,9 @@ public class KryptonListView : VisualControlBase,
         _listView.SearchForVirtualItem += OnSearchForVirtualItem;
         _listView.SelectedIndexChanged += OnSelectedIndexChanged;
         _listView.VirtualItemsSelectionRangeChanged += OnVirtualItemsSelectionRangeChanged;
+        _listView.DrawItem += OnListViewDrawItem;
+        _listView.DrawSubItem += OnListViewDrawSubItem;
+        _listView.DrawColumnHeader += OnListViewDrawColumnHeader;
 
         _layoutFill = new ViewLayoutFill(_listView)
         {
@@ -909,6 +962,8 @@ public class KryptonListView : VisualControlBase,
                 _scrollbarManager.Dispose();
                 _scrollbarManager = null;
             }
+
+            _itemToolTip.Dispose();
         }
 
         base.Dispose(disposing);
@@ -1182,12 +1237,19 @@ public class KryptonListView : VisualControlBase,
         set => _listView.HideSelection = value;
     }
 
-    /// <summary>Gets or sets a value indicating whether the text of an item or subitem has the appearance of a hyperlink when the mouse pointer passes over it.</summary>
+    /// <summary>
+    /// Gets or sets whether hovering an item uses one-click activation (native <see cref="ListView.HotTracking"/>).
+    /// </summary>
     /// <returns>
-    /// <see langword="true" /> if the item text has the appearance of a hyperlink when the mouse passes over it; otherwise, <see langword="false" />. The default is <see langword="false" />.</returns>
+    /// <see langword="true"/> to select and activate an item on hover; otherwise <see langword="false"/>. The default is <see langword="false"/>.
+    /// </returns>
+    /// <remarks>
+    /// Hover appearance always uses <see cref="StateTracking"/> / <see cref="StateCheckedTracking"/>,
+    /// not the Win32 underline hot-track look. This property only controls the native activation behaviour.
+    /// </remarks>
     [Category("Behavior")]
     [DefaultValue(false)]
-    [Description("if the item text has the appearance of a hyperlink when the mouse passes over it")]
+    [Description("One-click activate on hover. Item hover appearance always uses StateTracking, not Win32 hot-track.")]
     public bool HotTracking
     {
         get => _listView.HotTracking;
@@ -1343,17 +1405,49 @@ public class KryptonListView : VisualControlBase,
         set => _listView.SmallImageList = value;
     }
 
-    /// <summary>Gets or sets a value indicating whether ToolTips are shown for the <see cref="T:System.Windows.Forms.ListViewItem" /> objects contained in the <see cref="T:System.Windows.Forms.ListView" />.</summary>
+    /// <summary>
+    /// Gets or sets whether item tooltips are shown with <see cref="KryptonToolTip"/> instead of Win32 infotips.
+    /// </summary>
     /// <returns>
-    /// <see langword="true" /> if <see cref="T:System.Windows.Forms.ListViewItem" /> ToolTips should be shown; otherwise, <see langword="false" />. The default is <see langword="true" />.</returns>
+    /// <see langword="true"/> if item tooltips should be shown; otherwise <see langword="false"/>. The default is <see langword="false"/>.
+    /// </returns>
+    /// <remarks>
+    /// Uses <see cref="ListViewItem.ToolTipText"/> when set, otherwise the item text.
+    /// Native <see cref="ListView.ShowItemToolTips"/> is not used.
+    /// </remarks>
     [Category("Behavior")]
     [DefaultValue(false)]
-    [Description("ToolTips should be shown")]
+    [Description("Show item tooltips with KryptonToolTip instead of Win32 infotips.")]
     public bool ShowItemToolTips
     {
-        get => _listView.ShowItemToolTips;
-        set => _listView.ShowItemToolTips = value;
+        get => _showItemToolTips;
+        set
+        {
+            if (_showItemToolTips == value)
+            {
+                return;
+            }
+
+            _showItemToolTips = value;
+            // Keep the native infotip style off so Win32 hover text cannot replace KryptonToolTip.
+            _listView.ShowItemToolTips = false;
+            if (!_showItemToolTips)
+            {
+                HideItemToolTip();
+            }
+            else
+            {
+                UpdateItemToolTip(immediate: false);
+            }
+        }
     }
+
+    /// <summary>
+    /// Gets the <see cref="KryptonToolTip"/> used when <see cref="ShowItemToolTips"/> is <see langword="true"/>.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public KryptonToolTip ItemToolTip => _itemToolTip;
 
     /// <summary>Gets or sets the sort order for items in the control.</summary>
     /// <returns>One of the <see cref="T:System.Windows.Forms.SortOrder" /> values. The default is <see cref="F:System.Windows.Forms.SortOrder.None" />.</returns>
@@ -1801,47 +1895,466 @@ public class KryptonListView : VisualControlBase,
 
     private IPaletteDouble GetDoubleState() => Enabled ? (IsActive ? StateActive : StateNormal) : StateDisabled;
 
-    private void SetItemState(ListViewItem li)
+    /// <summary>
+    /// Redraws the previous and current hot-tracking items after <see cref="InternalListView.MouseIndex"/> changes.
+    /// </summary>
+    /// <param name="oldIndex">Previous hot item index, or <c>-1</c>.</param>
+    /// <param name="newIndex">Current hot item index, or <c>-1</c>.</param>
+    internal void InvalidateTrackedItems(int oldIndex, int newIndex)
     {
-        // e.State == ListViewItemStates.Default
-        IPaletteTriple nodeState = _overrideDisabled;
-        PaletteState state = PaletteState.Disabled;
-
-        if (Enabled)
+        if (!_listView.IsHandleCreated)
         {
-            nodeState = _overrideNormal;
-            state = PaletteState.Normal;
+            return;
+        }
 
-            // Do we need to show item as having the focus
-            var hasFocus = li.Focused;
-
-            _overrideNormal.Apply = hasFocus;
-            _overrideTracking.Apply = hasFocus;
-            _overrideCheckedTracking.Apply = hasFocus;
-            _overrideCheckedNormal.Apply = hasFocus;
-            if (li.Selected)
+        int count = VirtualMode ? VirtualListSize : Items.Count;
+        try
+        {
+            if (oldIndex >= 0 && oldIndex < count)
             {
-                if (li.Checked)
-                {
-                    nodeState = _overrideCheckedTracking;
-                    state = PaletteState.CheckedTracking;
-                }
-                else
-                {
-                    nodeState = _overrideTracking;
-                    state = PaletteState.Tracking;
-                }
+                _listView.RedrawItems(oldIndex, oldIndex, true);
             }
-            else if (li.Checked)
+
+            if (newIndex >= 0 && newIndex < count && newIndex != oldIndex)
+            {
+                _listView.RedrawItems(newIndex, newIndex, true);
+            }
+        }
+        catch (ArgumentException)
+        {
+            _listView.Invalidate();
+        }
+        catch (InvalidOperationException)
+        {
+            _listView.Invalidate();
+        }
+
+        UpdateItemToolTip(immediate: oldIndex >= 0 && newIndex >= 0);
+    }
+
+    private void HideItemToolTip()
+    {
+        _itemToolTipIndex = -1;
+        _itemToolTip.HideFor(_listView);
+        _itemToolTip.ClearPlacementRectangle(_listView);
+        _itemToolTip.SetToolTip(_listView, string.Empty, string.Empty);
+    }
+
+    private void UpdateItemToolTip(bool immediate)
+    {
+        if (!_showItemToolTips || !Enabled)
+        {
+            HideItemToolTip();
+            return;
+        }
+
+        ListViewItem? item = GetTrackedItem();
+        if (item == null)
+        {
+            HideItemToolTip();
+            return;
+        }
+
+        if (_itemToolTipIndex == item.Index && immediate)
+        {
+            return;
+        }
+
+        _itemToolTipIndex = item.Index;
+        string title = item.Text ?? string.Empty;
+        string description = item.ToolTipText ?? string.Empty;
+        if (string.IsNullOrEmpty(description))
+        {
+            description = title;
+            title = string.Empty;
+        }
+
+        if (string.IsNullOrEmpty(title) && string.IsNullOrEmpty(description))
+        {
+            HideItemToolTip();
+            return;
+        }
+
+        try
+        {
+            Rectangle bounds = _listView.GetItemRect(item.Index, ItemBoundsPortion.Label);
+            if (bounds.Width <= 0 || bounds.Height <= 0)
+            {
+                bounds = item.Bounds;
+            }
+
+            if (bounds.Width > 0 && bounds.Height > 0)
+            {
+                _itemToolTip.SetPlacementRectangle(_listView, bounds);
+            }
+            else
+            {
+                _itemToolTip.ClearPlacementRectangle(_listView);
+            }
+        }
+        catch (ArgumentException)
+        {
+            _itemToolTip.ClearPlacementRectangle(_listView);
+        }
+
+        _itemToolTip.SetToolTip(_listView, title, description);
+        _itemToolTip.ShowFor(_listView, immediate);
+    }
+
+    private ListViewItem? GetTrackedItem()
+    {
+        int index = _listView.MouseIndex;
+        if (index < 0)
+        {
+            return null;
+        }
+
+        try
+        {
+            int count = VirtualMode ? VirtualListSize : Items.Count;
+            if (index >= count)
+            {
+                return null;
+            }
+
+            return Items[index];
+        }
+        catch (ArgumentException)
+        {
+            return null;
+        }
+        catch (InvalidOperationException)
+        {
+            return null;
+        }
+    }
+
+    private bool IsItemHot(ListViewItem item) =>
+        Enabled && _listView.MouseIndex >= 0 && item.Index == _listView.MouseIndex;
+
+    private bool IsItemDrawnSelected(ListViewItem item) =>
+        item.Selected && (_listView.Focused || !HideSelection);
+
+    private void ResolveItemPalette(bool isHot, bool isSelected, bool hasFocus,
+        out IPaletteTriple nodeState, out PaletteState state)
+    {
+        _overrideNormal.Apply = hasFocus;
+        _overrideTracking.Apply = hasFocus;
+        _overrideCheckedTracking.Apply = hasFocus;
+        _overrideCheckedNormal.Apply = hasFocus;
+
+        if (!Enabled)
+        {
+            nodeState = _overrideDisabled;
+            state = PaletteState.Disabled;
+            return;
+        }
+
+        if (isSelected)
+        {
+            if (isHot)
+            {
+                nodeState = _overrideCheckedTracking;
+                state = PaletteState.CheckedTracking;
+            }
+            else
             {
                 nodeState = _overrideCheckedNormal;
                 state = PaletteState.CheckedNormal;
             }
         }
+        else if (isHot)
+        {
+            nodeState = _overrideTracking;
+            state = PaletteState.Tracking;
+        }
+        else
+        {
+            nodeState = _overrideNormal;
+            state = PaletteState.Normal;
+        }
+    }
+
+    private void SetItemState(ListViewItem li)
+    {
+        ResolveItemPalette(IsItemHot(li), IsItemDrawnSelected(li), li.Focused,
+            out IPaletteTriple nodeState, out PaletteState state);
 
         li.BackColor = nodeState.PaletteBack.GetBackColor1(state);
         li.ForeColor = nodeState.PaletteContent!.GetContentShortTextColor1(state);
         li.Font = nodeState.PaletteContent.GetContentShortTextFont(state) ?? Font;
+    }
+
+    private void OnListViewDrawItem(object? sender, DrawListViewItemEventArgs e)
+    {
+        e.DrawDefault = false;
+        if (e.Item == null || View == View.Details)
+        {
+            // Details chrome and text are painted in DrawSubItem so a later DrawItem
+            // cannot wipe subitem text with a second full-row fill.
+            return;
+        }
+
+        var isHot = IsItemHot(e.Item) || (e.State & ListViewItemStates.Hot) == ListViewItemStates.Hot;
+        var isSelected = IsItemDrawnSelected(e.Item) ||
+                         (e.State & ListViewItemStates.Selected) == ListViewItemStates.Selected;
+        var hasFocus = (e.State & ListViewItemStates.Focused) == ListViewItemStates.Focused;
+        ResolveItemPalette(isHot, isSelected, hasFocus, out IPaletteTriple nodeState, out PaletteState state);
+
+        PaintItemChrome(e.Graphics, e.Bounds, nodeState, state);
+        PaintItemForeground(e.Graphics, e.Item, e.Bounds, nodeState, state, -1);
+    }
+
+    private void OnListViewDrawSubItem(object? sender, DrawListViewSubItemEventArgs e)
+    {
+        e.DrawDefault = false;
+        if (e.Item == null || View != View.Details)
+        {
+            return;
+        }
+
+        ResolveItemPalette(IsItemHot(e.Item), IsItemDrawnSelected(e.Item), e.Item.Focused,
+            out IPaletteTriple nodeState, out PaletteState state);
+
+        if (e.ColumnIndex == 0)
+        {
+            Rectangle chrome = FullRowSelect
+                ? e.Item.Bounds
+                : GetDetailsLabelChromeBounds(e.Item, e.Bounds);
+            PaintItemChrome(e.Graphics, chrome, nodeState, state);
+            PaintItemForeground(e.Graphics, e.Item, e.Bounds, nodeState, state, 0);
+        }
+        else
+        {
+            HorizontalAlignment align = e.Header?.TextAlign ?? HorizontalAlignment.Left;
+            PaintCellText(e.Graphics, e.SubItem?.Text ?? string.Empty, e.Bounds, nodeState, state, align, false);
+        }
+
+        PaintGridLines(e.Graphics, e.Bounds);
+    }
+
+    private void OnListViewDrawColumnHeader(object? sender, DrawListViewColumnHeaderEventArgs e)
+    {
+        e.DrawDefault = false;
+        PaletteState state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
+        DrawThemedColumnHeader(e.Graphics, e.Bounds, e.Header?.Text ?? string.Empty, state);
+    }
+
+    private static Rectangle GetDetailsLabelChromeBounds(ListViewItem item, Rectangle fallback)
+    {
+        try
+        {
+            Rectangle label = item.GetBounds(ItemBoundsPortion.Label);
+            Rectangle icon = item.GetBounds(ItemBoundsPortion.Icon);
+            if (label.Width <= 0 && icon.Width <= 0)
+            {
+                return fallback;
+            }
+
+            if (label.Width <= 0)
+            {
+                return icon;
+            }
+
+            return icon.Width <= 0 ? label : Rectangle.Union(label, icon);
+        }
+        catch (ArgumentException)
+        {
+            return fallback;
+        }
+    }
+
+    private void PaintItemChrome(Graphics graphics, Rectangle bounds, IPaletteTriple nodeState, PaletteState state)
+    {
+        if (bounds.Width <= 0 || bounds.Height <= 0)
+        {
+            return;
+        }
+
+        try
+        {
+            using var context = new RenderContext(_listView, this, graphics, bounds, Renderer);
+            if (nodeState.PaletteBack.GetBackDraw(state) == InheritBool.True)
+            {
+                GraphicsPath path = Renderer.RenderStandardBorder.GetBackPath(context, bounds,
+                    nodeState.PaletteBorder!, VisualOrientation.Top, state);
+                try
+                {
+                    IDisposable? backMemento = Renderer.RenderStandardBack.DrawBack(context, bounds, path,
+                        nodeState.PaletteBack, VisualOrientation.Top, state, null);
+                    backMemento?.Dispose();
+                }
+                finally
+                {
+                    path.Dispose();
+                }
+            }
+
+            if (nodeState.PaletteBorder!.GetBorderDraw(state) == InheritBool.True)
+            {
+                Renderer.RenderStandardBorder.DrawBorder(context, bounds, nodeState.PaletteBorder,
+                    VisualOrientation.Top, state);
+            }
+        }
+        catch
+        {
+            Color back = nodeState.PaletteBack.GetBackColor1(state);
+            if (!back.IsEmpty)
+            {
+                using var brush = new SolidBrush(back);
+                graphics.FillRectangle(brush, bounds);
+            }
+        }
+    }
+
+    private void PaintItemForeground(Graphics graphics, ListViewItem item, Rectangle bounds,
+        IPaletteTriple nodeState, PaletteState state, int columnIndex)
+    {
+        if (columnIndex <= 0)
+        {
+            DrawItemCheckOrStateImage(graphics, item, bounds);
+            DrawItemImage(graphics, item);
+        }
+
+        Rectangle textBounds;
+        HorizontalAlignment align;
+        string text;
+        var multiline = View is View.LargeIcon or View.Tile;
+        try
+        {
+            if (columnIndex > 0)
+            {
+                textBounds = bounds;
+                align = Columns.Count > columnIndex ? Columns[columnIndex].TextAlign : HorizontalAlignment.Left;
+                text = columnIndex < item.SubItems.Count ? item.SubItems[columnIndex].Text : string.Empty;
+            }
+            else
+            {
+                textBounds = item.GetBounds(ItemBoundsPortion.Label);
+                if (textBounds.Width <= 0 || textBounds.Height <= 0)
+                {
+                    textBounds = bounds;
+                }
+
+                align = View == View.Details && Columns.Count > 0
+                    ? Columns[0].TextAlign
+                    : (multiline ? HorizontalAlignment.Center : HorizontalAlignment.Left);
+                text = item.Text;
+            }
+        }
+        catch (ArgumentException)
+        {
+            textBounds = bounds;
+            align = HorizontalAlignment.Left;
+            text = item.Text;
+        }
+
+        PaintCellText(graphics, text, textBounds, nodeState, state, align, multiline);
+    }
+
+    private void PaintCellText(Graphics graphics, string text, Rectangle bounds, IPaletteTriple nodeState,
+        PaletteState state, HorizontalAlignment alignment, bool multiline)
+    {
+        if (string.IsNullOrEmpty(text) || bounds.Width <= 0 || bounds.Height <= 0)
+        {
+            return;
+        }
+
+        Color fore = nodeState.PaletteContent!.GetContentShortTextColor1(state);
+        Font font = nodeState.PaletteContent.GetContentShortTextFont(state) ?? Font;
+        TextRenderer.DrawText(graphics, text, font, bounds, fore, GetTextFormatFlags(alignment, multiline));
+    }
+
+    private static TextFormatFlags GetTextFormatFlags(HorizontalAlignment alignment, bool multiline)
+    {
+        var flags = TextFormatFlags.EndEllipsis
+                    | TextFormatFlags.NoPrefix
+                    | TextFormatFlags.PreserveGraphicsClipping
+                    | TextFormatFlags.PreserveGraphicsTranslateTransform
+                    | TextFormatFlags.GlyphOverhangPadding;
+        flags |= alignment switch
+        {
+            HorizontalAlignment.Center => TextFormatFlags.HorizontalCenter,
+            HorizontalAlignment.Right => TextFormatFlags.Right,
+            _ => TextFormatFlags.Left
+        };
+        return multiline
+            ? flags | TextFormatFlags.WordBreak | TextFormatFlags.Top
+            : flags | TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine;
+    }
+
+    private void DrawItemCheckOrStateImage(Graphics graphics, ListViewItem item, Rectangle bounds)
+    {
+        if (StateImageList != null)
+        {
+            int index = item.StateImageIndex;
+            if (index >= 0 && index < StateImageList.Images.Count)
+            {
+                var location = new Point(bounds.X + 2,
+                    bounds.Y + Math.Max(0, (bounds.Height - StateImageList.ImageSize.Height) / 2));
+                StateImageList.Draw(graphics, location, index);
+            }
+
+            return;
+        }
+
+        if (!CheckBoxes)
+        {
+            return;
+        }
+
+        CheckBoxState boxState = item.Checked
+            ? (Enabled ? CheckBoxState.CheckedNormal : CheckBoxState.CheckedDisabled)
+            : (Enabled ? CheckBoxState.UncheckedNormal : CheckBoxState.UncheckedDisabled);
+        Size glyph = CheckBoxRenderer.GetGlyphSize(graphics, boxState);
+        var origin = new Point(bounds.X + 2, bounds.Y + Math.Max(0, (bounds.Height - glyph.Height) / 2));
+        CheckBoxRenderer.DrawCheckBox(graphics, origin, boxState);
+    }
+
+    private void DrawItemImage(Graphics graphics, ListViewItem item)
+    {
+        ImageList? list = View is View.LargeIcon or View.Tile ? LargeImageList : SmallImageList;
+        if (list == null)
+        {
+            return;
+        }
+
+        int index = item.ImageIndex;
+        if (index < 0 && !string.IsNullOrEmpty(item.ImageKey))
+        {
+            index = list.Images.IndexOfKey(item.ImageKey);
+        }
+
+        if (index < 0 || index >= list.Images.Count)
+        {
+            return;
+        }
+
+        try
+        {
+            Rectangle iconBounds = item.GetBounds(ItemBoundsPortion.Icon);
+            if (iconBounds.Width > 0 && iconBounds.Height > 0)
+            {
+                list.Draw(graphics, iconBounds.Location, index);
+            }
+        }
+        catch (ArgumentException)
+        {
+            // Virtual-mode items can report empty icon bounds before they are realised.
+        }
+    }
+
+    private void PaintGridLines(Graphics graphics, Rectangle bounds)
+    {
+        if (!GridLines || View != View.Details || bounds.Width <= 0 || bounds.Height <= 0)
+        {
+            return;
+        }
+
+        Color line = StateNormal.Border.GetBorderColor1(Enabled ? PaletteState.Normal : PaletteState.Disabled);
+        using var pen = new Pen(line);
+        graphics.DrawLine(pen, bounds.Left, bounds.Bottom - 1, bounds.Right - 1, bounds.Bottom - 1);
+        graphics.DrawLine(pen, bounds.Right - 1, bounds.Top, bounds.Right - 1, bounds.Bottom - 1);
     }
 
     /// <summary>
