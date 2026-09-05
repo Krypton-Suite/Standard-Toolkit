@@ -45,6 +45,8 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#4253](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4253), Refactor ribbon overflow drawing in `RenderStandard.cs` for theme/DPI independence
+  * Ribbon QAT overflow chevrons use per-theme layout metrics and scale with DPI.
 * Resolved [#4336](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4336), `KryptonListView` does not use `StateTracking###`
   * `KryptonListView` hover now uses `StateTracking` / `StateCheckedTracking` instead of Win32 hot-track.
   * `ShowItemToolTips` uses `KryptonToolTip` (from `ListViewItem.ToolTipText`) instead of Win32 infotips, positioned at the hovered item.
