@@ -172,6 +172,8 @@ public class OverlayImageStates : Storage
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [DefaultValue(null)]
     public virtual Image? ImageCheckedNormal
     {
         get => null;
@@ -186,6 +188,8 @@ public class OverlayImageStates : Storage
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [DefaultValue(null)]
     public virtual Image? ImageCheckedPressed
     {
         get => null;
@@ -199,6 +203,8 @@ public class OverlayImageStates : Storage
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [DefaultValue(null)]
     public virtual Image? ImageCheckedTracking
     {
         get => null;

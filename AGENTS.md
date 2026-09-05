@@ -136,7 +136,45 @@ Extra assemblies can advertise `[assembly: KryptonThemeProvider(typeof(…))]`. 
 - Preserve binary compatibility unless explicitly instructed otherwise.
 - Avoid changing public or protected member signatures unless explicitly requested.
 - Do not rename public types or namespaces.
-- Preserve designer serialization compatibility.
+- Preserve designer serialization compatibility (see **Designer Serialization Defaults**).
+
+### Designer Serialization Defaults
+
+Nested Krypton objects that inherit `Storage` show **"Modified"** in the Visual Studio property grid when `IsDefault` is false (`Storage.ToString()`). A freshly constructed Toolbox control must not look edited. This is issue [#4325](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4325).
+
+When a constructor (or a helper it calls) writes a real value that is that type’s factory default — combo `TextH = Near`, progress-bar green `Color1`, scrollbar border colours, stock images, `EnableToolTips = true` on `KryptonToolTip`, and similar — record it as the designer default. Do **not** assign inherit/empty/`DefaultValue` sentinels and then overwrite them in the constructor without updating `IsDefault` / `ShouldSerialize` / `Reset`.
+
+#### How
+
+Prefer the existing factory helpers on the shared palette/values types rather than inventing a second system:
+
+| Situation | Pattern (already on the type) |
+|-----------|-------------------------------|
+| Palette back/border colour or style stamped in a ctor | `PaletteBack.SetFactoryColor1` / `SetFactoryColor2` / `SetFactoryColorStyle`; `PaletteBorder.SetFactoryColor1` / `SetFactoryDraw` / `SetFactoryDrawBorders` / `SetFactoryGraphicsHint` |
+| Content text alignment, font, trim, multiline, adjacent gap | `PaletteContentText.SetDefaultTextH` / `SetDefaultTextV` / `SetDefaultFont` / `SetDefaultTrim` / `SetDefaultMultiLine` / `SetDefaultMultiLineH`; `PaletteContent.SetDefaultAdjacentGap`; `PaletteInputControlContentStates.SetDefaultTextH` |
+| Label/button text or image that is not `"Label"` / `null` | `LabelValues` ctor default-text argument or `SetFactoryText`; `ButtonValues.SetFactoryText` / `SetFactoryImage`; color-button stock image: `ResetImage()` (resource getters return a new `Bitmap` each time — do not compare a captured static instance) |
+| Theme colours copied into element storage at construct time | `PaletteElementColor.CaptureFactoryDefaults()` after `PopulateFromBase`, or skip `PopulateFromBase` in the constructor and inherit |
+| Inherited pulsing-border getters vs `[DefaultValue]` | Public `ShouldSerialize*` that tests a local override only (`InputPulsingBorderValues`) |
+
+`ShouldSerializeXxx` / `ResetXxx` must use the **property name** (`MaximumBadgeValue`, not `MaxBadgeValue`). `[DefaultValue]` must match the runtime type (`Color?` needs `[DefaultValue(null)]` and a public `ShouldSerialize`; `[DefaultValue(typeof(Color), "Empty")]` does not match `Color?`). `IsDefault` on `Storage` subclasses must be a real getter (`=> …`); `public override bool IsDefault { get; }` defaults to **false** and always shows **Modified**.
+
+#### Validate
+
+After adding or changing a Toolbox `Component`, a `Storage` subclass, or constructor palette/values stamping, run:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-DesignerSerializationDefaults.ps1
+```
+
+If the new type is a core drop target, add its `TypeName.` prefix to `$corePrefixes` in that script. The assert is **no Content node with `IsDefault == false`** on a parameterless construct. Leaf `ShouldSerialize` noise (`DataBindings`, `Owner`, `Capacity`) is skipped; do not “fix” those by hiding real properties.
+
+#### Do not
+
+- Assign constructor factory values (`Color1 = Color.Green`, `TextH = Near`, `PopulateFromBase` in a ctor) and leave `IsDefault` comparing to Inherit/Empty/`"Label"`.
+- Poke private palette fields to bypass `ShouldSerialize` (for example `_shortTextH = Near` on combo content).
+- Change `Color?` to `Color` (or other public signatures) to make `[DefaultValue]` line up.
+- Implement `Storage.IsDefault` as an auto-property.
+- Mass-edit `*.Designer.cs` lines such as `DropDownArrowColor = Color.Empty`; fixing serialization is enough — old lines load as unset and drop on the next designer save.
 
 ## Performance
 
@@ -185,6 +223,7 @@ Extra assemblies can advertise `[assembly: KryptonThemeProvider(typeof(…))]`. 
 - Do not place designer-generated initialization code in the main source file. Keep UI initialization in `InitializeComponent()` within the corresponding `.Designer.cs` file.
 - WinForms designer: keep object declarations at file bottom; initialize in `*.Designer.cs` `InitializeComponent()`
 - Do not manually edit generated `*.Designer.cs` files unless the task specifically requires it.
+- Toolbox controls and `Storage` nested objects: constructor factory values must not show as **Modified** in the property grid (see **Designer Serialization Defaults**).
 - Constraint: do not use `yield return` inside `catch` blocks
 
 ## Code Documentation Guidelines
@@ -594,6 +633,7 @@ Commit, push, or open a Demos pull request only when the user explicitly asks. W
 - When completing a **feature**, add or append a comprehensive demo in `TestForm` per **TestForm Demos** (include Krypton vs WinForms comparison where appropriate; do not overwrite an existing demo), and a consumer example in [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) (clone into the parent directory if missing; see **Standard-Toolkit-Demos**)
 - When completing a bug fix or feature, update `Documents/Changelog/Changelog.md` per **Changelog** in this file; if the change is breaking, also update `README.md` per **Breaking Changes (README)**
 - For UI-visible changes, capture screenshots per **UI Screenshots / GIFs** into the local `Documents/PR/` description; do not leave the template placeholder, and do not upload the images or GIFs to GitHub
+- When adding or changing a Toolbox control, `Storage` subclass, or constructor palette/values stamping, run `Scripts/UnitTests/UnitTest-DesignerSerializationDefaults.ps1` and keep core prefixes in that script in sync (see **Designer Serialization Defaults**)
 
 ## Unit Test Scripts
 
@@ -612,6 +652,7 @@ Use `Scripts/UnitTests/` for PowerShell scripts that drive or inspect a Debug `T
 - Host WinForms demos with `-STA` when the script calls `Application.Run`.
 - Keep scripts focused on one scenario (host, drag, remerge, probe, …).
 - Existing #925 helpers: `Start-NavigatorFormIntegrationHost.ps1`, `Invoke-CaptionTabDrag.ps1`, `UnitTest-NavigatorCaptionTabRemerge.ps1`, `Get-NavigatorCaptionTabProbe.ps1`.
+- Existing #4325 helper: `UnitTest-DesignerSerializationDefaults.ps1` (`include`) — parameterless Toolbox construct must not report nested `Modified` storage (see **Designer Serialization Defaults**).
 
 ## UI Screenshots / GIFs
 

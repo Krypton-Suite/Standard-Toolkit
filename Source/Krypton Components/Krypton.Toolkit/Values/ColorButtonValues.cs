@@ -22,13 +22,13 @@ public class ColorButtonValues : Storage,
 
     private readonly string _defaultText = KryptonManager.Strings.ColorStrings.Color;
     private static readonly string _defaultExtraText = SharedStaticVariables.DEFAULT_EMPTY_STRING;
-    private static readonly Image? _defaultImage = GenericImageResources.ButtonColorImageSmall;
     #endregion
 
     #region Instance Fields
     private Image? _image;
     private Image? _sourceImage;
     private Image? _compositeImage;
+    private bool _imageIsDefault;
     private Color _transparent;
     private string? _text;
     private string _extraText;
@@ -57,7 +57,8 @@ public class ColorButtonValues : Storage,
         NeedPaint = needPaint;
 
         // Set initial values
-        _image = _defaultImage;
+        _image = GenericImageResources.ButtonColorImageSmall;
+        _imageIsDefault = true;
         _transparent = SharedStaticVariables.EMPTY_COLOR;
         _text = _defaultText;
         _extraText = _defaultExtraText;
@@ -78,13 +79,15 @@ public class ColorButtonValues : Storage,
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override bool IsDefault => ImageStates.IsDefault &&
-                                      (Image == _defaultImage) &&
+                                      _imageIsDefault &&
                                       (ImageTransparentColor == SharedStaticVariables.EMPTY_COLOR) &&
                                       (Text == _defaultText) &&
-                                      (ExtraText == _defaultExtraText)
-                                      && (_roundedCorners == 0)
-                                      && _overlayImage.IsDefault
-    ;
+                                      (ExtraText == _defaultExtraText) &&
+                                      (_roundedCorners == 0) &&
+                                      (_selectedColor == Color.Red) &&
+                                      (_emptyBorderColor == Color.Gray) &&
+                                      (_selectedRect == new Rectangle(0, 12, 16, 4)) &&
+                                      _overlayImage.IsDefault;
 
     #endregion
 
@@ -106,17 +109,23 @@ public class ColorButtonValues : Storage,
             if (_image != value)
             {
                 _image = value;
+                _imageIsDefault = false;
                 PerformNeedPaint(true);
             }
         }
     }
 
-    private bool ShouldSerializeImage() => Image != _defaultImage;
+    public bool ShouldSerializeImage() => !_imageIsDefault;
 
     /// <summary>
     /// Resets the Image property to its default value.
     /// </summary>
-    public void ResetImage() => Image = _defaultImage;
+    public void ResetImage()
+    {
+        _image = GenericImageResources.ButtonColorImageSmall;
+        _imageIsDefault = true;
+        PerformNeedPaint(true);
+    }
     #endregion
 
     #region ImageTransparentColor
