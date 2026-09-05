@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -22,6 +22,13 @@ namespace Krypton.Toolkit;
 /// integration.  The mechanism mirrors the approach used by <c>KryptonRibbon</c> when it injects
 /// its Quick Access Toolbar into the custom chrome caption area.
 /// </para>
+/// <para>
+/// Optionally assign a <see cref="MenuStrip"/> (or <see cref="KryptonMenuStrip"/>) to
+/// <see cref="MenuStrip"/> to show that strip's top-level items as caption buttons. Generated
+/// specs are not serialized; keep the strip on the form (hidden by default) as
+/// <see cref="Form.MainMenuStrip"/> so shortcuts still work. Do not also call
+/// <see cref="InsertStandardItems"/> for the same File/Edit tree.
+/// </para>
 /// </remarks>
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(KryptonFormTitleBar), "ToolboxBitmaps.KryptonApplicationBarMenu.bmp")]
@@ -35,9 +42,12 @@ public class KryptonFormTitleBar : Component
     #region Instance Fields
 
     private bool _showDropArrow;
-
+    private bool _hideSourceMenuStrip = true;
+    private bool _assignedMainMenuStrip;
+    private bool _sourceHiddenByUs;
+    private bool _sourceWasVisible = true;
+    private MenuStrip? _menuStrip;
     private FormTitleBarValues _values;
-
     private KryptonForm? _ownerForm;
 
     #endregion
@@ -49,6 +59,12 @@ public class KryptonFormTitleBar : Component
 
     /// <summary>Raised when the <see cref="ButtonSpecs"/> collection changes.</summary>
     internal event EventHandler<ButtonSpecEventArgs>? ButtonSpecRemoved;
+
+    /// <summary>Raised when the generated <see cref="MenuStripButtonSpecs"/> collection changes.</summary>
+    internal event EventHandler<ButtonSpecEventArgs>? MenuStripButtonSpecInserted;
+
+    /// <summary>Raised when the generated <see cref="MenuStripButtonSpecs"/> collection changes.</summary>
+    internal event EventHandler<ButtonSpecEventArgs>? MenuStripButtonSpecRemoved;
 
     #endregion
 
@@ -63,12 +79,13 @@ public class KryptonFormTitleBar : Component
 
         // Create the collection of button specifications and wire events so that changes to the collection can be reflected in the title bar
         ButtonSpecs = new FormTitleBarButtonSpecCollection(this);
+        MenuStripButtonSpecs = new FormTitleBarButtonSpecCollection(this);
 
         // When button specs are added or removed, raise the corresponding events to notify the owner form to update the title bar display
         ButtonSpecs.Inserted += (s, e) => ButtonSpecInserted?.Invoke(s, e);
-
-        // When button specs are added or removed, raise the corresponding events to notify the owner form to update the title bar display
         ButtonSpecs.Removed += (s, e) => ButtonSpecRemoved?.Invoke(s, e);
+        MenuStripButtonSpecs.Inserted += (s, e) => MenuStripButtonSpecInserted?.Invoke(s, e);
+        MenuStripButtonSpecs.Removed += (s, e) => MenuStripButtonSpecRemoved?.Invoke(s, e);
     }
 
     #endregion
@@ -94,6 +111,59 @@ public class KryptonFormTitleBar : Component
                 {
                     buttonSpec.ShowDrop = value;
                 }
+
+                if (_menuStrip != null)
+                {
+                    RebuildMenuStripButtonSpecs();
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a <see cref="MenuStrip"/> (including <see cref="KryptonMenuStrip"/>) whose top-level
+    /// items are shown as caption buttons. Generated specs are not serialized; assign the strip in the designer.
+    /// Clicks forward to the original <see cref="ToolStripMenuItem"/> handlers.
+    /// </summary>
+    [Category(@"Data")]
+    [Description(@"Optional MenuStrip whose items are shown in the form caption.")]
+    [DefaultValue(null)]
+    public MenuStrip? MenuStrip
+    {
+        get => _menuStrip;
+        set
+        {
+            if (ReferenceEquals(_menuStrip, value))
+            {
+                return;
+            }
+
+            UnhookMenuStrip();
+            RestoreSourceMenuStrip();
+            _menuStrip = value;
+            HookMenuStrip();
+            ApplySourceMenuStripVisibility();
+            RebuildMenuStripButtonSpecs();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets whether <see cref="MenuStrip"/> is hidden when assigned so the caption is the only menu chrome.
+    /// The strip should remain <see cref="Form.MainMenuStrip"/> (set automatically if that property is empty)
+    /// so ToolStrip shortcuts keep working.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Hide the source MenuStrip when it is shown in the title bar.")]
+    [DefaultValue(true)]
+    public bool HideSourceMenuStrip
+    {
+        get => _hideSourceMenuStrip;
+        set
+        {
+            if (_hideSourceMenuStrip != value)
+            {
+                _hideSourceMenuStrip = value;
+                ApplySourceMenuStripVisibility();
             }
         }
     }
@@ -115,6 +185,42 @@ public class KryptonFormTitleBar : Component
     [Editor(typeof(KryptonDesignerButtonSpecAnyCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public FormTitleBarButtonSpecCollection ButtonSpecs { get; }
+
+    /// <summary>
+    /// Caption specs generated from <see cref="MenuStrip"/>. Not designer-serialized.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    internal FormTitleBarButtonSpecCollection MenuStripButtonSpecs { get; }
+
+    /// <summary>
+    /// Copies top-level items from <paramref name="menuStrip"/> into <see cref="ButtonSpecs"/>.
+    /// Prefer <see cref="MenuStrip"/> for a live bind that is not duplicated in the designer file.
+    /// </summary>
+    /// <param name="menuStrip">Source strip.</param>
+    /// <param name="hideSource">When <c>true</c>, hides <paramref name="menuStrip"/> after the copy.</param>
+    public void ImportFrom(MenuStrip menuStrip, bool hideSource = true)
+    {
+        if (menuStrip is null)
+        {
+            ThrowHelper.ThrowArgumentNullException(nameof(menuStrip));
+        }
+
+        ButtonSpecs.AddRange(CreateButtonSpecsFrom(menuStrip, ShowDropArrow));
+        if (hideSource)
+        {
+            menuStrip.Visible = false;
+        }
+    }
+
+    /// <summary>
+    /// Creates caption button specs from a <see cref="MenuStrip"/> without assigning <see cref="MenuStrip"/>.
+    /// </summary>
+    /// <param name="menuStrip">Source strip.</param>
+    /// <param name="showDropArrow">Whether drop-down caption buttons show a drop glyph.</param>
+    /// <returns>Newly created specs.</returns>
+    public static ButtonSpecAny[] CreateButtonSpecsFrom(MenuStrip menuStrip, bool showDropArrow = false) =>
+        KryptonMenuStripTitleBarConverter.CreateButtonSpecs(menuStrip, showDropArrow);
 
     /// <summary>
     /// Gets the <see cref="KryptonForm"/> this component is currently attached to, or <c>null</c>.
@@ -147,48 +253,12 @@ public class KryptonFormTitleBar : Component
     /// <param name="showDropArrow">Whether to show a drop arrow on menu buttons.</param>
     internal static ButtonSpecAny[] CreateStandardMenuButtonSpecs(bool showDropArrow)
     {
-        var tb = KryptonManager.Strings.ToolBarStrings;
         var fb = KryptonManager.Strings.TitleBarStrings;
 
-        var fileItems = new KryptonContextMenuItems();
-        fileItems.Items.Add(new KryptonContextMenuItem(tb.NewMenuItem));
-        fileItems.Items.Add(new KryptonContextMenuItem(tb.OpenMenuItem));
-        fileItems.Items.Add(new KryptonContextMenuItem(tb.SaveMenuItem));
-        fileItems.Items.Add(new KryptonContextMenuItem(tb.SaveAsMenuItem));
-        fileItems.Items.Add(new KryptonContextMenuItem(tb.SaveAllMenuItem));
-        fileItems.Items.Add(new KryptonContextMenuSeparator());
-        fileItems.Items.Add(new KryptonContextMenuItem(tb.PrintMenuItem));
-        fileItems.Items.Add(new KryptonContextMenuItem(tb.PrintPreviewMenuItem));
-        fileItems.Items.Add(new KryptonContextMenuSeparator());
-        fileItems.Items.Add(new KryptonContextMenuItem(fb.Exit));
-        var fileMenu = new KryptonContextMenu();
-        fileMenu.Items.Add(fileItems);
-
-        var editItems = new KryptonContextMenuItems();
-        editItems.Items.Add(new KryptonContextMenuItem(tb.UndoMenuItem));
-        editItems.Items.Add(new KryptonContextMenuItem(tb.RedoMenuItem));
-        editItems.Items.Add(new KryptonContextMenuSeparator());
-        editItems.Items.Add(new KryptonContextMenuItem(tb.CutMenuItem));
-        editItems.Items.Add(new KryptonContextMenuItem(tb.CopyMenuItem));
-        editItems.Items.Add(new KryptonContextMenuItem(tb.PasteMenuItem));
-        editItems.Items.Add(new KryptonContextMenuSeparator());
-        editItems.Items.Add(new KryptonContextMenuItem(fb.SelectAll));
-        var editMenu = new KryptonContextMenu();
-        editMenu.Items.Add(editItems);
-
-        var toolsItems = new KryptonContextMenuItems();
-        toolsItems.Items.Add(new KryptonContextMenuItem(fb.Customize));
-        toolsItems.Items.Add(new KryptonContextMenuItem(fb.Options));
-        var toolsMenu = new KryptonContextMenu();
-        toolsMenu.Items.Add(toolsItems);
-
-        var helpItems = new KryptonContextMenuItems();
-        helpItems.Items.Add(new KryptonContextMenuItem(fb.Contents));
-        helpItems.Items.Add(new KryptonContextMenuItem(fb.Index));
-        helpItems.Items.Add(new KryptonContextMenuSeparator());
-        helpItems.Items.Add(new KryptonContextMenuItem(fb.About));
-        var helpMenu = new KryptonContextMenu();
-        helpMenu.Items.Add(helpItems);
+        var fileMenu = KryptonStandardMenuFactory.CreateFileContextMenu();
+        var editMenu = KryptonStandardMenuFactory.CreateEditContextMenu();
+        var toolsMenu = KryptonStandardMenuFactory.CreateToolsContextMenu();
+        var helpMenu = KryptonStandardMenuFactory.CreateHelpContextMenu();
 
         var fileBtn = new ButtonSpecAny
         {
@@ -300,7 +370,29 @@ public class KryptonFormTitleBar : Component
 
     #region Internal
 
-    internal void SetOwnerForm(KryptonForm? form) => _ownerForm = form;
+    internal void SetOwnerForm(KryptonForm? form)
+    {
+        _ownerForm = form;
+        ApplySourceMenuStripVisibility();
+    }
+
+    /// <summary>
+    /// Processes shortcuts on user <see cref="ButtonSpecs"/> context menus (not MenuStrip-generated specs).
+    /// </summary>
+    /// <param name="keyData">Key data.</param>
+    /// <returns><c>true</c> if a title-bar menu shortcut was handled.</returns>
+    internal bool ProcessButtonSpecShortcuts(Keys keyData)
+    {
+        foreach (ButtonSpecAny spec in ButtonSpecs)
+        {
+            if (spec.KryptonContextMenu?.ProcessShortcut(keyData) == true)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     /// <summary>
     /// Called when Values (ButtonVisibility or ButtonAlignment) change. Syncs existing ButtonSpecs to match.
@@ -313,6 +405,108 @@ public class KryptonFormTitleBar : Component
     #endregion
 
     #region Implementation
+
+    private void HookMenuStrip()
+    {
+        if (_menuStrip == null)
+        {
+            return;
+        }
+
+        _menuStrip.ItemAdded += OnMenuStripStructureChanged;
+        _menuStrip.ItemRemoved += OnMenuStripStructureChanged;
+        _menuStrip.Disposed += OnMenuStripDisposed;
+    }
+
+    private void UnhookMenuStrip()
+    {
+        if (_menuStrip == null)
+        {
+            return;
+        }
+
+        _menuStrip.ItemAdded -= OnMenuStripStructureChanged;
+        _menuStrip.ItemRemoved -= OnMenuStripStructureChanged;
+        _menuStrip.Disposed -= OnMenuStripDisposed;
+    }
+
+    private void OnMenuStripDisposed(object? sender, EventArgs e) => MenuStrip = null;
+
+    private void OnMenuStripStructureChanged(object? sender, ToolStripItemEventArgs e) =>
+        RebuildMenuStripButtonSpecs();
+
+    private void RebuildMenuStripButtonSpecs()
+    {
+        var previous = new List<ButtonSpecAny>();
+        foreach (ButtonSpecAny spec in MenuStripButtonSpecs)
+        {
+            previous.Add(spec);
+        }
+
+        MenuStripButtonSpecs.Clear();
+        foreach (ButtonSpecAny spec in previous)
+        {
+            spec.KryptonContextMenu?.Dispose();
+        }
+
+        if (_menuStrip == null)
+        {
+            return;
+        }
+
+        MenuStripButtonSpecs.AddRange(CreateButtonSpecsFrom(_menuStrip, ShowDropArrow));
+    }
+
+    private void ApplySourceMenuStripVisibility()
+    {
+        if (_menuStrip == null || _menuStrip.IsDisposed)
+        {
+            return;
+        }
+
+        if (_hideSourceMenuStrip)
+        {
+            if (!_sourceHiddenByUs)
+            {
+                _sourceWasVisible = _menuStrip.Visible;
+                _sourceHiddenByUs = true;
+            }
+
+            _menuStrip.Visible = false;
+            if (_ownerForm is { MainMenuStrip: null })
+            {
+                _ownerForm.MainMenuStrip = _menuStrip;
+                _assignedMainMenuStrip = true;
+            }
+        }
+        else
+        {
+            RestoreSourceMenuStrip();
+        }
+    }
+
+    private void RestoreSourceMenuStrip()
+    {
+        if (_menuStrip == null || _menuStrip.IsDisposed)
+        {
+            _assignedMainMenuStrip = false;
+            _sourceHiddenByUs = false;
+            return;
+        }
+
+        if (_sourceHiddenByUs)
+        {
+            _menuStrip.Visible = _sourceWasVisible;
+            _sourceHiddenByUs = false;
+        }
+
+        if (_assignedMainMenuStrip && _ownerForm != null && ReferenceEquals(_ownerForm.MainMenuStrip, _menuStrip))
+        {
+            _ownerForm.MainMenuStrip = null;
+        }
+
+        _assignedMainMenuStrip = false;
+    }
 
     private void SyncButtonSpecsFromValues()
     {
@@ -395,9 +589,20 @@ public class KryptonFormTitleBar : Component
     /// <inheritdoc/>
     protected override void Dispose(bool disposing)
     {
-        if (disposing && _ownerForm != null)
+        if (disposing)
         {
-            _ownerForm.TitleBar = null;
+            UnhookMenuStrip();
+            RestoreSourceMenuStrip();
+            foreach (ButtonSpecAny spec in MenuStripButtonSpecs)
+            {
+                spec.KryptonContextMenu?.Dispose();
+            }
+
+            MenuStripButtonSpecs.Clear();
+            if (_ownerForm != null)
+            {
+                _ownerForm.TitleBar = null;
+            }
         }
 
         base.Dispose(disposing);
