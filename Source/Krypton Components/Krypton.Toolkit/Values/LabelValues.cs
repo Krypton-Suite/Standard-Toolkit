@@ -28,6 +28,7 @@ public class LabelValues : Storage,
     private Color _transparent;
     private string? _text;
     private string _extraText;
+    private string _defaultText = DEFAULT_TEXT;
     #endregion
 
     #region Events
@@ -63,8 +64,17 @@ public class LabelValues : Storage,
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override bool IsDefault => (Image == null) &&
                                       (ImageTransparentColor == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (Text == DEFAULT_TEXT) &&
+                                      (Text == _defaultText) &&
                                       (ExtraText == _defaultExtraText);
+
+    /// <summary>
+    /// Treats <paramref name="text"/> as the unset designer default for <see cref="Text"/>.
+    /// </summary>
+    internal void SetFactoryText(string text)
+    {
+        _defaultText = text ?? GlobalStaticValues.DEFAULT_EMPTY_STRING;
+        _text = _defaultText;
+    }
 
     #endregion
 
@@ -170,12 +180,12 @@ public class LabelValues : Storage,
         }
     }
 
-    private bool ShouldSerializeText() => Text != DEFAULT_TEXT;
+    private bool ShouldSerializeText() => Text != _defaultText;
 
     /// <summary>
     /// Resets the Text property to its default value.
     /// </summary>
-    public void ResetText() => Text = DEFAULT_TEXT;
+    public void ResetText() => Text = _defaultText;
 
     /// <summary>
     /// Gets the content short text.

@@ -81,6 +81,22 @@ public class PaletteContentText : Storage
 
     #region Instance Fields
     private InternalStorage? _storage;
+    private Font? _factoryFont;
+    private PaletteTextHint _factoryHint = PaletteTextHint.Inherit;
+    private PaletteTextTrim _factoryTrim = PaletteTextTrim.Inherit;
+    private PaletteTextHotkeyPrefix _factoryPrefix = PaletteTextHotkeyPrefix.Inherit;
+    private PaletteRelativeAlign _factoryTextH = PaletteRelativeAlign.Inherit;
+    private PaletteRelativeAlign _factoryTextV = PaletteRelativeAlign.Inherit;
+    private PaletteRelativeAlign _factoryMultiLineH = PaletteRelativeAlign.Inherit;
+    private InheritBool _factoryMultiLine = InheritBool.Inherit;
+    private Color _factoryColor1 = GlobalStaticValues.EMPTY_COLOR;
+    private Color _factoryColor2 = GlobalStaticValues.EMPTY_COLOR;
+    private PaletteColorStyle _factoryColorStyle = PaletteColorStyle.Inherit;
+    private PaletteRectangleAlign _factoryColorAlign = PaletteRectangleAlign.Inherit;
+    private float _factoryColorAngle = -1;
+    private Image? _factoryImage;
+    private PaletteImageStyle _factoryImageStyle = PaletteImageStyle.Inherit;
+    private PaletteRectangleAlign _factoryImageAlign = PaletteRectangleAlign.Inherit;
     #endregion
 
     #region Events
@@ -109,7 +125,46 @@ public class PaletteContentText : Storage
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => (_storage == null) || _storage.IsDefault;
+    public override bool IsDefault =>
+        Font == _factoryFont &&
+        Hint == _factoryHint &&
+        Trim == _factoryTrim &&
+        Prefix == _factoryPrefix &&
+        TextH == _factoryTextH &&
+        TextV == _factoryTextV &&
+        MultiLineH == _factoryMultiLineH &&
+        MultiLine == _factoryMultiLine &&
+        Color1.Equals(_factoryColor1) &&
+        Color2.Equals(_factoryColor2) &&
+        ColorStyle == _factoryColorStyle &&
+        ColorAlign == _factoryColorAlign &&
+        ColorAngle.Equals(_factoryColorAngle) &&
+        Image == _factoryImage &&
+        ImageStyle == _factoryImageStyle &&
+        ImageAlign == _factoryImageAlign;
+
+    /// <summary>
+    /// Treats the current values as the unset designer default.
+    /// </summary>
+    public void CaptureFactoryDefaults()
+    {
+        _factoryFont = Font;
+        _factoryHint = Hint;
+        _factoryTrim = Trim;
+        _factoryPrefix = Prefix;
+        _factoryTextH = TextH;
+        _factoryTextV = TextV;
+        _factoryMultiLineH = MultiLineH;
+        _factoryMultiLine = MultiLine;
+        _factoryColor1 = Color1;
+        _factoryColor2 = Color2;
+        _factoryColorStyle = ColorStyle;
+        _factoryColorAlign = ColorAlign;
+        _factoryColorAngle = ColorAngle;
+        _factoryImage = Image;
+        _factoryImageStyle = ImageStyle;
+        _factoryImageAlign = ImageAlign;
+    }
 
     #endregion
 
@@ -120,7 +175,6 @@ public class PaletteContentText : Storage
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Font for drawing the content text.")]
-    [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
     public virtual Font? Font
     {
@@ -160,7 +214,6 @@ public class PaletteContentText : Storage
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Text rendering hint for the content text.")]
-    [DefaultValue(PaletteTextHint.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
     public virtual PaletteTextHint Hint
     {
@@ -200,7 +253,6 @@ public class PaletteContentText : Storage
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Text trimming style for the content text.")]
-    [DefaultValue(PaletteTextTrim.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
     public virtual PaletteTextTrim Trim
     {
@@ -240,7 +292,6 @@ public class PaletteContentText : Storage
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"How to draw prefix characters for the content text.")]
-    [DefaultValue(PaletteTextHotkeyPrefix.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
     public virtual PaletteTextHotkeyPrefix Prefix
     {
@@ -280,7 +331,6 @@ public class PaletteContentText : Storage
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Relative horizontal alignment of content text.")]
-    [DefaultValue(PaletteRelativeAlign.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
     public virtual PaletteRelativeAlign TextH
     {
@@ -320,7 +370,6 @@ public class PaletteContentText : Storage
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Relative vertical alignment of content text.")]
-    [DefaultValue(PaletteRelativeAlign.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
     public virtual PaletteRelativeAlign TextV
     {
@@ -360,7 +409,6 @@ public class PaletteContentText : Storage
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Relative horizontal alignment of multiline content text.")]
-    [DefaultValue(PaletteRelativeAlign.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
     public virtual PaletteRelativeAlign MultiLineH
     {
@@ -400,7 +448,6 @@ public class PaletteContentText : Storage
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Flag indicating if multiline text is allowed..")]
-    [DefaultValue(InheritBool.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
     public virtual InheritBool MultiLine
     {
@@ -440,7 +487,6 @@ public class PaletteContentText : Storage
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Main color for the text.")]
-    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public virtual Color Color1
     {
@@ -480,7 +526,6 @@ public class PaletteContentText : Storage
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Secondary color for the text.")]
-    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public virtual Color Color2
     {
@@ -520,7 +565,6 @@ public class PaletteContentText : Storage
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Color drawing style for the text.")]
-    [DefaultValue(PaletteColorStyle.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
     public virtual PaletteColorStyle ColorStyle
     {
@@ -560,7 +604,6 @@ public class PaletteContentText : Storage
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Color alignment style for the text.")]
-    [DefaultValue(PaletteRectangleAlign.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
     public virtual PaletteRectangleAlign ColorAlign
     {
@@ -600,7 +643,6 @@ public class PaletteContentText : Storage
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Color angle for the text.")]
-    [DefaultValue(-1f)]
     [RefreshProperties(RefreshProperties.All)]
     public virtual float ColorAngle
     {
@@ -640,7 +682,6 @@ public class PaletteContentText : Storage
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Image for the text.")]
-    [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
     public virtual Image? Image
     {
@@ -680,7 +721,6 @@ public class PaletteContentText : Storage
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Image style for the text.")]
-    [DefaultValue(PaletteImageStyle.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
     public virtual PaletteImageStyle ImageStyle
     {
@@ -720,7 +760,6 @@ public class PaletteContentText : Storage
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Image alignment style for the text.")]
-    [DefaultValue(PaletteRectangleAlign.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
     public virtual PaletteRectangleAlign ImageAlign
     {
@@ -751,6 +790,41 @@ public class PaletteContentText : Storage
             }
         }
     }
+    #endregion
+
+    #region ShouldSerialize
+    private bool ShouldSerializeFont() => Font != _factoryFont;
+    private void ResetFont() => Font = _factoryFont;
+    private bool ShouldSerializeHint() => Hint != _factoryHint;
+    private void ResetHint() => Hint = _factoryHint;
+    private bool ShouldSerializeTrim() => Trim != _factoryTrim;
+    private void ResetTrim() => Trim = _factoryTrim;
+    private bool ShouldSerializePrefix() => Prefix != _factoryPrefix;
+    private void ResetPrefix() => Prefix = _factoryPrefix;
+    private bool ShouldSerializeTextH() => TextH != _factoryTextH;
+    private void ResetTextH() => TextH = _factoryTextH;
+    private bool ShouldSerializeTextV() => TextV != _factoryTextV;
+    private void ResetTextV() => TextV = _factoryTextV;
+    private bool ShouldSerializeMultiLineH() => MultiLineH != _factoryMultiLineH;
+    private void ResetMultiLineH() => MultiLineH = _factoryMultiLineH;
+    private bool ShouldSerializeMultiLine() => MultiLine != _factoryMultiLine;
+    private void ResetMultiLine() => MultiLine = _factoryMultiLine;
+    private bool ShouldSerializeColor1() => !Color1.Equals(_factoryColor1);
+    private void ResetColor1() => Color1 = _factoryColor1;
+    private bool ShouldSerializeColor2() => !Color2.Equals(_factoryColor2);
+    private void ResetColor2() => Color2 = _factoryColor2;
+    private bool ShouldSerializeColorStyle() => ColorStyle != _factoryColorStyle;
+    private void ResetColorStyle() => ColorStyle = _factoryColorStyle;
+    private bool ShouldSerializeColorAlign() => ColorAlign != _factoryColorAlign;
+    private void ResetColorAlign() => ColorAlign = _factoryColorAlign;
+    private bool ShouldSerializeColorAngle() => !ColorAngle.Equals(_factoryColorAngle);
+    private void ResetColorAngle() => ColorAngle = _factoryColorAngle;
+    private bool ShouldSerializeImage() => Image != _factoryImage;
+    private void ResetImage() => Image = _factoryImage;
+    private bool ShouldSerializeImageStyle() => ImageStyle != _factoryImageStyle;
+    private void ResetImageStyle() => ImageStyle = _factoryImageStyle;
+    private bool ShouldSerializeImageAlign() => ImageAlign != _factoryImageAlign;
+    private void ResetImageAlign() => ImageAlign = _factoryImageAlign;
     #endregion
 
     #region Protected

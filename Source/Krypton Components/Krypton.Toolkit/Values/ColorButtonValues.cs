@@ -22,10 +22,10 @@ public class ColorButtonValues : Storage,
 
     private readonly string _defaultText = KryptonManager.Strings.ColorStrings.Color;
     private static readonly string _defaultExtraText = GlobalStaticValues.DEFAULT_EMPTY_STRING;
-    private static readonly Image? _defaultImage = GenericImageResources.ButtonColorImageSmall;
     #endregion
 
     #region Instance Fields
+    private Image? _defaultImage = GenericImageResources.ButtonColorImageSmall;
     private Image? _image;
     private Image? _sourceImage;
     private Image? _compositeImage;
@@ -82,6 +82,15 @@ public class ColorButtonValues : Storage,
                                       (ExtraText == _defaultExtraText)
                                       && (_roundedCorners == 0)
     ;
+
+    /// <summary>
+    /// Treats <paramref name="image"/> as the unset designer default for <see cref="Image"/>.
+    /// </summary>
+    internal void SetFactoryImage(Image? image)
+    {
+        _defaultImage = image;
+        _image = image;
+    }
 
     #endregion
 

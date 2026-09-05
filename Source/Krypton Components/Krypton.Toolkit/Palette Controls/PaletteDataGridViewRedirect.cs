@@ -79,6 +79,7 @@ public class PaletteDataGridViewRedirect : Storage
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public PaletteBackStyle BackStyle
     {
         get => _background.BackStyle;

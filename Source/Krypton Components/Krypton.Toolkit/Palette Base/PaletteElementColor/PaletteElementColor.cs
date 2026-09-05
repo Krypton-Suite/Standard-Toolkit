@@ -94,7 +94,7 @@ public class PaletteElementColor : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"First element color.")]
-    [DefaultValue(typeof(Color), "Empty")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public virtual Color Color1
     {
@@ -132,7 +132,7 @@ public class PaletteElementColor : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Second element color.")]
-    [DefaultValue(typeof(Color), "Empty")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public virtual Color Color2
     {
@@ -170,7 +170,7 @@ public class PaletteElementColor : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Third element color.")]
-    [DefaultValue(typeof(Color), "Empty")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public virtual Color Color3
     {
@@ -208,7 +208,7 @@ public class PaletteElementColor : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Fourth element color.")]
-    [DefaultValue(typeof(Color), "Empty")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public virtual Color Color4
     {
@@ -246,7 +246,7 @@ public class PaletteElementColor : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Fifth element color.")]
-    [DefaultValue(typeof(Color), "Empty")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public virtual Color Color5
     {

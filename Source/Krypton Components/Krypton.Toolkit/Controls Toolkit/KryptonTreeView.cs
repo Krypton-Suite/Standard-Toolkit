@@ -806,25 +806,32 @@ public class KryptonTreeView : VisualControlBase,
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether check boxes are Displayed next to the tree nodes in the tree view control.
+    /// Gets or sets a value indicating whether selecting a node toggles its checked state so more than one node can be marked.
     /// </summary>
     [Category(@"Appearance")]
-    [Description(@"Indicates whether 'MultiSelect' is implemented on Selection")]
+    [Description(@"Indicates whether selecting a node toggles its checked state for multi-node selection.")]
     [DefaultValue(false)]
     public bool MultiSelect
     {
-        get => _multiSelect || CheckBoxes;
+        get => _multiSelect;
+
         set
         {
+            if (_multiSelect == value)
+            {
+                return;
+            }
+
             _multiSelect = value;
-            // Force redraw of current options
+
+            // Re-apply checked nodes so turning MultiSelect off collapses to a single check when CheckBoxes is also off.
             var checkedNodes = CheckedNodes;
             CheckedNodes = checkedNodes;
         }
     }
 
     private bool ShouldSerializeMultiSelect() => _multiSelect;
-    private void ResetMultiSelect() => _multiSelect = false;
+    private void ResetMultiSelect() => MultiSelect = false;
 
     /// <summary>
     /// Gets or sets a value indicating whether the selection highlight spans the width of the tree view control.
@@ -1013,7 +1020,7 @@ public class KryptonTreeView : VisualControlBase,
                 node.Checked = true;
                 if (!MultiSelect)
                 {
-                    // Only do the first one !
+                    // Only do the first one!
                     break;
                 }
             }

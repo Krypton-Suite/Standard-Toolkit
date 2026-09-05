@@ -128,7 +128,7 @@ public class ToolTipValues : HeaderValues
     /// </summary>
     [Category(@"ToolTip")]
     [Description("Hover interval (in millisecs) before a tooltip is shown\n[Currently ONLY designer values used]")]
-    [DefaultValue(5000)]
+    [DefaultValue(500)]
     public int ShowIntervalDelay
     {
         get => _showIntervalDelay;
