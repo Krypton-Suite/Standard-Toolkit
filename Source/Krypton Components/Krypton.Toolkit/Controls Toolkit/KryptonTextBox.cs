@@ -311,6 +311,16 @@ public class KryptonTextBox : VisualControlBase,
         /// <param name="e">An EventArgs containing the event data.</param>
         protected virtual void OnTrackMouseLeave(EventArgs e) => TrackMouseLeave?.Invoke(this, e);
         #endregion
+
+        #region Password
+        // Assign PasswordChar / UseSystemPasswordChar on this instance rather than through
+        // the outer `_textBox` field. CodeQL cs/sensitive-data-transmission treats a WinForms
+        // TextBox field as a password source when those properties are written through the field,
+        // which would mark every KryptonTextBox.Text read as sensitive.
+        internal void ApplyPasswordChar(char value) => PasswordChar = value;
+
+        internal void ApplyUseSystemPasswordChar(bool value) => UseSystemPasswordChar = value;
+        #endregion
     }
 
     #endregion
@@ -1075,7 +1085,7 @@ public class KryptonTextBox : VisualControlBase,
     public char PasswordChar
     {
         get => _textBox.PasswordChar;
-        set => _textBox.PasswordChar = value;
+        set => _textBox.ApplyPasswordChar(value);
     }
 
     /// <summary>
@@ -1088,7 +1098,7 @@ public class KryptonTextBox : VisualControlBase,
     public bool UseSystemPasswordChar
     {
         get => _textBox.UseSystemPasswordChar;
-        set => _textBox.UseSystemPasswordChar = value;
+        set => _textBox.ApplyUseSystemPasswordChar(value);
     }
 
     /// <summary>

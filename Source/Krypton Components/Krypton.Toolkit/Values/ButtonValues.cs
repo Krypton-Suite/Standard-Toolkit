@@ -31,9 +31,12 @@ public class ButtonValues : Storage,
     private IconSize? _iconSize;
     private IconSelectionStrategy _iconSelectionStrategy;
     private Image? _image;
+    private Image? _factoryImage;
+    private bool _imageIsDefault;
     private Color _transparent;
     private Color? _dropDownArrowColor;
     private string? _text;
+    private string _defaultText;
     private string _extraText;
     private Size? _customIconSize;
     private readonly OverlayImageValues _overlayImage;
@@ -59,9 +62,12 @@ public class ButtonValues : Storage,
 
         // Set initial values
         _image = null;
+        _factoryImage = null;
+        _imageIsDefault = true;
         _transparent = SharedStaticVariables.EMPTY_COLOR;
-        _dropDownArrowColor = SharedStaticVariables.EMPTY_COLOR;
-        _text = DEFAULT_TEXT;
+        _dropDownArrowColor = null;
+        _defaultText = DEFAULT_TEXT;
+        _text = _defaultText;
         _extraText = _defaultExtraText;
         _useAsDialogButton = false;
         _useAsUACElevationButton = false;
@@ -81,16 +87,34 @@ public class ButtonValues : Storage,
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override bool IsDefault => ImageStates.IsDefault &&
-                                      (Image == null) &&
+                                      _imageIsDefault &&
                                       (UseAsADialogButton == false) &&
                                       (UseAsUACElevationButton == false) &&
                                       (ShowSplitOption == false) &&
-                                      (DropDownArrowColor == SharedStaticVariables.EMPTY_COLOR) &&
-                                      //(UACShieldIconSize == UACShieldIconSize.ExtraSmall)
+                                      (DropDownArrowColor == null) &&
                                       (ImageTransparentColor == SharedStaticVariables.EMPTY_COLOR) &&
-                                      (Text == DEFAULT_TEXT) &&
+                                      (Text == _defaultText) &&
                                       (ExtraText == _defaultExtraText) &&
                                       _overlayImage.IsDefault;
+
+    /// <summary>
+    /// Treats <paramref name="text"/> as the unset designer default for <see cref="Text"/>.
+    /// </summary>
+    internal void SetFactoryText(string text)
+    {
+        _defaultText = text ?? SharedStaticVariables.DEFAULT_EMPTY_STRING;
+        _text = _defaultText;
+    }
+
+    /// <summary>
+    /// Treats <paramref name="image"/> as the unset designer default for <see cref="Image"/>.
+    /// </summary>
+    internal void SetFactoryImage(Image? image)
+    {
+        _factoryImage = image;
+        _image = image;
+        _imageIsDefault = true;
+    }
 
     #endregion
 
@@ -112,17 +136,23 @@ public class ButtonValues : Storage,
             if (_image != value)
             {
                 _image = value;
+                _imageIsDefault = false;
                 PerformNeedPaint(true);
             }
         }
     }
 
-    private bool ShouldSerializeImage() => Image != null;
+    private bool ShouldSerializeImage() => !_imageIsDefault;
 
     /// <summary>
     /// Resets the Image property to its default value.
     /// </summary>
-    public void ResetImage() => Image = null;
+    public void ResetImage()
+    {
+        _image = _factoryImage;
+        _imageIsDefault = true;
+        PerformNeedPaint(true);
+    }
     #endregion
 
     #region ImageTransparentColor
@@ -203,12 +233,12 @@ public class ButtonValues : Storage,
         }
     }
 
-    private bool ShouldSerializeText() => Text != DEFAULT_TEXT;
+    private bool ShouldSerializeText() => Text != _defaultText;
 
     /// <summary>
     /// Resets the Text property to its default value.
     /// </summary>
-    public void ResetText() => Text = DEFAULT_TEXT;
+    public void ResetText() => Text = _defaultText;
     #endregion
 
     #region ExtraText
@@ -386,23 +416,25 @@ public class ButtonValues : Storage,
     /// <value>The color of the drop-down arrow.</value>
     [Category(@"Visuals")]
     [Description(@"Sets the drop-down arrow color.")]
-    [DefaultValue(typeof(Color), @"Empty")]
+    [DefaultValue(null)]
     public Color? DropDownArrowColor
     {
         get => _dropDownArrowColor;
 
         set
         {
-            if (_dropDownArrowColor != value)
+            Color? normalized = value is Color c && c.IsEmpty ? null : value;
+            if (_dropDownArrowColor != normalized)
             {
-                _dropDownArrowColor = value ?? SharedStaticVariables.EMPTY_COLOR;
+                _dropDownArrowColor = normalized;
 
                 PerformNeedPaint(true);
             }
         }
     }
-    private void ResetDropDownArrowColor() => _dropDownArrowColor = SharedStaticVariables.EMPTY_COLOR;
-    private bool ShouldSerializeDropDownArrowColor() => _dropDownArrowColor != SharedStaticVariables.EMPTY_COLOR;
+    private void ResetDropDownArrowColor() => _dropDownArrowColor = null;
+    public bool ShouldSerializeDropDownArrowColor() =>
+        _dropDownArrowColor.HasValue && !_dropDownArrowColor.Value.IsEmpty;
     #endregion
 
     #region CreateImageStates

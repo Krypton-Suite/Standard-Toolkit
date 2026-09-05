@@ -316,7 +316,7 @@ public class BadgeContentValues : Storage
         }
     }
 
-    private bool ShouldSerializeMaxBadgeValue() => MaximumBadgeValue != DEFAULT_MAXIMUM_BADGE_VALUE;
+    private bool ShouldSerializeMaximumBadgeValue() => MaximumBadgeValue != DEFAULT_MAXIMUM_BADGE_VALUE;
 
     /// <summary>
     /// Gets and sets whether the badge should automatically show when it has content (text or image) and hide when empty.
@@ -448,7 +448,7 @@ public class BadgeContentValues : Storage
                                         ShouldSerializeBadgeMargin() ||
                                         ShouldSerializeCapsuleShapePadding() ||
                                         ShouldSerializeFont() ||
-                                        ShouldSerializeMaxBadgeValue() ||
+                                        ShouldSerializeMaximumBadgeValue() ||
                                         ShouldSerializePosition() ||
                                         ShouldSerializeShape() ||
                                         ShouldSerializeText() ||

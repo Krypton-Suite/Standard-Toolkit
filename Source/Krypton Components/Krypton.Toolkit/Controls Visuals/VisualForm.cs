@@ -802,16 +802,66 @@ public abstract class VisualForm : Form,
 	/// </summary>
 	/// <param name="screenPt">Screen point.</param>
 	/// <returns>Point in window coordinates.</returns>
+	/// <remarks>
+	/// Uses <see cref="PI.GetWindowRect"/> so the origin is the physical top-left of the window.
+	/// <see cref="Control.PointToClient"/> mirrors X when <c>WS_EX_LAYOUTRTL</c> is set, which
+	/// inverted left/right resize and mouse mapping for custom chrome (issue #2103).
+	/// </remarks>
 	protected Point ScreenToWindow(Point screenPt)
 	{
-		// First of all convert to client coordinates
-		Point clientPt = PointToClient(screenPt);
+		if (IsHandleCreated)
+		{
+			var windowRect = new PI.RECT();
+			if (PI.GetWindowRect(Handle, ref windowRect))
+			{
+				return new Point(screenPt.X - windowRect.left, screenPt.Y - windowRect.top);
+			}
+		}
 
-		// Now adjust to take into account the top and left borders
+		Point clientPt = PointToClient(screenPt);
 		Padding borders = RealWindowBorders;
 		clientPt.Offset(borders.Left, borders.Top);
-
 		return clientPt;
+	}
+
+	/// <summary>
+	/// Unpacks a packed mouse <c>lParam</c> into a point using signed 16-bit coordinates.
+	/// </summary>
+	/// <param name="lParam">Message <c>lParam</c>.</param>
+	/// <returns>Point with signed X/Y (required on monitors with negative origin).</returns>
+	protected static Point PointFromMessageLParam(IntPtr lParam)
+	{
+		long packed = lParam.ToInt64();
+		return new Point((short)(packed & 0xFFFF), (short)((packed >> 16) & 0xFFFF));
+	}
+
+	/// <summary>
+	/// Clears <see cref="PI.LAYOUT_.RTL"/> on a window DC so GDI drawing and <c>BitBlt</c> use physical coordinates.
+	/// </summary>
+	/// <param name="hdc">Device context from <c>GetWindowDC</c>.</param>
+	/// <returns>Previous layout flags, or <see cref="PI.GDI_ERROR"/> if they could not be read.</returns>
+	internal static uint BeginPhysicalWindowDcLayout(IntPtr hdc)
+	{
+		uint previous = PI.GetLayout(hdc);
+		if (previous != PI.GDI_ERROR && (previous & PI.LAYOUT_.RTL) != 0)
+		{
+			PI.SetLayout(hdc, previous & ~PI.LAYOUT_.RTL);
+		}
+
+		return previous;
+	}
+
+	/// <summary>
+	/// Restores layout flags saved by <see cref="BeginPhysicalWindowDcLayout"/>.
+	/// </summary>
+	/// <param name="hdc">Device context whose layout should be restored.</param>
+	/// <param name="previous">Value returned from <see cref="BeginPhysicalWindowDcLayout"/>.</param>
+	internal static void EndPhysicalWindowDcLayout(IntPtr hdc, uint previous)
+	{
+		if (previous != PI.GDI_ERROR)
+		{
+			PI.SetLayout(hdc, previous);
+		}
 	}
 
 	/// <summary>
@@ -1802,7 +1852,7 @@ public abstract class VisualForm : Form,
 	protected virtual bool OnWM_NCHITTEST(ref Message m)
 	{
 		// Extract the point in screen coordinates
-		var screenPoint = new Point((int)m.LParam.ToInt64());
+		var screenPoint = PointFromMessageLParam(m.LParam);
 
 		// Convert to window coordinates
 		Point windowPoint = ScreenToWindow(screenPoint);
@@ -1892,7 +1942,7 @@ public abstract class VisualForm : Form,
 	protected virtual bool OnWM_NCMOUSEMOVE(ref Message m)
 	{
 		// Extract the point in screen coordinates
-		var screenPoint = new Point((int)m.LParam.ToInt64());
+		var screenPoint = PointFromMessageLParam(m.LParam);
 
 		// Convert to window coordinates
 		Point windowPoint = ScreenToWindow(screenPoint);
@@ -1938,7 +1988,7 @@ public abstract class VisualForm : Form,
 	protected virtual bool OnWM_NCLBUTTONDOWN(ref Message m)
 	{
 		// Extract the point in screen coordinates
-		var screenPoint = new Point((int)m.LParam.ToInt64());
+		var screenPoint = PointFromMessageLParam(m.LParam);
 
 		// Convert to window coordinates
 		Point windowPoint = ScreenToWindow(screenPoint);
@@ -1955,7 +2005,7 @@ public abstract class VisualForm : Form,
 	protected virtual bool OnWM_NCLBUTTONUP(ref Message m)
 	{
 		// Extract the point in screen coordinates
-		var screenPoint = new Point((int)m.LParam.ToInt64());
+		var screenPoint = PointFromMessageLParam(m.LParam);
 
 		// Convert to window coordinates
 		Point windowPoint = ScreenToWindow(screenPoint);
@@ -1971,7 +2021,7 @@ public abstract class VisualForm : Form,
 	/// <returns>True if the message was processed; otherwise false.</returns>
 	protected virtual bool OnWM_NCRBUTTONDOWN(ref Message m)
 	{
-		var screenPoint = new Point((int)m.LParam.ToInt64());
+		var screenPoint = PointFromMessageLParam(m.LParam);
 		Point windowPoint = ScreenToWindow(screenPoint);
 
 		// Always route through the view first so caption tabs / button specs can handle RightClick.
@@ -1995,7 +2045,7 @@ public abstract class VisualForm : Form,
 	/// <returns>True if the message was processed; otherwise false.</returns>
 	protected virtual bool OnWM_NCRBUTTONUP(ref Message m)
 	{
-		var screenPoint = new Point((int)m.LParam.ToInt64());
+		var screenPoint = PointFromMessageLParam(m.LParam);
 		Point windowPoint = ScreenToWindow(screenPoint);
 
 		WindowChromeRightMouseUp(windowPoint);
@@ -2043,7 +2093,7 @@ public abstract class VisualForm : Form,
 	protected virtual bool OnWM_MOUSEMOVE(ref Message m)
 	{
 		// Extract the point in client coordinates
-		var clientPoint = new Point((int)m.LParam);
+		var clientPoint = PointFromMessageLParam(m.LParam);
 
 		// Convert to screen coordinates
 		Point screenPoint = PointToScreen(clientPoint);
@@ -2072,7 +2122,7 @@ public abstract class VisualForm : Form,
 		_trackingMouse = false;
 
 		// Extract the point in client coordinates
-		var clientPoint = new Point((int)m.LParam);
+		var clientPoint = PointFromMessageLParam(m.LParam);
 
 		// Convert to screen coordinates
 		Point screenPoint = PointToScreen(clientPoint);
@@ -2100,7 +2150,7 @@ public abstract class VisualForm : Form,
 	protected virtual bool OnWM_NCLBUTTONDBLCLK(ref Message m)
 	{
 		// Extract the point in screen coordinates
-		var screenPoint = new Point((int)m.LParam.ToInt64());
+		var screenPoint = PointFromMessageLParam(m.LParam);
 
 		// Convert to window coordinates
 		Point windowPoint = ScreenToWindow(screenPoint);
@@ -2132,6 +2182,7 @@ public abstract class VisualForm : Form,
 			// If we managed to get a device context
 			if (hDC != IntPtr.Zero)
 			{
+				uint previousLayout = BeginPhysicalWindowDcLayout(hDC);
 				try
 				{
 					// Find the rectangle that covers the client area of the form
@@ -2159,8 +2210,9 @@ public abstract class VisualForm : Form,
 						// If we managed to get a compatible bitmap
 						if (hBitmap != IntPtr.Zero)
 						{
-							// Must use the screen device context for the bitmap when drawing into the
-							// bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
+							// Draw into a display-compatible memory DC so opacity works. The window DC
+							// has LAYOUT_RTL cleared for this paint so BitBlt does not mirror glyphs
+							// (issue #2103).
 							// Select the new bitmap into the screen DC
 							IntPtr oldBitmap = PI.SelectObject(_screenDC, hBitmap);
 
@@ -2199,6 +2251,8 @@ public abstract class VisualForm : Form,
 				}
 				finally
 				{
+					EndPhysicalWindowDcLayout(hDC, previousLayout);
+
 					// Must always release the device context
 					PI.ReleaseDC(Handle, hDC);
 				}
