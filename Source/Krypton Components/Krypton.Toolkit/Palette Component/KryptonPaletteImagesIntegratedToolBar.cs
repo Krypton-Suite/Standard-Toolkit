@@ -68,7 +68,22 @@ public class KryptonPaletteImagesIntegratedToolBar : Storage
 
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault { get; }
+    public override bool IsDefault =>
+        (_copy == null) &&
+        (_cut == null) &&
+        (_help == null) &&
+        (_paste == null) &&
+        (_new == null) &&
+        (_open == null) &&
+        (_pageSetup == null) &&
+        (_printPreview == null) &&
+        (_print == null) &&
+        (_quickPrint == null) &&
+        (_redo == null) &&
+        (_undo == null) &&
+        (_saveAll == null) &&
+        (_saveAs == null) &&
+        (_save == null);
 
     #endregion
 

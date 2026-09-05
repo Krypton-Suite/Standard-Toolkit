@@ -51,6 +51,7 @@ Default output folder: `Bin\Debug\net472`.
 | Script | Purpose | Marker |
 |--------|---------|--------|
 | `Invoke-AllUnitTests.ps1` | Discovers markers, runs every `include` script in STA children | (entry point) |
+| `UnitTest-DesignerSerializationDefaults.ps1` | #4325 toolbox drop: core controls must not report designer `Modified` storage (`IsDefault` false) | `include` |
 | `UnitTest-UnitTestInfrastructure.ps1` | Shared helpers + CI marker discovery smoke assert | `include` |
 | `UnitTest-ThemeCatalog.ps1` | #4230 catalog: cores, enum/SupportedThemes order, Themes discovery, Materialize chrome, extraOnly Sparkle, Export/Import, sample provider | `include` |
 | `UnitTest-RibbonDetachable.ps1` | #595 Ribbon detach/reattach lifecycle, floating window, drag-to-reattach support | `include` |
@@ -64,10 +65,13 @@ Default output folder: `Bin\Debug\net472`.
 | `UnitTest-InteractiveToolTips.ps1` | #4192 hosted-control tooltip / HTML helper / NotifyIcon popup API surface | `include` |
 | `UnitTest-SplashScreenManager.ps1` | #4180 splash manager API: defaults, Show/SetStatus/Close, Run(steps), throwing step | `include` |
 | `UnitTest-KryptonLogProtect.ps1` | #4270 / #4269 `KryptonLog` redacts `{Password}` before file storage | `include` |
+| `UnitTest-BugReportEmailBody.ps1` | #4271 bug-report email body omits stack traces and SMTP password; `KryptonTextBox` password masking still works | `include` |
 | `UnitTest-CommandLinkArrow.ps1` | #4264 default command-link arrow: helper returns 32x32 image; Windows 7 embedded resource is packaged | `include` |
 | `UnitTest-RibbonOverflowGlyph.ps1` | #4253 QAT overflow chevrons paint at 96/144/192 DPI for Office 2007 and Office 2010 | `include` |
 | `UnitTest-CustomPaletteBasePaletteMode.ps1` | #1870 `KryptonCustomPaletteBase.BasePaletteMode` inherits the builtin colour table; builtin `BasePalette` keeps catalog mode | `include` |
+| `UnitTest-KryptonFormRtl.ps1` | #2103 `KryptonForm` RTL: `ScreenToWindow` stays physical; Close hit-tests on the right in LTR and the left with `RightToLeftLayout`; window region includes both physical left and right chrome | `include` |
 | `UnitTest-ContextMenuSubMenuImage.ps1` | #4252 Light Gray Office 2007/2010/Microsoft 365 `GetContextMenuSubMenuImage` returns an image; all catalog palettes must not throw | `include` |
+| `UnitTest-TreeViewMultiSelect.ps1` | #4326 `KryptonTreeView.MultiSelect` can be set to false independently of `CheckBoxes` | `include` |
 | `Start-AsyncFormsDemoHost.ps1` | Hosts `Feature4177AsyncFormsDemo` | n/a |
 | `Start-SplashScreenManagerHost.ps1` | Hosts `Feature4180SplashScreenManagerDemo` (#4180) | n/a |
 | `Start-NavigatorFormIntegrationHost.ps1` | Hosts `NavigatorFormIntegrationDemo` | n/a |
@@ -76,7 +80,9 @@ Default output folder: `Bin\Debug\net472`.
 | `Get-NavigatorTabGroupColourShot.ps1` | Tab-group colour screenshot | n/a |
 | `Start-RadialMenuDemoHost.ps1` | Hosts `RadialMenuDemo` (#4172) | n/a |
 | `Invoke-RadialMenuScreenshot.ps1` | Opens radial menu and writes `Documents/PR/4172-radial-menu-native.png` | `exclude` |
+| `Invoke-TreeViewMultiSelectScreenshot.ps1` | Hosts `Bug4326TreeViewMultiSelectDemo` and writes `Documents/PR/4326-treeview-multiselect-false.png` | `exclude` |
 | `Invoke-SchemeStripTextScreenshot.ps1` | Hosts `SchemeStripTextDemo` (#1100) and writes default/contrast PNGs under `Documents/PR/` | `exclude` |
+| `Invoke-KryptonFormRtlScreenshot.ps1` | Hosts `RTLFormBorderTest` (#2103) and writes `Documents/PR/2103-kryptonform-rtl-layout.png` | `exclude` |
 
 ## Run all CI assert tests (on demand)
 
@@ -130,6 +136,11 @@ powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Uni
 ```powershell
 dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-RibbonOverflowGlyph.ps1
+## Typical usage (#4271 bug-report email body)
+
+```powershell
+dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-BugReportEmailBody.ps1
 ```
 
 ## Typical usage (#1100 scheme strip text)
