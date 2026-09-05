@@ -28,6 +28,7 @@ public class LabelValues : Storage,
     private Image? _image;
     private Color _transparent;
     private string? _text;
+    private string _defaultText;
     private string _extraText;
     private readonly OverlayImageValues _overlayImage;
 
@@ -46,6 +47,16 @@ public class LabelValues : Storage,
     /// </summary>
     /// <param name="needPaint">Delegate for notifying paint requests.</param>
     public LabelValues(NeedPaintHandler needPaint)
+        : this(needPaint, DEFAULT_TEXT)
+    {
+    }
+
+    /// <summary>
+    /// Initialize a new instance of the LabelValues class.
+    /// </summary>
+    /// <param name="needPaint">Delegate for notifying paint requests.</param>
+    /// <param name="defaultText">Designer-default text treated as unset.</param>
+    public LabelValues(NeedPaintHandler needPaint, string defaultText)
     {
         // Store the provided paint notification delegate
         NeedPaint = needPaint;
@@ -53,7 +64,8 @@ public class LabelValues : Storage,
         // Set initial values
         _image = null;
         _transparent = SharedStaticVariables.EMPTY_COLOR;
-        _text = DEFAULT_TEXT;
+        _defaultText = defaultText ?? SharedStaticVariables.DEFAULT_EMPTY_STRING;
+        _text = _defaultText;
         _extraText = _defaultExtraText;
         _overlayImage = new OverlayImageValues(needPaint);
     }
@@ -67,9 +79,18 @@ public class LabelValues : Storage,
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override bool IsDefault => (Image == null) &&
                                       (ImageTransparentColor == SharedStaticVariables.EMPTY_COLOR) &&
-                                      (Text == DEFAULT_TEXT) &&
+                                      (Text == _defaultText) &&
                                       (ExtraText == _defaultExtraText) &&
                                       _overlayImage.IsDefault;
+
+    /// <summary>
+    /// Treats <paramref name="text"/> as the unset designer default for <see cref="Text"/>.
+    /// </summary>
+    internal void SetFactoryText(string text)
+    {
+        _defaultText = text ?? SharedStaticVariables.DEFAULT_EMPTY_STRING;
+        _text = _defaultText;
+    }
 
     #endregion
 
@@ -177,12 +198,12 @@ public class LabelValues : Storage,
         }
     }
 
-    private bool ShouldSerializeText() => Text != DEFAULT_TEXT;
+    private bool ShouldSerializeText() => Text != _defaultText;
 
     /// <summary>
     /// Resets the Text property to its default value.
     /// </summary>
-    public void ResetText() => Text = DEFAULT_TEXT;
+    public void ResetText() => Text = _defaultText;
 
     /// <summary>
     /// Gets the content short text.

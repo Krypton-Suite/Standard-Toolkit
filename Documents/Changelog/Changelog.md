@@ -45,6 +45,8 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#4325](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4325), When using Fresh dragged objects onto a form, the designer has lots of `Modified` entries
+  * Freshly dropped Krypton controls no longer show nested palette/values properties as **Modified** in the Visual Studio Properties window until you change them.
 * Resolved [#4326](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4326), Fresh KTree does not allow `MultiSelect` to be set to false
   * `KryptonTreeView.MultiSelect` can be set to `false` in the designer on a newly dropped control (including when `CheckBoxes` is `true`).
 * Resolved [#4271](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4271), Information exposure through transmitted data (CodeQL 32)

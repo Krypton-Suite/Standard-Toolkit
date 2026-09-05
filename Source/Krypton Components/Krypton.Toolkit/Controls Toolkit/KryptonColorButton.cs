@@ -1763,7 +1763,7 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
         switch (customShape)
         {
             case KryptonColorButtonCustomColorPreviewShape.None:
-                Values.Image = GenericImageResources.ButtonColorImageSmall;
+                Values.ResetImage();
 
                 Values.RoundedCorners = 0;
 
