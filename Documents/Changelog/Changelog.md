@@ -48,6 +48,9 @@
 
 ## 2026-10-26 - Build 2610 (Version 105-LTS - Patch 4) - October 2026
 
+* Resolved [#4336](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4336), `KryptonListView` does not use `StateTracking###`
+  * `KryptonListView` hover now uses `StateTracking` / `StateCheckedTracking` instead of Win32 hot-track.
+  * `ShowItemToolTips` uses `KryptonToolTip` (from `ListViewItem.ToolTipText`) instead of Win32 infotips, positioned at the hovered item.
 * Resolved [#4325](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4325), When using Fresh dragged objects onto a form, the designer has lots of `Modified` entries
   * Freshly dropped toolbox controls no longer show nested palette/values objects as **Modified** in the Visual Studio Properties window.
   * Constructor factory values (combo `TextH`, progress-bar fill, command-link alignments, form chrome hint, stock images, and similar) are recorded as designer defaults via `CaptureFactoryDefaults` / `SetFactory*` and matching `ShouldSerialize` / `IsDefault`.
