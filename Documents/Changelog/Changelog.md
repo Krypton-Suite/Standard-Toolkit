@@ -45,6 +45,9 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#3928](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3928), `KryptonRating` Toolbox control for interactive star (or heart/circle/image) ratings with Full, Half, and Exact precision.
+* Implemented `KryptonTagInputControl` in `Krypton.Toolkit.Utilities`: wrap-capable tag editor with themed chips, Enter/comma commit, Backspace-to-remove, suggestions, and optional category colours.
+  * To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Resolved [#4336](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4336), `KryptonListView` does not use `StateTracking###`
   * `KryptonListView` hover now uses `StateTracking` / `StateCheckedTracking` instead of Win32 hot-track.
   * `ShowItemToolTips` uses `KryptonToolTip` (from `ListViewItem.ToolTipText`) instead of Win32 infotips, positioned at the hovered item.
