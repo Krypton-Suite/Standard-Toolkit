@@ -137,6 +137,7 @@ public class KryptonBreadCrumb : VisualSimpleBase,
         ToolTipManager.ShowToolTip += OnShowToolTip;
         ToolTipManager.CancelToolTip += OnCancelToolTip;
         _buttonManager.ToolTipManager = ToolTipManager;
+        AutoSize = true;
     }
 
     /// <summary>

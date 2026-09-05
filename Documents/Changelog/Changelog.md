@@ -48,6 +48,15 @@
 * Resolved [#4336](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4336), `KryptonListView` does not use `StateTracking###`
   * `KryptonListView` hover now uses `StateTracking` / `StateCheckedTracking` instead of Win32 hot-track.
   * `ShowItemToolTips` uses `KryptonToolTip` (from `ListViewItem.ToolTipText`) instead of Win32 infotips, positioned at the hovered item.
+* Resolved [#4325](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4325), When using Fresh dragged objects onto a form, the designer has lots of `Modified` entries
+  * Freshly dropped Krypton controls no longer show nested palette/values properties as **Modified** in the Visual Studio Properties window until you change them.
+* Resolved [#4326](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4326), Fresh KTree does not allow `MultiSelect` to be set to false
+  * `KryptonTreeView.MultiSelect` can be set to `false` in the designer on a newly dropped control (including when `CheckBoxes` is `true`).
+* Resolved [#4271](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4271), Information exposure through transmitted data (CodeQL 32)
+  * Bug-report emails no longer transmit stack traces or SMTP credentials.
+  * Exception details in the email body are limited to type and message.
+  * Email, GitHub, and error strings are localisable through `KryptonBugReportingDialog.Strings`.
+  * To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Implemented [#4242](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4242), Native `KryptonMenuBar` (not a `MenuStrip`/`ToolStrip` subclass) using `KryptonContextMenuItem` top-level items and `KryptonContextMenu` drop-downs. Assign to `KryptonForm.MenuBar` for shortcuts and Alt activation; `KryptonMenuStrip` remains the WinForms `MainMenuStrip` path.
    * Optional `KryptonFormTitleBar.MenuStrip` bind so a `KryptonMenuStrip` (or `MenuStrip`) can drive caption File/Edit menus without hosting a ToolStrip in the title bar. Assign the strip in the designer; clicks forward to the original items. `KryptonFormTitleBar.ImportFrom` copies into `ButtonSpecs` when a snapshot is preferred.
 * Implemented [#1100](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1100), Extension of the `SchemeOfficeColors` enum
@@ -566,6 +575,9 @@
 * Resolved [#2886](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2886), Jump list support
 * Implemented [#2882](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2882), `KryptonPrintPreviewDialog` - Part of #2658
 * Resolved [#2103](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2103), Ensure that `KryptonForm` properly supports RTL/LTR
+  * `KryptonForm` RTL caption text is no longer mirrored, and resizing from the left or right edge follows the grabbed side.
+  * RTL + `RightToLeftLayout` no longer clips the left window frame (window region was mirrored off the physical left edge).
+  * Caption icon under RTL layout is inset from the frame. Extra space is `KryptonForm.CaptionIconPadding` (default `2`; `Empty` keeps only the frame inset).
 * Resolved [#2457](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2457), `KryptonForm` RTL border bug
 * Implemented [#2792](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2792), `KryptonNotifyIcon` - Part of #2658
 * Implemented [#2791](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2791), `KryptonFlowLayoutPanel` - Part of #2658

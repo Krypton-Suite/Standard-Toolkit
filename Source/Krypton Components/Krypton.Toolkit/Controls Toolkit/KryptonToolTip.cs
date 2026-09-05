@@ -38,7 +38,7 @@ public class KryptonToolTip : Component, IExtenderProvider
         PaletteModeInternal = PaletteMode.Global;
         PaletteInternal = KryptonManager.CurrentGlobalPalette;
         ToolTipValues = new ToolTipValues(OnTooltipValuesNeedPaint, GetDpiFactorFromContext);
-        ToolTipValues.EnableToolTips = true;
+        ToolTipValues.SetDefaultEnableToolTips(true);
         InitializeRendering();
         KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
     }
