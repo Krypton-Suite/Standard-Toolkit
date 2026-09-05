@@ -380,59 +380,8 @@ public class KryptonContextMenu : Component,
         KryptonContextMenuPositionH horz,
         KryptonContextMenuPositionV vert,
         bool keyboardActivated,
-        bool constrain)
-    {
-        var displayed = false;
-
-        // Only need to show if not already displaying it
-        if (VisualContextMenu == null)
-        {
-            // Remember the caller for us in events
-            Caller = caller;
-
-            // Give event handler a change to cancel the open request
-            var cea = new CancelEventArgs();
-            OnOpening(cea);
-
-            if (!cea.Cancel)
-            {
-                // Optional alternate presenter (e.g. radial menu). When it returns true, skip the linear popup.
-                var alternativeShow = AlternativeShow;
-                if (alternativeShow != null
-                    && alternativeShow(this, caller, screenRect, horz, vert, keyboardActivated, constrain))
-                {
-                    OnOpened(EventArgs.Empty);
-                    return true;
-                }
-
-                // Set a default reason for the menu being dismissed
-                CloseReason = ToolStripDropDownCloseReason.AppFocusChange;
-
-                // Create the actual control used to show the context menu
-                VisualContextMenu = CreateContextMenu(this, LocalCustomPalette, PaletteMode,
-                    _redirector, _redirectorImages,
-                    Items, Enabled, keyboardActivated);
-
-                // Need to know when the visual control is removed
-                VisualContextMenu.Disposed += OnContextMenuDisposed;
-
-                // Request the menu be shown immediately
-                VisualContextMenu.Show(screenRect, horz, vert, false, constrain);
-
-                // Override the horz, vert setting so that sub menus appear right and below
-                VisualContextMenu.ShowHorz = KryptonContextMenuPositionH.After;
-                VisualContextMenu.ShowVert = KryptonContextMenuPositionV.Top;
-
-                // Indicate the context menu is fully constructed and Displayed
-                OnOpened(EventArgs.Empty);
-
-                // The menu has actually become Displayed
-                displayed = true;
-            }
-        }
-
-        return displayed;
-    }
+        bool constrain) =>
+        ShowCore(caller, screenRect, horz, vert, keyboardActivated, constrain, Items, true);
 
     /// <summary>
     /// Close any showing context menu.
@@ -530,9 +479,99 @@ public class KryptonContextMenu : Component,
     /// </summary>
     internal PaletteRedirectContextMenu RedirectorImages => _redirectorImages;
 
+    /// <summary>
+    /// Show the context menu using an existing item collection by reference.
+    /// </summary>
+    /// <remarks>
+    /// Used by <see cref="KryptonMenuBar"/> so designer-owned <see cref="KryptonContextMenuItem.Items"/>
+    /// nodes are displayed without being moved onto this instance.
+    /// </remarks>
+    /// <param name="caller">Reference to object causing the context menu to be shown.</param>
+    /// <param name="screenRect">Screen rectangle to position relative to.</param>
+    /// <param name="horz">Horizontal location relative to screen rectangle.</param>
+    /// <param name="vert">Vertical location relative to screen rectangle.</param>
+    /// <param name="keyboardActivated">Was context menu initiated via a keyboard action.</param>
+    /// <param name="constrain">Should size and position of menu be constrained by display size.</param>
+    /// <param name="items">Collection to display; ownership is not transferred.</param>
+    /// <returns>Has the context menu become Displayed.</returns>
+    internal bool ShowCollection(object caller,
+        Rectangle screenRect,
+        KryptonContextMenuPositionH horz,
+        KryptonContextMenuPositionV vert,
+        bool keyboardActivated,
+        bool constrain,
+        KryptonContextMenuCollection items) =>
+        items.Count == 0
+            ? false
+            : ShowCore(caller, screenRect, horz, vert, keyboardActivated, constrain, items, false);
+
     #endregion
 
     #region Implementation
+    private bool ShowCore(object caller,
+        Rectangle screenRect,
+        KryptonContextMenuPositionH horz,
+        KryptonContextMenuPositionV vert,
+        bool keyboardActivated,
+        bool constrain,
+        KryptonContextMenuCollection items,
+        bool allowAlternativeShow)
+    {
+        var displayed = false;
+
+        // Only need to show if not already displaying it
+        if (VisualContextMenu == null)
+        {
+            // Remember the caller for us in events
+            Caller = caller;
+
+            // Give event handler a change to cancel the open request
+            var cea = new CancelEventArgs();
+            OnOpening(cea);
+
+            if (!cea.Cancel)
+            {
+                // Optional alternate presenter (e.g. radial menu). When it returns true, skip the linear popup.
+                if (allowAlternativeShow)
+                {
+                    var alternativeShow = AlternativeShow;
+                    if (alternativeShow != null
+                        && alternativeShow(this, caller, screenRect, horz, vert, keyboardActivated, constrain))
+                    {
+                        OnOpened(EventArgs.Empty);
+                        return true;
+                    }
+                }
+
+                // Set a default reason for the menu being dismissed
+                CloseReason = ToolStripDropDownCloseReason.AppFocusChange;
+
+                // Create the actual control used to show the context menu
+                VisualContextMenu = CreateContextMenu(this, LocalCustomPalette, PaletteMode,
+                    _redirector, _redirectorImages,
+                    items, Enabled, keyboardActivated);
+
+                // Need to know when the visual control is removed
+                VisualContextMenu.Disposed += OnContextMenuDisposed;
+
+                // Request the menu be shown immediately
+                VisualContextMenu.Show(screenRect, horz, vert, false, constrain);
+
+                // Override the horz, vert setting so that sub menus appear right and below
+                VisualContextMenu.ShowHorz = KryptonContextMenuPositionH.After;
+                VisualContextMenu.ShowVert = KryptonContextMenuPositionV.Top;
+
+                // Indicate the context menu is fully constructed and Displayed
+                OnOpened(EventArgs.Empty);
+
+                // The menu has actually become Displayed
+                displayed = true;
+            }
+        }
+
+        return displayed;
+    }
+
     private void PerformNeedPaint(bool needLayout) => OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
 
     private void OnNeedPaint(object? sender, [DisallowNull] NeedLayoutEventArgs e)
