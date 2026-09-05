@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -917,11 +917,11 @@ public abstract class ButtonSpecManagerBase : GlobalId
     /// <param name="spec">Button spec instance.</param>
     /// <returns>Dock style to assign before RTL mirroring.</returns>
     /// <remarks>
-    /// Maps palette Near/Far edge to Left/Right dock. Form chrome relies on
-    /// <see cref="KryptonForm.FormPaletteRedirect.GetButtonSpecEdge(PaletteButtonSpecStyle)"/> to move standard Far-edge buttons to the
-    /// physical left in RTL (Far→Near remap) rather than depending on
-    /// <see cref="ViewDrawDocker.CalculateDock"/> alone, which does not consistently mirror
-    /// caption button specs (issue #3786).
+    /// Maps palette Near/Far edge to Left/Right dock. Form chrome then relies on
+    /// <see cref="ViewDrawDocker.CalculateDock"/> to flip Left/Right in RTL. Native Near-edge
+    /// traffic lights are remapped Near→Far by
+    /// <see cref="KryptonForm.FormPaletteRedirect.GetButtonSpecEdge(PaletteButtonSpecStyle)"/>
+    /// so they remain on the physical left (issue #2103 / #3786).
     /// </remarks>
     protected virtual ViewDockStyle GetButtonSpecDockStyle(ButtonSpec spec)
     {

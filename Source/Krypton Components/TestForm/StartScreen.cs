@@ -185,7 +185,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<RichTextBoxFormattingTest>("RichTextBox Formatting Test", "Tests fix for RichTextBox formatting preservation when palette changes (Issue #2832)");
         CreateButton<Feature4008RichTextBoxJustifyDemo>("Feature 4008 RichTextBox Justify", "Issue #4008: KryptonRichTextBox.SelectionParagraphAlignment with Left/Center/Right/Justify. Compare with native RichTextBox SelectionAlignment (no Justify). Resize the form to see justified word spacing.");
         CreateButton<Bug3343RichTextBoxEditLossDemo>("Bug 3343 RichTextBox mouse leave", "Issue #3343: type in KryptonRichTextBox, move the mouse out without changing focus; text and TextLength must not reset. Includes KryptonTextBox for comparison.");
-        CreateButton<RTLFormBorderTest>("RTL Layout Test", "Test for RTL compliance");
+        CreateButton<RTLFormBorderTest>("RTL Layout Test", "Issue #2103: KryptonForm RightToLeft / RightToLeftLayout. Caption must stay readable, control box on the left, icon on the right, and left/right resize must follow the grabbed edge. CaptionIconPadding controls extra space around the caption icon. Includes a native Form comparison.");
         CreateButton<ToastNotificationTestChoice>("Toast", "For breakfast....?");
         CreateButton<Feature3959WorkspacePageTagPersistDemo>("Feature 3959 Workspace Page.Tag", "Issue #3959: persist KryptonPage.Tag via TypeConverter (string/int) on workspace save/load; use PageSaving/PageLoading for non-convertible custom Tag objects.");
         CreateButton<WorkspaceTest>("WorkspaceTest", string.Empty);

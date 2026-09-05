@@ -572,6 +572,9 @@
 * Resolved [#2886](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2886), Jump list support
 * Implemented [#2882](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2882), `KryptonPrintPreviewDialog` - Part of #2658
 * Resolved [#2103](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2103), Ensure that `KryptonForm` properly supports RTL/LTR
+  * `KryptonForm` RTL caption text is no longer mirrored, and resizing from the left or right edge follows the grabbed side.
+  * RTL + `RightToLeftLayout` no longer clips the left window frame (window region was mirrored off the physical left edge).
+  * Caption icon under RTL layout is inset from the frame. Extra space is `KryptonForm.CaptionIconPadding` (default `2`; `Empty` keeps only the frame inset).
 * Resolved [#2457](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2457), `KryptonForm` RTL border bug
 * Implemented [#2792](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2792), `KryptonNotifyIcon` - Part of #2658
 * Implemented [#2791](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2791), `KryptonFlowLayoutPanel` - Part of #2658
