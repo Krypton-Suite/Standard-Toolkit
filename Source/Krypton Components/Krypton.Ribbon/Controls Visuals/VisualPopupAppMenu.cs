@@ -55,6 +55,7 @@ internal class VisualPopupAppMenu : VisualPopup
         _ribbon = ribbon;
         _rectAppButtonTopHalf = rectAppButtonTopHalf;
         _rectAppButtonBottomHalf = rectAppButtonBottomHalf;
+        RibbonRtlLayout.ApplyTo(this, _ribbon);
 
         // Create the view manager instance with root element
         ViewManager = new ViewContextMenuManager(this, new ViewLayoutNull());

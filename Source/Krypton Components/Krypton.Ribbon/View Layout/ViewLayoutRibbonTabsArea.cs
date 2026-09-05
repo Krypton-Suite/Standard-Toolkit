@@ -829,7 +829,7 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
             _appMenu.Disposed += OnAppMenuDisposed;
 
             // Adjust the screen rect of the app button/tab, so we show half-way down the button
-            appRectShow.X -= 3;
+            appRectShow.X += RibbonRtlLayout.IsRtl(_ribbon) ? 3 : -3;
             appRectShow.Height = 0;
 
             // Request the menu be shown immediately

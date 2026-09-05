@@ -169,8 +169,13 @@ internal class ViewLayoutRibbonRowCenter : ViewComposite
             _ => Size.Empty
         };
 
-        // Starting left offset is half the difference between the client width and the total child widths
+        // Starting offset is half the difference between the client width and the total child widths
+        var isRtl = RibbonRtlLayout.IsRtl(context);
         var xOffset = (ClientWidth - preferredSize.Width) / 2;
+        if (isRtl)
+        {
+            xOffset = ClientWidth - xOffset;
+        }
 
         // Layout each child centered within this space
         foreach (ViewBase child in this)
@@ -197,17 +202,29 @@ internal class ViewLayoutRibbonRowCenter : ViewComposite
                 // Find vertical offset for centering
                 var yOffset = (ClientHeight - childPreferred.Height) / 2;
 
+                Rectangle childRect;
+                if (isRtl)
+                {
+                    xOffset -= childPreferred.Width;
+                    childRect = new Rectangle(ClientRectangle.X + xOffset,
+                        ClientRectangle.Y + yOffset,
+                        childPreferred.Width,
+                        childPreferred.Height);
+                }
+                else
+                {
+                    childRect = new Rectangle(ClientRectangle.X + xOffset,
+                        ClientRectangle.Y + yOffset,
+                        childPreferred.Width,
+                        childPreferred.Height);
+                    xOffset += childPreferred.Width;
+                }
+
                 // Create the rectangle that centers the child in our space
-                context.DisplayRectangle = new Rectangle(ClientRectangle.X + xOffset,
-                    ClientRectangle.Y + yOffset,
-                    childPreferred.Width,
-                    childPreferred.Height);
+                context.DisplayRectangle = childRect;
 
                 // Finally ask the child to layout
                 child.Layout(context);
-
-                // Move across to next horizontal position
-                xOffset += childPreferred.Width;
             }
         }
 

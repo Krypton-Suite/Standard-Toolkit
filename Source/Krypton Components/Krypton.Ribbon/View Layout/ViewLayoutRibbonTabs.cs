@@ -444,7 +444,8 @@ internal class ViewLayoutRibbonTabs : ViewComposite
         // We take on all the available display area
         ClientRectangle = context!.DisplayRectangle;
 
-        var x = ClientLocation.X;
+        var isRtl = RibbonRtlLayout.IsRtl(_ribbon);
+        var x = RibbonRtlLayout.StartX(ClientRectangle, isRtl);
 
         // Are there any children to layout?
         if (Count > 0)
@@ -456,12 +457,14 @@ internal class ViewLayoutRibbonTabs : ViewComposite
             var bottom = ClientRectangle.Bottom;
             var height = ClientHeight;
 
-            // Position each item from left to right taking up entire height
+            // Position each item along the reading direction taking up entire height
             for (var i = 0; i < Count; i++)
             {
                 // Only interested in visible items
                 if (layoutSizes[i].Width > 0)
                 {
+                    var itemRect = RibbonRtlLayout.NextItem(ref x, y, layoutSizes[i].Width, height, isRtl);
+
                     // Separators are made the full height, others are aligned on the bottom edge
                     switch (this[i])
                     {
@@ -469,24 +472,21 @@ internal class ViewLayoutRibbonTabs : ViewComposite
                             // Update separator with latest calculated need to draw
                             tabSep.Draw = _showSeparators;
 
-                            context.DisplayRectangle = new Rectangle(x, y, layoutSizes[i].Width, height);
+                            context.DisplayRectangle = itemRect;
                             break;
                         case ViewDrawRibbonTab tab:
                             // Update checked state of the tab
                             tab.Checked = _ribbon.SelectedTab == tab.RibbonTab;
 
-                            context.DisplayRectangle = new Rectangle(x, bottom - layoutSizes[i].Height, layoutSizes[i].Width, layoutSizes[i].Height);
+                            context.DisplayRectangle = new Rectangle(itemRect.X, bottom - layoutSizes[i].Height, layoutSizes[i].Width, layoutSizes[i].Height);
                             break;
                         case ViewDrawRibbonDesignTab:
-                            context.DisplayRectangle = new Rectangle(x, bottom - layoutSizes[i].Height, layoutSizes[i].Width, layoutSizes[i].Height);
+                            context.DisplayRectangle = new Rectangle(itemRect.X, bottom - layoutSizes[i].Height, layoutSizes[i].Width, layoutSizes[i].Height);
                             break;
                     }
 
                     // Position the element
                     this[i]?.Layout(context);
-
-                    // Move across to next position
-                    x += layoutSizes[i].Width;
                 }
             }
         }
@@ -496,15 +496,19 @@ internal class ViewLayoutRibbonTabs : ViewComposite
         if (GetViewForSpare != null)
         {
             GetViewForSpare.Visible = false;
-            if (x < ClientRectangle.Right)
+            customCaptionRect = RibbonRtlLayout.FarRemainder(ClientRectangle, x, isRtl);
+            if (!customCaptionRect.IsEmpty)
             {
                 if (_ribbon.GetRedirector()?.GetMetricBool(PaletteState.Normal, PaletteMetricBool.RibbonTabsSpareCaption) == InheritBool.True)
                 {
-                    customCaptionRect = new Rectangle(x, ClientRectangle.Y, ClientRectangle.Right - x, ClientHeight);
                     context.DisplayRectangle = customCaptionRect;
                     GetViewForSpare.Visible = true;
                     GetViewForSpare.Layout(context);
-                    x = ClientRectangle.Right;
+                    x = isRtl ? ClientRectangle.Left : ClientRectangle.Right;
+                }
+                else
+                {
+                    customCaptionRect = Rectangle.Empty;
                 }
             }
         }
@@ -523,10 +527,10 @@ internal class ViewLayoutRibbonTabs : ViewComposite
         }
 
         // Update our own size to reflect how wide we actually need to be for all the children
-        ClientRectangle = new Rectangle(ClientLocation, new Size(x - ClientLocation.X, ClientHeight));
+        ClientRectangle = RibbonRtlLayout.PackedBounds(ClientRectangle, x, isRtl);
 
         // Update the display rectangle we allocated for use by parent
-        context.DisplayRectangle = new Rectangle(ClientLocation, new Size(x - ClientLocation.X, ClientHeight));
+        context.DisplayRectangle = ClientRectangle;
     }
     #endregion
 

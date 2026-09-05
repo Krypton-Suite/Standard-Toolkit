@@ -102,6 +102,8 @@ public class KryptonRibbon : VisualSimple,
     private KryptonRibbonTab? _selectedTab;
     private VisualBackstageOverlayForm? _backstageOverlay;
     private KryptonRibbonTab? _backstageRestoreTab;
+    private KryptonForm? _rtlSourceForm;
+    private bool _isRightToLeftLayout;
 
     private KryptonRibbonNotificationBarData _notificationBarData;
 
@@ -349,6 +351,8 @@ public class KryptonRibbon : VisualSimple,
             }
 
             _backstageRestoreTab = null;
+
+            UnhookRtlSourceForm();
 
             // Clean up floating window if detached
             if (_floatingWindow is { IsDisposed: false })
@@ -994,6 +998,34 @@ public class KryptonRibbon : VisualSimple,
     /// Reset the HideRibbonSize to the default value.
     /// </summary>
     private void ResetHideRibbonSize() => HideRibbonSize = new Size(300, 250);
+
+    /// <summary>
+    /// Gets or sets whether ribbon chrome packs from the reading-order start edge.
+    /// </summary>
+    /// <remarks>
+    /// When hosted on a <see cref="KryptonForm"/>, this is copied from the form automatically.
+    /// Packing also requires <see cref="Control.RightToLeft"/> equal to <see cref="RightToLeft.Yes"/>.
+    /// Named to match WinForms <see cref="Form"/>; not the Toolkit <c>RightToLeftLayout</c> enum.
+    /// </remarks>
+    [Category(@"Appearance")]
+    [Localizable(true)]
+    [Description(@"Indicates whether the ribbon layout is from right to left.")]
+    [DefaultValue(false)]
+    [Browsable(true)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public bool RightToLeftLayout
+    {
+        get => _isRightToLeftLayout;
+        set
+        {
+            if (_isRightToLeftLayout != value)
+            {
+                _isRightToLeftLayout = value;
+                PerformNeedPaint(true);
+            }
+        }
+    }
 
     /// <summary>
     /// Gets and sets a value indicating if the ribbon is in minimized mode.
@@ -1941,6 +1973,19 @@ public class KryptonRibbon : VisualSimple,
 
         // Let base class generate event
         base.OnInitialized(e);
+
+        // Parent may already be assigned before this fires.
+        SyncRightToLeftLayoutFromParent();
+    }
+
+    /// <summary>
+    /// Raises the ParentChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing event data.</param>
+    protected override void OnParentChanged(EventArgs e)
+    {
+        base.OnParentChanged(e);
+        SyncRightToLeftLayoutFromParent();
     }
 
     /// <summary>
@@ -2886,6 +2931,59 @@ public class KryptonRibbon : VisualSimple,
 
         // Caller is only interested in the KryptonForm parent
         return c as KryptonForm;
+    }
+
+    /// <summary>
+    /// Gets whether ribbon packing should use Office-style RTL (both RTL flags).
+    /// </summary>
+    internal bool IsRtlLayout => RibbonRtlLayout.IsRtl(this);
+
+    private void SyncRightToLeftLayoutFromParent()
+    {
+        UnhookRtlSourceForm();
+
+        var form = FindKryptonForm();
+        if (form == null)
+        {
+            return;
+        }
+
+        _rtlSourceForm = form;
+        _rtlSourceForm.RightToLeftChanged += OnRtlSourceFormRtlChanged;
+        _rtlSourceForm.RightToLeftLayoutChanged += OnRtlSourceFormRtlChanged;
+        CopyRightToLeftLayoutFromForm(form);
+    }
+
+    private void UnhookRtlSourceForm()
+    {
+        if (_rtlSourceForm == null)
+        {
+            return;
+        }
+
+        _rtlSourceForm.RightToLeftChanged -= OnRtlSourceFormRtlChanged;
+        _rtlSourceForm.RightToLeftLayoutChanged -= OnRtlSourceFormRtlChanged;
+        _rtlSourceForm = null;
+    }
+
+    private void OnRtlSourceFormRtlChanged(object? sender, EventArgs e)
+    {
+        if (_rtlSourceForm != null)
+        {
+            CopyRightToLeftLayoutFromForm(_rtlSourceForm);
+        }
+    }
+
+    private void CopyRightToLeftLayoutFromForm(KryptonForm form)
+    {
+        if (this.RightToLeftLayout != form.RightToLeftLayout)
+        {
+            this.RightToLeftLayout = form.RightToLeftLayout;
+        }
+        else
+        {
+            PerformNeedPaint(true);
+        }
     }
 
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]

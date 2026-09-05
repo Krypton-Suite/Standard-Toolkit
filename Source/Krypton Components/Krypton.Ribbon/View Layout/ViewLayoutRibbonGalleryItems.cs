@@ -222,40 +222,26 @@ internal class ViewLayoutRibbonGalleryItems : ViewComposite
     }
 
     /// <summary>
-    /// Move tracking down left one item.
+    /// Move tracking one item toward the physical left.
     /// </summary>
-    public void TrackMoveLeft()
-    {
-        if (Count > 0)
-        {
-            // Are there more items on the left of the current line
-            var trackingIndex = _gallery.TrackingIndex;
-            if ((trackingIndex % _lineItems) > 0)
-            {
-                trackingIndex--;
-
-                // Limit check and use new index
-                trackingIndex = Math.Max(0, trackingIndex);
-                _gallery.SetTrackingIndex(trackingIndex, true);
-            }
-        }
-    }
+    public void TrackMoveLeft() => TrackMoveAlongLine(CommonHelper.IsRightToLeftLayout(_gallery) ? 1 : -1);
 
     /// <summary>
-    /// Move tracking down right one item.
+    /// Move tracking one item toward the physical right.
     /// </summary>
-    public void TrackMoveRight()
+    public void TrackMoveRight() => TrackMoveAlongLine(CommonHelper.IsRightToLeftLayout(_gallery) ? -1 : 1);
+
+    private void TrackMoveAlongLine(int delta)
     {
         if (Count > 0)
         {
-            // Are there more items on the right of the current line
             var trackingIndex = _gallery.TrackingIndex;
-            if ((trackingIndex % _lineItems) < (_lineItems - 1))
+            var linePos = trackingIndex % _lineItems;
+            var nextPos = linePos + delta;
+            if (nextPos >= 0 && nextPos < _lineItems)
             {
-                trackingIndex++;
-
-                // Limit check and use new index
-                trackingIndex = Math.Min(trackingIndex, Count - 1);
+                trackingIndex += delta;
+                trackingIndex = Math.Max(0, Math.Min(trackingIndex, Count - 1));
                 _gallery.SetTrackingIndex(trackingIndex, true);
             }
         }
@@ -442,9 +428,14 @@ internal class ViewLayoutRibbonGalleryItems : ViewComposite
             _buttonDown.Enabled = _gallery.Enabled && CanNextLine;
             _buttonContext.Enabled = _gallery.Enabled && (Count > 0);
 
-            // Calculate position of first item as the left edge but starting downwards
+            // Calculate position of first item as the start edge but starting downwards
             // and equal amount of the spare space after drawing the display lines.
+            var isRtl = CommonHelper.IsRightToLeftLayout(_gallery);
             Point nextPoint = displayRect.Location;
+            if (isRtl)
+            {
+                nextPoint.X = displayRect.Right - _itemSize.Width;
+            }
             nextPoint.Y += (displayRect.Height - (_displayLines * _itemSize.Height)) / 2;
 
             // Stating item is from the top line and last item is number of display items onwards
@@ -491,7 +482,7 @@ internal class ViewLayoutRibbonGalleryItems : ViewComposite
             // Add scrolling offset
             nextPoint.Y -= offset;
 
-            // Position all children on single line from left to right
+            // Position all children on single line along the reading direction
             for (var i = 0; i < Count; i++)
             {
                 ViewBase? childItem = this[i];
@@ -512,14 +503,29 @@ internal class ViewLayoutRibbonGalleryItems : ViewComposite
                     childItem.Layout(context);
 
                     // Move across to next position
-                    nextPoint.X += _itemSize.Width;
-
-                    // If there is not enough room for another item on this line
-                    if ((nextPoint.X + _itemSize.Width) > displayRect.Right)
+                    if (isRtl)
                     {
-                        // Move down to next line
-                        nextPoint.X = displayRect.X;
-                        nextPoint.Y += _itemSize.Height;
+                        nextPoint.X -= _itemSize.Width;
+
+                        // If there is not enough room for another item on this line
+                        if (nextPoint.X < displayRect.X)
+                        {
+                            // Move down to next line
+                            nextPoint.X = displayRect.Right - _itemSize.Width;
+                            nextPoint.Y += _itemSize.Height;
+                        }
+                    }
+                    else
+                    {
+                        nextPoint.X += _itemSize.Width;
+
+                        // If there is not enough room for another item on this line
+                        if ((nextPoint.X + _itemSize.Width) > displayRect.Right)
+                        {
+                            // Move down to next line
+                            nextPoint.X = displayRect.X;
+                            nextPoint.Y += _itemSize.Height;
+                        }
                     }
                 }
             }

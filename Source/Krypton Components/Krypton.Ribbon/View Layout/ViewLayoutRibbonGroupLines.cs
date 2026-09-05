@@ -971,14 +971,9 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
 
     private void LargeMediumLayout(ViewLayoutContext context, ref int split1)
     {
-        var x = ClientLocation.X;
+        var isRtl = RibbonRtlLayout.IsRtl(_ribbon);
+        var x = LineStartX(isRtl);
         var y = ClientLocation.Y + _ribbon.CalculatedValues.GroupLineGapHeight;
-
-        // At design time we reserve space at the left side for the selection flap
-        if (_ribbon.InDesignHelperMode)
-        {
-            x += DesignTimeDraw.FlapWidth;
-        }
 
         ViewBase? previousChild = null;
 
@@ -1011,14 +1006,14 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
                 // If not the first item on the line, then get the pixel gap between them
                 if ((previousChild != null) && _viewToGap.TryGetValue(child, out var value))
                 {
-                    x += value;
+                    x += isRtl ? -value : value;
                 }
 
                 // Get the size of the child item
                 Size childSize = _sizeList[visibleIndex];
 
                 // Define display rectangle for the group
-                context.DisplayRectangle = new Rectangle(x, y, childSize.Width, childSize.Height);
+                context.DisplayRectangle = RibbonRtlLayout.NextItem(ref x, y, childSize.Width, childSize.Height, isRtl);
 
                 // Position the element
                 this[i]?.Layout(context);
@@ -1027,13 +1022,7 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
                 if (split1 == visibleIndex)
                 {
                     // Move back to start of line and downwards to next line
-                    x = ClientLocation.X;
-
-                    // At design time we reserve space at the left side for the selection flap
-                    if (_ribbon.InDesignHelperMode)
-                    {
-                        x += DesignTimeDraw.FlapWidth;
-                    }
+                    x = LineStartX(isRtl);
 
                     y += _ribbon.CalculatedValues.GroupLineHeight +
                          _ribbon.CalculatedValues.GroupLineGapHeight;
@@ -1043,9 +1032,6 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
                 }
                 else
                 {
-                    // Move across to next position
-                    x += childSize.Width;
-
                     // We have become the previous child
                     previousChild = child;
                 }
@@ -1058,14 +1044,9 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
 
     private void SmallLayout(ViewLayoutContext context)
     {
-        var x = ClientLocation.X;
+        var isRtl = RibbonRtlLayout.IsRtl(_ribbon);
+        var x = LineStartX(isRtl);
         var y = ClientLocation.Y;
-
-        // At design time we reserve space at the left side for the selection flap
-        if (_ribbon.InDesignHelperMode)
-        {
-            x += DesignTimeDraw.FlapWidth;
-        }
 
         ViewBase? previousChild = null;
 
@@ -1098,14 +1079,14 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
                 // If not the first item on the line, then get the pixel gap between them
                 if ((previousChild != null) && _viewToGap.TryGetValue(child, out var value))
                 {
-                    x += value;
+                    x += isRtl ? -value : value;
                 }
 
                 // Get the size of the child item
                 Size childSize = _sizeList[visibleIndex];
 
                 // Define display rectangle for the group
-                context.DisplayRectangle = new Rectangle(x, y, childSize.Width, childSize.Height);
+                context.DisplayRectangle = RibbonRtlLayout.NextItem(ref x, y, childSize.Width, childSize.Height, isRtl);
 
                 // Position the element
                 this[i]?.Layout(context);
@@ -1114,13 +1095,7 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
                 if ((_split1Small == visibleIndex) || (_split2Small == visibleIndex))
                 {
                     // Move back to start of line and downwards to next line
-                    x = ClientLocation.X;
-
-                    // At design time we reserve space at the left side for the selection flap
-                    if (_ribbon.InDesignHelperMode)
-                    {
-                        x += DesignTimeDraw.FlapWidth;
-                    }
+                    x = LineStartX(isRtl);
 
                     y += _ribbon.CalculatedValues.GroupLineHeight;
 
@@ -1129,9 +1104,6 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
                 }
                 else
                 {
-                    // Move across to next position
-                    x += childSize.Width;
-
                     // We have become the previous child
                     previousChild = child;
                 }
@@ -1140,6 +1112,17 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
                 visibleIndex++;
             }
         }
+    }
+
+    private int LineStartX(bool isRtl)
+    {
+        var x = RibbonRtlLayout.StartX(ClientRectangle, isRtl);
+        if (_ribbon.InDesignHelperMode && !isRtl)
+        {
+            x += DesignTimeDraw.FlapWidth;
+        }
+
+        return x;
     }
 
     private int GetItemSpacingGap(int start, int end)

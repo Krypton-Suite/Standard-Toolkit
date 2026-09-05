@@ -109,7 +109,7 @@ internal class ViewDrawRibbonQATBorder : ViewComposite
 
     #region OverlapAppButton
     /// <summary>
-    /// Should the element overlap the app button to the left.
+    /// Should the element overlap the app button on the start edge.
     /// </summary>
     public bool OverlapAppButton { get; set; }
 
@@ -216,15 +216,29 @@ internal class ViewDrawRibbonQATBorder : ViewComposite
 
             if (OverlapAppButton)
             {
-                // If we need to overlap the app button, then shift left
-                drawRect.X -= QAT_MINIBAR_LEFT;
-                drawRect.Width += QAT_MINIBAR_LEFT;
+                // Tuck the QAT under the orb on the start edge (left in LTR, right in RTL).
+                if (RibbonRtlLayout.IsRtl(_ribbon))
+                {
+                    drawRect.Width += QAT_MINIBAR_LEFT;
+                }
+                else
+                {
+                    drawRect.X -= QAT_MINIBAR_LEFT;
+                    drawRect.Width += QAT_MINIBAR_LEFT;
+                }
             }
             else
             {
-                // Otherwise shift right so there is a small gap on the left
-                drawRect.X += QAT_MINIBAR_LEFT;
-                drawRect.Width -= QAT_MINIBAR_LEFT;
+                // Leave a small gap on the start edge of the minibar.
+                if (RibbonRtlLayout.IsRtl(_ribbon))
+                {
+                    drawRect.Width -= QAT_MINIBAR_LEFT;
+                }
+                else
+                {
+                    drawRect.X += QAT_MINIBAR_LEFT;
+                    drawRect.Width -= QAT_MINIBAR_LEFT;
+                }
             }
         }
         else
@@ -244,21 +258,28 @@ internal class ViewDrawRibbonQATBorder : ViewComposite
     {
         get
         {
+            Padding padding;
             if (_minibar)
             {
                 if (_ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS)
                 {
-                    return _noBorderPadding;
+                    padding = _noBorderPadding;
                 }
                 else
                 {
-                    return OverlapAppButton ? _minibarBorderPaddingOverlap : _minibarBorderPaddingNoOverlap;
+                    padding = OverlapAppButton ? _minibarBorderPaddingOverlap : _minibarBorderPaddingNoOverlap;
                 }
             }
             else
             {
-                return _ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS ? _fullbarBorderPadding_2010 : _fullbarBorderPadding_2007;
+                padding = _ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS
+                    ? _fullbarBorderPadding_2010
+                    : _fullbarBorderPadding_2007;
             }
+
+            return RibbonRtlLayout.IsRtl(_ribbon)
+                ? new Padding(padding.Right, padding.Top, padding.Left, padding.Bottom)
+                : padding;
         }
     }
 
