@@ -70,7 +70,7 @@ Default output folder: `Bin\Debug\net472`.
 | `UnitTest-CustomPaletteBasePaletteMode.ps1` | #1870 `KryptonCustomPaletteBase.BasePaletteMode` inherits the builtin colour table; builtin `BasePalette` keeps catalog mode | `include` |
 | `UnitTest-KryptonFormRtl.ps1` | #2103 `KryptonForm` RTL: `ScreenToWindow` stays physical; Close hit-tests on the right in LTR and the left with `RightToLeftLayout`; window region includes both physical left and right chrome | `include` |
 | `UnitTest-ContextMenuSubMenuImage.ps1` | #4252 Light Gray Office 2007/2010/Microsoft 365 `GetContextMenuSubMenuImage` returns an image; all catalog palettes must not throw | `include` |
-| `UnitTest-TreeViewMultiSelect.ps1` | #4326 `KryptonTreeView.MultiSelect` can be set to false independently of `CheckBoxes` | `include` |
+| `UnitTest-TagInput.ps1` | `KryptonTagInputControl` API: defaults, add/remove, duplicates, max tags, events, category colours | `include` |
 | `Start-AsyncFormsDemoHost.ps1` | Hosts `Feature4177AsyncFormsDemo` | n/a |
 | `Start-SplashScreenManagerHost.ps1` | Hosts `Feature4180SplashScreenManagerDemo` (#4180) | n/a |
 | `Start-NavigatorFormIntegrationHost.ps1` | Hosts `NavigatorFormIntegrationDemo` | n/a |
@@ -79,10 +79,11 @@ Default output folder: `Bin\Debug\net472`.
 | `Get-NavigatorTabGroupColourShot.ps1` | Tab-group colour screenshot | n/a |
 | `Start-RadialMenuDemoHost.ps1` | Hosts `RadialMenuDemo` (#4172) | n/a |
 | `Invoke-RadialMenuScreenshot.ps1` | Opens radial menu and writes `Documents/PR/4172-radial-menu-native.png` | `exclude` |
+| `Invoke-RatingScreenshot.ps1` | Launches `TestForm.exe --demo KryptonRatingDemo` (#3928) and writes default/half PNGs plus a hover GIF under `Documents/PR/` | `exclude` |
 | `Invoke-TreeViewMultiSelectScreenshot.ps1` | Hosts `Bug4326TreeViewMultiSelectDemo` and writes `Documents/PR/4326-treeview-multiselect-false.png` | `exclude` |
 | `Invoke-SchemeStripTextScreenshot.ps1` | Hosts `SchemeStripTextDemo` (#1100) and writes default/contrast PNGs under `Documents/PR/` | `exclude` |
 | `Invoke-ListViewStateTrackingScreenshot.ps1` | Hosts `Bug4336ListViewStateTrackingDemo` (#4336) and writes hover PNGs under `Documents/PR/` | `exclude` |
-| `Invoke-KryptonFormRtlScreenshot.ps1` | Hosts `RTLFormBorderTest` (#2103) and writes `Documents/PR/2103-kryptonform-rtl-layout.png` | `exclude` |
+| `Invoke-TagInputScreenshot.ps1` | Hosts `KryptonTagInputDemo` and writes `Documents/PR/tag-input-default.png` | `exclude` |
 
 ## Run all CI assert tests (on demand)
 

@@ -478,6 +478,7 @@
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonTaskDialog.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonMessageBox.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonTrackBar.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonRating.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonManager.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonHeaderGroup.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonGroup.bmp" />
