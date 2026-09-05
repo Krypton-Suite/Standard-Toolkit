@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -96,12 +96,12 @@ internal static class DropDownArrowGlyphColors
 
         if (context?.Control is KryptonDropButton dropButton)
         {
-            Color? arrowColor = dropButton.Values.DropDownArrowColor;
+            Color arrowColor = dropButton.Values.DropDownArrowColor;
 
-            if (arrowColor.HasValue && arrowColor.Value != Color.Empty)
+            if (!arrowColor.IsEmpty)
             {
 
-                color = arrowColor.Value;
+                color = arrowColor;
 
                 return true;
             }

@@ -55,6 +55,7 @@ public class PaletteComboBoxRedirect : Storage
                 _shortTextH = PaletteRelativeAlign.Near
             }
         };
+        ComboBox.Content.CaptureFactoryDefaults();
 
         _dropBackRedirect = new PaletteDoubleRedirect(redirect!, 
             PaletteBackStyle.ControlClient, 

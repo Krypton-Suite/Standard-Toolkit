@@ -1,4 +1,4 @@
-# Repository Guidelines
+﻿# Repository Guidelines
 
 ## Environment
 - OS: Windows
@@ -45,9 +45,38 @@
 - WinForms: `UseWindowsForms=true`; prefer designer-friendly patterns and keep partial classes tidy
 - WinForms designer: keep object declarations at file bottom; initialize in `*.Designer.cs` `InitializeComponent()`
 - Constraint: do not use `yield return` inside `catch` blocks
+- WinForms designer serialization: follow **Designer Serialization Defaults** below. A new or changed Toolbox control / `Storage` type must not show **Modified** on a fresh drop.
+
+### Designer Serialization Defaults
+
+Nested objects that inherit `Storage` show **"Modified"** in the Visual Studio property grid when `IsDefault` is false (`Storage.ToString()`). A freshly constructed Toolbox control must look unedited. This is issue [#4325](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4325).
+
+When a constructor (or a helper it calls) writes a real value that is that type's factory look — combo `TextH = Near`, progress-bar green `Color1`, command-link alignments, scrollbar colours, stock images, `EnableToolTips = true` on a specific control — record it as the designer default. Do not leave it as an Inherit/Empty mismatch.
+
+**Required per designer-visible property**
+
+| Kind | Rule |
+|---|---|
+| Simple value | `[DefaultValue(x)]` **or** `ShouldSerializeXxx()` / `ResetXxx()`, matching the constructor. `ShouldSerializeXxx` must match the property name. |
+| Nested `Storage` (`DesignerSerializationVisibility.Content`) | `IsDefault` is the AND of every child `ShouldSerialize`; parent has `ShouldSerializeFoo() => !Foo.IsDefault`. |
+| Constructor factory value (not Inherit/Empty/`null`) | After writing it, call `CaptureFactoryDefaults()` on that storage (or `SetFactory*` / `SetDefault*` where those exist). Then `ShouldSerialize` compares to the captured factory, not to Inherit/Empty. |
+| Runtime inherit vs designer default | Palette `GetXxx` must still treat Inherit/`Color.Empty`/`null` as inherit. Do not reuse `ShouldSerializeXxx()` as the inherit test once a factory default is non-inherit. |
+| `Color` | Use `Color` + `[KryptonDefaultColor]` or `ShouldSerialize` vs `Color.Empty`. Do not use `Color?` with `[DefaultValue(typeof(Color), "Empty")]` — the types do not match and `"Empty"` often fails to parse. |
+| `decimal` | `[DefaultValue(typeof(decimal), "1")]`, not `[DefaultValue(1.0d)]` (double vs decimal never compares equal). |
+| `IsDefault` | Implement it. `public override bool IsDefault { get; }` is always `false` (bool default) and permanently shows **Modified**. |
+| Hidden from the designer | `[Browsable(false)]` does **not** stop serialization. Also set `[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]`, or add `ShouldSerialize` / `[DefaultValue]`. Subclass `new` properties need this too: private `ShouldSerialize` on the base type is not found on the derived type. |
+
+`[DefaultValue]` takes precedence over `ShouldSerializeXxx`. If both exist and the attribute is wrong, the designer ignores the method. For per-instance factory defaults (Green vs Empty depending on the control), omit `[DefaultValue]` and use only `ShouldSerialize` / `Reset` against the captured factory.
+
+Do not call public setters in a constructor if those setters allocate override storage unless you then `CaptureFactoryDefaults()`. `PopulateFromBase` / `Reset` must restore inherit sentinels or the captured factory, not stamp resolved theme colours.
+
+After a drop, only site properties should serialize (`Name`, `Location`, `Size`, `TabIndex`, and `Text` when the designer copies the control name). `Values.Text` showing **Modified** because the designer set `kryptonButton1` is expected. Extra children on `Values` / `StateCommon` / `ToolTipValues` must not also be dirty.
+
+**Check:** after adding or changing a Toolbox control or `Storage` type, build Debug `net472` and run `Scripts/UnitTests/UnitTest-DesignerSerializationDefaults.ps1` (STA). Extend `$corePrefixes` in that script when adding a new core drop target. See `Scripts/UnitTests/README.md`.
 
 ## Testing Guidelines
 - No formal unit test suite. Validate changes via `TestForm` scenarios and harnesses under `Source/TestHarnesses`
+- When adding or changing a Toolbox control or `Storage` type, run `Scripts/UnitTests/UnitTest-DesignerSerializationDefaults.ps1` (STA, Debug `net472`) so fresh drops do not show **Modified**. Extend `$corePrefixes` for new core drop targets.
 - When fixing a bug, add/adjust a minimal repro in `TestForm` or a harness and describe manual steps in the PR
 
 ## Commit & Pull Request Guidelines

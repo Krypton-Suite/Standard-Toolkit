@@ -32,10 +32,12 @@ public class ButtonValues : Storage,
     private IconSelectionStrategy _iconSelectionStrategy;
     private Image? _image;
     private Color _transparent;
-    private Color? _dropDownArrowColor;
+    private Color _dropDownArrowColor;
     private string? _text;
     private string _extraText;
     private Size? _customIconSize;
+    private string _defaultText = DEFAULT_TEXT;
+    private Image? _defaultImage;
 
     #endregion
 
@@ -79,15 +81,33 @@ public class ButtonValues : Storage,
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override bool IsDefault => ImageStates.IsDefault &&
-                                      (Image == null) &&
+                                      (Image == _defaultImage) &&
                                       (UseAsADialogButton == false) &&
                                       (UseAsUACElevationButton == false) &&
                                       (ShowSplitOption == false) &&
                                       (DropDownArrowColor == GlobalStaticValues.EMPTY_COLOR) &&
                                       //(UACShieldIconSize == UACShieldIconSize.ExtraSmall)
                                       (ImageTransparentColor == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (Text == DEFAULT_TEXT) &&
+                                      (Text == _defaultText) &&
                                       (ExtraText == _defaultExtraText);
+
+    /// <summary>
+    /// Treats <paramref name="text"/> as the unset designer default for <see cref="Text"/>.
+    /// </summary>
+    internal void SetFactoryText(string text)
+    {
+        _defaultText = text ?? GlobalStaticValues.DEFAULT_EMPTY_STRING;
+        _text = _defaultText;
+    }
+
+    /// <summary>
+    /// Treats <paramref name="image"/> as the unset designer default for <see cref="Image"/>.
+    /// </summary>
+    internal void SetFactoryImage(Image? image)
+    {
+        _defaultImage = image;
+        _image = image;
+    }
 
     #endregion
 
@@ -113,12 +133,12 @@ public class ButtonValues : Storage,
         }
     }
 
-    private bool ShouldSerializeImage() => Image != null;
+    private bool ShouldSerializeImage() => Image != _defaultImage;
 
     /// <summary>
     /// Resets the Image property to its default value.
     /// </summary>
-    public void ResetImage() => Image = null;
+    public void ResetImage() => Image = _defaultImage;
     #endregion
 
     #region ImageTransparentColor
@@ -198,12 +218,12 @@ public class ButtonValues : Storage,
         }
     }
 
-    private bool ShouldSerializeText() => Text != DEFAULT_TEXT;
+    private bool ShouldSerializeText() => Text != _defaultText;
 
     /// <summary>
     /// Resets the Text property to its default value.
     /// </summary>
-    public void ResetText() => Text = DEFAULT_TEXT;
+    public void ResetText() => Text = _defaultText;
     #endregion
 
     #region ExtraText
@@ -380,8 +400,8 @@ public class ButtonValues : Storage,
     /// <value>The color of the drop-down arrow.</value>
     [Category(@"Visuals")]
     [Description(@"Sets the drop-down arrow color.")]
-    [DefaultValue(typeof(Color), @"Empty")]
-    public Color? DropDownArrowColor
+    [KryptonDefaultColor]
+    public Color DropDownArrowColor
     {
         get => _dropDownArrowColor;
 
@@ -389,14 +409,13 @@ public class ButtonValues : Storage,
         {
             if (_dropDownArrowColor != value)
             {
-                _dropDownArrowColor = value ?? GlobalStaticValues.EMPTY_COLOR;
-
+                _dropDownArrowColor = value;
                 PerformNeedPaint(true);
             }
         }
     }
-    private void ResetDropDownArrowColor() => _dropDownArrowColor = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeDropDownArrowColor() => _dropDownArrowColor != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetDropDownArrowColor() => DropDownArrowColor = GlobalStaticValues.EMPTY_COLOR;
+    private bool ShouldSerializeDropDownArrowColor() => DropDownArrowColor != GlobalStaticValues.EMPTY_COLOR;
     #endregion
 
     #region CreateImageStates

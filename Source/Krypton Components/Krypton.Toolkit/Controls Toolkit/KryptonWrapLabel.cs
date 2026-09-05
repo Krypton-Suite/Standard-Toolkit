@@ -83,6 +83,7 @@ public class KryptonWrapLabel : Label
         _redirector = CreateRedirector();
 
         // Default properties
+        _labelStyle = LabelStyle.NormalPanel;
         SetLabelStyle(LabelStyle.NormalPanel);
         AutoSize = true;
         TabStop = false;

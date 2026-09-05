@@ -70,6 +70,15 @@ public class PaletteInputControlTripleRedirect : Storage,
                                       Border.IsDefault &&
                                       Content.IsDefault;
 
+    /// <summary>
+    /// Treats the current values as the unset designer default.
+    /// </summary>
+    public void CaptureFactoryDefaults()
+    {
+        Border.CaptureFactoryDefaults();
+        Content.CaptureFactoryDefaults();
+    }
+
     #endregion
 
     #region SetRedirector
