@@ -47,6 +47,9 @@
 
 * Implemented [#3859](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3859), Hook ribbon caption area refresh on palette change
   * Ribbon caption area now refreshes immediately when the palette/theme changes (QAT, File app button, form icon, and integrated caption chrome; no resize required).
+* Resolved [#4336](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4336), `KryptonListView` does not use `StateTracking###`
+  * `KryptonListView` hover now uses `StateTracking` / `StateCheckedTracking` instead of Win32 hot-track.
+  * `ShowItemToolTips` uses `KryptonToolTip` (from `ListViewItem.ToolTipText`) instead of Win32 infotips, positioned at the hovered item.
 * Resolved [#4325](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4325), When using Fresh dragged objects onto a form, the designer has lots of `Modified` entries
   * Freshly dropped Krypton controls no longer show nested palette/values properties as **Modified** in the Visual Studio Properties window until you change them.
 * Resolved [#4326](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4326), Fresh KTree does not allow `MultiSelect` to be set to false
