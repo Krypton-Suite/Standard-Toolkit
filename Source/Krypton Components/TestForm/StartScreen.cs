@@ -8,9 +8,12 @@
 #endregion
 
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 using Krypton.Toolkit.Utilities;
+
+using static Krypton.Interop.NativeFunctions;
 
 namespace TestForm;
 
@@ -152,6 +155,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<HeaderExamples>("Header Examples", string.Empty);
         CreateButton<HelpProviderTest>("HelpProvider", "Test KryptonHelpProvider functionality");
         CreateButton<MenuToolBarStatusStripTest>("Menu/Tool/Status Strips (#1110 / #1297)", "KryptonMenuStrip and KryptonToolStrip on the form, native MenuStrip/ToolStrip in the panel. Tools menu: change BaseFont size, family, and bold; both families should follow. Menu text stays Regular when BaseFont is bold. Right-click the panel for context menu check.");
+        CreateButton<KryptonMenuBarDemo>("KryptonMenuBar (#4242)", "Native KryptonMenuBar (not ToolStrip) vs KryptonMenuStrip vs MenuStrip. Assigned to KryptonForm.MenuBar. Try Alt/F10, mnemonics, hover-switch, Ctrl+N, Insert Standard Items, and theme changes.");
         CreateButton<KryptonMenuAndToolStripExampleForm>("Krypton MenuStrip + ToolStrip Container", "Standard File/Edit/Tools/Help KryptonMenuStrip with KryptonToolStrip inside KryptonToolStripContainer. Designer-style Insert Standard Items layout.");
         CreateButton<NotifyIconTest>("NotifyIcon", "Comprehensive demonstration of KryptonNotifyIcon with all events, balloon tips, and context menu support.");
         CreateButton<OAuth2Demo>("OAuth2 PKCE Demo", "Comprehensive OAuth2 with PKCE demo. Sign in with Azure AD, Google, or GitHub using embedded WebView2 or system browser. Configure client ID, redirect URI, and scopes.");
@@ -176,7 +180,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<KryptonTextBoxValidatingTest>("TextBox Validating Test", "Tests fix for Validating event duplication bug #2801");
         CreateButton<TouchscreenHighDpiDemo>("Touchscreen + High DPI Demo", "Comprehensive demonstration of touchscreen support with per-monitor high DPI scaling (Issue #2844).");
         CreateButton<ToggleSwitchTest>("Toggle Switch (#3890)", "Issue #3890: KryptonToggleSwitch knob styles. Compare classic, flat, radial, ring, bevel, and rounded-square thumbs; toggle each sample and edit ToggleSwitchValues in the property grid.");
-        CreateButton<KryptonFormTitleBarDemo>("Title Bar Menu", "Demonstrates titlebar menu.");
+        CreateButton<KryptonFormTitleBarDemo>("Title Bar Menu", "Caption ButtonSpecs, Insert Standard Items, and optional KryptonMenuStrip bind (File/Edit in the title bar).");
         CreateButton<RichTextBoxFormattingTest>("RichTextBox Formatting Test", "Tests fix for RichTextBox formatting preservation when palette changes (Issue #2832)");
         CreateButton<Feature4008RichTextBoxJustifyDemo>("Feature 4008 RichTextBox Justify", "Issue #4008: KryptonRichTextBox.SelectionParagraphAlignment with Left/Center/Right/Justify. Compare with native RichTextBox SelectionAlignment (no Justify). Resize the form to see justified word spacing.");
         CreateButton<Bug3343RichTextBoxEditLossDemo>("Bug 3343 RichTextBox mouse leave", "Issue #3343: type in KryptonRichTextBox, move the mouse out without changing focus; text and TextLength must not reset. Includes KryptonTextBox for comparison.");
@@ -293,11 +297,11 @@ public partial class StartScreen : KryptonForm
         else
         {
             // if there is no last filter at startup the buttons will be hidden at first.
-            AllCommandButtonsVisible();
+            ShowAllCommandButtons();
         }
     }
 
-    private void AllCommandButtonsVisible()
+    private void ShowAllCommandButtons()
     {
         _buttons.ForEach( button => button.Visible = true );
     }
@@ -356,7 +360,7 @@ public partial class StartScreen : KryptonForm
         tbFilter.TextChanged += OnFilterChanged;
         btnClearFilter.Click += (_, _) => tbFilter.Clear();
 
-        _filterTimer.Interval = 200;
+        _filterTimer.Interval = 300;
         _filterTimer.Tick += OnFilterChangedPerformFilter;
     }
 
@@ -387,26 +391,30 @@ public partial class StartScreen : KryptonForm
     private void SetupTableLayoutPanel()
     {
         tlpMain.SetDoubleBuffered(true);
-        tlpMain.RowCount = 0;
+        tlpMain.RowCount    = 1;
         tlpMain.ColumnCount = 1;
+        tlpMain.AutoSize    = false;
+        tlpMain.BackColor   = Color.Transparent;
+        tlpMain.Padding     = new Padding(0);
+        tlpMain.Margin      = new Padding(0);
+        tlpMain.AutoScroll  = true;
 
-        tlpMain.AutoSize     = false;
-        tlpMain.BackColor    = Color.Transparent;
-        tlpMain.Padding      = new Padding(0);
-        tlpMain.Margin       = new Padding(0);
-        tlpMain.AutoScroll   = true;
-
+        // The first row will act as the filler that pushed the buttons up.
+        // After that, each new row will be inserted before the filler position
         tlpMain.RowStyles.Clear();
+        tlpMain.RowStyles.Add( new RowStyle( SizeType.AutoSize) );
         tlpMain.ColumnStyles.Clear();
-        tlpMain.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+        tlpMain.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 90));
     }
     
     private void AddButtonsToTlpMain()
     {
+        // The first row will act as the filler that pushed the buttons up.
+        // After that, each new row will be inserted before the filler position
         _buttons.ForEach(button => {
             tlpMain.RowCount += 1;
-            tlpMain.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-            tlpMain.Controls.Add(button, 0, tlpMain.RowCount - 1);
+            tlpMain.RowStyles.Insert(tlpMain.RowCount - 2, new RowStyle(SizeType.AutoSize));
+            tlpMain.Controls.Add(button, 0, tlpMain.RowCount - 2);
         });
     }
 
@@ -424,11 +432,22 @@ public partial class StartScreen : KryptonForm
 
         if (tbFilter.Text.Length > 0)
         {
-            _buttons.ForEach(button => button.Visible = button.CommandLinkTextValues.Heading.IndexOf(tbFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+            string filter =
+                string.Concat( tbFilter.Text
+                .Trim()
+                .Split( [' '], options: StringSplitOptions.RemoveEmptyEntries )
+                .Select( word => $"(?=.*{Regex.Escape(word.Trim())})" ));
+
+            _buttons.ForEach( button => {
+                button.Visible = Regex.IsMatch(
+                button.CommandLinkTextValues.Heading,
+                $"^{filter}.*$",
+                RegexOptions.IgnoreCase | RegexOptions.Singleline );
+            } );
         }
         else
         {
-            _buttons.ForEach(button => button.Visible = true);
+            ShowAllCommandButtons();
         }
 
         if (tlpMain.Controls.Count > 0)
@@ -468,7 +487,7 @@ public partial class StartScreen : KryptonForm
             }
             else
             {
-                ThrowHelper.ThrowNullReferenceException($"ButtonHeadingComparer: make sure that parameter x and y both are valid references to a KryptonCommandLinkButton instance.");
+                ThrowHelper.ThrowArgumentNullException($"ButtonHeadingComparer: make sure that parameter x and y both are valid references to a KryptonCommandLinkButton instance.");
                 return 0;
             }
         }

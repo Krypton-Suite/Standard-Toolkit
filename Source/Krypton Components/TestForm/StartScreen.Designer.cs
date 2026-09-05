@@ -54,9 +54,9 @@ namespace TestForm
             this.rootLayout.SuspendLayout();
             this.leftLayout.SuspendLayout();
             this.SuspendLayout();
-            //
+            // 
             // kbtnExit
-            //
+            // 
             this.kbtnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.kbtnExit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kbtnExit.Location = new System.Drawing.Point(0, 679);
@@ -72,7 +72,6 @@ namespace TestForm
             // kryptonManager1
             // 
             this.kryptonManager1.BaseFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.kryptonManager1.GlobalUseKryptonScrollbars = true;
             this.kryptonManager1.ToolkitStrings.MessageBoxStrings.LessDetails = "L&ess Details...";
             this.kryptonManager1.ToolkitStrings.MessageBoxStrings.MoreDetails = "&More Details...";
             // 
@@ -80,14 +79,13 @@ namespace TestForm
             // 
             this.tlpMain.ColumnCount = 1;
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpMain.Location = new System.Drawing.Point(0, 39);
             this.tlpMain.Margin = new System.Windows.Forms.Padding(0);
             this.tlpMain.Name = "tlpMain";
             this.tlpMain.RowCount = 2;
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpMain.Size = new System.Drawing.Size(526, 629);
+            this.tlpMain.Dock = DockStyle.Fill;
             this.tlpMain.TabIndex = 2;
             // 
             // tbFilter
