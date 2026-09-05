@@ -359,7 +359,7 @@ public partial class StartScreen : KryptonForm
         tbFilter.TextChanged += OnFilterChanged;
         btnClearFilter.Click += (_, _) => tbFilter.Clear();
 
-        _filterTimer.Interval = 200;
+        _filterTimer.Interval = 300;
         _filterTimer.Tick += OnFilterChangedPerformFilter;
     }
 
@@ -431,12 +431,18 @@ public partial class StartScreen : KryptonForm
 
         if (tbFilter.Text.Length > 0)
         {
-            string filter = @"^" + string.Concat( tbFilter.Text
+            string filter =
+                string.Concat( tbFilter.Text
                 .Trim()
-                .Split( ' ' )
-                .Select( word => $"(?=.*{word.Trim()})" ));
+                .Split( [' '], options: StringSplitOptions.RemoveEmptyEntries )
+                .Select( word => $"(?=.*{Regex.Escape(word.Trim())})" ));
 
-            _buttons.ForEach( button => button.Visible = Regex.IsMatch( button.CommandLinkTextValues.Heading, filter, RegexOptions.IgnoreCase ) );
+            _buttons.ForEach( button => {
+                button.Visible = Regex.IsMatch(
+                button.CommandLinkTextValues.Heading,
+                $"^{filter}.*$",
+                RegexOptions.IgnoreCase | RegexOptions.Singleline );
+            } );
         }
         else
         {
@@ -447,6 +453,8 @@ public partial class StartScreen : KryptonForm
         {
             tlpMain.ScrollControlIntoView(tlpMain.Controls[0]);
         }
+
+        tlpMain.Visible = true;
     }
 
     private void kbtnExit_Click(object? sender, EventArgs e)
