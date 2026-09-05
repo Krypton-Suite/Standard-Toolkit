@@ -77,6 +77,19 @@ public class PaletteBorder : Storage,
     #region Instance Fields
     private IPaletteBorder _inherit;
     private InternalStorage? _storage;
+    private InheritBool _factoryDraw = InheritBool.Inherit;
+    private PaletteDrawBorders _factoryDrawBorders = PaletteDrawBorders.Inherit;
+    private PaletteGraphicsHint _factoryGraphicsHint = PaletteGraphicsHint.Inherit;
+    private Color _factoryColor1 = GlobalStaticValues.EMPTY_COLOR;
+    private Color _factoryColor2 = GlobalStaticValues.EMPTY_COLOR;
+    private PaletteColorStyle _factoryColorStyle = PaletteColorStyle.Inherit;
+    private PaletteRectangleAlign _factoryColorAlign = PaletteRectangleAlign.Inherit;
+    private float _factoryColorAngle = -1;
+    private int _factoryWidth = -1;
+    private float _factoryRounding = GlobalStaticValues.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE;
+    private Image? _factoryImage;
+    private PaletteImageStyle _factoryImageStyle = PaletteImageStyle.Inherit;
+    private PaletteRectangleAlign _factoryImageAlign = PaletteRectangleAlign.Inherit;
     #endregion
 
     #region Events
@@ -113,7 +126,40 @@ public class PaletteBorder : Storage,
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => (_storage == null) || _storage.IsDefault;
+    public override bool IsDefault =>
+        Draw == _factoryDraw &&
+        DrawBorders == _factoryDrawBorders &&
+        GraphicsHint == _factoryGraphicsHint &&
+        Color1.Equals(_factoryColor1) &&
+        Color2.Equals(_factoryColor2) &&
+        ColorStyle == _factoryColorStyle &&
+        ColorAlign == _factoryColorAlign &&
+        ColorAngle.Equals(_factoryColorAngle) &&
+        Width == _factoryWidth &&
+        Rounding.Equals(_factoryRounding) &&
+        Image == _factoryImage &&
+        ImageStyle == _factoryImageStyle &&
+        ImageAlign == _factoryImageAlign;
+
+    /// <summary>
+    /// Treats the current values as the unset designer default.
+    /// </summary>
+    public void CaptureFactoryDefaults()
+    {
+        _factoryDraw = Draw;
+        _factoryDrawBorders = DrawBorders;
+        _factoryGraphicsHint = GraphicsHint;
+        _factoryColor1 = Color1;
+        _factoryColor2 = Color2;
+        _factoryColorStyle = ColorStyle;
+        _factoryColorAlign = ColorAlign;
+        _factoryColorAngle = ColorAngle;
+        _factoryWidth = Width;
+        _factoryRounding = Rounding;
+        _factoryImage = Image;
+        _factoryImageStyle = ImageStyle;
+        _factoryImageAlign = ImageAlign;
+    }
 
     #endregion
 
@@ -155,7 +201,6 @@ public class PaletteBorder : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Should border be drawn.")]
-    [DefaultValue(InheritBool.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
     public virtual InheritBool Draw
     {
@@ -202,7 +247,6 @@ public class PaletteBorder : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Specify which borders should be drawn.")]
-    [DefaultValue(PaletteDrawBorders.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
     [Editor(typeof(PaletteDrawBordersEditor), typeof(UITypeEditor))]
     public PaletteDrawBorders DrawBorders
@@ -235,7 +279,8 @@ public class PaletteBorder : Storage,
         }
     }
 
-    private bool ShouldSerializeDrawBorders() => DrawBorders != PaletteDrawBorders.Inherit;
+    private bool ShouldSerializeDrawBorders() => DrawBorders != _factoryDrawBorders;
+    private void ResetDrawBorders() => DrawBorders = _factoryDrawBorders;
 
     /// <summary>
     /// Gets the actual borders to draw value.
@@ -260,7 +305,6 @@ public class PaletteBorder : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Hint for drawing graphics.")]
-    [DefaultValue(PaletteGraphicsHint.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
     public virtual PaletteGraphicsHint GraphicsHint
     {
@@ -308,7 +352,6 @@ public class PaletteBorder : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Main border color.")]
-    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color Color1
     {
@@ -366,7 +409,6 @@ public class PaletteBorder : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Secondary border color.")]
-    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color Color2
     {
@@ -413,7 +455,6 @@ public class PaletteBorder : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Border color drawing style.")]
-    [DefaultValue(PaletteColorStyle.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
     public PaletteColorStyle ColorStyle
     {
@@ -462,7 +503,6 @@ public class PaletteBorder : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Border color alignment style.")]
-    [DefaultValue(PaletteRectangleAlign.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
     public PaletteRectangleAlign ColorAlign
     {
@@ -510,7 +550,6 @@ public class PaletteBorder : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Border color angle.")]
-    [DefaultValue(-1f)]
     [RefreshProperties(RefreshProperties.All)]
     public float ColorAngle
     {
@@ -557,7 +596,6 @@ public class PaletteBorder : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Border width.")]
-    [DefaultValue(-1)]
     [RefreshProperties(RefreshProperties.All)]
     public virtual int Width
     {
@@ -604,7 +642,6 @@ public class PaletteBorder : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"How much to round the border corners.")]
-    [DefaultValue(GlobalStaticValues.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE)]
     [RefreshProperties(RefreshProperties.All)]
     public float Rounding
     {
@@ -647,8 +684,8 @@ public class PaletteBorder : Storage,
         }
     }
 
-    private void ResetRounding() => Rounding = GlobalStaticValues.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE;
-    private bool ShouldSerializeRounding() => Rounding != GlobalStaticValues.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE;
+    private bool ShouldSerializeRounding() => !Rounding.Equals(_factoryRounding);
+    private void ResetRounding() => Rounding = _factoryRounding;
 
     /// <summary>
     /// Gets the border rounding.
@@ -665,7 +702,6 @@ public class PaletteBorder : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Border image.")]
-    [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
     public Image? Image
     {
@@ -712,7 +748,6 @@ public class PaletteBorder : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Border image style.")]
-    [DefaultValue(PaletteImageStyle.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
     public PaletteImageStyle ImageStyle
     {
@@ -744,7 +779,8 @@ public class PaletteBorder : Storage,
         }
     }
 
-    private bool ShouldSerializeImageStyle() => ImageStyle != PaletteImageStyle.Inherit;
+    private bool ShouldSerializeImageStyle() => ImageStyle != _factoryImageStyle;
+    private void ResetImageStyle() => ImageStyle = _factoryImageStyle;
 
     /// <summary>
     /// Gets the border image style.
@@ -763,7 +799,6 @@ public class PaletteBorder : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Border image alignment style.")]
-    [DefaultValue(PaletteRectangleAlign.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
     public PaletteRectangleAlign ImageAlign
     {
@@ -802,6 +837,29 @@ public class PaletteBorder : Storage,
     /// <returns>Image alignment style.</returns>
     public PaletteRectangleAlign GetBorderImageAlign(PaletteState state) =>
         ImageAlign != PaletteRectangleAlign.Inherit ? ImageAlign : _inherit.GetBorderImageAlign(state);
+    #endregion
+
+    #region ShouldSerialize
+    private bool ShouldSerializeDraw() => Draw != _factoryDraw;
+    private void ResetDraw() => Draw = _factoryDraw;
+    private bool ShouldSerializeGraphicsHint() => GraphicsHint != _factoryGraphicsHint;
+    private void ResetGraphicsHint() => GraphicsHint = _factoryGraphicsHint;
+    private bool ShouldSerializeColor1() => !Color1.Equals(_factoryColor1);
+    private void ResetColor1() => Color1 = _factoryColor1;
+    private bool ShouldSerializeColor2() => !Color2.Equals(_factoryColor2);
+    private void ResetColor2() => Color2 = _factoryColor2;
+    private bool ShouldSerializeColorStyle() => ColorStyle != _factoryColorStyle;
+    private void ResetColorStyle() => ColorStyle = _factoryColorStyle;
+    private bool ShouldSerializeColorAlign() => ColorAlign != _factoryColorAlign;
+    private void ResetColorAlign() => ColorAlign = _factoryColorAlign;
+    private bool ShouldSerializeColorAngle() => !ColorAngle.Equals(_factoryColorAngle);
+    private void ResetColorAngle() => ColorAngle = _factoryColorAngle;
+    private bool ShouldSerializeWidth() => Width != _factoryWidth;
+    private void ResetWidth() => Width = _factoryWidth;
+    private bool ShouldSerializeImage() => Image != _factoryImage;
+    private void ResetImage() => Image = _factoryImage;
+    private bool ShouldSerializeImageAlign() => ImageAlign != _factoryImageAlign;
+    private void ResetImageAlign() => ImageAlign = _factoryImageAlign;
     #endregion
 
     #region Protected

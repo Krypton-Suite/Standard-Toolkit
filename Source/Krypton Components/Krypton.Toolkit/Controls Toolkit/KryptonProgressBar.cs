@@ -95,10 +95,8 @@ public class KryptonProgressBar : Control, IContentValues
         }
 
         // Create content storage
-        Values = new LabelValues(OnNeedPaintHandler)
-        {
-            Text = string.Empty
-        };
+        Values = new LabelValues(OnNeedPaintHandler);
+        Values.SetFactoryText(string.Empty);
         Values.TextChanged += OnLabelTextChanged;
 
         // We want to be notified whenever the global palette changes
@@ -120,10 +118,13 @@ public class KryptonProgressBar : Control, IContentValues
                 Color1 = Color.Green
             }
         };
+        StateCommon.Back.CaptureFactoryDefaults();
         StateDisabled = new PaletteTriple(StateCommon, OnNeedPaintHandler);
         ((PaletteBack)StateDisabled.PaletteBack).ColorStyle = PaletteColorStyle.OneNote;
+        ((PaletteBack)StateDisabled.PaletteBack).CaptureFactoryDefaults();
         StateNormal = new PaletteTriple(StateCommon, OnNeedPaintHandler);
         ((PaletteBack)StateNormal.PaletteBack).ColorStyle = PaletteColorStyle.OneNote;
+        ((PaletteBack)StateNormal.PaletteBack).CaptureFactoryDefaults();
         _stateBackValue = new PaletteTriple(StateCommon, OnNeedPaintHandler).Back;
         _stateBackValue.ColorStyle = PaletteColorStyle.GlassNormalFull;
         _blockCount = 0; // 0 = automatic sizing
@@ -202,11 +203,7 @@ public class KryptonProgressBar : Control, IContentValues
 
     private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
-    private void ResetStateCommon()
-    {
-        StateCommon.PopulateFromBase(PaletteState.Normal);
-        StateCommon.Back.Color1 = Color.Green;
-    }
+    private void ResetStateCommon() => StateCommon.Back.Color1 = Color.Green;
 
     /// <summary>
     /// Gets access to the disabled ProgressBar appearance entries.
@@ -323,7 +320,7 @@ public class KryptonProgressBar : Control, IContentValues
 
     [Category(@"Visuals")]
     [Description(@"Shadow color for the text; Empty for automatic.")]
-    [DefaultValue(typeof(Color), nameof(Color.Empty))]
+    [KryptonDefaultColor]
     public Color TextShadowColor
     {
         get => _textShadowColor;
@@ -361,7 +358,7 @@ public class KryptonProgressBar : Control, IContentValues
 
     [Category(@"Visuals")]
     [Description(@"Backdrop color for the text; Empty for automatic semi-transparent.")]
-    [DefaultValue(typeof(Color), nameof(Color.Empty))]
+    [KryptonDefaultColor]
     public Color TextBackdropColor
     {
         get => _textBackdropColor;

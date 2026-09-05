@@ -45,6 +45,7 @@ public class PaletteBackColor1 : PaletteBack
     /// Gets a value indicating if background should be drawn.
     /// </summary>
     [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public new InheritBool Draw
     {
         get => base.Draw;
@@ -57,6 +58,7 @@ public class PaletteBackColor1 : PaletteBack
     /// Gets the graphics hint for drawing the background.
     /// </summary>
     [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public new PaletteGraphicsHint GraphicsHint
     {
         get => base.GraphicsHint;
@@ -69,6 +71,7 @@ public class PaletteBackColor1 : PaletteBack
     /// Gets and sets the second background color.
     /// </summary>
     [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public new Color Color2
     {
         get => base.Color2;
@@ -81,6 +84,7 @@ public class PaletteBackColor1 : PaletteBack
     /// Gets and sets the color drawing style.
     /// </summary>
     [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public new PaletteColorStyle ColorStyle
     {
         get => base.ColorStyle;
@@ -93,6 +97,7 @@ public class PaletteBackColor1 : PaletteBack
     /// Gets and set the color alignment.
     /// </summary>
     [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public new PaletteRectangleAlign ColorAlign
     {
         get => base.ColorAlign;
@@ -105,6 +110,7 @@ public class PaletteBackColor1 : PaletteBack
     /// Gets and sets the color angle.
     /// </summary>
     [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public new float ColorAngle
     {
         get => base.ColorAngle;
@@ -117,6 +123,7 @@ public class PaletteBackColor1 : PaletteBack
     /// Gets and sets the background image.
     /// </summary>
     [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public new Image? Image
     {
         get => base.Image;
@@ -129,6 +136,7 @@ public class PaletteBackColor1 : PaletteBack
     /// Gets and sets the background image style.
     /// </summary>
     [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public new PaletteImageStyle ImageStyle
     {
         get => base.ImageStyle;
@@ -141,6 +149,7 @@ public class PaletteBackColor1 : PaletteBack
     /// Gets and set the image alignment.
     /// </summary>
     [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public new PaletteRectangleAlign ImageAlign
     {
         get => base.ImageAlign;
