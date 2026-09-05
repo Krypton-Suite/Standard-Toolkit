@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -804,18 +804,19 @@ public class KryptonCheckBoxExtended : VisualSimpleBase, IContentValues
     private void ConfigureWrapTextDefaults()
     {
         PaletteContentText shortText = StateCommon.ShortText;
-        shortText.MultiLine = InheritBool.True;
-        shortText.MultiLineH = PaletteRelativeAlign.Near;
-        shortText.TextH = PaletteRelativeAlign.Near;
-        shortText.TextV = PaletteRelativeAlign.Near;
-        shortText.Trim = PaletteTextTrim.Word;
+        shortText.SetDefaultMultiLine(InheritBool.True);
+        shortText.SetDefaultMultiLineH(PaletteRelativeAlign.Near);
+        shortText.SetDefaultTextH(PaletteRelativeAlign.Near);
+        shortText.SetDefaultTextV(PaletteRelativeAlign.Near);
+        shortText.SetDefaultTrim(PaletteTextTrim.Word);
 
         PaletteContentText longText = StateCommon.LongText;
-        longText.MultiLine = InheritBool.True;
-        longText.MultiLineH = PaletteRelativeAlign.Near;
-        longText.TextH = PaletteRelativeAlign.Near;
-        longText.TextV = PaletteRelativeAlign.Near;
-        longText.Trim = PaletteTextTrim.Word;
+        longText.SetDefaultMultiLine(InheritBool.True);
+        longText.SetDefaultMultiLineH(PaletteRelativeAlign.Near);
+        longText.SetDefaultTextH(PaletteRelativeAlign.Near);
+        longText.SetDefaultTextV(PaletteRelativeAlign.Near);
+        longText.SetDefaultTrim(PaletteTextTrim.Word);
+        StateCommon.SetDefaultAdjacentGap(_layoutValues.SubtextSeparatorHeight);
     }
 
     private void ApplySubtextAppearance()
