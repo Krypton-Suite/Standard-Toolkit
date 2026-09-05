@@ -661,9 +661,9 @@ public static partial class KryptonPaletteFile
     private static void NotifyAssociationsChanged()
     {
         // ASSOCCHANGED requires SHCNF_IDLIST with null item pointers.
-        SHChangeNotify((uint)SHCNE.ASSOCCHANGED, (uint)SHCNF.IDLIST, IntPtr.Zero, IntPtr.Zero);
+        PI.SHChangeNotify((uint)PI.SHCNE_.ASSOCCHANGED, (uint)PI.SHCNF_.IDLIST, IntPtr.Zero, IntPtr.Zero);
         // Refresh the system image list so existing Explorer windows pick up the new DefaultIcon.
-        SHChangeNotify((uint)SHCNE.UPDATEIMAGE, (uint)SHCNF.FLUSHNOWAIT, IntPtr.Zero, IntPtr.Zero);
+        PI.SHChangeNotify((uint)PI.SHCNE_.UPDATEIMAGE, (uint)(PI.SHCNF_.FLUSH | PI.SHCNF_.FLUSHNOWAIT), IntPtr.Zero, IntPtr.Zero);
         NotifyDirectoryChanged(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory));
     }
 
@@ -677,31 +677,11 @@ public static partial class KryptonPaletteFile
         var buffer = Marshal.StringToHGlobalUni(path);
         try
         {
-            SHChangeNotify((uint)SHCNE.UPDATEDIR, (uint)(SHCNF.PATH | SHCNF.FLUSHNOWAIT), buffer, IntPtr.Zero);
+            PI.SHChangeNotify((uint)PI.SHCNE_.UPDATEDIR, (uint)(PI.SHCNF_.PATH | PI.SHCNF_.FLUSH | PI.SHCNF_.FLUSHNOWAIT), buffer, IntPtr.Zero);
         }
         finally
         {
             Marshal.FreeHGlobal(buffer);
         }
-    }
-
-    [DllImport(Libraries.Shell32, SetLastError = false)]
-    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    private static extern void SHChangeNotify(uint wEventId, uint uFlags, IntPtr dwItem1, IntPtr dwItem2);
-
-    [Flags]
-    private enum SHCNE : uint
-    {
-        UPDATEDIR = 0x00001000,
-        UPDATEIMAGE = 0x00008000,
-        ASSOCCHANGED = 0x08000000
-    }
-
-    [Flags]
-    private enum SHCNF : uint
-    {
-        IDLIST = 0x0000,
-        PATH = 0x0005,
-        FLUSHNOWAIT = 0x3000
     }
 }
