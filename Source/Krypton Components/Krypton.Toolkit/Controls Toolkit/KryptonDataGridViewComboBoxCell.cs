@@ -117,6 +117,7 @@ public class KryptonDataGridViewComboBoxCell : DataGridViewTextBoxCell
         {
             if (value == ComboBoxStyle.Simple)
             {
+                // An always-visible list cannot be hosted in a grid cell (same restriction as WinForms DataGridViewComboBoxCell).
                 throw new ArgumentOutOfRangeException(nameof(DropDownStyle), ComboBoxStyle.Simple, @"The DropDownStyle property does not support the Simple style.");
             }
 

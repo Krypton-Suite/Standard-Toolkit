@@ -86,6 +86,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<BreadCrumbTest>("BreadCrumb", "Follow the breadcrumbs and find the treasure...");
         CreateButton<CalendarTest>("Calendar", string.Empty);
         CreateButton<ComboBoxDateTimePickerConsistencyDemo>("ComboBox/DateTimePicker Consistency", "Comprehensive demonstration of KComboBox and KDateTimePicker consistency fix (Issue #1651). Shows drop-down buttons stretching to full height and centered text.");
+        CreateButton<Feature4339ComboBoxSimpleStyleDemo>("4339 ComboBox Simple Style", "Issue #4339: KryptonComboBox DropDownStyle.Simple (always-visible list) next to a native ComboBox. Compare DropDown / DropDownList, type to select, resize height, switch themes, toggle Enabled.");
         CreateButton<ControlsTest>("Controls Test", string.Empty);
         CreateButton<KryptonListViewVirtualModeDemo>("ListView Virtual Mode", "Issue #3847: KryptonListView VirtualMode / VirtualListSize with RetrieveVirtualItem, CacheVirtualItems, and SearchForVirtualItem (100,000 items).");
         CreateButton<DataGridViewDemo>("KryptonDataGridView Demo", string.Empty);
