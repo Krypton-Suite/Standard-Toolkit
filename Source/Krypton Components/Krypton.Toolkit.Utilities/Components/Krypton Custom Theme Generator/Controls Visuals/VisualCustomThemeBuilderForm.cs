@@ -275,8 +275,9 @@ internal partial class VisualCustomThemeBuilderForm : KryptonForm
             using var dialog = new SaveFileDialog
             {
                 Title = @"Export custom theme",
-                Filter = @"Krypton Palette (*.xml)|*.xml|All files (*.*)|*.*",
-                FileName = seed.Name + @".xml",
+                Filter = KryptonPaletteFile.DialogFilter,
+                DefaultExt = KryptonPaletteFile.Extension,
+                FileName = seed.Name + @"." + KryptonPaletteFile.Extension,
                 OverwritePrompt = true
             };
 

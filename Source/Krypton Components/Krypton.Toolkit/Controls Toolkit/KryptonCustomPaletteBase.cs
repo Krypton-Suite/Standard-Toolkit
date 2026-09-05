@@ -2064,19 +2064,21 @@ public class KryptonCustomPaletteBase : PaletteBase
     }
 
     /// <summary>
-    /// Import palette settings from an xml file.
+    /// Import palette settings from a palette file (<c>.kthemex</c> XML, <c>.xml</c>, or a KPLT container).
     /// </summary>
     /// <returns>Full path of imported filename; otherwise empty string.</returns>
+    // ToDo V120 LTS: Drop .xml from Import remarks and dialogs. Keep sniffing XML content for .kthemex.
     public string Import(bool silent = false)
     {
+        KryptonPaletteFile.EnsureShellAssociations();
         var paletteFileName = string.Empty;
         if (KryptonManager._globalUseKryptonFileDialogs)
         {
             using var kofd = new KryptonOpenFileDialog();
             kofd.CheckFileExists = true;
             kofd.CheckPathExists = true;
-            kofd.DefaultExt = @"xml";
-            kofd.Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)";
+            kofd.DefaultExt = KryptonPaletteFile.Extension;
+            kofd.Filter = KryptonPaletteFile.DialogFilter;
             kofd.Title = @"Load Custom Palette";
 
             if (kofd.ShowDialog() == DialogResult.OK)
@@ -2090,11 +2092,10 @@ public class KryptonCustomPaletteBase : PaletteBase
         else
         {
             using var dialog = new OpenFileDialog();
-            // Palette files are just XML documents
             dialog.CheckFileExists = true;
             dialog.CheckPathExists = true;
-            dialog.DefaultExt = @"xml";
-            dialog.Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)";
+            dialog.DefaultExt = KryptonPaletteFile.Extension;
+            dialog.Filter = KryptonPaletteFile.DialogFilter;
             dialog.Title = @"Load Palette";
 
             // Get the actual file selected by the user
@@ -2114,18 +2115,18 @@ public class KryptonCustomPaletteBase : PaletteBase
         return paletteFileName;
     }
 
-    /// <summary>Import palette settings from a xml file. For use with action list.</summary>
+    /// <summary>Import palette settings from a palette file. For use with action list.</summary>
     /// <returns>Full path of imported filename; otherwise empty string.</returns>
     internal string ActionListImport(bool silent = false)
     {
+        KryptonPaletteFile.EnsureShellAssociations();
         var paletteFileName = string.Empty;
 
         using var dialog = new OpenFileDialog();
-        // Palette files are just XML documents
         dialog.CheckFileExists = true;
         dialog.CheckPathExists = true;
-        dialog.DefaultExt = @"xml";
-        dialog.Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)";
+        dialog.DefaultExt = KryptonPaletteFile.Extension;
+        dialog.Filter = KryptonPaletteFile.DialogFilter;
         dialog.Title = @"Load Palette";
 
         // Get the actual file selected by the user
@@ -2147,14 +2148,14 @@ public class KryptonCustomPaletteBase : PaletteBase
     }
 
     /// <summary>
-    /// Silent Import of palette settings from the specified xml file.
+    /// Silent Import of palette settings from the specified file (<c>.kthemex</c> XML, <c>.xml</c>, or a KPLT container).
     /// </summary>
     /// <param name="filename">Filename to load.</param>
     /// <returns>Full path of imported filename; otherwise empty string.</returns>
     public string Import(string filename) => Import(filename, true);
 
     /// <summary>
-    /// Import palette settings from the specified xml file.
+    /// Import palette settings from the specified file (<c>.kthemex</c> XML, <c>.xml</c>, or a KPLT container).
     /// </summary>
     /// <param name="filename">Filename to load.</param>
     /// <param name="silent">True, silent mode provides user interface feedback from the palette import process. No messages when false.</param>
@@ -2162,6 +2163,14 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <exception>Thrown if failure to import</exception>
     public string Import(string filename, bool silent)
     {
+        var resolved = KryptonPaletteFile.PromptLegacyXmlUpgrade(filename, silent);
+        if (resolved == null)
+        {
+            return string.Empty;
+        }
+
+        filename = resolved;
+
         string? ret;
 
         try
@@ -2218,18 +2227,143 @@ public class KryptonCustomPaletteBase : PaletteBase
     }
 
     /// <summary>
+    /// Import one named theme from a <c>.ktheme</c> pack (or a single-theme file whose name matches).
+    /// </summary>
+    /// <param name="filename">Filename to load.</param>
+    /// <param name="themeName">Theme name in the collection. Comparison is case-insensitive.</param>
+    /// <returns>Full path of imported filename; otherwise empty string.</returns>
+    public string Import(string filename, string themeName) => Import(filename, themeName, true);
+
+    /// <summary>
+    /// Import one named theme from a <c>.ktheme</c> pack (or a single-theme file whose name matches).
+    /// </summary>
+    /// <param name="filename">Filename to load.</param>
+    /// <param name="themeName">Theme name in the collection. Comparison is case-insensitive.</param>
+    /// <param name="silent">True, silent mode provides user interface feedback from the palette import process. No messages when false.</param>
+    /// <returns>Full path of imported filename; otherwise empty string.</returns>
+    public string Import(string filename, string themeName, bool silent)
+    {
+        if (string.IsNullOrWhiteSpace(themeName))
+        {
+            return Import(filename, silent);
+        }
+
+        var resolved = KryptonPaletteFile.PromptLegacyXmlUpgrade(filename, silent);
+        if (resolved == null)
+        {
+            return string.Empty;
+        }
+
+        filename = resolved;
+
+        string? ret;
+
+        try
+        {
+            SuspendUpdates();
+
+            if (silent)
+            {
+                ret = ImportFromFile(new object[] { filename, themeName }) as string;
+            }
+            else
+            {
+                ret = CommonHelper.PerformOperation(ImportFromFile!,
+                    new object[] { filename, themeName }) as string;
+
+                KryptonMessageBox.Show($"Import from file '{filename}' ({themeName}) completed.",
+                    @"Palette Import",
+                    KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
+            }
+        }
+        catch (Exception ex)
+        {
+            if (!silent)
+            {
+                KryptonMessageBox.Show($"Import from file '{filename}' failed.\n\n Error:{ex.Message}",
+                    @"Palette Import",
+                    KryptonMessageBoxButtons.OK,
+                    KryptonMessageBoxIcon.Error);
+            }
+
+            throw;
+        }
+        finally
+        {
+            ResumeUpdates();
+        }
+
+        return ret ?? string.Empty;
+    }
+
+    /// <summary>
     /// Import palette settings from the specified stream.
     /// </summary>
-    /// <param name="stream">Stream that contains an XmlDocument.</param>
+    /// <param name="stream">Stream that contains XML or a KPLT container.</param>
     public void Import(Stream stream) =>
         // By default, the import is silent
         Import(stream, true);
 
     /// <summary>
-    /// Import xml palette - with auto upgrade - from the specified stream.
+    /// Import one named theme from a KPLT pack stream.
     /// </summary>
-    /// <param name="stream">Stream that contains an XmlDocument. Needs to have settable `Position`</param>
-    /// <exception>Will be thrown if the Palette Xml cannot be transformed, or is incorrect</exception>
+    /// <param name="stream">Stream that contains XML or a KPLT container.</param>
+    /// <param name="themeName">Theme name in the collection. Comparison is case-insensitive.</param>
+    public void Import(Stream stream, string themeName) => Import(stream, themeName, true);
+
+    /// <summary>
+    /// Import one named theme from a KPLT pack stream.
+    /// </summary>
+    /// <param name="stream">Stream that contains XML or a KPLT container.</param>
+    /// <param name="themeName">Theme name in the collection. Comparison is case-insensitive.</param>
+    /// <param name="silent">Silent mode provides no user interface feedback.</param>
+    public void Import(Stream stream, string themeName, bool silent)
+    {
+        if (string.IsNullOrWhiteSpace(themeName))
+        {
+            Import(stream, silent);
+            return;
+        }
+
+        try
+        {
+            SuspendUpdates();
+
+            KryptonPaletteBinaryPersistence.Import(this, stream, themeName);
+
+            if (!silent)
+            {
+                KryptonMessageBox.Show(@"Import from stream completed.",
+                    @"Palette Import",
+                    KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
+            }
+        }
+        catch (Exception ex)
+        {
+            if (!silent)
+            {
+                KryptonMessageBox.Show($"Import from stream failed.\n\n Error:{ex.Message}",
+                    @"Palette Import",
+                    KryptonMessageBoxButtons.OK,
+                    KryptonMessageBoxIcon.Error);
+            }
+
+            throw;
+        }
+        finally
+        {
+            ResumeUpdates();
+        }
+    }
+
+    /// <summary>
+    /// Import a palette - with auto upgrade - from the specified stream.
+    /// Older XML (and compressed-XML <c>.ktheme</c>) is raised to
+    /// <see cref="SharedStaticConstants.CURRENT_SUPPORTED_PALETTE_VERSION"/> before import.
+    /// Native <c>.ktheme</c> must already be the current schema.
+    /// </summary>
+    /// <param name="stream">Stream that contains XML or a KPLT container. Needs to have settable <c>Position</c>.</param>
+    /// <exception>Will be thrown if the palette cannot be transformed, or is incorrect</exception>
     public void ImportWithUpgrade(Stream stream)
     {
         try
@@ -2237,22 +2371,25 @@ public class KryptonCustomPaletteBase : PaletteBase
             // Prevent lots of redraw events until all loading completes
             SuspendUpdates();
 
-            ImportFromStream(stream);
-        }
-        catch (ArgumentException aex)
-        {
-            // Probably due to a version conflict:
-            // ThrowHelper.ThrowArgumentException($"Version '{version}' number is incompatible, only version {CURRENT_PALETTE_VERSION} or above can be imported.\nUse the PaletteUpgradeTool from the Application tab of the KryptonExplorer to upgrade.");
-            CommonHelper.LogOutput(aex.Message);
-            if (!aex.Message.Contains(@"number is incompatible"))
+            // Raise older XML (and compressed-XML .ktheme) to the current schema before import.
+            // Do not wait for ImportFromXmlDocument to throw: that path used to show the
+            // version-mismatch dialog and swallow the exception, so Convert wrote an empty palette.
+            if (KryptonPaletteBinaryPersistence.TryGetSchemaVersion(stream, out var schemaVersion)
+                && schemaVersion < SharedStaticConstants.CURRENT_SUPPORTED_PALETTE_VERSION)
             {
-                throw;
+                ImportUpgradedXml(stream, schemaVersion);
+                return;
             }
 
-            KryptonExceptionHandler.CaptureException(aex);
-
-            stream.Position = 0;
-            PerformUpgrade(stream);
+            try
+            {
+                ImportFromStream(stream);
+            }
+            catch (ArgumentException aex) when (IsPaletteSchemaVersionException(aex))
+            {
+                CommonHelper.LogOutput(aex.Message);
+                ImportUpgradedXml(stream, schemaVersion: 0);
+            }
         }
         finally
         {
@@ -2265,11 +2402,17 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <param name="themeFilePath">The theme file path.</param>
     public void ImportWithUpgrade(string themeFilePath)
     {
+        var resolved = KryptonPaletteFile.PromptLegacyXmlUpgrade(themeFilePath, silent: false);
+        if (resolved == null)
+        {
+            return;
+        }
+
         FileStream? stream = null;
 
         try
         {
-            stream = new FileStream(path: themeFilePath, mode: FileMode.Open);
+            stream = new FileStream(path: resolved, mode: FileMode.Open);
 
             ImportWithUpgrade(stream);
         }
@@ -2286,45 +2429,90 @@ public class KryptonCustomPaletteBase : PaletteBase
         }
     }
 
+    private void ImportUpgradedXml(Stream stream, int schemaVersion)
+    {
+        if (stream.CanSeek)
+        {
+            stream.Position = 0;
+        }
+
+        if (!KryptonPaletteBinaryPersistence.TryCopyXmlForUpgrade(stream, out var xmlStream))
+        {
+            var versionText = schemaVersion > 0 ? schemaVersion.ToString() : @"unknown";
+            ThrowHelper.ThrowArgumentException(
+                $"Version '{versionText}' number is incompatible, only version {SharedStaticConstants.CURRENT_SUPPORTED_PALETTE_VERSION} or above can be imported.\nUse the PaletteUpgradeTool from the Application tab of the KryptonExplorer to upgrade.");
+        }
+
+        using (xmlStream)
+        {
+            PerformUpgrade(xmlStream);
+        }
+    }
+
+    private static bool IsPaletteSchemaVersionException(Exception ex) =>
+        ex.Message.IndexOf(@"number is incompatible", StringComparison.Ordinal) >= 0;
+
     private void PerformUpgrade(Stream stream)
     {
-        try
+        var doc = new XmlDocument();
+        doc.Load(stream);
+
+        var root = doc.SelectSingleNode(@"KryptonPalette") as XmlElement;
+        if (root == null)
         {
-            using var reader = new StreamReader(stream);
-
-            var end = reader.ReadToEnd();
-            reader.Close();
-
-            using (var currentSupportedPaletteSchemaReader =
-                   new StreamReader(PaletteSchemaResources.CurrentSupportedPaletteSchema))
-            {
-                using (var xslTextReader = XmlReader.Create(currentSupportedPaletteSchemaReader))
-                {
-                    var xslToXmlTransformer = new XmlTransformer();
-
-                    xslToXmlTransformer.Load(xslTextReader);
-
-                    end = TransformXml(xslToXmlTransformer, end);
-                }
-            }
-
-            using var ms = new MemoryStream();
-            using (var writer = new StreamWriter(ms,
-                       /*StreamWriter.UTF8NoBOM*/ new UTF8Encoding(false, true),
-                       1024, true))
-            {
-                writer.WriteLine("<?xml version=\"1.0\"?>");
-                writer.Write(end);
-                writer.Flush();
-                writer.Close();
-            }
-            ms.Position = 0;
-            // If this goes boom, then something more needs to be done !
-            ImportFromStream(ms);
+            ThrowHelper.ThrowArgumentException(@"Root element must be called 'KryptonPalette'.");
         }
-        catch (Exception e)
+
+        var paletteName = root.HasAttribute(@"Name") ? root.GetAttribute(@"Name") : string.Empty;
+        var version = 0;
+        if (root.HasAttribute(nameof(Version)))
         {
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
+            int.TryParse(root.GetAttribute(nameof(Version)), NumberStyles.Integer, CultureInfo.InvariantCulture,
+                out version);
+        }
+
+        // CurrentSupportedPaletteSchema is the historical 19→20 map (PaletteMode aliases, Prefix type).
+        // Schema 20 and 21 only need the Version attribute raised to the current persist version.
+        if (version < 20)
+        {
+            var transformed = TransformWithCurrentPaletteSchema(doc.OuterXml);
+            doc = new XmlDocument();
+            using (var reader = new StringReader(transformed))
+            {
+                doc.Load(reader);
+            }
+            root = doc.SelectSingleNode(@"KryptonPalette") as XmlElement;
+            if (root == null)
+            {
+                ThrowHelper.ThrowArgumentException(@"Root element must be called 'KryptonPalette'.");
+            }
+
+            if (!string.IsNullOrEmpty(paletteName) && !root.HasAttribute(@"Name"))
+            {
+                root.SetAttribute(@"Name", paletteName);
+            }
+        }
+
+        root.SetAttribute(nameof(Version),
+            SharedStaticConstants.CURRENT_SUPPORTED_PALETTE_VERSION.ToString());
+
+        using var upgraded = new MemoryStream();
+        doc.Save(upgraded);
+        upgraded.Position = 0;
+        ImportFromStream(upgraded);
+    }
+
+    private string TransformWithCurrentPaletteSchema(string xml)
+    {
+        using (var currentSupportedPaletteSchemaReader =
+               new StreamReader(PaletteSchemaResources.CurrentSupportedPaletteSchema))
+        {
+            using (var xslTextReader = XmlReader.Create(currentSupportedPaletteSchemaReader))
+            {
+                var xslToXmlTransformer = new XmlTransformer();
+                xslToXmlTransformer.Load(xslTextReader);
+                return TransformXml(xslToXmlTransformer, xml);
+            }
         }
     }
 
@@ -2351,7 +2539,7 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <summary>
     /// Import palette settings from the specified stream.
     /// </summary>
-    /// <param name="stream">Stream that contains an XmlDocument.</param>
+    /// <param name="stream">Stream that contains XML or a KPLT container.</param>
     /// <param name="silent">Silent mode provides no user interface feedback.</param>
     public void Import(Stream stream, bool silent)
     {
@@ -2449,17 +2637,18 @@ public class KryptonCustomPaletteBase : PaletteBase
     }
 
     /// <summary>
-    /// Export palette settings to a user specified xml file.
+    /// Export palette settings to a user specified palette file.
     /// </summary>
     /// <returns>Full path of exported filename; otherwise empty string.</returns>
     public string? Export()
     {
+        KryptonPaletteFile.EnsureShellAssociations();
         if (KryptonManager._globalUseKryptonFileDialogs)
         {
             using var ksfd = new KryptonSaveFileDialog();
             ksfd.OverwritePrompt = true;
-            ksfd.DefaultExt = @"xml";
-            ksfd.Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)";
+            ksfd.DefaultExt = KryptonPaletteFile.Extension;
+            ksfd.Filter = KryptonPaletteFile.DialogFilter;
             ksfd.Title = @"Save Palette As";
 
             if (ksfd.ShowDialog() == DialogResult.OK)
@@ -2475,10 +2664,9 @@ public class KryptonCustomPaletteBase : PaletteBase
         else
         {
             using var dialog = new SaveFileDialog();
-            // Palette files are just xml documents
             dialog.OverwritePrompt = true;
-            dialog.DefaultExt = @"xml";
-            dialog.Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)";
+            dialog.DefaultExt = KryptonPaletteFile.Extension;
+            dialog.Filter = KryptonPaletteFile.DialogFilter;
             dialog.Title = @"Save Palette As";
 
             // Get the actual file selected by the user
@@ -2497,15 +2685,15 @@ public class KryptonCustomPaletteBase : PaletteBase
         return string.Empty;
     }
 
-    /// <summary>Export palette settings to a user specified xml file. For use with action list.</summary>
+    /// <summary>Export palette settings to a user specified palette file. For use with action list.</summary>
     /// <returns>Full path of exported filename; otherwise empty string.</returns>
     internal string? ActionListExport()
     {
+        KryptonPaletteFile.EnsureShellAssociations();
         using var dialog = new SaveFileDialog();
-        // Palette files are just xml documents
         dialog.OverwritePrompt = true;
-        dialog.DefaultExt = @"xml";
-        dialog.Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)";
+        dialog.DefaultExt = KryptonPaletteFile.Extension;
+        dialog.Filter = KryptonPaletteFile.DialogFilter;
         dialog.Title = @"Save Palette As";
 
         // Get the actual file selected by the user
@@ -2524,22 +2712,236 @@ public class KryptonCustomPaletteBase : PaletteBase
     }
 
     /// <summary>
-    /// Export palette settings to the specified xml file.
+    /// Designer verb: convert an on-disk palette (legacy XML, <c>.kthemex</c>, or KPLT <c>.ktheme</c>)
+    /// to a new file, then import the result into this instance.
+    /// </summary>
+    internal string ActionListConvert() => ConvertFile(silent: false);
+
+    /// <summary>
+    /// Rewrites a legacy <c>.xml</c> palette as <c>.kthemex</c> in the same folder and imports the result.
+    /// The source file is left in place.
+    /// </summary>
+    /// <param name="sourcePath">Existing <c>.xml</c> palette file.</param>
+    /// <param name="silent"><see langword="true"/> to omit the completion message box.</param>
+    /// <returns>The full path of the written <c>.kthemex</c> file.</returns>
+    /// <seealso cref="KryptonPaletteFile.UpgradeXmlToKthemex(string)"/>
+    public string UpgradeXmlToKthemex(string sourcePath, bool silent = true)
+    {
+        var destination = KryptonPaletteFile.UpgradeXmlToKthemex(sourcePath);
+        Import(destination, silent);
+        return destination;
+    }
+
+    /// <summary>
+    /// Rewrites a legacy <c>.xml</c> palette as <c>.kthemex</c> and imports the result.
+    /// The source file is left in place.
+    /// </summary>
+    /// <param name="sourcePath">Existing <c>.xml</c> palette file.</param>
+    /// <param name="destinationPath">File to create or overwrite. Must be <c>.kthemex</c>.</param>
+    /// <param name="silent"><see langword="true"/> to omit the completion message box.</param>
+    /// <returns>The full path of the written <c>.kthemex</c> file.</returns>
+    /// <seealso cref="KryptonPaletteFile.UpgradeXmlToKthemex(string, string)"/>
+    public string UpgradeXmlToKthemex(string sourcePath, string destinationPath, bool silent = true)
+    {
+        var destination = KryptonPaletteFile.UpgradeXmlToKthemex(sourcePath, destinationPath);
+        Import(destination, silent);
+        return destination;
+    }
+
+    /// <summary>
+    /// Designer/runtime dialog: pick a legacy <c>.xml</c> palette, rewrite it as <c>.kthemex</c>
+    /// beside the source, and import the result into this instance.
+    /// </summary>
+    /// <param name="silent"><see langword="true"/> to omit the completion message box.</param>
+    /// <returns>The full path of the written <c>.kthemex</c> file; otherwise an empty string.</returns>
+    // ToDo V120 LTS: Remove this .xml picker once XmlExtension is retired.
+    public string UpgradeXmlToKthemex(bool silent = false)
+    {
+        KryptonPaletteFile.EnsureShellAssociations();
+
+        using var open = new OpenFileDialog();
+        open.CheckFileExists = true;
+        open.CheckPathExists = true;
+        open.DefaultExt = KryptonPaletteFile.XmlExtension;
+        open.Filter = @"XML palette files (*.xml)|*.xml|All files (*.*)|*.*";
+        open.Title = @"Upgrade XML Palette To .kthemex";
+
+        if (open.ShowDialog() != DialogResult.OK)
+        {
+            return string.Empty;
+        }
+
+        var destination = UpgradeXmlToKthemex(open.FileName, silent: true);
+        if (!silent)
+        {
+            KryptonMessageBox.Show($"Upgraded to file '{destination}'. The source .xml was left in place.",
+                @"Palette Upgrade",
+                KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
+        }
+
+        return destination;
+    }
+
+    /// <summary>
+    /// Designer verb: pick a legacy <c>.xml</c> palette, rewrite it as <c>.kthemex</c>, and import it.
+    /// </summary>
+    internal string ActionListUpgradeXml() => UpgradeXmlToKthemex(silent: false);
+
+    /// <summary>
+    /// Rewrites every Krypton palette <c>.xml</c> under <paramref name="directory"/> as <c>.kthemex</c>
+    /// beside the source. Does not import into this instance.
+    /// </summary>
+    /// <param name="directory">Folder to scan.</param>
+    /// <param name="searchSubdirectories">When <see langword="true"/>, include nested folders.</param>
+    /// <param name="silent"><see langword="true"/> to omit the completion message box.</param>
+    /// <returns>Converted paths, skipped non-palette XML, and per-file errors.</returns>
+    /// <seealso cref="KryptonPaletteFile.UpgradeXmlToKthemexFromDirectory(string, bool)"/>
+    // ToDo V120 LTS: Remove with XmlExtension.
+    public KryptonPaletteDirectoryUpgradeResult UpgradeXmlToKthemexFromDirectory(string directory,
+        bool searchSubdirectories = true,
+        bool silent = true)
+    {
+        var result = KryptonPaletteFile.UpgradeXmlToKthemexFromDirectory(directory, searchSubdirectories);
+        if (!silent)
+        {
+            ShowDirectoryUpgradeSummary(result);
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Designer/runtime dialog: pick a folder of legacy <c>.xml</c> palettes and rewrite each as
+    /// <c>.kthemex</c> beside the source (nested folders included). Does not import into this instance.
+    /// </summary>
+    /// <param name="silent"><see langword="true"/> to omit the completion message box.</param>
+    /// <returns>The batch result, or <see cref="KryptonPaletteDirectoryUpgradeResult.Empty"/> when cancelled.</returns>
+    // ToDo V120 LTS: Remove with XmlExtension.
+    public KryptonPaletteDirectoryUpgradeResult UpgradeXmlToKthemexFromDirectory(bool silent = false)
+    {
+        using var folder = new KryptonFolderBrowserDialog();
+        folder.Title = @"Upgrade folder .xml to .kthemex";
+
+        if (folder.ShowDialog() != DialogResult.OK || string.IsNullOrWhiteSpace(folder.SelectedPath))
+        {
+            return KryptonPaletteDirectoryUpgradeResult.Empty;
+        }
+
+        return UpgradeXmlToKthemexFromDirectory(folder.SelectedPath, searchSubdirectories: true, silent);
+    }
+
+    /// <summary>
+    /// Designer verb: pick a folder of legacy <c>.xml</c> palettes and rewrite each as <c>.kthemex</c>.
+    /// </summary>
+    internal KryptonPaletteDirectoryUpgradeResult ActionListUpgradeXmlDirectory() =>
+        UpgradeXmlToKthemexFromDirectory(silent: false);
+
+    private static void ShowDirectoryUpgradeSummary(KryptonPaletteDirectoryUpgradeResult result)
+    {
+        var icon = result.ErrorCount > 0 ? KryptonMessageBoxIcon.Warning : KryptonMessageBoxIcon.Information;
+        KryptonMessageBox.Show(result.ToSummaryString(), @"Upgrade folder .xml to .kthemex",
+            KryptonMessageBoxButtons.OK, icon);
+    }
+
+    /// <summary>
+    /// Loads a palette file, applies the XML schema upgrade when needed, writes
+    /// <paramref name="destinationPath"/>, and imports the result into this instance.
+    /// Legacy <c>.xml</c> sources destined for <c>.kthemex</c> use
+    /// <see cref="KryptonPaletteFile.UpgradeXmlToKthemex(string, string)"/>.
+    /// </summary>
+    /// <param name="sourcePath">Existing <c>.xml</c>, <c>.kthemex</c>, or KPLT <c>.ktheme</c> file.</param>
+    /// <param name="destinationPath">File to create or overwrite.</param>
+    /// <param name="silent"><see langword="true"/> to omit the import completion message box.</param>
+    /// <returns>The full destination path.</returns>
+    public string ConvertFile(string sourcePath, string destinationPath, bool silent = true)
+    {
+        var destIsKthemex = string.Equals(Path.GetExtension(destinationPath),
+            @"." + KryptonPaletteFile.Extension,
+            StringComparison.OrdinalIgnoreCase);
+        var destination = KryptonPaletteFile.IsLegacyXmlExtension(sourcePath) && destIsKthemex
+            ? KryptonPaletteFile.UpgradeXmlToKthemex(sourcePath, destinationPath)
+            : KryptonPaletteFile.Convert(sourcePath, destinationPath);
+
+        Import(destination, silent);
+        return destination;
+    }
+
+    /// <summary>
+    /// Designer/runtime dialog: convert an on-disk palette to a new file, then import the result.
+    /// </summary>
+    /// <param name="silent"><see langword="true"/> to omit the completion message box.</param>
+    /// <returns>The full destination path; otherwise an empty string.</returns>
+    public string ConvertFile(bool silent = false)
+    {
+        KryptonPaletteFile.EnsureShellAssociations();
+
+        using var open = new OpenFileDialog();
+        open.CheckFileExists = true;
+        open.CheckPathExists = true;
+        // ToDo V120 LTS: Default this open dialog to Extension (.kthemex) once .xml is retired.
+        open.DefaultExt = KryptonPaletteFile.XmlExtension;
+        open.Filter = KryptonPaletteFile.DialogFilter;
+        open.Title = @"Convert Palette From";
+
+        if (open.ShowDialog() != DialogResult.OK)
+        {
+            return string.Empty;
+        }
+
+        using var save = new SaveFileDialog();
+        save.OverwritePrompt = true;
+        save.DefaultExt = KryptonPaletteFile.Extension;
+        save.Filter = KryptonPaletteFile.DialogFilter;
+        save.Title = @"Convert Palette To";
+        save.FileName = Path.GetFileNameWithoutExtension(open.FileName) + @"." + KryptonPaletteFile.Extension;
+
+        if (save.ShowDialog() != DialogResult.OK)
+        {
+            return string.Empty;
+        }
+
+        var destination = ConvertFile(open.FileName, save.FileName, silent: true);
+        if (!silent)
+        {
+            KryptonMessageBox.Show($"Converted to file '{destination}'.",
+                @"Palette Convert",
+                KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
+        }
+
+        return destination;
+    }
+
+    /// <summary>
+    /// Export palette settings to the specified file. <c>.kthemex</c> and <c>.xml</c> write XML;
+    /// <c>.ktheme</c> writes the optional native persist stream.
     /// </summary>
     /// <param name="filename">Filename to create or overwrite.</param>
     /// <param name="ignoreDefaults">Should default values be exported.</param>
     /// <returns>Full path of exported filename; otherwise empty string.</returns>
+    // ToDo V120 LTS: Stop writing .xml from path Export; FormatFromPath should not map .xml. Prefer .kthemex.
     public string? Export(string filename, bool ignoreDefaults)
         => Export(filename, ignoreDefaults, true);
 
     /// <summary>
-    /// Export palette settings to the specified xml file.
+    /// Export palette settings to the specified file. <c>.kthemex</c> and <c>.xml</c> write XML;
+    /// <c>.ktheme</c> writes the optional native persist stream.
     /// </summary>
     /// <param name="filename">Filename to create or overwrite.</param>
     /// <param name="ignoreDefaults">Should default values be exported.</param>
     /// <param name="silent">Silent mode provides no user interface feedback.</param>
     /// <returns>Full path of exported filename; otherwise empty string.</returns>
     public string? Export(string filename, bool ignoreDefaults, bool silent)
+        => Export(filename, ignoreDefaults, silent, KryptonPaletteFile.FormatFromPath(filename));
+
+    /// <summary>
+    /// Export palette settings to the specified file using an explicit persist format.
+    /// </summary>
+    /// <param name="filename">Filename to create or overwrite.</param>
+    /// <param name="ignoreDefaults">Should default values be exported.</param>
+    /// <param name="silent">Silent mode provides no user interface feedback.</param>
+    /// <param name="format">XML, compressed-XML container, or native binary container.</param>
+    /// <returns>Full path of exported filename; otherwise empty string.</returns>
+    public string? Export(string filename, bool ignoreDefaults, bool silent, KryptonPaletteFileFormat format)
     {
         string? ret;
 
@@ -2550,13 +2952,13 @@ public class KryptonCustomPaletteBase : PaletteBase
 
             if (silent)
             {
-                ret = ExportToFile(new object[] { filename, ignoreDefaults }) as string;
+                ret = ExportToFile(new object[] { filename, ignoreDefaults, format }) as string;
             }
             else
             {
                 // Perform the import operation on a separate worker thread
                 ret = CommonHelper.PerformOperation(ExportToFile!,
-                    new object[] { filename, ignoreDefaults }) as string;
+                    new object[] { filename, ignoreDefaults, format }) as string;
 
                 KryptonMessageBox.Show($"Export to file '{filename}' completed.",
                     @"Palette Export",
@@ -2586,10 +2988,14 @@ public class KryptonCustomPaletteBase : PaletteBase
     }
 
     /// <summary>
-    /// Export palette settings into a stream object.
+    /// Export palette settings into a stream object as XML.
     /// </summary>
     /// <param name="stream">Destination stream for exporting.</param>
     /// <param name="ignoreDefaults">Should default values be exported.</param>
+    /// <remarks>
+    /// This overload always writes XML so existing callers keep their current bytes.
+    /// Use <see cref="ExportPalette(Stream, KryptonPaletteFileFormat, bool)"/> for an optional KPLT container.
+    /// </remarks>
     public void Export(Stream stream, bool ignoreDefaults) =>
         // By default, the export is silent
         Export(stream, ignoreDefaults, true);
@@ -2641,6 +3047,32 @@ public class KryptonCustomPaletteBase : PaletteBase
             ResumeUpdates();
         }
     }
+
+    /// <summary>
+    /// Export palette settings into a stream using an explicit persist format.
+    /// </summary>
+    /// <param name="stream">Destination stream for exporting.</param>
+    /// <param name="format">XML, compressed-XML container, or native binary container.</param>
+    /// <param name="ignoreDefaults">Should default values be exported.</param>
+    public void ExportPalette(Stream stream, KryptonPaletteFileFormat format, bool ignoreDefaults)
+    {
+        ThrowHelper.ThrowIfNull(stream);
+        try
+        {
+            SuspendUpdates();
+            KryptonPaletteBinaryPersistence.Export(this, stream, format, ignoreDefaults);
+        }
+        finally
+        {
+            ResumeUpdates();
+        }
+    }
+
+    /// <summary>
+    /// Import palette settings from a stream, sniffing XML versus a KPLT container.
+    /// </summary>
+    /// <param name="stream">Source stream. Prefer a seekable stream.</param>
+    public void ImportPalette(Stream stream) => Import(stream, true);
 
     /// <summary>
     /// Export palette settings into an array of bytes.
@@ -2750,6 +3182,26 @@ public class KryptonCustomPaletteBase : PaletteBase
 
     private bool ShouldSerializePaletteName() => !string.IsNullOrWhiteSpace(PaletteName);
     private void ResetPaletteName() => PaletteName = string.Empty;
+
+    /// <summary>
+    /// Gets or sets an optional preview image for this palette (recommended
+    /// <see cref="KryptonPaletteFile.RecommendedThumbnailSize"/> square PNG).
+    /// </summary>
+    /// <remarks>
+    /// Persists in <c>.kthemex</c> / XML as a base64 PNG in the image cache, and in native <c>.ktheme</c>.
+    /// Older toolkits skip the property. Collection files also store a trailing thumbnail catalog for fast
+    /// listing without a full import. Selectors, <see cref="KryptonThemeListView"/>, the collection editor, and file-system icons
+    /// show the preview with the Stable Kr tile as a corner overlay; files without a preview use the Kr tile alone.
+    /// </remarks>
+    [KryptonPersist(false, false)]
+    [Category(@"Visuals")]
+    [Description(@"Optional preview image shown by palette file selectors.")]
+    [DefaultValue(null)]
+    public Image? Thumbnail { get; set; }
+
+    private bool ShouldSerializeThumbnail() => Thumbnail != null;
+
+    private void ResetThumbnail() => Thumbnail = null;
 
     /// <summary>
     /// Gets or sets the builtin palette used to inherit unset colours and styles from.
@@ -3169,26 +3621,36 @@ public class KryptonCustomPaletteBase : PaletteBase
 
     private object? ImportFromFile([DisallowNull] object? parameter)
     {
-        // Cast to correct type
-        if (parameter is not string filename)
+        string? filename = null;
+        string? themeName = null;
+
+        switch (parameter)
+        {
+            case string path:
+                filename = path;
+                break;
+            case object[] args when args.Length > 0:
+                filename = args[0] as string;
+                if (args.Length > 1)
+                {
+                    themeName = args[1] as string;
+                }
+
+                break;
+        }
+
+        if (string.IsNullOrWhiteSpace(filename))
         {
             return null;
         }
 
-        // Check the target file actually exists
         if (!File.Exists(filename))
         {
             ThrowHelper.ThrowArgumentException(@"Provided file does not exist.", nameof(parameter));
         }
 
-        // Create a new xml document for storing the palette settings
-        var doc = new XmlDocument();
-
-        // Attempt to load as a valid xml document
-        doc.Load(filename);
-
-        // Perform actual import using the XmlDocument we just loaded
-        ImportFromXmlDocument(doc);
+        using var stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
+        KryptonPaletteBinaryPersistence.Import(this, stream, themeName);
 
         return filename;
     }
@@ -3201,14 +3663,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             return null;
         }
 
-        // Create a new xml document for storing the palette settings
-        var doc = new XmlDocument();
-
-        // Attempt to load from the provided stream
-        doc.Load(stream);
-
-        // Perform actual import using the XmlDocument we just loaded
-        ImportFromXmlDocument(doc);
+        KryptonPaletteBinaryPersistence.Import(this, stream);
 
         return stream;
     }
@@ -3233,7 +3688,7 @@ public class KryptonCustomPaletteBase : PaletteBase
         return null;
     }
 
-    private void ImportFromXmlDocument([DisallowNull] XmlDocument doc)
+    internal void ImportFromXmlDocument([DisallowNull] XmlDocument doc)
     {
         // Remember the current culture setting
         var culture = Thread.CurrentThread.CurrentCulture;
@@ -3273,10 +3728,10 @@ public class KryptonCustomPaletteBase : PaletteBase
             }
 
             // Restore bundled palette name so external themes display correctly (e.g. in KryptonManager)
-            //if (root.HasAttribute("Name"))
-            //{
-            //    SetPaletteName(root.GetAttribute("Name"));
-            //}
+            if (root.HasAttribute("Name"))
+            {
+                SetPaletteName(root.GetAttribute("Name"));
+            }
 
             // Import order: establish a full baseline from BasePalette, then apply the XML theme on top.
             //
@@ -3316,6 +3771,13 @@ public class KryptonCustomPaletteBase : PaletteBase
         }
         catch (Exception e)
         {
+            // Version mismatches are recovered by ImportWithUpgrade / Convert; do not show
+            // the exception dialog or swallow the error (that left Convert with an empty palette).
+            if (IsPaletteSchemaVersionException(e))
+            {
+                throw;
+            }
+
             KryptonExceptionHandler.CaptureException(e, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
         finally
@@ -3333,9 +3795,12 @@ public class KryptonCustomPaletteBase : PaletteBase
             return null;
         }
 
-        // Extract the two provided parameters
+        // Extract the provided parameters
         var filename = (string)parameters[0];
         var ignoreDefaults = (bool)parameters[1];
+        var format = parameters.Length > 2
+            ? (KryptonPaletteFileFormat)parameters[2]
+            : KryptonPaletteFile.FormatFromPath(filename);
 
         var info = new FileInfo(filename);
 
@@ -3345,11 +3810,8 @@ public class KryptonCustomPaletteBase : PaletteBase
             ThrowHelper.ThrowArgumentException("Provided directory does not exist.");
         }
 
-        // Create an XmlDocument containing the saved palette details
-        var doc = ExportToXmlDocument(ignoreDefaults);
-
-        // Save to the provided filename
-        doc.Save(filename);
+        using var stream = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.None);
+        KryptonPaletteBinaryPersistence.Export(this, stream, format, ignoreDefaults);
 
         return filename;
     }
@@ -3403,7 +3865,7 @@ public class KryptonCustomPaletteBase : PaletteBase
         return ms.GetBuffer();
     }
 
-    private XmlDocument ExportToXmlDocument(bool ignoreDefaults)
+    internal XmlDocument ExportToXmlDocument(bool ignoreDefaults)
     {
         // Remember the current culture setting
         var culture = Thread.CurrentThread.CurrentCulture;
@@ -4031,9 +4493,10 @@ public class KryptonCustomPaletteBase : PaletteBase
         [typeof(PaletteContentText)] = nameof(PaletteContentText),
         [typeof(PaletteContentImage)] = nameof(PaletteContentImage),
         [typeof(PaletteDragFeedback)] = nameof(PaletteDragFeedback),
-        [typeof(PaletteRibbonShape)] = nameof(PaletteRibbonShape)
+        [typeof(PaletteRibbonShape)] = nameof(PaletteRibbonShape),
+        [typeof(PaletteCornerRounding)] = nameof(PaletteCornerRounding)
     };
-    private static string TypeToString(Type t)
+    internal static string TypeToString(Type t)
     {
         if (_typeTests.TryGetValue(t, out var str))
         {
@@ -4045,7 +4508,7 @@ public class KryptonCustomPaletteBase : PaletteBase
 
     private static readonly Dictionary<string, Type> _stringTests = _typeTests.ToDictionary((i) => i.Value, (i) => i.Key);
 
-    private static Type StringToType(string s)
+    internal static Type StringToType(string s)
     {
         if (_stringTests.TryGetValue(s, out var t))
         {

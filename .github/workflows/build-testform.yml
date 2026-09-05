@@ -95,7 +95,7 @@ jobs:
           $projectDir = Join-Path $env:GITHUB_WORKSPACE 'Source\Krypton Components\TestForm'
           $resxFiles = @(
             Join-Path $projectDir 'Properties\Resources.resx'
-            Join-Path $projectDir 'KryptonTaskDialogDemo\KryptonTaskDialogDemoResources.resx'
+            Join-Path $projectDir 'KryptonToolkit\Feature\KryptonTaskDialogDemo\KryptonTaskDialogDemoResources.resx'
           )
 
           $missing = New-Object System.Collections.Generic.List[string]
@@ -224,7 +224,7 @@ jobs:
           $projectDir = Join-Path $env:GITHUB_WORKSPACE 'Source\Krypton Components\TestForm'
           $resxFiles = @(
             Join-Path $projectDir 'Properties\Resources.resx'
-            Join-Path $projectDir 'KryptonTaskDialogDemo\KryptonTaskDialogDemoResources.resx'
+            Join-Path $projectDir 'KryptonToolkit\Feature\KryptonTaskDialogDemo\KryptonTaskDialogDemoResources.resx'
           )
 
           $missing = New-Object System.Collections.Generic.List[string]

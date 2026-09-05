@@ -97,7 +97,8 @@ public partial class LimeGreenButtonThemeDemo : KryptonForm
         _exportPalette = LimeGreenButtonThemeHelper.CreateExportPalette(family);
         using var dialog = new SaveFileDialog
         {
-            Filter = @"Palette files (*.xml)|*.xml",
+            Filter = KryptonPaletteFile.DialogFilter,
+            DefaultExt = KryptonPaletteFile.Extension,
             FileName = LimeGreenButtonThemeHelper.GetExportFileName(family),
             Title = @"Export lime-green palette"
         };
@@ -109,7 +110,7 @@ public partial class LimeGreenButtonThemeDemo : KryptonForm
 
         _exportPalette.Export(dialog.FileName, ignoreDefaults: true, silent: true);
         klblStatus.Values.Text = $@"Exported to {dialog.FileName}";
-        statusLabel.Text = @"Exported palette XML";
+        statusLabel.Text = @"Exported palette";
     }
 
     private void ApplyLimeTheme()
