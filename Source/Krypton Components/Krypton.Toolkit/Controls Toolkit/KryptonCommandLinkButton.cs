@@ -105,6 +105,7 @@ public class KryptonCommandLinkButton : VisualSimpleBase, IButtonControl
         contentShortText.TextV = PaletteRelativeAlign.Center;
         StateCommon.Content.LongText.TextH = PaletteRelativeAlign.Near;
         StateCommon.Content.LongText.TextV = PaletteRelativeAlign.Far;
+        StateCommon.Content.CaptureFactoryDefaults();
 
         StateDisabled = new PaletteTriple(StateCommon, NeedPaintDelegate);
         StateNormal = new PaletteTriple(StateCommon, NeedPaintDelegate);
@@ -115,6 +116,7 @@ public class KryptonCommandLinkButton : VisualSimpleBase, IButtonControl
         OverrideFocus.Border.Draw = InheritBool.True;
         OverrideFocus.Border.DrawBorders = PaletteDrawBorders.All;
         OverrideFocus.Border.GraphicsHint = PaletteGraphicsHint.AntiAlias;
+        OverrideFocus.Border.CaptureFactoryDefaults();
         // Force style update
         ButtonStyle = ButtonStyle.Command;
 

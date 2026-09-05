@@ -107,6 +107,15 @@ public class PaletteContent : Storage,
                                       _longText.IsDefault &&
                                       ((_storage == null) || _storage.IsDefault);
 
+    /// <summary>
+    /// Treats the current values as the unset designer default.
+    /// </summary>
+    public void CaptureFactoryDefaults()
+    {
+        _shortText.CaptureFactoryDefaults();
+        _longText.CaptureFactoryDefaults();
+    }
+
     #endregion
 
     #region SetInherit

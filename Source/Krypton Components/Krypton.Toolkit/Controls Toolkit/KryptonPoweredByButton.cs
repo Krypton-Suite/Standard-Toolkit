@@ -66,9 +66,8 @@ public class KryptonPoweredByButton : KryptonButton
     /// <summary>Initializes a new instance of the <see cref="KryptonPoweredByButton" /> class.</summary>
     public KryptonPoweredByButton()
     {
-        Values.Text = @$"{KryptonManager.Strings.MiscellaneousStrings.PoweredByText} Krypton";
-
-        Values.Image = ButtonImageResources.Krypton_Stable_Button;
+        Values.SetFactoryText($"{KryptonManager.Strings.MiscellaneousStrings.PoweredByText} Krypton");
+        Values.SetFactoryImage(ButtonImageResources.Krypton_Stable_Button);
 
         Size = new Size(153, 25);
     }

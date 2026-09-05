@@ -50,7 +50,7 @@ public partial class KryptonToolkitPoweredByControl : UserControl
 
     /// <summary>Gets or sets the type of the toolkit.</summary>
     /// <value>The type of the toolkit.</value>
-    [DefaultValue(typeof(ToolkitSupportType), @"ToolkitSupportType.Stable"), Description(@"Changes the icon based on the type of toolkit you are using.")]
+    [DefaultValue(ToolkitSupportType.Stable), Description(@"Changes the icon based on the type of toolkit you are using.")]
     public ToolkitSupportType ToolkitSupportType { get => _ToolkitSupportType; set { _ToolkitSupportType = value; SetLogo(value); } }
 
     #endregion

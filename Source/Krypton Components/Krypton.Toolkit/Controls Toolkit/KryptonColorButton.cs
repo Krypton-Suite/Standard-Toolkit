@@ -228,6 +228,7 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
         ViewManager = new ViewManager(this, _drawButton);
 
         CustomColorPreviewShape = KryptonColorButtonCustomColorPreviewShape.None;
+        Values.SetFactoryImage(Values.Image);
 
         // Defaults for dynamic theme color mapping
         _themeColorSortMode = ThemeColorSortMode.OKLCH;
