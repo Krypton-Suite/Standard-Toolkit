@@ -378,6 +378,51 @@ public class KryptonToolTip : Component, IExtenderProvider
     }
 
     /// <summary>
+    /// Shows the current association for <paramref name="control"/> after the usual delay.
+    /// </summary>
+    /// <param name="control">Control that already has a <see cref="SetToolTip(Control, string, string, Image, Color)"/> association.</param>
+    /// <param name="immediate">When <see langword="true"/>, skip the show delay (used when moving between items).</param>
+    /// <remarks>
+    /// Call this when tooltip text changes while the pointer is already over the control,
+    /// for example when hovering successive <see cref="ListViewItem"/> rows.
+    /// </remarks>
+    public void ShowFor(Control? control, bool immediate = false)
+    {
+        if (control == null ||
+            !_associations.TryGetValue(control, out ToolTipAssociation? association) ||
+            !HasAssociationContent(association) ||
+            !ToolTipValues.EnableToolTips)
+        {
+            HideFor(control);
+            return;
+        }
+
+        ScheduleShow(control, Cursor.Position);
+        if (immediate && _showTimer != null)
+        {
+            _showTimer.Interval = 1;
+        }
+    }
+
+    /// <summary>
+    /// Hides the tooltip if it is showing for <paramref name="control"/>.
+    /// </summary>
+    /// <param name="control">Control whose tooltip should be dismissed; ignored when <see langword="null"/>.</param>
+    public void HideFor(Control? control)
+    {
+        if (control == null)
+        {
+            return;
+        }
+
+        if (_hoverControl == null || ReferenceEquals(_hoverControl, control))
+        {
+            CleanupTransientState(false);
+            _hoverControl = null;
+        }
+    }
+
+    /// <summary>
     /// Convenience for a clickable hyperlink inside a themed tooltip.
     /// </summary>
     /// <param name="control">The target control.</param>
@@ -979,7 +1024,7 @@ public class KryptonToolTip : Component, IExtenderProvider
         }
         else
         {
-            _popup.ShowRelativeTo(hc, anchor, CreateEffectivePositionValues(hc));
+            _popup.ShowRelativeTo(hc, anchor, CreateEffectivePositionValues(hc), GetFallbackPlacementRect(hc));
         }
 
         // Interactive tips stay until leave-both or click-away; hover tips still honor CloseIntervalDelay.
@@ -1154,7 +1199,8 @@ public class KryptonToolTip : Component, IExtenderProvider
     private PopupPositionValues CreateEffectivePositionValues(Control control)
     {
         PopupPositionValues authored = ToolTipValues.ToolTipPosition;
-        if (!_placementRectangles.TryGetValue(control, out PlacementRectangleAssociation association))
+        if (!_placementRectangles.TryGetValue(control, out PlacementRectangleAssociation association)
+            || !association.IsScreenCoordinates)
         {
             return authored;
         }
@@ -1162,15 +1208,23 @@ public class KryptonToolTip : Component, IExtenderProvider
         var effective = new PopupPositionValues
         {
             PlacementMode = authored.PlacementMode,
-            PlacementTarget = authored.PlacementTarget
+            PlacementTarget = authored.PlacementTarget,
+            PlacementRectangle = association.Rectangle
         };
 
-        Rectangle screenRect = association.IsScreenCoordinates
-            ? association.Rectangle
-            : control.RectangleToScreen(association.Rectangle);
-        effective.PlacementRectangle = screenRect;
-
         return effective;
+    }
+
+    private Rectangle GetFallbackPlacementRect(Control control)
+    {
+        if (_placementRectangles.TryGetValue(control, out PlacementRectangleAssociation association)
+            && !association.IsScreenCoordinates
+            && !association.Rectangle.IsEmpty)
+        {
+            return association.Rectangle;
+        }
+
+        return control.ClientRectangle;
     }
 
     private void OnGlobalPaletteChanged(object? sender, EventArgs e)
