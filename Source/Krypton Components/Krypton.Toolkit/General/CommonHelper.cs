@@ -563,6 +563,42 @@ public static class CommonHelper
         owningForm == null ? 0 : Math.Max(2, owningForm.RealWindowBorders.Right);
 
     /// <summary>
+    /// HeaderForm content padding with the frame inset on the icon side, plus
+    /// <see cref="KryptonForm.CaptionIconPadding"/>.
+    /// </summary>
+    /// <param name="owningForm">Form whose RTL layout, border metrics, and icon padding are used.</param>
+    /// <param name="palettePadding">Padding from the palette (Left = LTR icon inset, Right = 0).</param>
+    /// <returns>
+    /// Palette padding in LTR, plus <see cref="KryptonForm.CaptionIconPadding"/>. Under RTL layout
+    /// the icon is Near on the physical right, so the frame inset moves to <see cref="Padding.Right"/>
+    /// before the extra padding is applied.
+    /// </returns>
+    public static Padding GetFormHeaderContentPadding(KryptonForm? owningForm, Padding palettePadding)
+    {
+        Padding padding = palettePadding;
+        if (owningForm != null && IsRightToLeftLayout(owningForm))
+        {
+            int frameInset = Math.Max(palettePadding.Left, palettePadding.Right);
+            if (frameInset < 2)
+            {
+                frameInset = Math.Max(2, owningForm.RealWindowBorders.Right);
+            }
+
+            padding = new Padding(palettePadding.Right, palettePadding.Top, frameInset, palettePadding.Bottom);
+        }
+
+        if (owningForm == null)
+        {
+            return padding;
+        }
+
+        Padding extra = owningForm.CaptionIconPadding;
+        return extra.Equals(Padding.Empty)
+            ? padding
+            : new Padding(padding.Left + extra.Left, padding.Top + extra.Top, padding.Right + extra.Right, padding.Bottom + extra.Bottom);
+    }
+
+    /// <summary>
     /// Gets a value indicating if the provided value is an override state but excludes one value.
     /// </summary>
     /// <param name="state">Specific state.</param>

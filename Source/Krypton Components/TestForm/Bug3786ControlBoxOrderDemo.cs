@@ -18,7 +18,7 @@ namespace TestForm;
 /// </para>
 /// <list type="number">
 /// <item><description>Collection order — <c>_buttonSpecsFixed</c> sequence (min/max/close vs traffic-light).</description></item>
-/// <item><description>Edge placement — <see cref="KryptonForm.FormTrafficLightEdge"/> and palette Near/Far, with RTL Far→Near remap.</description></item>
+/// <item><description>Edge placement — <see cref="KryptonForm.FormTrafficLightEdge"/> and palette Near/Far, with RTL Near→Far remap for traffic lights.</description></item>
 /// <item><description>Runtime RTL — <see cref="Control.RightToLeft"/> + <see cref="RightToLeftLayout"/>.</description></item>
 /// </list>
 /// <para>
