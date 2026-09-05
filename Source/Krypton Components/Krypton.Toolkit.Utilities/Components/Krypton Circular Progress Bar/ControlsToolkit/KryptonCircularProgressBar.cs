@@ -608,6 +608,7 @@ public class KryptonCircularProgressBar : KryptonProgressBar
         _subscriptStateDisabled = new PaletteTriple(_subscriptStateCommon, OnCircularNeedPaint);
 
         Text = @"0";
+        Values.SetFactoryText(@"0");
 
         AutoSize = true;
         AutoSizeMode = AutoSizeMode.GrowAndShrink;
