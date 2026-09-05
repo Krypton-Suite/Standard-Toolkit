@@ -70,3 +70,4 @@ Delete any section that does not apply.
 - [ ] `Documents/Development/` guide added (substantial features)
 - [ ] Screenshots/GIFs included (UI changes)
 - [ ] Breaking-change impact and TFM notes documented above
+- [ ] New unit tests have been added
