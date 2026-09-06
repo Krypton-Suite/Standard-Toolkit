@@ -490,6 +490,7 @@
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonCheckSet.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonBorderEdge.bmp" />
 	<Content Include="Krypton.ico" Pack="false" />
+	<EmbeddedResource Include="Resources\KryptonPalette.ico" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonGroupBox.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonWrapLabel.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonSeparator.bmp" />
