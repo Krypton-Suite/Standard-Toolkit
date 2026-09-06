@@ -460,7 +460,7 @@ public static partial class KryptonPaletteFile
             DeleteProgId(@"Krypton.Toolkit.PaletteBinary");
             UnregisterUnreleasedExtension(@"kpal", @"Krypton.Toolkit.PaletteBinary");
             UnregisterUnreleasedExtension(@"kpalx", @"Krypton.Toolkit.PaletteXmlLegacy");
-            SHChangeNotify(ShcneAssocChanged, ShcnfIdList, IntPtr.Zero, IntPtr.Zero);
+            NotifyAssociationsChanged();
             Interlocked.Exchange(ref _shellAssociationsState, 1);
         }
         catch (Exception)
@@ -491,12 +491,7 @@ public static partial class KryptonPaletteFile
     }
 
     private const string ShellIconResourceName = @"Krypton.Toolkit.Resources.KryptonPalette.ico";
-    private const uint ShcneAssocChanged = 0x08000000;
-    private const uint ShcnfIdList = 0x0000;
     private static int _shellAssociationsState;
-
-    [DllImport(@"shell32.dll")]
-    private static extern void SHChangeNotify(uint wEventId, uint uFlags, IntPtr dwItem1, IntPtr dwItem2);
 
     private static string ExtractShellIconFile()
     {
@@ -656,5 +651,36 @@ public static partial class KryptonPaletteFile
         }
 
         Registry.CurrentUser.DeleteSubKeyTree(@"Software\Classes\" + progId, throwOnMissingSubKey: false);
+    }
+
+    /// <summary>
+    /// Tells Explorer that file associations changed, so icons, verbs, and cached handlers refresh
+    /// without restarting <c>explorer.exe</c>. Call once after all registry writes are done.
+    /// </summary>
+    private static void NotifyAssociationsChanged()
+    {
+        // ASSOCCHANGED requires SHCNF_IDLIST with null item pointers.
+        PI.SHChangeNotify((uint)PI.SHCNE_.ASSOCCHANGED, (uint)PI.SHCNF_.IDLIST, IntPtr.Zero, IntPtr.Zero);
+        // Refresh the system image list so existing Explorer windows pick up the new DefaultIcon.
+        PI.SHChangeNotify((uint)PI.SHCNE_.UPDATEIMAGE, (uint)(PI.SHCNF_.FLUSH | PI.SHCNF_.FLUSHNOWAIT), IntPtr.Zero, IntPtr.Zero);
+        NotifyDirectoryChanged(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory));
+    }
+
+    private static void NotifyDirectoryChanged(string path)
+    {
+        if (string.IsNullOrWhiteSpace(path) || !Directory.Exists(path))
+        {
+            return;
+        }
+
+        var buffer = Marshal.StringToHGlobalUni(path);
+        try
+        {
+            PI.SHChangeNotify((uint)PI.SHCNE_.UPDATEDIR, (uint)(PI.SHCNF_.PATH | PI.SHCNF_.FLUSH | PI.SHCNF_.FLUSHNOWAIT), buffer, IntPtr.Zero);
+        }
+        finally
+        {
+            Marshal.FreeHGlobal(buffer);
+        }
     }
 }

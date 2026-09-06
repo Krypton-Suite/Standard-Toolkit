@@ -23,6 +23,7 @@ public class VisualPopup : ContainerControl
     private bool _layoutDirty;
     private bool _refresh;
     private bool _refreshAll;
+    private bool _isRightToLeftLayout;
     private readonly SimpleCall _refreshCall;
     private VisualPopupShadow? _shadow;
     #endregion
@@ -146,6 +147,34 @@ public class VisualPopup : ContainerControl
     #endregion
 
     #region Public
+    /// <summary>
+    /// Gets or sets whether popup layout packs from the reading-order start edge.
+    /// </summary>
+    /// <remarks>
+    /// Same two-flag contract as <see cref="VisualSimpleBase"/>: also requires
+    /// <see cref="Control.RightToLeft"/> equal to <see cref="RightToLeft.Yes"/>.
+    /// Named to match WinForms <see cref="Form"/>; not the <c>RightToLeftLayout</c> enum.
+    /// </remarks>
+    [Category(@"Appearance")]
+    [Localizable(true)]
+    [Description(@"Indicates whether the layout of the popup is from right to left.")]
+    [DefaultValue(false)]
+    [Browsable(true)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public bool RightToLeftLayout
+    {
+        get => _isRightToLeftLayout;
+        set
+        {
+            if (_isRightToLeftLayout != value)
+            {
+                _isRightToLeftLayout = value;
+                PerformNeedPaint(true);
+            }
+        }
+    }
+
     /// <summary>
     /// Show the popup using the provided rectangle as the screen rect.
     /// </summary>

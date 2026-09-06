@@ -305,6 +305,7 @@ $corePrefixes = @(
     'KryptonHeaderGroup.',
     'KryptonSplitContainer.',
     'KryptonTrackBar.',
+    'KryptonRating.',
     'KryptonMonthCalendar.',
     'KryptonDateTimePicker.',
     'KryptonForm.',
@@ -317,7 +318,8 @@ $corePrefixes = @(
     'KryptonHScrollBar.',
     'KryptonVScrollBar.',
     'KryptonThemeComboBox.',
-    'KryptonLinkWrapLabel.'
+    'KryptonLinkWrapLabel.',
+    'KryptonTagInputControl.'
 )
 
 $coreModified = @($modified | Where-Object {
