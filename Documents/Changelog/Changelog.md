@@ -45,6 +45,10 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved/Implemented [#4339](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4339), Add 'Simple' as a dropdown style for `KryptonComboBox`
+  * `KryptonComboBox` now supports `ComboBoxStyle.Simple` (always-visible list with an editable text box, matching WinForms).
+  * Set `DropDownStyle = ComboBoxStyle.Simple` and give the control enough `Height` to show the list. The designer allows vertical resize in this style.
+  * `KryptonDataGridViewComboBoxCell` still rejects Simple; an always-visible list cannot be hosted in a grid cell.
 * Implemented [#2117](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2117), To save & load palettes to/from 'palette' binary
   * To save & load palettes as `.kthemex` XML
   * Custom palette export recognises `PaletteCornerRounding` so per-corner border radii persist in `.kthemex` / XML / `.ktheme`.
