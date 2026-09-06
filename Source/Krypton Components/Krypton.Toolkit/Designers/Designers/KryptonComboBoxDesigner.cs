@@ -73,7 +73,11 @@ internal class KryptonComboBoxDesigner : ControlDesigner
         {
             // Start with all edges being sizeable
             var rules = base.SelectionRules;
-            rules &= ~(SelectionRules.TopSizeable | SelectionRules.BottomSizeable);
+            if (_comboBox?.DropDownStyle != ComboBoxStyle.Simple)
+            {
+                rules &= ~(SelectionRules.TopSizeable | SelectionRules.BottomSizeable);
+            }
+
             return rules;
         }
     }
