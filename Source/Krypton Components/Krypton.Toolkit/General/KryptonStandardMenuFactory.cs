@@ -11,8 +11,9 @@ namespace Krypton.Toolkit;
 
 /// <summary>
 /// Shared File / Edit / Tools / Help menu trees used by
-/// <see cref="KryptonMenuBar.InsertStandardItems"/> and
-/// <see cref="KryptonFormTitleBar.InsertStandardItems"/>.
+/// <see cref="KryptonMenuBar.InsertStandardItems"/>,
+/// <see cref="KryptonFormTitleBar.InsertStandardItems"/>, and the
+/// <see cref="KryptonContextMenu"/> designer "Insert Standard Items" verb.
 /// Text comes from <see cref="KryptonManager.Strings"/>.
 /// </summary>
 public static class KryptonStandardMenuFactory
@@ -129,6 +130,13 @@ public static class KryptonStandardMenuFactory
             CreateTopLevel(fb.Help, CreateHelpItems())
         ];
     }
+
+    /// <summary>
+    /// Creates the standard shortcut-menu items (Undo, Redo, Cut, Copy, Paste, Select All)
+    /// matching WinForms <c>ContextMenuStrip</c> "Insert Standard Items".
+    /// </summary>
+    /// <returns>A group suitable for <see cref="KryptonContextMenu.Items"/>.</returns>
+    public static KryptonContextMenuItems CreateStandardContextMenuItems() => CreateEditItems();
 
     #endregion
 

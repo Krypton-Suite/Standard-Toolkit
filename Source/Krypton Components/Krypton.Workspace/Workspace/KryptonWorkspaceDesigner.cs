@@ -16,7 +16,9 @@ internal class KryptonWorkspaceDesigner : ParentControlDesigner
 {
     #region Instance Fields
     private KryptonWorkspace? _workspace;
+    private IDesignerHost? _designerHost;
     private IComponentChangeService? _changeService;
+    private DesignerVerbCollection? _verbs;
     #endregion
 
     #region Public Overrides
@@ -38,8 +40,7 @@ internal class KryptonWorkspaceDesigner : ParentControlDesigner
 
         // Remember the actual control being designed
         _workspace = component as KryptonWorkspace;
-
-        // Get access to the services
+        _designerHost = GetService(typeof(IDesignerHost)) as IDesignerHost;
         _changeService = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
 
         // We need to know when we are being removed/changed
@@ -79,6 +80,26 @@ internal class KryptonWorkspaceDesigner : ParentControlDesigner
             };
 
             return actionLists;
+        }
+    }
+
+    /// <summary>
+    /// Gets the design-time verbs shown on the control context menu.
+    /// </summary>
+    public override DesignerVerbCollection Verbs
+    {
+        get
+        {
+            if (_verbs == null)
+            {
+                _verbs = new DesignerVerbCollection
+                {
+                    new DesignerVerb(@"Add Cell", OnAddCell),
+                    new DesignerVerb(@"Add Sequence", OnAddSequence)
+                };
+            }
+
+            return _verbs;
         }
     }
 
@@ -161,5 +182,11 @@ internal class KryptonWorkspaceDesigner : ParentControlDesigner
             _workspace.ResumeLayout();
         }
     }
+
+    private void OnAddCell(object? sender, EventArgs e) =>
+        KryptonWorkspaceDesignerActions.AddCell(_workspace, _workspace?.Root.Children, _designerHost, _changeService);
+
+    private void OnAddSequence(object? sender, EventArgs e) =>
+        KryptonWorkspaceDesignerActions.AddSequence(_workspace, _workspace?.Root, _workspace?.Root.Children, _designerHost, _changeService);
     #endregion
 }

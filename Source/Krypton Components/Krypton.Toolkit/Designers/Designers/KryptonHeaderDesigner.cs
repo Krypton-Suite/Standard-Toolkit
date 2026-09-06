@@ -20,6 +20,7 @@ internal class KryptonHeaderDesigner : ControlDesigner
     private IDesignerHost? _designerHost;
     private IComponentChangeService? _changeService;
     private ISelectionService? _selectionService;
+    private DesignerVerbCollection? _verbs;
     #endregion
 
     #region Protected Overrides
@@ -104,6 +105,25 @@ internal class KryptonHeaderDesigner : ControlDesigner
             };
 
             return actionLists;
+        }
+    }
+
+    /// <summary>
+    /// Gets the design-time verbs shown on the control context menu.
+    /// </summary>
+    public override DesignerVerbCollection Verbs
+    {
+        get
+        {
+            if (_verbs == null)
+            {
+                _verbs = new DesignerVerbCollection
+                {
+                    new DesignerVerb(@"Add ButtonSpec", OnAddButtonSpec)
+                };
+            }
+
+            return _verbs;
         }
     }
     #endregion
@@ -214,6 +234,39 @@ internal class KryptonHeaderDesigner : ControlDesigner
                 // Must wrap button spec removal in change notifications
                 _changeService?.OnComponentChanged(_header, null, null, null);
             }
+        }
+    }
+
+    private void OnAddButtonSpec(object? sender, EventArgs e) => AddButtonSpec();
+
+    /// <summary>
+    /// Adds a sited <see cref="ButtonSpecAny"/> to the header.
+    /// </summary>
+    internal void AddButtonSpec()
+    {
+        if (_header == null)
+        {
+            return;
+        }
+
+        DesignerTransaction? transaction = null;
+        try
+        {
+            transaction = _designerHost?.CreateTransaction(@"Add ButtonSpec");
+            var spec = _designerHost != null
+                ? (ButtonSpecAny)_designerHost.CreateComponent(typeof(ButtonSpecAny))
+                : new ButtonSpecAny();
+
+            MemberDescriptor? property = TypeDescriptor.GetProperties(_header)[nameof(KryptonHeader.ButtonSpecs)];
+            _changeService?.OnComponentChanging(_header, property);
+            _header.ButtonSpecs.Add(spec);
+            _changeService?.OnComponentChanged(_header, property, null, null);
+            transaction?.Commit();
+            transaction = null;
+        }
+        finally
+        {
+            transaction?.Cancel();
         }
     }
     #endregion

@@ -32,7 +32,5 @@ internal class KryptonThemeBrowserDesigner : ComponentDesigner
         }
     }
 
-    public override DesignerVerbCollection Verbs { get; }
-
     #endregion
 }
