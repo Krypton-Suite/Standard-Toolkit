@@ -62,19 +62,25 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Update="KryptonToolkit\KryptonTaskDialogDemo\DemoDialogs\KryptonTaskDialogDemoForm.ProgressBar1.cs">
+    <Compile Update="KryptonToolkit\Feature\KryptonTaskDialogDemo\DemoDialogs\KryptonTaskDialogDemoForm.ProgressBar1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="KryptonToolkit\KryptonTaskDialogDemo\DemoDialogs\KryptonTaskDialogDemoFormFreeWheeler1.cs">
+    <Compile Update="KryptonToolkit\Feature\KryptonTaskDialogDemo\DemoDialogs\KryptonTaskDialogDemoFormFreeWheeler1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="KryptonToolkit\KryptonTaskDialogDemo\DemoDialogs\KryptonTaskDialogDemoForm.CommandLinkButtons1.cs">
+    <Compile Update="KryptonToolkit\Feature\KryptonTaskDialogDemo\DemoDialogs\KryptonTaskDialogDemoForm.CommandLinkButtons1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="KryptonToolkit\KryptonTaskDialogDemo\DemoDialogs\KryptonTaskDialogDemoForm.MessageBox2.cs">
+    <Compile Update="KryptonToolkit\Feature\KryptonTaskDialogDemo\DemoDialogs\KryptonTaskDialogDemoForm.MessageBox2.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="KryptonToolkit\KryptonTaskDialogDemo\KryptonTaskDialogDemoResources.Designer.cs">
+    <Compile Update="KryptonToolkit\Feature\KryptonTaskDialogDemo\KryptonTaskDialogDemoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonToolkit\Feature\KryptonTaskDialogDemo\KryptonTaskDialogDemoForm.Designer.cs">
+      <DependentUpon>KryptonTaskDialogDemoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Update="KryptonToolkit\Feature\KryptonTaskDialogDemo\KryptonTaskDialogDemoResources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>KryptonTaskDialogDemoResources.resx</DependentUpon>
@@ -141,9 +147,16 @@
     <EmbeddedResource Update="Bug3381KryptonButtonRoundedTextCenteringDemo.resx">
       <DependentUpon>Bug3381KryptonButtonRoundedTextCenteringDemo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Update="KryptonToolkit\KryptonTaskDialogDemo\KryptonTaskDialogDemoResources.resx">
+    <EmbeddedResource Update="KryptonToolkit\Feature\BorderlessFormDemo.resx">
+      <DependentUpon>BorderlessFormDemo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="KryptonToolkit\Feature\KryptonTaskDialogDemo\KryptonTaskDialogDemoForm.resx">
+      <DependentUpon>KryptonTaskDialogDemoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="KryptonToolkit\Feature\KryptonTaskDialogDemo\KryptonTaskDialogDemoResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>KryptonTaskDialogDemoResources.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>TestForm.KryptonToolkit.Feature.KryptonTaskDialogDemo</CustomToolNamespace>
     </EmbeddedResource>
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -160,7 +173,7 @@
   <ItemGroup>
     <None Include="app.manifest" />
     <None Include="App.config" />
-    <None Include="KryptonToolkit\KryptonTaskDialogDemo\DemoDialogs\KryptonTaskDialogDemoForm.CommandLinkButtons1.cs" />
+    <None Include="KryptonToolkit\Feature\KryptonTaskDialogDemo\DemoDialogs\KryptonTaskDialogDemoForm.CommandLinkButtons1.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -179,10 +192,14 @@
 
   <ItemGroup>
     <Folder Include="KryptonNavigator\Bugs\" />
+    <Folder Include="KryptonNavigator\Feature\" />
     <Folder Include="KryptonRibbon\Bugs\" />
+    <Folder Include="KryptonRibbon\Feature\" />
     <Folder Include="KryptonToolkit\Bugs\" />
     <Folder Include="KryptonUtilities\Bugs\" />
+    <Folder Include="KryptonUtilities\Feature\" />
     <Folder Include="KryptonWorkspace\Bugs\" />
+    <Folder Include="KryptonWorkspace\Feature\" />
   </ItemGroup>
 
 </Project>

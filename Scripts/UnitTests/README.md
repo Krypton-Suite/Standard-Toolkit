@@ -55,6 +55,7 @@ Default output folder: `Bin\Debug\net472`.
 | `UnitTest-UnitTestInfrastructure.ps1` | Shared helpers + CI marker discovery smoke assert | `include` |
 | `UnitTest-ThemeCatalog.ps1` | #4230 catalog: cores, enum/SupportedThemes order, Themes discovery, Materialize chrome, extraOnly Sparkle, Export/Import, sample provider | `include` |
 | `UnitTest-RibbonDetachable.ps1` | #595 Ribbon detach/reattach lifecycle, floating window, drag-to-reattach support | `include` |
+| `UnitTest-RibbonCaptionPalette.ps1` | #3859 / #4061 ribbon caption chrome (icon, RibbonShape) updates on global palette change without a resize | `include` |
 | `UnitTest-DockingDragTargetHeuristics.ps1` | #3858 Escape cancel + solid first-match priority + docking `FindTarget` removal | `include` |
 | `UnitTest-RadialMenu.ps1` | #4172 radial menu API: defaults, Text/Calendar items, bridge, property sync, PreferRadial, show/close | `include` |
 | `UnitTest-NavigatorTaskbarTabGroups.ps1` | #4129 TabGroup taskbar composites + float taskbar opt-in | `include` |
@@ -67,7 +68,9 @@ Default output folder: `Bin\Debug\net472`.
 | `UnitTest-KryptonLogProtect.ps1` | #4270 / #4269 `KryptonLog` redacts `{Password}` before file storage | `include` |
 | `UnitTest-BugReportEmailBody.ps1` | #4271 bug-report email body omits stack traces and SMTP password; `KryptonTextBox` password masking still works | `include` |
 | `UnitTest-CommandLinkArrow.ps1` | #4264 default command-link arrow: helper returns 32x32 image; Windows 7 embedded resource is packaged | `include` |
+| `UnitTest-RibbonOverflowGlyph.ps1` | #4253 QAT overflow chevrons paint at 96/144/192 DPI for Office 2007 and Office 2010 | `include` |
 | `UnitTest-CustomPaletteBasePaletteMode.ps1` | #1870 `KryptonCustomPaletteBase.BasePaletteMode` inherits the builtin colour table; builtin `BasePalette` keeps catalog mode | `include` |
+| `UnitTest-PaletteBinary.ps1` | #2117 custom palette `.kthemex` / `.ktheme` round-trip, `Convert`, `UpgradeXmlToKthemex` / `ConvertFile` (file and `KryptonCustomPaletteBase`), collections, `AddToCollection` / `RemoveFromCollection`, directory collections, and Utilities `FromDirectory` | `include` |
 | `UnitTest-KryptonFormRtl.ps1` | #2103 `KryptonForm` RTL: `ScreenToWindow` stays physical; Close hit-tests on the right in LTR and the left with `RightToLeftLayout`; window region includes both physical left and right chrome | `include` |
 | `UnitTest-ContextMenuSubMenuImage.ps1` | #4252 Light Gray Office 2007/2010/Microsoft 365 `GetContextMenuSubMenuImage` returns an image; all catalog palettes must not throw | `include` |
 | `UnitTest-TreeViewMultiSelect.ps1` | #4326 `KryptonTreeView.MultiSelect` can be set to false independently of `CheckBoxes` | `include` |
@@ -79,9 +82,13 @@ Default output folder: `Bin\Debug\net472`.
 | `Get-NavigatorTabGroupColourShot.ps1` | Tab-group colour screenshot | n/a |
 | `Start-RadialMenuDemoHost.ps1` | Hosts `RadialMenuDemo` (#4172) | n/a |
 | `Invoke-RadialMenuScreenshot.ps1` | Opens radial menu and writes `Documents/PR/4172-radial-menu-native.png` | `exclude` |
+| `Invoke-ComboBoxSimpleStyleScreenshot.ps1` | Hosts `Feature4339ComboBoxSimpleStyleDemo` (#4339) and writes `Documents/PR/4339-combobox-simple-style.png` | `exclude` |
 | `Invoke-TreeViewMultiSelectScreenshot.ps1` | Hosts `Bug4326TreeViewMultiSelectDemo` and writes `Documents/PR/4326-treeview-multiselect-false.png` | `exclude` |
 | `Invoke-SchemeStripTextScreenshot.ps1` | Hosts `SchemeStripTextDemo` (#1100) and writes default/contrast PNGs under `Documents/PR/` | `exclude` |
 | `Invoke-RibbonRtlScreenshot.ps1` | Hosts `RibbonRtlDemo` (#2382) and writes LTR/RTL PNGs under `Documents/PR/` | `exclude` |
+| `Invoke-RibbonCaptionPaletteScreenshot.ps1` | Hosts `Bug4061RibbonCaptionIconThemeDemo` (#3859 / #4061) and writes Office 2007 / Microsoft 365 PNGs under `Documents/PR/` | `exclude` |
+| `Invoke-PaletteBinaryScreenshot.ps1` | Hosts `PaletteBinaryDemo` (#2117) and writes `Documents/PR/2117-bulk-xml-upgrade-demo.png` | `exclude` |
+| `Invoke-PaletteCollectionEditorScreenshot.ps1` | Hosts `KryptonPaletteCollectionEditor` (#2117) and writes `Documents/PR/2117-pack-editor-demo.png` | `exclude` |
 | `Invoke-ListViewStateTrackingScreenshot.ps1` | Hosts `Bug4336ListViewStateTrackingDemo` (#4336) and writes hover PNGs under `Documents/PR/` | `exclude` |
 | `Invoke-KryptonFormRtlScreenshot.ps1` | Hosts `RTLFormBorderTest` (#2103) and writes `Documents/PR/2103-kryptonform-rtl-layout.png` | `exclude` |
 
@@ -132,6 +139,11 @@ dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f 
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-KryptonLogProtect.ps1
 ```
 
+## Typical usage (#4253 ribbon overflow glyph)
+
+```powershell
+dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-RibbonOverflowGlyph.ps1
 ## Typical usage (#4271 bug-report email body)
 
 ```powershell
@@ -147,4 +159,14 @@ powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Inv
 ```
 
 Writes `Documents/PR/1100-scheme-strip-text-*.png` (local PR assets; do not commit).
+
+## Typical usage (#3859 ribbon caption palette)
+
+```powershell
+dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-RibbonCaptionPalette.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-RibbonCaptionPaletteScreenshot.ps1
+```
+
+Writes `Documents/PR/3859-ribbon-caption-palette-*.png` (local PR assets; do not commit).
 

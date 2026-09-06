@@ -114,21 +114,30 @@ public readonly struct PaletteCornerRounding : IEquatable<PaletteCornerRounding>
     public static bool operator !=(PaletteCornerRounding left, PaletteCornerRounding right) => !left.Equals(right);
 
     /// <inheritdoc />
-    public override string ToString()
+    public override string ToString() => ToString(CultureInfo.CurrentCulture);
+
+    /// <summary>
+    /// Returns a culture-specific display string used by the type converter and palette persist.
+    /// </summary>
+    /// <param name="culture">Culture used to format numeric radii.</param>
+    /// <returns>Inherit, a uniform radius, or labelled per-corner overrides.</returns>
+    public string ToString(CultureInfo culture)
     {
+        culture ??= CultureInfo.CurrentCulture;
+
         if (!HasInherit)
         {
             if (IsUniform)
             {
-                return TopLeft.ToString(CultureInfo.CurrentCulture);
+                return TopLeft.ToString(culture);
             }
 
             return string.Join(@", ", new[]
             {
-                FormatCorner(TopLeftLabel, TopLeft),
-                FormatCorner(TopRightLabel, TopRight),
-                FormatCorner(BottomRightLabel, BottomRight),
-                FormatCorner(BottomLeftLabel, BottomLeft)
+                FormatCorner(TopLeftLabel, TopLeft, culture),
+                FormatCorner(TopRightLabel, TopRight, culture),
+                FormatCorner(BottomRightLabel, BottomRight, culture),
+                FormatCorner(BottomLeftLabel, BottomLeft, culture)
             });
         }
 
@@ -141,10 +150,10 @@ public readonly struct PaletteCornerRounding : IEquatable<PaletteCornerRounding>
         }
 
         var parts = new List<string>(4);
-        AddCornerIfOverridden(parts, TopLeftLabel, TopLeft);
-        AddCornerIfOverridden(parts, TopRightLabel, TopRight);
-        AddCornerIfOverridden(parts, BottomRightLabel, BottomRight);
-        AddCornerIfOverridden(parts, BottomLeftLabel, BottomLeft);
+        AddCornerIfOverridden(parts, TopLeftLabel, TopLeft, culture);
+        AddCornerIfOverridden(parts, TopRightLabel, TopRight, culture);
+        AddCornerIfOverridden(parts, BottomRightLabel, BottomRight, culture);
+        AddCornerIfOverridden(parts, BottomLeftLabel, BottomLeft, culture);
         return string.Join(@", ", parts);
     }
 
@@ -175,14 +184,14 @@ public readonly struct PaletteCornerRounding : IEquatable<PaletteCornerRounding>
         }
     }
 
-    private static void AddCornerIfOverridden(List<string> parts, string label, float value)
+    private static void AddCornerIfOverridden(List<string> parts, string label, float value, CultureInfo culture)
     {
         if (value != InheritValue)
         {
-            parts.Add(FormatCorner(label, value));
+            parts.Add(FormatCorner(label, value, culture));
         }
     }
 
-    private static string FormatCorner(string label, float value) =>
-        $"{label} = {value.ToString(CultureInfo.CurrentCulture)}";
+    private static string FormatCorner(string label, float value, CultureInfo culture) =>
+        $"{label} = {value.ToString(culture)}";
 }
