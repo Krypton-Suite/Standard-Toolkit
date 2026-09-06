@@ -48,6 +48,7 @@ internal class VisualPopupMinimized : VisualPopup
         // Remember incoming references
         _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
         _captionArea = captionArea ?? ThrowHelper.ThrowArgumentNullException(captionArea);
+        RibbonRtlLayout.ApplyTo(this, _ribbon);
     }
 
     /// <summary>

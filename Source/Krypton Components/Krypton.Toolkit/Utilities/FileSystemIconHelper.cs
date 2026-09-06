@@ -34,6 +34,15 @@ internal static class FileSystemIconHelper
 
         try
         {
+            if (KryptonPaletteFile.IsPaletteExtension(path))
+            {
+                var themeIcon = KryptonPaletteFile.CreateThemeFileIcon(path, largeIcon);
+                if (themeIcon != null)
+                {
+                    return themeIcon;
+                }
+            }
+
             var shfi = new PI.SHFILEINFO();
             uint flags = (uint)(PI.SHGFI_.ICON | (largeIcon ? PI.SHGFI_.LARGEICON : PI.SHGFI_.SMALLICON));
 
@@ -103,6 +112,15 @@ internal static class FileSystemIconHelper
         if (!extension.StartsWith(".", StringComparison.Ordinal))
         {
             extension = "." + extension;
+        }
+
+        if (KryptonPaletteFile.IsPaletteExtension(extension))
+        {
+            var themeIcon = KryptonPaletteFile.CreateThemeFileIcon(null, largeIcon);
+            if (themeIcon != null)
+            {
+                return themeIcon;
+            }
         }
 
         // Create a temporary file path with the extension

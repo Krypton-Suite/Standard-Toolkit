@@ -112,8 +112,9 @@ public partial class Issue1551ThemeDemo : KryptonForm
         custom.SetPaletteName(ThemeManager.ReturnPaletteModeAsString(mode));
         using var dialog = new SaveFileDialog
         {
-            Filter = @"Palette files (*.xml)|*.xml",
-            FileName = mode + @".xml",
+            Filter = KryptonPaletteFile.DialogFilter,
+            DefaultExt = KryptonPaletteFile.Extension,
+            FileName = mode + @"." + KryptonPaletteFile.Extension,
             Title = @"Export #1551 palette"
         };
 

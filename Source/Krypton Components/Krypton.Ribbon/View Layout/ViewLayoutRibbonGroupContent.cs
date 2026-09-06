@@ -630,7 +630,8 @@ internal class ViewLayoutRibbonGroupContent : ViewComposite,
         // We take on all the available display area and then remove our constant padding
         ClientRectangle = CommonHelper.ApplyPadding(Orientation.Horizontal, context!.DisplayRectangle, _padding);
 
-        var x = ClientLocation.X;
+        var isRtl = RibbonRtlLayout.IsRtl(_ribbon);
+        var x = RibbonRtlLayout.StartX(ClientRectangle, isRtl);
 
         // Are there any children to layout?
         if (Count > 0)
@@ -638,7 +639,7 @@ internal class ViewLayoutRibbonGroupContent : ViewComposite,
             var y = ClientLocation.Y;
             var height = ClientHeight;
 
-            // Position each item from left to right taking up entire height
+            // Position each item along the reading direction taking up entire height
             for (int i = 0, j = 0; i < Count; i++)
             {
                 ViewBase? child = this[i];
@@ -661,13 +662,10 @@ internal class ViewLayoutRibbonGroupContent : ViewComposite,
                     if (childSize.Width > 0)
                     {
                         // Define display rectangle for the group
-                        context.DisplayRectangle = new Rectangle(x, y, childSize.Width, height);
+                        context.DisplayRectangle = RibbonRtlLayout.NextItem(ref x, y, childSize.Width, height, isRtl, 1);
 
                         // Position the element
                         this[i]!.Layout(context);
-
-                        // Move across to next position (add 1 extra as the spacing gap)
-                        x += childSize.Width + 1;
                     }
                 }
             }
