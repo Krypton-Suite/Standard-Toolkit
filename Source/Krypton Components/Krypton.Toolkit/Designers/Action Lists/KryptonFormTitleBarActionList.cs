@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -48,6 +48,10 @@ internal class KryptonFormTitleBarActionList : DesignerActionList
             actions.Add(new DesignerActionHeaderItem(@"Visuals"));
             actions.Add(new DesignerActionPropertyItem(nameof(ButtonSpecs), @"Button Specs", @"Visuals",
                 @"Collection of button specifications displayed in the title bar."));
+            actions.Add(new DesignerActionPropertyItem(nameof(MenuStrip), @"MenuStrip", @"Data",
+                @"Optional MenuStrip whose items are shown in the form caption."));
+            actions.Add(new DesignerActionPropertyItem(nameof(HideSourceMenuStrip), @"Hide Source MenuStrip", @"Behavior",
+                @"Hide the source MenuStrip when it is shown in the title bar."));
         }
 
         return actions;
@@ -59,6 +63,36 @@ internal class KryptonFormTitleBarActionList : DesignerActionList
 
     /// <summary>Gets the button-spec collection.</summary>
     public KryptonFormTitleBar.FormTitleBarButtonSpecCollection ButtonSpecs => _titleBar.ButtonSpecs;
+
+    /// <summary>Gets or sets the optional source <see cref="MenuStrip"/>.</summary>
+    public MenuStrip? MenuStrip
+    {
+        get => _titleBar.MenuStrip;
+        set
+        {
+            if (!ReferenceEquals(_titleBar.MenuStrip, value))
+            {
+                _service?.OnComponentChanging(_titleBar, null);
+                _titleBar.MenuStrip = value;
+                _service?.OnComponentChanged(_titleBar, null, null, null);
+            }
+        }
+    }
+
+    /// <summary>Gets or sets whether the source strip is hidden when bound.</summary>
+    public bool HideSourceMenuStrip
+    {
+        get => _titleBar.HideSourceMenuStrip;
+        set
+        {
+            if (_titleBar.HideSourceMenuStrip != value)
+            {
+                _service?.OnComponentChanging(_titleBar, null);
+                _titleBar.HideSourceMenuStrip = value;
+                _service?.OnComponentChanged(_titleBar, null, null, null);
+            }
+        }
+    }
 
     private void OnInsertStandardItems(object? sender, EventArgs e) =>
         KryptonFormTitleBarDesigner.InsertStandardItems(

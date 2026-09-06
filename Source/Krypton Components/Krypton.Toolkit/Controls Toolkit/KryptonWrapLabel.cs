@@ -649,7 +649,11 @@ public class KryptonWrapLabel : Label
     /// Update the view elements based on the requested label style.
     /// </summary>
     /// <param name="style">New label style.</param>
-    private void SetLabelStyle(LabelStyle style) => _labelContentStyle = CommonHelper.ContentStyleFromLabelStyle(style);
+    private void SetLabelStyle(LabelStyle style)
+    {
+        _labelStyle = style;
+        _labelContentStyle = CommonHelper.ContentStyleFromLabelStyle(style);
+    }
 
     /// <summary>
     /// Update global event attachments.

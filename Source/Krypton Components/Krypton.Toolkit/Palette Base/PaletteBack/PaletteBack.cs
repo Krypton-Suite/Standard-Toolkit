@@ -68,6 +68,9 @@ public class PaletteBack : Storage,
     #region Instance Fields
     private IPaletteBack? _inherit;
     private InternalStorage? _storage;
+    private Color _factoryColor1 = SharedStaticVariables.EMPTY_COLOR;
+    private Color _factoryColor2 = SharedStaticVariables.EMPTY_COLOR;
+    private PaletteColorStyle _factoryColorStyle = PaletteColorStyle.Inherit;
     #endregion
 
     #region Events
@@ -102,7 +105,56 @@ public class PaletteBack : Storage,
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => (_storage == null) || _storage.IsDefault;
+    public override bool IsDefault
+    {
+        get
+        {
+            if (_storage == null)
+            {
+                return (_factoryColor1 == SharedStaticVariables.EMPTY_COLOR)
+                       && (_factoryColor2 == SharedStaticVariables.EMPTY_COLOR)
+                       && (_factoryColorStyle == PaletteColorStyle.Inherit);
+            }
+
+            return (_storage.BackDraw == InheritBool.Inherit)
+                   && (_storage.BackGraphicsHint == PaletteGraphicsHint.Inherit)
+                   && (_storage.BackColor1 == _factoryColor1)
+                   && (_storage.BackColor2 == _factoryColor2)
+                   && (_storage.BackColorStyle == _factoryColorStyle)
+                   && (_storage.BackColorAlign == PaletteRectangleAlign.Inherit)
+                   && (_storage.BackColorAngle == -1)
+                   && (_storage.BackImage == null)
+                   && (_storage.BackImageStyle == PaletteImageStyle.Inherit)
+                   && (_storage.BackImageAlign == PaletteRectangleAlign.Inherit);
+        }
+    }
+
+    /// <summary>
+    /// Treats <paramref name="color"/> as the unset designer default for <see cref="Color1"/>.
+    /// </summary>
+    internal void SetFactoryColor1(Color color)
+    {
+        _factoryColor1 = color;
+        Color1 = color;
+    }
+
+    /// <summary>
+    /// Treats <paramref name="color"/> as the unset designer default for <see cref="Color2"/>.
+    /// </summary>
+    internal void SetFactoryColor2(Color color)
+    {
+        _factoryColor2 = color;
+        Color2 = color;
+    }
+
+    /// <summary>
+    /// Treats <paramref name="style"/> as the unset designer default for <see cref="ColorStyle"/>.
+    /// </summary>
+    internal void SetFactoryColorStyle(PaletteColorStyle style)
+    {
+        _factoryColorStyle = style;
+        ColorStyle = style;
+    }
 
     #endregion
 
@@ -272,6 +324,9 @@ public class PaletteBack : Storage,
         }
     }
 
+    private bool ShouldSerializeColor1() => Color1 != _factoryColor1;
+    private void ResetColor1() => Color1 = _factoryColor1;
+
     /// <summary>
     /// Gets the first background color.
     /// </summary>
@@ -319,6 +374,9 @@ public class PaletteBack : Storage,
         }
     }
 
+    private bool ShouldSerializeColor2() => Color2 != _factoryColor2;
+    private void ResetColor2() => Color2 = _factoryColor2;
+
     /// <summary>
     /// Gets the second back color.
     /// </summary>
@@ -365,6 +423,9 @@ public class PaletteBack : Storage,
             }
         }
     }
+
+    private bool ShouldSerializeColorStyle() => ColorStyle != _factoryColorStyle;
+    private void ResetColorStyle() => ColorStyle = _factoryColorStyle;
 
     /// <summary>
     /// Gets the color drawing style.

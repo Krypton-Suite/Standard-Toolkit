@@ -81,6 +81,12 @@ public class PaletteContentText : Storage
 
     #region Instance Fields
     private InternalStorage? _storage;
+    private Font? _factoryFont;
+    private PaletteRelativeAlign _factoryTextH = PaletteRelativeAlign.Inherit;
+    private PaletteRelativeAlign _factoryTextV = PaletteRelativeAlign.Inherit;
+    private PaletteRelativeAlign _factoryMultiLineH = PaletteRelativeAlign.Inherit;
+    private InheritBool _factoryMultiLine = InheritBool.Inherit;
+    private PaletteTextTrim _factoryTrim = PaletteTextTrim.Inherit;
     #endregion
 
     #region Events
@@ -109,7 +115,92 @@ public class PaletteContentText : Storage
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => (_storage == null) || _storage.IsDefault;
+    public override bool IsDefault
+    {
+        get
+        {
+            if (_storage == null)
+            {
+                return (_factoryFont == null)
+                       && (_factoryTextH == PaletteRelativeAlign.Inherit)
+                       && (_factoryTextV == PaletteRelativeAlign.Inherit)
+                       && (_factoryMultiLineH == PaletteRelativeAlign.Inherit)
+                       && (_factoryMultiLine == InheritBool.Inherit)
+                       && (_factoryTrim == PaletteTextTrim.Inherit);
+            }
+
+            return (_storage.ContentTextFont == _factoryFont)
+                   && (_storage.ContentTextHint == PaletteTextHint.Inherit)
+                   && (_storage.ContentTextTrim == _factoryTrim)
+                   && (_storage.ContentTextPrefix == PaletteTextHotkeyPrefix.Inherit)
+                   && (_storage.ContentTextH == _factoryTextH)
+                   && (_storage.ContentTextV == _factoryTextV)
+                   && (_storage.ContentTextMultiLineH == _factoryMultiLineH)
+                   && (_storage.ContentTextMultiLine == _factoryMultiLine)
+                   && (_storage.ContentTextColor1 == SharedStaticVariables.EMPTY_COLOR)
+                   && (_storage.ContentTextColor2 == SharedStaticVariables.EMPTY_COLOR)
+                   && (_storage.ContentTextColorStyle == PaletteColorStyle.Inherit)
+                   && (_storage.ContentTextColorAlign == PaletteRectangleAlign.Inherit)
+                   && (_storage.ContentTextColorAngle == -1)
+                   && (_storage.ContentTextImage == null)
+                   && (_storage.ContentTextImageStyle == PaletteImageStyle.Inherit)
+                   && (_storage.ContentTextImageAlign == PaletteRectangleAlign.Inherit);
+        }
+    }
+
+    /// <summary>
+    /// Treats <paramref name="font"/> as the unset designer default for <see cref="Font"/>.
+    /// </summary>
+    internal void SetDefaultFont(Font? font)
+    {
+        _factoryFont = font;
+        Font = font;
+    }
+
+    /// <summary>
+    /// Treats <paramref name="value"/> as the unset designer default for <see cref="TextH"/>.
+    /// </summary>
+    internal void SetDefaultTextH(PaletteRelativeAlign value)
+    {
+        _factoryTextH = value;
+        TextH = value;
+    }
+
+    /// <summary>
+    /// Treats <paramref name="value"/> as the unset designer default for <see cref="TextV"/>.
+    /// </summary>
+    internal void SetDefaultTextV(PaletteRelativeAlign value)
+    {
+        _factoryTextV = value;
+        TextV = value;
+    }
+
+    /// <summary>
+    /// Treats <paramref name="value"/> as the unset designer default for <see cref="MultiLineH"/>.
+    /// </summary>
+    internal void SetDefaultMultiLineH(PaletteRelativeAlign value)
+    {
+        _factoryMultiLineH = value;
+        MultiLineH = value;
+    }
+
+    /// <summary>
+    /// Treats <paramref name="value"/> as the unset designer default for <see cref="MultiLine"/>.
+    /// </summary>
+    internal void SetDefaultMultiLine(InheritBool value)
+    {
+        _factoryMultiLine = value;
+        MultiLine = value;
+    }
+
+    /// <summary>
+    /// Treats <paramref name="value"/> as the unset designer default for <see cref="Trim"/>.
+    /// </summary>
+    internal void SetDefaultTrim(PaletteTextTrim value)
+    {
+        _factoryTrim = value;
+        Trim = value;
+    }
 
     #endregion
 
@@ -151,6 +242,10 @@ public class PaletteContentText : Storage
             }
         }
     }
+
+    private bool ShouldSerializeFont() => Font != _factoryFont;
+    private void ResetFont() => Font = _factoryFont;
+
     #endregion
 
     #region Hint
@@ -231,6 +326,10 @@ public class PaletteContentText : Storage
             }
         }
     }
+
+    private bool ShouldSerializeTrim() => Trim != _factoryTrim;
+    private void ResetTrim() => Trim = _factoryTrim;
+
     #endregion
 
     #region Prefix
@@ -311,6 +410,10 @@ public class PaletteContentText : Storage
             }
         }
     }
+
+    private bool ShouldSerializeTextH() => TextH != _factoryTextH;
+    private void ResetTextH() => TextH = _factoryTextH;
+
     #endregion
 
     #region TextV
@@ -351,6 +454,10 @@ public class PaletteContentText : Storage
             }
         }
     }
+
+    private bool ShouldSerializeTextV() => TextV != _factoryTextV;
+    private void ResetTextV() => TextV = _factoryTextV;
+
     #endregion
 
     #region MultiLineH
@@ -391,6 +498,10 @@ public class PaletteContentText : Storage
             }
         }
     }
+
+    private bool ShouldSerializeMultiLineH() => MultiLineH != _factoryMultiLineH;
+    private void ResetMultiLineH() => MultiLineH = _factoryMultiLineH;
+
     #endregion
 
     #region MultiLine
@@ -431,6 +542,10 @@ public class PaletteContentText : Storage
             }
         }
     }
+
+    private bool ShouldSerializeMultiLine() => MultiLine != _factoryMultiLine;
+    private void ResetMultiLine() => MultiLine = _factoryMultiLine;
+
     #endregion
 
     #region Color1

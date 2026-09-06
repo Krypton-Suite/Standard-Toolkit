@@ -41,8 +41,7 @@ public class PaletteContent : Storage,
         /// </summary>
         public bool IsDefault => (ContentDraw == InheritBool.Inherit) &&
                                  (ContentDrawFocus == InheritBool.Inherit) &&
-                                 ContentPadding.Equals(CommonHelper.InheritPadding) &&
-                                 (ContentAdjacentGap == -1);
+                                 ContentPadding.Equals(CommonHelper.InheritPadding);
     }
     #endregion
 
@@ -52,6 +51,7 @@ public class PaletteContent : Storage,
     private readonly PaletteContentText _shortText;
     private readonly PaletteContentText _longText;
     private IPaletteContent _inherit;
+    private int _factoryAdjacentGap = -1;
     #endregion
 
     #region Events
@@ -105,7 +105,17 @@ public class PaletteContent : Storage,
     public override bool IsDefault => _image.IsDefault &&
                                       _shortText.IsDefault &&
                                       _longText.IsDefault &&
+                                      (AdjacentGap == _factoryAdjacentGap) &&
                                       ((_storage == null) || _storage.IsDefault);
+
+    /// <summary>
+    /// Treats <paramref name="value"/> as the unset designer default for <see cref="AdjacentGap"/>.
+    /// </summary>
+    internal void SetDefaultAdjacentGap(int value)
+    {
+        _factoryAdjacentGap = value;
+        AdjacentGap = value;
+    }
 
     #endregion
 
@@ -781,10 +791,12 @@ public class PaletteContent : Storage,
         }
     }
 
+    private bool ShouldSerializeAdjacentGap() => AdjacentGap != _factoryAdjacentGap;
+
     /// <summary>
     /// Reset the AdjacentGap to the default value.
     /// </summary>
-    public void ResetAdjacentGap() => AdjacentGap = -1;
+    public void ResetAdjacentGap() => AdjacentGap = _factoryAdjacentGap;
 
     /// <summary>
     /// Gets the actual padding between adjacent content items.

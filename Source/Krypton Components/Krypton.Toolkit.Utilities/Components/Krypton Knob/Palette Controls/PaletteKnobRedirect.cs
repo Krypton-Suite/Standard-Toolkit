@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -76,7 +76,6 @@ public class PaletteKnobRedirect : Storage
     /// <param name="state">Palette state to use when populating.</param>
     public void PopulateFromBase(PaletteState state)
     {
-        _backRedirect.PopulateFromBase(state);
         Face.PopulateFromBase(state);
         Tick.PopulateFromBase(state);
         Indicator.PopulateFromBase(state);

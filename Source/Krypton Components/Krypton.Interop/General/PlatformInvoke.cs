@@ -2802,6 +2802,23 @@ No 	                    No 	                    Show text only
             PALETTEWINDOW = WINDOWEDGE + TOOLWINDOW + TOPMOST;
     }
 
+    /// <summary>
+    /// GDI device-context layout flags for <see cref="GetLayout"/> / <see cref="SetLayout"/>.
+    /// </summary>
+    internal struct LAYOUT_
+    {
+        public const uint
+            RTL = 0x00000001,
+            BTT = 0x00000002,
+            VBH = 0x00000004,
+            BITMAPORIENTATIONPRESERVED = 0x00000008;
+    }
+
+    /// <summary>
+    /// Win32 <c>GDI_ERROR</c> return from GDI functions such as <see cref="GetLayout"/>.
+    /// </summary>
+    internal const uint GDI_ERROR = 0xFFFFFFFF;
+
     internal enum MF_ : uint
     {
         INSERT = 0x00000000,
@@ -4563,6 +4580,24 @@ No 	                    No 	                    Show text only
     [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto)]
     internal static extern int BitBlt(IntPtr hDestDC, int x, int y, int nWidth, int nHeight, IntPtr hSrcDC, int xSrc,
         int ySrc, int dwRop);
+    #endif
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32)]
+    internal static partial uint GetLayout(IntPtr hdc);
+    #else
+
+    [DllImport(Libraries.Gdi32)]
+    internal static extern uint GetLayout(IntPtr hdc);
+    #endif
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32)]
+    internal static partial uint SetLayout(IntPtr hdc, uint dwLayout);
+    #else
+
+    [DllImport(Libraries.Gdi32)]
+    internal static extern uint SetLayout(IntPtr hdc, uint dwLayout);
     #endif
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     #if NET8_0_OR_GREATER

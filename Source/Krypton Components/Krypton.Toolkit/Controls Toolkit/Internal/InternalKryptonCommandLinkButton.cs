@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -99,11 +99,11 @@ public class InternalKryptonCommandLinkButton : VisualSimpleBase, IButtonControl
         // Create the palette storage
         StateCommon = new PaletteTripleRedirect(Redirector, PaletteBackStyle.ButtonCommand, PaletteBorderStyle.ButtonCommand, PaletteContentStyle.ButtonCommand, NeedPaintDelegate);
         PaletteContentText contentShortText = StateCommon.Content.ShortText;
-        contentShortText.Font = KryptonManager.CurrentGlobalPalette.BaseFont; //new Font(@"Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-        contentShortText.TextH = PaletteRelativeAlign.Near;
-        contentShortText.TextV = PaletteRelativeAlign.Center;
-        StateCommon.Content.LongText.TextH = PaletteRelativeAlign.Near;
-        StateCommon.Content.LongText.TextV = PaletteRelativeAlign.Far;
+        contentShortText.SetDefaultFont(KryptonManager.CurrentGlobalPalette.BaseFont);
+        contentShortText.SetDefaultTextH(PaletteRelativeAlign.Near);
+        contentShortText.SetDefaultTextV(PaletteRelativeAlign.Center);
+        StateCommon.Content.LongText.SetDefaultTextH(PaletteRelativeAlign.Near);
+        StateCommon.Content.LongText.SetDefaultTextV(PaletteRelativeAlign.Far);
 
         StateDisabled = new PaletteTriple(StateCommon, NeedPaintDelegate);
         StateNormal = new PaletteTriple(StateCommon, NeedPaintDelegate);
@@ -111,9 +111,9 @@ public class InternalKryptonCommandLinkButton : VisualSimpleBase, IButtonControl
         StatePressed = new PaletteTriple(StateCommon, NeedPaintDelegate);
         OverrideDefault = new PaletteTripleRedirect(Redirector, PaletteBackStyle.ButtonCommand, PaletteBorderStyle.ButtonCommand, PaletteContentStyle.ButtonCommand, NeedPaintDelegate);
         OverrideFocus = new PaletteTripleRedirect(Redirector, PaletteBackStyle.ButtonCommand, PaletteBorderStyle.ButtonCommand, PaletteContentStyle.ButtonCommand, NeedPaintDelegate);
-        OverrideFocus.Border.Draw = InheritBool.True;
-        OverrideFocus.Border.DrawBorders = PaletteDrawBorders.All;
-        OverrideFocus.Border.GraphicsHint = PaletteGraphicsHint.AntiAlias;
+        OverrideFocus.Border.SetFactoryDraw(InheritBool.True);
+        OverrideFocus.Border.SetFactoryDrawBorders(PaletteDrawBorders.All);
+        OverrideFocus.Border.SetFactoryGraphicsHint(PaletteGraphicsHint.AntiAlias);
         // Force style update
         ButtonStyle = ButtonStyle.Command;
 

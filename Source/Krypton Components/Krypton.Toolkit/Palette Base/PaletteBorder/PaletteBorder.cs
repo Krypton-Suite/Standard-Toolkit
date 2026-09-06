@@ -89,6 +89,10 @@ public class PaletteBorder : Storage,
     #region Instance Fields
     private IPaletteBorder _inherit;
     private InternalStorage? _storage;
+    private InheritBool _factoryDraw = InheritBool.Inherit;
+    private PaletteDrawBorders _factoryDrawBorders = PaletteDrawBorders.Inherit;
+    private PaletteGraphicsHint _factoryGraphicsHint = PaletteGraphicsHint.Inherit;
+    private Color _factoryColor1 = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region Events
@@ -125,7 +129,73 @@ public class PaletteBorder : Storage,
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => (_storage == null) || _storage.IsDefault;
+    public override bool IsDefault
+    {
+        get
+        {
+            if (_storage == null)
+            {
+                return (_factoryDraw == InheritBool.Inherit)
+                       && (_factoryDrawBorders == PaletteDrawBorders.Inherit)
+                       && (_factoryGraphicsHint == PaletteGraphicsHint.Inherit)
+                       && (_factoryColor1 == SharedStaticVariables.EMPTY_COLOR);
+            }
+
+            return (_storage.BorderDraw == _factoryDraw)
+                   && (_storage.BorderDrawBorders == _factoryDrawBorders)
+                   && (_storage.BorderGraphicsHint == _factoryGraphicsHint)
+                   && (_storage.BorderColor1 == _factoryColor1)
+                   && (_storage.BorderColor2 == SharedStaticVariables.EMPTY_COLOR)
+                   && (_storage.BorderColorStyle == PaletteColorStyle.Inherit)
+                   && (_storage.BorderColorAlign == PaletteRectangleAlign.Inherit)
+                   && (_storage.BorderColorAngle == -1)
+                   && (_storage.BorderWidth == -1)
+                   && (_storage.BorderRounding == -1)
+                   && (_storage.BorderRoundingTopLeft == PaletteCornerRounding.InheritValue)
+                   && (_storage.BorderRoundingTopRight == PaletteCornerRounding.InheritValue)
+                   && (_storage.BorderRoundingBottomRight == PaletteCornerRounding.InheritValue)
+                   && (_storage.BorderRoundingBottomLeft == PaletteCornerRounding.InheritValue)
+                   && (_storage.BorderImage == null)
+                   && (_storage.BorderImageStyle == PaletteImageStyle.Inherit)
+                   && (_storage.BorderImageAlign == PaletteRectangleAlign.Inherit);
+        }
+    }
+
+    /// <summary>
+    /// Treats <paramref name="value"/> as the unset designer default for <see cref="Draw"/>.
+    /// </summary>
+    internal void SetFactoryDraw(InheritBool value)
+    {
+        _factoryDraw = value;
+        Draw = value;
+    }
+
+    /// <summary>
+    /// Treats <paramref name="value"/> as the unset designer default for <see cref="DrawBorders"/>.
+    /// </summary>
+    internal void SetFactoryDrawBorders(PaletteDrawBorders value)
+    {
+        _factoryDrawBorders = value;
+        DrawBorders = value;
+    }
+
+    /// <summary>
+    /// Treats <paramref name="value"/> as the unset designer default for <see cref="GraphicsHint"/>.
+    /// </summary>
+    internal void SetFactoryGraphicsHint(PaletteGraphicsHint value)
+    {
+        _factoryGraphicsHint = value;
+        GraphicsHint = value;
+    }
+
+    /// <summary>
+    /// Treats <paramref name="color"/> as the unset designer default for <see cref="Color1"/>.
+    /// </summary>
+    internal void SetFactoryColor1(Color color)
+    {
+        _factoryColor1 = color;
+        Color1 = color;
+    }
 
     #endregion
 
@@ -200,6 +270,9 @@ public class PaletteBorder : Storage,
         }
     }
 
+    private bool ShouldSerializeDraw() => Draw != _factoryDraw;
+    private void ResetDraw() => Draw = _factoryDraw;
+
     /// <summary>
     /// Gets the actual border draw value.
     /// </summary>
@@ -248,7 +321,8 @@ public class PaletteBorder : Storage,
         }
     }
 
-    private bool ShouldSerializeDrawBorders() => DrawBorders != PaletteDrawBorders.Inherit;
+    private bool ShouldSerializeDrawBorders() => DrawBorders != _factoryDrawBorders;
+    private void ResetDrawBorders() => DrawBorders = _factoryDrawBorders;
 
     /// <summary>
     /// Gets the actual borders to draw value.
@@ -304,6 +378,9 @@ public class PaletteBorder : Storage,
             }
         }
     }
+
+    private bool ShouldSerializeGraphicsHint() => GraphicsHint != _factoryGraphicsHint;
+    private void ResetGraphicsHint() => GraphicsHint = _factoryGraphicsHint;
 
     /// <summary>
     /// Gets the actual border graphics hint value.
@@ -362,6 +439,9 @@ public class PaletteBorder : Storage,
             }
         }
     }
+
+    private bool ShouldSerializeColor1() => Color1 != _factoryColor1;
+    private void ResetColor1() => Color1 = _factoryColor1;
 
     /// <summary>
     /// Gets the actual first border color.

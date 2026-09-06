@@ -174,6 +174,7 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
     [EditorBrowsable(EditorBrowsableState.Always)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     [RefreshProperties(RefreshProperties.All)]
+    [DefaultValue(false)]
     public override bool AutoSize
     {
         get => base.AutoSize;

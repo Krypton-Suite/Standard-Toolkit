@@ -40,7 +40,6 @@ public class KryptonForm : VisualForm,
 
 		public override PaletteRelativeAlign GetContentShortTextH(PaletteContentStyle style, PaletteState state)
 		{
-			// Handle header styles
 			if (style is PaletteContentStyle.HeaderForm
 				or PaletteContentStyle.HeaderPrimary
 				or PaletteContentStyle.HeaderDockInactive
@@ -50,15 +49,8 @@ public class KryptonForm : VisualForm,
 				or PaletteContentStyle.HeaderCustom2
 				or PaletteContentStyle.HeaderCustom3)
 			{
-				// RTL caption reading order (physical left → right):
-				// [Control box] [TextExtra] [Title] [Icon]
-				// Title is Far so it sits on the physical right, immediately before the icon.
-				if (_kryptonForm.RightToLeft == RightToLeft.Yes && _kryptonForm.RightToLeftLayout)
-				{
-					return PaletteRelativeAlign.Far;
-				}
-
-				// Use custom title align if set, otherwise use base
+				// Palette Near/Far is logical. RenderStandard.RightToLeftIndex maps them to
+				// physical cells, so do not invert here (that put the icon on the leading edge).
 				return _kryptonForm._formTitleAlign != PaletteRelativeAlign.Inherit
 					? _kryptonForm._formTitleAlign
 					: base.GetContentShortTextH(style, state);
@@ -67,48 +59,27 @@ public class KryptonForm : VisualForm,
 			return base.GetContentShortTextH(style, state);
 		}
 
-		public override PaletteRelativeAlign GetContentLongTextH(PaletteContentStyle style, PaletteState state)
+		/// <inheritdoc/>
+		public override Padding GetBorderContentPadding(KryptonForm? owningForm, PaletteContentStyle style, PaletteState state)
 		{
-			// Handle header styles
-			if (style is PaletteContentStyle.HeaderForm
-				or PaletteContentStyle.HeaderPrimary
-				or PaletteContentStyle.HeaderDockInactive
-				or PaletteContentStyle.HeaderDockActive
-				or PaletteContentStyle.HeaderSecondary
-				or PaletteContentStyle.HeaderCustom1
-				or PaletteContentStyle.HeaderCustom2
-				or PaletteContentStyle.HeaderCustom3)
-			{
-				// TextExtra uses Near so it follows the control box on the physical left in RTL.
-				if (_kryptonForm.RightToLeft == RightToLeft.Yes && _kryptonForm.RightToLeftLayout)
-				{
-					return PaletteRelativeAlign.Near;
-				}
-			}
-
-			return base.GetContentLongTextH(style, state);
+			Padding padding = base.GetBorderContentPadding(owningForm, style, state);
+			return style == PaletteContentStyle.HeaderForm
+				? CommonHelper.GetFormHeaderContentPadding(_kryptonForm, padding)
+				: padding;
 		}
 
-		public override PaletteRelativeAlign GetContentImageH(PaletteContentStyle style, PaletteState state)
+		/// <inheritdoc/>
+		public override int GetContentAdjacentGap(PaletteContentStyle style, PaletteState state)
 		{
-			// Icon uses Far in RTL so it anchors on the physical right of the caption.
-			if (_kryptonForm.RightToLeft == RightToLeft.Yes && _kryptonForm.RightToLeftLayout)
+			int gap = base.GetContentAdjacentGap(style, state);
+			if (style != PaletteContentStyle.HeaderForm
+				|| !_kryptonForm.UsesRtlFormButtonLayout()
+				|| gap < 0)
 			{
-				return style switch
-				{
-					PaletteContentStyle.HeaderForm
-						or PaletteContentStyle.HeaderPrimary
-						or PaletteContentStyle.HeaderDockInactive
-						or PaletteContentStyle.HeaderDockActive
-						or PaletteContentStyle.HeaderSecondary
-						or PaletteContentStyle.HeaderCustom1
-						or PaletteContentStyle.HeaderCustom2
-						or PaletteContentStyle.HeaderCustom3 => PaletteRelativeAlign.Far,
-					_ => base.GetContentImageH(style, state)
-				};
+				return gap;
 			}
 
-			return base.GetContentImageH(style, state);
+			return Math.Max(gap, 4);
 		}
 
 		/// <inheritdoc/>
@@ -127,9 +98,11 @@ public class KryptonForm : VisualForm,
 		/// <item>
 		/// <description>
 		/// <b>View dock</b> — <see cref="ButtonSpecManagerBase"/> maps that edge to
-		/// <see cref="ViewDockStyle"/> Left/Right. Custom form chrome does not rely on
-		/// <see cref="ViewDrawDocker.CalculateDock"/> mirroring for Far-edge buttons in RTL, so this
-		/// redirector remaps palette Far → Near when RTL is active (issue #3786).
+		/// <see cref="ViewDockStyle"/> Left/Right. <see cref="ViewDrawDocker.CalculateDock"/> then
+		/// flips Left/Right when RTL layout is active. Non-client chrome is painted in physical
+		/// coordinates (issue #2103), so Far-edge (Windows) buttons rely on that flip to land on
+		/// the physical left. Native Near-edge (traffic light) buttons would be flipped to the
+		/// physical right; this redirector maps Near → Far in RTL so they stay on the left.
 		/// </description>
 		/// </item>
 		/// </list>
@@ -142,14 +115,9 @@ public class KryptonForm : VisualForm,
 		/// </remarks>
 		public override PaletteRelativeEdgeAlign GetButtonSpecEdge(PaletteButtonSpecStyle style)
 		{
-			// Per-form override wins (e.g. macOS palette with FormTrafficLightEdge = Far keeps a
-			// Windows-style control box on the Far side without the RTL Far→Near remap below).
-			if (_kryptonForm._formTrafficLightEdge != PaletteRelativeEdgeAlign.Inherit && IsFormWindowButtonSpecStyle(style))
-			{
-				return _kryptonForm._formTrafficLightEdge;
-			}
-
-			var edge = base.GetButtonSpecEdge(style);
+			var edge = _kryptonForm._formTrafficLightEdge != PaletteRelativeEdgeAlign.Inherit && IsFormWindowButtonSpecStyle(style)
+				? _kryptonForm._formTrafficLightEdge
+				: base.GetButtonSpecEdge(style);
 
 			if (!IsFormWindowButtonSpecStyle(style)
 				|| !_kryptonForm.UsesRtlFormButtonLayout())
@@ -157,12 +125,10 @@ public class KryptonForm : VisualForm,
 				return edge;
 			}
 
-			// Standard palettes: FormClose/Min/Max are Far in LTR (physical right).
-			// In RTL the control box must move to the physical left (leading edge). Remap Far→Near
-			// so ButtonSpecManagerDraw docks Left. Do not remap native Near-edge palettes (macOS
-			// traffic lights) — they must stay on the physical left in both LTR and RTL.
-			return edge == PaletteRelativeEdgeAlign.Far
-				? PaletteRelativeEdgeAlign.Near
+			// CalculateDock flips Left/Right. Near (traffic lights) would land on the physical
+			// right; map Near→Far so they dock Right then flip back to the physical left.
+			return edge == PaletteRelativeEdgeAlign.Near
+				? PaletteRelativeEdgeAlign.Far
 				: edge;
 		}
 	}
@@ -205,6 +171,7 @@ public class KryptonForm : VisualForm,
 
 	#region Static Fields
 	private static readonly Size CAPTION_ICON_SIZE = new Size(16, 16);
+	private static readonly Padding DefaultCaptionIconPadding = new Padding(2);
 
 	private const int HT_CORNER = 8;
 
@@ -229,6 +196,7 @@ public class KryptonForm : VisualForm,
 	private HeaderStyle _headerStyle;
 	private PaletteRelativeAlign _formTitleAlign;
 	private PaletteRelativeEdgeAlign _formTrafficLightEdge;
+	private Padding _captionIconPadding;
 	private HeaderStyle _headerStylePrev;
 	private FormWindowState _regionWindowState;
 	private FormWindowState _lastWindowState;
@@ -267,6 +235,8 @@ public class KryptonForm : VisualForm,
 	private KryptonFormTitleBar? _titleBar;
 	private ViewDrawDocker? _titleBarDocker;
 	private ButtonSpecManagerDraw? _titleBarButtonManager;
+	private ButtonSpecManagerDraw? _titleBarMenuStripButtonManager;
+	private KryptonMenuBar? _menuBar;
 
 	#endregion
 
@@ -281,6 +251,7 @@ public class KryptonForm : VisualForm,
 		_headerStyle = HeaderStyle.Form;
 		_formTitleAlign = PaletteRelativeAlign.Near;
 		_formTrafficLightEdge = PaletteRelativeEdgeAlign.Inherit;
+		_captionIconPadding = DefaultCaptionIconPadding;
 		_headerStylePrev = _headerStyle;
 		AllowButtonSpecToolTips = false;
 		_allowFormChrome = true;
@@ -1118,15 +1089,51 @@ public class KryptonForm : VisualForm,
 	private void ResetFormTitleAlign() => _formTitleAlign = PaletteRelativeAlign.Near;
 
 	/// <summary>
+	/// Gets and sets extra padding around the caption icon, in addition to the window-frame inset.
+	/// </summary>
+	/// <remarks>
+	/// <para>
+	/// Values are physical Left, Top, Right, and Bottom. Under
+	/// <see cref="Control.RightToLeft"/> + <see cref="Form.RightToLeftLayout"/> the palette's
+	/// frame inset is moved onto the icon (right) side first; this padding is then added.
+	/// </para>
+	/// <para>
+	/// Default is <c>2, 2, 2, 2</c>. Set to <see cref="Padding.Empty"/> for only the frame inset.
+	/// Per-side header content padding can still be overridden via
+	/// <see cref="StateCommon"/> Header.Content.Padding.
+	/// </para>
+	/// </remarks>
+	[Category(@"Visuals")]
+	[Description(@"Extra padding around the caption icon, added after the window-frame inset.")]
+	[DefaultValue(typeof(Padding), "2, 2, 2, 2")]
+	public Padding CaptionIconPadding
+	{
+		get => _captionIconPadding;
+
+		set
+		{
+			if (_captionIconPadding != value)
+			{
+				_captionIconPadding = value;
+				PerformNeedPaint(true);
+			}
+		}
+	}
+
+	private bool ShouldSerializeCaptionIconPadding() => _captionIconPadding != DefaultCaptionIconPadding;
+	private void ResetCaptionIconPadding() => CaptionIconPadding = DefaultCaptionIconPadding;
+
+	/// <summary>
 	/// Gets and sets where form minimize/maximize/close buttons are placed for macOS-style palettes.
 	/// </summary>
 	/// <remarks>
 	/// <see cref="PaletteRelativeEdgeAlign.Inherit"/> uses the palette default (Near / traffic lights for
 	/// macOS and OS X Aqua). <see cref="PaletteRelativeEdgeAlign.Far"/> forces a standard Windows
-	/// control box on the Far edge (physical right in LTR). When set to Far, the RTL Far→Near remap in
-	/// <see cref="KryptonForm.FormPaletteRedirect.GetButtonSpecEdge(PaletteButtonSpecStyle)"/> is bypassed so the developer controls edge
-	/// explicitly. <see cref="PaletteRelativeEdgeAlign.Near"/> forces traffic-light placement on the
-	/// Near edge regardless of palette.
+	/// control box on the Far edge (physical right in LTR). When set to Far, the RTL Near→Far remap in
+	/// <see cref="KryptonForm.FormPaletteRedirect.GetButtonSpecEdge(PaletteButtonSpecStyle)"/> is not applied
+	/// (Far is left unchanged so <see cref="ViewDrawDocker.CalculateDock"/> can move the control box
+	/// to the physical left). <see cref="PaletteRelativeEdgeAlign.Near"/> forces traffic-light placement on the
+	/// Near edge regardless of palette; that Near value is remapped to Far under RTL so the lights stay left.
 	/// </remarks>
 	[Category(@"Visuals")]
 	[Description(@"Placement of form traffic-light buttons. Inherit uses the palette; Far places them on the right like a standard Windows application.")]
@@ -1302,6 +1309,28 @@ public class KryptonForm : VisualForm,
 			{
 				AttachTitleBar(_titleBar);
 			}
+		}
+	}
+
+	/// <summary>
+	/// Gets or sets the native <see cref="KryptonMenuBar"/> used as this form's menu bar.
+	/// Assignment does not dock or reparent the control. Coexists with <see cref="Form.MainMenuStrip"/>.
+	/// </summary>
+	[Category(@"Visuals")]
+	[Description(@"Native Krypton menu bar used for shortcuts and Alt activation.")]
+	[DefaultValue(null)]
+	public KryptonMenuBar? MenuBar
+	{
+		get => _menuBar;
+
+		set
+		{
+			if (_menuBar == value)
+			{
+				return;
+			}
+
+			_menuBar = value;
 		}
 	}
 
@@ -1524,6 +1553,26 @@ public class KryptonForm : VisualForm,
 				OnRightToLeftChanged(EventArgs.Empty);
 			}
 		}
+	}
+
+	/// <summary>
+	/// Gets and sets whether the form mirrors its layout when <see cref="Control.RightToLeft"/> is <see cref="System.Windows.Forms.RightToLeft.Yes"/>.
+	/// </summary>
+	/// <remarks>
+	/// Matches native <see cref="Form"/>: caption chrome and client docking flip only when both
+	/// <see cref="Control.RightToLeft"/> is <see cref="System.Windows.Forms.RightToLeft.Yes"/> and this property is <see langword="true"/>.
+	/// </remarks>
+	[Browsable(true)]
+	[DefaultValue(false)]
+	[Localizable(true)]
+	[EditorBrowsable(EditorBrowsableState.Always)]
+	[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+	[Category(@"Appearance")]
+	[Description(@"Indicates whether to use RTL layout when RightToLeft is Yes.")]
+	public override bool RightToLeftLayout
+	{
+		get => base.RightToLeftLayout;
+		set => base.RightToLeftLayout = value;
 	}
 
 	#endregion
@@ -1975,6 +2024,7 @@ public class KryptonForm : VisualForm,
 		_buttonManager?.RecreateButtons();
 
 		_titleBarButtonManager?.RecreateButtons();
+		_titleBarMenuStripButtonManager?.RecreateButtons();
 	}
 
 	/// <inheritdoc />
@@ -1990,6 +2040,7 @@ public class KryptonForm : VisualForm,
 		_buttonManager?.RecreateButtons();
 
 		_titleBarButtonManager?.RecreateButtons();
+		_titleBarMenuStripButtonManager?.RecreateButtons();
 	}
 
 	/// <summary>
@@ -2003,6 +2054,7 @@ public class KryptonForm : VisualForm,
 		_buttonManager?.RecreateButtons();
 
 		_titleBarButtonManager?.RecreateButtons();
+		_titleBarMenuStripButtonManager?.RecreateButtons();
 	}
 
 	/// <summary>
@@ -2122,7 +2174,7 @@ public class KryptonForm : VisualForm,
 		if (_drawContent.IsImageDisplayed(context))
 		{
 			// Extract the point in screen coordinates
-			var screenPoint = new Point((int)m.LParam.ToInt64());
+			var screenPoint = PointFromMessageLParam(m.LParam);
 
 			// Convert to window coordinates
 			Point windowPoint = ScreenToWindow(screenPoint);
@@ -2168,6 +2220,7 @@ public class KryptonForm : VisualForm,
 			return;
 		}
 
+		uint previousLayout = BeginPhysicalWindowDcLayout(hDC);
 		try
 		{
 			// Restrict drawing strictly to the grip rectangle in window coordinates
@@ -2180,6 +2233,7 @@ public class KryptonForm : VisualForm,
 		}
 		finally
 		{
+			EndPhysicalWindowDcLayout(hDC, previousLayout);
 			PI.ReleaseDC(Handle, hDC);
 		}
 	}
@@ -2269,7 +2323,8 @@ public class KryptonForm : VisualForm,
 
 		Point windowPoint = ScreenToWindow(Control.MousePosition);
 		return _buttonManager.IsPointOverButton(windowPoint)
-			   || (_titleBarButtonManager?.IsPointOverButton(windowPoint) ?? false);
+			   || (_titleBarButtonManager?.IsPointOverButton(windowPoint) ?? false)
+			   || (_titleBarMenuStripButtonManager?.IsPointOverButton(windowPoint) ?? false);
 	}
 
 	/// <summary>
@@ -2283,6 +2338,9 @@ public class KryptonForm : VisualForm,
 			_buttonManager.RecreateButtons();
 			_recreateButtons = false;
 		}
+
+		_titleBarButtonManager?.RecreateButtons();
+		_titleBarMenuStripButtonManager?.RecreateButtons();
 
 		// Need to perform a layout
 		PerformNeedPaint(true);
@@ -2323,10 +2381,15 @@ public class KryptonForm : VisualForm,
 			return rect;
 		}
 
-		// Close owns the top-right corner; min/max only grow upward into their own column.
-		return ReferenceEquals(buttonSpec, ButtonSpecClose)
-			? Rectangle.FromLTRB(rect.Left, 0, Width, rect.Bottom)
-			: Rectangle.FromLTRB(rect.Left, 0, rect.Right, rect.Bottom);
+		// Close owns the leading top corner; min/max only grow upward into their own column.
+		if (ReferenceEquals(buttonSpec, ButtonSpecClose))
+		{
+			return UsesRtlFormButtonLayout()
+				? Rectangle.FromLTRB(0, 0, rect.Right, rect.Bottom)
+				: Rectangle.FromLTRB(rect.Left, 0, Width, rect.Bottom);
+		}
+
+		return Rectangle.FromLTRB(rect.Left, 0, rect.Right, rect.Bottom);
 	}
 
 	/// <summary>
@@ -2606,7 +2669,7 @@ public class KryptonForm : VisualForm,
 	/// <returns>True if the message was processed; otherwise false.</returns>
 	protected override bool OnWM_NCRBUTTONDOWN(ref Message m)
 	{
-		var screenPoint = new Point((int)m.LParam.ToInt64());
+		var screenPoint = PointFromMessageLParam(m.LParam);
 		Point windowPoint = ScreenToWindow(screenPoint);
 
 		// Caption strip (including injected tabs): never let DefWndProc open the system menu.
@@ -2627,7 +2690,7 @@ public class KryptonForm : VisualForm,
 	/// <returns>True if the message was processed; otherwise false.</returns>
 	protected override bool OnWM_NCRBUTTONUP(ref Message m)
 	{
-		var screenPoint = new Point((int)m.LParam.ToInt64());
+		var screenPoint = PointFromMessageLParam(m.LParam);
 		Point windowPoint = ScreenToWindow(screenPoint);
 
 		if (IsInTitleBarArea(screenPoint) || IsOverInteractiveChromeView(windowPoint))
@@ -2652,7 +2715,7 @@ public class KryptonForm : VisualForm,
 		if (_drawContent.IsImageDisplayed(context))
 		{
 			// Extract the point in screen coordinates
-			var screenPoint = new Point((int)m.LParam.ToInt64());
+			var screenPoint = PointFromMessageLParam(m.LParam);
 
 			// Convert to window coordinates
 			Point windowPoint = ScreenToWindow(screenPoint);
@@ -3023,15 +3086,27 @@ public class KryptonForm : VisualForm,
 					{
 						// Track the window state at the time the region is created
 						_regionWindowState = WindowState;
-						// Get the path for the border, so we can shape the form using it
-						using var context = new RenderContext(this, null, Bounds, Renderer);
-						using GraphicsPath? path = _drawDocker.GetOuterBorderPath(context);
+
+						// WS_EX_LAYOUTRTL mirrors SetWindowRgn into logical coordinates, which
+						// shifts the realized region by about the frame width and clips the
+						// physical left chrome (issue #2103). Same workaround as maximized RTL (#2457).
+						Region? newRegion = null;
+						if (!UsesRtlFormButtonLayout())
+						{
+							using var context = new RenderContext(this, null, Bounds, Renderer);
+							using GraphicsPath? path = _drawDocker.GetOuterBorderPath(context);
+							if (path != null)
+							{
+								newRegion = new Region(path);
+							}
+						}
+
 						if (!_firstCheckView)
 						{
 							SuspendPaint();
 						}
 
-						UpdateBorderRegion(path != null ? new Region(path) : null);
+						UpdateBorderRegion(newRegion);
 
 						if (!_firstCheckView)
 						{
@@ -3366,9 +3441,9 @@ public class KryptonForm : VisualForm,
 	/// </summary>
 	/// <remarks>
 	/// Uses the palette's <em>native</em> edge from <see cref="PaletteBase.GetButtonSpecEdge"/>,
-	/// not <see cref="VisualForm.Redirector"/>. After issue #3786, the redirector remaps Far→Near for standard
-	/// palettes in RTL; consulting the redirector here would mis-classify RTL Office forms as
-	/// traffic-light layouts and apply the wrong collection order.
+	/// not <see cref="VisualForm.Redirector"/>. After issue #2103, the redirector remaps Near→Far for traffic-light
+	/// palettes in RTL so <see cref="ViewDrawDocker.CalculateDock"/> keeps them on the physical left; consulting the
+	/// redirector here would mis-classify RTL Office forms as traffic-light layouts and apply the wrong collection order.
 	/// </remarks>
 	private bool UsesLeftTrafficLightFormButtons()
 	{
@@ -3400,7 +3475,7 @@ public class KryptonForm : VisualForm,
 	/// <item>
 	/// <description>
 	/// <b>Far-edge / Windows control box</b> — collection [min, max, close] for both LTR and RTL.
-	/// LTR (dock right): Min → Max → Close. RTL (dock left after Far→Near remap): Close → Max → Min.
+	/// LTR (dock right): Min → Max → Close. RTL (dock left after CalculateDock flip): Close → Max → Min.
 	/// </description>
 	/// </item>
 	/// <item>
@@ -3697,6 +3772,18 @@ public class KryptonForm : VisualForm,
 	/// <inheritdoc />
 	protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 	{
+		if (_menuBar is { IsDisposed: false }
+		    && _menuBar.ProcessBarCmdKey(ref msg, keyData))
+		{
+			return true;
+		}
+
+		if (_titleBar != null
+		    && _titleBar.ProcessButtonSpecShortcuts(keyData))
+		{
+			return true;
+		}
+
 		return base.ProcessCmdKey(ref msg, keyData);
 	}
 
@@ -3714,60 +3801,46 @@ public class KryptonForm : VisualForm,
 		_titleBarDocker = new ViewDrawDocker(StateActive.Header.Back, StateActive.Header.Border, StateActive.Header,
 			PaletteMetricBool.None, PaletteMetricPadding.None, VisualOrientation.Top);
 
-		// ButtonSpecManagerDraw wires the KryptonFormTitleBar.ButtonSpecs collection to
-		// the view layer.  Each ButtonSpec is turned into a real view button, rendered
-		// inside _titleBarDocker, and measured using the HeaderButtonEdgeInset /
-		// HeaderButtonPadding metrics so spacing stays consistent with the rest of the
-		// caption buttons (Min/Max/Close).
-		// Passing null for the fixed-button array means only the user-defined specs
-		// from the titleBar are managed here; the system chrome buttons are handled by
-		// the separate _buttonManager.
-		// Under RTL+RightToLeftLayout, ViewDrawDocker.CalculateDock() automatically
-		// flips ViewDockStyle.Left to ViewDockStyle.Right, so the injected docker
-		// migrates to the correct visual edge without any extra code here.
-		_titleBarButtonManager = new ButtonSpecManagerDraw(
-			this,                                           // owning control (for RightToLeft checks)
-			Redirector,                                     // palette redirector
-			titleBar.ButtonSpecs,                           // the user-defined button specs to render
-			null,                                           // no fixed button specs in this manager
-			[_titleBarDocker],                              // single view container the buttons live in
-			[StateCommon!.Header],                           // palette state used to style each button
-			[PaletteMetricInt.HeaderButtonEdgeInsetForm],   // edge inset metric (gap from docker border)
-			[PaletteMetricPadding.HeaderButtonPaddingForm], // padding metric around each button
-			CreateToolStripRenderer,                        // renderer factory (for ToolStrip-hosted glyphs)
-			OnNeedPaint);                                   // invalidation callback
-
-		// Share the form-level ToolTipManager so hovering a title bar button shows
-		// a tooltip using the same infrastructure as all other Krypton controls.
-		_titleBarButtonManager.ToolTipManager = ToolTipManager;
-
-		// Physically insert _titleBarDocker into the caption view tree as a Left-docked
-		// child of _drawHeading.  This places the custom buttons between the form icon
-		// (which is drawn by _drawContent as the content image) and the title text,
-		// mirroring where the Ribbon places its Quick-Access Toolbar buttons.
-		// Under RTL the Left dock is flipped to Right by the layout engine, which in a
-		// mirrored coordinate system is still visually "after the icon, before the title".
+		// Insert the docker before creating button managers so RecreateButtons can measure against the caption tree.
 		InjectViewElement(_titleBarDocker, ViewDockStyle.Left);
 
-		// Track collection changes so the view stays in sync: when the developer adds
-		// or removes a ButtonSpec at runtime, OnTitleBarButtonSpecChanged refreshes the
-		// button views and re-measures the caption area.
+		_titleBarMenuStripButtonManager = CreateTitleBarSpecManager(titleBar.MenuStripButtonSpecs);
+		_titleBarButtonManager = CreateTitleBarSpecManager(titleBar.ButtonSpecs);
+
 		titleBar.ButtonSpecInserted += OnTitleBarButtonSpecChanged;
 		titleBar.ButtonSpecRemoved += OnTitleBarButtonSpecChanged;
+		titleBar.MenuStripButtonSpecInserted += OnTitleBarMenuStripButtonSpecChanged;
+		titleBar.MenuStripButtonSpecRemoved += OnTitleBarMenuStripButtonSpecChanged;
 
-		// Rebuild the Min/Max/Close buttons because their edge-inset calculations can
-		// depend on how many title bar buttons are now present, then request a full
-		// non-client repaint so the new buttons appear immediately.
 		RecreateMinMaxCloseButtons();
+		_titleBarMenuStripButtonManager.RecreateButtons();
+		_titleBarButtonManager.RecreateButtons();
 		PerformNeedPaint(true);
+	}
+
+	private ButtonSpecManagerDraw CreateTitleBarSpecManager(ButtonSpecCollectionBase specs)
+	{
+		var manager = new ButtonSpecManagerDraw(
+			this,
+			Redirector,
+			specs,
+			null,
+			[_titleBarDocker!],
+			[StateCommon!.Header],
+			[PaletteMetricInt.HeaderButtonEdgeInsetForm],
+			[PaletteMetricPadding.HeaderButtonPaddingForm],
+			CreateToolStripRenderer,
+			OnNeedPaint);
+		manager.ToolTipManager = ToolTipManager;
+		return manager;
 	}
 
 	private void DetachTitleBar([DisallowNull] KryptonFormTitleBar titleBar)
 	{
-		// Stop listening for collection changes first so no callbacks fire
-		// during the teardown sequence below.
 		titleBar.ButtonSpecInserted -= OnTitleBarButtonSpecChanged;
 		titleBar.ButtonSpecRemoved -= OnTitleBarButtonSpecChanged;
+		titleBar.MenuStripButtonSpecInserted -= OnTitleBarMenuStripButtonSpecChanged;
+		titleBar.MenuStripButtonSpecRemoved -= OnTitleBarMenuStripButtonSpecChanged;
 
 		// Remove the docker from the caption view tree before destroying it so the
 		// layout engine never tries to measure a partially-disposed element.
@@ -3780,6 +3853,8 @@ public class KryptonForm : VisualForm,
 		// unregisters any internal event handlers it holds.
 		_titleBarButtonManager?.Destruct();
 		_titleBarButtonManager = null;
+		_titleBarMenuStripButtonManager?.Destruct();
+		_titleBarMenuStripButtonManager = null;
 
 		// Dispose the docker view after the manager is gone so no lingering
 		// button views attempt to paint through an already-disposed parent.
@@ -3803,6 +3878,13 @@ public class KryptonForm : VisualForm,
 		// without rebuilding the entire caption tree, then RecreateMinMaxCloseButtons
 		// adjusts the chrome button spacing and a repaint makes the change visible.
 		_titleBarButtonManager?.RefreshButtons();
+		RecreateMinMaxCloseButtons();
+		PerformNeedPaint(true);
+	}
+
+	private void OnTitleBarMenuStripButtonSpecChanged(object? sender, ButtonSpecEventArgs e)
+	{
+		_titleBarMenuStripButtonManager?.RefreshButtons();
 		RecreateMinMaxCloseButtons();
 		PerformNeedPaint(true);
 	}
