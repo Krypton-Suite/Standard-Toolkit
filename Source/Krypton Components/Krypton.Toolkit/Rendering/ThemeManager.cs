@@ -315,14 +315,58 @@ public class ThemeManager
     /// <param name="themeFile">Valid path including filename to the theme file. The file must exist an be compatible, otherwise the import will fail.</param>
     /// <param name="silent">True if the operation should suppress messages from the palette import process, otherwise false.</param>
     /// <param name="manager">The manager.</param>
+    // ToDo V120 LTS: Document .kthemex as the expected custom theme file. Import still sniffs XML content.
     public static void ApplyTheme(string themeFile, bool silent, KryptonManager manager)
     {
-        if (themeFile.Length > 0 && File.Exists(themeFile))
+        if (File.Exists(themeFile))
         {
             try
             {
                 KryptonCustomPaletteBase palette = new();
-                palette.Import(themeFile, silent);
+                var imported = palette.Import(themeFile, silent);
+                if (string.IsNullOrEmpty(imported))
+                {
+                    return;
+                }
+
+                ApplyTheme(palette, manager);
+            }
+            catch (Exception exc)
+            {
+                KryptonExceptionHandler.CaptureException(exc, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
+            }
+        }
+        else
+        {
+            KryptonMessageBox.Show(
+                $"The parameter 'themeFile' points to a file that does not exist.\n" +
+                $"Filename: {themeFile}\n\n" +
+                $"ApplyTheme aborted.",
+                _msgBoxCaption,
+                buttons: KryptonMessageBoxButtons.OK,
+                icon: KryptonMessageBoxIcon.Exclamation);
+        }
+    }
+
+    /// <summary>
+    /// Loads one named theme from a <c>.ktheme</c> pack (or a matching single-theme file).
+    /// </summary>
+    /// <param name="themeFile">Valid path including filename to the theme file.</param>
+    /// <param name="themeName">Theme name in the collection. Comparison is case-insensitive.</param>
+    /// <param name="silent">True if the operation should suppress messages from the palette import process.</param>
+    /// <param name="manager">The manager.</param>
+    public static void ApplyTheme(string themeFile, string themeName, bool silent, KryptonManager manager)
+    {
+        if (File.Exists(themeFile))
+        {
+            try
+            {
+                KryptonCustomPaletteBase palette = new();
+                var imported = palette.Import(themeFile, themeName, silent);
+                if (string.IsNullOrEmpty(imported))
+                {
+                    return;
+                }
 
                 ApplyTheme(palette, manager);
             }

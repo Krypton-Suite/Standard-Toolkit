@@ -46,7 +46,7 @@ Before considering a task complete:
 ## Project Structure & Module Organization
 
 - `Source/Krypton Components`: Core libraries (`Krypton.Toolkit`, `Krypton.Themes`, `Krypton.Ribbon`, `Krypton.Navigator`, `Krypton.Workspace`, `Krypton.Docking`) and the solution `Krypton Toolkit Suite 2022 - VS2022.sln`
-- `Source/Krypton Components/TestForm`: WinForms sample app used to validate changes; add or extend demos here when features or bugs are completed (see **TestForm Demos**)
+- `Source/Krypton Components/TestForm`: WinForms sample app used to validate changes; add or extend demos here when features or bugs are completed (see **TestForm Demos**). Library folders omit `.` from assembly names (`KryptonToolkit`, `KryptonUtilities`, not `Krypton.Toolkit`); new feature demos sit under that folder’s `Feature` subfolder and issue repros under `Bugs`.
 - [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) is a **separate** repo in the directory above this project (`..\Standard-Toolkit-Demos`), not a folder inside Standard-Toolkit. Reuse that folder if it exists (do **not** clone again); clone there only if missing. When completing a feature, add a consumer example (or **append** if one exists; do not overwrite) on a new `alpha-…` branch from `alpha` (see **Standard-Toolkit-Demos**)
 - `Source/TestHarnesses`: Small repro/test harnesses (e.g., `ThemeSwapRepro`)
 - `Scripts/`: Build and packaging scripts; `run.cmd` (root) launches an interactive menu; scripts live under `Scripts/VS2022/`, `Scripts/Current/`, `Scripts/Build/` (e.g., `build-stable.cmd`, `build-canary.cmd`, `build-nightly.cmd`, `build-rc.cmd`, `build.proj`)
@@ -464,11 +464,69 @@ When adding a **new** version heading, also add a TOC child under Breaking Chang
 
 `Source/Krypton Components/TestForm` (`TestForm.csproj`) is the primary interactive validation app. When a **feature** is completed, add a **comprehensive demo** or **append to an existing demo** (do not overwrite) so maintainers and reviewers can exercise the capability without reading source first.
 
+### Folder layout
+
+Group forms by owning library. Folder names **omit the `.`** from the assembly name (`Krypton.Toolkit` → `KryptonToolkit`, `Krypton.Toolkit.Utilities` → `KryptonUtilities`). Dots in these folder names cause problems with the SDK-style project and Solution Explorer.
+
+Each library folder has a `Feature` subfolder and a `Bugs` subfolder. **Feature demos** go in `Feature` (a multi-file demo may use its own subfolder there). **Issue repros** go in `Bugs`. Do not add new forms at the `TestForm` project root, or directly under the library folder.
+
+Keep form types in `namespace TestForm;` even when the files live under a library folder. Do not change the namespace to match the folder path (that breaks `StartScreen` registration and WinForms `.resx` lookup). For forms in subfolders, set `DependentUpon` on `.Designer.cs` / `.resx` like neighbouring TestForm entries. If a `.resx` uses `ResXFileRef` relative paths, update those paths when the file moves.
+
+| Package | Folder under `TestForm\` |
+|---------|--------------------------|
+| `Krypton.Toolkit`, `Krypton.Themes`, `Krypton.Toolkit.JumpList` | `KryptonToolkit` |
+| `Krypton.Toolkit.Utilities` | `KryptonToolkitUtilities` |
+| `Krypton.Navigator`, `Krypton.Navigator.Utilities` | `KryptonNavigator` |
+| `Krypton.Ribbon` | `KryptonRibbon` |
+| `Krypton.Workspace` | `KryptonWorkspace` |
+| `Krypton.Docking` | `KryptonDocking` |
+
+```
+TestForm\
+  KryptonToolkit\
+    Bugs\
+    Feature\
+      BorderlessFormDemo.cs
+      KryptonTaskDialogDemo\
+  KryptonDocking\
+    Bugs\
+      Bug3858DockingDragHeuristicsDemo.cs
+    Feature\
+  KryptonNavigator\
+    Bugs\
+    Feature\
+  KryptonRibbon\
+    Bugs\
+    Feature\
+  KryptonToolkitUtilities\
+    Bugs\
+    Feature\
+      PaletteCollectionEditorDemo.cs
+  KryptonWorkspace\
+    Bugs\
+    Feature\
+```
+
+Empty `Feature` and `Bugs` folders are declared in `TestForm.csproj` (`<Folder Include="…\Feature\" />` and `…\Bugs\`) so they appear in Solution Explorer before the first form is added. Keep those includes **while the folder is empty**; they are dropped once files exist. If `Feature` or `Bugs` is missing on disk, create the directory when placing the first file. Do not add a `<Folder Include>` for a directory that already contains files.
+
+Some existing forms still sit at the `TestForm` root or directly under a library folder (for example `KryptonDocking\DockingRedockDemo.cs`, `KryptonWorkspace\WorkspaceTest.cs`). Treat those as legacy. New forms go in `Feature` or `Bugs` only. Do not relocate a legacy form unless the task is to move that form. After a move, delete leftover files at the old path.
+
+Other folders under `TestForm` are not library demo roots: `Classes` (shared helpers), `ColorTestimonials`, `PaletteViewer`, `User Experience`, `Properties`, `Resources`.
+
+**Do not**
+
+- Create library folders whose names contain `.` (for example `Krypton.Toolkit`).
+- Create `KryptonToolkitUtilities` or `KryptonNavigatorUtilities`; utilities demos use `KryptonToolkitUtilities` (Toolkit.Utilities) or `KryptonNavigator` (Navigator.Utilities).
+- Place feature demos inside `Bugs`, issue repros inside `Feature`, or either kind of form directly under the library folder.
+- Add new demo or bug forms at the `TestForm` project root.
+- Change a form’s namespace to match its folder path.
+- Put package demos in cross-cutting folders (`Classes`, `ColorTestimonials`, `PaletteViewer`, `Resources`, `User Experience`).
+
 ### When to add or update
 
-- **Features** — new controls, APIs, designer behavior, themes, dialogs, or subsystems: add or expand a demo.
+- **Features** — new controls, APIs, designer behavior, themes, dialogs, or subsystems: add or expand a demo under the matching library’s `Feature` folder (see **Folder layout**).
 - **Existing demo** — if a TestForm demo already exists for that control or feature, **do not overwrite or replace it**. Keep the current form, instructions, and scenarios; **append** (new section, tab, control, or case) so the new capability can be exercised alongside what is already there.
-- **Bug fixes** — add a minimal repro when none exists; append to an existing demo when the fix changes observable behavior worth regression-testing.
+- **Bug fixes** — add a minimal repro in the matching library’s `Bugs` folder when none exists; append to an existing demo when the fix changes observable behavior worth regression-testing.
 - Skip demos for comment-only work, pure refactors, or changes with no UI/API surface.
 
 ### Registration
@@ -476,7 +534,7 @@ When adding a **new** version heading, also add a TOC child under Breaking Chang
 - Register every new form in `StartScreen.AddButtons()` via `CreateButton<TForm>(heading, description)`.
 - Heading: short title (often includes issue number for bug demos).
 - Description: what to try, expected outcome, and which scenarios are covered.
-- Follow existing naming: `BugNNNNShortNameDemo` for issue repros; `FeatureNameDemo` or `FeatureNameTest` for broader showcases.
+- Follow existing naming: `BugNNNNShortNameDemo` for issue repros (files under the library’s `Bugs` folder); `FeatureNameDemo` or `FeatureNameTest` for broader showcases (files under the library’s `Feature` folder).
 
 ### Demo content
 
@@ -500,7 +558,8 @@ Skip the comparison when there is no meaningful WinForms equivalent (e.g. ribbon
 
 ### Project conventions
 
-- Add new `.cs` / `.Designer.cs` / `.resx` files to `TestForm.csproj` if not picked up automatically.
+- Place new forms per **Folder layout** (library folder, no `.` in the name; demos in `Feature`; repros in `Bugs`; `namespace TestForm`).
+- Add new `.cs` / `.Designer.cs` / `.resx` files to `TestForm.csproj` if not picked up automatically. Keep empty `<Folder Include="…\Feature\" />` and `…\Bugs\` entries; do not re-add them once the folder has files.
 - Reference `Krypton.Toolkit.Utilities` / `Krypton.Navigator.Utilities` when the demo targets those assemblies.
 - Run: `dotnet run --project ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug`
 - `TestForm` does not replace [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos). For features, also add a consumer example there (reuse `..\Standard-Toolkit-Demos` if present; clone into the parent only if missing), or **append** if one already exists (see **Standard-Toolkit-Demos**).
