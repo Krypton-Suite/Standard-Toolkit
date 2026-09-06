@@ -32,6 +32,20 @@ namespace System.Diagnostics.CodeAnalysis;
     {
     }
 
+    /// <summary>
+    /// Specifies that the output will not be null when the named parameter is <see langword="true"/>.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Parameter, Inherited = false)]
+    public sealed class NotNullWhenAttribute : Attribute
+    {
+        /// <summary>Initializes a new instance of the <see cref="NotNullWhenAttribute"/> class.</summary>
+        /// <param name="returnValue">The return value condition that guarantees a non-null output.</param>
+        public NotNullWhenAttribute(bool returnValue) => ReturnValue = returnValue;
+
+        /// <summary>Gets the return value condition.</summary>
+        public bool ReturnValue { get; }
+    }
+
     /// <summary>Applied to a method that will never return under any circumstance.</summary>
     [AttributeUsage(AttributeTargets.Method, Inherited = false)]
     public sealed class DoesNotReturnAttribute : Attribute
