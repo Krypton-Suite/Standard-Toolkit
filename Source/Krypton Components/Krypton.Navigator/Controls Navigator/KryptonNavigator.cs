@@ -53,6 +53,8 @@ public class KryptonNavigator : VisualSimple,
     private bool _allowTabSelect;
     private bool _tabHoverStarted;
     private bool _controlKryptonFormFeatures;
+    private bool _isRightToLeftLayout;
+    private Form? _rtlSourceForm;
     private int _cachePageCount;
     private int _cachePageVisibleCount;
 
@@ -292,6 +294,8 @@ public class KryptonNavigator : VisualSimple,
     {
         if (disposing)
         {
+            UnhookRtlSourceForm();
+
             // Remove any associated popups
             DismissPopups();
 
@@ -355,6 +359,35 @@ public class KryptonNavigator : VisualSimple,
     {
         get => base.AutoSize;
         set => base.AutoSize = value;
+    }
+
+    /// <summary>
+    /// Gets or sets whether the navigator packs header buttons from the reading-order start edge.
+    /// </summary>
+    /// <remarks>
+    /// When hosted on a <see cref="Form"/>, this is copied from the form automatically.
+    /// Docking also requires <see cref="Control.RightToLeft"/> equal to <see cref="RightToLeft.Yes"/>.
+    /// Named to match WinForms <see cref="Form"/>; not the Toolkit <c>RightToLeftLayout</c> enum.
+    /// Does not set <c>WS_EX_LAYOUTRTL</c>; page contents are not GDI-mirrored.
+    /// </remarks>
+    [Category(@"Appearance")]
+    [Localizable(true)]
+    [Description(@"Indicates whether navigator header buttons pack from right to left.")]
+    [DefaultValue(false)]
+    [Browsable(true)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public bool RightToLeftLayout
+    {
+        get => _isRightToLeftLayout;
+        set
+        {
+            if (_isRightToLeftLayout != value)
+            {
+                _isRightToLeftLayout = value;
+                PerformNeedPaint(true);
+            }
+        }
     }
 
     /// <summary>
@@ -1148,6 +1181,26 @@ public class KryptonNavigator : VisualSimple,
     }
 
     /// <summary>
+    /// Raises the ParentChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected override void OnParentChanged(EventArgs e)
+    {
+        base.OnParentChanged(e);
+        SyncRightToLeftLayoutFromParent();
+    }
+
+    /// <summary>
+    /// Raises the HandleCreated event.
+    /// </summary>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected override void OnHandleCreated(EventArgs e)
+    {
+        base.OnHandleCreated(e);
+        SyncRightToLeftLayoutFromParent();
+    }
+
+    /// <summary>
     /// Raises the Initialized event.
     /// </summary>
     /// <param name="e">An EventArgs that contains the event data.</param>
@@ -1171,6 +1224,11 @@ public class KryptonNavigator : VisualSimple,
                 // Force a layout now that initialization is complete
                 OnLayout(new LayoutEventArgs(null, null));
             }
+        }
+
+        if (!IsDisposed)
+        {
+            SyncRightToLeftLayoutFromParent();
         }
     }
 
@@ -2806,6 +2864,54 @@ public class KryptonNavigator : VisualSimple,
     #endregion
 
     #region Private
+    private void SyncRightToLeftLayoutFromParent()
+    {
+        UnhookRtlSourceForm();
+
+        var form = FindForm();
+        if (form == null)
+        {
+            return;
+        }
+
+        _rtlSourceForm = form;
+        _rtlSourceForm.RightToLeftChanged += OnRtlSourceFormRtlChanged;
+        _rtlSourceForm.RightToLeftLayoutChanged += OnRtlSourceFormRtlChanged;
+        CopyRightToLeftLayoutFromForm(form);
+    }
+
+    private void UnhookRtlSourceForm()
+    {
+        if (_rtlSourceForm == null)
+        {
+            return;
+        }
+
+        _rtlSourceForm.RightToLeftChanged -= OnRtlSourceFormRtlChanged;
+        _rtlSourceForm.RightToLeftLayoutChanged -= OnRtlSourceFormRtlChanged;
+        _rtlSourceForm = null;
+    }
+
+    private void OnRtlSourceFormRtlChanged(object? sender, EventArgs e)
+    {
+        if (_rtlSourceForm != null)
+        {
+            CopyRightToLeftLayoutFromForm(_rtlSourceForm);
+        }
+    }
+
+    private void CopyRightToLeftLayoutFromForm(Form form)
+    {
+        if (RightToLeftLayout != form.RightToLeftLayout)
+        {
+            RightToLeftLayout = form.RightToLeftLayout;
+        }
+        else
+        {
+            PerformNeedPaint(true);
+        }
+    }
+
     private void OnOpeningContextMenu(object? sender, CancelEventArgs e)
     {
         // Ignore call as view builder is already destructed

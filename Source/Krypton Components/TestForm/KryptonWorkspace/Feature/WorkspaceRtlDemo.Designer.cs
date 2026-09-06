@@ -47,7 +47,7 @@ namespace TestForm
             this.kwlblInfo.Name = "kwlblInfo";
             this.kwlblInfo.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.kwlblInfo.Size = new System.Drawing.Size(980, 88);
-            this.kwlblInfo.Text = "Issue #2383 — Toggle RightToLeft + RightToLeftLayout. Horizontal cells pack from the right (A moves to the right of C). Nested Top/Bottom stay top-to-bottom. Children XML order does not change. Drag a page to the physical left/right edge; the new cell appears on that edge. Splitters still resize the panels they sit between.";
+            this.kwlblInfo.Text = "Issue #2383 — Toggle RightToLeft + RightToLeftLayout. Horizontal cells pack from the right (A moves to the right of C). Nested Top/Bottom stay top-to-bottom. Cell header buttons (maximize, context, close) move to the left. Children XML order does not change. Drag a page to the physical left/right edge; the new cell appears on that edge.";
             //
             // kpnlOptions
             //

@@ -51,6 +51,7 @@ function New-RtlTestCell {
     $cell = New-Object Krypton.Workspace.KryptonWorkspaceCell
     $cell.UniqueName = $UniqueName
     $cell.StarSize = '50*,50*'
+    $cell.Button.CloseButtonDisplay = [Krypton.Navigator.ButtonDisplay]::ShowEnabled
     $page = New-Object Krypton.Navigator.KryptonPage
     $page.Text = $Title
     $page.UniqueName = $UniqueName + 'Page'
@@ -76,6 +77,33 @@ function Get-RootChildNames {
         }
     }
     return ($names -join ',')
+}
+
+function Get-NavButtonRect {
+    param($Navigator, $Spec)
+    $flags = [System.Reflection.BindingFlags]'Instance,NonPublic'
+    $vbProp = [Krypton.Navigator.KryptonNavigator].GetProperty('ViewBuilder', $flags)
+    $vb = $vbProp.GetValue($Navigator)
+    if (-not $vb) {
+        return [System.Drawing.Rectangle]::Empty
+    }
+
+    $type = $vb.GetType()
+    $mgr = $null
+    while ($type) {
+        $field = $type.GetField('_buttonManager', $flags)
+        if ($field) {
+            $mgr = $field.GetValue($vb)
+            break
+        }
+        $type = $type.BaseType
+    }
+
+    if (-not $mgr) {
+        return [System.Drawing.Rectangle]::Empty
+    }
+
+    return $mgr.GetButtonRectangle($Spec)
 }
 
 $form = New-Object Krypton.Toolkit.KryptonForm
@@ -117,6 +145,11 @@ try {
     Assert-True ($cellA.Left -lt $cellC.Left) "LTR A is left of C (A.Left=$($cellA.Left) C.Left=$($cellC.Left))"
     Assert-True ($cellTop.Top -lt $cellBottom.Top) "LTR Top is above Bottom (Top.Y=$($cellTop.Top) Bottom.Y=$($cellBottom.Top))"
     Assert-True (-not $ws.RightToLeftLayout) 'Workspace RightToLeftLayout is false in LTR'
+    Assert-True (-not $cellA.RightToLeftLayout) 'Cell RightToLeftLayout is false in LTR'
+
+    $ltrClose = Get-NavButtonRect -Navigator $cellA -Spec $cellA.Button.CloseButton
+    Assert-True ($ltrClose.Width -gt 0) "LTR close button has a layout rect (actual=$ltrClose)"
+    Assert-True (($ltrClose.X + [int]($ltrClose.Width / 2)) -gt ([int]($cellA.Width / 2))) "LTR close button is on the right of the cell (close=$ltrClose cellWidth=$($cellA.Width))"
 
     $saved = $ws.SaveLayoutToArray()
     Assert-True ($saved.Length -gt 0) 'SaveLayoutToArray returns bytes'
@@ -128,9 +161,16 @@ try {
     [System.Windows.Forms.Application]::DoEvents()
 
     Assert-True $ws.RightToLeftLayout 'Workspace RightToLeftLayout syncs from the form'
+    Assert-True $cellA.RightToLeftLayout 'Cell RightToLeftLayout syncs from the form'
     Assert-True ($ws.RightToLeft -eq [System.Windows.Forms.RightToLeft]::Yes) 'Workspace RightToLeft inherits Yes'
     Assert-True ($cellA.Left -gt $cellC.Left) "RTL A is right of C (A.Left=$($cellA.Left) C.Left=$($cellC.Left))"
     Assert-True ($cellTop.Top -lt $cellBottom.Top) "RTL Top stays above Bottom (Top.Y=$($cellTop.Top) Bottom.Y=$($cellBottom.Top))"
+
+    $cellA.PerformLayout()
+    [System.Windows.Forms.Application]::DoEvents()
+    $rtlClose = Get-NavButtonRect -Navigator $cellA -Spec $cellA.Button.CloseButton
+    Assert-True ($rtlClose.Width -gt 0) "RTL close button has a layout rect (actual=$rtlClose)"
+    Assert-True (($rtlClose.X + [int]($rtlClose.Width / 2)) -lt ([int]($cellA.Width / 2))) "RTL close button is on the left of the cell (close=$rtlClose cellWidth=$($cellA.Width))"
 
     $rtlOrder = Get-RootChildNames -Workspace $ws
     Assert-True ($rtlOrder -eq 'RtlCellA,[RtlCellTop,RtlCellBottom],RtlCellC') "RTL children order is unchanged (actual='$rtlOrder')"
