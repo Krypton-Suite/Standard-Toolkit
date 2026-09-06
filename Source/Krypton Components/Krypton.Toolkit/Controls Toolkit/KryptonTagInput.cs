@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -7,25 +7,26 @@
  */
 #endregion
 
-namespace Krypton.Toolkit.Utilities;
+namespace Krypton.Toolkit;
 
 /// <summary>
 /// A wrap-capable editor that displays tags as themed chips with a trailing <see cref="KryptonTextBox"/>.
 /// Commit with Enter or comma; Backspace removes the last tag when the input is empty. Tab is left for focus navigation.
 /// </summary>
 [ToolboxItem(true)]
-[ToolboxBitmap(typeof(KryptonTextBox), "ToolboxBitmaps.KryptonTextBox.bmp")]
+[ToolboxBitmap(typeof(KryptonTagInput), "ToolboxBitmaps.KryptonTagInput.bmp")]
 [DefaultEvent(nameof(TagAdded))]
 [DefaultProperty(nameof(Tags))]
-[Designer(typeof(KryptonTagInputControlDesigner))]
+[Designer(typeof(KryptonTagInputDesigner))]
 [DesignerCategory(@"code")]
-[DisplayName(@"Krypton Tag Input Control")]
-[Description(@"Utilities wrap-capable tag editor with themed header chips, suggestions, and optional category colours.")]
+[DisplayName(@"Krypton Tag Input")]
+[Description(@"Wrap-capable tag editor with themed chips, suggestions, and optional category colours.")]
 [Docking(DockingBehavior.Ask)]
-public class KryptonTagInputControl : KryptonPanel
+public class KryptonTagInput : VisualPanel
 {
     #region Instance Fields
 
+    private readonly ViewDrawDocker _drawDocker;
     private readonly FlowLayoutPanel _flow;
     private readonly KryptonTextBox _inputBox;
     private readonly Dictionary<string, Color> _categoryColors;
@@ -97,15 +98,25 @@ public class KryptonTagInputControl : KryptonPanel
     #region Identity
 
     /// <summary>
-    /// Initialize a new instance of the <see cref="KryptonTagInputControl"/> class.
+    /// Initialize a new instance of the <see cref="KryptonTagInput"/> class.
     /// </summary>
-    public KryptonTagInputControl()
+    public KryptonTagInput()
     {
-        Values = new KryptonTagInputValues(this);
+        SetStyle(ControlStyles.SupportsTransparentBackColor | ControlStyles.OptimizedDoubleBuffer, true);
+
+        Values = new TagInputValues(this);
         Tags = new KryptonTagCollection(this);
         _suggestions = new AutoCompleteStringCollection();
         _categoryColors = new Dictionary<string, Color>(StringComparer.OrdinalIgnoreCase);
         _chips = new List<KryptonTagChip>();
+
+        StateCommon = new PaletteDoubleRedirect(Redirector!, PaletteBackStyle.InputControlStandalone,
+            PaletteBorderStyle.InputControlStandalone, NeedPaintDelegate);
+        StateDisabled = new PaletteDouble(StateCommon, NeedPaintDelegate);
+        StateNormal = new PaletteDouble(StateCommon, NeedPaintDelegate);
+
+        _drawDocker = new ViewDrawDocker(StateNormal.Back, StateNormal.Border);
+        ViewManager = new ViewManager(this, _drawDocker);
 
         _flow = new FlowLayoutPanel
         {
@@ -117,18 +128,22 @@ public class KryptonTagInputControl : KryptonPanel
             Padding = Padding.Empty,
             TabStop = false
         };
+        _flow.Click += OnFlowClick;
 
         _inputBox = new KryptonTextBox
         {
             AutoSize = false,
             Width = Values.InputWidth,
-            MinimumSize = new Size(40, 0),
-            Margin = new Padding(2),
+            MinimumSize = new Size(40, 22),
+            Height = 22,
+            Margin = new Padding(2, 3, 2, 2),
             TabIndex = 0,
             AutoCompleteMode = AutoCompleteMode.SuggestAppend,
             AutoCompleteSource = AutoCompleteSource.CustomSource,
             AutoCompleteCustomSource = _suggestions
         };
+        _inputBox.StateCommon.Border.Draw = InheritBool.False;
+        _inputBox.StateCommon.Border.DrawBorders = PaletteDrawBorders.None;
         _inputBox.KeyDown += OnInputKeyDown;
         _inputBox.KeyPress += OnInputKeyPress;
         _inputBox.TextChanged += OnInputTextChanged;
@@ -139,14 +154,12 @@ public class KryptonTagInputControl : KryptonPanel
         ApplyValues();
     }
 
-    /// <summary>
-    /// Clean up any resources being used.
-    /// </summary>
-    /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+    /// <inheritdoc />
     protected override void Dispose(bool disposing)
     {
         if (disposing)
         {
+            _flow.Click -= OnFlowClick;
             _inputBox.KeyDown -= OnInputKeyDown;
             _inputBox.KeyPress -= OnInputKeyPress;
             _inputBox.TextChanged -= OnInputTextChanged;
@@ -189,10 +202,40 @@ public class KryptonTagInputControl : KryptonPanel
     [Category(@"Visuals")]
     [Description(@"Behaviour and appearance values for the tag input.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    public KryptonTagInputValues Values { get; }
+    public TagInputValues Values { get; }
 
     private bool ShouldSerializeValues() => !Values.IsDefault;
     private void ResetValues() => Values.Reset();
+
+    /// <summary>
+    /// Gets access to the common input-control appearance that other states can override.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining common tag-input appearance that other states can override.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteDoubleRedirect StateCommon { get; }
+
+    private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
+
+    /// <summary>
+    /// Gets access to the disabled tag-input appearance.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining disabled tag-input appearance.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteDouble StateDisabled { get; }
+
+    private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
+
+    /// <summary>
+    /// Gets access to the normal tag-input appearance.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining normal tag-input appearance.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteDouble StateNormal { get; }
+
+    private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
     /// <summary>
     /// Gets or sets a value indicating whether tags can be added or removed from the UI.
@@ -455,6 +498,26 @@ public class KryptonTagInputControl : KryptonPanel
     }
 
     /// <summary>
+    /// Completes a collection clear.
+    /// </summary>
+    internal void NotifyTagsCleared(IReadOnlyList<string> tags)
+    {
+        RemoveAllChips();
+        foreach (var tag in tags)
+        {
+            OnTagRemoved(new KryptonTagEventArgs(tag));
+        }
+
+        OnTagsChanged(EventArgs.Empty);
+        ApplyInputVisibility();
+    }
+
+    /// <summary>
+    /// Applies live values from <see cref="Values"/> to the input and chips.
+    /// </summary>
+    internal void OnTagInputValuesChanged() => ApplyValues();
+
+    /// <summary>
     /// Removes the chip with <paramref name="chipId"/> and the matching collection item.
     /// </summary>
     internal bool RemoveChipById(int chipId)
@@ -483,26 +546,6 @@ public class KryptonTagInputControl : KryptonPanel
         return true;
     }
 
-    /// <summary>
-    /// Completes a collection clear.
-    /// </summary>
-    internal void NotifyTagsCleared(IReadOnlyList<string> tags)
-    {
-        RemoveAllChips();
-        foreach (var tag in tags)
-        {
-            OnTagRemoved(new KryptonTagEventArgs(tag));
-        }
-
-        OnTagsChanged(EventArgs.Empty);
-        ApplyInputVisibility();
-    }
-
-    /// <summary>
-    /// Applies live values from <see cref="Values"/> to the input and chips.
-    /// </summary>
-    internal void OnTagInputValuesChanged() => ApplyValues();
-
     #endregion
 
     #region Protected
@@ -516,8 +559,19 @@ public class KryptonTagInputControl : KryptonPanel
     /// <inheritdoc />
     protected override void OnEnabledChanged(EventArgs e)
     {
-        base.OnEnabledChanged(e);
+        var palette = Enabled ? StateNormal : StateDisabled;
+        _drawDocker.SetPalettes(palette.Back, palette.Border);
+        _drawDocker.Enabled = Enabled;
+        PerformNeedPaint(true);
         ApplyValues();
+        base.OnEnabledChanged(e);
+    }
+
+    /// <inheritdoc />
+    protected override void OnMouseDown(MouseEventArgs e)
+    {
+        base.OnMouseDown(e);
+        FocusInput();
     }
 
     #endregion
@@ -627,6 +681,16 @@ public class KryptonTagInputControl : KryptonPanel
         var atMax = Values.MaxTags > 0 && Tags.Count >= Values.MaxTags;
         _inputBox.Visible = !_readOnly && !atMax;
     }
+
+    private void FocusInput()
+    {
+        if (!_readOnly && _inputBox.Visible && _inputBox.CanFocus)
+        {
+            _inputBox.Focus();
+        }
+    }
+
+    private void OnFlowClick(object? sender, EventArgs e) => FocusInput();
 
     private void OnInputKeyDown(object? sender, KeyEventArgs e)
     {

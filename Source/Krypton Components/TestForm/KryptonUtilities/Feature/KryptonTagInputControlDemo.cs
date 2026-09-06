@@ -12,16 +12,16 @@ using Krypton.Toolkit.Utilities;
 namespace TestForm;
 
 /// <summary>
-/// Demonstrates <see cref="KryptonTagInputControl"/>: wrap chips, Enter/comma commit, suggestions, category colours, and theme switching.
+/// Demonstrates <see cref="KryptonTagInputControl"/> in Krypton.Toolkit.Utilities: wrap chips, Enter/comma commit, suggestions, category colours, and theme switching.
 /// </summary>
-public partial class KryptonTagInputDemo : KryptonForm
+public partial class KryptonTagInputControlDemo : KryptonForm
 {
-    public KryptonTagInputDemo()
+    public KryptonTagInputControlDemo()
     {
         InitializeComponent();
     }
 
-    private void KryptonTagInputDemo_Load(object? sender, EventArgs e)
+    private void KryptonTagInputControlDemo_Load(object? sender, EventArgs e)
     {
         ktiTags.SetSuggestions(new[]
         {
@@ -42,19 +42,19 @@ public partial class KryptonTagInputDemo : KryptonForm
         Log(@"Demo ready. Type a tag and press Enter or comma. Backspace removes the last chip when the input is empty.");
     }
 
-    private void ktiTags_TagAdded(object? sender, KryptonTagEventArgs e)
+    private void ktiTags_TagAdded(object? sender, Krypton.Toolkit.Utilities.KryptonTagEventArgs e)
     {
         Log($"Added: {e.Tag}");
         RefreshTagList();
     }
 
-    private void ktiTags_TagRemoved(object? sender, KryptonTagEventArgs e)
+    private void ktiTags_TagRemoved(object? sender, Krypton.Toolkit.Utilities.KryptonTagEventArgs e)
     {
         Log($"Removed: {e.Tag}");
         RefreshTagList();
     }
 
-    private void ktiTags_TagAdding(object? sender, KryptonTagCancelEventArgs e)
+    private void ktiTags_TagAdding(object? sender, Krypton.Toolkit.Utilities.KryptonTagCancelEventArgs e)
     {
         if (string.Equals(e.Tag, @"reject", StringComparison.OrdinalIgnoreCase))
         {
