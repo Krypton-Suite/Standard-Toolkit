@@ -830,6 +830,29 @@ public class KryptonPropertyGrid : VisualControlBase,
         base.OnCausesValidationChanged(e);
     }
 
+    /// <inheritdoc />
+    protected override void OnRightToLeftChanged(EventArgs e)
+    {
+        SyncInnerGridRightToLeft();
+        base.OnRightToLeftChanged(e);
+    }
+
+    /// <inheritdoc />
+    protected override void OnRightToLeftLayoutChanged(EventArgs e)
+    {
+        SyncInnerGridRightToLeft();
+        base.OnRightToLeftLayoutChanged(e);
+    }
+
+    private void SyncInnerGridRightToLeft()
+    {
+        _propertyGrid.RightToLeft = RightToLeft;
+        foreach (Control child in _propertyGrid.Controls)
+        {
+            child.RightToLeft = RightToLeft;
+        }
+    }
+
     /// <summary>
     /// Raises the HandleCreated event.
     /// </summary>

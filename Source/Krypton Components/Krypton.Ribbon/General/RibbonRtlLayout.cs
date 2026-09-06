@@ -155,7 +155,10 @@ internal static class RibbonRtlLayout
         var layout = ribbon.RightToLeftLayout;
         switch (control)
         {
-            case VisualSimpleBase visual:
+            case KryptonRibbon otherRibbon:
+                otherRibbon.RightToLeftLayout = layout;
+                break;
+            case VisualControlBase visual:
                 visual.RightToLeftLayout = layout;
                 break;
             case VisualPopup popup:
@@ -163,9 +166,6 @@ internal static class RibbonRtlLayout
                 break;
             case Form form:
                 form.RightToLeftLayout = layout;
-                break;
-            case KryptonRibbon otherRibbon:
-                otherRibbon.RightToLeftLayout = layout;
                 break;
         }
     }

@@ -46,11 +46,13 @@ internal static class KryptonMenuStripTitleBarConverter
         var spec = new ButtonSpecAny
         {
             Type = PaletteButtonSpecStyle.Generic,
-            Text = menuItem.Text,
+            Text = menuItem.Text ?? string.Empty,
             AllowInheritText = false,
             Image = menuItem.Image,
             ImageTransparentColor = menuItem.ImageTransparentColor,
-            ToolTipTitle = string.IsNullOrEmpty(menuItem.ToolTipText) ? menuItem.Text : menuItem.ToolTipText,
+            ToolTipTitle = string.IsNullOrEmpty(menuItem.ToolTipText)
+                ? menuItem.Text ?? string.Empty
+                : menuItem.ToolTipText,
             Enabled = menuItem.Enabled ? ButtonEnabled.True : ButtonEnabled.False,
             Visible = menuItem.Available
         };
@@ -103,14 +105,14 @@ internal static class KryptonMenuStripTitleBarConverter
     {
         var dest = new KryptonContextMenuItem
         {
-            Text = source.Text,
+            Text = source.Text ?? string.Empty,
             Image = source.Image,
             ImageTransparentColor = source.ImageTransparentColor,
             Enabled = source.Enabled,
             Visible = source.Available,
             ShortcutKeys = source.ShortcutKeys,
             ShowShortcutKeys = source.ShowShortcutKeys,
-            ShortcutKeyDisplayString = source.ShortcutKeyDisplayString,
+            ShortcutKeyDisplayString = source.ShortcutKeyDisplayString ?? string.Empty,
             CheckOnClick = source.CheckOnClick,
             Checked = source.Checked,
             CheckState = source.CheckState

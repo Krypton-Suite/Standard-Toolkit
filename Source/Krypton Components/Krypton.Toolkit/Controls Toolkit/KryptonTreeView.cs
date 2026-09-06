@@ -446,13 +446,6 @@ public class KryptonTreeView : VisualControlBase,
     public event TreeNodeMouseHoverEventHandler? NodeMouseHover;
 
     /// <summary>
-    /// Occurs when the value of the RightToLeftLayout property changes.
-    /// </summary>
-    [Category(@"PropertyChanged")]
-    [Description(@"Occurs when the value of the RightToLeftLayout property changes.")]
-    public event EventHandler? RightToLeftLayoutChanged;
-
-    /// <summary>
     /// Occurs when the value of the BackColor property changes.
     /// </summary>
     [Browsable(false)]
@@ -1146,19 +1139,6 @@ public class KryptonTreeView : VisualControlBase,
     public int VisibleCount => _treeView.VisibleCount;
 
     /// <summary>
-    /// Indicates whether the control layout is right-to-left when the RightToLeft property is True.
-    /// </summary>
-    [Category(@"Appearance")]
-    [Description(@"Indicates whether the control layout is right-to-left when the RightToLeft property is True.")]
-    [DefaultValue(false)]
-    [RefreshProperties(RefreshProperties.Repaint)]
-    public bool RightToLeftLayout
-    {
-        get => _treeView.RightToLeftLayout;
-        set => _treeView.RightToLeftLayout = value;
-    }
-
-    /// <summary>
     /// Gets the collection of tree nodes that are assigned to the tree view control.
     /// </summary>
     [Category(@"Behavior")]
@@ -1716,15 +1696,16 @@ public class KryptonTreeView : VisualControlBase,
     }
 
     /// <summary>
-    /// Raises the RightToLeftLayoutChanged event.
+    /// Raises the <see cref="VisualControlBase.RightToLeftLayoutChanged"/> event.
     /// </summary>
     /// <param name="e">An EventArgs that contains the event data.</param>
     /// <remarks>If overriden directly, will fire when palette changes</remarks>
-    protected virtual void OnRightToLeftLayoutChanged(EventArgs e)
+    protected override void OnRightToLeftLayoutChanged(EventArgs e)
     {
+        _treeView.RightToLeftLayout = RightToLeftLayout;
         if (!_isRecreating)
         {
-            RightToLeftLayoutChanged?.Invoke(this, e);
+            base.OnRightToLeftLayoutChanged(e);
         }
     }
 

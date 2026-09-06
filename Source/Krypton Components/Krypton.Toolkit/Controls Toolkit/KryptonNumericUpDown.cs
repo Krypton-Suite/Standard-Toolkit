@@ -1749,6 +1749,26 @@ public class KryptonNumericUpDown : VisualControlBase,
     }
 
     /// <summary>
+    /// Raises the RightToLeftChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing event data.</param>
+    protected override void OnRightToLeftChanged(EventArgs e)
+    {
+        UpdateForRightToLeft();
+        base.OnRightToLeftChanged(e);
+    }
+
+    /// <summary>
+    /// Raises the <see cref="VisualControlBase.RightToLeftLayoutChanged"/> event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing event data.</param>
+    protected override void OnRightToLeftLayoutChanged(EventArgs e)
+    {
+        UpdateForRightToLeft();
+        base.OnRightToLeftLayoutChanged(e);
+    }
+
+    /// <summary>
     /// Raises the EnabledChanged event.
     /// </summary>
     /// <param name="e">An EventArgs that contains the event data.</param>
@@ -2314,6 +2334,14 @@ public class KryptonNumericUpDown : VisualControlBase,
                 OnMouseLeave(e);
             }
         }
+    }
+
+    private void UpdateForRightToLeft()
+    {
+        _numericUpDown.RightToLeft = RightToLeft;
+        _numericUpDown.UpDownAlign = ToolkitRtlLayout.IsRtl(this)
+            ? LeftRightAlignment.Left
+            : LeftRightAlignment.Right;
     }
     #endregion
 }

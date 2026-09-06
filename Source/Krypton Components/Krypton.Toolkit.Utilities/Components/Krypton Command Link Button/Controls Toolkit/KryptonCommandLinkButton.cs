@@ -634,6 +634,20 @@ public class KryptonCommandLinkButton : VisualSimpleBase, IButtonControl
     }
 
     /// <inheritdoc />
+    protected override void OnRightToLeftChanged(EventArgs e)
+    {
+        CommandLinkTextValues.SyncDefaultArrow(CommonHelper.IsRightToLeftLayout(this));
+        base.OnRightToLeftChanged(e);
+    }
+
+    /// <inheritdoc />
+    protected override void OnRightToLeftLayoutChanged(EventArgs e)
+    {
+        CommandLinkTextValues.SyncDefaultArrow(CommonHelper.IsRightToLeftLayout(this));
+        base.OnRightToLeftLayoutChanged(e);
+    }
+
+    /// <inheritdoc />
     protected override void OnPaint(PaintEventArgs? e)
     {
         StateCommon.Content.LongText.Font = CommandLinkTextValues.DescriptionFont;
