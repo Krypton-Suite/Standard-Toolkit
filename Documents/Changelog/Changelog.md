@@ -50,6 +50,10 @@
 
 * Implemented [#3859](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3859), Hook ribbon caption area refresh on palette change
   * Ribbon caption area now refreshes immediately when the palette/theme changes (QAT, File app button, form icon, and integrated caption chrome; no resize required).
+* Resolved/Implemented [#4339](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4339), Add 'Simple' as a dropdown style for `KryptonComboBox`
+  * `KryptonComboBox` now supports `ComboBoxStyle.Simple` (always-visible list with an editable text box, matching WinForms).
+  * Set `DropDownStyle = ComboBoxStyle.Simple` and give the control enough `Height` to show the list. The designer allows vertical resize in this style.
+  * `KryptonDataGridViewComboBoxCell` still rejects Simple; an always-visible list cannot be hosted in a grid cell.
 * Resolved [#4336](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4336), `KryptonListView` does not use `StateTracking###`
   * `KryptonListView` hover now uses `StateTracking` / `StateCheckedTracking` instead of Win32 hot-track.
   * `ShowItemToolTips` uses `KryptonToolTip` (from `ListViewItem.ToolTipText`) instead of Win32 infotips, positioned at the hovered item.
