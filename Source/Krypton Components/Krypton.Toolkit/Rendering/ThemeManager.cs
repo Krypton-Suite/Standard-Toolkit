@@ -233,14 +233,16 @@ public class ThemeManager
     }
 
     /// <summary>
-    /// Applies a registered custom theme by display name.
+    /// Creates a registered custom theme without applying it globally.
+    /// Used by preview helpers to read <see cref="KryptonCustomPaletteBase.Thumbnail"/>.
     /// </summary>
     /// <param name="themeName">Registered display name.</param>
-    /// <param name="manager">Target manager.</param>
-    /// <returns><c>true</c> if applied; <c>false</c> if not registered.</returns>
-    public static bool TryApplyRegisteredTheme(string themeName, KryptonManager manager)
+    /// <param name="palette">Created palette when the name is registered.</param>
+    /// <returns><see langword="true"/> when a factory exists.</returns>
+    public static bool TryCreateRegisteredTheme(string themeName, out KryptonCustomPaletteBase? palette)
     {
-        if (manager is null || string.IsNullOrEmpty(themeName))
+        palette = null;
+        if (string.IsNullOrEmpty(themeName))
         {
             return false;
         }
@@ -254,10 +256,26 @@ public class ThemeManager
             }
         }
 
-        KryptonCustomPaletteBase palette = factory();
-        if (string.IsNullOrWhiteSpace(palette.GetPaletteName()))
+        palette = factory();
+        if (palette != null && string.IsNullOrWhiteSpace(palette.GetPaletteName()))
         {
             palette.SetPaletteName(themeName);
+        }
+
+        return palette != null;
+    }
+
+    /// <summary>
+    /// Applies a registered custom theme by display name.
+    /// </summary>
+    /// <param name="themeName">Registered display name.</param>
+    /// <param name="manager">Target manager.</param>
+    /// <returns><c>true</c> if applied; <c>false</c> if not registered.</returns>
+    public static bool TryApplyRegisteredTheme(string themeName, KryptonManager manager)
+    {
+        if (manager is null || !TryCreateRegisteredTheme(themeName, out var palette) || palette is null)
+        {
+            return false;
         }
 
         ApplyTheme(palette, manager);

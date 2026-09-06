@@ -412,8 +412,7 @@ public static partial class KryptonPaletteFile
     /// <remarks>
     /// Writes <c>HKCU\Software\Classes</c> only (no admin). Safe to call more than once. Failures are
     /// ignored so restricted designer hosts still work. Does not replace an existing Open verb that
-    /// already points at an application executable. After writing, Explorer is notified in-place
-    /// (<c>SHChangeNotify</c>) so icons and Open verbs refresh without restarting <c>explorer.exe</c>.
+    /// already points at an application executable.
     /// </remarks>
     public static void EnsureShellAssociations() => EnsureShellAssociations(null);
 

@@ -35,14 +35,14 @@ public partial class PaletteCollectionEditorDemo : KryptonForm
         Directory.CreateDirectory(folder);
         _sampleCollectionPath = Path.Combine(folder, @"sample-collection.ktheme");
 
-        var lime = CreateNamedMarker(@"Collection-Lime", Color.Lime, withThumbnail: true);
-        var orange = CreateNamedMarker(@"Collection-Orange", Color.Orange, withThumbnail: false);
-        var violetPath = Path.Combine(folder, @"Collection-Violet.kthemex");
-        var violet = CreateNamedMarker(@"Collection-Violet", Color.BlueViolet, withThumbnail: true);
+        var lime = CreateNamedMarker(@"Collection - Lime", Color.Lime, withThumbnail: true);
+        var orange = CreateNamedMarker(@"Collection - Orange", Color.Orange, withThumbnail: false);
+        var violetPath = Path.Combine(folder, @"Collection - Violet.kthemex");
+        var violet = CreateNamedMarker(@"Collection - Violet", Color.BlueViolet, withThumbnail: true);
         try
         {
-            lime.Export(Path.Combine(folder, @"Collection-Lime.kthemex"), ignoreDefaults: true, silent: true);
-            orange.Export(Path.Combine(folder, @"Collection-Orange.kthemex"), ignoreDefaults: true, silent: true);
+            lime.Export(Path.Combine(folder, @"Collection - Lime.kthemex"), ignoreDefaults: true, silent: true);
+            orange.Export(Path.Combine(folder, @"Collection - Orange.kthemex"), ignoreDefaults: true, silent: true);
             violet.Export(violetPath, ignoreDefaults: true, silent: true);
             KryptonPaletteFile.ExportCollection(_sampleCollectionPath, new[] { lime, orange }, ignoreDefaults: true, collectionName: @"2117-collection-editor");
         }
@@ -54,7 +54,7 @@ public partial class PaletteCollectionEditorDemo : KryptonForm
         }
 
         kwlblStatus.Text =
-            $@"Sample collection: {_sampleCollectionPath}. Extra .kthemex beside it: {violetPath}. Open the editor, then Add Collection-Violet.kthemex or Remove a theme.";
+            $@"Sample collection: {_sampleCollectionPath}. Extra .kthemex beside it: {violetPath}. Open the editor, then Add Collection - Violet.kthemex or Remove a theme.";
         kbtnEditCollection.Enabled = true;
     }
 
