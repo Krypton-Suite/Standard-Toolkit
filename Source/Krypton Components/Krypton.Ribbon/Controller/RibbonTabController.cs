@@ -271,6 +271,8 @@ internal class RibbonTabController : GlobalId,
             }
         }
 
+        keyData = RibbonRtlLayout.HorizontalKey(keyData, RibbonRtlLayout.IsRtl(_ribbon));
+
         switch (keyData)
         {
             case Keys.Right:

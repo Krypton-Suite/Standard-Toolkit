@@ -45,6 +45,8 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#2382](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2382), RTL support for **all** `Krypton.Ribbon` controls
+  * Office-style right-to-left layout for `KryptonRibbon` (tabs, groups, QAT, File button, clusters, galleries, and key navigation). Set `RightToLeft` and `RightToLeftLayout` on the host `KryptonForm`; the ribbon syncs automatically.
 * Implemented [#3859](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3859), Hook ribbon caption area refresh on palette change
   * Ribbon caption area now refreshes immediately when the palette/theme changes (QAT, File app button, form icon, and integrated caption chrome; no resize required).
 * Resolved/Implemented [#4339](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4339), Add 'Simple' as a dropdown style for `KryptonComboBox`

@@ -312,7 +312,9 @@ internal class ViewLayoutRibbonGroups : ViewComposite
         // We take on all the available display area
         ClientRectangle = context!.DisplayRectangle;
 
-        var x = ClientLocation.X;
+        var isRtl = RibbonRtlLayout.IsRtl(_ribbon);
+        var origin = ClientRectangle;
+        var x = RibbonRtlLayout.StartX(origin, isRtl);
 
         // Are there any children to layout?
         if (Count > 0)
@@ -320,7 +322,7 @@ internal class ViewLayoutRibbonGroups : ViewComposite
             var y = ClientLocation.Y;
             var height = ClientHeight;
 
-            // Position each item from left to right taking up entire height
+            // Position each item along the reading direction taking up entire height
             for (int i = 0, j = 0; i < Count; i++)
             {
                 ViewBase? child = this[i];
@@ -339,23 +341,20 @@ internal class ViewLayoutRibbonGroups : ViewComposite
                     if (childSize.Width > 0)
                     {
                         // Define display rectangle for the group
-                        context.DisplayRectangle = new Rectangle(x, y, childSize.Width, height);
+                        context.DisplayRectangle = RibbonRtlLayout.NextItem(ref x, y, childSize.Width, height, isRtl);
 
                         // Position the element
                         this[i]?.Layout(context);
-
-                        // Move across to next position
-                        x += childSize.Width;
                     }
                 }
             }
         }
 
         // Update our own size to reflect how wide we actually need to be for all the children
-        ClientRectangle = new Rectangle(ClientLocation, new Size(x - ClientLocation.X, ClientHeight));
+        ClientRectangle = RibbonRtlLayout.PackedBounds(origin, x, isRtl);
 
         // Update the display rectangle we allocated for use by parent
-        context.DisplayRectangle = new Rectangle(ClientLocation, new Size(x - ClientLocation.X, ClientHeight));
+        context.DisplayRectangle = ClientRectangle;
     }
     #endregion
 

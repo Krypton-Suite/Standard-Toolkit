@@ -161,7 +161,7 @@ internal class QATButtonController : LeftUpButtonController,
     {
         ViewBase? newView = null;
 
-        switch (e.KeyData)
+        switch (RibbonRtlLayout.HorizontalKey(e.KeyData, RibbonRtlLayout.IsRtl(Ribbon)))
         {
             case Keys.Tab:
             case Keys.Right:
@@ -199,7 +199,7 @@ internal class QATButtonController : LeftUpButtonController,
 
     private void KeyDownPopupOverflow(VisualPopupQATOverflow c, KeyEventArgs e)
     {
-        switch (e.KeyData)
+        switch (RibbonRtlLayout.HorizontalKey(e.KeyData, RibbonRtlLayout.IsRtl(Ribbon)))
         {
             case Keys.Tab:
             case Keys.Right:

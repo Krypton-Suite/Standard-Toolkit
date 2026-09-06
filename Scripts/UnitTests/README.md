@@ -85,6 +85,7 @@ Default output folder: `Bin\Debug\net472`.
 | `Invoke-ComboBoxSimpleStyleScreenshot.ps1` | Hosts `Feature4339ComboBoxSimpleStyleDemo` (#4339) and writes `Documents/PR/4339-combobox-simple-style.png` | `exclude` |
 | `Invoke-TreeViewMultiSelectScreenshot.ps1` | Hosts `Bug4326TreeViewMultiSelectDemo` and writes `Documents/PR/4326-treeview-multiselect-false.png` | `exclude` |
 | `Invoke-SchemeStripTextScreenshot.ps1` | Hosts `SchemeStripTextDemo` (#1100) and writes default/contrast PNGs under `Documents/PR/` | `exclude` |
+| `Invoke-RibbonRtlScreenshot.ps1` | Hosts `RibbonRtlDemo` (#2382) and writes LTR/RTL PNGs under `Documents/PR/` | `exclude` |
 | `Invoke-RibbonCaptionPaletteScreenshot.ps1` | Hosts `Bug4061RibbonCaptionIconThemeDemo` (#3859 / #4061) and writes Office 2007 / Microsoft 365 PNGs under `Documents/PR/` | `exclude` |
 | `Invoke-PaletteBinaryScreenshot.ps1` | Hosts `PaletteBinaryDemo` (#2117) and writes `Documents/PR/2117-bulk-xml-upgrade-demo.png` | `exclude` |
 | `Invoke-PaletteCollectionEditorScreenshot.ps1` | Hosts `KryptonPaletteCollectionEditor` (#2117) and writes `Documents/PR/2117-pack-editor-demo.png` | `exclude` |

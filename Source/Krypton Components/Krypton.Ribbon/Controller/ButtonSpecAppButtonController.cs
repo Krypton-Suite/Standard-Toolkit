@@ -64,7 +64,7 @@ internal class ButtonSpecAppButtonController : ButtonController,
             ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
-        switch (e.KeyCode)
+        switch (RibbonRtlLayout.HorizontalKey(e.KeyCode, c.RightToLeft == RightToLeft.Yes))
         {
             case Keys.Tab:
                 _viewManager.KeyTab(e.Shift);

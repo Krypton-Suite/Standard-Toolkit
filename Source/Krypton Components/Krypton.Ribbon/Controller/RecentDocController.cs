@@ -204,7 +204,7 @@ internal class RecentDocController : GlobalId,
             ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
-        switch (e.KeyCode)
+        switch (RibbonRtlLayout.HorizontalKey(e.KeyCode, c.RightToLeft == RightToLeft.Yes))
         {
             case Keys.Enter:
             case Keys.Space:
