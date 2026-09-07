@@ -1087,14 +1087,22 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
         return showingContextMenu;
     }
 
-    private KryptonContextMenuPositionH GetPositionH() => DropDownOrientation switch
+    /// <summary>
+    /// Gets the horizontal placement of the drop-down relative to the button.
+    /// </summary>
+    /// <returns>The horizontal position used when showing the menu.</returns>
+    protected virtual KryptonContextMenuPositionH GetPositionH() => DropDownOrientation switch
     {
         VisualOrientation.Left => KryptonContextMenuPositionH.Before,
         VisualOrientation.Right => KryptonContextMenuPositionH.After,
         _ => KryptonContextMenuPositionH.Left
     };
 
-    private KryptonContextMenuPositionV GetPositionV() => DropDownOrientation switch
+    /// <summary>
+    /// Gets the vertical placement of the drop-down relative to the button.
+    /// </summary>
+    /// <returns>The vertical position used when showing the menu.</returns>
+    protected virtual KryptonContextMenuPositionV GetPositionV() => DropDownOrientation switch
     {
         VisualOrientation.Top => KryptonContextMenuPositionV.Above,
         VisualOrientation.Left or VisualOrientation.Right => KryptonContextMenuPositionV.Top,

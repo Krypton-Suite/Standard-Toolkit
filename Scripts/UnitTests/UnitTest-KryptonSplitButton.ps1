@@ -71,6 +71,13 @@ try {
         $acc = $createAcc.Invoke($button, @())
         Assert-True ($acc.Role -eq [System.Windows.Forms.AccessibleRole]::SplitButton) 'Accessible role is SplitButton'
     }
+
+    $getH = $splitType.GetMethod('GetPositionH', [System.Reflection.BindingFlags]'Instance,NonPublic,Public')
+    Assert-True ($null -ne $getH) 'GetPositionH exists'
+    if ($null -ne $getH) {
+        $posH = $getH.Invoke($button, @())
+        Assert-True ($posH.ToString() -eq 'Right') 'Drop-down aligns to the chevron (PositionH.Right)'
+    }
 }
 finally {
     $button.Dispose()

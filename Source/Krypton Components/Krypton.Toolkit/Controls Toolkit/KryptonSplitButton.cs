@@ -71,5 +71,22 @@ public class KryptonSplitButton : KryptonDropButton
 
     /// <inheritdoc />
     protected override bool MnemonicPerformsDropDown => false;
+
+    /// <inheritdoc />
+    protected override KryptonContextMenuPositionH GetPositionH() => DropDownPosition switch
+    {
+        // Align the menu with the chevron rather than the caption on a wide split button.
+        VisualOrientation.Right => KryptonContextMenuPositionH.Right,
+        VisualOrientation.Left => KryptonContextMenuPositionH.Left,
+        _ => base.GetPositionH()
+    };
+
+    /// <inheritdoc />
+    protected override KryptonContextMenuPositionV GetPositionV() => DropDownPosition switch
+    {
+        VisualOrientation.Top => KryptonContextMenuPositionV.Above,
+        VisualOrientation.Bottom => KryptonContextMenuPositionV.Below,
+        _ => base.GetPositionV()
+    };
     #endregion
 }

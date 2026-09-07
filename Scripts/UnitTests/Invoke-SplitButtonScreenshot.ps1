@@ -56,10 +56,24 @@ $form.BringToFront()
 Start-Sleep -Milliseconds 800
 [System.Windows.Forms.Application]::DoEvents()
 
+$ksplit = $form.Controls.Find('ksplit', $true)
+if ($ksplit -and $ksplit.Count -gt 0) {
+    $ksplit[0].PerformDropDown()
+    [System.Windows.Forms.Application]::DoEvents()
+    Start-Sleep -Milliseconds 400
+    [System.Windows.Forms.Application]::DoEvents()
+}
+
 $bounds = $form.Bounds
-$bmp = New-Object System.Drawing.Bitmap $bounds.Width, $bounds.Height
+$padBottom = 140
+$capture = [System.Drawing.Rectangle]::new(
+    $bounds.X,
+    $bounds.Y,
+    $bounds.Width,
+    $bounds.Height + $padBottom)
+$bmp = New-Object System.Drawing.Bitmap $capture.Width, $capture.Height
 $g = [System.Drawing.Graphics]::FromImage($bmp)
-$g.CopyFromScreen($bounds.Location, [System.Drawing.Point]::Empty, $bounds.Size)
+$g.CopyFromScreen($capture.Location, [System.Drawing.Point]::Empty, $capture.Size)
 $g.Dispose()
 $bmp.Save($OutputPath, [System.Drawing.Imaging.ImageFormat]::Png)
 $bmp.Dispose()
