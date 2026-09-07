@@ -45,6 +45,8 @@
 
 ## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#4366](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4366), Dedicated `KryptonSplitButton` Toolbox control (body click vs chevron drop-down).
+  * Drop this control when the button is always split. `KryptonButton.ShowSplitOption` remains for the legacy opt-in. Use `KryptonDropButton` with `Splitter = false` when the whole button should open the menu. The `&Save` mnemonic fires `Click`, not the menu.
 * Implemented [#3870](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3870), Theme previews for custom themes
   * `KryptonThemeListView` lists builtin and registered custom themes with preview images in Large Icon, Tile, Small Icon, and Details views. Stored `KryptonCustomPaletteBase.Thumbnail` (base64 PNG in `.kthemex`) is shown with the Stable Kr overlay; palettes without a thumbnail use the Kr tile. Builtin themes use a generated window mock-up (`KryptonThemePreview`). Palette Designer and Theme Browser Export write the mock-up into `Thumbnail` on save.
   * Turn previews off with `ShowThemePreviews` (Kr tile for every row). Extra palettes follow `ShowExtraThemes` like `KryptonThemeListBox`.

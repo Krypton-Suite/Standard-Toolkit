@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -43,6 +43,7 @@ namespace TestForm
             this.btnDisabled = new Krypton.Toolkit.KryptonButton();
             this.btnStandalone = new Krypton.Toolkit.KryptonButton();
             this.btnSplit = new Krypton.Toolkit.KryptonButton();
+            this.btnKryptonSplit = new Krypton.Toolkit.KryptonSplitButton();
             this.btnDropDown = new Krypton.Toolkit.KryptonDropButton();
             this.kryptonContextMenu1 = new Krypton.Toolkit.KryptonContextMenu();
             this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
@@ -154,6 +155,7 @@ namespace TestForm
             this.grpButtons.Panel.Controls.Add(this.lblArrowColor);
             this.grpButtons.Panel.Controls.Add(this.btnDisabled);
             this.grpButtons.Panel.Controls.Add(this.btnStandalone);
+            this.grpButtons.Panel.Controls.Add(this.btnKryptonSplit);
             this.grpButtons.Panel.Controls.Add(this.btnSplit);
             this.grpButtons.Panel.Controls.Add(this.btnDropDown);
             //
@@ -178,6 +180,15 @@ namespace TestForm
             this.btnSplit.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.btnSplit.Values.ShowSplitOption = true;
             this.btnSplit.Values.Text = "KryptonButton (Split)";
+            //
+            // btnKryptonSplit
+            //
+            this.btnKryptonSplit.KryptonContextMenu = this.kryptonContextMenu1;
+            this.btnKryptonSplit.Location = new System.Drawing.Point(230, 75);
+            this.btnKryptonSplit.Name = "btnKryptonSplit";
+            this.btnKryptonSplit.Size = new System.Drawing.Size(200, 28);
+            this.btnKryptonSplit.TabIndex = 6;
+            this.btnKryptonSplit.Values.Text = "KryptonSplitButton";
             //
             // btnStandalone
             //
@@ -319,6 +330,7 @@ namespace TestForm
         private Krypton.Toolkit.KryptonGroupBox grpButtons;
         private Krypton.Toolkit.KryptonDropButton btnDropDown;
         private Krypton.Toolkit.KryptonButton btnSplit;
+        private Krypton.Toolkit.KryptonSplitButton btnKryptonSplit;
         private Krypton.Toolkit.KryptonButton btnStandalone;
         private Krypton.Toolkit.KryptonButton btnDisabled;
         private Krypton.Toolkit.KryptonLabel lblArrowColor;
