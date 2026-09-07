@@ -15,6 +15,7 @@ namespace Krypton.Toolkit;
 /// Class CommonHelperThemeSelectors hold the common code for all Theme Selector controls:<br/>
 /// - KryptonThemeComboBox<br/>
 /// - KryptonThemeListBox<br/>
+/// - KryptonThemeListView<br/>
 /// - KryptonRibbonGroupThemeComboBox<br/>
 /// - KryptonThemeBrowser
 /// </summary>

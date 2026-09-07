@@ -478,6 +478,7 @@
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonTaskDialog.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonMessageBox.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonTrackBar.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonRating.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonManager.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonHeaderGroup.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonGroup.bmp" />
@@ -490,6 +491,7 @@
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonCheckSet.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonBorderEdge.bmp" />
 	<Content Include="Krypton.ico" Pack="false" />
+	<EmbeddedResource Include="Resources\KryptonPalette.ico" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonGroupBox.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonWrapLabel.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonSeparator.bmp" />
