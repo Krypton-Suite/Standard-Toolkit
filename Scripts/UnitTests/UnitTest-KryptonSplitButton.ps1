@@ -57,9 +57,10 @@ try {
     Assert-True ($button.Splitter) 'Splitter is true on construct'
     $button.Splitter = $false
     Assert-True ($button.Splitter) 'Splitter stays true when set to false'
-    Assert-True $button.Values.IsDefault 'Values.IsDefault is true on construct'
+    Assert-True ($button.Values.IsDefault) 'Values.IsDefault is true on construct'
 
-    $mnemonic = $splitType.GetProperty('MnemonicPerformsDropDown', [System.Reflection.BindingFlags]'Instance,NonPublic,Public')
+    $flags = [System.Reflection.BindingFlags]'Instance,NonPublic,Public,FlattenHierarchy'
+    $mnemonic = $splitType.GetProperty('MnemonicPerformsDropDown', $flags)
     Assert-True ($null -ne $mnemonic) 'MnemonicPerformsDropDown property exists'
     if ($null -ne $mnemonic) {
         Assert-True (-not [bool]$mnemonic.GetValue($button)) 'MnemonicPerformsDropDown is false'
@@ -72,11 +73,27 @@ try {
         Assert-True ($acc.Role -eq [System.Windows.Forms.AccessibleRole]::SplitButton) 'Accessible role is SplitButton'
     }
 
-    $getH = $splitType.GetMethod('GetPositionH', [System.Reflection.BindingFlags]'Instance,NonPublic,Public')
+    $getH = [Krypton.Toolkit.KryptonDropButton].GetMethod('GetPositionH', [System.Reflection.BindingFlags]'Instance,NonPublic,Public')
     Assert-True ($null -ne $getH) 'GetPositionH exists'
     if ($null -ne $getH) {
-        $posH = $getH.Invoke($button, @())
-        Assert-True ($posH.ToString() -eq 'Right') 'Drop-down aligns to the chevron (PositionH.Right)'
+        Assert-True ($getH.Invoke($button, @()).ToString() -eq 'Right') 'KryptonSplitButton drop-down aligns to the chevron (PositionH.Right)'
+
+        $drop = New-Object Krypton.Toolkit.KryptonDropButton
+        try {
+            Assert-True ($getH.Invoke($drop, @()).ToString() -eq 'Right') 'KryptonDropButton drop-down aligns to the chevron (PositionH.Right)'
+        }
+        finally {
+            $drop.Dispose()
+        }
+
+        $push = New-Object Krypton.Toolkit.KryptonButton
+        try {
+            $push.ShowSplitOption = $true
+            Assert-True ($getH.Invoke($push, @()).ToString() -eq 'Right') 'KryptonButton+ShowSplitOption drop-down aligns to the chevron (PositionH.Right)'
+        }
+        finally {
+            $push.Dispose()
+        }
     }
 }
 finally {

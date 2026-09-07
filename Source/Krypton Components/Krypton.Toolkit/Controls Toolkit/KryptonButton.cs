@@ -62,6 +62,7 @@ public class KryptonButton : KryptonDropButton
     /// <value><c>true</c> if the chevron is shown; otherwise, <c>false</c>.</value>
     /// <remarks>
     /// Prefer <see cref="KryptonSplitButton"/> when the control is always a split button.
+    /// When enabled, the drop-down is aligned to the chevron (same as <see cref="KryptonDropButton"/>).
     /// </remarks>
     [Category(@"Visuals")]
     [DefaultValue(false)]

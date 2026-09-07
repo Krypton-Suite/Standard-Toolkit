@@ -1090,24 +1090,50 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
     /// <summary>
     /// Gets the horizontal placement of the drop-down relative to the button.
     /// </summary>
+    /// <remarks>
+    /// When the menu opens above or below, it is aligned to the chevron
+    /// (<see cref="DropDownPosition"/>) rather than the caption edge.
+    /// </remarks>
     /// <returns>The horizontal position used when showing the menu.</returns>
-    protected virtual KryptonContextMenuPositionH GetPositionH() => DropDownOrientation switch
+    protected virtual KryptonContextMenuPositionH GetPositionH()
     {
-        VisualOrientation.Left => KryptonContextMenuPositionH.Before,
-        VisualOrientation.Right => KryptonContextMenuPositionH.After,
-        _ => KryptonContextMenuPositionH.Left
-    };
+        switch (DropDownOrientation)
+        {
+            case VisualOrientation.Left:
+                return KryptonContextMenuPositionH.Before;
+            case VisualOrientation.Right:
+                return KryptonContextMenuPositionH.After;
+            default:
+                return DropDownPosition switch
+                {
+                    VisualOrientation.Right => KryptonContextMenuPositionH.Right,
+                    VisualOrientation.Left => KryptonContextMenuPositionH.Left,
+                    _ => KryptonContextMenuPositionH.Left
+                };
+        }
+    }
 
     /// <summary>
     /// Gets the vertical placement of the drop-down relative to the button.
     /// </summary>
     /// <returns>The vertical position used when showing the menu.</returns>
-    protected virtual KryptonContextMenuPositionV GetPositionV() => DropDownOrientation switch
+    protected virtual KryptonContextMenuPositionV GetPositionV()
     {
-        VisualOrientation.Top => KryptonContextMenuPositionV.Above,
-        VisualOrientation.Left or VisualOrientation.Right => KryptonContextMenuPositionV.Top,
-        _ => KryptonContextMenuPositionV.Below
-    };
+        switch (DropDownOrientation)
+        {
+            case VisualOrientation.Top:
+                return KryptonContextMenuPositionV.Above;
+            case VisualOrientation.Left:
+            case VisualOrientation.Right:
+                return KryptonContextMenuPositionV.Top;
+            default:
+                return DropDownPosition switch
+                {
+                    VisualOrientation.Top => KryptonContextMenuPositionV.Above,
+                    _ => KryptonContextMenuPositionV.Below
+                };
+        }
+    }
 
     private void OnContextMenuClosed(object? sender, EventArgs e) => ContextMenuClosed();
 
