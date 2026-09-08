@@ -151,22 +151,32 @@ internal static class RibbonRtlLayout
             return;
         }
 
-        control.RightToLeft = ribbon.RightToLeft;
-        var layout = ribbon.RightToLeftLayout;
-        switch (control)
+        // Setting RightToLeft performs layout. Popups often call this in the constructor
+        // before Renderer/Root exist (File menu), so defer layout until Show.
+        control.SuspendLayout();
+        try
         {
-            case KryptonRibbon otherRibbon:
-                otherRibbon.RightToLeftLayout = layout;
-                break;
-            case VisualControlBase visual:
-                visual.RightToLeftLayout = layout;
-                break;
-            case VisualPopup popup:
-                popup.RightToLeftLayout = layout;
-                break;
-            case Form form:
-                form.RightToLeftLayout = layout;
-                break;
+            control.RightToLeft = ribbon.RightToLeft;
+            var layout = ribbon.RightToLeftLayout;
+            switch (control)
+            {
+                case VisualSimpleBase visual:
+                    visual.RightToLeftLayout = layout;
+                    break;
+                case VisualPopup popup:
+                    popup.RightToLeftLayout = layout;
+                    break;
+                case Form form:
+                    form.RightToLeftLayout = layout;
+                    break;
+                case KryptonRibbon otherRibbon:
+                    otherRibbon.RightToLeftLayout = layout;
+                    break;
+            }
+        }
+        finally
+        {
+            control.ResumeLayout(false);
         }
     }
 }

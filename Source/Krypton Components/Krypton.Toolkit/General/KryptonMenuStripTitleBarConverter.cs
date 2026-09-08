@@ -52,7 +52,7 @@ internal static class KryptonMenuStripTitleBarConverter
             ImageTransparentColor = menuItem.ImageTransparentColor,
             ToolTipTitle = string.IsNullOrEmpty(menuItem.ToolTipText)
                 ? menuItem.Text ?? string.Empty
-                : menuItem.ToolTipText,
+                : menuItem.ToolTipText ?? string.Empty,
             Enabled = menuItem.Enabled ? ButtonEnabled.True : ButtonEnabled.False,
             Visible = menuItem.Available
         };
