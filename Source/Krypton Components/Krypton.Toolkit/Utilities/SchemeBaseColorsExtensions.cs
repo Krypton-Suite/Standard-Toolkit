@@ -61,6 +61,68 @@ public static class SchemeBaseColorsExtensions
         Coalesce(Get(colors, primary), Get(colors, fallback));
 
     /// <summary>
+    /// Resolves <see cref="SchemeBaseColors.ToolStripText"/> against the tool-strip background.
+    /// An explicit slot always wins. When that slot is empty, <paramref name="historicFallback"/>
+    /// is used only when it contrasts with <see cref="SchemeBaseColors.ToolStripBegin"/>;
+    /// otherwise a later scheme text colour (or black/white) is used so labels stay readable
+    /// on light and dark strips (issue 4373).
+    /// </summary>
+    /// <param name="colors">Scheme array indexed by <see cref="SchemeBaseColors"/>.</param>
+    /// <param name="historicFallback">Historic ColorTable alias (status-strip or button text).</param>
+    /// <returns>A colour that should remain readable on the tool-strip gradient.</returns>
+    public static Color ResolveToolStripText(this Color[]? colors, SchemeBaseColors historicFallback) =>
+        ResolveContrasting(
+            colors,
+            SchemeBaseColors.ToolStripText,
+            Get(colors, SchemeBaseColors.ToolStripBegin),
+            historicFallback,
+            SchemeBaseColors.StatusStripText,
+            SchemeBaseColors.TextButtonNormal,
+            SchemeBaseColors.TextLabelControl,
+            SchemeBaseColors.TextLabelPanel);
+
+    /// <summary>
+    /// Reads <paramref name="primary"/> when it is set; otherwise the first <paramref name="fallbacks"/>
+    /// colour that contrasts with <paramref name="background"/>, then black or white.
+    /// </summary>
+    /// <param name="colors">Scheme array indexed by <see cref="SchemeBaseColors"/>.</param>
+    /// <param name="primary">Preferred scheme slot.</param>
+    /// <param name="background">Surface the text will sit on.</param>
+    /// <param name="fallbacks">Candidate slots, tried in order.</param>
+    /// <returns>The resolved colour.</returns>
+    public static Color ResolveContrasting(
+        this Color[]? colors,
+        SchemeBaseColors primary,
+        Color background,
+        params SchemeBaseColors[] fallbacks)
+    {
+        var primaryColor = Get(colors, primary);
+        if (!IsEmptySchemeColor(primaryColor))
+        {
+            return primaryColor;
+        }
+
+        if (fallbacks != null)
+        {
+            for (int i = 0; i < fallbacks.Length; i++)
+            {
+                var candidate = Get(colors, fallbacks[i]);
+                if (IsEmptySchemeColor(candidate))
+                {
+                    continue;
+                }
+
+                if (IsEmptySchemeColor(background) || CommonHelper.HasReadableContrast(candidate, background))
+                {
+                    return candidate;
+                }
+            }
+        }
+
+        return CommonHelper.ContrastingBlackOrWhite(background);
+    }
+
+    /// <summary>
     /// Reads a scheme slot, returning <see cref="Color.Empty"/> when the array is null or too short.
     /// </summary>
     /// <param name="colors">Scheme array indexed by <see cref="SchemeBaseColors"/>.</param>

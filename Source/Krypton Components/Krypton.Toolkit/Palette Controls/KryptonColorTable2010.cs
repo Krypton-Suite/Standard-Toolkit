@@ -514,8 +514,10 @@ public class KryptonColorTable2010 : KryptonColorTable
     #region ToolStripText
     /// <summary>
     /// Gets the text color used on the tool strip.
+    /// Empty <see cref="SchemeBaseColors.ToolStripText"/> keeps the historic alias only when it
+    /// contrasts with the strip background.
     /// </summary>
-    public override Color ToolStripText => Colors.Resolve(SchemeBaseColors.ToolStripText, SchemeBaseColors.StatusStripText);
+    public override Color ToolStripText => Colors.ResolveToolStripText(SchemeBaseColors.StatusStripText);
 
     #endregion
 

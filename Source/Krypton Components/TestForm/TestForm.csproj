@@ -195,7 +195,6 @@
     <Folder Include="KryptonNavigator\Feature\" />
     <Folder Include="KryptonRibbon\Bugs\" />
     <Folder Include="KryptonRibbon\Feature\" />
-    <Folder Include="KryptonToolkit\Bugs\" />
     <Folder Include="KryptonUtilities\Bugs\" />
     <Folder Include="KryptonUtilities\Feature\" />
     <Folder Include="KryptonWorkspace\Bugs\" />

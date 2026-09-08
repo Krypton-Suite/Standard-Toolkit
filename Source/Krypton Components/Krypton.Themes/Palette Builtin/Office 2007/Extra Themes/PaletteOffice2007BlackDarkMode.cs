@@ -6158,7 +6158,7 @@ public class KryptonColorTable2007BlackDarkMode : KryptonColorTable
     /// <summary>
     /// Gets the text color used on the tool strip.
     /// </summary>
-    public override Color ToolStripText => Colors.Resolve(SchemeBaseColors.ToolStripText, SchemeBaseColors.TextLabelPanel);
+    public override Color ToolStripText => Colors.ResolveToolStripText(SchemeBaseColors.TextLabelPanel);
 
     #endregion
 
