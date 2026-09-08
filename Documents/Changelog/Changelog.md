@@ -4,7 +4,7 @@
 
 ## Table of Contents
 
-* [2026-11-xx - Build 2611 (V110 Nightly) - November 2026](#2026-11-xx---build-2611-v110-nightly---november-2026)
+* [2026-11-30 - Build 2611 (V110 Nightly) - November 2026](#2026-11-30---build-2611-v110-nightly---november-2026)
 * [2025-11-24 - Build 2511 (V100 RTM) - November 2025](#2025-11-24---build-2511-v100-rtm---november-2025)
 * [2025-06-23 - Build 2506 (Version 95 - Patch 7) - June 2025](#2025-06-23---build-2506-version-95---patch-7---june-2025)
 * [2025-04-21 - Build 2504 (Version 95 - Patch 6) - April 2025](#2025-04-21---build-2504-version-95---patch-6---april-2025)
@@ -43,7 +43,7 @@
 
 =======
 
-## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
+## 2026-11-30 - Build 2611 (V110 Nightly) - November 2026
 
 * Implemented [#4369](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4369), A way to store `KryptonRibbon` strings into a database
   * Save/load the ribbon instance caption tree via versioned `RibbonTranslations.xml` / JSON (tabs, groups, buttons, KeyTips, tooltips, QAT, contexts, app menu, recent docs, backstage) with stream overloads for database BLOBs.
