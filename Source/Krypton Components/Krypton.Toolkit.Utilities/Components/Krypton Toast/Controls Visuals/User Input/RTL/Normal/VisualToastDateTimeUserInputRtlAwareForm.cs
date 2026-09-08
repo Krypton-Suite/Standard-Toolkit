@@ -52,14 +52,14 @@ internal partial class VisualToastDateTimeUserInputRtlAwareForm : VisualToastBas
 
     private void UpdateBorderColors()
     {
-        StateCommon!.Border.Color1 = _data.BorderColor1 ?? GlobalStaticValues.EMPTY_COLOR;
+        StateCommon!.Border.Color1 = _data.BorderColor1 ?? SharedStaticVariables.EMPTY_COLOR;
 
-        StateCommon!.Border.Color2 = _data.BorderColor2 ?? GlobalStaticValues.EMPTY_COLOR;
+        StateCommon!.Border.Color2 = _data.BorderColor2 ?? SharedStaticVariables.EMPTY_COLOR;
     }
 
     private void UpdateText()
     {
-        GlobalStaticValues.ApplyToastRichTextContentColor(krtbNotificationContentText);
+        CommonFeatures.ApplyToastRichTextContentColor(krtbNotificationContentText);
 
         klblHeader.Text = _data.NotificationTitle;
 
@@ -69,11 +69,11 @@ internal partial class VisualToastDateTimeUserInputRtlAwareForm : VisualToastBas
     private void UpdateInitialValues()
     {
         // Set initial date and time values
-        kdtpUserInput.Value = _data.InitialDateTimeValue ?? GlobalStaticValues.DEFAULT_DATE_TIME_VALUE;
+        kdtpUserInput.Value = _data.InitialDateTimeValue ?? SharedStaticConstants.DEFAULT_DATE_TIME_VALUE;
 
         kdtpUserInput.Format = _data.DateTimeFormat ?? DateTimePickerFormat.Long;
 
-        kdtpUserInput.CustomFormat = _data.CustomDateTimeFormat ?? GlobalStaticValues.DEFAULT_EMPTY_STRING;
+        kdtpUserInput.CustomFormat = _data.CustomDateTimeFormat ?? SharedStaticVariables.DEFAULT_EMPTY_STRING;
 
         kdtpUserInput.MaxDate = _data.MaximumDateTimeValue ?? DateTime.MaxValue;
 
@@ -230,13 +230,13 @@ internal partial class VisualToastDateTimeUserInputRtlAwareForm : VisualToastBas
 
         if (owner != null)
         {
-            toast.StartPosition = owner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
+            toast.StartPosition = FormStartPosition.CenterParent;
 
-            return toast.ShowDialog(owner!) == DialogResult.OK ? toast.UserResponse : GlobalStaticValues.DEFAULT_DATE_TIME_VALUE;
+            return toast.ShowDialog(owner!) == DialogResult.OK ? toast.UserResponse : SharedStaticConstants.DEFAULT_DATE_TIME_VALUE;
         }
         else
         {
-            return toast.ShowDialog() == DialogResult.OK ? toast.UserResponse : GlobalStaticValues.DEFAULT_DATE_TIME_VALUE;
+            return toast.ShowDialog() == DialogResult.OK ? toast.UserResponse : SharedStaticConstants.DEFAULT_DATE_TIME_VALUE;
         }
     }
 
@@ -252,7 +252,7 @@ internal partial class VisualToastDateTimeUserInputRtlAwareForm : VisualToastBas
         // Await required so using does not dispose the form before the dialog completes.
         DialogResult result = await KryptonFormAsync.ShowDialogAsync(toast, owner).ConfigureAwait(false);
 
-        return result == DialogResult.OK ? toast.UserResponse : GlobalStaticValues.DEFAULT_DATE_TIME_VALUE;
+        return result == DialogResult.OK ? toast.UserResponse : SharedStaticConstants.DEFAULT_DATE_TIME_VALUE;
     }
 #endregion
 }

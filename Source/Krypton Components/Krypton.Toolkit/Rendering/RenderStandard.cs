@@ -11607,6 +11607,27 @@ public class RenderStandard : RenderBase
 	}
 
 	/// <summary>
+	/// True when Office 2007 QAT minibar chrome should be mirrored (orb-side tail on the right).
+	/// </summary>
+	private static bool IsQatMinibarRtl(RenderContext context) =>
+		CommonHelper.IsRightToLeftLayout(context.Control)
+		|| CommonHelper.IsRightToLeftLayout(context.TopControl);
+
+	/// <summary>
+	/// Horizontally mirrors QAT minibar paths around <paramref name="rect"/> without flipping child glyphs.
+	/// </summary>
+	private static void MirrorQatMinibarPaths(Rectangle rect,
+		GraphicsPath borderPath,
+		GraphicsPath topRight1,
+		GraphicsPath bottomLeft1)
+	{
+		using var mirror = new Matrix(-1f, 0f, 0f, 1f, rect.Left + rect.Right, 0f);
+		borderPath.Transform(mirror);
+		topRight1.Transform(mirror);
+		bottomLeft1.Transform(mirror);
+	}
+
+	/// <summary>
 	/// Internal rendering method.
 	/// </summary>
 	protected virtual IDisposable? DrawRibbonQATMinibarSingle(RenderContext context,
@@ -11622,6 +11643,7 @@ public class RenderStandard : RenderBase
 			Color c3 = palette.GetRibbonBackColor3(state);
 			Color c4 = palette.GetRibbonBackColor4(state);
 			Color c5 = palette.GetRibbonBackColor5(state);
+			var isRtl = IsQatMinibarRtl(context);
 
 			var generate = true;
 			MementoRibbonQATMinibar cache;
@@ -11630,13 +11652,16 @@ public class RenderStandard : RenderBase
 			if (memento is MementoRibbonQATMinibar minibar)
 			{
 				cache = minibar;
-				generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, c5);
+				generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, c5, isRtl);
 			}
 			else
 			{
 				memento?.Dispose();
 
-				cache = new MementoRibbonQATMinibar(rect, c1, c2, c3, c4, c5);
+				cache = new MementoRibbonQATMinibar(rect, c1, c2, c3, c4, c5)
+				{
+					Rtl = isRtl
+				};
 				memento = cache;
 			}
 
@@ -11696,6 +11721,11 @@ public class RenderStandard : RenderBase
 				cache.InnerBrush = new LinearGradientBrush(gradientRect, c2, c3, 90f);
 				cache.InnerBrush.SetSigmaBellShape(0.5f);
 
+				if (isRtl)
+				{
+					MirrorQatMinibarPaths(rect, borderPath, topRight1, bottomLeft1);
+				}
+
 				cache.BorderPath = borderPath;
 				cache.TopRight1 = topRight1;
 				cache.BottomLeft1 = bottomLeft1;
@@ -11713,10 +11743,18 @@ public class RenderStandard : RenderBase
 			context.Graphics.FillPath(cache.InnerBrush!, cache.BorderPath!);
 			context.Graphics.DrawPath(cache.BorderPen!, cache.BorderPath!);
 
-			// Overdraw top for lighter effect
+			// Overdraw top for lighter effect (insets follow the orb-side tail).
 			context.Graphics.DrawLine(cache.WhitenPen!, rect.Left + 10, rect.Top + 2, rect.Right - 10, rect.Top + 2);
-			context.Graphics.DrawLine(cache.WhitenPen!, rect.Left + 12, rect.Top + 3, rect.Right - 8, rect.Top + 3);
-			context.Graphics.DrawLine(cache.WhitenPen!, rect.Left + 14, rect.Top + 4, rect.Right - 7, rect.Top + 4);
+			if (isRtl)
+			{
+				context.Graphics.DrawLine(cache.WhitenPen!, rect.Left + 8, rect.Top + 3, rect.Right - 12, rect.Top + 3);
+				context.Graphics.DrawLine(cache.WhitenPen!, rect.Left + 7, rect.Top + 4, rect.Right - 14, rect.Top + 4);
+			}
+			else
+			{
+				context.Graphics.DrawLine(cache.WhitenPen!, rect.Left + 12, rect.Top + 3, rect.Right - 8, rect.Top + 3);
+				context.Graphics.DrawLine(cache.WhitenPen!, rect.Left + 14, rect.Top + 4, rect.Right - 7, rect.Top + 4);
+			}
 		}
 
 		return memento;
@@ -11738,6 +11776,7 @@ public class RenderStandard : RenderBase
 			Color c3 = palette.GetRibbonBackColor3(state);
 			Color c4 = palette.GetRibbonBackColor4(state);
 			Color c5 = palette.GetRibbonBackColor5(state);
+			var isRtl = IsQatMinibarRtl(context);
 
 			var generate = true;
 			MementoRibbonQATMinibar cache;
@@ -11746,13 +11785,16 @@ public class RenderStandard : RenderBase
 			if (memento is MementoRibbonQATMinibar minibar)
 			{
 				cache = minibar;
-				generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, c5);
+				generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, c5, isRtl);
 			}
 			else
 			{
 				memento?.Dispose();
 
-				cache = new MementoRibbonQATMinibar(rect, c1, c2, c3, c4, c5);
+				cache = new MementoRibbonQATMinibar(rect, c1, c2, c3, c4, c5)
+				{
+					Rtl = isRtl
+				};
 				memento = cache;
 			}
 
@@ -11812,6 +11854,11 @@ public class RenderStandard : RenderBase
 				gradientRect.Height *= 1.25f;
 				cache.InnerBrush = new LinearGradientBrush(gradientRect, c2, c3, 90f);
 				cache.InnerBrush.SetSigmaBellShape(0.5f);
+
+				if (isRtl)
+				{
+					MirrorQatMinibarPaths(rect, borderPath, topRight1, bottomLeft1);
+				}
 
 				cache.BorderPath = borderPath;
 				cache.TopRight1 = topRight1;

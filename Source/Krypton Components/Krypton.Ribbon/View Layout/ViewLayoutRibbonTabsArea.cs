@@ -828,7 +828,7 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
             // Need to know when the visual control is removed
             _appMenu.Disposed += OnAppMenuDisposed;
 
-            // Adjust the screen rect of the app button/tab, so we show half-way down the button
+            // Overlap the start-side window edge slightly (left in LTR, right in RTL).
             appRectShow.X += RibbonRtlLayout.IsRtl(_ribbon) ? 3 : -3;
             appRectShow.Height = 0;
 
