@@ -30,6 +30,12 @@ public partial class BorderlessFormDemo : KryptonForm
         another.Show();
     }
 
+    private void kbtnOpenMdiHost_Click(object? sender, EventArgs e)
+    {
+        var host = new BorderlessMdiHostDemo();
+        host.Show();
+    }
+
     private void kbtnClose_Click(object? sender, EventArgs e)
     {
         Close();
