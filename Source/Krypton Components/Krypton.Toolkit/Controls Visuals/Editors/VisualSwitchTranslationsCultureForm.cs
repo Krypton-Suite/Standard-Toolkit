@@ -82,7 +82,7 @@ internal sealed partial class VisualSwitchTranslationsCultureForm : KryptonForm
     {
         using var folderDialog = new KryptonFolderBrowserDialog
         {
-            Title = @"Select the folder containing Translations.{culture}.* files",
+            Title = @"Select the folder containing ToolkitTranslations.{culture}.* files",
             SelectedPath = ktxtDirectory.Text
         };
 

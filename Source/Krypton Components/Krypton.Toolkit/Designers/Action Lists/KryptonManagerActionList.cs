@@ -185,7 +185,7 @@ internal class KryptonManagerActionList : DesignerActionList
             using var ofd = new OpenFileDialog();
             ofd.CheckFileExists = true;
             ofd.CheckPathExists = true;
-            ofd.FileName = @"Translations";
+            ofd.FileName = @"ToolkitTranslations";
             ofd.DefaultExt = @"xml";
             ofd.Filter = @"Translations files (*.xml)|*.xml|All files (*.*)|(*.*)";
             ofd.Title = @"Load Translations";
@@ -217,7 +217,7 @@ internal class KryptonManagerActionList : DesignerActionList
             using var sfd = new SaveFileDialog();
             sfd.OverwritePrompt = true;
             sfd.DefaultExt = @"xml";
-            sfd.FileName = @"Translations";
+            sfd.FileName = @"ToolkitTranslations";
             sfd.Filter = @"Translations files (*.xml)|*.xml|All files (*.*)|(*.*)";
             sfd.Title = @"Save Translations";
 
@@ -247,7 +247,7 @@ internal class KryptonManagerActionList : DesignerActionList
             using var ofd = new OpenFileDialog();
             ofd.CheckFileExists = true;
             ofd.CheckPathExists = true;
-            ofd.FileName = @"Translations";
+            ofd.FileName = @"ToolkitTranslations";
             ofd.DefaultExt = @"json";
             ofd.Filter = @"JSON Translations files (*.json)|*.json|All files (*.*)|(*.*)";
             ofd.Title = @"Load Translations (JSON)";
@@ -279,7 +279,7 @@ internal class KryptonManagerActionList : DesignerActionList
             using var sfd = new SaveFileDialog();
             sfd.OverwritePrompt = true;
             sfd.DefaultExt = @"json";
-            sfd.FileName = @"Translations";
+            sfd.FileName = @"ToolkitTranslations";
             sfd.Filter = @"JSON Translations files (*.json)|*.json|All files (*.*)|(*.*)";
             sfd.Title = @"Save Translations (JSON)";
 
@@ -309,7 +309,7 @@ internal class KryptonManagerActionList : DesignerActionList
             using var sfd = new SaveFileDialog();
             sfd.OverwritePrompt = true;
             sfd.DefaultExt = @"xml";
-            sfd.FileName = @"Translations-Template.xml";
+            sfd.FileName = @"ToolkitTranslations-Template.xml";
             sfd.Filter = @"Translations files (*.xml)|*.xml|All files (*.*)|(*.*)";
             sfd.Title = @"Generate Translation Template (XML — all strings included)";
 
@@ -339,7 +339,7 @@ internal class KryptonManagerActionList : DesignerActionList
             using var sfd = new SaveFileDialog();
             sfd.OverwritePrompt = true;
             sfd.DefaultExt = @"json";
-            sfd.FileName = @"Translations-Template.json";
+            sfd.FileName = @"ToolkitTranslations-Template.json";
             sfd.Filter = @"JSON Translations files (*.json)|*.json|All files (*.*)|(*.*)";
             sfd.Title = @"Generate Translation Template (JSON — all strings included)";
 
@@ -369,7 +369,7 @@ internal class KryptonManagerActionList : DesignerActionList
             using var ofd = new OpenFileDialog();
             ofd.CheckFileExists = true;
             ofd.CheckPathExists = true;
-            ofd.FileName = @"Translations";
+            ofd.FileName = @"ToolkitTranslations";
             ofd.Filter = @"Translations files (*.xml;*.json)|*.xml;*.json|XML (*.xml)|*.xml|JSON (*.json)|*.json|All files (*.*)|(*.*)";
             ofd.Title = @"Merge Missing Translations into File";
 

@@ -24,6 +24,7 @@ global using System.Linq;
 global using System.Reflection;
 global using System.Runtime.InteropServices;
 global using System.Text;
+global using System.Xml;
 global using System.Windows.Forms;
 global using System.Windows.Forms.Design;
 global using System.Windows.Forms.VisualStyles;

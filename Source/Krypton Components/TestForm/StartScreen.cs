@@ -62,7 +62,8 @@ public partial class StartScreen : KryptonForm
     {
         CreateButton<ThemeCatalogDemo>("4230 Theme Catalog / 3870 Theme ListView", "Issue #4230: core vs extra palettes, ShowExtraThemes, extra-only Sparkle, theme browser, and KryptonThemeAvailability export/import. Issue #3870: KryptonThemeListView shows stored or generated theme previews (Large Icons / Tile / Details); hover a row for a live theme preview; custom palettes without a Thumbnail use the Kr tile.");
         CreateButton<ApplicationStringsTest>("Custom Strings", "Issue #3757: store and localise custom strings via KryptonCustomStrings in Krypton.Toolkit.Utilities.");
-        CreateButton<TranslationsXmlDemoForm>("Translations XML (Import/Export)", "Export/import KryptonManager toolkit strings via Translations.xml (designer/runtime validation).");
+        CreateButton<TranslationsXmlDemoForm>("Toolkit Translations XML (Import/Export)", "Export/import KryptonManager toolkit strings via ToolkitTranslations.xml (designer/runtime validation). Ribbon instance captions: see Ribbon Translations (#4369).");
+        CreateButton<RibbonTranslationsDemo>("Ribbon Translations (#4369)", "Issue #4369: export/import KryptonRibbon captions via RibbonTranslations.xml/JSON, analyze coverage, and Auto Discover RibbonTranslations.de.xml.");
         CreateButton<AboutBoxTest>("AboutBox", "Try this About Box for a change. System Information now opens the Krypton msinfo32-style viewer (#3176).");
         CreateButton<KryptonSystemInformationDemo>("System Information (#3176)", "Krypton msinfo32 drop-in in Krypton.Toolkit.Utilities: category tree, lazy WMI, Find/Copy/Save/Refresh, optional native MSInfo32, RTL, modal vs modeless.");
         CreateButton<AboutBoxTest>("AboutBox (#2222)", "Issue #2222: comprehensive About dialog. Show (this app) uses KryptonAboutBox.Show() from assembly attributes. Show custom exercises images, toolkit page, full build date, RTL, and File Information grids.");

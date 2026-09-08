@@ -68,7 +68,8 @@ Default output folder: `Bin\Debug\net472`.
 | `UnitTest-KryptonLogProtect.ps1` | #4270 / #4269 `KryptonLog` redacts `{Password}` before file storage | `include` |
 | `UnitTest-BugReportEmailBody.ps1` | #4271 bug-report email body omits stack traces and SMTP password; `KryptonTextBox` password masking still works | `include` |
 | `UnitTest-CommandLinkArrow.ps1` | #4264 default command-link arrow: helper returns 32x32 image; Windows 7 embedded resource is packaged | `include` |
-| `UnitTest-RibbonOverflowGlyph.ps1` | #4253 QAT overflow chevrons paint at 96/144/192 DPI for Office 2007 and Office 2010 | `include` |
+| `UnitTest-RibbonOverflowGlyph.ps1` | #4253 overflow glyph: `GetCachedRibbonOverflowImage` 16x16; `ViewLayoutRibbonGroups.IsOverflow` / `DisplayOverflowButton` | `include` |
+| `UnitTest-RibbonTranslations.ps1` | #4369 RibbonTranslations.xml/JSON round-trip plus Auto Discover of `RibbonTranslations.de.xml` | `include` |
 | `UnitTest-CustomPaletteBasePaletteMode.ps1` | #1870 `KryptonCustomPaletteBase.BasePaletteMode` inherits the builtin colour table; builtin `BasePalette` keeps catalog mode | `include` |
 | `UnitTest-PaletteBinary.ps1` | #2117 custom palette `.kthemex` / `.ktheme` round-trip, `Convert`, `UpgradeXmlToKthemex` / `ConvertFile` (file and `KryptonCustomPaletteBase`), collections, `AddToCollection` / `RemoveFromCollection`, directory collections, and Utilities `FromDirectory` | `include` |
 | `UnitTest-KryptonFormRtl.ps1` | #2103 `KryptonForm` RTL: `ScreenToWindow` stays physical; Close hit-tests on the right in LTR and the left with `RightToLeftLayout`; window region includes both physical left and right chrome | `include` |
@@ -91,6 +92,7 @@ Default output folder: `Bin\Debug\net472`.
 | `Invoke-TreeViewMultiSelectScreenshot.ps1` | Hosts `Bug4326TreeViewMultiSelectDemo` and writes `Documents/PR/4326-treeview-multiselect-false.png` | `exclude` |
 | `Invoke-SchemeStripTextScreenshot.ps1` | Hosts `SchemeStripTextDemo` (#1100) and writes default/contrast PNGs under `Documents/PR/` | `exclude` |
 | `Invoke-RibbonRtlScreenshot.ps1` | Hosts `RibbonRtlDemo` (#2382) and writes LTR/RTL PNGs under `Documents/PR/` | `exclude` |
+| `Invoke-RibbonTranslationsScreenshot.ps1` | Hosts `RibbonTranslationsDemo` (#4369) and writes default/German PNGs under `Documents/PR/` | `exclude` |
 | `Invoke-RibbonCaptionPaletteScreenshot.ps1` | Hosts `Bug4061RibbonCaptionIconThemeDemo` (#3859 / #4061) and writes Office 2007 / Microsoft 365 PNGs under `Documents/PR/` | `exclude` |
 | `Invoke-PaletteBinaryScreenshot.ps1` | Hosts `PaletteBinaryDemo` (#2117) and writes `Documents/PR/2117-bulk-xml-upgrade-demo.png` | `exclude` |
 | `Invoke-PaletteCollectionEditorScreenshot.ps1` | Hosts `KryptonPaletteCollectionEditor` (#2117) and writes `Documents/PR/2117-pack-editor-demo.png` | `exclude` |
@@ -149,6 +151,16 @@ powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Uni
 ```powershell
 dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-RibbonOverflowGlyph.ps1
+```
+
+## Typical usage (#4369 ribbon translations)
+
+```powershell
+dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-RibbonTranslations.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-RibbonTranslationsScreenshot.ps1
+```
+
 ## Typical usage (#4271 bug-report email body)
 
 ```powershell

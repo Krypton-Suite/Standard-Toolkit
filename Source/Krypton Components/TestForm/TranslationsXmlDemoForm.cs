@@ -10,7 +10,7 @@
 namespace TestForm;
 
 /// <summary>
-/// Demo for exporting/importing KryptonManager toolkit strings through a versioned Translations.xml file.
+/// Demo for exporting/importing KryptonManager toolkit strings through a versioned ToolkitTranslations.xml file.
 /// </summary>
 public sealed class TranslationsXmlDemoForm : KryptonForm
 {
@@ -39,7 +39,7 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
 
     public TranslationsXmlDemoForm()
     {
-        Text = @"Translations.xml Demo";
+        Text = @"ToolkitTranslations.xml Demo";
         StartPosition = FormStartPosition.CenterScreen;
         Size = new Size(860, 600);
         MinimumSize = new Size(720, 480);
@@ -53,7 +53,8 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
             Text =
                 @"1) Edit OK/Cancel and Apply. 2) Use Windows language pack as needed." + Environment.NewLine +
                 @"3) Export/Import/Validate round-trips. Analyze reports missing/extra keys vs the live catalog." + Environment.NewLine +
-                @"4) Merge Missing upgrades an older file with new English placeholders while preserving translations."
+                @"4) Merge Missing upgrades an older file with new English placeholders while preserving translations." + Environment.NewLine +
+                @"Ribbon tab/group/button captions use RibbonTranslations.xml — open Ribbon Translations (#4369) from the start screen."
         };
 
         var editsPanel = new KryptonPanel
@@ -243,9 +244,10 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
             using var sfd = new SaveFileDialog
             {
                 OverwritePrompt = true,
+                FileName = @"ToolkitTranslations",
                 DefaultExt = @"xml",
                 Filter = @"Translations files (*.xml)|*.xml|All files (*.*)|(*.*)",
-                Title = @"Save Translations"
+                Title = @"Save Toolkit Translations"
             };
 
             if (sfd.ShowDialog(this) != DialogResult.OK || string.IsNullOrWhiteSpace(sfd.FileName))
@@ -265,9 +267,10 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
             {
                 CheckFileExists = true,
                 CheckPathExists = true,
+                FileName = @"ToolkitTranslations",
                 DefaultExt = @"xml",
                 Filter = @"Translations files (*.xml)|*.xml|All files (*.*)|(*.*)",
-                Title = @"Load Translations"
+                Title = @"Load Toolkit Translations"
             };
 
             if (ofd.ShowDialog(this) != DialogResult.OK || string.IsNullOrWhiteSpace(ofd.FileName))
@@ -303,6 +306,7 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
         {
             CheckFileExists = true,
             CheckPathExists = true,
+            FileName = @"ToolkitTranslations",
             Filter = @"Translations files (*.xml;*.json)|*.xml;*.json|XML (*.xml)|*.xml|JSON (*.json)|*.json|All files (*.*)|(*.*)",
             Title = @"Analyze Translations Coverage"
         };
@@ -339,6 +343,7 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
         {
             CheckFileExists = true,
             CheckPathExists = true,
+            FileName = @"ToolkitTranslations",
             Filter = @"Translations files (*.xml;*.json)|*.xml;*.json|XML (*.xml)|*.xml|JSON (*.json)|*.json|All files (*.*)|(*.*)",
             Title = @"Merge Missing Translations into File"
         };
