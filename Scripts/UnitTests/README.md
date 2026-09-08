@@ -1,5 +1,16 @@
 ﻿# Unit test scripts
 
+## Borderless form caption (`UnitTest-BorderlessFormCaption.ps1`)
+
+Issue #2922: after `Show`, a `FormBorderStyle.None` `KryptonForm` must not keep `WS_CAPTION`, and an MDI `Dock.Fill` child must fire `MdiChildActivate` with the MDI client 3D edge already stripped.
+
+Requires Debug `net472` TestForm output.
+
+```cmd
+dotnet build "Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-BorderlessFormCaption.ps1
+```
+
 ## Designer serialization defaults (`UnitTest-DesignerSerializationDefaults.ps1`)
 
 Fresh Toolbox controls must not show nested `Storage` objects as **Modified** (issue #4325).
