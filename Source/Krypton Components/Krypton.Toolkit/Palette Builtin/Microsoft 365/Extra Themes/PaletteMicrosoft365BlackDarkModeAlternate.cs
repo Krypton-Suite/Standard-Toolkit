@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege, et al. 2024 - 2025. All rights reserved.
@@ -864,7 +864,7 @@ public class KryptonColorTable365BlackDarkModeAlternate : KryptonColorTable
     /// <summary>
     /// Gets the text color used on the tool strip.
     /// </summary>
-    public override Color ToolStripText => _colors[(int)SchemeBaseColors.StatusStripText];
+    public override Color ToolStripText => _colors.ResolveToolStripText(SchemeBaseColors.StatusStripText);
 
     #endregion
 

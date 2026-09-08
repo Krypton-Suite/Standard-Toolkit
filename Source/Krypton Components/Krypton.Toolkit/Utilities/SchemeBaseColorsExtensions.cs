@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -38,6 +38,84 @@ public static class SchemeBaseColorsExtensions
 
         return colors;
     }
+
+    /// <summary>
+    /// Resolves tool-strip item text against the tool-strip background.
+    /// V105 ColorTables alias <see cref="SchemeBaseColors.StatusStripText"/> (or button/panel text).
+    /// Those historic colours are used only when they contrast with <see cref="SchemeBaseColors.ToolStripBegin"/>;
+    /// otherwise a later scheme text colour (or black/white) is used so labels stay readable
+    /// on light and dark strips (issue 4373).
+    /// </summary>
+    /// <param name="colors">Scheme array indexed by <see cref="SchemeBaseColors"/>.</param>
+    /// <param name="historicFallback">Historic ColorTable alias (status-strip, button, or panel text).</param>
+    /// <returns>A colour that should remain readable on the tool-strip gradient.</returns>
+    public static Color ResolveToolStripText(this Color[]? colors, SchemeBaseColors historicFallback) =>
+        ResolveContrasting(
+            colors,
+            Get(colors, SchemeBaseColors.ToolStripBegin),
+            historicFallback,
+            SchemeBaseColors.StatusStripText,
+            SchemeBaseColors.TextButtonNormal,
+            SchemeBaseColors.TextLabelControl,
+            SchemeBaseColors.TextLabelPanel);
+
+    /// <summary>
+    /// Returns the first <paramref name="fallbacks"/> colour that contrasts with
+    /// <paramref name="background"/>, then black or white.
+    /// </summary>
+    /// <param name="colors">Scheme array indexed by <see cref="SchemeBaseColors"/>.</param>
+    /// <param name="background">Surface the text will sit on.</param>
+    /// <param name="fallbacks">Candidate slots, tried in order.</param>
+    /// <returns>The resolved colour.</returns>
+    public static Color ResolveContrasting(
+        this Color[]? colors,
+        Color background,
+        params SchemeBaseColors[] fallbacks)
+    {
+        if (fallbacks != null)
+        {
+            for (int i = 0; i < fallbacks.Length; i++)
+            {
+                var candidate = Get(colors, fallbacks[i]);
+                if (IsEmptySchemeColor(candidate))
+                {
+                    continue;
+                }
+
+                if (IsEmptySchemeColor(background) || CommonHelper.HasReadableContrast(candidate, background))
+                {
+                    return candidate;
+                }
+            }
+        }
+
+        return CommonHelper.ContrastingBlackOrWhite(background);
+    }
+
+    /// <summary>
+    /// Reads a scheme slot, returning <see cref="Color.Empty"/> when the array is null or too short.
+    /// </summary>
+    /// <param name="colors">Scheme array indexed by <see cref="SchemeBaseColors"/>.</param>
+    /// <param name="index">Slot to read.</param>
+    /// <returns>The stored colour, or empty when missing.</returns>
+    public static Color Get(this Color[]? colors, SchemeBaseColors index)
+    {
+        if (colors is null)
+        {
+            return GlobalStaticValues.EMPTY_COLOR;
+        }
+
+        var i = (int)index;
+        return i >= 0 && i < colors.Length ? colors[i] : GlobalStaticValues.EMPTY_COLOR;
+    }
+
+    /// <summary>
+    /// True when <paramref name="value"/> is the scheme empty sentinel.
+    /// </summary>
+    /// <param name="value">Colour to test.</param>
+    /// <returns><see langword="true"/> when the colour should inherit a fallback slot.</returns>
+    public static bool IsEmptySchemeColor(Color value) =>
+        value.IsEmpty || value == GlobalStaticValues.EMPTY_COLOR;
 
     /// <summary>
     /// Extracts the six TrackBar-related colours from a scheme into the legacy Color array layout expected

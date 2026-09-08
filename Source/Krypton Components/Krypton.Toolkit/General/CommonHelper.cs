@@ -930,6 +930,146 @@ public static class CommonHelper
     }
 
     /// <summary>
+    /// WCAG AA contrast ratio for normal text (4.5:1).
+    /// </summary>
+    public const double ReadableContrastRatio = 4.5;
+
+    /// <summary>
+    /// WCAG relative luminance of <paramref name="color"/> in the range 0-1.
+    /// </summary>
+    /// <param name="color">Colour to measure. Empty colours are treated as black.</param>
+    /// <returns>Relative luminance.</returns>
+    public static double ColorRelativeLuminance(Color color)
+    {
+        if (color.IsEmpty)
+        {
+            return 0d;
+        }
+
+        return (0.2126d * LinearizeSrgb(color.R)) +
+               (0.7152d * LinearizeSrgb(color.G)) +
+               (0.0722d * LinearizeSrgb(color.B));
+    }
+
+    /// <summary>
+    /// WCAG contrast ratio between two colours (1-21).
+    /// </summary>
+    /// <param name="first">First colour.</param>
+    /// <param name="second">Second colour.</param>
+    /// <returns>Contrast ratio, or 1 when either colour is empty.</returns>
+    public static double ColorContrastRatio(Color first, Color second)
+    {
+        if (first.IsEmpty || second.IsEmpty)
+        {
+            return 1d;
+        }
+
+        var firstLuminance = ColorRelativeLuminance(first);
+        var secondLuminance = ColorRelativeLuminance(second);
+        var lighter = Math.Max(firstLuminance, secondLuminance);
+        var darker = Math.Min(firstLuminance, secondLuminance);
+        return (lighter + 0.05d) / (darker + 0.05d);
+    }
+
+    /// <summary>
+    /// True when <paramref name="foreground"/> and <paramref name="background"/> meet
+    /// <paramref name="minimumRatio"/> (WCAG AA 4.5:1 by default).
+    /// </summary>
+    /// <param name="foreground">Foreground colour.</param>
+    /// <param name="background">Background colour.</param>
+    /// <param name="minimumRatio">Minimum accepted ratio.</param>
+    /// <returns><see langword="true"/> when both colours are real and the ratio is high enough.</returns>
+    public static bool HasReadableContrast(Color foreground, Color background, double minimumRatio = ReadableContrastRatio) =>
+        !foreground.IsEmpty &&
+        !background.IsEmpty &&
+        ColorContrastRatio(foreground, background) >= minimumRatio;
+
+    /// <summary>
+    /// Black or white, whichever contrasts more with <paramref name="background"/>.
+    /// </summary>
+    /// <param name="background">Surface colour. Empty yields <see cref="SystemColors.MenuText"/>.</param>
+    /// <returns>Black or white (or menu text when the surface is empty).</returns>
+    public static Color ContrastingBlackOrWhite(Color background)
+    {
+        if (background.IsEmpty)
+        {
+            return SystemColors.MenuText;
+        }
+
+        return ColorRelativeLuminance(background) > 0.179d ? Color.Black : Color.White;
+    }
+
+    /// <summary>
+    /// True when <paramref name="font"/> can be used with GDI+ <c>DrawString</c>.
+    /// </summary>
+    /// <param name="font">Font to test. Disposed or zero-size fonts return <see langword="false"/>.</param>
+    /// <returns><see langword="true"/> when GDI+ will accept the font.</returns>
+    public static bool IsUsableFont(Font? font)
+    {
+        if (font == null)
+        {
+            return false;
+        }
+
+        try
+        {
+            return font.Size > 0f && font.Height > 0;
+        }
+        catch (ArgumentException)
+        {
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Assigns a clone of a palette font to <paramref name="control"/>.
+    /// WinForms takes ownership of <see cref="Control.Font"/> and would otherwise dispose the palette instance,
+    /// which makes the next paint throw <c>ArgumentException: Parameter is not valid</c> from <c>DrawString</c>.
+    /// </summary>
+    /// <param name="control">Control whose <see cref="Control.Font"/> should follow the palette.</param>
+    /// <param name="paletteFont">Palette-owned font. Cloned when metrics differ from the current control font.</param>
+    public static void SetControlFontFromPalette(Control control, Font? paletteFont)
+    {
+        if (control == null || control.IsDisposed || !control.IsHandleCreated)
+        {
+            return;
+        }
+
+        var source = IsUsableFont(paletteFont) ? paletteFont : SystemFonts.DefaultFont;
+        if (source == null)
+        {
+            return;
+        }
+
+        Font? current = null;
+        try
+        {
+            current = control.Font;
+        }
+        catch (ArgumentException)
+        {
+            current = null;
+        }
+
+        if (IsUsableFont(current) &&
+            current!.Name == source.Name &&
+            Math.Abs(current.SizeInPoints - source.SizeInPoints) < 0.01f &&
+            current.Style == source.Style &&
+            current.GdiCharSet == source.GdiCharSet)
+        {
+            return;
+        }
+
+        control.Font = (Font)source.Clone();
+    }
+
+    private static double LinearizeSrgb(byte channel)
+    {
+        var s = channel / 255d;
+        return s <= 0.04045d ? s / 12.92d : Math.Pow((s + 0.055d) / 1.055d, 2.4d);
+    }
+
+    /// <summary>
     /// Whiten a provided color by applying per channel percentages.
     /// </summary>
     /// <param name="color1">Color.</param>
