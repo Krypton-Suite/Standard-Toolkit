@@ -360,16 +360,26 @@ jobs:
             exit 0
           }
 
+          $sha = (git rev-parse HEAD).Trim()
+          $shortSha = $sha.Substring(0, [Math]::Min(7, $sha.Length))
+          $commitUrl = "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/commit/$sha"
+
           $payload = @{
             embeds = @(
               @{
                 title = "🎉 Krypton Toolkit Stable Release"
+                url = $commitUrl
                 description = "A new stable release is now available!"
                 color = 7863670
                 fields = @(
                   @{
                     name = "📌 Version"
                     value = "``${{ steps.get_version.outputs.version }}``"
+                    inline = $true
+                  }
+                  @{
+                    name = "🔗 Commit"
+                    value = "[``$shortSha``]($commitUrl)"
                     inline = $true
                   }
                   @{
@@ -725,16 +735,26 @@ jobs:
             exit 0
           }
 
+          $sha = (git rev-parse HEAD).Trim()
+          $shortSha = $sha.Substring(0, [Math]::Min(7, $sha.Length))
+          $commitUrl = "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/commit/$sha"
+
           $payload = @{
             embeds = @(
               @{
                 title = "🎉 Krypton Toolkit Stable Release"
+                url = $commitUrl
                 description = "A new stable release is now available!"
                 color = 7863670
                 fields = @(
                   @{
                     name = "📌 Version"
                     value = "``${{ steps.get_version.outputs.version }}``"
+                    inline = $true
+                  }
+                  @{
+                    name = "🔗 Commit"
+                    value = "[``$shortSha``]($commitUrl)"
                     inline = $true
                   }
                   @{
@@ -1109,16 +1129,26 @@ jobs:
             exit 0
           }
 
+          $sha = (git rev-parse HEAD).Trim()
+          $shortSha = $sha.Substring(0, [Math]::Min(7, $sha.Length))
+          $commitUrl = "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/commit/$sha"
+
           $payload = @{
             embeds = @(
               @{
                 title = "🐤 Krypton Toolkit Canary Release"
+                url = $commitUrl
                 description = "A new canary pre-release is now available for early testing!"
                 color = 16776960
                 fields = @(
                   @{
                     name = "📌 Version"
                     value = "``${{ steps.get_version.outputs.version }}``"
+                    inline = $true
+                  }
+                  @{
+                    name = "🔗 Commit"
+                    value = "[``$shortSha``]($commitUrl)"
                     inline = $true
                   }
                   @{

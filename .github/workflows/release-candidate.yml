@@ -418,16 +418,26 @@ jobs:
             exit 0
           }
 
+          $sha = (git rev-parse HEAD).Trim()
+          $shortSha = $sha.Substring(0, [Math]::Min(7, $sha.Length))
+          $commitUrl = "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/commit/$sha"
+
           $payload = @{
             embeds = @(
               @{
                 title = "🥇 Krypton Toolkit Release Candidate"
+                url = $commitUrl
                 description = "A new release candidate is now available. These are prerelease versions of the stable package IDs (include prerelease to install)."
                 color = 16766720
                 fields = @(
                   @{
                     name = "📌 Version"
                     value = "``${{ steps.get_version.outputs.version }}-rc``"
+                    inline = $true
+                  }
+                  @{
+                    name = "🔗 Commit"
+                    value = "[``$shortSha``]($commitUrl)"
                     inline = $true
                   }
                   @{
