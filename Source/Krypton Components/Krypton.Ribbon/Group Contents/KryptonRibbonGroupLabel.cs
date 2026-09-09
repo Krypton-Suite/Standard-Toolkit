@@ -19,7 +19,7 @@ namespace Krypton.Ribbon;
 /// </summary>
 [ToolboxItem(false)]
 [ToolboxBitmap(typeof(KryptonRibbonGroupLabel), "ToolboxBitmaps.KryptonRibbonGroupLabel.bmp")]
-[Designer(typeof(KryptonRibbonGroupLabelDesigner))]
+[Designer("Krypton.Ribbon.KryptonRibbonGroupLabelDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [DesignTimeVisible(false)]
 [DefaultProperty("Text")]

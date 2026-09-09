@@ -289,6 +289,15 @@ jobs:
           . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
           Test-KryptonInteropInPackages -Configuration RC -MinimumMajorVersion 110 -SkipIfInteropProjectMissing
 
+      - name: Verify WinForms Designer SDK in NuGet packages
+        if: steps.rc_release_kill_switch.outputs.enabled == 'true' && steps.krypton_major_version.outputs.major >= 110
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonDesignerSdkInPackages.ps1')
+          Test-KryptonDesignerSdkInPackages -Configuration RC -MinimumMajorVersion 110 -SkipIfDesignerSdkProjectMissing
+
       - name: Save NuGet cache
         if: success() && steps.rc_release_kill_switch.outputs.enabled == 'true'
         uses: actions/cache/save@v6

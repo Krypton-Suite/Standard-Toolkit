@@ -397,6 +397,35 @@
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 
+			<!-- WinForms Designer Extensibility SDK (issue #593): DesignToolsServer + VS client assemblies. -->
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Toolkit.Design.dll" Condition="!$(TargetFramework.StartsWith('net4')) And Exists('$(_KryptonPackLibDir)Krypton.Toolkit.Design.dll')">
+				<PackagePath>lib\$(_LibFolderName)\Design\WinForms\Server\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Ribbon.Design.dll" Condition="!$(TargetFramework.StartsWith('net4')) And Exists('$(_KryptonPackLibDir)Krypton.Ribbon.Design.dll')">
+				<PackagePath>lib\$(_LibFolderName)\Design\WinForms\Server\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Navigator.Design.dll" Condition="!$(TargetFramework.StartsWith('net4')) And Exists('$(_KryptonPackLibDir)Krypton.Navigator.Design.dll')">
+				<PackagePath>lib\$(_LibFolderName)\Design\WinForms\Server\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Workspace.Design.dll" Condition="!$(TargetFramework.StartsWith('net4')) And Exists('$(_KryptonPackLibDir)Krypton.Workspace.Design.dll')">
+				<PackagePath>lib\$(_LibFolderName)\Design\WinForms\Server\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Toolkit.Utilities.Design.dll" Condition="!$(TargetFramework.StartsWith('net4')) And Exists('$(_KryptonPackLibDir)Krypton.Toolkit.Utilities.Design.dll')">
+				<PackagePath>lib\$(_LibFolderName)\Design\WinForms\Server\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Navigator.Utilities.Design.dll" Condition="!$(TargetFramework.StartsWith('net4')) And Exists('$(_KryptonPackLibDir)Krypton.Navigator.Utilities.Design.dll')">
+				<PackagePath>lib\$(_LibFolderName)\Design\WinForms\Server\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Toolkit.Design.Protocol.dll" Condition="!$(TargetFramework.StartsWith('net4')) And Exists('$(_KryptonPackLibDir)Krypton.Toolkit.Design.Protocol.dll')">
+				<PackagePath>lib\$(_LibFolderName)\Design\WinForms\Server\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(KryptonBuildOutputRoot)$(Configuration)\net472\Krypton.Toolkit.Design.Client.dll" Condition="!$(TargetFramework.StartsWith('net4')) And Exists('$(KryptonBuildOutputRoot)$(Configuration)\net472\Krypton.Toolkit.Design.Client.dll')">
+				<PackagePath>lib\$(_LibFolderName)\Design\WinForms\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(KryptonBuildOutputRoot)$(Configuration)\net472\Krypton.Toolkit.Design.Protocol.dll" Condition="!$(TargetFramework.StartsWith('net4')) And Exists('$(KryptonBuildOutputRoot)$(Configuration)\net472\Krypton.Toolkit.Design.Protocol.dll')">
+				<PackagePath>lib\$(_LibFolderName)\Design\WinForms\</PackagePath>
+			</TfmSpecificPackageFile>
+
 		</ItemGroup>
 	</Target>
 

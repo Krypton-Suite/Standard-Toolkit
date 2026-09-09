@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\Krypton.Shared\Krypton.WinFormsDesignerSdk.props" />
+
+	<PropertyGroup>
+		<RootNamespace>Krypton.Toolkit.Design.Protocol</RootNamespace>
+		<AssemblyName>Krypton.Toolkit.Design.Protocol</AssemblyName>
+		<Description>JSON-RPC DTOs shared by the Visual Studio WinForms designer client and DesignToolsServer.</Description>
+	</PropertyGroup>
+
+</Project>

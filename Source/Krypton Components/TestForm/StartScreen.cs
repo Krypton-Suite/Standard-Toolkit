@@ -60,6 +60,7 @@ public partial class StartScreen : KryptonForm
     /// </summary>
     private void AddButtons()
     {
+        CreateButton<WinFormsDesignerSdkDemo>("593 WinForms Designer SDK", "Issue #593: open this form in the Visual Studio .NET WinForms designer. Select the button, text box, combo, checkbox, and split container; confirm smart tags, verbs, and nested panels. Runtime here only shows the host; design-time is the test.");
         CreateButton<ThemeCatalogDemo>("4230 Theme Catalog / 3870 Theme ListView", "Issue #4230: core vs extra palettes, ShowExtraThemes, extra-only Sparkle, theme browser, and KryptonThemeAvailability export/import. Issue #3870: KryptonThemeListView shows stored or generated theme previews (Large Icons / Tile / Details); hover a row for a live theme preview; custom palettes without a Thumbnail use the Kr tile.");
         CreateButton<ApplicationStringsTest>("Custom Strings", "Issue #3757: store and localise custom strings via KryptonCustomStrings in Krypton.Toolkit.Utilities.");
         CreateButton<TranslationsXmlDemoForm>("Translations XML (Import/Export)", "Export/import KryptonManager toolkit strings via Translations.xml (designer/runtime validation).");

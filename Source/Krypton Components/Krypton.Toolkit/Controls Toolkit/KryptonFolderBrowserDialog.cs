@@ -15,7 +15,7 @@ namespace Krypton.Toolkit;
 ///  'File Browser dialog' from which the user can select a Directory.
 /// </summary>
 [DesignerCategory(@"code")]
-[Designer(typeof(KryptonFolderBrowserDialogDesigner))]
+[Designer("Krypton.Toolkit.KryptonFolderBrowserDialogDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [Description("Displays a Kryptonised version of the standard 'File Browser dialog' from which the user can select a Directory.")]
 [ToolboxBitmap(typeof(FolderBrowserDialog), @"ToolboxBitmaps.KryptonFolderBrowserDialog.bmp")]
 [ToolboxItem(true)]

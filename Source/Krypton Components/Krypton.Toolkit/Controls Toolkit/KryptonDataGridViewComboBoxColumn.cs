@@ -18,7 +18,7 @@ namespace Krypton.Toolkit;
 /// Hosts a collection of KryptonDataGridViewComboBoxCell cells.
 /// </summary>
 [ToolboxBitmap(typeof(KryptonDataGridViewComboBoxColumn), "ToolboxBitmaps.KryptonComboBox.bmp")]
-[Designer(typeof(KryptonComboBoxColumnDesigner))]
+[Designer("Krypton.Toolkit.KryptonComboBoxColumnDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 public partial class KryptonDataGridViewComboBoxColumn : KryptonDataGridViewIconColumn
 {
     #region Identity

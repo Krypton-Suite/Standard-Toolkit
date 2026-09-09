@@ -1,0 +1,38 @@
+﻿<Project>
+	<!--
+	  Pack DesignToolsServer (Server) and Visual Studio (Client) designer assemblies into the
+	  Microsoft folder convention: lib\{tfm}\Design\WinForms[\{vs}\]\Server
+	  https://github.com/microsoft/winforms-designer-extensibility/blob/main/docs/sdk/control-library-nuget-package-spec.md
+	-->
+	<PropertyGroup Condition="'$(KryptonWinFormsDesignerSdkDesignAssembly)' != '' And '$(IsPackable)' != 'false'">
+		<TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);KryptonPackWinFormsDesignerSdk</TargetsForTfmSpecificContentInPackage>
+	</PropertyGroup>
+
+	<Target Name="KryptonPackWinFormsDesignerSdk" Condition="'$(KryptonWinFormsDesignerSdkDesignAssembly)' != '' And !$(TargetFramework.StartsWith('net4')) And '$(KryptonWinFormsDesignerSdkEnabled)' == 'true'">
+		<PropertyGroup>
+			<_KryptonDesignerPackLibDir>$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\</_KryptonDesignerPackLibDir>
+			<_KryptonDesignerPackClientDir>$(KryptonBuildOutputRoot)$(Configuration)\net472\</_KryptonDesignerPackClientDir>
+			<_KryptonDesignerPackLibFolder Condition="'$(KryptonWinFormsDesignerSdkPackageLibFolder)' != ''">$(KryptonWinFormsDesignerSdkPackageLibFolder)</_KryptonDesignerPackLibFolder>
+			<_KryptonDesignerPackLibFolder Condition="'$(_KryptonDesignerPackLibFolder)' == ''">$(TargetFramework)</_KryptonDesignerPackLibFolder>
+			<_KryptonDesignerServerPath>lib\$(_KryptonDesignerPackLibFolder)\Design\WinForms\Server</_KryptonDesignerServerPath>
+			<_KryptonDesignerClientPath>lib\$(_KryptonDesignerPackLibFolder)\Design\WinForms</_KryptonDesignerClientPath>
+		</PropertyGroup>
+		<ItemGroup>
+			<TfmSpecificPackageFile Include="$(_KryptonDesignerPackLibDir)$(KryptonWinFormsDesignerSdkDesignAssembly).dll" Condition="Exists('$(_KryptonDesignerPackLibDir)$(KryptonWinFormsDesignerSdkDesignAssembly).dll')">
+				<PackagePath>$(_KryptonDesignerServerPath)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonDesignerPackLibDir)$(KryptonWinFormsDesignerSdkDesignAssembly).xml" Condition="Exists('$(_KryptonDesignerPackLibDir)$(KryptonWinFormsDesignerSdkDesignAssembly).xml')">
+				<PackagePath>$(_KryptonDesignerServerPath)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonDesignerPackLibDir)Krypton.Toolkit.Design.Protocol.dll" Condition="Exists('$(_KryptonDesignerPackLibDir)Krypton.Toolkit.Design.Protocol.dll')">
+				<PackagePath>$(_KryptonDesignerServerPath)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonDesignerPackClientDir)Krypton.Toolkit.Design.Client.dll" Condition="Exists('$(_KryptonDesignerPackClientDir)Krypton.Toolkit.Design.Client.dll')">
+				<PackagePath>$(_KryptonDesignerClientPath)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonDesignerPackClientDir)Krypton.Toolkit.Design.Protocol.dll" Condition="Exists('$(_KryptonDesignerPackClientDir)Krypton.Toolkit.Design.Protocol.dll')">
+				<PackagePath>$(_KryptonDesignerClientPath)\</PackagePath>
+			</TfmSpecificPackageFile>
+		</ItemGroup>
+	</Target>
+</Project>

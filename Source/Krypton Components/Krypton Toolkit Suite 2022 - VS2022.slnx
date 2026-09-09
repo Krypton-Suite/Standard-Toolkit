@@ -164,6 +164,14 @@
     <BuildType Solution="Installer|*" Project="Debug" />
     <BuildType Solution="Nightly|*" Project="Release" />
   </Project>
+  <Project Path="Krypton.Toolkit.Design.Protocol/Krypton.Toolkit.Design.Protocol.csproj" />
+  <Project Path="Krypton.Toolkit.Design.Client/Krypton.Toolkit.Design.Client.csproj" />
+  <Project Path="Krypton.Toolkit.Design/Krypton.Toolkit.Design.csproj" />
+  <Project Path="Krypton.Ribbon.Design/Krypton.Ribbon.Design.csproj" />
+  <Project Path="Krypton.Navigator.Design/Krypton.Navigator.Design.csproj" />
+  <Project Path="Krypton.Workspace.Design/Krypton.Workspace.Design.csproj" />
+  <Project Path="Krypton.Toolkit.Utilities.Design/Krypton.Toolkit.Utilities.Design.csproj" />
+  <Project Path="Krypton.Navigator.Utilities.Design/Krypton.Navigator.Utilities.Design.csproj" />
   <Project Path="TestForm/TestForm.csproj">
     <BuildDependency Project="Krypton.Navigator/Krypton.Navigator 2022.csproj" />
     <BuildType Solution="Canary|*" Project="Debug" />

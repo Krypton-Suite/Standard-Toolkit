@@ -68,6 +68,7 @@ internal class KryptonGroupPanelDesigner : KryptonPanelDesigner,
             ? SelectionRules.None | SelectionRules.Locked
             : SelectionRules.None;
 
+#if !KRYPTON_WINFORMS_DESIGNER_SDK
     /// <summary>
     /// Gets a list of SnapLine objects representing significant alignment points for this control.
     /// </summary>
@@ -85,6 +86,7 @@ internal class KryptonGroupPanelDesigner : KryptonPanelDesigner,
             return snapLines;
         }
     }
+#endif
 
     /// <summary>
     ///  Gets the design-time action lists supported by the component associated with the designer.

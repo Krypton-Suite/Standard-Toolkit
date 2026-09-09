@@ -19,7 +19,7 @@ namespace Krypton.Ribbon;
 /// </summary>
 [ToolboxItem(false)]
 [ToolboxBitmap(typeof(KryptonRibbonGroupButton), "ToolboxBitmaps.KryptonRibbonGroupButton.bmp")]
-[Designer(typeof(KryptonRibbonGroupButtonDesigner))]
+[Designer("Krypton.Ribbon.KryptonRibbonGroupButtonDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [DesignTimeVisible(false)]
 [DefaultEvent(nameof(Click))]

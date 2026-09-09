@@ -22,7 +22,7 @@ namespace Krypton.Ribbon;
 [ToolboxBitmap(typeof(KryptonRibbonToolbar), "ToolboxBitmaps.KryptonRibbonToolbar.bmp")]
 [DefaultEvent(nameof(SelectedTabChanged))]
 [DefaultProperty(nameof(RibbonTabs))]
-[Designer(typeof(KryptonRibbonDesigner))]
+[Designer("Krypton.Ribbon.KryptonRibbonDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Ribbon control without tab headers, for toolbar-style layouts.")]
 [Docking(DockingBehavior.Never)]

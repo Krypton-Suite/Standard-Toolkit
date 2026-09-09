@@ -19,7 +19,7 @@ namespace Krypton.Ribbon;
 /// </summary>
 [ToolboxItem(false)]
 [ToolboxBitmap(typeof(KryptonRibbonGroupCheckBox), "ToolboxBitmaps.KryptonRibbonGroupCheckBox.bmp")]
-[Designer(typeof(KryptonRibbonGroupCheckBoxDesigner))]
+[Designer("Krypton.Ribbon.KryptonRibbonGroupCheckBoxDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [DesignTimeVisible(false)]
 [DefaultEvent(nameof(CheckedChanged))]

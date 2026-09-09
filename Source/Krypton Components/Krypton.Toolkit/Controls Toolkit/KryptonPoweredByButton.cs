@@ -17,7 +17,7 @@ namespace Krypton.Toolkit;
 [ToolboxBitmap(typeof(KryptonButton), "ToolboxBitmaps.KryptonButton.bmp")]
 [DesignerCategory(@"code")]
 [Description(@"A button that displays the Krypton Toolkit branding and provides information about the toolkit version.")]
-[Designer(typeof(KryptonButtonDesigner))]
+[Designer("Krypton.Toolkit.KryptonButtonDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 public class KryptonPoweredByButton : KryptonButton
 {
     #region Instance Fields

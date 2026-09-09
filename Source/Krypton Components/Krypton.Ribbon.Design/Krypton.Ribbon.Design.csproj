@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\Krypton.Shared\Krypton.WinFormsDesignerSdk.Server.props" />
+
+	<PropertyGroup>
+		<RootNamespace>Krypton.Ribbon</RootNamespace>
+		<AssemblyName>Krypton.Ribbon.Design</AssemblyName>
+		<Description>DesignToolsServer designers for Krypton.Ribbon (WinForms Designer Extensibility SDK).</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Include="..\Krypton.Ribbon\Designers\Designers\**\*.cs" Link="Designers\Designers\%(RecursiveDir)%(Filename)%(Extension)" />
+		<Compile Include="..\Krypton.Ribbon\Designers\Action Lists\**\*.cs" Link="Designers\Action Lists\%(RecursiveDir)%(Filename)%(Extension)" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Krypton.Ribbon\Krypton.Ribbon 2022.csproj" />
+		<ProjectReference Include="..\Krypton.Toolkit.Design\Krypton.Toolkit.Design.csproj" />
+		<ProjectReference Include="..\Krypton.Interop\Krypton.Interop.csproj" PrivateAssets="all" />
+	</ItemGroup>
+
+</Project>

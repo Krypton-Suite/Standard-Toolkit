@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\Krypton.Shared\Krypton.WinFormsDesignerSdk.Server.props" />
+
+	<PropertyGroup>
+		<RootNamespace>Krypton.Toolkit.Utilities</RootNamespace>
+		<AssemblyName>Krypton.Toolkit.Utilities.Design</AssemblyName>
+		<Description>DesignToolsServer designers for Krypton.Toolkit.Utilities (WinForms Designer Extensibility SDK).</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Include="..\Krypton.Toolkit.Utilities\Components\**\Designers\Designers\**\*.cs" Link="Designers\%(RecursiveDir)%(Filename)%(Extension)" />
+		<Compile Include="..\Krypton.Toolkit.Utilities\Components\**\Designers\Action Lists\**\*.cs" Link="ActionLists\%(RecursiveDir)%(Filename)%(Extension)" />
+		<Compile Include="..\Krypton.Toolkit.Utilities\Components\Krypton Custom Strings\Designers\KryptonCustomStringsManagerDesigner.cs" Link="Designers\KryptonCustomStringsManagerDesigner.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj" />
+		<ProjectReference Include="..\Krypton.Toolkit.Design\Krypton.Toolkit.Design.csproj" />
+		<ProjectReference Include="..\Krypton.Interop\Krypton.Interop.csproj" PrivateAssets="all" />
+	</ItemGroup>
+
+</Project>

@@ -17,7 +17,7 @@ namespace Krypton.Toolkit;
 [DefaultEvent(nameof(ValueChanged))]
 [DefaultProperty(nameof(Value))]
 [DefaultBindingProperty(nameof(Value))]
-[Designer(typeof(KryptonRatingDesigner))]
+[Designer("Krypton.Toolkit.KryptonRatingDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Allows the user to select a rating.")]
 public class KryptonRating : VisualSimpleBase

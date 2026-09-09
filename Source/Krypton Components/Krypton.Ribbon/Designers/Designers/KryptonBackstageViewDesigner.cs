@@ -121,7 +121,11 @@ public class KryptonBackstageViewDesigner : ParentControlDesigner
     /// <summary>
     /// Gets the collection of components associated with the component managed by the designer.
     /// </summary>
+#if KRYPTON_WINFORMS_DESIGNER_SDK
+    public override IReadOnlyCollection<IComponent> AssociatedComponents
+#else
     public override ICollection AssociatedComponents
+#endif
     {
         get
         {
@@ -132,7 +136,7 @@ public class KryptonBackstageViewDesigner : ParentControlDesigner
                 compound.AddRange(BackstageView.Pages);
             }
 
-            return compound;
+            return KryptonDesignerSdkCompat.Associated(compound);
         }
     }
 

@@ -931,6 +931,22 @@
 	<ProjectReference Include="..\Krypton.Interop\Krypton.Interop.csproj" PrivateAssets="all" />
   </ItemGroup>
 
+  <PropertyGroup>
+	<KryptonWinFormsDesignerSdkDesignAssembly>Krypton.Toolkit.Design</KryptonWinFormsDesignerSdkDesignAssembly>
+  </PropertyGroup>
+  <Import Project="..\Krypton.Shared\Krypton.WinFormsDesignerSdk.Package.targets" />
+
+  <!-- Out-of-process designers live in Krypton.Toolkit.Design for modern TFMs (issue #593). -->
+  <ItemGroup Condition="!$(TargetFramework.StartsWith('net4'))">
+	<Compile Remove="Designers\Designers\**\*.cs" />
+	<Compile Remove="Designers\Action Lists\**\*.cs" />
+	<Compile Remove="Designers\KryptonVScrollBarDesigner.cs" />
+	<Compile Remove="Designers\Other\KryptonDesignerActionItem.cs" />
+	<Compile Remove="Designers\Other\KryptonDesignerSdkCompat.cs" />
+	<Compile Remove="Designers\Other\KryptonSplitContainerGlyph.cs" />
+	<Compile Remove="Designers\Other\KryptonSplitContainerBehavior.cs" />
+  </ItemGroup>
+
   <!-- .NET Framework: SRE deploy, binding redirects, consumer targets; runtime hook in KryptonPreserializedResourceAssemblyResolve. -->
   <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
 	<None Include="Krypton.Toolkit.dll.config" CopyToOutputDirectory="PreserveNewest" />

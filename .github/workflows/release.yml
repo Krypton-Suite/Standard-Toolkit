@@ -226,6 +226,15 @@ jobs:
           . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
           Test-KryptonInteropInPackages -Configuration Release -MinimumMajorVersion 110 -SkipIfInteropProjectMissing
 
+      - name: Verify WinForms Designer SDK in NuGet packages
+        if: steps.release_kill_switch.outputs.enabled == 'true' && steps.krypton_major_version.outputs.major >= 110
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonDesignerSdkInPackages.ps1')
+          Test-KryptonDesignerSdkInPackages -Configuration Release -MinimumMajorVersion 110 -SkipIfDesignerSdkProjectMissing
+
       - name: Save NuGet cache
         # Kill switch check
         if: success() && steps.release_kill_switch.outputs.enabled == 'true'
@@ -590,6 +599,15 @@ jobs:
           $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
           . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
           Test-KryptonInteropInPackages -Configuration Release -MinimumMajorVersion 110 -SkipIfInteropProjectMissing
+
+      - name: Verify WinForms Designer SDK in NuGet packages
+        if: steps.release_kill_switch.outputs.enabled == 'true' && steps.krypton_major_version.outputs.major >= 110
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonDesignerSdkInPackages.ps1')
+          Test-KryptonDesignerSdkInPackages -Configuration Release -MinimumMajorVersion 110 -SkipIfDesignerSdkProjectMissing
 
       - name: Save NuGet cache
         # Kill switch check
@@ -975,6 +993,15 @@ jobs:
           . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
           Test-KryptonInteropInPackages -Configuration Canary -MinimumMajorVersion 110 -SkipIfInteropProjectMissing
 
+      - name: Verify WinForms Designer SDK in NuGet packages
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && steps.krypton_major_version.outputs.major >= 110
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonDesignerSdkInPackages.ps1')
+          Test-KryptonDesignerSdkInPackages -Configuration Canary -MinimumMajorVersion 110 -SkipIfDesignerSdkProjectMissing
+
       - name: Save NuGet cache
         # Kill switch check
         if: success() && steps.canary_release_kill_switch.outputs.enabled == 'true'
@@ -1349,6 +1376,15 @@ jobs:
           $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
           . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
           Test-KryptonInteropInPackages -Configuration Nightly -MinimumMajorVersion 110 -SkipIfInteropProjectMissing
+
+      - name: Verify WinForms Designer SDK in NuGet packages
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.krypton_major_version.outputs.major >= 110
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonDesignerSdkInPackages.ps1')
+          Test-KryptonDesignerSdkInPackages -Configuration Nightly -MinimumMajorVersion 110 -SkipIfDesignerSdkProjectMissing
 
       - name: Save NuGet cache
         # Kill switch check

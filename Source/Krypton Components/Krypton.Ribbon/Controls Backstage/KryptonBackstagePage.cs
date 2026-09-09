@@ -15,7 +15,7 @@ namespace Krypton.Ribbon;
 [ToolboxItem(false)]
 [DefaultEvent(nameof(Click))]
 [DefaultProperty(nameof(Text))]
-[Designer(typeof(KryptonBackstagePageDesigner))]
+[Designer("Krypton.Ribbon.KryptonBackstagePageDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [DesignTimeVisible(false)]
 public class KryptonBackstagePage : KryptonPanel

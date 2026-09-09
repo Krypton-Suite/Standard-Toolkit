@@ -20,7 +20,7 @@ namespace Krypton.Toolkit;
 [DefaultEvent("Click")]
 [DefaultProperty(nameof(Text))]
 [DesignerCategory(@"code")]
-[Designer(typeof(KryptonCommandDesigner))]
+[Designer("Krypton.Toolkit.KryptonCommandDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [Description(@"Defines state and events for a single command.")]
 public class KryptonCommand : Component, IKryptonCommand, INotifyPropertyChanged
 {

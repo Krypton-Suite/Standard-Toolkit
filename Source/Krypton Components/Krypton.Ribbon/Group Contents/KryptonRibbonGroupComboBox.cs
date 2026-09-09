@@ -17,7 +17,7 @@ namespace Krypton.Ribbon;
 /// </summary>
 [ToolboxItem(false)]
 [ToolboxBitmap(typeof(KryptonRibbonGroupComboBox), "ToolboxBitmaps.KryptonRibbonGroupComboBox.bmp")]
-[Designer(typeof(KryptonRibbonGroupComboBoxDesigner))]
+[Designer("Krypton.Ribbon.KryptonRibbonGroupComboBoxDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [DesignTimeVisible(false)]
 [DefaultEvent("SelectedTextChanged")]
