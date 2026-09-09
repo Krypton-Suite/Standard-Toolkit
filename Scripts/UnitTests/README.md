@@ -92,6 +92,7 @@ Default output folder: `Bin\Debug\net472`.
 | `Invoke-SchemeStripTextScreenshot.ps1` | Hosts `SchemeStripTextDemo` (#1100) and writes default/contrast PNGs under `Documents/PR/` | `exclude` |
 | `Invoke-RibbonRtlScreenshot.ps1` | Hosts `RibbonRtlDemo` (#2382) and writes LTR/RTL PNGs under `Documents/PR/` | `exclude` |
 | `Invoke-ToolkitRtlScreenshot.ps1` | Hosts `RTLControlsTest` (#2379) and writes LTR/RTL PNGs under `Documents/PR/`. Also: `-Demo ToolkitRtlGalleryDemo -WindowTitle 'Toolkit RTL Gallery (#2379)' -OutputStem 2379-toolkit-rtl-gallery -SingleCapture` | `exclude` |
+| `Invoke-PropertyGridRtlScreenshot.ps1` | Hosts `ToolkitRtlGalleryDemo` on the PropertyGrid tab (#2379) and writes `Documents/PR/2379-toolkit-rtl-propertygrid.png` | `exclude` |
 | `Invoke-RibbonCaptionPaletteScreenshot.ps1` | Hosts `Bug4061RibbonCaptionIconThemeDemo` (#3859 / #4061) and writes Office 2007 / Microsoft 365 PNGs under `Documents/PR/` | `exclude` |
 | `Invoke-PaletteBinaryScreenshot.ps1` | Hosts `PaletteBinaryDemo` (#2117) and writes `Documents/PR/2117-bulk-xml-upgrade-demo.png` | `exclude` |
 | `Invoke-PaletteCollectionEditorScreenshot.ps1` | Hosts `KryptonPaletteCollectionEditor` (#2117) and writes `Documents/PR/2117-pack-editor-demo.png` | `exclude` |

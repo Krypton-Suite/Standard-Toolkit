@@ -7,8 +7,8 @@
 
 namespace Krypton.Toolkit;
 
-///<summary>A property grid control that supports the Krypton render.</summary>
-/// /// <seealso cref="PropertyGrid" />
+/// <summary>A property grid control that supports the Krypton render.</summary>
+/// <seealso cref="PropertyGrid" />
 [Description(@"A property grid control that supports the Krypton render.")]
 [Designer(typeof(KryptonPropertyGridDesigner))]
 [ToolboxBitmap(typeof(PropertyGrid), "ToolboxBitmaps.KryptonPropertyGrid.bmp")]

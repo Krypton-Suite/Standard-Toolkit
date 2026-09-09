@@ -215,9 +215,9 @@ public partial class ToolkitRtlGalleryDemo : KryptonForm
             Height = 48,
             Values =
             {
-                Text = "Native WinForms PropertyGrid vs KryptonPropertyGrid. Both receive RightToLeft; " +
-                       "the value list and help pane follow it. Label/value columns stay native (WinForms does not flip them). " +
-                       "Selected object is this form — Appearance shows RightToLeft and RightToLeftLayout."
+                Text = "Native WinForms PropertyGrid vs KryptonPropertyGrid. Dual RTL on this form. " +
+                       "Both receive RightToLeft (help pane / toolbar). Label/value columns stay native LTR — " +
+                       "WinForms PropertyGrid does not mirror them. Selected object is this form."
             }
         };
 
