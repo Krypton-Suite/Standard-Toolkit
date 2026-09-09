@@ -103,16 +103,14 @@ internal class KryptonSplitContainerBehavior : Behavior
         return false;
     }
 
+#if KRYPTON_WINFORMS_DESIGNER_SDK
     /// <summary>
     ///  Called when any mouse-up message enters the adorner window of the BehaviorService.
     /// </summary>
     /// <param name="g">A Glyph.</param>
     /// <param name="button">A MouseButtons value indicating which button was clicked.</param>
-#if KRYPTON_WINFORMS_DESIGNER_SDK
     /// <param name="pt">The location at which the click occurred.</param>
-#endif
     /// <returns>true if the message was handled; otherwise, false.</returns>
-#if KRYPTON_WINFORMS_DESIGNER_SDK
     public override bool OnMouseUp(Glyph? g, MouseButtons button, Point pt)
     {
         // Notify the split container so it can track mouse message
@@ -121,6 +119,12 @@ internal class KryptonSplitContainerBehavior : Behavior
         return base.OnMouseUp(g, button, pt);
     }
 #else
+    /// <summary>
+    ///  Called when any mouse-up message enters the adorner window of the BehaviorService.
+    /// </summary>
+    /// <param name="g">A Glyph.</param>
+    /// <param name="button">A MouseButtons value indicating which button was clicked.</param>
+    /// <returns>true if the message was handled; otherwise, false.</returns>
     public override bool OnMouseUp(Glyph? g, MouseButtons button)
     {
         // Notify the split container so it can track mouse message

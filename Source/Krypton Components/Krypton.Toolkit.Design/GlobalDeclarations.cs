@@ -46,5 +46,6 @@ global using GlyphCollection = Microsoft.DotNet.DesignTools.Designers.Behaviors.
 global using Behavior = Microsoft.DotNet.DesignTools.Designers.Behaviors.Behavior;
 global using BehaviorService = Microsoft.DotNet.DesignTools.Designers.Behaviors.BehaviorService;
 
-[assembly: CLSCompliant(true)]
+// Design.Server wraps Microsoft.DotNet.DesignTools types, which are not CLS-compliant.
+[assembly: CLSCompliant(false)]
 [assembly: ComVisible(false)]

@@ -1,4 +1,4 @@
-﻿<Solution>
+<Solution>
   <Configurations>
     <BuildType Name="Canary" />
     <BuildType Name="Debug" />
@@ -12,9 +12,9 @@
     <File Path="../.editorconfig" />
     <Project Path="../../Scripts/ModernBuild/ModernBuild.csproj">
       <BuildType Solution="Canary|*" Project="Release" />
-      <BuildType Solution="RC|*" Project="Release" />
       <BuildType Solution="Installer|*" Project="Debug" />
       <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="RC|*" Project="Release" />
     </Project>
   </Folder>
   <Folder Name="/Solution Items/Build System/CMD Files/" />
@@ -127,56 +127,58 @@
     <Project Path="Krypton.Toolkit/Krypton.Toolkit 2022.csproj" />
     <Project Path="Krypton.Workspace/Krypton.Workspace 2022.csproj" />
   </Folder>
+  <Folder Name="/Source/SDK Libraries/">
+    <Project Path="Krypton.Navigator.Design/Krypton.Navigator.Design.csproj" />
+    <Project Path="Krypton.Navigator.Utilities.Design/Krypton.Navigator.Utilities.Design.csproj" />
+    <Project Path="Krypton.Ribbon.Design/Krypton.Ribbon.Design.csproj" />
+    <Project Path="Krypton.Toolkit.Design.Client/Krypton.Toolkit.Design.Client.csproj" />
+    <Project Path="Krypton.Toolkit.Design.Protocol/Krypton.Toolkit.Design.Protocol.csproj" />
+    <Project Path="Krypton.Toolkit.Design/Krypton.Toolkit.Design.csproj" />
+    <Project Path="Krypton.Toolkit.Utilities.Design/Krypton.Toolkit.Utilities.Design.csproj" />
+    <Project Path="Krypton.Workspace.Design/Krypton.Workspace.Design.csproj" />
+  </Folder>
   <Folder Name="/Source/Shared Libraries/">
     <Project Path="Krypton.Interop/Krypton.Interop.csproj" />
   </Folder>
   <Folder Name="/Source/Utility Libraries/">
     <Project Path="Krypton.Navigator.Utilities/Krypton.Navigator.Utilities.csproj" Id="20869492-f8bf-4fc1-9714-44012de15756">
       <BuildType Solution="Canary|*" Project="Release" />
-      <BuildType Solution="RC|*" Project="Release" />
       <BuildType Solution="Installer|*" Project="Debug" />
       <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="RC|*" Project="Release" />
     </Project>
     <Project Path="Krypton.Standard.Toolkit/Krypton.Standard.Toolkit.csproj" Id="059d362b-e508-4241-8c93-4f2a0a4c8f6a">
       <BuildType Solution="Canary|*" Project="Release" />
-      <BuildType Solution="RC|*" Project="Release" />
       <BuildType Solution="Installer|*" Project="Debug" />
       <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="RC|*" Project="Release" />
     </Project>
     <Project Path="Krypton.Themes/Krypton.Themes.csproj" />
     <Project Path="Krypton.Toolkit.JumpList/Krypton.Toolkit.JumpList.csproj" />
     <Project Path="Krypton.Toolkit.Utilities/Krypton.Toolkit.Utilities.csproj" Id="e4c9fef0-c69a-4fe6-9784-c8f93250434e">
       <BuildType Solution="Canary|*" Project="Release" />
-      <BuildType Solution="RC|*" Project="Release" />
       <BuildType Solution="Installer|*" Project="Debug" />
       <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="RC|*" Project="Release" />
     </Project>
   </Folder>
   <Project Path="../TestHarnesses/ThemeSwapRepro/ThemeSwapRepro.csproj">
     <BuildType Solution="Canary|*" Project="Release" />
-    <BuildType Solution="RC|*" Project="Release" />
     <BuildType Solution="Installer|*" Project="Debug" />
     <BuildType Solution="Nightly|*" Project="Release" />
+    <BuildType Solution="RC|*" Project="Release" />
   </Project>
   <Project Path="../Utilities/MacOSPaletteExporter/MacOSPaletteExporter.csproj" Id="f5db6397-1df9-4df1-9451-de313466cc88">
     <BuildType Solution="Canary|*" Project="Release" />
-    <BuildType Solution="RC|*" Project="Release" />
     <BuildType Solution="Installer|*" Project="Debug" />
     <BuildType Solution="Nightly|*" Project="Release" />
+    <BuildType Solution="RC|*" Project="Release" />
   </Project>
-  <Project Path="Krypton.Toolkit.Design.Protocol/Krypton.Toolkit.Design.Protocol.csproj" />
-  <Project Path="Krypton.Toolkit.Design.Client/Krypton.Toolkit.Design.Client.csproj" />
-  <Project Path="Krypton.Toolkit.Design/Krypton.Toolkit.Design.csproj" />
-  <Project Path="Krypton.Ribbon.Design/Krypton.Ribbon.Design.csproj" />
-  <Project Path="Krypton.Navigator.Design/Krypton.Navigator.Design.csproj" />
-  <Project Path="Krypton.Workspace.Design/Krypton.Workspace.Design.csproj" />
-  <Project Path="Krypton.Toolkit.Utilities.Design/Krypton.Toolkit.Utilities.Design.csproj" />
-  <Project Path="Krypton.Navigator.Utilities.Design/Krypton.Navigator.Utilities.Design.csproj" />
   <Project Path="TestForm/TestForm.csproj">
     <BuildDependency Project="Krypton.Navigator/Krypton.Navigator 2022.csproj" />
     <BuildType Solution="Canary|*" Project="Debug" />
-    <BuildType Solution="RC|*" Project="Debug" />
     <BuildType Solution="Installer|*" Project="Debug" />
     <BuildType Solution="Nightly|*" Project="Debug" />
+    <BuildType Solution="RC|*" Project="Debug" />
   </Project>
 </Solution>
