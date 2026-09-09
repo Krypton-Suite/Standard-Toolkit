@@ -18,7 +18,11 @@ param(
     [string]$Configuration = 'Debug',
     [string]$TargetFramework = 'net472',
     [string]$BinDir,
-    [string]$OutputDir
+    [string]$OutputDir,
+    [string]$Demo = 'RTLControlsTest',
+    [string]$WindowTitle = 'Toolkit RTL Test (#2379)',
+    [string]$OutputStem = '2379-toolkit-rtl',
+    [switch]$SingleCapture
 )
 
 $ErrorActionPreference = 'Stop'
@@ -146,19 +150,19 @@ function Invoke-ToolkitRtlCapture {
     if ($HostInfo.ArgumentsPrefix) {
         $argList += $HostInfo.ArgumentsPrefix
     }
-    $argList += @('--demo', 'RTLControlsTest')
+    $argList += @('--demo', $Demo)
     if ($ExtraArgs) {
         $argList += $ExtraArgs
     }
 
     $proc = Start-Process -FilePath $HostInfo.FilePath -ArgumentList $argList -WorkingDirectory $HostInfo.WorkingDirectory -PassThru
     try {
-        $window = Wait-AutomationWindow -Name 'Toolkit RTL Test (#2379)'
+        $window = Wait-AutomationWindow -Name $WindowTitle
         $hwnd = [IntPtr]$window.Current.NativeWindowHandle
         [void][ToolkitRtlCaptureNative]::SetWindowPos($hwnd, [IntPtr]::Zero, 40, 40, 0, 0, 0x0005)
         [void][UnitTestNative]::SetForegroundWindow($hwnd)
         Start-Sleep -Milliseconds 700
-        $window = Wait-AutomationWindow -Name 'Toolkit RTL Test (#2379)'
+        $window = Wait-AutomationWindow -Name $WindowTitle
         Save-ElementShot -Window $window -Path $OutputPath
     }
     finally {
@@ -170,6 +174,11 @@ function Invoke-ToolkitRtlCapture {
 }
 
 $hostInfo = Get-ToolkitRtlHost -BinDir $bin
-Invoke-ToolkitRtlCapture -HostInfo $hostInfo -OutputPath (Join-Path $OutputDir '2379-toolkit-rtl-ltr.png')
-Invoke-ToolkitRtlCapture -HostInfo $hostInfo -ExtraArgs @('--rtl') -OutputPath (Join-Path $OutputDir '2379-toolkit-rtl-rtl.png')
+if ($SingleCapture) {
+    Invoke-ToolkitRtlCapture -HostInfo $hostInfo -OutputPath (Join-Path $OutputDir "$OutputStem.png")
+}
+else {
+    Invoke-ToolkitRtlCapture -HostInfo $hostInfo -OutputPath (Join-Path $OutputDir "$OutputStem-ltr.png")
+    Invoke-ToolkitRtlCapture -HostInfo $hostInfo -ExtraArgs @('--rtl') -OutputPath (Join-Path $OutputDir "$OutputStem-rtl.png")
+}
 Write-Host "Captured #2379 screenshots under $OutputDir"
