@@ -288,6 +288,7 @@ public class KryptonPropertyGrid : VisualControlBase,
         _propertyGrid.PropertyTabChanged += OnPropertyTabChanged;
         //_propertyGrid.PropertyChanging += OnPropertyChanging;
         _propertyGrid.PropertyValueChanged += OnPropertyValueChanged;
+        _propertyGrid.ControlAdded += OnInnerGridControlAdded;
 
         _layoutFill = new ViewLayoutFill(_propertyGrid)
         {
@@ -846,10 +847,23 @@ public class KryptonPropertyGrid : VisualControlBase,
 
     private void SyncInnerGridRightToLeft()
     {
-        _propertyGrid.RightToLeft = RightToLeft;
-        foreach (Control child in _propertyGrid.Controls)
+        ApplyRightToLeftTree(_propertyGrid, RightToLeft);
+    }
+
+    private void OnInnerGridControlAdded(object? sender, ControlEventArgs e)
+    {
+        if (e.Control != null)
         {
-            child.RightToLeft = RightToLeft;
+            ApplyRightToLeftTree(e.Control, RightToLeft);
+        }
+    }
+
+    private static void ApplyRightToLeftTree(Control parent, RightToLeft value)
+    {
+        parent.RightToLeft = value;
+        foreach (Control child in parent.Controls)
+        {
+            ApplyRightToLeftTree(child, value);
         }
     }
 
@@ -870,6 +884,9 @@ public class KryptonPropertyGrid : VisualControlBase,
 
         // We need a layout to occur before any painting
         InvokeLayout();
+
+        // Nested toolbar / help / grid panes may exist only after the handle is created.
+        SyncInnerGridRightToLeft();
     }
 
     /// <summary>

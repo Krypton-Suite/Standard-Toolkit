@@ -19,6 +19,8 @@ public partial class ToolkitRtlGalleryDemo : KryptonForm
     private KryptonContextMenu? _dropMenu;
     private KryptonContextMenu? _itemMenu;
     private BindingSource? _bindingSource;
+    private PropertyGrid? _nativePropertyGrid;
+    private KryptonPropertyGrid? _kryptonPropertyGrid;
 
     public ToolkitRtlGalleryDemo()
     {
@@ -37,6 +39,8 @@ public partial class ToolkitRtlGalleryDemo : KryptonForm
         RightToLeft = enabled ? RightToLeft.Yes : RightToLeft.No;
         RightToLeftLayout = enabled;
         ApplyDualRtl(this, enabled);
+        _nativePropertyGrid?.Refresh();
+        _kryptonPropertyGrid?.Refresh();
         PerformLayout();
         Refresh();
     }
@@ -74,6 +78,7 @@ public partial class ToolkitRtlGalleryDemo : KryptonForm
         AddPage("Inputs", CreateInputsPage());
         AddPage("Choice", CreateChoicePage());
         AddPage("Lists", CreateListsPage());
+        AddPage("PropertyGrid", CreatePropertyGridPage());
         AddPage("Chrome", CreateChromePage());
         AddPage("Calendar", CreateCalendarPage());
         AddPage("Strips", CreateStripsPage());
@@ -197,13 +202,66 @@ public partial class ToolkitRtlGalleryDemo : KryptonForm
             new GalleryRow { Name = "Two", Amount = 20 }
         };
         flow.Controls.Add(grid);
-        flow.Controls.Add(new KryptonPropertyGrid
-        {
-            Width = 240,
-            Height = 120,
-            SelectedObject = list
-        });
         return flow;
+    }
+
+    private Control CreatePropertyGridPage()
+    {
+        var host = new KryptonPanel { Dock = DockStyle.Fill };
+        var instructions = new KryptonLabel
+        {
+            Dock = DockStyle.Top,
+            AutoSize = false,
+            Height = 48,
+            Values =
+            {
+                Text = "Native WinForms PropertyGrid vs KryptonPropertyGrid. Both receive RightToLeft; " +
+                       "the value list and help pane follow it. Label/value columns stay native (WinForms does not flip them). " +
+                       "Selected object is this form — Appearance shows RightToLeft and RightToLeftLayout."
+            }
+        };
+
+        var split = new KryptonSplitContainer
+        {
+            Dock = DockStyle.Fill,
+            SplitterDistance = 420
+        };
+
+        var nativeLabel = new Label
+        {
+            Dock = DockStyle.Top,
+            Height = 22,
+            Text = "Native PropertyGrid",
+            TextAlign = ContentAlignment.MiddleLeft
+        };
+        _nativePropertyGrid = new PropertyGrid
+        {
+            Dock = DockStyle.Fill,
+            SelectedObject = this,
+            HelpVisible = true,
+            ToolbarVisible = true
+        };
+        split.Panel1.Controls.Add(_nativePropertyGrid);
+        split.Panel1.Controls.Add(nativeLabel);
+
+        var kryptonLabel = new KryptonLabel
+        {
+            Dock = DockStyle.Top,
+            AutoSize = false,
+            Height = 22,
+            Values = { Text = "KryptonPropertyGrid" }
+        };
+        _kryptonPropertyGrid = new KryptonPropertyGrid
+        {
+            Dock = DockStyle.Fill,
+            SelectedObject = this
+        };
+        split.Panel2.Controls.Add(_kryptonPropertyGrid);
+        split.Panel2.Controls.Add(kryptonLabel);
+
+        host.Controls.Add(split);
+        host.Controls.Add(instructions);
+        return host;
     }
 
     private static Control CreateChromePage()
