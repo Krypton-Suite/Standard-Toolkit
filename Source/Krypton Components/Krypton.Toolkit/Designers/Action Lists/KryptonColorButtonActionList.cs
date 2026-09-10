@@ -169,7 +169,7 @@ internal class KryptonColorButtonActionList : DesignerActionList
     /// <summary>
     /// Gets and sets the button image.
     /// </summary>
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _colorButton.Values.Image;

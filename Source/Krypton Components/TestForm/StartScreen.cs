@@ -60,6 +60,7 @@ public partial class StartScreen : KryptonForm
     /// </summary>
     private void AddButtons()
     {
+        CreateButton<WinFormsDesignerSdkDemo>("593 WinForms Designer SDK", "Issue #593: runtime host for the OOP designer sample controls. Custom designers, smart tags, and Client editors are visible only in Visual Studio when this library is consumed via NuGet (packed nupkg or local feed), not from a ProjectReference IDE build of TestForm.");
         CreateButton<ThemeCatalogDemo>("4230 Theme Catalog / 3870 Theme ListView", "Issue #4230: core vs extra palettes, ShowExtraThemes, extra-only Sparkle, theme browser, and KryptonThemeAvailability export/import. Issue #3870: KryptonThemeListView shows stored or generated theme previews (Large Icons / Tile / Details); hover a row for a live theme preview; custom palettes without a Thumbnail use the Kr tile.");
         CreateButton<ApplicationStringsTest>("Custom Strings", "Issue #3757: store and localise custom strings via KryptonCustomStrings in Krypton.Toolkit.Utilities.");
         CreateButton<TranslationsXmlDemoForm>("Translations XML (Import/Export)", "Export/import KryptonManager toolkit strings via Translations.xml (designer/runtime validation).");
@@ -94,7 +95,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<KryptonTreeComboBoxDemo>("KryptonTreeComboBox", "Demo for Issue #3444: ComboBox-style control with a grouped tree drop-down (leaf/full path, breadcrumb, and parent-node selection).");
         CreateButton<KryptonCheckedListComboBoxDemo>("KryptonCheckedListComboBox", "Multi-select combo (#3445) with KryptonCheckedListBox drop-down: items + DataSource/DisplayMember/ValueMember demo and live summary.");
         CreateButton<KryptonMultiColumnComboBoxDemo>("KryptonMultiColumnComboBox", "Issue #4237: ComboBox-style control with a multi-column KryptonDataGridView drop-down. Explicit columns, auto-generated DataTable columns, filter-as-you-type, and closed-editor chrome next to KryptonComboBox. Extra ButtonSpec clears the first combo.");
-        CreateButton<BorderlessFormDemo>("Borderless Form Demo", "Demo for Issue #2922: Borderless KryptonForm without system title bar flicker on startup. Form should appear directly in borderless state.");
+        CreateButton<BorderlessFormDemo>("Borderless Form Demo", "Demo for Issue #2922: Borderless KryptonForm without system title bar or MDI client border flicker on startup (top-level and MDI child with Dock.Fill). Form should appear directly in borderless state; MdiChildActivate must still fire.");
         CreateButton<Bug1103GdiTextPerfDemo>("Bug 1103 Native GDI Text", "Issue #1103: benchmark Graphics.DrawString vs TextRenderer vs P/Invoke DrawText/ExtTextOut (cached HFONT), visual parity panel, and toggle AccurateText.PreferNativeGdiText on live Krypton button/label. Requires SetCompatibleTextRenderingDefault(false).");
         CreateButton<Bug2914Test>("Bug 2914 Test", "Tests the fix for 2914.");
         CreateButton<Bug2984SeparatorTest>("Bug 2984 Separator Test", "Demo for Issue #2984: NullReferenceException in ViewDrawSeparator.RenderBefore. Exercises KryptonNavigator (Outlook), KryptonSplitContainer, and KryptonSeparator. Swap themes to verify no crash.");

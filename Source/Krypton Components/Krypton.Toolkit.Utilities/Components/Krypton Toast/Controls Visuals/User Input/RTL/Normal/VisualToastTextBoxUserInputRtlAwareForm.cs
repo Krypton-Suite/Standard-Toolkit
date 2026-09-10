@@ -60,23 +60,23 @@ internal partial class VisualToastTextBoxUserInputRtlAwareForm : VisualToastBase
 
     private void UpdateBorderColors()
     {
-        StateCommon!.Border.Color1 = _data.BorderColor1 ?? GlobalStaticValues.EMPTY_COLOR;
+        StateCommon!.Border.Color1 = _data.BorderColor1 ?? SharedStaticVariables.EMPTY_COLOR;
 
-        StateCommon!.Border.Color2 = _data.BorderColor2 ?? GlobalStaticValues.EMPTY_COLOR;
+        StateCommon!.Border.Color2 = _data.BorderColor2 ?? SharedStaticVariables.EMPTY_COLOR;
     }
 
     private void LoadData()
     {
-        _notificationContentText = _data.NotificationContent ?? GlobalStaticValues.DEFAULT_EMPTY_STRING;
+        _notificationContentText = _data.NotificationContent ?? SharedStaticVariables.DEFAULT_EMPTY_STRING;
 
-        _notificationTitleText = _data.NotificationTitle ?? GlobalStaticValues.DEFAULT_EMPTY_STRING;
+        _notificationTitleText = _data.NotificationTitle ?? SharedStaticVariables.DEFAULT_EMPTY_STRING;
 
         _toastNotificationIcon = _data.NotificationIcon ?? KryptonToastIcon.None;
     }
 
     private void UpdateText()
     {
-        GlobalStaticValues.ApplyToastRichTextContentColor(krtbNotificationContentText);
+        CommonFeatures.ApplyToastRichTextContentColor(krtbNotificationContentText);
 
         klblHeader.Text = _notificationTitleText;
 
@@ -87,7 +87,7 @@ internal partial class VisualToastTextBoxUserInputRtlAwareForm : VisualToastBase
     {
         // Set cue values
         ktxtUserInput.CueHint.CueHintText =
-            _data.ToastNotificationCueText ?? GlobalStaticValues.DEFAULT_EMPTY_STRING;
+            _data.ToastNotificationCueText ?? SharedStaticVariables.DEFAULT_EMPTY_STRING;
 
         ktxtUserInput.CueHint.Color1 = _data.ToastNotificationCueColor ?? Color.Gray;
     }
@@ -237,13 +237,13 @@ internal partial class VisualToastTextBoxUserInputRtlAwareForm : VisualToastBase
 
         if (owner != null)
         {
-            toast.StartPosition = owner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
+            toast.StartPosition = FormStartPosition.CenterParent;
 
-            return toast.ShowDialog(owner!) == DialogResult.OK ? toast.UserResponse : GlobalStaticValues.DEFAULT_EMPTY_STRING;
+            return toast.ShowDialog(owner!) == DialogResult.OK ? toast.UserResponse : SharedStaticVariables.DEFAULT_EMPTY_STRING;
         }
         else
         {
-            return toast.ShowDialog() == DialogResult.OK ? toast.UserResponse : GlobalStaticValues.DEFAULT_EMPTY_STRING;
+            return toast.ShowDialog() == DialogResult.OK ? toast.UserResponse : SharedStaticVariables.DEFAULT_EMPTY_STRING;
         }
     }
 
@@ -259,7 +259,7 @@ internal partial class VisualToastTextBoxUserInputRtlAwareForm : VisualToastBase
         // Await required so using does not dispose the form before the dialog completes.
         DialogResult result = await KryptonFormAsync.ShowDialogAsync(toast, owner).ConfigureAwait(false);
 
-        return result == DialogResult.OK ? toast.UserResponse : GlobalStaticValues.DEFAULT_EMPTY_STRING;
+        return result == DialogResult.OK ? toast.UserResponse : SharedStaticVariables.DEFAULT_EMPTY_STRING;
     }
 #endregion
 }

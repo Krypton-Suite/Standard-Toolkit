@@ -78,6 +78,16 @@
     <ProjectReference Include="..\Krypton.Interop\Krypton.Interop.csproj" PrivateAssets="all" />
     <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
   </ItemGroup>
+  <ItemGroup Condition="!$(TargetFramework.StartsWith('net4'))">
+    <Compile Remove="Navigator\KryptonNavigatorDesigner.cs" />
+    <Compile Remove="Navigator\KryptonPageDesigner.cs" />
+    <Compile Remove="Navigator\KryptonNavigatorActionList.cs" />
+    <Compile Remove="Navigator\KryptonPageActionList.cs" />
+  </ItemGroup>
+  <PropertyGroup>
+    <KryptonWinFormsDesignerSdkDesignAssembly>Krypton.Navigator.Design</KryptonWinFormsDesignerSdkDesignAssembly>
+  </PropertyGroup>
+  <Import Project="..\Krypton.Shared\Krypton.WinFormsDesignerSdk.Package.targets" />
   <ItemGroup>
     <EmbeddedResource Update="Resources\CursorResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

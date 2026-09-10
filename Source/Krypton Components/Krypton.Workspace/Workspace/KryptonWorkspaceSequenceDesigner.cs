@@ -54,7 +54,11 @@ internal class KryptonWorkspaceSequenceDesigner : ComponentDesigner
     /// <summary>
     /// Gets the collection of components associated with the component managed by the designer.
     /// </summary>
+#if KRYPTON_WINFORMS_DESIGNER_SDK
+    public override IReadOnlyCollection<IComponent> AssociatedComponents
+#else
     public override ICollection AssociatedComponents
+#endif
     {
         get
         {
@@ -64,7 +68,7 @@ internal class KryptonWorkspaceSequenceDesigner : ComponentDesigner
             // Add the list of collection items
             compound.AddRange(_sequence?.Children!);
 
-            return compound;
+            return KryptonDesignerSdkCompat.Associated(compound);
         }
     }
 

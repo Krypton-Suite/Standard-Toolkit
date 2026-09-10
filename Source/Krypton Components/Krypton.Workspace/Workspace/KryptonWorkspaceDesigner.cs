@@ -50,7 +50,11 @@ internal class KryptonWorkspaceDesigner : ParentControlDesigner
     /// <summary>
     /// Gets the collection of components associated with the component managed by the designer.
     /// </summary>
+#if KRYPTON_WINFORMS_DESIGNER_SDK
+    public override IReadOnlyCollection<IComponent> AssociatedComponents
+#else
     public override ICollection AssociatedComponents
+#endif
     {
         get
         {
@@ -61,7 +65,7 @@ internal class KryptonWorkspaceDesigner : ParentControlDesigner
                 compound.AddRange(_workspace.Root.Children!);
             }
 
-            return compound;
+            return KryptonDesignerSdkCompat.Associated(compound);
         }
     }
 
