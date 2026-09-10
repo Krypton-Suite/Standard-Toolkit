@@ -65,7 +65,7 @@ internal partial class VisualBreadCrumbItemsForm : VisualDesignerCollectionForm
             /// </summary>
             [Category(@"Appearance")]
             [DefaultValue(null)]
-            [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+            [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
             public Image? Image
             {
                 get => _item.Image;

@@ -19,7 +19,7 @@ namespace Krypton.Toolkit;
 /// Hosts a collection of KryptonDataGridViewTextBoxCell cells.
 /// </summary>
 [ToolboxBitmap(typeof(KryptonDataGridViewTextBoxColumn), "ToolboxBitmaps.KryptonTextBox.bmp")]
-[Designer(typeof(KryptonTextBoxColumnDesigner))]
+[Designer("Krypton.Toolkit.KryptonTextBoxColumnDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 public class KryptonDataGridViewTextBoxColumn : KryptonDataGridViewIconColumn
 {
     #region Identity

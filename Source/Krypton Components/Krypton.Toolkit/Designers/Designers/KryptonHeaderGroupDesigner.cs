@@ -91,7 +91,11 @@ internal class KryptonHeaderGroupDesigner : ParentControlDesigner
     /// <summary>
     /// Gets the collection of components associated with the component managed by the designer.
     /// </summary>
+#if KRYPTON_WINFORMS_DESIGNER_SDK
+    public override IReadOnlyCollection<IComponent> AssociatedComponents
+#else
     public override ICollection AssociatedComponents
+#endif
     {
         get
         {
@@ -101,17 +105,17 @@ internal class KryptonHeaderGroupDesigner : ParentControlDesigner
             // If no button specs then nothing more to do
             if ((_headerGroup == null) || (_headerGroup.ButtonSpecs.Count == 0))
             {
-                return baseComponents;
+                return KryptonDesignerSdkCompat.Associated(baseComponents);
             }
             else
             {
                 // Create a new collection for both values
-                var compound = new ArrayList(baseComponents);
+                var compound = KryptonDesignerSdkCompat.ToArrayList(baseComponents);
 
                 // Add all the button specs to the end
                 compound.AddRange(_headerGroup.ButtonSpecs);
 
-                return compound;
+                return KryptonDesignerSdkCompat.Associated(compound);
             }
         }
     }

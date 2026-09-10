@@ -288,6 +288,15 @@ jobs:
           . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
           Test-KryptonInteropInPackages -Configuration Canary -MinimumMajorVersion 110 -SkipIfInteropProjectMissing
 
+      - name: Verify WinForms Designer SDK in NuGet packages
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && steps.krypton_major_version.outputs.major >= 110
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonDesignerSdkInPackages.ps1')
+          Test-KryptonDesignerSdkInPackages -Configuration Canary -MinimumMajorVersion 110 -SkipIfDesignerSdkProjectMissing
+
       - name: Save NuGet cache
         if: success() && steps.canary_release_kill_switch.outputs.enabled == 'true'
         uses: actions/cache/save@v6
@@ -418,16 +427,26 @@ jobs:
             exit 0
           }
 
+          $sha = (git rev-parse HEAD).Trim()
+          $shortSha = $sha.Substring(0, [Math]::Min(7, $sha.Length))
+          $commitUrl = "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/commit/$sha"
+
           $payload = @{
             embeds = @(
               @{
                 title = "🐤 Krypton Toolkit Canary Release"
+                url = $commitUrl
                 description = "A new canary pre-release is now available for early testing!"
                 color = 16776960
                 fields = @(
                   @{
                     name = "📌 Version"
                     value = "``${{ steps.get_version.outputs.version }}``"
+                    inline = $true
+                  }
+                  @{
+                    name = "🔗 Commit"
+                    value = "[``$shortSha``]($commitUrl)"
                     inline = $true
                   }
                   @{

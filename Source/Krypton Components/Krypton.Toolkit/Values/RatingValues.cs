@@ -160,7 +160,7 @@ public class RatingValues : Storage
     [Category(@"Visuals")]
     [Description(@"Filled image when Glyph is Image. Null uses the stock yellow star.")]
     [DefaultValue(null)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? ImageFilled
     {
         get => _imageFilled;
@@ -188,7 +188,7 @@ public class RatingValues : Storage
     [Category(@"Visuals")]
     [Description(@"Empty image when Glyph is Image. Null fades the filled image.")]
     [DefaultValue(null)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? ImageEmpty
     {
         get => _imageEmpty;
@@ -216,7 +216,7 @@ public class RatingValues : Storage
     [Category(@"Visuals")]
     [Description(@"Half-filled image when Glyph is Image. Null clips the filled image.")]
     [DefaultValue(null)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? ImageHalf
     {
         get => _imageHalf;

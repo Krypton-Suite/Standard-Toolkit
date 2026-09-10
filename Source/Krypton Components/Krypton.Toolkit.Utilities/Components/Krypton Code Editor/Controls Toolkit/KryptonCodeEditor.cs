@@ -19,7 +19,7 @@ namespace Krypton.Toolkit.Utilities;
 [DefaultEvent(nameof(TextChanged))]
 [DefaultProperty(nameof(Text))]
 [DefaultBindingProperty(nameof(Text))]
-[Designer(typeof(KryptonCodeEditorDesigner))]
+[Designer("Krypton.Toolkit.Utilities.KryptonCodeEditorDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Provides a native code editor with syntax highlighting, line numbering, code folding, and Krypton theming.")]
 public class KryptonCodeEditor : VisualPanel,

@@ -144,6 +144,12 @@
     <Compile Update="Feature3851RenderingDpiDemo.Designer.cs">
       <DependentUpon>Feature3851RenderingDpiDemo.cs</DependentUpon>
     </Compile>
+    <Compile Update="KryptonToolkit\Feature\WinFormsDesignerSdkDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonToolkit\Feature\WinFormsDesignerSdkDemo.Designer.cs">
+      <DependentUpon>WinFormsDesignerSdkDemo.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>

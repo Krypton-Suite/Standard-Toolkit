@@ -36,11 +36,15 @@ internal class KryptonRadialMenuDesigner : ComponentDesigner
     }
 
     /// <inheritdoc />
+#if KRYPTON_WINFORMS_DESIGNER_SDK
+    public override IReadOnlyCollection<IComponent> AssociatedComponents
+#else
     public override ICollection AssociatedComponents
+#endif
     {
         get
         {
-            var compound = new ArrayList(base.AssociatedComponents);
+            var compound = KryptonDesignerSdkCompat.ToArrayList(base.AssociatedComponents);
             if (_menu != null)
             {
                 compound.AddRange(_menu.Values.Items);
@@ -53,7 +57,7 @@ internal class KryptonRadialMenuDesigner : ComponentDesigner
                 }
             }
 
-            return compound;
+            return KryptonDesignerSdkCompat.Associated(compound);
         }
     }
 

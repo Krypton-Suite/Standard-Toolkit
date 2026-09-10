@@ -17,7 +17,7 @@ namespace Krypton.Toolkit;
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(KryptonMenuBar), "ToolboxBitmaps.KryptonMenuBar.bmp")]
 [DefaultProperty(nameof(Items))]
-[Designer(typeof(KryptonMenuBarDesigner))]
+[Designer("Krypton.Toolkit.KryptonMenuBarDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Native Krypton menu bar using context-menu items.")]
 [Docking(DockingBehavior.Ask)]

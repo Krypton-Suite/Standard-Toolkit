@@ -16,7 +16,7 @@ namespace Krypton.Toolkit;
 /// Hosts a collection of KryptonDataGridViewDomainUpDownCell cells.
 /// </summary>
 [ToolboxBitmap(typeof(KryptonDataGridViewDomainUpDownColumn), "ToolboxBitmaps.KryptonDomainUpDown.bmp")]
-[Designer(typeof(KryptonDomainUpDownColumnDesigner))]
+[Designer("Krypton.Toolkit.KryptonDomainUpDownColumnDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 public class KryptonDataGridViewDomainUpDownColumn : KryptonDataGridViewIconColumn
 {
     #region Fields
