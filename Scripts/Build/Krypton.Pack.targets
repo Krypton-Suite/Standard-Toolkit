@@ -1,4 +1,4 @@
-<Project>
+﻿<Project>
 
 	<!--
 	  Shared PackLite / PackAll orchestration for stable, LTS, RC, canary, nightly, and installer builds.
@@ -25,6 +25,10 @@
 		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all$(KryptonPackRestoreSuffix)" Targets="Clean" BuildInParallel="false" />
 		<Delete Files="@(NugetAssets)" />
 		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=lite;Restore=true;RestoreForce=true$(KryptonPackRestoreSuffix)" Targets="Restore" BuildInParallel="false" />
+		<!-- Design assemblies are not ProjectReferences of the runtime pack; build them before Exists() packing. -->
+		<MSBuild Projects="$(MSBuildProjectFullPath)"
+		         Targets="KryptonBuild"
+		         Properties="Configuration=$(Configuration);TFMs=lite$(KryptonPackRestoreSuffix);UseArtifactsOutput=$(UseArtifactsOutput)" />
 		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=lite$(KryptonPackRestoreSuffix)" Targets="Pack" BuildInParallel="false" />
 	</Target>
 
