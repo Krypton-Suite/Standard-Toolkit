@@ -36,7 +36,7 @@ public class ToolTipNeededEventArgs : EventArgs
     /// <summary>
     /// The icon of the tooltip.
     /// </summary>
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Icon { get; set; }
 
     /// <summary>

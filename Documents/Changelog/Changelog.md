@@ -4,7 +4,7 @@
 
 ## Table of Contents
 
-* [2026-11-xx - Build 2611 (V110 Nightly) - November 2026](#2026-11-xx---build-2611-v110-nightly---november-2026)
+* [2026-11-30 - Build 2611 (V110 Nightly) - November 2026](#2026-11-30---build-2611-v110-nightly---november-2026)
 * [2025-11-24 - Build 2511 (V100 RTM) - November 2025](#2025-11-24---build-2511-v100-rtm---november-2025)
 * [2025-06-23 - Build 2506 (Version 95 - Patch 7) - June 2025](#2025-06-23---build-2506-version-95---patch-7---june-2025)
 * [2025-04-21 - Build 2504 (Version 95 - Patch 6) - April 2025](#2025-04-21---build-2504-version-95---patch-6---april-2025)
@@ -43,13 +43,22 @@
 
 =======
 
-## 2026-11-xx - Build 2611 (V110 Nightly) - November 2026
+## 2026-11-30 - Build 2611 (V110 Nightly) - November 2026
 
 * Implemented [#2381](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2381), logical `RightToLeftLayout` on `KryptonNavigator`
   * Header ButtonSpecs (close, context, and workspace maximize) dock to the left when both `RightToLeft` and `RightToLeftLayout` are set. The navigator copies the layout flag from the host form, matching Ribbon and Workspace. Does not enable `WS_EX_LAYOUTRTL`.
 * Implemented [#2383](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2383), RTL support for **all** `Krypton.Workspace` controls
   * Horizontal sequences pack from the right when `RightToLeft` and `RightToLeftLayout` are both set (same two-flag contract as `KryptonForm` / `KryptonRibbon`). Vertical stacks stay top-to-bottom. Saved XML / `Children` order is unchanged. Set the flags on the host form; `KryptonWorkspace` syncs the layout flag automatically.
   * Cell header buttons (maximize, context, close) dock to the left because `KryptonNavigator` now has the same logical `RightToLeftLayout` flag and form sync ([#2381](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2381)).
+* `KryptonForm` MDI client background now uses the current theme `PanelAlternate` colour instead of the system AppWorkspace grey.
+* Resolved [#2922](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2922), WinForms borderless form briefly displays system title bar on startup
+  * Borderless MDI child forms (including `Dock = Fill`) no longer flash the Windows system title bar or system MDI client border on startup, and `MdiChildActivate` still fires.
+* Implemented [#593](https://github.com/Krypton-Suite/Standard-Toolkit/issues/593), **[Breaking Change]** Use the WinForms Designer Extensibility SDK for .NET
+ * Out-of-process WinForms designer support for .NET via the WinForms Designer Extensibility SDK.
+ * Modern Windows TFMs (`net8.0-windows` and later) load designers from `Krypton.*.Design` assemblies packed under `lib\{tfm}\Design\WinForms\Server\` (NuGet folder `netX.0-windows7.0`, next to the runtime DLL). .NET Framework still uses in-process designers inside the runtime assemblies.
+ * DesignToolsServer discovers designers via MEF type routing (short name and full name) in addition to assembly-qualified `[Designer]` attributes. Visual Studio-hosted image and folder editors resolve from `Krypton.Toolkit.Design.Client` via assembly-qualified `[Editor]` names.
+ * OOP designer features require a NuGet reference (including a local feed). `ProjectReference` (including TestForm in this repo) does not populate `designer.deps.json`, so the .NET designer falls back to the default `ControlDesigner`.
+ * On modern TFMs only, public designer types such as `KryptonNavigatorDesigner`, `KryptonBackstageViewDesigner`, `KryptonDesignerActionItem`, and `KryptonNavigatorActionList` live in the matching `*.Design` assembly instead of the runtime assembly.
 * Implemented [#3870](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3870), Theme previews for custom themes
   * `KryptonThemeListView` lists builtin and registered custom themes with preview images in Large Icon, Tile, Small Icon, and Details views. Stored `KryptonCustomPaletteBase.Thumbnail` (base64 PNG in `.kthemex`) is shown with the Stable Kr overlay; palettes without a thumbnail use the Kr tile. Builtin themes use a generated window mock-up (`KryptonThemePreview`). Palette Designer and Theme Browser Export write the mock-up into `Thumbnail` on save.
   * Turn previews off with `ShowThemePreviews` (Kr tile for every row). Extra palettes follow `ShowExtraThemes` like `KryptonThemeListBox`.

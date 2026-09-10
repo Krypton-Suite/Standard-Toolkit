@@ -97,7 +97,7 @@ public class BadgeContentValues : Storage
     [Description(@"The image to display on the badge. If set, the image will be displayed instead of text.")]
     [RefreshProperties(RefreshProperties.All)]
     [DefaultValue(null)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? BadgeImage
     {
         get => _badgeImage;

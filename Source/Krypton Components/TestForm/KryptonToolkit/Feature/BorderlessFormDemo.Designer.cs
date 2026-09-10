@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BorderlessFormDemo));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.klblDescription = new Krypton.Toolkit.KryptonLabel();
+            this.kbtnOpenMdiHost = new Krypton.Toolkit.KryptonButton();
             this.kbtnOpenAnother = new Krypton.Toolkit.KryptonButton();
             this.kbtnClose = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
@@ -40,6 +41,7 @@
             // kryptonPanel1
             // 
             this.kryptonPanel1.Controls.Add(this.klblDescription);
+            this.kryptonPanel1.Controls.Add(this.kbtnOpenMdiHost);
             this.kryptonPanel1.Controls.Add(this.kbtnOpenAnother);
             this.kryptonPanel1.Controls.Add(this.kbtnClose);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -61,13 +63,24 @@
             this.klblDescription.TabIndex = 0;
             this.klblDescription.Values.Text = resources.GetString("klblDescription.Values.Text");
             // 
+            // kbtnOpenMdiHost
+            // 
+            this.kbtnOpenMdiHost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.kbtnOpenMdiHost.Location = new System.Drawing.Point(481, 155);
+            this.kbtnOpenMdiHost.Name = "kbtnOpenMdiHost";
+            this.kbtnOpenMdiHost.Size = new System.Drawing.Size(180, 25);
+            this.kbtnOpenMdiHost.TabIndex = 1;
+            this.kbtnOpenMdiHost.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnOpenMdiHost.Values.Text = "Open MDI child (Dock.Fill)";
+            this.kbtnOpenMdiHost.Click += new System.EventHandler(this.kbtnOpenMdiHost_Click);
+            // 
             // kbtnOpenAnother
             // 
             this.kbtnOpenAnother.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.kbtnOpenAnother.Location = new System.Drawing.Point(667, 155);
             this.kbtnOpenAnother.Name = "kbtnOpenAnother";
             this.kbtnOpenAnother.Size = new System.Drawing.Size(100, 25);
-            this.kbtnOpenAnother.TabIndex = 1;
+            this.kbtnOpenAnother.TabIndex = 2;
             this.kbtnOpenAnother.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnOpenAnother.Values.Text = "Open Another";
             this.kbtnOpenAnother.Click += new System.EventHandler(this.kbtnOpenAnother_Click);
@@ -79,7 +92,7 @@
             this.kbtnClose.Location = new System.Drawing.Point(773, 155);
             this.kbtnClose.Name = "kbtnClose";
             this.kbtnClose.Size = new System.Drawing.Size(90, 25);
-            this.kbtnClose.TabIndex = 2;
+            this.kbtnClose.TabIndex = 3;
             this.kbtnClose.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnClose.Values.Text = "Close";
             this.kbtnClose.Click += new System.EventHandler(this.kbtnClose_Click);
@@ -110,6 +123,7 @@
 
             private Krypton.Toolkit.KryptonPanel kryptonPanel1;
             private Krypton.Toolkit.KryptonLabel klblDescription;
+            private Krypton.Toolkit.KryptonButton kbtnOpenMdiHost;
             private Krypton.Toolkit.KryptonButton kbtnOpenAnother;
             private Krypton.Toolkit.KryptonButton kbtnClose;
         }

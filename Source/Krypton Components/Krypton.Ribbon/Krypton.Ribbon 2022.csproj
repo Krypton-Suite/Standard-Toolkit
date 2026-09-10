@@ -103,6 +103,14 @@
     <ProjectReference Include="..\Krypton.Interop\Krypton.Interop.csproj" PrivateAssets="all" />
     <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
   </ItemGroup>
+  <ItemGroup Condition="!$(TargetFramework.StartsWith('net4'))">
+    <Compile Remove="Designers\Designers\**\*.cs" />
+    <Compile Remove="Designers\Action Lists\**\*.cs" />
+  </ItemGroup>
+  <PropertyGroup>
+    <KryptonWinFormsDesignerSdkDesignAssembly>Krypton.Ribbon.Design</KryptonWinFormsDesignerSdkDesignAssembly>
+  </PropertyGroup>
+  <Import Project="..\Krypton.Shared\Krypton.WinFormsDesignerSdk.Package.targets" />
   <ItemGroup>
     <EmbeddedResource Update="Resources\GenericImageResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

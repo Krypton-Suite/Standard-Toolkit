@@ -33,7 +33,7 @@ namespace Krypton.Navigator.Utilities;
 /// </remarks>
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(KryptonNavigator))]
-[Designer(typeof(KryptonNavigatorFormIntegratorDesigner))]
+[Designer("Krypton.Navigator.Utilities.KryptonNavigatorFormIntegratorDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DefaultProperty(nameof(Form))]
 [DefaultEvent(nameof(IntegrationChanged))]
 [Description(@"Integrates KryptonNavigator with KryptonForm for browser-style tabbed chrome.")]

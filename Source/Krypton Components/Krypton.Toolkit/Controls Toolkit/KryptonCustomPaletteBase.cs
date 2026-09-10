@@ -25,7 +25,7 @@ namespace Krypton.Toolkit;
 [DefaultEvent(nameof(PalettePaint))]
 [DefaultProperty(nameof(BasePaletteMode))]
 [DesignerCategory(@"code")]
-[Designer(typeof(KryptonCustomPaletteBaseDesigner))]
+[Designer("Krypton.Toolkit.KryptonCustomPaletteBaseDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [Description(@"A customisable palette component.")]
 public class KryptonCustomPaletteBase : PaletteBase
 {

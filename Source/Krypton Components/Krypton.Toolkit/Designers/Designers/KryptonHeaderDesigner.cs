@@ -86,8 +86,13 @@ internal class KryptonHeaderDesigner : ControlDesigner
     /// <summary>
     /// Gets the collection of components associated with the component managed by the designer.
     /// </summary>
+#if KRYPTON_WINFORMS_DESIGNER_SDK
+    public override IReadOnlyCollection<IComponent> AssociatedComponents =>
+        KryptonDesignerSdkCompat.Associated(_header?.ButtonSpecs, base.AssociatedComponents);
+#else
     public override ICollection AssociatedComponents =>
         _header?.ButtonSpecs ?? base.AssociatedComponents;
+#endif
 
     /// <summary>
     ///  Gets the design-time action lists supported by the component associated with the designer.
