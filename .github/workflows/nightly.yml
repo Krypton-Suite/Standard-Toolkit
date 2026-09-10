@@ -518,16 +518,26 @@ jobs:
             exit 0
           }
 
+          $sha = (git rev-parse HEAD).Trim()
+          $shortSha = $sha.Substring(0, [Math]::Min(7, $sha.Length))
+          $commitUrl = "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/commit/$sha"
+
           $payload = @{
             embeds = @(
               @{
                 title = "🚀 Krypton Toolkit Nightly Release"
+                url = $commitUrl
                 description = "A new nightly build is now available for bleeding-edge testing!"
                 color = 10181046
                 fields = @(
                   @{
                     name = "📌 Version"
                     value = "``${{ steps.get_version.outputs.version }}``"
+                    inline = $true
+                  }
+                  @{
+                    name = "🔗 Commit"
+                    value = "[``$shortSha``]($commitUrl)"
                     inline = $true
                   }
                   @{
