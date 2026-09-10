@@ -45,6 +45,7 @@
 
 ## 2026-11-30 - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved packing `Krypton.Themes.dll` into the `Krypton.Standard.Toolkit` aggregate NuGet package so extra palettes ship next to the other suite binaries (the package already referenced Themes but omitted the assembly from `lib`).
 * `KryptonForm` MDI client background now uses the current theme `PanelAlternate` colour instead of the system AppWorkspace grey.
 * Resolved [#2922](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2922), WinForms borderless form briefly displays system title bar on startup
   * Borderless MDI child forms (including `Dock = Fill`) no longer flash the Windows system title bar or system MDI client border on startup, and `MdiChildActivate` still fires.
