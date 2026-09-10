@@ -51,21 +51,3 @@ internal class KryptonTreeViewDesigner : ControlDesigner
     }
     #endregion
 }
-
-internal class NoneExcludedImageIndexConverter : ImageIndexConverter
-{
-    #region Identity
-    /// <summary>
-    /// Initialize a new instance of the NoneExcludedImageIndexConverter class.
-    /// </summary>
-    public NoneExcludedImageIndexConverter()
-    {
-    }
-    #endregion
-
-    // Properties
-    /// <summary>
-    /// Indicates if the None value should be included in standard values for selection.
-    /// </summary>
-    protected override bool IncludeNoneAsStandardValue => false;
-}

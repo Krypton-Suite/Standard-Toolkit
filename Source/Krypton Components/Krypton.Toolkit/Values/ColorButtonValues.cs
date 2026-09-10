@@ -99,7 +99,7 @@ public class ColorButtonValues : Storage,
     [Category(@"Visuals")]
     [Description(@"Button image.")]
     [RefreshProperties(RefreshProperties.All)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;

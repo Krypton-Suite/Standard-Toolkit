@@ -15,7 +15,7 @@ namespace Krypton.Toolkit;
 [ToolboxItem(false)]
 [DefaultEvent("Click")]
 [DefaultProperty("Heading")]
-[Designer(typeof(InternalKryptonCommandLinkButtonDesigner))]
+[Designer("Krypton.Toolkit.InternalKryptonCommandLinkButtonDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory("code")]
 #if NET8_0_OR_GREATER
 #pragma warning disable CS0618

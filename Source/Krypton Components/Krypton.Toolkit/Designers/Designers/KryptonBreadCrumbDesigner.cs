@@ -61,11 +61,15 @@ internal class KryptonBreadCrumbDesigner : ControlDesigner
     /// <summary>
     /// Gets the collection of components associated with the component managed by the designer.
     /// </summary>
+#if KRYPTON_WINFORMS_DESIGNER_SDK
+    public override IReadOnlyCollection<IComponent> AssociatedComponents
+#else
     public override ICollection AssociatedComponents
+#endif
     {
         get
         {
-            var compound = new ArrayList(base.AssociatedComponents);
+            var compound = KryptonDesignerSdkCompat.ToArrayList(base.AssociatedComponents);
 
             if (_breadCrumb != null)
             {
@@ -73,7 +77,7 @@ internal class KryptonBreadCrumbDesigner : ControlDesigner
                 compound.AddRange(_breadCrumb.RootItem.Items);
             }
 
-            return compound;
+            return KryptonDesignerSdkCompat.Associated(compound);
         }
     }
 
