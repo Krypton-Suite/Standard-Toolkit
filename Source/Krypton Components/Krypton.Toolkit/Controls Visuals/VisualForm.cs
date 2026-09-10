@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -759,6 +759,137 @@ public abstract class VisualForm : Form,
     }
     #endregion
 
+    #region Private Chrome
+    /// <summary>
+    /// Caption and 3D-edge styles that an MDI client may force onto a child even when
+    /// <see cref="Form.FormBorderStyle"/> is <see cref="FormBorderStyle.None"/>.
+    /// </summary>
+    private const uint SystemCaptionStyleBits = PI.WS_.CAPTION | PI.WS_.SIZEFRAME | PI.WS_.DLGFRAME | PI.WS_.BORDER;
+
+    /// <summary>
+    /// Extended edge styles that leave a sunken/gray frame on a borderless window.
+    /// </summary>
+    private const uint SystemCaptionExStyleBits =
+        PI.WS_EX_.CLIENTEDGE | PI.WS_EX_.WINDOWEDGE | PI.WS_EX_.DLGMODALFRAME | PI.WS_EX_.STATICEDGE;
+
+    /// <summary>
+    /// Whether <c>WM_NCCALCSIZE</c> should take the custom-chrome path.
+    /// Borderless forms always intercept so the first CreateWindow layout has no caption.
+    /// MDI children also intercept immediately — <see cref="UseThemeFormChromeBorderWidth"/>
+    /// is still false until handle-created chrome runs (issue #2922).
+    /// </summary>
+    private bool ShouldInterceptNonClientCalcSize()
+    {
+        if (FormBorderStyle == FormBorderStyle.None)
+        {
+            return true;
+        }
+
+        return _themedApp && !CommonHelper.IsFormMaximized(this);
+    }
+
+    /// <summary>
+    /// True when DWM composition should hide this window until custom chrome is applied.
+    /// </summary>
+    protected bool ShouldCloakUntilChromeReady =>
+        !DesignMode && (FormBorderStyle == FormBorderStyle.None || MdiParent != null);
+
+    /// <summary>
+    /// Cloaks the window (and disables DWM NC rendering / transitions) so the system frame
+    /// cannot paint before custom chrome is ready.
+    /// </summary>
+    /// <param name="cloaked">True to hide the window from DWM; false to show it again.</param>
+    protected void SetDwmCloaked(bool cloaked)
+    {
+        if (!IsHandleCreated || IsDisposed)
+        {
+            return;
+        }
+
+        try
+        {
+            PI.Dwm.WindowSetAttribute(Handle, PI.Dwm.DWMWINDOWATTRIBUTE.Cloak, cloaked ? 1 : 0);
+            if (cloaked)
+            {
+                PI.Dwm.WindowSetAttribute(Handle, PI.Dwm.DWMWINDOWATTRIBUTE.TransitionsForceDisabled, 1);
+                PI.Dwm.WindowDisableRendering(Handle);
+            }
+        }
+        catch
+        {
+            // DWM may be unavailable (remote session, composition off).
+        }
+    }
+
+    /// <summary>
+    /// Rejects caption / 3D-edge bits while a borderless form's style is changing.
+    /// </summary>
+    private void SuppressSystemCaptionStyleChange(ref Message m)
+    {
+        if (FormBorderStyle != FormBorderStyle.None || DesignMode || m.LParam == IntPtr.Zero)
+        {
+            return;
+        }
+
+        uint mask;
+        if (m.WParam == (IntPtr)(int)PI.GWL_.STYLE)
+        {
+            mask = SystemCaptionStyleBits;
+        }
+        else if (m.WParam == (IntPtr)(int)PI.GWL_.EXSTYLE)
+        {
+            mask = SystemCaptionExStyleBits;
+        }
+        else
+        {
+            return;
+        }
+
+        var style = (PI.STYLESTRUCT)Marshal.PtrToStructure(m.LParam, typeof(PI.STYLESTRUCT))!;
+        uint stripped = style.styleNew & ~mask;
+        if (stripped == style.styleNew)
+        {
+            return;
+        }
+
+        style.styleNew = stripped;
+        Marshal.StructureToPtr(style, m.LParam, false);
+    }
+
+    /// <summary>
+    /// Removes system caption and 3D-edge styles the MDI client may have applied after handle creation.
+    /// </summary>
+    private void StripSystemCaptionStyles()
+    {
+        if (!IsHandleCreated || IsDisposed)
+        {
+            return;
+        }
+
+        var changed = false;
+        uint style = PI.GetWindowLong(Handle, PI.GWL_.STYLE);
+        uint strippedStyle = style & ~SystemCaptionStyleBits;
+        if (strippedStyle != style)
+        {
+            PI.SetWindowLong(Handle, PI.GWL_.STYLE, strippedStyle);
+            changed = true;
+        }
+
+        uint exStyle = PI.GetWindowLong(Handle, PI.GWL_.EXSTYLE);
+        uint strippedEx = exStyle & ~SystemCaptionExStyleBits;
+        if (strippedEx != exStyle)
+        {
+            PI.SetWindowLong(Handle, PI.GWL_.EXSTYLE, strippedEx);
+            changed = true;
+        }
+
+        if (changed)
+        {
+            RecalcNonClient();
+        }
+    }
+    #endregion
+
     #region Protected Override
 
     //protected override CreateParams CreateParams
@@ -797,6 +928,13 @@ public abstract class VisualForm : Form,
         //}
 
         base.OnHandleCreated(e);
+
+        // Issue #2922: MDI may have forced WS_CAPTION during CreateWindow. Strip it here
+        // (after Form.OnHandleCreated / UpdateStyles) so MdiChildActivate still fires.
+        if (FormBorderStyle == FormBorderStyle.None && !DesignMode)
+        {
+            StripSystemCaptionStyles();
+        }
     }
 
     /// <summary>
@@ -1019,7 +1157,16 @@ public abstract class VisualForm : Form,
     {
         var processed = false;
 
-        // We do not process the message if on an MDI child, because doing so prevents the
+        // WM_NCCALCSIZE is skipped for maximized forms and MDI children with a system caption
+        // so LayoutMdi / maximize can use OS chrome. FormBorderStyle.None must still intercept
+        // from the first CreateWindow message — otherwise an MDI child flashes the system title bar
+        // before OnLoad enables custom chrome (issue #2922).
+        if (m.Msg == PI.WM_.NCCALCSIZE && ShouldInterceptNonClientCalcSize())
+        {
+            processed = OnWM_NCCALCSIZE(ref m);
+        }
+
+        // We do not process GETMINMAXINFO if on an MDI child, because doing so prevents the
         // LayoutMdi call on the parent from working and cascading/tiling the children
         if (_themedApp
             && !CommonHelper.IsFormMaximized(this)
@@ -1027,9 +1174,6 @@ public abstract class VisualForm : Form,
         {
             switch (m.Msg)
             {
-                case PI.WM_.NCCALCSIZE:
-                    processed = OnWM_NCCALCSIZE(ref m);
-                    break;
                 case PI.WM_.GETMINMAXINFO:
                     OnWM_GETMINMAXINFO(ref m);
                     // Call DefWndProc instead of base.WndProc so our MINMAXINFO (work area from OnWM_GETMINMAXINFO)
@@ -1044,6 +1188,11 @@ public abstract class VisualForm : Form,
         {
             switch (m.Msg)
             {
+                case PI.WM_.STYLECHANGING:
+                    // MDI client / DefMDIChildProc may add WS_CAPTION during WM_CREATE.
+                    // Strip it before the style lands so the first paint has no system caption.
+                    SuppressSystemCaptionStyleChange(ref m);
+                    break;
                 case PI.WM_.ERASEBKGND:
                     // Windows erases newly exposed regions before WM_NCPAINT/WM_PAINT.
                     // On custom chrome that fill is a black flash during max/min/restore.
@@ -1315,21 +1464,16 @@ public abstract class VisualForm : Form,
         // Cache the new active state
         WindowActive = m.WParam == (IntPtr)1;
 
-        // The first time an MDI child gets an WM_NCACTIVATE, let it process as normal
+        // Never pass WM_NCACTIVATE to DefWndProc for MDI children: the first activate
+        // would paint the system caption/border before custom chrome is on screen (issue #2922).
+        // MDI activation still proceeds via WM_MDIACTIVATE / MdiChildActivate.
         if ((MdiParent != null) && !_activated)
         {
             _activated = true;
         }
-        else
-        {
-            // Allow default processing of activation change
-            m.Result = (IntPtr)1;
 
-            // Message processed, do not pass onto base class for processing
-            return true;
-        }
-
-        return false;
+        m.Result = (IntPtr)1;
+        return true;
     }
 
     /// <summary>
