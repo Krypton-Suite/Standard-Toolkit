@@ -1,4 +1,4 @@
-<Project>
+﻿<Project>
 	<!--
 	  Include Krypton.Interop.dll in packable Krypton module packages.
 	  Must use TargetsForTfmSpecificContentInPackage — BeforeTargets="_GetPackageFiles" does not
@@ -12,11 +12,8 @@
 	<Target Name="KryptonIncludeInteropInPackage">
 		<PropertyGroup>
 			<_KryptonInteropLibDir>$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\</_KryptonInteropLibDir>
-			<!-- Match NuGet Windows TFM folder naming used by project build output / Standard.Toolkit. -->
-			<_KryptonInteropLibFolderName Condition="'$(TargetFramework)' == 'net8.0-windows'">net8.0-windows7.0</_KryptonInteropLibFolderName>
-			<_KryptonInteropLibFolderName Condition="'$(TargetFramework)' == 'net9.0-windows'">net9.0-windows7.0</_KryptonInteropLibFolderName>
-			<_KryptonInteropLibFolderName Condition="'$(TargetFramework)' == 'net10.0-windows'">net10.0-windows7.0</_KryptonInteropLibFolderName>
-			<_KryptonInteropLibFolderName Condition="'$(TargetFramework)' == 'net11.0-windows'">net11.0-windows7.0</_KryptonInteropLibFolderName>
+			<!-- Match NuGet Windows TFM folder naming (lib\netX.0-windows7.0\). -->
+			<_KryptonInteropLibFolderName Condition="'$(_KryptonPackageLibFolder)' != ''">$(_KryptonPackageLibFolder)</_KryptonInteropLibFolderName>
 			<_KryptonInteropLibFolderName Condition="'$(_KryptonInteropLibFolderName)' == ''">$(TargetFramework)</_KryptonInteropLibFolderName>
 		</PropertyGroup>
 		<ItemGroup>

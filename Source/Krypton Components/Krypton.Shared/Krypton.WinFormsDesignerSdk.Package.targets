@@ -3,6 +3,7 @@
 	  Pack DesignToolsServer (Server) and Visual Studio (Client) designer assemblies into the
 	  Microsoft folder convention: lib\{tfm}\Design\WinForms[\{vs}\]\Server
 	  https://github.com/microsoft/winforms-designer-extensibility/blob/main/docs/sdk/control-library-nuget-package-spec.md
+	  {tfm} must be NuGet's short folder name (netX.0-windows7.0), not $(TargetFramework) (netX.0-windows).
 	-->
 	<PropertyGroup Condition="'$(KryptonWinFormsDesignerSdkDesignAssembly)' != '' And '$(IsPackable)' != 'false'">
 		<TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);KryptonPackWinFormsDesignerSdk</TargetsForTfmSpecificContentInPackage>
@@ -13,6 +14,7 @@
 			<_KryptonDesignerPackLibDir>$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\</_KryptonDesignerPackLibDir>
 			<_KryptonDesignerPackClientDir>$(KryptonBuildOutputRoot)$(Configuration)\net472\</_KryptonDesignerPackClientDir>
 			<_KryptonDesignerPackLibFolder Condition="'$(KryptonWinFormsDesignerSdkPackageLibFolder)' != ''">$(KryptonWinFormsDesignerSdkPackageLibFolder)</_KryptonDesignerPackLibFolder>
+			<_KryptonDesignerPackLibFolder Condition="'$(_KryptonDesignerPackLibFolder)' == '' And '$(_KryptonPackageLibFolder)' != ''">$(_KryptonPackageLibFolder)</_KryptonDesignerPackLibFolder>
 			<_KryptonDesignerPackLibFolder Condition="'$(_KryptonDesignerPackLibFolder)' == ''">$(TargetFramework)</_KryptonDesignerPackLibFolder>
 			<_KryptonDesignerServerPath>lib\$(_KryptonDesignerPackLibFolder)\Design\WinForms\Server</_KryptonDesignerServerPath>
 			<_KryptonDesignerClientPath>lib\$(_KryptonDesignerPackLibFolder)\Design\WinForms</_KryptonDesignerClientPath>
