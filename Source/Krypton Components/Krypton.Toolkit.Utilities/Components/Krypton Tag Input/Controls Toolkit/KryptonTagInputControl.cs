@@ -17,7 +17,7 @@ namespace Krypton.Toolkit.Utilities;
 [ToolboxBitmap(typeof(KryptonTextBox), "ToolboxBitmaps.KryptonTextBox.bmp")]
 [DefaultEvent(nameof(TagAdded))]
 [DefaultProperty(nameof(Tags))]
-[Designer(typeof(KryptonTagInputControlDesigner))]
+[Designer("Krypton.Toolkit.Utilities.KryptonTagInputControlDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [DisplayName(@"Krypton Tag Input")]
 [Description(@"Wrap-capable tag editor with themed chips, suggestions, and optional category colours.")]

@@ -29,7 +29,7 @@ namespace Krypton.Toolkit.Utilities;
 [DefaultEvent(nameof(SelectedIndexChanged))]
 [DefaultProperty(nameof(DataSource))]
 [DefaultBindingProperty(nameof(SelectedValue))]
-[Designer(typeof(KryptonMultiColumnComboBoxDesigner))]
+[Designer("Krypton.Toolkit.Utilities.KryptonMultiColumnComboBoxDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"A ComboBox-style control whose drop-down shows multiple columns in a grid.")]
 public class KryptonMultiColumnComboBox : KryptonComboBoxUserControl

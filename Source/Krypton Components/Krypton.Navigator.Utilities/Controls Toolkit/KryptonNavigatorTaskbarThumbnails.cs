@@ -20,7 +20,7 @@ namespace Krypton.Navigator.Utilities;
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(KryptonNavigator))]
 [DefaultProperty(nameof(Navigator))]
-[Designer(typeof(KryptonNavigatorTaskbarThumbnailsDesigner))]
+[Designer("Krypton.Navigator.Utilities.KryptonNavigatorTaskbarThumbnailsDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [Description(@"Registers KryptonNavigator pages as individual Windows taskbar thumbnails.")]
 public class KryptonNavigatorTaskbarThumbnails : Component
 {
