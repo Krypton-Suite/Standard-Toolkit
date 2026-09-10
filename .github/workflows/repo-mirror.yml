@@ -656,9 +656,9 @@ jobs:
 
           run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
           links="[Workflow run](${run_url})"
-          if [ "$EVENT_NAME" = "push" ] && [ -n "${SHA:-}" ]; then
+          if [ -n "${SHA:-}" ]; then
             short_sha="${SHA:0:7}"
-            links="${links} · [Trigger commit](${source_url}/commit/${SHA}) (\`${short_sha}\`)"
+            links="${links} · [Commit](${source_url}/commit/${SHA}) (\`${short_sha}\`)"
           fi
           add_field "🔗 Links" "$links" false
 
