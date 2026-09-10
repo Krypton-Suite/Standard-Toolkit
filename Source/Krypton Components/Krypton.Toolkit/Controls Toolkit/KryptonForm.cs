@@ -227,6 +227,8 @@ public class KryptonForm : VisualForm,
 	// Issue #2922: Workaround for borderless form briefly showing system title bar on startup
 	private bool _borderlessFormFirstShowPending;
 	private double _borderlessTargetOpacity = 1.0;
+	private int _mdiClientRedrawSuspendCount;
+	private MdiClient? _hookedMdiClient;
 	private KryptonSystemMenu? _kryptonSystemMenu;
 	// SystemMenu context menu components
 	private KryptonContextMenu _systemMenuContextMenu;
@@ -765,6 +767,8 @@ public class KryptonForm : VisualForm,
 					//In reverse, because they are removed when added to another control
 					base.Controls.Add(checkForRibbon[i]);
 				}
+
+				ApplyMdiClientThemeBackColor();
 			}
 		}
 	}
@@ -1819,6 +1823,12 @@ public class KryptonForm : VisualForm,
 			RecalcNonClient();
 		}
 
+		if (e.Control is MdiClient client)
+		{
+			HookMdiClient(client);
+			ApplyMdiClientThemeBackColor();
+		}
+
 		base.OnControlAdded(e);
 	}
 
@@ -1839,17 +1849,23 @@ public class KryptonForm : VisualForm,
 			RecalcNonClient();
 		}
 
+		if (e.Control is MdiClient client && ReferenceEquals(_hookedMdiClient, client))
+		{
+			client.HandleCreated -= OnMdiClientHandleCreated;
+			_hookedMdiClient = null;
+		}
+
 		base.OnControlRemoved(e);
 	}
 
 	/// <inheritdoc />
 	protected override void SetVisibleCore(bool value)
 	{
-		// When showing a borderless form for the first time we want to start with an opacity of 0 and then fade in to the target opacity.
-		// This is because some themes (e.g. Windows 11) have a fade in animation for borderless windows,
-		// but if we start with the target opacity then the animation is not smooth as it animates from fully
-		// transparent to the target opacity instead of from 0 to the target opacity.
-		if (value && FormBorderStyle == FormBorderStyle.None && !DesignMode && !_borderlessFormFirstShowPending)
+		// When showing a top-level borderless form for the first time we want to start with an opacity of 0
+		// and then fade in to the target opacity. This hides the brief system-caption paint some themes
+		// (e.g. Windows 11) perform before custom chrome is applied (issue #2922).
+		// MDI children cannot use WS_EX_LAYERED / Opacity reliably; those use CreateParams + WM_NCCALCSIZE.
+		if (value && FormBorderStyle == FormBorderStyle.None && !DesignMode && MdiParent is null && !_borderlessFormFirstShowPending)
 		{
 			// Native FadeValues owns opacity when fading in; skip the snap-to-target so the fade can run.
 			if (CanAutoFadeIn)
@@ -1880,6 +1896,11 @@ public class KryptonForm : VisualForm,
 
 			// We have handled the first show, so exit to avoid calling base.SetVisibleCore again
 			return;
+		}
+
+		if (value && FormBorderStyle == FormBorderStyle.None && MdiParent is KryptonForm host)
+		{
+			host.SyncMdiClientEdgeForBorderlessFillChildren();
 		}
 
 		// For subsequent calls to SetVisibleCore we just call the base method with the provided value
@@ -2090,6 +2111,8 @@ public class KryptonForm : VisualForm,
 
 		ApplyLeftTrafficLightFormChromeIfNeeded();
 
+		ApplyMdiClientThemeBackColor();
+
 		// Ensure the sizing grip reflects new theme immediately
 		RecalcNonClient();
 		// Deferred call for theme churning during toggle
@@ -2262,6 +2285,27 @@ public class KryptonForm : VisualForm,
 	/// <summary>Ensures MDI logic runs correctly after form creation.</summary>
 	protected override void OnHandleCreated(EventArgs e)
 	{
+		var cloak = ShouldCloakUntilChromeReady;
+		if (cloak)
+		{
+			SetDwmCloaked(true);
+		}
+
+		try
+		{
+			OnHandleCreatedCore(e);
+		}
+		finally
+		{
+			if (cloak)
+			{
+				SetDwmCloaked(false);
+			}
+		}
+	}
+
+	private void OnHandleCreatedCore(EventArgs e)
+	{
 		base.OnHandleCreated(e);
 
 		if (GetResolvedPalette() is PaletteMacOSBase macPalette)
@@ -2287,6 +2331,8 @@ public class KryptonForm : VisualForm,
 					base.Controls.Add(checkForRibbon[i]);
 				}
 			}
+
+			ApplyMdiClientThemeBackColor();
 		}
 		else if (_internalPanelState == InheritBool.Inherit && !DesignMode)
 		{
@@ -2303,6 +2349,40 @@ public class KryptonForm : VisualForm,
 
 		// Ensure Material defaults are applied as early as possible for new forms
 		ApplyMaterialFormChromeDefaultsIfNeeded();
+
+		// Issue #2922: apply custom chrome before first paint. OnLoad is too late for
+		// MDI children — the system caption/border is already on screen by then.
+		if (!DesignMode && (FormBorderStyle == FormBorderStyle.None || MdiParent != null))
+		{
+			UpdateUseThemeFormChromeBorderWidthDecision();
+			if (MdiParent is KryptonForm host)
+			{
+				host.SyncMdiClientEdgeForBorderlessFillChildren();
+			}
+		}
+	}
+
+	/// <inheritdoc />
+	protected override void CreateHandle()
+	{
+		var host = MdiParent as KryptonForm;
+		host?.SuspendMdiClientRedraw();
+		try
+		{
+			host?.SyncMdiClientEdgeForBorderlessFillChildren();
+			base.CreateHandle();
+		}
+		finally
+		{
+			host?.ResumeMdiClientRedraw();
+		}
+	}
+
+	/// <inheritdoc />
+	protected override void OnMdiChildActivate(EventArgs e)
+	{
+		base.OnMdiChildActivate(e);
+		SyncMdiClientEdgeForBorderlessFillChildren();
 	}
 
 	#endregion
@@ -2761,8 +2841,10 @@ public class KryptonForm : VisualForm,
 		// Does the LParam contain a RECT or an NCCALCSIZE_PARAMS
 		if (m.WParam != IntPtr.Zero)
 		{
-			// Get the border sizing needed around the client area
-			Padding borders = RealWindowBorders;
+			// FormBorderStyle.None must keep a zero non-client so no caption band or 3D edge remains.
+			Padding borders = FormBorderStyle == FormBorderStyle.None
+				? Padding.Empty
+				: RealWindowBorders;
 
 			// If caption should be hidden, set top border to 0 to prevent white band
 			if (ShouldHideCaption())
@@ -2863,7 +2945,11 @@ public class KryptonForm : VisualForm,
 	/// <returns>True if caption should be hidden; otherwise false.</returns>
 	private bool ShouldHideCaption()
 	{
-		// Check if there are any visible buttons
+		// FormBorderStyle.None never has a caption; Text may still be set for the taskbar / MDI.
+		if (FormBorderStyle == FormBorderStyle.None)
+		{
+			return true;
+		}
 		bool hasVisibleButtons = false;
 		foreach (ButtonSpecView bsv in _buttonManager.ButtonSpecViews)
 		{
@@ -3155,8 +3241,8 @@ public class KryptonForm : VisualForm,
 			}
 
 			// We draw the main form and header background
-			_drawDocker.DrawCanvas = true;
-			_drawHeading.DrawCanvas = true;
+			_drawDocker.DrawCanvas = FormBorderStyle != FormBorderStyle.None;
+			_drawHeading.DrawCanvas = FormBorderStyle != FormBorderStyle.None;
 
 			// Perform actual painting of the view
 			ViewManager.Paint(Renderer, new PaintEventArgs(g, rect));
@@ -3244,6 +3330,158 @@ public class KryptonForm : VisualForm,
 
 		// Cleanup old region gracefully
 		oldRegion?.Dispose();
+	}
+
+	private MdiClient? FindMdiClient()
+	{
+		foreach (Control control in Controls)
+		{
+			if (control is MdiClient mdiClient)
+			{
+				return mdiClient;
+			}
+		}
+
+		return null;
+	}
+
+	private void HookMdiClient(MdiClient client)
+	{
+		if (ReferenceEquals(_hookedMdiClient, client))
+		{
+			return;
+		}
+
+		if (_hookedMdiClient != null)
+		{
+			_hookedMdiClient.HandleCreated -= OnMdiClientHandleCreated;
+		}
+
+		_hookedMdiClient = client;
+		client.HandleCreated += OnMdiClientHandleCreated;
+		if (client.IsHandleCreated)
+		{
+			OnMdiClientHandleCreated(client, EventArgs.Empty);
+		}
+	}
+
+	private void OnMdiClientHandleCreated(object? sender, EventArgs e)
+	{
+		// MdiClient.OnHandleCreated stamps WS_EX_CLIENTEDGE after the host handle exists.
+		// Strip it here (and once more on the next message) so the system frame is gone
+		// before any child is created (issue #2922).
+		SyncMdiClientEdgeForBorderlessFillChildren();
+		if (IsHandleCreated && !IsDisposed)
+		{
+			BeginInvoke(new System.Windows.Forms.MethodInvoker(SyncMdiClientEdgeForBorderlessFillChildren));
+		}
+	}
+
+	/// <summary>
+	/// Paints the MDI client with the current theme <see cref="PaletteBackStyle.PanelAlternate"/>
+	/// colour instead of the system AppWorkspace grey.
+	/// </summary>
+	private void ApplyMdiClientThemeBackColor()
+	{
+		if (!IsMdiContainer || IsDisposed)
+		{
+			return;
+		}
+
+		MdiClient? client = FindMdiClient();
+		if (client == null)
+		{
+			return;
+		}
+
+		HookMdiClient(client);
+
+		var palette = GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
+		Color back = palette.GetBackColor1(PaletteBackStyle.PanelAlternate, PaletteState.Normal);
+		if (back == SharedStaticVariables.EMPTY_COLOR || back.IsEmpty)
+		{
+			back = palette.GetBackColor1(PaletteBackStyle.PanelClient, PaletteState.Normal);
+		}
+
+		if (client.BackColor != back)
+		{
+			client.BackColor = back;
+		}
+
+		SyncMdiClientEdgeForBorderlessFillChildren();
+	}
+
+	/// <summary>
+	/// The MDI client's sunken <c>WS_EX_CLIENTEDGE</c> is a system 3D border. Strip it on
+	/// Krypton MDI hosts so children are not created inside a gray frame that then vanishes
+	/// (issue #2922).
+	/// </summary>
+	private void SyncMdiClientEdgeForBorderlessFillChildren()
+	{
+		if (!IsMdiContainer || !IsHandleCreated || IsDisposed)
+		{
+			return;
+		}
+
+		MdiClient? client = FindMdiClient();
+
+		if (client is not { IsHandleCreated: true })
+		{
+			return;
+		}
+
+		uint exStyle = PI.GetWindowLong(client.Handle, PI.GWL_.EXSTYLE);
+		if ((exStyle & PI.WS_EX_.CLIENTEDGE) == 0)
+		{
+			return;
+		}
+
+		PI.SetWindowLong(client.Handle, PI.GWL_.EXSTYLE, exStyle & ~PI.WS_EX_.CLIENTEDGE);
+
+		PI.SetWindowPos(client.Handle, IntPtr.Zero, 0, 0, 0, 0,
+			PI.SWP_.NOACTIVATE | PI.SWP_.NOMOVE |
+			PI.SWP_.NOZORDER | PI.SWP_.NOSIZE |
+			PI.SWP_.NOOWNERZORDER | PI.SWP_.FRAMECHANGED);
+	}
+
+	private void SuspendMdiClientRedraw()
+	{
+		MdiClient? client = FindMdiClient();
+		if (client is not { IsHandleCreated: true })
+		{
+			return;
+		}
+
+		if (_mdiClientRedrawSuspendCount == 0)
+		{
+			PI.SendMessage(client.Handle, (int)PI.WM_.SETREDRAW, IntPtr.Zero, IntPtr.Zero);
+		}
+
+		_mdiClientRedrawSuspendCount++;
+	}
+
+	private void ResumeMdiClientRedraw()
+	{
+		if (_mdiClientRedrawSuspendCount == 0)
+		{
+			return;
+		}
+
+		_mdiClientRedrawSuspendCount--;
+		if (_mdiClientRedrawSuspendCount > 0)
+		{
+			return;
+		}
+
+		MdiClient? client = FindMdiClient();
+		if (client is not { IsHandleCreated: true })
+		{
+			return;
+		}
+
+		PI.SendMessage(client.Handle, (int)PI.WM_.SETREDRAW, (IntPtr)1, IntPtr.Zero);
+		PI.RedrawWindow(client.Handle, IntPtr.Zero, IntPtr.Zero,
+			PI.RDW_INVALIDATE | PI.RDW_ALLCHILDREN | PI.RDW_FRAME | PI.RDW_UPDATENOW);
 	}
 
 	private bool _hasUseThemeFormChromeBorderWidthFirstRun;
@@ -3939,6 +4177,23 @@ public class KryptonForm : VisualForm,
 			// add the drop shadow flag for automatically drawing
 			// a drop shadow around the form
 			CreateParams cp = base.CreateParams;
+
+			// Issue #2922: MDI children are often given WS_CAPTION by the MDI client even when
+			// FormBorderStyle is None. Strip caption/frame styles from CreateParams so the HWND
+			// is created without a system title bar.
+			if (FormBorderStyle == FormBorderStyle.None)
+			{
+				cp.Style &= unchecked((int)~(PI.WS_.CAPTION | PI.WS_.SIZEFRAME | PI.WS_.DLGFRAME | PI.WS_.SYSMENU | PI.WS_.BORDER));
+				cp.ExStyle &= unchecked((int)~(PI.WS_EX_.CLIENTEDGE | PI.WS_EX_.WINDOWEDGE | PI.WS_EX_.DLGMODALFRAME | PI.WS_EX_.STATICEDGE));
+			}
+
+			// MDI children default to Visible=true, so CreateWindow would paint the system
+			// frame before OnHandleCreated can apply chrome. Create hidden, then WinForms
+			// shows the window after chrome is ready (issue #2922).
+			if (!DesignMode && MdiParent != null && !IsHandleCreated)
+			{
+				cp.Style &= unchecked((int)~PI.WS_.VISIBLE);
+			}
 
 #pragma warning disable CS0618 // Type or member is obsolete
 			if (UseDropShadow)

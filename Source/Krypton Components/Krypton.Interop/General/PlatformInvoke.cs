@@ -6037,6 +6037,16 @@ No 	                    No 	                    Show text only
         public SWP_ flags;
     }
 
+    /// <summary>
+    /// Passed as <c>lParam</c> for <see cref="WM_.STYLECHANGING"/> and <see cref="WM_.STYLECHANGED"/>.
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct STYLESTRUCT
+    {
+        public uint styleOld;
+        public uint styleNew;
+    }
+
     [StructLayout(LayoutKind.Sequential)]
     internal struct GUIDSTRUCT
     {

@@ -45,6 +45,9 @@
 
 ## 2026-11-30 - Build 2611 (V110 Nightly) - November 2026
 
+* `KryptonForm` MDI client background now uses the current theme `PanelAlternate` colour instead of the system AppWorkspace grey.
+* Resolved [#2922](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2922), WinForms borderless form briefly displays system title bar on startup
+  * Borderless MDI child forms (including `Dock = Fill`) no longer flash the Windows system title bar or system MDI client border on startup, and `MdiChildActivate` still fires.
 * Implemented [#593](https://github.com/Krypton-Suite/Standard-Toolkit/issues/593), **[Breaking Change]** Use the WinForms Designer Extensibility SDK for .NET
  * Out-of-process WinForms designer support for .NET via the WinForms Designer Extensibility SDK.
  * Modern Windows TFMs (`net8.0-windows` and later) load designers from `Krypton.*.Design` assemblies packed under `lib\{tfm}\Design\WinForms\Server\` (NuGet folder `netX.0-windows7.0`, next to the runtime DLL). .NET Framework still uses in-process designers inside the runtime assemblies.
