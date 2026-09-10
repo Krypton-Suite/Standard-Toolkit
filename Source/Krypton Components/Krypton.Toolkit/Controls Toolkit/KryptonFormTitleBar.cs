@@ -34,7 +34,7 @@ namespace Krypton.Toolkit;
 [ToolboxBitmap(typeof(KryptonFormTitleBar), "ToolboxBitmaps.KryptonApplicationBarMenu.bmp")]
 [DefaultEvent(nameof(ButtonSpecs))]
 [DefaultProperty(nameof(ButtonSpecs))]
-[Designer(typeof(KryptonFormTitleBarDesigner))]
+[Designer("Krypton.Toolkit.KryptonFormTitleBarDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Hosts button-spec items inside the KryptonForm title bar.")]
 public class KryptonFormTitleBar : Component

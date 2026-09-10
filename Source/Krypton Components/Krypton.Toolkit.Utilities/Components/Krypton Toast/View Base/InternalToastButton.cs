@@ -123,7 +123,7 @@ internal class InternalToastButton : KryptonButton
         AutoSize = true;
 
         // Use 10 pixels for padding
-        Margin = new Padding(GlobalStaticValues.DEFAULT_PADDING);
+        Margin = new Padding(SharedStaticConstants.DEFAULT_PADDING);
     }
 
     #endregion
@@ -219,7 +219,7 @@ internal class InternalToastButton : KryptonButton
         }
         catch (Exception e)
         {
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(e, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 

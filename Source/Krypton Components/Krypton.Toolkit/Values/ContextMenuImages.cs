@@ -61,7 +61,7 @@ public class ContextMenuImages : Storage
     [Description(@"Image for a checked context menu item.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Checked
     {
         get => _checked;
@@ -91,7 +91,7 @@ public class ContextMenuImages : Storage
     [Description(@"Image for an indeterminate context menu item.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Indeterminate
     {
         get => _indeterminate;
@@ -121,7 +121,7 @@ public class ContextMenuImages : Storage
     [Description(@"Image indicating a sub-menu on a context menu item.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? SubMenu
     {
         get => _subMenu;

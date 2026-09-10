@@ -1,8 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿#region BSD License
+/*
+ *
+ * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ * Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
+ *
+ */
+#endregion
 
 namespace Krypton.Toolkit.Utilities;
 
@@ -87,11 +90,26 @@ public enum KryptonToastIcon
 
 #region Enum KryptonToastContentAreaType
 
+/// <summary>
+/// Specifies the type of content area to be used in a <see cref="KryptonToast"/>.
+/// </summary>
 public enum KryptonToastContentAreaType
 {
+    /// <summary>
+    /// Specifies a <see cref="KryptonRichTextBox"/> content area.
+    /// </summary>
     RichTextBox = 0,
+    /// <summary>
+    /// Specifies a <see cref="KryptonTextBox"/> content area.
+    /// </summary>
     MultiLineTextBox = 1,
+    /// <summary>
+    /// Specifies a <see cref="KryptonLinkLabel"/> content area.
+    /// </summary>
     WrapLinkLabel = 2,
+    /// <summary>
+    /// Specifies a <see cref="KryptonLabel"/> content area.
+    /// </summary>
     WrapLabel = 3
 }
 
@@ -119,9 +137,18 @@ public enum KryptonToastInputAreaType
 
 #region Enum KryptonToastActionButton
 
+/// <summary>
+/// Specifies the action button to be used in a <see cref="KryptonToast"/>.
+/// </summary>
 public enum KryptonToastActionButton
 {
+    /// <summary>
+    /// Specifies the first action button.
+    /// </summary>
     Button1 = 0,
+    /// <summary>
+    /// Specifies the second action button.
+    /// </summary>
     Button2 = 1
     //Button3 = 2
 }
@@ -130,11 +157,26 @@ public enum KryptonToastActionButton
 
 #region Enum KryptonToastActionType
 
+/// <summary>
+/// Specifies the action type to be used in a <see cref="KryptonToast"/>.
+/// </summary>
 public enum KryptonToastActionType
 {
+    /// <summary>
+    /// Specifies the default action.
+    /// </summary>
     Default = 0,
+    /// <summary>
+    /// Specifies the dismiss action.
+    /// </summary>
     Dismiss = 1,
+    /// <summary>
+    /// Specifies the launch process action.
+    /// </summary>
     LaunchProcess = 2,
+    /// <summary>
+    /// Specifies the open action.
+    /// </summary>
     Open = 3
 }
 
@@ -142,9 +184,18 @@ public enum KryptonToastActionType
 
 #region Enum KryptonToastDismissButtonLocation
 
+/// <summary>
+/// Specifies the location of the dismiss button in a <see cref="KryptonToast"/>.
+/// </summary>
 public enum KryptonToastDismissButtonLocation
 {
+    /// <summary>
+    /// Specifies the dismiss button to be located on the left side of the <see cref="KryptonToast"/>.
+    /// </summary>
     Left = 0,
+    /// <summary>
+    /// Specifies the dismiss button to be located on the right side of the <see cref="KryptonToast"/>.
+    /// </summary>
     Right = 1
 }
 
@@ -152,9 +203,18 @@ public enum KryptonToastDismissButtonLocation
 
 #region Enum KryptonToastAlignment
 
+/// <summary>
+/// Specifies the alignment of the <see cref="KryptonToast"/> on the screen.
+/// </summary>
 public enum KryptonToastAlignment
 {
+    /// <summary>
+    /// Specifies the <see cref="KryptonToast"/> to be aligned from left to right on the screen.
+    /// </summary>
     LeftToRight = 0,
+    /// <summary>
+    /// Specifies the <see cref="KryptonToast"/> to be aligned from right to left on the screen.
+    /// </summary>
     RightToLeft = 1
 }
 
@@ -162,6 +222,9 @@ public enum KryptonToastAlignment
 
 #region Enum KryptonToastResponseType
 
+/// <summary>
+/// Specifies the type of response expected from a <see cref="KryptonToast"/>.
+/// </summary>
 public enum KryptonToastResponseType
 {
     /// <summary>Returns a <see cref="bool"/> result.</summary>
@@ -184,11 +247,26 @@ public enum KryptonToastResponseType
 
 #region Enum KryptonToastType
 
+/// <summary>
+/// Specifies the type of <see cref="KryptonToast"/> to be displayed.
+/// </summary>
 public enum KryptonToastType
 {
+    /// <summary>
+    /// Specifies a basic <see cref="KryptonToast"/>.
+    /// </summary>
     Basic = 0,
+    /// <summary>
+    /// Specifies a basic <see cref="KryptonToast"/> with a progress bar.
+    /// </summary>
     BasicWithProgressBar = 1,
+    /// <summary>
+    /// Specifies a <see cref="KryptonToast"/> that requires user input.
+    /// </summary>
     UserInput = 2,
+    /// <summary>
+    /// Specifies a <see cref="KryptonToast"/> that requires user input and has a progress bar.
+    /// </summary>
     UserInputWithProgressBar = 3
 }
 
@@ -201,24 +279,72 @@ public enum KryptonToastType
 /// </summary>
 public enum KryptonToastResult
 {
+    /// <summary>
+    /// Specifies no result.
+    /// </summary>
     None = DialogResult.None,
+    /// <summary>
+    /// Specifies an OK result.
+    /// </summary>
     Ok = DialogResult.OK,
+    /// <summary>
+    /// Specifies a Cancel result.
+    /// </summary>
     Cancel = DialogResult.Cancel,
+    /// <summary>
+    /// Specifies an Abort result.
+    /// </summary>
     Abort = DialogResult.Abort,
+    /// <summary>
+    /// Specifies a Retry result.
+    /// </summary>
     Retry = DialogResult.Retry,
+    /// <summary>
+    /// Specifies an Ignore result.
+    /// </summary>
     Ignore = DialogResult.Ignore,
+    /// <summary>
+    /// Specifies a Yes result.
+    /// </summary>
     Yes = DialogResult.Yes,
+    /// <summary>
+    /// Specifies a No result.
+    /// </summary>
     No = DialogResult.No,
+    /// <summary>
+    /// Specifies a Close result.
+    /// </summary>
     Close = 8,
+    /// <summary>
+    /// Specifies a Help result.
+    /// </summary>
     Help = 9,
 #if NET8_0_OR_GREATER
+        /// <summary>
+        /// Specifies a Try Again result.
+        /// </summary>
         TryAgain = DialogResult.TryAgain,
+        /// <summary>
+        /// Specifies a Continue result.
+        /// </summary>
         Continue = DialogResult.Continue,
 #else
+    /// <summary>
+    /// Specifies a Try Again result.
+    /// </summary>
     TryAgain = 10,
+    /// <summary>
+    /// Specifies a Continue result.
+    /// </summary>
     Continue = 11,
 #endif
+    /// <summary>
+    /// Specifies a TimeOut result.
+    /// </summary>
     TimeOut = 12,
+    /// <summary>
+    /// Specifies a DoNotShowAgain result.
+    /// </summary>
     DoNotShowAgain = 13
 }
 

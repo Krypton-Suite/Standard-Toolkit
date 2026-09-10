@@ -925,7 +925,7 @@ public class PaletteBorder : Storage,
     [Description(@"Border image.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _storage?.BorderImage;

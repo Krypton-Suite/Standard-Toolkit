@@ -20,7 +20,7 @@ namespace Krypton.Toolkit;
 [DefaultEvent(nameof(SplitterMoved))]
 [DefaultProperty(nameof(Orientation))]
 [DesignerCategory(@"code")]
-[Designer(typeof(KryptonSeparatorDesigner))]
+[Designer("Krypton.Toolkit.KryptonSeparatorDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [Description(@"Display a separator generated events to operation.")]
 public class KryptonSeparator : VisualControl,
     ISeparatorSource

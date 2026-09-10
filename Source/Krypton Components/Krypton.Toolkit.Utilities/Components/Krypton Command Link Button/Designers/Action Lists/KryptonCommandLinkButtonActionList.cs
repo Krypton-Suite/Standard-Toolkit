@@ -104,7 +104,7 @@ internal class KryptonCommandLinkButtonActionList : DesignerActionList
     /// <summary>
     /// Gets and sets the button image.
     /// </summary>
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _button.CommandLinkTextValues.Image;

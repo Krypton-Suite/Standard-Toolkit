@@ -12,6 +12,12 @@
 		<OutDir>$(OutputPath)</OutDir>
 		<!-- Shared per-TFM output folder across projects; avoid project-to-project copy/clean churn in the same directory. -->
 		<UseCommonOutputDirectory>true</UseCommonOutputDirectory>
+		<!-- NuGet packs netX.0-windows as lib\netX.0-windows7.0\ (GetShortFolderName). Extra TfmSpecificPackageFile
+		     items must use this folder or NU5128 reports unmatched dependency groups vs lib/ref. -->
+		<_KryptonPackageLibFolder>$(TargetFramework)</_KryptonPackageLibFolder>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(TargetFramework)' != '' And $([System.String]::Copy('$(TargetFramework)').EndsWith('-windows'))">
+		<_KryptonPackageLibFolder>$(TargetFramework)7.0</_KryptonPackageLibFolder>
 	</PropertyGroup>
 
 	<!-- Newer SDKs can run GenerateBuildDependencyFile before CopyFilesToOutputDirectory creates $(OutputPath). -->

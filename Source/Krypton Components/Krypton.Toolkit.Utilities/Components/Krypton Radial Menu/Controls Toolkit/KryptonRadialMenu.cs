@@ -18,7 +18,7 @@ namespace Krypton.Toolkit.Utilities;
 [DefaultEvent(nameof(Opening))]
 [DefaultProperty(nameof(Values))]
 [DesignerCategory(@"code")]
-[Designer(typeof(KryptonRadialMenuDesigner))]
+[Designer("Krypton.Toolkit.Utilities.KryptonRadialMenuDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [Description(@"Displays a radial shortcut menu in a popup window.")]
 public class KryptonRadialMenu : Component, IRadialMenuAppearance
 {

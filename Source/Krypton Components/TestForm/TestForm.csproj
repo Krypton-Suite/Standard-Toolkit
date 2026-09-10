@@ -138,6 +138,9 @@
     <Compile Update="Feature3851RenderingDpiDemo.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="KryptonToolkit\Feature\BorderlessMdiHostDemo.Designer.cs">
+      <DependentUpon>BorderlessMdiHostDemo.cs</DependentUpon>
+    </Compile>
     <Compile Update="Feature3851RenderingDpiDemo.Designer.cs">
       <DependentUpon>Feature3851RenderingDpiDemo.cs</DependentUpon>
     </Compile>
@@ -146,6 +149,11 @@
     </Compile>
     <Compile Update="KryptonToolkit\Feature\KryptonSplitButtonDemo.Designer.cs">
       <DependentUpon>KryptonSplitButtonDemo.cs</DependentUpon>
+    <Compile Update="KryptonToolkit\Feature\WinFormsDesignerSdkDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonToolkit\Feature\WinFormsDesignerSdkDemo.Designer.cs">
+      <DependentUpon>WinFormsDesignerSdkDemo.cs</DependentUpon>
     </Compile>
   </ItemGroup>
 
@@ -158,6 +166,8 @@
     </EmbeddedResource>
     <EmbeddedResource Update="KryptonToolkit\Feature\KryptonSplitButtonDemo.resx">
       <DependentUpon>KryptonSplitButtonDemo.cs</DependentUpon>
+    <EmbeddedResource Update="KryptonToolkit\Feature\BorderlessMdiHostDemo.resx">
+      <DependentUpon>BorderlessMdiHostDemo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Update="KryptonToolkit\Feature\KryptonTaskDialogDemo\KryptonTaskDialogDemoForm.resx">
       <DependentUpon>KryptonTaskDialogDemoForm.cs</DependentUpon>

@@ -18,7 +18,7 @@ namespace Krypton.Toolkit.Utilities;
 [ToolboxBitmap(typeof(KryptonTreeView), "ToolboxBitmaps.KryptonTreeView.bmp")]
 [DefaultEvent(nameof(AfterSelect))]
 [DefaultProperty(nameof(PaletteDirectory))]
-[Designer(typeof(KryptonStubDesigner))]
+[Designer("Krypton.Toolkit.KryptonStubDesigner, " + KryptonWinFormsDesignerSdk.ToolkitAssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Shows palette files and .ktheme collection folders as a tree and applies the selected custom theme.")]
 public class KryptonPaletteFileTreeView : KryptonTreeView
