@@ -45,6 +45,7 @@
 
 ## 2026-11-30 - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved packing `Krypton.Themes.dll` into the `Krypton.Standard.Toolkit` aggregate NuGet package so extra palettes ship next to the other suite binaries (the package already referenced Themes but omitted the assembly from `lib`).
 * Implemented [#593](https://github.com/Krypton-Suite/Standard-Toolkit/issues/593), **[Breaking Change]** Use the WinForms Designer Extensibility SDK for .NET
  * Out-of-process WinForms designer support for .NET via the WinForms Designer Extensibility SDK.
  * Modern Windows TFMs (`net8.0-windows` and later) load designers from `Krypton.*.Design` assemblies packed under `lib\{tfm}\Design\WinForms\Server\` (NuGet folder `netX.0-windows7.0`, next to the runtime DLL). .NET Framework still uses in-process designers inside the runtime assemblies.
