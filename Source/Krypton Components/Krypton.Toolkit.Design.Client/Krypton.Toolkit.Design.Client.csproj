@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\Krypton.Shared\Krypton.WinFormsDesignerSdk.props" />
+
+	<PropertyGroup>
+		<TargetFrameworks>net472</TargetFrameworks>
+		<RootNamespace>Krypton.Toolkit.Design.Client</RootNamespace>
+		<AssemblyName>Krypton.Toolkit.Design.Client</AssemblyName>
+		<Description>Visual Studio (net472) UI for Krypton WinForms designer type editors.</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Reference Include="System.Design" />
+		<ProjectReference Include="..\Krypton.Toolkit.Design.Protocol\Krypton.Toolkit.Design.Protocol.csproj" />
+	</ItemGroup>
+
+</Project>

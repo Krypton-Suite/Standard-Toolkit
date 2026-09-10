@@ -45,6 +45,12 @@
 
 ## 2026-11-30 - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#593](https://github.com/Krypton-Suite/Standard-Toolkit/issues/593), **[Breaking Change]** Use the WinForms Designer Extensibility SDK for .NET
+ * Out-of-process WinForms designer support for .NET via the WinForms Designer Extensibility SDK.
+ * Modern Windows TFMs (`net8.0-windows` and later) load designers from `Krypton.*.Design` assemblies packed under `lib\{tfm}\Design\WinForms\Server\` (NuGet folder `netX.0-windows7.0`, next to the runtime DLL). .NET Framework still uses in-process designers inside the runtime assemblies.
+ * DesignToolsServer discovers designers via MEF type routing (short name and full name) in addition to assembly-qualified `[Designer]` attributes. Visual Studio-hosted image and folder editors resolve from `Krypton.Toolkit.Design.Client` via assembly-qualified `[Editor]` names.
+ * OOP designer features require a NuGet reference (including a local feed). `ProjectReference` (including TestForm in this repo) does not populate `designer.deps.json`, so the .NET designer falls back to the default `ControlDesigner`.
+ * On modern TFMs only, public designer types such as `KryptonNavigatorDesigner`, `KryptonBackstageViewDesigner`, `KryptonDesignerActionItem`, and `KryptonNavigatorActionList` live in the matching `*.Design` assembly instead of the runtime assembly.
 * Implemented [#3870](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3870), Theme previews for custom themes
   * `KryptonThemeListView` lists builtin and registered custom themes with preview images in Large Icon, Tile, Small Icon, and Details views. Stored `KryptonCustomPaletteBase.Thumbnail` (base64 PNG in `.kthemex`) is shown with the Stable Kr overlay; palettes without a thumbnail use the Kr tile. Builtin themes use a generated window mock-up (`KryptonThemePreview`). Palette Designer and Theme Browser Export write the mock-up into `Thumbnail` on save.
   * Turn previews off with `ShowThemePreviews` (Kr tile for every row). Extra palettes follow `ShowExtraThemes` like `KryptonThemeListBox`.

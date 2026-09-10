@@ -16,7 +16,7 @@ namespace Krypton.Toolkit;
 /// <see cref="ShowThemePreviews"/> is on. Hovering a row applies that theme as a live preview until the pointer
 /// leaves; a click still commits. See <see cref="LivePreviewOnHover"/>.
 /// </summary>
-[Designer(typeof(KryptonStubDesigner))]
+[Designer("Krypton.Toolkit.KryptonStubDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [Description(@"Lists Krypton themes with preview images and applies the selected theme.")]
 public class KryptonThemeListView : KryptonListView, IKryptonThemeSelectorBase
 {

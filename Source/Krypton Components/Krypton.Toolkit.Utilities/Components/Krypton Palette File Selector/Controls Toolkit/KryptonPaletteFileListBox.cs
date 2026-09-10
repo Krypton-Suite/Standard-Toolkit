@@ -17,7 +17,7 @@ namespace Krypton.Toolkit.Utilities;
 [ToolboxBitmap(typeof(KryptonListBox), "ToolboxBitmaps.KryptonListBox.bmp")]
 [DefaultEvent(nameof(SelectedIndexChanged))]
 [DefaultProperty(nameof(PaletteDirectory))]
-[Designer(typeof(KryptonStubDesigner))]
+[Designer("Krypton.Toolkit.KryptonStubDesigner, " + KryptonWinFormsDesignerSdk.ToolkitAssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Lists palette files (.kthemex / .ktheme collections / .xml) and applies the selected custom theme.")]
 public class KryptonPaletteFileListBox : KryptonListBox

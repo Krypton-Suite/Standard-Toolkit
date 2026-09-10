@@ -16,7 +16,7 @@ namespace Krypton.Toolkit;
 /// Hosts a collection of KryptonDataGridViewMaskedTextBoxCell cells.
 /// </summary>
 [ToolboxBitmap(typeof(KryptonDataGridViewMaskedTextBoxColumn), "ToolboxBitmaps.KryptonMaskedTextBox.bmp")]
-[Designer(typeof(KryptonMaskedTextBoxColumnDesigner))]
+[Designer("Krypton.Toolkit.KryptonMaskedTextBoxColumnDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 public class KryptonDataGridViewMaskedTextBoxColumn : KryptonDataGridViewIconColumn
 {
     #region Identity

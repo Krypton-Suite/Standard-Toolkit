@@ -20,7 +20,7 @@ namespace Krypton.Toolkit;
 [DefaultEvent(nameof(CheckedChanged))]
 [DefaultProperty(nameof(Text))]
 [DefaultBindingProperty(nameof(Checked))]
-[Designer(typeof(KryptonRadioButtonDesigner))]
+[Designer("Krypton.Toolkit.KryptonRadioButtonDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Allow user to set or clear the associated option.")]
 public class KryptonRadioButton : VisualSimpleBase

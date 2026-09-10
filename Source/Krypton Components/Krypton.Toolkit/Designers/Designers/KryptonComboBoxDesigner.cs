@@ -61,8 +61,13 @@ internal class KryptonComboBoxDesigner : ControlDesigner
     /// <summary>
     /// Gets the collection of components associated with the component managed by the designer.
     /// </summary>
+#if KRYPTON_WINFORMS_DESIGNER_SDK
+    public override IReadOnlyCollection<IComponent> AssociatedComponents =>
+        KryptonDesignerSdkCompat.Associated(_comboBox?.ButtonSpecs, base.AssociatedComponents);
+#else
     public override ICollection AssociatedComponents =>
         _comboBox?.ButtonSpecs ?? base.AssociatedComponents;
+#endif
 
     /// <summary>
     /// Gets the selection rules that indicate the movement capabilities of a component.
