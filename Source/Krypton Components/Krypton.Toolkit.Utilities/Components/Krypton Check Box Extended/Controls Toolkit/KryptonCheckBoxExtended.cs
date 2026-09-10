@@ -17,7 +17,7 @@ namespace Krypton.Toolkit.Utilities;
 [DefaultEvent(nameof(CheckedChanged))]
 [DefaultProperty(nameof(Text))]
 [DefaultBindingProperty(nameof(CheckState))]
-[Designer(typeof(KryptonCheckBoxExtendedDesigner))]
+[Designer("Krypton.Toolkit.Utilities.KryptonCheckBoxExtendedDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [DisplayName(@"Krypton CheckBox Extended")]
 [Description(@"Displays a check box with word-wrapped text and optional subtext.")]

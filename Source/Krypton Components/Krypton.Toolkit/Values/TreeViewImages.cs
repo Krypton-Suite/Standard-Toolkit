@@ -66,7 +66,7 @@ public class TreeViewImages : Storage
     [Description(@"Image used to expand a tree node.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Plus
     {
         get => _plus;
@@ -96,7 +96,7 @@ public class TreeViewImages : Storage
     [Description(@"Image used to collapse a tree node.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Minus
     {
         get => _minus;

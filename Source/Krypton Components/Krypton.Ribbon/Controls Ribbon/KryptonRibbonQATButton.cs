@@ -91,7 +91,7 @@ public class KryptonRibbonQATButton : Component,
     [Category(@"Values")]
     [Description(@"Application button image.")]
     [RefreshProperties(RefreshProperties.All)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;
@@ -280,7 +280,7 @@ public class KryptonRibbonQATButton : Component,
     [Description(@"Display image associated ToolTip.")]
     [DefaultValue(null)]
     [Localizable(true)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? ToolTipImage { get; set; }
 
     /// <summary>

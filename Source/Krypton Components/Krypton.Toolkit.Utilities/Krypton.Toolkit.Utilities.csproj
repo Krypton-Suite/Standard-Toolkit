@@ -98,6 +98,11 @@
 	  <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
 	  <ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
 	</ItemGroup>
+	<ItemGroup Condition="!$(TargetFramework.StartsWith('net4'))">
+	  <Compile Remove="Components\**\Designers\Designers\**\*.cs" />
+	  <Compile Remove="Components\**\Designers\Action Lists\**\*.cs" />
+	  <Compile Remove="Components\Krypton Custom Strings\Designers\KryptonCustomStringsManagerDesigner.cs" />
+	</ItemGroup>
 
 	<ItemGroup>
 	  <EmbeddedResource Update="Components\Krypton Drop Zone\Resources\DropZoneResources.resx">

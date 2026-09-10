@@ -509,7 +509,7 @@ public class VisualPopup : ContainerControl
         if (!IsDisposed)
         {
             // Do we have a manager to use for laying out?
-            if (ViewManager != null)
+            if (ViewManager != null && Renderer != null)
             {
                 // Prevent infinite loop by looping a maximum number of times
                 var max = 5;

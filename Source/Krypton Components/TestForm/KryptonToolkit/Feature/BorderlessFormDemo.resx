@@ -120,6 +120,6 @@
   <data name="klblDescription.Values.Text" xml:space="preserve">
     <value>Demo for Issue #2922: Borderless form startup fix.
 
-The form should appear directly in its borderless state with no brief flash of the Windows system title bar. Use "Open Another" to test the fix again.</value>
+This window should appear directly in its borderless state with no brief flash of the Windows system title bar. Use "Open Another" to repeat the top-level case. Use "Open MDI child (Dock.Fill)" for the MDI + Dock.Fill case that still flashed after the first workaround. MdiChildActivate on the host must still fire.</value>
   </data>
 </root>

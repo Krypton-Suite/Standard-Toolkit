@@ -115,7 +115,7 @@ public class KryptonRibbonRecentDoc : Component, IRibbonTranslationIdentity
     [Description(@"Image for the recent document entry.")]
     [RefreshProperties(RefreshProperties.All)]
     [DefaultValue(null)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;

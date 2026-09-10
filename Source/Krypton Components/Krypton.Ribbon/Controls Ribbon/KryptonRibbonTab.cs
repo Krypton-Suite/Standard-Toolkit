@@ -17,7 +17,7 @@ namespace Krypton.Ribbon;
 /// </summary>
 [ToolboxItem(false)]
 [ToolboxBitmap(typeof(KryptonRibbonTab), "ToolboxBitmaps.KryptonRibbonTab.bmp")]
-[Designer(typeof(KryptonRibbonTabDesigner))]
+[Designer("Krypton.Ribbon.KryptonRibbonTabDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DefaultProperty(nameof(Text))]
 [DesignerCategory(@"code")]
 [DesignTimeVisible(false)]

@@ -47,7 +47,7 @@ public class ButtonImageStates : Storage
     [Description(@"Button image for normal state.")]
     [RefreshProperties(RefreshProperties.All)]
     [DefaultValue(null)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? ImageNormal
     {
         get => _imageNormal;
@@ -80,7 +80,7 @@ public class ButtonImageStates : Storage
     [Description(@"Button image for disabled state.")]
     [RefreshProperties(RefreshProperties.All)]
     [DefaultValue(null)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? ImageDisabled
     {
         get => _imageDisabled;
@@ -113,7 +113,7 @@ public class ButtonImageStates : Storage
     [Description(@"Button image for pressed state.")]
     [RefreshProperties(RefreshProperties.All)]
     [DefaultValue(null)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? ImagePressed
     {
         get => _imagePressed;
@@ -146,7 +146,7 @@ public class ButtonImageStates : Storage
     [Description(@"Button image for tracking state.")]
     [RefreshProperties(RefreshProperties.All)]
     [DefaultValue(null)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? ImageTracking
     {
         get => _imageTracking;

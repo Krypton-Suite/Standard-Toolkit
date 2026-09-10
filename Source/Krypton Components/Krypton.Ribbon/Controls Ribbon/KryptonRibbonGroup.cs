@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -17,7 +17,7 @@ namespace Krypton.Ribbon;
 /// </summary>
 [ToolboxItem(false)]
 [ToolboxBitmap(typeof(KryptonRibbonGroup), "ToolboxBitmaps.KryptonRibbonGroup.bmp")]
-[Designer(typeof(KryptonRibbonGroupDesigner))]
+[Designer("Krypton.Ribbon.KryptonRibbonGroupDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DefaultEvent(nameof(DialogBoxLauncherClick))]
 [DefaultProperty(nameof(TextLine1))]
 [DesignerCategory(@"code")]
@@ -296,7 +296,7 @@ public class KryptonRibbonGroup : Component, IRibbonTranslationIdentity
     [Category(@"Appearance")]
     [Description(@"Group image when collapsed.")]
     [RefreshProperties(RefreshProperties.All)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;

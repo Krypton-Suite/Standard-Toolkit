@@ -50,5 +50,9 @@
 		<ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
 		<ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
 	</ItemGroup>
+	<ItemGroup Condition="!$(TargetFramework.StartsWith('net4'))">
+		<Compile Remove="Designers\Designer\**\*.cs" />
+		<Compile Remove="Designers\Action Lists\**\*.cs" />
+	</ItemGroup>
 
 </Project>
