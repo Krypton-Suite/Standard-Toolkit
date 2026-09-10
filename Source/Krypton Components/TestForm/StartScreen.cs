@@ -80,6 +80,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<ToastNotificationTestChoice>("Toast", "For breakfast....?");
         CreateButton<WorkspaceTest>("WorkspaceTest", string.Empty);
         CreateButton<BlurExampleForm>("Blur Example", string.Empty);
+        CreateButton<BorderlessFormDemo>("Borderless Form Demo", "Demo for Issue #2922: Borderless KryptonForm without system title bar or MDI client border flicker on startup (top-level and MDI child with Dock.Fill). Form should appear directly in borderless state; MdiChildActivate must still fire.");
         CreateButton<VisualControlsTest>("Visual Controls", string.Empty);
         CreateButton<BasicEmojiViewerForm>("EmojiViewer Basic", string.Empty);
         CreateButton<AdvancedEmojiViewerForm>("EmojiViewer Advanced", "Only hardcore devs can handle this one!");

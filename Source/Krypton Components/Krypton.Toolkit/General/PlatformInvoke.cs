@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -4796,6 +4796,16 @@ No 	                    No 	                    Show text only
         public RECT rectBeforeMove;
         public RECT rectClientBeforeMove;
         public int lpPos;
+    }
+
+    /// <summary>
+    /// Passed as <c>lParam</c> for <see cref="WM_.STYLECHANGING"/> and <see cref="WM_.STYLECHANGED"/>.
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct STYLESTRUCT
+    {
+        public uint styleOld;
+        public uint styleNew;
     }
 
     [StructLayout(LayoutKind.Sequential)]

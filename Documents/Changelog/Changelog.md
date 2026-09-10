@@ -4,7 +4,7 @@
 
 ## Table of Contents
 
-* [2026-10-26 - Build 2610 (Version 105-LTS - Patch 4) - October 2026](#2026-10-26---build-2610-version-105-lts---patch-4---october-2026)
+* [2026-11-10 - Build 2611 (Version 105-LTS - Patch 4) - November 2026](#2026-11-10---build-2611-version-105-lts---patch-4---november-2026)
 * [2026-07-20 - Build 2607 (Version 105-LTS - Patch 3) - July 2026](#2026-07-20---build-2607-version-105-lts---patch-3---july-2026)
 * [2026-04-20 - Build 2604 (Version 105-LTS - Patch 2) - April 2026](#2026-04-20---build-2604-version-105-lts---patch-2---april-2026)
 * [2026-01-19 - Build 2501 (Version 100-LTS - Patch 1) - January 2026](#2026-01-19---build-2501-version-100-lts---patch-1---january-2026)
@@ -46,8 +46,11 @@
 
 ====
 
-## 2026-10-26 - Build 2610 (Version 105-LTS - Patch 4) - October 2026
+## 2026-11-10 - Build 2611 (Version 105-LTS - Patch 4) - November 2026
 
+* Resolved [#2922](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2922), WinForms borderless form briefly displays system title bar on startup
+  * Borderless MDI child forms (including `Dock = Fill`) no longer flash the Windows system title bar or system MDI client border on startup, and `MdiChildActivate` still fires.
+  * `KryptonForm` MDI client background now uses the current theme `PanelAlternate` colour instead of the system AppWorkspace grey.
 * Implemented [#3859](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3859), Hook ribbon caption area refresh on palette change
   * Ribbon caption area now refreshes immediately when the palette/theme changes (QAT, File app button, form icon, and integrated caption chrome; no resize required).
 * Resolved/Implemented [#4339](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4339), Add 'Simple' as a dropdown style for `KryptonComboBox`
