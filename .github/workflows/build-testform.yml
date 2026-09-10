@@ -93,12 +93,24 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           $projectDir = Join-Path $env:GITHUB_WORKSPACE 'Source\Krypton Components\TestForm'
+          $missing = New-Object System.Collections.Generic.List[string]
+          # master/gold/V105: TestForm\KryptonTaskDialogDemo
+          # alpha/canary (V110): TestForm\KryptonToolkit\Feature\KryptonTaskDialogDemo
+          $taskDialogResxCandidates = @(
+            Join-Path $projectDir 'KryptonTaskDialogDemo\KryptonTaskDialogDemoResources.resx'
+            Join-Path $projectDir 'KryptonToolkit\Feature\KryptonTaskDialogDemo\KryptonTaskDialogDemoResources.resx'
+          )
+          $taskDialogResx = $taskDialogResxCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
+          if (-not $taskDialogResx) {
+            $missing.Add("Missing .resx file: KryptonTaskDialogDemoResources.resx (tried: $($taskDialogResxCandidates -join '; '))")
+          }
+
           $resxFiles = @(
             Join-Path $projectDir 'Properties\Resources.resx'
-            Join-Path $projectDir 'KryptonTaskDialogDemo\KryptonTaskDialogDemoResources.resx'
           )
-
-          $missing = New-Object System.Collections.Generic.List[string]
+          if ($taskDialogResx) {
+            $resxFiles += $taskDialogResx
+          }
           foreach ($resxPath in $resxFiles) {
             if (-not (Test-Path -LiteralPath $resxPath)) {
               $missing.Add("Missing .resx file: $resxPath")
@@ -222,12 +234,24 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           $projectDir = Join-Path $env:GITHUB_WORKSPACE 'Source\Krypton Components\TestForm'
+          $missing = New-Object System.Collections.Generic.List[string]
+          # master/gold/V105: TestForm\KryptonTaskDialogDemo
+          # alpha/canary (V110): TestForm\KryptonToolkit\Feature\KryptonTaskDialogDemo
+          $taskDialogResxCandidates = @(
+            Join-Path $projectDir 'KryptonTaskDialogDemo\KryptonTaskDialogDemoResources.resx'
+            Join-Path $projectDir 'KryptonToolkit\Feature\KryptonTaskDialogDemo\KryptonTaskDialogDemoResources.resx'
+          )
+          $taskDialogResx = $taskDialogResxCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
+          if (-not $taskDialogResx) {
+            $missing.Add("Missing .resx file: KryptonTaskDialogDemoResources.resx (tried: $($taskDialogResxCandidates -join '; '))")
+          }
+
           $resxFiles = @(
             Join-Path $projectDir 'Properties\Resources.resx'
-            Join-Path $projectDir 'KryptonTaskDialogDemo\KryptonTaskDialogDemoResources.resx'
           )
-
-          $missing = New-Object System.Collections.Generic.List[string]
+          if ($taskDialogResx) {
+            $resxFiles += $taskDialogResx
+          }
           foreach ($resxPath in $resxFiles) {
             if (-not (Test-Path -LiteralPath $resxPath)) {
               $missing.Add("Missing .resx file: $resxPath")
