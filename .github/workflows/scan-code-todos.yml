@@ -1233,6 +1233,7 @@ jobs:
           JOB_STATUS: ${{ job.status }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           REPOSITORY: ${{ github.repository }}
+          SHA: ${{ github.sha }}
         run: |
           set -euo pipefail
           if [ -z "$DISCORD_WEBHOOK" ]; then
@@ -1240,11 +1241,20 @@ jobs:
             exit 0
           fi
 
+          sha="${SHA:-${GITHUB_SHA:-}}"
+          if git rev-parse HEAD >/dev/null 2>&1; then
+            sha="$(git rev-parse HEAD)"
+          fi
+          short_sha="${sha:0:7}"
+          commit_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/commit/${sha}"
+
           if [ -f scan-summary.json ]; then
             payload="$(jq -n \
               --arg repo "$REPOSITORY" \
               --arg run_url "$RUN_URL" \
               --arg job_status "$JOB_STATUS" \
+              --arg short_sha "$short_sha" \
+              --arg commit_url "$commit_url" \
               --argjson summary "$(cat scan-summary.json)" \
               '
               def n($v): if $v == null then "n/a" else ($v|tostring) end;
@@ -1254,9 +1264,11 @@ jobs:
               {
                 embeds: [{
                   title: ("📝 Code TODO scan" + $dry),
+                  url: $commit_url,
                   description: (
                     "**Repository:** " + $repo + "\n" +
                     "**Branch:** `" + ($summary.branch // "unknown") + "`\n" +
+                    "**Commit:** [`" + $short_sha + "`](" + $commit_url + ")\n" +
                     "**Marker mode:** " + $mode + "\n" +
                     "**Job status:** " + $job_status + "\n\n" +
                     "**Scan**\n" +
@@ -1287,12 +1299,16 @@ jobs:
               --arg repo "$REPOSITORY" \
               --arg run_url "$RUN_URL" \
               --arg job_status "$JOB_STATUS" \
+              --arg short_sha "$short_sha" \
+              --arg commit_url "$commit_url" \
               '
               {
                 embeds: [{
                   title: "📝 Code TODO scan",
+                  url: $commit_url,
                   description: (
                     "**Repository:** " + $repo + "\n" +
+                    "**Commit:** [`" + $short_sha + "`](" + $commit_url + ")\n" +
                     "**Job status:** " + $job_status + "\n\n" +
                     "The workflow did not complete the issue sync step (no scan summary was produced).\n\n" +
                     "[View workflow run](" + $run_url + ")"
