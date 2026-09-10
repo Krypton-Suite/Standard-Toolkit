@@ -60,7 +60,7 @@
             this.klblInstructions.Name = "klblInstructions";
             this.klblInstructions.Size = new System.Drawing.Size(696, 88);
             this.klblInstructions.TabIndex = 0;
-            this.klblInstructions.Text = "Issue #593 — WinForms Designer Extensibility SDK.\r\nOpen this form in the Visual Studio .NET designer (a net8.0-windows+ project). Select each control and confirm smart tags, verbs, and nested panels work. .NET Framework still uses in-process designers inside Krypton.Toolkit.";
+            this.klblInstructions.Text = "Issue #593 — WinForms Designer Extensibility SDK.\r\nThis form is a runtime host. Custom designers, smart tags, and Client image/folder editors load in the Visual Studio .NET designer only when the consuming project references a packed Krypton NuGet (local feed is fine). TestForm ProjectReference builds use the default ControlDesigner.";
             //
             // kbtnSample
             //

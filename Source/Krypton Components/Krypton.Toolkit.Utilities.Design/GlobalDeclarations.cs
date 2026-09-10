@@ -38,6 +38,7 @@ global using DesignerActionMethodItem = Microsoft.DotNet.DesignTools.Designers.A
 global using DesignerActionHeaderItem = Microsoft.DotNet.DesignTools.Designers.Actions.DesignerActionHeaderItem;
 global using DesignerActionTextItem = Microsoft.DotNet.DesignTools.Designers.Actions.DesignerActionTextItem;
 global using SelectionRules = Microsoft.DotNet.DesignTools.Designers.SelectionRules;
+global using Microsoft.DotNet.DesignTools.TypeRouting;
 
 // Design.Server wraps Microsoft.DotNet.DesignTools types, which are not CLS-compliant.
 [assembly: CLSCompliant(false)]

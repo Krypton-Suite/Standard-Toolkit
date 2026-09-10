@@ -91,7 +91,7 @@ public class KryptonRibbonGroupLabel : KryptonRibbonGroupItem
     [Category(@"Appearance")]
     [Description(@"Small label image.")]
     [RefreshProperties(RefreshProperties.All)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? ImageSmall
     {
         get => _imageSmall;
@@ -116,7 +116,7 @@ public class KryptonRibbonGroupLabel : KryptonRibbonGroupItem
     [Category(@"Appearance")]
     [Description(@"Large label image.")]
     [RefreshProperties(RefreshProperties.All)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? ImageLarge
     {
         get => _imageLarge;

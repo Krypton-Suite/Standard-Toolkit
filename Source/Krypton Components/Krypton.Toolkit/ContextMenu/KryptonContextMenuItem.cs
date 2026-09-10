@@ -290,7 +290,7 @@ public class KryptonContextMenuItem : KryptonContextMenuItemBase, IKryptonContex
     [DefaultValue(null)]
     [Localizable(true)]
     [Bindable(true)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;

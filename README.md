@@ -162,6 +162,7 @@ There are list of changes that have occurred during the development of the V110.
  * Out-of-process WinForms designer support for .NET.
  * On `net8.0-windows` and later, control designers live in `Krypton.*.Design` (DesignToolsServer) instead of the runtime assemblies. Visual Studio loads them from `lib\{tfm}\Design\WinForms\Server\` in the NuGet package.
  * Public designer types (`KryptonNavigatorDesigner`, `KryptonBackstageViewDesigner`, `KryptonDesignerActionItem`, `KryptonNavigatorActionList`) are not in the modern-TFM runtime assemblies. .NET Framework (`net472`/`net48`/`net481`) is unchanged (in-process designers).
+ * A `ProjectReference` to these libraries does not load OOP designers in Visual Studio. Consume the packed NuGet (a local feed is fine) so `designer.deps.json` includes `Design/WinForms`.
  * Do not add `Microsoft.WinForms.Designer.SDK` to application projects; it is design-time only.
 * Implemented [#3854](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3854), Removed unused duplicate utility types.
   * Ribbon now uses the public Toolkit `BiDictionary`.

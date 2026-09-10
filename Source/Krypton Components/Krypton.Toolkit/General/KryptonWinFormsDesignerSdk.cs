@@ -24,4 +24,33 @@ internal static class KryptonWinFormsDesignerSdk
     /// </summary>
     internal const string AssemblyName = "Krypton.Toolkit.Design";
 #endif
+
+    /// <summary>
+    /// <see cref="EditorAttribute"/> type name for the image picker.
+    /// Framework uses the in-process editor; modern TFMs use the Client assembly-qualified name.
+    /// Must match <c>KryptonDesignerEditorNames.ImageEditor</c>.
+    /// </summary>
+#if NETFRAMEWORK
+    internal const string ImageEditor = "Krypton.Toolkit.KryptonDesignerImageEditor, Krypton.Toolkit";
+#else
+    internal const string ImageEditor = "Krypton.Toolkit.Design.Client.KryptonDesignerImageEditor, Krypton.Toolkit.Design.Client";
+#endif
+
+    /// <summary>
+    /// <see cref="EditorAttribute"/> type name for the folder picker.
+    /// </summary>
+#if NETFRAMEWORK
+    internal const string FolderNameEditor = "Krypton.Toolkit.KryptonDesignerFolderNameEditor, Krypton.Toolkit";
+#else
+    internal const string FolderNameEditor = "Krypton.Toolkit.Design.Client.KryptonDesignerFolderNameEditor, Krypton.Toolkit.Design.Client";
+#endif
+
+    /// <summary>
+    /// <see cref="EditorAttribute"/> type name for initial-directory folder properties.
+    /// </summary>
+#if NETFRAMEWORK
+    internal const string InitialDirectoryEditor = "Krypton.Toolkit.KryptonInitialDirectoryEditor, Krypton.Toolkit";
+#else
+    internal const string InitialDirectoryEditor = "Krypton.Toolkit.Design.Client.KryptonDesignerFolderNameEditor, Krypton.Toolkit.Design.Client";
+#endif
 }

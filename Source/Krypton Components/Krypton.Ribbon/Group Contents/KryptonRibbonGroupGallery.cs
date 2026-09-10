@@ -393,7 +393,7 @@ public class KryptonRibbonGroupGallery : KryptonRibbonGroupContainer
     [Category(@"Appearance")]
     [Description(@"Large gallery button image.")]
     [RefreshProperties(RefreshProperties.All)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? ImageLarge
     {
         get => _imageLarge;

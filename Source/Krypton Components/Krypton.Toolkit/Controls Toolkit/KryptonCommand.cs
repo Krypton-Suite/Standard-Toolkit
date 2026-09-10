@@ -312,7 +312,7 @@ public class KryptonCommand : Component, IKryptonCommand, INotifyPropertyChanged
     [Localizable(true)]
     [Category(@"Appearance")]
     [Description(@"Command small image.")]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? ImageSmall
     {
         get => _imageSmall;
@@ -338,7 +338,7 @@ public class KryptonCommand : Component, IKryptonCommand, INotifyPropertyChanged
     [Localizable(true)]
     [Category(@"Appearance")]
     [Description(@"Command large image.")]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? ImageLarge
     {
         get => _imageLarge;

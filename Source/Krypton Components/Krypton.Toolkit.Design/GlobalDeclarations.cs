@@ -45,6 +45,7 @@ global using Glyph = Microsoft.DotNet.DesignTools.Designers.Behaviors.Glyph;
 global using GlyphCollection = Microsoft.DotNet.DesignTools.Designers.Behaviors.GlyphCollection;
 global using Behavior = Microsoft.DotNet.DesignTools.Designers.Behaviors.Behavior;
 global using BehaviorService = Microsoft.DotNet.DesignTools.Designers.Behaviors.BehaviorService;
+global using Microsoft.DotNet.DesignTools.TypeRouting;
 
 // Design.Server wraps Microsoft.DotNet.DesignTools types, which are not CLS-compliant.
 [assembly: CLSCompliant(false)]

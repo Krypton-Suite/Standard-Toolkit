@@ -71,7 +71,7 @@ public class KryptonFolderBrowserDialog : ShellDialogWrapper, IDisposable
         /// </summary>
         [Category(@"FolderBrowsing")]
         [DefaultValue("")]
-        [Editor(typeof(KryptonInitialDirectoryEditor), typeof(UITypeEditor))]
+        [Editor(KryptonWinFormsDesignerSdk.InitialDirectoryEditor, typeof(UITypeEditor))]
         [Description(@"Gets or sets the initial directory displayed by the folder browser dialog")]
         [AllowNull]
         public string InitialDirectory

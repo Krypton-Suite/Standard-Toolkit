@@ -19,4 +19,13 @@ internal static class KryptonWinFormsDesignerSdk
     internal const string AssemblyName = "Krypton.Toolkit.Utilities.Design";
     internal const string ToolkitAssemblyName = "Krypton.Toolkit.Design";
 #endif
+
+    /// <summary>
+    /// <see cref="EditorAttribute"/> type name for the image picker (see Toolkit helper).
+    /// </summary>
+#if NETFRAMEWORK
+    internal const string ImageEditor = "Krypton.Toolkit.KryptonDesignerImageEditor, Krypton.Toolkit";
+#else
+    internal const string ImageEditor = "Krypton.Toolkit.Design.Client.KryptonDesignerImageEditor, Krypton.Toolkit.Design.Client";
+#endif
 }

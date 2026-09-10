@@ -17,4 +17,13 @@ internal static class KryptonWinFormsDesignerSdk
 #else
     internal const string AssemblyName = "Krypton.Ribbon.Design";
 #endif
+
+    /// <summary>
+    /// <see cref="EditorAttribute"/> type name for the image picker (see Toolkit helper).
+    /// </summary>
+#if NETFRAMEWORK
+    internal const string ImageEditor = "Krypton.Toolkit.KryptonDesignerImageEditor, Krypton.Toolkit";
+#else
+    internal const string ImageEditor = "Krypton.Toolkit.Design.Client.KryptonDesignerImageEditor, Krypton.Toolkit.Design.Client";
+#endif
 }

@@ -127,7 +127,7 @@
     <Project Path="Krypton.Toolkit/Krypton.Toolkit 2022.csproj" />
     <Project Path="Krypton.Workspace/Krypton.Workspace 2022.csproj" />
   </Folder>
-  <Folder Name="/Source/SDK Libraries/">
+  <Folder Name="/Source/DesignerSdk/">
     <Project Path="Krypton.Navigator.Design/Krypton.Navigator.Design.csproj" />
     <Project Path="Krypton.Navigator.Utilities.Design/Krypton.Navigator.Utilities.Design.csproj" />
     <Project Path="Krypton.Ribbon.Design/Krypton.Ribbon.Design.csproj" />
