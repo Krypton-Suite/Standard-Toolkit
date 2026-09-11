@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -17,7 +17,7 @@ namespace Krypton.Toolkit;
 [ToolboxBitmap(typeof(KryptonTagInput), "ToolboxBitmaps.KryptonTagInput.bmp")]
 [DefaultEvent(nameof(TagAdded))]
 [DefaultProperty(nameof(Tags))]
-[Designer(typeof(KryptonTagInputDesigner))]
+[Designer("Krypton.Toolkit.KryptonTagInputDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [DisplayName(@"Krypton Tag Input")]
 [Description(@"Wrap-capable tag editor with themed chips, suggestions, and optional category colours.")]
