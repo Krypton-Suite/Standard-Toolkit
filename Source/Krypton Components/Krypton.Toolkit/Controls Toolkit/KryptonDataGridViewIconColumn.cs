@@ -39,7 +39,7 @@ public class IconSpec : ICloneable
     /// <summary>
     /// Gets or sets the icon to display.
     /// </summary>
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Icon
     {
         get;

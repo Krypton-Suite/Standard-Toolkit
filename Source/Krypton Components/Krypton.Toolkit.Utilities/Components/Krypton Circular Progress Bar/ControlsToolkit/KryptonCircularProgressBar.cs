@@ -14,7 +14,7 @@ namespace Krypton.Toolkit.Utilities;
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(KryptonCircularProgressBar), "ToolboxBitmaps.KryptonCircularProgressBar.bmp")]
 [DefaultBindingProperty("Value")]
-[Designer(typeof(KryptonCircularProgressBarDesigner))]
+[Designer("Krypton.Toolkit.Utilities.KryptonCircularProgressBarDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 public class KryptonCircularProgressBar : KryptonProgressBar
 {
     #region Instance Fields

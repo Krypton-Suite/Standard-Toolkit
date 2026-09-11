@@ -45,7 +45,7 @@ public class CheckOverlayImageStates : OverlayImageStates
     [EditorBrowsable(EditorBrowsableState.Always)]
     [Browsable(true)]
     [DefaultValue(null)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public override Image? ImageCheckedNormal
     {
         get => _imageCheckedNormal;
@@ -80,7 +80,7 @@ public class CheckOverlayImageStates : OverlayImageStates
     [EditorBrowsable(EditorBrowsableState.Always)]
     [Browsable(true)]
     [DefaultValue(null)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public override Image? ImageCheckedPressed
     {
         get => _imageCheckedPressed;
@@ -115,7 +115,7 @@ public class CheckOverlayImageStates : OverlayImageStates
     [EditorBrowsable(EditorBrowsableState.Always)]
     [Browsable(true)]
     [DefaultValue(null)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public override Image? ImageCheckedTracking
     {
         get => _imageCheckedTracking;

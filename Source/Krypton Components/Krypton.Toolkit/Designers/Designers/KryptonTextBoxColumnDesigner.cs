@@ -49,7 +49,12 @@ internal class KryptonTextBoxColumnDesigner : ComponentDesigner
     /// <summary>
     /// No extra associated components for column-level specs (serialized as content).
     /// </summary>
+#if KRYPTON_WINFORMS_DESIGNER_SDK
+    public override IReadOnlyCollection<IComponent> AssociatedComponents =>
+        KryptonDesignerSdkCompat.Associated(base.AssociatedComponents);
+#else
     public override ICollection AssociatedComponents => base.AssociatedComponents;
+#endif
     #endregion
 
     #region Implementation

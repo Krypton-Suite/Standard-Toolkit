@@ -50,14 +50,14 @@ internal partial class VisualToastDomainUpDownUserInputRtlAwareForm : VisualToas
 
     private void UpdateBorderColors()
     {
-        StateCommon!.Border.Color1 = _data.BorderColor1 ?? GlobalStaticValues.EMPTY_COLOR;
+        StateCommon!.Border.Color1 = _data.BorderColor1 ?? SharedStaticVariables.EMPTY_COLOR;
 
-        StateCommon!.Border.Color2 = _data.BorderColor2 ?? GlobalStaticValues.EMPTY_COLOR;
+        StateCommon!.Border.Color2 = _data.BorderColor2 ?? SharedStaticVariables.EMPTY_COLOR;
     }
 
     private void UpdateText()
     {
-        GlobalStaticValues.ApplyToastRichTextContentColor(krtbNotificationContentText);
+        CommonFeatures.ApplyToastRichTextContentColor(krtbNotificationContentText);
 
         klblHeader.Text = _data.NotificationTitle;
 

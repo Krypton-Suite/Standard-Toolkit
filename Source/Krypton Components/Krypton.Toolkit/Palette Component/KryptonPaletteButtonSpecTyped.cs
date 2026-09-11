@@ -105,7 +105,7 @@ public class KryptonPaletteButtonSpecTyped : KryptonPaletteButtonSpecBase
     [Category(@"Visuals")]
     [Description(@"Button image.")]
     [DefaultValue(null)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;
