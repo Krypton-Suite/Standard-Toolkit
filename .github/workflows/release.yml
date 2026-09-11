@@ -393,7 +393,7 @@ jobs:
                   }
                   @{
                     name = "📦 NuGet Packages"
-                    value = "• [Krypton.Toolkit](https://www.nuget.org/packages/Krypton.Toolkit)`n• [Krypton.Ribbon](https://www.nuget.org/packages/Krypton.Ribbon)`n• [Krypton.Navigator](https://www.nuget.org/packages/Krypton.Navigator)`n• [Krypton.Workspace](https://www.nuget.org/packages/Krypton.Workspace)`n• [Krypton.Docking](https://www.nuget.org/packages/Krypton.Docking)`n• [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit)"
+                    value = "• [Krypton.Toolkit](https://www.nuget.org/packages/Krypton.Toolkit)`n• [Krypton.Themes](https://www.nuget.org/packages/Krypton.Themes)`n• [Krypton.Ribbon](https://www.nuget.org/packages/Krypton.Ribbon)`n• [Krypton.Navigator](https://www.nuget.org/packages/Krypton.Navigator)`n• [Krypton.Workspace](https://www.nuget.org/packages/Krypton.Workspace)`n• [Krypton.Docking](https://www.nuget.org/packages/Krypton.Docking)`n• [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit)"
                     inline = $false
                   }
                   @{
