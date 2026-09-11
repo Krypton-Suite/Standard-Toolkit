@@ -551,14 +551,21 @@ public class KryptonContextMenu : Component,
                     _redirector, _redirectorImages,
                     items, Enabled, keyboardActivated);
 
+                if (caller is Control callerControl)
+                {
+                    ToolkitRtlLayout.ApplyTo(callerControl, VisualContextMenu);
+                }
+
                 // Need to know when the visual control is removed
                 VisualContextMenu.Disposed += OnContextMenuDisposed;
 
                 // Request the menu be shown immediately
                 VisualContextMenu.Show(screenRect, horz, vert, false, constrain);
 
-                // Override the horz, vert setting so that sub menus appear right and below
-                VisualContextMenu.ShowHorz = KryptonContextMenuPositionH.After;
+                // Sub menus open toward the start edge when both RTL flags are set.
+                VisualContextMenu.ShowHorz = ToolkitRtlLayout.IsRtl(VisualContextMenu)
+                    ? KryptonContextMenuPositionH.Before
+                    : KryptonContextMenuPositionH.After;
                 VisualContextMenu.ShowVert = KryptonContextMenuPositionV.Top;
 
                 // Indicate the context menu is fully constructed and Displayed

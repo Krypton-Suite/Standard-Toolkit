@@ -2270,6 +2270,26 @@ public class KryptonCheckedListBox : VisualControlBase,
     }
 
     /// <summary>
+    /// Raises the RightToLeftChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing event data.</param>
+    protected override void OnRightToLeftChanged(EventArgs e)
+    {
+        UpdateForRightToLeft();
+        base.OnRightToLeftChanged(e);
+    }
+
+    /// <summary>
+    /// Raises the <see cref="VisualControlBase.RightToLeftLayoutChanged"/> event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing event data.</param>
+    protected override void OnRightToLeftLayoutChanged(EventArgs e)
+    {
+        UpdateForRightToLeft();
+        base.OnRightToLeftLayoutChanged(e);
+    }
+
+    /// <summary>
     /// Processes a notification from palette storage of a paint and optional layout required.
     /// </summary>
     /// <param name="sender">Source of notification.</param>
@@ -2649,6 +2669,8 @@ public class KryptonCheckedListBox : VisualControlBase,
     /// <summary>Refreshes the bound items.</summary>
     /// <returns></returns>
     public void RefreshBoundItems() => RefreshItems();
+
+    private void UpdateForRightToLeft() => _listBox.RightToLeft = RightToLeft;
 
     #endregion
 }

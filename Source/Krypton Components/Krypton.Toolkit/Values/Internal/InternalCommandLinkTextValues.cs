@@ -86,6 +86,18 @@ public class InternalCommandLinkTextValues : CaptionValues
     }
     public bool ShouldSerializeUseDefaultImage() => !UseDefaultImage;
     public void ResetUseDefaultImage() => UseDefaultImage = true;
+
+    /// <summary>
+    /// Applies the default command-link arrow, mirrored when <paramref name="rightToLeft"/> is true.
+    /// </summary>
+    /// <param name="rightToLeft">True when both RTL layout flags are set on the owning button.</param>
+    public void SyncDefaultArrow(bool rightToLeft)
+    {
+        if (UseDefaultImage)
+        {
+            Image = CommandLinkArrowHelper.GetDefaultArrowImage(rightToLeft: rightToLeft);
+        }
+    }
     #endregion
 
     #region Protected

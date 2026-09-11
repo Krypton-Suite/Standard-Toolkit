@@ -486,13 +486,7 @@ public class ViewLayoutDocker : ViewComposite
             // Do we need to adjust to reflect right to left layout?
             if (CommonHelper.IsRightToLeftLayout(control))
             {
-                // Only need to invert the left and right sides
-                ds = ds switch
-                {
-                    ViewDockStyle.Left => ViewDockStyle.Right,
-                    ViewDockStyle.Right => ViewDockStyle.Left,
-                    _ => ds
-                };
+                ds = ToolkitRtlLayout.MirrorDock(ds);
             }
         }
 

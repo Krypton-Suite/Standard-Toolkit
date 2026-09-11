@@ -45,6 +45,12 @@
 
 ## 2026-11-30 - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#2379](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2379), RTL support for **all** `Krypton.Toolkit` controls
+  * Set `RightToLeft` and `RightToLeftLayout` on the host `KryptonForm` (or on the control). Both flags together mirror docks, splitters, group/header captions, spin buttons, and list reading order; `RightToLeft` alone still controls text Near/Far.
+  * `KryptonPropertyGrid` forwards `RightToLeft` into the inner grid (help pane, toolbar, reading order). Label/value columns stay native LTR: WinForms `PropertyGrid` paints left-aligned cells and does not support a mirrored list.
+  * Month calendar day-name and date columns pack from the start edge when both flags are set (first weekday on the right).
+  * TestForm **Toolkit RTL Gallery** hosts every visual Toolkit control (plus CommandLink) under Dual RTL.
+* Implemented [#4372](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4372), Display the commit ID in Discord notifications
 * Resolved [#4373](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4373), Toolstrip controls are unreadable with certain themes
   * ToolStrip item text stays readable on themes where the historic ColorTable alias did not contrast with the strip (Office White, Office 2007 Black, Visual Studio 2010 variations).
   * `KryptonWrapLabel` / `KryptonLinkWrapLabel` no longer throw `ArgumentException` (`Parameter is not valid`) from `DrawString` after a theme change. Palette fonts are cloned before assignment to `Control.Font`.

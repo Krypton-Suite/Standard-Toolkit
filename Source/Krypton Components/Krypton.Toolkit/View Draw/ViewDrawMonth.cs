@@ -86,8 +86,8 @@ public class ViewDrawMonth : ViewLayoutStack,
         };
         Add(_drawHeader);
 
-        // Create the left/right arrows for moving the months
-        // Note: ButtonSpecManagerBase.GetDockStyle() handles RTL swapping automatically
+        // Create the left/right arrows for moving the months.
+        // Near/Far map to Left/Right; ViewDrawDocker.CalculateDock flips them when both RTL flags are set.
         _arrowPrev = new ButtonSpecCalendar(this, PaletteButtonSpecStyle.Previous, RelativeEdgeAlign.Near);
         _arrowNext = new ButtonSpecCalendar(this, PaletteButtonSpecStyle.Next, RelativeEdgeAlign.Far);
         _arrowPrev.Click += OnPrevMonth;

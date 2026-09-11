@@ -220,6 +220,7 @@ public class KryptonTaskDialog : IDisposable
     {
         if (!Dialog.Visible)
         {
+            ApplyRtlFromOwner(owner);
             UpdateFormSizing();
             UpdateFormPosition(owner);
             ResetFormDialogResult();
@@ -256,6 +257,7 @@ public class KryptonTaskDialog : IDisposable
     /// <returns>The DialogResult</returns>
     public DialogResult ShowDialog(IWin32Window? owner = null)
     {
+        ApplyRtlFromOwner(owner);
         UpdateFormSizing();
         UpdateFormPosition(owner);
         ResetFormDialogResult();
@@ -284,6 +286,7 @@ public class KryptonTaskDialog : IDisposable
     {
         if (!Dialog.Visible)
         {
+            ApplyRtlFromOwner(owner);
             UpdateFormSizing();
             UpdateFormPosition(owner);
             ResetFormDialogResult();
@@ -313,6 +316,7 @@ public class KryptonTaskDialog : IDisposable
     /// <returns>A task that produces the dialog result when the form is closed or disposed.</returns>
     public async Task<DialogResult> ShowDialogAsync(IWin32Window? owner = null)
     {
+        ApplyRtlFromOwner(owner);
         UpdateFormSizing();
         UpdateFormPosition(owner);
         ResetFormDialogResult();
@@ -461,6 +465,37 @@ public class KryptonTaskDialog : IDisposable
         // Border-Fixes: the filler offset enlarges the client height to compensate for the part
         // of the internal panel that slides under the border.
         _form.ClientSize = new Size(_taskDialogDefaults.ClientWidth, GetVisibleElementsHeight());
+    }
+
+    /// <summary>
+    /// Copies the owner's two-flag RTL contract onto the dialog and element table layouts.
+    /// </summary>
+    private void ApplyRtlFromOwner(IWin32Window? owner)
+    {
+        if (owner is Control source)
+        {
+            ToolkitRtlLayout.ApplyTo(source, _form);
+        }
+
+        bool rtl = ToolkitRtlLayout.IsRtl(_form);
+        var tlpRtl = rtl ? RightToLeft.Yes : RightToLeft.No;
+        ApplyRtlTree(_form, _form, tlpRtl);
+        Heading.ApplyRtlChrome();
+        FooterBar.ApplyRtlChrome();
+    }
+
+    private static void ApplyRtlTree(Control source, Control parent, RightToLeft tlpRtl)
+    {
+        foreach (Control child in parent.Controls)
+        {
+            ToolkitRtlLayout.ApplyTo(source, child);
+            if (child is TableLayoutPanel tlp)
+            {
+                tlp.RightToLeft = tlpRtl;
+            }
+
+            ApplyRtlTree(source, child, tlpRtl);
+        }
     }
 
     /// <summary>

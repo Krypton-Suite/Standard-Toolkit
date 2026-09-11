@@ -451,6 +451,12 @@ public partial class KryptonTaskDialogElementFooterBar : KryptonTaskDialogElemen
         WireExpanderVisibleChanged(true);
     }
 
+    /// <summary>
+    /// Re-applies footnote alignment after RTL flags change.
+    /// </summary>
+    internal void ApplyRtlChrome() =>
+        _footNoteText.TextAlign = ToolkitRtlLayout.MapNearFar(PaletteRelativeAlign.Near, ToolkitRtlLayout.IsRtl(Panel));
+
     private void SetupPanel()
     {
         // Panel height, and padding
