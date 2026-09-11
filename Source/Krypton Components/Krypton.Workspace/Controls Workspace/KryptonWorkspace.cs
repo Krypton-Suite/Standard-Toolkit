@@ -91,6 +91,8 @@ public class KryptonWorkspace : VisualContainerControl,
     private bool _allowResizing;
     private bool _showMaximizeButton;
     private int _splitterWidth;
+    private bool _isRightToLeftLayout;
+    private Form? _rtlSourceForm;
 
     // Page level context menu items
     private KryptonContextMenuItems? _menuItems;
@@ -272,6 +274,8 @@ public class KryptonWorkspace : VisualContainerControl,
     {
         if (disposing)
         {
+            UnhookRtlSourceForm();
+
             // Allow the children to be removed during dispose
             ((KryptonReadOnlyControls)Controls).AllowRemoveInternal = true;
 
@@ -471,6 +475,35 @@ public class KryptonWorkspace : VisualContainerControl,
             {
                 _maximizedCell = value;
                 OnMaximizedCellChanged(EventArgs.Empty);
+                PerformNeedPaint(true);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets whether horizontal sequences pack from the reading-order start edge.
+    /// </summary>
+    /// <remarks>
+    /// When hosted on a <see cref="Form"/>, this is copied from the form automatically.
+    /// Packing also requires <see cref="Control.RightToLeft"/> equal to <see cref="RightToLeft.Yes"/>.
+    /// Named to match WinForms <see cref="Form"/>; not the Toolkit <c>RightToLeftLayout</c> enum.
+    /// Does not set <c>WS_EX_LAYOUTRTL</c>; cell contents are not GDI-mirrored.
+    /// </remarks>
+    [Category(@"Appearance")]
+    [Localizable(true)]
+    [Description(@"Indicates whether horizontal workspace sequences pack from right to left.")]
+    [DefaultValue(false)]
+    [Browsable(true)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public bool RightToLeftLayout
+    {
+        get => _isRightToLeftLayout;
+        set
+        {
+            if (_isRightToLeftLayout != value)
+            {
+                _isRightToLeftLayout = value;
                 PerformNeedPaint(true);
             }
         }
@@ -2319,6 +2352,54 @@ public class KryptonWorkspace : VisualContainerControl,
             MaximizedCell = MaximizedCell == cell ? null : cell;
         }
     }
+
+    private void SyncRightToLeftLayoutFromParent()
+    {
+        UnhookRtlSourceForm();
+
+        var form = FindForm();
+        if (form == null)
+        {
+            return;
+        }
+
+        _rtlSourceForm = form;
+        _rtlSourceForm.RightToLeftChanged += OnRtlSourceFormRtlChanged;
+        _rtlSourceForm.RightToLeftLayoutChanged += OnRtlSourceFormRtlChanged;
+        CopyRightToLeftLayoutFromForm(form);
+    }
+
+    private void UnhookRtlSourceForm()
+    {
+        if (_rtlSourceForm == null)
+        {
+            return;
+        }
+
+        _rtlSourceForm.RightToLeftChanged -= OnRtlSourceFormRtlChanged;
+        _rtlSourceForm.RightToLeftLayoutChanged -= OnRtlSourceFormRtlChanged;
+        _rtlSourceForm = null;
+    }
+
+    private void OnRtlSourceFormRtlChanged(object? sender, EventArgs e)
+    {
+        if (_rtlSourceForm != null)
+        {
+            CopyRightToLeftLayoutFromForm(_rtlSourceForm);
+        }
+    }
+
+    private void CopyRightToLeftLayoutFromForm(Form form)
+    {
+        if (RightToLeftLayout != form.RightToLeftLayout)
+        {
+            RightToLeftLayout = form.RightToLeftLayout;
+        }
+        else
+        {
+            PerformNeedPaint(true);
+        }
+    }
     #endregion
 
     #region Protected Overrides
@@ -2433,6 +2514,26 @@ public class KryptonWorkspace : VisualContainerControl,
         ActiveCell?.Select();
 
         base.OnGotFocus(e);
+    }
+
+    /// <summary>
+    /// Raises the ParentChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected override void OnParentChanged(EventArgs e)
+    {
+        base.OnParentChanged(e);
+        SyncRightToLeftLayoutFromParent();
+    }
+
+    /// <summary>
+    /// Raises the HandleCreated event.
+    /// </summary>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected override void OnHandleCreated(EventArgs e)
+    {
+        base.OnHandleCreated(e);
+        SyncRightToLeftLayoutFromParent();
     }
 
     /// <summary>
@@ -2822,6 +2923,13 @@ public class KryptonWorkspace : VisualContainerControl,
             if (separator.Orientation == Orientation.Vertical)
             {
                 offset = splitter.X - separator.ClientLocation.X;
+                // Horizontal sequences pack from the right under RTL; keep before/after
+                // index semantics and flip the mouse delta so dragging toward the visual
+                // right shrinks the right-hand (first) child, matching SplitContainer.
+                if (WorkspaceRtlLayout.IsRtl(this))
+                {
+                    offset = -offset;
+                }
             }
             else
             {
@@ -3207,6 +3315,8 @@ public class KryptonWorkspace : VisualContainerControl,
         // Pass #5, Create display rectangles based on space allocated to each item
         var offset = 0;
         var first = true;
+        var isRtlHorizontal = WorkspaceRtlLayout.IsHorizontalRtl(this, seq.Orientation);
+        var runningX = WorkspaceRtlLayout.StartX(client, isRtlHorizontal);
         for (var i = 0; i < seq.Children.Count; i++)
         {
             // Can only work with items that have an IWorkspaceItem interface
@@ -3250,19 +3360,18 @@ public class KryptonWorkspace : VisualContainerControl,
                         {
                             viewSeparator.Orientation = Orientation.Horizontal;
                             layoutContext.DisplayRectangle = client with { Y = client.Y + offset, Height = SplitterWidth };
+                            offset += SplitterWidth;
                         }
                         else
                         {
                             viewSeparator.Orientation = Orientation.Vertical;
-                            layoutContext.DisplayRectangle = client with { X = client.X + offset, Width = SplitterWidth };
+                            layoutContext.DisplayRectangle = WorkspaceRtlLayout.NextItem(ref runningX, client.Y,
+                                SplitterWidth, client.Height, isRtlHorizontal);
                         }
 
                         // Ask the separator to position itself
                         viewSeparator.Layout(layoutContext);
                         viewSeparator.Visible = true;
-
-                        // Move over the splitter
-                        offset += SplitterWidth;
                     }
                     else
                     {
@@ -3271,12 +3380,17 @@ public class KryptonWorkspace : VisualContainerControl,
                     }
 
                     // Calculate the display rect for the item
-                    info[i].DisplayRect = seq.Orientation == Orientation.Vertical
-                        ? client with { Y = client.Y + offset, Height = info[i].DisplaySpace }
-                        : client with { X = client.X + offset, Width = info[i].DisplaySpace };
+                    if (seq.Orientation == Orientation.Vertical)
+                    {
+                        info[i].DisplayRect = client with { Y = client.Y + offset, Height = info[i].DisplaySpace };
+                        offset += info[i].DisplaySpace;
+                    }
+                    else
+                    {
+                        info[i].DisplayRect = WorkspaceRtlLayout.NextItem(ref runningX, client.Y,
+                            info[i].DisplaySpace, client.Height, isRtlHorizontal);
+                    }
 
-                    // Move over the cell
-                    offset += info[i].DisplaySpace;
                     first = false;
                 }
                 else

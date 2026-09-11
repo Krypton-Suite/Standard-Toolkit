@@ -193,6 +193,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<RTLFormBorderTest>("RTL Layout Test", "Issue #2103: KryptonForm RightToLeft / RightToLeftLayout. Caption must stay readable, control box on the left, icon on the right, and left/right resize must follow the grabbed edge. CaptionIconPadding controls extra space around the caption icon. Includes a native Form comparison.");
         CreateButton<ToastNotificationTestChoice>("Toast", "For breakfast....?");
         CreateButton<Feature3959WorkspacePageTagPersistDemo>("Feature 3959 Workspace Page.Tag", "Issue #3959: persist KryptonPage.Tag via TypeConverter (string/int) on workspace save/load; use PageSaving/PageLoading for non-convertible custom Tag objects.");
+        CreateButton<WorkspaceRtlDemo>("Workspace RTL (#2383)", "Issue #2383: logical RTL for KryptonWorkspace. Toggle RightToLeft + RightToLeftLayout; horizontal cells pack from the right, nested vertical stacks stay top-to-bottom, cell header buttons move to the left, XML order is unchanged, and left/right page drops follow the physical edge.");
         CreateButton<WorkspaceTest>("WorkspaceTest", string.Empty);
         CreateButton<BlurExampleForm>("Blur Example", string.Empty);
         CreateButton<VisualControlsTest>("Visual Controls", string.Empty);
