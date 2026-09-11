@@ -45,6 +45,10 @@
 
 ## 2026-11-30 - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#4366](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4366), Dedicated `KryptonSplitButton` Toolbox control (body click vs chevron drop-down).
+  * Drop this control when the button is always split. `KryptonButton.ShowSplitOption` remains for the legacy opt-in. Use `KryptonDropButton` with `Splitter = false` when the whole button should open the menu. The `&Save` mnemonic fires `Click`, not the menu.
+  * The chevron menu is aligned to the split (right edge by default) on `KryptonSplitButton`, `KryptonDropButton`, and `KryptonButton` with `ShowSplitOption`.
+  * Design-time support reuses `KryptonDropButtonDesigner` via the string `[Designer]` attribute so modern TFMs load it from `Krypton.Toolkit.Design`.
 * Resolved [#4373](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4373), Toolstrip controls are unreadable with certain themes
   * ToolStrip item text stays readable on themes where the historic ColorTable alias did not contrast with the strip (Office White, Office 2007 Black, Visual Studio 2010 variations).
   * `KryptonWrapLabel` / `KryptonLinkWrapLabel` no longer throw `ArgumentException` (`Parameter is not valid`) from `DrawString` after a theme change. Palette fonts are cloned before assignment to `Control.Font`.

@@ -282,6 +282,7 @@ Write-Host "Modified storage paths: $($modified.Count)"
 $corePrefixes = @(
     'KryptonButton.',
     'KryptonDropButton.',
+    'KryptonSplitButton.',
     'KryptonCheckButton.',
     'KryptonColorButton.',
     'KryptonCheckBox.',

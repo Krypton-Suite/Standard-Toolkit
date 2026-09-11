@@ -300,7 +300,7 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
     [Category(@"Visuals")]
     [Description(@"Determine if button acts as a splitter or just a drop-down.")]
     [DefaultValue(true)]
-    public bool Splitter
+    public virtual bool Splitter
     {
         get => _drawButton.Splitter;
 
@@ -805,7 +805,7 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
             // Does the button primary text contain the mnemonic?
             if (IsMnemonic(charCode, Values.Text))
             {
-                if (Splitter)
+                if (MnemonicPerformsDropDown)
                 {
                     PerformDropDown();
                 }
@@ -834,8 +834,8 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
     protected override void WndProc(ref Message m)
     {
         // Drop buttons show KryptonContextMenu on left-click; suppress the default right-click
-        // context menu path. KryptonButton is excluded so attached menus work on right-click.
-        if (m.Msg == PI.WM_.CONTEXTMENU && this is not KryptonButton)
+        // context menu path. Push buttons keep the right-click menu.
+        if (m.Msg == PI.WM_.CONTEXTMENU && SuppressSystemContextMenu)
         {
             return;
         }
@@ -845,6 +845,33 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
     #endregion
 
     #region Protected Virtual
+    /// <summary>
+    /// Gets a value indicating whether a click outside the splitter rectangle should open the drop-down.
+    /// </summary>
+    /// <remarks>
+    /// <see cref="KryptonDropButton"/> returns <c>true</c> so a non-split drop-down opens from the whole button.
+    /// <see cref="KryptonButton"/> returns <c>false</c> so a click raises <see cref="Control.Click"/> unless the
+    /// splitter is on and the click is in the chevron rectangle.
+    /// </remarks>
+    protected virtual bool OpensDropDownOnNonSplitterClick => true;
+
+    /// <summary>
+    /// Gets a value indicating whether the system context menu (<c>WM_CONTEXTMENU</c>) is suppressed.
+    /// </summary>
+    /// <remarks>
+    /// Drop-down buttons show <see cref="KryptonContextMenu"/> on left-click. Push buttons keep the right-click path.
+    /// </remarks>
+    protected virtual bool SuppressSystemContextMenu => true;
+
+    /// <summary>
+    /// Gets a value indicating whether a mnemonic opens the drop-down instead of raising <see cref="Control.Click"/>.
+    /// </summary>
+    /// <remarks>
+    /// Matches historic <see cref="KryptonDropButton"/> behaviour: a visible splitter mnemonic opens the menu.
+    /// <see cref="KryptonSplitButton"/> overrides this so the mnemonic fires the default click action.
+    /// </remarks>
+    protected virtual bool MnemonicPerformsDropDown => Splitter;
+
     /// <summary>
     /// Raises the DropDown event.
     /// </summary>
@@ -957,7 +984,7 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
         var showingContextMenu = false;
 
         // Do we need to show a drop-down menu?
-        if ((!Splitter && this is not KryptonButton)
+        if ((!Splitter && OpensDropDownOnNonSplitterClick)
             || (Splitter && _drawButton.SplitRectangle.Contains(e.Location))
            )
         {
@@ -1060,19 +1087,53 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
         return showingContextMenu;
     }
 
-    private KryptonContextMenuPositionH GetPositionH() => DropDownOrientation switch
+    /// <summary>
+    /// Gets the horizontal placement of the drop-down relative to the button.
+    /// </summary>
+    /// <remarks>
+    /// When the menu opens above or below, it is aligned to the chevron
+    /// (<see cref="DropDownPosition"/>) rather than the caption edge.
+    /// </remarks>
+    /// <returns>The horizontal position used when showing the menu.</returns>
+    protected virtual KryptonContextMenuPositionH GetPositionH()
     {
-        VisualOrientation.Left => KryptonContextMenuPositionH.Before,
-        VisualOrientation.Right => KryptonContextMenuPositionH.After,
-        _ => KryptonContextMenuPositionH.Left
-    };
+        switch (DropDownOrientation)
+        {
+            case VisualOrientation.Left:
+                return KryptonContextMenuPositionH.Before;
+            case VisualOrientation.Right:
+                return KryptonContextMenuPositionH.After;
+            default:
+                return DropDownPosition switch
+                {
+                    VisualOrientation.Right => KryptonContextMenuPositionH.Right,
+                    VisualOrientation.Left => KryptonContextMenuPositionH.Left,
+                    _ => KryptonContextMenuPositionH.Left
+                };
+        }
+    }
 
-    private KryptonContextMenuPositionV GetPositionV() => DropDownOrientation switch
+    /// <summary>
+    /// Gets the vertical placement of the drop-down relative to the button.
+    /// </summary>
+    /// <returns>The vertical position used when showing the menu.</returns>
+    protected virtual KryptonContextMenuPositionV GetPositionV()
     {
-        VisualOrientation.Top => KryptonContextMenuPositionV.Above,
-        VisualOrientation.Left or VisualOrientation.Right => KryptonContextMenuPositionV.Top,
-        _ => KryptonContextMenuPositionV.Below
-    };
+        switch (DropDownOrientation)
+        {
+            case VisualOrientation.Top:
+                return KryptonContextMenuPositionV.Above;
+            case VisualOrientation.Left:
+            case VisualOrientation.Right:
+                return KryptonContextMenuPositionV.Top;
+            default:
+                return DropDownPosition switch
+                {
+                    VisualOrientation.Top => KryptonContextMenuPositionV.Above,
+                    _ => KryptonContextMenuPositionV.Below
+                };
+        }
+    }
 
     private void OnContextMenuClosed(object? sender, EventArgs e) => ContextMenuClosed();
 
