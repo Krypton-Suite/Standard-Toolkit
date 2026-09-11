@@ -15,6 +15,7 @@ namespace Krypton.Toolkit;
 internal class KryptonHeaderActionList : DesignerActionList
 {
     #region Instance Fields
+    private readonly KryptonHeaderDesigner _owner;
     private readonly KryptonHeader _header;
     private readonly IComponentChangeService? _service;
     #endregion
@@ -28,6 +29,7 @@ internal class KryptonHeaderActionList : DesignerActionList
         : base(owner.Component)
     {
         // Remember the header instance
+        _owner = owner;
         _header = (owner.Component as KryptonHeader)!;
 
         // Cache service used to notify when a property has changed
@@ -161,11 +163,19 @@ internal class KryptonHeaderActionList : DesignerActionList
             actions.Add(new DesignerActionPropertyItem(nameof(Heading), nameof(Heading), @"Values", @"Heading text"));
             actions.Add(new DesignerActionPropertyItem(nameof(Description), nameof(Description), @"Values", @"Header description text"));
             actions.Add(new DesignerActionPropertyItem(nameof(Image), nameof(Image), @"Values", @"Heading image"));
+            actions.Add(new DesignerActionHeaderItem(@"Actions"));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Add ButtonSpec", OnAddButtonSpec), @"Actions"));
             actions.Add(new DesignerActionHeaderItem(@"Visuals"));
             actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
         }
             
         return actions;
     }
+    #endregion
+
+    #region Implementation
+
+    private void OnAddButtonSpec(object? sender, EventArgs e) => _owner.AddButtonSpec();
+
     #endregion
 }
