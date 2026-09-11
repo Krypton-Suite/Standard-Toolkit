@@ -50,6 +50,7 @@
 * Implemented [#2383](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2383), RTL support for **all** `Krypton.Workspace` controls
   * Horizontal sequences pack from the right when `RightToLeft` and `RightToLeftLayout` are both set (same two-flag contract as `KryptonForm` / `KryptonRibbon`). Vertical stacks stay top-to-bottom. Saved XML / `Children` order is unchanged. Set the flags on the host form; `KryptonWorkspace` syncs the layout flag automatically.
   * Cell header buttons (maximize, context, close) dock to the left because `KryptonNavigator` now has the same logical `RightToLeftLayout` flag and form sync ([#2381](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2381)).
+* Resolved packing `Krypton.Themes.dll` into the `Krypton.Standard.Toolkit` aggregate NuGet package so extra palettes ship next to the other suite binaries (the package already referenced Themes but omitted the assembly from `lib`).
 * `KryptonForm` MDI client background now uses the current theme `PanelAlternate` colour instead of the system AppWorkspace grey.
 * Resolved [#2922](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2922), WinForms borderless form briefly displays system title bar on startup
   * Borderless MDI child forms (including `Dock = Fill`) no longer flash the Windows system title bar or system MDI client border on startup, and `MdiChildActivate` still fires.
