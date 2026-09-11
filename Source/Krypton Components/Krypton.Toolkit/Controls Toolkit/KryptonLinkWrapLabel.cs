@@ -484,10 +484,10 @@ public class KryptonLinkWrapLabel : LinkLabel
             }
         }
 
-        // Only update the font when the control is created
+        // Clone: Control.Font disposes the previous font, which must not be a palette instance.
         if (Handle != IntPtr.Zero)
         {
-            Font = font;
+            CommonHelper.SetControlFontFromPalette(this, font);
         }
     }
 
@@ -585,10 +585,10 @@ public class KryptonLinkWrapLabel : LinkLabel
             }
         }
 
-        // Only update the font when the control is created
+        // Clone: Control.Font disposes the previous font, which must not be a palette instance.
         if (Handle != IntPtr.Zero)
         {
-            Font = font;
+            CommonHelper.SetControlFontFromPalette(this, font);
         }
 
         ForeColor = textColor;
@@ -596,7 +596,16 @@ public class KryptonLinkWrapLabel : LinkLabel
         // Use GraphicsTextHint to properly save/restore TextRenderingHint to prevent affecting other controls
         using (new GraphicsTextHint(e.Graphics, CommonHelper.PaletteTextHintToRenderingHint(hint)))
         {
-            base.OnPaint(e);
+            try
+            {
+                base.OnPaint(e);
+            }
+            catch (ArgumentException)
+            {
+                // Palette fonts can be disposed mid-paint during a theme swap.
+                CommonHelper.SetControlFontFromPalette(this, SystemFonts.DefaultFont);
+                base.OnPaint(e);
+            }
         }
     }
 

@@ -496,7 +496,7 @@ public class KryptonColorTableSparkle : KryptonColorTable
     /// <summary>
     /// Gets the text color used on the tool strip.
     /// </summary>
-    public override Color ToolStripText => _colors[(int)SchemeBaseColors.TextLabelPanel];
+    public override Color ToolStripText => _colors.ResolveToolStripText(SchemeBaseColors.TextLabelPanel);
 
     #endregion
 

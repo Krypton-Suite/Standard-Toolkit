@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -5479,7 +5479,7 @@ public class KryptonColorTable2007BlueDarkMode : KryptonColorTable
     /// <summary>
     /// Gets the text color used on the tool strip.
     /// </summary>
-    public override Color ToolStripText => Colors[(int)SchemeBaseColors.TextButtonNormal];
+    public override Color ToolStripText => Colors.ResolveToolStripText(SchemeBaseColors.TextButtonNormal);
 
     #endregion
 

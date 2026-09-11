@@ -505,7 +505,7 @@ public class KryptonVisualStudio2010WithMicrosoft365ColorTable : KryptonColorTab
     /// <summary>
     /// Gets the text color used on the tool strip.
     /// </summary>
-    public override Color ToolStripText => _colors[(int)SchemeBaseColors.StatusStripText];
+    public override Color ToolStripText => _colors.ResolveToolStripText(SchemeBaseColors.StatusStripText);
 
     #endregion
 
