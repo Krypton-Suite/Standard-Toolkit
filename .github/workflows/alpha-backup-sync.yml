@@ -314,6 +314,9 @@ jobs:
           if [ "$BRANCH_CREATED" = "true" ]; then
             branch_msg="alpha-backup branch was created (did not exist)"
           fi
+          sha="$(git rev-parse HEAD)"
+          short_sha="${sha:0:7}"
+          commit_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/commit/${sha}"
           payload=$(jq -n \
             --arg branch "$branch_msg" \
             --arg pr_url "$pr_url" \
@@ -324,13 +327,17 @@ jobs:
             --arg backup_zip "$BACKUP_ZIP" \
             --arg backup_bundle "$BACKUP_BUNDLE" \
             --arg run_url "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" \
+            --arg commit_url "$commit_url" \
+            --arg short_sha "$short_sha" \
             '{
               embeds: [{
                 title: "📦 Alpha → Alpha-Backup Sync",
+                url: $commit_url,
                 description: (
                   "Alpha had commits in the last 24 hours. Sync workflow ran.\n\n" +
                   ([
                     "• " + $branch,
+                    "• [Commit `\($short_sha)`](\($commit_url))",
                     (if $pr_url != "" then "• [PR #\($pr_number)](\($pr_url))" else empty end),
                     (if $backup_pushed == "true" and $backup_repo != "" then
                       "• Pushed zip + bundle to backup repo: " + $backup_repo +

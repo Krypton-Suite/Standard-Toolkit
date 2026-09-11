@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\Krypton.Shared\Krypton.WinFormsDesignerSdk.Server.props" />
+
+	<PropertyGroup>
+		<RootNamespace>Krypton.Navigator</RootNamespace>
+		<AssemblyName>Krypton.Navigator.Design</AssemblyName>
+		<Description>DesignToolsServer designers for Krypton.Navigator (WinForms Designer Extensibility SDK).</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Include="..\Krypton.Navigator\Navigator\KryptonNavigatorDesigner.cs" Link="Navigator\KryptonNavigatorDesigner.cs" />
+		<Compile Include="..\Krypton.Navigator\Navigator\KryptonPageDesigner.cs" Link="Navigator\KryptonPageDesigner.cs" />
+		<Compile Include="..\Krypton.Navigator\Navigator\KryptonNavigatorActionList.cs" Link="Navigator\KryptonNavigatorActionList.cs" />
+		<Compile Include="..\Krypton.Navigator\Navigator\KryptonPageActionList.cs" Link="Navigator\KryptonPageActionList.cs" />
+		<Compile Include="..\Krypton.Shared\KryptonDesignerTypeRoutingProvider.cs" Link="KryptonDesignerTypeRoutingProvider.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
+		<ProjectReference Include="..\Krypton.Toolkit.Design\Krypton.Toolkit.Design.csproj" />
+		<ProjectReference Include="..\Krypton.Interop\Krypton.Interop.csproj" PrivateAssets="all" />
+	</ItemGroup>
+
+</Project>

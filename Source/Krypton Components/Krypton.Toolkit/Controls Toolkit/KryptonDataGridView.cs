@@ -382,6 +382,9 @@ public class KryptonDataGridView : DataGridView
     //    set { /* Do nothing, we do not allow a border style change! */ }
     //}
 
+    private bool ShouldSerializeBorderStyle() => BorderStyle != BorderStyle.None;
+    private void ResetBorderStyle() => BorderStyle = BorderStyle.None;
+
     /// <summary>
     /// Gets the cell border style for the DataGridView.
     /// </summary>

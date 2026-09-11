@@ -12,7 +12,7 @@ namespace Krypton.Toolkit;
 
 /// <summary>Allows the user to change themes using a <see cref="KryptonListBox"/>.</summary>
 /// <seealso cref="KryptonListBox" />
-[Designer(typeof(KryptonStubDesigner))]
+[Designer("Krypton.Toolkit.KryptonStubDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 public class KryptonThemeListBox : KryptonListBox, IKryptonThemeSelectorBase
 {
     #region Instance Fields
@@ -23,6 +23,8 @@ public class KryptonThemeListBox : KryptonListBox, IKryptonThemeSelectorBase
     private bool _isExternalUpdate = false;
     /// <summary> Backing var for the DefaultPalette property.</summary>
     private PaletteMode _defaultPalette = PaletteMode.Global;
+    /// <summary> Whether extra catalogued palettes appear in the list.</summary>
+    private bool _showExtraThemes = true;
     /// <summary> Local Krypton Manager instance.</summary>
     private readonly KryptonManager _manager;
     /// <summary> User defined palette.</summary>
@@ -38,7 +40,7 @@ public class KryptonThemeListBox : KryptonListBox, IKryptonThemeSelectorBase
         _manager = new KryptonManager();
 
         Items.Clear();
-        Items.AddRange(CommonHelperThemeSelectors.GetThemesArray());
+        Items.AddRange(CommonHelperThemeSelectors.GetThemesArray(_showExtraThemes));
 
         // Sets the intial palette from either global or DefaultPalette property
         SelectedIndex = CommonHelperThemeSelectors.GetInitialSelectedIndex(DefaultPalette, _manager, Items);
@@ -61,6 +63,28 @@ public class KryptonThemeListBox : KryptonListBox, IKryptonThemeSelectorBase
 
     private void ResetDefaultPalette() => DefaultPalette = PaletteMode.Global;
     private bool ShouldSerializeDefaultPalette() => _defaultPalette != PaletteMode.Global;
+
+    /// <summary>
+    /// Gets or sets whether extra (non-core) catalogued palettes appear in the list.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"When false, only core Toolkit palettes are listed.")]
+    [DefaultValue(true)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public bool ShowExtraThemes
+    {
+        get => _showExtraThemes;
+        set
+        {
+            if (_showExtraThemes == value)
+            {
+                return;
+            }
+
+            _showExtraThemes = value;
+            ReloadThemeItems();
+        }
+    }
 
     #endregion
 
@@ -93,24 +117,32 @@ public class KryptonThemeListBox : KryptonListBox, IKryptonThemeSelectorBase
             return;
         }
 
-        int previous = SelectedIndex;
-        Items.Clear();
-        Items.AddRange(CommonHelperThemeSelectors.GetThemesArray());
-        if (previous >= 0 && previous < Items.Count)
+        ReloadThemeItems();
+    }
+
+    private string GetSelectedThemeName()
+    {
+        if (SelectedIndex > -1 && SelectedItem is string s && s.Length > 0)
         {
-            _isExternalUpdate = true;
-            try
-            {
-                SelectedIndex = previous;
-            }
-            finally
-            {
-                _isExternalUpdate = false;
-            }
+            return s;
         }
-        else
+
+        return string.Empty;
+    }
+
+    private void ReloadThemeItems()
+    {
+        _isExternalUpdate = true;
+        try
         {
-            SelectedIndex = CommonHelperThemeSelectors.GetPaletteIndex(Items, KryptonManager.CurrentGlobalPaletteMode);
+            string previous = GetSelectedThemeName();
+            var fallback = KryptonManager.CurrentGlobalPaletteMode;
+            int idx = CommonHelperThemeSelectors.ReloadThemeItems(Items, _showExtraThemes, previous, fallback);
+            SelectedIndex = idx;
+        }
+        finally
+        {
+            _isExternalUpdate = false;
         }
     }
 
@@ -133,41 +165,55 @@ public class KryptonThemeListBox : KryptonListBox, IKryptonThemeSelectorBase
             return;
         }
 
-        // Refresh theme list so "Custom" shows as "Custom - [Theme Name]" when a custom palette has a name (issue #1031)
-        Items.Clear();
-        Items.AddRange(CommonHelperThemeSelectors.GetThemesArray());
-
-        int idx = CommonHelperThemeSelectors.GetPaletteIndex(Items, mode);
-        if (idx == SelectedIndex)
+        // Refresh theme list so "Custom" shows as "Custom - [Theme Name]" when a custom palette has a name (issue #1031).
+        // Suppress SelectedIndexChanged apply for Items.Clear()/restore so an ad-hoc custom palette is not wiped.
+        _isExternalUpdate = true;
+        int idx;
+        var deferCommit = false;
+        try
         {
-            return;
-        }
+            string previous = GetSelectedThemeName();
+            idx = CommonHelperThemeSelectors.ReloadThemeItemsForGlobalChange(Items, _showExtraThemes, previous, mode);
+            if (idx == SelectedIndex)
+            {
+                return;
+            }
 
-        void Commit()
+            deferCommit = ThemeChangeCoordinator.InProgress && !IsDisposed && IsHandleCreated;
+            if (deferCommit)
+            {
+                BeginInvoke((System.Windows.Forms.MethodInvoker)(() => CommitThemeSelection(idx)));
+            }
+            else
+            {
+                // If the handle is not yet created (or disposed), update immediately to avoid InvalidOperationException
+                CommitThemeSelection(idx);
+            }
+        }
+        finally
+        {
+            if (!deferCommit)
+            {
+                _isExternalUpdate = false;
+            }
+        }
+    }
+
+    private void CommitThemeSelection(int idx)
+    {
+        try
         {
             if (IsDisposed || !IsHandleCreated)
             {
                 return;
             }
-            _isExternalUpdate = true;
-            try
-            {
-                SelectedIndex = idx;
-            }
-            finally
-            {
-                _isExternalUpdate = false;
-            }
-        }
 
-        if (ThemeChangeCoordinator.InProgress && !IsDisposed && IsHandleCreated)
-        {
-            BeginInvoke((System.Windows.Forms.MethodInvoker)Commit);
+            _isExternalUpdate = true;
+            SelectedIndex = idx;
         }
-        else
+        finally
         {
-            // If the handle is not yet created (or disposed), update immediately to avoid InvalidOperationException
-            Commit();
+            _isExternalUpdate = false;
         }
     }
 

@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -18,8 +18,8 @@ namespace TestForm;
 /// </para>
 /// <list type="number">
 /// <item><description>Collection order — <c>_buttonSpecsFixed</c> sequence (min/max/close vs traffic-light).</description></item>
-/// <item><description>Edge placement — <see cref="KryptonForm.FormTrafficLightEdge"/> and palette Near/Far, with RTL Far→Near remap.</description></item>
-/// <item><description>Runtime RTL — <see cref="Control.RightToLeft"/> + <see cref="Control.RightToLeftLayout"/>.</description></item>
+/// <item><description>Edge placement — <see cref="KryptonForm.FormTrafficLightEdge"/> and palette Near/Far, with RTL Near→Far remap for traffic lights.</description></item>
+/// <item><description>Runtime RTL — <see cref="Control.RightToLeft"/> + <see cref="RightToLeftLayout"/>.</description></item>
 /// </list>
 /// <para>
 /// Live diagnostics use non-client <see cref="KryptonForm.HitTestCloseButton"/> hit tests along the

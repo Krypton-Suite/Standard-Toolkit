@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -246,7 +246,8 @@ public sealed class PaletteOffice2010Blue_BaseScheme : KryptonColorSchemeBase
     public override Color MenuMarginGradientMiddle         { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color MenuMarginGradientEnd            { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color DisabledMenuItemText             { get; set; } = SharedStaticVariables.EMPTY_COLOR;
-    public override Color MenuStripText                    { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color MenuStripText                    { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color ToolStripText                    { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color TrackBarTickMarks                { get; set; } = Color.FromArgb(116, 150, 194);
     public override Color TrackBarTopTrack                 { get; set; } = Color.FromArgb(116, 150, 194);
     public override Color TrackBarBottomTrack              { get; set; } = Color.FromArgb(152, 190, 241);

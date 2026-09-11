@@ -16,7 +16,7 @@ namespace Krypton.Toolkit;
 /// Hosts a collection of KryptonDataGridViewDateTimePickerCell cells.
 /// </summary>
 [ToolboxBitmap(typeof(KryptonDataGridViewDateTimePickerColumn), "ToolboxBitmaps.KryptonDateTimePicker.bmp")]
-[Designer(typeof(KryptonDateTimePickerColumnDesigner))]
+[Designer("Krypton.Toolkit.KryptonDateTimePickerColumnDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconColumn
 {
     #region Instance Fields
@@ -629,6 +629,42 @@ DateTimePickerCellTemplate?.CalendarFirstDayOfWeek ?? ThrowHelper.ThrowInvalidOp
                     if (dataGridViewRow.Cells[Index] is KryptonDataGridViewDateTimePickerCell dataGridViewCell)
                     {
                         dataGridViewCell.SetCalendarFirstDayOfWeek(rowIndex, value);
+                    }
+                }
+
+                DataGridView.InvalidateColumn(Index);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the calendar view used to choose a date.
+    /// </summary>
+    [Category(@"MonthCalendar")]
+    [Description(@"Specifies whether the drop-down calendar shows days, months, or years.")]
+    [DefaultValue(MonthCalendarView.Days)]
+    public MonthCalendarView CalendarView
+    {
+        get =>
+            DateTimePickerCellTemplate?.CalendarView ?? ThrowHelper.ThrowInvalidOperationException<MonthCalendarView>("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+        set
+        {
+            if (DateTimePickerCellTemplate == null)
+            {
+                ThrowHelper.ThrowInvalidOperationException("Operation cannot be completed because this DataGridViewColumn does not have a CellTemplate.");
+            }
+
+            DateTimePickerCellTemplate.CalendarView = value;
+            if (DataGridView != null)
+            {
+                DataGridViewRowCollection dataGridViewRows = DataGridView.Rows;
+                var rowCount = dataGridViewRows.Count;
+                for (var rowIndex = 0; rowIndex < rowCount; rowIndex++)
+                {
+                    DataGridViewRow dataGridViewRow = dataGridViewRows.SharedRow(rowIndex);
+                    if (dataGridViewRow.Cells[Index] is KryptonDataGridViewDateTimePickerCell dataGridViewCell)
+                    {
+                        dataGridViewCell.SetCalendarView(rowIndex, value);
                     }
                 }
 

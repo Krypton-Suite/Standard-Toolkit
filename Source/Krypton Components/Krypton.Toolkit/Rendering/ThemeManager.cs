@@ -154,9 +154,39 @@ public class ThemeManager
     /// <c>Custom - [name]</c> (issue #1031).
     /// </summary>
     /// <returns>Theme display names.</returns>
-    public static string[] GetThemesArray()
+    public static string[] GetThemesArray() => GetThemesArray(includeExtra: true);
+
+    /// <summary>
+    /// Builds the theme name list for selectors.
+    /// </summary>
+    /// <param name="includeExtra">When <see langword="false"/>, extra (non-core) catalogued palettes are omitted.</param>
+    /// <returns>Theme display names.</returns>
+    public static string[] GetThemesArray(bool includeExtra)
     {
-        var builtins = PaletteModeStrings.SupportedThemesMap.Keys.ToList();
+        var builtins = new List<string>();
+        foreach (var pair in PaletteModeStrings.SupportedThemes.FirstToSecond)
+        {
+            if (pair.Value == PaletteMode.Custom)
+            {
+                if (KryptonThemeAvailability.AllowCustomThemes)
+                {
+                    builtins.Add(pair.Key);
+                }
+
+                continue;
+            }
+
+            if (!includeExtra && !KryptonThemeCatalog.IsCoreMode(pair.Value))
+            {
+                continue;
+            }
+
+            if (KryptonThemeAvailability.IsSelectable(pair.Value))
+            {
+                builtins.Add(pair.Key);
+            }
+        }
+
         int customIndex = builtins.IndexOf(PaletteModeStrings.DEFAULT_PALETTE_CUSTOM);
         if (customIndex < 0)
         {
@@ -164,9 +194,16 @@ public class ThemeManager
         }
 
         string[] registered;
-        lock (_registeredThemesSync)
+        if (!KryptonThemeAvailability.AllowCustomThemes)
         {
-            registered = _registeredCustomThemes.Keys.OrderBy(n => n, StringComparer.OrdinalIgnoreCase).ToArray();
+            registered = Array.Empty<string>();
+        }
+        else
+        {
+            lock (_registeredThemesSync)
+            {
+                registered = _registeredCustomThemes.Keys.OrderBy(n => n, StringComparer.OrdinalIgnoreCase).ToArray();
+            }
         }
 
         for (int i = 0; i < registered.Length; i++)
@@ -196,14 +233,16 @@ public class ThemeManager
     }
 
     /// <summary>
-    /// Applies a registered custom theme by display name.
+    /// Creates a registered custom theme without applying it globally.
+    /// Used by preview helpers to read <see cref="KryptonCustomPaletteBase.Thumbnail"/>.
     /// </summary>
     /// <param name="themeName">Registered display name.</param>
-    /// <param name="manager">Target manager.</param>
-    /// <returns><c>true</c> if applied; <c>false</c> if not registered.</returns>
-    public static bool TryApplyRegisteredTheme(string themeName, KryptonManager manager)
+    /// <param name="palette">Created palette when the name is registered.</param>
+    /// <returns><see langword="true"/> when a factory exists.</returns>
+    public static bool TryCreateRegisteredTheme(string themeName, out KryptonCustomPaletteBase? palette)
     {
-        if (manager is null || string.IsNullOrEmpty(themeName))
+        palette = null;
+        if (string.IsNullOrEmpty(themeName))
         {
             return false;
         }
@@ -217,10 +256,26 @@ public class ThemeManager
             }
         }
 
-        KryptonCustomPaletteBase palette = factory();
-        if (string.IsNullOrWhiteSpace(palette.GetPaletteName()))
+        palette = factory();
+        if (palette != null && string.IsNullOrWhiteSpace(palette.GetPaletteName()))
         {
             palette.SetPaletteName(themeName);
+        }
+
+        return palette != null;
+    }
+
+    /// <summary>
+    /// Applies a registered custom theme by display name.
+    /// </summary>
+    /// <param name="themeName">Registered display name.</param>
+    /// <param name="manager">Target manager.</param>
+    /// <returns><c>true</c> if applied; <c>false</c> if not registered.</returns>
+    public static bool TryApplyRegisteredTheme(string themeName, KryptonManager manager)
+    {
+        if (manager is null || !TryCreateRegisteredTheme(themeName, out var palette) || palette is null)
+        {
+            return false;
         }
 
         ApplyTheme(palette, manager);
@@ -228,6 +283,11 @@ public class ThemeManager
     }
 
     private static void OnRegisteredThemesChanged() => RegisteredThemesChanged?.Invoke(null, EventArgs.Empty);
+
+    /// <summary>
+    /// Raises <see cref="RegisteredThemesChanged"/> so selectors rebuild after catalog or availability changes.
+    /// </summary>
+    internal static void NotifyThemeListChanged() => OnRegisteredThemesChanged();
 
     /// <summary>Returns the palette mode from the Krypton Manager instance.</summary>
     /// <param name="manager">The manager instance.</param>
@@ -273,14 +333,58 @@ public class ThemeManager
     /// <param name="themeFile">Valid path including filename to the theme file. The file must exist an be compatible, otherwise the import will fail.</param>
     /// <param name="silent">True if the operation should suppress messages from the palette import process, otherwise false.</param>
     /// <param name="manager">The manager.</param>
+    // ToDo V120 LTS: Document .kthemex as the expected custom theme file. Import still sniffs XML content.
     public static void ApplyTheme(string themeFile, bool silent, KryptonManager manager)
     {
-        if (themeFile.Length > 0 && File.Exists(themeFile))
+        if (File.Exists(themeFile))
         {
             try
             {
                 KryptonCustomPaletteBase palette = new();
-                palette.Import(themeFile, silent);
+                var imported = palette.Import(themeFile, silent);
+                if (string.IsNullOrEmpty(imported))
+                {
+                    return;
+                }
+
+                ApplyTheme(palette, manager);
+            }
+            catch (Exception exc)
+            {
+                KryptonExceptionHandler.CaptureException(exc, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
+            }
+        }
+        else
+        {
+            KryptonMessageBox.Show(
+                $"The parameter 'themeFile' points to a file that does not exist.\n" +
+                $"Filename: {themeFile}\n\n" +
+                $"ApplyTheme aborted.",
+                _msgBoxCaption,
+                buttons: KryptonMessageBoxButtons.OK,
+                icon: KryptonMessageBoxIcon.Exclamation);
+        }
+    }
+
+    /// <summary>
+    /// Loads one named theme from a <c>.ktheme</c> pack (or a matching single-theme file).
+    /// </summary>
+    /// <param name="themeFile">Valid path including filename to the theme file.</param>
+    /// <param name="themeName">Theme name in the collection. Comparison is case-insensitive.</param>
+    /// <param name="silent">True if the operation should suppress messages from the palette import process.</param>
+    /// <param name="manager">The manager.</param>
+    public static void ApplyTheme(string themeFile, string themeName, bool silent, KryptonManager manager)
+    {
+        if (File.Exists(themeFile))
+        {
+            try
+            {
+                KryptonCustomPaletteBase palette = new();
+                var imported = palette.Import(themeFile, themeName, silent);
+                if (string.IsNullOrEmpty(imported))
+                {
+                    return;
+                }
 
                 ApplyTheme(palette, manager);
             }

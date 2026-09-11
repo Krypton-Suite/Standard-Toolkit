@@ -1,4 +1,4 @@
-namespace TestForm
+﻿namespace TestForm
 {
     partial class Feature3851RenderingDpiDemo
     {
@@ -36,7 +36,7 @@ namespace TestForm
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(760, 520);
             this.Name = "Feature3851RenderingDpiDemo";
-            this.Text = "Feature 3851 - Rendering, DPI and performance";
+            this.Text = "Feature 3851 / 4254 - Rendering, DPI and QAT extra button";
             this.ResumeLayout(false);
         }
 

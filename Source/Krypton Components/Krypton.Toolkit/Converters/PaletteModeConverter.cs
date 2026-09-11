@@ -25,4 +25,38 @@ public class PaletteModeConverter : StringLookupConverter<PaletteMode>
     protected override IReadOnlyDictionary<PaletteMode /*Enum*/, string /*Display*/> PairsEnumToString => PaletteModeStrings.SupportedThemes.SecondToFirst;
 
     #endregion
+
+    #region Public
+    /// <inheritdoc />
+    public override bool GetStandardValuesSupported(ITypeDescriptorContext? context) => true;
+
+    /// <inheritdoc />
+    public override bool GetStandardValuesExclusive(ITypeDescriptorContext? context) => true;
+
+    /// <inheritdoc />
+    public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext? context)
+    {
+        var values = new List<PaletteMode> { PaletteMode.Global };
+        foreach (var pair in PaletteModeStrings.SupportedThemes.FirstToSecond)
+        {
+            if (pair.Value == PaletteMode.Custom)
+            {
+                if (KryptonThemeAvailability.AllowCustomThemes)
+                {
+                    values.Add(PaletteMode.Custom);
+                }
+
+                continue;
+            }
+
+            if (KryptonThemeAvailability.IsSelectable(pair.Value))
+            {
+                values.Add(pair.Value);
+            }
+        }
+
+        return new StandardValuesCollection(values);
+    }
+
+    #endregion
 }

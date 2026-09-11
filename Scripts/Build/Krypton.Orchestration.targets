@@ -1,4 +1,4 @@
-<Project>
+﻿<Project>
 
 	<!--
 	  Phased Krypton.* orchestration: avoids parallel projects racing on shared Bin/<Configuration>/<tfm>/ outputs
@@ -9,6 +9,7 @@
 		<KryptonComponentsRoot>..\..\Source\Krypton Components</KryptonComponentsRoot>
 		<KryptonInteropProject>$(KryptonComponentsRoot)\Krypton.Interop\Krypton.Interop.csproj</KryptonInteropProject>
 		<KryptonToolkitProject>$(KryptonComponentsRoot)\Krypton.Toolkit\Krypton.Toolkit 2022.csproj</KryptonToolkitProject>
+		<KryptonThemesProject>$(KryptonComponentsRoot)\Krypton.Themes\Krypton.Themes.csproj</KryptonThemesProject>
 		<KryptonRibbonProject>$(KryptonComponentsRoot)\Krypton.Ribbon\Krypton.Ribbon 2022.csproj</KryptonRibbonProject>
 		<KryptonNavigatorProject>$(KryptonComponentsRoot)\Krypton.Navigator\Krypton.Navigator 2022.csproj</KryptonNavigatorProject>
 		<KryptonWorkspaceProject>$(KryptonComponentsRoot)\Krypton.Workspace\Krypton.Workspace 2022.csproj</KryptonWorkspaceProject>
@@ -17,14 +18,30 @@
 		<KryptonNavigatorUtilitiesProject>$(KryptonComponentsRoot)\Krypton.Navigator.Utilities\Krypton.Navigator.Utilities.csproj</KryptonNavigatorUtilitiesProject>
 		<KryptonToolkitUtilitiesProject>$(KryptonComponentsRoot)\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj</KryptonToolkitUtilitiesProject>
 		<KryptonStandardToolkitProject>$(KryptonComponentsRoot)\Krypton.Standard.Toolkit\Krypton.Standard.Toolkit.csproj</KryptonStandardToolkitProject>
+		<KryptonToolkitDesignProtocolProject>$(KryptonComponentsRoot)\Krypton.Toolkit.Design.Protocol\Krypton.Toolkit.Design.Protocol.csproj</KryptonToolkitDesignProtocolProject>
+		<KryptonToolkitDesignClientProject>$(KryptonComponentsRoot)\Krypton.Toolkit.Design.Client\Krypton.Toolkit.Design.Client.csproj</KryptonToolkitDesignClientProject>
+		<KryptonToolkitDesignProject>$(KryptonComponentsRoot)\Krypton.Toolkit.Design\Krypton.Toolkit.Design.csproj</KryptonToolkitDesignProject>
+		<KryptonRibbonDesignProject>$(KryptonComponentsRoot)\Krypton.Ribbon.Design\Krypton.Ribbon.Design.csproj</KryptonRibbonDesignProject>
+		<KryptonNavigatorDesignProject>$(KryptonComponentsRoot)\Krypton.Navigator.Design\Krypton.Navigator.Design.csproj</KryptonNavigatorDesignProject>
+		<KryptonWorkspaceDesignProject>$(KryptonComponentsRoot)\Krypton.Workspace.Design\Krypton.Workspace.Design.csproj</KryptonWorkspaceDesignProject>
+		<KryptonToolkitUtilitiesDesignProject>$(KryptonComponentsRoot)\Krypton.Toolkit.Utilities.Design\Krypton.Toolkit.Utilities.Design.csproj</KryptonToolkitUtilitiesDesignProject>
+		<KryptonNavigatorUtilitiesDesignProject>$(KryptonComponentsRoot)\Krypton.Navigator.Utilities.Design\Krypton.Navigator.Utilities.Design.csproj</KryptonNavigatorUtilitiesDesignProject>
+		<KryptonWinFormsDesignerSdkBuild Condition="'$(ExcludeModernTargetFrameworks)' == 'true'">false</KryptonWinFormsDesignerSdkBuild>
+		<KryptonWinFormsDesignerSdkBuild Condition="'$(KryptonWinFormsDesignerSdkBuild)' == ''">true</KryptonWinFormsDesignerSdkBuild>
 		<KryptonComponentBuildProperties Condition="'$(TFMs)' != ''">Configuration=$(Configuration);TFMs=$(TFMs);UseArtifactsOutput=$(UseArtifactsOutput)</KryptonComponentBuildProperties>
 		<KryptonComponentBuildProperties Condition="'$(TFMs)' == ''">Configuration=$(Configuration);TFMs=all;UseArtifactsOutput=$(UseArtifactsOutput)</KryptonComponentBuildProperties>
 		<KryptonComponentBuildProperties Condition="'$(ExcludeNet11)' != ''">$(KryptonComponentBuildProperties);ExcludeNet11=$(ExcludeNet11)</KryptonComponentBuildProperties>
+		<KryptonComponentBuildProperties Condition="'$(ExcludeModernTargetFrameworks)' != ''">$(KryptonComponentBuildProperties);ExcludeModernTargetFrameworks=$(ExcludeModernTargetFrameworks)</KryptonComponentBuildProperties>
+		<KryptonComponentBuildProperties Condition="'$(ExcludeVs2022UnsupportedTargetFrameworks)' != ''">$(KryptonComponentBuildProperties);ExcludeVs2022UnsupportedTargetFrameworks=$(ExcludeVs2022UnsupportedTargetFrameworks)</KryptonComponentBuildProperties>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<KryptonParallelAfterToolkit Include="$(KryptonRibbonProject)" />
 		<KryptonParallelAfterToolkit Include="$(KryptonNavigatorProject)" />
+		<KryptonParallelDesignAfterToolkit Include="$(KryptonRibbonDesignProject)" />
+		<KryptonParallelDesignAfterToolkit Include="$(KryptonNavigatorDesignProject)" />
+		<KryptonParallelDesignUtilities Include="$(KryptonToolkitUtilitiesDesignProject)" />
+		<KryptonParallelDesignUtilities Include="$(KryptonNavigatorUtilitiesDesignProject)" />
 	</ItemGroup>
 
 	<Target Name="KryptonCleanNuGetRestoreState" BeforeTargets="Restore">
@@ -43,6 +60,10 @@
 		         Targets="Restore;Build" />
 
 		<MSBuild Projects="$(KryptonToolkitProject)"
+		         Properties="$(KryptonComponentBuildProperties)"
+		         Targets="Build" />
+
+		<MSBuild Projects="$(KryptonThemesProject)"
 		         Properties="$(KryptonComponentBuildProperties)"
 		         Targets="Build" />
 
@@ -69,14 +90,53 @@
 		<MSBuild Projects="$(KryptonToolkitUtilitiesProject)"
 		         Properties="$(KryptonComponentBuildProperties)"
 		         Targets="Build" />
+
+		<!-- WinForms Designer Extensibility SDK (issue #593): Design DLLs share Bin/<Config>/<tfm>/ with runtimes. -->
+		<CallTarget Targets="KryptonBuildDesign" />
+	</Target>
+
+	<!--
+	  Protocol → Client → Toolkit.Design, then Ribbon/Navigator.Design in parallel, then Workspace.Design,
+	  then Utilities.Design in parallel. Runtime projects must already be built (KryptonBuild / PackAll restore).
+	  Pack copies these with Exists(); skipping this target silently omits Design/WinForms from nupkgs.
+	-->
+	<Target Name="KryptonBuildDesign" Condition="'$(KryptonWinFormsDesignerSdkBuild)' != 'false' And Exists('$(KryptonToolkitDesignProject)')">
+		<MSBuild Projects="$(KryptonToolkitDesignProtocolProject)"
+		         Properties="$(KryptonComponentBuildProperties)"
+		         Targets="Build" />
+
+		<MSBuild Projects="$(KryptonToolkitDesignClientProject)"
+		         Properties="$(KryptonComponentBuildProperties)"
+		         Targets="Build" />
+
+		<MSBuild Projects="$(KryptonToolkitDesignProject)"
+		         Properties="$(KryptonComponentBuildProperties)"
+		         Targets="Build" />
+
+		<MSBuild Projects="@(KryptonParallelDesignAfterToolkit)"
+		         Properties="$(KryptonComponentBuildProperties)"
+		         Targets="Build"
+		         BuildInParallel="true" />
+
+		<MSBuild Projects="$(KryptonWorkspaceDesignProject)"
+		         Properties="$(KryptonComponentBuildProperties)"
+		         Targets="Build" />
+
+		<MSBuild Projects="@(KryptonParallelDesignUtilities)"
+		         Properties="$(KryptonComponentBuildProperties)"
+		         Targets="Build"
+		         BuildInParallel="true" />
 	</Target>
 
 	<Target Name="KryptonPack">
-		<MSBuild Projects="$(KryptonInteropProject)"
-		         Properties="$(KryptonComponentBuildProperties)"
-		         Targets="Restore;Build" />
+		<!-- PackAll Cleans first; rebuild runtimes and designers before Exists() packing. -->
+		<CallTarget Targets="KryptonBuild" />
 
 		<MSBuild Projects="$(KryptonToolkitProject)"
+		         Properties="$(KryptonComponentBuildProperties)"
+		         Targets="Pack" />
+
+		<MSBuild Projects="$(KryptonThemesProject)"
 		         Properties="$(KryptonComponentBuildProperties)"
 		         Targets="Pack" />
 

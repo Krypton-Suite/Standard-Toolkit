@@ -55,6 +55,48 @@ public class KryptonMultilineStringEditor
     /// <returns>A new <see cref="VisualMultilineStringEditorForm"/> with specified data.</returns>
     public static DialogResult Show(StringCollection? collection, bool? useRichTextBox, string? headerText, string? windowText) => ShowCore(null, collection, useRichTextBox, headerText, windowText);
 
+    /// <summary>Shows a new <see cref="VisualMultilineStringEditorForm"/> asynchronously with default options.</summary>
+    /// <returns>A task that produces the dialog result when the editor is closed.</returns>
+    public static Task<DialogResult> ShowAsync() => ShowCoreAsync(null, null, null, null, null);
+
+    /// <summary>Shows a new <see cref="VisualMultilineStringEditorForm"/> asynchronously with specified options.</summary>
+    /// <param name="contents">The string contents array.</param>
+    /// <returns>A task that produces the dialog result when the editor is closed.</returns>
+    public static Task<DialogResult> ShowAsync(string[]? contents) => ShowCoreAsync(contents, null, null, null, null);
+
+    /// <summary>Shows a new <see cref="VisualMultilineStringEditorForm"/> asynchronously with specified options.</summary>
+    /// <param name="contents">The string contents array.</param>
+    /// <param name="useRichTextBox">The use rich text box.</param>
+    /// <returns>A task that produces the dialog result when the editor is closed.</returns>
+    public static Task<DialogResult> ShowAsync(string[]? contents, bool? useRichTextBox) => ShowCoreAsync(contents, null, useRichTextBox, null, null);
+
+    /// <summary>Shows a new <see cref="VisualMultilineStringEditorForm"/> asynchronously with specified options.</summary>
+    /// <param name="contents">The string contents array.</param>
+    /// <param name="useRichTextBox">The use rich text box.</param>
+    /// <param name="headerText">The header text.</param>
+    /// <param name="windowText">The window text.</param>
+    /// <returns>A task that produces the dialog result when the editor is closed.</returns>
+    public static Task<DialogResult> ShowAsync(string[]? contents, bool? useRichTextBox, string? headerText, string? windowText) => ShowCoreAsync(contents, null, useRichTextBox, headerText, windowText);
+
+    /// <summary>Shows a new <see cref="VisualMultilineStringEditorForm"/> asynchronously with specified options.</summary>
+    /// <param name="collection">The string collection.</param>
+    /// <returns>A task that produces the dialog result when the editor is closed.</returns>
+    public static Task<DialogResult> ShowAsync(StringCollection? collection) => ShowCoreAsync(null, collection, null, null, null);
+
+    /// <summary>Shows a new <see cref="VisualMultilineStringEditorForm"/> asynchronously with specified options.</summary>
+    /// <param name="collection">The string collection.</param>
+    /// <param name="useRichTextBox">The use rich text box.</param>
+    /// <returns>A task that produces the dialog result when the editor is closed.</returns>
+    public static Task<DialogResult> ShowAsync(StringCollection? collection, bool? useRichTextBox) => ShowCoreAsync(null, collection, useRichTextBox, null, null);
+
+    /// <summary>Shows a new <see cref="VisualMultilineStringEditorForm"/> asynchronously with specified options.</summary>
+    /// <param name="collection">The string collection.</param>
+    /// <param name="useRichTextBox">The use rich text box.</param>
+    /// <param name="headerText">The header text.</param>
+    /// <param name="windowText">The window text.</param>
+    /// <returns>A task that produces the dialog result when the editor is closed.</returns>
+    public static Task<DialogResult> ShowAsync(StringCollection? collection, bool? useRichTextBox, string? headerText, string? windowText) => ShowCoreAsync(null, collection, useRichTextBox, headerText, windowText);
+
     #endregion
 
     #region Implementation
@@ -65,6 +107,15 @@ public class KryptonMultilineStringEditor
         using var kmse = new VisualMultilineStringEditorForm(contents, collection, useRichTextBox, headerText, windowTitle);
 
         return kmse.ShowDialog();
+    }
+
+    private static async Task<DialogResult> ShowCoreAsync(string[]? contents, StringCollection? collection,
+        bool? useRichTextBox, string? headerText, string? windowTitle)
+    {
+        using var kmse = new VisualMultilineStringEditorForm(contents, collection, useRichTextBox, headerText, windowTitle);
+
+        // Await required so using does not dispose the form before the dialog completes.
+        return await KryptonFormAsync.ShowDialogAsync(kmse).ConfigureAwait(false);
     }
 
     #endregion

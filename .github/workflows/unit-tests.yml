@@ -11,8 +11,8 @@
 #   - workflow_call (reusable from other workflows)
 #
 # Discord: Set secret DISCORD_WEBHOOK_UNIT_TESTS (optional).
-#   - Always posts on failure when the secret is set.
-#   - Also posts on success for workflow_dispatch / workflow_call when notify_discord is true.
+#   - Posts on success and failure when the secret is set (not cancelled).
+#   - workflow_dispatch / workflow_call can opt out with notify_discord=false.
 
 name: Unit Tests
 
@@ -93,7 +93,7 @@ on:
       notify_discord:
         description: Post a run summary to Discord (requires secret DISCORD_WEBHOOK_UNIT_TESTS)
         required: false
-        default: false
+        default: true
         type: boolean
     secrets:
       DISCORD_WEBHOOK_UNIT_TESTS:
@@ -273,10 +273,15 @@ jobs:
 
       - name: Discord notification
         if: >
-          always() && (
-            job.status == 'failure' ||
-            (github.event_name == 'workflow_dispatch' && inputs.notify_discord) ||
-            (github.event_name == 'workflow_call' && inputs.notify_discord)
+          always() &&
+          job.status != 'cancelled' &&
+          (
+            github.event_name == 'push' ||
+            github.event_name == 'pull_request' ||
+            (
+              (github.event_name == 'workflow_dispatch' || github.event_name == 'workflow_call') &&
+              (inputs.notify_discord == true || inputs.notify_discord == 'true')
+            )
           )
         shell: pwsh
         env:

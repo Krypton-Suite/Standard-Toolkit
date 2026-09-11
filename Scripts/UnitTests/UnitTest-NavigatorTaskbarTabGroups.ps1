@@ -12,12 +12,13 @@
     3. KryptonDockingFloating.ShowFloatingWindowsInTaskbar defaults to false and can be set.
 
     Exit code 0 on success; non-zero with a failing assertion message on failure.
-    Requires an STA apartment (use powershell -STA).
+    Requires an STA apartment (use powershell -STA). Invoke-AllUnitTests launches include scripts with -STA.
+    Coordinator registration counts are asserted when the shell taskbar API is ready; otherwise they are noted and skipped.
 
 .EXAMPLE
     powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-NavigatorTaskbarTabGroups.ps1
 #>
-# UnitTest-CI: exclude
+# UnitTest-CI: include
 [CmdletBinding()]
 param(
     [string]$Configuration = 'Debug',

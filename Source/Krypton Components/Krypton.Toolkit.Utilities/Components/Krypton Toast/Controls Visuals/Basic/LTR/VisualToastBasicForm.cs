@@ -71,7 +71,7 @@ internal partial class VisualToastBasicForm : KryptonForm
 
     private void UpdateText()
     {
-        GlobalStaticValues.ApplyToastRichTextContentColor(krtbNotificationContentText);
+        CommonFeatures.ApplyToastRichTextContentColor(krtbNotificationContentText);
 
         krtbNotificationContentText.Text = _basicToastNotificationData.NotificationContent ?? string.Empty;
 
@@ -84,9 +84,9 @@ internal partial class VisualToastBasicForm : KryptonForm
 
     private void UpdateBorderColors()
     {
-        StateCommon!.Border.Color1 = _basicToastNotificationData.BorderColor1 ?? GlobalStaticValues.EMPTY_COLOR;
+        StateCommon!.Border.Color1 = _basicToastNotificationData.BorderColor1 ?? SharedStaticVariables.EMPTY_COLOR;
 
-        StateCommon.Border.Color2 = _basicToastNotificationData.BorderColor2 ?? GlobalStaticValues.EMPTY_COLOR;
+        StateCommon.Border.Color2 = _basicToastNotificationData.BorderColor2 ?? SharedStaticVariables.EMPTY_COLOR;
     }
 
     /* FadeValues disabled and moved to extended until proven stable. Further development in V100
@@ -170,7 +170,7 @@ internal partial class VisualToastBasicForm : KryptonForm
 
             // ToDo: Use scaling here, to support larger screens
 
-            var height = Size.Height + GlobalStaticValues.DEFAULT_PADDING;
+            var height = Size.Height + SharedStaticConstants.DEFAULT_PADDING;
 
             Size = new Size(width, height);
         }
@@ -344,6 +344,23 @@ internal partial class VisualToastBasicForm : KryptonForm
         toast.Show();
     }
 
+    internal static async Task<bool> InternalShowWithBooleanReturnValueAsync(KryptonBasicToastData toastNotificationData)
+    {
+        using var toast = new VisualToastBasicForm(toastNotificationData);
+
+        // Await required so using does not dispose the form before the dialog completes.
+        return await KryptonFormAsync.ShowDialogAsync(toast).ConfigureAwait(false) == DialogResult.OK && toast.ReturnValue;
+    }
+
+    internal static async Task<CheckState> InternalShowWithCheckStateReturnValueAsync(KryptonBasicToastData toastNotificationData)
+    {
+        using var toast = new VisualToastBasicForm(toastNotificationData);
+
+        // Await required so using does not dispose the form before the dialog completes.
+        return await KryptonFormAsync.ShowDialogAsync(toast).ConfigureAwait(false) == DialogResult.OK
+            ? toast.ReturnCheckBoxStateValue
+            : CheckState.Unchecked;
+    }
     #endregion
 
     #endregion

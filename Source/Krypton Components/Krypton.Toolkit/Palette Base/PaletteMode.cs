@@ -308,65 +308,105 @@ public enum PaletteMode
     /// </summary>
     VisualStudio2010Render365,
 
-    ///// <summary>
-    ///// Specifies the visual studio 2012 dark palette theme.
-    ///// </summary>
-    //VisualStudio2012Dark,
+    /// <summary>
+    /// Specifies the visual studio 2012 dark palette theme.
+    /// </summary>
+    VisualStudio2012Dark,
 
-    ///// <summary>
-    ///// Specifies the visual studio 2012 light palette theme.
-    ///// </summary>
-    //VisualStudio2012Light,
+    /// <summary>
+    /// Specifies the visual studio 2012 light palette theme.
+    /// </summary>
+    VisualStudio2012Light,
 
-    ///// <summary>
-    ///// Specifies the visual studio 2013 dark palette theme.
-    ///// </summary>
-    //VisualStudio2013Dark,
+    /// <summary>
+    /// Specifies the visual studio 2012 blue palette theme.
+    /// </summary>
+    VisualStudio2012Blue,
 
-    ///// <summary>
-    ///// Specifies the visual studio 2013 light palette theme.
-    ///// </summary>
-    //VisualStudio2013Light,
+    /// <summary>
+    /// Specifies the visual studio 2013 dark palette theme.
+    /// </summary>
+    VisualStudio2013Dark,
 
-    ///// <summary>
-    ///// Specifies the visual studio 2015 dark palette theme.
-    ///// </summary>
-    //VisualStudio2015Dark,
+    /// <summary>
+    /// Specifies the visual studio 2013 light palette theme.
+    /// </summary>
+    VisualStudio2013Light,
 
-    ///// <summary>
-    ///// Specifies the visual studio 2015 light palette theme.
-    ///// </summary>
-    //VisualStudio2015Light,
+    /// <summary>
+    /// Specifies the visual studio 2013 blue palette theme.
+    /// </summary>
+    VisualStudio2013Blue,
 
-    ///// <summary>
-    ///// Specifies the visual studio 2017 dark palette theme.
-    ///// </summary>
-    //VisualStudio2017Dark,
+    /// <summary>
+    /// Specifies the visual studio 2015 dark palette theme.
+    /// </summary>
+    VisualStudio2015Dark,
 
-    ///// <summary>
-    ///// Specifies the visual studio 2017 light palette theme.
-    ///// </summary>
-    //VisualStudio2017Light,
+    /// <summary>
+    /// Specifies the visual studio 2015 light palette theme.
+    /// </summary>
+    VisualStudio2015Light,
 
-    ///// <summary>
-    ///// Specifies the visual studio 2019 dark palette theme.
-    ///// </summary>
-    //VisualStudio2019Dark,
+    /// <summary>
+    /// Specifies the visual studio 2015 blue palette theme.
+    /// </summary>
+    VisualStudio2015Blue,
 
-    ///// <summary>
-    ///// Specifies the visual studio 2019 light palette theme.
-    ///// </summary>
-    //VisualStudio2019Light,
+    /// <summary>
+    /// Specifies the visual studio 2017 dark palette theme.
+    /// </summary>
+    VisualStudio2017Dark,
+
+    /// <summary>
+    /// Specifies the visual studio 2017 light palette theme.
+    /// </summary>
+    VisualStudio2017Light,
+
+    /// <summary>
+    /// Specifies the visual studio 2017 blue palette theme.
+    /// </summary>
+    VisualStudio2017Blue,
+
+    /// <summary>
+    /// Specifies the visual studio 2019 dark palette theme.
+    /// </summary>
+    VisualStudio2019Dark,
+
+    /// <summary>
+    /// Specifies the visual studio 2019 light palette theme.
+    /// </summary>
+    VisualStudio2019Light,
+
+    /// <summary>
+    /// Specifies the visual studio 2019 blue palette theme.
+    /// </summary>
+    VisualStudio2019Blue,
 
     /// <summary>
     /// Specifies the visual studio 2022 dark palette theme.
     /// </summary>
     VisualStudio2022Dark,
 
-    ///// <summary>
-    ///// Specifies the visual studio 2022 light palette theme.
-    ///// </summary>
-    //VisualStudio2022Light,
+    /// <summary>
+    /// Specifies the visual studio 2022 light palette theme.
+    /// </summary>
+    VisualStudio2022Light,
+
+    /// <summary>
+    /// Specifies the visual studio 2022 blue palette theme.
+    /// </summary>
+    VisualStudio2022Blue,
+
+    /// <summary>
+    /// Specifies the visual studio 2026 dark palette theme (Fluent tokens).
+    /// </summary>
+    VisualStudio2026Dark,
+
+    /// <summary>
+    /// Specifies the visual studio 2026 light palette theme (Fluent tokens).
+    /// </summary>
+    VisualStudio2026Light,
 
     /// <summary>
     /// Material Light palette.
@@ -597,6 +637,122 @@ public enum PaletteMode
     /// Specifies the dark Lime Green color scheme variant of the Microsoft 365 appearance.
     /// </summary>
     Microsoft365LimeGreenDark,
+
+    /// <summary>Office 2007 Materialize Blue (https://colorswall.com/palette/8).</summary>
+    Office2007MaterializeBlue,
+    /// <summary>Office 2007 Materialize Blue dark chrome.</summary>
+    Office2007MaterializeBlueDark,
+    /// <summary>Office 2007 Materialize Light Blue (https://colorswall.com/palette/13).</summary>
+    Office2007MaterializeLightBlue,
+    /// <summary>Office 2007 Materialize Light Blue dark chrome.</summary>
+    Office2007MaterializeLightBlueDark,
+    /// <summary>Office 2007 Silver Dark Mode Alternate.</summary>
+    Office2007SilverDarkModeAlternate,
+
+    /// <summary>Office 2010 Materialize Blue.</summary>
+    Office2010MaterializeBlue,
+    /// <summary>Office 2010 Materialize Blue dark chrome.</summary>
+    Office2010MaterializeBlueDark,
+    /// <summary>Office 2010 Materialize Light Blue.</summary>
+    Office2010MaterializeLightBlue,
+    /// <summary>Office 2010 Materialize Light Blue dark chrome.</summary>
+    Office2010MaterializeLightBlueDark,
+    /// <summary>Office 2010 Silver Dark Mode Alternate.</summary>
+    Office2010SilverDarkModeAlternate,
+
+    /// <summary>Office 2013 Materialize Blue.</summary>
+    Office2013MaterializeBlue,
+    /// <summary>Office 2013 Materialize Blue dark chrome.</summary>
+    Office2013MaterializeBlueDark,
+    /// <summary>Office 2013 Materialize Light Blue.</summary>
+    Office2013MaterializeLightBlue,
+    /// <summary>Office 2013 Materialize Light Blue dark chrome.</summary>
+    Office2013MaterializeLightBlueDark,
+    /// <summary>Office 2013 Silver Dark Mode Alternate.</summary>
+    Office2013SilverDarkModeAlternate,
+
+    /// <summary>Microsoft 365 Materialize Blue.</summary>
+    Microsoft365MaterializeBlue,
+    /// <summary>Microsoft 365 Materialize Blue dark chrome.</summary>
+    Microsoft365MaterializeBlueDark,
+    /// <summary>Microsoft 365 Materialize Light Blue.</summary>
+    Microsoft365MaterializeLightBlue,
+    /// <summary>Microsoft 365 Materialize Light Blue dark chrome.</summary>
+    Microsoft365MaterializeLightBlueDark,
+    /// <summary>Microsoft 365 Silver Dark Mode Alternate.</summary>
+    Microsoft365SilverDarkModeAlternate,
+
+    /// <summary>Material Materialize Blue.</summary>
+    MaterialMaterializeBlue,
+    /// <summary>Material Materialize Blue dark chrome.</summary>
+    MaterialMaterializeBlueDark,
+    /// <summary>Material Materialize Blue with Ripple.</summary>
+    MaterialMaterializeBlueRipple,
+    /// <summary>Material Materialize Blue dark chrome with Ripple.</summary>
+    MaterialMaterializeBlueDarkRipple,
+    /// <summary>Material Materialize Light Blue.</summary>
+    MaterialMaterializeLightBlue,
+    /// <summary>Material Materialize Light Blue dark chrome.</summary>
+    MaterialMaterializeLightBlueDark,
+    /// <summary>Material Materialize Light Blue with Ripple.</summary>
+    MaterialMaterializeLightBlueRipple,
+    /// <summary>Material Materialize Light Blue dark chrome with Ripple.</summary>
+    MaterialMaterializeLightBlueDarkRipple,
+    /// <summary>Material Silver Dark Mode Alternate.</summary>
+    MaterialSilverDarkModeAlternate,
+    /// <summary>Material Silver Dark Mode Alternate with Ripple.</summary>
+    MaterialSilverDarkModeAlternateRipple,
+
+    /// <summary>
+    /// Office 2007 renderer with Office 2013 Dark Grey chrome colours.
+    /// Appended before <see cref="Custom"/> so existing <see cref="PaletteMode"/> integer values stay stable.
+    /// </summary>
+    Office2007DarkGray,
+
+    /// <summary>
+    /// Office 2007 renderer with Office 2013 Light Grey chrome colours.
+    /// </summary>
+    Office2007LightGray,
+
+    /// <summary>
+    /// Office 2010 renderer with Office 2013 Dark Grey chrome colours.
+    /// </summary>
+    Office2010DarkGray,
+
+    /// <summary>
+    /// Office 2010 renderer with Office 2013 Light Grey chrome colours.
+    /// </summary>
+    Office2010LightGray,
+
+    /// <summary>
+    /// Microsoft 365 renderer with Office 2013 Dark Grey chrome colours.
+    /// </summary>
+    Microsoft365DarkGray,
+
+    /// <summary>
+    /// Microsoft 365 renderer with Office 2013 Light Grey chrome colours.
+    /// </summary>
+    Microsoft365LightGray,
+
+    /// <summary>
+    /// Material renderer with Office 2013 Dark Grey chrome colours.
+    /// </summary>
+    MaterialDarkGray,
+
+    /// <summary>
+    /// Material renderer with Office 2013 Light Grey chrome colours.
+    /// </summary>
+    MaterialLightGray,
+
+    /// <summary>
+    /// Material Dark Grey chrome with Ripple effect.
+    /// </summary>
+    MaterialDarkGrayRipple,
+
+    /// <summary>
+    /// Material Light Grey chrome with Ripple effect.
+    /// </summary>
+    MaterialLightGrayRipple,
 
     /// <summary>
     /// Specifies a custom palette be used.

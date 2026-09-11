@@ -93,8 +93,12 @@ public class SharedStaticVariables
     [
         "Krypton.Docking.dll",
         "Krypton.Navigator.dll",
+        "Krypton.Navigator.Utilities.dll",
         "Krypton.Ribbon.dll",
+        "Krypton.Interop.dll",
+        "Krypton.Themes.dll",
         "Krypton.Toolkit.dll",
+        "Krypton.Toolkit.Utilities.dll",
         "Krypton.Workspace.dll"
     ];
 }

@@ -50,6 +50,7 @@ internal partial class VisualContextMenuCollectionForm
             _label2 = new KryptonLabel();
             _buttonAddColorColumns = new KryptonButton();
             _buttonAddImageSelect = new KryptonButton();
+            _buttonAddGallery = new KryptonButton();
             _buttonAddComboBox = new KryptonButton();
             _buttonAddProgressBar = new KryptonButton();
         _tableLayoutPanel1 = new TableLayoutPanel();
@@ -226,7 +227,7 @@ internal partial class VisualContextMenuCollectionForm
             // 
             ConfigureImageListButton(_buttonAddMonthCalendar, _imageList, 13, @"Add Month Calendar", buttonAddMonthCalendar_Click);
             _buttonAddMonthCalendar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            _buttonAddMonthCalendar.Location = new Point(21, 521);
+            _buttonAddMonthCalendar.Location = new Point(21, 562);
             _buttonAddMonthCalendar.Name = nameof(_buttonAddMonthCalendar);
             _buttonAddMonthCalendar.Size = new Size(184, 32);
             _buttonAddMonthCalendar.TabIndex = 13;
@@ -268,11 +269,20 @@ internal partial class VisualContextMenuCollectionForm
             _buttonAddImageSelect.Size = new Size(184, 32);
             _buttonAddImageSelect.TabIndex = 12;
             // 
+            // buttonAddGallery
+            // 
+            ConfigureImageListButton(_buttonAddGallery, _imageList, 12, @"Add Gallery", buttonAddGallery_Click);
+            _buttonAddGallery.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            _buttonAddGallery.Location = new Point(21, 521);
+            _buttonAddGallery.Name = nameof(_buttonAddGallery);
+            _buttonAddGallery.Size = new Size(184, 32);
+            _buttonAddGallery.TabIndex = 19;
+            // 
             // buttonAddComboBox
             // 
             ConfigureImageListButton(_buttonAddComboBox, _imageList, 14, @"Add ComboBox", buttonAddComboBox_Click);
             _buttonAddComboBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            _buttonAddComboBox.Location = new Point(21, 562);
+            _buttonAddComboBox.Location = new Point(21, 603);
             _buttonAddComboBox.Name = nameof(_buttonAddComboBox);
             _buttonAddComboBox.Size = new Size(184, 32);
             _buttonAddComboBox.TabIndex = 14;
@@ -281,7 +291,7 @@ internal partial class VisualContextMenuCollectionForm
             // 
             ConfigureImageListButton(_buttonAddProgressBar, _imageList, 16, @"Add ProgressBar", buttonAddProgressBar_Click);
             _buttonAddProgressBar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            _buttonAddProgressBar.Location = new Point(21, 603);
+            _buttonAddProgressBar.Location = new Point(21, 644);
             _buttonAddProgressBar.Name = nameof(_buttonAddProgressBar);
             _buttonAddProgressBar.Size = new Size(184, 32);
             _buttonAddProgressBar.TabIndex = 18;
@@ -304,7 +314,7 @@ internal partial class VisualContextMenuCollectionForm
             _tableLayoutPanel1.RowCount = 2;
             _tableLayoutPanel1.RowStyles.Add(new RowStyle());
             _tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            _tableLayoutPanel1.Size = new Size(816, 674);
+            _tableLayoutPanel1.Size = new Size(816, 720);
             _tableLayoutPanel1.TabIndex = 17;
             // 
             // panel1
@@ -313,6 +323,7 @@ internal partial class VisualContextMenuCollectionForm
             _panel1.Controls.Add(_buttonAddProgressBar);
             _panel1.Controls.Add(_buttonAddComboBox);
             _panel1.Controls.Add(_buttonAddMonthCalendar);
+            _panel1.Controls.Add(_buttonAddGallery);
             _panel1.Controls.Add(_buttonAddImageSelect);
             _panel1.Controls.Add(_buttonAddColorColumns);
             _panel1.Controls.Add(_buttonMoveDown);
@@ -327,7 +338,7 @@ internal partial class VisualContextMenuCollectionForm
             _panel1.Dock = DockStyle.Fill;
             _panel1.Location = new Point(298, 24);
             _panel1.Name = "_panel1";
-            _panel1.Size = new Size(220, 658);
+            _panel1.Size = new Size(220, 704);
             _panel1.StateCommon.Color1 = Color.Transparent;
             _panel1.TabIndex = 17;
         // 
@@ -348,7 +359,7 @@ internal partial class VisualContextMenuCollectionForm
         // KryptonContextMenuCollectionForm
         // 
         AutoScaleMode = AutoScaleMode.None;
-        ClientSize = new Size(816, 724);
+        ClientSize = new Size(816, 770);
         Controls.Add(kpnlContent);
         Controls.Add(kpnlButtonBar);
         Font = new Font(@"Tahoma", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -383,6 +394,7 @@ internal partial class VisualContextMenuCollectionForm
     private KryptonButton _buttonAddMonthCalendar;
     private KryptonButton _buttonAddColorColumns;
     private KryptonButton _buttonAddImageSelect;
+    private KryptonButton _buttonAddGallery;
     private KryptonButton _buttonAddComboBox;
     private KryptonButton _buttonAddProgressBar;
     private KryptonPropertyGrid _propertyGrid1;

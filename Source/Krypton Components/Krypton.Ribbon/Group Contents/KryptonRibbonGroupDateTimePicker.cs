@@ -19,7 +19,7 @@ namespace Krypton.Ribbon;
 /// </summary>
 [ToolboxItem(false)]
 [ToolboxBitmap(typeof(KryptonRibbonGroupDateTimePicker), "ToolboxBitmaps.KryptonRibbonGroupDateTimePicker.bmp")]
-[Designer(typeof(KryptonRibbonGroupDateTimePickerDesigner))]
+[Designer("Krypton.Ribbon.KryptonRibbonGroupDateTimePickerDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [DesignTimeVisible(false)]
 [DefaultEvent(nameof(ValueChanged))]
@@ -438,6 +438,18 @@ public class KryptonRibbonGroupDateTimePicker : KryptonRibbonGroupItem
     {
         get => DateTimePicker.CalendarFirstDayOfWeek;
         set => DateTimePicker.CalendarFirstDayOfWeek = value;
+    }
+
+    /// <summary>
+    /// Gets or sets the calendar view used to choose a date.
+    /// </summary>
+    [Category(@"MonthCalendar")]
+    [Description(@"Specifies whether the drop-down calendar shows days, months, or years.")]
+    [DefaultValue(MonthCalendarView.Days)]
+    public MonthCalendarView CalendarView
+    {
+        get => DateTimePicker.CalendarView;
+        set => DateTimePicker.CalendarView = value;
     }
 
     /// <summary>

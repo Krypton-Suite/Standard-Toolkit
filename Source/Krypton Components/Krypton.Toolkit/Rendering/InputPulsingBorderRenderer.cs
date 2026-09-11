@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -22,7 +22,7 @@ internal static class InputPulsingBorderRenderer
     /// </summary>
     public static void Draw(RenderContext context,
         Rectangle bounds,
-        IPaletteBorder paletteBorder,
+        IPaletteBorder? paletteBorder,
         PaletteState state,
         float animationPhase,
         bool animate,
@@ -41,47 +41,81 @@ internal static class InputPulsingBorderRenderer
             return;
         }
 
-        using GraphicsPath path = GetGlowBorderPath(context, bounds, paletteBorder, state, style);
+        using GraphicsPath path = GetGlowBorderPath(context, bounds, paletteBorder, state);
         if (path.PointCount == 0)
         {
             return;
         }
 
-        using var antiAlias = new AntiAlias(context.Graphics);
-
+        GraphicsState? clipState = null;
         if (style == InputPulsingBorderStyle.Bottom)
         {
-            DrawBottomHalo(context.Graphics, path, animate, highlightColor);
+            float rounding = paletteBorder?.GetBorderRounding(state) ?? 0f;
+            int clipHeight = Math.Max(GlowHeight + 6, (int)Math.Ceiling(rounding) + GlowHeight);
+            clipHeight = Math.Min(clipHeight, bounds.Height);
+            clipState = context.Graphics.Save();
+            var clip = new Rectangle(bounds.X, bounds.Bottom - clipHeight, bounds.Width, clipHeight);
+            context.Graphics.SetClip(clip, CombineMode.Intersect);
         }
 
-        DrawPathGlow(context.Graphics, bounds, path, animationPhase, animate, edgeColor1, edgeColor2, highlightColor);
+        try
+        {
+            using var antiAlias = new AntiAlias(context.Graphics);
+
+            if (style == InputPulsingBorderStyle.Bottom)
+            {
+                DrawBottomHalo(context.Graphics, path, animate, highlightColor);
+            }
+
+            DrawPathGlow(context.Graphics, bounds, path, animationPhase, animate, edgeColor1, edgeColor2, highlightColor);
+        }
+        finally
+        {
+            if (clipState != null)
+            {
+                context.Graphics.Restore(clipState);
+            }
+        }
     }
 
     private static GraphicsPath GetGlowBorderPath(RenderContext context,
         Rectangle bounds,
-        IPaletteBorder paletteBorder,
-        PaletteState state,
-        InputPulsingBorderStyle style)
+        IPaletteBorder? paletteBorder,
+        PaletteState state)
     {
-        var forcedPalette = new PaletteBorderInheritForced(paletteBorder);
+        if (paletteBorder == null)
+        {
+            return CreateRoundedRectPath(bounds, 0f);
+        }
 
-        if (style == InputPulsingBorderStyle.All)
-        {
-            forcedPalette.ForceBorderEdges(PaletteDrawBorders.All);
-        }
-        else
-        {
-            float rounding = paletteBorder.GetBorderRounding(state);
-            forcedPalette.ForceBorderEdges(rounding > 0.1f
-                ? PaletteDrawBorders.BottomLeftRight
-                : PaletteDrawBorders.Bottom);
-        }
+        var forcedPalette = new PaletteBorderInheritForced(paletteBorder);
+        forcedPalette.ForceBorderEdges(PaletteDrawBorders.All);
 
         return context.Renderer!.RenderStandardBorder.GetBorderPath(context,
             bounds,
             forcedPalette,
             VisualOrientation.Top,
             state);
+    }
+
+    private static GraphicsPath CreateRoundedRectPath(Rectangle bounds, float rounding)
+    {
+        var path = new GraphicsPath();
+        if (rounding <= 0.1f)
+        {
+            path.AddRectangle(bounds);
+            return path;
+        }
+
+        float radius = Math.Min(rounding, Math.Min(bounds.Width, bounds.Height) / 2f);
+        float diameter = radius * 2f;
+        var rect = new RectangleF(bounds.X, bounds.Y, bounds.Width, bounds.Height);
+        path.AddArc(rect.X, rect.Y, diameter, diameter, 180f, 90f);
+        path.AddArc(rect.Right - diameter, rect.Y, diameter, diameter, 270f, 90f);
+        path.AddArc(rect.Right - diameter, rect.Bottom - diameter, diameter, diameter, 0f, 90f);
+        path.AddArc(rect.X, rect.Bottom - diameter, diameter, diameter, 90f, 90f);
+        path.CloseFigure();
+        return path;
     }
 
     private static void DrawBottomHalo(Graphics g,

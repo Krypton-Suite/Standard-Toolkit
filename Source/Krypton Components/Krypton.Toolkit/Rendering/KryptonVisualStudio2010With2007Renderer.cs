@@ -700,8 +700,6 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
         {
             case ContextMenuStrip _:
             case ToolStripDropDownMenu _:
-                // Make sure the font is current
-                e.ToolStrip.Font = KCT.MenuStripFont;
 
                 // Create border and clipping paths
                 using (GraphicsPath borderPath = CreateBorderPath(e.AffectedBounds, CUT_CONTEXT_MENU),
@@ -724,8 +722,6 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
                 {
                     break;
                 }
-                // Make sure the font is current
-                e.ToolStrip.Font = KCT.StatusStripFont;
 
                 // We do not paint the top two pixel lines, so are drawn by the status strip border render method
                 var backRect = new RectangleF(0, 1.5f, e.ToolStrip.Width, e.ToolStrip.Height - 2);
@@ -757,23 +753,6 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
             }
                 break;
             default:
-                if (e.ToolStrip is MenuStrip)
-                {
-                    // Make sure the font is current
-                    if (e.ToolStrip.Font != KCT.MenuStripFont)
-                    {
-                        e.ToolStrip.Font = KCT.MenuStripFont;
-                    }
-                }
-                else
-                {
-                    // Make sure the font is current
-                    if (e.ToolStrip.Font != KCT.ToolStripFont)
-                    {
-                        e.ToolStrip.Font = KCT.ToolStripFont;
-                    }
-                }
-
                 base.OnRenderToolStripBackground(e);
                 break;
         }
@@ -785,58 +764,8 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
     /// Raises the RenderImageMargin event.
     /// </summary>
     /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
-    protected override void OnRenderImageMargin(ToolStripRenderEventArgs e)
-    {
-        if (e.ToolStrip is ContextMenuStrip or ToolStripDropDownMenu)
-        {
-            // Start with the total margin area
-            Rectangle marginRect = e.AffectedBounds;
-
-            // Do we need to draw with separator on the opposite edge?
-            var rtl = e.ToolStrip.RightToLeft == RightToLeft.Yes;
-
-            marginRect.Y += MARGIN_INSET;
-            marginRect.Height -= MARGIN_INSET * 2;
-
-            // Reduce so it is inside the border
-            if (!rtl)
-            {
-                marginRect.X += MARGIN_INSET;
-            }
-            else
-            {
-                marginRect.X += MARGIN_INSET / 2;
-            }
-
-            // Draw the entire margin area in a solid color
-            using (var backBrush = new SolidBrush(KCT.ContextMenuImageColumnBack))
-            {
-                e.Graphics.FillRectangle(backBrush, marginRect);
-            }
-
-            // Create the light and dark line pens from the color table to match ToolStripDropDownMenu
-            using (Pen lightPen = new Pen(KCT.ContextMenuImageColumnBorder),
-                   darkPen  = new Pen(KCT.ContextMenuImageColumnBorder))
-            {
-                if (!rtl)
-                {
-                    // Draw the light and dark lines on the right hand side
-                    e.Graphics.DrawLine(lightPen, marginRect.Right, marginRect.Top, marginRect.Right, marginRect.Bottom);
-                    e.Graphics.DrawLine(darkPen, marginRect.Right - 1, marginRect.Top, marginRect.Right - 1, marginRect.Bottom);
-                }
-                else
-                {
-                    // Draw the light and dark lines on the left hand side
-                    e.Graphics.DrawLine(lightPen, marginRect.Left - 1, marginRect.Top, marginRect.Left - 1, marginRect.Bottom);
-                    e.Graphics.DrawLine(darkPen, marginRect.Left, marginRect.Top, marginRect.Left, marginRect.Bottom);
-                }
-            }
-        }
-        else
-        {
-            base.OnRenderImageMargin(e);
-        }
-    }
+    protected override void OnRenderImageMargin(ToolStripRenderEventArgs e) =>
+        RenderImageMarginFromColorTable(e, MARGIN_INSET);
     #endregion
 
     #region OnRenderToolStripBorder

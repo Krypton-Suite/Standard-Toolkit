@@ -12,7 +12,7 @@ namespace Krypton.Toolkit;
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public class KryptonColorStorage : Storage
 {
-    public override bool IsDefault { get; }
+    public override bool IsDefault => true;
 
     public void Reset()
     {

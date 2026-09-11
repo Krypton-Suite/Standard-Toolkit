@@ -10,6 +10,7 @@
 		- Krypton.Navigator
 		- Krypton.Navigator.Utilities
 		- Krypton.Ribbon
+		- Krypton.Themes
 		- Krypton.Toolkit
 		- Krypton.Toolkit.JumpList
 		- Krypton.Toolkit.Utilities
@@ -38,7 +39,7 @@
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<NeutralLanguage>en</NeutralLanguage>
 		<DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
-		<Configurations>Debug;Release;Installer;Nightly;Canary</Configurations>
+		<Configurations>Debug;Release;Installer;Nightly;Canary;RC</Configurations>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<Nullable>enable</Nullable>
 		<!--https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/warning-waves-->
@@ -55,7 +56,7 @@
 	<!-- NuGet Package Metadata -->
 	<PropertyGroup>
 		<PackageId>Krypton.Standard.Toolkit</PackageId>
-		<Description>Aggregate package containing Krypton.Docking, Krypton.Interop, Krypton.Navigator, Krypton.Navigator.Utilities, Krypton.Ribbon, Krypton.Toolkit, Krypton.Toolkit.Utilities, and Krypton.Workspace with all reference binaries included.</Description>
+		<Description>Aggregate package containing Krypton.Docking, Krypton.Interop, Krypton.Navigator, Krypton.Navigator.Utilities, Krypton.Ribbon, Krypton.Themes, Krypton.Toolkit, Krypton.Toolkit.Utilities, and Krypton.Workspace with all reference binaries included.</Description>
 		<!-- Additional package metadata (version, authors, license, etc.) is defined in Directory.Build.props and Directory.Build.targets -->
 
 		<!--
@@ -110,6 +111,7 @@
 		<ProjectReference Include="..\Krypton.Navigator.Utilities\Krypton.Navigator.Utilities.csproj" />
 		<ProjectReference Include="..\Krypton.Ribbon\Krypton.Ribbon 2022.csproj" />
 		<ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+		<ProjectReference Include="..\Krypton.Themes\Krypton.Themes.csproj" />
 		<ProjectReference Include="..\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj">
 			<PrivateAssets>All</PrivateAssets>
 		</ProjectReference>
@@ -172,14 +174,14 @@
 		============================================
 	
 		This target runs for each target framework during the Pack operation and includes:
-		1. All referenced DLL files (Krypton.Docking, Krypton.Interop, Krypton.Navigator, Krypton.Ribbon, Krypton.Toolkit, Krypton.Toolkit.Utilities, Krypton.Workspace)
+		1. All referenced DLL files (Krypton.Docking, Krypton.Interop, Krypton.Navigator, Krypton.Ribbon, Krypton.Themes, Krypton.Toolkit, Krypton.Toolkit.JumpList, Krypton.Toolkit.Utilities, Krypton.Workspace)
 		2. XML documentation files for IntelliSense support
 		3. PDB symbol files (only when IncludeSymbols is true, for Nightly/Canary configurations)
 	
 		Target Framework Mapping:
 		- .NET Framework TFMs (net472, net48, net481): Use the TFM as-is in package paths
-		- .NET 8+ Windows TFMs (net8.0-windows, net9.0-windows, net10.0-windows, net11.0-windows): Map to netX.0-windows7.0 format
-		  This mapping is required because NuGet packages use a specific version string format for .NET Core/5+ Windows TFMs
+		- .NET 8+ Windows TFMs (net8.0-windows, net9.0-windows, net10.0-windows, net11.0-windows): use `_KryptonPackageLibFolder` (`netX.0-windows7.0`)
+		  NuGet's short folder name for Windows TFMs; packing as `netX.0-windows` raises NU5128.
 		  Example: net10.0-windows -> net10.0-windows7.0 in the package lib folder
 	
 		Primary lookup: $(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\ (shared output from Directory.Build.targets).
@@ -192,11 +194,7 @@
 		<!-- Map target framework names to package folder names -->
 		<!-- For .NET 8+ Windows TFMs, use the windows7.0 suffix format required by NuGet -->
 		<PropertyGroup>
-			<_LibFolderName Condition="'$(TargetFramework)' == 'net8.0-windows'">net8.0-windows7.0</_LibFolderName>
-			<_LibFolderName Condition="'$(TargetFramework)' == 'net9.0-windows'">net9.0-windows7.0</_LibFolderName>
-			<_LibFolderName Condition="'$(TargetFramework)' == 'net10.0-windows'">net10.0-windows7.0</_LibFolderName>
-			<_LibFolderName Condition="'$(TargetFramework)' == 'net11.0-windows'">net11.0-windows7.0</_LibFolderName>
-			<!-- For .NET Framework TFMs, use the TFM as-is -->
+			<_LibFolderName Condition="'$(_KryptonPackageLibFolder)' != ''">$(_KryptonPackageLibFolder)</_LibFolderName>
 			<_LibFolderName Condition="'$(_LibFolderName)' == ''">$(TargetFramework)</_LibFolderName>
 			<!-- Directory.Build.targets: shared Bin\ or artifacts\bin\ (see KryptonBuildOutputRoot). Prefer this over per-project bin\ so pack never picks stale partial outputs. -->
 			<_KryptonPackLibDir>$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\</_KryptonPackLibDir>
@@ -227,6 +225,12 @@
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\Krypton.Ribbon\bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.dll" Condition="!Exists('$(_KryptonPackLibDir)Krypton.Ribbon.dll') And Exists('..\Krypton.Ribbon\bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.dll')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Themes.dll" Condition="Exists('$(_KryptonPackLibDir)Krypton.Themes.dll')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="..\Krypton.Themes\bin\$(Configuration)\$(TargetFramework)\Krypton.Themes.dll" Condition="!Exists('$(_KryptonPackLibDir)Krypton.Themes.dll') And Exists('..\Krypton.Themes\bin\$(Configuration)\$(TargetFramework)\Krypton.Themes.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Toolkit.dll" Condition="Exists('$(_KryptonPackLibDir)Krypton.Toolkit.dll')">
@@ -308,6 +312,12 @@
 			<TfmSpecificPackageFile Include="..\Krypton.Ribbon\bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.xml" Condition="!Exists('$(_KryptonPackLibDir)Krypton.Ribbon.xml') And Exists('..\Krypton.Ribbon\bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Themes.xml" Condition="Exists('$(_KryptonPackLibDir)Krypton.Themes.xml')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="..\Krypton.Themes\bin\$(Configuration)\$(TargetFramework)\Krypton.Themes.xml" Condition="!Exists('$(_KryptonPackLibDir)Krypton.Themes.xml') And Exists('..\Krypton.Themes\bin\$(Configuration)\$(TargetFramework)\Krypton.Themes.xml')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Toolkit.xml" Condition="Exists('$(_KryptonPackLibDir)Krypton.Toolkit.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
@@ -364,6 +374,12 @@
 			<TfmSpecificPackageFile Include="..\Krypton.Ribbon\bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.pdb" Condition="'$(IncludeSymbols)' == 'true' And !Exists('$(_KryptonPackLibDir)Krypton.Ribbon.pdb') And Exists('..\Krypton.Ribbon\bin\$(Configuration)\$(TargetFramework)\Krypton.Ribbon.pdb')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Themes.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('$(_KryptonPackLibDir)Krypton.Themes.pdb')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="..\Krypton.Themes\bin\$(Configuration)\$(TargetFramework)\Krypton.Themes.pdb" Condition="'$(IncludeSymbols)' == 'true' And !Exists('$(_KryptonPackLibDir)Krypton.Themes.pdb') And Exists('..\Krypton.Themes\bin\$(Configuration)\$(TargetFramework)\Krypton.Themes.pdb')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Toolkit.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('$(_KryptonPackLibDir)Krypton.Toolkit.pdb')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
@@ -393,6 +409,35 @@
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\Krypton.Workspace\bin\$(Configuration)\$(TargetFramework)\Krypton.Workspace.pdb" Condition="'$(IncludeSymbols)' == 'true' And !Exists('$(_KryptonPackLibDir)Krypton.Workspace.pdb') And Exists('..\Krypton.Workspace\bin\$(Configuration)\$(TargetFramework)\Krypton.Workspace.pdb')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+
+			<!-- WinForms Designer Extensibility SDK (issue #593): DesignToolsServer + VS client assemblies. -->
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Toolkit.Design.dll" Condition="!$(TargetFramework.StartsWith('net4')) And Exists('$(_KryptonPackLibDir)Krypton.Toolkit.Design.dll')">
+				<PackagePath>lib\$(_LibFolderName)\Design\WinForms\Server\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Ribbon.Design.dll" Condition="!$(TargetFramework.StartsWith('net4')) And Exists('$(_KryptonPackLibDir)Krypton.Ribbon.Design.dll')">
+				<PackagePath>lib\$(_LibFolderName)\Design\WinForms\Server\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Navigator.Design.dll" Condition="!$(TargetFramework.StartsWith('net4')) And Exists('$(_KryptonPackLibDir)Krypton.Navigator.Design.dll')">
+				<PackagePath>lib\$(_LibFolderName)\Design\WinForms\Server\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Workspace.Design.dll" Condition="!$(TargetFramework.StartsWith('net4')) And Exists('$(_KryptonPackLibDir)Krypton.Workspace.Design.dll')">
+				<PackagePath>lib\$(_LibFolderName)\Design\WinForms\Server\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Toolkit.Utilities.Design.dll" Condition="!$(TargetFramework.StartsWith('net4')) And Exists('$(_KryptonPackLibDir)Krypton.Toolkit.Utilities.Design.dll')">
+				<PackagePath>lib\$(_LibFolderName)\Design\WinForms\Server\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Navigator.Utilities.Design.dll" Condition="!$(TargetFramework.StartsWith('net4')) And Exists('$(_KryptonPackLibDir)Krypton.Navigator.Utilities.Design.dll')">
+				<PackagePath>lib\$(_LibFolderName)\Design\WinForms\Server\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Toolkit.Design.Protocol.dll" Condition="!$(TargetFramework.StartsWith('net4')) And Exists('$(_KryptonPackLibDir)Krypton.Toolkit.Design.Protocol.dll')">
+				<PackagePath>lib\$(_LibFolderName)\Design\WinForms\Server\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(KryptonBuildOutputRoot)$(Configuration)\net472\Krypton.Toolkit.Design.Client.dll" Condition="!$(TargetFramework.StartsWith('net4')) And Exists('$(KryptonBuildOutputRoot)$(Configuration)\net472\Krypton.Toolkit.Design.Client.dll')">
+				<PackagePath>lib\$(_LibFolderName)\Design\WinForms\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(KryptonBuildOutputRoot)$(Configuration)\net472\Krypton.Toolkit.Design.Protocol.dll" Condition="!$(TargetFramework.StartsWith('net4')) And Exists('$(KryptonBuildOutputRoot)$(Configuration)\net472\Krypton.Toolkit.Design.Protocol.dll')">
+				<PackagePath>lib\$(_LibFolderName)\Design\WinForms\</PackagePath>
 			</TfmSpecificPackageFile>
 
 		</ItemGroup>

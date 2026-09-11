@@ -12,7 +12,8 @@
 
 namespace Krypton.Toolkit;
 
-[ToolboxBitmap(typeof(ToolStrip), "ToolboxBitmaps.KryptonToolStrip.bmp")]
+[ToolboxBitmap(typeof(KryptonToolStrip), "ToolboxBitmaps.KryptonToolStrip.bmp")]
+[Category(@"Krypton Toolkit")]
 [Description(@"A standard tool strip equipped with the Krypton theme.")]
 [ToolboxItem(true)]
 public class KryptonToolStrip : ToolStrip,

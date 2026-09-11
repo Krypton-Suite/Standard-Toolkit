@@ -31,6 +31,7 @@ public class KryptonContextMenuCollection : TypedRestrictCollection<KryptonConte
         typeof(KryptonContextMenuColorColumns),
         typeof(KryptonContextMenuMonthCalendar),
         typeof(KryptonContextMenuImageSelect),
+        typeof(KryptonContextMenuGallery),
         typeof(KryptonContextMenuTextBox),
         typeof(KryptonContextMenuComboBox),
         typeof(KryptonContextMenuProgressBar)
@@ -219,6 +220,7 @@ public class KryptonContextMenuItemCollection : TypedRestrictCollection<KryptonC
         typeof(KryptonContextMenuColorColumns),
         typeof(KryptonContextMenuMonthCalendar),
         typeof(KryptonContextMenuImageSelect),
+        typeof(KryptonContextMenuGallery),
         typeof(KryptonContextMenuTextBox),
         typeof(KryptonContextMenuComboBox),
         typeof(KryptonContextMenuProgressBar)

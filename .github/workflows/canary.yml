@@ -288,6 +288,15 @@ jobs:
           . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
           Test-KryptonInteropInPackages -Configuration Canary -MinimumMajorVersion 110 -SkipIfInteropProjectMissing
 
+      - name: Verify WinForms Designer SDK in NuGet packages
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && steps.krypton_major_version.outputs.major >= 110
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonDesignerSdkInPackages.ps1')
+          Test-KryptonDesignerSdkInPackages -Configuration Canary -MinimumMajorVersion 110 -SkipIfDesignerSdkProjectMissing
+
       - name: Save NuGet cache
         if: success() && steps.canary_release_kill_switch.outputs.enabled == 'true'
         uses: actions/cache/save@v6
@@ -418,10 +427,15 @@ jobs:
             exit 0
           }
 
+          $sha = (git rev-parse HEAD).Trim()
+          $shortSha = $sha.Substring(0, [Math]::Min(7, $sha.Length))
+          $commitUrl = "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/commit/$sha"
+
           $payload = @{
             embeds = @(
               @{
                 title = "🐤 Krypton Toolkit Canary Release"
+                url = $commitUrl
                 description = "A new canary pre-release is now available for early testing!"
                 color = 16776960
                 fields = @(
@@ -431,8 +445,13 @@ jobs:
                     inline = $true
                   }
                   @{
+                    name = "🔗 Commit"
+                    value = "[``$shortSha``]($commitUrl)"
+                    inline = $true
+                  }
+                  @{
                     name = "📦 NuGet Packages"
-                    value = "• [Krypton.Toolkit.Canary](https://www.nuget.org/packages/Krypton.Toolkit.Canary)`n• [Krypton.Ribbon.Canary](https://www.nuget.org/packages/Krypton.Ribbon.Canary)`n• [Krypton.Navigator.Canary](https://www.nuget.org/packages/Krypton.Navigator.Canary)`n• [Krypton.Workspace.Canary](https://www.nuget.org/packages/Krypton.Workspace.Canary)`n• [Krypton.Docking.Canary](https://www.nuget.org/packages/Krypton.Docking.Canary)`n• [Krypton.Standard.Toolkit.Canary](https://www.nuget.org/packages/Krypton.Standard.Toolkit.Canary)"
+                    value = "• [Krypton.Toolkit.Canary](https://www.nuget.org/packages/Krypton.Toolkit.Canary)`n• [Krypton.Themes.Canary](https://www.nuget.org/packages/Krypton.Themes.Canary)`n• [Krypton.Ribbon.Canary](https://www.nuget.org/packages/Krypton.Ribbon.Canary)`n• [Krypton.Navigator.Canary](https://www.nuget.org/packages/Krypton.Navigator.Canary)`n• [Krypton.Workspace.Canary](https://www.nuget.org/packages/Krypton.Workspace.Canary)`n• [Krypton.Docking.Canary](https://www.nuget.org/packages/Krypton.Docking.Canary)`n• [Krypton.Standard.Toolkit.Canary](https://www.nuget.org/packages/Krypton.Standard.Toolkit.Canary)"
                     inline = $false
                   }
                   @{

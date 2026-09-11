@@ -12,8 +12,10 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// A Krypton based menu strip.
 /// </summary>
-[ToolboxBitmap(typeof(MenuStrip), "ToolboxBitmaps.KryptonMenuBar.bmp")]
+[ToolboxBitmap(typeof(KryptonMenuStrip), "ToolboxBitmaps.KryptonMenuBar.bmp")]
+[Category(@"Krypton Toolkit")]
 [Description(@"A Krypton based menu strip.")]
+[Designer("System.Windows.Forms.Design.MenuStripDesigner, System.Design")]
 [DesignerCategory(@"code")]
 [ToolboxItem(true)]
 public class KryptonMenuStrip : MenuStrip,
@@ -209,6 +211,15 @@ public class KryptonMenuStrip : MenuStrip,
     public PaletteBack StateNormal => _stateNormal;
 
     private bool ShouldSerializeStateNormal() => !_stateNormal.IsDefault;
+
+    /// <summary>
+    /// Creates caption <see cref="ButtonSpecAny"/> instances for this strip's top-level items.
+    /// Assign the strip to <see cref="KryptonFormTitleBar.MenuStrip"/> for a live bind instead of copying.
+    /// </summary>
+    /// <param name="showDropArrow">Whether drop-down caption buttons show a drop glyph.</param>
+    /// <returns>Newly created specs. Clicks forward to the original menu items.</returns>
+    public ButtonSpecAny[] CreateTitleBarButtonSpecs(bool showDropArrow = false) =>
+        KryptonFormTitleBar.CreateButtonSpecsFrom(this, showDropArrow);
 
     #endregion
 

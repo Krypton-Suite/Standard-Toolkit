@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -59,14 +59,9 @@ internal sealed class ViewDecoratorInputGlow : ViewDecorator
         }
 
         InputPulsingBorderValues values = _provider.Values;
-        IPaletteTriple tripleState = _provider.GetGlowingBorderTripleState();
+        IPaletteTriple? tripleState = _provider.GetGlowingBorderTripleState();
         PaletteState state = _provider.GetGlowingBorderState();
-        IPaletteBorder? paletteBorder = tripleState.PaletteBorder;
-
-        if (paletteBorder == null)
-        {
-            return;
-        }
+        IPaletteBorder? paletteBorder = tripleState?.PaletteBorder;
 
         InputPulsingBorderRenderer.Draw(context,
             bounds,

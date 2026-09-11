@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <NoWarn>$(NoWarn);WFO5002</NoWarn>
     <OutputType>WinExe</OutputType>
     <!-- Jump list COM (CustomDestinationList) requires matching process architecture. Target x64 on 64-bit Windows to avoid REGDB_E_CLASSNOTREG. -->
     <PlatformTarget>x64</PlatformTarget>
@@ -30,12 +31,15 @@
     <ProjectReference Include="..\Krypton.Ribbon\Krypton.Ribbon 2022.csproj" />
     <ProjectReference Include="..\Krypton.Toolkit.JumpList\Krypton.Toolkit.JumpList.csproj" />
     <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+    <ProjectReference Include="..\Krypton.Themes\Krypton.Themes.csproj" />
+    <!--<ProjectReference Include="..\..\TestHarnesses\ThemeProviderSample\ThemeProviderSample.csproj" />-->
     <ProjectReference Include="..\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj" />
     <ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
   </ItemGroup>
 
   <!-- WebView2: prefer Lib/WebView2 (matches Krypton.Toolkit.Utilities), fallback to NuGet when DLLs missing -->
   <PropertyGroup>
+    <NoWarn>$(NoWarn);WFO5002</NoWarn>
     <WebView2LibPath>$(MSBuildThisFileDirectory)..\Krypton.Toolkit.Utilities\Lib\WebView2</WebView2LibPath>
     <WebView2CoreDll>$(WebView2LibPath)\Microsoft.Web.WebView2.Core.dll</WebView2CoreDll>
     <WebView2WinFormsDll>$(WebView2LibPath)\Microsoft.Web.WebView2.WinForms.dll</WebView2WinFormsDll>
@@ -58,22 +62,34 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Update="KryptonTaskDialogDemo\DemoDialogs\KryptonTaskDialogDemoForm.ProgressBar1.cs">
+    <Compile Update="KryptonToolkit\Feature\KryptonTaskDialogDemo\DemoDialogs\KryptonTaskDialogDemoForm.ProgressBar1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="KryptonTaskDialogDemo\DemoDialogs\KryptonTaskDialogDemoFormFreeWheeler1.cs">
+    <Compile Update="KryptonToolkit\Feature\KryptonTaskDialogDemo\DemoDialogs\KryptonTaskDialogDemoFormFreeWheeler1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="KryptonTaskDialogDemo\DemoDialogs\KryptonTaskDialogDemoForm.CommandLinkButtons1.cs">
+    <Compile Update="KryptonToolkit\Feature\KryptonTaskDialogDemo\DemoDialogs\KryptonTaskDialogDemoForm.CommandLinkButtons1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="KryptonTaskDialogDemo\DemoDialogs\KryptonTaskDialogDemoForm.MessageBox2.cs">
+    <Compile Update="KryptonToolkit\Feature\KryptonTaskDialogDemo\DemoDialogs\KryptonTaskDialogDemoForm.MessageBox2.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="KryptonTaskDialogDemo\KryptonTaskDialogDemoResources.Designer.cs">
+    <Compile Update="KryptonToolkit\Feature\KryptonTaskDialogDemo\KryptonTaskDialogDemoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonToolkit\Feature\KryptonTaskDialogDemo\KryptonTaskDialogDemoForm.Designer.cs">
+      <DependentUpon>KryptonTaskDialogDemoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Update="KryptonToolkit\Feature\KryptonTaskDialogDemo\KryptonTaskDialogDemoResources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>KryptonTaskDialogDemoResources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="KryptonWorkspace\Feature\WorkspaceRtlDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonWorkspace\Feature\WorkspaceRtlDemo.Designer.cs">
+      <DependentUpon>WorkspaceRtlDemo.cs</DependentUpon>
     </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -113,6 +129,9 @@
     <Compile Update="KryptonCheckedListComboBoxDemo.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="KryptonMultiColumnComboBoxDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="KryptonDropZoneDemo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -122,8 +141,17 @@
     <Compile Update="Feature3851RenderingDpiDemo.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="KryptonToolkit\Feature\BorderlessMdiHostDemo.Designer.cs">
+      <DependentUpon>BorderlessMdiHostDemo.cs</DependentUpon>
+    </Compile>
     <Compile Update="Feature3851RenderingDpiDemo.Designer.cs">
       <DependentUpon>Feature3851RenderingDpiDemo.cs</DependentUpon>
+    </Compile>
+    <Compile Update="KryptonToolkit\Feature\WinFormsDesignerSdkDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonToolkit\Feature\WinFormsDesignerSdkDemo.Designer.cs">
+      <DependentUpon>WinFormsDesignerSdkDemo.cs</DependentUpon>
     </Compile>
   </ItemGroup>
 
@@ -131,9 +159,19 @@
     <EmbeddedResource Update="Bug3381KryptonButtonRoundedTextCenteringDemo.resx">
       <DependentUpon>Bug3381KryptonButtonRoundedTextCenteringDemo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Update="KryptonTaskDialogDemo\KryptonTaskDialogDemoResources.resx">
+    <EmbeddedResource Update="KryptonToolkit\Feature\BorderlessFormDemo.resx">
+      <DependentUpon>BorderlessFormDemo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="KryptonToolkit\Feature\BorderlessMdiHostDemo.resx">
+      <DependentUpon>BorderlessMdiHostDemo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="KryptonToolkit\Feature\KryptonTaskDialogDemo\KryptonTaskDialogDemoForm.resx">
+      <DependentUpon>KryptonTaskDialogDemoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="KryptonToolkit\Feature\KryptonTaskDialogDemo\KryptonTaskDialogDemoResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>KryptonTaskDialogDemoResources.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>TestForm.KryptonToolkit.Feature.KryptonTaskDialogDemo</CustomToolNamespace>
     </EmbeddedResource>
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -150,7 +188,7 @@
   <ItemGroup>
     <None Include="app.manifest" />
     <None Include="App.config" />
-    <None Include="KryptonTaskDialogDemo\DemoDialogs\KryptonTaskDialogDemoForm.CommandLinkButtons1.cs" />
+    <None Include="KryptonToolkit\Feature\KryptonTaskDialogDemo\DemoDialogs\KryptonTaskDialogDemoForm.CommandLinkButtons1.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -165,6 +203,16 @@
     <PackageReference Include="Bogus" Version="35.6.5" />
     <PackageReference Include="Cyotek.Windows.Forms.ColorPicker" Version="2.0.0-beta.7" />
     <PackageReference Include="System.Private.Uri" Version="4.3.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="KryptonNavigator\Bugs\" />
+    <Folder Include="KryptonNavigator\Feature\" />
+    <Folder Include="KryptonRibbon\Bugs\" />
+    <Folder Include="KryptonRibbon\Feature\" />
+    <Folder Include="KryptonUtilities\Bugs\" />
+    <Folder Include="KryptonUtilities\Feature\" />
+    <Folder Include="KryptonWorkspace\Bugs\" />
   </ItemGroup>
 
 </Project>

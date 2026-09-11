@@ -114,6 +114,8 @@ internal sealed class KryptonDialogProviderContext
 internal interface IKryptonDialogProvider
 {
     KryptonDialogResult ShowDialog(KryptonDialogProviderContext context);
+
+    Task<KryptonDialogResult> ShowDialogAsync(KryptonDialogProviderContext context);
 }
 
 internal static class KryptonDialogProviderFactory
@@ -140,6 +142,12 @@ internal sealed class NativeKryptonDialogProvider : IKryptonDialogProvider
         result.DialogResult = dialogResult;
         return result;
     }
+
+    /// <summary>
+    /// Awaitable wrapper around nested-modal native ShowDialog (UI remains blocked until close).
+    /// </summary>
+    public Task<KryptonDialogResult> ShowDialogAsync(KryptonDialogProviderContext context) =>
+        Task.FromResult(ShowDialog(context));
 }
 
 internal sealed class CustomKryptonDialogProvider : IKryptonDialogProvider
@@ -154,5 +162,17 @@ internal sealed class CustomKryptonDialogProvider : IKryptonDialogProvider
     {
         using var dialog = new VisualCustomFileDialogForm(context);
         return dialog.ShowProviderDialog();
+    }
+
+    public Task<KryptonDialogResult> ShowDialogAsync(KryptonDialogProviderContext context)
+    {
+        return ShowProviderDialogAsync(context);
+    }
+
+    private static async Task<KryptonDialogResult> ShowProviderDialogAsync(KryptonDialogProviderContext context)
+    {
+        using var dialog = new VisualCustomFileDialogForm(context);
+        // Await required so using does not dispose the dialog before it completes.
+        return await dialog.ShowProviderDialogAsync().ConfigureAwait(false);
     }
 }

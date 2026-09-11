@@ -50,14 +50,14 @@ internal partial class VisualToastNUDUserInputRtlAwareForm : VisualToastBaseForm
 
     private void UpdateBorderColors()
     {
-        StateCommon!.Border.Color1 = _data.BorderColor1 ?? GlobalStaticValues.EMPTY_COLOR;
+        StateCommon!.Border.Color1 = _data.BorderColor1 ?? SharedStaticVariables.EMPTY_COLOR;
 
-        StateCommon!.Border.Color2 = _data.BorderColor2 ?? GlobalStaticValues.EMPTY_COLOR;
+        StateCommon!.Border.Color2 = _data.BorderColor2 ?? SharedStaticVariables.EMPTY_COLOR;
     }
 
     private void UpdateText()
     {
-        GlobalStaticValues.ApplyToastRichTextContentColor(krtbNotificationContentText);
+        CommonFeatures.ApplyToastRichTextContentColor(krtbNotificationContentText);
 
         klblHeader.Text = _data.NotificationTitle;
 
@@ -229,5 +229,19 @@ internal partial class VisualToastNUDUserInputRtlAwareForm : VisualToastBaseForm
         }
     }
 
-    #endregion
+    
+    internal static async Task<decimal> ShowNotificationAsync(KryptonUserInputToastData data)
+    {
+        var owner = data.ToastHost ?? FromHandle(PI.GetActiveWindow());
+
+        using var toast = new VisualToastNUDUserInputRtlAwareForm(data);
+
+        toast.StartPosition = owner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
+
+        // Await required so using does not dispose the form before the dialog completes.
+        DialogResult result = await KryptonFormAsync.ShowDialogAsync(toast, owner).ConfigureAwait(false);
+
+        return result == DialogResult.OK ? toast.UserResponse : 0;
+    }
+#endregion
 }

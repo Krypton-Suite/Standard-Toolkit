@@ -87,9 +87,10 @@ public partial class InternalSearchableExceptionTreeView : UserControl
         kietvException.Populate(exception);
         _originalNodes.Clear();
 
-        foreach (KryptonTreeNode node in kietvException.Nodes)
+        // TreeNode.Clone() returns TreeNode, not KryptonTreeNode — copy explicitly.
+        foreach (TreeNode node in kietvException.Nodes)
         {
-            _originalNodes.Add((KryptonTreeNode)node.Clone());
+            _originalNodes.Add(CloneAsKryptonNode(node));
         }
     }
 
@@ -107,7 +108,7 @@ public partial class InternalSearchableExceptionTreeView : UserControl
             // Reset: restore all original nodes
             foreach (KryptonTreeNode original in _originalNodes)
             {
-                kietvException.Nodes.Add((KryptonTreeNode)original.Clone());
+                kietvException.Nodes.Add(CloneAsKryptonNode(original));
             }
 
             // Reset label and styling
@@ -157,7 +158,8 @@ public partial class InternalSearchableExceptionTreeView : UserControl
 
         // Auto-select match or fallback
         var firstMatch = kietvException.Nodes
-            .Cast<KryptonTreeNode>()
+            .Cast<TreeNode>()
+            .OfType<KryptonTreeNode>()
             .SelectMany(FlattenTree)
             .FirstOrDefault(n => n.BackColor == _highlightColor);
 
@@ -171,11 +173,14 @@ public partial class InternalSearchableExceptionTreeView : UserControl
     {
         yield return root;
 
-        foreach (KryptonTreeNode child in root.Nodes)
+        foreach (TreeNode child in root.Nodes)
         {
-            foreach (var descendant in FlattenTree(child))
+            if (child is KryptonTreeNode kryptonChild)
             {
-                yield return descendant;
+                foreach (var descendant in FlattenTree(kryptonChild))
+                {
+                    yield return descendant;
+                }
             }
         }
     }
@@ -183,12 +188,17 @@ public partial class InternalSearchableExceptionTreeView : UserControl
     private KryptonTreeNode? FilterAndCloneNode(KryptonTreeNode node, string searchQuery, ref int matchCount)
     {
         bool isMatch = node.Text.ToLowerInvariant().Contains(searchQuery);
-        KryptonTreeNode clone = (KryptonTreeNode)node.Clone();
+        KryptonTreeNode clone = CloneAsKryptonNode(node);
         clone.Nodes.Clear();
 
-        foreach (KryptonTreeNode child in node.Nodes)
+        foreach (TreeNode child in node.Nodes)
         {
-            KryptonTreeNode? filteredChild = FilterAndCloneNode(child, searchQuery, ref matchCount);
+            if (child is not KryptonTreeNode kryptonChild)
+            {
+                continue;
+            }
+
+            KryptonTreeNode? filteredChild = FilterAndCloneNode(kryptonChild, searchQuery, ref matchCount);
             if (filteredChild != null)
             {
                 clone.Nodes.Add(filteredChild);
@@ -215,6 +225,36 @@ public partial class InternalSearchableExceptionTreeView : UserControl
         }
 
         return null;
+    }
+
+    /// <summary>
+    /// <see cref="TreeNode.Clone"/> always returns a <see cref="TreeNode"/>, even when the source is a
+    /// <see cref="KryptonTreeNode"/>. Copy properties and children into a real <see cref="KryptonTreeNode"/>.
+    /// </summary>
+    private static KryptonTreeNode CloneAsKryptonNode(TreeNode source)
+    {
+        if (source is KryptonTreeNode krypton)
+        {
+            return (KryptonTreeNode)krypton.Clone();
+        }
+
+        var clone = new KryptonTreeNode(source.Text)
+        {
+            Tag = source.Tag,
+            ToolTipText = source.ToolTipText,
+            BackColor = source.BackColor,
+            ForeColor = source.ForeColor,
+            NodeFont = source.NodeFont,
+            ImageIndex = source.ImageIndex,
+            SelectedImageIndex = source.SelectedImageIndex
+        };
+
+        foreach (TreeNode child in source.Nodes)
+        {
+            clone.Nodes.Add(CloneAsKryptonNode(child));
+        }
+
+        return clone;
     }
 
     protected override void OnPaint(PaintEventArgs e)

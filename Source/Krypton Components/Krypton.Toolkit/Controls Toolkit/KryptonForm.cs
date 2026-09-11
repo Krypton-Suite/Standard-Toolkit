@@ -40,7 +40,6 @@ public class KryptonForm : VisualForm,
 
 		public override PaletteRelativeAlign GetContentShortTextH(PaletteContentStyle style, PaletteState state)
 		{
-			// Handle header styles
 			if (style is PaletteContentStyle.HeaderForm
 				or PaletteContentStyle.HeaderPrimary
 				or PaletteContentStyle.HeaderDockInactive
@@ -50,15 +49,8 @@ public class KryptonForm : VisualForm,
 				or PaletteContentStyle.HeaderCustom2
 				or PaletteContentStyle.HeaderCustom3)
 			{
-				// RTL caption reading order (physical left → right):
-				// [Control box] [TextExtra] [Title] [Icon]
-				// Title is Far so it sits on the physical right, immediately before the icon.
-				if (_kryptonForm.RightToLeft == RightToLeft.Yes && _kryptonForm.RightToLeftLayout)
-				{
-					return PaletteRelativeAlign.Far;
-				}
-
-				// Use custom title align if set, otherwise use base
+				// Palette Near/Far is logical. RenderStandard.RightToLeftIndex maps them to
+				// physical cells, so do not invert here (that put the icon on the leading edge).
 				return _kryptonForm._formTitleAlign != PaletteRelativeAlign.Inherit
 					? _kryptonForm._formTitleAlign
 					: base.GetContentShortTextH(style, state);
@@ -67,110 +59,84 @@ public class KryptonForm : VisualForm,
 			return base.GetContentShortTextH(style, state);
 		}
 
-		public override PaletteRelativeAlign GetContentLongTextH(PaletteContentStyle style, PaletteState state)
+		/// <inheritdoc/>
+		public override Padding GetBorderContentPadding(KryptonForm? owningForm, PaletteContentStyle style, PaletteState state)
 		{
-			// Handle header styles
-			if (style is PaletteContentStyle.HeaderForm
-				or PaletteContentStyle.HeaderPrimary
-				or PaletteContentStyle.HeaderDockInactive
-				or PaletteContentStyle.HeaderDockActive
-				or PaletteContentStyle.HeaderSecondary
-				or PaletteContentStyle.HeaderCustom1
-				or PaletteContentStyle.HeaderCustom2
-				or PaletteContentStyle.HeaderCustom3)
-			{
-				// TextExtra uses Near so it follows the control box on the physical left in RTL.
-				if (_kryptonForm.RightToLeft == RightToLeft.Yes && _kryptonForm.RightToLeftLayout)
-				{
-					return PaletteRelativeAlign.Near;
-				}
-			}
-
-			return base.GetContentLongTextH(style, state);
+			Padding padding = base.GetBorderContentPadding(owningForm, style, state);
+			return style == PaletteContentStyle.HeaderForm
+				? CommonHelper.GetFormHeaderContentPadding(_kryptonForm, padding)
+				: padding;
 		}
 
-		public override PaletteRelativeAlign GetContentImageH(PaletteContentStyle style, PaletteState state)
+		/// <inheritdoc/>
+		public override int GetContentAdjacentGap(PaletteContentStyle style, PaletteState state)
 		{
-			// Icon uses Far in RTL so it anchors on the physical right of the caption.
-			if (_kryptonForm.RightToLeft == RightToLeft.Yes && _kryptonForm.RightToLeftLayout)
+			int gap = base.GetContentAdjacentGap(style, state);
+			if (style != PaletteContentStyle.HeaderForm
+				|| !_kryptonForm.UsesRtlFormButtonLayout()
+				|| gap < 0)
 			{
-				return style switch
-				{
-					PaletteContentStyle.HeaderForm
-						or PaletteContentStyle.HeaderPrimary
-						or PaletteContentStyle.HeaderDockInactive
-						or PaletteContentStyle.HeaderDockActive
-						or PaletteContentStyle.HeaderSecondary
-						or PaletteContentStyle.HeaderCustom1
-						or PaletteContentStyle.HeaderCustom2
-						or PaletteContentStyle.HeaderCustom3 => PaletteRelativeAlign.Far,
-					_ => base.GetContentImageH(style, state)
-				};
+				return gap;
 			}
 
-			return base.GetContentImageH(style, state);
+			return Math.Max(gap, 4);
 		}
 
-        /// <inheritdoc/>
-        /// <remarks>
-        /// <para>
-        /// Form window button placement is resolved in two stages:
-        /// </para>
-        /// <list type="number">
-        /// <item>
-        /// <description>
-        /// <b>Palette edge</b> (<see cref="PaletteRelativeEdgeAlign"/> Near/Far) — which side of the
-        /// caption docker the buttons belong on. Office/Microsoft palettes declare Far; macOS palettes
-        /// declare Near for traffic-light glyphs.
-        /// </description>
-        /// </item>
-        /// <item>
-        /// <description>
-        /// <b>View dock</b> — <see cref="ButtonSpecManagerBase"/> maps that edge to
-        /// <see cref="ViewDockStyle"/> Left/Right. Custom form chrome does not rely on
-        /// <see cref="ViewDrawDocker.CalculateDock"/> mirroring for Far-edge buttons in RTL, so this
-        /// redirector remaps palette Far → Near when RTL is active (issue #3786).
-        /// </description>
-        /// </item>
-        /// </list>
-        /// <para>
-        /// Collection order (<see cref="SyncFormFixedButtonSpecOrder"/>) is separate from edge placement:
-        /// the same [min, max, close] collection yields Min → Max → Close in LTR (right side) and
-        /// Close → Max → Min in RTL (left side) because the docker inserts each spec before the caption
-        /// spacer and lays out mirrored edges differently.
-        /// </para>
-        /// </remarks>
-        public override PaletteRelativeEdgeAlign GetButtonSpecEdge(PaletteButtonSpecStyle style)
-        {
-            // Per-form override wins (e.g. macOS palette with FormTrafficLightEdge = Far keeps a
-            // Windows-style control box on the Far side without the RTL Far→Near remap below).
-            if (_kryptonForm._formTrafficLightEdge != PaletteRelativeEdgeAlign.Inherit && IsFormWindowButtonSpecStyle(style))
-            {
-                return _kryptonForm._formTrafficLightEdge;
-            }
+		/// <inheritdoc/>
+		/// <remarks>
+		/// <para>
+		/// Form window button placement is resolved in two stages:
+		/// </para>
+		/// <list type="number">
+		/// <item>
+		/// <description>
+		/// <b>Palette edge</b> (<see cref="PaletteRelativeEdgeAlign"/> Near/Far) — which side of the
+		/// caption docker the buttons belong on. Office/Microsoft palettes declare Far; macOS palettes
+		/// declare Near for traffic-light glyphs.
+		/// </description>
+		/// </item>
+		/// <item>
+		/// <description>
+		/// <b>View dock</b> — <see cref="ButtonSpecManagerBase"/> maps that edge to
+		/// <see cref="ViewDockStyle"/> Left/Right. <see cref="ViewDrawDocker.CalculateDock"/> then
+		/// flips Left/Right when RTL layout is active. Non-client chrome is painted in physical
+		/// coordinates (issue #2103), so Far-edge (Windows) buttons rely on that flip to land on
+		/// the physical left. Native Near-edge (traffic light) buttons would be flipped to the
+		/// physical right; this redirector maps Near → Far in RTL so they stay on the left.
+		/// </description>
+		/// </item>
+		/// </list>
+		/// <para>
+		/// Collection order (<see cref="SyncFormFixedButtonSpecOrder"/>) is separate from edge placement:
+		/// the same [min, max, close] collection yields Min → Max → Close in LTR (right side) and
+		/// Close → Max → Min in RTL (left side) because the docker inserts each spec before the caption
+		/// spacer and lays out mirrored edges differently.
+		/// </para>
+		/// </remarks>
+		public override PaletteRelativeEdgeAlign GetButtonSpecEdge(PaletteButtonSpecStyle style)
+		{
+			var edge = _kryptonForm._formTrafficLightEdge != PaletteRelativeEdgeAlign.Inherit && IsFormWindowButtonSpecStyle(style)
+				? _kryptonForm._formTrafficLightEdge
+				: base.GetButtonSpecEdge(style);
 
-            var edge = base.GetButtonSpecEdge(style);
+			if (!IsFormWindowButtonSpecStyle(style)
+				|| !_kryptonForm.UsesRtlFormButtonLayout())
+			{
+				return edge;
+			}
 
-            if (!IsFormWindowButtonSpecStyle(style)
-                || !_kryptonForm.UsesRtlFormButtonLayout())
-            {
-                return edge;
-            }
+			// CalculateDock flips Left/Right. Near (traffic lights) would land on the physical
+			// right; map Near→Far so they dock Right then flip back to the physical left.
+			return edge == PaletteRelativeEdgeAlign.Near
+				? PaletteRelativeEdgeAlign.Far
+				: edge;
+		}
+	}
 
-            // Standard palettes: FormClose/Min/Max are Far in LTR (physical right).
-            // In RTL the control box must move to the physical left (leading edge). Remap Far→Near
-            // so ButtonSpecManagerDraw docks Left. Do not remap native Near-edge palettes (macOS
-            // traffic lights) — they must stay on the physical left in both LTR and RTL.
-            return edge == PaletteRelativeEdgeAlign.Far
-                ? PaletteRelativeEdgeAlign.Near
-                : edge;
-        }
-    }
-
-    /// <summary>
-    /// Collection for managing ButtonSpecAny instances.
-    /// </summary>
-    public class FormButtonSpecCollection : ButtonSpecCollection<ButtonSpecAny>
+	/// <summary>
+	/// Collection for managing ButtonSpecAny instances.
+	/// </summary>
+	public class FormButtonSpecCollection : ButtonSpecCollection<ButtonSpecAny>
 	{
 		#region Identity
 		/// <summary>
@@ -205,6 +171,7 @@ public class KryptonForm : VisualForm,
 
 	#region Static Fields
 	private static readonly Size CAPTION_ICON_SIZE = new Size(16, 16);
+	private static readonly Padding DefaultCaptionIconPadding = new Padding(2);
 
 	private const int HT_CORNER = 8;
 
@@ -229,6 +196,7 @@ public class KryptonForm : VisualForm,
 	private HeaderStyle _headerStyle;
 	private PaletteRelativeAlign _formTitleAlign;
 	private PaletteRelativeEdgeAlign _formTrafficLightEdge;
+	private Padding _captionIconPadding;
 	private HeaderStyle _headerStylePrev;
 	private FormWindowState _regionWindowState;
 	private FormWindowState _lastWindowState;
@@ -259,6 +227,8 @@ public class KryptonForm : VisualForm,
 	// Issue #2922: Workaround for borderless form briefly showing system title bar on startup
 	private bool _borderlessFormFirstShowPending;
 	private double _borderlessTargetOpacity = 1.0;
+	private int _mdiClientRedrawSuspendCount;
+	private MdiClient? _hookedMdiClient;
 	private KryptonSystemMenu? _kryptonSystemMenu;
 	// SystemMenu context menu components
 	private KryptonContextMenu _systemMenuContextMenu;
@@ -267,6 +237,8 @@ public class KryptonForm : VisualForm,
 	private KryptonFormTitleBar? _titleBar;
 	private ViewDrawDocker? _titleBarDocker;
 	private ButtonSpecManagerDraw? _titleBarButtonManager;
+	private ButtonSpecManagerDraw? _titleBarMenuStripButtonManager;
+	private KryptonMenuBar? _menuBar;
 
 	#endregion
 
@@ -281,6 +253,7 @@ public class KryptonForm : VisualForm,
 		_headerStyle = HeaderStyle.Form;
 		_formTitleAlign = PaletteRelativeAlign.Near;
 		_formTrafficLightEdge = PaletteRelativeEdgeAlign.Inherit;
+		_captionIconPadding = DefaultCaptionIconPadding;
 		_headerStylePrev = _headerStyle;
 		AllowButtonSpecToolTips = false;
 		_allowFormChrome = true;
@@ -361,7 +334,7 @@ public class KryptonForm : VisualForm,
 		};
 
 		_formPaletteTriple = new PaletteDoubleTripleAdapter(GetFormPaletteState);
-		_pulsingBorder = new InputPulsingBorderViewIntegration(this, NeedPaintDelegate, () => WindowActive, () => _formPaletteTriple, _drawDocker, () => _drawDocker.State);
+		_pulsingBorder = new InputPulsingBorderViewIntegration(this, NeedPaintDelegate, () => WindowActive, () => _formPaletteTriple, _drawDocker, () => _drawDocker.State, InputPulsingBorderCategory.Forms);
 
 		// Create button specification collection manager
 		_buttonManager = new ButtonSpecManagerDraw(this, Redirector, ButtonSpecs, _buttonSpecsFixed,
@@ -794,6 +767,8 @@ public class KryptonForm : VisualForm,
 					//In reverse, because they are removed when added to another control
 					base.Controls.Add(checkForRibbon[i]);
 				}
+
+				ApplyMdiClientThemeBackColor();
 			}
 		}
 	}
@@ -1117,43 +1092,79 @@ public class KryptonForm : VisualForm,
 	private bool ShouldSerializeFormTitleAlign() => _formTitleAlign != PaletteRelativeAlign.Near;
 	private void ResetFormTitleAlign() => _formTitleAlign = PaletteRelativeAlign.Near;
 
-    /// <summary>
-    /// Gets and sets where form minimize/maximize/close buttons are placed for macOS-style palettes.
-    /// </summary>
-    /// <remarks>
-    /// <see cref="PaletteRelativeEdgeAlign.Inherit"/> uses the palette default (Near / traffic lights for
-    /// macOS and OS X Aqua). <see cref="PaletteRelativeEdgeAlign.Far"/> forces a standard Windows
-    /// control box on the Far edge (physical right in LTR). When set to Far, the RTL Far→Near remap in
-    /// <see cref="KryptonForm.FormPaletteRedirect.GetButtonSpecEdge(PaletteButtonSpecStyle)"/> is bypassed so the developer controls edge
-    /// explicitly. <see cref="PaletteRelativeEdgeAlign.Near"/> forces traffic-light placement on the
-    /// Near edge regardless of palette.
-    /// </remarks>
-    [Category(@"Visuals")]
-    [Description(@"Placement of form traffic-light buttons. Inherit uses the palette; Far places them on the right like a standard Windows application.")]
-    [RefreshProperties(RefreshProperties.All)]
-    [DefaultValue(PaletteRelativeEdgeAlign.Inherit)]
-    public PaletteRelativeEdgeAlign FormTrafficLightEdge
-    {
-        get => _formTrafficLightEdge;
+	/// <summary>
+	/// Gets and sets extra padding around the caption icon, in addition to the window-frame inset.
+	/// </summary>
+	/// <remarks>
+	/// <para>
+	/// Values are physical Left, Top, Right, and Bottom. Under
+	/// <see cref="Control.RightToLeft"/> + <see cref="Form.RightToLeftLayout"/> the palette's
+	/// frame inset is moved onto the icon (right) side first; this padding is then added.
+	/// </para>
+	/// <para>
+	/// Default is <c>2, 2, 2, 2</c>. Set to <see cref="Padding.Empty"/> for only the frame inset.
+	/// Per-side header content padding can still be overridden via
+	/// <see cref="StateCommon"/> Header.Content.Padding.
+	/// </para>
+	/// </remarks>
+	[Category(@"Visuals")]
+	[Description(@"Extra padding around the caption icon, added after the window-frame inset.")]
+	[DefaultValue(typeof(Padding), "2, 2, 2, 2")]
+	public Padding CaptionIconPadding
+	{
+		get => _captionIconPadding;
 
-        set
-        {
-            if (_formTrafficLightEdge != value)
-            {
-                _formTrafficLightEdge = value;
-                ApplyLeftTrafficLightFormChromeIfNeeded();
-                PerformNeedPaint(true);
-            }
-        }
-    }
-    private bool ShouldSerializeFormTrafficLightEdge() => _formTrafficLightEdge != PaletteRelativeEdgeAlign.Inherit;
-    private void ResetFormTrafficLightEdge() => _formTrafficLightEdge = PaletteRelativeEdgeAlign.Inherit;
+		set
+		{
+			if (_captionIconPadding != value)
+			{
+				_captionIconPadding = value;
+				PerformNeedPaint(true);
+			}
+		}
+	}
+
+	private bool ShouldSerializeCaptionIconPadding() => _captionIconPadding != DefaultCaptionIconPadding;
+	private void ResetCaptionIconPadding() => CaptionIconPadding = DefaultCaptionIconPadding;
+
+	/// <summary>
+	/// Gets and sets where form minimize/maximize/close buttons are placed for macOS-style palettes.
+	/// </summary>
+	/// <remarks>
+	/// <see cref="PaletteRelativeEdgeAlign.Inherit"/> uses the palette default (Near / traffic lights for
+	/// macOS and OS X Aqua). <see cref="PaletteRelativeEdgeAlign.Far"/> forces a standard Windows
+	/// control box on the Far edge (physical right in LTR). When set to Far, the RTL Near→Far remap in
+	/// <see cref="KryptonForm.FormPaletteRedirect.GetButtonSpecEdge(PaletteButtonSpecStyle)"/> is not applied
+	/// (Far is left unchanged so <see cref="ViewDrawDocker.CalculateDock"/> can move the control box
+	/// to the physical left). <see cref="PaletteRelativeEdgeAlign.Near"/> forces traffic-light placement on the
+	/// Near edge regardless of palette; that Near value is remapped to Far under RTL so the lights stay left.
+	/// </remarks>
+	[Category(@"Visuals")]
+	[Description(@"Placement of form traffic-light buttons. Inherit uses the palette; Far places them on the right like a standard Windows application.")]
+	[RefreshProperties(RefreshProperties.All)]
+	[DefaultValue(PaletteRelativeEdgeAlign.Inherit)]
+	public PaletteRelativeEdgeAlign FormTrafficLightEdge
+	{
+		get => _formTrafficLightEdge;
+
+		set
+		{
+			if (_formTrafficLightEdge != value)
+			{
+				_formTrafficLightEdge = value;
+				ApplyLeftTrafficLightFormChromeIfNeeded();
+				PerformNeedPaint(true);
+			}
+		}
+	}
+	private bool ShouldSerializeFormTrafficLightEdge() => _formTrafficLightEdge != PaletteRelativeEdgeAlign.Inherit;
+	private void ResetFormTrafficLightEdge() => _formTrafficLightEdge = PaletteRelativeEdgeAlign.Inherit;
 
 
-    /// <summary>
-    /// Gets and sets the chrome group border style.
-    /// </summary>
-    [Category(@"Visuals")]
+	/// <summary>
+	/// Gets and sets the chrome group border style.
+	/// </summary>
+	[Category(@"Visuals")]
 	[Description(@"Chrome group border style.")]
 	[DefaultValue(PaletteBorderStyle.FormMain)]
 	public PaletteBorderStyle GroupBorderStyle
@@ -1302,6 +1313,28 @@ public class KryptonForm : VisualForm,
 			{
 				AttachTitleBar(_titleBar);
 			}
+		}
+	}
+
+	/// <summary>
+	/// Gets or sets the native <see cref="KryptonMenuBar"/> used as this form's menu bar.
+	/// Assignment does not dock or reparent the control. Coexists with <see cref="Form.MainMenuStrip"/>.
+	/// </summary>
+	[Category(@"Visuals")]
+	[Description(@"Native Krypton menu bar used for shortcuts and Alt activation.")]
+	[DefaultValue(null)]
+	public KryptonMenuBar? MenuBar
+	{
+		get => _menuBar;
+
+		set
+		{
+			if (_menuBar == value)
+			{
+				return;
+			}
+
+			_menuBar = value;
 		}
 	}
 
@@ -1524,6 +1557,26 @@ public class KryptonForm : VisualForm,
 				OnRightToLeftChanged(EventArgs.Empty);
 			}
 		}
+	}
+
+	/// <summary>
+	/// Gets and sets whether the form mirrors its layout when <see cref="Control.RightToLeft"/> is <see cref="System.Windows.Forms.RightToLeft.Yes"/>.
+	/// </summary>
+	/// <remarks>
+	/// Matches native <see cref="Form"/>: caption chrome and client docking flip only when both
+	/// <see cref="Control.RightToLeft"/> is <see cref="System.Windows.Forms.RightToLeft.Yes"/> and this property is <see langword="true"/>.
+	/// </remarks>
+	[Browsable(true)]
+	[DefaultValue(false)]
+	[Localizable(true)]
+	[EditorBrowsable(EditorBrowsableState.Always)]
+	[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+	[Category(@"Appearance")]
+	[Description(@"Indicates whether to use RTL layout when RightToLeft is Yes.")]
+	public override bool RightToLeftLayout
+	{
+		get => base.RightToLeftLayout;
+		set => base.RightToLeftLayout = value;
 	}
 
 	#endregion
@@ -1770,6 +1823,12 @@ public class KryptonForm : VisualForm,
 			RecalcNonClient();
 		}
 
+		if (e.Control is MdiClient client)
+		{
+			HookMdiClient(client);
+			ApplyMdiClientThemeBackColor();
+		}
+
 		base.OnControlAdded(e);
 	}
 
@@ -1790,18 +1849,32 @@ public class KryptonForm : VisualForm,
 			RecalcNonClient();
 		}
 
+		if (e.Control is MdiClient client && ReferenceEquals(_hookedMdiClient, client))
+		{
+			client.HandleCreated -= OnMdiClientHandleCreated;
+			_hookedMdiClient = null;
+		}
+
 		base.OnControlRemoved(e);
 	}
 
 	/// <inheritdoc />
 	protected override void SetVisibleCore(bool value)
 	{
-		// When showing a borderless form for the first time we want to start with an opacity of 0 and then fade in to the target opacity.
-		// This is because some themes (e.g. Windows 11) have a fade in animation for borderless windows,
-		// but if we start with the target opacity then the animation is not smooth as it animates from fully
-		// transparent to the target opacity instead of from 0 to the target opacity.
-		if (value && FormBorderStyle == FormBorderStyle.None && !DesignMode && !_borderlessFormFirstShowPending)
+		// When showing a top-level borderless form for the first time we want to start with an opacity of 0
+		// and then fade in to the target opacity. This hides the brief system-caption paint some themes
+		// (e.g. Windows 11) perform before custom chrome is applied (issue #2922).
+		// MDI children cannot use WS_EX_LAYERED / Opacity reliably; those use CreateParams + WM_NCCALCSIZE.
+		if (value && FormBorderStyle == FormBorderStyle.None && !DesignMode && MdiParent is null && !_borderlessFormFirstShowPending)
 		{
+			// Native FadeValues owns opacity when fading in; skip the snap-to-target so the fade can run.
+			if (CanAutoFadeIn)
+			{
+				_borderlessFormFirstShowPending = true;
+				base.SetVisibleCore(true);
+				return;
+			}
+
 			// Set a flag to indicate we are in the middle of the first show of a borderless form, so we don't interfere with subsequent calls to SetVisibleCore
 			_borderlessFormFirstShowPending = true;
 
@@ -1823,6 +1896,11 @@ public class KryptonForm : VisualForm,
 
 			// We have handled the first show, so exit to avoid calling base.SetVisibleCore again
 			return;
+		}
+
+		if (value && FormBorderStyle == FormBorderStyle.None && MdiParent is KryptonForm host)
+		{
+			host.SyncMdiClientEdgeForBorderlessFillChildren();
 		}
 
 		// For subsequent calls to SetVisibleCore we just call the base method with the provided value
@@ -1967,6 +2045,7 @@ public class KryptonForm : VisualForm,
 		_buttonManager?.RecreateButtons();
 
 		_titleBarButtonManager?.RecreateButtons();
+		_titleBarMenuStripButtonManager?.RecreateButtons();
 	}
 
 	/// <inheritdoc />
@@ -1982,6 +2061,7 @@ public class KryptonForm : VisualForm,
 		_buttonManager?.RecreateButtons();
 
 		_titleBarButtonManager?.RecreateButtons();
+		_titleBarMenuStripButtonManager?.RecreateButtons();
 	}
 
 	/// <summary>
@@ -1995,6 +2075,7 @@ public class KryptonForm : VisualForm,
 		_buttonManager?.RecreateButtons();
 
 		_titleBarButtonManager?.RecreateButtons();
+		_titleBarMenuStripButtonManager?.RecreateButtons();
 	}
 
 	/// <summary>
@@ -2029,6 +2110,8 @@ public class KryptonForm : VisualForm,
 		ApplyMaterialFormChromeDefaultsIfNeeded();
 
 		ApplyLeftTrafficLightFormChromeIfNeeded();
+
+		ApplyMdiClientThemeBackColor();
 
 		// Ensure the sizing grip reflects new theme immediately
 		RecalcNonClient();
@@ -2114,7 +2197,7 @@ public class KryptonForm : VisualForm,
 		if (_drawContent.IsImageDisplayed(context))
 		{
 			// Extract the point in screen coordinates
-			var screenPoint = new Point((int)m.LParam.ToInt64());
+			var screenPoint = PointFromMessageLParam(m.LParam);
 
 			// Convert to window coordinates
 			Point windowPoint = ScreenToWindow(screenPoint);
@@ -2160,6 +2243,7 @@ public class KryptonForm : VisualForm,
 			return;
 		}
 
+		uint previousLayout = BeginPhysicalWindowDcLayout(hDC);
 		try
 		{
 			// Restrict drawing strictly to the grip rectangle in window coordinates
@@ -2172,6 +2256,7 @@ public class KryptonForm : VisualForm,
 		}
 		finally
 		{
+			EndPhysicalWindowDcLayout(hDC, previousLayout);
 			PI.ReleaseDC(Handle, hDC);
 		}
 	}
@@ -2200,6 +2285,27 @@ public class KryptonForm : VisualForm,
 	/// <summary>Ensures MDI logic runs correctly after form creation.</summary>
 	protected override void OnHandleCreated(EventArgs e)
 	{
+		var cloak = ShouldCloakUntilChromeReady;
+		if (cloak)
+		{
+			SetDwmCloaked(true);
+		}
+
+		try
+		{
+			OnHandleCreatedCore(e);
+		}
+		finally
+		{
+			if (cloak)
+			{
+				SetDwmCloaked(false);
+			}
+		}
+	}
+
+	private void OnHandleCreatedCore(EventArgs e)
+	{
 		base.OnHandleCreated(e);
 
 		if (GetResolvedPalette() is PaletteMacOSBase macPalette)
@@ -2225,6 +2331,8 @@ public class KryptonForm : VisualForm,
 					base.Controls.Add(checkForRibbon[i]);
 				}
 			}
+
+			ApplyMdiClientThemeBackColor();
 		}
 		else if (_internalPanelState == InheritBool.Inherit && !DesignMode)
 		{
@@ -2241,6 +2349,40 @@ public class KryptonForm : VisualForm,
 
 		// Ensure Material defaults are applied as early as possible for new forms
 		ApplyMaterialFormChromeDefaultsIfNeeded();
+
+		// Issue #2922: apply custom chrome before first paint. OnLoad is too late for
+		// MDI children — the system caption/border is already on screen by then.
+		if (!DesignMode && (FormBorderStyle == FormBorderStyle.None || MdiParent != null))
+		{
+			UpdateUseThemeFormChromeBorderWidthDecision();
+			if (MdiParent is KryptonForm host)
+			{
+				host.SyncMdiClientEdgeForBorderlessFillChildren();
+			}
+		}
+	}
+
+	/// <inheritdoc />
+	protected override void CreateHandle()
+	{
+		var host = MdiParent as KryptonForm;
+		host?.SuspendMdiClientRedraw();
+		try
+		{
+			host?.SyncMdiClientEdgeForBorderlessFillChildren();
+			base.CreateHandle();
+		}
+		finally
+		{
+			host?.ResumeMdiClientRedraw();
+		}
+	}
+
+	/// <inheritdoc />
+	protected override void OnMdiChildActivate(EventArgs e)
+	{
+		base.OnMdiChildActivate(e);
+		SyncMdiClientEdgeForBorderlessFillChildren();
 	}
 
 	#endregion
@@ -2261,7 +2403,8 @@ public class KryptonForm : VisualForm,
 
 		Point windowPoint = ScreenToWindow(Control.MousePosition);
 		return _buttonManager.IsPointOverButton(windowPoint)
-			   || (_titleBarButtonManager?.IsPointOverButton(windowPoint) ?? false);
+			   || (_titleBarButtonManager?.IsPointOverButton(windowPoint) ?? false)
+			   || (_titleBarMenuStripButtonManager?.IsPointOverButton(windowPoint) ?? false);
 	}
 
 	/// <summary>
@@ -2275,6 +2418,9 @@ public class KryptonForm : VisualForm,
 			_buttonManager.RecreateButtons();
 			_recreateButtons = false;
 		}
+
+		_titleBarButtonManager?.RecreateButtons();
+		_titleBarMenuStripButtonManager?.RecreateButtons();
 
 		// Need to perform a layout
 		PerformNeedPaint(true);
@@ -2315,10 +2461,15 @@ public class KryptonForm : VisualForm,
 			return rect;
 		}
 
-		// Close owns the top-right corner; min/max only grow upward into their own column.
-		return ReferenceEquals(buttonSpec, ButtonSpecClose)
-			? Rectangle.FromLTRB(rect.Left, 0, Width, rect.Bottom)
-			: Rectangle.FromLTRB(rect.Left, 0, rect.Right, rect.Bottom);
+		// Close owns the leading top corner; min/max only grow upward into their own column.
+		if (ReferenceEquals(buttonSpec, ButtonSpecClose))
+		{
+			return UsesRtlFormButtonLayout()
+				? Rectangle.FromLTRB(0, 0, rect.Right, rect.Bottom)
+				: Rectangle.FromLTRB(rect.Left, 0, Width, rect.Bottom);
+		}
+
+		return Rectangle.FromLTRB(rect.Left, 0, rect.Right, rect.Bottom);
 	}
 
 	/// <summary>
@@ -2598,7 +2749,7 @@ public class KryptonForm : VisualForm,
 	/// <returns>True if the message was processed; otherwise false.</returns>
 	protected override bool OnWM_NCRBUTTONDOWN(ref Message m)
 	{
-		var screenPoint = new Point((int)m.LParam.ToInt64());
+		var screenPoint = PointFromMessageLParam(m.LParam);
 		Point windowPoint = ScreenToWindow(screenPoint);
 
 		// Caption strip (including injected tabs): never let DefWndProc open the system menu.
@@ -2619,7 +2770,7 @@ public class KryptonForm : VisualForm,
 	/// <returns>True if the message was processed; otherwise false.</returns>
 	protected override bool OnWM_NCRBUTTONUP(ref Message m)
 	{
-		var screenPoint = new Point((int)m.LParam.ToInt64());
+		var screenPoint = PointFromMessageLParam(m.LParam);
 		Point windowPoint = ScreenToWindow(screenPoint);
 
 		if (IsInTitleBarArea(screenPoint) || IsOverInteractiveChromeView(windowPoint))
@@ -2644,7 +2795,7 @@ public class KryptonForm : VisualForm,
 		if (_drawContent.IsImageDisplayed(context))
 		{
 			// Extract the point in screen coordinates
-			var screenPoint = new Point((int)m.LParam.ToInt64());
+			var screenPoint = PointFromMessageLParam(m.LParam);
 
 			// Convert to window coordinates
 			Point windowPoint = ScreenToWindow(screenPoint);
@@ -2690,8 +2841,10 @@ public class KryptonForm : VisualForm,
 		// Does the LParam contain a RECT or an NCCALCSIZE_PARAMS
 		if (m.WParam != IntPtr.Zero)
 		{
-			// Get the border sizing needed around the client area
-			Padding borders = RealWindowBorders;
+			// FormBorderStyle.None must keep a zero non-client so no caption band or 3D edge remains.
+			Padding borders = FormBorderStyle == FormBorderStyle.None
+				? Padding.Empty
+				: RealWindowBorders;
 
 			// If caption should be hidden, set top border to 0 to prevent white band
 			if (ShouldHideCaption())
@@ -2792,7 +2945,11 @@ public class KryptonForm : VisualForm,
 	/// <returns>True if caption should be hidden; otherwise false.</returns>
 	private bool ShouldHideCaption()
 	{
-		// Check if there are any visible buttons
+		// FormBorderStyle.None never has a caption; Text may still be set for the taskbar / MDI.
+		if (FormBorderStyle == FormBorderStyle.None)
+		{
+			return true;
+		}
 		bool hasVisibleButtons = false;
 		foreach (ButtonSpecView bsv in _buttonManager.ButtonSpecViews)
 		{
@@ -3015,15 +3172,27 @@ public class KryptonForm : VisualForm,
 					{
 						// Track the window state at the time the region is created
 						_regionWindowState = WindowState;
-						// Get the path for the border, so we can shape the form using it
-						using var context = new RenderContext(this, null, Bounds, Renderer);
-						using GraphicsPath? path = _drawDocker.GetOuterBorderPath(context);
+
+						// WS_EX_LAYOUTRTL mirrors SetWindowRgn into logical coordinates, which
+						// shifts the realized region by about the frame width and clips the
+						// physical left chrome (issue #2103). Same workaround as maximized RTL (#2457).
+						Region? newRegion = null;
+						if (!UsesRtlFormButtonLayout())
+						{
+							using var context = new RenderContext(this, null, Bounds, Renderer);
+							using GraphicsPath? path = _drawDocker.GetOuterBorderPath(context);
+							if (path != null)
+							{
+								newRegion = new Region(path);
+							}
+						}
+
 						if (!_firstCheckView)
 						{
 							SuspendPaint();
 						}
 
-						UpdateBorderRegion(path != null ? new Region(path) : null);
+						UpdateBorderRegion(newRegion);
 
 						if (!_firstCheckView)
 						{
@@ -3072,8 +3241,8 @@ public class KryptonForm : VisualForm,
 			}
 
 			// We draw the main form and header background
-			_drawDocker.DrawCanvas = true;
-			_drawHeading.DrawCanvas = true;
+			_drawDocker.DrawCanvas = FormBorderStyle != FormBorderStyle.None;
+			_drawHeading.DrawCanvas = FormBorderStyle != FormBorderStyle.None;
 
 			// Perform actual painting of the view
 			ViewManager.Paint(Renderer, new PaintEventArgs(g, rect));
@@ -3161,6 +3330,158 @@ public class KryptonForm : VisualForm,
 
 		// Cleanup old region gracefully
 		oldRegion?.Dispose();
+	}
+
+	private MdiClient? FindMdiClient()
+	{
+		foreach (Control control in Controls)
+		{
+			if (control is MdiClient mdiClient)
+			{
+				return mdiClient;
+			}
+		}
+
+		return null;
+	}
+
+	private void HookMdiClient(MdiClient client)
+	{
+		if (ReferenceEquals(_hookedMdiClient, client))
+		{
+			return;
+		}
+
+		if (_hookedMdiClient != null)
+		{
+			_hookedMdiClient.HandleCreated -= OnMdiClientHandleCreated;
+		}
+
+		_hookedMdiClient = client;
+		client.HandleCreated += OnMdiClientHandleCreated;
+		if (client.IsHandleCreated)
+		{
+			OnMdiClientHandleCreated(client, EventArgs.Empty);
+		}
+	}
+
+	private void OnMdiClientHandleCreated(object? sender, EventArgs e)
+	{
+		// MdiClient.OnHandleCreated stamps WS_EX_CLIENTEDGE after the host handle exists.
+		// Strip it here (and once more on the next message) so the system frame is gone
+		// before any child is created (issue #2922).
+		SyncMdiClientEdgeForBorderlessFillChildren();
+		if (IsHandleCreated && !IsDisposed)
+		{
+			BeginInvoke(new System.Windows.Forms.MethodInvoker(SyncMdiClientEdgeForBorderlessFillChildren));
+		}
+	}
+
+	/// <summary>
+	/// Paints the MDI client with the current theme <see cref="PaletteBackStyle.PanelAlternate"/>
+	/// colour instead of the system AppWorkspace grey.
+	/// </summary>
+	private void ApplyMdiClientThemeBackColor()
+	{
+		if (!IsMdiContainer || IsDisposed)
+		{
+			return;
+		}
+
+		MdiClient? client = FindMdiClient();
+		if (client == null)
+		{
+			return;
+		}
+
+		HookMdiClient(client);
+
+		var palette = GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
+		Color back = palette.GetBackColor1(PaletteBackStyle.PanelAlternate, PaletteState.Normal);
+		if (back == SharedStaticVariables.EMPTY_COLOR || back.IsEmpty)
+		{
+			back = palette.GetBackColor1(PaletteBackStyle.PanelClient, PaletteState.Normal);
+		}
+
+		if (client.BackColor != back)
+		{
+			client.BackColor = back;
+		}
+
+		SyncMdiClientEdgeForBorderlessFillChildren();
+	}
+
+	/// <summary>
+	/// The MDI client's sunken <c>WS_EX_CLIENTEDGE</c> is a system 3D border. Strip it on
+	/// Krypton MDI hosts so children are not created inside a gray frame that then vanishes
+	/// (issue #2922).
+	/// </summary>
+	private void SyncMdiClientEdgeForBorderlessFillChildren()
+	{
+		if (!IsMdiContainer || !IsHandleCreated || IsDisposed)
+		{
+			return;
+		}
+
+		MdiClient? client = FindMdiClient();
+
+		if (client is not { IsHandleCreated: true })
+		{
+			return;
+		}
+
+		uint exStyle = PI.GetWindowLong(client.Handle, PI.GWL_.EXSTYLE);
+		if ((exStyle & PI.WS_EX_.CLIENTEDGE) == 0)
+		{
+			return;
+		}
+
+		PI.SetWindowLong(client.Handle, PI.GWL_.EXSTYLE, exStyle & ~PI.WS_EX_.CLIENTEDGE);
+
+		PI.SetWindowPos(client.Handle, IntPtr.Zero, 0, 0, 0, 0,
+			PI.SWP_.NOACTIVATE | PI.SWP_.NOMOVE |
+			PI.SWP_.NOZORDER | PI.SWP_.NOSIZE |
+			PI.SWP_.NOOWNERZORDER | PI.SWP_.FRAMECHANGED);
+	}
+
+	private void SuspendMdiClientRedraw()
+	{
+		MdiClient? client = FindMdiClient();
+		if (client is not { IsHandleCreated: true })
+		{
+			return;
+		}
+
+		if (_mdiClientRedrawSuspendCount == 0)
+		{
+			PI.SendMessage(client.Handle, (int)PI.WM_.SETREDRAW, IntPtr.Zero, IntPtr.Zero);
+		}
+
+		_mdiClientRedrawSuspendCount++;
+	}
+
+	private void ResumeMdiClientRedraw()
+	{
+		if (_mdiClientRedrawSuspendCount == 0)
+		{
+			return;
+		}
+
+		_mdiClientRedrawSuspendCount--;
+		if (_mdiClientRedrawSuspendCount > 0)
+		{
+			return;
+		}
+
+		MdiClient? client = FindMdiClient();
+		if (client is not { IsHandleCreated: true })
+		{
+			return;
+		}
+
+		PI.SendMessage(client.Handle, (int)PI.WM_.SETREDRAW, (IntPtr)1, IntPtr.Zero);
+		PI.RedrawWindow(client.Handle, IntPtr.Zero, IntPtr.Zero,
+			PI.RDW_INVALIDATE | PI.RDW_ALLCHILDREN | PI.RDW_FRAME | PI.RDW_UPDATENOW);
 	}
 
 	private bool _hasUseThemeFormChromeBorderWidthFirstRun;
@@ -3344,142 +3665,142 @@ public class KryptonForm : VisualForm,
 		}
 	}
 
-    private static bool IsFormWindowButtonSpecStyle(PaletteButtonSpecStyle style) =>
-       style switch
-       {
-           PaletteButtonSpecStyle.FormClose or PaletteButtonSpecStyle.FormMin or PaletteButtonSpecStyle.FormMax
-               or PaletteButtonSpecStyle.FormRestore or PaletteButtonSpecStyle.FormHelp => true,
-           _ => false
-       };
+	private static bool IsFormWindowButtonSpecStyle(PaletteButtonSpecStyle style) =>
+	   style switch
+	   {
+		   PaletteButtonSpecStyle.FormClose or PaletteButtonSpecStyle.FormMin or PaletteButtonSpecStyle.FormMax
+			   or PaletteButtonSpecStyle.FormRestore or PaletteButtonSpecStyle.FormHelp => true,
+		   _ => false
+	   };
 
-    /// <summary>
-    /// Returns true when the resolved palette places form window buttons on the Near edge
-    /// (macOS / OS X Aqua traffic lights), as opposed to the standard Office Far-edge control box.
-    /// </summary>
-    /// <remarks>
-    /// Uses the palette's <em>native</em> edge from <see cref="PaletteBase.GetButtonSpecEdge"/>,
-    /// not <see cref="VisualForm.Redirector"/>. After issue #3786, the redirector remaps Far→Near for standard
-    /// palettes in RTL; consulting the redirector here would mis-classify RTL Office forms as
-    /// traffic-light layouts and apply the wrong collection order.
-    /// </remarks>
-    private bool UsesLeftTrafficLightFormButtons()
-    {
-        if (_formTrafficLightEdge != PaletteRelativeEdgeAlign.Inherit)
-        {
-            return _formTrafficLightEdge == PaletteRelativeEdgeAlign.Near;
-        }
+	/// <summary>
+	/// Returns true when the resolved palette places form window buttons on the Near edge
+	/// (macOS / OS X Aqua traffic lights), as opposed to the standard Office Far-edge control box.
+	/// </summary>
+	/// <remarks>
+	/// Uses the palette's <em>native</em> edge from <see cref="PaletteBase.GetButtonSpecEdge"/>,
+	/// not <see cref="VisualForm.Redirector"/>. After issue #2103, the redirector remaps Near→Far for traffic-light
+	/// palettes in RTL so <see cref="ViewDrawDocker.CalculateDock"/> keeps them on the physical left; consulting the
+	/// redirector here would mis-classify RTL Office forms as traffic-light layouts and apply the wrong collection order.
+	/// </remarks>
+	private bool UsesLeftTrafficLightFormButtons()
+	{
+		if (_formTrafficLightEdge != PaletteRelativeEdgeAlign.Inherit)
+		{
+			return _formTrafficLightEdge == PaletteRelativeEdgeAlign.Near;
+		}
 
-        var palette = GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
-        return palette.GetButtonSpecEdge(PaletteButtonSpecStyle.FormClose) == PaletteRelativeEdgeAlign.Near;
-    }
+		var palette = GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
+		return palette.GetButtonSpecEdge(PaletteButtonSpecStyle.FormClose) == PaletteRelativeEdgeAlign.Near;
+	}
 
-    /// <summary>
-    /// True when WinForms RTL layout is fully enabled for this form.
-    /// </summary>
-    /// <remarks>Matches <see cref="CommonHelper.IsRightToLeftLayout"/>.</remarks>
-    private bool UsesRtlFormButtonLayout() =>
-        RightToLeftLayout && RightToLeft == RightToLeft.Yes;
+	/// <summary>
+	/// True when WinForms RTL layout is fully enabled for this form.
+	/// </summary>
+	/// <remarks>Matches <see cref="CommonHelper.IsRightToLeftLayout"/>.</remarks>
+	private bool UsesRtlFormButtonLayout() =>
+		RightToLeftLayout && RightToLeft == RightToLeft.Yes;
 
-    /// <summary>
-    /// Ensures <see cref="_buttonSpecsFixed"/> collection order matches the active palette and edge.
-    /// </summary>
-    /// <remarks>
-    /// <para>
-    /// <see cref="ButtonSpecManagerDraw"/> inserts each fixed spec before the caption metric spacer.
-    /// That means collection index order is <b>not</b> the same as left-to-right visual order:
-    /// </para>
-    /// <list type="bullet">
-    /// <item>
-    /// <description>
-    /// <b>Far-edge / Windows control box</b> — collection [min, max, close] for both LTR and RTL.
-    /// LTR (dock right): Min → Max → Close. RTL (dock left after Far→Near remap): Close → Max → Min.
-    /// </description>
-    /// </item>
-    /// <item>
-    /// <description>
-    /// <b>Near-edge / traffic lights</b> — collection [max, min, close] so visuals read
-    /// Close (red) → Min (yellow) → Max (green) on the physical left.
-    /// </description>
-    /// </item>
-    /// </list>
-    /// <para>
-    /// Called from palette/load/RTL change paths; recreates button views when order was wrong.
-    /// </para>
-    /// </remarks>
-    private void SyncLeftTrafficLightFormButtonOrderIfNeeded()
-    {
-        bool leftTrafficLights = UsesLeftTrafficLightFormButtons();
-        int closeIndex = _buttonSpecsFixed.IndexOf(ButtonSpecClose);
-        int minIndex = _buttonSpecsFixed.IndexOf(ButtonSpecMin);
-        int maxIndex = _buttonSpecsFixed.IndexOf(ButtonSpecMax);
-        if (closeIndex < 0 || minIndex < 0 || maxIndex < 0)
-        {
-            return;
-        }
+	/// <summary>
+	/// Ensures <see cref="_buttonSpecsFixed"/> collection order matches the active palette and edge.
+	/// </summary>
+	/// <remarks>
+	/// <para>
+	/// <see cref="ButtonSpecManagerDraw"/> inserts each fixed spec before the caption metric spacer.
+	/// That means collection index order is <b>not</b> the same as left-to-right visual order:
+	/// </para>
+	/// <list type="bullet">
+	/// <item>
+	/// <description>
+	/// <b>Far-edge / Windows control box</b> — collection [min, max, close] for both LTR and RTL.
+	/// LTR (dock right): Min → Max → Close. RTL (dock left after CalculateDock flip): Close → Max → Min.
+	/// </description>
+	/// </item>
+	/// <item>
+	/// <description>
+	/// <b>Near-edge / traffic lights</b> — collection [max, min, close] so visuals read
+	/// Close (red) → Min (yellow) → Max (green) on the physical left.
+	/// </description>
+	/// </item>
+	/// </list>
+	/// <para>
+	/// Called from palette/load/RTL change paths; recreates button views when order was wrong.
+	/// </para>
+	/// </remarks>
+	private void SyncLeftTrafficLightFormButtonOrderIfNeeded()
+	{
+		bool leftTrafficLights = UsesLeftTrafficLightFormButtons();
+		int closeIndex = _buttonSpecsFixed.IndexOf(ButtonSpecClose);
+		int minIndex = _buttonSpecsFixed.IndexOf(ButtonSpecMin);
+		int maxIndex = _buttonSpecsFixed.IndexOf(ButtonSpecMax);
+		if (closeIndex < 0 || minIndex < 0 || maxIndex < 0)
+		{
+			return;
+		}
 
-        // Near-edge traffic lights: collection [max, min, close].
-        bool macCollectionOrder = maxIndex < minIndex && minIndex < closeIndex;
-        // Far-edge Windows control box: collection [min, max, close] (same indices for LTR and RTL).
-        bool windowsCollectionOrder = minIndex < maxIndex && maxIndex < closeIndex;
-        if (leftTrafficLights && !macCollectionOrder)
-        {
-            _buttonSpecsFixed.Clear();
-            _buttonSpecsFixed.AddRange([ButtonSpecHelp, ButtonSpecMax, ButtonSpecMin, ButtonSpecClose]);
-            _buttonManager.RecreateButtons();
-        }
-        else if (!leftTrafficLights && !windowsCollectionOrder)
-        {
-            SyncFormFixedButtonSpecOrder();
-            _buttonManager.RecreateButtons();
-        }
-    }
+		// Near-edge traffic lights: collection [max, min, close].
+		bool macCollectionOrder = maxIndex < minIndex && minIndex < closeIndex;
+		// Far-edge Windows control box: collection [min, max, close] (same indices for LTR and RTL).
+		bool windowsCollectionOrder = minIndex < maxIndex && maxIndex < closeIndex;
+		if (leftTrafficLights && !macCollectionOrder)
+		{
+			_buttonSpecsFixed.Clear();
+			_buttonSpecsFixed.AddRange([ButtonSpecHelp, ButtonSpecMax, ButtonSpecMin, ButtonSpecClose]);
+			_buttonManager.RecreateButtons();
+		}
+		else if (!leftTrafficLights && !windowsCollectionOrder)
+		{
+			SyncFormFixedButtonSpecOrder();
+			_buttonManager.RecreateButtons();
+		}
+	}
 
-    private void ApplyLeftTrafficLightFormChromeIfNeeded()
-    {
-        // Correct collection order first (traffic-light vs Windows sequences).
-        SyncLeftTrafficLightFormButtonOrderIfNeeded();
+	private void ApplyLeftTrafficLightFormChromeIfNeeded()
+	{
+		// Correct collection order first (traffic-light vs Windows sequences).
+		SyncLeftTrafficLightFormButtonOrderIfNeeded();
 
-        if (!UsesLeftTrafficLightFormButtons())
-        {
-            return;
-        }
+		if (!UsesLeftTrafficLightFormButtons())
+		{
+			return;
+		}
 
-        // macOS-style chrome defaults: centred title, no form icon in the caption.
-        if (FormTitleAlign is PaletteRelativeAlign.Near or PaletteRelativeAlign.Inherit)
-        {
-            FormTitleAlign = PaletteRelativeAlign.Center;
-        }
+		// macOS-style chrome defaults: centred title, no form icon in the caption.
+		if (FormTitleAlign is PaletteRelativeAlign.Near or PaletteRelativeAlign.Inherit)
+		{
+			FormTitleAlign = PaletteRelativeAlign.Center;
+		}
 
-        AllowIconDisplay = false;
-    }
+		AllowIconDisplay = false;
+	}
 
-    private void ApplyMacOSFormWindowEffectsIfNeeded()
-    {
-        if (GetResolvedPalette() is PaletteMacOSBase macPalette)
-        {
-            MacOSFormChromeHelper.ApplyWindowEffects(this, macPalette);
-            return;
-        }
+	private void ApplyMacOSFormWindowEffectsIfNeeded()
+	{
+		if (GetResolvedPalette() is PaletteMacOSBase macPalette)
+		{
+			MacOSFormChromeHelper.ApplyWindowEffects(this, macPalette);
+			return;
+		}
 
-        if (IsHandleCreated)
-        {
-            MacOSFormChromeHelper.ClearWindowEffects(this);
-        }
-    }
+		if (IsHandleCreated)
+		{
+			MacOSFormChromeHelper.ClearWindowEffects(this);
+		}
+	}
 
-    /// <summary>
-    /// Rebuilds <see cref="_buttonSpecsFixed"/> in the order required by the current palette.
-    /// </summary>
-    /// <remarks>
-    /// Single source of truth for Min/Max/Close collection order. Visual placement (left vs right)
-    /// is handled separately by <see cref="KryptonForm.FormPaletteRedirect.GetButtonSpecEdge(PaletteButtonSpecStyle)"/> and
-    /// <see cref="ButtonSpecManagerBase.GetButtonSpecDockStyle"/>.
-    /// <para>
-    /// Near-edge traffic-light layouts (macOS, OS X Aqua, or <see cref="FormTrafficLightEdge"/> = Near)
-    /// use collection [max, min, close]. All other layouts use Windows collection [min, max, close].
-    /// </para>
-    /// </remarks>
-    private void SyncFormFixedButtonSpecOrder()
+	/// <summary>
+	/// Rebuilds <see cref="_buttonSpecsFixed"/> in the order required by the current palette.
+	/// </summary>
+	/// <remarks>
+	/// Single source of truth for Min/Max/Close collection order. Visual placement (left vs right)
+	/// is handled separately by <see cref="KryptonForm.FormPaletteRedirect.GetButtonSpecEdge(PaletteButtonSpecStyle)"/> and
+	/// <see cref="ButtonSpecManagerBase.GetButtonSpecDockStyle"/>.
+	/// <para>
+	/// Near-edge traffic-light layouts (macOS, OS X Aqua, or <see cref="FormTrafficLightEdge"/> = Near)
+	/// use collection [max, min, close]. All other layouts use Windows collection [min, max, close].
+	/// </para>
+	/// </remarks>
+	private void SyncFormFixedButtonSpecOrder()
 	{
 		_buttonSpecsFixed.Clear();
 		if (UsesLeftTrafficLightFormButtons())
@@ -3496,10 +3817,15 @@ public class KryptonForm : VisualForm,
 
 	private void ApplyMacWindowEffects(PaletteMacOSBase? macPalette)
 	{
-		macPalette ??= GetResolvedPalette() as PaletteMacOSBase
-					 ?? (KryptonManager.CurrentGlobalPaletteMode == PaletteMode.MacOSDark
-						 ? KryptonManager.PaletteMacOSDark
-						 : KryptonManager.PaletteMacOSLight);
+		macPalette ??= GetResolvedPalette() as PaletteMacOSBase;
+		macPalette ??= (KryptonManager.CurrentGlobalPaletteMode == PaletteMode.MacOSDark
+			? KryptonManager.GetPaletteForMode(PaletteMode.MacOSDark)
+			: KryptonManager.GetPaletteForMode(PaletteMode.MacOSLight)) as PaletteMacOSBase;
+
+		if (macPalette is null)
+		{
+			return;
+		}
 
 		if (IsHandleCreated)
 		{
@@ -3684,6 +4010,18 @@ public class KryptonForm : VisualForm,
 	/// <inheritdoc />
 	protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 	{
+		if (_menuBar is { IsDisposed: false }
+		    && _menuBar.ProcessBarCmdKey(ref msg, keyData))
+		{
+			return true;
+		}
+
+		if (_titleBar != null
+		    && _titleBar.ProcessButtonSpecShortcuts(keyData))
+		{
+			return true;
+		}
+
 		return base.ProcessCmdKey(ref msg, keyData);
 	}
 
@@ -3701,60 +4039,46 @@ public class KryptonForm : VisualForm,
 		_titleBarDocker = new ViewDrawDocker(StateActive.Header.Back, StateActive.Header.Border, StateActive.Header,
 			PaletteMetricBool.None, PaletteMetricPadding.None, VisualOrientation.Top);
 
-		// ButtonSpecManagerDraw wires the KryptonFormTitleBar.ButtonSpecs collection to
-		// the view layer.  Each ButtonSpec is turned into a real view button, rendered
-		// inside _titleBarDocker, and measured using the HeaderButtonEdgeInset /
-		// HeaderButtonPadding metrics so spacing stays consistent with the rest of the
-		// caption buttons (Min/Max/Close).
-		// Passing null for the fixed-button array means only the user-defined specs
-		// from the titleBar are managed here; the system chrome buttons are handled by
-		// the separate _buttonManager.
-		// Under RTL+RightToLeftLayout, ViewDrawDocker.CalculateDock() automatically
-		// flips ViewDockStyle.Left to ViewDockStyle.Right, so the injected docker
-		// migrates to the correct visual edge without any extra code here.
-		_titleBarButtonManager = new ButtonSpecManagerDraw(
-			this,                                           // owning control (for RightToLeft checks)
-			Redirector,                                     // palette redirector
-			titleBar.ButtonSpecs,                           // the user-defined button specs to render
-			null,                                           // no fixed button specs in this manager
-			[_titleBarDocker],                              // single view container the buttons live in
-			[StateCommon!.Header],                           // palette state used to style each button
-			[PaletteMetricInt.HeaderButtonEdgeInsetForm],   // edge inset metric (gap from docker border)
-			[PaletteMetricPadding.HeaderButtonPaddingForm], // padding metric around each button
-			CreateToolStripRenderer,                        // renderer factory (for ToolStrip-hosted glyphs)
-			OnNeedPaint);                                   // invalidation callback
-
-		// Share the form-level ToolTipManager so hovering a title bar button shows
-		// a tooltip using the same infrastructure as all other Krypton controls.
-		_titleBarButtonManager.ToolTipManager = ToolTipManager;
-
-		// Physically insert _titleBarDocker into the caption view tree as a Left-docked
-		// child of _drawHeading.  This places the custom buttons between the form icon
-		// (which is drawn by _drawContent as the content image) and the title text,
-		// mirroring where the Ribbon places its Quick-Access Toolbar buttons.
-		// Under RTL the Left dock is flipped to Right by the layout engine, which in a
-		// mirrored coordinate system is still visually "after the icon, before the title".
+		// Insert the docker before creating button managers so RecreateButtons can measure against the caption tree.
 		InjectViewElement(_titleBarDocker, ViewDockStyle.Left);
 
-		// Track collection changes so the view stays in sync: when the developer adds
-		// or removes a ButtonSpec at runtime, OnTitleBarButtonSpecChanged refreshes the
-		// button views and re-measures the caption area.
+		_titleBarMenuStripButtonManager = CreateTitleBarSpecManager(titleBar.MenuStripButtonSpecs);
+		_titleBarButtonManager = CreateTitleBarSpecManager(titleBar.ButtonSpecs);
+
 		titleBar.ButtonSpecInserted += OnTitleBarButtonSpecChanged;
 		titleBar.ButtonSpecRemoved += OnTitleBarButtonSpecChanged;
+		titleBar.MenuStripButtonSpecInserted += OnTitleBarMenuStripButtonSpecChanged;
+		titleBar.MenuStripButtonSpecRemoved += OnTitleBarMenuStripButtonSpecChanged;
 
-		// Rebuild the Min/Max/Close buttons because their edge-inset calculations can
-		// depend on how many title bar buttons are now present, then request a full
-		// non-client repaint so the new buttons appear immediately.
 		RecreateMinMaxCloseButtons();
+		_titleBarMenuStripButtonManager.RecreateButtons();
+		_titleBarButtonManager.RecreateButtons();
 		PerformNeedPaint(true);
+	}
+
+	private ButtonSpecManagerDraw CreateTitleBarSpecManager(ButtonSpecCollectionBase specs)
+	{
+		var manager = new ButtonSpecManagerDraw(
+			this,
+			Redirector,
+			specs,
+			null,
+			[_titleBarDocker!],
+			[StateCommon!.Header],
+			[PaletteMetricInt.HeaderButtonEdgeInsetForm],
+			[PaletteMetricPadding.HeaderButtonPaddingForm],
+			CreateToolStripRenderer,
+			OnNeedPaint);
+		manager.ToolTipManager = ToolTipManager;
+		return manager;
 	}
 
 	private void DetachTitleBar([DisallowNull] KryptonFormTitleBar titleBar)
 	{
-		// Stop listening for collection changes first so no callbacks fire
-		// during the teardown sequence below.
 		titleBar.ButtonSpecInserted -= OnTitleBarButtonSpecChanged;
 		titleBar.ButtonSpecRemoved -= OnTitleBarButtonSpecChanged;
+		titleBar.MenuStripButtonSpecInserted -= OnTitleBarMenuStripButtonSpecChanged;
+		titleBar.MenuStripButtonSpecRemoved -= OnTitleBarMenuStripButtonSpecChanged;
 
 		// Remove the docker from the caption view tree before destroying it so the
 		// layout engine never tries to measure a partially-disposed element.
@@ -3767,6 +4091,8 @@ public class KryptonForm : VisualForm,
 		// unregisters any internal event handlers it holds.
 		_titleBarButtonManager?.Destruct();
 		_titleBarButtonManager = null;
+		_titleBarMenuStripButtonManager?.Destruct();
+		_titleBarMenuStripButtonManager = null;
 
 		// Dispose the docker view after the manager is gone so no lingering
 		// button views attempt to paint through an already-disposed parent.
@@ -3790,6 +4116,13 @@ public class KryptonForm : VisualForm,
 		// without rebuilding the entire caption tree, then RecreateMinMaxCloseButtons
 		// adjusts the chrome button spacing and a repaint makes the change visible.
 		_titleBarButtonManager?.RefreshButtons();
+		RecreateMinMaxCloseButtons();
+		PerformNeedPaint(true);
+	}
+
+	private void OnTitleBarMenuStripButtonSpecChanged(object? sender, ButtonSpecEventArgs e)
+	{
+		_titleBarMenuStripButtonManager?.RefreshButtons();
 		RecreateMinMaxCloseButtons();
 		PerformNeedPaint(true);
 	}
@@ -3844,6 +4177,23 @@ public class KryptonForm : VisualForm,
 			// add the drop shadow flag for automatically drawing
 			// a drop shadow around the form
 			CreateParams cp = base.CreateParams;
+
+			// Issue #2922: MDI children are often given WS_CAPTION by the MDI client even when
+			// FormBorderStyle is None. Strip caption/frame styles from CreateParams so the HWND
+			// is created without a system title bar.
+			if (FormBorderStyle == FormBorderStyle.None)
+			{
+				cp.Style &= unchecked((int)~(PI.WS_.CAPTION | PI.WS_.SIZEFRAME | PI.WS_.DLGFRAME | PI.WS_.SYSMENU | PI.WS_.BORDER));
+				cp.ExStyle &= unchecked((int)~(PI.WS_EX_.CLIENTEDGE | PI.WS_EX_.WINDOWEDGE | PI.WS_EX_.DLGMODALFRAME | PI.WS_EX_.STATICEDGE));
+			}
+
+			// MDI children default to Visible=true, so CreateWindow would paint the system
+			// frame before OnHandleCreated can apply chrome. Create hidden, then WinForms
+			// shows the window after chrome is ready (issue #2922).
+			if (!DesignMode && MdiParent != null && !IsHandleCreated)
+			{
+				cp.Style &= unchecked((int)~PI.WS_.VISIBLE);
+			}
 
 #pragma warning disable CS0618 // Type or member is obsolete
 			if (UseDropShadow)

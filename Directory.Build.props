@@ -1,4 +1,4 @@
-<Project>
+﻿<Project>
 	<PropertyGroup>
 		<!-- Solution/CLI graph builds can evaluate child projects before Configuration is set; default
 		     avoids wrong TargetFrameworks (Otherwise omits net472) and Bin\<tfm>\ output paths. -->
@@ -58,6 +58,26 @@
 			</PropertyGroup>
 		</When>
 
+		<When Condition="'$(Configuration)' == 'RC'">
+			<PropertyGroup>
+				<Minor>$([System.DateTime]::Now.ToString(yy))</Minor>
+				<Build>$([System.DateTime]::Now.ToString(MM))</Build>
+				<Revision>$([System.DateTime]::Now.get_DayOfYear().ToString())</Revision>
+
+				<!--Version layout schema:
+				110 = Major
+				26 = Minor - Year of release
+				01 = Build - Month of release
+				1 = Revision - Day of release (day of year)
+				-rc = Release candidate of the stable package identity (gold branch)
+				-->
+				<LibraryVersion>110.$(Minor).$(Build).$(Revision)</LibraryVersion>
+
+				<!--https://learn.microsoft.com/en-us/nuget/concepts/package-versioning?tabs=semver20sort#pre-release-versions-->
+				<PackageVersion>110.$(Minor).$(Build).$(Revision)-rc</PackageVersion>
+			</PropertyGroup>
+		</When>
+
 		<When Condition="'$(Configuration)' == 'Installer'">
 			<PropertyGroup>
 				<Minor>$([System.DateTime]::Now.ToString(yy))</Minor>
@@ -106,6 +126,10 @@
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Canary'">
 		<DefineConstants>$(DefineConstants);CANARY</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'RC'">
+		<DefineConstants>$(DefineConstants);RC</DefineConstants>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Alpha'">

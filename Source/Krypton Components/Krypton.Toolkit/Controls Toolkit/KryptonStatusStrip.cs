@@ -12,7 +12,8 @@
 
 namespace Krypton.Toolkit;
 
-[ToolboxBitmap(typeof(StatusStrip), "ToolboxBitmaps.KryptonStatusStrip.bmp")]
+[ToolboxBitmap(typeof(KryptonStatusStrip), "ToolboxBitmaps.KryptonStatusStrip.bmp")]
+[Category(@"Krypton Toolkit")]
 [Description(@"A Krypton based status strip.")]
 [ToolboxItem(true)]
 public class KryptonStatusStrip : StatusStrip,
@@ -28,7 +29,9 @@ public class KryptonStatusStrip : StatusStrip,
 
     #region Properties
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    public ToolStripProgressBar[] ProgressBars { get; set; }
+    [Description(@"The progress bars to display on the status strip.")]
+    [DefaultValue(null)]
+    public ToolStripProgressBar[]? ProgressBars { get; set; }
     #endregion
 
     #region Constructor

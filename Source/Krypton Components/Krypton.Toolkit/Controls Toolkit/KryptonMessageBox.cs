@@ -25,7 +25,7 @@ namespace Krypton.Toolkit;
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory(@"code")]
-public static class KryptonMessageBox
+public static partial class KryptonMessageBox
 {
     #region Public
 

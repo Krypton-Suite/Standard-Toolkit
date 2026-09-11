@@ -149,6 +149,7 @@ File names by context:
 - Nightly -> `nightly.proj`
 - Canary -> `canary.proj`
 - Stable -> `build.proj`
+- RC (gold) -> `rc.proj` (local wrappers exist; not on the F1 channel cycle yet)
 - Installer -> `installer.proj`
 
 Resolution order depends on effective scripts profile:

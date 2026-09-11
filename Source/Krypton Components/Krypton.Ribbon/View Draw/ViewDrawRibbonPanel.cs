@@ -62,4 +62,40 @@ internal class ViewDrawRibbonPanel : ViewDrawPanel
     }
     #endregion
 
+    #region Paint
+
+    /// <inheritdoc />
+    /// <remarks>
+    /// The ribbon panel uses <see cref="PaletteBackStyle.PanelClient"/>, which stays light for Office 2013 Grey
+    /// (document surface). When the palette supplies a tab-row solid colour, paint that over the tabs strip
+    /// so Dark Grey chrome is not a white band between the caption and the groups area.
+    /// </remarks>
+    public override void RenderBefore(RenderContext context)
+    {
+        base.RenderBefore(context);
+
+        Color tabRow = _palette.GetRibbonTabRowBackgroundSolidColor(State);
+        if (tabRow.IsEmpty)
+        {
+            return;
+        }
+
+        ViewLayoutRibbonTabsArea? tabsArea = _ribbon.TabsArea;
+        if (tabsArea == null)
+        {
+            return;
+        }
+
+        Rectangle tabsRect = tabsArea.ClientRectangle;
+        if (tabsRect.Width <= 0 || tabsRect.Height <= 0)
+        {
+            return;
+        }
+
+        using var brush = new SolidBrush(tabRow);
+        context.Graphics.FillRectangle(brush, tabsRect);
+    }
+
+    #endregion
+
 }

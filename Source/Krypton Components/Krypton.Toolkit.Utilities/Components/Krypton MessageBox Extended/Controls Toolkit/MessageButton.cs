@@ -9,15 +9,14 @@
 
 namespace Krypton.Toolkit.Utilities;
 
+/// <summary>
+/// Internal message-box action button. Inherits countdown behaviour from
+/// <see cref="KryptonCountdownButton"/> and adds Alt+F4 suppression used while the dialog has no ControlBox.
+/// </summary>
 [ToolboxItem(false)]
 [DesignTimeVisible(false)]
-internal class MessageButton : InternalKryptonButton
+internal class MessageButton : KryptonCountdownButton
 {
-
-    #region Instance Fields
-
-    #endregion
-
     #region Identity
     public MessageButton()
     {

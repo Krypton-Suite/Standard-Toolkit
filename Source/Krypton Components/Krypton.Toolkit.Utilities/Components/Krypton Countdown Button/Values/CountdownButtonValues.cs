@@ -30,6 +30,7 @@ public class CountdownButtonValues : Storage
     private int _countdownInterval;
     private string _countdownTextFormat;
     private bool _enableButtonAtZero;
+    private bool _disableDuringCountdown;
     private Action<int>? _intervalChangedCallback;
 
     #endregion
@@ -55,6 +56,7 @@ public class CountdownButtonValues : Storage
                                       CountdownInterval == DEFAULT_COUNTDOWN_INTERVAL &&
                                       CountdownTextFormat == DEFAULT_COUNTDOWN_TEXT_FORMAT &&
                                       !EnableButtonAtZero &&
+                                      DisableDuringCountdown &&
                                       CountdownSecondSuffix == DEFAULT_COUNTDOWN_SECOND_SUFFIX;
 
     #endregion
@@ -132,6 +134,23 @@ public class CountdownButtonValues : Storage
         set => _enableButtonAtZero = value;
     }
 
+    /// <summary>
+    /// Gets or sets whether the button is disabled while the countdown is running.
+    /// </summary>
+    /// <remarks>
+    /// Default is <c>true</c> for standalone <see cref="KryptonCountdownButton"/> use.
+    /// Message-box action buttons set this to <c>false</c> so the user can click before the timer elapses.
+    /// </remarks>
+    [DefaultValue(true)]
+    [Description("If true, the button is disabled until the countdown finishes.")]
+    [Category("Behavior")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public bool DisableDuringCountdown
+    {
+        get => _disableDuringCountdown;
+        set => _disableDuringCountdown = value;
+    }
+
     /// <summary>Gets or sets the suffix for the countdown seconds.</summary>
     [DefaultValue("s")]
     [Description("The suffix for the countdown seconds.")]
@@ -150,6 +169,7 @@ public class CountdownButtonValues : Storage
         CountdownInterval = DEFAULT_COUNTDOWN_INTERVAL;
         CountdownTextFormat = DEFAULT_COUNTDOWN_TEXT_FORMAT;
         EnableButtonAtZero = false;
+        DisableDuringCountdown = true;
         CountdownSecondSuffix = DEFAULT_COUNTDOWN_SECOND_SUFFIX;
     }
 

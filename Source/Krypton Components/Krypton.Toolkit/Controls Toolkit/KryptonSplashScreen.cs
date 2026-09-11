@@ -26,6 +26,11 @@ public static class KryptonSplashScreen
     public static void Show(Assembly entryAssembly, bool showProgressBar, int? timeOut, Image applicationLogo, IWin32Window? nextWindow) =>
         ShowCore(entryAssembly, showProgressBar, timeOut, applicationLogo, nextWindow);
 
+    /// <summary>Shows the specified splash screen asynchronously.</summary>
+    /// <param name="splashScreenData">The splash screen data.</param>
+    /// <returns>A task that produces the dialog result when the splash screen is closed.</returns>
+    public static Task<DialogResult> ShowAsync(KryptonSplashScreenData splashScreenData) => ShowCoreAsync(splashScreenData);
+
     #endregion
 
     #region Implementation
@@ -35,6 +40,14 @@ public static class KryptonSplashScreen
         using var kssf = new VisualSplashScreenForm(splashScreenData);
 
         return kssf.ShowDialog();
+    }
+
+    private static async Task<DialogResult> ShowCoreAsync(KryptonSplashScreenData splashScreenData)
+    {
+        using var kssf = new VisualSplashScreenForm(splashScreenData);
+
+        // Await required so using does not dispose the form before the dialog completes.
+        return await KryptonFormAsync.ShowDialogAsync(kssf).ConfigureAwait(false);
     }
 
     private static void ShowCore(Assembly entryAssembly, bool showProgressBar, int? timeOut, Image applicationLogo, IWin32Window? nextWindow) => new VisualSplashScreenForm(entryAssembly, showProgressBar, timeOut, applicationLogo, nextWindow).Show();

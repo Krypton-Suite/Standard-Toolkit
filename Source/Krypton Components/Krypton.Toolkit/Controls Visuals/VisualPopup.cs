@@ -23,6 +23,7 @@ public class VisualPopup : ContainerControl
     private bool _layoutDirty;
     private bool _refresh;
     private bool _refreshAll;
+    private bool _isRightToLeftLayout;
     private readonly SimpleCall _refreshCall;
     private VisualPopupShadow? _shadow;
     #endregion
@@ -147,6 +148,34 @@ public class VisualPopup : ContainerControl
 
     #region Public
     /// <summary>
+    /// Gets or sets whether popup layout packs from the reading-order start edge.
+    /// </summary>
+    /// <remarks>
+    /// Same two-flag contract as <see cref="VisualSimpleBase"/>: also requires
+    /// <see cref="Control.RightToLeft"/> equal to <see cref="RightToLeft.Yes"/>.
+    /// Named to match WinForms <see cref="Form"/>; not the <c>RightToLeftLayout</c> enum.
+    /// </remarks>
+    [Category(@"Appearance")]
+    [Localizable(true)]
+    [Description(@"Indicates whether the layout of the popup is from right to left.")]
+    [DefaultValue(false)]
+    [Browsable(true)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public bool RightToLeftLayout
+    {
+        get => _isRightToLeftLayout;
+        set
+        {
+            if (_isRightToLeftLayout != value)
+            {
+                _isRightToLeftLayout = value;
+                PerformNeedPaint(true);
+            }
+        }
+    }
+
+    /// <summary>
     /// Show the popup using the provided rectangle as the screen rect.
     /// </summary>
     /// <param name="screenRect">Screen rectangle for showing the popup.</param>
@@ -165,6 +194,23 @@ public class VisualPopup : ContainerControl
         // Use manager to track mouse/keyboard input and to dismiss the window
         VisualPopupManager.Singleton.StartTracking(this);
     }
+
+    /// <summary>
+    /// Shows the shadow window for the popup rectangle, with optional padding for outer halo paths.
+    /// </summary>
+    /// <param name="popupScreenRect">Screen bounds of this popup.</param>
+    /// <param name="padding">Extra pixels around the popup for soft shadow rings.</param>
+    protected void ShowShadow(Rectangle popupScreenRect, int padding) =>
+        _shadow?.Show(popupScreenRect, padding);
+
+    /// <summary>
+    /// Shows the shadow window for the popup rectangle with padding and drop offset.
+    /// </summary>
+    /// <param name="popupScreenRect">Screen bounds of this popup.</param>
+    /// <param name="padding">Extra pixels around the popup for soft shadow rings.</param>
+    /// <param name="offset">Drop offset in pixels (down and right).</param>
+    protected void ShowShadow(Rectangle popupScreenRect, int padding, int offset) =>
+        _shadow?.Show(popupScreenRect, padding, offset);
 
     /// <summary>
     /// Show the popup with the given size but relative to the provided top left point.
@@ -435,6 +481,25 @@ public class VisualPopup : ContainerControl
     }
 
     /// <summary>
+    /// Raises the LocationChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected override void OnLocationChanged(EventArgs e)
+    {
+        // Keep the shadow window aligned when the popup is moved (e.g. radial AllowMove drag).
+        _shadow?.UpdatePopupLocation(Location);
+        base.OnLocationChanged(e);
+    }
+
+    /// <summary>
+    /// Updates the popup shadow colour and opacity when a shadow window is present.
+    /// </summary>
+    /// <param name="color">Base RGB colour for the shadow layers.</param>
+    /// <param name="opacity">Form opacity in the range 0..1.</param>
+    protected void UpdateShadowAppearance(Color color, float opacity) =>
+        _shadow?.ApplyAppearance(color, opacity);
+
+    /// <summary>
     /// Raises the Layout event.
     /// </summary>
     /// <param name="lEvent">A LayoutEventArgs that contains the event data.</param>
@@ -444,7 +509,7 @@ public class VisualPopup : ContainerControl
         if (!IsDisposed)
         {
             // Do we have a manager to use for laying out?
-            if (ViewManager != null)
+            if (ViewManager != null && Renderer != null)
             {
                 // Prevent infinite loop by looping a maximum number of times
                 var max = 5;

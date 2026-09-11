@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -213,6 +213,12 @@ internal static class ToolStripFontSync
                 if (openForms[i] is Form form)
                 {
                     RefreshToolStripsInControl(form, colorTable);
+
+                    // MainMenuStrip can be assigned without living in Controls (MDI / some designer layouts).
+                    if (form.MainMenuStrip != null)
+                    {
+                        ApplyFromColorTable(form.MainMenuStrip, colorTable);
+                    }
                 }
             }
         }

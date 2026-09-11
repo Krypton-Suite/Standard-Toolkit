@@ -55,82 +55,6 @@ using static System.Runtime.InteropServices.Marshal;
 namespace Krypton.Toolkit;
 
 /// <summary>
-/// Contains string constants for Windows API library names used in Platform Invoke declarations.
-/// These constants provide centralized references to Windows system DLLs and components.
-/// </summary>
-internal static class Libraries
-{
-    /// <summary>Common Controls library - provides advanced UI controls</summary>
-    public const string Comctl32 = "comctl32.dll";
-    /// <summary>Common Dialog library - provides standard dialog boxes</summary>
-    public const string Comdlg32 = "comdlg32.dll";
-    /// <summary>Desktop Window Manager API - provides window composition and effects</summary>
-    public const string DWMApi = @"dwmapi.dll";
-    /// <summary>Graphics Device Interface - provides drawing and graphics functions</summary>
-    public const string Gdi32 = "gdi32.dll";
-    /// <summary>GDI+ library - provides advanced 2D graphics capabilities</summary>
-    public const string Gdiplus = "gdiplus.dll";
-    /// <summary>HTML Help Control - provides help system functionality</summary>
-    public const string Hhctrl = "hhctrl.ocx";
-    /// <summary>Input Method Manager - provides input method editor support</summary>
-    public const string Imm32 = "imm32.dll";
-    /// <summary>Image Resource library - provides access to system image resources</summary>
-    public const string Imageres = "imageres.dll";
-    /// <summary>Kernel library - provides core system functions</summary>
-    public const string Kernel32 = "kernel32.dll";
-    /// <summary>Native API library - provides low-level system functions</summary>
-    public const string NtDll = "ntdll.dll";
-    /// <summary>OLE library - provides object linking and embedding support</summary>
-    public const string Ole32 = "ole32.dll";
-    /// <summary>OLE Accessibility - provides accessibility support</summary>
-    public const string Oleacc = "oleacc.dll";
-    /// <summary>OLE Automation - provides automation support</summary>
-    public const string Oleaut32 = "oleaut32.dll";
-    /// <summary>Power Profile library - provides power management functions</summary>
-    public const string Powrprof = "Powrprof.dll";
-    /// <summary>Property System library - provides property system support</summary>
-    public const string Propsys = "Propsys.dll";
-    /// <summary>Rich Edit 4.1 control - provides rich text editing capabilities</summary>
-    public const string RichEdit41 = "MsftEdit.DLL";
-    /// <summary>Shell Core library - provides shell functionality</summary>
-    public const string SHCore = "SHCore.dll";
-    /// <summary>Shell library - provides shell and file system functions</summary>
-    public const string Shell32 = "shell32.dll";
-    /// <summary>Shell Lightweight Utility API - provides shell utility functions</summary>
-    public const string Shlwapi = "shlwapi.dll";
-    /// <summary>UI Automation Core - provides accessibility and automation support</summary>
-    public const string UiaCore = "UIAutomationCore.dll";
-    /// <summary>User library - provides window management and user interface functions</summary>
-    public const string User32 = "user32.dll";
-    /// <summary>Visual Styles library - provides theme and visual style support</summary>
-    public const string UxTheme = "uxtheme.dll";
-}
-
-/// <summary>
-/// Provides a safe handle wrapper for Windows module handles (HMODULE).
-/// This class ensures proper cleanup of loaded library modules and prevents handle leaks.
-/// </summary>
-// inherits from SafeHandleZeroOrMinusOneIsInvalid, so IsInvalid is already implemented.
-internal sealed class SafeModuleHandle : SafeHandleZeroOrMinusOneIsInvalid
-{
-    /// <summary>
-    /// Initializes a new instance of the SafeModuleHandle class.
-    /// A default constructor is required for P/Invoke to instantiate the class.
-    /// </summary>
-    // ReSharper disable once ConvertToPrimaryConstructor
-    public SafeModuleHandle()
-        : base(true)
-    {
-    }
-
-    /// <summary>
-    /// Releases the module handle by calling FreeLibrary.
-    /// </summary>
-    /// <returns>True if the handle was successfully released; otherwise, false.</returns>
-    protected override bool ReleaseHandle() => PI.FreeLibrary(handle);
-}
-
-/// <summary>
 /// Platform Invoke declarations and Windows API bindings.
 /// This class contains P/Invoke method declarations, Windows constants, enums, and structures
 /// required for native Windows functionality integration in the Krypton Toolkit.
@@ -567,6 +491,7 @@ internal partial class PI
 
     internal const int LVM_FIRST = 0x1000;
     internal const int LVM_SCROLL = LVM_FIRST + 20;
+    internal const int LVM_GETHEADER = LVM_FIRST + 31;
 
     internal enum ScrollBarType
     {
@@ -2877,6 +2802,23 @@ No 	                    No 	                    Show text only
             PALETTEWINDOW = WINDOWEDGE + TOOLWINDOW + TOPMOST;
     }
 
+    /// <summary>
+    /// GDI device-context layout flags for <see cref="GetLayout"/> / <see cref="SetLayout"/>.
+    /// </summary>
+    internal struct LAYOUT_
+    {
+        public const uint
+            RTL = 0x00000001,
+            BTT = 0x00000002,
+            VBH = 0x00000004,
+            BITMAPORIENTATIONPRESERVED = 0x00000008;
+    }
+
+    /// <summary>
+    /// Win32 <c>GDI_ERROR</c> return from GDI functions such as <see cref="GetLayout"/>.
+    /// </summary>
+    internal const uint GDI_ERROR = 0xFFFFFFFF;
+
     internal enum MF_ : uint
     {
         INSERT = 0x00000000,
@@ -4642,6 +4584,24 @@ No 	                    No 	                    Show text only
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     #if NET8_0_OR_GREATER
     [LibraryImport(Libraries.Gdi32)]
+    internal static partial uint GetLayout(IntPtr hdc);
+    #else
+
+    [DllImport(Libraries.Gdi32)]
+    internal static extern uint GetLayout(IntPtr hdc);
+    #endif
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32)]
+    internal static partial uint SetLayout(IntPtr hdc, uint dwLayout);
+    #else
+
+    [DllImport(Libraries.Gdi32)]
+    internal static extern uint SetLayout(IntPtr hdc, uint dwLayout);
+    #endif
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32)]
     internal static partial StretchBltMode SetStretchBltMode(IntPtr hdc, StretchBltMode iStretchMode);
     #else
 
@@ -5004,14 +4964,6 @@ No 	                    No 	                    Show text only
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static extern bool ExtTextOutW(IntPtr hdc, int x, int y, ETO_ options, ref RECT lprect, string lpString, uint c, IntPtr lpDx);
     #endif
-
-    #endregion
-
-    #region nt.dll
-
-    [DllImport(Libraries.NtDll, SetLastError = true)]
-    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    internal static extern int RtlGetVersion(ref OSVERSIONINFOEX lpVersionInformation);
 
     #endregion
 
@@ -5554,6 +5506,68 @@ No 	                    No 	                    Show text only
         uint cbSizeFileInfo,
         uint uFlags);
 
+    /// <summary>
+    /// Win32 <c>SHCNE_*</c> event flags for <see cref="SHChangeNotify"/>.
+    /// </summary>
+    [Flags]
+    internal enum SHCNE_ : uint
+    {
+        RENAMEITEM = 0x00000001,
+        CREATE = 0x00000002,
+        DELETE = 0x00000004,
+        MKDIR = 0x00000008,
+        RMDIR = 0x00000010,
+        MEDIAINSERTED = 0x00000020,
+        MEDIAREMOVED = 0x00000040,
+        DRIVEREMOVED = 0x00000080,
+        DRIVEADD = 0x00000100,
+        NETSHARE = 0x00000200,
+        NETUNSHARE = 0x00000400,
+        ATTRIBUTES = 0x00000800,
+        UPDATEDIR = 0x00001000,
+        UPDATEITEM = 0x00002000,
+        SERVERDISCONNECT = 0x00004000,
+        UPDATEIMAGE = 0x00008000,
+        DRIVEADDGUI = 0x00010000,
+        RENAMEFOLDER = 0x00020000,
+        FREESPACE = 0x00040000,
+        EXTENDED_EVENT = 0x04000000,
+        ASSOCCHANGED = 0x08000000,
+        DISKEVENTS = 0x0002381F,
+        GLOBALEVENTS = 0x0C0581E0,
+        ALLEVENTS = 0x7FFFFFFF,
+        INTERRUPT = 0x80000000u
+    }
+
+    /// <summary>
+    /// Win32 <c>SHCNF_*</c> flags for <see cref="SHChangeNotify"/> item pointers and flush behaviour.
+    /// </summary>
+    [Flags]
+    internal enum SHCNF_ : uint
+    {
+        IDLIST = 0x0000,
+        PATHA = 0x0001,
+        PRINTERA = 0x0002,
+        DWORD = 0x0003,
+        PATHW = 0x0005,
+        PRINTERW = 0x0006,
+        /// <summary>Unicode path pointer; same value as <see cref="PATHW"/>.</summary>
+        PATH = PATHW,
+        TYPE = 0x00FF,
+        FLUSH = 0x1000,
+        FLUSHNOWAIT = 0x2000,
+        NOTIFYRECURSIVE = 0x10000
+    }
+
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Shell32)]
+    internal static partial void SHChangeNotify(uint wEventId, uint uFlags, IntPtr dwItem1, IntPtr dwItem2);
+    #else
+    [DllImport(Libraries.Shell32, SetLastError = false)]
+    internal static extern void SHChangeNotify(uint wEventId, uint uFlags, IntPtr dwItem1, IntPtr dwItem2);
+    #endif
+
     #endregion
 
     #region Static Uxtheme
@@ -6023,6 +6037,16 @@ No 	                    No 	                    Show text only
         public SWP_ flags;
     }
 
+    /// <summary>
+    /// Passed as <c>lParam</c> for <see cref="WM_.STYLECHANGING"/> and <see cref="WM_.STYLECHANGED"/>.
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct STYLESTRUCT
+    {
+        public uint styleOld;
+        public uint styleNew;
+    }
+
     [StructLayout(LayoutKind.Sequential)]
     internal struct GUIDSTRUCT
     {
@@ -6324,30 +6348,6 @@ No 	                    No 	                    Show text only
     {
         public int X;
         public int Y;
-    }
-
-    /// <summary>
-    /// Contains operating system version information. The information includes major and minor version numbers, a build number, a platform identifier, 
-    /// and information about product suites and the latest Service Pack installed on the system. 
-    /// This structure is used with the RtlGetVersion, GetVersionEx and VerifyVersionInfo functions.
-    /// </summary>
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-    internal struct OSVERSIONINFOEX
-    {
-        public uint dwOSVersionInfoSize;
-        public uint dwMajorVersion;
-        public uint dwMinorVersion;
-        public uint dwBuildNumber;
-        public uint dwPlatformId;
-
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
-        public string szCSDVersion;
-
-        public ushort wServicePackMajor;
-        public ushort wServicePackMinor;
-        public ushort wSuiteMask;
-        public byte wProductType;
-        public byte wReserved;
     }
 
     #region For Acrylic
@@ -6830,32 +6830,4 @@ No 	                    No 	                    Show text only
     #endregion
 
     #endregion
-}
-
-/// <summary>
-/// Extension methods for working with the PI.BOOL type and standard boolean values.
-/// These methods provide convenient conversions between native Windows BOOL values and .NET bool values.
-/// </summary>
-internal static class BoolExtensions
-{
-    /// <summary>
-    /// Determines whether the BOOL value represents true.
-    /// </summary>
-    /// <param name="b">The BOOL value to check</param>
-    /// <returns>True if the BOOL value is not FALSE; otherwise, false</returns>
-    public static bool IsTrue(this PI.BOOL b) => b != PI.BOOL.FALSE;
-
-    /// <summary>
-    /// Determines whether the BOOL value represents false.
-    /// </summary>
-    /// <param name="b">The BOOL value to check</param>
-    /// <returns>True if the BOOL value is FALSE; otherwise, false</returns>
-    public static bool IsFalse(this PI.BOOL b) => b == PI.BOOL.FALSE;
-
-    /// <summary>
-    /// Converts a .NET boolean value to a Windows BOOL value.
-    /// </summary>
-    /// <param name="b">The boolean value to convert</param>
-    /// <returns>PI.BOOL.TRUE if the boolean is true; otherwise, PI.BOOL.FALSE</returns>
-    public static PI.BOOL ToBOOL(this bool b) => b ? PI.BOOL.TRUE : PI.BOOL.FALSE;
 }

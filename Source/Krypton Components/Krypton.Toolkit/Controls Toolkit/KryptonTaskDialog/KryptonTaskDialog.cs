@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -270,6 +270,57 @@ public class KryptonTaskDialog : IDisposable
         {
             _form.ShowDialog();
         }
+
+        return Dialog.DialogResult;
+    }
+
+    /// <summary>
+    /// Shows the dialog modeless asynchronously.<br/>
+    /// The returned task completes when the form is closed or disposed.
+    /// </summary>
+    /// <param name="owner">The parent window that launched this dialog.</param>
+    /// <returns>A task that completes when the form is closed or disposed.</returns>
+    public Task ShowAsync(IWin32Window? owner = null)
+    {
+        if (!Dialog.Visible)
+        {
+            UpdateFormSizing();
+            UpdateFormPosition(owner);
+            ResetFormDialogResult();
+
+            return KryptonFormAsync.ShowAsync(_form, owner);
+        }
+
+        KryptonMessageBox.Show(
+            "The form is already visible and ShowAsync() cannot be called again.",
+            "KryptonTaskDialog",
+            KryptonMessageBoxButtons.OK,
+            KryptonMessageBoxIcon.Exclamation);
+
+        if (!_form.TopMost)
+        {
+            _form.BringToFront();
+        }
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Shows as a modal dialog asynchronously.<br/>
+    /// The returned task completes when the dialog has been dismissed.
+    /// </summary>
+    /// <param name="owner">The parent window that launched this dialog.</param>
+    /// <returns>A task that produces the dialog result when the form is closed or disposed.</returns>
+    public async Task<DialogResult> ShowDialogAsync(IWin32Window? owner = null)
+    {
+        UpdateFormSizing();
+        UpdateFormPosition(owner);
+        ResetFormDialogResult();
+
+        // The standard form's DialogResult property always returns Cancel when e.Cancel is set to true.<br/>
+        // Before that happens the DialogResult is stored in DialogResultInternal.
+        // Await required: Dialog.DialogResult is read after the dialog closes.
+        await KryptonFormAsync.ShowDialogAsync(_form, owner).ConfigureAwait(false);
 
         return Dialog.DialogResult;
     }

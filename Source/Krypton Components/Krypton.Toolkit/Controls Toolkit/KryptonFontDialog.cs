@@ -218,4 +218,26 @@ public class KryptonFontDialog : FontDialog
         return handled ? retValue : base.HookProc(hWnd, msg, wparam, lparam);
     }
 
+
+    /// <summary>
+    /// Displays the dialog asynchronously.
+    /// </summary>
+    /// <remarks>
+    /// Awaitable convenience over synchronous <see cref="CommonDialog.ShowDialog()"/>.
+    /// Native ComDlg32 dialogs remain nested-modal; the UI thread stays blocked until the dialog closes.
+    /// </remarks>
+    /// <returns>A task that completes with the dialog result.</returns>
+    public Task<DialogResult> ShowDialogAsync() => ShowDialogAsync(owner: null);
+
+    /// <summary>
+    /// Displays the dialog asynchronously with the specified owner.
+    /// </summary>
+    /// <param name="owner">Owner window, or <c>null</c> for no owner.</param>
+    /// <remarks>
+    /// Awaitable convenience over synchronous <see cref="CommonDialog.ShowDialog(IWin32Window)"/>.
+    /// Native ComDlg32 dialogs remain nested-modal; the UI thread stays blocked until the dialog closes.
+    /// </remarks>
+    /// <returns>A task that completes with the dialog result.</returns>
+    public Task<DialogResult> ShowDialogAsync(IWin32Window? owner) =>
+        Task.FromResult(owner is null ? ShowDialog() : ShowDialog(owner));
 }

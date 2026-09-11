@@ -50,18 +50,18 @@ internal partial class VisualToastNUDUserInputWithProgressBarForm : VisualToastB
 
     private void UpdateBorderColors()
     {
-        StateCommon!.Border.Color1 = _data.BorderColor1 ?? GlobalStaticValues.EMPTY_COLOR;
+        StateCommon!.Border.Color1 = _data.BorderColor1 ?? SharedStaticVariables.EMPTY_COLOR;
 
-        StateCommon!.Border.Color2 = _data.BorderColor2 ?? GlobalStaticValues.EMPTY_COLOR;
+        StateCommon!.Border.Color2 = _data.BorderColor2 ?? SharedStaticVariables.EMPTY_COLOR;
     }
 
     private void UpdateText()
     {
-        GlobalStaticValues.ApplyToastRichTextContentColor(krtbNotificationContentText);
+        CommonFeatures.ApplyToastRichTextContentColor(krtbNotificationContentText);
 
-        klblHeader.Text = _data.NotificationTitle ?? GlobalStaticValues.DEFAULT_EMPTY_STRING;
+        klblHeader.Text = _data.NotificationTitle ?? SharedStaticVariables.DEFAULT_EMPTY_STRING;
 
-        krtbNotificationContentText.Text = _data.NotificationContent ?? GlobalStaticValues.DEFAULT_EMPTY_STRING;
+        krtbNotificationContentText.Text = _data.NotificationContent ?? SharedStaticVariables.DEFAULT_EMPTY_STRING;
     }
 
     private void UpdateInitialValues()
@@ -227,6 +227,19 @@ internal partial class VisualToastNUDUserInputWithProgressBarForm : VisualToastB
         {
             return toast.ShowDialog() == DialogResult.OK ? toast.UserResponse : 0;
         }
+    }
+    public static async Task<decimal> ShowToastNotificationAsync(KryptonUserInputToastData data)
+    {
+        var owner = data.ToastHost ?? FromHandle(PI.GetActiveWindow());
+
+        using var toast = new VisualToastNUDUserInputWithProgressBarForm(data);
+
+        toast.StartPosition = owner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
+
+        // Await required so using does not dispose the form before the dialog completes.
+        DialogResult result = await KryptonFormAsync.ShowDialogAsync(toast, owner).ConfigureAwait(false);
+
+        return result == DialogResult.OK ? toast.UserResponse : 0;
     }
 }
 

@@ -90,7 +90,7 @@ internal partial class VisualToastBasicWithProgressBarForm : KryptonForm
 
     private void UpdateText()
     {
-        GlobalStaticValues.ApplyToastRichTextContentColor(krtbNotificationContentText);
+        CommonFeatures.ApplyToastRichTextContentColor(krtbNotificationContentText);
 
         krtbNotificationContentText.Text = _basicToastNotificationData.NotificationContent ?? string.Empty;
 
@@ -103,9 +103,9 @@ internal partial class VisualToastBasicWithProgressBarForm : KryptonForm
 
     private void UpdateBorderColors()
     {
-        StateCommon!.Border.Color1 = _basicToastNotificationData.BorderColor1 ?? GlobalStaticValues.EMPTY_COLOR;
+        StateCommon!.Border.Color1 = _basicToastNotificationData.BorderColor1 ?? SharedStaticVariables.EMPTY_COLOR;
 
-        StateCommon.Border.Color2 = _basicToastNotificationData.BorderColor2 ?? GlobalStaticValues.EMPTY_COLOR;
+        StateCommon.Border.Color2 = _basicToastNotificationData.BorderColor2 ?? SharedStaticVariables.EMPTY_COLOR;
     }
 
     /* FadeValues disabled and moved to extended until proven stable. Further development in V100
@@ -343,5 +343,22 @@ internal partial class VisualToastBasicWithProgressBarForm : KryptonForm
         kt.Show();
     }
 
+    internal static async Task<bool> InternalShowWithBooleanReturnValueAsync(KryptonBasicToastData toastNotificationData)
+    {
+        using var toast = new VisualToastBasicWithProgressBarForm(toastNotificationData);
+
+        // Await required so using does not dispose the form before the dialog completes.
+        return await KryptonFormAsync.ShowDialogAsync(toast).ConfigureAwait(false) == DialogResult.OK && toast.ReturnValue;
+    }
+
+    internal static async Task<CheckState> InternalShowWithCheckStateReturnValueAsync(KryptonBasicToastData toastNotificationData)
+    {
+        using var toast = new VisualToastBasicWithProgressBarForm(toastNotificationData);
+
+        // Await required so using does not dispose the form before the dialog completes.
+        return await KryptonFormAsync.ShowDialogAsync(toast).ConfigureAwait(false) == DialogResult.OK
+            ? toast.ReturnCheckBoxStateValue
+            : CheckState.Unchecked;
+    }
     #endregion
 }

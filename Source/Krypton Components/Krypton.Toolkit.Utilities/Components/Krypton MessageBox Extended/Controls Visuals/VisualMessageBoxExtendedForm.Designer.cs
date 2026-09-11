@@ -103,6 +103,7 @@
             this._panelButtons.Controls.Add(this._button1);
             this._panelButtons.Controls.Add(this._button2);
             this._panelButtons.Controls.Add(this._copyButton);
+            this._panelButtons.Controls.Add(this.kcbOptionalCheckBox);
             this._panelButtons.Dock = System.Windows.Forms.DockStyle.Fill;
             this._panelButtons.Location = new System.Drawing.Point(0, 75);
             this._panelButtons.Margin = new System.Windows.Forms.Padding(0);
@@ -287,14 +288,12 @@
             // 
             this.tableLayoutPanel2.ColumnCount = 1;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Controls.Add(this.kcbOptionalCheckBox, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.kpnlContent, 0, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(48, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 2;
+            this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.Size = new System.Drawing.Size(145, 69);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
@@ -310,12 +309,14 @@
             // 
             // kcbOptionalCheckBox
             // 
-            this.kcbOptionalCheckBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kcbOptionalCheckBox.Location = new System.Drawing.Point(3, 46);
+            this.kcbOptionalCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
+            this.kcbOptionalCheckBox.AutoSize = true;
+            this.kcbOptionalCheckBox.Location = new System.Drawing.Point(10, 8);
             this.kcbOptionalCheckBox.Name = "kcbOptionalCheckBox";
-            this.kcbOptionalCheckBox.Size = new System.Drawing.Size(139, 20);
-            this.kcbOptionalCheckBox.TabIndex = 0;
-            this.kcbOptionalCheckBox.Values.Text = "CB1";
+            this.kcbOptionalCheckBox.Size = new System.Drawing.Size(20, 20);
+            this.kcbOptionalCheckBox.TabIndex = 4;
+            this.kcbOptionalCheckBox.Values.Text = "";
+            this.kcbOptionalCheckBox.Visible = false;
             this.kcbOptionalCheckBox.CheckedChanged += new System.EventHandler(this.OptionalCheckBox_CheckedChanged);
             // 
             // kwlblMessageText

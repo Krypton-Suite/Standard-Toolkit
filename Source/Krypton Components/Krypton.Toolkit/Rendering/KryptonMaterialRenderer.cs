@@ -148,21 +148,8 @@ public class KryptonMaterialRenderer : KryptonProfessionalRenderer
         base.OnRenderMenuItemBackground(e);
     }
 
-    protected override void OnRenderImageMargin(ToolStripRenderEventArgs e)
-    {
-        if (e.ToolStrip is ContextMenuStrip or ToolStripDropDownMenu)
-        {
-            // Flat margin matching palette image column color
-            var rect = e.AffectedBounds;
-            rect.Inflate(-2, -2);
-            var marginBack = KCT.Palette.GetBackColor1(PaletteBackStyle.ContextMenuItemImageColumn, PaletteState.Normal);
-            using var b = new SolidBrush(marginBack);
-            e.Graphics.FillRectangle(b, rect);
-            return;
-        }
-
-        base.OnRenderImageMargin(e);
-    }
+    protected override void OnRenderImageMargin(ToolStripRenderEventArgs e) =>
+        RenderImageMarginFromColorTable(e, 2);
 
     protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
     {

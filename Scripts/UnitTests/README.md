@@ -35,8 +35,8 @@ Workflow: [`.github/workflows/unit-tests.yml`](../../.github/workflows/unit-test
 
 Optional Discord notifications use repository secret `DISCORD_WEBHOOK_UNIT_TESTS`:
 
-- Failures always post when the secret is set.
-- Successful on-demand runs post when `notify_discord` is enabled (`workflow_dispatch` default `true`).
+- Success and failure both post when the secret is set (cancelled runs are skipped).
+- On-demand / reusable runs can opt out with `notify_discord=false` (`workflow_dispatch` default `true`).
 
 ## Prerequisites
 
@@ -51,15 +51,58 @@ Default output folder: `Bin\Debug\net472`.
 | Script | Purpose | Marker |
 |--------|---------|--------|
 | `Invoke-AllUnitTests.ps1` | Discovers markers, runs every `include` script in STA children | (entry point) |
+| `UnitTest-DesignerSerializationDefaults.ps1` | #4325 toolbox drop: core controls must not report designer `Modified` storage (`IsDefault` false) | `include` |
 | `UnitTest-UnitTestInfrastructure.ps1` | Shared helpers + CI marker discovery smoke assert | `include` |
-| `UnitTest-ButtonSpaceKey.ps1` | #4147 Space activates focused `KryptonButton` when `ActiveView` is null (no hover) | `include` |
+| `UnitTest-ThemePreview.ps1` | #3870 `KryptonThemePreview` mock-up size, `AssignGeneratedThumbnail`, `.kthemex` Thumbnail round-trip | `include` |
+| `UnitTest-RibbonDetachable.ps1` | #595 Ribbon detach/reattach lifecycle, floating window, drag-to-reattach support | `include` |
+| `UnitTest-RibbonCaptionPalette.ps1` | #3859 / #4061 ribbon caption chrome (icon, RibbonShape) updates on global palette change without a resize | `include` |
 | `UnitTest-DockingDragTargetHeuristics.ps1` | #3858 Escape cancel + solid first-match priority + docking `FindTarget` removal | `include` |
-| `UnitTest-NavigatorTaskbarTabGroups.ps1` | #4129 TabGroup taskbar composites + float taskbar opt-in (needs feature binaries) | `exclude` |
-| `UnitTest-NavigatorCaptionTabRemerge.ps1` | Tear-out / remerge (needs `-HostPid`) | `exclude` |
+| `UnitTest-RadialMenu.ps1` | #4172 radial menu API: defaults, Text/Calendar items, bridge, property sync, PreferRadial, show/close | `include` |
+| `UnitTest-NavigatorTaskbarTabGroups.ps1` | #4129 TabGroup taskbar composites + float taskbar opt-in | `include` |
+| `UnitTest-NavigatorCaptionTabRemerge.ps1` | #925 tear-out / remerge into a single window (in-process; no mouse) | `include` |
+| `UnitTest-AsyncFormApis.ps1` | #4177 async dialog API gating (absent on net472; present on net9+ via `pwsh`) | `include` |
+| `UnitTest-SystemInformationApi.ps1` | #3176 `KryptonSystemInformation` type/API smoke (no UI) | `include` |
+| `UnitTest-SystemInformationUi.ps1` | #3176 host the viewer and wait for System Summary rows (WMI) | `include` |
+| `UnitTest-InteractiveToolTips.ps1` | #4192 hosted-control tooltip / HTML helper / NotifyIcon popup API surface | `include` |
+| `UnitTest-SplashScreenManager.ps1` | #4180 splash manager API: defaults, Show/SetStatus/Close, Run(steps), throwing step | `include` |
+| `UnitTest-KryptonLogProtect.ps1` | #4270 / #4269 `KryptonLog` redacts `{Password}` before file storage | `include` |
+| `UnitTest-BugReportEmailBody.ps1` | #4271 bug-report email body omits stack traces and SMTP password; `KryptonTextBox` password masking still works | `include` |
+| `UnitTest-CommandLinkArrow.ps1` | #4264 default command-link arrow: helper returns 32x32 image; Windows 7 embedded resource is packaged | `include` |
+| `UnitTest-RibbonOverflowGlyph.ps1` | #4253 QAT overflow chevrons paint at 96/144/192 DPI for Office 2007 and Office 2010 | `include` |
+| `UnitTest-CustomPaletteBasePaletteMode.ps1` | #1870 `KryptonCustomPaletteBase.BasePaletteMode` inherits the builtin colour table; builtin `BasePalette` keeps catalog mode | `include` |
+| `UnitTest-PaletteBinary.ps1` | #2117 custom palette `.kthemex` / `.ktheme` round-trip, `Convert`, `UpgradeXmlToKthemex` / `ConvertFile` (file and `KryptonCustomPaletteBase`), collections, `AddToCollection` / `RemoveFromCollection`, directory collections, and Utilities `FromDirectory` | `include` |
+| `UnitTest-KryptonFormRtl.ps1` | #2103 `KryptonForm` RTL: `ScreenToWindow` stays physical; Close hit-tests on the right in LTR and the left with `RightToLeftLayout`; window region includes both physical left and right chrome | `include` |
+| `UnitTest-WorkspaceRtlLayout.ps1` | #2383 `KryptonWorkspace` logical RTL: horizontal cells pack from the right when both flags are set; nested vertical order is unchanged; XML Children order is stable | `include` |
+| `UnitTest-BorderlessFormCaption.ps1` | #2922 borderless `KryptonForm`: top-level and MDI `Dock.Fill` child have no `WS_CAPTION` after `Show`; `MdiChildActivate` still fires | `include` |
+| `UnitTest-ContextMenuSubMenuImage.ps1` | #4252 Light Gray Office 2007/2010/Microsoft 365 `GetContextMenuSubMenuImage` returns an image; all catalog palettes must not throw | `include` |
+| `UnitTest-TagInput.ps1` | `KryptonTagInputControl` API: defaults, add/remove, duplicates, max tags, events, category colours | `include` |
+| `UnitTest-ToolStripTextContrast.ps1` | #4373 `ColorTable.ToolStripText` contrasts with `ToolStripGradientBegin` on every catalog theme | `include` |
+| `Start-AsyncFormsDemoHost.ps1` | Hosts `Feature4177AsyncFormsDemo` | n/a |
+| `Start-SplashScreenManagerHost.ps1` | Hosts `Feature4180SplashScreenManagerDemo` (#4180) | n/a |
 | `Start-NavigatorFormIntegrationHost.ps1` | Hosts `NavigatorFormIntegrationDemo` | n/a |
 | `Invoke-CaptionTabDrag.ps1` | Caption drag + screenshots | n/a |
 | `Get-NavigatorCaptionTabProbe.ps1` | Caption geometry probe | n/a |
 | `Get-NavigatorTabGroupColourShot.ps1` | Tab-group colour screenshot | n/a |
+| `Start-RadialMenuDemoHost.ps1` | Hosts `RadialMenuDemo` (#4172) | n/a |
+| `Invoke-RadialMenuScreenshot.ps1` | Opens radial menu and writes `Documents/PR/4172-radial-menu-native.png` | `exclude` |
+| `Invoke-WinFormsDesignerSdkScreenshot.ps1` | Hosts `WinFormsDesignerSdkDemo` (#593) and writes `Documents/PR/593-winforms-designer-sdk-host.png` | `exclude` |
+| `Invoke-ThemeListViewHoverScreenshot.ps1` | Hosts `ThemeCatalogDemo` (#3870), applies a list-view hover preview, writes PNG stills under `Documents/PR/` | `exclude` |
+| `Invoke-SchemeStripTextScreenshot.ps1` | Hosts `SchemeStripTextDemo` (#1100) and writes default/contrast PNGs under `Documents/PR/` | `exclude` |
+| `Invoke-PaletteBinaryScreenshot.ps1` | Hosts `PaletteBinaryDemo` (#2117) and writes `Documents/PR/2117-bulk-xml-upgrade-demo.png` | `exclude` |
+| `Invoke-PaletteCollectionEditorScreenshot.ps1` | Hosts `KryptonPaletteCollectionEditor` (#2117) and writes `Documents/PR/2117-pack-editor-demo.png` | `exclude` |
+| `Invoke-RatingScreenshot.ps1` | Launches `TestForm.exe --demo KryptonRatingDemo` (#3928) and writes default/half PNGs plus a hover GIF under `Documents/PR/` | `exclude` |
+| `Invoke-ComboBoxSimpleStyleScreenshot.ps1` | Hosts `Feature4339ComboBoxSimpleStyleDemo` (#4339) and writes `Documents/PR/4339-combobox-simple-style.png` | `exclude` |
+| `Invoke-TreeViewMultiSelectScreenshot.ps1` | Hosts `Bug4326TreeViewMultiSelectDemo` and writes `Documents/PR/4326-treeview-multiselect-false.png` | `exclude` |
+| `Invoke-SchemeStripTextScreenshot.ps1` | Hosts `SchemeStripTextDemo` (#1100) and writes default/contrast PNGs under `Documents/PR/` | `exclude` |
+| `Invoke-RibbonRtlScreenshot.ps1` | Hosts `RibbonRtlDemo` (#2382) and writes LTR/RTL PNGs under `Documents/PR/` | `exclude` |
+| `Invoke-WorkspaceRtlScreenshot.ps1` | Hosts `WorkspaceRtlDemo` (#2383) and writes LTR/RTL PNGs under `Documents/PR/` | `exclude` |
+| `Invoke-RibbonCaptionPaletteScreenshot.ps1` | Hosts `Bug4061RibbonCaptionIconThemeDemo` (#3859 / #4061) and writes Office 2007 / Microsoft 365 PNGs under `Documents/PR/` | `exclude` |
+| `Invoke-PaletteBinaryScreenshot.ps1` | Hosts `PaletteBinaryDemo` (#2117) and writes `Documents/PR/2117-bulk-xml-upgrade-demo.png` | `exclude` |
+| `Invoke-PaletteCollectionEditorScreenshot.ps1` | Hosts `KryptonPaletteCollectionEditor` (#2117) and writes `Documents/PR/2117-pack-editor-demo.png` | `exclude` |
+| `Invoke-ListViewStateTrackingScreenshot.ps1` | Hosts `Bug4336ListViewStateTrackingDemo` (#4336) and writes hover PNGs under `Documents/PR/` | `exclude` |
+| `Invoke-TagInputScreenshot.ps1` | Hosts `KryptonTagInputDemo` and writes `Documents/PR/tag-input-default.png` | `exclude` |
+| `Invoke-ToolStripTextContrastScreenshot.ps1` | Hosts `Bug4373ToolStripTextContrastDemo` (#4373) and writes Office White/Black ToolStrip PNGs under `Documents/PR/` | `exclude` |
+| `Invoke-BorderlessMdiScreenshot.ps1` | Hosts `BorderlessMdiHostDemo` (#2922) with a Dock.Fill child and writes `Documents/PR/2922-borderless-mdi-dockfill.png` | `exclude` |
 
 ## Run all CI assert tests (on demand)
 
@@ -79,18 +122,18 @@ gh workflow run "Unit Tests" -f configuration=Debug -f target_framework=net472 -
 ## Typical usage (#925 caption tabs)
 
 ```powershell
-# Terminal 1 - host the demo
+# In-process CI assert (no live host / mouse)
+dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-NavigatorCaptionTabRemerge.ps1
+
+# Interactive mouse (optional): host the demo, then drag
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Start-NavigatorFormIntegrationHost.ps1
 
-# Terminal 2 — note the host PID, then drag or remerge
 $hp = (Get-CimInstance Win32_Process -Filter "Name='powershell.exe'" |
     Where-Object { $_.CommandLine -like '*Start-NavigatorFormIntegrationHost*' }).ProcessId
 
 powershell -NoProfile -ExecutionPolicy Bypass -File .\Scripts\UnitTests\Invoke-CaptionTabDrag.ps1 `
     -HostPid $hp -FromX 200 -FromY 14 -ToX 80 -ToY 14 -Tag join
-
-powershell -NoProfile -ExecutionPolicy Bypass -File .\Scripts\UnitTests\UnitTest-NavigatorCaptionTabRemerge.ps1 `
-    -HostPid $hp
 ```
 
 ## Typical usage (#4129 taskbar tab groups)
@@ -100,3 +143,42 @@ dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f 
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-NavigatorTaskbarTabGroups.ps1
 ```
 Screenshots from interactive helpers are written under the bin/output directory and are not checked in.
+
+## Typical usage (#4270 / #4269 log protect)
+
+```powershell
+dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-KryptonLogProtect.ps1
+```
+
+## Typical usage (#4253 ribbon overflow glyph)
+
+```powershell
+dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-RibbonOverflowGlyph.ps1
+## Typical usage (#4271 bug-report email body)
+
+```powershell
+dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-BugReportEmailBody.ps1
+```
+
+## Typical usage (#1100 scheme strip text)
+
+```powershell
+dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-SchemeStripTextScreenshot.ps1
+```
+
+Writes `Documents/PR/1100-scheme-strip-text-*.png` (local PR assets; do not commit).
+
+## Typical usage (#3859 ribbon caption palette)
+
+```powershell
+dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-RibbonCaptionPalette.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-RibbonCaptionPaletteScreenshot.ps1
+```
+
+Writes `Documents/PR/3859-ribbon-caption-palette-*.png` (local PR assets; do not commit).
+

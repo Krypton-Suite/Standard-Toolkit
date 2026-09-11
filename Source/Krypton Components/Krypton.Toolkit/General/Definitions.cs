@@ -587,6 +587,11 @@ public interface IKryptonMonthCalendar
     Size CalendarDimensions { get; }
 
     /// <summary>
+    /// Gets the calendar view used to choose a date (days, months, or years).
+    /// </summary>
+    MonthCalendarView CalendarView { get; }
+
+    /// <summary>
     /// First day of the week.
     /// </summary>
     Day FirstDayOfWeek { get; }
@@ -1773,6 +1778,34 @@ public enum InputPulsingBorderStyle
     /// Draw the pulsing border around the entire control border.
     /// </summary>
     All
+}
+#endregion
+
+#region Enum InputPulsingBorderCategory
+/// <summary>
+/// Identifies which <see cref="KryptonManager.PulsingBorderValues"/> group a control inherits from.
+/// </summary>
+public enum InputPulsingBorderCategory
+{
+    /// <summary>
+    /// Text and selection inputs: TextBox, ComboBox, NumericUpDown, DateTimePicker, and similar.
+    /// </summary>
+    Inputs,
+
+    /// <summary>
+    /// Button-style controls: Button, DropButton, ColorButton, and similar.
+    /// </summary>
+    Buttons,
+
+    /// <summary>
+    /// Form chrome (<see cref="KryptonForm"/>).
+    /// </summary>
+    Forms,
+
+    /// <summary>
+    /// Other simple controls: CheckBox, RadioButton, Label, and similar.
+    /// </summary>
+    Other
 }
 #endregion
 
@@ -4430,7 +4463,10 @@ public enum SchemeBaseColors
     ButtonTextTracking = 240,
 
     /// <summary>Text color for tree view and list box items in normal state.</summary>
-    TextListItem = 241
+    TextListItem = 241,
+
+    /// <summary>Text color for tool strips. Empty inherits the ColorTable family fallback (often StatusStripText).</summary>
+    ToolStripText = 242
 }
 
 #endregion
@@ -4889,6 +4925,125 @@ public enum KryptonDialogButtonRole
 
     /// <summary>Help action (Help button that launches help without closing the dialog).</summary>
     Help = 3
+}
+
+#endregion
+
+#region Enum MonthCalendarView
+
+/// <summary>
+/// Specifies the month calendar display used to choose a date.
+/// </summary>
+public enum MonthCalendarView
+{
+    /// <summary>
+    /// Shows a day grid for a month. Header click drills up to months.
+    /// </summary>
+    Days = 0,
+
+    /// <summary>
+    /// Shows twelve months of a year. Clicking a month selects it; header click drills up to years.
+    /// </summary>
+    Months = 1,
+
+    /// <summary>
+    /// Shows ten years of a decade. Clicking a year selects it.
+    /// </summary>
+    Years = 2
+}
+
+#endregion
+
+#region Enum KryptonThemeChromeKind
+
+/// <summary>
+/// Renderer / chrome era for a catalogued palette. Colour family
+/// (<see cref="KryptonThemeFamilies"/>) can differ; toolbar images follow this kind.
+/// </summary>
+public enum KryptonThemeChromeKind
+{
+    /// <summary>Professional System chrome.</summary>
+    ProfessionalSystem,
+
+    /// <summary>Professional Office 2003 chrome.</summary>
+    ProfessionalOffice2003,
+
+    /// <summary>Office 2007 renderer chrome.</summary>
+    Office2007,
+
+    /// <summary>Office 2010 renderer chrome.</summary>
+    Office2010,
+
+    /// <summary>Office 2013 renderer chrome.</summary>
+    Office2013,
+
+    /// <summary>Microsoft 365 renderer chrome.</summary>
+    Microsoft365,
+
+    /// <summary>Sparkle renderer chrome.</summary>
+    Sparkle,
+
+    /// <summary>Material renderer chrome.</summary>
+    Material,
+
+    /// <summary>Visual Studio year-theme chrome (2012 and later).</summary>
+    VisualStudio,
+
+    /// <summary>macOS / Mac OS X Aqua chrome.</summary>
+    MacOS,
+
+    /// <summary>RetroUI chrome.</summary>
+    Retro
+}
+
+#endregion
+
+#region Enum KryptonThemeShieldIconStyle
+
+/// <summary>
+/// UAC / shield icon era used by <see cref="GraphicsExtensions.GetThemeBasedShieldImage"/>.
+/// </summary>
+public enum KryptonThemeShieldIconStyle
+{
+    /// <summary>Windows Vista shield artwork.</summary>
+    Vista,
+
+    /// <summary>Windows 7 / 8.x shield artwork.</summary>
+    Windows7,
+
+    /// <summary>Windows 10 artwork, or Windows 11 when the OS is Windows 11 or later.</summary>
+    Windows10,
+
+    /// <summary>Follow the current operating system instead of the theme.</summary>
+    OperatingSystem
+}
+
+#endregion
+
+#region Enum KryptonPaletteFileFormat
+
+/// <summary>
+/// Identifies how a custom palette is stored on disk or in a stream.
+/// </summary>
+public enum KryptonPaletteFileFormat
+{
+    /// <summary>
+    /// Human-readable XML (<c>KryptonPalette</c> document). Default for <c>.kthemex</c> and
+    /// legacy <c>.xml</c> files, and for <see cref="KryptonCustomPaletteBase.Export(bool)"/> byte arrays.
+    /// </summary>
+    // ToDo V120 LTS: Drop .xml from this remark. Xml remains the persist format for .kthemex and Export(bool).
+    Xml = 0,
+
+    /// <summary>
+    /// Optional KPLT <c>.ktheme</c> container with a Deflate-compressed XML payload (kind 0).
+    /// </summary>
+    PaletteCompressedXml = 1,
+
+    /// <summary>
+    /// Optional KPLT <c>.ktheme</c> container with a native persist stream and raw PNG image blobs
+    /// (kind 1). Default when exporting to a <c>.ktheme</c> path.
+    /// </summary>
+    PaletteBinary = 2
 }
 
 #endregion

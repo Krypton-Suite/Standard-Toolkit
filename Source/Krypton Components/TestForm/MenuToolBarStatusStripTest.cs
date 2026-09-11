@@ -17,6 +17,8 @@ public partial class MenuToolBarStatusStripTest : KryptonForm
     private int _animStep;
     private int _animDir = 1;
     private readonly ContextMenuStrip _contextMenuStrip = new ContextMenuStrip();
+    private readonly MenuStrip _nativeMenuStrip = new MenuStrip();
+    private readonly ToolStrip _nativeToolStrip = new ToolStrip();
     private Font? _savedBaseFont;
     private int _baseFontFamilyIndex;
 
@@ -43,11 +45,36 @@ public partial class MenuToolBarStatusStripTest : KryptonForm
 
     private void InitializeBaseFontDemo()
     {
-        Text = "Menu/Tool/Status Strip (#1297 BaseFont demo)";
+        Text = "Menu/Tool/Status Strip (#1110 / #1297)";
 
         _contextMenuStrip.Items.Add(new ToolStripMenuItem("Context menu item 1"));
         _contextMenuStrip.Items.Add(new ToolStripMenuItem("Context menu item 2"));
         kryptonPanel1.ContextMenuStrip = _contextMenuStrip;
+
+        var comparisonHint = new KryptonLabel
+        {
+            Dock = DockStyle.Top,
+            AutoSize = false,
+            Height = 52
+        };
+        comparisonHint.Values.Text =
+            "Issue #1110 / #1297: the form uses KryptonMenuStrip and KryptonToolStrip. " +
+            "This panel hosts a native MenuStrip and ToolStrip for comparison. " +
+            "Change theme or Tools → Base Font; both families should follow. Menu text stays Regular when BaseFont is bold.";
+
+        _nativeMenuStrip.Name = "nativeMenuStrip";
+        _nativeMenuStrip.Dock = DockStyle.Top;
+        _nativeMenuStrip.GripStyle = ToolStripGripStyle.Hidden;
+        _nativeMenuStrip.Items.Add(new ToolStripMenuItem("Native &File"));
+        _nativeMenuStrip.Items.Add(new ToolStripMenuItem("Native &Edit"));
+
+        _nativeToolStrip.Name = "nativeToolStrip";
+        _nativeToolStrip.Dock = DockStyle.Top;
+        _nativeToolStrip.Items.Add(new ToolStripLabel("Native ToolStrip"));
+
+        kryptonPanel1.Controls.Add(_nativeToolStrip);
+        kryptonPanel1.Controls.Add(_nativeMenuStrip);
+        kryptonPanel1.Controls.Add(comparisonHint);
 
         var increaseBaseFontMenuItem = new ToolStripMenuItem("Increase Base Font (+2 pt)")
         {
@@ -156,7 +183,9 @@ public partial class MenuToolBarStatusStripTest : KryptonForm
         var nextFamily = BaseFontFamilies[(_baseFontFamilyIndex + 1) % BaseFontFamilies.Length];
         toolStripStatusLabel1.Text =
             $"BaseFont: {baseFont.Name} {baseFont.SizeInPoints:0.#}pt ({baseFont.Style}) | " +
-            $"Menu: {menuStrip1.Font.Name} | ToolStrip: {toolStrip1.Font.Name} | " +
+            $"Krypton menu: {menuStrip1.Font.Name} {menuStrip1.Font.SizeInPoints:0.#}pt | " +
+            $"Native menu: {_nativeMenuStrip.Font.Name} {_nativeMenuStrip.Font.SizeInPoints:0.#}pt | " +
+            $"Krypton tool: {toolStrip1.Font.Name} | Native tool: {_nativeToolStrip.Font.Name} | " +
             $"Status: {statusStrip1.Font.Name} | Context: {_contextMenuStrip.Font.Name} | " +
             $"Next family (Tools): {nextFamily}";
     }

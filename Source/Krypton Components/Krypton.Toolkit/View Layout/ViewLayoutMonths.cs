@@ -20,6 +20,10 @@ public class ViewLayoutMonths : ViewComposite,
 {
     #region Static Fields
     internal const int GAP = 2;
+    private const int VIEW_ANIMATION_MS = 200;
+    private const int VIEW_ANIMATION_INTERVAL_MS = 15;
+    private const float ZOOM_OUT_START = 1.16f;
+    private const float ZOOM_IN_START = 0.84f;
     #endregion
 
     #region Instance Fields
@@ -48,6 +52,14 @@ public class ViewLayoutMonths : ViewComposite,
     private bool _showTodayCircle;
     private bool _showToday;
     private bool _firstTimeSync;
+    private System.Windows.Forms.Timer? _viewAnimationTimer;
+    private bool _viewAnimActive;
+    private bool _viewAnimZoomOut;
+    private bool _viewAnimSlide;
+    private int _viewAnimSlideSign;
+    private Point _viewAnimOrigin;
+    private int _viewAnimStartTick;
+    private GraphicsState? _viewAnimGraphicsState;
     #endregion
 
     #region Identity
@@ -79,6 +91,7 @@ public class ViewLayoutMonths : ViewComposite,
         CloseOnTodayClick = false;
         _firstTimeSync = true;
         AllowButtonSpecToolTips = false;
+        DisplayView = calendar.CalendarView;
 
         // Use a controller that can work against all the displayed months
         var controller =
@@ -138,6 +151,23 @@ public class ViewLayoutMonths : ViewComposite,
         // Return the class name and instance identifier
         $"ViewLayoutMonths:{Id}";
 
+    /// <inheritdoc />
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            StopViewAnimation(needPaint: false);
+            if (_viewAnimationTimer != null)
+            {
+                _viewAnimationTimer.Tick -= OnViewAnimationTick;
+                _viewAnimationTimer.Dispose();
+                _viewAnimationTimer = null;
+            }
+        }
+
+        base.Dispose(disposing);
+    }
+
     #endregion
 
     #region Public
@@ -165,6 +195,11 @@ public class ViewLayoutMonths : ViewComposite,
     /// Gets access to the month calendar.
     /// </summary>
     public IKryptonMonthCalendar Calendar { get; }
+
+    /// <summary>
+    /// Gets and sets the currently displayed calendar view (may be drilled up from <see cref="IKryptonMonthCalendar.CalendarView"/>).
+    /// </summary>
+    public MonthCalendarView DisplayView { get; set; }
 
     /// <summary>
     /// Gets access to the optional context menu provider.
@@ -273,8 +308,13 @@ public class ViewLayoutMonths : ViewComposite,
     /// <summary>
     /// Gets the number of display months.
     /// </summary>
-    public int Months => Calendar.CalendarDimensions.Width *
-                         Calendar.CalendarDimensions.Height;
+    public int Months => DisplayDimensions.Width * DisplayDimensions.Height;
+
+    /// <summary>
+    /// Month tiles shown in the current view. Month/year grids are always a single tile.
+    /// </summary>
+    internal Size DisplayDimensions =>
+        DisplayView == MonthCalendarView.Days ? Calendar.CalendarDimensions : new Size(1, 1);
 
     /// <summary>
     /// Process a key down by finding the correct month and calling the associated key controller.
@@ -308,12 +348,14 @@ public class ViewLayoutMonths : ViewComposite,
         {
             if ((view is ViewDrawMonth month) && month.ClientRectangle.Contains(pt))
             {
-                return month.ViewDrawMonthDays.DayNearPoint(pt);
+                return DisplayView == MonthCalendarView.Days
+                    ? month.ViewDrawMonthDays.DayNearPoint(pt)
+                    : month.ViewDrawMonthYearCells.CellFromPoint(pt) ?? Calendar.SelectionStart;
             }
         }
 
-        var cols = Calendar.CalendarDimensions.Width;
-        var rows = Calendar.CalendarDimensions.Height;
+        var cols = DisplayDimensions.Width;
+        var rows = DisplayDimensions.Height;
         var ptCol = cols - 1;
         var ptRow = rows - 1;
 
@@ -338,6 +380,11 @@ public class ViewLayoutMonths : ViewComposite,
         }
 
         var target = this[ptCol + (ptRow * cols) + 1] as ViewDrawMonth;
+        if (DisplayView != MonthCalendarView.Days)
+        {
+            return target!.ViewDrawMonthYearCells.CellFromPoint(pt) ?? Calendar.SelectionStart;
+        }
+
         return target!.ViewDrawMonthDays.DayNearPoint(pt);
     }
 
@@ -360,6 +407,11 @@ public class ViewLayoutMonths : ViewComposite,
                 return month.DayFromPoint(pt, exact);
             }
 
+            if ((view is ViewDrawMonthYearCells cells) && cells.ClientRectangle.Contains(pt))
+            {
+                return cells.CellFromPoint(pt);
+            }
+
             view = view.Parent;
         }
 
@@ -372,16 +424,11 @@ public class ViewLayoutMonths : ViewComposite,
     public void NextMonth()
     {
         // Get the number of months to move
-        var move = Calendar.ScrollChange;
-        if (move == 0)
-        {
-            move = 1;
-        }
+        var move = GetScrollMonths();
 
         // Calculate the next set of months shown
         DateTime nextMonth = _displayMonth.AddMonths(move);
-        DateTime lastDate = nextMonth.AddMonths(Calendar.CalendarDimensions.Width *
-                                                Calendar.CalendarDimensions.Height);
+        DateTime lastDate = nextMonth.AddMonths(Months);
 
         DateTime ld = lastDate.AddDays(-1);
         DateTime ldofm = LastDayOfMonth(Calendar.MaxDate);
@@ -415,6 +462,7 @@ public class ViewLayoutMonths : ViewComposite,
             }
 
             _needPaintDelegate(this, new NeedLayoutEventArgs(true));
+            StartViewAnimation(zoomOut: false, slide: true, slideSign: 1, origin: ClientRectangleCenter());
         }
     }
 
@@ -424,11 +472,7 @@ public class ViewLayoutMonths : ViewComposite,
     public void PrevMonth()
     {
         // Get the number of months to move
-        var move = Calendar.ScrollChange;
-        if (move == 0)
-        {
-            move = 1;
-        }
+        var move = GetScrollMonths();
 
         // Calculate the next set of months shown
         DateTime prevMonth = _displayMonth.AddMonths(-move);
@@ -439,8 +483,7 @@ public class ViewLayoutMonths : ViewComposite,
             // Use the newly calculated month
             _displayMonth = prevMonth;
 
-            DateTime lastDate = _displayMonth.AddMonths(Calendar.CalendarDimensions.Width *
-                                                        Calendar.CalendarDimensions.Height);
+            DateTime lastDate = _displayMonth.AddMonths(Months);
 
             // If the start of the selection is no longer visible
             if (Calendar.SelectionStart >= lastDate)
@@ -465,7 +508,71 @@ public class ViewLayoutMonths : ViewComposite,
             }
 
             _needPaintDelegate(this, new NeedLayoutEventArgs(true));
+            StartViewAnimation(zoomOut: false, slide: true, slideSign: -1, origin: ClientRectangleCenter());
         }
+    }
+
+    /// <summary>
+    /// Drill from the current view up to months or years.
+    /// </summary>
+    /// <param name="origin">Pivot point in control coordinates for the zoom.</param>
+    public void DrillUp(Point origin)
+    {
+        if (DisplayView == MonthCalendarView.Days)
+        {
+            DisplayView = MonthCalendarView.Months;
+            _needPaintDelegate(this, new NeedLayoutEventArgs(true));
+            StartViewAnimation(zoomOut: true, slide: false, slideSign: 0, origin: origin);
+        }
+        else if (DisplayView == MonthCalendarView.Months)
+        {
+            DisplayView = MonthCalendarView.Years;
+            _needPaintDelegate(this, new NeedLayoutEventArgs(true));
+            StartViewAnimation(zoomOut: true, slide: false, slideSign: 0, origin: origin);
+        }
+    }
+
+    /// <summary>
+    /// Drill from years to months, or months to days, using the clicked cell.
+    /// </summary>
+    /// <param name="cellDate">Date represented by the clicked cell.</param>
+    /// <param name="origin">Pivot point in control coordinates for the zoom.</param>
+    public void DrillDown(DateTime cellDate, Point origin)
+    {
+        if (DisplayView <= Calendar.CalendarView)
+        {
+            return;
+        }
+
+        _displayMonth = new DateTime(cellDate.Year, cellDate.Month, 1);
+        DisplayView = DisplayView == MonthCalendarView.Years ? MonthCalendarView.Months : MonthCalendarView.Days;
+        _needPaintDelegate(this, new NeedLayoutEventArgs(true));
+        StartViewAnimation(zoomOut: false, slide: false, slideSign: 0, origin: origin);
+    }
+
+    /// <summary>
+    /// Combine a clicked month or year cell with the existing selection's day (and month when choosing a year).
+    /// </summary>
+    /// <param name="cellDate">First of the clicked month or year.</param>
+    /// <returns>Date to apply as the new selection.</returns>
+    public DateTime CombineCellSelection(DateTime cellDate)
+    {
+        DateTime previous = Calendar.SelectionStart;
+        var year = cellDate.Year;
+        var month = DisplayView == MonthCalendarView.Years ? previous.Month : cellDate.Month;
+        var day = Math.Min(previous.Day, DateTime.DaysInMonth(year, month));
+        DateTime combined = new DateTime(year, month, day);
+        if (combined < Calendar.MinDate.Date)
+        {
+            combined = Calendar.MinDate.Date;
+        }
+
+        if (combined > Calendar.MaxDate.Date)
+        {
+            combined = Calendar.MaxDate.Date;
+        }
+
+        return combined;
     }
     #endregion
 
@@ -535,8 +642,9 @@ public class ViewLayoutMonths : ViewComposite,
             Size monthSize = this[1]!.GetPreferredSize(context!);
 
             // Find total width based on requested dimensions and add a single pixel space around and between months
-            preferredSize.Width += (monthSize.Width * Calendar.CalendarDimensions.Width) + (GAP * Calendar.CalendarDimensions.Width) + GAP;
-            preferredSize.Height += (monthSize.Height * Calendar.CalendarDimensions.Height) + (GAP * Calendar.CalendarDimensions.Height) + GAP;
+            Size dimensions = DisplayDimensions;
+            preferredSize.Width += (monthSize.Width * dimensions.Width) + (GAP * dimensions.Width) + GAP;
+            preferredSize.Height += (monthSize.Height * dimensions.Height) + (GAP * dimensions.Height) + GAP;
         }
 
         return preferredSize;
@@ -576,7 +684,7 @@ public class ViewLayoutMonths : ViewComposite,
             Size monthSize = this[1]!.GetPreferredSize(context);
 
             // Position each child within the required grid
-            Size dimensions = Calendar.CalendarDimensions;
+            Size dimensions = DisplayDimensions;
             for (int y = 0, index = 1; y < dimensions.Height; y++)
             {
                 for (var x = 0; x < dimensions.Width; x++)
@@ -592,6 +700,45 @@ public class ViewLayoutMonths : ViewComposite,
 
         // Put back the original display value now we have finished
         context.DisplayRectangle = ClientRectangle;
+    }
+    #endregion
+
+    #region Paint
+    /// <inheritdoc />
+    public override void RenderBefore(RenderContext context)
+    {
+        if (!_viewAnimActive || context?.Graphics == null)
+        {
+            return;
+        }
+
+        var t = GetViewAnimationProgress();
+        _viewAnimGraphicsState = context.Graphics.Save();
+        context.Graphics.SetClip(ClientRectangle, CombineMode.Intersect);
+
+        if (_viewAnimSlide)
+        {
+            var offset = (1f - t) * ClientSize.Width * _viewAnimSlideSign;
+            context.Graphics.TranslateTransform(offset, 0f);
+        }
+        else
+        {
+            var startScale = _viewAnimZoomOut ? ZOOM_OUT_START : ZOOM_IN_START;
+            var scale = startScale + ((1f - startScale) * t);
+            context.Graphics.TranslateTransform(_viewAnimOrigin.X, _viewAnimOrigin.Y);
+            context.Graphics.ScaleTransform(scale, scale);
+            context.Graphics.TranslateTransform(-_viewAnimOrigin.X, -_viewAnimOrigin.Y);
+        }
+    }
+
+    /// <inheritdoc />
+    public override void RenderAfter(RenderContext context)
+    {
+        if (_viewAnimGraphicsState != null && context?.Graphics != null)
+        {
+            context.Graphics.Restore(_viewAnimGraphicsState);
+            _viewAnimGraphicsState = null;
+        }
     }
     #endregion
 
@@ -742,12 +889,17 @@ public class ViewLayoutMonths : ViewComposite,
     private void SyncMonths()
     {
         // We need the today header if we show the today button or a button spec
-        this[0]!.Visible = _showToday || (ButtonSpecs.Count > 0);
+        if (DisplayView < Calendar.CalendarView)
+        {
+            DisplayView = Calendar.CalendarView;
+        }
+
+        this[0]!.Visible = (DisplayView == MonthCalendarView.Days) && (_showToday || (ButtonSpecs.Count > 0));
         this[0]!.Enabled = Enabled;
-        _drawToday.Visible = _showToday;
+        _drawToday.Visible = _showToday && (DisplayView == MonthCalendarView.Days);
 
         // How many month children instances do we need?
-        var months = Months;
+        var months = DisplayView == MonthCalendarView.Days ? Months : 1;
 
         // Do we need to create more month view?
         if (Count < (months + 1))
@@ -824,7 +976,7 @@ public class ViewLayoutMonths : ViewComposite,
             viewMonth.Month = currentMonth;
             viewMonth.FirstMonth = i == 1;
             viewMonth.LastMonth = i == (Count - 1);
-            viewMonth.UpdateButtons(i == 1, (i - 1) == (Calendar.CalendarDimensions.Width - 1));
+            viewMonth.UpdateButtons(i == 1, (i - 1) == (DisplayDimensions.Width - 1));
 
             // Move forward to next month
             currentMonth = currentMonth.AddMonths(1);
@@ -959,6 +1111,20 @@ public class ViewLayoutMonths : ViewComposite,
         return fullNormalSize;
     }
 
+    private int GetScrollMonths()
+    {
+        switch (DisplayView)
+        {
+            case MonthCalendarView.Years:
+                return 120;
+            case MonthCalendarView.Months:
+                return 12;
+            default:
+                var move = Calendar.ScrollChange;
+                return move == 0 ? 1 : move;
+        }
+    }
+
     private DateTime FirstDayOfMonth(DateTime dt)
     {
         dt = dt.AddDays(-(dt.Day - 1));
@@ -970,6 +1136,67 @@ public class ViewLayoutMonths : ViewComposite,
         dt = dt.AddMonths(1);
         dt = dt.AddDays(-dt.Day);
         return JustDay(dt);
+    }
+
+    private Point ClientRectangleCenter() =>
+        new Point(ClientRectangle.X + (ClientSize.Width / 2), ClientRectangle.Y + (ClientSize.Height / 2));
+
+    private void StartViewAnimation(bool zoomOut, bool slide, int slideSign, Point origin)
+    {
+        _viewAnimZoomOut = zoomOut;
+        _viewAnimSlide = slide;
+        _viewAnimSlideSign = slideSign;
+        _viewAnimOrigin = origin.IsEmpty ? ClientRectangleCenter() : origin;
+        _viewAnimStartTick = Environment.TickCount;
+        _viewAnimActive = true;
+
+        if (_viewAnimationTimer == null)
+        {
+            _viewAnimationTimer = new System.Windows.Forms.Timer { Interval = VIEW_ANIMATION_INTERVAL_MS };
+            _viewAnimationTimer.Tick += OnViewAnimationTick;
+        }
+
+        _viewAnimationTimer.Stop();
+        _viewAnimationTimer.Start();
+    }
+
+    private void StopViewAnimation(bool needPaint)
+    {
+        _viewAnimationTimer?.Stop();
+        if (!_viewAnimActive)
+        {
+            return;
+        }
+
+        _viewAnimActive = false;
+        if (needPaint)
+        {
+            _needPaintDelegate(this, new NeedLayoutEventArgs(false));
+        }
+    }
+
+    private float GetViewAnimationProgress()
+    {
+        var elapsed = unchecked(Environment.TickCount - _viewAnimStartTick);
+        if (elapsed < 0)
+        {
+            elapsed = 0;
+        }
+
+        var t = Math.Min(1f, elapsed / (float)VIEW_ANIMATION_MS);
+        return 1f - (float)Math.Pow(1f - t, 3);
+    }
+
+    private void OnViewAnimationTick(object? sender, EventArgs e)
+    {
+        var elapsed = unchecked(Environment.TickCount - _viewAnimStartTick);
+        if (elapsed >= VIEW_ANIMATION_MS)
+        {
+            StopViewAnimation(needPaint: true);
+            return;
+        }
+
+        _needPaintDelegate(this, new NeedLayoutEventArgs(false));
     }
     #endregion
 }

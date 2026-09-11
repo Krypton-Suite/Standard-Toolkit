@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -36,9 +36,8 @@ public class CheckBoxExtendedTextValues : LabelValues
     /// </summary>
     /// <param name="needPaint">Delegate for notifying paint requests.</param>
     public CheckBoxExtendedTextValues(NeedPaintHandler needPaint)
-        : base(needPaint)
+        : base(needPaint, DEFAULT_TEXT)
     {
-        Text = DEFAULT_TEXT;
         ExtraText = DEFAULT_SUBTEXT;
         _subtextForeColor = SharedStaticVariables.EMPTY_COLOR;
     }

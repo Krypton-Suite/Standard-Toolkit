@@ -12,7 +12,7 @@ using Krypton.Ribbon;
 namespace TestForm;
 
 /// <summary>
-/// Manual validation for Issue #4061: ribbon caption form-icon visibility must update when the palette (RibbonShape) changes.
+/// Manual validation for Issues #3859 and #4061: ribbon caption chrome must refresh when the palette changes.
 /// </summary>
 public class Bug4061RibbonCaptionIconThemeDemo : KryptonForm
 {
@@ -22,9 +22,9 @@ public class Bug4061RibbonCaptionIconThemeDemo : KryptonForm
 
     public Bug4061RibbonCaptionIconThemeDemo()
     {
-        Text = "Bug 4061 — Ribbon caption icon on theme change";
-        Width = 900;
-        Height = 420;
+        Text = "Ribbon caption on theme change (#3859 / #4061)";
+        Width = 980;
+        Height = 460;
         StartPosition = FormStartPosition.CenterScreen;
         ShowIcon = true;
         Icon = SystemIcons.Application;
@@ -35,11 +35,31 @@ public class Bug4061RibbonCaptionIconThemeDemo : KryptonForm
             QATLocation = QATLocation.Above
         };
         _ribbon.RibbonFileAppButton.AppButtonVisible = true;
+        _ribbon.InsertStandardQATItems();
 
         var homeTab = new KryptonRibbonTab { Text = "Home" };
         var homeGroup = new KryptonRibbonGroup { TextLine1 = "Clipboard" };
         homeTab.Groups.Add(homeGroup);
         _ribbon.RibbonTabs.Add(homeTab);
+
+        // Context title in the caption so theme swaps are visible without resizing (#3859).
+        var reviewContext = new KryptonRibbonContext
+        {
+            ContextName = "Review",
+            ContextTitle = "Review",
+            ContextColor = Color.Orange
+        };
+        _ribbon.RibbonContexts.Add(reviewContext);
+
+        var reviewTab = new KryptonRibbonTab
+        {
+            Text = "Comments",
+            ContextName = "Review"
+        };
+        var reviewGroup = new KryptonRibbonGroup { TextLine1 = "Markup" };
+        reviewTab.Groups.Add(reviewGroup);
+        _ribbon.RibbonTabs.Add(reviewTab);
+        _ribbon.SelectedContext = "Review";
 
         Controls.Add(_ribbon);
 
@@ -63,13 +83,14 @@ public class Bug4061RibbonCaptionIconThemeDemo : KryptonForm
         {
             Dock = DockStyle.Fill,
             AutoSize = false,
-            Height = 88,
+            Height = 128,
             TextAlign = ContentAlignment.TopLeft,
             Text =
-                "Issue #4061: After a theme change, the form caption icon must update from RibbonShape without resizing the form.\r\n" +
-                "Office 2007 + visible File app button: icon should hide (app button replaces it).\r\n" +
+                "Issues #3859 / #4061: After a theme change, caption chrome must update without resizing the form.\r\n" +
+                "Caption colours, the Review context title, QAT Above, and the File orb vs File tab should follow the new theme immediately.\r\n" +
+                "Office 2007 + visible File app button: form icon should hide (app button replaces it).\r\n" +
                 "Office 2010 / Microsoft 365 / Visual Studio / macOS / OS X Aqua: icon should show when integrated.\r\n" +
-                "Also confirm QAT Above hides under macOS shapes after the theme switch."
+                "QAT Above should hide under macOS shapes after the theme switch."
         };
         layout.Controls.Add(instructions, 0, 0);
 

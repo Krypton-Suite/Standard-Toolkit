@@ -65,6 +65,59 @@ public static class KryptonStringCollectionEditor
         string windowText = @"String Collection Editor")
         => InternalShowStringCollection(owner, null, useRichTextBox, headerText, windowText);
 
+    /// <summary>Shows the string collection editor asynchronously.</summary>
+    /// <param name="inputStrings">The input strings.</param>
+    /// <param name="useRichTextBox">if set to <c>true</c> [use rich text box].</param>
+    /// <param name="headerText">The header text.</param>
+    /// <param name="windowText">The window text.</param>
+    /// <returns>A task that produces an array of strings when the editor is closed.</returns>
+    public static Task<string[]> ShowAsync(string[] inputStrings, bool useRichTextBox = true,
+        string? headerText = @"Enter the strings in the collection (one per line):",
+        string windowText = @"String Collection Editor")
+        => InternalShowAsync(null, inputStrings, useRichTextBox, headerText, windowText);
+
+    /// <summary>Shows the string collection editor asynchronously.</summary>
+    public static Task<string[]> ShowAsync(IWin32Window? owner, string[] inputStrings, bool useRichTextBox = true,
+        string? headerText = @"Enter the strings in the collection (one per line):",
+        string windowText = @"String Collection Editor")
+        => InternalShowAsync(owner, inputStrings, useRichTextBox, headerText, windowText);
+
+    /// <summary>Shows the string collection editor asynchronously.</summary>
+    public static Task<string[]> ShowAsync(bool useRichTextBox = true,
+        string? headerText = @"Enter the strings in the collection (one per line):",
+        string windowText = @"String Collection Editor")
+        => InternalShowAsync(null, null, useRichTextBox, headerText, windowText);
+
+    /// <summary>Shows the string collection editor asynchronously.</summary>
+    public static Task<string[]> ShowAsync(IWin32Window? owner, bool useRichTextBox = true,
+        string? headerText = @"Enter the strings in the collection (one per line):",
+        string windowText = @"String Collection Editor")
+        => InternalShowAsync(owner, null, useRichTextBox, headerText, windowText);
+
+    /// <summary>Shows the string collection editor asynchronously.</summary>
+    public static Task<StringCollection> ShowAsync(StringCollection inputStrings, bool useRichTextBox = true,
+        string? headerText = @"Enter the strings in the collection (one per line):",
+        string windowText = @"String Collection Editor")
+        => InternalShowStringCollectionAsync(null, inputStrings, useRichTextBox, headerText, windowText);
+
+    /// <summary>Shows the string collection editor asynchronously.</summary>
+    public static Task<StringCollection> ShowAsync(IWin32Window owner, StringCollection inputStrings, bool useRichTextBox = true,
+        string? headerText = @"Enter the strings in the collection (one per line):",
+        string windowText = @"String Collection Editor")
+        => InternalShowStringCollectionAsync(owner, inputStrings, useRichTextBox, headerText, windowText);
+
+    /// <summary>Shows the string collection editor asynchronously.</summary>
+    public static Task<StringCollection> ShowDialogAsync(bool useRichTextBox = true,
+        string? headerText = @"Enter the strings in the collection (one per line):",
+        string windowText = @"String Collection Editor")
+        => InternalShowStringCollectionAsync(null, null, useRichTextBox, headerText, windowText);
+
+    /// <summary>Shows the string collection editor asynchronously.</summary>
+    public static Task<StringCollection> ShowDialogAsync(IWin32Window owner, bool useRichTextBox = true,
+        string? headerText = @"Enter the strings in the collection (one per line):",
+        string windowText = @"String Collection Editor")
+        => InternalShowStringCollectionAsync(owner, null, useRichTextBox, headerText, windowText);
+
     #endregion
 
     #region Implementation
@@ -88,6 +141,12 @@ public static class KryptonStringCollectionEditor
     /// <returns>A collection of string items.</returns>
     private static StringCollection InternalShowStringCollection(IWin32Window? owner, StringCollection? input, bool useRichTextBox, string? headerText, string windowTitle)
         => VisualMultilineStringEditorForm.InternalShowStringCollection(owner, input!, useRichTextBox, headerText, windowTitle)!;
+
+    private static async Task<string[]> InternalShowAsync(IWin32Window? owner, string[]? input, bool? useRichTextBox, string? headerText, string windowTitle)
+        => (await VisualMultilineStringEditorForm.InternalShowAsync(owner, input!, useRichTextBox, headerText, windowTitle).ConfigureAwait(false))!;
+
+    private static async Task<StringCollection> InternalShowStringCollectionAsync(IWin32Window? owner, StringCollection? input, bool useRichTextBox, string? headerText, string windowTitle)
+        => (await VisualMultilineStringEditorForm.InternalShowStringCollectionAsync(owner, input!, useRichTextBox, headerText, windowTitle).ConfigureAwait(false))!;
 
     #endregion
 }

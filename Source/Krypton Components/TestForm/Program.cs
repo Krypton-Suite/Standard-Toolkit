@@ -19,7 +19,7 @@ internal static class Program
     /// The main entry point for the application.
     /// </summary>
     [STAThread]
-    private static void Main()
+    private static void Main(string[] args)
     {
         // Set AppUserModelID before any UI - required for taskbar jump list to attach to this process
         try
@@ -51,6 +51,35 @@ internal static class Program
 #if NET8_0_OR_GREATER
         Application.SetHighDpiMode(HighDpiMode.SystemAware);
 #endif
-        Application.Run(new StartScreen());
+        Application.Run(CreateStartupForm(args));
+    }
+
+    /// <summary>
+    /// Opens <see cref="StartScreen"/>, or a named demo when launched with <c>--demo TypeName</c>
+    /// (for example <c>TestForm.exe --demo SchemeStripTextDemo</c>).
+    /// </summary>
+    /// <param name="args">Command-line arguments.</param>
+    /// <returns>The form to pass to <see cref="Application.Run(Form)"/>.</returns>
+    private static Form CreateStartupForm(string[] args)
+    {
+        for (int i = 0; i < args.Length - 1; i++)
+        {
+            if (!string.Equals(args[i], "--demo", StringComparison.OrdinalIgnoreCase))
+            {
+                continue;
+            }
+
+            var typeName = args[i + 1];
+            var type = typeof(Program).Assembly.GetType("TestForm." + typeName, throwOnError: false)
+                       ?? typeof(Program).Assembly.GetType(typeName, throwOnError: false);
+            if (type is null || !typeof(Form).IsAssignableFrom(type))
+            {
+                throw new ArgumentException("Unknown TestForm demo '" + typeName + "'.");
+            }
+
+            return (Form)Activator.CreateInstance(type)!;
+        }
+
+        return new StartScreen();
     }
 }
