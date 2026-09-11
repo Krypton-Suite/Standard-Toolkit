@@ -49,7 +49,8 @@ public partial class SchemeStripTextDemo : KryptonForm
         klblDescription.Values.Text =
             $"Theme: {theme}. MenuStripText / ToolStripText / StatusStripText colour the three strips. " +
             "MenuItemText colours File/Edit dropdowns, the KryptonContextMenu button, and the native right-click menu. " +
-            "Empty slots keep the historic alias. Contrast demo paints each chrome family a different colour.";
+            "Empty ToolStripText keeps the historic alias only when it contrasts with the strip (issue #4373). " +
+            "Contrast demo paints each chrome family a different colour.";
     }
 
     private void WirePaletteSchemeColorChanged()
@@ -82,7 +83,8 @@ public partial class SchemeStripTextDemo : KryptonForm
             $"StatusStripText={FormatSchemeColor(SchemeBaseColors.StatusStripText)}  |  " +
             $"MenuItemText={FormatSchemeColor(SchemeBaseColors.MenuItemText)}{Environment.NewLine}" +
             $"ColorTable: MenuStrip={FormatColor(table?.MenuStripText)}  ToolStrip={FormatColor(table?.ToolStripText)}  " +
-            $"StatusStrip={FormatColor(table?.StatusStripText)}  MenuItem={FormatColor(table?.MenuItemText)}";
+            $"StatusStrip={FormatColor(table?.StatusStripText)}  MenuItem={FormatColor(table?.MenuItemText)}" +
+            FormatToolStripContrast(table);
     }
 
     private static string FormatSchemeColor(SchemeBaseColors role)
@@ -101,6 +103,18 @@ public partial class SchemeStripTextDemo : KryptonForm
         {
             return "(unavailable)";
         }
+    }
+
+    private static string FormatToolStripContrast(KryptonColorTable? table)
+    {
+        if (table is null)
+        {
+            return string.Empty;
+        }
+
+        var ratio = CommonHelper.ColorContrastRatio(table.ToolStripText, table.ToolStripGradientBegin);
+        var pass = CommonHelper.HasReadableContrast(table.ToolStripText, table.ToolStripGradientBegin);
+        return $"{Environment.NewLine}ToolStrip contrast {ratio:0.00}:1 {(pass ? "PASS" : "FAIL")} vs ToolStripBegin (issue #4373).";
     }
 
     private static string FormatColor(Color? color)
