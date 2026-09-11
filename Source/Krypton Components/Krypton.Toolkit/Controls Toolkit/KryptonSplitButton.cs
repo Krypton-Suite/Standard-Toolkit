@@ -23,7 +23,7 @@ namespace Krypton.Toolkit;
 [ToolboxBitmap(typeof(KryptonSplitButton), "ToolboxBitmaps.KryptonSplitButton.bmp")]
 [DefaultEvent(nameof(Click))]
 [DefaultProperty(nameof(Text))]
-[Designer(typeof(KryptonDropButtonDesigner))]
+[Designer("Krypton.Toolkit.KryptonDropButtonDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Raises Click for the button body and DropDown for the split chevron.")]
 public class KryptonSplitButton : KryptonDropButton
