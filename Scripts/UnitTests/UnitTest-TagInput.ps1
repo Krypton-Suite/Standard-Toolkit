@@ -1,9 +1,10 @@
 ﻿<#
 .SYNOPSIS
-    Asserts KryptonTagInputControl public API: defaults, add/remove, duplicates, max tags, events, category colours.
+    Asserts KryptonTagInput public API: defaults, add/remove, duplicates, max tags, events, category colours.
 
 .DESCRIPTION
-    Loads Debug Krypton.Toolkit / Krypton.Toolkit.Utilities binaries and runs in-process STA checks.
+    Loads Debug Krypton.Toolkit and Krypton.Toolkit.Utilities binaries and runs in-process STA checks
+    against `KryptonTagInput` and `KryptonTagInputControl`.
 
     Exit code 0 on success; non-zero on failure.
     Requires an STA apartment (use powershell -STA). Invoke-AllUnitTests launches include scripts with -STA.
@@ -31,7 +32,6 @@ Add-Type -AssemblyName System.Drawing
 
 [void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Interop.dll'))
 [void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Toolkit.dll'))
-[void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Toolkit.Utilities.dll'))
 
 $failed = New-Object System.Collections.Generic.List[string]
 
@@ -69,7 +69,7 @@ function Get-NetObject {
     return $Value
 }
 
-Write-UnitTestBanner -Status INFO -Message 'Asserting KryptonTagInputControl public API'
+Write-UnitTestBanner -Status INFO -Message 'Asserting KryptonTagInput public API'
 
 [System.Windows.Forms.Application]::EnableVisualStyles()
 [System.Windows.Forms.Application]::SetCompatibleTextRenderingDefault($false)
@@ -83,12 +83,14 @@ $form.Size = New-Object System.Drawing.Size(400, 200)
 [void]$form.Show()
 [System.Windows.Forms.Application]::DoEvents()
 
-$control = Get-NetObject ([System.Activator]::CreateInstance([Krypton.Toolkit.Utilities.KryptonTagInputControl]))
+$control = Get-NetObject ([System.Activator]::CreateInstance([Krypton.Toolkit.KryptonTagInput]))
 $form.Controls.Add($control)
 [System.Windows.Forms.Application]::DoEvents()
 
 $values = Get-NetObject $control.Values
+$stateCommon = Get-NetObject $control.StateCommon
 Assert-True $values.IsDefault 'Fresh Values.IsDefault is true'
+Assert-True $stateCommon.IsDefault 'Fresh StateCommon.IsDefault is true'
 Assert-Equal 120 $values.InputWidth 'Default InputWidth is 120'
 Assert-Equal 0 $values.MaxTags 'Default MaxTags is 0'
 Assert-True $values.CommitOnEnter 'Default CommitOnEnter is true'
@@ -133,9 +135,27 @@ Assert-Equal 1 $removed.Count 'TagRemoved fired once'
 $control.ClearTags()
 Assert-Equal 0 $control.Tags.Count 'ClearTags empties the collection'
 
+$control.ClearTags()
+$values.AllowDuplicates = $true
+Assert-True $control.AddTag('Dup') 'First Dup succeeds'
+Assert-True $control.AddTag('Dup') 'Second Dup succeeds'
+Assert-True $control.AddTag('Keep') 'Keep succeeds after duplicate Dups'
+Assert-Equal 3 $control.Tags.Count 'Three tags: Dup, Dup, Keep'
+Assert-True $control.RemoveTag('Dup') 'RemoveTag removes the first Dup only'
+Assert-Equal 2 $control.Tags.Count 'Two tags after removing first Dup'
+Assert-Equal 'Dup' $control.Tags[0] 'Remaining Dup stays at index 0'
+Assert-Equal 'Keep' $control.Tags[1] 'Keep is still the last tag'
+
+$control.Tags[0] = 'Replaced'
+Assert-Equal 'Replaced' $control.Tags[0] 'Indexer replace is atomic'
+Assert-Equal 2 $control.Tags.Count 'Replace does not change Count'
+
+$control.ClearTags()
 $values.AllowDuplicates = $false
 $values.MaxTags = 1
 Assert-True $control.AddTag('Only') 'First tag under MaxTags=1 succeeds'
+$control.Tags[0] = 'Swapped'
+Assert-Equal 'Swapped' $control.Tags[0] 'Replace under MaxTags=1 succeeds'
 Assert-True (-not $control.AddTag('Two')) 'Second tag under MaxTags=1 is rejected'
 
 [string[]]$suggestionItems = @('Alpha', 'Beta')
@@ -158,6 +178,48 @@ Assert-True (-not $values.IsDefault) 'Values.IsDefault is false after CueHintTex
 $values.Reset()
 Assert-True $values.IsDefault 'Values.Reset restores IsDefault'
 
+$form.Controls.Remove($control)
+$control.Dispose()
+
+Write-UnitTestBanner -Status INFO -Message 'Asserting KryptonTagInputControl public API'
+[void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Toolkit.Utilities.dll'))
+$control = Get-NetObject ([System.Activator]::CreateInstance([Krypton.Toolkit.Utilities.KryptonTagInputControl]))
+$form.Controls.Add($control)
+[System.Windows.Forms.Application]::DoEvents()
+
+$values = Get-NetObject $control.Values
+Assert-True $values.IsDefault 'Utilities Values.IsDefault is true'
+Assert-Equal 0 $control.Tags.Count 'Utilities Tags collection is empty'
+
+$added = New-Object System.Collections.Generic.List[string]
+$removed = New-Object System.Collections.Generic.List[string]
+$control.add_TagAdded({ param($s, $e) [void]$added.Add($e.Tag) })
+$control.add_TagRemoved({ param($s, $e) [void]$removed.Add($e.Tag) })
+$control.add_TagAdding({
+        param($s, $e)
+        if ([string]::Equals($e.Tag, 'reject', [StringComparison]::OrdinalIgnoreCase)) {
+            $e.Cancel = $true
+        }
+    })
+
+Assert-True $control.AddTag('Bug') 'Utilities AddTag Bug succeeds'
+Assert-True (-not $control.AddTag('bug')) 'Utilities duplicate Bug is rejected'
+Assert-True (-not $control.AddTag('reject')) 'Utilities TagAdding can cancel'
+$values.AllowDuplicates = $true
+Assert-True $control.AddTag('Bug') 'Utilities duplicate allowed'
+Assert-True $control.AddTag('Keep') 'Utilities Keep succeeds'
+Assert-True $control.RemoveTag('Bug') 'Utilities RemoveTag removes the first Bug only'
+Assert-Equal 'Bug' $control.Tags[0] 'Utilities remaining Bug stays at index 0'
+Assert-Equal 'Keep' $control.Tags[1] 'Utilities Keep is still the last tag'
+
+$control.ClearTags()
+$values.AllowDuplicates = $false
+$values.MaxTags = 1
+Assert-True $control.AddTag('Only') 'Utilities first tag under MaxTags=1 succeeds'
+$control.Tags[0] = 'Swapped'
+Assert-Equal 'Swapped' $control.Tags[0] 'Utilities replace under MaxTags=1 succeeds'
+Assert-True (-not $control.AddTag('Two')) 'Utilities second tag under MaxTags=1 is rejected'
+
 $form.Close()
 $form.Dispose()
 
@@ -167,5 +229,5 @@ if ($failed.Count -gt 0) {
     exit 1
 }
 
-Write-UnitTestBanner -Status PASS -Message 'KryptonTagInputControl API assertions passed'
+Write-UnitTestBanner -Status PASS -Message 'KryptonTagInput and KryptonTagInputControl API assertions passed'
 exit 0

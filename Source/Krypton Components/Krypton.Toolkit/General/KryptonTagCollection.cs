@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -7,17 +7,17 @@
  */
 #endregion
 
-namespace Krypton.Toolkit.Utilities;
+namespace Krypton.Toolkit;
 
 /// <summary>
-/// Ordered tag strings owned by a <see cref="KryptonTagInputControl"/>.
+/// Ordered tag strings owned by a <see cref="KryptonTagInput"/>.
 /// Designer serialization uses <see cref="Collection{T}.Add"/>.
 /// </summary>
 public class KryptonTagCollection : Collection<string>
 {
     #region Instance Fields
 
-    private readonly KryptonTagInputControl _owner;
+    private readonly KryptonTagInput _owner;
 
     #endregion
 
@@ -27,10 +27,8 @@ public class KryptonTagCollection : Collection<string>
     /// Initialize a new instance of the <see cref="KryptonTagCollection"/> class.
     /// </summary>
     /// <param name="owner">Owning tag input control.</param>
-    public KryptonTagCollection(KryptonTagInputControl owner)
-    {
+    public KryptonTagCollection(KryptonTagInput owner) =>
         _owner = owner ?? throw new ArgumentNullException(nameof(owner));
-    }
 
     #endregion
 

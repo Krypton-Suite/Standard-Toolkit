@@ -45,6 +45,7 @@
 
 ## 2026-11-30 - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved `KryptonTagInput` design-time attribute: modern TFMs now resolve `KryptonTagInputDesigner` from `Krypton.Toolkit.Design` instead of `typeof` in the runtime assembly.
 * Resolved [#4373](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4373), Toolstrip controls are unreadable with certain themes
   * ToolStrip item text stays readable on themes where the historic ColorTable alias did not contrast with the strip (Office White, Office 2007 Black, Visual Studio 2010 variations).
   * `KryptonWrapLabel` / `KryptonLinkWrapLabel` no longer throw `ArgumentException` (`Parameter is not valid`) from `DrawString` after a theme change. Palette fonts are cloned before assignment to `Control.Font`.
@@ -68,8 +69,9 @@
   * Turn previews off with `ShowThemePreviews` (Kr tile for every row). Extra palettes follow `ShowExtraThemes` like `KryptonThemeListBox`.
   * Hovering a `KryptonThemeListView` item applies that theme as a live preview without changing the committed selection; leaving the list restores the last clicked theme. Click still commits. Turn off with `LivePreviewOnHover`.
 * Implemented [#3928](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3928), `KryptonRating` Toolbox control for interactive star (or heart/circle/image) ratings with Full, Half, and Exact precision.
-* Implemented `KryptonTagInputControl` in `Krypton.Toolkit.Utilities`: wrap-capable tag editor with themed chips, Enter/comma commit, Backspace-to-remove, suggestions, and optional category colours.
-  * To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
+* Implemented [#3927](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3927), `KryptonTagInput` wrap-capable tag editor with themed chips, Enter/comma commit, Backspace-to-remove, suggestions, and optional category colours.
+  * Also shipped as `KryptonTagInputControl` in `Krypton.Toolkit.Utilities` (`KryptonPanel` host with header-style chips).
+  * To use `KryptonTagInputControl`, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Implemented [#2382](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2382), RTL support for **all** `Krypton.Ribbon` controls
   * Office-style right-to-left layout for `KryptonRibbon` (tabs, groups, QAT, File button, clusters, galleries, and key navigation). Set `RightToLeft` and `RightToLeftLayout` on the host `KryptonForm`; the ribbon syncs automatically.
 * Implemented [#3859](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3859), Hook ribbon caption area refresh on palette change
