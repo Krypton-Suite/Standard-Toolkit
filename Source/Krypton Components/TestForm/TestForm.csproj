@@ -170,6 +170,7 @@
     </EmbeddedResource>
     <EmbeddedResource Update="KryptonToolkit\Feature\ToolkitRtlGalleryDemo.resx">
       <DependentUpon>ToolkitRtlGalleryDemo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Update="KryptonToolkit\Feature\BorderlessMdiHostDemo.resx">
       <DependentUpon>BorderlessMdiHostDemo.cs</DependentUpon>
     </EmbeddedResource>
