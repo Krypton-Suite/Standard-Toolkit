@@ -5952,7 +5952,7 @@ public class KryptonColorTable2007BlueLightMode : KryptonColorTable
     /// <summary>
     /// Gets the text color used on the tool strip.
     /// </summary>
-    public override Color ToolStripText => Colours.Resolve(SchemeBaseColors.ToolStripText, SchemeBaseColors.TextButtonNormal);
+    public override Color ToolStripText => Colours.ResolveToolStripText(SchemeBaseColors.TextButtonNormal);
 
     #endregion
 

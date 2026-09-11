@@ -489,11 +489,8 @@ public class KryptonWrapLabel : Label
             }
         }
 
-        // Only update the font when the control is created
-        if (Handle != IntPtr.Zero)
-        {
-            Font = font;
-        }
+        // Clone: Control.Font disposes the previous font, which must not be a palette instance.
+        CommonHelper.SetControlFontFromPalette(this, font);
     }
 
     /// <summary>
@@ -590,10 +587,11 @@ public class KryptonWrapLabel : Label
             }
         }
 
-        // Only update the font when the control is created
-        if (Handle != IntPtr.Zero)
+        CommonHelper.SetControlFontFromPalette(this, font);
+
+        if (textColor.IsEmpty)
         {
-            Font = font;
+            textColor = SystemColors.ControlText;
         }
 
         ForeColor = textColor;
@@ -601,7 +599,16 @@ public class KryptonWrapLabel : Label
         // Use GraphicsTextHint to properly save/restore TextRenderingHint to prevent affecting other controls
         using (new GraphicsTextHint(e.Graphics, CommonHelper.PaletteTextHintToRenderingHint(hint)))
         {
-            base.OnPaint(e);
+            try
+            {
+                base.OnPaint(e);
+            }
+            catch (ArgumentException)
+            {
+                // Palette fonts can be disposed mid-paint during a theme swap.
+                CommonHelper.SetControlFontFromPalette(this, SystemFonts.DefaultFont);
+                base.OnPaint(e);
+            }
         }
     }
 
