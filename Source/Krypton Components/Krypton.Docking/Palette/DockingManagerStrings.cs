@@ -367,7 +367,7 @@ public class DockingManagerStrings : Storage
     /// <summary>
     /// Imports docking manager strings from a versioned XML file.
     /// </summary>
-    /// <param name="filename">Path to the Translations.xml file.</param>
+    /// <param name="filename">Path to the ToolkitTranslations.xml file.</param>
     /// <param name="resetFirst">When <c>true</c>, resets all strings to defaults before applying the imported values.</param>
     public void ImportFromXmlFile(string filename, bool resetFirst = true)
     {

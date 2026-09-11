@@ -99,12 +99,229 @@ internal class KryptonRibbonActionList : DesignerActionList
             // Add the list of button specific actions
             actions.Add(new DesignerActionHeaderItem("Design"));
             actions.Add(new DesignerActionPropertyItem(nameof(InDesignHelperMode), "Design Helpers", "Design", "Show design time helpers for creating items."));
+            actions.Add(new DesignerActionHeaderItem("Translations"));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Import Ribbon Translations from Xml file...", OnImportTranslationsXml), @"Translations"));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Export Ribbon Translations to Xml file...", OnExportTranslationsXml), @"Translations"));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Import Ribbon Translations from Json file...", OnImportTranslationsJson), @"Translations"));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Export Ribbon Translations to Json file...", OnExportTranslationsJson), @"Translations"));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Generate Ribbon Translation Template (XML)...", OnGenerateTemplateXml), @"Translations"));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Generate Ribbon Translation Template (JSON)...", OnGenerateTemplateJson), @"Translations"));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Merge Missing Ribbon Translations...", OnMergeMissingTranslations), @"Translations"));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Switch Ribbon Translations Culture...", OnSwitchTranslationsCulture), @"Translations"));
             actions.Add(new DesignerActionHeaderItem("Visuals"));
             actions.Add(new DesignerActionPropertyItem(nameof(ShowTabHeaders), "Show Tab Headers", "Visuals", "Shows or hides the ribbon tab headers (toolbar mode when false)."));
             actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), "Palette", "Visuals", "Palette applied to drawing"));
         }
 
         return actions;
+    }
+    #endregion
+
+    #region Implementation
+    private RibbonTranslationOptions CreateDesignerOptions(bool includeDefaults, bool resetFirst) =>
+        new RibbonTranslationOptions
+        {
+            IncludeDefaults = includeDefaults,
+            IncludeChrome = false,
+            ResetFirst = resetFirst,
+            ChangeService = _service
+        };
+
+    private void RunDesignerTransaction(string description, Action action)
+    {
+        var host = GetService(typeof(IDesignerHost)) as IDesignerHost;
+        DesignerTransaction? transaction = null;
+        try
+        {
+            transaction = host?.CreateTransaction(description);
+            action();
+            _service?.OnComponentChanged(_ribbon, null, null, null);
+            transaction?.Commit();
+            transaction = null;
+        }
+        catch (Exception exc)
+        {
+            KryptonExceptionHandler.CaptureException(exc, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
+        }
+        finally
+        {
+            transaction?.Cancel();
+        }
+    }
+
+    private void OnImportTranslationsXml(object? sender, EventArgs e)
+    {
+        using var ofd = new OpenFileDialog();
+        ofd.CheckFileExists = true;
+        ofd.CheckPathExists = true;
+        ofd.FileName = @"RibbonTranslations";
+        ofd.DefaultExt = @"xml";
+        ofd.Filter = @"Ribbon translations (*.xml)|*.xml|All files (*.*)|(*.*)";
+        ofd.Title = @"Load Ribbon Translations";
+        if (ofd.ShowDialog() != DialogResult.OK)
+        {
+            return;
+        }
+
+        RunDesignerTransaction(@"Import Ribbon Translations (XML)", () =>
+            _ribbon.ImportTranslationsFromXmlFile(ofd.FileName, CreateDesignerOptions(includeDefaults: false, resetFirst: true)));
+    }
+
+    private void OnExportTranslationsXml(object? sender, EventArgs e)
+    {
+        try
+        {
+            using var sfd = new SaveFileDialog();
+            sfd.OverwritePrompt = true;
+            sfd.DefaultExt = @"xml";
+            sfd.FileName = @"RibbonTranslations";
+            sfd.Filter = @"Ribbon translations (*.xml)|*.xml|All files (*.*)|(*.*)";
+            sfd.Title = @"Save Ribbon Translations";
+            if (sfd.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            _ribbon.ExportTranslationsToXmlFile(sfd.FileName, CreateDesignerOptions(includeDefaults: false, resetFirst: false));
+        }
+        catch (Exception exc)
+        {
+            KryptonExceptionHandler.CaptureException(exc, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
+        }
+    }
+
+    private void OnImportTranslationsJson(object? sender, EventArgs e)
+    {
+        using var ofd = new OpenFileDialog();
+        ofd.CheckFileExists = true;
+        ofd.CheckPathExists = true;
+        ofd.FileName = @"RibbonTranslations";
+        ofd.DefaultExt = @"json";
+        ofd.Filter = @"JSON ribbon translations (*.json)|*.json|All files (*.*)|(*.*)";
+        ofd.Title = @"Load Ribbon Translations (JSON)";
+        if (ofd.ShowDialog() != DialogResult.OK)
+        {
+            return;
+        }
+
+        RunDesignerTransaction(@"Import Ribbon Translations (JSON)", () =>
+            _ribbon.ImportTranslationsFromJsonFile(ofd.FileName, CreateDesignerOptions(includeDefaults: false, resetFirst: true)));
+    }
+
+    private void OnExportTranslationsJson(object? sender, EventArgs e)
+    {
+        try
+        {
+            using var sfd = new SaveFileDialog();
+            sfd.OverwritePrompt = true;
+            sfd.DefaultExt = @"json";
+            sfd.FileName = @"RibbonTranslations";
+            sfd.Filter = @"JSON ribbon translations (*.json)|*.json|All files (*.*)|(*.*)";
+            sfd.Title = @"Save Ribbon Translations (JSON)";
+            if (sfd.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            _ribbon.ExportTranslationsToJsonFile(sfd.FileName, CreateDesignerOptions(includeDefaults: false, resetFirst: false));
+        }
+        catch (Exception exc)
+        {
+            KryptonExceptionHandler.CaptureException(exc, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
+        }
+    }
+
+    private void OnGenerateTemplateXml(object? sender, EventArgs e)
+    {
+        try
+        {
+            using var sfd = new SaveFileDialog();
+            sfd.OverwritePrompt = true;
+            sfd.DefaultExt = @"xml";
+            sfd.FileName = @"RibbonTranslations-Template.xml";
+            sfd.Filter = @"Ribbon translations (*.xml)|*.xml|All files (*.*)|(*.*)";
+            sfd.Title = @"Generate Ribbon Translation Template (XML)";
+            if (sfd.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            _ribbon.ExportTranslationsToXmlFile(sfd.FileName, CreateDesignerOptions(includeDefaults: true, resetFirst: false));
+        }
+        catch (Exception exc)
+        {
+            KryptonExceptionHandler.CaptureException(exc, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
+        }
+    }
+
+    private void OnGenerateTemplateJson(object? sender, EventArgs e)
+    {
+        try
+        {
+            using var sfd = new SaveFileDialog();
+            sfd.OverwritePrompt = true;
+            sfd.DefaultExt = @"json";
+            sfd.FileName = @"RibbonTranslations-Template.json";
+            sfd.Filter = @"JSON ribbon translations (*.json)|*.json|All files (*.*)|(*.*)";
+            sfd.Title = @"Generate Ribbon Translation Template (JSON)";
+            if (sfd.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            _ribbon.ExportTranslationsToJsonFile(sfd.FileName, CreateDesignerOptions(includeDefaults: true, resetFirst: false));
+        }
+        catch (Exception exc)
+        {
+            KryptonExceptionHandler.CaptureException(exc, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
+        }
+    }
+
+    private void OnMergeMissingTranslations(object? sender, EventArgs e)
+    {
+        using var ofd = new OpenFileDialog();
+        ofd.CheckFileExists = true;
+        ofd.CheckPathExists = true;
+        ofd.FileName = @"RibbonTranslations";
+        ofd.Filter = @"Ribbon translations (*.xml;*.json)|*.xml;*.json|XML (*.xml)|*.xml|JSON (*.json)|*.json|All files (*.*)|(*.*)";
+        ofd.Title = @"Merge Missing Ribbon Translations";
+        if (ofd.ShowDialog() != DialogResult.OK)
+        {
+            return;
+        }
+
+        RunDesignerTransaction(@"Merge Missing Ribbon Translations", () =>
+            _ribbon.MergeMissingTranslationsToFile(ofd.FileName, CreateDesignerOptions(includeDefaults: true, resetFirst: true)));
+    }
+
+    private void OnSwitchTranslationsCulture(object? sender, EventArgs e)
+    {
+        try
+        {
+            using var dialog = new VisualSwitchTranslationsCultureForm();
+            if (dialog.ShowDialog() != DialogResult.OK || string.IsNullOrWhiteSpace(dialog.SelectedCultureName))
+            {
+                return;
+            }
+
+            var loaded = false;
+            RunDesignerTransaction(@"Switch Ribbon Translations Culture", () =>
+            {
+                loaded = _ribbon.TrySwitchTranslationsCulture(dialog.SelectedCultureName, dialog.SelectedDirectory);
+            });
+
+            KryptonMessageBox.Show(
+                loaded
+                    ? $@"Switched designer culture to '{dialog.SelectedCultureName}' and loaded matching ribbon translations."
+                    : $@"Switched designer culture to '{dialog.SelectedCultureName}'. No matching RibbonTranslations file was found; instance captions were left unchanged.",
+                @"Switch Ribbon Translations Culture",
+                KryptonMessageBoxButtons.OK,
+                loaded ? KryptonMessageBoxIcon.Information : KryptonMessageBoxIcon.Warning);
+        }
+        catch (Exception exc)
+        {
+            KryptonExceptionHandler.CaptureException(exc, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
+        }
     }
     #endregion
 }

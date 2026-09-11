@@ -45,6 +45,10 @@
 
 ## 2026-11-30 - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#4369](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4369), A way to store `KryptonRibbon` strings into a database
+  * Save/load the ribbon instance caption tree via versioned `RibbonTranslations.xml` / JSON (tabs, groups, buttons, KeyTips, tooltips, QAT, contexts, app menu, recent docs, backstage) with stream overloads for database BLOBs.
+  * Overlay-only import: unknown keys are ignored, missing keys keep current values, and `TranslationId` (with `Site.Name` / index fallback) keeps files stable when items are reordered.
+  * Auto Discovery of `RibbonTranslations.{ribbonKey}.{culture}.*` then shared `RibbonTranslations.{culture}.*` (exact → neutral → default, XML before JSON) on first `HandleCreated`; opt-out via `KryptonRibbon.AutoDiscoverTranslations` or `EnableAutoDiscoverTranslations`. Designer Smart Tag import/export/template/merge/culture verbs.
 * Resolved [#4373](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4373), Toolstrip controls are unreadable with certain themes
   * ToolStrip item text stays readable on themes where the historic ColorTable alias did not contrast with the strip (Office White, Office 2007 Black, Visual Studio 2010 variations).
   * `KryptonWrapLabel` / `KryptonLinkWrapLabel` no longer throw `ArgumentException` (`Parameter is not valid`) from `DrawString` after a theme change. Palette fonts are cloned before assignment to `Control.Font`.
@@ -263,12 +267,12 @@
    * Toolkit specific constant values and variables are now stored in `ToolkitStaticConstants` and `ToolkitGlobalVariables` in the `Krypton.Toolkit` namespace
    * Libary wide constant values, functions and variables are now stored in `SharedStaticConstants`, `SharedStaticFunctions` and `SharedGlobalVariables` in the `Krypton.Interop` namespace
 * Implemented [#4088](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4088), A way to store `KryptonManager` strings into a database
-   * Save/load `KryptonManager` toolkit strings via versioned `Translations.xml` (designer verbs + `KryptonManager.Strings` import/export APIs).
-   * Auto-discovery: place culture-specific or default `Translations.{culture}.xml` / `.json` files in the app's output directory and the toolkit loads the best match automatically (exact → neutral → default, XML before JSON, with graceful fallback). Opt-out via `KryptonManager.AutoDiscoverTranslations = false`.
-   * Static `KryptonManager.LoadTranslationsFromFile` / `TryLoadTranslationsFromFile` / `TryLoadCultureSpecificTranslations` / `TrySwitchTranslationsCulture` for explicit startup loading and runtime culture switching (with graceful fallback to built-in defaults), plus designer Smart Tag UI Culture dropdown, Switch Translations Culture verb, and Generate Translation Template verbs for both XML and JSON.
+   * Save/load `KryptonManager` toolkit strings via versioned `ToolkitTranslations.xml` (designer verbs + `KryptonManager.Strings` import/export APIs).
+   * Auto-discovery: place culture-specific or default `ToolkitTranslations.{culture}.xml` / `.json` files in the app's output directory and the toolkit loads the best match automatically (exact → neutral → default, XML before JSON, with graceful fallback). Opt-out via `KryptonManager.AutoDiscoverTranslations = false`.
+   * Static `KryptonManager.LoadTranslationsFromFile` / `TryLoadTranslationsFromFile` / `TryLoadCultureSpecificTranslations` / `TrySwitchTranslationsCulture` for explicit startup loading and runtime culture switching (with graceful fallback to built-in defaults), plus designer Smart Tag UI Culture dropdown, Switch Translations Culture verb, and Generate Translation Template verbs for both XML and JSON. Default basename is `KryptonManager.DefaultTranslationsBaseName` (`ToolkitTranslations`).
    * Stream overloads (`ExportToStream` / `ImportFromStream`) for embedded resources and database BLOBs.
    * Extended to `DockingManagerStrings` and `WorkspaceMenus` string sets, including JSON import/export parity.
-   * `TranslationsImported` event, culture-mismatch warnings, diff/merge utility, XSD schema, and JSON export/import included.
+   * `TranslationsImported` event, culture-mismatch warnings, diff/merge utility, XSD schema (`ToolkitTranslations.xsd`), and JSON export/import included.
    * `KryptonCustomStrings` in `Krypton.Toolkit.Utilities` can now export/import application-defined key/value strings and registered typed string sets through matching XML/JSON/stream persistence APIs.
    * Added `KryptonCombinedTranslations` for a single combined toolkit + custom XML artifact, plus opt-in custom-string auto-discovery, culture-specific probing, merge support, designer verbs, import event, validation demo coverage, and custom XML/JSON schema files.
    * Optional Windows language-pack strings: set `KryptonManager.Strings.UseWindowsLanguagePackStrings` (or `CommonStrings.UseOSStrings` / nested `UseOSStrings`) to load matching dialog buttons and form control-box tooltips (Minimize/Maximize/Restore/Close/Help) from `user32.dll`, and Explorer column headers from `shell32.dll`, for the current UI language; default remains toolkit/custom strings.

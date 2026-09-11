@@ -24,7 +24,8 @@ namespace Krypton.Ribbon;
 [DesignerCategory(@"code")]
 [DesignTimeVisible(false)]
 public class KryptonRibbonQATButton : Component,
-    IQuickAccessToolbarButton
+    IQuickAccessToolbarButton,
+    IRibbonTranslationIdentity
 {
     #region Static Fields
     private static readonly Image? _defaultImage = GenericImageResources.QATButtonDefault;
@@ -32,6 +33,7 @@ public class KryptonRibbonQATButton : Component,
 
     #region Instance Fields
     private object? _tag;
+    private string _translationId = string.Empty;
     private Image? _image;
     private bool _visible;
     private bool _enabled;
@@ -365,6 +367,23 @@ public class KryptonRibbonQATButton : Component,
             }
         }
     }
+
+    /// <summary>
+    /// Gets or sets a stable, non-localized identity used when saving or loading ribbon translations.
+    /// </summary>
+    [Category(@"Data")]
+    [Description(@"Stable identity for RibbonTranslations.xml. Prefer this over collection index when QAT buttons can be reordered.")]
+    [DefaultValue("")]
+    [Localizable(false)]
+    public string TranslationId
+    {
+        get => _translationId ?? string.Empty;
+        set => _translationId = value ?? string.Empty;
+    }
+
+    private bool ShouldSerializeTranslationId() => !string.IsNullOrEmpty(TranslationId);
+
+    private void ResetTranslationId() => TranslationId = string.Empty;
 
     /// <summary>
     /// Gets and sets user-defined data associated with the object.
